@@ -12,6 +12,7 @@ signal combat_state_changed
 signal combat_message(text: String)
 signal combat_ended(victory: bool, xp: int)
 signal exploration_resumed
+signal map_changed
 
 enum Mode { EXPLORATION, COMBAT }
 
@@ -50,6 +51,9 @@ var _refusals := {
 
 var world: World
 var mode: Mode = Mode.EXPLORATION
+## Carte affichée. Elle peut être en retard sur `world.map` pendant une marche vers le bord :
+## le noyau a déjà changé de carte, l'écran pas encore.
+var _map: GameMap
 ## Sort sélectionné par le joueur en combat (id), ou "".
 var selected_spell := ""
 ## Ordre de jeu (ids) et combattant dont c'est le tour.
@@ -78,15 +82,33 @@ var _pending_click := NO_CELL
 ## Textes flottants : { text, color, pos (Vector2 grille), age }.
 var _floating: Array[Dictionary] = []
 
+# Dialogue en cours avec un PNJ : { nom, repliques, index, case }, ou {}.
+var _dialogue: Dictionary = {}
+var _bubble: PanelContainer
+var _bubble_name: Label
+var _bubble_text: Label
+
 
 func setup(p_world: World) -> void:
 	world = p_world
-	var rect := world.map.screen_rect()
+	if _bubble == null:
+		_build_bubble()
+	_load_map(world.map)
+	_load_exploration_actors()
+
+
+func current_map() -> GameMap:
+	return _map
+
+
+func _load_map(map: GameMap) -> void:
+	_map = map
+	_close_dialogue()
+	var rect := _map.screen_rect()
 	var rect_polygon := PackedVector2Array([rect.position, Vector2(rect.end.x, rect.position.y), rect.end, Vector2(rect.position.x, rect.end.y)])
 	_border_polygons.clear()
-	for cell in world.map.border_cells():
+	for cell in _map.border_cells():
 		_border_polygons.append_array(Geometry2D.intersect_polygons(IsoGrid.diamond(IsoGrid.cell_to_screen(cell)), rect_polygon))
-	_load_exploration_actors()
 	queue_redraw()
 
 
@@ -154,7 +176,10 @@ func _unhandled_input(event: InputEvent) -> void:
 			return
 		var cell := IsoGrid.screen_to_cell(get_local_mouse_position())
 		if button.button_index == MOUSE_BUTTON_LEFT:
-			_on_click(cell)
+			if not _dialogue.is_empty():
+				_next_dialogue_line()
+			else:
+				_on_click(cell)
 		elif button.button_index == MOUSE_BUTTON_RIGHT and selected_spell != "":
 			selected_spell = ""
 			_refresh_overlays()
@@ -165,13 +190,19 @@ func _on_click(cell: Vector2i) -> void:
 		if _playing:
 			_pending_click = cell
 			return
+		var npc := _map.npc_at(cell)
 		var group := world.group_at(cell)
-		if not group.is_empty():
+		var exit := _exit_at(cell)
+		if not npc.is_empty():
+			_send({"type": Protocol.CMD_TALK, "entite": World.PLAYER_ID, "pnj": npc["id"]})
+		elif not group.is_empty():
 			_send({"type": Protocol.CMD_ENGAGE, "entite": World.PLAYER_ID, "groupe": group["id"]})
+		elif not exit.is_empty():
+			_send({"type": Protocol.CMD_MOVE, "entite": World.PLAYER_ID, "cible": exit["case"], "sortie": exit["direction"]})
 		else:
 			_send({"type": Protocol.CMD_MOVE, "entite": World.PLAYER_ID, "cible": cell})
 		return
-	if _playing or not world.map.is_inside(cell):
+	if _playing or not _map.is_inside(cell):
 		return
 	if is_placement():
 		_send({"type": Protocol.CMD_PLACE, "entite": World.PLAYER_ID, "cible": cell})
@@ -182,6 +213,33 @@ func _on_click(cell: Vector2i) -> void:
 			_send({"type": Protocol.CMD_CAST, "entite": World.PLAYER_ID, "sort": spell_id, "cible": cell})
 		elif _reachable.has(cell):
 			_send({"type": Protocol.CMD_MOVE, "entite": World.PLAYER_ID, "cible": cell})
+
+
+## Sortie de carte visée par un clic sur `cell` : { direction, case } ou {}. Un clic sur une case
+## du bord ou sur la demi-case juste derrière fait changer de carte.
+func _exit_at(cell: Vector2i) -> Dictionary:
+	if _map.is_inside(cell):
+		var directions := _map.exit_directions(cell)
+		if not directions.is_empty() and _map.is_walkable(cell):
+			return {"direction": directions[0], "case": cell}
+		return {}
+	var row := cell.x + cell.y
+	var half_column := cell.x - cell.y
+	var direction := ""
+	if row <= 0:
+		direction = "haut"
+	elif row >= _map.rows:
+		direction = "bas"
+	elif half_column <= 0:
+		direction = "gauche"
+	elif half_column >= 2 * _map.columns:
+		direction = "droite"
+	if direction.is_empty() or not _map.exits.has(direction):
+		return {}
+	var target := _map.arrival_cell(GameMap.OPPOSITE_DIRECTION[direction], cell)
+	if direction not in _map.exit_directions(target):
+		return {}
+	return {"direction": direction, "case": target}
 
 
 func _send(command: Dictionary) -> void:
@@ -201,7 +259,14 @@ func _set_hovered(cell: Vector2i) -> void:
 
 
 func _describe(cell: Vector2i) -> String:
-	if not world.map.is_inside(cell):
+	if mode == Mode.EXPLORATION:
+		var exit := _exit_at(cell)
+		if not exit.is_empty():
+			return "Vers : %s" % world.neighbor_name(exit["direction"])
+		var npc := _map.npc_at(cell)
+		if not npc.is_empty():
+			return "%s (cliquer pour parler)" % npc["nom"]
+	if not _map.is_inside(cell):
 		return ""
 	for actor_id: String in _actors:
 		var data: Dictionary = _actors[actor_id]
@@ -209,16 +274,18 @@ func _describe(cell: Vector2i) -> String:
 			if mode == Mode.COMBAT:
 				return "%s — %d / %d PV" % [data["name"], data["hp"], data["max_hp"]]
 			return "%s (groupe de %d)" % [data["name"], data["count"]] if data["count"] > 1 else data["name"]
-	return "case (%d, %d)%s" % [cell.x, cell.y, "" if world.map.is_walkable(cell) else " — bloquée"]
+	return "case (%d, %d)%s" % [cell.x, cell.y, "" if _map.is_walkable(cell) else " — bloquée"]
 
 
 func _update_preview() -> void:
 	_preview.clear()
-	if _playing or not world.map.is_inside(_hovered):
+	if _playing or not _map.is_inside(_hovered):
 		queue_redraw()
 		return
 	if mode == Mode.EXPLORATION:
-		_preview = world.map.find_path(world.position_of(World.PLAYER_ID), _hovered)
+		var exit := _exit_at(_hovered)
+		var target: Vector2i = exit["case"] if not exit.is_empty() else _hovered
+		_preview = _map.find_path(world.position_of(World.PLAYER_ID), target)
 	elif is_player_turn() and selected_spell == "" and _reachable.has(_hovered):
 		_preview = _reachable[_hovered]
 	queue_redraw()
@@ -247,8 +314,12 @@ func _advance_walk(delta: float) -> void:
 	var data: Dictionary = _actors[_walk_actor]
 	var current: Vector2 = data["pos"]
 	var next := Vector2(_walk_path[0])
-	var distance := IsoGrid.grid_to_screen(current).distance_to(IsoGrid.grid_to_screen(next))
+	var screen_delta := IsoGrid.grid_to_screen(next) - IsoGrid.grid_to_screen(current)
+	var distance := screen_delta.length()
 	var step := WALK_SPEED * delta
+	if absf(screen_delta.x) > 0.5:
+		data["facing"] = 1.0 if screen_delta.x > 0.0 else -1.0
+	data["phase"] += delta * 14.0
 	if distance <= step:
 		data["pos"] = next
 		_walk_path.remove_at(0)
@@ -292,11 +363,21 @@ func _apply(event: Dictionary) -> float:
 		_walk_path = path.duplicate()
 		combat_state_changed.emit()
 		return -1.0
+	if type == Protocol.EVT_DIALOGUE:
+		_open_dialogue(event)
+		return 0.0
+	if type == Protocol.EVT_MAP_CHANGED:
+		_load_map(world.map)
+		_load_exploration_actors()
+		_actors[World.PLAYER_ID]["pos"] = Vector2(event["position"])
+		map_changed.emit()
+		return 0.15
 	if type == Protocol.EVT_REFUSED:
 		if mode == Mode.COMBAT and _refusals.has(event["raison"]):
 			combat_message.emit(_refusals[event["raison"]])
 		return 0.0
 	if type == Protocol.EVT_COMBAT_STARTED:
+		_close_dialogue()
 		_load_combat_actors(event)
 		combat_started.emit()
 		return 0.3
@@ -388,7 +469,7 @@ func _load_combat_actors(event: Dictionary) -> void:
 
 func _new_actor(pos: Vector2, kind: String, team: int, actor_name: String, hp: int, max_hp: int) -> Dictionary:
 	return {"pos": pos, "kind": kind, "team": team, "name": actor_name, "hp": hp, "max_hp": max_hp,
-		"pa": 0, "pm": 0, "alive": true, "count": 1}
+		"pa": 0, "pm": 0, "alive": true, "count": 1, "facing": 1.0, "phase": 0.0}
 
 
 ## Recalcule les zones affichées en combat (déplacement, portée du sort).
@@ -414,7 +495,7 @@ func _refresh_overlays() -> void:
 func _draw() -> void:
 	if world == null:
 		return
-	var map := world.map
+	var map := _map
 	_draw_ground(map)
 
 	if mode == Mode.COMBAT:
@@ -442,12 +523,19 @@ func _draw() -> void:
 		var data: Dictionary = _actors[actor_id]
 		if data["alive"]:
 			drawables.append([IsoGrid.depth(data["pos"]) + 0.01, "acteur", actor_id])
+	if mode == Mode.EXPLORATION:
+		for npc in map.npcs:
+			drawables.append([IsoGrid.depth(Vector2(npc["case"])) + 0.01, "pnj", npc])
 	drawables.sort_custom(func(a: Array, b: Array) -> bool: return a[0] < b[0])
 	for drawable: Array in drawables:
 		if drawable[1] == "acteur":
 			_draw_actor(drawable[2])
+		elif drawable[1] == "pnj":
+			_draw_npc(drawable[2])
 		else:
 			_draw_obstacle(drawable[2], map.obstacles[drawable[2]])
+	if mode == Mode.EXPLORATION:
+		_draw_exit_arrows(map)
 
 	var font := ThemeDB.fallback_font
 	for text in _floating:
@@ -521,21 +609,27 @@ func _draw_block(base: Vector2, height: float, color: Color) -> void:
 func _draw_actor(actor_id: String) -> void:
 	var data: Dictionary = _actors[actor_id]
 	var base := IsoGrid.grid_to_screen(data["pos"])
+	var walking := actor_id == _walk_actor
+	var phase: float = data["phase"]
+	var facing: float = data["facing"]
 	if mode == Mode.COMBAT:
 		var ring := _ellipse(base, 18, 9)
 		ring.append(ring[0])
 		draw_polyline(ring, COLOR_TEAM[clampi(data["team"], 0, 1)], 3.0)
 		if actor_id == current_turn:
 			draw_colored_polygon(_ellipse(base, 18, 9), Color(1, 1, 1, 0.25))
+	# Petits sauts et jambes qui alternent pendant la marche.
+	var swing := sin(phase) * 3.0 if walking else 0.0
+	var body := base + Vector2(0, -absf(sin(phase)) * 2.5 if walking else 0.0)
 	var kind: String = data["kind"]
 	if actor_id == World.PLAYER_ID:
-		_draw_player(base)
+		_draw_humanoid(base, body, facing, swing, Color("2f5d8a"), Color("f0c8a0"), Color("8a3b2f"), "pointu")
 	elif kind.contains("loup"):
-		_draw_wolf(base)
+		_draw_wolf(base, body, facing, swing)
 	elif kind.contains("gobelin"):
-		_draw_goblin(base)
+		_draw_goblin(base, body, facing, swing)
 	else:
-		_draw_blob(base)
+		_draw_blob(base, body)
 	if mode == Mode.EXPLORATION and data["count"] > 1:
 		draw_string(ThemeDB.fallback_font, base + Vector2(10, -30), "×%d" % data["count"], HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color.WHITE)
 	if mode == Mode.COMBAT:
@@ -545,42 +639,165 @@ func _draw_actor(actor_id: String) -> void:
 		draw_rect(Rect2(bar.position, Vector2(bar.size.x * ratio, bar.size.y)), Color(0.3, 0.85, 0.3) if ratio > 0.3 else Color(0.9, 0.3, 0.2))
 
 
-func _draw_player(base: Vector2) -> void:
+func _draw_npc(npc: Dictionary) -> void:
+	var base := IsoGrid.cell_to_screen(npc["case"])
+	var npc_id: String = npc["id"]
+	if npc_id.contains("gobelin"):
+		_draw_goblin(base, base, -1.0, 0.0)
+	else:
+		_draw_humanoid(base, base, -1.0, 0.0, Color("6b7d3a"), Color("e8c09a"), Color("c9a64a"), "chapeau")
+	# Petite bulle « … » : ce personnage a quelque chose à dire.
+	var mark := base + Vector2(14, -62)
+	draw_circle(mark, 8, Color(1, 1, 1, 0.9))
+	draw_string(ThemeDB.fallback_font, mark + Vector2(-6, 4), "…", HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(0.2, 0.2, 0.2))
+
+
+## Point d'un dessin tourné vers la droite (`facing` = 1) ou la gauche (-1).
+func _at(origin: Vector2, x: float, y: float, facing: float) -> Vector2:
+	return origin + Vector2(x * facing, y)
+
+
+## Personnage humanoïde : jambes, cape, tête, couvre-chef (« pointu » ou « chapeau »).
+func _draw_humanoid(base: Vector2, body: Vector2, facing: float, swing: float, cloak: Color, skin: Color, hat: Color, hat_kind: String) -> void:
 	draw_colored_polygon(_ellipse(base, 14, 7), COLOR_SHADOW)
+	draw_line(base + Vector2(-4, -8), base + Vector2(-4 + swing, 0), Color("3b2a1c"), 4.0)
+	draw_line(base + Vector2(4, -8), base + Vector2(4 - swing, 0), Color("3b2a1c"), 4.0)
 	draw_colored_polygon(PackedVector2Array([
-		base + Vector2(-11, -2), base + Vector2(11, -2), base + Vector2(7, -30), base + Vector2(-7, -30),
-	]), Color("2f5d8a"))
-	draw_circle(base + Vector2(0, -38), 8, Color("f0c8a0"))
-	draw_colored_polygon(PackedVector2Array([
-		base + Vector2(-9, -40), base + Vector2(9, -40), base + Vector2(0, -56),
-	]), Color("8a3b2f"))
+		body + Vector2(-11, -6), body + Vector2(11, -6), body + Vector2(7, -30), body + Vector2(-7, -30),
+	]), cloak)
+	draw_circle(body + Vector2(0, -38), 8, skin)
+	draw_circle(_at(body, 4, -39, facing), 1.3, Color(0.15, 0.1, 0.1))
+	if hat_kind == "chapeau":
+		draw_colored_polygon(_ellipse(body + Vector2(0, -43), 13, 4), hat)
+		draw_colored_polygon(PackedVector2Array([body + Vector2(-6, -43), body + Vector2(6, -43), body + Vector2(4, -52), body + Vector2(-4, -52)]), hat)
+	else:
+		draw_colored_polygon(PackedVector2Array([
+			body + Vector2(-9, -40), body + Vector2(9, -40), _at(body, -2, -57, facing),
+		]), hat)
 
 
-func _draw_wolf(base: Vector2) -> void:
+func _draw_wolf(base: Vector2, body: Vector2, facing: float, swing: float) -> void:
+	var fur := Color("7d7f86")
+	var dark := Color("6b6d73")
 	draw_colored_polygon(_ellipse(base, 18, 7), COLOR_SHADOW)
-	draw_colored_polygon(_ellipse(base + Vector2(0, -14), 16, 9), Color("7d7f86"))
-	draw_circle(base + Vector2(13, -22), 7, Color("8e9097"))
-	draw_colored_polygon(PackedVector2Array([base + Vector2(10, -27), base + Vector2(13, -36), base + Vector2(16, -27)]), Color("6b6d73"))
-	draw_colored_polygon(PackedVector2Array([base + Vector2(17, -21), base + Vector2(25, -19), base + Vector2(17, -17)]), Color("6b6d73"))
-	draw_colored_polygon(PackedVector2Array([base + Vector2(-15, -16), base + Vector2(-26, -24), base + Vector2(-14, -11)]), Color("6b6d73"))
-	draw_circle(base + Vector2(15, -23), 1.5, Color(0.9, 0.8, 0.2))
+	for leg_x in [-9.0, 9.0]:
+		var direction := 1.0 if leg_x < 0.0 else -1.0
+		draw_line(_at(body, leg_x, -10, facing), _at(base, leg_x + swing * direction, 0, facing), dark, 3.0)
+	draw_colored_polygon(_ellipse(body + Vector2(0, -14), 16, 9), fur)
+	draw_circle(_at(body, 13, -22, facing), 7, Color("8e9097"))
+	draw_colored_polygon(PackedVector2Array([_at(body, 10, -27, facing), _at(body, 13, -36, facing), _at(body, 16, -27, facing)]), dark)
+	draw_colored_polygon(PackedVector2Array([_at(body, 17, -21, facing), _at(body, 25, -19, facing), _at(body, 17, -17, facing)]), dark)
+	draw_colored_polygon(PackedVector2Array([_at(body, -15, -16, facing), _at(body, -26, -24 + swing, facing), _at(body, -14, -11, facing)]), dark)
+	draw_circle(_at(body, 15, -23, facing), 1.5, Color(0.9, 0.8, 0.2))
 
 
-func _draw_goblin(base: Vector2) -> void:
+func _draw_goblin(base: Vector2, body: Vector2, facing: float, swing: float) -> void:
+	var skin := Color("6f9a3e")
 	draw_colored_polygon(_ellipse(base, 12, 6), COLOR_SHADOW)
+	draw_line(base + Vector2(-3, -6), base + Vector2(-3 + swing, 0), Color("3b2a1c"), 3.0)
+	draw_line(base + Vector2(3, -6), base + Vector2(3 - swing, 0), Color("3b2a1c"), 3.0)
 	draw_colored_polygon(PackedVector2Array([
-		base + Vector2(-9, -2), base + Vector2(9, -2), base + Vector2(6, -22), base + Vector2(-6, -22),
+		body + Vector2(-9, -5), body + Vector2(9, -5), body + Vector2(6, -22), body + Vector2(-6, -22),
 	]), Color("5a4630"))
-	draw_circle(base + Vector2(0, -29), 8, Color("6f9a3e"))
-	draw_colored_polygon(PackedVector2Array([base + Vector2(-6, -31), base + Vector2(-17, -36), base + Vector2(-7, -26)]), Color("6f9a3e"))
-	draw_colored_polygon(PackedVector2Array([base + Vector2(6, -31), base + Vector2(17, -36), base + Vector2(7, -26)]), Color("6f9a3e"))
-	draw_circle(base + Vector2(-3, -30), 1.5, Color(1, 0.3, 0.2))
-	draw_circle(base + Vector2(3, -30), 1.5, Color(1, 0.3, 0.2))
+	draw_circle(body + Vector2(0, -29), 8, skin)
+	draw_colored_polygon(PackedVector2Array([body + Vector2(-6, -31), body + Vector2(-17, -36), body + Vector2(-7, -26)]), skin)
+	draw_colored_polygon(PackedVector2Array([body + Vector2(6, -31), body + Vector2(17, -36), body + Vector2(7, -26)]), skin)
+	draw_colored_polygon(PackedVector2Array([_at(body, 5, -30, facing), _at(body, 12, -27, facing), _at(body, 5, -26, facing)]), Color("5d8433"))
+	draw_circle(_at(body, -1, -31, facing), 1.5, Color(1, 0.3, 0.2))
+	draw_circle(_at(body, 4, -31, facing), 1.5, Color(1, 0.3, 0.2))
 
 
-func _draw_blob(base: Vector2) -> void:
+func _draw_blob(base: Vector2, body: Vector2) -> void:
 	draw_colored_polygon(_ellipse(base, 14, 7), COLOR_SHADOW)
-	draw_colored_polygon(_ellipse(base + Vector2(0, -12), 13, 12), Color("9a5fb0"))
+	draw_colored_polygon(_ellipse(body + Vector2(0, -12), 13, 12), Color("9a5fb0"))
+
+
+## Flèches au milieu des bords qui mènent à une autre carte.
+func _draw_exit_arrows(map: GameMap) -> void:
+	var rect := map.screen_rect()
+	var center := rect.get_center()
+	var arrows := {
+		"haut": [Vector2(center.x, 10), Vector2(0, -1)],
+		"bas": [Vector2(center.x, rect.end.y - 10), Vector2(0, 1)],
+		"gauche": [Vector2(14, center.y), Vector2(-1, 0)],
+		"droite": [Vector2(rect.end.x - 14, center.y), Vector2(1, 0)],
+	}
+	for direction: String in map.exits:
+		if not arrows.has(direction):
+			continue
+		var tip: Vector2 = arrows[direction][0]
+		var forward: Vector2 = arrows[direction][1]
+		var side := Vector2(-forward.y, forward.x)
+		var points := PackedVector2Array([tip + forward * 9, tip - forward * 7 + side * 10, tip - forward * 7 - side * 10])
+		draw_colored_polygon(points, Color(1, 0.85, 0.3, 0.9))
+		points.append(points[0])
+		draw_polyline(points, Color(0.3, 0.2, 0.05), 2.0)
+
+
+# --- Bulle de dialogue -------------------------------------------------------------------------
+
+func _build_bubble() -> void:
+	_bubble = PanelContainer.new()
+	_bubble.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color(1, 0.98, 0.92, 0.96)
+	style.border_color = Color(0.35, 0.25, 0.12)
+	style.set_border_width_all(2)
+	style.set_corner_radius_all(10)
+	style.set_content_margin_all(10)
+	_bubble.add_theme_stylebox_override("panel", style)
+	var box := VBoxContainer.new()
+	box.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_bubble.add_child(box)
+	_bubble_name = Label.new()
+	_bubble_name.add_theme_color_override("font_color", Color(0.55, 0.3, 0.05))
+	_bubble_name.add_theme_font_size_override("font_size", 15)
+	_bubble_text = Label.new()
+	_bubble_text.custom_minimum_size = Vector2(300, 0)
+	_bubble_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_bubble_text.add_theme_color_override("font_color", Color(0.15, 0.12, 0.1))
+	_bubble_text.add_theme_font_size_override("font_size", 15)
+	var hint := Label.new()
+	hint.text = "(cliquez pour continuer)"
+	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	hint.add_theme_color_override("font_color", Color(0.45, 0.4, 0.35))
+	hint.add_theme_font_size_override("font_size", 12)
+	for label: Label in [_bubble_name, _bubble_text, hint]:
+		label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		box.add_child(label)
+	_bubble.visible = false
+	add_child(_bubble)
+
+
+func _open_dialogue(event: Dictionary) -> void:
+	_dialogue = {"nom": event["nom"], "repliques": event["repliques"], "index": 0, "case": event["case"]}
+	_show_dialogue_line()
+
+
+func _next_dialogue_line() -> void:
+	_dialogue["index"] += 1
+	if _dialogue["index"] >= _dialogue["repliques"].size():
+		_close_dialogue()
+	else:
+		_show_dialogue_line()
+
+
+func _show_dialogue_line() -> void:
+	_bubble_name.text = _dialogue["nom"]
+	_bubble_text.text = _dialogue["repliques"][_dialogue["index"]]
+	_bubble.visible = true
+	_bubble.reset_size()
+	var bubble_size := _bubble.get_combined_minimum_size()
+	var anchor := IsoGrid.cell_to_screen(_dialogue["case"]) + Vector2(0, -68)
+	var top_left := anchor - Vector2(bubble_size.x / 2.0, bubble_size.y)
+	var max_x := _map.screen_rect().size.x - bubble_size.x
+	_bubble.position = Vector2(clampf(top_left.x, 0.0, maxf(max_x, 0.0)), maxf(top_left.y, -60.0))
+
+
+func _close_dialogue() -> void:
+	_dialogue = {}
+	if _bubble != null:
+		_bubble.visible = false
 
 
 func _scaled_diamond(center: Vector2, scale_factor: float) -> PackedVector2Array:

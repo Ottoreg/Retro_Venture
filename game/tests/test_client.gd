@@ -49,3 +49,36 @@ func test_scene_du_monde_jusqu_au_combat_et_retour() -> void:
 	assert_eq(view.mode, MapView.Mode.EXPLORATION, "retour en exploration")
 	assert_false(view.world.in_combat())
 	scene.free()
+
+
+func test_pnj_et_changement_de_carte() -> void:
+	var tree := Engine.get_main_loop() as SceneTree
+	var scene: Node = load("res://client/world/world.tscn").instantiate()
+	tree.root.add_child(scene)
+	var view: MapView = scene.get_node("MapView")
+	var map := view.current_map()
+
+	# Parler au PNJ : le joueur s'approche, la bulle s'affiche, chaque clic passe à la suite.
+	assert_true(map.npcs.size() > 0, "un PNJ au village")
+	var npc: Dictionary = map.npcs[0]
+	view._on_click(npc["case"])
+	_run_until_idle(view)
+	assert_true(view._bubble.visible, "bulle de dialogue affichée")
+	assert_eq(view._bubble_text.text, npc["repliques"][0])
+	for i in npc["repliques"].size():
+		view._next_dialogue_line()
+	assert_false(view._bubble.visible, "bulle fermée après la dernière réplique")
+
+	# Sortie par le bord droit.
+	var exit_cell := Vector2i(-1, -1)
+	for cell: Vector2i in map.cells():
+		if map.is_walkable(cell) and "droite" in map.exit_directions(cell):
+			exit_cell = cell
+			break
+	assert_true(map.is_inside(exit_cell), "case de sortie trouvée")
+	view._on_click(exit_cell)
+	_run_until_idle(view)
+	assert_eq(view.world.map.id, map.exits["droite"])
+	assert_eq(view.current_map().id, map.exits["droite"], "la vue affiche la nouvelle carte")
+	assert_true(view.current_map().is_walkable(view.world.position_of(World.PLAYER_ID)))
+	scene.free()
