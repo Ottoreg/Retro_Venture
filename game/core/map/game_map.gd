@@ -31,6 +31,8 @@ const FLOORS := ["herbe", "parquet"]
 const INSTANCES := ["", "joueur"]
 ## Délai de réapparition par défaut d'un groupe de monstres vaincu, en secondes : [min, max].
 const DEFAULT_RESPAWN := [120, 180]
+## Nombre maximal de monstres dans un groupe.
+const MAX_GROUP_SIZE := 3
 const SPAWN_CHAR := "@"
 ## Type d'obstacle des ressources récoltables (lettres majuscules hors légende, voir `Profession`).
 const RESOURCE_OBSTACLE := "ressource"
@@ -52,7 +54,9 @@ var obstacles: Dictionary = {}
 ## Ressources récoltables (arbres, minerais) : case → caractère du plan (voir `GameData.nodes`).
 ## Elles bloquent le passage comme un obstacle de type `RESOURCE_OBSTACLE`.
 var resource_nodes: Dictionary = {}
-## Groupes de monstres : { id: String, case: Vector2i, monstres: Array (ids de monstres) }.
+## Groupes de monstres : { id: String, case: Vector2i, monstres: Array (ids de monstres),
+## reapparition: [min, max] }. Un groupe tiré au sort a aussi `parmi` (ids possibles) et `nombre`
+## ([min, max]) : `monstres` est alors vide ici, le monde le compose (voir `compose_group`).
 var groups: Array[Dictionary] = []
 ## PNJ : { id: String, nom: String, case: Vector2i, repliques: Array (textes) }.
 var npcs: Array[Dictionary] = []
@@ -117,9 +121,23 @@ static func validate(data: Dictionary) -> PackedStringArray:
 		group_count = groups_data.size()
 		for k in group_count:
 			var group: Variant = groups_data[k]
-			var monsters: Variant = group.get("monstres") if typeof(group) == TYPE_DICTIONARY else null
-			if typeof(monsters) != TYPE_ARRAY or monsters.is_empty() or monsters.size() > 8:
-				errors.append("groupe %d : « monstres » doit lister de 1 à 8 identifiants de monstres" % (k + 1))
+			if typeof(group) != TYPE_DICTIONARY:
+				errors.append("groupe %d : objet attendu" % (k + 1))
+				continue
+			if group.has("parmi"):
+				var pool: Variant = group["parmi"]
+				if typeof(pool) != TYPE_ARRAY or pool.is_empty() or not _all_strings(pool):
+					errors.append("groupe %d : « parmi » doit lister des identifiants de monstres" % (k + 1))
+				var count: Variant = group.get("nombre", [1, MAX_GROUP_SIZE])
+				if typeof(count) != TYPE_ARRAY or count.size() != 2 or not Spell._is_int_at_least(count[0], 1) \
+						or not Spell._is_int_at_least(count[1], 1) or int(count[0]) > int(count[1]) or int(count[1]) > MAX_GROUP_SIZE:
+					errors.append("groupe %d : « nombre » doit être [min, max], de 1 à %d" % [k + 1, MAX_GROUP_SIZE])
+				if group.has("monstres"):
+					errors.append("groupe %d : « monstres » ou « parmi », pas les deux" % (k + 1))
+			else:
+				var monsters: Variant = group.get("monstres")
+				if typeof(monsters) != TYPE_ARRAY or monsters.is_empty() or monsters.size() > MAX_GROUP_SIZE or not _all_strings(monsters):
+					errors.append("groupe %d : « monstres » doit lister de 1 à %d identifiants de monstres" % [k + 1, MAX_GROUP_SIZE])
 			var delay: Variant = group.get("reapparition", DEFAULT_RESPAWN) if typeof(group) == TYPE_DICTIONARY else null
 			if typeof(delay) != TYPE_ARRAY or delay.size() != 2 or not Spell._is_int_at_least(delay[0], 1) \
 					or not Spell._is_int_at_least(delay[1], 1) or int(delay[0]) > int(delay[1]):
@@ -265,12 +283,16 @@ static func from_dict(data: Dictionary) -> GameMap:
 			elif _is_group_char(character):
 				var group_index := int(character)
 				var group_data: Dictionary = data["groupes"][group_index - 1]
-				map.groups.append({
+				var group := {
 					"id": "groupe_%d" % group_index,
 					"case": cell,
-					"monstres": group_data["monstres"].duplicate(),
+					"monstres": group_data.get("monstres", []).duplicate(),
 					"reapparition": group_data.get("reapparition", DEFAULT_RESPAWN).duplicate(),
-				})
+				}
+				if group_data.has("parmi"):
+					group["parmi"] = group_data["parmi"].duplicate()
+					group["nombre"] = group_data.get("nombre", [1, MAX_GROUP_SIZE]).duplicate()
+				map.groups.append(group)
 			elif _is_npc_char(character):
 				var npc: Dictionary = npcs_by_marker[character]
 				map.npcs.append({"id": npc["id"], "nom": npc["nom"], "case": cell, "repliques": npc["repliques"].duplicate(),
@@ -474,3 +496,28 @@ func _setup_pathfinding() -> void:
 				var cell := Vector2i(x, y)
 				if not is_walkable(cell):
 					astar.set_point_solid(cell)
+
+
+## Monstres qu'un groupe peut contenir (sa liste fixe, ou ceux qu'on tire au sort).
+static func possible_monsters(group: Dictionary) -> Array:
+	return group["parmi"] if group.has("parmi") else group["monstres"]
+
+
+## Copie du groupe prête à paraître sur la carte : un groupe tiré au sort reçoit ses monstres.
+static func compose_group(group: Dictionary, rng: RandomNumberGenerator) -> Dictionary:
+	var composed := group.duplicate(true)
+	if group.has("parmi"):
+		var pool: Array = group["parmi"]
+		var count: Array = group["nombre"]
+		var monsters: Array = []
+		for i in rng.randi_range(int(count[0]), int(count[1])):
+			monsters.append(pool[rng.randi_range(0, pool.size() - 1)])
+		composed["monstres"] = monsters
+	return composed
+
+
+static func _all_strings(values: Array) -> bool:
+	for value: Variant in values:
+		if typeof(value) != TYPE_STRING or str(value).is_empty():
+			return false
+	return true

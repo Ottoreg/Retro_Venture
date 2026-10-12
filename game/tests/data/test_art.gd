@@ -58,7 +58,7 @@ func test_decors_des_cartes() -> void:
 			assert_true(Art.manifest()["pnj"].has(npc["id"]), "%s : dessin du PNJ « %s »" % [path, npc["id"]])
 
 
-func test_icones_des_sorts_et_des_armes() -> void:
+func test_icones_des_sorts_des_armes_et_des_objets() -> void:
 	var data := GameData.load_all()
 	for voie_id: String in data.voies:
 		for spell_id: String in data.voies[voie_id]["sorts"]:
@@ -71,5 +71,7 @@ func test_icones_des_sorts_et_des_armes() -> void:
 			assert_true(weapon_icons.has(item_id), "icône de l'attaque de %s" % item_id)
 	for icon: String in weapon_icons.values():
 		assert_true(Art.has_image(icon), icon)
-	for image in ["coeur_vide", "coeur_plein", "etoile_pa", "case_pm", "case_sort", "sort_inconnu"]:
+	for item_id: String in data.items:
+		assert_true(Art.has_image("objet_" + item_id), "icône de l'objet %s" % item_id)
+	for image in ["coeur_vide", "coeur_plein", "etoile_pa", "case_pm", "case_sort", "sort_inconnu", "objet_inconnu"]:
 		assert_true(Art.has_image(image), image)

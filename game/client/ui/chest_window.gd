@@ -89,7 +89,7 @@ func _fill(list: ItemList, entries: Array, chest_side: bool) -> bool:
 	for entry: Dictionary in entries:
 		var worn := not str(entry.get("emplacement", "")).is_empty()
 		var label := "%s%s%s" % [entry["nom"], " ×%d" % entry["quantite"] if int(entry["quantite"]) > 1 else "", "   (porté)" if worn else ""]
-		var index := list.add_item(label)
+		var index := list.add_item(label, InventoryWindow.item_icon(entry["objet"]))
 		list.set_item_custom_fg_color(index, Color(0.5, 0.5, 0.5) if worn else InventoryWindow.rarity_color(entry["rarete"]))
 		list.set_item_metadata(index, entry["uid"])
 		if entry["uid"] == _selected and _from_chest == chest_side:
@@ -212,6 +212,7 @@ func _build() -> void:
 	_bag_title = _label(15, Color(0.85, 0.82, 0.72))
 	bag_box.add_child(_bag_title)
 	_bag_list = ItemList.new()
+	_bag_list.fixed_icon_size = Vector2i(28, 28)
 	_bag_list.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	_bag_list.item_selected.connect(_on_bag_selected)
 	bag_box.add_child(_bag_list)
@@ -244,6 +245,7 @@ func _build() -> void:
 	_chest_title = _label(15, Color(0.85, 0.82, 0.72))
 	chest_box.add_child(_chest_title)
 	_chest_list = ItemList.new()
+	_chest_list.fixed_icon_size = Vector2i(28, 28)
 	_chest_list.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	_chest_list.item_selected.connect(_on_chest_selected)
 	chest_box.add_child(_chest_list)

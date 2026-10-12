@@ -456,3 +456,19 @@ func test_barre_d_action_et_fenetre_des_sorts() -> void:
 	hud.menu_pressed.emit("metiers")
 	assert_true((scene.get_node("JobsWindow") as JobsWindow).is_open(), "le bouton métiers ouvre la fenêtre")
 	scene.free()
+
+
+func test_tous_les_membres_d_un_groupe_sont_affiches() -> void:
+	var tree := Engine.get_main_loop() as SceneTree
+	var scene: Node = load("res://client/world/world.tscn").instantiate()
+	tree.root.add_child(scene)
+	var view: MapView = scene.get_node("MapView")
+	for group: Dictionary in view.world.groups():
+		var actor: Dictionary = view._actors[group["id"]]
+		assert_eq(str(actor["members"]), str(group["monstres"]), "chaque membre du groupe est dessiné")
+		assert_true(actor["members"].size() <= GameMap.MAX_GROUP_SIZE)
+	var mixed: Dictionary = view._actors["groupe_3"]
+	assert_eq(mixed["name"], "Groupe : Gobelin frondeur, Loup des collines", "groupe mixte nommé au survol")
+	assert_eq(view._actors["groupe_2"]["name"], "Groupe : 2 × Loup des collines")
+	assert_eq(view._actors["groupe_1"]["name"], "Loup des collines")
+	scene.free()

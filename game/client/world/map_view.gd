@@ -56,6 +56,13 @@ const COLOR_PLACEMENT := Color(0.25, 0.5, 1.0, 0.9)
 const COLOR_TEAM := [Color(0.25, 0.5, 1.0, 0.8), Color(0.9, 0.25, 0.2, 0.8)]
 
 const NO_CELL := Vector2i(-99999, -99999)
+## Place de chaque membre d'un groupe de monstres sur sa case (pixels depuis le centre), selon la
+## taille du groupe ; le premier est le meneur, devant.
+const GROUP_SPOTS := [
+	[Vector2(0, 0)],
+	[Vector2(12, 5), Vector2(-16, -5)],
+	[Vector2(0, 8), Vector2(-26, -5), Vector2(24, -6)],
+]
 
 ## Messages affichés pour les refus du noyau.
 var _refusals := {
@@ -83,6 +90,8 @@ var current_turn := ""
 
 ## Ce qui est affiché : id → { pos: Vector2 (grille), kind, team, name, hp, max_hp, pa, pm, alive, count }.
 var _actors: Dictionary = {}
+## Apparence de chaque espèce de monstre (voir `_monster_look`).
+var _monster_looks: Dictionary = {}
 var _hovered := NO_CELL
 var _preview: Array[Vector2i] = []
 var _placement: Array[Vector2i] = []
@@ -427,7 +436,7 @@ func _describe(cell: Vector2i) -> String:
 		if data["alive"] and Vector2i(data["pos"].round()) == cell and actor_id != World.PLAYER_ID:
 			if mode == Mode.COMBAT:
 				return "%s — %d / %d PV" % [data["name"], data["hp"], data["max_hp"]]
-			return "%s (groupe de %d)" % [data["name"], data["count"]] if data["count"] > 1 else data["name"]
+			return data["name"]
 	return "case (%d, %d)%s" % [cell.x, cell.y, "" if _map.is_walkable(cell) else " — bloquée"]
 
 
@@ -700,13 +709,24 @@ func _load_exploration_actors() -> void:
 
 func _add_group_actor(group: Dictionary) -> void:
 	var monster_ids: Array = group["monstres"]
-	var first: String = monster_ids[0]
-	var monster_name: String = first
-	if world.data != null and world.data.monsters.has(first):
-		monster_name = world.data.monsters[first]["nom"]
-	var data := _new_actor(Vector2(group["case"]), first, 1, monster_name, 1, 1)
+	var data := _new_actor(Vector2(group["case"]), monster_ids[0], 1, group_label(monster_ids, world.data), 1, 1)
 	data["count"] = monster_ids.size()
+	data["members"] = monster_ids.duplicate()
 	_actors[group["id"]] = data
+
+
+## Nom affiché d'un groupe : « Loup des collines », ou « Groupe : 2 × Rat des galeries, Grouilleur ».
+static func group_label(monster_ids: Array, data: GameData) -> String:
+	var counts := {}
+	for monster_id: String in monster_ids:
+		counts[monster_id] = int(counts.get(monster_id, 0)) + 1
+	var parts: PackedStringArray = []
+	for monster_id: String in counts:
+		var monster_name: String = data.monsters[monster_id]["nom"] if data != null and data.monsters.has(monster_id) else monster_id
+		parts.append(monster_name if counts[monster_id] == 1 else "%d × %s" % [counts[monster_id], monster_name])
+	if monster_ids.size() == 1:
+		return parts[0]
+	return "Groupe : %s" % ", ".join(parts)
 
 
 func _load_combat_actors(event: Dictionary) -> void:
@@ -916,7 +936,8 @@ func _fade_if_hiding(cell: Vector2i) -> Color:
 		if not data["alive"]:
 			continue
 		var feet := IsoGrid.grid_to_screen(data["pos"])
-		if IsoGrid.depth(data["pos"]) < IsoGrid.depth(Vector2(cell)) and absf(feet.x - base.x) < 36.0 and feet.y > base.y - 100.0:
+		var reach := 36.0 if data.get("members", []).size() < 2 else 62.0  # Un groupe s'étale sur sa case.
+		if IsoGrid.depth(data["pos"]) < IsoGrid.depth(Vector2(cell)) and absf(feet.x - base.x) < reach and feet.y > base.y - 100.0:
 			return Color(1, 1, 1, 0.45)
 	return Color.WHITE
 
@@ -942,34 +963,47 @@ func _draw_actor(actor_id: String) -> void:
 		draw_polyline(ring, COLOR_TEAM[clampi(data["team"], 0, 1)], 3.0)
 		if actor_id == current_turn:
 			draw_colored_polygon(_ellipse(base, 18, 9), Color(1, 1, 1, 0.25))
-	var look := _look_of(actor_id, data)
+	var members: Array = data.get("members", [])
+	if mode == Mode.EXPLORATION and members.size() > 1:
+		# Tout le groupe est visible, serré sur sa case : les plus éloignés d'abord.
+		var spots: Array = GROUP_SPOTS[mini(members.size(), GROUP_SPOTS.size()) - 1]
+		var order: Array[int] = []
+		for i in mini(members.size(), spots.size()):
+			order.append(i)
+		order.sort_custom(func(a: int, b: int) -> bool: return spots[a].y < spots[b].y)
+		for i in order:
+			var member_id := "%s_%d" % [actor_id, i]
+			var member_facing := facing if i == 0 else (1.0 if posmod(hash(member_id), 2) == 0 else -1.0)
+			_draw_figure(member_id, _monster_look(members[i]), members[i], base + spots[i], member_facing, false, 0.0, data)
+	else:
+		_draw_figure(actor_id, _look_of(actor_id, data), data["kind"], base, facing, walking, phase, data)
+	if mode == Mode.COMBAT:
+		var ratio := clampf(float(data["hp"]) / maxf(1.0, data["max_hp"]), 0.0, 1.0)
+		var bar := Rect2(base + Vector2(-17, -80), Vector2(34, 5))
+		draw_rect(bar, Color(0, 0, 0, 0.6))
+		draw_rect(Rect2(bar.position, Vector2(bar.size.x * ratio, bar.size.y)), Color(0.3, 0.85, 0.3) if ratio > 0.3 else Color(0.9, 0.3, 0.2))
+
+
+## Dessine un personnage ou un monstre, les pieds en `base`.
+func _draw_figure(seed_id: String, look: Dictionary, kind: String, base: Vector2, facing: float, walking: bool, phase: float, data: Dictionary) -> void:
+	var offset := float(posmod(hash(seed_id), 100))
 	if look.has("rig"):
 		var progress := 1.0 - float(data.get("attaque", 0.0)) / ATTACK_TIME if data.get("attaque", 0.0) > 0.0 else -1.0
 		Rig.draw(self, look, base, {"facing": facing, "dos": data.get("dos", false), "marche": walking, "phase": phase,
-			"temps": _time + float(posmod(hash(actor_id), 100)) * 0.1, "attaque": progress})
+			"temps": _time + offset * 0.1, "attaque": progress})
 	elif look.has("image"):
-		var hop := -absf(sin(phase)) * 2.0 if walking else sin(_time * 2.0 + float(posmod(hash(actor_id), 100))) * 0.4
+		var hop := -absf(sin(phase)) * 2.0 if walking else sin(_time * 2.0 + offset) * 0.4
 		Art.draw(self, look["image"], base + Vector2(0, hop), {}, facing < 0.0, Color.WHITE, look["echelle"])
 	else:
 		# Pas de dessin pour ce personnage : l'ancienne silhouette.
 		var swing := sin(phase) * 3.0 if walking else 0.0
 		var body := base + Vector2(0, -absf(sin(phase)) * 2.5 if walking else 0.0)
-		var kind: String = data["kind"]
 		if kind.contains("loup"):
 			Figures.wolf(self, base, body, facing, swing)
 		elif kind.contains("gobelin"):
 			Figures.goblin(self, base, body, facing, swing)
 		else:
 			Figures.blob(self, base, body)
-	if mode == Mode.EXPLORATION and data["count"] > 1:
-		var label := base + Vector2(12, -30)
-		draw_string_outline(ThemeDB.fallback_font, label, "×%d" % data["count"], HORIZONTAL_ALIGNMENT_LEFT, -1, 14, 4, Color(0, 0, 0, 0.8))
-		draw_string(ThemeDB.fallback_font, label, "×%d" % data["count"], HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color.WHITE)
-	if mode == Mode.COMBAT:
-		var ratio := clampf(float(data["hp"]) / maxf(1.0, data["max_hp"]), 0.0, 1.0)
-		var bar := Rect2(base + Vector2(-17, -80), Vector2(34, 5))
-		draw_rect(bar, Color(0, 0, 0, 0.6))
-		draw_rect(Rect2(bar.position, Vector2(bar.size.x * ratio, bar.size.y)), Color(0.3, 0.85, 0.3) if ratio > 0.3 else Color(0.9, 0.3, 0.2))
 
 
 func _draw_npc(npc: Dictionary) -> void:
@@ -1007,12 +1041,22 @@ func _look_of(actor_id: String, data: Dictionary) -> Dictionary:
 	if actor_id == World.PLAYER_ID or manifest.get("tenues", {}).has(kind) and data["team"] == 0:
 		look = Rig.player_look(data.get("race", "humain"), kind, world.data)
 	else:
-		var spec: Dictionary = manifest.get("monstres", {}).get(kind, {})
-		if spec.has("image"):
-			look = {"image": spec["image"], "echelle": float(spec.get("echelle", 1.0))}
-		elif spec.has("rig"):
-			look = Rig.look(spec["rig"], spec.get("couleurs", {}), spec.get("arme", ""), spec.get("accessoires", []))
+		look = _monster_look(kind)
 	data["look"] = look
+	return look
+
+
+## Apparence d'un monstre d'après `art.json` (gardée pour les fois suivantes).
+func _monster_look(kind: String) -> Dictionary:
+	if _monster_looks.has(kind):
+		return _monster_looks[kind]
+	var spec: Dictionary = Art.manifest().get("monstres", {}).get(kind, {})
+	var look := {}
+	if spec.has("image"):
+		look = {"image": spec["image"], "echelle": float(spec.get("echelle", 1.0))}
+	elif spec.has("rig"):
+		look = Rig.look(spec["rig"], spec.get("couleurs", {}), spec.get("arme", ""), spec.get("accessoires", []))
+	_monster_looks[kind] = look
 	return look
 
 

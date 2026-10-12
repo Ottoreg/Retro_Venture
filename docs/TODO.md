@@ -109,7 +109,9 @@ Objectif : **10 à 15 h de jeu solo, niveaux 1 à 30 : 3 zones de départ (une p
 ### Combat
 - [ ] **(MVP)** Tous les types d'effets : soin, bouclier, bonus/malus, poussée, téléportation, états
 - [ ] **(MVP)** Coups critiques
-- [ ] **(MVP)** Combats contre des groupes de 1 à 8 monstres
+- [x] **(MVP)** Groupes de 1 à 3 monstres (limite de l'alpha), d'espèces mélangées, tous visibles sur
+  la carte ; composition fixe ou tirée au sort à chaque apparition
+- [ ] Groupes plus grands (jusqu'à 8) une fois l'équilibrage fait
 - [ ] **(MVP)** IA : `ranged`, `support`
 - [ ] Tacle / fuite (activable pour tester)
 - [ ] Monstres agressifs (engagent le combat à proximité)
@@ -207,8 +209,9 @@ Objectif : **10 à 15 h de jeu solo, niveaux 1 à 30 : 3 zones de départ (une p
 - [ ] **(MVP)** Sprites des monstres de l'alpha (faits : loup, frondeur gobelin, rat, grouilleur,
   cerf enchanté, arbre vivant, Souverain Cendré)
 - [ ] **(MVP)** Effets visuels des sorts
-- [ ] **(MVP)** Icônes d'objets, de ressources et de sorts (faites : sorts des Voies et des races,
-  attaques des armes, jauges du bandeau ; reste : objets et ressources)
+- [x] **(MVP)** Icônes d'objets, de ressources et de sorts : sorts des Voies et des races, attaques
+  des armes, jauges du bandeau, les 36 objets (inventaire en grille d'icônes, boutique, coffre,
+  atelier, métiers, butin)
 - [x] Système de recoloration des personnages (modèles SVG à couleurs remplaçables)
 - [ ] Musiques : 2 thèmes de région, 1 thème de combat, 1 thème de boss, menu
 - [ ] Bruitages : interface, pas, impacts, sorts

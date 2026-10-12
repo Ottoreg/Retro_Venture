@@ -403,7 +403,8 @@ recherche profonde au départ.
 
 - Chaque monstre a : niveau (plage), caractéristiques, résistances, sorts, comportement IA, table de
   butin, XP et monnaie de base.
-- **Groupes :** de 1 à 8 monstres, composition aléatoire dans une liste par zone.
+- **Groupes :** de 1 à 8 monstres (3 au plus pendant l'alpha), d'une ou plusieurs espèces, tous visibles
+  sur la carte ; composition fixe ou aléatoire dans une liste par zone.
 - **Variantes Corrompues :** versions plus fortes avec un butin spécifique (cendres, fragments).
 - **Archimonstres** (long terme) : variantes rares nommées, au butin amélioré.
 

@@ -42,9 +42,13 @@
   ],
   "groupes": [
     {
-      "monstres": [
+      "parmi": [
         "cerf_enchante",
-        "cerf_enchante"
+        "arbre_vivant"
+      ],
+      "nombre": [
+        2,
+        3
       ]
     },
     {

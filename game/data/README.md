@@ -58,12 +58,16 @@ praticables accessibles** depuis le départ.
 ### Groupes de monstres
 
 Les chiffres `1` à `9` dans le plan placent les groupes décrits dans la liste `groupes` (le chiffre
-`1` correspond au premier groupe). Chaque groupe apparaît une seule fois et compte 1 à 8 monstres.
+`1` correspond au premier groupe). Chaque groupe apparaît une seule fois et compte 1 à 3 monstres,
+d'une ou de plusieurs espèces, tous dessinés sur la carte. Un groupe est soit une liste fixe
+(`monstres`), soit tiré au sort à chaque apparition (`parmi` : les espèces possibles, `nombre` :
+[min, max], 3 au plus) ; on ne peut pas mettre les deux.
 
 ```json
 "groupes": [
   {"monstres": ["loup_des_collines"]},
-  {"monstres": ["gobelin_frondeur", "loup_des_collines"], "reapparition": [60, 90]}
+  {"monstres": ["gobelin_frondeur", "loup_des_collines"], "reapparition": [60, 90]},
+  {"parmi": ["rat_des_galeries", "grouilleur"], "nombre": [2, 3]}
 ]
 ```
 

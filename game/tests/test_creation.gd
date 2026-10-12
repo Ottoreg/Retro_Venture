@@ -76,6 +76,9 @@ func test_fenetre_d_inventaire() -> void:
 	assert_true(window.is_open())
 	assert_eq(window._list.item_count, inventory.entries.size())
 	assert_eq(window._slot_buttons["arme"].text, "Épée de fer")
+	assert_eq(window._slot_buttons["arme"].icon, InventoryWindow.item_icon("epee_de_fer"), "icône de l'arme portée")
+	for i in window._list.item_count:
+		assert_true(window._list.get_item_icon(i) != Art.texture("objet_inconnu"), "icône dans le sac")
 
 	# Retirer puis remettre l'épée, depuis la fenêtre.
 	var sword: String = inventory.equipped["arme"]

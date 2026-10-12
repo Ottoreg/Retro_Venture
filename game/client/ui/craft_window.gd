@@ -86,7 +86,7 @@ func refresh() -> void:
 			label += "   — prêt"
 		else:
 			color = color.darkened(0.35)
-		var index := _list.add_item(label)
+		var index := _list.add_item(label, InventoryWindow.item_icon(recipe["objet"]))
 		_list.set_item_custom_fg_color(index, color)
 		_list.set_item_metadata(index, recipe["objet"])
 		if recipe["objet"] == _selected:
@@ -243,6 +243,7 @@ func _build() -> void:
 	column.add_child(row)
 	_list = ItemList.new()
 	_list.custom_minimum_size = Vector2(360, 0)
+	_list.fixed_icon_size = Vector2i(28, 28)
 	_list.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	_list.item_selected.connect(_on_item_selected)
 	row.add_child(_list)

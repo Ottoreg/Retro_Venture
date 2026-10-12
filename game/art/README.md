@@ -29,7 +29,8 @@ PNJ ou essences d'arbres.
 - `icones_armes` : objet arme → icône de son attaque dans la barre de sorts. Les icônes de sorts
   sont les images `sort_<id du sort>` (`sorts/`, 44 × 44, fond de la couleur de l'élément : acier
   brun, flamme rouge, givre bleu, tempête vert, soin doré, utilitaire violet) ; `sort_inconnu` sert
-  à défaut. Les jauges du bandeau (cœur des PV, étoile des PA, case des PM, cadre de sort) et les
+  à défaut. Chaque objet a son icône `objet_<id de l'objet>` (`objets/`, 44 × 44, fond
+  transparent), `objet_inconnu` à défaut. Les jauges du bandeau (cœur des PV, étoile des PA, case des PM, cadre de sort) et les
   icônes des menus sont dans `interface/`.
 
 ## Conventions de dessin
@@ -44,6 +45,8 @@ PNJ ou essences d'arbres.
 ```sh
 # Planche de toutes les images (sans affichage) :
 godot --headless --path game -s res://tools/art_sheet.gd -- planche.png 1.5
+# Seulement les icônes d'objets (ou « sort_ »…) :
+godot --headless --path game -s res://tools/art_sheet.gd -- icones.png 1 objet_
 # Capture d'écran du jeu (avec un serveur X virtuel) ; carte et combat facultatifs :
 xvfb-run -s "-screen 0 1280x720x24" godot --path game --rendering-driver opengl3 \
   -s res://tools/screenshot.gd -- capture.png [carte ou scène] [images] [combat|inventaire|metiers|sorts|pierre]

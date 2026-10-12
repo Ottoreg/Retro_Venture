@@ -258,3 +258,35 @@ func test_coffre_refus() -> void:
 	while not _world.character.chest.is_full():
 		_world.character.chest.add(_world.data.items["bague"], 1, {})
 	_assert_refused(_command(Protocol.CMD_DEPOSIT, {"case": chest, "objet": "dent"}), Protocol.REASON_INVENTORY_FULL)
+
+
+func test_groupe_tire_au_sort_a_chaque_apparition() -> void:
+	_maps["test"] = _village({"parmi": ["mannequin", "blinde"], "nombre": [3, 3], "reapparition": [10, 10]})
+	_world = World.new(_maps["test"], Fixtures.data(), _loader, Fixtures.character())
+	var group: Dictionary = _world.groups()[0]
+	assert_eq(group["monstres"].size(), 3, "trois monstres tirés")
+	for monster_id: String in group["monstres"]:
+		assert_true(monster_id in ["mannequin", "blinde"], monster_id)
+	assert_true(_maps["test"].groups[0]["monstres"].is_empty(), "la carte n'est pas modifiée")
+	_command(Protocol.CMD_ENGAGE, {"groupe": "groupe_1"})
+	assert_true(_world.in_combat())
+	for i in 3:
+		assert_true(_world.combat.get_fighter("groupe_1_%d" % (i + 1)) != null, "membre %d au combat" % (i + 1))
+
+
+func test_groupe_tire_au_sort_a_la_reapparition() -> void:
+	_maps["test"] = _village({"parmi": ["mannequin", "blinde"], "nombre": [2, 2], "reapparition": [10, 10]})
+	_world = World.new(_maps["test"], Fixtures.data(), _loader, Fixtures.character())
+	var kinds := {}
+	for round_index in 12:
+		var group: Dictionary = _world.groups()[0]
+		assert_eq(group["monstres"].size(), 2)
+		kinds[str(group["monstres"])] = true
+		# Le groupe est vaincu (simulé), puis revient avec un nouveau tirage.
+		_world._schedule_respawn(_world.map.id, group)
+		_world._groups.erase("groupe_1")
+		_world._positions.erase("groupe_1")
+		var events := _world.update(10.0)
+		assert_eq(events.size(), 1, "réapparu")
+		assert_eq(events[0]["groupe"]["monstres"].size(), 2)
+	assert_true(kinds.size() > 1, "plusieurs compositions au fil des réapparitions (%s)" % str(kinds.keys()))

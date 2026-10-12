@@ -41,9 +41,13 @@
   ],
   "groupes": [
     {
-      "monstres": [
+      "parmi": [
         "loup_des_collines",
-        "loup_des_collines"
+        "gobelin_frondeur"
+      ],
+      "nombre": [
+        2,
+        3
       ]
     },
     {

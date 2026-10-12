@@ -723,6 +723,265 @@
         22,
         22
       ]
+    },
+    "objet_bois_de_frene": {
+      "fichier": "objets/bois_de_frene.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_bois_de_chene": {
+      "fichier": "objets/bois_de_chene.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_bois_de_cerf_enchante": {
+      "fichier": "objets/bois_de_cerf_enchante.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_minerai_de_cuivre": {
+      "fichier": "objets/minerai_de_cuivre.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_minerai_de_fer": {
+      "fichier": "objets/minerai_de_fer.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_caillou_de_fronde": {
+      "fichier": "objets/caillou_de_fronde.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_carapace_de_grouilleur": {
+      "fichier": "objets/carapace_de_grouilleur.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_croc_de_loup": {
+      "fichier": "objets/croc_de_loup.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_dent_de_rat": {
+      "fichier": "objets/dent_de_rat.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_ecorce_vivante": {
+      "fichier": "objets/ecorce_vivante.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_fiche_de_paie_gobeline": {
+      "fichier": "objets/fiche_de_paie_gobeline.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_fragment_de_cendre": {
+      "fichier": "objets/fragment_de_cendre.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_glande_acide": {
+      "fichier": "objets/glande_acide.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_peau_de_loup": {
+      "fichier": "objets/peau_de_loup.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_poil_scintillant": {
+      "fichier": "objets/poil_scintillant.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_queue_de_rat": {
+      "fichier": "objets/queue_de_rat.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_seve_ancienne": {
+      "fichier": "objets/seve_ancienne.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_amulette_croc": {
+      "fichier": "objets/amulette_croc.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_anneau_de_cuivre": {
+      "fichier": "objets/anneau_de_cuivre.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_anneau_du_frondeur": {
+      "fichier": "objets/anneau_du_frondeur.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_bonnet_de_berger": {
+      "fichier": "objets/bonnet_de_berger.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_bottes_de_marche": {
+      "fichier": "objets/bottes_de_marche.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_bottes_feutrees": {
+      "fichier": "objets/bottes_feutrees.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_cape_d_ecorce": {
+      "fichier": "objets/cape_d_ecorce.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_cape_en_peau_de_loup": {
+      "fichier": "objets/cape_en_peau_de_loup.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_casque_cabosse": {
+      "fichier": "objets/casque_cabosse.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_ceinture_de_carapace": {
+      "fichier": "objets/ceinture_de_carapace.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_ceinture_de_corde": {
+      "fichier": "objets/ceinture_de_corde.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_ceinturon_rivete": {
+      "fichier": "objets/ceinturon_rivete.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_couronne_de_ramure": {
+      "fichier": "objets/couronne_de_ramure.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_inconnu": {
+      "fichier": "objets/inconnu.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_lame_cendree": {
+      "fichier": "objets/lame_cendree.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_epee_de_fer": {
+      "fichier": "objets/epee_de_fer.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_baton_de_novice": {
+      "fichier": "objets/baton_de_novice.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_arc_de_frene": {
+      "fichier": "objets/arc_de_frene.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_fronde_reglementaire": {
+      "fichier": "objets/fronde_reglementaire.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_masse_cerclee": {
+      "fichier": "objets/masse_cerclee.svgt",
+      "ancre": [
+        22,
+        22
+      ]
     }
   },
   "personnages": {

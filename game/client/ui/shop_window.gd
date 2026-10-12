@@ -82,7 +82,7 @@ func refresh() -> void:
 		if _mode == SELL:
 			label = "%s%s — %d écus%s" % [entry["nom"], " ×%d" % entry["quantite"] if int(entry["quantite"]) > 1 else "",
 				_unit_price(entry), "   (porté)" if _is_worn(entry) else ""]
-		var index := _list.add_item(label)
+		var index := _list.add_item(label, InventoryWindow.item_icon(entry["objet"]))
 		_list.set_item_custom_fg_color(index, Color(0.5, 0.5, 0.5) if _is_worn(entry) else InventoryWindow.rarity_color(entry["rarete"]))
 		_list.set_item_metadata(index, key)
 		if key == _selected:
@@ -292,6 +292,7 @@ func _build() -> void:
 	column.add_child(row)
 	_list = ItemList.new()
 	_list.custom_minimum_size = Vector2(380, 0)
+	_list.fixed_icon_size = Vector2i(28, 28)
 	_list.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	_list.item_selected.connect(_on_item_selected)
 	row.add_child(_list)

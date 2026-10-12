@@ -246,12 +246,21 @@ func _on_combat_ended(result: Dictionary) -> void:
 	for child in _loot_box.get_children():
 		child.queue_free()
 	for drop: Dictionary in result.get("butin", []):
+		var line := HBoxContainer.new()
+		line.alignment = BoxContainer.ALIGNMENT_CENTER
+		line.add_theme_constant_override("separation", 8)
+		var icon := TextureRect.new()
+		icon.texture = InventoryWindow.item_icon(drop.get("objet", ""))
+		icon.custom_minimum_size = Vector2(32, 32)
+		icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		line.add_child(icon)
 		var label := Label.new()
 		label.text = "%s%s%s" % [drop["nom"], " ×%d" % drop["quantite"] if int(drop["quantite"]) > 1 else "",
 			"  (inventaire plein, perdu)" if drop["perdu"] else ""]
-		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		label.add_theme_color_override("font_color", InventoryWindow.rarity_color(drop["rarete"]))
-		_loot_box.add_child(label)
+		line.add_child(label)
+		_loot_box.add_child(line)
 	_loot_box.visible = not result.get("butin", []).is_empty()
 	_result_panel.visible = true
 

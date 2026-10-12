@@ -64,9 +64,13 @@
       ]
     },
     {
-      "monstres": [
+      "parmi": [
         "grouilleur",
-        "grouilleur"
+        "rat_des_galeries"
+      ],
+      "nombre": [
+        2,
+        3
       ]
     },
     {

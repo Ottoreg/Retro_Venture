@@ -71,6 +71,11 @@ func test_validation_des_erreurs() -> void:
 		"pas de départ": {"plan": [".....", " ....", "....."]},
 		"deux départs": {"plan": ["@...@", " ....", "....."]},
 		"ligne qui n'est pas du texte": {"plan": ["@....", 3, "....."]},
+		"groupe de plus de 3 monstres": {"plan": ["@...1", " ....", "....."], "groupes": [{"monstres": ["a", "b", "c", "d"]}]},
+		"groupe vide": {"plan": ["@...1", " ....", "....."], "groupes": [{"monstres": []}]},
+		"tirage de plus de 3 monstres": {"plan": ["@...1", " ....", "....."], "groupes": [{"parmi": ["a"], "nombre": [1, 4]}]},
+		"tirage sans monstres": {"plan": ["@...1", " ....", "....."], "groupes": [{"parmi": [], "nombre": [1, 2]}]},
+		"tirage et liste fixe": {"plan": ["@...1", " ....", "....."], "groupes": [{"parmi": ["a"], "monstres": ["a"]}]},
 	}
 	for label: String in cases:
 		var data := _data.duplicate(true)
@@ -126,3 +131,30 @@ func test_chemin_impossible() -> void:
 	_data["plan"][2] = "MMMMM"
 	var closed := _map()
 	assert_eq(closed.find_path(closed.spawn, GameMap.plan_cell(4, 1)).size(), 0, "mur fermé")
+
+
+func test_groupes_fixes_et_tires_au_sort() -> void:
+	_data["plan"] = ["@..12", " ....", "....."]
+	_data["groupes"] = [
+		{"monstres": ["loup", "gobelin", "loup"]},
+		{"parmi": ["rat", "grouilleur"], "nombre": [2, 3]},
+	]
+	var map := _map()
+	var fixed: Dictionary = map.groups[0]
+	var drawn: Dictionary = map.groups[1]
+	assert_eq(str(GameMap.possible_monsters(fixed)), str(["loup", "gobelin", "loup"]))
+	assert_eq(str(GameMap.possible_monsters(drawn)), str(["rat", "grouilleur"]))
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 7
+	assert_eq(str(GameMap.compose_group(fixed, rng)["monstres"]), str(["loup", "gobelin", "loup"]), "liste fixe gardée")
+	var sizes := {}
+	var kinds := {}
+	for i in 60:
+		var monsters: Array = GameMap.compose_group(drawn, rng)["monstres"]
+		sizes[monsters.size()] = true
+		for monster_id: String in monsters:
+			kinds[monster_id] = true
+	assert_eq(sizes.keys().size(), 2, "2 ou 3 monstres")
+	assert_true(sizes.has(2) and sizes.has(3))
+	assert_eq(kinds.size(), 2, "les deux espèces sortent")
+	assert_true(map.groups[1]["monstres"].is_empty(), "la carte ne tire pas elle-même")

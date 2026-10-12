@@ -81,7 +81,7 @@ func test_monstres_des_cartes_existants() -> void:
 		if map == null:
 			continue
 		for group in map.groups:
-			for monster_id: String in group["monstres"]:
+			for monster_id: String in GameMap.possible_monsters(group):
 				assert_true(game_data.monsters.has(monster_id), "%s : monstre inconnu « %s »" % [path, monster_id])
 
 
@@ -196,7 +196,7 @@ func test_monstres_des_zones_et_carte_d_elite() -> void:
 			if map == null:
 				continue
 			for group in map.groups:
-				for monster_id: String in group["monstres"]:
+				for monster_id: String in GameMap.possible_monsters(group):
 					kinds[monster_id] = true
 		assert_true(kinds.size() >= 2, "zone %s : au moins deux types de monstres (%s)" % [zone, str(kinds.keys())])
 	# Le Souverain Cendré : le plus puissant, seul sur la carte d'élite, joignable par une Pierre de Passage.

@@ -18,6 +18,7 @@ var map_view: MapView
 var _panel: PanelContainer
 var _slot_buttons := {}
 var _list: ItemList
+var _icon: TextureRect
 var _details: Label
 var _equip_button: Button
 var _unequip_button: Button
@@ -25,6 +26,36 @@ var _drop_button: Button
 var _coins: Label
 var _sheet: Dictionary = {}
 var _selected := ""
+
+
+## Icône d'un objet (image `objet_<id>` de `art/art.json`, ou un sac « ? » à défaut).
+static func item_icon(item_id: String) -> Texture2D:
+	var image := "objet_" + item_id
+	return Art.texture(image if Art.has_image(image) else "objet_inconnu")
+
+
+## Liste d'objets en grille d'icônes, comme un sac (texte : la quantité).
+static func make_bag_grid(list: ItemList) -> void:
+	list.icon_mode = ItemList.ICON_MODE_TOP
+	list.max_columns = 0
+	list.same_column_width = true
+	list.fixed_column_width = 52
+	list.fixed_icon_size = Vector2i(40, 40)
+	list.add_theme_font_size_override("font_size", 11)
+	list.add_theme_constant_override("h_separation", 4)
+	list.add_theme_constant_override("v_separation", 4)
+
+
+## Ajoute un objet à une grille de sac : icône, quantité, fond de la couleur de sa rareté.
+static func add_bag_item(list: ItemList, entry: Dictionary) -> int:
+	var quantity := int(entry.get("quantite", 1))
+	var worn := not str(entry.get("emplacement", "")).is_empty()
+	var index := list.add_item("×%d" % quantity if quantity > 1 else "porté" if worn else " ", item_icon(entry["objet"]))
+	var tint := GOLD if worn else rarity_color(entry["rarete"])
+	list.set_item_custom_bg_color(index, Color(tint, 0.22 if worn else 0.1))
+	list.set_item_tooltip(index, "%s%s%s" % [entry["nom"], " ×%d" % quantity if quantity > 1 else "", " (porté)" if worn else ""])
+	list.set_item_metadata(index, entry["uid"])
+	return index
 
 
 static func rarity_color(rarity: String) -> Color:
@@ -87,18 +118,16 @@ func refresh() -> void:
 		var uid: String = _sheet["equipement"].get(slot, "")
 		if by_uid.has(uid):
 			button.text = by_uid[uid]["nom"]
+			button.icon = item_icon(by_uid[uid]["objet"])
 			button.add_theme_color_override("font_color", rarity_color(by_uid[uid]["rarete"]))
 		else:
 			button.text = "—"
+			button.icon = null
 			button.add_theme_color_override("font_color", Color(0.5, 0.5, 0.5))
 		button.set_meta("uid", uid)
 	_list.clear()
 	for entry: Dictionary in _sheet["objets"]:
-		var label := "%s%s%s" % [entry["nom"], " ×%d" % entry["quantite"] if int(entry["quantite"]) > 1 else "",
-			"   (porté)" if not str(entry["emplacement"]).is_empty() else ""]
-		var index := _list.add_item(label)
-		_list.set_item_custom_fg_color(index, rarity_color(entry["rarete"]))
-		_list.set_item_metadata(index, entry["uid"])
+		var index := add_bag_item(_list, entry)
 		if entry["uid"] == _selected:
 			_list.select(index)
 	if not by_uid.has(_selected):
@@ -129,6 +158,7 @@ func _show_details(entry: Dictionary) -> void:
 	_equip_button.disabled = true
 	_unequip_button.disabled = true
 	_drop_button.disabled = entry.is_empty()
+	_icon.texture = null if entry.is_empty() else item_icon(entry["objet"])
 	if entry.is_empty():
 		_details.text = "Choisissez un objet."
 		return
@@ -173,8 +203,8 @@ func _build() -> void:
 	_panel = PanelContainer.new()
 	_panel.anchor_left = 0.5
 	_panel.anchor_right = 0.5
-	_panel.offset_left = -400
-	_panel.offset_right = 400
+	_panel.offset_left = -450
+	_panel.offset_right = 450
 	_panel.offset_top = 70
 	_panel.offset_bottom = 560
 	var style := StyleBoxFlat.new()
@@ -216,26 +246,35 @@ func _build() -> void:
 		var name_label := _label(14, Color(0.8, 0.78, 0.7))
 		name_label.text = Item.SLOT_NAMES[slot]
 		var button := Button.new()
-		button.custom_minimum_size = Vector2(160, 30)
+		button.custom_minimum_size = Vector2(170, 40)
 		button.focus_mode = Control.FOCUS_NONE
 		button.clip_text = true
+		button.alignment = HORIZONTAL_ALIGNMENT_LEFT
+		button.add_theme_constant_override("icon_max_width", 32)
 		button.pressed.connect(_on_slot_pressed.bind(slot))
 		slots.add_child(name_label)
 		slots.add_child(button)
 		_slot_buttons[slot] = button
 
 	_list = ItemList.new()
-	_list.custom_minimum_size = Vector2(250, 0)
+	_list.custom_minimum_size = Vector2(340, 0)
 	_list.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	make_bag_grid(_list)
 	_list.item_selected.connect(_on_item_selected)
 	row.add_child(_list)
 
 	var detail_box := VBoxContainer.new()
 	detail_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	row.add_child(detail_box)
+	_icon = TextureRect.new()
+	_icon.custom_minimum_size = Vector2(64, 64)
+	_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	_icon.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	detail_box.add_child(_icon)
 	_details = _label(14, Color(0.92, 0.9, 0.85))
 	_details.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_details.custom_minimum_size = Vector2(240, 0)
+	_details.custom_minimum_size = Vector2(220, 0)
 	_details.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	detail_box.add_child(_details)
 	var buttons := HBoxContainer.new()

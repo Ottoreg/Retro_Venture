@@ -292,7 +292,7 @@ func _set_map(next_map: GameMap, player_cell: Vector2i) -> void:
 		_groups = _map_states[map.id]
 	else:
 		for group in map.groups:
-			_groups[group["id"]] = group.duplicate(true)
+			_groups[group["id"]] = GameMap.compose_group(group, rng)
 	_positions = {PLAYER_ID: player_cell}
 	_last_walk.clear()
 	for group_id: String in _groups:
@@ -726,10 +726,11 @@ func _respawn_groups(events: Array[Dictionary]) -> void:
 			if original.is_empty():
 				continue
 			var states: Dictionary = _groups if here else _map_states.get(map_id, {})
-			states[group_id] = original.duplicate(true)
+			var composed := GameMap.compose_group(original, rng)
+			states[group_id] = composed
 			if here:
 				_positions[group_id] = original["case"]
-				events.append({"type": Protocol.EVT_GROUP_RESPAWNED, "carte": map_id, "groupe": original.duplicate(true)})
+				events.append({"type": Protocol.EVT_GROUP_RESPAWNED, "carte": map_id, "groupe": composed.duplicate(true)})
 
 
 ## Ressource de la carte actuelle sur cette case (voir `GameData.nodes`), ou {}.
@@ -1117,7 +1118,7 @@ static func from_save(save: Dictionary, p_data: GameData, p_map_loader: Callable
 			var groups := {}
 			for group in saved_map.groups:
 				if group["id"] in remaining[map_id]:
-					groups[group["id"]] = group.duplicate(true)
+					groups[group["id"]] = GameMap.compose_group(group, world.rng)
 			world._map_states[map_id] = groups
 		if world._map_states.has(start_map.id):
 			world._groups = world._map_states[start_map.id]

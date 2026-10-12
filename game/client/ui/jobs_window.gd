@@ -86,7 +86,7 @@ func refresh() -> void:
 			var regrowth: Array = node["repousse"]
 			_add_line("Niv. %d — %s : %s ×%d à %d, +%d XP, repousse en %d à %d s" % [node.get("niveau", 1), node["nom"],
 				item.get("nom", node["objet"]), amount[0], amount[1], node.get("xp", 0), regrowth[0], regrowth[1]],
-				level >= int(node.get("niveau", 1)), str(item.get("rarete", "commun")))
+				level >= int(node.get("niveau", 1)), str(item.get("rarete", "commun")), node["objet"])
 	else:
 		_list_title.text = "Recettes (fabriquer à l'atelier)"
 		var recipes: Array = job["recettes"].duplicate()
@@ -98,15 +98,16 @@ func refresh() -> void:
 				var ingredient: Dictionary = world.data.items.get(ingredient_id, {})
 				parts.append("%d %s" % [recipe["ingredients"][ingredient_id], ingredient.get("nom", ingredient_id)])
 			_add_line("Niv. %d — %s : %s, +%d XP" % [recipe.get("niveau", 1), item.get("nom", recipe["objet"]), ", ".join(parts), recipe.get("xp", 0)],
-				level >= int(recipe.get("niveau", 1)), str(item.get("rarete", "commun")))
+				level >= int(recipe.get("niveau", 1)), str(item.get("rarete", "commun")), recipe["objet"])
 
 
 static func _recipe_order(a: Dictionary, b: Dictionary) -> bool:
 	return int(a.get("niveau", 1)) < int(b.get("niveau", 1))
 
 
-func _add_line(text: String, unlocked: bool, rarity: String) -> void:
-	var index := _list.add_item(text if unlocked else "%s   (verrouillé)" % text)
+func _add_line(text: String, unlocked: bool, rarity: String, item_id: String) -> void:
+	var index := _list.add_item(text if unlocked else "%s   (verrouillé)" % text, InventoryWindow.item_icon(item_id))
+	_list.set_item_icon_modulate(index, Color.WHITE if unlocked else Color(1, 1, 1, 0.4))
 	_list.set_item_custom_fg_color(index, InventoryWindow.rarity_color(rarity) if unlocked else LOCKED)
 	_list.set_item_selectable(index, false)
 
@@ -194,6 +195,7 @@ func _build() -> void:
 	column.add_child(_list_title)
 	_list = ItemList.new()
 	_list.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_list.fixed_icon_size = Vector2i(28, 28)
 	column.add_child(_list)
 	var hint := _label(12, Color(0.6, 0.58, 0.52))
 	hint.text = "Touche J : ouvrir / fermer"
