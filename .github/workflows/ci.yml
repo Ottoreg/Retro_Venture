@@ -3,44 +3,91 @@ name: CI
 on:
   push:
   pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  # Garder aligné avec la version de l'éditeur (voir docs/decisions/0001-moteur-godot-4.md).
+  GODOT_VERSION: "4.5.1"
 
 jobs:
   tests:
     name: Tests Godot
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    env:
-      # Garder aligné avec la version de l'éditeur (voir docs/decisions/0001-moteur-godot-4.md).
-      GODOT_VERSION: "4.5.1"
     steps:
       - uses: actions/checkout@v4
 
-      - name: Cache de Godot
-        id: cache-godot
-        uses: actions/cache@v4
+      - uses: ./.github/actions/setup-godot
         with:
-          path: ~/godot
-          key: godot-${{ env.GODOT_VERSION }}-linux
-
-      - name: Installer Godot
-        if: steps.cache-godot.outputs.cache-hit != 'true'
-        run: |
-          mkdir -p ~/godot
-          curl -fsSL -o /tmp/godot.zip \
-            "https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}-stable/Godot_v${GODOT_VERSION}-stable_linux.x86_64.zip"
-          unzip -q /tmp/godot.zip -d ~/godot
-          mv ~/godot/Godot_v${GODOT_VERSION}-stable_linux.x86_64 ~/godot/godot
+          version: ${{ env.GODOT_VERSION }}
 
       - name: Importer le projet
-        run: timeout 300 ~/godot/godot --headless --path game --import
+        run: timeout 300 godot --headless --path game --import
 
       - name: Lancer les tests
         run: |
           set +e
-          ~/godot/godot --headless --path game -s res://tests/run_tests.gd 2>&1 | tee test.log
+          godot --headless --path game -s res://tests/run_tests.gd 2>&1 | tee test.log
           status=${PIPESTATUS[0]}
+          {
+            echo "### Résultats des tests"
+            echo '```'
+            grep -E "^(ok |ÉCHEC|SCRIPT ERROR)|test\(s\) réussi" test.log
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
           if grep -qE "SCRIPT ERROR|Parse Error" test.log; then
             echo "::error::Erreurs de script détectées dans la sortie des tests"
             exit 1
           fi
           exit $status
+
+  web:
+    name: Export web
+    needs: tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ./.github/actions/setup-godot
+        with:
+          version: ${{ env.GODOT_VERSION }}
+          web-templates: "true"
+
+      - name: Importer le projet
+        run: timeout 300 godot --headless --path game --import
+
+      - name: Exporter pour le web
+        run: |
+          mkdir -p build/web
+          godot --headless --path game --export-release "Web" "$GITHUB_WORKSPACE/build/web/index.html"
+          ls -la build/web
+          test -f build/web/index.html && test -f build/web/index.pck && test -f build/web/index.wasm
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: build/web
+
+  deploy:
+    name: Publier sur GitHub Pages
+    needs: web
+    # Publie uniquement depuis la branche par défaut (pas pour les pull requests).
+    if: github.event_name != 'pull_request' && github.ref_name == github.event.repository.default_branch
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    concurrency:
+      group: pages
+      cancel-in-progress: false
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Déployer
+        id: deployment
+        uses: actions/deploy-pages@v4

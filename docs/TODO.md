@@ -23,6 +23,8 @@
 - [ ] Ouvrir le projet dans l'éditeur Godot et commiter les fichiers générés (`*.uid`, `*.import`)
 - [ ] Activer Git LFS pour les assets binaires (`.gitattributes`)
 - [x] Intégration continue (GitHub Actions) : tests Godot
+- [x] Export web automatique publié sur GitHub Pages (jouable dans le navigateur)
+- [ ] Activer GitHub Pages (Settings → Pages → Source : GitHub Actions)
 - [ ] Intégration continue : validation des fichiers de données
 - [ ] Créer les labels et milestones GitHub (phase, domaine : combat, UI, contenu, art, réseau…)
 - [ ] Rédiger `CONTRIBUTING.md` (conventions de nommage, de commits, de branches)

@@ -1,5 +1,9 @@
 # Retro Venture
 
+[![CI](https://github.com/Ottoreg/Retro_Venture/actions/workflows/ci.yml/badge.svg)](https://github.com/Ottoreg/Retro_Venture/actions/workflows/ci.yml)
+
+▶️ **Jouer dans le navigateur : https://ottoreg.github.io/Retro_Venture/** (dernière version de la branche par défaut)
+
 RPG tactique au tour par tour en 2D isométrique, inspiré de *Dofus Rétro* pour le rendu et le gameplay
 et du *Seigneur des Anneaux* pour l'univers. Les aventuriers parcourent le monde à la recherche des
 **Reliques de l'Aube**, des objets légendaires dispersés, seules armes capables de vaincre le
@@ -48,6 +52,13 @@ Retro_Venture/
 ```
 
 ## Démarrer
+
+**Sans rien installer :** chaque push déclenche la CI, qui lance les tests, exporte le jeu pour le
+web et le publie sur GitHub Pages (lien ci-dessus) en quelques minutes. Les résultats des tests sont
+visibles dans l'onglet [Actions](https://github.com/Ottoreg/Retro_Venture/actions) (résumé en bas
+de chaque exécution).
+
+**Avec l'éditeur :**
 
 1. Installer [Godot 4.5](https://godotengine.org/download) (version standard, pas .NET).
 2. Ouvrir `game/project.godot` dans l'éditeur, puis lancer avec **F5**.

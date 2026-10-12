@@ -1,0 +1,60 @@
+name: Installer Godot
+description: Télécharge Godot pour Linux (avec cache) et, en option, les modèles d'export web.
+
+inputs:
+  version:
+    description: Version de Godot, sans suffixe (ex. 4.5.1)
+    required: true
+  web-templates:
+    description: Installer aussi les modèles d'export web
+    default: "false"
+
+runs:
+  using: composite
+  steps:
+    - name: Cache de Godot
+      id: cache-godot
+      uses: actions/cache@v4
+      with:
+        path: ~/godot
+        key: godot-${{ inputs.version }}-linux
+
+    - name: Télécharger Godot
+      if: steps.cache-godot.outputs.cache-hit != 'true'
+      shell: bash
+      env:
+        V: ${{ inputs.version }}
+      run: |
+        mkdir -p ~/godot
+        curl -fsSL -o /tmp/godot.zip \
+          "https://github.com/godotengine/godot/releases/download/${V}-stable/Godot_v${V}-stable_linux.x86_64.zip"
+        unzip -q /tmp/godot.zip -d ~/godot
+        mv ~/godot/Godot_v${V}-stable_linux.x86_64 ~/godot/godot
+        rm /tmp/godot.zip
+
+    - name: Cache des modèles d'export web
+      id: cache-templates
+      if: inputs.web-templates == 'true'
+      uses: actions/cache@v4
+      with:
+        path: ~/.local/share/godot/export_templates/${{ inputs.version }}.stable
+        key: godot-templates-web-${{ inputs.version }}
+
+    - name: Télécharger les modèles d'export web
+      if: inputs.web-templates == 'true' && steps.cache-templates.outputs.cache-hit != 'true'
+      shell: bash
+      env:
+        V: ${{ inputs.version }}
+      run: |
+        dir=~/.local/share/godot/export_templates/${V}.stable
+        mkdir -p "$dir"
+        curl -fsSL -o /tmp/templates.tpz \
+          "https://github.com/godotengine/godot/releases/download/${V}-stable/Godot_v${V}-stable_export_templates.tpz"
+        # On ne garde que les modèles web sans threads (compatibles GitHub Pages).
+        unzip -j -q /tmp/templates.tpz "templates/web_nothreads_*.zip" "templates/version.txt" -d "$dir"
+        rm /tmp/templates.tpz
+        ls -la "$dir"
+
+    - name: Ajouter Godot au PATH
+      shell: bash
+      run: echo "$HOME/godot" >> "$GITHUB_PATH"
