@@ -40,6 +40,8 @@ var _loaded_maps: Dictionary = {}
 ## Groupes restants des cartes déjà visitées : id de carte → groupes.
 var _map_states: Dictionary = {}
 var _combat_group := ""
+## Cases du dernier trajet du joueur (départ compris), pour pouvoir l'interrompre en chemin.
+var _last_walk: Array[Vector2i] = []
 var _combat_count := 0
 var _approach_from := Vector2i.ZERO
 
@@ -128,17 +130,22 @@ func _move(command: Dictionary) -> Array[Dictionary]:
 		next_map = _load_map(map.exits[exit])
 		if next_map == null:
 			return _refused(command, Protocol.REASON_UNKNOWN_MAP)
-	var from: Vector2i = _positions[PLAYER_ID]
+	var start: Variant = _start_cell(command)
+	if start == null:
+		return _refused(command, Protocol.REASON_INVALID_COMMAND)
+	var from: Vector2i = start
+	var interrupted := command.has("interrompre_a")
 	var path := map.find_path(from, target)
-	if from == target and next_map == null:
+	if from == target and next_map == null and not interrupted:
 		return _refused(command, Protocol.REASON_ALREADY_THERE)
 	if path.is_empty() and from != target:
 		return _refused(command, Protocol.REASON_NO_PATH)
 
 	var events: Array[Dictionary] = []
-	if not path.is_empty():
+	if not path.is_empty() or interrupted:
 		events.append(_moved_event(from, path))
 	_positions[PLAYER_ID] = target
+	_remember_walk(from, path)
 	if next_map != null:
 		_set_map(next_map, next_map.arrival_cell(exit, target))
 		events.append({
@@ -160,7 +167,10 @@ func _talk(command: Dictionary) -> Array[Dictionary]:
 	if npc.is_empty():
 		return _refused(command, Protocol.REASON_UNKNOWN_ENTITY)
 	var npc_cell: Vector2i = npc["case"]
-	var from: Vector2i = _positions[PLAYER_ID]
+	var start: Variant = _start_cell(command)
+	if start == null:
+		return _refused(command, Protocol.REASON_INVALID_COMMAND)
+	var from: Vector2i = start
 	var events: Array[Dictionary] = []
 	if maxi(absi(from.x - npc_cell.x), absi(from.y - npc_cell.y)) > 1:
 		var best: Array[Vector2i] = []
@@ -173,6 +183,12 @@ func _talk(command: Dictionary) -> Array[Dictionary]:
 			return _refused(command, Protocol.REASON_NO_PATH)
 		events.append(_moved_event(from, best))
 		_positions[PLAYER_ID] = best[-1]
+		_remember_walk(from, best)
+	elif from != _positions[PLAYER_ID]:
+		# Arrêté en chemin juste à côté du PNJ.
+		events.append(_moved_event(from, [] as Array[Vector2i]))
+		_positions[PLAYER_ID] = from
+		_remember_walk(from, [] as Array[Vector2i])
 	events.append({
 		"type": Protocol.EVT_DIALOGUE,
 		"pnj": npc["id"],
@@ -181,6 +197,22 @@ func _talk(command: Dictionary) -> Array[Dictionary]:
 		"repliques": npc["repliques"].duplicate(),
 	})
 	return events
+
+
+## Case de départ d'une commande d'exploration : la position du joueur, ou la case du trajet en
+## cours où il s'arrête (`interrompre_a`). `null` si cette case n'est pas sur le trajet.
+func _start_cell(command: Dictionary) -> Variant:
+	if not command.has("interrompre_a"):
+		return _positions[PLAYER_ID]
+	var stop: Variant = command["interrompre_a"]
+	if typeof(stop) != TYPE_VECTOR2I or (stop not in _last_walk and stop != _positions[PLAYER_ID]):
+		return null
+	return stop
+
+
+func _remember_walk(from: Vector2i, path: Array[Vector2i]) -> void:
+	_last_walk = [from]
+	_last_walk.append_array(path)
 
 
 ## Change de carte : mémorise les groupes restants de l'ancienne, retrouve ceux de la nouvelle.
@@ -196,6 +228,7 @@ func _set_map(next_map: GameMap, player_cell: Vector2i) -> void:
 		for group in map.groups:
 			_groups[group["id"]] = group.duplicate(true)
 	_positions = {PLAYER_ID: player_cell}
+	_last_walk.clear()
 	for group_id: String in _groups:
 		_positions[group_id] = _groups[group_id]["case"]
 
@@ -222,16 +255,20 @@ func _engage(command: Dictionary) -> Array[Dictionary]:
 	if data == null or not data.voies.has(player_voie):
 		return _refused(command, Protocol.REASON_WRONG_PHASE)
 	var group: Dictionary = _groups[group_id]
-	var from: Vector2i = _positions[PLAYER_ID]
+	var start: Variant = _start_cell(command)
+	if start == null:
+		return _refused(command, Protocol.REASON_INVALID_COMMAND)
+	var from: Vector2i = start
 	var target: Vector2i = group["case"]
 	var path := map.find_path(from, target)
 	if path.is_empty() and from != target:
 		return _refused(command, Protocol.REASON_NO_PATH)
 
 	var events: Array[Dictionary] = []
-	if not path.is_empty():
+	if not path.is_empty() or command.has("interrompre_a"):
 		events.append(_moved_event(from, path))
 	_positions[PLAYER_ID] = target
+	_last_walk.clear()
 	combat = _create_combat(group, from)
 	_combat_group = group_id
 	var start_events := combat.start()

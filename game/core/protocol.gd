@@ -11,6 +11,8 @@ extends RefCounted
 ## Exploration et combat : { type, entite: String, cible: Vector2i }
 ## En exploration, `sortie` (optionnel, « haut », « bas », « gauche » ou « droite ») : passer sur la
 ## carte voisine une fois arrivé sur la case du bord.
+## En exploration aussi (et pour « parler » et « engager ») : `interrompre_a` (optionnel, Vector2i),
+## case du trajet en cours où le joueur s'arrête pour repartir vers la nouvelle cible.
 const CMD_MOVE := "deplacer"
 ## Exploration : aller parler à un PNJ. { type, entite: String, pnj: String }
 const CMD_TALK := "parler"

@@ -82,3 +82,35 @@ func test_pnj_et_changement_de_carte() -> void:
 	assert_eq(view.current_map().id, map.exits["droite"], "la vue affiche la nouvelle carte")
 	assert_true(view.current_map().is_walkable(view.world.position_of(World.PLAYER_ID)))
 	scene.free()
+
+
+func test_nouveau_clic_pendant_la_marche() -> void:
+	var tree := Engine.get_main_loop() as SceneTree
+	var scene: Node = load("res://client/world/world.tscn").instantiate()
+	tree.root.add_child(scene)
+	var view: MapView = scene.get_node("MapView")
+	var map := view.current_map()
+	var start := view.world.position_of(World.PLAYER_ID)
+
+	# Case la plus lointaine du départ, sans PNJ ni sortie.
+	var far := start
+	var longest := 0
+	for cell: Vector2i in map.cells():
+		if not map.is_walkable(cell) or not map.exit_directions(cell).is_empty():
+			continue
+		var length := map.find_path(start, cell).size()
+		if length > longest:
+			longest = length
+			far = cell
+	assert_true(longest >= 4, "trajet assez long pour être interrompu")
+
+	view._on_click(far)
+	view._process(0.1)
+	assert_true(view.is_busy(), "le joueur est en train de marcher")
+	view._on_click(start)
+	assert_eq(view._pending_click, MapView.NO_CELL, "le clic n'attend pas la fin de la marche")
+	_run_until_idle(view)
+	assert_eq(view.world.position_of(World.PLAYER_ID), start, "nouvelle destination prise en compte")
+	var shown: Vector2 = view.actor(World.PLAYER_ID)["pos"]
+	assert_eq(Vector2i(shown.round()), start, "l'affichage suit le noyau")
+	scene.free()

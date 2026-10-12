@@ -190,20 +190,12 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _on_click(cell: Vector2i) -> void:
 	if mode == Mode.EXPLORATION:
-		if _playing:
-			_pending_click = cell
-			return
-		var npc := _map.npc_at(cell)
-		var group := world.group_at(cell)
-		var exit := _exit_at(cell)
-		if not npc.is_empty():
-			_send({"type": Protocol.CMD_TALK, "entite": World.PLAYER_ID, "pnj": npc["id"]})
-		elif not group.is_empty():
-			_send({"type": Protocol.CMD_ENGAGE, "entite": World.PLAYER_ID, "groupe": group["id"]})
-		elif not exit.is_empty():
-			_send({"type": Protocol.CMD_MOVE, "entite": World.PLAYER_ID, "cible": exit["case"], "sortie": exit["direction"]})
+		if not _playing:
+			_send(_exploration_command(cell))
+		elif _can_interrupt_walk():
+			_interrupt_walk(cell)
 		else:
-			_send({"type": Protocol.CMD_MOVE, "entite": World.PLAYER_ID, "cible": cell})
+			_pending_click = cell
 		return
 	if _playing or not _map.is_inside(cell):
 		return
@@ -216,6 +208,50 @@ func _on_click(cell: Vector2i) -> void:
 			_send({"type": Protocol.CMD_CAST, "entite": World.PLAYER_ID, "sort": spell_id, "cible": cell})
 		elif _reachable.has(cell):
 			_send({"type": Protocol.CMD_MOVE, "entite": World.PLAYER_ID, "cible": cell})
+
+
+## Commande d'exploration correspondant à un clic sur `cell` : parler, attaquer, changer de carte
+## ou se déplacer.
+func _exploration_command(cell: Vector2i) -> Dictionary:
+	var npc := _map.npc_at(cell)
+	var group := world.group_at(cell)
+	var exit := _exit_at(cell)
+	if not npc.is_empty():
+		return {"type": Protocol.CMD_TALK, "entite": World.PLAYER_ID, "pnj": npc["id"]}
+	if not group.is_empty():
+		return {"type": Protocol.CMD_ENGAGE, "entite": World.PLAYER_ID, "groupe": group["id"]}
+	if not exit.is_empty():
+		return {"type": Protocol.CMD_MOVE, "entite": World.PLAYER_ID, "cible": exit["case"], "sortie": exit["direction"]}
+	return {"type": Protocol.CMD_MOVE, "entite": World.PLAYER_ID, "cible": cell}
+
+
+## Vrai si le joueur est en train de marcher en exploration et que rien d'autre n'attend derrière
+## sa marche (sinon un dialogue tout au plus) : il peut alors changer de destination en chemin.
+func _can_interrupt_walk() -> bool:
+	if mode != Mode.EXPLORATION or _walk_actor != World.PLAYER_ID or _walk_path.is_empty():
+		return false
+	if world.in_combat() or world.map != _map:
+		return false
+	for event in _queue:
+		if event["type"] != Protocol.EVT_DIALOGUE:
+			return false
+	return true
+
+
+## Nouveau clic pendant une marche : le joueur finit le pas en cours, puis part vers la nouvelle
+## cible ; le reste de l'ancien trajet (et le dialogue qui l'attendait) est abandonné.
+func _interrupt_walk(cell: Vector2i) -> void:
+	var stop_cell := _walk_path[0]
+	var command := _exploration_command(cell)
+	command["interrompre_a"] = stop_cell
+	var events := world.execute(command)
+	if not events.is_empty() and events[0]["type"] == Protocol.EVT_REFUSED:
+		return  # Destination impossible : on garde l'ancienne.
+	_walk_path.clear()
+	_walk_path.append(stop_cell)
+	_queue = events
+	_pending_click = NO_CELL
+	_preview.clear()
 
 
 ## Sortie de carte visée par un clic sur `cell` : { direction, case } ou {}. Un clic sur une case
