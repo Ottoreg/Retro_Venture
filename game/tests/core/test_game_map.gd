@@ -12,8 +12,8 @@ func before_each() -> void:
 			"@....",
 			" ....",
 			"MMMM.",
-			" ..R.",
-			".....",
+			" ....",
+			"R....",
 		],
 	}
 
@@ -34,7 +34,7 @@ func test_carte_valide() -> void:
 	# 3 lignes de 5 cases + 2 lignes décalées de 4 cases.
 	assert_eq(map.cells().size(), 23)
 	assert_eq(map.obstacles.size(), 5)
-	assert_eq(map.obstacles[GameMap.plan_cell(3, 3)], "rocher")
+	assert_eq(map.obstacles[GameMap.plan_cell(4, 0)], "rocher")
 
 
 func test_cases_du_plan_a_l_ecran() -> void:
@@ -88,7 +88,7 @@ func test_cases_praticables() -> void:
 
 func test_chemin_de_combat_par_le_passage() -> void:
 	var map := _map()
-	var target := GameMap.plan_cell(4, 0)
+	var target := GameMap.plan_cell(4, 1)
 	var path := map.find_path(map.spawn, target, true)
 	assert_true(path.size() > 0, "chemin trouvé")
 	assert_eq(path[-1], target)
@@ -102,8 +102,8 @@ func test_chemin_de_combat_par_le_passage() -> void:
 
 func test_exploration_plus_courte_qu_en_combat() -> void:
 	var map := _map()
-	var from := GameMap.plan_cell(4, 0)
-	var to := GameMap.plan_cell(4, 1)
+	var from := GameMap.plan_cell(4, 1)
+	var to := GameMap.plan_cell(4, 2)
 	# Case voisine sur la même ligne : un pas « horizontal » en exploration, deux en combat.
 	assert_eq(map.find_path(from, to).size(), 1)
 	assert_eq(map.find_path(from, to, true).size(), 2)
@@ -125,4 +125,4 @@ func test_chemin_impossible() -> void:
 	assert_eq(map.find_path(map.spawn, map.border_cells()[0]).size(), 0, "demi-case du bord")
 	_data["plan"][2] = "MMMMM"
 	var closed := _map()
-	assert_eq(closed.find_path(closed.spawn, GameMap.plan_cell(4, 0)).size(), 0, "mur fermé")
+	assert_eq(closed.find_path(closed.spawn, GameMap.plan_cell(4, 1)).size(), 0, "mur fermé")
