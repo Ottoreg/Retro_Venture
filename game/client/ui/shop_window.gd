@@ -19,6 +19,8 @@ var _backdrop: ColorRect
 var _panel: PanelContainer
 var _title: Label
 var _coins: Label
+## Ctrl enfoncé : jets possibles des objets à vendre plutôt que les leurs.
+var _show_ranges := false
 var _greeting: Label
 var _buy_tab: Button
 var _sell_tab: Button
@@ -134,8 +136,7 @@ func _show_details(entry: Dictionary) -> void:
 	if _mode == BUY:
 		lines.append_array(InventoryWindow.bonus_range_lines(entry["bonus"]))
 	else:
-		for stat: String in entry["jets"]:
-			lines.append("+%d %s" % [entry["jets"][stat], Item.stat_name(stat)])
+		lines.append_array(InventoryWindow.roll_lines(entry, map_view.world.data.items.get(entry["objet"], {}), _show_ranges))
 	for stat: String in entry["conditions"]:
 		lines.append("Condition : %s ≥ %d" % [Item.stat_name(stat), entry["conditions"][stat]])
 	lines.append_array(InventoryWindow.attack_lines(map_view.world.data.items.get(entry["objet"], {})))
@@ -231,6 +232,12 @@ func _set_visible(shown: bool) -> void:
 	_backdrop.visible = shown
 
 
+func _input(event: InputEvent) -> void:
+	if InventoryWindow.is_ctrl_event(event) and is_open() and event.is_pressed() != _show_ranges:
+		_show_ranges = event.is_pressed()
+		refresh()
+
+
 # --- Construction des contrôles ----------------------------------------------------------------
 
 func _build() -> void:
@@ -324,7 +331,7 @@ func _build() -> void:
 	detail_box.add_child(_message)
 
 	var hint := _label(12, Color(0.6, 0.58, 0.52))
-	hint.text = "Revente : %d %% du prix d'achat · Les objets portés ne se vendent pas · Échap : fermer" % roundi(Item.RESALE_RATE * 100.0)
+	hint.text = "Revente : %d %% du prix d'achat · Les objets portés ne se vendent pas · Ctrl : jets possibles · Échap : fermer" % roundi(Item.RESALE_RATE * 100.0)
 	column.add_child(hint)
 
 

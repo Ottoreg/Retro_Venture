@@ -89,6 +89,23 @@ func test_fenetre_d_inventaire() -> void:
 	window._on_equip_pressed()
 	assert_eq(inventory.equipped.get("arme"), sword, "épée remise")
 
+	# Détail de l'épée : ses jets, et les jets possibles tant qu'on tient Ctrl.
+	window._selected = sword
+	window.refresh()
+	var rolled: int = inventory.entries[sword]["jets"]["force"]
+	assert_true(window._details.text.contains("+%d Force" % rolled), window._details.text)
+	assert_false(window._details.text.contains("Jets possibles"))
+	var ctrl := InputEventKey.new()
+	ctrl.keycode = KEY_CTRL
+	ctrl.pressed = true
+	window._input(ctrl)
+	var span: Array = view.world.data.items["epee_de_fer"]["bonus"]["force"]
+	assert_true(window._details.text.contains("Jets possibles"), window._details.text)
+	assert_true(window._details.text.contains("+%d à %d Force" % [span[0], span[1]]), window._details.text)
+	ctrl.pressed = false
+	window._input(ctrl)
+	assert_false(window._details.text.contains("Jets possibles"), "Ctrl relâché : retour aux jets de l'objet")
+
 	# Un objet ramassé apparaît dans la liste.
 	inventory.add(view.world.data.items["croc_de_loup"], 3)
 	window.refresh()

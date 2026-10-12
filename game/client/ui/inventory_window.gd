@@ -26,6 +26,8 @@ var _drop_button: Button
 var _coins: Label
 var _overload: Label
 var _sheet: Dictionary = {}
+## Ctrl enfoncé : on montre les jets possibles plutôt que ceux de l'objet.
+var _show_ranges := false
 var _selected := ""
 
 
@@ -70,6 +72,28 @@ static func bonus_range_lines(bonus: Dictionary) -> PackedStringArray:
 		var span: Array = bonus[stat]
 		lines.append("+%d à %d %s" % [span[0], span[1], Item.stat_name(stat)] if int(span[0]) != int(span[1]) else "+%d %s" % [span[0], Item.stat_name(stat)])
 	return lines
+
+
+## Bonus d'un objet : ses jets (« +3 Force »), ou les jets possibles de son modèle quand on tient
+## Ctrl (`show_ranges`). Les objets sans bonus n'affichent rien.
+static func roll_lines(entry: Dictionary, template: Dictionary, show_ranges: bool) -> PackedStringArray:
+	var bonus: Dictionary = template.get("bonus", {})
+	var lines: PackedStringArray = []
+	if show_ranges and not bonus.is_empty():
+		lines.append("Jets possibles :")
+		for line in bonus_range_lines(bonus):
+			lines.append("  " + line)
+		return lines
+	var rolls: Dictionary = entry.get("jets", {})
+	for stat: String in rolls:
+		lines.append("+%d %s" % [rolls[stat], Item.stat_name(stat)])
+	return lines
+
+
+## Vrai si la touche Ctrl vient d'être enfoncée ou relâchée (pour afficher les jets possibles).
+static func is_ctrl_event(event: InputEvent) -> bool:
+	var key := event as InputEventKey
+	return key != null and not key.echo and key.keycode == KEY_CTRL
 
 
 ## Description de l'attaque d'une arme (vide pour les autres objets).
@@ -139,6 +163,18 @@ func refresh() -> void:
 	_show_details(by_uid.get(_selected, {}))
 
 
+func _input(event: InputEvent) -> void:
+	if is_ctrl_event(event) and _panel.visible:
+		set_show_ranges(event.is_pressed())
+
+
+## Jets possibles (Ctrl enfoncé) ou jets de l'objet.
+func set_show_ranges(shown: bool) -> void:
+	if shown != _show_ranges:
+		_show_ranges = shown
+		refresh()
+
+
 func _unhandled_key_input(event: InputEvent) -> void:
 	var key := event as InputEventKey
 	if key != null and key.pressed and not key.echo and key.keycode == KEY_I:
@@ -170,11 +206,11 @@ func _show_details(entry: Dictionary) -> void:
 		"%s — %s" % [entry["nom"], Item.RARITY_NAMES.get(entry["rarete"], "")],
 		"%s, niveau %d" % [TYPE_NAMES.get(entry["type"], entry["type"]), entry["niveau"]],
 	]
-	for stat: String in entry["jets"]:
-		lines.append("+%d %s" % [entry["jets"][stat], Item.stat_name(stat)])
+	var template: Dictionary = map_view.world.data.items.get(entry["objet"], {})
+	lines.append_array(roll_lines(entry, template, _show_ranges))
 	for stat: String in entry["conditions"]:
 		lines.append("Condition : %s ≥ %d" % [Item.stat_name(stat), entry["conditions"][stat]])
-	lines.append_array(attack_lines(map_view.world.data.items.get(entry["objet"], {})))
+	lines.append_array(attack_lines(template))
 	if not str(entry["description"]).is_empty():
 		lines.append("")
 		lines.append(entry["description"])
@@ -294,7 +330,7 @@ func _build() -> void:
 	_overload.visible = false
 	column.add_child(_overload)
 	var hint := _label(12, Color(0.6, 0.58, 0.52))
-	hint.text = "Touche I : ouvrir / fermer"
+	hint.text = "Touche I : ouvrir / fermer · Ctrl : jets possibles"
 	column.add_child(hint)
 
 

@@ -41,7 +41,7 @@ est ici.
 | Touche | Fenêtre |
 | --- | --- |
 | **C** | Personnage : caractéristiques, PA, PM, initiative, prospection, points à répartir après un niveau |
-| **I** | Inventaire : équipement porté, sac, équiper / retirer / jeter |
+| **I** | Inventaire : équipement porté, sac, équiper / retirer / jeter (tenir **Ctrl** : jets possibles de l'objet choisi) |
 | **S** | Sorts : un onglet pour la Voie, la race et l'arme ; fiche de chaque sort |
 | **J** | Métiers : un onglet par métier, niveau, ressources et recettes |
 | **Échap** | Ferme la fenêtre ouverte ; sinon, retour au menu (avec sauvegarde) |
