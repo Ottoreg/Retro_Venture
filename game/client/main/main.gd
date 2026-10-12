@@ -6,7 +6,7 @@ const WORLD_SCENE := "res://client/world/world.tscn"
 
 func _ready() -> void:
 	var version: String = ProjectSettings.get_setting("application/config/version", "?")
-	%Version.text = "Version %s — Phase 1 (prototype)" % version
+	%Version.text = "Version %s — Phase 1 (prototype de combat)" % version
 	%Play.pressed.connect(_on_play_pressed)
 	%Play.grab_focus()
 
