@@ -1,0 +1,44 @@
+# Godot 4
+.godot/
+.import/
+export_presets.cfg
+*.translation
+
+# Builds et exports
+build/
+builds/
+export/
+dist/
+*.exe
+*.pck
+*.x86_64
+*.app
+*.apk
+
+# .NET / C# (si Godot C#)
+.mono/
+bin/
+obj/
+*.csproj.user
+
+# Node / TypeScript (si serveur Node)
+node_modules/
+npm-debug.log*
+
+# Environnement et secrets
+.env
+.env.*
+!.env.example
+
+# Éditeurs et OS
+.vscode/
+.idea/
+*.swp
+*~
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Fichiers de travail d'art non exportés trop lourds (à ajuster)
+*.blend1
+*.kra~
