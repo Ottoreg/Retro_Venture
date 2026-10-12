@@ -77,6 +77,20 @@ répliques une par une, dans une bulle.
 ]
 ```
 
+Avec `"marchand": true`, le PNJ ouvre une **boutique** au lieu de la bulle (sa première réplique sert
+de salut). Il vend tous les objets de `objets/` et rachète tout objet non porté. Les prix dépendent de
+la rareté (`Item.EQUIPMENT_PRICES` et `Item.RESOURCE_PRICES` dans `core/items/item.gd`) ; la
+revente rapporte un quart du prix d'achat (`Item.RESALE_RATE`), au moins 1 écu.
+
+| Rareté | Équipement | Ressource |
+|---|---|---|
+| Commun | 40 | 4 |
+| Peu commun | 120 | 12 |
+| Rare | 350 | 35 |
+| Épique | 900 | 90 |
+| Légendaire | 2 500 | 250 |
+| Relique | 6 000 | 600 |
+
 ### Sorties
 
 `sorties` relie les bords de la carte aux cartes voisines (`haut`, `bas`, `gauche`, `droite`).

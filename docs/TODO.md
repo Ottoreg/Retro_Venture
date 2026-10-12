@@ -131,7 +131,7 @@ Objectif : **10 à 15 h de jeu solo, niveaux 1 à 30 : 3 zones de départ (une p
 - [ ] Plus d'objets (16 aujourd'hui) pour couvrir les niveaux 1 à 30
 - [ ] 3 ou 4 panoplies avec bonus d'ensemble
 - [ ] Équipement visible sur le personnage (coiffe, cape, arme)
-- [ ] Marchands PNJ (achat / vente)
+- [x] Marchands PNJ (achat / vente) : Barlimon Beurrefondu à Brumerive vend tous les objets, prix selon la rareté, revente à 25 %
 - [ ] Banque / coffre personnel
 
 ### Métiers

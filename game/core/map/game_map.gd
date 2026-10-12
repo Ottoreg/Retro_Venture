@@ -100,6 +100,8 @@ static func validate(data: Dictionary) -> PackedStringArray:
 				npc_markers[marker] = 0
 			if typeof(npc.get("id")) != TYPE_STRING or str(npc.get("id")).is_empty() or typeof(npc.get("nom")) != TYPE_STRING:
 				errors.append("PNJ %s : « id » et « nom » doivent être des textes" % str(marker))
+			if typeof(npc.get("marchand", false)) != TYPE_BOOL:
+				errors.append("PNJ %s : « marchand » doit valoir true ou false" % str(marker))
 			var lines: Variant = npc.get("repliques")
 			if typeof(lines) != TYPE_ARRAY or lines.is_empty():
 				errors.append("PNJ %s : « repliques » doit être une liste de textes non vide" % str(marker))
@@ -185,7 +187,8 @@ static func from_dict(data: Dictionary) -> GameMap:
 				})
 			elif _is_npc_char(character):
 				var npc: Dictionary = npcs_by_marker[character]
-				map.npcs.append({"id": npc["id"], "nom": npc["nom"], "case": cell, "repliques": npc["repliques"].duplicate()})
+				map.npcs.append({"id": npc["id"], "nom": npc["nom"], "case": cell, "repliques": npc["repliques"].duplicate(),
+					"marchand": npc.get("marchand", false)})
 			elif LEGEND[character] != "":
 				map.obstacles[cell] = LEGEND[character]
 	for row in map.rows + 1:

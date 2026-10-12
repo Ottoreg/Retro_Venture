@@ -15,6 +15,10 @@ signal exploration_resumed
 signal map_changed
 signal character_changed
 signal level_up(level: int)
+## Le joueur parle à un marchand : événement EVT_SHOP.
+signal shop_opened(event: Dictionary)
+## Résultat d'un achat ou d'une vente : EVT_TRADE, ou EVT_REFUSED.
+signal trade_result(event: Dictionary)
 signal inventory_changed
 
 enum Mode { EXPLORATION, COMBAT }
@@ -272,7 +276,7 @@ func _can_interrupt_walk() -> bool:
 	if world.in_combat() or world.map != _map:
 		return false
 	for event in _queue:
-		if event["type"] != Protocol.EVT_DIALOGUE:
+		if event["type"] != Protocol.EVT_DIALOGUE and event["type"] != Protocol.EVT_SHOP:
 			return false
 	return true
 
@@ -333,7 +337,7 @@ func _describe(cell: Vector2i) -> String:
 			return "Vers : %s" % world.neighbor_name(exit["direction"])
 		var npc := _map.npc_at(cell)
 		if not npc.is_empty():
-			return "%s (cliquer pour parler)" % npc["nom"]
+			return "%s (cliquer pour %s)" % [npc["nom"], "commercer" if npc.get("marchand", false) else "parler"]
 	if not _map.is_inside(cell):
 		return ""
 	for actor_id: String in _actors:
@@ -439,6 +443,12 @@ func _apply(event: Dictionary) -> float:
 	if type == Protocol.EVT_DIALOGUE:
 		_open_dialogue(event)
 		return 0.0
+	if type == Protocol.EVT_SHOP:
+		shop_opened.emit(event)
+		return 0.0
+	if type == Protocol.EVT_TRADE:
+		trade_result.emit(event)
+		return 0.0
 	if type == Protocol.EVT_MAP_CHANGED:
 		_load_map(world.map)
 		_load_exploration_actors()
@@ -470,6 +480,8 @@ func _apply(event: Dictionary) -> float:
 		inventory_changed.emit()
 		return 0.0
 	if type == Protocol.EVT_REFUSED:
+		if event["commande"] == Protocol.CMD_BUY or event["commande"] == Protocol.CMD_SELL:
+			trade_result.emit(event)
 		if mode == Mode.COMBAT and _refusals.has(event["raison"]):
 			combat_message.emit(_refusals[event["raison"]])
 		return 0.0

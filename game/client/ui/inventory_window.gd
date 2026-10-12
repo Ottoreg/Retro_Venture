@@ -31,6 +31,17 @@ static func rarity_color(rarity: String) -> Color:
 	return RARITY_COLORS.get(rarity, RARITY_COLORS["commun"])
 
 
+## Description de l'attaque d'une arme (vide pour les autres objets).
+static func attack_lines(template: Dictionary) -> PackedStringArray:
+	var lines: PackedStringArray = []
+	if template.has("attaque"):
+		var attack := Spell.from_dict(Item.weapon_spell_data(template))
+		for effect in attack.effects:
+			if effect["type"] == Spell.EFFECT_DAMAGE:
+				lines.append("Attaque : %d à %d (%s), %d PA, portée %d-%d" % [effect["min"], effect["max"], effect["element"], attack.pa_cost, attack.range_min, attack.range_max])
+	return lines
+
+
 func _ready() -> void:
 	_build()
 	_panel.visible = false
@@ -120,12 +131,7 @@ func _show_details(entry: Dictionary) -> void:
 		lines.append("+%d %s" % [entry["jets"][stat], Item.stat_name(stat)])
 	for stat: String in entry["conditions"]:
 		lines.append("Condition : %s ≥ %d" % [Item.stat_name(stat), entry["conditions"][stat]])
-	var template: Dictionary = map_view.world.data.items.get(entry["objet"], {})
-	if template.has("attaque"):
-		var attack := Spell.from_dict(Item.weapon_spell_data(template))
-		for effect in attack.effects:
-			if effect["type"] == Spell.EFFECT_DAMAGE:
-				lines.append("Attaque : %d à %d (%s), %d PA, portée %d-%d" % [effect["min"], effect["max"], effect["element"], attack.pa_cost, attack.range_min, attack.range_max])
+	lines.append_array(attack_lines(map_view.world.data.items.get(entry["objet"], {})))
 	if not str(entry["description"]).is_empty():
 		lines.append("")
 		lines.append(entry["description"])

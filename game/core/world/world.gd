@@ -11,6 +11,8 @@ const DEFAULT_NAME := "Aventurier"
 const PLACEMENT_DISTANCE_MIN := 4
 const PLACEMENT_DISTANCE_MAX := 6
 const PLACEMENT_CELL_COUNT := 6
+## Quantité maximale d'un même objet par achat ou vente.
+const MAX_TRADE_QUANTITY := 100
 
 var map: GameMap
 var data: GameData
@@ -42,6 +44,8 @@ var _map_states: Dictionary = {}
 var _combat_group := ""
 ## Cases du dernier trajet du joueur (départ compris), pour pouvoir l'interrompre en chemin.
 var _last_walk: Array[Vector2i] = []
+## Tirage des jets des équipements achetés chez les marchands.
+var rng := RandomNumberGenerator.new()
 var _combat_count := 0
 var _approach_from := Vector2i.ZERO
 
@@ -50,6 +54,7 @@ func _init(p_map: GameMap, p_data: GameData = null, p_map_loader: Callable = Cal
 	character = p_character if p_character != null else Character.create(DEFAULT_NAME, "humain", DEFAULT_VOIE)
 	data = p_data
 	_map_loader = p_map_loader
+	rng.randomize()
 	_set_map(p_map, p_map.spawn)
 
 
@@ -108,6 +113,10 @@ func execute(command: Dictionary) -> Array[Dictionary]:
 			return _unequip(command)
 		if type == Protocol.CMD_DROP:
 			return _drop(command)
+		if type == Protocol.CMD_BUY:
+			return _buy(command)
+		if type == Protocol.CMD_SELL:
+			return _sell(command)
 	return _refused(command, Protocol.REASON_UNKNOWN_COMMAND)
 
 
@@ -189,6 +198,17 @@ func _talk(command: Dictionary) -> Array[Dictionary]:
 		events.append(_moved_event(from, [] as Array[Vector2i]))
 		_positions[PLAYER_ID] = from
 		_remember_walk(from, [] as Array[Vector2i])
+	if npc.get("marchand", false) and data != null:
+		events.append({
+			"type": Protocol.EVT_SHOP,
+			"pnj": npc["id"],
+			"nom": npc["nom"],
+			"case": npc_cell,
+			"repliques": npc["repliques"].duplicate(),
+			"articles": _shop_articles(),
+			"taux_revente": Item.RESALE_RATE,
+		})
+		return events
 	events.append({
 		"type": Protocol.EVT_DIALOGUE,
 		"pnj": npc["id"],
@@ -469,6 +489,132 @@ func _drop(command: Dictionary) -> Array[Dictionary]:
 	if not character.inventory.remove(uid, quantity):
 		return _refused(command, Protocol.REASON_UNKNOWN_ITEM)
 	return _inventory_events()
+
+
+# --- Marchands ----------------------------------------------------------------------------------
+
+## Tous les objets du jeu, avec leur prix d'achat.
+func _shop_articles() -> Array:
+	var articles: Array = []
+	for template: Dictionary in data.items.values():
+		articles.append({
+			"objet": template["id"],
+			"nom": template["nom"],
+			"type": template["type"],
+			"rarete": template["rarete"],
+			"niveau": int(template.get("niveau", 1)),
+			"description": template.get("description", ""),
+			"bonus": template.get("bonus", {}).duplicate(true),
+			"conditions": template.get("conditions", {}).duplicate(),
+			"prix": Item.buy_price(template),
+		})
+	articles.sort_custom(_article_order)
+	return articles
+
+
+## Tri de la boutique : équipements puis ressources, par rareté, niveau et nom.
+static func _article_order(a: Dictionary, b: Dictionary) -> bool:
+	var resource_a: bool = a["type"] == Item.TYPE_RESOURCE
+	var resource_b: bool = b["type"] == Item.TYPE_RESOURCE
+	if resource_a != resource_b:
+		return resource_b
+	var rarity_a := Item.RARITIES.find(a["rarete"])
+	var rarity_b := Item.RARITIES.find(b["rarete"])
+	if rarity_a != rarity_b:
+		return rarity_a < rarity_b
+	if a["niveau"] != b["niveau"]:
+		return int(a["niveau"]) < int(b["niveau"])
+	return str(a["nom"]) < str(b["nom"])
+
+
+## Raison de refuser un achat ou une vente auprès du PNJ `pnj` de la commande ("" si tout va bien) :
+## ce doit être un marchand de la carte, et le joueur doit se tenir à côté de lui.
+func _merchant_refusal(command: Dictionary) -> String:
+	var npc_id: Variant = command.get("pnj")
+	if typeof(npc_id) != TYPE_STRING:
+		return Protocol.REASON_INVALID_COMMAND
+	if data == null:
+		return Protocol.REASON_WRONG_PHASE
+	var npc := map.get_npc(npc_id)
+	if npc.is_empty() or not npc.get("marchand", false):
+		return Protocol.REASON_UNKNOWN_ENTITY
+	var npc_cell: Vector2i = npc["case"]
+	var player: Vector2i = _positions[PLAYER_ID]
+	if maxi(absi(player.x - npc_cell.x), absi(player.y - npc_cell.y)) > 1:
+		return Protocol.REASON_TOO_FAR
+	return ""
+
+
+func _trade_quantity(command: Dictionary) -> int:
+	var quantity: Variant = command.get("quantite", 1)
+	if typeof(quantity) != TYPE_INT or quantity < 1 or quantity > MAX_TRADE_QUANTITY:
+		return 0
+	return quantity
+
+
+func _buy(command: Dictionary) -> Array[Dictionary]:
+	var item_id: Variant = command.get("objet")
+	var quantity := _trade_quantity(command)
+	if not _is_player_command(command) or typeof(item_id) != TYPE_STRING or quantity == 0:
+		return _refused(command, Protocol.REASON_INVALID_COMMAND)
+	var reason := _merchant_refusal(command)
+	if not reason.is_empty():
+		return _refused(command, reason)
+	if not data.items.has(item_id):
+		return _refused(command, Protocol.REASON_UNKNOWN_ITEM)
+	var template: Dictionary = data.items[item_id]
+	var inventory := character.inventory
+	var price := Item.buy_price(template) * quantity
+	if price > inventory.ecus:
+		return _refused(command, Protocol.REASON_NOT_ENOUGH_ECUS)
+	# Chaque équipement prend une place ; une ressource s'ajoute à sa pile si on en a déjà.
+	var equipment := Item.is_equipment(template)
+	var places := quantity if equipment else (0 if inventory.entries.has(item_id) else 1)
+	if inventory.entries.size() + places > Inventory.MAX_ENTRIES:
+		return _refused(command, Protocol.REASON_INVENTORY_FULL)
+	inventory.ecus -= price
+	if equipment:
+		for _unit in quantity:
+			inventory.add(template, 1, Item.roll_bonuses(template, rng))
+	else:
+		inventory.add(template, quantity)
+	return _trade_events("achat", template, quantity, price)
+
+
+func _sell(command: Dictionary) -> Array[Dictionary]:
+	var uid: Variant = command.get("objet")
+	var quantity := _trade_quantity(command)
+	if not _is_player_command(command) or typeof(uid) != TYPE_STRING or quantity == 0:
+		return _refused(command, Protocol.REASON_INVALID_COMMAND)
+	var reason := _merchant_refusal(command)
+	if not reason.is_empty():
+		return _refused(command, reason)
+	var inventory := character.inventory
+	if not inventory.entries.has(uid) or not data.items.has(inventory.entries[uid]["objet"]):
+		return _refused(command, Protocol.REASON_UNKNOWN_ITEM)
+	if not inventory.slot_of(uid).is_empty():
+		return _refused(command, Protocol.REASON_ITEM_WORN)
+	if quantity > int(inventory.entries[uid]["quantite"]):
+		return _refused(command, Protocol.REASON_INVALID_COMMAND)
+	var template: Dictionary = data.items[inventory.entries[uid]["objet"]]
+	var price := Item.sell_price(template) * quantity
+	inventory.remove(uid, quantity)
+	inventory.ecus += price
+	return _trade_events("vente", template, quantity, price)
+
+
+func _trade_events(operation: String, template: Dictionary, quantity: int, price: int) -> Array[Dictionary]:
+	var events: Array[Dictionary] = [{
+		"type": Protocol.EVT_TRADE,
+		"operation": operation,
+		"objet": template["id"],
+		"nom": template["nom"],
+		"quantite": quantity,
+		"prix": price,
+		"ecus": character.inventory.ecus,
+	}]
+	events.append_array(_inventory_events())
+	return events
 
 
 func _is_player_command(command: Dictionary) -> bool:

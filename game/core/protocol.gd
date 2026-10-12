@@ -24,6 +24,12 @@ const CMD_EQUIP := "equiper"
 const CMD_UNEQUIP := "desequiper"
 ## Exploration : jeter un objet. { type, entite: String, objet: String (uid), quantite: int }
 const CMD_DROP := "jeter"
+## Exploration, à côté d'un marchand : acheter un objet. Les équipements achetés ont des jets tirés
+## au hasard. { type, entite: String, pnj: String, objet: String (id du modèle), quantite: int (optionnel) }
+const CMD_BUY := "acheter"
+## Exploration, à côté d'un marchand : vendre un objet (non porté) à prix réduit.
+## { type, entite: String, pnj: String, objet: String (uid), quantite: int (optionnel) }
+const CMD_SELL := "vendre"
 ## Exploration : attaquer un groupe de monstres. { type, entite: String, groupe: String }
 const CMD_ENGAGE := "engager"
 ## Combat, phase de placement : { type, entite: String, cible: Vector2i }
@@ -44,6 +50,13 @@ const EVT_MOVED := "deplace"
 const EVT_REFUSED := "refuse"
 ## { type, pnj: String, nom: String, case: Vector2i, repliques: Array[String] }
 const EVT_DIALOGUE := "dialogue"
+## Boutique d'un marchand, à la place du dialogue quand on lui parle. { type, pnj: String, nom: String,
+## case: Vector2i, repliques: Array[String], articles: Array[{ objet, nom, type, rarete, niveau,
+## description, bonus, conditions, prix }], taux_revente: float }
+const EVT_SHOP := "boutique"
+## Achat ou vente effectué. { type, operation: « achat » ou « vente », objet: String (id du modèle),
+## nom: String, quantite: int, prix: int (total), ecus: int (écus restants) }
+const EVT_TRADE := "commerce"
 ## Arrivée sur une autre carte. { type, carte: String, nom: String, position: Vector2i }
 const EVT_MAP_CHANGED := "changement_carte"
 ## { type, groupe: String, combattants: Array[Dictionary], placement: Array[Vector2i] }
@@ -99,6 +112,10 @@ const REASON_NOT_EQUIPPABLE := "objet_non_equipable"
 const REASON_REQUIREMENTS := "conditions_non_remplies"
 const REASON_ALREADY_WORN := "objet_deja_porte"
 const REASON_EMPTY_SLOT := "emplacement_vide"
+const REASON_ITEM_WORN := "objet_porte"
+const REASON_NOT_ENOUGH_ECUS := "ecus_insuffisants"
+const REASON_INVENTORY_FULL := "inventaire_plein"
+const REASON_TOO_FAR := "trop_loin"
 const REASON_WRONG_PHASE := "mauvaise_phase"
 const REASON_NOT_YOUR_TURN := "pas_votre_tour"
 const REASON_OCCUPIED := "case_occupee"

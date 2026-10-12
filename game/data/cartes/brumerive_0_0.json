@@ -23,7 +23,7 @@
     " ............M.....",
     "......@.R..........",
     " ..................",
-    "................R..",
+    "..........b.....R..",
     " ..................",
     "A........A.........",
     " A.................",
@@ -67,6 +67,15 @@
         "Ah, un aventurier ! Enfin ! Les loups mangent mes moutons, les gobelins volent mes moutons… et le Conseil m'envoie vous. Bon.",
         "Si vous allez vers l'est, dans les champs, méfiez-vous des frondeurs gobelins. Ils visent mal, mais ils visent souvent.",
         "On raconte qu'une lanterne magique dort quelque part dans les collines. Moi je dis que c'est la lune dans la mare. Mais je ne suis qu'un berger."
+      ]
+    },
+    {
+      "marqueur": "b",
+      "id": "barlimon_beurrefondu",
+      "nom": "Barlimon Beurrefondu, marchand",
+      "marchand": true,
+      "repliques": [
+        "Bienvenue au Poney Essoufflé, succursale de Brumerive ! Tout ce qui se vend, je le vends. Tout ce qui s'achète, je l'achète… un peu moins cher, forcément."
       ]
     }
   ]

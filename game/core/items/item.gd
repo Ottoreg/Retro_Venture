@@ -18,6 +18,15 @@ const RARITY_NAMES := {
 	"commun": "Commun", "peu_commun": "Peu commun", "rare": "Rare",
 	"epique": "Épique", "legendaire": "Légendaire", "relique": "Relique",
 }
+## Prix d'achat chez un marchand (écus), selon la rareté : équipements et ressources.
+const EQUIPMENT_PRICES := {
+	"commun": 40, "peu_commun": 120, "rare": 350, "epique": 900, "legendaire": 2500, "relique": 6000,
+}
+const RESOURCE_PRICES := {
+	"commun": 4, "peu_commun": 12, "rare": 35, "epique": 90, "legendaire": 250, "relique": 600,
+}
+## Part du prix d'achat que le marchand paie quand on lui revend un objet.
+const RESALE_RATE := 0.25
 ## Bonus que peut donner un équipement, en plus des 6 caractéristiques.
 const EXTRA_STATS := ["prospection", "initiative", "portee", "pa", "pm"]
 const EXTRA_STAT_NAMES := {
@@ -35,6 +44,17 @@ static func bonus_stats() -> Array:
 
 static func stat_name(stat: String) -> String:
 	return Character.STAT_NAMES.get(stat, EXTRA_STAT_NAMES.get(stat, stat))
+
+
+## Prix d'achat d'un objet chez un marchand.
+static func buy_price(template: Dictionary) -> int:
+	var prices: Dictionary = EQUIPMENT_PRICES if is_equipment(template) else RESOURCE_PRICES
+	return int(prices.get(template.get("rarete", "commun"), prices["commun"]))
+
+
+## Prix de revente d'un objet à un marchand : une part du prix d'achat, au moins 1 écu.
+static func sell_price(template: Dictionary) -> int:
+	return maxi(1, floori(buy_price(template) * RESALE_RATE))
 
 
 ## Liste des erreurs de `data` (vide si l'objet est valide).

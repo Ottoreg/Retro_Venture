@@ -4,13 +4,14 @@ extends Node2D
 
 const DEFAULT_START_MAP := "brumerive_0_0"
 const MENU_SCENE := "res://client/main/main.tscn"
-const HELP_EXPLORATION := "Clic : se déplacer · Monstre : attaquer · PNJ : parler · Flèches au bord : changer de carte · C : personnage · I : inventaire · Échap : menu"
+const HELP_EXPLORATION := "Clic : se déplacer · Monstre : attaquer · PNJ : parler ou commercer · Flèches au bord : changer de carte · C : personnage · I : inventaire · Échap : menu"
 const HELP_COMBAT := "Clic : se déplacer (cases vertes) · 1-5 : choisir un sort, clic : le lancer · Clic droit : annuler"
 
 @onready var _map_view: MapView = $MapView
 @onready var _combat_hud: CombatHud = $CombatHud
 @onready var _sheet: CharacterSheet = $CharacterSheet
 @onready var _inventory: InventoryWindow = $InventoryWindow
+@onready var _shop: ShopWindow = $ShopWindow
 @onready var _inventory_button: Button = %InventoryButton
 @onready var _info: Label = %Info
 @onready var _sheet_button: Button = %SheetButton
@@ -27,6 +28,7 @@ func _ready() -> void:
 	_combat_hud.setup(_map_view)
 	_sheet.setup(_map_view)
 	_inventory.setup(_map_view)
+	_shop.setup(_map_view)
 	_map_view.hovered_cell_changed.connect(_on_hovered_cell_changed)
 	_map_view.combat_started.connect(_on_combat_started)
 	_map_view.exploration_resumed.connect(_on_exploration_resumed)
@@ -66,6 +68,9 @@ func _create_world() -> World:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel") and _map_view.mode == MapView.Mode.EXPLORATION:
+		if _shop.is_open():
+			_shop.close()
+			return
 		if _sheet.is_open():
 			_sheet.toggle()
 			return

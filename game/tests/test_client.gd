@@ -153,3 +153,55 @@ func test_interrompre_la_marche_vers_un_combat_ou_une_sortie() -> void:
 	assert_eq(view.current_map().id, map.id)
 	assert_eq(view.world.position_of(World.PLAYER_ID), start)
 	scene.free()
+
+
+func test_boutique_du_marchand() -> void:
+	var tree := Engine.get_main_loop() as SceneTree
+	var scene: Node = load("res://client/world/world.tscn").instantiate()
+	tree.root.add_child(scene)
+	var view: MapView = scene.get_node("MapView")
+	var shop: ShopWindow = scene.get_node("ShopWindow")
+	var merchant: Dictionary = {}
+	for npc: Dictionary in view.current_map().npcs:
+		if npc["marchand"]:
+			merchant = npc
+	assert_false(merchant.is_empty(), "un marchand au village")
+
+	view._on_click(merchant["case"])
+	_run_until_idle(view)
+	assert_true(shop.is_open(), "la boutique s'ouvre")
+	assert_false(view._bubble.visible, "pas de bulle de dialogue")
+	assert_eq(shop._list.item_count, view.world.data.items.size(), "tous les objets en vente")
+
+	# Achat d'une ressource en plusieurs exemplaires.
+	var inventory := view.world.character.inventory
+	inventory.ecus = 500
+	var resource: Dictionary = shop._shop["articles"][-1]
+	assert_eq(resource["type"], Item.TYPE_RESOURCE)
+	shop._on_item_selected(shop._list.item_count - 1)
+	assert_true(shop._quantity_box.visible, "quantité réglable pour une ressource")
+	shop._quantity.value = 3
+	shop._on_action_pressed()
+	assert_eq(inventory.quantity_of(resource["objet"]), 3, "achat effectué")
+	assert_eq(inventory.ecus, 500 - 3 * int(resource["prix"]))
+	assert_true(shop._message.text.begins_with("Acheté"), shop._message.text)
+
+	# Revente de ces ressources.
+	shop._on_tab_pressed(ShopWindow.SELL)
+	shop._selected = resource["objet"]
+	shop.refresh()
+	shop._quantity.value = 3
+	shop._on_action_pressed()
+	assert_eq(inventory.quantity_of(resource["objet"]), 0, "vente effectuée")
+	assert_eq(inventory.ecus, 500 - 3 * int(resource["prix"]) + 3 * Item.sell_price(view.world.data.items[resource["objet"]]))
+	assert_true(shop._message.text.begins_with("Vendu"), shop._message.text)
+
+	# L'arme de départ est portée : elle ne se vend pas.
+	var weapon := inventory.equipped_entry("arme")
+	shop._selected = weapon["uid"]
+	shop.refresh()
+	assert_true(shop._action_button.disabled, "objet porté : bouton désactivé")
+
+	shop.close()
+	assert_false(shop.is_open())
+	scene.free()
