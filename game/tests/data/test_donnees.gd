@@ -39,14 +39,43 @@ func test_carte_de_depart_chargeable() -> void:
 	assert_true(map != null, "carte de départ")
 
 
+func test_sorts_monstres_et_voies_valides() -> void:
+	var spells := {}
+	for path in DataLoader.list_json(DATA_ROOT.path_join("sorts")):
+		var data: Variant = DataLoader.load_json(path)
+		var errors := Spell.validate(data) if typeof(data) == TYPE_DICTIONARY else PackedStringArray(["objet JSON attendu"])
+		assert_eq(errors.size(), 0, "%s : %s" % [path, "; ".join(errors)])
+		_assert_id_matches_file(data, path)
+		if errors.is_empty():
+			spells[data["id"]] = Spell.from_dict(data)
+	for path in DataLoader.list_json(DATA_ROOT.path_join("monstres")):
+		var data: Variant = DataLoader.load_json(path)
+		var errors := GameData.validate_monster(data, spells) if typeof(data) == TYPE_DICTIONARY else PackedStringArray(["objet JSON attendu"])
+		assert_eq(errors.size(), 0, "%s : %s" % [path, "; ".join(errors)])
+		_assert_id_matches_file(data, path)
+	for path in DataLoader.list_json(DATA_ROOT.path_join("voies")):
+		var data: Variant = DataLoader.load_json(path)
+		var errors := GameData.validate_voie(data, spells) if typeof(data) == TYPE_DICTIONARY else PackedStringArray(["objet JSON attendu"])
+		assert_eq(errors.size(), 0, "%s : %s" % [path, "; ".join(errors)])
+		_assert_id_matches_file(data, path)
+
+
+func test_monstres_des_cartes_existants() -> void:
+	var game_data := GameData.load_all()
+	assert_true(game_data.voies.has(World.DEFAULT_VOIE), "Voie de départ « %s »" % World.DEFAULT_VOIE)
+	for path in _find_json(DATA_ROOT.path_join("cartes")):
+		var map := DataLoader.load_map(path)
+		if map == null:
+			continue
+		for group in map.groups:
+			for monster_id: String in group["monstres"]:
+				assert_true(game_data.monsters.has(monster_id), "%s : monstre inconnu « %s »" % [path, monster_id])
+
+
+func _assert_id_matches_file(data: Variant, path: String) -> void:
+	if typeof(data) == TYPE_DICTIONARY:
+		assert_eq(str(data.get("id")), path.get_file().get_basename(), "%s : l'id doit correspondre au nom du fichier" % path)
+
+
 func _find_json(dir_path: String) -> PackedStringArray:
-	var files: PackedStringArray = []
-	var dir := DirAccess.open(dir_path)
-	if dir == null:
-		return files
-	for sub in dir.get_directories():
-		files.append_array(_find_json(dir_path.path_join(sub)))
-	for file in dir.get_files():
-		if file.ends_with(".json"):
-			files.append(dir_path.path_join(file))
-	return files
+	return DataLoader.list_json(dir_path)

@@ -1,0 +1,11 @@
+{
+  "id": "loup_des_collines",
+  "nom": "Loup des collines",
+  "description": "Affamé en permanence. Considère les aventuriers comme un en-cas.",
+  "niveau": 3,
+  "caracteristiques": {"pv": 26, "pa": 6, "pm": 4, "initiative": 110},
+  "resistances": {"acier": 0, "flamme": -10, "givre": 10, "tempete": 0},
+  "sorts": ["loup_morsure"],
+  "ia": "basique",
+  "xp": 30
+}

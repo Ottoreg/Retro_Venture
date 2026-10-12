@@ -15,6 +15,21 @@ static func load_json(path: String) -> Variant:
 	return json.data
 
 
+## Chemins des fichiers `.json` d'un dossier et de ses sous-dossiers, triés.
+static func list_json(dir_path: String) -> PackedStringArray:
+	var files: PackedStringArray = []
+	var dir := DirAccess.open(dir_path)
+	if dir == null:
+		return files
+	for sub in dir.get_directories():
+		files.append_array(list_json(dir_path.path_join(sub)))
+	for file in dir.get_files():
+		if file.ends_with(".json"):
+			files.append(dir_path.path_join(file))
+	files.sort()
+	return files
+
+
 ## Carte chargée depuis un fichier, ou `null` (avec les erreurs affichées) si elle est invalide.
 static func load_map(path: String) -> GameMap:
 	var data: Variant = load_json(path)

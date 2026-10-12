@@ -5,7 +5,8 @@ extends RefCounted
 ## du rectangle sont du décor.
 ##
 ## Le contenu est décrit par un plan texte : une ligne par rangée, un caractère par case (voir
-## `LEGEND` et `data/README.md`). Les lignes paires du plan (2e, 4e…) sont décalées d'une demi-case
+## `LEGEND` et `data/README.md`). Les chiffres 1 à 9 placent les groupes de monstres décrits dans
+## la liste `groupes`. Les lignes paires du plan (2e, 4e…) sont décalées d'une demi-case
 ## et commencent par un espace, qui représente la demi-case du bord gauche.
 
 ## Caractère du plan → type d'obstacle ("" = case praticable).
@@ -23,6 +24,8 @@ var rows: int
 var spawn: Vector2i
 ## Type d'obstacle (« arbre », « mur »…) par case bloquée.
 var obstacles: Dictionary = {}
+## Groupes de monstres : { id: String, case: Vector2i, monstres: Array (ids de monstres) }.
+var groups: Array[Dictionary] = []
 
 ## Cases jouables (Vector2i → true).
 var _cells: Dictionary = {}
@@ -62,6 +65,18 @@ static func validate(data: Dictionary) -> PackedStringArray:
 		errors.append("les lignes du plan doivent faire au moins 2 caractères")
 		return errors
 
+	var groups_data: Variant = data.get("groupes", [])
+	var group_count := 0
+	if typeof(groups_data) != TYPE_ARRAY:
+		errors.append("« groupes » doit être une liste")
+	else:
+		group_count = groups_data.size()
+		for k in group_count:
+			var group: Variant = groups_data[k]
+			var monsters: Variant = group.get("monstres") if typeof(group) == TYPE_DICTIONARY else null
+			if typeof(monsters) != TYPE_ARRAY or monsters.is_empty() or monsters.size() > 8:
+				errors.append("groupe %d : « monstres » doit lister de 1 à 8 identifiants de monstres" % (k + 1))
+	var group_uses := {}
 	var spawn_count := 0
 	for i in plan.size():
 		var line: String = plan[i]
@@ -74,12 +89,20 @@ static func validate(data: Dictionary) -> PackedStringArray:
 			if shifted and j == 0:
 				if character != " ":
 					errors.append("ligne %d : une ligne décalée doit commencer par un espace" % (i + 1))
+			elif _is_group_char(character):
+				if int(character) > group_count:
+					errors.append("ligne %d, colonne %d : groupe %s absent de « groupes »" % [i + 1, j + 1, character])
+				group_uses[character] = int(group_uses.get(character, 0)) + 1
 			elif not LEGEND.has(character):
 				errors.append("ligne %d, colonne %d : caractère « %s » inconnu" % [i + 1, j + 1, character])
 			elif character == SPAWN_CHAR:
 				spawn_count += 1
 	if spawn_count != 1:
 		errors.append("le plan doit contenir exactement une case de départ « @ » (%d trouvée(s))" % spawn_count)
+	for k in group_count:
+		var uses: int = group_uses.get(str(k + 1), 0)
+		if uses != 1:
+			errors.append("le groupe %d doit apparaître exactement une fois dans le plan (%d trouvé(s))" % [k + 1, uses])
 	return errors
 
 
@@ -101,6 +124,13 @@ static func from_dict(data: Dictionary) -> GameMap:
 			var character := line[j]
 			if character == SPAWN_CHAR:
 				map.spawn = cell
+			elif _is_group_char(character):
+				var group_index := int(character)
+				map.groups.append({
+					"id": "groupe_%d" % group_index,
+					"case": cell,
+					"monstres": data["groupes"][group_index - 1]["monstres"].duplicate(),
+				})
 			elif LEGEND[character] != "":
 				map.obstacles[cell] = LEGEND[character]
 	for row in map.rows + 1:
@@ -108,8 +138,13 @@ static func from_dict(data: Dictionary) -> GameMap:
 			var cell := cell_at(row, half_column)
 			if not map._cells.has(cell):
 				map._border_cells.append(cell)
+	map.groups.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a["id"] < b["id"])
 	map._setup_pathfinding()
 	return map
+
+
+static func _is_group_char(character: String) -> bool:
+	return character.length() == 1 and character >= "1" and character <= "9"
 
 
 ## Rectangle de la carte à l'écran, dans le repère de `IsoGrid.cell_to_screen`.

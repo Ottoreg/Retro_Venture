@@ -1,0 +1,11 @@
+{
+  "id": "gobelin_frondeur",
+  "nom": "Gobelin frondeur",
+  "description": "Éclaireur des raids gobelins. Ne s'approche jamais : ce n'est pas dans sa fiche de poste.",
+  "niveau": 4,
+  "caracteristiques": {"pv": 22, "pa": 6, "pm": 3, "initiative": 90},
+  "resistances": {"acier": 5, "tempete": -5},
+  "sorts": ["gobelin_fronde"],
+  "ia": "basique",
+  "xp": 35
+}

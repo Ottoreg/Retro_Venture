@@ -8,15 +8,48 @@ extends RefCounted
 
 # --- Commandes (client → noyau) ---
 
-## { type, entite: String, cible: Vector2i }
+## Exploration et combat : { type, entite: String, cible: Vector2i }
 const CMD_MOVE := "deplacer"
+## Exploration : attaquer un groupe de monstres. { type, entite: String, groupe: String }
+const CMD_ENGAGE := "engager"
+## Combat, phase de placement : { type, entite: String, cible: Vector2i }
+const CMD_PLACE := "placer"
+## Combat, fin du placement : { type, entite: String }
+const CMD_READY := "pret"
+## Combat : { type, entite: String, sort: String, cible: Vector2i }
+const CMD_CAST := "lancer_sort"
+## Combat : { type, entite: String }
+const CMD_END_TURN := "fin_tour"
 
 # --- Événements (noyau → client) ---
 
-## { type, entite: String, depuis: Vector2i, chemin: Array[Vector2i] } — chemin sans la case de départ.
+## { type, entite: String, depuis: Vector2i, chemin: Array[Vector2i] } — chemin sans la case de
+## départ. En combat, aussi `pm` : PM restants.
 const EVT_MOVED := "deplace"
 ## { type, commande: String, raison: String }
 const EVT_REFUSED := "refuse"
+## { type, groupe: String, combattants: Array[Dictionary], placement: Array[Vector2i] }
+const EVT_COMBAT_STARTED := "combat_debut"
+## { type, entite: String, case: Vector2i }
+const EVT_PLACED := "place"
+## { type, ordre: Array[String] } — ordre de jeu, par initiative.
+const EVT_FIGHT_BEGINS := "combat_commence"
+## { type, entite: String, tour: int, pa: int, pm: int }
+const EVT_TURN_STARTED := "tour_debut"
+## { type, entite: String }
+const EVT_TURN_ENDED := "tour_fin"
+## { type, entite: String, sort: String, cible: Vector2i, pa: int } — pa : PA restants.
+const EVT_SPELL_CAST := "sort_lance"
+## { type, entite: String, valeur: int, element: String, pv: int }
+const EVT_DAMAGE := "degats"
+## { type, entite: String, valeur: int, pv: int }
+const EVT_HEAL := "soin"
+## { type, entite: String }
+const EVT_DIED := "mort"
+## { type, vainqueur: int (équipe, -1 si aucune), xp: int }
+const EVT_COMBAT_ENDED := "combat_fin"
+## Retour en exploration après un combat. { type, position: Vector2i, groupe_vaincu: String }
+const EVT_EXPLORATION := "exploration"
 
 # --- Raisons de refus ---
 
@@ -27,3 +60,14 @@ const REASON_OUT_OF_MAP := "hors_carte"
 const REASON_BLOCKED := "case_bloquee"
 const REASON_NO_PATH := "aucun_chemin"
 const REASON_ALREADY_THERE := "deja_sur_place"
+const REASON_WRONG_PHASE := "mauvaise_phase"
+const REASON_NOT_YOUR_TURN := "pas_votre_tour"
+const REASON_OCCUPIED := "case_occupee"
+const REASON_NOT_PLACEMENT_CELL := "case_de_placement_invalide"
+const REASON_NOT_ENOUGH_PM := "pm_insuffisants"
+const REASON_NOT_ENOUGH_PA := "pa_insuffisants"
+const REASON_UNKNOWN_SPELL := "sort_inconnu"
+const REASON_SPELL_LIMIT := "sort_deja_lance"
+const REASON_SPELL_COOLDOWN := "sort_en_recharge"
+const REASON_OUT_OF_RANGE := "hors_portee"
+const REASON_NO_LINE_OF_SIGHT := "pas_de_ligne_de_vue"
