@@ -190,15 +190,50 @@ func test_sauvegarde_avec_inventaire() -> void:
 
 func test_butin_regroupe_par_objet() -> void:
 	var found := [
-		{"objet": "croc", "nom": "Croc", "rarete": "commun", "quantite": 1, "perdu": false},
-		{"objet": "peau", "nom": "Peau", "rarete": "commun", "quantite": 1, "perdu": false},
-		{"objet": "croc", "nom": "Croc", "rarete": "commun", "quantite": 2, "perdu": false},
-		{"objet": "croc", "nom": "Croc", "rarete": "commun", "quantite": 1, "perdu": true},
+		{"objet": "croc", "nom": "Croc", "rarete": "commun", "quantite": 1},
+		{"objet": "peau", "nom": "Peau", "rarete": "commun", "quantite": 1},
+		{"objet": "croc", "nom": "Croc", "rarete": "commun", "quantite": 2},
 	]
 	var merged := World._merged_loot(found)
-	assert_eq(merged.size(), 3, "une ligne par objet (et une pour ce qui est perdu)")
+	assert_eq(merged.size(), 2, "une ligne par objet")
 	assert_eq(merged[0]["objet"], "croc")
-	assert_eq(merged[0]["quantite"], 3, "2 crocs + 1 croc")
+	assert_eq(merged[0]["quantite"], 3, "1 croc + 2 crocs")
 	assert_eq(merged[1]["objet"], "peau")
-	assert_true(merged[2]["perdu"])
 	assert_eq(found[0]["quantite"], 1, "la liste d'origine n'est pas modifiée")
+
+
+func test_sac_plein_le_butin_entre_en_surplus_et_bloque_les_combats() -> void:
+	var map := Fixtures.map({Fixtures.center(): "1", Fixtures.center() + Vector2i(0, 3): "2"},
+		[{"monstres": ["mannequin"]}, {"monstres": ["mannequin"]}])
+	var world := World.new(map, Fixtures.data(), Callable(), Fixtures.character())
+	var inventory := world.character.inventory
+	inventory.capacity = inventory.entries.size()  # Sac plein.
+	assert_true(inventory.is_full())
+	assert_false(inventory.is_overloaded())
+	_engage(world)
+	var monster := _stick(world, "groupe_1_1")
+	monster.hp = 1
+	_command(world, Protocol.CMD_READY)
+	var events := _command(world, Protocol.CMD_CAST, {"sort": "frappe", "cible": monster.cell})
+	var ended := Fixtures.of_type(events, Protocol.EVT_COMBAT_ENDED)[0]
+	assert_eq(inventory.quantity_of("dent"), 2, "rien n'est perdu : le butin entre en surplus")
+	assert_eq(inventory.quantity_of("bague"), 1)
+	assert_true(inventory.is_overloaded(), "le sac déborde")
+	assert_true(ended["surcharge"], "la fin de combat le signale")
+	for drop: Dictionary in ended["butin"]:
+		assert_false(drop.has("perdu"))
+
+	# Pas de nouveau combat tant que le sac déborde.
+	var refused := _command(world, Protocol.CMD_ENGAGE, {"groupe": "groupe_2"})
+	assert_eq(refused[0]["type"], Protocol.EVT_REFUSED)
+	assert_eq(refused[0]["raison"], Protocol.REASON_INVENTORY_OVERLOADED)
+	assert_false(world.in_combat())
+	# On jette ce qu'il faut : le combat redevient possible.
+	for item_id: String in ["dent", "bague"]:
+		for entry: Dictionary in inventory.entries.values():
+			if entry["objet"] == item_id:
+				_command(world, Protocol.CMD_DROP, {"objet": entry["uid"], "quantite": int(entry["quantite"])})
+				break
+	assert_false(inventory.is_overloaded())
+	_command(world, Protocol.CMD_ENGAGE, {"groupe": "groupe_2"})
+	assert_true(world.in_combat(), "place faite : on peut combattre")

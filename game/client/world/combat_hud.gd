@@ -5,6 +5,8 @@ extends CanvasLayer
 ## tour (en combat) et menus. Aussi : ordre de jeu, messages et écran de fin de combat.
 
 const BAR_HEIGHT := 96
+## Message quand le sac déborde (butin en surplus).
+const OVERLOAD_TEXT := "Inventaire surchargé ! Faites de la place (vendre, jeter, ranger au coffre) pour pouvoir combattre à nouveau."
 const SPELL_KEYS := [KEY_1, KEY_2, KEY_3, KEY_4, KEY_5, KEY_6, KEY_7, KEY_8, KEY_9, KEY_0]
 const MENUS := [["personnage", "icone_personnage", "Personnage (C)"], ["inventaire", "icone_inventaire", "Inventaire (I)"],
 	["sorts", "icone_sorts", "Sorts (S)"], ["metiers", "icone_metiers", "Métiers (J)"]]
@@ -106,6 +108,7 @@ var _result_panel: PanelContainer
 var _result_title: Label
 var _result_detail: Label
 var _loot_box: HFlowContainer
+var _overload_label: Label
 ## Emplacements de sorts affichés : id du sort → SpellSlot.
 var _spell_buttons: Dictionary = {}
 var _shown_spells: Array[String] = []
@@ -243,6 +246,7 @@ func _on_combat_ended(result: Dictionary) -> void:
 	if int(result.get("ecus", 0)) > 0:
 		lines.append("+%d écus" % result["ecus"])
 	_result_detail.text = "\n".join(lines)
+	_overload_label.visible = result.get("surcharge", false)
 	for child in _loot_box.get_children():
 		child.queue_free()
 	for drop: Dictionary in result.get("butin", []):
@@ -252,14 +256,13 @@ func _on_combat_ended(result: Dictionary) -> void:
 
 
 ## Case du butin : l'icône sur un fond de la couleur de la rareté, la quantité en bas, le nom en
-## infobulle ; grisée si l'objet a été perdu (inventaire plein).
+## infobulle.
 func _loot_slot(drop: Dictionary) -> Control:
 	var slot := PanelContainer.new()
 	slot.custom_minimum_size = Vector2(52, 52)
 	slot.mouse_filter = Control.MOUSE_FILTER_STOP
-	var lost: bool = drop["perdu"]
 	var quantity := int(drop["quantite"])
-	slot.tooltip_text = "%s%s%s" % [drop["nom"], " ×%d" % quantity if quantity > 1 else "", " — inventaire plein, perdu" if lost else ""]
+	slot.tooltip_text = "%s%s" % [drop["nom"], " ×%d" % quantity if quantity > 1 else ""]
 	var style := _panel_style(Color(InventoryWindow.rarity_color(drop["rarete"]), 0.18))
 	style.border_color = InventoryWindow.rarity_color(drop["rarete"]).darkened(0.3)
 	style.set_border_width_all(1)
@@ -270,8 +273,6 @@ func _loot_slot(drop: Dictionary) -> Control:
 	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	if lost:
-		icon.modulate = Color(0.45, 0.45, 0.45)
 	slot.add_child(icon)
 	if quantity > 1:
 		var amount := _label(13, Color.WHITE)
@@ -469,6 +470,13 @@ func _build() -> void:
 	result_box.add_child(_result_title)
 	result_box.add_child(_result_detail)
 	result_box.add_child(_loot_box)
+	_overload_label = _label(15, Color(1.0, 0.55, 0.4))
+	_overload_label.text = OVERLOAD_TEXT
+	_overload_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_overload_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_overload_label.custom_minimum_size = Vector2(340, 0)
+	_overload_label.visible = false
+	result_box.add_child(_overload_label)
 	result_box.add_child(continue_button)
 
 

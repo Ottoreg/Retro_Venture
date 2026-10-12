@@ -134,6 +134,8 @@ Objectif : **10 à 15 h de jeu solo, niveaux 1 à 30 : 3 zones de départ (une p
 
 ### Équipement et inventaire
 - [x] **(MVP)** Inventaire (ressources empilées, équipements) limité à 60 places ; fenêtre (touche I)
+- [x] Sac plein : le butin de combat entre quand même, en surplus ; plus de combat tant qu'on n'a pas
+  fait de la place (message à la fin du combat, dans l'inventaire et au clic sur un groupe)
 - [ ] Objets de quête dans l'inventaire (avec les quêtes)
 - [x] **(MVP)** Équipement : arme, coiffe, cape, amulette, 2 anneaux, ceinture, bottes ; équipement de départ par Voie
 - [x] **(MVP)** Conditions d'équipement (niveau, caractéristiques ; pas deux objets identiques)

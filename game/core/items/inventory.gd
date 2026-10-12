@@ -20,6 +20,12 @@ func is_full() -> bool:
 	return entries.size() >= capacity
 
 
+## Vrai si le sac déborde (du butin y est entré en surplus) : il faut faire de la place avant de
+## pouvoir combattre à nouveau.
+func is_overloaded() -> bool:
+	return entries.size() > capacity
+
+
 ## Vrai s'il reste de la place pour `quantity` exemplaires de ce modèle (une ressource s'ajoute à
 ## sa pile, chaque équipement prend une place).
 func has_room_for(template: Dictionary, quantity := 1) -> bool:
@@ -35,18 +41,19 @@ func quantity_of(item_id: String) -> int:
 	return total
 
 
-## Ajoute un objet ; renvoie son uid, ou "" si l'inventaire est plein.
-func add(template: Dictionary, quantity := 1, rolled := {}) -> String:
+## Ajoute un objet ; renvoie son uid, ou "" si l'inventaire est plein (sauf avec `overflow` : le
+## butin de combat entre toujours, en surplus).
+func add(template: Dictionary, quantity := 1, rolled := {}, overflow := false) -> String:
 	var item_id: String = template["id"]
 	if not Item.is_equipment(template):
 		if entries.has(item_id):
 			entries[item_id]["quantite"] += quantity
 			return item_id
-		if is_full():
+		if is_full() and not overflow:
 			return ""
 		entries[item_id] = {"uid": item_id, "objet": item_id, "quantite": quantity, "jets": {}}
 		return item_id
-	if is_full():
+	if is_full() and not overflow:
 		return ""
 	var uid := "o%d" % _next_uid
 	_next_uid += 1

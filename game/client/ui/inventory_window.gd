@@ -24,6 +24,7 @@ var _equip_button: Button
 var _unequip_button: Button
 var _drop_button: Button
 var _coins: Label
+var _overload: Label
 var _sheet: Dictionary = {}
 var _selected := ""
 
@@ -110,6 +111,9 @@ func refresh() -> void:
 	var world := map_view.world
 	_sheet = world.character.inventory_sheet(world.data)
 	_coins.text = "%d écus   ·   %d / %d places" % [_sheet["ecus"], _sheet["objets"].size(), _sheet["places"]]
+	var overloaded: bool = _sheet["objets"].size() > int(_sheet["places"])
+	_coins.add_theme_color_override("font_color", Color(1.0, 0.45, 0.35) if overloaded else GOLD)
+	_overload.visible = overloaded
 	var by_uid := {}
 	for entry: Dictionary in _sheet["objets"]:
 		by_uid[entry["uid"]] = entry
@@ -284,6 +288,11 @@ func _build() -> void:
 	_drop_button = _action_button("Jeter", _on_drop_pressed)
 	for button in [_equip_button, _unequip_button, _drop_button]:
 		buttons.add_child(button)
+	_overload = _label(14, Color(1.0, 0.55, 0.4))
+	_overload.text = CombatHud.OVERLOAD_TEXT
+	_overload.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_overload.visible = false
+	column.add_child(_overload)
 	var hint := _label(12, Color(0.6, 0.58, 0.52))
 	hint.text = "Touche I : ouvrir / fermer"
 	column.add_child(hint)

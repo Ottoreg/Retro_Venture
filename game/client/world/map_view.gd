@@ -268,6 +268,9 @@ func _exploration_commands(cell: Vector2i, from: Vector2i) -> Array[Dictionary]:
 		commands.append({"type": Protocol.CMD_TALK, "entite": World.PLAYER_ID, "pnj": npc["id"]})
 		return commands
 	var target := cell
+	if not group.is_empty() and world.character.inventory.is_overloaded():
+		notice.emit(CombatHud.OVERLOAD_TEXT)
+		return commands
 	if not group.is_empty():
 		target = group["case"]
 	elif not exit.is_empty():
@@ -642,6 +645,8 @@ func _apply(event: Dictionary) -> float:
 			notice.emit("Impossible d'utiliser ce meuble d'ici.")
 		if event["commande"] == Protocol.CMD_TRAVEL:
 			notice.emit("Le voyage est impossible.")
+		if event.get("raison") == Protocol.REASON_INVENTORY_OVERLOADED:
+			notice.emit(CombatHud.OVERLOAD_TEXT)
 		if event["commande"] == Protocol.CMD_HARVEST:
 			notice.emit(_harvest_refusal_text(event["raison"], NO_CELL))
 		if mode == Mode.COMBAT and _refusals.has(event["raison"]):

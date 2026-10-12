@@ -500,3 +500,24 @@ func test_tous_les_membres_d_un_groupe_sont_affiches() -> void:
 	assert_false(view._group_walks.has(walker), "promenade terminée")
 	assert_eq(Vector2i(view._actors[walker]["pos"].round()), view.world.position_of(walker), "arrivé là où le monde l'a mis")
 	scene.free()
+
+
+func test_sac_surcharge_pas_de_combat() -> void:
+	var tree := Engine.get_main_loop() as SceneTree
+	var scene: Node = load("res://client/world/world.tscn").instantiate()
+	tree.root.add_child(scene)
+	var view: MapView = scene.get_node("MapView")
+	var inventory := view.world.character.inventory
+	inventory.capacity = inventory.entries.size() - 1  # Le sac déborde d'un objet.
+	var messages: Array[String] = []
+	view.notice.connect(func(text: String) -> void: messages.append(text))
+	var start := view.world.position_of(World.PLAYER_ID)
+	view._on_click(view.world.groups()[0]["case"])
+	_run_until_idle(view)
+	assert_eq(view.mode, MapView.Mode.EXPLORATION, "pas de combat")
+	assert_eq(view.world.position_of(World.PLAYER_ID), start, "le personnage ne part même pas")
+	assert_eq(messages, [CombatHud.OVERLOAD_TEXT] as Array[String], "on lui dit de faire de la place")
+	var window: InventoryWindow = scene.get_node("InventoryWindow")
+	window.toggle()
+	assert_true(window._overload.visible, "l'inventaire le signale aussi")
+	scene.free()

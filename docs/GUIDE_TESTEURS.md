@@ -66,6 +66,8 @@ bandeau, hors combat, ouvre sa fiche.
    - **Fin de tour** : bouton du bandeau.
 3. Fin du combat : expérience, écus et butin (une icône par objet avec sa quantité ; le nom en
    survolant). En cas de défaite, on se réveille au point de départ avec 1 PV.
+   Si le sac (60 places) est plein, le butin y entre quand même, en surplus : il faut alors faire de
+   la place (vendre, jeter, ranger au coffre) avant de pouvoir relancer un combat.
 
 Les points de vie se gardent d'un combat à l'autre et remontent doucement (1 PV toutes les 2 s) ;
 le **lit** de votre maison les rend tous d'un coup.

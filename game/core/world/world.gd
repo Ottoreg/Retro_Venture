@@ -328,6 +328,8 @@ func _engage(command: Dictionary) -> Array[Dictionary]:
 		return _refused(command, Protocol.REASON_UNKNOWN_ENTITY)
 	if data == null or not data.voies.has(player_voie):
 		return _refused(command, Protocol.REASON_WRONG_PHASE)
+	if character.inventory.is_overloaded():
+		return _refused(command, Protocol.REASON_INVENTORY_OVERLOADED)
 	var group: Dictionary = _groups[group_id]
 	var start: Variant = _start_cell(command)
 	if start == null:
@@ -460,6 +462,8 @@ func _reward(events: Array[Dictionary]) -> void:
 
 ## Butin de victoire : pour chaque monstre et chaque ligne de sa table, chance = taux × prospection
 ## / 100 (au plus 100 %). Pas de seuil : un personnage seul peut tout obtenir. Plus des écus.
+## Rien ne se perd : si le sac est plein, le butin y entre en surplus (`surcharge` dans
+## l'événement) et les combats sont refusés tant qu'on n'a pas fait de la place.
 func _loot(events: Array[Dictionary]) -> void:
 	var ended: Dictionary = {}
 	for event in events:
@@ -484,11 +488,12 @@ func _loot(events: Array[Dictionary]) -> void:
 			var template: Dictionary = data.items[drop["objet"]]
 			var quantity := rng.randi_range(int(amount[0]), int(amount[1]))
 			for _unit in (quantity if Item.is_equipment(template) else 1):
-				var uid := character.inventory.add(template, 1 if Item.is_equipment(template) else quantity, Item.roll_bonuses(template, rng))
+				character.inventory.add(template, 1 if Item.is_equipment(template) else quantity, Item.roll_bonuses(template, rng), true)
 				found.append({"objet": template["id"], "nom": template["nom"], "rarete": template["rarete"],
-					"quantite": 1 if Item.is_equipment(template) else quantity, "perdu": uid.is_empty()})
+					"quantite": 1 if Item.is_equipment(template) else quantity})
 	character.inventory.ecus += coins
 	ended["butin"] = _merged_loot(found)
+	ended["surcharge"] = character.inventory.is_overloaded()
 	ended["ecus"] = coins
 	events.append(_inventory_event())
 
@@ -1129,13 +1134,12 @@ func save_data() -> Dictionary:
 	}
 
 
-## Butin regroupé par objet (une ligne par objet, quantités additionnées ; à part ce qui a été
-## perdu faute de place), dans l'ordre d'obtention.
+## Butin regroupé par objet (une ligne par objet, quantités additionnées), dans l'ordre d'obtention.
 static func _merged_loot(found: Array) -> Array:
 	var merged: Array = []
 	var index_of := {}
 	for drop: Dictionary in found:
-		var key := "%s|%s" % [drop["objet"], drop["perdu"]]
+		var key: String = drop["objet"]
 		if index_of.has(key):
 			merged[index_of[key]]["quantite"] += int(drop["quantite"])
 		else:

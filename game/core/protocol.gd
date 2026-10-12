@@ -137,7 +137,8 @@ const EVT_CHARACTER := "personnage"
 ## Inventaire mis à jour. { type, inventaire: Dictionary (voir Character.inventory_sheet) }
 const EVT_INVENTORY := "inventaire"
 ## { type, vainqueur: int (équipe, -1 si aucune), xp: int } ; après le passage du monde, aussi
-## `butin`: Array[{ objet, nom, rarete, quantite, perdu: bool }], `ecus`: int, `niveaux`: Array[int].
+## `butin`: Array[{ objet, nom, rarete, quantite }], `ecus`: int, `niveaux`: Array[int],
+## `surcharge`: bool (le sac déborde : faire de la place avant le prochain combat).
 const EVT_COMBAT_ENDED := "combat_fin"
 ## Retour en exploration après un combat. { type, position: Vector2i, groupe_vaincu: String }
 const EVT_EXPLORATION := "exploration"
@@ -162,6 +163,8 @@ const REASON_EMPTY_SLOT := "emplacement_vide"
 const REASON_ITEM_WORN := "objet_porte"
 const REASON_NOT_ENOUGH_ECUS := "ecus_insuffisants"
 const REASON_INVENTORY_FULL := "inventaire_plein"
+## Le sac déborde (butin en surplus) : pas de nouveau combat avant d'avoir fait de la place.
+const REASON_INVENTORY_OVERLOADED := "inventaire_surcharge"
 const REASON_TOO_FAR := "trop_loin"
 const REASON_DEPLETED := "ressource_epuisee"
 const REASON_JOB_LEVEL := "niveau_de_metier_insuffisant"
