@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=5 format=3]
 
 [ext_resource type="Script" path="res://client/world/world_scene.gd" id="1_scene"]
 [ext_resource type="Script" path="res://client/world/map_view.gd" id="2_map"]
 [ext_resource type="Script" path="res://client/world/combat_hud.gd" id="3_hud"]
+[ext_resource type="Script" path="res://client/ui/character_sheet.gd" id="4_sheet"]
 
 [node name="WorldScene" type="Node2D"]
 script = ExtResource("1_scene")
@@ -22,5 +23,22 @@ theme_override_colors/font_color = Color(0.94902, 0.756863, 0.305882, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 4
 
+[node name="SheetButton" type="Button" parent="Hud"]
+unique_name_in_owner = true
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -176.0
+offset_top = 12.0
+offset_right = -16.0
+offset_bottom = 48.0
+grow_horizontal = 0
+focus_mode = 0
+text = "Personnage (C)"
+
 [node name="CombatHud" type="CanvasLayer" parent="."]
 script = ExtResource("3_hud")
+
+[node name="CharacterSheet" type="CanvasLayer" parent="."]
+layer = 2
+script = ExtResource("4_sheet")

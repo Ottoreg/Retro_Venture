@@ -13,6 +13,8 @@ signal combat_message(text: String)
 signal combat_ended(victory: bool, xp: int)
 signal exploration_resumed
 signal map_changed
+signal character_changed
+signal level_up(level: int)
 
 enum Mode { EXPLORATION, COMBAT }
 
@@ -242,6 +244,12 @@ func _exit_at(cell: Vector2i) -> Dictionary:
 	return {"direction": direction, "case": target}
 
 
+## Envoie une commande au noyau et rejoue les événements (pour l'interface : fiche, etc.).
+func send_command(command: Dictionary) -> void:
+	if not _playing:
+		_send(command)
+
+
 func _send(command: Dictionary) -> void:
 	_preview.clear()
 	_queue.append_array(world.execute(command))
@@ -372,6 +380,27 @@ func _apply(event: Dictionary) -> float:
 		_actors[World.PLAYER_ID]["pos"] = Vector2(event["position"])
 		map_changed.emit()
 		return 0.15
+	if type == Protocol.EVT_TELEPORTED:
+		_actors[event["entite"]]["pos"] = Vector2(event["case"])
+		return 0.25
+	if type == Protocol.EVT_STATUS:
+		var affected: Dictionary = _actors[event["entite"]]
+		affected["pa"] = event["pa"]
+		affected["pm"] = event["pm"]
+		var label := "+%d PA" % event["valeur"] if event["effet"] == Spell.EFFECT_GAIN_PA else "-%d PM" % event["valeur"]
+		_add_floating(label, Color(0.55, 0.8, 1.0), affected["pos"])
+		combat_state_changed.emit()
+		return 0.25
+	if type == Protocol.EVT_XP:
+		return 0.0
+	if type == Protocol.EVT_LEVEL_UP:
+		if _actors.has(World.PLAYER_ID):
+			_add_floating("Niveau %d !" % event["niveau"], Color(1, 0.85, 0.3), _actors[World.PLAYER_ID]["pos"])
+		level_up.emit(event["niveau"])
+		return 0.6
+	if type == Protocol.EVT_CHARACTER:
+		character_changed.emit()
+		return 0.0
 	if type == Protocol.EVT_REFUSED:
 		if mode == Mode.COMBAT and _refusals.has(event["raison"]):
 			combat_message.emit(_refusals[event["raison"]])
@@ -443,6 +472,7 @@ func _add_floating(text: String, color: Color, grid_pos: Vector2) -> void:
 func _load_exploration_actors() -> void:
 	_actors.clear()
 	_actors[World.PLAYER_ID] = _new_actor(Vector2(world.position_of(World.PLAYER_ID)), world.player_voie, 0, world.player_name, 1, 1)
+	_actors[World.PLAYER_ID]["race"] = world.character.race_id
 	for group: Dictionary in world.groups():
 		var monster_ids: Array = group["monstres"]
 		var first: String = monster_ids[0]
@@ -461,6 +491,7 @@ func _load_combat_actors(event: Dictionary) -> void:
 		var data := _new_actor(Vector2(snapshot["case"]), snapshot["type"], snapshot["equipe"], snapshot["nom"], snapshot["pv"], snapshot["pv_max"])
 		data["pa"] = snapshot["pa"]
 		data["pm"] = snapshot["pm"]
+		data["race"] = snapshot.get("race", "")
 		_actors[snapshot["id"]] = data
 	_placement.assign(event["placement"])
 	current_turn = ""
@@ -469,7 +500,7 @@ func _load_combat_actors(event: Dictionary) -> void:
 
 func _new_actor(pos: Vector2, kind: String, team: int, actor_name: String, hp: int, max_hp: int) -> Dictionary:
 	return {"pos": pos, "kind": kind, "team": team, "name": actor_name, "hp": hp, "max_hp": max_hp,
-		"pa": 0, "pm": 0, "alive": true, "count": 1, "facing": 1.0, "phase": 0.0}
+		"pa": 0, "pm": 0, "alive": true, "count": 1, "facing": 1.0, "phase": 0.0, "race": ""}
 
 
 ## Recalcule les zones affichées en combat (déplacement, portée du sort).
@@ -623,13 +654,13 @@ func _draw_actor(actor_id: String) -> void:
 	var body := base + Vector2(0, -absf(sin(phase)) * 2.5 if walking else 0.0)
 	var kind: String = data["kind"]
 	if actor_id == World.PLAYER_ID:
-		_draw_humanoid(base, body, facing, swing, Color("2f5d8a"), Color("f0c8a0"), Color("8a3b2f"), "pointu")
+		Figures.player(self, base, body, facing, swing, data["race"], kind)
 	elif kind.contains("loup"):
-		_draw_wolf(base, body, facing, swing)
+		Figures.wolf(self, base, body, facing, swing)
 	elif kind.contains("gobelin"):
-		_draw_goblin(base, body, facing, swing)
+		Figures.goblin(self, base, body, facing, swing)
 	else:
-		_draw_blob(base, body)
+		Figures.blob(self, base, body)
 	if mode == Mode.EXPLORATION and data["count"] > 1:
 		draw_string(ThemeDB.fallback_font, base + Vector2(10, -30), "×%d" % data["count"], HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color.WHITE)
 	if mode == Mode.COMBAT:
@@ -643,73 +674,13 @@ func _draw_npc(npc: Dictionary) -> void:
 	var base := IsoGrid.cell_to_screen(npc["case"])
 	var npc_id: String = npc["id"]
 	if npc_id.contains("gobelin"):
-		_draw_goblin(base, base, -1.0, 0.0)
+		Figures.goblin(self, base, base, -1.0, 0.0)
 	else:
-		_draw_humanoid(base, base, -1.0, 0.0, Color("6b7d3a"), Color("e8c09a"), Color("c9a64a"), "chapeau")
+		Figures.humanoid(self, base, base, -1.0, 0.0, Color("6b7d3a"), Color("e8c09a"), Color("c9a64a"), "chapeau")
 	# Petite bulle « … » : ce personnage a quelque chose à dire.
 	var mark := base + Vector2(14, -62)
 	draw_circle(mark, 8, Color(1, 1, 1, 0.9))
 	draw_string(ThemeDB.fallback_font, mark + Vector2(-6, 4), "…", HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(0.2, 0.2, 0.2))
-
-
-## Point d'un dessin tourné vers la droite (`facing` = 1) ou la gauche (-1).
-func _at(origin: Vector2, x: float, y: float, facing: float) -> Vector2:
-	return origin + Vector2(x * facing, y)
-
-
-## Personnage humanoïde : jambes, cape, tête, couvre-chef (« pointu » ou « chapeau »).
-func _draw_humanoid(base: Vector2, body: Vector2, facing: float, swing: float, cloak: Color, skin: Color, hat: Color, hat_kind: String) -> void:
-	draw_colored_polygon(_ellipse(base, 14, 7), COLOR_SHADOW)
-	draw_line(base + Vector2(-4, -8), base + Vector2(-4 + swing, 0), Color("3b2a1c"), 4.0)
-	draw_line(base + Vector2(4, -8), base + Vector2(4 - swing, 0), Color("3b2a1c"), 4.0)
-	draw_colored_polygon(PackedVector2Array([
-		body + Vector2(-11, -6), body + Vector2(11, -6), body + Vector2(7, -30), body + Vector2(-7, -30),
-	]), cloak)
-	draw_circle(body + Vector2(0, -38), 8, skin)
-	draw_circle(_at(body, 4, -39, facing), 1.3, Color(0.15, 0.1, 0.1))
-	if hat_kind == "chapeau":
-		draw_colored_polygon(_ellipse(body + Vector2(0, -43), 13, 4), hat)
-		draw_colored_polygon(PackedVector2Array([body + Vector2(-6, -43), body + Vector2(6, -43), body + Vector2(4, -52), body + Vector2(-4, -52)]), hat)
-	else:
-		draw_colored_polygon(PackedVector2Array([
-			body + Vector2(-9, -40), body + Vector2(9, -40), _at(body, -2, -57, facing),
-		]), hat)
-
-
-func _draw_wolf(base: Vector2, body: Vector2, facing: float, swing: float) -> void:
-	var fur := Color("7d7f86")
-	var dark := Color("6b6d73")
-	draw_colored_polygon(_ellipse(base, 18, 7), COLOR_SHADOW)
-	for leg_x in [-9.0, 9.0]:
-		var direction := 1.0 if leg_x < 0.0 else -1.0
-		draw_line(_at(body, leg_x, -10, facing), _at(base, leg_x + swing * direction, 0, facing), dark, 3.0)
-	draw_colored_polygon(_ellipse(body + Vector2(0, -14), 16, 9), fur)
-	draw_circle(_at(body, 13, -22, facing), 7, Color("8e9097"))
-	draw_colored_polygon(PackedVector2Array([_at(body, 10, -27, facing), _at(body, 13, -36, facing), _at(body, 16, -27, facing)]), dark)
-	draw_colored_polygon(PackedVector2Array([_at(body, 17, -21, facing), _at(body, 25, -19, facing), _at(body, 17, -17, facing)]), dark)
-	draw_colored_polygon(PackedVector2Array([_at(body, -15, -16, facing), _at(body, -26, -24 + swing, facing), _at(body, -14, -11, facing)]), dark)
-	draw_circle(_at(body, 15, -23, facing), 1.5, Color(0.9, 0.8, 0.2))
-
-
-func _draw_goblin(base: Vector2, body: Vector2, facing: float, swing: float) -> void:
-	var skin := Color("6f9a3e")
-	draw_colored_polygon(_ellipse(base, 12, 6), COLOR_SHADOW)
-	draw_line(base + Vector2(-3, -6), base + Vector2(-3 + swing, 0), Color("3b2a1c"), 3.0)
-	draw_line(base + Vector2(3, -6), base + Vector2(3 - swing, 0), Color("3b2a1c"), 3.0)
-	draw_colored_polygon(PackedVector2Array([
-		body + Vector2(-9, -5), body + Vector2(9, -5), body + Vector2(6, -22), body + Vector2(-6, -22),
-	]), Color("5a4630"))
-	draw_circle(body + Vector2(0, -29), 8, skin)
-	draw_colored_polygon(PackedVector2Array([body + Vector2(-6, -31), body + Vector2(-17, -36), body + Vector2(-7, -26)]), skin)
-	draw_colored_polygon(PackedVector2Array([body + Vector2(6, -31), body + Vector2(17, -36), body + Vector2(7, -26)]), skin)
-	draw_colored_polygon(PackedVector2Array([_at(body, 5, -30, facing), _at(body, 12, -27, facing), _at(body, 5, -26, facing)]), Color("5d8433"))
-	draw_circle(_at(body, -1, -31, facing), 1.5, Color(1, 0.3, 0.2))
-	draw_circle(_at(body, 4, -31, facing), 1.5, Color(1, 0.3, 0.2))
-
-
-func _draw_blob(base: Vector2, body: Vector2) -> void:
-	draw_colored_polygon(_ellipse(base, 14, 7), COLOR_SHADOW)
-	draw_colored_polygon(_ellipse(body + Vector2(0, -12), 13, 12), Color("9a5fb0"))
 
 
 ## Flèches au milieu des bords qui mènent à une autre carte.
@@ -808,8 +779,4 @@ func _scaled_diamond(center: Vector2, scale_factor: float) -> PackedVector2Array
 
 
 func _ellipse(center: Vector2, radius_x: float, radius_y: float) -> PackedVector2Array:
-	var points := PackedVector2Array()
-	for i in 16:
-		var angle := TAU * i / 16.0
-		points.append(center + Vector2(cos(angle) * radius_x, sin(angle) * radius_y))
-	return points
+	return Figures.ellipse(center, radius_x, radius_y)
