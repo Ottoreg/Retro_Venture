@@ -11,11 +11,20 @@ var entries: Dictionary = {}
 ## emplacement → uid
 var equipped: Dictionary = {}
 var ecus := 0
+## Nombre maximal d'entrées (le coffre de la maison en a plus que le sac).
+var capacity := MAX_ENTRIES
 var _next_uid := 1
 
 
 func is_full() -> bool:
-	return entries.size() >= MAX_ENTRIES
+	return entries.size() >= capacity
+
+
+## Vrai s'il reste de la place pour `quantity` exemplaires de ce modèle (une ressource s'ajoute à
+## sa pile, chaque équipement prend une place).
+func has_room_for(template: Dictionary, quantity := 1) -> bool:
+	var places := quantity if Item.is_equipment(template) else (0 if entries.has(template["id"]) else 1)
+	return entries.size() + places <= capacity
 
 
 func quantity_of(item_id: String) -> int:

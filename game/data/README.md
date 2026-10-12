@@ -44,6 +44,9 @@ Dofus. Elle est décrite par un **plan texte** : une ligne par rangée, un carac
 | `M` | Mur / bâtiment |
 | `R` | Rocher |
 | `E` | Eau (bloque le passage, mais pas la vue) |
+| `+` | Porte vers une autre carte (voir « Portes » ci-dessous), praticable |
+| `$` | Coffre (maison du joueur) |
+| `=` | Lit (maison du joueur) |
 | Autres majuscules | Ressource de métier, définie dans `metiers/` : `F` frêne, `C` chêne, `U` cuivre, `I` fer |
 
 Les tests vérifient chaque carte : format du plan, `id` égal au nom du fichier, et **toutes les cases
@@ -57,9 +60,12 @@ Les chiffres `1` à `9` dans le plan placent les groupes décrits dans la liste 
 ```json
 "groupes": [
   {"monstres": ["loup_des_collines"]},
-  {"monstres": ["gobelin_frondeur", "loup_des_collines"]}
+  {"monstres": ["gobelin_frondeur", "loup_des_collines"], "reapparition": [60, 90]}
 ]
 ```
+
+Un groupe vaincu réapparaît à sa place au bout d'un délai tiré dans `reapparition` (en secondes,
+2 à 3 minutes par défaut), mais jamais sous les pieds du joueur.
 
 ### PNJ
 
@@ -94,6 +100,22 @@ revente rapporte un quart du prix d'achat (`Item.RESALE_RATE`), au moins 1 écu.
 
 Avec `"atelier": "forgeron"` (id d'un métier d'artisanat), le PNJ ouvre l'**atelier** de ce métier :
 la liste de ses recettes, les ingrédients possédés et la fabrication.
+
+### Portes, intérieurs et maison
+
+Chaque `+` du plan est une porte : la liste `portes` donne, dans l'ordre du plan (de haut en bas,
+puis de gauche à droite), l'id de la carte où elle mène. On arrive sur la porte de cette carte qui
+ramène d'où l'on vient (les tests vérifient que chaque porte a sa réciproque).
+
+```json
+"portes": ["maison_joueur"]
+```
+
+- `sol` : `herbe` (par défaut) ou `parquet` pour un intérieur.
+- `instance` : `""` (par défaut, carte partagée) ou `joueur` pour une carte personnelle, comme la
+  maison : en multijoueur, chaque joueur aura sa propre copie (et son coffre).
+- La maison (`maison_joueur`) contient un coffre `$` (on y range des objets non portés) et un lit `=`
+  (dormir rend tous les PV). On les utilise depuis une case voisine.
 
 ### Sorties
 

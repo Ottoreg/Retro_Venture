@@ -138,6 +138,25 @@ func test_sorties_des_cartes_reciproques() -> void:
 			assert_true(edge_cells > 0, "%s : aucune case praticable sur le bord « %s »" % [path, direction])
 
 
+func test_portes_reciproques() -> void:
+	var door_count := 0
+	for path in _find_json(DATA_ROOT.path_join("cartes")):
+		var map := DataLoader.load_map(path)
+		if map == null:
+			continue
+		for cell: Vector2i in map.doors:
+			door_count += 1
+			var target := DataLoader.load_map(DataLoader.map_path(map.doors[cell]))
+			assert_true(target != null, "%s : la porte %s mène à une carte inexistante (%s)" % [path, cell, map.doors[cell]])
+			if target != null:
+				assert_true(map.id in target.doors.values(), "%s : la carte %s doit avoir une porte qui ramène ici" % [path, target.id])
+	assert_true(door_count >= 2, "au moins la porte de la maison et celle qui en sort")
+	var house := DataLoader.load_map(DataLoader.map_path("maison_joueur"))
+	assert_true(house != null and house.instance == "joueur", "maison du joueur, instanciée par joueur en multi")
+	if house != null:
+		assert_true("coffre" in house.obstacles.values() and "lit" in house.obstacles.values(), "un coffre et un lit")
+
+
 func _assert_id_matches_file(data: Variant, path: String) -> void:
 	if typeof(data) == TYPE_DICTIONARY:
 		assert_eq(str(data.get("id")), path.get_file().get_basename(), "%s : l'id doit correspondre au nom du fichier" % path)

@@ -213,7 +213,7 @@ func create_character_fighter(character: Character, fighter_id: String) -> Fight
 	for stat_name in Character.STATS:
 		fighter.stats[stat_name] = character.stat(stat_name, self)
 	fighter.max_hp = character.max_hp(self)
-	fighter.hp = fighter.max_hp
+	fighter.hp = character.hp(self)  # Les PV perdus se gardent d'un combat à l'autre.
 	# Initiative : base de la Voie + Force, Intelligence, Chance et Agilité (pas Vitalité ni Sagesse).
 	for stat_name in Character.INITIATIVE_STATS:
 		fighter.initiative += fighter.stat(stat_name)

@@ -58,7 +58,7 @@ func refresh() -> void:
 	var span := maxi(1, int(sheet["xp_suivant"]) - int(sheet["xp_niveau"]))
 	_xp_bar.value = 100.0 * (int(sheet["xp"]) - int(sheet["xp_niveau"])) / span
 	_xp_label.text = "Expérience : %d / %d" % [sheet["xp"], sheet["xp_suivant"]]
-	_hp_label.text = "Points de vie : %d" % sheet["pv_max"]
+	_hp_label.text = "Points de vie : %d / %d" % [sheet["pv"], sheet["pv_max"]]
 	var points: int = sheet["points"]
 	_points_label.text = "Points à répartir : %d" % points
 	_points_label.modulate = GOLD if points > 0 else Color(0.7, 0.7, 0.7)

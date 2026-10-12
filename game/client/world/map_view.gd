@@ -25,6 +25,10 @@ signal workshop_opened(event: Dictionary)
 signal craft_result(event: Dictionary)
 ## Message court pour le joueur (récolte impossible, niveau de métier…).
 signal notice(text: String)
+## Coffre ouvert ou modifié : événement EVT_CHEST.
+signal chest_changed(event: Dictionary)
+## Refus d'un dépôt ou d'un retrait au coffre : EVT_REFUSED.
+signal chest_refused(event: Dictionary)
 signal inventory_changed
 
 enum Mode { EXPLORATION, COMBAT }
@@ -35,6 +39,7 @@ const WALK_SPEED := 170.0
 const COLOR_GRASS := Color("7aa35a")
 const COLOR_BORDER := Color("6a8f4e")
 const COLOR_WATER := Color("4f8fb8")
+const COLOR_WOOD_FLOOR := Color("a7774a")
 const COLOR_GRID := Color(0, 0, 0, 0.12)
 const COLOR_HOVER_OK := Color(1, 1, 1, 0.35)
 const COLOR_HOVER_KO := Color(0.9, 0.2, 0.2, 0.45)
@@ -228,6 +233,14 @@ func _on_click(cell: Vector2i) -> void:
 func _exploration_commands(cell: Vector2i, from: Vector2i) -> Array[Dictionary]:
 	if _map.resource_nodes.has(cell):
 		return _harvest_commands(cell, from)
+	if _map.obstacles.get(cell, "") in GameMap.FURNITURE:
+		return _approach_commands(cell, from, {"type": Protocol.CMD_USE, "entite": World.PLAYER_ID, "case": cell})
+	if _map.doors.has(cell):
+		var through: Array[Dictionary] = [
+			{"type": Protocol.CMD_MOVE, "entite": World.PLAYER_ID, "cible": cell},
+			{"type": Protocol.CMD_MOVE, "entite": World.PLAYER_ID, "cible": cell, "porte": true},
+		]
+		return through
 	var npc := _map.npc_at(cell)
 	var group := world.group_at(cell)
 	var exit := _exit_at(cell)
@@ -251,20 +264,26 @@ func _exploration_commands(cell: Vector2i, from: Vector2i) -> Array[Dictionary]:
 ## Récolte : marcher jusqu'à une case qui touche la ressource (ou rester sur place), puis récolter.
 ## Si la récolte est impossible (niveau de métier, ressource épuisée…), un message l'explique.
 func _harvest_commands(cell: Vector2i, from: Vector2i) -> Array[Dictionary]:
-	var commands: Array[Dictionary] = []
 	var refusal := world.harvest_refusal(cell)
-	var target := from
-	if refusal.is_empty() and not GameMap.is_adjacent(from, cell):
-		var path := _map.approach_path(from, cell)
-		if path.is_empty():
-			refusal = Protocol.REASON_NO_PATH
-		else:
-			target = path[-1]
 	if not refusal.is_empty():
 		notice.emit(_harvest_refusal_text(refusal, cell))
-		return commands
+		var none: Array[Dictionary] = []
+		return none
+	return _approach_commands(cell, from, {"type": Protocol.CMD_HARVEST, "entite": World.PLAYER_ID, "case": cell})
+
+
+## Marcher jusqu'à une case qui touche `cell` (ou rester sur place si on y est), puis `action`.
+func _approach_commands(cell: Vector2i, from: Vector2i, action: Dictionary) -> Array[Dictionary]:
+	var commands: Array[Dictionary] = []
+	var target := from
+	if not GameMap.is_adjacent(from, cell):
+		var path := _map.approach_path(from, cell)
+		if path.is_empty():
+			notice.emit("Impossible d'y accéder.")
+			return commands
+		target = path[-1]
 	commands.append({"type": Protocol.CMD_MOVE, "entite": World.PLAYER_ID, "cible": target})
-	commands.append({"type": Protocol.CMD_HARVEST, "entite": World.PLAYER_ID, "case": cell})
+	commands.append(action)
 	return commands
 
 
@@ -377,6 +396,13 @@ func _describe(cell: Vector2i) -> String:
 		var exit := _exit_at(cell)
 		if not exit.is_empty():
 			return "Vers : %s" % world.neighbor_name(exit["direction"])
+		if _map.doors.has(cell):
+			return "Porte : %s (cliquer pour entrer)" % world.map_name(_map.doors[cell])
+		var furniture: String = _map.obstacles.get(cell, "")
+		if furniture == "coffre":
+			return "Coffre (cliquer pour l'ouvrir)"
+		if furniture == "lit":
+			return "Lit (cliquer pour dormir : PV au maximum)"
 		var npc := _map.npc_at(cell)
 		if not npc.is_empty():
 			var action: String = "commercer" if npc.get("marchand", false) else "fabriquer" if not str(npc.get("atelier", "")).is_empty() else "parler"
@@ -415,8 +441,9 @@ func _update_preview() -> void:
 
 func _process(delta: float) -> void:
 	# Le temps passe pour le monde : les ressources récoltées repoussent.
-	if world != null and not world.update(delta).is_empty():
-		queue_redraw()
+	if world != null:
+		for event in world.update(delta):
+			_apply_world_change(event)
 	var kept: Array[Dictionary] = []
 	for text in _floating:
 		text["age"] += delta
@@ -431,6 +458,14 @@ func _process(delta: float) -> void:
 			_play_next()
 	if _playing or not _floating.is_empty():
 		queue_redraw()
+
+
+## Changements du monde qui ne viennent pas d'une commande (repousse, réapparition) : appliqués
+## tout de suite, sans attendre la file d'événements.
+func _apply_world_change(event: Dictionary) -> void:
+	if event["type"] == Protocol.EVT_GROUP_RESPAWNED and mode == Mode.EXPLORATION and world.map == _map:
+		_add_group_actor(event["groupe"])
+	queue_redraw()
 
 
 func _advance_walk(delta: float) -> void:
@@ -514,6 +549,14 @@ func _apply(event: Dictionary) -> float:
 		_add_floating("+%d %s" % [event["quantite"], event["nom"]], Color(0.6, 0.95, 0.5), player["pos"])
 		queue_redraw()
 		return 0.6
+	if type == Protocol.EVT_CHEST:
+		chest_changed.emit(event)
+		return 0.0
+	if type == Protocol.EVT_RESTED:
+		if int(event["gain"]) > 0:
+			_add_floating("+%d PV" % event["gain"], Color(0.45, 1, 0.45), _actors[World.PLAYER_ID]["pos"])
+		notice.emit("Une bonne nuit de sommeil : %d / %d PV." % [event["pv"], event["pv_max"]])
+		return 0.6
 	if type == Protocol.EVT_JOB:
 		for level_reached: int in event["niveaux"]:
 			_add_floating("%s niv. %d !" % [event["nom"], level_reached], Color(1, 0.85, 0.3), _actors[World.PLAYER_ID]["pos"] + Vector2(0, -0.6))
@@ -554,6 +597,10 @@ func _apply(event: Dictionary) -> float:
 			trade_result.emit(event)
 		if event["commande"] == Protocol.CMD_CRAFT:
 			craft_result.emit(event)
+		if event["commande"] == Protocol.CMD_DEPOSIT or event["commande"] == Protocol.CMD_WITHDRAW:
+			chest_refused.emit(event)
+		if event["commande"] == Protocol.CMD_USE:
+			notice.emit("Impossible d'utiliser ce meuble d'ici.")
 		if event["commande"] == Protocol.CMD_HARVEST:
 			notice.emit(_harvest_refusal_text(event["raison"], NO_CELL))
 		if mode == Mode.COMBAT and _refusals.has(event["raison"]):
@@ -628,14 +675,18 @@ func _load_exploration_actors() -> void:
 	_actors[World.PLAYER_ID] = _new_actor(Vector2(world.position_of(World.PLAYER_ID)), world.player_voie, 0, world.player_name, 1, 1)
 	_actors[World.PLAYER_ID]["race"] = world.character.race_id
 	for group: Dictionary in world.groups():
-		var monster_ids: Array = group["monstres"]
-		var first: String = monster_ids[0]
-		var monster_name: String = first
-		if world.data != null and world.data.monsters.has(first):
-			monster_name = world.data.monsters[first]["nom"]
-		var data := _new_actor(Vector2(group["case"]), first, 1, monster_name, 1, 1)
-		data["count"] = monster_ids.size()
-		_actors[group["id"]] = data
+		_add_group_actor(group)
+
+
+func _add_group_actor(group: Dictionary) -> void:
+	var monster_ids: Array = group["monstres"]
+	var first: String = monster_ids[0]
+	var monster_name: String = first
+	if world.data != null and world.data.monsters.has(first):
+		monster_name = world.data.monsters[first]["nom"]
+	var data := _new_actor(Vector2(group["case"]), first, 1, monster_name, 1, 1)
+	data["count"] = monster_ids.size()
+	_actors[group["id"]] = data
 
 
 func _load_combat_actors(event: Dictionary) -> void:
@@ -711,12 +762,16 @@ func _draw() -> void:
 	if mode == Mode.EXPLORATION:
 		for npc in map.npcs:
 			drawables.append([IsoGrid.depth(Vector2(npc["case"])) + 0.01, "pnj", npc])
+		for cell: Vector2i in map.doors:
+			drawables.append([IsoGrid.depth(Vector2(cell)) - 0.01, "porte", cell])
 	drawables.sort_custom(func(a: Array, b: Array) -> bool: return a[0] < b[0])
 	for drawable: Array in drawables:
 		if drawable[1] == "acteur":
 			_draw_actor(drawable[2])
 		elif drawable[1] == "pnj":
 			_draw_npc(drawable[2])
+		elif drawable[1] == "porte":
+			_draw_door(drawable[2])
 		else:
 			_draw_obstacle(drawable[2], map.obstacles[drawable[2]])
 	if mode == Mode.EXPLORATION:
@@ -754,7 +809,7 @@ func _draw_ground(map: GameMap) -> void:
 		draw_polyline(outline, COLOR_GRID)
 	for cell: Vector2i in map.cells():
 		var points := IsoGrid.diamond(IsoGrid.cell_to_screen(cell))
-		var color := COLOR_WATER if map.obstacles.get(cell) == "eau" else COLOR_GRASS
+		var color: Color = COLOR_WATER if map.obstacles.get(cell) == "eau" else COLOR_WOOD_FLOOR if map.floor_kind == "parquet" else COLOR_GRASS
 		# Légère variation de teinte, stable d'une image à l'autre.
 		color = color.darkened(float(posmod(cell.x * 7 + cell.y * 13, 5)) * 0.025)
 		draw_colored_polygon(points, color)
@@ -766,6 +821,16 @@ func _draw_obstacle(cell: Vector2i, kind: String) -> void:
 	var base := IsoGrid.cell_to_screen(cell)
 	if kind == GameMap.RESOURCE_OBSTACLE:
 		_draw_resource(cell, base)
+		return
+	if kind == "coffre":
+		draw_colored_polygon(_ellipse(base + Vector2(0, 3), 18, 7), COLOR_SHADOW)
+		_draw_block(base + Vector2(0, -2), 16, Color("8a5a2b"))
+		draw_rect(Rect2(base + Vector2(-3, -16), Vector2(6, 6)), Color("e0b84a"))
+		return
+	if kind == "lit":
+		_draw_block(base, 12, Color("6b4a2b"))
+		draw_colored_polygon(_scaled_diamond(base + Vector2(0, -12), 0.8), Color("b5413a"))
+		draw_colored_polygon(_ellipse(base + Vector2(-10, -17), 8, 4), Color("f2efe6"))
 		return
 	match kind:
 		"arbre":
@@ -783,6 +848,14 @@ func _draw_obstacle(cell: Vector2i, kind: String) -> void:
 			_draw_block(base, 40, Color("b49a74"))
 		_:
 			_draw_block(base, 20, Color.MAGENTA)  # Type inconnu : bien visible pour le corriger.
+
+
+## Porte : un battant de bois debout sur la case (on la franchit en marchant dessus).
+func _draw_door(cell: Vector2i) -> void:
+	var base := IsoGrid.cell_to_screen(cell)
+	draw_rect(Rect2(base + Vector2(-11, -38), Vector2(22, 38)), Color("5a3a1e"))
+	draw_rect(Rect2(base + Vector2(-8, -35), Vector2(16, 35)), Color("8a5a2b"))
+	draw_circle(base + Vector2(5, -17), 2, Color("e0b84a"))
 
 
 ## Ressource récoltable : arbre ou rocher à minerai, ou ce qu'il en reste en attendant la repousse.

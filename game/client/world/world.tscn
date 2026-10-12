@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene load_steps=10 format=3]
 
 [ext_resource type="Script" path="res://client/world/world_scene.gd" id="1_scene"]
 [ext_resource type="Script" path="res://client/world/map_view.gd" id="2_map"]
@@ -7,6 +7,8 @@
 [ext_resource type="Script" path="res://client/ui/inventory_window.gd" id="5_inventory"]
 [ext_resource type="Script" path="res://client/ui/shop_window.gd" id="6_shop"]
 [ext_resource type="Script" path="res://client/ui/craft_window.gd" id="7_craft"]
+[ext_resource type="Script" path="res://client/ui/chest_window.gd" id="8_chest"]
+[ext_resource type="Script" path="res://client/ui/jobs_window.gd" id="9_jobs"]
 
 [node name="WorldScene" type="Node2D"]
 script = ExtResource("1_scene")
@@ -52,6 +54,19 @@ grow_horizontal = 0
 focus_mode = 0
 text = "Inventaire (I)"
 
+[node name="JobsButton" type="Button" parent="Hud"]
+unique_name_in_owner = true
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -480.0
+offset_top = 12.0
+offset_right = -344.0
+offset_bottom = 48.0
+grow_horizontal = 0
+focus_mode = 0
+text = "Métiers (J)"
+
 [node name="CombatHud" type="CanvasLayer" parent="."]
 script = ExtResource("3_hud")
 
@@ -70,3 +85,11 @@ script = ExtResource("6_shop")
 [node name="CraftWindow" type="CanvasLayer" parent="."]
 layer = 3
 script = ExtResource("7_craft")
+
+[node name="ChestWindow" type="CanvasLayer" parent="."]
+layer = 3
+script = ExtResource("8_chest")
+
+[node name="JobsWindow" type="CanvasLayer" parent="."]
+layer = 2
+script = ExtResource("9_jobs")

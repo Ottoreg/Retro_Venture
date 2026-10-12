@@ -332,6 +332,12 @@ prévoit déjà `voie` et `rang` sur chaque sort** pour que le système s'ajoute
   rapidement contre de la monnaie.
 - **Carte du monde** et **minicarte** consultables.
 - **Point de résurrection** choisi au dernier temple / point de voyage activé.
+- **Maison du joueur** : chaque personnage a la sienne (une porte du village mène à une carte
+  personnelle, instanciée par joueur en multijoueur). Elle contient un **coffre** (stockage, 100
+  places) et un **lit** (tous les PV d'un coup). Prototype : à Brumerive.
+- **Points de vie** : ils se gardent d'un combat à l'autre et remontent lentement hors combat
+  (1 PV toutes les 2 s) ; après une défaite, on se relève avec 1 PV.
+- **Monstres** : un groupe vaincu réapparaît à sa place au bout de 2 à 3 minutes (réglable par groupe).
 - **Cycle jour/nuit** : optionnel, long terme (certains monstres ou ressources seulement la nuit).
 
 ---

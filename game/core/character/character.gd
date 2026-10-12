@@ -28,8 +28,19 @@ var unspent_points := 0
 var inventory := Inventory.new()
 ## XP de métier : id du métier → XP totale (un métier absent est au niveau 1).
 var jobs: Dictionary = {}
+## Points de vie perdus (les PV actuels valent PV max − PV perdus, au moins 1). Ils se gardent
+## d'un combat à l'autre ; on les regagne peu à peu, ou d'un coup en dormant dans son lit.
+var hp_lost := 0
+## Coffre de la maison du joueur.
+var chest := Inventory.new()
+const CHEST_ENTRIES := 100
+
 
 const BASE_PROSPECTION := 100
+
+
+func _init() -> void:
+	chest.capacity = CHEST_ENTRIES
 
 
 static func create(p_name: String, p_race: String, p_voie: String) -> Character:
@@ -165,6 +176,7 @@ func sheet(data: GameData) -> Dictionary:
 		"points": unspent_points,
 		"caracteristiques": stats,
 		"pv_max": max_hp(data),
+		"pv": hp(data),
 		"prospection": prospection(data),
 		"pa": int(voie.get("caracteristiques", {}).get("pa", 0)) + extra("pa"),
 		"pm": int(voie.get("caracteristiques", {}).get("pm", 0)) + extra("pm"),
@@ -175,8 +187,18 @@ func sheet(data: GameData) -> Dictionary:
 
 ## Inventaire affichable : objets avec leur modèle (nom, type, rareté, niveau…), emplacements, écus.
 func inventory_sheet(data: GameData) -> Dictionary:
+	return {"objets": _entries_sheet(inventory, data), "equipement": inventory.equipped.duplicate(), "ecus": inventory.ecus,
+		"places": inventory.capacity}
+
+
+## Contenu du coffre de la maison, comme l'inventaire.
+func chest_sheet(data: GameData) -> Dictionary:
+	return {"objets": _entries_sheet(chest, data), "places": chest.capacity}
+
+
+static func _entries_sheet(source: Inventory, data: GameData) -> Array:
 	var listed: Array = []
-	for entry: Dictionary in inventory.entries.values():
+	for entry: Dictionary in source.entries.values():
 		var template: Dictionary = data.items.get(entry["objet"], {}) if data != null else {}
 		listed.append({
 			"uid": entry["uid"],
@@ -189,10 +211,10 @@ func inventory_sheet(data: GameData) -> Dictionary:
 			"quantite": entry["quantite"],
 			"jets": entry["jets"].duplicate(),
 			"conditions": template.get("conditions", {}).duplicate(),
-			"emplacement": inventory.slot_of(entry["uid"]),
+			"emplacement": source.slot_of(entry["uid"]),
 		})
 	listed.sort_custom(_inventory_order)
-	return {"objets": listed, "equipement": inventory.equipped.duplicate(), "ecus": inventory.ecus, "places": Inventory.MAX_ENTRIES}
+	return listed
 
 
 ## Tri de l'inventaire : par type, puis par nom.
@@ -202,6 +224,16 @@ static func _inventory_order(a: Dictionary, b: Dictionary) -> bool:
 	if a["nom"] != b["nom"]:
 		return str(a["nom"]) < str(b["nom"])
 	return str(a["uid"]) < str(b["uid"])
+
+
+## PV actuels (au moins 1).
+func hp(data: GameData) -> int:
+	return maxi(1, max_hp(data) - hp_lost)
+
+
+## Ajuste les PV perdus pour avoir `value` PV (entre 1 et le maximum).
+func set_hp(value: int, data: GameData) -> void:
+	hp_lost = max_hp(data) - clampi(value, 1, max_hp(data))
 
 
 func max_hp(data: GameData) -> int:
@@ -222,6 +254,8 @@ func to_dict() -> Dictionary:
 		"points": unspent_points,
 		"inventaire": inventory.to_dict(),
 		"metiers": jobs.duplicate(),
+		"pv_perdus": hp_lost,
+		"coffre": chest.to_dict(),
 	}
 
 
@@ -243,6 +277,13 @@ static func from_dict(data: Dictionary, known_items: Dictionary = {}) -> Charact
 		for stat_name: Variant in stats:
 			if stat_name in STATS and typeof(stats[stat_name]) in [TYPE_INT, TYPE_FLOAT]:
 				character.invested[stat_name] = maxi(0, int(stats[stat_name]))
+	var lost: Variant = data.get("pv_perdus", 0)
+	if typeof(lost) in [TYPE_INT, TYPE_FLOAT]:
+		character.hp_lost = maxi(0, int(lost))
+	if typeof(data.get("coffre")) == TYPE_DICTIONARY:
+		character.chest = Inventory.from_dict(data["coffre"], known_items)
+		character.chest.capacity = CHEST_ENTRIES
+		character.chest.equipped.clear()
 	var saved_jobs: Variant = data.get("metiers", {})
 	if typeof(saved_jobs) == TYPE_DICTIONARY:
 		for job_id: Variant in saved_jobs:

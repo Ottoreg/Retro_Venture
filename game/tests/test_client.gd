@@ -275,3 +275,92 @@ func test_atelier_du_forgeron() -> void:
 	assert_true(craft._craft_button.disabled, "plus assez de minerai")
 	craft.close()
 	scene.free()
+
+
+func test_maison_lit_et_coffre() -> void:
+	var tree := Engine.get_main_loop() as SceneTree
+	var scene: Node = load("res://client/world/world.tscn").instantiate()
+	tree.root.add_child(scene)
+	var view: MapView = scene.get_node("MapView")
+	var chest_window: ChestWindow = scene.get_node("ChestWindow")
+	var village := view.current_map()
+	assert_eq(village.doors.size(), 1, "la porte de la maison")
+	var door: Vector2i = village.doors.keys()[0]
+	assert_true(view._describe(door).begins_with("Porte"), view._describe(door))
+
+	view._on_click(door)
+	_run_until_idle(view)
+	assert_eq(view.world.map.id, "maison_joueur", "dans la maison")
+	assert_eq(view.current_map().id, "maison_joueur")
+	var house := view.current_map()
+	var bed := Vector2i(-99, -99)
+	var chest := Vector2i(-99, -99)
+	for cell: Vector2i in house.obstacles:
+		if house.obstacles[cell] == "lit":
+			bed = cell
+		elif house.obstacles[cell] == "coffre":
+			chest = cell
+
+	# Le lit rend tous les PV.
+	var character := view.world.character
+	character.hp_lost = 30
+	view._on_click(bed)
+	_run_until_idle(view)
+	assert_eq(character.hp_lost, 0, "PV au maximum après une nuit")
+
+	# Le coffre : déposer puis reprendre une pile de ressources.
+	character.inventory.add(view.world.data.items["peau_de_loup"], 3)
+	view._on_click(chest)
+	_run_until_idle(view)
+	assert_true(chest_window.is_open(), "coffre ouvert")
+	chest_window._select("peau_de_loup", false)
+	assert_eq(int(chest_window._quantity.value), 3, "toute la pile par défaut")
+	chest_window._on_deposit_pressed()
+	assert_eq(character.chest.quantity_of("peau_de_loup"), 3, "rangé dans le coffre")
+	assert_eq(character.inventory.quantity_of("peau_de_loup"), 0)
+	assert_eq(chest_window._chest_list.item_count, 1, "le coffre affiche la pile")
+	chest_window._select("peau_de_loup", true)
+	chest_window._quantity.value = 1
+	chest_window._on_withdraw_pressed()
+	assert_eq(character.inventory.quantity_of("peau_de_loup"), 1, "une peau reprise")
+	chest_window.close()
+
+	# Ressortir.
+	view._on_click(house.door_to(village.id))
+	_run_until_idle(view)
+	assert_eq(view.world.map.id, village.id, "de retour au village")
+	assert_eq(view.world.position_of(World.PLAYER_ID), door, "devant la porte")
+	scene.free()
+
+
+func test_reapparition_des_monstres_et_fenetre_des_metiers() -> void:
+	var tree := Engine.get_main_loop() as SceneTree
+	var scene: Node = load("res://client/world/world.tscn").instantiate()
+	tree.root.add_child(scene)
+	var view: MapView = scene.get_node("MapView")
+	var world := view.world
+
+	# Un groupe vaincu (simulé) revient tout seul sur la carte affichée.
+	var group: Dictionary = world.groups()[0]
+	world._schedule_respawn(world.map.id, group)
+	world._groups.erase(group["id"])
+	world._positions.erase(group["id"])
+	view._load_exploration_actors()
+	assert_false(view._actors.has(group["id"]), "groupe vaincu")
+	view._process(200.0)
+	assert_true(view._actors.has(group["id"]), "le groupe est réapparu à l'écran")
+	assert_eq(world.groups().size(), 3)
+
+	# Fenêtre des métiers : un onglet par métier.
+	var jobs: JobsWindow = scene.get_node("JobsWindow")
+	jobs.toggle()
+	assert_true(jobs.is_open())
+	assert_eq(jobs._tabs.tab_count, world.data.jobs.size(), "un onglet par métier")
+	jobs.select_job("forgeron")
+	assert_eq(jobs.current_job(), "forgeron")
+	assert_eq(jobs._title.text, "Forgeron")
+	assert_eq(jobs._list.item_count, world.data.jobs["forgeron"]["recettes"].size(), "toutes les recettes")
+	jobs.select_job("bucheron")
+	assert_eq(jobs._list.item_count, world.data.jobs["bucheron"]["ressources"].size(), "toutes les ressources")
+	jobs.toggle()
+	scene.free()

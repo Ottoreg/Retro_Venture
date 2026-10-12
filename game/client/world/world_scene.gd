@@ -4,7 +4,7 @@ extends Node2D
 
 const DEFAULT_START_MAP := "brumerive_0_0"
 const MENU_SCENE := "res://client/main/main.tscn"
-const HELP_EXPLORATION := "Clic : se déplacer · Monstre : attaquer · PNJ : parler, commercer, fabriquer · Arbre, minerai : récolter · Flèches au bord : changer de carte · C : personnage · I : inventaire · Échap : menu"
+const HELP_EXPLORATION := "Clic : se déplacer · Monstre : attaquer · PNJ : parler, commercer, fabriquer · Arbre, minerai : récolter · Porte : entrer · Flèches au bord : changer de carte · C : personnage · I : inventaire · J : métiers · Échap : menu"
 const HELP_COMBAT := "Clic : se déplacer (cases vertes) · 1-5 : choisir un sort, clic : le lancer · Clic droit : annuler"
 
 @onready var _map_view: MapView = $MapView
@@ -13,11 +13,16 @@ const HELP_COMBAT := "Clic : se déplacer (cases vertes) · 1-5 : choisir un sor
 @onready var _inventory: InventoryWindow = $InventoryWindow
 @onready var _shop: ShopWindow = $ShopWindow
 @onready var _craft: CraftWindow = $CraftWindow
+@onready var _chest: ChestWindow = $ChestWindow
+@onready var _jobs: JobsWindow = $JobsWindow
+@onready var _jobs_button: Button = %JobsButton
 @onready var _inventory_button: Button = %InventoryButton
 @onready var _info: Label = %Info
 @onready var _sheet_button: Button = %SheetButton
 
 var _hover_text := ""
+## Rafraîchissement régulier de la ligne d'infos (les PV remontent tout seuls).
+var _info_timer := 0.0
 
 
 func _ready() -> void:
@@ -31,6 +36,9 @@ func _ready() -> void:
 	_inventory.setup(_map_view)
 	_shop.setup(_map_view)
 	_craft.setup(_map_view)
+	_chest.setup(_map_view)
+	_jobs.setup(_map_view)
+	_jobs_button.pressed.connect(_jobs.toggle)
 	_map_view.notice.connect(_combat_hud.show_message)
 	_map_view.hovered_cell_changed.connect(_on_hovered_cell_changed)
 	_map_view.combat_started.connect(_on_combat_started)
@@ -69,6 +77,13 @@ func _create_world() -> World:
 	return World.new(start_map, game_data, load_map, character)
 
 
+func _process(delta: float) -> void:
+	_info_timer += delta
+	if _info_timer >= 1.0 and _map_view.world != null:
+		_info_timer = 0.0
+		_update_info()
+
+
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel") and _map_view.mode == MapView.Mode.EXPLORATION:
 		if _shop.is_open():
@@ -76,6 +91,12 @@ func _unhandled_input(event: InputEvent) -> void:
 			return
 		if _craft.is_open():
 			_craft.close()
+			return
+		if _chest.is_open():
+			_chest.close()
+			return
+		if _jobs.is_open():
+			_jobs.toggle()
 			return
 		if _sheet.is_open():
 			_sheet.toggle()
@@ -103,12 +124,14 @@ func _center_map() -> void:
 func _on_combat_started() -> void:
 	_sheet_button.visible = false
 	_inventory_button.visible = false
+	_jobs_button.visible = false
 	_update_info()
 
 
 func _on_exploration_resumed() -> void:
 	_sheet_button.visible = true
 	_inventory_button.visible = true
+	_jobs_button.visible = true
 	_update_info()
 	_save()
 
@@ -145,7 +168,7 @@ func _update_info() -> void:
 	var sheet := world.character.sheet(world.data)
 	var help := HELP_COMBAT if _map_view.mode == MapView.Mode.COMBAT else HELP_EXPLORATION
 	var detail := "   ·   %s" % _hover_text if not _hover_text.is_empty() else ""
-	var hero := "%s — niv. %d %s %s" % [sheet["nom"], sheet["niveau"], sheet["race_nom"], sheet["voie_nom"]]
+	var hero := "%s — niv. %d %s %s — %d / %d PV" % [sheet["nom"], sheet["niveau"], sheet["race_nom"], sheet["voie_nom"], sheet["pv"], sheet["pv_max"]]
 	if int(sheet["points"]) > 0:
 		hero += " (%d points à répartir)" % sheet["points"]
 	_info.text = "%s   ·   %s%s\n%s" % [hero, _map_view.current_map().display_name, detail, help]

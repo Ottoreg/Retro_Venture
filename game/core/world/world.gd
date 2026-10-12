@@ -11,6 +11,10 @@ const DEFAULT_NAME := "Aventurier"
 const PLACEMENT_DISTANCE_MIN := 4
 const PLACEMENT_DISTANCE_MAX := 6
 const PLACEMENT_CELL_COUNT := 6
+## Régénération hors combat : un PV toutes les REGEN_SECONDS secondes.
+const REGEN_SECONDS := 2.0
+## Quand un groupe devrait réapparaître sur la case du joueur, il attend encore un peu.
+const RESPAWN_RETRY := 5.0
 ## Quantité maximale d'un même objet par achat ou vente.
 const MAX_TRADE_QUANTITY := 100
 
@@ -50,6 +54,10 @@ var rng := RandomNumberGenerator.new()
 var clock := 0.0
 ## Ressources récoltées en attente de repousse : id de carte → { case: instant de repousse }.
 var _depleted: Dictionary = {}
+## Groupes de monstres vaincus en attente de réapparition : id de carte → { id du groupe: instant }.
+var _respawns: Dictionary = {}
+## Temps accumulé pour la régénération des PV hors combat.
+var _regen_time := 0.0
 var _combat_count := 0
 var _approach_from := Vector2i.ZERO
 
@@ -63,6 +71,12 @@ func _init(p_map: GameMap, p_data: GameData = null, p_map_loader: Callable = Cal
 
 
 ## Nom de la carte voisine dans cette direction, ou "" s'il n'y en a pas.
+## Nom d'une carte d'après son id ("" si elle est introuvable).
+func map_name(map_id: String) -> String:
+	var found := _load_map(map_id)
+	return found.display_name if found != null else ""
+
+
 func neighbor_name(direction: String) -> String:
 	if not map.exits.has(direction):
 		return ""
@@ -125,6 +139,12 @@ func execute(command: Dictionary) -> Array[Dictionary]:
 			return _harvest(command)
 		if type == Protocol.CMD_CRAFT:
 			return _craft(command)
+		if type == Protocol.CMD_USE:
+			return _use(command)
+		if type == Protocol.CMD_DEPOSIT:
+			return _transfer(command, character.inventory, character.chest)
+		if type == Protocol.CMD_WITHDRAW:
+			return _transfer(command, character.chest, character.inventory)
 	return _refused(command, Protocol.REASON_UNKNOWN_COMMAND)
 
 
@@ -132,7 +152,8 @@ func _move(command: Dictionary) -> Array[Dictionary]:
 	var entity_id: Variant = command.get("entite")
 	var target: Variant = command.get("cible")
 	var exit: Variant = command.get("sortie", "")
-	if typeof(entity_id) != TYPE_STRING or typeof(target) != TYPE_VECTOR2I or typeof(exit) != TYPE_STRING:
+	var door: Variant = command.get("porte", false)
+	if typeof(entity_id) != TYPE_STRING or typeof(target) != TYPE_VECTOR2I or typeof(exit) != TYPE_STRING or typeof(door) != TYPE_BOOL:
 		return _refused(command, Protocol.REASON_INVALID_COMMAND)
 	if entity_id != PLAYER_ID:
 		return _refused(command, Protocol.REASON_UNKNOWN_ENTITY)
@@ -145,6 +166,12 @@ func _move(command: Dictionary) -> Array[Dictionary]:
 		if exit not in map.exit_directions(target):
 			return _refused(command, Protocol.REASON_NO_EXIT)
 		next_map = _load_map(map.exits[exit])
+		if next_map == null:
+			return _refused(command, Protocol.REASON_UNKNOWN_MAP)
+	elif door:
+		if not map.doors.has(target):
+			return _refused(command, Protocol.REASON_NO_EXIT)
+		next_map = _load_map(map.doors[target])
 		if next_map == null:
 			return _refused(command, Protocol.REASON_UNKNOWN_MAP)
 	var start: Variant = _start_cell(command)
@@ -164,7 +191,8 @@ func _move(command: Dictionary) -> Array[Dictionary]:
 	_positions[PLAYER_ID] = target
 	_remember_walk(from, path)
 	if next_map != null:
-		_set_map(next_map, next_map.arrival_cell(exit, target))
+		var previous_map := map.id
+		_set_map(next_map, next_map.door_to(previous_map) if door else next_map.arrival_cell(exit, target))
 		events.append({
 			"type": Protocol.EVT_MAP_CHANGED,
 			"carte": map.id,
@@ -380,12 +408,16 @@ func _cells_around(center: Vector2i, count: int) -> Array[Vector2i]:
 
 func _end_combat(events: Array[Dictionary]) -> void:
 	var defeated_group := ""
+	var player := combat.get_fighter(PLAYER_ID)
 	if combat.winner_team == Fighter.TEAM_PLAYERS:
 		defeated_group = _combat_group
+		_schedule_respawn(map.id, _groups[_combat_group])
 		_groups.erase(_combat_group)
 		_positions.erase(_combat_group)
+		character.set_hp(player.hp, data)
 	else:
 		_positions[PLAYER_ID] = map.spawn
+		character.set_hp(1, data)  # Vaincu : on se relève avec 1 PV.
 	_reward(events)
 	if combat.winner_team == Fighter.TEAM_PLAYERS:
 		_loot(events)
@@ -585,8 +617,7 @@ func _buy(command: Dictionary) -> Array[Dictionary]:
 		return _refused(command, Protocol.REASON_NOT_ENOUGH_ECUS)
 	# Chaque équipement prend une place ; une ressource s'ajoute à sa pile si on en a déjà.
 	var equipment := Item.is_equipment(template)
-	var places := quantity if equipment else (0 if inventory.entries.has(item_id) else 1)
-	if inventory.entries.size() + places > Inventory.MAX_ENTRIES:
+	if not inventory.has_room_for(template, quantity):
 		return _refused(command, Protocol.REASON_INVENTORY_FULL)
 	inventory.ecus -= price
 	if equipment:
@@ -635,11 +666,14 @@ func _trade_events(operation: String, template: Dictionary, quantity: int, price
 
 # --- Métiers : récolte et artisanat ------------------------------------------------------------
 
-## Fait avancer le temps : les ressources récoltées repoussent. Renvoie un événement
-## EVT_RESOURCE_RESPAWNED par ressource de la carte actuelle qui a repoussé.
+## Fait avancer le temps : les PV se régénèrent hors combat, les ressources récoltées repoussent
+## et les groupes de monstres vaincus réapparaissent. Renvoie un événement par ressource
+## (EVT_RESOURCE_RESPAWNED) ou groupe (EVT_GROUP_RESPAWNED) revenu sur la carte actuelle.
 func update(delta: float) -> Array[Dictionary]:
 	clock += delta
 	var events: Array[Dictionary] = []
+	_regenerate(delta)
+	_respawn_groups(events)
 	for map_id: String in _depleted:
 		var cells: Dictionary = _depleted[map_id]
 		for cell: Vector2i in cells.keys():
@@ -648,6 +682,52 @@ func update(delta: float) -> Array[Dictionary]:
 				if map != null and map_id == map.id:
 					events.append({"type": Protocol.EVT_RESOURCE_RESPAWNED, "carte": map_id, "case": cell})
 	return events
+
+
+## Un PV toutes les REGEN_SECONDS secondes, hors combat.
+func _regenerate(delta: float) -> void:
+	if in_combat() or character.hp_lost <= 0:
+		_regen_time = 0.0
+		return
+	_regen_time += delta
+	var healed := floori(_regen_time / REGEN_SECONDS)
+	if healed > 0:
+		_regen_time -= healed * REGEN_SECONDS
+		character.hp_lost = maxi(0, character.hp_lost - healed)
+
+
+func _schedule_respawn(map_id: String, group: Dictionary) -> void:
+	if not _respawns.has(map_id):
+		_respawns[map_id] = {}
+	var delay: Array = group.get("reapparition", GameMap.DEFAULT_RESPAWN)
+	_respawns[map_id][group["id"]] = clock + rng.randf_range(float(delay[0]), float(delay[1]))
+
+
+## Remet en place les groupes dont l'heure est venue (sur la carte actuelle ou une carte visitée).
+func _respawn_groups(events: Array[Dictionary]) -> void:
+	for map_id: String in _respawns:
+		var waiting: Dictionary = _respawns[map_id]
+		for group_id: String in waiting.keys():
+			if waiting[group_id] > clock:
+				continue
+			var source := _load_map(map_id)
+			var original: Dictionary = {}
+			if source != null:
+				for group in source.groups:
+					if group["id"] == group_id:
+						original = group
+			var here := map != null and map_id == map.id
+			if here and not original.is_empty() and _positions[PLAYER_ID] == original["case"]:
+				waiting[group_id] = clock + RESPAWN_RETRY  # Le joueur est dessus : un peu plus tard.
+				continue
+			waiting.erase(group_id)
+			if original.is_empty():
+				continue
+			var states: Dictionary = _groups if here else _map_states.get(map_id, {})
+			states[group_id] = original.duplicate(true)
+			if here:
+				_positions[group_id] = original["case"]
+				events.append({"type": Protocol.EVT_GROUP_RESPAWNED, "carte": map_id, "groupe": original.duplicate(true)})
 
 
 ## Ressource de la carte actuelle sur cette case (voir `GameData.nodes`), ou {}.
@@ -767,7 +847,7 @@ func _craft(command: Dictionary) -> Array[Dictionary]:
 	var template: Dictionary = data.items[recipe_id]
 	var equipment := Item.is_equipment(template)
 	var places := quantity if equipment else (0 if inventory.entries.has(recipe_id) else 1)
-	if inventory.entries.size() - freed + places > Inventory.MAX_ENTRIES:
+	if inventory.entries.size() - freed + places > inventory.capacity:
 		return _refused(command, Protocol.REASON_INVENTORY_FULL)
 	# Les ingrédients sont des ressources : leur uid est leur id.
 	for item_id: String in ingredients:
@@ -787,6 +867,74 @@ func _craft(command: Dictionary) -> Array[Dictionary]:
 	events.append(_job_event(job_id, int(recipe.get("xp", 0)) * quantity))
 	events.append_array(_inventory_events())
 	return events
+
+
+# --- Maison : coffre et lit ----------------------------------------------------------------------
+
+## Raison de refuser d'utiliser le meuble de la case `case` ("" si on peut) : ce doit être un meuble
+## du type voulu (tous si `kind` est vide) et le joueur doit se tenir à côté.
+func _furniture_refusal(command: Dictionary, kind := "") -> String:
+	var cell: Variant = command.get("case")
+	if not _is_player_command(command) or typeof(cell) != TYPE_VECTOR2I:
+		return Protocol.REASON_INVALID_COMMAND
+	var found: String = map.obstacles.get(cell, "")
+	if found not in GameMap.FURNITURE or (not kind.is_empty() and found != kind):
+		return Protocol.REASON_UNKNOWN_ENTITY
+	if not GameMap.is_adjacent(_positions[PLAYER_ID], cell):
+		return Protocol.REASON_TOO_FAR
+	return ""
+
+
+func _use(command: Dictionary) -> Array[Dictionary]:
+	var reason := _furniture_refusal(command)
+	if not reason.is_empty():
+		return _refused(command, reason)
+	var cell: Vector2i = command["case"]
+	if map.obstacles[cell] == "coffre":
+		var opened: Array[Dictionary] = [_chest_event(cell)]
+		return opened
+	# Le lit : une bonne nuit, et tous les PV reviennent.
+	var gain := character.hp_lost
+	character.hp_lost = 0
+	var events: Array[Dictionary] = [{
+		"type": Protocol.EVT_RESTED,
+		"gain": gain,
+		"pv": character.hp(data),
+		"pv_max": character.max_hp(data),
+	}]
+	events.append(_character_event())
+	return events
+
+
+## Déplace un objet entre l'inventaire et le coffre (dans un sens ou dans l'autre).
+func _transfer(command: Dictionary, source: Inventory, destination: Inventory) -> Array[Dictionary]:
+	var uid: Variant = command.get("objet")
+	var quantity := _trade_quantity(command)
+	if typeof(uid) != TYPE_STRING or quantity == 0:
+		return _refused(command, Protocol.REASON_INVALID_COMMAND)
+	var reason := _furniture_refusal(command, "coffre")
+	if not reason.is_empty():
+		return _refused(command, reason)
+	if data == null or not source.entries.has(uid) or not data.items.has(source.entries[uid]["objet"]):
+		return _refused(command, Protocol.REASON_UNKNOWN_ITEM)
+	if not source.slot_of(uid).is_empty():
+		return _refused(command, Protocol.REASON_ITEM_WORN)
+	var entry: Dictionary = source.entries[uid]
+	if quantity > int(entry["quantite"]):
+		return _refused(command, Protocol.REASON_INVALID_COMMAND)
+	var template: Dictionary = data.items[entry["objet"]]
+	if not destination.has_room_for(template, 1 if Item.is_equipment(template) else quantity):
+		return _refused(command, Protocol.REASON_INVENTORY_FULL)
+	var rolled: Dictionary = entry["jets"].duplicate()
+	source.remove(uid, quantity)
+	destination.add(template, quantity, rolled)
+	var events: Array[Dictionary] = [_chest_event(command["case"])]
+	events.append_array(_inventory_events())
+	return events
+
+
+func _chest_event(cell: Vector2i) -> Dictionary:
+	return {"type": Protocol.EVT_CHEST, "case": cell, "coffre": character.chest_sheet(data)}
 
 
 ## Ajoute de l'XP de métier (avec le bonus de race) et décrit le résultat.
@@ -856,7 +1004,46 @@ func save_data() -> Dictionary:
 		"carte": map.id,
 		"position": [position.x, position.y],
 		"groupes_restants": remaining,
+		"reapparitions": _saved_timers(_respawns),
+		"repousses": _saved_timers(_depleted),
 	}
+
+
+## Minuteries (réapparitions, repousses) en secondes restantes : id de carte → [[clé, secondes]…],
+## la clé étant un id de groupe ou une case [x, y].
+func _saved_timers(timers: Dictionary) -> Dictionary:
+	var saved := {}
+	for map_id: String in timers:
+		var entries: Array = []
+		for key: Variant in timers[map_id]:
+			var left := maxf(0.0, float(timers[map_id][key]) - clock)
+			entries.append([[key.x, key.y] if typeof(key) == TYPE_VECTOR2I else key, left])
+		saved[map_id] = entries
+	return saved
+
+
+## Relit des minuteries sauvegardées (voir `_saved_timers`) ; `cells` : clés en cases.
+func _load_timers(saved: Variant, cells: bool) -> Dictionary:
+	var timers := {}
+	if typeof(saved) != TYPE_DICTIONARY:
+		return timers
+	for map_id: Variant in saved:
+		if typeof(map_id) != TYPE_STRING or typeof(saved[map_id]) != TYPE_ARRAY:
+			continue
+		var entries := {}
+		for pair: Variant in saved[map_id]:
+			if typeof(pair) != TYPE_ARRAY or pair.size() != 2 or typeof(pair[1]) not in [TYPE_INT, TYPE_FLOAT]:
+				continue
+			var key: Variant = pair[0]
+			if cells:
+				if typeof(key) != TYPE_ARRAY or key.size() != 2:
+					continue
+				key = Vector2i(int(key[0]), int(key[1]))
+			elif typeof(key) != TYPE_STRING:
+				continue
+			entries[key] = clock + float(pair[1])
+		timers[map_id] = entries
+	return timers
 
 
 ## Monde reconstruit depuis une sauvegarde, ou `null` si elle est inutilisable.
@@ -891,6 +1078,8 @@ static func from_save(save: Dictionary, p_data: GameData, p_map_loader: Callable
 		var cell := Vector2i(int(saved_position[0]), int(saved_position[1]))
 		if start_map.is_walkable(cell):
 			position = cell
+	world._respawns = world._load_timers(save.get("reapparitions"), false)
+	world._depleted = world._load_timers(save.get("repousses"), true)
 	world._positions = {PLAYER_ID: position}
 	for group_id: String in world._groups:
 		world._positions[group_id] = world._groups[group_id]["case"]

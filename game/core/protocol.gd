@@ -11,6 +11,8 @@ extends RefCounted
 ## Exploration et combat : { type, entite: String, cible: Vector2i }
 ## En exploration, `sortie` (optionnel, « haut », « bas », « gauche » ou « droite ») : passer sur la
 ## carte voisine une fois arrivé sur la case du bord.
+## En exploration, `porte` (optionnel, booléen) : franchir la porte de la case `cible` (voir
+## `GameMap.doors`) une fois arrivé dessus.
 ## En exploration aussi (et pour « parler » et « engager ») : `interrompre_a` (optionnel, Vector2i),
 ## case du trajet en cours où le joueur s'arrête pour repartir vers la nouvelle cible.
 const CMD_MOVE := "deplacer"
@@ -35,6 +37,14 @@ const CMD_HARVEST := "recolter"
 ## Exploration, à côté d'un atelier (PNJ avec « atelier ») : fabriquer un objet d'après sa recette.
 ## { type, entite: String, pnj: String, recette: String (id de l'objet fabriqué), quantite: int (optionnel) }
 const CMD_CRAFT := "fabriquer"
+## Exploration, à côté d'un meuble (coffre, lit) : l'utiliser. { type, entite: String, case: Vector2i }
+const CMD_USE := "utiliser"
+## Exploration, à côté du coffre : y déposer un objet non porté.
+## { type, entite: String, case: Vector2i (coffre), objet: String (uid dans l'inventaire), quantite: int (optionnel) }
+const CMD_DEPOSIT := "deposer"
+## Exploration, à côté du coffre : reprendre un objet.
+## { type, entite: String, case: Vector2i (coffre), objet: String (uid dans le coffre), quantite: int (optionnel) }
+const CMD_WITHDRAW := "reprendre"
 ## Exploration : attaquer un groupe de monstres. { type, entite: String, groupe: String }
 const CMD_ENGAGE := "engager"
 ## Combat, phase de placement : { type, entite: String, cible: Vector2i }
@@ -73,6 +83,13 @@ const EVT_HARVESTED := "recolte"
 ## Une ressource récoltée de la carte actuelle a repoussé (renvoyé par `World.update`).
 ## { type, carte: String, case: Vector2i }
 const EVT_RESOURCE_RESPAWNED := "repousse"
+## Un groupe de monstres vaincu de la carte actuelle est réapparu (renvoyé par `World.update`).
+## { type, carte: String, groupe: { id, case, monstres } }
+const EVT_GROUP_RESPAWNED := "reapparition"
+## Coffre ouvert ou modifié. { type, case: Vector2i, coffre: { objets: Array, places: int } }
+const EVT_CHEST := "coffre"
+## Le joueur a dormi : PV au maximum. { type, gain: int, pv: int, pv_max: int }
+const EVT_RESTED := "repos"
 ## Objet fabriqué. { type, objet: String, nom: String, quantite: int, metier: String }
 const EVT_CRAFTED := "fabrication"
 ## XP de métier gagnée. { type, metier: String, nom: String, gain: int, niveau: int, xp: int,

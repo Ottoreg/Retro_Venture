@@ -119,6 +119,8 @@ Objectif : **10 à 15 h de jeu solo, niveaux 1 à 30 : 3 zones de départ (une p
 - [ ] **(MVP)** Environ 15 à 20 monstres répartis sur les 4 zones (dont des PNJ combattants de chaque camp)
 - [x] **(MVP)** Tables de butin, prospection (sans seuil), raretés (couleurs), écus
 - [x] **(MVP)** Écran de butin en fin de combat
+- [x] **(MVP)** Réapparition des groupes vaincus (2 à 3 minutes, réglable par groupe ; sauvegardée)
+- [ ] Groupes qui errent sur la carte
 - [ ] Variantes Corrompues (2 ou 3 pour tester le concept)
 
 ### Équipement et inventaire
@@ -132,7 +134,8 @@ Objectif : **10 à 15 h de jeu solo, niveaux 1 à 30 : 3 zones de départ (une p
 - [ ] 3 ou 4 panoplies avec bonus d'ensemble
 - [ ] Équipement visible sur le personnage (coiffe, cape, arme)
 - [x] Marchands PNJ (achat / vente) : Barlimon Beurrefondu à Brumerive vend tous les objets, prix selon la rareté, revente à 25 %
-- [ ] Banque / coffre personnel
+- [x] Coffre personnel dans la maison du joueur (100 places, sauvegardé)
+- [ ] Banque
 
 ### Métiers
 - [x] **(MVP)** Système de métier générique (niveau 1 à 100, XP, recettes) ; métiers sur la fiche du personnage
@@ -167,10 +170,14 @@ Objectif : **10 à 15 h de jeu solo, niveaux 1 à 30 : 3 zones de départ (une p
 - [ ] Points de voyage (Pierres de Passage)
 - [ ] Carte du monde et minicarte
 - [ ] Point de résurrection
+- [x] Portes entre cartes (`+` dans le plan) et cartes en intérieur (sol en parquet)
+- [x] Maison du joueur à Brumerive : coffre et lit (tous les PV) ; carte personnelle (`"instance": "joueur"`)
+- [x] PV gardés d'un combat à l'autre, régénération lente hors combat (1 PV / 2 s), 1 PV après une défaite
 
 ### Interface
 - [ ] **(MVP)** Bandeau bas : PV / PA / PM, barre de sorts, boutons de menus
 - [ ] **(MVP)** Fenêtres : inventaire + poupée, caractéristiques, sorts, quêtes, métiers
+  (faits : inventaire, caractéristiques, métiers avec un onglet par métier, boutique, atelier, coffre)
 - [ ] **(MVP)** Menu principal, options (volume, résolution), pause
 - [ ] Infobulles d'objets et de sorts (comparaison avec l'équipement porté)
 - [ ] Raccourcis clavier
@@ -266,6 +273,8 @@ Peut démarrer dès que l'alpha solo est stable.
 - [ ] Attribution d'instance (priorité amis / groupe, puis remplissage)
 - [ ] Rejoindre l'instance d'un ami
 - [ ] Instances privées de donjon par groupe
+- [ ] Maisons de joueurs instanciées : chaque joueur entre dans sa propre copie de `maison_joueur`
+  (cartes marquées `"instance": "joueur"`), avec son coffre
 
 ### Social
 - [ ] Chat : local, groupe, commerce, recrutement, privé ; filtres
@@ -298,7 +307,7 @@ Peut démarrer dès que l'alpha solo est stable.
 
 - Version navigateur
 - PvP (duels, arènes)
-- Maisons de joueurs
+- Maisons de joueurs : achat, décoration, plusieurs maisons par ville
 - Succès / hauts faits
 - Bestiaire et encyclopédie du monde en jeu
 - Éditeur de cartes et de quêtes intégré pour accélérer la production de contenu

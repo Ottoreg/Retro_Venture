@@ -11,7 +11,20 @@ extends RefCounted
 ## et commencent par un espace, qui représente la demi-case du bord gauche.
 
 ## Caractère du plan → type d'obstacle ("" = case praticable).
-const LEGEND := {".": "", "@": "", "A": "arbre", "M": "mur", "R": "rocher", "E": "eau"}
+const LEGEND := {
+	".": "", "@": "", "A": "arbre", "M": "mur", "R": "rocher", "E": "eau",
+	"+": "", "$": "coffre", "=": "lit",
+}
+## Porte : case praticable qui mène à une autre carte (liste `portes`, dans l'ordre du plan).
+const DOOR_CHAR := "+"
+## Meubles avec lesquels on interagit depuis une case voisine.
+const FURNITURE := ["coffre", "lit"]
+## Sols possibles (dessin).
+const FLOORS := ["herbe", "parquet"]
+## Instances : "" (carte partagée) ou "joueur" (une copie par joueur en multijoueur, comme sa maison).
+const INSTANCES := ["", "joueur"]
+## Délai de réapparition par défaut d'un groupe de monstres vaincu, en secondes : [min, max].
+const DEFAULT_RESPAWN := [120, 180]
 const SPAWN_CHAR := "@"
 ## Type d'obstacle des ressources récoltables (lettres majuscules hors légende, voir `Profession`).
 const RESOURCE_OBSTACLE := "ressource"
@@ -39,6 +52,12 @@ var groups: Array[Dictionary] = []
 var npcs: Array[Dictionary] = []
 ## Cartes voisines : direction (« haut », « bas », « gauche », « droite ») → id de carte.
 var exits: Dictionary = {}
+## Portes : case → id de la carte où elles mènent.
+var doors: Dictionary = {}
+## Sol dessiné (« herbe » ou « parquet »).
+var floor_kind := "herbe"
+## "" pour une carte partagée, "joueur" pour une carte personnelle (instanciée par joueur en multi).
+var instance := ""
 
 ## Cases jouables (Vector2i → true).
 var _cells: Dictionary = {}
@@ -89,6 +108,21 @@ static func validate(data: Dictionary) -> PackedStringArray:
 			var monsters: Variant = group.get("monstres") if typeof(group) == TYPE_DICTIONARY else null
 			if typeof(monsters) != TYPE_ARRAY or monsters.is_empty() or monsters.size() > 8:
 				errors.append("groupe %d : « monstres » doit lister de 1 à 8 identifiants de monstres" % (k + 1))
+			var delay: Variant = group.get("reapparition", DEFAULT_RESPAWN) if typeof(group) == TYPE_DICTIONARY else null
+			if typeof(delay) != TYPE_ARRAY or delay.size() != 2 or not Spell._is_int_at_least(delay[0], 1) \
+					or not Spell._is_int_at_least(delay[1], 1) or int(delay[0]) > int(delay[1]):
+				errors.append("groupe %d : « reapparition » doit être [min, max] en secondes" % (k + 1))
+	var doors_data: Variant = data.get("portes", [])
+	if typeof(doors_data) != TYPE_ARRAY:
+		errors.append("« portes » doit être une liste d'id de cartes")
+	else:
+		for target: Variant in doors_data:
+			if typeof(target) != TYPE_STRING or str(target).is_empty():
+				errors.append("« portes » : id de carte attendu (%s)" % str(target))
+	if data.get("sol", "herbe") not in FLOORS:
+		errors.append("« sol » doit valoir %s" % str(FLOORS))
+	if data.get("instance", "") not in INSTANCES:
+		errors.append("« instance » doit valoir %s" % str(INSTANCES))
 	var npc_markers := {}
 	var npcs_data: Variant = data.get("pnj", [])
 	if typeof(npcs_data) != TYPE_ARRAY:
@@ -127,6 +161,7 @@ static func validate(data: Dictionary) -> PackedStringArray:
 				errors.append("sortie « %s » : id de carte attendu" % direction)
 	var group_uses := {}
 	var spawn_count := 0
+	var door_count := 0
 	for i in plan.size():
 		var line: String = plan[i]
 		if line.length() != width:
@@ -153,6 +188,10 @@ static func validate(data: Dictionary) -> PackedStringArray:
 				errors.append("ligne %d, colonne %d : caractère « %s » inconnu" % [i + 1, j + 1, character])
 			elif character == SPAWN_CHAR:
 				spawn_count += 1
+			elif character == DOOR_CHAR:
+				door_count += 1
+	if typeof(doors_data) == TYPE_ARRAY and door_count != doors_data.size():
+		errors.append("le plan contient %d porte(s) « %s » pour %d carte(s) dans « portes »" % [door_count, DOOR_CHAR, doors_data.size()])
 	if spawn_count != 1:
 		errors.append("le plan doit contenir exactement une case de départ « @ » (%d trouvée(s))" % spawn_count)
 	for k in group_count:
@@ -175,6 +214,10 @@ static func from_dict(data: Dictionary) -> GameMap:
 	for npc: Dictionary in data.get("pnj", []):
 		npcs_by_marker[npc["marqueur"]] = npc
 	map.exits = data.get("sorties", {}).duplicate()
+	map.floor_kind = str(data.get("sol", "herbe"))
+	map.instance = str(data.get("instance", ""))
+	var door_targets: Array = data.get("portes", [])
+	var door_index := 0
 	map.columns = str(plan[0]).length()
 	map.rows = plan.size() + 1
 	for i in plan.size():
@@ -187,12 +230,17 @@ static func from_dict(data: Dictionary) -> GameMap:
 			var character := line[j]
 			if character == SPAWN_CHAR:
 				map.spawn = cell
+			elif character == DOOR_CHAR:
+				map.doors[cell] = door_targets[door_index]
+				door_index += 1
 			elif _is_group_char(character):
 				var group_index := int(character)
+				var group_data: Dictionary = data["groupes"][group_index - 1]
 				map.groups.append({
 					"id": "groupe_%d" % group_index,
 					"case": cell,
-					"monstres": data["groupes"][group_index - 1]["monstres"].duplicate(),
+					"monstres": group_data["monstres"].duplicate(),
+					"reapparition": group_data.get("reapparition", DEFAULT_RESPAWN).duplicate(),
 				})
 			elif _is_npc_char(character):
 				var npc: Dictionary = npcs_by_marker[character]
@@ -257,6 +305,14 @@ func get_npc(npc_id: String) -> Dictionary:
 		if npc["id"] == npc_id:
 			return npc
 	return {}
+
+
+## Porte de cette carte qui mène à `map_id` (case d'arrivée quand on en vient), sinon le départ.
+func door_to(map_id: String) -> Vector2i:
+	for cell: Vector2i in doors:
+		if doors[cell] == map_id:
+			return cell
+	return spawn
 
 
 ## Directions des sorties accessibles depuis cette case (elle doit être au bord de la carte).
