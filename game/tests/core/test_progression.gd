@@ -68,7 +68,7 @@ func test_sauvegarde_et_reprise() -> void:
 	world.character.add_xp(500)
 	world.character.spend_points("chance", 5)
 	var position := world.position_of(World.PLAYER_ID)
-	var save := JSON.parse_string(JSON.stringify(world.save_data()))
+	var save: Variant = JSON.parse_string(JSON.stringify(world.save_data()))
 	assert_true(typeof(save) == TYPE_DICTIONARY, "sauvegarde sérialisable en JSON")
 
 	var restored := World.from_save(save, Fixtures.data(), _loader)
