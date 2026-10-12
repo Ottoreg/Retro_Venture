@@ -15,6 +15,11 @@ const PLACEMENT_CELL_COUNT := 6
 const REGEN_SECONDS := 2.0
 ## Quand un groupe devrait réapparaître sur la case du joueur, il attend encore un peu.
 const RESPAWN_RETRY := 5.0
+## Promenade des groupes de monstres : délai entre deux déplacements (secondes), nombre de pas au
+## plus par déplacement, et distance maximale (en cases) de leur case d'origine.
+const GROUP_WANDER_DELAY := [8.0, 20.0]
+const GROUP_WANDER_STEPS := 3
+const GROUP_WANDER_RANGE := 3
 ## Quantité maximale d'un même objet par achat ou vente.
 const MAX_TRADE_QUANTITY := 100
 
@@ -58,6 +63,8 @@ var _depleted: Dictionary = {}
 var _respawns: Dictionary = {}
 ## Temps accumulé pour la régénération des PV hors combat.
 var _regen_time := 0.0
+## Prochaine promenade de chaque groupe de la carte actuelle : id du groupe → instant.
+var _wander_times: Dictionary = {}
 var _combat_count := 0
 var _approach_from := Vector2i.ZERO
 
@@ -295,6 +302,7 @@ func _set_map(next_map: GameMap, player_cell: Vector2i) -> void:
 			_groups[group["id"]] = GameMap.compose_group(group, rng)
 	_positions = {PLAYER_ID: player_cell}
 	_last_walk.clear()
+	_wander_times.clear()
 	for group_id: String in _groups:
 		_positions[group_id] = _groups[group_id]["case"]
 
@@ -676,6 +684,7 @@ func update(delta: float) -> Array[Dictionary]:
 	var events: Array[Dictionary] = []
 	_regenerate(delta)
 	_respawn_groups(events)
+	_wander_groups(events)
 	for map_id: String in _depleted:
 		var cells: Dictionary = _depleted[map_id]
 		for cell: Vector2i in cells.keys():
@@ -684,6 +693,62 @@ func update(delta: float) -> Array[Dictionary]:
 				if map != null and map_id == map.id:
 					events.append({"type": Protocol.EVT_RESOURCE_RESPAWNED, "carte": map_id, "case": cell})
 	return events
+
+
+## Les groupes de la carte actuelle se promènent de temps en temps, hors combat, sans trop
+## s'éloigner de leur case d'origine.
+func _wander_groups(events: Array[Dictionary]) -> void:
+	if in_combat():
+		return
+	for group_id: String in _groups:
+		if not _wander_times.has(group_id):
+			_wander_times[group_id] = clock + rng.randf_range(GROUP_WANDER_DELAY[0], GROUP_WANDER_DELAY[1])
+			continue
+		if _wander_times[group_id] > clock:
+			continue
+		_wander_times[group_id] = clock + rng.randf_range(GROUP_WANDER_DELAY[0], GROUP_WANDER_DELAY[1])
+		var path := _wander_path(_groups[group_id])
+		if path.is_empty():
+			continue
+		_groups[group_id]["case"] = path[-1]
+		_positions[group_id] = path[-1]
+		events.append({"type": Protocol.EVT_GROUP_MOVED, "groupe": group_id, "chemin": path, "case": path[-1]})
+
+
+## Petit trajet au hasard pour un groupe (sans sa case de départ), vide s'il reste sur place :
+## des pas droits, sur des cases libres (ni joueur, ni autre groupe, ni porte, ni bord de sortie,
+## ni derrière un bâtiment),
+## à GROUP_WANDER_RANGE cases au plus de son origine.
+func _wander_path(group: Dictionary) -> Array[Vector2i]:
+	var start: Vector2i = group["case"]
+	var home: Vector2i = group.get("foyer", start)
+	var taken := {}
+	for entity_id: String in _positions:
+		taken[_positions[entity_id]] = true
+	var parents := {start: start}
+	var frontier: Array[Vector2i] = [start]
+	var choices: Array[Vector2i] = []
+	for _step in GROUP_WANDER_STEPS:
+		var next_frontier: Array[Vector2i] = []
+		for cell in frontier:
+			for neighbor in IsoGrid.neighbors_4(cell):
+				if parents.has(neighbor) or taken.has(neighbor) or not map.is_walkable(neighbor) or map.doors.has(neighbor) \
+						or map.is_behind_building(neighbor) \
+						or not map.exit_directions(neighbor).is_empty() \
+						or maxi(absi(neighbor.x - home.x), absi(neighbor.y - home.y)) > GROUP_WANDER_RANGE:
+					continue
+				parents[neighbor] = cell
+				next_frontier.append(neighbor)
+				choices.append(neighbor)
+		frontier = next_frontier
+	var path: Array[Vector2i] = []
+	if choices.is_empty():
+		return path
+	var cell: Vector2i = choices[rng.randi_range(0, choices.size() - 1)]
+	while cell != start:
+		path.push_front(cell)
+		cell = parents[cell]
+	return path
 
 
 ## Un PV toutes les REGEN_SECONDS secondes, hors combat.
@@ -719,8 +784,8 @@ func _respawn_groups(events: Array[Dictionary]) -> void:
 					if group["id"] == group_id:
 						original = group
 			var here := map != null and map_id == map.id
-			if here and not original.is_empty() and _positions[PLAYER_ID] == original["case"]:
-				waiting[group_id] = clock + RESPAWN_RETRY  # Le joueur est dessus : un peu plus tard.
+			if here and not original.is_empty() and original["case"] in _positions.values():
+				waiting[group_id] = clock + RESPAWN_RETRY  # Le joueur (ou un groupe) est dessus : un peu plus tard.
 				continue
 			waiting.erase(group_id)
 			if original.is_empty():
@@ -730,6 +795,7 @@ func _respawn_groups(events: Array[Dictionary]) -> void:
 			states[group_id] = composed
 			if here:
 				_positions[group_id] = original["case"]
+				_wander_times.erase(group_id)
 				events.append({"type": Protocol.EVT_GROUP_RESPAWNED, "carte": map_id, "groupe": composed.duplicate(true)})
 
 
@@ -1046,7 +1112,11 @@ func save_data() -> Dictionary:
 	var remaining := {}
 	_map_states[map.id] = _groups
 	for map_id: String in _map_states:
-		remaining[map_id] = _map_states[map_id].keys()
+		var groups: Array = []
+		for group: Dictionary in _map_states[map_id].values():
+			var cell: Vector2i = group["case"]
+			groups.append({"id": group["id"], "case": [cell.x, cell.y], "monstres": group["monstres"].duplicate()})
+		remaining[map_id] = groups
 	var position := position_of(PLAYER_ID)
 	return {
 		"version": SAVE_VERSION,
@@ -1057,6 +1127,25 @@ func save_data() -> Dictionary:
 		"reapparitions": _saved_timers(_respawns),
 		"repousses": _saved_timers(_depleted),
 	}
+
+
+## Groupe d'une carte tel qu'il a été sauvegardé (monstres et case), si la sauvegarde est
+## cohérente ; sinon tel qu'il apparaît d'habitude.
+func _restored_group(saved_map: GameMap, group: Dictionary, saved: Dictionary) -> Dictionary:
+	var restored := GameMap.compose_group(group, rng)
+	var monsters: Variant = saved.get("monstres")
+	if typeof(monsters) == TYPE_ARRAY and not monsters.is_empty() and monsters.size() <= GameMap.MAX_GROUP_SIZE:
+		var known := true
+		for monster_id: Variant in monsters:
+			known = known and typeof(monster_id) == TYPE_STRING and (data == null or data.monsters.has(monster_id))
+		if known:
+			restored["monstres"] = monsters.duplicate()
+	var cell: Variant = saved.get("case")
+	if typeof(cell) == TYPE_ARRAY and cell.size() == 2:
+		var saved_cell := Vector2i(int(cell[0]), int(cell[1]))
+		if saved_map.is_walkable(saved_cell):
+			restored["case"] = saved_cell
+	return restored
 
 
 ## Minuteries (réapparitions, repousses) en secondes restantes : id de carte → [[clé, secondes]…],
@@ -1115,10 +1204,16 @@ static func from_save(save: Dictionary, p_data: GameData, p_map_loader: Callable
 			var saved_map := world._load_map(map_id)
 			if saved_map == null:
 				continue
+			var saved_groups := {}
+			for entry: Variant in remaining[map_id]:
+				if typeof(entry) == TYPE_STRING:
+					saved_groups[entry] = {}  # Ancienne sauvegarde : seulement l'id du groupe.
+				elif typeof(entry) == TYPE_DICTIONARY and typeof(entry.get("id")) == TYPE_STRING:
+					saved_groups[entry["id"]] = entry
 			var groups := {}
 			for group in saved_map.groups:
-				if group["id"] in remaining[map_id]:
-					groups[group["id"]] = GameMap.compose_group(group, world.rng)
+				if saved_groups.has(group["id"]):
+					groups[group["id"]] = world._restored_group(saved_map, group, saved_groups[group["id"]])
 			world._map_states[map_id] = groups
 		if world._map_states.has(start_map.id):
 			world._groups = world._map_states[start_map.id]

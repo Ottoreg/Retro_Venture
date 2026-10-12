@@ -72,7 +72,12 @@ d'une ou de plusieurs espèces, tous dessinés sur la carte. Un groupe est soit 
 ```
 
 Un groupe vaincu réapparaît à sa place au bout d'un délai tiré dans `reapparition` (en secondes,
-2 à 3 minutes par défaut), mais jamais sous les pieds du joueur.
+2 à 3 minutes par défaut), mais jamais sous les pieds du joueur ni sur un autre groupe.
+
+En exploration, les groupes se promènent : toutes les 8 à 20 secondes, quelques pas (3 au plus)
+sans s'éloigner de plus de 3 cases de leur place d'origine, ni aller sur le joueur, un autre groupe,
+une porte, un bord de sortie ou derrière un bâtiment. La sauvegarde garde la composition et la place
+de chaque groupe.
 
 ### PNJ
 

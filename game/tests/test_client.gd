@@ -471,4 +471,18 @@ func test_tous_les_membres_d_un_groupe_sont_affiches() -> void:
 	assert_eq(mixed["name"], "Groupe : Gobelin frondeur, Loup des collines", "groupe mixte nommé au survol")
 	assert_eq(view._actors["groupe_2"]["name"], "Groupe : 2 × Loup des collines")
 	assert_eq(view._actors["groupe_1"]["name"], "Loup des collines")
+
+	# Les groupes se promènent : la carte les fait marcher jusqu'à leur nouvelle case.
+	var walked := false
+	for i in 60:
+		view._process(1.0)
+		if not view._group_walks.is_empty():
+			walked = true
+			break
+	assert_true(walked, "un groupe s'est mis en marche")
+	var walker: String = view._group_walks.keys()[0]
+	for i in 20:
+		view._process(0.2)
+	assert_false(view._group_walks.has(walker), "promenade terminée")
+	assert_eq(Vector2i(view._actors[walker]["pos"].round()), view.world.position_of(walker), "arrivé là où le monde l'a mis")
 	scene.free()

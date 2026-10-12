@@ -37,6 +37,8 @@ enum Mode { EXPLORATION, COMBAT }
 
 ## Vitesse de marche, en pixels par seconde.
 const WALK_SPEED := 170.0
+## Les groupes de monstres se promènent plus lentement que le joueur ne marche.
+const GROUP_WALK_SPEED := 70.0
 ## Durée de l'animation d'attaque ou de sort.
 const ATTACK_TIME := 0.45
 
@@ -108,6 +110,8 @@ var _paused := false
 var _wait := 0.0
 var _walk_actor := ""
 var _walk_path: Array[Vector2i] = []
+## Groupes de monstres en promenade (indépendamment de la file d'événements) : id → cases restantes.
+var _group_walks: Dictionary = {}
 var _pending_click := NO_CELL
 ## Temps écoulé (respiration des personnages).
 var _time := 0.0
@@ -471,6 +475,9 @@ func _process(delta: float) -> void:
 		if text["age"] < 1.0:
 			kept.append(text)
 	_floating = kept
+	for group_id: String in _group_walks.keys():
+		if not _actors.has(group_id) or _step_along(_actors[group_id], _group_walks[group_id], delta, GROUP_WALK_SPEED):
+			_group_walks.erase(group_id)
 	if _walk_actor != "":
 		_advance_walk(delta)
 	elif _wait > 0.0:
@@ -485,29 +492,36 @@ func _process(delta: float) -> void:
 func _apply_world_change(event: Dictionary) -> void:
 	if event["type"] == Protocol.EVT_GROUP_RESPAWNED and mode == Mode.EXPLORATION and world.map == _map:
 		_add_group_actor(event["groupe"])
+	elif event["type"] == Protocol.EVT_GROUP_MOVED and mode == Mode.EXPLORATION and world.map == _map and _actors.has(event["groupe"]):
+		var path: Array[Vector2i] = event["chemin"]
+		_group_walks[event["groupe"]] = path.duplicate()
 	queue_redraw()
 
 
 func _advance_walk(delta: float) -> void:
-	var data: Dictionary = _actors[_walk_actor]
+	if _step_along(_actors[_walk_actor], _walk_path, delta, WALK_SPEED):
+		_walk_actor = ""
+		_play_next()
+
+
+## Avance un personnage le long de `path` (les cases atteintes en sont retirées) ; vrai à l'arrivée.
+func _step_along(data: Dictionary, path: Array[Vector2i], delta: float, speed: float) -> bool:
 	var current: Vector2 = data["pos"]
-	var next := Vector2(_walk_path[0])
+	var next := Vector2(path[0])
 	var screen_delta := IsoGrid.grid_to_screen(next) - IsoGrid.grid_to_screen(current)
 	var distance := screen_delta.length()
-	var step := WALK_SPEED * delta
+	var step := speed * delta
 	if absf(screen_delta.x) > 0.5:
 		data["facing"] = 1.0 if screen_delta.x > 0.0 else -1.0
 	if absf(screen_delta.y) > 0.5:
 		data["dos"] = screen_delta.y < 0.0
-	data["phase"] += delta * 14.0
-	if distance <= step:
-		data["pos"] = next
-		_walk_path.remove_at(0)
-		if _walk_path.is_empty():
-			_walk_actor = ""
-			_play_next()
-	else:
+	data["phase"] += delta * 14.0 * speed / WALK_SPEED
+	if distance > step:
 		data["pos"] = current.lerp(next, step / distance)
+		return false
+	data["pos"] = next
+	path.remove_at(0)
+	return path.is_empty()
 
 
 func _play_next() -> void:
@@ -701,6 +715,7 @@ func _add_floating(text: String, color: Color, grid_pos: Vector2) -> void:
 
 func _load_exploration_actors() -> void:
 	_actors.clear()
+	_group_walks.clear()
 	_actors[World.PLAYER_ID] = _new_actor(Vector2(world.position_of(World.PLAYER_ID)), world.player_voie, 0, world.player_name, 1, 1)
 	_actors[World.PLAYER_ID]["race"] = world.character.race_id
 	for group: Dictionary in world.groups():
@@ -732,6 +747,7 @@ static func group_label(monster_ids: Array, data: GameData) -> String:
 func _load_combat_actors(event: Dictionary) -> void:
 	mode = Mode.COMBAT
 	_actors.clear()
+	_group_walks.clear()
 	for snapshot: Dictionary in event["combattants"]:
 		var data := _new_actor(Vector2(snapshot["case"]), snapshot["type"], snapshot["equipe"], snapshot["nom"], snapshot["pv"], snapshot["pv_max"])
 		data["pa"] = snapshot["pa"]
@@ -954,7 +970,7 @@ func _draw_block(base: Vector2, height: float, color: Color) -> void:
 func _draw_actor(actor_id: String) -> void:
 	var data: Dictionary = _actors[actor_id]
 	var base := IsoGrid.grid_to_screen(data["pos"])
-	var walking := actor_id == _walk_actor
+	var walking := actor_id == _walk_actor or _group_walks.has(actor_id)
 	var phase: float = data["phase"]
 	var facing: float = data["facing"]
 	if mode == Mode.COMBAT:
@@ -973,8 +989,8 @@ func _draw_actor(actor_id: String) -> void:
 		order.sort_custom(func(a: int, b: int) -> bool: return spots[a].y < spots[b].y)
 		for i in order:
 			var member_id := "%s_%d" % [actor_id, i]
-			var member_facing := facing if i == 0 else (1.0 if posmod(hash(member_id), 2) == 0 else -1.0)
-			_draw_figure(member_id, _monster_look(members[i]), members[i], base + spots[i], member_facing, false, 0.0, data)
+			var member_facing := facing if i == 0 or walking else (1.0 if posmod(hash(member_id), 2) == 0 else -1.0)
+			_draw_figure(member_id, _monster_look(members[i]), members[i], base + spots[i], member_facing, walking, phase + i * 1.3, data)
 	else:
 		_draw_figure(actor_id, _look_of(actor_id, data), data["kind"], base, facing, walking, phase, data)
 	if mode == Mode.COMBAT:

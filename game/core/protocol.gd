@@ -89,6 +89,9 @@ const EVT_RESOURCE_RESPAWNED := "repousse"
 ## Un groupe de monstres vaincu de la carte actuelle est réapparu (renvoyé par `World.update`).
 ## { type, carte: String, groupe: { id, case, monstres } }
 const EVT_GROUP_RESPAWNED := "reapparition"
+## Un groupe de monstres de la carte actuelle se promène (renvoyé par `World.update`).
+## { type, groupe: String, chemin: Array[Vector2i] (sans la case de départ), case: Vector2i }
+const EVT_GROUP_MOVED := "promenade"
 ## Coffre ouvert ou modifié. { type, case: Vector2i, coffre: { objets: Array, places: int } }
 const EVT_CHEST := "coffre"
 ## Le joueur a dormi : PV au maximum. { type, gain: int, pv: int, pv_max: int }

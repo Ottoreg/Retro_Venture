@@ -19,6 +19,10 @@ const LEGEND := {
 const GROUND_KINDS := {":": "chemin"}
 ## Obstacles invisibles (sous un grand décor, comme un bâtiment).
 const HIDDEN_OBSTACLES := ["bloc"]
+## Zone cachée par un bâtiment, au-dessus de chaque case « bloc » à l'écran (pixels) : demi-largeur
+## et hauteur. Les groupes de monstres ne vont pas s'y promener.
+const BUILDING_SHADOW := Vector2(96, 144)
+const NO_CELL := Vector2i(-99999, -99999)
 ## Porte : case praticable qui mène à une autre carte (liste `portes`, dans l'ordre du plan).
 const DOOR_CHAR := "+"
 ## Meubles avec lesquels on interagit depuis une case voisine.
@@ -57,6 +61,7 @@ var resource_nodes: Dictionary = {}
 ## Groupes de monstres : { id: String, case: Vector2i, monstres: Array (ids de monstres),
 ## reapparition: [min, max] }. Un groupe tiré au sort a aussi `parmi` (ids possibles) et `nombre`
 ## ([min, max]) : `monstres` est alors vide ici, le monde le compose (voir `compose_group`).
+## Dans le monde, un groupe a aussi son `foyer` (sa case d'origine) et peut s'en éloigner un peu.
 var groups: Array[Dictionary] = []
 ## PNJ : { id: String, nom: String, case: Vector2i, repliques: Array (textes) }.
 var npcs: Array[Dictionary] = []
@@ -77,6 +82,8 @@ var palette := ""
 
 ## Cases jouables (Vector2i → true).
 var _cells: Dictionary = {}
+## Cases derrière un bâtiment (voir `is_behind_building`), avec NO_CELL une fois calculées.
+var _behind_buildings: Dictionary = {}
 ## Demi-cases du bord, affichées mais hors jeu.
 var _border_cells: Array[Vector2i] = []
 var _astar_explore := AStarGrid2D.new()
@@ -339,6 +346,24 @@ func is_inside(cell: Vector2i) -> bool:
 	return _cells.has(cell)
 
 
+## Vrai si la case est derrière un bâtiment (on n'y verrait pas ce qui s'y tient).
+func is_behind_building(cell: Vector2i) -> bool:
+	if _behind_buildings.is_empty():
+		_behind_buildings[NO_CELL] = true  # Calculé une fois pour toutes.
+		var blocks: Array[Vector2] = []
+		for block: Vector2i in obstacles:
+			if obstacles[block] in HIDDEN_OBSTACLES:
+				blocks.append(IsoGrid.cell_to_screen(block))
+		for candidate: Vector2i in _cells:
+			var at := IsoGrid.cell_to_screen(candidate)
+			for block in blocks:
+				var offset := block - at
+				if absf(offset.x) <= BUILDING_SHADOW.x and offset.y > 0.0 and offset.y <= BUILDING_SHADOW.y:
+					_behind_buildings[candidate] = true
+					break
+	return _behind_buildings.has(cell)
+
+
 func is_walkable(cell: Vector2i) -> bool:
 	return is_inside(cell) and not obstacles.has(cell) and npc_at(cell).is_empty()
 
@@ -504,8 +529,10 @@ static func possible_monsters(group: Dictionary) -> Array:
 
 
 ## Copie du groupe prête à paraître sur la carte : un groupe tiré au sort reçoit ses monstres.
+## `foyer` : sa case d'origine, autour de laquelle il se promène.
 static func compose_group(group: Dictionary, rng: RandomNumberGenerator) -> Dictionary:
 	var composed := group.duplicate(true)
+	composed["foyer"] = group["case"]
 	if group.has("parmi"):
 		var pool: Array = group["parmi"]
 		var count: Array = group["nombre"]

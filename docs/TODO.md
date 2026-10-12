@@ -125,7 +125,8 @@ Objectif : **10 à 15 h de jeu solo, niveaux 1 à 30 : 3 zones de départ (une p
 - [x] **(MVP)** Tables de butin, prospection (sans seuil), raretés (couleurs), écus
 - [x] **(MVP)** Écran de butin en fin de combat
 - [x] **(MVP)** Réapparition des groupes vaincus (2 à 3 minutes, réglable par groupe ; sauvegardée)
-- [ ] Groupes qui errent sur la carte
+- [x] Groupes qui se promènent sur la carte (quelques pas toutes les 8 à 20 s, à 3 cases au plus de
+  leur origine, jamais sur le joueur, une porte, un bord de sortie ou derrière un bâtiment)
 - [ ] Variantes Corrompues (2 ou 3 pour tester le concept)
 
 ### Équipement et inventaire
@@ -173,7 +174,8 @@ Objectif : **10 à 15 h de jeu solo, niveaux 1 à 30 : 3 zones de départ (une p
 - [x] Chaque race démarre dans sa zone (humains à Brumerive, gobelins à Crasse-Roc, elfes à Sylvebrume)
 - [ ] **(MVP)** Zone commune : Hautepierre et environs (ville + environ 15 cartes)
 - [ ] Villes hostiles aux autres camps avant l'acte III (gardes PNJ agressifs)
-- [x] **(MVP)** Sauvegarde / chargement automatique (personnage, carte, position, groupes vaincus) dans `user://`
+- [x] **(MVP)** Sauvegarde / chargement automatique (personnage, carte, position, groupes restants avec
+  leur composition et leur place, groupes vaincus) dans `user://`
 - [x] Pierres de Passage : une sur la 1re carte de chaque zone, voyage gratuit de l'une à l'autre
   (les zones ne sont pas reliées autrement pour l'instant)
 - [ ] Pierres de Passage à découvrir, voyage payant, pierres dans d'autres zones
