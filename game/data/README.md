@@ -149,6 +149,48 @@ tour de la cible).
 }
 ```
 
+## Objets (`objets/`)
+
+```json
+{
+  "id": "epee_de_fer",
+  "nom": "Épée de fer",
+  "type": "arme",
+  "rarete": "commun",
+  "niveau": 1,
+  "description": "Une épée honnête.",
+  "bonus": {"force": [2, 5]},
+  "conditions": {"force": 10},
+  "attaque": {"cout_pa": 4, "portee": {"min": 1, "max": 1}, "effets": [{"type": "degats", "element": "acier", "min": 7, "max": 11}]}
+}
+```
+
+| Clé | Rôle |
+|---|---|
+| `type` | `ressource` (s'empile) ou équipement : `arme`, `coiffe`, `cape`, `amulette`, `anneau`, `ceinture`, `bottes` |
+| `rarete` | `commun`, `peu_commun`, `rare`, `epique`, `legendaire`, `relique` (couleur dans l'interface) |
+| `niveau` | Niveau requis pour l'équiper |
+| `bonus` | Plages `[min, max]` tirées au hasard à l'obtention (« jets ») : les 6 caractéristiques, `prospection`, `initiative`, `portee`, `pa`, `pm` |
+| `conditions` | Caractéristiques minimales pour l'équiper (optionnel) |
+| `attaque` | Armes seulement : attaque utilisable en combat, décrite comme un sort |
+
+## Butin des monstres
+
+Dans chaque monstre : `butin` (liste) et `ecus` (`[min, max]`).
+
+```json
+"butin": [
+  {"objet": "croc_de_loup", "taux": 0.5, "quantite": [1, 2]},
+  {"objet": "cape_en_peau_de_loup", "taux": 0.03}
+],
+"ecus": [2, 6]
+```
+
+Chance = `taux × prospection / 100` (au plus 100 %), sans seuil : un personnage seul peut tout obtenir.
+Prospection = 100 + Chance / 10 + bonus d'équipement. Le butin n'est donné qu'en cas de victoire.
+
+Dans chaque Voie : `equipement_depart` (liste d'objets donnés et équipés à la création).
+
 ## Races (`races/`)
 
 ```json
@@ -173,4 +215,4 @@ référencés existants).
 
 ## À venir
 
-`objets/`, `butin/`, `recettes/`, `quetes/`.
+`recettes/`, `quetes/`.

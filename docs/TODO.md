@@ -117,16 +117,18 @@ Objectif : **10 à 15 h de jeu solo, niveaux 1 à 30 : 3 zones de départ (une p
 
 ### Monstres et butin
 - [ ] **(MVP)** Environ 15 à 20 monstres répartis sur les 4 zones (dont des PNJ combattants de chaque camp)
-- [ ] **(MVP)** Tables de butin, prospection, raretés (couleurs)
-- [ ] **(MVP)** Écran de butin en fin de combat
+- [x] **(MVP)** Tables de butin, prospection (sans seuil), raretés (couleurs), écus
+- [x] **(MVP)** Écran de butin en fin de combat
 - [ ] Variantes Corrompues (2 ou 3 pour tester le concept)
 
 ### Équipement et inventaire
-- [ ] **(MVP)** Inventaire (objets, ressources, quêtes) avec poids ou nombre de cases limité
-- [ ] **(MVP)** Équipement : arme, coiffe, cape, amulette, 2 anneaux, ceinture, bottes
-- [ ] **(MVP)** Conditions d'équipement (niveau, caractéristiques)
-- [ ] **(MVP)** Armes utilisables en combat
-- [ ] Jets aléatoires de statistiques
+- [x] **(MVP)** Inventaire (ressources empilées, équipements) limité à 60 places ; fenêtre (touche I)
+- [ ] Objets de quête dans l'inventaire (avec les quêtes)
+- [x] **(MVP)** Équipement : arme, coiffe, cape, amulette, 2 anneaux, ceinture, bottes ; équipement de départ par Voie
+- [x] **(MVP)** Conditions d'équipement (niveau, caractéristiques ; pas deux objets identiques)
+- [x] **(MVP)** Armes utilisables en combat (attaque de l'arme dans la barre de sorts)
+- [x] Jets aléatoires de statistiques
+- [ ] Plus d'objets (16 aujourd'hui) pour couvrir les niveaux 1 à 30
 - [ ] 3 ou 4 panoplies avec bonus d'ensemble
 - [ ] Équipement visible sur le personnage (coiffe, cape, arme)
 - [ ] Marchands PNJ (achat / vente)
