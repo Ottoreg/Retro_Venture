@@ -26,7 +26,7 @@
 - [x] Activer GitHub Pages (Settings → Pages → Source : GitHub Actions)
 - [x] Intégration continue : validation des fichiers de données (syntaxe JSON + cartes)
 - [x] Créer la branche `main`
-- [ ] Définir `main` comme branche par défaut et l'autoriser dans l'environnement `github-pages`
+- [x] Définir `main` comme branche par défaut
 - [ ] Créer les labels et milestones GitHub (phase, domaine : combat, UI, contenu, art, réseau…)
 - [ ] Rédiger `CONTRIBUTING.md` (conventions de nommage, de commits, de branches)
 - [ ] Créer `game/assets/CREDITS.md` (registre des assets tiers et licences)
@@ -35,8 +35,11 @@
 - [ ] **(MVP)** Valider le GDD v0.1 (relecture complète)
   - [x] Règles de combat de base (§ 7) et éléments (provisoires)
   - [x] Liste des 6 races et ton parodique (§ 3.6, § 4.2)
+  - [x] Races de l'alpha (Humain, Gobelin, Elfe) et structure en trois camps (§ 3.4)
   - [ ] Choisir les noms de peuple des 6 races (§ 4.2)
   - [ ] Revoir les noms du monde, des Reliques et du méchant dans le ton parodique (§ 3)
+  - [ ] Revoir la répartition des Reliques entre régions et camps (§ 3.3), par ex. une Relique liée aux gobelins
+  - [ ] Écrire le synopsis des actes I à III pour chaque camp (`docs/lore/`)
 - [ ] Tableur d'équilibrage : courbe d'XP, formules de dégâts, PV par niveau (`docs/design/`)
 - [ ] Prototype « papier » du combat (grille + pions) pour tester PA/PM et 5 sorts par classe
 - [ ] Document de lore court (1 à 2 pages) : histoire, Reliques, régions (`docs/lore/`)
@@ -82,11 +85,12 @@ Objectif : **un combat jouable de bout en bout sur une carte**.
 
 ## Phase 2 — Alpha solo (objectifs court terme)
 
-Objectif : **10 à 15 h de jeu solo, niveaux 1 à 30, sur 2 régions**.
+Objectif : **10 à 15 h de jeu solo, niveaux 1 à 30 : 3 zones de départ (une par camp) + Hautepierre**.
 
 ### Personnage
 - [ ] **(MVP)** Écran de création : race, classe, couleurs, nom
-- [ ] **(MVP)** 3 races jouables : Humain, Elfe, Nain (bonus, passif, sort racial)
+- [ ] **(MVP)** 3 races jouables, une par camp : Humain (allié), Gobelin (ennemi), Elfe (neutre) — bonus, passif, sort racial
+- [ ] **(MVP)** Camp porté par la race dans les données ; zone de départ selon le camp
 - [ ] **(MVP)** 3 classes jouables : Guerrier, Rôdeur, Arcaniste (environ 10 à 12 sorts chacune, niveaux 1 à 30)
 - [ ] **(MVP)** Caractéristiques, points à répartir, statistiques dérivées
 - [ ] **(MVP)** XP, montée de niveau, points de sort
@@ -104,7 +108,7 @@ Objectif : **10 à 15 h de jeu solo, niveaux 1 à 30, sur 2 régions**.
 - [ ] Mini-boss de fin de région avec script par phases
 
 ### Monstres et butin
-- [ ] **(MVP)** Environ 15 à 20 monstres répartis sur 2 régions
+- [ ] **(MVP)** Environ 15 à 20 monstres répartis sur les 4 zones (dont des PNJ combattants de chaque camp)
 - [ ] **(MVP)** Tables de butin, prospection, raretés (couleurs)
 - [ ] **(MVP)** Écran de butin en fin de combat
 - [ ] Seuils de prospection pour les objets rares
@@ -133,13 +137,18 @@ Objectif : **10 à 15 h de jeu solo, niveaux 1 à 30, sur 2 régions**.
 - [ ] **(MVP)** Journal de quêtes et suivi de l'objectif courant
 - [ ] **(MVP)** Icônes `!` / `?` sur les PNJ
 - [ ] **(MVP)** Système de dialogues (arbre simple)
-- [ ] **(MVP)** Tutoriel (déplacement, combat, équipement, métier)
+- [ ] **(MVP)** Tutoriel par camp (déplacement, combat, équipement, métier)
+- [ ] **(MVP)** Conditions de quête par camp et par acte de la quête principale
 - [ ] Environ 15 quêtes secondaires
-- [ ] Premier chapitre de la quête principale (piste de la Lanterne d'Aube)
+- [ ] Quête principale : actes I et II (une chaîne par camp), début de l'acte III à Hautepierre
+- [ ] Réputation simple par camp (si les quêtes de l'acte I le demandent)
 
 ### Monde
-- [ ] **(MVP)** Région 1 : Collines de Brumerive (village de départ, environ 15 à 20 cartes)
-- [ ] **(MVP)** Région 2 : Hautepierre et environs (ville + environ 20 cartes)
+- [ ] **(MVP)** Zone de départ humaine : Collines de Brumerive (environ 8 à 10 cartes)
+- [ ] **(MVP)** Zone de départ gobeline : Galeries de Crasse-Roc (environ 8 à 10 cartes)
+- [ ] **(MVP)** Zone de départ elfe : Lisière de Sylvebrume (environ 8 à 10 cartes)
+- [ ] **(MVP)** Zone commune : Hautepierre et environs (ville + environ 15 cartes)
+- [ ] Villes hostiles aux autres camps avant l'acte III (gardes PNJ agressifs)
 - [ ] **(MVP)** Sauvegarde / chargement (format compatible avec la future base serveur)
 - [ ] Points de voyage (Pierres de Passage)
 - [ ] Carte du monde et minicarte
@@ -172,7 +181,7 @@ Objectif : **10 à 15 h de jeu solo, niveaux 1 à 30, sur 2 régions**.
 ## Phase 3 — Solo étendu (objectifs long terme)
 
 ### Races et classes
-- [ ] Ajouter les 3 autres races : Semi-homme, Orc, Gobelin (+ quêtes sur les renégats orcs et gobelins)
+- [ ] Ajouter les 3 autres races : Nain (allié), Orc (ennemi), Semi-homme (neutre), avec leurs zones de départ et chaînes d'acte I
 - [ ] Ajouter progressivement environ 7 Voies (Gardien, Druide, Ménestrel, Ombrelame, Runelier, Chaman, Paladin de l'Aube…)
 - [ ] Étendre la progression jusqu'au niveau 100
 
@@ -253,6 +262,7 @@ Peut démarrer dès que l'alpha solo est stable.
 
 ### Gameplay multi
 - [ ] Rejoindre le combat d'un ami, verrouiller un combat, mode spectateur
+- [ ] Décider et appliquer la règle de groupe entre camps opposés avant l'acte III (GDD § 13.3)
 - [ ] Seuil de prospection de groupe et répartition du butin
 - [ ] Objectifs de quêtes partagés en groupe
 - [ ] Échange sécurisé entre joueurs

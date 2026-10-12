@@ -111,20 +111,61 @@ récupère une à une ; chacune débloque un pouvoir unique (emplacement d'équi
 
 L'ordre d'obtention est libre pour les Reliques 1 à 5, puis imposé pour 6 et 7.
 
-### 3.4 Antagoniste et factions
+### 3.4 Les trois camps et l'arc de l'alliance
+
+Au début du jeu, les peuples sont loin d'être unis. Chaque race jouable appartient à un **camp**, et
+les premières quêtes des trois camps **s'opposent**. Elles se rejoignent quand tous les peuples
+comprennent qu'ils veulent la même chose : abattre le Souverain Cendré.
+
+| Camp | Race de l'alpha | Race de Phase 3 (proposition) | Situation au départ |
+|---|---|---|---|
+| **Allié** | Humains | Nains | Défendent leurs terres contre les raids gobelins et pensent que les gobelins sont *le* problème. |
+| **Ennemi** | Gobelins | Orcs | Main-d'œuvre corvéable du Souverain Cendré : raids et pillages sur ordre, contremaîtres tyranniques, aucune reconnaissance. |
+| **Neutre** | Elfes | Semi-hommes | « Ce n'est pas notre guerre. » Se tiennent à l'écart, observent, et ne s'en mêlent que si leur forêt est menacée. |
+
+**Arc narratif :**
+
+1. **Acte I — Chacun pour soi** (niveaux 1 à ~12). Une zone de départ et une chaîne de quêtes par
+   camp. Les objectifs se croisent et s'opposent : les humains doivent repousser le raid que les
+   gobelins ont pour mission de mener, pendant que les elfes chassent les deux de leur lisière. On
+   affronte des **PNJ** de l'autre camp, jamais d'autres joueurs.
+2. **Acte II — La révélation** (~12 à 25). Chaque camp découvre, par son propre chemin, le vrai plan
+   du Cendré : retrouver les Reliques et asservir tout le monde, ses propres troupes comprises. Les
+   gobelins comprennent qu'ils seront sacrifiés les premiers, les elfes que la forêt ne sera pas
+   épargnée, les humains que les raids gobelins n'étaient qu'un symptôme.
+3. **Acte III — L'alliance** (25 et plus). Les chaînes de quêtes convergent à Hautepierre : naissance
+   du **Conseil des Peuples Libres** (avec un siège pour les gobelins, au grand désarroi de tout le
+   monde) et début de la vraie quête des Reliques.
+
+Ressorts parodiques : le syndicat gobelin qui découvre ses droits, le conseil elfe qui délibère
+depuis trois siècles sur l'opportunité de délibérer, les humains persuadés d'être les héros de
+l'histoire.
+
+**Conséquences de gameplay :**
+
+- Chaque race porte un `camp` dans ses données ; la zone de départ et la chaîne de quêtes en dépendent.
+- Avant l'acte III, les villes des autres camps sont hostiles (gardes PNJ agressifs) ; ensuite, libre
+  accès.
+- Réputation par camp : envisagée dès que les quêtes de l'acte I le demandent, sinon en Phase 3.
+- Multijoueur : voir § 13.3 (groupes entre camps).
+
+#### Antagoniste et factions
 
 - **Le Souverain Cendré (Vorhak)** : boss final. Il n'apparaît que par ses lieutenants jusqu'à la fin.
-- **Les Hérauts Cendrés** : lieutenants, un par région, chacun boss d'un donjon de Relique.
+- **Les Hérauts Cendrés** : lieutenants, un par région, chacun boss d'un donjon de Relique. Ce sont
+  aussi les supérieurs directs des gobelins pendant l'acte I.
 - **Les Corrompus** : monstres touchés par les cendres (versions plus fortes des monstres normaux).
-- **Le Conseil des Peuples Libres** : faction alliée qui sert de « hub » de quête principale.
+- **Le Conseil des Peuples Libres** : formé à l'acte III, « hub » de la quête principale ensuite.
 
 ### 3.5 Régions (provisoires)
 
 | Région | Ambiance | Niveaux | Phase |
 |---|---|---|---|
-| Collines de Brumerive | Campagne paisible, village de départ | 1–10 | Court terme |
-| Hautepierre et ses environs | Cité humaine fortifiée, plaines, bois | 8–25 | Court terme |
-| Sylvebrume | Forêt elfique ancienne et brumeuse | 20–40 | Long terme |
+| Collines de Brumerive | Campagne humaine, village de départ du camp allié | 1–12 | Alpha |
+| Galeries de Crasse-Roc *(nom provisoire)* | Campement et mines gobelins au pied des montagnes, départ du camp ennemi | 1–12 | Alpha |
+| Lisière de Sylvebrume | Avant-poste elfe en bordure de forêt, départ du camp neutre | 1–12 | Alpha |
+| Hautepierre et ses environs | Cité humaine fortifiée ; terrain d'affrontement (acte II) puis de l'alliance (acte III) | 12–30 | Alpha |
+| Sylvebrume (cœur de la forêt) | Forêt elfique ancienne et brumeuse | 25–40 | Long terme |
 | Forges de Durhal | Montagnes et cités naines souterraines | 25–45 | Long terme |
 | Plaines d'Orvent | Steppes de cavaliers | 35–55 | Long terme |
 | Marais Gris | Marécages hantés, ruines | 50–70 | Long terme |
@@ -160,21 +201,19 @@ Une race apporte : un bonus de caractéristiques, un passif racial et un sort ra
 aucune classe. L'impact doit rester modéré (environ 5 à 10 % de puissance) pour ne pas imposer de
 combinaisons « optimales ».
 
-**Les 6 races du jeu** (validées) : 3 jouables dès l'alpha, les 3 autres en Phase 3.
+**Les 6 races du jeu** (validées) : une par camp dès l'alpha (voir § 3.4), les 3 autres en Phase 3.
 
-| Race | Bonus | Passif | Sort racial | Phase |
-|---|---|---|---|---|
-| **Humain** | +Vitalité, +Sagesse | *Polyvalence* : +10 % d'XP de métier | *Ralliement* : +1 PA à un allié pour 1 tour | Alpha |
-| **Nain** | +Force, +Vitalité | *Peau de pierre* : +5 % de résistances | *Fureur des profondeurs* : bonus de dégâts quand PV < 50 % | Alpha |
-| **Elfe** | +Agilité, +Intelligence | *Œil perçant* : +1 portée sur les sorts à distance | *Pas léger* : téléportation courte | Alpha |
-| **Semi-homme** | +Chance, +Agilité | *Petit mais discret* : +prospection, esquive accrue | *Second petit-déjeuner* : se soigne, une fois par combat | Phase 3 |
-| **Orc** | +Force, +Vitalité | *Peau épaisse* : réduction des dégâts de mêlée | *Cri de guerre* : bonus de dégâts aux alliés proches | Phase 3 |
-| **Gobelin** | +Agilité, +Chance | *Chapardeur* : +monnaie et +prospection | *Coup bas* : dégâts accrus dans le dos de la cible | Phase 3 |
+| Race | Camp | Bonus | Passif | Sort racial | Phase |
+|---|---|---|---|---|---|
+| **Humain** | Allié | +Vitalité, +Sagesse | *Polyvalence* : +10 % d'XP de métier | *Ralliement* : +1 PA à un allié pour 1 tour | Alpha |
+| **Gobelin** | Ennemi | +Agilité, +Chance | *Chapardeur* : +monnaie et +prospection | *Coup bas* : dégâts accrus dans le dos de la cible | Alpha |
+| **Elfe** | Neutre | +Agilité, +Intelligence | *Œil perçant* : +1 portée sur les sorts à distance | *Pas léger* : téléportation courte | Alpha |
+| **Nain** | Allié | +Force, +Vitalité | *Peau de pierre* : +5 % de résistances | *Fureur des profondeurs* : bonus de dégâts quand PV < 50 % | Phase 3 |
+| **Orc** | Ennemi | +Force, +Vitalité | *Peau épaisse* : réduction des dégâts de mêlée | *Cri de guerre* : bonus de dégâts aux alliés proches | Phase 3 |
+| **Semi-homme** | Neutre | +Chance, +Agilité | *Petit mais discret* : +prospection, esquive accrue | *Second petit-déjeuner* : se soigne, une fois par combat | Phase 3 |
 
-Les bonus, passifs et sorts sont des propositions, à équilibrer.
-
-Orcs et gobelins jouables sont des **renégats** : ils ont déserté les armées du Souverain Cendré
-(beaucoup de quêtes et de dialogues à écrire sur la méfiance des autres peuples).
+Les bonus, passifs et sorts sont des propositions, à équilibrer. Le camp des races de Phase 3 est une
+proposition (deux races par camp).
 
 **Noms de peuple** — à la manière des classes de Dofus (jeux de mots, verlan, détournements),
 le nom de race générique sert dans les règles et le nom de peuple dans le jeu. Propositions, à choisir :
@@ -433,15 +472,17 @@ ingrédients).
 - **Récompenses :** XP, monnaie, objets, déblocage de quête suivante.
 - **Journal de quêtes** consultable, objectif courant affiché, PNJ marqués d'une icône (`!` / `?`).
 - **Conditions d'accès :** niveau, quête précédente terminée, race ou Voie (optionnel).
-- Contenu cible de l'alpha : un tutoriel, environ 15 quêtes secondaires, un premier chapitre de la quête
-  principale (piste de la Lanterne d'Aube).
+- **Conditions de camp** : une quête peut être réservée à un camp (acte I), ou demander d'avoir
+  atteint un acte de la quête principale.
+- Contenu cible de l'alpha : un tutoriel par camp, environ 15 quêtes secondaires (5 par zone de
+  départ), les actes I et II de la quête principale (une chaîne par camp) et le début de l'acte III.
 
 ### 11.2 Long terme : quêtes complexes
 
 - **Embranchements et choix** avec conséquences (drapeaux de monde persistants par personnage).
 - **Chaînes multi-régions** (une chaîne par Relique, plus une chaîne finale).
 - **Dialogues ramifiés** avec conditions (caractéristiques, réputation, objets).
-- **Réputation** auprès des peuples et factions.
+- **Réputation** auprès des camps, des peuples et des factions.
 - **Quêtes de Voie** (débloquer les sorts de rang III).
 - **Événements de monde** (invasion cendrée d'une région, en multi : objectif collectif).
 - **Mise en scène :** cinématiques légères dans le moteur (déplacements scriptés, bulles, caméra).
@@ -494,6 +535,7 @@ ingrédients).
 | **Quêtes** | Objectifs partagés en groupe (« vaincre X » compte pour tous), événements de monde |
 | **Métiers** | Échange sécurisé entre joueurs, artisanat assisté, commandes, hôtel des ventes |
 | **Guildes** | Création, rangs, banque, niveau de guilde (long terme) |
+| **Camps** | Opposition en PvE uniquement. **À décider avant la Phase 5 :** deux joueurs de camps opposés peuvent-ils grouper avant l'acte III ? (Pistes : interdit jusqu'à l'acte III ; ou autorisé, mais quêtes de camp non partagées.) |
 | **PvP** | Hors périmètre initial ; duels éventuels plus tard |
 
 ### 13.4 Comptes et persistance
@@ -608,7 +650,7 @@ exemples en [annexe](#20-annexes--formats-de-données).
 |---|---|---|
 | **0. Pré-production** | Choix techniques, GDD validé, prototypes papier | Moteur choisi, structure du dépôt en place |
 | **1. Prototype** | Une carte, déplacement, un combat 1 contre 1 | Un combat jouable de bout en bout |
-| **2. Alpha solo** (court terme) | 3 races, 3 classes, combat + butin, quêtes simples, 3 métiers, équipement, 2 régions | Environ 10 à 15 h de jeu solo de niveau 1 à 30 |
+| **2. Alpha solo** (court terme) | 3 races (une par camp), 3 classes, combat + butin, quêtes simples, 3 métiers, équipement, 3 zones de départ + Hautepierre | Environ 10 à 15 h de jeu solo de niveau 1 à 30 |
 | **3. Solo étendu** (long terme) | 3 races de plus (6 au total), ~10 classes, Voies, donjons, quêtes complexes, légendaires, scénario complet | Quête des Reliques jouable jusqu'au boss final |
 | **4. Fondations réseau** | Serveur autoritaire, comptes, une instance, synchronisation | Deux joueurs se voient et combattent ensemble |
 | **5. Multi** | Instances, groupe, amis, chat, échanges, hôtel des ventes, guildes | Bêta fermée |
