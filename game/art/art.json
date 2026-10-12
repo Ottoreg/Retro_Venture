@@ -506,6 +506,223 @@
         20,
         12
       ]
+    },
+    "sort_arcaniste_boule_de_feu": {
+      "fichier": "sorts/arcaniste_boule_de_feu.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_arcaniste_eclat_de_givre": {
+      "fichier": "sorts/arcaniste_eclat_de_givre.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_arcaniste_etincelle": {
+      "fichier": "sorts/arcaniste_etincelle.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_arcaniste_soin_mineur": {
+      "fichier": "sorts/arcaniste_soin_mineur.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_elfe_pas_leger": {
+      "fichier": "sorts/elfe_pas_leger.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_gobelin_coup_bas": {
+      "fichier": "sorts/gobelin_coup_bas.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_guerrier_frappe": {
+      "fichier": "sorts/guerrier_frappe.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_guerrier_hache": {
+      "fichier": "sorts/guerrier_hache.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_guerrier_second_souffle": {
+      "fichier": "sorts/guerrier_second_souffle.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_guerrier_tourbillon": {
+      "fichier": "sorts/guerrier_tourbillon.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_humain_ralliement": {
+      "fichier": "sorts/humain_ralliement.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_rodeur_dague": {
+      "fichier": "sorts/rodeur_dague.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_rodeur_fleche": {
+      "fichier": "sorts/rodeur_fleche.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_rodeur_roulade": {
+      "fichier": "sorts/rodeur_roulade.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_rodeur_tir_percant": {
+      "fichier": "sorts/rodeur_tir_percant.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_arme_epee": {
+      "fichier": "sorts/arme_epee.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_arme_baton": {
+      "fichier": "sorts/arme_baton.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_arme_arc": {
+      "fichier": "sorts/arme_arc.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_arme_fronde": {
+      "fichier": "sorts/arme_fronde.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_arme_masse": {
+      "fichier": "sorts/arme_masse.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_inconnu": {
+      "fichier": "sorts/inconnu.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "coeur_vide": {
+      "fichier": "interface/coeur_vide.svgt",
+      "ancre": [
+        32,
+        29
+      ]
+    },
+    "coeur_plein": {
+      "fichier": "interface/coeur_plein.svgt",
+      "ancre": [
+        32,
+        29
+      ]
+    },
+    "etoile_pa": {
+      "fichier": "interface/etoile_pa.svgt",
+      "ancre": [
+        28,
+        28
+      ]
+    },
+    "case_pm": {
+      "fichier": "interface/case_pm.svgt",
+      "ancre": [
+        30,
+        20
+      ]
+    },
+    "case_sort": {
+      "fichier": "interface/case_sort.svgt",
+      "ancre": [
+        24,
+        24
+      ]
+    },
+    "icone_personnage": {
+      "fichier": "interface/icone_personnage.svgt",
+      "ancre": [
+        12,
+        12
+      ]
+    },
+    "icone_inventaire": {
+      "fichier": "interface/icone_inventaire.svgt",
+      "ancre": [
+        12,
+        12
+      ]
+    },
+    "icone_sorts": {
+      "fichier": "interface/icone_sorts.svgt",
+      "ancre": [
+        12,
+        12
+      ]
+    },
+    "icone_metiers": {
+      "fichier": "interface/icone_metiers.svgt",
+      "ancre": [
+        12,
+        12
+      ]
+    },
+    "sort_arme_epee_cendre": {
+      "fichier": "sorts/arme_epee_cendre.svgt",
+      "ancre": [
+        22,
+        22
+      ]
     }
   },
   "personnages": {
@@ -1030,5 +1247,13 @@
         "arbre_3": "arbre_mort"
       }
     }
+  },
+  "icones_armes": {
+    "epee_de_fer": "sort_arme_epee",
+    "baton_de_novice": "sort_arme_baton",
+    "arc_de_frene": "sort_arme_arc",
+    "fronde_reglementaire": "sort_arme_fronde",
+    "masse_cerclee": "sort_arme_masse",
+    "lame_cendree": "sort_arme_epee_cendre"
   }
 }

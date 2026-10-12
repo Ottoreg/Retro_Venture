@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3]
+[gd_scene load_steps=12 format=3]
 
 [ext_resource type="Script" path="res://client/world/world_scene.gd" id="1_scene"]
 [ext_resource type="Script" path="res://client/world/map_view.gd" id="2_map"]
@@ -10,6 +10,7 @@
 [ext_resource type="Script" path="res://client/ui/chest_window.gd" id="8_chest"]
 [ext_resource type="Script" path="res://client/ui/jobs_window.gd" id="9_jobs"]
 [ext_resource type="Script" path="res://client/ui/travel_window.gd" id="10_travel"]
+[ext_resource type="Script" path="res://client/ui/spells_window.gd" id="11_spells"]
 
 [node name="WorldScene" type="Node2D"]
 script = ExtResource("1_scene")
@@ -40,50 +41,11 @@ color = Color(0.552941, 0.419608, 0.219608, 1)
 unique_name_in_owner = true
 offset_left = 16.0
 offset_top = 12.0
-offset_right = 900.0
+offset_right = 1260.0
 offset_bottom = 64.0
 theme_override_colors/font_color = Color(0.94902, 0.756863, 0.305882, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 4
-
-[node name="SheetButton" type="Button" parent="Hud"]
-unique_name_in_owner = true
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -176.0
-offset_top = 12.0
-offset_right = -16.0
-offset_bottom = 48.0
-grow_horizontal = 0
-focus_mode = 0
-text = "Personnage (C)"
-
-[node name="InventoryButton" type="Button" parent="Hud"]
-unique_name_in_owner = true
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -336.0
-offset_top = 12.0
-offset_right = -184.0
-offset_bottom = 48.0
-grow_horizontal = 0
-focus_mode = 0
-text = "Inventaire (I)"
-
-[node name="JobsButton" type="Button" parent="Hud"]
-unique_name_in_owner = true
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -480.0
-offset_top = 12.0
-offset_right = -344.0
-offset_bottom = 48.0
-grow_horizontal = 0
-focus_mode = 0
-text = "Métiers (J)"
 
 [node name="CombatHud" type="CanvasLayer" parent="."]
 script = ExtResource("3_hud")
@@ -115,3 +77,7 @@ script = ExtResource("9_jobs")
 [node name="TravelWindow" type="CanvasLayer" parent="."]
 layer = 3
 script = ExtResource("10_travel")
+
+[node name="SpellsWindow" type="CanvasLayer" parent="."]
+layer = 2
+script = ExtResource("11_spells")

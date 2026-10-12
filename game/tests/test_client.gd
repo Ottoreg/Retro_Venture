@@ -412,3 +412,47 @@ func test_chaque_race_part_de_sa_zone() -> void:
 		assert_eq(view.world.map.id, pair[1], "départ des %ss" % pair[0])
 		scene.free()
 	Session.new_character = null
+
+
+func test_barre_d_action_et_fenetre_des_sorts() -> void:
+	var tree := Engine.get_main_loop() as SceneTree
+	var scene: Node = load("res://client/world/world.tscn").instantiate()
+	tree.root.add_child(scene)
+	var view: MapView = scene.get_node("MapView")
+	var hud: CombatHud = scene.get_node("CombatHud")
+	var spells: SpellsWindow = scene.get_node("SpellsWindow")
+	var world := view.world
+
+	# En exploration aussi, la barre montre les PV (cœur), PA (étoile), PM (case) et les sorts en icônes.
+	hud._refresh_exploration()
+	var sheet := world.character.sheet(world.data)
+	assert_eq(hud._hp_gauge.value, int(sheet["pv"]))
+	assert_eq(hud._hp_gauge.maximum, int(sheet["pv_max"]))
+	assert_eq(hud._pa_gauge.value, int(sheet["pa"]))
+	assert_eq(hud._pm_gauge.value, int(sheet["pm"]))
+	assert_eq(hud._spell_buttons.size(), 6, "sorts du personnage dans la barre")
+	for spell_id: String in hud._spell_buttons:
+		var slot: CombatHud.SpellSlot = hud._spell_buttons[spell_id]
+		assert_true(slot.icon != null, "icône du sort %s" % spell_id)
+		assert_true(slot.icon != Art.texture("sort_inconnu"), "icône dessinée pour %s" % spell_id)
+	assert_eq(hud._menu_buttons.size(), 4, "personnage, inventaire, sorts, métiers")
+
+	# Un clic sur un sort hors combat ouvre sa fiche dans la fenêtre des sorts.
+	var first: String = hud._shown_spells[1]
+	hud._on_spell_pressed(first)
+	assert_true(spells.is_open(), "fenêtre des sorts ouverte")
+	assert_eq(spells._selected, first)
+	assert_eq(spells._tabs.tab_count, 3, "Voie, race, arme")
+	assert_eq(spells._title.text, world.data.spells[first].display_name)
+	var voie: Dictionary = world.data.voies[world.character.voie_id]
+	assert_eq(spells._list.item_count, voie["sorts"].size(), "tous les sorts de la Voie")
+
+	# Onglet de la race, puis fermeture par le bouton de menu de la barre.
+	spells._tabs.current_tab = 1
+	assert_eq(spells._list.item_count, 1, "le sort racial")
+	assert_eq(spells._selected, world.data.races[world.character.race_id]["sort"])
+	hud.menu_pressed.emit("sorts")
+	assert_false(spells.is_open())
+	hud.menu_pressed.emit("metiers")
+	assert_true((scene.get_node("JobsWindow") as JobsWindow).is_open(), "le bouton métiers ouvre la fenêtre")
+	scene.free()

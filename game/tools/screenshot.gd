@@ -3,7 +3,7 @@ extends SceneTree
 ##   xvfb-run -s "-screen 0 1280x720x24" godot --path game --rendering-driver opengl3 \
 ##     -s res://tools/screenshot.gd -- sortie.png [carte] [frames] [action]
 ## Lance la scène du monde (nouvelle partie), attend quelques images et enregistre la vue.
-## Action : « combat » (engage le premier groupe de la carte), « inventaire », « metiers » (ouvre la
+## Action : « combat » (engage le premier groupe de la carte), « inventaire », « metiers », « sorts » (ouvre la
 ## fenêtre) ou « pierre » (va utiliser la Pierre de Passage).
 ## Si « carte » commence par res://, c'est cette scène qui est capturée (menu, création…).
 
@@ -36,6 +36,8 @@ func _process(_delta: float) -> bool:
 			_scene.get_node("InventoryWindow").toggle()
 		elif _action == "metiers":
 			_scene.get_node("JobsWindow").toggle()
+		elif _action == "sorts":
+			_scene.get_node("SpellsWindow").toggle()
 		else:
 			var target: Vector2i = view.world.groups()[0]["case"] if _action == "combat" else view.current_map().travel_stone()
 			view._on_click(target)

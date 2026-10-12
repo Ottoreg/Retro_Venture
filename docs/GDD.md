@@ -610,8 +610,10 @@ ingrédients).
 
 ### 14.3 Interface (inspirée de Dofus Rétro)
 
-- **Bandeau bas :** chat à gauche, PV / PA / PM au centre, barre de sorts et d'objets, boutons de
-  menus (inventaire, caractéristiques, sorts, quêtes, métiers, carte, amis, guilde).
+- **Bandeau bas :** chat à gauche, PV dans un cœur rouge qui se vide, PA dans une étoile bleue, PM
+  dans une case verte, barre de sorts (icônes avec raccourci et coût en PA) et d'objets, boutons de
+  menus (inventaire, caractéristiques, sorts, quêtes, métiers, carte, amis, guilde). Le bandeau
+  reste affiché en exploration ; un clic sur un sort hors combat ouvre sa fiche.
 - **Fenêtres :** inventaire avec poupée d'équipement, fiche de caractéristiques, grimoire de sorts,
   journal de quêtes, fenêtre de métier.
 - **En combat :** frise d'initiative, prévisualisation de portée et de zone, dégâts estimés au survol,

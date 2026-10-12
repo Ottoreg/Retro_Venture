@@ -4,7 +4,7 @@ extends Node2D
 
 const DEFAULT_START_MAP := "brumerive_0_0"
 const MENU_SCENE := "res://client/main/main.tscn"
-const HELP_EXPLORATION := "Clic : se déplacer · Monstre : attaquer · PNJ : parler, commercer, fabriquer · Arbre, minerai : récolter · Porte : entrer · Pierre de Passage : voyager · Flèches au bord : changer de carte · C : personnage · I : inventaire · J : métiers · Échap : menu"
+const HELP_EXPLORATION := "Clic : se déplacer · Monstre : attaquer · PNJ : parler, commercer, fabriquer · Arbre, minerai : récolter · Porte : entrer · Pierre de Passage : voyager · Flèches au bord : changer de carte · C : personnage · I : inventaire · S : sorts · J : métiers · Échap : menu"
 const HELP_COMBAT := "Clic : se déplacer (cases vertes) · 1-5 : choisir un sort, clic : le lancer · Clic droit : annuler"
 
 @onready var _map_view: MapView = $MapView
@@ -15,11 +15,9 @@ const HELP_COMBAT := "Clic : se déplacer (cases vertes) · 1-5 : choisir un sor
 @onready var _craft: CraftWindow = $CraftWindow
 @onready var _chest: ChestWindow = $ChestWindow
 @onready var _jobs: JobsWindow = $JobsWindow
-@onready var _jobs_button: Button = %JobsButton
 @onready var _travel: TravelWindow = $TravelWindow
-@onready var _inventory_button: Button = %InventoryButton
+@onready var _spells: SpellsWindow = $SpellsWindow
 @onready var _info: Label = %Info
-@onready var _sheet_button: Button = %SheetButton
 
 var _hover_text := ""
 ## Rafraîchissement régulier de la ligne d'infos (les PV remontent tout seuls).
@@ -41,7 +39,9 @@ func _ready() -> void:
 	_chest.setup(_map_view)
 	_jobs.setup(_map_view)
 	_travel.setup(_map_view)
-	_jobs_button.pressed.connect(_jobs.toggle)
+	_spells.setup(_map_view)
+	_combat_hud.menu_pressed.connect(_on_menu_pressed)
+	_combat_hud.spell_info_requested.connect(_spells.show_spell)
 	_map_view.notice.connect(_combat_hud.show_message)
 	_map_view.hovered_cell_changed.connect(_on_hovered_cell_changed)
 	_map_view.combat_started.connect(_on_combat_started)
@@ -49,8 +49,6 @@ func _ready() -> void:
 	_map_view.map_changed.connect(_on_map_changed)
 	_map_view.character_changed.connect(_on_character_changed)
 	_map_view.level_up.connect(_on_level_up)
-	_sheet_button.pressed.connect(_sheet.toggle)
-	_inventory_button.pressed.connect(_inventory.toggle)
 	_map_view.inventory_changed.connect(_on_inventory_changed)
 	get_viewport().size_changed.connect(_center_map)
 	_center_map()
@@ -106,6 +104,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		if _jobs.is_open():
 			_jobs.toggle()
 			return
+		if _spells.is_open():
+			_spells.toggle()
+			return
 		if _sheet.is_open():
 			_sheet.toggle()
 			return
@@ -129,17 +130,23 @@ func _center_map() -> void:
 	_map_view.position = Vector2(free_space.x / 2.0, maxf(free_space.y / 2.0 - 8.0, 0.0)).round()
 
 
+## Boutons de menu de la barre du bas.
+func _on_menu_pressed(menu: String) -> void:
+	if menu == "personnage":
+		_sheet.toggle()
+	elif menu == "inventaire":
+		_inventory.toggle()
+	elif menu == "sorts":
+		_spells.toggle()
+	elif menu == "metiers":
+		_jobs.toggle()
+
+
 func _on_combat_started() -> void:
-	_sheet_button.visible = false
-	_inventory_button.visible = false
-	_jobs_button.visible = false
 	_update_info()
 
 
 func _on_exploration_resumed() -> void:
-	_sheet_button.visible = true
-	_inventory_button.visible = true
-	_jobs_button.visible = true
 	_update_info()
 	_save()
 

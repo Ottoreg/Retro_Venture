@@ -1,19 +1,104 @@
 class_name CombatHud
 extends CanvasLayer
-## Interface de combat, construite par le code : barre du bas (PV, PA, PM, sorts, bouton de
-## tour), ordre de jeu, messages et écran de fin de combat.
+## Barre de jeu du bas, comme dans Dofus Rétro, toujours affichée : points de vie dans un cœur
+## rouge qui se vide, PA dans une étoile bleue, PM dans une case verte, sorts en icônes, bouton de
+## tour (en combat) et menus. Aussi : ordre de jeu, messages et écran de fin de combat.
 
-const BAR_HEIGHT := 92
-const SPELL_KEYS := [KEY_1, KEY_2, KEY_3, KEY_4, KEY_5, KEY_6]
+const BAR_HEIGHT := 96
+const SPELL_KEYS := [KEY_1, KEY_2, KEY_3, KEY_4, KEY_5, KEY_6, KEY_7, KEY_8, KEY_9, KEY_0]
+const MENUS := [["personnage", "icone_personnage", "Personnage (C)"], ["inventaire", "icone_inventaire", "Inventaire (I)"],
+	["sorts", "icone_sorts", "Sorts (S)"], ["metiers", "icone_metiers", "Métiers (J)"]]
+
+## Un bouton de menu de la barre : « personnage », « inventaire », « sorts » ou « metiers ».
+signal menu_pressed(menu: String)
+## Clic sur un sort hors combat : afficher sa fiche.
+signal spell_info_requested(spell_id: String)
+
+
+## Jauge dessinée : PV dans un cœur qui se vide par le haut, PA dans une étoile, PM dans une case.
+class Gauge extends Control:
+	var kind := "pv"
+	var value := 0
+	var maximum := 0
+
+	func show_values(p_value: int, p_maximum: int) -> void:
+		if p_value != value or p_maximum != maximum:
+			value = p_value
+			maximum = p_maximum
+			queue_redraw()
+
+	func _draw() -> void:
+		var center := size / 2.0
+		var font := ThemeDB.fallback_font
+		if kind == "pv":
+			var empty := Art.texture("coeur_vide")
+			var full := Art.texture("coeur_plein")
+			var drawn := Vector2(64, 58)
+			var origin := center - drawn / 2.0
+			draw_texture_rect(empty, Rect2(origin, drawn), false)
+			var ratio := clampf(float(value) / maxf(1.0, maximum), 0.0, 1.0)
+			var source_top := full.get_height() * (1.0 - ratio)
+			draw_texture_rect_region(full, Rect2(origin + Vector2(0, drawn.y * (1.0 - ratio)), Vector2(drawn.x, drawn.y * ratio)),
+				Rect2(0, source_top, full.get_width(), full.get_height() - source_top))
+			_number(font, center + Vector2(0, -2), str(value), 20)
+			_number(font, center + Vector2(0, 14), "/%d" % maximum, 11)
+		else:
+			var image := "etoile_pa" if kind == "pa" else "case_pm"
+			var drawn := Vector2(52, 52) if kind == "pa" else Vector2(60, 40)
+			draw_texture_rect(Art.texture(image), Rect2(center - drawn / 2.0, drawn), false)
+			_number(font, center + Vector2(0, 1), str(value), 20)
+
+	func _number(font: Font, at: Vector2, text: String, font_size: int) -> void:
+		var width := font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x
+		var spot := at + Vector2(-width / 2.0, font_size * 0.36)
+		draw_string_outline(font, spot, text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, 5, Color(0.1, 0.05, 0.02))
+		draw_string(font, spot, text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, Color.WHITE)
+
+
+## Emplacement de sort : cadre, icône, raccourci et coût en PA.
+class SpellSlot extends Control:
+	signal pressed
+	var icon: Texture2D
+	var key_label := ""
+	var cost := 0
+	var selected := false
+	var usable := true
+
+	func _init() -> void:
+		custom_minimum_size = Vector2(50, 50)
+		mouse_filter = Control.MOUSE_FILTER_STOP
+
+	func _gui_input(event: InputEvent) -> void:
+		var click := event as InputEventMouseButton
+		if click != null and click.pressed and click.button_index == MOUSE_BUTTON_LEFT:
+			pressed.emit()
+			accept_event()
+
+	func _draw() -> void:
+		var frame := Rect2(Vector2(1, 1), Vector2(48, 48))
+		draw_texture_rect(Art.texture("case_sort"), frame, false)
+		if icon != null:
+			draw_texture_rect(icon, frame.grow(-3), false, Color.WHITE if usable else Color(0.45, 0.45, 0.45))
+		if selected:
+			draw_rect(frame.grow(-1), Color(1.0, 0.82, 0.3), false, 3.0)
+		var font := ThemeDB.fallback_font
+		draw_string_outline(font, Vector2(5, 15), key_label, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, 4, Color.BLACK)
+		draw_string(font, Vector2(5, 15), key_label, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(1, 0.95, 0.8))
+		var price := str(cost)
+		var spot := Vector2(44 - font.get_string_size(price, HORIZONTAL_ALIGNMENT_LEFT, -1, 12).x, 45)
+		draw_string_outline(font, spot, price, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, 4, Color.BLACK)
+		draw_string(font, spot, price, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(0.6, 0.85, 1.0))
+
 
 var map_view: MapView
 
 var _bar: PanelContainer
-var _name_label: Label
-var _hp_label: Label
-var _points_label: Label
+var _hp_gauge: Gauge
+var _pa_gauge: Gauge
+var _pm_gauge: Gauge
 var _spells_box: HBoxContainer
 var _turn_button: Button
+var _menu_buttons := {}
 var _order_label: Label
 var _message_label: Label
 var _message_time := 0.0
@@ -21,12 +106,15 @@ var _result_panel: PanelContainer
 var _result_title: Label
 var _result_detail: Label
 var _loot_box: VBoxContainer
+## Emplacements de sorts affichés : id du sort → SpellSlot.
 var _spell_buttons: Dictionary = {}
+var _shown_spells: Array[String] = []
+var _refresh_time := 0.0
 
 
 func _ready() -> void:
 	_build()
-	_bar.visible = false
+	_turn_button.visible = false
 	_order_label.visible = false
 	_result_panel.visible = false
 
@@ -38,6 +126,9 @@ func setup(p_map_view: MapView) -> void:
 	map_view.combat_message.connect(show_message)
 	map_view.combat_ended.connect(_on_combat_ended)
 	map_view.exploration_resumed.connect(_on_exploration_resumed)
+	map_view.character_changed.connect(_refresh_exploration)
+	map_view.inventory_changed.connect(_refresh_exploration)
+	_refresh_exploration()
 
 
 func show_message(text: String) -> void:
@@ -50,6 +141,11 @@ func _process(delta: float) -> void:
 	if _message_time > 0.0:
 		_message_time -= delta
 		_message_label.modulate.a = clampf(_message_time / 0.5, 0.0, 1.0)
+	# Hors combat, les PV remontent tout seuls : la jauge suit.
+	_refresh_time += delta
+	if _refresh_time >= 0.5:
+		_refresh_time = 0.0
+		_refresh_exploration()
 
 
 func _unhandled_key_input(event: InputEvent) -> void:
@@ -66,33 +162,74 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 
 
+## Sorts du personnage hors combat (ceux qu'il aurait en combat : arme, Voie, race).
+static func character_spells(world: World) -> Array[Spell]:
+	var spells: Array[Spell] = []
+	if world == null or world.data == null:
+		return spells
+	var fighter := world.data.create_character_fighter(world.character, World.PLAYER_ID)
+	if fighter != null:
+		spells = fighter.spells
+	return spells
+
+
+## Icône d'un sort (l'attaque de l'arme prend l'icône de l'arme portée).
+static func spell_icon(spell_id: String, world: World) -> Texture2D:
+	var image := "sort_" + spell_id
+	if spell_id == "arme" and world != null:
+		var weapon := world.character.inventory.equipped_entry("arme")
+		image = Art.manifest().get("icones_armes", {}).get(weapon.get("objet", ""), "sort_arme_epee")
+	return Art.texture(image if Art.has_image(image) else "sort_inconnu")
+
+
+## Remplit la barre de sorts (si la liste a changé).
+func _show_spells(spells: Array[Spell]) -> void:
+	var ids: Array[String] = []
+	for spell in spells:
+		ids.append(spell.id)
+	if ids == _shown_spells and _spell_buttons.size() == ids.size():
+		return
+	_shown_spells = ids
+	for child in _spells_box.get_children():
+		child.queue_free()
+	_spell_buttons.clear()
+	for i in spells.size():
+		var spell := spells[i]
+		var slot := SpellSlot.new()
+		slot.icon = spell_icon(spell.id, map_view.world)
+		slot.key_label = str((i + 1) % 10) if i < SPELL_KEYS.size() else ""
+		slot.cost = spell.pa_cost
+		slot.tooltip_text = _spell_tooltip(spell)
+		slot.pressed.connect(_on_spell_pressed.bind(spell.id))
+		_spells_box.add_child(slot)
+		_spell_buttons[spell.id] = slot
+
+
+func _on_spell_pressed(spell_id: String) -> void:
+	if map_view.mode == MapView.Mode.COMBAT:
+		map_view.select_spell(spell_id)
+	else:
+		spell_info_requested.emit(spell_id)
+
+
 # --- Réactions aux événements de la carte ------------------------------------------------------
 
 func _on_combat_started() -> void:
 	_result_panel.visible = false
-	_bar.visible = true
+	_turn_button.visible = true
 	_order_label.visible = true
-	for child in _spells_box.get_children():
-		child.queue_free()
-	_spell_buttons.clear()
+	_shown_spells.clear()
 	var fighter := map_view.player_fighter()
 	if fighter != null:
-		for i in fighter.spells.size():
-			var spell := fighter.spells[i]
-			var button := Button.new()
-			button.text = "%d. %s\n%d PA" % [i + 1, spell.display_name, spell.pa_cost]
-			button.tooltip_text = _spell_tooltip(spell)
-			button.custom_minimum_size = Vector2(118, 56)
-			button.focus_mode = Control.FOCUS_NONE
-			button.pressed.connect(map_view.select_spell.bind(spell.id))
-			_spells_box.add_child(button)
-			_spell_buttons[spell.id] = button
+		_show_spells(fighter.spells)
+	for menu: String in _menu_buttons:
+		_menu_buttons[menu].disabled = true
 	show_message("Placez-vous sur un cercle bleu, puis cliquez sur « Prêt »")
 	_refresh()
 
 
 func _on_combat_ended(result: Dictionary) -> void:
-	_bar.visible = false
+	_turn_button.visible = false
 	_order_label.visible = false
 	var victory: bool = result["vainqueur"] == Fighter.TEAM_PLAYERS
 	_result_title.text = "Victoire !" if victory else "Défaite…"
@@ -120,8 +257,12 @@ func _on_combat_ended(result: Dictionary) -> void:
 
 
 func _on_exploration_resumed() -> void:
-	_bar.visible = false
+	_turn_button.visible = false
 	_order_label.visible = false
+	for menu: String in _menu_buttons:
+		_menu_buttons[menu].disabled = false
+	_shown_spells.clear()
+	_refresh_exploration()
 
 
 func _on_continue_pressed() -> void:
@@ -136,15 +277,32 @@ func _on_turn_button_pressed() -> void:
 		map_view.request_end_turn()
 
 
-## Met à jour la barre à partir de ce qu'affiche la carte.
+## Hors combat : PV, PA et PM du personnage, sorts qu'il aurait en combat.
+func _refresh_exploration() -> void:
+	if map_view == null or map_view.world == null or map_view.mode == MapView.Mode.COMBAT:
+		return
+	var world := map_view.world
+	var sheet := world.character.sheet(world.data)
+	_hp_gauge.show_values(int(sheet["pv"]), int(sheet["pv_max"]))
+	_pa_gauge.show_values(int(sheet["pa"]), int(sheet["pa"]))
+	_pm_gauge.show_values(int(sheet["pm"]), int(sheet["pm"]))
+	_show_spells(character_spells(world))
+	for spell_id: String in _spell_buttons:
+		var slot: SpellSlot = _spell_buttons[spell_id]
+		slot.usable = true
+		slot.selected = false
+		slot.queue_redraw()
+
+
+## En combat : met à jour la barre à partir de ce qu'affiche la carte.
 func _refresh() -> void:
 	if map_view == null or map_view.mode != MapView.Mode.COMBAT:
 		return
 	var player := map_view.actor(World.PLAYER_ID)
 	if not player.is_empty():
-		_name_label.text = player["name"]
-		_hp_label.text = "PV %d / %d" % [player["hp"], player["max_hp"]]
-		_points_label.text = "PA %d    PM %d" % [player["pa"], player["pm"]]
+		_hp_gauge.show_values(int(player["hp"]), int(player["max_hp"]))
+		_pa_gauge.show_values(int(player["pa"]), int(player["pa"]))
+		_pm_gauge.show_values(int(player["pm"]), int(player["pm"]))
 	var player_turn := map_view.is_player_turn()
 	if map_view.is_placement():
 		_turn_button.text = "Prêt"
@@ -154,11 +312,11 @@ func _refresh() -> void:
 		_turn_button.disabled = not player_turn
 	var fighter := map_view.player_fighter()
 	for spell_id: String in _spell_buttons:
-		var button: Button = _spell_buttons[spell_id]
+		var slot: SpellSlot = _spell_buttons[spell_id]
 		var spell: Spell = fighter.get_spell(spell_id) if fighter != null else null
-		var usable := player_turn and spell != null and fighter.cast_blocker(spell).is_empty()
-		button.disabled = not usable
-		button.modulate = Color(1, 0.85, 0.4) if spell_id == map_view.selected_spell else Color.WHITE
+		slot.usable = player_turn and spell != null and fighter.cast_blocker(spell).is_empty()
+		slot.selected = spell_id == map_view.selected_spell
+		slot.queue_redraw()
 	_order_label.text = _order_text()
 
 
@@ -175,24 +333,8 @@ func _order_text() -> String:
 	return "  ·  ".join(names)
 
 
-func _spell_tooltip(spell: Spell) -> String:
-	var lines: PackedStringArray = [spell.display_name]
-	if not spell.description.is_empty():
-		lines.append(spell.description)
-	var reach := "soi-même" if spell.range_max == 0 else "%d à %d cases" % [spell.range_min, spell.range_max]
-	lines.append("Coût : %d PA — Portée : %s" % [spell.pa_cost, reach])
-	for effect in spell.effects:
-		if effect["type"] == Spell.EFFECT_DAMAGE:
-			lines.append("Dégâts %s : %d à %d" % [effect["element"], effect["min"], effect["max"]])
-		else:
-			lines.append("Soin : %d à %d" % [effect["min"], effect["max"]])
-	if spell.zone_type == Spell.ZONE_CIRCLE:
-		lines.append("Zone : cercle de %d" % spell.zone_size)
-	if spell.casts_per_turn > 0:
-		lines.append("%d fois par tour" % spell.casts_per_turn)
-	if spell.cooldown > 0:
-		lines.append("Relance : tous les %d tours" % spell.cooldown)
-	return "\n".join(lines)
+static func _spell_tooltip(spell: Spell) -> String:
+	return "\n".join(SpellsWindow.describe(spell))
 
 
 # --- Construction des contrôles ----------------------------------------------------------------
@@ -204,34 +346,48 @@ func _build() -> void:
 	_bar.anchor_top = 1.0
 	_bar.anchor_bottom = 1.0
 	_bar.offset_top = -BAR_HEIGHT
-	_bar.add_theme_stylebox_override("panel", _panel_style(Color(0.13, 0.1, 0.07, 0.92)))
+	_bar.add_theme_stylebox_override("panel", _panel_style(Color(0.13, 0.1, 0.07, 0.97)))
 	add_child(_bar)
 
 	var row := HBoxContainer.new()
-	row.add_theme_constant_override("separation", 16)
+	row.add_theme_constant_override("separation", 14)
 	_bar.add_child(row)
 
-	var stats := VBoxContainer.new()
-	stats.custom_minimum_size = Vector2(170, 0)
-	row.add_child(stats)
-	_name_label = _label(18, Color(0.95, 0.76, 0.3))
-	_hp_label = _label(16, Color(0.95, 0.5, 0.45))
-	_points_label = _label(16, Color(0.75, 0.85, 1.0))
-	stats.add_child(_name_label)
-	stats.add_child(_hp_label)
-	stats.add_child(_points_label)
+	_hp_gauge = _gauge("pv", Vector2(70, 72), "Points de vie")
+	_pa_gauge = _gauge("pa", Vector2(56, 72), "Points d'action (PA) : pour lancer des sorts")
+	_pm_gauge = _gauge("pm", Vector2(64, 72), "Points de mouvement (PM) : une case par point")
+	for gauge in [_hp_gauge, _pa_gauge, _pm_gauge]:
+		row.add_child(gauge)
+	row.add_child(VSeparator.new())
 
 	_spells_box = HBoxContainer.new()
 	_spells_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_spells_box.alignment = BoxContainer.ALIGNMENT_CENTER
+	_spells_box.add_theme_constant_override("separation", 4)
 	row.add_child(_spells_box)
 
 	_turn_button = Button.new()
-	_turn_button.custom_minimum_size = Vector2(150, 56)
+	_turn_button.custom_minimum_size = Vector2(140, 50)
 	_turn_button.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	_turn_button.focus_mode = Control.FOCUS_NONE
 	_turn_button.pressed.connect(_on_turn_button_pressed)
 	row.add_child(_turn_button)
+
+	row.add_child(VSeparator.new())
+	var menus := GridContainer.new()
+	menus.columns = 2
+	menus.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	row.add_child(menus)
+	for menu: Array in MENUS:
+		var button := Button.new()
+		button.icon = Art.texture(menu[1])
+		button.expand_icon = true
+		button.custom_minimum_size = Vector2(36, 34)
+		button.tooltip_text = menu[2]
+		button.focus_mode = Control.FOCUS_NONE
+		button.pressed.connect(func() -> void: menu_pressed.emit(menu[0]))
+		menus.add_child(button)
+		_menu_buttons[menu[0]] = button
 
 	_order_label = _label(15, Color.WHITE)
 	_order_label.anchor_left = 0.0
@@ -282,6 +438,15 @@ func _build() -> void:
 	result_box.add_child(_result_detail)
 	result_box.add_child(_loot_box)
 	result_box.add_child(continue_button)
+
+
+func _gauge(kind: String, minimum: Vector2, tooltip: String) -> Gauge:
+	var gauge := Gauge.new()
+	gauge.kind = kind
+	gauge.custom_minimum_size = minimum
+	gauge.tooltip_text = tooltip
+	gauge.mouse_filter = Control.MOUSE_FILTER_PASS
+	return gauge
 
 
 func _label(font_size: int, color: Color) -> Label:

@@ -182,9 +182,12 @@ Objectif : **10 à 15 h de jeu solo, niveaux 1 à 30 : 3 zones de départ (une p
 - [x] PV gardés d'un combat à l'autre, régénération lente hors combat (1 PV / 2 s), 1 PV après une défaite
 
 ### Interface
-- [ ] **(MVP)** Bandeau bas : PV / PA / PM, barre de sorts, boutons de menus
+- [x] **(MVP)** Bandeau bas façon Dofus Rétro, en exploration comme en combat : PV dans un cœur rouge
+  qui se vide, PA dans une étoile bleue, PM dans une case verte, sorts en icônes (raccourci et coût
+  en PA), bouton de fin de tour, boutons de menus (personnage, inventaire, sorts, métiers)
 - [ ] **(MVP)** Fenêtres : inventaire + poupée, caractéristiques, sorts, quêtes, métiers
-  (faits : inventaire, caractéristiques, métiers avec un onglet par métier, boutique, atelier, coffre)
+  (faits : inventaire, caractéristiques, sorts avec un onglet par famille (Voie, race, arme),
+  métiers avec un onglet par métier, boutique, atelier, coffre ; reste : quêtes)
 - [ ] **(MVP)** Menu principal, options (volume, résolution), pause
 - [ ] Infobulles d'objets et de sorts (comparaison avec l'équipement porté)
 - [ ] Raccourcis clavier
@@ -204,7 +207,8 @@ Objectif : **10 à 15 h de jeu solo, niveaux 1 à 30 : 3 zones de départ (une p
 - [ ] **(MVP)** Sprites des monstres de l'alpha (faits : loup, frondeur gobelin, rat, grouilleur,
   cerf enchanté, arbre vivant, Souverain Cendré)
 - [ ] **(MVP)** Effets visuels des sorts
-- [ ] **(MVP)** Icônes d'objets, de ressources et de sorts
+- [ ] **(MVP)** Icônes d'objets, de ressources et de sorts (faites : sorts des Voies et des races,
+  attaques des armes, jauges du bandeau ; reste : objets et ressources)
 - [x] Système de recoloration des personnages (modèles SVG à couleurs remplaçables)
 - [ ] Musiques : 2 thèmes de région, 1 thème de combat, 1 thème de boss, menu
 - [ ] Bruitages : interface, pas, impacts, sorts

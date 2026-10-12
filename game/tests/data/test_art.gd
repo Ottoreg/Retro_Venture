@@ -56,3 +56,20 @@ func test_decors_des_cartes() -> void:
 			assert_eq(map.obstacles.get(decor["case"]), "bloc", "%s : le décor « %s » doit être posé sur des cases « # »" % [path, decor["image"]])
 		for npc: Dictionary in map.npcs:
 			assert_true(Art.manifest()["pnj"].has(npc["id"]), "%s : dessin du PNJ « %s »" % [path, npc["id"]])
+
+
+func test_icones_des_sorts_et_des_armes() -> void:
+	var data := GameData.load_all()
+	for voie_id: String in data.voies:
+		for spell_id: String in data.voies[voie_id]["sorts"]:
+			assert_true(Art.has_image("sort_" + spell_id), "icône du sort %s" % spell_id)
+	for race_id: String in data.races:
+		assert_true(Art.has_image("sort_" + str(data.races[race_id]["sort"])), "icône du sort racial de %s" % race_id)
+	var weapon_icons: Dictionary = Art.manifest()["icones_armes"]
+	for item_id: String in data.items:
+		if data.items[item_id]["type"] == "arme":
+			assert_true(weapon_icons.has(item_id), "icône de l'attaque de %s" % item_id)
+	for icon: String in weapon_icons.values():
+		assert_true(Art.has_image(icon), icon)
+	for image in ["coeur_vide", "coeur_plein", "etoile_pa", "case_pm", "case_sort", "sort_inconnu"]:
+		assert_true(Art.has_image(image), image)
