@@ -37,7 +37,9 @@ Dofus. Elle est décrite par un **plan texte** : une ligne par rangée, un carac
 | Caractère | Case |
 |---|---|
 | `.` | Sol praticable |
-| `@` | Case d'apparition du joueur (exactement une) |
+| `@` | Case d'apparition par défaut (exactement une) |
+| `1`…`9` | Groupe de monstres (voir ci-dessous) |
+| `a`…`z` | PNJ (voir ci-dessous) |
 | `A` | Arbre |
 | `M` | Mur / bâtiment |
 | `R` | Rocher |
@@ -56,6 +58,34 @@ Les chiffres `1` à `9` dans le plan placent les groupes décrits dans la liste 
   {"monstres": ["loup_des_collines"]},
   {"monstres": ["gobelin_frondeur", "loup_des_collines"]}
 ]
+```
+
+### PNJ
+
+Les lettres minuscules (`a` à `z`) du plan placent les PNJ décrits dans la liste `pnj`, par leur
+`marqueur`. Un PNJ bloque sa case ; un clic dessus fait venir le joueur à côté, puis le PNJ dit ses
+répliques une par une, dans une bulle.
+
+```json
+"pnj": [
+  {
+    "marqueur": "a",
+    "id": "alric_le_berger",
+    "nom": "Alric le berger",
+    "repliques": ["Ah, un aventurier ! Enfin !", "Méfiez-vous des frondeurs gobelins."]
+  }
+]
+```
+
+### Sorties
+
+`sorties` relie les bords de la carte aux cartes voisines (`haut`, `bas`, `gauche`, `droite`).
+Un clic sur une case praticable du bord concerné (ou juste derrière) fait passer sur la carte
+voisine ; on arrive sur le bord opposé, à la même hauteur. Chaque sortie doit avoir sa réciproque
+(si A mène à B par la droite, B mène à A par la gauche) : les tests le vérifient.
+
+```json
+"sorties": {"droite": "brumerive_1_0"}
 ```
 
 ## Sorts (`sorts/`)

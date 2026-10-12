@@ -14,7 +14,7 @@ global découpé en instances.
 
 ## Statut
 
-🟢 **Phase 1 — Prototype** : carte isométrique, déplacement au clic, combat tactique jouable contre des loups et un gobelin.
+🟢 **Phase 1 — Prototype** : deux cartes reliées, PNJ avec dialogues, combat tactique jouable contre des loups et des gobelins.
 
 ## Documentation
 

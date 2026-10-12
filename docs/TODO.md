@@ -51,6 +51,9 @@
 
 Objectif : **un combat jouable de bout en bout sur une carte**.
 
+✅ **Terminée.** Reportés : sprites animés (Phase 2, graphismes), tacle / fuite (Phase 2, combat),
+durée de tour limitée (Phase 4, combat multijoueur).
+
 ### Noyau (logique indépendante de l'affichage)
 - [x] **(MVP)** Modèle de grille isométrique (coordonnées, conversion écran ↔ case, voisins)
 - [x] **(MVP)** Recherche de chemin A* sur grille avec cases bloquantes (8 directions en exploration, 4 en combat)
@@ -62,21 +65,20 @@ Objectif : **un combat jouable de bout en bout sur une carte**.
 ### Exploration
 - [x] **(MVP)** Afficher une carte isométrique (sol, obstacles, décor, tri par profondeur) — formes provisoires, cadre entièrement couvert de cases
 - [x] **(MVP)** Déplacement au clic, aperçu du chemin au survol
-- [ ] Animation de marche du personnage (sprite en 8 directions)
-- [ ] Caméra et changement de carte par les bords
-- [ ] Un PNJ cliquable avec une bulle de dialogue
+- [x] Animation de marche (formes provisoires : sauts, jambes, orientation gauche/droite)
+- [x] Changement de carte par les bords (sorties réciproques, état des groupes mémorisé par carte) — pas de caméra : chaque carte tient dans l'écran, comme dans Dofus
+- [x] Deuxième carte : Brumerive — Champs de l'est
+- [x] PNJ cliquables avec bulle de dialogue (Alric le berger, Grizzik le gobelin « en pause »)
 
 ### Combat
 - [x] **(MVP)** Lancer un combat en cliquant sur un monstre
-- [x] **(MVP)** Phase de placement
+- [x] **(MVP)** Phase de placement (cercles bleus)
 - [x] **(MVP)** Tours par initiative, PA/PM, fin de tour
 - [x] **(MVP)** Sorts : portée, ligne de vue, zone, dégâts élémentaires, résistances, soins, limites et délais de relance
 - [x] **(MVP)** IA de monstre simple (mêlée et distance)
 - [x] **(MVP)** Conditions de victoire / défaite, écran de fin
 - [x] Prévisualisation de portée et de zone au survol
 - [x] Ordre de jeu affiché (version texte ; frise illustrée plus tard)
-- [ ] Durée de tour limitée (utile surtout en multi)
-- [ ] Tacle / fuite
 
 ### Contenu de test
 - [x] 1 personnage Guerrier avec 4 sorts
