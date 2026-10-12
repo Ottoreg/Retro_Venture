@@ -68,7 +68,7 @@ static func validate(data: Dictionary) -> PackedStringArray:
 		if line.length() != width:
 			errors.append("ligne %d : %d caractères au lieu de %d" % [i + 1, line.length(), width])
 			continue
-		var shifted := i % 2 == 1
+		var shifted: bool = i % 2 == 1
 		for j in line.length():
 			var character := line[j]
 			if shifted and j == 0:
