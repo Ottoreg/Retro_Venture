@@ -110,7 +110,7 @@ func _on_continue_pressed() -> void:
 
 func _on_turn_button_pressed() -> void:
 	if map_view.is_placement():
-		map_view.request_ready()
+		map_view.request_start_fight()
 	else:
 		map_view.request_end_turn()
 

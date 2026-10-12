@@ -55,31 +55,33 @@ Objectif : **un combat jouable de bout en bout sur une carte**.
 - [x] **(MVP)** Modèle de grille isométrique (coordonnées, conversion écran ↔ case, voisins)
 - [x] **(MVP)** Recherche de chemin A* sur grille avec cases bloquantes (8 directions en exploration, 4 en combat)
 - [x] **(MVP)** Architecture commandes → noyau → événements (base du futur réseau) — `World.execute()`, `Protocol`
-- [ ] **(MVP)** Générateur aléatoire à graine (combats rejouables)
-- [x] Chargement des données de contenu depuis `game/data/` + validation (cartes)
-- [x] Tests unitaires du noyau (grille, carte, monde) — à compléter au fil des systèmes
+- [x] **(MVP)** Générateur aléatoire à graine (combats rejouables) — une graine par combat
+- [x] Chargement des données de contenu depuis `game/data/` + validation (cartes, sorts, monstres, Voies)
+- [x] Tests unitaires du noyau (grille, carte, monde, combat, IA) + test de bout en bout de la scène
 
 ### Exploration
-- [x] **(MVP)** Afficher une carte isométrique (sol, obstacles, décor, tri par profondeur) — formes provisoires
+- [x] **(MVP)** Afficher une carte isométrique (sol, obstacles, décor, tri par profondeur) — formes provisoires, cadre entièrement couvert de cases
 - [x] **(MVP)** Déplacement au clic, aperçu du chemin au survol
 - [ ] Animation de marche du personnage (sprite en 8 directions)
 - [ ] Caméra et changement de carte par les bords
 - [ ] Un PNJ cliquable avec une bulle de dialogue
 
 ### Combat
-- [ ] **(MVP)** Lancer un combat en cliquant sur un monstre
-- [ ] **(MVP)** Phase de placement
-- [ ] **(MVP)** Tours par initiative, PA/PM, fin de tour
-- [ ] **(MVP)** Sorts : portée, ligne de vue, zone, dégâts élémentaires, résistances
-- [ ] **(MVP)** IA de monstre `melee` simple
-- [ ] **(MVP)** Conditions de victoire / défaite, écran de fin
-- [ ] Prévisualisation de portée et de zone au survol
-- [ ] Frise d'initiative
+- [x] **(MVP)** Lancer un combat en cliquant sur un monstre
+- [x] **(MVP)** Phase de placement
+- [x] **(MVP)** Tours par initiative, PA/PM, fin de tour
+- [x] **(MVP)** Sorts : portée, ligne de vue, zone, dégâts élémentaires, résistances, soins, limites et délais de relance
+- [x] **(MVP)** IA de monstre simple (mêlée et distance)
+- [x] **(MVP)** Conditions de victoire / défaite, écran de fin
+- [x] Prévisualisation de portée et de zone au survol
+- [x] Ordre de jeu affiché (version texte ; frise illustrée plus tard)
+- [ ] Durée de tour limitée (utile surtout en multi)
+- [ ] Tacle / fuite
 
 ### Contenu de test
-- [ ] 1 personnage Guerrier avec 4 sorts
-- [ ] 2 types de monstres
-- [ ] Assets temporaires (formes simples ou assets libres de droits, crédités)
+- [x] 1 personnage Guerrier avec 4 sorts
+- [x] 2 types de monstres (loup des collines, gobelin frondeur)
+- [x] Assets temporaires (formes simples dessinées par le code)
 
 ---
 

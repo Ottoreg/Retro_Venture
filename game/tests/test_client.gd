@@ -27,7 +27,7 @@ func test_scene_du_monde_jusqu_au_combat_et_retour() -> void:
 	assert_true(view.is_placement(), "phase de placement")
 	assert_eq(hud._spell_buttons.size(), 4, "un bouton par sort du Guerrier")
 
-	view.request_ready()
+	view.request_start_fight()
 	_run_until_idle(view)
 	assert_true(view.is_player_turn(), "la main revient au joueur")
 	var fighter := view.player_fighter()

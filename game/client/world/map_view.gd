@@ -123,7 +123,7 @@ func select_spell(spell_id: String) -> void:
 	_refresh_overlays()
 
 
-func request_ready() -> void:
+func request_start_fight() -> void:
 	if is_placement() and not _playing:
 		_send({"type": Protocol.CMD_READY, "entite": World.PLAYER_ID})
 
