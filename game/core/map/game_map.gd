@@ -6,7 +6,8 @@ extends RefCounted
 ##
 ## Le contenu est décrit par un plan texte : une ligne par rangée, un caractère par case (voir
 ## `LEGEND` et `data/README.md`). Les chiffres 1 à 9 placent les groupes de monstres décrits dans
-## la liste `groupes`. Les lignes paires du plan (2e, 4e…) sont décalées d'une demi-case
+## la liste `groupes`, les lettres minuscules les PNJ de la liste `pnj` (par leur `marqueur`).
+## Les `sorties` relient les bords de la carte aux cartes voisines. Les lignes paires du plan (2e, 4e…) sont décalées d'une demi-case
 ## et commencent par un espace, qui représente la demi-case du bord gauche.
 
 ## Caractère du plan → type d'obstacle ("" = case praticable).
@@ -14,6 +15,9 @@ const LEGEND := {".": "", "@": "", "A": "arbre", "M": "mur", "R": "rocher", "E":
 const SPAWN_CHAR := "@"
 ## Obstacles plats : bloquent le passage mais se dessinent au niveau du sol.
 const FLAT_OBSTACLES := ["eau"]
+## Bords de carte, et bord d'arrivée sur la carte voisine.
+const EXIT_DIRECTIONS := ["haut", "bas", "gauche", "droite"]
+const OPPOSITE_DIRECTION := {"haut": "bas", "bas": "haut", "gauche": "droite", "droite": "gauche"}
 
 var id: String
 var display_name: String
@@ -26,6 +30,10 @@ var spawn: Vector2i
 var obstacles: Dictionary = {}
 ## Groupes de monstres : { id: String, case: Vector2i, monstres: Array (ids de monstres) }.
 var groups: Array[Dictionary] = []
+## PNJ : { id: String, nom: String, case: Vector2i, repliques: Array (textes) }.
+var npcs: Array[Dictionary] = []
+## Cartes voisines : direction (« haut », « bas », « gauche », « droite ») → id de carte.
+var exits: Dictionary = {}
 
 ## Cases jouables (Vector2i → true).
 var _cells: Dictionary = {}
@@ -76,6 +84,38 @@ static func validate(data: Dictionary) -> PackedStringArray:
 			var monsters: Variant = group.get("monstres") if typeof(group) == TYPE_DICTIONARY else null
 			if typeof(monsters) != TYPE_ARRAY or monsters.is_empty() or monsters.size() > 8:
 				errors.append("groupe %d : « monstres » doit lister de 1 à 8 identifiants de monstres" % (k + 1))
+	var npc_markers := {}
+	var npcs_data: Variant = data.get("pnj", [])
+	if typeof(npcs_data) != TYPE_ARRAY:
+		errors.append("« pnj » doit être une liste")
+	else:
+		for npc: Variant in npcs_data:
+			if typeof(npc) != TYPE_DICTIONARY:
+				errors.append("chaque PNJ doit être un objet")
+				continue
+			var marker: Variant = npc.get("marqueur")
+			if typeof(marker) != TYPE_STRING or not _is_npc_char(marker) or npc_markers.has(marker):
+				errors.append("PNJ : « marqueur » doit être une lettre minuscule unique (%s)" % str(marker))
+			else:
+				npc_markers[marker] = 0
+			if typeof(npc.get("id")) != TYPE_STRING or str(npc.get("id")).is_empty() or typeof(npc.get("nom")) != TYPE_STRING:
+				errors.append("PNJ %s : « id » et « nom » doivent être des textes" % str(marker))
+			var lines: Variant = npc.get("repliques")
+			if typeof(lines) != TYPE_ARRAY or lines.is_empty():
+				errors.append("PNJ %s : « repliques » doit être une liste de textes non vide" % str(marker))
+			else:
+				for text: Variant in lines:
+					if typeof(text) != TYPE_STRING:
+						errors.append("PNJ %s : chaque réplique doit être un texte" % str(marker))
+	var exits_data: Variant = data.get("sorties", {})
+	if typeof(exits_data) != TYPE_DICTIONARY:
+		errors.append("« sorties » doit être un objet { direction: id de carte }")
+	else:
+		for direction: Variant in exits_data:
+			if direction not in EXIT_DIRECTIONS:
+				errors.append("sortie « %s » inconnue (directions : %s)" % [str(direction), str(EXIT_DIRECTIONS)])
+			elif typeof(exits_data[direction]) != TYPE_STRING or str(exits_data[direction]).is_empty():
+				errors.append("sortie « %s » : id de carte attendu" % direction)
 	var group_uses := {}
 	var spawn_count := 0
 	for i in plan.size():
@@ -93,6 +133,11 @@ static func validate(data: Dictionary) -> PackedStringArray:
 				if int(character) > group_count:
 					errors.append("ligne %d, colonne %d : groupe %s absent de « groupes »" % [i + 1, j + 1, character])
 				group_uses[character] = int(group_uses.get(character, 0)) + 1
+			elif _is_npc_char(character):
+				if not npc_markers.has(character):
+					errors.append("ligne %d, colonne %d : PNJ « %s » absent de « pnj »" % [i + 1, j + 1, character])
+				else:
+					npc_markers[character] += 1
 			elif not LEGEND.has(character):
 				errors.append("ligne %d, colonne %d : caractère « %s » inconnu" % [i + 1, j + 1, character])
 			elif character == SPAWN_CHAR:
@@ -103,6 +148,9 @@ static func validate(data: Dictionary) -> PackedStringArray:
 		var uses: int = group_uses.get(str(k + 1), 0)
 		if uses != 1:
 			errors.append("le groupe %d doit apparaître exactement une fois dans le plan (%d trouvé(s))" % [k + 1, uses])
+	for marker: String in npc_markers:
+		if npc_markers[marker] != 1:
+			errors.append("le PNJ « %s » doit apparaître exactement une fois dans le plan (%d trouvé(s))" % [marker, npc_markers[marker]])
 	return errors
 
 
@@ -112,6 +160,10 @@ static func from_dict(data: Dictionary) -> GameMap:
 	map.id = data["id"]
 	map.display_name = str(data.get("nom", map.id))
 	var plan: Array = data["plan"]
+	var npcs_by_marker := {}
+	for npc: Dictionary in data.get("pnj", []):
+		npcs_by_marker[npc["marqueur"]] = npc
+	map.exits = data.get("sorties", {}).duplicate()
 	map.columns = str(plan[0]).length()
 	map.rows = plan.size() + 1
 	for i in plan.size():
@@ -131,6 +183,9 @@ static func from_dict(data: Dictionary) -> GameMap:
 					"case": cell,
 					"monstres": data["groupes"][group_index - 1]["monstres"].duplicate(),
 				})
+			elif _is_npc_char(character):
+				var npc: Dictionary = npcs_by_marker[character]
+				map.npcs.append({"id": npc["id"], "nom": npc["nom"], "case": cell, "repliques": npc["repliques"].duplicate()})
 			elif LEGEND[character] != "":
 				map.obstacles[cell] = LEGEND[character]
 	for row in map.rows + 1:
@@ -145,6 +200,10 @@ static func from_dict(data: Dictionary) -> GameMap:
 
 static func _is_group_char(character: String) -> bool:
 	return character.length() == 1 and character >= "1" and character <= "9"
+
+
+static func _is_npc_char(character: String) -> bool:
+	return character.length() == 1 and character >= "a" and character <= "z"
 
 
 ## Rectangle de la carte à l'écran, dans le repère de `IsoGrid.cell_to_screen`.
@@ -167,7 +226,79 @@ func is_inside(cell: Vector2i) -> bool:
 
 
 func is_walkable(cell: Vector2i) -> bool:
-	return is_inside(cell) and not obstacles.has(cell)
+	return is_inside(cell) and not obstacles.has(cell) and npc_at(cell).is_empty()
+
+
+## PNJ sur la case, ou `{}`.
+func npc_at(cell: Vector2i) -> Dictionary:
+	for npc in npcs:
+		if npc["case"] == cell:
+			return npc
+	return {}
+
+
+func get_npc(npc_id: String) -> Dictionary:
+	for npc in npcs:
+		if npc["id"] == npc_id:
+			return npc
+	return {}
+
+
+## Directions des sorties accessibles depuis cette case (elle doit être au bord de la carte).
+func exit_directions(cell: Vector2i) -> Array[String]:
+	var result: Array[String] = []
+	if not is_inside(cell):
+		return result
+	var row := cell.x + cell.y
+	var half_column := cell.x - cell.y
+	if row == 1 and exits.has("haut"):
+		result.append("haut")
+	if row == rows - 1 and exits.has("bas"):
+		result.append("bas")
+	if half_column <= 2 and exits.has("gauche"):
+		result.append("gauche")
+	if half_column >= 2 * columns - 2 and exits.has("droite"):
+		result.append("droite")
+	return result
+
+
+## Case d'arrivée sur cette carte pour un personnage sorti par `direction` d'une carte voisine,
+## depuis la case `from_cell` de celle-ci : même rangée (ou même colonne), sur le bord opposé.
+func arrival_cell(direction: String, from_cell: Vector2i) -> Vector2i:
+	var row := from_cell.x + from_cell.y
+	var half_column := from_cell.x - from_cell.y
+	if direction == "haut":
+		row = rows - 1
+	elif direction == "bas":
+		row = 1
+	row = clampi(row, 1, rows - 1)
+	var first_half := 1 if row % 2 == 1 else 2
+	var last_half := 2 * columns - 1 if row % 2 == 1 else 2 * columns - 2
+	if direction == "droite":
+		half_column = first_half
+	elif direction == "gauche":
+		half_column = last_half
+	half_column = clampi(half_column, first_half, last_half)
+	if (row + half_column) % 2 != 0:
+		half_column += 1 if half_column < last_half else -1
+	return nearest_walkable(cell_at(row, half_column))
+
+
+## Case praticable la plus proche de `cell` (le départ de la carte si aucune).
+func nearest_walkable(cell: Vector2i) -> Vector2i:
+	var seen := {cell: true}
+	var frontier: Array[Vector2i] = [cell]
+	while not frontier.is_empty():
+		var next_frontier: Array[Vector2i] = []
+		for current in frontier:
+			if is_walkable(current):
+				return current
+			for neighbor in IsoGrid.neighbors_4(current):
+				if not seen.has(neighbor) and is_inside(neighbor):
+					seen[neighbor] = true
+					next_frontier.append(neighbor)
+		frontier = next_frontier
+	return spawn
 
 
 ## Chemin de `from` à `to`, sans la case de départ ; vide si impossible.

@@ -9,7 +9,11 @@ extends RefCounted
 # --- Commandes (client → noyau) ---
 
 ## Exploration et combat : { type, entite: String, cible: Vector2i }
+## En exploration, `sortie` (optionnel, « haut », « bas », « gauche » ou « droite ») : passer sur la
+## carte voisine une fois arrivé sur la case du bord.
 const CMD_MOVE := "deplacer"
+## Exploration : aller parler à un PNJ. { type, entite: String, pnj: String }
+const CMD_TALK := "parler"
 ## Exploration : attaquer un groupe de monstres. { type, entite: String, groupe: String }
 const CMD_ENGAGE := "engager"
 ## Combat, phase de placement : { type, entite: String, cible: Vector2i }
@@ -28,6 +32,10 @@ const CMD_END_TURN := "fin_tour"
 const EVT_MOVED := "deplace"
 ## { type, commande: String, raison: String }
 const EVT_REFUSED := "refuse"
+## { type, pnj: String, nom: String, case: Vector2i, repliques: Array[String] }
+const EVT_DIALOGUE := "dialogue"
+## Arrivée sur une autre carte. { type, carte: String, nom: String, position: Vector2i }
+const EVT_MAP_CHANGED := "changement_carte"
 ## { type, groupe: String, combattants: Array[Dictionary], placement: Array[Vector2i] }
 const EVT_COMBAT_STARTED := "combat_debut"
 ## { type, entite: String, case: Vector2i }
@@ -60,6 +68,8 @@ const REASON_OUT_OF_MAP := "hors_carte"
 const REASON_BLOCKED := "case_bloquee"
 const REASON_NO_PATH := "aucun_chemin"
 const REASON_ALREADY_THERE := "deja_sur_place"
+const REASON_NO_EXIT := "pas_de_sortie"
+const REASON_UNKNOWN_MAP := "carte_inconnue"
 const REASON_WRONG_PHASE := "mauvaise_phase"
 const REASON_NOT_YOUR_TURN := "pas_votre_tour"
 const REASON_OCCUPIED := "case_occupee"

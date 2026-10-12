@@ -1,6 +1,9 @@
 {
   "id": "brumerive_0_0",
   "nom": "Brumerive — Place du village",
+  "sorties": {
+    "droite": "brumerive_1_0"
+  },
   "plan": [
     "AAA..AA.....AA..AAA",
     " AA..............AA",
@@ -16,8 +19,8 @@
     " A.R...............",
     "A...........M......",
     " ...........MM.....",
-    "............MM....A",
-    " ............M....A",
+    ".......a....MM.....",
+    " ............M.....",
     "......@.R..........",
     " ..................",
     "................R..",
@@ -52,6 +55,18 @@
       "monstres": [
         "gobelin_frondeur",
         "loup_des_collines"
+      ]
+    }
+  ],
+  "pnj": [
+    {
+      "marqueur": "a",
+      "id": "alric_le_berger",
+      "nom": "Alric le berger",
+      "repliques": [
+        "Ah, un aventurier ! Enfin ! Les loups mangent mes moutons, les gobelins volent mes moutons… et le Conseil m'envoie vous. Bon.",
+        "Si vous allez vers l'est, dans les champs, méfiez-vous des frondeurs gobelins. Ils visent mal, mais ils visent souvent.",
+        "On raconte qu'une lanterne magique dort quelque part dans les collines. Moi je dis que c'est la lune dans la mare. Mais je ne suis qu'un berger."
       ]
     }
   ]

@@ -30,6 +30,11 @@ static func list_json(dir_path: String) -> PackedStringArray:
 	return files
 
 
+## Chemin du fichier d'une carte, d'après son id.
+static func map_path(map_id: String) -> String:
+	return "res://data/cartes/%s.json" % map_id
+
+
 ## Carte chargée depuis un fichier, ou `null` (avec les erreurs affichées) si elle est invalide.
 static func load_map(path: String) -> GameMap:
 	var data: Variant = load_json(path)

@@ -72,6 +72,25 @@ func test_monstres_des_cartes_existants() -> void:
 				assert_true(game_data.monsters.has(monster_id), "%s : monstre inconnu « %s »" % [path, monster_id])
 
 
+func test_sorties_des_cartes_reciproques() -> void:
+	for path in _find_json(DATA_ROOT.path_join("cartes")):
+		var map := DataLoader.load_map(path)
+		if map == null:
+			continue
+		for direction: String in map.exits:
+			var neighbor := DataLoader.load_map(DataLoader.map_path(map.exits[direction]))
+			assert_true(neighbor != null, "%s : la sortie « %s » mène à une carte inexistante (%s)" % [path, direction, map.exits[direction]])
+			if neighbor == null:
+				continue
+			var back: String = GameMap.OPPOSITE_DIRECTION[direction]
+			assert_eq(neighbor.exits.get(back, ""), map.id, "%s : la carte %s doit avoir une sortie « %s » qui ramène ici" % [path, neighbor.id, back])
+			var edge_cells := 0
+			for cell: Vector2i in map.cells():
+				if map.is_walkable(cell) and direction in map.exit_directions(cell):
+					edge_cells += 1
+			assert_true(edge_cells > 0, "%s : aucune case praticable sur le bord « %s »" % [path, direction])
+
+
 func _assert_id_matches_file(data: Variant, path: String) -> void:
 	if typeof(data) == TYPE_DICTIONARY:
 		assert_eq(str(data.get("id")), path.get_file().get_basename(), "%s : l'id doit correspondre au nom du fichier" % path)

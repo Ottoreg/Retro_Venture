@@ -1,0 +1,75 @@
+{
+  "id": "brumerive_1_0",
+  "nom": "Brumerive — Champs de l'est",
+  "sorties": {
+    "gauche": "brumerive_0_0"
+  },
+  "plan": [
+    "AAAAAA..AAAA.AAAAAA",
+    " A................A",
+    "A.................A",
+    " A................A",
+    "..................A",
+    " .............A...A",
+    "...........1......A",
+    " .................A",
+    "....RRRRR.........A",
+    " ...R.............A",
+    "....R.............A",
+    " ...R.............A",
+    "...................",
+    " ........A.....3...",
+    "...................",
+    " ..A...............",
+    "..@................",
+    " ..................",
+    "............M......",
+    " ...........MM.....",
+    ".........a..MM.....",
+    " ............M.....",
+    "............M..A..A",
+    " .................A",
+    "..........2.......A",
+    " .....E...........A",
+    ".....EE...........A",
+    " .....E.....A.....A",
+    ".....EE...........A",
+    " A................A",
+    "A.................A",
+    " A................A",
+    "RAARAARAARAARAARAAA"
+  ],
+  "groupes": [
+    {
+      "monstres": [
+        "loup_des_collines",
+        "loup_des_collines"
+      ]
+    },
+    {
+      "monstres": [
+        "gobelin_frondeur",
+        "gobelin_frondeur"
+      ]
+    },
+    {
+      "monstres": [
+        "gobelin_frondeur",
+        "loup_des_collines",
+        "loup_des_collines"
+      ]
+    }
+  ],
+  "pnj": [
+    {
+      "marqueur": "a",
+      "id": "grizzik_le_deserteur",
+      "nom": "Grizzik, gobelin « en pause »",
+      "repliques": [
+        "Psst ! Je ne suis pas là. Officiellement, je suis en train de piller une ferme.",
+        "Le contremaître dit que le Souverain Cendré paie double les heures de nuit. Il n'a jamais payé les heures de jour.",
+        "Si tu croises mes collègues frondeurs, ne leur dis pas que tu m'as vu. Ils me doivent trois cailloux."
+      ]
+    }
+  ]
+}

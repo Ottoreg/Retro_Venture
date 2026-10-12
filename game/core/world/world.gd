@@ -21,20 +21,30 @@ var combat: Combat = null
 
 ## Case occupée par chaque entité, par identifiant (le joueur et les groupes de monstres).
 var _positions: Dictionary = {}
-## Groupes de monstres encore présents : id → { id, case, monstres }.
+## Groupes de monstres encore présents sur la carte actuelle : id → { id, case, monstres }.
 var _groups: Dictionary = {}
+## Chargement d'une carte par son id : Callable(id: String) -> GameMap (ou null).
+var _map_loader: Callable
+var _loaded_maps: Dictionary = {}
+## Groupes restants des cartes déjà visitées : id de carte → groupes.
+var _map_states: Dictionary = {}
 var _combat_group := ""
 var _combat_count := 0
 var _approach_from := Vector2i.ZERO
 
 
-func _init(p_map: GameMap, p_data: GameData = null) -> void:
-	map = p_map
+func _init(p_map: GameMap, p_data: GameData = null, p_map_loader: Callable = Callable()) -> void:
 	data = p_data
-	_positions[PLAYER_ID] = map.spawn
-	for group in map.groups:
-		_groups[group["id"]] = group.duplicate(true)
-		_positions[group["id"]] = group["case"]
+	_map_loader = p_map_loader
+	_set_map(p_map, p_map.spawn)
+
+
+## Nom de la carte voisine dans cette direction, ou "" s'il n'y en a pas.
+func neighbor_name(direction: String) -> String:
+	if not map.exits.has(direction):
+		return ""
+	var neighbor := _load_map(map.exits[direction])
+	return neighbor.display_name if neighbor != null else ""
 
 
 func has_entity(entity_id: String) -> bool:
@@ -74,13 +84,16 @@ func execute(command: Dictionary) -> Array[Dictionary]:
 			return _move(command)
 		if type == Protocol.CMD_ENGAGE:
 			return _engage(command)
+		if type == Protocol.CMD_TALK:
+			return _talk(command)
 	return _refused(command, Protocol.REASON_UNKNOWN_COMMAND)
 
 
 func _move(command: Dictionary) -> Array[Dictionary]:
 	var entity_id: Variant = command.get("entite")
 	var target: Variant = command.get("cible")
-	if typeof(entity_id) != TYPE_STRING or typeof(target) != TYPE_VECTOR2I:
+	var exit: Variant = command.get("sortie", "")
+	if typeof(entity_id) != TYPE_STRING or typeof(target) != TYPE_VECTOR2I or typeof(exit) != TYPE_STRING:
 		return _refused(command, Protocol.REASON_INVALID_COMMAND)
 	if entity_id != PLAYER_ID:
 		return _refused(command, Protocol.REASON_UNKNOWN_ENTITY)
@@ -88,16 +101,94 @@ func _move(command: Dictionary) -> Array[Dictionary]:
 		return _refused(command, Protocol.REASON_OUT_OF_MAP)
 	if not map.is_walkable(target):
 		return _refused(command, Protocol.REASON_BLOCKED)
+	var next_map: GameMap = null
+	if not exit.is_empty():
+		if exit not in map.exit_directions(target):
+			return _refused(command, Protocol.REASON_NO_EXIT)
+		next_map = _load_map(map.exits[exit])
+		if next_map == null:
+			return _refused(command, Protocol.REASON_UNKNOWN_MAP)
 	var from: Vector2i = _positions[PLAYER_ID]
-	if from == target:
-		return _refused(command, Protocol.REASON_ALREADY_THERE)
 	var path := map.find_path(from, target)
-	if path.is_empty():
+	if from == target and next_map == null:
+		return _refused(command, Protocol.REASON_ALREADY_THERE)
+	if path.is_empty() and from != target:
 		return _refused(command, Protocol.REASON_NO_PATH)
 
+	var events: Array[Dictionary] = []
+	if not path.is_empty():
+		events.append(_moved_event(from, path))
 	_positions[PLAYER_ID] = target
-	var events: Array[Dictionary] = [_moved_event(from, path)]
+	if next_map != null:
+		_set_map(next_map, next_map.arrival_cell(exit, target))
+		events.append({
+			"type": Protocol.EVT_MAP_CHANGED,
+			"carte": map.id,
+			"nom": map.display_name,
+			"position": _positions[PLAYER_ID],
+		})
 	return events
+
+
+## Le joueur marche à côté du PNJ, qui lui parle.
+func _talk(command: Dictionary) -> Array[Dictionary]:
+	var entity_id: Variant = command.get("entite")
+	var npc_id: Variant = command.get("pnj")
+	if typeof(entity_id) != TYPE_STRING or entity_id != PLAYER_ID or typeof(npc_id) != TYPE_STRING:
+		return _refused(command, Protocol.REASON_INVALID_COMMAND)
+	var npc := map.get_npc(npc_id)
+	if npc.is_empty():
+		return _refused(command, Protocol.REASON_UNKNOWN_ENTITY)
+	var npc_cell: Vector2i = npc["case"]
+	var from: Vector2i = _positions[PLAYER_ID]
+	var events: Array[Dictionary] = []
+	if maxi(absi(from.x - npc_cell.x), absi(from.y - npc_cell.y)) > 1:
+		var best: Array[Vector2i] = []
+		for dy in range(-1, 2):
+			for dx in range(-1, 2):
+				var path := map.find_path(from, npc_cell + Vector2i(dx, dy))
+				if not path.is_empty() and (best.is_empty() or path.size() < best.size()):
+					best = path
+		if best.is_empty():
+			return _refused(command, Protocol.REASON_NO_PATH)
+		events.append(_moved_event(from, best))
+		_positions[PLAYER_ID] = best[-1]
+	events.append({
+		"type": Protocol.EVT_DIALOGUE,
+		"pnj": npc["id"],
+		"nom": npc["nom"],
+		"case": npc_cell,
+		"repliques": npc["repliques"].duplicate(),
+	})
+	return events
+
+
+## Change de carte : mémorise les groupes restants de l'ancienne, retrouve ceux de la nouvelle.
+func _set_map(next_map: GameMap, player_cell: Vector2i) -> void:
+	if map != null:
+		_map_states[map.id] = _groups
+	map = next_map
+	_loaded_maps[map.id] = map
+	_groups = {}
+	if _map_states.has(map.id):
+		_groups = _map_states[map.id]
+	else:
+		for group in map.groups:
+			_groups[group["id"]] = group.duplicate(true)
+	_positions = {PLAYER_ID: player_cell}
+	for group_id: String in _groups:
+		_positions[group_id] = _groups[group_id]["case"]
+
+
+func _load_map(map_id: String) -> GameMap:
+	if _loaded_maps.has(map_id):
+		return _loaded_maps[map_id]
+	if not _map_loader.is_valid():
+		return null
+	var loaded: GameMap = _map_loader.call(map_id)
+	if loaded != null:
+		_loaded_maps[map_id] = loaded
+	return loaded
 
 
 ## Le joueur marche jusqu'au groupe de monstres, puis le combat commence.

@@ -86,7 +86,7 @@ func _on_combat_started() -> void:
 			button.pressed.connect(map_view.select_spell.bind(spell.id))
 			_spells_box.add_child(button)
 			_spell_buttons[spell.id] = button
-	show_message("Placez-vous sur une case bleue, puis cliquez sur « Prêt »")
+	show_message("Placez-vous sur un cercle bleu, puis cliquez sur « Prêt »")
 	_refresh()
 
 

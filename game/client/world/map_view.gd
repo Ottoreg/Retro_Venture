@@ -30,7 +30,7 @@ const COLOR_REACHABLE := Color(0.35, 0.85, 0.35, 0.35)
 const COLOR_RANGE := Color(0.3, 0.55, 1.0, 0.4)
 const COLOR_RANGE_HIDDEN := Color(0.3, 0.55, 1.0, 0.15)
 const COLOR_ZONE := Color(1.0, 0.55, 0.15, 0.55)
-const COLOR_PLACEMENT := Color(0.25, 0.5, 1.0, 0.45)
+const COLOR_PLACEMENT := Color(0.25, 0.5, 1.0, 0.9)
 const COLOR_TEAM := [Color(0.25, 0.5, 1.0, 0.8), Color(0.9, 0.25, 0.2, 0.8)]
 
 const NO_CELL := Vector2i(-99999, -99999)
@@ -45,7 +45,7 @@ var _refusals := {
 	Protocol.REASON_SPELL_COOLDOWN: "Sort en recharge",
 	Protocol.REASON_OCCUPIED: "Case occupée",
 	Protocol.REASON_BLOCKED: "Case bloquée",
-	Protocol.REASON_NOT_PLACEMENT_CELL: "Choisissez une case bleue",
+	Protocol.REASON_NOT_PLACEMENT_CELL: "Choisissez un cercle bleu",
 }
 
 var world: World
@@ -418,7 +418,7 @@ func _draw() -> void:
 	_draw_ground(map)
 
 	if mode == Mode.COMBAT:
-		_draw_cells(_placement, COLOR_PLACEMENT)
+		_draw_placement_markers()
 		_draw_cells(_reachable.keys(), COLOR_REACHABLE)
 		_draw_cells(_range_hidden, COLOR_RANGE_HIDDEN)
 		_draw_cells(_range_visible, COLOR_RANGE)
@@ -456,6 +456,16 @@ func _draw() -> void:
 		color.a = 1.0 - maxf(0.0, text["age"] - 0.6) / 0.4
 		draw_string_outline(font, text_pos, text["text"], HORIZONTAL_ALIGNMENT_CENTER, 60, 16, 4, Color(0, 0, 0, color.a))
 		draw_string(font, text_pos, text["text"], HORIZONTAL_ALIGNMENT_CENTER, 60, 16, color)
+
+
+## Cases de placement : des cercles bleus (pour ne pas les confondre avec l'eau).
+func _draw_placement_markers() -> void:
+	for cell in _placement:
+		var center := IsoGrid.cell_to_screen(cell)
+		draw_colored_polygon(_ellipse(center, 15, 7.5), Color(COLOR_PLACEMENT, 0.3))
+		var ring := _ellipse(center, 15, 7.5)
+		ring.append(ring[0])
+		draw_polyline(ring, COLOR_PLACEMENT, 2.5)
 
 
 func _draw_cells(cells: Array, color: Color) -> void:

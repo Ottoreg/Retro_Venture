@@ -36,8 +36,9 @@ static func plan_with(changes: Dictionary) -> Array:
 	return plan
 
 
-static func map(changes := {}, groups := []) -> GameMap:
+static func map(changes := {}, groups := [], extra := {}) -> GameMap:
 	var data := {"id": "test", "plan": plan_with(changes), "groupes": groups}
+	data.merge(extra, true)
 	var errors := GameMap.validate(data)
 	assert(errors.is_empty(), "carte de test invalide : %s" % str(errors))
 	return GameMap.from_dict(data)
