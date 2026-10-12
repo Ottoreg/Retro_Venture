@@ -92,12 +92,16 @@ durée de tour limitée (Phase 4, combat multijoueur).
 Objectif : **10 à 15 h de jeu solo, niveaux 1 à 30 : 3 zones de départ (une par camp) + Hautepierre**.
 
 ### Personnage
-- [ ] **(MVP)** Écran de création : race, classe, couleurs, nom
-- [ ] **(MVP)** 3 races jouables, une par camp : Humain (allié), Gobelin (ennemi), Elfe (neutre) — bonus, passif, sort racial
-- [ ] **(MVP)** Camp porté par la race dans les données ; zone de départ selon le camp
-- [ ] **(MVP)** 3 classes jouables : Guerrier, Rôdeur, Arcaniste (environ 10 à 12 sorts chacune, niveaux 1 à 30)
-- [ ] **(MVP)** Caractéristiques, points à répartir, statistiques dérivées
-- [ ] **(MVP)** XP, montée de niveau, points de sort
+- [x] **(MVP)** Écran de création : race, classe, nom, aperçu et récapitulatif (couleurs selon race et Voie)
+- [x] **(MVP)** 3 races jouables, une par camp : Humain (allié), Gobelin (ennemi), Elfe (neutre) — bonus, passif, sort racial (passifs Polyvalence et Chapardeur actifs avec les métiers et le butin)
+- [x] **(MVP)** Camp porté par la race dans les données ; carte de départ par race (`carte_depart`)
+- [ ] Faire partir Gobelins et Elfes de leurs propres zones (à créer) — pour l'instant, tout le monde part de Brumerive
+- [x] 3 classes jouables : Guerrier, Rôdeur, Arcaniste (4 sorts chacune)
+- [ ] **(MVP)** Compléter jusqu'à environ 10 à 12 sorts par classe, débloqués par niveau (1 à 30)
+- [x] **(MVP)** Caractéristiques, points à répartir (fiche, touche C), statistiques dérivées (PV, initiative, dégâts, soins, XP)
+- [x] **(MVP)** XP, montée de niveau (courbe 60·n + 20·n²)
+- [ ] Points de sort (avec le système des Voies)
+- [ ] Rendement décroissant des caractéristiques
 - [ ] **(MVP)** Modèle de sort avec `voie` et `rang` (préparation du système des Voies)
 - [ ] Restat (objet ou PNJ)
 - [ ] Décider s'il faut une 4e classe de soin (Druide) pour l'équilibrage solo
@@ -153,7 +157,7 @@ Objectif : **10 à 15 h de jeu solo, niveaux 1 à 30 : 3 zones de départ (une p
 - [ ] **(MVP)** Zone de départ elfe : Lisière de Sylvebrume (environ 8 à 10 cartes)
 - [ ] **(MVP)** Zone commune : Hautepierre et environs (ville + environ 15 cartes)
 - [ ] Villes hostiles aux autres camps avant l'acte III (gardes PNJ agressifs)
-- [ ] **(MVP)** Sauvegarde / chargement (format compatible avec la future base serveur)
+- [x] **(MVP)** Sauvegarde / chargement automatique (personnage, carte, position, groupes vaincus) dans `user://`
 - [ ] Points de voyage (Pierres de Passage)
 - [ ] Carte du monde et minicarte
 - [ ] Point de résurrection

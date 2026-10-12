@@ -116,6 +116,10 @@ voisine ; on arrive sur le bord opposé, à la même hauteur. Chaque sortie doit
 | `relance.delai` | Tours à attendre avant de relancer |
 | `effets` | `degats` (avec `element` : `acier`, `flamme`, `givre`, `tempete`) ou `soin`, avec `min` et `max` |
 
+Effets sans dégâts : `teleportation` (le lanceur saute sur la case visée, qui doit être libre ;
+pas de `min`/`max`), `gain_pa` (PA en plus tout de suite), `retrait_pm` (PM en moins au prochain
+tour de la cible).
+
 ## Monstres (`monstres/`)
 
 ```json
@@ -145,9 +149,28 @@ voisine ; on arrive sur le bord opposé, à la même hauteur. Chaque sortie doit
 }
 ```
 
+## Races (`races/`)
+
+```json
+{
+  "id": "elfe",
+  "nom": "Elfe",
+  "camp": "neutre",
+  "description": "« Ce n'est pas notre guerre. »",
+  "bonus": {"agilite": 10, "intelligence": 10},
+  "passif": {"nom": "Œil perçant", "description": "+1 portée…", "effet": {"type": "portee", "valeur": 1}},
+  "sort": "elfe_pas_leger",
+  "carte_depart": "brumerive_0_0"
+}
+```
+
+`camp` : `allie`, `ennemi` ou `neutre`. `bonus` : points ajoutés aux caractéristiques (`vitalite`,
+`sagesse`, `force`, `intelligence`, `chance`, `agilite`). `passif.effet` est optionnel ; seul
+`portee` est géré pour l'instant. `sort` : sort racial, ajouté aux sorts de la Voie.
+
 Les tests vérifient tous ces fichiers (format, `id` égal au nom du fichier, sorts et monstres
 référencés existants).
 
 ## À venir
 
-`races/`, `objets/`, `butin/`, `recettes/`, `quetes/`.
+`objets/`, `butin/`, `recettes/`, `quetes/`.

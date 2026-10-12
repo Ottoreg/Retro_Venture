@@ -205,9 +205,9 @@ combinaisons « optimales ».
 
 | Race | Camp | Bonus | Passif | Sort racial | Phase |
 |---|---|---|---|---|---|
-| **Humain** | Allié | +Vitalité, +Sagesse | *Polyvalence* : +10 % d'XP de métier | *Ralliement* : +1 PA à un allié pour 1 tour | Alpha |
-| **Gobelin** | Ennemi | +Agilité, +Chance | *Chapardeur* : +monnaie et +prospection | *Coup bas* : dégâts accrus dans le dos de la cible | Alpha |
-| **Elfe** | Neutre | +Agilité, +Intelligence | *Œil perçant* : +1 portée sur les sorts à distance | *Pas léger* : téléportation courte | Alpha |
+| **Humain** | Allié | +Vitalité, +Sagesse | *Polyvalence* : +10 % d'XP de métier | *Ralliement* : +2 PA ce tour (sur soi en solo ; sur un allié en multi) | Alpha |
+| **Gobelin** | Ennemi | +Agilité, +Chance | *Chapardeur* : +monnaie et +prospection | *Coup bas* : dégâts Tempête au contact et −1 PM au prochain tour de la cible | Alpha |
+| **Elfe** | Neutre | +Agilité, +Intelligence | *Œil perçant* : +1 portée sur les sorts à distance | *Pas léger* : téléportation jusqu'à 3 cases | Alpha |
 | **Nain** | Allié | +Force, +Vitalité | *Peau de pierre* : +5 % de résistances | *Fureur des profondeurs* : bonus de dégâts quand PV < 50 % | Phase 3 |
 | **Orc** | Ennemi | +Force, +Vitalité | *Peau épaisse* : réduction des dégâts de mêlée | *Cri de guerre* : bonus de dégâts aux alliés proches | Phase 3 |
 | **Semi-homme** | Neutre | +Chance, +Agilité | *Petit mais discret* : +prospection, esquive accrue | *Second petit-déjeuner* : se soigne, une fois par combat | Phase 3 |
@@ -261,14 +261,23 @@ pièges), Chaman (invocations d'esprits), Paladin de l'Aube (hybride lumière), 
 **Statistiques dérivées :** PV, PA (6 de base), PM (3 de base), Initiative, Portée (+0), Prospection
 (100 de base), Coups critiques %, Résistances % par élément, Soins, Invocations max.
 
+**Formules en place (alpha) :**
+
+- Dégâts = base du sort × (100 + caractéristique de l'élément) % × (100 − résistance de la cible) %.
+- Soins = base × (100 + Intelligence) %.
+- PV max = PV de la Voie + 5 par niveau au-delà du 1er + Vitalité.
+- Initiative = initiative de la Voie + Agilité. XP gagnée × (100 + Sagesse) %.
+- Les bonus de race s'ajoutent aux points investis (+10 dans deux caractéristiques par race).
+
 ### 4.5 Progression
 
 - **Niveau max :** 30 en alpha solo, 100 à terme.
 - **Par niveau :** 5 points de caractéristique à répartir, 1 point de sort.
 - **Rendement décroissant** sur les caractéristiques au-delà de certains paliers (à la Dofus) pour
   favoriser la diversité.
-- **Courbe d'XP** à définir dans un tableur dédié (`docs/design/`), cible : niveau 10 en environ 2 h,
-  niveau 30 en environ 15 h pour l'alpha.
+- **Courbe d'XP** (en place) : passer du niveau n à n+1 coûte 60·n + 20·n² XP (80 pour le niveau 2,
+  200 de plus pour le 3, environ 8 400 au total pour le niveau 10). À ajuster selon les tests, cible :
+  niveau 10 en environ 2 h, niveau 30 en environ 15 h pour l'alpha.
 - **Restat :** possible via un objet ou une quête, pour ne pas punir l'expérimentation.
 
 ---
