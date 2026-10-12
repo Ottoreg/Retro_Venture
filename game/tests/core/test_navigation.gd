@@ -22,7 +22,9 @@ func _loader(map_id: String) -> GameMap:
 
 
 func _world() -> World:
-	return World.new(_maps["ouest"], Fixtures.data(), _loader)
+	var world := World.new(_maps["ouest"], Fixtures.data(), _loader)
+	world.player_voie = "test"
+	return world
 
 
 func _move(world: World, target: Vector2i, exit := "") -> Array[Dictionary]:

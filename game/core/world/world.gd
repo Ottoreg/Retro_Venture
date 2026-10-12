@@ -199,7 +199,7 @@ func _engage(command: Dictionary) -> Array[Dictionary]:
 		return _refused(command, Protocol.REASON_INVALID_COMMAND)
 	if not _groups.has(group_id):
 		return _refused(command, Protocol.REASON_UNKNOWN_ENTITY)
-	if data == null:
+	if data == null or not data.voies.has(player_voie):
 		return _refused(command, Protocol.REASON_WRONG_PHASE)
 	var group: Dictionary = _groups[group_id]
 	var from: Vector2i = _positions[PLAYER_ID]
