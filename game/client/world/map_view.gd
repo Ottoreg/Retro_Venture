@@ -82,6 +82,8 @@ var _wait := 0.0
 var _walk_actor := ""
 var _walk_path: Array[Vector2i] = []
 var _pending_click := NO_CELL
+## Commande à envoyer quand la marche en cours se termine (attaque d'un groupe, changement de carte).
+var _arrival_command: Dictionary = {}
 ## Textes flottants : { text, color, pos (Vector2 grille), age }.
 var _floating: Array[Dictionary] = []
 
@@ -191,9 +193,9 @@ func _unhandled_input(event: InputEvent) -> void:
 func _on_click(cell: Vector2i) -> void:
 	if mode == Mode.EXPLORATION:
 		if not _playing:
-			_send(_exploration_command(cell))
+			_explore(cell)
 		elif _can_interrupt_walk():
-			_interrupt_walk(cell)
+			_explore(cell, _walk_path[0])
 		else:
 			_pending_click = cell
 		return
@@ -210,19 +212,56 @@ func _on_click(cell: Vector2i) -> void:
 			_send({"type": Protocol.CMD_MOVE, "entite": World.PLAYER_ID, "cible": cell})
 
 
-## Commande d'exploration correspondant à un clic sur `cell` : parler, attaquer, changer de carte
-## ou se déplacer.
-func _exploration_command(cell: Vector2i) -> Dictionary:
+## Commandes d'exploration pour un clic sur `cell` : la marche (ou la discussion avec un PNJ), puis
+## éventuellement l'action à faire en arrivant (attaquer un groupe, changer de carte). Cette action
+## n'est envoyée qu'à l'arrivée, pour que la marche reste interruptible jusqu'au bout.
+func _exploration_commands(cell: Vector2i) -> Array[Dictionary]:
 	var npc := _map.npc_at(cell)
 	var group := world.group_at(cell)
 	var exit := _exit_at(cell)
+	var commands: Array[Dictionary] = []
 	if not npc.is_empty():
-		return {"type": Protocol.CMD_TALK, "entite": World.PLAYER_ID, "pnj": npc["id"]}
+		commands.append({"type": Protocol.CMD_TALK, "entite": World.PLAYER_ID, "pnj": npc["id"]})
+		return commands
+	var target := cell
 	if not group.is_empty():
-		return {"type": Protocol.CMD_ENGAGE, "entite": World.PLAYER_ID, "groupe": group["id"]}
-	if not exit.is_empty():
-		return {"type": Protocol.CMD_MOVE, "entite": World.PLAYER_ID, "cible": exit["case"], "sortie": exit["direction"]}
-	return {"type": Protocol.CMD_MOVE, "entite": World.PLAYER_ID, "cible": cell}
+		target = group["case"]
+	elif not exit.is_empty():
+		target = exit["case"]
+	commands.append({"type": Protocol.CMD_MOVE, "entite": World.PLAYER_ID, "cible": target})
+	if not group.is_empty():
+		commands.append({"type": Protocol.CMD_ENGAGE, "entite": World.PLAYER_ID, "groupe": group["id"]})
+	elif not exit.is_empty():
+		commands.append({"type": Protocol.CMD_MOVE, "entite": World.PLAYER_ID, "cible": target, "sortie": exit["direction"]})
+	return commands
+
+
+## Clic en exploration. Pendant une marche, `stop` est la case où le joueur termine son pas : il
+## repart de là vers la nouvelle cible, et le reste de l'ancien trajet (avec le dialogue, le combat
+## ou le changement de carte qui l'attendait) est abandonné.
+func _explore(cell: Vector2i, stop := NO_CELL) -> void:
+	var commands := _exploration_commands(cell)
+	var arrival: Dictionary = commands[1] if commands.size() > 1 else {}
+	var walk := commands[0]
+	if stop != NO_CELL:
+		walk["interrompre_a"] = stop
+	var events := world.execute(walk)
+	if events[0]["type"] == Protocol.EVT_REFUSED:
+		if arrival.is_empty() or events[0]["raison"] != Protocol.REASON_ALREADY_THERE:
+			return  # Destination impossible : on garde l'éventuelle marche en cours.
+		events = world.execute(arrival)  # Déjà sur place : on agit tout de suite.
+		arrival = {}
+	_arrival_command = arrival
+	_preview.clear()
+	if stop == NO_CELL:
+		_queue.append_array(events)
+		_playing = true
+		_play_next()
+		return
+	_walk_path.clear()
+	_walk_path.append(stop)
+	_queue = events
+	_pending_click = NO_CELL
 
 
 ## Vrai si le joueur est en train de marcher en exploration et que rien d'autre n'attend derrière
@@ -236,22 +275,6 @@ func _can_interrupt_walk() -> bool:
 		if event["type"] != Protocol.EVT_DIALOGUE:
 			return false
 	return true
-
-
-## Nouveau clic pendant une marche : le joueur finit le pas en cours, puis part vers la nouvelle
-## cible ; le reste de l'ancien trajet (et le dialogue qui l'attendait) est abandonné.
-func _interrupt_walk(cell: Vector2i) -> void:
-	var stop_cell := _walk_path[0]
-	var command := _exploration_command(cell)
-	command["interrompre_a"] = stop_cell
-	var events := world.execute(command)
-	if not events.is_empty() and events[0]["type"] == Protocol.EVT_REFUSED:
-		return  # Destination impossible : on garde l'ancienne.
-	_walk_path.clear()
-	_walk_path.append(stop_cell)
-	_queue = events
-	_pending_click = NO_CELL
-	_preview.clear()
 
 
 ## Sortie de carte visée par un clic sur `cell` : { direction, case } ou {}. Un clic sur une case
@@ -386,6 +409,11 @@ func _play_next() -> void:
 	if _paused:
 		return
 	_playing = false
+	if not _arrival_command.is_empty():
+		var command := _arrival_command
+		_arrival_command = {}
+		_send(command)
+		return
 	_refresh_overlays()
 	if _pending_click != NO_CELL:
 		var cell := _pending_click

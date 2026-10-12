@@ -267,9 +267,13 @@ func _engage(command: Dictionary) -> Array[Dictionary]:
 	var events: Array[Dictionary] = []
 	if not path.is_empty() or command.has("interrompre_a"):
 		events.append(_moved_event(from, path))
+	# Arrivé sur le groupe par un déplacement juste avant : on se place du côté d'où il venait.
+	var approach := from
+	if path.is_empty() and _last_walk.size() > 1 and _last_walk[-1] == target:
+		approach = _last_walk[0]
 	_positions[PLAYER_ID] = target
 	_last_walk.clear()
-	combat = _create_combat(group, from)
+	combat = _create_combat(group, approach)
 	_combat_group = group_id
 	var start_events := combat.start()
 	start_events[0]["groupe"] = group_id

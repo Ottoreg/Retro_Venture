@@ -114,3 +114,42 @@ func test_nouveau_clic_pendant_la_marche() -> void:
 	var shown: Vector2 = view.actor(World.PLAYER_ID)["pos"]
 	assert_eq(Vector2i(shown.round()), start, "l'affichage suit le noyau")
 	scene.free()
+
+
+
+func test_interrompre_la_marche_vers_un_combat_ou_une_sortie() -> void:
+	var tree := Engine.get_main_loop() as SceneTree
+	var scene: Node = load("res://client/world/world.tscn").instantiate()
+	tree.root.add_child(scene)
+	var view: MapView = scene.get_node("MapView")
+	var map := view.current_map()
+	var start := view.world.position_of(World.PLAYER_ID)
+
+	# Vers un groupe de monstres, puis contrordre : pas de combat.
+	var group: Dictionary = view.world.groups()[0]
+	view._on_click(group["case"])
+	view._process(0.1)
+	assert_true(view.is_busy(), "en marche vers le groupe")
+	assert_false(view.world.in_combat(), "le combat attend l'arrivée")
+	view._on_click(start)
+	_run_until_idle(view)
+	assert_eq(view.mode, MapView.Mode.EXPLORATION, "pas de combat")
+	assert_false(view.world.in_combat())
+	assert_eq(view.world.position_of(World.PLAYER_ID), start)
+
+	# Vers la sortie, puis contrordre : on reste sur la carte.
+	var exit_cell := Vector2i(-1, -1)
+	for cell: Vector2i in map.cells():
+		if map.is_walkable(cell) and "droite" in map.exit_directions(cell):
+			exit_cell = cell
+			break
+	view._on_click(exit_cell)
+	view._process(0.1)
+	assert_true(view.is_busy(), "en marche vers la sortie")
+	assert_eq(view.world.map.id, map.id, "le changement de carte attend l'arrivée")
+	view._on_click(start)
+	_run_until_idle(view)
+	assert_eq(view.world.map.id, map.id, "toujours sur la même carte")
+	assert_eq(view.current_map().id, map.id)
+	assert_eq(view.world.position_of(World.PLAYER_ID), start)
+	scene.free()

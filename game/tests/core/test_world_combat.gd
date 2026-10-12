@@ -90,3 +90,17 @@ func test_defaite_retour_au_depart() -> void:
 	assert_eq(back[0]["groupe_vaincu"], "")
 	assert_eq(_world.position_of(World.PLAYER_ID), _world.map.spawn)
 	assert_eq(_world.groups().size(), 1, "le groupe est toujours là")
+
+
+func test_engager_apres_avoir_marche_jusqu_au_groupe() -> void:
+	var direct := _engage(_world_with("mannequin"))
+	_world = _world_with("mannequin")
+	var walk := _world.execute({"type": Protocol.CMD_MOVE, "entite": World.PLAYER_ID, "cible": Fixtures.center()})
+	assert_eq(walk[0]["type"], Protocol.EVT_MOVED, "on peut marcher jusqu'au groupe sans l'attaquer")
+	assert_false(_world.in_combat())
+	var events := _engage(_world)
+	assert_true(_world.in_combat(), "puis l'attaquer une fois arrivé")
+	assert_eq(Fixtures.of_type(events, Protocol.EVT_MOVED).size(), 0, "plus de marche")
+	var placement: Array = Fixtures.of_type(events, Protocol.EVT_COMBAT_STARTED)[0]["placement"]
+	var expected: Array = Fixtures.of_type(direct, Protocol.EVT_COMBAT_STARTED)[0]["placement"]
+	assert_eq(placement, expected, "placement du côté d'où le joueur est venu")

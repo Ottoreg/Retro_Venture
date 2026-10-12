@@ -64,7 +64,7 @@ durée de tour limitée (Phase 4, combat multijoueur).
 
 ### Exploration
 - [x] **(MVP)** Afficher une carte isométrique (sol, obstacles, décor, tri par profondeur) — formes provisoires, cadre entièrement couvert de cases
-- [x] **(MVP)** Déplacement au clic, aperçu du chemin au survol ; un nouveau clic en chemin change de destination
+- [x] **(MVP)** Déplacement au clic, aperçu du chemin au survol ; un nouveau clic en chemin change de destination (même en marche vers un combat ou une sortie)
 - [x] Animation de marche (formes provisoires : sauts, jambes, orientation gauche/droite)
 - [x] Changement de carte par les bords (sorties réciproques, état des groupes mémorisé par carte) — pas de caméra : chaque carte tient dans l'écran, comme dans Dofus
 - [x] Deuxième carte : Brumerive — Champs de l'est
