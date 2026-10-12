@@ -24,6 +24,16 @@ func test_cartes_valides() -> void:
 		assert_eq(str(data.get("id")), path.get_file().get_basename(), "%s : l'id doit correspondre au nom du fichier" % path)
 
 
+func test_toutes_les_cases_praticables_sont_accessibles() -> void:
+	for path in _find_json(DATA_ROOT.path_join("cartes")):
+		var map := DataLoader.load_map(path)
+		if map == null:
+			continue  # Déjà signalé par test_cartes_valides.
+		for cell: Vector2i in map.cells():
+			if map.is_walkable(cell) and cell != map.spawn:
+				assert_true(map.find_path(map.spawn, cell).size() > 0, "%s : case %s inaccessible depuis le départ" % [path, cell])
+
+
 func test_carte_de_depart_chargeable() -> void:
 	var map := DataLoader.load_map("res://data/cartes/brumerive_0_0.json")
 	assert_true(map != null, "carte de départ")

@@ -9,6 +9,7 @@ signal hovered_cell_changed(cell: Vector2i, walkable: bool)
 const WALK_SPEED := 170.0
 
 const COLOR_GRASS := Color("7aa35a")
+const COLOR_BORDER := Color("6a8f4e")
 const COLOR_WATER := Color("4f8fb8")
 const COLOR_GRID := Color(0, 0, 0, 0.12)
 const COLOR_HOVER_OK := Color(1, 1, 1, 0.35)
@@ -27,17 +28,19 @@ var _player_pos := Vector2.ZERO
 var _walk_queue: Array[Vector2i] = []
 ## Destination cliquée pendant une marche, jouée à l'arrivée.
 var _pending_target := NO_CELL
+## Demi-cases du bord, déjà découpées au rectangle de la carte.
+var _border_polygons: Array[PackedVector2Array] = []
 
 
 func setup(p_world: World) -> void:
 	world = p_world
 	_player_pos = Vector2(world.position_of(World.PLAYER_ID))
+	var rect := world.map.screen_rect()
+	var rect_polygon := PackedVector2Array([rect.position, Vector2(rect.end.x, rect.position.y), rect.end, Vector2(rect.position.x, rect.end.y)])
+	_border_polygons.clear()
+	for cell in world.map.border_cells():
+		_border_polygons.append_array(Geometry2D.intersect_polygons(IsoGrid.diamond(IsoGrid.cell_to_screen(cell)), rect_polygon))
 	queue_redraw()
-
-
-## Centre de la carte, en coordonnées locales (pour la centrer à l'écran).
-func get_map_center() -> Vector2:
-	return IsoGrid.grid_to_screen(Vector2(world.map.size - Vector2i.ONE) / 2.0)
 
 
 func is_walking() -> bool:
@@ -139,16 +142,19 @@ func _draw() -> void:
 
 
 func _draw_ground(map: GameMap) -> void:
-	for y in map.size.y:
-		for x in map.size.x:
-			var cell := Vector2i(x, y)
-			var points := IsoGrid.diamond(IsoGrid.cell_to_screen(cell))
-			var color := COLOR_WATER if map.obstacles.get(cell) == "eau" else COLOR_GRASS
-			# Légère variation de teinte, stable d'une image à l'autre.
-			color = color.darkened(float((x * 7 + y * 13) % 5) * 0.025)
-			draw_colored_polygon(points, color)
-			points.append(points[0])
-			draw_polyline(points, COLOR_GRID)
+	for polygon in _border_polygons:
+		draw_colored_polygon(polygon, COLOR_BORDER)
+		var outline := polygon.duplicate()
+		outline.append(polygon[0])
+		draw_polyline(outline, COLOR_GRID)
+	for cell: Vector2i in map.cells():
+		var points := IsoGrid.diamond(IsoGrid.cell_to_screen(cell))
+		var color := COLOR_WATER if map.obstacles.get(cell) == "eau" else COLOR_GRASS
+		# Légère variation de teinte, stable d'une image à l'autre.
+		color = color.darkened(float(posmod(cell.x * 7 + cell.y * 13, 5)) * 0.025)
+		draw_colored_polygon(points, color)
+		points.append(points[0])
+		draw_polyline(points, COLOR_GRID)
 
 
 func _draw_obstacle(cell: Vector2i, kind: String) -> void:

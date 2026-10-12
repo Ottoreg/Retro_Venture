@@ -26,8 +26,10 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _center_map() -> void:
-	# Décalage vers le bas pour laisser de la place au relief (arbres, murs).
-	_map_view.position = (get_viewport_rect().size / 2.0 - _map_view.get_map_center() + Vector2(0, 20)).round()
+	var map_size := _map_view.world.map.screen_rect().size
+	var free_space := get_viewport_rect().size - map_size
+	# Un peu plus de place en bas, pour la future barre d'interface.
+	_map_view.position = Vector2(free_space.x / 2.0, maxf(free_space.y / 2.0 - 8.0, 0.0)).round()
 
 
 func _on_hovered_cell_changed(cell: Vector2i, walkable: bool) -> void:
