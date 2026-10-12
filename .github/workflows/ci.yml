@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  tests:
+    name: Tests Godot
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      # Garder aligné avec la version de l'éditeur (voir docs/decisions/0001-moteur-godot-4.md).
+      GODOT_VERSION: "4.5.1"
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Cache de Godot
+        id: cache-godot
+        uses: actions/cache@v4
+        with:
+          path: ~/godot
+          key: godot-${{ env.GODOT_VERSION }}-linux
+
+      - name: Installer Godot
+        if: steps.cache-godot.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p ~/godot
+          curl -fsSL -o /tmp/godot.zip \
+            "https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}-stable/Godot_v${GODOT_VERSION}-stable_linux.x86_64.zip"
+          unzip -q /tmp/godot.zip -d ~/godot
+          mv ~/godot/Godot_v${GODOT_VERSION}-stable_linux.x86_64 ~/godot/godot
+
+      - name: Importer le projet
+        run: timeout 300 ~/godot/godot --headless --path game --import
+
+      - name: Lancer les tests
+        run: |
+          set +e
+          ~/godot/godot --headless --path game -s res://tests/run_tests.gd 2>&1 | tee test.log
+          status=${PIPESTATUS[0]}
+          if grep -qE "SCRIPT ERROR|Parse Error" test.log; then
+            echo "::error::Erreurs de script détectées dans la sortie des tests"
+            exit 1
+          fi
+          exit $status

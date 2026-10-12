@@ -10,8 +10,8 @@
 ## Phase 0 — Pré-production
 
 ### Décisions
-- [ ] **(MVP)** Choisir le moteur (Godot 4 recommandé — voir [GDD § 16.2](GDD.md#162-choix-de-moteur-à-valider--décision-phase-0)) et noter la décision dans `docs/decisions/`
-- [ ] **(MVP)** Choisir le langage (GDScript / C# / TypeScript)
+- [x] **(MVP)** Choisir le moteur : Godot 4 ([décision 0001](decisions/0001-moteur-godot-4.md))
+- [x] **(MVP)** Choisir le langage : GDScript ([décision 0002](decisions/0002-langage-gdscript.md))
 - [ ] **(MVP)** Choisir le format des données de contenu (JSON, YAML ou ressources du moteur)
 - [ ] Choisir la taille de tuile (86×43 ou 64×32) et la résolution de référence
 - [ ] Choisir la licence du code et des assets
@@ -19,12 +19,14 @@
 
 ### Dépôt et outillage
 - [x] Structure du dépôt, README, GDD, TODO
-- [ ] **(MVP)** Initialiser le projet moteur dans `game/`
+- [x] **(MVP)** Initialiser le projet Godot dans `game/` (rendu Compatibility, 1280×720, lanceur de tests)
+- [ ] Ouvrir le projet dans l'éditeur Godot et commiter les fichiers générés (`*.uid`, `*.import`)
 - [ ] Activer Git LFS pour les assets binaires (`.gitattributes`)
-- [ ] Mettre en place l'intégration continue (GitHub Actions) : tests + validation des données
+- [x] Intégration continue (GitHub Actions) : tests Godot
+- [ ] Intégration continue : validation des fichiers de données
 - [ ] Créer les labels et milestones GitHub (phase, domaine : combat, UI, contenu, art, réseau…)
 - [ ] Rédiger `CONTRIBUTING.md` (conventions de nommage, de commits, de branches)
-- [ ] Créer `assets/CREDITS.md` (registre des assets tiers et licences)
+- [ ] Créer `game/assets/CREDITS.md` (registre des assets tiers et licences)
 
 ### Design
 - [ ] **(MVP)** Valider le GDD v0.1 (relecture complète)
@@ -44,7 +46,7 @@ Objectif : **un combat jouable de bout en bout sur une carte**.
 - [ ] **(MVP)** Recherche de chemin A* sur grille avec cases bloquantes
 - [ ] **(MVP)** Architecture commandes → noyau → événements (base du futur réseau)
 - [ ] **(MVP)** Générateur aléatoire à graine (combats rejouables)
-- [ ] Chargement des données de contenu depuis `data/` + validation par schéma
+- [ ] Chargement des données de contenu depuis `game/data/` + validation par schéma
 - [ ] Tests unitaires du noyau
 
 ### Exploration

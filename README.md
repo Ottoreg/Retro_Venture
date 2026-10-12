@@ -10,7 +10,7 @@ global découpé en instances.
 
 ## Statut
 
-🟡 **Phase 0 — Pré-production** : cadrage du design, choix techniques.
+🟡 **Phase 0 — Pré-production** : projet Godot initialisé, cadrage du design en cours.
 
 ## Documentation
 
@@ -38,7 +38,24 @@ global découpé en instances.
 ```
 Retro_Venture/
 ├── docs/          # GDD, TODO, design, lore, décisions
-├── data/          # Contenu du jeu piloté par les données (sorts, monstres, objets, quêtes…)
-├── assets/        # Graphismes, sons, musiques, interface
-└── game/          # Projet du moteur (créé en Phase 0, après le choix du moteur)
+├── .github/       # Intégration continue (tests Godot)
+└── game/          # Projet Godot 4
+    ├── core/      # Noyau de jeu : règles, sans affichage (partagé solo / futur serveur)
+    ├── client/    # Scènes, rendu isométrique, interface, audio
+    ├── data/      # Contenu piloté par les données (sorts, monstres, objets, quêtes…)
+    ├── assets/    # Graphismes, sons, musiques, polices
+    └── tests/     # Tests automatisés
 ```
+
+## Démarrer
+
+1. Installer [Godot 4.5](https://godotengine.org/download) (version standard, pas .NET).
+2. Ouvrir `game/project.godot` dans l'éditeur, puis lancer avec **F5**.
+3. Tests en ligne de commande :
+   ```sh
+   godot --headless --path game --import
+   godot --headless --path game -s res://tests/run_tests.gd
+   ```
+
+Choix techniques : [moteur Godot 4](docs/decisions/0001-moteur-godot-4.md),
+[langage GDScript](docs/decisions/0002-langage-gdscript.md).

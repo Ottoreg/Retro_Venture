@@ -524,7 +524,7 @@ directement** :
   génériques (PA/PM, grille, prospection) ne sont pas protégeables en tant que telles, mais leurs noms
   et leur présentation exacte doivent être les nôtres.
 - Avant toute publication : vérifier les noms retenus (recherche de marques, moteurs de recherche) et
-  tenir un registre des assets tiers et de leurs licences (`assets/CREDITS.md`).
+  tenir un registre des assets tiers et de leurs licences (`game/assets/CREDITS.md`).
 
 ---
 
@@ -548,18 +548,21 @@ directement** :
                  └──── Données de contenu (JSON / YAML) ────┘
 ```
 
-### 16.2 Choix de moteur (à valider — décision Phase 0)
+### 16.2 Choix de moteur
+
+> **Décision : Godot 4 + GDScript** — voir [0001](decisions/0001-moteur-godot-4.md) et
+> [0002](decisions/0002-langage-gdscript.md).
 
 | Option | Avantages | Inconvénients |
 |---|---|---|
-| **Godot 4 (GDScript ou C#)** — *recommandé* | Gratuit et libre, très bon en 2D/isométrique (TileMap), export PC et web, serveur sans affichage possible, même langage côté client et serveur | Réseau MMO à construire soi-même |
+| **Godot 4 (GDScript ou C#)** — ✅ *retenu* | Gratuit et libre, très bon en 2D/isométrique (TileMap), export PC et web, serveur sans affichage possible, même langage côté client et serveur | Réseau MMO à construire soi-même |
 | TypeScript : Phaser (client) + Node/Colyseus (serveur) | Code partagé client/serveur trivial, natif navigateur, Colyseus gère salles et instances | Outils d'édition de niveaux moins intégrés, performances 2D moindres |
 | Unity (C#) | Écosystème énorme | Licence, lourd pour de la 2D iso, historique de changements de licence |
 
 ### 16.3 Contenu piloté par les données
 
 Races, classes, sorts, monstres, objets, recettes, quêtes, cartes et tables de butin sont décrits dans
-des **fichiers de données** (`data/`), validés par des schémas, éditables sans recompiler. Voir les
+des **fichiers de données** (`game/data/`), validés par des schémas, éditables sans recompiler. Voir les
 exemples en [annexe](#20-annexes--formats-de-données).
 
 ### 16.4 Qualité
