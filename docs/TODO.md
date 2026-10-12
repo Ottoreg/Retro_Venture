@@ -33,6 +33,10 @@
 
 ### Design
 - [ ] **(MVP)** Valider le GDD v0.1 (relecture complète)
+  - [x] Règles de combat de base (§ 7) et éléments (provisoires)
+  - [x] Liste des 6 races et ton parodique (§ 3.6, § 4.2)
+  - [ ] Choisir les noms de peuple des 6 races (§ 4.2)
+  - [ ] Revoir les noms du monde, des Reliques et du méchant dans le ton parodique (§ 3)
 - [ ] Tableur d'équilibrage : courbe d'XP, formules de dégâts, PV par niveau (`docs/design/`)
 - [ ] Prototype « papier » du combat (grille + pions) pour tester PA/PM et 5 sorts par classe
 - [ ] Document de lore court (1 à 2 pages) : histoire, Reliques, régions (`docs/lore/`)
@@ -168,7 +172,7 @@ Objectif : **10 à 15 h de jeu solo, niveaux 1 à 30, sur 2 régions**.
 ## Phase 3 — Solo étendu (objectifs long terme)
 
 ### Races et classes
-- [ ] Ajouter progressivement environ 7 races (Petites-gens, Cavaliers d'Orvent, Sylvanides, Orques renégats…)
+- [ ] Ajouter les 3 autres races : Semi-homme, Orc, Gobelin (+ quêtes sur les renégats orcs et gobelins)
 - [ ] Ajouter progressivement environ 7 Voies (Gardien, Druide, Ménestrel, Ombrelame, Runelier, Chaman, Paladin de l'Aube…)
 - [ ] Étendre la progression jusqu'au niveau 100
 

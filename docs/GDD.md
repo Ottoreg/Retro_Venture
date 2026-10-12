@@ -37,7 +37,7 @@ Voir [§ 15 Propriété intellectuelle](#15-propriété-intellectuelle) avant de
 ## 1. Vision
 
 **Pitch :** un RPG tactique au tour par tour, vu en 2D isométrique, dans la lignée de *Dofus Rétro*,
-plongé dans un univers de haute fantasy épique inspiré du *Seigneur des Anneaux*. Les aventuriers
+plongé dans une **parodie affectueuse** du *Seigneur des Anneaux* : on en rit, mais on y croit. Les aventuriers
 parcourent le monde à la recherche des **Reliques de l'Aube**, des objets légendaires dispersés depuis
 des siècles, seules armes capables de vaincre le **Souverain Cendré** avant qu'il n'asservisse le monde.
 
@@ -101,9 +101,9 @@ récupère une à une ; chacune débloque un pouvoir unique (emplacement d'équi
 
 | # | Relique | Région | Peuple gardien | Pouvoir envisagé |
 |---|---|---|---|---|
-| 1 | La Lanterne d'Aube | Collines de Brumerive | Petites-gens | Révèle les invisibles, bonus de prospection |
+| 1 | La Lanterne d'Aube | Collines de Brumerive | Semi-hommes | Révèle les invisibles, bonus de prospection |
 | 2 | La Lame Sans-Rouille | Hautepierre | Humains | Dégâts de Lumière, brise les boucliers |
-| 3 | Le Cor des Vents | Plaines d'Orvent | Cavaliers d'Orvent | Invoque une charge, +PM aux alliés |
+| 3 | Le Cor des Vents | Plaines d'Orvent | Humains (cavaliers) | Invoque une charge, +PM aux alliés |
 | 4 | La Feuille d'Argent | Sylvebrume | Elfes | Soins de zone, résistance à l'Ombre |
 | 5 | L'Enclume-Cœur | Forges de Durhal | Nains | Améliore les objets, armure |
 | 6 | La Couronne Brisée | Marais Gris | (perdue) | Domine les morts-vivants |
@@ -132,8 +132,18 @@ L'ordre d'obtention est libre pour les Reliques 1 à 5, puis imposé pour 6 et 7
 
 ### 3.6 Ton
 
-Épique et mélancolique, mais pas sombre en permanence : l'humour vient des PNJ du quotidien (comme
-dans Dofus), l'émotion vient de la quête principale. Les quêtes secondaires peuvent être légères.
+**Parodique, mais un minimum sérieux.** Le jeu détourne les codes du *Seigneur des Anneaux*
+(la quête interminable, les prophéties, les elfes hautains, les nains bourrus, les semi-hommes qui
+pensent surtout à manger, les méchants très méchants), à la manière dont Dofus joue sur les mots et
+les références.
+
+- **L'humour** passe par les noms (jeux de mots, détournements, comme les classes de Dofus), les
+  dialogues des PNJ, les quêtes secondaires, les descriptions d'objets.
+- **Le sérieux** est réservé à la quête principale et aux enjeux du monde : le Souverain Cendré est
+  une vraie menace, les combats et la progression ne sont jamais tournés en dérision.
+- **Règle d'or :** on se moque des clichés, jamais du joueur ; une blague ne doit pas casser la
+  cohérence du monde ni le gameplay.
+- Parodier ne veut pas dire copier : aucun nom, personnage ou citation de Tolkien (voir § 15).
 
 ---
 
@@ -150,17 +160,36 @@ Une race apporte : un bonus de caractéristiques, un passif racial et un sort ra
 aucune classe. L'impact doit rester modéré (environ 5 à 10 % de puissance) pour ne pas imposer de
 combinaisons « optimales ».
 
-**Court terme (3 races) :**
+**Les 6 races du jeu** (validées) : 3 jouables dès l'alpha, les 3 autres en Phase 3.
 
-| Race | Bonus | Passif | Sort racial |
-|---|---|---|---|
-| **Humain** | +Vitalité, +Sagesse | *Polyvalence* : +10 % d'XP de métier | *Ralliement* : +1 PA à un allié pour 1 tour |
-| **Elfe** | +Agilité, +Intelligence | *Œil perçant* : +1 portée sur les sorts à distance | *Pas léger* : téléportation courte |
-| **Nain** | +Force, +Vitalité | *Peau de pierre* : +5 % de résistances | *Fureur des profondeurs* : bonus de dégâts quand PV < 50 % |
+| Race | Bonus | Passif | Sort racial | Phase |
+|---|---|---|---|---|
+| **Humain** | +Vitalité, +Sagesse | *Polyvalence* : +10 % d'XP de métier | *Ralliement* : +1 PA à un allié pour 1 tour | Alpha |
+| **Nain** | +Force, +Vitalité | *Peau de pierre* : +5 % de résistances | *Fureur des profondeurs* : bonus de dégâts quand PV < 50 % | Alpha |
+| **Elfe** | +Agilité, +Intelligence | *Œil perçant* : +1 portée sur les sorts à distance | *Pas léger* : téléportation courte | Alpha |
+| **Semi-homme** | +Chance, +Agilité | *Petit mais discret* : +prospection, esquive accrue | *Second petit-déjeuner* : se soigne, une fois par combat | Phase 3 |
+| **Orc** | +Force, +Vitalité | *Peau épaisse* : réduction des dégâts de mêlée | *Cri de guerre* : bonus de dégâts aux alliés proches | Phase 3 |
+| **Gobelin** | +Agilité, +Chance | *Chapardeur* : +monnaie et +prospection | *Coup bas* : dégâts accrus dans le dos de la cible | Phase 3 |
 
-**Long terme (environ 10 races)** : Petites-gens, Cavaliers d'Orvent, Sylvanides (peuple-arbre),
-Orques renégats, Gens des Marais, Géants du Givre, Demi-elfes, Corvides (peuple-oiseau)… La liste est
-ouverte et sera arbitrée selon la charge de production graphique.
+Les bonus, passifs et sorts sont des propositions, à équilibrer.
+
+Orcs et gobelins jouables sont des **renégats** : ils ont déserté les armées du Souverain Cendré
+(beaucoup de quêtes et de dialogues à écrire sur la méfiance des autres peuples).
+
+**Noms de peuple** — à la manière des classes de Dofus (jeux de mots, verlan, détournements),
+le nom de race générique sert dans les règles et le nom de peuple dans le jeu. Propositions, à choisir :
+
+| Race | Pistes de noms de peuple |
+|---|---|
+| Humain | **Lambdas** (les « gens normaux »), **Moyen-Terriens**, **Bonhommes** |
+| Nain | **Barbichus**, **Naindustriels**, **Trapus** |
+| Semi-homme | **Grignotins**, **Bedonnets**, **Deux-Déjeuners** |
+| Elfe | **Elfiers** (elfe + fier), **Éternelfes**, **Pointus** |
+| Orc | **Grognards**, **Orcharnés** (orc + acharnés), **Bourrus** |
+| Gobelin | **Gobe-Tout**, **Chapardins**, **Ricaneurs** |
+
+Plus de races qu'aujourd'hui n'est pas exclu à très long terme, mais la charge graphique (races ×
+sexes × équipements × animations) impose de s'en tenir à ces 6.
 
 ### 4.3 Classes (Voies)
 
@@ -580,7 +609,7 @@ exemples en [annexe](#20-annexes--formats-de-données).
 | **0. Pré-production** | Choix techniques, GDD validé, prototypes papier | Moteur choisi, structure du dépôt en place |
 | **1. Prototype** | Une carte, déplacement, un combat 1 contre 1 | Un combat jouable de bout en bout |
 | **2. Alpha solo** (court terme) | 3 races, 3 classes, combat + butin, quêtes simples, 3 métiers, équipement, 2 régions | Environ 10 à 15 h de jeu solo de niveau 1 à 30 |
-| **3. Solo étendu** (long terme) | ~10 races et classes, Voies, donjons, quêtes complexes, légendaires, scénario complet | Quête des Reliques jouable jusqu'au boss final |
+| **3. Solo étendu** (long terme) | 3 races de plus (6 au total), ~10 classes, Voies, donjons, quêtes complexes, légendaires, scénario complet | Quête des Reliques jouable jusqu'au boss final |
 | **4. Fondations réseau** | Serveur autoritaire, comptes, une instance, synchronisation | Deux joueurs se voient et combattent ensemble |
 | **5. Multi** | Instances, groupe, amis, chat, échanges, hôtel des ventes, guildes | Bêta fermée |
 

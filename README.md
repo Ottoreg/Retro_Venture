@@ -5,7 +5,7 @@
 ▶️ **Jouer dans le navigateur : https://ottoreg.github.io/Retro_Venture/** (dernière version de la branche par défaut)
 
 RPG tactique au tour par tour en 2D isométrique, inspiré de *Dofus Rétro* pour le rendu et le gameplay
-et du *Seigneur des Anneaux* pour l'univers. Les aventuriers parcourent le monde à la recherche des
+et du *Seigneur des Anneaux* pour l'univers, sur un ton parodique. Les aventuriers parcourent le monde à la recherche des
 **Reliques de l'Aube**, des objets légendaires dispersés, seules armes capables de vaincre le
 **Souverain Cendré** avant qu'il n'asservisse le monde.
 
@@ -33,7 +33,7 @@ global découpé en instances.
 | 0. Pré-production | Moteur choisi, GDD validé |
 | 1. Prototype | Un combat jouable de bout en bout |
 | 2. Alpha solo | 3 races, 3 classes, combat + butin, quêtes simples, 3 métiers, équipement |
-| 3. Solo étendu | ~10 races et classes, système des Voies, donjons, quêtes complexes, légendaires |
+| 3. Solo étendu | 6 races, ~10 classes, système des Voies, donjons, quêtes complexes, légendaires |
 | 4. Fondations réseau | Serveur autoritaire, comptes, combat à plusieurs |
 | 5. Multijoueur | Instances, groupe, amis, chat, échanges, guildes |
 
