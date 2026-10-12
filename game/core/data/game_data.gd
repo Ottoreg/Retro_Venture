@@ -229,9 +229,8 @@ func create_character_fighter(character: Character, fighter_id: String) -> Fight
 		fighter.stats[stat_name] = character.stat(stat_name, self)
 	fighter.max_hp = character.max_hp(self)
 	fighter.hp = character.hp(self)  # Les PV perdus se gardent d'un combat à l'autre.
-	# Initiative : base de la Voie + Force, Intelligence, Chance et Agilité (pas Vitalité ni Sagesse).
-	for stat_name in Character.INITIATIVE_STATS:
-		fighter.initiative += fighter.stat(stat_name)
+	# Initiative : base de la Voie + Force, Intelligence, Chance et Agilité + équipement.
+	fighter.initiative = character.initiative(self)
 	var race: Dictionary = races.get(character.race_id, {})
 	if race.has("sort") and spells.has(race["sort"]):
 		fighter.spells.append(spells[race["sort"]])
@@ -244,7 +243,6 @@ func create_character_fighter(character: Character, fighter_id: String) -> Fight
 	fighter.max_pm += character.extra("pm")
 	fighter.pm = fighter.max_pm
 	fighter.range_bonus += character.extra("portee")
-	fighter.initiative += character.extra("initiative")
 	fighter.prospection = character.prospection(self)
 	var weapon := character.inventory.equipped_entry("arme")
 	if not weapon.is_empty() and items.has(weapon["objet"]):

@@ -89,6 +89,16 @@ func prospection(data: GameData = null) -> int:
 	return BASE_PROSPECTION + stat("chance", data) / 10 + extra("prospection")
 
 
+## Initiative : base de la Voie + Force, Intelligence, Chance et Agilité + équipement. Décide de
+## l'ordre de jeu en combat.
+func initiative(data: GameData = null) -> int:
+	var voie: Dictionary = data.voies.get(voie_id, {}) if data != null else {}
+	var total := int(voie.get("caracteristiques", {}).get("initiative", 0)) + extra("initiative")
+	for stat_name in INITIATIVE_STATS:
+		total += stat(stat_name, data)
+	return total
+
+
 ## Ajoute de l'expérience ; renvoie les niveaux atteints (vide si aucun).
 func add_xp(amount: int) -> Array[int]:
 	var reached: Array[int] = []
@@ -178,6 +188,7 @@ func sheet(data: GameData) -> Dictionary:
 		"pv_max": max_hp(data),
 		"pv": hp(data),
 		"prospection": prospection(data),
+		"initiative": initiative(data),
 		"pa": int(voie.get("caracteristiques", {}).get("pa", 0)) + extra("pa"),
 		"pm": int(voie.get("caracteristiques", {}).get("pm", 0)) + extra("pm"),
 		"ecus": inventory.ecus,

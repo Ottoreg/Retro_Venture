@@ -3,7 +3,7 @@ extends SceneTree
 ##   xvfb-run -s "-screen 0 1280x720x24" godot --path game --rendering-driver opengl3 \
 ##     -s res://tools/screenshot.gd -- sortie.png [carte] [frames] [action]
 ## Lance la scène du monde (nouvelle partie), attend quelques images et enregistre la vue.
-## Action : « combat » (engage le premier groupe de la carte), « inventaire », « metiers », « sorts » (ouvre la
+## Action : « combat » (engage le premier groupe de la carte), « butin » (écran de fin de combat d'exemple), « inventaire », « metiers », « sorts » (ouvre la
 ## fenêtre ; « inventaire » remplit d'abord le sac d'un exemplaire de chaque objet) ou « pierre » (va utiliser
 ## la Pierre de Passage).
 ## Si « carte » commence par res://, c'est cette scène qui est capturée (menu, création…).
@@ -40,6 +40,14 @@ func _process(_delta: float) -> bool:
 				var template: Dictionary = world.data.items[item_id]
 				world.character.inventory.add(template, 1 if Item.is_equipment(template) else 5, Item.roll_bonuses(template, world.rng))
 			_scene.get_node("InventoryWindow").toggle()
+		elif _action == "butin":
+			# Écran de fin de combat avec un butin d'exemple.
+			var drops: Array = []
+			for item_id: String in ["croc_de_loup", "peau_de_loup", "amulette_croc", "cape_en_peau_de_loup", "lame_cendree"]:
+				var template: Dictionary = view.world.data.items[item_id]
+				drops.append({"objet": item_id, "nom": template["nom"], "rarete": template["rarete"],
+					"quantite": 3 if item_id == "croc_de_loup" else 1, "perdu": item_id == "lame_cendree"})
+			_scene.get_node("CombatHud")._on_combat_ended({"vainqueur": Fighter.TEAM_PLAYERS, "xp": 60, "ecus": 12, "butin": drops})
 		elif _action == "metiers":
 			_scene.get_node("JobsWindow").toggle()
 		elif _action == "sorts":

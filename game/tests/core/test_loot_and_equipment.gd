@@ -186,3 +186,19 @@ func test_sauvegarde_avec_inventaire() -> void:
 	assert_eq(restored.character.inventory.quantity_of("dent"), 7)
 	assert_eq(restored.character.inventory.equipped_entry("arme")["objet"], "epee")
 	assert_eq(restored.character.inventory.ecus, GameData.STARTING_ECUS)
+
+
+func test_butin_regroupe_par_objet() -> void:
+	var found := [
+		{"objet": "croc", "nom": "Croc", "rarete": "commun", "quantite": 1, "perdu": false},
+		{"objet": "peau", "nom": "Peau", "rarete": "commun", "quantite": 1, "perdu": false},
+		{"objet": "croc", "nom": "Croc", "rarete": "commun", "quantite": 2, "perdu": false},
+		{"objet": "croc", "nom": "Croc", "rarete": "commun", "quantite": 1, "perdu": true},
+	]
+	var merged := World._merged_loot(found)
+	assert_eq(merged.size(), 3, "une ligne par objet (et une pour ce qui est perdu)")
+	assert_eq(merged[0]["objet"], "croc")
+	assert_eq(merged[0]["quantite"], 3, "2 crocs + 1 croc")
+	assert_eq(merged[1]["objet"], "peau")
+	assert_true(merged[2]["perdu"])
+	assert_eq(found[0]["quantite"], 1, "la liste d'origine n'est pas modifiée")

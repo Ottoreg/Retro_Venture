@@ -76,3 +76,16 @@ func test_combattant_du_personnage() -> void:
 	assert_eq(fighter.race, "testeur")
 	var unknown := Character.create("Perdu", "testeur", "voie_inconnue")
 	assert_true(data.create_character_fighter(unknown, "x") == null)
+
+
+func test_initiative_et_prospection_dans_la_fiche() -> void:
+	var data := Fixtures.data()
+	var character := Fixtures.character()
+	character.add_xp(500)
+	character.spend_points("agilite", 3)
+	character.spend_points("chance", 2)
+	var sheet := character.sheet(data)
+	var fighter := data.create_character_fighter(character, Fixtures.PLAYER)
+	assert_eq(sheet["initiative"], fighter.initiative, "même initiative qu'en combat")
+	assert_eq(sheet["prospection"], fighter.prospection)
+	assert_eq(sheet["initiative"], character.initiative(data))

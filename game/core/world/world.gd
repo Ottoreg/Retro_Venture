@@ -488,7 +488,7 @@ func _loot(events: Array[Dictionary]) -> void:
 				found.append({"objet": template["id"], "nom": template["nom"], "rarete": template["rarete"],
 					"quantite": 1 if Item.is_equipment(template) else quantity, "perdu": uid.is_empty()})
 	character.inventory.ecus += coins
-	ended["butin"] = found
+	ended["butin"] = _merged_loot(found)
 	ended["ecus"] = coins
 	events.append(_inventory_event())
 
@@ -1127,6 +1127,21 @@ func save_data() -> Dictionary:
 		"reapparitions": _saved_timers(_respawns),
 		"repousses": _saved_timers(_depleted),
 	}
+
+
+## Butin regroupé par objet (une ligne par objet, quantités additionnées ; à part ce qui a été
+## perdu faute de place), dans l'ordre d'obtention.
+static func _merged_loot(found: Array) -> Array:
+	var merged: Array = []
+	var index_of := {}
+	for drop: Dictionary in found:
+		var key := "%s|%s" % [drop["objet"], drop["perdu"]]
+		if index_of.has(key):
+			merged[index_of[key]]["quantite"] += int(drop["quantite"])
+		else:
+			index_of[key] = merged.size()
+			merged.append(drop.duplicate())
+	return merged
 
 
 ## Groupe d'une carte tel qu'il a été sauvegardé (monstres et case), si la sauvegarde est

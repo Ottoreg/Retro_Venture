@@ -478,7 +478,11 @@ func test_tous_les_membres_d_un_groupe_sont_affiches() -> void:
 	view._set_hovered(view.world.groups()[0]["case"])
 	assert_eq(info.text, view.current_map().display_name)
 	assert_true(scene._hover_bubble.visible, "bulle au survol d'un groupe")
-	assert_true(scene._hover_label.text.contains("Loup des collines"), scene._hover_label.text)
+	var hovered: Dictionary = view.world.groups()[0]
+	var expected: PackedStringArray = []
+	for monster_id: String in hovered["monstres"]:
+		expected.append("Niv. %d %s" % [view.world.data.monsters[monster_id]["niveau"], view.world.data.monsters[monster_id]["nom"]])
+	assert_eq(scene._hover_label.text, "\n".join(expected), "un monstre par ligne, niveau devant")
 	view._set_hovered(view.current_map().spawn)
 	assert_false(scene._hover_bubble.visible, "pas de bulle sur une case vide")
 

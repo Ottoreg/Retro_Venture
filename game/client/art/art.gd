@@ -103,6 +103,8 @@ static func draw(canvas: CanvasItem, image_name: String, position: Vector2, colo
 	var size := tex.get_size() / SCALE * size_factor
 	var origin := anchor(image_name) * size_factor
 	if flip:
-		canvas.draw_texture_rect(tex, Rect2(position + Vector2(origin.x, -origin.y), Vector2(-size.x, size.y)), false, modulate)
+		# Taille négative : Godot retourne l'image mais garde le bord gauche du rectangle à sa place ;
+		# on part donc du bord gauche de l'image retournée (miroir autour de l'ancre).
+		canvas.draw_texture_rect(tex, Rect2(position + Vector2(origin.x - size.x, -origin.y), Vector2(-size.x, size.y)), false, modulate)
 	else:
 		canvas.draw_texture_rect(tex, Rect2(position - origin, size), false, modulate)

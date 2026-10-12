@@ -105,7 +105,7 @@ var _message_time := 0.0
 var _result_panel: PanelContainer
 var _result_title: Label
 var _result_detail: Label
-var _loot_box: VBoxContainer
+var _loot_box: HFlowContainer
 ## Emplacements de sorts affichés : id du sort → SpellSlot.
 var _spell_buttons: Dictionary = {}
 var _shown_spells: Array[String] = []
@@ -246,23 +246,43 @@ func _on_combat_ended(result: Dictionary) -> void:
 	for child in _loot_box.get_children():
 		child.queue_free()
 	for drop: Dictionary in result.get("butin", []):
-		var line := HBoxContainer.new()
-		line.alignment = BoxContainer.ALIGNMENT_CENTER
-		line.add_theme_constant_override("separation", 8)
-		var icon := TextureRect.new()
-		icon.texture = InventoryWindow.item_icon(drop.get("objet", ""))
-		icon.custom_minimum_size = Vector2(32, 32)
-		icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-		icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-		line.add_child(icon)
-		var label := Label.new()
-		label.text = "%s%s%s" % [drop["nom"], " ×%d" % drop["quantite"] if int(drop["quantite"]) > 1 else "",
-			"  (inventaire plein, perdu)" if drop["perdu"] else ""]
-		label.add_theme_color_override("font_color", InventoryWindow.rarity_color(drop["rarete"]))
-		line.add_child(label)
-		_loot_box.add_child(line)
+		_loot_box.add_child(_loot_slot(drop))
 	_loot_box.visible = not result.get("butin", []).is_empty()
 	_result_panel.visible = true
+
+
+## Case du butin : l'icône sur un fond de la couleur de la rareté, la quantité en bas, le nom en
+## infobulle ; grisée si l'objet a été perdu (inventaire plein).
+func _loot_slot(drop: Dictionary) -> Control:
+	var slot := PanelContainer.new()
+	slot.custom_minimum_size = Vector2(52, 52)
+	slot.mouse_filter = Control.MOUSE_FILTER_STOP
+	var lost: bool = drop["perdu"]
+	var quantity := int(drop["quantite"])
+	slot.tooltip_text = "%s%s%s" % [drop["nom"], " ×%d" % quantity if quantity > 1 else "", " — inventaire plein, perdu" if lost else ""]
+	var style := _panel_style(Color(InventoryWindow.rarity_color(drop["rarete"]), 0.18))
+	style.border_color = InventoryWindow.rarity_color(drop["rarete"]).darkened(0.3)
+	style.set_border_width_all(1)
+	style.set_content_margin_all(2)
+	slot.add_theme_stylebox_override("panel", style)
+	var icon := TextureRect.new()
+	icon.texture = InventoryWindow.item_icon(drop.get("objet", ""))
+	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	if lost:
+		icon.modulate = Color(0.45, 0.45, 0.45)
+	slot.add_child(icon)
+	if quantity > 1:
+		var amount := _label(13, Color.WHITE)
+		amount.text = str(quantity)
+		amount.size_flags_horizontal = Control.SIZE_SHRINK_END
+		amount.size_flags_vertical = Control.SIZE_SHRINK_END
+		amount.add_theme_color_override("font_outline_color", Color.BLACK)
+		amount.add_theme_constant_override("outline_size", 4)
+		amount.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		slot.add_child(amount)
+	return slot
 
 
 func _on_exploration_resumed() -> void:
@@ -442,7 +462,10 @@ func _build() -> void:
 	continue_button.custom_minimum_size = Vector2(160, 40)
 	continue_button.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	continue_button.pressed.connect(_on_continue_pressed)
-	_loot_box = VBoxContainer.new()
+	_loot_box = HFlowContainer.new()
+	_loot_box.alignment = FlowContainer.ALIGNMENT_CENTER
+	_loot_box.add_theme_constant_override("h_separation", 6)
+	_loot_box.add_theme_constant_override("v_separation", 6)
 	result_box.add_child(_result_title)
 	result_box.add_child(_result_detail)
 	result_box.add_child(_loot_box)

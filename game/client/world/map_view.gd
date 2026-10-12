@@ -440,7 +440,7 @@ func _describe(cell: Vector2i) -> String:
 		if data["alive"] and Vector2i(data["pos"].round()) == cell and actor_id != World.PLAYER_ID:
 			if mode == Mode.COMBAT:
 				return "%s — %d / %d PV" % [data["name"], data["hp"], data["max_hp"]]
-			return data["name"]
+			return group_lines(data.get("members", [data["kind"]]), world.data)
 	return "case (%d, %d)%s" % [cell.x, cell.y, "" if _map.is_walkable(cell) else " — bloquée"]
 
 
@@ -728,6 +728,15 @@ func _add_group_actor(group: Dictionary) -> void:
 	data["count"] = monster_ids.size()
 	data["members"] = monster_ids.duplicate()
 	_actors[group["id"]] = data
+
+
+## Bulle d'un groupe : chaque monstre sur sa ligne, niveau devant (« Niv. 3 Loup des collines »).
+static func group_lines(monster_ids: Array, data: GameData) -> String:
+	var lines: PackedStringArray = []
+	for monster_id: String in monster_ids:
+		var monster: Dictionary = data.monsters.get(monster_id, {}) if data != null else {}
+		lines.append("Niv. %d %s" % [int(monster.get("niveau", 1)), monster.get("nom", monster_id)])
+	return "\n".join(lines)
 
 
 ## Nom affiché d'un groupe : « Loup des collines », ou « Groupe : 2 × Rat des galeries, Grouilleur ».

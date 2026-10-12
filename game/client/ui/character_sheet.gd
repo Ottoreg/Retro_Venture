@@ -11,6 +11,13 @@ const STAT_HELP := {
 	"chance": "+1 % de dégâts de givre et +1 initiative par point",
 	"agilite": "+1 % de dégâts de tempête et +1 initiative par point",
 }
+## Valeurs secondaires affichées : [clé de la fiche, nom, aide].
+const DERIVED := [
+	["pa", "PA", "Points d'action : pour lancer des sorts"],
+	["pm", "PM", "Points de mouvement : une case par point en combat"],
+	["initiative", "Initiative", "Ordre de jeu en combat : base de la Voie + Force, Intelligence, Chance et Agilité + équipement"],
+	["prospection", "Prospection", "Chances de butin : 100 + Chance / 10 + équipement"],
+]
 
 var map_view: MapView
 
@@ -24,6 +31,8 @@ var _points_label: Label
 var _stat_values := {}
 var _stat_buttons := {}
 var _jobs_box: VBoxContainer
+## Valeurs secondaires : PA, PM, initiative, prospection.
+var _derived_values := {}
 
 
 func _ready() -> void:
@@ -65,6 +74,8 @@ func refresh() -> void:
 	for stat_name: String in _stat_values:
 		_stat_values[stat_name].text = str(sheet["caracteristiques"][stat_name])
 		_stat_buttons[stat_name].disabled = points <= 0
+	for key: String in _derived_values:
+		_derived_values[key].text = str(sheet[key])
 	for child in _jobs_box.get_children():
 		child.queue_free()
 	for job: Dictionary in sheet["metiers"]:
@@ -151,6 +162,22 @@ func _build() -> void:
 		grid.add_child(plus)
 		_stat_values[stat_name] = value_label
 		_stat_buttons[stat_name] = plus
+	var derived := GridContainer.new()
+	derived.columns = 4
+	derived.add_theme_constant_override("h_separation", 10)
+	box.add_child(derived)
+	for entry: Array in DERIVED:
+		var name_label := _label(14, Color(0.8, 0.78, 0.7))
+		name_label.text = entry[1]
+		name_label.tooltip_text = entry[2]
+		name_label.mouse_filter = Control.MOUSE_FILTER_PASS
+		name_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		var value_label := _label(14, Color.WHITE)
+		value_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+		value_label.custom_minimum_size = Vector2(36, 0)
+		derived.add_child(name_label)
+		derived.add_child(value_label)
+		_derived_values[entry[0]] = value_label
 	var jobs_title := _label(16, GOLD)
 	jobs_title.text = "Métiers"
 	box.add_child(jobs_title)
