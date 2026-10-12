@@ -1,0 +1,20 @@
+{
+  "id": "maison_crasse_roc",
+  "nom": "Votre maison",
+  "instance": "joueur",
+  "sol": "parquet",
+  "portes": [
+    "crasse_roc_0_0"
+  ],
+  "plan": [
+    "MMMMMMMMMMM",
+    " M$......=M",
+    "M.........M",
+    " M........M",
+    "M.........M",
+    " M...@....M",
+    "M.........M",
+    " M........M",
+    "MMMMM+MMMMM"
+  ]
+}

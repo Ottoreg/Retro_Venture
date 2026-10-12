@@ -1,0 +1,22 @@
+{
+  "id": "grand_cerf_charge",
+  "nom": "Charge du grand cerf",
+  "description": "Majestueux. Puis très, très douloureux.",
+  "cout_pa": 5,
+  "portee": {
+    "min": 1,
+    "max": 1
+  },
+  "ligne_de_vue": true,
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "acier",
+      "min": 14,
+      "max": 20
+    }
+  ]
+}

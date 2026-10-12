@@ -1,0 +1,54 @@
+{
+  "id": "frondeur_veteran",
+  "nom": "Frondeur vétéran",
+  "description": "Vingt ans de fronde au service du Souverain Cendré. Il attend toujours sa médaille.",
+  "famille": "gobelin_frondeur",
+  "elite": true,
+  "niveau": 8,
+  "caracteristiques": {
+    "pv": 55,
+    "pa": 8,
+    "pm": 3,
+    "initiative": 120
+  },
+  "resistances": {
+    "acier": 15,
+    "tempete": 0
+  },
+  "sorts": [
+    "gobelin_fronde",
+    "veteran_pluie_de_cailloux"
+  ],
+  "ia": "basique",
+  "xp": 120,
+  "butin": [
+    {
+      "objet": "caillou_de_fronde",
+      "taux": 0.9,
+      "quantite": [
+        2,
+        5
+      ]
+    },
+    {
+      "objet": "fiche_de_paie_gobeline",
+      "taux": 0.5
+    },
+    {
+      "objet": "anneau_du_frondeur",
+      "taux": 0.2
+    },
+    {
+      "objet": "bottes_de_marche",
+      "taux": 0.15
+    },
+    {
+      "objet": "fronde_reglementaire",
+      "taux": 0.12
+    }
+  ],
+  "ecus": [
+    15,
+    35
+  ]
+}

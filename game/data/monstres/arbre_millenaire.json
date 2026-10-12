@@ -1,0 +1,52 @@
+{
+  "id": "arbre_millenaire",
+  "nom": "Arbre millénaire",
+  "description": "Il a vu naître Sylvebrume. Il compte bien la voir disparaître, sans se presser.",
+  "famille": "arbre_vivant",
+  "elite": true,
+  "niveau": 10,
+  "caracteristiques": {
+    "pv": 150,
+    "pa": 8,
+    "pm": 1,
+    "initiative": 50
+  },
+  "resistances": {
+    "acier": 35,
+    "givre": 25,
+    "flamme": -20
+  },
+  "sorts": [
+    "arbre_branche",
+    "arbre_racines",
+    "millenaire_ronces"
+  ],
+  "ia": "basique",
+  "xp": 180,
+  "butin": [
+    {
+      "objet": "ecorce_vivante",
+      "taux": 0.9,
+      "quantite": [
+        2,
+        5
+      ]
+    },
+    {
+      "objet": "seve_ancienne",
+      "taux": 0.4,
+      "quantite": [
+        1,
+        2
+      ]
+    },
+    {
+      "objet": "cape_d_ecorce",
+      "taux": 0.18
+    }
+  ],
+  "ecus": [
+    15,
+    35
+  ]
+}

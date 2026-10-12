@@ -34,13 +34,13 @@ est ici.
 | Entrer / sortir d'un bâtiment | Clic sur la porte |
 | Changer de carte | Clic sur une flèche jaune au bord de l'écran |
 | Voyager vers une autre zone | Clic sur la **Pierre de Passage** (pierre levée aux runes bleues) |
-| Voir ce qu'on survole | Passer la souris sur un monstre, un PNJ, une ressource : une bulle s'affiche |
+| Voir ce qu'on survole | Passer la souris sur un monstre, un PNJ, une ressource : une bulle s'affiche (pour un groupe : chaque monstre avec son niveau) |
 
 ### Fenêtres et raccourcis
 
 | Touche | Fenêtre |
 | --- | --- |
-| **C** | Personnage : caractéristiques, points à répartir après un niveau |
+| **C** | Personnage : caractéristiques, PA, PM, initiative, prospection, points à répartir après un niveau |
 | **I** | Inventaire : équipement porté, sac, équiper / retirer / jeter |
 | **S** | Sorts : un onglet pour la Voie, la race et l'arme ; fiche de chaque sort |
 | **J** | Métiers : un onglet par métier, niveau, ressources et recettes |
@@ -64,8 +64,8 @@ bandeau, hors combat, ouvre sa fiche.
    - lancer un sort : touche **1 à 0** ou clic sur son icône, puis clic sur la cible (cases bleues :
      portée ; un second clic sur le sort, un **clic droit** ou **Échap** l'annule) ;
    - **Fin de tour** : bouton du bandeau.
-3. Fin du combat : expérience, écus et butin. En cas de défaite, on se réveille au point de départ
-   avec 1 PV.
+3. Fin du combat : expérience, écus et butin (une icône par objet avec sa quantité ; le nom en
+   survolant). En cas de défaite, on se réveille au point de départ avec 1 PV.
 
 Les points de vie se gardent d'un combat à l'autre et remontent doucement (1 PV toutes les 2 s) ;
 le **lit** de votre maison les rend tous d'un coup.
@@ -79,10 +79,14 @@ le **lit** de votre maison les rend tous d'un coup.
 - **Monstres** : loup et frondeur gobelin (Brumerive), rat des galeries et grouilleur (Crasse-Roc),
   cerf enchanté et arbre vivant (Sylvebrume). Les groupes comptent 1 à 3 monstres, parfois mélangés,
   se promènent autour de leur place et réapparaissent 2 à 3 minutes après avoir été vaincus.
-- **Marchand** (Barlimon, à Brumerive) : achète et vend tous les objets.
-- **Métiers** : bûcheron, mineur (les ressources repoussent en 1 à 2 minutes), forgeron (atelier de
-  Célébrimbert, à Brumerive) avec 10 recettes.
-- **Maison** (porte à Brumerive) : un coffre de 100 places et un lit.
+- **Élites** : chaque famille a sa version élite, plus grande, avec un halo doré, bien plus forte et
+  qui lâche plus souvent les objets rares (Loup alpha, Frondeur vétéran, Rat-roi, Grouilleur
+  ancestral, Grand cerf de la Lisière, Arbre millénaire). On les trouve sur la deuxième carte de
+  chaque zone ; elles réapparaissent en 4 à 6 minutes.
+- **Dans chaque village de départ** : une maison (coffre de 100 places partagé entre les maisons, et
+  un lit), un marchand qui achète et vend tous les objets, et un forgeron.
+- **Métiers** : bûcheron, mineur (les ressources repoussent en 1 à 2 minutes), forgeron (10
+  recettes).
 
 Pas encore là : quêtes, multijoueur, sons et musiques, options.
 

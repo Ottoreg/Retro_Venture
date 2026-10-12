@@ -1107,6 +1107,14 @@
         "tete": "tete_cendre",
         "tete_dos": "tete_cendre_dos"
       }
+    },
+    "gobelin_veteran": {
+      "base": "humain",
+      "echelle": 0.86,
+      "remplacer": {
+        "tete": "tete_gobelin",
+        "tete_dos": "tete_gobelin"
+      }
     }
   },
   "armes": {
@@ -1342,6 +1350,64 @@
         "oreilles_elfe"
       ],
       "arme": "arc"
+    },
+    "zogrub_troc_tout": {
+      "rig": "gobelin",
+      "couleurs": {
+        "peau": "8a9a4a",
+        "tunique": "8a3a2a",
+        "manches": "6e2e22",
+        "pantalon": "4a3a28",
+        "cheveux": "3a2a1a",
+        "ceinture": "c9a04e"
+      },
+      "accessoires": [
+        "chapeau_paille"
+      ]
+    },
+    "krogma_la_cogneuse": {
+      "rig": "gobelin",
+      "couleurs": {
+        "peau": "6a8a3a",
+        "tunique": "4e4e58",
+        "manches": "3e3e46",
+        "pantalon": "3a3028",
+        "cheveux": "1e1a16",
+        "tablier": "5a3a22"
+      },
+      "accessoires": [
+        "tablier"
+      ]
+    },
+    "lindore_feuille_d_argent": {
+      "rig": "humain",
+      "couleurs": {
+        "tunique": "c9d4e0",
+        "manches": "9fb4c8",
+        "pantalon": "5a6a7a",
+        "bottes": "6b5236",
+        "cheveux": "f0e6c0",
+        "peau": "f3dcc4",
+        "ceinture": "c9a04e"
+      },
+      "accessoires": [
+        "oreilles_elfe"
+      ]
+    },
+    "aelthar_forgeron": {
+      "rig": "humain",
+      "couleurs": {
+        "tunique": "4a6a4e",
+        "manches": "3e5a42",
+        "pantalon": "3a3028",
+        "cheveux": "8a5a2a",
+        "peau": "f0d4b4",
+        "tablier": "6b4a2b"
+      },
+      "accessoires": [
+        "oreilles_elfe",
+        "tablier"
+      ]
     }
   },
   "monstres": {
@@ -1390,6 +1456,50 @@
       "accessoires": [
         "cape_cendre"
       ]
+    },
+    "loup_alpha": {
+      "image": "loup",
+      "echelle": 1.05,
+      "couleurs": {
+        "pelage": "4e4f57",
+        "pelage_ombre": "35363d",
+        "ventre": "8a8478"
+      }
+    },
+    "frondeur_veteran": {
+      "rig": "gobelin_veteran",
+      "couleurs": {
+        "peau": "5f8a36",
+        "tunique": "6e2a22",
+        "manches": "8a8f96",
+        "pantalon": "3a3028",
+        "cheveux": "b0aaa0",
+        "ceinture": "c9a04e"
+      },
+      "arme": "fronde",
+      "accessoires": [
+        "barbe"
+      ]
+    },
+    "rat_roi": {
+      "image": "rat",
+      "echelle": 1.15,
+      "teinte": "c9b9a0"
+    },
+    "grouilleur_ancestral": {
+      "image": "grouilleur",
+      "echelle": 1.15,
+      "teinte": "b8a878"
+    },
+    "grand_cerf": {
+      "image": "cerf",
+      "echelle": 1.05,
+      "teinte": "f0e0c0"
+    },
+    "arbre_millenaire": {
+      "image": "arbre_vivant",
+      "echelle": 1.12,
+      "teinte": "a89a88"
     }
   },
   "ressources": {

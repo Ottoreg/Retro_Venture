@@ -1,0 +1,26 @@
+{
+  "id": "veteran_pluie_de_cailloux",
+  "nom": "Pluie de cailloux",
+  "description": "Vingt ans de service, et toujours pas de prime. Il se venge sur tout le monde.",
+  "cout_pa": 5,
+  "portee": {
+    "min": 2,
+    "max": 6
+  },
+  "ligne_de_vue": true,
+  "relance": {
+    "par_tour": 1
+  },
+  "zone": {
+    "type": "cercle",
+    "taille": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "acier",
+      "min": 6,
+      "max": 10
+    }
+  ]
+}

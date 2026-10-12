@@ -10,7 +10,7 @@
     " R......RR.......RR",
     "R....R..RR.R...R.RR",
     " R...............RR",
-    "R................RR",
+    "R...5............RR",
     " R.....A....4.....R",
     "A.............R..RR",
     " R...R....I...#..RR",
@@ -34,7 +34,7 @@
     " RR.....U..:.....RR",
     "RR....R....:......R",
     " R.........3:..U..R",
-    "R...........:....RR",
+    "R...6.......:....RR",
     " RR......A...:...RR",
     "RRR.RRRR.R........R",
     " RR..RRR.RRR..R...A",
@@ -76,6 +76,27 @@
     {
       "monstres": [
         "grouilleur"
+      ]
+    },
+    {
+      "monstres": [
+        "rat_roi",
+        "rat_des_galeries",
+        "rat_des_galeries"
+      ],
+      "reapparition": [
+        240,
+        360
+      ]
+    },
+    {
+      "monstres": [
+        "grouilleur_ancestral",
+        "grouilleur"
+      ],
+      "reapparition": [
+        240,
+        360
       ]
     }
   ]

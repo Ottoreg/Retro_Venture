@@ -1,0 +1,31 @@
+{
+  "id": "millenaire_ronces",
+  "nom": "Ronces millénaires",
+  "description": "Le sol se hérisse d'épines plus vieilles que les royaumes.",
+  "cout_pa": 4,
+  "portee": {
+    "min": 1,
+    "max": 4
+  },
+  "ligne_de_vue": false,
+  "relance": {
+    "par_tour": 1
+  },
+  "zone": {
+    "type": "cercle",
+    "taille": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "acier",
+      "min": 8,
+      "max": 12
+    },
+    {
+      "type": "retrait_pm",
+      "min": 1,
+      "max": 1
+    }
+  ]
+}

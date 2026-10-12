@@ -1,0 +1,60 @@
+{
+  "id": "loup_alpha",
+  "nom": "Loup alpha",
+  "description": "Le chef de meute. Il ne chasse plus lui-même : il supervise, et il goûte.",
+  "famille": "loup_des_collines",
+  "elite": true,
+  "niveau": 7,
+  "caracteristiques": {
+    "pv": 70,
+    "pa": 7,
+    "pm": 5,
+    "initiative": 150
+  },
+  "resistances": {
+    "acier": 10,
+    "flamme": -5,
+    "givre": 15,
+    "tempete": 5
+  },
+  "sorts": [
+    "loup_morsure",
+    "alpha_croc_sanglant"
+  ],
+  "ia": "basique",
+  "xp": 110,
+  "butin": [
+    {
+      "objet": "croc_de_loup",
+      "taux": 0.9,
+      "quantite": [
+        2,
+        4
+      ]
+    },
+    {
+      "objet": "peau_de_loup",
+      "taux": 0.7,
+      "quantite": [
+        1,
+        2
+      ]
+    },
+    {
+      "objet": "amulette_croc",
+      "taux": 0.25
+    },
+    {
+      "objet": "cape_en_peau_de_loup",
+      "taux": 0.15
+    },
+    {
+      "objet": "bonnet_de_berger",
+      "taux": 0.15
+    }
+  ],
+  "ecus": [
+    10,
+    25
+  ]
+}

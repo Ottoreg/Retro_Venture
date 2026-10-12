@@ -735,7 +735,7 @@ static func group_lines(monster_ids: Array, data: GameData) -> String:
 	var lines: PackedStringArray = []
 	for monster_id: String in monster_ids:
 		var monster: Dictionary = data.monsters.get(monster_id, {}) if data != null else {}
-		lines.append("Niv. %d %s" % [int(monster.get("niveau", 1)), monster.get("nom", monster_id)])
+		lines.append("Niv. %d %s%s" % [int(monster.get("niveau", 1)), monster.get("nom", monster_id), " (élite)" if monster.get("elite", false) else ""])
 	return "\n".join(lines)
 
 
@@ -1012,13 +1012,15 @@ func _draw_actor(actor_id: String) -> void:
 ## Dessine un personnage ou un monstre, les pieds en `base`.
 func _draw_figure(seed_id: String, look: Dictionary, kind: String, base: Vector2, facing: float, walking: bool, phase: float, data: Dictionary) -> void:
 	var offset := float(posmod(hash(seed_id), 100))
+	if look.get("elite", false):
+		_draw_elite_aura(base, offset)
 	if look.has("rig"):
 		var progress := 1.0 - float(data.get("attaque", 0.0)) / ATTACK_TIME if data.get("attaque", 0.0) > 0.0 else -1.0
 		Rig.draw(self, look, base, {"facing": facing, "dos": data.get("dos", false), "marche": walking, "phase": phase,
 			"temps": _time + offset * 0.1, "attaque": progress})
 	elif look.has("image"):
 		var hop := -absf(sin(phase)) * 2.0 if walking else sin(_time * 2.0 + offset) * 0.4
-		Art.draw(self, look["image"], base + Vector2(0, hop), {}, facing < 0.0, Color.WHITE, look["echelle"])
+		Art.draw(self, look["image"], base + Vector2(0, hop), look.get("couleurs", {}), facing < 0.0, look.get("teinte", Color.WHITE), look["echelle"])
 	else:
 		# Pas de dessin pour ce personnage : l'ancienne silhouette.
 		var swing := sin(phase) * 3.0 if walking else 0.0
@@ -1029,6 +1031,15 @@ func _draw_figure(seed_id: String, look: Dictionary, kind: String, base: Vector2
 			Figures.goblin(self, base, body, facing, swing)
 		else:
 			Figures.blob(self, base, body)
+
+
+## Halo doré sous les pieds d'un monstre élite, qui pulse doucement.
+func _draw_elite_aura(base: Vector2, offset: float) -> void:
+	var pulse := 0.5 + 0.5 * sin(_time * 3.0 + offset)
+	draw_colored_polygon(_ellipse(base, 24, 12), Color(1.0, 0.78, 0.25, 0.18 + 0.12 * pulse))
+	var ring := _ellipse(base, 24, 12)
+	ring.append(ring[0])
+	draw_polyline(ring, Color(1.0, 0.82, 0.3, 0.55 + 0.3 * pulse), 2.0)
 
 
 func _draw_npc(npc: Dictionary) -> void:
@@ -1078,9 +1089,12 @@ func _monster_look(kind: String) -> Dictionary:
 	var spec: Dictionary = Art.manifest().get("monstres", {}).get(kind, {})
 	var look := {}
 	if spec.has("image"):
-		look = {"image": spec["image"], "echelle": float(spec.get("echelle", 1.0))}
+		look = {"image": spec["image"], "echelle": float(spec.get("echelle", 1.0)), "couleurs": spec.get("couleurs", {}),
+			"teinte": Color(str(spec.get("teinte", "ffffff")))}
 	elif spec.has("rig"):
 		look = Rig.look(spec["rig"], spec.get("couleurs", {}), spec.get("arme", ""), spec.get("accessoires", []))
+	if world != null and world.data != null and world.data.monsters.get(kind, {}).get("elite", false):
+		look["elite"] = true
 	_monster_looks[kind] = look
 	return look
 

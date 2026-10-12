@@ -138,7 +138,9 @@ ramène d'où l'on vient (les tests vérifient que chaque porte a sa réciproque
 - `sol` : `herbe` (par défaut) ou `parquet` pour un intérieur.
 - `instance` : `""` (par défaut, carte partagée) ou `joueur` pour une carte personnelle, comme la
   maison : en multijoueur, chaque joueur aura sa propre copie (et son coffre).
-- La maison (`maison_joueur`) contient un coffre `$` (on y range des objets non portés) et un lit `=`
+- Chaque zone de départ a sa maison (`maison_joueur` à Brumerive, `maison_crasse_roc`,
+  `maison_sylvebrume`) ; le coffre est le même partout (il appartient au personnage).
+- La maison contient un coffre `$` (on y range des objets non portés) et un lit `=`
   (dormir rend tous les PV). On les utilise depuis une case voisine.
 
 ### Sorties
@@ -201,6 +203,12 @@ tour de la cible).
 
 `resistances` en % par élément (négatif = faiblesse). `ia` : seul `basique` existe pour l'instant
 (frappe si possible, sinon se place pour tirer, sinon se rapproche).
+
+Un monstre **élite** a `"elite": true` et sa `famille` (l'id du monstre normal dont il est la version
+forte, par exemple `"famille": "loup_des_collines"` pour le Loup alpha). Il est plus haut niveau,
+a au moins deux fois plus de PV, un sort d'attaque en plus, et lâche plus souvent les objets rares
+de sa famille. Il est dessiné plus grand, avec un halo doré, et « (élite) » suit son nom au survol.
+Chaque famille de monstres (sauf le Souverain Cendré) a son élite.
 
 ## Voies / classes (`voies/`)
 

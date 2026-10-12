@@ -127,6 +127,9 @@ Objectif : **10 à 15 h de jeu solo, niveaux 1 à 30 : 3 zones de départ (une p
 - [x] **(MVP)** Réapparition des groupes vaincus (2 à 3 minutes, réglable par groupe ; sauvegardée)
 - [x] Groupes qui se promènent sur la carte (quelques pas toutes les 8 à 20 s, à 3 cases au plus de
   leur origine, jamais sur le joueur, une porte, un bord de sortie ou derrière un bâtiment)
+- [x] Un monstre élite par famille (Loup alpha, Frondeur vétéran, Rat-roi, Grouilleur ancestral,
+  Grand cerf de la Lisière, Arbre millénaire) : plus grand, plus fort, butin rare plus fréquent ;
+  deux groupes d'élites sur la deuxième carte de chaque zone
 - [ ] Variantes Corrompues (2 ou 3 pour tester le concept)
 
 ### Équipement et inventaire
@@ -139,7 +142,7 @@ Objectif : **10 à 15 h de jeu solo, niveaux 1 à 30 : 3 zones de départ (une p
 - [ ] Plus d'objets (16 aujourd'hui) pour couvrir les niveaux 1 à 30
 - [ ] 3 ou 4 panoplies avec bonus d'ensemble
 - [ ] Équipement visible sur le personnage (coiffe, cape, arme)
-- [x] Marchands PNJ (achat / vente) : Barlimon Beurrefondu à Brumerive vend tous les objets, prix selon la rareté, revente à 25 %
+- [x] Marchands PNJ (achat / vente) : Barlimon (Brumerive), Zogrub (Crasse-Roc) et Lindorë (Sylvebrume) vendent tous les objets, prix selon la rareté, revente à 25 %
 - [x] Coffre personnel dans la maison du joueur (100 places, sauvegardé)
 - [ ] Banque
 
@@ -149,7 +152,7 @@ Objectif : **10 à 15 h de jeu solo, niveaux 1 à 30 : 3 zones de départ (une p
 - [ ] Bûcheron : 2 ou 3 essences de plus (if…)
 - [x] **(MVP)** Mineur : cuivre et fer, repousse en 1 à 2 minutes
 - [ ] Mineur : 2 ou 3 minerais de plus (argent…)
-- [x] **(MVP)** Forgeron : atelier (Célébrimbert à Brumerive), interface de fabrication, 10 recettes
+- [x] **(MVP)** Forgeron : atelier (Célébrimbert à Brumerive, Krogma à Crasse-Roc, Aelthar à Sylvebrume), interface de fabrication, 10 recettes
 - [ ] Forgeron : environ 20 recettes
 - [x] Ressources de monstres utilisées dans les recettes (peau et croc de loup)
 - [x] Passif humain : +10 % d'XP de métier
@@ -182,7 +185,7 @@ Objectif : **10 à 15 h de jeu solo, niveaux 1 à 30 : 3 zones de départ (une p
 - [ ] Carte du monde et minicarte
 - [ ] Point de résurrection
 - [x] Portes entre cartes (`+` dans le plan) et cartes en intérieur (sol en parquet)
-- [x] Maison du joueur à Brumerive : coffre et lit (tous les PV) ; carte personnelle (`"instance": "joueur"`)
+- [x] Maison du joueur dans chaque zone de départ (Brumerive, Crasse-Roc, Sylvebrume) : coffre partagé et lit (tous les PV) ; cartes personnelles (`"instance": "joueur"`)
 - [x] PV gardés d'un combat à l'autre, régénération lente hors combat (1 PV / 2 s), 1 PV après une défaite
 
 ### Interface
@@ -299,7 +302,7 @@ Peut démarrer dès que l'alpha solo est stable.
 - [ ] Attribution d'instance (priorité amis / groupe, puis remplissage)
 - [ ] Rejoindre l'instance d'un ami
 - [ ] Instances privées de donjon par groupe
-- [ ] Maisons de joueurs instanciées : chaque joueur entre dans sa propre copie de `maison_joueur`
+- [ ] Maisons de joueurs instanciées : chaque joueur entre dans sa propre copie de `maison_joueur` (et des maisons de Crasse-Roc et Sylvebrume)
   (cartes marquées `"instance": "joueur"`), avec son coffre
 
 ### Social

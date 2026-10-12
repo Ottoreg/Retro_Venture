@@ -1,0 +1,26 @@
+{
+  "id": "ancestral_jet_d_acide",
+  "nom": "Jet d'acide ancestral",
+  "description": "Une recette transmise de grouilleur en grouilleur depuis mille générations.",
+  "cout_pa": 5,
+  "portee": {
+    "min": 2,
+    "max": 5
+  },
+  "ligne_de_vue": true,
+  "relance": {
+    "par_tour": 1
+  },
+  "zone": {
+    "type": "cercle",
+    "taille": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "flamme",
+      "min": 7,
+      "max": 11
+    }
+  ]
+}

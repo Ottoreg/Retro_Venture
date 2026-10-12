@@ -5,6 +5,9 @@
   "sorties": {
     "droite": "sylvebrume_1_0"
   },
+  "portes": [
+    "maison_sylvebrume"
+  ],
   "plan": [
     "AAAAAAAAAAAAAAAAAAA",
     " AAAAAAAAAAAAAAAAAA",
@@ -18,11 +21,11 @@
     " AA...##....F.EEAAA",
     "AAA..###..C....AAAA",
     " AA...##.......EAAA",
-    "AA....#........EAAA",
+    "AA....#+..c....EAAA",
     " AAF....:.......AAA",
     "AAA.....:......:...",
     " AA......:....:::..",
-    "AA..R....:.a::.....",
+    "AA..R....:.a::.b...",
     " AA......:::::..E::",
     "AA......*:::::::::.",
     " AAA....::::....E..",
@@ -75,6 +78,24 @@
         "Bienvenue sous les branches de Sylvebrume, jeune pousse. Ne marche pas sur les fougères, elles sont plus vieilles que toi.",
         "Les humains veulent nos arbres, les gobelins veulent nos pierres, et le Cendré veut tout. Nous, nous voulons qu'on nous laisse tranquilles.",
         "Cette pierre gravée relie la Lisière aux autres terres. Les anciens la trouvaient vulgaire. Moi, je la trouve pratique."
+      ]
+    },
+    {
+      "marqueur": "b",
+      "id": "lindore_feuille_d_argent",
+      "nom": "Lindorë Feuille-d'Argent, marchande",
+      "marchand": true,
+      "repliques": [
+        "Bienvenue, voyageur. Mes prix sont aussi anciens que nos arbres : ils n'ont jamais baissé."
+      ]
+    },
+    {
+      "marqueur": "c",
+      "id": "aelthar_forgeron",
+      "nom": "Aelthar, forgeron des sèves",
+      "atelier": "forgeron",
+      "repliques": [
+        "Les humains frappent le métal. Nous, nous le persuadons. C'est plus long, mais le métal nous en veut moins."
       ]
     }
   ]

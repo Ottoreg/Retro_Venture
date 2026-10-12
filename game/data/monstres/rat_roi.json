@@ -1,0 +1,51 @@
+{
+  "id": "rat_roi",
+  "nom": "Rat-roi",
+  "description": "Douze rats noués par la queue, un seul trône, beaucoup d'opinions.",
+  "famille": "rat_des_galeries",
+  "elite": true,
+  "niveau": 5,
+  "caracteristiques": {
+    "pv": 40,
+    "pa": 6,
+    "pm": 4,
+    "initiative": 90
+  },
+  "resistances": {
+    "tempete": -5,
+    "acier": 5
+  },
+  "sorts": [
+    "rat_morsure",
+    "rat_grignotage",
+    "rat_roi_morsure_royale"
+  ],
+  "ia": "basique",
+  "xp": 60,
+  "butin": [
+    {
+      "objet": "queue_de_rat",
+      "taux": 0.9,
+      "quantite": [
+        2,
+        4
+      ]
+    },
+    {
+      "objet": "dent_de_rat",
+      "taux": 0.7,
+      "quantite": [
+        1,
+        2
+      ]
+    },
+    {
+      "objet": "bottes_feutrees",
+      "taux": 0.2
+    }
+  ],
+  "ecus": [
+    5,
+    15
+  ]
+}

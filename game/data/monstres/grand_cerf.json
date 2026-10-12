@@ -1,0 +1,52 @@
+{
+  "id": "grand_cerf",
+  "nom": "Grand cerf de la Lisière",
+  "description": "Les elfes le saluent, les humains le chassent, les poètes lui écrivent. Il n'aime aucun des trois.",
+  "famille": "cerf_enchante",
+  "elite": true,
+  "niveau": 9,
+  "caracteristiques": {
+    "pv": 90,
+    "pa": 8,
+    "pm": 5,
+    "initiative": 150
+  },
+  "resistances": {
+    "tempete": 30,
+    "flamme": -5,
+    "acier": 10
+  },
+  "sorts": [
+    "cerf_ramure",
+    "cerf_eclat_sylvestre",
+    "grand_cerf_charge"
+  ],
+  "ia": "basique",
+  "xp": 150,
+  "butin": [
+    {
+      "objet": "poil_scintillant",
+      "taux": 0.9,
+      "quantite": [
+        2,
+        4
+      ]
+    },
+    {
+      "objet": "bois_de_cerf_enchante",
+      "taux": 0.6,
+      "quantite": [
+        1,
+        2
+      ]
+    },
+    {
+      "objet": "couronne_de_ramure",
+      "taux": 0.18
+    }
+  ],
+  "ecus": [
+    12,
+    30
+  ]
+}

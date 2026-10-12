@@ -219,3 +219,66 @@ func _assert_id_matches_file(data: Variant, path: String) -> void:
 
 func _find_json(dir_path: String) -> PackedStringArray:
 	return DataLoader.list_json(dir_path)
+
+
+func test_maison_marchand_et_forgeron_dans_chaque_zone_de_depart() -> void:
+	var game_data := GameData.load_all()
+	for race_id: String in game_data.races:
+		var map := DataLoader.load_map(DataLoader.map_path(str(game_data.races[race_id]["carte_depart"])))
+		assert_true(map != null)
+		if map == null:
+			continue
+		var merchant := false
+		var smith := false
+		for npc: Dictionary in map.npcs:
+			merchant = merchant or npc.get("marchand", false)
+			smith = smith or npc.get("atelier", "") == "forgeron"
+		assert_true(merchant, "%s : un marchand" % map.id)
+		assert_true(smith, "%s : un forgeron" % map.id)
+		var house: GameMap = null
+		for cell: Vector2i in map.doors:
+			var target := DataLoader.load_map(DataLoader.map_path(map.doors[cell]))
+			if target != null and target.instance == "joueur":
+				house = target
+		assert_true(house != null, "%s : une porte vers une maison du joueur" % map.id)
+		if house != null:
+			assert_true("coffre" in house.obstacles.values() and "lit" in house.obstacles.values(), "%s : coffre et lit" % house.id)
+			assert_eq(house.door_to(map.id), house.doors.keys()[0], "la porte de la maison ramène à %s" % map.id)
+
+
+func test_un_elite_par_famille_de_monstres() -> void:
+	var game_data := GameData.load_all()
+	var art: Dictionary = Art.manifest()["monstres"]
+	var placed := {}
+	for path in _find_json(DATA_ROOT.path_join("cartes")):
+		var map := DataLoader.load_map(path)
+		if map != null:
+			for group in map.groups:
+				for monster_id: String in GameMap.possible_monsters(group):
+					placed[monster_id] = true
+	var elite_of := {}
+	for monster_id: String in game_data.monsters:
+		var elite: Dictionary = game_data.monsters[monster_id]
+		if not elite.get("elite", false):
+			continue
+		var family: String = elite["famille"]
+		assert_true(game_data.monsters.has(family) and not game_data.monsters[family].get("elite", false), "%s : famille « %s » inconnue" % [monster_id, family])
+		if not game_data.monsters.has(family):
+			continue
+		elite_of[family] = monster_id
+		var base: Dictionary = game_data.monsters[family]
+		assert_true(int(elite["niveau"]) > int(base["niveau"]), "%s : niveau plus haut que %s" % [monster_id, family])
+		assert_true(int(elite["caracteristiques"]["pv"]) >= 2 * int(base["caracteristiques"]["pv"]), "%s : au moins deux fois plus de PV" % monster_id)
+		assert_true(float(art[monster_id].get("echelle", 1.0)) > float(art[family].get("echelle", 1.0)) or art[monster_id].has("rig"), "%s : plus grand" % monster_id)
+		var rates := {}
+		for drop: Dictionary in elite["butin"]:
+			rates[drop["objet"]] = float(drop["taux"])
+		for drop: Dictionary in base["butin"]:
+			var rarity: String = game_data.items[drop["objet"]]["rarete"]
+			if rarity != "commun":
+				assert_true(rates.get(drop["objet"], 0.0) > float(drop["taux"]), "%s : « %s » plus fréquent que sur %s" % [monster_id, drop["objet"], family])
+		assert_true(placed.has(monster_id), "%s : présent sur une carte" % monster_id)
+	for monster_id: String in game_data.monsters:
+		var monster: Dictionary = game_data.monsters[monster_id]
+		if not monster.get("elite", false) and monster_id != "souverain_cendre":
+			assert_true(elite_of.has(monster_id), "famille « %s » : il lui faut un élite" % monster_id)

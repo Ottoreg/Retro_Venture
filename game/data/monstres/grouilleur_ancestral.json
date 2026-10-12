@@ -1,0 +1,52 @@
+{
+  "id": "grouilleur_ancestral",
+  "nom": "Grouilleur ancestral",
+  "description": "Il a plus de pattes que d'années, et il a beaucoup d'années.",
+  "famille": "grouilleur",
+  "elite": true,
+  "niveau": 7,
+  "caracteristiques": {
+    "pv": 65,
+    "pa": 7,
+    "pm": 3,
+    "initiative": 90
+  },
+  "resistances": {
+    "givre": 20,
+    "flamme": 20,
+    "acier": 0
+  },
+  "sorts": [
+    "grouilleur_pinces",
+    "grouilleur_crachat",
+    "ancestral_jet_d_acide"
+  ],
+  "ia": "basique",
+  "xp": 100,
+  "butin": [
+    {
+      "objet": "carapace_de_grouilleur",
+      "taux": 0.9,
+      "quantite": [
+        2,
+        4
+      ]
+    },
+    {
+      "objet": "glande_acide",
+      "taux": 0.5,
+      "quantite": [
+        1,
+        2
+      ]
+    },
+    {
+      "objet": "ceinture_de_carapace",
+      "taux": 0.2
+    }
+  ],
+  "ecus": [
+    8,
+    20
+  ]
+}

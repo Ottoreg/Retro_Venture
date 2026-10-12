@@ -5,6 +5,9 @@
   "sorties": {
     "droite": "crasse_roc_1_0"
   },
+  "portes": [
+    "maison_crasse_roc"
+  ],
   "plan": [
     "RRRRRRAAARRRRRRAAAA",
     " R....R...RR....R.R",
@@ -22,11 +25,11 @@
     " R..##....::....I.R",
     "R..###..a.:........",
     " R..##....:........",
-    "RR..#:...:.....#...",
+    "RR..#+...:..b..#...",
     " R....::::::.::##::",
     "R.....:::::@::##...",
     " R......:::::..##..",
-    "R......::*::::.#...",
+    "R......::*::::.#c..",
     " RA.....::::.::::.R",
     "R........:........R",
     " R....R..:........A",
@@ -90,6 +93,24 @@
         "Encore un nouveau ? Bienvenue à Crasse-Roc. Ici on creuse, on râle, et on creuse encore.",
         "Le Souverain Cendré paie bien, qu'ils disent. Moi j'ai jamais vu la couleur de son argent. Juste la couleur de sa fumée.",
         "La pierre qui brille, là, au milieu ? Pierre de Passage. Touche-la et tu files chez les humains ou chez les elfes. Reviens quand même, on manque de bras."
+      ]
+    },
+    {
+      "marqueur": "b",
+      "id": "zogrub_troc_tout",
+      "nom": "Zogrub Troc-Tout, marchand",
+      "marchand": true,
+      "repliques": [
+        "Psst ! Ici on vend tout, on achète tout, et on ne pose pas de questions. Surtout pas sur la provenance."
+      ]
+    },
+    {
+      "marqueur": "c",
+      "id": "krogma_la_cogneuse",
+      "nom": "Krogma la Cogneuse, forgeronne",
+      "atelier": "forgeron",
+      "repliques": [
+        "Tu veux une arme ? Apporte du minerai. Tu veux une belle arme ? Apporte beaucoup de minerai. Tu veux un sourire ? Ça, on n'en forge pas."
       ]
     }
   ]

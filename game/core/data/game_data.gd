@@ -138,6 +138,10 @@ static func validate_race(data: Dictionary, known_spells: Dictionary) -> PackedS
 
 static func validate_monster(data: Dictionary, known_spells: Dictionary, known_items: Dictionary = {}) -> PackedStringArray:
 	var errors := _validate_common(data, known_spells)
+	if typeof(data.get("elite", false)) != TYPE_BOOL:
+		errors.append("« elite » doit être vrai ou faux")
+	if data.get("elite", false) == true and (typeof(data.get("famille")) != TYPE_STRING or str(data.get("famille")).is_empty()):
+		errors.append("un monstre élite doit indiquer sa « famille » (l'id du monstre normal)")
 	var loot: Variant = data.get("butin", [])
 	if typeof(loot) != TYPE_ARRAY:
 		errors.append("« butin » doit être une liste")
