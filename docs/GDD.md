@@ -582,11 +582,15 @@ ingrédients).
 - Style **dessiné, couleurs chaudes et saturées**, contours marqués, proche du vectoriel de Dofus
   Rétro ; palette par région (verts doux à Brumerive, gris et ocre à Hautepierre, noir et braise dans
   les Marches Cendrées).
-- **Personnages :** sprites animés en 8 directions (4 dessinées + symétrie), animations : repos,
-  marche, course, attaque, sort, dégât, mort, récolte.
+- **Personnages :** proportions **normales** (pas de style « chibi » : tête d'environ 1/5,5 de la
+  hauteur, comme dans Dofus Rétro). Animés en 8 directions (4 dessinées + symétrie), animations :
+  repos, marche, course, attaque, sort, dégât, mort, récolte.
 - **Personnalisation :** couleurs du personnage par zones de teinte ; équipements visibles.
-- **Pipeline :** outils à valider (Aseprite, Krita, Inkscape, Spine/DragonBones pour l'animation
-  squelettale éventuelle).
+- **Pipeline (prototype) :** images vectorielles SVG dans `game/art/`, rendues par le jeu. Les SVG
+  sont des modèles à couleurs remplaçables (peau, tunique, cheveux…), ce qui donne races, tenues et
+  PNJ à partir des mêmes dessins. Les personnages sont **articulés** (jambes, torse, bras, tête, arme,
+  accessoires) et animés par le code, à la manière des animations Flash de Dofus Rétro : repos
+  (respiration), marche, attaque. Pas de quadrillage hors combat. Voir `game/art/README.md`.
 
 ### 14.2 Audio
 

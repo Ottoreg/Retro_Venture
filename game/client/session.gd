@@ -6,3 +6,5 @@ extends RefCounted
 static var new_character: Character = null
 ## Vrai pour reprendre la partie sauvegardée.
 static var continue_game := false
+## Carte de départ imposée (outils de capture d'écran), ou "" pour celle de la race.
+static var start_map := ""

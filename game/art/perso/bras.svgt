@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="12" height="34" viewBox="0 0 12 34">
+<path d="M2.2 2 Q6 -0.2 9.8 2 L9.2 16.4 L2.8 16.4 Z" fill="{{tunique}}" stroke="#3a2618" stroke-width="1" stroke-linejoin="round"/>
+<path d="M7 1 Q8.8 1.2 9.8 2 L9.2 16.4 L7.2 16.4 Z" fill="#000000" opacity="0.2"/>
+<path d="M3 15.4 L9 15.4 L8.4 25.6 L3.6 25.6 Z" fill="{{manches}}" stroke="#3a2618" stroke-width="1" stroke-linejoin="round"/>
+<circle cx="6" cy="28" r="2.9" fill="{{peau}}" stroke="#3a2618" stroke-width="1" stroke-linejoin="round"/>
+</svg>

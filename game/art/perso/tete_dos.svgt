@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="22" height="24" viewBox="0 0 22 24">
+<path d="M8.4 15 L12.6 15 L12.4 23 L8.6 23 Z" fill="{{peau}}" stroke="#3a2618" stroke-width="1" stroke-linejoin="round"/>
+<ellipse cx="10.8" cy="11" rx="6.2" ry="7.6" fill="{{peau}}" stroke="#3a2618" stroke-width="1" stroke-linejoin="round"/>
+<path d="M4.6 12 Q4 3.2 10.8 3 Q17.6 3.2 17 12 Q16.6 16.2 13.6 17.6 Q10.8 18.4 8 17.6 Q5 16.4 4.6 12 Z" fill="{{cheveux}}" stroke="#3a2618" stroke-width="1" stroke-linejoin="round"/>
+<path d="M7 6 Q10.8 4 14.6 6" stroke="#ffffff" stroke-opacity="0.22" stroke-width="1" fill="none"/>
+<ellipse cx="16.6" cy="12.4" rx="1.2" ry="1.8" fill="{{peau}}" stroke="#3a2618" stroke-width="0.7"/>
+</svg>

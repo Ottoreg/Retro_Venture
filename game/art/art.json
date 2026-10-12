@@ -1,0 +1,646 @@
+{
+  "couleurs": {
+    "herbe": "8db54d",
+    "herbe_sombre": "6f9a3a",
+    "herbe_claire": "a9cc62",
+    "herbe_tige": "5d8a32",
+    "terre": "cfae74",
+    "terre_bord": "a8844e",
+    "eau": "4b93c4",
+    "tronc": "7a5230",
+    "feuillage": "4f8a37",
+    "feuillage_ombre": "3a6a2a",
+    "feuillage_clair": "6ea845",
+    "pierre": "9a958c",
+    "veine": "d07a3a",
+    "peau": "f0c8a0",
+    "cheveux": "5a3a22",
+    "tunique": "9c3b2f",
+    "manches": "7d2f26",
+    "pantalon": "5a4632",
+    "bottes": "3d2b1f",
+    "ceinture": "6b4a2b",
+    "chapeau": "d9b45a",
+    "tablier": "8a6a42",
+    "barbe": "6b4a30",
+    "pelage": "8d8f93",
+    "pelage_ombre": "6c6e72",
+    "ventre": "c9c6bd"
+  },
+  "images": {
+    "tache_claire": {
+      "fichier": "sol/tache_claire.svgt",
+      "ancre": [
+        40,
+        18
+      ]
+    },
+    "tache_sombre": {
+      "fichier": "sol/tache_sombre.svgt",
+      "ancre": [
+        40,
+        18
+      ]
+    },
+    "touffes": {
+      "fichier": "sol/touffes.svgt",
+      "ancre": [
+        20,
+        10
+      ]
+    },
+    "fleurs": {
+      "fichier": "sol/fleurs.svgt",
+      "ancre": [
+        32,
+        16
+      ]
+    },
+    "cailloux": {
+      "fichier": "sol/cailloux.svgt",
+      "ancre": [
+        32,
+        16
+      ]
+    },
+    "chemin_bord": {
+      "fichier": "sol/chemin_bord.svgt",
+      "ancre": [
+        48,
+        24
+      ]
+    },
+    "chemin": {
+      "fichier": "sol/chemin.svgt",
+      "ancre": [
+        48,
+        24
+      ]
+    },
+    "eau_rive": {
+      "fichier": "sol/eau_rive.svgt",
+      "ancre": [
+        48,
+        24
+      ]
+    },
+    "eau": {
+      "fichier": "sol/eau.svgt",
+      "ancre": [
+        48,
+        24
+      ]
+    },
+    "arbre_1": {
+      "fichier": "decor/arbre_rond.svgt",
+      "ancre": [
+        42,
+        106
+      ]
+    },
+    "arbre_2": {
+      "fichier": "decor/arbre_haut.svgt",
+      "ancre": [
+        36,
+        114
+      ],
+      "couleurs": {
+        "feuillage": "5c8f3a",
+        "feuillage_ombre": "41702c",
+        "feuillage_clair": "7fb04c"
+      }
+    },
+    "arbre_3": {
+      "fichier": "decor/arbre_large.svgt",
+      "ancre": [
+        50,
+        106
+      ],
+      "couleurs": {
+        "feuillage": "467f33",
+        "feuillage_ombre": "335f26",
+        "feuillage_clair": "62993f"
+      }
+    },
+    "frene": {
+      "fichier": "decor/arbre_haut.svgt",
+      "ancre": [
+        36,
+        114
+      ],
+      "couleurs": {
+        "feuillage": "86b84e",
+        "feuillage_ombre": "62923a",
+        "feuillage_clair": "a8d26a",
+        "tronc": "9a7650"
+      }
+    },
+    "chene": {
+      "fichier": "decor/arbre_large.svgt",
+      "ancre": [
+        50,
+        106
+      ],
+      "couleurs": {
+        "feuillage": "3a6b30",
+        "feuillage_ombre": "2a5024",
+        "feuillage_clair": "548a3e",
+        "tronc": "6a4526"
+      }
+    },
+    "souche": {
+      "fichier": "decor/souche.svgt",
+      "ancre": [
+        20,
+        18
+      ]
+    },
+    "rocher": {
+      "fichier": "decor/rocher.svgt",
+      "ancre": [
+        25,
+        32
+      ]
+    },
+    "minerai_cuivre": {
+      "fichier": "decor/minerai.svgt",
+      "ancre": [
+        25,
+        32
+      ],
+      "couleurs": {
+        "veine": "d9803a"
+      }
+    },
+    "minerai_fer": {
+      "fichier": "decor/minerai.svgt",
+      "ancre": [
+        25,
+        32
+      ],
+      "couleurs": {
+        "veine": "c2ccd6"
+      }
+    },
+    "minerai_vide": {
+      "fichier": "decor/minerai_vide.svgt",
+      "ancre": [
+        25,
+        32
+      ]
+    },
+    "ombre": {
+      "fichier": "perso/ombre.svgt",
+      "ancre": [
+        15,
+        6
+      ]
+    },
+    "jambe": {
+      "fichier": "perso/jambe.svgt",
+      "ancre": [
+        5,
+        3
+      ]
+    },
+    "torse": {
+      "fichier": "perso/torse.svgt",
+      "ancre": [
+        13,
+        24
+      ]
+    },
+    "torse_dos": {
+      "fichier": "perso/torse_dos.svgt",
+      "ancre": [
+        13,
+        24
+      ]
+    },
+    "bras": {
+      "fichier": "perso/bras.svgt",
+      "ancre": [
+        6,
+        3
+      ]
+    },
+    "tete": {
+      "fichier": "perso/tete.svgt",
+      "ancre": [
+        10.5,
+        22
+      ]
+    },
+    "tete_dos": {
+      "fichier": "perso/tete_dos.svgt",
+      "ancre": [
+        10.5,
+        22
+      ]
+    },
+    "tete_gobelin": {
+      "fichier": "perso/tete_gobelin.svgt",
+      "ancre": [
+        14.5,
+        22
+      ]
+    },
+    "chapeau_paille": {
+      "fichier": "perso/chapeau_paille.svgt",
+      "ancre": [
+        13,
+        8
+      ]
+    },
+    "tablier": {
+      "fichier": "perso/tablier.svgt",
+      "ancre": [
+        9,
+        1
+      ]
+    },
+    "barbe": {
+      "fichier": "perso/barbe.svgt",
+      "ancre": [
+        3,
+        1
+      ]
+    },
+    "epee": {
+      "fichier": "perso/epee.svgt",
+      "ancre": [
+        5,
+        30
+      ]
+    },
+    "baton": {
+      "fichier": "perso/baton.svgt",
+      "ancre": [
+        5,
+        30
+      ]
+    },
+    "arc": {
+      "fichier": "perso/arc.svgt",
+      "ancre": [
+        5,
+        20
+      ]
+    },
+    "fronde": {
+      "fichier": "perso/fronde.svgt",
+      "ancre": [
+        5,
+        10
+      ]
+    },
+    "loup": {
+      "fichier": "monstre/loup.svgt",
+      "ancre": [
+        31,
+        42
+      ]
+    },
+    "maison": {
+      "fichier": "batiment/maison.svgt",
+      "ancre": [
+        100,
+        160
+      ],
+      "emprise": [
+        3,
+        3
+      ]
+    },
+    "auberge": {
+      "fichier": "batiment/auberge.svgt",
+      "ancre": [
+        100,
+        160
+      ],
+      "emprise": [
+        3,
+        3
+      ]
+    }
+  },
+  "personnages": {
+    "humain": {
+      "echelle": 1.0,
+      "face": [
+        {
+          "role": "bras_libre",
+          "image": "bras",
+          "position": [
+            6.5,
+            -57
+          ],
+          "teinte": 0.78
+        },
+        {
+          "role": "jambe_arriere",
+          "image": "jambe",
+          "position": [
+            3,
+            -36
+          ],
+          "teinte": 0.85
+        },
+        {
+          "role": "jambe_avant",
+          "image": "jambe",
+          "position": [
+            -3,
+            -36
+          ]
+        },
+        {
+          "role": "torse",
+          "image": "torse",
+          "position": [
+            0,
+            -36
+          ]
+        },
+        {
+          "role": "tete",
+          "image": "tete",
+          "position": [
+            0.5,
+            -58
+          ]
+        },
+        {
+          "role": "bras_arme",
+          "image": "bras",
+          "position": [
+            -6.5,
+            -57
+          ]
+        }
+      ],
+      "dos": [
+        {
+          "role": "bras_libre",
+          "image": "bras",
+          "position": [
+            -6.5,
+            -57
+          ],
+          "teinte": 0.78
+        },
+        {
+          "role": "jambe_arriere",
+          "image": "jambe",
+          "position": [
+            -3,
+            -36
+          ],
+          "teinte": 0.85
+        },
+        {
+          "role": "jambe_avant",
+          "image": "jambe",
+          "position": [
+            3,
+            -36
+          ]
+        },
+        {
+          "role": "torse",
+          "image": "torse_dos",
+          "position": [
+            0,
+            -36
+          ]
+        },
+        {
+          "role": "tete",
+          "image": "tete_dos",
+          "position": [
+            -0.5,
+            -58
+          ]
+        },
+        {
+          "role": "bras_arme",
+          "image": "bras",
+          "position": [
+            6.5,
+            -57
+          ]
+        }
+      ]
+    },
+    "gobelin": {
+      "base": "humain",
+      "echelle": 0.84,
+      "remplacer": {
+        "tete": "tete_gobelin",
+        "tete_dos": "tete_gobelin"
+      }
+    }
+  },
+  "armes": {
+    "epee": {
+      "attache": [
+        6,
+        28
+      ],
+      "angle": 2.55
+    },
+    "baton": {
+      "attache": [
+        6,
+        28
+      ],
+      "angle": 0.15
+    },
+    "arc": {
+      "attache": [
+        6,
+        28
+      ],
+      "angle": 0.1
+    },
+    "fronde": {
+      "attache": [
+        6,
+        28
+      ],
+      "angle": 0.3
+    }
+  },
+  "accessoires": {
+    "chapeau_paille": {
+      "parent": "tete",
+      "attache": [
+        10.8,
+        5.6
+      ],
+      "vues": [
+        "face",
+        "dos"
+      ]
+    },
+    "tablier": {
+      "parent": "torse",
+      "attache": [
+        13,
+        6.5
+      ],
+      "vues": [
+        "face"
+      ]
+    },
+    "barbe": {
+      "parent": "tete",
+      "attache": [
+        12.6,
+        14.2
+      ],
+      "vues": [
+        "face"
+      ]
+    }
+  },
+  "tenues": {
+    "guerrier": {
+      "couleurs": {
+        "tunique": "9c3b2f",
+        "manches": "8a8f96",
+        "pantalon": "5a4632",
+        "bottes": "3d2b1f",
+        "ceinture": "6b4a2b"
+      },
+      "arme": "epee"
+    },
+    "arcaniste": {
+      "couleurs": {
+        "tunique": "3a5a9c",
+        "manches": "2f4a80",
+        "pantalon": "3d3a52",
+        "bottes": "4a3a2a",
+        "ceinture": "c9a04e"
+      },
+      "arme": "baton"
+    },
+    "rodeur": {
+      "couleurs": {
+        "tunique": "4f6b3a",
+        "manches": "6b5236",
+        "pantalon": "6b5236",
+        "bottes": "4a3424",
+        "ceinture": "3d2b1f"
+      },
+      "arme": "arc"
+    }
+  },
+  "races": {
+    "humain": {
+      "rig": "humain"
+    },
+    "elfe": {
+      "rig": "humain",
+      "couleurs": {
+        "cheveux": "e0c070"
+      }
+    },
+    "gobelin": {
+      "rig": "gobelin",
+      "couleurs": {
+        "cheveux": "3a2a1a"
+      }
+    }
+  },
+  "pnj": {
+    "alric_le_berger": {
+      "rig": "humain",
+      "couleurs": {
+        "tunique": "7a8a44",
+        "manches": "6b7a3a",
+        "pantalon": "7a6040",
+        "cheveux": "a8a29a",
+        "ceinture": "5a3a22"
+      },
+      "accessoires": [
+        "chapeau_paille"
+      ]
+    },
+    "barlimon_beurrefondu": {
+      "rig": "humain",
+      "couleurs": {
+        "tunique": "e2d4b0",
+        "manches": "cbbd96",
+        "pantalon": "5a4632",
+        "cheveux": "c9783a",
+        "tablier": "f2ecdc"
+      },
+      "accessoires": [
+        "tablier"
+      ]
+    },
+    "celebrimbert": {
+      "rig": "humain",
+      "couleurs": {
+        "tunique": "4e4e58",
+        "manches": "3e3e46",
+        "pantalon": "3a3028",
+        "cheveux": "2e2a26",
+        "peau": "e2b48c",
+        "barbe": "2e2a26"
+      },
+      "accessoires": [
+        "tablier",
+        "barbe"
+      ]
+    },
+    "grizzik_le_deserteur": {
+      "rig": "gobelin",
+      "couleurs": {
+        "peau": "6f9a3e",
+        "tunique": "6b5a3a",
+        "manches": "5a4a30",
+        "pantalon": "4a3a28",
+        "cheveux": "2e2418"
+      },
+      "arme": "fronde"
+    }
+  },
+  "monstres": {
+    "loup_des_collines": {
+      "image": "loup"
+    },
+    "gobelin_frondeur": {
+      "rig": "gobelin",
+      "couleurs": {
+        "peau": "6f9a3e",
+        "tunique": "7a6040",
+        "manches": "5a4630",
+        "pantalon": "4a3a28",
+        "cheveux": "2e2418"
+      },
+      "arme": "fronde"
+    }
+  },
+  "ressources": {
+    "F": "frene",
+    "C": "chene",
+    "U": "minerai_cuivre",
+    "I": "minerai_fer"
+  },
+  "epuisees": {
+    "arbre": "souche",
+    "rocher": "minerai_vide"
+  },
+  "decor": {
+    "arbre": [
+      "arbre_1",
+      "arbre_2",
+      "arbre_3"
+    ],
+    "rocher": [
+      "rocher"
+    ]
+  }
+}

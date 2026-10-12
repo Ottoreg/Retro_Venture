@@ -13,8 +13,12 @@ extends RefCounted
 ## Caractère du plan → type d'obstacle ("" = case praticable).
 const LEGEND := {
 	".": "", "@": "", "A": "arbre", "M": "mur", "R": "rocher", "E": "eau",
-	"+": "", "$": "coffre", "=": "lit",
+	"+": "", "$": "coffre", "=": "lit", ":": "", "#": "bloc",
 }
+## Sol dessiné autrement que le sol de la carte (praticable) : caractère du plan → type.
+const GROUND_KINDS := {":": "chemin"}
+## Obstacles invisibles (sous un grand décor, comme un bâtiment).
+const HIDDEN_OBSTACLES := ["bloc"]
 ## Porte : case praticable qui mène à une autre carte (liste `portes`, dans l'ordre du plan).
 const DOOR_CHAR := "+"
 ## Meubles avec lesquels on interagit depuis une case voisine.
@@ -54,6 +58,10 @@ var npcs: Array[Dictionary] = []
 var exits: Dictionary = {}
 ## Portes : case → id de la carte où elles mènent.
 var doors: Dictionary = {}
+## Sol particulier (chemin de terre…) : case → type (voir GROUND_KINDS).
+var ground: Dictionary = {}
+## Grands décors (bâtiments…) : { image: String, case: Vector2i (case avant, la plus proche de l'écran) }.
+var decors: Array[Dictionary] = []
 ## Sol dessiné (« herbe » ou « parquet »).
 var floor_kind := "herbe"
 ## "" pour une carte partagée, "joueur" pour une carte personnelle (instanciée par joueur en multi).
@@ -119,6 +127,16 @@ static func validate(data: Dictionary) -> PackedStringArray:
 		for target: Variant in doors_data:
 			if typeof(target) != TYPE_STRING or str(target).is_empty():
 				errors.append("« portes » : id de carte attendu (%s)" % str(target))
+	var decors_data: Variant = data.get("decors", [])
+	if typeof(decors_data) != TYPE_ARRAY:
+		errors.append("« decors » doit être une liste")
+	else:
+		for decor: Variant in decors_data:
+			var spot: Variant = decor.get("case") if typeof(decor) == TYPE_DICTIONARY else null
+			if typeof(decor) != TYPE_DICTIONARY or typeof(decor.get("image")) != TYPE_STRING \
+					or typeof(spot) != TYPE_ARRAY or spot.size() != 2 or not Spell._is_int_at_least(spot[0], 0) \
+					or not Spell._is_int_at_least(spot[1], 0):
+				errors.append("décor invalide : { image, case: [ligne, colonne] } attendu (%s)" % str(decor))
 	if data.get("sol", "herbe") not in FLOORS:
 		errors.append("« sol » doit valoir %s" % str(FLOORS))
 	if data.get("instance", "") not in INSTANCES:
@@ -216,6 +234,8 @@ static func from_dict(data: Dictionary) -> GameMap:
 	map.exits = data.get("sorties", {}).duplicate()
 	map.floor_kind = str(data.get("sol", "herbe"))
 	map.instance = str(data.get("instance", ""))
+	for decor: Dictionary in data.get("decors", []):
+		map.decors.append({"image": decor["image"], "case": plan_cell(int(decor["case"][0]), int(decor["case"][1]))})
 	var door_targets: Array = data.get("portes", [])
 	var door_index := 0
 	map.columns = str(plan[0]).length()
@@ -233,6 +253,8 @@ static func from_dict(data: Dictionary) -> GameMap:
 			elif character == DOOR_CHAR:
 				map.doors[cell] = door_targets[door_index]
 				door_index += 1
+			elif GROUND_KINDS.has(character):
+				map.ground[cell] = GROUND_KINDS[character]
 			elif _is_group_char(character):
 				var group_index := int(character)
 				var group_data: Dictionary = data["groupes"][group_index - 1]

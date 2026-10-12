@@ -35,6 +35,8 @@ enum Mode { EXPLORATION, COMBAT }
 
 ## Vitesse de marche, en pixels par seconde.
 const WALK_SPEED := 170.0
+## Durée de l'animation d'attaque ou de sort.
+const ATTACK_TIME := 0.45
 
 const COLOR_GRASS := Color("7aa35a")
 const COLOR_BORDER := Color("6a8f4e")
@@ -97,6 +99,8 @@ var _wait := 0.0
 var _walk_actor := ""
 var _walk_path: Array[Vector2i] = []
 var _pending_click := NO_CELL
+## Temps écoulé (respiration des personnages).
+var _time := 0.0
 ## Commande à envoyer quand la marche en cours se termine (attaque d'un groupe, changement de carte).
 var _arrival_command: Dictionary = {}
 ## Textes flottants : { text, color, pos (Vector2 grille), age }.
@@ -444,6 +448,10 @@ func _process(delta: float) -> void:
 	if world != null:
 		for event in world.update(delta):
 			_apply_world_change(event)
+	_time += delta
+	for data: Dictionary in _actors.values():
+		if data.get("attaque", 0.0) > 0.0:
+			data["attaque"] = maxf(0.0, data["attaque"] - delta)
 	var kept: Array[Dictionary] = []
 	for text in _floating:
 		text["age"] += delta
@@ -456,8 +464,7 @@ func _process(delta: float) -> void:
 		_wait -= delta
 		if _wait <= 0.0:
 			_play_next()
-	if _playing or not _floating.is_empty():
-		queue_redraw()
+	queue_redraw()  # Les personnages respirent, même à l'arrêt.
 
 
 ## Changements du monde qui ne viennent pas d'une commande (repousse, réapparition) : appliqués
@@ -477,6 +484,8 @@ func _advance_walk(delta: float) -> void:
 	var step := WALK_SPEED * delta
 	if absf(screen_delta.x) > 0.5:
 		data["facing"] = 1.0 if screen_delta.x > 0.0 else -1.0
+	if absf(screen_delta.y) > 0.5:
+		data["dos"] = screen_delta.y < 0.0
 	data["phase"] += delta * 14.0
 	if distance <= step:
 		data["pos"] = next
@@ -633,6 +642,8 @@ func _apply(event: Dictionary) -> float:
 		var caster: Dictionary = _actors[event["entite"]]
 		caster["pa"] = event["pa"]
 		combat_state_changed.emit()
+		caster["attaque"] = ATTACK_TIME
+		_face_toward(caster, Vector2(event["cible"]))
 		var spell: Spell = world.data.spells.get(event["sort"])
 		if spell != null:
 			_add_floating(spell.display_name, Color(1, 0.95, 0.7), caster["pos"])
@@ -708,6 +719,15 @@ func _new_actor(pos: Vector2, kind: String, team: int, actor_name: String, hp: i
 		"pa": 0, "pm": 0, "alive": true, "count": 1, "facing": 1.0, "phase": 0.0, "race": ""}
 
 
+## Tourne un personnage vers une case (pour attaquer, lancer un sort…).
+func _face_toward(data: Dictionary, target: Vector2) -> void:
+	var delta := IsoGrid.grid_to_screen(target) - IsoGrid.grid_to_screen(data["pos"])
+	if absf(delta.x) > 0.5:
+		data["facing"] = signf(delta.x)
+	if absf(delta.y) > 0.5:
+		data["dos"] = delta.y < 0.0
+
+
 ## Recalcule les zones affichées en combat (déplacement, portée du sort).
 func _refresh_overlays() -> void:
 	_reachable.clear()
@@ -762,8 +782,13 @@ func _draw() -> void:
 	if mode == Mode.EXPLORATION:
 		for npc in map.npcs:
 			drawables.append([IsoGrid.depth(Vector2(npc["case"])) + 0.01, "pnj", npc])
-		for cell: Vector2i in map.doors:
-			drawables.append([IsoGrid.depth(Vector2(cell)) - 0.01, "porte", cell])
+		if map.floor_kind == "parquet":
+			for cell: Vector2i in map.doors:
+				drawables.append([IsoGrid.depth(Vector2(cell)) - 0.01, "porte", cell])
+	for decor: Dictionary in map.decors:
+		# Un bâtiment passe derrière ce qui se tient devant ses faces visibles.
+		var footprint: Array = Art.manifest()["images"].get(decor["image"], {}).get("emprise", [1, 1])
+		drawables.append([IsoGrid.depth(Vector2(decor["case"])) - (minf(float(footprint[0]), float(footprint[1])) - 1.0), "decor", decor])
 	drawables.sort_custom(func(a: Array, b: Array) -> bool: return a[0] < b[0])
 	for drawable: Array in drawables:
 		if drawable[1] == "acteur":
@@ -772,6 +797,8 @@ func _draw() -> void:
 			_draw_npc(drawable[2])
 		elif drawable[1] == "porte":
 			_draw_door(drawable[2])
+		elif drawable[1] == "decor":
+			Art.draw(self, drawable[2]["image"], IsoGrid.cell_to_screen(drawable[2]["case"]))
 		else:
 			_draw_obstacle(drawable[2], map.obstacles[drawable[2]])
 	if mode == Mode.EXPLORATION:
@@ -802,23 +829,58 @@ func _draw_cells(cells: Array, color: Color) -> void:
 
 
 func _draw_ground(map: GameMap) -> void:
+	var indoor := map.floor_kind == "parquet"
+	if not indoor:
+		# L'herbe : un fond uni, sans quadrillage, puis des taches et des touffes posées librement.
+		draw_rect(map.screen_rect(), Color("#" + str(Art.manifest()["couleurs"]["herbe"])))
 	for polygon in _border_polygons:
-		draw_colored_polygon(polygon, COLOR_BORDER)
-		var outline := polygon.duplicate()
-		outline.append(polygon[0])
-		draw_polyline(outline, COLOR_GRID)
+		draw_colored_polygon(polygon, Color("2b2118") if indoor else Color(0, 0, 0, 0.12))
+	var water: Array[Vector2i] = []
 	for cell: Vector2i in map.cells():
-		var points := IsoGrid.diamond(IsoGrid.cell_to_screen(cell))
-		var color: Color = COLOR_WATER if map.obstacles.get(cell) == "eau" else COLOR_WOOD_FLOOR if map.floor_kind == "parquet" else COLOR_GRASS
-		# Légère variation de teinte, stable d'une image à l'autre.
-		color = color.darkened(float(posmod(cell.x * 7 + cell.y * 13, 5)) * 0.025)
-		draw_colored_polygon(points, color)
-		points.append(points[0])
-		draw_polyline(points, COLOR_GRID)
+		var center := IsoGrid.cell_to_screen(cell)
+		if map.obstacles.get(cell) == "eau":
+			water.append(cell)
+		if indoor:
+			var points := IsoGrid.diamond(center)
+			draw_colored_polygon(points, COLOR_WOOD_FLOOR.darkened(float(posmod(cell.x * 7 + cell.y * 13, 3)) * 0.04))
+			draw_line(points[3].lerp(points[0], 0.5), points[2].lerp(points[1], 0.5), Color(0, 0, 0, 0.15), 1.0)
+	if not indoor:
+		# Taches, touffes, fleurs et cailloux : toujours aux mêmes endroits, décalés des cases.
+		for cell: Vector2i in map.cells():
+			var pick := posmod(cell.x * 31 + cell.y * 17, 23)
+			var offset := Vector2(posmod(cell.x * 13 + cell.y * 7, 21) - 10, posmod(cell.x * 5 + cell.y * 11, 9) - 4)
+			var spot := IsoGrid.cell_to_screen(cell) + offset
+			if pick < 5:
+				Art.draw(self, "tache_claire" if pick % 2 == 0 else "tache_sombre", spot)
+			elif pick < 9:
+				Art.draw(self, "touffes", spot)
+			elif (pick == 11 or pick == 17) and map.is_walkable(cell) and not map.ground.has(cell):
+				Art.draw(self, "fleurs" if pick == 11 else "cailloux", spot)
+	# Chemins et eau : d'abord les bords, puis l'intérieur (les bords ne restent qu'au contour).
+	for cell: Vector2i in map.ground:
+		Art.draw(self, "chemin_bord", IsoGrid.cell_to_screen(cell))
+	for cell: Vector2i in map.ground:
+		Art.draw(self, "chemin", IsoGrid.cell_to_screen(cell))
+	for cell in water:
+		Art.draw(self, "eau_rive", IsoGrid.cell_to_screen(cell))
+	for cell in water:
+		Art.draw(self, "eau", IsoGrid.cell_to_screen(cell))
+	# La grille n'apparaît qu'en combat, comme dans Dofus.
+	if mode == Mode.COMBAT or indoor:
+		for cell: Vector2i in map.cells():
+			var outline := IsoGrid.diamond(IsoGrid.cell_to_screen(cell))
+			outline.append(outline[0])
+			draw_polyline(outline, COLOR_GRID)
 
 
 func _draw_obstacle(cell: Vector2i, kind: String) -> void:
 	var base := IsoGrid.cell_to_screen(cell)
+	if kind in GameMap.HIDDEN_OBSTACLES:
+		return
+	var variants: Array = Art.manifest().get("decor", {}).get(kind, [])
+	if not variants.is_empty():
+		Art.draw(self, variants[posmod(cell.x * 5 + cell.y * 3, variants.size())], base, {}, false, _fade_if_hiding(cell))
+		return
 	if kind == GameMap.RESOURCE_OBSTACLE:
 		_draw_resource(cell, base)
 		return
@@ -861,30 +923,23 @@ func _draw_door(cell: Vector2i) -> void:
 ## Ressource récoltable : arbre ou rocher à minerai, ou ce qu'il en reste en attendant la repousse.
 func _draw_resource(cell: Vector2i, base: Vector2) -> void:
 	var node: Dictionary = world.resource_node(cell) if world.map == _map else {}
-	var color := Color(str(node.get("couleur", "888888")))
-	var depleted := world.map == _map and world.is_depleted(cell)
-	if node.get("apparence", "") == "arbre":
-		draw_colored_polygon(_ellipse(base + Vector2(0, 2), 18, 8), COLOR_SHADOW)
-		if depleted:
-			draw_rect(Rect2(base + Vector2(-7, -8), Vector2(14, 8)), Color("6b4a2b"))
-			draw_colored_polygon(_ellipse(base + Vector2(0, -8), 7, 3), Color("c9a36b"))
-			return
-		draw_rect(Rect2(base + Vector2(-4, -24), Vector2(8, 24)), Color("6b4a2b"))
-		draw_circle(base + Vector2(0, -40), 22, color)
-		draw_circle(base + Vector2(-6, -46), 11, color.lightened(0.2))
-		draw_circle(base + Vector2(8, -34), 5, color.darkened(0.25))
-		return
-	var stone := Color("8c8c86")
-	if depleted:
-		draw_colored_polygon(_ellipse(base + Vector2(-6, 0), 7, 3.5), stone)
-		draw_colored_polygon(_ellipse(base + Vector2(7, 2), 5, 2.5), stone.darkened(0.15))
-		return
-	var points := PackedVector2Array()
-	for offset in [Vector2(-20, 2), Vector2(-15, -14), Vector2(2, -20), Vector2(18, -10), Vector2(21, 4), Vector2(0, 9)]:
-		points.append(base + offset)
-	draw_colored_polygon(points, stone)
-	for spot in [Vector2(-8, -8), Vector2(6, -12), Vector2(10, -1), Vector2(-3, 2)]:
-		draw_colored_polygon(_ellipse(base + spot, 3.5, 2.5), color)
+	var manifest := Art.manifest()
+	var image: String = manifest.get("ressources", {}).get(_map.resource_nodes.get(cell, ""), "rocher")
+	if world.map == _map and world.is_depleted(cell):
+		image = manifest.get("epuisees", {}).get(node.get("apparence", "rocher"), "minerai_vide")
+	Art.draw(self, image, base, {}, false, _fade_if_hiding(cell))
+
+
+## Un arbre (ou une ressource) devient transparent quand un personnage se tient juste derrière.
+func _fade_if_hiding(cell: Vector2i) -> Color:
+	var base := IsoGrid.cell_to_screen(cell)
+	for data: Dictionary in _actors.values():
+		if not data["alive"]:
+			continue
+		var feet := IsoGrid.grid_to_screen(data["pos"])
+		if IsoGrid.depth(data["pos"]) < IsoGrid.depth(Vector2(cell)) and absf(feet.x - base.x) < 36.0 and feet.y > base.y - 100.0:
+			return Color(1, 1, 1, 0.45)
+	return Color.WHITE
 
 
 ## Bloc isométrique de hauteur `height` posé sur la case : faces gauche, droite et dessus.
@@ -908,23 +963,32 @@ func _draw_actor(actor_id: String) -> void:
 		draw_polyline(ring, COLOR_TEAM[clampi(data["team"], 0, 1)], 3.0)
 		if actor_id == current_turn:
 			draw_colored_polygon(_ellipse(base, 18, 9), Color(1, 1, 1, 0.25))
-	# Petits sauts et jambes qui alternent pendant la marche.
-	var swing := sin(phase) * 3.0 if walking else 0.0
-	var body := base + Vector2(0, -absf(sin(phase)) * 2.5 if walking else 0.0)
-	var kind: String = data["kind"]
-	if actor_id == World.PLAYER_ID:
-		Figures.player(self, base, body, facing, swing, data["race"], kind)
-	elif kind.contains("loup"):
-		Figures.wolf(self, base, body, facing, swing)
-	elif kind.contains("gobelin"):
-		Figures.goblin(self, base, body, facing, swing)
+	var look := _look_of(actor_id, data)
+	if look.has("rig"):
+		var progress := 1.0 - float(data.get("attaque", 0.0)) / ATTACK_TIME if data.get("attaque", 0.0) > 0.0 else -1.0
+		Rig.draw(self, look, base, {"facing": facing, "dos": data.get("dos", false), "marche": walking, "phase": phase,
+			"temps": _time + float(posmod(hash(actor_id), 100)) * 0.1, "attaque": progress})
+	elif look.has("image"):
+		var hop := -absf(sin(phase)) * 2.0 if walking else sin(_time * 2.0 + float(posmod(hash(actor_id), 100))) * 0.4
+		Art.draw(self, look["image"], base + Vector2(0, hop), {}, facing < 0.0)
 	else:
-		Figures.blob(self, base, body)
+		# Pas de dessin pour ce personnage : l'ancienne silhouette.
+		var swing := sin(phase) * 3.0 if walking else 0.0
+		var body := base + Vector2(0, -absf(sin(phase)) * 2.5 if walking else 0.0)
+		var kind: String = data["kind"]
+		if kind.contains("loup"):
+			Figures.wolf(self, base, body, facing, swing)
+		elif kind.contains("gobelin"):
+			Figures.goblin(self, base, body, facing, swing)
+		else:
+			Figures.blob(self, base, body)
 	if mode == Mode.EXPLORATION and data["count"] > 1:
-		draw_string(ThemeDB.fallback_font, base + Vector2(10, -30), "×%d" % data["count"], HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color.WHITE)
+		var label := base + Vector2(14, -34)
+		draw_string_outline(ThemeDB.fallback_font, label, "×%d" % data["count"], HORIZONTAL_ALIGNMENT_LEFT, -1, 14, 4, Color(0, 0, 0, 0.8))
+		draw_string(ThemeDB.fallback_font, label, "×%d" % data["count"], HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color.WHITE)
 	if mode == Mode.COMBAT:
 		var ratio := clampf(float(data["hp"]) / maxf(1.0, data["max_hp"]), 0.0, 1.0)
-		var bar := Rect2(base + Vector2(-17, -66), Vector2(34, 5))
+		var bar := Rect2(base + Vector2(-17, -96), Vector2(34, 5))
 		draw_rect(bar, Color(0, 0, 0, 0.6))
 		draw_rect(Rect2(bar.position, Vector2(bar.size.x * ratio, bar.size.y)), Color(0.3, 0.85, 0.3) if ratio > 0.3 else Color(0.9, 0.3, 0.2))
 
@@ -932,14 +996,54 @@ func _draw_actor(actor_id: String) -> void:
 func _draw_npc(npc: Dictionary) -> void:
 	var base := IsoGrid.cell_to_screen(npc["case"])
 	var npc_id: String = npc["id"]
-	if npc_id.contains("gobelin"):
+	var spec: Dictionary = Art.manifest().get("pnj", {}).get(npc_id, {})
+	if spec.has("rig"):
+		# Le PNJ regarde le joueur.
+		var player: Dictionary = _actors.get(World.PLAYER_ID, {})
+		var facing := -1.0
+		if not player.is_empty():
+			facing = 1.0 if IsoGrid.grid_to_screen(player["pos"]).x > base.x else -1.0
+		var look := Rig.look(spec["rig"], spec.get("couleurs", {}), spec.get("arme", ""), spec.get("accessoires", []))
+		Rig.draw(self, look, base, {"facing": facing, "temps": _time + float(posmod(hash(npc_id), 100)) * 0.1})
+	elif npc_id.contains("gobelin"):
 		Figures.goblin(self, base, base, -1.0, 0.0)
 	else:
 		Figures.humanoid(self, base, base, -1.0, 0.0, Color("6b7d3a"), Color("e8c09a"), Color("c9a64a"), "chapeau")
 	# Petite bulle « … » : ce personnage a quelque chose à dire.
-	var mark := base + Vector2(14, -62)
+	var mark := base + Vector2(16, -92)
 	draw_circle(mark, 8, Color(1, 1, 1, 0.9))
+	draw_arc(mark, 8, 0, TAU, 20, Color(0.23, 0.15, 0.09), 1.2)
 	draw_string(ThemeDB.fallback_font, mark + Vector2(-6, 4), "…", HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(0.2, 0.2, 0.2))
+
+
+## Apparence d'un acteur (joueur ou monstre) d'après `art.json`, gardée dans ses données :
+## { rig, couleurs, arme } pour un personnage articulé, { image } pour un monstre dessiné d'un bloc,
+## {} s'il n'a pas de dessin.
+func _look_of(actor_id: String, data: Dictionary) -> Dictionary:
+	if data.has("look"):
+		return data["look"]
+	var manifest := Art.manifest()
+	var look := {}
+	var kind: String = data["kind"]
+	if actor_id == World.PLAYER_ID or manifest.get("tenues", {}).has(kind) and data["team"] == 0:
+		var race: String = data.get("race", "humain")
+		var race_spec: Dictionary = manifest.get("races", {}).get(race, {"rig": "humain"})
+		var outfit: Dictionary = manifest.get("tenues", {}).get(kind, {})
+		var colors: Dictionary = outfit.get("couleurs", {}).duplicate()
+		colors.merge(race_spec.get("couleurs", {}), true)
+		if world.data != null:
+			var skin: Variant = world.data.races.get(race, {}).get("apparence", {}).get("peau")
+			if typeof(skin) == TYPE_STRING:
+				colors["peau"] = skin
+		look = Rig.look(race_spec.get("rig", "humain"), colors, outfit.get("arme", ""))
+	else:
+		var spec: Dictionary = manifest.get("monstres", {}).get(kind, {})
+		if spec.has("image"):
+			look = {"image": spec["image"]}
+		elif spec.has("rig"):
+			look = Rig.look(spec["rig"], spec.get("couleurs", {}), spec.get("arme", ""), spec.get("accessoires", []))
+	data["look"] = look
+	return look
 
 
 ## Flèches au milieu des bords qui mènent à une autre carte.

@@ -44,6 +44,8 @@ Dofus. Elle est décrite par un **plan texte** : une ligne par rangée, un carac
 | `M` | Mur / bâtiment |
 | `R` | Rocher |
 | `E` | Eau (bloque le passage, mais pas la vue) |
+| `:` | Chemin de terre (praticable) |
+| `#` | Case bloquée invisible, sous un grand décor (bâtiment) |
 | `+` | Porte vers une autre carte (voir « Portes » ci-dessous), praticable |
 | `$` | Coffre (maison du joueur) |
 | `=` | Lit (maison du joueur) |
@@ -100,6 +102,16 @@ revente rapporte un quart du prix d'achat (`Item.RESALE_RATE`), au moins 1 écu.
 
 Avec `"atelier": "forgeron"` (id d'un métier d'artisanat), le PNJ ouvre l'**atelier** de ce métier :
 la liste de ses recettes, les ingrédients possédés et la fabrication.
+
+### Grands décors (bâtiments)
+
+`decors` pose de grandes images (voir `game/art/art.json`) sur la carte. `case` est la case
+**avant** du bâtiment (la plus proche du bas de l'écran), en `[ligne, colonne]` du plan ; l'emprise
+(3 × 3 cases pour la maison et l'auberge) doit être remplie de `#` dans le plan.
+
+```json
+"decors": [{"image": "maison", "case": [11, 5]}]
+```
 
 ### Portes, intérieurs et maison
 

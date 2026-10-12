@@ -183,12 +183,16 @@ Objectif : **10 à 15 h de jeu solo, niveaux 1 à 30 : 3 zones de départ (une p
 - [ ] Raccourcis clavier
 
 ### Art et audio
-- [ ] **(MVP)** Tileset Brumerive et Hautepierre
+- [x] Test de direction artistique sur la place de Brumerive : sol sans quadrillage, chemins, eau,
+  arbres, rochers, minerais, maison et auberge, personnages articulés (humain, gobelin), loup, PNJ
+- [x] Outils : capture d'écran du jeu (`tools/screenshot.gd`) et planche des images (`tools/art_sheet.gd`)
+- [ ] **(MVP)** Tileset Brumerive et Hautepierre (reste : intérieurs, clôtures, ponts, murets, Hautepierre)
 - [ ] **(MVP)** Sprites des 3 races × 2 sexes (repos, marche, attaque, sort, dégât, mort, récolte)
-- [ ] **(MVP)** Sprites des monstres de l'alpha
+  (fait : humain et gobelin, repos / marche / attaque ; reste : oreilles d'elfe, femmes, dégât, mort, récolte)
+- [ ] **(MVP)** Sprites des monstres de l'alpha (faits : loup, frondeur gobelin)
 - [ ] **(MVP)** Effets visuels des sorts
 - [ ] **(MVP)** Icônes d'objets, de ressources et de sorts
-- [ ] Système de recoloration des personnages
+- [x] Système de recoloration des personnages (modèles SVG à couleurs remplaçables)
 - [ ] Musiques : 2 thèmes de région, 1 thème de combat, 1 thème de boss, menu
 - [ ] Bruitages : interface, pas, impacts, sorts
 

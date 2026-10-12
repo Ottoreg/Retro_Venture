@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="80" height="36" viewBox="0 0 80 36">
+<ellipse cx="40" cy="18" rx="36" ry="15" fill="{{herbe_claire}}" opacity="0.25"/>
+<ellipse cx="38" cy="17" rx="24" ry="10" fill="{{herbe_claire}}" opacity="0.35"/>
+<ellipse cx="36" cy="16" rx="12" ry="5" fill="{{herbe_claire}}" opacity="0.35"/>
+</svg>

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="26" height="38" viewBox="0 0 26 38">
+<path d="M5 4.2 Q13 1.4 21 4.2 L22.2 10 Q21.4 17 20.4 22 L22.6 34 Q13 37.4 3.6 34 L5.8 22 Q4.8 17 4 10 Z" fill="{{tunique}}" stroke="#3a2618" stroke-width="1" stroke-linejoin="round"/>
+<path d="M15.5 3 Q19.5 3.4 21 4.2 L22.2 10 Q21.4 17 20.4 22 L22.6 34 Q19.6 35.6 16.6 36.2 L17 22 Q17.6 12 15.5 3 Z" fill="#000000" opacity="0.2"/>
+<path d="M7 5 Q10 4 12 4.4 Q9 9 8.6 16" stroke="#ffffff" stroke-opacity="0.22" stroke-width="1.4" fill="none"/>
+<path d="M10.2 3 Q13 6.6 15.8 3" fill="{{peau}}" stroke="#3a2618" stroke-width="1" stroke-linejoin="round"/>
+<path d="M13 6.2 L13 11" stroke="#000000" stroke-opacity="0.3" stroke-width="0.8"/>
+<rect x="5.4" y="20.6" width="15.4" height="3.6" rx="0.8" fill="{{ceinture}}" stroke="#3a2618" stroke-width="1" stroke-linejoin="round"/>
+<rect x="11.4" y="20.9" width="3.2" height="3" rx="0.5" fill="#d9b45a" stroke="#3a2618" stroke-width="0.6"/>
+<path d="M4.6 31.6 Q13 35 21.8 31.6" stroke="#000000" stroke-opacity="0.25" stroke-width="0.9" fill="none"/>
+</svg>

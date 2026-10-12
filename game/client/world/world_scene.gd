@@ -69,6 +69,8 @@ func _create_world() -> World:
 	Session.new_character = null
 	game_data.give_starting_kit(character)
 	var start_id := str(game_data.races.get(character.race_id, {}).get("carte_depart", DEFAULT_START_MAP))
+	if not Session.start_map.is_empty():
+		start_id = Session.start_map
 	var start_map: GameMap = load_map.call(start_id)
 	if start_map == null:
 		start_map = load_map.call(DEFAULT_START_MAP)

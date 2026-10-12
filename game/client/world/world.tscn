@@ -18,6 +18,23 @@ script = ExtResource("2_map")
 
 [node name="Hud" type="CanvasLayer" parent="."]
 
+[node name="Bandeau" type="ColorRect" parent="Hud"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 62.0
+grow_horizontal = 2
+mouse_filter = 2
+color = Color(0.129412, 0.0980392, 0.0705882, 0.92)
+
+[node name="BandeauBord" type="ColorRect" parent="Hud"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 62.0
+offset_bottom = 65.0
+grow_horizontal = 2
+mouse_filter = 2
+color = Color(0.552941, 0.419608, 0.219608, 1)
+
 [node name="Info" type="Label" parent="Hud"]
 unique_name_in_owner = true
 offset_left = 16.0
