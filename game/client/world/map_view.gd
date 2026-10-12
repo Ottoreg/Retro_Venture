@@ -10,11 +10,12 @@ signal hovered_cell_changed(cell: Vector2i, description: String)
 signal combat_started
 signal combat_state_changed
 signal combat_message(text: String)
-signal combat_ended(victory: bool, xp: int)
+signal combat_ended(result: Dictionary)
 signal exploration_resumed
 signal map_changed
 signal character_changed
 signal level_up(level: int)
+signal inventory_changed
 
 enum Mode { EXPLORATION, COMBAT }
 
@@ -401,6 +402,9 @@ func _apply(event: Dictionary) -> float:
 	if type == Protocol.EVT_CHARACTER:
 		character_changed.emit()
 		return 0.0
+	if type == Protocol.EVT_INVENTORY:
+		inventory_changed.emit()
+		return 0.0
 	if type == Protocol.EVT_REFUSED:
 		if mode == Mode.COMBAT and _refusals.has(event["raison"]):
 			combat_message.emit(_refusals[event["raison"]])
@@ -454,7 +458,7 @@ func _apply(event: Dictionary) -> float:
 	if type == Protocol.EVT_COMBAT_ENDED:
 		current_turn = ""
 		_paused = true
-		combat_ended.emit(event["vainqueur"] == Fighter.TEAM_PLAYERS, event["xp"])
+		combat_ended.emit(event)
 		return 0.0
 	if type == Protocol.EVT_EXPLORATION:
 		mode = Mode.EXPLORATION

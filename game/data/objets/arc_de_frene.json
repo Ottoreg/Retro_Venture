@@ -1,0 +1,33 @@
+{
+  "id": "arc_de_frene",
+  "nom": "Arc de frêne",
+  "type": "arme",
+  "rarete": "commun",
+  "niveau": 1,
+  "description": "Taillé dans une branche de frêne par quelqu'un qui avait vu un arc une fois.",
+  "bonus": {
+    "agilite": [
+      2,
+      5
+    ]
+  },
+  "attaque": {
+    "cout_pa": 4,
+    "portee": {
+      "min": 2,
+      "max": 5
+    },
+    "ligne_de_vue": true,
+    "relance": {
+      "par_tour": 1
+    },
+    "effets": [
+      {
+        "type": "degats",
+        "element": "tempete",
+        "min": 5,
+        "max": 8
+      }
+    ]
+  }
+}

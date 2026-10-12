@@ -1,0 +1,22 @@
+{
+  "id": "cape_en_peau_de_loup",
+  "nom": "Cape en peau de loup",
+  "type": "cape",
+  "rarete": "rare",
+  "niveau": 3,
+  "description": "Le loup n'en a plus besoin.",
+  "bonus": {
+    "agilite": [
+      3,
+      6
+    ],
+    "vitalite": [
+      4,
+      8
+    ],
+    "initiative": [
+      10,
+      20
+    ]
+  }
+}

@@ -393,11 +393,11 @@ func _check_end(events: Array[Dictionary]) -> void:
 func _finish(team: int, events: Array[Dictionary]) -> void:
 	state = State.FINISHED
 	winner_team = team
+	# XP des ennemis vaincus, même en cas de défaite : ceux qui sont tombés comptent.
 	var xp := 0
-	if team == Fighter.TEAM_PLAYERS:
-		for fighter in fighters:
-			if fighter.team != team:
-				xp += fighter.xp
+	for fighter in fighters:
+		if fighter.team != Fighter.TEAM_PLAYERS and not fighter.is_alive():
+			xp += fighter.xp
 	events.append({"type": Protocol.EVT_COMBAT_ENDED, "vainqueur": team, "xp": xp})
 
 

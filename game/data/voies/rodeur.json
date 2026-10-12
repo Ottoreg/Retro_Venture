@@ -2,6 +2,20 @@
   "id": "rodeur",
   "nom": "Rôdeur",
   "description": "Tire de loin, file entre les arbres et prétend toujours connaître un raccourci.",
-  "caracteristiques": {"pv": 52, "pa": 6, "pm": 3, "initiative": 120},
-  "sorts": ["rodeur_fleche", "rodeur_tir_percant", "rodeur_dague", "rodeur_roulade"]
+  "caracteristiques": {
+    "pv": 52,
+    "pa": 6,
+    "pm": 3,
+    "initiative": 120
+  },
+  "sorts": [
+    "rodeur_fleche",
+    "rodeur_tir_percant",
+    "rodeur_dague",
+    "rodeur_roulade"
+  ],
+  "equipement_depart": [
+    "arc_de_frene",
+    "ceinture_de_corde"
+  ]
 }

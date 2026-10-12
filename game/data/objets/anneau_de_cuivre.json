@@ -1,0 +1,18 @@
+{
+  "id": "anneau_de_cuivre",
+  "nom": "Anneau de cuivre",
+  "type": "anneau",
+  "rarete": "commun",
+  "niveau": 1,
+  "description": "Il verdit le doigt, mais il porte chance.",
+  "bonus": {
+    "intelligence": [
+      1,
+      3
+    ],
+    "chance": [
+      1,
+      3
+    ]
+  }
+}

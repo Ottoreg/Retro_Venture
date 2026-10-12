@@ -1,0 +1,18 @@
+{
+  "id": "bonnet_de_berger",
+  "nom": "Bonnet de berger",
+  "type": "coiffe",
+  "rarete": "commun",
+  "niveau": 1,
+  "description": "Il tient chaud et sent un peu le mouton.",
+  "bonus": {
+    "vitalite": [
+      3,
+      8
+    ],
+    "sagesse": [
+      1,
+      3
+    ]
+  }
+}

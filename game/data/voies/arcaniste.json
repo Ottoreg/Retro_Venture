@@ -2,6 +2,20 @@
   "id": "arcaniste",
   "nom": "Arcaniste",
   "description": "Maître du feu et du givre. Lit beaucoup, court peu, explose parfois des choses par accident.",
-  "caracteristiques": {"pv": 46, "pa": 6, "pm": 3, "initiative": 90},
-  "sorts": ["arcaniste_boule_de_feu", "arcaniste_eclat_de_givre", "arcaniste_etincelle", "arcaniste_soin_mineur"]
+  "caracteristiques": {
+    "pv": 46,
+    "pa": 6,
+    "pm": 3,
+    "initiative": 90
+  },
+  "sorts": [
+    "arcaniste_boule_de_feu",
+    "arcaniste_eclat_de_givre",
+    "arcaniste_etincelle",
+    "arcaniste_soin_mineur"
+  ],
+  "equipement_depart": [
+    "baton_de_novice",
+    "anneau_de_cuivre"
+  ]
 }

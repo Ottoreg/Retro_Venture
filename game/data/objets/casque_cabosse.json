@@ -1,0 +1,21 @@
+{
+  "id": "casque_cabosse",
+  "nom": "Casque cabossé",
+  "type": "coiffe",
+  "rarete": "peu_commun",
+  "niveau": 4,
+  "description": "A appartenu à un garde de Hautepierre. Les bosses aussi.",
+  "bonus": {
+    "vitalite": [
+      6,
+      12
+    ],
+    "force": [
+      2,
+      5
+    ]
+  },
+  "conditions": {
+    "force": 5
+  }
+}

@@ -266,7 +266,11 @@ pièges), Chaman (invocations d'esprits), Paladin de l'Aube (hybride lumière), 
 - Dégâts = base du sort × (100 + caractéristique de l'élément) % × (100 − résistance de la cible) %.
 - Soins = base × (100 + Intelligence) %.
 - PV max = PV de la Voie + 5 par niveau au-delà du 1er + Vitalité.
-- Initiative = initiative de la Voie + Agilité. XP gagnée × (100 + Sagesse) %.
+- Initiative = initiative de la Voie + Force + Intelligence + Chance + Agilité (pas Vitalité ni Sagesse)
+  + bonus d'équipement. XP gagnée × (100 + Sagesse) %, y compris pour les monstres vaincus avant
+  une défaite.
+- Les bonus des objets équipés s'ajoutent aux caractéristiques (et à PA, PM, portée, initiative,
+  prospection).
 - Les bonus de race s'ajoutent aux points investis (+10 dans deux caractéristiques par race).
 
 ### 4.5 Progression
@@ -391,10 +395,11 @@ recherche profonde au départ.
 
 ### 8.2 Butin (drop)
 
-- Chaque monstre a une **table de butin** : objet, taux de base, seuil de prospection éventuel.
-- **Chance effective** ≈ `taux_base × (prospection_personnage / 100)`, plafonnée.
-- **Seuil de prospection de groupe :** certains butins rares exigent que la somme des prospections du
-  groupe dépasse un seuil (incitation à jouer en groupe en multi).
+- Chaque monstre a une **table de butin** : objet, taux de base, quantité, et des écus.
+- **Chance effective** = `taux_base × (prospection / 100)`, plafonnée à 100 %. Prospection = 100 +
+  Chance / 10 + bonus d'équipement.
+- **Pas de seuil de prospection** : un personnage seul peut obtenir tous les objets, comme un groupe.
+  La prospection augmente seulement les chances.
 - **Répartition en groupe :** chaque objet tiré est attribué individuellement, pondéré par la
   prospection de chacun.
 - Les ressources de monstres alimentent les recettes des métiers.
@@ -737,7 +742,7 @@ Exemples indicatifs : le format final dépendra du moteur choisi.
   "butin": [
     { "objet": "ressource.croc_de_loup", "taux": 0.30 },
     { "objet": "ressource.peau_de_loup", "taux": 0.20 },
-    { "objet": "equipement.cape_du_loup", "taux": 0.01, "seuil_prospection": 200 }
+    { "objet": "equipement.cape_du_loup", "taux": 0.01 }
   ]
 }
 ```

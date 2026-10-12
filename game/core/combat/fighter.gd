@@ -33,6 +33,8 @@ var stats: Dictionary = {}
 var range_bonus: int = 0
 ## PM retirés pour le prochain tour (effet « retrait_pm »).
 var pm_malus: int = 0
+## Prospection (joueurs) : augmente les chances de butin.
+var prospection: int = 100
 
 ## Caractéristique qui augmente les dégâts de chaque élément.
 const ELEMENT_STATS := {"acier": "force", "flamme": "intelligence", "givre": "chance", "tempete": "agilite"}

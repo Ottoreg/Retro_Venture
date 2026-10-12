@@ -1,0 +1,41 @@
+{
+  "id": "fronde_reglementaire",
+  "nom": "Fronde réglementaire",
+  "type": "arme",
+  "rarete": "rare",
+  "niveau": 3,
+  "description": "Modèle officiel de l'armée du Souverain Cendré. Fournie sans cailloux.",
+  "bonus": {
+    "agilite": [
+      4,
+      8
+    ],
+    "chance": [
+      2,
+      5
+    ],
+    "prospection": [
+      5,
+      10
+    ]
+  },
+  "attaque": {
+    "cout_pa": 3,
+    "portee": {
+      "min": 2,
+      "max": 6
+    },
+    "ligne_de_vue": true,
+    "relance": {
+      "par_tour": 2
+    },
+    "effets": [
+      {
+        "type": "degats",
+        "element": "tempete",
+        "min": 4,
+        "max": 7
+      }
+    ]
+  }
+}

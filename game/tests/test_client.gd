@@ -25,7 +25,7 @@ func test_scene_du_monde_jusqu_au_combat_et_retour() -> void:
 	_run_until_idle(view)
 	assert_eq(view.mode, MapView.Mode.COMBAT, "mode combat")
 	assert_true(view.is_placement(), "phase de placement")
-	assert_eq(hud._spell_buttons.size(), 5, "un bouton par sort du Guerrier, plus le sort racial")
+	assert_eq(hud._spell_buttons.size(), 6, "attaque de l'épée de départ, 4 sorts du Guerrier, sort racial")
 
 	view.request_start_fight()
 	_run_until_idle(view)

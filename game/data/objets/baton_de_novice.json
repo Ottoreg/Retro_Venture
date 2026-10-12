@@ -1,0 +1,33 @@
+{
+  "id": "baton_de_novice",
+  "nom": "Bâton de novice",
+  "type": "arme",
+  "rarete": "commun",
+  "niveau": 1,
+  "description": "Un bâton. Les apprentis jurent qu'il est magique. Il est surtout en bois.",
+  "bonus": {
+    "intelligence": [
+      2,
+      5
+    ]
+  },
+  "attaque": {
+    "cout_pa": 3,
+    "portee": {
+      "min": 1,
+      "max": 2
+    },
+    "ligne_de_vue": true,
+    "relance": {
+      "par_tour": 1
+    },
+    "effets": [
+      {
+        "type": "degats",
+        "element": "flamme",
+        "min": 4,
+        "max": 7
+      }
+    ]
+  }
+}

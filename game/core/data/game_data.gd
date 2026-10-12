@@ -13,6 +13,10 @@ var monsters: Dictionary = {}
 var voies: Dictionary = {}
 ## id → Dictionary (données brutes vérifiées)
 var races: Dictionary = {}
+## id → Dictionary (données brutes vérifiées)
+var items: Dictionary = {}
+
+const STARTING_ECUS := 20
 
 const CAMPS := ["allie", "ennemi", "neutre"]
 
@@ -20,22 +24,26 @@ const CAMPS := ["allie", "ennemi", "neutre"]
 ## Charge tout le contenu ; les fichiers invalides sont signalés et ignorés.
 static func load_all(root := DATA_ROOT) -> GameData:
 	return from_dicts(_read_folder(root.path_join("sorts")), _read_folder(root.path_join("monstres")),
-		_read_folder(root.path_join("voies")), _read_folder(root.path_join("races")))
+		_read_folder(root.path_join("voies")), _read_folder(root.path_join("races")), _read_folder(root.path_join("objets")))
 
 
 ## Construit le contenu à partir de données déjà lues (utile pour les tests).
-static func from_dicts(spell_list: Array, monster_list: Array, voie_list: Array, race_list: Array = []) -> GameData:
+static func from_dicts(spell_list: Array, monster_list: Array, voie_list: Array, race_list: Array = [], item_list: Array = []) -> GameData:
 	var data := GameData.new()
+	for raw: Variant in item_list:
+		var errors := Item.validate(raw) if typeof(raw) == TYPE_DICTIONARY else PackedStringArray(["objet attendu"])
+		if _report("objet", raw, errors):
+			data.items[raw["id"]] = raw
 	for raw: Variant in spell_list:
 		var errors := Spell.validate(raw) if typeof(raw) == TYPE_DICTIONARY else PackedStringArray(["objet attendu"])
 		if _report("sort", raw, errors):
 			data.spells[raw["id"]] = Spell.from_dict(raw)
 	for raw: Variant in monster_list:
-		var errors := validate_monster(raw, data.spells) if typeof(raw) == TYPE_DICTIONARY else PackedStringArray(["objet attendu"])
+		var errors := validate_monster(raw, data.spells, data.items) if typeof(raw) == TYPE_DICTIONARY else PackedStringArray(["objet attendu"])
 		if _report("monstre", raw, errors):
 			data.monsters[raw["id"]] = raw
 	for raw: Variant in voie_list:
-		var errors := validate_voie(raw, data.spells) if typeof(raw) == TYPE_DICTIONARY else PackedStringArray(["objet attendu"])
+		var errors := validate_voie(raw, data.spells, data.items) if typeof(raw) == TYPE_DICTIONARY else PackedStringArray(["objet attendu"])
 		if _report("voie", raw, errors):
 			data.voies[raw["id"]] = raw
 	for raw: Variant in race_list:
@@ -74,8 +82,27 @@ static func validate_race(data: Dictionary, known_spells: Dictionary) -> PackedS
 	return errors
 
 
-static func validate_monster(data: Dictionary, known_spells: Dictionary) -> PackedStringArray:
+static func validate_monster(data: Dictionary, known_spells: Dictionary, known_items: Dictionary = {}) -> PackedStringArray:
 	var errors := _validate_common(data, known_spells)
+	var loot: Variant = data.get("butin", [])
+	if typeof(loot) != TYPE_ARRAY:
+		errors.append("« butin » doit être une liste")
+	else:
+		for drop: Variant in loot:
+			if typeof(drop) != TYPE_DICTIONARY or not known_items.has(drop.get("objet")):
+				errors.append("butin : objet inconnu %s" % str(drop))
+				continue
+			var rate: Variant = drop.get("taux")
+			if typeof(rate) not in [TYPE_INT, TYPE_FLOAT] or float(rate) <= 0.0 or float(rate) > 1.0:
+				errors.append("butin « %s » : « taux » doit être entre 0 et 1" % drop["objet"])
+			var amount: Variant = drop.get("quantite", [1, 1])
+			if typeof(amount) != TYPE_ARRAY or amount.size() != 2 or not Spell._is_int_at_least(amount[0], 1) \
+					or not Spell._is_int_at_least(amount[1], 1) or int(amount[0]) > int(amount[1]):
+				errors.append("butin « %s » : « quantite » doit être [min, max]" % drop["objet"])
+	var coins: Variant = data.get("ecus", [0, 0])
+	if typeof(coins) != TYPE_ARRAY or coins.size() != 2 or not Spell._is_int_at_least(coins[0], 0) \
+			or not Spell._is_int_at_least(coins[1], 0) or int(coins[0]) > int(coins[1]):
+		errors.append("« ecus » doit être [min, max]")
 	if not Spell._is_int_at_least(data.get("xp", 0), 0):
 		errors.append("« xp » doit être un entier positif ou nul")
 	if str(data.get("ia", "basique")) != "basique":
@@ -90,8 +117,32 @@ static func validate_monster(data: Dictionary, known_spells: Dictionary) -> Pack
 	return errors
 
 
-static func validate_voie(data: Dictionary, known_spells: Dictionary) -> PackedStringArray:
-	return _validate_common(data, known_spells)
+static func validate_voie(data: Dictionary, known_spells: Dictionary, known_items: Dictionary = {}) -> PackedStringArray:
+	var errors := _validate_common(data, known_spells)
+	var kit: Variant = data.get("equipement_depart", [])
+	if typeof(kit) != TYPE_ARRAY:
+		errors.append("« equipement_depart » doit être une liste d'objets")
+	else:
+		for item_id: Variant in kit:
+			if not known_items.has(item_id):
+				errors.append("équipement de départ inconnu : %s" % str(item_id))
+	return errors
+
+
+## Équipement de départ de la Voie (équipé) et quelques écus, pour un personnage tout neuf.
+func give_starting_kit(character: Character) -> void:
+	var rng := RandomNumberGenerator.new()
+	rng.seed = hash(character.display_name)
+	character.inventory.ecus += STARTING_ECUS
+	for item_id: String in voies.get(character.voie_id, {}).get("equipement_depart", []):
+		var template: Dictionary = items[item_id]
+		var uid := character.inventory.add(template, 1, Item.roll_bonuses(template, rng))
+		if not uid.is_empty() and Item.is_equipment(template):
+			var slots: Array = Item.SLOTS_BY_TYPE[template["type"]]
+			for slot: String in slots:
+				if not character.inventory.equipped.has(slot):
+					character.inventory.equip(uid, slot)
+					break
 
 
 ## Monstre prêt à combattre, ou `null` si l'id est inconnu.
@@ -124,13 +175,26 @@ func create_character_fighter(character: Character, fighter_id: String) -> Fight
 		fighter.stats[stat_name] = character.stat(stat_name, self)
 	fighter.max_hp = character.max_hp(self)
 	fighter.hp = fighter.max_hp
-	fighter.initiative += fighter.stat("agilite")
+	# Initiative : base de la Voie + Force, Intelligence, Chance et Agilité (pas Vitalité ni Sagesse).
+	for stat_name in Character.INITIATIVE_STATS:
+		fighter.initiative += fighter.stat(stat_name)
 	var race: Dictionary = races.get(character.race_id, {})
 	if race.has("sort") and spells.has(race["sort"]):
 		fighter.spells.append(spells[race["sort"]])
 	var passive_effect: Dictionary = race.get("passif", {}).get("effet", {})
 	if str(passive_effect.get("type")) == "portee":
 		fighter.range_bonus = int(passive_effect["valeur"])
+	# Équipement : bonus hors caractéristiques et attaque de l'arme.
+	fighter.max_pa += character.extra("pa")
+	fighter.pa = fighter.max_pa
+	fighter.max_pm += character.extra("pm")
+	fighter.pm = fighter.max_pm
+	fighter.range_bonus += character.extra("portee")
+	fighter.initiative += character.extra("initiative")
+	fighter.prospection = character.prospection(self)
+	var weapon := character.inventory.equipped_entry("arme")
+	if not weapon.is_empty() and items.has(weapon["objet"]):
+		fighter.spells.insert(0, Spell.from_dict(Item.weapon_spell_data(items[weapon["objet"]])))
 	return fighter
 
 

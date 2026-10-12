@@ -1,0 +1,18 @@
+{
+  "id": "amulette_croc",
+  "nom": "Amulette-croc",
+  "type": "amulette",
+  "rarete": "peu_commun",
+  "niveau": 2,
+  "description": "Un croc de loup au bout d'une ficelle. Très à la mode chez les bergers.",
+  "bonus": {
+    "force": [
+      2,
+      4
+    ],
+    "chance": [
+      2,
+      4
+    ]
+  }
+}

@@ -16,6 +16,12 @@ const CMD_MOVE := "deplacer"
 const CMD_TALK := "parler"
 ## Exploration : répartir des points de caractéristique. { type, entite: String, carac: String, points: int }
 const CMD_SPEND_POINTS := "investir"
+## Exploration : équiper un objet. { type, entite: String, objet: String (uid), emplacement: String (optionnel) }
+const CMD_EQUIP := "equiper"
+## Exploration : retirer l'objet d'un emplacement. { type, entite: String, emplacement: String }
+const CMD_UNEQUIP := "desequiper"
+## Exploration : jeter un objet. { type, entite: String, objet: String (uid), quantite: int }
+const CMD_DROP := "jeter"
 ## Exploration : attaquer un groupe de monstres. { type, entite: String, groupe: String }
 const CMD_ENGAGE := "engager"
 ## Combat, phase de placement : { type, entite: String, cible: Vector2i }
@@ -66,7 +72,10 @@ const EVT_XP := "experience"
 const EVT_LEVEL_UP := "niveau"
 ## Fiche du personnage mise à jour. { type, personnage: Dictionary }
 const EVT_CHARACTER := "personnage"
-## { type, vainqueur: int (équipe, -1 si aucune), xp: int }
+## Inventaire mis à jour. { type, inventaire: Dictionary (voir Character.inventory_sheet) }
+const EVT_INVENTORY := "inventaire"
+## { type, vainqueur: int (équipe, -1 si aucune), xp: int } ; après le passage du monde, aussi
+## `butin`: Array[{ objet, nom, rarete, quantite, perdu: bool }], `ecus`: int, `niveaux`: Array[int].
 const EVT_COMBAT_ENDED := "combat_fin"
 ## Retour en exploration après un combat. { type, position: Vector2i, groupe_vaincu: String }
 const EVT_EXPLORATION := "exploration"
@@ -83,6 +92,11 @@ const REASON_ALREADY_THERE := "deja_sur_place"
 const REASON_NO_EXIT := "pas_de_sortie"
 const REASON_UNKNOWN_MAP := "carte_inconnue"
 const REASON_NOT_ENOUGH_POINTS := "points_insuffisants"
+const REASON_UNKNOWN_ITEM := "objet_inconnu"
+const REASON_NOT_EQUIPPABLE := "objet_non_equipable"
+const REASON_REQUIREMENTS := "conditions_non_remplies"
+const REASON_ALREADY_WORN := "objet_deja_porte"
+const REASON_EMPTY_SLOT := "emplacement_vide"
 const REASON_WRONG_PHASE := "mauvaise_phase"
 const REASON_NOT_YOUR_TURN := "pas_votre_tour"
 const REASON_OCCUPIED := "case_occupee"

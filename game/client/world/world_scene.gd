@@ -4,12 +4,14 @@ extends Node2D
 
 const DEFAULT_START_MAP := "brumerive_0_0"
 const MENU_SCENE := "res://client/main/main.tscn"
-const HELP_EXPLORATION := "Clic : se déplacer · Monstre : attaquer · PNJ : parler · Flèches au bord : changer de carte · C : personnage · Échap : menu"
+const HELP_EXPLORATION := "Clic : se déplacer · Monstre : attaquer · PNJ : parler · Flèches au bord : changer de carte · C : personnage · I : inventaire · Échap : menu"
 const HELP_COMBAT := "Clic : se déplacer (cases vertes) · 1-5 : choisir un sort, clic : le lancer · Clic droit : annuler"
 
 @onready var _map_view: MapView = $MapView
 @onready var _combat_hud: CombatHud = $CombatHud
 @onready var _sheet: CharacterSheet = $CharacterSheet
+@onready var _inventory: InventoryWindow = $InventoryWindow
+@onready var _inventory_button: Button = %InventoryButton
 @onready var _info: Label = %Info
 @onready var _sheet_button: Button = %SheetButton
 
@@ -24,6 +26,7 @@ func _ready() -> void:
 	_map_view.setup(world)
 	_combat_hud.setup(_map_view)
 	_sheet.setup(_map_view)
+	_inventory.setup(_map_view)
 	_map_view.hovered_cell_changed.connect(_on_hovered_cell_changed)
 	_map_view.combat_started.connect(_on_combat_started)
 	_map_view.exploration_resumed.connect(_on_exploration_resumed)
@@ -31,6 +34,8 @@ func _ready() -> void:
 	_map_view.character_changed.connect(_on_character_changed)
 	_map_view.level_up.connect(_on_level_up)
 	_sheet_button.pressed.connect(_sheet.toggle)
+	_inventory_button.pressed.connect(_inventory.toggle)
+	_map_view.inventory_changed.connect(_on_inventory_changed)
 	get_viewport().size_changed.connect(_center_map)
 	_center_map()
 	_update_info()
@@ -47,6 +52,9 @@ func _create_world() -> World:
 	var character: Character = Session.new_character
 	if character == null:
 		character = Character.create(World.DEFAULT_NAME, "humain", World.DEFAULT_VOIE)
+	# Nouveau personnage : équipement de départ de sa Voie (une seule fois).
+	Session.new_character = null
+	game_data.give_starting_kit(character)
 	var start_id := str(game_data.races.get(character.race_id, {}).get("carte_depart", DEFAULT_START_MAP))
 	var start_map: GameMap = load_map.call(start_id)
 	if start_map == null:
@@ -60,6 +68,9 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel") and _map_view.mode == MapView.Mode.EXPLORATION:
 		if _sheet.is_open():
 			_sheet.toggle()
+			return
+		if _inventory.is_open():
+			_inventory.toggle()
 			return
 		_save()
 		get_tree().change_scene_to_file(MENU_SCENE)
@@ -80,11 +91,13 @@ func _center_map() -> void:
 
 func _on_combat_started() -> void:
 	_sheet_button.visible = false
+	_inventory_button.visible = false
 	_update_info()
 
 
 func _on_exploration_resumed() -> void:
 	_sheet_button.visible = true
+	_inventory_button.visible = true
 	_update_info()
 	_save()
 
@@ -98,6 +111,11 @@ func _on_map_changed() -> void:
 
 func _on_character_changed() -> void:
 	_update_info()
+	_sheet.refresh()
+	_save()
+
+
+func _on_inventory_changed() -> void:
 	_sheet.refresh()
 	_save()
 

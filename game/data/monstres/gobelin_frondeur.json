@@ -3,9 +3,49 @@
   "nom": "Gobelin frondeur",
   "description": "Éclaireur des raids gobelins. Ne s'approche jamais : ce n'est pas dans sa fiche de poste.",
   "niveau": 4,
-  "caracteristiques": {"pv": 22, "pa": 6, "pm": 3, "initiative": 90},
-  "resistances": {"acier": 5, "tempete": -5},
-  "sorts": ["gobelin_fronde"],
+  "caracteristiques": {
+    "pv": 22,
+    "pa": 6,
+    "pm": 3,
+    "initiative": 90
+  },
+  "resistances": {
+    "acier": 5,
+    "tempete": -5
+  },
+  "sorts": [
+    "gobelin_fronde"
+  ],
   "ia": "basique",
-  "xp": 35
+  "xp": 35,
+  "butin": [
+    {
+      "objet": "caillou_de_fronde",
+      "taux": 0.6,
+      "quantite": [
+        1,
+        3
+      ]
+    },
+    {
+      "objet": "fiche_de_paie_gobeline",
+      "taux": 0.15
+    },
+    {
+      "objet": "anneau_du_frondeur",
+      "taux": 0.05
+    },
+    {
+      "objet": "bottes_de_marche",
+      "taux": 0.05
+    },
+    {
+      "objet": "fronde_reglementaire",
+      "taux": 0.03
+    }
+  ],
+  "ecus": [
+    5,
+    12
+  ]
 }

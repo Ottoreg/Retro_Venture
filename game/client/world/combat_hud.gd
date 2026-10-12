@@ -20,6 +20,7 @@ var _message_time := 0.0
 var _result_panel: PanelContainer
 var _result_title: Label
 var _result_detail: Label
+var _loot_box: VBoxContainer
 var _spell_buttons: Dictionary = {}
 
 
@@ -90,11 +91,31 @@ func _on_combat_started() -> void:
 	_refresh()
 
 
-func _on_combat_ended(victory: bool, xp: int) -> void:
+func _on_combat_ended(result: Dictionary) -> void:
 	_bar.visible = false
 	_order_label.visible = false
+	var victory: bool = result["vainqueur"] == Fighter.TEAM_PLAYERS
 	_result_title.text = "Victoire !" if victory else "Défaite…"
-	_result_detail.text = "+%d points d'expérience" % xp if victory else "Vous vous réveillez au point de départ, un peu groggy."
+	var lines := PackedStringArray()
+	if not victory:
+		lines.append("Vous vous réveillez au point de départ, un peu groggy.")
+	if int(result["xp"]) > 0:
+		lines.append("+%d points d'expérience" % result["xp"])
+	for level: int in result.get("niveaux", []):
+		lines.append("Niveau %d atteint !" % level)
+	if int(result.get("ecus", 0)) > 0:
+		lines.append("+%d écus" % result["ecus"])
+	_result_detail.text = "\n".join(lines)
+	for child in _loot_box.get_children():
+		child.queue_free()
+	for drop: Dictionary in result.get("butin", []):
+		var label := Label.new()
+		label.text = "%s%s%s" % [drop["nom"], " ×%d" % drop["quantite"] if int(drop["quantite"]) > 1 else "",
+			"  (inventaire plein, perdu)" if drop["perdu"] else ""]
+		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		label.add_theme_color_override("font_color", InventoryWindow.rarity_color(drop["rarete"]))
+		_loot_box.add_child(label)
+	_loot_box.visible = not result.get("butin", []).is_empty()
 	_result_panel.visible = true
 
 
@@ -235,10 +256,11 @@ func _build() -> void:
 	_result_panel.anchor_right = 0.5
 	_result_panel.anchor_top = 0.5
 	_result_panel.anchor_bottom = 0.5
-	_result_panel.offset_left = -170
-	_result_panel.offset_right = 170
-	_result_panel.offset_top = -90
-	_result_panel.offset_bottom = 90
+	_result_panel.offset_left = -190
+	_result_panel.offset_right = 190
+	_result_panel.offset_top = -150
+	_result_panel.offset_bottom = 150
+	_result_panel.grow_vertical = Control.GROW_DIRECTION_BOTH
 	_result_panel.add_theme_stylebox_override("panel", _panel_style(Color(0.13, 0.1, 0.07, 0.96)))
 	add_child(_result_panel)
 	var result_box := VBoxContainer.new()
@@ -255,8 +277,10 @@ func _build() -> void:
 	continue_button.custom_minimum_size = Vector2(160, 40)
 	continue_button.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	continue_button.pressed.connect(_on_continue_pressed)
+	_loot_box = VBoxContainer.new()
 	result_box.add_child(_result_title)
 	result_box.add_child(_result_detail)
+	result_box.add_child(_loot_box)
 	result_box.add_child(continue_button)
 
 

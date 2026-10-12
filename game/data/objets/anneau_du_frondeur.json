@@ -1,0 +1,18 @@
+{
+  "id": "anneau_du_frondeur",
+  "nom": "Anneau du frondeur",
+  "type": "anneau",
+  "rarete": "peu_commun",
+  "niveau": 3,
+  "description": "Gravé « Employé du mois ». Le mois n'est pas précisé.",
+  "bonus": {
+    "agilite": [
+      2,
+      4
+    ],
+    "prospection": [
+      5,
+      10
+    ]
+  }
+}

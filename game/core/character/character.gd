@@ -8,6 +8,8 @@ const STAT_NAMES := {
 	"vitalite": "Vitalité", "sagesse": "Sagesse", "force": "Force",
 	"intelligence": "Intelligence", "chance": "Chance", "agilite": "Agilité",
 }
+## Caractéristiques qui s'ajoutent à l'initiative.
+const INITIATIVE_STATS := ["force", "intelligence", "chance", "agilite"]
 const MAX_LEVEL := 30
 const POINTS_PER_LEVEL := 5
 const HP_PER_LEVEL := 5
@@ -23,6 +25,9 @@ var xp := 0
 ## Points investis par caractéristique (hors bonus de race).
 var invested: Dictionary = {}
 var unspent_points := 0
+var inventory := Inventory.new()
+
+const BASE_PROSPECTION := 100
 
 
 static func create(p_name: String, p_race: String, p_voie: String) -> Character:
@@ -52,12 +57,23 @@ static func name_error(candidate: String) -> String:
 	return ""
 
 
-## Valeur totale d'une caractéristique : points investis + bonus de race.
+## Valeur totale d'une caractéristique : points investis + bonus de race + équipement.
 func stat(stat_name: String, data: GameData = null) -> int:
-	var total := int(invested.get(stat_name, 0))
+	var total := int(invested.get(stat_name, 0)) + inventory.bonus(stat_name)
 	if data != null and data.races.has(race_id):
 		total += int(data.races[race_id].get("bonus", {}).get(stat_name, 0))
 	return total
+
+
+## Bonus d'équipement hors caractéristiques : prospection, initiative, portee, pa, pm.
+func extra(stat_name: String) -> int:
+	return inventory.bonus(stat_name)
+
+
+## Prospection : 100 + Chance / 10 + équipement. Augmente les chances de butin.
+@warning_ignore("integer_division")
+func prospection(data: GameData = null) -> int:
+	return BASE_PROSPECTION + stat("chance", data) / 10 + extra("prospection")
 
 
 ## Ajoute de l'expérience ; renvoie les niveaux atteints (vide si aucun).
@@ -102,7 +118,42 @@ func sheet(data: GameData) -> Dictionary:
 		"points": unspent_points,
 		"caracteristiques": stats,
 		"pv_max": max_hp(data),
+		"prospection": prospection(data),
+		"pa": int(voie.get("caracteristiques", {}).get("pa", 0)) + extra("pa"),
+		"pm": int(voie.get("caracteristiques", {}).get("pm", 0)) + extra("pm"),
+		"ecus": inventory.ecus,
 	}
+
+
+## Inventaire affichable : objets avec leur modèle (nom, type, rareté, niveau…), emplacements, écus.
+func inventory_sheet(data: GameData) -> Dictionary:
+	var listed: Array = []
+	for entry: Dictionary in inventory.entries.values():
+		var template: Dictionary = data.items.get(entry["objet"], {}) if data != null else {}
+		listed.append({
+			"uid": entry["uid"],
+			"objet": entry["objet"],
+			"nom": template.get("nom", entry["objet"]),
+			"type": template.get("type", ""),
+			"rarete": template.get("rarete", "commun"),
+			"niveau": int(template.get("niveau", 1)),
+			"description": template.get("description", ""),
+			"quantite": entry["quantite"],
+			"jets": entry["jets"].duplicate(),
+			"conditions": template.get("conditions", {}).duplicate(),
+			"emplacement": inventory.slot_of(entry["uid"]),
+		})
+	listed.sort_custom(_inventory_order)
+	return {"objets": listed, "equipement": inventory.equipped.duplicate(), "ecus": inventory.ecus, "places": Inventory.MAX_ENTRIES}
+
+
+## Tri de l'inventaire : par type, puis par nom.
+static func _inventory_order(a: Dictionary, b: Dictionary) -> bool:
+	if a["type"] != b["type"]:
+		return str(a["type"]) < str(b["type"])
+	if a["nom"] != b["nom"]:
+		return str(a["nom"]) < str(b["nom"])
+	return str(a["uid"]) < str(b["uid"])
 
 
 func max_hp(data: GameData) -> int:
@@ -121,11 +172,13 @@ func to_dict() -> Dictionary:
 		"xp": xp,
 		"caracteristiques": invested.duplicate(),
 		"points": unspent_points,
+		"inventaire": inventory.to_dict(),
 	}
 
 
-## Personnage relu depuis une sauvegarde, ou `null` si elle est invalide.
-static func from_dict(data: Dictionary) -> Character:
+## Personnage relu depuis une sauvegarde, ou `null` si elle est invalide. Les objets inconnus de
+## `known_items` (id → données) sont ignorés.
+static func from_dict(data: Dictionary, known_items: Dictionary = {}) -> Character:
 	for key in ["nom", "race", "voie"]:
 		if typeof(data.get(key)) != TYPE_STRING:
 			return null
@@ -141,4 +194,6 @@ static func from_dict(data: Dictionary) -> Character:
 		for stat_name: Variant in stats:
 			if stat_name in STATS and typeof(stats[stat_name]) in [TYPE_INT, TYPE_FLOAT]:
 				character.invested[stat_name] = maxi(0, int(stats[stat_name]))
+	if typeof(data.get("inventaire")) == TYPE_DICTIONARY:
+		character.inventory = Inventory.from_dict(data["inventaire"], known_items)
 	return character

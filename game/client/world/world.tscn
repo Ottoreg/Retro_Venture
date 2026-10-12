@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene load_steps=6 format=3]
 
 [ext_resource type="Script" path="res://client/world/world_scene.gd" id="1_scene"]
 [ext_resource type="Script" path="res://client/world/map_view.gd" id="2_map"]
 [ext_resource type="Script" path="res://client/world/combat_hud.gd" id="3_hud"]
 [ext_resource type="Script" path="res://client/ui/character_sheet.gd" id="4_sheet"]
+[ext_resource type="Script" path="res://client/ui/inventory_window.gd" id="5_inventory"]
 
 [node name="WorldScene" type="Node2D"]
 script = ExtResource("1_scene")
@@ -36,9 +37,26 @@ grow_horizontal = 0
 focus_mode = 0
 text = "Personnage (C)"
 
+[node name="InventoryButton" type="Button" parent="Hud"]
+unique_name_in_owner = true
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -336.0
+offset_top = 12.0
+offset_right = -184.0
+offset_bottom = 48.0
+grow_horizontal = 0
+focus_mode = 0
+text = "Inventaire (I)"
+
 [node name="CombatHud" type="CanvasLayer" parent="."]
 script = ExtResource("3_hud")
 
 [node name="CharacterSheet" type="CanvasLayer" parent="."]
 layer = 2
 script = ExtResource("4_sheet")
+
+[node name="InventoryWindow" type="CanvasLayer" parent="."]
+layer = 2
+script = ExtResource("5_inventory")

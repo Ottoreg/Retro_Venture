@@ -119,7 +119,6 @@ Objectif : **10 à 15 h de jeu solo, niveaux 1 à 30 : 3 zones de départ (une p
 - [ ] **(MVP)** Environ 15 à 20 monstres répartis sur les 4 zones (dont des PNJ combattants de chaque camp)
 - [ ] **(MVP)** Tables de butin, prospection, raretés (couleurs)
 - [ ] **(MVP)** Écran de butin en fin de combat
-- [ ] Seuils de prospection pour les objets rares
 - [ ] Variantes Corrompues (2 ou 3 pour tester le concept)
 
 ### Équipement et inventaire
@@ -271,7 +270,7 @@ Peut démarrer dès que l'alpha solo est stable.
 ### Gameplay multi
 - [ ] Rejoindre le combat d'un ami, verrouiller un combat, mode spectateur
 - [ ] Décider et appliquer la règle de groupe entre camps opposés avant l'acte III (GDD § 13.3)
-- [ ] Seuil de prospection de groupe et répartition du butin
+- [ ] Répartition du butin en groupe (pondérée par la prospection de chacun ; pas de seuil)
 - [ ] Objectifs de quêtes partagés en groupe
 - [ ] Échange sécurisé entre joueurs
 - [ ] Artisanat assisté et commandes

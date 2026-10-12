@@ -1,0 +1,14 @@
+{
+  "id": "ceinture_de_corde",
+  "nom": "Ceinture de corde",
+  "type": "ceinture",
+  "rarete": "commun",
+  "niveau": 1,
+  "description": "Tient le pantalon. Mission accomplie.",
+  "bonus": {
+    "vitalite": [
+      2,
+      5
+    ]
+  }
+}

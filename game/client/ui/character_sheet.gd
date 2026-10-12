@@ -6,9 +6,9 @@ const GOLD := Color(0.95, 0.76, 0.3)
 const STAT_HELP := {
 	"vitalite": "+1 PV par point",
 	"sagesse": "+1 % d'expérience par point",
-	"force": "+1 % de dégâts d'acier par point",
-	"intelligence": "+1 % de dégâts de flamme et de soins par point",
-	"chance": "+1 % de dégâts de givre par point",
+	"force": "+1 % de dégâts d'acier et +1 initiative par point",
+	"intelligence": "+1 % de dégâts de flamme et de soins, +1 initiative par point",
+	"chance": "+1 % de dégâts de givre et +1 initiative par point",
 	"agilite": "+1 % de dégâts de tempête et +1 initiative par point",
 }
 

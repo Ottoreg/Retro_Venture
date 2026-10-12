@@ -100,6 +100,12 @@ func execute(command: Dictionary) -> Array[Dictionary]:
 			return _talk(command)
 		if type == Protocol.CMD_SPEND_POINTS:
 			return _spend_points(command)
+		if type == Protocol.CMD_EQUIP:
+			return _equip(command)
+		if type == Protocol.CMD_UNEQUIP:
+			return _unequip(command)
+		if type == Protocol.CMD_DROP:
+			return _drop(command)
 	return _refused(command, Protocol.REASON_UNKNOWN_COMMAND)
 
 
@@ -301,9 +307,11 @@ func _end_combat(events: Array[Dictionary]) -> void:
 		defeated_group = _combat_group
 		_groups.erase(_combat_group)
 		_positions.erase(_combat_group)
-		_reward(events)
 	else:
 		_positions[PLAYER_ID] = map.spawn
+	_reward(events)
+	if combat.winner_team == Fighter.TEAM_PLAYERS:
+		_loot(events)
 	events.append({
 		"type": Protocol.EVT_EXPLORATION,
 		"position": _positions[PLAYER_ID],
@@ -313,18 +321,127 @@ func _end_combat(events: Array[Dictionary]) -> void:
 	_combat_group = ""
 
 
-## XP de victoire (bonus de Sagesse : +1 % par point) et montées de niveau.
+## XP des monstres vaincus, même en cas de défaite (bonus de Sagesse : +1 % par point), et
+## montées de niveau.
 func _reward(events: Array[Dictionary]) -> void:
 	for event in events:
 		if event["type"] == Protocol.EVT_COMBAT_ENDED:
+			if int(event["xp"]) <= 0:
+				return
 			var gain := roundi(int(event["xp"]) * (100 + character.stat("sagesse", data)) / 100.0)
 			event["xp"] = gain
 			var levels := character.add_xp(gain)
+			event["niveaux"] = levels
 			events.append({"type": Protocol.EVT_XP, "gain": gain, "xp": character.xp, "niveau": character.level})
 			for reached in levels:
 				events.append({"type": Protocol.EVT_LEVEL_UP, "niveau": reached, "points": character.unspent_points})
 			events.append(_character_event())
 			return
+
+
+## Butin de victoire : pour chaque monstre et chaque ligne de sa table, chance = taux × prospection
+## / 100 (au plus 100 %). Pas de seuil : un personnage seul peut tout obtenir. Plus des écus.
+func _loot(events: Array[Dictionary]) -> void:
+	var ended: Dictionary = {}
+	for event in events:
+		if event["type"] == Protocol.EVT_COMBAT_ENDED:
+			ended = event
+	var player := combat.get_fighter(PLAYER_ID)
+	var prospection: int = player.prospection if player != null else Character.BASE_PROSPECTION
+	var rng := combat.rng
+	var found: Array[Dictionary] = []
+	var coins := 0
+	for fighter in combat.fighters:
+		if fighter.team == Fighter.TEAM_PLAYERS or not data.monsters.has(fighter.kind):
+			continue
+		var monster: Dictionary = data.monsters[fighter.kind]
+		var coin_range: Array = monster.get("ecus", [0, 0])
+		coins += rng.randi_range(int(coin_range[0]), int(coin_range[1]))
+		for drop: Dictionary in monster.get("butin", []):
+			var chance := minf(1.0, float(drop["taux"]) * prospection / 100.0)
+			if rng.randf() >= chance:
+				continue
+			var amount: Array = drop.get("quantite", [1, 1])
+			var template: Dictionary = data.items[drop["objet"]]
+			var quantity := rng.randi_range(int(amount[0]), int(amount[1]))
+			for _unit in (quantity if Item.is_equipment(template) else 1):
+				var uid := character.inventory.add(template, 1 if Item.is_equipment(template) else quantity, Item.roll_bonuses(template, rng))
+				found.append({"objet": template["id"], "nom": template["nom"], "rarete": template["rarete"],
+					"quantite": 1 if Item.is_equipment(template) else quantity, "perdu": uid.is_empty()})
+	character.inventory.ecus += coins
+	ended["butin"] = found
+	ended["ecus"] = coins
+	events.append(_inventory_event())
+
+
+func _equip(command: Dictionary) -> Array[Dictionary]:
+	var uid: Variant = command.get("objet")
+	var wanted_slot: Variant = command.get("emplacement", "")
+	if not _is_player_command(command) or typeof(uid) != TYPE_STRING or typeof(wanted_slot) != TYPE_STRING:
+		return _refused(command, Protocol.REASON_INVALID_COMMAND)
+	var inventory := character.inventory
+	if not inventory.entries.has(uid) or not data.items.has(inventory.entries[uid]["objet"]):
+		return _refused(command, Protocol.REASON_UNKNOWN_ITEM)
+	var template: Dictionary = data.items[inventory.entries[uid]["objet"]]
+	if not Item.is_equipment(template):
+		return _refused(command, Protocol.REASON_NOT_EQUIPPABLE)
+	var slots: Array = Item.SLOTS_BY_TYPE[template["type"]]
+	var slot: String = wanted_slot
+	if slot.is_empty():
+		slot = slots[0]
+		for candidate: String in slots:
+			if not inventory.equipped.has(candidate):
+				slot = candidate
+				break
+	if slot not in slots:
+		return _refused(command, Protocol.REASON_NOT_EQUIPPABLE)
+	if character.level < int(template.get("niveau", 1)):
+		return _refused(command, Protocol.REASON_REQUIREMENTS)
+	var conditions: Dictionary = template.get("conditions", {})
+	for stat_name: String in conditions:
+		if character.stat(stat_name, data) < int(conditions[stat_name]):
+			return _refused(command, Protocol.REASON_REQUIREMENTS)
+	# Deux exemplaires du même objet (deux anneaux identiques…) ne se portent pas ensemble.
+	for other_slot: String in slots:
+		var other := inventory.equipped_entry(other_slot)
+		if other_slot != slot and not other.is_empty() and other["uid"] != uid and other["objet"] == template["id"]:
+			return _refused(command, Protocol.REASON_ALREADY_WORN)
+	inventory.equip(uid, slot)
+	return _inventory_events()
+
+
+func _unequip(command: Dictionary) -> Array[Dictionary]:
+	var slot: Variant = command.get("emplacement")
+	if not _is_player_command(command) or typeof(slot) != TYPE_STRING or slot not in Inventory.SLOTS:
+		return _refused(command, Protocol.REASON_INVALID_COMMAND)
+	if not character.inventory.equipped.has(slot):
+		return _refused(command, Protocol.REASON_EMPTY_SLOT)
+	character.inventory.unequip(slot)
+	return _inventory_events()
+
+
+func _drop(command: Dictionary) -> Array[Dictionary]:
+	var uid: Variant = command.get("objet")
+	var quantity: Variant = command.get("quantite", 1)
+	if not _is_player_command(command) or typeof(uid) != TYPE_STRING or typeof(quantity) != TYPE_INT:
+		return _refused(command, Protocol.REASON_INVALID_COMMAND)
+	if not character.inventory.remove(uid, quantity):
+		return _refused(command, Protocol.REASON_UNKNOWN_ITEM)
+	return _inventory_events()
+
+
+func _is_player_command(command: Dictionary) -> bool:
+	var entity_id: Variant = command.get("entite")
+	return typeof(entity_id) == TYPE_STRING and entity_id == PLAYER_ID
+
+
+func _inventory_events() -> Array[Dictionary]:
+	var events: Array[Dictionary] = [_inventory_event(), _character_event()]
+	return events
+
+
+func _inventory_event() -> Dictionary:
+	return {"type": Protocol.EVT_INVENTORY, "inventaire": character.inventory_sheet(data)}
 
 
 func _spend_points(command: Dictionary) -> Array[Dictionary]:
@@ -369,7 +486,7 @@ func save_data() -> Dictionary:
 static func from_save(save: Dictionary, p_data: GameData, p_map_loader: Callable) -> World:
 	if int(save.get("version", 0)) != SAVE_VERSION or typeof(save.get("personnage")) != TYPE_DICTIONARY:
 		return null
-	var saved_character := Character.from_dict(save["personnage"])
+	var saved_character := Character.from_dict(save["personnage"], p_data.items if p_data != null else {})
 	if saved_character == null or typeof(save.get("carte")) != TYPE_STRING or not p_map_loader.is_valid():
 		return null
 	var start_map: GameMap = p_map_loader.call(save["carte"])

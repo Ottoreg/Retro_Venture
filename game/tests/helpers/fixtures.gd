@@ -70,7 +70,28 @@ static func monster(id: String, hp: int, pa: int, pm: int, initiative: int, spel
 		"id": id, "nom": id.capitalize(),
 		"caracteristiques": {"pv": hp, "pa": pa, "pm": pm, "initiative": initiative},
 		"resistances": resistances, "sorts": spell_ids, "ia": "basique", "xp": 10,
+		# Butin garanti (taux 1), sauf le trésor (1 %, garanti seulement avec beaucoup de prospection).
+		"butin": [
+			{"objet": "dent", "taux": 1.0, "quantite": [2, 2]},
+			{"objet": "bague", "taux": 1.0},
+			{"objet": "tresor", "taux": 0.01},
+		],
+		"ecus": [3, 3],
 	}
+
+
+static func items() -> Array:
+	return [
+		{"id": "dent", "nom": "Dent", "type": "ressource", "rarete": "commun"},
+		{"id": "tresor", "nom": "Trésor", "type": "ressource", "rarete": "legendaire"},
+		{"id": "bague", "nom": "Bague", "type": "anneau", "rarete": "commun", "niveau": 1, "bonus": {"force": [5, 5]}},
+		{"id": "heaume", "nom": "Heaume", "type": "coiffe", "rarete": "rare", "niveau": 3, "bonus": {"vitalite": [10, 10]}},
+		{"id": "lourd", "nom": "Manteau lourd", "type": "cape", "rarete": "rare", "niveau": 1, "conditions": {"force": 60}},
+		{"id": "bottes", "nom": "Bottes", "type": "bottes", "rarete": "epique", "niveau": 1,
+			"bonus": {"pa": [1, 1], "pm": [1, 1], "portee": [1, 1], "initiative": [10, 10], "prospection": [50, 50]}},
+		{"id": "epee", "nom": "Épée", "type": "arme", "rarete": "commun", "niveau": 1, "bonus": {"force": [1, 3]},
+			"attaque": {"cout_pa": 3, "portee": {"min": 1, "max": 1}, "effets": [{"type": "degats", "element": "acier", "min": 20, "max": 20}]}},
+	]
 
 
 static func data() -> GameData:
@@ -85,6 +106,7 @@ static func data() -> GameData:
 		"id": "test", "nom": "Test",
 		"caracteristiques": {"pv": 50, "pa": 6, "pm": 3, "initiative": 100},
 		"sorts": ["frappe", "piqure", "tir", "zone", "soin", "elan", "entrave"],
+		"equipement_depart": ["epee", "bague"],
 	}]
 	var races := [{
 		"id": "testeur", "nom": "Testeur", "camp": "allie", "carte_depart": "test",
@@ -92,7 +114,7 @@ static func data() -> GameData:
 		"passif": {"nom": "Vue perçante", "effet": {"type": "portee", "valeur": 1}},
 		"sort": "bond",
 	}]
-	return GameData.from_dicts(spells(), monsters, voies, races)
+	return GameData.from_dicts(spells(), monsters, voies, races, items())
 
 
 ## Personnage de test : race « testeur » (Force +50, Vitalité +7, Sagesse +100, portée +1, sort « bond »).

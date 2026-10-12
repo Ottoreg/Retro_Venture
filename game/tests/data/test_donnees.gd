@@ -48,14 +48,27 @@ func test_sorts_monstres_et_voies_valides() -> void:
 		_assert_id_matches_file(data, path)
 		if errors.is_empty():
 			spells[data["id"]] = Spell.from_dict(data)
+	var items := {}
+	for path in DataLoader.list_json(DATA_ROOT.path_join("objets")):
+		var data: Variant = DataLoader.load_json(path)
+		var errors := Item.validate(data) if typeof(data) == TYPE_DICTIONARY else PackedStringArray(["objet JSON attendu"])
+		assert_eq(errors.size(), 0, "%s : %s" % [path, "; ".join(errors)])
+		_assert_id_matches_file(data, path)
+		if errors.is_empty():
+			items[data["id"]] = data
 	for path in DataLoader.list_json(DATA_ROOT.path_join("monstres")):
 		var data: Variant = DataLoader.load_json(path)
-		var errors := GameData.validate_monster(data, spells) if typeof(data) == TYPE_DICTIONARY else PackedStringArray(["objet JSON attendu"])
+		var errors := GameData.validate_monster(data, spells, items) if typeof(data) == TYPE_DICTIONARY else PackedStringArray(["objet JSON attendu"])
+		assert_eq(errors.size(), 0, "%s : %s" % [path, "; ".join(errors)])
+		_assert_id_matches_file(data, path)
+	for path in DataLoader.list_json(DATA_ROOT.path_join("races")):
+		var data: Variant = DataLoader.load_json(path)
+		var errors := GameData.validate_race(data, spells) if typeof(data) == TYPE_DICTIONARY else PackedStringArray(["objet JSON attendu"])
 		assert_eq(errors.size(), 0, "%s : %s" % [path, "; ".join(errors)])
 		_assert_id_matches_file(data, path)
 	for path in DataLoader.list_json(DATA_ROOT.path_join("voies")):
 		var data: Variant = DataLoader.load_json(path)
-		var errors := GameData.validate_voie(data, spells) if typeof(data) == TYPE_DICTIONARY else PackedStringArray(["objet JSON attendu"])
+		var errors := GameData.validate_voie(data, spells, items) if typeof(data) == TYPE_DICTIONARY else PackedStringArray(["objet JSON attendu"])
 		assert_eq(errors.size(), 0, "%s : %s" % [path, "; ".join(errors)])
 		_assert_id_matches_file(data, path)
 
