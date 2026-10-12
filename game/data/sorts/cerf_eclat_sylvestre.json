@@ -1,0 +1,22 @@
+{
+  "id": "cerf_eclat_sylvestre",
+  "nom": "Éclat sylvestre",
+  "description": "Une lueur verte jaillit des bois du cerf.",
+  "cout_pa": 3,
+  "portee": {
+    "min": 2,
+    "max": 5
+  },
+  "ligne_de_vue": true,
+  "relance": {
+    "par_tour": 2
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "tempete",
+      "min": 5,
+      "max": 8
+    }
+  ]
+}

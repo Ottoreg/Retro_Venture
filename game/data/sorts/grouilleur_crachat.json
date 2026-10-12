@@ -1,0 +1,22 @@
+{
+  "id": "grouilleur_crachat",
+  "nom": "Crachat acide",
+  "description": "Ça fume, ça pique, ça ne part pas au lavage.",
+  "cout_pa": 4,
+  "portee": {
+    "min": 2,
+    "max": 4
+  },
+  "ligne_de_vue": true,
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "flamme",
+      "min": 5,
+      "max": 8
+    }
+  ]
+}

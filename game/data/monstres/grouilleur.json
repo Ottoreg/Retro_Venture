@@ -1,0 +1,45 @@
+{
+  "id": "grouilleur",
+  "nom": "Grouilleur",
+  "description": "Un mille-pattes vert de la taille d'un chien, qui crache et qui ne compte pas ses pattes.",
+  "niveau": 3,
+  "caracteristiques": {
+    "pv": 26,
+    "pa": 6,
+    "pm": 3,
+    "initiative": 70
+  },
+  "resistances": {
+    "givre": 10,
+    "flamme": 10,
+    "acier": -5
+  },
+  "sorts": [
+    "grouilleur_pinces",
+    "grouilleur_crachat"
+  ],
+  "ia": "basique",
+  "xp": 30,
+  "butin": [
+    {
+      "objet": "carapace_de_grouilleur",
+      "taux": 0.5,
+      "quantite": [
+        1,
+        2
+      ]
+    },
+    {
+      "objet": "glande_acide",
+      "taux": 0.15
+    },
+    {
+      "objet": "ceinture_de_carapace",
+      "taux": 0.05
+    }
+  ],
+  "ecus": [
+    3,
+    8
+  ]
+}

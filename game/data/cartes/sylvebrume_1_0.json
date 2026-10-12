@@ -1,0 +1,67 @@
+{
+  "id": "sylvebrume_1_0",
+  "nom": "Sylvebrume — Futaie ancienne",
+  "palette": "sylvebrume",
+  "sorties": {
+    "gauche": "sylvebrume_0_0"
+  },
+  "plan": [
+    "AAAAAAAAAAAAAAAAAAA",
+    " AAAAAAA.AAAA.AAAAA",
+    "AAAA.A...........AA",
+    " A.A.............AA",
+    "AA...............AA",
+    " AA..............AA",
+    "AA...............AA",
+    " AA...C..........AA",
+    "AA..A...EE...F...AA",
+    " AA.....EEE....R.AA",
+    "AAA....EEEE......AA",
+    " AA.....EEE......AA",
+    "AAA...4.EE...F.:.AA",
+    " AA.F....A.....:AAA",
+    ".......R......:..AA",
+    " ..............1.AA",
+    "............A.:.AAA",
+    " ::A::::.....::..AA",
+    "..@...::..:.::..AAA",
+    " ......:::::::..AAA",
+    "........::::.....AA",
+    " AA......::::.....A",
+    "AA........:..A...AA",
+    " AA........2....CAA",
+    "AAA......R......AAA",
+    " AAA.C.A.........AA",
+    "AAA...........F..AA",
+    " AAA...3........AAA",
+    "AA........F......AA",
+    " AA..............AA",
+    "AAA..A.A..A......AA",
+    " AAAAAAAAAAAAAAAAAA",
+    "AAAAAAAAAAAAAAAAAAA"
+  ],
+  "groupes": [
+    {
+      "monstres": [
+        "cerf_enchante",
+        "cerf_enchante"
+      ]
+    },
+    {
+      "monstres": [
+        "arbre_vivant",
+        "cerf_enchante"
+      ]
+    },
+    {
+      "monstres": [
+        "arbre_vivant"
+      ]
+    },
+    {
+      "monstres": [
+        "cerf_enchante"
+      ]
+    }
+  ]
+}

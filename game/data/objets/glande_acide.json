@@ -1,0 +1,8 @@
+{
+  "id": "glande_acide",
+  "nom": "Glande acide",
+  "type": "ressource",
+  "rarete": "peu_commun",
+  "niveau": 1,
+  "description": "À manipuler avec des gants. Et une pince. Et de loin."
+}

@@ -1,0 +1,18 @@
+{
+  "id": "ceinture_de_carapace",
+  "nom": "Ceinture de carapace",
+  "type": "ceinture",
+  "rarete": "peu_commun",
+  "niveau": 3,
+  "description": "Des anneaux de grouilleur enfilés sur une lanière. Ça craque à chaque pas.",
+  "bonus": {
+    "vitalite": [
+      5,
+      10
+    ],
+    "force": [
+      2,
+      4
+    ]
+  }
+}

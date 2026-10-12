@@ -26,7 +26,10 @@
     "pelage": "8d8f93",
     "pelage_ombre": "6c6e72",
     "ventre": "c9c6bd",
-    "bois": "a7774a"
+    "bois": "a7774a",
+    "rive": "d9c58f",
+    "rive_bord": "b9a26a",
+    "reflet": "bfe3f2"
   },
   "images": {
     "tache_claire": {
@@ -433,6 +436,76 @@
         3,
         3
       ]
+    },
+    "rat": {
+      "fichier": "monstre/rat.svgt",
+      "ancre": [
+        18,
+        23
+      ]
+    },
+    "grouilleur": {
+      "fichier": "monstre/grouilleur.svgt",
+      "ancre": [
+        25,
+        22
+      ]
+    },
+    "cerf": {
+      "fichier": "monstre/cerf.svgt",
+      "ancre": [
+        30,
+        68
+      ]
+    },
+    "arbre_vivant": {
+      "fichier": "monstre/arbre_vivant.svgt",
+      "ancre": [
+        36,
+        92
+      ]
+    },
+    "tete_cendre": {
+      "fichier": "perso/tete_cendre.svgt",
+      "ancre": [
+        10.5,
+        26
+      ]
+    },
+    "tete_cendre_dos": {
+      "fichier": "perso/tete_cendre_dos.svgt",
+      "ancre": [
+        10.5,
+        26
+      ]
+    },
+    "epee_cendre": {
+      "fichier": "perso/epee_cendre.svgt",
+      "ancre": [
+        6,
+        37
+      ]
+    },
+    "cape_cendre": {
+      "fichier": "perso/cape_cendre.svgt",
+      "ancre": [
+        15,
+        1
+      ]
+    },
+    "arbre_mort": {
+      "fichier": "decor/arbre_mort.svgt",
+      "ancre": [
+        35,
+        98
+      ]
+    },
+    "braises": {
+      "fichier": "sol/braises.svgt",
+      "ancre": [
+        20,
+        12
+      ]
     }
   },
   "personnages": {
@@ -550,6 +623,14 @@
         "tete": "tete_gobelin",
         "tete_dos": "tete_gobelin"
       }
+    },
+    "souverain": {
+      "base": "humain",
+      "echelle": 1.15,
+      "remplacer": {
+        "tete": "tete_cendre",
+        "tete_dos": "tete_cendre_dos"
+      }
     }
   },
   "armes": {
@@ -580,6 +661,13 @@
         28
       ],
       "angle": 0.3
+    },
+    "epee_cendre": {
+      "attache": [
+        6,
+        28
+      ],
+      "angle": 2.55
     }
   },
   "accessoires": {
@@ -629,6 +717,19 @@
         "face",
         "dos"
       ]
+    },
+    "cape_cendre": {
+      "image": "cape_cendre",
+      "parent": "torse",
+      "attache": [
+        13,
+        3
+      ],
+      "vues": [
+        "face",
+        "dos"
+      ],
+      "derriere": true
     }
   },
   "tenues": {
@@ -782,6 +883,37 @@
         "cheveux": "2e2418"
       },
       "arme": "fronde"
+    },
+    "rat_des_galeries": {
+      "image": "rat",
+      "echelle": 0.8
+    },
+    "grouilleur": {
+      "image": "grouilleur",
+      "echelle": 0.85
+    },
+    "cerf_enchante": {
+      "image": "cerf",
+      "echelle": 0.8
+    },
+    "arbre_vivant": {
+      "image": "arbre_vivant",
+      "echelle": 0.85
+    },
+    "souverain_cendre": {
+      "rig": "souverain",
+      "couleurs": {
+        "peau": "6a5a54",
+        "tunique": "2a2420",
+        "manches": "3a322c",
+        "pantalon": "1e1a17",
+        "bottes": "141110",
+        "ceinture": "8a2a1a"
+      },
+      "arme": "epee_cendre",
+      "accessoires": [
+        "cape_cendre"
+      ]
     }
   },
   "ressources": {
@@ -824,7 +956,10 @@
         "tronc": "5a4030",
         "feuillage": "56663a",
         "feuillage_ombre": "3c4a29",
-        "feuillage_clair": "6b7c47"
+        "feuillage_clair": "6b7c47",
+        "rive": "6a5a44",
+        "rive_bord": "4a3e30",
+        "reflet": "8fa898"
       },
       "images": {
         "arbre_2": {
@@ -870,6 +1005,29 @@
       },
       "remplacer": {
         "touffes": "fougeres"
+      }
+    },
+    "cendre": {
+      "couleurs": {
+        "herbe": "4a4440",
+        "herbe_sombre": "35302c",
+        "herbe_claire": "5e5650",
+        "herbe_tige": "2a2522",
+        "terre": "5c4e44",
+        "terre_bord": "3a302a",
+        "eau": "e2622a",
+        "rive": "2b2522",
+        "rive_bord": "1a1512",
+        "reflet": "ffd36a",
+        "pierre": "4c4643",
+        "tronc": "2e2622"
+      },
+      "remplacer": {
+        "fleurs": "braises",
+        "touffes": "braises",
+        "arbre_1": "arbre_mort",
+        "arbre_2": "arbre_mort",
+        "arbre_3": "arbre_mort"
       }
     }
   }

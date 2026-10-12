@@ -2,6 +2,9 @@
   "id": "crasse_roc_0_0",
   "nom": "Crasse-Roc — Entrée des galeries",
   "palette": "crasse_roc",
+  "sorties": {
+    "droite": "crasse_roc_1_0"
+  },
   "plan": [
     "RRRRRRAAARRRRRRAAAA",
     " R....R...RR....R.R",
@@ -17,13 +20,13 @@
     " A...I.....:...U..R",
     "R...#.....:....I..R",
     " R..##....::....I.R",
-    "R..###..a.:.......A",
-    " R..##....:......RR",
-    "RR..#:...:.....#.RR",
-    " R....::::::...##.R",
-    "R.....:::::@..###.A",
-    " R......:::::..##.R",
-    "R......::*::::.#..R",
+    "R..###..a.:........",
+    " R..##....:........",
+    "RR..#:...:.....#...",
+    " R....::::::.::##::",
+    "R.....:::::@::##...",
+    " R......:::::..##..",
+    "R......::*::::.#...",
     " RA.....::::.::::.R",
     "R........:........R",
     " R....R..:........A",
@@ -63,13 +66,13 @@
   "groupes": [
     {
       "monstres": [
-        "gobelin_frondeur"
+        "rat_des_galeries",
+        "rat_des_galeries"
       ]
     },
     {
       "monstres": [
-        "loup_des_collines",
-        "loup_des_collines"
+        "grouilleur"
       ]
     }
   ],

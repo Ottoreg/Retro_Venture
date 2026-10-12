@@ -891,7 +891,7 @@ func _draw_obstacle(cell: Vector2i, kind: String) -> void:
 		return
 	var variants: Array = Art.manifest().get("decor", {}).get(kind, [])
 	if not variants.is_empty():
-		Art.draw(self, variants[posmod(cell.x * 5 + cell.y * 3, variants.size())], base, {}, false, _fade_if_hiding(cell))
+		Art.draw(self, Art.substitute(variants[posmod(cell.x * 5 + cell.y * 3, variants.size())]), base, {}, false, _fade_if_hiding(cell))
 		return
 	if kind == GameMap.RESOURCE_OBSTACLE:
 		_draw_resource(cell, base)

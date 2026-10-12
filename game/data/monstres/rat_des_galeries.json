@@ -1,0 +1,43 @@
+{
+  "id": "rat_des_galeries",
+  "nom": "Rat des galeries",
+  "description": "Il vivait là avant les gobelins. Il compte bien y vivre après.",
+  "niveau": 1,
+  "caracteristiques": {
+    "pv": 14,
+    "pa": 5,
+    "pm": 4,
+    "initiative": 60
+  },
+  "resistances": {
+    "tempete": -10
+  },
+  "sorts": [
+    "rat_morsure",
+    "rat_grignotage"
+  ],
+  "ia": "basique",
+  "xp": 12,
+  "butin": [
+    {
+      "objet": "queue_de_rat",
+      "taux": 0.6,
+      "quantite": [
+        1,
+        2
+      ]
+    },
+    {
+      "objet": "dent_de_rat",
+      "taux": 0.3
+    },
+    {
+      "objet": "bottes_feutrees",
+      "taux": 0.05
+    }
+  ],
+  "ecus": [
+    1,
+    4
+  ]
+}

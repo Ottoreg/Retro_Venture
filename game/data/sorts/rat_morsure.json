@@ -1,0 +1,22 @@
+{
+  "id": "rat_morsure",
+  "nom": "Morsure de rat",
+  "description": "Petite, mais elle revient souvent.",
+  "cout_pa": 3,
+  "portee": {
+    "min": 1,
+    "max": 1
+  },
+  "ligne_de_vue": true,
+  "relance": {
+    "par_tour": 2
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "acier",
+      "min": 3,
+      "max": 5
+    }
+  ]
+}

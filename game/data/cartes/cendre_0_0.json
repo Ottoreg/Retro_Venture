@@ -1,0 +1,51 @@
+{
+  "id": "cendre_0_0",
+  "nom": "Marches Cendrées — Trône de Cendre (élite)",
+  "palette": "cendre",
+  "plan": [
+    "AAAAAAAAAAAAAAARAAR",
+    " AAAARAAAARRAAR.AAR",
+    "AA..RRR...R....RRAA",
+    " A...............RA",
+    "AA...............AA",
+    " A..........A.....A",
+    "R.......:::...EER.R",
+    " A......::1:..EEE.A",
+    "AAR....:::::..EE.AA",
+    " ARA....::::......A",
+    "RAR.....:::.....RAA",
+    " A....M..::..M...RR",
+    "A........:.......AA",
+    " .R.E....::......RA",
+    "AAEEEE...:.......AA",
+    " RREEE...::...R..RA",
+    "AAREEE...:.......AR",
+    " AR.E..M.::.M.....A",
+    "AA.......:......RAA",
+    " AR..R...::......RA",
+    "AAR......:....EE.AA",
+    " RR......::...EEE.A",
+    "AAR......:....EER.A",
+    " AR....M.::.M.....A",
+    "AARE.....:......RAA",
+    " REEE....::......RA",
+    "AARE.....:.R.....AR",
+    " AR......::.*..A..A",
+    "AAR.A....@.......AR",
+    " AR...............A",
+    "AA...R.R...R.....AA",
+    " AAAA.AAA.AAAAAAAAA",
+    "AARAA.AA.AARAAAAAAA"
+  ],
+  "groupes": [
+    {
+      "monstres": [
+        "souverain_cendre"
+      ],
+      "reapparition": [
+        300,
+        300
+      ]
+    }
+  ]
+}

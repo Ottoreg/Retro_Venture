@@ -1,0 +1,78 @@
+{
+  "id": "crasse_roc_1_0",
+  "nom": "Crasse-Roc — Le Crassier",
+  "palette": "crasse_roc",
+  "sorties": {
+    "gauche": "crasse_roc_0_0"
+  },
+  "plan": [
+    "RRARRRRRRRRRRARRAAR",
+    " R......RR.......RR",
+    "R....R..RR.R...R.RR",
+    " R...............RR",
+    "R................RR",
+    " R.....A....4.....R",
+    "A.............R..RR",
+    " R...R....I...#..RR",
+    "R.R.....R....##...R",
+    " R..U......R.###..A",
+    "A.R..........##.RRA",
+    " R..E..I......#..RR",
+    "RRREE.........:..RR",
+    " R..E.........:..RR",
+    "..........1..:....A",
+    " .A.........::....A",
+    ":::::......::....RR",
+    " :::::::..:::.....A",
+    "::@::::::::......RA",
+    " ......::::.......R",
+    ".......:::........R",
+    " RR....::::...2...R",
+    "RR.....:::.EE...IRA",
+    " R.R......:EEE....R",
+    "R.R.......:EE..R..R",
+    " RR.....U..:.....RR",
+    "RR....R....:......R",
+    " R.........3:..U..R",
+    "R...........:....RR",
+    " RR......A...:...RR",
+    "RRR.RRRR.R........R",
+    " RR..RRR.RRR..R...A",
+    "ARARRARRARRRRRRRRRR"
+  ],
+  "decors": [
+    {
+      "image": "galerie",
+      "case": [
+        11,
+        14
+      ]
+    }
+  ],
+  "groupes": [
+    {
+      "monstres": [
+        "rat_des_galeries",
+        "rat_des_galeries",
+        "rat_des_galeries"
+      ]
+    },
+    {
+      "monstres": [
+        "grouilleur",
+        "rat_des_galeries"
+      ]
+    },
+    {
+      "monstres": [
+        "grouilleur",
+        "grouilleur"
+      ]
+    },
+    {
+      "monstres": [
+        "grouilleur"
+      ]
+    }
+  ]
+}

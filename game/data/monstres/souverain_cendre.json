@@ -1,0 +1,39 @@
+{
+  "id": "souverain_cendre",
+  "nom": "Le Souverain Cendré",
+  "description": "Celui qui veut asservir le monde. Pour l'instant, il garde son trône et attend les imprudents.",
+  "niveau": 50,
+  "caracteristiques": {
+    "pv": 900,
+    "pa": 12,
+    "pm": 3,
+    "initiative": 300
+  },
+  "resistances": {
+    "flamme": 50,
+    "acier": 25,
+    "tempete": 25,
+    "givre": -10
+  },
+  "sorts": [
+    "cendre_lame",
+    "cendre_souffle",
+    "cendre_brasier"
+  ],
+  "ia": "basique",
+  "xp": 3000,
+  "butin": [
+    {
+      "objet": "fragment_de_cendre",
+      "taux": 1.0
+    },
+    {
+      "objet": "lame_cendree",
+      "taux": 0.05
+    }
+  ],
+  "ecus": [
+    500,
+    800
+  ]
+}

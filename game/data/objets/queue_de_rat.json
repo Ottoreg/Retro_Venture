@@ -1,0 +1,8 @@
+{
+  "id": "queue_de_rat",
+  "nom": "Queue de rat",
+  "type": "ressource",
+  "rarete": "commun",
+  "niveau": 1,
+  "description": "Ne demandez pas à quoi ça sert. Les gobelins, eux, savent."
+}

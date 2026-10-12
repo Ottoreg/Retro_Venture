@@ -1,0 +1,18 @@
+{
+  "id": "couronne_de_ramure",
+  "nom": "Couronne de ramure",
+  "type": "coiffe",
+  "rarete": "rare",
+  "niveau": 4,
+  "description": "Tressée dans les bois d'un cerf enchanté. Les elfes trouvent ça déplacé.",
+  "bonus": {
+    "sagesse": [
+      4,
+      8
+    ],
+    "intelligence": [
+      3,
+      6
+    ]
+  }
+}

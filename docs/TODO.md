@@ -117,6 +117,9 @@ Objectif : **10 à 15 h de jeu solo, niveaux 1 à 30 : 3 zones de départ (une p
 
 ### Monstres et butin
 - [ ] **(MVP)** Environ 15 à 20 monstres répartis sur les 4 zones (dont des PNJ combattants de chaque camp)
+  (7 aujourd'hui : loup et frondeur gobelin à Brumerive, rat des galeries et grouilleur à Crasse-Roc,
+  cerf enchanté et arbre vivant à Sylvebrume, et le Souverain Cendré)
+- [x] Deux types de monstres par zone de départ, avec deux attaques et un butin propre chacun
 - [x] **(MVP)** Tables de butin, prospection (sans seuil), raretés (couleurs), écus
 - [x] **(MVP)** Écran de butin en fin de combat
 - [x] **(MVP)** Réapparition des groupes vaincus (2 à 3 minutes, réglable par groupe ; sauvegardée)
@@ -162,8 +165,9 @@ Objectif : **10 à 15 h de jeu solo, niveaux 1 à 30 : 3 zones de départ (une p
 
 ### Monde
 - [ ] **(MVP)** Zone de départ humaine : Collines de Brumerive (environ 8 à 10 cartes) — 2 cartes + la maison
-- [ ] **(MVP)** Zone de départ gobeline : Galeries de Crasse-Roc (environ 8 à 10 cartes) — 1re carte (entrée des galeries)
-- [ ] **(MVP)** Zone de départ elfe : Lisière de Sylvebrume (environ 8 à 10 cartes) — 1re carte (clairière de la Lisière)
+- [ ] **(MVP)** Zone de départ gobeline : Galeries de Crasse-Roc (environ 8 à 10 cartes) — 2 cartes (entrée des galeries, le Crassier)
+- [ ] **(MVP)** Zone de départ elfe : Lisière de Sylvebrume (environ 8 à 10 cartes) — 2 cartes (clairière de la Lisière, Futaie ancienne)
+- [x] Carte d'élite de test : Trône de Cendre (Marches Cendrées), le Souverain Cendré, accessible par la Pierre de Passage
 - [x] Chaque race démarre dans sa zone (humains à Brumerive, gobelins à Crasse-Roc, elfes à Sylvebrume)
 - [ ] **(MVP)** Zone commune : Hautepierre et environs (ville + environ 15 cartes)
 - [ ] Villes hostiles aux autres camps avant l'acte III (gardes PNJ agressifs)
@@ -197,7 +201,8 @@ Objectif : **10 à 15 h de jeu solo, niveaux 1 à 30 : 3 zones de départ (une p
 - [ ] **(MVP)** Tileset Brumerive et Hautepierre (reste : intérieurs, clôtures, ponts, murets, Hautepierre)
 - [ ] **(MVP)** Sprites des 3 races × 2 sexes (repos, marche, attaque, sort, dégât, mort, récolte)
   (fait : humain, elfe, gobelin, repos / marche / attaque ; reste : femmes, dégât, mort, récolte)
-- [ ] **(MVP)** Sprites des monstres de l'alpha (faits : loup, frondeur gobelin)
+- [ ] **(MVP)** Sprites des monstres de l'alpha (faits : loup, frondeur gobelin, rat, grouilleur,
+  cerf enchanté, arbre vivant, Souverain Cendré)
 - [ ] **(MVP)** Effets visuels des sorts
 - [ ] **(MVP)** Icônes d'objets, de ressources et de sorts
 - [x] Système de recoloration des personnages (modèles SVG à couleurs remplaçables)

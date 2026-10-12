@@ -1,0 +1,18 @@
+{
+  "id": "bottes_feutrees",
+  "nom": "Bottes feutrées",
+  "type": "bottes",
+  "rarete": "commun",
+  "niveau": 2,
+  "description": "Doublées de fourrure de rat. On marche sans bruit, et sans trop se poser de questions.",
+  "bonus": {
+    "agilite": [
+      2,
+      4
+    ],
+    "prospection": [
+      5,
+      10
+    ]
+  }
+}

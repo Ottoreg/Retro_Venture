@@ -340,6 +340,11 @@ prévoit déjà `voie` et `rang` sur chaque sort** pour que le système s'ajoute
   places) et un **lit** (tous les PV d'un coup). Prototype : à Brumerive.
 - **Points de vie** : ils se gardent d'un combat à l'autre et remontent lentement hors combat
   (1 PV toutes les 2 s) ; après une défaite, on se relève avec 1 PV.
+- **Monstres du prototype** : deux par zone de départ — loup des collines et frondeur gobelin
+  (Brumerive), rat des galeries et grouilleur, mille-pattes vert qui crache de l'acide (Crasse-Roc),
+  cerf enchanté et arbre vivant (Sylvebrume). Le Souverain Cendré attend sur une carte d'élite de
+  test, le Trône de Cendre, accessible par la Pierre de Passage : c'est le monstre le plus puissant
+  du jeu (900 PV, 12 PA).
 - **Monstres** : un groupe vaincu réapparaît à sa place au bout de 2 à 3 minutes (réglable par groupe).
 - **Cycle jour/nuit** : optionnel, long terme (certains monstres ou ressources seulement la nuit).
 

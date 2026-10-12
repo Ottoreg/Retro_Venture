@@ -1,0 +1,18 @@
+{
+  "id": "cape_d_ecorce",
+  "nom": "Cape d'écorce",
+  "type": "cape",
+  "rarete": "rare",
+  "niveau": 5,
+  "description": "Elle pousse un peu chaque printemps. Prévoir une taille au-dessus.",
+  "bonus": {
+    "vitalite": [
+      15,
+      25
+    ],
+    "chance": [
+      2,
+      4
+    ]
+  }
+}

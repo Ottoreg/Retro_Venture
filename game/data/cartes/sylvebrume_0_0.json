@@ -2,6 +2,9 @@
   "id": "sylvebrume_0_0",
   "nom": "Sylvebrume — Clairière de la Lisière",
   "palette": "sylvebrume",
+  "sorties": {
+    "droite": "sylvebrume_1_0"
+  },
   "plan": [
     "AAAAAAAAAAAAAAAAAAA",
     " AAAAAAAAAAAAAAAAAA",
@@ -17,13 +20,13 @@
     " AA...##.......EAAA",
     "AA....#........EAAA",
     " AAF....:.......AAA",
-    "AAA.....:......:.AA",
-    " AA......:....:::AA",
-    "AA..R....:.a::..AAA",
-    " AA......:::::..EAA",
-    "AA......*:::....EAA",
-    " AAA....::::....EAA",
-    "AA......::@.....EAA",
+    "AAA.....:......:...",
+    " AA......:....:::..",
+    "AA..R....:.a::.....",
+    " AA......:::::..E::",
+    "AA......*:::::::::.",
+    " AAA....::::....E..",
+    "AA......::@........",
     " AA.....:::......AA",
     "AA.....:.......REAA",
     " AA....:.....F...AA",
@@ -49,13 +52,12 @@
   "groupes": [
     {
       "monstres": [
-        "loup_des_collines"
+        "cerf_enchante"
       ]
     },
     {
       "monstres": [
-        "loup_des_collines",
-        "loup_des_collines"
+        "arbre_vivant"
       ]
     }
   ],

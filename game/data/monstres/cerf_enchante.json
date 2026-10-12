@@ -1,0 +1,44 @@
+{
+  "id": "cerf_enchante",
+  "nom": "Cerf enchanté",
+  "description": "Ses bois luisent au crépuscule. Il charge aussi, au crépuscule et le reste du temps.",
+  "niveau": 4,
+  "caracteristiques": {
+    "pv": 36,
+    "pa": 7,
+    "pm": 4,
+    "initiative": 110
+  },
+  "resistances": {
+    "tempete": 20,
+    "flamme": -10
+  },
+  "sorts": [
+    "cerf_ramure",
+    "cerf_eclat_sylvestre"
+  ],
+  "ia": "basique",
+  "xp": 45,
+  "butin": [
+    {
+      "objet": "poil_scintillant",
+      "taux": 0.5,
+      "quantite": [
+        1,
+        2
+      ]
+    },
+    {
+      "objet": "bois_de_cerf_enchante",
+      "taux": 0.2
+    },
+    {
+      "objet": "couronne_de_ramure",
+      "taux": 0.04
+    }
+  ],
+  "ecus": [
+    4,
+    10
+  ]
+}

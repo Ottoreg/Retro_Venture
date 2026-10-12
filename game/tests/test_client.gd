@@ -176,9 +176,14 @@ func test_boutique_du_marchand() -> void:
 	# Achat d'une ressource en plusieurs exemplaires.
 	var inventory := view.world.character.inventory
 	inventory.ecus = 500
-	var resource: Dictionary = shop._shop["articles"][-1]
+	var cheapest := -1
+	for i in shop._shop["articles"].size():
+		var article: Dictionary = shop._shop["articles"][i]
+		if article["type"] == Item.TYPE_RESOURCE and (cheapest < 0 or int(article["prix"]) < int(shop._shop["articles"][cheapest]["prix"])):
+			cheapest = i
+	var resource: Dictionary = shop._shop["articles"][cheapest]
 	assert_eq(resource["type"], Item.TYPE_RESOURCE)
-	shop._on_item_selected(shop._list.item_count - 1)
+	shop._on_item_selected(cheapest)
 	assert_true(shop._quantity_box.visible, "quantité réglable pour une ressource")
 	shop._quantity.value = 3
 	shop._on_action_pressed()

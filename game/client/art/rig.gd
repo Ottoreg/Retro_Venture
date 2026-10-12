@@ -93,6 +93,7 @@ static func draw(canvas: CanvasItem, appearance: Dictionary, base: Vector2, pose
 		var joint := root * Transform2D(angle, position)
 		placed[role] = joint
 		var tint := float(part.get("teinte", 1.0))
+		_draw_accessories(canvas, appearance, part, role, view, joint, true, modulate)
 		_draw_piece(canvas, part["image"], colors, joint, Color(tint, tint, tint) * modulate)
 		# Arme dans la main, accessoires (chapeau, tablier…) posés sur leur pièce.
 		if role == "bras_arme" and not str(appearance.get("arme", "")).is_empty():
@@ -100,14 +101,20 @@ static func draw(canvas: CanvasItem, appearance: Dictionary, base: Vector2, pose
 			var hand: Array = weapon.get("attache", [6, 28])
 			var held := joint * Transform2D(float(weapon.get("angle", 0.0)), Vector2(hand[0], hand[1]) - Art.anchor(part["image"]))
 			_draw_piece(canvas, appearance["arme"], colors, held, modulate)
-		for accessory: String in appearance.get("accessoires", []):
-			var spec: Dictionary = manifest.get("accessoires", {}).get(accessory, {})
-			if spec.get("parent", "") != role or view not in spec.get("vues", ["face"]):
-				continue
-			var spot: Array = spec.get("attache_dos", spec.get("attache", [0, 0])) if back else spec.get("attache", [0, 0])
-			var worn := joint * Transform2D(0.0, Vector2(spot[0], spot[1]) - Art.anchor(part["image"]))
-			_draw_piece(canvas, spec.get("image", accessory), colors, worn, modulate)
+		_draw_accessories(canvas, appearance, part, role, view, joint, false, modulate)
 	canvas.draw_set_transform_matrix(Transform2D.IDENTITY)
+
+
+## Accessoires posés sur la pièce `role` : ceux de derrière (une cape) avant la pièce, les autres après.
+static func _draw_accessories(canvas: CanvasItem, appearance: Dictionary, part: Dictionary, role: String, view: String,
+		joint: Transform2D, behind: bool, modulate: Color) -> void:
+	for accessory: String in appearance.get("accessoires", []):
+		var spec: Dictionary = Art.manifest().get("accessoires", {}).get(accessory, {})
+		if spec.get("parent", "") != role or view not in spec.get("vues", ["face"]) or bool(spec.get("derriere", false)) != behind:
+			continue
+		var spot: Array = spec.get("attache_dos", spec.get("attache", [0, 0])) if view == "dos" else spec.get("attache", [0, 0])
+		var worn := joint * Transform2D(0.0, Vector2(spot[0], spot[1]) - Art.anchor(part["image"]))
+		_draw_piece(canvas, spec.get("image", accessory), appearance.get("couleurs", {}), worn, modulate)
 
 
 ## Bras armé pendant une attaque : on lève l'arme (0 → 0,35), puis on frappe vers l'avant.

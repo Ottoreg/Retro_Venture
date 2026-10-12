@@ -1,0 +1,26 @@
+{
+  "id": "cendre_souffle",
+  "nom": "Souffle cendré",
+  "description": "Une vague de cendre brûlante autour de la cible.",
+  "cout_pa": 5,
+  "portee": {
+    "min": 1,
+    "max": 4
+  },
+  "ligne_de_vue": true,
+  "relance": {
+    "par_tour": 1
+  },
+  "zone": {
+    "type": "cercle",
+    "taille": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "flamme",
+      "min": 15,
+      "max": 22
+    }
+  ]
+}

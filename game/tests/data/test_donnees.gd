@@ -183,6 +183,35 @@ func test_pierres_de_passage_et_zones_de_depart() -> void:
 			assert_true(Art.manifest()["palettes"].has(map.palette), "%s : palette « %s » inconnue" % [path, map.palette])
 
 
+func test_monstres_des_zones_et_carte_d_elite() -> void:
+	var game_data := GameData.load_all()
+	# Deux types de monstres par zone de départ.
+	var zones := {"brumerive": ["brumerive_0_0", "brumerive_1_0"], "crasse_roc": ["crasse_roc_0_0", "crasse_roc_1_0"],
+		"sylvebrume": ["sylvebrume_0_0", "sylvebrume_1_0"]}
+	for zone: String in zones:
+		var kinds := {}
+		for map_id: String in zones[zone]:
+			var map := DataLoader.load_map(DataLoader.map_path(map_id))
+			assert_true(map != null, "carte %s" % map_id)
+			if map == null:
+				continue
+			for group in map.groups:
+				for monster_id: String in group["monstres"]:
+					kinds[monster_id] = true
+		assert_true(kinds.size() >= 2, "zone %s : au moins deux types de monstres (%s)" % [zone, str(kinds.keys())])
+	# Le Souverain Cendré : le plus puissant, seul sur la carte d'élite, joignable par une Pierre de Passage.
+	var boss: Dictionary = game_data.monsters["souverain_cendre"]
+	for monster_id: String in game_data.monsters:
+		if monster_id != "souverain_cendre":
+			assert_true(int(game_data.monsters[monster_id]["caracteristiques"]["pv"]) < int(boss["caracteristiques"]["pv"]), "%s moins fort que le Cendré" % monster_id)
+	var elite := DataLoader.load_map(DataLoader.map_path("cendre_0_0"))
+	assert_true(elite != null and elite.groups.size() == 1 and elite.groups[0]["monstres"] == ["souverain_cendre"], "le Cendré sur sa carte")
+	var reachable := false
+	for passage: Dictionary in game_data.passages.values():
+		reachable = reachable or passage["carte"] == "cendre_0_0"
+	assert_true(reachable, "carte d'élite accessible par une Pierre de Passage")
+
+
 func _assert_id_matches_file(data: Variant, path: String) -> void:
 	if typeof(data) == TYPE_DICTIONARY:
 		assert_eq(str(data.get("id")), path.get_file().get_basename(), "%s : l'id doit correspondre au nom du fichier" % path)
