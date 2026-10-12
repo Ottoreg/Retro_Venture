@@ -132,9 +132,7 @@ func _show_details(entry: Dictionary) -> void:
 		"%s, niveau %d" % [InventoryWindow.TYPE_NAMES.get(entry["type"], entry["type"]), entry["niveau"]],
 	]
 	if _mode == BUY:
-		for stat: String in entry["bonus"]:
-			var span: Array = entry["bonus"][stat]
-			lines.append("+%d à %d %s" % [span[0], span[1], Item.stat_name(stat)] if int(span[0]) != int(span[1]) else "+%d %s" % [span[0], Item.stat_name(stat)])
+		lines.append_array(InventoryWindow.bonus_range_lines(entry["bonus"]))
 	else:
 		for stat: String in entry["jets"]:
 			lines.append("+%d %s" % [entry["jets"][stat], Item.stat_name(stat)])

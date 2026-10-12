@@ -19,6 +19,12 @@ signal level_up(level: int)
 signal shop_opened(event: Dictionary)
 ## Résultat d'un achat ou d'une vente : EVT_TRADE, ou EVT_REFUSED.
 signal trade_result(event: Dictionary)
+## Le joueur parle à un artisan : événement EVT_WORKSHOP.
+signal workshop_opened(event: Dictionary)
+## Résultat d'une fabrication : EVT_CRAFTED, ou EVT_REFUSED.
+signal craft_result(event: Dictionary)
+## Message court pour le joueur (récolte impossible, niveau de métier…).
+signal notice(text: String)
 signal inventory_changed
 
 enum Mode { EXPLORATION, COMBAT }
@@ -219,7 +225,9 @@ func _on_click(cell: Vector2i) -> void:
 ## Commandes d'exploration pour un clic sur `cell` : la marche (ou la discussion avec un PNJ), puis
 ## éventuellement l'action à faire en arrivant (attaquer un groupe, changer de carte). Cette action
 ## n'est envoyée qu'à l'arrivée, pour que la marche reste interruptible jusqu'au bout.
-func _exploration_commands(cell: Vector2i) -> Array[Dictionary]:
+func _exploration_commands(cell: Vector2i, from: Vector2i) -> Array[Dictionary]:
+	if _map.resource_nodes.has(cell):
+		return _harvest_commands(cell, from)
 	var npc := _map.npc_at(cell)
 	var group := world.group_at(cell)
 	var exit := _exit_at(cell)
@@ -240,11 +248,45 @@ func _exploration_commands(cell: Vector2i) -> Array[Dictionary]:
 	return commands
 
 
+## Récolte : marcher jusqu'à une case qui touche la ressource (ou rester sur place), puis récolter.
+## Si la récolte est impossible (niveau de métier, ressource épuisée…), un message l'explique.
+func _harvest_commands(cell: Vector2i, from: Vector2i) -> Array[Dictionary]:
+	var commands: Array[Dictionary] = []
+	var refusal := world.harvest_refusal(cell)
+	var target := from
+	if refusal.is_empty() and not GameMap.is_adjacent(from, cell):
+		var path := _map.approach_path(from, cell)
+		if path.is_empty():
+			refusal = Protocol.REASON_NO_PATH
+		else:
+			target = path[-1]
+	if not refusal.is_empty():
+		notice.emit(_harvest_refusal_text(refusal, cell))
+		return commands
+	commands.append({"type": Protocol.CMD_MOVE, "entite": World.PLAYER_ID, "cible": target})
+	commands.append({"type": Protocol.CMD_HARVEST, "entite": World.PLAYER_ID, "case": cell})
+	return commands
+
+
+func _harvest_refusal_text(reason: String, cell: Vector2i) -> String:
+	var node := world.resource_node(cell)
+	if reason == Protocol.REASON_DEPLETED:
+		return "%s : déjà récolté, ça repousse." % node.get("nom", "Ressource")
+	if reason == Protocol.REASON_JOB_LEVEL:
+		var job: Dictionary = world.data.jobs.get(node.get("metier", ""), {})
+		return "%s : il faut être %s niveau %d." % [node.get("nom", "Ressource"), job.get("nom", "?"), int(node.get("niveau", 1))]
+	if reason == Protocol.REASON_INVENTORY_FULL:
+		return "Inventaire plein."
+	return "Impossible d'y accéder."
+
+
 ## Clic en exploration. Pendant une marche, `stop` est la case où le joueur termine son pas : il
 ## repart de là vers la nouvelle cible, et le reste de l'ancien trajet (avec le dialogue, le combat
 ## ou le changement de carte qui l'attendait) est abandonné.
 func _explore(cell: Vector2i, stop := NO_CELL) -> void:
-	var commands := _exploration_commands(cell)
+	var commands := _exploration_commands(cell, stop if stop != NO_CELL else world.position_of(World.PLAYER_ID))
+	if commands.is_empty():
+		return
 	var arrival: Dictionary = commands[1] if commands.size() > 1 else {}
 	var walk := commands[0]
 	if stop != NO_CELL:
@@ -276,7 +318,7 @@ func _can_interrupt_walk() -> bool:
 	if world.in_combat() or world.map != _map:
 		return false
 	for event in _queue:
-		if event["type"] != Protocol.EVT_DIALOGUE and event["type"] != Protocol.EVT_SHOP:
+		if event["type"] not in [Protocol.EVT_DIALOGUE, Protocol.EVT_SHOP, Protocol.EVT_WORKSHOP]:
 			return false
 	return true
 
@@ -337,7 +379,13 @@ func _describe(cell: Vector2i) -> String:
 			return "Vers : %s" % world.neighbor_name(exit["direction"])
 		var npc := _map.npc_at(cell)
 		if not npc.is_empty():
-			return "%s (cliquer pour %s)" % [npc["nom"], "commercer" if npc.get("marchand", false) else "parler"]
+			var action: String = "commercer" if npc.get("marchand", false) else "fabriquer" if not str(npc.get("atelier", "")).is_empty() else "parler"
+			return "%s (cliquer pour %s)" % [npc["nom"], action]
+		var node: Dictionary = world.resource_node(cell) if world.map == _map else {}
+		if not node.is_empty():
+			var job: Dictionary = world.data.jobs.get(node["metier"], {})
+			var state: String = "déjà récolté, repousse bientôt" if world.is_depleted(cell) else "cliquer pour récolter"
+			return "%s — %s niv. %d (%s)" % [node["nom"], job.get("nom", "?"), int(node.get("niveau", 1)), state]
 	if not _map.is_inside(cell):
 		return ""
 	for actor_id: String in _actors:
@@ -366,6 +414,9 @@ func _update_preview() -> void:
 # --- Lecture des événements --------------------------------------------------------------------
 
 func _process(delta: float) -> void:
+	# Le temps passe pour le monde : les ressources récoltées repoussent.
+	if world != null and not world.update(delta).is_empty():
+		queue_redraw()
 	var kept: Array[Dictionary] = []
 	for text in _floating:
 		text["age"] += delta
@@ -449,6 +500,25 @@ func _apply(event: Dictionary) -> float:
 	if type == Protocol.EVT_TRADE:
 		trade_result.emit(event)
 		return 0.0
+	if type == Protocol.EVT_WORKSHOP:
+		workshop_opened.emit(event)
+		return 0.0
+	if type == Protocol.EVT_CRAFTED:
+		craft_result.emit(event)
+		return 0.0
+	if type == Protocol.EVT_HARVESTED:
+		var player: Dictionary = _actors[World.PLAYER_ID]
+		var toward: float = IsoGrid.cell_to_screen(event["case"]).x - IsoGrid.grid_to_screen(player["pos"]).x
+		if absf(toward) > 0.5:
+			player["facing"] = signf(toward)
+		_add_floating("+%d %s" % [event["quantite"], event["nom"]], Color(0.6, 0.95, 0.5), player["pos"])
+		queue_redraw()
+		return 0.6
+	if type == Protocol.EVT_JOB:
+		for level_reached: int in event["niveaux"]:
+			_add_floating("%s niv. %d !" % [event["nom"], level_reached], Color(1, 0.85, 0.3), _actors[World.PLAYER_ID]["pos"] + Vector2(0, -0.6))
+			notice.emit("%s niveau %d !" % [event["nom"], level_reached])
+		return 0.0
 	if type == Protocol.EVT_MAP_CHANGED:
 		_load_map(world.map)
 		_load_exploration_actors()
@@ -482,6 +552,10 @@ func _apply(event: Dictionary) -> float:
 	if type == Protocol.EVT_REFUSED:
 		if event["commande"] == Protocol.CMD_BUY or event["commande"] == Protocol.CMD_SELL:
 			trade_result.emit(event)
+		if event["commande"] == Protocol.CMD_CRAFT:
+			craft_result.emit(event)
+		if event["commande"] == Protocol.CMD_HARVEST:
+			notice.emit(_harvest_refusal_text(event["raison"], NO_CELL))
 		if mode == Mode.COMBAT and _refusals.has(event["raison"]):
 			combat_message.emit(_refusals[event["raison"]])
 		return 0.0
@@ -650,11 +724,11 @@ func _draw() -> void:
 
 	var font := ThemeDB.fallback_font
 	for text in _floating:
-		var text_pos := IsoGrid.grid_to_screen(text["pos"]) + Vector2(-30, -60 - 30 * text["age"])
+		var text_pos := IsoGrid.grid_to_screen(text["pos"]) + Vector2(-100, -60 - 30 * text["age"])
 		var color: Color = text["color"]
 		color.a = 1.0 - maxf(0.0, text["age"] - 0.6) / 0.4
-		draw_string_outline(font, text_pos, text["text"], HORIZONTAL_ALIGNMENT_CENTER, 60, 16, 4, Color(0, 0, 0, color.a))
-		draw_string(font, text_pos, text["text"], HORIZONTAL_ALIGNMENT_CENTER, 60, 16, color)
+		draw_string_outline(font, text_pos, text["text"], HORIZONTAL_ALIGNMENT_CENTER, 200, 16, 4, Color(0, 0, 0, color.a))
+		draw_string(font, text_pos, text["text"], HORIZONTAL_ALIGNMENT_CENTER, 200, 16, color)
 
 
 ## Cases de placement : des cercles bleus (pour ne pas les confondre avec l'eau).
@@ -690,6 +764,9 @@ func _draw_ground(map: GameMap) -> void:
 
 func _draw_obstacle(cell: Vector2i, kind: String) -> void:
 	var base := IsoGrid.cell_to_screen(cell)
+	if kind == GameMap.RESOURCE_OBSTACLE:
+		_draw_resource(cell, base)
+		return
 	match kind:
 		"arbre":
 			draw_colored_polygon(_ellipse(base + Vector2(0, 2), 18, 8), COLOR_SHADOW)
@@ -706,6 +783,35 @@ func _draw_obstacle(cell: Vector2i, kind: String) -> void:
 			_draw_block(base, 40, Color("b49a74"))
 		_:
 			_draw_block(base, 20, Color.MAGENTA)  # Type inconnu : bien visible pour le corriger.
+
+
+## Ressource récoltable : arbre ou rocher à minerai, ou ce qu'il en reste en attendant la repousse.
+func _draw_resource(cell: Vector2i, base: Vector2) -> void:
+	var node: Dictionary = world.resource_node(cell) if world.map == _map else {}
+	var color := Color(str(node.get("couleur", "888888")))
+	var depleted := world.map == _map and world.is_depleted(cell)
+	if node.get("apparence", "") == "arbre":
+		draw_colored_polygon(_ellipse(base + Vector2(0, 2), 18, 8), COLOR_SHADOW)
+		if depleted:
+			draw_rect(Rect2(base + Vector2(-7, -8), Vector2(14, 8)), Color("6b4a2b"))
+			draw_colored_polygon(_ellipse(base + Vector2(0, -8), 7, 3), Color("c9a36b"))
+			return
+		draw_rect(Rect2(base + Vector2(-4, -24), Vector2(8, 24)), Color("6b4a2b"))
+		draw_circle(base + Vector2(0, -40), 22, color)
+		draw_circle(base + Vector2(-6, -46), 11, color.lightened(0.2))
+		draw_circle(base + Vector2(8, -34), 5, color.darkened(0.25))
+		return
+	var stone := Color("8c8c86")
+	if depleted:
+		draw_colored_polygon(_ellipse(base + Vector2(-6, 0), 7, 3.5), stone)
+		draw_colored_polygon(_ellipse(base + Vector2(7, 2), 5, 2.5), stone.darkened(0.15))
+		return
+	var points := PackedVector2Array()
+	for offset in [Vector2(-20, 2), Vector2(-15, -14), Vector2(2, -20), Vector2(18, -10), Vector2(21, 4), Vector2(0, 9)]:
+		points.append(base + offset)
+	draw_colored_polygon(points, stone)
+	for spot in [Vector2(-8, -8), Vector2(6, -12), Vector2(10, -1), Vector2(-3, 2)]:
+		draw_colored_polygon(_ellipse(base + spot, 3.5, 2.5), color)
 
 
 ## Bloc isométrique de hauteur `height` posé sur la case : faces gauche, droite et dessus.

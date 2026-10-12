@@ -1,0 +1,97 @@
+{
+  "id": "forgeron",
+  "nom": "Forgeron",
+  "type": "artisanat",
+  "description": "Forge armes et équipements à partir du bois, du minerai et des peaux.",
+  "recettes": [
+    {
+      "objet": "anneau_de_cuivre",
+      "niveau": 1,
+      "xp": 10,
+      "ingredients": {
+        "minerai_de_cuivre": 4
+      }
+    },
+    {
+      "objet": "baton_de_novice",
+      "niveau": 1,
+      "xp": 10,
+      "ingredients": {
+        "bois_de_frene": 5,
+        "minerai_de_cuivre": 1
+      }
+    },
+    {
+      "objet": "arc_de_frene",
+      "niveau": 1,
+      "xp": 10,
+      "ingredients": {
+        "bois_de_frene": 6,
+        "peau_de_loup": 1
+      }
+    },
+    {
+      "objet": "ceinture_de_corde",
+      "niveau": 1,
+      "xp": 8,
+      "ingredients": {
+        "peau_de_loup": 2,
+        "minerai_de_cuivre": 1
+      }
+    },
+    {
+      "objet": "epee_de_fer",
+      "niveau": 2,
+      "xp": 15,
+      "ingredients": {
+        "minerai_de_fer": 4,
+        "bois_de_frene": 2
+      }
+    },
+    {
+      "objet": "bottes_de_marche",
+      "niveau": 2,
+      "xp": 15,
+      "ingredients": {
+        "peau_de_loup": 3,
+        "minerai_de_cuivre": 2
+      }
+    },
+    {
+      "objet": "amulette_croc",
+      "niveau": 3,
+      "xp": 18,
+      "ingredients": {
+        "croc_de_loup": 4,
+        "minerai_de_cuivre": 2
+      }
+    },
+    {
+      "objet": "ceinturon_rivete",
+      "niveau": 3,
+      "xp": 20,
+      "ingredients": {
+        "peau_de_loup": 3,
+        "minerai_de_fer": 3
+      }
+    },
+    {
+      "objet": "casque_cabosse",
+      "niveau": 4,
+      "xp": 22,
+      "ingredients": {
+        "minerai_de_fer": 6,
+        "peau_de_loup": 1
+      }
+    },
+    {
+      "objet": "masse_cerclee",
+      "niveau": 5,
+      "xp": 30,
+      "ingredients": {
+        "bois_de_chene": 4,
+        "minerai_de_fer": 5
+      }
+    }
+  ]
+}

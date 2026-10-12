@@ -1,0 +1,42 @@
+{
+  "id": "bucheron",
+  "nom": "Bûcheron",
+  "type": "recolte",
+  "description": "Abat les arbres pour en tirer du bois.",
+  "ressources": [
+    {
+      "marqueur": "F",
+      "nom": "Frêne",
+      "objet": "bois_de_frene",
+      "niveau": 1,
+      "quantite": [
+        1,
+        3
+      ],
+      "xp": 5,
+      "repousse": [
+        60,
+        120
+      ],
+      "apparence": "arbre",
+      "couleur": "79a845"
+    },
+    {
+      "marqueur": "C",
+      "nom": "Chêne",
+      "objet": "bois_de_chene",
+      "niveau": 3,
+      "quantite": [
+        1,
+        2
+      ],
+      "xp": 8,
+      "repousse": [
+        60,
+        120
+      ],
+      "apparence": "arbre",
+      "couleur": "2e5e2b"
+    }
+  ]
+}

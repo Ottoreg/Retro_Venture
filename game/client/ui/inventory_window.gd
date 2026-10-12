@@ -31,6 +31,15 @@ static func rarity_color(rarity: String) -> Color:
 	return RARITY_COLORS.get(rarity, RARITY_COLORS["commun"])
 
 
+## Plages de bonus d'un modèle d'objet : « +2 à 5 Force ».
+static func bonus_range_lines(bonus: Dictionary) -> PackedStringArray:
+	var lines: PackedStringArray = []
+	for stat: String in bonus:
+		var span: Array = bonus[stat]
+		lines.append("+%d à %d %s" % [span[0], span[1], Item.stat_name(stat)] if int(span[0]) != int(span[1]) else "+%d %s" % [span[0], Item.stat_name(stat)])
+	return lines
+
+
 ## Description de l'attaque d'une arme (vide pour les autres objets).
 static func attack_lines(template: Dictionary) -> PackedStringArray:
 	var lines: PackedStringArray = []

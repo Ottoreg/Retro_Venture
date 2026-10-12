@@ -15,20 +15,29 @@ var voies: Dictionary = {}
 var races: Dictionary = {}
 ## id → Dictionary (données brutes vérifiées)
 var items: Dictionary = {}
+## id → Dictionary (données brutes vérifiées) : métiers de récolte et d'artisanat.
+var jobs: Dictionary = {}
+## Caractère du plan → ressource récoltable { marqueur, nom, objet, niveau, … , metier: id du métier }.
+var nodes: Dictionary = {}
+## id de l'objet fabriqué → recette { objet, niveau, ingredients, xp, metier: id du métier }.
+var recipes: Dictionary = {}
 
 const STARTING_ECUS := 20
 
 const CAMPS := ["allie", "ennemi", "neutre"]
+## Effets de passif de race gérés : portée des sorts, % d'XP de métier en plus.
+const PASSIVE_EFFECTS := ["portee", "xp_metier"]
 
 
 ## Charge tout le contenu ; les fichiers invalides sont signalés et ignorés.
 static func load_all(root := DATA_ROOT) -> GameData:
 	return from_dicts(_read_folder(root.path_join("sorts")), _read_folder(root.path_join("monstres")),
-		_read_folder(root.path_join("voies")), _read_folder(root.path_join("races")), _read_folder(root.path_join("objets")))
+		_read_folder(root.path_join("voies")), _read_folder(root.path_join("races")), _read_folder(root.path_join("objets")),
+		_read_folder(root.path_join("metiers")))
 
 
 ## Construit le contenu à partir de données déjà lues (utile pour les tests).
-static func from_dicts(spell_list: Array, monster_list: Array, voie_list: Array, race_list: Array = [], item_list: Array = []) -> GameData:
+static func from_dicts(spell_list: Array, monster_list: Array, voie_list: Array, race_list: Array = [], item_list: Array = [], job_list: Array = []) -> GameData:
 	var data := GameData.new()
 	for raw: Variant in item_list:
 		var errors := Item.validate(raw) if typeof(raw) == TYPE_DICTIONARY else PackedStringArray(["objet attendu"])
@@ -50,7 +59,37 @@ static func from_dicts(spell_list: Array, monster_list: Array, voie_list: Array,
 		var errors := validate_race(raw, data.spells) if typeof(raw) == TYPE_DICTIONARY else PackedStringArray(["objet attendu"])
 		if _report("race", raw, errors):
 			data.races[raw["id"]] = raw
+	for raw: Variant in job_list:
+		var errors := Profession.validate(raw, data.items) if typeof(raw) == TYPE_DICTIONARY else PackedStringArray(["objet attendu"])
+		if errors.is_empty():
+			errors = data._validate_job_links(raw)
+		if _report("métier", raw, errors):
+			data._add_job(raw)
 	return data
+
+
+## Erreurs qui dépendent des autres métiers : marqueurs de ressources et objets fabriqués uniques.
+func _validate_job_links(job: Dictionary) -> PackedStringArray:
+	var errors: PackedStringArray = []
+	for node: Dictionary in job.get("ressources", []):
+		if nodes.has(node["marqueur"]):
+			errors.append("marqueur « %s » déjà utilisé par %s" % [node["marqueur"], nodes[node["marqueur"]]["nom"]])
+	for recipe: Dictionary in job.get("recettes", []):
+		if recipes.has(recipe["objet"]):
+			errors.append("« %s » a déjà une recette" % recipe["objet"])
+	return errors
+
+
+func _add_job(job: Dictionary) -> void:
+	jobs[job["id"]] = job
+	for node: Dictionary in job.get("ressources", []):
+		var entry := node.duplicate(true)
+		entry["metier"] = job["id"]
+		nodes[node["marqueur"]] = entry
+	for recipe: Dictionary in job.get("recettes", []):
+		var entry := recipe.duplicate(true)
+		entry["metier"] = job["id"]
+		recipes[recipe["objet"]] = entry
 
 
 static func validate_race(data: Dictionary, known_spells: Dictionary) -> PackedStringArray:
@@ -73,8 +112,8 @@ static func validate_race(data: Dictionary, known_spells: Dictionary) -> PackedS
 		errors.append("« passif » doit être un objet avec un « nom »")
 	else:
 		var effect: Variant = passive.get("effet", {})
-		if typeof(effect) != TYPE_DICTIONARY or (not effect.is_empty() and (str(effect.get("type")) != "portee" or not Spell._is_int_at_least(effect.get("valeur"), 1))):
-			errors.append("« passif.effet » : seul { type: « portee », valeur } est géré pour l'instant")
+		if typeof(effect) != TYPE_DICTIONARY or (not effect.is_empty() and (str(effect.get("type")) not in PASSIVE_EFFECTS or not Spell._is_int_at_least(effect.get("valeur"), 1))):
+			errors.append("« passif.effet » : { type, valeur } attendu, types gérés : %s" % str(PASSIVE_EFFECTS))
 	if data.has("sort") and not known_spells.has(data["sort"]):
 		errors.append("sort racial inconnu : %s" % str(data["sort"]))
 	if typeof(data.get("carte_depart")) != TYPE_STRING:

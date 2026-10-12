@@ -67,7 +67,7 @@ func test_validation_des_erreurs() -> void:
 		"nombre de lignes pair": {"plan": ["@....", " ....", ".....", " ...."]},
 		"ligne trop courte": {"plan": ["@....", " ...", "....."]},
 		"ligne décalée sans espace": {"plan": ["@....", ".....", "....."]},
-		"caractère inconnu": {"plan": ["@...X", " ....", "....."]},
+		"caractère inconnu": {"plan": ["@...#", " ....", "....."]},
 		"pas de départ": {"plan": [".....", " ....", "....."]},
 		"deux départs": {"plan": ["@...@", " ....", "....."]},
 		"ligne qui n'est pas du texte": {"plan": ["@....", 3, "....."]},

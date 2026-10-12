@@ -1,0 +1,8 @@
+{
+  "id": "bois_de_chene",
+  "nom": "Bois de chêne",
+  "type": "ressource",
+  "rarete": "peu_commun",
+  "niveau": 1,
+  "description": "Dur comme une tête de nain, et presque aussi vieux."
+}

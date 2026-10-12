@@ -44,8 +44,12 @@ var _map_states: Dictionary = {}
 var _combat_group := ""
 ## Cases du dernier trajet du joueur (départ compris), pour pouvoir l'interrompre en chemin.
 var _last_walk: Array[Vector2i] = []
-## Tirage des jets des équipements achetés chez les marchands.
+## Tirages au hasard hors combat : jets des objets achetés ou fabriqués, récoltes, repousse.
 var rng := RandomNumberGenerator.new()
+## Temps de jeu écoulé, en secondes (avancé par `update`).
+var clock := 0.0
+## Ressources récoltées en attente de repousse : id de carte → { case: instant de repousse }.
+var _depleted: Dictionary = {}
 var _combat_count := 0
 var _approach_from := Vector2i.ZERO
 
@@ -117,6 +121,10 @@ func execute(command: Dictionary) -> Array[Dictionary]:
 			return _buy(command)
 		if type == Protocol.CMD_SELL:
 			return _sell(command)
+		if type == Protocol.CMD_HARVEST:
+			return _harvest(command)
+		if type == Protocol.CMD_CRAFT:
+			return _craft(command)
 	return _refused(command, Protocol.REASON_UNKNOWN_COMMAND)
 
 
@@ -181,13 +189,8 @@ func _talk(command: Dictionary) -> Array[Dictionary]:
 		return _refused(command, Protocol.REASON_INVALID_COMMAND)
 	var from: Vector2i = start
 	var events: Array[Dictionary] = []
-	if maxi(absi(from.x - npc_cell.x), absi(from.y - npc_cell.y)) > 1:
-		var best: Array[Vector2i] = []
-		for dy in range(-1, 2):
-			for dx in range(-1, 2):
-				var path := map.find_path(from, npc_cell + Vector2i(dx, dy))
-				if not path.is_empty() and (best.is_empty() or path.size() < best.size()):
-					best = path
+	if not GameMap.is_adjacent(from, npc_cell):
+		var best := map.approach_path(from, npc_cell)
 		if best.is_empty():
 			return _refused(command, Protocol.REASON_NO_PATH)
 		events.append(_moved_event(from, best))
@@ -198,6 +201,19 @@ func _talk(command: Dictionary) -> Array[Dictionary]:
 		events.append(_moved_event(from, [] as Array[Vector2i]))
 		_positions[PLAYER_ID] = from
 		_remember_walk(from, [] as Array[Vector2i])
+	var workshop: String = npc.get("atelier", "")
+	if not workshop.is_empty() and data != null and data.jobs.has(workshop):
+		events.append({
+			"type": Protocol.EVT_WORKSHOP,
+			"pnj": npc["id"],
+			"nom": npc["nom"],
+			"case": npc_cell,
+			"repliques": npc["repliques"].duplicate(),
+			"metier": workshop,
+			"nom_metier": data.jobs[workshop]["nom"],
+			"recettes": _workshop_recipes(workshop),
+		})
+		return events
 	if npc.get("marchand", false) and data != null:
 		events.append({
 			"type": Protocol.EVT_SHOP,
@@ -527,20 +543,20 @@ static func _article_order(a: Dictionary, b: Dictionary) -> bool:
 	return str(a["nom"]) < str(b["nom"])
 
 
-## Raison de refuser un achat ou une vente auprès du PNJ `pnj` de la commande ("" si tout va bien) :
-## ce doit être un marchand de la carte, et le joueur doit se tenir à côté de lui.
-func _merchant_refusal(command: Dictionary) -> String:
+## Raison de refuser un achat, une vente ou une fabrication auprès du PNJ `pnj` de la commande
+## ("" si tout va bien) : il doit être sur la carte et offrir ce service (`marchand`, ou `atelier`
+## du métier `job_id`), et le joueur doit se tenir à côté de lui.
+func _service_refusal(command: Dictionary, job_id := "") -> String:
 	var npc_id: Variant = command.get("pnj")
 	if typeof(npc_id) != TYPE_STRING:
 		return Protocol.REASON_INVALID_COMMAND
 	if data == null:
 		return Protocol.REASON_WRONG_PHASE
 	var npc := map.get_npc(npc_id)
-	if npc.is_empty() or not npc.get("marchand", false):
+	var offered: bool = npc.get("atelier", "") == job_id if not job_id.is_empty() else npc.get("marchand", false)
+	if npc.is_empty() or not offered:
 		return Protocol.REASON_UNKNOWN_ENTITY
-	var npc_cell: Vector2i = npc["case"]
-	var player: Vector2i = _positions[PLAYER_ID]
-	if maxi(absi(player.x - npc_cell.x), absi(player.y - npc_cell.y)) > 1:
+	if not GameMap.is_adjacent(_positions[PLAYER_ID], npc["case"]):
 		return Protocol.REASON_TOO_FAR
 	return ""
 
@@ -557,7 +573,7 @@ func _buy(command: Dictionary) -> Array[Dictionary]:
 	var quantity := _trade_quantity(command)
 	if not _is_player_command(command) or typeof(item_id) != TYPE_STRING or quantity == 0:
 		return _refused(command, Protocol.REASON_INVALID_COMMAND)
-	var reason := _merchant_refusal(command)
+	var reason := _service_refusal(command)
 	if not reason.is_empty():
 		return _refused(command, reason)
 	if not data.items.has(item_id):
@@ -586,7 +602,7 @@ func _sell(command: Dictionary) -> Array[Dictionary]:
 	var quantity := _trade_quantity(command)
 	if not _is_player_command(command) or typeof(uid) != TYPE_STRING or quantity == 0:
 		return _refused(command, Protocol.REASON_INVALID_COMMAND)
-	var reason := _merchant_refusal(command)
+	var reason := _service_refusal(command)
 	if not reason.is_empty():
 		return _refused(command, reason)
 	var inventory := character.inventory
@@ -615,6 +631,180 @@ func _trade_events(operation: String, template: Dictionary, quantity: int, price
 	}]
 	events.append_array(_inventory_events())
 	return events
+
+
+# --- Métiers : récolte et artisanat ------------------------------------------------------------
+
+## Fait avancer le temps : les ressources récoltées repoussent. Renvoie un événement
+## EVT_RESOURCE_RESPAWNED par ressource de la carte actuelle qui a repoussé.
+func update(delta: float) -> Array[Dictionary]:
+	clock += delta
+	var events: Array[Dictionary] = []
+	for map_id: String in _depleted:
+		var cells: Dictionary = _depleted[map_id]
+		for cell: Vector2i in cells.keys():
+			if cells[cell] <= clock:
+				cells.erase(cell)
+				if map != null and map_id == map.id:
+					events.append({"type": Protocol.EVT_RESOURCE_RESPAWNED, "carte": map_id, "case": cell})
+	return events
+
+
+## Ressource de la carte actuelle sur cette case (voir `GameData.nodes`), ou {}.
+func resource_node(cell: Vector2i) -> Dictionary:
+	if data == null or not map.resource_nodes.has(cell):
+		return {}
+	return data.nodes.get(map.resource_nodes[cell], {})
+
+
+## Vrai si la ressource de cette case (carte actuelle) a été récoltée et n'a pas encore repoussé.
+func is_depleted(cell: Vector2i) -> bool:
+	return _depleted.get(map.id, {}).has(cell)
+
+
+## Raison de ne pas pouvoir récolter la ressource de cette case, distance mise à part ("" si on peut).
+func harvest_refusal(cell: Vector2i) -> String:
+	var node := resource_node(cell)
+	if node.is_empty():
+		return Protocol.REASON_UNKNOWN_ENTITY
+	if is_depleted(cell):
+		return Protocol.REASON_DEPLETED
+	if character.job_level(node["metier"]) < int(node.get("niveau", 1)):
+		return Protocol.REASON_JOB_LEVEL
+	if character.inventory.is_full() and not character.inventory.entries.has(node["objet"]):
+		return Protocol.REASON_INVENTORY_FULL
+	return ""
+
+
+func _harvest(command: Dictionary) -> Array[Dictionary]:
+	var cell: Variant = command.get("case")
+	if not _is_player_command(command) or typeof(cell) != TYPE_VECTOR2I:
+		return _refused(command, Protocol.REASON_INVALID_COMMAND)
+	var reason := harvest_refusal(cell)
+	if not reason.is_empty():
+		return _refused(command, reason)
+	if not GameMap.is_adjacent(_positions[PLAYER_ID], cell):
+		return _refused(command, Protocol.REASON_TOO_FAR)
+	var node := resource_node(cell)
+	var template: Dictionary = data.items[node["objet"]]
+	var amount: Array = node.get("quantite", [1, 1])
+	var quantity := rng.randi_range(int(amount[0]), int(amount[1]))
+	character.inventory.add(template, quantity)
+	var regrowth: Array = node["repousse"]
+	if not _depleted.has(map.id):
+		_depleted[map.id] = {}
+	_depleted[map.id][cell] = clock + rng.randf_range(float(regrowth[0]), float(regrowth[1]))
+	var events: Array[Dictionary] = [{
+		"type": Protocol.EVT_HARVESTED,
+		"entite": PLAYER_ID,
+		"case": cell,
+		"ressource": node["nom"],
+		"objet": template["id"],
+		"nom": template["nom"],
+		"quantite": quantity,
+		"metier": node["metier"],
+	}]
+	events.append(_job_event(node["metier"], int(node.get("xp", 0))))
+	events.append_array(_inventory_events())
+	return events
+
+
+## Recettes d'un métier d'artisanat, par niveau puis par nom.
+func _workshop_recipes(job_id: String) -> Array:
+	var listed: Array = []
+	for recipe: Dictionary in data.jobs[job_id].get("recettes", []):
+		var template: Dictionary = data.items[recipe["objet"]]
+		var ingredients: Array = []
+		for item_id: String in recipe["ingredients"]:
+			ingredients.append({"objet": item_id, "nom": data.items[item_id]["nom"], "quantite": int(recipe["ingredients"][item_id])})
+		listed.append({
+			"objet": template["id"],
+			"nom": template["nom"],
+			"type": template["type"],
+			"rarete": template["rarete"],
+			"niveau": int(recipe.get("niveau", 1)),
+			"niveau_objet": int(template.get("niveau", 1)),
+			"description": template.get("description", ""),
+			"bonus": template.get("bonus", {}).duplicate(true),
+			"conditions": template.get("conditions", {}).duplicate(),
+			"ingredients": ingredients,
+			"xp": int(recipe.get("xp", 0)),
+		})
+	listed.sort_custom(_recipe_order)
+	return listed
+
+
+static func _recipe_order(a: Dictionary, b: Dictionary) -> bool:
+	if a["niveau"] != b["niveau"]:
+		return int(a["niveau"]) < int(b["niveau"])
+	return str(a["nom"]) < str(b["nom"])
+
+
+func _craft(command: Dictionary) -> Array[Dictionary]:
+	var recipe_id: Variant = command.get("recette")
+	var quantity := _trade_quantity(command)
+	if not _is_player_command(command) or typeof(recipe_id) != TYPE_STRING or quantity == 0:
+		return _refused(command, Protocol.REASON_INVALID_COMMAND)
+	if data == null or not data.recipes.has(recipe_id):
+		return _refused(command, Protocol.REASON_UNKNOWN_ITEM)
+	var recipe: Dictionary = data.recipes[recipe_id]
+	var job_id: String = recipe["metier"]
+	var reason := _service_refusal(command, job_id)
+	if not reason.is_empty():
+		return _refused(command, reason)
+	if character.job_level(job_id) < int(recipe.get("niveau", 1)):
+		return _refused(command, Protocol.REASON_JOB_LEVEL)
+	var inventory := character.inventory
+	var ingredients: Dictionary = recipe["ingredients"]
+	var freed := 0
+	for item_id: String in ingredients:
+		var needed := int(ingredients[item_id]) * quantity
+		var owned := inventory.quantity_of(item_id)
+		if owned < needed:
+			return _refused(command, Protocol.REASON_MISSING_INGREDIENTS)
+		if owned == needed:
+			freed += 1
+	var template: Dictionary = data.items[recipe_id]
+	var equipment := Item.is_equipment(template)
+	var places := quantity if equipment else (0 if inventory.entries.has(recipe_id) else 1)
+	if inventory.entries.size() - freed + places > Inventory.MAX_ENTRIES:
+		return _refused(command, Protocol.REASON_INVENTORY_FULL)
+	# Les ingrédients sont des ressources : leur uid est leur id.
+	for item_id: String in ingredients:
+		inventory.remove(item_id, int(ingredients[item_id]) * quantity)
+	if equipment:
+		for _unit in quantity:
+			inventory.add(template, 1, Item.roll_bonuses(template, rng))
+	else:
+		inventory.add(template, quantity)
+	var events: Array[Dictionary] = [{
+		"type": Protocol.EVT_CRAFTED,
+		"objet": recipe_id,
+		"nom": template["nom"],
+		"quantite": quantity,
+		"metier": job_id,
+	}]
+	events.append(_job_event(job_id, int(recipe.get("xp", 0)) * quantity))
+	events.append_array(_inventory_events())
+	return events
+
+
+## Ajoute de l'XP de métier (avec le bonus de race) et décrit le résultat.
+func _job_event(job_id: String, base_gain: int) -> Dictionary:
+	var gain := floori(base_gain * (100 + character.job_xp_bonus(data)) / 100.0)
+	var reached := character.add_job_xp(job_id, gain)
+	var level := character.job_level(job_id)
+	return {
+		"type": Protocol.EVT_JOB,
+		"metier": job_id,
+		"nom": data.jobs[job_id]["nom"],
+		"gain": gain,
+		"niveau": level,
+		"xp": character.job_xp(job_id),
+		"xp_niveau": Profession.xp_for_level(level),
+		"xp_suivant": Profession.xp_for_level(level + 1) if level < Profession.MAX_LEVEL else character.job_xp(job_id),
+		"niveaux": reached,
+	}
 
 
 func _is_player_command(command: Dictionary) -> bool:

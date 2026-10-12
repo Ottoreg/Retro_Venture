@@ -466,6 +466,9 @@ recherche profonde au départ.
 - **Artisanat :** atelier en ville ; recettes débloquées par niveau ; nombre de cases d'ingrédients
   croissant avec le niveau ; résultat éventuellement aléatoire (jets).
 - Un personnage peut apprendre plusieurs métiers (limite à définir, par ex. 3 au court terme).
+- **Prototype actuel :** les trois métiers sont connus d'office. Les ressources (frêne, chêne,
+  cuivre, fer) repoussent 1 à 2 minutes après la récolte ; XP pour le niveau n = 5 × n × (n − 1).
+  Célébrimbert, le forgeron de Brumerive, propose 10 recettes (bois, minerai, peaux et crocs de loup).
 
 ### 10.3 Long terme
 

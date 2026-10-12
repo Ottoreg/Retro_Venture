@@ -85,6 +85,40 @@ func test_monstres_des_cartes_existants() -> void:
 				assert_true(game_data.monsters.has(monster_id), "%s : monstre inconnu « %s »" % [path, monster_id])
 
 
+func test_metiers_valides() -> void:
+	var items := {}
+	for path in DataLoader.list_json(DATA_ROOT.path_join("objets")):
+		var data: Variant = DataLoader.load_json(path)
+		if typeof(data) == TYPE_DICTIONARY:
+			items[data.get("id")] = data
+	var paths := DataLoader.list_json(DATA_ROOT.path_join("metiers"))
+	assert_true(paths.size() >= 3, "bûcheron, mineur, forgeron")
+	for path in paths:
+		var data: Variant = DataLoader.load_json(path)
+		var errors := Profession.validate(data, items) if typeof(data) == TYPE_DICTIONARY else PackedStringArray(["objet JSON attendu"])
+		assert_eq(errors.size(), 0, "%s : %s" % [path, "; ".join(errors)])
+		_assert_id_matches_file(data, path)
+	var game_data := GameData.load_all()
+	assert_eq(game_data.jobs.size(), paths.size(), "tous les métiers sont chargés")
+
+
+func test_ressources_et_ateliers_des_cartes() -> void:
+	var game_data := GameData.load_all()
+	for path in _find_json(DATA_ROOT.path_join("cartes")):
+		var map := DataLoader.load_map(path)
+		if map == null:
+			continue
+		for cell: Vector2i in map.resource_nodes:
+			var marker: String = map.resource_nodes[cell]
+			assert_true(game_data.nodes.has(marker), "%s : aucune ressource de métier n'utilise « %s »" % [path, marker])
+			var reachable := GameMap.is_adjacent(map.spawn, cell) or not map.approach_path(map.spawn, cell).is_empty()
+			assert_true(reachable, "%s : ressource %s inaccessible" % [path, cell])
+		for npc: Dictionary in map.npcs:
+			var workshop: String = npc["atelier"]
+			if not workshop.is_empty():
+				assert_eq(str(game_data.jobs.get(workshop, {}).get("type")), Profession.TYPE_CRAFT, "%s : atelier « %s » inconnu" % [path, workshop])
+
+
 func test_sorties_des_cartes_reciproques() -> void:
 	for path in _find_json(DATA_ROOT.path_join("cartes")):
 		var map := DataLoader.load_map(path)

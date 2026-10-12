@@ -1,0 +1,18 @@
+{
+  "id": "ceinturon_rivete",
+  "nom": "Ceinturon riveté",
+  "type": "ceinture",
+  "rarete": "peu_commun",
+  "niveau": 3,
+  "description": "Une ceinture de cuir clouté. Tient le pantalon et le moral.",
+  "bonus": {
+    "vitalite": [
+      8,
+      15
+    ],
+    "force": [
+      1,
+      3
+    ]
+  }
+}

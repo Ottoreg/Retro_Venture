@@ -205,3 +205,73 @@ func test_boutique_du_marchand() -> void:
 	shop.close()
 	assert_false(shop.is_open())
 	scene.free()
+
+
+func test_recolte_et_repousse() -> void:
+	var tree := Engine.get_main_loop() as SceneTree
+	var scene: Node = load("res://client/world/world.tscn").instantiate()
+	tree.root.add_child(scene)
+	var view: MapView = scene.get_node("MapView")
+	var map := view.current_map()
+	var notices: Array[String] = []
+	view.notice.connect(func(text: String) -> void: notices.append(text))
+
+	# Un frêne du village : le joueur marche jusqu'à lui et le coupe.
+	var ash := Vector2i(-1, -1)
+	for cell: Vector2i in map.resource_nodes:
+		if view.world.resource_node(cell).get("objet") == "bois_de_frene":
+			ash = cell
+			break
+	assert_true(map.is_inside(ash), "un frêne au village")
+	assert_true(view._describe(ash).begins_with("Frêne"), view._describe(ash))
+	view._on_click(ash)
+	_run_until_idle(view)
+	var inventory := view.world.character.inventory
+	assert_true(inventory.quantity_of("bois_de_frene") > 0, "bois récolté")
+	assert_true(GameMap.is_adjacent(view.world.position_of(World.PLAYER_ID), ash), "à côté de l'arbre")
+	assert_true(view.world.is_depleted(ash), "arbre coupé")
+	assert_true(view.world.character.job_xp("bucheron") > 0, "XP de bûcheron")
+
+	# Déjà coupé : un message, pas de marche.
+	view._on_click(ash)
+	assert_false(view.is_busy(), "pas de marche vers un arbre coupé")
+	assert_eq(notices.size(), 1, "message affiché")
+
+	# Repousse au bout de deux minutes au plus.
+	view._process(121.0)
+	assert_false(view.world.is_depleted(ash), "l'arbre a repoussé")
+	scene.free()
+
+
+func test_atelier_du_forgeron() -> void:
+	var tree := Engine.get_main_loop() as SceneTree
+	var scene: Node = load("res://client/world/world.tscn").instantiate()
+	tree.root.add_child(scene)
+	var view: MapView = scene.get_node("MapView")
+	var craft: CraftWindow = scene.get_node("CraftWindow")
+	var smith: Dictionary = {}
+	for npc: Dictionary in view.current_map().npcs:
+		if npc["atelier"] == "forgeron":
+			smith = npc
+	assert_false(smith.is_empty(), "un forgeron au village")
+
+	view._on_click(smith["case"])
+	_run_until_idle(view)
+	assert_true(craft.is_open(), "l'atelier s'ouvre")
+	var inventory := view.world.character.inventory
+	inventory.add(view.world.data.items["minerai_de_cuivre"], 4)
+	var index := -1
+	for i in craft._list.item_count:
+		if craft._list.get_item_metadata(i) == "anneau_de_cuivre":
+			index = i
+	assert_true(index >= 0, "recette de l'anneau de cuivre")
+	craft._on_item_selected(index)
+	assert_false(craft._craft_button.disabled, "ingrédients réunis")
+	craft._on_craft_pressed()
+	assert_eq(inventory.quantity_of("anneau_de_cuivre"), 1, "anneau fabriqué")
+	assert_eq(inventory.quantity_of("minerai_de_cuivre"), 0, "minerai consommé")
+	assert_true(craft._message.text.begins_with("Fabriqué"), craft._message.text)
+	assert_true(view.world.character.job_level("forgeron") >= 2, "XP de forgeron")
+	assert_true(craft._craft_button.disabled, "plus assez de minerai")
+	craft.close()
+	scene.free()

@@ -135,11 +135,16 @@ Objectif : **10 à 15 h de jeu solo, niveaux 1 à 30 : 3 zones de départ (une p
 - [ ] Banque / coffre personnel
 
 ### Métiers
-- [ ] **(MVP)** Système de métier générique (niveau, XP, recettes)
-- [ ] **(MVP)** Bûcheron : 4 ou 5 essences d'arbres, réapparition des ressources
-- [ ] **(MVP)** Mineur : 4 ou 5 minerais
-- [ ] **(MVP)** Forgeron : atelier, interface de fabrication, environ 20 recettes
-- [ ] Ressources de monstres utilisées dans les recettes
+- [x] **(MVP)** Système de métier générique (niveau 1 à 100, XP, recettes) ; métiers sur la fiche du personnage
+- [x] **(MVP)** Bûcheron : frêne et chêne, repousse en 1 à 2 minutes
+- [ ] Bûcheron : 2 ou 3 essences de plus (if…)
+- [x] **(MVP)** Mineur : cuivre et fer, repousse en 1 à 2 minutes
+- [ ] Mineur : 2 ou 3 minerais de plus (argent…)
+- [x] **(MVP)** Forgeron : atelier (Célébrimbert à Brumerive), interface de fabrication, 10 recettes
+- [ ] Forgeron : environ 20 recettes
+- [x] Ressources de monstres utilisées dans les recettes (peau et croc de loup)
+- [x] Passif humain : +10 % d'XP de métier
+- [ ] Animation de récolte (durée fixe, outil en main)
 
 ### Quêtes
 - [ ] **(MVP)** Moteur de quêtes : étapes, objectifs (parler, vaincre, récolter, apporter, aller à), récompenses

@@ -44,6 +44,7 @@ Dofus. Elle est décrite par un **plan texte** : une ligne par rangée, un carac
 | `M` | Mur / bâtiment |
 | `R` | Rocher |
 | `E` | Eau (bloque le passage, mais pas la vue) |
+| Autres majuscules | Ressource de métier, définie dans `metiers/` : `F` frêne, `C` chêne, `U` cuivre, `I` fer |
 
 Les tests vérifient chaque carte : format du plan, `id` égal au nom du fichier, et **toutes les cases
 praticables accessibles** depuis le départ.
@@ -90,6 +91,9 @@ revente rapporte un quart du prix d'achat (`Item.RESALE_RATE`), au moins 1 écu.
 | Épique | 900 | 90 |
 | Légendaire | 2 500 | 250 |
 | Relique | 6 000 | 600 |
+
+Avec `"atelier": "forgeron"` (id d'un métier d'artisanat), le PNJ ouvre l'**atelier** de ce métier :
+la liste de ses recettes, les ingrédients possédés et la fabrication.
 
 ### Sorties
 
@@ -227,6 +231,40 @@ Dans chaque Voie : `equipement_depart` (liste d'objets donnés et équipés à l
 Les tests vérifient tous ces fichiers (format, `id` égal au nom du fichier, sorts et monstres
 référencés existants).
 
+## Métiers (`metiers/`)
+
+Un métier de **récolte** décrit les ressources qu'on trouve sur les cartes. Chacune a son caractère
+dans le plan (`marqueur`, une majuscule hors de la légende), bloque sa case et se récolte depuis une
+case voisine. Une fois récoltée, elle repousse au bout d'un temps tiré dans `repousse` (en secondes).
+
+```json
+{
+  "id": "bucheron", "nom": "Bûcheron", "type": "recolte",
+  "ressources": [
+    {"marqueur": "F", "nom": "Frêne", "objet": "bois_de_frene", "niveau": 1, "quantite": [1, 3],
+     "xp": 5, "repousse": [60, 120], "apparence": "arbre", "couleur": "79a845"}
+  ]
+}
+```
+
+- `objet` : ressource obtenue (`quantite` : [min, max] par récolte) ; `niveau` : niveau de métier requis.
+- `apparence` : `arbre` ou `rocher` ; `couleur` : feuillage de l'arbre ou veines du minerai.
+
+Un métier d'**artisanat** liste ses recettes ; on fabrique auprès d'un PNJ qui tient son `atelier`.
+Les équipements fabriqués ont des jets tirés au hasard.
+
+```json
+{
+  "id": "forgeron", "nom": "Forgeron", "type": "artisanat",
+  "recettes": [
+    {"objet": "epee_de_fer", "niveau": 2, "xp": 15, "ingredients": {"minerai_de_fer": 4, "bois_de_frene": 2}}
+  ]
+}
+```
+
+Niveaux de métier : 1 à 100, XP totale pour le niveau n = 5 × n × (n − 1). Les Humains gagnent 10 %
+d'XP de métier en plus (passif `{"type": "xp_metier", "valeur": 10}`).
+
 ## À venir
 
-`recettes/`, `quetes/`.
+`quetes/`.

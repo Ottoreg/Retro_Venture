@@ -1,0 +1,39 @@
+{
+  "id": "masse_cerclee",
+  "nom": "Masse cerclée",
+  "type": "arme",
+  "rarete": "peu_commun",
+  "niveau": 4,
+  "description": "Du chêne, du fer, et l'intention bien arrêtée de cabosser quelque chose.",
+  "bonus": {
+    "force": [
+      4,
+      8
+    ],
+    "vitalite": [
+      5,
+      10
+    ]
+  },
+  "conditions": {
+    "force": 10
+  },
+  "attaque": {
+    "cout_pa": 4,
+    "portee": {
+      "min": 1,
+      "max": 1
+    },
+    "relance": {
+      "par_tour": 1
+    },
+    "effets": [
+      {
+        "type": "degats",
+        "element": "acier",
+        "min": 10,
+        "max": 15
+      }
+    ]
+  }
+}

@@ -10,13 +10,13 @@
     "A.................A",
     " A................A",
     "A.................A",
-    " ............A.3..A",
-    "A........R.........",
-    " ....A.............",
-    ".....A............A",
-    " ....A...1........A",
+    " ............F.3..A",
+    "A........U.........",
+    " ....F.............",
+    ".....F............A",
+    " ....F...1........A",
     "A..................",
-    " A.R...............",
+    " A.U...............",
     "A...........M......",
     " ...........MM.....",
     ".......a....MM.....",
@@ -25,14 +25,14 @@
     " ..................",
     "..........b.....R..",
     " ..................",
-    "A........A.........",
+    "A...c....F.........",
     " A.................",
     "....E.............A",
     " ...EE............A",
     "....E.....2...A...A",
     " ...EE........AA...",
     "A...E..............",
-    " A........R........",
+    " A........U........",
     "A..................",
     " .................A",
     "A.................A",
@@ -76,6 +76,15 @@
       "marchand": true,
       "repliques": [
         "Bienvenue au Poney Essoufflé, succursale de Brumerive ! Tout ce qui se vend, je le vends. Tout ce qui s'achète, je l'achète… un peu moins cher, forcément."
+      ]
+    },
+    {
+      "marqueur": "c",
+      "id": "celebrimbert",
+      "nom": "Célébrimbert, forgeron",
+      "atelier": "forgeron",
+      "repliques": [
+        "Non, je ne forge pas d'anneaux de pouvoir. Juste des anneaux. En cuivre. Apportez du minerai, du bois ou des peaux, et on verra ce qu'on peut en tirer."
       ]
     }
   ]

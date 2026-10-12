@@ -23,6 +23,7 @@ var _hp_label: Label
 var _points_label: Label
 var _stat_values := {}
 var _stat_buttons := {}
+var _jobs_box: VBoxContainer
 
 
 func _ready() -> void:
@@ -64,6 +65,12 @@ func refresh() -> void:
 	for stat_name: String in _stat_values:
 		_stat_values[stat_name].text = str(sheet["caracteristiques"][stat_name])
 		_stat_buttons[stat_name].disabled = points <= 0
+	for child in _jobs_box.get_children():
+		child.queue_free()
+	for job: Dictionary in sheet["metiers"]:
+		var line := _label(14, Color(0.85, 0.82, 0.75))
+		line.text = "%s — niveau %d (%d / %d XP)" % [job["nom"], job["niveau"], job["xp"], job["xp_suivant"]]
+		_jobs_box.add_child(line)
 
 
 func _unhandled_key_input(event: InputEvent) -> void:
@@ -144,6 +151,11 @@ func _build() -> void:
 		grid.add_child(plus)
 		_stat_values[stat_name] = value_label
 		_stat_buttons[stat_name] = plus
+	var jobs_title := _label(16, GOLD)
+	jobs_title.text = "Métiers"
+	box.add_child(jobs_title)
+	_jobs_box = VBoxContainer.new()
+	box.add_child(_jobs_box)
 	var hint := _label(12, Color(0.6, 0.58, 0.52))
 	hint.text = "Touche C : ouvrir / fermer"
 	box.add_child(hint)

@@ -13,6 +13,8 @@ extends RefCounted
 ## Caractère du plan → type d'obstacle ("" = case praticable).
 const LEGEND := {".": "", "@": "", "A": "arbre", "M": "mur", "R": "rocher", "E": "eau"}
 const SPAWN_CHAR := "@"
+## Type d'obstacle des ressources récoltables (lettres majuscules hors légende, voir `Profession`).
+const RESOURCE_OBSTACLE := "ressource"
 ## Obstacles plats : bloquent le passage mais se dessinent au niveau du sol.
 const FLAT_OBSTACLES := ["eau"]
 ## Bords de carte, et bord d'arrivée sur la carte voisine.
@@ -28,6 +30,9 @@ var rows: int
 var spawn: Vector2i
 ## Type d'obstacle (« arbre », « mur »…) par case bloquée.
 var obstacles: Dictionary = {}
+## Ressources récoltables (arbres, minerais) : case → caractère du plan (voir `GameData.nodes`).
+## Elles bloquent le passage comme un obstacle de type `RESOURCE_OBSTACLE`.
+var resource_nodes: Dictionary = {}
 ## Groupes de monstres : { id: String, case: Vector2i, monstres: Array (ids de monstres) }.
 var groups: Array[Dictionary] = []
 ## PNJ : { id: String, nom: String, case: Vector2i, repliques: Array (textes) }.
@@ -100,6 +105,8 @@ static func validate(data: Dictionary) -> PackedStringArray:
 				npc_markers[marker] = 0
 			if typeof(npc.get("id")) != TYPE_STRING or str(npc.get("id")).is_empty() or typeof(npc.get("nom")) != TYPE_STRING:
 				errors.append("PNJ %s : « id » et « nom » doivent être des textes" % str(marker))
+			if typeof(npc.get("atelier", "")) != TYPE_STRING:
+				errors.append("PNJ %s : « atelier » doit être un id de métier" % str(marker))
 			if typeof(npc.get("marchand", false)) != TYPE_BOOL:
 				errors.append("PNJ %s : « marchand » doit valoir true ou false" % str(marker))
 			var lines: Variant = npc.get("repliques")
@@ -140,6 +147,8 @@ static func validate(data: Dictionary) -> PackedStringArray:
 					errors.append("ligne %d, colonne %d : PNJ « %s » absent de « pnj »" % [i + 1, j + 1, character])
 				else:
 					npc_markers[character] += 1
+			elif Profession.is_node_char(character):
+				pass  # Ressource : les tests de données vérifient qu'un métier la décrit.
 			elif not LEGEND.has(character):
 				errors.append("ligne %d, colonne %d : caractère « %s » inconnu" % [i + 1, j + 1, character])
 			elif character == SPAWN_CHAR:
@@ -188,7 +197,10 @@ static func from_dict(data: Dictionary) -> GameMap:
 			elif _is_npc_char(character):
 				var npc: Dictionary = npcs_by_marker[character]
 				map.npcs.append({"id": npc["id"], "nom": npc["nom"], "case": cell, "repliques": npc["repliques"].duplicate(),
-					"marchand": npc.get("marchand", false)})
+					"marchand": npc.get("marchand", false), "atelier": npc.get("atelier", "")})
+			elif Profession.is_node_char(character):
+				map.resource_nodes[cell] = character
+				map.obstacles[cell] = RESOURCE_OBSTACLE
 			elif LEGEND[character] != "":
 				map.obstacles[cell] = LEGEND[character]
 	for row in map.rows + 1:
@@ -302,6 +314,25 @@ func nearest_walkable(cell: Vector2i) -> Vector2i:
 					next_frontier.append(neighbor)
 		frontier = next_frontier
 	return spawn
+
+
+## Vrai si les deux cases se touchent (par un côté ou par la pointe).
+static func is_adjacent(a: Vector2i, b: Vector2i) -> bool:
+	return maxi(absi(a.x - b.x), absi(a.y - b.y)) <= 1
+
+
+## Plus court chemin de `from` jusqu'à une case praticable qui touche `target` (un PNJ, une
+## ressource…), sans la case de départ ; vide si `from` la touche déjà ou si c'est impossible.
+func approach_path(from: Vector2i, target: Vector2i) -> Array[Vector2i]:
+	var best: Array[Vector2i] = []
+	if is_adjacent(from, target):
+		return best
+	for dy in range(-1, 2):
+		for dx in range(-1, 2):
+			var path := find_path(from, target + Vector2i(dx, dy))
+			if not path.is_empty() and (best.is_empty() or path.size() < best.size()):
+				best = path
+	return best
 
 
 ## Chemin de `from` à `to`, sans la case de départ ; vide si impossible.

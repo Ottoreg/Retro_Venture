@@ -26,6 +26,8 @@ var xp := 0
 var invested: Dictionary = {}
 var unspent_points := 0
 var inventory := Inventory.new()
+## XP de métier : id du métier → XP totale (un métier absent est au niveau 1).
+var jobs: Dictionary = {}
 
 const BASE_PROSPECTION := 100
 
@@ -87,6 +89,51 @@ func add_xp(amount: int) -> Array[int]:
 	return reached
 
 
+func job_xp(job_id: String) -> int:
+	return int(jobs.get(job_id, 0))
+
+
+func job_level(job_id: String) -> int:
+	return Profession.level_for_xp(job_xp(job_id))
+
+
+## Bonus d'XP de métier en % (passif de race « xp_metier »).
+func job_xp_bonus(data: GameData) -> int:
+	if data == null:
+		return 0
+	var effect: Dictionary = data.races.get(race_id, {}).get("passif", {}).get("effet", {})
+	return int(effect.get("valeur", 0)) if str(effect.get("type")) == "xp_metier" else 0
+
+
+## Ajoute de l'XP de métier ; renvoie les niveaux de métier atteints (vide si aucun).
+func add_job_xp(job_id: String, amount: int) -> Array[int]:
+	var before := job_level(job_id)
+	jobs[job_id] = job_xp(job_id) + maxi(0, amount)
+	var reached: Array[int] = []
+	for level_reached in range(before + 1, job_level(job_id) + 1):
+		reached.append(level_reached)
+	return reached
+
+
+## Métiers affichables, dans l'ordre des données : { id, nom, type, niveau, xp, xp_niveau, xp_suivant }.
+func jobs_sheet(data: GameData) -> Array:
+	var listed: Array = []
+	if data == null:
+		return listed
+	for job_id: String in data.jobs:
+		var level := job_level(job_id)
+		listed.append({
+			"id": job_id,
+			"nom": data.jobs[job_id]["nom"],
+			"type": data.jobs[job_id]["type"],
+			"niveau": level,
+			"xp": job_xp(job_id),
+			"xp_niveau": Profession.xp_for_level(level),
+			"xp_suivant": Profession.xp_for_level(level + 1) if level < Profession.MAX_LEVEL else job_xp(job_id),
+		})
+	return listed
+
+
 ## Investit des points ; renvoie la raison du refus, ou "".
 func spend_points(stat_name: String, points: int) -> String:
 	if stat_name not in STATS or points <= 0:
@@ -122,6 +169,7 @@ func sheet(data: GameData) -> Dictionary:
 		"pa": int(voie.get("caracteristiques", {}).get("pa", 0)) + extra("pa"),
 		"pm": int(voie.get("caracteristiques", {}).get("pm", 0)) + extra("pm"),
 		"ecus": inventory.ecus,
+		"metiers": jobs_sheet(data),
 	}
 
 
@@ -173,6 +221,7 @@ func to_dict() -> Dictionary:
 		"caracteristiques": invested.duplicate(),
 		"points": unspent_points,
 		"inventaire": inventory.to_dict(),
+		"metiers": jobs.duplicate(),
 	}
 
 
@@ -194,6 +243,11 @@ static func from_dict(data: Dictionary, known_items: Dictionary = {}) -> Charact
 		for stat_name: Variant in stats:
 			if stat_name in STATS and typeof(stats[stat_name]) in [TYPE_INT, TYPE_FLOAT]:
 				character.invested[stat_name] = maxi(0, int(stats[stat_name]))
+	var saved_jobs: Variant = data.get("metiers", {})
+	if typeof(saved_jobs) == TYPE_DICTIONARY:
+		for job_id: Variant in saved_jobs:
+			if typeof(saved_jobs[job_id]) in [TYPE_INT, TYPE_FLOAT]:
+				character.jobs[str(job_id)] = maxi(0, int(saved_jobs[job_id]))
 	if typeof(data.get("inventaire")) == TYPE_DICTIONARY:
 		character.inventory = Inventory.from_dict(data["inventaire"], known_items)
 	return character
