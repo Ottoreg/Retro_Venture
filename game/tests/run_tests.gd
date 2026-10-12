@@ -10,7 +10,19 @@ extends SceneTree
 const TEST_ROOT := "res://tests"
 
 
-func _initialize() -> void:
+var _started := false
+
+
+## Les tests tournent à la première image : l'arbre de scène est alors prêt, et les scènes
+## ajoutées par les tests reçoivent bien leur `_ready()`.
+func _process(_delta: float) -> bool:
+	if not _started:
+		_started = true
+		_run_all()
+	return false
+
+
+func _run_all() -> void:
 	var passed := 0
 	var failed := 0
 	for path in _find_test_files(TEST_ROOT):
