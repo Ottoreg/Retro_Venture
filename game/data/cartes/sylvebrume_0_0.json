@@ -1,0 +1,74 @@
+{
+  "id": "sylvebrume_0_0",
+  "nom": "Sylvebrume — Clairière de la Lisière",
+  "palette": "sylvebrume",
+  "plan": [
+    "AAAAAAAAAAAAAAAAAAA",
+    " AAAAAAAAAAAAAAAAAA",
+    "AAA......A.A...AAAA",
+    " AAA...........EAAA",
+    "AAA............AAAA",
+    " A.............EAAA",
+    "AA.......F.R..EAAAA",
+    " AA...........EEAAA",
+    "AA....#...2..EEEAAA",
+    " AA...##....F.EEAAA",
+    "AAA..###..C....AAAA",
+    " AA...##.......EAAA",
+    "AA....#........EAAA",
+    " AAF....:.......AAA",
+    "AAA.....:......:.AA",
+    " AA......:....:::AA",
+    "AA..R....:.a::..AAA",
+    " AA......:::::..EAA",
+    "AA......*:::....EAA",
+    " AAA....::::....EAA",
+    "AA......::@.....EAA",
+    " AA.....:::......AA",
+    "AA.....:.......REAA",
+    " AA....:.....F...AA",
+    "AA....:..1.......AA",
+    " AA.C..:.........AA",
+    "AAA...:..........AA",
+    " AA.......C......AA",
+    "AA....:..........AA",
+    " AA...:..........AA",
+    "AA..A..A....A....AA",
+    " AAAAAA.AAAAAAAAAAA",
+    "AAAAAAAAAAAAAAAAAAA"
+  ],
+  "decors": [
+    {
+      "image": "pavillon",
+      "case": [
+        12,
+        6
+      ]
+    }
+  ],
+  "groupes": [
+    {
+      "monstres": [
+        "loup_des_collines"
+      ]
+    },
+    {
+      "monstres": [
+        "loup_des_collines",
+        "loup_des_collines"
+      ]
+    }
+  ],
+  "pnj": [
+    {
+      "marqueur": "a",
+      "id": "gardienne_elwyn",
+      "nom": "Elwyn, gardienne de la Lisière",
+      "repliques": [
+        "Bienvenue sous les branches de Sylvebrume, jeune pousse. Ne marche pas sur les fougères, elles sont plus vieilles que toi.",
+        "Les humains veulent nos arbres, les gobelins veulent nos pierres, et le Cendré veut tout. Nous, nous voulons qu'on nous laisse tranquilles.",
+        "Cette pierre gravée relie la Lisière aux autres terres. Les anciens la trouvaient vulgaire. Moi, je la trouve pratique."
+      ]
+    }
+  ]
+}

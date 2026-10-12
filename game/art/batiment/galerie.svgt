@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="204" height="182" viewBox="0 0 204 182">
+<polygon points="0,132 100,182 204,128 114,82" fill="#000000" opacity="0.2"/>
+<path d="M2 130 L14 96 L40 70 L62 44 L92 34 L124 40 L150 58 L176 74 L198 104 L200 128 L100 178 Z" fill="#7b746a" stroke="#3a2618" stroke-width="1.1" stroke-linejoin="round"/>
+<path d="M100 178 L200 128 L198 104 L176 74 L150 58 L132 86 L120 120 Z" fill="#000000" opacity="0.2"/>
+<path d="M40 70 L62 44 L92 34 L84 60 L58 80 Z" fill="#ffffff" opacity="0.15"/>
+<path d="M14 96 L46 100 M58 80 L90 92 M132 86 L170 96 M84 60 L120 70" stroke="#000000" stroke-opacity="0.2" stroke-width="1.2" fill="none"/>
+<path d="M18 98 Q30 88 44 92" stroke="#6f7a3a" stroke-width="3" fill="none" opacity="0.8"/>
+<path d="M120 172 L120 132 Q140 104 162 118 L162 152 Z" fill="#1a120c" stroke="#3a2618" stroke-width="1.1" stroke-linejoin="round"/>
+<path d="M126 168 L126 136 Q140 116 156 126 L156 155 Z" fill="#000000" opacity="0.55"/>
+<path d="M118 174 L118 128" stroke="#6b4426" stroke-width="5"/>
+<path d="M164 152 L164 112" stroke="#5a3a1e" stroke-width="5"/>
+<path d="M114 128 Q140 98 168 112" stroke="#6b4426" stroke-width="6" fill="none"/>
+<path d="M118 174 L118 128 M164 152 L164 112" stroke="#3a2618" stroke-width="1" fill="none"/>
+<rect x="104" y="124" width="7" height="9" rx="1.5" fill="#f2b84a" stroke="#3a2618" stroke-width="1"/>
+<circle cx="107.5" cy="128.5" r="7" fill="#ffd36a" opacity="0.3"/>
+<path d="M60 150 l6 -8 l6 8 Z M74 158 l4 -6 l4 6 Z" fill="#8a857c" stroke="#3a2618" stroke-width="1.1" stroke-linejoin="round"/>
+</svg>

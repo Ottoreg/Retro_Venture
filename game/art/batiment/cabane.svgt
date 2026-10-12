@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="204" height="182" viewBox="0 0 204 182">
+<polygon points="0.0,132.0 100.0,184.0 206.0,130.0 114.0,80.0" fill="#000000" opacity="0.18"/>
+<polygon points="4.0,128.0 100.0,176.0 100.0,124.0 4.0,76.0" fill="#6a5440" stroke="#3a2618" stroke-width="1.1" stroke-linejoin="round"/>
+<polygon points="100.0,176.0 196.0,128.0 196.0,76.0 100.0,124.0" fill="#54422f" stroke="#3a2618" stroke-width="1.1" stroke-linejoin="round"/>
+<polygon points="100.0,124.0 196.0,76.0 148.0,54.0" fill="#54422f" stroke="#3a2618" stroke-width="1.1" stroke-linejoin="round"/>
+<polygon points="4.0,128.0 100.0,176.0 100.0,168.0 4.0,120.0" fill="#9a958c" stroke="#3a2618" stroke-width="1.1" stroke-linejoin="round"/>
+<polygon points="100.0,176.0 196.0,128.0 196.0,120.0 100.0,168.0" fill="#7e7a74" stroke="#3a2618" stroke-width="1.1" stroke-linejoin="round"/>
+<path d="M12.0 124.0 l0 -44" stroke="#000000" stroke-opacity="0.25" stroke-width="1"/>
+<path d="M108.0 164.0 l0 -44" stroke="#000000" stroke-opacity="0.25" stroke-width="1"/>
+<path d="M20.0 128.0 l0 -44" stroke="#000000" stroke-opacity="0.25" stroke-width="1"/>
+<path d="M116.0 160.0 l0 -44" stroke="#000000" stroke-opacity="0.25" stroke-width="1"/>
+<path d="M28.0 132.0 l0 -44" stroke="#000000" stroke-opacity="0.25" stroke-width="1"/>
+<path d="M124.0 156.0 l0 -44" stroke="#000000" stroke-opacity="0.25" stroke-width="1"/>
+<path d="M36.0 136.0 l0 -44" stroke="#000000" stroke-opacity="0.25" stroke-width="1"/>
+<path d="M132.0 152.0 l0 -44" stroke="#000000" stroke-opacity="0.25" stroke-width="1"/>
+<path d="M44.0 140.0 l0 -44" stroke="#000000" stroke-opacity="0.25" stroke-width="1"/>
+<path d="M140.0 148.0 l0 -44" stroke="#000000" stroke-opacity="0.25" stroke-width="1"/>
+<path d="M52.0 144.0 l0 -44" stroke="#000000" stroke-opacity="0.25" stroke-width="1"/>
+<path d="M148.0 144.0 l0 -44" stroke="#000000" stroke-opacity="0.25" stroke-width="1"/>
+<path d="M60.0 148.0 l0 -44" stroke="#000000" stroke-opacity="0.25" stroke-width="1"/>
+<path d="M156.0 140.0 l0 -44" stroke="#000000" stroke-opacity="0.25" stroke-width="1"/>
+<path d="M68.0 152.0 l0 -44" stroke="#000000" stroke-opacity="0.25" stroke-width="1"/>
+<path d="M164.0 136.0 l0 -44" stroke="#000000" stroke-opacity="0.25" stroke-width="1"/>
+<path d="M76.0 156.0 l0 -44" stroke="#000000" stroke-opacity="0.25" stroke-width="1"/>
+<path d="M172.0 132.0 l0 -44" stroke="#000000" stroke-opacity="0.25" stroke-width="1"/>
+<path d="M84.0 160.0 l0 -44" stroke="#000000" stroke-opacity="0.25" stroke-width="1"/>
+<path d="M180.0 128.0 l0 -44" stroke="#000000" stroke-opacity="0.25" stroke-width="1"/>
+<path d="M92.0 164.0 l0 -44" stroke="#000000" stroke-opacity="0.25" stroke-width="1"/>
+<path d="M188.0 124.0 l0 -44" stroke="#000000" stroke-opacity="0.25" stroke-width="1"/>
+<path d="M20 120 L60 126" stroke="#3e2e20" stroke-width="4"/>
+<path d="M150 120 L178 102" stroke="#3e2e20" stroke-width="4"/>
+<polygon points="137.0,157.5 159.0,146.5 159.0,114.5 137.0,125.5" fill="#3e2e20" stroke="#3a2618" stroke-width="1.1" stroke-linejoin="round"/>
+<polygon points="139.0,156.5 157.0,147.5 157.0,117.5 139.0,126.5" fill="#4a3626" stroke="#3a2618" stroke-width="1.1" stroke-linejoin="round"/>
+<path d="M145.0 153.5 L145.0 124.0 M151.0 150.5 L151.0 121.0" stroke="#000000" stroke-opacity="0.25" stroke-width="1"/>
+<polygon points="44.0,111.0 60.0,119.0 60.0,133.0 44.0,125.0" fill="#e8c86a" stroke="#3e2e20" stroke-width="2.4" stroke-linejoin="round"/>
+<path d="M52.0 115.0 L52.0 129.0 M44.0 118.0 L60.0 126.0" stroke="#3e2e20" stroke-width="1.4"/>
+<polygon points="44.0,2.0 156.0,58.0 207.0,78.0 95.0,22.0" fill="#5e5038" stroke="#3a2618" stroke-width="1.1" stroke-linejoin="round"/>
+<polygon points="44.0,2.0 156.0,58.0 105.0,134.0 -7.0,78.0" fill="#7a6a4a" stroke="#3a2618" stroke-width="1.1" stroke-linejoin="round"/>
+<path d="M33.8 17.2 L145.8 73.2" stroke="#000000" stroke-opacity="0.3" stroke-width="1.4"/>
+<path d="M54.2 6.0 L166.2 62.0" stroke="#000000" stroke-opacity="0.3" stroke-width="1.4"/>
+<path d="M23.6 32.4 L135.6 88.4" stroke="#000000" stroke-opacity="0.3" stroke-width="1.4"/>
+<path d="M64.4 10.0 L176.4 66.0" stroke="#000000" stroke-opacity="0.3" stroke-width="1.4"/>
+<path d="M13.4 47.6 L125.4 103.6" stroke="#000000" stroke-opacity="0.3" stroke-width="1.4"/>
+<path d="M74.6 14.0 L186.6 70.0" stroke="#000000" stroke-opacity="0.3" stroke-width="1.4"/>
+<path d="M3.2 62.8 L115.2 118.8" stroke="#000000" stroke-opacity="0.3" stroke-width="1.4"/>
+<path d="M84.8 18.0 L196.8 74.0" stroke="#000000" stroke-opacity="0.3" stroke-width="1.4"/>
+<path d="M44.0 2.0 L156.0 58.0" stroke="#3a2618" stroke-width="3" stroke-linecap="round"/>
+<polygon points="82.0,24.0 92.0,29.0 92.0,7.0 82.0,2.0" fill="#9a958c" stroke="#3a2618" stroke-width="1.1" stroke-linejoin="round"/>
+<polygon points="92.0,29.0 98.0,26.0 98.0,4.0 92.0,7.0" fill="#7e7a74" stroke="#3a2618" stroke-width="1.1" stroke-linejoin="round"/>
+<polygon points="82.0,2.0 92.0,7.0 98.0,4.0 88.0,-1.0" fill="#4a4540" stroke="#3a2618" stroke-width="1.1" stroke-linejoin="round"/>
+<polygon points="50,52 70,62 64,72 44,62" fill="#7a5a3a" stroke="#3a2618" stroke-width="1"/>
+<polygon points="96,66 112,74 106,82 90,74" fill="#5a6a4a" stroke="#3a2618" stroke-width="1"/>
+<path d="M58 55 L60 69 M100 70 L104 78" stroke="#3a2618" stroke-width="0.8" stroke-dasharray="2 2"/>
+<path d="M126 118 L126 128" stroke="#3a2618" stroke-width="1.2"/>
+<rect x="122" y="128" width="8" height="10" rx="1.5" fill="#f2b84a" stroke="#3a2618" stroke-width="1"/>
+<circle cx="126" cy="133" r="6" fill="#ffd36a" opacity="0.35"/>
+</svg>

@@ -13,6 +13,8 @@ const MANIFEST := "res://art/art.json"
 const SCALE := 2.0
 
 static var _manifest: Dictionary = {}
+## Palette de la zone affichée (voir « palettes » dans art.json), "" pour les couleurs de base.
+static var palette := ""
 static var _templates: Dictionary = {}
 static var _textures: Dictionary = {}
 
@@ -39,7 +41,7 @@ static func anchor(image_name: String) -> Vector2:
 ## Texture de l'image avec ces couleurs (les couleurs absentes prennent celles par défaut du
 ## manifeste). `null` si l'image n'existe pas.
 static func texture(image_name: String, colors: Dictionary = {}) -> Texture2D:
-	var key := image_name + str(colors)
+	var key := image_name + palette + str(colors)
 	if _textures.has(key):
 		return _textures[key]
 	var svg := _svg(image_name, colors)
@@ -66,23 +68,40 @@ static func _svg(image_name: String, colors: Dictionary) -> String:
 	if not _templates.has(path):
 		_templates[path] = FileAccess.get_file_as_string(path) if FileAccess.file_exists(path) else ""
 	var svg: String = _templates[path]
-	# Couleurs : celles demandées, sinon celles de l'image, sinon celles par défaut du manifeste.
-	var palette: Dictionary = manifest().get("couleurs", {}).duplicate()
-	palette.merge(spec.get("couleurs", {}), true)
-	palette.merge(colors, true)
-	for color_name: String in palette:
-		svg = svg.replace("{{%s}}" % color_name, "#" + str(palette[color_name]))
+	# Couleurs, de la moins à la plus prioritaire : celles par défaut, celles de la zone, celles de
+	# l'image, celles de l'image dans cette zone, puis celles demandées.
+	var zone: Dictionary = manifest().get("palettes", {}).get(palette, {})
+	var chosen: Dictionary = manifest().get("couleurs", {}).duplicate()
+	chosen.merge(zone.get("couleurs", {}), true)
+	chosen.merge(spec.get("couleurs", {}), true)
+	chosen.merge(zone.get("images", {}).get(image_name, {}), true)
+	chosen.merge(colors, true)
+	for color_name: String in chosen:
+		svg = svg.replace("{{%s}}" % color_name, "#" + str(chosen[color_name]))
 	return svg
 
 
-## Dessine l'image sur `canvas`, son ancre en `position`, retournée si `flip`.
+## Image à utiliser à la place de `image_name` dans la zone en cours (« remplacer » de la palette :
+## des champignons au lieu des fleurs chez les gobelins…).
+static func substitute(image_name: String) -> String:
+	return manifest().get("palettes", {}).get(palette, {}).get("remplacer", {}).get(image_name, image_name)
+
+
+## Couleur de la palette en cours (« herbe »…).
+static func color(color_name: String) -> Color:
+	var zone: Dictionary = manifest().get("palettes", {}).get(palette, {})
+	return Color("#" + str(zone.get("couleurs", {}).get(color_name, manifest()["couleurs"].get(color_name, "ff00ff"))))
+
+
+## Dessine l'image sur `canvas`, son ancre en `position`, retournée si `flip`, à la taille
+## `size_factor`.
 static func draw(canvas: CanvasItem, image_name: String, position: Vector2, colors: Dictionary = {},
-		flip := false, modulate := Color.WHITE) -> void:
+		flip := false, modulate := Color.WHITE, size_factor := 1.0) -> void:
 	var tex := texture(image_name, colors)
 	if tex == null:
 		return
-	var size := tex.get_size() / SCALE
-	var origin := anchor(image_name)
+	var size := tex.get_size() / SCALE * size_factor
+	var origin := anchor(image_name) * size_factor
 	if flip:
 		canvas.draw_texture_rect(tex, Rect2(position + Vector2(origin.x, -origin.y), Vector2(-size.x, size.y)), false, modulate)
 	else:

@@ -161,13 +161,16 @@ Objectif : **10 à 15 h de jeu solo, niveaux 1 à 30 : 3 zones de départ (une p
 - [ ] Réputation simple par camp (si les quêtes de l'acte I le demandent)
 
 ### Monde
-- [ ] **(MVP)** Zone de départ humaine : Collines de Brumerive (environ 8 à 10 cartes)
-- [ ] **(MVP)** Zone de départ gobeline : Galeries de Crasse-Roc (environ 8 à 10 cartes)
-- [ ] **(MVP)** Zone de départ elfe : Lisière de Sylvebrume (environ 8 à 10 cartes)
+- [ ] **(MVP)** Zone de départ humaine : Collines de Brumerive (environ 8 à 10 cartes) — 2 cartes + la maison
+- [ ] **(MVP)** Zone de départ gobeline : Galeries de Crasse-Roc (environ 8 à 10 cartes) — 1re carte (entrée des galeries)
+- [ ] **(MVP)** Zone de départ elfe : Lisière de Sylvebrume (environ 8 à 10 cartes) — 1re carte (clairière de la Lisière)
+- [x] Chaque race démarre dans sa zone (humains à Brumerive, gobelins à Crasse-Roc, elfes à Sylvebrume)
 - [ ] **(MVP)** Zone commune : Hautepierre et environs (ville + environ 15 cartes)
 - [ ] Villes hostiles aux autres camps avant l'acte III (gardes PNJ agressifs)
 - [x] **(MVP)** Sauvegarde / chargement automatique (personnage, carte, position, groupes vaincus) dans `user://`
-- [ ] Points de voyage (Pierres de Passage)
+- [x] Pierres de Passage : une sur la 1re carte de chaque zone, voyage gratuit de l'une à l'autre
+  (les zones ne sont pas reliées autrement pour l'instant)
+- [ ] Pierres de Passage à découvrir, voyage payant, pierres dans d'autres zones
 - [ ] Carte du monde et minicarte
 - [ ] Point de résurrection
 - [x] Portes entre cartes (`+` dans le plan) et cartes en intérieur (sol en parquet)
@@ -186,9 +189,14 @@ Objectif : **10 à 15 h de jeu solo, niveaux 1 à 30 : 3 zones de départ (une p
 - [x] Test de direction artistique sur la place de Brumerive : sol sans quadrillage, chemins, eau,
   arbres, rochers, minerais, maison et auberge, personnages articulés (humain, gobelin), loup, PNJ
 - [x] Outils : capture d'écran du jeu (`tools/screenshot.gd`) et planche des images (`tools/art_sheet.gd`)
+- [x] Style étendu à tout le jeu : champs, intérieur de la maison (murs, plancher, coffre, lit),
+  menu illustré, aperçu du personnage à la création, thème de l'interface (bois et or)
+- [x] Palettes de zone (Crasse-Roc plus sombre et terne, Sylvebrume plus fraîche) ; cabane gobeline,
+  entrée des galeries, pavillon elfe, Pierre de Passage, fougères et champignons
+- [x] Personnages réduits à 80 % (taille validée)
 - [ ] **(MVP)** Tileset Brumerive et Hautepierre (reste : intérieurs, clôtures, ponts, murets, Hautepierre)
 - [ ] **(MVP)** Sprites des 3 races × 2 sexes (repos, marche, attaque, sort, dégât, mort, récolte)
-  (fait : humain et gobelin, repos / marche / attaque ; reste : oreilles d'elfe, femmes, dégât, mort, récolte)
+  (fait : humain, elfe, gobelin, repos / marche / attaque ; reste : femmes, dégât, mort, récolte)
 - [ ] **(MVP)** Sprites des monstres de l'alpha (faits : loup, frondeur gobelin)
 - [ ] **(MVP)** Effets visuels des sorts
 - [ ] **(MVP)** Icônes d'objets, de ressources et de sorts

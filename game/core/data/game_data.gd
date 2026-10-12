@@ -21,6 +21,8 @@ var jobs: Dictionary = {}
 var nodes: Dictionary = {}
 ## id de l'objet fabriqué → recette { objet, niveau, ingredients, xp, metier: id du métier }.
 var recipes: Dictionary = {}
+## Pierres de Passage : id → { id, nom, carte } (on voyage de l'une à l'autre).
+var passages: Dictionary = {}
 
 const STARTING_ECUS := 20
 
@@ -33,11 +35,12 @@ const PASSIVE_EFFECTS := ["portee", "xp_metier"]
 static func load_all(root := DATA_ROOT) -> GameData:
 	return from_dicts(_read_folder(root.path_join("sorts")), _read_folder(root.path_join("monstres")),
 		_read_folder(root.path_join("voies")), _read_folder(root.path_join("races")), _read_folder(root.path_join("objets")),
-		_read_folder(root.path_join("metiers")))
+		_read_folder(root.path_join("metiers")), _read_folder(root.path_join("passages")))
 
 
 ## Construit le contenu à partir de données déjà lues (utile pour les tests).
-static func from_dicts(spell_list: Array, monster_list: Array, voie_list: Array, race_list: Array = [], item_list: Array = [], job_list: Array = []) -> GameData:
+static func from_dicts(spell_list: Array, monster_list: Array, voie_list: Array, race_list: Array = [], item_list: Array = [],
+		job_list: Array = [], passage_list: Array = []) -> GameData:
 	var data := GameData.new()
 	for raw: Variant in item_list:
 		var errors := Item.validate(raw) if typeof(raw) == TYPE_DICTIONARY else PackedStringArray(["objet attendu"])
@@ -65,7 +68,19 @@ static func from_dicts(spell_list: Array, monster_list: Array, voie_list: Array,
 			errors = data._validate_job_links(raw)
 		if _report("métier", raw, errors):
 			data._add_job(raw)
+	for raw: Variant in passage_list:
+		var errors := validate_passage(raw) if typeof(raw) == TYPE_DICTIONARY else PackedStringArray(["objet attendu"])
+		if _report("pierre de passage", raw, errors):
+			data.passages[raw["id"]] = raw
 	return data
+
+
+static func validate_passage(data: Dictionary) -> PackedStringArray:
+	var errors: PackedStringArray = []
+	for key in ["id", "nom", "carte"]:
+		if typeof(data.get(key)) != TYPE_STRING or str(data.get(key)).is_empty():
+			errors.append("« %s » doit être un texte non vide" % key)
+	return errors
 
 
 ## Erreurs qui dépendent des autres métiers : marqueurs de ressources et objets fabriqués uniques.

@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3]
+[gd_scene load_steps=11 format=3]
 
 [ext_resource type="Script" path="res://client/world/world_scene.gd" id="1_scene"]
 [ext_resource type="Script" path="res://client/world/map_view.gd" id="2_map"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" path="res://client/ui/craft_window.gd" id="7_craft"]
 [ext_resource type="Script" path="res://client/ui/chest_window.gd" id="8_chest"]
 [ext_resource type="Script" path="res://client/ui/jobs_window.gd" id="9_jobs"]
+[ext_resource type="Script" path="res://client/ui/travel_window.gd" id="10_travel"]
 
 [node name="WorldScene" type="Node2D"]
 script = ExtResource("1_scene")
@@ -110,3 +111,7 @@ script = ExtResource("8_chest")
 [node name="JobsWindow" type="CanvasLayer" parent="."]
 layer = 2
 script = ExtResource("9_jobs")
+
+[node name="TravelWindow" type="CanvasLayer" parent="."]
+layer = 3
+script = ExtResource("10_travel")

@@ -21,14 +21,17 @@ PNJ ou essences d'arbres.
   d'attache sur la pièce parente.
 - `tenues` (par Voie), `races`, `pnj`, `monstres` : apparence de chacun (assemblage ou image,
   couleurs, arme, accessoires).
+- `palettes` : couleurs par zone (`couleurs`), couleurs propres à une image dans cette zone
+  (`images`), et images remplacées (`remplacer` : des champignons au lieu des fleurs à Crasse-Roc,
+  des fougères au lieu des touffes à Sylvebrume). La carte choisit sa palette (`"palette"`).
 - `ressources` (caractère du plan → image), `epuisees` (image après récolte), `decor` (variantes des
   arbres et rochers de décor).
 
 ## Conventions de dessin
 
 - 1 unité SVG = 1 pixel à l'écran (le jeu rend les SVG en 2× puis les réduit).
-- Case : losange de 64 × 32. Personnage : environ 82 px de haut, tête d'environ 15 px
-  (proportions normales, pas de style « chibi »).
+- Case : losange de 64 × 32. Personnage : dessiné sur environ 82 px, affiché à 80 % (`echelle`),
+  soit environ 66 px ; tête d'environ 1/5,5 de la hauteur (proportions normales, pas de « chibi »).
 - Contours `#3a2618`, d'environ 1 px ; lumière venant d'en haut à gauche (côté droit plus sombre).
 
 ## Outils
@@ -38,5 +41,5 @@ PNJ ou essences d'arbres.
 godot --headless --path game -s res://tools/art_sheet.gd -- planche.png 1.5
 # Capture d'écran du jeu (avec un serveur X virtuel) ; carte et combat facultatifs :
 xvfb-run -s "-screen 0 1280x720x24" godot --path game --rendering-driver opengl3 \
-  -s res://tools/screenshot.gd -- capture.png [carte] [images] [combat]
+  -s res://tools/screenshot.gd -- capture.png [carte ou scène] [images] [combat|inventaire|metiers|pierre]
 ```

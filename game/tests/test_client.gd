@@ -364,3 +364,46 @@ func test_reapparition_des_monstres_et_fenetre_des_metiers() -> void:
 	assert_eq(jobs._list.item_count, world.data.jobs["bucheron"]["ressources"].size(), "toutes les ressources")
 	jobs.toggle()
 	scene.free()
+
+
+func test_pierre_de_passage() -> void:
+	var tree := Engine.get_main_loop() as SceneTree
+	var scene: Node = load("res://client/world/world.tscn").instantiate()
+	tree.root.add_child(scene)
+	var view: MapView = scene.get_node("MapView")
+	var travel: TravelWindow = scene.get_node("TravelWindow")
+	var stone := view.current_map().travel_stone()
+	assert_ne(stone, Vector2i(-1, -1), "une Pierre de Passage à Brumerive")
+	assert_true(view._describe(stone).begins_with("Pierre de Passage"), view._describe(stone))
+
+	view._on_click(stone)
+	_run_until_idle(view)
+	assert_true(travel.is_open(), "la liste des destinations s'ouvre")
+	var buttons := travel.destination_buttons()
+	assert_eq(buttons.size(), view.world.data.passages.size())
+	var target: Button = null
+	for button in buttons:
+		assert_true(button.disabled == button.text.contains("vous êtes ici"), button.text)
+		if button.text.begins_with("Crasse-Roc"):
+			target = button
+	assert_true(target != null, "Crasse-Roc parmi les destinations")
+	target.pressed.emit()
+	_run_until_idle(view)
+	assert_false(travel.is_open())
+	assert_eq(view.world.map.id, "crasse_roc_0_0", "téléporté à Crasse-Roc")
+	assert_eq(view.current_map().id, "crasse_roc_0_0")
+	assert_eq(Art.palette, "crasse_roc", "couleurs de la zone gobeline")
+	scene.free()
+
+
+func test_chaque_race_part_de_sa_zone() -> void:
+	var tree := Engine.get_main_loop() as SceneTree
+	for pair in [["gobelin", "crasse_roc_0_0"], ["elfe", "sylvebrume_0_0"], ["humain", "brumerive_0_0"]]:
+		Session.continue_game = false
+		Session.new_character = Character.create("Essai", pair[0], "guerrier")
+		var scene: Node = load("res://client/world/world.tscn").instantiate()
+		tree.root.add_child(scene)
+		var view: MapView = scene.get_node("MapView")
+		assert_eq(view.world.map.id, pair[1], "départ des %ss" % pair[0])
+		scene.free()
+	Session.new_character = null

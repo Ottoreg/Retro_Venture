@@ -22,7 +22,7 @@ func test_personnages_et_accessoires() -> void:
 	for weapon: String in manifest["armes"]:
 		assert_true(Art.has_image(weapon), "arme « %s »" % weapon)
 	for accessory: String in manifest["accessoires"]:
-		assert_true(Art.has_image(accessory), "accessoire « %s »" % accessory)
+		assert_true(Art.has_image(manifest["accessoires"][accessory].get("image", accessory)), "accessoire « %s »" % accessory)
 	for group: String in ["tenues", "pnj", "monstres"]:
 		for entry_name: String in manifest[group]:
 			var spec: Dictionary = manifest[group][entry_name]

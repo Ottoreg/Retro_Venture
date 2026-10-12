@@ -145,6 +145,8 @@ func execute(command: Dictionary) -> Array[Dictionary]:
 			return _transfer(command, character.inventory, character.chest)
 		if type == Protocol.CMD_WITHDRAW:
 			return _transfer(command, character.chest, character.inventory)
+		if type == Protocol.CMD_TRAVEL:
+			return _travel(command)
 	return _refused(command, Protocol.REASON_UNKNOWN_COMMAND)
 
 
@@ -890,6 +892,9 @@ func _use(command: Dictionary) -> Array[Dictionary]:
 	if not reason.is_empty():
 		return _refused(command, reason)
 	var cell: Vector2i = command["case"]
+	if map.obstacles[cell] == GameMap.TRAVEL_STONE:
+		var menu: Array[Dictionary] = [_travel_menu(cell)]
+		return menu
 	if map.obstacles[cell] == "coffre":
 		var opened: Array[Dictionary] = [_chest_event(cell)]
 		return opened
@@ -930,6 +935,50 @@ func _transfer(command: Dictionary, source: Inventory, destination: Inventory) -
 	destination.add(template, quantity, rolled)
 	var events: Array[Dictionary] = [_chest_event(command["case"])]
 	events.append_array(_inventory_events())
+	return events
+
+
+# --- Pierres de Passage --------------------------------------------------------------------------
+
+## Pierre de Passage de la carte actuelle (id), ou "".
+func _here_passage() -> String:
+	if data == null:
+		return ""
+	for passage_id: String in data.passages:
+		if data.passages[passage_id]["carte"] == map.id:
+			return passage_id
+	return ""
+
+
+func _travel_menu(cell: Vector2i) -> Dictionary:
+	var destinations: Array = []
+	for passage_id: String in data.passages:
+		destinations.append(data.passages[passage_id].duplicate())
+	return {"type": Protocol.EVT_TRAVEL_MENU, "case": cell, "ici": _here_passage(), "destinations": destinations}
+
+
+## Voyage d'une Pierre de Passage à une autre : on arrive à côté de la pierre de destination.
+func _travel(command: Dictionary) -> Array[Dictionary]:
+	var destination: Variant = command.get("destination")
+	if typeof(destination) != TYPE_STRING:
+		return _refused(command, Protocol.REASON_INVALID_COMMAND)
+	var reason := _furniture_refusal(command, GameMap.TRAVEL_STONE)
+	if not reason.is_empty():
+		return _refused(command, reason)
+	if data == null or not data.passages.has(destination):
+		return _refused(command, Protocol.REASON_UNKNOWN_ENTITY)
+	if destination == _here_passage():
+		return _refused(command, Protocol.REASON_ALREADY_THERE)
+	var next_map := _load_map(data.passages[destination]["carte"])
+	if next_map == null or next_map.travel_stone() == Vector2i(-1, -1):
+		return _refused(command, Protocol.REASON_UNKNOWN_MAP)
+	_set_map(next_map, next_map.beside(next_map.travel_stone()))
+	var events: Array[Dictionary] = [{
+		"type": Protocol.EVT_MAP_CHANGED,
+		"carte": map.id,
+		"nom": map.display_name,
+		"position": _positions[PLAYER_ID],
+	}]
 	return events
 
 

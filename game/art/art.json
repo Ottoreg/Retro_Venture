@@ -25,7 +25,8 @@
     "barbe": "6b4a30",
     "pelage": "8d8f93",
     "pelage_ombre": "6c6e72",
-    "ventre": "c9c6bd"
+    "ventre": "c9c6bd",
+    "bois": "a7774a"
   },
   "images": {
     "tache_claire": {
@@ -322,11 +323,121 @@
         3,
         3
       ]
+    },
+    "parquet": {
+      "fichier": "sol/parquet.svgt",
+      "ancre": [
+        32,
+        16
+      ]
+    },
+    "paillasson": {
+      "fichier": "sol/paillasson.svgt",
+      "ancre": [
+        32,
+        16
+      ]
+    },
+    "fougeres": {
+      "fichier": "sol/fougeres.svgt",
+      "ancre": [
+        20,
+        18
+      ]
+    },
+    "champignons": {
+      "fichier": "sol/champignons.svgt",
+      "ancre": [
+        20,
+        14
+      ]
+    },
+    "muret": {
+      "fichier": "decor/muret.svgt",
+      "ancre": [
+        32,
+        40
+      ]
+    },
+    "mur_maison": {
+      "fichier": "decor/mur_maison.svgt",
+      "ancre": [
+        32,
+        62
+      ]
+    },
+    "mur_maison_bas": {
+      "fichier": "decor/mur_maison_bas.svgt",
+      "ancre": [
+        32,
+        28
+      ]
+    },
+    "coffre": {
+      "fichier": "meuble/coffre.svgt",
+      "ancre": [
+        22,
+        30
+      ]
+    },
+    "lit": {
+      "fichier": "meuble/lit.svgt",
+      "ancre": [
+        32,
+        22
+      ]
+    },
+    "pierre_passage": {
+      "fichier": "decor/pierre_passage.svgt",
+      "ancre": [
+        24,
+        74
+      ]
+    },
+    "oreille_elfe": {
+      "fichier": "perso/oreille_elfe.svgt",
+      "ancre": [
+        7,
+        7
+      ]
+    },
+    "cabane": {
+      "fichier": "batiment/cabane.svgt",
+      "ancre": [
+        100,
+        160
+      ],
+      "emprise": [
+        3,
+        3
+      ]
+    },
+    "pavillon": {
+      "fichier": "batiment/pavillon.svgt",
+      "ancre": [
+        100,
+        160
+      ],
+      "emprise": [
+        3,
+        3
+      ]
+    },
+    "galerie": {
+      "fichier": "batiment/galerie.svgt",
+      "ancre": [
+        100,
+        160
+      ],
+      "emprise": [
+        3,
+        3
+      ]
     }
   },
   "personnages": {
     "humain": {
-      "echelle": 1.0,
+      "echelle": 0.8,
       "face": [
         {
           "role": "bras_libre",
@@ -434,7 +545,7 @@
     },
     "gobelin": {
       "base": "humain",
-      "echelle": 0.84,
+      "echelle": 0.68,
       "remplacer": {
         "tete": "tete_gobelin",
         "tete_dos": "tete_gobelin"
@@ -502,6 +613,22 @@
       "vues": [
         "face"
       ]
+    },
+    "oreilles_elfe": {
+      "image": "oreille_elfe",
+      "parent": "tete",
+      "attache": [
+        8.2,
+        12.8
+      ],
+      "attache_dos": [
+        16.4,
+        12.6
+      ],
+      "vues": [
+        "face",
+        "dos"
+      ]
     }
   },
   "tenues": {
@@ -544,7 +671,10 @@
       "rig": "humain",
       "couleurs": {
         "cheveux": "e0c070"
-      }
+      },
+      "accessoires": [
+        "oreilles_elfe"
+      ]
     },
     "gobelin": {
       "rig": "gobelin",
@@ -605,11 +735,42 @@
         "cheveux": "2e2418"
       },
       "arme": "fronde"
+    },
+    "contremaitre_grumm": {
+      "rig": "gobelin",
+      "couleurs": {
+        "peau": "7c9a48",
+        "tunique": "5e4a32",
+        "manches": "4a3a28",
+        "pantalon": "3e3226",
+        "cheveux": "2a2018",
+        "tablier": "6b4a2b"
+      },
+      "accessoires": [
+        "tablier"
+      ]
+    },
+    "gardienne_elwyn": {
+      "rig": "humain",
+      "couleurs": {
+        "tunique": "3f7a5a",
+        "manches": "c9b06a",
+        "pantalon": "5a6a4a",
+        "bottes": "6b5236",
+        "cheveux": "e8d8a0",
+        "peau": "f3dcc4",
+        "ceinture": "c9a04e"
+      },
+      "accessoires": [
+        "oreilles_elfe"
+      ],
+      "arme": "arc"
     }
   },
   "monstres": {
     "loup_des_collines": {
-      "image": "loup"
+      "image": "loup",
+      "echelle": 0.8
     },
     "gobelin_frondeur": {
       "rig": "gobelin",
@@ -641,6 +802,75 @@
     ],
     "rocher": [
       "rocher"
+    ],
+    "mur": [
+      "muret"
     ]
+  },
+  "palettes": {
+    "brumerive": {
+      "couleurs": {}
+    },
+    "crasse_roc": {
+      "couleurs": {
+        "herbe": "6e7247",
+        "herbe_sombre": "53572f",
+        "herbe_claire": "858a57",
+        "herbe_tige": "45492a",
+        "terre": "86704f",
+        "terre_bord": "584634",
+        "eau": "4d6b5e",
+        "pierre": "7b746a",
+        "tronc": "5a4030",
+        "feuillage": "56663a",
+        "feuillage_ombre": "3c4a29",
+        "feuillage_clair": "6b7c47"
+      },
+      "images": {
+        "arbre_2": {
+          "feuillage": "4f5e36",
+          "feuillage_ombre": "37432a",
+          "feuillage_clair": "66764a"
+        },
+        "arbre_3": {
+          "feuillage": "4a5a32",
+          "feuillage_ombre": "334026",
+          "feuillage_clair": "5f7042"
+        }
+      },
+      "remplacer": {
+        "fleurs": "champignons"
+      }
+    },
+    "sylvebrume": {
+      "couleurs": {
+        "herbe": "7fb85c",
+        "herbe_sombre": "5e9a48",
+        "herbe_claire": "a6d77d",
+        "herbe_tige": "4d8d3d",
+        "terre": "cbb27c",
+        "terre_bord": "9c8456",
+        "eau": "4aa6cc",
+        "tronc": "8c7356",
+        "feuillage": "4b9c5c",
+        "feuillage_ombre": "357846",
+        "feuillage_clair": "77c47e"
+      },
+      "images": {
+        "arbre_2": {
+          "feuillage": "62ad55",
+          "feuillage_ombre": "478c40",
+          "feuillage_clair": "8ed174"
+        },
+        "arbre_3": {
+          "feuillage": "3f8d5a",
+          "feuillage_ombre": "2c6c44",
+          "feuillage_clair": "68b07c"
+        }
+      },
+      "remplacer": {
+        "touffes": "fougeres"
+      }
+    }
   }
 }

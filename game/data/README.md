@@ -47,6 +47,7 @@ Dofus. Elle est décrite par un **plan texte** : une ligne par rangée, un carac
 | `:` | Chemin de terre (praticable) |
 | `#` | Case bloquée invisible, sous un grand décor (bâtiment) |
 | `+` | Porte vers une autre carte (voir « Portes » ci-dessous), praticable |
+| `*` | Pierre de Passage (voir `passages/`) |
 | `$` | Coffre (maison du joueur) |
 | `=` | Lit (maison du joueur) |
 | Autres majuscules | Ressource de métier, définie dans `metiers/` : `F` frêne, `C` chêne, `U` cuivre, `I` fer |
@@ -123,6 +124,8 @@ ramène d'où l'on vient (les tests vérifient que chaque porte a sa réciproque
 "portes": ["maison_joueur"]
 ```
 
+- `palette` : couleurs de la zone (`brumerive`, `crasse_roc`, `sylvebrume` ; voir
+  `game/art/art.json`). Crasse-Roc est volontairement terne et sombre.
 - `sol` : `herbe` (par défaut) ou `parquet` pour un intérieur.
 - `instance` : `""` (par défaut, carte partagée) ou `joueur` pour une carte personnelle, comme la
   maison : en multijoueur, chaque joueur aura sa propre copie (et son coffre).
@@ -264,6 +267,15 @@ Dans chaque Voie : `equipement_depart` (liste d'objets donnés et équipés à l
 
 Les tests vérifient tous ces fichiers (format, `id` égal au nom du fichier, sorts et monstres
 référencés existants).
+
+## Pierres de Passage (`passages/`)
+
+Une Pierre de Passage par fichier ; on voyage de n'importe laquelle vers les autres. La carte
+indiquée doit avoir une pierre `*` dans son plan : on arrive à côté.
+
+```json
+{"id": "crasse_roc", "nom": "Crasse-Roc", "carte": "crasse_roc_0_0"}
+```
 
 ## Métiers (`metiers/`)
 

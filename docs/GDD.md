@@ -328,6 +328,9 @@ prévoit déjà `voie` et `rang` sur chaque sort** pour que le système s'ajoute
 - **Déplacement au clic** sur une grille isométrique ; recherche de chemin (A*).
 - Sur une carte : PNJ, groupes de monstres visibles qui errent, ressources récoltables, éléments
   interactifs (portes, coffres, panneaux).
+- **Prototype :** une Pierre de Passage sur la première carte de chaque zone de départ (Brumerive,
+  Crasse-Roc, Sylvebrume) ; on voyage gratuitement de l'une à l'autre, et c'est pour l'instant le
+  seul lien entre les zones.
 - **Zaaps / points de voyage** (nom à définir : *Pierres de Passage*) à découvrir pour voyager
   rapidement contre de la monnaie.
 - **Carte du monde** et **minicarte** consultables.
@@ -582,8 +585,10 @@ ingrédients).
 - Style **dessiné, couleurs chaudes et saturées**, contours marqués, proche du vectoriel de Dofus
   Rétro ; palette par région (verts doux à Brumerive, gris et ocre à Hautepierre, noir et braise dans
   les Marches Cendrées).
+- **Couleurs par zone :** Brumerive verte et lumineuse, Crasse-Roc (gobelins) terne et sombre,
+  Sylvebrume (elfes) fraîche ; la densité d'arbres s'ajuste à chaque zone.
 - **Personnages :** proportions **normales** (pas de style « chibi » : tête d'environ 1/5,5 de la
-  hauteur, comme dans Dofus Rétro). Animés en 8 directions (4 dessinées + symétrie), animations :
+  hauteur, comme dans Dofus Rétro), environ 66 px de haut à l'écran pour des cases de 64 × 32. Animés en 8 directions (4 dessinées + symétrie), animations :
   repos, marche, course, attaque, sort, dégât, mort, récolte.
 - **Personnalisation :** couleurs du personnage par zones de teinte ; équipements visibles.
 - **Pipeline (prototype) :** images vectorielles SVG dans `game/art/`, rendues par le jeu. Les SVG

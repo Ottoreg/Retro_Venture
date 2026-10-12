@@ -4,7 +4,7 @@ extends Node2D
 
 const DEFAULT_START_MAP := "brumerive_0_0"
 const MENU_SCENE := "res://client/main/main.tscn"
-const HELP_EXPLORATION := "Clic : se déplacer · Monstre : attaquer · PNJ : parler, commercer, fabriquer · Arbre, minerai : récolter · Porte : entrer · Flèches au bord : changer de carte · C : personnage · I : inventaire · J : métiers · Échap : menu"
+const HELP_EXPLORATION := "Clic : se déplacer · Monstre : attaquer · PNJ : parler, commercer, fabriquer · Arbre, minerai : récolter · Porte : entrer · Pierre de Passage : voyager · Flèches au bord : changer de carte · C : personnage · I : inventaire · J : métiers · Échap : menu"
 const HELP_COMBAT := "Clic : se déplacer (cases vertes) · 1-5 : choisir un sort, clic : le lancer · Clic droit : annuler"
 
 @onready var _map_view: MapView = $MapView
@@ -16,6 +16,7 @@ const HELP_COMBAT := "Clic : se déplacer (cases vertes) · 1-5 : choisir un sor
 @onready var _chest: ChestWindow = $ChestWindow
 @onready var _jobs: JobsWindow = $JobsWindow
 @onready var _jobs_button: Button = %JobsButton
+@onready var _travel: TravelWindow = $TravelWindow
 @onready var _inventory_button: Button = %InventoryButton
 @onready var _info: Label = %Info
 @onready var _sheet_button: Button = %SheetButton
@@ -26,6 +27,7 @@ var _info_timer := 0.0
 
 
 func _ready() -> void:
+	UiTheme.apply(get_tree())
 	var world := _create_world()
 	if world == null:
 		_info.text = "Impossible de charger le monde (carte de départ introuvable)."
@@ -38,6 +40,7 @@ func _ready() -> void:
 	_craft.setup(_map_view)
 	_chest.setup(_map_view)
 	_jobs.setup(_map_view)
+	_travel.setup(_map_view)
 	_jobs_button.pressed.connect(_jobs.toggle)
 	_map_view.notice.connect(_combat_hud.show_message)
 	_map_view.hovered_cell_changed.connect(_on_hovered_cell_changed)
@@ -96,6 +99,9 @@ func _unhandled_input(event: InputEvent) -> void:
 			return
 		if _chest.is_open():
 			_chest.close()
+			return
+		if _travel.is_open():
+			_travel.close()
 			return
 		if _jobs.is_open():
 			_jobs.toggle()

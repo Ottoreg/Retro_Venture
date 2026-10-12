@@ -8,14 +8,19 @@ const VOIE_ORDER := ["guerrier", "rodeur", "arcaniste"]
 const CAMP_NAMES := {"allie": "Allié", "ennemi": "Ennemi", "neutre": "Neutre"}
 const GOLD := Color(0.95, 0.76, 0.3)
 
-## Aperçu du personnage, dessiné en grand avec les silhouettes du jeu.
+## Aperçu du personnage : le personnage articulé du jeu, en grand, qui respire.
 class Preview extends Control:
-	var race := "humain"
-	var voie := "guerrier"
+	var look: Dictionary = {}
+	var time := 0.0
+
+	func _process(delta: float) -> void:
+		time += delta
+		queue_redraw()
 
 	func _draw() -> void:
-		draw_set_transform(Vector2(size.x / 2.0, size.y - 24.0), 0.0, Vector2(2.6, 2.6))
-		Figures.player(self, Vector2.ZERO, Vector2.ZERO, 1.0, 0.0, race, voie)
+		if look.is_empty():
+			return
+		Rig.draw(self, look, Vector2(size.x / 2.0, size.y - 20.0), {"facing": 1.0, "temps": time, "zoom": 2.6})
 
 
 var data: GameData
@@ -33,6 +38,7 @@ var _preview: Preview
 
 
 func _ready() -> void:
+	UiTheme.apply(get_tree())
 	data = GameData.load_all()
 	_build()
 	_select_race(RACE_ORDER[0])
@@ -82,8 +88,7 @@ func _select_voie(id: String) -> void:
 func _refresh() -> void:
 	if _preview == null:
 		return
-	_preview.race = race_id
-	_preview.voie = voie_id
+	_preview.look = Rig.player_look(race_id, voie_id, data)
 	_preview.queue_redraw()
 	var fighter := data.create_character_fighter(build_character(), "apercu")
 	if fighter == null:
@@ -181,7 +186,7 @@ func _build() -> void:
 	right.add_theme_constant_override("separation", 8)
 	row.add_child(right)
 	_preview = Preview.new()
-	_preview.custom_minimum_size = Vector2(380, 190)
+	_preview.custom_minimum_size = Vector2(380, 210)
 	right.add_child(_preview)
 	_summary = _wrapped_label()
 	right.add_child(_summary)

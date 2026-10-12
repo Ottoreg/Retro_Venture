@@ -14,6 +14,20 @@ static func look(rig_name: String, colors: Dictionary = {}, weapon := "", access
 	return {"rig": rig_name, "couleurs": colors, "arme": weapon, "accessoires": accessories}
 
 
+## Apparence du personnage d'un joueur : assemblage de sa race, tenue de sa Voie, peau de sa race.
+static func player_look(race_id: String, voie_id: String, data: GameData) -> Dictionary:
+	var manifest := Art.manifest()
+	var race_spec: Dictionary = manifest.get("races", {}).get(race_id, {"rig": "humain"})
+	var outfit: Dictionary = manifest.get("tenues", {}).get(voie_id, {})
+	var colors: Dictionary = outfit.get("couleurs", {}).duplicate()
+	colors.merge(race_spec.get("couleurs", {}), true)
+	if data != null:
+		var skin: Variant = data.races.get(race_id, {}).get("apparence", {}).get("peau")
+		if typeof(skin) == TYPE_STRING:
+			colors["peau"] = skin
+	return look(race_spec.get("rig", "humain"), colors, outfit.get("arme", ""), race_spec.get("accessoires", []))
+
+
 ## Vrai si l'assemblage existe.
 static func exists(rig_name: String) -> bool:
 	return Art.manifest().get("personnages", {}).has(rig_name)
@@ -40,7 +54,7 @@ static func scale_of(rig_name: String) -> float:
 
 
 ## Dessine le personnage, pieds en `base`. `pose` : { facing (1 ou -1), dos (bool), marche (bool),
-## phase (marche), temps (respiration), attaque (0 à 1, ou négatif) }.
+## phase (marche), temps (respiration), attaque (0 à 1, ou négatif), zoom (agrandissement) }.
 static func draw(canvas: CanvasItem, appearance: Dictionary, base: Vector2, pose: Dictionary, modulate := Color.WHITE) -> void:
 	var rig_name: String = appearance["rig"]
 	var colors: Dictionary = appearance.get("couleurs", {})
@@ -49,8 +63,8 @@ static func draw(canvas: CanvasItem, appearance: Dictionary, base: Vector2, pose
 	var phase: float = pose.get("phase", 0.0)
 	var time: float = pose.get("temps", 0.0)
 	var attack: float = pose.get("attaque", -1.0)
-	var size := scale_of(rig_name)
-	Art.draw(canvas, "ombre", base, {}, false, Color(1, 1, 1, modulate.a))
+	var size := scale_of(rig_name) * float(pose.get("zoom", 1.0))
+	Art.draw(canvas, "ombre", base, {}, false, Color(1, 1, 1, modulate.a), size)
 	var root := Transform2D(0.0, Vector2(float(pose.get("facing", 1.0)) * size, size), 0.0, base)
 	var bob := -absf(sin(phase)) * 1.6 if walking else sin(time * 2.2) * 0.45
 	var swing := sin(phase) if walking else 0.0
@@ -90,9 +104,9 @@ static func draw(canvas: CanvasItem, appearance: Dictionary, base: Vector2, pose
 			var spec: Dictionary = manifest.get("accessoires", {}).get(accessory, {})
 			if spec.get("parent", "") != role or view not in spec.get("vues", ["face"]):
 				continue
-			var spot: Array = spec.get("attache", [0, 0])
+			var spot: Array = spec.get("attache_dos", spec.get("attache", [0, 0])) if back else spec.get("attache", [0, 0])
 			var worn := joint * Transform2D(0.0, Vector2(spot[0], spot[1]) - Art.anchor(part["image"]))
-			_draw_piece(canvas, accessory, colors, worn, modulate)
+			_draw_piece(canvas, spec.get("image", accessory), colors, worn, modulate)
 	canvas.draw_set_transform_matrix(Transform2D.IDENTITY)
 
 

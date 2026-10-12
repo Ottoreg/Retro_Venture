@@ -29,6 +29,8 @@ signal notice(text: String)
 signal chest_changed(event: Dictionary)
 ## Refus d'un dépôt ou d'un retrait au coffre : EVT_REFUSED.
 signal chest_refused(event: Dictionary)
+## Pierre de Passage utilisée : événement EVT_TRAVEL_MENU.
+signal travel_opened(event: Dictionary)
 signal inventory_changed
 
 enum Mode { EXPLORATION, COMBAT }
@@ -41,7 +43,6 @@ const ATTACK_TIME := 0.45
 const COLOR_GRASS := Color("7aa35a")
 const COLOR_BORDER := Color("6a8f4e")
 const COLOR_WATER := Color("4f8fb8")
-const COLOR_WOOD_FLOOR := Color("a7774a")
 const COLOR_GRID := Color(0, 0, 0, 0.12)
 const COLOR_HOVER_OK := Color(1, 1, 1, 0.35)
 const COLOR_HOVER_KO := Color(0.9, 0.2, 0.2, 0.45)
@@ -127,6 +128,7 @@ func current_map() -> GameMap:
 
 func _load_map(map: GameMap) -> void:
 	_map = map
+	Art.palette = map.palette
 	_close_dialogue()
 	var rect := _map.screen_rect()
 	var rect_polygon := PackedVector2Array([rect.position, Vector2(rect.end.x, rect.position.y), rect.end, Vector2(rect.position.x, rect.end.y)])
@@ -407,6 +409,8 @@ func _describe(cell: Vector2i) -> String:
 			return "Coffre (cliquer pour l'ouvrir)"
 		if furniture == "lit":
 			return "Lit (cliquer pour dormir : PV au maximum)"
+		if furniture == GameMap.TRAVEL_STONE:
+			return "Pierre de Passage (cliquer pour voyager)"
 		var npc := _map.npc_at(cell)
 		if not npc.is_empty():
 			var action: String = "commercer" if npc.get("marchand", false) else "fabriquer" if not str(npc.get("atelier", "")).is_empty() else "parler"
@@ -561,6 +565,9 @@ func _apply(event: Dictionary) -> float:
 	if type == Protocol.EVT_CHEST:
 		chest_changed.emit(event)
 		return 0.0
+	if type == Protocol.EVT_TRAVEL_MENU:
+		travel_opened.emit(event)
+		return 0.0
 	if type == Protocol.EVT_RESTED:
 		if int(event["gain"]) > 0:
 			_add_floating("+%d PV" % event["gain"], Color(0.45, 1, 0.45), _actors[World.PLAYER_ID]["pos"])
@@ -610,6 +617,8 @@ func _apply(event: Dictionary) -> float:
 			chest_refused.emit(event)
 		if event["commande"] == Protocol.CMD_USE:
 			notice.emit("Impossible d'utiliser ce meuble d'ici.")
+		if event["commande"] == Protocol.CMD_TRAVEL:
+			notice.emit("Le voyage est impossible.")
 		if event["commande"] == Protocol.CMD_HARVEST:
 			notice.emit(_harvest_refusal_text(event["raison"], NO_CELL))
 		if mode == Mode.COMBAT and _refusals.has(event["raison"]):
@@ -782,9 +791,6 @@ func _draw() -> void:
 	if mode == Mode.EXPLORATION:
 		for npc in map.npcs:
 			drawables.append([IsoGrid.depth(Vector2(npc["case"])) + 0.01, "pnj", npc])
-		if map.floor_kind == "parquet":
-			for cell: Vector2i in map.doors:
-				drawables.append([IsoGrid.depth(Vector2(cell)) - 0.01, "porte", cell])
 	for decor: Dictionary in map.decors:
 		# Un bâtiment passe derrière ce qui se tient devant ses faces visibles.
 		var footprint: Array = Art.manifest()["images"].get(decor["image"], {}).get("emprise", [1, 1])
@@ -795,8 +801,6 @@ func _draw() -> void:
 			_draw_actor(drawable[2])
 		elif drawable[1] == "pnj":
 			_draw_npc(drawable[2])
-		elif drawable[1] == "porte":
-			_draw_door(drawable[2])
 		elif drawable[1] == "decor":
 			Art.draw(self, drawable[2]["image"], IsoGrid.cell_to_screen(drawable[2]["case"]))
 		else:
@@ -830,9 +834,8 @@ func _draw_cells(cells: Array, color: Color) -> void:
 
 func _draw_ground(map: GameMap) -> void:
 	var indoor := map.floor_kind == "parquet"
-	if not indoor:
-		# L'herbe : un fond uni, sans quadrillage, puis des taches et des touffes posées librement.
-		draw_rect(map.screen_rect(), Color("#" + str(Art.manifest()["couleurs"]["herbe"])))
+	# Un fond uni (herbe ou plancher) : pas de liseré entre les cases.
+	draw_rect(map.screen_rect(), Art.color("bois") if indoor else Art.color("herbe"))
 	for polygon in _border_polygons:
 		draw_colored_polygon(polygon, Color("2b2118") if indoor else Color(0, 0, 0, 0.12))
 	var water: Array[Vector2i] = []
@@ -841,9 +844,7 @@ func _draw_ground(map: GameMap) -> void:
 		if map.obstacles.get(cell) == "eau":
 			water.append(cell)
 		if indoor:
-			var points := IsoGrid.diamond(center)
-			draw_colored_polygon(points, COLOR_WOOD_FLOOR.darkened(float(posmod(cell.x * 7 + cell.y * 13, 3)) * 0.04))
-			draw_line(points[3].lerp(points[0], 0.5), points[2].lerp(points[1], 0.5), Color(0, 0, 0, 0.15), 1.0)
+			Art.draw(self, "parquet", center)
 	if not indoor:
 		# Taches, touffes, fleurs et cailloux : toujours aux mêmes endroits, décalés des cases.
 		for cell: Vector2i in map.cells():
@@ -852,10 +853,13 @@ func _draw_ground(map: GameMap) -> void:
 			var spot := IsoGrid.cell_to_screen(cell) + offset
 			if pick < 5:
 				Art.draw(self, "tache_claire" if pick % 2 == 0 else "tache_sombre", spot)
-			elif pick < 9:
-				Art.draw(self, "touffes", spot)
+			elif pick < 9 and not map.ground.has(cell):
+				Art.draw(self, Art.substitute("touffes"), spot)
 			elif (pick == 11 or pick == 17) and map.is_walkable(cell) and not map.ground.has(cell):
-				Art.draw(self, "fleurs" if pick == 11 else "cailloux", spot)
+				Art.draw(self, Art.substitute("fleurs" if pick == 11 else "cailloux"), spot)
+	else:
+		for cell: Vector2i in map.doors:
+			Art.draw(self, "paillasson", IsoGrid.cell_to_screen(cell))
 	# Chemins et eau : d'abord les bords, puis l'intérieur (les bords ne restent qu'au contour).
 	for cell: Vector2i in map.ground:
 		Art.draw(self, "chemin_bord", IsoGrid.cell_to_screen(cell))
@@ -877,6 +881,14 @@ func _draw_obstacle(cell: Vector2i, kind: String) -> void:
 	var base := IsoGrid.cell_to_screen(cell)
 	if kind in GameMap.HIDDEN_OBSTACLES:
 		return
+	if kind == "mur" and _map.floor_kind == "parquet":
+		# Dans une maison, les murs du devant sont bas, pour voir l'intérieur.
+		var front := not _map.is_walkable(cell + Vector2i(1, 0)) and not _map.is_walkable(cell + Vector2i(0, 1))
+		Art.draw(self, "mur_maison_bas" if front else "mur_maison", base)
+		return
+	if Art.has_image(kind):
+		Art.draw(self, kind, base)
+		return
 	var variants: Array = Art.manifest().get("decor", {}).get(kind, [])
 	if not variants.is_empty():
 		Art.draw(self, variants[posmod(cell.x * 5 + cell.y * 3, variants.size())], base, {}, false, _fade_if_hiding(cell))
@@ -884,40 +896,7 @@ func _draw_obstacle(cell: Vector2i, kind: String) -> void:
 	if kind == GameMap.RESOURCE_OBSTACLE:
 		_draw_resource(cell, base)
 		return
-	if kind == "coffre":
-		draw_colored_polygon(_ellipse(base + Vector2(0, 3), 18, 7), COLOR_SHADOW)
-		_draw_block(base + Vector2(0, -2), 16, Color("8a5a2b"))
-		draw_rect(Rect2(base + Vector2(-3, -16), Vector2(6, 6)), Color("e0b84a"))
-		return
-	if kind == "lit":
-		_draw_block(base, 12, Color("6b4a2b"))
-		draw_colored_polygon(_scaled_diamond(base + Vector2(0, -12), 0.8), Color("b5413a"))
-		draw_colored_polygon(_ellipse(base + Vector2(-10, -17), 8, 4), Color("f2efe6"))
-		return
-	match kind:
-		"arbre":
-			draw_colored_polygon(_ellipse(base + Vector2(0, 2), 18, 8), COLOR_SHADOW)
-			draw_rect(Rect2(base + Vector2(-4, -24), Vector2(8, 24)), Color("6b4a2b"))
-			draw_circle(base + Vector2(0, -40), 22, Color("3f6b34"))
-			draw_circle(base + Vector2(-6, -46), 11, Color("4f8040"))
-		"rocher":
-			var points := PackedVector2Array()
-			for offset in [Vector2(-20, 2), Vector2(-15, -14), Vector2(2, -20), Vector2(18, -10), Vector2(21, 4), Vector2(0, 9)]:
-				points.append(base + offset)
-			draw_colored_polygon(points, Color("8c8c86"))
-			draw_colored_polygon(PackedVector2Array([base + Vector2(-15, -14), base + Vector2(2, -20), base + Vector2(4, -8)]), Color("a5a59e"))
-		"mur":
-			_draw_block(base, 40, Color("b49a74"))
-		_:
-			_draw_block(base, 20, Color.MAGENTA)  # Type inconnu : bien visible pour le corriger.
-
-
-## Porte : un battant de bois debout sur la case (on la franchit en marchant dessus).
-func _draw_door(cell: Vector2i) -> void:
-	var base := IsoGrid.cell_to_screen(cell)
-	draw_rect(Rect2(base + Vector2(-11, -38), Vector2(22, 38)), Color("5a3a1e"))
-	draw_rect(Rect2(base + Vector2(-8, -35), Vector2(16, 35)), Color("8a5a2b"))
-	draw_circle(base + Vector2(5, -17), 2, Color("e0b84a"))
+	_draw_block(base, 20, Color.MAGENTA)  # Pas de dessin pour ce type : bien visible pour le corriger.
 
 
 ## Ressource récoltable : arbre ou rocher à minerai, ou ce qu'il en reste en attendant la repousse.
@@ -970,7 +949,7 @@ func _draw_actor(actor_id: String) -> void:
 			"temps": _time + float(posmod(hash(actor_id), 100)) * 0.1, "attaque": progress})
 	elif look.has("image"):
 		var hop := -absf(sin(phase)) * 2.0 if walking else sin(_time * 2.0 + float(posmod(hash(actor_id), 100))) * 0.4
-		Art.draw(self, look["image"], base + Vector2(0, hop), {}, facing < 0.0)
+		Art.draw(self, look["image"], base + Vector2(0, hop), {}, facing < 0.0, Color.WHITE, look["echelle"])
 	else:
 		# Pas de dessin pour ce personnage : l'ancienne silhouette.
 		var swing := sin(phase) * 3.0 if walking else 0.0
@@ -983,12 +962,12 @@ func _draw_actor(actor_id: String) -> void:
 		else:
 			Figures.blob(self, base, body)
 	if mode == Mode.EXPLORATION and data["count"] > 1:
-		var label := base + Vector2(14, -34)
+		var label := base + Vector2(12, -30)
 		draw_string_outline(ThemeDB.fallback_font, label, "×%d" % data["count"], HORIZONTAL_ALIGNMENT_LEFT, -1, 14, 4, Color(0, 0, 0, 0.8))
 		draw_string(ThemeDB.fallback_font, label, "×%d" % data["count"], HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color.WHITE)
 	if mode == Mode.COMBAT:
 		var ratio := clampf(float(data["hp"]) / maxf(1.0, data["max_hp"]), 0.0, 1.0)
-		var bar := Rect2(base + Vector2(-17, -96), Vector2(34, 5))
+		var bar := Rect2(base + Vector2(-17, -80), Vector2(34, 5))
 		draw_rect(bar, Color(0, 0, 0, 0.6))
 		draw_rect(Rect2(bar.position, Vector2(bar.size.x * ratio, bar.size.y)), Color(0.3, 0.85, 0.3) if ratio > 0.3 else Color(0.9, 0.3, 0.2))
 
@@ -1010,7 +989,7 @@ func _draw_npc(npc: Dictionary) -> void:
 	else:
 		Figures.humanoid(self, base, base, -1.0, 0.0, Color("6b7d3a"), Color("e8c09a"), Color("c9a64a"), "chapeau")
 	# Petite bulle « … » : ce personnage a quelque chose à dire.
-	var mark := base + Vector2(16, -92)
+	var mark := base + Vector2(14, -76)
 	draw_circle(mark, 8, Color(1, 1, 1, 0.9))
 	draw_arc(mark, 8, 0, TAU, 20, Color(0.23, 0.15, 0.09), 1.2)
 	draw_string(ThemeDB.fallback_font, mark + Vector2(-6, 4), "…", HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(0.2, 0.2, 0.2))
@@ -1026,20 +1005,11 @@ func _look_of(actor_id: String, data: Dictionary) -> Dictionary:
 	var look := {}
 	var kind: String = data["kind"]
 	if actor_id == World.PLAYER_ID or manifest.get("tenues", {}).has(kind) and data["team"] == 0:
-		var race: String = data.get("race", "humain")
-		var race_spec: Dictionary = manifest.get("races", {}).get(race, {"rig": "humain"})
-		var outfit: Dictionary = manifest.get("tenues", {}).get(kind, {})
-		var colors: Dictionary = outfit.get("couleurs", {}).duplicate()
-		colors.merge(race_spec.get("couleurs", {}), true)
-		if world.data != null:
-			var skin: Variant = world.data.races.get(race, {}).get("apparence", {}).get("peau")
-			if typeof(skin) == TYPE_STRING:
-				colors["peau"] = skin
-		look = Rig.look(race_spec.get("rig", "humain"), colors, outfit.get("arme", ""))
+		look = Rig.player_look(data.get("race", "humain"), kind, world.data)
 	else:
 		var spec: Dictionary = manifest.get("monstres", {}).get(kind, {})
 		if spec.has("image"):
-			look = {"image": spec["image"]}
+			look = {"image": spec["image"], "echelle": float(spec.get("echelle", 1.0))}
 		elif spec.has("rig"):
 			look = Rig.look(spec["rig"], spec.get("couleurs", {}), spec.get("arme", ""), spec.get("accessoires", []))
 	data["look"] = look

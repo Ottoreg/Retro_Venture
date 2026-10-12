@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="32" viewBox="0 0 64 32">
+<path d="M32 0 L64 16 L32 32 L0 16 Z" fill="{{bois}}"/>
+<g stroke="#000000" stroke-opacity="0.16" stroke-width="0.9">
+<path d="M8 12 L40 28 M16 8 L48 24 M24 4 L56 20"/>
+<path d="M20 18 l8 -4 M36 18 l8 -4 M28 10 l8 -4 M12 14 l6 -3"/>
+</g>
+</svg>

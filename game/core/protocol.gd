@@ -45,6 +45,9 @@ const CMD_DEPOSIT := "deposer"
 ## Exploration, à côté du coffre : reprendre un objet.
 ## { type, entite: String, case: Vector2i (coffre), objet: String (uid dans le coffre), quantite: int (optionnel) }
 const CMD_WITHDRAW := "reprendre"
+## Exploration, à côté d'une Pierre de Passage : voyager jusqu'à une autre.
+## { type, entite: String, case: Vector2i (la pierre), destination: String (id de la pierre d'arrivée) }
+const CMD_TRAVEL := "voyager"
 ## Exploration : attaquer un groupe de monstres. { type, entite: String, groupe: String }
 const CMD_ENGAGE := "engager"
 ## Combat, phase de placement : { type, entite: String, cible: Vector2i }
@@ -90,6 +93,9 @@ const EVT_GROUP_RESPAWNED := "reapparition"
 const EVT_CHEST := "coffre"
 ## Le joueur a dormi : PV au maximum. { type, gain: int, pv: int, pv_max: int }
 const EVT_RESTED := "repos"
+## Pierre de Passage utilisée : destinations proposées. { type, case: Vector2i, ici: String (id de
+## cette pierre), destinations: Array[{ id, nom, carte }] }
+const EVT_TRAVEL_MENU := "pierre_de_passage"
 ## Objet fabriqué. { type, objet: String, nom: String, quantite: int, metier: String }
 const EVT_CRAFTED := "fabrication"
 ## XP de métier gagnée. { type, metier: String, nom: String, gain: int, niveau: int, xp: int,

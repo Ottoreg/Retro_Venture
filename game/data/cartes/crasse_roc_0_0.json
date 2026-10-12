@@ -1,0 +1,88 @@
+{
+  "id": "crasse_roc_0_0",
+  "nom": "Crasse-Roc — Entrée des galeries",
+  "palette": "crasse_roc",
+  "plan": [
+    "RRRRRRAAARRRRRRAAAA",
+    " R....R...RR....R.R",
+    "R.................R",
+    " A................A",
+    "R.................R",
+    " R....A...#.......R",
+    "R........##......RR",
+    " RRR.....###......A",
+    "A........##.....RRR",
+    " R........#:......A",
+    "RRR.......:.......A",
+    " A...I.....:...U..R",
+    "R...#.....:....I..R",
+    " R..##....::....I.R",
+    "R..###..a.:.......A",
+    " R..##....:......RR",
+    "RR..#:...:.....#.RR",
+    " R....::::::...##.R",
+    "R.....:::::@..###.A",
+    " R......:::::..##.R",
+    "R......::*::::.#..R",
+    " RA.....::::.::::.R",
+    "R........:........R",
+    " R....R..:........A",
+    "R..U....:..1..EEERR",
+    " RRU.....:....EEEEA",
+    "R.......:.....EEERR",
+    " R......:....I...AR",
+    "R.....2....R......R",
+    " RR.R...:.........A",
+    "A......:......A..RR",
+    " A....R.R.......R.R",
+    "RAARARARRRRRARRRRAR"
+  ],
+  "decors": [
+    {
+      "image": "galerie",
+      "case": [
+        9,
+        10
+      ]
+    },
+    {
+      "image": "cabane",
+      "case": [
+        16,
+        4
+      ]
+    },
+    {
+      "image": "cabane",
+      "case": [
+        20,
+        15
+      ]
+    }
+  ],
+  "groupes": [
+    {
+      "monstres": [
+        "gobelin_frondeur"
+      ]
+    },
+    {
+      "monstres": [
+        "loup_des_collines",
+        "loup_des_collines"
+      ]
+    }
+  ],
+  "pnj": [
+    {
+      "marqueur": "a",
+      "id": "contremaitre_grumm",
+      "nom": "Grumm, contremaître des galeries",
+      "repliques": [
+        "Encore un nouveau ? Bienvenue à Crasse-Roc. Ici on creuse, on râle, et on creuse encore.",
+        "Le Souverain Cendré paie bien, qu'ils disent. Moi j'ai jamais vu la couleur de son argent. Juste la couleur de sa fumée.",
+        "La pierre qui brille, là, au milieu ? Pierre de Passage. Touche-la et tu files chez les humains ou chez les elfes. Reviens quand même, on manque de bras."
+      ]
+    }
+  ]
+}

@@ -6,6 +6,6 @@
   "bonus": {"agilite": 10, "intelligence": 10},
   "passif": {"nom": "Œil perçant", "description": "+1 portée sur les sorts à distance.", "effet": {"type": "portee", "valeur": 1}},
   "sort": "elfe_pas_leger",
-  "carte_depart": "brumerive_0_0",
+  "carte_depart": "sylvebrume_0_0",
   "apparence": {"peau": "f3dcc4"}
 }

@@ -13,7 +13,7 @@ extends RefCounted
 ## Caractère du plan → type d'obstacle ("" = case praticable).
 const LEGEND := {
 	".": "", "@": "", "A": "arbre", "M": "mur", "R": "rocher", "E": "eau",
-	"+": "", "$": "coffre", "=": "lit", ":": "", "#": "bloc",
+	"+": "", "$": "coffre", "=": "lit", ":": "", "#": "bloc", "*": "pierre_passage",
 }
 ## Sol dessiné autrement que le sol de la carte (praticable) : caractère du plan → type.
 const GROUND_KINDS := {":": "chemin"}
@@ -22,7 +22,9 @@ const HIDDEN_OBSTACLES := ["bloc"]
 ## Porte : case praticable qui mène à une autre carte (liste `portes`, dans l'ordre du plan).
 const DOOR_CHAR := "+"
 ## Meubles avec lesquels on interagit depuis une case voisine.
-const FURNITURE := ["coffre", "lit"]
+const FURNITURE := ["coffre", "lit", "pierre_passage"]
+## Pierre de Passage : on y voyage d'une zone à l'autre (voir `data/passages/`).
+const TRAVEL_STONE := "pierre_passage"
 ## Sols possibles (dessin).
 const FLOORS := ["herbe", "parquet"]
 ## Instances : "" (carte partagée) ou "joueur" (une copie par joueur en multijoueur, comme sa maison).
@@ -66,6 +68,8 @@ var decors: Array[Dictionary] = []
 var floor_kind := "herbe"
 ## "" pour une carte partagée, "joueur" pour une carte personnelle (instanciée par joueur en multi).
 var instance := ""
+## Palette de couleurs de la zone (voir « palettes » dans art/art.json), "" pour celle de base.
+var palette := ""
 
 ## Cases jouables (Vector2i → true).
 var _cells: Dictionary = {}
@@ -139,6 +143,8 @@ static func validate(data: Dictionary) -> PackedStringArray:
 				errors.append("décor invalide : { image, case: [ligne, colonne] } attendu (%s)" % str(decor))
 	if data.get("sol", "herbe") not in FLOORS:
 		errors.append("« sol » doit valoir %s" % str(FLOORS))
+	if typeof(data.get("palette", "")) != TYPE_STRING:
+		errors.append("« palette » doit être un nom de palette")
 	if data.get("instance", "") not in INSTANCES:
 		errors.append("« instance » doit valoir %s" % str(INSTANCES))
 	var npc_markers := {}
@@ -234,6 +240,7 @@ static func from_dict(data: Dictionary) -> GameMap:
 	map.exits = data.get("sorties", {}).duplicate()
 	map.floor_kind = str(data.get("sol", "herbe"))
 	map.instance = str(data.get("instance", ""))
+	map.palette = str(data.get("palette", ""))
 	for decor: Dictionary in data.get("decors", []):
 		map.decors.append({"image": decor["image"], "case": plan_cell(int(decor["case"][0]), int(decor["case"][1]))})
 	var door_targets: Array = data.get("portes", [])
@@ -327,6 +334,22 @@ func get_npc(npc_id: String) -> Dictionary:
 		if npc["id"] == npc_id:
 			return npc
 	return {}
+
+
+## Case de la Pierre de Passage de la carte (Vector2i(-1, -1) s'il n'y en a pas).
+func travel_stone() -> Vector2i:
+	for cell: Vector2i in obstacles:
+		if obstacles[cell] == TRAVEL_STONE:
+			return cell
+	return Vector2i(-1, -1)
+
+
+## Case praticable qui touche `cell` (de préférence devant elle), pour y faire arriver le joueur.
+func beside(cell: Vector2i) -> Vector2i:
+	for offset: Vector2i in [Vector2i(1, 1), Vector2i(0, 1), Vector2i(1, 0), Vector2i(-1, 1), Vector2i(1, -1), Vector2i(-1, 0), Vector2i(0, -1), Vector2i(-1, -1)]:
+		if is_walkable(cell + offset):
+			return cell + offset
+	return nearest_walkable(cell)
 
 
 ## Porte de cette carte qui mène à `map_id` (case d'arrivée quand on en vient), sinon le départ.

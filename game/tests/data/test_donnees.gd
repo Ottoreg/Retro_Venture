@@ -157,6 +157,32 @@ func test_portes_reciproques() -> void:
 		assert_true("coffre" in house.obstacles.values() and "lit" in house.obstacles.values(), "un coffre et un lit")
 
 
+func test_pierres_de_passage_et_zones_de_depart() -> void:
+	var game_data := GameData.load_all()
+	assert_true(game_data.passages.size() >= 3, "une pierre par zone de départ")
+	var with_stone := {}
+	for passage_id: String in game_data.passages:
+		var map := DataLoader.load_map(DataLoader.map_path(game_data.passages[passage_id]["carte"]))
+		assert_true(map != null, "pierre « %s » : carte introuvable" % passage_id)
+		if map != null:
+			assert_ne(map.travel_stone(), Vector2i(-1, -1), "pierre « %s » : pas de « * » sur la carte %s" % [passage_id, map.id])
+			with_stone[map.id] = true
+	for path in _find_json(DATA_ROOT.path_join("cartes")):
+		var map := DataLoader.load_map(path)
+		if map != null and map.travel_stone() != Vector2i(-1, -1):
+			assert_true(with_stone.has(map.id), "%s : une pierre sans entrée dans data/passages" % path)
+	for race_id: String in game_data.races:
+		var start := str(game_data.races[race_id]["carte_depart"])
+		assert_true(DataLoader.load_map(DataLoader.map_path(start)) != null, "race « %s » : carte de départ %s" % [race_id, start])
+		assert_true(with_stone.has(start), "race « %s » : sa première carte a une Pierre de Passage" % race_id)
+	assert_eq(str(game_data.races["gobelin"]["carte_depart"]), "crasse_roc_0_0")
+	assert_eq(str(game_data.races["elfe"]["carte_depart"]), "sylvebrume_0_0")
+	for path in _find_json(DATA_ROOT.path_join("cartes")):
+		var map := DataLoader.load_map(path)
+		if map != null and not map.palette.is_empty():
+			assert_true(Art.manifest()["palettes"].has(map.palette), "%s : palette « %s » inconnue" % [path, map.palette])
+
+
 func _assert_id_matches_file(data: Variant, path: String) -> void:
 	if typeof(data) == TYPE_DICTIONARY:
 		assert_eq(str(data.get("id")), path.get_file().get_basename(), "%s : l'id doit correspondre au nom du fichier" % path)

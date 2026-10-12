@@ -6,6 +6,7 @@ const CREATION_SCENE := "res://client/creation/creation.tscn"
 
 
 func _ready() -> void:
+	UiTheme.apply(get_tree())
 	var version: String = ProjectSettings.get_setting("application/config/version", "?")
 	%Version.text = "Version %s — Phase 2 (alpha en construction)" % version
 	%NewGame.pressed.connect(_on_new_game_pressed)
