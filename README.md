@@ -3,6 +3,7 @@
 [![CI](https://github.com/Ottoreg/Retro_Venture/actions/workflows/ci.yml/badge.svg)](https://github.com/Ottoreg/Retro_Venture/actions/workflows/ci.yml)
 
 ▶️ **Jouer dans le navigateur : https://ottoreg.github.io/Retro_Venture/** (dernière version de la branche par défaut)
+— commandes et contenu de l'alpha : [guide des testeurs](docs/GUIDE_TESTEURS.md)
 
 RPG tactique au tour par tour en 2D isométrique, inspiré de *Dofus Rétro* pour le rendu et le gameplay
 et du *Seigneur des Anneaux* pour l'univers, sur un ton parodique. Les aventuriers parcourent le monde à la recherche des

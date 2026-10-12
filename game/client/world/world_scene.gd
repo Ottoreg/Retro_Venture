@@ -4,8 +4,6 @@ extends Node2D
 
 const DEFAULT_START_MAP := "brumerive_0_0"
 const MENU_SCENE := "res://client/main/main.tscn"
-const HELP_EXPLORATION := "Clic : se déplacer · Monstre : attaquer · PNJ : parler, commercer, fabriquer · Arbre, minerai : récolter · Porte : entrer · Pierre de Passage : voyager · Flèches au bord : changer de carte · C : personnage · I : inventaire · S : sorts · J : métiers · Échap : menu"
-const HELP_COMBAT := "Clic : se déplacer (cases vertes) · 1-5 : choisir un sort, clic : le lancer · Clic droit : annuler"
 
 @onready var _map_view: MapView = $MapView
 @onready var _combat_hud: CombatHud = $CombatHud
@@ -20,8 +18,9 @@ const HELP_COMBAT := "Clic : se déplacer (cases vertes) · 1-5 : choisir un sor
 @onready var _info: Label = %Info
 
 var _hover_text := ""
-## Rafraîchissement régulier de la ligne d'infos (les PV remontent tout seuls).
-var _info_timer := 0.0
+## Bulle près du curseur : ce qu'on survole (monstres, PNJ, ressources…).
+var _hover_bubble: PanelContainer
+var _hover_label: Label
 
 
 func _ready() -> void:
@@ -80,11 +79,13 @@ func _create_world() -> World:
 	return World.new(start_map, game_data, load_map, character)
 
 
-func _process(delta: float) -> void:
-	_info_timer += delta
-	if _info_timer >= 1.0 and _map_view.world != null:
-		_info_timer = 0.0
-		_update_info()
+func _process(_delta: float) -> void:
+	if _hover_bubble != null and _hover_bubble.visible:
+		var viewport_size := get_viewport().get_visible_rect().size
+		var spot := get_viewport().get_mouse_position() + Vector2(18, 22)
+		spot.x = minf(spot.x, viewport_size.x - _hover_bubble.size.x - 4)
+		spot.y = minf(spot.y, viewport_size.y - _hover_bubble.size.y - CombatHud.BAR_HEIGHT - 4)
+		_hover_bubble.position = spot
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -178,12 +179,32 @@ func _on_hovered_cell_changed(_cell: Vector2i, description: String) -> void:
 	_update_info()
 
 
+## En haut de l'écran : seulement le nom de la carte. Ce qu'on survole s'affiche près du curseur
+## (sauf une simple case du sol).
 func _update_info() -> void:
-	var world := _map_view.world
-	var sheet := world.character.sheet(world.data)
-	var help := HELP_COMBAT if _map_view.mode == MapView.Mode.COMBAT else HELP_EXPLORATION
-	var detail := "   ·   %s" % _hover_text if not _hover_text.is_empty() else ""
-	var hero := "%s — niv. %d %s %s — %d / %d PV" % [sheet["nom"], sheet["niveau"], sheet["race_nom"], sheet["voie_nom"], sheet["pv"], sheet["pv_max"]]
-	if int(sheet["points"]) > 0:
-		hero += " (%d points à répartir)" % sheet["points"]
-	_info.text = "%s   ·   %s%s\n%s" % [hero, _map_view.current_map().display_name, detail, help]
+	_info.text = _map_view.current_map().display_name
+	if _hover_bubble == null:
+		_build_hover_bubble()
+	_hover_label.text = _hover_text
+	_hover_bubble.visible = not _hover_text.is_empty() and not _hover_text.begins_with("case (")
+	_hover_bubble.reset_size()
+
+
+func _build_hover_bubble() -> void:
+	_hover_bubble = PanelContainer.new()
+	_hover_bubble.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color(0.1, 0.08, 0.05, 0.88)
+	style.border_color = Color(0.55, 0.42, 0.22)
+	style.set_border_width_all(1)
+	style.set_corner_radius_all(4)
+	style.content_margin_left = 8
+	style.content_margin_right = 8
+	style.content_margin_top = 3
+	style.content_margin_bottom = 3
+	_hover_bubble.add_theme_stylebox_override("panel", style)
+	_hover_label = Label.new()
+	_hover_label.add_theme_font_size_override("font_size", 14)
+	_hover_label.add_theme_color_override("font_color", Color(0.95, 0.92, 0.85))
+	_hover_bubble.add_child(_hover_label)
+	_info.get_parent().add_child(_hover_bubble)
