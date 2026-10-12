@@ -14,7 +14,7 @@ global découpé en instances.
 
 ## Statut
 
-🟡 **Phase 0 — Pré-production** : projet Godot initialisé, cadrage du design en cours.
+🟢 **Phase 1 — Prototype** : carte isométrique, déplacement au clic. Prochaine étape : le combat.
 
 ## Documentation
 
@@ -69,4 +69,6 @@ de chaque exécution).
    ```
 
 Choix techniques : [moteur Godot 4](docs/decisions/0001-moteur-godot-4.md),
-[langage GDScript](docs/decisions/0002-langage-gdscript.md).
+[langage GDScript](docs/decisions/0002-langage-gdscript.md),
+[données JSON](docs/decisions/0003-donnees-json.md),
+[grille 64×32](docs/decisions/0004-grille-isometrique.md).

@@ -484,7 +484,7 @@ ingrédients).
 
 ### 14.1 Graphisme
 
-- **2D isométrique**, tuiles en losange au ratio 2:1 (référence : 86×43 px comme Dofus, ou 64×32 px).
+- **2D isométrique**, tuiles en losange de **64×32 px** ([décision 0004](decisions/0004-grille-isometrique.md)).
 - Style **dessiné, couleurs chaudes et saturées**, contours marqués, proche du vectoriel de Dofus
   Rétro ; palette par région (verts doux à Brumerive, gris et ocre à Hautepierre, noir et braise dans
   les Marches Cendrées).
@@ -562,7 +562,7 @@ directement** :
 ### 16.3 Contenu piloté par les données
 
 Races, classes, sorts, monstres, objets, recettes, quêtes, cartes et tables de butin sont décrits dans
-des **fichiers de données** (`game/data/`), validés par des schémas, éditables sans recompiler. Voir les
+des **fichiers JSON** (`game/data/`, [décision 0003](decisions/0003-donnees-json.md)), vérifiés en CI, éditables sans recompiler. Voir les
 exemples en [annexe](#20-annexes--formats-de-données).
 
 ### 16.4 Qualité

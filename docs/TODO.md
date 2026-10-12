@@ -12,20 +12,21 @@
 ### Décisions
 - [x] **(MVP)** Choisir le moteur : Godot 4 ([décision 0001](decisions/0001-moteur-godot-4.md))
 - [x] **(MVP)** Choisir le langage : GDScript ([décision 0002](decisions/0002-langage-gdscript.md))
-- [ ] **(MVP)** Choisir le format des données de contenu (JSON, YAML ou ressources du moteur)
-- [ ] Choisir la taille de tuile (86×43 ou 64×32) et la résolution de référence
+- [x] **(MVP)** Format des données de contenu : JSON ([décision 0003](decisions/0003-donnees-json.md))
+- [x] Taille de tuile 64×32 et résolution 1280×720 ([décision 0004](decisions/0004-grille-isometrique.md))
 - [ ] Choisir la licence du code et des assets
 - [ ] Fixer le nom définitif du jeu et du monde (vérification de marques)
 
 ### Dépôt et outillage
 - [x] Structure du dépôt, README, GDD, TODO
 - [x] **(MVP)** Initialiser le projet Godot dans `game/` (rendu Compatibility, 1280×720, lanceur de tests)
-- [ ] Ouvrir le projet dans l'éditeur Godot et commiter les fichiers générés (`*.uid`, `*.import`)
 - [ ] Activer Git LFS pour les assets binaires (`.gitattributes`)
 - [x] Intégration continue (GitHub Actions) : tests Godot
 - [x] Export web automatique publié sur GitHub Pages (jouable dans le navigateur)
 - [x] Activer GitHub Pages (Settings → Pages → Source : GitHub Actions)
-- [ ] Intégration continue : validation des fichiers de données
+- [x] Intégration continue : validation des fichiers de données (syntaxe JSON + cartes)
+- [x] Créer la branche `main`
+- [ ] Définir `main` comme branche par défaut et l'autoriser dans l'environnement `github-pages`
 - [ ] Créer les labels et milestones GitHub (phase, domaine : combat, UI, contenu, art, réseau…)
 - [ ] Rédiger `CONTRIBUTING.md` (conventions de nommage, de commits, de branches)
 - [ ] Créer `game/assets/CREDITS.md` (registre des assets tiers et licences)
@@ -44,16 +45,17 @@
 Objectif : **un combat jouable de bout en bout sur une carte**.
 
 ### Noyau (logique indépendante de l'affichage)
-- [ ] **(MVP)** Modèle de grille isométrique (coordonnées, conversion écran ↔ case, voisins)
-- [ ] **(MVP)** Recherche de chemin A* sur grille avec cases bloquantes
-- [ ] **(MVP)** Architecture commandes → noyau → événements (base du futur réseau)
+- [x] **(MVP)** Modèle de grille isométrique (coordonnées, conversion écran ↔ case, voisins)
+- [x] **(MVP)** Recherche de chemin A* sur grille avec cases bloquantes (8 directions en exploration, 4 en combat)
+- [x] **(MVP)** Architecture commandes → noyau → événements (base du futur réseau) — `World.execute()`, `Protocol`
 - [ ] **(MVP)** Générateur aléatoire à graine (combats rejouables)
-- [ ] Chargement des données de contenu depuis `game/data/` + validation par schéma
-- [ ] Tests unitaires du noyau
+- [x] Chargement des données de contenu depuis `game/data/` + validation (cartes)
+- [x] Tests unitaires du noyau (grille, carte, monde) — à compléter au fil des systèmes
 
 ### Exploration
-- [ ] **(MVP)** Afficher une carte isométrique (sol, obstacles, décor, tri par profondeur)
-- [ ] **(MVP)** Déplacement au clic avec animation de marche
+- [x] **(MVP)** Afficher une carte isométrique (sol, obstacles, décor, tri par profondeur) — formes provisoires
+- [x] **(MVP)** Déplacement au clic, aperçu du chemin au survol
+- [ ] Animation de marche du personnage (sprite en 8 directions)
 - [ ] Caméra et changement de carte par les bords
 - [ ] Un PNJ cliquable avec une bulle de dialogue
 
