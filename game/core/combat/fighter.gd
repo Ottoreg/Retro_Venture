@@ -25,6 +25,17 @@ var spells: Array[Spell] = []
 var ai: String = ""
 ## XP rapportée par ce combattant quand il est vaincu.
 var xp: int = 0
+## Race (personnages joueurs), pour l'affichage.
+var race: String = ""
+## Caractéristiques : vitalite, sagesse, force, intelligence, chance, agilite.
+var stats: Dictionary = {}
+## Portée supplémentaire des sorts à distance (passif de race, équipement…).
+var range_bonus: int = 0
+## PM retirés pour le prochain tour (effet « retrait_pm »).
+var pm_malus: int = 0
+
+## Caractéristique qui augmente les dégâts de chaque élément.
+const ELEMENT_STATS := {"acier": "force", "flamme": "intelligence", "givre": "chance", "tempete": "agilite"}
 
 var _casts_this_turn: Dictionary = {}
 var _cooldowns: Dictionary = {}
@@ -49,9 +60,19 @@ func resistance(element: String) -> int:
 	return int(resistances.get(element, 0))
 
 
+func stat(stat_name: String) -> int:
+	return int(stats.get(stat_name, 0))
+
+
+## Bonus en % des dégâts de cet élément (la caractéristique associée).
+func power(element: String) -> int:
+	return stat(ELEMENT_STATS.get(element, ""))
+
+
 func start_turn() -> void:
 	pa = max_pa
-	pm = max_pm
+	pm = maxi(0, max_pm - pm_malus)
+	pm_malus = 0
 	_casts_this_turn.clear()
 	for spell_id: String in _cooldowns.keys():
 		_cooldowns[spell_id] -= 1
@@ -89,6 +110,7 @@ func to_dict() -> Dictionary:
 		"nom": display_name,
 		"equipe": team,
 		"type": kind,
+		"race": race,
 		"case": cell,
 		"pv": hp,
 		"pv_max": max_hp,

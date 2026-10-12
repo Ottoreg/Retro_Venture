@@ -1,6 +1,6 @@
 class_name GameData
 extends RefCounted
-## Contenu du jeu chargé depuis `res://data/` : sorts, monstres et Voies (classes).
+## Contenu du jeu chargé depuis `res://data/` : sorts, monstres, Voies (classes) et races.
 ## Fabrique aussi les combattants correspondants.
 
 const DATA_ROOT := "res://data"
@@ -11,15 +11,20 @@ var spells: Dictionary = {}
 var monsters: Dictionary = {}
 ## id → Dictionary (données brutes vérifiées)
 var voies: Dictionary = {}
+## id → Dictionary (données brutes vérifiées)
+var races: Dictionary = {}
+
+const CAMPS := ["allie", "ennemi", "neutre"]
 
 
 ## Charge tout le contenu ; les fichiers invalides sont signalés et ignorés.
 static func load_all(root := DATA_ROOT) -> GameData:
-	return from_dicts(_read_folder(root.path_join("sorts")), _read_folder(root.path_join("monstres")), _read_folder(root.path_join("voies")))
+	return from_dicts(_read_folder(root.path_join("sorts")), _read_folder(root.path_join("monstres")),
+		_read_folder(root.path_join("voies")), _read_folder(root.path_join("races")))
 
 
 ## Construit le contenu à partir de données déjà lues (utile pour les tests).
-static func from_dicts(spell_list: Array, monster_list: Array, voie_list: Array) -> GameData:
+static func from_dicts(spell_list: Array, monster_list: Array, voie_list: Array, race_list: Array = []) -> GameData:
 	var data := GameData.new()
 	for raw: Variant in spell_list:
 		var errors := Spell.validate(raw) if typeof(raw) == TYPE_DICTIONARY else PackedStringArray(["objet attendu"])
@@ -33,7 +38,40 @@ static func from_dicts(spell_list: Array, monster_list: Array, voie_list: Array)
 		var errors := validate_voie(raw, data.spells) if typeof(raw) == TYPE_DICTIONARY else PackedStringArray(["objet attendu"])
 		if _report("voie", raw, errors):
 			data.voies[raw["id"]] = raw
+	for raw: Variant in race_list:
+		var errors := validate_race(raw, data.spells) if typeof(raw) == TYPE_DICTIONARY else PackedStringArray(["objet attendu"])
+		if _report("race", raw, errors):
+			data.races[raw["id"]] = raw
 	return data
+
+
+static func validate_race(data: Dictionary, known_spells: Dictionary) -> PackedStringArray:
+	var errors: PackedStringArray = []
+	if typeof(data.get("id")) != TYPE_STRING or str(data.get("id")).is_empty():
+		errors.append("« id » doit être un texte non vide")
+	if typeof(data.get("nom")) != TYPE_STRING:
+		errors.append("« nom » doit être un texte")
+	if data.get("camp") not in CAMPS:
+		errors.append("« camp » doit valoir %s" % str(CAMPS))
+	var bonus: Variant = data.get("bonus", {})
+	if typeof(bonus) != TYPE_DICTIONARY:
+		errors.append("« bonus » doit être un objet { caractéristique: valeur }")
+	else:
+		for stat_name: Variant in bonus:
+			if stat_name not in Character.STATS or not Spell._is_int_at_least(bonus[stat_name], 0):
+				errors.append("bonus invalide : %s (caractéristiques : %s)" % [str(stat_name), str(Character.STATS)])
+	var passive: Variant = data.get("passif", {})
+	if typeof(passive) != TYPE_DICTIONARY or typeof(passive.get("nom")) != TYPE_STRING:
+		errors.append("« passif » doit être un objet avec un « nom »")
+	else:
+		var effect: Variant = passive.get("effet", {})
+		if typeof(effect) != TYPE_DICTIONARY or (not effect.is_empty() and (str(effect.get("type")) != "portee" or not Spell._is_int_at_least(effect.get("valeur"), 1))):
+			errors.append("« passif.effet » : seul { type: « portee », valeur } est géré pour l'instant")
+	if data.has("sort") and not known_spells.has(data["sort"]):
+		errors.append("sort racial inconnu : %s" % str(data["sort"]))
+	if typeof(data.get("carte_depart")) != TYPE_STRING:
+		errors.append("« carte_depart » doit être un id de carte")
+	return errors
 
 
 static func validate_monster(data: Dictionary, known_spells: Dictionary) -> PackedStringArray:
@@ -74,6 +112,26 @@ func create_player(voie_id: String, fighter_id: String, player_name: String) -> 
 	if not voies.has(voie_id):
 		return null
 	return _create_fighter(voies[voie_id], fighter_id, player_name, Fighter.TEAM_PLAYERS)
+
+
+## Combattant d'un personnage joueur : Voie, niveau, caractéristiques, sort et passif de race.
+func create_character_fighter(character: Character, fighter_id: String) -> Fighter:
+	if not voies.has(character.voie_id):
+		return null
+	var fighter := _create_fighter(voies[character.voie_id], fighter_id, character.display_name, Fighter.TEAM_PLAYERS)
+	fighter.race = character.race_id
+	for stat_name in Character.STATS:
+		fighter.stats[stat_name] = character.stat(stat_name, self)
+	fighter.max_hp = character.max_hp(self)
+	fighter.hp = fighter.max_hp
+	fighter.initiative += fighter.stat("agilite")
+	var race: Dictionary = races.get(character.race_id, {})
+	if race.has("sort") and spells.has(race["sort"]):
+		fighter.spells.append(spells[race["sort"]])
+	var passive_effect: Dictionary = race.get("passif", {}).get("effet", {})
+	if str(passive_effect.get("type")) == "portee":
+		fighter.range_bonus = int(passive_effect["valeur"])
+	return fighter
 
 
 func _create_fighter(data: Dictionary, fighter_id: String, fighter_name: String, team: int) -> Fighter:

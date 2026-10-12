@@ -1,0 +1,10 @@
+{
+  "id": "arcaniste_soin_mineur",
+  "nom": "Soin mineur",
+  "description": "Referme les petites plaies. Pour les grandes, prévoir une potion. Ou un autre arcaniste.",
+  "cout_pa": 3,
+  "portee": {"min": 0, "max": 3},
+  "ligne_de_vue": true,
+  "relance": {"par_tour": 1, "delai": 2},
+  "effets": [{"type": "soin", "min": 8, "max": 12}]
+}

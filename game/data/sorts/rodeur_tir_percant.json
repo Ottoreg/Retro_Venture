@@ -1,0 +1,10 @@
+{
+  "id": "rodeur_tir_percant",
+  "nom": "Tir perçant",
+  "description": "Une flèche lourde à pointe d'acier. Traverse les armures, et parfois le chapeau d'un voisin.",
+  "cout_pa": 4,
+  "portee": {"min": 3, "max": 7},
+  "ligne_de_vue": true,
+  "relance": {"par_tour": 1},
+  "effets": [{"type": "degats", "element": "acier", "min": 8, "max": 11}]
+}

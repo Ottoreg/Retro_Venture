@@ -1,0 +1,11 @@
+{
+  "id": "gobelin",
+  "nom": "Gobelin",
+  "camp": "ennemi",
+  "description": "Main-d'œuvre corvéable du Souverain Cendré. Payé en cailloux, nourri de promesses, et franchement pas convaincu par le projet.",
+  "bonus": {"agilite": 10, "chance": 10},
+  "passif": {"nom": "Chapardeur", "description": "Plus de monnaie et de butin (actif avec l'arrivée du butin)."},
+  "sort": "gobelin_coup_bas",
+  "carte_depart": "brumerive_0_0",
+  "apparence": {"peau": "6f9a3e"}
+}

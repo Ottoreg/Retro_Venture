@@ -1,0 +1,12 @@
+{
+  "id": "gobelin_coup_bas",
+  "nom": "Coup bas",
+  "description": "Un coup dans le genou. Pas glorieux, mais la cible marchera moins vite au prochain tour.",
+  "cout_pa": 3,
+  "portee": {"min": 1, "max": 1},
+  "relance": {"par_tour": 1},
+  "effets": [
+    {"type": "degats", "element": "tempete", "min": 4, "max": 7},
+    {"type": "retrait_pm", "min": 1, "max": 1}
+  ]
+}

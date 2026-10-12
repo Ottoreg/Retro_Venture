@@ -6,6 +6,13 @@ const ZONE_CELL := "case"
 const ZONE_CIRCLE := "cercle"
 const EFFECT_DAMAGE := "degats"
 const EFFECT_HEAL := "soin"
+## Le lanceur se téléporte sur la case visée (qui doit être libre).
+const EFFECT_TELEPORT := "teleportation"
+## La cible gagne des PA tout de suite (pour le tour en cours).
+const EFFECT_GAIN_PA := "gain_pa"
+## La cible aura moins de PM à son prochain tour.
+const EFFECT_REMOVE_PM := "retrait_pm"
+const EFFECT_TYPES := [EFFECT_DAMAGE, EFFECT_HEAL, EFFECT_TELEPORT, EFFECT_GAIN_PA, EFFECT_REMOVE_PM]
 const ELEMENTS := ["acier", "flamme", "givre", "tempete"]
 
 var id: String
@@ -55,8 +62,10 @@ static func validate(data: Dictionary) -> PackedStringArray:
 		errors.append("« effets » doit être une liste non vide")
 		return errors
 	for effect: Variant in effects_data:
-		if typeof(effect) != TYPE_DICTIONARY or effect.get("type") not in [EFFECT_DAMAGE, EFFECT_HEAL]:
-			errors.append("effet invalide : %s (types : degats, soin)" % str(effect))
+		if typeof(effect) != TYPE_DICTIONARY or effect.get("type") not in EFFECT_TYPES:
+			errors.append("effet invalide : %s (types : %s)" % [str(effect), str(EFFECT_TYPES)])
+			continue
+		if effect["type"] == EFFECT_TELEPORT:
 			continue
 		if effect["type"] == EFFECT_DAMAGE and effect.get("element") not in ELEMENTS:
 			errors.append("effet de dégâts : « element » doit être l'un de %s" % str(ELEMENTS))
@@ -85,8 +94,8 @@ static func from_dict(data: Dictionary) -> Spell:
 	spell.cooldown = int(recast.get("delai", 0))
 	for effect: Dictionary in data["effets"]:
 		var copy := effect.duplicate()
-		copy["min"] = int(effect["min"])
-		copy["max"] = int(effect["max"])
+		copy["min"] = int(effect.get("min", 0))
+		copy["max"] = int(effect.get("max", 0))
 		spell.effects.append(copy)
 	return spell
 
@@ -101,6 +110,13 @@ func zone_cells(target: Vector2i) -> Array[Vector2i]:
 				if offset != Vector2i.ZERO and absi(dx) + absi(dy) <= zone_size:
 					cells.append(target + offset)
 	return cells
+
+
+func teleports() -> bool:
+	for effect in effects:
+		if effect["type"] == EFFECT_TELEPORT:
+			return true
+	return false
 
 
 func deals_damage() -> bool:

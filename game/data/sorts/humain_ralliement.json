@@ -1,0 +1,10 @@
+{
+  "id": "humain_ralliement",
+  "nom": "Ralliement",
+  "description": "Un cri d'encouragement. À soi-même, faute d'alliés pour l'instant.",
+  "cout_pa": 1,
+  "portee": {"min": 0, "max": 0},
+  "ligne_de_vue": false,
+  "relance": {"par_tour": 1, "delai": 4},
+  "effets": [{"type": "gain_pa", "min": 2, "max": 2}]
+}

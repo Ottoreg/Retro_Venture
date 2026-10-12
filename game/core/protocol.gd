@@ -14,6 +14,8 @@ extends RefCounted
 const CMD_MOVE := "deplacer"
 ## Exploration : aller parler à un PNJ. { type, entite: String, pnj: String }
 const CMD_TALK := "parler"
+## Exploration : répartir des points de caractéristique. { type, entite: String, carac: String, points: int }
+const CMD_SPEND_POINTS := "investir"
 ## Exploration : attaquer un groupe de monstres. { type, entite: String, groupe: String }
 const CMD_ENGAGE := "engager"
 ## Combat, phase de placement : { type, entite: String, cible: Vector2i }
@@ -54,6 +56,16 @@ const EVT_DAMAGE := "degats"
 const EVT_HEAL := "soin"
 ## { type, entite: String }
 const EVT_DIED := "mort"
+## { type, entite: String, depuis: Vector2i, case: Vector2i }
+const EVT_TELEPORTED := "teleporte"
+## Effet sans dégâts. { type, entite: String, effet: String, valeur: int, pa: int, pm: int }
+const EVT_STATUS := "effet"
+## Gain d'expérience après un combat. { type, gain: int, xp: int, niveau: int }
+const EVT_XP := "experience"
+## { type, niveau: int, points: int (points de caractéristique à répartir) }
+const EVT_LEVEL_UP := "niveau"
+## Fiche du personnage mise à jour. { type, personnage: Dictionary }
+const EVT_CHARACTER := "personnage"
 ## { type, vainqueur: int (équipe, -1 si aucune), xp: int }
 const EVT_COMBAT_ENDED := "combat_fin"
 ## Retour en exploration après un combat. { type, position: Vector2i, groupe_vaincu: String }
@@ -70,6 +82,7 @@ const REASON_NO_PATH := "aucun_chemin"
 const REASON_ALREADY_THERE := "deja_sur_place"
 const REASON_NO_EXIT := "pas_de_sortie"
 const REASON_UNKNOWN_MAP := "carte_inconnue"
+const REASON_NOT_ENOUGH_POINTS := "points_insuffisants"
 const REASON_WRONG_PHASE := "mauvaise_phase"
 const REASON_NOT_YOUR_TURN := "pas_votre_tour"
 const REASON_OCCUPIED := "case_occupee"

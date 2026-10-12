@@ -1,0 +1,10 @@
+{
+  "id": "arcaniste_etincelle",
+  "nom": "Étincelle",
+  "description": "Petit sort, petit coût, petits dégâts. Mais trois fois par tour.",
+  "cout_pa": 2,
+  "portee": {"min": 1, "max": 4},
+  "ligne_de_vue": true,
+  "relance": {"par_tour": 3},
+  "effets": [{"type": "degats", "element": "flamme", "min": 2, "max": 4}]
+}

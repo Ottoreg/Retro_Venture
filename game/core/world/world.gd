@@ -14,8 +14,19 @@ const PLACEMENT_CELL_COUNT := 6
 
 var map: GameMap
 var data: GameData
-var player_voie := DEFAULT_VOIE
-var player_name := DEFAULT_NAME
+## Personnage du joueur (niveau, caractéristiques…).
+var character: Character
+## Raccourcis vers le personnage.
+var player_voie: String:
+	get:
+		return character.voie_id
+	set(value):
+		character.voie_id = value
+var player_name: String:
+	get:
+		return character.display_name
+	set(value):
+		character.display_name = value
 ## Combat en cours, ou `null` en exploration.
 var combat: Combat = null
 
@@ -33,7 +44,8 @@ var _combat_count := 0
 var _approach_from := Vector2i.ZERO
 
 
-func _init(p_map: GameMap, p_data: GameData = null, p_map_loader: Callable = Callable()) -> void:
+func _init(p_map: GameMap, p_data: GameData = null, p_map_loader: Callable = Callable(), p_character: Character = null) -> void:
+	character = p_character if p_character != null else Character.create(DEFAULT_NAME, "humain", DEFAULT_VOIE)
 	data = p_data
 	_map_loader = p_map_loader
 	_set_map(p_map, p_map.spawn)
@@ -86,6 +98,8 @@ func execute(command: Dictionary) -> Array[Dictionary]:
 			return _engage(command)
 		if type == Protocol.CMD_TALK:
 			return _talk(command)
+		if type == Protocol.CMD_SPEND_POINTS:
+			return _spend_points(command)
 	return _refused(command, Protocol.REASON_UNKNOWN_COMMAND)
 
 
@@ -234,7 +248,7 @@ func _create_combat(group: Dictionary, approach_from: Vector2i) -> Combat:
 		index += 1
 
 	var placement := _placement_cells(group_cell, approach_from, monster_cells)
-	var player := data.create_player(player_voie, PLAYER_ID, player_name)
+	var player := data.create_character_fighter(character, PLAYER_ID)
 	player.cell = placement[0]
 	fighters.append(player)
 	_combat_count += 1
@@ -287,6 +301,7 @@ func _end_combat(events: Array[Dictionary]) -> void:
 		defeated_group = _combat_group
 		_groups.erase(_combat_group)
 		_positions.erase(_combat_group)
+		_reward(events)
 	else:
 		_positions[PLAYER_ID] = map.spawn
 	events.append({
@@ -296,6 +311,96 @@ func _end_combat(events: Array[Dictionary]) -> void:
 	})
 	combat = null
 	_combat_group = ""
+
+
+## XP de victoire (bonus de Sagesse : +1 % par point) et montées de niveau.
+func _reward(events: Array[Dictionary]) -> void:
+	for event in events:
+		if event["type"] == Protocol.EVT_COMBAT_ENDED:
+			var gain := roundi(int(event["xp"]) * (100 + character.stat("sagesse", data)) / 100.0)
+			event["xp"] = gain
+			var levels := character.add_xp(gain)
+			events.append({"type": Protocol.EVT_XP, "gain": gain, "xp": character.xp, "niveau": character.level})
+			for reached in levels:
+				events.append({"type": Protocol.EVT_LEVEL_UP, "niveau": reached, "points": character.unspent_points})
+			events.append(_character_event())
+			return
+
+
+func _spend_points(command: Dictionary) -> Array[Dictionary]:
+	var entity_id: Variant = command.get("entite")
+	var stat_name: Variant = command.get("carac")
+	var points: Variant = command.get("points", 1)
+	if typeof(entity_id) != TYPE_STRING or entity_id != PLAYER_ID or typeof(stat_name) != TYPE_STRING or typeof(points) != TYPE_INT:
+		return _refused(command, Protocol.REASON_INVALID_COMMAND)
+	var reason := character.spend_points(stat_name, points)
+	if not reason.is_empty():
+		return _refused(command, reason)
+	var events: Array[Dictionary] = [_character_event()]
+	return events
+
+
+func _character_event() -> Dictionary:
+	return {"type": Protocol.EVT_CHARACTER, "personnage": character.sheet(data)}
+
+
+# --- Sauvegarde ---------------------------------------------------------------------------------
+
+const SAVE_VERSION := 1
+
+
+## État à sauvegarder : personnage, carte et position, groupes restants des cartes visitées.
+func save_data() -> Dictionary:
+	var remaining := {}
+	_map_states[map.id] = _groups
+	for map_id: String in _map_states:
+		remaining[map_id] = _map_states[map_id].keys()
+	var position := position_of(PLAYER_ID)
+	return {
+		"version": SAVE_VERSION,
+		"personnage": character.to_dict(),
+		"carte": map.id,
+		"position": [position.x, position.y],
+		"groupes_restants": remaining,
+	}
+
+
+## Monde reconstruit depuis une sauvegarde, ou `null` si elle est inutilisable.
+static func from_save(save: Dictionary, p_data: GameData, p_map_loader: Callable) -> World:
+	if int(save.get("version", 0)) != SAVE_VERSION or typeof(save.get("personnage")) != TYPE_DICTIONARY:
+		return null
+	var saved_character := Character.from_dict(save["personnage"])
+	if saved_character == null or typeof(save.get("carte")) != TYPE_STRING or not p_map_loader.is_valid():
+		return null
+	var start_map: GameMap = p_map_loader.call(save["carte"])
+	if start_map == null:
+		return null
+	var world := World.new(start_map, p_data, p_map_loader, saved_character)
+	var remaining: Variant = save.get("groupes_restants", {})
+	if typeof(remaining) == TYPE_DICTIONARY:
+		for map_id: Variant in remaining:
+			if typeof(map_id) != TYPE_STRING or typeof(remaining[map_id]) != TYPE_ARRAY:
+				continue
+			var saved_map := world._load_map(map_id)
+			if saved_map == null:
+				continue
+			var groups := {}
+			for group in saved_map.groups:
+				if group["id"] in remaining[map_id]:
+					groups[group["id"]] = group.duplicate(true)
+			world._map_states[map_id] = groups
+		if world._map_states.has(start_map.id):
+			world._groups = world._map_states[start_map.id]
+	var saved_position: Variant = save.get("position")
+	var position := start_map.spawn
+	if typeof(saved_position) == TYPE_ARRAY and saved_position.size() == 2:
+		var cell := Vector2i(int(saved_position[0]), int(saved_position[1]))
+		if start_map.is_walkable(cell):
+			position = cell
+	world._positions = {PLAYER_ID: position}
+	for group_id: String in world._groups:
+		world._positions[group_id] = world._groups[group_id]["case"]
+	return world
 
 
 func _moved_event(from: Vector2i, path: Array[Vector2i]) -> Dictionary:

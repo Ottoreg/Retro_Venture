@@ -1,0 +1,11 @@
+{
+  "id": "arcaniste_boule_de_feu",
+  "nom": "Boule de feu",
+  "description": "Le grand classique. Brûle la cible et tout ce qui l'entoure, amis compris : visez bien.",
+  "cout_pa": 4,
+  "portee": {"min": 2, "max": 6},
+  "ligne_de_vue": true,
+  "zone": {"type": "cercle", "taille": 1},
+  "relance": {"par_tour": 1},
+  "effets": [{"type": "degats", "element": "flamme", "min": 5, "max": 8}]
+}

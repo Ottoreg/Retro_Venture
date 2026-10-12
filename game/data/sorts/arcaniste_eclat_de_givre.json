@@ -1,0 +1,13 @@
+{
+  "id": "arcaniste_eclat_de_givre",
+  "nom": "Éclat de givre",
+  "description": "Un éclat de glace qui engourdit les jambes : la cible aura un PM de moins au prochain tour.",
+  "cout_pa": 3,
+  "portee": {"min": 1, "max": 5},
+  "ligne_de_vue": true,
+  "relance": {"par_tour": 2},
+  "effets": [
+    {"type": "degats", "element": "givre", "min": 4, "max": 6},
+    {"type": "retrait_pm", "min": 1, "max": 1}
+  ]
+}

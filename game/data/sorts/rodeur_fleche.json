@@ -1,0 +1,10 @@
+{
+  "id": "rodeur_fleche",
+  "nom": "Flèche",
+  "description": "Une flèche bien droite. Enfin, à peu près.",
+  "cout_pa": 3,
+  "portee": {"min": 2, "max": 6},
+  "ligne_de_vue": true,
+  "relance": {"par_tour": 2},
+  "effets": [{"type": "degats", "element": "tempete", "min": 5, "max": 8}]
+}

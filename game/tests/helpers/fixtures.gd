@@ -56,6 +56,12 @@ static func spells() -> Array:
 			"lanceur_exclu": true, "effets": [{"type": "degats", "element": "acier", "min": 4, "max": 4}]},
 		{"id": "soin", "nom": "Soin", "cout_pa": 2, "portee": {"min": 0, "max": 0}, "relance": {"delai": 2},
 			"effets": [{"type": "soin", "min": 10, "max": 10}]},
+		{"id": "bond", "nom": "Bond", "cout_pa": 1, "portee": {"min": 1, "max": 3}, "ligne_de_vue": false,
+			"effets": [{"type": "teleportation"}]},
+		{"id": "elan", "nom": "Élan", "cout_pa": 1, "portee": {"min": 0, "max": 0},
+			"effets": [{"type": "gain_pa", "min": 2, "max": 2}]},
+		{"id": "entrave", "nom": "Entrave", "cout_pa": 1, "portee": {"min": 1, "max": 1},
+			"effets": [{"type": "retrait_pm", "min": 1, "max": 1}]},
 	]
 
 
@@ -78,9 +84,20 @@ static func data() -> GameData:
 	var voies := [{
 		"id": "test", "nom": "Test",
 		"caracteristiques": {"pv": 50, "pa": 6, "pm": 3, "initiative": 100},
-		"sorts": ["frappe", "piqure", "tir", "zone", "soin"],
+		"sorts": ["frappe", "piqure", "tir", "zone", "soin", "elan", "entrave"],
 	}]
-	return GameData.from_dicts(spells(), monsters, voies)
+	var races := [{
+		"id": "testeur", "nom": "Testeur", "camp": "allie", "carte_depart": "test",
+		"bonus": {"force": 50, "vitalite": 7, "sagesse": 100},
+		"passif": {"nom": "Vue perçante", "effet": {"type": "portee", "valeur": 1}},
+		"sort": "bond",
+	}]
+	return GameData.from_dicts(spells(), monsters, voies, races)
+
+
+## Personnage de test : race « testeur » (Force +50, Vitalité +7, Sagesse +100, portée +1, sort « bond »).
+static func character() -> Character:
+	return Character.create("Testeur", "testeur", "test")
 
 
 ## Combat avec le joueur en `player_cell` et des monstres [[id, case], …] (ids m0, m1…).

@@ -149,18 +149,24 @@ func targeting_blocker(fighter: Fighter, spell: Spell, target: Vector2i, origin 
 	if not map.is_inside(target):
 		return Protocol.REASON_OUT_OF_MAP
 	var distance := IsoGrid.distance(from, target)
-	if distance < spell.range_min or distance > spell.range_max:
+	if distance < spell.range_min or distance > max_range(fighter, spell):
 		return Protocol.REASON_OUT_OF_RANGE
 	if spell.needs_line_of_sight and not LineOfSight.is_clear(from, target, _sight_blocker(fighter)):
 		return Protocol.REASON_NO_LINE_OF_SIGHT
 	return ""
 
 
+## Portée maximale réelle : les sorts à distance (portée de 2 ou plus) profitent des bonus de portée.
+func max_range(fighter: Fighter, spell: Spell) -> int:
+	return spell.range_max + (fighter.range_bonus if spell.range_max >= 2 else 0)
+
+
 ## Cases à portée du sort, avec et sans ligne de vue (pour l'affichage).
 func spell_range(fighter: Fighter, spell: Spell) -> Dictionary:
 	var result := {"visibles": [] as Array[Vector2i], "masquees": [] as Array[Vector2i]}
-	for dy in range(-spell.range_max, spell.range_max + 1):
-		for dx in range(-spell.range_max, spell.range_max + 1):
+	var reach := max_range(fighter, spell)
+	for dy in range(-reach, reach + 1):
+		for dx in range(-reach, reach + 1):
 			var cell := fighter.cell + Vector2i(dx, dy)
 			var blocker := targeting_blocker(fighter, spell, cell)
 			if blocker.is_empty():
@@ -278,6 +284,8 @@ func _cast(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 	var blocker := fighter.cast_blocker(spell)
 	if blocker.is_empty():
 		blocker = targeting_blocker(fighter, spell, target)
+	if blocker.is_empty() and spell.teleports() and target != fighter.cell and not is_free(target):
+		blocker = Protocol.REASON_OCCUPIED if fighter_at(target) != null else Protocol.REASON_BLOCKED
 	if not blocker.is_empty():
 		return _refused(command, blocker)
 
@@ -289,6 +297,10 @@ func _cast(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 		"cible": target,
 		"pa": fighter.pa,
 	}]
+	if spell.teleports():
+		var from := fighter.cell
+		fighter.cell = target
+		events.append({"type": Protocol.EVT_TELEPORTED, "entite": fighter.id, "depuis": from, "case": target})
 	var targets: Array[Fighter] = []
 	for cell in spell.zone_cells(target):
 		var hit := fighter_at(cell)
@@ -296,22 +308,34 @@ func _cast(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 			targets.append(hit)
 	for hit in targets:
 		for effect in spell.effects:
-			if hit.is_alive():
-				_apply_effect(hit, effect, events)
+			if hit.is_alive() and effect["type"] != Spell.EFFECT_TELEPORT:
+				_apply_effect(fighter, hit, effect, events)
 	_check_end(events)
 	return events
 
 
-func _apply_effect(target: Fighter, effect: Dictionary, events: Array[Dictionary]) -> void:
+## Dégâts : base × (100 + caractéristique de l'élément du lanceur) % × (100 − résistance de la cible) %.
+## Soins : base × (100 + intelligence du lanceur) %.
+func _apply_effect(caster: Fighter, target: Fighter, effect: Dictionary, events: Array[Dictionary]) -> void:
 	var amount := rng.randi_range(effect["min"], effect["max"])
+	if effect["type"] == Spell.EFFECT_GAIN_PA:
+		target.pa += amount
+		events.append({"type": Protocol.EVT_STATUS, "entite": target.id, "effet": Spell.EFFECT_GAIN_PA, "valeur": amount, "pa": target.pa, "pm": target.pm})
+		return
+	if effect["type"] == Spell.EFFECT_REMOVE_PM:
+		target.pm_malus += amount
+		events.append({"type": Protocol.EVT_STATUS, "entite": target.id, "effet": Spell.EFFECT_REMOVE_PM, "valeur": amount, "pa": target.pa, "pm": target.pm})
+		return
 	if effect["type"] == Spell.EFFECT_DAMAGE:
 		var element: String = effect["element"]
-		amount = maxi(0, roundi(amount * (100 - target.resistance(element)) / 100.0))
+		var boosted := amount * (100 + caster.power(element)) / 100.0
+		amount = maxi(0, roundi(boosted * (100 - target.resistance(element)) / 100.0))
 		target.hp = maxi(0, target.hp - amount)
 		events.append({"type": Protocol.EVT_DAMAGE, "entite": target.id, "valeur": amount, "element": element, "pv": target.hp})
 		if not target.is_alive():
 			events.append({"type": Protocol.EVT_DIED, "entite": target.id})
 	elif effect["type"] == Spell.EFFECT_HEAL:
+		amount = roundi(amount * (100 + caster.stat("intelligence")) / 100.0)
 		amount = mini(amount, target.max_hp - target.hp)
 		target.hp += amount
 		events.append({"type": Protocol.EVT_HEAL, "entite": target.id, "valeur": amount, "pv": target.hp})
