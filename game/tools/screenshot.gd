@@ -3,7 +3,7 @@ extends SceneTree
 ##   xvfb-run -s "-screen 0 1280x720x24" godot --path game --rendering-driver opengl3 \
 ##     -s res://tools/screenshot.gd -- sortie.png [carte] [frames] [action]
 ## Lance la scène du monde (nouvelle partie), attend quelques images et enregistre la vue.
-## Action : « combat » (engage le premier groupe de la carte), « butin » (écran de fin de combat d'exemple), « elite7 » (Loup alpha de rang 7 survolé), « inventaire », « metiers », « sorts » (ouvre la
+## Action : « combat » (engage le premier groupe de la carte), « butin » (écran de fin de combat d'exemple), « elite7 » (Loup alpha de rang 7 survolé), « cible » (combat, monstre survolé), « inventaire », « metiers », « sorts » (ouvre la
 ## fenêtre ; « inventaire » remplit d'abord le sac d'un exemplaire de chaque objet) ou « pierre » (va utiliser
 ## la Pierre de Passage).
 ## Si « carte » commence par res://, c'est cette scène qui est capturée (menu, création…).
@@ -65,12 +65,23 @@ func _process(_delta: float) -> bool:
 		elif _action == "sorts":
 			_scene.get_node("SpellsWindow").toggle()
 		else:
-			var target: Vector2i = view.world.groups()[0]["case"] if _action == "combat" else view.current_map().travel_stone()
+			var target: Vector2i = view.world.groups()[0]["case"] if _action in ["combat", "cible"] else view.current_map().travel_stone()
 			view._on_click(target)
 			for i in 200:
 				if not view.is_busy():
 					break
 				view._process(0.3)
+			if _action == "cible" and view.world.combat != null:
+				# Placement validé, puis survol du premier monstre.
+				view.request_start_fight()
+				for i in 200:
+					if not view.is_busy():
+						break
+					view._process(0.3)
+				for fighter in view.world.combat.fighters:
+					if fighter.team != Fighter.TEAM_PLAYERS:
+						view._set_hovered(fighter.cell)
+						break
 		_action = ""
 	_frames -= 1
 	if _frames > 0:

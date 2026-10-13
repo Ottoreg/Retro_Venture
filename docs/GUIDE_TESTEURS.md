@@ -64,6 +64,8 @@ bandeau, hors combat, ouvre sa fiche.
    - lancer un sort : touche **1 à 0** ou clic sur son icône, puis clic sur la cible (cases bleues :
      portée ; un second clic sur le sort, un **clic droit** ou **Échap** l'annule) ;
    - **Fin de tour** : bouton du bandeau.
+   - survoler un combattant : son niveau, ses PV, PA, PM et ses résistances s'affichent à la place
+     de la barre de sorts.
 3. Fin du combat : expérience, écus et butin (une icône par objet avec sa quantité ; le nom en
    survolant). En cas de défaite, on se réveille au point de départ avec 1 PV.
    Si le sac (60 places) est plein, le butin y entre quand même, en surplus : il faut alors faire de

@@ -218,6 +218,8 @@ Objectif : **10 à 15 h de jeu solo, niveaux 1 à 30 : 3 zones de départ (une p
   métiers avec un onglet par métier, boutique, atelier, coffre ; reste : quêtes)
 - [ ] **(MVP)** Menu principal, options (volume, résolution), pause
 - [ ] Infobulles d'objets et de sorts (comparaison avec l'équipement porté)
+- [x] En combat, au survol d'un combattant : nom, niveau, PV, PA, PM et résistances à la place de la
+  barre de sorts
 - [x] Inventaire : 8 cases « Reliques » visibles dès le début (vides tant que la Relique n'est pas
   reprise), en plus des 2 anneaux
 - [ ] Raccourcis clavier
@@ -294,6 +296,13 @@ Objectif : **10 à 15 h de jeu solo, niveaux 1 à 30 : 3 zones de départ (une p
 - [ ] Chaîne finale et combat contre le Souverain Cendré
 - [ ] Mise en scène dans le moteur (déplacements scriptés, caméra, bulles)
 - [ ] Événements de monde (invasions cendrées)
+
+### Encyclopédie
+- [ ] Fenêtre d'encyclopédie avec recherche et liens entre fiches (GDD § 14.4)
+- [ ] Fiches d'objets : jets possibles, conditions, panoplie, comment l'obtenir (butin, recette, marchand)
+- [ ] Fiches de monstres : caractéristiques, résistances, sorts, butin et taux, zones, élite
+- [ ] Fiches de classes et de races : rôle, éléments, sorts, passif et sort racial
+- [ ] Décider : tout visible d'emblée, ou fiches de monstres débloquées au fil des rencontres (bestiaire)
 
 ### Objets légendaires
 - [ ] Les 8 Reliques (bagues) : 8 emplacements équipables en même temps en plus des 2 anneaux,

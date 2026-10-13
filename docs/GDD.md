@@ -727,8 +727,28 @@ ingrédients).
 - **Fenêtres :** inventaire avec poupée d'équipement, fiche de caractéristiques, grimoire de sorts,
   journal de quêtes, fenêtre de métier.
 - **En combat :** frise d'initiative, prévisualisation de portée et de zone, dégâts estimés au survol,
-  bouton « fin de tour ».
+  bouton « fin de tour ». Au survol d'un combattant, ses informations (nom, niveau, PV, PA, PM,
+  résistances aux 6 éléments) remplacent la barre de sorts, comme dans Dofus Rétro.
 - Interface redimensionnable, lisible en 1280×720 minimum.
+
+### 14.4 Encyclopédie (long terme)
+
+Une fenêtre qui regroupe tout ce que le joueur peut vouloir vérifier sans quitter le jeu, avec une
+recherche et des liens entre les fiches (un objet renvoie aux monstres qui le lâchent, un monstre à
+ses objets) :
+
+- **Objets** : icône, type, niveau, rareté, jets possibles, conditions, attaque des armes, panoplie
+  et ses bonus, et comment l'obtenir (butin de quels monstres, recette de quel métier, marchand).
+- **Monstres** : apparence, niveau, PV, PA, PM, résistances, sorts, butin avec les taux, zones où
+  il vit, son élite et son butin.
+- **Classes (Voies) et races** : rôle, éléments, sorts avec leur fiche, passif et sort racial ;
+  plus tard les Voies Miroir.
+- **Découverte** (à décider) : tout est visible d'emblée, ou les fiches de monstres se remplissent
+  au fil des rencontres et des victoires (silhouette tant qu'on ne l'a pas croisé), à la manière
+  d'un bestiaire.
+
+Les fiches sont générées à partir des données du jeu (`game/data/`), sans texte à tenir à jour à
+la main.
 
 ---
 

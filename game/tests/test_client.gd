@@ -30,6 +30,21 @@ func test_scene_du_monde_jusqu_au_combat_et_retour() -> void:
 	view.request_start_fight()
 	_run_until_idle(view)
 	assert_true(view.is_player_turn(), "la main revient au joueur")
+
+	# Survol d'un monstre : ses infos remplacent la barre de sorts.
+	var enemy: Fighter = null
+	for fighter in view.world.combat.fighters:
+		if fighter.team != Fighter.TEAM_PLAYERS:
+			enemy = fighter
+	view._set_hovered(enemy.cell)
+	assert_true(hud._target_box.visible and not hud._spells_box.visible, "infos de la cible à la place des sorts")
+	assert_eq(hud._target_name.text, enemy.display_name)
+	assert_eq(hud._target_level.text, "Niveau %d" % view.world.data.monsters[enemy.kind]["niveau"])
+	assert_true(hud._target_stats.text.contains("PV %d / %d" % [enemy.hp, enemy.max_hp]), hud._target_stats.text)
+	assert_eq(hud._target_resistances.size(), 6, "résistances aux 6 éléments")
+	assert_eq(hud._target_resistances["givre"].text, "Givre %+d %%" % enemy.resistance("givre") if enemy.resistance("givre") != 0 else "Givre 0 %")
+	view._set_hovered(view.world.combat.get_fighter(World.PLAYER_ID).cell + Vector2i(40, 40))
+	assert_true(hud._spells_box.visible and not hud._target_box.visible, "les sorts reviennent")
 	var fighter := view.player_fighter()
 	view.select_spell(fighter.spells[0].id)
 	assert_eq(view.selected_spell, fighter.spells[0].id, "sort sélectionné")

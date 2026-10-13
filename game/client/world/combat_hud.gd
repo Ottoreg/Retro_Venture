@@ -7,6 +7,8 @@ extends CanvasLayer
 const BAR_HEIGHT := 96
 ## Message quand le sac déborde (butin en surplus).
 const OVERLOAD_TEXT := "Inventaire surchargé ! Faites de la place (vendre, jeter, ranger au coffre) pour pouvoir combattre à nouveau."
+## Noms courts des éléments pour les résistances du combattant survolé.
+const RESISTANCE_NAMES := {"acier": "Acier", "flamme": "Flamme", "givre": "Givre", "tempete": "Tempête", "sacre": "Sacré", "impie": "Impie"}
 const SPELL_KEYS := [KEY_1, KEY_2, KEY_3, KEY_4, KEY_5, KEY_6, KEY_7, KEY_8, KEY_9, KEY_0]
 const MENUS := [["personnage", "icone_personnage", "Personnage (C)"], ["inventaire", "icone_inventaire", "Inventaire (I)"],
 	["sorts", "icone_sorts", "Sorts (S)"], ["metiers", "icone_metiers", "Métiers (J)"]]
@@ -99,6 +101,14 @@ var _hp_gauge: Gauge
 var _pa_gauge: Gauge
 var _pm_gauge: Gauge
 var _spells_box: HBoxContainer
+## En combat, au survol d'un combattant : ses informations à la place de la barre de sorts.
+var _target_box: HBoxContainer
+var _target_name: Label
+var _target_level: Label
+var _target_stats: Label
+var _target_resistances := {}
+## Id du combattant survolé ("" si aucun).
+var _target_id := ""
 var _turn_button: Button
 var _menu_buttons := {}
 var _order_label: Label
@@ -131,6 +141,7 @@ func setup(p_map_view: MapView) -> void:
 	map_view.exploration_resumed.connect(_on_exploration_resumed)
 	map_view.character_changed.connect(_refresh_exploration)
 	map_view.inventory_changed.connect(_refresh_exploration)
+	map_view.hovered_cell_changed.connect(_on_hovered_cell_changed)
 	_refresh_exploration()
 
 
@@ -231,6 +242,49 @@ func _on_combat_started() -> void:
 	_refresh()
 
 
+# --- Combattant survolé ------------------------------------------------------------------------
+
+## Survol d'une case en combat : un combattant vivant y est-il ? Ses infos remplacent les sorts.
+func _on_hovered_cell_changed(cell: Vector2i, _description: String) -> void:
+	var fighter: Fighter = null
+	if map_view.mode == MapView.Mode.COMBAT and map_view.world.combat != null:
+		fighter = map_view.world.combat.fighter_at(cell)
+	_target_id = fighter.id if fighter != null else ""
+	_show_target()
+
+
+func _show_target() -> void:
+	var fighter: Fighter = null
+	if not _target_id.is_empty() and map_view.mode == MapView.Mode.COMBAT and map_view.world.combat != null:
+		fighter = map_view.world.combat.get_fighter(_target_id)
+	if fighter == null or not fighter.is_alive():
+		_target_id = ""
+		_target_box.visible = false
+		_spells_box.visible = true
+		return
+	var shown := map_view.actor(fighter.id)  # Ce qu'affiche la carte (les animations peuvent être en retard).
+	var level := map_view.world.character.level
+	if fighter.team != Fighter.TEAM_PLAYERS:
+		level = int(map_view.world.data.monsters.get(fighter.kind, {}).get("niveau", 1))
+	_target_name.text = fighter.display_name
+	_target_name.add_theme_color_override("font_color", Color(0.6, 0.8, 1.0) if fighter.team == Fighter.TEAM_PLAYERS else Color(1.0, 0.62, 0.5))
+	_target_level.text = "Niveau %d" % level
+	# PA et PM : ce qu'il lui reste pendant son tour, sinon ce qu'il aura au prochain (PM retirés compris).
+	var pa := fighter.max_pa
+	var pm := maxi(0, fighter.max_pm - fighter.pm_malus)
+	if map_view.current_turn == fighter.id:
+		pa = shown.get("pa", fighter.pa)
+		pm = shown.get("pm", fighter.pm)
+	_target_stats.text = "PV %d / %d\nPA %d / %d   ·   PM %d / %d" % [shown.get("hp", fighter.hp), fighter.max_hp,
+		pa, fighter.max_pa, pm, fighter.max_pm]
+	for element: String in _target_resistances:
+		var value := fighter.resistance(element)
+		var label: Label = _target_resistances[element]
+		label.text = "%s %+d %%" % [RESISTANCE_NAMES[element], value] if value != 0 else "%s 0 %%" % RESISTANCE_NAMES[element]
+	_target_box.visible = true
+	_spells_box.visible = false
+
+
 func _on_combat_ended(result: Dictionary) -> void:
 	_turn_button.visible = false
 	_order_label.visible = false
@@ -287,6 +341,8 @@ func _loot_slot(drop: Dictionary) -> Control:
 
 
 func _on_exploration_resumed() -> void:
+	_target_id = ""
+	_show_target()
 	_turn_button.visible = false
 	_order_label.visible = false
 	for menu: String in _menu_buttons:
@@ -328,6 +384,8 @@ func _refresh_exploration() -> void:
 func _refresh() -> void:
 	if map_view == null or map_view.mode != MapView.Mode.COMBAT:
 		return
+	if not _target_id.is_empty():
+		_show_target()
 	var player := map_view.actor(World.PLAYER_ID)
 	if not player.is_empty():
 		_hp_gauge.show_values(int(player["hp"]), int(player["max_hp"]))
@@ -395,6 +453,7 @@ func _build() -> void:
 	_spells_box.alignment = BoxContainer.ALIGNMENT_CENTER
 	_spells_box.add_theme_constant_override("separation", 4)
 	row.add_child(_spells_box)
+	_build_target_box(row)
 
 	_turn_button = Button.new()
 	_turn_button.custom_minimum_size = Vector2(140, 50)
@@ -478,6 +537,35 @@ func _build() -> void:
 	_overload_label.visible = false
 	result_box.add_child(_overload_label)
 	result_box.add_child(continue_button)
+
+
+func _build_target_box(row: HBoxContainer) -> void:
+	_target_box = HBoxContainer.new()
+	_target_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_target_box.alignment = BoxContainer.ALIGNMENT_CENTER
+	_target_box.add_theme_constant_override("separation", 24)
+	_target_box.visible = false
+	row.add_child(_target_box)
+	var identity := VBoxContainer.new()
+	identity.alignment = BoxContainer.ALIGNMENT_CENTER
+	_target_box.add_child(identity)
+	_target_name = _label(18, Color(1.0, 0.62, 0.5))
+	identity.add_child(_target_name)
+	_target_level = _label(14, Color(0.85, 0.82, 0.72))
+	identity.add_child(_target_level)
+	_target_stats = _label(15, Color.WHITE)
+	_target_stats.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	_target_box.add_child(_target_stats)
+	var resistances := GridContainer.new()
+	resistances.columns = 3
+	resistances.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	resistances.add_theme_constant_override("h_separation", 14)
+	resistances.tooltip_text = "Résistances : dégâts reçus en moins (en négatif : en plus)"
+	_target_box.add_child(resistances)
+	for element: String in Spell.ELEMENTS:
+		var label := _label(13, SpellsWindow.ELEMENT_COLORS.get(element, Color.WHITE))
+		resistances.add_child(label)
+		_target_resistances[element] = label
 
 
 func _gauge(kind: String, minimum: Vector2, tooltip: String) -> Gauge:
