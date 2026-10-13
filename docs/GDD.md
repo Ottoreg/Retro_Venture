@@ -77,39 +77,48 @@ des siècles, seules armes capables de vaincre le **Souverain Cendré** avant qu
 
 ### 3.1 Le monde : les Terres de Varn
 
-Un continent ancien, marqué par une guerre oubliée. Les peuples libres (Humains, Elfes, Géants,
-Lutins et d'autres) vivent séparés, méfiants les uns envers les autres. À l'est, au-delà des montagnes, s'étendent
+Un continent ancien, marqué par une guerre oubliée. Les peuples libres (Humains, Elfes, Nains,
+Géants, Semi-hommes, Lutins et d'autres) vivent séparés, méfiants les uns envers les autres. À l'est, au-delà des montagnes, s'étendent
 les **Marches Cendrées**, une terre morte où quelque chose se réveille.
 
 ### 3.2 Histoire
 
-- **L'Âge de l'Aube.** Les premiers peuples forgent ensemble sept **Reliques de l'Aube**, chacune
-  porteuse d'une part de la lumière originelle.
+- **L'Âge de l'Aube.** Les premiers peuples forgent ensemble huit **Reliques de l'Aube** : huit
+  bagues, chacune porteuse d'une part de la lumière originelle.
 - **La Première Ombre.** Vorhak, un roi-sorcier, veut s'approprier la lumière des Reliques pour régner
   sur toute chose. Les peuples s'unissent, le vainquent au prix d'une guerre terrible, et l'enferment
   dans sa citadelle de **Nocthrône**.
 - **La Dispersion.** Pour qu'aucun peuple ne puisse un jour devenir à son tour un tyran, les Reliques
   sont séparées et cachées aux quatre coins du monde. Leur emplacement se perd dans les légendes.
 - **Aujourd'hui.** Les cendres recommencent à tomber sur les terres de l'est. Des créatures corrompues
-  descendent des montagnes. Vorhak, devenu le **Souverain Cendré**, s'éveille et envoie ses servants
-  traquer les Reliques avant les peuples libres.
+  descendent des montagnes. Vorhak, devenu le **Souverain Cendré**, s'éveille : ses servants ont
+  retrouvé les huit bagues avant les peuples libres, et chacune est désormais portée par l'un de ses
+  plus puissants sbires, les **Hérauts Cendrés**, dispersés aux quatre coins du monde.
 
 ### 3.3 Les Reliques de l'Aube (quête principale)
 
-Chaque Relique est liée à une région, un peuple, une chaîne de quêtes et un donjon final. Le joueur les
-récupère une à une ; chacune débloque un pouvoir unique (emplacement d'équipement « Relique », voir § 9).
+Les Reliques sont **huit bagues légendaires**. Chacune est liée à une région, un peuple, une chaîne de
+quêtes et un donjon final, et elle est détenue par un **Héraut Cendré** (boss du donjon). Le joueur
+les reprend une à une ; chacune donne un pouvoir unique.
 
-| # | Relique | Région | Peuple gardien | Pouvoir envisagé |
+**Gameplay :** les huit Reliques s'équipent **toutes en même temps**, dans huit emplacements
+« Reliques » qui s'ajoutent aux deux anneaux de base du personnage (voir § 9.1). Ces emplacements
+sont visibles dans l'inventaire dès le début, vides tant que la Relique n'a pas été reprise : ils
+montrent au joueur ce qui reste à conquérir.
+
+| # | Relique (bague) | Région | Peuple lié | Pouvoir envisagé |
 |---|---|---|---|---|
-| 1 | La Lanterne d'Aube | Collines de Brumerive | Lutins | Révèle les invisibles, bonus de prospection |
-| 2 | La Lame Sans-Rouille | Hautepierre | Humains | Dégâts de Lumière, brise les boucliers |
-| 3 | Le Cor des Vents | Plaines d'Orvent | Humains (cavaliers) | Invoque une charge, +PM aux alliés |
-| 4 | La Feuille d'Argent | Sylvebrume | Elfes | Soins de zone, résistance à l'Ombre |
-| 5 | L'Enclume-Cœur | Forges de Durhal | Géants | Améliore les objets, armure |
-| 6 | La Couronne Brisée | Marais Gris | (perdue ; convoitée par les Squelettes) | Domine les morts-vivants |
-| 7 | L'Étoile Première | Nocthrône | — | Requise pour l'affrontement final |
+| 1 | L'Anneau-Lanterne | Collines de Brumerive | Semi-hommes | Révèle les invisibles, bonus de prospection |
+| 2 | La Chevalière Sans-Rouille | Hautepierre | Humains | Dégâts sacrés, brise les boucliers |
+| 3 | L'Anneau de la Feuille d'Argent | Sylvebrume | Elfes | Soins de zone, résistance impie |
+| 4 | L'Anneau-Enclume | Forges de Durhal | Nains | Améliore les objets, armure |
+| 5 | La Bague des Cimes | Montagnes des Géants *(région à nommer)* | Géants | +PM aux alliés, poussée renforcée |
+| 6 | Le Grelot Farfelu | Bois des Lutins *(région à nommer)* | Lutins | Échange de place, esquive |
+| 7 | Le Sceau du Contremaître | Fosses de Crasse-Roc *(à définir)* | Gobelins et Orcs | +PA au premier tour, intimidation |
+| 8 | L'Anneau des Morts | Marais Gris | Squelettes | Domine les morts-vivants |
 
-L'ordre d'obtention est libre pour les Reliques 1 à 5, puis imposé pour 6 et 7.
+L'ordre d'obtention est libre pour les six premières, puis imposé pour les deux dernières ; les huit
+sont requises pour affronter le Souverain Cendré à Nocthrône.
 
 ### 3.4 Les trois camps et l'arc de l'alliance
 
@@ -117,13 +126,14 @@ Au début du jeu, les peuples sont loin d'être unis. Chaque race jouable appart
 les premières quêtes des trois camps **s'opposent**. Elles se rejoignent quand tous les peuples
 comprennent qu'ils veulent la même chose : abattre le Souverain Cendré.
 
-| Camp | Race de l'alpha | Race de Phase 3 (proposition) | Situation au départ |
+| Camp | Race de l'alpha | Races de Phase 3 | Situation au départ |
 |---|---|---|---|
-| **Allié** | Humains | Géants | Défendent leurs terres contre les raids gobelins et pensent que les gobelins sont *le* problème. |
-| **Ennemi** | Gobelins | Squelettes (morts-vivants) | Main-d'œuvre corvéable du Souverain Cendré : raids et pillages sur ordre, contremaîtres tyranniques, aucune reconnaissance. |
-| **Neutre** | Elfes | Lutins | « Ce n'est pas notre guerre. » Se tiennent à l'écart, observent, et ne s'en mêlent que si leur forêt est menacée. |
+| **Allié** | Humains | Nains, Géants | Défendent leurs terres contre les raids gobelins et pensent que les gobelins sont *le* problème. |
+| **Ennemi** | Gobelins | Orcs, Squelettes (morts-vivants) | Main-d'œuvre corvéable du Souverain Cendré : raids et pillages sur ordre, contremaîtres tyranniques, aucune reconnaissance. |
+| **Neutre** | Elfes | Semi-hommes, Lutins | « Ce n'est pas notre guerre. » Se tiennent à l'écart, observent, et ne s'en mêlent que si leur forêt est menacée. |
 
-Les trois peuples de Phase 3 :
+Trois races par camp : une dès l'alpha, deux en Phase 3. Les Nains, Orcs et Semi-hommes jouent leur
+cliché attendu (bourrus, brutaux, gourmands) ; les trois autres peuples de Phase 3 :
 
 - **Géants (allié)** : anciens gardiens des montagnes, alliés historiques des humains. Lents à se
   décider, impossibles à arrêter une fois lancés ; ils cognent les plafonds des maisons humaines.
@@ -162,8 +172,8 @@ l'histoire.
 #### Antagoniste et factions
 
 - **Le Souverain Cendré (Vorhak)** : boss final. Il n'apparaît que par ses lieutenants jusqu'à la fin.
-- **Les Hérauts Cendrés** : lieutenants, un par région, chacun boss d'un donjon de Relique. Ce sont
-  aussi les supérieurs directs des gobelins pendant l'acte I.
+- **Les Hérauts Cendrés** : les huit plus puissants sbires du Souverain, chacun porteur d'une Relique
+  et boss de son donjon. Ce sont aussi les supérieurs directs des gobelins pendant l'acte I.
 - **Les Corrompus** : monstres touchés par les cendres (versions plus fortes des monstres normaux).
 - **Le Conseil des Peuples Libres** : formé à l'acte III, « hub » de la quête principale ensuite.
 
@@ -174,10 +184,11 @@ l'histoire.
 | Collines de Brumerive | Campagne humaine, village de départ du camp allié | 1–12 | Alpha |
 | Galeries de Crasse-Roc *(nom provisoire)* | Campement et mines gobelins au pied des montagnes, départ du camp ennemi | 1–12 | Alpha |
 | Lisière de Sylvebrume | Avant-poste elfe en bordure de forêt, départ du camp neutre | 1–12 | Alpha |
-| Zones de départ de Phase 3 *(à nommer)* | Contreforts des Géants (allié), ossuaire squelette (ennemi), bois des Lutins (neutre) | 1–12 | Long terme |
+| Zones de départ de Phase 3 *(à nommer)* | Une par race : Nains et Géants (allié), Orcs et Squelettes (ennemi), Semi-hommes et Lutins (neutre) | 1–12 | Long terme |
 | Hautepierre et ses environs | Cité humaine fortifiée ; terrain d'affrontement (acte II) puis de l'alliance (acte III) | 12–30 | Alpha |
 | Sylvebrume (cœur de la forêt) | Forêt elfique ancienne et brumeuse | 25–40 | Long terme |
-| Forges de Durhal | Montagnes et forteresses des Géants | 25–45 | Long terme |
+| Forges de Durhal | Montagnes et cités naines souterraines | 25–45 | Long terme |
+| Montagnes des Géants *(à nommer)* | Cimes, forteresses taillées à la mesure des Géants | 30–50 | Long terme |
 | Plaines d'Orvent | Steppes de cavaliers | 35–55 | Long terme |
 | Marais Gris | Marécages hantés, ruines | 50–70 | Long terme |
 | Marches Cendrées / Nocthrône | Terre désolée, citadelle | 70–100 | Long terme |
@@ -185,8 +196,8 @@ l'histoire.
 ### 3.6 Ton
 
 **Parodique, mais un minimum sérieux.** Le jeu détourne les codes du *Seigneur des Anneaux*
-(la quête interminable, les prophéties, les elfes hautains, les géants pas très fins, les lutins
-farceurs, les morts-vivants qui ne savent plus pourquoi ils se battent, les méchants très méchants), à la manière dont Dofus joue sur les mots et
+(la quête interminable, les prophéties, les elfes hautains, les nains bourrus, les géants pas très
+fins, les semi-hommes qui pensent surtout à manger, les lutins farceurs, les orcs braillards, les morts-vivants qui ne savent plus pourquoi ils se battent, les méchants très méchants), à la manière dont Dofus joue sur les mots et
 les références.
 
 - **L'humour** passe par les noms (jeux de mots, détournements, comme les classes de Dofus), les
@@ -212,19 +223,23 @@ Une race apporte : un bonus de caractéristiques, un passif racial et un sort ra
 aucune classe. L'impact doit rester modéré (environ 5 à 10 % de puissance) pour ne pas imposer de
 combinaisons « optimales ».
 
-**Les 6 races du jeu** (validées) : une par camp dès l'alpha (voir § 3.4), les 3 autres (Géants,
-Lutins, Squelettes) en Phase 3.
+**Les 9 races du jeu** (validées) : trois par camp (voir § 3.4). Une par camp dès l'alpha, les six
+autres (Nains, Orcs, Semi-hommes, Géants, Squelettes, Lutins) en Phase 3.
 
 | Race | Camp | Bonus | Passif | Sort racial | Phase |
 |---|---|---|---|---|---|
 | **Humain** | Allié | +Vitalité, +Sagesse | *Polyvalence* : +10 % d'XP de métier | *Ralliement* : +2 PA ce tour (sur soi en solo ; sur un allié en multi) | Alpha |
 | **Gobelin** | Ennemi | +Agilité, +Chance | *Chapardeur* : +monnaie et +prospection | *Coup bas* : dégâts Tempête au contact et −1 PM au prochain tour de la cible | Alpha |
 | **Elfe** | Neutre | +Agilité, +Intelligence | *Œil perçant* : +1 portée sur les sorts à distance | *Pas léger* : téléportation jusqu'à 3 cases | Alpha |
+| **Nain** | Allié | +Force, +Vitalité | *Peau de pierre* : +5 % de résistances | *Fureur des profondeurs* : bonus de dégâts quand PV < 50 % | Phase 3 |
+| **Orc** | Ennemi | +Force, +Vitalité | *Peau épaisse* : réduction des dégâts de mêlée | *Cri de guerre* : bonus de dégâts aux alliés proches | Phase 3 |
+| **Semi-homme** | Neutre | +Chance, +Agilité | *Petit mais discret* : +prospection, esquive accrue | *Second petit-déjeuner* : se soigne, une fois par combat | Phase 3 |
 | **Géant** | Allié | +Force, +Vitalité | *Carrure* : +10 % de PV max | *Coup de semelle* : dégâts Acier au contact, repousse la cible de 2 cases | Phase 3 |
 | **Squelette** (mort-vivant) | Ennemi | +Intelligence, +Sagesse | *Déjà mort* : une fois par combat, survit à un coup fatal avec 1 PV | *Remonter les os* : se soigne de 15 % de ses PV (relance tous les 3 tours) | Phase 3 |
 | **Lutin** | Neutre | +Chance, +Agilité | *Farceur* : +prospection, esquive accrue | *Tour de passe-passe* : échange sa place avec une créature à 4 cases au plus | Phase 3 |
 
-Les bonus, passifs et sorts sont des propositions, à équilibrer. Deux races par camp.
+Les bonus, passifs et sorts sont des propositions, à équilibrer (certains se ressemblent, par exemple
+Nain et Orc, ou Semi-homme et Lutin : à différencier). Trois races par camp.
 
 Graphisme : les Géants sont dessinés plus grands (environ 1,25×) et les Lutins plus petits (environ
 0,8×), mais toutes les races occupent une seule case en combat. Les Squelettes ont leur propre
@@ -236,14 +251,17 @@ le nom de race générique sert dans les règles et le nom de peuple dans le jeu
 | Race | Pistes de noms de peuple |
 |---|---|
 | Humain | **Lambdas** (les « gens normaux »), **Moyen-Terriens**, **Bonhommes** |
+| Nain | **Barbichus**, **Naindustriels**, **Trapus** |
+| Semi-homme | **Grignotins**, **Bedonnets**, **Deux-Déjeuners** |
 | Géant | **Grandiloques** (grand + grandiloquent), **Colossaux**, **Hauts-Perchés** |
 | Lutin | **Farfadingues**, **Lutineurs**, **Malicieux** |
 | Elfe | **Elfiers** (elfe + fier), **Éternelfes**, **Pointus** |
+| Orc | **Grognards**, **Orcharnés** (orc + acharnés), **Bourrus** |
 | Squelette | **Osseux**, **Squelettards**, **Désossés** |
 | Gobelin | **Gobe-Tout**, **Chapardins**, **Ricaneurs** |
 
 Plus de races qu'aujourd'hui n'est pas exclu à très long terme, mais la charge graphique (races ×
-sexes × équipements × animations) impose de s'en tenir à ces 6.
+sexes × équipements × animations) impose de s'en tenir à ces 9.
 
 ### 4.3 Classes (Voies)
 
@@ -263,18 +281,17 @@ sexes × équipements × animations) impose de s'en tenir à ces 6.
 | Famille | Classe | Rôle | Éléments principaux | Style |
 |---|---|---|---|---|
 | **Corps à corps** | **Guerrier** | Mêlée polyvalente | Acier (Force) | *(voir plus haut)* |
-| | **Paladin** | Guerrier sacré : mêlée et soutien | Acier / Flamme (Force / Intelligence) | Coups bénis, auras qui protègent les alliés proches, petits soins, protège un allié |
+| | **Paladin** | Guerrier sacré : mêlée et soutien | Sacré, Acier (Force / Intelligence) | Coups bénis, auras qui protègent les alliés proches, petits soins, protège un allié |
 | | **Myrmidon** | Guerrier tank | Acier (Force), Vitalité | Bouclier, provocation (attire les coups), réduction de dégâts, poussée, garde un allié |
 | **Mixte** | **Rôdeur** | Distance et mobilité | Acier / Tempête (Force / Agilité) | *(voir plus haut)* |
 | | **Ombre** | Assassin invisible | Tempête / Acier (Agilité / Force) | Invisibilité, coups dans le dos, téléportations courtes, coups critiques |
-| | **Venomancien** | Maître des poisons | Givre / Tempête (Chance / Agilité) | Poisons (dégâts à chaque tour), pièges empoisonnés, affaiblissements, mi-distance |
+| | **Venomancien** | Maître des poisons | Givre / Tempête, un peu d'Impie (Chance / Agilité) | Poisons (dégâts à chaque tour), pièges empoisonnés, affaiblissements, mi-distance |
 | **Distance** | **Arcaniste** | Dégâts magiques, contrôle | Flamme / Givre (Intelligence / Chance) | *(voir plus haut)* |
-| | **Théologue** | Soigneur sacré | Flamme (Intelligence) | Soins, boucliers, retrait des états, résurrection (multi), dégâts sacrés modestes |
-| | **Démoniste** | Dégâts impies | Flamme / Givre (Intelligence / Chance) | Malédictions, sacrifice de PV contre des dégâts, invocation d'un démon mineur |
+| | **Théologue** | Soigneur sacré | Sacré, Flamme (Intelligence / Force) | Soins, boucliers, retrait des états, résurrection (multi), dégâts sacrés modestes |
+| | **Démoniste** | Dégâts impies | Impie, Givre (Chance / Agilité) | Malédictions, sacrifice de PV contre des dégâts, invocation d'un démon mineur |
 
-Le « sacré » (Paladin, Théologue) et l'« impie » (Démoniste) passent pour l'instant par les éléments
-existants et l'habillage des sorts. Question ouverte : leur donner la Lumière et l'Ombre, aujourd'hui
-réservées au légendaire et au scénario (§ 7.2).
+Le Sacré et l'Impie sont des éléments à part entière (voir § 4.4) : le Sacré s'appuie sur l'Acier et
+la Flamme, l'Impie sur la Tempête et le Givre.
 
 Mécaniques à ajouter pour ces classes : invisibilité, poisons et dégâts sur la durée, provocation,
 auras, invocations, sacrifice de PV, résurrection (multi).
@@ -290,12 +307,33 @@ auras, invocations, sacrifice de PV, résurrection (multi).
 | **Chance** | Dégâts Givre, prospection |
 | **Agilité** | Dégâts Tempête, esquive, initiative |
 
+**Les 6 éléments :** 4 éléments de base et 2 éléments composés, chacun appuyé sur deux éléments de
+base.
+
+| Élément | Caractéristique | Résistance de la cible |
+|---|---|---|
+| Acier | Force | Acier |
+| Flamme | Intelligence | Flamme |
+| Givre | Chance | Givre |
+| Tempête | Agilité | Tempête |
+| **Sacré** | moyenne de Force et Intelligence | moyenne des résistances Acier et Flamme |
+| **Impie** | moyenne d'Agilité et Chance | moyenne des résistances Tempête et Givre |
+
+(Les moyennes sont une proposition : simple, et elle ne rend pas le Sacré ou l'Impie plus forts que
+les éléments de base pour un personnage qui ne monte qu'une caractéristique.)
+
 **Statistiques dérivées :** PV, PA (6 de base), PM (3 de base), Initiative, Portée (+0), Prospection
-(100 de base), Coups critiques %, Résistances % par élément, Soins, Invocations max.
+(100 de base), **Dommages** (+0), Coups critiques %, Résistances % par élément, Soins, Invocations max.
+
+**Dommages :** bonus de dégâts **brut**, sans élément, surtout apporté par les objets. +5 Dommages
+ajoutent 5 dégâts à chaque ligne de dégâts de n'importe quel sort ou arme, quel que soit son
+élément ; ils ne sont multipliés par aucune caractéristique et ne sont réduits par aucune résistance
+élémentaire. Ils ne s'appliquent pas aux soins.
 
 **Formules en place (alpha) :**
 
-- Dégâts = base du sort × (100 + caractéristique de l'élément) % × (100 − résistance de la cible) %.
+- Dégâts = base du sort × (100 + caractéristique de l'élément) % × (100 − résistance de la cible) %
+  (+ Dommages, à ajouter ; voir plus haut).
 - Soins = base × (100 + Intelligence) %.
 - PV max = PV de la Voie + 5 par niveau au-delà du 1er + Vitalité.
 - Initiative = initiative de la Voie + Force + Intelligence + Chance + Agilité (pas Vitalité ni Sagesse)
@@ -346,7 +384,21 @@ seule la Voie dans laquelle il est **spécialisé** donne accès aux sorts les p
   **états** incompatibles plutôt que par des interdictions d'apprentissage.
 - Un outil de simulation de combat (voir TODO) permettra de détecter les combos abusifs.
 
-### 5.3 Implication court terme
+### 5.3 Voies du Revers (long terme)
+
+À terme, chaque Voie aura une **spécialisation opposée** qui retourne son élément, comme le revers
+d'une médaille. Nom de travail : **Voie du Revers** (autres pistes : *Contre-Voie*, *Voie Miroir*,
+*Envers*, *Revirement*). Exemples :
+
+- une classe sacrée (Paladin, Théologue) devient impie, et le Démoniste devient sacré ;
+- une classe de Givre joue avec la Flamme, et inversement ;
+- une classe d'Acier passe à la Tempête, et inversement.
+
+La Voie du Revers garde le rôle de la classe (un Théologue du Revers soigne toujours) mais change
+l'élément de ses sorts, et donc les caractéristiques et l'équipement à privilégier. Elle se débloque
+par une quête de Voie, comme le rang III, et suit les mêmes règles de changement de spécialisation.
+
+### 5.4 Implication court terme
 
 Les classes sont **fixes** dans l'alpha (pas d'apprentissage croisé), mais **le modèle de données
 prévoit déjà `voie` et `rang` sur chaque sort** pour que le système s'ajoute plus tard sans refonte.
@@ -404,8 +456,8 @@ prévoit déjà `voie` et `rang` sur chaque sort** pour que le système s'ajoute
 - **Zones d'effet :** case, cercle, croix, ligne, cône.
 - **Relances :** nombre d'utilisations par tour et par cible, délai de récupération en tours.
 - **Coups critiques :** chance de base + bonus ; effet critique défini par sort.
-- **Éléments :** Acier, Flamme, Givre, Tempête (+ Lumière et Ombre réservées au légendaire et au
-  scénario). Chaque combattant a des résistances en %.
+- **Éléments :** Acier, Flamme, Givre, Tempête, et les deux éléments composés Sacré (Acier + Flamme)
+  et Impie (Tempête + Givre), voir § 4.4. Chaque combattant a des résistances en %.
 - **Effets :** dégâts, soin, bouclier, bonus/malus (PA, PM, portée, résistances…), poussée/attirance,
   téléportation, invocation, pièges et glyphes, états (*Enraciné*, *Invisible*, *Porté*…).
 - **Tacle / fuite** (quitter une case adjacente à un ennemi coûte des PM selon l'Agilité) : prévu,
@@ -479,7 +531,7 @@ recherche profonde au départ.
 | Bottes | ✅ | ✅ |
 | Bouclier / main gauche | — | ✅ |
 | Familier / monture | — | ✅ |
-| Relique | — | ✅ (une seule Relique équipée à la fois) |
+| Reliques ×8 (bagues) | Cases visibles, vides | ✅ (les 8 en même temps, en plus des 2 anneaux) |
 
 ### 9.2 Règles
 
@@ -488,10 +540,35 @@ recherche profonde au départ.
 - **Jets aléatoires :** les objets fabriqués ou ramassés ont des statistiques tirées dans une plage
   (par ex. Force 10–15).
 - **Armes :** une arme est un « sort » particulier (coût en PA, portée, zone, dégâts par élément).
-- **Panoplies :** bonus cumulatif selon le nombre de pièces du même ensemble équipées.
+- **Panoplies :** bonus de panoplie qui augmente avec le nombre de pièces du même ensemble équipées
+  (voir § 9.3).
 - **Apparence :** coiffe, cape et arme sont visibles sur le personnage.
 - **Long terme :** forgemagie (modification des jets avec des runes), objets légendaires à effets
   uniques liés au butin rare et aux quêtes, objets liés au compte.
+
+### 9.3 Panoplies de l'alpha test
+
+Pour l'alpha test, huit panoplies qui permettent de tester chaque façon de jouer. Chaque panoplie a
+un **bonus de panoplie** qui grandit avec le nombre de pièces équipées (à partir de 2).
+
+| Panoplie *(noms provisoires)* | Orientation | Pièces |
+|---|---|---|
+| Panoplie du Forgeron Hargneux | Acier (Force) | 6 |
+| Panoplie du Pyromane Repenti | Flamme (Intelligence) | 6 |
+| Panoplie du Bonhomme de Neige | Givre (Chance) | 6 |
+| Panoplie du Courant d'Air | Tempête (Agilité) | 6 |
+| Panoplie de l'Enfant de Chœur | Sacré (Force et Intelligence) | 6 |
+| Panoplie du Mauvais Œil | Impie (Agilité et Chance) | 6 |
+| Panoplie du Pressé | Initiative et Dommages | 3 |
+| Panoplie du Fouineur | Prospection | 3 |
+
+- **Panoplies élémentaires (6 pièces)** : coiffe, cape, amulette, anneau, ceinture, bottes.
+- **Panoplies d'initiative et de prospection (3 pièces)** : courtes, pour se mélanger avec une
+  panoplie élémentaire incomplète (par exemple 3 pièces de Flamme + les 3 pièces du Fouineur).
+- **Exemple de bonus** (à équilibrer) pour une panoplie élémentaire : 2 pièces : +10 dans sa
+  caractéristique ; 3 : +20 et +2 Dommages ; 4 : +30, +4 Dommages et +5 % de résistance ; 5 : +40,
+  +6 Dommages et +1 PM ; 6 : +50, +8 Dommages et +1 PA. Pour les panoplies de 3 pièces : 2 pièces,
+  un premier palier ; 3 pièces, le bonus complet.
 
 ---
 
@@ -662,7 +739,7 @@ directement** :
 
 - **Pas de noms, lieux ou personnages de Tolkien** (Hobbit, Mordor, Sauron, Gondor, Anneau unique,
   etc.). Certains termes sont des marques déposées (par ex. « Hobbit », « Ent ») ; les termes
-  génériques (Elfe, Géant, Lutin, Squelette…) peuvent être utilisés.
+  génériques (Elfe, Nain, Orque, Géant, Lutin, Squelette…) peuvent être utilisés.
 - **Pas d'assets, noms ou mécaniques nommées d'Ankama** (Kamas, Zaap, Iop, Wabbit…). Les mécaniques
   génériques (PA/PM, grille, prospection) ne sont pas protégeables en tant que telles, mais leurs noms
   et leur présentation exacte doivent être les nôtres.
@@ -723,7 +800,7 @@ exemples en [annexe](#20-annexes--formats-de-données).
 | **0. Pré-production** | Choix techniques, GDD validé, prototypes papier | Moteur choisi, structure du dépôt en place |
 | **1. Prototype** | Une carte, déplacement, un combat 1 contre 1 | Un combat jouable de bout en bout |
 | **2. Alpha solo** (court terme) | 3 races (une par camp), 3 classes, combat + butin, quêtes simples, 3 métiers, équipement, 3 zones de départ + Hautepierre | Environ 10 à 15 h de jeu solo de niveau 1 à 30 |
-| **3. Solo étendu** (long terme) | 3 races de plus (Géants, Lutins, Squelettes ; 6 au total), 6 classes de plus (Paladin, Myrmidon, Ombre, Venomancien, Théologue, Démoniste ; 9 au total), Voies, donjons, quêtes complexes, légendaires, scénario complet | Quête des Reliques jouable jusqu'au boss final |
+| **3. Solo étendu** (long terme) | 6 races de plus (Nains, Orcs, Semi-hommes, Géants, Squelettes, Lutins ; 9 au total), 6 classes de plus (Paladin, Myrmidon, Ombre, Venomancien, Théologue, Démoniste ; 9 au total), Voies, donjons, quêtes complexes, légendaires, scénario complet | Quête des Reliques jouable jusqu'au boss final |
 | **4. Fondations réseau** | Serveur autoritaire, comptes, une instance, synchronisation | Deux joueurs se voient et combattent ensemble |
 | **5. Multi** | Instances, groupe, amis, chat, échanges, hôtel des ventes, guildes | Bêta fermée |
 
@@ -757,6 +834,10 @@ exemples en [annexe](#20-annexes--formats-de-données).
 | **Instance** | Copie d'une carte ou zone, limitée en nombre de joueurs |
 | **Relique** | Objet légendaire unique de la quête principale |
 | **Corrompu** | Variante renforcée d'un monstre, touchée par les cendres |
+| **Sacré / Impie** | Éléments composés : Acier + Flamme, Tempête + Givre |
+| **Dommages** | Bonus de dégâts brut, sans élément, ajouté à chaque ligne de dégâts |
+| **Panoplie** | Ensemble d'objets dont le bonus grandit avec le nombre de pièces équipées |
+| **Voie du Revers** | Spécialisation opposée d'une Voie (nom de travail) |
 
 ---
 

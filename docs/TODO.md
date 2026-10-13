@@ -34,11 +34,13 @@
 ### Design
 - [ ] **(MVP)** Valider le GDD v0.1 (relecture complète)
   - [x] Règles de combat de base (§ 7) et éléments (provisoires)
-  - [x] Liste des 6 races et ton parodique (§ 3.6, § 4.2)
+  - [x] Liste des 9 races (trois par camp) et ton parodique (§ 3.6, § 4.2)
   - [x] Races de l'alpha (Humain, Gobelin, Elfe) et structure en trois camps (§ 3.4)
-  - [ ] Choisir les noms de peuple des 6 races (§ 4.2)
+  - [ ] Choisir les noms de peuple des 9 races (§ 4.2)
+  - [ ] Choisir le nom des spécialisations opposées (nom de travail : « Voie du Revers », § 5.3)
   - [ ] Revoir les noms du monde, des Reliques et du méchant dans le ton parodique (§ 3)
-  - [ ] Revoir la répartition des Reliques entre régions et camps (§ 3.3), par ex. une Relique liée aux gobelins
+  - [x] Reliques : huit bagues tenues par les Hérauts Cendrés, une par peuple ou presque (§ 3.3)
+  - [ ] Nommer les régions des Géants, des Lutins et des Fosses de Crasse-Roc (§ 3.3, § 3.5)
   - [ ] Écrire le synopsis des actes I à III pour chaque camp (`docs/lore/`)
 - [ ] Tableur d'équilibrage : courbe d'XP, formules de dégâts, PV par niveau (`docs/design/`)
 - [ ] Prototype « papier » du combat (grille + pions) pour tester PA/PM et 5 sorts par classe
@@ -107,6 +109,10 @@ Objectif : **10 à 15 h de jeu solo, niveaux 1 à 30 : 3 zones de départ (une p
 - [ ] Décider s'il faut avancer le Théologue (soin) dans l'alpha pour l'équilibrage solo
 
 ### Combat
+- [ ] **(MVP)** Éléments composés **Sacré** (Acier + Flamme : moyenne Force / Intelligence, moyenne
+  des résistances) et **Impie** (Tempête + Givre : moyenne Agilité / Chance), sorts et résistances
+- [ ] **(MVP)** Statistique **Dommages** : +X dégâts bruts à chaque ligne de dégâts de tout sort ou
+  arme, sans élément ni résistance, pas sur les soins ; portée par les objets, affichée dans la fiche
 - [ ] **(MVP)** Tous les types d'effets : soin, bouclier, bonus/malus, poussée, téléportation, états
 - [ ] **(MVP)** Coups critiques
 - [x] **(MVP)** Groupes de 1 à 3 monstres (limite de l'alpha), d'espèces mélangées, tous visibles sur
@@ -146,7 +152,13 @@ Objectif : **10 à 15 h de jeu solo, niveaux 1 à 30 : 3 zones de départ (une p
 - [x] **(MVP)** Armes utilisables en combat (attaque de l'arme dans la barre de sorts)
 - [x] Jets aléatoires de statistiques
 - [ ] Plus d'objets (16 aujourd'hui) pour couvrir les niveaux 1 à 30
-- [ ] 3 ou 4 panoplies avec bonus d'ensemble
+- [ ] **(MVP alpha test)** Système de panoplies : bonus de panoplie qui grandit avec le nombre de
+  pièces équipées, affiché dans l'inventaire (pièces portées / bonus actifs)
+- [ ] **(MVP alpha test)** Six panoplies élémentaires de 6 pièces (coiffe, cape, amulette, anneau,
+  ceinture, bottes) : Acier, Flamme, Givre, Tempête, Sacré, Impie (GDD § 9.3)
+- [ ] **(MVP alpha test)** Panoplie Initiative et Dommages (3 pièces) et panoplie Prospection
+  (3 pièces), à mélanger avec une panoplie élémentaire incomplète
+- [ ] Recettes de forgeron et/ou butin pour obtenir ces panoplies
 - [ ] Équipement visible sur le personnage (coiffe, cape, arme)
 - [x] Marchands PNJ (achat / vente) : Barlimon (Brumerive), Zogrub (Crasse-Roc) et Lindorë (Sylvebrume) vendent tous les objets, prix selon la rareté, revente à 25 %
 - [x] Coffre personnel dans la maison du joueur (100 places, sauvegardé)
@@ -203,6 +215,8 @@ Objectif : **10 à 15 h de jeu solo, niveaux 1 à 30 : 3 zones de départ (une p
   métiers avec un onglet par métier, boutique, atelier, coffre ; reste : quêtes)
 - [ ] **(MVP)** Menu principal, options (volume, résolution), pause
 - [ ] Infobulles d'objets et de sorts (comparaison avec l'équipement porté)
+- [ ] Inventaire : 8 cases « Reliques » visibles dès le début (vides tant que la Relique n'est pas
+  reprise), en plus des 2 anneaux
 - [ ] Raccourcis clavier
 
 ### Art et audio
@@ -237,16 +251,18 @@ Objectif : **10 à 15 h de jeu solo, niveaux 1 à 30 : 3 zones de départ (une p
 ## Phase 3 — Solo étendu (objectifs long terme)
 
 ### Races et classes
+- [ ] Race **Nain** (allié) : passif *Peau de pierre*, sort *Fureur des profondeurs*, zone de départ et chaîne d'acte I
+- [ ] Race **Orc** (ennemi) : passif *Peau épaisse*, sort *Cri de guerre*, zone de départ et chaîne d'acte I
+- [ ] Race **Semi-homme** (neutre) : passif *Petit mais discret*, sort *Second petit-déjeuner*, zone de départ et chaîne d'acte I
 - [ ] Race **Géant** (allié) : bonus, passif *Carrure*, sort *Coup de semelle*, assemblage agrandi (≈ 1,25×), zone de départ et chaîne d'acte I
 - [ ] Race **Squelette** (ennemi, mort-vivant) : passif *Déjà mort*, sort *Remonter les os*, assemblage squelette, zone de départ et chaîne d'acte I
 - [ ] Race **Lutin** (neutre) : passif *Farceur*, sort *Tour de passe-passe*, assemblage réduit (≈ 0,8×), zone de départ et chaîne d'acte I
-- [ ] Choisir et valider leurs noms de peuple (GDD § 4.2)
+- [ ] Différencier les races proches (Nain / Orc, Semi-homme / Lutin) et valider leurs noms de peuple (GDD § 4.2)
 - [ ] Voies de corps à corps : **Paladin** (guerrier sacré) et **Myrmidon** (guerrier tank)
 - [ ] Voies mixtes : **Ombre** (assassin invisible) et **Venomancien** (maître des poisons)
 - [ ] Voies à distance : **Théologue** (soigneur sacré) et **Démoniste** (dégâts impies)
 - [ ] Mécaniques de ces Voies : invisibilité, poisons et dégâts sur la durée, provocation, auras,
   invocations, sacrifice de PV, résurrection (multi)
-- [ ] Décider si le sacré et l'impie utilisent la Lumière et l'Ombre (GDD § 4.3, § 7.2)
 - [ ] Étendre la progression jusqu'au niveau 100
 
 ### Système des Voies (classes mixtes)
@@ -257,6 +273,8 @@ Objectif : **10 à 15 h de jeu solo, niveaux 1 à 30 : 3 zones de départ (une p
 - [ ] Passif de Maîtrise de Voie
 - [ ] Quêtes de Voie (déblocage du rang III)
 - [ ] **Simulateur de combat** automatisé pour détecter les combinaisons abusives
+- [ ] **Voies du Revers** (nom à choisir) : spécialisation opposée qui retourne l'élément d'une Voie
+  (sacré ↔ impie, givre ↔ flamme, acier ↔ tempête), débloquée par une quête de Voie (GDD § 5.3)
 
 ### Donjons
 - [ ] Système de donjon : clé, suite de salles, sortie / abandon
@@ -269,13 +287,14 @@ Objectif : **10 à 15 h de jeu solo, niveaux 1 à 30 : 3 zones de départ (une p
 - [ ] Dialogues ramifiés avec conditions
 - [ ] Drapeaux de monde persistants (choix et conséquences)
 - [ ] Réputation auprès des peuples et factions
-- [ ] Chaînes de quêtes des 7 Reliques
+- [ ] Chaînes de quêtes des 8 Reliques
 - [ ] Chaîne finale et combat contre le Souverain Cendré
 - [ ] Mise en scène dans le moteur (déplacements scriptés, caméra, bulles)
 - [ ] Événements de monde (invasions cendrées)
 
 ### Objets légendaires
-- [ ] Emplacement Relique et pouvoirs des 7 Reliques
+- [ ] Les 8 Reliques (bagues) : 8 emplacements équipables en même temps en plus des 2 anneaux,
+  pouvoirs uniques, une par Héraut Cendré (GDD § 3.3, § 9.1)
 - [ ] Objets légendaires à effets uniques (butin très rare et quêtes)
 - [ ] Archimonstres (variantes rares nommées)
 - [ ] Forgemagie (modification des jets avec des runes)
