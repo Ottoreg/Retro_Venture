@@ -95,7 +95,7 @@ Objectif : **10 à 15 h de jeu solo, niveaux 1 à 30 : 3 zones de départ (une p
 
 ### Personnage
 - [x] **(MVP)** Écran de création : race, classe, nom, aperçu et récapitulatif (couleurs selon race et Voie)
-- [x] **(MVP)** 3 races jouables, une par camp : Humain (allié), Gobelin (ennemi), Elfe (neutre) — bonus, passif, sort racial (passifs Polyvalence et Chapardeur actifs avec les métiers et le butin)
+- [x] **(MVP)** 3 races jouables, une par camp : Humain (allié), Gobelin (ennemi), Elfe (neutre) — bonus, passif, sort racial (passifs : Polyvalence +10 % d'XP de métier, Œil perçant +1 portée, Chapardeur +20 prospection et +20 % d'écus)
 - [x] **(MVP)** Camp porté par la race dans les données ; carte de départ par race (`carte_depart`)
 - [x] Faire partir Gobelins et Elfes de leurs propres zones (Crasse-Roc et Sylvebrume)
 - [x] 3 classes jouables : Guerrier, Rôdeur, Arcaniste (4 sorts chacune)
@@ -136,6 +136,8 @@ Objectif : **10 à 15 h de jeu solo, niveaux 1 à 30 : 3 zones de départ (une p
   cerf enchanté et arbre vivant à Sylvebrume, et le Souverain Cendré)
 - [x] Deux types de monstres par zone de départ, avec deux attaques et un butin propre chacun
 - [x] **(MVP)** Tables de butin, prospection (sans seuil), raretés (couleurs), écus
+- [x] Limite de butin par monstre partagée entre les joueurs (quantité max de la ligne), tirage du
+  plus prospecteur au moins prospecteur (prêt pour le groupe)
 - [x] **(MVP)** Écran de butin en fin de combat
 - [x] **(MVP)** Réapparition des groupes vaincus (2 à 3 minutes, réglable par groupe ; sauvegardée)
 - [x] Groupes qui se promènent sur la carte (quelques pas toutes les 8 à 20 s, à 3 cases au plus de
@@ -373,7 +375,8 @@ Peut démarrer dès que l'alpha solo est stable.
 ### Gameplay multi
 - [ ] Rejoindre le combat d'un ami, verrouiller un combat, mode spectateur
 - [ ] Décider et appliquer la règle de groupe entre camps opposés avant l'acte III (GDD § 13.3)
-- [ ] Répartition du butin en groupe (pondérée par la prospection de chacun ; pas de seuil)
+- [ ] Répartition du butin en groupe : brancher les joueurs du combat sur `Loot.roll` (limite par
+  monstre et tirage par ordre de prospection déjà faits) ; répartition des écus à décider
 - [ ] Objectifs de quêtes partagés en groupe
 - [ ] Échange sécurisé entre joueurs
 - [ ] Artisanat assisté et commandes

@@ -31,8 +31,9 @@ var item_sets: Dictionary = {}
 const STARTING_ECUS := 20
 
 const CAMPS := ["allie", "ennemi", "neutre"]
-## Effets de passif de race gérés : portée des sorts, % d'XP de métier en plus.
-const PASSIVE_EFFECTS := ["portee", "xp_metier"]
+## Effets de passif de race gérés : portée des sorts, % d'XP de métier en plus, prospection en
+## plus, % d'écus de fin de combat en plus.
+const PASSIVE_EFFECTS := ["portee", "xp_metier", "prospection", "ecus"]
 
 
 ## Charge tout le contenu ; les fichiers invalides sont signalés et ignorés.
@@ -206,9 +207,14 @@ static func validate_race(data: Dictionary, known_spells: Dictionary) -> PackedS
 	if typeof(passive) != TYPE_DICTIONARY or typeof(passive.get("nom")) != TYPE_STRING:
 		errors.append("« passif » doit être un objet avec un « nom »")
 	else:
-		var effect: Variant = passive.get("effet", {})
-		if typeof(effect) != TYPE_DICTIONARY or (not effect.is_empty() and (str(effect.get("type")) not in PASSIVE_EFFECTS or not Spell._is_int_at_least(effect.get("valeur"), 1))):
-			errors.append("« passif.effet » : { type, valeur } attendu, types gérés : %s" % str(PASSIVE_EFFECTS))
+		var effects: Variant = passive.get("effets", [])
+		var valid := typeof(effects) == TYPE_ARRAY
+		if valid:
+			for effect: Variant in effects:
+				valid = valid and typeof(effect) == TYPE_DICTIONARY and str(effect.get("type")) in PASSIVE_EFFECTS \
+					and Spell._is_int_at_least(effect.get("valeur"), 1)
+		if not valid:
+			errors.append("« passif.effets » : liste de { type, valeur } attendue, types gérés : %s" % str(PASSIVE_EFFECTS))
 	if data.has("sort") and not known_spells.has(data["sort"]):
 		errors.append("sort racial inconnu : %s" % str(data["sort"]))
 	if typeof(data.get("carte_depart")) != TYPE_STRING:
@@ -303,6 +309,15 @@ func create_player(voie_id: String, fighter_id: String, player_name: String) -> 
 	return _create_fighter(voies[voie_id], fighter_id, player_name, Fighter.TEAM_PLAYERS)
 
 
+## Somme des effets de passif d'une race pour ce type (`PASSIVE_EFFECTS`), 0 sans passif.
+func passive_value(race_id: String, effect_type: String) -> int:
+	var total := 0
+	for effect: Dictionary in races.get(race_id, {}).get("passif", {}).get("effets", []):
+		if effect.get("type") == effect_type:
+			total += int(effect.get("valeur", 0))
+	return total
+
+
 ## Combattant d'un personnage joueur : Voie, niveau, caractéristiques, sort et passif de race.
 func create_character_fighter(character: Character, fighter_id: String) -> Fighter:
 	if not voies.has(character.voie_id):
@@ -318,9 +333,7 @@ func create_character_fighter(character: Character, fighter_id: String) -> Fight
 	var race: Dictionary = races.get(character.race_id, {})
 	if race.has("sort") and spells.has(race["sort"]):
 		fighter.spells.append(spells[race["sort"]])
-	var passive_effect: Dictionary = race.get("passif", {}).get("effet", {})
-	if str(passive_effect.get("type")) == "portee":
-		fighter.range_bonus = int(passive_effect["valeur"])
+	fighter.range_bonus = passive_value(character.race_id, "portee")
 	# Équipement : bonus hors caractéristiques et attaque de l'arme.
 	fighter.max_pa += character.extra("pa", self)
 	fighter.pa = fighter.max_pa

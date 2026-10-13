@@ -229,7 +229,7 @@ autres (Nains, Orcs, Semi-hommes, Géants, Squelettes, Lutins) en Phase 3.
 | Race | Camp | Bonus | Passif | Sort racial | Phase |
 |---|---|---|---|---|---|
 | **Humain** | Allié | +Vitalité, +Sagesse | *Polyvalence* : +10 % d'XP de métier | *Ralliement* : +2 PA ce tour (sur soi en solo ; sur un allié en multi) | Alpha |
-| **Gobelin** | Ennemi | +Agilité, +Chance | *Chapardeur* : +monnaie et +prospection | *Coup bas* : dégâts Tempête au contact et −1 PM au prochain tour de la cible | Alpha |
+| **Gobelin** | Ennemi | +Agilité, +Chance | *Chapardeur* : +20 prospection et +20 % d'écus en fin de combat | *Coup bas* : dégâts Tempête au contact et −1 PM au prochain tour de la cible | Alpha |
 | **Elfe** | Neutre | +Agilité, +Intelligence | *Œil perçant* : +1 portée sur les sorts à distance | *Pas léger* : téléportation jusqu'à 3 cases | Alpha |
 | **Nain** | Allié | +Force, +Vitalité | *Peau de pierre* : +5 % de résistances | *Fureur des profondeurs* : bonus de dégâts quand PV < 50 % | Phase 3 |
 | **Orc** | Ennemi | +Force, +Vitalité | *Peau épaisse* : réduction des dégâts de mêlée | *Cri de guerre* : bonus de dégâts aux alliés proches | Phase 3 |
@@ -525,11 +525,14 @@ recherche profonde au départ.
 
 - Chaque monstre a une **table de butin** : objet, taux de base, quantité, et des écus.
 - **Chance effective** = `taux_base × (prospection / 100)`, plafonnée à 100 %. Prospection = 100 +
-  Chance / 10 + bonus d'équipement.
+  Chance / 10 + bonus d'équipement + passif de race (Gobelin : +20).
 - **Pas de seuil de prospection** : un personnage seul peut obtenir tous les objets, comme un groupe.
   La prospection augmente seulement les chances.
-- **Répartition en groupe :** chaque objet tiré est attribué individuellement, pondéré par la
-  prospection de chacun.
+- **Limite par monstre et par joueur :** chaque ligne de la table donne au plus sa quantité maximale
+  par monstre vaincu, tous joueurs confondus. Chaque joueur tire la ligne à son tour, **le plus
+  prospecteur d'abord** (au hasard entre égaux) ; ce qu'il obtient est retiré de ce qui reste pour
+  les suivants. Exemple : croc de loup `[1, 2]` ; si le premier joueur a eu 1 croc de ce loup, le
+  deuxième ne peut plus en avoir qu'un. Chaque monstre du groupe a sa propre limite.
 - Les ressources de monstres alimentent les recettes des métiers.
 
 ### 8.3 Raretés

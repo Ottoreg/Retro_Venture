@@ -296,7 +296,13 @@ Dans chaque monstre : `butin` (liste) et `ecus` (`[min, max]`).
 ```
 
 Chance = `taux × prospection / 100` (au plus 100 %), sans seuil : un personnage seul peut tout obtenir.
-Prospection = 100 + Chance / 10 + bonus d'équipement. Le butin n'est donné qu'en cas de victoire.
+Prospection = 100 + Chance / 10 + bonus d'équipement + passif de race. Le butin n'est donné qu'en cas
+de victoire.
+
+**Limite par monstre** : chaque ligne donne au plus `quantite[1]` unités par monstre vaincu, tous
+joueurs confondus. Chaque joueur tire la ligne à son tour, le plus prospecteur d'abord ; ce qu'il
+obtient est retiré de ce qui reste (croc `[1, 2]` : si le premier joueur a eu 1 croc de ce loup, le
+suivant ne peut plus en avoir qu'un). Deux loups ont chacun leur propre limite.
 
 Dans chaque Voie : `equipement_depart` (liste d'objets donnés et équipés à la création).
 
@@ -309,15 +315,16 @@ Dans chaque Voie : `equipement_depart` (liste d'objets donnés et équipés à l
   "camp": "neutre",
   "description": "« Ce n'est pas notre guerre. »",
   "bonus": {"agilite": 10, "intelligence": 10},
-  "passif": {"nom": "Œil perçant", "description": "+1 portée…", "effet": {"type": "portee", "valeur": 1}},
+  "passif": {"nom": "Œil perçant", "description": "+1 portée…", "effets": [{"type": "portee", "valeur": 1}]},
   "sort": "elfe_pas_leger",
   "carte_depart": "brumerive_0_0"
 }
 ```
 
 `camp` : `allie`, `ennemi` ou `neutre`. `bonus` : points ajoutés aux caractéristiques (`vitalite`,
-`sagesse`, `force`, `intelligence`, `chance`, `agilite`). `passif.effet` est optionnel ; seul
-`portee` est géré pour l'instant. `sort` : sort racial, ajouté aux sorts de la Voie.
+`sagesse`, `force`, `intelligence`, `chance`, `agilite`). `passif.effets` est optionnel (liste de
+`{type, valeur}`) ; types gérés : `portee` (portée des sorts à distance), `xp_metier` (% d'XP de
+métier), `prospection` (points de prospection) et `ecus` (% d'écus de fin de combat). `sort` : sort racial, ajouté aux sorts de la Voie.
 
 Les tests vérifient tous ces fichiers (format, `id` égal au nom du fichier, sorts et monstres
 référencés existants).
@@ -363,7 +370,7 @@ Les équipements fabriqués ont des jets tirés au hasard.
 ```
 
 Niveaux de métier : 1 à 100, XP totale pour le niveau n = 5 × n × (n − 1). Les Humains gagnent 10 %
-d'XP de métier en plus (passif `{"type": "xp_metier", "valeur": 10}`).
+d'XP de métier en plus (effet de passif `{"type": "xp_metier", "valeur": 10}`).
 
 ## À venir
 

@@ -4,7 +4,7 @@
   "camp": "allie",
   "description": "Persuadés d'être les héros de l'histoire. Ils n'ont pas complètement tort, mais pas complètement raison non plus.",
   "bonus": {"vitalite": 10, "sagesse": 10},
-  "passif": {"nom": "Polyvalence", "description": "+10 % d'expérience de métier.", "effet": {"type": "xp_metier", "valeur": 10}},
+  "passif": {"nom": "Polyvalence", "description": "+10 % d'expérience de métier.", "effets": [{"type": "xp_metier", "valeur": 10}]},
   "sort": "humain_ralliement",
   "carte_depart": "brumerive_0_0",
   "apparence": {"peau": "f0c8a0"}

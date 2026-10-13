@@ -16,9 +16,10 @@ est ici.
 ## Créer son personnage
 
 - Trois races, chacune avec sa zone de départ et son sort racial :
-  - **Humain** : départ à **Brumerive** ; sort *Ralliement*.
-  - **Gobelin** : départ à **Crasse-Roc** ; sort *Coup bas*.
-  - **Elfe** : départ à **Sylvebrume** ; sort *Pas léger*.
+  - **Humain** : départ à **Brumerive** ; sort *Ralliement* ; passif +10 % d'XP de métier.
+  - **Gobelin** : départ à **Crasse-Roc** ; sort *Coup bas* ; passif *Chapardeur* : +20 prospection
+    et +20 % d'écus en fin de combat.
+  - **Elfe** : départ à **Sylvebrume** ; sort *Pas léger* ; passif +1 portée sur les sorts à distance.
 - Quatre Voies (classes) : **Guerrier**, **Rôdeur**, **Arcaniste** et **Théologue** (soigneur
   sacré : soin, bouclier qui absorbe les dégâts jusqu'à son prochain tour, dégâts Sacrés), avec 4
   sorts chacune.

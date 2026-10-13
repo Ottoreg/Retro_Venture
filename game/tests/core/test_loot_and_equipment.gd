@@ -237,3 +237,50 @@ func test_sac_plein_le_butin_entre_en_surplus_et_bloque_les_combats() -> void:
 	assert_false(inventory.is_overloaded())
 	_command(world, Protocol.CMD_ENGAGE, {"groupe": "groupe_2"})
 	assert_true(world.in_combat(), "place faite : on peut combattre")
+
+
+func test_limite_de_butin_par_monstre_partagee_entre_joueurs() -> void:
+	var wolf := {"butin": [{"objet": "croc", "taux": 1.0, "quantite": [1, 2]}]}
+	for seed_value in 50:
+		var rng := RandomNumberGenerator.new()
+		rng.seed = seed_value
+		var loot := Loot.roll([wolf], {"a": 100, "b": 100, "c": 100}, rng)
+		var total := 0
+		for player_id: String in loot:
+			for drop: Dictionary in loot[player_id]:
+				total += int(drop["quantite"])
+		assert_eq(total, 2, "2 crocs au plus pour ce loup, tous joueurs confondus (graine %d)" % seed_value)
+	# Deux loups : chacun a sa propre limite.
+	var rng := RandomNumberGenerator.new()
+	var loot := Loot.roll([wolf, wolf], {"a": 100, "b": 100}, rng)
+	var total := 0
+	for player_id: String in loot:
+		for drop: Dictionary in loot[player_id]:
+			total += int(drop["quantite"])
+	assert_eq(total, 4)
+
+
+func test_le_plus_prospecteur_tire_en_premier() -> void:
+	var monster := {"butin": [{"objet": "cape", "taux": 1.0}]}
+	var rng := RandomNumberGenerator.new()
+	var loot := Loot.roll([monster], {"a": 100, "b": 250, "c": 120}, rng)
+	assert_eq(Loot.turn_order({"a": 100, "b": 250, "c": 120}, rng), ["b", "c", "a"])
+	assert_eq(loot["b"], [{"objet": "cape", "quantite": 1}], "une seule cape, pour le plus prospecteur")
+	assert_true(loot["a"].is_empty() and loot["c"].is_empty())
+
+
+func test_passif_chapardeur_prospection_et_ecus() -> void:
+	var world := _world()
+	world.data.races["chapardeur"] = {"id": "chapardeur", "nom": "Chapardeur", "camp": "ennemi", "carte_depart": "test",
+		"passif": {"nom": "Chapardeur", "effets": [{"type": "prospection", "valeur": 20}, {"type": "ecus", "valeur": 20}]}}
+	assert_true(GameData.validate_race(world.data.races["chapardeur"], world.data.spells).is_empty())
+	world.character.race_id = "chapardeur"
+	assert_eq(world.character.prospection(world.data), 120)
+	_engage(world)
+	assert_eq(world.combat.get_fighter(World.PLAYER_ID).prospection, 120)
+	var monster := _stick(world, "groupe_1_1")
+	monster.hp = 1
+	_command(world, Protocol.CMD_READY)
+	var events := _command(world, Protocol.CMD_CAST, {"sort": "frappe", "cible": monster.cell})
+	assert_eq(Fixtures.of_type(events, Protocol.EVT_COMBAT_ENDED)[0]["ecus"], 4, "3 écus + 20 %, arrondi")
+	assert_eq(world.character.inventory.ecus, 4)

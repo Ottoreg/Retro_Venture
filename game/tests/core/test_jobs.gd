@@ -204,7 +204,7 @@ func test_metiers_invalides() -> void:
 
 func test_bonus_d_xp_de_metier_des_humains() -> void:
 	var races := [{"id": "humain", "nom": "Humain", "camp": "allie", "carte_depart": "test", "bonus": {},
-		"passif": {"nom": "Polyvalence", "effet": {"type": "xp_metier", "valeur": 10}}}]
+		"passif": {"nom": "Polyvalence", "effets": [{"type": "xp_metier", "valeur": 10}]}}]
 	var data := GameData.from_dicts(Fixtures.spells(), [], [], races, _items(), _jobs())
 	var character := Character.create("Humain", "humain", "test")
 	assert_eq(character.job_xp_bonus(data), 10)

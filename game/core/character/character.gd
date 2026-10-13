@@ -91,10 +91,11 @@ func set_bonus(stat_name: String, data: GameData) -> int:
 	return int(data.set_bonuses(inventory).get(stat_name, 0))
 
 
-## Prospection : 100 + Chance / 10 + équipement. Augmente les chances de butin.
+## Prospection : 100 + Chance / 10 + équipement + passif de race. Augmente les chances de butin.
 @warning_ignore("integer_division")
 func prospection(data: GameData = null) -> int:
-	return BASE_PROSPECTION + stat("chance", data) / 10 + extra("prospection", data)
+	var passive := data.passive_value(race_id, "prospection") if data != null else 0
+	return BASE_PROSPECTION + stat("chance", data) / 10 + extra("prospection", data) + passive
 
 
 ## Initiative : base de la Voie + Force, Intelligence, Chance et Agilité + équipement. Décide de
@@ -128,10 +129,7 @@ func job_level(job_id: String) -> int:
 
 ## Bonus d'XP de métier en % (passif de race « xp_metier »).
 func job_xp_bonus(data: GameData) -> int:
-	if data == null:
-		return 0
-	var effect: Dictionary = data.races.get(race_id, {}).get("passif", {}).get("effet", {})
-	return int(effect.get("valeur", 0)) if str(effect.get("type")) == "xp_metier" else 0
+	return data.passive_value(race_id, "xp_metier") if data != null else 0
 
 
 ## Ajoute de l'XP de métier ; renvoie les niveaux de métier atteints (vide si aucun).

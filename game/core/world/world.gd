@@ -492,8 +492,8 @@ func _reward(events: Array[Dictionary]) -> void:
 			return
 
 
-## Butin de victoire : pour chaque monstre et chaque ligne de sa table, chance = taux × prospection
-## / 100 (au plus 100 %). Pas de seuil : un personnage seul peut tout obtenir. Plus des écus.
+## Butin de victoire, tiré par `Loot` (limite par monstre partagée entre les joueurs), plus des
+## écus (+X % avec le passif de race « ecus »).
 ## Rien ne se perd : si le sac est plein, le butin y entre en surplus (`surcharge` dans
 ## l'événement) et les combats sont refusés tant qu'on n'a pas fait de la place.
 func _loot(events: Array[Dictionary]) -> void:
@@ -504,25 +504,24 @@ func _loot(events: Array[Dictionary]) -> void:
 	var player := combat.get_fighter(PLAYER_ID)
 	var prospection: int = player.prospection if player != null else Character.BASE_PROSPECTION
 	var rng := combat.rng
-	var found: Array[Dictionary] = []
+	var monsters: Array = []
 	var coins := 0
 	for fighter in combat.fighters:
 		if fighter.team == Fighter.TEAM_PLAYERS or not data.monsters.has(fighter.kind):
 			continue
 		var monster: Dictionary = data.monsters[fighter.kind]
+		monsters.append(monster)
 		var coin_range: Array = monster.get("ecus", [0, 0])
 		coins += rng.randi_range(int(coin_range[0]), int(coin_range[1]))
-		for drop: Dictionary in monster.get("butin", []):
-			var chance := minf(1.0, float(drop["taux"]) * prospection / 100.0 * (1.0 + _combat_loot_bonus))
-			if rng.randf() >= chance:
-				continue
-			var amount: Array = drop.get("quantite", [1, 1])
-			var template: Dictionary = data.items[drop["objet"]]
-			var quantity := rng.randi_range(int(amount[0]), int(amount[1]))
-			for _unit in (quantity if Item.is_equipment(template) else 1):
-				character.inventory.add(template, 1 if Item.is_equipment(template) else quantity, Item.roll_bonuses(template, rng), true)
-				found.append({"objet": template["id"], "nom": template["nom"], "rarete": template["rarete"],
-					"quantite": 1 if Item.is_equipment(template) else quantity})
+	coins = roundi(coins * (100 + data.passive_value(character.race_id, "ecus")) / 100.0)
+	var found: Array[Dictionary] = []
+	for drop: Dictionary in Loot.roll(monsters, {PLAYER_ID: prospection}, rng, _combat_loot_bonus)[PLAYER_ID]:
+		var template: Dictionary = data.items[drop["objet"]]
+		var quantity: int = drop["quantite"]
+		for _unit in (quantity if Item.is_equipment(template) else 1):
+			character.inventory.add(template, 1 if Item.is_equipment(template) else quantity, Item.roll_bonuses(template, rng), true)
+			found.append({"objet": template["id"], "nom": template["nom"], "rarete": template["rarete"],
+				"quantite": 1 if Item.is_equipment(template) else quantity})
 	character.inventory.ecus += coins
 	ended["butin"] = _merged_loot(found)
 	ended["surcharge"] = character.inventory.is_overloaded()

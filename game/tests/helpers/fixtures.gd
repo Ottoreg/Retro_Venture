@@ -115,7 +115,7 @@ static func data() -> GameData:
 	var races := [{
 		"id": "testeur", "nom": "Testeur", "camp": "allie", "carte_depart": "test",
 		"bonus": {"force": 50, "vitalite": 7, "sagesse": 100},
-		"passif": {"nom": "Vue perçante", "effet": {"type": "portee", "valeur": 1}},
+		"passif": {"nom": "Vue perçante", "effets": [{"type": "portee", "valeur": 1}]},
 		"sort": "bond",
 	}]
 	return GameData.from_dicts(spells(), monsters, voies, races, items())
