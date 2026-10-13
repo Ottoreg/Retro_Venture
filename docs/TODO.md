@@ -350,6 +350,10 @@ Peut démarrer dès que l'alpha solo est stable.
 ### Instances
 - [ ] Gestionnaire d'instances : plafond par carte, création et fusion automatiques
 - [ ] Attribution d'instance (priorité amis / groupe, puis remplissage)
+- [ ] Deux mondes d'instances selon l'avancement : avant la fin de l'acte III (entre débutants,
+  havres de paix des zones de départ) et après (instances communes) ; bascule définitive et annoncée
+  (GDD § 13.2)
+- [ ] Décider : aide d'un joueur avancé à un débutant (interdite, ou mode mentor sans récolte ni butin)
 - [ ] Rejoindre l'instance d'un ami
 - [ ] Instances privées de donjon par groupe
 - [ ] Maisons de joueurs instanciées : chaque joueur entre dans sa propre copie de `maison_joueur` (et des maisons de Crasse-Roc et Sylvebrume)

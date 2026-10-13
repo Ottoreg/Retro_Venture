@@ -694,6 +694,25 @@ ingrédients).
 - **Fusion :** les instances sous-peuplées sont fusionnées progressivement.
 - **Donjons :** instance privée par groupe.
 
+**Séparation par avancement dans la quête principale.** Les instances sont réparties en deux
+« mondes » selon l'avancement de chaque joueur :
+
+- **Avant la fin de l'acte III** (quêtes de camp, voir § 3.4) : le joueur ne peut rejoindre que des
+  instances où **personne n'a dépassé l'acte III**. Les nouveaux joueurs se retrouvent entre eux pour
+  faire leurs premières quêtes tranquillement, et les zones de départ restent des **havres de paix**
+  pour leurs combats et leurs métiers : aucun joueur de haut niveau ne vient y vider les monstres et
+  les ressources en un éclair.
+- **Après l'acte III** (la quête de l'alliance contre le Cendré commencée) : le joueur bascule dans
+  les instances communes, où tous les joueurs qui ont passé ce cap sont mélangés, quel que soit leur
+  camp ou leur niveau.
+- La bascule est définitive et se fait à un moment clair du scénario (fin de la chaîne qui fonde le
+  Conseil des Peuples Libres), annoncé au joueur.
+- Les règles d'attribution ci-dessus (amis, groupe, remplissage) s'appliquent à l'intérieur de
+  chaque monde.
+- **Question ouverte :** un joueur avancé qui veut aider un ami débutant. Pistes : c'est impossible
+  (règle stricte), ou un **mode mentor** qui lui permet de rejoindre l'instance de son ami en groupe,
+  sans récolter les ressources ni gagner de butin, pour garder le havre de paix.
+
 ### 13.3 Fonctionnalités multi
 
 | Domaine | Fonctionnalités |
