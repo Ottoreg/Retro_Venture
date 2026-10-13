@@ -174,3 +174,20 @@ func test_soins_et_boucliers_montent_avec_leur_element() -> void:
 	assert_eq(hero.shield, 14, "bouclier de Tempête : Agilité (+40 %)")
 	assert_true(Spell.validate({"id": "x", "nom": "X", "cout_pa": 1, "portee": {"min": 0, "max": 0},
 		"effets": [{"type": "soin", "min": 1, "max": 2}]}).size() > 0, "un soin sans élément est refusé")
+
+
+func test_sermon_en_ligne_degats_aux_ennemis_soin_aux_allies() -> void:
+	var combat := _hero_fight([["mannequin", C + Vector2i(3, 0)], ["mannequin", C + Vector2i(2, 1)], ["mannequin", C + Vector2i(1, 1)]])
+	assert_eq(_cast(combat, "sermon", C + Vector2i(1, 1))[0]["raison"], Protocol.REASON_NOT_IN_LINE, "en diagonale : refusé")
+	var ally := combat.get_fighter("m1")
+	ally.team = combat.get_fighter(Fixtures.PLAYER).team
+	ally.hp = 10
+	var events := _cast(combat, "sermon", C + Vector2i(1, 0))
+	var damage := Fixtures.of_type(events, Protocol.EVT_DAMAGE)
+	assert_eq(damage.size(), 1, "seul l'ennemi dans la croix est touché")
+	assert_eq(damage[0]["entite"], "m0")
+	var heal := Fixtures.of_type(events, Protocol.EVT_HEAL)
+	assert_eq(heal.size(), 1, "l'allié sur le bras de la croix est soigné")
+	assert_eq(heal[0]["entite"], "m1")
+	assert_eq(ally.hp, 25, "10 + 10 × (100 + 50 Force) %")
+	assert_eq(combat.get_fighter("m2").hp, 30, "hors de la croix")

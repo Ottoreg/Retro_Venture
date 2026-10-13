@@ -32,6 +32,8 @@ func test_erreurs() -> void:
 		"portée inversée": {"portee": {"min": 3, "max": 1}},
 		"zone inconnue": {"zone": {"type": "ligne"}},
 		"cercle sans taille": {"zone": {"type": "cercle"}},
+		"croix sans lancer en ligne": {"zone": {"type": "croix_latine"}},
+		"cibles inconnues": {"effets": [{"type": "degats", "element": "acier", "min": 1, "max": 2, "cibles": "amis"}]},
 		"aucun effet": {"effets": []},
 		"effet inconnu": {"effets": [{"type": "poison", "min": 1, "max": 2}]},
 		"dégâts sans élément": {"effets": [{"type": "degats", "min": 1, "max": 2}]},
@@ -52,3 +54,19 @@ func test_zones() -> void:
 	assert_eq(cells.size(), 5, "cercle de taille 1 : la case et ses 4 voisines")
 	for cell in cells:
 		assert_true(IsoGrid.distance(cell, Vector2i.ZERO) <= 1)
+
+
+func test_croix_latine() -> void:
+	var cross := Spell.from_dict(Fixtures.spells()[8])
+	assert_eq(cross.zone_type, Spell.ZONE_LATIN_CROSS)
+	assert_true(cross.cast_in_line)
+	# Lancer vers +x depuis (0, 0) sur (2, 0) : (2..5, 0) en ligne, et (3, ±1) de chaque côté de la 2e.
+	var cells := cross.zone_cells(Vector2i(2, 0), Vector2i.ZERO)
+	cells.sort()
+	var expected: Array[Vector2i] = [Vector2i(2, 0), Vector2i(3, -1), Vector2i(3, 0), Vector2i(3, 1), Vector2i(4, 0), Vector2i(5, 0)]
+	assert_eq(cells, expected)
+	# Vers −y : la croix suit le sens du lancer.
+	cells = cross.zone_cells(Vector2i(0, -1), Vector2i.ZERO)
+	cells.sort()
+	expected = [Vector2i(-1, -2), Vector2i(0, -4), Vector2i(0, -3), Vector2i(0, -2), Vector2i(0, -1), Vector2i(1, -2)]
+	assert_eq(cells, expected)

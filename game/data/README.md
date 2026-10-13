@@ -176,7 +176,8 @@ voisine ; on arrive sur le bord opposé, à la même hauteur. Chaque sortie doit
 | `cout_pa` | Points d'action dépensés |
 | `portee` | Distance en cases (4 directions) ; `0` = sur soi |
 | `ligne_de_vue` | La cible doit être visible (défaut : `true`). Arbres, rochers, murs et combattants bloquent la vue ; l'eau non |
-| `zone` | `case` ou `cercle` avec `taille` (rayon) |
+| `zone` | `case`, `cercle` avec `taille` (rayon), ou `croix_latine` : 4 cases dans le sens du lancer depuis la case visée, plus une de chaque côté de la 2e (demande `lancer_en_ligne` et une portée minimale d'au moins 1) |
+| `lancer_en_ligne` | La cible doit être sur la même ligne ou la même colonne de la grille que le lanceur (défaut : `false`) |
 | `lanceur_exclu` | Le lanceur n'est pas touché par sa propre zone |
 | `relance.par_tour` | Lancers maximum par tour (`0` = illimité) |
 | `relance.delai` | Tours à attendre avant de relancer |
@@ -186,6 +187,9 @@ Chaque effet chiffré grandit avec la caractéristique de son élément : un soi
 et l'Intelligence, un bouclier `tempete` avec l'Agilité, etc. `bouclier` donne à la cible des points
 qui absorbent les dégâts avant ses PV ; ils s'additionnent et disparaissent au début de son
 prochain tour.
+
+Chaque effet peut avoir `cibles` : `tous` (défaut), `ennemis` ou `allies` (le camp du lanceur). Le
+Sermon blesse ainsi les ennemis de sa zone et soigne les alliés.
 
 Effets sans dégâts : `teleportation` (le lanceur saute sur la case visée, qui doit être libre ;
 pas de `min`/`max`), `gain_pa` (PA en plus tout de suite), `retrait_pm` (PM en moins au prochain

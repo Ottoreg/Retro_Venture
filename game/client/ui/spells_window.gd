@@ -4,6 +4,7 @@ extends CanvasLayer
 ## leurs icônes et la fiche du sort choisi.
 
 const GOLD := Color(0.95, 0.76, 0.3)
+const TARGET_NAMES := {"ennemis": "ennemis", "allies": "alliés"}
 const ELEMENT_NAMES := {"acier": "Acier (Force)", "flamme": "Flamme (Intelligence)", "givre": "Givre (Chance)", "tempete": "Tempête (Agilité)",
 	"sacre": "Sacré (Force et Intelligence)", "impie": "Impie (Agilité et Chance)"}
 const ELEMENT_COLORS := {"acier": Color("d9a066"), "flamme": Color("ff8a5a"), "givre": Color("7ccfff"), "tempete": Color("9ade6a"),
@@ -32,9 +33,15 @@ static func describe(spell: Spell) -> PackedStringArray:
 		reach = "%d case%s" % [spell.range_max, "s" if spell.range_max > 1 else ""]
 	elif spell.range_max > 0:
 		reach = "%d à %d cases" % [spell.range_min, spell.range_max]
-	lines.append("Coût : %d PA — Portée : %s%s" % [spell.pa_cost, reach, "" if spell.needs_line_of_sight or spell.range_max == 0 else " (sans ligne de vue)"])
+	var notes: PackedStringArray = []
+	if spell.cast_in_line:
+		notes.append("en ligne")
+	if not spell.needs_line_of_sight and spell.range_max > 0:
+		notes.append("sans ligne de vue")
+	lines.append("Coût : %d PA — Portée : %s%s" % [spell.pa_cost, reach, "" if notes.is_empty() else " (%s)" % ", ".join(notes)])
 	for effect in spell.effects:
 		var type: String = effect["type"]
+		var count := lines.size()
 		if type == Spell.EFFECT_DAMAGE:
 			lines.append("Dégâts %s : %d à %d" % [ELEMENT_NAMES.get(effect["element"], effect["element"]), effect["min"], effect["max"]])
 		elif type == Spell.EFFECT_HEAL:
@@ -47,8 +54,12 @@ static func describe(spell: Spell) -> PackedStringArray:
 			lines.append("Donne %d PA" % effect["min"])
 		elif type == Spell.EFFECT_TELEPORT:
 			lines.append("Téléporte sur la case visée")
+		if lines.size() > count and effect.get("cibles", Spell.TARGETS_ALL) != Spell.TARGETS_ALL:
+			lines[lines.size() - 1] += " (%s)" % TARGET_NAMES[effect["cibles"]]
 	if spell.zone_type == Spell.ZONE_CIRCLE:
 		lines.append("Zone : cercle de %d case%s" % [spell.zone_size, "s" if spell.zone_size > 1 else ""])
+	elif spell.zone_type == Spell.ZONE_LATIN_CROSS:
+		lines.append("Zone : croix (4 cases dans le sens du lancer, une de chaque côté de la 2e)")
 	if spell.casts_per_turn > 0:
 		lines.append("%d fois par tour au plus" % spell.casts_per_turn)
 	if spell.cooldown > 0:

@@ -4,6 +4,15 @@ extends RefCounted
 
 const ZONE_CELL := "case"
 const ZONE_CIRCLE := "cercle"
+## Croix latine : 4 cases en ligne depuis la case visée, dans le sens du lancer, et une case de
+## chaque côté de la 2e. Demande un lancer en ligne.
+const ZONE_LATIN_CROSS := "croix_latine"
+const ZONES := [ZONE_CELL, ZONE_CIRCLE, ZONE_LATIN_CROSS]
+## Qui un effet touche dans la zone (défaut : tout le monde).
+const TARGETS_ALL := "tous"
+const TARGETS_ENEMIES := "ennemis"
+const TARGETS_ALLIES := "allies"
+const TARGETS := [TARGETS_ALL, TARGETS_ENEMIES, TARGETS_ALLIES]
 const EFFECT_DAMAGE := "degats"
 const EFFECT_HEAL := "soin"
 ## Le lanceur se téléporte sur la case visée (qui doit être libre).
@@ -31,6 +40,8 @@ var pa_cost: int
 var range_min: int
 var range_max: int
 var needs_line_of_sight: bool
+## La cible doit être sur la même ligne ou la même colonne que le lanceur.
+var cast_in_line: bool
 var zone_type: String
 ## Rayon de la zone (distance de Manhattan) pour une zone en cercle.
 var zone_size: int
@@ -40,7 +51,7 @@ var excludes_caster: bool
 var casts_per_turn: int
 ## Nombre de tours avant de pouvoir relancer le sort (0 = aucun délai).
 var cooldown: int
-## Effets, dans l'ordre : { type, element?, min, max }.
+## Effets, dans l'ordre : { type, element?, min, max, cibles? }.
 var effects: Array[Dictionary] = []
 
 
@@ -58,10 +69,14 @@ static func validate(data: Dictionary) -> PackedStringArray:
 			or not _is_int_at_least(range_data.get("max"), 0) or int(range_data["min"]) > int(range_data["max"]):
 		errors.append("« portee » doit être { min, max } avec 0 ≤ min ≤ max")
 	var zone: Variant = data.get("zone", {"type": ZONE_CELL})
-	if typeof(zone) != TYPE_DICTIONARY or zone.get("type") not in [ZONE_CELL, ZONE_CIRCLE]:
-		errors.append("« zone.type » doit valoir « case » ou « cercle »")
+	if typeof(zone) != TYPE_DICTIONARY or zone.get("type") not in ZONES:
+		errors.append("« zone.type » doit valoir %s" % str(ZONES))
 	elif zone["type"] == ZONE_CIRCLE and not _is_int_at_least(zone.get("taille"), 1):
 		errors.append("une zone en cercle demande une « taille » d'au moins 1")
+	elif zone["type"] == ZONE_LATIN_CROSS and not data.get("lancer_en_ligne", false):
+		errors.append("une zone en croix latine demande « lancer_en_ligne »")
+	elif zone["type"] == ZONE_LATIN_CROSS and int(data["portee"]["min"]) < 1:
+		errors.append("une zone en croix latine demande une portée minimale d'au moins 1 (pour avoir un sens)")
 	var recast: Variant = data.get("relance", {})
 	if typeof(recast) != TYPE_DICTIONARY or not _is_int_at_least(recast.get("par_tour", 0), 0) \
 			or not _is_int_at_least(recast.get("delai", 0), 0):
@@ -74,6 +89,8 @@ static func validate(data: Dictionary) -> PackedStringArray:
 		if typeof(effect) != TYPE_DICTIONARY or effect.get("type") not in EFFECT_TYPES:
 			errors.append("effet invalide : %s (types : %s)" % [str(effect), str(EFFECT_TYPES)])
 			continue
+		if effect.get("cibles", TARGETS_ALL) not in TARGETS:
+			errors.append("effet « %s » : « cibles » doit être l'un de %s" % [effect["type"], str(TARGETS)])
 		if effect["type"] == EFFECT_TELEPORT:
 			continue
 		if effect["type"] in ELEMENT_EFFECTS and effect.get("element") not in ELEMENTS:
@@ -94,6 +111,7 @@ static func from_dict(data: Dictionary) -> Spell:
 	spell.range_min = int(data["portee"]["min"])
 	spell.range_max = int(data["portee"]["max"])
 	spell.needs_line_of_sight = bool(data.get("ligne_de_vue", true))
+	spell.cast_in_line = bool(data.get("lancer_en_ligne", false))
 	var zone: Dictionary = data.get("zone", {"type": ZONE_CELL})
 	spell.zone_type = zone["type"]
 	spell.zone_size = int(zone.get("taille", 0))
@@ -105,13 +123,22 @@ static func from_dict(data: Dictionary) -> Spell:
 		var copy := effect.duplicate()
 		copy["min"] = int(effect.get("min", 0))
 		copy["max"] = int(effect.get("max", 0))
+		copy["cibles"] = str(effect.get("cibles", TARGETS_ALL))
 		spell.effects.append(copy)
 	return spell
 
 
-## Cases touchées quand le sort vise `target`.
-func zone_cells(target: Vector2i) -> Array[Vector2i]:
+## Cases touchées quand le sort vise `target` depuis `origin` (la case du lanceur, qui donne le sens
+## des zones orientées).
+func zone_cells(target: Vector2i, origin := target) -> Array[Vector2i]:
 	var cells: Array[Vector2i] = [target]
+	if zone_type == ZONE_LATIN_CROSS:
+		var forward := direction(origin, target)
+		var side := Vector2i(-forward.y, forward.x)
+		for i in range(1, 4):
+			cells.append(target + forward * i)
+		cells.append(target + forward + side)
+		cells.append(target + forward - side)
 	if zone_type == ZONE_CIRCLE:
 		for dy in range(-zone_size, zone_size + 1):
 			for dx in range(-zone_size, zone_size + 1):
@@ -119,6 +146,27 @@ func zone_cells(target: Vector2i) -> Array[Vector2i]:
 				if offset != Vector2i.ZERO and absi(dx) + absi(dy) <= zone_size:
 					cells.append(target + offset)
 	return cells
+
+
+## Sens du lancer de `from` vers `to`, le long de l'axe le plus long (vers +x si les cases sont
+## confondues).
+static func direction(from: Vector2i, to: Vector2i) -> Vector2i:
+	var delta := to - from
+	if delta == Vector2i.ZERO:
+		return Vector2i(1, 0)
+	if absi(delta.x) >= absi(delta.y):
+		return Vector2i(signi(delta.x), 0)
+	return Vector2i(0, signi(delta.y))
+
+
+## L'effet touche-t-il `target`, quand `caster` lance le sort ?
+static func affects(effect: Dictionary, caster: Fighter, target: Fighter) -> bool:
+	match effect.get("cibles", TARGETS_ALL):
+		TARGETS_ENEMIES:
+			return target.team != caster.team
+		TARGETS_ALLIES:
+			return target.team == caster.team
+	return true
 
 
 func teleports() -> bool:

@@ -72,6 +72,7 @@ var _refusals := {
 	Protocol.REASON_NOT_ENOUGH_PM: "Pas assez de PM",
 	Protocol.REASON_OUT_OF_RANGE: "Hors de portée",
 	Protocol.REASON_NO_LINE_OF_SIGHT: "Pas de ligne de vue",
+	Protocol.REASON_NOT_IN_LINE: "Lancer en ligne uniquement",
 	Protocol.REASON_SPELL_LIMIT: "Déjà lancé ce tour-ci",
 	Protocol.REASON_SPELL_COOLDOWN: "Sort en recharge",
 	Protocol.REASON_OCCUPIED: "Case occupée",
@@ -851,7 +852,7 @@ func _draw() -> void:
 		if selected_spell != "" and _hovered in _range_visible and fighter != null:
 			var spell: Spell = fighter.get_spell(selected_spell)
 			if spell != null:
-				_draw_cells(spell.zone_cells(_hovered).filter(func(c: Vector2i) -> bool: return map.is_inside(c)), COLOR_ZONE)
+				_draw_cells(spell.zone_cells(_hovered, fighter.cell).filter(func(c: Vector2i) -> bool: return map.is_inside(c)), COLOR_ZONE)
 	for cell in _preview:
 		draw_colored_polygon(_scaled_diamond(IsoGrid.cell_to_screen(cell), 0.35), COLOR_PATH)
 	if map.is_inside(_hovered):

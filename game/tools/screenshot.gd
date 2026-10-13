@@ -3,7 +3,7 @@ extends SceneTree
 ##   xvfb-run -s "-screen 0 1280x720x24" godot --path game --rendering-driver opengl3 \
 ##     -s res://tools/screenshot.gd -- sortie.png [carte] [frames] [action]
 ## Lance la scène du monde (nouvelle partie), attend quelques images et enregistre la vue.
-## Action : « combat » (engage le premier groupe de la carte), « butin » (écran de fin de combat d'exemple), « elite7 » (Loup alpha de rang 7 survolé), « cible » (combat, monstre survolé), « panoplie » (3 pièces portées), « inventaire », « metiers », « sorts » (ouvre la
+## Action : « combat » (engage le premier groupe de la carte), « butin » (écran de fin de combat d'exemple), « elite7 » (Loup alpha de rang 7 survolé), « cible » (combat, monstre survolé), « sermon » (Théologue en combat, Sermon visé devant lui), « panoplie » (3 pièces portées), « inventaire », « metiers », « sorts » (ouvre la
 ## fenêtre ; « inventaire » remplit d'abord le sac d'un exemplaire de chaque objet) ou « pierre » (va utiliser
 ## la Pierre de Passage).
 ## Si « carte » commence par res://, c'est cette scène qui est capturée (menu, création…).
@@ -26,6 +26,8 @@ func _initialize() -> void:
 	if args.size() > 2:
 		_frames = int(args[2])
 	_action = args[3] if args.size() > 3 else ""
+	if _action == "sermon":
+		Session.new_character = Character.create("Frère Tuck", "humain", "theologue")
 	_scene = load(scene_path).instantiate()
 	root.add_child(_scene)
 
@@ -76,20 +78,27 @@ func _process(_delta: float) -> bool:
 		elif _action == "sorts":
 			_scene.get_node("SpellsWindow").toggle()
 		else:
-			var target: Vector2i = view.world.groups()[0]["case"] if _action in ["combat", "cible"] else view.current_map().travel_stone()
+			var target: Vector2i = view.world.groups()[0]["case"] if _action in ["combat", "cible", "sermon"] else view.current_map().travel_stone()
 			view._on_click(target)
 			for i in 200:
 				if not view.is_busy():
 					break
 				view._process(0.3)
-			if _action == "cible" and view.world.combat != null:
+			if _action in ["cible", "sermon"] and view.world.combat != null:
 				# Placement validé, puis survol du premier monstre.
 				view.request_start_fight()
 				for i in 200:
 					if not view.is_busy():
 						break
 					view._process(0.3)
-				for fighter in view.world.combat.fighters:
+				if _action == "sermon":
+					# Sermon choisi, case visée à 2 cases devant le Théologue, vers les monstres.
+					var hero := view.player_fighter()
+					var foe := view.world.combat.enemies_of(hero)[0]
+					view.selected_spell = "theologue_sermon"
+					view._refresh_overlays()
+					view._set_hovered(hero.cell + Spell.direction(hero.cell, foe.cell))
+				for fighter in view.world.combat.fighters if _action == "cible" else []:
 					if fighter.team != Fighter.TEAM_PLAYERS:
 						view._set_hovered(fighter.cell)
 						break

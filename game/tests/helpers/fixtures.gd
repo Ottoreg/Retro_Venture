@@ -62,6 +62,10 @@ static func spells() -> Array:
 			"effets": [{"type": "gain_pa", "min": 2, "max": 2}]},
 		{"id": "entrave", "nom": "Entrave", "cout_pa": 1, "portee": {"min": 1, "max": 1},
 			"effets": [{"type": "retrait_pm", "min": 1, "max": 1}]},
+		{"id": "sermon", "nom": "Sermon", "cout_pa": 2, "portee": {"min": 1, "max": 4}, "ligne_de_vue": false,
+			"lancer_en_ligne": true, "zone": {"type": "croix_latine"}, "effets": [
+				{"type": "degats", "element": "acier", "min": 10, "max": 10, "cibles": "ennemis"},
+				{"type": "soin", "element": "acier", "min": 10, "max": 10, "cibles": "allies"}]},
 	]
 
 
@@ -105,7 +109,7 @@ static func data() -> GameData:
 	var voies := [{
 		"id": "test", "nom": "Test",
 		"caracteristiques": {"pv": 50, "pa": 6, "pm": 3, "initiative": 100},
-		"sorts": ["frappe", "piqure", "tir", "zone", "soin", "elan", "entrave"],
+		"sorts": ["frappe", "piqure", "tir", "zone", "soin", "elan", "entrave", "sermon"],
 		"equipement_depart": ["epee", "bague"],
 	}]
 	var races := [{

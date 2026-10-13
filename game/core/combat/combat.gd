@@ -148,6 +148,8 @@ func targeting_blocker(fighter: Fighter, spell: Spell, target: Vector2i, origin 
 	var from := fighter.cell if origin == Vector2i(-99999, -99999) else origin
 	if not map.is_inside(target):
 		return Protocol.REASON_OUT_OF_MAP
+	if spell.cast_in_line and from.x != target.x and from.y != target.y:
+		return Protocol.REASON_NOT_IN_LINE
 	var distance := IsoGrid.distance(from, target)
 	if distance < spell.range_min or distance > max_range(fighter, spell):
 		return Protocol.REASON_OUT_OF_RANGE
@@ -297,18 +299,19 @@ func _cast(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 		"cible": target,
 		"pa": fighter.pa,
 	}]
+	var origin := fighter.cell
 	if spell.teleports():
 		var from := fighter.cell
 		fighter.cell = target
 		events.append({"type": Protocol.EVT_TELEPORTED, "entite": fighter.id, "depuis": from, "case": target})
 	var targets: Array[Fighter] = []
-	for cell in spell.zone_cells(target):
+	for cell in spell.zone_cells(target, origin):
 		var hit := fighter_at(cell)
 		if hit != null and not (spell.excludes_caster and hit == fighter):
 			targets.append(hit)
 	for hit in targets:
 		for effect in spell.effects:
-			if hit.is_alive() and effect["type"] != Spell.EFFECT_TELEPORT:
+			if hit.is_alive() and effect["type"] != Spell.EFFECT_TELEPORT and Spell.affects(effect, fighter, hit):
 				_apply_effect(fighter, hit, effect, events)
 	_check_end(events)
 	return events
