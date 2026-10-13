@@ -712,6 +712,11 @@ ingrédients).
 - **Mode mentor** : un joueur qui a commencé l'acte III peut rejoindre l'instance d'un ami débutant,
   seulement en groupe avec lui. En mentor, il ne récolte pas de ressources et ne gagne pas de butin,
   pour que le havre de paix reste intact.
+- **Passer les actes I et II** (multi, long terme) : un joueur peut choisir de sauter les quêtes de
+  camp pour commencer directement l'acte III, par exemple pour être aidé par des amis ou par un autre
+  de ses personnages de haut niveau. Il est prévenu avant de confirmer : il renonce aux récompenses
+  de ces quêtes (expérience, objets, écus) et bascule tout de suite dans les instances communes. Le
+  choix est définitif.
 
 ### 13.3 Fonctionnalités multi
 

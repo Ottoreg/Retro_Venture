@@ -354,6 +354,8 @@ Peut démarrer dès que l'alpha solo est stable.
   zones de départ) et à partir de l'acte III (instances communes) ; bascule définitive dès la première
   quête de l'alliance, annoncée au joueur (GDD § 13.2)
 - [ ] Mode mentor : un joueur de l'acte III rejoint un ami débutant en groupe, sans récolte ni butin
+- [ ] Passer les actes I et II pour commencer à l'acte III (choix définitif, confirmation qui
+  rappelle la perte des récompenses de quêtes : XP, objets, écus) (GDD § 13.2)
 - [ ] Rejoindre l'instance d'un ami
 - [ ] Instances privées de donjon par groupe
 - [ ] Maisons de joueurs instanciées : chaque joueur entre dans sa propre copie de `maison_joueur` (et des maisons de Crasse-Roc et Sylvebrume)
