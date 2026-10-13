@@ -265,16 +265,27 @@ sexes × équipements × animations) impose de s'en tenir à ces 9.
 
 ### 4.3 Classes (Voies)
 
-**Court terme (3 classes) :**
+**Court terme (4 classes) :**
 
 | Classe | Rôle | Éléments principaux | Style |
 |---|---|---|---|
 | **Guerrier** | Mêlée, encaisse | Acier (Force) | Charges, coups de zone en mêlée, réduction de dégâts |
 | **Rôdeur** | Distance, mobilité | Acier / Tempête (Force / Agilité) | Arc, pièges, poussée, gestion de distance |
 | **Arcaniste** | Dégâts magiques, contrôle | Flamme / Givre (Intelligence / Chance) | Sorts de zone, ralentissements, un petit soin |
+| **Théologue** | Soigneur sacré | Sacré, Flamme (Intelligence / Force) | Soins, boucliers, dégâts sacrés modestes |
 
-> Option si l'équilibrage en solo l'exige : avancer le **Théologue** (soin) comme 4e classe dès
-> l'alpha, ou donner au Rôdeur un soin léger.
+Le **Théologue** est avancé dans l'alpha : une classe de soin rend le solo plus confortable et permet
+de tester le Sacré dès maintenant. Sorts de départ proposés (4, comme les autres classes) :
+
+| Sort | Effet proposé |
+|---|---|
+| *Châtiment* | Dégâts Sacré à distance (2 à 5 cases) |
+| *Imposition des mains* | Soin sur soi (ou un allié en multi), le cœur de la classe |
+| *Rempart de foi* | Bouclier qui absorbe des dégâts jusqu'au prochain tour (effet « bouclier » à créer) |
+| *Sermon* | Petits dégâts Sacré en zone autour d'une case, et −1 PM aux ennemis touchés |
+
+Les soins des autres classes restent modestes (le Guerrier et l'Arcaniste en ont un petit) pour
+que le Théologue garde son rôle.
 
 **Long terme (9 Voies)** : trois familles de trois classes, selon la distance de combat.
 
@@ -287,7 +298,7 @@ sexes × équipements × animations) impose de s'en tenir à ces 9.
 | | **Ombre** | Assassin invisible | Tempête / Acier (Agilité / Force) | Invisibilité, coups dans le dos, téléportations courtes, coups critiques |
 | | **Venomancien** | Maître des poisons | Givre / Tempête, un peu d'Impie (Chance / Agilité) | Poisons (dégâts à chaque tour), pièges empoisonnés, affaiblissements, mi-distance |
 | **Distance** | **Arcaniste** | Dégâts magiques, contrôle | Flamme / Givre (Intelligence / Chance) | *(voir plus haut)* |
-| | **Théologue** | Soigneur sacré | Sacré, Flamme (Intelligence / Force) | Soins, boucliers, retrait des états, résurrection (multi), dégâts sacrés modestes |
+| | **Théologue** *(dès l'alpha)* | Soigneur sacré | Sacré, Flamme (Intelligence / Force) | Soins, boucliers, retrait des états, résurrection (multi), dégâts sacrés modestes |
 | | **Démoniste** | Dégâts impies | Impie, Givre (Chance / Agilité) | Malédictions, sacrifice de PV contre des dégâts, invocation d'un démon mineur |
 
 Le Sacré et l'Impie sont des éléments à part entière (voir § 4.4) : le Sacré s'appuie sur l'Acier et
@@ -356,8 +367,11 @@ ajoutent 5 dégâts à chaque ligne de dégâts de n'importe quel sort ou arme, 
 
 - **Niveau max :** 30 en alpha solo, 100 à terme.
 - **Par niveau :** 5 points de caractéristique à répartir, 1 point de sort.
-- **Rendement décroissant** sur les caractéristiques au-delà de certains paliers (à la Dofus) pour
-  favoriser la diversité.
+- **Rendement décroissant** (à décider) : au-delà de certains paliers, un point de caractéristique
+  coûte plus de points à répartir, comme dans Dofus. Exemple : 1 point de capital = 1 point de Force
+  jusqu'à 100 de Force, puis il faut 2 points de capital par point de Force jusqu'à 200, puis 3.
+  Seuls les points répartis sont concernés (pas l'équipement ni les panoplies). But : rendre
+  intéressant de monter une deuxième caractéristique au lieu de tout mettre dans une seule.
 - **Courbe d'XP** (en place) : passer du niveau n à n+1 coûte 60·n + 20·n² XP (80 pour le niveau 2,
   200 de plus pour le 3, environ 8 400 au total pour le niveau 10). À ajuster selon les tests, cible :
   niveau 10 en environ 2 h, niveau 30 en environ 15 h pour l'alpha.
@@ -845,8 +859,8 @@ exemples en [annexe](#20-annexes--formats-de-données).
 |---|---|---|
 | **0. Pré-production** | Choix techniques, GDD validé, prototypes papier | Moteur choisi, structure du dépôt en place |
 | **1. Prototype** | Une carte, déplacement, un combat 1 contre 1 | Un combat jouable de bout en bout |
-| **2. Alpha solo** (court terme) | 3 races (une par camp), 3 classes, combat + butin, quêtes simples, 3 métiers, équipement, 3 zones de départ + Hautepierre | Environ 10 à 15 h de jeu solo de niveau 1 à 30 |
-| **3. Solo étendu** (long terme) | 6 races de plus (Nains, Orcs, Semi-hommes, Géants, Squelettes, Lutins ; 9 au total), 6 classes de plus (Paladin, Myrmidon, Ombre, Venomancien, Théologue, Démoniste ; 9 au total), Voies, donjons, quêtes complexes, légendaires, scénario complet | Quête des Reliques jouable jusqu'au boss final |
+| **2. Alpha solo** (court terme) | 3 races (une par camp), 4 classes (avec le Théologue), combat + butin, quêtes simples, 3 métiers, équipement, 3 zones de départ + Hautepierre | Environ 10 à 15 h de jeu solo de niveau 1 à 30 |
+| **3. Solo étendu** (long terme) | 6 races de plus (Nains, Orcs, Semi-hommes, Géants, Squelettes, Lutins ; 9 au total), 5 classes de plus (Paladin, Myrmidon, Ombre, Venomancien, Démoniste ; 9 au total), Voies, donjons, quêtes complexes, légendaires, scénario complet | Quête des Reliques jouable jusqu'au boss final |
 | **4. Fondations réseau** | Serveur autoritaire, comptes, une instance, synchronisation | Deux joueurs se voient et combattent ensemble |
 | **5. Multi** | Instances, groupe, amis, chat, échanges, hôtel des ventes, guildes | Bêta fermée |
 

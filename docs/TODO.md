@@ -97,8 +97,11 @@ Objectif : **10 à 15 h de jeu solo, niveaux 1 à 30 : 3 zones de départ (une p
 - [x] **(MVP)** Écran de création : race, classe, nom, aperçu et récapitulatif (couleurs selon race et Voie)
 - [x] **(MVP)** 3 races jouables, une par camp : Humain (allié), Gobelin (ennemi), Elfe (neutre) — bonus, passif, sort racial (passifs Polyvalence et Chapardeur actifs avec les métiers et le butin)
 - [x] **(MVP)** Camp porté par la race dans les données ; carte de départ par race (`carte_depart`)
-- [ ] Faire partir Gobelins et Elfes de leurs propres zones (à créer) — pour l'instant, tout le monde part de Brumerive
+- [x] Faire partir Gobelins et Elfes de leurs propres zones (Crasse-Roc et Sylvebrume)
 - [x] 3 classes jouables : Guerrier, Rôdeur, Arcaniste (4 sorts chacune)
+- [ ] **(MVP)** 4e classe : **Théologue** (soigneur sacré), 4 sorts de départ (Châtiment, Imposition
+  des mains, Rempart de foi, Sermon), tenue, icônes de sorts, équipement de départ (GDD § 4.3)
+- [ ] **(MVP)** Effet « bouclier » (absorbe des dégâts jusqu'au prochain tour) pour le Rempart de foi
 - [ ] **(MVP)** Compléter jusqu'à environ 10 à 12 sorts par classe, débloqués par niveau (1 à 30)
 - [x] **(MVP)** Caractéristiques, points à répartir (fiche, touche C), statistiques dérivées (PV, initiative, dégâts, soins, XP)
 - [x] **(MVP)** XP, montée de niveau (courbe 60·n + 20·n²)
@@ -106,7 +109,6 @@ Objectif : **10 à 15 h de jeu solo, niveaux 1 à 30 : 3 zones de départ (une p
 - [ ] Rendement décroissant des caractéristiques
 - [ ] **(MVP)** Modèle de sort avec `voie` et `rang` (préparation du système des Voies)
 - [ ] Restat (objet ou PNJ)
-- [ ] Décider s'il faut avancer le Théologue (soin) dans l'alpha pour l'équilibrage solo
 
 ### Combat
 - [x] **(MVP)** Éléments composés **Sacré** (Force + Intelligence ; résistance (Acier + Flamme) / 2 + Sacré)
@@ -266,7 +268,7 @@ Objectif : **10 à 15 h de jeu solo, niveaux 1 à 30 : 3 zones de départ (une p
 - [ ] Différencier les races proches (Nain / Orc, Semi-homme / Lutin) et valider leurs noms de peuple (GDD § 4.2)
 - [ ] Voies de corps à corps : **Paladin** (guerrier sacré) et **Myrmidon** (guerrier tank)
 - [ ] Voies mixtes : **Ombre** (assassin invisible) et **Venomancien** (maître des poisons)
-- [ ] Voies à distance : **Théologue** (soigneur sacré) et **Démoniste** (dégâts impies)
+- [ ] Voie à distance : **Démoniste** (dégâts impies) ; le Théologue est avancé dans l'alpha
 - [ ] Mécaniques de ces Voies : invisibilité, poisons et dégâts sur la durée, provocation, auras,
   invocations, sacrifice de PV, résurrection (multi)
 - [ ] Étendre la progression jusqu'au niveau 100
