@@ -5,7 +5,8 @@ extends RefCounted
 const ZONE_CELL := "case"
 const ZONE_CIRCLE := "cercle"
 ## Croix latine : 4 cases en ligne depuis la case visée, dans le sens du lancer, et une case de
-## chaque côté de la 2e. Demande un lancer en ligne.
+## chaque côté de la 3e (le pied de la croix vers le lanceur, la tête au loin). Demande un lancer
+## en ligne.
 const ZONE_LATIN_CROSS := "croix_latine"
 const ZONES := [ZONE_CELL, ZONE_CIRCLE, ZONE_LATIN_CROSS]
 ## Qui un effet touche dans la zone (défaut : tout le monde).
@@ -137,8 +138,8 @@ func zone_cells(target: Vector2i, origin := target) -> Array[Vector2i]:
 		var side := Vector2i(-forward.y, forward.x)
 		for i in range(1, 4):
 			cells.append(target + forward * i)
-		cells.append(target + forward + side)
-		cells.append(target + forward - side)
+		cells.append(target + forward * 2 + side)
+		cells.append(target + forward * 2 - side)
 	if zone_type == ZONE_CIRCLE:
 		for dy in range(-zone_size, zone_size + 1):
 			for dx in range(-zone_size, zone_size + 1):

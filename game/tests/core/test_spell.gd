@@ -60,13 +60,13 @@ func test_croix_latine() -> void:
 	var cross := Spell.from_dict(Fixtures.spells()[8])
 	assert_eq(cross.zone_type, Spell.ZONE_LATIN_CROSS)
 	assert_true(cross.cast_in_line)
-	# Lancer vers +x depuis (0, 0) sur (2, 0) : (2..5, 0) en ligne, et (3, ±1) de chaque côté de la 2e.
+	# Lancer vers +x depuis (0, 0) sur (2, 0) : (2..5, 0) en ligne, et (4, ±1) de chaque côté de la 3e.
 	var cells := cross.zone_cells(Vector2i(2, 0), Vector2i.ZERO)
 	cells.sort()
-	var expected: Array[Vector2i] = [Vector2i(2, 0), Vector2i(3, -1), Vector2i(3, 0), Vector2i(3, 1), Vector2i(4, 0), Vector2i(5, 0)]
+	var expected: Array[Vector2i] = [Vector2i(2, 0), Vector2i(3, 0), Vector2i(4, -1), Vector2i(4, 0), Vector2i(4, 1), Vector2i(5, 0)]
 	assert_eq(cells, expected)
 	# Vers −y : la croix suit le sens du lancer.
 	cells = cross.zone_cells(Vector2i(0, -1), Vector2i.ZERO)
 	cells.sort()
-	expected = [Vector2i(-1, -2), Vector2i(0, -4), Vector2i(0, -3), Vector2i(0, -2), Vector2i(0, -1), Vector2i(1, -2)]
+	expected = [Vector2i(-1, -3), Vector2i(0, -4), Vector2i(0, -3), Vector2i(0, -2), Vector2i(0, -1), Vector2i(1, -3)]
 	assert_eq(cells, expected)

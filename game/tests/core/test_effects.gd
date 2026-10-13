@@ -177,7 +177,7 @@ func test_soins_et_boucliers_montent_avec_leur_element() -> void:
 
 
 func test_sermon_en_ligne_degats_aux_ennemis_soin_aux_allies() -> void:
-	var combat := _hero_fight([["mannequin", C + Vector2i(3, 0)], ["mannequin", C + Vector2i(2, 1)], ["mannequin", C + Vector2i(1, 1)]])
+	var combat := _hero_fight([["mannequin", C + Vector2i(4, 0)], ["mannequin", C + Vector2i(3, 1)], ["mannequin", C + Vector2i(2, 1)]])
 	assert_eq(_cast(combat, "sermon", C + Vector2i(1, 1))[0]["raison"], Protocol.REASON_NOT_IN_LINE, "en diagonale : refusé")
 	var ally := combat.get_fighter("m1")
 	ally.team = combat.get_fighter(Fixtures.PLAYER).team
@@ -191,3 +191,10 @@ func test_sermon_en_ligne_degats_aux_ennemis_soin_aux_allies() -> void:
 	assert_eq(heal[0]["entite"], "m1")
 	assert_eq(ally.hp, 25, "10 + 10 × (100 + 50 Force) %")
 	assert_eq(combat.get_fighter("m2").hp, 30, "hors de la croix")
+
+
+func test_sort_de_zone_dans_le_vide() -> void:
+	var combat := _hero_fight([["mannequin", C + Vector2i(0, 4)]])
+	var events := _cast(combat, "sermon", C + Vector2i(1, 0))
+	assert_eq(events[0]["type"], Protocol.EVT_SPELL_CAST, "aucun combattant dans la croix : le sort part quand même")
+	assert_eq(combat.get_fighter(Fixtures.PLAYER).pa, 4)
