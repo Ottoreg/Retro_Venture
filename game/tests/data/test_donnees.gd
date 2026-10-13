@@ -313,3 +313,25 @@ func test_panoplies_de_l_alpha_test() -> void:
 			var slot: String = data.items[item_id]["type"]
 			assert_false(used.has(slot), "emplacement « %s » partagé" % slot)
 			used[slot] = true
+
+
+func test_le_theologue() -> void:
+	var data := GameData.load_all()
+	assert_true(data.voies.has("theologue"), "Voie du Théologue")
+	var character := Character.create("Frère Tuck-Tuck", "humain", "theologue")
+	data.give_starting_kit(character)
+	assert_eq(character.inventory.equipped_entry("arme")["objet"], "sceptre_de_novice", "sceptre de départ")
+	var fighter := data.create_character_fighter(character, "joueur")
+	var ids: Array[String] = []
+	for spell in fighter.spells:
+		ids.append(spell.id)
+	for spell_id in ["theologue_chatiment", "theologue_imposition", "theologue_rempart", "theologue_sermon"]:
+		assert_true(spell_id in ids, "sort %s" % spell_id)
+	var kinds := {}
+	for spell_id in ["theologue_chatiment", "theologue_imposition", "theologue_rempart", "theologue_sermon"]:
+		for effect: Dictionary in data.spells[spell_id].effects:
+			kinds[effect["type"] + "/" + str(effect.get("element", ""))] = true
+	assert_true(kinds.has("degats/sacre"), "des dégâts Sacré")
+	assert_true(kinds.has("soin/sacre"), "un soin Sacré")
+	assert_true(kinds.has("bouclier/sacre"), "un bouclier Sacré")
+	assert_true(Art.manifest()["tenues"].has("theologue"), "tenue du Théologue")

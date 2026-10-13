@@ -55,7 +55,7 @@ static func spells() -> Array:
 		{"id": "zone", "nom": "Zone", "cout_pa": 3, "portee": {"min": 0, "max": 0}, "zone": {"type": "cercle", "taille": 1},
 			"lanceur_exclu": true, "effets": [{"type": "degats", "element": "acier", "min": 4, "max": 4}]},
 		{"id": "soin", "nom": "Soin", "cout_pa": 2, "portee": {"min": 0, "max": 0}, "relance": {"delai": 2},
-			"effets": [{"type": "soin", "min": 10, "max": 10}]},
+			"effets": [{"type": "soin", "element": "flamme", "min": 10, "max": 10}]},
 		{"id": "bond", "nom": "Bond", "cout_pa": 1, "portee": {"min": 1, "max": 3}, "ligne_de_vue": false,
 			"effets": [{"type": "teleportation"}]},
 		{"id": "elan", "nom": "Élan", "cout_pa": 1, "portee": {"min": 0, "max": 0},

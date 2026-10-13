@@ -637,7 +637,12 @@ func _apply(event: Dictionary) -> float:
 		affected["pa"] = event["pa"]
 		affected["pm"] = event["pm"]
 		var label := "+%d PA" % event["valeur"] if event["effet"] == Spell.EFFECT_GAIN_PA else "-%d PM" % event["valeur"]
-		_add_floating(label, Color(0.55, 0.8, 1.0), affected["pos"])
+		var color := Color(0.55, 0.8, 1.0)
+		if event["effet"] == Spell.EFFECT_SHIELD:
+			affected["bouclier"] = event["bouclier"]
+			label = "+%d bouclier" % event["valeur"]
+			color = Color(1.0, 0.88, 0.45)
+		_add_floating(label, color, affected["pos"])
 		combat_state_changed.emit()
 		return 0.25
 	if type == Protocol.EVT_XP:
@@ -689,6 +694,7 @@ func _apply(event: Dictionary) -> float:
 		var playing: Dictionary = _actors[current_turn]
 		playing["pa"] = event["pa"]
 		playing["pm"] = event["pm"]
+		playing["bouclier"] = 0  # Le bouclier tombe au début de son tour.
 		combat_state_changed.emit()
 		if current_turn == World.PLAYER_ID:
 			combat_message.emit("À vous de jouer !")
@@ -707,7 +713,11 @@ func _apply(event: Dictionary) -> float:
 	if type == Protocol.EVT_DAMAGE:
 		var target: Dictionary = _actors[event["entite"]]
 		target["hp"] = event["pv"]
-		_add_floating("-%d" % event["valeur"], Color(1, 0.35, 0.3), target["pos"])
+		target["bouclier"] = event.get("bouclier", 0)
+		var text := "-%d" % event["valeur"]
+		if int(event.get("absorbe", 0)) > 0:
+			text += "  (%d absorbés)" % event["absorbe"]
+		_add_floating(text, Color(1, 0.35, 0.3), target["pos"])
 		combat_state_changed.emit()
 		return 0.25
 	if type == Protocol.EVT_HEAL:

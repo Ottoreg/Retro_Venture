@@ -7,5 +7,5 @@
   "ligne_de_vue": false,
   "zone": {"type": "case"},
   "relance": {"par_tour": 1, "delai": 3},
-  "effets": [{"type": "soin", "min": 12, "max": 18}]
+  "effets": [{"type": "soin", "element": "acier", "min": 12, "max": 18}]
 }

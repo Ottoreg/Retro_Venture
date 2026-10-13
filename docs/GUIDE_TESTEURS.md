@@ -19,7 +19,12 @@ est ici.
   - **Humain** : départ à **Brumerive** ; sort *Ralliement*.
   - **Gobelin** : départ à **Crasse-Roc** ; sort *Coup bas*.
   - **Elfe** : départ à **Sylvebrume** ; sort *Pas léger*.
-- Trois Voies (classes) : **Guerrier**, **Rôdeur**, **Arcaniste**, avec 4 sorts chacune.
+- Quatre Voies (classes) : **Guerrier**, **Rôdeur**, **Arcaniste** et **Théologue** (soigneur
+  sacré : soin, bouclier qui absorbe les dégâts jusqu'à son prochain tour, dégâts Sacrés), avec 4
+  sorts chacune.
+- Les soins et boucliers grandissent avec la caractéristique de leur élément (soin Sacré : Force et
+  Intelligence ; *Second souffle* du Guerrier : Force ; *Soin mineur* de l'Arcaniste :
+  Intelligence).
 
 ## Commandes
 

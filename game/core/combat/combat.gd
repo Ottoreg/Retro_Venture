@@ -316,7 +316,9 @@ func _cast(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 
 ## Dégâts : base × (100 + caractéristique de l'élément du lanceur) % × (100 − résistance de la cible) %,
 ## plus les Dommages du lanceur (bruts : ni multipliés ni réduits par une résistance).
-## Soins : base × (100 + intelligence du lanceur) %.
+## Soins et boucliers : base × (100 + caractéristique de leur élément) %, comme les dégâts (règle de
+## tous les effets chiffrés). Le bouclier absorbe les dégâts avant les PV, jusqu'au début du prochain
+## tour de celui qui le porte.
 func _apply_effect(caster: Fighter, target: Fighter, effect: Dictionary, events: Array[Dictionary]) -> void:
 	var amount := rng.randi_range(effect["min"], effect["max"])
 	if effect["type"] == Spell.EFFECT_GAIN_PA:
@@ -331,12 +333,21 @@ func _apply_effect(caster: Fighter, target: Fighter, effect: Dictionary, events:
 		var element: String = effect["element"]
 		var boosted := amount * (100 + caster.power(element)) / 100.0
 		amount = maxi(0, roundi(boosted * (100 - target.resistance(element)) / 100.0)) + maxi(0, caster.dommages)
+		var absorbed := mini(target.shield, amount)
+		target.shield -= absorbed
+		amount -= absorbed
 		target.hp = maxi(0, target.hp - amount)
-		events.append({"type": Protocol.EVT_DAMAGE, "entite": target.id, "valeur": amount, "element": element, "pv": target.hp})
+		events.append({"type": Protocol.EVT_DAMAGE, "entite": target.id, "valeur": amount, "element": element, "pv": target.hp,
+			"absorbe": absorbed, "bouclier": target.shield})
 		if not target.is_alive():
 			events.append({"type": Protocol.EVT_DIED, "entite": target.id})
+	elif effect["type"] == Spell.EFFECT_SHIELD:
+		amount = roundi(amount * (100 + caster.power(effect["element"])) / 100.0)
+		target.shield += amount
+		events.append({"type": Protocol.EVT_STATUS, "entite": target.id, "effet": Spell.EFFECT_SHIELD, "valeur": amount,
+			"bouclier": target.shield, "pa": target.pa, "pm": target.pm})
 	elif effect["type"] == Spell.EFFECT_HEAL:
-		amount = roundi(amount * (100 + caster.stat("intelligence")) / 100.0)
+		amount = roundi(amount * (100 + caster.power(effect["element"])) / 100.0)
 		amount = mini(amount, target.max_hp - target.hp)
 		target.hp += amount
 		events.append({"type": Protocol.EVT_HEAL, "entite": target.id, "valeur": amount, "pv": target.hp})

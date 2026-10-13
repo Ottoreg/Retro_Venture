@@ -180,7 +180,12 @@ voisine ; on arrive sur le bord opposé, à la même hauteur. Chaque sortie doit
 | `lanceur_exclu` | Le lanceur n'est pas touché par sa propre zone |
 | `relance.par_tour` | Lancers maximum par tour (`0` = illimité) |
 | `relance.delai` | Tours à attendre avant de relancer |
-| `effets` | `degats` (avec `element` : `acier`, `flamme`, `givre`, `tempete`, ou les éléments composés `sacre` et `impie`) ou `soin`, avec `min` et `max` |
+| `effets` | `degats`, `soin` ou `bouclier`, avec `min`, `max` et `element` (`acier`, `flamme`, `givre`, `tempete`, ou les éléments composés `sacre` et `impie`) |
+
+Chaque effet chiffré grandit avec la caractéristique de son élément : un soin `sacre` avec la Force
+et l'Intelligence, un bouclier `tempete` avec l'Agilité, etc. `bouclier` donne à la cible des points
+qui absorbent les dégâts avant ses PV ; ils s'additionnent et disparaissent au début de son
+prochain tour.
 
 Effets sans dégâts : `teleportation` (le lanceur saute sur la case visée, qui doit être libre ;
 pas de `min`/`max`), `gain_pa` (PA en plus tout de suite), `retrait_pm` (PM en moins au prochain

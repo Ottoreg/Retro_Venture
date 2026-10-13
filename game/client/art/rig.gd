@@ -25,7 +25,10 @@ static func player_look(race_id: String, voie_id: String, data: GameData) -> Dic
 		var skin: Variant = data.races.get(race_id, {}).get("apparence", {}).get("peau")
 		if typeof(skin) == TYPE_STRING:
 			colors["peau"] = skin
-	return look(race_spec.get("rig", "humain"), colors, outfit.get("arme", ""), race_spec.get("accessoires", []))
+	# Accessoires de la race (oreilles…) puis de la tenue de la Voie (étole…).
+	var accessories: Array = race_spec.get("accessoires", []).duplicate()
+	accessories.append_array(outfit.get("accessoires", []))
+	return look(race_spec.get("rig", "humain"), colors, outfit.get("arme", ""), accessories)
 
 
 ## Vrai si l'assemblage existe.

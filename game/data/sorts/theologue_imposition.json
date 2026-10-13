@@ -1,0 +1,22 @@
+{
+  "id": "theologue_imposition",
+  "nom": "Imposition des mains",
+  "description": "Une main sur l'épaule, une prière, et les plaies se referment. Les remerciements sont facultatifs mais conseillés.",
+  "cout_pa": 3,
+  "portee": {
+    "min": 0,
+    "max": 3
+  },
+  "ligne_de_vue": true,
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "soin",
+      "element": "sacre",
+      "min": 12,
+      "max": 18
+    }
+  ]
+}

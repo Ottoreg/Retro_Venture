@@ -37,6 +37,8 @@ var pm_malus: int = 0
 var prospection: int = 100
 ## Dommages : dégâts bruts ajoutés à chaque ligne de dégâts, sans élément ni résistance.
 var dommages: int = 0
+## Bouclier : points de dégâts absorbés avant les PV, jusqu'au début de son prochain tour.
+var shield: int = 0
 
 ## Caractéristique qui augmente les dégâts de chaque élément.
 const ELEMENT_STATS := {"acier": "force", "flamme": "intelligence", "givre": "chance", "tempete": "agilite"}
@@ -84,6 +86,7 @@ func power(element: String) -> int:
 
 
 func start_turn() -> void:
+	shield = 0
 	pa = max_pa
 	pm = maxi(0, max_pm - pm_malus)
 	pm_malus = 0

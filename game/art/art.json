@@ -29,7 +29,8 @@
     "bois": "a7774a",
     "rive": "d9c58f",
     "rive_bord": "b9a26a",
-    "reflet": "bfe3f2"
+    "reflet": "bfe3f2",
+    "etole": "c9a04e"
   },
   "images": {
     "tache_claire": {
@@ -1311,6 +1312,62 @@
         22,
         22
       ]
+    },
+    "sceptre": {
+      "fichier": "perso/sceptre.svgt",
+      "ancre": [
+        7,
+        30
+      ]
+    },
+    "etole": {
+      "fichier": "perso/etole.svgt",
+      "ancre": [
+        9,
+        1
+      ]
+    },
+    "sort_theologue_chatiment": {
+      "fichier": "sorts/theologue_chatiment.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_theologue_imposition": {
+      "fichier": "sorts/theologue_imposition.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_theologue_rempart": {
+      "fichier": "sorts/theologue_rempart.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_theologue_sermon": {
+      "fichier": "sorts/theologue_sermon.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_arme_sceptre": {
+      "fichier": "sorts/arme_sceptre.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_sceptre_de_novice": {
+      "fichier": "objets/sceptre_de_novice.svgt",
+      "ancre": [
+        22,
+        22
+      ]
     }
   },
   "personnages": {
@@ -1481,6 +1538,13 @@
         28
       ],
       "angle": 2.55
+    },
+    "sceptre": {
+      "attache": [
+        6,
+        28
+      ],
+      "angle": 0.15
     }
   },
   "accessoires": {
@@ -1543,6 +1607,17 @@
         "dos"
       ],
       "derriere": true
+    },
+    "etole": {
+      "parent": "torse",
+      "attache": [
+        13,
+        6.5
+      ],
+      "vues": [
+        "face",
+        "dos"
+      ]
     }
   },
   "tenues": {
@@ -1575,6 +1650,20 @@
         "ceinture": "3d2b1f"
       },
       "arme": "arc"
+    },
+    "theologue": {
+      "couleurs": {
+        "tunique": "ece4cc",
+        "manches": "d8cfb4",
+        "pantalon": "cfc4a6",
+        "bottes": "8a6a3a",
+        "ceinture": "c9a04e",
+        "etole": "c9a04e"
+      },
+      "arme": "sceptre",
+      "accessoires": [
+        "etole"
+      ]
     }
   },
   "races": {
@@ -1954,6 +2043,7 @@
     "masse_cerclee": "sort_arme_masse",
     "lame_cendree": "sort_arme_epee_cendre",
     "masse_benite": "sort_arme_masse_benite",
-    "dague_du_mauvais_oeil": "sort_arme_dague_impie"
+    "dague_du_mauvais_oeil": "sort_arme_dague_impie",
+    "sceptre_de_novice": "sort_arme_sceptre"
   }
 }

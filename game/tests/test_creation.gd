@@ -8,7 +8,7 @@ func test_ecran_de_creation() -> void:
 	tree.root.add_child(scene)
 	assert_eq(scene.race_id, "humain", "première race sélectionnée")
 	assert_eq(scene._race_buttons.size(), 3, "Humain, Gobelin, Elfe")
-	assert_eq(scene._voie_buttons.size(), 3, "Guerrier, Rôdeur, Arcaniste")
+	assert_eq(scene._voie_buttons.size(), 4, "Guerrier, Rôdeur, Arcaniste, Théologue")
 	scene._name_edit.text = "A"
 	assert_true(scene.validation_error() != "", "nom trop court refusé")
 	scene._name_edit.text = "Elara"

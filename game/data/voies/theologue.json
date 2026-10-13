@@ -1,0 +1,21 @@
+{
+  "id": "theologue",
+  "nom": "Théologue",
+  "description": "Soigneur sacré. Bénit les alliés, sermonne les ennemis, et cite des textes que personne n'a lus.",
+  "caracteristiques": {
+    "pv": 48,
+    "pa": 6,
+    "pm": 3,
+    "initiative": 85
+  },
+  "sorts": [
+    "theologue_chatiment",
+    "theologue_imposition",
+    "theologue_rempart",
+    "theologue_sermon"
+  ],
+  "equipement_depart": [
+    "sceptre_de_novice",
+    "anneau_de_cuivre"
+  ]
+}

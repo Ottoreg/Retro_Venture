@@ -6,5 +6,5 @@
   "portee": {"min": 0, "max": 3},
   "ligne_de_vue": true,
   "relance": {"par_tour": 1, "delai": 2},
-  "effets": [{"type": "soin", "min": 8, "max": 12}]
+  "effets": [{"type": "soin", "element": "flamme", "min": 8, "max": 12}]
 }

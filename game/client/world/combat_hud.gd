@@ -275,7 +275,8 @@ func _show_target() -> void:
 	if map_view.current_turn == fighter.id:
 		pa = shown.get("pa", fighter.pa)
 		pm = shown.get("pm", fighter.pm)
-	_target_stats.text = "PV %d / %d\nPA %d / %d   ·   PM %d / %d" % [shown.get("hp", fighter.hp), fighter.max_hp,
+	_target_stats.text = "PV %d / %d%s\nPA %d / %d   ·   PM %d / %d" % [shown.get("hp", fighter.hp), fighter.max_hp,
+		"   ·   bouclier %d" % shown["bouclier"] if int(shown.get("bouclier", 0)) > 0 else "",
 		pa, fighter.max_pa, pm, fighter.max_pm]
 	for element: String in _target_resistances:
 		var label: Label = _target_resistances[element]

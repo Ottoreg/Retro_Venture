@@ -272,17 +272,18 @@ sexes × équipements × animations) impose de s'en tenir à ces 9.
 | **Guerrier** | Mêlée, encaisse | Acier (Force) | Charges, coups de zone en mêlée, réduction de dégâts |
 | **Rôdeur** | Distance, mobilité | Acier / Tempête (Force / Agilité) | Arc, pièges, poussée, gestion de distance |
 | **Arcaniste** | Dégâts magiques, contrôle | Flamme / Givre (Intelligence / Chance) | Sorts de zone, ralentissements, un petit soin |
-| **Théologue** | Soigneur sacré | Sacré, Flamme (Intelligence / Force) | Soins, boucliers, dégâts sacrés modestes |
+| **Théologue** | Soigneur sacré | Sacré (Force + Intelligence) | Soins, boucliers, dégâts sacrés modestes |
 
-Le **Théologue** est avancé dans l'alpha : une classe de soin rend le solo plus confortable et permet
-de tester le Sacré dès maintenant. Sorts de départ proposés (4, comme les autres classes) :
+Le **Théologue** est jouable dans l'alpha (✅) : une classe de soin rend le solo plus confortable et
+permet de tester le Sacré dès maintenant. Arme de départ : le Sceptre de novice (Sacré, 4 à 7). Ses
+4 sorts sont tous Sacrés (ils grandissent avec la Force et l'Intelligence) :
 
-| Sort | Effet proposé |
-|---|---|
-| *Châtiment* | Dégâts Sacré à distance (2 à 5 cases) |
-| *Imposition des mains* | Soin sur soi (ou un allié en multi), le cœur de la classe |
-| *Rempart de foi* | Bouclier qui absorbe des dégâts jusqu'au prochain tour (effet « bouclier » à créer) |
-| *Sermon* | Petits dégâts Sacré en zone autour d'une case, et −1 PM aux ennemis touchés |
+| Sort | PA | Portée | Effet |
+|---|---|---|---|
+| *Châtiment* | 4 | 2 à 5, ligne de vue | 8 à 12 dégâts Sacré (2 fois par tour) |
+| *Imposition des mains* | 3 | 0 à 3 | Soin Sacré de 12 à 18 (1 fois par tour) |
+| *Rempart de foi* | 2 | 0 à 3 | Bouclier Sacré de 12 à 16, jusqu'au prochain tour du porteur (tous les 2 tours) |
+| *Sermon* | 4 | 1 à 4, zone de rayon 1 | 4 à 7 dégâts Sacré et −1 PM aux ennemis touchés (pas au lanceur) |
 
 Les soins des autres classes restent modestes (le Guerrier et l'Arcaniste en ont un petit) pour
 que le Théologue garde son rôle.
@@ -298,7 +299,7 @@ que le Théologue garde son rôle.
 | | **Ombre** | Assassin invisible | Tempête / Acier (Agilité / Force) | Invisibilité, coups dans le dos, téléportations courtes, coups critiques |
 | | **Venomancien** | Maître des poisons | Givre / Tempête, un peu d'Impie (Chance / Agilité) | Poisons (dégâts à chaque tour), pièges empoisonnés, affaiblissements, mi-distance |
 | **Distance** | **Arcaniste** | Dégâts magiques, contrôle | Flamme / Givre (Intelligence / Chance) | *(voir plus haut)* |
-| | **Théologue** *(dès l'alpha)* | Soigneur sacré | Sacré, Flamme (Intelligence / Force) | Soins, boucliers, retrait des états, résurrection (multi), dégâts sacrés modestes |
+| | **Théologue** *(dès l'alpha)* | Soigneur sacré | Sacré (Force + Intelligence) | Soins, boucliers, retrait des états, résurrection (multi), dégâts sacrés modestes |
 | | **Démoniste** | Dégâts impies | Impie, Givre (Chance / Agilité) | Malédictions, sacrifice de PV contre des dégâts, invocation d'un démon mineur |
 
 Le Sacré et l'Impie sont des éléments à part entière (voir § 4.4) : le Sacré s'appuie sur l'Acier et
@@ -313,10 +314,10 @@ auras, invocations, sacrifice de PV, résurrection (multi).
 |---|---|
 | **Vitalité** | Points de vie |
 | **Sagesse** | Bonus d'XP, résistance au retrait de PA/PM |
-| **Force** | Dégâts Acier (physique) |
-| **Intelligence** | Dégâts Flamme, puissance des soins |
-| **Chance** | Dégâts Givre, prospection |
-| **Agilité** | Dégâts Tempête, esquive, initiative |
+| **Force** | Dégâts, soins et boucliers Acier (physique) |
+| **Intelligence** | Dégâts, soins et boucliers Flamme |
+| **Chance** | Dégâts, soins et boucliers Givre ; prospection |
+| **Agilité** | Dégâts, soins et boucliers Tempête ; esquive, initiative |
 
 **Les 6 éléments :** 4 éléments de base et 2 éléments composés, chacun appuyé sur deux éléments de
 base.
@@ -330,8 +331,11 @@ base.
 | **Sacré** | Force + Intelligence | (Acier + Flamme) / 2 + Sacré |
 | **Impie** | Agilité + Chance | (Tempête + Givre) / 2 + Impie |
 
-**Règle :** chaque point d'une caractéristique donne 1 % de dégâts à tous les sorts qui en
-bénéficient. Un sort Sacré profite donc autant de 100 d'Intelligence seule que de 50 de Force et 50
+**Règle :** chaque effet chiffré a un élément (dégâts, soins, boucliers, et plus tard poisons,
+pièges, invocations…) et grandit avec la caractéristique de cet élément, jamais avec une
+caractéristique fixe : un soin Sacré profite de la Force et de l'Intelligence, un bouclier Tempête de
+l'Agilité, un soin Acier de la Force. Chaque point d'une caractéristique donne 1 % à tous les effets
+qui en bénéficient. Un sort Sacré profite donc autant de 100 d'Intelligence seule que de 50 de Force et 50
 d'Intelligence (10 à 20 de base → 20 à 40 dans les deux cas) ; le second profil aura en plus des
 bonus sur les sorts d'Acier, le premier plus de bonus en Flamme : c'est au joueur de choisir.
 
@@ -354,7 +358,10 @@ ajoutent 5 dégâts à chaque ligne de dégâts de n'importe quel sort ou arme, 
 - Dégâts = base du sort × (100 + caractéristique de l'élément) % × (100 − résistance de la cible) %
   + Dommages. Pour le Sacré et l'Impie : somme des deux caractéristiques ; résistance = moyenne des
   deux résistances de base + résistance propre à l'élément composé.
-- Soins = base × (100 + Intelligence) %.
+- Soins et boucliers = base × (100 + caractéristique de leur élément) % (somme des deux pour le
+  Sacré et l'Impie). Ni résistance ni Dommages ne s'y appliquent.
+- Bouclier : points qui absorbent les dégâts reçus avant les PV ; plusieurs boucliers s'additionnent ;
+  ce qui reste disparaît au début du prochain tour du porteur.
 - PV max = PV de la Voie + 5 par niveau au-delà du 1er + Vitalité.
 - Initiative = initiative de la Voie + Force + Intelligence + Chance + Agilité (pas Vitalité ni Sagesse)
   + bonus d'équipement. XP gagnée × (100 + Sagesse) %, y compris pour les monstres vaincus avant

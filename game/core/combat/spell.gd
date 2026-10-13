@@ -12,7 +12,12 @@ const EFFECT_TELEPORT := "teleportation"
 const EFFECT_GAIN_PA := "gain_pa"
 ## La cible aura moins de PM à son prochain tour.
 const EFFECT_REMOVE_PM := "retrait_pm"
-const EFFECT_TYPES := [EFFECT_DAMAGE, EFFECT_HEAL, EFFECT_TELEPORT, EFFECT_GAIN_PA, EFFECT_REMOVE_PM]
+## La cible gagne un bouclier qui absorbe des dégâts jusqu'au début de son prochain tour.
+const EFFECT_SHIELD := "bouclier"
+const EFFECT_TYPES := [EFFECT_DAMAGE, EFFECT_HEAL, EFFECT_TELEPORT, EFFECT_GAIN_PA, EFFECT_REMOVE_PM, EFFECT_SHIELD]
+## Effets chiffrés qui ont un élément : leur valeur monte avec la caractéristique de cet élément
+## (un soin Sacré avec la Force et l'Intelligence, un bouclier de Tempête avec l'Agilité…).
+const ELEMENT_EFFECTS := [EFFECT_DAMAGE, EFFECT_HEAL, EFFECT_SHIELD]
 ## Éléments de base, et éléments composés qui s'appuient chacun sur deux éléments de base : le Sacré
 ## (Acier + Flamme) et l'Impie (Tempête + Givre).
 const BASE_ELEMENTS := ["acier", "flamme", "givre", "tempete"]
@@ -71,8 +76,8 @@ static func validate(data: Dictionary) -> PackedStringArray:
 			continue
 		if effect["type"] == EFFECT_TELEPORT:
 			continue
-		if effect["type"] == EFFECT_DAMAGE and effect.get("element") not in ELEMENTS:
-			errors.append("effet de dégâts : « element » doit être l'un de %s" % str(ELEMENTS))
+		if effect["type"] in ELEMENT_EFFECTS and effect.get("element") not in ELEMENTS:
+			errors.append("effet « %s » : « element » doit être l'un de %s" % [effect["type"], str(ELEMENTS)])
 		if not _is_int_at_least(effect.get("min"), 0) or not _is_int_at_least(effect.get("max"), 0) \
 				or int(effect["min"]) > int(effect["max"]):
 			errors.append("effet « %s » : « min » et « max » doivent être des entiers avec min ≤ max" % effect["type"])

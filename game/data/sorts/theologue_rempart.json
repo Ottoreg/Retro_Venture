@@ -1,0 +1,23 @@
+{
+  "id": "theologue_rempart",
+  "nom": "Rempart de foi",
+  "description": "Un halo doré qui encaisse les coups à votre place jusqu'à votre prochain tour.",
+  "cout_pa": 2,
+  "portee": {
+    "min": 0,
+    "max": 3
+  },
+  "ligne_de_vue": true,
+  "relance": {
+    "par_tour": 1,
+    "delai": 2
+  },
+  "effets": [
+    {
+      "type": "bouclier",
+      "element": "sacre",
+      "min": 12,
+      "max": 16
+    }
+  ]
+}

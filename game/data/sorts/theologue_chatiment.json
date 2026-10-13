@@ -1,0 +1,22 @@
+{
+  "id": "theologue_chatiment",
+  "nom": "Châtiment",
+  "description": "Un rayon de lumière tombe sur la cible. Le ciel a l'air contrarié.",
+  "cout_pa": 4,
+  "portee": {
+    "min": 2,
+    "max": 5
+  },
+  "ligne_de_vue": true,
+  "relance": {
+    "par_tour": 2
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "sacre",
+      "min": 8,
+      "max": 12
+    }
+  ]
+}

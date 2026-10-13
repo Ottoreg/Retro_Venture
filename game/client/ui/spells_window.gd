@@ -38,7 +38,9 @@ static func describe(spell: Spell) -> PackedStringArray:
 		if type == Spell.EFFECT_DAMAGE:
 			lines.append("Dégâts %s : %d à %d" % [ELEMENT_NAMES.get(effect["element"], effect["element"]), effect["min"], effect["max"]])
 		elif type == Spell.EFFECT_HEAL:
-			lines.append("Soin : %d à %d" % [effect["min"], effect["max"]])
+			lines.append("Soin %s : %d à %d" % [ELEMENT_NAMES.get(effect["element"], effect["element"]), effect["min"], effect["max"]])
+		elif type == Spell.EFFECT_SHIELD:
+			lines.append("Bouclier %s : %d à %d (absorbe les dégâts jusqu'au prochain tour de la cible)" % [ELEMENT_NAMES.get(effect["element"], effect["element"]), effect["min"], effect["max"]])
 		elif type == Spell.EFFECT_REMOVE_PM:
 			lines.append("Retire %d PM" % effect["min"])
 		elif type == Spell.EFFECT_GAIN_PA:
@@ -165,7 +167,7 @@ func _show(spell: Spell) -> void:
 	_title.text = spell.display_name
 	var color := GOLD
 	for effect in spell.effects:
-		if effect["type"] == Spell.EFFECT_DAMAGE:
+		if effect["type"] in Spell.ELEMENT_EFFECTS:
 			color = ELEMENT_COLORS.get(effect["element"], GOLD)
 			break
 	_title.add_theme_color_override("font_color", color)

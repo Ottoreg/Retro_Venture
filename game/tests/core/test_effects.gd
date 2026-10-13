@@ -120,7 +120,7 @@ func test_les_dommages_s_ajoutent_bruts() -> void:
 	assert_eq(_hit(combat, hero, dummy, "sacre"), 15, "quel que soit l'élément")
 	var events: Array[Dictionary] = []
 	hero.hp = 10
-	combat._apply_effect(hero, hero, {"type": Spell.EFFECT_HEAL, "min": 5, "max": 5}, events)
+	combat._apply_effect(hero, hero, {"type": Spell.EFFECT_HEAL, "element": "givre", "min": 5, "max": 5}, events)
 	assert_eq(hero.hp, 15, "pas sur les soins")
 
 
@@ -132,3 +132,45 @@ func test_les_dommages_viennent_de_l_equipement() -> void:
 	character.inventory.equip(uid, "anneau_1")
 	assert_eq(character.sheet(data)["dommages"], 3, "dans la fiche")
 	assert_eq(data.create_character_fighter(character, Fixtures.PLAYER).dommages, 3, "en combat")
+
+
+func test_bouclier() -> void:
+	var combat := _hero_fight([["mannequin", C + RIGHT]])
+	var hero := combat.get_fighter(Fixtures.PLAYER)
+	var dummy := combat.get_fighter("m0")
+	hero.stats = {"intelligence": 50}
+	dummy.stats = {}
+	var events: Array[Dictionary] = []
+	combat._apply_effect(hero, hero, {"type": Spell.EFFECT_SHIELD, "element": "flamme", "min": 10, "max": 10}, events)
+	assert_eq(hero.shield, 15, "bouclier de Flamme : 10 × (100 + 50 Intelligence) %")
+	assert_eq(events[0]["effet"], Spell.EFFECT_SHIELD)
+	var hp := hero.hp
+	events.clear()
+	combat._apply_effect(dummy, hero, {"type": Spell.EFFECT_DAMAGE, "element": "acier", "min": 10, "max": 10}, events)
+	assert_eq(hero.hp, hp, "10 dégâts absorbés")
+	assert_eq(hero.shield, 5)
+	assert_eq(events[0]["absorbe"], 10)
+	events.clear()
+	combat._apply_effect(dummy, hero, {"type": Spell.EFFECT_DAMAGE, "element": "acier", "min": 10, "max": 10}, events)
+	assert_eq(hero.hp, hp - 5, "5 absorbés, 5 sur les PV")
+	assert_eq(hero.shield, 0)
+	combat._apply_effect(hero, hero, {"type": Spell.EFFECT_SHIELD, "element": "flamme", "min": 10, "max": 10}, events)
+	hero.start_turn()
+	assert_eq(hero.shield, 0, "le bouclier tombe au début de son tour")
+
+
+func test_soins_et_boucliers_montent_avec_leur_element() -> void:
+	var combat := _hero_fight([["mannequin", C + RIGHT]])
+	var hero := combat.get_fighter(Fixtures.PLAYER)
+	hero.stats = {"force": 30, "intelligence": 20, "agilite": 40}
+	var events: Array[Dictionary] = []
+	hero.hp = 1
+	combat._apply_effect(hero, hero, {"type": Spell.EFFECT_HEAL, "element": "sacre", "min": 10, "max": 10}, events)
+	assert_eq(hero.hp, 1 + 15, "soin Sacré : Force + Intelligence (+50 %)")
+	hero.hp = 1
+	combat._apply_effect(hero, hero, {"type": Spell.EFFECT_HEAL, "element": "acier", "min": 10, "max": 10}, events)
+	assert_eq(hero.hp, 1 + 13, "soin d'Acier : Force seule (+30 %)")
+	combat._apply_effect(hero, hero, {"type": Spell.EFFECT_SHIELD, "element": "tempete", "min": 10, "max": 10}, events)
+	assert_eq(hero.shield, 14, "bouclier de Tempête : Agilité (+40 %)")
+	assert_true(Spell.validate({"id": "x", "nom": "X", "cout_pa": 1, "portee": {"min": 0, "max": 0},
+		"effets": [{"type": "soin", "min": 1, "max": 2}]}).size() > 0, "un soin sans élément est refusé")

@@ -13,6 +13,7 @@ const VOIE_LOOKS := {
 	"guerrier": {"cape": Color("8a3b2f"), "coiffe": Color("8d9097"), "forme": "casque"},
 	"rodeur": {"cape": Color("3f6b34"), "coiffe": Color("2f5428"), "forme": "capuche"},
 	"arcaniste": {"cape": Color("34407a"), "coiffe": Color("27305e"), "forme": "pointu"},
+	"theologue": {"cape": Color("e8dfc4"), "coiffe": Color("c9a04e"), "forme": "capuche"},
 }
 const DEFAULT_LOOK := {"cape": Color("2f5d8a"), "coiffe": Color("8a3b2f"), "forme": "pointu"}
 const RACE_SKINS := {"humain": Color("f0c8a0"), "elfe": Color("f3dcc4"), "gobelin": Color("6f9a3e")}
