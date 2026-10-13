@@ -84,15 +84,21 @@ func test_elements_sacre_et_impie() -> void:
 	var hero := combat.get_fighter(Fixtures.PLAYER)
 	var dummy := combat.get_fighter("m0")
 	hero.stats = {"force": 40, "intelligence": 20, "agilite": 10, "chance": 30}
-	assert_eq(hero.power("sacre"), 30, "moyenne de Force et Intelligence")
-	assert_eq(hero.power("impie"), 20, "moyenne d'Agilité et Chance")
+	assert_eq(hero.power("sacre"), 60, "Force + Intelligence : 1 % par point de chacune")
+	assert_eq(hero.power("impie"), 40, "Agilité + Chance")
+	hero.stats = {"intelligence": 100}
+	assert_eq(hero.power("sacre"), 100, "100 d'Intelligence seule…")
+	hero.stats = {"force": 50, "intelligence": 50}
+	assert_eq(hero.power("sacre"), 100, "… autant que 50 Force + 50 Intelligence")
+	assert_eq(hero.power("flamme"), 50, "mais moins de Flamme")
+	hero.stats = {"force": 40, "intelligence": 20, "agilite": 10, "chance": 30}
+	dummy.resistances = {"acier": 0, "flamme": 10, "sacre": 5}
+	assert_eq(dummy.resistance("sacre"), 15, "10 % Flamme + 0 % Acier + 5 % Sacré")
 	dummy.resistances = {"acier": 20, "flamme": 0, "tempete": -10, "givre": 30}
-	assert_eq(dummy.resistance("sacre"), 10, "moyenne des résistances Acier et Flamme")
-	assert_eq(dummy.resistance("impie"), 10, "moyenne des résistances Tempête et Givre")
-	assert_eq(_hit(combat, hero, dummy, "sacre"), 12, "10 × 130 % × 90 % = 11,7")
-	assert_eq(_hit(combat, hero, dummy, "impie"), 11, "10 × 120 % × 90 % = 10,8")
-	dummy.resistances["sacre"] = 50
-	assert_eq(dummy.resistance("sacre"), 50, "une résistance au Sacré donnée explicitement l'emporte")
+	assert_eq(dummy.resistance("sacre"), 20, "résistances Acier + Flamme")
+	assert_eq(dummy.resistance("impie"), 20, "résistances Tempête + Givre")
+	assert_eq(_hit(combat, hero, dummy, "sacre"), 13, "10 × 160 % × 80 % = 12,8")
+	assert_eq(_hit(combat, hero, dummy, "impie"), 11, "10 × 140 % × 80 % = 11,2")
 
 
 func test_les_dommages_s_ajoutent_bruts() -> void:

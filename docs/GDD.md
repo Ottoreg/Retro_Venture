@@ -316,11 +316,18 @@ base.
 | Flamme | Intelligence | Flamme |
 | Givre | Chance | Givre |
 | Tempête | Agilité | Tempête |
-| **Sacré** | moyenne de Force et Intelligence | moyenne des résistances Acier et Flamme |
-| **Impie** | moyenne d'Agilité et Chance | moyenne des résistances Tempête et Givre |
+| **Sacré** | Force + Intelligence | Acier + Flamme + Sacré |
+| **Impie** | Agilité + Chance | Tempête + Givre + Impie |
 
-(Les moyennes sont une proposition : simple, et elle ne rend pas le Sacré ou l'Impie plus forts que
-les éléments de base pour un personnage qui ne monte qu'une caractéristique.)
+**Règle :** chaque point d'une caractéristique donne 1 % de dégâts à tous les sorts qui en
+bénéficient. Un sort Sacré profite donc autant de 100 d'Intelligence seule que de 50 de Force et 50
+d'Intelligence (10 à 20 de base → 20 à 40 dans les deux cas) ; le second profil aura en plus des
+bonus sur les sorts d'Acier, le premier plus de bonus en Flamme : c'est au joueur de choisir.
+
+**Résistances combinées :** la résistance au Sacré est la somme des résistances à l'Acier, à la
+Flamme et au Sacré lui-même (10 % Flamme, 0 % Acier et 5 % Sacré donnent 15 % au Sacré). Idem pour
+l'Impie (Tempête + Givre + Impie). Un monstre qui résiste aux deux éléments de base résiste donc
+fortement à l'élément composé ; à surveiller à l'équilibrage (plafond éventuel).
 
 **Statistiques dérivées :** PV, PA (6 de base), PM (3 de base), Initiative, Portée (+0), Prospection
 (100 de base), **Dommages** (+0), Coups critiques %, Résistances % par élément, Soins, Invocations max.
@@ -333,8 +340,8 @@ ajoutent 5 dégâts à chaque ligne de dégâts de n'importe quel sort ou arme, 
 **Formules en place (alpha) :**
 
 - Dégâts = base du sort × (100 + caractéristique de l'élément) % × (100 − résistance de la cible) %
-  + Dommages. Pour le Sacré et l'Impie : moyenne des deux caractéristiques, et moyenne des deux
-  résistances de la cible sauf si elle a une résistance propre à cet élément.
+  + Dommages. Pour le Sacré et l'Impie : somme des deux caractéristiques, et somme des résistances
+  de la cible aux deux éléments de base et à l'élément composé.
 - Soins = base × (100 + Intelligence) %.
 - PV max = PV de la Voie + 5 par niveau au-delà du 1er + Vitalité.
 - Initiative = initiative de la Voie + Force + Intelligence + Chance + Agilité (pas Vitalité ni Sagesse)
@@ -743,9 +750,21 @@ ses objets) :
   il vit, son élite et son butin.
 - **Classes (Voies) et races** : rôle, éléments, sorts avec leur fiche, passif et sort racial ;
   plus tard les Voies Miroir.
-- **Découverte** (à décider) : tout est visible d'emblée, ou les fiches de monstres se remplissent
-  au fil des rencontres et des victoires (silhouette tant qu'on ne l'a pas croisé), à la manière
-  d'un bestiaire.
+- **Bestiaire** : la fiche d'un monstre se remplit un peu plus à chaque combat contre lui
+  (silhouette et « ? » tant qu'on ne l'a pas croisé). Elle est complète en une dizaine de combats au
+  plus, pour ne jamais devoir farmer une famille pendant des heures. Paliers proposés (combats
+  gagnés contre ce monstre) :
+
+  | Combats | Ce qui se révèle |
+  |---|---|
+  | 1 | Nom, apparence, niveau, description |
+  | 2 | PV, PA, PM, initiative |
+  | 3 | Résistances aux 6 éléments |
+  | 5 | Sorts (avec leur fiche) |
+  | 7 | Objets du butin (sans les taux) |
+  | 10 | Taux de butin, zones où il vit, son élite (fiche complète) |
+
+  Les objets et les classes restent visibles d'emblée.
 
 Les fiches sont générées à partir des données du jeu (`game/data/`), sans texte à tenir à jour à
 la main.

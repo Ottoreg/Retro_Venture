@@ -201,10 +201,10 @@ tour de la cible).
 }
 ```
 
-`resistances` en % par élément (négatif = faiblesse). Sans valeur pour `sacre` ou `impie`, la
-résistance est la moyenne de celles des deux éléments de base (Acier et Flamme pour le Sacré,
-Tempête et Givre pour l'Impie) ; de même, le bonus de dégâts est la moyenne des deux
-caractéristiques (Force et Intelligence, Agilité et Chance). `ia` : seul `basique` existe pour l'instant
+`resistances` en % par élément (négatif = faiblesse). La résistance au Sacré est la somme des
+résistances à l'Acier, à la Flamme et au Sacré (`sacre`, facultatif) ; celle à l'Impie, la somme des
+résistances à la Tempête, au Givre et à l'Impie (`impie`). De même, le bonus de dégâts Sacré est
+Force + Intelligence, et l'Impie Agilité + Chance. `ia` : seul `basique` existe pour l'instant
 (frappe si possible, sinon se place pour tirer, sinon se rapproche).
 
 Un monstre **élite** a `"elite": true` et sa `famille` (l'id du monstre normal dont il est la version

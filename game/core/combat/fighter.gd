@@ -60,25 +60,26 @@ func get_spell(spell_id: String) -> Spell:
 	return null
 
 
-## Résistance en % à un élément. Pour un élément composé (Sacré, Impie) : sa valeur si elle est donnée,
-## sinon la moyenne des résistances aux deux éléments de base.
+## Résistance en % à un élément. Pour un élément composé (Sacré, Impie) : la somme des résistances aux
+## deux éléments de base et de sa résistance propre (10 % Flamme, 0 % Acier, 5 % Sacré : 15 % au Sacré).
 func resistance(element: String) -> int:
-	if resistances.has(element) or not Spell.COMPOSITE_ELEMENTS.has(element):
-		return int(resistances.get(element, 0))
+	var own := int(resistances.get(element, 0))
+	if not Spell.COMPOSITE_ELEMENTS.has(element):
+		return own
 	var bases: Array = Spell.COMPOSITE_ELEMENTS[element]
-	return roundi((resistance(bases[0]) + resistance(bases[1])) / 2.0)
+	return resistance(bases[0]) + resistance(bases[1]) + own
 
 
 func stat(stat_name: String) -> int:
 	return int(stats.get(stat_name, 0))
 
 
-## Bonus en % des dégâts de cet élément (la caractéristique associée ; pour un élément composé, la
-## moyenne des caractéristiques de ses deux éléments de base).
+## Bonus en % des dégâts de cet élément : 1 % par point de la caractéristique associée ; pour un élément
+## composé, de chacune des deux (Sacré : Force + Intelligence ; Impie : Agilité + Chance).
 func power(element: String) -> int:
 	if Spell.COMPOSITE_ELEMENTS.has(element):
 		var bases: Array = Spell.COMPOSITE_ELEMENTS[element]
-		return roundi((power(bases[0]) + power(bases[1])) / 2.0)
+		return power(bases[0]) + power(bases[1])
 	return stat(ELEMENT_STATS.get(element, ""))
 
 

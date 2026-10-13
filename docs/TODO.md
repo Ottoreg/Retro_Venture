@@ -109,8 +109,8 @@ Objectif : **10 à 15 h de jeu solo, niveaux 1 à 30 : 3 zones de départ (une p
 - [ ] Décider s'il faut avancer le Théologue (soin) dans l'alpha pour l'équilibrage solo
 
 ### Combat
-- [x] **(MVP)** Éléments composés **Sacré** (Acier + Flamme : moyenne Force / Intelligence, moyenne
-  des résistances) et **Impie** (Tempête + Givre : moyenne Agilité / Chance), sorts et résistances ;
+- [x] **(MVP)** Éléments composés **Sacré** (Force + Intelligence ; résistance Acier + Flamme + Sacré)
+  et **Impie** (Agilité + Chance ; résistance Tempête + Givre + Impie), sorts et résistances ;
   premières armes : Masse bénite (Sacré), Dague du Mauvais Œil (Impie)
 - [x] **(MVP)** Statistique **Dommages** : +X dégâts bruts à chaque ligne de dégâts de tout sort ou
   arme, sans élément ni résistance, pas sur les soins ; portée par les objets (Chevalière du
@@ -302,7 +302,10 @@ Objectif : **10 à 15 h de jeu solo, niveaux 1 à 30 : 3 zones de départ (une p
 - [ ] Fiches d'objets : jets possibles, conditions, panoplie, comment l'obtenir (butin, recette, marchand)
 - [ ] Fiches de monstres : caractéristiques, résistances, sorts, butin et taux, zones, élite
 - [ ] Fiches de classes et de races : rôle, éléments, sorts, passif et sort racial
-- [ ] Décider : tout visible d'emblée, ou fiches de monstres débloquées au fil des rencontres (bestiaire)
+- [ ] Bestiaire : fiches de monstres qui se remplissent à chaque combat gagné, complètes en 10 combats
+  (paliers : 1 nom et niveau, 2 PV/PA/PM, 3 résistances, 5 sorts, 7 butin, 10 taux, zones, élite) ;
+  compteur de victoires par monstre sauvegardé
+- [ ] Surveiller les résistances combinées (Sacré, Impie) à l'équilibrage, plafond éventuel
 
 ### Objets légendaires
 - [ ] Les 8 Reliques (bagues) : 8 emplacements équipables en même temps en plus des 2 anneaux,
