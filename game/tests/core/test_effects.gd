@@ -92,13 +92,20 @@ func test_elements_sacre_et_impie() -> void:
 	assert_eq(hero.power("sacre"), 100, "… autant que 50 Force + 50 Intelligence")
 	assert_eq(hero.power("flamme"), 50, "mais moins de Flamme")
 	hero.stats = {"force": 40, "intelligence": 20, "agilite": 10, "chance": 30}
-	dummy.resistances = {"acier": 0, "flamme": 10, "sacre": 5}
-	assert_eq(dummy.resistance("sacre"), 15, "10 % Flamme + 0 % Acier + 5 % Sacré")
+	dummy.resistances = {"flamme": 10, "acier": 5, "sacre": 5}
+	assert_eq(dummy.resistance("sacre"), 12.5, "(10 + 5) / 2 + 5")
+	dummy.resistances = {"flamme": 10, "acier": -5, "sacre": 15}
+	assert_eq(dummy.resistance("sacre"), 17.5, "(10 − 5) / 2 + 15")
+	dummy.resistances = {"tempete": -10, "givre": 30, "impie": -5}
+	assert_eq(dummy.resistance("impie"), 5.0, "(−10 + 30) / 2 − 5")
 	dummy.resistances = {"acier": 20, "flamme": 0, "tempete": -10, "givre": 30}
-	assert_eq(dummy.resistance("sacre"), 20, "résistances Acier + Flamme")
-	assert_eq(dummy.resistance("impie"), 20, "résistances Tempête + Givre")
-	assert_eq(_hit(combat, hero, dummy, "sacre"), 13, "10 × 160 % × 80 % = 12,8")
-	assert_eq(_hit(combat, hero, dummy, "impie"), 11, "10 × 140 % × 80 % = 11,2")
+	assert_eq(dummy.resistance("sacre"), 10.0, "moyenne Acier et Flamme, sans résistance propre")
+	assert_eq(dummy.resistance("impie"), 10.0, "moyenne Tempête et Givre")
+	assert_eq(_hit(combat, hero, dummy, "sacre"), 14, "10 × 160 % × 90 % = 14,4")
+	assert_eq(_hit(combat, hero, dummy, "impie"), 13, "10 × 140 % × 90 % = 12,6")
+	assert_eq(CombatHud.percent_text(12.5), "+12,5 %")
+	assert_eq(CombatHud.percent_text(-5.0), "-5 %")
+	assert_eq(CombatHud.percent_text(0.0), "0 %")
 
 
 func test_les_dommages_s_ajoutent_bruts() -> void:

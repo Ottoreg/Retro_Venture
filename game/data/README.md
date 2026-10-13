@@ -201,9 +201,10 @@ tour de la cible).
 }
 ```
 
-`resistances` en % par élément (négatif = faiblesse). La résistance au Sacré est la somme des
-résistances à l'Acier, à la Flamme et au Sacré (`sacre`, facultatif) ; celle à l'Impie, la somme des
-résistances à la Tempête, au Givre et à l'Impie (`impie`). De même, le bonus de dégâts Sacré est
+`resistances` en % par élément (négatif = faiblesse). La résistance au Sacré est la moyenne des
+résistances à l'Acier et à la Flamme, plus la résistance au Sacré (`sacre`, facultatif) : 10 % Flamme,
+5 % Acier et 5 % Sacré donnent 12,5 %. Celle à l'Impie : moyenne de la Tempête et du Givre, plus
+`impie`. De même, le bonus de dégâts Sacré est
 Force + Intelligence, et l'Impie Agilité + Chance. `ia` : seul `basique` existe pour l'instant
 (frappe si possible, sinon se place pour tirer, sinon se rapproche).
 

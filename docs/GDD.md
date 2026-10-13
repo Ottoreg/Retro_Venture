@@ -316,18 +316,19 @@ base.
 | Flamme | Intelligence | Flamme |
 | Givre | Chance | Givre |
 | Tempête | Agilité | Tempête |
-| **Sacré** | Force + Intelligence | Acier + Flamme + Sacré |
-| **Impie** | Agilité + Chance | Tempête + Givre + Impie |
+| **Sacré** | Force + Intelligence | (Acier + Flamme) / 2 + Sacré |
+| **Impie** | Agilité + Chance | (Tempête + Givre) / 2 + Impie |
 
 **Règle :** chaque point d'une caractéristique donne 1 % de dégâts à tous les sorts qui en
 bénéficient. Un sort Sacré profite donc autant de 100 d'Intelligence seule que de 50 de Force et 50
 d'Intelligence (10 à 20 de base → 20 à 40 dans les deux cas) ; le second profil aura en plus des
 bonus sur les sorts d'Acier, le premier plus de bonus en Flamme : c'est au joueur de choisir.
 
-**Résistances combinées :** la résistance au Sacré est la somme des résistances à l'Acier, à la
-Flamme et au Sacré lui-même (10 % Flamme, 0 % Acier et 5 % Sacré donnent 15 % au Sacré). Idem pour
-l'Impie (Tempête + Givre + Impie). Un monstre qui résiste aux deux éléments de base résiste donc
-fortement à l'élément composé ; à surveiller à l'équilibrage (plafond éventuel).
+**Résistances combinées :** la résistance au Sacré est la moyenne des résistances à l'Acier et à la
+Flamme, plus la résistance propre au Sacré. Exemples : 10 % Flamme, 5 % Acier et 5 % Sacré donnent
+(10 + 5) / 2 + 5 = 12,5 % ; avec une faiblesse, 10 % Flamme, −5 % Acier et 15 % Sacré donnent
+(10 − 5) / 2 + 15 = 17,5 %. Idem pour l'Impie avec la Tempête et le Givre. Les demi-points sont
+gardés.
 
 **Statistiques dérivées :** PV, PA (6 de base), PM (3 de base), Initiative, Portée (+0), Prospection
 (100 de base), **Dommages** (+0), Coups critiques %, Résistances % par élément, Soins, Invocations max.
@@ -340,8 +341,8 @@ ajoutent 5 dégâts à chaque ligne de dégâts de n'importe quel sort ou arme, 
 **Formules en place (alpha) :**
 
 - Dégâts = base du sort × (100 + caractéristique de l'élément) % × (100 − résistance de la cible) %
-  + Dommages. Pour le Sacré et l'Impie : somme des deux caractéristiques, et somme des résistances
-  de la cible aux deux éléments de base et à l'élément composé.
+  + Dommages. Pour le Sacré et l'Impie : somme des deux caractéristiques ; résistance = moyenne des
+  deux résistances de base + résistance propre à l'élément composé.
 - Soins = base × (100 + Intelligence) %.
 - PV max = PV de la Voie + 5 par niveau au-delà du 1er + Vitalité.
 - Initiative = initiative de la Voie + Force + Intelligence + Chance + Agilité (pas Vitalité ni Sagesse)

@@ -60,14 +60,14 @@ func get_spell(spell_id: String) -> Spell:
 	return null
 
 
-## Résistance en % à un élément. Pour un élément composé (Sacré, Impie) : la somme des résistances aux
-## deux éléments de base et de sa résistance propre (10 % Flamme, 0 % Acier, 5 % Sacré : 15 % au Sacré).
-func resistance(element: String) -> int:
-	var own := int(resistances.get(element, 0))
+## Résistance en % à un élément. Pour un élément composé (Sacré, Impie) : la moyenne des résistances
+## aux deux éléments de base, plus sa résistance propre (10 % Flamme, 5 % Acier, 5 % Sacré : 12,5 %).
+func resistance(element: String) -> float:
+	var own := float(resistances.get(element, 0))
 	if not Spell.COMPOSITE_ELEMENTS.has(element):
 		return own
 	var bases: Array = Spell.COMPOSITE_ELEMENTS[element]
-	return resistance(bases[0]) + resistance(bases[1]) + own
+	return (resistance(bases[0]) + resistance(bases[1])) / 2.0 + own
 
 
 func stat(stat_name: String) -> int:

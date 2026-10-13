@@ -278,11 +278,18 @@ func _show_target() -> void:
 	_target_stats.text = "PV %d / %d\nPA %d / %d   ·   PM %d / %d" % [shown.get("hp", fighter.hp), fighter.max_hp,
 		pa, fighter.max_pa, pm, fighter.max_pm]
 	for element: String in _target_resistances:
-		var value := fighter.resistance(element)
 		var label: Label = _target_resistances[element]
-		label.text = "%s %+d %%" % [RESISTANCE_NAMES[element], value] if value != 0 else "%s 0 %%" % RESISTANCE_NAMES[element]
+		label.text = "%s %s" % [RESISTANCE_NAMES[element], percent_text(fighter.resistance(element))]
 	_target_box.visible = true
 	_spells_box.visible = false
+
+
+## « +10 % », « -5 % », « +12,5 % », « 0 % ».
+static func percent_text(value: float) -> String:
+	if is_zero_approx(value):
+		return "0 %"
+	var text := "%+d" % roundi(value) if is_equal_approx(value, roundf(value)) else ("%+.1f" % value).replace(".", ",")
+	return text + " %"
 
 
 func _on_combat_ended(result: Dictionary) -> void:

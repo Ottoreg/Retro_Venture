@@ -42,7 +42,7 @@ func test_scene_du_monde_jusqu_au_combat_et_retour() -> void:
 	assert_eq(hud._target_level.text, "Niveau %d" % view.world.data.monsters[enemy.kind]["niveau"])
 	assert_true(hud._target_stats.text.contains("PV %d / %d" % [enemy.hp, enemy.max_hp]), hud._target_stats.text)
 	assert_eq(hud._target_resistances.size(), 6, "résistances aux 6 éléments")
-	assert_eq(hud._target_resistances["givre"].text, "Givre %+d %%" % enemy.resistance("givre") if enemy.resistance("givre") != 0 else "Givre 0 %")
+	assert_eq(hud._target_resistances["givre"].text, "Givre " + CombatHud.percent_text(enemy.resistance("givre")))
 	view._set_hovered(view.world.combat.get_fighter(World.PLAYER_ID).cell + Vector2i(40, 40))
 	assert_true(hud._spells_box.visible and not hud._target_box.visible, "les sorts reviennent")
 	var fighter := view.player_fighter()
