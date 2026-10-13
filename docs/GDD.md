@@ -77,8 +77,8 @@ des siècles, seules armes capables de vaincre le **Souverain Cendré** avant qu
 
 ### 3.1 Le monde : les Terres de Varn
 
-Un continent ancien, marqué par une guerre oubliée. Les peuples libres (Humains, Elfes, Nains et
-d'autres) vivent séparés, méfiants les uns envers les autres. À l'est, au-delà des montagnes, s'étendent
+Un continent ancien, marqué par une guerre oubliée. Les peuples libres (Humains, Elfes, Géants,
+Lutins et d'autres) vivent séparés, méfiants les uns envers les autres. À l'est, au-delà des montagnes, s'étendent
 les **Marches Cendrées**, une terre morte où quelque chose se réveille.
 
 ### 3.2 Histoire
@@ -101,12 +101,12 @@ récupère une à une ; chacune débloque un pouvoir unique (emplacement d'équi
 
 | # | Relique | Région | Peuple gardien | Pouvoir envisagé |
 |---|---|---|---|---|
-| 1 | La Lanterne d'Aube | Collines de Brumerive | Semi-hommes | Révèle les invisibles, bonus de prospection |
+| 1 | La Lanterne d'Aube | Collines de Brumerive | Lutins | Révèle les invisibles, bonus de prospection |
 | 2 | La Lame Sans-Rouille | Hautepierre | Humains | Dégâts de Lumière, brise les boucliers |
 | 3 | Le Cor des Vents | Plaines d'Orvent | Humains (cavaliers) | Invoque une charge, +PM aux alliés |
 | 4 | La Feuille d'Argent | Sylvebrume | Elfes | Soins de zone, résistance à l'Ombre |
-| 5 | L'Enclume-Cœur | Forges de Durhal | Nains | Améliore les objets, armure |
-| 6 | La Couronne Brisée | Marais Gris | (perdue) | Domine les morts-vivants |
+| 5 | L'Enclume-Cœur | Forges de Durhal | Géants | Améliore les objets, armure |
+| 6 | La Couronne Brisée | Marais Gris | (perdue ; convoitée par les Squelettes) | Domine les morts-vivants |
 | 7 | L'Étoile Première | Nocthrône | — | Requise pour l'affrontement final |
 
 L'ordre d'obtention est libre pour les Reliques 1 à 5, puis imposé pour 6 et 7.
@@ -119,9 +119,19 @@ comprennent qu'ils veulent la même chose : abattre le Souverain Cendré.
 
 | Camp | Race de l'alpha | Race de Phase 3 (proposition) | Situation au départ |
 |---|---|---|---|
-| **Allié** | Humains | Nains | Défendent leurs terres contre les raids gobelins et pensent que les gobelins sont *le* problème. |
-| **Ennemi** | Gobelins | Orcs | Main-d'œuvre corvéable du Souverain Cendré : raids et pillages sur ordre, contremaîtres tyranniques, aucune reconnaissance. |
-| **Neutre** | Elfes | Semi-hommes | « Ce n'est pas notre guerre. » Se tiennent à l'écart, observent, et ne s'en mêlent que si leur forêt est menacée. |
+| **Allié** | Humains | Géants | Défendent leurs terres contre les raids gobelins et pensent que les gobelins sont *le* problème. |
+| **Ennemi** | Gobelins | Squelettes (morts-vivants) | Main-d'œuvre corvéable du Souverain Cendré : raids et pillages sur ordre, contremaîtres tyranniques, aucune reconnaissance. |
+| **Neutre** | Elfes | Lutins | « Ce n'est pas notre guerre. » Se tiennent à l'écart, observent, et ne s'en mêlent que si leur forêt est menacée. |
+
+Les trois peuples de Phase 3 :
+
+- **Géants (allié)** : anciens gardiens des montagnes, alliés historiques des humains. Lents à se
+  décider, impossibles à arrêter une fois lancés ; ils cognent les plafonds des maisons humaines.
+- **Squelettes (ennemi)** : soldats de la Première Ombre relevés par le Souverain Cendré. Ils servent
+  par habitude plus que par conviction, réclament en vain leur retraite et découvrent à l'acte II
+  qu'on ne leur a jamais demandé leur avis… même pas pour mourir.
+- **Lutins (neutre)** : petit peuple farceur des bois et des collines, qui joue des tours à tout le
+  monde sans distinction de camp. Ne prennent rien au sérieux, sauf qu'on leur vole une blague.
 
 **Arc narratif :**
 
@@ -164,9 +174,10 @@ l'histoire.
 | Collines de Brumerive | Campagne humaine, village de départ du camp allié | 1–12 | Alpha |
 | Galeries de Crasse-Roc *(nom provisoire)* | Campement et mines gobelins au pied des montagnes, départ du camp ennemi | 1–12 | Alpha |
 | Lisière de Sylvebrume | Avant-poste elfe en bordure de forêt, départ du camp neutre | 1–12 | Alpha |
+| Zones de départ de Phase 3 *(à nommer)* | Contreforts des Géants (allié), ossuaire squelette (ennemi), bois des Lutins (neutre) | 1–12 | Long terme |
 | Hautepierre et ses environs | Cité humaine fortifiée ; terrain d'affrontement (acte II) puis de l'alliance (acte III) | 12–30 | Alpha |
 | Sylvebrume (cœur de la forêt) | Forêt elfique ancienne et brumeuse | 25–40 | Long terme |
-| Forges de Durhal | Montagnes et cités naines souterraines | 25–45 | Long terme |
+| Forges de Durhal | Montagnes et forteresses des Géants | 25–45 | Long terme |
 | Plaines d'Orvent | Steppes de cavaliers | 35–55 | Long terme |
 | Marais Gris | Marécages hantés, ruines | 50–70 | Long terme |
 | Marches Cendrées / Nocthrône | Terre désolée, citadelle | 70–100 | Long terme |
@@ -174,8 +185,8 @@ l'histoire.
 ### 3.6 Ton
 
 **Parodique, mais un minimum sérieux.** Le jeu détourne les codes du *Seigneur des Anneaux*
-(la quête interminable, les prophéties, les elfes hautains, les nains bourrus, les semi-hommes qui
-pensent surtout à manger, les méchants très méchants), à la manière dont Dofus joue sur les mots et
+(la quête interminable, les prophéties, les elfes hautains, les géants pas très fins, les lutins
+farceurs, les morts-vivants qui ne savent plus pourquoi ils se battent, les méchants très méchants), à la manière dont Dofus joue sur les mots et
 les références.
 
 - **L'humour** passe par les noms (jeux de mots, détournements, comme les classes de Dofus), les
@@ -201,19 +212,23 @@ Une race apporte : un bonus de caractéristiques, un passif racial et un sort ra
 aucune classe. L'impact doit rester modéré (environ 5 à 10 % de puissance) pour ne pas imposer de
 combinaisons « optimales ».
 
-**Les 6 races du jeu** (validées) : une par camp dès l'alpha (voir § 3.4), les 3 autres en Phase 3.
+**Les 6 races du jeu** (validées) : une par camp dès l'alpha (voir § 3.4), les 3 autres (Géants,
+Lutins, Squelettes) en Phase 3.
 
 | Race | Camp | Bonus | Passif | Sort racial | Phase |
 |---|---|---|---|---|---|
 | **Humain** | Allié | +Vitalité, +Sagesse | *Polyvalence* : +10 % d'XP de métier | *Ralliement* : +2 PA ce tour (sur soi en solo ; sur un allié en multi) | Alpha |
 | **Gobelin** | Ennemi | +Agilité, +Chance | *Chapardeur* : +monnaie et +prospection | *Coup bas* : dégâts Tempête au contact et −1 PM au prochain tour de la cible | Alpha |
 | **Elfe** | Neutre | +Agilité, +Intelligence | *Œil perçant* : +1 portée sur les sorts à distance | *Pas léger* : téléportation jusqu'à 3 cases | Alpha |
-| **Nain** | Allié | +Force, +Vitalité | *Peau de pierre* : +5 % de résistances | *Fureur des profondeurs* : bonus de dégâts quand PV < 50 % | Phase 3 |
-| **Orc** | Ennemi | +Force, +Vitalité | *Peau épaisse* : réduction des dégâts de mêlée | *Cri de guerre* : bonus de dégâts aux alliés proches | Phase 3 |
-| **Semi-homme** | Neutre | +Chance, +Agilité | *Petit mais discret* : +prospection, esquive accrue | *Second petit-déjeuner* : se soigne, une fois par combat | Phase 3 |
+| **Géant** | Allié | +Force, +Vitalité | *Carrure* : +10 % de PV max | *Coup de semelle* : dégâts Acier au contact, repousse la cible de 2 cases | Phase 3 |
+| **Squelette** (mort-vivant) | Ennemi | +Intelligence, +Sagesse | *Déjà mort* : une fois par combat, survit à un coup fatal avec 1 PV | *Remonter les os* : se soigne de 15 % de ses PV (relance tous les 3 tours) | Phase 3 |
+| **Lutin** | Neutre | +Chance, +Agilité | *Farceur* : +prospection, esquive accrue | *Tour de passe-passe* : échange sa place avec une créature à 4 cases au plus | Phase 3 |
 
-Les bonus, passifs et sorts sont des propositions, à équilibrer. Le camp des races de Phase 3 est une
-proposition (deux races par camp).
+Les bonus, passifs et sorts sont des propositions, à équilibrer. Deux races par camp.
+
+Graphisme : les Géants sont dessinés plus grands (environ 1,25×) et les Lutins plus petits (environ
+0,8×), mais toutes les races occupent une seule case en combat. Les Squelettes ont leur propre
+assemblage (os, armure rouillée) plutôt qu'une couleur de peau.
 
 **Noms de peuple** — à la manière des classes de Dofus (jeux de mots, verlan, détournements),
 le nom de race générique sert dans les règles et le nom de peuple dans le jeu. Propositions, à choisir :
@@ -221,10 +236,10 @@ le nom de race générique sert dans les règles et le nom de peuple dans le jeu
 | Race | Pistes de noms de peuple |
 |---|---|
 | Humain | **Lambdas** (les « gens normaux »), **Moyen-Terriens**, **Bonhommes** |
-| Nain | **Barbichus**, **Naindustriels**, **Trapus** |
-| Semi-homme | **Grignotins**, **Bedonnets**, **Deux-Déjeuners** |
+| Géant | **Grandiloques** (grand + grandiloquent), **Colossaux**, **Hauts-Perchés** |
+| Lutin | **Farfadingues**, **Lutineurs**, **Malicieux** |
 | Elfe | **Elfiers** (elfe + fier), **Éternelfes**, **Pointus** |
-| Orc | **Grognards**, **Orcharnés** (orc + acharnés), **Bourrus** |
+| Squelette | **Osseux**, **Squelettards**, **Désossés** |
 | Gobelin | **Gobe-Tout**, **Chapardins**, **Ricaneurs** |
 
 Plus de races qu'aujourd'hui n'est pas exclu à très long terme, mais la charge graphique (races ×
@@ -240,12 +255,29 @@ sexes × équipements × animations) impose de s'en tenir à ces 6.
 | **Rôdeur** | Distance, mobilité | Acier / Tempête (Force / Agilité) | Arc, pièges, poussée, gestion de distance |
 | **Arcaniste** | Dégâts magiques, contrôle | Flamme / Givre (Intelligence / Chance) | Sorts de zone, ralentissements, un petit soin |
 
-> Option si l'équilibrage en solo l'exige : ajouter un **Druide** (soin/nature) comme 4e classe dès
+> Option si l'équilibrage en solo l'exige : avancer le **Théologue** (soin) comme 4e classe dès
 > l'alpha, ou donner au Rôdeur un soin léger.
 
-**Long terme (environ 10 Voies)** : Guerrier, Rôdeur, Arcaniste, Gardien (tank, bouclier), Druide
-(soin, nature), Ménestrel (soutien, bonus/malus), Ombrelame (assassin, invisibilité), Runelier (glyphes,
-pièges), Chaman (invocations d'esprits), Paladin de l'Aube (hybride lumière), Dompteur (familiers).
+**Long terme (9 Voies)** : trois familles de trois classes, selon la distance de combat.
+
+| Famille | Classe | Rôle | Éléments principaux | Style |
+|---|---|---|---|---|
+| **Corps à corps** | **Guerrier** | Mêlée polyvalente | Acier (Force) | *(voir plus haut)* |
+| | **Paladin** | Guerrier sacré : mêlée et soutien | Acier / Flamme (Force / Intelligence) | Coups bénis, auras qui protègent les alliés proches, petits soins, protège un allié |
+| | **Myrmidon** | Guerrier tank | Acier (Force), Vitalité | Bouclier, provocation (attire les coups), réduction de dégâts, poussée, garde un allié |
+| **Mixte** | **Rôdeur** | Distance et mobilité | Acier / Tempête (Force / Agilité) | *(voir plus haut)* |
+| | **Ombre** | Assassin invisible | Tempête / Acier (Agilité / Force) | Invisibilité, coups dans le dos, téléportations courtes, coups critiques |
+| | **Venomancien** | Maître des poisons | Givre / Tempête (Chance / Agilité) | Poisons (dégâts à chaque tour), pièges empoisonnés, affaiblissements, mi-distance |
+| **Distance** | **Arcaniste** | Dégâts magiques, contrôle | Flamme / Givre (Intelligence / Chance) | *(voir plus haut)* |
+| | **Théologue** | Soigneur sacré | Flamme (Intelligence) | Soins, boucliers, retrait des états, résurrection (multi), dégâts sacrés modestes |
+| | **Démoniste** | Dégâts impies | Flamme / Givre (Intelligence / Chance) | Malédictions, sacrifice de PV contre des dégâts, invocation d'un démon mineur |
+
+Le « sacré » (Paladin, Théologue) et l'« impie » (Démoniste) passent pour l'instant par les éléments
+existants et l'habillage des sorts. Question ouverte : leur donner la Lumière et l'Ombre, aujourd'hui
+réservées au légendaire et au scénario (§ 7.2).
+
+Mécaniques à ajouter pour ces classes : invisibilité, poisons et dégâts sur la durée, provocation,
+auras, invocations, sacrifice de PV, résurrection (multi).
 
 ### 4.4 Caractéristiques
 
@@ -630,7 +662,7 @@ directement** :
 
 - **Pas de noms, lieux ou personnages de Tolkien** (Hobbit, Mordor, Sauron, Gondor, Anneau unique,
   etc.). Certains termes sont des marques déposées (par ex. « Hobbit », « Ent ») ; les termes
-  génériques (Elfe, Nain, Orque) peuvent être utilisés.
+  génériques (Elfe, Géant, Lutin, Squelette…) peuvent être utilisés.
 - **Pas d'assets, noms ou mécaniques nommées d'Ankama** (Kamas, Zaap, Iop, Wabbit…). Les mécaniques
   génériques (PA/PM, grille, prospection) ne sont pas protégeables en tant que telles, mais leurs noms
   et leur présentation exacte doivent être les nôtres.
@@ -691,7 +723,7 @@ exemples en [annexe](#20-annexes--formats-de-données).
 | **0. Pré-production** | Choix techniques, GDD validé, prototypes papier | Moteur choisi, structure du dépôt en place |
 | **1. Prototype** | Une carte, déplacement, un combat 1 contre 1 | Un combat jouable de bout en bout |
 | **2. Alpha solo** (court terme) | 3 races (une par camp), 3 classes, combat + butin, quêtes simples, 3 métiers, équipement, 3 zones de départ + Hautepierre | Environ 10 à 15 h de jeu solo de niveau 1 à 30 |
-| **3. Solo étendu** (long terme) | 3 races de plus (6 au total), ~10 classes, Voies, donjons, quêtes complexes, légendaires, scénario complet | Quête des Reliques jouable jusqu'au boss final |
+| **3. Solo étendu** (long terme) | 3 races de plus (Géants, Lutins, Squelettes ; 6 au total), 6 classes de plus (Paladin, Myrmidon, Ombre, Venomancien, Théologue, Démoniste ; 9 au total), Voies, donjons, quêtes complexes, légendaires, scénario complet | Quête des Reliques jouable jusqu'au boss final |
 | **4. Fondations réseau** | Serveur autoritaire, comptes, une instance, synchronisation | Deux joueurs se voient et combattent ensemble |
 | **5. Multi** | Instances, groupe, amis, chat, échanges, hôtel des ventes, guildes | Bêta fermée |
 

@@ -104,7 +104,7 @@ Objectif : **10 à 15 h de jeu solo, niveaux 1 à 30 : 3 zones de départ (une p
 - [ ] Rendement décroissant des caractéristiques
 - [ ] **(MVP)** Modèle de sort avec `voie` et `rang` (préparation du système des Voies)
 - [ ] Restat (objet ou PNJ)
-- [ ] Décider s'il faut une 4e classe de soin (Druide) pour l'équilibrage solo
+- [ ] Décider s'il faut avancer le Théologue (soin) dans l'alpha pour l'équilibrage solo
 
 ### Combat
 - [ ] **(MVP)** Tous les types d'effets : soin, bouclier, bonus/malus, poussée, téléportation, états
@@ -237,8 +237,16 @@ Objectif : **10 à 15 h de jeu solo, niveaux 1 à 30 : 3 zones de départ (une p
 ## Phase 3 — Solo étendu (objectifs long terme)
 
 ### Races et classes
-- [ ] Ajouter les 3 autres races : Nain (allié), Orc (ennemi), Semi-homme (neutre), avec leurs zones de départ et chaînes d'acte I
-- [ ] Ajouter progressivement environ 7 Voies (Gardien, Druide, Ménestrel, Ombrelame, Runelier, Chaman, Paladin de l'Aube…)
+- [ ] Race **Géant** (allié) : bonus, passif *Carrure*, sort *Coup de semelle*, assemblage agrandi (≈ 1,25×), zone de départ et chaîne d'acte I
+- [ ] Race **Squelette** (ennemi, mort-vivant) : passif *Déjà mort*, sort *Remonter les os*, assemblage squelette, zone de départ et chaîne d'acte I
+- [ ] Race **Lutin** (neutre) : passif *Farceur*, sort *Tour de passe-passe*, assemblage réduit (≈ 0,8×), zone de départ et chaîne d'acte I
+- [ ] Choisir et valider leurs noms de peuple (GDD § 4.2)
+- [ ] Voies de corps à corps : **Paladin** (guerrier sacré) et **Myrmidon** (guerrier tank)
+- [ ] Voies mixtes : **Ombre** (assassin invisible) et **Venomancien** (maître des poisons)
+- [ ] Voies à distance : **Théologue** (soigneur sacré) et **Démoniste** (dégâts impies)
+- [ ] Mécaniques de ces Voies : invisibilité, poisons et dégâts sur la durée, provocation, auras,
+  invocations, sacrifice de PV, résurrection (multi)
+- [ ] Décider si le sacré et l'impie utilisent la Lumière et l'Ombre (GDD § 4.3, § 7.2)
 - [ ] Étendre la progression jusqu'au niveau 100
 
 ### Système des Voies (classes mixtes)
