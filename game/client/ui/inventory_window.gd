@@ -17,6 +17,8 @@ var map_view: MapView
 
 var _panel: PanelContainer
 var _slot_buttons := {}
+## Cases des Reliques (vides tant qu'aucune n'a été reprise).
+var _relic_slots: Array[Control] = []
 var _list: ItemList
 var _icon: TextureRect
 var _details: Label
@@ -103,7 +105,8 @@ static func attack_lines(template: Dictionary) -> PackedStringArray:
 		var attack := Spell.from_dict(Item.weapon_spell_data(template))
 		for effect in attack.effects:
 			if effect["type"] == Spell.EFFECT_DAMAGE:
-				lines.append("Attaque : %d à %d (%s), %d PA, portée %d-%d" % [effect["min"], effect["max"], effect["element"], attack.pa_cost, attack.range_min, attack.range_max])
+				lines.append("Attaque : %d à %d (%s), %d PA, portée %d-%d" % [effect["min"], effect["max"],
+					SpellsWindow.ELEMENT_NAMES.get(effect["element"], effect["element"]), attack.pa_cost, attack.range_min, attack.range_max])
 	return lines
 
 
@@ -245,8 +248,8 @@ func _build() -> void:
 	_panel.anchor_right = 0.5
 	_panel.offset_left = -450
 	_panel.offset_right = 450
-	_panel.offset_top = 70
-	_panel.offset_bottom = 560
+	_panel.offset_top = 66
+	_panel.offset_bottom = 612
 	var style := StyleBoxFlat.new()
 	style.bg_color = Color(0.13, 0.1, 0.07, 0.96)
 	style.border_color = Color(0.55, 0.42, 0.22)
@@ -278,15 +281,18 @@ func _build() -> void:
 	row.add_theme_constant_override("separation", 14)
 	column.add_child(row)
 
+	var left := VBoxContainer.new()
+	left.add_theme_constant_override("separation", 6)
+	row.add_child(left)
 	var slots := GridContainer.new()
 	slots.columns = 2
 	slots.custom_minimum_size = Vector2(250, 0)
-	row.add_child(slots)
+	left.add_child(slots)
 	for slot: String in Inventory.SLOTS:
 		var name_label := _label(14, Color(0.8, 0.78, 0.7))
 		name_label.text = Item.SLOT_NAMES[slot]
 		var button := Button.new()
-		button.custom_minimum_size = Vector2(170, 40)
+		button.custom_minimum_size = Vector2(170, 36)
 		button.focus_mode = Control.FOCUS_NONE
 		button.clip_text = true
 		button.alignment = HORIZONTAL_ALIGNMENT_LEFT
@@ -295,6 +301,21 @@ func _build() -> void:
 		slots.add_child(name_label)
 		slots.add_child(button)
 		_slot_buttons[slot] = button
+
+	var relic_title := _label(15, GOLD)
+	relic_title.text = "Reliques"
+	relic_title.tooltip_text = "Les huit Reliques de l'Aube, des bagues que portent les Hérauts du Souverain Cendré. Elles s'équipent toutes en même temps, en plus des deux anneaux."
+	relic_title.mouse_filter = Control.MOUSE_FILTER_PASS
+	left.add_child(relic_title)
+	var relics := GridContainer.new()
+	relics.columns = 4
+	relics.add_theme_constant_override("h_separation", 6)
+	relics.add_theme_constant_override("v_separation", 6)
+	left.add_child(relics)
+	for i in Inventory.RELIC_SLOT_COUNT:
+		var relic := _relic_slot(i + 1)
+		relics.add_child(relic)
+		_relic_slots.append(relic)
 
 	_list = ItemList.new()
 	_list.custom_minimum_size = Vector2(340, 0)
@@ -332,6 +353,34 @@ func _build() -> void:
 	var hint := _label(12, Color(0.6, 0.58, 0.52))
 	hint.text = "Touche I : ouvrir / fermer · Ctrl : jets possibles"
 	column.add_child(hint)
+
+
+## Case de Relique vide : silhouette de bague, numéro, infobulle.
+func _relic_slot(number: int) -> Control:
+	var slot := PanelContainer.new()
+	slot.custom_minimum_size = Vector2(44, 44)
+	slot.tooltip_text = "Relique %d : pas encore reprise" % number
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color(0.08, 0.06, 0.04, 0.9)
+	style.border_color = Color(0.55, 0.42, 0.22, 0.7)
+	style.set_border_width_all(1)
+	style.set_corner_radius_all(4)
+	style.set_content_margin_all(4)
+	slot.add_theme_stylebox_override("panel", style)
+	var silhouette := TextureRect.new()
+	silhouette.texture = item_icon("anneau_du_frondeur")
+	silhouette.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	silhouette.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	silhouette.modulate = Color(0, 0, 0, 0.45)
+	silhouette.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	slot.add_child(silhouette)
+	var label := _label(11, Color(0.75, 0.62, 0.35))
+	label.text = str(number)
+	label.size_flags_horizontal = Control.SIZE_SHRINK_END
+	label.size_flags_vertical = Control.SIZE_SHRINK_END
+	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	slot.add_child(label)
+	return slot
 
 
 func _action_button(text: String, action: Callable) -> Button:

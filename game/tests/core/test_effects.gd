@@ -67,3 +67,55 @@ func test_retrait_de_pm_au_prochain_tour() -> void:
 	var wolf_turn := Fixtures.of_type(events, Protocol.EVT_TURN_STARTED)[0]
 	assert_eq(wolf_turn["entite"], "m0")
 	assert_eq(wolf_turn["pm"], 3, "4 PM − 1")
+
+
+func _hit(combat: Combat, caster: Fighter, target: Fighter, element: String) -> int:
+	var events: Array[Dictionary] = []
+	var before := target.hp
+	target.hp = 1000
+	combat._apply_effect(caster, target, {"type": Spell.EFFECT_DAMAGE, "element": element, "min": 10, "max": 10}, events)
+	var dealt := 1000 - target.hp
+	target.hp = before
+	return dealt
+
+
+func test_elements_sacre_et_impie() -> void:
+	var combat := _hero_fight([["mannequin", C + RIGHT]])
+	var hero := combat.get_fighter(Fixtures.PLAYER)
+	var dummy := combat.get_fighter("m0")
+	hero.stats = {"force": 40, "intelligence": 20, "agilite": 10, "chance": 30}
+	assert_eq(hero.power("sacre"), 30, "moyenne de Force et Intelligence")
+	assert_eq(hero.power("impie"), 20, "moyenne d'Agilité et Chance")
+	dummy.resistances = {"acier": 20, "flamme": 0, "tempete": -10, "givre": 30}
+	assert_eq(dummy.resistance("sacre"), 10, "moyenne des résistances Acier et Flamme")
+	assert_eq(dummy.resistance("impie"), 10, "moyenne des résistances Tempête et Givre")
+	assert_eq(_hit(combat, hero, dummy, "sacre"), 12, "10 × 130 % × 90 % = 11,7")
+	assert_eq(_hit(combat, hero, dummy, "impie"), 11, "10 × 120 % × 90 % = 10,8")
+	dummy.resistances["sacre"] = 50
+	assert_eq(dummy.resistance("sacre"), 50, "une résistance au Sacré donnée explicitement l'emporte")
+
+
+func test_les_dommages_s_ajoutent_bruts() -> void:
+	var combat := _hero_fight([["mannequin", C + RIGHT]])
+	var hero := combat.get_fighter(Fixtures.PLAYER)
+	var dummy := combat.get_fighter("m0")
+	hero.stats = {}
+	dummy.resistances = {"givre": 50}
+	assert_eq(_hit(combat, hero, dummy, "givre"), 5, "sans Dommages : 10 × 50 %")
+	hero.dommages = 5
+	assert_eq(_hit(combat, hero, dummy, "givre"), 10, "+5 Dommages : +5 dégâts, non réduits par la résistance")
+	assert_eq(_hit(combat, hero, dummy, "sacre"), 15, "quel que soit l'élément")
+	var events: Array[Dictionary] = []
+	hero.hp = 10
+	combat._apply_effect(hero, hero, {"type": Spell.EFFECT_HEAL, "min": 5, "max": 5}, events)
+	assert_eq(hero.hp, 15, "pas sur les soins")
+
+
+func test_les_dommages_viennent_de_l_equipement() -> void:
+	var data := Fixtures.data()
+	var character := Fixtures.character()
+	var template := {"id": "poing", "nom": "Poing", "type": "anneau", "rarete": "commun", "niveau": 1, "bonus": {"dommages": [3, 3]}}
+	var uid := character.inventory.add(template, 1, Item.roll_bonuses(template, RandomNumberGenerator.new()))
+	character.inventory.equip(uid, "anneau_1")
+	assert_eq(character.sheet(data)["dommages"], 3, "dans la fiche")
+	assert_eq(data.create_character_fighter(character, Fixtures.PLAYER).dommages, 3, "en combat")

@@ -188,6 +188,7 @@ func sheet(data: GameData) -> Dictionary:
 		"pv_max": max_hp(data),
 		"pv": hp(data),
 		"prospection": prospection(data),
+		"dommages": extra("dommages"),
 		"initiative": initiative(data),
 		"pa": int(voie.get("caracteristiques", {}).get("pa", 0)) + extra("pa"),
 		"pm": int(voie.get("caracteristiques", {}).get("pm", 0)) + extra("pm"),

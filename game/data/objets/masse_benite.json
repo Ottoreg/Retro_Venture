@@ -1,0 +1,36 @@
+{
+  "id": "masse_benite",
+  "nom": "Masse bénite",
+  "type": "arme",
+  "rarete": "peu_commun",
+  "niveau": 4,
+  "description": "Bénie trois fois par un prêtre de Hautepierre. Il a béni le manche, la tête et, par erreur, son pouce.",
+  "bonus": {
+    "force": [
+      2,
+      5
+    ],
+    "intelligence": [
+      2,
+      5
+    ]
+  },
+  "attaque": {
+    "cout_pa": 4,
+    "portee": {
+      "min": 1,
+      "max": 1
+    },
+    "relance": {
+      "par_tour": 1
+    },
+    "effets": [
+      {
+        "type": "degats",
+        "element": "sacre",
+        "min": 9,
+        "max": 13
+      }
+    ]
+  }
+}

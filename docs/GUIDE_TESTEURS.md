@@ -92,6 +92,12 @@ le **lit** de votre maison les rend tous d'un coup.
   jusqu'à +100 %. (Pour les tests, une marque par minute ; ce sera une par heure ensuite.)
 - **Dans chaque village de départ** : une maison (coffre de 100 places partagé entre les maisons, et
   un lit), un marchand qui achète et vend tous les objets, et un forgeron.
+- **Éléments Sacré et Impie, statistique Dommages** : à tester avec la Masse bénite (Sacré : Force
+  et Intelligence), la Dague du Mauvais Œil (Impie : Agilité et Chance) et la Chevalière du Cogneur
+  (+Dommages : des dégâts en plus sur chaque coup, quel que soit l'élément), en vente chez les
+  marchands. Les Dommages apparaissent dans la fiche (C).
+- **Reliques** : les huit cases « Reliques » de l'inventaire restent vides pour l'instant (les
+  Reliques arriveront avec la quête principale).
 - **Métiers** : bûcheron, mineur (les ressources repoussent en 1 à 2 minutes), forgeron (10
   recettes).
 

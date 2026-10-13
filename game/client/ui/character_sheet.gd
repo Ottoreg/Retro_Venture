@@ -17,6 +17,7 @@ const DERIVED := [
 	["pm", "PM", "Points de mouvement : une case par point en combat"],
 	["initiative", "Initiative", "Ordre de jeu en combat : base de la Voie + Force, Intelligence, Chance et Agilité + équipement"],
 	["prospection", "Prospection", "Chances de butin : 100 + Chance / 10 + équipement"],
+	["dommages", "Dommages", "Dégâts bruts ajoutés à chaque ligne de dégâts, quel que soit l'élément (ni multipliés, ni réduits par les résistances)"],
 ]
 
 var map_view: MapView

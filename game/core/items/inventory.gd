@@ -5,6 +5,9 @@ extends RefCounted
 
 const MAX_ENTRIES := 60
 const SLOTS := ["arme", "coiffe", "cape", "amulette", "anneau_1", "anneau_2", "ceinture", "bottes"]
+## Emplacements des Reliques de l'Aube (huit bagues, équipables toutes en même temps en plus des deux
+## anneaux). Visibles dans l'inventaire ; pas encore équipables (aucune Relique dans le jeu).
+const RELIC_SLOT_COUNT := 8
 
 ## uid → { uid, objet (id du modèle), quantite, jets: { caractéristique: valeur } }
 var entries: Dictionary = {}

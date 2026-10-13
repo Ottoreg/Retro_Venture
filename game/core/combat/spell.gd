@@ -13,7 +13,11 @@ const EFFECT_GAIN_PA := "gain_pa"
 ## La cible aura moins de PM à son prochain tour.
 const EFFECT_REMOVE_PM := "retrait_pm"
 const EFFECT_TYPES := [EFFECT_DAMAGE, EFFECT_HEAL, EFFECT_TELEPORT, EFFECT_GAIN_PA, EFFECT_REMOVE_PM]
-const ELEMENTS := ["acier", "flamme", "givre", "tempete"]
+## Éléments de base, et éléments composés qui s'appuient chacun sur deux éléments de base : le Sacré
+## (Acier + Flamme) et l'Impie (Tempête + Givre).
+const BASE_ELEMENTS := ["acier", "flamme", "givre", "tempete"]
+const COMPOSITE_ELEMENTS := {"sacre": ["acier", "flamme"], "impie": ["tempete", "givre"]}
+const ELEMENTS := ["acier", "flamme", "givre", "tempete", "sacre", "impie"]
 
 var id: String
 var display_name: String

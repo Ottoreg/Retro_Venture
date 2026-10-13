@@ -314,7 +314,8 @@ func _cast(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 	return events
 
 
-## Dégâts : base × (100 + caractéristique de l'élément du lanceur) % × (100 − résistance de la cible) %.
+## Dégâts : base × (100 + caractéristique de l'élément du lanceur) % × (100 − résistance de la cible) %,
+## plus les Dommages du lanceur (bruts : ni multipliés ni réduits par une résistance).
 ## Soins : base × (100 + intelligence du lanceur) %.
 func _apply_effect(caster: Fighter, target: Fighter, effect: Dictionary, events: Array[Dictionary]) -> void:
 	var amount := rng.randi_range(effect["min"], effect["max"])
@@ -329,7 +330,7 @@ func _apply_effect(caster: Fighter, target: Fighter, effect: Dictionary, events:
 	if effect["type"] == Spell.EFFECT_DAMAGE:
 		var element: String = effect["element"]
 		var boosted := amount * (100 + caster.power(element)) / 100.0
-		amount = maxi(0, roundi(boosted * (100 - target.resistance(element)) / 100.0))
+		amount = maxi(0, roundi(boosted * (100 - target.resistance(element)) / 100.0)) + maxi(0, caster.dommages)
 		target.hp = maxi(0, target.hp - amount)
 		events.append({"type": Protocol.EVT_DAMAGE, "entite": target.id, "valeur": amount, "element": element, "pv": target.hp})
 		if not target.is_alive():

@@ -35,6 +35,8 @@ var range_bonus: int = 0
 var pm_malus: int = 0
 ## Prospection (joueurs) : augmente les chances de butin.
 var prospection: int = 100
+## Dommages : dégâts bruts ajoutés à chaque ligne de dégâts, sans élément ni résistance.
+var dommages: int = 0
 
 ## Caractéristique qui augmente les dégâts de chaque élément.
 const ELEMENT_STATS := {"acier": "force", "flamme": "intelligence", "givre": "chance", "tempete": "agilite"}
@@ -58,16 +60,25 @@ func get_spell(spell_id: String) -> Spell:
 	return null
 
 
+## Résistance en % à un élément. Pour un élément composé (Sacré, Impie) : sa valeur si elle est donnée,
+## sinon la moyenne des résistances aux deux éléments de base.
 func resistance(element: String) -> int:
-	return int(resistances.get(element, 0))
+	if resistances.has(element) or not Spell.COMPOSITE_ELEMENTS.has(element):
+		return int(resistances.get(element, 0))
+	var bases: Array = Spell.COMPOSITE_ELEMENTS[element]
+	return roundi((resistance(bases[0]) + resistance(bases[1])) / 2.0)
 
 
 func stat(stat_name: String) -> int:
 	return int(stats.get(stat_name, 0))
 
 
-## Bonus en % des dégâts de cet élément (la caractéristique associée).
+## Bonus en % des dégâts de cet élément (la caractéristique associée ; pour un élément composé, la
+## moyenne des caractéristiques de ses deux éléments de base).
 func power(element: String) -> int:
+	if Spell.COMPOSITE_ELEMENTS.has(element):
+		var bases: Array = Spell.COMPOSITE_ELEMENTS[element]
+		return roundi((power(bases[0]) + power(bases[1])) / 2.0)
 	return stat(ELEMENT_STATS.get(element, ""))
 
 

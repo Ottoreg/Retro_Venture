@@ -4,8 +4,10 @@ extends CanvasLayer
 ## leurs icônes et la fiche du sort choisi.
 
 const GOLD := Color(0.95, 0.76, 0.3)
-const ELEMENT_NAMES := {"acier": "Acier (Force)", "flamme": "Flamme (Intelligence)", "givre": "Givre (Chance)", "tempete": "Tempête (Agilité)"}
-const ELEMENT_COLORS := {"acier": Color("d9a066"), "flamme": Color("ff8a5a"), "givre": Color("7ccfff"), "tempete": Color("9ade6a")}
+const ELEMENT_NAMES := {"acier": "Acier (Force)", "flamme": "Flamme (Intelligence)", "givre": "Givre (Chance)", "tempete": "Tempête (Agilité)",
+	"sacre": "Sacré (Force et Intelligence)", "impie": "Impie (Agilité et Chance)"}
+const ELEMENT_COLORS := {"acier": Color("d9a066"), "flamme": Color("ff8a5a"), "givre": Color("7ccfff"), "tempete": Color("9ade6a"),
+	"sacre": Color("ffe9a0"), "impie": Color("c48aff")}
 
 var map_view: MapView
 

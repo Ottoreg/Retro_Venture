@@ -982,6 +982,41 @@
         22,
         22
       ]
+    },
+    "objet_masse_benite": {
+      "fichier": "objets/masse_benite.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_dague_du_mauvais_oeil": {
+      "fichier": "objets/dague_du_mauvais_oeil.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_chevaliere_du_cogneur": {
+      "fichier": "objets/chevaliere_du_cogneur.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_arme_masse_benite": {
+      "fichier": "sorts/arme_masse_benite.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_arme_dague_impie": {
+      "fichier": "sorts/arme_dague_impie.svgt",
+      "ancre": [
+        22,
+        22
+      ]
     }
   },
   "personnages": {
@@ -1623,6 +1658,8 @@
     "arc_de_frene": "sort_arme_arc",
     "fronde_reglementaire": "sort_arme_fronde",
     "masse_cerclee": "sort_arme_masse",
-    "lame_cendree": "sort_arme_epee_cendre"
+    "lame_cendree": "sort_arme_epee_cendre",
+    "masse_benite": "sort_arme_masse_benite",
+    "dague_du_mauvais_oeil": "sort_arme_dague_impie"
   }
 }

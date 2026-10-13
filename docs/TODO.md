@@ -37,7 +37,7 @@
   - [x] Liste des 9 races (trois par camp) et ton parodique (§ 3.6, § 4.2)
   - [x] Races de l'alpha (Humain, Gobelin, Elfe) et structure en trois camps (§ 3.4)
   - [ ] Choisir les noms de peuple des 9 races (§ 4.2)
-  - [ ] Choisir le nom des spécialisations opposées (nom de travail : « Voie du Revers », § 5.3)
+  - [x] Nom des spécialisations opposées : **Voie Miroir** (§ 5.3)
   - [ ] Revoir les noms du monde, des Reliques et du méchant dans le ton parodique (§ 3)
   - [x] Reliques : huit bagues tenues par les Hérauts Cendrés, une par peuple ou presque (§ 3.3)
   - [ ] Nommer les régions des Géants, des Lutins et des Fosses de Crasse-Roc (§ 3.3, § 3.5)
@@ -109,10 +109,13 @@ Objectif : **10 à 15 h de jeu solo, niveaux 1 à 30 : 3 zones de départ (une p
 - [ ] Décider s'il faut avancer le Théologue (soin) dans l'alpha pour l'équilibrage solo
 
 ### Combat
-- [ ] **(MVP)** Éléments composés **Sacré** (Acier + Flamme : moyenne Force / Intelligence, moyenne
-  des résistances) et **Impie** (Tempête + Givre : moyenne Agilité / Chance), sorts et résistances
-- [ ] **(MVP)** Statistique **Dommages** : +X dégâts bruts à chaque ligne de dégâts de tout sort ou
-  arme, sans élément ni résistance, pas sur les soins ; portée par les objets, affichée dans la fiche
+- [x] **(MVP)** Éléments composés **Sacré** (Acier + Flamme : moyenne Force / Intelligence, moyenne
+  des résistances) et **Impie** (Tempête + Givre : moyenne Agilité / Chance), sorts et résistances ;
+  premières armes : Masse bénite (Sacré), Dague du Mauvais Œil (Impie)
+- [x] **(MVP)** Statistique **Dommages** : +X dégâts bruts à chaque ligne de dégâts de tout sort ou
+  arme, sans élément ni résistance, pas sur les soins ; portée par les objets (Chevalière du
+  Cogneur), affichée dans la fiche
+- [ ] Sorts de Voie sacrés et impies (avec les nouvelles Voies)
 - [ ] **(MVP)** Tous les types d'effets : soin, bouclier, bonus/malus, poussée, téléportation, états
 - [ ] **(MVP)** Coups critiques
 - [x] **(MVP)** Groupes de 1 à 3 monstres (limite de l'alpha), d'espèces mélangées, tous visibles sur
@@ -151,7 +154,7 @@ Objectif : **10 à 15 h de jeu solo, niveaux 1 à 30 : 3 zones de départ (une p
 - [x] **(MVP)** Conditions d'équipement (niveau, caractéristiques ; pas deux objets identiques)
 - [x] **(MVP)** Armes utilisables en combat (attaque de l'arme dans la barre de sorts)
 - [x] Jets aléatoires de statistiques
-- [ ] Plus d'objets (16 aujourd'hui) pour couvrir les niveaux 1 à 30
+- [ ] Plus d'objets (22 équipements aujourd'hui) pour couvrir les niveaux 1 à 30
 - [ ] **(MVP alpha test)** Système de panoplies : bonus de panoplie qui grandit avec le nombre de
   pièces équipées, affiché dans l'inventaire (pièces portées / bonus actifs)
 - [ ] **(MVP alpha test)** Six panoplies élémentaires de 6 pièces (coiffe, cape, amulette, anneau,
@@ -215,7 +218,7 @@ Objectif : **10 à 15 h de jeu solo, niveaux 1 à 30 : 3 zones de départ (une p
   métiers avec un onglet par métier, boutique, atelier, coffre ; reste : quêtes)
 - [ ] **(MVP)** Menu principal, options (volume, résolution), pause
 - [ ] Infobulles d'objets et de sorts (comparaison avec l'équipement porté)
-- [ ] Inventaire : 8 cases « Reliques » visibles dès le début (vides tant que la Relique n'est pas
+- [x] Inventaire : 8 cases « Reliques » visibles dès le début (vides tant que la Relique n'est pas
   reprise), en plus des 2 anneaux
 - [ ] Raccourcis clavier
 
@@ -273,7 +276,7 @@ Objectif : **10 à 15 h de jeu solo, niveaux 1 à 30 : 3 zones de départ (une p
 - [ ] Passif de Maîtrise de Voie
 - [ ] Quêtes de Voie (déblocage du rang III)
 - [ ] **Simulateur de combat** automatisé pour détecter les combinaisons abusives
-- [ ] **Voies du Revers** (nom à choisir) : spécialisation opposée qui retourne l'élément d'une Voie
+- [ ] **Voies Miroir** : spécialisation opposée qui retourne l'élément d'une Voie
   (sacré ↔ impie, givre ↔ flamme, acier ↔ tempête), débloquée par une quête de Voie (GDD § 5.3)
 
 ### Donjons

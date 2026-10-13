@@ -333,7 +333,8 @@ ajoutent 5 dégâts à chaque ligne de dégâts de n'importe quel sort ou arme, 
 **Formules en place (alpha) :**
 
 - Dégâts = base du sort × (100 + caractéristique de l'élément) % × (100 − résistance de la cible) %
-  (+ Dommages, à ajouter ; voir plus haut).
+  + Dommages. Pour le Sacré et l'Impie : moyenne des deux caractéristiques, et moyenne des deux
+  résistances de la cible sauf si elle a une résistance propre à cet élément.
 - Soins = base × (100 + Intelligence) %.
 - PV max = PV de la Voie + 5 par niveau au-delà du 1er + Vitalité.
 - Initiative = initiative de la Voie + Force + Intelligence + Chance + Agilité (pas Vitalité ni Sagesse)
@@ -384,17 +385,16 @@ seule la Voie dans laquelle il est **spécialisé** donne accès aux sorts les p
   **états** incompatibles plutôt que par des interdictions d'apprentissage.
 - Un outil de simulation de combat (voir TODO) permettra de détecter les combos abusifs.
 
-### 5.3 Voies du Revers (long terme)
+### 5.3 Voies Miroir (long terme)
 
-À terme, chaque Voie aura une **spécialisation opposée** qui retourne son élément, comme le revers
-d'une médaille. Nom de travail : **Voie du Revers** (autres pistes : *Contre-Voie*, *Voie Miroir*,
-*Envers*, *Revirement*). Exemples :
+À terme, chaque Voie aura une **spécialisation opposée** qui retourne son élément, comme son reflet
+dans un miroir : la **Voie Miroir**. Exemples :
 
 - une classe sacrée (Paladin, Théologue) devient impie, et le Démoniste devient sacré ;
 - une classe de Givre joue avec la Flamme, et inversement ;
 - une classe d'Acier passe à la Tempête, et inversement.
 
-La Voie du Revers garde le rôle de la classe (un Théologue du Revers soigne toujours) mais change
+La Voie Miroir garde le rôle de la classe (un Théologue Miroir soigne toujours) mais change
 l'élément de ses sorts, et donc les caractéristiques et l'équipement à privilégier. Elle se débloque
 par une quête de Voie, comme le rang III, et suit les mêmes règles de changement de spécialisation.
 
@@ -837,7 +837,7 @@ exemples en [annexe](#20-annexes--formats-de-données).
 | **Sacré / Impie** | Éléments composés : Acier + Flamme, Tempête + Givre |
 | **Dommages** | Bonus de dégâts brut, sans élément, ajouté à chaque ligne de dégâts |
 | **Panoplie** | Ensemble d'objets dont le bonus grandit avec le nombre de pièces équipées |
-| **Voie du Revers** | Spécialisation opposée d'une Voie (nom de travail) |
+| **Voie Miroir** | Spécialisation opposée d'une Voie : même rôle, élément retourné |
 
 ---
 

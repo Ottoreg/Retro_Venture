@@ -180,7 +180,7 @@ voisine ; on arrive sur le bord opposé, à la même hauteur. Chaque sortie doit
 | `lanceur_exclu` | Le lanceur n'est pas touché par sa propre zone |
 | `relance.par_tour` | Lancers maximum par tour (`0` = illimité) |
 | `relance.delai` | Tours à attendre avant de relancer |
-| `effets` | `degats` (avec `element` : `acier`, `flamme`, `givre`, `tempete`) ou `soin`, avec `min` et `max` |
+| `effets` | `degats` (avec `element` : `acier`, `flamme`, `givre`, `tempete`, ou les éléments composés `sacre` et `impie`) ou `soin`, avec `min` et `max` |
 
 Effets sans dégâts : `teleportation` (le lanceur saute sur la case visée, qui doit être libre ;
 pas de `min`/`max`), `gain_pa` (PA en plus tout de suite), `retrait_pm` (PM en moins au prochain
@@ -201,7 +201,10 @@ tour de la cible).
 }
 ```
 
-`resistances` en % par élément (négatif = faiblesse). `ia` : seul `basique` existe pour l'instant
+`resistances` en % par élément (négatif = faiblesse). Sans valeur pour `sacre` ou `impie`, la
+résistance est la moyenne de celles des deux éléments de base (Acier et Flamme pour le Sacré,
+Tempête et Givre pour l'Impie) ; de même, le bonus de dégâts est la moyenne des deux
+caractéristiques (Force et Intelligence, Agilité et Chance). `ia` : seul `basique` existe pour l'instant
 (frappe si possible, sinon se place pour tirer, sinon se rapproche).
 
 Un monstre **élite** a `"elite": true` et sa `famille` (l'id du monstre normal dont il est la version
@@ -246,7 +249,7 @@ seule en vie par espèce, avec un rang d'ancienneté qui augmente leur butin).
 | `type` | `ressource` (s'empile) ou équipement : `arme`, `coiffe`, `cape`, `amulette`, `anneau`, `ceinture`, `bottes` |
 | `rarete` | `commun`, `peu_commun`, `rare`, `epique`, `legendaire`, `relique` (couleur dans l'interface) |
 | `niveau` | Niveau requis pour l'équiper |
-| `bonus` | Plages `[min, max]` tirées au hasard à l'obtention (« jets ») : les 6 caractéristiques, `prospection`, `initiative`, `portee`, `pa`, `pm` |
+| `bonus` | Plages `[min, max]` tirées au hasard à l'obtention (« jets ») : les 6 caractéristiques, `prospection`, `initiative`, `portee`, `pa`, `pm`, `dommages` (dégâts bruts ajoutés à chaque ligne de dégâts, ni multipliés ni réduits par les résistances, pas sur les soins) |
 | `conditions` | Caractéristiques minimales pour l'équiper (optionnel) |
 | `attaque` | Armes seulement : attaque utilisable en combat, décrite comme un sort |
 

@@ -1,0 +1,18 @@
+{
+  "id": "chevaliere_du_cogneur",
+  "nom": "Chevalière du Cogneur",
+  "type": "anneau",
+  "rarete": "rare",
+  "niveau": 5,
+  "description": "Un poing gravé, à l'envers pour qu'il s'imprime à l'endroit sur la joue d'en face.",
+  "bonus": {
+    "dommages": [
+      2,
+      4
+    ],
+    "force": [
+      1,
+      3
+    ]
+  }
+}

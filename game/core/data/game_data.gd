@@ -248,6 +248,7 @@ func create_character_fighter(character: Character, fighter_id: String) -> Fight
 	fighter.pm = fighter.max_pm
 	fighter.range_bonus += character.extra("portee")
 	fighter.prospection = character.prospection(self)
+	fighter.dommages = character.extra("dommages")
 	var weapon := character.inventory.equipped_entry("arme")
 	if not weapon.is_empty() and items.has(weapon["objet"]):
 		fighter.spells.insert(0, Spell.from_dict(Item.weapon_spell_data(items[weapon["objet"]])))

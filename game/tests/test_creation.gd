@@ -77,6 +77,9 @@ func test_fenetre_d_inventaire() -> void:
 	assert_eq(window._list.item_count, inventory.entries.size())
 	assert_eq(window._slot_buttons["arme"].text, "Épée de fer")
 	assert_eq(window._slot_buttons["arme"].icon, InventoryWindow.item_icon("epee_de_fer"), "icône de l'arme portée")
+	assert_eq(window._relic_slots.size(), 8, "huit cases de Reliques")
+	for relic in window._relic_slots:
+		assert_true(relic.is_visible_in_tree(), "visibles dès le début")
 	for i in window._list.item_count:
 		assert_true(window._list.get_item_icon(i) != Art.texture("objet_inconnu"), "icône dans le sac")
 
