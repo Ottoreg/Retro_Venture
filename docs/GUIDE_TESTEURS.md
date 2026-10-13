@@ -83,8 +83,13 @@ le **lit** de votre maison les rend tous d'un coup.
   se promènent autour de leur place et réapparaissent 2 à 3 minutes après avoir été vaincus.
 - **Élites** : chaque famille a sa version élite, plus grande, avec un halo doré, bien plus forte et
   qui lâche plus souvent les objets rares (Loup alpha, Frondeur vétéran, Rat-roi, Grouilleur
-  ancestral, Grand cerf de la Lisière, Arbre millénaire). On les trouve sur la deuxième carte de
-  chaque zone ; elles réapparaissent en 4 à 6 minutes.
+  ancestral, Grand cerf de la Lisière, Arbre millénaire). Chaque élite tente d'apparaître toutes
+  les 5 à 6 minutes de jeu (où que vous soyez), sur une carte au hasard où vit sa famille : dans un
+  nouveau groupe, ou à la place d'un monstre d'un groupe s'il y a déjà 3 groupes sur la carte. Une
+  seule de chaque espèce à la fois ; une fois vaincue, elle revient 5 à 6 minutes plus tard.
+  Plus une élite reste en vie, plus son butin s'améliore : un losange doré par minute dans sa bulle
+  (5 au plus), puis des triangles au-dessus en couronne ; +10 % de chances de butin par marque,
+  jusqu'à +100 %. (Pour les tests, une marque par minute ; ce sera une par heure ensuite.)
 - **Dans chaque village de départ** : une maison (coffre de 100 places partagé entre les maisons, et
   un lit), un marchand qui achète et vend tous les objets, et un forgeron.
 - **Métiers** : bûcheron, mineur (les ressources repoussent en 1 à 2 minutes), forgeron (10

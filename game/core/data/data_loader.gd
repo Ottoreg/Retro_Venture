@@ -30,6 +30,14 @@ static func list_json(dir_path: String) -> PackedStringArray:
 	return files
 
 
+## Ids de toutes les cartes du jeu (fichiers de `res://data/cartes/`), triés.
+static func map_ids() -> Array[String]:
+	var ids: Array[String] = []
+	for path in list_json("res://data/cartes"):
+		ids.append(path.get_file().get_basename())
+	return ids
+
+
 ## Chemin du fichier d'une carte, d'après son id.
 static func map_path(map_id: String) -> String:
 	return "res://data/cartes/%s.json" % map_id

@@ -405,6 +405,21 @@ func _send(command: Dictionary) -> void:
 		_play_next()
 
 
+## Rang d'ancienneté de l'élite du groupe sur cette case (0 s'il n'y en a pas), en exploration.
+func hovered_cell() -> Vector2i:
+	return _hovered
+
+
+func elite_rank_at(cell: Vector2i) -> int:
+	if mode != Mode.EXPLORATION:
+		return 0
+	for actor_id: String in _actors:
+		var data: Dictionary = _actors[actor_id]
+		if data["alive"] and actor_id != World.PLAYER_ID and Vector2i(data["pos"].round()) == cell:
+			return world.elite_rank(world.group(actor_id))
+	return 0
+
+
 func _set_hovered(cell: Vector2i) -> void:
 	if cell == _hovered:
 		return
@@ -443,7 +458,11 @@ func _describe(cell: Vector2i) -> String:
 		if data["alive"] and Vector2i(data["pos"].round()) == cell and actor_id != World.PLAYER_ID:
 			if mode == Mode.COMBAT:
 				return "%s — %d / %d PV" % [data["name"], data["hp"], data["max_hp"]]
-			return group_lines(data.get("members", [data["kind"]]), world.data)
+			var text := group_lines(data.get("members", [data["kind"]]), world.data)
+			var rank := world.elite_rank(world.group(actor_id))
+			if rank > 0:
+				text += "\nButin : +%d %%" % roundi(rank * World.ELITE_LOOT_BONUS_PER_RANK * 100.0)
+			return text
 	return "case (%d, %d)%s" % [cell.x, cell.y, "" if _map.is_walkable(cell) else " — bloquée"]
 
 

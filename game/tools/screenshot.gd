@@ -3,7 +3,7 @@ extends SceneTree
 ##   xvfb-run -s "-screen 0 1280x720x24" godot --path game --rendering-driver opengl3 \
 ##     -s res://tools/screenshot.gd -- sortie.png [carte] [frames] [action]
 ## Lance la scène du monde (nouvelle partie), attend quelques images et enregistre la vue.
-## Action : « combat » (engage le premier groupe de la carte), « butin » (écran de fin de combat d'exemple), « inventaire », « metiers », « sorts » (ouvre la
+## Action : « combat » (engage le premier groupe de la carte), « butin » (écran de fin de combat d'exemple), « elite7 » (Loup alpha de rang 7 survolé), « inventaire », « metiers », « sorts » (ouvre la
 ## fenêtre ; « inventaire » remplit d'abord le sac d'un exemplaire de chaque objet) ou « pierre » (va utiliser
 ## la Pierre de Passage).
 ## Si « carte » commence par res://, c'est cette scène qui est capturée (menu, création…).
@@ -40,6 +40,18 @@ func _process(_delta: float) -> bool:
 				var template: Dictionary = world.data.items[item_id]
 				world.character.inventory.add(template, 1 if Item.is_equipment(template) else 5, Item.roll_bonuses(template, world.rng))
 			_scene.get_node("InventoryWindow").toggle()
+		elif _action.begins_with("elite"):
+			# « elite7 » : le Loup alpha apparaît, vieux de 7 rangs, et on le survole.
+			var world := view.world
+			world.map_ids = [world.map.id]
+			var events: Array[Dictionary] = []
+			world.spawn_elite("loup_alpha", events)
+			for event in events:
+				view._apply_world_change(event)
+			world.clock += int(_action.trim_prefix("elite")) * World.ELITE_RANK_SECONDS + 1.0
+			var group := world.group(world.elite_location("loup_alpha")["groupe"])
+			view._set_hovered(group["case"])
+			Input.warp_mouse(view.get_global_transform_with_canvas() * IsoGrid.cell_to_screen(group["case"]))
 		elif _action == "butin":
 			# Écran de fin de combat avec un butin d'exemple.
 			var drops: Array = []

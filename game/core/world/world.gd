@@ -20,6 +20,19 @@ const RESPAWN_RETRY := 5.0
 const GROUP_WANDER_DELAY := [8.0, 20.0]
 const GROUP_WANDER_STEPS := 3
 const GROUP_WANDER_RANGE := 3
+## Monstres élites : chaque espèce tente d'apparaître toutes les 5 à 6 minutes (temps de jeu
+## global, quelle que soit la carte du joueur) tant qu'elle n'est pas déjà en vie quelque part. Elle
+## gagne un rang d'ancienneté par ELITE_RANK_SECONDS sans être vaincue (10 au plus), chaque rang
+## donnant +10 % de chances de butin au combat contre son groupe.
+const ELITE_SPAWN_DELAY := [300.0, 360.0]
+## Une minute par rang pour les tests (une heure prévue ensuite).
+const ELITE_RANK_SECONDS := 60.0
+const ELITE_MAX_RANK := 10
+const ELITE_LOOT_BONUS_PER_RANK := 0.1
+## Au-delà de ce nombre de groupes sur la carte, l'élite prend la place d'un monstre d'un groupe.
+const ELITE_MAX_GROUPS := 3
+## Id des groupes créés pour une élite (ceux qui ne viennent pas de la carte).
+const ELITE_GROUP_PREFIX := "elite_"
 ## Quantité maximale d'un même objet par achat ou vente.
 const MAX_TRADE_QUANTITY := 100
 
@@ -66,6 +79,14 @@ var _regen_time := 0.0
 ## Prochaine promenade de chaque groupe de la carte actuelle : id du groupe → instant.
 var _wander_times: Dictionary = {}
 var _combat_count := 0
+## Toutes les cartes du jeu (où les élites peuvent apparaître) ; rempli par le client.
+var map_ids: Array[String] = []
+## Élites en vie : id du monstre élite → { carte, groupe }.
+var _elites: Dictionary = {}
+## Prochaine tentative d'apparition des élites absentes : id du monstre élite → instant.
+var _elite_attempts: Dictionary = {}
+## Bonus de butin du combat en cours (élite ancienne), en fraction : 0.3 = +30 %.
+var _combat_loot_bonus := 0.0
 var _approach_from := Vector2i.ZERO
 
 
@@ -102,6 +123,11 @@ func position_of(entity_id: String) -> Vector2i:
 ## Groupes de monstres présents sur la carte.
 func groups() -> Array:
 	return _groups.values()
+
+
+## Groupe de monstres de la carte actuelle, par son id ({} s'il n'y est pas).
+func group(group_id: String) -> Dictionary:
+	return _groups.get(group_id, {})
 
 
 ## Groupe de monstres sur la case, ou `{}`.
@@ -423,7 +449,12 @@ func _end_combat(events: Array[Dictionary]) -> void:
 	var player := combat.get_fighter(PLAYER_ID)
 	if combat.winner_team == Fighter.TEAM_PLAYERS:
 		defeated_group = _combat_group
-		_schedule_respawn(map.id, _groups[_combat_group])
+		var defeated: Dictionary = _groups[_combat_group]
+		_combat_loot_bonus = ELITE_LOOT_BONUS_PER_RANK * elite_rank(defeated)
+		if defeated.has("elite"):
+			_elite_defeated(defeated["elite"])
+		if not _combat_group.begins_with(ELITE_GROUP_PREFIX):
+			_schedule_respawn(map.id, defeated)
 		_groups.erase(_combat_group)
 		_positions.erase(_combat_group)
 		character.set_hp(player.hp, data)
@@ -440,6 +471,7 @@ func _end_combat(events: Array[Dictionary]) -> void:
 	})
 	combat = null
 	_combat_group = ""
+	_combat_loot_bonus = 0.0
 
 
 ## XP des monstres vaincus, même en cas de défaite (bonus de Sagesse : +1 % par point), et
@@ -481,7 +513,7 @@ func _loot(events: Array[Dictionary]) -> void:
 		var coin_range: Array = monster.get("ecus", [0, 0])
 		coins += rng.randi_range(int(coin_range[0]), int(coin_range[1]))
 		for drop: Dictionary in monster.get("butin", []):
-			var chance := minf(1.0, float(drop["taux"]) * prospection / 100.0)
+			var chance := minf(1.0, float(drop["taux"]) * prospection / 100.0 * (1.0 + _combat_loot_bonus))
 			if rng.randf() >= chance:
 				continue
 			var amount: Array = drop.get("quantite", [1, 1])
@@ -689,6 +721,7 @@ func update(delta: float) -> Array[Dictionary]:
 	var events: Array[Dictionary] = []
 	_regenerate(delta)
 	_respawn_groups(events)
+	_update_elites(events)
 	_wander_groups(events)
 	for map_id: String in _depleted:
 		var cells: Dictionary = _depleted[map_id]
@@ -754,6 +787,142 @@ func _wander_path(group: Dictionary) -> Array[Vector2i]:
 		path.push_front(cell)
 		cell = parents[cell]
 	return path
+
+
+## Rang d'ancienneté de l'élite d'un groupe (0 sans élite) : un par ELITE_RANK_SECONDS en vie.
+func elite_rank(group: Dictionary) -> int:
+	if not group.has("elite"):
+		return 0
+	return clampi(floori((clock - float(group["apparition"])) / ELITE_RANK_SECONDS), 0, ELITE_MAX_RANK)
+
+
+## Où est l'élite de cette espèce : { carte, groupe }, ou {} si elle n'est pas en vie.
+func elite_location(elite_id: String) -> Dictionary:
+	return _elites.get(elite_id, {})
+
+
+## Ids des monstres élites du jeu.
+func elite_ids() -> Array[String]:
+	var ids: Array[String] = []
+	if data != null:
+		for monster_id: String in data.monsters:
+			if data.monsters[monster_id].get("elite", false):
+				ids.append(monster_id)
+	return ids
+
+
+## Chaque élite absente tente d'apparaître toutes les 5 à 6 minutes de jeu.
+func _update_elites(events: Array[Dictionary]) -> void:
+	for elite_id in elite_ids():
+		if _elites.has(elite_id):
+			continue
+		if not _elite_attempts.has(elite_id):
+			_elite_attempts[elite_id] = clock + rng.randf_range(ELITE_SPAWN_DELAY[0], ELITE_SPAWN_DELAY[1])
+		elif _elite_attempts[elite_id] <= clock:
+			_elite_attempts[elite_id] = clock + rng.randf_range(ELITE_SPAWN_DELAY[0], ELITE_SPAWN_DELAY[1])
+			if spawn_elite(elite_id, events):
+				_elite_attempts.erase(elite_id)
+
+
+## Fait apparaître l'élite sur une carte (au hasard) où vit sa famille : dans un nouveau groupe s'il
+## y a moins de ELITE_MAX_GROUPS groupes, sinon à la place d'un monstre d'un groupe (de sa famille
+## de préférence). Faux si c'est impossible pour l'instant (aucune carte, aucune place).
+func spawn_elite(elite_id: String, events: Array[Dictionary] = []) -> bool:
+	if data == null or not data.monsters.has(elite_id) or _elites.has(elite_id):
+		return false
+	var family: String = data.monsters[elite_id].get("famille", "")
+	var candidates: Array[String] = []
+	var ids := map_ids.duplicate()
+	if ids.is_empty() and map != null:
+		ids.append(map.id)  # Liste des cartes inconnue : au moins la carte actuelle.
+	for map_id in ids:
+		var candidate := _load_map(map_id)
+		if candidate == null:
+			continue
+		for group in candidate.groups:
+			if family in GameMap.possible_monsters(group):
+				candidates.append(map_id)
+				break
+	if candidates.is_empty():
+		return false
+	var target_id: String = candidates[rng.randi_range(0, candidates.size() - 1)]
+	var target := _load_map(target_id)
+	var here := map != null and target_id == map.id
+	var states := _groups_of(target_id)
+	var group := {}
+	if states.size() < ELITE_MAX_GROUPS:
+		var cell := _free_cell(target, states, here)
+		if cell == GameMap.NO_CELL:
+			return false
+		var monsters: Array = [elite_id]
+		if rng.randf() < 0.5:
+			monsters.append(family)  # Parfois avec un monstre de sa famille.
+		group = {"id": ELITE_GROUP_PREFIX + elite_id, "case": cell, "foyer": cell, "monstres": monsters,
+			"reapparition": GameMap.DEFAULT_RESPAWN.duplicate()}
+		states[group["id"]] = group
+		if here:
+			_positions[group["id"]] = cell
+	else:
+		var choices: Array = []
+		var family_choices: Array = []
+		for candidate: Dictionary in states.values():
+			if candidate.has("elite") or (here and in_combat() and candidate["id"] == _combat_group):
+				continue
+			choices.append(candidate)
+			if family in candidate["monstres"]:
+				family_choices.append(candidate)
+		if not family_choices.is_empty():
+			choices = family_choices
+		if choices.is_empty():
+			return false
+		group = choices[rng.randi_range(0, choices.size() - 1)]
+		var slot: int = group["monstres"].find(family)
+		group["monstres"][maxi(0, slot)] = elite_id
+	group["elite"] = elite_id
+	group["apparition"] = clock
+	_elites[elite_id] = {"carte": target_id, "groupe": group["id"]}
+	if here:
+		events.append({"type": Protocol.EVT_GROUP_RESPAWNED, "carte": target_id, "groupe": group.duplicate(true)})
+	return true
+
+
+## L'élite a été vaincue : elle pourra réapparaître (5 à 6 minutes plus tard, au plus tôt).
+func _elite_defeated(elite_id: String) -> void:
+	_elites.erase(elite_id)
+	_elite_attempts[elite_id] = clock + rng.randf_range(ELITE_SPAWN_DELAY[0], ELITE_SPAWN_DELAY[1])
+
+
+## Groupes présents sur une carte (créés comme à une première visite si on n'y est jamais allé).
+func _groups_of(map_id: String) -> Dictionary:
+	if map != null and map_id == map.id:
+		return _groups
+	if not _map_states.has(map_id):
+		var groups := {}
+		var source := _load_map(map_id)
+		if source != null:
+			for group in source.groups:
+				groups[group["id"]] = GameMap.compose_group(group, rng)
+		_map_states[map_id] = groups
+	return _map_states[map_id]
+
+
+## Case libre au hasard pour un nouveau groupe : praticable, ni occupée, ni porte, ni bord de
+## sortie, ni derrière un bâtiment. GameMap.NO_CELL s'il n'y en a pas.
+func _free_cell(target: GameMap, states: Dictionary, here: bool) -> Vector2i:
+	var taken := {}
+	for group: Dictionary in states.values():
+		taken[group["case"]] = true
+	if here:
+		for entity_id: String in _positions:
+			taken[_positions[entity_id]] = true
+	var cells: Array[Vector2i] = []
+	for cell: Vector2i in target.cells():
+		if target.is_walkable(cell) and not taken.has(cell) and not target.doors.has(cell) and cell != target.spawn \
+				and target.exit_directions(cell).is_empty() and not target.is_behind_building(cell):
+			cells.append(cell)
+	if cells.is_empty():
+		return GameMap.NO_CELL
+	return cells[rng.randi_range(0, cells.size() - 1)]
 
 
 ## Un PV toutes les REGEN_SECONDS secondes, hors combat.
@@ -1120,8 +1289,17 @@ func save_data() -> Dictionary:
 		var groups: Array = []
 		for group: Dictionary in _map_states[map_id].values():
 			var cell: Vector2i = group["case"]
-			groups.append({"id": group["id"], "case": [cell.x, cell.y], "monstres": group["monstres"].duplicate()})
+			var saved_group := {"id": group["id"], "case": [cell.x, cell.y], "monstres": group["monstres"].duplicate()}
+			if group.has("elite"):
+				var home: Vector2i = group.get("foyer", cell)
+				saved_group["elite"] = group["elite"]
+				saved_group["age"] = clock - float(group["apparition"])
+				saved_group["foyer"] = [home.x, home.y]
+			groups.append(saved_group)
 		remaining[map_id] = groups
+	var attempts := {}
+	for elite_id: String in _elite_attempts:
+		attempts[elite_id] = maxf(0.0, float(_elite_attempts[elite_id]) - clock)
 	var position := position_of(PLAYER_ID)
 	return {
 		"version": SAVE_VERSION,
@@ -1131,6 +1309,7 @@ func save_data() -> Dictionary:
 		"groupes_restants": remaining,
 		"reapparitions": _saved_timers(_respawns),
 		"repousses": _saved_timers(_depleted),
+		"elites": attempts,
 	}
 
 
@@ -1164,7 +1343,40 @@ func _restored_group(saved_map: GameMap, group: Dictionary, saved: Dictionary) -
 		var saved_cell := Vector2i(int(cell[0]), int(cell[1]))
 		if saved_map.is_walkable(saved_cell):
 			restored["case"] = saved_cell
+	_restore_elite_fields(restored, saved)
 	return restored
+
+
+## Groupe d'élite apparu en plus des groupes de la carte, tel qu'il a été sauvegardé ({} si la
+## sauvegarde est incohérente).
+func _restored_elite_group(saved_map: GameMap, group_id: String, saved: Dictionary) -> Dictionary:
+	var cell: Variant = saved.get("case")
+	var monsters: Variant = saved.get("monstres")
+	if not group_id.begins_with(ELITE_GROUP_PREFIX) or typeof(cell) != TYPE_ARRAY or cell.size() != 2 \
+			or typeof(monsters) != TYPE_ARRAY or monsters.is_empty() or monsters.size() > GameMap.MAX_GROUP_SIZE:
+		return {}
+	for monster_id: Variant in monsters:
+		if typeof(monster_id) != TYPE_STRING or (data != null and not data.monsters.has(monster_id)):
+			return {}
+	var saved_cell := Vector2i(int(cell[0]), int(cell[1]))
+	if not saved_map.is_walkable(saved_cell):
+		return {}
+	var group := {"id": group_id, "case": saved_cell, "foyer": saved_cell, "monstres": monsters.duplicate(),
+		"reapparition": GameMap.DEFAULT_RESPAWN.duplicate()}
+	var home: Variant = saved.get("foyer")
+	if typeof(home) == TYPE_ARRAY and home.size() == 2 and saved_map.is_walkable(Vector2i(int(home[0]), int(home[1]))):
+		group["foyer"] = Vector2i(int(home[0]), int(home[1]))
+	_restore_elite_fields(group, saved)
+	return group if group.has("elite") else {}
+
+
+## Reprend l'élite d'un groupe sauvegardé (et son ancienneté) si elle est cohérente.
+func _restore_elite_fields(group: Dictionary, saved: Dictionary) -> void:
+	var elite_id: Variant = saved.get("elite")
+	if typeof(elite_id) != TYPE_STRING or elite_id not in group["monstres"]:
+		return
+	group["elite"] = elite_id
+	group["apparition"] = clock - maxf(0.0, float(saved.get("age", 0.0)))
 
 
 ## Minuteries (réapparitions, repousses) en secondes restantes : id de carte → [[clé, secondes]…],
@@ -1233,6 +1445,15 @@ static func from_save(save: Dictionary, p_data: GameData, p_map_loader: Callable
 			for group in saved_map.groups:
 				if saved_groups.has(group["id"]):
 					groups[group["id"]] = world._restored_group(saved_map, group, saved_groups[group["id"]])
+					saved_groups.erase(group["id"])
+			# Groupes d'élites apparus en plus de ceux de la carte.
+			for group_id: String in saved_groups:
+				var extra := world._restored_elite_group(saved_map, group_id, saved_groups[group_id])
+				if not extra.is_empty():
+					groups[group_id] = extra
+			for group: Dictionary in groups.values():
+				if group.has("elite"):
+					world._elites[group["elite"]] = {"carte": map_id, "groupe": group["id"]}
 			world._map_states[map_id] = groups
 		if world._map_states.has(start_map.id):
 			world._groups = world._map_states[start_map.id]
@@ -1244,6 +1465,11 @@ static func from_save(save: Dictionary, p_data: GameData, p_map_loader: Callable
 			position = cell
 	world._respawns = world._load_timers(save.get("reapparitions"), false)
 	world._depleted = world._load_timers(save.get("repousses"), true)
+	var attempts: Variant = save.get("elites", {})
+	if typeof(attempts) == TYPE_DICTIONARY:
+		for elite_id: Variant in attempts:
+			if typeof(elite_id) == TYPE_STRING and typeof(attempts[elite_id]) in [TYPE_INT, TYPE_FLOAT] and not world._elites.has(elite_id):
+				world._elite_attempts[elite_id] = world.clock + float(attempts[elite_id])
 	world._positions = {PLAYER_ID: position}
 	for group_id: String in world._groups:
 		world._positions[group_id] = world._groups[group_id]["case"]

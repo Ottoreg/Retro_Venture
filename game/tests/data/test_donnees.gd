@@ -277,7 +277,8 @@ func test_un_elite_par_famille_de_monstres() -> void:
 			var rarity: String = game_data.items[drop["objet"]]["rarete"]
 			if rarity != "commun":
 				assert_true(rates.get(drop["objet"], 0.0) > float(drop["taux"]), "%s : « %s » plus fréquent que sur %s" % [monster_id, drop["objet"], family])
-		assert_true(placed.has(monster_id), "%s : présent sur une carte" % monster_id)
+		assert_false(placed.has(monster_id), "%s : pas de groupe fixe, l'élite apparaît d'elle-même" % monster_id)
+		assert_true(placed.has(family), "%s : sa famille vit sur une carte (où l'élite pourra apparaître)" % monster_id)
 	for monster_id: String in game_data.monsters:
 		var monster: Dictionary = game_data.monsters[monster_id]
 		if not monster.get("elite", false) and monster_id != "souverain_cendre":

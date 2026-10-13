@@ -521,3 +521,30 @@ func test_sac_surcharge_pas_de_combat() -> void:
 	window.toggle()
 	assert_true(window._overload.visible, "l'inventaire le signale aussi")
 	scene.free()
+
+
+func test_couronne_d_anciennete_d_une_elite() -> void:
+	var tree := Engine.get_main_loop() as SceneTree
+	var scene: Node = load("res://client/world/world.tscn").instantiate()
+	tree.root.add_child(scene)
+	var view: MapView = scene.get_node("MapView")
+	var world := view.world
+	world.map_ids = [world.map.id]
+	var events: Array[Dictionary] = []
+	assert_true(world.spawn_elite("loup_alpha", events), "le Loup alpha apparaît à Brumerive")
+	for event in events:
+		view._apply_world_change(event)
+	var where := world.elite_location("loup_alpha")
+	var cell: Vector2i = world.group(where["groupe"])["case"]
+	assert_true(view._actors[where["groupe"]]["members"].has("loup_alpha"), "dessiné sur la carte")
+	world.clock += 7 * World.ELITE_RANK_SECONDS + 1.0
+	view._set_hovered(cell)
+	var crown: EliteCrown = scene._hover_crown
+	assert_eq(crown.rank, 7)
+	assert_eq(crown.diamonds(), 5, "5 losanges")
+	assert_eq(crown.triangles(), 2, "puis des triangles au-dessus")
+	assert_true(scene._hover_label.text.contains("Loup alpha (élite)"), scene._hover_label.text)
+	assert_true(scene._hover_label.text.contains("Butin : +70 %"), scene._hover_label.text)
+	view._set_hovered(view.current_map().spawn)
+	assert_false(scene._hover_bubble.visible)
+	scene.free()

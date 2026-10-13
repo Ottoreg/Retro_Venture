@@ -128,8 +128,12 @@ Objectif : **10 à 15 h de jeu solo, niveaux 1 à 30 : 3 zones de départ (une p
 - [x] Groupes qui se promènent sur la carte (quelques pas toutes les 8 à 20 s, à 3 cases au plus de
   leur origine, jamais sur le joueur, une porte, un bord de sortie ou derrière un bâtiment)
 - [x] Un monstre élite par famille (Loup alpha, Frondeur vétéran, Rat-roi, Grouilleur ancestral,
-  Grand cerf de la Lisière, Arbre millénaire) : plus grand, plus fort, butin rare plus fréquent ;
-  deux groupes d'élites sur la deuxième carte de chaque zone
+  Grand cerf de la Lisière, Arbre millénaire) : plus grand, plus fort, butin rare plus fréquent
+- [x] Apparition des élites : tentative toutes les 5 à 6 min de jeu (temps global), sur une carte au
+  hasard de leur famille, nouveau groupe ou remplacement d'un monstre s'il y a 3 groupes ; une seule
+  en vie par espèce ; ancienneté (losanges puis couronne, +10 % de butin par rang, 10 rangs) ;
+  sauvegardées
+- [ ] Ancienneté des élites : passer d'un rang par minute (tests) à un rang par heure
 - [ ] Variantes Corrompues (2 ou 3 pour tester le concept)
 
 ### Équipement et inventaire

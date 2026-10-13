@@ -21,6 +21,7 @@ var _hover_text := ""
 ## Bulle près du curseur : ce qu'on survole (monstres, PNJ, ressources…).
 var _hover_bubble: PanelContainer
 var _hover_label: Label
+var _hover_crown: EliteCrown
 
 
 func _ready() -> void:
@@ -29,6 +30,7 @@ func _ready() -> void:
 	if world == null:
 		_info.text = "Impossible de charger le monde (carte de départ introuvable)."
 		return
+	world.map_ids = DataLoader.map_ids()  # Les élites peuvent apparaître sur toutes les cartes.
 	_map_view.setup(world)
 	_combat_hud.setup(_map_view)
 	_sheet.setup(_map_view)
@@ -186,6 +188,7 @@ func _update_info() -> void:
 	if _hover_bubble == null:
 		_build_hover_bubble()
 	_hover_label.text = _hover_text
+	_hover_crown.rank = _map_view.elite_rank_at(_map_view.hovered_cell())
 	_hover_bubble.visible = not _hover_text.is_empty() and not _hover_text.begins_with("case (")
 	_hover_bubble.reset_size()
 
@@ -203,8 +206,15 @@ func _build_hover_bubble() -> void:
 	style.content_margin_top = 3
 	style.content_margin_bottom = 3
 	_hover_bubble.add_theme_stylebox_override("panel", style)
+	var column := VBoxContainer.new()
+	column.add_theme_constant_override("separation", 2)
+	_hover_bubble.add_child(column)
+	_hover_crown = EliteCrown.new()
+	_hover_crown.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	_hover_crown.rank = 0
+	column.add_child(_hover_crown)
 	_hover_label = Label.new()
 	_hover_label.add_theme_font_size_override("font_size", 14)
 	_hover_label.add_theme_color_override("font_color", Color(0.95, 0.92, 0.85))
-	_hover_bubble.add_child(_hover_label)
+	column.add_child(_hover_label)
 	_info.get_parent().add_child(_hover_bubble)

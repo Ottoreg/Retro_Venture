@@ -210,6 +210,10 @@ a au moins deux fois plus de PV, un sort d'attaque en plus, et lâche plus souve
 de sa famille. Il est dessiné plus grand, avec un halo doré, et « (élite) » suit son nom au survol.
 Chaque famille de monstres (sauf le Souverain Cendré) a son élite.
 
+Les élites ne se placent pas dans les `groupes` des cartes : le monde les fait apparaître lui-même
+(voir `World` : toutes les 5 à 6 minutes de jeu, sur une carte au hasard où vit leur famille, une
+seule en vie par espèce, avec un rang d'ancienneté qui augmente leur butin).
+
 ## Voies / classes (`voies/`)
 
 ```json
