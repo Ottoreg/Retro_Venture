@@ -1,0 +1,18 @@
+{
+  "id": "anneau_pyromane_repenti",
+  "nom": "Anneau du Pyromane Repenti",
+  "type": "anneau",
+  "rarete": "commun",
+  "niveau": 3,
+  "description": "Il a juré de ne plus rien brûler. Ses vêtements, eux, n'ont rien juré.",
+  "bonus": {
+    "intelligence": [
+      3,
+      6
+    ],
+    "vitalite": [
+      3,
+      6
+    ]
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "id": "cape_forgeron_hargneux",
+  "nom": "Cape du Forgeron Hargneux",
+  "type": "cape",
+  "rarete": "commun",
+  "niveau": 3,
+  "description": "Coulé dans la même fonte que l'enclume du forgeron. Et dans la même humeur.",
+  "bonus": {
+    "force": [
+      4,
+      7
+    ],
+    "sagesse": [
+      2,
+      4
+    ]
+  }
+}

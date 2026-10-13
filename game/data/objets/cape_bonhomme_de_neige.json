@@ -1,0 +1,18 @@
+{
+  "id": "cape_bonhomme_de_neige",
+  "nom": "Cape du Bonhomme de Neige",
+  "type": "cape",
+  "rarete": "commun",
+  "niveau": 3,
+  "description": "Frais toute l'année. Ne pas porter près d'un feu de camp, ni d'un pyromane, même repenti.",
+  "bonus": {
+    "chance": [
+      4,
+      7
+    ],
+    "sagesse": [
+      2,
+      4
+    ]
+  }
+}

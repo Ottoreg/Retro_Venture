@@ -1,0 +1,18 @@
+{
+  "id": "bottes_bonhomme_de_neige",
+  "nom": "Bottes du Bonhomme de Neige",
+  "type": "bottes",
+  "rarete": "commun",
+  "niveau": 3,
+  "description": "Frais toute l'année. Ne pas porter près d'un feu de camp, ni d'un pyromane, même repenti.",
+  "bonus": {
+    "chance": [
+      3,
+      6
+    ],
+    "initiative": [
+      5,
+      10
+    ]
+  }
+}

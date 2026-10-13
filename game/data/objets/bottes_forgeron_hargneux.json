@@ -1,0 +1,18 @@
+{
+  "id": "bottes_forgeron_hargneux",
+  "nom": "Bottes du Forgeron Hargneux",
+  "type": "bottes",
+  "rarete": "commun",
+  "niveau": 3,
+  "description": "Coulé dans la même fonte que l'enclume du forgeron. Et dans la même humeur.",
+  "bonus": {
+    "force": [
+      3,
+      6
+    ],
+    "initiative": [
+      5,
+      10
+    ]
+  }
+}

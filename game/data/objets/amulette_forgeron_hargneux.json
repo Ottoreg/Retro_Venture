@@ -1,0 +1,14 @@
+{
+  "id": "amulette_forgeron_hargneux",
+  "nom": "Amulette du Forgeron Hargneux",
+  "type": "amulette",
+  "rarete": "commun",
+  "niveau": 3,
+  "description": "Coulé dans la même fonte que l'enclume du forgeron. Et dans la même humeur.",
+  "bonus": {
+    "force": [
+      6,
+      10
+    ]
+  }
+}

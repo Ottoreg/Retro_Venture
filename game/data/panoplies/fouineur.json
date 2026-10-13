@@ -1,0 +1,19 @@
+{
+  "id": "fouineur",
+  "nom": "Panoplie du Fouineur",
+  "orientation": "Prospection",
+  "objets": [
+    "coiffe_fouineur",
+    "amulette_fouineur",
+    "cape_fouineur"
+  ],
+  "bonus": {
+    "2": {
+      "prospection": 20
+    },
+    "3": {
+      "prospection": 50,
+      "chance": 10
+    }
+  }
+}

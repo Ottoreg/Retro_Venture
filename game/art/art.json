@@ -1017,6 +1017,300 @@
         22,
         22
       ]
+    },
+    "objet_coiffe_forgeron_hargneux": {
+      "fichier": "objets/coiffe_forgeron_hargneux.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_cape_forgeron_hargneux": {
+      "fichier": "objets/cape_forgeron_hargneux.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_amulette_forgeron_hargneux": {
+      "fichier": "objets/amulette_forgeron_hargneux.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_anneau_forgeron_hargneux": {
+      "fichier": "objets/anneau_forgeron_hargneux.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_ceinture_forgeron_hargneux": {
+      "fichier": "objets/ceinture_forgeron_hargneux.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_bottes_forgeron_hargneux": {
+      "fichier": "objets/bottes_forgeron_hargneux.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_coiffe_pyromane_repenti": {
+      "fichier": "objets/coiffe_pyromane_repenti.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_cape_pyromane_repenti": {
+      "fichier": "objets/cape_pyromane_repenti.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_amulette_pyromane_repenti": {
+      "fichier": "objets/amulette_pyromane_repenti.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_anneau_pyromane_repenti": {
+      "fichier": "objets/anneau_pyromane_repenti.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_ceinture_pyromane_repenti": {
+      "fichier": "objets/ceinture_pyromane_repenti.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_bottes_pyromane_repenti": {
+      "fichier": "objets/bottes_pyromane_repenti.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_coiffe_bonhomme_de_neige": {
+      "fichier": "objets/coiffe_bonhomme_de_neige.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_cape_bonhomme_de_neige": {
+      "fichier": "objets/cape_bonhomme_de_neige.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_amulette_bonhomme_de_neige": {
+      "fichier": "objets/amulette_bonhomme_de_neige.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_anneau_bonhomme_de_neige": {
+      "fichier": "objets/anneau_bonhomme_de_neige.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_ceinture_bonhomme_de_neige": {
+      "fichier": "objets/ceinture_bonhomme_de_neige.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_bottes_bonhomme_de_neige": {
+      "fichier": "objets/bottes_bonhomme_de_neige.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_coiffe_courant_d_air": {
+      "fichier": "objets/coiffe_courant_d_air.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_cape_courant_d_air": {
+      "fichier": "objets/cape_courant_d_air.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_amulette_courant_d_air": {
+      "fichier": "objets/amulette_courant_d_air.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_anneau_courant_d_air": {
+      "fichier": "objets/anneau_courant_d_air.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_ceinture_courant_d_air": {
+      "fichier": "objets/ceinture_courant_d_air.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_bottes_courant_d_air": {
+      "fichier": "objets/bottes_courant_d_air.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_coiffe_enfant_de_choeur": {
+      "fichier": "objets/coiffe_enfant_de_choeur.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_cape_enfant_de_choeur": {
+      "fichier": "objets/cape_enfant_de_choeur.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_amulette_enfant_de_choeur": {
+      "fichier": "objets/amulette_enfant_de_choeur.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_anneau_enfant_de_choeur": {
+      "fichier": "objets/anneau_enfant_de_choeur.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_ceinture_enfant_de_choeur": {
+      "fichier": "objets/ceinture_enfant_de_choeur.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_bottes_enfant_de_choeur": {
+      "fichier": "objets/bottes_enfant_de_choeur.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_coiffe_mauvais_oeil": {
+      "fichier": "objets/coiffe_mauvais_oeil.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_cape_mauvais_oeil": {
+      "fichier": "objets/cape_mauvais_oeil.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_amulette_mauvais_oeil": {
+      "fichier": "objets/amulette_mauvais_oeil.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_anneau_mauvais_oeil": {
+      "fichier": "objets/anneau_mauvais_oeil.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_ceinture_mauvais_oeil": {
+      "fichier": "objets/ceinture_mauvais_oeil.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_bottes_mauvais_oeil": {
+      "fichier": "objets/bottes_mauvais_oeil.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_anneau_presse": {
+      "fichier": "objets/anneau_presse.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_bottes_presse": {
+      "fichier": "objets/bottes_presse.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_ceinture_presse": {
+      "fichier": "objets/ceinture_presse.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_coiffe_fouineur": {
+      "fichier": "objets/coiffe_fouineur.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_amulette_fouineur": {
+      "fichier": "objets/amulette_fouineur.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_cape_fouineur": {
+      "fichier": "objets/cape_fouineur.svgt",
+      "ancre": [
+        22,
+        22
+      ]
     }
   },
   "personnages": {

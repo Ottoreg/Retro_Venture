@@ -1,0 +1,22 @@
+{
+  "id": "anneau_enfant_de_choeur",
+  "nom": "Anneau de l'Enfant de Chœur",
+  "type": "anneau",
+  "rarete": "commun",
+  "niveau": 3,
+  "description": "Immaculé, béni, repassé. On se demande comment il reste aussi propre en combat.",
+  "bonus": {
+    "force": [
+      1,
+      3
+    ],
+    "intelligence": [
+      1,
+      3
+    ],
+    "vitalite": [
+      3,
+      6
+    ]
+  }
+}

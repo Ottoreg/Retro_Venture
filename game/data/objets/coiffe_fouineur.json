@@ -1,0 +1,18 @@
+{
+  "id": "coiffe_fouineur",
+  "nom": "Coiffe du Fouineur",
+  "type": "coiffe",
+  "rarete": "commun",
+  "niveau": 3,
+  "description": "Il trouve toujours quelque chose. Parfois même ce qu'il cherchait.",
+  "bonus": {
+    "prospection": [
+      10,
+      20
+    ],
+    "chance": [
+      2,
+      4
+    ]
+  }
+}

@@ -75,25 +75,33 @@ func stat(stat_name: String, data: GameData = null) -> int:
 	var total := int(invested.get(stat_name, 0)) + inventory.bonus(stat_name)
 	if data != null and data.races.has(race_id):
 		total += int(data.races[race_id].get("bonus", {}).get(stat_name, 0))
-	return total
+	return total + set_bonus(stat_name, data)
 
 
-## Bonus d'équipement hors caractéristiques : prospection, initiative, portee, pa, pm.
-func extra(stat_name: String) -> int:
-	return inventory.bonus(stat_name)
+## Bonus d'équipement hors caractéristiques : prospection, initiative, portee, pa, pm, dommages
+## (jets des objets portés, plus les bonus de panoplie si `data` est fourni).
+func extra(stat_name: String, data: GameData = null) -> int:
+	return inventory.bonus(stat_name) + set_bonus(stat_name, data)
+
+
+## Bonus de panoplie actif pour cette stat (0 sans données).
+func set_bonus(stat_name: String, data: GameData) -> int:
+	if data == null or data.sets.is_empty():
+		return 0
+	return int(data.set_bonuses(inventory).get(stat_name, 0))
 
 
 ## Prospection : 100 + Chance / 10 + équipement. Augmente les chances de butin.
 @warning_ignore("integer_division")
 func prospection(data: GameData = null) -> int:
-	return BASE_PROSPECTION + stat("chance", data) / 10 + extra("prospection")
+	return BASE_PROSPECTION + stat("chance", data) / 10 + extra("prospection", data)
 
 
 ## Initiative : base de la Voie + Force, Intelligence, Chance et Agilité + équipement. Décide de
 ## l'ordre de jeu en combat.
 func initiative(data: GameData = null) -> int:
 	var voie: Dictionary = data.voies.get(voie_id, {}) if data != null else {}
-	var total := int(voie.get("caracteristiques", {}).get("initiative", 0)) + extra("initiative")
+	var total := int(voie.get("caracteristiques", {}).get("initiative", 0)) + extra("initiative", data)
 	for stat_name in INITIATIVE_STATS:
 		total += stat(stat_name, data)
 	return total
@@ -188,10 +196,10 @@ func sheet(data: GameData) -> Dictionary:
 		"pv_max": max_hp(data),
 		"pv": hp(data),
 		"prospection": prospection(data),
-		"dommages": extra("dommages"),
+		"dommages": extra("dommages", data),
 		"initiative": initiative(data),
-		"pa": int(voie.get("caracteristiques", {}).get("pa", 0)) + extra("pa"),
-		"pm": int(voie.get("caracteristiques", {}).get("pm", 0)) + extra("pm"),
+		"pa": int(voie.get("caracteristiques", {}).get("pa", 0)) + extra("pa", data),
+		"pm": int(voie.get("caracteristiques", {}).get("pm", 0)) + extra("pm", data),
 		"ecus": inventory.ecus,
 		"metiers": jobs_sheet(data),
 	}

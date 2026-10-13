@@ -1,0 +1,18 @@
+{
+  "id": "anneau_forgeron_hargneux",
+  "nom": "Anneau du Forgeron Hargneux",
+  "type": "anneau",
+  "rarete": "commun",
+  "niveau": 3,
+  "description": "Coulé dans la même fonte que l'enclume du forgeron. Et dans la même humeur.",
+  "bonus": {
+    "force": [
+      3,
+      6
+    ],
+    "vitalite": [
+      3,
+      6
+    ]
+  }
+}

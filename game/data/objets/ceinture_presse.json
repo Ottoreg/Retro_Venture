@@ -1,0 +1,18 @@
+{
+  "id": "ceinture_presse",
+  "nom": "Ceinture du Pressé",
+  "type": "ceinture",
+  "rarete": "commun",
+  "niveau": 3,
+  "description": "Toujours le premier, jamais à l'heure.",
+  "bonus": {
+    "initiative": [
+      10,
+      20
+    ],
+    "dommages": [
+      1,
+      2
+    ]
+  }
+}

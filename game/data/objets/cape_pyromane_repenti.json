@@ -1,0 +1,18 @@
+{
+  "id": "cape_pyromane_repenti",
+  "nom": "Cape du Pyromane Repenti",
+  "type": "cape",
+  "rarete": "commun",
+  "niveau": 3,
+  "description": "Il a juré de ne plus rien brûler. Ses vêtements, eux, n'ont rien juré.",
+  "bonus": {
+    "intelligence": [
+      4,
+      7
+    ],
+    "sagesse": [
+      2,
+      4
+    ]
+  }
+}

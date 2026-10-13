@@ -283,3 +283,33 @@ func test_un_elite_par_famille_de_monstres() -> void:
 		var monster: Dictionary = game_data.monsters[monster_id]
 		if not monster.get("elite", false) and monster_id != "souverain_cendre":
 			assert_true(elite_of.has(monster_id), "famille « %s » : il lui faut un élite" % monster_id)
+
+
+func test_panoplies_de_l_alpha_test() -> void:
+	var data := GameData.load_all()
+	var elemental := ["forgeron_hargneux", "pyromane_repenti", "bonhomme_de_neige", "courant_d_air", "enfant_de_choeur", "mauvais_oeil"]
+	for set_id in elemental + ["presse", "fouineur"]:
+		assert_true(data.sets.has(set_id), "panoplie « %s »" % set_id)
+	for set_id: String in data.sets:
+		var panoply: Dictionary = data.sets[set_id]
+		var expected := 6 if set_id in elemental else 3
+		assert_eq(panoply["objets"].size(), expected, "%s : %d pièces" % [set_id, expected])
+		var slots := {}
+		for item_id: String in panoply["objets"]:
+			slots[data.items[item_id]["type"]] = true
+		assert_eq(slots.size(), expected, "%s : une pièce par emplacement" % set_id)
+		# Le bonus grandit avec le nombre de pièces : chaque palier donne au moins autant que le précédent.
+		var previous := {}
+		for count in range(2, expected + 1):
+			var tier := data.set_tier(set_id, count)
+			assert_false(tier.is_empty(), "%s : bonus à %d pièces" % [set_id, count])
+			for stat: String in previous:
+				assert_true(int(tier.get(stat, 0)) >= int(previous[stat]), "%s : %s ne baisse pas à %d pièces" % [set_id, stat, count])
+			previous = tier
+	# Les panoplies de 3 pièces se mélangent : Pressé et Fouineur n'ont aucun emplacement en commun.
+	var used := {}
+	for set_id in ["presse", "fouineur"]:
+		for item_id: String in data.sets[set_id]["objets"]:
+			var slot: String = data.items[item_id]["type"]
+			assert_false(used.has(slot), "emplacement « %s » partagé" % slot)
+			used[slot] = true

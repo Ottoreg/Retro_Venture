@@ -1,0 +1,18 @@
+{
+  "id": "anneau_courant_d_air",
+  "nom": "Anneau du Courant d'Air",
+  "type": "anneau",
+  "rarete": "commun",
+  "niveau": 3,
+  "description": "On ne le voit pas arriver. On le sent passer, surtout dans le dos.",
+  "bonus": {
+    "agilite": [
+      3,
+      6
+    ],
+    "vitalite": [
+      3,
+      6
+    ]
+  }
+}

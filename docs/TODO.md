@@ -154,13 +154,14 @@ Objectif : **10 à 15 h de jeu solo, niveaux 1 à 30 : 3 zones de départ (une p
 - [x] **(MVP)** Conditions d'équipement (niveau, caractéristiques ; pas deux objets identiques)
 - [x] **(MVP)** Armes utilisables en combat (attaque de l'arme dans la barre de sorts)
 - [x] Jets aléatoires de statistiques
-- [ ] Plus d'objets (22 équipements aujourd'hui) pour couvrir les niveaux 1 à 30
-- [ ] **(MVP alpha test)** Système de panoplies : bonus de panoplie qui grandit avec le nombre de
-  pièces équipées, affiché dans l'inventaire (pièces portées / bonus actifs)
-- [ ] **(MVP alpha test)** Six panoplies élémentaires de 6 pièces (coiffe, cape, amulette, anneau,
+- [ ] Plus d'objets (64 équipements aujourd'hui) pour couvrir les niveaux 1 à 30
+- [x] **(MVP alpha test)** Système de panoplies : bonus de panoplie qui grandit avec le nombre de
+  pièces équipées, affiché dans l'inventaire et chez le marchand (pièces portées / palier actif)
+- [x] **(MVP alpha test)** Six panoplies élémentaires de 6 pièces (coiffe, cape, amulette, anneau,
   ceinture, bottes) : Acier, Flamme, Givre, Tempête, Sacré, Impie (GDD § 9.3)
-- [ ] **(MVP alpha test)** Panoplie Initiative et Dommages (3 pièces) et panoplie Prospection
+- [x] **(MVP alpha test)** Panoplie Initiative et Dommages (3 pièces) et panoplie Prospection
   (3 pièces), à mélanger avec une panoplie élémentaire incomplète
+- [ ] Équilibrer les panoplies après les retours de test (prix, niveau, paliers)
 - [ ] Recettes de forgeron et/ou butin pour obtenir ces panoplies
 - [ ] Équipement visible sur le personnage (coiffe, cape, arme)
 - [x] Marchands PNJ (achat / vente) : Barlimon (Brumerive), Zogrub (Crasse-Roc) et Lindorë (Sylvebrume) vendent tous les objets, prix selon la rareté, revente à 25 %

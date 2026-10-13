@@ -1,0 +1,38 @@
+{
+  "id": "forgeron_hargneux",
+  "nom": "Panoplie du Forgeron Hargneux",
+  "orientation": "acier",
+  "objets": [
+    "coiffe_forgeron_hargneux",
+    "cape_forgeron_hargneux",
+    "amulette_forgeron_hargneux",
+    "anneau_forgeron_hargneux",
+    "ceinture_forgeron_hargneux",
+    "bottes_forgeron_hargneux"
+  ],
+  "bonus": {
+    "2": {
+      "force": 10
+    },
+    "3": {
+      "force": 20,
+      "dommages": 2
+    },
+    "4": {
+      "force": 30,
+      "dommages": 4,
+      "vitalite": 20
+    },
+    "5": {
+      "force": 40,
+      "dommages": 6,
+      "vitalite": 30
+    },
+    "6": {
+      "force": 50,
+      "dommages": 8,
+      "vitalite": 40,
+      "pa": 1
+    }
+  }
+}

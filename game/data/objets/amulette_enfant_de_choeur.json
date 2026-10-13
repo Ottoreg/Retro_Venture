@@ -1,0 +1,18 @@
+{
+  "id": "amulette_enfant_de_choeur",
+  "nom": "Amulette de l'Enfant de Chœur",
+  "type": "amulette",
+  "rarete": "commun",
+  "niveau": 3,
+  "description": "Immaculé, béni, repassé. On se demande comment il reste aussi propre en combat.",
+  "bonus": {
+    "force": [
+      3,
+      5
+    ],
+    "intelligence": [
+      3,
+      5
+    ]
+  }
+}

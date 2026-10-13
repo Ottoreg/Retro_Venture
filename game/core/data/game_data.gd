@@ -23,6 +23,10 @@ var nodes: Dictionary = {}
 var recipes: Dictionary = {}
 ## Pierres de Passage : id → { id, nom, carte } (on voyage de l'une à l'autre).
 var passages: Dictionary = {}
+## Panoplies : id → { id, nom, objets: Array (ids), bonus: { nombre de pièces (texte) → { stat: valeur } } }.
+var sets: Dictionary = {}
+## id d'objet → id de sa panoplie.
+var item_sets: Dictionary = {}
 
 const STARTING_ECUS := 20
 
@@ -35,12 +39,12 @@ const PASSIVE_EFFECTS := ["portee", "xp_metier"]
 static func load_all(root := DATA_ROOT) -> GameData:
 	return from_dicts(_read_folder(root.path_join("sorts")), _read_folder(root.path_join("monstres")),
 		_read_folder(root.path_join("voies")), _read_folder(root.path_join("races")), _read_folder(root.path_join("objets")),
-		_read_folder(root.path_join("metiers")), _read_folder(root.path_join("passages")))
+		_read_folder(root.path_join("metiers")), _read_folder(root.path_join("passages")), _read_folder(root.path_join("panoplies")))
 
 
 ## Construit le contenu à partir de données déjà lues (utile pour les tests).
 static func from_dicts(spell_list: Array, monster_list: Array, voie_list: Array, race_list: Array = [], item_list: Array = [],
-		job_list: Array = [], passage_list: Array = []) -> GameData:
+		job_list: Array = [], passage_list: Array = [], set_list: Array = []) -> GameData:
 	var data := GameData.new()
 	for raw: Variant in item_list:
 		var errors := Item.validate(raw) if typeof(raw) == TYPE_DICTIONARY else PackedStringArray(["objet attendu"])
@@ -72,7 +76,83 @@ static func from_dicts(spell_list: Array, monster_list: Array, voie_list: Array,
 		var errors := validate_passage(raw) if typeof(raw) == TYPE_DICTIONARY else PackedStringArray(["objet attendu"])
 		if _report("pierre de passage", raw, errors):
 			data.passages[raw["id"]] = raw
+	for raw: Variant in set_list:
+		var errors := data.validate_set(raw) if typeof(raw) == TYPE_DICTIONARY else PackedStringArray(["objet attendu"])
+		if _report("panoplie", raw, errors):
+			data.sets[raw["id"]] = raw
+			for item_id: String in raw["objets"]:
+				data.item_sets[item_id] = raw["id"]
 	return data
+
+
+## Panoplie : au moins deux équipements connus, chacun dans une seule panoplie ; bonus par nombre de
+## pièces portées (de 2 au nombre de pièces), en caractéristiques ou bonus d'équipement.
+func validate_set(data: Dictionary) -> PackedStringArray:
+	var errors: PackedStringArray = []
+	for key in ["id", "nom"]:
+		if typeof(data.get(key)) != TYPE_STRING or str(data.get(key)).is_empty():
+			errors.append("« %s » doit être un texte non vide" % key)
+	var pieces: Variant = data.get("objets")
+	if typeof(pieces) != TYPE_ARRAY or pieces.size() < 2:
+		errors.append("« objets » doit lister au moins deux équipements")
+		return errors
+	var seen := {}
+	for item_id: Variant in pieces:
+		if typeof(item_id) != TYPE_STRING or not items.has(item_id) or not Item.is_equipment(items[item_id]):
+			errors.append("objet de panoplie inconnu ou qui n'est pas un équipement : %s" % str(item_id))
+		elif seen.has(item_id) or item_sets.has(item_id):
+			errors.append("« %s » est déjà dans une panoplie" % item_id)
+		seen[item_id] = true
+	var tiers: Variant = data.get("bonus")
+	if typeof(tiers) != TYPE_DICTIONARY or tiers.is_empty():
+		errors.append("« bonus » doit être un objet { nombre de pièces: { stat: valeur } }")
+		return errors
+	for count: Variant in tiers:
+		if not str(count).is_valid_int() or int(str(count)) < 2 or int(str(count)) > pieces.size():
+			errors.append("bonus : « %s » doit être un nombre de pièces entre 2 et %d" % [str(count), pieces.size()])
+		elif typeof(tiers[count]) != TYPE_DICTIONARY:
+			errors.append("bonus %s : objet { stat: valeur } attendu" % str(count))
+		else:
+			for stat: Variant in tiers[count]:
+				if stat not in Item.bonus_stats() or typeof(tiers[count][stat]) not in [TYPE_INT, TYPE_FLOAT]:
+					errors.append("bonus %s : « %s » n'est pas un bonus possible" % [str(count), str(stat)])
+	return errors
+
+
+## Bonus de panoplie actif pour ce nombre de pièces portées : le palier le plus haut atteint ({} sous 2).
+func set_tier(set_id: String, worn: int) -> Dictionary:
+	var best := {}
+	var best_count := 0
+	var tiers: Dictionary = sets.get(set_id, {}).get("bonus", {})
+	for count: Variant in tiers:
+		var needed := int(str(count))
+		if needed <= worn and needed > best_count:
+			best_count = needed
+			best = tiers[count]
+	return best
+
+
+## Pièces portées par panoplie : id de panoplie → nombre.
+func worn_sets(inventory: Inventory) -> Dictionary:
+	var counts := {}
+	var counted := {}
+	for uid: String in inventory.equipped.values():
+		var item_id: String = inventory.entries[uid]["objet"]
+		if item_sets.has(item_id) and not counted.has(item_id):
+			counted[item_id] = true
+			counts[item_sets[item_id]] = int(counts.get(item_sets[item_id], 0)) + 1
+	return counts
+
+
+## Total des bonus de panoplie actifs d'un inventaire : stat → valeur.
+func set_bonuses(inventory: Inventory) -> Dictionary:
+	var totals := {}
+	var counts := worn_sets(inventory)
+	for set_id: String in counts:
+		var tier := set_tier(set_id, counts[set_id])
+		for stat: String in tier:
+			totals[stat] = int(totals.get(stat, 0)) + int(tier[stat])
+	return totals
 
 
 static func validate_passage(data: Dictionary) -> PackedStringArray:
@@ -242,13 +322,13 @@ func create_character_fighter(character: Character, fighter_id: String) -> Fight
 	if str(passive_effect.get("type")) == "portee":
 		fighter.range_bonus = int(passive_effect["valeur"])
 	# Équipement : bonus hors caractéristiques et attaque de l'arme.
-	fighter.max_pa += character.extra("pa")
+	fighter.max_pa += character.extra("pa", self)
 	fighter.pa = fighter.max_pa
-	fighter.max_pm += character.extra("pm")
+	fighter.max_pm += character.extra("pm", self)
 	fighter.pm = fighter.max_pm
-	fighter.range_bonus += character.extra("portee")
+	fighter.range_bonus += character.extra("portee", self)
 	fighter.prospection = character.prospection(self)
-	fighter.dommages = character.extra("dommages")
+	fighter.dommages = character.extra("dommages", self)
 	var weapon := character.inventory.equipped_entry("arme")
 	if not weapon.is_empty() and items.has(weapon["objet"]):
 		fighter.spells.insert(0, Spell.from_dict(Item.weapon_spell_data(items[weapon["objet"]])))

@@ -109,6 +109,16 @@ func test_fenetre_d_inventaire() -> void:
 	window._input(ctrl)
 	assert_false(window._details.text.contains("Jets possibles"), "Ctrl relâché : retour aux jets de l'objet")
 
+	# Objet de panoplie : la panoplie, les pièces portées et les paliers dans le détail.
+	var template: Dictionary = view.world.data.items["amulette_pyromane_repenti"]
+	var amulet := inventory.add(template, 1, Item.roll_bonuses(template, RandomNumberGenerator.new()))
+	window._selected = amulet
+	window.refresh()
+	assert_true(window._details.text.contains("Panoplie du Pyromane Repenti — 0 / 6"), window._details.text)
+	view.world.character.add_xp(500)  # Niveau 3 requis.
+	window._on_equip_pressed()
+	assert_true(window._details.text.contains("Panoplie du Pyromane Repenti — 1 / 6"), window._details.text)
+
 	# Un objet ramassé apparaît dans la liste.
 	inventory.add(view.world.data.items["croc_de_loup"], 3)
 	window.refresh()

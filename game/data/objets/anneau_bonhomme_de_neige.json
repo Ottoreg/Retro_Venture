@@ -1,0 +1,18 @@
+{
+  "id": "anneau_bonhomme_de_neige",
+  "nom": "Anneau du Bonhomme de Neige",
+  "type": "anneau",
+  "rarete": "commun",
+  "niveau": 3,
+  "description": "Frais toute l'année. Ne pas porter près d'un feu de camp, ni d'un pyromane, même repenti.",
+  "bonus": {
+    "chance": [
+      3,
+      6
+    ],
+    "vitalite": [
+      3,
+      6
+    ]
+  }
+}

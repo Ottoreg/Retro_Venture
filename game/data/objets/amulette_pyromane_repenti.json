@@ -1,0 +1,14 @@
+{
+  "id": "amulette_pyromane_repenti",
+  "nom": "Amulette du Pyromane Repenti",
+  "type": "amulette",
+  "rarete": "commun",
+  "niveau": 3,
+  "description": "Il a juré de ne plus rien brûler. Ses vêtements, eux, n'ont rien juré.",
+  "bonus": {
+    "intelligence": [
+      6,
+      10
+    ]
+  }
+}

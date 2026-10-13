@@ -1,0 +1,20 @@
+{
+  "id": "presse",
+  "nom": "Panoplie du Pressé",
+  "orientation": "Initiative et Dommages",
+  "objets": [
+    "anneau_presse",
+    "bottes_presse",
+    "ceinture_presse"
+  ],
+  "bonus": {
+    "2": {
+      "initiative": 20,
+      "dommages": 2
+    },
+    "3": {
+      "initiative": 50,
+      "dommages": 5
+    }
+  }
+}

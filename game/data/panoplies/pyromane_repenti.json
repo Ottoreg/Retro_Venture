@@ -1,0 +1,38 @@
+{
+  "id": "pyromane_repenti",
+  "nom": "Panoplie du Pyromane Repenti",
+  "orientation": "flamme",
+  "objets": [
+    "coiffe_pyromane_repenti",
+    "cape_pyromane_repenti",
+    "amulette_pyromane_repenti",
+    "anneau_pyromane_repenti",
+    "ceinture_pyromane_repenti",
+    "bottes_pyromane_repenti"
+  ],
+  "bonus": {
+    "2": {
+      "intelligence": 10
+    },
+    "3": {
+      "intelligence": 20,
+      "dommages": 2
+    },
+    "4": {
+      "intelligence": 30,
+      "dommages": 4,
+      "vitalite": 20
+    },
+    "5": {
+      "intelligence": 40,
+      "dommages": 6,
+      "vitalite": 30
+    },
+    "6": {
+      "intelligence": 50,
+      "dommages": 8,
+      "vitalite": 40,
+      "pa": 1
+    }
+  }
+}

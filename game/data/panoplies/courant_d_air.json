@@ -1,0 +1,38 @@
+{
+  "id": "courant_d_air",
+  "nom": "Panoplie du Courant d'Air",
+  "orientation": "tempete",
+  "objets": [
+    "coiffe_courant_d_air",
+    "cape_courant_d_air",
+    "amulette_courant_d_air",
+    "anneau_courant_d_air",
+    "ceinture_courant_d_air",
+    "bottes_courant_d_air"
+  ],
+  "bonus": {
+    "2": {
+      "agilite": 10
+    },
+    "3": {
+      "agilite": 20,
+      "dommages": 2
+    },
+    "4": {
+      "agilite": 30,
+      "dommages": 4,
+      "vitalite": 20
+    },
+    "5": {
+      "agilite": 40,
+      "dommages": 6,
+      "vitalite": 30
+    },
+    "6": {
+      "agilite": 50,
+      "dommages": 8,
+      "vitalite": 40,
+      "pa": 1
+    }
+  }
+}

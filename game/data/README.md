@@ -254,6 +254,26 @@ seule en vie par espèce, avec un rang d'ancienneté qui augmente leur butin).
 | `conditions` | Caractéristiques minimales pour l'équiper (optionnel) |
 | `attaque` | Armes seulement : attaque utilisable en combat, décrite comme un sort |
 
+## Panoplies (`panoplies/`)
+
+```json
+{
+  "id": "pyromane_repenti",
+  "nom": "Panoplie du Pyromane Repenti",
+  "orientation": "flamme",
+  "objets": ["coiffe_pyromane_repenti", "cape_pyromane_repenti", "…"],
+  "bonus": {
+    "2": {"intelligence": 10},
+    "3": {"intelligence": 20, "dommages": 2}
+  }
+}
+```
+
+`objets` : au moins deux équipements, chacun dans une seule panoplie. `bonus` : par nombre de
+pièces portées (de 2 au nombre de pièces), les bonus du palier (mêmes clés que le `bonus` des objets,
+valeurs fixes). Le palier le plus haut atteint s'applique seul : il doit reprendre ce que donnaient
+les précédents. `orientation` sert à l'affichage.
+
 ## Butin des monstres
 
 Dans chaque monstre : `butin` (liste) et `ecus` (`[min, max]`).

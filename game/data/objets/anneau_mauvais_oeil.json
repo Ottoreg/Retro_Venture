@@ -1,0 +1,22 @@
+{
+  "id": "anneau_mauvais_oeil",
+  "nom": "Anneau du Mauvais Œil",
+  "type": "anneau",
+  "rarete": "commun",
+  "niveau": 3,
+  "description": "Porte malheur à tout le monde, sauf à son propriétaire. Pour l'instant.",
+  "bonus": {
+    "agilite": [
+      1,
+      3
+    ],
+    "chance": [
+      1,
+      3
+    ],
+    "vitalite": [
+      3,
+      6
+    ]
+  }
+}

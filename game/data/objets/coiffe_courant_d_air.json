@@ -1,0 +1,18 @@
+{
+  "id": "coiffe_courant_d_air",
+  "nom": "Coiffe du Courant d'Air",
+  "type": "coiffe",
+  "rarete": "commun",
+  "niveau": 3,
+  "description": "On ne le voit pas arriver. On le sent passer, surtout dans le dos.",
+  "bonus": {
+    "agilite": [
+      5,
+      8
+    ],
+    "vitalite": [
+      5,
+      10
+    ]
+  }
+}

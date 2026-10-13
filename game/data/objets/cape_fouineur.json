@@ -1,0 +1,18 @@
+{
+  "id": "cape_fouineur",
+  "nom": "Cape du Fouineur",
+  "type": "cape",
+  "rarete": "commun",
+  "niveau": 3,
+  "description": "Il trouve toujours quelque chose. Parfois même ce qu'il cherchait.",
+  "bonus": {
+    "prospection": [
+      10,
+      20
+    ],
+    "sagesse": [
+      2,
+      4
+    ]
+  }
+}

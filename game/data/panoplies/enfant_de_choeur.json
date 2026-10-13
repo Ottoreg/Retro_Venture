@@ -1,0 +1,43 @@
+{
+  "id": "enfant_de_choeur",
+  "nom": "Panoplie de l'Enfant de Chœur",
+  "orientation": "sacre",
+  "objets": [
+    "coiffe_enfant_de_choeur",
+    "cape_enfant_de_choeur",
+    "amulette_enfant_de_choeur",
+    "anneau_enfant_de_choeur",
+    "ceinture_enfant_de_choeur",
+    "bottes_enfant_de_choeur"
+  ],
+  "bonus": {
+    "2": {
+      "force": 5,
+      "intelligence": 5
+    },
+    "3": {
+      "force": 10,
+      "intelligence": 10,
+      "dommages": 2
+    },
+    "4": {
+      "force": 15,
+      "intelligence": 15,
+      "dommages": 4,
+      "vitalite": 20
+    },
+    "5": {
+      "force": 20,
+      "intelligence": 20,
+      "dommages": 6,
+      "vitalite": 30
+    },
+    "6": {
+      "force": 25,
+      "intelligence": 25,
+      "dommages": 8,
+      "vitalite": 40,
+      "pa": 1
+    }
+  }
+}

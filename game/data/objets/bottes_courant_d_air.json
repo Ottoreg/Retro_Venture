@@ -1,0 +1,18 @@
+{
+  "id": "bottes_courant_d_air",
+  "nom": "Bottes du Courant d'Air",
+  "type": "bottes",
+  "rarete": "commun",
+  "niveau": 3,
+  "description": "On ne le voit pas arriver. On le sent passer, surtout dans le dos.",
+  "bonus": {
+    "agilite": [
+      3,
+      6
+    ],
+    "initiative": [
+      5,
+      10
+    ]
+  }
+}

@@ -3,7 +3,7 @@ extends SceneTree
 ##   xvfb-run -s "-screen 0 1280x720x24" godot --path game --rendering-driver opengl3 \
 ##     -s res://tools/screenshot.gd -- sortie.png [carte] [frames] [action]
 ## Lance la scène du monde (nouvelle partie), attend quelques images et enregistre la vue.
-## Action : « combat » (engage le premier groupe de la carte), « butin » (écran de fin de combat d'exemple), « elite7 » (Loup alpha de rang 7 survolé), « cible » (combat, monstre survolé), « inventaire », « metiers », « sorts » (ouvre la
+## Action : « combat » (engage le premier groupe de la carte), « butin » (écran de fin de combat d'exemple), « elite7 » (Loup alpha de rang 7 survolé), « cible » (combat, monstre survolé), « panoplie » (3 pièces portées), « inventaire », « metiers », « sorts » (ouvre la
 ## fenêtre ; « inventaire » remplit d'abord le sac d'un exemplaire de chaque objet) ou « pierre » (va utiliser
 ## la Pierre de Passage).
 ## Si « carte » commence par res://, c'est cette scène qui est capturée (menu, création…).
@@ -33,7 +33,18 @@ func _initialize() -> void:
 func _process(_delta: float) -> bool:
 	if not _action.is_empty() and _frames == 20:
 		var view: MapView = _scene.get_node("MapView")
-		if _action == "inventaire":
+		if _action == "panoplie":
+			# Trois pièces de la Panoplie du Pyromane Repenti portées, l'amulette choisie.
+			var world := view.world
+			for slot in ["coiffe", "cape", "amulette"]:
+				var template: Dictionary = world.data.items[slot + "_pyromane_repenti"]
+				var uid := world.character.inventory.add(template, 1, Item.roll_bonuses(template, world.rng))
+				world.character.inventory.equip(uid, slot)
+			var window: InventoryWindow = _scene.get_node("InventoryWindow")
+			window.toggle()
+			window._selected = world.character.inventory.equipped["amulette"]
+			window.refresh()
+		elif _action == "inventaire":
 			# Un exemplaire de chaque objet du jeu (les ressources par 5), pour voir toutes les icônes.
 			var world := view.world
 			for item_id: String in world.data.items:

@@ -1,0 +1,18 @@
+{
+  "id": "ceinture_courant_d_air",
+  "nom": "Ceinture du Courant d'Air",
+  "type": "ceinture",
+  "rarete": "commun",
+  "niveau": 3,
+  "description": "On ne le voit pas arriver. On le sent passer, surtout dans le dos.",
+  "bonus": {
+    "agilite": [
+      4,
+      7
+    ],
+    "vitalite": [
+      5,
+      10
+    ]
+  }
+}

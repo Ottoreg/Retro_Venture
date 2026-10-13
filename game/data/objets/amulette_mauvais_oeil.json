@@ -1,0 +1,18 @@
+{
+  "id": "amulette_mauvais_oeil",
+  "nom": "Amulette du Mauvais Œil",
+  "type": "amulette",
+  "rarete": "commun",
+  "niveau": 3,
+  "description": "Porte malheur à tout le monde, sauf à son propriétaire. Pour l'instant.",
+  "bonus": {
+    "agilite": [
+      3,
+      5
+    ],
+    "chance": [
+      3,
+      5
+    ]
+  }
+}

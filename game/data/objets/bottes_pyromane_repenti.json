@@ -1,0 +1,18 @@
+{
+  "id": "bottes_pyromane_repenti",
+  "nom": "Bottes du Pyromane Repenti",
+  "type": "bottes",
+  "rarete": "commun",
+  "niveau": 3,
+  "description": "Il a juré de ne plus rien brûler. Ses vêtements, eux, n'ont rien juré.",
+  "bonus": {
+    "intelligence": [
+      3,
+      6
+    ],
+    "initiative": [
+      5,
+      10
+    ]
+  }
+}

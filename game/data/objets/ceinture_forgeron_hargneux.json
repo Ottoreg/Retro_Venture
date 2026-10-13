@@ -1,0 +1,18 @@
+{
+  "id": "ceinture_forgeron_hargneux",
+  "nom": "Ceinture du Forgeron Hargneux",
+  "type": "ceinture",
+  "rarete": "commun",
+  "niveau": 3,
+  "description": "Coulé dans la même fonte que l'enclume du forgeron. Et dans la même humeur.",
+  "bonus": {
+    "force": [
+      4,
+      7
+    ],
+    "vitalite": [
+      5,
+      10
+    ]
+  }
+}

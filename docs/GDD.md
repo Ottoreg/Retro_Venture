@@ -572,11 +572,17 @@ un **bonus de panoplie** qui grandit avec le nombre de pièces équipées (à pa
 
 - **Panoplies élémentaires (6 pièces)** : coiffe, cape, amulette, anneau, ceinture, bottes.
 - **Panoplies d'initiative et de prospection (3 pièces)** : courtes, pour se mélanger avec une
-  panoplie élémentaire incomplète (par exemple 3 pièces de Flamme + les 3 pièces du Fouineur).
-- **Exemple de bonus** (à équilibrer) pour une panoplie élémentaire : 2 pièces : +10 dans sa
-  caractéristique ; 3 : +20 et +2 Dommages ; 4 : +30, +4 Dommages et +5 % de résistance ; 5 : +40,
-  +6 Dommages et +1 PM ; 6 : +50, +8 Dommages et +1 PA. Pour les panoplies de 3 pièces : 2 pièces,
-  un premier palier ; 3 pièces, le bonus complet.
+  panoplie élémentaire incomplète. Le Pressé prend l'anneau, les bottes et la ceinture ; le Fouineur
+  la coiffe, l'amulette et la cape : les deux se portent ensemble, ou chacune avec 3 pièces
+  élémentaires (par exemple coiffe, cape et amulette de Flamme + le Pressé).
+- **Règle des paliers** : le palier atteint remplace le précédent, et chaque palier donne au moins
+  autant que le précédent pour chaque bonus (rien ne baisse quand on ajoute une pièce).
+- **Bonus en place** (à équilibrer) pour une panoplie élémentaire, dans sa caractéristique (moitié
+  dans chacune pour le Sacré et l'Impie) : 2 pièces : +10 ; 3 : +20 et +2 Dommages ; 4 : +30,
+  +4 Dommages, +20 Vitalité ; 5 : +40, +6 Dommages, +30 Vitalité ; 6 : +50, +8 Dommages,
+  +40 Vitalité et +1 PA. Pressé : 2 pièces : +20 Initiative, +2 Dommages ; 3 : +50 Initiative,
+  +5 Dommages. Fouineur : 2 pièces : +20 Prospection ; 3 : +50 Prospection, +10 Chance.
+- Pièces de niveau 3, communes, vendues par les marchands (pour l'alpha test).
 
 ---
 

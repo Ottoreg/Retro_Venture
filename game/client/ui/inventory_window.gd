@@ -92,6 +92,29 @@ static func roll_lines(entry: Dictionary, template: Dictionary, show_ranges: boo
 	return lines
 
 
+## Panoplie d'un objet : son nom, les pièces portées, et chaque palier de bonus (« (actif) » pour
+## celui qui s'applique). Vide si l'objet n'est d'aucune panoplie.
+static func set_lines(item_id: String, data: GameData, inventory: Inventory) -> PackedStringArray:
+	var lines: PackedStringArray = []
+	if data == null or not data.item_sets.has(item_id):
+		return lines
+	var set_id: String = data.item_sets[item_id]
+	var panoply: Dictionary = data.sets[set_id]
+	var worn := int(data.worn_sets(inventory).get(set_id, 0))
+	var active := data.set_tier(set_id, worn)
+	lines.append("")
+	lines.append("%s — %d / %d" % [panoply["nom"], worn, panoply["objets"].size()])
+	var counts: Array = panoply["bonus"].keys()
+	counts.sort_custom(func(a: Variant, b: Variant) -> bool: return int(str(a)) < int(str(b)))
+	for count: Variant in counts:
+		var tier: Dictionary = panoply["bonus"][count]
+		var parts: PackedStringArray = []
+		for stat: String in tier:
+			parts.append("+%d %s" % [tier[stat], Item.stat_name(stat)])
+		lines.append("%s %s : %s" % ["»" if tier == active and not active.is_empty() else "  ", str(count), ", ".join(parts)])
+	return lines
+
+
 ## Vrai si la touche Ctrl vient d'être enfoncée ou relâchée (pour afficher les jets possibles).
 static func is_ctrl_event(event: InputEvent) -> bool:
 	var key := event as InputEventKey
@@ -214,6 +237,7 @@ func _show_details(entry: Dictionary) -> void:
 	for stat: String in entry["conditions"]:
 		lines.append("Condition : %s ≥ %d" % [Item.stat_name(stat), entry["conditions"][stat]])
 	lines.append_array(attack_lines(template))
+	lines.append_array(set_lines(entry["objet"], map_view.world.data, map_view.world.character.inventory))
 	if not str(entry["description"]).is_empty():
 		lines.append("")
 		lines.append(entry["description"])
@@ -333,11 +357,16 @@ func _build() -> void:
 	_icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	_icon.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 	detail_box.add_child(_icon)
-	_details = _label(14, Color(0.92, 0.9, 0.85))
+	# Le détail défile s'il est long (panoplie complète) : la fenêtre garde sa taille.
+	var scroll := ScrollContainer.new()
+	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	scroll.custom_minimum_size = Vector2(230, 0)
+	detail_box.add_child(scroll)
+	_details = _label(13, Color(0.92, 0.9, 0.85))
 	_details.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_details.custom_minimum_size = Vector2(220, 0)
-	_details.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	detail_box.add_child(_details)
+	_details.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	scroll.add_child(_details)
 	var buttons := HBoxContainer.new()
 	detail_box.add_child(buttons)
 	_equip_button = _action_button("Équiper", _on_equip_pressed)

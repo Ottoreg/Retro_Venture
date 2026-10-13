@@ -94,6 +94,12 @@ le **lit** de votre maison les rend tous d'un coup.
   jusqu'à +100 %. (Pour les tests, une marque par minute ; ce sera une par heure ensuite.)
 - **Dans chaque village de départ** : une maison (coffre de 100 places partagé entre les maisons, et
   un lit), un marchand qui achète et vend tous les objets, et un forgeron.
+- **Panoplies** (vendues par les marchands, niveau 3) : six panoplies élémentaires de 6 pièces
+  (Forgeron Hargneux : Force ; Pyromane Repenti : Intelligence ; Bonhomme de Neige : Chance ;
+  Courant d'Air : Agilité ; Enfant de Chœur : Sacré ; Mauvais Œil : Impie) et deux de 3 pièces à
+  mélanger (Pressé : Initiative et Dommages ; Fouineur : Prospection). Plus on porte de pièces d'une
+  même panoplie, plus son bonus grandit ; le détail d'un objet (inventaire, marchand) montre les
+  pièces portées et le palier actif (marqué « » »).
 - **Éléments Sacré et Impie, statistique Dommages** : à tester avec la Masse bénite (Sacré : Force
   et Intelligence), la Dague du Mauvais Œil (Impie : Agilité et Chance) et la Chevalière du Cogneur
   (+Dommages : des dégâts en plus sur chaque coup, quel que soit l'élément), en vente chez les

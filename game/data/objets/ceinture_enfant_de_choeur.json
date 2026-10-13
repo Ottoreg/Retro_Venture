@@ -1,0 +1,22 @@
+{
+  "id": "ceinture_enfant_de_choeur",
+  "nom": "Ceinture de l'Enfant de Chœur",
+  "type": "ceinture",
+  "rarete": "commun",
+  "niveau": 3,
+  "description": "Immaculé, béni, repassé. On se demande comment il reste aussi propre en combat.",
+  "bonus": {
+    "force": [
+      2,
+      4
+    ],
+    "intelligence": [
+      2,
+      4
+    ],
+    "vitalite": [
+      5,
+      10
+    ]
+  }
+}

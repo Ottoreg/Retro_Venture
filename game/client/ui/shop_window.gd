@@ -140,6 +140,7 @@ func _show_details(entry: Dictionary) -> void:
 	for stat: String in entry["conditions"]:
 		lines.append("Condition : %s ≥ %d" % [Item.stat_name(stat), entry["conditions"][stat]])
 	lines.append_array(InventoryWindow.attack_lines(map_view.world.data.items.get(entry["objet"], {})))
+	lines.append_array(InventoryWindow.set_lines(entry["objet"], map_view.world.data, map_view.world.character.inventory))
 	if not str(entry["description"]).is_empty():
 		lines.append("")
 		lines.append(entry["description"])

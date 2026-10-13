@@ -1,0 +1,18 @@
+{
+  "id": "bottes_presse",
+  "nom": "Bottes du Pressé",
+  "type": "bottes",
+  "rarete": "commun",
+  "niveau": 3,
+  "description": "Toujours le premier, jamais à l'heure.",
+  "bonus": {
+    "initiative": [
+      15,
+      25
+    ],
+    "agilite": [
+      2,
+      4
+    ]
+  }
+}

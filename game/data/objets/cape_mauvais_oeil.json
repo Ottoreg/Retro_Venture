@@ -1,0 +1,22 @@
+{
+  "id": "cape_mauvais_oeil",
+  "nom": "Cape du Mauvais Œil",
+  "type": "cape",
+  "rarete": "commun",
+  "niveau": 3,
+  "description": "Porte malheur à tout le monde, sauf à son propriétaire. Pour l'instant.",
+  "bonus": {
+    "agilite": [
+      2,
+      4
+    ],
+    "chance": [
+      2,
+      4
+    ],
+    "sagesse": [
+      2,
+      4
+    ]
+  }
+}

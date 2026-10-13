@@ -1,0 +1,14 @@
+{
+  "id": "amulette_fouineur",
+  "nom": "Amulette du Fouineur",
+  "type": "amulette",
+  "rarete": "commun",
+  "niveau": 3,
+  "description": "Il trouve toujours quelque chose. Parfois même ce qu'il cherchait.",
+  "bonus": {
+    "prospection": [
+      15,
+      25
+    ]
+  }
+}

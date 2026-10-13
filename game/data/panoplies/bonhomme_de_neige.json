@@ -1,0 +1,38 @@
+{
+  "id": "bonhomme_de_neige",
+  "nom": "Panoplie du Bonhomme de Neige",
+  "orientation": "givre",
+  "objets": [
+    "coiffe_bonhomme_de_neige",
+    "cape_bonhomme_de_neige",
+    "amulette_bonhomme_de_neige",
+    "anneau_bonhomme_de_neige",
+    "ceinture_bonhomme_de_neige",
+    "bottes_bonhomme_de_neige"
+  ],
+  "bonus": {
+    "2": {
+      "chance": 10
+    },
+    "3": {
+      "chance": 20,
+      "dommages": 2
+    },
+    "4": {
+      "chance": 30,
+      "dommages": 4,
+      "vitalite": 20
+    },
+    "5": {
+      "chance": 40,
+      "dommages": 6,
+      "vitalite": 30
+    },
+    "6": {
+      "chance": 50,
+      "dommages": 8,
+      "vitalite": 40,
+      "pa": 1
+    }
+  }
+}

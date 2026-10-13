@@ -1,0 +1,18 @@
+{
+  "id": "anneau_presse",
+  "nom": "Anneau du Pressé",
+  "type": "anneau",
+  "rarete": "commun",
+  "niveau": 3,
+  "description": "Toujours le premier, jamais à l'heure.",
+  "bonus": {
+    "initiative": [
+      10,
+      20
+    ],
+    "dommages": [
+      1,
+      1
+    ]
+  }
+}
