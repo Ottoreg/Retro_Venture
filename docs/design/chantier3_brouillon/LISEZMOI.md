@@ -1,9 +1,9 @@
-# Conception du contenu du chantier 3 — brouillon
+# Conception du contenu du chantier 3
 
-Document en cours d'écriture (environ 70 %), pas encore relu ni validé.
-Le Markdown est généré par les scripts de `src/` : `python3 src/build.py`.
+Document complet, **à relire et valider** avant la production.
 
-Fait : zones (Brumerive, Crasse-Roc, Sylvebrume), familles par palier, élites, mini-boss,
-Hautepierre (13–30) et son boss, variantes corrompues.
-Reste : métiers, objets, équilibrage récapitulatif, liste des dessins, lots de production,
-résumé d'une page, contrôle de cohérence.
+- `chantier3_contenu.md` : le document (résumé en §1).
+- `chantier3_contenu.json` : les mêmes données, prêtes pour la production (monstres, sorts, objets, cartes, récolte, recettes, dessins, avec leur lot).
+- `src/` : les scripts qui génèrent les deux fichiers. Après une modification :
+  `python3 src/build.py json && python3 src/controle.py`
+  (`controle.py` vérifie les ids, les références, les sorties de cartes et les paliers).

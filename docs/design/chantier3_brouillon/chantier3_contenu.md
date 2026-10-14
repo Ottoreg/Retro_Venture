@@ -1,5 +1,28 @@
 # Chantier 3 — Contenu du monde
 
+Document de conception, généré par `src/build.py` (contrôle de cohérence : `src/controle.py`). Brouillon à valider avant toute production.
+
+## 1. Résumé
+
+- **48 cartes** (42 nouvelles), **49 monstres** (familles, élites, mini-boss, variantes), **64 sorts nouveaux** (18 réutilisés), **94 objets**, **14 nouveaux dessins** et 94 icônes.
+
+| Zone | Cartes | Niveaux | Familles par palier | Mini-boss |
+|---|---|---|---|---|
+| Collines de Brumerive | 10 | 1–12 | 1-3 : Loup des collines ; 4-6 : Gobelin frondeur ; 7-9 : Gobelin pillard, Épouvantail démotivé ; 10-12 : Gobelin briseur | Krasbouk, Chef de Raid (syndiqué) (niv. 12) |
+| Galeries de Crasse-Roc | 10 | 1–12 | 1-3 : Rat des galeries, Grouilleur ; 4-6 : Vampipistrelle ; 7-9 : Milicien de Hautepierre ; 10-12 : Contremaître zélé | Le Balourd des Abîmes (niv. 12) |
+| Lisière de Sylvebrume | 9 | 1–12 | 1-3 : Morille grincheuse ; 4-6 : Cerf enchanté, Arbre vivant ; 7-9 : Bûcheron de Brumerive ; 10-12 : Tisseuse de brume | La Mère-Toile (niv. 12) |
+| Hautepierre et ses environs | 19 | 13–30 | 13-15 : Détrousseur des grands chemins ; 16-18 : Troll des ponts ; 19-21 : Corbac espion ; 22-24 : Gargouille ; 25-27 : Cendrillon ; 28-30 : Olifant de guerre | Grondin, Bélier de la Brèche (niv. 30) |
+| Variantes corrompues | — | — | Loup cendreux, Grouilleur de braise, Arbre calciné | — |
+
+**Ce que le joueur vit.** Chaque race commence dans sa zone (1 → 12) : quatre paliers de familles, une élite par famille, un mini-boss au bout, puis des variantes corrompues. Vers le niveau 12, il rejoint Hautepierre (13 → 30) : la ville, ses environs et le boss Grondin. Les nouveaux métiers (if, hêtre, malorme ; étain, argent, obsidienne) et les recettes demandent des butins de plusieurs zones, ce qui pousse à voyager.
+
+## 2. Règles suivies
+
+- Paliers 1–3 / 4–6 / 7–9 / 10–12 dans chaque zone de départ, asymétriques entre zones ; niveau variable dans une famille, pondéré (faible 6/3/1, moyen 3/4/3, fort 1/3/6).
+- Le niveau d'un monstre change ses stats, pas son butin ; PA/PM fixes par famille sauf mécanique spéciale.
+- Élites : niveau > max de la famille, PV ≥ 2× la base, butin non commun plus fréquent.
+- Formats de données : ceux de `game/data/README.md` ; ids nouveaux sans collision avec `game/data` (vérifié par `src/controle.py`).
+
 ## 3. Collines de Brumerive
 
 Palette `brumerive` ; Pierre de Passage `brumerive` sur `brumerive_0_0` (10 écus, existante). 10 cartes.
@@ -998,3 +1021,256 @@ Plus tard (hors alpha), la même règle permettra une « contamination » : une 
   - **Pluie de cendres** (`calcine_cendres`, nouveau) : 3 PA, portée 1–3, cercle 1, sans ldv, 1/tour, délai 2 — glyphe 2 t : 4–6 Flamme (ennemis). *Il secoue ses branches mortes ; il en tombe des braises.*
 - Butin : ecorce_vivante 50 % ×1–2, cendre_tiede 50 % ×1–2, eclat_de_cendre 3 %, ceinture_d_ecorce_calcinee 4 %.
 - Dessin : image `arbre_vivant` (échelle 0.95 ; teinte #6a5a50).
+
+## 8. Objets
+
+94 nouveaux objets : 18 armes, 6 coiffes, 6 capes, 5 amulettes, 7 anneaux, 5 ceintures, 8 bottes, 39 ressources. Les bonus suivent le budget `(3 + 0,8 × niveau) × rareté` (commun 1 ; peu commun 1,2 ; rare 1,45 ; épique 1,8 ; légendaire 2,2), pondéré par stat (Vitalité 0,5 ; Prospection 0,25 ; Initiative 0,1 ; Dommages 4 ; Critique 2) ; les armes prennent 60 % du budget, le reste est dans l'attaque. Chaque objet a besoin d'une icône (description dans le JSON, champ `icone`).
+
+### 8.1 Armes (18)
+
+| Objet | Niv. | Rareté | Bonus | Source |
+|---|---|---|---|---|
+| Épée de milicien (`epee_de_milicien`) | 8 | commun | For 3–4, Vit 4–5 ; attaque 4 PA, PO 1–1, 9–14 Acier | butin:milicien_de_hautepierre |
+| Fourche d'épouvantail (`fourche_d_epouvantail`) | 8 | commun | For 3–4, Vit 4–5 ; attaque 4 PA, PO 1–2, 9–14 Acier | butin:epouvantail_demotive |
+| Coutelas de pillard (`coutelas_de_pillard`) | 9 | peu commun | Agi 3–4, Cha 3–4 ; attaque 3 PA, PO 1–1, 8–11 Impie | butin:gobelin_pillard |
+| Hache de bûcheron (`hache_de_bucheron`) | 9 | peu commun | For 4–5, Vit 5–7 ; attaque 4 PA, PO 1–1, 10–15 Acier | butin:bucheron_de_brumerive |
+| Arc d'if (`arc_d_if`) | 10 | peu commun | Agi 4–6, Ini 19–27 ; attaque 4 PA, PO 2–6, 10–16 Tempête | recette |
+| Bâton gelé (`baton_gele`) | 11 | peu commun | Cha 5–7, Sag 2–3 ; attaque 3 PA, PO 1–4, 8–12 Givre | recette |
+| Fouet du Balourd (`fouet_du_balourd`) | 12 | épique | Int 5–8, Vit 7–9, Dom 1 ; attaque 4 PA, PO 1–3, 13–19 Flamme | boss:balourd_des_abimes |
+| Fuseau de la Mère-Toile (`fuseau_de_la_mere_toile`) | 12 | épique | Cha 5–8, Vit 7–9, Dom 1 ; attaque 4 PA, PO 2–5, 13–19 Givre | boss:mere_toile |
+| Hachoir de Krasbouk (`hachoir_de_krasbouk`) | 12 | épique | For 5–8, Vit 7–9, Dom 1 ; attaque 4 PA, PO 1–1, 13–19 Acier | boss:krasbouk |
+| Dague de détrousseur (`dague_de_detrousseur`) | 14 | peu commun | Agi 6–8, Ini 24–35 ; attaque 3 PA, PO 1–3, 9–13 Tempête | butin:detrousseur |
+| Épée d'argent (`epee_d_argent`) | 15 | rare | For 6–9, Vit 4–6, Sag 2–3 ; attaque 4 PA, PO 1–1, 13–19 Acier | recette |
+| Massue de troll (`massue_de_troll`) | 17 | rare | For 7–10, Vit 9–13 ; attaque 5 PA, PO 1–1, 17–25 Acier | butin:troll_des_ponts |
+| Sceptre de Hautepierre (`sceptre_de_hautepierre`) | 18 | rare | For 4–5, Int 4–5, Sag 2–3, Vit 5–7 ; attaque 4 PA, PO 1–2, 14–20 Sacré | recette |
+| Hallebarde de la Vieille Garde (`hallebarde_de_la_vieille_garde`) | 22 | rare | For 7–10, Vit 9–12, Sag 3–4 ; attaque 4 PA, PO 1–2, 15–22 Acier | butin:gargouille |
+| Dague d'obsidienne (`dague_d_obsidienne`) | 23 | rare | Agi 6–9, Cha 6–9, Crit 1–2 ; attaque 3 PA, PO 1–1, 11–17 Impie | recette |
+| Arc de malorme (`arc_de_malorme`) | 25 | rare | Agi 10–14, Ini 32–46, Sag 3–5 ; attaque 4 PA, PO 2–7, 16–23 Tempête | recette |
+| Baguette de Cendrillon (`baguette_de_cendrillon`) | 26 | rare | Int 10–14, Sag 3–5, Vit 7–10 ; attaque 4 PA, PO 2–6, 16–24 Flamme | butin:cendrillon |
+| Marteau de Grondin (`marteau_de_grondin`) | 30 | légendaire | For 13–18, Vit 14–20, Dom 2–3, PA 1 ; attaque 5 PA, PO 1–1, 25–37 Acier | boss:grondin |
+
+### 8.2 Coiffes (6)
+
+| Objet | Niv. | Rareté | Bonus | Source |
+|---|---|---|---|---|
+| Chapeau d'épouvantail (`chapeau_d_epouvantail`) | 7 | peu commun | Agi 4–6, Vit 5–7, Sag 2 | butin:epouvantail_demotive |
+| Capuche de détrousseur (`capuche_de_detrousseur`) | 13 | peu commun | Agi 5–7, Cha 4–6, Pro 15–22 | butin:detrousseur |
+| Chapeau à plume de corbac (`chapeau_a_plume_de_corbac`) | 19 | peu commun | Agi 9–13, Pro 17–25, Ini 44–63 | butin:corbac_espion |
+| Heaume d'argent (`heaume_d_argent`) | 20 | rare | Vit 22–32, For 7–10, Sag 4–6 | recette |
+| Masque de Cendrillon (`masque_de_cendrillon`) | 26 | rare | Int 14–20, Vit 17–24, Sag 6–8 | butin:cendrillon |
+| Heaume du Bélier (`heaume_du_belier`) | 30 | épique | For 16–22, Vit 31–45, Dom 2–3 | boss:grondin |
+
+### 8.3 Capes (6)
+
+| Objet | Niv. | Rareté | Bonus | Source |
+|---|---|---|---|---|
+| Cape de vampipistrelle (`cape_de_vampipistrelle`) | 5 | peu commun | Agi 3–4, Cha 2–3, Ini 20–29 | butin:vampipistrelle |
+| Cape de soie grise (`cape_de_soie_grise`) | 11 | peu commun | Cha 6–8, Sag 2–3, Vit 7–10 | butin:tisseuse_de_brume |
+| Cape de fumée (`cape_de_fumee`) | 12 | rare | Int 6–8, Agi 4–6, Vit 9–13 | boss:balourd_des_abimes |
+| Cape de loup cendreux (`cape_de_loup_cendreux`) | 15 | rare | Agi 7–10, Vit 10–15, Ini 52–75 | butin:loup_cendreux |
+| Cape de plumes noires (`cape_de_plumes_noires`) | 21 | rare | Agi 11–17, Vit 14–20, Ini 46–66 | butin:corbac_chef_espion |
+| Cape en cuir d'olifant (`cape_en_cuir_d_olifant`) | 28 | rare | Vit 29–42, For 9–13, Sag 6–8 | butin:olifant_de_guerre |
+
+### 8.4 Amulettes (5)
+
+| Objet | Niv. | Rareté | Bonus | Source |
+|---|---|---|---|---|
+| Amulette-sifflet (`amulette_sifflet`) | 11 | peu commun | Ini 34–49, Agi 5–7, Sag 3–5 | butin:contremaitre_zele |
+| Amulette d'argent (`amulette_d_argent`) | 16 | peu commun | Vit 12–17, For 3–4, Int 3–4, Cha 3–4 | recette |
+| Amulette œil-de-corbac (`amulette_oeil_de_corbac`) | 20 | rare | Agi 9–13, Pro 26–38, Sag 7–10 | butin:corbac_espion |
+| Amulette cœur-de-pierre (`amulette_coeur_de_pierre`) | 24 | rare | Vit 26–37, Cha 8–11, Sag 5–7 | butin:gargouille_de_la_grande_porte |
+| Cor d'olifant (`cor_d_olifant`) | 29 | épique | For 11–16, Vit 23–33, Dom 2–3, Sag 8–11 | butin:olifant_de_guerre |
+
+### 8.5 Anneaux (7)
+
+| Objet | Niv. | Rareté | Bonus | Source |
+|---|---|---|---|---|
+| Anneau d'étain (`anneau_d_etain`) | 8 | commun | Vit 8–11, Sag 4–5 | recette |
+| Anneau aux huit yeux (`anneau_aux_huit_yeux`) | 12 | rare | Cha 4–5, Agi 2–3, PO 1 | boss:mere_toile |
+| Chevalière du Délégué (`chevaliere_du_delegue`) | 12 | rare | For 4–6, Pro 18–25, Dom 1, Sag 3–4 | boss:krasbouk |
+| Anneau de nez de troll (`anneau_de_nez_de_troll`) | 17 | peu commun | For 8–11, Vit 10–14, Sag 3–5 | butin:troll_des_ponts |
+| Anneau de granit (`anneau_de_granit`) | 22 | peu commun | Vit 20–28, For 5–7, Cha 5–7 | butin:gargouille |
+| Bague de minuit (`bague_de_minuit`) | 27 | rare | Int 11–16, Dom 1–2, Vit 17–25, Crit 1–2 | butin:cendrillon |
+| Anneau du Gond (`anneau_du_gond`) | 30 | épique | For 12–17, Int 12–17, Vit 16–22, Dom 2–3 | boss:grondin |
+
+### 8.6 Ceintures (5)
+
+| Objet | Niv. | Rareté | Bonus | Source |
+|---|---|---|---|---|
+| Ceinture de bûcheron (`ceinture_de_bucheron`) | 9 | commun | For 4–6, Vit 8–12 | butin:bucheron_de_brumerive |
+| Ceinture à gnôle (`ceinture_a_gnole`) | 11 | peu commun | Vit 11–16, For 6–8 | butin:gobelin_briseur |
+| Ceinture de troll (`ceinture_de_troll`) | 16 | peu commun | Vit 18–26, For 6–9 | butin:troll_des_ponts |
+| Ceinture d'écorce calcinée (`ceinture_d_ecorce_calcinee`) | 21 | rare | Vit 23–33, For 6–8, Int 6–8 | butin:arbre_calcine |
+| Ceinture d'obsidienne (`ceinture_d_obsidienne`) | 27 | rare | Vit 29–41, Int 7–10, Cha 7–10 | recette |
+
+### 8.7 Bottes (8)
+
+| Objet | Niv. | Rareté | Bonus | Source |
+|---|---|---|---|---|
+| Bottes de mousse (`bottes_de_mousse`) | 2 | commun | Cha 2–3, Vit 4–5 | butin:morille_grincheuse |
+| Bottes de rapine (`bottes_de_rapine`) | 9 | peu commun | Agi 4–6, Ini 29–42, Pro 12–17 | butin:gobelin_pillard |
+| Bottes de milicien (`bottes_de_milicien`) | 10 | peu commun | Vit 11–15, For 3–5, Ini 21–30 | butin:milicien_de_hautepierre |
+| Bottes de grand chemin (`bottes_de_grand_chemin`) | 14 | peu commun | Agi 5–8, Vit 8–12, Ini 41–59 | butin:detrousseur |
+| Bottes de braise (`bottes_de_braise`) | 18 | rare | Int 8–12, For 6–9, Ini 60–87 | butin:grouilleur_de_braise |
+| Bottes de gargouille (`bottes_de_gargouille`) | 23 | rare | Vit 20–29, For 7–11, Cha 7–11 | butin:gargouille |
+| Pantoufles de cendre (`pantoufles_de_cendre`) | 25 | rare | Int 11–15, Agi 8–12, Ini 80–115 | butin:cendrillon |
+| Semelles d'olifant (`semelles_d_olifant`) | 29 | rare | Vit 30–44, For 9–13, Ini 61–87 | butin:olifant_de_guerre |
+
+### 8.8 Ressources (39)
+
+| Ressource | Rareté | Source |
+|---|---|---|
+| Aile de vampipistrelle (`aile_de_vampipistrelle`) | commun | butin:vampipistrelle |
+| Bois d'if (`bois_d_if`) | peu commun | recolte:bucheron (Y) |
+| Bois de hêtre (`bois_de_hetre`) | peu commun | recolte:bucheron (H) |
+| Bois de malorme (`bois_de_malorme`) | rare | recolte:bucheron (L) |
+| Bon de coupe (`bon_de_coupe`) | peu commun | butin:bucheron_de_brumerive |
+| Bourse vide (`bourse_vide`) | commun | butin:detrousseur |
+| Carte au trésor douteuse (`carte_au_tresor_douteuse`) | peu commun | butin:detrousseur |
+| Cendre tiède (`cendre_tiede`) | commun | butin:cendrillon|variantes corrompues |
+| Chapeau de morille (`chapeau_de_morille`) | commun | butin:morille_grincheuse |
+| Citrouille grimaçante (`citrouille_grimacante`) | peu commun | butin:epouvantail_demotive |
+| Cœur de pierre (`coeur_de_pierre`) | peu commun | butin:gargouille |
+| Copeaux de bois (`copeaux_de_bois`) | commun | butin:bucheron_de_brumerive |
+| Corne du Balourd (`corne_du_balourd`) | rare | boss:balourd_des_abimes |
+| Crochet d'araignée (`crochet_d_araignee`) | peu commun | butin:tisseuse_de_brume |
+| Cuir d'olifant (`cuir_d_olifant`) | commun | butin:olifant_de_guerre |
+| Dent de troll (`dent_de_troll`) | commun | butin:troll_des_ponts |
+| Éclat de cendre (`eclat_de_cendre`) | rare | butin:variantes corrompues|boss:grondin |
+| Éclat de gargouille (`eclat_de_gargouille`) | commun | butin:gargouille |
+| Écusson de milice (`ecusson_de_milice`) | peu commun | butin:milicien_de_hautepierre |
+| Fil de brume (`fil_de_brume`) | commun | butin:tisseuse_de_brume |
+| Gnôle de raid (`gnole_de_raid`) | commun | butin:gobelin_briseur |
+| Guano luisant (`guano_luisant`) | peu commun | butin:vampipistrelle |
+| Invitation au bal (`invitation_au_bal`) | peu commun | butin:cendrillon |
+| Ivoire d'olifant (`ivoire_d_olifant`) | peu commun | butin:olifant_de_guerre |
+| Maillon de cotte (`maillon_de_cotte`) | commun | butin:milicien_de_hautepierre |
+| Médaille en chocolat (`medaille_en_chocolat`) | peu commun | butin:gobelin_briseur |
+| Message intercepté (`message_intercepte`) | peu commun | butin:corbac_espion |
+| Minerai d'argent (`minerai_d_argent`) | peu commun | recolte:mineur (G) |
+| Minerai d'étain (`minerai_d_etain`) | commun | recolte:mineur (T) |
+| Obsidienne (`obsidienne`) | rare | recolte:mineur (D) |
+| Ordre de raid (`ordre_de_raid`) | peu commun | butin:gobelin_pillard|boss:krasbouk |
+| Paille ensorcelée (`paille_ensorcelee`) | commun | butin:epouvantail_demotive |
+| Plume de corbac (`plume_de_corbac`) | commun | butin:corbac_espion |
+| Recette de troll (`recette_de_troll`) | peu commun | butin:troll_des_ponts |
+| Registre des heures (`registre_des_heures`) | peu commun | butin:contremaitre_zele |
+| Sac de rapine (`sac_de_rapine`) | commun | butin:gobelin_pillard |
+| Sifflet de contremaître (`sifflet_de_contremaitre`) | commun | butin:contremaitre_zele |
+| Soie de la Mère-Toile (`soie_de_la_mere_toile`) | rare | boss:mere_toile |
+| Spores grincheuses (`spores_grincheuses`) | peu commun | butin:morille_grincheuse |
+
+## 9. Métiers
+
+Trois nouvelles essences et trois nouveaux minerais, aux niveaux de métier 8, 15 et 22 (XP de métier : 5·n·(n−1) ; ~40 récoltes pour le niveau 8, ~65 de plus pour le 15, ~70 de plus pour le 22). Aucun nouveau dessin : chaque ressource réutilise `arbre_haut`, `arbre_large` ou `minerai` avec ses couleurs (entrées `images` + `ressources` du manifeste).
+
+| Marqueur | Métier | Ressource | Objet | Niveau | Quantité | XP | Repousse (s) | Image | Où |
+|---|---|---|---|---|---|---|---|---|---|
+| `Y` | bucheron | If | `bois_d_if` | 8 | 1–2 | 12 | 90–150 | `if` (#1e4a2a) | brumerive (7–12), sylvebrume (4–12), hautepierre (13–21) |
+| `H` | bucheron | Hêtre | `bois_de_hetre` | 15 | 1–2 | 18 | 90–150 | `hetre` (#8ab84a) | hautepierre (16–24) |
+| `L` | bucheron | Malorme | `bois_de_malorme` | 22 | 1–2 | 25 | 120–180 | `malorme` (#e0b830) | hautepierre (19–30) |
+| `T` | mineur | Étain | `minerai_d_etain` | 8 | 1–2 | 12 | 90–150 | `minerai_etain` (#d8d8d0) | brumerive (7–12), crasse_roc (4–12), sylvebrume (10–12), hautepierre (13–18) |
+| `G` | mineur | Argent | `minerai_d_argent` | 15 | 1–2 | 18 | 90–150 | `minerai_argent` (#f4f8ff) | hautepierre (16–27) |
+| `D` | mineur | Obsidienne | `obsidienne` | 22 | 1–2 | 25 | 120–180 | `minerai_obsidienne` (#6a3a8a) | hautepierre (22–30, cartes cendrées) |
+
+Marqueurs choisis hors de la légende (`. @ 1-9 a-z A M R E : # + * $ = F C U I`) : **Y** (if, *yew*), **H** (hêtre), **L** (malorme), **T** (étain, *tin*), **G** (ar**g**ent), **D** (obsi**d**ienne).
+
+### 9.1 Recettes de forgeron (10 existantes + 13 = 23)
+
+| Objet | Niveau | XP | Ingrédients |
+|---|---|---|---|
+| `anneau_forgeron_hargneux` | 4 | 20 | 3 minerai_de_fer, 3 minerai_de_cuivre, 2 croc_de_loup |
+| `amulette_forgeron_hargneux` | 5 | 24 | 4 minerai_de_fer, 2 peau_de_loup, 2 dent_de_rat |
+| `coiffe_forgeron_hargneux` | 6 | 28 | 5 minerai_de_fer, 2 bois_de_chene, 3 carapace_de_grouilleur |
+| `anneau_d_etain` | 8 | 32 | 5 minerai_d_etain, 2 minerai_de_cuivre |
+| `arc_d_if` | 10 | 38 | 6 bois_d_if, 3 fil_de_brume, 2 aile_de_vampipistrelle |
+| `baton_gele` | 11 | 40 | 5 bois_d_if, 3 minerai_d_etain, 1 spores_grincheuses |
+| `epee_d_argent` | 15 | 55 | 6 minerai_d_argent, 2 bois_de_hetre, 4 maillon_de_cotte |
+| `amulette_d_argent` | 16 | 58 | 4 minerai_d_argent, 3 dent_de_troll, 2 bourse_vide |
+| `sceptre_de_hautepierre` | 18 | 65 | 5 minerai_d_argent, 3 bois_de_hetre, 2 ecusson_de_milice, 1 ordre_de_raid |
+| `heaume_d_argent` | 20 | 72 | 6 minerai_d_argent, 6 maillon_de_cotte, 3 plume_de_corbac |
+| `dague_d_obsidienne` | 23 | 82 | 5 obsidienne, 2 bois_de_malorme, 3 crochet_d_araignee, 1 eclat_de_cendre |
+| `arc_de_malorme` | 25 | 90 | 6 bois_de_malorme, 1 soie_de_la_mere_toile, 4 plume_de_corbac |
+| `ceinture_d_obsidienne` | 27 | 98 | 6 obsidienne, 3 cuir_d_olifant, 1 corne_du_balourd |
+
+Les recettes utilisent les ressources de monstres de toutes les zones (crocs, carapaces, fils, maillons, plumes, ordres de raid…) et des trophées de mini-boss (Soie de la Mère-Toile, Corne du Balourd) : fabriquer haut niveau pousse à voyager entre les zones.
+
+### 9.2 Panoplies : comment les obtenir sans marchand
+
+Les 8 panoplies restent en vente chez les marchands (jets fixes de niveau 3). En plus, chacune s'obtient **sans marchand** : chaque panoplie élémentaire est partagée entre **deux familles de deux zones différentes** (3 pièces chacune), et le Forgeron Hargneux se fabrique à moitié. Chaque race trouve ainsi 3 à 4 panoplies chez elle et doit voyager (Pierres de Passage) pour compléter les autres. Les élites lâchent ces pièces 3 fois plus souvent.
+
+- **Forgeron Hargneux (Acier)** (`forgeron_hargneux`) : Recettes de forgeron : anneau (niv. 4), amulette (5), coiffe (6). Butin du Milicien de Hautepierre (Crasse-Roc 7–9) : cape, ceinture, bottes (3 %, 9–13 % sur le Sergent).
+- **Pyromane Repenti (Flamme)** (`pyromane_repenti`) : Épouvantail démotivé (Brumerive 7–9 : il garde ces pièces « pour se rassurer ») : coiffe, cape, amulette ; Contremaître zélé (Crasse-Roc 10–12) : anneau, ceinture, bottes (3 % chacune).
+- **Bonhomme de Neige (Givre)** (`bonhomme_de_neige`) : Tisseuse de brume (Sylvebrume 10–12) : coiffe, cape, amulette ; Vampipistrelle (Crasse-Roc 4–6) : anneau, ceinture, bottes (3 %).
+- **Courant d'Air (Tempête)** (`courant_d_air`) : Cerf enchanté (Sylvebrume 4–6) : coiffe, cape, amulette (3 %) ; Gobelin frondeur (Brumerive 4–6) : anneau, ceinture, bottes (2 %).
+- **Enfant de Chœur (Sacré)** (`enfant_de_choeur`) : Gobelin pillard (Brumerive 7–9, volées à la chapelle) : coiffe, cape, amulette ; Bûcheron de Brumerive (Sylvebrume 7–9, il chante à la chorale le dimanche) : anneau, ceinture, bottes (3 %).
+- **Mauvais Œil (Impie)** (`mauvais_oeil`) : Morille grincheuse (Sylvebrume 1–3) : coiffe, cape, amulette ; Loup des collines (Brumerive 1–3) : anneau, ceinture, bottes (2 %).
+- **Pressé (Initiative, 3 pièces)** (`presse`) : Grouilleur (Crasse-Roc 1–3, beaucoup de pattes, toujours pressé) : anneau, bottes, ceinture (2 %, 6 % sur l'Ancestral).
+- **Fouineur (Prospection, 3 pièces)** (`fouineur`) : Rat des galeries (Crasse-Roc 1–3) : coiffe, amulette, cape (2 %, 6 % sur le Rat-roi).
+
+## 10. Récapitulatif d'équilibrage
+
+Référence : un joueur seul contre un groupe de 2 monstres de son niveau. Le combat dure `2 + niveau/10` tours du joueur et lui coûte environ 40 % de ses PV. Formules dans `src/balance.py`.
+
+| Niv. | XP pour passer | PV joueur | Carac. principale | Dégâts joueur / tour | PV monstre | Dégâts / sort monstre | XP monstre | Écus | Combats pour le niveau |
+|---|---|---|---|---|---|---|---|---|---|
+| 1 | 80 | 58 | 8 | 16.2 | 17 | 6.6 | 7 | 2–4 | 7 |
+| 3 | 360 | 74 | 24 | 18.6 | 24 | 7.7 | 23 | 3–8 | 9 |
+| 6 | 1080 | 98 | 48 | 24.2 | 34 | 9.0 | 52 | 6–13 | 12 |
+| 9 | 2160 | 122 | 72 | 27.8 | 46 | 10.0 | 85 | 8–18 | 14 |
+| 12 | 3600 | 146 | 96 | 33.4 | 59 | 10.9 | 123 | 10–23 | 16 |
+| 15 | 5400 | 170 | 120 | 39.0 | 72 | 11.6 | 166 | 12–28 | 18 |
+| 18 | 7560 | 194 | 144 | 42.6 | 87 | 12.2 | 213 | 14–33 | 20 |
+| 21 | 10080 | 218 | 168 | 48.2 | 103 | 12.7 | 266 | 16–38 | 21 |
+| 24 | 12960 | 242 | 192 | 51.8 | 121 | 13.1 | 324 | 18–43 | 22 |
+| 27 | 16200 | 266 | 216 | 57.4 | 139 | 13.5 | 386 | 21–48 | 23 |
+| 30 | — | 290 | 240 | 63.0 | 158 | 13.8 | 453 | 23–53 | — |
+
+- **Durée visée** : 14.0 h de combat du niveau 1 au niveau 30, dont 2.7 h dans la zone de départ (1 → 12, ~129 combats) et ~366 combats dans Hautepierre (12 → 30).
+- **Élites** : niveau = max de la famille + 3, PV ≥ 2× la base, XP × 1,8, écus × 2,5, butin plus fréquent ; **mini-boss** : groupe fixe, phases à 66 % et 33 % de PV, trophée de recette.
+- **Variantes corrompues** : +10 % d'XP, éléments Flamme, apparaissent après le mini-boss de leur zone (voir §7).
+- **À valider en jeu** : la durée réelle des combats (le modèle suppose 70 % de coups portés) et la vitesse de progression de chaque race, puisque les paliers sont asymétriques entre zones.
+
+## 11. Dessins à faire
+
+- **14 nouveaux dessins** de monstres, armes ou accessoires (liste ci-dessous) ; les 35 autres monstres réutilisent un rig ou une image existante (recoloration, échelle, accessoires) décrits dans leur fiche.
+- **94 icônes d'objets** (une par nouvel objet, description dans le JSON).
+- **Ressources de récolte** : aucun nouveau dessin, recoloration de `arbre_haut`, `arbre_large` et `minerai` (§9).
+- **Décors des cartes** : réutilisation des décors existants, recolorés par la palette de zone ; les éléments propres à une carte sont décrits dans son « Plan ».
+
+| Zone | Pour | Dessin |
+|---|---|---|
+| brumerive | Épouvantail démotivé | arme « fourche » (petite, 2 dents de fer rouillé sur manche clair, même attache que le bâton) |
+| brumerive | Gobelin briseur | arme « hache » (partagée avec le bûcheron de Sylvebrume) |
+| crasse_roc | Vampipistrelle | monstre/vampipistrelle.svgt, ~44×34 px : chauve-souris en vol stationnaire vue de 3/4, corps rond brun-violet ({{pelage}}), grandes ailes membraneuses violet sombre déployées en V, grandes oreilles pointues, deux petits crocs blancs, yeux rouges ; ombre au sol décollée (ellipse à ~8 px sous les pieds, l'ancre au centre de l'ombre). |
+| crasse_roc | Milicien de Hautepierre | accessoire « casque » (casque rond de fer à nasal, 2 vues ; partagé avec plusieurs familles) |
+| crasse_roc | Le Balourd des Abîmes | monstre/balourd.svgt, ~96×104 px : démon massif de roche noire fissurée de lave orange, deux cornes recourbées, ailes de fumée grise en lambeaux, épée de braise dans la main droite et fouet de flamme dans la gauche ; yeux jaunes ; ancre aux pieds (≈ [48, 100]). Le plus grand monstre des zones de départ. |
+| sylvebrume | Morille grincheuse | monstre/morille.svgt, ~34×42 px : morille debout, chapeau conique alvéolé brun-beige ({{pelage}}/{{pelage_ombre}}), pied blanc trapu servant de corps, deux petits bras, sourcils froncés et bouche boudeuse, petites jambes ; ancre aux pieds. |
+| sylvebrume | Bûcheron de Brumerive | arme « hache » (fer large, manche clair ; partagée avec le briseur) |
+| sylvebrume | Tisseuse de brume | monstre/araignee.svgt, ~60×38 px : araignée vue de 3/4, abdomen gris perle ({{pelage}}) à motif de toile bleu pâle, céphalothorax plus sombre ({{pelage_ombre}}), 8 pattes fines articulées, 6 petits yeux noirs brillants, crochets ; ancre au centre entre les pattes. Recolorable pour la Mère-Toile. |
+| hautepierre | Détrousseur des grands chemins | accessoire « capuche » (capuche de tissu rabattue sur la tête, 2 vues, couleur {{chapeau}}) |
+| hautepierre | Troll des ponts | têtes « tete_troll » et « tete_troll_dos » (grosse tête ronde au nez énorme, petites oreilles pointues, deux crocs du bas, front bas ; peau {{peau}}) pour le nouvel assemblage « troll » (base humain, échelle 1.15) ; arme « massue » (gourdin noueux avec un clou) |
+| hautepierre | Corbac espion | monstre/corbac.svgt, ~44×42 px : gros corbeau noir aux reflets bleus ({{pelage}}/{{pelage_ombre}}), ailes à demi déployées, bec épais gris, œil rouge, petite longue-vue en laiton en bandoulière ; perché au sol, ancre entre les pattes. |
+| hautepierre | Gargouille | monstre/gargouille.svgt, ~54×60 px : gargouille de pierre grise ({{pierre}}) accroupie, petites ailes de chauve-souris repliées, cornes courtes, gueule grande ouverte en gouttière, griffes ; taches de mousse ; ancre aux pieds. |
+| hautepierre | Olifant de guerre | monstre/olifant.svgt, ~86×70 px : éléphant de guerre gris ({{pelage}}/{{pelage_ombre}}) vu de 3/4, quatre défenses, grandes oreilles, caparaçon rouge à bordure dorée sur le dos, petite tête de mort cendrée brodée ; ancre entre les pattes. |
+| hautepierre | Grondin, Bélier de la Brèche | monstre/grondin.svgt, ~112×76 px : bélier de siège sur 4 roues, poutre de bois noir cerclée de fer, tête de loup en fer forgé à l'avant aux yeux rouge braise, chaînes pendantes, toit de planches roussies ; ancre au centre bas (≈ [56, 72]). Pas d'équipage : il avance seul. |
+
+## 12. Lots de production
+
+Chaque lot ne touche que ses propres fichiers : `game/data/<type>/<id>.json` pour ses ids, son fragment d'images `game/art/manifestes/<lot>.json`, ses dessins et ses icônes. Les lots de zone peuvent donc avancer en parallèle ; variantes et métiers viennent après, car ils réutilisent les butins des zones.
+
+| Lot | Cartes nouvelles | Monstres | Sorts nouveaux | Objets | Dessins nouveaux | Dépend de |
+|---|---|---|---|---|---|---|
+| brumerive | 8 | 11 | 14 | 13 | 2 | — |
+| crasse_roc | 8 | 11 | 14 | 13 | 3 | — |
+| sylvebrume | 7 | 11 | 11 | 13 | 3 | — |
+| hautepierre | 19 | 13 | 22 | 35 | 6 | — |
+| variantes | 0 | 3 | 3 | 4 | 0 | lots de zone |
+| metiers | 0 | 0 | 0 | 16 | 0 | lots de zone + variantes |
+
+Ordre proposé :
+1. **Lots de zone** Brumerive, Crasse-Roc, Sylvebrume, puis Hautepierre (le plus gros : on peut le couper en deux, cartes et ville d'un côté, monstres et boss de l'autre).
+2. **Variantes et métiers** (ressources, nœuds de récolte, recettes, sources des panoplies).
+3. **Intégration** : tests de chargement des données, combat simulé par palier pour vérifier le modèle d'équilibrage, captures d'écran, GDD, TODO et guide des testeurs.
+
+Les 18 sorts existants réutilisés ne sont pas modifiés.

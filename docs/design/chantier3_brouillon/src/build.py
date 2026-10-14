@@ -259,9 +259,8 @@ def all_monsters_json():
 
 
 def write():
-    md = []
-    head = open(os.path.join(os.path.dirname(__file__), "intro.md")).read() if os.path.exists(os.path.join(os.path.dirname(__file__), "intro.md")) else "# Chantier 3 — Contenu du monde\n"
-    md.append(head)
+    t = extra["transverse"]
+    md = [t.intro_md()]
     num = 3
     for z in zones:
         md.append(md_zone(z, num)); num += 1
@@ -269,9 +268,7 @@ def write():
         mod = extra[name]
         if mod and hasattr(mod, "MARKDOWN"):
             md.append(mod.MARKDOWN())
-    tail = os.path.join(os.path.dirname(__file__), "outro.md")
-    if os.path.exists(tail):
-        md.append(open(tail).read())
+    md.append(t.FIN())
     open(os.path.join(OUT, "chantier3_contenu.md"), "w").write("\n".join(md))
 
 
