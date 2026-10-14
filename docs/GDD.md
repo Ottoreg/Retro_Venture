@@ -193,6 +193,21 @@ l'histoire.
 | Marais Gris | Marécages hantés, ruines | 50–70 | Long terme |
 | Marches Cendrées / Nocthrône | Terre désolée, citadelle | 70–100 | Long terme |
 
+#### Paliers de niveau des zones de départ
+
+- Chaque zone de départ couvre **toute la plage 1–12**, par paliers de 3 niveaux : **1–3, 4–6, 7–9,
+  10–12**. Chaque palier a des monstres dans chaque zone : un personnage peut toujours progresser
+  dans sa zone, quelle que soit sa race.
+- **Pas de symétrie imposée** : une zone peut compter plus ou moins de monstres (espèces, groupes,
+  cartes) d'un palier que les autres. C'est voulu : chaque race a sa propre progression (une zone
+  généreuse en bas niveau et rude à la fin, une autre l'inverse…). La seule règle est qu'aucun palier
+  ne soit vide.
+- Les élites restent au-dessus du palier de leur famille (environ +3 à +5 niveaux).
+- **État actuel (à corriger)** : les zones ne sont pas au même niveau. Crasse-Roc va du niveau 1 au
+  3 (rat 1, grouilleur 3), Brumerive de 3 à 4 (loup 3, frondeur 4), Sylvebrume de 4 à 5 (cerf 4,
+  arbre vivant 5) : rien au palier 1–3 chez les elfes, et aucune zone n'a encore de monstres de 7 à
+  12.
+
 ### 3.6 Ton
 
 **Parodique, mais un minimum sérieux.** Le jeu détourne les codes du *Seigneur des Anneaux*
@@ -516,6 +531,8 @@ recherche profonde au départ.
 
 - Chaque monstre a : niveau (plage), caractéristiques, résistances, sorts, comportement IA, table de
   butin, XP et monnaie de base.
+- **Niveaux :** chaque zone de départ a des monstres à chaque palier de 3 niveaux (1–3, 4–6, 7–9,
+  10–12), en nombre libre selon la zone (voir § 3.5, *Paliers de niveau des zones de départ*).
 - **Groupes :** de 1 à 8 monstres (3 au plus pendant l'alpha), d'une ou plusieurs espèces, tous visibles
   sur la carte ; composition fixe ou aléatoire dans une liste par zone.
 - **Variantes Corrompues :** versions plus fortes avec un butin spécifique (cendres, fragments).

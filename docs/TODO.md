@@ -134,6 +134,10 @@ Objectif : **10 à 15 h de jeu solo, niveaux 1 à 30 : 3 zones de départ (une p
 - [ ] **(MVP)** Environ 15 à 20 monstres répartis sur les 4 zones (dont des PNJ combattants de chaque camp)
   (7 aujourd'hui : loup et frondeur gobelin à Brumerive, rat des galeries et grouilleur à Crasse-Roc,
   cerf enchanté et arbre vivant à Sylvebrume, et le Souverain Cendré)
+- [ ] **(MVP)** Paliers de niveau dans chaque zone de départ : des monstres de niveau 1–3, 4–6, 7–9 et
+  10–12 dans chacune (aucun palier vide), en nombre libre selon la zone pour que chaque race
+  progresse différemment (GDD § 3.5) ; aujourd'hui Sylvebrume n'a rien en 1–3 (cerf 4, arbre 5) et
+  aucune zone n'a de monstres de 7 à 12
 - [x] Deux types de monstres par zone de départ, avec deux attaques et un butin propre chacun
 - [x] **(MVP)** Tables de butin, prospection (sans seuil), raretés (couleurs), écus
 - [x] Limite de butin par monstre partagée entre les joueurs (quantité max de la ligne), tirage du
