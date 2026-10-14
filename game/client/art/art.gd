@@ -9,6 +9,9 @@ extends RefCounted
 
 const ROOT := "res://art"
 const MANIFEST := "res://art/art.json"
+## Fragments du manifeste (un fichier par zone ou par lot de contenu), fusionnés dans `art.json` :
+## chaque section (`images`, `monstres`, `pnj`, `palettes`…) reçoit leurs entrées en plus.
+const FRAGMENTS := "res://art/manifestes"
 ## Facteur de rendu des SVG.
 const SCALE := 2.0
 
@@ -19,12 +22,34 @@ static var _templates: Dictionary = {}
 static var _textures: Dictionary = {}
 
 
-## Contenu de `art.json` (chargé une fois).
+## Contenu de `art.json` et de ses fragments (chargé une fois).
 static func manifest() -> Dictionary:
 	if _manifest.is_empty():
 		var data: Variant = DataLoader.load_json(MANIFEST)
 		_manifest = data if typeof(data) == TYPE_DICTIONARY else {"images": {}}
+		for path in DataLoader.list_json(FRAGMENTS):
+			_merge_fragment(_manifest, DataLoader.load_json(path), path)
 	return _manifest
+
+
+## Ajoute les entrées d'un fragment à chaque section du manifeste. Une entrée déjà définie ailleurs
+## est signalée et ignorée (un nom = un seul fichier qui le décrit).
+static func _merge_fragment(target: Dictionary, fragment: Variant, path: String) -> void:
+	if typeof(fragment) != TYPE_DICTIONARY:
+		push_error("Fragment d'images %s : objet JSON attendu" % path)
+		return
+	for section: String in fragment:
+		var entries: Variant = fragment[section]
+		if typeof(entries) != TYPE_DICTIONARY:
+			push_error("Fragment d'images %s : la section « %s » doit être un objet" % [path, section])
+			continue
+		if not target.has(section):
+			target[section] = {}
+		for key: String in entries:
+			if target[section].has(key):
+				push_error("Fragment d'images %s : « %s » est déjà défini dans « %s »" % [path, key, section])
+			else:
+				target[section][key] = entries[key]
 
 
 static func has_image(image_name: String) -> bool:

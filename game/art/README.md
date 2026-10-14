@@ -51,3 +51,18 @@ godot --headless --path game -s res://tools/art_sheet.gd -- icones.png 1 objet_
 xvfb-run -s "-screen 0 1280x720x24" godot --path game --rendering-driver opengl3 \
   -s res://tools/screenshot.gd -- capture.png [carte ou scène] [images] [combat|inventaire|metiers|sorts|pierre]
 ```
+
+## Fragments du manifeste (`manifestes/`)
+
+Pour éviter que tout le monde modifie le même fichier, chaque zone ou lot de contenu peut décrire
+ses images dans son propre fichier `art/manifestes/<nom>.json`, avec les mêmes sections que
+`art.json` (`images`, `monstres`, `pnj`, `palettes`, `ressources`, `icones_armes`…). Au chargement,
+leurs entrées sont ajoutées à celles d'`art.json` ; un nom déjà défini ailleurs est une erreur
+(signalée par les tests).
+
+```json
+{
+  "images": {"sanglier": {"fichier": "monstre/sanglier.svgt", "ancre": [34, 44]}},
+  "monstres": {"sanglier_des_landes": {"image": "sanglier", "echelle": 0.85}}
+}
+```

@@ -75,3 +75,27 @@ func test_icones_des_sorts_des_armes_et_des_objets() -> void:
 		assert_true(Art.has_image("objet_" + item_id), "icône de l'objet %s" % item_id)
 	for image in ["coeur_vide", "coeur_plein", "etoile_pa", "case_pm", "case_sort", "sort_inconnu", "objet_inconnu"]:
 		assert_true(Art.has_image(image), image)
+
+
+func test_fragments_du_manifeste_sans_doublon() -> void:
+	# Chaque nom n'est décrit qu'une fois, dans art.json ou dans un seul fragment.
+	var seen := {}
+	var base: Variant = DataLoader.load_json(Art.MANIFEST)
+	var sources: Array = [[Art.MANIFEST, base]]
+	for path in DataLoader.list_json(Art.FRAGMENTS):
+		sources.append([path, DataLoader.load_json(path)])
+	for source: Array in sources:
+		assert_eq(typeof(source[1]), TYPE_DICTIONARY, "%s : objet JSON" % source[0])
+		if typeof(source[1]) != TYPE_DICTIONARY:
+			continue
+		for section: String in source[1]:
+			if typeof(source[1][section]) != TYPE_DICTIONARY:
+				continue
+			for key: String in source[1][section]:
+				var full: String = section + "/" + key
+				assert_false(seen.has(full), "« %s » défini dans %s et dans %s" % [full, seen.get(full, ""), source[0]])
+				seen[full] = source[0]
+	var merged := {"images": {"a": 1}}
+	Art._merge_fragment(merged, {"images": {"b": 2}, "monstres": {"m": {}}}, "test")
+	assert_eq(merged["images"], {"a": 1, "b": 2})
+	assert_true(merged["monstres"].has("m"))
