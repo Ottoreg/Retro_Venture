@@ -2,6 +2,7 @@
   "id": "souverain_cendre",
   "nom": "Le Souverain Cendré",
   "description": "Celui qui veut asservir le monde. Pour l'instant, il garde son trône et attend les imprudents.",
+  "boss": true,
   "niveau": 50,
   "caracteristiques": {
     "pv": 900,

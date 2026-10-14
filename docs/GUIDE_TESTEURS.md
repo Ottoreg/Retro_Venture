@@ -89,6 +89,10 @@ le **lit** de votre maison les rend tous d'un coup.
 - **Monstres** : loup et frondeur gobelin (Brumerive), rat des galeries et grouilleur (Crasse-Roc),
   cerf enchanté et arbre vivant (Sylvebrume). Les groupes comptent 1 à 3 monstres, parfois mélangés,
   se promènent autour de leur place et réapparaissent 2 à 3 minutes après avoir été vaincus.
+- **Niveaux des monstres** : à Crasse-Roc, rats et grouilleurs ont un niveau de 1 à 3, tiré à chaque
+  apparition (les rats surtout au niveau 1, les grouilleurs surtout au niveau 3). Plus haut niveau :
+  plus de PV, de dégâts et d'XP, mais le même butin. La bulle du groupe et le cadre du combattant
+  survolé montrent le niveau de chacun.
 - **Nouveautés du combat** : coups critiques (5 % par sort, « Coup critique ! », valeurs × 1,5),
   bonus et malus temporaires, poisons, poussées, glyphes et pièges. Survoler un combattant montre
   ses états en cours (« −2 PM (1 tour) », « Poison 6 Givre (3 tours) »…).

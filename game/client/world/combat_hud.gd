@@ -263,12 +263,9 @@ func _show_target() -> void:
 		_spells_box.visible = true
 		return
 	var shown := map_view.actor(fighter.id)  # Ce qu'affiche la carte (les animations peuvent être en retard).
-	var level := map_view.world.character.level
-	if fighter.team != Fighter.TEAM_PLAYERS:
-		level = int(map_view.world.data.monsters.get(fighter.kind, {}).get("niveau", 1))
 	_target_name.text = fighter.display_name
 	_target_name.add_theme_color_override("font_color", Color(0.6, 0.8, 1.0) if fighter.team == Fighter.TEAM_PLAYERS else Color(1.0, 0.62, 0.5))
-	_target_level.text = "Niveau %d" % level
+	_target_level.text = "Niveau %d" % fighter.level  # Pour un monstre, celui tiré à son apparition.
 	# PA et PM : ce qu'il lui reste pendant son tour, sinon ce qu'il aura au prochain (PM retirés compris).
 	var pa := fighter.next_turn_pa()
 	var pm := fighter.next_turn_pm()

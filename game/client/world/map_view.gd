@@ -99,7 +99,8 @@ var selected_spell := ""
 var turn_order: Array[String] = []
 var current_turn := ""
 
-## Ce qui est affiché : id → { pos: Vector2 (grille), kind, team, name, hp, max_hp, pa, pm, alive, count }.
+## Ce qui est affiché : id → { pos: Vector2 (grille), kind, team, name, hp, max_hp, pa, pm, alive, count }
+## (et pour un groupe en exploration, `members` et `levels` : ses monstres et leurs niveaux).
 var _actors: Dictionary = {}
 ## Apparence de chaque espèce de monstre (voir `_monster_look`).
 var _monster_looks: Dictionary = {}
@@ -473,7 +474,7 @@ func _describe(cell: Vector2i) -> String:
 		if data["alive"] and Vector2i(data["pos"].round()) == cell and actor_id != World.PLAYER_ID:
 			if mode == Mode.COMBAT:
 				return "%s — %d / %d PV" % [data["name"], data["hp"], data["max_hp"]]
-			var text := group_lines(data.get("members", [data["kind"]]), world.data)
+			var text := group_lines(data.get("members", [data["kind"]]), world.data, data.get("levels", []))
 			var rank := world.elite_rank(world.group(actor_id))
 			if rank > 0:
 				text += "\nButin : +%d %%" % roundi(rank * World.ELITE_LOOT_BONUS_PER_RANK * 100.0)
@@ -763,6 +764,10 @@ func _apply(event: Dictionary) -> float:
 	if type == Protocol.EVT_TRAP_ENDED:
 		_traps.erase(event["id"])
 		return 0.0
+	if type == Protocol.EVT_PHASE:
+		combat_message.emit(event["message"])
+		_add_floating(event["message"], Color(1.0, 0.45, 0.85), _actors[event["entite"]]["pos"] + Vector2(0, -0.6))
+		return 0.8
 	if type == Protocol.EVT_TRAP_TRIGGERED:
 		_traps.erase(event["id"])
 		_trap_flash = {"cases": event["cases"], "age": 0.0}
@@ -835,15 +840,20 @@ func _add_group_actor(group: Dictionary) -> void:
 	var data := _new_actor(Vector2(group["case"]), monster_ids[0], 1, group_label(monster_ids, world.data), 1, 1)
 	data["count"] = monster_ids.size()
 	data["members"] = monster_ids.duplicate()
+	data["levels"] = group.get("niveaux", []).duplicate()
 	_actors[group["id"]] = data
 
 
-## Bulle d'un groupe : chaque monstre sur sa ligne, niveau devant (« Niv. 3 Loup des collines »).
-static func group_lines(monster_ids: Array, data: GameData) -> String:
+## Bulle d'un groupe : chaque monstre sur sa ligne, son niveau devant (« Niv. 3 Loup des collines »).
+## `levels` : le niveau tiré de chaque monstre (voir `GameMap.compose_group`) ; à défaut, le niveau
+## de base de ses données.
+static func group_lines(monster_ids: Array, data: GameData, levels: Array = []) -> String:
 	var lines: PackedStringArray = []
-	for monster_id: String in monster_ids:
+	for i in monster_ids.size():
+		var monster_id: String = monster_ids[i]
 		var monster: Dictionary = data.monsters.get(monster_id, {}) if data != null else {}
-		lines.append("Niv. %d %s%s" % [int(monster.get("niveau", 1)), monster.get("nom", monster_id), " (élite)" if monster.get("elite", false) else ""])
+		var level := int(levels[i]) if i < levels.size() else int(monster.get("niveau", 1))
+		lines.append("Niv. %d %s%s" % [level, monster.get("nom", monster_id), " (élite)" if monster.get("elite", false) else ""])
 	return "\n".join(lines)
 
 
@@ -964,11 +974,13 @@ func _draw() -> void:
 
 	var font := ThemeDB.fallback_font
 	for text in _floating:
-		var text_pos := IsoGrid.grid_to_screen(text["pos"]) + Vector2(-100, -60 - 30 * text["age"])
+		# Centré au-dessus de la case, assez large pour un long message (changement de phase).
+		var width := maxf(200.0, font.get_string_size(text["text"], HORIZONTAL_ALIGNMENT_LEFT, -1, 16).x + 8.0)
+		var text_pos := IsoGrid.grid_to_screen(text["pos"]) + Vector2(-width / 2.0, -60 - 30 * text["age"])
 		var color: Color = text["color"]
 		color.a = 1.0 - maxf(0.0, text["age"] - 0.6) / 0.4
-		draw_string_outline(font, text_pos, text["text"], HORIZONTAL_ALIGNMENT_CENTER, 200, 16, 4, Color(0, 0, 0, color.a))
-		draw_string(font, text_pos, text["text"], HORIZONTAL_ALIGNMENT_CENTER, 200, 16, color)
+		draw_string_outline(font, text_pos, text["text"], HORIZONTAL_ALIGNMENT_CENTER, width, 16, 4, Color(0, 0, 0, color.a))
+		draw_string(font, text_pos, text["text"], HORIZONTAL_ALIGNMENT_CENTER, width, 16, color)
 
 
 ## Glyphes (cases teintées et liserés), pièges de l'équipe du joueur, explosion d'un piège.

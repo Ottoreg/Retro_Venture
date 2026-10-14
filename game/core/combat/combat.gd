@@ -434,6 +434,27 @@ func _hurt(target: Fighter, amount: int, element: String, events: Array[Dictiona
 	if not target.is_alive():
 		events.append({"type": Protocol.EVT_DIED, "entite": target.id})
 		_remove_ground_of(target, events)
+	else:
+		_check_phases(target, events)
+
+
+## Phases d'un monstre (voir `Fighter.phases`) : chaque seuil de PV atteint ou franchi (en % des PV
+## max) déclenche sa phase, une seule fois, dans l'ordre. Le monstre apprend ses sorts, puis
+## s'applique ses effets (il en est le lanceur). Appelé après chaque perte de PV (sort, poison,
+## piège, choc). Les seuils sont comparés aux PV laissés par les dégâts : le soin d'une phase
+## n'empêche pas les suivantes franchies du même coup.
+func _check_phases(fighter: Fighter, events: Array[Dictionary]) -> void:
+	var reached := fighter.hp
+	while not fighter.phases.is_empty() and fighter.is_alive() \
+			and reached * 100 <= int(fighter.phases[0]["pv"]) * fighter.max_hp:
+		var phase: Dictionary = fighter.phases.pop_front()
+		for spell: Spell in phase["sorts"]:
+			if fighter.get_spell(spell.id) == null:
+				fighter.spells.append(spell)
+		events.append({"type": Protocol.EVT_PHASE, "entite": fighter.id, "message": phase["message"]})
+		for effect: Dictionary in phase["effets"]:
+			if fighter.is_alive():
+				_apply_effect(fighter, fighter, effect, events, false, fighter.cell, fighter.display_name)
 
 
 ## Pose un état (bonus, malus, poison). Un bonus ou malus de PA ou de PM compte tout de suite.

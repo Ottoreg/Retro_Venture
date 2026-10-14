@@ -214,10 +214,11 @@ l'histoire.
   | Grouilleur (fort) | rarement | un peu | souvent |
 
   Voir § 8.1 pour ce que le niveau change sur le monstre.
-- **État actuel (à corriger)** : les zones ne sont pas au même niveau. Crasse-Roc va du niveau 1 au
-  3 (rat 1, grouilleur 3), Brumerive de 3 à 4 (loup 3, frondeur 4), Sylvebrume de 4 à 5 (cerf 4,
-  arbre vivant 5) : rien au palier 1–3 chez les elfes, et aucune zone n'a encore de monstres de 7 à
-  12.
+- **État actuel (à corriger)** : les zones ne sont pas au même niveau. Crasse-Roc couvre le palier
+  1–3 (rat et grouilleur de niveau 1 à 3, avec les poids de l'exemple ci-dessus), Brumerive va de 3 à
+  4 (loup 3, frondeur 4), Sylvebrume de 4 à 5 (cerf 4, arbre vivant 5) : rien au palier 1–3 chez les
+  elfes, et aucune zone n'a encore de monstres de 7 à 12. Seules les deux familles de Crasse-Roc ont
+  déjà des niveaux variables ; les autres gardent un niveau fixe en attendant leur palier.
 
 ### 3.6 Ton
 
@@ -535,7 +536,9 @@ Comportements configurables par donnée (`ia`), et non codés par monstre :
 - `soutien` (fait) : se déplace comme `distance` ; ses soins, boucliers et glyphes passent avant
   quand ils valent plus que ses attaques.
 - `summoner` : invoque puis se protège (à venir).
-- `boss` : script dédié par phases (seuils de PV) (à venir).
+- **Boss à phases** (moteur fait, contenu à venir) : pas un comportement d'IA à part, mais des
+  `phases` dans les données du monstre (seuils de PV, voir § 8.1) ; le boss garde son `ia` et
+  gagne de nouveaux sorts à chaque phase.
 
 L'IA note chaque sort possible sur chaque cible utile (fait) : dégâts attendus (achever compte
 double), soins utiles (PV manquants seulement), boucliers, bonus et malus (un PA ou un PM vaut
@@ -575,14 +578,27 @@ vaut quelque chose ; pas de recherche profonde.
   butin, XP et monnaie de base.
 - **Niveaux :** chaque zone de départ a des monstres à chaque palier de 3 niveaux (1–3, 4–6, 7–9,
   10–12), en nombre libre selon la zone (voir § 3.5, *Paliers de niveau des zones de départ*).
-- **Niveau d'un membre de famille** : tiré à l'apparition dans la tranche du palier, selon les poids
-  de la famille (une famille faible tire surtout bas, une forte surtout haut ; élites à niveau fixe).
-  - Le niveau change les **caractéristiques** : PV, Force, Intelligence, Chance, Agilité,
-    résistances… (et l'XP gagnée).
-  - Le niveau **ne change pas le butin** : même table, mêmes taux et mêmes quantités pour toute la
-    famille, quel que soit le niveau.
+- **Niveau d'un membre de famille** (fait) : tiré à l'apparition dans la tranche du palier, selon les
+  poids de la famille (une famille faible tire surtout bas, une forte surtout haut ; élites et boss à
+  niveau fixe). Tiré à nouveau à chaque réapparition, gardé dans la sauvegarde, montré dans la bulle
+  du groupe (« Niv. 2 Rat des galeries ») et dans le cadre du combattant survolé.
+  - Le niveau change les **caractéristiques** (fait) : PV, initiative, Force, Intelligence, Chance,
+    Agilité, résistances et XP gagnée, d'une valeur fixe par niveau au-dessus du niveau de base
+    (`par_niveau` dans les données). Comme pour les joueurs, chaque point de Force, Intelligence,
+    Chance ou Agilité donne +1 % de dégâts de son élément.
+  - Le niveau **ne change pas le butin** : même table, mêmes taux, mêmes quantités et mêmes écus pour
+    toute la famille, quel que soit le niveau.
   - **PA et PM identiques dans toute la famille**, sauf exception pour une famille dont la mécanique
     repose sur ces caractéristiques (par exemple, une espèce qui gagne des PM en vieillissant).
+  - Fait pour les deux familles de Crasse-Roc (rat des galeries 1–3 surtout bas, grouilleur 1–3
+    surtout haut) ; les autres familles suivront avec les paliers de leur zone.
+- **Mini-boss à phases** (moteur fait, contenu à venir) : un monstre unique (`boss` : ni famille ni
+  élite, niveau fixe, comme le Souverain Cendré) ou n'importe quel monstre peut avoir des **phases**.
+  Quand ses PV tombent sous un seuil (en % de ses PV max), après n'importe quels dégâts, la phase se
+  déclenche une seule fois : il annonce la couleur (message de combat et texte flottant), apprend de
+  nouveaux sorts et s'applique des effets (bonus, soin, bouclier…). Plusieurs seuils franchis d'un
+  coup : toutes les phases, dans l'ordre. Les mini-boss de fin de région et leurs scripts viendront
+  avec le contenu.
 - **Groupes :** de 1 à 8 monstres (3 au plus pendant l'alpha), d'une ou plusieurs espèces, tous visibles
   sur la carte ; composition fixe ou aléatoire dans une liste par zone.
 - **Variantes Corrompues :** versions plus fortes avec un butin spécifique (cendres, fragments).

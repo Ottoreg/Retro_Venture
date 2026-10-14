@@ -6,7 +6,9 @@ extends SceneTree
 ## Action : « combat » (engage le premier groupe de la carte), « butin » (écran de fin de combat d'exemple), « elite7 » (Loup alpha de rang 7 survolé), « cible » (combat, monstre survolé), « sermon » (Théologue en combat, Sermon visé devant lui), « panoplie » (3 pièces portées), « inventaire », « metiers », « sorts » (ouvre la
 ## fenêtre ; « inventaire » remplit d'abord le sac d'un exemplaire de chaque objet) ou « pierre » (va utiliser
 ## la Pierre de Passage), « glyphe » (combat contre l'Arbre millénaire, glyphe posée, héros ralenti et
-## empoisonné, à lancer sur sylvebrume_0_0).
+## empoisonné, à lancer sur sylvebrume_0_0), « survol » (le plus grand groupe de la carte survolé :
+## bulle avec le niveau tiré de chaque monstre) ou « phase » (comme « cible », avec un changement de
+## phase du monstre survolé : message et texte flottant).
 ## Si « carte » commence par res://, c'est cette scène qui est capturée (menu, création…).
 
 var _output := "capture.png"
@@ -100,18 +102,33 @@ func _process(_delta: float) -> bool:
 			view._play_next()
 			_wait_for(view)
 			view._set_hovered(hero.cell)
+		elif _action == "survol":
+			# Le groupe le plus varié (puis le plus nombreux), survolé : un monstre par ligne, avec son
+			# niveau tiré.
+			var biggest: Dictionary = {}
+			var best_score := -1
+			for group: Dictionary in view.world.groups():
+				var kinds := {}
+				for monster_id: String in group["monstres"]:
+					kinds[monster_id] = true
+				var score: int = kinds.size() * 10 + group["monstres"].size()
+				if score > best_score:
+					best_score = score
+					biggest = group
+			view._set_hovered(biggest["case"])
+			Input.warp_mouse(view.get_global_transform_with_canvas() * IsoGrid.cell_to_screen(biggest["case"]))
 		elif _action == "metiers":
 			_scene.get_node("JobsWindow").toggle()
 		elif _action == "sorts":
 			_scene.get_node("SpellsWindow").toggle()
 		else:
-			var target: Vector2i = view.world.groups()[0]["case"] if _action in ["combat", "cible", "sermon"] else view.current_map().travel_stone()
+			var target: Vector2i = view.world.groups()[0]["case"] if _action in ["combat", "cible", "sermon", "phase"] else view.current_map().travel_stone()
 			view._on_click(target)
 			for i in 200:
 				if not view.is_busy():
 					break
 				view._process(0.3)
-			if _action in ["cible", "sermon"] and view.world.combat != null:
+			if _action in ["cible", "sermon", "phase"] and view.world.combat != null:
 				# Placement validé, puis survol du premier monstre.
 				view.request_start_fight()
 				for i in 200:
@@ -125,9 +142,14 @@ func _process(_delta: float) -> bool:
 					view.selected_spell = "theologue_sermon"
 					view._refresh_overlays()
 					view._set_hovered(hero.cell + Spell.direction(hero.cell, foe.cell))
-				for fighter in view.world.combat.fighters if _action == "cible" else []:
+				for fighter in view.world.combat.fighters if _action in ["cible", "phase"] else []:
 					if fighter.team != Fighter.TEAM_PLAYERS:
 						view._set_hovered(fighter.cell)
+						if _action == "phase":
+							view._queue.append({"type": Protocol.EVT_PHASE, "entite": fighter.id,
+								"message": "%s entre dans une rage folle !" % fighter.display_name})
+							view._playing = true
+							view._play_next()
 						break
 		_action = ""
 	_frames -= 1

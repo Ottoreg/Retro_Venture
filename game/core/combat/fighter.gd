@@ -10,6 +10,8 @@ var display_name: String
 var team: int
 ## Identifiant du monstre ou de la Voie, pour l'affichage.
 var kind: String
+## Niveau : celui du personnage pour un joueur, celui tiré à l'apparition pour un monstre.
+var level: int = 1
 var cell: Vector2i
 var max_hp: int
 var hp: int
@@ -44,6 +46,9 @@ var crit_bonus: int = 0
 ## États en cours (bonus, malus, poisons) : { type, carac, element, valeur, min, max, tours, sort,
 ## lanceur }. `tours` : fins de tour de ce combattant avant que l'état ne tombe.
 var states: Array[Dictionary] = []
+## Phases pas encore déclenchées (monstres), dans l'ordre : { pv: int (% des PV max), message: String,
+## sorts: Array[Spell], effets: Array[Dictionary] } (voir `Combat._check_phases`).
+var phases: Array[Dictionary] = []
 
 ## Caractéristique qui augmente les dégâts de chaque élément.
 const ELEMENT_STATS := {"acier": "force", "flamme": "intelligence", "givre": "chance", "tempete": "agilite"}
@@ -187,6 +192,7 @@ func to_dict() -> Dictionary:
 		"nom": display_name,
 		"equipe": team,
 		"type": kind,
+		"niveau": level,
 		"race": race,
 		"case": cell,
 		"pv": hp,

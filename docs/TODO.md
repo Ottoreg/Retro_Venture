@@ -136,7 +136,9 @@ Objectif : **10 à 15 h de jeu solo, niveaux 1 à 30 : 3 zones de départ (une p
   comportements `distance` (frondeurs) et `soutien`
 - [ ] Tacle / fuite (activable pour tester)
 - [ ] Monstres agressifs (engagent le combat à proximité)
-- [ ] Mini-boss de fin de région avec script par phases
+- [ ] Mini-boss de fin de région avec script par phases : **moteur fait** (`boss` et `phases` dans
+  les données : seuils de PV, message, sorts gagnés, effets sur soi ; GDD § 8.1), le contenu (les
+  mini-boss eux-mêmes) viendra avec les régions
 
 ### Monstres et butin
 - [ ] **(MVP)** Environ 15 à 20 monstres répartis sur les 4 zones (dont des PNJ combattants de chaque camp)
@@ -146,12 +148,13 @@ Objectif : **10 à 15 h de jeu solo, niveaux 1 à 30 : 3 zones de départ (une p
   10–12 dans chacune (aucun palier vide), en nombre libre selon la zone pour que chaque race
   progresse différemment (GDD § 3.5) ; aujourd'hui Sylvebrume n'a rien en 1–3 (cerf 4, arbre 5) et
   aucune zone n'a de monstres de 7 à 12
-- [ ] **(MVP)** Niveau variable dans une famille : tiré à l'apparition dans la tranche du palier, avec
+- [x] **(MVP)** Niveau variable dans une famille : tiré à l'apparition dans la tranche du palier, avec
   des poids par famille (rat des galeries surtout 1, un peu 2, parfois 3 ; grouilleur l'inverse) ;
   élites à niveau fixe ; niveau sauvegardé avec le groupe et affiché dans la bulle (GDD § 3.5, § 8.1)
-- [ ] **(MVP)** Caractéristiques selon le niveau (PV, Force, Intelligence, Chance, Agilité,
+- [x] **(MVP)** Caractéristiques selon le niveau (PV, Force, Intelligence, Chance, Agilité,
   résistances, XP) ; butin indépendant du niveau ; PA et PM fixes pour toute la famille, sauf
   exception déclarée dans ses données
+- [ ] Niveaux variables pour les familles de Brumerive et de Sylvebrume (avec leurs paliers)
 - [x] Deux types de monstres par zone de départ, avec deux attaques et un butin propre chacun
 - [x] **(MVP)** Tables de butin, prospection (sans seuil), raretés (couleurs), écus
 - [x] Limite de butin par monstre partagée entre les joueurs (quantité max de la ligne), tirage du

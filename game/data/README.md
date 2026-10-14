@@ -77,7 +77,11 @@ Un groupe vaincu réapparaît à sa place au bout d'un délai tiré dans `reappa
 En exploration, les groupes se promènent : toutes les 8 à 20 secondes, quelques pas (3 au plus)
 sans s'éloigner de plus de 3 cases de leur place d'origine, ni aller sur le joueur, un autre groupe,
 une porte, un bord de sortie ou derrière un bâtiment. La sauvegarde garde la composition et la place
-de chaque groupe.
+de chaque groupe, et le niveau de chaque monstre.
+
+À chaque apparition (première visite, réapparition, arrivée d'une élite), chaque monstre du groupe
+reçoit son niveau, tiré dans la tranche de sa famille (voir `niveaux` dans *Monstres*) ; la bulle du
+groupe le montre devant son nom (« Niv. 2 Rat des galeries »).
 
 ### PNJ
 
@@ -242,6 +246,10 @@ Au sol :
 }
 ```
 
+`caracteristiques` : `pv`, `pa`, `pm`, `initiative`, et en option `force`, `intelligence`, `chance`,
+`agilite` (entiers ≥ 0, 0 par défaut) : comme pour les joueurs, +1 % de dégâts de l'élément par point
+(Force pour l'Acier, Intelligence pour la Flamme, etc.).
+
 `resistances` en % par élément (négatif = faiblesse). La résistance au Sacré est la moyenne des
 résistances à l'Acier et à la Flamme, plus la résistance au Sacré (`sacre`, facultatif) : 10 % Flamme,
 5 % Acier et 5 % Sacré donnent 12,5 %. Celle à l'Impie : moyenne de la Tempête et du Givre, plus
@@ -255,11 +263,66 @@ Un monstre **élite** a `"elite": true` et sa `famille` (l'id du monstre normal 
 forte, par exemple `"famille": "loup_des_collines"` pour le Loup alpha). Il est plus haut niveau,
 a au moins deux fois plus de PV, un sort d'attaque en plus, et lâche plus souvent les objets rares
 de sa famille. Il est dessiné plus grand, avec un halo doré, et « (élite) » suit son nom au survol.
-Chaque famille de monstres (sauf le Souverain Cendré) a son élite.
+Chaque famille de monstres a son élite, sauf les boss.
 
 Les élites ne se placent pas dans les `groupes` des cartes : le monde les fait apparaître lui-même
 (voir `World` : toutes les 5 à 6 minutes de jeu, sur une carte au hasard où vit leur famille, une
 seule en vie par espèce, avec un rang d'ancienneté qui augmente leur butin).
+
+### Niveaux d'une famille
+
+Les membres d'une famille (élites exceptées) apparaissent à n'importe quel niveau de la tranche de
+leur palier (1–3, 4–6, 7–9, 10–12 dans une zone de départ), tiré à chaque apparition selon les poids
+de la famille : une famille faible tire surtout bas, une forte surtout haut.
+
+```json
+"niveau": 1,
+"niveaux": {"min": 1, "max": 3, "poids": [6, 3, 1]},
+"caracteristiques": {"pv": 14, "pa": 5, "pm": 4, "initiative": 60},
+"par_niveau": {"pv": 3, "initiative": 5, "xp": 4, "force": 5}
+```
+
+| Clé | Rôle |
+|---|---|
+| `niveau` | Niveau de base : celui des `caracteristiques`, `resistances` et `xp` écrits dans le fichier |
+| `niveaux` | Facultatif. `min` (égal à `niveau`), `max` (≥ `min`) et `poids` : un entier ≥ 0 par niveau de `min` à `max`, de somme non nulle (un poids nul n'est jamais tiré). Sans `niveaux`, le niveau est fixe. Interdit sur une élite et un boss (niveau fixe) |
+| `par_niveau` | Facultatif. Ajouté pour chaque niveau au-dessus de `niveau` : `pv`, `initiative`, `xp`, `force`, `intelligence`, `chance`, `agilite` (entiers ≥ 0), `resistances` (`{élément: entier}`, ajouté aux résistances) et, par exception, `pa` et `pm` |
+
+Dans l'exemple, un rat de niveau 3 a 20 PV, 70 d'initiative, 20 XP et 10 de Force. Le niveau ne
+change **pas** le butin : même table, mêmes taux, mêmes quantités et mêmes écus à tous les niveaux.
+PA et PM restent les mêmes dans toute la famille ; `pa` et `pm` dans `par_niveau` sont réservés à une
+famille dont la mécanique en dépend. Les élites restent au-dessus de toute la tranche de leur
+famille.
+
+### Boss et phases
+
+Un **boss** (`"boss": true`) est un monstre unique : ni `famille` ni `elite`, pas d'élite à lui, et un
+niveau fixe (le Souverain Cendré).
+
+Tout monstre peut avoir des `phases`, déclenchées quand ses PV tombent à un seuil :
+
+```json
+"phases": [
+  {"pv": 50, "message": "Le Gardien des ronces perd patience !",
+   "sorts": ["millenaire_ronces"],
+   "effets": [{"type": "bonus", "carac": "force", "min": 40, "max": 40, "duree": 3},
+              {"type": "bouclier", "element": "acier", "min": 60, "max": 60}]},
+  {"pv": 20, "message": "« Vous ne m'aurez pas si facilement ! »",
+   "effets": [{"type": "soin", "element": "givre", "min": 80, "max": 80}]}
+]
+```
+
+| Clé | Rôle |
+|---|---|
+| `pv` | Seuil en % des PV max (1 à 99), strictement plus bas d'une phase à la suivante |
+| `message` | Affiché comme message de combat et en texte flottant au-dessus du monstre |
+| `sorts` | Facultatif. Sorts qu'il apprend pour le reste du combat |
+| `effets` | Facultatif. Effets qu'il s'applique (il en est le lanceur) : mêmes formats que les effets des sorts (`bonus`, `malus`, `soin`, `bouclier`, `gain_pa`, `poison`…), sans glyphe, piège, téléportation, poussée ni attirance |
+
+Une phase se déclenche une seule fois par combat, dès que les PV du monstre passent au seuil ou
+dessous, quels que soient les dégâts (sort, poison, glyphe, piège, choc) ; s'il en franchit
+plusieurs d'un coup, elles se déclenchent toutes, dans l'ordre. Un monstre vaincu ne change plus de
+phase.
 
 ## Voies / classes (`voies/`)
 

@@ -87,7 +87,8 @@ const EVT_HARVESTED := "recolte"
 ## { type, carte: String, case: Vector2i }
 const EVT_RESOURCE_RESPAWNED := "repousse"
 ## Un groupe de monstres vaincu de la carte actuelle est réapparu (renvoyé par `World.update`).
-## { type, carte: String, groupe: { id, case, monstres } }
+## { type, carte: String, groupe: { id, case, monstres, niveaux } } — `niveaux` : le niveau tiré de
+## chaque monstre, dans l'ordre de `monstres`.
 const EVT_GROUP_RESPAWNED := "reapparition"
 ## Un groupe de monstres de la carte actuelle se promène (renvoyé par `World.update`).
 ## { type, groupe: String, chemin: Array[Vector2i] (sans la case de départ), case: Vector2i }
@@ -106,7 +107,8 @@ const EVT_CRAFTED := "fabrication"
 const EVT_JOB := "metier"
 ## Arrivée sur une autre carte. { type, carte: String, nom: String, position: Vector2i }
 const EVT_MAP_CHANGED := "changement_carte"
-## { type, groupe: String, combattants: Array[Dictionary], placement: Array[Vector2i] }
+## { type, groupe: String, combattants: Array[Dictionary], placement: Array[Vector2i] } — chaque
+## combattant comme `Fighter.to_dict` (avec son `niveau` : celui tiré à l'apparition d'un monstre).
 const EVT_COMBAT_STARTED := "combat_debut"
 ## { type, entite: String, case: Vector2i }
 const EVT_PLACED := "place"
@@ -149,6 +151,10 @@ const EVT_TRAP := "piege"
 const EVT_TRAP_TRIGGERED := "piege_declenche"
 ## Piège retiré sans être déclenché (lanceur vaincu). { type, id: int }
 const EVT_TRAP_ENDED := "piege_fin"
+## Un monstre change de phase : ses PV sont passés sous un seuil de ses « phases » (une seule fois
+## par phase). { type, entite: String, message: String } ; ses nouveaux sorts sont déjà appris, les
+## effets de la phase (sur lui-même) suivent.
+const EVT_PHASE := "phase"
 ## Gain d'expérience après un combat. { type, gain: int, xp: int, niveau: int }
 const EVT_XP := "experience"
 ## { type, niveau: int, points: int (points de caractéristique à répartir) }

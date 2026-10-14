@@ -39,7 +39,9 @@ func test_scene_du_monde_jusqu_au_combat_et_retour() -> void:
 	view._set_hovered(enemy.cell)
 	assert_true(hud._target_box.visible and not hud._spells_box.visible, "infos de la cible à la place des sorts")
 	assert_eq(hud._target_name.text, enemy.display_name)
-	assert_eq(hud._target_level.text, "Niveau %d" % view.world.data.monsters[enemy.kind]["niveau"])
+	assert_eq(hud._target_level.text, "Niveau %d" % enemy.level)
+	var rank := int(enemy.id.trim_prefix(group["id"] + "_")) - 1  # Combattants « groupe_1_1 », « groupe_1_2 »…
+	assert_eq(enemy.level, int(group["niveaux"][rank]), "le niveau tiré à l'apparition")
 	assert_true(hud._target_stats.text.contains("PV %d / %d" % [enemy.hp, enemy.max_hp]), hud._target_stats.text)
 	assert_eq(hud._target_resistances.size(), 6, "résistances aux 6 éléments")
 	assert_eq(hud._target_resistances["givre"].text, "Givre " + CombatHud.percent_text(enemy.resistance("givre")))
@@ -495,8 +497,9 @@ func test_tous_les_membres_d_un_groupe_sont_affiches() -> void:
 	assert_true(scene._hover_bubble.visible, "bulle au survol d'un groupe")
 	var hovered: Dictionary = view.world.groups()[0]
 	var expected: PackedStringArray = []
-	for monster_id: String in hovered["monstres"]:
-		expected.append("Niv. %d %s" % [view.world.data.monsters[monster_id]["niveau"], view.world.data.monsters[monster_id]["nom"]])
+	for i in hovered["monstres"].size():
+		var monster_id: String = hovered["monstres"][i]
+		expected.append("Niv. %d %s" % [hovered["niveaux"][i], view.world.data.monsters[monster_id]["nom"]])
 	assert_eq(scene._hover_label.text, "\n".join(expected), "un monstre par ligne, niveau devant")
 	view._set_hovered(view.current_map().spawn)
 	assert_false(scene._hover_bubble.visible, "pas de bulle sur une case vide")
@@ -562,4 +565,49 @@ func test_couronne_d_anciennete_d_une_elite() -> void:
 	assert_true(scene._hover_label.text.contains("Butin : +70 %"), scene._hover_label.text)
 	view._set_hovered(view.current_map().spawn)
 	assert_false(scene._hover_bubble.visible)
+	scene.free()
+
+
+func test_niveaux_tires_dans_la_bulle_et_en_combat() -> void:
+	var tree := Engine.get_main_loop() as SceneTree
+	Session.continue_game = false
+	Session.new_character = Character.create("Essai", "gobelin", "guerrier")
+	var scene: Node = load("res://client/world/world.tscn").instantiate()
+	tree.root.add_child(scene)
+	var view: MapView = scene.get_node("MapView")
+	var hud: CombatHud = scene.get_node("CombatHud")
+	assert_eq(view.world.map.id, "crasse_roc_0_0")
+	# Les deux rats du premier groupe, à des niveaux choisis pour le test (tirés au sort d'habitude).
+	var group: Dictionary = view.world.group("groupe_1")
+	assert_eq(str(group["monstres"]), str(["rat_des_galeries", "rat_des_galeries"]))
+	group["niveaux"] = [3, 1]
+	view._load_exploration_actors()
+	view._set_hovered(group["case"])
+	assert_eq(scene._hover_label.text, "Niv. 3 Rat des galeries\nNiv. 1 Rat des galeries", "le niveau tiré de chaque monstre")
+	# En combat : chaque rat à son niveau, affiché dans le cadre du combattant survolé.
+	view._on_click(group["case"])
+	_run_until_idle(view)
+	view.request_start_fight()
+	_run_until_idle(view)
+	var strongest: Fighter = null
+	for fighter in view.world.combat.fighters:
+		if fighter.kind == "rat_des_galeries" and fighter.level == 3:
+			strongest = fighter
+	assert_true(strongest != null, "un rat de niveau 3 en combat")
+	if strongest == null:
+		scene.free()
+		return
+	view._set_hovered(view.player_fighter().cell)
+	view._set_hovered(strongest.cell)
+	assert_eq(hud._target_level.text, "Niveau 3")
+	assert_eq(strongest.max_hp, 20, "14 PV au niveau 1, +3 par niveau")
+	# Changement de phase : message de combat et texte flottant.
+	view._queue.append({"type": Protocol.EVT_PHASE, "entite": strongest.id, "message": "Le rat se fâche !"})
+	view._playing = true
+	view._play_next()
+	assert_eq(hud._message_label.text, "Le rat se fâche !", "message de combat")
+	var floating := false
+	for text: Dictionary in view._floating:
+		floating = floating or text["text"] == "Le rat se fâche !"
+	assert_true(floating, "texte flottant au-dessus du monstre")
 	scene.free()

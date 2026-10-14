@@ -3,11 +3,26 @@
   "nom": "Rat des galeries",
   "description": "Il vivait là avant les gobelins. Il compte bien y vivre après.",
   "niveau": 1,
+  "niveaux": {
+    "min": 1,
+    "max": 3,
+    "poids": [
+      6,
+      3,
+      1
+    ]
+  },
   "caracteristiques": {
     "pv": 14,
     "pa": 5,
     "pm": 4,
     "initiative": 60
+  },
+  "par_niveau": {
+    "pv": 3,
+    "initiative": 5,
+    "xp": 4,
+    "force": 5
   },
   "resistances": {
     "tempete": -10

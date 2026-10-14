@@ -2,16 +2,36 @@
   "id": "grouilleur",
   "nom": "Grouilleur",
   "description": "Un mille-pattes vert de la taille d'un chien, qui crache et qui ne compte pas ses pattes.",
-  "niveau": 3,
+  "niveau": 1,
+  "niveaux": {
+    "min": 1,
+    "max": 3,
+    "poids": [
+      1,
+      3,
+      6
+    ]
+  },
   "caracteristiques": {
-    "pv": 26,
+    "pv": 18,
     "pa": 6,
     "pm": 3,
-    "initiative": 70
+    "initiative": 60
+  },
+  "par_niveau": {
+    "pv": 4,
+    "initiative": 5,
+    "xp": 7,
+    "force": 3,
+    "intelligence": 3,
+    "resistances": {
+      "givre": 2,
+      "flamme": 2
+    }
   },
   "resistances": {
-    "givre": 10,
-    "flamme": 10,
+    "givre": 6,
+    "flamme": 6,
     "acier": -5
   },
   "sorts": [
@@ -19,7 +39,7 @@
     "grouilleur_crachat"
   ],
   "ia": "basique",
-  "xp": 30,
+  "xp": 16,
   "butin": [
     {
       "objet": "carapace_de_grouilleur",
