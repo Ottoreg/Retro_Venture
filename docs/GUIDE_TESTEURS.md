@@ -62,14 +62,18 @@ bandeau, hors combat, ouvre sa fiche.
   arbres et rochers (plus sombres), eau (bleu), chemins, bords de sortie (en jaune), portes (carré
   doré) et Pierre de Passage (losange bleu) ; **vous** (point bleu cerclé de blanc), les groupes de
   monstres (points rouges, **dorés pour une élite**) et les PNJ (points clairs) bougent en direct.
-  En bas, les coordonnées de la carte. Un **clic** dessus ouvre la carte du monde. Elle disparaît en
-  combat (l'ordre de jeu prend sa place).
+  En haut, les coordonnées de la carte. Un **clic** dessus ouvre la carte du monde. Elle disparaît en
+  combat (l'ordre de jeu prend sa place). Elle cache le coin en haut à droite de la carte : si un
+  groupe ou un PNJ passe dessous, ou pour aller sur ces cases, **repliez-la** avec le petit bouton
+  **« – »** de sa barre (« + » pour la déplier) ; elle reste repliée d'une carte à l'autre.
 - **Carte du monde** (touche **M**, bouton en forme de carte du bandeau, ou clic sur la minicarte) :
   un onglet par zone où vous êtes allé, ouvert sur la zone actuelle. Chaque carte visitée est une
   case avec son nom, à sa place (est à droite, sud en bas) ; la carte où vous êtes a un **cadre
   doré** ; les cartes voisines pas encore visitées sont des **« ? »**, les autres restent cachées.
   Un losange bleu marque une Pierre de Passage (plein : découverte ; en creux : pas encore touchée).
-  Les maisons n'y figurent pas. Survolez une case pour son nom complet et ses coordonnées.
+  Les maisons n'y figurent pas (depuis une maison, la carte s'ouvre sur sa zone, la carte devant la
+  porte comptée comme visitée). Survolez une case pour son nom complet et ses coordonnées. Échap
+  ferme la carte du monde avant toute autre fenêtre.
 
 ### Le bandeau du bas
 

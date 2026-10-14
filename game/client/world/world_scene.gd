@@ -98,6 +98,10 @@ func _process(_delta: float) -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel") and _map_view.mode == MapView.Mode.EXPLORATION:
+		# La carte du monde d'abord : elle est au-dessus des autres fenêtres (calque 3).
+		if _world_map.is_open():
+			_world_map.close()
+			return
 		if _shop.is_open():
 			_shop.close()
 			return
@@ -109,9 +113,6 @@ func _unhandled_input(event: InputEvent) -> void:
 			return
 		if _travel.is_open():
 			_travel.close()
-			return
-		if _world_map.is_open():
-			_world_map.close()
 			return
 		if _jobs.is_open():
 			_jobs.toggle()

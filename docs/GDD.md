@@ -486,7 +486,8 @@ prévoit déjà `voie` et `rang` sur chaque sort** pour que le système s'ajoute
   « ? », le reste est caché, et la grille s'adapte à la taille de la zone. Les Pierres de Passage y
   figurent (découvertes ou non) ; les intérieurs, sans coordonnées, n'y sont pas. La minicarte, en
   haut à droite en exploration, montre la carte actuelle, le joueur, les groupes de monstres (élites
-  en doré) et les PNJ ; un clic dessus ouvre la carte du monde.
+  en doré) et les PNJ ; un clic dessus ouvre la carte du monde, un bouton la replie pour dégager le
+  coin de la carte qu'elle recouvre.
 - **Point de résurrection** : la dernière Pierre de Passage touchée (au départ, celle de la zone de
   départ). *Fait :* après une défaite, on se réveille à côté d'elle avec 1 PV, même si elle est sur
   une autre carte que le combat ; la fenêtre de voyage la rappelle. *À venir :* les temples.
@@ -887,7 +888,8 @@ ingrédients).
 - **Fenêtres :** inventaire avec poupée d'équipement, fiche de caractéristiques, grimoire de sorts,
   journal de quêtes, fenêtre de métier, carte du monde (touche M).
 - **Minicarte** en haut à droite, sous le bandeau du haut, en exploration seulement (en combat, la
-  place revient à l'ordre de jeu) ; un clic dessus ouvre la carte du monde.
+  place revient à l'ordre de jeu) ; un clic dessus ouvre la carte du monde, et un bouton « – » la
+  replie (il ne reste que sa barre) quand elle cache un monstre ou un PNJ.
 - **En combat :** frise d'initiative, prévisualisation de portée et de zone, dégâts estimés au survol,
   bouton « fin de tour ». Au survol d'un combattant, ses informations (nom, niveau, PV, PA, PM,
   résistances aux 6 éléments) remplacent la barre de sorts, comme dans Dofus Rétro.

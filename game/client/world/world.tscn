@@ -20,6 +20,9 @@ script = ExtResource("1_scene")
 [node name="MapView" type="Node2D" parent="."]
 script = ExtResource("2_map")
 
+[node name="Minimap" type="CanvasLayer" parent="."]
+script = ExtResource("12_minimap")
+
 [node name="Hud" type="CanvasLayer" parent="."]
 
 [node name="Bandeau" type="ColorRect" parent="Hud"]
@@ -51,9 +54,6 @@ theme_override_constants/outline_size = 4
 
 [node name="CombatHud" type="CanvasLayer" parent="."]
 script = ExtResource("3_hud")
-
-[node name="Minimap" type="CanvasLayer" parent="."]
-script = ExtResource("12_minimap")
 
 [node name="CharacterSheet" type="CanvasLayer" parent="."]
 layer = 2

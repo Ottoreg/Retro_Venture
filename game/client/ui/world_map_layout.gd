@@ -45,8 +45,9 @@ static func visited_zones(visited: Array) -> Array[String]:
 	return zones
 
 
-## Nom d'une zone : celui de sa Pierre de Passage, sinon ce qui précède « — » dans le nom de ses
-## cartes, sinon son id. `maps` : id de carte → { nom, sorties } (voir `zone_layout`) ;
+## Nom d'une zone : celui de sa Pierre de Passage sans précision entre parenthèses (« Trône de
+## Cendre » pour « Trône de Cendre (élite) »), sinon ce qui précède « — » dans le nom de ses cartes,
+## sinon son id. `maps` : id de carte → { nom, sorties } (voir `zone_layout`) ;
 ## `passages` : id de pierre → { nom, carte } (comme `GameData.passages`).
 static func zone_name(zone_id: String, maps: Dictionary, passages: Dictionary = {}) -> String:
 	var passage_ids := passages.keys()
@@ -54,7 +55,11 @@ static func zone_name(zone_id: String, maps: Dictionary, passages: Dictionary = 
 	for passage_id: String in passage_ids:
 		var coordinates := map_coordinates(str(passages[passage_id].get("carte", "")))
 		if not coordinates.is_empty() and coordinates["zone"] == zone_id:
-			return str(passages[passage_id]["nom"])
+			var stone_name := str(passages[passage_id]["nom"]).strip_edges()
+			var bracket := stone_name.find(" (")
+			if bracket > 0 and stone_name.ends_with(")"):
+				stone_name = stone_name.substr(0, bracket)
+			return stone_name
 	var map_ids := maps.keys()
 	map_ids.sort()
 	for map_id: String in map_ids:

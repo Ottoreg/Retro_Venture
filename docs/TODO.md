@@ -236,7 +236,7 @@ Objectif : **10 à 15 h de jeu solo, niveaux 1 à 30 : 3 zones de départ (une p
 - [x] Carte du monde et minicarte : touche M (ou bouton du bandeau, ou clic sur la minicarte), un
   onglet par zone visitée, cartes en grille d'après leurs coordonnées (`<zone>_<x>_<y>`), voisines
   inconnues en « ? », Pierres de Passage ; minicarte en exploration (sol, obstacles, sorties,
-  joueur, groupes, élites, PNJ, portes, pierre)
+  joueur, groupes, élites, PNJ, portes, pierre ; repliable)
 - [x] Point de résurrection : la dernière Pierre de Passage touchée (au départ, celle de la zone de
   départ) ; après une défaite, réveil à côté d'elle avec 1 PV, même sur une autre carte
 - [ ] Point de résurrection aux temples

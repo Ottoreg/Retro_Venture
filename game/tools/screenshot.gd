@@ -4,14 +4,14 @@ extends SceneTree
 ##     -s res://tools/screenshot.gd -- sortie.png [carte] [frames] [action]
 ## Lance la scène du monde (nouvelle partie), attend quelques images et enregistre la vue.
 ## Action : « combat » (engage le premier groupe de la carte), « butin » (écran de fin de combat d'exemple), « elite7 » (Loup alpha de rang 7 survolé), « cible » (combat, monstre survolé), « sermon » (Théologue en combat, Sermon visé devant lui), « panoplie » (3 pièces portées), « inventaire », « metiers », « sorts » (ouvre la
-## fenêtre ; « inventaire » remplit d'abord le sac d'un exemplaire de chaque objet) ou « pierre » (va utiliser
+## fenêtre ; « inventaire » remplit d'abord le sac d'un exemplaire de chaque objet), « pierre » (va utiliser
 ## la Pierre de Passage), « glyphe » (combat contre l'Arbre millénaire, glyphe posée, héros ralenti et
 ## empoisonné, à lancer sur sylvebrume_0_0), « survol » (le plus grand groupe de la carte survolé :
 ## bulle avec le niveau tiré de chaque monstre), « phase » (comme « cible » ; le monstre survolé reçoit
-## une phase pour l'occasion et passe sous son seuil : message et texte flottant) ou « reveil » (combat
+## une phase pour l'occasion et passe sous son seuil : message et texte flottant), « reveil » (combat
 ## perdu contre le premier groupe : réveil près de la Pierre de Passage du point de résurrection, à
-## lancer par exemple sur brumerive_1_0) ou « carte » (ouvre la carte du monde ; la minicarte, elle,
-## est visible sur toute capture en exploration).
+## lancer par exemple sur brumerive_1_0), « carte » (ouvre la carte du monde ; la minicarte, elle,
+## est visible sur toute capture en exploration), « repliee » (minicarte repliée).
 ## Si « carte » commence par res://, c'est cette scène qui est capturée (menu, création…).
 
 var _output := "capture.png"
@@ -34,6 +34,7 @@ func _initialize() -> void:
 	_action = args[3] if args.size() > 3 else ""
 	if _action == "sermon":
 		Session.new_character = Character.create("Frère Tuck", "humain", "theologue")
+	Session.minimap_folded = _action == "repliee"
 	_scene = load(scene_path).instantiate()
 	root.add_child(_scene)
 
@@ -140,6 +141,8 @@ func _process(_delta: float) -> bool:
 			_scene.get_node("SpellsWindow").toggle()
 		elif _action == "carte":
 			_scene.get_node("WorldMapWindow").open()
+		elif _action == "repliee":
+			pass  # Minicarte repliée dès le départ (voir `_initialize`).
 		else:
 			var target: Vector2i = view.world.groups()[0]["case"] if _action in ["combat", "cible", "sermon", "phase"] else view.current_map().travel_stone()
 			if _action == "phase":

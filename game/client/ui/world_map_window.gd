@@ -8,29 +8,55 @@ extends CanvasLayer
 const GOLD := Color(0.95, 0.76, 0.3)
 ## Bleu des runes des Pierres de Passage.
 const COLOR_STONE := Color("7fd0f0")
-## Largeur et hauteur maximales d'une case de la grille, et écart entre deux cases (pixels).
+## Largeur et hauteur maximales d'une case de la grille, et écart maximal entre deux cases (pixels).
 const CELL_MAX := Vector2(150, 84)
 const CELL_GAP := 16.0
+## Pour une petite case, l'écart rétrécit avec elle : au plus cette part de la case.
+const GAP_RATIO := 0.2
+## Coupure des noms dans les cases : aux mots, et dans un mot trop long pour la case.
+const NAME_BREAKS := TextServer.BREAK_MANDATORY | TextServer.BREAK_WORD_BOUND | TextServer.BREAK_ADAPTIVE
 
 
 ## Grille d'une zone, dessinée d'après le résultat de `WorldMapLayout.zone_layout`.
 class ZoneGrid extends Control:
 	var layout: Dictionary = {}
 
-	## Taille d'une case : la plus grande qui laisse tenir toute la zone (cases plus petites pour une
-	## grande zone).
+	func _init() -> void:
+		# Rien n'est dessiné hors de la grille, même pour une zone immense.
+		clip_contents = true
+
+	## Taille d'une case : la plus grande qui laisse tenir toute la zone, écarts compris, sans
+	## plancher (cases plus petites pour une grande zone).
 	func cell_size() -> Vector2:
-		var columns := maxi(1, int(layout.get("colonnes", 1)))
-		var rows := maxi(1, int(layout.get("lignes", 1)))
-		var width := minf(CELL_MAX.x, (size.x - CELL_GAP * (columns + 1)) / columns)
-		var height := minf(CELL_MAX.y, (size.y - CELL_GAP * (rows + 1)) / rows)
-		return Vector2(maxf(width, 24.0), maxf(height, 18.0))
+		return Vector2(_fit(size.x, int(layout.get("colonnes", 1)), CELL_MAX.x),
+			_fit(size.y, int(layout.get("lignes", 1)), CELL_MAX.y))
+
+	## Écart entre deux cases, en largeur et en hauteur (il rétrécit avec les cases).
+	func cell_gap() -> Vector2:
+		var cell_px := cell_size()
+		return Vector2(minf(CELL_GAP, cell_px.x * GAP_RATIO), minf(CELL_GAP, cell_px.y * GAP_RATIO))
+
+	## Taille du texte des noms : d'après la hauteur et la largeur de la case.
+	func font_size() -> int:
+		var cell_px := cell_size()
+		return clampi(int(minf(cell_px.y * 0.2, cell_px.x * 0.12)), 9, 15)
+
+	## Côté d'une case pour en faire tenir `count`, avec `count + 1` écarts (bords compris), dans
+	## `room` pixels, sans dépasser `largest`.
+	static func _fit(room: float, count: int, largest: float) -> float:
+		count = maxi(1, count)
+		var cell := (room - CELL_GAP * (count + 1)) / count
+		if cell * GAP_RATIO < CELL_GAP:
+			# Écart réduit à GAP_RATIO de la case : count cases + (count + 1) écarts = room.
+			cell = room / (count + GAP_RATIO * (count + 1))
+		return maxf(0.0, floorf(minf(largest, cell)))
 
 	## Rectangle d'une case de la grille (colonne, ligne), centré dans la zone de dessin.
 	func cell_rect(cell: Vector2i) -> Rect2:
 		var cell_px := cell_size()
-		var step := cell_px + Vector2(CELL_GAP, CELL_GAP)
-		var whole := Vector2(int(layout.get("colonnes", 0)), int(layout.get("lignes", 0))) * step - Vector2(CELL_GAP, CELL_GAP)
+		var gap := cell_gap()
+		var step := cell_px + gap
+		var whole := Vector2(int(layout.get("colonnes", 0)), int(layout.get("lignes", 0))) * step - gap
 		var origin := ((size - whole) / 2.0).floor()
 		return Rect2(origin + Vector2(cell) * step, cell_px)
 
@@ -61,15 +87,16 @@ class ZoneGrid extends Control:
 			return
 		var cell_px := cell_size()
 		var font := get_theme_default_font()
-		var font_size := clampi(int(cell_px.y * 0.2), 10, 15)
+		var name_size := font_size()
 		# Les liens d'abord : un chemin entre deux cartes voisines.
+		var link_width := clampf(minf(cell_px.x, cell_px.y) * 0.08, 1.5, 4.0)
 		for link: Array in layout.get("liens", []):
-			draw_line(cell_rect(link[0]).get_center(), cell_rect(link[1]).get_center(), UiTheme.BRONZE, 4.0)
+			draw_line(cell_rect(link[0]).get_center(), cell_rect(link[1]).get_center(), UiTheme.BRONZE, link_width)
 		for case: Dictionary in layout["cases"]:
 			var rect := cell_rect(case["case"])
 			var visited: bool = case["visitee"]
 			var box := StyleBoxFlat.new()
-			box.set_corner_radius_all(5)
+			box.set_corner_radius_all(mini(5, int(minf(cell_px.x, cell_px.y) * 0.15)))
 			box.set_border_width_all(3 if case["actuelle"] else 1)
 			if case["actuelle"]:
 				box.bg_color = Color("6b4a26")
@@ -82,26 +109,36 @@ class ZoneGrid extends Control:
 				box.border_color = Color("5a4630")
 			draw_style_box(box, rect)
 			if not visited:
-				var mark_size := clampi(int(cell_px.y * 0.45), 14, 34)
+				var mark_size := clampi(int(minf(cell_px.x, cell_px.y) * 0.45), 9, 34)
 				_centered_text(font, rect, WorldMapLayout.UNKNOWN_NAME, mark_size, UiTheme.TEXT_DIM, 1)
 				continue
-			var text_rect := rect.grow_individual(-6, -4, -6, -4)
+			# Marges intérieures, plus fines pour une petite case.
+			var pad := Vector2(minf(6.0, cell_px.x * 0.08), minf(4.0, cell_px.y * 0.08))
+			var text_rect := rect.grow_individual(-pad.x, -pad.y, -pad.x, -pad.y)
 			if case["pierre"] != WorldMapLayout.STONE_NONE:
-				var stone_center := rect.position + Vector2(rect.size.x - 9, 10)
-				_draw_stone(stone_center, minf(6.0, cell_px.y * 0.12), case["pierre"] == WorldMapLayout.STONE_KNOWN)
-				text_rect = text_rect.grow_individual(0, -8, -6, 0)
-			_centered_text(font, text_rect, case["nom"], font_size, GOLD if case["actuelle"] else UiTheme.TEXT, 3)
+				var radius := minf(6.0, minf(cell_px.x, cell_px.y) * 0.12)
+				var stone_center := rect.position + Vector2(rect.size.x - radius - 3, radius * 1.3 + 3)
+				_draw_stone(stone_center, radius, case["pierre"] == WorldMapLayout.STONE_KNOWN)
+				if cell_px.y >= 40:
+					# Place gardée pour le losange (une petite case le laisse sur le coin du nom).
+					text_rect = text_rect.grow_individual(0, -8, -6, 0)
+			_centered_text(font, text_rect, case["nom"], name_size, GOLD if case["actuelle"] else UiTheme.TEXT, 3)
 			if case["actuelle"] and cell_px.y >= 52:
 				# Le joueur : un point bleu sous le nom.
 				draw_circle(Vector2(rect.get_center().x, rect.end.y - 8), 4.0, Color("4d8fff"))
 				draw_arc(Vector2(rect.get_center().x, rect.end.y - 8), 4.0, 0, TAU, 16, Color.WHITE, 1.2)
 
-	## Texte centré dans le rectangle, sur `max_lines` lignes au plus (coupé aux mots).
-	func _centered_text(font: Font, rect: Rect2, text: String, font_size: int, color: Color, max_lines: int) -> void:
-		var block := font.get_multiline_string_size(text, HORIZONTAL_ALIGNMENT_CENTER, rect.size.x, font_size, max_lines)
-		var top := rect.position.y + (rect.size.y - block.y) / 2.0 + font.get_ascent(font_size)
+	## Texte centré dans le rectangle, sur `max_lines` lignes au plus et sans en sortir : coupé aux
+	## mots (ou dans un mot trop long), et réduit aux lignes qui tiennent en hauteur (rien s'il n'en
+	## tient aucune ; le nom reste dans la bulle de survol).
+	func _centered_text(font: Font, rect: Rect2, text: String, text_size: int, color: Color, max_lines: int) -> void:
+		var lines := mini(max_lines, int(rect.size.y / font.get_height(text_size)))
+		if lines < 1 or rect.size.x < text_size:
+			return
+		var block := font.get_multiline_string_size(text, HORIZONTAL_ALIGNMENT_CENTER, rect.size.x, text_size, lines, NAME_BREAKS)
+		var top := rect.position.y + (rect.size.y - block.y) / 2.0 + font.get_ascent(text_size)
 		draw_multiline_string(font, Vector2(rect.position.x, top), text, HORIZONTAL_ALIGNMENT_CENTER, rect.size.x,
-			font_size, max_lines, color)
+			text_size, lines, color, NAME_BREAKS)
 
 	## Losange d'une Pierre de Passage : plein si elle est découverte, en creux sinon.
 	func _draw_stone(center: Vector2, radius: float, known: bool) -> void:
@@ -169,8 +206,8 @@ func current_zone() -> String:
 func select_zone(zone_id: String) -> void:
 	var index := _zone_ids.find(zone_id)
 	if index >= 0:
+		# Le changement d'onglet lance `refresh` (signal tab_changed).
 		_tabs.current_tab = index
-		refresh()
 
 
 ## Grille affichée (voir `WorldMapLayout.zone_layout`).
@@ -186,7 +223,7 @@ func refresh() -> void:
 	var zone_id := current_zone()
 	if zone_id.is_empty():
 		_grid.layout = {}
-		_zone_title.text = "Aucune carte visitée"
+		_zone_title.text = "Aucune carte extérieure visitée"
 		_zone_info.text = ""
 		_grid.queue_redraw()
 		return
@@ -194,7 +231,7 @@ func refresh() -> void:
 	for passage_id: String in world.data.passages:
 		if world.is_passage_known(passage_id):
 			known.append(passage_id)
-	var layout := WorldMapLayout.zone_layout(zone_id, map_infos(world, [zone_id]), world.visited_maps(), world.map.id,
+	var layout := WorldMapLayout.zone_layout(zone_id, map_infos(world, [zone_id]), _visited_here(), world.map.id,
 		world.data.passages, known)
 	_grid.layout = layout
 	_grid.queue_redraw()
@@ -224,24 +261,40 @@ static func map_infos(world: World, zone_ids: Array) -> Dictionary:
 	return infos
 
 
-## Zone à montrer à l'ouverture : celle de la carte actuelle ; dans une maison, celle de la carte où
-## mène sa porte.
-func _here_zone() -> String:
+## Carte à coordonnées où l'on est : la carte actuelle ; dans une maison, celle où mène sa porte
+## ("" s'il n'y en a pas).
+func _here_map() -> String:
 	var map := map_view.world.map
-	var coordinates := WorldMapLayout.map_coordinates(map.id)
-	if coordinates.is_empty():
-		for target: String in map.doors.values():
-			coordinates = WorldMapLayout.map_coordinates(target)
-			if not coordinates.is_empty():
-				break
-	return coordinates.get("zone", "")
+	if not WorldMapLayout.map_coordinates(map.id).is_empty():
+		return map.id
+	for target: String in map.doors.values():
+		if not WorldMapLayout.map_coordinates(target).is_empty():
+			return target
+	return ""
+
+
+## Zone à montrer à l'ouverture : celle de `_here_map`.
+func _here_zone() -> String:
+	return WorldMapLayout.map_coordinates(_here_map()).get("zone", "")
+
+
+## Cartes visitées, plus celle où mène la porte de la maison où l'on est : on la connaît même si l'on
+## n'y est pas encore sorti (départ dans la maison, ou sauvegarde antérieure à la liste des visites).
+func _visited_here() -> Array[String]:
+	var visited := map_view.world.visited_maps()
+	var here := _here_map()
+	if not here.is_empty() and not visited.has(here):
+		visited.append(here)
+	return visited
 
 
 ## Un onglet par zone visitée ; à l'ouverture (`to_here`), celui de la zone actuelle.
 func _update_tabs(to_here: bool) -> void:
 	var world := map_view.world
-	var zones := WorldMapLayout.visited_zones(world.visited_maps())
+	var zones := WorldMapLayout.visited_zones(_visited_here())
 	var previous := current_zone()
+	# Pas de refresh imbriqué pendant la reconstruction des onglets.
+	_tabs.set_block_signals(true)
 	if zones != _zone_ids:
 		_zone_ids = zones
 		var infos := map_infos(world, zones)
@@ -250,9 +303,8 @@ func _update_tabs(to_here: bool) -> void:
 			_tabs.add_tab(WorldMapLayout.zone_name(zone_id, infos, world.data.passages))
 	var wanted := _here_zone() if to_here else previous
 	if _zone_ids.has(wanted):
-		_tabs.set_block_signals(true)
 		_tabs.current_tab = _zone_ids.find(wanted)
-		_tabs.set_block_signals(false)
+	_tabs.set_block_signals(false)
 
 
 func _unhandled_key_input(event: InputEvent) -> void:

@@ -5,7 +5,9 @@ extends CanvasLayer
 ## chemins, bords de sortie, portes et Pierre de Passage sont dessinés une fois par carte ; le joueur
 ## (point bleu), les groupes de monstres (points rouges, dorés pour une élite) et les PNJ (points
 ## clairs) à chaque image, pendant la marche et les promenades des groupes. Un clic dessus ouvre la
-## carte du monde ; ailleurs, les clics vont à la carte.
+## carte du monde ; ailleurs, les clics vont à la carte. Le bouton « – » de sa barre la replie (il ne
+## reste que la barre) pour dégager le coin de la carte qu'elle recouvre : un groupe ou un PNJ qui
+## s'y promène redevient visible et cliquable.
 
 ## Clic sur la minicarte.
 signal pressed
@@ -42,6 +44,7 @@ var _frame: PanelContainer
 var _ground: Control
 var _marks: Control
 var _coordinates: Label
+var _fold_button: Button
 var _map: GameMap
 var _scale := 0.16
 
@@ -63,6 +66,17 @@ func is_shown() -> bool:
 	return _frame.visible
 
 
+## Vrai si le joueur a replié la minicarte (gardé d'une carte et d'un combat à l'autre, dans `Session`).
+func is_folded() -> bool:
+	return Session.minimap_folded
+
+
+## Replie la minicarte (seule sa barre reste) ou la déplie.
+func set_folded(folded: bool) -> void:
+	Session.minimap_folded = folded
+	refresh()
+
+
 ## Échelle du dessin (pixels de la minicarte par pixel de la carte).
 func map_scale() -> float:
 	return _scale
@@ -73,6 +87,9 @@ func refresh() -> void:
 	if map_view == null or map_view.world == null:
 		return
 	_frame.visible = map_view.mode == MapView.Mode.EXPLORATION
+	_ground.visible = not Session.minimap_folded
+	_fold_button.text = "+" if Session.minimap_folded else "–"
+	_fold_button.tooltip_text = "Déplier la minicarte" if Session.minimap_folded else "Replier la minicarte"
 	_map = map_view.current_map()
 	var rect := _map.screen_rect()
 	_scale = minf(MAX_SCALE, minf(MAX_SIZE.x / rect.size.x, MAX_SIZE.y / rect.size.y))
@@ -94,7 +111,7 @@ func to_minimap(grid_pos: Vector2) -> Vector2:
 
 
 func _process(_delta: float) -> void:
-	if _frame.visible:
+	if _frame.visible and _ground.visible:
 		_marks.queue_redraw()
 
 
@@ -194,17 +211,9 @@ func _build() -> void:
 	column.add_theme_constant_override("separation", 2)
 	column.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_frame.add_child(column)
-	_ground = Control.new()
-	_ground.clip_contents = true
-	_ground.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_ground.draw.connect(_draw_ground)
-	column.add_child(_ground)
-	_marks = Control.new()
-	_marks.set_anchors_preset(Control.PRESET_FULL_RECT)
-	_marks.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_marks.draw.connect(_draw_marks)
-	_ground.add_child(_marks)
+	# Barre du haut : aide, coordonnées et bouton pour replier ; puis le dessin de la carte.
 	var caption := HBoxContainer.new()
+	caption.add_theme_constant_override("separation", 6)
 	caption.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	column.add_child(caption)
 	var hint := Label.new()
@@ -220,3 +229,28 @@ func _build() -> void:
 	_coordinates.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_coordinates.tooltip_text = "Coordonnées de la carte"
 	caption.add_child(_coordinates)
+	# Bouton pour replier ou déplier ; il garde son clic (pas d'ouverture de la carte du monde).
+	_fold_button = Button.new()
+	_fold_button.flat = true
+	_fold_button.focus_mode = Control.FOCUS_NONE
+	_fold_button.custom_minimum_size = Vector2(18, 16)
+	_fold_button.add_theme_font_size_override("font_size", 13)
+	_fold_button.add_theme_color_override("font_color", UiTheme.GOLD)
+	_fold_button.add_theme_constant_override("h_separation", 0)
+	for state in ["normal", "hover", "pressed", "focus"]:
+		var box := StyleBoxEmpty.new()
+		box.set_content_margin_all(0)
+		_fold_button.add_theme_stylebox_override(state, box)
+	_fold_button.pressed.connect(func() -> void: set_folded(not Session.minimap_folded))
+	caption.add_child(_fold_button)
+	_ground = Control.new()
+	_ground.clip_contents = true
+	_ground.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_ground.draw.connect(_draw_ground)
+	column.add_child(_ground)
+	_marks = Control.new()
+	_marks.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_marks.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_marks.draw.connect(_draw_marks)
+	_ground.add_child(_marks)
+

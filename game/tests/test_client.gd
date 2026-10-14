@@ -739,17 +739,33 @@ func test_carte_du_monde_et_minicarte() -> void:
 	var hud: CombatHud = scene.get_node("CombatHud")
 	var minimap: Minimap = scene.get_node("Minimap")
 	var world_map: WorldMapWindow = scene.get_node("WorldMapWindow")
+	var travel: TravelWindow = scene.get_node("TravelWindow")
 
 	# Minicarte en haut à droite, sous le bandeau du haut ; seul son cadre attrape la souris.
 	assert_true(minimap.is_shown(), "minicarte affichée en exploration")
-	var frame := Rect2(minimap._frame.get_global_rect().position, minimap._frame.get_combined_minimum_size())
+	assert_false(minimap.is_folded(), "dépliée au départ")
+	var frame := minimap._frame.get_global_rect()
 	var screen := scene.get_viewport().get_visible_rect()
 	assert_true(frame.position.y >= 65.0, "sous le bandeau du haut : %s" % frame)
 	assert_true(frame.size.x <= 230.0 and frame.size.y <= 140.0, "petit encart : %s" % frame)
+	assert_true(frame.end.x <= screen.end.x and frame.end.x >= screen.end.x - 20.0, "contre le bord droit : %s" % frame)
 	assert_false(frame.has_point(screen.get_center()), "le reste de l'écran est à la carte")
 	for node in minimap._frame.find_children("*", "Control", true, false):
-		assert_eq((node as Control).mouse_filter, Control.MOUSE_FILTER_IGNORE, "%s laisse passer la souris" % node.name)
+		if node != minimap._fold_button:
+			assert_eq((node as Control).mouse_filter, Control.MOUSE_FILTER_IGNORE, "%s laisse passer la souris" % node.name)
 	assert_eq(minimap._coordinates.text, "0, 0", "coordonnées de la carte")
+	# La bulle de survol (dans Hud) passe devant la minicarte : Hud vient après dans l'arbre.
+	assert_true(scene.get_node("Hud").get_index() > minimap.get_index(), "bulle de survol au-dessus de la minicarte")
+
+	# Bouton « – » : la minicarte se replie (il ne reste que sa barre), le coin de la carte est dégagé.
+	minimap._fold_button.pressed.emit()
+	assert_true(minimap.is_folded())
+	assert_true(minimap.is_shown(), "la barre reste")
+	assert_false(minimap._ground.visible, "plus de dessin")
+	var folded := minimap._frame.get_global_rect()
+	assert_true(folded.size.y <= 32.0, "seulement la barre : %s" % folded)
+	assert_eq(folded.end.x, frame.end.x, "toujours contre le bord droit")
+	assert_eq(minimap._fold_button.text, "+")
 
 	# Touche M : la carte du monde s'ouvre sur la zone actuelle ; M la referme.
 	var key := InputEventKey.new()
@@ -779,6 +795,20 @@ func test_carte_du_monde_et_minicarte() -> void:
 	assert_true(world_map.is_open(), "clic sur la minicarte")
 	world_map.close()
 
+	# Échap ferme d'abord la carte du monde, au-dessus de la fenêtre de voyage, puis celle-ci.
+	view._on_click(view.current_map().travel_stone())
+	_run_until_idle(view)
+	assert_true(travel.is_open(), "fenêtre de voyage ouverte")
+	world_map.open()
+	var cancel := InputEventAction.new()
+	cancel.action = "ui_cancel"
+	cancel.pressed = true
+	scene._unhandled_input(cancel)
+	assert_false(world_map.is_open(), "Échap ferme la carte du monde")
+	assert_true(travel.is_open(), "la fenêtre de voyage reste")
+	scene._unhandled_input(cancel)
+	assert_false(travel.is_open(), "puis la fenêtre de voyage")
+
 	# Sortie à l'est : la minicarte suit, la carte du monde dévoile les champs.
 	var map := view.current_map()
 	var exit_cell := Vector2i(-1, -1)
@@ -791,6 +821,11 @@ func test_carte_du_monde_et_minicarte() -> void:
 	assert_eq(view.world.map.id, "brumerive_1_0")
 	assert_eq(minimap._map.id, "brumerive_1_0", "la minicarte montre la nouvelle carte")
 	assert_eq(minimap._coordinates.text, "1, 0")
+	assert_true(minimap.is_folded() and not minimap._ground.visible, "toujours repliée sur la nouvelle carte")
+	minimap._fold_button.pressed.emit()
+	assert_false(minimap.is_folded())
+	assert_true(minimap._ground.visible, "dépliée de nouveau")
+	assert_eq(minimap._frame.get_global_rect().size.y, frame.size.y, "à sa taille d'avant")
 	world_map.open()
 	cases = _world_map_cases(world_map)
 	assert_true(cases["brumerive_1_0"]["actuelle"] and cases["brumerive_1_0"]["visitee"])
@@ -815,4 +850,97 @@ func test_carte_du_monde_et_minicarte() -> void:
 	assert_false(minimap.is_shown(), "minicarte masquée en combat")
 	world_map.open()
 	assert_false(world_map.is_open(), "pas de carte du monde en combat")
+	scene.free()
+
+
+## Zone fictive « grande » de `columns` × `rows` cartes, toutes visitées et reliées en ligne
+## (id de carte → { nom, sorties }, comme `WorldMapWindow.map_infos`).
+func _big_zone(columns: int, rows: int) -> Dictionary:
+	var maps := {}
+	for y in rows:
+		for x in columns:
+			var exits: Array = []
+			for offset: Vector2i in [Vector2i(1, 0), Vector2i(-1, 0), Vector2i(0, 1), Vector2i(0, -1)]:
+				var other := Vector2i(x, y) + offset
+				if other.x >= 0 and other.x < columns and other.y >= 0 and other.y < rows:
+					exits.append("grande_%d_%d" % [other.x, other.y])
+			maps["grande_%d_%d" % [x, y]] = {"nom": "Grande — Clairière des Ronces %d" % (y * columns + x), "sorties": exits}
+	return maps
+
+
+func test_carte_du_monde_grandes_zones() -> void:
+	var tree := Engine.get_main_loop() as SceneTree
+	# L'écran du jeu (1280 × 720), pas celui des tests sans affichage.
+	var screen_size := tree.root.size
+	tree.root.size = Vector2i(1280, 720)
+	var scene: Node = load("res://client/world/world.tscn").instantiate()
+	tree.root.add_child(scene)
+	var world_map: WorldMapWindow = scene.get_node("WorldMapWindow")
+	world_map.open()
+	# Mise en page tout de suite (Godot la fait aux images suivantes) : la grille prend sa vraie taille
+	# dans la fenêtre. Deux passes : la légende, coupée en lignes, ne connaît sa hauteur qu'une fois sa
+	# largeur donnée ; à chaque passe, le panneau est replacé d'après ses ancres (en touchant un bord),
+	# puis les conteneurs rangent leurs enfants.
+	var panel := world_map._panel
+	for i in 2:
+		for control in panel.find_children("*", "Control", true, false):
+			(control as Control).update_minimum_size()
+		panel.offset_bottom -= 1.0
+		panel.offset_bottom += 1.0
+		panel.notification(Container.NOTIFICATION_SORT_CHILDREN)
+		for container in panel.find_children("*", "Container", true, false):
+			container.notification(Container.NOTIFICATION_SORT_CHILDREN)
+	var grid := world_map._grid
+	assert_true(panel.get_global_rect().end.y <= 720.0 - CombatHud.BAR_HEIGHT, "fenêtre au-dessus du bandeau du bas")
+	assert_true(grid.size.x >= 700.0 and grid.size.y >= 250.0 and grid.size.y <= 400.0,
+		"taille réelle de la grille : %s" % grid.size)
+	var area := Rect2(Vector2.ZERO, grid.size)
+	assert_true(grid.clip_contents, "rien n'est dessiné hors de la grille")
+	assert_eq(grid.font_size(), 15, "petite zone : noms en grand")
+	# Zones très hautes, très larges, ou les deux (avec les « ? » voisines, une zone de 15 cartes peut
+	# prendre une ligne ou une colonne de plus).
+	for dims: Vector2i in [Vector2i(1, 12), Vector2i(15, 1), Vector2i(17, 3), Vector2i(6, 14)]:
+		var maps := _big_zone(dims.x, dims.y)
+		var layout := WorldMapLayout.zone_layout("grande", maps, maps.keys(), "grande_0_0")
+		assert_eq([layout["colonnes"], layout["lignes"]], [dims.x, dims.y])
+		grid.layout = layout
+		var rects: Array[Rect2] = []
+		var inside := true
+		var apart := true
+		for case: Dictionary in layout["cases"]:
+			var rect := grid.cell_rect(case["case"])
+			inside = inside and area.encloses(rect)
+			for other in rects:
+				apart = apart and not other.intersects(rect)
+			rects.append(rect)
+		assert_true(inside, "%s : toutes les cases dans la grille (case %s)" % [dims, grid.cell_size()])
+		assert_true(apart, "%s : aucune case n'en chevauche une autre" % dims)
+		assert_true(grid.cell_gap().x > 0.0 and grid.cell_gap().y > 0.0, "%s : un écart entre les cases" % dims)
+		var corner := Vector2i(dims.x - 1, dims.y - 1)
+		assert_eq(grid.case_at(grid.cell_rect(corner).get_center())["coordonnees"], corner, "%s : case sous la souris" % dims)
+		if dims.x >= 15:
+			assert_true(grid.font_size() < 15, "%s : cases étroites, noms en plus petit" % dims)
+	scene.free()
+	tree.root.size = screen_size
+
+
+func test_carte_du_monde_depuis_une_maison() -> void:
+	# Départ dans la maison, jamais sorti : la carte du monde montre déjà la place où mène la porte.
+	var tree := Engine.get_main_loop() as SceneTree
+	Session.start_map = "maison_joueur"
+	var scene: Node = load("res://client/world/world.tscn").instantiate()
+	tree.root.add_child(scene)
+	Session.start_map = ""
+	var view: MapView = scene.get_node("MapView")
+	var world_map: WorldMapWindow = scene.get_node("WorldMapWindow")
+	assert_eq(view.world.map.id, "maison_joueur")
+	assert_false(view.world.visited_maps().has("brumerive_0_0"), "pas encore sorti")
+	world_map.open()
+	assert_eq(world_map._tabs.tab_count, 1, "l'onglet de la zone de la maison")
+	assert_eq(world_map.current_zone(), "brumerive")
+	assert_eq(world_map._zone_title.text, "Brumerive")
+	var cases := _world_map_cases(world_map)
+	assert_true(cases["brumerive_0_0"]["visitee"], "la place devant la porte est connue")
+	assert_false(cases["brumerive_0_0"]["actuelle"], "mais on n'y est pas")
+	assert_eq(cases["brumerive_1_0"]["nom"], WorldMapLayout.UNKNOWN_NAME, "sa voisine en « ? »")
 	scene.free()

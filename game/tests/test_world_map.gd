@@ -96,10 +96,13 @@ func test_zone_non_visitee_vide() -> void:
 
 func test_nom_de_la_zone() -> void:
 	var passages := {"pierre_val": {"nom": "Val Joli (pierre)", "carte": "val_1_0"}, "autre": {"nom": "Ailleurs", "carte": "mont_0_0"}}
-	assert_eq(WorldMapLayout.zone_name("val", _maps(), passages), "Val Joli (pierre)", "le nom de sa Pierre de Passage")
+	assert_eq(WorldMapLayout.zone_name("val", _maps(), passages), "Val Joli",
+		"le nom de sa Pierre de Passage, sans la précision entre parenthèses")
+	passages["pierre_val"]["nom"] = "Val (Joli) d'en haut"
+	assert_eq(WorldMapLayout.zone_name("val", _maps(), passages), "Val (Joli) d'en haut", "parenthèses au milieu : gardées")
 	assert_eq(WorldMapLayout.zone_name("val", _maps()), "Val Joli", "sinon ce qui précède « — »")
 	assert_eq(WorldMapLayout.zone_name("lande_grise", {}), "Lande Grise", "sinon son id")
-	assert_eq(WorldMapLayout.zone_layout("val", _maps(), ["val_0_0"], "", passages)["nom"], "Val Joli (pierre)")
+	assert_eq(WorldMapLayout.zone_layout("val", _maps(), ["val_0_0"], "", passages)["nom"], "Val (Joli) d'en haut")
 
 
 func test_pierres_de_passage_connues_ou_non() -> void:
@@ -162,5 +165,5 @@ func test_zones_du_jeu() -> void:
 	assert_eq(cases["brumerive_0_0"]["pierre"], WorldMapLayout.STONE_KNOWN)
 	assert_false(cases["brumerive_0_0"]["actuelle"], "dans la maison : aucune carte de la zone n'est actuelle")
 	assert_eq(cases["brumerive_1_0"]["nom"], WorldMapLayout.UNKNOWN_NAME)
-	assert_eq(WorldMapLayout.zone_name("cendre", maps, data.passages), "Trône de Cendre (élite)")
+	assert_eq(WorldMapLayout.zone_name("cendre", maps, data.passages), "Trône de Cendre", "sans « (élite) »")
 	assert_eq(WorldMapLayout.zone_name("crasse_roc", maps, data.passages), "Crasse-Roc")
