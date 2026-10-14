@@ -32,6 +32,9 @@ signal chest_refused(event: Dictionary)
 ## Pierre de Passage utilisée : événement EVT_TRAVEL_MENU.
 signal travel_opened(event: Dictionary)
 signal inventory_changed
+## Progression à sauvegarder sans changement de la fiche : Pierre de Passage découverte, nouveau
+## point de résurrection.
+signal progress_changed
 
 enum Mode { EXPLORATION, COMBAT }
 
@@ -645,6 +648,7 @@ func _apply(event: Dictionary) -> float:
 		if _actors.has(World.PLAYER_ID):
 			_add_floating("Pierre découverte !", Color(0.55, 0.8, 1.0), _actors[World.PLAYER_ID]["pos"])
 		notice.emit("Pierre de Passage découverte : %s ! Vous pourrez y revenir en voyage." % event["nom"])
+		progress_changed.emit()
 		return 0.0
 	if type == Protocol.EVT_RESPAWN_POINT:
 		if _discovered_passage == event["passage"]:
@@ -652,6 +656,7 @@ func _apply(event: Dictionary) -> float:
 		else:
 			notice.emit("Nouveau point de résurrection : %s." % event["nom"])
 		_discovered_passage = ""
+		progress_changed.emit()
 		return 0.0
 	if type == Protocol.EVT_RESTED:
 		if int(event["gain"]) > 0:

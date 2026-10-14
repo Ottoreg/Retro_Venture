@@ -476,6 +476,7 @@ func test_pierre_de_passage() -> void:
 	_run_until_idle(view)
 	assert_eq(view.world.character.respawn_passage, "crasse_roc")
 	assert_eq(hud._message_label.text, "Nouveau point de résurrection : Crasse-Roc.")
+	assert_eq(SaveGame.read()["personnage"]["point_de_resurrection"], "crasse_roc", "sauvegardé aussitôt")
 	travel.close()
 
 	# Plus assez d'écus : le voyage est refusé, avec un message.
@@ -504,6 +505,10 @@ func test_decouverte_d_une_pierre_de_passage() -> void:
 	_run_until_idle(view)
 	assert_true(view.world.is_passage_known("crasse_roc"), "découverte en la touchant")
 	assert_eq(hud._message_label.text, "Pierre de Passage découverte : Crasse-Roc ! C'est votre nouveau point de résurrection.")
+	# Sauvegardé aussitôt : rien n'est perdu si le joueur ferme le jeu juste après.
+	var hero: Dictionary = SaveGame.read()["personnage"]
+	assert_true("crasse_roc" in hero["pierres_connues"], str(hero["pierres_connues"]))
+	assert_eq(hero["point_de_resurrection"], "crasse_roc")
 	assert_eq(travel._respawn.text, "Point de résurrection : Crasse-Roc")
 	view.send_command({"type": Protocol.CMD_TRAVEL, "entite": World.PLAYER_ID, "case": view.current_map().travel_stone(),
 		"destination": "sylvebrume"})
