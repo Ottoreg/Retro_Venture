@@ -203,6 +203,17 @@ l'histoire.
   généreuse en bas niveau et rude à la fin, une autre l'inverse…). La seule règle est qu'aucun palier
   ne soit vide.
 - Les élites restent au-dessus du palier de leur famille (environ +3 à +5 niveaux).
+- **Niveaux variables dans une famille** : les membres d'une famille (élites exceptées) apparaissent
+  à n'importe quel niveau de la tranche de leur palier, avec une **répartition propre à chaque
+  famille**. Une famille « faible » du palier tire surtout des niveaux bas, une famille « forte »
+  surtout des niveaux hauts. Exemple à Crasse-Roc (palier 1–3) :
+
+  | Famille | Niveau 1 | Niveau 2 | Niveau 3 |
+  |---|---|---|---|
+  | Rat des galeries (faible) | souvent | un peu | parfois |
+  | Grouilleur (fort) | rarement | un peu | souvent |
+
+  Voir § 8.1 pour ce que le niveau change sur le monstre.
 - **État actuel (à corriger)** : les zones ne sont pas au même niveau. Crasse-Roc va du niveau 1 au
   3 (rat 1, grouilleur 3), Brumerive de 3 à 4 (loup 3, frondeur 4), Sylvebrume de 4 à 5 (cerf 4,
   arbre vivant 5) : rien au palier 1–3 chez les elfes, et aucune zone n'a encore de monstres de 7 à
@@ -533,6 +544,14 @@ recherche profonde au départ.
   butin, XP et monnaie de base.
 - **Niveaux :** chaque zone de départ a des monstres à chaque palier de 3 niveaux (1–3, 4–6, 7–9,
   10–12), en nombre libre selon la zone (voir § 3.5, *Paliers de niveau des zones de départ*).
+- **Niveau d'un membre de famille** : tiré à l'apparition dans la tranche du palier, selon les poids
+  de la famille (une famille faible tire surtout bas, une forte surtout haut ; élites à niveau fixe).
+  - Le niveau change les **caractéristiques** : PV, Force, Intelligence, Chance, Agilité,
+    résistances… (et l'XP gagnée).
+  - Le niveau **ne change pas le butin** : même table, mêmes taux et mêmes quantités pour toute la
+    famille, quel que soit le niveau.
+  - **PA et PM identiques dans toute la famille**, sauf exception pour une famille dont la mécanique
+    repose sur ces caractéristiques (par exemple, une espèce qui gagne des PM en vieillissant).
 - **Groupes :** de 1 à 8 monstres (3 au plus pendant l'alpha), d'une ou plusieurs espèces, tous visibles
   sur la carte ; composition fixe ou aléatoire dans une liste par zone.
 - **Variantes Corrompues :** versions plus fortes avec un butin spécifique (cendres, fragments).
