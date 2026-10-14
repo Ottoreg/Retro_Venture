@@ -166,8 +166,9 @@ droite (l'est), y vers le bas (le sud), éventuellement négatifs. La carte du m
 les cartes d'une zone en grille d'après ces coordonnées et nomme la zone d'après sa Pierre de
 Passage (à défaut, d'après ce qui précède « — » dans le nom de ses cartes) ; la case affiche ce qui
 suit « — » (`"Brumerive — Champs de l'est"` → « Champs de l'est »). Une carte sans coordonnées
-(maison, intérieur, comme `maison_joueur`) n'y figure pas. Les sorties devraient relier des cartes
-voisines dans la grille (droite : x + 1, bas : y + 1).
+(maison, intérieur, comme `maison_joueur`) n'y figure pas. Les sorties doivent relier des cartes
+voisines de la même zone dans la grille (droite : x + 1, bas : y + 1) ; c'est vérifié par
+`tests/data/test_donnees.gd`.
 
 ## Sorts (`sorts/`)
 

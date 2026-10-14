@@ -138,6 +138,31 @@ func test_sorties_des_cartes_reciproques() -> void:
 			assert_true(edge_cells > 0, "%s : aucune case praticable sur le bord « %s »" % [path, direction])
 
 
+func test_sorties_coherentes_avec_les_coordonnees() -> void:
+	# La carte du monde place les cartes d'après leur id : une sortie mène à la carte voisine dans la
+	# grille, dans la même zone (droite : x + 1, bas : y + 1).
+	var offsets := {"droite": Vector2i(1, 0), "gauche": Vector2i(-1, 0), "bas": Vector2i(0, 1), "haut": Vector2i(0, -1)}
+	var checked := 0
+	for path in _find_json(DATA_ROOT.path_join("cartes")):
+		var map := DataLoader.load_map(path)
+		if map == null:
+			continue
+		var here := WorldMapLayout.map_coordinates(map.id)
+		if here.is_empty():
+			continue
+		for direction: String in map.exits:
+			checked += 1
+			var target: String = map.exits[direction]
+			var there := WorldMapLayout.map_coordinates(target)
+			assert_false(there.is_empty(), "%s : la sortie « %s » mène à %s, sans coordonnées" % [path, direction, target])
+			if there.is_empty():
+				continue
+			assert_eq(there["zone"], here["zone"], "%s : la sortie « %s » change de zone (%s)" % [path, direction, target])
+			assert_eq(there["position"], here["position"] + offsets[direction],
+				"%s : la sortie « %s » doit mener à la carte voisine dans la grille, pas à %s" % [path, direction, target])
+	assert_true(checked >= 6, "des sorties vérifiées")
+
+
 func test_portes_reciproques() -> void:
 	var door_count := 0
 	for path in _find_json(DATA_ROOT.path_join("cartes")):

@@ -18,8 +18,6 @@ const MAX_SCALE := 0.2
 ## Distance au bord droit de l'écran et au haut de l'écran (sous le bandeau du haut).
 const MARGIN_RIGHT := 12.0
 const TOP := 72.0
-const COLOR_PATH := Color("c9a66b")
-const COLOR_WATER := Color("4f8fb8")
 const COLOR_EXIT := Color(0.98, 0.82, 0.32, 0.9)
 const COLOR_DOOR := Color("e0b060")
 const COLOR_STONE := Color("7fd0f0")
@@ -28,10 +26,9 @@ const COLOR_MONSTER := Color("e0453a")
 const COLOR_ELITE := Color("f2c14e")
 const COLOR_NPC := Color("f0e6cc")
 const COLOR_OUTLINE := Color("1e160f")
-## Couleur des obstacles par type ; les autres prennent celle du sol, assombrie.
+## Couleur des obstacles par type (arbres et ressources prennent celle de la palette de la zone, voir
+## `cell_color`) ; les autres prennent celle du sol, assombrie.
 const OBSTACLE_COLORS := {
-	"arbre": Color("2f5a2a"),
-	"ressource": Color("3f6a3a"),
 	"rocher": Color("8a857a"),
 	"mur": Color("6b5440"),
 	"bloc": Color("8a4a32"),
@@ -115,25 +112,41 @@ func _process(_delta: float) -> void:
 		_marks.queue_redraw()
 
 
+## Couleur du sol de la carte affichée : parquet ou herbe, dans la palette de sa zone.
+func floor_color() -> Color:
+	if _map != null and _map.floor_kind == "parquet":
+		return Art.color("bois")
+	return Art.color("herbe")
+
+
+## Couleur d'une case sur la minicarte, d'après la palette de la zone (lave orange des cendres, eau
+## vaseuse de Crasse-Roc…) ; transparente pour le sol nu, déjà peint.
+func cell_color(cell: Vector2i) -> Color:
+	var ground := floor_color()
+	var kind: String = _map.obstacles.get(cell, "")
+	if kind == "eau":
+		return Art.color("eau")
+	if kind == GameMap.TRAVEL_STONE:
+		return ground
+	if kind == "arbre":
+		return Art.color("herbe_sombre").darkened(0.3)
+	if kind == "ressource":
+		return Art.color("herbe_sombre").darkened(0.15)
+	if not kind.is_empty():
+		return OBSTACLE_COLORS.get(kind, ground.darkened(0.45))
+	if _map.ground.has(cell):
+		return Art.color("terre")
+	if not _map.exit_directions(cell).is_empty():
+		return COLOR_EXIT
+	return Color(0, 0, 0, 0)
+
+
 func _draw_ground() -> void:
 	if _map == null:
 		return
-	var indoor := _map.floor_kind == "parquet"
-	var floor_color := Art.color("bois") if indoor else Art.color("herbe")
-	_ground.draw_rect(Rect2(Vector2.ZERO, _ground.custom_minimum_size), floor_color)
+	_ground.draw_rect(Rect2(Vector2.ZERO, _ground.custom_minimum_size), floor_color())
 	for cell: Vector2i in _map.cells():
-		var color := Color(0, 0, 0, 0)
-		var kind: String = _map.obstacles.get(cell, "")
-		if kind == "eau":
-			color = COLOR_WATER
-		elif kind == GameMap.TRAVEL_STONE:
-			color = floor_color
-		elif not kind.is_empty():
-			color = OBSTACLE_COLORS.get(kind, floor_color.darkened(0.45))
-		elif _map.ground.has(cell):
-			color = COLOR_PATH
-		elif not _map.exit_directions(cell).is_empty():
-			color = COLOR_EXIT
+		var color := cell_color(cell)
 		if color.a > 0.0:
 			_ground.draw_colored_polygon(_diamond(Vector2(cell)), color)
 	for cell: Vector2i in _map.doors:
@@ -253,4 +266,3 @@ func _build() -> void:
 	_marks.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_marks.draw.connect(_draw_marks)
 	_ground.add_child(_marks)
-

@@ -49,7 +49,7 @@ godot --headless --path game -s res://tools/art_sheet.gd -- planche.png 1.5
 godot --headless --path game -s res://tools/art_sheet.gd -- icones.png 1 objet_
 # Capture d'écran du jeu (avec un serveur X virtuel) ; carte et combat facultatifs :
 xvfb-run -s "-screen 0 1280x720x24" godot --path game --rendering-driver opengl3 \
-  -s res://tools/screenshot.gd -- capture.png [carte ou scène] [images] [combat|inventaire|metiers|sorts|pierre|carte]
+  -s res://tools/screenshot.gd -- capture.png [carte ou scène] [images] [combat|inventaire|metiers|sorts|pierre|carte|repliee]
 ```
 
 ## Fragments du manifeste (`manifestes/`)

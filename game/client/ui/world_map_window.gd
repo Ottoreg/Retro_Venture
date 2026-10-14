@@ -13,13 +13,16 @@ const CELL_MAX := Vector2(150, 84)
 const CELL_GAP := 16.0
 ## Pour une petite case, l'écart rétrécit avec elle : au plus cette part de la case.
 const GAP_RATIO := 0.2
-## Coupure des noms dans les cases : aux mots, et dans un mot trop long pour la case.
-const NAME_BREAKS := TextServer.BREAK_MANDATORY | TextServer.BREAK_WORD_BOUND | TextServer.BREAK_ADAPTIVE
+## Coupure des noms dans les cases : aux mots seulement ; un mot trop long pour la case finit par
+## des points de suspension (voir `_centered_text`).
+const NAME_BREAKS := TextServer.BREAK_MANDATORY | TextServer.BREAK_WORD_BOUND
 
 
 ## Grille d'une zone, dessinée d'après le résultat de `WorldMapLayout.zone_layout`.
 class ZoneGrid extends Control:
 	var layout: Dictionary = {}
+	## Vrai si l'on est dans une maison : la case actuelle est alors la carte où mène sa porte.
+	var indoors := false
 
 	func _init() -> void:
 		# Rien n'est dessiné hors de la grille, même pour une zone immense.
@@ -69,8 +72,10 @@ class ZoneGrid extends Control:
 
 	func _get_tooltip(at_position: Vector2) -> String:
 		var case := case_at(at_position)
-		if case.is_empty():
-			return ""
+		return "" if case.is_empty() else case_tooltip(case)
+
+	## Bulle de survol d'une case : nom complet, coordonnées, Pierre de Passage, et où l'on est.
+	func case_tooltip(case: Dictionary) -> String:
 		var coordinates: Vector2i = case["coordonnees"]
 		var text := "Carte inconnue" if not case["visitee"] else str(case["nom_complet"])
 		text += "  [%d, %d]" % [coordinates.x, coordinates.y]
@@ -79,7 +84,7 @@ class ZoneGrid extends Control:
 		elif case["pierre"] == WorldMapLayout.STONE_UNKNOWN:
 			text += "\nPierre de Passage pas encore découverte : touchez-la pour pouvoir y revenir en voyage."
 		if case["actuelle"]:
-			text += "\nVous êtes ici."
+			text += "\nVous êtes dans une maison de cette carte." if indoors else "\nVous êtes ici."
 		return text
 
 	func _draw() -> void:
@@ -129,16 +134,30 @@ class ZoneGrid extends Control:
 				draw_arc(Vector2(rect.get_center().x, rect.end.y - 8), 4.0, 0, TAU, 16, Color.WHITE, 1.2)
 
 	## Texte centré dans le rectangle, sur `max_lines` lignes au plus et sans en sortir : coupé aux
-	## mots (ou dans un mot trop long), et réduit aux lignes qui tiennent en hauteur (rien s'il n'en
-	## tient aucune ; le nom reste dans la bulle de survol).
+	## mots (un mot trop long finit par « … »), et réduit aux lignes qui tiennent en hauteur (rien s'il
+	## n'en tient aucune ; le nom reste dans la bulle de survol).
 	func _centered_text(font: Font, rect: Rect2, text: String, text_size: int, color: Color, max_lines: int) -> void:
 		var lines := mini(max_lines, int(rect.size.y / font.get_height(text_size)))
 		if lines < 1 or rect.size.x < text_size:
 			return
+		text = fit_words(font, text, rect.size.x, text_size)
 		var block := font.get_multiline_string_size(text, HORIZONTAL_ALIGNMENT_CENTER, rect.size.x, text_size, lines, NAME_BREAKS)
 		var top := rect.position.y + (rect.size.y - block.y) / 2.0 + font.get_ascent(text_size)
 		draw_multiline_string(font, Vector2(rect.position.x, top), text, HORIZONTAL_ALIGNMENT_CENTER, rect.size.x,
 			text_size, lines, color, NAME_BREAKS)
+
+	## Le texte, chaque mot trop large pour `width` raccourci et terminé par « … » (« Clairi… » plutôt
+	## que « Clairièr / e » sur une case étroite).
+	static func fit_words(font: Font, text: String, width: float, text_size: int) -> String:
+		var words := text.split(" ", false)
+		for i in words.size():
+			var word := words[i]
+			if font.get_string_size(word, HORIZONTAL_ALIGNMENT_LEFT, -1, text_size).x <= width:
+				continue
+			while word.length() > 1 and font.get_string_size(word + "…", HORIZONTAL_ALIGNMENT_LEFT, -1, text_size).x > width:
+				word = word.left(-1)
+			words[i] = word + "…"
+		return " ".join(words)
 
 	## Losange d'une Pierre de Passage : plein si elle est découverte, en creux sinon.
 	func _draw_stone(center: Vector2, radius: float, known: bool) -> void:
@@ -231,9 +250,12 @@ func refresh() -> void:
 	for passage_id: String in world.data.passages:
 		if world.is_passage_known(passage_id):
 			known.append(passage_id)
-	var layout := WorldMapLayout.zone_layout(zone_id, map_infos(world, [zone_id]), _visited_here(), world.map.id,
+	# Dans une maison, la carte devant sa porte est encadrée comme carte actuelle.
+	var here := _here_map()
+	var layout := WorldMapLayout.zone_layout(zone_id, map_infos(world, [zone_id]), _visited_here(), here,
 		world.data.passages, known)
 	_grid.layout = layout
+	_grid.indoors = here != world.map.id
 	_grid.queue_redraw()
 	_zone_title.text = layout["nom"]
 	var visited := 0

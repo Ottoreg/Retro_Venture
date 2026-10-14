@@ -58,10 +58,11 @@ bandeau, hors combat, ouvre sa fiche.
 
 ### Minicarte et carte du monde
 
-- **Minicarte** (en haut à droite, en exploration seulement) : la carte actuelle en petit. Sol,
-  arbres et rochers (plus sombres), eau (bleu), chemins, bords de sortie (en jaune), portes (carré
-  doré) et Pierre de Passage (losange bleu) ; **vous** (point bleu cerclé de blanc), les groupes de
-  monstres (points rouges, **dorés pour une élite**) et les PNJ (points clairs) bougent en direct.
+- **Minicarte** (en haut à droite, en exploration seulement) : la carte actuelle en petit, aux
+  couleurs de la zone (la lave du Trône de Cendre y reste orange). Sol, arbres et rochers (plus
+  sombres), eau, chemins, bords de sortie (en jaune), portes (carré doré) et Pierre de Passage
+  (losange bleu) ; **vous** (point bleu cerclé de blanc), les groupes de monstres (points rouges,
+  **dorés pour une élite**) et les PNJ (points clairs) bougent en direct.
   En haut, les coordonnées de la carte. Un **clic** dessus ouvre la carte du monde. Elle disparaît en
   combat (l'ordre de jeu prend sa place). Elle cache le coin en haut à droite de la carte : si un
   groupe ou un PNJ passe dessous, ou pour aller sur ces cases, **repliez-la** avec le petit bouton
@@ -71,8 +72,8 @@ bandeau, hors combat, ouvre sa fiche.
   case avec son nom, à sa place (est à droite, sud en bas) ; la carte où vous êtes a un **cadre
   doré** ; les cartes voisines pas encore visitées sont des **« ? »**, les autres restent cachées.
   Un losange bleu marque une Pierre de Passage (plein : découverte ; en creux : pas encore touchée).
-  Les maisons n'y figurent pas (depuis une maison, la carte s'ouvre sur sa zone, la carte devant la
-  porte comptée comme visitée). Survolez une case pour son nom complet et ses coordonnées. Échap
+  Les maisons n'y figurent pas (depuis une maison, la carte s'ouvre sur sa zone, avec le cadre doré
+  sur la carte devant la porte, comptée comme visitée). Survolez une case pour son nom complet et ses coordonnées. Échap
   ferme la carte du monde avant toute autre fenêtre.
 
 ### Le bandeau du bas

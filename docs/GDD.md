@@ -464,7 +464,8 @@ prévoit déjà `voie` et `rang` sur chaque sort** pour que le système s'ajoute
 ## 6. Exploration et monde
 
 - Le monde est découpé en **cartes** (un écran chacune), reliées par leurs bords et par des portes ou
-  escaliers. Chaque carte a des coordonnées `[x, y]` sur la carte du monde.
+  escaliers. Chaque carte extérieure a des coordonnées sur la carte du monde, tirées de son id
+  (`<zone>_<x>_<y>`) ; les intérieurs n'en ont pas.
 - **Déplacement au clic** sur une grille isométrique ; recherche de chemin (A*).
 - Sur une carte : PNJ, groupes de monstres visibles qui errent, ressources récoltables, éléments
   interactifs (portes, coffres, panneaux).

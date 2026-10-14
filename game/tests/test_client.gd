@@ -3,6 +3,11 @@ extends "res://tests/test_case.gd"
 ## Les animations sont accélérées en appelant `_process` à la main.
 
 
+## Minicarte dépliée au début de chaque test (l'état est gardé dans `Session`, d'un test à l'autre).
+func before_each() -> void:
+	Session.minimap_folded = false
+
+
 func _run_until_idle(view: MapView) -> void:
 	for i in 1000:
 		if not view.is_busy() or view._paused:
@@ -851,6 +856,44 @@ func test_carte_du_monde_et_minicarte() -> void:
 	world_map.open()
 	assert_false(world_map.is_open(), "pas de carte du monde en combat")
 	scene.free()
+	Session.minimap_folded = false
+
+
+func test_minicarte_aux_couleurs_de_la_zone() -> void:
+	# Trône de Cendre : la « eau » de la palette cendre est une lave orange, les arbres sont morts.
+	var tree := Engine.get_main_loop() as SceneTree
+	Session.start_map = "cendre_0_0"
+	var scene: Node = load("res://client/world/world.tscn").instantiate()
+	tree.root.add_child(scene)
+	Session.start_map = ""
+	var view: MapView = scene.get_node("MapView")
+	var minimap: Minimap = scene.get_node("Minimap")
+	assert_eq(view.world.map.id, "cendre_0_0")
+	assert_eq(Art.palette, "cendre")
+	var map := view.current_map()
+	var water := Vector2i(-1, -1)
+	var tree_cell := Vector2i(-1, -1)
+	var path := Vector2i(-1, -1)
+	for cell: Vector2i in map.cells():
+		var kind: String = map.obstacles.get(cell, "")
+		if kind == "eau" and water == Vector2i(-1, -1):
+			water = cell
+		elif kind == "arbre" and tree_cell == Vector2i(-1, -1):
+			tree_cell = cell
+		elif kind.is_empty() and map.ground.has(cell) and path == Vector2i(-1, -1):
+			path = cell
+	assert_true(water != Vector2i(-1, -1) and tree_cell != Vector2i(-1, -1) and path != Vector2i(-1, -1),
+		"lave, arbre mort et chemin sur la carte")
+	assert_eq(minimap.cell_color(water), Art.color("eau"), "la lave dans la couleur de la palette")
+	assert_eq(minimap.cell_color(water), Color("e2622a"), "orange, pas bleue")
+	assert_eq(minimap.cell_color(path), Art.color("terre"), "chemin de cendre")
+	assert_eq(minimap.floor_color(), Art.color("herbe"), "sol gris de la palette")
+	var trunk := minimap.cell_color(tree_cell)
+	assert_true(trunk.g <= trunk.r + 0.05, "arbre mort sans vert vif : %s" % trunk)
+	assert_true(trunk.get_luminance() < minimap.floor_color().get_luminance(), "arbre plus sombre que le sol")
+	scene.free()
+	# Couleurs de base pour les tests suivants.
+	Art.palette = ""
 
 
 ## Zone fictive « grande » de `columns` × `rows` cartes, toutes visitées et reliées en ligne
@@ -920,6 +963,13 @@ func test_carte_du_monde_grandes_zones() -> void:
 		assert_eq(grid.case_at(grid.cell_rect(corner).get_center())["coordonnees"], corner, "%s : case sous la souris" % dims)
 		if dims.x >= 15:
 			assert_true(grid.font_size() < 15, "%s : cases étroites, noms en plus petit" % dims)
+			# Pas de mot coupé en deux lignes : un mot trop large finit par « … ».
+			var font := grid.get_theme_default_font()
+			var width := grid.cell_size().x - 6.0
+			var fitted := WorldMapWindow.ZoneGrid.fit_words(font, "Clairière des Ronces", width, grid.font_size())
+			for word in fitted.split(" "):
+				assert_true(font.get_string_size(word, HORIZONTAL_ALIGNMENT_LEFT, -1, grid.font_size()).x <= width,
+					"%s : « %s » tient dans la case (%s)" % [dims, word, fitted])
 	scene.free()
 	tree.root.size = screen_size
 
@@ -941,6 +991,9 @@ func test_carte_du_monde_depuis_une_maison() -> void:
 	assert_eq(world_map._zone_title.text, "Brumerive")
 	var cases := _world_map_cases(world_map)
 	assert_true(cases["brumerive_0_0"]["visitee"], "la place devant la porte est connue")
-	assert_false(cases["brumerive_0_0"]["actuelle"], "mais on n'y est pas")
+	assert_true(cases["brumerive_0_0"]["actuelle"], "encadrée : la maison est sur cette carte")
+	assert_true(world_map._grid.indoors, "on est dans une maison")
+	assert_true(world_map._grid.case_tooltip(cases["brumerive_0_0"]).contains("Vous êtes dans une maison de cette carte."),
+		"bulle de survol")
 	assert_eq(cases["brumerive_1_0"]["nom"], WorldMapLayout.UNKNOWN_NAME, "sa voisine en « ? »")
 	scene.free()
