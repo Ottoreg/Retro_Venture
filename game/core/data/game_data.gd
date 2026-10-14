@@ -439,12 +439,16 @@ func roll_group_levels(monster_ids: Array, rng: RandomNumberGenerator) -> Array:
 	return levels
 
 
-## Vrai si `level` est un niveau entier de la tranche du monstre.
+## Vrai si le monstre peut avoir le niveau `level` : un entier de sa tranche, de poids non nul (un
+## poids nul n'est jamais tiré).
 func is_monster_level(monster_id: String, level: Variant) -> bool:
 	if not Spell._is_int_at_least(level, 1):
 		return false
 	var levels := monster_level_range(monster_id)
-	return int(level) >= levels.x and int(level) <= levels.y
+	if int(level) < levels.x or int(level) > levels.y:
+		return false
+	var data: Dictionary = monsters.get(monster_id, {})
+	return not data.has("niveaux") or int(data["niveaux"]["poids"][int(level) - levels.x]) > 0
 
 
 ## Monstre prêt à combattre au niveau `level` (-1 : son niveau de base ; ramené dans sa tranche),

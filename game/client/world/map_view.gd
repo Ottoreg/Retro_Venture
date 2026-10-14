@@ -41,6 +41,10 @@ const WALK_SPEED := 170.0
 const GROUP_WALK_SPEED := 70.0
 ## Durée de l'animation d'attaque ou de sort.
 const ATTACK_TIME := 0.45
+## Durée de vie d'un texte flottant, en secondes (il s'efface pendant les 0,4 dernières).
+const FLOATING_LIFE := 1.0
+## Celle du message d'un changement de phase, plus long à lire.
+const PHASE_FLOATING_LIFE := 2.5
 
 const COLOR_GRASS := Color("7aa35a")
 const COLOR_BORDER := Color("6a8f4e")
@@ -127,7 +131,7 @@ var _pending_click := NO_CELL
 var _time := 0.0
 ## Commande à envoyer quand la marche en cours se termine (attaque d'un groupe, changement de carte).
 var _arrival_command: Dictionary = {}
-## Textes flottants : { text, color, pos (Vector2 grille), age }.
+## Textes flottants : { text, color, pos (Vector2 grille), age, life } (`life` : durée de vie).
 var _floating: Array[Dictionary] = []
 ## Glyphes visibles : id → { cases: Array[Vector2i], equipe }.
 var _glyphs: Dictionary = {}
@@ -510,7 +514,7 @@ func _process(delta: float) -> void:
 	var kept: Array[Dictionary] = []
 	for text in _floating:
 		text["age"] += delta
-		if text["age"] < 1.0:
+		if text["age"] < text["life"]:
 			kept.append(text)
 	_floating = kept
 	if not _trap_flash.is_empty():
@@ -764,15 +768,18 @@ func _apply(event: Dictionary) -> float:
 	if type == Protocol.EVT_TRAP_ENDED:
 		_traps.erase(event["id"])
 		return 0.0
-	if type == Protocol.EVT_PHASE:
-		combat_message.emit(event["message"])
-		_add_floating(event["message"], Color(1.0, 0.45, 0.85), _actors[event["entite"]]["pos"] + Vector2(0, -0.6))
-		return 0.8
 	if type == Protocol.EVT_TRAP_TRIGGERED:
 		_traps.erase(event["id"])
 		_trap_flash = {"cases": event["cases"], "age": 0.0}
 		_add_floating("Piège : %s !" % event["sort"], Color(1.0, 0.55, 0.2), Vector2(event["case"]) + Vector2(0, -0.4))
 		return 0.4
+	if type == Protocol.EVT_PHASE:
+		# Changement de phase d'un monstre : message de combat, et texte flottant qui dure assez pour
+		# être lu.
+		combat_message.emit(event["message"])
+		_add_floating(event["message"], Color(1.0, 0.45, 0.85), _actors[event["entite"]]["pos"] + Vector2(0, -0.6),
+			PHASE_FLOATING_LIFE)
+		return 0.8
 	if type == Protocol.EVT_DAMAGE:
 		var target: Dictionary = _actors[event["entite"]]
 		target["hp"] = event["pv"]
@@ -822,8 +829,8 @@ static func state_text(state: Dictionary) -> String:
 	return "%s%d %s (%s)" % ["+" if state["type"] == Spell.EFFECT_BONUS else "−", state["valeur"], carac, duration]
 
 
-func _add_floating(text: String, color: Color, grid_pos: Vector2) -> void:
-	_floating.append({"text": text, "color": color, "pos": grid_pos, "age": 0.0})
+func _add_floating(text: String, color: Color, grid_pos: Vector2, life := FLOATING_LIFE) -> void:
+	_floating.append({"text": text, "color": color, "pos": grid_pos, "age": 0.0, "life": life})
 
 
 func _load_exploration_actors() -> void:
@@ -976,9 +983,10 @@ func _draw() -> void:
 	for text in _floating:
 		# Centré au-dessus de la case, assez large pour un long message (changement de phase).
 		var width := maxf(200.0, font.get_string_size(text["text"], HORIZONTAL_ALIGNMENT_LEFT, -1, 16).x + 8.0)
-		var text_pos := IsoGrid.grid_to_screen(text["pos"]) + Vector2(-width / 2.0, -60 - 30 * text["age"])
+		# Monte pendant une seconde, puis reste en place (texte qui dure plus longtemps).
+		var text_pos := IsoGrid.grid_to_screen(text["pos"]) + Vector2(-width / 2.0, -60 - 30 * minf(text["age"], FLOATING_LIFE))
 		var color: Color = text["color"]
-		color.a = 1.0 - maxf(0.0, text["age"] - 0.6) / 0.4
+		color.a = 1.0 - maxf(0.0, text["age"] - (text["life"] - 0.4)) / 0.4
 		draw_string_outline(font, text_pos, text["text"], HORIZONTAL_ALIGNMENT_CENTER, width, 16, 4, Color(0, 0, 0, color.a))
 		draw_string(font, text_pos, text["text"], HORIZONTAL_ALIGNMENT_CENTER, width, 16, color)
 

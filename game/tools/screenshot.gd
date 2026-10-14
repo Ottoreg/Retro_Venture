@@ -7,8 +7,8 @@ extends SceneTree
 ## fenêtre ; « inventaire » remplit d'abord le sac d'un exemplaire de chaque objet) ou « pierre » (va utiliser
 ## la Pierre de Passage), « glyphe » (combat contre l'Arbre millénaire, glyphe posée, héros ralenti et
 ## empoisonné, à lancer sur sylvebrume_0_0), « survol » (le plus grand groupe de la carte survolé :
-## bulle avec le niveau tiré de chaque monstre) ou « phase » (comme « cible », avec un changement de
-## phase du monstre survolé : message et texte flottant).
+## bulle avec le niveau tiré de chaque monstre) ou « phase » (comme « cible » ; le monstre survolé reçoit
+## une phase pour l'occasion et passe sous son seuil : message et texte flottant).
 ## Si « carte » commence par res://, c'est cette scène qui est capturée (menu, création…).
 
 var _output := "capture.png"
@@ -123,6 +123,11 @@ func _process(_delta: float) -> bool:
 			_scene.get_node("SpellsWindow").toggle()
 		else:
 			var target: Vector2i = view.world.groups()[0]["case"] if _action in ["combat", "cible", "sermon", "phase"] else view.current_map().travel_stone()
+			if _action == "phase":
+				# Aucun monstre n'a encore de phases dans les données : le premier du groupe en reçoit une.
+				var monster: Dictionary = view.world.data.monsters[view.world.groups()[0]["monstres"][0]]
+				monster["phases"] = [{"pv": 90, "message": "%s entre dans une rage folle !" % monster["nom"], "sorts": [],
+					"effets": [{"type": "bonus", "carac": "force", "min": 50, "max": 50, "duree": 2}]}]
 			view._on_click(target)
 			for i in 200:
 				if not view.is_busy():
@@ -144,12 +149,15 @@ func _process(_delta: float) -> bool:
 					view._set_hovered(hero.cell + Spell.direction(hero.cell, foe.cell))
 				for fighter in view.world.combat.fighters if _action in ["cible", "phase"] else []:
 					if fighter.team != Fighter.TEAM_PLAYERS:
-						view._set_hovered(fighter.cell)
 						if _action == "phase":
-							view._queue.append({"type": Protocol.EVT_PHASE, "entite": fighter.id,
-								"message": "%s entre dans une rage folle !" % fighter.display_name})
+							# Un tiers de ses PV perdus : le noyau déclenche la phase (seuil à 90 %).
+							var events: Array[Dictionary] = []
+							view.world.combat._hurt(fighter, ceili(fighter.hp / 3.0), "acier", events)
+							view._queue.append_array(events)
 							view._playing = true
 							view._play_next()
+							view._process(0.3)  # Après les dégâts, le changement de phase.
+						view._set_hovered(fighter.cell)
 						break
 		_action = ""
 	_frames -= 1

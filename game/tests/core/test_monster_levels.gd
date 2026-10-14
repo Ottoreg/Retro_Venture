@@ -18,8 +18,9 @@ func before_each() -> void:
 	}
 
 
-## Données de test + « rat » (niveaux 1 à 3, surtout 1), « costaud » (niveaux 2 à 4, jamais 2,
-## un PM de plus par niveau par exception) et « chef », l'élite des rats (niveau 6, fixe).
+## Données de test + « rat » (niveaux 1 à 3, surtout 1, butin incertain), « costaud » (niveaux 2
+## à 4, jamais 2, un PM de plus par niveau par exception) et « chef », l'élite des rats (niveau 6,
+## fixe).
 static func _data() -> GameData:
 	var monsters := []
 	for id in ["mannequin", "loup"]:
@@ -29,6 +30,10 @@ static func _data() -> GameData:
 	rat["niveaux"] = {"min": 1, "max": 3, "poids": [6, 3, 1]}
 	rat["caracteristiques"]["force"] = 10
 	rat["par_niveau"] = {"pv": 5, "initiative": 10, "xp": 4, "force": 20, "agilite": 2, "resistances": {"acier": 5, "givre": -5}}
+	# Taux inférieurs à 1, quantités et écus variables : un niveau qui changerait les taux, les
+	# quantités ou les écus se verrait sur quelques combats.
+	rat["butin"] = [{"objet": "dent", "taux": 0.5, "quantite": [1, 3]}, {"objet": "bague", "taux": 0.3}]
+	rat["ecus"] = [1, 9]
 	monsters.append(rat)
 	var strong := Fixtures.monster("costaud", 40, 4, 2, 10, ["frappe"])
 	strong["niveau"] = 2
@@ -98,6 +103,11 @@ func test_tirage_pondere_selon_la_famille() -> void:
 	assert_almost_eq(rats[3] / float(draws), 0.1, 0.03, "rat de niveau 3 : %s" % str(rats))
 	assert_eq(strong[2], 0, "poids nul : jamais tiré")
 	assert_true(strong[4] > 2 * strong[3], "la famille forte tire surtout haut (%s)" % str(strong))
+	assert_false(data.is_monster_level("costaud", 2), "poids nul : pas un niveau possible")
+	assert_true(data.is_monster_level("costaud", 3))
+	assert_false(data.is_monster_level("costaud", 5), "hors de la tranche")
+	assert_true(data.is_monster_level("chef", 6))
+	assert_false(data.is_monster_level("chef", 5), "élite : seulement son niveau")
 	for i in 20:
 		assert_eq(data.roll_monster_level("chef", rng), 6, "élite : toujours son niveau")
 	assert_eq(str(data.roll_group_levels(["chef", "mannequin"], rng)), str([6, 1]))
@@ -166,19 +176,26 @@ func test_le_combat_cree_chaque_monstre_a_son_niveau() -> void:
 
 
 func test_le_butin_ne_depend_pas_du_niveau() -> void:
-	# Même combat, même tirage : seul le niveau du rat change.
-	var results := []
-	for level in [1, 3]:
-		_maps["a"] = Fixtures.map({Fixtures.center(): "1"}, [{"monstres": ["rat"]}], {"id": "a"})
-		var world := _world()
-		world.group("groupe_1")["niveaux"] = [level]
-		var ended := _win_against(world, "groupe_1")
-		results.append(ended)
-		assert_eq(ended["vainqueur"], Fighter.TEAM_PLAYERS)
-	assert_false(results[0]["butin"].is_empty(), "le rat lâche quelque chose")
-	assert_eq(str(results[1]["butin"]), str(results[0]["butin"]), "même butin au niveau 3 qu'au niveau 1")
-	assert_eq(results[1]["ecus"], results[0]["ecus"], "mêmes écus")
-	assert_true(int(results[1]["xp"]) > int(results[0]["xp"]), "mais plus d'XP")
+	# Mêmes combats (même graine, donc même tirage), seul le niveau du rat change. Son butin est
+	# incertain (voir `_data`) : sur plusieurs combats, un taux, une quantité ou des écus qui
+	# dépendraient du niveau changeraient le résultat d'au moins l'un d'eux.
+	var outcomes := {}
+	for attempt in 12:
+		var results := []
+		for level in [1, 3]:
+			_maps["a"] = Fixtures.map({Fixtures.center(): "1"}, [{"monstres": ["rat"]}], {"id": "a"})
+			var world := _world()
+			world.group("groupe_1")["niveaux"] = [level]
+			world._combat_count = attempt  # Graine du combat, qui tire aussi le butin.
+			var ended := _win_against(world, "groupe_1")
+			results.append(ended)
+			assert_eq(ended["vainqueur"], Fighter.TEAM_PLAYERS)
+		var label := "combat %d" % attempt
+		assert_eq(str(results[1]["butin"]), str(results[0]["butin"]), "%s : même butin au niveau 3 qu'au niveau 1" % label)
+		assert_eq(results[1]["ecus"], results[0]["ecus"], "%s : mêmes écus" % label)
+		assert_true(int(results[1]["xp"]) > int(results[0]["xp"]), "%s : mais plus d'XP" % label)
+		outcomes[str([results[0]["butin"], results[0]["ecus"]])] = true
+	assert_true(outcomes.size() >= 6, "butin et écus varient d'un combat à l'autre (%d résultats différents)" % outcomes.size())
 
 
 func test_les_elites_gardent_leur_niveau_fixe() -> void:
@@ -241,6 +258,31 @@ func test_niveaux_sauvegardes_et_restaures() -> void:
 	assert_eq(levels[1], 2, "niveau valable gardé")
 	assert_true(levels[0] in [1, 2, 3], "rat : %s" % str(levels))
 	assert_true(levels[2] in [3, 4], "costaud : jamais 2 (poids nul) : %s" % str(levels))
+	# Niveau de la tranche mais de poids nul (poids changés depuis) : il ne peut plus être tiré, on le
+	# tire à nouveau.
+	entry["niveaux"] = [1, 3, 2]
+	restored = World.from_save(save, _data(), _loader)
+	levels = restored.group("groupe_1")["niveaux"]
+	assert_eq(str(levels.slice(0, 2)), str([1, 3]), "niveaux possibles gardés")
+	assert_true(levels[2] in [3, 4], "costaud de niveau 2 (poids nul) : tiré à nouveau : %s" % str(levels))
+	# Élite apparue en plus des groupes de la carte, dans une vieille sauvegarde sans niveaux : l'élite
+	# reprend son niveau fixe, le rat qui l'accompagne un niveau de sa tranche.
+	world = _world()
+	assert_true(world.spawn_elite("chef"))
+	save = JSON.parse_string(JSON.stringify(world.save_data()))
+	var elite_entry: Dictionary = {}
+	for saved_group: Dictionary in save["groupes_restants"]["a"]:
+		if saved_group["id"] == "elite_chef":
+			elite_entry = saved_group
+	assert_eq(elite_entry.get("elite", ""), "chef", "groupe de l'élite sauvegardé")
+	elite_entry["monstres"] = ["chef", "rat"]  # Toujours avec un rat (une fois sur deux d'habitude).
+	elite_entry.erase("niveaux")
+	restored = World.from_save(save, _data(), _loader)
+	var elite_group: Dictionary = restored.group("elite_chef")
+	assert_eq(elite_group.get("elite", ""), "chef", "élite restaurée")
+	assert_eq(str(elite_group.get("monstres")), str(["chef", "rat"]))
+	assert_eq(elite_group["niveaux"][0], 6, "élite : son niveau fixe")
+	_assert_levels_in_range(restored.data, elite_group, "groupe de l'élite restauré")
 
 
 func test_erreurs_de_validation_des_niveaux() -> void:

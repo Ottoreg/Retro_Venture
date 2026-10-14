@@ -10,6 +10,11 @@ func _run_until_idle(view: MapView) -> void:
 		view._process(0.5)
 
 
+## Textes flottants affichés par la carte.
+func _floating_texts(view: MapView) -> Array:
+	return view._floating.map(func(text: Dictionary) -> String: return text["text"])
+
+
 func test_scene_du_monde_jusqu_au_combat_et_retour() -> void:
 	var tree := Engine.get_main_loop() as SceneTree
 	var scene: Node = load("res://client/world/world.tscn").instantiate()
@@ -601,13 +606,16 @@ func test_niveaux_tires_dans_la_bulle_et_en_combat() -> void:
 	view._set_hovered(strongest.cell)
 	assert_eq(hud._target_level.text, "Niveau 3")
 	assert_eq(strongest.max_hp, 20, "14 PV au niveau 1, +3 par niveau")
-	# Changement de phase : message de combat et texte flottant.
+	# Changement de phase : message de combat et texte flottant, qui reste plus longtemps qu'un autre
+	# (« -5 », ajouté en même temps) pour être lu.
+	view._add_floating("-5", Color(1, 0.35, 0.3), Vector2(strongest.cell))
 	view._queue.append({"type": Protocol.EVT_PHASE, "entite": strongest.id, "message": "Le rat se fâche !"})
 	view._playing = true
 	view._play_next()
 	assert_eq(hud._message_label.text, "Le rat se fâche !", "message de combat")
-	var floating := false
-	for text: Dictionary in view._floating:
-		floating = floating or text["text"] == "Le rat se fâche !"
-	assert_true(floating, "texte flottant au-dessus du monstre")
+	assert_true("Le rat se fâche !" in _floating_texts(view), "texte flottant au-dessus du monstre")
+	view._process(1.5)
+	assert_eq(str(_floating_texts(view)), str(["Le rat se fâche !"]), "encore là quand les autres ont disparu")
+	view._process(1.5)
+	assert_true(_floating_texts(view).is_empty(), "puis il disparaît aussi")
 	scene.free()

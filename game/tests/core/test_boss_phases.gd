@@ -128,6 +128,23 @@ func test_phase_apres_un_choc() -> void:
 	assert_eq(Fixtures.of_type(events, Protocol.EVT_PHASE).size(), 1)
 
 
+func test_phase_apres_un_piege() -> void:
+	# Repoussé sur un piège posé derrière lui : les dégâts du piège comptent aussi.
+	_start([{"pv": 80, "message": "Un piège ? Quelle bassesse !"}])
+	var trap_cell := _boss.cell + Vector2i(1, 0)
+	_combat.execute(Fixtures.cmd(Protocol.CMD_CAST, {"sort": "chausse_trape", "cible": trap_cell}))
+	assert_eq(_combat.traps.size(), 1, "piège posé")
+	var events := _hit("repousse")
+	assert_eq(_boss.cell, trap_cell, "arrêté sur le piège")
+	assert_eq(_boss.hp, 30, "10 dégâts du piège, sans choc")
+	var triggered := Fixtures.of_type(events, Protocol.EVT_TRAP_TRIGGERED)
+	var phases := Fixtures.of_type(events, Protocol.EVT_PHASE)
+	assert_eq(triggered.size(), 1)
+	assert_eq(phases.size(), 1, "déclenchée par le piège")
+	assert_eq(phases[0]["message"], "Un piège ? Quelle bassesse !")
+	assert_true(events.find(triggered[0]) < events.find(phases[0]), "après le déclenchement du piège")
+
+
 func test_pas_de_phase_pour_un_monstre_vaincu() -> void:
 	_start([{"pv": 50, "message": "Jamais vu"}], 10)
 	var events := _hit()

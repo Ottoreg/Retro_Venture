@@ -1377,8 +1377,9 @@ func _restored_elite_group(saved_map: GameMap, group_id: String, saved: Dictiona
 	return group if group.has("elite") else {}
 
 
-## Niveaux d'un groupe, un par monstre : ceux de `saved` quand ils sont dans la tranche de chaque
-## monstre, sinon tirés à nouveau (vieille sauvegarde sans niveaux, données changées depuis).
+## Niveaux d'un groupe, un par monstre : ceux de `saved` quand chaque monstre peut encore les avoir
+## (dans sa tranche, de poids non nul : voir `GameData.is_monster_level`), sinon tirés à nouveau
+## (vieille sauvegarde sans niveaux, données changées depuis).
 func _checked_levels(monsters: Array, saved: Variant) -> Array:
 	var levels: Array = []
 	for i in monsters.size():

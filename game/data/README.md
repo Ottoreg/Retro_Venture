@@ -77,7 +77,8 @@ Un groupe vaincu réapparaît à sa place au bout d'un délai tiré dans `reappa
 En exploration, les groupes se promènent : toutes les 8 à 20 secondes, quelques pas (3 au plus)
 sans s'éloigner de plus de 3 cases de leur place d'origine, ni aller sur le joueur, un autre groupe,
 une porte, un bord de sortie ou derrière un bâtiment. La sauvegarde garde la composition et la place
-de chaque groupe, et le niveau de chaque monstre.
+de chaque groupe, et le niveau de chaque monstre (tiré à nouveau s'il ne peut plus l'avoir : hors de
+sa tranche ou de poids nul, après un changement des données).
 
 À chaque apparition (première visite, réapparition, arrivée d'une élite), chaque monstre du groupe
 reçoit son niveau, tiré dans la tranche de sa famille (voir `niveaux` dans *Monstres*) ; la bulle du
