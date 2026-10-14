@@ -559,7 +559,7 @@ func test_barre_d_action_et_fenetre_des_sorts() -> void:
 		var slot: CombatHud.SpellSlot = hud._spell_buttons[spell_id]
 		assert_true(slot.icon != null, "icône du sort %s" % spell_id)
 		assert_true(slot.icon != Art.texture("sort_inconnu"), "icône dessinée pour %s" % spell_id)
-	assert_eq(hud._menu_buttons.size(), 4, "personnage, inventaire, sorts, métiers")
+	assert_eq(hud._menu_buttons.size(), 5, "personnage, inventaire, sorts, métiers, carte du monde")
 
 	# Un clic sur un sort hors combat ouvre sa fiche dans la fenêtre des sorts.
 	var first: String = hud._shown_spells[1]
@@ -720,4 +720,99 @@ func test_niveaux_tires_dans_la_bulle_et_en_combat() -> void:
 	assert_eq(str(_floating_texts(view)), str(["Le rat se fâche !"]), "encore là quand les autres ont disparu")
 	view._process(1.5)
 	assert_true(_floating_texts(view).is_empty(), "puis il disparaît aussi")
+	scene.free()
+
+
+## Cases de la grille de la carte du monde affichée, par id de carte.
+func _world_map_cases(window: WorldMapWindow) -> Dictionary:
+	var cases := {}
+	for case: Dictionary in window.shown_layout()["cases"]:
+		cases[case["id"]] = case
+	return cases
+
+
+func test_carte_du_monde_et_minicarte() -> void:
+	var tree := Engine.get_main_loop() as SceneTree
+	var scene: Node = load("res://client/world/world.tscn").instantiate()
+	tree.root.add_child(scene)
+	var view: MapView = scene.get_node("MapView")
+	var hud: CombatHud = scene.get_node("CombatHud")
+	var minimap: Minimap = scene.get_node("Minimap")
+	var world_map: WorldMapWindow = scene.get_node("WorldMapWindow")
+
+	# Minicarte en haut à droite, sous le bandeau du haut ; seul son cadre attrape la souris.
+	assert_true(minimap.is_shown(), "minicarte affichée en exploration")
+	var frame := Rect2(minimap._frame.get_global_rect().position, minimap._frame.get_combined_minimum_size())
+	var screen := scene.get_viewport().get_visible_rect()
+	assert_true(frame.position.y >= 65.0, "sous le bandeau du haut : %s" % frame)
+	assert_true(frame.size.x <= 230.0 and frame.size.y <= 140.0, "petit encart : %s" % frame)
+	assert_false(frame.has_point(screen.get_center()), "le reste de l'écran est à la carte")
+	for node in minimap._frame.find_children("*", "Control", true, false):
+		assert_eq((node as Control).mouse_filter, Control.MOUSE_FILTER_IGNORE, "%s laisse passer la souris" % node.name)
+	assert_eq(minimap._coordinates.text, "0, 0", "coordonnées de la carte")
+
+	# Touche M : la carte du monde s'ouvre sur la zone actuelle ; M la referme.
+	var key := InputEventKey.new()
+	key.keycode = KEY_M
+	key.pressed = true
+	world_map._unhandled_key_input(key)
+	assert_true(world_map.is_open(), "M ouvre la carte du monde")
+	assert_eq(world_map.current_zone(), "brumerive")
+	assert_eq(world_map._tabs.tab_count, 1, "un onglet : la seule zone visitée")
+	assert_eq(world_map._tabs.get_tab_title(0), "Brumerive", "le nom de sa Pierre de Passage")
+	var cases := _world_map_cases(world_map)
+	assert_eq(cases.size(), 2, "la place du village et sa voisine")
+	assert_true(cases["brumerive_0_0"]["actuelle"])
+	assert_eq(cases["brumerive_0_0"]["pierre"], WorldMapLayout.STONE_KNOWN, "pierre de la zone de départ")
+	assert_eq(cases["brumerive_1_0"]["nom"], WorldMapLayout.UNKNOWN_NAME, "champs de l'est pas encore visités")
+	world_map._unhandled_key_input(key)
+	assert_false(world_map.is_open(), "M referme")
+
+	# Bouton du bandeau, puis clic sur la minicarte.
+	hud._menu_buttons["carte"].pressed.emit()
+	assert_true(world_map.is_open(), "bouton « Carte du monde » du bandeau")
+	world_map.close()
+	var click := InputEventMouseButton.new()
+	click.button_index = MOUSE_BUTTON_LEFT
+	click.pressed = true
+	minimap._frame.gui_input.emit(click)
+	assert_true(world_map.is_open(), "clic sur la minicarte")
+	world_map.close()
+
+	# Sortie à l'est : la minicarte suit, la carte du monde dévoile les champs.
+	var map := view.current_map()
+	var exit_cell := Vector2i(-1, -1)
+	for cell: Vector2i in map.cells():
+		if map.is_walkable(cell) and "droite" in map.exit_directions(cell):
+			exit_cell = cell
+			break
+	view._on_click(exit_cell)
+	_run_until_idle(view)
+	assert_eq(view.world.map.id, "brumerive_1_0")
+	assert_eq(minimap._map.id, "brumerive_1_0", "la minicarte montre la nouvelle carte")
+	assert_eq(minimap._coordinates.text, "1, 0")
+	world_map.open()
+	cases = _world_map_cases(world_map)
+	assert_true(cases["brumerive_1_0"]["actuelle"] and cases["brumerive_1_0"]["visitee"])
+	assert_eq(cases["brumerive_1_0"]["nom"], "Champs de l'est")
+	assert_false(cases["brumerive_0_0"]["actuelle"])
+	world_map.close()
+
+	# Déjà passé par Crasse-Roc (simulé) : un second onglet ; on ouvre toujours sur la zone actuelle.
+	view.world.character.visit_map("crasse_roc_0_0")
+	world_map.open()
+	assert_eq(world_map._tabs.tab_count, 2, "un onglet par zone visitée")
+	assert_eq(world_map.current_zone(), "brumerive", "toujours dans les champs de l'est")
+	world_map.select_zone("crasse_roc")
+	assert_eq(world_map.shown_layout()["nom"], "Crasse-Roc")
+	assert_eq(_world_map_cases(world_map).size(), 2, "l'entrée des galeries et le Crassier en « ? »")
+	world_map.close()
+
+	# En combat : pas de minicarte (l'ordre de jeu est là), ni de carte du monde.
+	view._on_click(view.world.groups()[0]["case"])
+	_run_until_idle(view)
+	assert_eq(view.mode, MapView.Mode.COMBAT)
+	assert_false(minimap.is_shown(), "minicarte masquée en combat")
+	world_map.open()
+	assert_false(world_map.is_open(), "pas de carte du monde en combat")
 	scene.free()

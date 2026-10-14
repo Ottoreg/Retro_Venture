@@ -50,10 +50,26 @@ est ici.
 | **I** | Inventaire : équipement porté, sac, équiper / retirer / jeter (tenir **Ctrl** : jets possibles de l'objet choisi) |
 | **S** | Sorts : un onglet pour la Voie, la race et l'arme ; fiche de chaque sort |
 | **J** | Métiers : un onglet par métier, niveau, ressources et recettes |
+| **M** | Carte du monde : un onglet par zone visitée, ses cartes en grille (voir plus bas) |
 | **Échap** | Ferme la fenêtre ouverte ; sinon, retour au menu (avec sauvegarde) |
 
-Les quatre boutons en bas à droite du bandeau ouvrent les mêmes fenêtres. Un clic sur un sort du
+Les cinq boutons en bas à droite du bandeau ouvrent les mêmes fenêtres. Un clic sur un sort du
 bandeau, hors combat, ouvre sa fiche.
+
+### Minicarte et carte du monde
+
+- **Minicarte** (en haut à droite, en exploration seulement) : la carte actuelle en petit. Sol,
+  arbres et rochers (plus sombres), eau (bleu), chemins, bords de sortie (en jaune), portes (carré
+  doré) et Pierre de Passage (losange bleu) ; **vous** (point bleu cerclé de blanc), les groupes de
+  monstres (points rouges, **dorés pour une élite**) et les PNJ (points clairs) bougent en direct.
+  En bas, les coordonnées de la carte. Un **clic** dessus ouvre la carte du monde. Elle disparaît en
+  combat (l'ordre de jeu prend sa place).
+- **Carte du monde** (touche **M**, bouton en forme de carte du bandeau, ou clic sur la minicarte) :
+  un onglet par zone où vous êtes allé, ouvert sur la zone actuelle. Chaque carte visitée est une
+  case avec son nom, à sa place (est à droite, sud en bas) ; la carte où vous êtes a un **cadre
+  doré** ; les cartes voisines pas encore visitées sont des **« ? »**, les autres restent cachées.
+  Un losange bleu marque une Pierre de Passage (plein : découverte ; en creux : pas encore touchée).
+  Les maisons n'y figurent pas. Survolez une case pour son nom complet et ses coordonnées.
 
 ### Le bandeau du bas
 

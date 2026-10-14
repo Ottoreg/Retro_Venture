@@ -1,0 +1,364 @@
+class_name WorldMapWindow
+extends CanvasLayer
+## Carte du monde (touche M, bouton du bandeau ou clic sur la minicarte) : un onglet par zone
+## visitée, ses cartes en grille d'après leurs coordonnées (voir `WorldMapLayout`). La carte actuelle
+## est surlignée, les voisines pas encore visitées sont en « ? », les autres restent cachées ; un
+## losange marque une Pierre de Passage (plein si elle est découverte, en creux sinon).
+
+const GOLD := Color(0.95, 0.76, 0.3)
+## Bleu des runes des Pierres de Passage.
+const COLOR_STONE := Color("7fd0f0")
+## Largeur et hauteur maximales d'une case de la grille, et écart entre deux cases (pixels).
+const CELL_MAX := Vector2(150, 84)
+const CELL_GAP := 16.0
+
+
+## Grille d'une zone, dessinée d'après le résultat de `WorldMapLayout.zone_layout`.
+class ZoneGrid extends Control:
+	var layout: Dictionary = {}
+
+	## Taille d'une case : la plus grande qui laisse tenir toute la zone (cases plus petites pour une
+	## grande zone).
+	func cell_size() -> Vector2:
+		var columns := maxi(1, int(layout.get("colonnes", 1)))
+		var rows := maxi(1, int(layout.get("lignes", 1)))
+		var width := minf(CELL_MAX.x, (size.x - CELL_GAP * (columns + 1)) / columns)
+		var height := minf(CELL_MAX.y, (size.y - CELL_GAP * (rows + 1)) / rows)
+		return Vector2(maxf(width, 24.0), maxf(height, 18.0))
+
+	## Rectangle d'une case de la grille (colonne, ligne), centré dans la zone de dessin.
+	func cell_rect(cell: Vector2i) -> Rect2:
+		var cell_px := cell_size()
+		var step := cell_px + Vector2(CELL_GAP, CELL_GAP)
+		var whole := Vector2(int(layout.get("colonnes", 0)), int(layout.get("lignes", 0))) * step - Vector2(CELL_GAP, CELL_GAP)
+		var origin := ((size - whole) / 2.0).floor()
+		return Rect2(origin + Vector2(cell) * step, cell_px)
+
+	## Case affichée sous ce point ({} s'il n'y en a pas).
+	func case_at(point: Vector2) -> Dictionary:
+		for case: Dictionary in layout.get("cases", []):
+			if cell_rect(case["case"]).has_point(point):
+				return case
+		return {}
+
+	func _get_tooltip(at_position: Vector2) -> String:
+		var case := case_at(at_position)
+		if case.is_empty():
+			return ""
+		var coordinates: Vector2i = case["coordonnees"]
+		var text := "Carte inconnue" if not case["visitee"] else str(case["nom_complet"])
+		text += "  [%d, %d]" % [coordinates.x, coordinates.y]
+		if case["pierre"] == WorldMapLayout.STONE_KNOWN:
+			text += "\nPierre de Passage découverte"
+		elif case["pierre"] == WorldMapLayout.STONE_UNKNOWN:
+			text += "\nPierre de Passage pas encore découverte : touchez-la pour pouvoir y revenir en voyage."
+		if case["actuelle"]:
+			text += "\nVous êtes ici."
+		return text
+
+	func _draw() -> void:
+		if layout.get("cases", []).is_empty():
+			return
+		var cell_px := cell_size()
+		var font := get_theme_default_font()
+		var font_size := clampi(int(cell_px.y * 0.2), 10, 15)
+		# Les liens d'abord : un chemin entre deux cartes voisines.
+		for link: Array in layout.get("liens", []):
+			draw_line(cell_rect(link[0]).get_center(), cell_rect(link[1]).get_center(), UiTheme.BRONZE, 4.0)
+		for case: Dictionary in layout["cases"]:
+			var rect := cell_rect(case["case"])
+			var visited: bool = case["visitee"]
+			var box := StyleBoxFlat.new()
+			box.set_corner_radius_all(5)
+			box.set_border_width_all(3 if case["actuelle"] else 1)
+			if case["actuelle"]:
+				box.bg_color = Color("6b4a26")
+				box.border_color = GOLD
+			elif visited:
+				box.bg_color = UiTheme.WOOD_LIGHT
+				box.border_color = UiTheme.BRONZE
+			else:
+				box.bg_color = UiTheme.INK
+				box.border_color = Color("5a4630")
+			draw_style_box(box, rect)
+			if not visited:
+				var mark_size := clampi(int(cell_px.y * 0.45), 14, 34)
+				_centered_text(font, rect, WorldMapLayout.UNKNOWN_NAME, mark_size, UiTheme.TEXT_DIM, 1)
+				continue
+			var text_rect := rect.grow_individual(-6, -4, -6, -4)
+			if case["pierre"] != WorldMapLayout.STONE_NONE:
+				var stone_center := rect.position + Vector2(rect.size.x - 9, 10)
+				_draw_stone(stone_center, minf(6.0, cell_px.y * 0.12), case["pierre"] == WorldMapLayout.STONE_KNOWN)
+				text_rect = text_rect.grow_individual(0, -8, -6, 0)
+			_centered_text(font, text_rect, case["nom"], font_size, GOLD if case["actuelle"] else UiTheme.TEXT, 3)
+			if case["actuelle"] and cell_px.y >= 52:
+				# Le joueur : un point bleu sous le nom.
+				draw_circle(Vector2(rect.get_center().x, rect.end.y - 8), 4.0, Color("4d8fff"))
+				draw_arc(Vector2(rect.get_center().x, rect.end.y - 8), 4.0, 0, TAU, 16, Color.WHITE, 1.2)
+
+	## Texte centré dans le rectangle, sur `max_lines` lignes au plus (coupé aux mots).
+	func _centered_text(font: Font, rect: Rect2, text: String, font_size: int, color: Color, max_lines: int) -> void:
+		var block := font.get_multiline_string_size(text, HORIZONTAL_ALIGNMENT_CENTER, rect.size.x, font_size, max_lines)
+		var top := rect.position.y + (rect.size.y - block.y) / 2.0 + font.get_ascent(font_size)
+		draw_multiline_string(font, Vector2(rect.position.x, top), text, HORIZONTAL_ALIGNMENT_CENTER, rect.size.x,
+			font_size, max_lines, color)
+
+	## Losange d'une Pierre de Passage : plein si elle est découverte, en creux sinon.
+	func _draw_stone(center: Vector2, radius: float, known: bool) -> void:
+		var points := PackedVector2Array([center + Vector2(0, -radius * 1.3), center + Vector2(radius, 0),
+			center + Vector2(0, radius * 1.3), center + Vector2(-radius, 0)])
+		if known:
+			draw_colored_polygon(points, COLOR_STONE)
+		points.append(points[0])
+		draw_polyline(points, COLOR_STONE if not known else Color("1d3a4a"), 1.5)
+
+
+var map_view: MapView
+
+var _backdrop: ColorRect
+var _panel: PanelContainer
+var _tabs: TabBar
+var _zone_title: Label
+var _zone_info: Label
+var _grid: ZoneGrid
+## Zones des onglets (ids), dans l'ordre de la première visite.
+var _zone_ids: Array[String] = []
+
+
+func _ready() -> void:
+	_build()
+	_set_visible(false)
+
+
+func setup(p_map_view: MapView) -> void:
+	map_view = p_map_view
+	map_view.combat_started.connect(close)
+	map_view.map_changed.connect(refresh)
+
+
+func toggle() -> void:
+	if is_open():
+		close()
+	else:
+		open()
+
+
+func open() -> void:
+	if map_view == null or map_view.mode == MapView.Mode.COMBAT:
+		return
+	_set_visible(true)
+	_update_tabs(true)
+	refresh()
+
+
+func close() -> void:
+	_set_visible(false)
+
+
+func is_open() -> bool:
+	return _panel.visible
+
+
+## Zone de l'onglet choisi ("" s'il n'y en a pas).
+func current_zone() -> String:
+	if _tabs.tab_count == 0 or _tabs.current_tab < 0:
+		return ""
+	return _zone_ids[_tabs.current_tab]
+
+
+func select_zone(zone_id: String) -> void:
+	var index := _zone_ids.find(zone_id)
+	if index >= 0:
+		_tabs.current_tab = index
+		refresh()
+
+
+## Grille affichée (voir `WorldMapLayout.zone_layout`).
+func shown_layout() -> Dictionary:
+	return _grid.layout
+
+
+func refresh() -> void:
+	if map_view == null or not is_open():
+		return
+	_update_tabs(false)
+	var world := map_view.world
+	var zone_id := current_zone()
+	if zone_id.is_empty():
+		_grid.layout = {}
+		_zone_title.text = "Aucune carte visitée"
+		_zone_info.text = ""
+		_grid.queue_redraw()
+		return
+	var known: Array[String] = []
+	for passage_id: String in world.data.passages:
+		if world.is_passage_known(passage_id):
+			known.append(passage_id)
+	var layout := WorldMapLayout.zone_layout(zone_id, map_infos(world, [zone_id]), world.visited_maps(), world.map.id,
+		world.data.passages, known)
+	_grid.layout = layout
+	_grid.queue_redraw()
+	_zone_title.text = layout["nom"]
+	var visited := 0
+	for case: Dictionary in layout["cases"]:
+		if case["visitee"]:
+			visited += 1
+	_zone_info.text = "%d carte%s visitée%s" % [visited, "s" if visited > 1 else "", "s" if visited > 1 else ""]
+
+
+## Cartes des zones demandées : id → { nom, sorties } (voir `WorldMapLayout.zone_layout`). Les
+## cartes viennent de `World.map_ids` (toutes celles du jeu), et des cartes visitées à défaut.
+static func map_infos(world: World, zone_ids: Array) -> Dictionary:
+	var ids: Array[String] = world.map_ids.duplicate()
+	for map_id in world.visited_maps():
+		if not ids.has(map_id):
+			ids.append(map_id)
+	var infos := {}
+	for map_id in ids:
+		var coordinates := WorldMapLayout.map_coordinates(map_id)
+		if coordinates.is_empty() or not zone_ids.has(coordinates["zone"]):
+			continue
+		var map := world.map_by_id(map_id)
+		if map != null:
+			infos[map_id] = {"nom": map.display_name, "sorties": map.exits.values()}
+	return infos
+
+
+## Zone à montrer à l'ouverture : celle de la carte actuelle ; dans une maison, celle de la carte où
+## mène sa porte.
+func _here_zone() -> String:
+	var map := map_view.world.map
+	var coordinates := WorldMapLayout.map_coordinates(map.id)
+	if coordinates.is_empty():
+		for target: String in map.doors.values():
+			coordinates = WorldMapLayout.map_coordinates(target)
+			if not coordinates.is_empty():
+				break
+	return coordinates.get("zone", "")
+
+
+## Un onglet par zone visitée ; à l'ouverture (`to_here`), celui de la zone actuelle.
+func _update_tabs(to_here: bool) -> void:
+	var world := map_view.world
+	var zones := WorldMapLayout.visited_zones(world.visited_maps())
+	var previous := current_zone()
+	if zones != _zone_ids:
+		_zone_ids = zones
+		var infos := map_infos(world, zones)
+		_tabs.clear_tabs()
+		for zone_id in _zone_ids:
+			_tabs.add_tab(WorldMapLayout.zone_name(zone_id, infos, world.data.passages))
+	var wanted := _here_zone() if to_here else previous
+	if _zone_ids.has(wanted):
+		_tabs.set_block_signals(true)
+		_tabs.current_tab = _zone_ids.find(wanted)
+		_tabs.set_block_signals(false)
+
+
+func _unhandled_key_input(event: InputEvent) -> void:
+	var key := event as InputEventKey
+	if key != null and key.pressed and not key.echo and key.keycode == KEY_M:
+		toggle()
+		get_viewport().set_input_as_handled()
+
+
+func _on_tab_changed(_index: int) -> void:
+	refresh()
+
+
+func _on_backdrop_input(event: InputEvent) -> void:
+	var button := event as InputEventMouseButton
+	if button != null and button.pressed:
+		close()
+
+
+func _set_visible(shown: bool) -> void:
+	_panel.visible = shown
+	_backdrop.visible = shown
+
+
+# --- Construction des contrôles ----------------------------------------------------------------
+
+func _build() -> void:
+	_backdrop = ColorRect.new()
+	_backdrop.color = Color(0, 0, 0, 0.35)
+	_backdrop.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_backdrop.mouse_filter = Control.MOUSE_FILTER_STOP
+	_backdrop.gui_input.connect(_on_backdrop_input)
+	add_child(_backdrop)
+	_panel = PanelContainer.new()
+	_panel.anchor_left = 0.5
+	_panel.anchor_right = 0.5
+	_panel.anchor_bottom = 1.0
+	# Assez étroite pour laisser voir la minicarte, en haut à droite.
+	_panel.offset_left = -410
+	_panel.offset_right = 410
+	_panel.offset_top = 76
+	_panel.offset_bottom = -CombatHud.BAR_HEIGHT - 14
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color(0.13, 0.1, 0.07, 0.97)
+	style.border_color = Color(0.55, 0.42, 0.22)
+	style.set_border_width_all(2)
+	style.set_corner_radius_all(6)
+	style.set_content_margin_all(14)
+	_panel.add_theme_stylebox_override("panel", style)
+	add_child(_panel)
+
+	var column := VBoxContainer.new()
+	column.add_theme_constant_override("separation", 8)
+	_panel.add_child(column)
+	var header := HBoxContainer.new()
+	column.add_child(header)
+	var window_title := _label(22, GOLD)
+	window_title.text = "Carte du monde"
+	window_title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	header.add_child(window_title)
+	var close_button := Button.new()
+	close_button.text = "×"
+	close_button.focus_mode = Control.FOCUS_NONE
+	close_button.pressed.connect(close)
+	header.add_child(close_button)
+
+	_tabs = TabBar.new()
+	_tabs.focus_mode = Control.FOCUS_NONE
+	_tabs.tab_changed.connect(_on_tab_changed)
+	column.add_child(_tabs)
+
+	var zone_row := HBoxContainer.new()
+	column.add_child(zone_row)
+	_zone_title = _label(19, Color(0.95, 0.92, 0.85))
+	_zone_title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	zone_row.add_child(_zone_title)
+	_zone_info = _label(14, Color(0.78, 0.75, 0.66))
+	_zone_info.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	zone_row.add_child(_zone_info)
+
+	var frame := PanelContainer.new()
+	frame.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	var frame_style := StyleBoxFlat.new()
+	frame_style.bg_color = Color(0.09, 0.07, 0.05)
+	frame_style.border_color = Color("5a4630")
+	frame_style.set_border_width_all(1)
+	frame_style.set_corner_radius_all(4)
+	frame_style.set_content_margin_all(4)
+	frame.add_theme_stylebox_override("panel", frame_style)
+	column.add_child(frame)
+	_grid = ZoneGrid.new()
+	_grid.mouse_filter = Control.MOUSE_FILTER_PASS
+	_grid.resized.connect(_grid.queue_redraw)
+	frame.add_child(_grid)
+
+	var legend := _label(13, Color(0.7, 0.67, 0.6))
+	legend.text = "Cadre doré : vous êtes ici.  « ? » : carte voisine pas encore visitée.  Losange bleu : Pierre de Passage (en creux : pas encore découverte)."
+	legend.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	column.add_child(legend)
+	var hint := _label(12, Color(0.6, 0.58, 0.52))
+	hint.text = "Touche M : ouvrir / fermer"
+	column.add_child(hint)
+
+
+func _label(font_size: int, color: Color) -> Label:
+	var label := Label.new()
+	label.add_theme_font_size_override("font_size", font_size)
+	label.add_theme_color_override("font_color", color)
+	return label

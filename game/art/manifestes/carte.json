@@ -1,0 +1,11 @@
+{
+  "images": {
+    "icone_carte": {
+      "fichier": "interface/icone_carte.svgt",
+      "ancre": [
+        12,
+        12
+      ]
+    }
+  }
+}

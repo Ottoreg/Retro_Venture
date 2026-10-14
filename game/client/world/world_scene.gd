@@ -15,6 +15,8 @@ const MENU_SCENE := "res://client/main/main.tscn"
 @onready var _jobs: JobsWindow = $JobsWindow
 @onready var _travel: TravelWindow = $TravelWindow
 @onready var _spells: SpellsWindow = $SpellsWindow
+@onready var _minimap: Minimap = $Minimap
+@onready var _world_map: WorldMapWindow = $WorldMapWindow
 @onready var _info: Label = %Info
 
 var _hover_text := ""
@@ -41,6 +43,9 @@ func _ready() -> void:
 	_jobs.setup(_map_view)
 	_travel.setup(_map_view)
 	_spells.setup(_map_view)
+	_minimap.setup(_map_view)
+	_world_map.setup(_map_view)
+	_minimap.pressed.connect(_world_map.open)
 	_combat_hud.menu_pressed.connect(_on_menu_pressed)
 	_combat_hud.spell_info_requested.connect(_spells.show_spell)
 	_map_view.notice.connect(_combat_hud.show_message)
@@ -105,6 +110,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		if _travel.is_open():
 			_travel.close()
 			return
+		if _world_map.is_open():
+			_world_map.close()
+			return
 		if _jobs.is_open():
 			_jobs.toggle()
 			return
@@ -144,6 +152,8 @@ func _on_menu_pressed(menu: String) -> void:
 		_spells.toggle()
 	elif menu == "metiers":
 		_jobs.toggle()
+	elif menu == "carte":
+		_world_map.toggle()
 
 
 func _on_combat_started() -> void:

@@ -159,6 +159,16 @@ voisine ; on arrive sur le bord opposé, à la même hauteur. Chaque sortie doit
 "sorties": {"droite": "brumerive_1_0"}
 ```
 
+### Coordonnées sur la carte du monde
+
+L'id d'une carte extérieure est `<zone>_<x>_<y>` (`brumerive_1_0`, `crasse_roc_0_-2`) : x vers la
+droite (l'est), y vers le bas (le sud), éventuellement négatifs. La carte du monde (touche M) place
+les cartes d'une zone en grille d'après ces coordonnées et nomme la zone d'après sa Pierre de
+Passage (à défaut, d'après ce qui précède « — » dans le nom de ses cartes) ; la case affiche ce qui
+suit « — » (`"Brumerive — Champs de l'est"` → « Champs de l'est »). Une carte sans coordonnées
+(maison, intérieur, comme `maison_joueur`) n'y figure pas. Les sorties devraient relier des cartes
+voisines dans la grille (droite : x + 1, bas : y + 1).
+
 ## Sorts (`sorts/`)
 
 ```json

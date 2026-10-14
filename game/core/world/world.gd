@@ -100,13 +100,18 @@ func _init(p_map: GameMap, p_data: GameData = null, p_map_loader: Callable = Cal
 	_set_map(p_map, p_map.spawn)
 
 
-## Nom de la carte voisine dans cette direction, ou "" s'il n'y en a pas.
 ## Nom d'une carte d'après son id ("" si elle est introuvable).
 func map_name(map_id: String) -> String:
 	var found := _load_map(map_id)
 	return found.display_name if found != null else ""
 
 
+## Carte d'après son id, chargée au besoin (pour la carte du monde), ou `null` si elle est introuvable.
+func map_by_id(map_id: String) -> GameMap:
+	return _load_map(map_id)
+
+
+## Nom de la carte voisine dans cette direction, ou "" s'il n'y en a pas.
 func neighbor_name(direction: String) -> String:
 	if not map.exits.has(direction):
 		return ""

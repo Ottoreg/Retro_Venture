@@ -11,9 +11,9 @@ const OVERLOAD_TEXT := "Inventaire surchargé ! Faites de la place (vendre, jete
 const RESISTANCE_NAMES := {"acier": "Acier", "flamme": "Flamme", "givre": "Givre", "tempete": "Tempête", "sacre": "Sacré", "impie": "Impie"}
 const SPELL_KEYS := [KEY_1, KEY_2, KEY_3, KEY_4, KEY_5, KEY_6, KEY_7, KEY_8, KEY_9, KEY_0]
 const MENUS := [["personnage", "icone_personnage", "Personnage (C)"], ["inventaire", "icone_inventaire", "Inventaire (I)"],
-	["sorts", "icone_sorts", "Sorts (S)"], ["metiers", "icone_metiers", "Métiers (J)"]]
+	["sorts", "icone_sorts", "Sorts (S)"], ["metiers", "icone_metiers", "Métiers (J)"], ["carte", "icone_carte", "Carte du monde (M)"]]
 
-## Un bouton de menu de la barre : « personnage », « inventaire », « sorts » ou « metiers ».
+## Un bouton de menu de la barre : « personnage », « inventaire », « sorts », « metiers » ou « carte ».
 signal menu_pressed(menu: String)
 ## Clic sur un sort hors combat : afficher sa fiche.
 signal spell_info_requested(spell_id: String)
@@ -474,7 +474,7 @@ func _build() -> void:
 
 	row.add_child(VSeparator.new())
 	var menus := GridContainer.new()
-	menus.columns = 2
+	menus.columns = 3
 	menus.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	row.add_child(menus)
 	for menu: Array in MENUS:

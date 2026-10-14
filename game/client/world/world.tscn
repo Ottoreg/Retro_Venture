@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3]
+[gd_scene load_steps=14 format=3]
 
 [ext_resource type="Script" path="res://client/world/world_scene.gd" id="1_scene"]
 [ext_resource type="Script" path="res://client/world/map_view.gd" id="2_map"]
@@ -11,6 +11,8 @@
 [ext_resource type="Script" path="res://client/ui/jobs_window.gd" id="9_jobs"]
 [ext_resource type="Script" path="res://client/ui/travel_window.gd" id="10_travel"]
 [ext_resource type="Script" path="res://client/ui/spells_window.gd" id="11_spells"]
+[ext_resource type="Script" path="res://client/ui/minimap.gd" id="12_minimap"]
+[ext_resource type="Script" path="res://client/ui/world_map_window.gd" id="13_world_map"]
 
 [node name="WorldScene" type="Node2D"]
 script = ExtResource("1_scene")
@@ -50,6 +52,9 @@ theme_override_constants/outline_size = 4
 [node name="CombatHud" type="CanvasLayer" parent="."]
 script = ExtResource("3_hud")
 
+[node name="Minimap" type="CanvasLayer" parent="."]
+script = ExtResource("12_minimap")
+
 [node name="CharacterSheet" type="CanvasLayer" parent="."]
 layer = 2
 script = ExtResource("4_sheet")
@@ -81,3 +86,7 @@ script = ExtResource("10_travel")
 [node name="SpellsWindow" type="CanvasLayer" parent="."]
 layer = 2
 script = ExtResource("11_spells")
+
+[node name="WorldMapWindow" type="CanvasLayer" parent="."]
+layer = 3
+script = ExtResource("13_world_map")

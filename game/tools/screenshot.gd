@@ -10,7 +10,8 @@ extends SceneTree
 ## bulle avec le niveau tiré de chaque monstre), « phase » (comme « cible » ; le monstre survolé reçoit
 ## une phase pour l'occasion et passe sous son seuil : message et texte flottant) ou « reveil » (combat
 ## perdu contre le premier groupe : réveil près de la Pierre de Passage du point de résurrection, à
-## lancer par exemple sur brumerive_1_0).
+## lancer par exemple sur brumerive_1_0) ou « carte » (ouvre la carte du monde ; la minicarte, elle,
+## est visible sur toute capture en exploration).
 ## Si « carte » commence par res://, c'est cette scène qui est capturée (menu, création…).
 
 var _output := "capture.png"
@@ -137,6 +138,8 @@ func _process(_delta: float) -> bool:
 			_scene.get_node("JobsWindow").toggle()
 		elif _action == "sorts":
 			_scene.get_node("SpellsWindow").toggle()
+		elif _action == "carte":
+			_scene.get_node("WorldMapWindow").open()
 		else:
 			var target: Vector2i = view.world.groups()[0]["case"] if _action in ["combat", "cible", "sermon", "phase"] else view.current_map().travel_stone()
 			if _action == "phase":

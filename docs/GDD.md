@@ -479,8 +479,14 @@ prévoit déjà `voie` et `rang` sur chaque sort** pour que le système s'ajoute
   - *À venir :* des pierres dans les autres zones (Hautepierre…), des prix qui grandissent avec la
     distance. Tant que les zones de départ ne sont pas reliées à pied (par Hautepierre), un
     personnage ne peut découvrir que la pierre de sa propre zone.
-- **Carte du monde** et **minicarte** consultables. *Fait :* le personnage retient déjà les cartes
-  où il est allé (`cartes_visitees` dans la sauvegarde), pour savoir lesquelles dévoiler.
+- **Carte du monde** et **minicarte** consultables. *Fait :* le personnage retient les cartes où il
+  est allé (`cartes_visitees` dans la sauvegarde). La carte du monde (touche M) a un onglet par
+  zone visitée ; les coordonnées d'une carte viennent de son id (`<zone>_<x>_<y>`, x vers l'est,
+  y vers le sud). Seules les cartes visitées sont nommées ; leurs voisines (par une sortie) sont des
+  « ? », le reste est caché, et la grille s'adapte à la taille de la zone. Les Pierres de Passage y
+  figurent (découvertes ou non) ; les intérieurs, sans coordonnées, n'y sont pas. La minicarte, en
+  haut à droite en exploration, montre la carte actuelle, le joueur, les groupes de monstres (élites
+  en doré) et les PNJ ; un clic dessus ouvre la carte du monde.
 - **Point de résurrection** : la dernière Pierre de Passage touchée (au départ, celle de la zone de
   départ). *Fait :* après une défaite, on se réveille à côté d'elle avec 1 PV, même si elle est sur
   une autre carte que le combat ; la fenêtre de voyage la rappelle. *À venir :* les temples.
@@ -879,7 +885,9 @@ ingrédients).
   menus (inventaire, caractéristiques, sorts, quêtes, métiers, carte, amis, guilde). Le bandeau
   reste affiché en exploration ; un clic sur un sort hors combat ouvre sa fiche.
 - **Fenêtres :** inventaire avec poupée d'équipement, fiche de caractéristiques, grimoire de sorts,
-  journal de quêtes, fenêtre de métier.
+  journal de quêtes, fenêtre de métier, carte du monde (touche M).
+- **Minicarte** en haut à droite, sous le bandeau du haut, en exploration seulement (en combat, la
+  place revient à l'ordre de jeu) ; un clic dessus ouvre la carte du monde.
 - **En combat :** frise d'initiative, prévisualisation de portée et de zone, dégâts estimés au survol,
   bouton « fin de tour ». Au survol d'un combattant, ses informations (nom, niveau, PV, PA, PM,
   résistances aux 6 éléments) remplacent la barre de sorts, comme dans Dofus Rétro.
