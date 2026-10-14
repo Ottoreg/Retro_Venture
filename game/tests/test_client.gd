@@ -59,10 +59,47 @@ func test_scene_du_monde_jusqu_au_combat_et_retour() -> void:
 		_run_until_idle(view)
 	assert_true(view._paused, "écran de fin de combat")
 	assert_true(hud._result_panel.visible, "panneau de résultat affiché")
+	assert_eq(hud._result_title.text, "Défaite…", "le joueur n'a rien fait")
+	assert_true(hud._result_detail.text.contains("Pierre de Passage « Brumerive »"), hud._result_detail.text)
 	hud._on_continue_pressed()
 	_run_until_idle(view)
 	assert_eq(view.mode, MapView.Mode.EXPLORATION, "retour en exploration")
 	assert_false(view.world.in_combat())
+	var stone := view.current_map().travel_stone()
+	assert_true(GameMap.is_adjacent(view.world.position_of(World.PLAYER_ID), stone), "réveil à côté de la Pierre de Passage")
+	assert_eq(hud._message_label.text, "Vous vous réveillez près de la Pierre de Passage « Brumerive », un peu groggy.")
+	scene.free()
+
+
+func test_reveil_sur_une_autre_carte() -> void:
+	var tree := Engine.get_main_loop() as SceneTree
+	# Combat perdu dans les champs de l'est : le point de résurrection est la pierre du village.
+	Session.start_map = "brumerive_1_0"
+	var scene: Node = load("res://client/world/world.tscn").instantiate()
+	tree.root.add_child(scene)
+	Session.start_map = ""
+	var view: MapView = scene.get_node("MapView")
+	var hud: CombatHud = scene.get_node("CombatHud")
+	view._on_click(view.world.groups()[0]["case"])
+	_run_until_idle(view)
+	view.request_start_fight()
+	_run_until_idle(view)
+	view.world.combat.get_fighter(World.PLAYER_ID).hp = 1
+	for i in 100:
+		if view._paused:
+			break
+		view.request_end_turn()
+		_run_until_idle(view)
+	assert_eq(hud._result_title.text, "Défaite…")
+	hud._on_continue_pressed()
+	_run_until_idle(view)
+	assert_eq(view.mode, MapView.Mode.EXPLORATION)
+	assert_eq(view.world.map.id, "brumerive_0_0", "réveil au village")
+	assert_eq(view.current_map().id, "brumerive_0_0", "l'affichage a suivi")
+	assert_true(GameMap.is_adjacent(view.world.position_of(World.PLAYER_ID), view.current_map().travel_stone()))
+	assert_eq(view._actors[World.PLAYER_ID]["pos"], Vector2(view.world.position_of(World.PLAYER_ID)))
+	assert_eq(view.world.visited_maps(), ["brumerive_1_0", "brumerive_0_0"] as Array[String])
+	assert_eq(hud._message_label.text, "Vous vous réveillez près de la Pierre de Passage « Brumerive », un peu groggy.")
 	scene.free()
 
 
@@ -391,6 +428,7 @@ func test_pierre_de_passage() -> void:
 	var scene: Node = load("res://client/world/world.tscn").instantiate()
 	tree.root.add_child(scene)
 	var view: MapView = scene.get_node("MapView")
+	var hud: CombatHud = scene.get_node("CombatHud")
 	var travel: TravelWindow = scene.get_node("TravelWindow")
 	var stone := view.current_map().travel_stone()
 	assert_ne(stone, Vector2i(-1, -1), "une Pierre de Passage à Brumerive")
@@ -401,18 +439,77 @@ func test_pierre_de_passage() -> void:
 	assert_true(travel.is_open(), "la liste des destinations s'ouvre")
 	var buttons := travel.destination_buttons()
 	assert_eq(buttons.size(), view.world.data.passages.size())
-	var target: Button = null
 	for button in buttons:
-		assert_true(button.disabled == button.text.contains("vous êtes ici"), button.text)
+		var unknown := button.text.contains("pas encore découverte")
+		assert_true(button.disabled == (button.text.contains("vous êtes ici") or unknown), button.text)
+		if button.text.begins_with("Crasse-Roc"):
+			assert_true(unknown, "Crasse-Roc pas encore découverte")
+			assert_eq(TravelWindow.price_text(button), "10 écus")
+		if button.text.begins_with("Trône de Cendre"):
+			assert_false(button.disabled, "la carte d'élite est toujours connue")
+			assert_eq(TravelWindow.price_text(button), "gratuit")
+	assert_eq(travel._respawn.text, "Point de résurrection : Brumerive")
+
+	# Une fois Crasse-Roc découverte, le voyage coûte 10 écus.
+	view.world.character.discover_passage("crasse_roc")
+	view._on_click(stone)
+	_run_until_idle(view)
+	var target: Button = null
+	for button in travel.destination_buttons():
 		if button.text.begins_with("Crasse-Roc"):
 			target = button
-	assert_true(target != null, "Crasse-Roc parmi les destinations")
+	assert_true(target != null and not target.disabled, "Crasse-Roc parmi les destinations")
+	var ecus := view.world.character.inventory.ecus
 	target.pressed.emit()
 	_run_until_idle(view)
 	assert_false(travel.is_open())
 	assert_eq(view.world.map.id, "crasse_roc_0_0", "téléporté à Crasse-Roc")
 	assert_eq(view.current_map().id, "crasse_roc_0_0")
+	assert_eq(view.world.character.inventory.ecus, ecus - 10, "voyage payé")
+	assert_eq(hud._message_label.text, "Voyage payé : 10 écus.")
 	assert_eq(Art.palette, "crasse_roc", "couleurs de la zone gobeline")
+	assert_eq(view.world.visited_maps(), ["brumerive_0_0", "crasse_roc_0_0"] as Array[String])
+	assert_eq(view.world.character.respawn_passage, "brumerive", "arriver par un voyage ne change rien")
+
+	# Toucher la pierre de Crasse-Roc en fait le point de résurrection.
+	view._on_click(view.current_map().travel_stone())
+	_run_until_idle(view)
+	assert_eq(view.world.character.respawn_passage, "crasse_roc")
+	assert_eq(hud._message_label.text, "Nouveau point de résurrection : Crasse-Roc.")
+	travel.close()
+
+	# Plus assez d'écus : le voyage est refusé, avec un message.
+	view.world.character.inventory.ecus = 3
+	view.world.character.discover_passage("sylvebrume")
+	view.send_command({"type": Protocol.CMD_TRAVEL, "entite": World.PLAYER_ID, "case": view.current_map().travel_stone(),
+		"destination": "sylvebrume"})
+	_run_until_idle(view)
+	assert_eq(view.world.map.id, "crasse_roc_0_0")
+	assert_eq(hud._message_label.text, "Pas assez d'écus pour ce voyage.")
+	scene.free()
+
+
+func test_decouverte_d_une_pierre_de_passage() -> void:
+	var tree := Engine.get_main_loop() as SceneTree
+	# Un humain qui commence (exceptionnellement) à Crasse-Roc : la pierre n'y est pas encore connue.
+	Session.start_map = "crasse_roc_0_0"
+	var scene: Node = load("res://client/world/world.tscn").instantiate()
+	tree.root.add_child(scene)
+	Session.start_map = ""
+	var view: MapView = scene.get_node("MapView")
+	var hud: CombatHud = scene.get_node("CombatHud")
+	var travel: TravelWindow = scene.get_node("TravelWindow")
+	assert_false(view.world.is_passage_known("crasse_roc"))
+	view._on_click(view.current_map().travel_stone())
+	_run_until_idle(view)
+	assert_true(view.world.is_passage_known("crasse_roc"), "découverte en la touchant")
+	assert_eq(hud._message_label.text, "Pierre de Passage découverte : Crasse-Roc ! C'est votre nouveau point de résurrection.")
+	assert_eq(travel._respawn.text, "Point de résurrection : Crasse-Roc")
+	view.send_command({"type": Protocol.CMD_TRAVEL, "entite": World.PLAYER_ID, "case": view.current_map().travel_stone(),
+		"destination": "sylvebrume"})
+	_run_until_idle(view)
+	assert_eq(view.world.map.id, "crasse_roc_0_0", "Sylvebrume n'est pas encore découverte")
+	assert_eq(hud._message_label.text, "Pierre de Passage pas encore découverte : allez-y à pied et touchez-la.")
 	scene.free()
 
 

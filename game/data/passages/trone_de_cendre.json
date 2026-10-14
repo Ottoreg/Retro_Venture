@@ -1,5 +1,7 @@
 {
   "id": "trone_de_cendre",
   "nom": "Trône de Cendre (élite)",
-  "carte": "cendre_0_0"
+  "carte": "cendre_0_0",
+  "prix": 0,
+  "toujours_connue": true
 }

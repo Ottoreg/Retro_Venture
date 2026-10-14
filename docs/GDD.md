@@ -467,13 +467,22 @@ prévoit déjà `voie` et `rang` sur chaque sort** pour que le système s'ajoute
 - **Déplacement au clic** sur une grille isométrique ; recherche de chemin (A*).
 - Sur une carte : PNJ, groupes de monstres visibles qui errent, ressources récoltables, éléments
   interactifs (portes, coffres, panneaux).
-- **Prototype :** une Pierre de Passage sur la première carte de chaque zone de départ (Brumerive,
-  Crasse-Roc, Sylvebrume) ; on voyage gratuitement de l'une à l'autre, et c'est pour l'instant le
-  seul lien entre les zones.
-- **Zaaps / points de voyage** (nom à définir : *Pierres de Passage*) à découvrir pour voyager
-  rapidement contre de la monnaie.
-- **Carte du monde** et **minicarte** consultables.
-- **Point de résurrection** choisi au dernier temple / point de voyage activé.
+- **Pierres de Passage** (les zaaps du jeu) : une sur la première carte de chaque zone de départ
+  (Brumerive, Crasse-Roc, Sylvebrume) ; c'est pour l'instant le seul lien entre les zones.
+  - *Fait :* une pierre se **découvre** en la touchant (clic dessus, à pied ; arriver par un voyage
+    ne compte pas). On ne voyage que vers une pierre découverte, et le voyage se **paie** en écus,
+    au prix de la pierre d'arrivée (10 écus vers une zone de départ). La pierre de la zone de départ
+    de la race est connue dès la création ; la carte d'élite de test (Trône de Cendre) est gratuite
+    et connue de tous (`toujours_connue`). La fenêtre de voyage montre le prix de chaque
+    destination et grise les pierres pas encore découvertes.
+  - *À venir :* des pierres dans les autres zones (Hautepierre…), des prix qui grandissent avec la
+    distance. Tant que les zones de départ ne sont pas reliées à pied (par Hautepierre), un
+    personnage ne peut découvrir que la pierre de sa propre zone.
+- **Carte du monde** et **minicarte** consultables. *Fait :* le personnage retient déjà les cartes
+  où il est allé (`cartes_visitees` dans la sauvegarde), pour savoir lesquelles dévoiler.
+- **Point de résurrection** : la dernière Pierre de Passage touchée (au départ, celle de la zone de
+  départ). *Fait :* après une défaite, on se réveille à côté d'elle avec 1 PV, même si elle est sur
+  une autre carte que le combat ; la fenêtre de voyage la rappelle. *À venir :* les temples.
 - **Maison du joueur** : chaque personnage a la sienne (une porte du village mène à une carte
   personnelle, instanciée par joueur en multijoueur). Elle contient un **coffre** (stockage, 100
   places) et un **lit** (tous les PV d'un coup). Prototype : à Brumerive.

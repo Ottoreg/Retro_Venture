@@ -21,7 +21,8 @@ var jobs: Dictionary = {}
 var nodes: Dictionary = {}
 ## id de l'objet fabriqué → recette { objet, niveau, ingredients, xp, metier: id du métier }.
 var recipes: Dictionary = {}
-## Pierres de Passage : id → { id, nom, carte } (on voyage de l'une à l'autre).
+## Pierres de Passage : id → { id, nom, carte, prix, toujours_connue } (on voyage de l'une à l'autre ;
+## `prix` et `toujours_connue` sont optionnels, voir `passage_price` et `passage_always_known`).
 var passages: Dictionary = {}
 ## Panoplies : id → { id, nom, objets: Array (ids), bonus: { nombre de pièces (texte) → { stat: valeur } } }.
 var sets: Dictionary = {}
@@ -156,12 +157,40 @@ func set_bonuses(inventory: Inventory) -> Dictionary:
 	return totals
 
 
+## Pierre de Passage : `id`, `nom` et `carte` obligatoires ; `prix` (écus pour y voyager, entier ≥ 0)
+## et `toujours_connue` (vrai ou faux) optionnels.
 static func validate_passage(data: Dictionary) -> PackedStringArray:
 	var errors: PackedStringArray = []
 	for key in ["id", "nom", "carte"]:
 		if typeof(data.get(key)) != TYPE_STRING or str(data.get(key)).is_empty():
 			errors.append("« %s » doit être un texte non vide" % key)
+	if not Spell._is_int_at_least(data.get("prix", 0), 0):
+		errors.append("« prix » doit être un entier ≥ 0 (écus)")
+	if typeof(data.get("toujours_connue", false)) != TYPE_BOOL:
+		errors.append("« toujours_connue » doit être vrai ou faux")
 	return errors
+
+
+## Écus à payer pour voyager jusqu'à cette Pierre de Passage (0 par défaut).
+func passage_price(passage_id: String) -> int:
+	return int(passages.get(passage_id, {}).get("prix", 0))
+
+
+## Vrai si on peut voyager jusqu'à cette pierre sans l'avoir découverte (`toujours_connue`).
+func passage_always_known(passage_id: String) -> bool:
+	return passages.get(passage_id, {}).get("toujours_connue", false) == true
+
+
+## Pierre de Passage de la zone de départ d'une race (celle dont la `carte` est sa `carte_depart`),
+## ou "" s'il n'y en a pas.
+func start_passage(race_id: String) -> String:
+	var start_map := str(races.get(race_id, {}).get("carte_depart", ""))
+	if start_map.is_empty():
+		return ""
+	for passage_id: String in passages:
+		if passages[passage_id]["carte"] == start_map:
+			return passage_id
+	return ""
 
 
 ## Erreurs qui dépendent des autres métiers : marqueurs de ressources et objets fabriqués uniques.

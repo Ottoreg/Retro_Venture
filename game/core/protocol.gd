@@ -45,7 +45,8 @@ const CMD_DEPOSIT := "deposer"
 ## Exploration, à côté du coffre : reprendre un objet.
 ## { type, entite: String, case: Vector2i (coffre), objet: String (uid dans le coffre), quantite: int (optionnel) }
 const CMD_WITHDRAW := "reprendre"
-## Exploration, à côté d'une Pierre de Passage : voyager jusqu'à une autre.
+## Exploration, à côté d'une Pierre de Passage : voyager jusqu'à une autre, déjà découverte (ou
+## « toujours_connue »), en payant son prix en écus. Arriver par un voyage ne découvre pas la pierre.
 ## { type, entite: String, case: Vector2i (la pierre), destination: String (id de la pierre d'arrivée) }
 const CMD_TRAVEL := "voyager"
 ## Exploration : attaquer un groupe de monstres. { type, entite: String, groupe: String }
@@ -97,14 +98,22 @@ const EVT_CHEST := "coffre"
 ## Le joueur a dormi : PV au maximum. { type, gain: int, pv: int, pv_max: int }
 const EVT_RESTED := "repos"
 ## Pierre de Passage utilisée : destinations proposées. { type, case: Vector2i, ici: String (id de
-## cette pierre), destinations: Array[{ id, nom, carte }] }
+## cette pierre), destinations: Array[{ id, nom, carte, prix: int (écus), connue: bool }], ecus: int
+## (écus du joueur), resurrection: String (id de la pierre de son point de résurrection, ou "") }
 const EVT_TRAVEL_MENU := "pierre_de_passage"
+## Pierre de Passage découverte en l'utilisant : on pourra y revenir en voyage.
+## { type, passage: String (id), nom: String }
+const EVT_PASSAGE_DISCOVERED := "pierre_decouverte"
+## Nouveau point de résurrection (la dernière Pierre de Passage utilisée), seulement s'il change.
+## { type, passage: String (id), nom: String }
+const EVT_RESPAWN_POINT := "point_de_resurrection"
 ## Objet fabriqué. { type, objet: String, nom: String, quantite: int, metier: String }
 const EVT_CRAFTED := "fabrication"
 ## XP de métier gagnée. { type, metier: String, nom: String, gain: int, niveau: int, xp: int,
 ## xp_niveau: int, xp_suivant: int, niveaux: Array[int] (niveaux de métier atteints) }
 const EVT_JOB := "metier"
-## Arrivée sur une autre carte. { type, carte: String, nom: String, position: Vector2i }
+## Arrivée sur une autre carte. { type, carte: String, nom: String, position: Vector2i } ; après un
+## voyage par une Pierre de Passage, aussi `prix` : écus payés.
 const EVT_MAP_CHANGED := "changement_carte"
 ## { type, groupe: String, combattants: Array[Dictionary], placement: Array[Vector2i] }
 const EVT_COMBAT_STARTED := "combat_debut"
@@ -159,9 +168,13 @@ const EVT_CHARACTER := "personnage"
 const EVT_INVENTORY := "inventaire"
 ## { type, vainqueur: int (équipe, -1 si aucune), xp: int } ; après le passage du monde, aussi
 ## `butin`: Array[{ objet, nom, rarete, quantite }], `ecus`: int, `niveaux`: Array[int],
-## `surcharge`: bool (le sac déborde : faire de la place avant le prochain combat).
+## `surcharge`: bool (le sac déborde : faire de la place avant le prochain combat) ; après une
+## défaite, `reveil`: { passage: String (id de la pierre, "" sans point de résurrection), nom: String
+## (nom de la pierre, ou de la carte), carte: String } (où le personnage se réveille).
 const EVT_COMBAT_ENDED := "combat_fin"
-## Retour en exploration après un combat. { type, position: Vector2i, groupe_vaincu: String }
+## Retour en exploration après un combat. { type, position: Vector2i, groupe_vaincu: String } ; après
+## une défaite, aussi `reveil` (comme dans EVT_COMBAT_ENDED), suivi d'un EVT_MAP_CHANGED si le point
+## de résurrection est sur une autre carte.
 const EVT_EXPLORATION := "exploration"
 
 # --- Raisons de refus ---
@@ -183,6 +196,8 @@ const REASON_ALREADY_WORN := "objet_deja_porte"
 const REASON_EMPTY_SLOT := "emplacement_vide"
 const REASON_ITEM_WORN := "objet_porte"
 const REASON_NOT_ENOUGH_ECUS := "ecus_insuffisants"
+## Voyage vers une Pierre de Passage pas encore découverte.
+const REASON_PASSAGE_UNKNOWN := "pierre_inconnue"
 const REASON_INVENTORY_FULL := "inventaire_plein"
 ## Le sac déborde (butin en surplus) : pas de nouveau combat avant d'avoir fait de la place.
 const REASON_INVENTORY_OVERLOADED := "inventaire_surcharge"

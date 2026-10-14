@@ -34,6 +34,13 @@ var hp_lost := 0
 ## Coffre de la maison du joueur.
 var chest := Inventory.new()
 const CHEST_ENTRIES := 100
+## Pierres de Passage découvertes (ids) : on peut y voyager. Celle de la zone de départ de la race
+## en fait toujours partie (voir `World`).
+var known_passages: Array[String] = []
+## Pierre de Passage où l'on se réveille après une défaite (la dernière utilisée), ou "".
+var respawn_passage := ""
+## Cartes où le personnage est déjà allé (ids, sans doublon), pour la future carte du monde.
+var visited_maps: Array[String] = []
 
 
 const BASE_PROSPECTION := 100
@@ -161,6 +168,22 @@ func jobs_sheet(data: GameData) -> Array:
 	return listed
 
 
+## Ajoute une Pierre de Passage aux pierres découvertes ; vrai si elle ne l'était pas encore.
+func discover_passage(passage_id: String) -> bool:
+	if passage_id.is_empty() or passage_id in known_passages:
+		return false
+	known_passages.append(passage_id)
+	return true
+
+
+## Ajoute une carte aux cartes visitées (sans doublon) ; vrai si c'est la première visite.
+func visit_map(map_id: String) -> bool:
+	if map_id.is_empty() or map_id in visited_maps:
+		return false
+	visited_maps.append(map_id)
+	return true
+
+
 ## Investit des points ; renvoie la raison du refus, ou "".
 func spend_points(stat_name: String, points: int) -> String:
 	if stat_name not in STATS or points <= 0:
@@ -275,11 +298,15 @@ func to_dict() -> Dictionary:
 		"metiers": jobs.duplicate(),
 		"pv_perdus": hp_lost,
 		"coffre": chest.to_dict(),
+		"pierres_connues": known_passages.duplicate(),
+		"point_de_resurrection": respawn_passage,
+		"cartes_visitees": visited_maps.duplicate(),
 	}
 
 
 ## Personnage relu depuis une sauvegarde, ou `null` si elle est invalide. Les objets inconnus de
-## `known_items` (id → données) sont ignorés.
+## `known_items` (id → données) sont ignorés. Une vieille sauvegarde sans pierres connues ni point de
+## résurrection les reçoit de `World` (pierre de la zone de départ de la race).
 static func from_dict(data: Dictionary, known_items: Dictionary = {}) -> Character:
 	for key in ["nom", "race", "voie"]:
 		if typeof(data.get(key)) != TYPE_STRING:
@@ -310,4 +337,19 @@ static func from_dict(data: Dictionary, known_items: Dictionary = {}) -> Charact
 				character.jobs[str(job_id)] = maxi(0, int(saved_jobs[job_id]))
 	if typeof(data.get("inventaire")) == TYPE_DICTIONARY:
 		character.inventory = Inventory.from_dict(data["inventaire"], known_items)
+	character.known_passages = _string_list(data.get("pierres_connues", []))
+	if typeof(data.get("point_de_resurrection")) == TYPE_STRING:
+		character.respawn_passage = data["point_de_resurrection"]
+	character.visited_maps = _string_list(data.get("cartes_visitees", []))
 	return character
+
+
+## Textes d'une liste sauvegardée, sans doublon ni texte vide (les autres valeurs sont ignorées).
+static func _string_list(saved: Variant) -> Array[String]:
+	var result: Array[String] = []
+	if typeof(saved) != TYPE_ARRAY:
+		return result
+	for value: Variant in saved:
+		if typeof(value) == TYPE_STRING and not str(value).is_empty() and value not in result:
+			result.append(value)
+	return result

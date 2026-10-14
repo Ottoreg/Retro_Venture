@@ -365,12 +365,30 @@ référencés existants).
 
 ## Pierres de Passage (`passages/`)
 
-Une Pierre de Passage par fichier ; on voyage de n'importe laquelle vers les autres. La carte
-indiquée doit avoir une pierre `*` dans son plan : on arrive à côté.
+Une Pierre de Passage par fichier ; on voyage de n'importe laquelle vers les autres, déjà
+découvertes. La carte indiquée doit avoir une pierre `*` dans son plan : on arrive à côté.
 
 ```json
-{"id": "crasse_roc", "nom": "Crasse-Roc", "carte": "crasse_roc_0_0"}
+{"id": "crasse_roc", "nom": "Crasse-Roc", "carte": "crasse_roc_0_0", "prix": 10}
 ```
+
+| Champ | Obligatoire | Description |
+| --- | --- | --- |
+| `id`, `nom` | oui | Identifiant (nom du fichier) et nom affiché dans la fenêtre de voyage |
+| `carte` | oui | Carte de la pierre (un `*` dans son plan) |
+| `prix` | non (0) | Écus à payer pour voyager **vers** cette pierre (entier ≥ 0 ; 0 : gratuit) |
+| `toujours_connue` | non (`false`) | `true` : on peut y voyager sans l'avoir découverte (carte d'élite de test) |
+
+- **Découverte** : une pierre se découvre en la touchant (clic dessus, à pied) ; arriver par un
+  voyage ne compte pas. La pierre de la zone de départ de la race (celle dont la `carte` est sa
+  `carte_depart`) est connue dès la création du personnage.
+- **Point de résurrection** : la dernière pierre touchée (au départ, celle de la zone de départ).
+  Après une défaite, on se réveille à côté d'elle, avec 1 PV.
+- Le personnage sauvegarde ses pierres découvertes (`pierres_connues`), son point de résurrection
+  (`point_de_resurrection`) et les cartes où il est allé (`cartes_visitees`).
+
+Les tests vérifient que chaque zone de départ a sa pierre (10 écus, à découvrir) et que le Trône de
+Cendre reste gratuit et toujours connu.
 
 ## Métiers (`metiers/`)
 

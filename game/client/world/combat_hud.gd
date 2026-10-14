@@ -305,7 +305,7 @@ func _on_combat_ended(result: Dictionary) -> void:
 	_result_title.text = "Victoire !" if victory else "Défaite…"
 	var lines := PackedStringArray()
 	if not victory:
-		lines.append("Vous vous réveillez au point de départ, un peu groggy.")
+		lines.append(MapView.wake_up_text(result.get("reveil", {})))
 	if int(result["xp"]) > 0:
 		lines.append("+%d points d'expérience" % result["xp"])
 	for level: int in result.get("niveaux", []):

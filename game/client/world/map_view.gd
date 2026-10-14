@@ -87,6 +87,11 @@ var _refusals := {
 	Protocol.REASON_BLOCKED: "Case bloquée",
 	Protocol.REASON_NOT_PLACEMENT_CELL: "Choisissez un cercle bleu",
 }
+## Messages affichés pour les voyages refusés (les autres refus : « Le voyage est impossible. »).
+var _travel_refusals := {
+	Protocol.REASON_NOT_ENOUGH_ECUS: "Pas assez d'écus pour ce voyage.",
+	Protocol.REASON_PASSAGE_UNKNOWN: "Pierre de Passage pas encore découverte : allez-y à pied et touchez-la.",
+}
 
 var world: World
 var mode: Mode = Mode.EXPLORATION
@@ -134,6 +139,9 @@ var _glyphs: Dictionary = {}
 var _traps: Dictionary = {}
 ## Explosion d'un piège en cours d'affichage : { cases, age }, ou {}.
 var _trap_flash: Dictionary = {}
+## Pierre de Passage tout juste découverte (id), pour annoncer en une fois qu'elle devient aussi le
+## point de résurrection.
+var _discovered_passage := ""
 
 # Dialogue en cours avec un PNJ : { nom, repliques, index, case }, ou {}.
 var _dialogue: Dictionary = {}
@@ -632,6 +640,19 @@ func _apply(event: Dictionary) -> float:
 	if type == Protocol.EVT_TRAVEL_MENU:
 		travel_opened.emit(event)
 		return 0.0
+	if type == Protocol.EVT_PASSAGE_DISCOVERED:
+		_discovered_passage = event["passage"]
+		if _actors.has(World.PLAYER_ID):
+			_add_floating("Pierre découverte !", Color(0.55, 0.8, 1.0), _actors[World.PLAYER_ID]["pos"])
+		notice.emit("Pierre de Passage découverte : %s ! Vous pourrez y revenir en voyage." % event["nom"])
+		return 0.0
+	if type == Protocol.EVT_RESPAWN_POINT:
+		if _discovered_passage == event["passage"]:
+			notice.emit("Pierre de Passage découverte : %s ! C'est votre nouveau point de résurrection." % event["nom"])
+		else:
+			notice.emit("Nouveau point de résurrection : %s." % event["nom"])
+		_discovered_passage = ""
+		return 0.0
 	if type == Protocol.EVT_RESTED:
 		if int(event["gain"]) > 0:
 			_add_floating("+%d PV" % event["gain"], Color(0.45, 1, 0.45), _actors[World.PLAYER_ID]["pos"])
@@ -647,6 +668,8 @@ func _apply(event: Dictionary) -> float:
 		_load_exploration_actors()
 		_actors[World.PLAYER_ID]["pos"] = Vector2(event["position"])
 		map_changed.emit()
+		if int(event.get("prix", 0)) > 0:
+			notice.emit("Voyage payé : %d écus." % event["prix"])
 		return 0.15
 	if type == Protocol.EVT_TELEPORTED:
 		_actors[event["entite"]]["pos"] = Vector2(event["case"])
@@ -687,7 +710,7 @@ func _apply(event: Dictionary) -> float:
 		if event["commande"] == Protocol.CMD_USE:
 			notice.emit("Impossible d'utiliser ce meuble d'ici.")
 		if event["commande"] == Protocol.CMD_TRAVEL:
-			notice.emit("Le voyage est impossible.")
+			notice.emit(_travel_refusals.get(event["raison"], "Le voyage est impossible."))
 		if event.get("raison") == Protocol.REASON_INVENTORY_OVERLOADED:
 			notice.emit(CombatHud.OVERLOAD_TEXT)
 		if event["commande"] == Protocol.CMD_HARVEST:
@@ -802,7 +825,16 @@ func _apply(event: Dictionary) -> float:
 		turn_order.clear()
 		_load_exploration_actors()
 		exploration_resumed.emit()
+		if event.has("reveil"):
+			notice.emit(wake_up_text(event["reveil"]))
 	return 0.0
+
+
+## Où l'on se réveille après une défaite (`reveil` de EVT_COMBAT_ENDED et EVT_EXPLORATION).
+static func wake_up_text(wake_up: Dictionary) -> String:
+	if str(wake_up.get("passage", "")).is_empty():
+		return "Vous vous réveillez au point de départ, un peu groggy."
+	return "Vous vous réveillez près de la Pierre de Passage « %s », un peu groggy." % wake_up["nom"]
 
 
 ## « +100 Force (2 tours) », « −2 PM (1 tour) », « Poison 5 Givre (3 tours) ».

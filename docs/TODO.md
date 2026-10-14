@@ -225,11 +225,15 @@ Objectif : **10 à 15 h de jeu solo, niveaux 1 à 30 : 3 zones de départ (une p
 - [ ] Villes hostiles aux autres camps avant l'acte III (gardes PNJ agressifs)
 - [x] **(MVP)** Sauvegarde / chargement automatique (personnage, carte, position, groupes restants avec
   leur composition et leur place, groupes vaincus) dans `user://`
-- [x] Pierres de Passage : une sur la 1re carte de chaque zone, voyage gratuit de l'une à l'autre
+- [x] Pierres de Passage : une sur la 1re carte de chaque zone, voyage de l'une à l'autre
   (les zones ne sont pas reliées autrement pour l'instant)
-- [ ] Pierres de Passage à découvrir, voyage payant, pierres dans d'autres zones
-- [ ] Carte du monde et minicarte
-- [ ] Point de résurrection
+- [x] Pierres de Passage à découvrir (en touchant la pierre), voyage payant (10 écus vers une zone de
+  départ ; `prix` et `toujours_connue` dans les données), prix et pierres inconnues dans la fenêtre
+- [ ] Pierres de Passage dans d'autres zones (Hautepierre…), prix selon la distance
+- [ ] Carte du monde et minicarte (les cartes visitées sont déjà retenues : `World.visited_maps()`)
+- [x] Point de résurrection : la dernière Pierre de Passage touchée (au départ, celle de la zone de
+  départ) ; après une défaite, réveil à côté d'elle avec 1 PV, même sur une autre carte
+- [ ] Point de résurrection aux temples
 - [x] Portes entre cartes (`+` dans le plan) et cartes en intérieur (sol en parquet)
 - [x] Maison du joueur dans chaque zone de départ (Brumerive, Crasse-Roc, Sylvebrume) : coffre partagé et lit (tous les PV) ; cartes personnelles (`"instance": "joueur"`)
 - [x] PV gardés d'un combat à l'autre, régénération lente hors combat (1 PV / 2 s), 1 PV après une défaite
