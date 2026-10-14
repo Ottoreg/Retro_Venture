@@ -7,8 +7,10 @@ extends SceneTree
 ## fenêtre ; « inventaire » remplit d'abord le sac d'un exemplaire de chaque objet) ou « pierre » (va utiliser
 ## la Pierre de Passage), « glyphe » (combat contre l'Arbre millénaire, glyphe posée, héros ralenti et
 ## empoisonné, à lancer sur sylvebrume_0_0), « survol » (le plus grand groupe de la carte survolé :
-## bulle avec le niveau tiré de chaque monstre) ou « phase » (comme « cible » ; le monstre survolé reçoit
-## une phase pour l'occasion et passe sous son seuil : message et texte flottant).
+## bulle avec le niveau tiré de chaque monstre), « phase » (comme « cible » ; le monstre survolé reçoit
+## une phase pour l'occasion et passe sous son seuil : message et texte flottant) ou « reveil » (combat
+## perdu contre le premier groupe : réveil près de la Pierre de Passage du point de résurrection, à
+## lancer par exemple sur brumerive_1_0).
 ## Si « carte » commence par res://, c'est cette scène qui est capturée (menu, création…).
 
 var _output := "capture.png"
@@ -117,6 +119,20 @@ func _process(_delta: float) -> bool:
 					biggest = group
 			view._set_hovered(biggest["case"])
 			Input.warp_mouse(view.get_global_transform_with_canvas() * IsoGrid.cell_to_screen(biggest["case"]))
+		elif _action == "reveil":
+			# Combat perdu (le héros à 1 PV passe ses tours), puis « Continuer » : réveil et message.
+			view._on_click(view.world.groups()[0]["case"])
+			_wait_for(view)
+			view.request_start_fight()
+			_wait_for(view)
+			view.world.combat.get_fighter(World.PLAYER_ID).hp = 1
+			for i in 100:
+				if view._paused:
+					break
+				view.request_end_turn()
+				_wait_for(view)
+			_scene.get_node("CombatHud")._on_continue_pressed()
+			_wait_for(view)
 		elif _action == "metiers":
 			_scene.get_node("JobsWindow").toggle()
 		elif _action == "sorts":

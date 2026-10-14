@@ -66,6 +66,32 @@ func test_sauvegarde_du_personnage() -> void:
 	assert_true(Character.from_dict({"nom": "X"}) == null, "sauvegarde incomplète refusée")
 
 
+func test_pierres_et_cartes_sauvegardees() -> void:
+	var hero := Fixtures.character()
+	assert_true(hero.discover_passage("brumerive"))
+	assert_false(hero.discover_passage("brumerive"), "déjà découverte")
+	hero.respawn_passage = "brumerive"
+	assert_true(hero.visit_map("brumerive_0_0"))
+	assert_false(hero.visit_map("brumerive_0_0"), "pas de doublon")
+	var copy := Character.from_dict(JSON.parse_string(JSON.stringify(hero.to_dict())))
+	assert_eq(copy.known_passages, ["brumerive"] as Array[String])
+	assert_eq(copy.respawn_passage, "brumerive")
+	assert_eq(copy.visited_maps, ["brumerive_0_0"] as Array[String])
+	# Valeurs abîmées : ignorées.
+	var damaged := hero.to_dict()
+	damaged["pierres_connues"] = ["brumerive", 3, "brumerive", ""]
+	damaged["point_de_resurrection"] = 12
+	damaged["cartes_visitees"] = "brumerive_0_0"
+	var cleaned := Character.from_dict(damaged)
+	assert_eq(cleaned.known_passages, ["brumerive"] as Array[String], "doublons et valeurs invalides ignorés")
+	assert_eq(cleaned.respawn_passage, "")
+	assert_true(cleaned.visited_maps.is_empty())
+	# Vieille sauvegarde : rien de connu (le monde y ajoute la pierre de la zone de départ).
+	for key: String in ["pierres_connues", "point_de_resurrection", "cartes_visitees"]:
+		damaged.erase(key)
+	assert_true(Character.from_dict(damaged).known_passages.is_empty())
+
+
 func test_combattant_du_personnage() -> void:
 	var data := Fixtures.data()
 	var fighter := data.create_character_fighter(Fixtures.character(), Fixtures.PLAYER)

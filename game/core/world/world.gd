@@ -96,6 +96,7 @@ func _init(p_map: GameMap, p_data: GameData = null, p_map_loader: Callable = Cal
 	data = p_data
 	_map_loader = p_map_loader
 	rng.randomize()
+	_init_travel()
 	_set_map(p_map, p_map.spawn)
 
 
@@ -315,12 +316,14 @@ func _remember_walk(from: Vector2i, path: Array[Vector2i]) -> void:
 	_last_walk.append_array(path)
 
 
-## Change de carte : mémorise les groupes restants de l'ancienne, retrouve ceux de la nouvelle.
+## Change de carte : mémorise les groupes restants de l'ancienne, retrouve ceux de la nouvelle. La
+## carte rejoint les cartes visitées du personnage.
 func _set_map(next_map: GameMap, player_cell: Vector2i) -> void:
 	if map != null:
 		_map_states[map.id] = _groups
 	map = next_map
 	_loaded_maps[map.id] = map
+	character.visit_map(map.id)
 	_groups = {}
 	if _map_states.has(map.id):
 		_groups = _map_states[map.id]
@@ -451,6 +454,8 @@ func _cells_around(center: Vector2i, count: int) -> Array[Vector2i]:
 func _end_combat(events: Array[Dictionary]) -> void:
 	var defeated_group := ""
 	var player := combat.get_fighter(PLAYER_ID)
+	var combat_map := map.id
+	var wake_up := {}
 	if combat.winner_team == Fighter.TEAM_PLAYERS:
 		defeated_group = _combat_group
 		var defeated: Dictionary = _groups[_combat_group]
@@ -463,19 +468,40 @@ func _end_combat(events: Array[Dictionary]) -> void:
 		_positions.erase(_combat_group)
 		character.set_hp(player.hp, data)
 	else:
-		_positions[PLAYER_ID] = map.spawn
 		character.set_hp(1, data)  # Vaincu : on se relève avec 1 PV.
+		wake_up = _wake_up()
+		for event in events:
+			if event["type"] == Protocol.EVT_COMBAT_ENDED:
+				event["reveil"] = wake_up
 	_reward(events)
 	if combat.winner_team == Fighter.TEAM_PLAYERS:
 		_loot(events)
-	events.append({
+	var back := {
 		"type": Protocol.EVT_EXPLORATION,
 		"position": _positions[PLAYER_ID],
 		"groupe_vaincu": defeated_group,
-	})
+	}
+	if not wake_up.is_empty():
+		back["reveil"] = wake_up
+	events.append(back)
+	if map.id != combat_map:
+		events.append({"type": Protocol.EVT_MAP_CHANGED, "carte": map.id, "nom": map.display_name, "position": _positions[PLAYER_ID]})
 	combat = null
 	_combat_group = ""
 	_combat_loot_bonus = 0.0
+
+
+## Après une défaite, le joueur se réveille à côté de la Pierre de Passage de son point de
+## résurrection, en changeant de carte s'il le faut ; sans point de résurrection (ou si sa carte est
+## introuvable), au départ de la carte du combat. Renvoie où : { passage, nom, carte }.
+func _wake_up() -> Dictionary:
+	var passage: Dictionary = data.passages.get(character.respawn_passage, {}) if data != null else {}
+	var target: GameMap = _load_map(passage["carte"]) if not passage.is_empty() else null
+	if target == null or target.travel_stone() == Vector2i(-1, -1):
+		_positions[PLAYER_ID] = map.spawn
+		return {"passage": "", "nom": map.display_name, "carte": map.id}
+	_set_map(target, target.beside(target.travel_stone()))
+	return {"passage": passage["id"], "nom": passage["nom"], "carte": map.id}
 
 
 ## XP des monstres vaincus, même en cas de défaite (bonus de Sagesse : +1 % par point), et
@@ -1139,8 +1165,10 @@ func _use(command: Dictionary) -> Array[Dictionary]:
 		return _refused(command, reason)
 	var cell: Vector2i = command["case"]
 	if map.obstacles[cell] == GameMap.TRAVEL_STONE:
-		var menu: Array[Dictionary] = [_travel_menu(cell)]
-		return menu
+		var touched: Array[Dictionary] = []
+		_activate_passage(touched)
+		touched.append(_travel_menu(cell))
+		return touched
 	if map.obstacles[cell] == "coffre":
 		var opened: Array[Dictionary] = [_chest_event(cell)]
 		return opened
@@ -1196,14 +1224,57 @@ func _here_passage() -> String:
 	return ""
 
 
+## Vrai si le joueur peut voyager jusqu'à cette pierre : il l'a découverte, ou elle est
+## `toujours_connue`.
+func is_passage_known(passage_id: String) -> bool:
+	return passage_id in character.known_passages or (data != null and data.passage_always_known(passage_id))
+
+
+## Cartes où le joueur est déjà allé (ids, dans l'ordre des visites), pour l'interface.
+func visited_maps() -> Array[String]:
+	return character.visited_maps.duplicate()
+
+
+## La pierre de la zone de départ de la race est toujours connue ; elle sert de point de résurrection
+## tant qu'il n'y en a pas d'autre (nouveau personnage, vieille sauvegarde, pierre disparue).
+func _init_travel() -> void:
+	if data == null:
+		return
+	var start := data.start_passage(character.race_id)
+	if start.is_empty():
+		return
+	character.discover_passage(start)
+	if not data.passages.has(character.respawn_passage):
+		character.respawn_passage = start
+
+
+## Utiliser la pierre de la carte la découvre (si besoin) et en fait le point de résurrection.
+func _activate_passage(events: Array[Dictionary]) -> void:
+	var passage_id := _here_passage()
+	if passage_id.is_empty():
+		return
+	var passage_name: String = data.passages[passage_id]["nom"]
+	if not is_passage_known(passage_id):
+		character.discover_passage(passage_id)
+		events.append({"type": Protocol.EVT_PASSAGE_DISCOVERED, "passage": passage_id, "nom": passage_name})
+	if character.respawn_passage != passage_id:
+		character.respawn_passage = passage_id
+		events.append({"type": Protocol.EVT_RESPAWN_POINT, "passage": passage_id, "nom": passage_name})
+
+
 func _travel_menu(cell: Vector2i) -> Dictionary:
 	var destinations: Array = []
 	for passage_id: String in data.passages:
-		destinations.append(data.passages[passage_id].duplicate())
-	return {"type": Protocol.EVT_TRAVEL_MENU, "case": cell, "ici": _here_passage(), "destinations": destinations}
+		var passage: Dictionary = data.passages[passage_id]
+		destinations.append({"id": passage_id, "nom": passage["nom"], "carte": passage["carte"],
+			"prix": data.passage_price(passage_id), "connue": is_passage_known(passage_id)})
+	return {"type": Protocol.EVT_TRAVEL_MENU, "case": cell, "ici": _here_passage(), "destinations": destinations,
+		"ecus": character.inventory.ecus, "resurrection": character.respawn_passage}
 
 
-## Voyage d'une Pierre de Passage à une autre : on arrive à côté de la pierre de destination.
+## Voyage d'une Pierre de Passage à une autre, déjà découverte (ou `toujours_connue`), contre son prix
+## en écus : on arrive à côté de la pierre de destination. Arriver ainsi ne la découvre pas et n'en
+## fait pas le point de résurrection : il faut l'utiliser.
 func _travel(command: Dictionary) -> Array[Dictionary]:
 	var destination: Variant = command.get("destination")
 	if typeof(destination) != TYPE_STRING:
@@ -1215,16 +1286,25 @@ func _travel(command: Dictionary) -> Array[Dictionary]:
 		return _refused(command, Protocol.REASON_UNKNOWN_ENTITY)
 	if destination == _here_passage():
 		return _refused(command, Protocol.REASON_ALREADY_THERE)
+	if not is_passage_known(destination):
+		return _refused(command, Protocol.REASON_PASSAGE_UNKNOWN)
 	var next_map := _load_map(data.passages[destination]["carte"])
 	if next_map == null or next_map.travel_stone() == Vector2i(-1, -1):
 		return _refused(command, Protocol.REASON_UNKNOWN_MAP)
+	var price := data.passage_price(destination)
+	if price > character.inventory.ecus:
+		return _refused(command, Protocol.REASON_NOT_ENOUGH_ECUS)
+	character.inventory.ecus -= price
 	_set_map(next_map, next_map.beside(next_map.travel_stone()))
 	var events: Array[Dictionary] = [{
 		"type": Protocol.EVT_MAP_CHANGED,
 		"carte": map.id,
 		"nom": map.display_name,
 		"position": _positions[PLAYER_ID],
+		"prix": price,
 	}]
+	if price > 0:
+		events.append_array(_inventory_events())
 	return events
 
 

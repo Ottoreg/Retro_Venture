@@ -51,6 +51,7 @@ func _ready() -> void:
 	_map_view.character_changed.connect(_on_character_changed)
 	_map_view.level_up.connect(_on_level_up)
 	_map_view.inventory_changed.connect(_on_inventory_changed)
+	_map_view.progress_changed.connect(_save)
 	get_viewport().size_changed.connect(_center_map)
 	_center_map()
 	_update_info()

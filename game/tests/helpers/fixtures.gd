@@ -130,7 +130,8 @@ static func items() -> Array:
 	]
 
 
-static func data() -> GameData:
+## Données de test ; `passages` : Pierres de Passage (la race « testeur » part de la carte « test »).
+static func data(passages := []) -> GameData:
 	var monsters := [
 		monster("mannequin", 30, 0, 0, 10, ["frappe"]),
 		monster("blinde", 30, 0, 0, 10, ["frappe"], {"acier": 50}),
@@ -155,7 +156,7 @@ static func data() -> GameData:
 		"passif": {"nom": "Vue perçante", "effets": [{"type": "portee", "valeur": 1}]},
 		"sort": "bond",
 	}]
-	return GameData.from_dicts(spells(), monsters, voies, races, items())
+	return GameData.from_dicts(spells(), monsters, voies, races, items(), [], passages)
 
 
 ## Personnage de test : race « testeur » (Force +50, Vitalité +7, Sagesse +100, portée +1, sort « bond »).

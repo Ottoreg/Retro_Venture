@@ -39,7 +39,7 @@ est ici.
 | Récolter | Clic sur un arbre (bûcheron) ou un rocher à minerai (mineur) |
 | Entrer / sortir d'un bâtiment | Clic sur la porte |
 | Changer de carte | Clic sur une flèche jaune au bord de l'écran |
-| Voyager vers une autre zone | Clic sur la **Pierre de Passage** (pierre levée aux runes bleues) |
+| Voyager vers une autre zone | Clic sur la **Pierre de Passage** (pierre levée aux runes bleues), puis choisir la destination (voir plus bas) |
 | Voir ce qu'on survole | Passer la souris sur un monstre, un PNJ, une ressource : une bulle s'affiche (pour un groupe : chaque monstre avec son niveau) |
 
 ### Fenêtres et raccourcis
@@ -73,19 +73,36 @@ bandeau, hors combat, ouvre sa fiche.
    - survoler un combattant : son niveau, ses PV, PA, PM et ses résistances s'affichent à la place
      de la barre de sorts.
 3. Fin du combat : expérience, écus et butin (une icône par objet avec sa quantité ; le nom en
-   survolant). En cas de défaite, on se réveille au point de départ avec 1 PV.
+   survolant). En cas de défaite, on se réveille avec 1 PV à côté de la Pierre de Passage de son
+   **point de résurrection** (voir plus bas), même si elle est sur une autre carte.
    Si le sac (60 places) est plein, le butin y entre quand même, en surplus : il faut alors faire de
    la place (vendre, jeter, ranger au coffre) avant de pouvoir relancer un combat.
 
 Les points de vie se gardent d'un combat à l'autre et remontent doucement (1 PV toutes les 2 s) ;
 le **lit** de votre maison les rend tous d'un coup.
 
+### Pierres de Passage et point de résurrection
+
+- On ne voyage que vers une pierre **déjà découverte** : pour en découvrir une, il faut y aller à
+  pied et **cliquer dessus** (un message l'annonce). Arriver sur une pierre par un voyage ne compte
+  pas. La pierre de votre zone de départ est connue dès le début. Les zones ne sont pas encore
+  reliées à pied : on ne peut donc pas encore découvrir les pierres des autres zones de départ.
+  Pour les visiter, créez un personnage d'une autre race.
+- Le voyage se **paie** : 10 écus vers une zone de départ. Le **Trône de Cendre** (carte d'élite de
+  test) reste gratuit et connu de tous.
+- La fenêtre de voyage montre votre bourse, le prix de chaque destination (en rouge si vous n'avez
+  pas assez d'écus) et grise les pierres « pas encore découvertes ».
+- **Point de résurrection** : la dernière pierre que vous avez touchée (au début, celle de votre zone
+  de départ ; elle est rappelée en bas de la fenêtre de voyage). Toucher une autre pierre la
+  remplace, avec un message « Nouveau point de résurrection ».
+
 ## Ce qu'il y a dans cette version
 
 - **Zones** : Brumerive (place du village, champs de l'est), Crasse-Roc (entrée des galeries, le
   Crassier), Sylvebrume (clairière de la Lisière, futaie ancienne), reliées seulement par les
-  Pierres de Passage. Le **Trône de Cendre** (carte d'élite) est aussi accessible par une Pierre :
-  le Souverain Cendré y attend, c'est le monstre le plus puissant du jeu.
+  Pierres de Passage (à découvrir, voir plus haut). Le **Trône de Cendre** (carte d'élite) est
+  accessible par n'importe quelle Pierre : le Souverain Cendré y attend, c'est le monstre le plus
+  puissant du jeu.
 - **Monstres** : loup et frondeur gobelin (Brumerive), rat des galeries et grouilleur (Crasse-Roc),
   cerf enchanté et arbre vivant (Sylvebrume). Les groupes comptent 1 à 3 monstres, parfois mélangés,
   se promènent autour de leur place et réapparaissent 2 à 3 minutes après avoir été vaincus.
