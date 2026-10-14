@@ -56,6 +56,14 @@ const COLOR_RANGE_HIDDEN := Color(0.3, 0.55, 1.0, 0.15)
 const COLOR_ZONE := Color(1.0, 0.55, 0.15, 0.55)
 const COLOR_PLACEMENT := Color(0.25, 0.5, 1.0, 0.9)
 const COLOR_TEAM := [Color(0.25, 0.5, 1.0, 0.8), Color(0.9, 0.25, 0.2, 0.8)]
+## Glyphes au sol, selon l'équipe de leur lanceur (alliée, ennemie).
+const COLOR_GLYPH := [Color(0.45, 0.75, 1.0, 0.3), Color(0.55, 0.95, 0.3, 0.34)]
+const COLOR_GLYPH_EDGE := [Color(0.55, 0.8, 1.0, 0.8), Color(0.65, 0.95, 0.4, 0.8)]
+const COLOR_TRAP := Color(0.35, 0.22, 0.12, 0.85)
+const COLOR_TRAP_FLASH := Color(1.0, 0.45, 0.1, 0.6)
+## Noms affichés des caractéristiques modifiées par un bonus ou un malus.
+const CARAC_NAMES := {"force": "Force", "intelligence": "Intelligence", "chance": "Chance", "agilite": "Agilité",
+	"pa": "PA", "pm": "PM", "portee": "Portée", "dommages": "Dommages", "critique": "% Critique", "resistance": "Rés."}
 
 const NO_CELL := Vector2i(-99999, -99999)
 ## Place de chaque membre d'un groupe de monstres sur sa case (pixels depuis le centre), selon la
@@ -120,6 +128,12 @@ var _time := 0.0
 var _arrival_command: Dictionary = {}
 ## Textes flottants : { text, color, pos (Vector2 grille), age }.
 var _floating: Array[Dictionary] = []
+## Glyphes visibles : id → { cases: Array[Vector2i], equipe }.
+var _glyphs: Dictionary = {}
+## Pièges de l'équipe du joueur (les autres sont invisibles) : id → case.
+var _traps: Dictionary = {}
+## Explosion d'un piège en cours d'affichage : { cases, age }, ou {}.
+var _trap_flash: Dictionary = {}
 
 # Dialogue en cours avec un PNJ : { nom, repliques, index, case }, ou {}.
 var _dialogue: Dictionary = {}
@@ -498,6 +512,10 @@ func _process(delta: float) -> void:
 		if text["age"] < 1.0:
 			kept.append(text)
 	_floating = kept
+	if not _trap_flash.is_empty():
+		_trap_flash["age"] += delta
+		if _trap_flash["age"] > 0.6:
+			_trap_flash = {}
 	for group_id: String in _group_walks.keys():
 		if not _actors.has(group_id) or _step_along(_actors[group_id], _group_walks[group_id], delta, GROUP_WALK_SPEED):
 			_group_walks.erase(group_id)
@@ -679,6 +697,9 @@ func _apply(event: Dictionary) -> float:
 		return 0.0
 	if type == Protocol.EVT_COMBAT_STARTED:
 		_close_dialogue()
+		_glyphs.clear()
+		_traps.clear()
+		_trap_flash = {}
 		_load_combat_actors(event)
 		combat_started.emit()
 		return 0.3
@@ -706,11 +727,47 @@ func _apply(event: Dictionary) -> float:
 		caster["pa"] = event["pa"]
 		combat_state_changed.emit()
 		caster["attaque"] = ATTACK_TIME
-		_face_toward(caster, Vector2(event["cible"]))
+		# La case d'un piège ennemi reste secrète.
+		if not event.get("cache", false) or caster["team"] == Fighter.TEAM_PLAYERS:
+			_face_toward(caster, Vector2(event["cible"]))
 		var spell: Spell = world.data.spells.get(event["sort"])
 		if spell != null:
 			_add_floating(spell.display_name, Color(1, 0.95, 0.7), caster["pos"])
+		if event.get("critique", false):
+			_add_floating("Coup critique !", Color(1.0, 0.6, 0.15), caster["pos"] + Vector2(0, -0.5))
 		return 0.35
+	if type == Protocol.EVT_STATES:
+		var bearer: Dictionary = _actors[event["entite"]]
+		bearer["pa"] = event["pa"]
+		bearer["pm"] = event["pm"]
+		bearer["etats"] = event["etats"]
+		if event.has("nouveau"):
+			var label := state_text(event["nouveau"])
+			var good: bool = event["nouveau"]["type"] == Spell.EFFECT_BONUS
+			_add_floating(label, Color(0.55, 0.85, 1.0) if good else Color(0.85, 0.6, 1.0), bearer["pos"])
+		combat_state_changed.emit()
+		return 0.25 if event.has("nouveau") else 0.0
+	if type == Protocol.EVT_PUSHED:
+		_actors[event["entite"]]["pos"] = Vector2(event["case"])
+		return 0.25
+	if type == Protocol.EVT_GLYPH:
+		_glyphs[event["id"]] = {"cases": event["cases"], "equipe": event["equipe"]}
+		return 0.2
+	if type == Protocol.EVT_GLYPH_ENDED:
+		_glyphs.erase(event["id"])
+		return 0.0
+	if type == Protocol.EVT_TRAP:
+		if event["equipe"] == Fighter.TEAM_PLAYERS:
+			_traps[event["id"]] = event["case"]
+		return 0.0
+	if type == Protocol.EVT_TRAP_ENDED:
+		_traps.erase(event["id"])
+		return 0.0
+	if type == Protocol.EVT_TRAP_TRIGGERED:
+		_traps.erase(event["id"])
+		_trap_flash = {"cases": event["cases"], "age": 0.0}
+		_add_floating("Piège : %s !" % event["sort"], Color(1.0, 0.55, 0.2), Vector2(event["case"]) + Vector2(0, -0.4))
+		return 0.4
 	if type == Protocol.EVT_DAMAGE:
 		var target: Dictionary = _actors[event["entite"]]
 		target["hp"] = event["pv"]
@@ -718,6 +775,10 @@ func _apply(event: Dictionary) -> float:
 		var text := "-%d" % event["valeur"]
 		if int(event.get("absorbe", 0)) > 0:
 			text += "  (%d absorbés)" % event["absorbe"]
+		if event.get("source", "") == "poison":
+			text += " (poison)"
+		elif event.get("source", "") == "choc":
+			text += " (choc)"
 		_add_floating(text, Color(1, 0.35, 0.3), target["pos"])
 		combat_state_changed.emit()
 		return 0.25
@@ -742,6 +803,18 @@ func _apply(event: Dictionary) -> float:
 		_load_exploration_actors()
 		exploration_resumed.emit()
 	return 0.0
+
+
+## « +100 Force (2 tours) », « −2 PM (1 tour) », « Poison 5 Givre (3 tours) ».
+static func state_text(state: Dictionary) -> String:
+	var turns := int(state["tours"])
+	var duration := "%d tour%s" % [turns, "s" if turns > 1 else ""]
+	if state["type"] == Spell.EFFECT_POISON:
+		return "Poison %d %s (%s)" % [state["valeur"], SpellsWindow.ELEMENT_LABELS.get(state["element"], state["element"]), duration]
+	var carac: String = CARAC_NAMES.get(state["carac"], state["carac"])
+	if state["carac"] == "resistance":
+		carac = "Rés. %s %%" % SpellsWindow.ELEMENT_LABELS.get(state["element"], state["element"])
+	return "%s%d %s (%s)" % ["+" if state["type"] == Spell.EFFECT_BONUS else "−", state["valeur"], carac, duration]
 
 
 func _add_floating(text: String, color: Color, grid_pos: Vector2) -> void:
@@ -844,6 +917,7 @@ func _draw() -> void:
 	_draw_ground(map)
 
 	if mode == Mode.COMBAT:
+		_draw_ground_marks()
 		_draw_placement_markers()
 		_draw_cells(_reachable.keys(), COLOR_REACHABLE)
 		_draw_cells(_range_hidden, COLOR_RANGE_HIDDEN)
@@ -895,6 +969,28 @@ func _draw() -> void:
 		color.a = 1.0 - maxf(0.0, text["age"] - 0.6) / 0.4
 		draw_string_outline(font, text_pos, text["text"], HORIZONTAL_ALIGNMENT_CENTER, 200, 16, 4, Color(0, 0, 0, color.a))
 		draw_string(font, text_pos, text["text"], HORIZONTAL_ALIGNMENT_CENTER, 200, 16, color)
+
+
+## Glyphes (cases teintées et liserés), pièges de l'équipe du joueur, explosion d'un piège.
+func _draw_ground_marks() -> void:
+	for glyph: Dictionary in _glyphs.values():
+		var team := clampi(int(glyph["equipe"]), 0, 1)
+		for cell: Vector2i in glyph["cases"]:
+			var diamond := _scaled_diamond(IsoGrid.cell_to_screen(cell), 0.92)
+			draw_colored_polygon(diamond, COLOR_GLYPH[team])
+			diamond.append(diamond[0])
+			draw_polyline(diamond, COLOR_GLYPH_EDGE[team], 2.0)
+	for cell: Vector2i in _traps.values():
+		var center := IsoGrid.cell_to_screen(cell)
+		for i in 5:
+			var angle := TAU * i / 5.0
+			var tip := center + Vector2(cos(angle) * 11.0, sin(angle) * 5.5)
+			draw_line(center, tip, COLOR_TRAP, 2.0)
+		draw_colored_polygon(_ellipse(center, 4, 2), COLOR_TRAP)
+	if not _trap_flash.is_empty():
+		var flash := COLOR_TRAP_FLASH
+		flash.a *= 1.0 - _trap_flash["age"] / 0.6
+		_draw_cells(_trap_flash["cases"], flash)
 
 
 ## Cases de placement : des cercles bleus (pour ne pas les confondre avec l'eau).

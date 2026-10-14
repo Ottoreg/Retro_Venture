@@ -116,7 +116,8 @@ const EVT_FIGHT_BEGINS := "combat_commence"
 const EVT_TURN_STARTED := "tour_debut"
 ## { type, entite: String }
 const EVT_TURN_ENDED := "tour_fin"
-## { type, entite: String, sort: String, cible: Vector2i, pa: int } — pa : PA restants.
+## { type, entite: String, sort: String, cible: Vector2i, pa: int, critique: bool } — pa : PA
+## restants ; `cache` : la cible ne doit pas être montrée à l'autre équipe (pose d'un piège).
 const EVT_SPELL_CAST := "sort_lance"
 ## { type, entite: String, valeur: int, element: String, pv: int }
 const EVT_DAMAGE := "degats"
@@ -128,6 +129,26 @@ const EVT_DIED := "mort"
 const EVT_TELEPORTED := "teleporte"
 ## Effet sans dégâts. { type, entite: String, effet: String, valeur: int, pa: int, pm: int }
 const EVT_STATUS := "effet"
+## États d'un combattant après un changement (bonus, malus ou poison posé ou tombé). { type,
+## entite: String, etats: Array[{ type, carac, element, valeur, min, max, tours, sort }], pa: int,
+## pm: int } ; `nouveau` : l'état qui vient d'être posé (absent quand un état tombe).
+const EVT_STATES := "etats"
+## Combattant poussé ou attiré. { type, entite: String, depuis: Vector2i, case: Vector2i }
+const EVT_PUSHED := "pousse"
+## Glyphe posée au sol. { type, id: int, lanceur: String, equipe: int, cases: Array[Vector2i],
+## tours: int, sort: String (nom) }
+const EVT_GLYPH := "glyphe"
+## Glyphe disparue (durée écoulée ou lanceur vaincu). { type, id: int }
+const EVT_GLYPH_ENDED := "glyphe_fin"
+## Piège posé. Invisible pour l'autre équipe : le client ne le montre qu'à l'équipe `equipe`.
+## { type, id: int, lanceur: String, equipe: int, case: Vector2i, cases: Array[Vector2i] (zone),
+## sort: String (nom) }
+const EVT_TRAP := "piege"
+## Piège déclenché par un ennemi. { type, id: int, entite: String (qui l'a déclenché), case:
+## Vector2i, cases: Array[Vector2i], sort: String (nom) } ; ses effets suivent.
+const EVT_TRAP_TRIGGERED := "piege_declenche"
+## Piège retiré sans être déclenché (lanceur vaincu). { type, id: int }
+const EVT_TRAP_ENDED := "piege_fin"
 ## Gain d'expérience après un combat. { type, gain: int, xp: int, niveau: int }
 const EVT_XP := "experience"
 ## { type, niveau: int, points: int (points de caractéristique à répartir) }

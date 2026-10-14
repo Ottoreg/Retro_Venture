@@ -19,7 +19,8 @@
   "sorts": [
     "arbre_branche",
     "arbre_racines",
-    "millenaire_ronces"
+    "millenaire_ronces",
+    "millenaire_cercle_de_seve"
   ],
   "ia": "basique",
   "xp": 180,

@@ -16,7 +16,7 @@
   "sorts": [
     "gobelin_fronde"
   ],
-  "ia": "basique",
+  "ia": "distance",
   "xp": 35,
   "butin": [
     {

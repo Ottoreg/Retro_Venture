@@ -181,6 +181,7 @@ voisine ; on arrive sur le bord opposé, à la même hauteur. Chaque sortie doit
 | `lanceur_exclu` | Le lanceur n'est pas touché par sa propre zone |
 | `relance.par_tour` | Lancers maximum par tour (`0` = illimité) |
 | `relance.delai` | Tours à attendre avant de relancer |
+| `critique` | Chance de coup critique en % (défaut : 5 ; `0` = jamais). Critique : dégâts, soins, boucliers et poisons × 1,5 |
 | `effets` | `degats`, `soin` ou `bouclier`, avec `min`, `max` et `element` (`acier`, `flamme`, `givre`, `tempete`, ou les éléments composés `sacre` et `impie`) |
 
 Chaque effet chiffré grandit avec la caractéristique de son élément : un soin `sacre` avec la Force
@@ -194,6 +195,37 @@ Sermon blesse ainsi les ennemis de sa zone et soigne les alliés.
 Effets sans dégâts : `teleportation` (le lanceur saute sur la case visée, qui doit être libre ;
 pas de `min`/`max`), `gain_pa` (PA en plus tout de suite), `retrait_pm` (PM en moins au prochain
 tour de la cible).
+
+Effets durables (`duree` : tours de la cible ; un état perd un tour à la fin de chacun de ses tours) :
+
+```json
+{"type": "bonus", "carac": "force", "min": 20, "max": 30, "duree": 2}
+{"type": "malus", "carac": "resistance", "element": "givre", "min": 10, "max": 10, "duree": 2}
+{"type": "poison", "element": "givre", "min": 4, "max": 6, "duree": 3}
+```
+
+- `bonus` / `malus` : `carac` parmi `force`, `intelligence`, `chance`, `agilite`, `pa`, `pm`,
+  `portee`, `dommages`, `critique`, `resistance` (avec `element`). PA et PM comptent tout de suite.
+- `poison` : dégâts de l'élément au début de chaque tour de la cible (Dommages non ajoutés).
+- `poussee` / `attirance` (`min`, `max` en cases) : en ligne droite, depuis le lanceur ou vers lui ;
+  une poussée arrêtée par un obstacle inflige 4 dégâts de choc par case manquée.
+
+Au sol :
+
+```json
+{"type": "glyphe", "duree": 2, "effets": [
+  {"type": "soin", "element": "tempete", "min": 8, "max": 12, "cibles": "allies"},
+  {"type": "malus", "carac": "pm", "min": 2, "max": 2, "duree": 1, "cibles": "ennemis"}]}
+{"type": "piege", "zone": {"type": "cercle", "taille": 1}, "effets": [
+  {"type": "degats", "element": "acier", "min": 8, "max": 12, "cibles": "ennemis"}]}
+```
+
+- `glyphe` : couvre la `zone` du sort pendant `duree` tours du lanceur ; ses `effets` s'appliquent à
+  qui commence son tour dessus.
+- `piege` : posé sur la case visée (libre, sans autre piège), invisible pour l'autre équipe ; le
+  premier ennemi qui y entre s'arrête et le déclenche, ses `effets` touchent la `zone` du piège
+  (`case` par défaut, ou `cercle`). Un sort de piège n'a que cet effet et une zone `case`.
+- Les effets d'une glyphe ou d'un piège ne peuvent pas être une glyphe, un piège ou une téléportation.
 
 ## Monstres (`monstres/`)
 
@@ -214,8 +246,10 @@ tour de la cible).
 résistances à l'Acier et à la Flamme, plus la résistance au Sacré (`sacre`, facultatif) : 10 % Flamme,
 5 % Acier et 5 % Sacré donnent 12,5 %. Celle à l'Impie : moyenne de la Tempête et du Givre, plus
 `impie`. De même, le bonus de dégâts Sacré est
-Force + Intelligence, et l'Impie Agilité + Chance. `ia` : seul `basique` existe pour l'instant
-(frappe si possible, sinon se place pour tirer, sinon se rapproche).
+Force + Intelligence, et l'Impie Agilité + Chance. `ia` : `basique` (se rapproche par
+le plus court chemin pour frapper), `distance` (tire depuis la case la plus éloignée des ennemis, puis
+recule) ou `soutien` (comme `distance`, pour les soigneurs). Dans tous les cas, l'IA note chaque sort
+sur chaque cible utile et lance le meilleur tant qu'il vaut quelque chose.
 
 Un monstre **élite** a `"elite": true` et sa `famille` (l'id du monstre normal dont il est la version
 forte, par exemple `"famille": "loup_des_collines"` pour le Loup alpha). Il est plus haut niveau,

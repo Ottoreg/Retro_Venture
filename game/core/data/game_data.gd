@@ -249,8 +249,8 @@ static func validate_monster(data: Dictionary, known_spells: Dictionary, known_i
 		errors.append("« ecus » doit être [min, max]")
 	if not Spell._is_int_at_least(data.get("xp", 0), 0):
 		errors.append("« xp » doit être un entier positif ou nul")
-	if str(data.get("ia", "basique")) != "basique":
-		errors.append("« ia » : seule la valeur « basique » existe pour l'instant")
+	if str(data.get("ia", CombatAI.BASIC)) not in CombatAI.BEHAVIOURS:
+		errors.append("« ia » doit valoir %s" % str(CombatAI.BEHAVIOURS))
 	var resistances: Variant = data.get("resistances", {})
 	if typeof(resistances) != TYPE_DICTIONARY:
 		errors.append("« resistances » doit être un objet { element: % }")
@@ -342,6 +342,7 @@ func create_character_fighter(character: Character, fighter_id: String) -> Fight
 	fighter.range_bonus += character.extra("portee", self)
 	fighter.prospection = character.prospection(self)
 	fighter.dommages = character.extra("dommages", self)
+	fighter.crit_bonus = character.extra("critique", self)
 	var weapon := character.inventory.equipped_entry("arme")
 	if not weapon.is_empty() and items.has(weapon["objet"]):
 		fighter.spells.insert(0, Spell.from_dict(Item.weapon_spell_data(items[weapon["objet"]])))

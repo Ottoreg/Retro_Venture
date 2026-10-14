@@ -89,6 +89,14 @@ le **lit** de votre maison les rend tous d'un coup.
 - **Monstres** : loup et frondeur gobelin (Brumerive), rat des galeries et grouilleur (Crasse-Roc),
   cerf enchanté et arbre vivant (Sylvebrume). Les groupes comptent 1 à 3 monstres, parfois mélangés,
   se promènent autour de leur place et réapparaissent 2 à 3 minutes après avoir été vaincus.
+- **Nouveautés du combat** : coups critiques (5 % par sort, « Coup critique ! », valeurs × 1,5),
+  bonus et malus temporaires, poisons, poussées, glyphes et pièges. Survoler un combattant montre
+  ses états en cours (« −2 PM (1 tour) », « Poison 6 Givre (3 tours) »…).
+  - L'**Arbre millénaire** pose un *Cercle de sève* autour de lui (cases vertes) : il s'y soigne, et
+    qui y commence son tour perd 2 PM.
+  - Le **Frondeur vétéran** sème des *Chausse-trapes* **invisibles** : on ne voit que le nom du sort.
+    Marcher dessus arrête le déplacement, blesse et retire 2 PM.
+  - Les frondeurs gardent leurs distances : ils tirent de loin, puis reculent.
 - **Élites** : chaque famille a sa version élite, plus grande, avec un halo doré, bien plus forte et
   qui lâche plus souvent les objets rares (Loup alpha, Frondeur vétéran, Rat-roi, Grouilleur
   ancestral, Grand cerf de la Lisière, Arbre millénaire). Chaque élite tente d'apparaître toutes

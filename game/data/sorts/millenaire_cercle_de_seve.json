@@ -1,0 +1,20 @@
+{
+  "id": "millenaire_cercle_de_seve",
+  "nom": "Cercle de sève",
+  "description": "L'arbre plonge ses racines tout autour de lui. Ce qui pousse là le soigne ; ce qui marche là s'enlise.",
+  "cout_pa": 3,
+  "portee": {"min": 0, "max": 0},
+  "ligne_de_vue": false,
+  "zone": {"type": "cercle", "taille": 2},
+  "relance": {"par_tour": 1, "delai": 3},
+  "effets": [
+    {
+      "type": "glyphe",
+      "duree": 2,
+      "effets": [
+        {"type": "soin", "element": "tempete", "min": 8, "max": 12, "cibles": "allies"},
+        {"type": "malus", "carac": "pm", "min": 2, "max": 2, "duree": 1, "cibles": "ennemis"}
+      ]
+    }
+  ]
+}

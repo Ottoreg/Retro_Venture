@@ -28,10 +28,10 @@ const RESOURCE_PRICES := {
 ## Part du prix d'achat que le marchand paie quand on lui revend un objet.
 const RESALE_RATE := 0.25
 ## Bonus que peut donner un équipement, en plus des 6 caractéristiques.
-const EXTRA_STATS := ["prospection", "initiative", "portee", "pa", "pm", "dommages"]
+const EXTRA_STATS := ["prospection", "initiative", "portee", "pa", "pm", "dommages", "critique"]
 const EXTRA_STAT_NAMES := {
 	"prospection": "Prospection", "initiative": "Initiative", "portee": "Portée", "pa": "PA", "pm": "PM",
-	"dommages": "Dommages",
+	"dommages": "Dommages", "critique": "% Critique",
 }
 
 

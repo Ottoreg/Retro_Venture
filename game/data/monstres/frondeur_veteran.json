@@ -17,9 +17,10 @@
   },
   "sorts": [
     "gobelin_fronde",
-    "veteran_pluie_de_cailloux"
+    "veteran_pluie_de_cailloux",
+    "veteran_chausse_trape"
   ],
-  "ia": "basique",
+  "ia": "distance",
   "xp": 120,
   "butin": [
     {

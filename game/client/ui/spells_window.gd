@@ -7,6 +7,8 @@ const GOLD := Color(0.95, 0.76, 0.3)
 const TARGET_NAMES := {"ennemis": "ennemis", "allies": "alliés"}
 const ELEMENT_NAMES := {"acier": "Acier (Force)", "flamme": "Flamme (Intelligence)", "givre": "Givre (Chance)", "tempete": "Tempête (Agilité)",
 	"sacre": "Sacré (Force et Intelligence)", "impie": "Impie (Agilité et Chance)"}
+## Noms courts des éléments.
+const ELEMENT_LABELS := {"acier": "Acier", "flamme": "Flamme", "givre": "Givre", "tempete": "Tempête", "sacre": "Sacré", "impie": "Impie"}
 const ELEMENT_COLORS := {"acier": Color("d9a066"), "flamme": Color("ff8a5a"), "givre": Color("7ccfff"), "tempete": Color("9ade6a"),
 	"sacre": Color("ffe9a0"), "impie": Color("c48aff")}
 
@@ -39,35 +41,74 @@ static func describe(spell: Spell) -> PackedStringArray:
 	if not spell.needs_line_of_sight and spell.range_max > 0:
 		notes.append("sans ligne de vue")
 	lines.append("Coût : %d PA — Portée : %s%s" % [spell.pa_cost, reach, "" if notes.is_empty() else " (%s)" % ", ".join(notes)])
-	for effect in spell.effects:
-		var type: String = effect["type"]
-		var count := lines.size()
-		if type == Spell.EFFECT_DAMAGE:
-			lines.append("Dégâts %s : %d à %d" % [ELEMENT_NAMES.get(effect["element"], effect["element"]), effect["min"], effect["max"]])
-		elif type == Spell.EFFECT_HEAL:
-			lines.append("Soin %s : %d à %d" % [ELEMENT_NAMES.get(effect["element"], effect["element"]), effect["min"], effect["max"]])
-		elif type == Spell.EFFECT_SHIELD:
-			lines.append("Bouclier %s : %d à %d (absorbe les dégâts jusqu'au prochain tour de la cible)" % [ELEMENT_NAMES.get(effect["element"], effect["element"]), effect["min"], effect["max"]])
-		elif type == Spell.EFFECT_REMOVE_PM:
-			lines.append("Retire %d PM" % effect["min"])
-		elif type == Spell.EFFECT_GAIN_PA:
-			lines.append("Donne %d PA" % effect["min"])
-		elif type == Spell.EFFECT_TELEPORT:
-			lines.append("Téléporte sur la case visée")
-		if lines.size() > count and effect.get("cibles", Spell.TARGETS_ALL) != Spell.TARGETS_ALL:
-			lines[lines.size() - 1] += " (%s)" % TARGET_NAMES[effect["cibles"]]
+	lines.append_array(effect_lines(spell.effects))
 	if spell.zone_type == Spell.ZONE_CIRCLE:
 		lines.append("Zone : cercle de %d case%s" % [spell.zone_size, "s" if spell.zone_size > 1 else ""])
 	elif spell.zone_type == Spell.ZONE_LATIN_CROSS:
 		lines.append("Zone : croix (4 cases dans le sens du lancer, une de chaque côté de la 3e)")
 	if spell.casts_per_turn > 0:
 		lines.append("%d fois par tour au plus" % spell.casts_per_turn)
+	if spell.crit_chance != Spell.DEFAULT_CRIT_CHANCE:
+		lines.append("Coup critique : %d %%" % spell.crit_chance)
 	if spell.cooldown > 0:
 		lines.append("Relance : tous les %d tours" % spell.cooldown)
 	if not spell.description.is_empty():
 		lines.append("")
 		lines.append(spell.description)
 	return lines
+
+
+## Une ligne par effet (avec les effets d'une glyphe ou d'un piège, en retrait).
+static func effect_lines(effects: Array, indent := "") -> PackedStringArray:
+	var lines: PackedStringArray = []
+	for effect: Dictionary in effects:
+		var type: String = effect["type"]
+		var element: String = ELEMENT_NAMES.get(effect.get("element", ""), str(effect.get("element", "")))
+		var turns := int(effect.get("duree", 0))
+		var duration := "%d tour%s" % [turns, "s" if turns > 1 else ""]
+		var line := ""
+		match type:
+			Spell.EFFECT_DAMAGE:
+				line = "Dégâts %s : %d à %d" % [element, effect["min"], effect["max"]]
+			Spell.EFFECT_HEAL:
+				line = "Soin %s : %d à %d" % [element, effect["min"], effect["max"]]
+			Spell.EFFECT_SHIELD:
+				line = "Bouclier %s : %d à %d (absorbe les dégâts jusqu'au prochain tour de la cible)" % [element, effect["min"], effect["max"]]
+			Spell.EFFECT_REMOVE_PM:
+				line = "Retire %d PM au prochain tour" % effect["min"]
+			Spell.EFFECT_GAIN_PA:
+				line = "Donne %d PA" % effect["min"]
+			Spell.EFFECT_TELEPORT:
+				line = "Téléporte sur la case visée"
+			Spell.EFFECT_BONUS, Spell.EFFECT_MALUS:
+				var carac: String = MapView.CARAC_NAMES.get(effect["carac"], effect["carac"])
+				if effect["carac"] == "resistance":
+					carac = "résistance %s (%%)" % ELEMENT_LABELS.get(effect["element"], effect["element"])
+				line = "%s %s : %s (%s)" % ["Bonus" if type == Spell.EFFECT_BONUS else "Malus", carac, _range_text(effect), duration]
+			Spell.EFFECT_POISON:
+				line = "Poison %s : %s par tour (%s)" % [element, _range_text(effect), duration]
+			Spell.EFFECT_PUSH:
+				line = "Pousse de %s case(s)" % _range_text(effect)
+			Spell.EFFECT_PULL:
+				line = "Attire de %s case(s)" % _range_text(effect)
+			Spell.EFFECT_GLYPH:
+				line = "Glyphe sur la zone (%s du lanceur), au début du tour de qui s'y trouve :" % duration
+			Spell.EFFECT_TRAP:
+				var zone: Dictionary = effect.get("zone", {})
+				line = "Piège invisible pour l'adversaire%s, au premier ennemi qui y entre :" % (
+					" (explosion : cercle de %d)" % int(zone["taille"]) if zone.get("type") == Spell.ZONE_CIRCLE else "")
+		if line.is_empty():
+			continue
+		if effect.get("cibles", Spell.TARGETS_ALL) != Spell.TARGETS_ALL and type not in Spell.GROUND_EFFECTS:
+			line += " (%s)" % TARGET_NAMES[effect["cibles"]]
+		lines.append(indent + line)
+		if type in Spell.GROUND_EFFECTS:
+			lines.append_array(effect_lines(effect["effets"], indent + "    · "))
+	return lines
+
+
+static func _range_text(effect: Dictionary) -> String:
+	return str(effect["min"]) if effect["min"] == effect["max"] else "%d à %d" % [effect["min"], effect["max"]]
 
 
 func _ready() -> void:

@@ -5,7 +5,8 @@ extends SceneTree
 ## Lance la scène du monde (nouvelle partie), attend quelques images et enregistre la vue.
 ## Action : « combat » (engage le premier groupe de la carte), « butin » (écran de fin de combat d'exemple), « elite7 » (Loup alpha de rang 7 survolé), « cible » (combat, monstre survolé), « sermon » (Théologue en combat, Sermon visé devant lui), « panoplie » (3 pièces portées), « inventaire », « metiers », « sorts » (ouvre la
 ## fenêtre ; « inventaire » remplit d'abord le sac d'un exemplaire de chaque objet) ou « pierre » (va utiliser
-## la Pierre de Passage).
+## la Pierre de Passage), « glyphe » (combat contre l'Arbre millénaire, glyphe posée, héros ralenti et
+## empoisonné, à lancer sur sylvebrume_0_0).
 ## Si « carte » commence par res://, c'est cette scène qui est capturée (menu, création…).
 
 var _output := "capture.png"
@@ -73,6 +74,32 @@ func _process(_delta: float) -> bool:
 				drops.append({"objet": item_id, "nom": template["nom"], "rarete": template["rarete"],
 					"quantite": 3 if item_id == "croc_de_loup" else 1})
 			_scene.get_node("CombatHud")._on_combat_ended({"vainqueur": Fighter.TEAM_PLAYERS, "xp": 60, "ecus": 12, "butin": drops, "surcharge": true})
+		elif _action == "glyphe":
+			# Combat contre l'Arbre millénaire : sa glyphe posée, le héros ralenti et empoisonné, survolé.
+			var world := view.world
+			world.map_ids = [world.map.id]
+			var spawned: Array[Dictionary] = []
+			world.spawn_elite("arbre_millenaire", spawned)
+			for event in spawned:
+				view._apply_world_change(event)
+			view._on_click(world.group(world.elite_location("arbre_millenaire")["groupe"])["case"])
+			_wait_for(view)
+			view.request_start_fight()
+			_wait_for(view)
+			var combat := world.combat
+			var hero := view.player_fighter()
+			var tree: Fighter = null
+			for fighter in combat.fighters:
+				if fighter.kind == "arbre_millenaire":
+					tree = fighter
+			var events := combat._cast(tree, {"type": Protocol.CMD_CAST, "entite": tree.id, "sort": "millenaire_cercle_de_seve", "cible": tree.cell})
+			combat._add_state(hero, {"type": Spell.EFFECT_MALUS, "carac": "pm", "element": "", "valeur": 2, "tours": 1, "sort": "Cercle de sève", "lanceur": tree.id}, events)
+			combat._add_state(hero, {"type": Spell.EFFECT_POISON, "element": "givre", "valeur": 6, "tours": 3, "sort": "Test", "lanceur": tree.id}, events)
+			view._queue.append_array(events)
+			view._playing = true
+			view._play_next()
+			_wait_for(view)
+			view._set_hovered(hero.cell)
 		elif _action == "metiers":
 			_scene.get_node("JobsWindow").toggle()
 		elif _action == "sorts":
@@ -110,3 +137,10 @@ func _process(_delta: float) -> bool:
 	image.save_png(_output)
 	print("Capture : %s (%d × %d)" % [_output, image.get_width(), image.get_height()])
 	return true
+
+
+func _wait_for(view: MapView) -> void:
+	for i in 200:
+		if not view.is_busy():
+			return
+		view._process(0.3)

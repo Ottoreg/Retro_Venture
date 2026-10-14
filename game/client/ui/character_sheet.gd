@@ -18,6 +18,7 @@ const DERIVED := [
 	["initiative", "Initiative", "Ordre de jeu en combat : base de la Voie + Force, Intelligence, Chance et Agilité + équipement"],
 	["prospection", "Prospection", "Chances de butin : 100 + Chance / 10 + équipement"],
 	["dommages", "Dommages", "Dégâts bruts ajoutés à chaque ligne de dégâts, quel que soit l'élément (ni multipliés, ni réduits par les résistances)"],
+	["critique", "Critique (%)", "Chance de coup critique d'un sort ordinaire (5 % + équipement) : dégâts, soins, boucliers et poisons × 1,5"],
 ]
 
 var map_view: MapView

@@ -510,11 +510,15 @@ prévoit déjà `voie` et `rang` sur chaque sort** pour que le système s'ajoute
 - **Ligne de vue** bloquée par les obstacles et (selon les sorts) par les combattants.
 - **Zones d'effet :** case, cercle, croix, ligne, cône.
 - **Relances :** nombre d'utilisations par tour et par cible, délai de récupération en tours.
-- **Coups critiques :** chance de base + bonus ; effet critique défini par sort.
+- **Coups critiques :** chaque sort a sa chance (5 % par défaut, `critique` dans ses données), plus le
+  bonus « % Critique » du lanceur (équipement, états). Un coup critique multiplie par 1,5 la valeur
+  tirée des dégâts, soins, boucliers et poisons du sort ; « Coup critique ! » s'affiche.
 - **Éléments :** Acier, Flamme, Givre, Tempête, et les deux éléments composés Sacré (Acier + Flamme)
   et Impie (Tempête + Givre), voir § 4.4. Chaque combattant a des résistances en %.
 - **Effets :** dégâts, soin, bouclier, bonus/malus (PA, PM, portée, résistances…), poussée/attirance,
   téléportation, invocation, pièges et glyphes, états (*Enraciné*, *Invisible*, *Porté*…).
+  Faits pour l'alpha (§ 7.4) : bonus/malus temporaires, poisons, poussée, attirance, glyphes et
+  pièges ; à venir : invocations et états spéciaux.
 - **Tacle / fuite** (quitter une case adjacente à un ennemi coûte des PM selon l'Agilité) : prévu,
   activable par réglage pour tester son intérêt.
 - **Temps par tour :** illimité en solo (option), 30 s en multi.
@@ -523,16 +527,43 @@ prévoit déjà `voie` et `rang` sur chaque sort** pour que le système s'ajoute
 
 ### 7.3 IA des monstres
 
-Comportements configurables par donnée, et non codés par monstre :
+Comportements configurables par donnée (`ia`), et non codés par monstre :
 
-- `melee` : s'approche et frappe la cible la plus proche ou la plus faible.
-- `ranged` : garde la distance, se replace hors de la ligne de vue après avoir tiré.
-- `support` : soigne ou buffe les alliés en priorité.
-- `summoner` : invoque puis se protège.
-- `boss` : script dédié par phases (seuils de PV).
+- `basique` (fait) : se rapproche par le plus court chemin et frappe.
+- `distance` (fait) : tire depuis la case la plus éloignée des ennemis, puis recule avec les PM qui
+  restent (frondeurs).
+- `soutien` (fait) : se déplace comme `distance` ; ses soins, boucliers et glyphes passent avant
+  quand ils valent plus que ses attaques.
+- `summoner` : invoque puis se protège (à venir).
+- `boss` : script dédié par phases (seuils de PV) (à venir).
 
-L'IA évalue les actions possibles avec un score simple (dégâts attendus, risque) ; pas besoin de
-recherche profonde au départ.
+L'IA note chaque sort possible sur chaque cible utile (fait) : dégâts attendus (achever compte
+double), soins utiles (PV manquants seulement), boucliers, bonus et malus (un PA ou un PM vaut
+5 PV), poisons, poussées, glyphes (ce qu'elles feraient à ceux qui sont dedans), pièges (posés près
+d'un ennemi) ; ce qui touche son propre camp compte en négatif. Elle lance le meilleur sort tant qu'il
+vaut quelque chose ; pas de recherche profonde.
+
+### 7.4 Effets durables, glyphes et pièges
+
+- **Bonus et malus** (`bonus`, `malus`) : changent une caractéristique (Force, Intelligence, Chance,
+  Agilité, PA, PM, portée, Dommages, % Critique, résistance à un élément) pendant `duree` tours de la
+  cible ; un état perd un tour à la fin de chaque tour de celui qui le porte. Un bonus ou malus de PA
+  ou de PM compte tout de suite (PM retirés pendant son tour : il marche moins loin).
+- **Poison** : dégâts d'un élément au début de chaque tour de la cible, pendant `duree` tours ;
+  comme tous les effets chiffrés, ils montent avec la caractéristique de l'élément du lanceur et
+  baissent avec la résistance de la cible (pas de Dommages ajoutés).
+- **Poussée / attirance** : la cible glisse en ligne droite, en s'éloignant du lanceur (ou du centre
+  d'un piège) ou vers lui. Un obstacle, le bord ou un combattant l'arrête ; une poussée arrêtée inflige
+  4 dégâts de choc par case manquée.
+- **Glyphe** : les cases de la zone du sort gardent des effets pendant `duree` tours du lanceur ; ils
+  s'appliquent à chaque combattant qui **commence son tour** dessus (selon leurs `cibles`). Exemple :
+  le *Cercle de sève* de l'Arbre millénaire (cercle de 2 autour de lui, 2 tours) le soigne, lui et
+  ses alliés, et retire 2 PM aux ennemis qui y commencent leur tour.
+- **Piège** : posé sur une case libre, **invisible pour l'équipe adverse** (le joueur voit seulement
+  le nom du sort). Le premier ennemi qui entre sur la case (en marchant, poussé, attiré ou téléporté)
+  s'y arrête et le déclenche : ses effets touchent la zone du piège, puis il disparaît. Exemple : la
+  *Chausse-trape* du Frondeur vétéran (8 à 12 dégâts d'Acier et −2 PM pour le tour).
+- Un combattant vaincu emporte ses glyphes et ses pièges.
 
 ---
 

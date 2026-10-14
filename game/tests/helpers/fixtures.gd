@@ -44,7 +44,16 @@ static func map(changes := {}, groups := [], extra := {}) -> GameMap:
 	return GameMap.from_dict(data)
 
 
+## Sorts de test, sans coup critique (« critique » : 0) pour garder des dégâts fixes.
 static func spells() -> Array:
+	var spells := _spells()
+	for spell: Dictionary in spells:
+		if not spell.has("critique"):
+			spell["critique"] = 0
+	return spells
+
+
+static func _spells() -> Array:
 	return [
 		{"id": "frappe", "nom": "Frappe", "cout_pa": 3, "portee": {"min": 1, "max": 1}, "relance": {"par_tour": 2},
 			"effets": [{"type": "degats", "element": "acier", "min": 10, "max": 10}]},
@@ -66,6 +75,29 @@ static func spells() -> Array:
 			"lancer_en_ligne": true, "zone": {"type": "croix_latine"}, "effets": [
 				{"type": "degats", "element": "acier", "min": 10, "max": 10, "cibles": "ennemis"},
 				{"type": "soin", "element": "acier", "min": 10, "max": 10, "cibles": "allies"}]},
+		{"id": "fatal", "nom": "Fatal", "cout_pa": 1, "portee": {"min": 1, "max": 1}, "critique": 100,
+			"effets": [{"type": "degats", "element": "acier", "min": 10, "max": 10}]},
+		{"id": "rage", "nom": "Rage", "cout_pa": 1, "portee": {"min": 0, "max": 0}, "relance": {"par_tour": 1},
+			"effets": [{"type": "bonus", "carac": "force", "min": 100, "max": 100, "duree": 2}]},
+		{"id": "boulet", "nom": "Boulet", "cout_pa": 1, "portee": {"min": 1, "max": 4}, "ligne_de_vue": false, "effets": [
+			{"type": "malus", "carac": "pm", "min": 2, "max": 2, "duree": 1},
+			{"type": "malus", "carac": "resistance", "element": "acier", "min": 20, "max": 20, "duree": 2}]},
+		{"id": "venin", "nom": "Venin", "cout_pa": 1, "portee": {"min": 1, "max": 4}, "ligne_de_vue": false,
+			"effets": [{"type": "poison", "element": "acier", "min": 5, "max": 5, "duree": 3}]},
+		{"id": "repousse", "nom": "Repousse", "cout_pa": 1, "portee": {"min": 1, "max": 1},
+			"effets": [{"type": "poussee", "min": 2, "max": 2}]},
+		{"id": "grappin", "nom": "Grappin", "cout_pa": 1, "portee": {"min": 2, "max": 4}, "ligne_de_vue": false,
+			"effets": [{"type": "attirance", "min": 3, "max": 3}]},
+		{"id": "cercle", "nom": "Cercle de sève", "cout_pa": 2, "portee": {"min": 0, "max": 0}, "zone": {"type": "cercle", "taille": 1},
+			"relance": {"par_tour": 1}, "effets": [{"type": "glyphe", "duree": 2, "effets": [
+				{"type": "soin", "element": "acier", "min": 10, "max": 10, "cibles": "allies"},
+				{"type": "malus", "carac": "pm", "min": 2, "max": 2, "duree": 1, "cibles": "ennemis"}]}]},
+		{"id": "chausse_trape", "nom": "Chausse-trape", "cout_pa": 2, "portee": {"min": 1, "max": 3}, "ligne_de_vue": false,
+			"relance": {"par_tour": 1}, "effets": [{"type": "piege", "effets": [
+				{"type": "degats", "element": "acier", "min": 10, "max": 10, "cibles": "ennemis"},
+				{"type": "malus", "carac": "pm", "min": 3, "max": 3, "duree": 1, "cibles": "ennemis"}]}]},
+		{"id": "soin_distance", "nom": "Soin à distance", "cout_pa": 3, "portee": {"min": 0, "max": 4}, "ligne_de_vue": false,
+			"effets": [{"type": "soin", "element": "acier", "min": 15, "max": 15, "cibles": "allies"}]},
 	]
 
 
@@ -94,7 +126,7 @@ static func items() -> Array:
 		{"id": "bottes", "nom": "Bottes", "type": "bottes", "rarete": "epique", "niveau": 1,
 			"bonus": {"pa": [1, 1], "pm": [1, 1], "portee": [1, 1], "initiative": [10, 10], "prospection": [50, 50]}},
 		{"id": "epee", "nom": "Épée", "type": "arme", "rarete": "commun", "niveau": 1, "bonus": {"force": [1, 3]},
-			"attaque": {"cout_pa": 3, "portee": {"min": 1, "max": 1}, "effets": [{"type": "degats", "element": "acier", "min": 20, "max": 20}]}},
+			"attaque": {"cout_pa": 3, "portee": {"min": 1, "max": 1}, "critique": 0, "effets": [{"type": "degats", "element": "acier", "min": 20, "max": 20}]}},
 	]
 
 
@@ -105,11 +137,16 @@ static func data() -> GameData:
 		monster("loup", 30, 6, 4, 50, ["frappe"]),
 		monster("archer", 30, 6, 3, 50, ["tir"]),
 		monster("rapide", 30, 0, 0, 150, ["frappe"]),
+		monster("druide", 30, 6, 1, 10, ["cercle", "soin_distance"]),
+		monster("piegeur", 30, 6, 3, 10, ["chausse_trape", "tir"]),
 	]
+	monsters[5]["ia"] = "soutien"
+	monsters[6]["ia"] = "distance"
 	var voies := [{
 		"id": "test", "nom": "Test",
 		"caracteristiques": {"pv": 50, "pa": 6, "pm": 3, "initiative": 100},
-		"sorts": ["frappe", "piqure", "tir", "zone", "soin", "elan", "entrave", "sermon"],
+		"sorts": ["frappe", "piqure", "tir", "zone", "soin", "elan", "entrave", "sermon", "fatal", "rage", "boulet",
+			"venin", "repousse", "grappin", "cercle", "chausse_trape"],
 		"equipement_depart": ["epee", "bague"],
 	}]
 	var races := [{

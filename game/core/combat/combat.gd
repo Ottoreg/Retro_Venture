@@ -12,6 +12,8 @@ const SEE_THROUGH_OBSTACLES := ["eau"]
 ## Garde-fous contre les boucles infinies.
 const MAX_AI_ACTIONS := 20
 const MAX_ROUNDS := 200
+## Dégâts de choc par case de poussée non parcourue (obstacle, bord ou combattant sur le chemin).
+const PUSH_DAMAGE_PER_CELL := 4
 
 var map: GameMap
 var state: State = State.PLACEMENT
@@ -23,10 +25,15 @@ var round_number := 0
 ## Équipe gagnante (-1 tant que le combat n'est pas fini, ou en cas d'abandon des deux camps).
 var winner_team := -1
 var rng := RandomNumberGenerator.new()
+## Glyphes au sol : { id, lanceur: Fighter, equipe, cases: Array[Vector2i], effets, tours, sort }.
+var glyphs: Array[Dictionary] = []
+## Pièges posés : { id, lanceur: Fighter, equipe, case, cases (zone d'explosion), effets, sort }.
+var traps: Array[Dictionary] = []
 
 var _turn_index := -1
 ## Ordre d'arrivée des combattants, pour départager les égalités d'initiative.
 var _arrival: Dictionary = {}
+var _next_ground_id := 1
 
 
 func _init(p_map: GameMap, p_fighters: Array[Fighter], p_placement_cells: Array[Vector2i], seed_value := 0) -> void:
@@ -68,6 +75,29 @@ func current_fighter() -> Fighter:
 	if state != State.FIGHTING or _turn_index < 0:
 		return null
 	return fighters[_turn_index]
+
+
+## Piège posé sur la case (vide s'il n'y en a pas).
+func trap_at(cell: Vector2i) -> Dictionary:
+	for trap in traps:
+		if trap["case"] == cell:
+			return trap
+	return {}
+
+
+## Piège d'une autre équipe que `fighter` sur la case : c'est celui qu'il déclenche en y entrant.
+func enemy_trap_at(cell: Vector2i, fighter: Fighter) -> Dictionary:
+	var trap := trap_at(cell)
+	return trap if not trap.is_empty() and trap["equipe"] != fighter.team else {}
+
+
+## Glyphes qui couvrent la case.
+func glyphs_at(cell: Vector2i) -> Array[Dictionary]:
+	var result: Array[Dictionary] = []
+	for glyph in glyphs:
+		if cell in glyph["cases"]:
+			result.append(glyph)
+	return result
 
 
 func enemies_of(fighter: Fighter) -> Array[Fighter]:
@@ -160,7 +190,7 @@ func targeting_blocker(fighter: Fighter, spell: Spell, target: Vector2i, origin 
 
 ## Portée maximale réelle : les sorts à distance (portée de 2 ou plus) profitent des bonus de portée.
 func max_range(fighter: Fighter, spell: Spell) -> int:
-	return spell.range_max + (fighter.range_bonus if spell.range_max >= 2 else 0)
+	return spell.range_max + (fighter.total_range_bonus() if spell.range_max >= 2 else 0)
 
 
 ## Cases à portée du sort, avec et sans ligne de vue (pour l'affichage).
@@ -230,7 +260,8 @@ func _player_action(command: Dictionary) -> Array[Dictionary]:
 	if fighter != current_fighter() or fighter.is_ai():
 		return _refused(command, Protocol.REASON_NOT_YOUR_TURN)
 	var events := _apply_action(fighter, command)
-	if command["type"] == Protocol.CMD_END_TURN:
+	# Fin de tour demandée, ou combattant tombé pendant son tour (piège) : la main passe.
+	if command["type"] == Protocol.CMD_END_TURN or (not fighter.is_alive() and state == State.FIGHTING):
 		_next_turn(events)
 	return events
 
@@ -262,8 +293,15 @@ func _move(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 	if not reachable.has(target):
 		return _refused(command, Protocol.REASON_NOT_ENOUGH_PM)
 	var path: Array[Vector2i] = reachable[target]
+	# Un piège ennemi arrête la marche sur sa case.
+	var trap := {}
+	for i in path.size():
+		trap = enemy_trap_at(path[i], fighter)
+		if not trap.is_empty():
+			path = path.slice(0, i + 1)
+			break
 	var from := fighter.cell
-	fighter.cell = target
+	fighter.cell = path[-1]
 	fighter.pm -= path.size()
 	var events: Array[Dictionary] = [{
 		"type": Protocol.EVT_MOVED,
@@ -272,6 +310,9 @@ func _move(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 		"chemin": path,
 		"pm": fighter.pm,
 	}]
+	if not trap.is_empty():
+		_trigger_trap(trap, fighter, events)
+		_check_end(events)
 	return events
 
 
@@ -288,22 +329,38 @@ func _cast(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 		blocker = targeting_blocker(fighter, spell, target)
 	if blocker.is_empty() and spell.teleports() and target != fighter.cell and not is_free(target):
 		blocker = Protocol.REASON_OCCUPIED if fighter_at(target) != null else Protocol.REASON_BLOCKED
+	var trap_effect := spell.trap_effect()
+	if blocker.is_empty() and not trap_effect.is_empty() and (not is_free(target) or not trap_at(target).is_empty()):
+		blocker = Protocol.REASON_BLOCKED if not map.is_walkable(target) else Protocol.REASON_OCCUPIED
 	if not blocker.is_empty():
 		return _refused(command, blocker)
 
 	fighter.register_cast(spell)
+	var crit_chance := spell.crit_chance + fighter.total_crit_bonus()
+	var critical := crit_chance > 0 and rng.randf() * 100.0 < crit_chance
 	var events: Array[Dictionary] = [{
 		"type": Protocol.EVT_SPELL_CAST,
 		"entite": fighter.id,
 		"sort": spell.id,
 		"cible": target,
 		"pa": fighter.pa,
+		"critique": critical,
 	}]
+	if not trap_effect.is_empty():
+		events[0]["cache"] = true
 	var origin := fighter.cell
 	if spell.teleports():
 		var from := fighter.cell
 		fighter.cell = target
 		events.append({"type": Protocol.EVT_TELEPORTED, "entite": fighter.id, "depuis": from, "case": target})
+		var trap := enemy_trap_at(target, fighter)
+		if not trap.is_empty():
+			_trigger_trap(trap, fighter, events)
+	for effect in spell.effects:
+		if effect["type"] == Spell.EFFECT_GLYPH:
+			_place_glyph(fighter, spell, effect, spell.zone_cells(target, origin), events)
+		elif effect["type"] == Spell.EFFECT_TRAP:
+			_place_trap(fighter, spell, effect, target, events)
 	var targets: Array[Fighter] = []
 	for cell in spell.zone_cells(target, origin):
 		var hit := fighter_at(cell)
@@ -311,49 +368,197 @@ func _cast(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 			targets.append(hit)
 	for hit in targets:
 		for effect in spell.effects:
-			if hit.is_alive() and effect["type"] != Spell.EFFECT_TELEPORT and Spell.affects(effect, fighter, hit):
-				_apply_effect(fighter, hit, effect, events)
+			if hit.is_alive() and effect["type"] not in [Spell.EFFECT_TELEPORT, Spell.EFFECT_GLYPH, Spell.EFFECT_TRAP] \
+					and Spell.affects(effect, fighter, hit):
+				_apply_effect(fighter, hit, effect, events, critical, origin, spell.display_name)
 	_check_end(events)
 	return events
 
 
 ## Dégâts : base × (100 + caractéristique de l'élément du lanceur) % × (100 − résistance de la cible) %,
 ## plus les Dommages du lanceur (bruts : ni multipliés ni réduits par une résistance).
-## Soins et boucliers : base × (100 + caractéristique de leur élément) %, comme les dégâts (règle de
-## tous les effets chiffrés). Le bouclier absorbe les dégâts avant les PV, jusqu'au début du prochain
-## tour de celui qui le porte.
-func _apply_effect(caster: Fighter, target: Fighter, effect: Dictionary, events: Array[Dictionary]) -> void:
+## Soins, boucliers et poisons : base × (100 + caractéristique de leur élément) %, comme les dégâts
+## (règle de tous les effets chiffrés). Le bouclier absorbe les dégâts avant les PV, jusqu'au début du
+## prochain tour de celui qui le porte. Coup critique : la valeur tirée des dégâts, soins, boucliers
+## et poisons est multipliée par `Spell.CRIT_MULTIPLIER`. `origin` : d'où l'on pousse ou attire.
+func _apply_effect(caster: Fighter, target: Fighter, effect: Dictionary, events: Array[Dictionary], critical := false,
+		origin := Vector2i(-99999, -99999), source := "") -> void:
+	var from := caster.cell if origin == Vector2i(-99999, -99999) else origin
 	var amount := rng.randi_range(effect["min"], effect["max"])
-	if effect["type"] == Spell.EFFECT_GAIN_PA:
-		target.pa += amount
-		events.append({"type": Protocol.EVT_STATUS, "entite": target.id, "effet": Spell.EFFECT_GAIN_PA, "valeur": amount, "pa": target.pa, "pm": target.pm})
+	if critical and effect["type"] in Spell.ELEMENT_EFFECTS:
+		amount = roundi(amount * Spell.CRIT_MULTIPLIER)
+	match effect["type"]:
+		Spell.EFFECT_GAIN_PA:
+			target.pa += amount
+			events.append({"type": Protocol.EVT_STATUS, "entite": target.id, "effet": Spell.EFFECT_GAIN_PA, "valeur": amount, "pa": target.pa, "pm": target.pm})
+		Spell.EFFECT_REMOVE_PM:
+			target.pm_malus += amount
+			events.append({"type": Protocol.EVT_STATUS, "entite": target.id, "effet": Spell.EFFECT_REMOVE_PM, "valeur": amount, "pa": target.pa, "pm": target.pm})
+		Spell.EFFECT_DAMAGE:
+			var element: String = effect["element"]
+			var boosted := amount * (100 + caster.power(element)) / 100.0
+			_hurt(target, maxi(0, roundi(boosted * (100 - target.resistance(element)) / 100.0)) + caster.total_dommages(), element, events)
+		Spell.EFFECT_SHIELD:
+			amount = roundi(amount * (100 + caster.power(effect["element"])) / 100.0)
+			target.shield += amount
+			events.append({"type": Protocol.EVT_STATUS, "entite": target.id, "effet": Spell.EFFECT_SHIELD, "valeur": amount,
+				"bouclier": target.shield, "pa": target.pa, "pm": target.pm})
+		Spell.EFFECT_HEAL:
+			amount = roundi(amount * (100 + caster.power(effect["element"])) / 100.0)
+			amount = mini(amount, target.max_hp - target.hp)
+			target.hp += amount
+			events.append({"type": Protocol.EVT_HEAL, "entite": target.id, "valeur": amount, "pv": target.hp})
+		Spell.EFFECT_BONUS, Spell.EFFECT_MALUS:
+			_add_state(target, {"type": effect["type"], "carac": effect["carac"], "element": str(effect.get("element", "")),
+				"valeur": amount, "tours": effect["duree"], "sort": source, "lanceur": caster.id}, events)
+		Spell.EFFECT_POISON:
+			_add_state(target, {"type": Spell.EFFECT_POISON, "element": effect["element"], "valeur": amount,
+				"tours": effect["duree"], "sort": source, "lanceur": caster.id}, events)
+		Spell.EFFECT_PUSH:
+			_push(from, target, amount, false, events)
+		Spell.EFFECT_PULL:
+			_push(from, target, amount, true, events)
+
+
+## Retire des PV (le bouclier absorbe d'abord) ; `element` vide pour des dégâts sans élément (choc).
+func _hurt(target: Fighter, amount: int, element: String, events: Array[Dictionary], source := "") -> void:
+	var absorbed := mini(target.shield, amount)
+	target.shield -= absorbed
+	amount -= absorbed
+	target.hp = maxi(0, target.hp - amount)
+	var event := {"type": Protocol.EVT_DAMAGE, "entite": target.id, "valeur": amount, "element": element, "pv": target.hp,
+		"absorbe": absorbed, "bouclier": target.shield}
+	if not source.is_empty():
+		event["source"] = source
+	events.append(event)
+	if not target.is_alive():
+		events.append({"type": Protocol.EVT_DIED, "entite": target.id})
+		_remove_ground_of(target, events)
+
+
+## Pose un état (bonus, malus, poison). Un bonus ou malus de PA ou de PM compte tout de suite.
+func _add_state(target: Fighter, new_state: Dictionary, events: Array[Dictionary]) -> void:
+	target.states.append(new_state)
+	var signed := int(new_state["valeur"]) * (1 if new_state["type"] == Spell.EFFECT_BONUS else -1)
+	if new_state.get("carac") == "pa":
+		target.pa = maxi(0, target.pa + signed)
+	if new_state.get("carac") == "pm":
+		target.pm = maxi(0, target.pm + signed)
+	var event := _states_event(target)
+	event["nouveau"] = {"type": new_state["type"], "carac": new_state.get("carac", ""), "element": new_state.get("element", ""),
+		"valeur": new_state["valeur"], "tours": new_state["tours"], "sort": new_state["sort"]}
+	events.append(event)
+
+
+func _states_event(fighter: Fighter) -> Dictionary:
+	return {"type": Protocol.EVT_STATES, "entite": fighter.id, "etats": fighter.states_snapshot(), "pa": fighter.pa, "pm": fighter.pm}
+
+
+## Pousse (ou attire) `target` de `distance` cases depuis `from`, en ligne droite. Un obstacle, le
+## bord ou un combattant l'arrête ; une poussée arrêtée fait des dégâts de choc par case manquée. Un
+## piège ennemi arrête aussi le mouvement et se déclenche.
+func _push(from: Vector2i, target: Fighter, distance: int, pull: bool, events: Array[Dictionary]) -> void:
+	if target.cell == from or distance <= 0:
 		return
-	if effect["type"] == Spell.EFFECT_REMOVE_PM:
-		target.pm_malus += amount
-		events.append({"type": Protocol.EVT_STATUS, "entite": target.id, "effet": Spell.EFFECT_REMOVE_PM, "valeur": amount, "pa": target.pa, "pm": target.pm})
-		return
-	if effect["type"] == Spell.EFFECT_DAMAGE:
-		var element: String = effect["element"]
-		var boosted := amount * (100 + caster.power(element)) / 100.0
-		amount = maxi(0, roundi(boosted * (100 - target.resistance(element)) / 100.0)) + maxi(0, caster.dommages)
-		var absorbed := mini(target.shield, amount)
-		target.shield -= absorbed
-		amount -= absorbed
-		target.hp = maxi(0, target.hp - amount)
-		events.append({"type": Protocol.EVT_DAMAGE, "entite": target.id, "valeur": amount, "element": element, "pv": target.hp,
-			"absorbe": absorbed, "bouclier": target.shield})
-		if not target.is_alive():
-			events.append({"type": Protocol.EVT_DIED, "entite": target.id})
-	elif effect["type"] == Spell.EFFECT_SHIELD:
-		amount = roundi(amount * (100 + caster.power(effect["element"])) / 100.0)
-		target.shield += amount
-		events.append({"type": Protocol.EVT_STATUS, "entite": target.id, "effet": Spell.EFFECT_SHIELD, "valeur": amount,
-			"bouclier": target.shield, "pa": target.pa, "pm": target.pm})
-	elif effect["type"] == Spell.EFFECT_HEAL:
-		amount = roundi(amount * (100 + caster.power(effect["element"])) / 100.0)
-		amount = mini(amount, target.max_hp - target.hp)
-		target.hp += amount
-		events.append({"type": Protocol.EVT_HEAL, "entite": target.id, "valeur": amount, "pv": target.hp})
+	var step := Spell.direction(from, target.cell) * (-1 if pull else 1)
+	var start := target.cell
+	var moved := 0
+	var trap := {}
+	while moved < distance:
+		var next := target.cell + step
+		if not is_free(next):
+			break
+		target.cell = next
+		moved += 1
+		trap = enemy_trap_at(next, target)
+		if not trap.is_empty():
+			break
+	if moved > 0:
+		events.append({"type": Protocol.EVT_PUSHED, "entite": target.id, "depuis": start, "case": target.cell})
+	if not trap.is_empty():
+		_trigger_trap(trap, target, events)
+	elif not pull and moved < distance:
+		_hurt(target, (distance - moved) * PUSH_DAMAGE_PER_CELL, "", events, "choc")
+
+
+# --- Glyphes et pièges ---------------------------------------------------------------------------
+
+func _place_glyph(caster: Fighter, spell: Spell, effect: Dictionary, cells: Array[Vector2i], events: Array[Dictionary]) -> void:
+	var inside: Array[Vector2i] = []
+	for cell in cells:
+		if map.is_inside(cell) and map.is_walkable(cell):
+			inside.append(cell)
+	var glyph := {"id": _next_ground_id, "lanceur": caster, "equipe": caster.team, "cases": inside, "effets": effect["effets"],
+		"tours": int(effect["duree"]), "sort": spell.display_name}
+	_next_ground_id += 1
+	glyphs.append(glyph)
+	events.append({"type": Protocol.EVT_GLYPH, "id": glyph["id"], "lanceur": caster.id, "equipe": caster.team,
+		"cases": inside, "tours": glyph["tours"], "sort": glyph["sort"]})
+
+
+func _place_trap(caster: Fighter, spell: Spell, effect: Dictionary, cell: Vector2i, events: Array[Dictionary]) -> void:
+	var zone: Dictionary = effect["zone"]
+	var cells: Array[Vector2i] = []
+	for zone_cell in Spell.circle_cells(cell, int(zone.get("taille", 0)) if zone["type"] == Spell.ZONE_CIRCLE else 0):
+		if map.is_inside(zone_cell):
+			cells.append(zone_cell)
+	var trap := {"id": _next_ground_id, "lanceur": caster, "equipe": caster.team, "case": cell, "cases": cells,
+		"effets": effect["effets"], "sort": spell.display_name}
+	_next_ground_id += 1
+	traps.append(trap)
+	events.append({"type": Protocol.EVT_TRAP, "id": trap["id"], "lanceur": caster.id, "equipe": caster.team,
+		"case": cell, "cases": cells, "sort": trap["sort"]})
+
+
+## Déclenche un piège : il disparaît, ses effets touchent sa zone (selon leurs `cibles`).
+func _trigger_trap(trap: Dictionary, victim: Fighter, events: Array[Dictionary]) -> void:
+	traps.erase(trap)
+	events.append({"type": Protocol.EVT_TRAP_TRIGGERED, "id": trap["id"], "entite": victim.id, "case": trap["case"],
+		"cases": trap["cases"], "sort": trap["sort"]})
+	var caster: Fighter = trap["lanceur"]
+	var hits: Array[Fighter] = []
+	for cell: Vector2i in trap["cases"]:
+		var hit := fighter_at(cell)
+		if hit != null:
+			hits.append(hit)
+	for hit in hits:
+		for effect: Dictionary in trap["effets"]:
+			if hit.is_alive() and Spell.affects(effect, caster, hit):
+				_apply_effect(caster, hit, effect, events, false, trap["case"], trap["sort"])
+
+
+## Un combattant vaincu emporte ses glyphes et ses pièges.
+func _remove_ground_of(fighter: Fighter, events: Array[Dictionary]) -> void:
+	for glyph in glyphs.duplicate():
+		if glyph["lanceur"] == fighter:
+			glyphs.erase(glyph)
+			events.append({"type": Protocol.EVT_GLYPH_ENDED, "id": glyph["id"]})
+	for trap in traps.duplicate():
+		if trap["lanceur"] == fighter:
+			traps.erase(trap)
+			events.append({"type": Protocol.EVT_TRAP_ENDED, "id": trap["id"]})
+
+
+## Début du tour de `fighter` : ses glyphes perdent un tour, puis ses poisons et les glyphes sous
+## ses pieds agissent.
+func _start_of_turn_effects(fighter: Fighter, events: Array[Dictionary]) -> void:
+	for glyph in glyphs.duplicate():
+		if glyph["lanceur"] == fighter:
+			glyph["tours"] = int(glyph["tours"]) - 1
+			if int(glyph["tours"]) <= 0:
+				glyphs.erase(glyph)
+				events.append({"type": Protocol.EVT_GLYPH_ENDED, "id": glyph["id"]})
+	for poison in fighter.states.duplicate():
+		if poison["type"] != Spell.EFFECT_POISON or not fighter.is_alive():
+			continue
+		var caster := get_fighter(poison["lanceur"])
+		var element: String = poison["element"]
+		var boosted := int(poison["valeur"]) * (100 + (caster.power(element) if caster != null else 0)) / 100.0
+		_hurt(fighter, maxi(0, roundi(boosted * (100 - fighter.resistance(element)) / 100.0)), element, events, "poison")
+	for glyph in glyphs_at(fighter.cell):
+		for effect: Dictionary in glyph["effets"]:
+			if fighter.is_alive() and Spell.affects(effect, glyph["lanceur"], fighter):
+				_apply_effect(glyph["lanceur"], fighter, effect, events, false, fighter.cell, glyph["sort"])
 
 
 # --- Enchaînement des tours ------------------------------------------------------------------
@@ -361,6 +566,8 @@ func _apply_effect(caster: Fighter, target: Fighter, effect: Dictionary, events:
 ## Passe la main au combattant suivant ; joue les tours des monstres jusqu'au prochain joueur.
 func _next_turn(events: Array[Dictionary]) -> void:
 	while state == State.FIGHTING:
+		if _turn_index >= 0 and fighters[_turn_index].end_turn():
+			events.append(_states_event(fighters[_turn_index]))
 		_turn_index += 1
 		if _turn_index >= fighters.size():
 			_turn_index = 0
@@ -374,6 +581,10 @@ func _next_turn(events: Array[Dictionary]) -> void:
 			continue
 		fighter.start_turn()
 		events.append({"type": Protocol.EVT_TURN_STARTED, "entite": fighter.id, "tour": round_number, "pa": fighter.pa, "pm": fighter.pm})
+		_start_of_turn_effects(fighter, events)
+		if not fighter.is_alive():
+			_check_end(events)
+			continue
 		if not fighter.is_ai():
 			return
 		_play_ai_turn(fighter, events)
@@ -390,7 +601,7 @@ func _play_ai_turn(fighter: Fighter, events: Array[Dictionary]) -> void:
 		has_moved = has_moved or action["type"] == Protocol.CMD_MOVE
 		var result := _apply_action(fighter, action)
 		events.append_array(result)
-		if result.is_empty() or result[0]["type"] == Protocol.EVT_REFUSED or state != State.FIGHTING:
+		if result.is_empty() or result[0]["type"] == Protocol.EVT_REFUSED or state != State.FIGHTING or not fighter.is_alive():
 			return
 
 

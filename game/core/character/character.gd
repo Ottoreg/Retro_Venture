@@ -78,7 +78,7 @@ func stat(stat_name: String, data: GameData = null) -> int:
 	return total + set_bonus(stat_name, data)
 
 
-## Bonus d'équipement hors caractéristiques : prospection, initiative, portee, pa, pm, dommages
+## Bonus d'équipement hors caractéristiques : prospection, initiative, portee, pa, pm, dommages, critique
 ## (jets des objets portés, plus les bonus de panoplie si `data` est fourni).
 func extra(stat_name: String, data: GameData = null) -> int:
 	return inventory.bonus(stat_name) + set_bonus(stat_name, data)
@@ -195,6 +195,7 @@ func sheet(data: GameData) -> Dictionary:
 		"pv": hp(data),
 		"prospection": prospection(data),
 		"dommages": extra("dommages", data),
+		"critique": Spell.DEFAULT_CRIT_CHANCE + extra("critique", data),
 		"initiative": initiative(data),
 		"pa": int(voie.get("caracteristiques", {}).get("pa", 0)) + extra("pa", data),
 		"pm": int(voie.get("caracteristiques", {}).get("pm", 0)) + extra("pm", data),

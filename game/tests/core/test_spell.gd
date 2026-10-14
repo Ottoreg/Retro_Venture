@@ -21,8 +21,11 @@ func test_lecture() -> void:
 	assert_true(spell.needs_line_of_sight, "ligne de vue par défaut")
 	assert_eq(spell.casts_per_turn, 2)
 	assert_eq(spell.cooldown, 0)
-	assert_true(spell.deals_damage())
-	assert_eq(spell.max_damage(), 10)
+	assert_eq(spell.crit_chance, 0, "sorts de test sans coup critique")
+	var data := _valid()
+	data.erase("critique")
+	assert_eq(Spell.from_dict(data).crit_chance, Spell.DEFAULT_CRIT_CHANCE, "5 % de coups critiques par défaut")
+	assert_eq(spell.effects[0]["duree"], 0)
 
 
 func test_erreurs() -> void:
@@ -35,7 +38,16 @@ func test_erreurs() -> void:
 		"croix sans lancer en ligne": {"zone": {"type": "croix_latine"}},
 		"cibles inconnues": {"effets": [{"type": "degats", "element": "acier", "min": 1, "max": 2, "cibles": "amis"}]},
 		"aucun effet": {"effets": []},
-		"effet inconnu": {"effets": [{"type": "poison", "min": 1, "max": 2}]},
+		"effet inconnu": {"effets": [{"type": "malediction", "min": 1, "max": 2}]},
+		"poison sans durée": {"effets": [{"type": "poison", "element": "givre", "min": 1, "max": 2}]},
+		"bonus d'une caractéristique inconnue": {"effets": [{"type": "bonus", "carac": "charisme", "min": 1, "max": 1, "duree": 2}]},
+		"résistance sans élément": {"effets": [{"type": "malus", "carac": "resistance", "min": 10, "max": 10, "duree": 1}]},
+		"glyphe sans effets": {"effets": [{"type": "glyphe", "duree": 2, "effets": []}]},
+		"piège dans une glyphe": {"effets": [{"type": "glyphe", "duree": 2, "effets": [{"type": "piege", "effets": [{"type": "poussee", "min": 1, "max": 1}]}]}]},
+		"piège et autre effet": {"effets": [{"type": "piege", "effets": [{"type": "poussee", "min": 1, "max": 1}]},
+			{"type": "degats", "element": "acier", "min": 1, "max": 1}]},
+		"piège à zone inconnue": {"effets": [{"type": "piege", "zone": {"type": "croix_latine"}, "effets": [{"type": "poussee", "min": 1, "max": 1}]}]},
+		"critique au-delà de 100 %": {"critique": 150},
 		"dégâts sans élément": {"effets": [{"type": "degats", "min": 1, "max": 2}]},
 		"min supérieur à max": {"effets": [{"type": "soin", "min": 5, "max": 2}]},
 		"relance négative": {"relance": {"par_tour": -1}},

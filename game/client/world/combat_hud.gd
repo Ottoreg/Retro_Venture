@@ -270,14 +270,19 @@ func _show_target() -> void:
 	_target_name.add_theme_color_override("font_color", Color(0.6, 0.8, 1.0) if fighter.team == Fighter.TEAM_PLAYERS else Color(1.0, 0.62, 0.5))
 	_target_level.text = "Niveau %d" % level
 	# PA et PM : ce qu'il lui reste pendant son tour, sinon ce qu'il aura au prochain (PM retirés compris).
-	var pa := fighter.max_pa
-	var pm := maxi(0, fighter.max_pm - fighter.pm_malus)
+	var pa := fighter.next_turn_pa()
+	var pm := fighter.next_turn_pm()
 	if map_view.current_turn == fighter.id:
 		pa = shown.get("pa", fighter.pa)
 		pm = shown.get("pm", fighter.pm)
 	_target_stats.text = "PV %d / %d%s\nPA %d / %d   ·   PM %d / %d" % [shown.get("hp", fighter.hp), fighter.max_hp,
 		"   ·   bouclier %d" % shown["bouclier"] if int(shown.get("bouclier", 0)) > 0 else "",
 		pa, fighter.max_pa, pm, fighter.max_pm]
+	var states: PackedStringArray = []
+	for state: Dictionary in fighter.states_snapshot():
+		states.append(MapView.state_text(state))
+	if not states.is_empty():
+		_target_stats.text += "\n" + "   ·   ".join(states)
 	for element: String in _target_resistances:
 		var label: Label = _target_resistances[element]
 		label.text = "%s %s" % [RESISTANCE_NAMES[element], percent_text(fighter.resistance(element))]

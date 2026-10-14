@@ -109,7 +109,8 @@ Objectif : **10 à 15 h de jeu solo, niveaux 1 à 30 : 3 zones de départ (une p
 - [x] **(MVP)** XP, montée de niveau (courbe 60·n + 20·n²)
 - [ ] Points de sort (avec le système des Voies)
 - [ ] Rendement décroissant des caractéristiques
-- [ ] **(MVP)** Modèle de sort avec `voie` et `rang` (préparation du système des Voies)
+- [ ] **(MVP)** Modèle de sort avec `voie` et `rang` (préparation du système des Voies) — reporté
+  après le premier test de jeu, pour ne pas ajouter de complexité
 - [ ] Restat (objet ou PNJ)
 
 ### Combat
@@ -120,12 +121,19 @@ Objectif : **10 à 15 h de jeu solo, niveaux 1 à 30 : 3 zones de départ (une p
   arme, sans élément ni résistance, pas sur les soins ; portée par les objets (Chevalière du
   Cogneur), affichée dans la fiche
 - [ ] Sorts de Voie sacrés et impies (avec les nouvelles Voies)
-- [ ] **(MVP)** Tous les types d'effets : soin, bouclier, bonus/malus, poussée, téléportation, états
-- [ ] **(MVP)** Coups critiques
+- [x] **(MVP)** Effets : soin, bouclier, téléportation, bonus/malus temporaires (caractéristiques, PA,
+  PM, portée, Dommages, % Critique, résistances), poisons, poussée (avec dégâts de choc) et attirance
+  (GDD § 7.4)
+- [x] **(MVP)** Glyphes (effets au début du tour de qui est dessus) et pièges invisibles pour
+  l'adversaire (déclenchés en entrant sur la case) ; Cercle de sève de l'Arbre millénaire,
+  Chausse-trape du Frondeur vétéran
+- [ ] États spéciaux (*Enraciné*, *Invisible*, *Porté*…) et invocations
+- [x] **(MVP)** Coups critiques (5 % par défaut par sort, bonus « % Critique » d'équipement, × 1,5)
 - [x] **(MVP)** Groupes de 1 à 3 monstres (limite de l'alpha), d'espèces mélangées, tous visibles sur
   la carte ; composition fixe ou tirée au sort à chaque apparition
 - [ ] Groupes plus grands (jusqu'à 8) une fois l'équilibrage fait
-- [ ] **(MVP)** IA : `ranged`, `support`
+- [x] **(MVP)** IA : sorts notés sur chaque cible (dégâts, soins, bonus/malus, glyphes, pièges) ;
+  comportements `distance` (frondeurs) et `soutien`
 - [ ] Tacle / fuite (activable pour tester)
 - [ ] Monstres agressifs (engagent le combat à proximité)
 - [ ] Mini-boss de fin de région avec script par phases
