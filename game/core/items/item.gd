@@ -59,8 +59,16 @@ static func sell_price(template: Dictionary) -> int:
 
 
 ## Liste des erreurs de `data` (vide si l'objet est valide).
+## Vrai si les marchands vendent cet objet (`"boutique": false` : trophées de boss, objets rares
+## qu'on ne trouve qu'en butin).
+static func is_sold(template: Dictionary) -> bool:
+	return template.get("boutique", true) == true
+
+
 static func validate(data: Dictionary) -> PackedStringArray:
 	var errors: PackedStringArray = []
+	if typeof(data.get("boutique", true)) != TYPE_BOOL:
+		errors.append("« boutique » doit valoir true ou false")
 	if typeof(data.get("id")) != TYPE_STRING or str(data.get("id")).is_empty():
 		errors.append("« id » doit être un texte non vide")
 	if typeof(data.get("nom")) != TYPE_STRING:

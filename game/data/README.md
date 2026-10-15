@@ -403,6 +403,7 @@ phase.
 | `niveau` | Niveau requis pour l'équiper |
 | `bonus` | Plages `[min, max]` tirées au hasard à l'obtention (« jets ») : les 6 caractéristiques, `prospection`, `initiative`, `portee`, `pa`, `pm`, `dommages` (dégâts bruts ajoutés à chaque ligne de dégâts, ni multipliés ni réduits par les résistances, pas sur les soins) |
 | `conditions` | Caractéristiques minimales pour l'équiper (optionnel) |
+| `boutique` | `false` : les marchands ne le vendent pas (trophée de boss, objet de butin rare) ; défaut `true` |
 | `attaque` | Armes seulement : attaque utilisable en combat, décrite comme un sort |
 
 ## Panoplies (`panoplies/`)

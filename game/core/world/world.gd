@@ -590,10 +590,12 @@ func _drop(command: Dictionary) -> Array[Dictionary]:
 
 # --- Marchands ----------------------------------------------------------------------------------
 
-## Tous les objets du jeu, avec leur prix d'achat.
+## Tous les objets du jeu en vente (voir `Item.is_sold`), avec leur prix d'achat.
 func _shop_articles() -> Array:
 	var articles: Array = []
 	for template: Dictionary in data.items.values():
+		if not Item.is_sold(template):
+			continue
 		articles.append({
 			"objet": template["id"],
 			"nom": template["nom"],
@@ -657,7 +659,7 @@ func _buy(command: Dictionary) -> Array[Dictionary]:
 	var reason := _service_refusal(command)
 	if not reason.is_empty():
 		return _refused(command, reason)
-	if not data.items.has(item_id):
+	if not data.items.has(item_id) or not Item.is_sold(data.items[item_id]):
 		return _refused(command, Protocol.REASON_UNKNOWN_ITEM)
 	var template: Dictionary = data.items[item_id]
 	var inventory := character.inventory

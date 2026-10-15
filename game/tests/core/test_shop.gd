@@ -63,6 +63,21 @@ func test_parler_au_marchand_ouvre_la_boutique() -> void:
 	assert_eq(Fixtures.of_type(other, Protocol.EVT_SHOP).size(), 0, "un PNJ ordinaire ne vend rien")
 
 
+func test_objets_hors_boutique() -> void:
+	# « boutique » : false (trophée de boss) : ni en vente, ni achetable ; il se revend quand même.
+	_world.data.items["trophee"] = {"id": "trophee", "nom": "Trophée", "type": "anneau", "rarete": "epique",
+		"niveau": 1, "boutique": false}
+	assert_eq(Item.validate(_world.data.items["trophee"]).size(), 0)
+	assert_false(Item.is_sold(_world.data.items["trophee"]))
+	assert_true(Item.is_sold(_world.data.items["bague"]), "en vente par défaut")
+	var articles: Array = Fixtures.of_type(_talk(), Protocol.EVT_SHOP)[0]["articles"]
+	for article: Dictionary in articles:
+		assert_ne(article["objet"], "trophee", "pas dans la boutique")
+	_assert_refused(_trade(Protocol.CMD_BUY, "trophee"), Protocol.REASON_UNKNOWN_ITEM)
+	assert_true(Item.validate({"id": "x", "nom": "X", "type": "ressource", "rarete": "commun", "boutique": "non"}).size() > 0,
+		"« boutique » booléen")
+
+
 func test_il_faut_etre_a_cote_du_marchand() -> void:
 	_assert_refused(_trade(Protocol.CMD_BUY, "dent"), Protocol.REASON_TOO_FAR)
 	_talk()
