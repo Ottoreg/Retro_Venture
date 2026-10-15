@@ -448,7 +448,10 @@ seule la Voie dans laquelle il est **spécialisé** donne accès aux sorts les p
 - Les Fondamentaux sont volontairement **utiles mais modestes**.
 - Les combinaisons interdites ou dangereuses (par ex. deux sorts de vol de PA) sont limitées par des
   **états** incompatibles plutôt que par des interdictions d'apprentissage.
-- Un outil de simulation de combat (voir TODO) permettra de détecter les combos abusifs.
+- Un outil de simulation de combat (`game/tools/simulation.gd`) fait jouer chaque Voie contre chaque
+  groupe des cartes, à son niveau, et compare durée et PV perdus au modèle d'équilibrage
+  (`docs/design/chantier3_brouillon/src/balance.py`) ; rapport dans `docs/design/simulation_combats.md`.
+  Il servira aussi à détecter les combos abusifs des Voies mixtes.
 
 ### 5.3 Voies Miroir (long terme)
 

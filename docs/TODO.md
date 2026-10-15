@@ -272,6 +272,23 @@ Les tâches marquées *(alpha 2)* sont reportées au second test.
   - [x] Apparition des variantes corrompues après le mini-boss de leur zone : groupes
     `"apres_boss"` (un par repaire de mini-boss, la variante avec sa base), débloqués pour de bon
     à la première victoire contre le boss (`World.defeated_bosses`, sauvegardé)
+  - [x] Intégration : combats simulés sur chaque groupe de chaque carte, pour les 4 Voies
+    (`game/tools/simulation.gd`, rapport `docs/design/simulation_combats.md`). Le joueur est joué
+    par l'IA des monstres, à leur niveau, équipement modélisé comme dans `balance.py`
+  - [ ] **Ajustements d'équilibrage à décider** (constats de la simulation, IA contre IA, à
+    confirmer en jeu) :
+    - mini-boss au niveau 12 en solo : Krasbouk battu par l'arcaniste et le théologue seulement
+      (guerrier 30 %, rôdeur 0 %), Mère-Toile par le théologue seulement, Balourd jamais par le
+      rôdeur (et il retire ~50 % des PV aux autres) ;
+    - Cendrillons (soutien qui fuit et se soigne) : combats de 30 à 80 tours ;
+    - rôdeur le plus faible (20 à 70 % de victoires contre les arbres, bûcherons, briseurs) ;
+      théologue très lent (2 à 3 fois plus de tours) mais presque intouchable, et sans sort de
+      2 PA il ne vient pas à bout d'un milicien qui lève son bouclier (le gobelin, grâce à Coup
+      bas, y arrive) ;
+    - monstres trop doux pour leur palier (moins d'un quart des PV de référence perdus) : rats,
+      morilles, détrousseurs, gargouilles, olifants (mêlée seule, repoussés par leur propre charge) ;
+    - durée : les combats durent 2 à 4 fois les tours du modèle (approche depuis les cases de
+      placement comprise) ; à reporter dans `balance.py` (minutes par combat) pour garder 4 à 5 h
   - [x] Lot **Métiers** : 6 ressources de récolte (nœuds recolorés, sans nouveau dessin), posées sur
     31 cartes sans couper de chemin, 13 recettes de forgeron, 16 objets et leurs icônes
 - [x] **(MVP)** Zone de départ humaine : Collines de Brumerive — 10 cartes + la maison (lot Brumerive)
@@ -377,7 +394,8 @@ Les tâches marquées *(alpha 2)* sont reportées au second test.
 - [ ] Barre de sorts limitée et préréglages de barres
 - [ ] Passif de Maîtrise de Voie
 - [ ] Quêtes de Voie (déblocage du rang III)
-- [ ] **Simulateur de combat** automatisé pour détecter les combinaisons abusives
+- [ ] **Simulateur de combat** automatisé pour détecter les combinaisons abusives (base faite :
+  `game/tools/simulation.gd` ; reste les Voies mixtes et le modèle voie/rang)
 - [ ] **Voies Miroir** : spécialisation opposée qui retourne l'élément d'une Voie
   (sacré ↔ impie, givre ↔ flamme, acier ↔ tempête), débloquée par une quête de Voie (GDD § 5.3)
 
