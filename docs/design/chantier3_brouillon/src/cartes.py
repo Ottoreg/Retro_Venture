@@ -175,7 +175,7 @@ def ecrire_carte(conception, plan, decors=(), portes=None, compter=True, palette
     carte["plan"] = texte
     if conception.get("groupes") and not sans_occupants:
         carte["groupes"] = conception["groupes"]
-    pnj = [] if sans_occupants else [{k: p[k] for k in ("marqueur", "id", "nom", "repliques")} for p in conception.get("pnj", [])]
+    pnj = [] if sans_occupants else [pnj_du_jeu(p) for p in conception.get("pnj", [])]
     if pnj:
         carte["pnj"] = pnj
     tous_decors = list(decors) + (plan.decors if isinstance(plan, Plan) else [])
@@ -227,6 +227,56 @@ def retoucher(conception_carte, bas=None, droite=None, haut=None, gauche=None, p
     carte["sorties"] = conception_carte["sorties"]
     carte["groupes"] = conception_carte["groupes"]
     verifier(carte["id"], carte["plan"])
+    with open(chemin, "w", encoding="utf-8") as f:
+        json.dump(carte, f, ensure_ascii=False, indent=2)
+        f.write("\n")
+
+
+def pnj_du_jeu(p):
+    """PNJ au format du jeu : champs de conception retirés, rôles de marchand et d'atelier gardés."""
+    return {k: p[k] for k in ("marqueur", "id", "nom", "repliques", "marchand", "atelier") if p.get(k)}
+
+
+def peupler(conception_carte, pnj_pos=(), graine=7, groupes_pos=None):
+    """Ajoute à une carte existante les groupes et les PNJ de la conception. Les PNJ vont près des
+    positions données (u, v), dans l'ordre de la conception ; les groupes sont répartis loin du
+    départ et les uns des autres (ou près de `groupes_pos`, si donné). Les chiffres de groupes déjà
+    dans le plan sont d'abord retirés. Les cases du calque de placement restent libres de PNJ."""
+    chemin = os.path.join(JEU, "data", "cartes", conception_carte["id"] + ".json")
+    with open(chemin, encoding="utf-8") as f:
+        carte = json.load(f)
+    g = [[("." if c.isdigit() else c) for c in l] for l in carte["plan"]]
+    calque = carte.get("placement")
+    reserve = {(i, j) for i, l in enumerate(calque or []) for j, c in enumerate(l) if c in "jm"}
+    libres = lambda: [(i, j) for i in range(2, LIGNES - 2) for j in range(1, COLONNES - 1)
+                      if not (i % 2 == 1 and j == 0) and g[i][j] in ".:"]
+    pos = lambda c: (ecran(*c)[0] * W, ecran(*c)[1] * H)
+    dist = lambda a, b: ((pos(a)[0] - pos(b)[0]) ** 2 + (pos(a)[1] - pos(b)[1]) ** 2) ** 0.5
+    pnj = conception_carte.get("pnj", [])
+    for p, (u, v) in zip(pnj, pnj_pos):
+        c = min((c for c in libres() if c not in reserve),
+                key=lambda c: (ecran(*c)[0] - u) ** 2 + ((ecran(*c)[1] - v) * H / W) ** 2)
+        g[c[0]][c[1]] = p["marqueur"]
+    depart = next((i, j) for i, l in enumerate(g) for j, c in enumerate(l) if c == "@")
+    pris = [depart] + [(i, j) for i, l in enumerate(g) for j, c in enumerate(l) if c.isalpha() and c.islower()]
+    for k in range(len(conception_carte.get("groupes", []))):
+        if groupes_pos:
+            u, v = groupes_pos[k]
+            c = min(libres(), key=lambda c: (ecran(*c)[0] - u) ** 2 + ((ecran(*c)[1] - v) * H / W) ** 2)
+            g[c[0]][c[1]] = str(k + 1)
+            continue
+        c = max((c for c in libres() if 3 < c[0] < LIGNES - 4 and 1 < c[1] < COLONNES - 2),
+                key=lambda c: min(dist(c, p) for p in pris))
+        g[c[0]][c[1]] = str(k + 1)
+        pris.append(c)
+    carte["plan"] = ["".join(l) for l in g]
+    if conception_carte.get("groupes"):
+        carte["groupes"] = conception_carte["groupes"]
+    if pnj:
+        carte["pnj"] = [pnj_du_jeu(p) for p in pnj]
+    verifier(carte["id"], carte["plan"])
+    ordre = ["id", "nom", "sorties", "portes", "palette", "plan", "groupes", "pnj", "decors", "placement"]
+    carte = {k: carte[k] for k in sorted(carte, key=lambda k: ordre.index(k) if k in ordre else 99)}
     with open(chemin, "w", encoding="utf-8") as f:
         json.dump(carte, f, ensure_ascii=False, indent=2)
         f.write("\n")

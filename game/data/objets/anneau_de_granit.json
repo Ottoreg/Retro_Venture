@@ -1,0 +1,22 @@
+{
+  "id": "anneau_de_granit",
+  "nom": "Anneau de granit",
+  "type": "anneau",
+  "rarete": "peu_commun",
+  "niveau": 22,
+  "description": "Taillé dans une gargouille. Lourd, solide, un peu grimaçant.",
+  "bonus": {
+    "vitalite": [
+      20,
+      28
+    ],
+    "force": [
+      5,
+      7
+    ],
+    "chance": [
+      5,
+      7
+    ]
+  }
+}

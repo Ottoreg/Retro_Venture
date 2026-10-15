@@ -1,0 +1,22 @@
+{
+  "id": "bottes_de_grand_chemin",
+  "nom": "Bottes de grand chemin",
+  "type": "bottes",
+  "rarete": "peu_commun",
+  "niveau": 14,
+  "description": "Elles connaissent toutes les routes, et surtout tous les fossés pour se cacher.",
+  "bonus": {
+    "agilite": [
+      5,
+      8
+    ],
+    "vitalite": [
+      8,
+      12
+    ],
+    "initiative": [
+      41,
+      59
+    ]
+  }
+}

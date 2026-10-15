@@ -1,0 +1,27 @@
+{
+  "id": "anneau_du_gond",
+  "nom": "Anneau du Gond",
+  "type": "anneau",
+  "rarete": "epique",
+  "niveau": 30,
+  "description": "Un gond de la Grande Porte de Hautepierre, arraché par Grondin. Il tient toujours.",
+  "bonus": {
+    "force": [
+      12,
+      17
+    ],
+    "intelligence": [
+      12,
+      17
+    ],
+    "vitalite": [
+      16,
+      22
+    ],
+    "dommages": [
+      2,
+      3
+    ]
+  },
+  "boutique": false
+}

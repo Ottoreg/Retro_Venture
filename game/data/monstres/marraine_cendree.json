@@ -1,0 +1,63 @@
+{
+  "id": "marraine_cendree",
+  "nom": "Marraine Cendrée",
+  "description": "Elle exauce les vœux. Le vôtre était de rentrer chez vous ; elle l'a mal compris.",
+  "famille": "cendrillon",
+  "elite": true,
+  "niveau": 30,
+  "caracteristiques": {
+    "pv": 284,
+    "pa": 7,
+    "pm": 3,
+    "initiative": 140,
+    "intelligence": 126
+  },
+  "resistances": {
+    "flamme": 40,
+    "impie": 25,
+    "acier": 10,
+    "givre": -15,
+    "sacre": -10
+  },
+  "sorts": [
+    "cendrillon_cendres_ardentes",
+    "cendrillon_bal_de_minuit",
+    "marraine_coup_de_baguette"
+  ],
+  "ia": "soutien",
+  "xp": 856,
+  "butin": [
+    {
+      "objet": "cendre_tiede",
+      "taux": 0.88,
+      "quantite": [
+        2,
+        5
+      ]
+    },
+    {
+      "objet": "invitation_au_bal",
+      "taux": 0.48
+    },
+    {
+      "objet": "pantoufles_de_cendre",
+      "taux": 0.13
+    },
+    {
+      "objet": "masque_de_cendrillon",
+      "taux": 0.16
+    },
+    {
+      "objet": "baguette_de_cendrillon",
+      "taux": 0.13
+    },
+    {
+      "objet": "bague_de_minuit",
+      "taux": 0.13
+    }
+  ],
+  "ecus": [
+    52,
+    120
+  ]
+}

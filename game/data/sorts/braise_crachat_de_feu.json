@@ -1,0 +1,26 @@
+{
+  "id": "braise_crachat_de_feu",
+  "nom": "Crachat de feu",
+  "description": "L'acide a pris feu. Il en est très fier.",
+  "cout_pa": 4,
+  "portee": {
+    "min": 2,
+    "max": 4
+  },
+  "ligne_de_vue": true,
+  "zone": {
+    "type": "cercle",
+    "taille": 1
+  },
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "flamme",
+      "min": 5,
+      "max": 7
+    }
+  ]
+}

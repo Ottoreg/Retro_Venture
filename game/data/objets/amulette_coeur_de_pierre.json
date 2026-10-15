@@ -1,0 +1,22 @@
+{
+  "id": "amulette_coeur_de_pierre",
+  "nom": "Amulette cœur-de-pierre",
+  "type": "amulette",
+  "rarete": "rare",
+  "niveau": 24,
+  "description": "Elle bat une fois par heure, contre votre poitrine. On s'y fait.",
+  "bonus": {
+    "vitalite": [
+      26,
+      37
+    ],
+    "chance": [
+      8,
+      11
+    ],
+    "sagesse": [
+      5,
+      7
+    ]
+  }
+}

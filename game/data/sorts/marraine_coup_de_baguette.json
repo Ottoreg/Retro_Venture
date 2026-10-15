@@ -1,0 +1,33 @@
+{
+  "id": "marraine_coup_de_baguette",
+  "nom": "Coup de baguette",
+  "description": "Un geste gracieux, une citrouille qui explose.",
+  "cout_pa": 4,
+  "portee": {
+    "min": 1,
+    "max": 4
+  },
+  "ligne_de_vue": true,
+  "zone": {
+    "type": "cercle",
+    "taille": 1
+  },
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "flamme",
+      "min": 6,
+      "max": 8
+    },
+    {
+      "type": "malus",
+      "carac": "pa",
+      "min": 1,
+      "max": 1,
+      "duree": 1
+    }
+  ]
+}

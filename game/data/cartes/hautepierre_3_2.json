@@ -22,10 +22,10 @@
     "MM.......:......MMM",
     " M.......::.....RMM",
     ".........:...R..R..",
-    " ........::........",
+    " .....b..::........",
     ".........:.........",
     " ::::::::::::::::::",
-    "::::::::@::::::::::",
+    "::::::::@::::::a:::",
     " ::::::::::::::::::",
     ".........:.........",
     " ........::........",
@@ -42,6 +42,26 @@
     "MMMMMMMM.:.MMMMMMMM",
     " MMMMMMM.::.MMMMMMM",
     "MMMMMMMM.:.MMMMMMMM"
+  ],
+  "pnj": [
+    {
+      "marqueur": "a",
+      "id": "sergente_brisetout",
+      "nom": "Sergente Brisetout",
+      "repliques": [
+        "À l'est, la Route des Charrois vers Crasse-Roc, et la Brèche. Au sud-est, les terres cendrées. Je déconseille les deux.",
+        "Des gobelins arrivent par la Route de l'Est. Ils disent qu'ils fuient. Ils fuient quoi ? Ils ne savent pas l'expliquer. Ça m'inquiète."
+      ]
+    },
+    {
+      "marqueur": "b",
+      "id": "melisande_la_refugiee",
+      "nom": "Mélisande, réfugiée",
+      "repliques": [
+        "Ma ferme était dans la plaine, à l'est. Maintenant, c'est une plaine de cendre. Et une ferme de cendre.",
+        "Il y avait des gens en noir qui dansaient dans la cendre en riant. À minuit, ils se sont arrêtés et ont pleuré. Je n'ai pas compris."
+      ]
+    }
   ],
   "decors": [
     {

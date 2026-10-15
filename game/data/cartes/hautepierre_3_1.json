@@ -13,7 +13,7 @@
     " A.......::.......A",
     "A........:........A",
     " A.......::.......A",
-    "A........:........A",
+    "A........:....2...A",
     " A.MMMMM.::MMMMM..A",
     "A..M.....:.M......A",
     " A.M.....::M......A",
@@ -23,7 +23,7 @@
     " A.......::R......A",
     ".........:.........",
     " ....MMM.::...MM...",
-    ".........:..R......",
+    "........a:..R......",
     " ::::::::::::::::::",
     ":@:::::::::::::::::",
     " ::::::::::::::::::",
@@ -37,11 +37,45 @@
     " A......R::.......A",
     "A........:........A",
     " A...MMM.::...MM..A",
-    "A........:........A",
+    "A....3...:......1.A",
     " A.......::.......A",
     "A........:........A",
     " A.......::.......A",
     "AAAAAAAA.:.AAAAAAAA"
+  ],
+  "groupes": [
+    {
+      "monstres": [
+        "gargouille"
+      ]
+    },
+    {
+      "monstres": [
+        "gargouille",
+        "gargouille"
+      ]
+    },
+    {
+      "parmi": [
+        "gargouille",
+        "corbac_espion"
+      ],
+      "nombre": [
+        2,
+        3
+      ]
+    }
+  ],
+  "pnj": [
+    {
+      "marqueur": "a",
+      "id": "capitaine_perenne",
+      "nom": "Capitaine Pérenne (fantôme)",
+      "repliques": [
+        "Garde, à vos postes ! … Ah. Pardon. Je suis de garde depuis trois cents ans. On a oublié de me relever.",
+        "Les gargouilles ? Elles gardaient les gouttières de mon temps. La Cendre les a réveillées. Elles gardent encore, mais contre tout le monde."
+      ]
+    }
   ],
   "placement": [
     "...................",

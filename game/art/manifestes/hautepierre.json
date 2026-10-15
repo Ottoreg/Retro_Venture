@@ -37,5 +37,748 @@
         "fleurs": "braises"
       }
     }
+  },
+  "monstres": {
+    "detrousseur": {
+      "rig": "humain",
+      "couleurs": {
+        "tunique": "3a4a32",
+        "manches": "2e3a28",
+        "pantalon": "3a3028",
+        "bottes": "2e2620",
+        "ceinture": "5a3a22",
+        "cheveux": "2e2418",
+        "chapeau": "2e3a28"
+      },
+      "arme": "epee",
+      "accessoires": [
+        "capuche"
+      ]
+    },
+    "chef_de_bande": {
+      "rig": "humain_grand",
+      "couleurs": {
+        "tunique": "4a2a3a",
+        "manches": "3a2030",
+        "pantalon": "2a2420",
+        "bottes": "1e1a17",
+        "ceinture": "c9a04e",
+        "cheveux": "1e1a16",
+        "chapeau": "4a2a3a"
+      },
+      "arme": "epee",
+      "accessoires": [
+        "capuche"
+      ]
+    },
+    "troll_des_ponts": {
+      "rig": "troll",
+      "couleurs": {
+        "peau": "8a8a6a",
+        "tunique": "6a5030",
+        "manches": "8a8a6a",
+        "pantalon": "5a4630",
+        "bottes": "8a8a6a",
+        "ceinture": "3a2a1a",
+        "cheveux": "4a4a3a"
+      },
+      "arme": "massue"
+    },
+    "troll_gastronome": {
+      "rig": "troll_grand",
+      "couleurs": {
+        "peau": "7a7a5a",
+        "tunique": "e8e0d0",
+        "manches": "7a7a5a",
+        "pantalon": "4a3a28",
+        "bottes": "7a7a5a",
+        "ceinture": "3a2a1a",
+        "cheveux": "3a3a2a",
+        "tablier": "f2ecdc"
+      },
+      "arme": "massue",
+      "accessoires": [
+        "tablier"
+      ]
+    },
+    "corbac_espion": {
+      "image": "corbac",
+      "echelle": 0.9
+    },
+    "corbac_chef_espion": {
+      "image": "corbac",
+      "echelle": 1.15,
+      "teinte": "c0b0d8"
+    },
+    "gargouille": {
+      "image": "gargouille",
+      "echelle": 0.9
+    },
+    "gargouille_de_la_grande_porte": {
+      "image": "gargouille",
+      "echelle": 1.15,
+      "teinte": "d8d0c0"
+    },
+    "cendrillon": {
+      "rig": "humain",
+      "couleurs": {
+        "peau": "d8c8c0",
+        "tunique": "3a302c",
+        "manches": "2a2420",
+        "pantalon": "1e1a17",
+        "bottes": "141110",
+        "ceinture": "8a2a1a",
+        "cheveux": "8a8a8a"
+      },
+      "arme": "sceptre",
+      "accessoires": [
+        "cape_cendre"
+      ]
+    },
+    "marraine_cendree": {
+      "rig": "humain_grand",
+      "couleurs": {
+        "peau": "e0d0c8",
+        "tunique": "5a4a6a",
+        "manches": "3a2e4a",
+        "pantalon": "2a2236",
+        "bottes": "141110",
+        "ceinture": "c9a04e",
+        "cheveux": "e8e8e8",
+        "etole": "c9a04e"
+      },
+      "arme": "sceptre",
+      "accessoires": [
+        "cape_cendre",
+        "etole"
+      ]
+    },
+    "olifant_de_guerre": {
+      "image": "olifant",
+      "echelle": 0.9
+    },
+    "olifant_a_tour": {
+      "image": "olifant",
+      "echelle": 1.12,
+      "teinte": "c8b8a8"
+    },
+    "grondin": {
+      "image": "grondin",
+      "echelle": 1.0
+    }
+  },
+  "pnj": {
+    "clairon_crieur_public": {
+      "rig": "humain",
+      "couleurs": {
+        "tunique": "4a6a9a",
+        "manches": "e8e0c8",
+        "pantalon": "3a3a4a",
+        "cheveux": "c9783a",
+        "ceinture": "c9a04e"
+      },
+      "accessoires": [
+        "chapeau_paille"
+      ]
+    },
+    "rosemonde_beurrefondu": {
+      "rig": "humain",
+      "couleurs": {
+        "tunique": "8a3a5a",
+        "manches": "e2d4b0",
+        "pantalon": "5a4632",
+        "cheveux": "d8d0c0",
+        "tablier": "f2ecdc"
+      },
+      "accessoires": [
+        "tablier"
+      ]
+    },
+    "gontran_batenclume": {
+      "rig": "humain",
+      "couleurs": {
+        "tunique": "4e4e58",
+        "manches": "3e3e46",
+        "pantalon": "3a3028",
+        "cheveux": "8a8478",
+        "barbe": "8a8478",
+        "tablier": "6b4a2b"
+      },
+      "accessoires": [
+        "tablier",
+        "barbe"
+      ]
+    },
+    "maitre_ripaille": {
+      "rig": "humain",
+      "couleurs": {
+        "tunique": "c9a04e",
+        "manches": "e2d4b0",
+        "pantalon": "5a4632",
+        "cheveux": "5a3a22",
+        "tablier": "f2ecdc"
+      },
+      "accessoires": [
+        "tablier"
+      ]
+    },
+    "intendant_gaspard": {
+      "rig": "humain",
+      "couleurs": {
+        "tunique": "2a2a3a",
+        "manches": "4a4a5a",
+        "pantalon": "1e1e26",
+        "cheveux": "a8a29a",
+        "ceinture": "c9a04e"
+      }
+    },
+    "capitaine_aldebert": {
+      "rig": "humain",
+      "couleurs": {
+        "tunique": "2e4a7a",
+        "manches": "a8aeb6",
+        "pantalon": "2a2a36",
+        "bottes": "1e1a17",
+        "ceinture": "e0b860",
+        "cheveux": "5a3a22"
+      },
+      "arme": "epee",
+      "accessoires": [
+        "casque"
+      ]
+    },
+    "archiviste_petronille": {
+      "rig": "humain",
+      "couleurs": {
+        "tunique": "6a4a2a",
+        "manches": "8a6a4a",
+        "pantalon": "3a3028",
+        "cheveux": "c8c0b0",
+        "etole": "c9a04e"
+      },
+      "accessoires": [
+        "etole"
+      ]
+    },
+    "snagrod_delegue": {
+      "rig": "gobelin",
+      "couleurs": {
+        "peau": "7c9a48",
+        "tunique": "8a2a1a",
+        "manches": "6e2e22",
+        "pantalon": "3e3226",
+        "cheveux": "2a2018",
+        "ceinture": "c9a04e"
+      }
+    },
+    "ilyndra_tel_hautaine": {
+      "rig": "humain",
+      "couleurs": {
+        "peau": "f3dcc4",
+        "tunique": "c9d4e0",
+        "manches": "9fb4c8",
+        "pantalon": "5a6a7a",
+        "cheveux": "f0e6c0",
+        "ceinture": "c9a04e"
+      },
+      "accessoires": [
+        "oreilles_elfe",
+        "etole"
+      ]
+    },
+    "sergent_mordicus": {
+      "rig": "humain",
+      "couleurs": {
+        "tunique": "4a6a9a",
+        "manches": "8a8f96",
+        "pantalon": "3a3a4a",
+        "bottes": "2e2620",
+        "ceinture": "c9a04e",
+        "cheveux": "2e2418"
+      },
+      "arme": "epee",
+      "accessoires": [
+        "casque"
+      ]
+    },
+    "frere_benitier": {
+      "rig": "humain",
+      "couleurs": {
+        "tunique": "ece4cc",
+        "manches": "d8cfb4",
+        "pantalon": "cfc4a6",
+        "cheveux": "8a6a3a",
+        "etole": "c9a04e"
+      },
+      "arme": "sceptre",
+      "accessoires": [
+        "etole"
+      ]
+    },
+    "fulbert_l_authentique": {
+      "rig": "humain",
+      "couleurs": {
+        "tunique": "8a6a2a",
+        "manches": "6a4a1a",
+        "pantalon": "4a3a28",
+        "cheveux": "3a2a1a"
+      },
+      "accessoires": [
+        "chapeau_paille"
+      ]
+    },
+    "sergente_brisetout": {
+      "rig": "humain",
+      "couleurs": {
+        "tunique": "4a6a9a",
+        "manches": "8a8f96",
+        "pantalon": "3a3a4a",
+        "bottes": "2e2620",
+        "ceinture": "c9a04e",
+        "cheveux": "8a3a1a"
+      },
+      "arme": "epee",
+      "accessoires": [
+        "casque"
+      ]
+    },
+    "melisande_la_refugiee": {
+      "rig": "humain",
+      "couleurs": {
+        "tunique": "7a7a6a",
+        "manches": "6a6a5a",
+        "pantalon": "5a5a4a",
+        "cheveux": "6a4a2a"
+      }
+    },
+    "pelerin_egare": {
+      "rig": "humain",
+      "couleurs": {
+        "tunique": "8a7a5a",
+        "manches": "7a6a4a",
+        "pantalon": "5a4a3a",
+        "cheveux": "a8a29a"
+      },
+      "arme": "baton"
+    },
+    "caravanier_brokk": {
+      "rig": "gobelin",
+      "couleurs": {
+        "peau": "7a9a42",
+        "tunique": "6a5a3a",
+        "manches": "5a4a30",
+        "pantalon": "3e3226",
+        "cheveux": "2a2018"
+      },
+      "accessoires": [
+        "chapeau_paille"
+      ]
+    },
+    "passeur_caron": {
+      "rig": "humain",
+      "couleurs": {
+        "tunique": "3a3a3a",
+        "manches": "2a2a2a",
+        "pantalon": "2a2a2a",
+        "cheveux": "e8e8e8",
+        "barbe": "e8e8e8"
+      },
+      "arme": "baton",
+      "accessoires": [
+        "barbe"
+      ]
+    },
+    "capitaine_perenne": {
+      "rig": "humain",
+      "couleurs": {
+        "peau": "c8d8e8",
+        "tunique": "8aa0c0",
+        "manches": "a8b8d0",
+        "pantalon": "6a80a0",
+        "bottes": "5a6a8a",
+        "cheveux": "e8f0f8",
+        "ceinture": "a8b8d0"
+      },
+      "arme": "epee",
+      "accessoires": [
+        "casque"
+      ]
+    },
+    "veteran_clopin": {
+      "rig": "humain",
+      "couleurs": {
+        "tunique": "5a6a8a",
+        "manches": "8a8f96",
+        "pantalon": "3a3a4a",
+        "cheveux": "d8d0c0",
+        "barbe": "d8d0c0"
+      },
+      "arme": "baton",
+      "accessoires": [
+        "barbe",
+        "casque"
+      ]
+    }
+  },
+  "images": {
+    "tete_troll": {
+      "fichier": "perso/tete_troll.svgt",
+      "ancre": [
+        14.4,
+        24
+      ]
+    },
+    "tete_troll_dos": {
+      "fichier": "perso/tete_troll_dos.svgt",
+      "ancre": [
+        14.4,
+        24
+      ]
+    },
+    "massue": {
+      "fichier": "perso/massue.svgt",
+      "ancre": [
+        7,
+        30
+      ]
+    },
+    "capuche": {
+      "fichier": "perso/capuche.svgt",
+      "ancre": [
+        13,
+        15
+      ]
+    },
+    "corbac": {
+      "fichier": "monstre/corbac.svgt",
+      "ancre": [
+        23,
+        42
+      ],
+      "couleurs": {
+        "pelage": "2a2a36",
+        "pelage_ombre": "1a1a24"
+      }
+    },
+    "gargouille": {
+      "fichier": "monstre/gargouille.svgt",
+      "ancre": [
+        28,
+        58
+      ],
+      "couleurs": {
+        "pierre": "9a968e"
+      }
+    },
+    "olifant": {
+      "fichier": "monstre/olifant.svgt",
+      "ancre": [
+        44,
+        69
+      ],
+      "couleurs": {
+        "pelage": "8a8a8e",
+        "pelage_ombre": "6a6a70"
+      }
+    },
+    "grondin": {
+      "fichier": "monstre/grondin.svgt",
+      "ancre": [
+        57,
+        74
+      ]
+    },
+    "objet_bourse_vide": {
+      "fichier": "objets/bourse_vide.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_carte_au_tresor_douteuse": {
+      "fichier": "objets/carte_au_tresor_douteuse.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_dent_de_troll": {
+      "fichier": "objets/dent_de_troll.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_recette_de_troll": {
+      "fichier": "objets/recette_de_troll.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_plume_de_corbac": {
+      "fichier": "objets/plume_de_corbac.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_message_intercepte": {
+      "fichier": "objets/message_intercepte.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_eclat_de_gargouille": {
+      "fichier": "objets/eclat_de_gargouille.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_coeur_de_pierre": {
+      "fichier": "objets/coeur_de_pierre.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_cendre_tiede": {
+      "fichier": "objets/cendre_tiede.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_invitation_au_bal": {
+      "fichier": "objets/invitation_au_bal.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_cuir_d_olifant": {
+      "fichier": "objets/cuir_d_olifant.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_ivoire_d_olifant": {
+      "fichier": "objets/ivoire_d_olifant.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_capuche_de_detrousseur": {
+      "fichier": "objets/capuche_de_detrousseur.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_dague_de_detrousseur": {
+      "fichier": "objets/dague_de_detrousseur.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_bottes_de_grand_chemin": {
+      "fichier": "objets/bottes_de_grand_chemin.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_ceinture_de_troll": {
+      "fichier": "objets/ceinture_de_troll.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_anneau_de_nez_de_troll": {
+      "fichier": "objets/anneau_de_nez_de_troll.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_massue_de_troll": {
+      "fichier": "objets/massue_de_troll.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_chapeau_a_plume_de_corbac": {
+      "fichier": "objets/chapeau_a_plume_de_corbac.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_amulette_oeil_de_corbac": {
+      "fichier": "objets/amulette_oeil_de_corbac.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_cape_de_plumes_noires": {
+      "fichier": "objets/cape_de_plumes_noires.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_anneau_de_granit": {
+      "fichier": "objets/anneau_de_granit.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_hallebarde_de_la_vieille_garde": {
+      "fichier": "objets/hallebarde_de_la_vieille_garde.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_bottes_de_gargouille": {
+      "fichier": "objets/bottes_de_gargouille.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_amulette_coeur_de_pierre": {
+      "fichier": "objets/amulette_coeur_de_pierre.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_pantoufles_de_cendre": {
+      "fichier": "objets/pantoufles_de_cendre.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_masque_de_cendrillon": {
+      "fichier": "objets/masque_de_cendrillon.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_baguette_de_cendrillon": {
+      "fichier": "objets/baguette_de_cendrillon.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_bague_de_minuit": {
+      "fichier": "objets/bague_de_minuit.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_cape_en_cuir_d_olifant": {
+      "fichier": "objets/cape_en_cuir_d_olifant.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_semelles_d_olifant": {
+      "fichier": "objets/semelles_d_olifant.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_cor_d_olifant": {
+      "fichier": "objets/cor_d_olifant.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_heaume_du_belier": {
+      "fichier": "objets/heaume_du_belier.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_marteau_de_grondin": {
+      "fichier": "objets/marteau_de_grondin.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_anneau_du_gond": {
+      "fichier": "objets/anneau_du_gond.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    }
+  },
+  "personnages": {
+    "troll": {
+      "base": "humain",
+      "echelle": 1.15,
+      "remplacer": {
+        "tete": "tete_troll",
+        "tete_dos": "tete_troll_dos"
+      }
+    },
+    "troll_grand": {
+      "base": "humain",
+      "echelle": 1.3,
+      "remplacer": {
+        "tete": "tete_troll",
+        "tete_dos": "tete_troll_dos"
+      }
+    }
+  },
+  "armes": {
+    "massue": {
+      "attache": [
+        6,
+        28
+      ],
+      "angle": 0.3
+    }
+  },
+  "accessoires": {
+    "capuche": {
+      "parent": "tete",
+      "attache": [
+        10.5,
+        13
+      ],
+      "vues": [
+        "face",
+        "dos"
+      ]
+    }
+  },
+  "icones_armes": {
+    "dague_de_detrousseur": "sort_arme_dague_impie",
+    "massue_de_troll": "sort_arme_masse",
+    "hallebarde_de_la_vieille_garde": "sort_arme_baton",
+    "baguette_de_cendrillon": "sort_arme_sceptre",
+    "marteau_de_grondin": "sort_arme_masse"
   }
 }

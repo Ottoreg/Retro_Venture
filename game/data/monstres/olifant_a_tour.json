@@ -1,0 +1,58 @@
+{
+  "id": "olifant_a_tour",
+  "nom": "Olifant-tour",
+  "description": "Un olifant qui porte une tour sur le dos. Dans la tour, personne. Il l'a gardée par habitude.",
+  "famille": "olifant_de_guerre",
+  "elite": true,
+  "niveau": 33,
+  "caracteristiques": {
+    "pv": 605,
+    "pa": 8,
+    "pm": 3,
+    "initiative": 90,
+    "force": 138
+  },
+  "resistances": {
+    "acier": 40,
+    "tempete": 30,
+    "flamme": 20,
+    "givre": -10
+  },
+  "sorts": [
+    "olifant_charge",
+    "olifant_barrissement",
+    "olifant_pietinement"
+  ],
+  "ia": "basique",
+  "xp": 1228,
+  "butin": [
+    {
+      "objet": "cuir_d_olifant",
+      "taux": 0.88,
+      "quantite": [
+        2,
+        4
+      ]
+    },
+    {
+      "objet": "ivoire_d_olifant",
+      "taux": 0.48
+    },
+    {
+      "objet": "cape_en_cuir_d_olifant",
+      "taux": 0.16
+    },
+    {
+      "objet": "semelles_d_olifant",
+      "taux": 0.13
+    },
+    {
+      "objet": "cor_d_olifant",
+      "taux": 0.12
+    }
+  ],
+  "ecus": [
+    72,
+    170
+  ]
+}

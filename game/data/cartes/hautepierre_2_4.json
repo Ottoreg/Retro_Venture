@@ -24,12 +24,12 @@
     "R......EE..E.......",
     " R.....E....ER.....",
     "R..R...............",
-    " R...........RE....",
+    " R2..........RE....",
     "RE............E....",
     " REEEE.........EEE.",
     "RAEEE.......R..EEE.",
-    " RAAA.............R",
-    "RARRRRR...........R",
+    " RAAA..3..........R",
+    "RARRRRR.........1.R",
     " RRRRRRRRRRRR.....R",
     "RARRRRRRRRRRRRRRR.R",
     " RRRRRRRRRRRRRRRRRR",
@@ -40,6 +40,29 @@
     "RARRRRRRRRRRRRRRRAR",
     " RAAAAAAAAAAAAAAAAR",
     "RRRRRRRRRRRRRRRRRRR"
+  ],
+  "groupes": [
+    {
+      "parmi": [
+        "grouilleur_de_braise"
+      ],
+      "nombre": [
+        1,
+        3
+      ]
+    },
+    {
+      "monstres": [
+        "troll_des_ponts",
+        "grouilleur_de_braise"
+      ]
+    },
+    {
+      "monstres": [
+        "troll_des_ponts",
+        "troll_des_ponts"
+      ]
+    }
   ],
   "placement": [
     "...................",

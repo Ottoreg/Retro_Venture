@@ -1,0 +1,22 @@
+{
+  "id": "cape_en_cuir_d_olifant",
+  "nom": "Cape en cuir d'olifant",
+  "type": "cape",
+  "rarete": "rare",
+  "niveau": 28,
+  "description": "Lourde, raide, increvable. On a l'air d'une tente, mais d'une tente blindée.",
+  "bonus": {
+    "vitalite": [
+      29,
+      42
+    ],
+    "force": [
+      9,
+      13
+    ],
+    "sagesse": [
+      6,
+      8
+    ]
+  }
+}

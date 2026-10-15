@@ -1,0 +1,24 @@
+{
+  "id": "grondin_elan",
+  "nom": "Élan",
+  "description": "Les roues grincent, les chaînes claquent : il recule pour mieux frapper.",
+  "cout_pa": 2,
+  "portee": {
+    "min": 0,
+    "max": 0
+  },
+  "ligne_de_vue": false,
+  "relance": {
+    "par_tour": 1,
+    "delai": 2
+  },
+  "effets": [
+    {
+      "type": "bonus",
+      "carac": "pm",
+      "min": 2,
+      "max": 2,
+      "duree": 1
+    }
+  ]
+}

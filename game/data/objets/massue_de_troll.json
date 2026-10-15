@@ -1,0 +1,44 @@
+{
+  "id": "massue_de_troll",
+  "nom": "Massue de troll",
+  "type": "arme",
+  "rarete": "rare",
+  "niveau": 17,
+  "description": "Un tronc d'arbre avec un clou. Le clou, c'est pour l'élégance.",
+  "bonus": {
+    "force": [
+      7,
+      10
+    ],
+    "vitalite": [
+      9,
+      13
+    ]
+  },
+  "conditions": {
+    "force": 40
+  },
+  "attaque": {
+    "cout_pa": 5,
+    "portee": {
+      "min": 1,
+      "max": 1
+    },
+    "relance": {
+      "par_tour": 1
+    },
+    "effets": [
+      {
+        "type": "degats",
+        "element": "acier",
+        "min": 17,
+        "max": 25
+      },
+      {
+        "type": "poussee",
+        "min": 1,
+        "max": 1
+      }
+    ]
+  }
+}

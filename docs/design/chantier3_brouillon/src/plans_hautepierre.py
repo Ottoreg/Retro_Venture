@@ -297,7 +297,34 @@ def porte_zone(carte_id, cote, cible):
         f.write("\n")
 
 
-if __name__ == "__main__":
+# --- Seconde moitié : groupes et PNJ ------------------------------------------------------------
+PNJ_POS = {
+    "hautepierre_2_2": [(0.42, 0.6), (0.3, 0.66), (0.72, 0.4), (0.3, 0.4)],     # crieur, marchande, forgeron, rumeurs
+    "hautepierre_2_1": [(0.4, 0.46), (0.6, 0.46), (0.25, 0.4), (0.75, 0.4), (0.5, 0.62)],
+    "hautepierre_1_2": [(0.18, 0.5), (0.5, 0.4), (0.7, 0.6)],
+    "hautepierre_3_2": [(0.82, 0.5), (0.3, 0.42)],
+    "hautepierre_2_0": [(0.55, 0.2)],
+    "hautepierre_4_2": [(0.8, 0.42)],
+    "hautepierre_1_3": [(0.62, 0.62)],
+    "hautepierre_3_1": [(0.45, 0.45)],
+    "hautepierre_3_4": [(0.2, 0.2)],
+}
+
+
+# Groupes placés à la main : Grondin dans l'arène derrière la brèche, l'escorte côté entrée.
+GROUPES_POS = {"hautepierre_4_4": [(0.72, 0.72), (0.4, 0.3)]}
+
+
+def peupler_tout():
+    from cartes import peupler
+    for carte_id in sorted(C):
+        peupler(C[carte_id], PNJ_POS.get(carte_id, ()), groupes_pos=GROUPES_POS.get(carte_id))
+
+
+if __name__ == "__main__" and __import__("sys").argv[1:] == ["peupler"]:
+    peupler_tout()
+    print("groupes et PNJ posés")
+elif __name__ == "__main__":
     cartes = [("hautepierre_2_2", grand_place, "hautepierre"), ("hautepierre_2_1", citadelle, "hautepierre"),
               ("hautepierre_1_2", porte_ouest, "hautepierre"), ("hautepierre_3_2", porte_est, "hautepierre"),
               ("hautepierre_0_2", route_ouest, "hautepierre"), ("hautepierre_2_0", route_nord, "hautepierre"),

@@ -1,0 +1,22 @@
+{
+  "id": "amulette_oeil_de_corbac",
+  "nom": "Amulette œil-de-corbac",
+  "type": "amulette",
+  "rarete": "rare",
+  "niveau": 20,
+  "description": "Un œil de verre noir qui voit ce qui brille. Surtout ce qui brille dans les poches des autres.",
+  "bonus": {
+    "agilite": [
+      9,
+      13
+    ],
+    "prospection": [
+      26,
+      38
+    ],
+    "sagesse": [
+      7,
+      10
+    ]
+  }
+}

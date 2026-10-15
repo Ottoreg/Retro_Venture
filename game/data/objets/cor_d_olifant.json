@@ -1,0 +1,27 @@
+{
+  "id": "cor_d_olifant",
+  "nom": "Cor d'olifant",
+  "type": "amulette",
+  "rarete": "epique",
+  "niveau": 29,
+  "description": "Un cor taillé dans une défense. Quand on souffle dedans, quelqu'un, quelque part, accourt. Ou fuit.",
+  "bonus": {
+    "force": [
+      11,
+      16
+    ],
+    "vitalite": [
+      23,
+      33
+    ],
+    "dommages": [
+      2,
+      3
+    ],
+    "sagesse": [
+      8,
+      11
+    ]
+  },
+  "boutique": false
+}

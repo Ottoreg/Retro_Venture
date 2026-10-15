@@ -1,0 +1,27 @@
+{
+  "id": "olifant_pietinement",
+  "nom": "Piétinement",
+  "description": "Il danse. Personne n'a envie d'être son cavalier.",
+  "cout_pa": 5,
+  "portee": {
+    "min": 0,
+    "max": 0
+  },
+  "ligne_de_vue": false,
+  "zone": {
+    "type": "cercle",
+    "taille": 1
+  },
+  "lanceur_exclu": true,
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "acier",
+      "min": 10,
+      "max": 13
+    }
+  ]
+}

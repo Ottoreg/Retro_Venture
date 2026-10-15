@@ -1,0 +1,37 @@
+{
+  "id": "chef_de_bande_embuscade",
+  "nom": "Embuscade",
+  "description": "Ils étaient cachés dans le fossé. Ils y sont toujours, d'ailleurs.",
+  "cout_pa": 3,
+  "portee": {
+    "min": 1,
+    "max": 4
+  },
+  "ligne_de_vue": false,
+  "relance": {
+    "par_tour": 1,
+    "delai": 2
+  },
+  "effets": [
+    {
+      "type": "piege",
+      "effets": [
+        {
+          "type": "degats",
+          "element": "impie",
+          "min": 9,
+          "max": 13,
+          "cibles": "ennemis"
+        },
+        {
+          "type": "malus",
+          "carac": "pm",
+          "min": 2,
+          "max": 2,
+          "duree": 1,
+          "cibles": "ennemis"
+        }
+      ]
+    }
+  ]
+}

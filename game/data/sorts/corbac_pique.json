@@ -1,0 +1,22 @@
+{
+  "id": "corbac_pique",
+  "nom": "Piqué",
+  "description": "Il tombe du ciel comme un mauvais présage, et c'en est un.",
+  "cout_pa": 4,
+  "portee": {
+    "min": 2,
+    "max": 5
+  },
+  "ligne_de_vue": true,
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "tempete",
+      "min": 6,
+      "max": 9
+    }
+  ]
+}

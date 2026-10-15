@@ -21,16 +21,16 @@
     " M...#...::...#...M",
     "MM.......:.......MM",
     " M......::::......M",
-    "........:::........",
-    " .......::::.......",
+    "........:::..c.....",
+    " .....d.::::.......",
     ".......:::::.......",
     " ::::::::::::::::::",
     ":::::::::E:::::::::",
     " ::::::::::::::::::",
     ".......::*::.......",
-    " .......::::.......",
+    " .......a:::.......",
     "........:::........",
-    " M...M..::::..M...M",
+    " M...Mb.::::..M...M",
     "MM.......@.......MM",
     " M.....M.::.M.....M",
     "MM.......:.......MM",
@@ -42,6 +42,46 @@
     "MMMMMMMM.:.MMMMMMMM",
     " MMMMMMM.::.MMMMMMM",
     "MMMMMMMM.:.MMMMMMMM"
+  ],
+  "pnj": [
+    {
+      "marqueur": "a",
+      "id": "clairon_crieur_public",
+      "nom": "Clairon, crieur public",
+      "repliques": [
+        "Oyez, oyez ! La cendre tombe à l'est ! Le Conseil se réunira dès qu'il aura fini de se réunir pour décider quand se réunir !",
+        "Oyez ! Un bélier géant aurait été vu près de la Brèche ! On recommande aux citoyens de ne pas être une porte !",
+        "Oyez ! Les gobelins sont autorisés en ville, à condition de ne rien toucher. Les elfes aussi, à condition de ne rien critiquer. Bonne chance à tous."
+      ]
+    },
+    {
+      "marqueur": "b",
+      "id": "rosemonde_beurrefondu",
+      "nom": "Rosemonde Beurrefondu, marchande",
+      "repliques": [
+        "Bienvenue au Poney Essoufflé, la maison mère ! Mon neveu Barlimon tient la succursale de Brumerive. Il vous a parlé de moi ? Il parle trop."
+      ],
+      "marchand": true
+    },
+    {
+      "marqueur": "c",
+      "id": "gontran_batenclume",
+      "nom": "Gontran Batenclume, forgeron de la Garde",
+      "repliques": [
+        "Je forge pour la Garde depuis trente ans. Épées, heaumes, et surtout des laissez-passer en fer : ça ne se perd pas."
+      ],
+      "atelier": "forgeron"
+    },
+    {
+      "marqueur": "d",
+      "id": "maitre_ripaille",
+      "nom": "Maître Ripaille, aubergiste",
+      "repliques": [
+        "Au Heaume Fendu, on sert la meilleure bière de Hautepierre. Et la seule, depuis que les trolls ont bloqué le pont des brasseurs.",
+        "Un conseil : ne commandez jamais la « spécialité du troll ». C'est le troll qui la commande.",
+        "Les Cendrillons ? Ils viennent boire ici avant minuit. Après, ils ne payent plus : ils ont oublié qui ils sont."
+      ]
+    }
   ],
   "decors": [
     {

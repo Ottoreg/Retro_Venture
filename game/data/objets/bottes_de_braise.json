@@ -1,0 +1,22 @@
+{
+  "id": "bottes_de_braise",
+  "nom": "Bottes de braise",
+  "type": "bottes",
+  "rarete": "rare",
+  "niveau": 18,
+  "description": "Taillées dans la carapace d'un grouilleur de braise. Chaudes en hiver, en été aussi, toute l'année en fait.",
+  "bonus": {
+    "intelligence": [
+      8,
+      12
+    ],
+    "force": [
+      6,
+      9
+    ],
+    "initiative": [
+      60,
+      87
+    ]
+  }
+}

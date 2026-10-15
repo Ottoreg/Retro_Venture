@@ -129,10 +129,10 @@ le **lit** de votre maison les rend tous d'un coup.
   galerie effondrée, poste avancé de la Milice, carrière aux Échos, Forges noires, route des
   Charrois, abîme du Balourd), **Sylvebrume, complète** (9 cartes, niveaux 1 à 12 : clairière de la
   Lisière, futaie ancienne, sous-bois moussu, bosquet des Cerfs, coupe rase, scierie de Brumerive,
-  Toiles grises, orée du Sud, cœur de la Toile), **Hautepierre en construction** (19 cartes à
-  explorer, encore **vides** : ni monstres, ni PNJ, ni marchands pour l'instant ; la ville au centre,
-  sa Pierre de Passage sur la Grand-Place, et trois routes qui la relient aux zones de départ par
-  une porte : depuis le Gué de Brume-Haute, la Route des Charrois et l'Orée du Sud), Sylvebrume (clairière de la Lisière, futaie ancienne), reliées seulement par les
+  Toiles grises, orée du Sud, cœur de la Toile), **Hautepierre, complète** (19 cartes, niveaux 13 à
+  30 : la ville au centre avec sa Pierre de Passage sur la Grand-Place, la marchande Rosemonde et le
+  forgeron Gontran, la Citadelle et ses personnages ; trois routes la relient aux zones de départ par
+  une porte, depuis le Gué de Brume-Haute, la Route des Charrois et l'Orée du Sud), Sylvebrume (clairière de la Lisière, futaie ancienne), reliées seulement par les
   Pierres de Passage (toutes accessibles dès le début, voir plus haut). Le **Trône de Cendre** (carte d'élite) est
   accessible par n'importe quelle Pierre : le Souverain Cendré y attend, c'est le monstre le plus
   puissant du jeu.
@@ -150,7 +150,13 @@ le **lit** de votre maison les rend tous d'un coup.
   enchantés et arbres vivants (4–6), bûcherons de Brumerive (7–9), tisseuses de brume (10–12), avec
   leurs élites ; au cœur de la Toile, le **mini-boss Mère-Toile** : à 65 % elle tisse toute la
   clairière (toile géante, plus de PM), à 35 % elle s'enferme dans un cocon (couvre sa faiblesse à
-  la Flamme), à 10 % elle mise tout sur l'attaque. Les groupes comptent 1 à 3 monstres, parfois mélangés,
+  la Flamme), à 10 % elle mise tout sur l'attaque.
+  À Hautepierre, une famille par palier : détrousseurs (13–15), trolls des ponts (16–18), corbacs
+  espions (19–21), gargouilles (22–24), Cendrillons (25–27), olifants de guerre (28–30), chacune
+  avec son élite ; des **variantes corrompues** (loup cendreux, grouilleur de braise, arbre calciné),
+  plus fortes et de Flamme, sur les premiers paliers ; et à la Brèche, le **boss Grondin**, bélier de
+  siège : à 75 % il se blinde, à 50 % il charge de loin, à 20 % ses roues cassent (il frappe très
+  fort mais ne bouge presque plus). Les groupes comptent 1 à 3 monstres, parfois mélangés,
   se promènent autour de leur place et réapparaissent 2 à 3 minutes après avoir été vaincus. Les
   trophées de boss (hachoir, chevalière de Krasbouk) ne se vendent pas en boutique.
 - **Niveaux des monstres** : à Crasse-Roc, rats et grouilleurs ont un niveau de 1 à 3, tiré à chaque

@@ -1,0 +1,22 @@
+{
+  "id": "corbac_bec",
+  "nom": "Coup de bec",
+  "description": "Toujours dans l'œil. Il vise bien, il a de l'entraînement.",
+  "cout_pa": 3,
+  "portee": {
+    "min": 1,
+    "max": 1
+  },
+  "ligne_de_vue": true,
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "acier",
+      "min": 5,
+      "max": 7
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "id": "cape_de_loup_cendreux",
+  "nom": "Cape de loup cendreux",
+  "type": "cape",
+  "rarete": "rare",
+  "niveau": 15,
+  "description": "Elle sent le brûlé et ne sèche jamais vraiment. Le loup non plus, d'ailleurs.",
+  "bonus": {
+    "agilite": [
+      7,
+      10
+    ],
+    "vitalite": [
+      10,
+      15
+    ],
+    "initiative": [
+      52,
+      75
+    ]
+  }
+}

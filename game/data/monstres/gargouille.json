@@ -1,0 +1,72 @@
+{
+  "id": "gargouille",
+  "nom": "Gargouille",
+  "description": "Elle a gardé une gouttière de Hautepierre pendant trois siècles. Depuis que la Cendre tombe, elle garde rancune.",
+  "niveau": 22,
+  "niveaux": {
+    "min": 22,
+    "max": 24,
+    "poids": [
+      3,
+      4,
+      3
+    ]
+  },
+  "caracteristiques": {
+    "pv": 142,
+    "pa": 6,
+    "pm": 3,
+    "initiative": 70,
+    "force": 42,
+    "chance": 42
+  },
+  "par_niveau": {
+    "pv": 8,
+    "initiative": 5,
+    "xp": 23,
+    "force": 2,
+    "chance": 2
+  },
+  "resistances": {
+    "acier": 30,
+    "flamme": 20,
+    "givre": 10,
+    "tempete": -15
+  },
+  "sorts": [
+    "gargouille_griffes",
+    "gargouille_gargouillis"
+  ],
+  "ia": "basique",
+  "xp": 342,
+  "butin": [
+    {
+      "objet": "eclat_de_gargouille",
+      "taux": 0.55,
+      "quantite": [
+        1,
+        3
+      ]
+    },
+    {
+      "objet": "coeur_de_pierre",
+      "taux": 0.12
+    },
+    {
+      "objet": "anneau_de_granit",
+      "taux": 0.04
+    },
+    {
+      "objet": "bottes_de_gargouille",
+      "taux": 0.03
+    },
+    {
+      "objet": "hallebarde_de_la_vieille_garde",
+      "taux": 0.03
+    }
+  ],
+  "ecus": [
+    22,
+    49
+  ]
+}

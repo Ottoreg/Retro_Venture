@@ -1,0 +1,26 @@
+{
+  "id": "grondin_souffle_de_forge",
+  "nom": "Souffle de forge",
+  "description": "La tête de loup crache le feu de la forge où on l'a coulée.",
+  "cout_pa": 4,
+  "portee": {
+    "min": 1,
+    "max": 4
+  },
+  "ligne_de_vue": true,
+  "zone": {
+    "type": "cercle",
+    "taille": 1
+  },
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "flamme",
+      "min": 8,
+      "max": 11
+    }
+  ]
+}

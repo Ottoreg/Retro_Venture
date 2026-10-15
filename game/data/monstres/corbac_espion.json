@@ -1,0 +1,66 @@
+{
+  "id": "corbac_espion",
+  "nom": "Corbac espion",
+  "description": "Un corbeau au service de la Cendre, avec une longue-vue en bandoulière. Il note tout ce que vous faites, surtout les bêtises.",
+  "niveau": 19,
+  "niveaux": {
+    "min": 19,
+    "max": 21,
+    "poids": [
+      6,
+      3,
+      1
+    ]
+  },
+  "caracteristiques": {
+    "pv": 79,
+    "pa": 6,
+    "pm": 5,
+    "initiative": 150,
+    "agilite": 72
+  },
+  "par_niveau": {
+    "pv": 4,
+    "initiative": 5,
+    "xp": 17,
+    "agilite": 4
+  },
+  "resistances": {
+    "tempete": 25,
+    "flamme": 5,
+    "givre": 0,
+    "acier": -10
+  },
+  "sorts": [
+    "corbac_bec",
+    "corbac_pique"
+  ],
+  "ia": "distance",
+  "xp": 218,
+  "butin": [
+    {
+      "objet": "plume_de_corbac",
+      "taux": 0.55,
+      "quantite": [
+        1,
+        3
+      ]
+    },
+    {
+      "objet": "message_intercepte",
+      "taux": 0.12
+    },
+    {
+      "objet": "chapeau_a_plume_de_corbac",
+      "taux": 0.04
+    },
+    {
+      "objet": "amulette_oeil_de_corbac",
+      "taux": 0.02
+    }
+  ],
+  "ecus": [
+    15,
+    34
+  ]
+}

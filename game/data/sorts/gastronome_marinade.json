@@ -1,0 +1,31 @@
+{
+  "id": "gastronome_marinade",
+  "nom": "Marinade",
+  "description": "Il vous assaisonne avant cuisson. Le feu vous fera plus mal ensuite.",
+  "cout_pa": 3,
+  "portee": {
+    "min": 1,
+    "max": 2
+  },
+  "ligne_de_vue": true,
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "poison",
+      "element": "flamme",
+      "min": 4,
+      "max": 6,
+      "duree": 3
+    },
+    {
+      "type": "malus",
+      "carac": "resistance",
+      "min": 10,
+      "max": 10,
+      "duree": 3,
+      "element": "flamme"
+    }
+  ]
+}

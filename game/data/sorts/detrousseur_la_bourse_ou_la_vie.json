@@ -1,0 +1,29 @@
+{
+  "id": "detrousseur_la_bourse_ou_la_vie",
+  "nom": "La bourse ou la vie",
+  "description": "Vous choisissez la bourse. Il prend quand même un peu de la vie.",
+  "cout_pa": 3,
+  "portee": {
+    "min": 1,
+    "max": 2
+  },
+  "ligne_de_vue": true,
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "tempete",
+      "min": 3,
+      "max": 5
+    },
+    {
+      "type": "malus",
+      "carac": "chance",
+      "min": 15,
+      "max": 15,
+      "duree": 2
+    }
+  ]
+}

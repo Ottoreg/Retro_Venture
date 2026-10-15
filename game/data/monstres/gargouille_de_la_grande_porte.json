@@ -1,0 +1,63 @@
+{
+  "id": "gargouille_de_la_grande_porte",
+  "nom": "Gargouille de la Grande Porte",
+  "description": "La plus vieille de la ville. Elle a vu passer trois rois, deux sièges et un nombre incalculable de pigeons.",
+  "famille": "gargouille",
+  "elite": true,
+  "niveau": 27,
+  "caracteristiques": {
+    "pv": 361,
+    "pa": 7,
+    "pm": 3,
+    "initiative": 100,
+    "force": 62,
+    "chance": 62
+  },
+  "resistances": {
+    "acier": 40,
+    "flamme": 30,
+    "givre": 20,
+    "tempete": -10
+  },
+  "sorts": [
+    "gargouille_griffes",
+    "gargouille_gargouillis",
+    "gargouille_petrification"
+  ],
+  "ia": "basique",
+  "xp": 834,
+  "butin": [
+    {
+      "objet": "eclat_de_gargouille",
+      "taux": 0.88,
+      "quantite": [
+        2,
+        5
+      ]
+    },
+    {
+      "objet": "coeur_de_pierre",
+      "taux": 0.48
+    },
+    {
+      "objet": "anneau_de_granit",
+      "taux": 0.16
+    },
+    {
+      "objet": "bottes_de_gargouille",
+      "taux": 0.13
+    },
+    {
+      "objet": "hallebarde_de_la_vieille_garde",
+      "taux": 0.13
+    },
+    {
+      "objet": "amulette_coeur_de_pierre",
+      "taux": 0.15
+    }
+  ],
+  "ecus": [
+    55,
+    122
+  ]
+}

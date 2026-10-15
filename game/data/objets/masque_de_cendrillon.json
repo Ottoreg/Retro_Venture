@@ -1,0 +1,22 @@
+{
+  "id": "masque_de_cendrillon",
+  "nom": "Masque de Cendrillon",
+  "type": "coiffe",
+  "rarete": "rare",
+  "niveau": 26,
+  "description": "Un loup de bal noir. Personne ne vous reconnaît, surtout pas vous.",
+  "bonus": {
+    "intelligence": [
+      14,
+      20
+    ],
+    "vitalite": [
+      17,
+      24
+    ],
+    "sagesse": [
+      6,
+      8
+    ]
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "id": "cendrillon_cendres_ardentes",
+  "nom": "Cendres ardentes",
+  "description": "Une poignée de cendre du Souverain, jetée au visage. Ça ne part pas.",
+  "cout_pa": 4,
+  "portee": {
+    "min": 2,
+    "max": 5
+  },
+  "ligne_de_vue": true,
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "flamme",
+      "min": 6,
+      "max": 9
+    }
+  ]
+}

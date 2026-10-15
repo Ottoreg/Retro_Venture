@@ -1,0 +1,36 @@
+{
+  "id": "dague_de_detrousseur",
+  "nom": "Dague de détrousseur",
+  "type": "arme",
+  "rarete": "peu_commun",
+  "niveau": 14,
+  "description": "Équilibrée pour le lancer, et pour le retour : elle a une ficelle.",
+  "bonus": {
+    "agilite": [
+      6,
+      8
+    ],
+    "initiative": [
+      24,
+      35
+    ]
+  },
+  "attaque": {
+    "cout_pa": 3,
+    "portee": {
+      "min": 1,
+      "max": 3
+    },
+    "relance": {
+      "par_tour": 2
+    },
+    "effets": [
+      {
+        "type": "degats",
+        "element": "tempete",
+        "min": 9,
+        "max": 13
+      }
+    ]
+  }
+}

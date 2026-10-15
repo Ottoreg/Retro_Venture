@@ -22,14 +22,14 @@
     "MM..#...###...#..MM",
     " M.......##.......M",
     ".........#.........",
-    " ........::........",
-    ".........A.........",
+    " ....c...::...d....",
+    ".......a.A.b.......",
     " ::::::::::::::::::",
     ":::::::::::::::::::",
     " ::::::::::::::::::",
     ".........:.........",
     " ........::........",
-    ".........:.........",
+    ".........e.........",
     " M.......::.......M",
     "MM.......:.......MM",
     " M.......::.......M",
@@ -42,6 +42,58 @@
     "MMMMMMMM.:.MMMMMMMM",
     " MMMMMMM.::.MMMMMMM",
     "MMMMMMMM.:.MMMMMMMM"
+  ],
+  "pnj": [
+    {
+      "marqueur": "a",
+      "id": "intendant_gaspard",
+      "nom": "Gaspard le Sobre, Intendant de Hautepierre",
+      "repliques": [
+        "Le roi ? Il reviendra. En attendant, c'est moi qui gouverne, et qui mange les tomates cerises. Une par décision.",
+        "La Cendre ? Une rumeur. Les gobelins ? Une nuisance. Les elfes ? Une opinion. Hautepierre tiendra.",
+        "Si vous voulez vous rendre utile, allez voir le capitaine. Il adore les volontaires : ils coûtent moins cher."
+      ]
+    },
+    {
+      "marqueur": "b",
+      "id": "capitaine_aldebert",
+      "nom": "Capitaine Aldebert",
+      "repliques": [
+        "On n'entre pas comme ça dans les Marches Cendrées. Il faut d'abord remplir le formulaire B-12. En trois exemplaires.",
+        "Un bélier de siège géant rôde à la Brèche, à l'est. Si vous êtes assez fou pour y aller, prenez au moins un casque.",
+        "Les trolls bloquent le pont du sud. Les corbacs nous espionnent au nord. Et l'Intendant compte ses tomates."
+      ]
+    },
+    {
+      "marqueur": "c",
+      "id": "archiviste_petronille",
+      "nom": "Pétronille, archiviste",
+      "repliques": [
+        "Huit Reliques de l'Aube, huit bagues. La nôtre, la Chevalière Sans-Rouille, a disparu il y a trois siècles. On a gardé l'écrin. Il est très beau.",
+        "D'après les archives, chaque Relique est portée par un Héraut Cendré. D'après les mêmes archives, les Hérauts n'existent pas. Je vais devoir réécrire les archives.",
+        "Ne touchez pas aux parchemins du fond. Ce sont des factures de l'Âge de l'Aube. Toujours impayées."
+      ]
+    },
+    {
+      "marqueur": "d",
+      "id": "snagrod_delegue",
+      "nom": "Snagrod, délégué syndical gobelin",
+      "repliques": [
+        "J'attends dans l'antichambre depuis trois semaines. On m'a promis un siège au Conseil. Pour l'instant, j'ai un tabouret.",
+        "Les gobelins veulent trois choses : des chaises, des pauses, et ne plus être sacrifiés en premier. Dans cet ordre.",
+        "Si le Conseil se forme un jour, je réclamerai la présidence. On ne sait jamais, ça peut marcher."
+      ]
+    },
+    {
+      "marqueur": "e",
+      "id": "ilyndra_tel_hautaine",
+      "nom": "Ilyndra Tel'Hautaine, ambassadrice elfe",
+      "repliques": [
+        "Je suis ici en observatrice. J'observe. C'est très humain, tout ça. Très bruyant.",
+        "Le Conseil de la Lisière m'a envoyée pour décider s'il fallait envoyer quelqu'un. J'ai décidé que oui. On m'a donc envoyée.",
+        "La Cendre touche nos arbres. Ce n'est plus seulement votre guerre. Ne le répétez pas."
+      ]
+    }
   ],
   "decors": [
     {

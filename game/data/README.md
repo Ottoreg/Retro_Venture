@@ -335,6 +335,11 @@ famille.
 
 ### Boss et phases
 
+Une **variante corrompue** (`"corrompu": true`, `"base": "<famille d'origine>"`) est un monstre à
+part entière, plus fort, aux éléments de Flamme, qu'on croise près de la Cendre (Hautepierre) : ce
+n'est pas une famille, elle n'a donc pas d'élite (les tests le vérifient, et que sa `base` est une
+famille existante).
+
 Un **boss** (`"boss": true`) est un monstre unique : ni `famille` ni `elite`, pas d'élite à lui, et un
 niveau fixe (le Souverain Cendré).
 

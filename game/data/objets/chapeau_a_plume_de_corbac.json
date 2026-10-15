@@ -1,0 +1,22 @@
+{
+  "id": "chapeau_a_plume_de_corbac",
+  "nom": "Chapeau à plume de corbac",
+  "type": "coiffe",
+  "rarete": "peu_commun",
+  "niveau": 19,
+  "description": "La plume tourne la tête quand quelqu'un parle de vous.",
+  "bonus": {
+    "agilite": [
+      9,
+      13
+    ],
+    "prospection": [
+      17,
+      25
+    ],
+    "initiative": [
+      44,
+      63
+    ]
+  }
+}

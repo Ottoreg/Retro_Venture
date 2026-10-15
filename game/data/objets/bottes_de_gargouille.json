@@ -1,0 +1,22 @@
+{
+  "id": "bottes_de_gargouille",
+  "nom": "Bottes de gargouille",
+  "type": "bottes",
+  "rarete": "rare",
+  "niveau": 23,
+  "description": "On ne court pas avec. On ne tombe pas non plus.",
+  "bonus": {
+    "vitalite": [
+      20,
+      29
+    ],
+    "force": [
+      7,
+      11
+    ],
+    "chance": [
+      7,
+      11
+    ]
+  }
+}

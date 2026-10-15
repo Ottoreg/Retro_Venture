@@ -1,0 +1,24 @@
+{
+  "id": "cendrillon_bal_de_minuit",
+  "nom": "Bal de minuit",
+  "description": "Une valse de cendre qui referme les plaies d'un fidèle.",
+  "cout_pa": 3,
+  "portee": {
+    "min": 0,
+    "max": 3
+  },
+  "ligne_de_vue": true,
+  "relance": {
+    "par_tour": 1,
+    "delai": 1
+  },
+  "effets": [
+    {
+      "type": "soin",
+      "element": "flamme",
+      "min": 7,
+      "max": 10,
+      "cibles": "allies"
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "id": "cendreux_morsure_brulante",
+  "nom": "Morsure brûlante",
+  "description": "Ses crocs gardent la chaleur de la Cendre.",
+  "cout_pa": 3,
+  "portee": {
+    "min": 1,
+    "max": 1
+  },
+  "ligne_de_vue": true,
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "flamme",
+      "min": 4,
+      "max": 6
+    },
+    {
+      "type": "poison",
+      "element": "flamme",
+      "min": 2,
+      "max": 3,
+      "duree": 2
+    }
+  ]
+}

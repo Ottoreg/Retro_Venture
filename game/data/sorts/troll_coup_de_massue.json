@@ -1,0 +1,27 @@
+{
+  "id": "troll_coup_de_massue",
+  "nom": "Coup de massue",
+  "description": "Pas de technique, beaucoup de massue.",
+  "cout_pa": 4,
+  "portee": {
+    "min": 1,
+    "max": 1
+  },
+  "ligne_de_vue": true,
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "acier",
+      "min": 8,
+      "max": 11
+    },
+    {
+      "type": "poussee",
+      "min": 1,
+      "max": 1
+    }
+  ]
+}

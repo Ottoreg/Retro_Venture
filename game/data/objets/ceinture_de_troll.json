@@ -1,0 +1,18 @@
+{
+  "id": "ceinture_de_troll",
+  "nom": "Ceinture de troll",
+  "type": "ceinture",
+  "rarete": "peu_commun",
+  "niveau": 16,
+  "description": "Une corde de pont, nouée deux fois. Elle fait trois fois votre tour de taille.",
+  "bonus": {
+    "vitalite": [
+      18,
+      26
+    ],
+    "force": [
+      6,
+      9
+    ]
+  }
+}

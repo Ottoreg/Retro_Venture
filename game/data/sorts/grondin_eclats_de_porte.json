@@ -1,0 +1,26 @@
+{
+  "id": "grondin_eclats_de_porte",
+  "nom": "Éclats de porte",
+  "description": "Il crache les morceaux des portes qu'il a déjà enfoncées.",
+  "cout_pa": 3,
+  "portee": {
+    "min": 2,
+    "max": 5
+  },
+  "ligne_de_vue": true,
+  "zone": {
+    "type": "cercle",
+    "taille": 1
+  },
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "acier",
+      "min": 4,
+      "max": 6
+    }
+  ]
+}

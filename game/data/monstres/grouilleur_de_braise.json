@@ -1,0 +1,75 @@
+{
+  "id": "grouilleur_de_braise",
+  "nom": "Grouilleur de braise",
+  "description": "Un grouilleur descendu des mines dans les gorges cendrées. Son acide a pris feu ; ses pattes aussi, un peu.",
+  "corrompu": true,
+  "base": "grouilleur",
+  "niveau": 16,
+  "niveaux": {
+    "min": 16,
+    "max": 18,
+    "poids": [
+      1,
+      3,
+      6
+    ]
+  },
+  "caracteristiques": {
+    "pv": 85,
+    "pa": 6,
+    "pm": 3,
+    "initiative": 90,
+    "force": 30,
+    "intelligence": 30
+  },
+  "par_niveau": {
+    "pv": 6,
+    "initiative": 5,
+    "xp": 18,
+    "force": 2,
+    "intelligence": 2
+  },
+  "resistances": {
+    "flamme": 35,
+    "impie": 10,
+    "acier": 0,
+    "givre": -10,
+    "sacre": -10
+  },
+  "sorts": [
+    "grouilleur_pinces",
+    "braise_crachat_de_feu"
+  ],
+  "ia": "basique",
+  "xp": 199,
+  "butin": [
+    {
+      "objet": "carapace_de_grouilleur",
+      "taux": 0.5,
+      "quantite": [
+        1,
+        2
+      ]
+    },
+    {
+      "objet": "cendre_tiede",
+      "taux": 0.5,
+      "quantite": [
+        1,
+        2
+      ]
+    },
+    {
+      "objet": "eclat_de_cendre",
+      "taux": 0.03
+    },
+    {
+      "objet": "bottes_de_braise",
+      "taux": 0.04
+    }
+  ],
+  "ecus": [
+    14,
+    34
+  ]
+}

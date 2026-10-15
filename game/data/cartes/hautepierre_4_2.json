@@ -15,8 +15,8 @@
     " A.......::.......A",
     "A........:........A",
     " A.......::.......A",
-    "A.....A..:C.......A",
-    " A.......::.......A",
+    "A.....A2.:C.......A",
+    " A4......::.......A",
     "A........:........A",
     " A.......::.......A",
     "A........:........A",
@@ -24,7 +24,7 @@
     "A........:........A",
     " A.....A.::.......A",
     ".........:.........",
-    " .....R..::........",
+    " .....R..::....a...",
     ".........:.........",
     " ::::::::::::::::@:",
     "::::::::::::::::::+",
@@ -38,12 +38,51 @@
     "A........:........A",
     " A.......::...A...A",
     "A........:........A",
-    " A...A...::.....A.A",
-    "A........:........A",
+    " A1..A...::.....A.A",
+    "A........3........A",
     " A.....I.::.......A",
     "A........:........A",
     " A.......::.......A",
     "AAAAAAAA.:.AAAAAAAA"
+  ],
+  "groupes": [
+    {
+      "monstres": [
+        "detrousseur",
+        "detrousseur"
+      ]
+    },
+    {
+      "parmi": [
+        "loup_cendreux"
+      ],
+      "nombre": [
+        1,
+        2
+      ]
+    },
+    {
+      "monstres": [
+        "detrousseur",
+        "loup_cendreux"
+      ]
+    },
+    {
+      "monstres": [
+        "detrousseur"
+      ]
+    }
+  ],
+  "pnj": [
+    {
+      "marqueur": "a",
+      "id": "caravanier_brokk",
+      "nom": "Brokk, caravanier gobelin",
+      "repliques": [
+        "On transporte du minerai pour le Souverain. Enfin, on transportait. Le Souverain a fait brûler la dernière caravane « pour l'exemple ».",
+        "L'exemple de quoi ? Personne n'a su me dire. Alors je fais une pause. Une longue."
+      ]
+    }
   ],
   "placement": [
     "...................",

@@ -1,0 +1,23 @@
+{
+  "id": "heaume_du_belier",
+  "nom": "Heaume du Bélier",
+  "type": "coiffe",
+  "rarete": "epique",
+  "niveau": 30,
+  "description": "Taillé dans la tête de Grondin. Les portes s'ouvrent devant vous. Souvent en morceaux.",
+  "bonus": {
+    "force": [
+      16,
+      22
+    ],
+    "vitalite": [
+      31,
+      45
+    ],
+    "dommages": [
+      2,
+      3
+    ]
+  },
+  "boutique": false
+}

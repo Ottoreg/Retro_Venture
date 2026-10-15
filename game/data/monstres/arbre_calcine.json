@@ -1,0 +1,76 @@
+{
+  "id": "arbre_calcine",
+  "nom": "Arbre calciné",
+  "description": "Un arbre vivant que la première pluie de cendre a brûlé debout. Il marche encore, il fume, et il est de très mauvaise humeur.",
+  "corrompu": true,
+  "base": "arbre_vivant",
+  "niveau": 19,
+  "niveaux": {
+    "min": 19,
+    "max": 21,
+    "poids": [
+      3,
+      4,
+      3
+    ]
+  },
+  "caracteristiques": {
+    "pv": 140,
+    "pa": 7,
+    "pm": 1,
+    "initiative": 40,
+    "force": 36,
+    "intelligence": 36
+  },
+  "par_niveau": {
+    "pv": 8,
+    "initiative": 5,
+    "xp": 23,
+    "force": 2,
+    "intelligence": 2
+  },
+  "resistances": {
+    "acier": 25,
+    "flamme": 30,
+    "givre": -20,
+    "tempete": 0,
+    "sacre": -10
+  },
+  "sorts": [
+    "arbre_branche",
+    "arbre_racines",
+    "calcine_cendres"
+  ],
+  "ia": "basique",
+  "xp": 299,
+  "butin": [
+    {
+      "objet": "ecorce_vivante",
+      "taux": 0.5,
+      "quantite": [
+        1,
+        2
+      ]
+    },
+    {
+      "objet": "cendre_tiede",
+      "taux": 0.5,
+      "quantite": [
+        1,
+        2
+      ]
+    },
+    {
+      "objet": "eclat_de_cendre",
+      "taux": 0.03
+    },
+    {
+      "objet": "ceinture_d_ecorce_calcinee",
+      "taux": 0.04
+    }
+  ],
+  "ecus": [
+    21,
+    47
+  ]
+}

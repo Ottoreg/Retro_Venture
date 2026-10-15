@@ -1,0 +1,22 @@
+{
+  "id": "ceinture_d_ecorce_calcinee",
+  "nom": "Ceinture d'écorce calcinée",
+  "type": "ceinture",
+  "rarete": "rare",
+  "niveau": 21,
+  "description": "Elle craque à chaque pas et laisse un peu de cendre partout. Les aubergistes vous détestent.",
+  "bonus": {
+    "vitalite": [
+      23,
+      33
+    ],
+    "force": [
+      6,
+      8
+    ],
+    "intelligence": [
+      6,
+      8
+    ]
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "id": "baguette_de_cendrillon",
+  "nom": "Baguette de Cendrillon",
+  "type": "arme",
+  "rarete": "rare",
+  "niveau": 26,
+  "description": "Pas magique. Enfin, pas comme on l'espérait.",
+  "bonus": {
+    "intelligence": [
+      10,
+      14
+    ],
+    "sagesse": [
+      3,
+      5
+    ],
+    "vitalite": [
+      7,
+      10
+    ]
+  },
+  "attaque": {
+    "cout_pa": 4,
+    "portee": {
+      "min": 2,
+      "max": 6
+    },
+    "relance": {
+      "par_tour": 1
+    },
+    "effets": [
+      {
+        "type": "degats",
+        "element": "flamme",
+        "min": 16,
+        "max": 24
+      }
+    ]
+  }
+}

@@ -21,14 +21,14 @@
     " MM......##.......M",
     "MMM......#.......MM",
     " MMR.....::.......M",
-    "..R......:.........",
+    "..R......b.........",
     " ........::........",
     ".........:.........",
     " ::::::::::::::::::",
-    "::::::::::@::::::::",
+    ":::a::::::@::::::::",
     " ::::::::::::::::::",
     ".........:.........",
-    " ........::........",
+    " ........::..c.....",
     "..R......:....#....",
     " MMR.#...::...##..M",
     "MMM.##...:...###.MM",
@@ -42,6 +42,37 @@
     "MMMMMMMM.:.MMMMMMMM",
     " MMMMMMM.::.MMMMMMM",
     "MMMMMMMM.:.MMMMMMMM"
+  ],
+  "pnj": [
+    {
+      "marqueur": "a",
+      "id": "sergent_mordicus",
+      "nom": "Sergent Mordicus",
+      "repliques": [
+        "Halte ! Laissez-passer ? … Pas de laissez-passer ? … Bon, passez, mais je vous ai à l'œil.",
+        "À l'ouest, la route de Brumerive. Pleine de détrousseurs. Ils volent tout, sauf les laissez-passer : ça, ils n'en veulent pas."
+      ]
+    },
+    {
+      "marqueur": "b",
+      "id": "frere_benitier",
+      "nom": "Frère Bénitier, prêtre",
+      "repliques": [
+        "J'ai béni la Masse bénite trois fois : le manche, la tête… et mon pouce. Il guérit très bien, merci.",
+        "Le Sacré, c'est la Force et l'Intelligence réunies. Comme moi. Enfin, comme moi les bons jours.",
+        "Les trolls craignent la lumière. Les Cendrillons aussi. Moi, je crains les trolls. Tout le monde craint quelque chose."
+      ]
+    },
+    {
+      "marqueur": "c",
+      "id": "fulbert_l_authentique",
+      "nom": "Fulbert l'Authentique, colporteur",
+      "repliques": [
+        "Véritable Relique de l'Aube ! Garantie d'origine ! Enfin, garantie… d'origine. D'une origine.",
+        "Celle-ci, c'est l'Anneau-Lanterne ! Il éclaire ! Si on le met près d'une bougie.",
+        "Je ne vends rien aujourd'hui, la Garde m'a confisqué le stock. Mais je reprends les commandes."
+      ]
+    }
   ],
   "decors": [
     {

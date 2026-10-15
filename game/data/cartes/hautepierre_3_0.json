@@ -11,7 +11,7 @@
     " A.....R.....RR...A",
     "A.....R.......R...A",
     " A....R........R..A",
-    "A....R.........R..A",
+    "A....R.3.......R1.A",
     " A...R...R..R.....A",
     "A...........R.....A",
     " A..A...........R.A",
@@ -34,12 +34,35 @@
     "A.A.R...........R.A",
     " A.A............R.A",
     "A.A.A.......R.....A",
-    " A...R...R..R.....A",
+    " A...R...R2.R.....A",
     "A....R.........R..A",
     " A.A..R........R..A",
     "A.....R.......R...A",
     " A.....R.....RR...A",
     "AAAAAAAAR..AAAAAAAA"
+  ],
+  "groupes": [
+    {
+      "parmi": [
+        "arbre_calcine"
+      ],
+      "nombre": [
+        1,
+        2
+      ]
+    },
+    {
+      "monstres": [
+        "arbre_calcine",
+        "corbac_espion"
+      ]
+    },
+    {
+      "monstres": [
+        "corbac_espion",
+        "corbac_espion"
+      ]
+    }
   ],
   "placement": [
     "...................",

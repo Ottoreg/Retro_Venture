@@ -1,0 +1,26 @@
+{
+  "id": "bague_de_minuit",
+  "nom": "Bague de minuit",
+  "type": "anneau",
+  "rarete": "rare",
+  "niveau": 27,
+  "description": "Elle sonne douze coups. Ensuite, tout redevient citrouille.",
+  "bonus": {
+    "intelligence": [
+      11,
+      16
+    ],
+    "dommages": [
+      1,
+      2
+    ],
+    "vitalite": [
+      17,
+      25
+    ],
+    "critique": [
+      1,
+      2
+    ]
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "id": "chef_espion_rapport",
+  "nom": "Rapport détaillé",
+  "description": "Il a tout noté. Vos faiblesses aussi.",
+  "cout_pa": 3,
+  "portee": {
+    "min": 1,
+    "max": 6
+  },
+  "ligne_de_vue": true,
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "malus",
+      "carac": "resistance",
+      "min": 15,
+      "max": 15,
+      "duree": 2,
+      "element": "tempete"
+    },
+    {
+      "type": "malus",
+      "carac": "portee",
+      "min": 1,
+      "max": 1,
+      "duree": 1
+    }
+  ]
+}

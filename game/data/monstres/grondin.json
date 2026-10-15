@@ -1,0 +1,115 @@
+{
+  "id": "grondin",
+  "nom": "Grondin, Bélier de la Brèche",
+  "description": "Un bélier de siège à tête de loup, forgé dans les Marches Cendrées. Il avance tout seul. Personne ne veut savoir comment.",
+  "boss": true,
+  "niveau": 30,
+  "caracteristiques": {
+    "pv": 600,
+    "pa": 8,
+    "pm": 2,
+    "initiative": 80,
+    "force": 40
+  },
+  "resistances": {
+    "acier": 35,
+    "flamme": 25,
+    "tempete": 10,
+    "givre": -20,
+    "sacre": -10
+  },
+  "sorts": [
+    "grondin_coup_de_belier",
+    "grondin_eclats_de_porte",
+    "grondin_elan"
+  ],
+  "ia": "basique",
+  "xp": 3600,
+  "phases": [
+    {
+      "pv": 75,
+      "message": "Des mains invisibles clouent des planches neuves sur le toit du bélier. Personne ne veut savoir à qui elles sont.",
+      "effets": [
+        {
+          "type": "bouclier",
+          "element": "acier",
+          "min": 80,
+          "max": 80
+        },
+        {
+          "type": "bonus",
+          "carac": "resistance",
+          "min": 20,
+          "max": 20,
+          "duree": 3,
+          "element": "givre"
+        }
+      ]
+    },
+    {
+      "pv": 50,
+      "message": "« Grondin ! Grondin ! » scandent des voix dans la cendre. Les chaînes lâchent.",
+      "sorts": [
+        "grondin_charge"
+      ],
+      "effets": [
+        {
+          "type": "bonus",
+          "carac": "pm",
+          "min": 2,
+          "max": 2,
+          "duree": 3
+        }
+      ]
+    },
+    {
+      "pv": 20,
+      "message": "« Trois coups ! On frappe toujours trois coups ! » Ses roues cassent ; sa tête de loup s'embrase.",
+      "sorts": [
+        "grondin_souffle_de_forge"
+      ],
+      "effets": [
+        {
+          "type": "bonus",
+          "carac": "force",
+          "min": 40,
+          "max": 40,
+          "duree": 3
+        },
+        {
+          "type": "malus",
+          "carac": "pm",
+          "min": 2,
+          "max": 2,
+          "duree": 3
+        }
+      ]
+    }
+  ],
+  "butin": [
+    {
+      "objet": "eclat_de_cendre",
+      "taux": 1.0,
+      "quantite": [
+        1,
+        2
+      ]
+    },
+    {
+      "objet": "heaume_du_belier",
+      "taux": 0.15
+    },
+    {
+      "objet": "anneau_du_gond",
+      "taux": 0.15
+    },
+    {
+      "objet": "marteau_de_grondin",
+      "taux": 0.06
+    }
+  ],
+  "ecus": [
+    300,
+    500
+  ]
+}

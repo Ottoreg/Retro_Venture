@@ -1,0 +1,58 @@
+{
+  "id": "corbac_chef_espion",
+  "nom": "Corbac chef espion",
+  "description": "Il dirige un réseau de quatre cents corbeaux. Il connaît votre adresse, votre taille de chapeau et votre plat préféré.",
+  "famille": "corbac_espion",
+  "elite": true,
+  "niveau": 24,
+  "caracteristiques": {
+    "pv": 206,
+    "pa": 7,
+    "pm": 5,
+    "initiative": 180,
+    "agilite": 102
+  },
+  "resistances": {
+    "tempete": 35,
+    "flamme": 15,
+    "givre": 10,
+    "acier": -5
+  },
+  "sorts": [
+    "corbac_bec",
+    "corbac_pique",
+    "chef_espion_rapport"
+  ],
+  "ia": "distance",
+  "xp": 554,
+  "butin": [
+    {
+      "objet": "plume_de_corbac",
+      "taux": 0.88,
+      "quantite": [
+        2,
+        5
+      ]
+    },
+    {
+      "objet": "message_intercepte",
+      "taux": 0.48
+    },
+    {
+      "objet": "chapeau_a_plume_de_corbac",
+      "taux": 0.16
+    },
+    {
+      "objet": "amulette_oeil_de_corbac",
+      "taux": 0.12
+    },
+    {
+      "objet": "cape_de_plumes_noires",
+      "taux": 0.15
+    }
+  ],
+  "ecus": [
+    38,
+    85
+  ]
+}

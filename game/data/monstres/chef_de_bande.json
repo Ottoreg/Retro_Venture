@@ -1,0 +1,60 @@
+{
+  "id": "chef_de_bande",
+  "nom": "Chef de bande",
+  "description": "Il se fait appeler « le Prince des voleurs ». Ses hommes l'appellent « le patron » ; sa mère, « Gérard ».",
+  "famille": "detrousseur",
+  "elite": true,
+  "niveau": 18,
+  "caracteristiques": {
+    "pv": 174,
+    "pa": 7,
+    "pm": 4,
+    "initiative": 160,
+    "chance": 44,
+    "agilite": 44
+  },
+  "resistances": {
+    "tempete": 20,
+    "givre": 15,
+    "acier": 10,
+    "flamme": 10,
+    "sacre": -5
+  },
+  "sorts": [
+    "detrousseur_surin",
+    "detrousseur_la_bourse_ou_la_vie",
+    "chef_de_bande_embuscade"
+  ],
+  "ia": "basique",
+  "xp": 383,
+  "butin": [
+    {
+      "objet": "bourse_vide",
+      "taux": 0.88,
+      "quantite": [
+        2,
+        4
+      ]
+    },
+    {
+      "objet": "carte_au_tresor_douteuse",
+      "taux": 0.48
+    },
+    {
+      "objet": "capuche_de_detrousseur",
+      "taux": 0.16
+    },
+    {
+      "objet": "dague_de_detrousseur",
+      "taux": 0.13
+    },
+    {
+      "objet": "bottes_de_grand_chemin",
+      "taux": 0.16
+    }
+  ],
+  "ecus": [
+    28,
+    65
+  ]
+}

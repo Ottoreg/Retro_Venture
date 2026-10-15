@@ -1,0 +1,22 @@
+{
+  "id": "semelles_d_olifant",
+  "nom": "Semelles d'olifant",
+  "type": "bottes",
+  "rarete": "rare",
+  "niveau": 29,
+  "description": "Chaque pas fait trembler le plancher. Chaque plancher s'en souvient.",
+  "bonus": {
+    "vitalite": [
+      30,
+      44
+    ],
+    "force": [
+      9,
+      13
+    ],
+    "initiative": [
+      61,
+      87
+    ]
+  }
+}

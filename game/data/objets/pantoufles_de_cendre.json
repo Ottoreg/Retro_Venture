@@ -1,0 +1,22 @@
+{
+  "id": "pantoufles_de_cendre",
+  "nom": "Pantoufles de cendre",
+  "type": "bottes",
+  "rarete": "rare",
+  "niveau": 25,
+  "description": "Il n'y en a qu'une paire, mais elles ne vont à personne. Sauf à vous, bizarrement.",
+  "bonus": {
+    "intelligence": [
+      11,
+      15
+    ],
+    "agilite": [
+      8,
+      12
+    ],
+    "initiative": [
+      80,
+      115
+    ]
+  }
+}

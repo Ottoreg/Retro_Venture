@@ -1,0 +1,22 @@
+{
+  "id": "gargouille_gargouillis",
+  "nom": "Gargouillis",
+  "description": "Elle crache l'eau de pluie de la semaine. Glacée.",
+  "cout_pa": 3,
+  "portee": {
+    "min": 2,
+    "max": 4
+  },
+  "ligne_de_vue": true,
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "givre",
+      "min": 5,
+      "max": 7
+    }
+  ]
+}

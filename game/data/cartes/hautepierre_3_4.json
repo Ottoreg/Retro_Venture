@@ -12,10 +12,10 @@
     " A................A",
     "A........@........A",
     " A................A",
-    "A......R..........A",
+    "A......R.......3..A",
     " A................A",
     "A.................A",
-    " A................A",
+    " A..a.............A",
     "A.................A",
     " A.......R.R..R...A",
     "A...EEEE..........A",
@@ -36,11 +36,51 @@
     " A................A",
     "A.................A",
     " A......R.........A",
-    "A.................A",
+    "A.4.....2.......1.A",
     " A................A",
     "A.................A",
     " A................A",
     "AAAAAAAAAAAAAAAAAAA"
+  ],
+  "groupes": [
+    {
+      "monstres": [
+        "olifant_de_guerre"
+      ]
+    },
+    {
+      "monstres": [
+        "olifant_de_guerre",
+        "cendrillon"
+      ]
+    },
+    {
+      "monstres": [
+        "olifant_de_guerre",
+        "olifant_de_guerre"
+      ]
+    },
+    {
+      "parmi": [
+        "olifant_de_guerre",
+        "cendrillon"
+      ],
+      "nombre": [
+        2,
+        3
+      ]
+    }
+  ],
+  "pnj": [
+    {
+      "marqueur": "a",
+      "id": "veteran_clopin",
+      "nom": "Clopin, vétéran",
+      "repliques": [
+        "J'étais là au dernier siège. On a gagné. Enfin, on a survécu, c'est pareil à la fin.",
+        "Le bélier, Grondin, frappe toujours trois coups. Au troisième, tenez-vous loin. Ou loin de loin."
+      ]
+    }
   ],
   "placement": [
     "...................",

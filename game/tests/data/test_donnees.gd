@@ -317,6 +317,13 @@ func test_un_elite_par_famille_de_monstres() -> void:
 		assert_true(placed.has(family), "%s : sa famille vit sur une carte (où l'élite pourra apparaître)" % monster_id)
 	for monster_id: String in game_data.monsters:
 		var monster: Dictionary = game_data.monsters[monster_id]
+		# Une variante corrompue n'est pas une famille : pas d'élite, mais une famille d'origine.
+		if monster.get("corrompu", false):
+			var origin: Dictionary = game_data.monsters.get(str(monster.get("base", "")), {})
+			assert_true(not origin.is_empty() and not origin.get("elite", false) and not origin.get("corrompu", false),
+				"%s : « base » doit être une famille existante" % monster_id)
+			assert_false(elite_of.has(monster_id), "%s : pas d'élite pour une variante" % monster_id)
+			continue
 		# Un boss est unique : ni famille, ni élite.
 		if not monster.get("elite", false) and not monster.get("boss", false):
 			assert_true(elite_of.has(monster_id), "famille « %s » : il lui faut un élite" % monster_id)

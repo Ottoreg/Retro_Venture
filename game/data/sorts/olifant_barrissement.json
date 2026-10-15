@@ -1,0 +1,37 @@
+{
+  "id": "olifant_barrissement",
+  "nom": "Barrissement",
+  "description": "Le cor d'origine. Les oreilles saignent, les jambes flanchent.",
+  "cout_pa": 3,
+  "portee": {
+    "min": 0,
+    "max": 0
+  },
+  "ligne_de_vue": false,
+  "zone": {
+    "type": "cercle",
+    "taille": 2
+  },
+  "lanceur_exclu": true,
+  "relance": {
+    "par_tour": 1,
+    "delai": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "tempete",
+      "min": 3,
+      "max": 5,
+      "cibles": "ennemis"
+    },
+    {
+      "type": "malus",
+      "carac": "pm",
+      "min": 1,
+      "max": 1,
+      "duree": 1,
+      "cibles": "ennemis"
+    }
+  ]
+}

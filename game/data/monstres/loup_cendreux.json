@@ -1,0 +1,76 @@
+{
+  "id": "loup_cendreux",
+  "nom": "Loup cendreux",
+  "description": "Un loup des collines qui a mangé quelque chose qu'il n'aurait pas dû, dans la cendre. Il a toujours faim, mais maintenant il fume.",
+  "corrompu": true,
+  "base": "loup_des_collines",
+  "niveau": 13,
+  "niveaux": {
+    "min": 13,
+    "max": 15,
+    "poids": [
+      3,
+      4,
+      3
+    ]
+  },
+  "caracteristiques": {
+    "pv": 69,
+    "pa": 6,
+    "pm": 4,
+    "initiative": 130,
+    "force": 24,
+    "intelligence": 24
+  },
+  "par_niveau": {
+    "pv": 5,
+    "initiative": 5,
+    "xp": 16,
+    "force": 2,
+    "intelligence": 2
+  },
+  "resistances": {
+    "flamme": 20,
+    "givre": 10,
+    "impie": 15,
+    "acier": 0,
+    "tempete": 0,
+    "sacre": -10
+  },
+  "sorts": [
+    "loup_morsure",
+    "cendreux_morsure_brulante"
+  ],
+  "ia": "basique",
+  "xp": 151,
+  "butin": [
+    {
+      "objet": "croc_de_loup",
+      "taux": 0.5,
+      "quantite": [
+        1,
+        2
+      ]
+    },
+    {
+      "objet": "cendre_tiede",
+      "taux": 0.5,
+      "quantite": [
+        1,
+        2
+      ]
+    },
+    {
+      "objet": "eclat_de_cendre",
+      "taux": 0.03
+    },
+    {
+      "objet": "cape_de_loup_cendreux",
+      "taux": 0.04
+    }
+  ],
+  "ecus": [
+    12,
+    29
+  ]
+}

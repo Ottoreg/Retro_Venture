@@ -1,0 +1,22 @@
+{
+  "id": "anneau_de_nez_de_troll",
+  "nom": "Anneau de nez de troll",
+  "type": "anneau",
+  "rarete": "peu_commun",
+  "niveau": 17,
+  "description": "Il fait le tour du doigt. Et de la main. Et un peu du poignet.",
+  "bonus": {
+    "force": [
+      8,
+      11
+    ],
+    "vitalite": [
+      10,
+      14
+    ],
+    "sagesse": [
+      3,
+      5
+    ]
+  }
+}

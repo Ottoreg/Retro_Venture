@@ -1,0 +1,37 @@
+{
+  "id": "gargouille_petrification",
+  "nom": "Regard de pierre",
+  "description": "Un regard figé. Vos jambes suivent l'exemple.",
+  "cout_pa": 3,
+  "portee": {
+    "min": 1,
+    "max": 3
+  },
+  "ligne_de_vue": true,
+  "relance": {
+    "par_tour": 1,
+    "delai": 2
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "givre",
+      "min": 3,
+      "max": 5
+    },
+    {
+      "type": "malus",
+      "carac": "pm",
+      "min": 2,
+      "max": 2,
+      "duree": 1
+    },
+    {
+      "type": "malus",
+      "carac": "pa",
+      "min": 1,
+      "max": 1,
+      "duree": 1
+    }
+  ]
+}

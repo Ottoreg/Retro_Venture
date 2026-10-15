@@ -1,0 +1,73 @@
+{
+  "id": "detrousseur",
+  "nom": "Détrousseur des grands chemins",
+  "description": "Il vole les riches pour donner aux pauvres. Il est pauvre. La boucle est bouclée.",
+  "niveau": 13,
+  "niveaux": {
+    "min": 13,
+    "max": 15,
+    "poids": [
+      3,
+      4,
+      3
+    ]
+  },
+  "caracteristiques": {
+    "pv": 63,
+    "pa": 6,
+    "pm": 4,
+    "initiative": 130,
+    "agilite": 24,
+    "chance": 24
+  },
+  "par_niveau": {
+    "pv": 4,
+    "initiative": 5,
+    "xp": 14,
+    "agilite": 2,
+    "chance": 2
+  },
+  "resistances": {
+    "tempete": 10,
+    "givre": 5,
+    "acier": 0,
+    "flamme": 0,
+    "sacre": -10
+  },
+  "sorts": [
+    "detrousseur_surin",
+    "detrousseur_la_bourse_ou_la_vie"
+  ],
+  "ia": "basique",
+  "xp": 137,
+  "butin": [
+    {
+      "objet": "bourse_vide",
+      "taux": 0.55,
+      "quantite": [
+        1,
+        2
+      ]
+    },
+    {
+      "objet": "carte_au_tresor_douteuse",
+      "taux": 0.12
+    },
+    {
+      "objet": "capuche_de_detrousseur",
+      "taux": 0.04
+    },
+    {
+      "objet": "dague_de_detrousseur",
+      "taux": 0.03
+    },
+    {
+      "objet": "bottes_de_grand_chemin",
+      "taux": 0.04
+    }
+  ],
+  "ecus": [
+    11,
+    26
+  ]
+}

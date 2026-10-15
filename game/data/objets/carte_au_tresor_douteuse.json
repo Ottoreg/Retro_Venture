@@ -1,0 +1,8 @@
+{
+  "id": "carte_au_tresor_douteuse",
+  "nom": "Carte au trésor douteuse",
+  "type": "ressource",
+  "rarete": "peu_commun",
+  "niveau": 1,
+  "description": "Une croix rouge, une flèche, et la mention « à peu près par là »."
+}

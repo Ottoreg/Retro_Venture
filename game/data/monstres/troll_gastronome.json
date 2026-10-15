@@ -1,0 +1,59 @@
+{
+  "id": "troll_gastronome",
+  "nom": "Troll gastronome",
+  "description": "Il a lu un livre de cuisine. Un seul. Il l'applique à tout le monde.",
+  "famille": "troll_des_ponts",
+  "elite": true,
+  "niveau": 21,
+  "caracteristiques": {
+    "pv": 350,
+    "pa": 7,
+    "pm": 2,
+    "initiative": 80,
+    "force": 90
+  },
+  "resistances": {
+    "acier": 35,
+    "givre": 25,
+    "tempete": 10,
+    "flamme": -15,
+    "sacre": -5
+  },
+  "sorts": [
+    "troll_coup_de_massue",
+    "troll_rocher",
+    "gastronome_marinade"
+  ],
+  "ia": "basique",
+  "xp": 622,
+  "butin": [
+    {
+      "objet": "dent_de_troll",
+      "taux": 0.88,
+      "quantite": [
+        2,
+        4
+      ]
+    },
+    {
+      "objet": "recette_de_troll",
+      "taux": 0.48
+    },
+    {
+      "objet": "ceinture_de_troll",
+      "taux": 0.16
+    },
+    {
+      "objet": "anneau_de_nez_de_troll",
+      "taux": 0.16
+    },
+    {
+      "objet": "massue_de_troll",
+      "taux": 0.13
+    }
+  ],
+  "ecus": [
+    42,
+    100
+  ]
+}

@@ -11,7 +11,7 @@
     " A................A",
     "A........@........A",
     " A................A",
-    "A.................A",
+    "A...3...........2.A",
     " A................A",
     "A.................A",
     " A................A",
@@ -27,8 +27,8 @@
     " A.................",
     "A.........A........",
     " A.....A...........",
-    "A....AA.........A..",
-    " A....A..........AA",
+    "A....AA....a....A..",
+    " A1...A..........AA",
     "AEEEEEEEEEE:EEEEEEA",
     " AEEEEEEEEE:EEEEEEA",
     "AEEEEEEEEEE:EEEEEEA",
@@ -40,6 +40,36 @@
     "AEEEEEEEEEEEEEEEEEA",
     " AEEEEEEEEEEEEEEEEA",
     "AAAAAAAAAAAAAAAAAAA"
+  ],
+  "groupes": [
+    {
+      "monstres": [
+        "troll_des_ponts"
+      ]
+    },
+    {
+      "monstres": [
+        "troll_des_ponts",
+        "troll_des_ponts"
+      ]
+    },
+    {
+      "monstres": [
+        "troll_des_ponts",
+        "detrousseur"
+      ]
+    }
+  ],
+  "pnj": [
+    {
+      "marqueur": "a",
+      "id": "passeur_caron",
+      "nom": "Caron, passeur",
+      "repliques": [
+        "Un écu l'aller, deux le retour. Le pont des trolls ? Gratuit. Enfin, ça dépend pour qui.",
+        "Les trolls ne savent pas nager. Moi non plus. On a ça en commun, on en parle parfois."
+      ]
+    }
   ],
   "decors": [
     {

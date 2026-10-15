@@ -1,0 +1,22 @@
+{
+  "id": "capuche_de_detrousseur",
+  "nom": "Capuche de détrousseur",
+  "type": "coiffe",
+  "rarete": "peu_commun",
+  "niveau": 13,
+  "description": "On ne voit pas votre visage. On voit très bien vos intentions.",
+  "bonus": {
+    "agilite": [
+      5,
+      7
+    ],
+    "chance": [
+      4,
+      6
+    ],
+    "prospection": [
+      15,
+      22
+    ]
+  }
+}
