@@ -50,19 +50,24 @@ cible…) ; `tools/art_sheet.gd` fait une planche des dessins.
 
 ## Où en est le projet
 
-Phase 2 (alpha solo). Plan par chantiers :
+Phase 2 (alpha solo), en deux tests :
+
+- **Alpha test 1 : les mécaniques.** Chantiers dans l'ordre : contenu du monde (3), puis
+  interface (4) et quêtes (6) en derniers avant le lancement. XP de combat ×3,5
+  (`Character.XP_RATE`) : tout le contenu en 4 à 5 h.
+- **Alpha test 2 : la progression.** Progression 1 → 30 (2 : sorts par niveau, modèle voie/rang,
+  rendement décroissant, XP ×1 soit ~15 h pour 1 → 30) et art et son (5).
+
+État des chantiers :
 
 1. Fondations du combat — **fait** (crits, bonus/malus, poison, poussée/attirance, glyphes, pièges
-   invisibles, IA distance et soutien), sauf le modèle de sorts voie/rang.
-2. Progression 1 → 30 (10 à 12 sorts par Voie, rendement décroissant, tableur d'équilibrage) —
-   **reporté**.
+   invisibles, IA distance et soutien). Le modèle de sorts voie/rang passe à l'alpha 2.
 3. Contenu du monde — **systèmes faits** (niveaux variables, mini-boss à phases, Pierres de Passage
-   à découvrir et payantes, point de résurrection, carte du monde et minicarte). **Conception du
-   contenu terminée, en attente de validation** : `docs/design/chantier3_brouillon/`
-   (document, JSON par lot, scripts `src/build.py` et `src/controle.py`).
-   **Ne pas lancer la production avant l'accord de l'auteur.**
-   Question ouverte : 1 → 12 dure 2,7 h dans le modèle, le brief visait 3 à 4 h (formule dans `src/balance.py`).
-4. Interface et confort. 5. Art et son. 6. **Quêtes : en tout dernier pour l'alpha** (choix de l'auteur).
+   à découvrir et payantes, point de résurrection, carte du monde, minicarte façon Dofus Rétro).
+   **Conception validée par l'auteur, sauf les mini-boss** : révisés (réapparition ≤ 60 s, phases
+   de profils différents selon le thème, jamais de soin en phase), **en attente de revalidation** :
+   `docs/design/chantier3_brouillon/` (document, JSON par lot, scripts `src/build.py` et
+   `src/controle.py`). **Ne pas lancer la production avant cette revalidation.**
 
 ## Règles de design à respecter (détails dans le GDD)
 

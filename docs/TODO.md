@@ -91,7 +91,16 @@ durée de tour limitée (Phase 4, combat multijoueur).
 
 ## Phase 2 — Alpha solo (objectifs court terme)
 
-Objectif : **10 à 15 h de jeu solo, niveaux 1 à 30 : 3 zones de départ (une par camp) + Hautepierre**.
+Objectif : **10 à 15 h de jeu solo, niveaux 1 à 30 : 3 zones de départ (une par camp) + Hautepierre**,
+en deux tests (décision de l'auteur) :
+
+- **Alpha test 1 — les mécaniques.** Tout le contenu du chantier 3, puis l'**interface** et les
+  **quêtes** en derniers chantiers avant le lancement. XP de combat ×3,5 (`Character.XP_RATE`) :
+  tout le contenu se finit en 4 à 5 h. Pas de test de la progression.
+- **Alpha test 2 — la progression.** Leveling réel (XP ×1, ~15 h pour les niveaux 1 à 30), sorts
+  par niveau et modèle voie/rang, équilibrage race × classe, **art et son**.
+
+Les tâches marquées *(alpha 2)* sont reportées au second test.
 
 ### Personnage
 - [x] **(MVP)** Écran de création : race, classe, nom, aperçu et récapitulatif (couleurs selon race et Voie)
@@ -104,13 +113,15 @@ Objectif : **10 à 15 h de jeu solo, niveaux 1 à 30 : 3 zones de départ (une p
 - [x] **(MVP)** Effet « bouclier » (absorbe des dégâts jusqu'au prochain tour) pour le Rempart de foi
 - [x] Soins et boucliers ont un élément et grandissent avec sa caractéristique (plus avec
   l'Intelligence seule) ; même règle pour tous les effets chiffrés à venir (poisons, pièges…)
-- [ ] **(MVP)** Compléter jusqu'à environ 10 à 12 sorts par classe, débloqués par niveau (1 à 30)
+- [ ] **(MVP)** *(alpha 2)* Compléter jusqu'à environ 10 à 12 sorts par classe, débloqués par niveau (1 à 30)
 - [x] **(MVP)** Caractéristiques, points à répartir (fiche, touche C), statistiques dérivées (PV, initiative, dégâts, soins, XP)
 - [x] **(MVP)** XP, montée de niveau (courbe 60·n + 20·n²)
 - [ ] Points de sort (avec le système des Voies)
-- [ ] Rendement décroissant des caractéristiques
-- [ ] **(MVP)** Modèle de sort avec `voie` et `rang` (préparation du système des Voies) — reporté
-  après le premier test de jeu, pour ne pas ajouter de complexité
+- [x] Vitesse d'XP de l'alpha 1 : XP de combat ×3,5 (`Character.XP_RATE`), tout le contenu en 4 à 5 h ;
+  à remettre à 1.0 pour l'alpha 2
+- [ ] *(alpha 2)* Rendement décroissant des caractéristiques
+- [ ] **(MVP)** *(alpha 2)* Modèle de sort avec `voie` et `rang` (préparation du système des Voies) :
+  sorti de l'alpha 1, qui teste les mécaniques et pas la progression
 - [ ] Restat (objet ou PNJ)
 
 ### Combat
@@ -137,8 +148,10 @@ Objectif : **10 à 15 h de jeu solo, niveaux 1 à 30 : 3 zones de départ (une p
 - [ ] Tacle / fuite (activable pour tester)
 - [ ] Monstres agressifs (engagent le combat à proximité)
 - [ ] Mini-boss de fin de région avec script par phases : **moteur fait** (`boss` et `phases` dans
-  les données : seuils de PV, message, sorts gagnés, effets sur soi ; GDD § 8.1), le contenu (les
-  mini-boss eux-mêmes) viendra avec les régions
+  les données : seuils de PV, message, sorts gagnés, effets sur soi ; GDD § 8.1 ; soin interdit au
+  changement de phase, refusé à la validation), le contenu (les mini-boss eux-mêmes) viendra avec
+  les régions : conçus dans le brouillon du chantier 3 (phases de profils différents, réapparition
+  en 60 s au plus)
 
 ### Monstres et butin
 - [ ] **(MVP)** Environ 15 à 20 monstres répartis sur les 4 zones (dont des PNJ combattants de chaque camp)
@@ -219,7 +232,11 @@ Objectif : **10 à 15 h de jeu solo, niveaux 1 à 30 : 3 zones de départ (une p
 - [ ] Réputation simple par camp (si les quêtes de l'acte I le demandent)
 
 ### Monde
-- [ ] **(MVP)** Valider la conception du contenu du chantier 3 ([docs/design/chantier3_brouillon](design/chantier3_brouillon/)) puis la produire par lots (4 zones en parallèle, puis variantes et métiers) ; question ouverte : durée 1 → 12 (2,7 h dans le modèle, 3 à 4 h visées)
+- [ ] **(MVP)** Conception du contenu du chantier 3 ([docs/design/chantier3_brouillon](design/chantier3_brouillon/)) :
+  **validée par l'auteur** sauf les mini-boss, **révisés** (réapparition en 60 s au plus, phases de
+  profils différents selon le thème, plus de soin en phase) et **en attente de revalidation**.
+  Ensuite seulement : production par lots (4 zones en parallèle, puis variantes et métiers). Durée :
+  réglée par l'XP ×3,5 de l'alpha 1 (tout le contenu en 4 à 5 h).
 - [ ] **(MVP)** Zone de départ humaine : Collines de Brumerive (environ 8 à 10 cartes) — 2 cartes + la maison
 - [ ] **(MVP)** Zone de départ gobeline : Galeries de Crasse-Roc (environ 8 à 10 cartes) — 2 cartes (entrée des galeries, le Crassier)
 - [ ] **(MVP)** Zone de départ elfe : Lisière de Sylvebrume (environ 8 à 10 cartes) — 2 cartes (clairière de la Lisière, Futaie ancienne)
@@ -236,8 +253,8 @@ Objectif : **10 à 15 h de jeu solo, niveaux 1 à 30 : 3 zones de départ (une p
 - [ ] Pierres de Passage dans d'autres zones (Hautepierre…), prix selon la distance
 - [x] Carte du monde et minicarte : touche M (ou bouton du bandeau, ou clic sur la minicarte), un
   onglet par zone visitée, cartes en grille d'après leurs coordonnées (`<zone>_<x>_<y>`), voisines
-  inconnues en « ? », Pierres de Passage ; minicarte en exploration (sol, obstacles, sorties,
-  joueur, groupes, élites, PNJ, portes, pierre ; repliable)
+  inconnues en « ? », Pierres de Passage ; minicarte façon Dofus Rétro : la carte du monde en réduit,
+  5 × 5 cartes autour de la carte actuelle (nom au survol, repliable)
 - [x] Point de résurrection : la dernière Pierre de Passage touchée (au départ, celle de la zone de
   départ) ; après une défaite, réveil à côté d'elle avec 1 PV, même sur une autre carte
 - [ ] Point de résurrection aux temples
@@ -261,6 +278,9 @@ Objectif : **10 à 15 h de jeu solo, niveaux 1 à 30 : 3 zones de départ (une p
 - [ ] Raccourcis clavier
 
 ### Art et audio
+
+*(alpha 2)* Reporté au second test, sauf les dessins demandés par le contenu du chantier 3.
+
 - [x] Test de direction artistique sur la place de Brumerive : sol sans quadrillage, chemins, eau,
   arbres, rochers, minerais, maison et auberge, personnages articulés (humain, gobelin), loup, PNJ
 - [x] Outils : capture d'écran du jeu (`tools/screenshot.gd`) et planche des images (`tools/art_sheet.gd`)
@@ -283,7 +303,7 @@ Objectif : **10 à 15 h de jeu solo, niveaux 1 à 30 : 3 zones de départ (une p
 - [ ] Bruitages : interface, pas, impacts, sorts
 
 ### Qualité
-- [ ] Équilibrage des 9 combinaisons race × classe sur les niveaux 1 à 30
+- [ ] *(alpha 2)* Équilibrage des 9 combinaisons race × classe sur les niveaux 1 à 30
 - [ ] Session de test externe (5 joueurs minimum) + formulaire de retours
 - [ ] Build distribuable (itch.io en accès privé, par exemple)
 

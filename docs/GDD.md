@@ -407,8 +407,11 @@ ajoutent 5 dégâts à chaque ligne de dégâts de n'importe quel sort ou arme, 
   Seuls les points répartis sont concernés (pas l'équipement ni les panoplies). But : rendre
   intéressant de monter une deuxième caractéristique au lieu de tout mettre dans une seule.
 - **Courbe d'XP** (en place) : passer du niveau n à n+1 coûte 60·n + 20·n² XP (80 pour le niveau 2,
-  200 de plus pour le 3, environ 8 400 au total pour le niveau 10). À ajuster selon les tests, cible :
-  niveau 10 en environ 2 h, niveau 30 en environ 15 h pour l'alpha.
+  200 de plus pour le 3, environ 8 400 au total pour le niveau 10). Cible de la vraie progression :
+  niveau 10 en environ 2 h, niveau 30 en environ 15 h.
+- **Vitesse d'XP de l'alpha 1** (en place) : l'XP de combat est multipliée par 3,5
+  (`Character.XP_RATE`), pour finir tout le contenu (1 → 30) en 4 à 5 h : l'alpha 1 teste les
+  mécaniques, pas la progression. On remettra ×1 pour l'alpha 2, qui testera le leveling.
 - **Restat :** possible via un objet ou une quête, pour ne pas punir l'expérimentation.
 
 ---
@@ -485,10 +488,12 @@ prévoit déjà `voie` et `rang` sur chaque sort** pour que le système s'ajoute
   zone visitée ; les coordonnées d'une carte viennent de son id (`<zone>_<x>_<y>`, x vers l'est,
   y vers le sud). Seules les cartes visitées sont nommées ; leurs voisines (par une sortie) sont des
   « ? », le reste est caché, et la grille s'adapte à la taille de la zone. Les Pierres de Passage y
-  figurent (découvertes ou non) ; les intérieurs, sans coordonnées, n'y sont pas. La minicarte, en
-  haut à droite en exploration, montre la carte actuelle, le joueur, les groupes de monstres (élites
-  en doré) et les PNJ ; un clic dessus ouvre la carte du monde, un bouton la replie pour dégager le
-  coin de la carte qu'elle recouvre.
+  figurent (découvertes ou non) ; les intérieurs, sans coordonnées, n'y sont pas. La minicarte,
+  comme dans Dofus Rétro, est la carte du monde en réduit : une fenêtre fixe de 5 × 5 cartes
+  centrée sur la carte actuelle (cadre doré, point bleu), avec les cartes visitées, les voisines en
+  « ? », les chemins et les Pierres de Passage ; une carte tient sur un écran, inutile de la
+  redessiner en petit. Survol : le nom de la carte ; un clic ouvre la carte du monde, un bouton la
+  replie.
 - **Point de résurrection** : la dernière Pierre de Passage touchée (au départ, celle de la zone de
   départ). *Fait :* après une défaite, on se réveille à côté d'elle avec 1 PV, même si elle est sur
   une autre carte que le combat ; la fenêtre de voyage la rappelle. *À venir :* les temples.
@@ -613,9 +618,15 @@ vaut quelque chose ; pas de recherche profonde.
   élite, niveau fixe, comme le Souverain Cendré) ou n'importe quel monstre peut avoir des **phases**.
   Quand ses PV tombent sous un seuil (en % de ses PV max), après n'importe quels dégâts, la phase se
   déclenche une seule fois : il annonce la couleur (message de combat et texte flottant), apprend de
-  nouveaux sorts et s'applique des effets (bonus, soin, bouclier…). Plusieurs seuils franchis d'un
-  coup : toutes les phases, dans l'ordre. Les mini-boss de fin de région et leurs scripts viendront
-  avec le contenu.
+  nouveaux sorts et s'applique des effets (bonus, malus, bouclier…). Plusieurs seuils franchis d'un
+  coup : toutes les phases, dans l'ordre. **Jamais de soin** à un changement de phase, ni en effet
+  ni en sort appris (refusé à la validation des données) : un monstre qui remonte ses PV à chaque
+  seuil peut enfermer le joueur dans un combat sans fin. Les phases d'un mini-boss suivent son
+  thème et ont des **profils différents** (agressif, défensif, mobilité, contrôle), dans un ordre
+  propre à chacun, et peuvent lui coûter quelque chose (rage qui baisse ses résistances, roues
+  cassées qui le clouent sur place). Un mini-boss **réapparaît en 60 s au plus** pendant l'alpha,
+  pour qu'on puisse retester ses mécaniques. Les quatre mini-boss de l'alpha sont conçus
+  (`docs/design/chantier3_brouillon/`) et viendront avec le contenu.
 - **Groupes :** de 1 à 8 monstres (3 au plus pendant l'alpha), d'une ou plusieurs espèces, tous visibles
   sur la carte ; composition fixe ou aléatoire dans une liste par zone.
 - **Variantes Corrompues :** versions plus fortes avec un butin spécifique (cendres, fragments).
@@ -889,8 +900,9 @@ ingrédients).
 - **Fenêtres :** inventaire avec poupée d'équipement, fiche de caractéristiques, grimoire de sorts,
   journal de quêtes, fenêtre de métier, carte du monde (touche M).
 - **Minicarte** en haut à droite, sous le bandeau du haut, en exploration seulement (en combat, la
-  place revient à l'ordre de jeu) ; un clic dessus ouvre la carte du monde, et un bouton « – » la
-  replie (il ne reste que sa barre) quand elle cache un monstre ou un PNJ.
+  place revient à l'ordre de jeu) : la carte du monde en réduit autour de la carte actuelle (5 × 5
+  cartes) ; un clic dessus ouvre la carte du monde, et un bouton « – » la replie (il ne reste que
+  sa barre) quand elle cache un monstre ou un PNJ.
 - **En combat :** frise d'initiative, prévisualisation de portée et de zone, dégâts estimés au survol,
   bouton « fin de tour ». Au survol d'un combattant, ses informations (nom, niveau, PV, PA, PM,
   résistances aux 6 éléments) remplacent la barre de sorts, comme dans Dofus Rétro.
@@ -996,7 +1008,7 @@ exemples en [annexe](#20-annexes--formats-de-données).
 |---|---|---|
 | **0. Pré-production** | Choix techniques, GDD validé, prototypes papier | Moteur choisi, structure du dépôt en place |
 | **1. Prototype** | Une carte, déplacement, un combat 1 contre 1 | Un combat jouable de bout en bout |
-| **2. Alpha solo** (court terme) | 3 races (une par camp), 4 classes (avec le Théologue), combat + butin, quêtes simples, 3 métiers, équipement, 3 zones de départ + Hautepierre | Environ 10 à 15 h de jeu solo de niveau 1 à 30 |
+| **2. Alpha solo** (court terme) | 3 races (une par camp), 4 classes (avec le Théologue), combat + butin, quêtes simples, 3 métiers, équipement, 3 zones de départ + Hautepierre | **Alpha test 1** (mécaniques) : tout le contenu, l'interface et les quêtes, XP ×3,5, 4 à 5 h pour tout finir. **Alpha test 2** (progression) : leveling réel (~15 h pour les niveaux 1 à 30), sorts par Voie et rang, art et son |
 | **3. Solo étendu** (long terme) | 6 races de plus (Nains, Orcs, Semi-hommes, Géants, Squelettes, Lutins ; 9 au total), 5 classes de plus (Paladin, Myrmidon, Ombre, Venomancien, Démoniste ; 9 au total), Voies, donjons, quêtes complexes, légendaires, scénario complet | Quête des Reliques jouable jusqu'au boss final |
 | **4. Fondations réseau** | Serveur autoritaire, comptes, une instance, synchronisation | Deux joueurs se voient et combattent ensemble |
 | **5. Multi** | Instances, groupe, amis, chat, échanges, hôtel des ventes, guildes | Bêta fermée |

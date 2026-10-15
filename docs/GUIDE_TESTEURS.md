@@ -58,12 +58,12 @@ bandeau, hors combat, ouvre sa fiche.
 
 ### Minicarte et carte du monde
 
-- **Minicarte** (en haut à droite, en exploration seulement) : la carte actuelle en petit, aux
-  couleurs de la zone (la lave du Trône de Cendre y reste orange). Sol, arbres et rochers (plus
-  sombres), eau, chemins, bords de sortie (en jaune), portes (carré doré) et Pierre de Passage
-  (losange bleu) ; **vous** (point bleu cerclé de blanc), les groupes de monstres (points rouges,
-  **dorés pour une élite**) et les PNJ (points clairs) bougent en direct.
-  En haut, les coordonnées de la carte. Un **clic** dessus ouvre la carte du monde. Elle disparaît en
+- **Minicarte** (en haut à droite, en exploration seulement), comme dans Dofus Rétro : la carte du
+  monde en réduit, **5 × 5 cartes autour de vous**. Votre carte est au milieu (cadre doré, point
+  bleu) ; les cartes déjà visitées sont des cases claires, leurs voisines pas encore visitées des
+  « ? », les traits sont les passages entre cartes, le losange bleu une Pierre de Passage. Survolez
+  une case pour son nom. En haut, le nom de la zone et les coordonnées de la carte ; dans une maison,
+  elle montre la carte devant la porte. Un **clic** dessus ouvre la carte du monde. Elle disparaît en
   combat (l'ordre de jeu prend sa place). Elle cache le coin en haut à droite de la carte : si un
   groupe ou un PNJ passe dessous, ou pour aller sur ces cases, **repliez-la** avec le petit bouton
   **« – »** de sa barre (« + » pour la déplier) ; elle reste repliée d'une carte à l'autre.
@@ -94,7 +94,8 @@ bandeau, hors combat, ouvre sa fiche.
    - survoler un combattant : son niveau, ses PV, PA, PM et ses résistances s'affichent à la place
      de la barre de sorts.
 3. Fin du combat : expérience, écus et butin (une icône par objet avec sa quantité ; le nom en
-   survolant). En cas de défaite, on se réveille avec 1 PV à côté de la Pierre de Passage de son
+   survolant). Pendant l'alpha 1, l'expérience gagnée est **multipliée par 3,5** : on monte vite de
+   niveau pour tester toutes les mécaniques ; la vraie vitesse de progression viendra à l'alpha 2. En cas de défaite, on se réveille avec 1 PV à côté de la Pierre de Passage de son
    **point de résurrection** (voir plus bas), même si elle est sur une autre carte.
    Si le sac (60 places) est plein, le butin y entre quand même, en surplus : il faut alors faire de
    la place (vendre, jeter, ranger au coffre) avant de pouvoir relancer un combat.
