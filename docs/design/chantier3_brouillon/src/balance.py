@@ -1,4 +1,5 @@
 """Modèle d'équilibrage du chantier 3 (référence : joueur seul contre un groupe de 2 monstres de son niveau)."""
+XP_ALPHA = 3.5  # multiplicateur d'XP de combat de l'alpha 1 (Character.XP_RATE dans le jeu)
 def xp_step(n): return 60*n+20*n*n
 def xp_total(n): return sum(xp_step(k) for k in range(1,n))
 def pv_joueur(n): return 52+5*(n-1)+3+3*n          # Voie moyenne 52 PV, +5/niv, Vitalité race+équipement ~3/niv

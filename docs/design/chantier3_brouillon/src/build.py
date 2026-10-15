@@ -156,7 +156,7 @@ def md_boss(b):
     L = [f"#### Mini-boss : {j['nom']} (`{j['id']}`) — niveau {j['niveau']}, carte `{b['carte']}`",
          f"*{j['description']}*", "",
          f"- {carac_txt(j['caracteristiques'])} ; rés. {res_txt(j['resistances'])} ; IA `{j['ia']}` ; XP {j['xp']} ; écus {j['ecus'][0]}–{j['ecus'][1]}.",
-         f"- Groupe fixe : {', '.join(b['groupe'])} ; réapparition {b['reapparition'][0] // 60}–{b['reapparition'][1] // 60} min.",
+         f"- Groupe fixe : {', '.join(b['groupe'])} ; réapparition {b['reapparition'][0]}–{b['reapparition'][1]} s.",
          "- Sorts : " + "".join("\n  - " + sort_txt(s["id"]) for s in b["sorts"])]
     L.append("- Phases :")
     for p in j["phases"]:

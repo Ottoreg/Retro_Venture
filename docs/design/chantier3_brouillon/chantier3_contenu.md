@@ -4,7 +4,7 @@ Document de conception, généré par `src/build.py` (contrôle de cohérence : 
 
 ## 1. Résumé
 
-- **48 cartes** (42 nouvelles), **49 monstres** (familles, élites, mini-boss, variantes), **64 sorts nouveaux** (18 réutilisés), **94 objets**, **14 nouveaux dessins** et 94 icônes.
+- **48 cartes** (42 nouvelles), **49 monstres** (familles, élites, mini-boss, variantes), **65 sorts nouveaux** (18 réutilisés), **94 objets**, **14 nouveaux dessins** et 94 icônes.
 
 | Zone | Cartes | Niveaux | Familles par palier | Mini-boss |
 |---|---|---|---|---|
@@ -116,7 +116,7 @@ y=2                       [Les Grands Blés 7-9] ── [Camp du raid 10-12] ─
 - Ambiance : La palissade du chef de raid : pieux, étendard, tableau d'affichage syndical (« Pause : 3 fois par heure »).
 - Plan : Palissade de murs (M) en grand rectangle avec deux ouvertures (gauche et haut) ; à l'intérieur une grande tente (décor « auberge » recolorée ou « cabane ») et l'arène dégagée (7×7) où attend Krasbouk ; deux tours de guet en rochers.
 - Ressources : T×1.
-- Groupes : 1. krasbouk + gobelin_frondeur (réapparition 900–1200 s); 2. gobelin_briseur + gobelin_briseur. Groupe 1 : le boss et son « secrétaire » (un frondeur qui prend des notes), fixe, réapparition 15 à 20 min.
+- Groupes : 1. krasbouk + gobelin_frondeur (réapparition 45–60 s); 2. gobelin_briseur + gobelin_briseur. Groupe 1 : le boss et son « secrétaire » (un frondeur qui prend des notes), fixe, réapparition en 1 min au plus.
 
 ### 3.2 Familles
 
@@ -217,19 +217,19 @@ y=2                       [Les Grands Blés 7-9] ── [Camp du raid 10-12] ─
 #### Mini-boss : Krasbouk, Chef de Raid (syndiqué) (`krasbouk`) — niveau 12, carte `brumerive_3_2`
 *Il mène le raid sur Brumerive parce que son contrat le dit. Il a lu le contrat. Lui seul.*
 
-- PV 260, PA 7, PM 3, Ini 120, For 30 ; rés. Acier +20, Flamme +10, Tempête +0, Givre -10 ; IA `basique` ; XP 700 ; écus 80–140.
-- Groupe fixe : krasbouk, gobelin_frondeur ; réapparition 15–20 min.
+- PV 300, PA 7, PM 3, Ini 120, For 30 ; rés. Acier +20, Flamme +10, Tempête +0, Givre -10 ; IA `basique` ; XP 700 ; écus 80–140.
+- Groupe fixe : krasbouk, gobelin_frondeur ; réapparition 45–60 s.
 - Sorts : 
   - **Hachoir réglementaire** (`krasbouk_hachoir`, nouveau) : 4 PA, portée 1, 1/tour — 7–10 Acier. *Coup porté selon l'article 3 du contrat de raid.*
   - **Hachette de jet** (`krasbouk_hachette`, nouveau) : 3 PA, portée 2–5, 1/tour — 4–6 Acier. *Il en a toujours une de rechange, glissée dans la botte.*
   - **Cri de raid** (`krasbouk_cri_de_raid`, nouveau) : 2 PA, portée 0, sans ldv, 1/tour, délai 3 — +25 For (2 t) (alliés). *« Pour la prime ! » Ses muscles y croient.*
   - **Tourbillon syndical** (`krasbouk_tourbillon`, nouveau) : 4 PA, portée 0, cercle 1, sans ldv, lanceur exclu, 1/tour — 7–10 Acier. *Il fait le tour de la question. Et de tous ceux qui l'entourent.*
 - Phases :
-  - **60 %** — « « Article 7 : en cas de résistance, le chef a droit à une pause ! » Krasbouk sort sa gourde. » — sur lui : soin Acier 40–40 ; bouclier Acier 30–30
-  - **30 %** — « « Prime de risque ! PRIME DE RISQUE ! » Krasbouk entre en grève… contre vous. » — apprend `krasbouk_tourbillon` ; sur lui : +2 PA (3 t) ; +4 Dommages (3 t)
+  - **60 %** — « « Article 7 : piquet de grève mobile ! » Krasbouk court d'un bout à l'autre de la palissade. » — sur lui : +2 PM (3 t) ; +2 Portée (3 t)
+  - **30 %** — « « Prime de risque ! PRIME DE RISQUE ! » Krasbouk jette son casque et entre en grève… contre vous. » — apprend `krasbouk_tourbillon` ; sur lui : +25 % Crit (3 t) ; +4 Dommages (3 t) ; −20 Rés. Acier (3 t)
 - Butin : ordre_de_raid 100 %, sac_de_rapine 90 % ×2–4, chevaliere_du_delegue 20 %, hachoir_de_krasbouk 12 %.
 - Dessin : rig `gobelin_chef` (arme hache ; accessoires casque, cape_cendre ; couleurs peau #7c9a48, tunique #8a2a1a, manches #4e4e58, pantalon #2a2420, cheveux #2a2018, ceinture #e0b860, bottes #1e1a17).
-- Équilibrage : Pour un niveau 12 seul (146 PV, ~33 dégâts/tour) : ~330 PV effectifs (260 + soin 40 + bouclier 30), soit 10 tours ; il inflige ~17 dégâts/tour (25 en phase 2) : gagnable avec les soins de sa Voie, perdu si on se laisse encercler.
+- Équilibrage : Profil agressif. Pour un niveau 12 seul (146 PV, ~33 dégâts/tour) : 300 PV (sans soin ni bouclier), soit 9 à 10 tours ; ~17 dégâts/tour, ~25 en dernière phase (critiques, Dommages, tourbillon) mais −20 % de rés. Acier pendant 3 tours : la fenêtre pour finir le combat. Gagnable avec les soins de sa Voie, perdu si on se laisse encercler.
 
 ## 4. Galeries de Crasse-Roc
 
@@ -324,7 +324,7 @@ y=3                              [L'Abîme du Balourd ☠ 12]
 - Ambiance : Le fond des galeries, là où on a creusé trop profond : un lac de lave, un pont de pierre, et quelque chose de très grand qui attend.
 - Plan : Palette « forges ». Lac de lave (E) sur tout le bas et les côtés ; une plate-forme centrale (7×7 praticable) reliée au haut par un pont de 2 cases de large ; piliers (R) sur la plate-forme pour s'abriter du Crachat de lave.
 - Ressources : —.
-- Groupes : 1. balourd_des_abimes (réapparition 900–1200 s); 2. contremaitre_zele + contremaitre_zele. Groupe 1 : le Balourd seul, fixe, réapparition 15 à 20 min ; groupe 2 près du pont (les contremaîtres « surveillent les travaux »).
+- Groupes : 1. balourd_des_abimes (réapparition 45–60 s); 2. contremaitre_zele + contremaitre_zele. Groupe 1 : le Balourd seul, fixe, réapparition en 1 min au plus ; groupe 2 près du pont (les contremaîtres « surveillent les travaux »).
 
 ### 4.2 Familles
 
@@ -427,20 +427,20 @@ y=3                              [L'Abîme du Balourd ☠ 12]
 #### Mini-boss : Le Balourd des Abîmes (`balourd_des_abimes`) — niveau 12, carte `crasse_roc_1_3`
 *Les gobelins ont creusé trop profond. Le contremaître dit que c'est la faute des ouvriers. Le Balourd dit que c'est la faute de tout le monde.*
 
-- PV 280, PA 7, PM 3, Ini 90, Int 20 ; rés. Flamme +40, Acier +15, Tempête +0, Givre -25 ; IA `basique` ; XP 760 ; écus 90–150.
-- Groupe fixe : balourd_des_abimes ; réapparition 15–20 min.
+- PV 300, PA 7, PM 3, Ini 90, Int 20 ; rés. Flamme +40, Acier +15, Tempête +0, Givre -25 ; IA `basique` ; XP 760 ; écus 90–150.
+- Groupe fixe : balourd_des_abimes ; réapparition 45–60 s.
 - Sorts : 
   - **Lame de braise** (`balourd_lame_de_braise`, nouveau) : 4 PA, portée 1, 1/tour — 8–11 Flamme. *Une épée faite de feu. Ou un feu en forme d'épée : il n'a jamais su.*
   - **Fouet de flammes** (`balourd_fouet`, nouveau) : 4 PA, portée 1–3, 1/tour — 6–9 Flamme ; attirance 1. *Il vous ramène vers lui, poliment, par le cou.*
   - **Crachat de lave** (`balourd_crachat_de_lave`, nouveau) : 3 PA, portée 2–6, cercle 1, 1/tour — 4–6 Flamme. *Il n'a pas de manières. Il a de la lave.*
   - **Pluie de braises** (`balourd_pluie_de_braises`, nouveau) : 3 PA, portée 1–5, cercle 2, sans ldv, 1/tour, délai 3 — glyphe 2 t : 3–5 Flamme (ennemis). *Le plafond de la galerie s'embrase. Personne ne va aimer la suite.*
 - Phases :
-  - **70 %** — « Le Balourd s'embrase : « Qui a creusé ici ? Je veux le nom du contremaître ! » » — sur lui : +30 Int (3 t)
-  - **40 %** — « Le plafond de la galerie prend feu. Le Balourd déploie ses ailes (enfin, ce qui y ressemble). » — apprend `balourd_pluie_de_braises` ; sur lui : bouclier Flamme 50–50
-  - **15 %** — « « Bon. On peut peut-être négocier ? » Il ne négocie pas. » — sur lui : +2 PA ; +5 Dommages (3 t)
+  - **70 %** — « « Qui a creusé ici ? Je veux le nom du contremaître ! » Sa peau de roche se referme, fissure par fissure. » — sur lui : +25 Rés. Givre (3 t) ; +15 Rés. Acier (3 t)
+  - **40 %** — « Le Balourd s'embrase et le plafond de la galerie prend feu. » — apprend `balourd_pluie_de_braises` ; sur lui : +30 Int (3 t)
+  - **15 %** — « « Bon. On peut peut-être négocier ? » Il ne négocie pas : il déploie ses ailes de fumée. » — sur lui : +3 PM (3 t) ; +2 Portée (3 t)
 - Butin : corne_du_balourd 100 %, cape_de_fumee 20 %, fouet_du_balourd 12 %, registre_des_heures 50 % ×1–2.
 - Dessin : image `balourd` (échelle 1.0). **Nouveau dessin** : monstre/balourd.svgt, ~96×104 px : démon massif de roche noire fissurée de lave orange, deux cornes recourbées, ailes de fumée grise en lambeaux, épée de braise dans la main droite et fouet de flamme dans la gauche ; yeux jaunes ; ancre aux pieds (≈ [48, 100]). Le plus grand monstre des zones de départ..
-- Équilibrage : Plus dur que les deux autres mini-boss (zone « rude à la fin ») : ~330 PV effectifs (280 + bouclier 50), ~17 dégâts/tour puis ~25 avec +30 Int et la glyphe de braises. Faible au Givre (−25) : les arcanistes de Givre et les gobelins Chance s'en sortent mieux.
+- Équilibrage : Profil défensif puis éruptif. Plus dur que les deux autres mini-boss (zone « rude à la fin ») : 300 PV, et sa faiblesse au Givre (−25) est couverte pendant 3 tours à 70 % ; ~17 dégâts/tour puis ~25 avec +30 Int et la glyphe de braises ; à 15 %, +3 PM et +2 portée : il ne se laisse plus coincer. Les arcanistes de Givre et les gobelins Chance s'en sortent mieux, à condition de garder leurs coups pour après la carapace.
 
 ## 5. Lisière de Sylvebrume
 
@@ -527,7 +527,7 @@ y=2  [Cœur de la Toile ☠ 12] ────────── [Toiles grises 10
 - Ambiance : Une clairière entièrement tendue de soie grise, au centre de laquelle trône la Mère-Toile.
 - Plan : Clairière circulaire (9×9 praticable) cernée d'arbres (A) épais ; cocons (R) répartis dans la clairière comme couverts ; une seule entrée à droite.
 - Ressources : —.
-- Groupes : 1. mere_toile (réapparition 900–1200 s); 2. tisseuse_de_brume + tisseuse_de_brume. Groupe 1 : la Mère-Toile seule, fixe, réapparition 15 à 20 min ; groupe 2 à l'entrée.
+- Groupes : 1. mere_toile (réapparition 45–60 s); 2. tisseuse_de_brume + tisseuse_de_brume. Groupe 1 : la Mère-Toile seule, fixe, réapparition en 1 min au plus ; groupe 2 à l'entrée.
 
 ### 5.2 Familles
 
@@ -629,20 +629,20 @@ y=2  [Cœur de la Toile ☠ 12] ────────── [Toiles grises 10
 #### Mini-boss : La Mère-Toile (`mere_toile`) — niveau 12, carte `sylvebrume_0_2`
 *Elle tisse depuis l'Âge de l'Aube et n'a jamais fini un seul napperon. Depuis que la Cendre tombe, elle tisse plus vite, et plus noir.*
 
-- PV 270, PA 7, PM 4, Ini 130, Cha 25 ; rés. Givre +30, Impie +15, Tempête +10, Acier +5, Flamme -20 ; IA `basique` ; XP 720 ; écus 80–140.
-- Groupe fixe : mere_toile ; réapparition 15–20 min.
+- PV 300, PA 7, PM 4, Ini 130, Cha 25 ; rés. Givre +30, Impie +15, Tempête +10, Acier +5, Flamme -20 ; IA `basique` ; XP 720 ; écus 80–140.
+- Groupe fixe : mere_toile ; réapparition 45–60 s.
 - Sorts : 
   - **Venin ancestral** (`meretoile_venin`, nouveau) : 4 PA, portée 1, 1/tour — 7–10 Givre ; poison Givre 3–4 (3 t). *Une seule morsure, et l'hiver s'installe dans vos veines.*
   - **Morsure glacée** (`tisseuse_morsure`, nouveau) : 3 PA, portée 1, 1/tour — 4–6 Givre ; poison Givre 2–3 (2 t). *Le venin des tisseuses gèle le sang. Et l'humeur.*
   - **Toile collante** (`tisseuse_toile`, nouveau) : 3 PA, portée 2–5, 1/tour — 2–4 Givre ; −2 PM (1 t). *On se débat, on s'emmêle, on reste là.*
   - **Toile géante** (`meretoile_toile_geante`, nouveau) : 4 PA, portée 2–5, cercle 2, sans ldv, 1/tour, délai 3 — glyphe 2 t : 2–4 Givre (ennemis), −2 PM (1 t) (ennemis). *Toute la clairière devient un piège.*
 - Phases :
-  - **65 %** — « La Mère-Toile se retire dans son cocon et tisse la clairière entière. » — apprend `meretoile_toile_geante` ; sur lui : bouclier Givre 60–60
-  - **35 %** — « « Mes petites ! … Ah, non : elles sont toutes à la Lisière, à embêter les elfes. » » — sur lui : +40 Cha (3 t)
-  - **10 %** — « Elle file un dernier fil… et s'en sert pour recoudre ses plaies. » — sur lui : soin Givre 50–50
+  - **65 %** — « La Mère-Toile court sur ses fils et tisse la clairière entière. » — apprend `meretoile_toile_geante` ; sur lui : +2 PM (3 t)
+  - **35 %** — « « Mes petites ! … Ah, non : elles sont toutes à la Lisière, à embêter les elfes. » Elle s'emmaillote dans sa soie. » — sur lui : +30 Rés. Flamme (3 t) ; +20 Rés. Acier (3 t)
+  - **10 %** — « Elle file un dernier fil… et décide qu'elle a assez tissé pour aujourd'hui. » — sur lui : +40 Cha (3 t) ; +20 % Crit (3 t)
 - Butin : soie_de_la_mere_toile 100 %, fil_de_brume 90 % ×2–4, anneau_aux_huit_yeux 20 %, fuseau_de_la_mere_toile 12 %.
 - Dessin : image `araignee` (échelle 1.5 ; teinte #d8c8f0).
-- Équilibrage : ~330 PV effectifs (270 + bouclier 60), ~16 dégâts/tour avec poisons, retrait de PM : un combat de placement. Faible à la Flamme (−20).
+- Équilibrage : Profil contrôle et placement. 300 PV, ~16 dégâts/tour avec poisons, retrait de PM et toile géante : un combat de placement. Faible à la Flamme (−20), sauf pendant son cocon (35 %, 3 tours) ; à 10 % elle mise tout sur l'attaque (Chance et critiques).
 
 ## 6. Hautepierre et ses environs
 
@@ -825,7 +825,7 @@ y=4                                                  [Gorges du Troll 16-18 ✦]
 - Ambiance : La brèche ouverte dans la grande muraille extérieure, d'où descend la Cendre ; Grondin y attend la prochaine porte à enfoncer.
 - Plan : Palette `cendre` (comme le Trône de Cendre). Muraille éventrée (M) en diagonale avec une brèche de 5 cases ; arène dégagée (8×8) devant ; braises (taches) ; débris (R) en couverts.
 - Ressources : D×1.
-- Groupes : 1. grondin (réapparition 1800–2400 s); 2. olifant_de_guerre + cendrillon. Groupe 1 : Grondin seul, fixe, réapparition 30 à 40 min.
+- Groupes : 1. grondin (réapparition 45–60 s); 2. olifant_de_guerre + cendrillon. Groupe 1 : Grondin seul, fixe, réapparition en 1 min au plus.
 
 ### 6.2 Familles
 
@@ -946,19 +946,20 @@ y=4                                                  [Gorges du Troll 16-18 ✦]
 *Un bélier de siège à tête de loup, forgé dans les Marches Cendrées. Il avance tout seul. Personne ne veut savoir comment.*
 
 - PV 600, PA 8, PM 2, Ini 80, For 40 ; rés. Acier +35, Flamme +25, Tempête +10, Givre -20, Sacré -10 ; IA `basique` ; XP 3600 ; écus 300–500.
-- Groupe fixe : grondin ; réapparition 30–40 min.
+- Groupe fixe : grondin ; réapparition 45–60 s.
 - Sorts : 
   - **Coup de bélier** (`grondin_coup_de_belier`, nouveau) : 5 PA, portée 1, 1/tour — 12–16 Acier ; poussee 2. *Le coup qui a fait trembler la Grande Porte. Vous êtes moins solide qu'une porte.*
   - **Éclats de porte** (`grondin_eclats_de_porte`, nouveau) : 3 PA, portée 2–5, cercle 1, 1/tour — 4–6 Acier. *Il crache les morceaux des portes qu'il a déjà enfoncées.*
   - **Élan** (`grondin_elan`, nouveau) : 2 PA, portée 0, sans ldv, 1/tour, délai 2 — +2 PM (1 t). *Les roues grincent, les chaînes claquent : il recule pour mieux frapper.*
+  - **Charge de la Brèche** (`grondin_charge`, nouveau) : 5 PA, portée 2–5, en ligne, 1/tour, délai 2 — 10–14 Acier ; poussee 2. *Les chaînes lâchent : le bélier dévale la pente. Ce qui est devant lui ne le reste pas.*
   - **Souffle de forge** (`grondin_souffle_de_forge`, nouveau) : 4 PA, portée 1–4, cercle 1, 1/tour — 8–11 Flamme. *La tête de loup crache le feu de la forge où on l'a coulée.*
 - Phases :
-  - **75 %** — « « Grondin ! Grondin ! » scandent des voix dans la cendre. Le bélier prend de l'élan. » — sur lui : +30 For (3 t)
-  - **50 %** — « La tête de loup du bélier s'embrase. Les chaînes rougissent. » — apprend `grondin_souffle_de_forge` ; sur lui : bouclier Acier 80–80
-  - **20 %** — « « Trois coups ! On frappe toujours trois coups ! » » — sur lui : +3 PA ; +8 Dommages (2 t)
+  - **75 %** — « Des mains invisibles clouent des planches neuves sur le toit du bélier. Personne ne veut savoir à qui elles sont. » — sur lui : bouclier Acier 80–80 ; +20 Rés. Givre (3 t)
+  - **50 %** — « « Grondin ! Grondin ! » scandent des voix dans la cendre. Les chaînes lâchent. » — apprend `grondin_charge` ; sur lui : +2 PM (3 t)
+  - **20 %** — « « Trois coups ! On frappe toujours trois coups ! » Ses roues cassent ; sa tête de loup s'embrase. » — apprend `grondin_souffle_de_forge` ; sur lui : +40 For (3 t) ; −2 PM (3 t)
 - Butin : eclat_de_cendre 100 % ×1–2, heaume_du_belier 15 %, anneau_du_gond 15 %, marteau_de_grondin 6 %.
 - Dessin : image `grondin` (échelle 1.0). **Nouveau dessin** : monstre/grondin.svgt, ~112×76 px : bélier de siège sur 4 roues, poutre de bois noir cerclée de fer, tête de loup en fer forgé à l'avant aux yeux rouge braise, chaînes pendantes, toit de planches roussies ; ancre au centre bas (≈ [56, 72]). Pas d'équipage : il avance seul..
-- Équilibrage : Pour un niveau 29–30 seul (~285 PV, ~60 dégâts/tour) : ~680 PV effectifs (600 + bouclier 80, sous les 900 du Souverain), 11 tours ; ~28 dégâts/tour (poussées comprises), ~40 à 20 %. Faible au Givre (−20) et au Sacré (−10).
+- Équilibrage : Profil de siège. Pour un niveau 29–30 seul (~285 PV, ~60 dégâts/tour) : ~680 PV effectifs (600 + bouclier 80, sous les 900 du Souverain), 11 tours ; ~28 dégâts/tour (poussées comprises) ; à 50 % il charge de loin ; à 20 %, ~40 dégâts/tour mais −2 PM : on peut le contourner et frapper à distance. Faible au Givre (−20, couvert 3 tours à 75 %) et au Sacré (−10).
 
 ### 6.4 La ville
 
@@ -1227,7 +1228,8 @@ Référence : un joueur seul contre un groupe de 2 monstres de son niveau. Le co
 | 30 | — | 290 | 240 | 63.0 | 158 | 13.8 | 453 | 23–53 | — |
 
 - **Durée visée** : 14.0 h de combat du niveau 1 au niveau 30, dont 2.7 h dans la zone de départ (1 → 12, ~129 combats) et ~366 combats dans Hautepierre (12 → 30).
-- **Élites** : niveau = max de la famille + 3, PV ≥ 2× la base, XP × 1,8, écus × 2,5, butin plus fréquent ; **mini-boss** : groupe fixe, phases à 66 % et 33 % de PV, trophée de recette.
+- **Alpha 1** : l'XP de combat est multipliée par 3.5 (`Character.XP_RATE`) ; tout le contenu (1 → 30) se fait alors en ~4.0 h de combat, ~4 à 5 h avec les déplacements. On revient à ×1 (~15 h pour les 30 premiers niveaux) quand on testera la vraie progression.
+- **Élites** : niveau = max de la famille + 3, PV ≥ 2× la base, XP × 1,8, écus × 2,5, butin plus fréquent ; **mini-boss** : groupe fixe, réapparition en 60 s au plus (alpha : on doit pouvoir retester ses mécaniques), 2 ou 3 phases de profils différents tirés de son thème (agressif, défensif, mobilité, contrôle), **jamais de soin** à un changement de phase (risque de combat sans fin), trophée de recette.
 - **Variantes corrompues** : +10 % d'XP, éléments Flamme, apparaissent après le mini-boss de leur zone (voir §7).
 - **À valider en jeu** : la durée réelle des combats (le modèle suppose 70 % de coups portés) et la vitesse de progression de chaque race, puisque les paliers sont asymétriques entre zones.
 
@@ -1264,7 +1266,7 @@ Chaque lot ne touche que ses propres fichiers : `game/data/<type>/<id>.json` pou
 | brumerive | 8 | 11 | 14 | 13 | 2 | — |
 | crasse_roc | 8 | 11 | 14 | 13 | 3 | — |
 | sylvebrume | 7 | 11 | 11 | 13 | 3 | — |
-| hautepierre | 19 | 13 | 22 | 35 | 6 | — |
+| hautepierre | 19 | 13 | 23 | 35 | 6 | — |
 | variantes | 0 | 3 | 3 | 4 | 0 | lots de zone |
 | metiers | 0 | 0 | 0 | 16 | 0 | lots de zone + variantes |
 

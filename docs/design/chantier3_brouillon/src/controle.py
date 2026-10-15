@@ -163,6 +163,23 @@ for z in build.zones:
                 pb(f"boss {b['json']['id']} : membre de groupe inconnu {mm}")
         if b["carte"] not in cartes:
             pb(f"boss {b['json']['id']} : carte inconnue {b['carte']}")
+        # Alpha : un mini-boss revient vite, pour retester ses mécaniques (60 s au plus).
+        if max(b["reapparition"]) > 60:
+            pb(f"boss {b['json']['id']} : réapparition {b['reapparition']} au-delà de 60 s")
+        for g in cartes.get(b["carte"], {}).get("groupes", []):
+            if b["json"]["id"] in g["monstres"] and max(g.get("reapparition", [0])) > 60:
+                pb(f"boss {b['json']['id']} : réapparition du groupe de {b['carte']} au-delà de 60 s")
+        # Pas de soin au changement de phase (ni en effet, ni en sort appris) : le combat pourrait ne
+        # jamais finir. Pas deux phases du même profil d'effets.
+        profils = []
+        for p in b["json"].get("phases", []):
+            effets = list(p.get("effets", [])) + [e for s in p.get("sorts", []) for e in SPELLS.get(s, {}).get("effets", [])]
+            if any(e["type"] == "soin" for e in effets):
+                pb(f"boss {b['json']['id']} : soin à la phase {p['pv']} %")
+            profil = sorted({e.get("carac", e["type"]) for e in p.get("effets", [])})
+            if profil in profils:
+                pb(f"boss {b['json']['id']} : deux phases aux mêmes effets ({', '.join(profil)})")
+            profils.append(profil)
 
 # --- objets fabriqués sans recette, objets « recette » orphelins ---
 recettes = {r["objet"] for r in (m.RECETTES if m else [])}

@@ -186,6 +186,8 @@ sort("grondin_eclats_de_porte", "Éclats de porte", "Il crache les morceaux des 
      3, (2, 5), [dg("acier", 4, 6)], zone={"type": "cercle", "taille": 1})
 sort("grondin_elan", "Élan", "Les roues grincent, les chaînes claquent : il recule pour mieux frapper.",
      2, (0, 0), [bonus("pm", 2, 2, 1)], ldv=False, relance={"par_tour": 1, "delai": 2})
+sort("grondin_charge", "Charge de la Brèche", "Les chaînes lâchent : le bélier dévale la pente. Ce qui est devant lui ne le reste pas.",
+     5, (2, 5), [dg("acier", 10, 14), simple("poussee", 2, 2)], en_ligne=True, relance={"par_tour": 1, "delai": 2})
 sort("grondin_souffle_de_forge", "Souffle de forge", "La tête de loup crache le feu de la forge où on l'a coulée.",
      4, (1, 4), [dg("flamme", 8, 11)], zone={"type": "cercle", "taille": 1})
 
@@ -294,12 +296,12 @@ GRONDIN = {
     "sorts": ["grondin_coup_de_belier", "grondin_eclats_de_porte", "grondin_elan"],
     "ia": "basique", "xp": 3600,
     "phases": [
-        {"pv": 75, "message": "« Grondin ! Grondin ! » scandent des voix dans la cendre. Le bélier prend de l'élan.",
-         "effets": [bonus("force", 30, 30, 3)]},
-        {"pv": 50, "message": "La tête de loup du bélier s'embrase. Les chaînes rougissent.",
-         "sorts": ["grondin_souffle_de_forge"], "effets": [bouclier("acier", 80, 80)]},
-        {"pv": 20, "message": "« Trois coups ! On frappe toujours trois coups ! »",
-         "effets": [simple("gain_pa", 3, 3), bonus("dommages", 8, 8, 2)]}],
+        {"pv": 75, "message": "Des mains invisibles clouent des planches neuves sur le toit du bélier. Personne ne veut savoir à qui elles sont.",
+         "effets": [bouclier("acier", 80, 80), bonus("resistance", 20, 20, 3, element="givre")]},
+        {"pv": 50, "message": "« Grondin ! Grondin ! » scandent des voix dans la cendre. Les chaînes lâchent.",
+         "sorts": ["grondin_charge"], "effets": [bonus("pm", 2, 2, 3)]},
+        {"pv": 20, "message": "« Trois coups ! On frappe toujours trois coups ! » Ses roues cassent ; sa tête de loup s'embrase.",
+         "sorts": ["grondin_souffle_de_forge"], "effets": [bonus("force", 40, 40, 3), malus("pm", 2, 2, 3)]}],
     "butin": [drop("eclat_de_cendre", 1.0, [1, 2]), drop("heaume_du_belier", 0.15), drop("anneau_du_gond", 0.15),
               drop("marteau_de_grondin", 0.06)],
     "ecus": [300, 500]}
@@ -563,16 +565,16 @@ ZONE = {
           "La brèche ouverte dans la grande muraille extérieure, d'où descend la Cendre ; Grondin y attend la prochaine porte à enfoncer.",
           "Palette `cendre` (comme le Trône de Cendre). Muraille éventrée (M) en diagonale avec une brèche de 5 cases ; arène dégagée (8×8) devant ; braises (taches) ; débris (R) en couverts.",
           {"D": 1},
-          [{"monstres": ["grondin"], "reapparition": [1800, 2400]}, {"monstres": ["olifant_de_guerre", "cendrillon"]}],
-          groupes_note="Groupe 1 : Grondin seul, fixe, réapparition 30 à 40 min.", boss=True, cendree=True, palette="cendre"),
+          [{"monstres": ["grondin"], "reapparition": [45, 60]}, {"monstres": ["olifant_de_guerre", "cendrillon"]}],
+          groupes_note="Groupe 1 : Grondin seul, fixe, réapparition en 1 min au plus.", boss=True, cendree=True, palette="cendre"),
     ],
     "familles": [DETROUSSEUR, TROLL, CORBAC, GARGOUILLE, CENDRILLON, OLIFANT],
-    "boss": {"id": "grondin", "carte": "hautepierre_4_4", "groupe": ["grondin"], "reapparition": [1800, 2400], "json": GRONDIN,
-             "sorts": ligne_sorts(["grondin_coup_de_belier", "grondin_eclats_de_porte", "grondin_elan", "grondin_souffle_de_forge"]),
+    "boss": {"id": "grondin", "carte": "hautepierre_4_4", "groupe": ["grondin"], "reapparition": [45, 60], "json": GRONDIN,
+             "sorts": ligne_sorts(["grondin_coup_de_belier", "grondin_eclats_de_porte", "grondin_elan", "grondin_charge", "grondin_souffle_de_forge"]),
              "art": {"type": "image", "reutilise": None,
                      "nouveau_svg": "monstre/grondin.svgt, ~112×76 px : bélier de siège sur 4 roues, poutre de bois noir cerclée de fer, tête de loup en fer forgé à l'avant aux yeux rouge braise, chaînes pendantes, toit de planches roussies ; ancre au centre bas (≈ [56, 72]). Pas d'équipage : il avance seul.",
                      "manifeste": {"image": "grondin", "echelle": 1.0}},
-             "equilibrage": "Pour un niveau 29–30 seul (~285 PV, ~60 dégâts/tour) : ~680 PV effectifs (600 + bouclier 80, sous les 900 du Souverain), 11 tours ; ~28 dégâts/tour (poussées comprises), ~40 à 20 %. Faible au Givre (−20) et au Sacré (−10)."},
+             "equilibrage": "Profil de siège. Pour un niveau 29–30 seul (~285 PV, ~60 dégâts/tour) : ~680 PV effectifs (600 + bouclier 80, sous les 900 du Souverain), 11 tours ; ~28 dégâts/tour (poussées comprises) ; à 50 % il charge de loin ; à 20 %, ~40 dégâts/tour mais −2 PM : on peut le contourner et frapper à distance. Faible au Givre (−20, couvert 3 tours à 75 %) et au Sacré (−10)."},
     "ville": VILLE,
     "progression": ("Chaque race arrive par sa propre route (Brumerive à l'ouest, Sylvebrume au nord, Crasse-Roc à l'est), toutes au palier 13–15 (détrousseurs ; loups cendreux sur la route de l'Est). "
                     "Puis : 16–18 au sud (trolls du pont, grouilleurs de braise dans les gorges), 19–21 au nord (corbacs, arbres calcinés), 22–24 au nord-est (gargouilles des ruines), "

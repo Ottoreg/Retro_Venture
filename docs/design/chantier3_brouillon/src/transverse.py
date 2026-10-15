@@ -93,8 +93,13 @@ def equilibrage_md():
     L += ["",
           f"- **Durée visée** : {total:.1f} h de combat du niveau 1 au niveau 30, dont {depart:.1f} h dans la zone de départ (1 → 12, "
           f"~{combats_depart:.0f} combats) et ~{combats_haut:.0f} combats dans Hautepierre (12 → 30).",
+          f"- **Alpha 1** : l'XP de combat est multipliée par {balance.XP_ALPHA} (`Character.XP_RATE`) ; tout le contenu (1 → 30) "
+          f"se fait alors en ~{total / balance.XP_ALPHA:.1f} h de combat, ~4 à 5 h avec les déplacements. On revient à ×1 "
+          "(~15 h pour les 30 premiers niveaux) quand on testera la vraie progression.",
           "- **Élites** : niveau = max de la famille + 3, PV ≥ 2× la base, XP × 1,8, écus × 2,5, butin plus fréquent ; "
-          "**mini-boss** : groupe fixe, phases à 66 % et 33 % de PV, trophée de recette.",
+          "**mini-boss** : groupe fixe, réapparition en 60 s au plus (alpha : on doit pouvoir retester ses mécaniques), 2 ou 3 phases "
+          "de profils différents tirés de son thème (agressif, défensif, mobilité, contrôle), **jamais de soin** à un changement de phase "
+          "(risque de combat sans fin), trophée de recette.",
           "- **Variantes corrompues** : +10 % d'XP, éléments Flamme, apparaissent après le mini-boss de leur zone (voir §7).",
           "- **À valider en jeu** : la durée réelle des combats (le modèle suppose 70 % de coups portés) et la vitesse de progression de chaque race, "
           "puisque les paliers sont asymétriques entre zones.", ""]

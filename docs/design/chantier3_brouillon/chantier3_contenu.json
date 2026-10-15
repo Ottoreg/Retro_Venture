@@ -732,7 +732,7 @@
    "boss": true,
    "niveau": 12,
    "caracteristiques": {
-    "pv": 260,
+    "pv": 300,
     "pa": 7,
     "pm": 3,
     "initiative": 120,
@@ -754,34 +754,36 @@
    "phases": [
     {
      "pv": 60,
-     "message": "« Article 7 : en cas de résistance, le chef a droit à une pause ! » Krasbouk sort sa gourde.",
+     "message": "« Article 7 : piquet de grève mobile ! » Krasbouk court d'un bout à l'autre de la palissade.",
      "effets": [
       {
-       "type": "soin",
-       "element": "acier",
-       "min": 40,
-       "max": 40
+       "type": "bonus",
+       "carac": "pm",
+       "min": 2,
+       "max": 2,
+       "duree": 3
       },
       {
-       "type": "bouclier",
-       "element": "acier",
-       "min": 30,
-       "max": 30
+       "type": "bonus",
+       "carac": "portee",
+       "min": 2,
+       "max": 2,
+       "duree": 3
       }
      ]
     },
     {
      "pv": 30,
-     "message": "« Prime de risque ! PRIME DE RISQUE ! » Krasbouk entre en grève… contre vous.",
+     "message": "« Prime de risque ! PRIME DE RISQUE ! » Krasbouk jette son casque et entre en grève… contre vous.",
      "sorts": [
       "krasbouk_tourbillon"
      ],
      "effets": [
       {
        "type": "bonus",
-       "carac": "pa",
-       "min": 2,
-       "max": 2,
+       "carac": "critique",
+       "min": 25,
+       "max": 25,
        "duree": 3
       },
       {
@@ -790,6 +792,14 @@
        "min": 4,
        "max": 4,
        "duree": 3
+      },
+      {
+       "type": "malus",
+       "carac": "resistance",
+       "min": 20,
+       "max": 20,
+       "duree": 3,
+       "element": "acier"
       }
      ]
     }
@@ -1550,7 +1560,7 @@
    "boss": true,
    "niveau": 12,
    "caracteristiques": {
-    "pv": 280,
+    "pv": 300,
     "pa": 7,
     "pm": 3,
     "initiative": 90,
@@ -1572,7 +1582,32 @@
    "phases": [
     {
      "pv": 70,
-     "message": "Le Balourd s'embrase : « Qui a creusé ici ? Je veux le nom du contremaître ! »",
+     "message": "« Qui a creusé ici ? Je veux le nom du contremaître ! » Sa peau de roche se referme, fissure par fissure.",
+     "effets": [
+      {
+       "type": "bonus",
+       "carac": "resistance",
+       "min": 25,
+       "max": 25,
+       "duree": 3,
+       "element": "givre"
+      },
+      {
+       "type": "bonus",
+       "carac": "resistance",
+       "min": 15,
+       "max": 15,
+       "duree": 3,
+       "element": "acier"
+      }
+     ]
+    },
+    {
+     "pv": 40,
+     "message": "Le Balourd s'embrase et le plafond de la galerie prend feu.",
+     "sorts": [
+      "balourd_pluie_de_braises"
+     ],
      "effets": [
       {
        "type": "bonus",
@@ -1584,34 +1619,21 @@
      ]
     },
     {
-     "pv": 40,
-     "message": "Le plafond de la galerie prend feu. Le Balourd déploie ses ailes (enfin, ce qui y ressemble).",
-     "sorts": [
-      "balourd_pluie_de_braises"
-     ],
-     "effets": [
-      {
-       "type": "bouclier",
-       "element": "flamme",
-       "min": 50,
-       "max": 50
-      }
-     ]
-    },
-    {
      "pv": 15,
-     "message": "« Bon. On peut peut-être négocier ? » Il ne négocie pas.",
+     "message": "« Bon. On peut peut-être négocier ? » Il ne négocie pas : il déploie ses ailes de fumée.",
      "effets": [
       {
-       "type": "gain_pa",
-       "min": 2,
-       "max": 2
+       "type": "bonus",
+       "carac": "pm",
+       "min": 3,
+       "max": 3,
+       "duree": 3
       },
       {
        "type": "bonus",
-       "carac": "dommages",
-       "min": 5,
-       "max": 5,
+       "carac": "portee",
+       "min": 2,
+       "max": 2,
        "duree": 3
       }
      ]
@@ -2329,7 +2351,7 @@
    "boss": true,
    "niveau": 12,
    "caracteristiques": {
-    "pv": 270,
+    "pv": 300,
     "pa": 7,
     "pm": 4,
     "initiative": 130,
@@ -2352,22 +2374,45 @@
    "phases": [
     {
      "pv": 65,
-     "message": "La Mère-Toile se retire dans son cocon et tisse la clairière entière.",
+     "message": "La Mère-Toile court sur ses fils et tisse la clairière entière.",
      "sorts": [
       "meretoile_toile_geante"
      ],
      "effets": [
       {
-       "type": "bouclier",
-       "element": "givre",
-       "min": 60,
-       "max": 60
+       "type": "bonus",
+       "carac": "pm",
+       "min": 2,
+       "max": 2,
+       "duree": 3
       }
      ]
     },
     {
      "pv": 35,
-     "message": "« Mes petites ! … Ah, non : elles sont toutes à la Lisière, à embêter les elfes. »",
+     "message": "« Mes petites ! … Ah, non : elles sont toutes à la Lisière, à embêter les elfes. » Elle s'emmaillote dans sa soie.",
+     "effets": [
+      {
+       "type": "bonus",
+       "carac": "resistance",
+       "min": 30,
+       "max": 30,
+       "duree": 3,
+       "element": "flamme"
+      },
+      {
+       "type": "bonus",
+       "carac": "resistance",
+       "min": 20,
+       "max": 20,
+       "duree": 3,
+       "element": "acier"
+      }
+     ]
+    },
+    {
+     "pv": 10,
+     "message": "Elle file un dernier fil… et décide qu'elle a assez tissé pour aujourd'hui.",
      "effets": [
       {
        "type": "bonus",
@@ -2375,18 +2420,13 @@
        "min": 40,
        "max": 40,
        "duree": 3
-      }
-     ]
-    },
-    {
-     "pv": 10,
-     "message": "Elle file un dernier fil… et s'en sert pour recoudre ses plaies.",
-     "effets": [
+      },
       {
-       "type": "soin",
-       "element": "givre",
-       "min": 50,
-       "max": 50
+       "type": "bonus",
+       "carac": "critique",
+       "min": 20,
+       "max": 20,
+       "duree": 3
       }
      ]
     }
@@ -3249,47 +3289,60 @@
    "phases": [
     {
      "pv": 75,
-     "message": "« Grondin ! Grondin ! » scandent des voix dans la cendre. Le bélier prend de l'élan.",
-     "effets": [
-      {
-       "type": "bonus",
-       "carac": "force",
-       "min": 30,
-       "max": 30,
-       "duree": 3
-      }
-     ]
-    },
-    {
-     "pv": 50,
-     "message": "La tête de loup du bélier s'embrase. Les chaînes rougissent.",
-     "sorts": [
-      "grondin_souffle_de_forge"
-     ],
+     "message": "Des mains invisibles clouent des planches neuves sur le toit du bélier. Personne ne veut savoir à qui elles sont.",
      "effets": [
       {
        "type": "bouclier",
        "element": "acier",
        "min": 80,
        "max": 80
+      },
+      {
+       "type": "bonus",
+       "carac": "resistance",
+       "min": 20,
+       "max": 20,
+       "duree": 3,
+       "element": "givre"
+      }
+     ]
+    },
+    {
+     "pv": 50,
+     "message": "« Grondin ! Grondin ! » scandent des voix dans la cendre. Les chaînes lâchent.",
+     "sorts": [
+      "grondin_charge"
+     ],
+     "effets": [
+      {
+       "type": "bonus",
+       "carac": "pm",
+       "min": 2,
+       "max": 2,
+       "duree": 3
       }
      ]
     },
     {
      "pv": 20,
-     "message": "« Trois coups ! On frappe toujours trois coups ! »",
+     "message": "« Trois coups ! On frappe toujours trois coups ! » Ses roues cassent ; sa tête de loup s'embrase.",
+     "sorts": [
+      "grondin_souffle_de_forge"
+     ],
      "effets": [
       {
-       "type": "gain_pa",
-       "min": 3,
-       "max": 3
+       "type": "bonus",
+       "carac": "force",
+       "min": 40,
+       "max": 40,
+       "duree": 3
       },
       {
-       "type": "bonus",
-       "carac": "dommages",
-       "min": 8,
-       "max": 8,
-       "duree": 2
+       "type": "malus",
+       "carac": "pm",
+       "min": 2,
+       "max": 2,
+       "duree": 3
       }
      ]
     }
@@ -5176,6 +5229,35 @@
      "min": 2,
      "max": 2,
      "duree": 1
+    }
+   ]
+  },
+  {
+   "id": "grondin_charge",
+   "nom": "Charge de la Brèche",
+   "description": "Les chaînes lâchent : le bélier dévale la pente. Ce qui est devant lui ne le reste pas.",
+   "cout_pa": 5,
+   "portee": {
+    "min": 2,
+    "max": 5
+   },
+   "ligne_de_vue": true,
+   "lancer_en_ligne": true,
+   "relance": {
+    "par_tour": 1,
+    "delai": 2
+   },
+   "effets": [
+    {
+     "type": "degats",
+     "element": "acier",
+     "min": 10,
+     "max": 14
+    },
+    {
+     "type": "poussee",
+     "min": 2,
+     "max": 2
     }
    ]
   },
@@ -8032,8 +8114,8 @@
       "gobelin_frondeur"
      ],
      "reapparition": [
-      900,
-      1200
+      45,
+      60
      ]
     },
     {
@@ -8591,8 +8673,8 @@
       "balourd_des_abimes"
      ],
      "reapparition": [
-      900,
-      1200
+      45,
+      60
      ]
     },
     {
@@ -9104,8 +9186,8 @@
       "mere_toile"
      ],
      "reapparition": [
-      900,
-      1200
+      45,
+      60
      ]
     },
     {
@@ -10386,8 +10468,8 @@
       "grondin"
      ],
      "reapparition": [
-      1800,
-      2400
+      45,
+      60
      ]
     },
     {
