@@ -1,6 +1,9 @@
 # Godot 4
 .godot/
 .import/
+# Fichiers régénérés par « godot --import » (jamais suivis dans ce dépôt)
+*.uid
+*.import
 *.translation
 
 # Builds et exports
