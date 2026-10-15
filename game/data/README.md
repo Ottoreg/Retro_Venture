@@ -55,6 +55,33 @@ Dofus. Elle est décrite par un **plan texte** : une ligne par rangée, un carac
 Les tests vérifient chaque carte : format du plan, `id` égal au nom du fichier, et **toutes les cases
 praticables accessibles** depuis le départ.
 
+### Cases de placement en combat
+
+Comme dans Dofus, le combat démarre sur des cases prévues par la carte, où que le groupe ait été
+engagé. Elles sont données par un **calque** `placement`, de même taille que le plan (même nombre
+de lignes, mêmes longueurs, espace en tête des lignes décalées) :
+
+```json
+"placement": [
+  "...................",
+  " ....j........m....",
+  "......j.....m......"
+]
+```
+
+| Caractère | Case |
+|---|---|
+| `j` | Case de départ d'un joueur (le joueur commence sur la première, dans l'ordre du calque, et choisit parmi toutes pendant le placement) |
+| `m` | Case de départ d'un monstre (les monstres du groupe y sont répartis au hasard) |
+| `.` | Rien |
+
+- **Obligatoire** sur une carte qui a des groupes de monstres : au moins une case `j` et au moins
+  3 cases `m` (la taille maximale d'un groupe) ; facultatif ailleurs (maisons).
+- Chaque case `j` ou `m` doit être praticable dans le plan (`.`, `@`, `:` ou un chiffre de groupe).
+- Conseil : 6 cases par camp, non voisines, les deux camps face à face à 6–8 cases d'écart, sans
+  ligne de vue directe partout. `python3 tools/placement.py <carte.json>` (depuis `game/`) propose
+  un calque de ce genre ; `--ecrire` l'ajoute au fichier.
+
 ### Groupes de monstres
 
 Les chiffres `1` à `9` dans le plan placent les groupes décrits dans la liste `groupes` (le chiffre

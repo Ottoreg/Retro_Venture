@@ -7,10 +7,6 @@ extends RefCounted
 const PLAYER_ID := "joueur"
 const DEFAULT_VOIE := "guerrier"
 const DEFAULT_NAME := "Aventurier"
-## Distance (en pas) entre le groupe de monstres et les cases de placement du joueur.
-const PLACEMENT_DISTANCE_MIN := 4
-const PLACEMENT_DISTANCE_MAX := 6
-const PLACEMENT_CELL_COUNT := 6
 ## Régénération hors combat : un PV toutes les REGEN_SECONDS secondes.
 const REGEN_SECONDS := 2.0
 ## Quand un groupe devrait réapparaître sur la case du joueur, il attend encore un peu.
@@ -95,7 +91,6 @@ var _elites: Dictionary = {}
 var _elite_attempts: Dictionary = {}
 ## Bonus de butin du combat en cours (élite ancienne), en fraction : 0.3 = +30 %.
 var _combat_loot_bonus := 0.0
-var _approach_from := Vector2i.ZERO
 
 
 func _init(p_map: GameMap, p_data: GameData = null, p_map_loader: Callable = Callable(), p_character: Character = null) -> void:
@@ -385,13 +380,9 @@ func _engage(command: Dictionary) -> Array[Dictionary]:
 	var events: Array[Dictionary] = []
 	if not path.is_empty() or command.has("interrompre_a"):
 		events.append(_moved_event(from, path))
-	# Arrivé sur le groupe par un déplacement juste avant : on se place du côté d'où il venait.
-	var approach := from
-	if path.is_empty() and _last_walk.size() > 1 and _last_walk[-1] == target:
-		approach = _last_walk[0]
 	_positions[PLAYER_ID] = target
 	_last_walk.clear()
-	combat = _create_combat(group, approach)
+	combat = _create_combat(group)
 	_combat_group = group_id
 	var start_events := combat.start()
 	start_events[0]["groupe"] = group_id
@@ -399,68 +390,38 @@ func _engage(command: Dictionary) -> Array[Dictionary]:
 	return events
 
 
-func _create_combat(group: Dictionary, approach_from: Vector2i) -> Combat:
-	var group_cell: Vector2i = group["case"]
+## Combat sur les cases de placement de la carte, comme dans Dofus (`GameMap.placement_players`,
+## `placement_monsters`), où que le groupe ait été engagé : les monstres sur des cases « m » tirées
+## au hasard, le joueur sur la première case « j », libre d'en changer pendant le placement.
+func _create_combat(group: Dictionary) -> Combat:
 	var fighters: Array[Fighter] = []
-	var monster_cells := _cells_around(group_cell, group["monstres"].size())
+	var seed_value := hash(map.id) + _combat_count + 1
+	var shuffle := RandomNumberGenerator.new()
+	shuffle.seed = seed_value
+	var monster_cells: Array[Vector2i] = map.placement_monsters.duplicate()
+	for i in range(monster_cells.size() - 1, 0, -1):
+		var k := shuffle.randi_range(0, i)
+		var swap := monster_cells[i]
+		monster_cells[i] = monster_cells[k]
+		monster_cells[k] = swap
 	var levels: Array = group.get("niveaux", [])
 	var index := 0
 	for i in group["monstres"].size():
 		# Chaque monstre à son niveau tiré à l'apparition (niveau de base s'il manque).
 		var level := int(levels[i]) if i < levels.size() else -1
 		var monster := data.create_monster(group["monstres"][i], "%s_%d" % [group["id"], index + 1], level)
-		if monster == null:
+		if monster == null or index >= monster_cells.size():
 			continue
-		monster.cell = monster_cells[mini(index, monster_cells.size() - 1)]
+		monster.cell = monster_cells[index]
 		fighters.append(monster)
 		index += 1
 
-	var placement := _placement_cells(group_cell, approach_from, monster_cells)
+	var placement: Array[Vector2i] = map.placement_players.duplicate()
 	var player := data.create_character_fighter(character, PLAYER_ID)
 	player.cell = placement[0]
 	fighters.append(player)
 	_combat_count += 1
-	return Combat.new(map, fighters, placement, hash(map.id) + _combat_count)
-
-
-## Cases de placement du joueur : à bonne distance du groupe, du côté d'où il arrive.
-func _placement_cells(group_cell: Vector2i, approach_from: Vector2i, taken: Array[Vector2i]) -> Array[Vector2i]:
-	var candidates: Array[Vector2i] = []
-	for distance_range: Vector2i in [Vector2i(PLACEMENT_DISTANCE_MIN, PLACEMENT_DISTANCE_MAX), Vector2i(2, 9), Vector2i(1, 1000)]:
-		for cell: Vector2i in map.cells():
-			var distance := IsoGrid.distance(cell, group_cell)
-			if map.is_walkable(cell) and cell not in taken and distance >= distance_range.x and distance <= distance_range.y:
-				candidates.append(cell)
-		if not candidates.is_empty():
-			break
-	_approach_from = approach_from
-	candidates.sort_custom(_closer_to_approach)
-	return candidates.slice(0, PLACEMENT_CELL_COUNT)
-
-
-## Tri des cases de placement : les plus proches du point d'arrivée du joueur d'abord.
-func _closer_to_approach(a: Vector2i, b: Vector2i) -> bool:
-	var key_a := Vector3i(IsoGrid.distance(a, _approach_from), a.y, a.x)
-	var key_b := Vector3i(IsoGrid.distance(b, _approach_from), b.y, b.x)
-	return key_a < key_b
-
-
-## `count` cases praticables les plus proches de `center` (en largeur, 4 directions).
-func _cells_around(center: Vector2i, count: int) -> Array[Vector2i]:
-	var result: Array[Vector2i] = []
-	var seen := {center: true}
-	var frontier: Array[Vector2i] = [center]
-	while not frontier.is_empty() and result.size() < count:
-		var next_frontier: Array[Vector2i] = []
-		for cell in frontier:
-			if map.is_walkable(cell) and result.size() < count:
-				result.append(cell)
-			for neighbor in IsoGrid.neighbors_4(cell):
-				if not seen.has(neighbor) and map.is_inside(neighbor):
-					seen[neighbor] = true
-					next_frontier.append(neighbor)
-		frontier = next_frontier
-	return result
+	return Combat.new(map, fighters, placement, seed_value)
 
 
 func _end_combat(events: Array[Dictionary]) -> void:

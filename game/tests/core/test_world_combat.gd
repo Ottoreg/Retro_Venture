@@ -44,13 +44,31 @@ func test_engager_un_groupe() -> void:
 	assert_eq(start[0]["groupe"], "groupe_1")
 	assert_eq(start[0]["combattants"].size(), 2)
 	var placement: Array = start[0]["placement"]
-	assert_true(placement.size() > 0, "cases de placement proposées")
-	for cell: Vector2i in placement:
-		assert_true(_world.map.is_walkable(cell), "case de placement praticable")
-		assert_true(IsoGrid.distance(cell, Fixtures.center()) >= 2, "placement à distance du groupe")
+	assert_eq(placement, Fixtures.placement_cells()["joueurs"], "les cases « j » de la carte")
 	assert_true(_world.in_combat())
 	var refused := _world.execute({"type": Protocol.CMD_ENGAGE, "entite": World.PLAYER_ID, "groupe": "groupe_1"})
 	assert_eq(refused[0]["type"], Protocol.EVT_REFUSED, "pas d'exploration pendant un combat")
+
+
+func test_combat_sur_les_cases_de_placement_de_la_carte() -> void:
+	# Comme dans Dofus : où que le groupe soit engagé, le combat démarre sur les cases de la carte.
+	var cells := Fixtures.placement_cells()
+	for group_cell: Vector2i in [Fixtures.center(), GameMap.plan_cell(8, 1), GameMap.plan_cell(0, 8)]:
+		var map := Fixtures.map({group_cell: "1"}, [{"monstres": ["mannequin", "mannequin", "mannequin"]}])
+		var world := World.new(map, Fixtures.data())
+		world.player_voie = "test"
+		_engage(world)
+		assert_true(world.in_combat(), "combat engagé en %s" % group_cell)
+		var monster_cells: Array[Vector2i] = []
+		for fighter: Fighter in world.combat.fighters:
+			if fighter.id == World.PLAYER_ID:
+				assert_eq(fighter.cell, cells["joueurs"][0], "le joueur sur la première case « j »")
+			else:
+				assert_true(fighter.cell in cells["monstres"], "%s sur une case « m »" % fighter.id)
+				assert_false(fighter.cell in monster_cells, "une case par monstre")
+				monster_cells.append(fighter.cell)
+		assert_eq(monster_cells.size(), 3)
+		assert_eq(world.position_of(World.PLAYER_ID), group_cell, "en exploration, toujours là où il a engagé")
 
 
 func test_engagements_refuses() -> void:

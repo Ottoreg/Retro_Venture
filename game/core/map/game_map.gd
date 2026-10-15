@@ -45,6 +45,14 @@ const FLAT_OBSTACLES := ["eau"]
 ## Bords de carte, et bord d'arrivée sur la carte voisine.
 const EXIT_DIRECTIONS := ["haut", "bas", "gauche", "droite"]
 const OPPOSITE_DIRECTION := {"haut": "bas", "bas": "haut", "gauche": "droite", "droite": "gauche"}
+## Cases de placement en combat, comme dans Dofus : un calque « placement » de la taille du plan,
+## `j` pour les cases de départ des joueurs, `m` pour celles des monstres, « . » (ou l'espace du
+## début des lignes décalées) ailleurs. Obligatoire sur une carte qui a des groupes de monstres.
+const PLACEMENT_PLAYER := "j"
+const PLACEMENT_MONSTER := "m"
+## Caractères du plan sur lesquels une case de placement peut être posée (sol praticable, départ,
+## chemin ; les chiffres des groupes aussi).
+const PLACEMENT_GROUND := [".", "@", ":"]
 
 var id: String
 var display_name: String
@@ -80,6 +88,9 @@ var floor_kind := "herbe"
 var instance := ""
 ## Palette de couleurs de la zone (voir « palettes » dans art/art.json), "" pour celle de base.
 var palette := ""
+## Cases de départ en combat (voir `PLACEMENT_PLAYER`, `PLACEMENT_MONSTER`), dans l'ordre du calque.
+var placement_players: Array[Vector2i] = []
+var placement_monsters: Array[Vector2i] = []
 
 ## Cases jouables (Vector2i → true).
 var _cells: Dictionary = {}
@@ -251,6 +262,44 @@ static func validate(data: Dictionary) -> PackedStringArray:
 	for marker: String in npc_markers:
 		if npc_markers[marker] != 1:
 			errors.append("le PNJ « %s » doit apparaître exactement une fois dans le plan (%d trouvé(s))" % [marker, npc_markers[marker]])
+	errors.append_array(_validate_placement(data.get("placement"), plan, width, group_count))
+	return errors
+
+
+## Calque « placement » : même taille que le plan, `j` et `m` sur des cases praticables ; au moins
+## une case de joueur et `MAX_GROUP_SIZE` cases de monstres si la carte a des groupes.
+static func _validate_placement(layer: Variant, plan: Array, width: int, group_count: int) -> PackedStringArray:
+	var errors: PackedStringArray = []
+	if layer == null:
+		if group_count > 0:
+			errors.append("« placement » obligatoire sur une carte avec des groupes de monstres (cases j et m)")
+		return errors
+	if typeof(layer) != TYPE_ARRAY or layer.size() != plan.size():
+		errors.append("« placement » doit avoir autant de lignes que le plan (%d)" % plan.size())
+		return errors
+	var counts := {PLACEMENT_PLAYER: 0, PLACEMENT_MONSTER: 0}
+	for i in layer.size():
+		if typeof(layer[i]) != TYPE_STRING or str(layer[i]).length() != width:
+			errors.append("placement, ligne %d : %d caractères attendus" % [i + 1, width])
+			continue
+		var line: String = layer[i]
+		for j in line.length():
+			var mark := line[j]
+			if i % 2 == 1 and j == 0:
+				continue
+			if mark == "." or mark == " ":
+				continue
+			if not counts.has(mark):
+				errors.append("placement, ligne %d, colonne %d : « %s » inconnu (j, m ou .)" % [i + 1, j + 1, mark])
+				continue
+			var ground: String = str(plan[i])[j]
+			if ground not in PLACEMENT_GROUND and not _is_group_char(ground):
+				errors.append("placement, ligne %d, colonne %d : case « %s » du plan non praticable" % [i + 1, j + 1, ground])
+			counts[mark] += 1
+	if counts[PLACEMENT_PLAYER] < 1:
+		errors.append("« placement » : au moins une case de joueur « j »")
+	if group_count > 0 and counts[PLACEMENT_MONSTER] < MAX_GROUP_SIZE:
+		errors.append("« placement » : au moins %d cases de monstres « m » (%d trouvée(s))" % [MAX_GROUP_SIZE, counts[PLACEMENT_MONSTER]])
 	return errors
 
 
@@ -316,6 +365,16 @@ static func from_dict(data: Dictionary) -> GameMap:
 			if not map._cells.has(cell):
 				map._border_cells.append(cell)
 	map.groups.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a["id"] < b["id"])
+	var layer: Array = data.get("placement", [])
+	for i in layer.size():
+		var line: String = layer[i]
+		for j in line.length():
+			if i % 2 == 1 and j == 0:
+				continue
+			if line[j] == PLACEMENT_PLAYER:
+				map.placement_players.append(plan_cell(i, j))
+			elif line[j] == PLACEMENT_MONSTER:
+				map.placement_monsters.append(plan_cell(i, j))
 	map._setup_pathfinding()
 	return map
 

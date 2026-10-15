@@ -36,8 +36,31 @@ static func plan_with(changes: Dictionary) -> Array:
 	return plan
 
 
+## Calque de placement par défaut du plan ouvert : 3 cases de joueur en haut à gauche, 3 cases de
+## monstres en bas à droite (voir `placement_cells`).
+const OPEN_PLACEMENT := [
+	".........",
+	" ........",
+	"jjj......",
+	" ........",
+	".........",
+	" ........",
+	"......mmm",
+	" ........",
+	".........",
+]
+
+
+## Cases de placement du calque par défaut : { joueurs, monstres }.
+static func placement_cells() -> Dictionary:
+	return {"joueurs": [GameMap.plan_cell(2, 0), GameMap.plan_cell(2, 1), GameMap.plan_cell(2, 2)],
+		"monstres": [GameMap.plan_cell(6, 6), GameMap.plan_cell(6, 7), GameMap.plan_cell(6, 8)]}
+
+
 static func map(changes := {}, groups := [], extra := {}) -> GameMap:
 	var data := {"id": "test", "plan": plan_with(changes), "groupes": groups}
+	if not groups.is_empty():
+		data["placement"] = OPEN_PLACEMENT.duplicate()
 	data.merge(extra, true)
 	var errors := GameMap.validate(data)
 	assert(errors.is_empty(), "carte de test invalide : %s" % str(errors))

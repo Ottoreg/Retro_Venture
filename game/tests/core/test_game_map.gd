@@ -135,6 +135,7 @@ func test_chemin_impossible() -> void:
 
 func test_groupes_fixes_et_tires_au_sort() -> void:
 	_data["plan"] = ["@..12", " ....", "....."]
+	_data["placement"] = ["j....", " ....", "..mmm"]
 	_data["groupes"] = [
 		{"monstres": ["loup", "gobelin", "loup"]},
 		{"parmi": ["rat", "grouilleur"], "nombre": [2, 3]},
@@ -158,3 +159,41 @@ func test_groupes_fixes_et_tires_au_sort() -> void:
 	assert_true(sizes.has(2) and sizes.has(3))
 	assert_eq(kinds.size(), 2, "les deux espèces sortent")
 	assert_true(map.groups[1]["monstres"].is_empty(), "la carte ne tire pas elle-même")
+
+
+func test_cases_de_placement() -> void:
+	# Calque de la taille du plan : j (joueurs) et m (monstres) sur des cases praticables.
+	_data["plan"] = ["@...1", " ....", "MMMM.", " :...", "R...."]
+	_data["groupes"] = [{"monstres": ["loup"]}]
+	_data["placement"] = [".j...", " j...", ".....", " m.m.", ".m..."]
+	var map := _map()
+	assert_eq(map.placement_players, [GameMap.plan_cell(0, 1), GameMap.plan_cell(1, 1)] as Array[Vector2i])
+	assert_eq(map.placement_monsters, [GameMap.plan_cell(3, 1), GameMap.plan_cell(3, 3), GameMap.plan_cell(4, 1)] as Array[Vector2i],
+		"dans l'ordre du calque, chemin compris")
+	# Sans groupe, le calque est facultatif.
+	var house := {"id": "maison", "plan": ["@....", " ....", "....."]}
+	assert_eq(GameMap.validate(house).size(), 0)
+	assert_true(GameMap.from_dict(house).placement_players.is_empty())
+
+
+func test_erreurs_des_cases_de_placement() -> void:
+	_data["plan"] = ["@...1", " ....", "MMMM.", " ....", "R...."]
+	_data["groupes"] = [{"monstres": ["loup"]}]
+	var cases := [
+		[null, "obligatoire"],
+		[[".j...", " ....", "....."], "autant de lignes"],
+		[[".j...", " ....", ".....", " mmm", "....."], "caractères attendus"],
+		[[".j...", " ....", "....x", " mmm.", "....."], "inconnu"],
+		[[".j...", " ....", "j....", " mmm.", "....."], "non praticable"],
+		[["m....", " ....", ".....", " mmm.", "j...."], "non praticable"],
+		[[".....", " ....", ".....", " mmm.", "....."], "au moins une case de joueur"],
+		[[".j...", " ....", ".....", " mm..", "....."], "au moins 3 cases de monstres"],
+	]
+	for case: Array in cases:
+		var data := _data.duplicate(true)
+		if case[0] == null:
+			data.erase("placement")
+		else:
+			data["placement"] = case[0]
+		var errors := "; ".join(GameMap.validate(data))
+		assert_true(errors.contains(case[1]), "%s : « %s » attendu dans « %s »" % [str(case[0]), case[1], errors])
