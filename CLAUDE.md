@@ -68,6 +68,9 @@ Phase 2 (alpha solo), en deux tests :
    de profils différents selon le thème, jamais de soin en phase), **en attente de revalidation** :
    `docs/design/chantier3_brouillon/` (document, JSON par lot, scripts `src/build.py` et
    `src/controle.py`). **Ne pas lancer la production avant cette revalidation.**
+   Avant la production aussi : **cases de placement prédéfinies par carte** (GDD § 7.1), car le
+   format des cartes en dépend.
+4. Interface et confort : notamment le **mode tactique en combat** façon Dofus (GDD § 14.3).
 
 ## Règles de design à respecter (détails dans le GDD)
 
@@ -75,3 +78,7 @@ Phase 2 (alpha solo), en deux tests :
 - Niveau variable dans une famille, pondéré ; élites à niveau fixe, au-dessus de la famille.
 - Le niveau d'un monstre change ses stats, jamais son butin ; PA/PM fixes par famille sauf exception.
 - Butin : limite par monstre partagée entre joueurs, tirage du plus prospecteur au moins prospecteur.
+- Combat : cases de placement prédéfinies par carte, pour chaque camp (comme Dofus) ; ne pas garder
+  le placement actuel tiré près du groupe engagé.
+- Mini-boss : réapparition ≤ 60 s pendant l'alpha, phases de profils différents selon leur thème,
+  jamais de soin à un changement de phase.

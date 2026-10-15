@@ -139,6 +139,12 @@ Les tâches marquées *(alpha 2)* sont reportées au second test.
   l'adversaire (déclenchés en entrant sur la case) ; Cercle de sève de l'Arbre millénaire,
   Chausse-trape du Frondeur vétéran
 - [ ] États spéciaux (*Enraciné*, *Invisible*, *Porté*…) et invocations
+- [ ] **(MVP)** Cases de placement **prédéfinies par carte**, façon Dofus (GDD § 7.1) : chaque carte
+  donne dans ses données les cases de départ des joueurs et celles des monstres ; le combat démarre
+  sur ces cases quel que soit l'endroit où le groupe est engagé. Remplace le placement actuel (cases
+  tirées près du groupe, monstres laissés en place), à ne pas garder. À faire **avant la production
+  du chantier 3** : le format des cartes en dépend (cases à prévoir sur les 42 nouvelles cartes et à
+  ajouter aux cartes existantes, vérifiées par la validation et le script de contrôle)
 - [x] **(MVP)** Coups critiques (5 % par défaut par sort, bonus « % Critique » d'équipement, × 1,5)
 - [x] **(MVP)** Groupes de 1 à 3 monstres (limite de l'alpha), d'espèces mélangées, tous visibles sur
   la carte ; composition fixe ou tirée au sort à chaque apparition
@@ -276,6 +282,9 @@ Les tâches marquées *(alpha 2)* sont reportées au second test.
 - [x] Inventaire : 8 cases « Reliques » visibles dès le début (vides tant que la Relique n'est pas
   reprise), en plus des 2 anneaux
 - [ ] Raccourcis clavier
+- [ ] **(MVP)** Mode tactique en combat, façon Dofus (GDD § 14.3) : bouton qui bascule vers une vue
+  simplifiée (cases à plat, obstacles en blocs, décor masqué, combattants lisibles), retenu d'un
+  combat à l'autre
 
 ### Art et audio
 

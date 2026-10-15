@@ -519,7 +519,12 @@ prévoit déjà `voie` et `rang` sur chaque sort** pour que le système s'ajoute
 1. **Engagement :** le joueur clique sur un groupe de monstres visible (ou se fait agresser par un
    groupe agressif).
 2. **Placement :** la carte devient la grille de combat. Chaque camp dispose de cases de départ ; le
-   joueur choisit la sienne (temps limité en multi).
+   joueur choisit la sienne (temps limité en multi). **Cases de placement prédéfinies par carte**,
+   comme dans Dofus : chaque carte décrit dans ses données ses cases de départ pour chaque camp
+   (joueurs d'un côté, monstres de l'autre), choisies par le level design (obstacles, lignes de vue,
+   distance). Où que le groupe soit engagé sur la carte, le combat démarre sur ces cases. *À
+   remplacer :* aujourd'hui, les cases du joueur sont tirées à 4–6 pas du groupe, du côté d'où il
+   arrive, et les monstres restent où ils sont ; ce comportement ne doit pas être conservé.
 3. **Tours :** ordre fixé par l'**Initiative**, visible dans une frise (timeline). À son tour, chaque
    combattant dépense ses **PA** (sorts, armes) et ses **PM** (déplacement case par case), dans
    n'importe quel ordre.
@@ -892,6 +897,12 @@ ingrédients).
 - Bruitages courts et lisibles pour chaque type de sort et d'impact.
 
 ### 14.3 Interface (inspirée de Dofus Rétro)
+
+- **Mode tactique en combat** (comme dans Dofus) : un bouton du combat bascule vers une vue
+  simplifiée de la grille, pour lire le terrain sans le décor : cases à plat bien délimitées,
+  obstacles en blocs pleins (ceux qui bloquent la vue distingués de ceux qui ne bloquent que le
+  passage, comme l'eau), arbres et grands décors masqués, combattants en pions ou silhouettes
+  lisibles ; portées, zones et glyphes restent affichées. Le choix est retenu d'un combat à l'autre.
 
 - **Bandeau bas :** chat à gauche, PV dans un cœur rouge qui se vide, PA dans une étoile bleue, PM
   dans une case verte, barre de sorts (icônes avec raccourci et coût en PA) et d'objets, boutons de
