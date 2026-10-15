@@ -219,6 +219,7 @@ Objectif : **10 à 15 h de jeu solo, niveaux 1 à 30 : 3 zones de départ (une p
 - [ ] Réputation simple par camp (si les quêtes de l'acte I le demandent)
 
 ### Monde
+- [ ] **(MVP)** Valider la conception du contenu du chantier 3 ([docs/design/chantier3_brouillon](design/chantier3_brouillon/)) puis la produire par lots (4 zones en parallèle, puis variantes et métiers) ; question ouverte : durée 1 → 12 (2,7 h dans le modèle, 3 à 4 h visées)
 - [ ] **(MVP)** Zone de départ humaine : Collines de Brumerive (environ 8 à 10 cartes) — 2 cartes + la maison
 - [ ] **(MVP)** Zone de départ gobeline : Galeries de Crasse-Roc (environ 8 à 10 cartes) — 2 cartes (entrée des galeries, le Crassier)
 - [ ] **(MVP)** Zone de départ elfe : Lisière de Sylvebrume (environ 8 à 10 cartes) — 2 cartes (clairière de la Lisière, Futaie ancienne)
