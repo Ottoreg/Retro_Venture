@@ -72,7 +72,7 @@ Phase 2 (alpha solo), en deux tests :
    faites (Brumerive, Crasse-Roc, Sylvebrume ; `src/produire.py`, `src/cartes.py`,
    `src/plans_<lot>.py`), Hautepierre (`src/plans_hautepierre.py`, `peupler` pour les groupes et
    PNJ), les variantes et les métiers (`src/metiers_production.py`) : **tout le contenu est produit**.
-   Reste : les dessins des décors de ville, l'apparition des variantes après les mini-boss, et
+   Décors de ville dessinés. Reste : l'apparition des variantes après les mini-boss, et
    l'intégration (combats simulés par palier pour vérifier l'équilibrage).
 4. Interface et confort : notamment le **mode tactique en combat** façon Dofus (GDD § 14.3).
 

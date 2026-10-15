@@ -38,7 +38,7 @@
     "A........:a.......A",
     " A................A",
     "A........:........A",
-    " A................A",
+    " A......#.........A",
     "AAAAAAAA.+.AAAAAAAA"
   ],
   "groupes": [
@@ -112,5 +112,14 @@
   ],
   "portes": [
     "hautepierre_2_0"
+  ],
+  "decors": [
+    {
+      "image": "poteau_indicateur",
+      "case": [
+        31,
+        8
+      ]
+    }
   ]
 }

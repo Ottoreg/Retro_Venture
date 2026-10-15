@@ -732,6 +732,56 @@
         22,
         22
       ]
+    },
+    "tour_blanche": {
+      "fichier": "batiment/tour_blanche.svgt",
+      "ancre": [
+        100,
+        280
+      ],
+      "emprise": [
+        3,
+        3
+      ]
+    },
+    "temple": {
+      "fichier": "batiment/temple.svgt",
+      "ancre": [
+        100,
+        180
+      ],
+      "emprise": [
+        3,
+        3
+      ]
+    },
+    "tour_de_garde": {
+      "fichier": "batiment/tour_de_garde.svgt",
+      "ancre": [
+        32,
+        120
+      ]
+    },
+    "fontaine": {
+      "fichier": "decor/fontaine.svgt",
+      "ancre": [
+        32,
+        54
+      ]
+    },
+    "etal": {
+      "fichier": "decor/etal.svgt",
+      "ancre": [
+        32,
+        64
+      ]
+    },
+    "poteau_indicateur": {
+      "fichier": "decor/poteau_indicateur.svgt",
+      "ancre": [
+        20,
+        62
+      ]
     }
   },
   "personnages": {
