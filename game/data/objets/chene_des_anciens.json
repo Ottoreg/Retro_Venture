@@ -1,0 +1,9 @@
+{
+  "id": "chene_des_anciens",
+  "nom": "Chêne des Anciens",
+  "type": "ressource",
+  "rarete": "rare",
+  "niveau": 1,
+  "description": "Une bûche si vieille qu'elle se souvient de l'Âge de l'Aube. Elle refuse d'en parler.",
+  "boutique": false
+}

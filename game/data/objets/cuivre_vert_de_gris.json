@@ -1,0 +1,9 @@
+{
+  "id": "cuivre_vert_de_gris",
+  "nom": "Cuivre vert-de-gris",
+  "type": "ressource",
+  "rarete": "rare",
+  "niveau": 1,
+  "description": "Un cuivre qui a pris l'air pendant un siècle. Il a de la patine, et de l'opinion.",
+  "boutique": false
+}

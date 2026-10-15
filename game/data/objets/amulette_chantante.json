@@ -1,0 +1,23 @@
+{
+  "id": "amulette_chantante",
+  "nom": "Amulette chantante",
+  "type": "amulette",
+  "rarete": "epique",
+  "niveau": 14,
+  "description": "Étain chantant et if funèbre : elle fredonne des airs d'enterrement, juste assez faux.",
+  "bonus": {
+    "intelligence": [
+      8,
+      11
+    ],
+    "sagesse": [
+      4,
+      6
+    ],
+    "vitalite": [
+      8,
+      12
+    ]
+  },
+  "boutique": false
+}

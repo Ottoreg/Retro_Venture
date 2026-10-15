@@ -19,7 +19,8 @@
         120
       ],
       "apparence": "arbre",
-      "couleur": "79a845"
+      "couleur": "79a845",
+      "rare": "coeur_de_frene"
     },
     {
       "marqueur": "C",
@@ -36,7 +37,8 @@
         120
       ],
       "apparence": "arbre",
-      "couleur": "2e5e2b"
+      "couleur": "2e5e2b",
+      "rare": "chene_des_anciens"
     },
     {
       "marqueur": "Y",
@@ -53,7 +55,8 @@
         150
       ],
       "apparence": "arbre",
-      "couleur": "1e4a2a"
+      "couleur": "1e4a2a",
+      "rare": "if_funebre"
     },
     {
       "marqueur": "H",
@@ -70,7 +73,8 @@
         150
       ],
       "apparence": "arbre",
-      "couleur": "8ab84a"
+      "couleur": "8ab84a",
+      "rare": "hetre_centenaire"
     },
     {
       "marqueur": "L",
@@ -87,7 +91,8 @@
         180
       ],
       "apparence": "arbre",
-      "couleur": "e0b830"
+      "couleur": "e0b830",
+      "rare": "malorme_ensorcelee"
     }
   ]
 }

@@ -1,0 +1,9 @@
+{
+  "id": "malorme_ensorcelee",
+  "nom": "Malorme ensorcelée",
+  "type": "ressource",
+  "rarete": "rare",
+  "niveau": 1,
+  "description": "Ses feuilles dorées chuchotent. Ce qu'elles disent n'est pas très gentil.",
+  "boutique": false
+}

@@ -1,0 +1,9 @@
+{
+  "id": "obsidienne_sanglante",
+  "nom": "Obsidienne sanglante",
+  "type": "ressource",
+  "rarete": "rare",
+  "niveau": 1,
+  "description": "Un verre noir veiné de rouge. Il coupe, et il a l'air content de couper.",
+  "boutique": false
+}

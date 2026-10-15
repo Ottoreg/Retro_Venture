@@ -10,6 +10,7 @@ var _map: GameMap
 static func _items() -> Array:
 	var items := Fixtures.items()
 	items.append({"id": "buche", "nom": "Bûche", "type": "ressource", "rarete": "commun"})
+	items.append({"id": "buche_rare", "nom": "Bûche de cœur", "type": "ressource", "rarete": "rare"})
 	return items
 
 
@@ -17,7 +18,7 @@ static func _jobs() -> Array:
 	return [
 		{"id": "bucheron", "nom": "Bûcheron", "type": "recolte", "ressources": [
 			{"marqueur": "F", "nom": "Frêne", "objet": "buche", "niveau": 1, "quantite": [2, 2], "xp": 10,
-				"repousse": [60, 120], "apparence": "arbre", "couleur": "79a845"},
+				"repousse": [60, 120], "apparence": "arbre", "couleur": "79a845", "rare": "buche_rare"},
 			{"marqueur": "C", "nom": "Chêne", "objet": "buche", "niveau": 3, "quantite": [1, 1], "xp": 5,
 				"repousse": [60, 60], "apparence": "arbre"},
 		]},
@@ -34,6 +35,7 @@ func before_each() -> void:
 	]})
 	var data := GameData.from_dicts(Fixtures.spells(), [], [], [], _items(), _jobs())
 	_world = World.new(_map, data, Callable(), Fixtures.character())
+	_world.rare_harvest_chance = 0.0  # récoltes normales, sauf dans le test des récoltes rares
 
 
 func _command(type: String, extra := {}) -> Array[Dictionary]:
@@ -92,6 +94,29 @@ func test_recolter() -> void:
 	_assert_refused(_command(Protocol.CMD_HARVEST, {"case": tree}), Protocol.REASON_DEPLETED)
 	_assert_refused(_command(Protocol.CMD_HARVEST, {"case": GameMap.plan_cell(1, 1)}), Protocol.REASON_UNKNOWN_ENTITY)
 	_assert_refused(_command(Protocol.CMD_HARVEST, {"case": "arbre"}), Protocol.REASON_INVALID_COMMAND)
+
+
+func test_recolte_rare() -> void:
+	# 1 % par défaut ; ici forcée : un seul exemplaire de la ressource rare, à la place de la récolte.
+	assert_eq(Profession.RARE_CHANCE, 0.01)
+	_world.rare_harvest_chance = 1.0
+	var tree := Fixtures.center()
+	_go_next_to(tree)
+	var events := _command(Protocol.CMD_HARVEST, {"case": tree})
+	assert_eq(events[0]["type"], Protocol.EVT_HARVESTED)
+	assert_true(events[0]["rare"])
+	assert_eq(events[0]["objet"], "buche_rare")
+	assert_eq(events[0]["quantite"], 1, "un seul exemplaire")
+	assert_eq(_world.character.inventory.quantity_of("buche_rare"), 1)
+	assert_eq(_world.character.inventory.quantity_of("buche"), 0, "à la place de la récolte normale")
+	assert_eq(Fixtures.of_type(events, Protocol.EVT_JOB)[0]["gain"], 10, "même XP de métier")
+	# Le chêne n'a pas de ressource rare : récolte normale même à 100 %.
+	_world.character.add_job_xp("bucheron", 1000)
+	var oak := GameMap.plan_cell(0, 4)
+	_go_next_to(oak)
+	var normal := _command(Protocol.CMD_HARVEST, {"case": oak})
+	assert_false(normal[0]["rare"])
+	assert_eq(normal[0]["objet"], "buche")
 
 
 func test_repousse_entre_une_et_deux_minutes() -> void:
@@ -192,6 +217,10 @@ func test_metiers_invalides() -> void:
 	var bad_item: Dictionary = _jobs()[0]
 	bad_item["ressources"][0]["objet"] = "bague"
 	assert_false(Profession.validate(bad_item, items).is_empty(), "la récolte doit donner une ressource")
+	for rare: String in ["bague", "inconnu", "buche"]:
+		var bad_rare: Dictionary = _jobs()[0]
+		bad_rare["ressources"][0]["rare"] = rare
+		assert_false(Profession.validate(bad_rare, items).is_empty(), "« rare » : %s refusé" % rare)
 	var bad_recipe: Dictionary = _jobs()[1]
 	bad_recipe["recettes"][0]["ingredients"] = {"inconnu": 2}
 	assert_false(Profession.validate(bad_recipe, items).is_empty(), "ingrédient inconnu")

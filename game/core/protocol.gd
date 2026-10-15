@@ -83,6 +83,7 @@ const EVT_TRADE := "commerce"
 const EVT_WORKSHOP := "atelier"
 ## Ressource récoltée. { type, entite: String, case: Vector2i, ressource: String (nom), objet: String,
 ## nom: String, quantite: int, metier: String }
+## `rare` : vrai si c'est la ressource rare du nœud (1 exemplaire, voir `Profession.RARE_CHANCE`).
 const EVT_HARVESTED := "recolte"
 ## Une ressource récoltée de la carte actuelle a repoussé (renvoyé par `World.update`).
 ## { type, carte: String, case: Vector2i }

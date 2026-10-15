@@ -1,0 +1,23 @@
+{
+  "id": "anneau_vert_de_gris",
+  "nom": "Anneau vert-de-gris",
+  "type": "anneau",
+  "rarete": "rare",
+  "niveau": 5,
+  "description": "Il verdit les doigts et porte chance. Les deux sont liés, assure le forgeron.",
+  "bonus": {
+    "chance": [
+      4,
+      6
+    ],
+    "agilite": [
+      4,
+      6
+    ],
+    "prospection": [
+      8,
+      12
+    ]
+  },
+  "boutique": false
+}

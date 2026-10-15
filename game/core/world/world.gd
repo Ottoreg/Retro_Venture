@@ -56,6 +56,8 @@ var player_name: String:
 var combat: Combat = null
 ## Toutes les pierres connues (voir `ALL_PASSAGES_KNOWN` ; les tests de découverte le coupent).
 var all_passages_known := ALL_PASSAGES_KNOWN
+## Chance d'une récolte rare (voir `Profession.RARE_CHANCE` ; les tests la fixent à 0 ou 1).
+var rare_harvest_chance := Profession.RARE_CHANCE
 
 ## Case occupée par chaque entité, par identifiant (le joueur et les groupes de monstres).
 var _positions: Dictionary = {}
@@ -1018,6 +1020,11 @@ func _harvest(command: Dictionary) -> Array[Dictionary]:
 	var template: Dictionary = data.items[node["objet"]]
 	var amount: Array = node.get("quantite", [1, 1])
 	var quantity := rng.randi_range(int(amount[0]), int(amount[1]))
+	# Parfois, une ressource rare à la place de la récolte normale : un seul exemplaire.
+	var rare: bool = node.has("rare") and data.items.has(node["rare"]) and rng.randf() < rare_harvest_chance
+	if rare:
+		template = data.items[node["rare"]]
+		quantity = 1
 	character.inventory.add(template, quantity)
 	var regrowth: Array = node["repousse"]
 	if not _depleted.has(map.id):
@@ -1032,6 +1039,7 @@ func _harvest(command: Dictionary) -> Array[Dictionary]:
 		"nom": template["nom"],
 		"quantite": quantity,
 		"metier": node["metier"],
+		"rare": rare,
 	}]
 	events.append(_job_event(node["metier"], int(node.get("xp", 0))))
 	events.append_array(_inventory_events())

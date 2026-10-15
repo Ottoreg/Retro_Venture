@@ -1,0 +1,9 @@
+{
+  "id": "argent_lunaire",
+  "nom": "Argent lunaire",
+  "type": "ressource",
+  "rarete": "rare",
+  "niveau": 1,
+  "description": "Il brille même la nuit, surtout la nuit. Les loups le regardent bizarrement.",
+  "boutique": false
+}

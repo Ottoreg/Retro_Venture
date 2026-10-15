@@ -1,0 +1,41 @@
+{
+  "id": "masse_meteorique",
+  "nom": "Masse météorique",
+  "type": "arme",
+  "rarete": "rare",
+  "niveau": 12,
+  "description": "Une tête de fer tombée du ciel sur un manche de chêne des Anciens. Elle retombe souvent.",
+  "bonus": {
+    "force": [
+      8,
+      12
+    ],
+    "vitalite": [
+      8,
+      12
+    ],
+    "dommages": [
+      1,
+      1
+    ]
+  },
+  "attaque": {
+    "cout_pa": 4,
+    "portee": {
+      "min": 1,
+      "max": 1
+    },
+    "relance": {
+      "par_tour": 1
+    },
+    "effets": [
+      {
+        "type": "degats",
+        "element": "acier",
+        "min": 14,
+        "max": 20
+      }
+    ]
+  },
+  "boutique": false
+}

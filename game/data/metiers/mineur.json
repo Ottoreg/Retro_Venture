@@ -19,7 +19,8 @@
         120
       ],
       "apparence": "rocher",
-      "couleur": "d07a3a"
+      "couleur": "d07a3a",
+      "rare": "cuivre_vert_de_gris"
     },
     {
       "marqueur": "I",
@@ -36,7 +37,8 @@
         120
       ],
       "apparence": "rocher",
-      "couleur": "b9c4cf"
+      "couleur": "b9c4cf",
+      "rare": "fer_meteorique"
     },
     {
       "marqueur": "T",
@@ -53,7 +55,8 @@
         150
       ],
       "apparence": "rocher",
-      "couleur": "d8d8d0"
+      "couleur": "d8d8d0",
+      "rare": "etain_chantant"
     },
     {
       "marqueur": "G",
@@ -70,7 +73,8 @@
         150
       ],
       "apparence": "rocher",
-      "couleur": "f4f8ff"
+      "couleur": "f4f8ff",
+      "rare": "argent_lunaire"
     },
     {
       "marqueur": "D",
@@ -87,7 +91,8 @@
         180
       ],
       "apparence": "rocher",
-      "couleur": "6a3a8a"
+      "couleur": "6a3a8a",
+      "rare": "obsidienne_sanglante"
     }
   ]
 }

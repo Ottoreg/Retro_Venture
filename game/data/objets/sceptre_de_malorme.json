@@ -1,0 +1,41 @@
+{
+  "id": "sceptre_de_malorme",
+  "nom": "Sceptre de malorme",
+  "type": "arme",
+  "rarete": "epique",
+  "niveau": 26,
+  "description": "Malorme ensorcelée et obsidienne sanglante : il murmure des sorts que personne ne lui a appris.",
+  "bonus": {
+    "intelligence": [
+      12,
+      16
+    ],
+    "sagesse": [
+      5,
+      7
+    ],
+    "dommages": [
+      1,
+      2
+    ]
+  },
+  "attaque": {
+    "cout_pa": 4,
+    "portee": {
+      "min": 1,
+      "max": 3
+    },
+    "relance": {
+      "par_tour": 1
+    },
+    "effets": [
+      {
+        "type": "degats",
+        "element": "flamme",
+        "min": 16,
+        "max": 23
+      }
+    ]
+  },
+  "boutique": false
+}

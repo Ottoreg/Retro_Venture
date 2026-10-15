@@ -197,7 +197,9 @@ le **lit** de votre maison les rend tous d'un coup.
 - **Métiers** : bûcheron (frêne, chêne, if niv. 8, hêtre niv. 15, malorme niv. 22), mineur
   (cuivre, fer, étain niv. 8, argent niv. 15, obsidienne niv. 22), forgeron (23 recettes, dont
   certaines demandent des butins de plusieurs zones : il faut voyager). Les ressources repoussent
-  en 1 à 3 minutes.
+  en 1 à 3 minutes. **Récolte rare** : 1 fois sur 100, on obtient à la place une ressource rare
+  (« Rare ! » en doré au-dessus du personnage), qui sert à 6 recettes améliorées du forgeron ; ni les
+  ressources rares ni ces objets ne se trouvent chez le marchand.
 
 Pas encore là : quêtes, multijoueur, sons et musiques, options.
 

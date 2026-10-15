@@ -639,7 +639,10 @@ func _apply(event: Dictionary) -> float:
 		var toward: float = IsoGrid.cell_to_screen(event["case"]).x - IsoGrid.grid_to_screen(player["pos"]).x
 		if absf(toward) > 0.5:
 			player["facing"] = signf(toward)
-		_add_floating("+%d %s" % [event["quantite"], event["nom"]], Color(0.6, 0.95, 0.5), player["pos"])
+		if event.get("rare", false):
+			_add_floating("Rare ! +1 %s" % event["nom"], Color(1.0, 0.82, 0.3), player["pos"])
+		else:
+			_add_floating("+%d %s" % [event["quantite"], event["nom"]], Color(0.6, 0.95, 0.5), player["pos"])
 		queue_redraw()
 		return 0.6
 	if type == Protocol.EVT_CHEST:

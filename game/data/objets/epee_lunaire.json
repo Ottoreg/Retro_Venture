@@ -1,0 +1,41 @@
+{
+  "id": "epee_lunaire",
+  "nom": "Épée lunaire",
+  "type": "arme",
+  "rarete": "epique",
+  "niveau": 20,
+  "description": "Une lame d'argent lunaire sur une garde de hêtre centenaire. Elle éclaire le chemin, et la cible.",
+  "bonus": {
+    "force": [
+      9,
+      13
+    ],
+    "vitalite": [
+      6,
+      9
+    ],
+    "critique": [
+      2,
+      3
+    ]
+  },
+  "attaque": {
+    "cout_pa": 4,
+    "portee": {
+      "min": 1,
+      "max": 1
+    },
+    "relance": {
+      "par_tour": 1
+    },
+    "effets": [
+      {
+        "type": "degats",
+        "element": "acier",
+        "min": 17,
+        "max": 24
+      }
+    ]
+  },
+  "boutique": false
+}

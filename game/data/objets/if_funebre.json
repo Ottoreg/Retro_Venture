@@ -1,0 +1,9 @@
+{
+  "id": "if_funebre",
+  "nom": "If funèbre",
+  "type": "ressource",
+  "rarete": "rare",
+  "niveau": 1,
+  "description": "Il pousse près des tombes. Les archers l'adorent ; les fossoyeurs, moins.",
+  "boutique": false
+}

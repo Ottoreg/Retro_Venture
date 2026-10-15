@@ -524,6 +524,12 @@ case voisine. Une fois récoltée, elle repousse au bout d'un temps tiré dans `
 
 - `objet` : ressource obtenue (`quantite` : [min, max] par récolte) ; `niveau` : niveau de métier requis.
 - `apparence` : `arbre` ou `rocher` ; `couleur` : feuillage de l'arbre ou veines du minerai.
+- `rare` (facultatif) : id d'une autre ressource, sa **version rare**. Chaque récolte a 1 % de chance
+  (`Profession.RARE_CHANCE`) de donner **un** exemplaire de cette ressource à la place de la récolte
+  normale (même XP de métier). Les ressources rares servent aux recettes améliorées et ne sont pas en
+  boutique (`"boutique": false`). Les 10 bois et minerais en ont une (cœur de frêne, chêne des
+  Anciens, if funèbre, hêtre centenaire, malorme ensorcelée, cuivre vert-de-gris, fer météorique,
+  étain chantant, argent lunaire, obsidienne sanglante) ; tout futur métier de récolte en aura aussi.
 
 Un métier d'**artisanat** liste ses recettes ; on fabrique auprès d'un PNJ qui tient son `atelier`.
 Les équipements fabriqués ont des jets tirés au hasard.

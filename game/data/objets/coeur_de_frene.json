@@ -1,0 +1,9 @@
+{
+  "id": "coeur_de_frene",
+  "nom": "Cœur de frêne",
+  "type": "ressource",
+  "rarete": "rare",
+  "niveau": 1,
+  "description": "Le centre d'un frêne qui a tenu trois tempêtes. Il en garde la souplesse, et la rancune.",
+  "boutique": false
+}

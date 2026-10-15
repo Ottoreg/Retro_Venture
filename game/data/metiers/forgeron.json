@@ -223,6 +223,68 @@
         "cuir_d_olifant": 3,
         "corne_du_balourd": 1
       }
+    },
+    {
+      "objet": "anneau_vert_de_gris",
+      "niveau": 5,
+      "xp": 30,
+      "ingredients": {
+        "cuivre_vert_de_gris": 1,
+        "minerai_de_cuivre": 6,
+        "croc_de_loup": 3
+      }
+    },
+    {
+      "objet": "arc_coeur_de_frene",
+      "niveau": 7,
+      "xp": 40,
+      "ingredients": {
+        "coeur_de_frene": 1,
+        "bois_de_frene": 8,
+        "peau_de_loup": 2
+      }
+    },
+    {
+      "objet": "masse_meteorique",
+      "niveau": 12,
+      "xp": 60,
+      "ingredients": {
+        "fer_meteorique": 1,
+        "chene_des_anciens": 1,
+        "minerai_de_fer": 8
+      }
+    },
+    {
+      "objet": "amulette_chantante",
+      "niveau": 14,
+      "xp": 70,
+      "ingredients": {
+        "etain_chantant": 1,
+        "if_funebre": 1,
+        "minerai_d_etain": 6,
+        "fil_de_brume": 2
+      }
+    },
+    {
+      "objet": "epee_lunaire",
+      "niveau": 20,
+      "xp": 90,
+      "ingredients": {
+        "argent_lunaire": 1,
+        "hetre_centenaire": 1,
+        "minerai_d_argent": 6
+      }
+    },
+    {
+      "objet": "sceptre_de_malorme",
+      "niveau": 26,
+      "xp": 120,
+      "ingredients": {
+        "malorme_ensorcelee": 1,
+        "obsidienne_sanglante": 1,
+        "bois_de_malorme": 6,
+        "obsidienne": 4
+      }
     }
   ]
 }

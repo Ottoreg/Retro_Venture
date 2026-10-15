@@ -224,6 +224,10 @@ Les tâches marquées *(alpha 2)* sont reportées au second test.
   plusieurs zones)
 - [x] Ressources de monstres utilisées dans les recettes (peau et croc de loup)
 - [x] Passif humain : +10 % d'XP de métier
+- [x] Ressources rares de récolte : 1 % par récolte, un exemplaire à la place de la récolte normale
+  (`rare` dans les données, `Profession.RARE_CHANCE`) ; 10 ressources rares et 6 recettes améliorées
+  (`docs/design/chantier3_brouillon/src/ressources_rares.py`)
+- [ ] Futurs métiers de récolte (herboriste, pêcheur…) : une ressource rare par ressource, même règle
 - [ ] Animation de récolte (durée fixe, outil en main)
 
 ### Quêtes

@@ -763,6 +763,12 @@ un **bonus de panoplie** qui grandit avec le nombre de pièces équipées (à pa
   Le lot Métiers du chantier 3 ajoute trois bois (if, hêtre, malorme) et trois minerais (étain,
   argent, obsidienne), aux niveaux 8, 15 et 22, et 13 recettes (23 en tout) qui mêlent ressources et
   butins de plusieurs zones, pour pousser à voyager.
+- **Ressources rares** (en place, demande de l'auteur) : chaque ressource de récolte a une version
+  rare (cœur de frêne, fer météorique, étain chantant, argent lunaire…), obtenue avec 1 % de chance
+  par récolte, **un** exemplaire **à la place** de la récolte normale. Elles ne se vendent pas et
+  servent à des **recettes améliorées** plus puissantes (rares ou épiques, pas en boutique non plus) :
+  anneau vert-de-gris, arc du Cœur de frêne, masse météorique, amulette chantante, épée lunaire,
+  sceptre de malorme. Les futurs métiers de récolte (herboriste, pêcheur…) suivront la même règle.
 
 ### 10.3 Long terme
 

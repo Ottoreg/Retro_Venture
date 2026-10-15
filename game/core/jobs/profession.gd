@@ -9,6 +9,9 @@ const TYPE_CRAFT := "artisanat"
 const MAX_LEVEL := 100
 ## Dessin d'une ressource sur la carte.
 const APPEARANCES := ["arbre", "rocher"]
+## Chance qu'une récolte donne la ressource rare du nœud (`rare`) à la place de la ressource de base :
+## un seul exemplaire, pour les recettes améliorées.
+const RARE_CHANCE := 0.01
 
 
 ## XP de métier totale nécessaire pour atteindre `target_level` (0 pour le niveau 1).
@@ -78,6 +81,10 @@ static func _validate_node(node: Variant, known_items: Dictionary) -> PackedStri
 		errors.append("ressource %s : « repousse » doit être [min, max] en secondes" % label)
 	if node.get("apparence") not in APPEARANCES:
 		errors.append("ressource %s : « apparence » doit valoir %s" % [label, str(APPEARANCES)])
+	if node.has("rare"):
+		var rare: Dictionary = known_items.get(node["rare"], {})
+		if rare.is_empty() or str(rare.get("type")) != Item.TYPE_RESOURCE or node["rare"] == node.get("objet"):
+			errors.append("ressource %s : « rare » doit être une autre ressource connue" % label)
 	if typeof(node.get("couleur", "ffffff")) != TYPE_STRING or not Color.html_is_valid(str(node.get("couleur", "ffffff"))):
 		errors.append("ressource %s : « couleur » doit être une couleur (« 6f9a3e »)" % label)
 	return errors

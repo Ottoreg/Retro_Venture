@@ -1,0 +1,9 @@
+{
+  "id": "fer_meteorique",
+  "nom": "Fer météorique",
+  "type": "ressource",
+  "rarete": "rare",
+  "niveau": 1,
+  "description": "Tombé du ciel il y a longtemps. Les gobelins disent que c'était une réclamation.",
+  "boutique": false
+}

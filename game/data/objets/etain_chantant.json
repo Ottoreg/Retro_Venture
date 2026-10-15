@@ -1,0 +1,9 @@
+{
+  "id": "etain_chantant",
+  "nom": "Étain chantant",
+  "type": "ressource",
+  "rarete": "rare",
+  "niveau": 1,
+  "description": "Il crie quand on le plie. Les forgerons trouvent ça touchant ; les voisins, non.",
+  "boutique": false
+}

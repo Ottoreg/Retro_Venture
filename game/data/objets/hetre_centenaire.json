@@ -1,0 +1,9 @@
+{
+  "id": "hetre_centenaire",
+  "nom": "Hêtre centenaire",
+  "type": "ressource",
+  "rarete": "rare",
+  "niveau": 1,
+  "description": "Cent ans de patience dans chaque cerne. Il se fend quand il l'a décidé.",
+  "boutique": false
+}
