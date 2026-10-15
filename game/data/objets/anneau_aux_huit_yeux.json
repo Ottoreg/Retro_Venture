@@ -1,0 +1,23 @@
+{
+  "id": "anneau_aux_huit_yeux",
+  "nom": "Anneau aux huit yeux",
+  "type": "anneau",
+  "rarete": "rare",
+  "niveau": 12,
+  "description": "Huit pierres noires qui vous regardent. Avec, vous voyez plus loin ; eux aussi.",
+  "bonus": {
+    "chance": [
+      4,
+      5
+    ],
+    "agilite": [
+      2,
+      3
+    ],
+    "portee": [
+      1,
+      1
+    ]
+  },
+  "boutique": false
+}

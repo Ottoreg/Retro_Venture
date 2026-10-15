@@ -1,0 +1,73 @@
+{
+  "id": "morille_grincheuse",
+  "nom": "Morille grincheuse",
+  "description": "Elle pousse à l'ombre, elle râle à l'ombre, elle mord à l'ombre.",
+  "niveau": 1,
+  "niveaux": {
+    "min": 1,
+    "max": 3,
+    "poids": [
+      6,
+      3,
+      1
+    ]
+  },
+  "caracteristiques": {
+    "pv": 14,
+    "pa": 5,
+    "pm": 2,
+    "initiative": 40
+  },
+  "par_niveau": {
+    "pv": 3,
+    "initiative": 5,
+    "xp": 5,
+    "chance": 4
+  },
+  "resistances": {
+    "givre": 15,
+    "tempete": 10,
+    "acier": 0,
+    "flamme": -20
+  },
+  "sorts": [
+    "morille_spores",
+    "morille_bouderie"
+  ],
+  "ia": "basique",
+  "xp": 8,
+  "butin": [
+    {
+      "objet": "chapeau_de_morille",
+      "taux": 0.6,
+      "quantite": [
+        1,
+        2
+      ]
+    },
+    {
+      "objet": "spores_grincheuses",
+      "taux": 0.12
+    },
+    {
+      "objet": "bottes_de_mousse",
+      "taux": 0.05
+    },
+    {
+      "objet": "coiffe_mauvais_oeil",
+      "taux": 0.02
+    },
+    {
+      "objet": "cape_mauvais_oeil",
+      "taux": 0.02
+    },
+    {
+      "objet": "amulette_mauvais_oeil",
+      "taux": 0.02
+    }
+  ],
+  "ecus": [
+    3,
+    5
+  ]
+}

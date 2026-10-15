@@ -1,0 +1,23 @@
+{
+  "id": "morille_bouderie",
+  "nom": "Bouderie",
+  "description": "Elle boude. C'est étonnamment efficace.",
+  "cout_pa": 2,
+  "portee": {
+    "min": 0,
+    "max": 0
+  },
+  "ligne_de_vue": false,
+  "relance": {
+    "par_tour": 1,
+    "delai": 2
+  },
+  "effets": [
+    {
+      "type": "bouclier",
+      "element": "givre",
+      "min": 4,
+      "max": 6
+    }
+  ]
+}

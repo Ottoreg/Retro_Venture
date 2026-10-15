@@ -1,0 +1,41 @@
+{
+  "id": "abatteur_souche_piegee",
+  "nom": "Souche piégée",
+  "description": "Une souche, des pointes, et un abatteur qui sourit.",
+  "cout_pa": 3,
+  "portee": {
+    "min": 1,
+    "max": 4
+  },
+  "ligne_de_vue": false,
+  "relance": {
+    "par_tour": 1,
+    "delai": 2
+  },
+  "effets": [
+    {
+      "type": "piege",
+      "effets": [
+        {
+          "type": "degats",
+          "element": "acier",
+          "min": 7,
+          "max": 10,
+          "cibles": "ennemis"
+        },
+        {
+          "type": "malus",
+          "carac": "pm",
+          "min": 2,
+          "max": 2,
+          "duree": 1,
+          "cibles": "ennemis"
+        }
+      ],
+      "zone": {
+        "type": "cercle",
+        "taille": 1
+      }
+    }
+  ]
+}

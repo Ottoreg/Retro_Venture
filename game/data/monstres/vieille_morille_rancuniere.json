@@ -1,0 +1,62 @@
+{
+  "id": "vieille_morille_rancuniere",
+  "nom": "Vieille Morille rancunière",
+  "description": "Elle se souvient de chaque pied qui l'a écrasée depuis trois siècles. Elle a une liste.",
+  "famille": "morille_grincheuse",
+  "elite": true,
+  "niveau": 6,
+  "caracteristiques": {
+    "pv": 54,
+    "pa": 6,
+    "pm": 2,
+    "initiative": 70,
+    "chance": 30
+  },
+  "resistances": {
+    "givre": 25,
+    "tempete": 20,
+    "acier": 10,
+    "flamme": -15
+  },
+  "sorts": [
+    "morille_spores",
+    "morille_bouderie",
+    "rancune_nuage_de_spores"
+  ],
+  "ia": "basique",
+  "xp": 80,
+  "butin": [
+    {
+      "objet": "chapeau_de_morille",
+      "taux": 0.9,
+      "quantite": [
+        2,
+        4
+      ]
+    },
+    {
+      "objet": "spores_grincheuses",
+      "taux": 0.48
+    },
+    {
+      "objet": "bottes_de_mousse",
+      "taux": 0.2
+    },
+    {
+      "objet": "coiffe_mauvais_oeil",
+      "taux": 0.12
+    },
+    {
+      "objet": "cape_mauvais_oeil",
+      "taux": 0.12
+    },
+    {
+      "objet": "amulette_mauvais_oeil",
+      "taux": 0.12
+    }
+  ],
+  "ecus": [
+    8,
+    12
+  ]
+}

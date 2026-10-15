@@ -1,0 +1,8 @@
+{
+  "id": "spores_grincheuses",
+  "nom": "Spores grincheuses",
+  "type": "ressource",
+  "rarete": "peu_commun",
+  "niveau": 1,
+  "description": "Une pincée suffit à gâcher une fête. Les elfes en mettent dans les lettres de refus."
+}

@@ -1,0 +1,18 @@
+{
+  "id": "bottes_de_mousse",
+  "nom": "Bottes de mousse",
+  "type": "bottes",
+  "rarete": "commun",
+  "niveau": 2,
+  "description": "Douces, silencieuses, un peu humides. Les champignons poussent dessus si on ne marche pas assez.",
+  "bonus": {
+    "chance": [
+      2,
+      3
+    ],
+    "vitalite": [
+      4,
+      5
+    ]
+  }
+}

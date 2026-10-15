@@ -1,0 +1,27 @@
+{
+  "id": "bucheron_ca_tombe",
+  "nom": "Attention, ça tombe !",
+  "description": "Il crie toujours avant. Personne n'écoute jamais.",
+  "cout_pa": 4,
+  "portee": {
+    "min": 2,
+    "max": 4
+  },
+  "ligne_de_vue": false,
+  "lancer_en_ligne": true,
+  "zone": {
+    "type": "croix_latine"
+  },
+  "relance": {
+    "par_tour": 1,
+    "delai": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "acier",
+      "min": 5,
+      "max": 7
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "id": "hache_de_bucheron",
+  "nom": "Hache de bûcheron",
+  "type": "arme",
+  "rarete": "peu_commun",
+  "niveau": 9,
+  "description": "Une cognée honnête. Elle a abattu Vieux-Branchu ; elle n'en est pas fière.",
+  "bonus": {
+    "force": [
+      4,
+      5
+    ],
+    "vitalite": [
+      5,
+      7
+    ]
+  },
+  "attaque": {
+    "cout_pa": 4,
+    "portee": {
+      "min": 1,
+      "max": 1
+    },
+    "relance": {
+      "par_tour": 1
+    },
+    "effets": [
+      {
+        "type": "degats",
+        "element": "acier",
+        "min": 10,
+        "max": 15
+      }
+    ]
+  }
+}

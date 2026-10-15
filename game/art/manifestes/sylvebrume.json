@@ -1,0 +1,241 @@
+{
+  "monstres": {
+    "morille_grincheuse": {
+      "image": "morille",
+      "echelle": 0.8
+    },
+    "vieille_morille_rancuniere": {
+      "image": "morille",
+      "echelle": 1.1,
+      "teinte": "a08060"
+    },
+    "bucheron_de_brumerive": {
+      "rig": "humain",
+      "couleurs": {
+        "tunique": "a83a2a",
+        "manches": "7a2a20",
+        "pantalon": "3a4a6a",
+        "bottes": "4a3424",
+        "ceinture": "3d2b1f",
+        "cheveux": "5a3a22",
+        "barbe": "5a3a22"
+      },
+      "arme": "hache",
+      "accessoires": [
+        "barbe"
+      ]
+    },
+    "abatteur_en_chef": {
+      "rig": "humain_grand",
+      "couleurs": {
+        "tunique": "7a1e16",
+        "manches": "5a1610",
+        "pantalon": "2a3a5a",
+        "bottes": "2e2620",
+        "ceinture": "1e1a17",
+        "cheveux": "2e2418",
+        "barbe": "2e2418"
+      },
+      "arme": "hache",
+      "accessoires": [
+        "barbe",
+        "casque"
+      ]
+    },
+    "tisseuse_de_brume": {
+      "image": "araignee",
+      "echelle": 0.85
+    },
+    "grande_tisseuse": {
+      "image": "araignee",
+      "echelle": 1.1,
+      "teinte": "b8c0d8"
+    },
+    "mere_toile": {
+      "image": "araignee",
+      "echelle": 1.5,
+      "teinte": "d8c8f0"
+    }
+  },
+  "pnj": {
+    "tantine_champignolle": {
+      "rig": "humain",
+      "couleurs": {
+        "peau": "f3dcc4",
+        "tunique": "8a6a3a",
+        "manches": "6a5a2a",
+        "pantalon": "5a6a4a",
+        "cheveux": "c8c0b0",
+        "tablier": "d8c8a0"
+      },
+      "accessoires": [
+        "oreilles_elfe",
+        "tablier"
+      ]
+    },
+    "poete_lyriandel": {
+      "rig": "humain",
+      "couleurs": {
+        "peau": "f3dcc4",
+        "tunique": "6a4a8a",
+        "manches": "8a6aa8",
+        "pantalon": "4a4a6a",
+        "cheveux": "f0e6c0",
+        "ceinture": "c9a04e"
+      },
+      "accessoires": [
+        "oreilles_elfe"
+      ]
+    },
+    "druide_feuillemorte": {
+      "rig": "humain",
+      "couleurs": {
+        "peau": "f0d8bc",
+        "tunique": "5a6a3a",
+        "manches": "7a5a2a",
+        "pantalon": "4a3a28",
+        "cheveux": "b8b0a0",
+        "barbe": "b8b0a0"
+      },
+      "arme": "baton",
+      "accessoires": [
+        "oreilles_elfe",
+        "barbe"
+      ]
+    },
+    "eclaireuse_sylphine": {
+      "rig": "humain",
+      "couleurs": {
+        "peau": "f3dcc4",
+        "tunique": "3f6a4a",
+        "manches": "5a7a4a",
+        "pantalon": "4a5a3a",
+        "bottes": "6b5236",
+        "cheveux": "c89a5a"
+      },
+      "arme": "arc",
+      "accessoires": [
+        "oreilles_elfe"
+      ]
+    }
+  },
+  "images": {
+    "morille": {
+      "fichier": "monstre/morille.svgt",
+      "ancre": [
+        17,
+        41
+      ],
+      "couleurs": {
+        "pelage": "b89a6a",
+        "pelage_ombre": "7a5a3a"
+      }
+    },
+    "araignee": {
+      "fichier": "monstre/araignee.svgt",
+      "ancre": [
+        31,
+        36
+      ],
+      "couleurs": {
+        "pelage": "b8bcc8",
+        "pelage_ombre": "6a6e7a"
+      }
+    },
+    "objet_chapeau_de_morille": {
+      "fichier": "objets/chapeau_de_morille.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_spores_grincheuses": {
+      "fichier": "objets/spores_grincheuses.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_copeaux_de_bois": {
+      "fichier": "objets/copeaux_de_bois.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_bon_de_coupe": {
+      "fichier": "objets/bon_de_coupe.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_fil_de_brume": {
+      "fichier": "objets/fil_de_brume.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_crochet_d_araignee": {
+      "fichier": "objets/crochet_d_araignee.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_soie_de_la_mere_toile": {
+      "fichier": "objets/soie_de_la_mere_toile.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_bottes_de_mousse": {
+      "fichier": "objets/bottes_de_mousse.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_hache_de_bucheron": {
+      "fichier": "objets/hache_de_bucheron.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_ceinture_de_bucheron": {
+      "fichier": "objets/ceinture_de_bucheron.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_cape_de_soie_grise": {
+      "fichier": "objets/cape_de_soie_grise.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_fuseau_de_la_mere_toile": {
+      "fichier": "objets/fuseau_de_la_mere_toile.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_anneau_aux_huit_yeux": {
+      "fichier": "objets/anneau_aux_huit_yeux.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    }
+  },
+  "icones_armes": {
+    "hache_de_bucheron": "sort_arme_masse",
+    "fuseau_de_la_mere_toile": "sort_arme_baton"
+  }
+}

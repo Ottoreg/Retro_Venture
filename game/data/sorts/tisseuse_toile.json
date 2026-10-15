@@ -1,0 +1,29 @@
+{
+  "id": "tisseuse_toile",
+  "nom": "Toile collante",
+  "description": "On se débat, on s'emmêle, on reste là.",
+  "cout_pa": 3,
+  "portee": {
+    "min": 2,
+    "max": 5
+  },
+  "ligne_de_vue": true,
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "givre",
+      "min": 2,
+      "max": 4
+    },
+    {
+      "type": "malus",
+      "carac": "pm",
+      "min": 2,
+      "max": 2,
+      "duree": 1
+    }
+  ]
+}

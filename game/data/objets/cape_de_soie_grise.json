@@ -1,0 +1,22 @@
+{
+  "id": "cape_de_soie_grise",
+  "nom": "Cape de soie grise",
+  "type": "cape",
+  "rarete": "peu_commun",
+  "niveau": 11,
+  "description": "Tissée par les tisseuses de brume. Elle colle un peu, mais elle protège du froid et des regards.",
+  "bonus": {
+    "chance": [
+      6,
+      8
+    ],
+    "sagesse": [
+      2,
+      3
+    ],
+    "vitalite": [
+      7,
+      10
+    ]
+  }
+}

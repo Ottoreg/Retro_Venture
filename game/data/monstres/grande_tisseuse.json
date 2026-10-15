@@ -1,0 +1,62 @@
+{
+  "id": "grande_tisseuse",
+  "nom": "Grande Tisseuse",
+  "description": "Sa toile couvre trois clairières. Elle a oublié où elle a rangé la dernière proie.",
+  "famille": "tisseuse_de_brume",
+  "elite": true,
+  "niveau": 15,
+  "caracteristiques": {
+    "pv": 144,
+    "pa": 7,
+    "pm": 4,
+    "initiative": 140,
+    "chance": 66
+  },
+  "resistances": {
+    "givre": 30,
+    "impie": 20,
+    "acier": 10,
+    "flamme": -10
+  },
+  "sorts": [
+    "tisseuse_morsure",
+    "tisseuse_toile",
+    "tisseuse_cocon"
+  ],
+  "ia": "basique",
+  "xp": 299,
+  "butin": [
+    {
+      "objet": "fil_de_brume",
+      "taux": 0.88,
+      "quantite": [
+        2,
+        5
+      ]
+    },
+    {
+      "objet": "crochet_d_araignee",
+      "taux": 0.48
+    },
+    {
+      "objet": "cape_de_soie_grise",
+      "taux": 0.16
+    },
+    {
+      "objet": "coiffe_bonhomme_de_neige",
+      "taux": 0.13
+    },
+    {
+      "objet": "cape_bonhomme_de_neige",
+      "taux": 0.13
+    },
+    {
+      "objet": "amulette_bonhomme_de_neige",
+      "taux": 0.13
+    }
+  ],
+  "ecus": [
+    22,
+    52
+  ]
+}

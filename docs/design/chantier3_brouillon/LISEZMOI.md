@@ -10,7 +10,7 @@ retouches à la main si besoin.
 - Production (un lot à la fois) : `python3 src/produire.py <lot>` écrit monstres, sorts, objets et le
   fragment de manifeste dans `game/` ; `python3 src/plans_<lot>.py` dessine les cartes (outils dans
   `src/cartes.py`). Icônes et nouveaux dessins se font à la main (le script les liste).
-  Faits : Brumerive, Crasse-Roc.
+  Faits : Brumerive, Crasse-Roc, Sylvebrume.
 - `src/` : les scripts qui génèrent les deux fichiers. Après une modification :
   `python3 src/build.py json && python3 src/controle.py`
   (`controle.py` vérifie les ids, les références, les sorties de cartes et les paliers).

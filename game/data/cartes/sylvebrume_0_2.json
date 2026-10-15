@@ -1,0 +1,95 @@
+{
+  "id": "sylvebrume_0_2",
+  "nom": "Sylvebrume — Cœur de la Toile",
+  "sorties": {
+    "droite": "sylvebrume_1_2"
+  },
+  "palette": "sylvebrume",
+  "plan": [
+    "AAAAAAAAAAAAAAAAAAA",
+    " AAAAAAAAAAAAAAAAAA",
+    "AAAAAAAAAAAAAAAAAAA",
+    " AAAAAAAAAAAAAAAAAA",
+    "AAAAAAA...AAAAAAAAA",
+    " AAAAA......AAAAAAA",
+    "AAAAA.......AAAAAAA",
+    " AAAA........AAAAAA",
+    "AAAA....R....AAAAAA",
+    " AAAA.........AAAAA",
+    "AAAA.........AAAAAA",
+    " AAA.......R..AAAAA",
+    "AAA...R.......AAA..",
+    " AAA..........AAAA.",
+    "AAA................",
+    " AAA....1......2...",
+    "AAA..............@.",
+    " AAA...............",
+    "AAA................",
+    " AAA..........AAAA.",
+    "AAA...........AAA..",
+    " AAA..R.......AAAAA",
+    "AAAA.......R.AAAAAA",
+    " AAAA.........AAAAA",
+    "AAAA.........AAAAAA",
+    " AAAA........AAAAAA",
+    "AAAAA.......AAAAAAA",
+    " AAAAA......AAAAAAA",
+    "AAAAAAA...AAAAAAAAA",
+    " AAAAAAAAAAAAAAAAAA",
+    "AAAAAAAAAAAAAAAAAAA",
+    " AAAAAAAAAAAAAAAAAA",
+    "AAAAAAAAAAAAAAAAAAA"
+  ],
+  "groupes": [
+    {
+      "monstres": [
+        "mere_toile"
+      ],
+      "reapparition": [
+        45,
+        60
+      ]
+    },
+    {
+      "monstres": [
+        "tisseuse_de_brume",
+        "tisseuse_de_brume"
+      ]
+    }
+  ],
+  "placement": [
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ....j.......m.....",
+    "......j.......m....",
+    " ...j.......m......",
+    ".....j.......m.....",
+    " ..................",
+    "......j.......m....",
+    " ....j.......m.....",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "..................."
+  ]
+}

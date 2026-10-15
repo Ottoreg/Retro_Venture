@@ -1,0 +1,108 @@
+{
+  "id": "sylvebrume_1_2",
+  "nom": "Sylvebrume — Toiles grises",
+  "sorties": {
+    "haut": "sylvebrume_1_1",
+    "gauche": "sylvebrume_0_2",
+    "droite": "sylvebrume_2_2"
+  },
+  "palette": "sylvebrume",
+  "plan": [
+    "AAAAAAAA...AAAAAAAA",
+    " AAAAAAA....AAAAAAA",
+    "AAAAAAAAA@AAAAAAAAA",
+    " AAAAAAAA..AAAAAAAA",
+    "AAAAAAAAA.AAAAAAAAA",
+    " AAAAAAAA..AAAAAAAA",
+    "AAAAA.AA..AAAAAAAAA",
+    " AAAA......AAAAAAAA",
+    "AAAA......AAAAAAAAA",
+    " AAAA.1..AAAAAAAAAA",
+    "AAAA....AAAAAAAAAAA",
+    " AA.....AAAAA.AAAAA",
+    ".......AAAAA..AAA..",
+    " ....A.AAAAA...AAA.",
+    "....AAAAAAA........",
+    " .....AAAAAA.3.....",
+    "......AAAAAA.......",
+    " .....AAAAAA...A...",
+    "..AAA.AAAAA...AAA..",
+    " .AAA..AAAA..AAAAA.",
+    "..AAA..AAA..AAAAA..",
+    " AAAA.......AAAAAAA",
+    "AAAA........AAAAAAA",
+    " AAAA.2.....AAAAAAA",
+    "AAAA........AAAAAAA",
+    " AAAA...A..4AAAAAAA",
+    "AAAAC.AAA...AAAAAAA",
+    " AAAAAAAAA..AAAAAAA",
+    "AAAAAAAAAAAAAAAAAAA",
+    " AAAAAAAAAAAAAAAAAA",
+    "AAAAAAAAAAAAAAAAAAA",
+    " AAAAAAAAAAAAAAAAAA",
+    "AAAAAAAAAAAAAAAAAAA"
+  ],
+  "groupes": [
+    {
+      "monstres": [
+        "tisseuse_de_brume"
+      ]
+    },
+    {
+      "monstres": [
+        "tisseuse_de_brume",
+        "tisseuse_de_brume"
+      ]
+    },
+    {
+      "parmi": [
+        "tisseuse_de_brume"
+      ],
+      "nombre": [
+        1,
+        3
+      ]
+    },
+    {
+      "monstres": [
+        "tisseuse_de_brume",
+        "bucheron_de_brumerive"
+      ]
+    }
+  ],
+  "placement": [
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ....j.......m.....",
+    "...................",
+    " .....j.......m....",
+    "............m......",
+    " ...j..........m...",
+    ".....j.......m.....",
+    " ..................",
+    "............m......",
+    " ....j.............",
+    "...................",
+    " .....j............",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "..................."
+  ]
+}

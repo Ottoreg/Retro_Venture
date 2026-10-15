@@ -127,7 +127,9 @@ le **lit** de votre maison les rend tous d'un coup.
   Blés, camp du raid, gué de Brume-Haute, palissade de Krasbouk), **Crasse-Roc, complète** (10
   cartes, niveaux 1 à 12 : entrée des galeries, Crassier, Rataillerie, puits des Vampipistrelles,
   galerie effondrée, poste avancé de la Milice, carrière aux Échos, Forges noires, route des
-  Charrois, abîme du Balourd), Sylvebrume (clairière de la Lisière, futaie ancienne), reliées seulement par les
+  Charrois, abîme du Balourd), **Sylvebrume, complète** (9 cartes, niveaux 1 à 12 : clairière de la
+  Lisière, futaie ancienne, sous-bois moussu, bosquet des Cerfs, coupe rase, scierie de Brumerive,
+  Toiles grises, orée du Sud, cœur de la Toile), Sylvebrume (clairière de la Lisière, futaie ancienne), reliées seulement par les
   Pierres de Passage (toutes accessibles dès le début, voir plus haut). Le **Trône de Cendre** (carte d'élite) est
   accessible par n'importe quelle Pierre : le Souverain Cendré y attend, c'est le monstre le plus
   puissant du jeu.
@@ -141,7 +143,11 @@ le **lit** de votre maison les rend tous d'un coup.
   leurs élites (rat-roi, grouilleur ancestral, vampipistrelle comtesse, sergent de la milice,
   contremaître en chef) ; au fond, le **mini-boss Balourd des Abîmes** sur son île au milieu de la
   lave : à 70 % sa carapace couvre sa faiblesse au Givre, à 40 % il s'embrase (pluie de braises), à
-  15 % il s'envole (plus de PM et de portée). Cerf enchanté et arbre vivant (Sylvebrume). Les groupes comptent 1 à 3 monstres, parfois mélangés,
+  15 % il s'envole (plus de PM et de portée). À Sylvebrume : morilles grincheuses (1–3), cerfs
+  enchantés et arbres vivants (4–6), bûcherons de Brumerive (7–9), tisseuses de brume (10–12), avec
+  leurs élites ; au cœur de la Toile, le **mini-boss Mère-Toile** : à 65 % elle tisse toute la
+  clairière (toile géante, plus de PM), à 35 % elle s'enferme dans un cocon (couvre sa faiblesse à
+  la Flamme), à 10 % elle mise tout sur l'attaque. Les groupes comptent 1 à 3 monstres, parfois mélangés,
   se promènent autour de leur place et réapparaissent 2 à 3 minutes après avoir été vaincus. Les
   trophées de boss (hachoir, chevalière de Krasbouk) ne se vendent pas en boutique.
 - **Niveaux des monstres** : à Crasse-Roc, rats et grouilleurs ont un niveau de 1 à 3, tiré à chaque

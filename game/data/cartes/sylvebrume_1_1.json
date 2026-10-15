@@ -1,0 +1,116 @@
+{
+  "id": "sylvebrume_1_1",
+  "nom": "Sylvebrume — Coupe rase",
+  "sorties": {
+    "haut": "sylvebrume_1_0",
+    "gauche": "sylvebrume_0_1",
+    "droite": "sylvebrume_2_1",
+    "bas": "sylvebrume_1_2"
+  },
+  "palette": "sylvebrume",
+  "plan": [
+    "AAAAAAAA.:.AAAAAAAA",
+    " AAAAAAA.@..AAAAAAA",
+    "AAAAAAAA.:.AAAAAAAA",
+    " AAAAAAA....AAAAAAA",
+    "AA.......:.......AA",
+    " AA..............AA",
+    "AA.......:.......AA",
+    " AA..............AA",
+    "AA.......:a......AA",
+    " AA..........2...AA",
+    "AA..RR...:.......AA",
+    " AA.R...........RAA",
+    ".........:.........",
+    " ...............R..",
+    ".........:.........",
+    " .....1.......R....",
+    ".........:.........",
+    " ..................",
+    ".........:.........",
+    " ..................",
+    ".........:.........",
+    " AC..............AA",
+    "AA.......:..RRR..AA",
+    " AA..............AA",
+    "AA....3.R:.......AA",
+    " AA.....R........AA",
+    "AA.......:R.R....AA",
+    " AA..............AA",
+    "AA.....R.:.......AA",
+    " AAAAAAC....AAAAAAA",
+    "AAAAAAAA.:.AAAAAAAA",
+    " AAAAAAA....AAAAAAA",
+    "AAAAAAAA.:.AAAAAAAA"
+  ],
+  "groupes": [
+    {
+      "monstres": [
+        "bucheron_de_brumerive"
+      ]
+    },
+    {
+      "monstres": [
+        "bucheron_de_brumerive",
+        "bucheron_de_brumerive"
+      ]
+    },
+    {
+      "parmi": [
+        "bucheron_de_brumerive",
+        "arbre_vivant"
+      ],
+      "nombre": [
+        2,
+        3
+      ]
+    }
+  ],
+  "pnj": [
+    {
+      "marqueur": "a",
+      "id": "druide_feuillemorte",
+      "nom": "Feuillemorte, druide",
+      "repliques": [
+        "Ils ont coupé Vieux-Branchu. Il avait mille ans. Il me devait de l'argent.",
+        "Les humains ont un papier qui les autorise. Nous avons des flèches qui ne les autorisent pas.",
+        "Le Conseil de la Lisière délibère sur l'opportunité de délibérer. Pendant ce temps, faites quelque chose."
+      ]
+    }
+  ],
+  "placement": [
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ....j........m....",
+    "......j.....m......",
+    " ...j..........m...",
+    ".....j.......m.....",
+    " ..................",
+    "......j.....m......",
+    " ....j........m....",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "..................."
+  ]
+}

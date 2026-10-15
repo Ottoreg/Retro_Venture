@@ -2,12 +2,27 @@
   "id": "arbre_vivant",
   "nom": "Arbre vivant",
   "description": "Un vieux chêne qui en a assez qu'on lui coupe les branches.",
-  "niveau": 5,
+  "niveau": 4,
+  "niveaux": {
+    "min": 4,
+    "max": 6,
+    "poids": [
+      1,
+      3,
+      6
+    ]
+  },
   "caracteristiques": {
-    "pv": 60,
+    "pv": 52,
     "pa": 7,
     "pm": 1,
-    "initiative": 40
+    "initiative": 35
+  },
+  "par_niveau": {
+    "pv": 8,
+    "initiative": 5,
+    "xp": 8,
+    "force": 3
   },
   "resistances": {
     "acier": 25,
@@ -19,7 +34,7 @@
     "arbre_racines"
   ],
   "ia": "basique",
-  "xp": 60,
+  "xp": 52,
   "butin": [
     {
       "objet": "ecorce_vivante",

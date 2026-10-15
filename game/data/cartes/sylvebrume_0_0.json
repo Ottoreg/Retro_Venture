@@ -3,7 +3,8 @@
   "nom": "Sylvebrume — Clairière de la Lisière",
   "palette": "sylvebrume",
   "sorties": {
-    "droite": "sylvebrume_1_0"
+    "droite": "sylvebrume_1_0",
+    "bas": "sylvebrume_0_1"
   },
   "portes": [
     "maison_sylvebrume"
@@ -39,9 +40,9 @@
     " AA.......C......AA",
     "AA....:..........AA",
     " AA...:..........AA",
-    "AA..A..A....A....AA",
-    " AAAAAA.AAAAAAAAAAA",
-    "AAAAAAAAAAAAAAAAAAA"
+    "AA..A.......A....AA",
+    " AAAAA...AAAAAAAAAA",
+    "AAAAAA...AAAAAAAAAA"
   ],
   "decors": [
     {
@@ -55,17 +56,16 @@
   "groupes": [
     {
       "monstres": [
-        "cerf_enchante"
+        "morille_grincheuse"
       ]
     },
     {
       "parmi": [
-        "arbre_vivant",
-        "cerf_enchante"
+        "morille_grincheuse"
       ],
       "nombre": [
-        1,
-        2
+        2,
+        3
       ]
     }
   ],

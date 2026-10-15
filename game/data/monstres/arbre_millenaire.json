@@ -9,7 +9,8 @@
     "pv": 150,
     "pa": 8,
     "pm": 1,
-    "initiative": 50
+    "initiative": 50,
+    "force": 25
   },
   "resistances": {
     "acier": 35,

@@ -1,0 +1,113 @@
+{
+  "id": "sylvebrume_2_2",
+  "nom": "Sylvebrume — Orée du Sud",
+  "sorties": {
+    "haut": "sylvebrume_2_1",
+    "gauche": "sylvebrume_1_2"
+  },
+  "palette": "sylvebrume",
+  "plan": [
+    "AAAAAAAA.:.AAAAAAAA",
+    " AAAAAAA.@..AAAAAAA",
+    "AAAAAAAAA:AAAAAAAAA",
+    " AAAAAAAA..AAAAAAAA",
+    "AAAAAAAAA:AAAAAAAAA",
+    " AAAAAAAA..AAAAAAAA",
+    "AAAAAAAAA:AAAAAAAAA",
+    " AAAAAAAA..AAAAAAAA",
+    "AAAAAAAAA:AAAAAAAAA",
+    " AAAAAAAA..AAAAAAAA",
+    "A.AAAAAAA:AAAAAAA.A",
+    " A................A",
+    ".........:........A",
+    " ...........A.....A",
+    ".........:......A.A",
+    " .................A",
+    "::::::::......2...A",
+    " .................A",
+    "..................A",
+    " .................A",
+    "..................A",
+    " A................A",
+    "A.......R.R.....A.A",
+    " A...1............A",
+    "A.......A.........A",
+    " A................A",
+    "A........:........A",
+    " A............3...A",
+    "A........:a.......A",
+    " A................A",
+    "A........:........A",
+    " A................A",
+    "AAAAAAAA.:.AAAAAAAA"
+  ],
+  "groupes": [
+    {
+      "monstres": [
+        "tisseuse_de_brume",
+        "tisseuse_de_brume"
+      ]
+    },
+    {
+      "monstres": [
+        "tisseuse_de_brume"
+      ]
+    },
+    {
+      "parmi": [
+        "tisseuse_de_brume"
+      ],
+      "nombre": [
+        1,
+        2
+      ]
+    }
+  ],
+  "pnj": [
+    {
+      "marqueur": "a",
+      "id": "eclaireuse_sylphine",
+      "nom": "Sylphine, éclaireuse",
+      "repliques": [
+        "Au sud, Hautepierre. Des humains, des murs, du bruit. Je déconseille.",
+        "Mais vous irez quand même. Les jeunes vont toujours voir les humains. Ça leur passe vers trois cents ans.",
+        "Les toiles avancent vers la Lisière. Quelque chose les pousse. Quelque chose de gris, qui sent le brûlé."
+      ]
+    }
+  ],
+  "placement": [
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ....j........m....",
+    "......j.....m......",
+    " ...j..........m...",
+    ".....j.......m.....",
+    " ..................",
+    "......j.....m......",
+    " ....j........m....",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "..................."
+  ]
+}

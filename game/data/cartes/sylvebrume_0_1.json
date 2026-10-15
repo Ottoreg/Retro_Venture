@@ -1,0 +1,113 @@
+{
+  "id": "sylvebrume_0_1",
+  "nom": "Sylvebrume — Sous-bois moussu",
+  "sorties": {
+    "haut": "sylvebrume_0_0",
+    "droite": "sylvebrume_1_1"
+  },
+  "palette": "sylvebrume",
+  "plan": [
+    "AAAAAAAA@:.AAAAAAAA",
+    " AAAAAAA.::.AAAAAAA",
+    "AAAAAAAAA:AAAAAAAAA",
+    " AAAAAAA.::.FAAAAAA",
+    "AAAAAAA..:..AAAAAAA",
+    " AAAAAAA.::.AAAAAAA",
+    "AAAAAAA..:..AAAAAAA",
+    " AAAAAA..::..AAAAAA",
+    "AAAA::A..R.aAAAAAAA",
+    " AAAA:AA....FAAAAAA",
+    "AAAA::A.....AAAAAAA",
+    " AAAA:::::..A..AAAA",
+    "AAA..::::......AA..",
+    " AA...1.AAA.....AA.",
+    "AAA....AAAA..R.AA..",
+    " AA..R::::::::::::.",
+    "AA...:::::::::::::.",
+    " AA...::::::::::::.",
+    "AAA....A:AA..2.AA..",
+    " AA......:A.....AA.",
+    "AAA.....:.A....AA..",
+    " AAAA.A..:.AA.UAAAA",
+    "AAAAAA..:..AFAAAAAA",
+    " AAAAAA..:..AAAAAAA",
+    "AAAAAA.....AAAAAAAA",
+    " AAAAAA.....AAAAAAA",
+    "AAAAAA...3.AAAAAAAA",
+    " AAAAAA....AAAAAAAA",
+    "AAEEEEEE.EEEEEEEEAA",
+    " AAAAAAA..AAAAAAAAA",
+    "AAAAAAAAAAAAAAAAAAA",
+    " AAAAAAAAAAAAAAAAAA",
+    "AAAAAAAAAAAAAAAAAAA"
+  ],
+  "groupes": [
+    {
+      "monstres": [
+        "morille_grincheuse",
+        "morille_grincheuse"
+      ]
+    },
+    {
+      "monstres": [
+        "morille_grincheuse"
+      ]
+    },
+    {
+      "parmi": [
+        "morille_grincheuse"
+      ],
+      "nombre": [
+        1,
+        3
+      ]
+    }
+  ],
+  "pnj": [
+    {
+      "marqueur": "a",
+      "id": "tantine_champignolle",
+      "nom": "Tantine Champignolle, cueilleuse",
+      "repliques": [
+        "Celle-là est comestible. Celle-là aussi. Celle-là vous insulte : laissez-la.",
+        "Les morilles grincheuses ? Elles n'aiment pas qu'on les cueille. Personne n'aime, remarquez.",
+        "Si vous trouvez des spores grincheuses, ne les respirez pas. Sauf si vous voulez bouder toute la journée."
+      ]
+    }
+  ],
+  "placement": [
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ....j........m....",
+    "......j.....m......",
+    " ...j..........m...",
+    ".....j.......m.....",
+    " ..................",
+    "......j.....m......",
+    " ....j........m....",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "..................."
+  ]
+}

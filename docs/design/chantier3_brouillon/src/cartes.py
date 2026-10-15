@@ -103,6 +103,21 @@ class Plan:
 
     def semer(self, car, n, zone=lambda u, v: 0.06 < u < 0.94 and 0.08 < v < 0.92, sur="."):
         libres = [c for c in self.cases() if self.g[c[0]][c[1]] in sur and zone(*ecran(*c))]
+        if car in "FCUIYT":
+            # Ressource : à côté d'une case praticable reliée au départ, sinon on ne peut pas la
+            # récolter (les cases coupées du départ sont bouchées d'abord).
+            if any("@" in ligne for ligne in self.g):
+                self.boucher()
+                libres = [c for c in libres if self.g[c[0]][c[1]] in sur]
+            texte = self.texte()
+            def accessible(i, j):
+                x, y = cellule(i, j)
+                for n in ((x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1)):
+                    pi, pj = plan_de(*n)
+                    if 0 <= pi < LIGNES and 0 <= pj < COLONNES and texte[pi][pj] in ".:":
+                        return True
+                return False
+            libres = [c for c in libres if accessible(*c)]
         for i, j in self.rng.sample(libres, min(n, len(libres))):
             self.g[i][j] = car
 
@@ -179,7 +194,7 @@ def conception(lot):
     return {c["id"]: c for c in d["cartes"] if c["zone"] == lot}
 
 
-def retoucher(conception_carte, bas=None, droite=None, haut=None, gauche=None):
+def retoucher(conception_carte, bas=None, droite=None, haut=None, gauche=None, profondeur=2):
     """Retouche une carte existante : ouvre des sorties (bas/haut : colonnes (min, max) du plan ;
     gauche/droite : lignes (min, max)), en dégageant aussi la case juste derrière, et reprend les
     sorties et les groupes de la conception. Le calque de placement existant est gardé."""
@@ -187,15 +202,15 @@ def retoucher(conception_carte, bas=None, droite=None, haut=None, gauche=None):
     with open(chemin, encoding="utf-8") as f:
         carte = json.load(f)
     g = [list(ligne) for ligne in carte["plan"]]
-    bloque = "ARMEI#FCU"
+    bloque = "ARMEIFCU"   # jamais « # » : emprise d'un grand décor
     if bas:
         for j in range(bas[0], bas[1] + 1):
-            for i in (LIGNES - 1, LIGNES - 2):
+            for i in range(LIGNES - profondeur, LIGNES):
                 if g[i][j] in bloque:
                     g[i][j] = "."
     if haut:
         for j in range(haut[0], haut[1] + 1):
-            for i in (0, 1):
+            for i in range(profondeur):
                 if g[i][j] in bloque:
                     g[i][j] = "."
     for cote, lignes in (("droite", droite), ("gauche", gauche)):

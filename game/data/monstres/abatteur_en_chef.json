@@ -1,0 +1,66 @@
+{
+  "id": "abatteur_en_chef",
+  "nom": "Abatteur en chef",
+  "description": "Il a abattu Vieux-Branchu, mille ans d'âge, en une matinée. Il en a fait un banc. Personne ne s'assoit dessus.",
+  "famille": "bucheron_de_brumerive",
+  "elite": true,
+  "niveau": 12,
+  "caracteristiques": {
+    "pv": 153,
+    "pa": 7,
+    "pm": 3,
+    "initiative": 115,
+    "force": 54
+  },
+  "resistances": {
+    "acier": 20,
+    "givre": 15,
+    "flamme": 10,
+    "tempete": -5
+  },
+  "sorts": [
+    "bucheron_cognee",
+    "bucheron_ca_tombe",
+    "abatteur_souche_piegee"
+  ],
+  "ia": "basique",
+  "xp": 266,
+  "butin": [
+    {
+      "objet": "copeaux_de_bois",
+      "taux": 0.88,
+      "quantite": [
+        2,
+        5
+      ]
+    },
+    {
+      "objet": "bon_de_coupe",
+      "taux": 0.48
+    },
+    {
+      "objet": "hache_de_bucheron",
+      "taux": 0.16
+    },
+    {
+      "objet": "ceinture_de_bucheron",
+      "taux": 0.16
+    },
+    {
+      "objet": "anneau_enfant_de_choeur",
+      "taux": 0.13
+    },
+    {
+      "objet": "ceinture_enfant_de_choeur",
+      "taux": 0.13
+    },
+    {
+      "objet": "bottes_enfant_de_choeur",
+      "taux": 0.13
+    }
+  ],
+  "ecus": [
+    20,
+    48
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "id": "meretoile_toile_geante",
+  "nom": "Toile géante",
+  "description": "Toute la clairière devient un piège.",
+  "cout_pa": 4,
+  "portee": {
+    "min": 2,
+    "max": 5
+  },
+  "ligne_de_vue": false,
+  "zone": {
+    "type": "cercle",
+    "taille": 2
+  },
+  "relance": {
+    "par_tour": 1,
+    "delai": 3
+  },
+  "effets": [
+    {
+      "type": "glyphe",
+      "duree": 2,
+      "effets": [
+        {
+          "type": "degats",
+          "element": "givre",
+          "min": 2,
+          "max": 4,
+          "cibles": "ennemis"
+        },
+        {
+          "type": "malus",
+          "carac": "pm",
+          "min": 2,
+          "max": 2,
+          "duree": 1,
+          "cibles": "ennemis"
+        }
+      ]
+    }
+  ]
+}

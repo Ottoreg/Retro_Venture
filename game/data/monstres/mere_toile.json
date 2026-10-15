@@ -1,0 +1,114 @@
+{
+  "id": "mere_toile",
+  "nom": "La Mère-Toile",
+  "description": "Elle tisse depuis l'Âge de l'Aube et n'a jamais fini un seul napperon. Depuis que la Cendre tombe, elle tisse plus vite, et plus noir.",
+  "boss": true,
+  "niveau": 12,
+  "caracteristiques": {
+    "pv": 300,
+    "pa": 7,
+    "pm": 4,
+    "initiative": 130,
+    "chance": 25
+  },
+  "resistances": {
+    "givre": 30,
+    "impie": 15,
+    "tempete": 10,
+    "acier": 5,
+    "flamme": -20
+  },
+  "sorts": [
+    "meretoile_venin",
+    "tisseuse_morsure",
+    "tisseuse_toile"
+  ],
+  "ia": "basique",
+  "xp": 720,
+  "phases": [
+    {
+      "pv": 65,
+      "message": "La Mère-Toile court sur ses fils et tisse la clairière entière.",
+      "sorts": [
+        "meretoile_toile_geante"
+      ],
+      "effets": [
+        {
+          "type": "bonus",
+          "carac": "pm",
+          "min": 2,
+          "max": 2,
+          "duree": 3
+        }
+      ]
+    },
+    {
+      "pv": 35,
+      "message": "« Mes petites ! … Ah, non : elles sont toutes à la Lisière, à embêter les elfes. » Elle s'emmaillote dans sa soie.",
+      "effets": [
+        {
+          "type": "bonus",
+          "carac": "resistance",
+          "min": 30,
+          "max": 30,
+          "duree": 3,
+          "element": "flamme"
+        },
+        {
+          "type": "bonus",
+          "carac": "resistance",
+          "min": 20,
+          "max": 20,
+          "duree": 3,
+          "element": "acier"
+        }
+      ]
+    },
+    {
+      "pv": 10,
+      "message": "Elle file un dernier fil… et décide qu'elle a assez tissé pour aujourd'hui.",
+      "effets": [
+        {
+          "type": "bonus",
+          "carac": "chance",
+          "min": 40,
+          "max": 40,
+          "duree": 3
+        },
+        {
+          "type": "bonus",
+          "carac": "critique",
+          "min": 20,
+          "max": 20,
+          "duree": 3
+        }
+      ]
+    }
+  ],
+  "butin": [
+    {
+      "objet": "soie_de_la_mere_toile",
+      "taux": 1.0
+    },
+    {
+      "objet": "fil_de_brume",
+      "taux": 0.9,
+      "quantite": [
+        2,
+        4
+      ]
+    },
+    {
+      "objet": "anneau_aux_huit_yeux",
+      "taux": 0.2
+    },
+    {
+      "objet": "fuseau_de_la_mere_toile",
+      "taux": 0.12
+    }
+  ],
+  "ecus": [
+    80,
+    140
+  ]
+}

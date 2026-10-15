@@ -1,0 +1,124 @@
+{
+  "id": "sylvebrume_2_0",
+  "nom": "Sylvebrume — Bosquet des Cerfs",
+  "sorties": {
+    "gauche": "sylvebrume_1_0",
+    "bas": "sylvebrume_2_1"
+  },
+  "palette": "sylvebrume",
+  "plan": [
+    "AAAAAAAAAAAAAAAAAAA",
+    " AAAAAA......AAAAAA",
+    "AAAAAAA.....AAAAAAA",
+    " AAAAC........AAAAA",
+    "AAAAA.........AAAAA",
+    " AAA.#....EE....AAA",
+    "AAA.##...EE.....AAA",
+    " AA.###...EE.....AA",
+    "AAA.##...EE.....AAA",
+    " AA..#....EE..A..AA",
+    "A.........E.......A",
+    " A.........E.F....A",
+    "..........E...2...A",
+    " .....a...AE......A",
+    "..........E.......A",
+    " ..........E......A",
+    ".@..A.....E.......A",
+    " .................A",
+    "..................A",
+    " .....1....E......A",
+    "...........E......A",
+    " A.........E......A",
+    "A..........E......A",
+    " AA........E...3.AA",
+    "AAA........E....AAA",
+    " AA........E.....AA",
+    "AAA....4...E....AAA",
+    " AAC.......EE...AAA",
+    "AAAAA......E..AAAAA",
+    " AAAAA......E.FAAAA",
+    "AAAAAAA....EAAAAAAA",
+    " AAAAAA.....AAAAAAA",
+    "AAAAAAAA...AAAAAAAA"
+  ],
+  "groupes": [
+    {
+      "monstres": [
+        "cerf_enchante"
+      ]
+    },
+    {
+      "monstres": [
+        "cerf_enchante",
+        "cerf_enchante"
+      ]
+    },
+    {
+      "monstres": [
+        "cerf_enchante",
+        "arbre_vivant"
+      ]
+    },
+    {
+      "monstres": [
+        "arbre_vivant"
+      ]
+    }
+  ],
+  "pnj": [
+    {
+      "marqueur": "a",
+      "id": "poete_lyriandel",
+      "nom": "Lyriandel, poète",
+      "repliques": [
+        "J'écris une ode au Grand Cerf. Quatre cents strophes. Il en manque une : la rime en « -erf ».",
+        "« Ô cerf, ô ramure, ô… » non. Encore raté.",
+        "Le Grand Cerf est passé ce matin. Il a mangé mon brouillon. Je crois que c'était une critique."
+      ]
+    }
+  ],
+  "decors": [
+    {
+      "image": "pavillon",
+      "case": [
+        9,
+        5
+      ]
+    }
+  ],
+  "placement": [
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ....j........m....",
+    "......j.....m......",
+    " ...j..........m...",
+    ".....j.......m.....",
+    " ..................",
+    "......j.....m......",
+    " ....j........m....",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "..................."
+  ]
+}

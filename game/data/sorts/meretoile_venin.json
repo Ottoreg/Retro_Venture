@@ -1,0 +1,29 @@
+{
+  "id": "meretoile_venin",
+  "nom": "Venin ancestral",
+  "description": "Une seule morsure, et l'hiver s'installe dans vos veines.",
+  "cout_pa": 4,
+  "portee": {
+    "min": 1,
+    "max": 1
+  },
+  "ligne_de_vue": true,
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "givre",
+      "min": 7,
+      "max": 10
+    },
+    {
+      "type": "poison",
+      "element": "givre",
+      "min": 3,
+      "max": 4,
+      "duree": 3
+    }
+  ]
+}

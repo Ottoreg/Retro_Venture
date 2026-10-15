@@ -1,0 +1,41 @@
+{
+  "id": "fuseau_de_la_mere_toile",
+  "nom": "Fuseau de la Mère-Toile",
+  "type": "arme",
+  "rarete": "epique",
+  "niveau": 12,
+  "description": "Elle tissait avec ; vous frappez avec. Le fil gèle tout ce qu'il touche.",
+  "bonus": {
+    "chance": [
+      5,
+      8
+    ],
+    "vitalite": [
+      7,
+      9
+    ],
+    "dommages": [
+      1,
+      1
+    ]
+  },
+  "attaque": {
+    "cout_pa": 4,
+    "portee": {
+      "min": 2,
+      "max": 5
+    },
+    "relance": {
+      "par_tour": 1
+    },
+    "effets": [
+      {
+        "type": "degats",
+        "element": "givre",
+        "min": 13,
+        "max": 19
+      }
+    ]
+  },
+  "boutique": false
+}

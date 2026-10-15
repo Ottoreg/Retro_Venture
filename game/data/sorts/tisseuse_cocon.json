@@ -1,0 +1,30 @@
+{
+  "id": "tisseuse_cocon",
+  "nom": "Cocon",
+  "description": "Elle vous emballe pour plus tard.",
+  "cout_pa": 4,
+  "portee": {
+    "min": 1,
+    "max": 4
+  },
+  "ligne_de_vue": true,
+  "relance": {
+    "par_tour": 1,
+    "delai": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "givre",
+      "min": 6,
+      "max": 9
+    },
+    {
+      "type": "malus",
+      "carac": "pa",
+      "min": 2,
+      "max": 2,
+      "duree": 1
+    }
+  ]
+}

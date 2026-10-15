@@ -218,7 +218,9 @@ l'histoire.
   1–3, frondeurs 4–6, pillards et épouvantails 7–9, briseurs 10–12, une élite par famille et le
   mini-boss Krasbouk (niveau 12). **Crasse-Roc aussi** : rats et grouilleurs 1–3, vampipistrelles
   4–6, miliciens de Hautepierre 7–9, contremaîtres zélés 10–12, élites et le Balourd des Abîmes
-  (niveau 12). Sylvebrume attend son lot (cerf 4, arbre vivant 5).
+  (niveau 12). **Sylvebrume aussi** : morilles 1–3, cerfs et arbres vivants 4–6, bûcherons 7–9,
+  tisseuses 10–12, élites et la Mère-Toile (niveau 12). Les trois zones de départ sont produites ;
+  Hautepierre (13–30) attend son lot.
 
 ### 3.6 Ton
 

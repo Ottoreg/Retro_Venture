@@ -3,7 +3,9 @@
   "nom": "Sylvebrume — Futaie ancienne",
   "palette": "sylvebrume",
   "sorties": {
-    "gauche": "sylvebrume_0_0"
+    "gauche": "sylvebrume_0_0",
+    "droite": "sylvebrume_2_0",
+    "bas": "sylvebrume_1_1"
   },
   "plan": [
     "AAAAAAAAAAAAAAAAAAA",
@@ -21,11 +23,11 @@
     "AAA...4.EE...F.:.AA",
     " AA.F....A.....:AAA",
     ".......R......:..AA",
-    " ..............1.AA",
-    "............A.:.AAA",
-    " ::A::::.....::..AA",
-    "..@...::..:.::..AAA",
-    " ......:::::::..AAA",
+    " ..............1...",
+    "............A.:.A..",
+    " ::A::::.....::....",
+    "..@...::..:.::..A..",
+    " ......:::::::..A..",
     "........::::.....AA",
     " AA......::::.....A",
     "AA........:..A...AA",
@@ -37,8 +39,8 @@
     "AA........F......AA",
     " AA..............AA",
     "AAA..A.A..A......AA",
-    " AAAAAAAAAAAAAAAAAA",
-    "AAAAAAAAAAAAAAAAAAA"
+    " AAAAAAA...AAAAAAAA",
+    "AAAAAAAA...AAAAAAAA"
   ],
   "groupes": [
     {
