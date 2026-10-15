@@ -1,0 +1,26 @@
+{
+  "id": "amulette_d_argent",
+  "nom": "Amulette d'argent",
+  "type": "amulette",
+  "rarete": "peu_commun",
+  "niveau": 16,
+  "description": "Une médaille d'argent à l'effigie d'un héros inconnu. Peut-être vous, un jour. Peut-être pas.",
+  "bonus": {
+    "vitalite": [
+      12,
+      17
+    ],
+    "force": [
+      3,
+      4
+    ],
+    "intelligence": [
+      3,
+      4
+    ],
+    "chance": [
+      3,
+      4
+    ]
+  }
+}

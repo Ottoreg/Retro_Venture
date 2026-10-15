@@ -1,0 +1,44 @@
+{
+  "id": "sceptre_de_hautepierre",
+  "nom": "Sceptre de Hautepierre",
+  "type": "arme",
+  "rarete": "rare",
+  "niveau": 18,
+  "description": "Surmonté d'une petite Tour Blanche en argent. Béni par Frère Bénitier, pouce compris.",
+  "bonus": {
+    "force": [
+      4,
+      5
+    ],
+    "intelligence": [
+      4,
+      5
+    ],
+    "sagesse": [
+      2,
+      3
+    ],
+    "vitalite": [
+      5,
+      7
+    ]
+  },
+  "attaque": {
+    "cout_pa": 4,
+    "portee": {
+      "min": 1,
+      "max": 2
+    },
+    "relance": {
+      "par_tour": 1
+    },
+    "effets": [
+      {
+        "type": "degats",
+        "element": "sacre",
+        "min": 14,
+        "max": 20
+      }
+    ]
+  }
+}

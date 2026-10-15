@@ -1,0 +1,18 @@
+{
+  "id": "anneau_d_etain",
+  "nom": "Anneau d'étain",
+  "type": "anneau",
+  "rarete": "commun",
+  "niveau": 8,
+  "description": "Il crie quand on le tord. Évitez de vous ronger les ongles en le portant.",
+  "bonus": {
+    "vitalite": [
+      8,
+      11
+    ],
+    "sagesse": [
+      4,
+      5
+    ]
+  }
+}

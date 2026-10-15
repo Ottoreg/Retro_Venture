@@ -1,0 +1,40 @@
+{
+  "id": "epee_d_argent",
+  "nom": "Épée d'argent",
+  "type": "arme",
+  "rarete": "rare",
+  "niveau": 15,
+  "description": "Brillante et tranchante. Les Corrompus détestent son reflet.",
+  "bonus": {
+    "force": [
+      6,
+      9
+    ],
+    "vitalite": [
+      4,
+      6
+    ],
+    "sagesse": [
+      2,
+      3
+    ]
+  },
+  "attaque": {
+    "cout_pa": 4,
+    "portee": {
+      "min": 1,
+      "max": 1
+    },
+    "relance": {
+      "par_tour": 1
+    },
+    "effets": [
+      {
+        "type": "degats",
+        "element": "acier",
+        "min": 13,
+        "max": 19
+      }
+    ]
+  }
+}

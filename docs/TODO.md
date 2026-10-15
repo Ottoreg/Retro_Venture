@@ -216,11 +216,12 @@ Les tâches marquées *(alpha 2)* sont reportées au second test.
 ### Métiers
 - [x] **(MVP)** Système de métier générique (niveau 1 à 100, XP, recettes) ; métiers sur la fiche du personnage
 - [x] **(MVP)** Bûcheron : frêne et chêne, repousse en 1 à 2 minutes
-- [ ] Bûcheron : 2 ou 3 essences de plus (if…)
+- [x] Bûcheron : if (niv. 8), hêtre (niv. 15), malorme (niv. 22) — lot Métiers
 - [x] **(MVP)** Mineur : cuivre et fer, repousse en 1 à 2 minutes
-- [ ] Mineur : 2 ou 3 minerais de plus (argent…)
+- [x] Mineur : étain (niv. 8), argent (niv. 15), obsidienne (niv. 22) — lot Métiers
 - [x] **(MVP)** Forgeron : atelier (Célébrimbert à Brumerive, Krogma à Crasse-Roc, Aelthar à Sylvebrume), interface de fabrication, 10 recettes
-- [ ] Forgeron : environ 20 recettes
+- [x] Forgeron : 23 recettes (13 de plus avec le lot Métiers, qui demandent des butins de
+  plusieurs zones)
 - [x] Ressources de monstres utilisées dans les recettes (peau et croc de loup)
 - [x] Passif humain : +10 % d'XP de métier
 - [ ] Animation de récolte (durée fixe, outil en main)
@@ -265,9 +266,8 @@ Les tâches marquées *(alpha 2)* sont reportées au second test.
     poteaux indicateurs), remplacés pour l'instant par des bâtiments et obstacles existants
   - [ ] Apparition des variantes corrompues après le mini-boss de leur zone (conception §7) : pour
     l'instant, elles vivent seulement dans les groupes de Hautepierre
-  - [ ] Lot métiers
-  - [ ] En attente du lot Métiers : ressources `Y`, `T`, `H`, `L`, `G`, `D` des zones de départ et
-    de Hautepierre
+  - [x] Lot **Métiers** : 6 ressources de récolte (nœuds recolorés, sans nouveau dessin), posées sur
+    31 cartes sans couper de chemin, 13 recettes de forgeron, 16 objets et leurs icônes
 - [x] **(MVP)** Zone de départ humaine : Collines de Brumerive — 10 cartes + la maison (lot Brumerive)
 - [x] **(MVP)** Zone de départ gobeline : Galeries de Crasse-Roc — 10 cartes + la maison (lot Crasse-Roc)
 - [x] **(MVP)** Zone de départ elfe : Lisière de Sylvebrume — 9 cartes + la maison (lot Sylvebrume)

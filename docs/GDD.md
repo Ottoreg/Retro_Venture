@@ -223,7 +223,8 @@ l'histoire.
   **Hautepierre (13–30) aussi** : 19 cartes reliées aux zones de départ par trois portes et une
   Pierre de Passage (20 écus), une famille par palier (détrousseurs, trolls, corbacs, gargouilles,
   Cendrillons, olifants), leurs élites, trois variantes corrompues et le boss Grondin (niveau 30).
-  Reste le lot Métiers.
+  Le lot Métiers a posé les nouvelles ressources sur les cartes : **tout le contenu du chantier 3
+  est produit**.
 
 ### 3.6 Ton
 
@@ -759,6 +760,9 @@ un **bonus de panoplie** qui grandit avec le nombre de pièces équipées (à pa
 - **Prototype actuel :** les trois métiers sont connus d'office. Les ressources (frêne, chêne,
   cuivre, fer) repoussent 1 à 2 minutes après la récolte ; XP pour le niveau n = 5 × n × (n − 1).
   Célébrimbert, le forgeron de Brumerive, propose 10 recettes (bois, minerai, peaux et crocs de loup).
+  Le lot Métiers du chantier 3 ajoute trois bois (if, hêtre, malorme) et trois minerais (étain,
+  argent, obsidienne), aux niveaux 8, 15 et 22, et 13 recettes (23 en tout) qui mêlent ressources et
+  butins de plusieurs zones, pour pousser à voyager.
 
 ### 10.3 Long terme
 

@@ -1,0 +1,36 @@
+{
+  "id": "baton_gele",
+  "nom": "Bâton gelé",
+  "type": "arme",
+  "rarete": "peu_commun",
+  "niveau": 11,
+  "description": "Un bâton d'if cerclé d'étain, couvert de givre en permanence. Ne pas lécher.",
+  "bonus": {
+    "chance": [
+      5,
+      7
+    ],
+    "sagesse": [
+      2,
+      3
+    ]
+  },
+  "attaque": {
+    "cout_pa": 3,
+    "portee": {
+      "min": 1,
+      "max": 4
+    },
+    "relance": {
+      "par_tour": 2
+    },
+    "effets": [
+      {
+        "type": "degats",
+        "element": "givre",
+        "min": 8,
+        "max": 12
+      }
+    ]
+  }
+}

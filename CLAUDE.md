@@ -71,8 +71,9 @@ Phase 2 (alpha solo), en deux tests :
    GDD § 7.1, outil `game/tools/placement.py`). **Production par lots en cours** : les trois zones de départ
    faites (Brumerive, Crasse-Roc, Sylvebrume ; `src/produire.py`, `src/cartes.py`,
    `src/plans_<lot>.py`), Hautepierre (`src/plans_hautepierre.py`, `peupler` pour les groupes et
-   PNJ) et les variantes. Reste : le lot Métiers, et les dessins des décors de ville — un lot à la
-   fois, sur accord de l'auteur.
+   PNJ), les variantes et les métiers (`src/metiers_production.py`) : **tout le contenu est produit**.
+   Reste : les dessins des décors de ville, l'apparition des variantes après les mini-boss, et
+   l'intégration (combats simulés par palier pour vérifier l'équilibrage).
 4. Interface et confort : notamment le **mode tactique en combat** façon Dofus (GDD § 14.3).
 
 ## Règles de design à respecter (détails dans le GDD)

@@ -1,0 +1,201 @@
+{
+  "images": {
+    "if": {
+      "fichier": "decor/arbre_haut.svgt",
+      "ancre": [
+        36,
+        114
+      ],
+      "couleurs": {
+        "feuillage": "2a5a34",
+        "feuillage_ombre": "1a3e24",
+        "feuillage_clair": "3e7a46",
+        "tronc": "6a3a2a"
+      }
+    },
+    "hetre": {
+      "fichier": "decor/arbre_large.svgt",
+      "ancre": [
+        50,
+        106
+      ],
+      "couleurs": {
+        "feuillage": "8ab84a",
+        "feuillage_ombre": "6a9a3a",
+        "feuillage_clair": "aad46a",
+        "tronc": "a8a8a0"
+      }
+    },
+    "malorme": {
+      "fichier": "decor/arbre_haut.svgt",
+      "ancre": [
+        36,
+        114
+      ],
+      "couleurs": {
+        "feuillage": "e0b830",
+        "feuillage_ombre": "b88a20",
+        "feuillage_clair": "f8e070",
+        "tronc": "c8c8c0"
+      }
+    },
+    "minerai_etain": {
+      "fichier": "decor/minerai.svgt",
+      "ancre": [
+        25,
+        32
+      ],
+      "couleurs": {
+        "veine": "e0e0d8"
+      }
+    },
+    "minerai_argent": {
+      "fichier": "decor/minerai.svgt",
+      "ancre": [
+        25,
+        32
+      ],
+      "couleurs": {
+        "veine": "f4f8ff"
+      }
+    },
+    "minerai_obsidienne": {
+      "fichier": "decor/minerai.svgt",
+      "ancre": [
+        25,
+        32
+      ],
+      "couleurs": {
+        "veine": "6a3a8a"
+      }
+    },
+    "objet_bois_d_if": {
+      "fichier": "objets/bois_d_if.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_bois_de_hetre": {
+      "fichier": "objets/bois_de_hetre.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_bois_de_malorme": {
+      "fichier": "objets/bois_de_malorme.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_minerai_d_etain": {
+      "fichier": "objets/minerai_d_etain.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_minerai_d_argent": {
+      "fichier": "objets/minerai_d_argent.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_obsidienne": {
+      "fichier": "objets/obsidienne.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_anneau_d_etain": {
+      "fichier": "objets/anneau_d_etain.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_arc_d_if": {
+      "fichier": "objets/arc_d_if.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_baton_gele": {
+      "fichier": "objets/baton_gele.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_epee_d_argent": {
+      "fichier": "objets/epee_d_argent.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_amulette_d_argent": {
+      "fichier": "objets/amulette_d_argent.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_sceptre_de_hautepierre": {
+      "fichier": "objets/sceptre_de_hautepierre.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_heaume_d_argent": {
+      "fichier": "objets/heaume_d_argent.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_dague_d_obsidienne": {
+      "fichier": "objets/dague_d_obsidienne.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_arc_de_malorme": {
+      "fichier": "objets/arc_de_malorme.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_ceinture_d_obsidienne": {
+      "fichier": "objets/ceinture_d_obsidienne.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    }
+  },
+  "ressources": {
+    "Y": "if",
+    "H": "hetre",
+    "L": "malorme",
+    "T": "minerai_etain",
+    "G": "minerai_argent",
+    "D": "minerai_obsidienne"
+  },
+  "icones_armes": {
+    "arc_d_if": "sort_arme_arc",
+    "baton_gele": "sort_arme_baton",
+    "epee_d_argent": "sort_arme_epee",
+    "sceptre_de_hautepierre": "sort_arme_sceptre",
+    "dague_d_obsidienne": "sort_arme_dague_impie",
+    "arc_de_malorme": "sort_arme_arc"
+  }
+}

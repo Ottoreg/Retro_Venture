@@ -1,0 +1,22 @@
+{
+  "id": "ceinture_d_obsidienne",
+  "nom": "Ceinture d'obsidienne",
+  "type": "ceinture",
+  "rarete": "rare",
+  "niveau": 27,
+  "description": "Des plaques de verre noir sur du cuir d'olifant. Elle tinte quand on court.",
+  "bonus": {
+    "vitalite": [
+      29,
+      41
+    ],
+    "intelligence": [
+      7,
+      10
+    ],
+    "chance": [
+      7,
+      10
+    ]
+  }
+}

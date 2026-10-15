@@ -1,0 +1,40 @@
+{
+  "id": "arc_de_malorme",
+  "nom": "Arc de malorme",
+  "type": "arme",
+  "rarete": "rare",
+  "niveau": 25,
+  "description": "Doré, léger, parfait. Les elfes prétendent qu'il est mal fait, par principe.",
+  "bonus": {
+    "agilite": [
+      10,
+      14
+    ],
+    "initiative": [
+      32,
+      46
+    ],
+    "sagesse": [
+      3,
+      5
+    ]
+  },
+  "attaque": {
+    "cout_pa": 4,
+    "portee": {
+      "min": 2,
+      "max": 7
+    },
+    "relance": {
+      "par_tour": 1
+    },
+    "effets": [
+      {
+        "type": "degats",
+        "element": "tempete",
+        "min": 16,
+        "max": 23
+      }
+    ]
+  }
+}

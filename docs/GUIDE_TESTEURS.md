@@ -194,8 +194,10 @@ le **lit** de votre maison les rend tous d'un coup.
   marchands. Les Dommages apparaissent dans la fiche (C).
 - **Reliques** : les huit cases « Reliques » de l'inventaire restent vides pour l'instant (les
   Reliques arriveront avec la quête principale).
-- **Métiers** : bûcheron, mineur (les ressources repoussent en 1 à 2 minutes), forgeron (10
-  recettes).
+- **Métiers** : bûcheron (frêne, chêne, if niv. 8, hêtre niv. 15, malorme niv. 22), mineur
+  (cuivre, fer, étain niv. 8, argent niv. 15, obsidienne niv. 22), forgeron (23 recettes, dont
+  certaines demandent des butins de plusieurs zones : il faut voyager). Les ressources repoussent
+  en 1 à 3 minutes.
 
 Pas encore là : quêtes, multijoueur, sons et musiques, options.
 

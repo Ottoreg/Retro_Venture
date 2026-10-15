@@ -1,0 +1,40 @@
+{
+  "id": "dague_d_obsidienne",
+  "nom": "Dague d'obsidienne",
+  "type": "arme",
+  "rarete": "rare",
+  "niveau": 23,
+  "description": "Noire, tranchante, fragile. Comme le caractère de celui qui l'a forgée.",
+  "bonus": {
+    "agilite": [
+      6,
+      9
+    ],
+    "chance": [
+      6,
+      9
+    ],
+    "critique": [
+      1,
+      2
+    ]
+  },
+  "attaque": {
+    "cout_pa": 3,
+    "portee": {
+      "min": 1,
+      "max": 1
+    },
+    "relance": {
+      "par_tour": 2
+    },
+    "effets": [
+      {
+        "type": "degats",
+        "element": "impie",
+        "min": 11,
+        "max": 17
+      }
+    ]
+  }
+}

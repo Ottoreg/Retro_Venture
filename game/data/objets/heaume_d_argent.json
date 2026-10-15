@@ -1,0 +1,22 @@
+{
+  "id": "heaume_d_argent",
+  "nom": "Heaume d'argent",
+  "type": "coiffe",
+  "rarete": "rare",
+  "niveau": 20,
+  "description": "Le casque des officiers de Hautepierre. Les miliciens le saluent par réflexe.",
+  "bonus": {
+    "vitalite": [
+      22,
+      32
+    ],
+    "force": [
+      7,
+      10
+    ],
+    "sagesse": [
+      4,
+      6
+    ]
+  }
+}

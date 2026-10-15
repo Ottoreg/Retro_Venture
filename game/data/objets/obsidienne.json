@@ -1,0 +1,8 @@
+{
+  "id": "obsidienne",
+  "nom": "Obsidienne",
+  "type": "ressource",
+  "rarete": "rare",
+  "niveau": 1,
+  "description": "Verre de volcan. Elle coupe mieux que l'acier et se casse mieux que le verre."
+}

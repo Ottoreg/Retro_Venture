@@ -37,6 +37,57 @@
       ],
       "apparence": "arbre",
       "couleur": "2e5e2b"
+    },
+    {
+      "marqueur": "Y",
+      "nom": "If",
+      "objet": "bois_d_if",
+      "niveau": 8,
+      "quantite": [
+        1,
+        2
+      ],
+      "xp": 12,
+      "repousse": [
+        90,
+        150
+      ],
+      "apparence": "arbre",
+      "couleur": "1e4a2a"
+    },
+    {
+      "marqueur": "H",
+      "nom": "Hêtre",
+      "objet": "bois_de_hetre",
+      "niveau": 15,
+      "quantite": [
+        1,
+        2
+      ],
+      "xp": 18,
+      "repousse": [
+        90,
+        150
+      ],
+      "apparence": "arbre",
+      "couleur": "8ab84a"
+    },
+    {
+      "marqueur": "L",
+      "nom": "Malorme",
+      "objet": "bois_de_malorme",
+      "niveau": 22,
+      "quantite": [
+        1,
+        2
+      ],
+      "xp": 25,
+      "repousse": [
+        120,
+        180
+      ],
+      "apparence": "arbre",
+      "couleur": "e0b830"
     }
   ]
 }

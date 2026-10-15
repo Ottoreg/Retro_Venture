@@ -92,6 +92,137 @@
         "bois_de_chene": 4,
         "minerai_de_fer": 5
       }
+    },
+    {
+      "objet": "anneau_forgeron_hargneux",
+      "niveau": 4,
+      "xp": 20,
+      "ingredients": {
+        "minerai_de_fer": 3,
+        "minerai_de_cuivre": 3,
+        "croc_de_loup": 2
+      }
+    },
+    {
+      "objet": "amulette_forgeron_hargneux",
+      "niveau": 5,
+      "xp": 24,
+      "ingredients": {
+        "minerai_de_fer": 4,
+        "peau_de_loup": 2,
+        "dent_de_rat": 2
+      }
+    },
+    {
+      "objet": "coiffe_forgeron_hargneux",
+      "niveau": 6,
+      "xp": 28,
+      "ingredients": {
+        "minerai_de_fer": 5,
+        "bois_de_chene": 2,
+        "carapace_de_grouilleur": 3
+      }
+    },
+    {
+      "objet": "anneau_d_etain",
+      "niveau": 8,
+      "xp": 32,
+      "ingredients": {
+        "minerai_d_etain": 5,
+        "minerai_de_cuivre": 2
+      }
+    },
+    {
+      "objet": "arc_d_if",
+      "niveau": 10,
+      "xp": 38,
+      "ingredients": {
+        "bois_d_if": 6,
+        "fil_de_brume": 3,
+        "aile_de_vampipistrelle": 2
+      }
+    },
+    {
+      "objet": "baton_gele",
+      "niveau": 11,
+      "xp": 40,
+      "ingredients": {
+        "bois_d_if": 5,
+        "minerai_d_etain": 3,
+        "spores_grincheuses": 1
+      }
+    },
+    {
+      "objet": "epee_d_argent",
+      "niveau": 15,
+      "xp": 55,
+      "ingredients": {
+        "minerai_d_argent": 6,
+        "bois_de_hetre": 2,
+        "maillon_de_cotte": 4
+      }
+    },
+    {
+      "objet": "amulette_d_argent",
+      "niveau": 16,
+      "xp": 58,
+      "ingredients": {
+        "minerai_d_argent": 4,
+        "dent_de_troll": 3,
+        "bourse_vide": 2
+      }
+    },
+    {
+      "objet": "sceptre_de_hautepierre",
+      "niveau": 18,
+      "xp": 65,
+      "ingredients": {
+        "minerai_d_argent": 5,
+        "bois_de_hetre": 3,
+        "ecusson_de_milice": 2,
+        "ordre_de_raid": 1
+      }
+    },
+    {
+      "objet": "heaume_d_argent",
+      "niveau": 20,
+      "xp": 72,
+      "ingredients": {
+        "minerai_d_argent": 6,
+        "maillon_de_cotte": 6,
+        "plume_de_corbac": 3
+      }
+    },
+    {
+      "objet": "dague_d_obsidienne",
+      "niveau": 23,
+      "xp": 82,
+      "ingredients": {
+        "obsidienne": 5,
+        "bois_de_malorme": 2,
+        "crochet_d_araignee": 3,
+        "eclat_de_cendre": 1
+      }
+    },
+    {
+      "objet": "arc_de_malorme",
+      "niveau": 25,
+      "xp": 90,
+      "ingredients": {
+        "bois_de_malorme": 6,
+        "soie_de_la_mere_toile": 1,
+        "plume_de_corbac": 4
+      }
+    },
+    {
+      "objet": "ceinture_d_obsidienne",
+      "niveau": 27,
+      "xp": 98,
+      "ingredients": {
+        "obsidienne": 6,
+        "cuir_d_olifant": 3,
+        "corne_du_balourd": 1
+      }
     }
   ]
 }

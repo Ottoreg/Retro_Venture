@@ -37,6 +37,57 @@
       ],
       "apparence": "rocher",
       "couleur": "b9c4cf"
+    },
+    {
+      "marqueur": "T",
+      "nom": "Étain",
+      "objet": "minerai_d_etain",
+      "niveau": 8,
+      "quantite": [
+        1,
+        2
+      ],
+      "xp": 12,
+      "repousse": [
+        90,
+        150
+      ],
+      "apparence": "rocher",
+      "couleur": "d8d8d0"
+    },
+    {
+      "marqueur": "G",
+      "nom": "Argent",
+      "objet": "minerai_d_argent",
+      "niveau": 15,
+      "quantite": [
+        1,
+        2
+      ],
+      "xp": 18,
+      "repousse": [
+        90,
+        150
+      ],
+      "apparence": "rocher",
+      "couleur": "f4f8ff"
+    },
+    {
+      "marqueur": "D",
+      "nom": "Obsidienne",
+      "objet": "obsidienne",
+      "niveau": 22,
+      "quantite": [
+        1,
+        2
+      ],
+      "xp": 25,
+      "repousse": [
+        120,
+        180
+      ],
+      "apparence": "rocher",
+      "couleur": "6a3a8a"
     }
   ]
 }
