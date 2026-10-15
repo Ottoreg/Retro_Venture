@@ -84,8 +84,8 @@ func test_pas_de_butin_en_cas_de_defaite_mais_l_xp_des_vaincus() -> void:
 	var events := _command(world, Protocol.CMD_END_TURN)
 	var ended := Fixtures.of_type(events, Protocol.EVT_COMBAT_ENDED)[0]
 	assert_eq(ended["vainqueur"], Fighter.TEAM_MONSTERS)
-	assert_eq(ended["xp"], 20, "10 XP du mannequin vaincu × (100 + 100 de Sagesse) %")
-	assert_eq(world.character.xp, 20)
+	assert_eq(ended["xp"], roundi(20 * Character.XP_RATE), "10 XP du mannequin vaincu × XP_RATE × (100 + 100 de Sagesse) %")
+	assert_eq(world.character.xp, roundi(20 * Character.XP_RATE))
 	assert_false(ended.has("butin"), "pas de butin en cas de défaite")
 	assert_eq(world.character.inventory.quantity_of("dent"), 0)
 

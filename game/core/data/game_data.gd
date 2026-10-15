@@ -44,6 +44,9 @@ const PER_LEVEL_KEYS := ["pv", "initiative", "xp", "force", "intelligence", "cha
 ## Effets qu'un monstre ne peut pas s'appliquer en changeant de phase (rien à viser au sol, nulle
 ## part où sauter, personne à pousser ni à attirer).
 const PHASE_FORBIDDEN_EFFECTS := [Spell.EFFECT_GLYPH, Spell.EFFECT_TRAP, Spell.EFFECT_TELEPORT, Spell.EFFECT_PUSH, Spell.EFFECT_PULL]
+## Pas de soin au changement de phase, ni en effet ni en sort appris : un monstre qui se soigne en
+## passant sous un seuil peut enfermer le joueur dans un combat sans fin.
+const PHASE_NO_HEAL := "pas de soin au changement de phase (risque de combat sans fin)"
 
 
 ## Charge tout le contenu ; les fichiers invalides sont signalés et ignorés.
@@ -389,6 +392,8 @@ static func _validate_phases(phases: Variant, known_spells: Dictionary) -> Packe
 			for spell_id: Variant in spell_ids:
 				if not known_spells.has(spell_id):
 					errors.append("%s : sort inconnu : %s" % [label, str(spell_id)])
+				elif _heals(known_spells[spell_id].effects):
+					errors.append("%s : sort %s : %s" % [label, str(spell_id), PHASE_NO_HEAL])
 		var effects: Variant = phase.get("effets", [])
 		if typeof(effects) != TYPE_ARRAY:
 			errors.append("%s : « effets » doit être une liste d'effets" % label)
@@ -397,11 +402,25 @@ static func _validate_phases(phases: Variant, known_spells: Dictionary) -> Packe
 		for effect: Variant in effects:
 			if typeof(effect) == TYPE_DICTIONARY and effect.get("type") in PHASE_FORBIDDEN_EFFECTS:
 				errors.append("%s : effet « %s » impossible sur soi-même" % [label, effect["type"]])
+			elif typeof(effect) == TYPE_DICTIONARY and effect.get("type") == Spell.EFFECT_HEAL:
+				errors.append("%s : %s" % [label, PHASE_NO_HEAL])
 			else:
 				on_self.append(effect)
 		for error in Spell._validate_effects(on_self, true):
 			errors.append("%s : %s" % [label, error])
 	return errors
+
+
+## Vrai si ces effets (ou ceux d'une glyphe ou d'un piège parmi eux) soignent.
+static func _heals(effects: Array) -> bool:
+	for effect: Variant in effects:
+		if typeof(effect) != TYPE_DICTIONARY:
+			continue
+		if effect.get("type") == Spell.EFFECT_HEAL:
+			return true
+		if typeof(effect.get("effets")) == TYPE_ARRAY and _heals(effect["effets"]):
+			return true
+	return false
 
 
 static func validate_voie(data: Dictionary, known_spells: Dictionary, known_items: Dictionary = {}) -> PackedStringArray:

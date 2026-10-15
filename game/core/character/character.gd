@@ -11,6 +11,10 @@ const STAT_NAMES := {
 ## Caractéristiques qui s'ajoutent à l'initiative.
 const INITIATIVE_STATS := ["force", "intelligence", "chance", "agilite"]
 const MAX_LEVEL := 30
+## Multiplicateur de l'XP de combat. Alpha 1 : ×3,5, pour finir tout le contenu (1 → 30) en 4 à 5 h
+## et tester les mécaniques plutôt que la progression ; remettre 1.0 (~15 h pour les 30 premiers
+## niveaux) quand on testera la vraie progression.
+const XP_RATE := 3.5
 const POINTS_PER_LEVEL := 5
 const HP_PER_LEVEL := 5
 const NAME_MIN_LENGTH := 2

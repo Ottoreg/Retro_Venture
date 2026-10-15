@@ -509,14 +509,14 @@ func _wake_up() -> Dictionary:
 	return {"passage": passage["id"], "nom": passage["nom"], "carte": map.id}
 
 
-## XP des monstres vaincus, même en cas de défaite (bonus de Sagesse : +1 % par point), et
-## montées de niveau.
+## XP des monstres vaincus, même en cas de défaite (× `Character.XP_RATE`, bonus de Sagesse : +1 %
+## par point), et montées de niveau.
 func _reward(events: Array[Dictionary]) -> void:
 	for event in events:
 		if event["type"] == Protocol.EVT_COMBAT_ENDED:
 			if int(event["xp"]) <= 0:
 				return
-			var gain := roundi(int(event["xp"]) * (100 + character.stat("sagesse", data)) / 100.0)
+			var gain := roundi(int(event["xp"]) * Character.XP_RATE * (100 + character.stat("sagesse", data)) / 100.0)
 			event["xp"] = gain
 			var levels := character.add_xp(gain)
 			event["niveaux"] = levels

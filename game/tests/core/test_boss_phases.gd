@@ -77,7 +77,7 @@ func test_phase_declenchee_une_seule_fois() -> void:
 func test_plusieurs_phases_franchies_d_un_coup() -> void:
 	_start([
 		{"pv": 90, "message": "Un", "sorts": ["tir"]},
-		{"pv": 85, "message": "Deux", "sorts": ["tir", "soin"]},
+		{"pv": 85, "message": "Deux", "sorts": ["tir", "venin"]},
 		{"pv": 10, "message": "Trois"},
 	], 20)
 	var events := _hit()
@@ -90,33 +90,33 @@ func test_plusieurs_phases_franchies_d_un_coup() -> void:
 	assert_eq(_boss.phases.size(), 1, "reste la dernière")
 
 
-func test_le_soin_d_une_phase_n_annule_pas_la_suivante() -> void:
-	# Le coup le laisse à 50 % : la première phase le soigne à 90 %, la seconde (60 %) a quand même
-	# été franchie par le coup.
+func test_le_bouclier_d_une_phase_n_annule_pas_la_suivante() -> void:
+	# Le coup le laisse à 50 % : la première phase lui donne un bouclier, la seconde (60 %) a quand
+	# même été franchie par le coup.
 	_start([
-		{"pv": 90, "message": "Un", "effets": [{"type": "soin", "element": "acier", "min": 8, "max": 8}]},
+		{"pv": 90, "message": "Un", "effets": [{"type": "bouclier", "element": "acier", "min": 8, "max": 8}]},
 		{"pv": 60, "message": "Deux"},
 	], 20)
 	var events := _hit()
-	assert_eq(_boss.hp, 18, "10 PV après le coup, +8")
+	assert_eq(_boss.hp, 10, "10 PV après le coup")
+	assert_eq(_boss.shield, 8)
 	assert_eq(Fixtures.of_type(events, Protocol.EVT_PHASE).size(), 2, "les deux phases")
 	assert_true(_boss.phases.is_empty())
 
 
-func test_phase_apres_un_poison_et_soin_sur_soi() -> void:
+func test_phase_apres_un_poison_bonus_et_bouclier_sur_soi() -> void:
 	_start([{"pv": 95, "message": "Ça pique !",
-		"effets": [{"type": "soin", "element": "acier", "min": 3, "max": 3}, {"type": "bouclier", "element": "acier", "min": 7, "max": 7}]}])
+		"effets": [{"type": "bonus", "carac": "pm", "min": 2, "max": 2, "duree": 2}, {"type": "bouclier", "element": "acier", "min": 7, "max": 7}]}])
 	_hit("venin")
 	assert_eq(_boss.hp, 40, "le poison n'agit qu'au début de son tour")
 	var events := _combat.execute(Fixtures.cmd(Protocol.CMD_END_TURN))
 	var damage := Fixtures.of_type(events, Protocol.EVT_DAMAGE)
 	assert_eq(damage[0]["source"], "poison")
 	assert_eq(Fixtures.of_type(events, Protocol.EVT_PHASE).size(), 1, "déclenchée par le poison")
-	var heals := Fixtures.of_type(events, Protocol.EVT_HEAL)
-	assert_eq(heals[0]["entite"], "b")
-	assert_eq(heals[0]["valeur"], 3)
-	assert_eq(_boss.hp, 38, "40 - 5 + 3")
+	assert_eq(Fixtures.of_type(events, Protocol.EVT_HEAL).size(), 0)
+	assert_eq(_boss.hp, 35, "40 - 5")
 	assert_eq(Fixtures.of_type(events, Protocol.EVT_STATUS)[0]["effet"], Spell.EFFECT_SHIELD)
+	assert_true(Fixtures.of_type(events, Protocol.EVT_STATES).size() > 0, "bonus de PM posé")
 
 
 func test_phase_apres_un_choc() -> void:
@@ -165,7 +165,10 @@ func test_erreurs_de_validation_des_phases() -> void:
 		[{"phases": [{"pv": 50, "message": "a", "effets": [{"type": "glyphe", "duree": 2, "effets": []}]}]}, "sur soi-même"],
 		[{"phases": [{"pv": 50, "message": "a", "effets": [{"type": "teleportation"}]}]}, "sur soi-même"],
 		[{"phases": [{"pv": 50, "message": "a", "effets": [{"type": "poussee", "min": 2, "max": 2}]}]}, "sur soi-même"],
-		[{"phases": [{"pv": 50, "message": "a", "effets": [{"type": "soin", "min": 1, "max": 1}]}]}, "element"],
+		[{"phases": [{"pv": 50, "message": "a", "effets": [{"type": "bouclier", "min": 1, "max": 1}]}]}, "element"],
+		[{"phases": [{"pv": 50, "message": "a", "effets": [{"type": "soin", "element": "acier", "min": 1, "max": 1}]}]}, "pas de soin"],
+		[{"phases": [{"pv": 50, "message": "a", "sorts": ["soin"]}]}, "pas de soin"],
+		[{"phases": [{"pv": 50, "message": "a", "sorts": ["cercle"]}]}, "pas de soin"],
 	]
 	for case: Array in cases:
 		var monster := Fixtures.monster("essai", 20, 6, 3, 10, ["frappe"])

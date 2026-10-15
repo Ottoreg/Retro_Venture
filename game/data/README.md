@@ -320,7 +320,8 @@ Tout monstre peut avoir des `phases`, déclenchées quand ses PV tombent à un s
    "effets": [{"type": "bonus", "carac": "force", "min": 40, "max": 40, "duree": 3},
               {"type": "bouclier", "element": "acier", "min": 60, "max": 60}]},
   {"pv": 20, "message": "« Vous ne m'aurez pas si facilement ! »",
-   "effets": [{"type": "soin", "element": "givre", "min": 80, "max": 80}]}
+   "effets": [{"type": "bonus", "carac": "pm", "min": 2, "max": 2, "duree": 3},
+              {"type": "malus", "carac": "resistance", "element": "acier", "min": 20, "max": 20, "duree": 3}]}
 ]
 ```
 
@@ -329,7 +330,12 @@ Tout monstre peut avoir des `phases`, déclenchées quand ses PV tombent à un s
 | `pv` | Seuil en % des PV max (1 à 99), strictement plus bas d'une phase à la suivante |
 | `message` | Affiché comme message de combat et en texte flottant au-dessus du monstre |
 | `sorts` | Facultatif. Sorts qu'il apprend pour le reste du combat |
-| `effets` | Facultatif. Effets qu'il s'applique (il en est le lanceur) : mêmes formats que les effets des sorts (`bonus`, `malus`, `soin`, `bouclier`, `gain_pa`, `poison`…), sans glyphe, piège, téléportation, poussée ni attirance |
+| `effets` | Facultatif. Effets qu'il s'applique (il en est le lanceur) : mêmes formats que les effets des sorts (`bonus`, `malus`, `bouclier`, `gain_pa`, `poison`…), sans glyphe, piège, téléportation, poussée ni attirance, et **sans soin** |
+
+Pas de soin à un changement de phase, ni dans `effets` ni dans les `sorts` appris (même dans une
+glyphe ou un piège) : refusé à la validation, car un monstre qui remonte ses PV à chaque seuil peut
+rendre un combat sans fin. Un mini-boss (`boss`) réapparaît vite pendant l'alpha : `reapparition`
+de son groupe à 60 s au plus (règle de conception, vérifiée par le script de contrôle du chantier 3).
 
 Une phase se déclenche une seule fois par combat, dès que les PV du monstre passent au seuil ou
 dessous, quels que soient les dégâts (sort, poison, glyphe, piège, choc) ; s'il en franchit

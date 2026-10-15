@@ -40,13 +40,14 @@ func test_experience_et_niveau_apres_victoire() -> void:
 	var events := _win_against(world, "groupe_1")
 	var xp := Fixtures.of_type(events, Protocol.EVT_XP)
 	assert_eq(xp.size(), 1)
-	assert_eq(xp[0]["gain"], 20, "10 XP × (100 + 100 de Sagesse) %")
-	assert_eq(Fixtures.of_type(events, Protocol.EVT_COMBAT_ENDED)[0]["xp"], 20, "XP affichée en fin de combat")
-	assert_eq(world.character.xp, 20)
+	var gain := roundi(20 * Character.XP_RATE)
+	assert_eq(xp[0]["gain"], gain, "10 XP × XP_RATE × (100 + 100 de Sagesse) %")
+	assert_eq(Fixtures.of_type(events, Protocol.EVT_COMBAT_ENDED)[0]["xp"], gain, "XP affichée en fin de combat")
+	assert_eq(world.character.xp, gain)
 	world.character.xp = 75
 	var more := _win_against(world, "groupe_2")
 	var levels := Fixtures.of_type(more, Protocol.EVT_LEVEL_UP)
-	assert_eq(levels.size(), 1, "80 XP : niveau 2")
+	assert_eq(levels.size(), 1, "80 XP et plus (sous 280) : niveau 2")
 	assert_eq(levels[0]["points"], Character.POINTS_PER_LEVEL)
 	assert_eq(Fixtures.of_type(more, Protocol.EVT_CHARACTER)[0]["personnage"]["niveau"], 2)
 
