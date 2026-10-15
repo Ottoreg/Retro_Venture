@@ -47,6 +47,40 @@ func test_zones_visitees_dans_l_ordre_des_visites() -> void:
 	assert_eq(zones, ["val", "mont"] as Array[String], "une fois chacune, sans les maisons")
 
 
+func test_voisinage_pour_la_minicarte() -> void:
+	# Tout le val est visité ; la minicarte (rayon 1) centrée sur le Moulin (1, 0).
+	var visited := ["val_0_0", "val_1_0", "val_2_0", "val_0_-1", "val_-1_0", "val_0_1", "val_5_5"]
+	var layout := WorldMapLayout.zone_layout("val", _maps(), visited, "val_1_0")
+	var near := WorldMapLayout.neighborhood(layout, Vector2i(1, 0), Vector2i(1, 1))
+	assert_eq(near["origine"], Vector2i(0, -1), "fenêtre fixe autour du Moulin")
+	assert_eq([near["colonnes"], near["lignes"]], [3, 3])
+	var cases := _cases_by_id(near)
+	assert_eq(cases.keys().size(), 5, "le Moulin, la Place, le Gué, les Hauts et la Mare : %s" % str(cases.keys()))
+	assert_eq(cases["val_1_0"]["case"], Vector2i(1, 1), "la carte actuelle au milieu")
+	assert_true(cases["val_1_0"]["actuelle"])
+	assert_eq(cases["val_0_0"]["case"], Vector2i(0, 1))
+	assert_eq(cases["val_2_0"]["case"], Vector2i(2, 1))
+	assert_false(cases.has("val_-1_0"), "le Bois, hors de la fenêtre")
+	assert_false(cases.has("val_5_5"))
+	# Le lien Place–Bois sort de la fenêtre : il reste, vers le bord.
+	var links: Array = near["liens"]
+	assert_true(links.has([Vector2i(0, 1), Vector2i(-1, 1)]) or links.has([Vector2i(-1, 1), Vector2i(0, 1)]), str(links))
+	assert_eq(layout["cases"].size(), 7, "la grille de la zone n'est pas touchée")
+
+
+func test_voisinage_au_bord_de_la_zone() -> void:
+	# Seule la Place est visitée : la fenêtre (rayon 2) dépasse la zone, les cases vides restent vides.
+	var layout := WorldMapLayout.zone_layout("val", _maps(), ["val_0_0"], "val_0_0")
+	var near := WorldMapLayout.neighborhood(layout, Vector2i(0, 0), Vector2i(2, 2))
+	assert_eq(near["origine"], Vector2i(-2, -2))
+	assert_eq([near["colonnes"], near["lignes"]], [5, 5])
+	var cases := _cases_by_id(near)
+	assert_eq(cases["val_0_0"]["case"], Vector2i(2, 2), "au milieu, même au bord de la zone")
+	assert_eq(cases["val_0_-1"]["case"], Vector2i(2, 1))
+	assert_eq(cases["val_0_-1"]["nom"], WorldMapLayout.UNKNOWN_NAME)
+	assert_eq(cases.size(), 5)
+
+
 func test_seulement_les_cartes_visitees_et_leurs_voisines() -> void:
 	var layout := WorldMapLayout.zone_layout("val", _maps(), ["val_0_0", "maison_val"], "val_0_0")
 	var cases := _cases_by_id(layout)

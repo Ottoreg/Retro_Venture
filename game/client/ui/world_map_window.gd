@@ -23,6 +23,9 @@ class ZoneGrid extends Control:
 	var layout: Dictionary = {}
 	## Vrai si l'on est dans une maison : la case actuelle est alors la carte où mène sa porte.
 	var indoors := false
+	## Version de la minicarte : petites cases sans nom (dans la bulle de survol), le joueur en point
+	## bleu au milieu de la sienne.
+	var compact := false
 
 	func _init() -> void:
 		# Rien n'est dessiné hors de la grille, même pour une zone immense.
@@ -93,6 +96,11 @@ class ZoneGrid extends Control:
 		var cell_px := cell_size()
 		var font := get_theme_default_font()
 		var name_size := font_size()
+		if compact:
+			# Emplacements vides de la fenêtre, à peine marqués : on lit la grille du monde.
+			for row in int(layout.get("lignes", 0)):
+				for col in int(layout.get("colonnes", 0)):
+					draw_rect(cell_rect(Vector2i(col, row)), Color(1, 1, 1, 0.035))
 		# Les liens d'abord : un chemin entre deux cartes voisines.
 		var link_width := clampf(minf(cell_px.x, cell_px.y) * 0.08, 1.5, 4.0)
 		for link: Array in layout.get("liens", []):
@@ -116,6 +124,15 @@ class ZoneGrid extends Control:
 			if not visited:
 				var mark_size := clampi(int(minf(cell_px.x, cell_px.y) * 0.45), 9, 34)
 				_centered_text(font, rect, WorldMapLayout.UNKNOWN_NAME, mark_size, UiTheme.TEXT_DIM, 1)
+				continue
+			if compact:
+				if case["pierre"] != WorldMapLayout.STONE_NONE:
+					var small := minf(4.0, minf(cell_px.x, cell_px.y) * 0.18)
+					_draw_stone(rect.position + Vector2(rect.size.x - small - 2, small * 1.3 + 2), small,
+						case["pierre"] == WorldMapLayout.STONE_KNOWN)
+				if case["actuelle"]:
+					draw_circle(rect.get_center(), 3.5, Color("4d8fff"))
+					draw_arc(rect.get_center(), 3.5, 0, TAU, 16, Color.WHITE, 1.2)
 				continue
 			# Marges intérieures, plus fines pour une petite case.
 			var pad := Vector2(minf(6.0, cell_px.x * 0.08), minf(4.0, cell_px.y * 0.08))
@@ -246,14 +263,10 @@ func refresh() -> void:
 		_zone_info.text = ""
 		_grid.queue_redraw()
 		return
-	var known: Array[String] = []
-	for passage_id: String in world.data.passages:
-		if world.is_passage_known(passage_id):
-			known.append(passage_id)
 	# Dans une maison, la carte devant sa porte est encadrée comme carte actuelle.
-	var here := _here_map()
-	var layout := WorldMapLayout.zone_layout(zone_id, map_infos(world, [zone_id]), _visited_here(), here,
-		world.data.passages, known)
+	var here := here_map(world)
+	var layout := WorldMapLayout.zone_layout(zone_id, map_infos(world, [zone_id]), visited_here(world), here,
+		world.data.passages, known_passages(world))
 	_grid.layout = layout
 	_grid.indoors = here != world.map.id
 	_grid.queue_redraw()
@@ -283,10 +296,19 @@ static func map_infos(world: World, zone_ids: Array) -> Dictionary:
 	return infos
 
 
+## Pierres de Passage découvertes (ids).
+static func known_passages(world: World) -> Array[String]:
+	var known: Array[String] = []
+	for passage_id: String in world.data.passages:
+		if world.is_passage_known(passage_id):
+			known.append(passage_id)
+	return known
+
+
 ## Carte à coordonnées où l'on est : la carte actuelle ; dans une maison, celle où mène sa porte
 ## ("" s'il n'y en a pas).
-func _here_map() -> String:
-	var map := map_view.world.map
+static func here_map(world: World) -> String:
+	var map := world.map
 	if not WorldMapLayout.map_coordinates(map.id).is_empty():
 		return map.id
 	for target: String in map.doors.values():
@@ -295,16 +317,16 @@ func _here_map() -> String:
 	return ""
 
 
-## Zone à montrer à l'ouverture : celle de `_here_map`.
+## Zone à montrer à l'ouverture : celle de `here_map`.
 func _here_zone() -> String:
-	return WorldMapLayout.map_coordinates(_here_map()).get("zone", "")
+	return WorldMapLayout.map_coordinates(here_map(map_view.world)).get("zone", "")
 
 
 ## Cartes visitées, plus celle où mène la porte de la maison où l'on est : on la connaît même si l'on
 ## n'y est pas encore sorti (départ dans la maison, ou sauvegarde antérieure à la liste des visites).
-func _visited_here() -> Array[String]:
-	var visited := map_view.world.visited_maps()
-	var here := _here_map()
+static func visited_here(world: World) -> Array[String]:
+	var visited := world.visited_maps()
+	var here := here_map(world)
 	if not here.is_empty() and not visited.has(here):
 		visited.append(here)
 	return visited
@@ -313,7 +335,7 @@ func _visited_here() -> Array[String]:
 ## Un onglet par zone visitée ; à l'ouverture (`to_here`), celui de la zone actuelle.
 func _update_tabs(to_here: bool) -> void:
 	var world := map_view.world
-	var zones := WorldMapLayout.visited_zones(_visited_here())
+	var zones := WorldMapLayout.visited_zones(visited_here(world))
 	var previous := current_zone()
 	# Pas de refresh imbriqué pendant la reconstruction des onglets.
 	_tabs.set_block_signals(true)

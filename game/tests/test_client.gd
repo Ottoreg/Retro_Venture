@@ -752,13 +752,26 @@ func test_carte_du_monde_et_minicarte() -> void:
 	var frame := minimap._frame.get_global_rect()
 	var screen := scene.get_viewport().get_visible_rect()
 	assert_true(frame.position.y >= 65.0, "sous le bandeau du haut : %s" % frame)
-	assert_true(frame.size.x <= 230.0 and frame.size.y <= 140.0, "petit encart : %s" % frame)
+	assert_true(frame.size.x <= 240.0 and frame.size.y <= 180.0, "petit encart : %s" % frame)
 	assert_true(frame.end.x <= screen.end.x and frame.end.x >= screen.end.x - 20.0, "contre le bord droit : %s" % frame)
 	assert_false(frame.has_point(screen.get_center()), "le reste de l'écran est à la carte")
 	for node in minimap._frame.find_children("*", "Control", true, false):
-		if node != minimap._fold_button:
+		if node != minimap._fold_button and node != minimap._grid:
 			assert_eq((node as Control).mouse_filter, Control.MOUSE_FILTER_IGNORE, "%s laisse passer la souris" % node.name)
+	assert_eq(minimap._grid.mouse_filter, Control.MOUSE_FILTER_PASS, "bulle de survol, clic au cadre")
 	assert_eq(minimap._coordinates.text, "0, 0", "coordonnées de la carte")
+	assert_eq(minimap._zone_name.text, "Brumerive")
+	# Version réduite de la carte du monde : 5 × 5 cartes, la carte actuelle au milieu.
+	var near := minimap.shown_layout()
+	assert_eq([near["colonnes"], near["lignes"]], [5, 5])
+	var near_cases := {}
+	for case: Dictionary in near["cases"]:
+		near_cases[case["id"]] = case
+	assert_eq(near_cases["brumerive_0_0"]["case"], Vector2i(2, 2), "la place du village au milieu")
+	assert_true(near_cases["brumerive_0_0"]["actuelle"])
+	assert_eq(near_cases["brumerive_1_0"]["case"], Vector2i(3, 2), "les champs à droite")
+	assert_eq(near_cases["brumerive_1_0"]["nom"], WorldMapLayout.UNKNOWN_NAME, "pas encore visités")
+	assert_eq(minimap._grid.case_tooltip(near_cases["brumerive_0_0"]).get_slice("\n", 0), "Brumerive — Place du village  [0, 0]")
 	# La bulle de survol (dans Hud) passe devant la minicarte : Hud vient après dans l'arbre.
 	assert_true(scene.get_node("Hud").get_index() > minimap.get_index(), "bulle de survol au-dessus de la minicarte")
 
@@ -766,7 +779,7 @@ func test_carte_du_monde_et_minicarte() -> void:
 	minimap._fold_button.pressed.emit()
 	assert_true(minimap.is_folded())
 	assert_true(minimap.is_shown(), "la barre reste")
-	assert_false(minimap._ground.visible, "plus de dessin")
+	assert_false(minimap._grid.visible, "plus de dessin")
 	var folded := minimap._frame.get_global_rect()
 	assert_true(folded.size.y <= 32.0, "seulement la barre : %s" % folded)
 	assert_eq(folded.end.x, frame.end.x, "toujours contre le bord droit")
@@ -824,12 +837,18 @@ func test_carte_du_monde_et_minicarte() -> void:
 	view._on_click(exit_cell)
 	_run_until_idle(view)
 	assert_eq(view.world.map.id, "brumerive_1_0")
-	assert_eq(minimap._map.id, "brumerive_1_0", "la minicarte montre la nouvelle carte")
+	assert_eq(minimap.center_map(), "brumerive_1_0", "la minicarte se recentre sur la nouvelle carte")
 	assert_eq(minimap._coordinates.text, "1, 0")
-	assert_true(minimap.is_folded() and not minimap._ground.visible, "toujours repliée sur la nouvelle carte")
+	assert_true(minimap.is_folded() and not minimap._grid.visible, "toujours repliée sur la nouvelle carte")
 	minimap._fold_button.pressed.emit()
 	assert_false(minimap.is_folded())
-	assert_true(minimap._ground.visible, "dépliée de nouveau")
+	assert_true(minimap._grid.visible, "dépliée de nouveau")
+	near_cases = {}
+	for case: Dictionary in minimap.shown_layout()["cases"]:
+		near_cases[case["id"]] = case
+	assert_eq(near_cases["brumerive_1_0"]["case"], Vector2i(2, 2))
+	assert_true(near_cases["brumerive_0_0"]["visitee"] and not near_cases["brumerive_0_0"]["actuelle"])
+	assert_eq(near_cases["brumerive_0_0"]["case"], Vector2i(1, 2), "la place, maintenant à gauche")
 	assert_eq(minimap._frame.get_global_rect().size.y, frame.size.y, "à sa taille d'avant")
 	world_map.open()
 	cases = _world_map_cases(world_map)
@@ -859,38 +878,30 @@ func test_carte_du_monde_et_minicarte() -> void:
 	Session.minimap_folded = false
 
 
-func test_minicarte_aux_couleurs_de_la_zone() -> void:
-	# Trône de Cendre : la « eau » de la palette cendre est une lave orange, les arbres sont morts.
+func test_minicarte_dans_une_maison_et_au_trone_de_cendre() -> void:
+	# Dans la maison : la minicarte montre la carte devant sa porte.
 	var tree := Engine.get_main_loop() as SceneTree
-	Session.start_map = "cendre_0_0"
+	Session.start_map = "maison_joueur"
 	var scene: Node = load("res://client/world/world.tscn").instantiate()
 	tree.root.add_child(scene)
-	Session.start_map = ""
 	var view: MapView = scene.get_node("MapView")
 	var minimap: Minimap = scene.get_node("Minimap")
-	assert_eq(view.world.map.id, "cendre_0_0")
-	assert_eq(Art.palette, "cendre")
-	var map := view.current_map()
-	var water := Vector2i(-1, -1)
-	var tree_cell := Vector2i(-1, -1)
-	var path := Vector2i(-1, -1)
-	for cell: Vector2i in map.cells():
-		var kind: String = map.obstacles.get(cell, "")
-		if kind == "eau" and water == Vector2i(-1, -1):
-			water = cell
-		elif kind == "arbre" and tree_cell == Vector2i(-1, -1):
-			tree_cell = cell
-		elif kind.is_empty() and map.ground.has(cell) and path == Vector2i(-1, -1):
-			path = cell
-	assert_true(water != Vector2i(-1, -1) and tree_cell != Vector2i(-1, -1) and path != Vector2i(-1, -1),
-		"lave, arbre mort et chemin sur la carte")
-	assert_eq(minimap.cell_color(water), Art.color("eau"), "la lave dans la couleur de la palette")
-	assert_eq(minimap.cell_color(water), Color("e2622a"), "orange, pas bleue")
-	assert_eq(minimap.cell_color(path), Art.color("terre"), "chemin de cendre")
-	assert_eq(minimap.floor_color(), Art.color("herbe"), "sol gris de la palette")
-	var trunk := minimap.cell_color(tree_cell)
-	assert_true(trunk.g <= trunk.r + 0.05, "arbre mort sans vert vif : %s" % trunk)
-	assert_true(trunk.get_luminance() < minimap.floor_color().get_luminance(), "arbre plus sombre que le sol")
+	assert_eq(view.world.map.id, "maison_joueur")
+	assert_eq(minimap.center_map(), "brumerive_0_0", "la place du village, devant la porte")
+	assert_true(minimap._grid.indoors)
+	var center: Dictionary = minimap.shown_layout()["cases"].filter(func(c: Dictionary) -> bool: return c["actuelle"])[0]
+	assert_eq(center["case"], Vector2i(2, 2))
+	assert_true(minimap._grid.case_tooltip(center).ends_with("Vous êtes dans une maison de cette carte."))
+	scene.free()
+	# Trône de Cendre : une carte isolée, seule au milieu de la minicarte.
+	Session.start_map = "cendre_0_0"
+	scene = load("res://client/world/world.tscn").instantiate()
+	tree.root.add_child(scene)
+	Session.start_map = ""
+	minimap = scene.get_node("Minimap")
+	assert_eq(minimap.center_map(), "cendre_0_0")
+	assert_eq(minimap._zone_name.text, "Trône de Cendre")
+	assert_eq(minimap.shown_layout()["cases"].size(), 1)
 	scene.free()
 	# Couleurs de base pour les tests suivants.
 	Art.palette = ""

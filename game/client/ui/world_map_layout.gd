@@ -141,6 +141,35 @@ static func zone_layout(zone_id: String, maps: Dictionary, visited: Array, curre
 	return result
 
 
+## Voisinage d'une carte pour la minicarte : la grille `layout` (voir `zone_layout`) recadrée sur une
+## fenêtre fixe de (2 × `radius` + 1) cases, la carte de coordonnées `center` au milieu. Même format
+## que `zone_layout` ; les cases hors de la fenêtre disparaissent, les liens qui en sortent restent
+## (ils filent vers le bord).
+static func neighborhood(layout: Dictionary, center: Vector2i, radius: Vector2i) -> Dictionary:
+	var result := layout.duplicate()
+	var low := center - radius
+	var size := radius * 2 + Vector2i.ONE
+	result["origine"] = low
+	result["colonnes"] = size.x
+	result["lignes"] = size.y
+	var window := Rect2i(Vector2i.ZERO, size)
+	var shift: Vector2i = layout.get("origine", Vector2i.ZERO) - low
+	var cases: Array = []
+	for case: Dictionary in layout.get("cases", []):
+		var moved := case.duplicate()
+		moved["case"] = case["case"] + shift
+		if window.has_point(moved["case"]):
+			cases.append(moved)
+	result["cases"] = cases
+	var links: Array = []
+	for link: Array in layout.get("liens", []):
+		var ends: Array = [link[0] + shift, link[1] + shift]
+		if window.has_point(ends[0]) or window.has_point(ends[1]):
+			links.append(ends)
+	result["liens"] = links
+	return result
+
+
 static func _in_zone(map_id: String, zone_id: String) -> bool:
 	var coordinates := map_coordinates(map_id)
 	return not coordinates.is_empty() and coordinates["zone"] == zone_id
