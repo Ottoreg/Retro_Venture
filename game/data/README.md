@@ -165,8 +165,8 @@ ramène d'où l'on vient (les tests vérifient que chaque porte a sa réciproque
 "portes": ["maison_joueur"]
 ```
 
-- `palette` : couleurs de la zone (`brumerive`, `crasse_roc`, `sylvebrume` ; voir
-  `game/art/art.json`). Crasse-Roc est volontairement terne et sombre.
+- `palette` : couleurs de la zone (`brumerive`, `crasse_roc`, `sylvebrume`, `forges` (lave),
+  `hautepierre`, `cendree`, `cendre` ; voir `game/art/art.json` et `game/art/manifestes/`). Crasse-Roc est volontairement terne et sombre.
 - `sol` : `herbe` (par défaut) ou `parquet` pour un intérieur.
 - `instance` : `""` (par défaut, carte partagée) ou `joueur` pour une carte personnelle, comme la
   maison : en multijoueur, chaque joueur aura sa propre copie (et son coffre).

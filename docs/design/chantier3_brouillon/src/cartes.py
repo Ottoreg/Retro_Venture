@@ -154,7 +154,9 @@ def verifier(nom, plan):
     return not isolees
 
 
-def ecrire_carte(conception, plan, decors=(), portes=None, compter=True, palette=None):
+def ecrire_carte(conception, plan, decors=(), portes=None, compter=True, palette=None, sans_occupants=False):
+    """`sans_occupants` : carte posée sans groupes ni PNJ (ils viendront avec un lot suivant), mais
+    déjà avec son calque de placement si la conception prévoit des groupes."""
     """Carte du jeu d'après la conception (nom, sorties, groupes, PNJ) et le plan dessiné."""
     if isinstance(plan, Plan):
         plan.boucher()
@@ -171,9 +173,9 @@ def ecrire_carte(conception, plan, decors=(), portes=None, compter=True, palette
     if palette:
         carte["palette"] = palette
     carte["plan"] = texte
-    if conception.get("groupes"):
+    if conception.get("groupes") and not sans_occupants:
         carte["groupes"] = conception["groupes"]
-    pnj = [{k: p[k] for k in ("marqueur", "id", "nom", "repliques")} for p in conception.get("pnj", [])]
+    pnj = [] if sans_occupants else [{k: p[k] for k in ("marqueur", "id", "nom", "repliques")} for p in conception.get("pnj", [])]
     if pnj:
         carte["pnj"] = pnj
     tous_decors = list(decors) + (plan.decors if isinstance(plan, Plan) else [])

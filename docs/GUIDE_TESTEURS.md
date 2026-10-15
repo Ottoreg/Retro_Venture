@@ -129,7 +129,10 @@ le **lit** de votre maison les rend tous d'un coup.
   galerie effondrée, poste avancé de la Milice, carrière aux Échos, Forges noires, route des
   Charrois, abîme du Balourd), **Sylvebrume, complète** (9 cartes, niveaux 1 à 12 : clairière de la
   Lisière, futaie ancienne, sous-bois moussu, bosquet des Cerfs, coupe rase, scierie de Brumerive,
-  Toiles grises, orée du Sud, cœur de la Toile), Sylvebrume (clairière de la Lisière, futaie ancienne), reliées seulement par les
+  Toiles grises, orée du Sud, cœur de la Toile), **Hautepierre en construction** (19 cartes à
+  explorer, encore **vides** : ni monstres, ni PNJ, ni marchands pour l'instant ; la ville au centre,
+  sa Pierre de Passage sur la Grand-Place, et trois routes qui la relient aux zones de départ par
+  une porte : depuis le Gué de Brume-Haute, la Route des Charrois et l'Orée du Sud), Sylvebrume (clairière de la Lisière, futaie ancienne), reliées seulement par les
   Pierres de Passage (toutes accessibles dès le début, voir plus haut). Le **Trône de Cendre** (carte d'élite) est
   accessible par n'importe quelle Pierre : le Souverain Cendré y attend, c'est le monstre le plus
   puissant du jeu.

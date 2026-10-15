@@ -1,0 +1,62 @@
+{
+  "id": "hautepierre_3_2",
+  "nom": "Hautepierre — Porte de l'Est",
+  "sorties": {
+    "gauche": "hautepierre_2_2",
+    "droite": "hautepierre_4_2",
+    "haut": "hautepierre_3_1",
+    "bas": "hautepierre_3_3"
+  },
+  "palette": "hautepierre",
+  "plan": [
+    "MMMMMMMM.:.MMMMMMMM",
+    " MMMMMMM.::.MMMMMMM",
+    "MMMMMMMM.:.MMMMMMMM",
+    " M.......::......MM",
+    "MM.......:......MMM",
+    " M...#...::......MM",
+    "MM..##...:......MMM",
+    " M..###..::......MM",
+    "MM..##...:......MMM",
+    " M...#...::..R...MM",
+    "MM.......:......MMM",
+    " M.......::.....RMM",
+    ".........:...R..R..",
+    " ........::........",
+    ".........:.........",
+    " ::::::::::::::::::",
+    "::::::::@::::::::::",
+    " ::::::::::::::::::",
+    ".........:.........",
+    " ........::........",
+    ".........:......R..",
+    " M....#..::.....RMM",
+    "MM...##..:......MMM",
+    " M...###.::..R...MM",
+    "MM...##..:......MMM",
+    " M....#..::......MM",
+    "MM.......:......MMM",
+    " M.......::......MM",
+    "MM.......:......MMM",
+    " M.......::......MM",
+    "MMMMMMMM.:.MMMMMMMM",
+    " MMMMMMM.::.MMMMMMM",
+    "MMMMMMMM.:.MMMMMMMM"
+  ],
+  "decors": [
+    {
+      "image": "cabane",
+      "case": [
+        9,
+        5
+      ]
+    },
+    {
+      "image": "cabane",
+      "case": [
+        25,
+        6
+      ]
+    }
+  ]
+}

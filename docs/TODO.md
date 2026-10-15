@@ -252,16 +252,23 @@ Les tâches marquées *(alpha 2)* sont reportées au second test.
     Balourd, palette « forges » (lave)
   - [x] Lot **Sylvebrume** : 7 nouvelles cartes (et retouches des 2 existantes), 11 monstres dont
     la Mère-Toile, 11 sorts, 13 objets et leurs icônes, dessins de la morille et de l'araignée
-  - [ ] Lots Hautepierre, puis variantes et métiers
-  - [ ] En attente d'autres lots : ressources `Y` et `T` des trois zones de départ (lot Métiers),
-    portes vers Hautepierre du Gué de Brume-Haute (`hautepierre_0_2`), de la Route des Charrois
-    (`hautepierre_4_2`) et de l'Orée du Sud (`hautepierre_2_0`) (lot Hautepierre)
+  - [x] Lot **Hautepierre, première moitié** : les 19 cartes (ville, routes, cartes cendrées, la
+    Brèche) avec leur calque de placement, la Pierre de Passage de la Grand-Place (20 écus), les 3
+    portes vers les zones de départ, palettes « hautepierre » et « cendree »
+  - [ ] Lot **Hautepierre, seconde moitié** : groupes de monstres des cartes, PNJ (marchand, forge,
+    conseil…), monstres et élites, Grondin, sorts, objets et icônes ; dessins des décors de la ville
+    (Tour Blanche, temple, tours de garde, fontaine, étals, poteaux indicateurs), remplacés pour
+    l'instant par des bâtiments et obstacles existants
+  - [ ] Lots variantes et métiers
+  - [ ] En attente du lot Métiers : ressources `Y`, `T`, `H`, `L`, `G`, `D` des zones de départ et
+    de Hautepierre
 - [x] **(MVP)** Zone de départ humaine : Collines de Brumerive — 10 cartes + la maison (lot Brumerive)
 - [x] **(MVP)** Zone de départ gobeline : Galeries de Crasse-Roc — 10 cartes + la maison (lot Crasse-Roc)
 - [x] **(MVP)** Zone de départ elfe : Lisière de Sylvebrume — 9 cartes + la maison (lot Sylvebrume)
 - [x] Carte d'élite de test : Trône de Cendre (Marches Cendrées), le Souverain Cendré, accessible par la Pierre de Passage
 - [x] Chaque race démarre dans sa zone (humains à Brumerive, gobelins à Crasse-Roc, elfes à Sylvebrume)
-- [ ] **(MVP)** Zone commune : Hautepierre et environs (ville + environ 15 cartes)
+- [ ] **(MVP)** Zone commune : Hautepierre et environs — 19 cartes posées (vides), reste la
+  seconde moitié du lot
 - [ ] Villes hostiles aux autres camps avant l'acte III (gardes PNJ agressifs)
 - [x] **(MVP)** Sauvegarde / chargement automatique (personnage, carte, position, groupes restants avec
   leur composition et leur place, groupes vaincus) dans `user://`

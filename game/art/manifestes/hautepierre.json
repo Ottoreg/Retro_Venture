@@ -1,0 +1,41 @@
+{
+  "palettes": {
+    "hautepierre": {
+      "couleurs": {
+        "herbe": "93a860",
+        "herbe_sombre": "768c48",
+        "herbe_claire": "adc07a",
+        "herbe_tige": "667a3e",
+        "terre": "c8b898",
+        "terre_bord": "a0906e",
+        "pierre": "b8b2a6",
+        "rive": "cfc4a0",
+        "rive_bord": "a89c78",
+        "eau": "5a8aaa",
+        "reflet": "c8dce8"
+      }
+    },
+    "cendree": {
+      "couleurs": {
+        "herbe": "7c8460",
+        "herbe_sombre": "616848",
+        "herbe_claire": "929a74",
+        "herbe_tige": "52583c",
+        "terre": "8e8270",
+        "terre_bord": "6a6052",
+        "eau": "5e7078",
+        "pierre": "7e7a74",
+        "tronc": "4e4036",
+        "feuillage": "5e6a46",
+        "feuillage_ombre": "444e34",
+        "feuillage_clair": "727e56",
+        "rive": "7a705e",
+        "rive_bord": "5a5246",
+        "reflet": "98a8ae"
+      },
+      "remplacer": {
+        "fleurs": "braises"
+      }
+    }
+  }
+}

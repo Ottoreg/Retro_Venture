@@ -1,0 +1,69 @@
+{
+  "id": "hautepierre_2_1",
+  "nom": "Hautepierre — Citadelle de la Tour Blanche",
+  "sorties": {
+    "haut": "hautepierre_2_0",
+    "bas": "hautepierre_2_2",
+    "gauche": "hautepierre_1_1",
+    "droite": "hautepierre_3_1"
+  },
+  "palette": "hautepierre",
+  "plan": [
+    "MMMMMMMM.:.MMMMMMMM",
+    " MMMMMMM.::.MMMMMMM",
+    "MMMMMMMM.:.MMMMMMMM",
+    " M.......::.......M",
+    "MM.......:.......MM",
+    " M.......::.......M",
+    "MM..#....:....#..MM",
+    " M..##...::...##..M",
+    "MM.###...#...###.MM",
+    " M..##...##...##..M",
+    "MM..#...###...#..MM",
+    " M.......##.......M",
+    ".........#.........",
+    " ........::........",
+    ".........A.........",
+    " ::::::::::::::::::",
+    ":::::::::::::::::::",
+    " ::::::::::::::::::",
+    ".........:.........",
+    " ........::........",
+    ".........:.........",
+    " M.......::.......M",
+    "MM.......:.......MM",
+    " M.......::.......M",
+    "MM.......@.......MM",
+    " M.......::.......M",
+    "MM.......:.......MM",
+    " M.......::.......M",
+    "MM.......:.......MM",
+    " M.......::.......M",
+    "MMMMMMMM.:.MMMMMMMM",
+    " MMMMMMM.::.MMMMMMM",
+    "MMMMMMMM.:.MMMMMMMM"
+  ],
+  "decors": [
+    {
+      "image": "pavillon",
+      "case": [
+        12,
+        9
+      ]
+    },
+    {
+      "image": "maison",
+      "case": [
+        10,
+        4
+      ]
+    },
+    {
+      "image": "maison",
+      "case": [
+        10,
+        14
+      ]
+    }
+  ]
+}

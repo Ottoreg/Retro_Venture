@@ -219,8 +219,9 @@ l'histoire.
   mini-boss Krasbouk (niveau 12). **Crasse-Roc aussi** : rats et grouilleurs 1–3, vampipistrelles
   4–6, miliciens de Hautepierre 7–9, contremaîtres zélés 10–12, élites et le Balourd des Abîmes
   (niveau 12). **Sylvebrume aussi** : morilles 1–3, cerfs et arbres vivants 4–6, bûcherons 7–9,
-  tisseuses 10–12, élites et la Mère-Toile (niveau 12). Les trois zones de départ sont produites ;
-  Hautepierre (13–30) attend son lot.
+  tisseuses 10–12, élites et la Mère-Toile (niveau 12). Les trois zones de départ sont produites.
+  Hautepierre (13–30) a ses 19 cartes, reliées aux zones de départ par trois portes et une Pierre de
+  Passage (20 écus), mais pas encore ses monstres ni ses habitants.
 
 ### 3.6 Ton
 

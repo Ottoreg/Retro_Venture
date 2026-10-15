@@ -70,8 +70,9 @@ Phase 2 (alpha solo), en deux tests :
    `src/controle.py`). Cases de placement prédéfinies par carte **faites** (calque `placement`,
    GDD § 7.1, outil `game/tools/placement.py`). **Production par lots en cours** : les trois zones de départ
    faites (Brumerive, Crasse-Roc, Sylvebrume ; `src/produire.py`, `src/cartes.py`,
-   `src/plans_<lot>.py`) ; suivants : Hautepierre, variantes, métiers — un lot à la fois, sur accord
-   de l'auteur.
+   `src/plans_<lot>.py`) ; Hautepierre : cartes posées (vides, `src/plans_hautepierre.py`) ;
+   suivants : seconde moitié de Hautepierre (groupes, PNJ, monstres, Grondin, objets, décors de
+   ville), variantes, métiers — un lot à la fois, sur accord de l'auteur.
 4. Interface et confort : notamment le **mode tactique en combat** façon Dofus (GDD § 14.3).
 
 ## Règles de design à respecter (détails dans le GDD)

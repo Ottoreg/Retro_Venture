@@ -1,0 +1,69 @@
+{
+  "id": "hautepierre_1_2",
+  "nom": "Hautepierre — Porte de l'Ouest",
+  "sorties": {
+    "gauche": "hautepierre_0_2",
+    "droite": "hautepierre_2_2",
+    "haut": "hautepierre_1_1",
+    "bas": "hautepierre_1_3"
+  },
+  "palette": "hautepierre",
+  "plan": [
+    "MMMMMMMM.:.MMMMMMMM",
+    " MMMMMMM.::.MMMMMMM",
+    "MMMMMMMM.:.MMMMMMMM",
+    " MM......::.......M",
+    "MMM......:.......MM",
+    " MM......::.......M",
+    "MMM......#.......MM",
+    " MM......##.......M",
+    "MMM.....###......MM",
+    " MM......##.......M",
+    "MMM......#.......MM",
+    " MMR.....::.......M",
+    "..R......:.........",
+    " ........::........",
+    ".........:.........",
+    " ::::::::::::::::::",
+    "::::::::::@::::::::",
+    " ::::::::::::::::::",
+    ".........:.........",
+    " ........::........",
+    "..R......:....#....",
+    " MMR.#...::...##..M",
+    "MMM.##...:...###.MM",
+    " MM.###..::...##..M",
+    "MMM.##...:....#..MM",
+    " MM..#...::.......M",
+    "MMM......:.......MM",
+    " MM......::.......M",
+    "MMM......:.......MM",
+    " MM......::.......M",
+    "MMMMMMMM.:.MMMMMMMM",
+    " MMMMMMM.::.MMMMMMM",
+    "MMMMMMMM.:.MMMMMMMM"
+  ],
+  "decors": [
+    {
+      "image": "pavillon",
+      "case": [
+        10,
+        9
+      ]
+    },
+    {
+      "image": "maison",
+      "case": [
+        25,
+        5
+      ]
+    },
+    {
+      "image": "maison",
+      "case": [
+        24,
+        14
+      ]
+    }
+  ]
+}
