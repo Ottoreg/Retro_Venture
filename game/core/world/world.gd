@@ -35,6 +35,11 @@ const ELITE_MAX_GROUPS := 3
 const ELITE_GROUP_PREFIX := "elite_"
 ## Quantité maximale d'un même objet par achat ou vente.
 const MAX_TRADE_QUANTITY := 100
+## Phase de test : toutes les Pierres de Passage sont connues dès le début (les zones ne sont pas
+## encore reliées à pied). À remettre à false quand elles le seront : il faudra alors toucher une
+## pierre pour la découvrir (celle de la zone de départ de la race, et les `toujours_connue`, restent
+## connues).
+const ALL_PASSAGES_KNOWN := true
 
 var map: GameMap
 var data: GameData
@@ -53,6 +58,8 @@ var player_name: String:
 		character.display_name = value
 ## Combat en cours, ou `null` en exploration.
 var combat: Combat = null
+## Toutes les pierres connues (voir `ALL_PASSAGES_KNOWN` ; les tests de découverte le coupent).
+var all_passages_known := ALL_PASSAGES_KNOWN
 
 ## Case occupée par chaque entité, par identifiant (le joueur et les groupes de monstres).
 var _positions: Dictionary = {}
@@ -1229,9 +1236,11 @@ func _here_passage() -> String:
 	return ""
 
 
-## Vrai si le joueur peut voyager jusqu'à cette pierre : il l'a découverte, ou elle est
-## `toujours_connue`.
+## Vrai si le joueur peut voyager jusqu'à cette pierre : il l'a découverte, elle est
+## `toujours_connue`, ou toutes le sont (`all_passages_known`, phase de test).
 func is_passage_known(passage_id: String) -> bool:
+	if all_passages_known and data != null and data.passages.has(passage_id):
+		return true
 	return passage_id in character.known_passages or (data != null and data.passage_always_known(passage_id))
 
 

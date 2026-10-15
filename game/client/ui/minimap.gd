@@ -4,8 +4,8 @@ extends CanvasLayer
 ## s'orienter (chaque carte tient sur un écran : inutile de la redessiner en petit). En haut à droite
 ## sous le bandeau, en exploration seulement (masquée en combat, pour laisser la place à l'ordre de
 ## jeu). Fenêtre fixe de `RADIUS` cartes de chaque côté, la carte actuelle au milieu (cadre doré,
-## point bleu) ; cartes visitées, voisines inconnues en « ? », chemins entre cartes et Pierres de
-## Passage, comme sur la carte du monde (`WorldMapLayout`, `WorldMapWindow.ZoneGrid`). Dans une
+## point bleu) ; toutes les cartes (rien n'est caché), chemins entre cartes et Pierres de Passage,
+## comme sur la carte du monde (`WorldMapLayout`, `WorldMapWindow.ZoneGrid`). Dans une
 ## maison, la carte devant sa porte. Le survol d'une case donne son nom ; un clic ouvre la carte du
 ## monde. Le bouton « – » de sa barre la replie (il ne reste que la barre).
 
@@ -89,7 +89,7 @@ func refresh() -> void:
 	else:
 		var zone_id: String = coordinates["zone"]
 		var infos := WorldMapWindow.map_infos(world, [zone_id])
-		var layout := WorldMapLayout.zone_layout(zone_id, infos, WorldMapWindow.visited_here(world), _center_map,
+		var layout := WorldMapLayout.zone_layout(zone_id, infos, WorldMapWindow.shown_maps(world), _center_map,
 			world.data.passages, WorldMapWindow.known_passages(world))
 		_grid.layout = WorldMapLayout.neighborhood(layout, coordinates["position"], RADIUS)
 		_grid.indoors = _center_map != world.map.id

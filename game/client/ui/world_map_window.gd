@@ -1,9 +1,9 @@
 class_name WorldMapWindow
 extends CanvasLayer
-## Carte du monde (touche M, bouton du bandeau ou clic sur la minicarte) : un onglet par zone
-## visitée, ses cartes en grille d'après leurs coordonnées (voir `WorldMapLayout`). La carte actuelle
-## est surlignée, les voisines pas encore visitées sont en « ? », les autres restent cachées ; un
-## losange marque une Pierre de Passage (plein si elle est découverte, en creux sinon).
+## Carte du monde (touche M, bouton du bandeau ou clic sur la minicarte), comme dans Dofus : tout le
+## monde est montré dès le début (décision de l'auteur), un onglet par zone, ses cartes en grille
+## d'après leurs coordonnées (voir `WorldMapLayout`). La carte actuelle est surlignée ; un losange
+## marque une Pierre de Passage (plein si elle est connue, en creux sinon).
 
 const GOLD := Color(0.95, 0.76, 0.3)
 ## Bleu des runes des Pierres de Passage.
@@ -265,17 +265,18 @@ func refresh() -> void:
 		return
 	# Dans une maison, la carte devant sa porte est encadrée comme carte actuelle.
 	var here := here_map(world)
-	var layout := WorldMapLayout.zone_layout(zone_id, map_infos(world, [zone_id]), visited_here(world), here,
+	var layout := WorldMapLayout.zone_layout(zone_id, map_infos(world, [zone_id]), shown_maps(world), here,
 		world.data.passages, known_passages(world))
 	_grid.layout = layout
 	_grid.indoors = here != world.map.id
 	_grid.queue_redraw()
 	_zone_title.text = layout["nom"]
 	var visited := 0
+	var seen := visited_here(world)
 	for case: Dictionary in layout["cases"]:
-		if case["visitee"]:
+		if seen.has(case["id"]):
 			visited += 1
-	_zone_info.text = "%d carte%s visitée%s" % [visited, "s" if visited > 1 else "", "s" if visited > 1 else ""]
+	_zone_info.text = "%d / %d carte%s visitée%s" % [visited, layout["cases"].size(), "s" if visited > 1 else "", "s" if visited > 1 else ""]
 
 
 ## Cartes des zones demandées : id → { nom, sorties } (voir `WorldMapLayout.zone_layout`). Les
@@ -332,10 +333,22 @@ static func visited_here(world: World) -> Array[String]:
 	return visited
 
 
-## Un onglet par zone visitée ; à l'ouverture (`to_here`), celui de la zone actuelle.
+## Cartes montrées sur la carte du monde et la minicarte : toutes celles du jeu qui ont des
+## coordonnées (comme dans Dofus, rien n'est caché), celles visitées en premier (ordre des onglets).
+static func shown_maps(world: World) -> Array[String]:
+	var shown := visited_here(world)
+	var all_ids: Array[String] = world.map_ids.duplicate()
+	all_ids.sort()
+	for map_id in all_ids:
+		if not shown.has(map_id) and not WorldMapLayout.map_coordinates(map_id).is_empty():
+			shown.append(map_id)
+	return shown
+
+
+## Un onglet par zone du jeu ; à l'ouverture (`to_here`), celui de la zone actuelle.
 func _update_tabs(to_here: bool) -> void:
 	var world := map_view.world
-	var zones := WorldMapLayout.visited_zones(visited_here(world))
+	var zones := WorldMapLayout.visited_zones(shown_maps(world))
 	var previous := current_zone()
 	# Pas de refresh imbriqué pendant la reconstruction des onglets.
 	_tabs.set_block_signals(true)
@@ -445,7 +458,7 @@ func _build() -> void:
 	frame.add_child(_grid)
 
 	var legend := _label(13, Color(0.7, 0.67, 0.6))
-	legend.text = "Cadre doré : vous êtes ici.  « ? » : carte voisine pas encore visitée.  Losange bleu : Pierre de Passage (en creux : pas encore découverte)."
+	legend.text = "Cadre doré : vous êtes ici.  Losange bleu : Pierre de Passage (en creux : pas encore découverte)."
 	legend.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	column.add_child(legend)
 	var hint := _label(12, Color(0.6, 0.58, 0.52))

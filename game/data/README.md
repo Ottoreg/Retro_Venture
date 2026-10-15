@@ -462,7 +462,9 @@ découvertes. La carte indiquée doit avoir une pierre `*` dans son plan : on ar
 
 - **Découverte** : une pierre se découvre en la touchant (clic dessus, à pied) ; arriver par un
   voyage ne compte pas. La pierre de la zone de départ de la race (celle dont la `carte` est sa
-  `carte_depart`) est connue dès la création du personnage.
+  `carte_depart`) est connue dès la création du personnage. **Phase de test** : toutes les pierres
+  sont connues dès le début (`World.ALL_PASSAGES_KNOWN`), tant que les zones ne sont pas reliées à
+  pied ; `toujours_connue` et la découverte reprendront leur rôle ensuite.
 - **Point de résurrection** : la dernière pierre touchée (au départ, celle de la zone de départ).
   Après une défaite, on se réveille à côté d'elle, avec 1 PV.
 - Le personnage sauvegarde ses pierres découvertes (`pierres_connues`), son point de résurrection

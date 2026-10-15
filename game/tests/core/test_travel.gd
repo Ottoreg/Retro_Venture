@@ -40,9 +40,12 @@ func _data() -> GameData:
 	])
 
 
-## Nouveau personnage de test qui commence la partie sur cette carte.
+## Nouveau personnage de test qui commence la partie sur cette carte ; pierres à découvrir, comme
+## hors de la phase de test (voir `test_phase_de_test_toutes_les_pierres_connues`).
 func _new_world(map_id: String) -> World:
-	return World.new(_maps[map_id], _data(), _loader, Fixtures.character())
+	var world := World.new(_maps[map_id], _data(), _loader, Fixtures.character())
+	world.all_passages_known = false
+	return world
 
 
 func _loader(map_id: String) -> GameMap:
@@ -105,6 +108,16 @@ func test_pierre_de_la_zone_de_depart() -> void:
 	var bare := World.new(_maps["test"], Fixtures.data(), _loader, Fixtures.character())
 	assert_true(bare.character.known_passages.is_empty())
 	assert_eq(bare.character.respawn_passage, "")
+
+
+func test_phase_de_test_toutes_les_pierres_connues() -> void:
+	# Tant que les zones ne sont pas reliées à pied, toutes les pierres sont connues dès le début.
+	var world := World.new(_maps["test"], _data(), _loader, Fixtures.character())
+	assert_eq(world.all_passages_known, World.ALL_PASSAGES_KNOWN)
+	world.all_passages_known = true
+	assert_true(world.is_passage_known("pierre_b"), "connue sans l'avoir touchée")
+	assert_false(world.is_passage_known("inconnue"), "une pierre qui n'existe pas reste inconnue")
+	assert_false(world.character.known_passages.has("pierre_b"), "rien d'ajouté à la sauvegarde")
 
 
 func test_menu_de_la_pierre() -> void:

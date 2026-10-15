@@ -442,6 +442,7 @@ func test_pierre_de_passage() -> void:
 	var view: MapView = scene.get_node("MapView")
 	var hud: CombatHud = scene.get_node("CombatHud")
 	var travel: TravelWindow = scene.get_node("TravelWindow")
+	view.world.all_passages_known = false
 	var stone := view.current_map().travel_stone()
 	assert_ne(stone, Vector2i(-1, -1), "une Pierre de Passage à Brumerive")
 	assert_true(view._describe(stone).begins_with("Pierre de Passage"), view._describe(stone))
@@ -512,6 +513,7 @@ func test_decouverte_d_une_pierre_de_passage() -> void:
 	var view: MapView = scene.get_node("MapView")
 	var hud: CombatHud = scene.get_node("CombatHud")
 	var travel: TravelWindow = scene.get_node("TravelWindow")
+	view.world.all_passages_known = false
 	assert_false(view.world.is_passage_known("crasse_roc"))
 	view._on_click(view.current_map().travel_stone())
 	_run_until_idle(view)
@@ -770,7 +772,7 @@ func test_carte_du_monde_et_minicarte() -> void:
 	assert_eq(near_cases["brumerive_0_0"]["case"], Vector2i(2, 2), "la place du village au milieu")
 	assert_true(near_cases["brumerive_0_0"]["actuelle"])
 	assert_eq(near_cases["brumerive_1_0"]["case"], Vector2i(3, 2), "les champs à droite")
-	assert_eq(near_cases["brumerive_1_0"]["nom"], WorldMapLayout.UNKNOWN_NAME, "pas encore visités")
+	assert_eq(near_cases["brumerive_1_0"]["nom"], "Champs de l'est", "pas encore visités, mais montrés")
 	assert_eq(minimap._grid.case_tooltip(near_cases["brumerive_0_0"]).get_slice("\n", 0), "Brumerive — Place du village  [0, 0]")
 	# La bulle de survol (dans Hud) passe devant la minicarte : Hud vient après dans l'arbre.
 	assert_true(scene.get_node("Hud").get_index() > minimap.get_index(), "bulle de survol au-dessus de la minicarte")
@@ -792,13 +794,17 @@ func test_carte_du_monde_et_minicarte() -> void:
 	world_map._unhandled_key_input(key)
 	assert_true(world_map.is_open(), "M ouvre la carte du monde")
 	assert_eq(world_map.current_zone(), "brumerive")
-	assert_eq(world_map._tabs.tab_count, 1, "un onglet : la seule zone visitée")
+	# Tout le monde est montré dès le début (comme Dofus) : un onglet par zone du jeu, la zone de
+	# départ en premier.
+	var zone_count := WorldMapLayout.visited_zones(WorldMapWindow.shown_maps(view.world)).size()
+	assert_true(zone_count >= 4, "Brumerive, Crasse-Roc, Sylvebrume et le Trône de Cendre")
+	assert_eq(world_map._tabs.tab_count, zone_count, "un onglet par zone du jeu")
 	assert_eq(world_map._tabs.get_tab_title(0), "Brumerive", "le nom de sa Pierre de Passage")
 	var cases := _world_map_cases(world_map)
-	assert_eq(cases.size(), 2, "la place du village et sa voisine")
 	assert_true(cases["brumerive_0_0"]["actuelle"])
 	assert_eq(cases["brumerive_0_0"]["pierre"], WorldMapLayout.STONE_KNOWN, "pierre de la zone de départ")
-	assert_eq(cases["brumerive_1_0"]["nom"], WorldMapLayout.UNKNOWN_NAME, "champs de l'est pas encore visités")
+	assert_eq(cases["brumerive_1_0"]["nom"], "Champs de l'est", "pas encore visités, mais nommés")
+	assert_eq(world_map._zone_info.text, "1 / %d carte visitée" % cases.size())
 	world_map._unhandled_key_input(key)
 	assert_false(world_map.is_open(), "M referme")
 
@@ -860,11 +866,13 @@ func test_carte_du_monde_et_minicarte() -> void:
 	# Déjà passé par Crasse-Roc (simulé) : un second onglet ; on ouvre toujours sur la zone actuelle.
 	view.world.character.visit_map("crasse_roc_0_0")
 	world_map.open()
-	assert_eq(world_map._tabs.tab_count, 2, "un onglet par zone visitée")
+	assert_eq(world_map._tabs.tab_count, zone_count, "toujours un onglet par zone")
+	assert_eq(world_map._tabs.get_tab_title(1), "Crasse-Roc", "les zones visitées d'abord")
 	assert_eq(world_map.current_zone(), "brumerive", "toujours dans les champs de l'est")
 	world_map.select_zone("crasse_roc")
 	assert_eq(world_map.shown_layout()["nom"], "Crasse-Roc")
-	assert_eq(_world_map_cases(world_map).size(), 2, "l'entrée des galeries et le Crassier en « ? »")
+	for case: Dictionary in world_map.shown_layout()["cases"]:
+		assert_ne(case["nom"], WorldMapLayout.UNKNOWN_NAME, "aucune carte cachée : %s" % case["id"])
 	world_map.close()
 
 	# En combat : pas de minicarte (l'ordre de jeu est là), ni de carte du monde.
@@ -997,8 +1005,7 @@ func test_carte_du_monde_depuis_une_maison() -> void:
 	assert_eq(view.world.map.id, "maison_joueur")
 	assert_false(view.world.visited_maps().has("brumerive_0_0"), "pas encore sorti")
 	world_map.open()
-	assert_eq(world_map._tabs.tab_count, 1, "l'onglet de la zone de la maison")
-	assert_eq(world_map.current_zone(), "brumerive")
+	assert_eq(world_map.current_zone(), "brumerive", "l'onglet de la zone de la maison")
 	assert_eq(world_map._zone_title.text, "Brumerive")
 	var cases := _world_map_cases(world_map)
 	assert_true(cases["brumerive_0_0"]["visitee"], "la place devant la porte est connue")
@@ -1006,5 +1013,5 @@ func test_carte_du_monde_depuis_une_maison() -> void:
 	assert_true(world_map._grid.indoors, "on est dans une maison")
 	assert_true(world_map._grid.case_tooltip(cases["brumerive_0_0"]).contains("Vous êtes dans une maison de cette carte."),
 		"bulle de survol")
-	assert_eq(cases["brumerive_1_0"]["nom"], WorldMapLayout.UNKNOWN_NAME, "sa voisine en « ? »")
+	assert_eq(cases["brumerive_1_0"]["nom"], "Champs de l'est", "sa voisine, nommée")
 	scene.free()
