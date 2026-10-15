@@ -1,8 +1,9 @@
 # Conception du contenu du chantier 3
 
-Document complet, **entièrement validé par l'auteur** (révision 2 des mini-boss comprise). La
-production attend les cases de placement prédéfinies par carte (GDD § 7.1), dont dépend le format
-des cartes.
+Document complet, **entièrement validé par l'auteur** (révision 2 des mini-boss comprise). À la
+production, chaque carte à groupes reçoit un calque `placement` (cases de départ en combat, voir
+`game/data/README.md`) : `python3 tools/placement.py --ecrire <carte.json>` depuis `game/`, puis
+retouches à la main si besoin.
 
 - `chantier3_contenu.md` : le document (résumé en §1).
 - `chantier3_contenu.json` : les mêmes données, prêtes pour la production (monstres, sorts, objets, cartes, récolte, recettes, dessins, avec leur lot).

@@ -526,9 +526,12 @@ prévoit déjà `voie` et `rang` sur chaque sort** pour que le système s'ajoute
    joueur choisit la sienne (temps limité en multi). **Cases de placement prédéfinies par carte**,
    comme dans Dofus : chaque carte décrit dans ses données ses cases de départ pour chaque camp
    (joueurs d'un côté, monstres de l'autre), choisies par le level design (obstacles, lignes de vue,
-   distance). Où que le groupe soit engagé sur la carte, le combat démarre sur ces cases. *À
-   remplacer :* aujourd'hui, les cases du joueur sont tirées à 4–6 pas du groupe, du côté d'où il
-   arrive, et les monstres restent où ils sont ; ce comportement ne doit pas être conservé.
+   distance). Où que le groupe soit engagé sur la carte, le combat démarre sur ces cases. *Fait :*
+   calque `placement` de chaque carte (`j` joueurs, `m` monstres, obligatoire dès qu'elle a des
+   groupes) ; les monstres sont répartis au hasard sur les cases `m`, le joueur commence sur la
+   première case `j` et choisit parmi les autres. Après le combat, il reprend l'exploration là où
+   il a engagé. `game/tools/placement.py` propose un calque (joueurs à gauche, monstres à droite,
+   cases non voisines), à retoucher à la main si le décor s'y prête mal.
 3. **Tours :** ordre fixé par l'**Initiative**, visible dans une frise (timeline). À son tour, chaque
    combattant dépense ses **PA** (sorts, armes) et ses **PM** (déplacement case par case), dans
    n'importe quel ordre.

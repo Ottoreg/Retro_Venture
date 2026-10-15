@@ -67,8 +67,9 @@ Phase 2 (alpha solo), en deux tests :
    point de résurrection, carte du monde qui montre tout dès le début, minicarte façon Dofus Rétro).
    **Conception entièrement validée par l'auteur** (mini-boss révisés compris) :
    `docs/design/chantier3_brouillon/` (document, JSON par lot, scripts `src/build.py` et
-   `src/controle.py`). Prochaine étape : **cases de placement prédéfinies par carte** (GDD § 7.1),
-   car le format des cartes en dépend, puis la production par lots.
+   `src/controle.py`). Cases de placement prédéfinies par carte **faites** (calque `placement`,
+   GDD § 7.1, outil `game/tools/placement.py`). Prochaine étape : la production par lots, avec un
+   calque de placement pour chaque carte à groupes.
 4. Interface et confort : notamment le **mode tactique en combat** façon Dofus (GDD § 14.3).
 
 ## Règles de design à respecter (détails dans le GDD)
@@ -77,7 +78,7 @@ Phase 2 (alpha solo), en deux tests :
 - Niveau variable dans une famille, pondéré ; élites à niveau fixe, au-dessus de la famille.
 - Le niveau d'un monstre change ses stats, jamais son butin ; PA/PM fixes par famille sauf exception.
 - Butin : limite par monstre partagée entre joueurs, tirage du plus prospecteur au moins prospecteur.
-- Combat : cases de placement prédéfinies par carte, pour chaque camp (comme Dofus) ; ne pas garder
-  le placement actuel tiré près du groupe engagé.
+- Combat : cases de placement prédéfinies par carte, pour chaque camp (comme Dofus), calque
+  `placement` obligatoire sur toute carte à groupes.
 - Mini-boss : réapparition ≤ 60 s pendant l'alpha, phases de profils différents selon leur thème,
   jamais de soin à un changement de phase.

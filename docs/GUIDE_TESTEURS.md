@@ -85,7 +85,10 @@ bandeau, hors combat, ouvre sa fiche.
 
 ### Combat (au tour par tour)
 
-1. **Placement** : cliquez sur un cercle bleu pour choisir votre case de départ, puis **Prêt**.
+1. **Placement** : comme dans Dofus, chaque carte a ses cases de départ, toujours les mêmes, où que
+   vous ayez engagé le groupe : les vôtres (cercles bleus) d'un côté, celles des monstres de
+   l'autre. Cliquez sur un cercle bleu pour choisir votre case, puis **Prêt**. Après le combat, vous
+   reprenez l'exploration là où vous avez engagé le groupe.
 2. **Votre tour** :
    - se déplacer : clic sur une case verte (1 PM par case) ;
    - lancer un sort : touche **1 à 0** ou clic sur son icône, puis clic sur la cible (cases bleues :

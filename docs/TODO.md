@@ -139,12 +139,11 @@ Les tâches marquées *(alpha 2)* sont reportées au second test.
   l'adversaire (déclenchés en entrant sur la case) ; Cercle de sève de l'Arbre millénaire,
   Chausse-trape du Frondeur vétéran
 - [ ] États spéciaux (*Enraciné*, *Invisible*, *Porté*…) et invocations
-- [ ] **(MVP)** Cases de placement **prédéfinies par carte**, façon Dofus (GDD § 7.1) : chaque carte
-  donne dans ses données les cases de départ des joueurs et celles des monstres ; le combat démarre
-  sur ces cases quel que soit l'endroit où le groupe est engagé. Remplace le placement actuel (cases
-  tirées près du groupe, monstres laissés en place), à ne pas garder. À faire **avant la production
-  du chantier 3** : le format des cartes en dépend (cases à prévoir sur les 42 nouvelles cartes et à
-  ajouter aux cartes existantes, vérifiées par la validation et le script de contrôle)
+- [x] **(MVP)** Cases de placement **prédéfinies par carte**, façon Dofus (GDD § 7.1) : calque
+  `placement` (`j` joueurs, `m` monstres), obligatoire sur les cartes à groupes ; le combat démarre
+  sur ces cases quel que soit l'endroit où le groupe est engagé (l'ancien placement près du groupe
+  est supprimé) ; calques des 7 cartes existantes, outil `tools/placement.py` pour les proposer
+- [ ] Afficher aussi les cases de départ des monstres (en rouge) pendant le placement, comme Dofus
 - [x] **(MVP)** Coups critiques (5 % par défaut par sort, bonus « % Critique » d'équipement, × 1,5)
 - [x] **(MVP)** Groupes de 1 à 3 monstres (limite de l'alpha), d'espèces mélangées, tous visibles sur
   la carte ; composition fixe ou tirée au sort à chaque apparition
@@ -242,8 +241,9 @@ Les tâches marquées *(alpha 2)* sont reportées au second test.
   **entièrement validée par l'auteur** (mini-boss révisés compris : réapparition en 60 s au plus,
   phases de profils différents selon le thème, plus de soin en phase). Durée réglée par l'XP ×3,5
   de l'alpha 1 (tout le contenu en 4 à 5 h)
-- [ ] **(MVP)** Production du chantier 3 par lots (4 zones en parallèle, puis variantes et métiers),
-  après les cases de placement prédéfinies par carte (section Combat) : le format des cartes en dépend
+- [ ] **(MVP)** Production du chantier 3 par lots (4 zones en parallèle, puis variantes et métiers) :
+  chaque nouvelle carte à groupes reçoit son calque de placement (`tools/placement.py`, puis
+  retouches)
 - [ ] **(MVP)** Zone de départ humaine : Collines de Brumerive (environ 8 à 10 cartes) — 2 cartes + la maison
 - [ ] **(MVP)** Zone de départ gobeline : Galeries de Crasse-Roc (environ 8 à 10 cartes) — 2 cartes (entrée des galeries, le Crassier)
 - [ ] **(MVP)** Zone de départ elfe : Lisière de Sylvebrume (environ 8 à 10 cartes) — 2 cartes (clairière de la Lisière, Futaie ancienne)
