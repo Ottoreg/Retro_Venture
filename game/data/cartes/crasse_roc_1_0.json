@@ -3,7 +3,9 @@
   "nom": "Crasse-Roc — Le Crassier",
   "palette": "crasse_roc",
   "sorties": {
-    "gauche": "crasse_roc_0_0"
+    "gauche": "crasse_roc_0_0",
+    "droite": "crasse_roc_2_0",
+    "bas": "crasse_roc_1_1"
   },
   "plan": [
     "RRARRRRRRRRRRARRAAR",
@@ -21,11 +23,11 @@
     "RRREE.........:..RR",
     " R..E.........:..RR",
     "..........1..:....A",
-    " .A.........::....A",
-    ":::::......::....RR",
-    " :::::::..:::.....A",
-    "::@::::::::......RA",
-    " ......::::.......R",
+    " .A.........::.....",
+    ":::::......::......",
+    " :::::::..:::......",
+    "::@::::::::........",
+    " ......::::........",
     ".......:::........R",
     " RR....::::...2...R",
     "RR.....:::.EE...IRA",
@@ -37,8 +39,8 @@
     "R...........:....RR",
     " RR......A...:...RR",
     "RRR.RRRR.R........R",
-    " RR..RRR.RRR..R...A",
-    "ARARRARRARRRRRRRRRR"
+    " RR..RRR...R..R...A",
+    "ARARRARR...RRRRRRRR"
   ],
   "decors": [
     {

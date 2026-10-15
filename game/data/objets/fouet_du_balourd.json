@@ -1,0 +1,41 @@
+{
+  "id": "fouet_du_balourd",
+  "nom": "Fouet du Balourd",
+  "type": "arme",
+  "rarete": "epique",
+  "niveau": 12,
+  "description": "Une lanière de feu qui ne s'éteint pas. Ne pas ranger dans le sac à côté des parchemins.",
+  "bonus": {
+    "intelligence": [
+      5,
+      8
+    ],
+    "vitalite": [
+      7,
+      9
+    ],
+    "dommages": [
+      1,
+      1
+    ]
+  },
+  "attaque": {
+    "cout_pa": 4,
+    "portee": {
+      "min": 1,
+      "max": 3
+    },
+    "relance": {
+      "par_tour": 1
+    },
+    "effets": [
+      {
+        "type": "degats",
+        "element": "flamme",
+        "min": 13,
+        "max": 19
+      }
+    ]
+  },
+  "boutique": false
+}

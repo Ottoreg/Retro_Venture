@@ -1,0 +1,64 @@
+{
+  "id": "contremaitre_en_chef",
+  "nom": "Contremaître en chef",
+  "description": "Il a un bureau, un tampon et un sifflet en or. Il ne descend jamais dans les galeries, sauf pour licencier.",
+  "famille": "contremaitre_zele",
+  "elite": true,
+  "niveau": 15,
+  "caracteristiques": {
+    "pv": 130,
+    "pa": 7,
+    "pm": 3,
+    "initiative": 130,
+    "force": 38,
+    "agilite": 38
+  },
+  "resistances": {
+    "acier": 20,
+    "tempete": 20,
+    "flamme": -5,
+    "givre": 0
+  },
+  "sorts": [
+    "contremaitre_coup_de_baton",
+    "contremaitre_heures_sup",
+    "contremaitre_retenue_sur_salaire",
+    "chef_licenciement"
+  ],
+  "ia": "soutien",
+  "xp": 314,
+  "butin": [
+    {
+      "objet": "sifflet_de_contremaitre",
+      "taux": 0.8,
+      "quantite": [
+        2,
+        4
+      ]
+    },
+    {
+      "objet": "registre_des_heures",
+      "taux": 0.48
+    },
+    {
+      "objet": "amulette_sifflet",
+      "taux": 0.16
+    },
+    {
+      "objet": "anneau_pyromane_repenti",
+      "taux": 0.13
+    },
+    {
+      "objet": "ceinture_pyromane_repenti",
+      "taux": 0.13
+    },
+    {
+      "objet": "bottes_pyromane_repenti",
+      "taux": 0.13
+    }
+  ],
+  "ecus": [
+    22,
+    55
+  ]
+}

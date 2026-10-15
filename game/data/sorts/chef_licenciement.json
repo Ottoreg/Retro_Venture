@@ -1,0 +1,27 @@
+{
+  "id": "chef_licenciement",
+  "nom": "Licenciement",
+  "description": "« Vous êtes viré ! » La porte, c'est par là. Loin.",
+  "cout_pa": 4,
+  "portee": {
+    "min": 1,
+    "max": 2
+  },
+  "ligne_de_vue": true,
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "acier",
+      "min": 6,
+      "max": 9
+    },
+    {
+      "type": "poussee",
+      "min": 3,
+      "max": 3
+    }
+  ]
+}

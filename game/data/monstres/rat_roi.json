@@ -9,7 +9,8 @@
     "pv": 40,
     "pa": 6,
     "pm": 4,
-    "initiative": 90
+    "initiative": 90,
+    "force": 0
   },
   "resistances": {
     "tempete": -5,
@@ -42,6 +43,18 @@
     {
       "objet": "bottes_feutrees",
       "taux": 0.2
+    },
+    {
+      "objet": "coiffe_fouineur",
+      "taux": 0.06
+    },
+    {
+      "objet": "amulette_fouineur",
+      "taux": 0.06
+    },
+    {
+      "objet": "cape_fouineur",
+      "taux": 0.06
     }
   ],
   "ecus": [

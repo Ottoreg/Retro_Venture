@@ -139,7 +139,7 @@ def verifier(nom, plan):
     return not isolees
 
 
-def ecrire_carte(conception, plan, decors=(), portes=None, compter=True):
+def ecrire_carte(conception, plan, decors=(), portes=None, compter=True, palette=None):
     """Carte du jeu d'après la conception (nom, sorties, groupes, PNJ) et le plan dessiné."""
     if isinstance(plan, Plan):
         plan.boucher()
@@ -153,6 +153,8 @@ def ecrire_carte(conception, plan, decors=(), portes=None, compter=True):
     carte = {"id": conception["id"], "nom": conception["nom"], "sorties": conception["sorties"]}
     if portes:
         carte["portes"] = portes
+    if palette:
+        carte["palette"] = palette
     carte["plan"] = texte
     if conception.get("groupes"):
         carte["groupes"] = conception["groupes"]
@@ -175,3 +177,39 @@ def conception(lot):
     with open(os.path.join(ICI, "..", "chantier3_contenu.json"), encoding="utf-8") as f:
         d = json.load(f)
     return {c["id"]: c for c in d["cartes"] if c["zone"] == lot}
+
+
+def retoucher(conception_carte, bas=None, droite=None, haut=None, gauche=None):
+    """Retouche une carte existante : ouvre des sorties (bas/haut : colonnes (min, max) du plan ;
+    gauche/droite : lignes (min, max)), en dégageant aussi la case juste derrière, et reprend les
+    sorties et les groupes de la conception. Le calque de placement existant est gardé."""
+    chemin = os.path.join(JEU, "data", "cartes", conception_carte["id"] + ".json")
+    with open(chemin, encoding="utf-8") as f:
+        carte = json.load(f)
+    g = [list(ligne) for ligne in carte["plan"]]
+    bloque = "ARMEI#FCU"
+    if bas:
+        for j in range(bas[0], bas[1] + 1):
+            for i in (LIGNES - 1, LIGNES - 2):
+                if g[i][j] in bloque:
+                    g[i][j] = "."
+    if haut:
+        for j in range(haut[0], haut[1] + 1):
+            for i in (0, 1):
+                if g[i][j] in bloque:
+                    g[i][j] = "."
+    for cote, lignes in (("droite", droite), ("gauche", gauche)):
+        if not lignes:
+            continue
+        for i in range(lignes[0], lignes[1] + 1):
+            cols = (COLONNES - 1, COLONNES - 2) if cote == "droite" else ((0, 1) if i % 2 == 0 else (1, 2))
+            for j in cols:
+                if g[i][j] in bloque:
+                    g[i][j] = "."
+    carte["plan"] = ["".join(ligne) for ligne in g]
+    carte["sorties"] = conception_carte["sorties"]
+    carte["groupes"] = conception_carte["groupes"]
+    verifier(carte["id"], carte["plan"])
+    with open(chemin, "w", encoding="utf-8") as f:
+        json.dump(carte, f, ensure_ascii=False, indent=2)
+        f.write("\n")

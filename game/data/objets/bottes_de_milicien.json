@@ -1,0 +1,22 @@
+{
+  "id": "bottes_de_milicien",
+  "nom": "Bottes de milicien",
+  "type": "bottes",
+  "rarete": "peu_commun",
+  "niveau": 10,
+  "description": "Cirées pour la parade, crottées pour la patrouille.",
+  "bonus": {
+    "vitalite": [
+      11,
+      15
+    ],
+    "force": [
+      3,
+      5
+    ],
+    "initiative": [
+      21,
+      30
+    ]
+  }
+}

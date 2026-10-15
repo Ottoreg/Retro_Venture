@@ -1,0 +1,63 @@
+{
+  "id": "vampipistrelle_comtesse",
+  "nom": "Vampipistrelle comtesse",
+  "description": "Elle exige qu'on l'appelle « Madame la Comtesse ». Elle mord ceux qui oublient.",
+  "famille": "vampipistrelle",
+  "elite": true,
+  "niveau": 9,
+  "caracteristiques": {
+    "pv": 74,
+    "pa": 7,
+    "pm": 5,
+    "initiative": 150,
+    "chance": 26,
+    "agilite": 26
+  },
+  "resistances": {
+    "tempete": 30,
+    "givre": 15,
+    "acier": -5,
+    "flamme": 0
+  },
+  "sorts": [
+    "vampipistrelle_sucon",
+    "vampipistrelle_ultrason",
+    "comtesse_nuee"
+  ],
+  "ia": "basique",
+  "xp": 130,
+  "butin": [
+    {
+      "objet": "aile_de_vampipistrelle",
+      "taux": 0.88,
+      "quantite": [
+        2,
+        4
+      ]
+    },
+    {
+      "objet": "guano_luisant",
+      "taux": 0.48
+    },
+    {
+      "objet": "cape_de_vampipistrelle",
+      "taux": 0.16
+    },
+    {
+      "objet": "anneau_bonhomme_de_neige",
+      "taux": 0.13
+    },
+    {
+      "objet": "ceinture_bonhomme_de_neige",
+      "taux": 0.13
+    },
+    {
+      "objet": "bottes_bonhomme_de_neige",
+      "taux": 0.13
+    }
+  ],
+  "ecus": [
+    10,
+    22
+  ]
+}

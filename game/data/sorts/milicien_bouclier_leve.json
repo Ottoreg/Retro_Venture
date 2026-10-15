@@ -1,0 +1,23 @@
+{
+  "id": "milicien_bouclier_leve",
+  "nom": "Bouclier levé",
+  "description": "Position de garde numéro 3. Il ne connaît que celle-là, mais il la connaît bien.",
+  "cout_pa": 2,
+  "portee": {
+    "min": 0,
+    "max": 0
+  },
+  "ligne_de_vue": false,
+  "relance": {
+    "par_tour": 1,
+    "delai": 2
+  },
+  "effets": [
+    {
+      "type": "bouclier",
+      "element": "acier",
+      "min": 8,
+      "max": 12
+    }
+  ]
+}

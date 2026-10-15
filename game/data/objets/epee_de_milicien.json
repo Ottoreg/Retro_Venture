@@ -1,0 +1,36 @@
+{
+  "id": "epee_de_milicien",
+  "nom": "Épée de milicien",
+  "type": "arme",
+  "rarete": "commun",
+  "niveau": 8,
+  "description": "Modèle réglementaire de Hautepierre. Gravée « Propriété de la milice — ne pas perdre ». Perdue.",
+  "bonus": {
+    "force": [
+      3,
+      4
+    ],
+    "vitalite": [
+      4,
+      5
+    ]
+  },
+  "attaque": {
+    "cout_pa": 4,
+    "portee": {
+      "min": 1,
+      "max": 1
+    },
+    "relance": {
+      "par_tour": 1
+    },
+    "effets": [
+      {
+        "type": "degats",
+        "element": "acier",
+        "min": 9,
+        "max": 14
+      }
+    ]
+  }
+}

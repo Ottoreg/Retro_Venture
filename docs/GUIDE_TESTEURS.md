@@ -124,8 +124,10 @@ le **lit** de votre maison les rend tous d'un coup.
 
 - **Zones** : **Brumerive, complète** (10 cartes, niveaux 1 à 12 : place du village, champs de
   l'est, rives de la Brume, moulin de Tournevent, verger des Pommeaux, lande aux épouvantails, Grands
-  Blés, camp du raid, gué de Brume-Haute, palissade de Krasbouk), Crasse-Roc (entrée des galeries, le
-  Crassier), Sylvebrume (clairière de la Lisière, futaie ancienne), reliées seulement par les
+  Blés, camp du raid, gué de Brume-Haute, palissade de Krasbouk), **Crasse-Roc, complète** (10
+  cartes, niveaux 1 à 12 : entrée des galeries, Crassier, Rataillerie, puits des Vampipistrelles,
+  galerie effondrée, poste avancé de la Milice, carrière aux Échos, Forges noires, route des
+  Charrois, abîme du Balourd), Sylvebrume (clairière de la Lisière, futaie ancienne), reliées seulement par les
   Pierres de Passage (toutes accessibles dès le début, voir plus haut). Le **Trône de Cendre** (carte d'élite) est
   accessible par n'importe quelle Pierre : le Souverain Cendré y attend, c'est le monstre le plus
   puissant du jeu.
@@ -134,8 +136,12 @@ le **lit** de votre maison les rend tous d'un coup.
   alpha, frondeur vétéran, pillard émérite, grand épouvantail, défonceur de portes) ; au bout, le
   **mini-boss Krasbouk**, chef de raid syndiqué (palissade, carte 3, 2), en trois temps : il court
   et tire de plus loin à 60 % de PV, puis entre en rage à 30 % (critiques, Dommages, mais moins
-  résistant à l'Acier) ; il revient 1 minute après sa défaite. Rat des galeries et grouilleur
-  (Crasse-Roc), cerf enchanté et arbre vivant (Sylvebrume). Les groupes comptent 1 à 3 monstres, parfois mélangés,
+  résistant à l'Acier) ; il revient 1 minute après sa défaite. À Crasse-Roc : rats et grouilleurs
+  (1–3), vampipistrelles (4–6), miliciens de Hautepierre (7–9), contremaîtres zélés (10–12), avec
+  leurs élites (rat-roi, grouilleur ancestral, vampipistrelle comtesse, sergent de la milice,
+  contremaître en chef) ; au fond, le **mini-boss Balourd des Abîmes** sur son île au milieu de la
+  lave : à 70 % sa carapace couvre sa faiblesse au Givre, à 40 % il s'embrase (pluie de braises), à
+  15 % il s'envole (plus de PM et de portée). Cerf enchanté et arbre vivant (Sylvebrume). Les groupes comptent 1 à 3 monstres, parfois mélangés,
   se promènent autour de leur place et réapparaissent 2 à 3 minutes après avoir été vaincus. Les
   trophées de boss (hachoir, chevalière de Krasbouk) ne se vendent pas en boutique.
 - **Niveaux des monstres** : à Crasse-Roc, rats et grouilleurs ont un niveau de 1 à 3, tiré à chaque

@@ -1,0 +1,129 @@
+{
+  "id": "crasse_roc_0_1",
+  "nom": "Crasse-Roc — La Rataillerie",
+  "sorties": {
+    "haut": "crasse_roc_0_0",
+    "droite": "crasse_roc_1_1"
+  },
+  "palette": "crasse_roc",
+  "plan": [
+    "RRRRRRRR.:.RRRRRRRR",
+    " RRRRRRR....RRRRRRR",
+    "RRRRRRRR.:.RRRRRRRR",
+    " R.......@........R",
+    "RR.......:.......RR",
+    " R................R",
+    "RR..#....:.......RR",
+    " R..##............R",
+    "RR.###...:...1...RR",
+    " R..##U...........R",
+    "RR..#....:..R....RR",
+    " R...........R....R",
+    "RR.......:..R......",
+    " R...a.R...........",
+    "RR....R............",
+    " R.....R..E........",
+    "RR.......EE........",
+    " R.......EEE...R...",
+    "RR.......EE....RU..",
+    " R.F2....EE....R...",
+    "RR.......EE........",
+    " R................R",
+    "RR...R..3....R...RR",
+    " R....R......R....R",
+    "RR...R.......R...RR",
+    " R........R.......R",
+    "RR.......R.....4.RR",
+    " R........R.......R",
+    "RR...............RR",
+    " RU...............R",
+    "RRRRRRRRRRRRRRRRRRR",
+    " RRRRRRRRRRRRRRRRRR",
+    "RRRRRRRRRRRRRRRRRRR"
+  ],
+  "groupes": [
+    {
+      "monstres": [
+        "rat_des_galeries",
+        "rat_des_galeries"
+      ]
+    },
+    {
+      "parmi": [
+        "rat_des_galeries"
+      ],
+      "nombre": [
+        3,
+        3
+      ]
+    },
+    {
+      "monstres": [
+        "rat_des_galeries",
+        "grouilleur"
+      ]
+    },
+    {
+      "monstres": [
+        "grouilleur",
+        "grouilleur"
+      ]
+    }
+  ],
+  "pnj": [
+    {
+      "marqueur": "a",
+      "id": "mamie_ratine",
+      "nom": "Mamie Ratine, éleveuse de rats (retraitée)",
+      "repliques": [
+        "Avant, j'élevais des rats pour les courses. Puis les rats ont gagné, et ils sont partis avec la caisse.",
+        "Le Rat-roi ? Douze rats noués par la queue. Je leur avais dit de ne pas jouer à la ronde.",
+        "Si tu ramènes des queues de rat, garde-les. Ça peut toujours servir. Je ne sais pas à quoi."
+      ]
+    }
+  ],
+  "decors": [
+    {
+      "image": "cabane",
+      "case": [
+        10,
+        4
+      ]
+    }
+  ],
+  "placement": [
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ....j.............",
+    "...................",
+    " .....j.......m....",
+    "....j.......m......",
+    " ..............m...",
+    ".....j.......m.....",
+    " ..................",
+    "......j.....m......",
+    " ....j........m....",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "..................."
+  ]
+}

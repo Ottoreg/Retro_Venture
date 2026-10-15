@@ -1,0 +1,122 @@
+{
+  "id": "crasse_roc_2_0",
+  "nom": "Crasse-Roc — Puits des Vampipistrelles",
+  "sorties": {
+    "gauche": "crasse_roc_1_0",
+    "bas": "crasse_roc_2_1"
+  },
+  "palette": "crasse_roc",
+  "plan": [
+    "RRRRRRRRRRRRRRRRRRR",
+    " R................R",
+    "R.............R...R",
+    " R................R",
+    "R..............#..R",
+    " R..........U..##.R",
+    "R.....R.......###.R",
+    " R..1..........##RR",
+    "R.......RRR....#..R",
+    " R......RRRR......R",
+    "R......REEER.a..R.R",
+    " R.....REEEER.....R",
+    "......REEEEER.....R",
+    " ....I.REEEER.....R",
+    "......REEEEER.....R",
+    " ..R..REEEEEER.I..R",
+    ".@....REEEEER.....R",
+    " .....REEEEEER....R",
+    "......REEEEER.....R",
+    " ......EEEEEE.....R",
+    "...U..REEEEER..2..R",
+    " R.....REEEER.....R",
+    "R......REEER......R",
+    " R.....REEEER.....R",
+    "R......RRERR......R",
+    " R......RRRR......R",
+    "R........R........R",
+    " R.....3..........R",
+    "R...........R.....R",
+    " R................R",
+    "R.................R",
+    " R................R",
+    "RRRRRRRR...RRRRRRRR"
+  ],
+  "groupes": [
+    {
+      "monstres": [
+        "vampipistrelle"
+      ]
+    },
+    {
+      "monstres": [
+        "vampipistrelle",
+        "vampipistrelle"
+      ]
+    },
+    {
+      "parmi": [
+        "vampipistrelle"
+      ],
+      "nombre": [
+        2,
+        3
+      ]
+    }
+  ],
+  "pnj": [
+    {
+      "marqueur": "a",
+      "id": "gnark_guanoculteur",
+      "nom": "Gnark, guano-culteur",
+      "repliques": [
+        "Le guano de vampipistrelle, c'est de l'or ! De l'or qui sent mauvais, mais de l'or !",
+        "La Comtesse ? Une vampipistrelle grosse comme un chien. Elle se croit noble. Elle mord comme une roturière.",
+        "Ne regarde pas en l'air en parlant. Crois-moi."
+      ]
+    }
+  ],
+  "decors": [
+    {
+      "image": "galerie",
+      "case": [
+        8,
+        15
+      ]
+    }
+  ],
+  "placement": [
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ....j.......m.....",
+    "...................",
+    " .....j.......m....",
+    "....j..............",
+    " ..................",
+    ".....j.......m.....",
+    " ...j..........m...",
+    "...................",
+    " ....j........m....",
+    "...................",
+    " ............m.....",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "..................."
+  ]
+}

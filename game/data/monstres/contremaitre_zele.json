@@ -1,0 +1,77 @@
+{
+  "id": "contremaitre_zele",
+  "nom": "Contremaître zélé",
+  "description": "Il fait travailler les autres avec une énergie qu'il n'a jamais mise à travailler lui-même.",
+  "niveau": 10,
+  "niveaux": {
+    "min": 10,
+    "max": 12,
+    "poids": [
+      3,
+      4,
+      3
+    ]
+  },
+  "caracteristiques": {
+    "pv": 45,
+    "pa": 6,
+    "pm": 3,
+    "initiative": 100,
+    "force": 18,
+    "agilite": 18
+  },
+  "par_niveau": {
+    "pv": 4,
+    "initiative": 5,
+    "xp": 14,
+    "force": 2,
+    "agilite": 2
+  },
+  "resistances": {
+    "acier": 10,
+    "tempete": 10,
+    "flamme": -10,
+    "givre": -5
+  },
+  "sorts": [
+    "contremaitre_coup_de_baton",
+    "contremaitre_heures_sup",
+    "contremaitre_retenue_sur_salaire"
+  ],
+  "ia": "soutien",
+  "xp": 102,
+  "butin": [
+    {
+      "objet": "sifflet_de_contremaitre",
+      "taux": 0.5,
+      "quantite": [
+        1,
+        2
+      ]
+    },
+    {
+      "objet": "registre_des_heures",
+      "taux": 0.12
+    },
+    {
+      "objet": "amulette_sifflet",
+      "taux": 0.04
+    },
+    {
+      "objet": "anneau_pyromane_repenti",
+      "taux": 0.03
+    },
+    {
+      "objet": "ceinture_pyromane_repenti",
+      "taux": 0.03
+    },
+    {
+      "objet": "bottes_pyromane_repenti",
+      "taux": 0.03
+    }
+  ],
+  "ecus": [
+    9,
+    22
+  ]
+}

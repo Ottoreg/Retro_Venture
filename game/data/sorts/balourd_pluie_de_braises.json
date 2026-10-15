@@ -1,0 +1,34 @@
+{
+  "id": "balourd_pluie_de_braises",
+  "nom": "Pluie de braises",
+  "description": "Le plafond de la galerie s'embrase. Personne ne va aimer la suite.",
+  "cout_pa": 3,
+  "portee": {
+    "min": 1,
+    "max": 5
+  },
+  "ligne_de_vue": false,
+  "zone": {
+    "type": "cercle",
+    "taille": 2
+  },
+  "relance": {
+    "par_tour": 1,
+    "delai": 3
+  },
+  "effets": [
+    {
+      "type": "glyphe",
+      "duree": 2,
+      "effets": [
+        {
+          "type": "degats",
+          "element": "flamme",
+          "min": 3,
+          "max": 5,
+          "cibles": "ennemis"
+        }
+      ]
+    }
+  ]
+}

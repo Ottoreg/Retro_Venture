@@ -1,0 +1,112 @@
+{
+  "id": "crasse_roc_0_2",
+  "nom": "Crasse-Roc — Route des Charrois",
+  "sorties": {
+    "droite": "crasse_roc_1_2"
+  },
+  "palette": "crasse_roc",
+  "plan": [
+    "RRRRRRRRRRRRRRRRRRR",
+    " RRRRRRRRRRRRRRRRRR",
+    "RRRRRRRRRRRRRRRRRRR",
+    " RRRRRRRRRRRRRRRRRR",
+    "RRRRRRRRRRRRRRRRRRR",
+    " RRRRRRRRRRRRRRRRRR",
+    "R.................R",
+    " R................R",
+    "R.................R",
+    " R................R",
+    "R.......1.........R",
+    " R................R",
+    "..............R....",
+    " .....R............",
+    "....a............@.",
+    " ::::::::::::::::::",
+    ":::::::::::::::::::",
+    " ::::::::::::::::::",
+    "..A......I.R.......",
+    " ..................",
+    "................A..",
+    " R.3..........A...R",
+    "R..........2......R",
+    " R................R",
+    "R.................R",
+    " R................R",
+    "R.................R",
+    " RRRRRRRRRRRRRRRRRR",
+    "RRRRRRRRRRRRRRRRRRR",
+    " RRRRRRRRRRRRRRRRRR",
+    "RRRRRRRRRRRRRRRRRRR",
+    " RRRRRRRRRRRRRRRRRR",
+    "RRRRRRRRRRRRRRRRRRR"
+  ],
+  "groupes": [
+    {
+      "monstres": [
+        "contremaitre_zele",
+        "contremaitre_zele"
+      ]
+    },
+    {
+      "monstres": [
+        "contremaitre_zele"
+      ]
+    },
+    {
+      "parmi": [
+        "contremaitre_zele"
+      ],
+      "nombre": [
+        1,
+        2
+      ]
+    }
+  ],
+  "pnj": [
+    {
+      "marqueur": "a",
+      "id": "zibeline_la_peagere",
+      "nom": "Zibeline, péagère",
+      "repliques": [
+        "Péage ! Deux écus pour passer. Trois pour repasser. Quatre si vous avez l'air content.",
+        "Hautepierre, c'est tout droit. Les humains y ont des murs blancs et des idées noires sur nous.",
+        "Vous ne payez pas ? Bon. Je note. Je note toujours. Je ne fais rien après, mais je note."
+      ]
+    }
+  ],
+  "placement": [
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ....j........m....",
+    "......j.....m......",
+    " ...j..........m...",
+    ".....j.......m.....",
+    " ..................",
+    "......j.....m......",
+    " ....j........m....",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "..................."
+  ]
+}

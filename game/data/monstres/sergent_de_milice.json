@@ -1,0 +1,71 @@
+{
+  "id": "sergent_de_milice",
+  "nom": "Sergent de la milice",
+  "description": "Vingt ans de service, trois promotions, aucune bataille. Ça va changer, croit-il.",
+  "famille": "milicien_de_hautepierre",
+  "elite": true,
+  "niveau": 12,
+  "caracteristiques": {
+    "pv": 118,
+    "pa": 7,
+    "pm": 3,
+    "initiative": 125,
+    "force": 54
+  },
+  "resistances": {
+    "acier": 30,
+    "flamme": 15,
+    "tempete": 10,
+    "givre": -5,
+    "sacre": 15
+  },
+  "sorts": [
+    "milicien_coup_d_epee",
+    "milicien_bouclier_leve",
+    "sergent_rappel_a_l_ordre"
+  ],
+  "ia": "basique",
+  "xp": 221,
+  "butin": [
+    {
+      "objet": "maillon_de_cotte",
+      "taux": 0.8,
+      "quantite": [
+        2,
+        5
+      ]
+    },
+    {
+      "objet": "ecusson_de_milice",
+      "taux": 0.48
+    },
+    {
+      "objet": "casque_cabosse",
+      "taux": 0.16
+    },
+    {
+      "objet": "epee_de_milicien",
+      "taux": 0.16
+    },
+    {
+      "objet": "bottes_de_milicien",
+      "taux": 0.16
+    },
+    {
+      "objet": "cape_forgeron_hargneux",
+      "taux": 0.13
+    },
+    {
+      "objet": "ceinture_forgeron_hargneux",
+      "taux": 0.13
+    },
+    {
+      "objet": "bottes_forgeron_hargneux",
+      "taux": 0.13
+    }
+  ],
+  "ecus": [
+    18,
+    40
+  ]
+}

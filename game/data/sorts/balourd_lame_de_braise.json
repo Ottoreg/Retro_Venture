@@ -1,0 +1,22 @@
+{
+  "id": "balourd_lame_de_braise",
+  "nom": "Lame de braise",
+  "description": "Une épée faite de feu. Ou un feu en forme d'épée : il n'a jamais su.",
+  "cout_pa": 4,
+  "portee": {
+    "min": 1,
+    "max": 1
+  },
+  "ligne_de_vue": true,
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "flamme",
+      "min": 8,
+      "max": 11
+    }
+  ]
+}

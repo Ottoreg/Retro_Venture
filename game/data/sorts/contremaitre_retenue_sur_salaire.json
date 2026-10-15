@@ -1,0 +1,29 @@
+{
+  "id": "contremaitre_retenue_sur_salaire",
+  "nom": "Retenue sur salaire",
+  "description": "Vos dégâts sont retenus à la source.",
+  "cout_pa": 3,
+  "portee": {
+    "min": 2,
+    "max": 5
+  },
+  "ligne_de_vue": true,
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "tempete",
+      "min": 4,
+      "max": 6
+    },
+    {
+      "type": "malus",
+      "carac": "dommages",
+      "min": 3,
+      "max": 3,
+      "duree": 2
+    }
+  ]
+}

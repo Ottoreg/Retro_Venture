@@ -1,0 +1,113 @@
+{
+  "id": "balourd_des_abimes",
+  "nom": "Le Balourd des Abîmes",
+  "description": "Les gobelins ont creusé trop profond. Le contremaître dit que c'est la faute des ouvriers. Le Balourd dit que c'est la faute de tout le monde.",
+  "boss": true,
+  "niveau": 12,
+  "caracteristiques": {
+    "pv": 300,
+    "pa": 7,
+    "pm": 3,
+    "initiative": 90,
+    "intelligence": 20
+  },
+  "resistances": {
+    "flamme": 40,
+    "acier": 15,
+    "tempete": 0,
+    "givre": -25
+  },
+  "sorts": [
+    "balourd_lame_de_braise",
+    "balourd_fouet",
+    "balourd_crachat_de_lave"
+  ],
+  "ia": "basique",
+  "xp": 760,
+  "phases": [
+    {
+      "pv": 70,
+      "message": "« Qui a creusé ici ? Je veux le nom du contremaître ! » Sa peau de roche se referme, fissure par fissure.",
+      "effets": [
+        {
+          "type": "bonus",
+          "carac": "resistance",
+          "min": 25,
+          "max": 25,
+          "duree": 3,
+          "element": "givre"
+        },
+        {
+          "type": "bonus",
+          "carac": "resistance",
+          "min": 15,
+          "max": 15,
+          "duree": 3,
+          "element": "acier"
+        }
+      ]
+    },
+    {
+      "pv": 40,
+      "message": "Le Balourd s'embrase et le plafond de la galerie prend feu.",
+      "sorts": [
+        "balourd_pluie_de_braises"
+      ],
+      "effets": [
+        {
+          "type": "bonus",
+          "carac": "intelligence",
+          "min": 30,
+          "max": 30,
+          "duree": 3
+        }
+      ]
+    },
+    {
+      "pv": 15,
+      "message": "« Bon. On peut peut-être négocier ? » Il ne négocie pas : il déploie ses ailes de fumée.",
+      "effets": [
+        {
+          "type": "bonus",
+          "carac": "pm",
+          "min": 3,
+          "max": 3,
+          "duree": 3
+        },
+        {
+          "type": "bonus",
+          "carac": "portee",
+          "min": 2,
+          "max": 2,
+          "duree": 3
+        }
+      ]
+    }
+  ],
+  "butin": [
+    {
+      "objet": "corne_du_balourd",
+      "taux": 1.0
+    },
+    {
+      "objet": "cape_de_fumee",
+      "taux": 0.2
+    },
+    {
+      "objet": "fouet_du_balourd",
+      "taux": 0.12
+    },
+    {
+      "objet": "registre_des_heures",
+      "taux": 0.5,
+      "quantite": [
+        1,
+        2
+      ]
+    }
+  ],
+  "ecus": [
+    90,
+    150
+  ]
+}

@@ -3,7 +3,8 @@
   "nom": "Crasse-Roc — Entrée des galeries",
   "palette": "crasse_roc",
   "sorties": {
-    "droite": "crasse_roc_1_0"
+    "droite": "crasse_roc_1_0",
+    "bas": "crasse_roc_0_1"
   },
   "portes": [
     "maison_crasse_roc"
@@ -40,8 +41,8 @@
     "R.....2....R......R",
     " RR.R...:.........A",
     "A......:......A..RR",
-    " A....R.R.......R.R",
-    "RAARARARRRRRARRRRAR"
+    " A....R.........R.R",
+    "RAARARA...RRARRRRAR"
   ],
   "decors": [
     {

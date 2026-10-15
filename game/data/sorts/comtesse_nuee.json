@@ -1,0 +1,26 @@
+{
+  "id": "comtesse_nuee",
+  "nom": "Nuée de la comtesse",
+  "description": "Toute la famille vient dîner. Vous êtes le dîner.",
+  "cout_pa": 5,
+  "portee": {
+    "min": 1,
+    "max": 4
+  },
+  "ligne_de_vue": true,
+  "zone": {
+    "type": "cercle",
+    "taille": 1
+  },
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "impie",
+      "min": 5,
+      "max": 7
+    }
+  ]
+}

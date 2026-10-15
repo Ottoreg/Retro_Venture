@@ -68,9 +68,9 @@ Phase 2 (alpha solo), en deux tests :
    **Conception entièrement validée par l'auteur** (mini-boss révisés compris) :
    `docs/design/chantier3_brouillon/` (document, JSON par lot, scripts `src/build.py` et
    `src/controle.py`). Cases de placement prédéfinies par carte **faites** (calque `placement`,
-   GDD § 7.1, outil `game/tools/placement.py`). **Production par lots en cours** : Brumerive fait
-   (`src/produire.py`, `src/cartes.py`, `src/plans_brumerive.py`) ; suivants : Crasse-Roc,
-   Sylvebrume, Hautepierre, variantes, métiers — un lot à la fois, sur accord de l'auteur.
+   GDD § 7.1, outil `game/tools/placement.py`). **Production par lots en cours** : Brumerive et Crasse-Roc
+   faits (`src/produire.py`, `src/cartes.py`, `src/plans_<lot>.py`) ; suivants : Sylvebrume,
+   Hautepierre, variantes, métiers — un lot à la fois, sur accord de l'auteur.
 4. Interface et confort : notamment le **mode tactique en combat** façon Dofus (GDD § 14.3).
 
 ## Règles de design à respecter (détails dans le GDD)

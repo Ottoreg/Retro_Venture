@@ -216,8 +216,9 @@ l'histoire.
   Voir § 8.1 pour ce que le niveau change sur le monstre.
 - **État actuel** : **Brumerive est produite** (lot du chantier 3) avec ses quatre paliers : loups
   1–3, frondeurs 4–6, pillards et épouvantails 7–9, briseurs 10–12, une élite par famille et le
-  mini-boss Krasbouk (niveau 12). Les autres zones attendent leur lot : Crasse-Roc couvre le palier
-  1–3 (rat et grouilleur de niveau 1 à 3), Sylvebrume va de 4 à 5 (cerf 4, arbre vivant 5).
+  mini-boss Krasbouk (niveau 12). **Crasse-Roc aussi** : rats et grouilleurs 1–3, vampipistrelles
+  4–6, miliciens de Hautepierre 7–9, contremaîtres zélés 10–12, élites et le Balourd des Abîmes
+  (niveau 12). Sylvebrume attend son lot (cerf 4, arbre vivant 5).
 
 ### 3.6 Ton
 

@@ -1,0 +1,26 @@
+{
+  "id": "balourd_crachat_de_lave",
+  "nom": "Crachat de lave",
+  "description": "Il n'a pas de manières. Il a de la lave.",
+  "cout_pa": 3,
+  "portee": {
+    "min": 2,
+    "max": 6
+  },
+  "ligne_de_vue": true,
+  "zone": {
+    "type": "cercle",
+    "taille": 1
+  },
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "flamme",
+      "min": 4,
+      "max": 6
+    }
+  ]
+}

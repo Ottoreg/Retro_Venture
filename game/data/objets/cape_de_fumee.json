@@ -1,0 +1,23 @@
+{
+  "id": "cape_de_fumee",
+  "nom": "Cape de fumée",
+  "type": "cape",
+  "rarete": "rare",
+  "niveau": 12,
+  "description": "Taillée dans la fumée du Balourd. Elle sent le roussi, mais elle a de l'allure.",
+  "bonus": {
+    "intelligence": [
+      6,
+      8
+    ],
+    "agilite": [
+      4,
+      6
+    ],
+    "vitalite": [
+      9,
+      13
+    ]
+  },
+  "boutique": false
+}

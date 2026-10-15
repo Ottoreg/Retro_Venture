@@ -1,0 +1,27 @@
+{
+  "id": "balourd_fouet",
+  "nom": "Fouet de flammes",
+  "description": "Il vous ramène vers lui, poliment, par le cou.",
+  "cout_pa": 4,
+  "portee": {
+    "min": 1,
+    "max": 3
+  },
+  "ligne_de_vue": true,
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "flamme",
+      "min": 6,
+      "max": 9
+    },
+    {
+      "type": "attirance",
+      "min": 1,
+      "max": 1
+    }
+  ]
+}

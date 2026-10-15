@@ -1,0 +1,22 @@
+{
+  "id": "cape_de_vampipistrelle",
+  "nom": "Cape de vampipistrelle",
+  "type": "cape",
+  "rarete": "peu_commun",
+  "niveau": 5,
+  "description": "Cousue d'ailes. On ne vole pas avec, mais on a l'air de pouvoir.",
+  "bonus": {
+    "agilite": [
+      3,
+      4
+    ],
+    "chance": [
+      2,
+      3
+    ],
+    "initiative": [
+      20,
+      29
+    ]
+  }
+}

@@ -1,0 +1,285 @@
+{
+  "monstres": {
+    "vampipistrelle": {
+      "image": "vampipistrelle",
+      "echelle": 0.85
+    },
+    "vampipistrelle_comtesse": {
+      "image": "vampipistrelle",
+      "echelle": 1.1,
+      "teinte": "d8a0b8"
+    },
+    "milicien_de_hautepierre": {
+      "rig": "humain",
+      "couleurs": {
+        "tunique": "4a6a9a",
+        "manches": "8a8f96",
+        "pantalon": "3a3a4a",
+        "bottes": "2e2620",
+        "ceinture": "c9a04e",
+        "cheveux": "5a3a22"
+      },
+      "arme": "epee",
+      "accessoires": [
+        "casque"
+      ]
+    },
+    "sergent_de_milice": {
+      "rig": "humain_grand",
+      "couleurs": {
+        "tunique": "2e4a7a",
+        "manches": "a8aeb6",
+        "pantalon": "2a2a36",
+        "bottes": "1e1a17",
+        "ceinture": "e0b860",
+        "cheveux": "8a8478",
+        "barbe": "8a8478"
+      },
+      "arme": "epee",
+      "accessoires": [
+        "casque",
+        "barbe"
+      ]
+    },
+    "contremaitre_zele": {
+      "rig": "gobelin_veteran",
+      "couleurs": {
+        "peau": "7c9a48",
+        "tunique": "5e4a32",
+        "manches": "4a3a28",
+        "pantalon": "3e3226",
+        "cheveux": "2a2018",
+        "ceinture": "c9a04e",
+        "tablier": "3a3028"
+      },
+      "arme": "baton",
+      "accessoires": [
+        "casque",
+        "tablier"
+      ]
+    },
+    "contremaitre_en_chef": {
+      "rig": "gobelin_chef",
+      "couleurs": {
+        "peau": "6a8a3a",
+        "tunique": "2a2a32",
+        "manches": "1e1e26",
+        "pantalon": "2a2420",
+        "cheveux": "1e1a16",
+        "ceinture": "e0b860",
+        "tablier": "5a2a1a"
+      },
+      "arme": "baton",
+      "accessoires": [
+        "casque",
+        "tablier",
+        "barbe"
+      ]
+    },
+    "balourd_des_abimes": {
+      "image": "balourd",
+      "echelle": 1.0
+    }
+  },
+  "pnj": {
+    "mamie_ratine": {
+      "rig": "gobelin",
+      "couleurs": {
+        "peau": "8a9a5a",
+        "tunique": "6a4a5a",
+        "manches": "5a3a4a",
+        "pantalon": "4a3a28",
+        "cheveux": "d8d0c0",
+        "tablier": "a89a80"
+      },
+      "accessoires": [
+        "tablier"
+      ]
+    },
+    "gnark_guanoculteur": {
+      "rig": "gobelin",
+      "couleurs": {
+        "peau": "6f8a3e",
+        "tunique": "5a5040",
+        "manches": "4a4030",
+        "pantalon": "3e3226",
+        "cheveux": "2a2018"
+      },
+      "accessoires": [
+        "chapeau_paille"
+      ]
+    },
+    "grizzlok_le_pacifiste": {
+      "rig": "gobelin",
+      "couleurs": {
+        "peau": "7a9a4a",
+        "tunique": "a8a080",
+        "manches": "8a8060",
+        "pantalon": "4a3a28",
+        "cheveux": "3a2a1a"
+      }
+    },
+    "zibeline_la_peagere": {
+      "rig": "gobelin",
+      "couleurs": {
+        "peau": "8a9a4a",
+        "tunique": "c9a04e",
+        "manches": "8a6a2a",
+        "pantalon": "4a3a28",
+        "cheveux": "5a3a1a",
+        "ceinture": "3a2a1a"
+      }
+    }
+  },
+  "images": {
+    "vampipistrelle": {
+      "fichier": "monstre/vampipistrelle.svgt",
+      "ancre": [
+        23,
+        40
+      ],
+      "couleurs": {
+        "pelage": "6a4a5a"
+      }
+    },
+    "balourd": {
+      "fichier": "monstre/balourd.svgt",
+      "ancre": [
+        48,
+        99
+      ]
+    },
+    "objet_aile_de_vampipistrelle": {
+      "fichier": "objets/aile_de_vampipistrelle.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_guano_luisant": {
+      "fichier": "objets/guano_luisant.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_maillon_de_cotte": {
+      "fichier": "objets/maillon_de_cotte.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_ecusson_de_milice": {
+      "fichier": "objets/ecusson_de_milice.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_sifflet_de_contremaitre": {
+      "fichier": "objets/sifflet_de_contremaitre.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_registre_des_heures": {
+      "fichier": "objets/registre_des_heures.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_corne_du_balourd": {
+      "fichier": "objets/corne_du_balourd.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_cape_de_vampipistrelle": {
+      "fichier": "objets/cape_de_vampipistrelle.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_epee_de_milicien": {
+      "fichier": "objets/epee_de_milicien.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_bottes_de_milicien": {
+      "fichier": "objets/bottes_de_milicien.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_amulette_sifflet": {
+      "fichier": "objets/amulette_sifflet.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_fouet_du_balourd": {
+      "fichier": "objets/fouet_du_balourd.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_cape_de_fumee": {
+      "fichier": "objets/cape_de_fumee.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    }
+  },
+  "icones_armes": {
+    "epee_de_milicien": "sort_arme_epee",
+    "fouet_du_balourd": "sort_arme_fronde"
+  },
+  "palettes": {
+    "forges": {
+      "couleurs": {
+        "herbe": "5a5048",
+        "herbe_sombre": "433a34",
+        "herbe_claire": "6e645a",
+        "herbe_tige": "45492a",
+        "terre": "6a5a4a",
+        "terre_bord": "584634",
+        "eau": "e2622a",
+        "pierre": "7b746a",
+        "tronc": "5a4030",
+        "feuillage": "56663a",
+        "feuillage_ombre": "3c4a29",
+        "feuillage_clair": "6b7c47",
+        "rive": "2b2522",
+        "rive_bord": "1a1512",
+        "reflet": "ffd36a"
+      },
+      "images": {
+        "arbre_2": {
+          "feuillage": "4f5e36",
+          "feuillage_ombre": "37432a",
+          "feuillage_clair": "66764a"
+        },
+        "arbre_3": {
+          "feuillage": "4a5a32",
+          "feuillage_ombre": "334026",
+          "feuillage_clair": "5f7042"
+        }
+      },
+      "remplacer": {
+        "fleurs": "braises",
+        "touffes": "braises"
+      }
+    }
+  }
+}

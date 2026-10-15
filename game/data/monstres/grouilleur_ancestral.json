@@ -9,7 +9,9 @@
     "pv": 65,
     "pa": 7,
     "pm": 3,
-    "initiative": 90
+    "initiative": 90,
+    "force": 0,
+    "intelligence": 0
   },
   "resistances": {
     "givre": 20,
@@ -43,6 +45,18 @@
     {
       "objet": "ceinture_de_carapace",
       "taux": 0.2
+    },
+    {
+      "objet": "anneau_presse",
+      "taux": 0.06
+    },
+    {
+      "objet": "bottes_presse",
+      "taux": 0.06
+    },
+    {
+      "objet": "ceinture_presse",
+      "taux": 0.06
     }
   ],
   "ecus": [

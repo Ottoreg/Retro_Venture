@@ -1,0 +1,83 @@
+{
+  "id": "milicien_de_hautepierre",
+  "nom": "Milicien de Hautepierre",
+  "description": "Envoyé « sécuriser » les galeries. Il sécurise surtout les tonneaux de bière du poste.",
+  "niveau": 7,
+  "niveaux": {
+    "min": 7,
+    "max": 9,
+    "poids": [
+      1,
+      3,
+      6
+    ]
+  },
+  "caracteristiques": {
+    "pv": 38,
+    "pa": 6,
+    "pm": 3,
+    "initiative": 95,
+    "force": 24
+  },
+  "par_niveau": {
+    "pv": 4,
+    "initiative": 5,
+    "xp": 12,
+    "force": 4
+  },
+  "resistances": {
+    "acier": 20,
+    "flamme": 5,
+    "tempete": 0,
+    "givre": -10,
+    "sacre": 5
+  },
+  "sorts": [
+    "milicien_coup_d_epee",
+    "milicien_bouclier_leve"
+  ],
+  "ia": "basique",
+  "xp": 62,
+  "butin": [
+    {
+      "objet": "maillon_de_cotte",
+      "taux": 0.5,
+      "quantite": [
+        1,
+        3
+      ]
+    },
+    {
+      "objet": "ecusson_de_milice",
+      "taux": 0.12
+    },
+    {
+      "objet": "casque_cabosse",
+      "taux": 0.04
+    },
+    {
+      "objet": "epee_de_milicien",
+      "taux": 0.04
+    },
+    {
+      "objet": "bottes_de_milicien",
+      "taux": 0.04
+    },
+    {
+      "objet": "cape_forgeron_hargneux",
+      "taux": 0.03
+    },
+    {
+      "objet": "ceinture_forgeron_hargneux",
+      "taux": 0.03
+    },
+    {
+      "objet": "bottes_forgeron_hargneux",
+      "taux": 0.03
+    }
+  ],
+  "ecus": [
+    7,
+    16
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "id": "contremaitre_heures_sup",
+  "nom": "Heures sup'",
+  "description": "Un collègue gagne 2 PA tout de suite. Non payés, évidemment.",
+  "cout_pa": 2,
+  "portee": {
+    "min": 1,
+    "max": 4
+  },
+  "ligne_de_vue": true,
+  "relance": {
+    "par_tour": 1,
+    "delai": 2
+  },
+  "effets": [
+    {
+      "type": "gain_pa",
+      "min": 2,
+      "max": 2,
+      "cibles": "allies"
+    }
+  ]
+}

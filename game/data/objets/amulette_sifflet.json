@@ -1,0 +1,22 @@
+{
+  "id": "amulette_sifflet",
+  "nom": "Amulette-sifflet",
+  "type": "amulette",
+  "rarete": "peu_commun",
+  "niveau": 11,
+  "description": "Un sifflet de contremaître porté en pendentif. Les gobelins sursautent quand vous respirez fort.",
+  "bonus": {
+    "initiative": [
+      34,
+      49
+    ],
+    "agilite": [
+      5,
+      7
+    ],
+    "sagesse": [
+      3,
+      5
+    ]
+  }
+}

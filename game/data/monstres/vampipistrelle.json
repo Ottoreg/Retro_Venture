@@ -1,0 +1,76 @@
+{
+  "id": "vampipistrelle",
+  "nom": "Vampipistrelle",
+  "description": "Une pipistrelle qui s'est prise pour un vampire. Personne n'a osé la contredire.",
+  "niveau": 4,
+  "niveaux": {
+    "min": 4,
+    "max": 6,
+    "poids": [
+      3,
+      4,
+      3
+    ]
+  },
+  "caracteristiques": {
+    "pv": 22,
+    "pa": 6,
+    "pm": 5,
+    "initiative": 120,
+    "agilite": 6,
+    "chance": 6
+  },
+  "par_niveau": {
+    "pv": 3,
+    "initiative": 5,
+    "xp": 8,
+    "agilite": 2,
+    "chance": 2
+  },
+  "resistances": {
+    "tempete": 20,
+    "givre": 5,
+    "acier": -10,
+    "flamme": -5
+  },
+  "sorts": [
+    "vampipistrelle_sucon",
+    "vampipistrelle_ultrason"
+  ],
+  "ia": "basique",
+  "xp": 27,
+  "butin": [
+    {
+      "objet": "aile_de_vampipistrelle",
+      "taux": 0.55,
+      "quantite": [
+        1,
+        2
+      ]
+    },
+    {
+      "objet": "guano_luisant",
+      "taux": 0.12
+    },
+    {
+      "objet": "cape_de_vampipistrelle",
+      "taux": 0.04
+    },
+    {
+      "objet": "anneau_bonhomme_de_neige",
+      "taux": 0.03
+    },
+    {
+      "objet": "ceinture_bonhomme_de_neige",
+      "taux": 0.03
+    },
+    {
+      "objet": "bottes_bonhomme_de_neige",
+      "taux": 0.03
+    }
+  ],
+  "ecus": [
+    4,
+    9
+  ]
+}

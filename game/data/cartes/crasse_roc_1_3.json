@@ -1,0 +1,95 @@
+{
+  "id": "crasse_roc_1_3",
+  "nom": "Crasse-Roc — L'Abîme du Balourd",
+  "sorties": {
+    "haut": "crasse_roc_1_2"
+  },
+  "palette": "forges",
+  "plan": [
+    "RRRRRRRR.:.RRRRRRRR",
+    " R.......::.......R",
+    "R.......@:........R",
+    " RR.R....::.......R",
+    "R........:........R",
+    " R...2...::.......R",
+    "R........:......R.R",
+    " R.......::.......R",
+    "R........:........R",
+    " REEEEEEE::EEEEEEER",
+    "REEEEEEEE:EEEEEEEER",
+    " REEEEEEE::EEEEEEER",
+    "REEEEEEEE:EEEEEEEER",
+    " REEEE........EEEER",
+    "REEEEE.......EEEEER",
+    " REEEE........EEEER",
+    "REEEEE.R...R.EEEEER",
+    " REEEE........EEEER",
+    "REEEEE.......EEEEER",
+    " REEEE........EEEER",
+    "REEEEE...1...EEEEER",
+    " REEEE........EEEER",
+    "REEEEE.......EEEEER",
+    " REEEE........EEEER",
+    "REEEEE.R...R.EEEEER",
+    " REEEE........EEEER",
+    "REEEEE.......EEEEER",
+    " REEEEEEEEEEEEEEEER",
+    "REEEEEEEEEEEEEEEEER",
+    " REEEEEEEEEEEEEEEER",
+    "REEEEEEEEEEEEEEEEER",
+    " REEEEEEEEEEEEEEEER",
+    "RRRRRRRRRRRRRRRRRRR"
+  ],
+  "groupes": [
+    {
+      "monstres": [
+        "balourd_des_abimes"
+      ],
+      "reapparition": [
+        45,
+        60
+      ]
+    },
+    {
+      "monstres": [
+        "contremaitre_zele",
+        "contremaitre_zele"
+      ]
+    }
+  ],
+  "placement": [
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    ".....j.......m.....",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ......j....m......",
+    "...................",
+    " .....j......m.....",
+    "...................",
+    " ......j....m......",
+    "...................",
+    " .....j......m.....",
+    "...................",
+    " ..................",
+    "...................",
+    " .....j......m.....",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "..................."
+  ]
+}

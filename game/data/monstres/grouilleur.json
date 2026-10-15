@@ -56,6 +56,18 @@
     {
       "objet": "ceinture_de_carapace",
       "taux": 0.05
+    },
+    {
+      "objet": "anneau_presse",
+      "taux": 0.02
+    },
+    {
+      "objet": "bottes_presse",
+      "taux": 0.02
+    },
+    {
+      "objet": "ceinture_presse",
+      "taux": 0.02
     }
   ],
   "ecus": [

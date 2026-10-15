@@ -49,6 +49,18 @@
     {
       "objet": "bottes_feutrees",
       "taux": 0.05
+    },
+    {
+      "objet": "coiffe_fouineur",
+      "taux": 0.02
+    },
+    {
+      "objet": "amulette_fouineur",
+      "taux": 0.02
+    },
+    {
+      "objet": "cape_fouineur",
+      "taux": 0.02
     }
   ],
   "ecus": [

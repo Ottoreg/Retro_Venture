@@ -247,11 +247,15 @@ Les tâches marquées *(alpha 2)* sont reportées au second test.
   - [x] Lot **Brumerive** : 8 nouvelles cartes (et retouches des 2 existantes), 11 monstres dont
     Krasbouk, 14 sorts, 13 objets et leurs icônes, fourche, hache, casque ; objets hors boutique
     (`"boutique": false`)
-  - [ ] Lots Crasse-Roc, Sylvebrume, Hautepierre, puis variantes et métiers
-  - [ ] En attente d'autres lots : ressources `Y` et `T` des cartes de Brumerive (lot Métiers), porte
-    du Gué de Brume-Haute vers `hautepierre_0_2` (lot Hautepierre)
+  - [x] Lot **Crasse-Roc** : 8 nouvelles cartes (et retouches des 2 existantes), 11 monstres dont
+    le Balourd des Abîmes, 14 sorts, 13 objets et leurs icônes, dessins de la vampipistrelle et du
+    Balourd, palette « forges » (lave)
+  - [ ] Lots Sylvebrume, Hautepierre, puis variantes et métiers
+  - [ ] En attente d'autres lots : ressources `Y` et `T` des cartes de Brumerive et de Crasse-Roc
+    (lot Métiers), portes vers Hautepierre du Gué de Brume-Haute (`hautepierre_0_2`) et de la Route
+    des Charrois (`hautepierre_4_2`) (lot Hautepierre)
 - [x] **(MVP)** Zone de départ humaine : Collines de Brumerive — 10 cartes + la maison (lot Brumerive)
-- [ ] **(MVP)** Zone de départ gobeline : Galeries de Crasse-Roc (environ 8 à 10 cartes) — 2 cartes (entrée des galeries, le Crassier)
+- [x] **(MVP)** Zone de départ gobeline : Galeries de Crasse-Roc — 10 cartes + la maison (lot Crasse-Roc)
 - [ ] **(MVP)** Zone de départ elfe : Lisière de Sylvebrume (environ 8 à 10 cartes) — 2 cartes (clairière de la Lisière, Futaie ancienne)
 - [x] Carte d'élite de test : Trône de Cendre (Marches Cendrées), le Souverain Cendré, accessible par la Pierre de Passage
 - [x] Chaque race démarre dans sa zone (humains à Brumerive, gobelins à Crasse-Roc, elfes à Sylvebrume)
