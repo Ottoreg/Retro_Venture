@@ -1,0 +1,55 @@
+{
+  "id": "defonceur_de_portes",
+  "nom": "Défonceur de portes",
+  "description": "Il n'a jamais ouvert une porte de sa vie. Il les a toutes défoncées, y compris celle de chez lui.",
+  "famille": "gobelin_briseur",
+  "elite": true,
+  "niveau": 15,
+  "caracteristiques": {
+    "pv": 187,
+    "pa": 7,
+    "pm": 3,
+    "initiative": 115,
+    "force": 66
+  },
+  "resistances": {
+    "acier": 25,
+    "flamme": 15,
+    "tempete": -5,
+    "givre": 10
+  },
+  "sorts": [
+    "briseur_coup_de_hache",
+    "briseur_epaulee",
+    "briseur_gnole",
+    "briseur_belier"
+  ],
+  "ia": "basique",
+  "xp": 359,
+  "butin": [
+    {
+      "objet": "gnole_de_raid",
+      "taux": 0.88,
+      "quantite": [
+        2,
+        4
+      ]
+    },
+    {
+      "objet": "medaille_en_chocolat",
+      "taux": 0.48
+    },
+    {
+      "objet": "ceinture_a_gnole",
+      "taux": 0.2
+    },
+    {
+      "objet": "ordre_de_raid",
+      "taux": 0.32
+    }
+  ],
+  "ecus": [
+    28,
+    62
+  ]
+}

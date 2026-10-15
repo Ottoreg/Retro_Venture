@@ -4,12 +4,13 @@
   "description": "Vingt ans de fronde au service du Souverain Cendré. Il attend toujours sa médaille.",
   "famille": "gobelin_frondeur",
   "elite": true,
-  "niveau": 8,
+  "niveau": 9,
   "caracteristiques": {
-    "pv": 55,
+    "pv": 60,
     "pa": 8,
     "pm": 3,
-    "initiative": 120
+    "initiative": 120,
+    "force": 25
   },
   "resistances": {
     "acier": 15,
@@ -21,7 +22,7 @@
     "veteran_chausse_trape"
   ],
   "ia": "distance",
-  "xp": 120,
+  "xp": 140,
   "butin": [
     {
       "objet": "caillou_de_fronde",
@@ -46,6 +47,18 @@
     {
       "objet": "fronde_reglementaire",
       "taux": 0.12
+    },
+    {
+      "objet": "anneau_courant_d_air",
+      "taux": 0.06
+    },
+    {
+      "objet": "ceinture_courant_d_air",
+      "taux": 0.06
+    },
+    {
+      "objet": "bottes_courant_d_air",
+      "taux": 0.06
     }
   ],
   "ecus": [

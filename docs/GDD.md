@@ -214,11 +214,10 @@ l'histoire.
   | Grouilleur (fort) | rarement | un peu | souvent |
 
   Voir § 8.1 pour ce que le niveau change sur le monstre.
-- **État actuel (à corriger)** : les zones ne sont pas au même niveau. Crasse-Roc couvre le palier
-  1–3 (rat et grouilleur de niveau 1 à 3, avec les poids de l'exemple ci-dessus), Brumerive va de 3 à
-  4 (loup 3, frondeur 4), Sylvebrume de 4 à 5 (cerf 4, arbre vivant 5) : rien au palier 1–3 chez les
-  elfes, et aucune zone n'a encore de monstres de 7 à 12. Seules les deux familles de Crasse-Roc ont
-  déjà des niveaux variables ; les autres gardent un niveau fixe en attendant leur palier.
+- **État actuel** : **Brumerive est produite** (lot du chantier 3) avec ses quatre paliers : loups
+  1–3, frondeurs 4–6, pillards et épouvantails 7–9, briseurs 10–12, une élite par famille et le
+  mini-boss Krasbouk (niveau 12). Les autres zones attendent leur lot : Crasse-Roc couvre le palier
+  1–3 (rat et grouilleur de niveau 1 à 3), Sylvebrume va de 4 à 5 (cerf 4, arbre vivant 5).
 
 ### 3.6 Ton
 
@@ -507,7 +506,7 @@ prévoit déjà `voie` et `rang` sur chaque sort** pour que le système s'ajoute
 - **Points de vie** : ils se gardent d'un combat à l'autre et remontent lentement hors combat
   (1 PV toutes les 2 s) ; après une défaite, on se relève avec 1 PV.
 - **Monstres du prototype** : deux par zone de départ — loup des collines et frondeur gobelin
-  (Brumerive), rat des galeries et grouilleur, mille-pattes vert qui crache de l'acide (Crasse-Roc),
+  (Brumerive, désormais complétée par son lot de production : voir § 3.5), rat des galeries et grouilleur, mille-pattes vert qui crache de l'acide (Crasse-Roc),
   cerf enchanté et arbre vivant (Sylvebrume). Le Souverain Cendré attend sur une carte d'élite de
   test, le Trône de Cendre, accessible par la Pierre de Passage : c'est le monstre le plus puissant
   du jeu (900 PV, 12 PA).

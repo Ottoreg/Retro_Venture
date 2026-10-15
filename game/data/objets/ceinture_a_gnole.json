@@ -1,0 +1,18 @@
+{
+  "id": "ceinture_a_gnole",
+  "nom": "Ceinture à gnôle",
+  "type": "ceinture",
+  "rarete": "peu_commun",
+  "niveau": 11,
+  "description": "Avec porte-flasque intégré. La flasque est vide, l'intention est là.",
+  "bonus": {
+    "vitalite": [
+      11,
+      16
+    ],
+    "force": [
+      6,
+      8
+    ]
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "id": "epouvantail_demotive",
+  "nom": "Épouvantail démotivé",
+  "description": "Il ne fait plus peur à personne depuis des années. Alors il se venge, mollement mais souvent.",
+  "niveau": 7,
+  "niveaux": {
+    "min": 7,
+    "max": 9,
+    "poids": [
+      3,
+      4,
+      3
+    ]
+  },
+  "caracteristiques": {
+    "pv": 38,
+    "pa": 7,
+    "pm": 2,
+    "initiative": 60,
+    "force": 12,
+    "agilite": 12
+  },
+  "par_niveau": {
+    "pv": 4,
+    "initiative": 5,
+    "xp": 12,
+    "force": 2,
+    "agilite": 2
+  },
+  "resistances": {
+    "acier": 15,
+    "tempete": 10,
+    "givre": 5,
+    "flamme": -30
+  },
+  "sorts": [
+    "epouvantail_fourche",
+    "epouvantail_nuee_de_corbeaux"
+  ],
+  "ia": "basique",
+  "xp": 62,
+  "butin": [
+    {
+      "objet": "paille_ensorcelee",
+      "taux": 0.6,
+      "quantite": [
+        1,
+        3
+      ]
+    },
+    {
+      "objet": "citrouille_grimacante",
+      "taux": 0.12
+    },
+    {
+      "objet": "chapeau_d_epouvantail",
+      "taux": 0.05
+    },
+    {
+      "objet": "fourche_d_epouvantail",
+      "taux": 0.03
+    },
+    {
+      "objet": "coiffe_pyromane_repenti",
+      "taux": 0.03
+    },
+    {
+      "objet": "cape_pyromane_repenti",
+      "taux": 0.03
+    },
+    {
+      "objet": "amulette_pyromane_repenti",
+      "taux": 0.03
+    }
+  ],
+  "ecus": [
+    7,
+    16
+  ]
+}

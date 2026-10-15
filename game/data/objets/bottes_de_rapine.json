@@ -1,0 +1,22 @@
+{
+  "id": "bottes_de_rapine",
+  "nom": "Bottes de rapine",
+  "type": "bottes",
+  "rarete": "peu_commun",
+  "niveau": 9,
+  "description": "Volées, évidemment. On ne sait pas à qui, ni à combien de personnes.",
+  "bonus": {
+    "agilite": [
+      4,
+      6
+    ],
+    "initiative": [
+      29,
+      42
+    ],
+    "prospection": [
+      12,
+      17
+    ]
+  }
+}

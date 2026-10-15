@@ -235,7 +235,8 @@ func test_boutique_du_marchand() -> void:
 	_run_until_idle(view)
 	assert_true(shop.is_open(), "la boutique s'ouvre")
 	assert_false(view._bubble.visible, "pas de bulle de dialogue")
-	assert_eq(shop._list.item_count, view.world.data.items.size(), "tous les objets en vente")
+	var sold := view.world.data.items.values().filter(func(item: Dictionary) -> bool: return Item.is_sold(item)).size()
+	assert_eq(shop._list.item_count, sold, "tous les objets en vente (sauf « boutique » : false)")
 
 	# Achat d'une ressource en plusieurs exemplaires.
 	var inventory := view.world.character.inventory
@@ -598,10 +599,15 @@ func test_tous_les_membres_d_un_groupe_sont_affiches() -> void:
 		var actor: Dictionary = view._actors[group["id"]]
 		assert_eq(str(actor["members"]), str(group["monstres"]), "chaque membre du groupe est dessiné")
 		assert_true(actor["members"].size() <= GameMap.MAX_GROUP_SIZE)
-	var mixed: Dictionary = view._actors["groupe_3"]
-	assert_eq(mixed["name"], "Groupe : Gobelin frondeur, Loup des collines", "groupe mixte nommé au survol")
+	for group: Dictionary in view.world.groups():
+		assert_eq(view._actors[group["id"]]["name"], MapView.group_label(group["monstres"], view.world.data), "nommé au survol")
 	assert_eq(view._actors["groupe_2"]["name"], "Groupe : 2 × Loup des collines")
 	assert_eq(view._actors["groupe_1"]["name"], "Loup des collines")
+	var data := view.world.data
+	assert_eq(MapView.group_label(["gobelin_frondeur", "loup_des_collines"], data), "Groupe : Gobelin frondeur, Loup des collines",
+		"groupe mixte")
+	assert_eq(MapView.group_label(["loup_des_collines", "gobelin_frondeur", "loup_des_collines"], data),
+		"Groupe : 2 × Loup des collines, Gobelin frondeur")
 
 	# En haut de l'écran, seulement le nom de la carte ; ce qu'on survole va dans une bulle.
 	var info: Label = scene.get_node("%Info")

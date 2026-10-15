@@ -3,11 +3,26 @@
   "nom": "Gobelin frondeur",
   "description": "Éclaireur des raids gobelins. Ne s'approche jamais : ce n'est pas dans sa fiche de poste.",
   "niveau": 4,
+  "niveaux": {
+    "min": 4,
+    "max": 6,
+    "poids": [
+      6,
+      3,
+      1
+    ]
+  },
   "caracteristiques": {
     "pv": 22,
     "pa": 6,
     "pm": 3,
     "initiative": 90
+  },
+  "par_niveau": {
+    "pv": 3,
+    "initiative": 5,
+    "xp": 6,
+    "force": 4
   },
   "resistances": {
     "acier": 5,
@@ -42,6 +57,18 @@
     {
       "objet": "fronde_reglementaire",
       "taux": 0.03
+    },
+    {
+      "objet": "anneau_courant_d_air",
+      "taux": 0.02
+    },
+    {
+      "objet": "ceinture_courant_d_air",
+      "taux": 0.02
+    },
+    {
+      "objet": "bottes_courant_d_air",
+      "taux": 0.02
     }
   ],
   "ecus": [

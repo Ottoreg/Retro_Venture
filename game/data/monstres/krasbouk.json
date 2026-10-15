@@ -1,0 +1,106 @@
+{
+  "id": "krasbouk",
+  "nom": "Krasbouk, Chef de Raid (syndiqué)",
+  "description": "Il mène le raid sur Brumerive parce que son contrat le dit. Il a lu le contrat. Lui seul.",
+  "boss": true,
+  "niveau": 12,
+  "caracteristiques": {
+    "pv": 300,
+    "pa": 7,
+    "pm": 3,
+    "initiative": 120,
+    "force": 30
+  },
+  "resistances": {
+    "acier": 20,
+    "flamme": 10,
+    "tempete": 0,
+    "givre": -10
+  },
+  "sorts": [
+    "krasbouk_hachoir",
+    "krasbouk_hachette",
+    "krasbouk_cri_de_raid"
+  ],
+  "ia": "basique",
+  "xp": 700,
+  "phases": [
+    {
+      "pv": 60,
+      "message": "« Article 7 : piquet de grève mobile ! » Krasbouk court d'un bout à l'autre de la palissade.",
+      "effets": [
+        {
+          "type": "bonus",
+          "carac": "pm",
+          "min": 2,
+          "max": 2,
+          "duree": 3
+        },
+        {
+          "type": "bonus",
+          "carac": "portee",
+          "min": 2,
+          "max": 2,
+          "duree": 3
+        }
+      ]
+    },
+    {
+      "pv": 30,
+      "message": "« Prime de risque ! PRIME DE RISQUE ! » Krasbouk jette son casque et entre en grève… contre vous.",
+      "sorts": [
+        "krasbouk_tourbillon"
+      ],
+      "effets": [
+        {
+          "type": "bonus",
+          "carac": "critique",
+          "min": 25,
+          "max": 25,
+          "duree": 3
+        },
+        {
+          "type": "bonus",
+          "carac": "dommages",
+          "min": 4,
+          "max": 4,
+          "duree": 3
+        },
+        {
+          "type": "malus",
+          "carac": "resistance",
+          "min": 20,
+          "max": 20,
+          "duree": 3,
+          "element": "acier"
+        }
+      ]
+    }
+  ],
+  "butin": [
+    {
+      "objet": "ordre_de_raid",
+      "taux": 1.0
+    },
+    {
+      "objet": "sac_de_rapine",
+      "taux": 0.9,
+      "quantite": [
+        2,
+        4
+      ]
+    },
+    {
+      "objet": "chevaliere_du_delegue",
+      "taux": 0.2
+    },
+    {
+      "objet": "hachoir_de_krasbouk",
+      "taux": 0.12
+    }
+  ],
+  "ecus": [
+    80,
+    140
+  ]
+}

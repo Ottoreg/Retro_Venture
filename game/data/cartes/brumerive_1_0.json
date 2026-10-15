@@ -2,7 +2,9 @@
   "id": "brumerive_1_0",
   "nom": "Brumerive — Champs de l'est",
   "sorties": {
-    "gauche": "brumerive_0_0"
+    "gauche": "brumerive_0_0",
+    "droite": "brumerive_2_0",
+    "bas": "brumerive_1_1"
   },
   "plan": [
     "AAAAAA..AAAA.AAAAAA",
@@ -37,7 +39,7 @@
     " A................A",
     "A.................A",
     " A................A",
-    "RAARAARAARAARAARAAA"
+    "RAARAAR.....RAARAAA"
   ],
   "groupes": [
     {
@@ -46,8 +48,8 @@
         "gobelin_frondeur"
       ],
       "nombre": [
-        2,
-        3
+        1,
+        2
       ]
     },
     {
@@ -59,7 +61,6 @@
     {
       "monstres": [
         "gobelin_frondeur",
-        "loup_des_collines",
         "loup_des_collines"
       ]
     }

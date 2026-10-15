@@ -1,0 +1,22 @@
+{
+  "id": "epouvantail_nuee_de_corbeaux",
+  "nom": "Nuée de corbeaux",
+  "description": "Il ne fait plus peur aux corbeaux, alors il travaille avec eux.",
+  "cout_pa": 3,
+  "portee": {
+    "min": 2,
+    "max": 5
+  },
+  "ligne_de_vue": false,
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "tempete",
+      "min": 4,
+      "max": 6
+    }
+  ]
+}

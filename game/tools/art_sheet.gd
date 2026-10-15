@@ -1,7 +1,8 @@
 extends SceneTree
 ## Planche de toutes les images de `art/art.json`, sans affichage (rendu des SVG sur le processeur) :
 ##   godot --headless --path game -s res://tools/art_sheet.gd -- planche.png [zoom] [préfixe]
-## Avec un préfixe (« objet_ », « sort_ »…), seulement ces images, dans des cases plus petites.
+## Avec un préfixe (« objet_ », « sort_ »…, ou plusieurs séparés par des virgules), seulement ces
+## images, dans des cases plus petites.
 ## Chaque image est posée dans une case, son ancre marquée d'une croix rouge.
 
 func _initialize() -> void:
@@ -11,7 +12,7 @@ func _initialize() -> void:
 	var prefix := args[2] if args.size() > 2 else ""
 	var images := {}
 	for image_name: String in Art.manifest()["images"]:
-		if image_name.begins_with(prefix):
+		if Array(prefix.split(",")).any(func(p: String) -> bool: return image_name.begins_with(p)):
 			images[image_name] = true
 	var side := 260 if prefix.is_empty() else 110
 	var cell := Vector2i(int(side * zoom), int(side * zoom))

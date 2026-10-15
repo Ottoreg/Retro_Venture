@@ -1,0 +1,8 @@
+{
+  "id": "medaille_en_chocolat",
+  "nom": "Médaille en chocolat",
+  "type": "ressource",
+  "rarete": "peu_commun",
+  "niveau": 1,
+  "description": "Décernée au briseur du mois. Il en a mangé la moitié pendant la cérémonie."
+}

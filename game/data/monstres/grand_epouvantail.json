@@ -1,0 +1,67 @@
+{
+  "id": "grand_epouvantail",
+  "nom": "Grand Épouvantail",
+  "description": "Le doyen des champs. Il a fait fuir trois générations de corbeaux, puis s'est lassé.",
+  "famille": "epouvantail_demotive",
+  "elite": true,
+  "niveau": 12,
+  "caracteristiques": {
+    "pv": 118,
+    "pa": 8,
+    "pm": 2,
+    "initiative": 90,
+    "force": 32,
+    "agilite": 32
+  },
+  "resistances": {
+    "acier": 25,
+    "tempete": 20,
+    "givre": 15,
+    "flamme": -25
+  },
+  "sorts": [
+    "epouvantail_fourche",
+    "epouvantail_nuee_de_corbeaux",
+    "epouvantail_champ_maudit"
+  ],
+  "ia": "basique",
+  "xp": 221,
+  "butin": [
+    {
+      "objet": "paille_ensorcelee",
+      "taux": 0.9,
+      "quantite": [
+        2,
+        5
+      ]
+    },
+    {
+      "objet": "citrouille_grimacante",
+      "taux": 0.48
+    },
+    {
+      "objet": "chapeau_d_epouvantail",
+      "taux": 0.2
+    },
+    {
+      "objet": "fourche_d_epouvantail",
+      "taux": 0.13
+    },
+    {
+      "objet": "coiffe_pyromane_repenti",
+      "taux": 0.13
+    },
+    {
+      "objet": "cape_pyromane_repenti",
+      "taux": 0.13
+    },
+    {
+      "objet": "amulette_pyromane_repenti",
+      "taux": 0.13
+    }
+  ],
+  "ecus": [
+    18,
+    40
+  ]
+}

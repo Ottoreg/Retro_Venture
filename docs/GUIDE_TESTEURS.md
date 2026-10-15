@@ -122,14 +122,22 @@ le **lit** de votre maison les rend tous d'un coup.
 
 ## Ce qu'il y a dans cette version
 
-- **Zones** : Brumerive (place du village, champs de l'est), Crasse-Roc (entrée des galeries, le
+- **Zones** : **Brumerive, complète** (10 cartes, niveaux 1 à 12 : place du village, champs de
+  l'est, rives de la Brume, moulin de Tournevent, verger des Pommeaux, lande aux épouvantails, Grands
+  Blés, camp du raid, gué de Brume-Haute, palissade de Krasbouk), Crasse-Roc (entrée des galeries, le
   Crassier), Sylvebrume (clairière de la Lisière, futaie ancienne), reliées seulement par les
   Pierres de Passage (toutes accessibles dès le début, voir plus haut). Le **Trône de Cendre** (carte d'élite) est
   accessible par n'importe quelle Pierre : le Souverain Cendré y attend, c'est le monstre le plus
   puissant du jeu.
-- **Monstres** : loup et frondeur gobelin (Brumerive), rat des galeries et grouilleur (Crasse-Roc),
-  cerf enchanté et arbre vivant (Sylvebrume). Les groupes comptent 1 à 3 monstres, parfois mélangés,
-  se promènent autour de leur place et réapparaissent 2 à 3 minutes après avoir été vaincus.
+- **Monstres** : à Brumerive, par palier — loups (1–3), frondeurs gobelins (4–6), pillards
+  gobelins et épouvantails démotivés (7–9), briseurs gobelins (10–12), chacun avec son élite (loup
+  alpha, frondeur vétéran, pillard émérite, grand épouvantail, défonceur de portes) ; au bout, le
+  **mini-boss Krasbouk**, chef de raid syndiqué (palissade, carte 3, 2), en trois temps : il court
+  et tire de plus loin à 60 % de PV, puis entre en rage à 30 % (critiques, Dommages, mais moins
+  résistant à l'Acier) ; il revient 1 minute après sa défaite. Rat des galeries et grouilleur
+  (Crasse-Roc), cerf enchanté et arbre vivant (Sylvebrume). Les groupes comptent 1 à 3 monstres, parfois mélangés,
+  se promènent autour de leur place et réapparaissent 2 à 3 minutes après avoir été vaincus. Les
+  trophées de boss (hachoir, chevalière de Krasbouk) ne se vendent pas en boutique.
 - **Niveaux des monstres** : à Crasse-Roc, rats et grouilleurs ont un niveau de 1 à 3, tiré à chaque
   apparition (les rats surtout au niveau 1, les grouilleurs surtout au niveau 3). Plus haut niveau :
   plus de PV, de dégâts et d'XP, mais le même butin. La bulle du groupe et le cadre du combattant

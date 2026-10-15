@@ -44,3 +44,6 @@ desktop.ini
 # Fichiers de travail d'art non exportés trop lourds (à ajuster)
 *.blend1
 *.kra~
+
+# Python
+__pycache__/

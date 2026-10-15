@@ -1,0 +1,22 @@
+{
+  "id": "chapeau_d_epouvantail",
+  "nom": "Chapeau d'épouvantail",
+  "type": "coiffe",
+  "rarete": "peu_commun",
+  "niveau": 7,
+  "description": "Il ne fait plus peur aux corbeaux. Aux aventuriers non plus, mais il tient chaud.",
+  "bonus": {
+    "agilite": [
+      4,
+      6
+    ],
+    "vitalite": [
+      5,
+      7
+    ],
+    "sagesse": [
+      2,
+      2
+    ]
+  }
+}

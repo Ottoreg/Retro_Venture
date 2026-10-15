@@ -1,0 +1,80 @@
+{
+  "id": "gobelin_pillard",
+  "nom": "Gobelin pillard",
+  "description": "Il prend tout ce qui n'est pas cloué. Ce qui est cloué, il revient le chercher avec une pince.",
+  "niveau": 7,
+  "niveaux": {
+    "min": 7,
+    "max": 9,
+    "poids": [
+      1,
+      3,
+      6
+    ]
+  },
+  "caracteristiques": {
+    "pv": 38,
+    "pa": 6,
+    "pm": 3,
+    "initiative": 95,
+    "force": 24,
+    "agilite": 12
+  },
+  "par_niveau": {
+    "pv": 4,
+    "initiative": 5,
+    "xp": 12,
+    "force": 4,
+    "agilite": 2
+  },
+  "resistances": {
+    "acier": 10,
+    "tempete": 5,
+    "flamme": -10,
+    "givre": 0
+  },
+  "sorts": [
+    "pillard_estocade",
+    "pillard_vol_a_l_arrache"
+  ],
+  "ia": "basique",
+  "xp": 62,
+  "butin": [
+    {
+      "objet": "sac_de_rapine",
+      "taux": 0.55,
+      "quantite": [
+        1,
+        2
+      ]
+    },
+    {
+      "objet": "ordre_de_raid",
+      "taux": 0.12
+    },
+    {
+      "objet": "coutelas_de_pillard",
+      "taux": 0.04
+    },
+    {
+      "objet": "bottes_de_rapine",
+      "taux": 0.05
+    },
+    {
+      "objet": "coiffe_enfant_de_choeur",
+      "taux": 0.03
+    },
+    {
+      "objet": "cape_enfant_de_choeur",
+      "taux": 0.03
+    },
+    {
+      "objet": "amulette_enfant_de_choeur",
+      "taux": 0.03
+    }
+  ],
+  "ecus": [
+    7,
+    16
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "id": "fourche_d_epouvantail",
+  "nom": "Fourche d'épouvantail",
+  "type": "arme",
+  "rarete": "commun",
+  "niveau": 8,
+  "description": "Trois dents, dont deux tordues. Vise toujours à côté, mais de peu.",
+  "bonus": {
+    "force": [
+      3,
+      4
+    ],
+    "vitalite": [
+      4,
+      5
+    ]
+  },
+  "attaque": {
+    "cout_pa": 4,
+    "portee": {
+      "min": 1,
+      "max": 2
+    },
+    "relance": {
+      "par_tour": 1
+    },
+    "effets": [
+      {
+        "type": "degats",
+        "element": "acier",
+        "min": 9,
+        "max": 14
+      }
+    ]
+  }
+}

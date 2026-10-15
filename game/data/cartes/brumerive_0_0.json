@@ -2,7 +2,8 @@
   "id": "brumerive_0_0",
   "nom": "Brumerive — Place du village",
   "sorties": {
-    "droite": "brumerive_1_0"
+    "droite": "brumerive_1_0",
+    "bas": "brumerive_0_1"
   },
   "portes": [
     "maison_joueur"
@@ -40,7 +41,7 @@
     " .....U....A......A",
     "A.................A",
     " AA............AAAA",
-    "AAAA...AA..A..AAAAA"
+    "AAAA..........AAAAA"
   ],
   "decors": [
     {
@@ -71,9 +72,12 @@
       ]
     },
     {
-      "monstres": [
-        "gobelin_frondeur",
+      "parmi": [
         "loup_des_collines"
+      ],
+      "nombre": [
+        1,
+        3
       ]
     }
   ],

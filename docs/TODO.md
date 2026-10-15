@@ -241,10 +241,16 @@ Les tâches marquées *(alpha 2)* sont reportées au second test.
   **entièrement validée par l'auteur** (mini-boss révisés compris : réapparition en 60 s au plus,
   phases de profils différents selon le thème, plus de soin en phase). Durée réglée par l'XP ×3,5
   de l'alpha 1 (tout le contenu en 4 à 5 h)
-- [ ] **(MVP)** Production du chantier 3 par lots (4 zones en parallèle, puis variantes et métiers) :
-  chaque nouvelle carte à groupes reçoit son calque de placement (`tools/placement.py`, puis
-  retouches)
-- [ ] **(MVP)** Zone de départ humaine : Collines de Brumerive (environ 8 à 10 cartes) — 2 cartes + la maison
+- [ ] **(MVP)** Production du chantier 3 par lots (4 zones, puis variantes et métiers) : chaque
+  nouvelle carte à groupes reçoit son calque de placement. Outils : `src/produire.py <lot>`
+  (monstres, sorts, objets, fragment de manifeste), `src/cartes.py` et `src/plans_<lot>.py` (plans)
+  - [x] Lot **Brumerive** : 8 nouvelles cartes (et retouches des 2 existantes), 11 monstres dont
+    Krasbouk, 14 sorts, 13 objets et leurs icônes, fourche, hache, casque ; objets hors boutique
+    (`"boutique": false`)
+  - [ ] Lots Crasse-Roc, Sylvebrume, Hautepierre, puis variantes et métiers
+  - [ ] En attente d'autres lots : ressources `Y` et `T` des cartes de Brumerive (lot Métiers), porte
+    du Gué de Brume-Haute vers `hautepierre_0_2` (lot Hautepierre)
+- [x] **(MVP)** Zone de départ humaine : Collines de Brumerive — 10 cartes + la maison (lot Brumerive)
 - [ ] **(MVP)** Zone de départ gobeline : Galeries de Crasse-Roc (environ 8 à 10 cartes) — 2 cartes (entrée des galeries, le Crassier)
 - [ ] **(MVP)** Zone de départ elfe : Lisière de Sylvebrume (environ 8 à 10 cartes) — 2 cartes (clairière de la Lisière, Futaie ancienne)
 - [x] Carte d'élite de test : Trône de Cendre (Marches Cendrées), le Souverain Cendré, accessible par la Pierre de Passage

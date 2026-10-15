@@ -184,7 +184,8 @@ func test_grande_zone_dans_la_fenetre() -> void:
 
 
 func test_zones_du_jeu() -> void:
-	# Avec les vraies cartes : à Brumerive, la place du village visitée, les champs de l'est en « ? ».
+	# Avec les vraies cartes : à Brumerive, la place du village visitée, ses voisines (champs de l'est,
+	# rives de la Brume) en « ? ».
 	var maps := {}
 	for map_id in DataLoader.map_ids():
 		var map := DataLoader.load_map(DataLoader.map_path(map_id))
@@ -194,8 +195,9 @@ func test_zones_du_jeu() -> void:
 		data.passages, ["brumerive"])
 	assert_eq(layout["nom"], "Brumerive")
 	var cases := _cases_by_id(layout)
-	assert_eq(cases.size(), 2)
+	assert_eq(cases.size(), 3)
 	assert_eq(cases["brumerive_0_0"]["nom"], "Place du village")
+	assert_eq(cases["brumerive_0_1"]["nom"], WorldMapLayout.UNKNOWN_NAME)
 	assert_eq(cases["brumerive_0_0"]["pierre"], WorldMapLayout.STONE_KNOWN)
 	assert_false(cases["brumerive_0_0"]["actuelle"], "dans la maison : aucune carte de la zone n'est actuelle")
 	assert_eq(cases["brumerive_1_0"]["nom"], WorldMapLayout.UNKNOWN_NAME)

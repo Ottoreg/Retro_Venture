@@ -1,0 +1,347 @@
+{
+  "monstres": {
+    "gobelin_pillard": {
+      "rig": "gobelin",
+      "couleurs": {
+        "peau": "7a9a42",
+        "tunique": "8a2a22",
+        "manches": "5a2018",
+        "pantalon": "3e3226",
+        "cheveux": "2a2018",
+        "ceinture": "c9a04e"
+      },
+      "arme": "epee",
+      "accessoires": [
+        "chapeau_paille"
+      ]
+    },
+    "pillard_emerite": {
+      "rig": "gobelin_veteran",
+      "couleurs": {
+        "peau": "6a8a3a",
+        "tunique": "6a1a14",
+        "manches": "3e1410",
+        "pantalon": "2e2620",
+        "cheveux": "8a8478",
+        "ceinture": "e0b860"
+      },
+      "arme": "epee",
+      "accessoires": [
+        "chapeau_paille",
+        "barbe"
+      ]
+    },
+    "epouvantail_demotive": {
+      "rig": "humain",
+      "couleurs": {
+        "peau": "c9b27a",
+        "cheveux": "e0c060",
+        "tunique": "7a6a4a",
+        "manches": "a08a5a",
+        "pantalon": "5a6a8a",
+        "bottes": "5a4632",
+        "ceinture": "8a6a3a",
+        "chapeau": "c8a85a"
+      },
+      "arme": "fourche",
+      "accessoires": [
+        "chapeau_paille"
+      ]
+    },
+    "grand_epouvantail": {
+      "rig": "humain_grand",
+      "couleurs": {
+        "peau": "b89a62",
+        "cheveux": "d0a840",
+        "tunique": "4e4232",
+        "manches": "8a7448",
+        "pantalon": "3e4a6a",
+        "bottes": "3a2a1e",
+        "ceinture": "6a4a2a",
+        "chapeau": "8a6a3a"
+      },
+      "arme": "fourche",
+      "accessoires": [
+        "chapeau_paille"
+      ]
+    },
+    "gobelin_briseur": {
+      "rig": "gobelin_veteran",
+      "couleurs": {
+        "peau": "6e8a40",
+        "tunique": "4e4e58",
+        "manches": "8a8f96",
+        "pantalon": "3a3028",
+        "cheveux": "1e1a16",
+        "ceinture": "5a3a22",
+        "bottes": "2e2620"
+      },
+      "arme": "hache",
+      "accessoires": [
+        "casque"
+      ]
+    },
+    "defonceur_de_portes": {
+      "rig": "gobelin_chef",
+      "couleurs": {
+        "peau": "5e7a36",
+        "tunique": "3a3a42",
+        "manches": "6a6f76",
+        "pantalon": "2a2420",
+        "cheveux": "1e1a16",
+        "ceinture": "8a2a1a",
+        "bottes": "1e1a17"
+      },
+      "arme": "hache",
+      "accessoires": [
+        "casque",
+        "barbe"
+      ]
+    },
+    "krasbouk": {
+      "rig": "gobelin_chef",
+      "couleurs": {
+        "peau": "7c9a48",
+        "tunique": "8a2a1a",
+        "manches": "4e4e58",
+        "pantalon": "2a2420",
+        "cheveux": "2a2018",
+        "ceinture": "e0b860",
+        "bottes": "1e1a17"
+      },
+      "arme": "hache",
+      "accessoires": [
+        "casque",
+        "cape_cendre"
+      ]
+    }
+  },
+  "pnj": {
+    "gobillon_l_ermite": {
+      "rig": "humain",
+      "couleurs": {
+        "peau": "c8c0a0",
+        "cheveux": "6a6a5a",
+        "tunique": "5a6a4a",
+        "manches": "4a5a3a",
+        "pantalon": "4a4a3a",
+        "bottes": "3a3a2a"
+      }
+    },
+    "bernardin_tourneboule": {
+      "rig": "humain",
+      "couleurs": {
+        "tunique": "e8e0d0",
+        "manches": "d0c8b8",
+        "pantalon": "8a7a5a",
+        "cheveux": "a8a29a",
+        "tablier": "f2ecdc"
+      },
+      "accessoires": [
+        "tablier"
+      ]
+    },
+    "mere_pomponne": {
+      "rig": "humain",
+      "couleurs": {
+        "tunique": "8a4a5a",
+        "manches": "7a3a4a",
+        "pantalon": "5a4632",
+        "cheveux": "d8d0c0",
+        "tablier": "e8e0c8"
+      },
+      "accessoires": [
+        "tablier"
+      ]
+    },
+    "fermier_gaudin": {
+      "rig": "humain",
+      "couleurs": {
+        "tunique": "6a7a3a",
+        "manches": "5a6a2a",
+        "pantalon": "5a4632",
+        "cheveux": "8a5a2a",
+        "chapeau": "d8c070"
+      },
+      "accessoires": [
+        "chapeau_paille"
+      ]
+    },
+    "sentinelle_hubert": {
+      "rig": "humain",
+      "couleurs": {
+        "tunique": "4a6a9a",
+        "manches": "8a8f96",
+        "pantalon": "3a3a4a",
+        "bottes": "2e2620",
+        "ceinture": "c9a04e"
+      },
+      "arme": "epee",
+      "accessoires": [
+        "casque"
+      ]
+    }
+  },
+  "images": {
+    "fourche": {
+      "fichier": "perso/fourche.svgt",
+      "ancre": [
+        6,
+        30
+      ]
+    },
+    "hache": {
+      "fichier": "perso/hache.svgt",
+      "ancre": [
+        7,
+        30
+      ]
+    },
+    "casque": {
+      "fichier": "perso/casque.svgt",
+      "ancre": [
+        13,
+        9
+      ]
+    },
+    "objet_paille_ensorcelee": {
+      "fichier": "objets/paille_ensorcelee.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_citrouille_grimacante": {
+      "fichier": "objets/citrouille_grimacante.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_sac_de_rapine": {
+      "fichier": "objets/sac_de_rapine.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_ordre_de_raid": {
+      "fichier": "objets/ordre_de_raid.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_gnole_de_raid": {
+      "fichier": "objets/gnole_de_raid.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_medaille_en_chocolat": {
+      "fichier": "objets/medaille_en_chocolat.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_chapeau_d_epouvantail": {
+      "fichier": "objets/chapeau_d_epouvantail.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_fourche_d_epouvantail": {
+      "fichier": "objets/fourche_d_epouvantail.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_coutelas_de_pillard": {
+      "fichier": "objets/coutelas_de_pillard.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_bottes_de_rapine": {
+      "fichier": "objets/bottes_de_rapine.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_ceinture_a_gnole": {
+      "fichier": "objets/ceinture_a_gnole.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_hachoir_de_krasbouk": {
+      "fichier": "objets/hachoir_de_krasbouk.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_chevaliere_du_delegue": {
+      "fichier": "objets/chevaliere_du_delegue.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    }
+  },
+  "personnages": {
+    "gobelin_chef": {
+      "base": "humain",
+      "echelle": 0.95,
+      "remplacer": {
+        "tete": "tete_gobelin",
+        "tete_dos": "tete_gobelin"
+      }
+    },
+    "humain_grand": {
+      "base": "humain",
+      "echelle": 0.95
+    }
+  },
+  "armes": {
+    "fourche": {
+      "attache": [
+        6,
+        28
+      ],
+      "angle": 0.15
+    },
+    "hache": {
+      "attache": [
+        6,
+        28
+      ],
+      "angle": 0.3
+    }
+  },
+  "accessoires": {
+    "casque": {
+      "parent": "tete",
+      "attache": [
+        10.8,
+        5.6
+      ],
+      "vues": [
+        "face",
+        "dos"
+      ]
+    }
+  },
+  "icones_armes": {
+    "fourche_d_epouvantail": "sort_arme_baton",
+    "coutelas_de_pillard": "sort_arme_dague_impie",
+    "hachoir_de_krasbouk": "sort_arme_epee"
+  }
+}

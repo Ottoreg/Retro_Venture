@@ -1,0 +1,23 @@
+{
+  "id": "briseur_gnole",
+  "nom": "Gnôle de raid",
+  "description": "Une gorgée de gnôle. Ça soigne, d'après l'étiquette.",
+  "cout_pa": 2,
+  "portee": {
+    "min": 0,
+    "max": 0
+  },
+  "ligne_de_vue": false,
+  "relance": {
+    "par_tour": 1,
+    "delai": 3
+  },
+  "effets": [
+    {
+      "type": "soin",
+      "element": "acier",
+      "min": 6,
+      "max": 9
+    }
+  ]
+}

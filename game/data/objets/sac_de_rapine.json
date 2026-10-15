@@ -1,0 +1,8 @@
+{
+  "id": "sac_de_rapine",
+  "nom": "Sac de rapine",
+  "type": "ressource",
+  "rarete": "commun",
+  "niveau": 1,
+  "description": "Dedans : une poule, un chandelier et un seul soulier."
+}

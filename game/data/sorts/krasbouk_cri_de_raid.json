@@ -1,0 +1,25 @@
+{
+  "id": "krasbouk_cri_de_raid",
+  "nom": "Cri de raid",
+  "description": "« Pour la prime ! » Ses muscles y croient.",
+  "cout_pa": 2,
+  "portee": {
+    "min": 0,
+    "max": 0
+  },
+  "ligne_de_vue": false,
+  "relance": {
+    "par_tour": 1,
+    "delai": 3
+  },
+  "effets": [
+    {
+      "type": "bonus",
+      "carac": "force",
+      "min": 25,
+      "max": 25,
+      "duree": 2,
+      "cibles": "allies"
+    }
+  ]
+}

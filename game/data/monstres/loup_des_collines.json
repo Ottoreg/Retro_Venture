@@ -2,12 +2,27 @@
   "id": "loup_des_collines",
   "nom": "Loup des collines",
   "description": "Affamé en permanence. Considère les aventuriers comme un en-cas.",
-  "niveau": 3,
+  "niveau": 1,
+  "niveaux": {
+    "min": 1,
+    "max": 3,
+    "poids": [
+      3,
+      4,
+      3
+    ]
+  },
   "caracteristiques": {
-    "pv": 26,
+    "pv": 18,
     "pa": 6,
     "pm": 4,
-    "initiative": 110
+    "initiative": 100
+  },
+  "par_niveau": {
+    "pv": 4,
+    "initiative": 5,
+    "xp": 7,
+    "force": 4
   },
   "resistances": {
     "acier": 0,
@@ -19,7 +34,7 @@
     "loup_morsure"
   ],
   "ia": "basique",
-  "xp": 30,
+  "xp": 16,
   "butin": [
     {
       "objet": "croc_de_loup",
@@ -44,6 +59,18 @@
     {
       "objet": "bonnet_de_berger",
       "taux": 0.05
+    },
+    {
+      "objet": "anneau_mauvais_oeil",
+      "taux": 0.02
+    },
+    {
+      "objet": "ceinture_mauvais_oeil",
+      "taux": 0.02
+    },
+    {
+      "objet": "bottes_mauvais_oeil",
+      "taux": 0.02
     }
   ],
   "ecus": [

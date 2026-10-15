@@ -1,0 +1,67 @@
+{
+  "id": "pillard_emerite",
+  "nom": "Pillard émérite",
+  "description": "Trente ans de carrière, pas un seul jour de congé, et une cave pleine de chandeliers.",
+  "famille": "gobelin_pillard",
+  "elite": true,
+  "niveau": 12,
+  "caracteristiques": {
+    "pv": 118,
+    "pa": 7,
+    "pm": 3,
+    "initiative": 125,
+    "force": 54,
+    "agilite": 32
+  },
+  "resistances": {
+    "acier": 20,
+    "tempete": 15,
+    "flamme": -5,
+    "givre": 10
+  },
+  "sorts": [
+    "pillard_estocade",
+    "pillard_vol_a_l_arrache",
+    "pillard_razzia"
+  ],
+  "ia": "basique",
+  "xp": 221,
+  "butin": [
+    {
+      "objet": "sac_de_rapine",
+      "taux": 0.88,
+      "quantite": [
+        2,
+        4
+      ]
+    },
+    {
+      "objet": "ordre_de_raid",
+      "taux": 0.48
+    },
+    {
+      "objet": "coutelas_de_pillard",
+      "taux": 0.16
+    },
+    {
+      "objet": "bottes_de_rapine",
+      "taux": 0.2
+    },
+    {
+      "objet": "coiffe_enfant_de_choeur",
+      "taux": 0.13
+    },
+    {
+      "objet": "cape_enfant_de_choeur",
+      "taux": 0.13
+    },
+    {
+      "objet": "amulette_enfant_de_choeur",
+      "taux": 0.13
+    }
+  ],
+  "ecus": [
+    18,
+    40
+  ]
+}

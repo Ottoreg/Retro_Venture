@@ -1,0 +1,27 @@
+{
+  "id": "chevaliere_du_delegue",
+  "nom": "Chevalière du Délégué",
+  "type": "anneau",
+  "rarete": "rare",
+  "niveau": 12,
+  "description": "Gravée « Délégué syndical, section raids ». Ouvre des portes, et parfois des crânes.",
+  "bonus": {
+    "force": [
+      4,
+      6
+    ],
+    "prospection": [
+      18,
+      25
+    ],
+    "dommages": [
+      1,
+      1
+    ],
+    "sagesse": [
+      3,
+      4
+    ]
+  },
+  "boutique": false
+}
