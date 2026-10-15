@@ -83,6 +83,9 @@ func test_monstres_des_cartes_existants() -> void:
 		for group in map.groups:
 			for monster_id: String in GameMap.possible_monsters(group):
 				assert_true(game_data.monsters.has(monster_id), "%s : monstre inconnu « %s »" % [path, monster_id])
+			if group.has("apres_boss"):
+				var boss: Dictionary = game_data.monsters.get(group["apres_boss"], {})
+				assert_true(boss.get("boss", false), "%s : « apres_boss » %s n'est pas un boss" % [path, group["apres_boss"]])
 
 
 func test_metiers_valides() -> void:

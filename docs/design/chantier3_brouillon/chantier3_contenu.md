@@ -981,6 +981,8 @@ Hautepierre est la cité des humains bâtie sur un éperon rocheux blanc : rempa
 4. **Butin** : la ressource commune de sa base, `cendre_tiede` (50 %), `eclat_de_cendre` (3 %, rare) et un équipement rare qui lui est propre.
 5. **Apparition** : seulement sur les **cartes cendrées** (`"cendree": true` dans la carte : cendre qui tombe, palette `cendree`), placée explicitement dans les `groupes` (jamais plus d'une variante par groupe fixe ; dans un `parmi`, elle peut être seule). Pas de tirage aléatoire caché : ce qu'on voit dans le fichier de carte est ce qui apparaît.
 
+**Production.** En plus, chaque repaire de mini-boss reçoit un groupe de sa variante (avec sa base) marqué `"apres_boss"` : il n'apparaît qu'une fois le mini-boss vaincu (loup cendreux chez Krasbouk, grouilleur de braise chez le Balourd, arbre calciné chez la Mère-Toile), comme une première tache de cendre dans la zone de départ.
+
 Plus tard (hors alpha), la même règle permettra une « contamination » : une carte d'une zone de départ deviendrait cendrée à l'acte II et ses familles y laisseraient la place à leurs variantes.
 
 | Variante | Base | Palier | PV / PA / PM (niv. min) | Cartes |

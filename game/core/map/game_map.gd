@@ -69,7 +69,8 @@ var resource_nodes: Dictionary = {}
 ## Groupes de monstres : { id: String, case: Vector2i, monstres: Array (ids de monstres),
 ## reapparition: [min, max] }. Un groupe tiré au sort a aussi `parmi` (ids possibles) et `nombre`
 ## ([min, max]) : `monstres` est alors vide ici, le monde le compose (voir `compose_group`), avec le
-## niveau de chaque monstre (`niveaux`).
+## niveau de chaque monstre (`niveaux`). Un groupe `apres_boss` (id d'un boss) n'apparaît qu'une
+## fois ce boss vaincu (variantes corrompues d'une zone de départ, voir `World.defeated_bosses`).
 ## Dans le monde, un groupe a aussi son `foyer` (sa case d'origine) et peut s'en éloigner un peu.
 var groups: Array[Dictionary] = []
 ## PNJ : { id: String, nom: String, case: Vector2i, repliques: Array (textes) }.
@@ -161,6 +162,8 @@ static func validate(data: Dictionary) -> PackedStringArray:
 			if typeof(delay) != TYPE_ARRAY or delay.size() != 2 or not Spell._is_int_at_least(delay[0], 1) \
 					or not Spell._is_int_at_least(delay[1], 1) or int(delay[0]) > int(delay[1]):
 				errors.append("groupe %d : « reapparition » doit être [min, max] en secondes" % (k + 1))
+			if group.has("apres_boss") and (typeof(group["apres_boss"]) != TYPE_STRING or str(group["apres_boss"]).is_empty()):
+				errors.append("groupe %d : « apres_boss » doit être l'id d'un boss" % (k + 1))
 	var doors_data: Variant = data.get("portes", [])
 	if typeof(doors_data) != TYPE_ARRAY:
 		errors.append("« portes » doit être une liste d'id de cartes")
@@ -349,6 +352,8 @@ static func from_dict(data: Dictionary) -> GameMap:
 				if group_data.has("parmi"):
 					group["parmi"] = group_data["parmi"].duplicate()
 					group["nombre"] = group_data.get("nombre", [1, MAX_GROUP_SIZE]).duplicate()
+				if group_data.has("apres_boss"):
+					group["apres_boss"] = group_data["apres_boss"]
 				map.groups.append(group)
 			elif _is_npc_char(character):
 				var npc: Dictionary = npcs_by_marker[character]

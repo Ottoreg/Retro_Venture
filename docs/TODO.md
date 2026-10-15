@@ -269,8 +269,9 @@ Les tâches marquées *(alpha 2)* sont reportées au second test.
   - [x] Dessins des décors de la ville : Tour Blanche, temple, tours de garde (portes, Vigie,
     horloge), fontaine et étals de la Grand-Place, Arbre Blanc, poteaux indicateurs aux 6 portes
     entre la ville et les zones de départ (`src/decors_ville.py`)
-  - [ ] Apparition des variantes corrompues après le mini-boss de leur zone (conception §7) : pour
-    l'instant, elles vivent seulement dans les groupes de Hautepierre
+  - [x] Apparition des variantes corrompues après le mini-boss de leur zone : groupes
+    `"apres_boss"` (un par repaire de mini-boss, la variante avec sa base), débloqués pour de bon
+    à la première victoire contre le boss (`World.defeated_bosses`, sauvegardé)
   - [x] Lot **Métiers** : 6 ressources de récolte (nœuds recolorés, sans nouveau dessin), posées sur
     31 cartes sans couper de chemin, 13 recettes de forgeron, 16 objets et leurs icônes
 - [x] **(MVP)** Zone de départ humaine : Collines de Brumerive — 10 cartes + la maison (lot Brumerive)

@@ -15,7 +15,7 @@
     "AAAAA.......AAAAAAA",
     " AAAA........AAAAAA",
     "AAAA....R....AAAAAA",
-    " AAAA.........AAAAA",
+    " AAAA...3.....AAAAA",
     "AAAA.........AAAAAA",
     " AAA.......R..AAAAA",
     "AAA...R.......AAA..",
@@ -55,6 +55,13 @@
         "tisseuse_de_brume",
         "tisseuse_de_brume"
       ]
+    },
+    {
+      "monstres": [
+        "arbre_calcine",
+        "arbre_vivant"
+      ],
+      "apres_boss": "mere_toile"
     }
   ],
   "placement": [

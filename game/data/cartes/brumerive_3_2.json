@@ -28,7 +28,7 @@
     " ..AM..........M..A",
     "...M...........M..A",
     " A..M..........M..A",
-    "A..M...........M..A",
+    "A..M....3......M..A",
     " A..M..........M..A",
     "A..M...........M..A",
     " A..M..........M..A",
@@ -56,6 +56,13 @@
         "gobelin_briseur",
         "gobelin_briseur"
       ]
+    },
+    {
+      "monstres": [
+        "loup_cendreux",
+        "loup_des_collines"
+      ],
+      "apres_boss": "krasbouk"
     }
   ],
   "decors": [

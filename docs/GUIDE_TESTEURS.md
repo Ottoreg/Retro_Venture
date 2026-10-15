@@ -150,7 +150,9 @@ le **lit** de votre maison les rend tous d'un coup.
   enchantés et arbres vivants (4–6), bûcherons de Brumerive (7–9), tisseuses de brume (10–12), avec
   leurs élites ; au cœur de la Toile, le **mini-boss Mère-Toile** : à 65 % elle tisse toute la
   clairière (toile géante, plus de PM), à 35 % elle s'enferme dans un cocon (couvre sa faiblesse à
-  la Flamme), à 10 % elle mise tout sur l'attaque.
+  la Flamme), à 10 % elle mise tout sur l'attaque. Une fois un mini-boss vaincu, la cendre gagne
+  son repaire : un groupe de sa **variante corrompue** (loup cendreux, grouilleur de braise, arbre
+  calciné, niveaux 13 à 21) y apparaît pour de bon, avant-goût de Hautepierre.
   À Hautepierre, une famille par palier : détrousseurs (13–15), trolls des ponts (16–18), corbacs
   espions (19–21), gargouilles (22–24), Cendrillons (25–27), olifants de guerre (28–30), chacune
   avec son élite ; des **variantes corrompues** (loup cendreux, grouilleur de braise, arbre calciné),

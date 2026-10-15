@@ -647,7 +647,10 @@ vaut quelque chose ; pas de recherche profonde.
   (`docs/design/chantier3_brouillon/`) et viendront avec le contenu.
 - **Groupes :** de 1 à 8 monstres (3 au plus pendant l'alpha), d'une ou plusieurs espèces, tous visibles
   sur la carte ; composition fixe ou aléatoire dans une liste par zone.
-- **Variantes Corrompues :** versions plus fortes avec un butin spécifique (cendres, fragments).
+- **Variantes Corrompues :** versions plus fortes avec un butin spécifique (cendres, fragments). On
+  les croise sur les cartes cendrées de Hautepierre, et dans chaque zone de départ une fois son
+  mini-boss vaincu : la cendre gagne son repaire (loup cendreux chez Krasbouk, grouilleur de braise
+  chez le Balourd, arbre calciné chez la Mère-Toile ; groupes `apres_boss` des cartes).
 - **Archimonstres** (long terme) : variantes rares nommées, au butin amélioré.
 
 ### 8.2 Butin (drop)

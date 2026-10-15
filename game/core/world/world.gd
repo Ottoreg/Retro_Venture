@@ -91,6 +91,9 @@ var map_ids: Array[String] = []
 var _elites: Dictionary = {}
 ## Prochaine tentative d'apparition des élites absentes : id du monstre élite → instant.
 var _elite_attempts: Dictionary = {}
+## Boss déjà vaincus au moins une fois (id → true) : ils débloquent les groupes `apres_boss` des
+## cartes (les variantes corrompues de leur zone).
+var defeated_bosses: Dictionary = {}
 ## Bonus de butin du combat en cours (élite ancienne), en fraction : 0.3 = +30 %.
 var _combat_loot_bonus := 0.0
 
@@ -337,7 +340,7 @@ func _set_map(next_map: GameMap, player_cell: Vector2i) -> void:
 	if _map_states.has(map.id):
 		_groups = _map_states[map.id]
 	else:
-		for group in map.groups:
+		for group in available_groups(map):
 			_groups[group["id"]] = GameMap.compose_group(group, rng, data)
 	_positions = {PLAYER_ID: player_cell}
 	_last_walk.clear()
@@ -437,6 +440,9 @@ func _end_combat(events: Array[Dictionary]) -> void:
 		_combat_loot_bonus = ELITE_LOOT_BONUS_PER_RANK * elite_rank(defeated)
 		if defeated.has("elite"):
 			_elite_defeated(defeated["elite"])
+		for monster_id: String in defeated["monstres"]:
+			if data != null and data.monsters.get(monster_id, {}).get("boss", false):
+				_boss_defeated(monster_id)
 		if not _combat_group.begins_with(ELITE_GROUP_PREFIX):
 			_schedule_respawn(map.id, defeated)
 		_groups.erase(_combat_group)
@@ -894,6 +900,36 @@ func spawn_elite(elite_id: String, events: Array[Dictionary] = []) -> bool:
 	return true
 
 
+## Groupes d'une carte qui peuvent y paraître : tous, sauf les `apres_boss` d'un boss pas encore vaincu.
+func available_groups(source: GameMap) -> Array[Dictionary]:
+	var available: Array[Dictionary] = []
+	for group in source.groups:
+		if not group.has("apres_boss") or defeated_bosses.has(group["apres_boss"]):
+			available.append(group)
+	return available
+
+
+## Un boss vaincu pour la première fois débloque ses groupes `apres_boss` : ils paraissent tout de
+## suite sur les cartes déjà visitées (les autres les auront à la première visite).
+func _boss_defeated(boss_id: String) -> void:
+	if defeated_bosses.has(boss_id):
+		return
+	defeated_bosses[boss_id] = true
+	var visited: Array = _map_states.keys()
+	if not visited.has(map.id):
+		visited.append(map.id)
+	for map_id: String in visited:
+		var source := _load_map(map_id)
+		if source == null:
+			continue
+		var states := _groups_of(map_id)
+		for group in source.groups:
+			if group.get("apres_boss", "") == boss_id and not states.has(group["id"]):
+				if not _respawns.has(map_id):
+					_respawns[map_id] = {}
+				_respawns[map_id][group["id"]] = clock
+
+
 ## L'élite a été vaincue : elle pourra réapparaître (5 à 6 minutes plus tard, au plus tôt).
 func _elite_defeated(elite_id: String) -> void:
 	_elites.erase(elite_id)
@@ -908,7 +944,7 @@ func _groups_of(map_id: String) -> Dictionary:
 		var groups := {}
 		var source := _load_map(map_id)
 		if source != null:
-			for group in source.groups:
+			for group in available_groups(source):
 				groups[group["id"]] = GameMap.compose_group(group, rng, data)
 		_map_states[map_id] = groups
 	return _map_states[map_id]
@@ -1381,6 +1417,7 @@ func save_data() -> Dictionary:
 		"reapparitions": _saved_timers(_respawns),
 		"repousses": _saved_timers(_depleted),
 		"elites": attempts,
+		"boss_vaincus": defeated_bosses.keys(),
 	}
 
 
@@ -1515,6 +1552,11 @@ static func from_save(save: Dictionary, p_data: GameData, p_map_loader: Callable
 	if start_map == null:
 		return null
 	var world := World.new(start_map, p_data, p_map_loader, saved_character)
+	var bosses: Variant = save.get("boss_vaincus", [])
+	if typeof(bosses) == TYPE_ARRAY:
+		for boss_id: Variant in bosses:
+			if typeof(boss_id) == TYPE_STRING:
+				world.defeated_bosses[boss_id] = true
 	var remaining: Variant = save.get("groupes_restants", {})
 	if typeof(remaining) == TYPE_DICTIONARY:
 		for map_id: Variant in remaining:

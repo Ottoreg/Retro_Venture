@@ -22,7 +22,7 @@
     " REEEE........EEEER",
     "REEEEE.......EEEEER",
     " REEEE........EEEER",
-    "REEEEE.R...R.EEEEER",
+    "REEEEE.R.3.R.EEEEER",
     " REEEE........EEEER",
     "REEEEE.......EEEEER",
     " REEEE........EEEER",
@@ -55,6 +55,13 @@
         "contremaitre_zele",
         "contremaitre_zele"
       ]
+    },
+    {
+      "monstres": [
+        "grouilleur_de_braise",
+        "grouilleur"
+      ],
+      "apres_boss": "balourd_des_abimes"
     }
   ],
   "placement": [

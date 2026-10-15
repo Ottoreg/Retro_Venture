@@ -285,6 +285,7 @@ func test_recolte_et_repousse() -> void:
 	var map := view.current_map()
 	var notices: Array[String] = []
 	view.notice.connect(func(text: String) -> void: notices.append(text))
+	view.world.rare_harvest_chance = 0.0  # Pas de frêne rare (1 %) qui ferait échouer le test.
 
 	# Un frêne du village : le joueur marche jusqu'à lui et le coupe.
 	var ash := Vector2i(-1, -1)
