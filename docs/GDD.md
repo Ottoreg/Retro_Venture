@@ -480,19 +480,23 @@ prévoit déjà `voie` et `rang` sur chaque sort** pour que le système s'ajoute
     de la race est connue dès la création ; la carte d'élite de test (Trône de Cendre) est gratuite
     et connue de tous (`toujours_connue`). La fenêtre de voyage montre le prix de chaque
     destination et grise les pierres pas encore découvertes.
+  - **Phase de test** (en place) : tant que les zones ne sont pas reliées à pied, **toutes les
+    pierres sont connues dès le début** (`World.ALL_PASSAGES_KNOWN`) ; le voyage reste payant.
+    Toucher une pierre en fait toujours le point de résurrection. On repassera à la découverte quand
+    les zones seront reliées (par Hautepierre).
   - *À venir :* des pierres dans les autres zones (Hautepierre…), des prix qui grandissent avec la
-    distance. Tant que les zones de départ ne sont pas reliées à pied (par Hautepierre), un
-    personnage ne peut découvrir que la pierre de sa propre zone.
+    distance.
 - **Carte du monde** et **minicarte** consultables. *Fait :* le personnage retient les cartes où il
-  est allé (`cartes_visitees` dans la sauvegarde). La carte du monde (touche M) a un onglet par
-  zone visitée ; les coordonnées d'une carte viennent de son id (`<zone>_<x>_<y>`, x vers l'est,
-  y vers le sud). Seules les cartes visitées sont nommées ; leurs voisines (par une sortie) sont des
-  « ? », le reste est caché, et la grille s'adapte à la taille de la zone. Les Pierres de Passage y
-  figurent (découvertes ou non) ; les intérieurs, sans coordonnées, n'y sont pas. La minicarte,
-  comme dans Dofus Rétro, est la carte du monde en réduit : une fenêtre fixe de 5 × 5 cartes
-  centrée sur la carte actuelle (cadre doré, point bleu), avec les cartes visitées, les voisines en
-  « ? », les chemins et les Pierres de Passage ; une carte tient sur un écran, inutile de la
-  redessiner en petit. Survol : le nom de la carte ; un clic ouvre la carte du monde, un bouton la
+  est allé (`cartes_visitees` dans la sauvegarde). La carte du monde (touche M), comme dans
+  Dofus, **montre tout le monde dès le début** (décision de l'auteur) : un onglet par zone du jeu
+  (les zones visitées d'abord), toutes les cartes nommées, le nombre de cartes visitées par zone ;
+  les coordonnées d'une carte viennent de son id (`<zone>_<x>_<y>`, x vers l'est, y vers le sud),
+  et la grille s'adapte à la taille de la zone. Les Pierres de Passage y figurent ; les
+  intérieurs, sans coordonnées, n'y sont pas. (`WorldMapLayout` sait encore cacher les cartes non
+  visitées, en « ? » pour leurs voisines, si l'on en veut un jour.) La minicarte, comme dans Dofus
+  Rétro, est la carte du monde en réduit : une fenêtre fixe de 5 × 5 cartes centrée sur la carte
+  actuelle (cadre doré, point bleu), avec les cartes, les chemins et les Pierres de Passage ; une
+  carte tient sur un écran, inutile de la redessiner en petit. Survol : le nom de la carte ; un clic ouvre la carte du monde, un bouton la
   replie.
 - **Point de résurrection** : la dernière Pierre de Passage touchée (au départ, celle de la zone de
   départ). *Fait :* après une défaite, on se réveille à côté d'elle avec 1 PV, même si elle est sur

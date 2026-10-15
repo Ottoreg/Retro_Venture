@@ -238,11 +238,12 @@ Les tâches marquées *(alpha 2)* sont reportées au second test.
 - [ ] Réputation simple par camp (si les quêtes de l'acte I le demandent)
 
 ### Monde
-- [ ] **(MVP)** Conception du contenu du chantier 3 ([docs/design/chantier3_brouillon](design/chantier3_brouillon/)) :
-  **validée par l'auteur** sauf les mini-boss, **révisés** (réapparition en 60 s au plus, phases de
-  profils différents selon le thème, plus de soin en phase) et **en attente de revalidation**.
-  Ensuite seulement : production par lots (4 zones en parallèle, puis variantes et métiers). Durée :
-  réglée par l'XP ×3,5 de l'alpha 1 (tout le contenu en 4 à 5 h).
+- [x] **(MVP)** Conception du contenu du chantier 3 ([docs/design/chantier3_brouillon](design/chantier3_brouillon/)) :
+  **entièrement validée par l'auteur** (mini-boss révisés compris : réapparition en 60 s au plus,
+  phases de profils différents selon le thème, plus de soin en phase). Durée réglée par l'XP ×3,5
+  de l'alpha 1 (tout le contenu en 4 à 5 h)
+- [ ] **(MVP)** Production du chantier 3 par lots (4 zones en parallèle, puis variantes et métiers),
+  après les cases de placement prédéfinies par carte (section Combat) : le format des cartes en dépend
 - [ ] **(MVP)** Zone de départ humaine : Collines de Brumerive (environ 8 à 10 cartes) — 2 cartes + la maison
 - [ ] **(MVP)** Zone de départ gobeline : Galeries de Crasse-Roc (environ 8 à 10 cartes) — 2 cartes (entrée des galeries, le Crassier)
 - [ ] **(MVP)** Zone de départ elfe : Lisière de Sylvebrume (environ 8 à 10 cartes) — 2 cartes (clairière de la Lisière, Futaie ancienne)
@@ -256,11 +257,15 @@ Les tâches marquées *(alpha 2)* sont reportées au second test.
   (les zones ne sont pas reliées autrement pour l'instant)
 - [x] Pierres de Passage à découvrir (en touchant la pierre), voyage payant (10 écus vers une zone de
   départ ; `prix` et `toujours_connue` dans les données), prix et pierres inconnues dans la fenêtre
+- [x] Phase de test : toutes les Pierres de Passage connues dès le début (`World.ALL_PASSAGES_KNOWN`),
+  tant que les zones ne sont pas reliées à pied
+- [ ] Remettre la découverte des pierres (`ALL_PASSAGES_KNOWN` à false) quand les zones seront reliées
 - [ ] Pierres de Passage dans d'autres zones (Hautepierre…), prix selon la distance
 - [x] Carte du monde et minicarte : touche M (ou bouton du bandeau, ou clic sur la minicarte), un
-  onglet par zone visitée, cartes en grille d'après leurs coordonnées (`<zone>_<x>_<y>`), voisines
-  inconnues en « ? », Pierres de Passage ; minicarte façon Dofus Rétro : la carte du monde en réduit,
-  5 × 5 cartes autour de la carte actuelle (nom au survol, repliable)
+  onglet par zone, cartes en grille d'après leurs coordonnées (`<zone>_<x>_<y>`), **tout le monde
+  montré dès le début** comme dans Dofus (nombre de cartes visitées par zone), Pierres de Passage ;
+  minicarte façon Dofus Rétro : la carte du monde en réduit, 5 × 5 cartes autour de la carte
+  actuelle (nom au survol, repliable)
 - [x] Point de résurrection : la dernière Pierre de Passage touchée (au départ, celle de la zone de
   départ) ; après une défaite, réveil à côté d'elle avec 1 PV, même sur une autre carte
 - [ ] Point de résurrection aux temples

@@ -1,6 +1,8 @@
 # Conception du contenu du chantier 3
 
-Document complet, **à relire et valider** avant la production.
+Document complet, **entièrement validé par l'auteur** (révision 2 des mini-boss comprise). La
+production attend les cases de placement prédéfinies par carte (GDD § 7.1), dont dépend le format
+des cartes.
 
 - `chantier3_contenu.md` : le document (résumé en §1).
 - `chantier3_contenu.json` : les mêmes données, prêtes pour la production (monstres, sorts, objets, cartes, récolte, recettes, dessins, avec leur lot).
@@ -10,7 +12,7 @@ Document complet, **à relire et valider** avant la production.
 
 ## Retours de l'auteur
 
-- **Révision 2** : tout est validé sauf les mini-boss, révisés et **à revalider avant la production** :
+- **Révision 2** (validée) : tout était validé sauf les mini-boss, révisés ainsi :
   - réapparition en 60 s au plus (alpha : retester les mécaniques souvent) ;
   - plus de soin au changement de phase (risque de combat sans fin ; refusé aussi par le jeu) ;
   - des phases de profils différents tirés du thème de chaque boss, dans un ordre propre à chacun :

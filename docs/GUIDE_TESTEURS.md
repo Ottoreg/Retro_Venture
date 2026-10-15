@@ -60,18 +60,18 @@ bandeau, hors combat, ouvre sa fiche.
 
 - **Minicarte** (en haut à droite, en exploration seulement), comme dans Dofus Rétro : la carte du
   monde en réduit, **5 × 5 cartes autour de vous**. Votre carte est au milieu (cadre doré, point
-  bleu) ; les cartes déjà visitées sont des cases claires, leurs voisines pas encore visitées des
-  « ? », les traits sont les passages entre cartes, le losange bleu une Pierre de Passage. Survolez
+  bleu) ; les autres cartes sont des cases claires, les traits sont les passages entre cartes, le
+  losange bleu une Pierre de Passage. Survolez
   une case pour son nom. En haut, le nom de la zone et les coordonnées de la carte ; dans une maison,
   elle montre la carte devant la porte. Un **clic** dessus ouvre la carte du monde. Elle disparaît en
   combat (l'ordre de jeu prend sa place). Elle cache le coin en haut à droite de la carte : si un
   groupe ou un PNJ passe dessous, ou pour aller sur ces cases, **repliez-la** avec le petit bouton
   **« – »** de sa barre (« + » pour la déplier) ; elle reste repliée d'une carte à l'autre.
 - **Carte du monde** (touche **M**, bouton en forme de carte du bandeau, ou clic sur la minicarte) :
-  un onglet par zone où vous êtes allé, ouvert sur la zone actuelle. Chaque carte visitée est une
-  case avec son nom, à sa place (est à droite, sud en bas) ; la carte où vous êtes a un **cadre
-  doré** ; les cartes voisines pas encore visitées sont des **« ? »**, les autres restent cachées.
-  Un losange bleu marque une Pierre de Passage (plein : découverte ; en creux : pas encore touchée).
+  **tout le monde est montré dès le début**, comme dans Dofus : un onglet par zone du jeu, ouvert
+  sur la zone actuelle, avec le nombre de cartes que vous y avez visitées. Chaque carte est une case
+  avec son nom, à sa place (est à droite, sud en bas) ; la carte où vous êtes a un **cadre doré**.
+  Un losange bleu marque une Pierre de Passage.
   Les maisons n'y figurent pas (depuis une maison, la carte s'ouvre sur sa zone, avec le cadre doré
   sur la carte devant la porte, comptée comme visitée). Survolez une case pour son nom complet et ses coordonnées. Échap
   ferme la carte du monde avant toute autre fenêtre.
@@ -105,11 +105,10 @@ le **lit** de votre maison les rend tous d'un coup.
 
 ### Pierres de Passage et point de résurrection
 
-- On ne voyage que vers une pierre **déjà découverte** : pour en découvrir une, il faut y aller à
-  pied et **cliquer dessus** (un message l'annonce). Arriver sur une pierre par un voyage ne compte
-  pas. La pierre de votre zone de départ est connue dès le début. Les zones ne sont pas encore
-  reliées à pied : on ne peut donc pas encore découvrir les pierres des autres zones de départ.
-  Pour les visiter, créez un personnage d'une autre race.
+- **Phase de test : toutes les pierres sont accessibles dès le début** (les zones ne sont pas
+  encore reliées à pied) : depuis n'importe quelle pierre, vous pouvez voyager vers toutes les
+  autres. Plus tard, il faudra d'abord aller à pied jusqu'à une pierre et cliquer dessus pour la
+  découvrir.
 - Le voyage se **paie** : 10 écus vers une zone de départ. Le **Trône de Cendre** (carte d'élite de
   test) reste gratuit et connu de tous.
 - La fenêtre de voyage montre votre bourse, le prix de chaque destination (en rouge si vous n'avez
@@ -122,7 +121,7 @@ le **lit** de votre maison les rend tous d'un coup.
 
 - **Zones** : Brumerive (place du village, champs de l'est), Crasse-Roc (entrée des galeries, le
   Crassier), Sylvebrume (clairière de la Lisière, futaie ancienne), reliées seulement par les
-  Pierres de Passage (à découvrir, voir plus haut). Le **Trône de Cendre** (carte d'élite) est
+  Pierres de Passage (toutes accessibles dès le début, voir plus haut). Le **Trône de Cendre** (carte d'élite) est
   accessible par n'importe quelle Pierre : le Souverain Cendré y attend, c'est le monstre le plus
   puissant du jeu.
 - **Monstres** : loup et frondeur gobelin (Brumerive), rat des galeries et grouilleur (Crasse-Roc),

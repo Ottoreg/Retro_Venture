@@ -63,13 +63,12 @@ Phase 2 (alpha solo), en deux tests :
 1. Fondations du combat — **fait** (crits, bonus/malus, poison, poussée/attirance, glyphes, pièges
    invisibles, IA distance et soutien). Le modèle de sorts voie/rang passe à l'alpha 2.
 3. Contenu du monde — **systèmes faits** (niveaux variables, mini-boss à phases, Pierres de Passage
-   à découvrir et payantes, point de résurrection, carte du monde, minicarte façon Dofus Rétro).
-   **Conception validée par l'auteur, sauf les mini-boss** : révisés (réapparition ≤ 60 s, phases
-   de profils différents selon le thème, jamais de soin en phase), **en attente de revalidation** :
+   payantes — toutes connues dès le début pendant la phase de test, `World.ALL_PASSAGES_KNOWN` —,
+   point de résurrection, carte du monde qui montre tout dès le début, minicarte façon Dofus Rétro).
+   **Conception entièrement validée par l'auteur** (mini-boss révisés compris) :
    `docs/design/chantier3_brouillon/` (document, JSON par lot, scripts `src/build.py` et
-   `src/controle.py`). **Ne pas lancer la production avant cette revalidation.**
-   Avant la production aussi : **cases de placement prédéfinies par carte** (GDD § 7.1), car le
-   format des cartes en dépend.
+   `src/controle.py`). Prochaine étape : **cases de placement prédéfinies par carte** (GDD § 7.1),
+   car le format des cartes en dépend, puis la production par lots.
 4. Interface et confort : notamment le **mode tactique en combat** façon Dofus (GDD § 14.3).
 
 ## Règles de design à respecter (détails dans le GDD)
