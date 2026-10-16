@@ -231,6 +231,9 @@ Les tâches marquées *(alpha 2)* sont reportées au second test.
 - [ ] Animation de récolte (durée fixe, outil en main)
 
 ### Quêtes
+- [ ] **(MVP)** Conception du chantier 6 ([docs/design/chantier6_quetes.md](design/chantier6_quetes.md)) :
+  système, 3 tutoriels, actes I et II par camp, début de l'acte III, 15 secondaires — **à valider
+  par l'auteur** avant la production (4 lots)
 - [ ] **(MVP)** Moteur de quêtes : étapes, objectifs (parler, vaincre, récolter, apporter, aller à), récompenses
 - [ ] **(MVP)** Journal de quêtes et suivi de l'objectif courant
 - [ ] **(MVP)** Icônes `!` / `?` sur les PNJ

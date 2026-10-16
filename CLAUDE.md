@@ -80,6 +80,8 @@ Phase 2 (alpha solo), en deux tests :
 4. Interface et confort : **mode tactique en combat** (GDD § 14.3), menu pause et options
    (`client/options.gd`, `user://options.cfg`) **faits** ; reste la fenêtre des quêtes (avec le
    chantier 6) et les petits conforts (infobulles comparées, raccourcis).
+6. Quêtes : **conception proposée, à valider** (`docs/design/chantier6_quetes.md` : système,
+   tutoriels, actes I–III, secondaires, 4 lots de production).
 
 ## Règles de design à respecter (détails dans le GDD)
 
