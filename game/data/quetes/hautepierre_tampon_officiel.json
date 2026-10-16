@@ -1,0 +1,80 @@
+{
+  "id": "hautepierre_tampon_officiel",
+  "nom": "Le tampon officiel",
+  "categorie": "principale",
+  "niveau": 14,
+  "pnj": "intendant_gaspard",
+  "description": "À Hautepierre, rien ne se fait sans le tampon officiel. Et le tampon a disparu.",
+  "acte": 2,
+  "conditions": {
+    "camp": "allie",
+    "niveau_min": 12,
+    "quetes_terminees": [
+      "brumerive_palissade"
+    ]
+  },
+  "etapes": [
+    {
+      "objectifs": [
+        {
+          "type": "parler",
+          "pnj": "sergent_mordicus",
+          "texte": "Demander au Sergent Mordicus où est passé le tampon"
+        }
+      ]
+    },
+    {
+      "objectifs": [
+        {
+          "type": "vaincre",
+          "monstre": "detrousseur",
+          "nombre": 5
+        },
+        {
+          "type": "apporter",
+          "objet": "tampon_officiel",
+          "nombre": 1,
+          "pnj": "intendant_gaspard",
+          "butin": {
+            "monstres": [
+              "detrousseur",
+              "chef_de_bande"
+            ],
+            "taux": 0.3
+          }
+        }
+      ]
+    }
+  ],
+  "dialogues": {
+    "intendant_gaspard": {
+      "proposition": [
+        "Un laissez-passer signé du bourgmestre Pansu ? Ravissant. Il n'est valable qu'avec le tampon officiel de l'Intendance.",
+        "Le tampon a disparu. Le Sergent Mordicus, à la Porte de l'Ouest, sait peut-être quelque chose. Il sait rarement quelque chose, mais essayez."
+      ],
+      "en_cours": [
+        "Le tampon ? Sans tampon, je ne peux rien tamponner. Et un Intendant qui ne tamponne pas, c'est un Intendant qui réfléchit. Personne ne veut ça."
+      ],
+      "fin": [
+        "Le tampon ! Voyons… *poc*. Votre laissez-passer est valable. Le mien aussi, d'ailleurs : il ne l'était plus depuis mardi.",
+        "Pendant que vous y étiez, le Capitaine Aldebert aurait besoin de quelqu'un qui revient vivant de la Route de l'Ouest."
+      ]
+    },
+    "sergent_mordicus": {
+      "objectif": [
+        "Le tampon ? Les détrousseurs l'ont volé avec la caisse de la Garde. Ils volent tout, sauf les laissez-passer.",
+        "Maintenant qu'ils ont le tampon, ils vont s'en faire. Des laissez-passer. Ça m'inquiète."
+      ]
+    }
+  },
+  "recompenses": {
+    "xp_cr": 5,
+    "ecus": 180,
+    "objets": [
+      {
+        "objet": "bottes_de_grand_chemin",
+        "nombre": 1
+      }
+    ]
+  }
+}

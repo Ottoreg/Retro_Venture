@@ -1,0 +1,8 @@
+{
+  "id": "liste_du_heraut",
+  "nom": "Liste du Héraut",
+  "type": "quete",
+  "rarete": "rare",
+  "niveau": 23,
+  "description": "La liste du Héraut Cendré. Première ligne : « Gobelins (rubrique consommables) »."
+}

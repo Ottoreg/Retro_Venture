@@ -1,0 +1,79 @@
+{
+  "id": "hautepierre_messages_interceptes",
+  "nom": "Messages interceptés",
+  "categorie": "principale",
+  "niveau": 20,
+  "pnj": "capitaine_aldebert",
+  "description": "Des corbacs espionnent Hautepierre. Que transportent-ils ?",
+  "acte": 2,
+  "conditions": {
+    "camp": "allie",
+    "niveau_min": 18,
+    "quetes_terminees": [
+      "hautepierre_tampon_officiel"
+    ]
+  },
+  "etapes": [
+    {
+      "objectifs": [
+        {
+          "type": "vaincre",
+          "monstre": "corbac_espion",
+          "nombre": 5
+        },
+        {
+          "type": "apporter",
+          "objet": "message_intercepte",
+          "nombre": 4,
+          "pnj": "archiviste_petronille",
+          "butin": {
+            "monstres": [
+              "corbac_espion",
+              "corbac_chef_espion"
+            ],
+            "taux": 0.4
+          }
+        }
+      ]
+    },
+    {
+      "objectifs": [
+        {
+          "type": "parler",
+          "pnj": "capitaine_aldebert"
+        }
+      ]
+    }
+  ],
+  "dialogues": {
+    "capitaine_aldebert": {
+      "proposition": [
+        "Des corbacs survolent la ville et repartent vers l'est, les pattes pleines de messages. Ce sont des espions.",
+        "Abattez-en cinq au nord, récupérez leurs messages et portez-les à Pétronille, l'archiviste. Elle lit tout, même le corbac."
+      ],
+      "en_cours": [
+        "Les corbacs passent toujours. Ils me font des signes en passant. Des signes grossiers."
+      ],
+      "fin": [
+        "Une diversion ? Les raids gobelins, une diversion ? Et nous qui envoyions toute la Garde à Brumerive…",
+        "S'il cherche la Chevalière Sans-Rouille, il faut savoir comment il compte entrer. Pétronille a une idée. Elle a toujours une idée."
+      ]
+    },
+    "archiviste_petronille": {
+      "objectif": [
+        "Voyons… code corbac, assez simple : un croassement par lettre. « Les raids gobelins occupent les humains. Pendant ce temps, trouvez la Chevalière Sans-Rouille. »",
+        "Signé : un Héraut Cendré. Allez prévenir le Capitaine. Moi, je classe ça. À la lettre H."
+      ]
+    }
+  },
+  "recompenses": {
+    "xp_cr": 5,
+    "ecus": 270,
+    "objets": [
+      {
+        "objet": "heaume_d_argent",
+        "nombre": 1
+      }
+    ]
+  }
+}

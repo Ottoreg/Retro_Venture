@@ -1,0 +1,66 @@
+{
+  "id": "hautepierre_bal_des_cendrillons",
+  "nom": "Le bal des Cendrillons",
+  "categorie": "principale",
+  "niveau": 25,
+  "pnj": "ilyndra_tel_hautaine",
+  "description": "Les Cendrillons préparent un bal. Que fête-t-on, au service du Souverain ?",
+  "acte": 2,
+  "conditions": {
+    "camp": "neutre",
+    "niveau_min": 23,
+    "quetes_terminees": [
+      "hautepierre_arbres_qui_brulent"
+    ]
+  },
+  "etapes": [
+    {
+      "objectifs": [
+        {
+          "type": "vaincre",
+          "monstre": "cendrillon",
+          "nombre": 3
+        },
+        {
+          "type": "apporter",
+          "objet": "invitation_au_bal",
+          "nombre": 3,
+          "pnj": "ilyndra_tel_hautaine",
+          "butin": {
+            "monstres": [
+              "cendrillon",
+              "marraine_cendree"
+            ],
+            "taux": 0.5
+          }
+        }
+      ]
+    }
+  ],
+  "dialogues": {
+    "ilyndra_tel_hautaine": {
+      "proposition": [
+        "Les Cendrillons campent à l'est, dans la plaine cendrée. Elles préparent un bal. Au service du Souverain, on danse avant de brûler.",
+        "Rapporte-moi trois de leurs invitations. Je veux voir le programme."
+      ],
+      "en_cours": [
+        "Les Cendrillons dansent toujours ? Elles ont trois pas : avancer, brûler, recommencer."
+      ],
+      "fin": [
+        "Le programme du bal : « Minuit : embrasement de Sylvebrume. » Notre forêt. En spectacle de clôture.",
+        "Ce n'est pas notre guerre ? Si. C'est la nôtre. Je demande un siège au Conseil des humains. Pour observer de plus près. Et pour frapper, s'il le faut.",
+        "Prends cette feuille d'argent. Elle est réservée aux observateurs qui ont fini par intervenir."
+      ]
+    }
+  },
+  "recompenses": {
+    "xp_cr": 8,
+    "ecus": 375,
+    "objets": [
+      {
+        "objet": "feuille_d_argent_de_l_ambassade",
+        "nombre": 1
+      }
+    ]
+  }
+}

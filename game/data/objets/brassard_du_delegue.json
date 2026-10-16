@@ -1,0 +1,23 @@
+{
+  "id": "brassard_du_delegue",
+  "nom": "Brassard du délégué",
+  "type": "amulette",
+  "rarete": "rare",
+  "niveau": 23,
+  "boutique": false,
+  "bonus": {
+    "agilite": [
+      10,
+      15
+    ],
+    "chance": [
+      8,
+      12
+    ],
+    "prospection": [
+      15,
+      25
+    ]
+  },
+  "description": "Brassard rouge du Syndicat des Travailleurs de Crasse-Roc, section « préavis contre le Souverain lui-même »."
+}

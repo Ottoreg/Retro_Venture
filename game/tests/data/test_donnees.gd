@@ -446,7 +446,7 @@ func test_quetes_faisables() -> void:
 		assert_true(game_data.quests[current].get("conditions", {}).get("quetes_terminees", []).is_empty(), "%s : chaîne sans boucle" % quest_id)
 
 
-func test_tutoriels_et_acte_1_par_camp() -> void:
+func test_chaines_principales_par_camp() -> void:
 	var game_data := GameData.load_all()
 	for camp: String in GameData.CAMPS:
 		var tutorials := 0
@@ -460,3 +460,11 @@ func test_tutoriels_et_acte_1_par_camp() -> void:
 				act_one += 1
 		assert_eq(tutorials, 1, "un tutoriel pour le camp %s" % camp)
 		assert_eq(act_one, 4, "quatre quêtes d'acte I pour le camp %s" % camp)
+		var act_two := game_data.quests.values().filter(func(q: Dictionary) -> bool:
+			return int(q.get("acte", 0)) == 2 and q.get("conditions", {}).get("camp", "") == camp)
+		assert_eq(act_two.size(), 3, "trois quêtes d'acte II pour le camp %s" % camp)
+	# Acte III : commun, ouvert par la fin de l'acte II de n'importe quel camp.
+	var act_three := game_data.quests.values().filter(func(q: Dictionary) -> bool: return int(q.get("acte", 0)) == 3)
+	assert_eq(act_three.size(), 2, "le Conseil et la Brèche")
+	for quest: Dictionary in act_three:
+		assert_false(quest.get("conditions", {}).has("camp"), "%s : ouverte aux trois camps" % quest["id"])

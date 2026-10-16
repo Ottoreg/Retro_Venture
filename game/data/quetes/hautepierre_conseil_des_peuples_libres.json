@@ -1,0 +1,88 @@
+{
+  "id": "hautepierre_conseil_des_peuples_libres",
+  "nom": "Le Conseil des Peuples Libres",
+  "categorie": "principale",
+  "niveau": 26,
+  "pnj": "intendant_gaspard",
+  "description": "Les trois camps ont compris. Reste à les asseoir à la même table.",
+  "acte": 3,
+  "conditions": {
+    "niveau_min": 24,
+    "une_quete_terminee": [
+      "hautepierre_vieille_garde",
+      "hautepierre_registre_des_sacrifies",
+      "hautepierre_bal_des_cendrillons"
+    ]
+  },
+  "etapes": [
+    {
+      "objectifs": [
+        {
+          "type": "parler",
+          "pnj": "snagrod_delegue",
+          "texte": "Convaincre Snagrod, délégué gobelin"
+        },
+        {
+          "type": "parler",
+          "pnj": "ilyndra_tel_hautaine",
+          "texte": "Convaincre Ilyndra, ambassadrice elfe"
+        }
+      ]
+    },
+    {
+      "objectifs": [
+        {
+          "type": "vaincre",
+          "monstre": "olifant_de_guerre",
+          "nombre": 3
+        }
+      ]
+    },
+    {
+      "objectifs": [
+        {
+          "type": "parler",
+          "pnj": "intendant_gaspard"
+        }
+      ]
+    }
+  ],
+  "dialogues": {
+    "intendant_gaspard": {
+      "proposition": [
+        "Les humains, les gobelins et les elfes ont tous découvert la même chose : le Souverain veut tout le monde. Ses propres troupes comprises.",
+        "Il faut un Conseil. Avec les gobelins. Oui, avec les gobelins. Je l'ai dit, c'est fait, ne me le faites pas répéter. Allez convaincre Snagrod et Ilyndra."
+      ],
+      "en_cours": [
+        "Le Conseil se réunira quand tout le monde sera d'accord. Ou quand tout le monde sera assis. C'est déjà difficile."
+      ],
+      "objectif": [
+        "Ils acceptent ? Bien. Le Conseil veut une preuve que l'alliance tient au moins un combat. Les olifants de guerre, aux Champs du Pèle-Ennemi. Trois."
+      ],
+      "fin": [
+        "Trois olifants ! L'alliance tient. Le Conseil des Peuples Libres est fondé. Les gobelins ont apporté leur propre chaise. Les elfes observent la chaise.",
+        "Le Capitaine Aldebert vous attend. La Brèche ne tiendra plus longtemps."
+      ]
+    },
+    "snagrod_delegue": {
+      "objectif": [
+        "Un siège au Conseil ? Pour les gobelins ? … On amène notre chaise. On ne fait pas confiance aux vôtres."
+      ]
+    },
+    "ilyndra_tel_hautaine": {
+      "objectif": [
+        "Un Conseil. Avec des gobelins et des humains. Le conseil de la Lisière va s'évanouir. J'accepte. Pour observer."
+      ]
+    }
+  },
+  "recompenses": {
+    "xp_cr": 5,
+    "ecus": 390,
+    "objets": [
+      {
+        "objet": "cape_en_cuir_d_olifant",
+        "nombre": 1
+      }
+    ]
+  }
+}

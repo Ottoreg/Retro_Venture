@@ -241,7 +241,8 @@ Les tâches marquées *(alpha 2)* sont reportées au second test.
   - [x] Lot 2, **tutoriels et acte I** : 15 quêtes, 2 PNJ (bourgmestre Pansu, Père Pomponne),
     5 objets et leurs icônes
   - [ ] Lot 3, **secondaires des zones de départ** (15 quêtes)
-  - [ ] Lot 4, **acte II et début de l'acte III** (11 quêtes)
+  - [x] Lot 4, **acte II et début de l'acte III** (11 quêtes : 3 par camp à Hautepierre, puis le
+    Conseil des Peuples Libres et la Brèche, communs), 8 objets et leurs icônes
   - [ ] Option : secondaires de Hautepierre (3 quêtes), marqueur de quête sur la carte du monde
 - [x] **(MVP)** Moteur de quêtes : étapes, objectifs (parler, vaincre, récolter, apporter, aller à), récompenses
 - [x] **(MVP)** Journal de quêtes et suivi de l'objectif courant

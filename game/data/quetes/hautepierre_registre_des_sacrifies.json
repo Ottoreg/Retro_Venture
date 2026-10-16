@@ -1,0 +1,65 @@
+{
+  "id": "hautepierre_registre_des_sacrifies",
+  "nom": "Le registre des sacrifiés",
+  "categorie": "principale",
+  "niveau": 23,
+  "pnj": "snagrod_delegue",
+  "description": "Que prévoit le Héraut pour les gobelins ? La réponse est dans ses ordres. Et ses ordres sont chez les gargouilles.",
+  "acte": 2,
+  "conditions": {
+    "camp": "ennemi",
+    "niveau_min": 21,
+    "quetes_terminees": [
+      "hautepierre_droit_de_passage"
+    ]
+  },
+  "etapes": [
+    {
+      "objectifs": [
+        {
+          "type": "vaincre",
+          "monstre": "gargouille",
+          "nombre": 4
+        },
+        {
+          "type": "apporter",
+          "objet": "liste_du_heraut",
+          "nombre": 1,
+          "pnj": "snagrod_delegue",
+          "butin": {
+            "monstres": [
+              "gargouille",
+              "gargouille_de_la_grande_porte"
+            ],
+            "taux": 0.3
+          }
+        }
+      ]
+    }
+  ],
+  "dialogues": {
+    "snagrod_delegue": {
+      "proposition": [
+        "Brokk a entendu dire que le Héraut a confié ses ordres aux gargouilles. Les gargouilles ne lisent pas, donc elles ne trahissent pas.",
+        "Elles gardent un cimetière à l'est et des ruines au nord-est. Trouve-moi ses ordres. Je veux savoir ce qu'il a prévu pour nous."
+      ],
+      "en_cours": [
+        "Les gargouilles ? Elles sont en pierre. Toi aussi, il va falloir que tu sois en pierre."
+      ],
+      "fin": [
+        "« Gobelins (rubrique consommables) ». En premier. Avant les humains, avant les elfes. On ne sera pas les derniers, on sera les premiers. À mourir.",
+        "Je dépose un préavis de grève. Contre le Souverain lui-même. Tiens, porte ce brassard : à partir d'aujourd'hui, on ne se laisse plus faire."
+      ]
+    }
+  },
+  "recompenses": {
+    "xp_cr": 8,
+    "ecus": 345,
+    "objets": [
+      {
+        "objet": "brassard_du_delegue",
+        "nombre": 1
+      }
+    ]
+  }
+}

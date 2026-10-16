@@ -1,0 +1,23 @@
+{
+  "id": "insigne_de_la_vieille_garde",
+  "nom": "Insigne de la Vieille Garde",
+  "type": "amulette",
+  "rarete": "rare",
+  "niveau": 23,
+  "boutique": false,
+  "bonus": {
+    "force": [
+      10,
+      15
+    ],
+    "vitalite": [
+      20,
+      30
+    ],
+    "sagesse": [
+      5,
+      8
+    ]
+  },
+  "description": "Remis par un fantôme qui monte la garde depuis trois cents ans. Il ne l'a jamais quitté : il ne savait pas qu'on pouvait."
+}

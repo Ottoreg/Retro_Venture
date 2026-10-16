@@ -1,0 +1,71 @@
+{
+  "id": "hautepierre_convoi_de_brokk",
+  "nom": "Le convoi de Brokk",
+  "categorie": "principale",
+  "niveau": 14,
+  "pnj": "caravanier_brokk",
+  "description": "Le convoi de Brokk transporte du minerai pour le Souverain. Mais pour en faire quoi ?",
+  "acte": 2,
+  "conditions": {
+    "camp": "ennemi",
+    "niveau_min": 12,
+    "quetes_terminees": [
+      "crasse_roc_balourd"
+    ]
+  },
+  "etapes": [
+    {
+      "objectifs": [
+        {
+          "type": "vaincre",
+          "monstre": "loup_cendreux",
+          "nombre": 3
+        },
+        {
+          "type": "vaincre",
+          "monstre": "detrousseur",
+          "nombre": 3
+        },
+        {
+          "type": "apporter",
+          "objet": "caisse_de_minerai",
+          "nombre": 3,
+          "pnj": "caravanier_brokk",
+          "butin": {
+            "monstres": [
+              "loup_cendreux",
+              "detrousseur",
+              "chef_de_bande"
+            ],
+            "taux": 0.4
+          }
+        }
+      ]
+    }
+  ],
+  "dialogues": {
+    "caravanier_brokk": {
+      "proposition": [
+        "Un délégué de Crasse-Roc ? Enfin quelqu'un ! Mon convoi s'est fait piller sur la Route de l'Est : des loups qui fument et des détrousseurs qui volent.",
+        "Récupère trois caisses de minerai. C'est pour le Souverain. Enfin, c'était. J'ai ouvert une caisse, par curiosité professionnelle…"
+      ],
+      "en_cours": [
+        "Trois caisses. Et fais attention : les loups cendreux mordent chaud."
+      ],
+      "fin": [
+        "Regarde le couvercle : « colliers, modèle gobelin, taille unique ». On transporte le minerai de nos propres colliers.",
+        "Va voir Snagrod, notre délégué, à la Citadelle. Il attend dans l'antichambre depuis trois semaines. Il aura le temps de t'écouter."
+      ]
+    }
+  },
+  "recompenses": {
+    "xp_cr": 5,
+    "ecus": 180,
+    "objets": [
+      {
+        "objet": "cape_de_loup_cendreux",
+        "nombre": 1
+      }
+    ]
+  }
+}

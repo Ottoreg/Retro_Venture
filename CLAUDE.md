@@ -82,8 +82,8 @@ Phase 2 (alpha solo), en deux tests :
    chantier 6, faite) et les petits conforts (infobulles comparées, raccourcis).
 6. Quêtes : conception validée (`docs/design/chantier6_quetes.md`). **Lots 1 (système :
    `core/quests/`, journal Q, suivi, marques `!`/`?`) et 2 (tutoriels et acte I, script
-   `docs/design/chantier6/produire_lot2.py`) faits** ; restent le lot 3 (secondaires) et le lot 4
-   (acte II, début de l'acte III).
+   `docs/design/chantier6/produire_lot2.py`) et 4 (acte II, Conseil et Brèche, `produire_lot4.py`)
+   faits** ; reste le lot 3 (secondaires, après accord de l'auteur).
 
 ## Règles de design à respecter (détails dans le GDD)
 

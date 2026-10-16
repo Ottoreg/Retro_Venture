@@ -1,0 +1,23 @@
+{
+  "id": "feuille_d_argent_de_l_ambassade",
+  "nom": "Feuille d'argent de l'ambassade",
+  "type": "anneau",
+  "rarete": "rare",
+  "niveau": 25,
+  "boutique": false,
+  "bonus": {
+    "intelligence": [
+      10,
+      15
+    ],
+    "agilite": [
+      6,
+      10
+    ],
+    "sagesse": [
+      6,
+      10
+    ]
+  },
+  "description": "Le sceau de l'ambassade elfe. On ne la remet qu'aux observateurs qui ont fini par intervenir."
+}

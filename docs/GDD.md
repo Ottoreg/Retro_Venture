@@ -805,7 +805,9 @@ ingrédients).
   objets de quête, l'XP comptée en « combats de référence » (× `Character.XP_RATE`), les marques
   `!` / `?`, la proposition (Accepter / Plus tard), le journal (Q) et le suivi sous la minicarte.
   Les objectifs « parler » et « apporter » se remplissent en dernier (on rend la quête). Contenu
-  produit : les 3 tutoriels et l'acte I des trois camps.
+  produit : les 3 tutoriels, l'acte I et l'acte II des trois camps, et le début de l'acte III
+  (le Conseil des Peuples Libres, puis Grondin à la Brèche ; la Chevalière Sans-Rouille disparaît :
+  fin de l'histoire de l'alpha). Reste : les quêtes secondaires.
 
 ### 11.2 Long terme : quêtes complexes
 

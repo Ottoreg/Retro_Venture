@@ -2,7 +2,7 @@
 
 Conception pour l'alpha test 1, **validée par l'auteur** (questions ouvertes du § 9 tranchées
 par défaut : journal sur Q, objets de quête pour les messages, récompenses en équipements,
-secondaires de Hautepierre plus tard). **Lots 1 et 2 produits** (`docs/design/chantier6/`).
+secondaires de Hautepierre plus tard). **Lots 1, 2 et 4 produits** (`docs/design/chantier6/`).
 Écart avec ce document : le tutoriel donne le bonnet de berger (objet existant) à équiper. Il couvre le système (moteur, données, interface) puis le contenu : trois
 tutoriels, la quête principale (acte I par camp, acte II par camp, début de l'acte III commun) et
 les quêtes secondaires. Références : GDD § 3.3–3.4 (Reliques, camps, actes), § 11 (quêtes),

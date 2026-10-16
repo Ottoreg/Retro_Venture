@@ -1,0 +1,102 @@
+{
+  "id": "hautepierre_notes_d_observatrice",
+  "nom": "Notes d'observatrice",
+  "categorie": "principale",
+  "niveau": 14,
+  "pnj": "ilyndra_tel_hautaine",
+  "description": "Ilyndra Tel'Hautaine rédige un rapport sur les humains. Elle a besoin d'yeux. Et de sa malle.",
+  "acte": 2,
+  "conditions": {
+    "camp": "neutre",
+    "niveau_min": 12,
+    "quetes_terminees": [
+      "sylvebrume_mere_toile"
+    ]
+  },
+  "etapes": [
+    {
+      "objectifs": [
+        {
+          "type": "parler",
+          "pnj": "clairon_crieur_public",
+          "texte": "Observer Clairon, crieur public (Grand-Place)"
+        },
+        {
+          "type": "parler",
+          "pnj": "maitre_ripaille",
+          "texte": "Observer Maître Ripaille, aubergiste (Grand-Place)"
+        },
+        {
+          "type": "parler",
+          "pnj": "frere_benitier",
+          "texte": "Observer Frère Bénitier, prêtre (Porte de l'Ouest)"
+        }
+      ]
+    },
+    {
+      "objectifs": [
+        {
+          "type": "vaincre",
+          "monstre": "detrousseur",
+          "nombre": 4
+        },
+        {
+          "type": "apporter",
+          "objet": "malle_de_l_ambassadrice",
+          "nombre": 1,
+          "pnj": "ilyndra_tel_hautaine",
+          "butin": {
+            "monstres": [
+              "detrousseur",
+              "chef_de_bande"
+            ],
+            "taux": 0.3
+          }
+        }
+      ]
+    }
+  ],
+  "dialogues": {
+    "ilyndra_tel_hautaine": {
+      "proposition": [
+        "Ah, l'observatrice de la Lisière. Moi aussi, j'observe. J'écris un rapport sur « les us et coutumes humains » au conseil.",
+        "Va observer un crieur, un aubergiste et un prêtre. Puis retrouve ma malle : des détrousseurs me l'ont prise sur la Route du Nord. Ils ont le goût sûr, au moins."
+      ],
+      "en_cours": [
+        "Observe. Prends des notes. Et ma malle, si tu y penses entre deux notes."
+      ],
+      "objectif": [
+        "Un crieur qui crie, un aubergiste qui sert, un prêtre qui bénit son pouce. Fascinant. Le conseil sera horrifié. Maintenant, ma malle."
+      ],
+      "fin": [
+        "Ma malle ! Mes robes ! Mes deux siècles de correspondance ! … Il manque un herbier. Tant pis, il était vulgaire.",
+        "Merci. Les humains ne sont pas si terribles, finalement. Ils sont bruyants, mais pas terribles."
+      ]
+    },
+    "clairon_crieur_public": {
+      "objectif": [
+        "OYEZ, OYEZ ! Une elfe prend des notes sur moi ! … Pardon. Je crie tout. C'est mon métier, et ma maladie."
+      ]
+    },
+    "maitre_ripaille": {
+      "objectif": [
+        "Une observatrice elfe ? Asseyez-vous ! Une bière ? Non ? Une tisane ? On a de la tisane. Elle sent la bière, mais c'est de la tisane."
+      ]
+    },
+    "frere_benitier": {
+      "objectif": [
+        "J'ai béni la masse, le bouclier, mon pouce, et la porte. Voulez-vous que je bénisse votre carnet ? Ça ne coûte qu'un écu. Deux pour un carnet elfe."
+      ]
+    }
+  },
+  "recompenses": {
+    "xp_cr": 5,
+    "ecus": 180,
+    "objets": [
+      {
+        "objet": "amulette_chantante",
+        "nombre": 1
+      }
+    ]
+  }
+}

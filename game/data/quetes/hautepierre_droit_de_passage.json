@@ -1,0 +1,90 @@
+{
+  "id": "hautepierre_droit_de_passage",
+  "nom": "Droit de passage",
+  "categorie": "principale",
+  "niveau": 17,
+  "pnj": "snagrod_delegue",
+  "description": "Snagrod veut une audience. L'Intendant veut des cadeaux. Les trolls ont des recettes.",
+  "acte": 2,
+  "conditions": {
+    "camp": "ennemi",
+    "niveau_min": 15,
+    "quetes_terminees": [
+      "hautepierre_convoi_de_brokk"
+    ]
+  },
+  "etapes": [
+    {
+      "objectifs": [
+        {
+          "type": "vaincre",
+          "monstre": "troll_des_ponts",
+          "nombre": 4
+        },
+        {
+          "type": "apporter",
+          "objet": "recette_de_troll",
+          "nombre": 2,
+          "pnj": "snagrod_delegue",
+          "butin": {
+            "monstres": [
+              "troll_des_ponts",
+              "troll_gastronome"
+            ],
+            "taux": 0.4
+          }
+        }
+      ]
+    },
+    {
+      "objectifs": [
+        {
+          "type": "parler",
+          "pnj": "intendant_gaspard",
+          "texte": "Demander audience à l'Intendant pour Snagrod"
+        }
+      ]
+    },
+    {
+      "objectifs": [
+        {
+          "type": "parler",
+          "pnj": "snagrod_delegue"
+        }
+      ]
+    }
+  ],
+  "dialogues": {
+    "snagrod_delegue": {
+      "proposition": [
+        "Des colliers ? Ça ne m'étonne pas. Il faut que l'Intendant nous reçoive. Il ne reçoit que ceux qui apportent un cadeau.",
+        "Les trolls des ponts ont des recettes. Les humains adorent les recettes. Rapporte-m'en deux, et passe chez les trolls : ils ont un péage, nous on n'a même pas de chaise."
+      ],
+      "en_cours": [
+        "J'attends. Je suis très bon pour attendre. C'est la seule chose qu'on nous ait apprise."
+      ],
+      "objectif": [
+        "Les recettes ! Parfait. Va demander audience à l'Intendant. Dis-lui que c'est de la part du syndicat. Non, attends : dis-lui que c'est de la part d'un admirateur."
+      ],
+      "fin": [
+        "Il a gardé les recettes et refusé de me recevoir ? … C'est ce que je pensais. Bon. On passe à la vitesse supérieure."
+      ]
+    },
+    "intendant_gaspard": {
+      "objectif": [
+        "Des recettes de troll ! Quelle délicatesse. Je les garde, merci. Le délégué gobelin ? Je ne reçois pas les gobelins le jeudi.",
+        "Ni les autres jours. Mais remerciez-le pour les recettes."
+      ]
+    }
+  },
+  "recompenses": {
+    "xp_cr": 5,
+    "ecus": 230,
+    "objets": [
+      {
+        "objet": "ceinture_de_troll",
+        "nombre": 1
+      }
+    ]
+  }
+}

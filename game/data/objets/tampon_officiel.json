@@ -1,0 +1,8 @@
+{
+  "id": "tampon_officiel",
+  "nom": "Tampon officiel",
+  "type": "quete",
+  "rarete": "peu_commun",
+  "niveau": 14,
+  "description": "Le tampon de l'Intendance. Sans lui, aucun laissez-passer n'est valable. Avec lui, non plus, mais c'est plus joli."
+}

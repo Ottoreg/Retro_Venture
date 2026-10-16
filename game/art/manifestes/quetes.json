@@ -41,6 +41,62 @@
         22,
         22
       ]
+    },
+    "objet_tampon_officiel": {
+      "fichier": "objets/tampon_officiel.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_caisse_de_minerai": {
+      "fichier": "objets/caisse_de_minerai.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_malle_de_l_ambassadrice": {
+      "fichier": "objets/malle_de_l_ambassadrice.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_liste_du_heraut": {
+      "fichier": "objets/liste_du_heraut.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_insigne_de_la_vieille_garde": {
+      "fichier": "objets/insigne_de_la_vieille_garde.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_brassard_du_delegue": {
+      "fichier": "objets/brassard_du_delegue.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_feuille_d_argent_de_l_ambassade": {
+      "fichier": "objets/feuille_d_argent_de_l_ambassade.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_eclat_de_l_aube": {
+      "fichier": "objets/eclat_de_l_aube.svgt",
+      "ancre": [
+        22,
+        22
+      ]
     }
   },
   "pnj": {

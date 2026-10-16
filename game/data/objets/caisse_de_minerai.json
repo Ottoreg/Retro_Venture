@@ -1,0 +1,8 @@
+{
+  "id": "caisse_de_minerai",
+  "nom": "Caisse de minerai",
+  "type": "quete",
+  "rarete": "commun",
+  "niveau": 14,
+  "description": "Du minerai pour les forges du Souverain. Sur le couvercle : « colliers, modèle gobelin, taille unique »."
+}

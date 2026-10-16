@@ -143,8 +143,12 @@ le **lit** de votre maison les rend tous d'un coup.
 - Contenu : un **tutoriel** par camp (Alric à Brumerive, Grumm à Crasse-Roc, Elwyn à Sylvebrume :
   s'équiper, combattre, récolter, forger), puis l'**acte I** de la quête principale de son camp,
   quatre quêtes jusqu'au mini-boss de la zone (le raid gobelin pour les humains, le grand raid pour
-  les gobelins, « ce n'est pas notre guerre » pour les elfes). Les quêtes principales sont réservées
-  au camp de votre race.
+  les gobelins, « ce n'est pas notre guerre » pour les elfes). Puis l'**acte II** à Hautepierre
+  (13 → 25), trois quêtes par camp où chacun découvre le vrai plan du Souverain (donneurs :
+  l'Intendant pour les humains, Brokk sur la Route de l'Est pour les gobelins, l'ambassadrice
+  Ilyndra pour les elfes), et le début de l'**acte III**, commun aux trois camps : le Conseil des
+  Peuples Libres, puis Grondin à la Brèche. Les quêtes des actes I et II sont réservées au camp de
+  votre race.
 
 ## Ce qu'il y a dans cette version
 
@@ -229,7 +233,7 @@ le **lit** de votre maison les rend tous d'un coup.
   (« Rare ! » en doré au-dessus du personnage), qui sert à 6 recettes améliorées du forgeron ; ni les
   ressources rares ni ces objets ne se trouvent chez le marchand.
 
-Pas encore là : quêtes secondaires et actes II–III (à venir), multijoueur, sons et musiques.
+Pas encore là : quêtes secondaires (à venir), multijoueur, sons et musiques.
 
 ## Ce qu'on aimerait que vous regardiez
 

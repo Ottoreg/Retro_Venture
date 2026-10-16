@@ -1,0 +1,80 @@
+{
+  "id": "hautepierre_vieille_garde",
+  "nom": "La vieille garde",
+  "categorie": "principale",
+  "niveau": 23,
+  "pnj": "archiviste_petronille",
+  "description": "Un fantôme a vu passer le Héraut. Encore faut-il qu'il s'en souvienne.",
+  "acte": 2,
+  "conditions": {
+    "camp": "allie",
+    "niveau_min": 21,
+    "quetes_terminees": [
+      "hautepierre_messages_interceptes"
+    ]
+  },
+  "etapes": [
+    {
+      "objectifs": [
+        {
+          "type": "aller",
+          "carte": "hautepierre_3_1",
+          "texte": "Aller aux Ruines de la Vieille Garde"
+        },
+        {
+          "type": "vaincre",
+          "monstre": "gargouille",
+          "nombre": 4
+        }
+      ]
+    },
+    {
+      "objectifs": [
+        {
+          "type": "parler",
+          "pnj": "capitaine_perenne",
+          "texte": "Interroger le Capitaine Pérenne, le fantôme"
+        }
+      ]
+    },
+    {
+      "objectifs": [
+        {
+          "type": "parler",
+          "pnj": "archiviste_petronille"
+        }
+      ]
+    }
+  ],
+  "dialogues": {
+    "archiviste_petronille": {
+      "proposition": [
+        "Aux Ruines de la Vieille Garde, à l'est, un fantôme monte la garde depuis trois cents ans : le Capitaine Pérenne.",
+        "S'il a vu passer le Héraut, il s'en souvient. Les fantômes n'ont rien d'autre à faire que se souvenir. Attention aux gargouilles : elles aussi gardent, mais mal."
+      ],
+      "en_cours": [
+        "Le Capitaine Pérenne ? Il est aux Ruines. Il ne bouge pas beaucoup. C'est le principe."
+      ],
+      "fin": [
+        "« Après, les humains. » Alors ce n'était pas les gobelins, le problème. Les gobelins étaient… un symptôme.",
+        "Le Capitaine vous a remis son insigne ? Il ne l'avait jamais retiré. Portez-le bien : les autres camps doivent apprendre ça aussi. Ils vont venir."
+      ]
+    },
+    "capitaine_perenne": {
+      "objectif": [
+        "Garde, à vos postes ! … Ah, c'est vous. Oui, je l'ai vu. Un Héraut, en armure de cendre. Il cherchait la Chevalière.",
+        "Il a dit : « Après, les humains. » Et il a ri. Je n'aime pas qu'on rie dans mes ruines. Prenez mon insigne. Moi, je reste de garde."
+      ]
+    }
+  },
+  "recompenses": {
+    "xp_cr": 8,
+    "ecus": 345,
+    "objets": [
+      {
+        "objet": "insigne_de_la_vieille_garde",
+        "nombre": 1
+      }
+    ]
+  }
+}

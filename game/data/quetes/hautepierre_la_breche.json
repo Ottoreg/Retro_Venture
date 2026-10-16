@@ -1,0 +1,62 @@
+{
+  "id": "hautepierre_la_breche",
+  "nom": "La Brèche",
+  "categorie": "principale",
+  "niveau": 30,
+  "pnj": "capitaine_aldebert",
+  "description": "Grondin frappe à la Brèche. Le Conseil des Peuples Libres livre sa première bataille.",
+  "acte": 3,
+  "conditions": {
+    "niveau_min": 28,
+    "quetes_terminees": [
+      "hautepierre_conseil_des_peuples_libres"
+    ]
+  },
+  "etapes": [
+    {
+      "objectifs": [
+        {
+          "type": "vaincre_groupe",
+          "monstre": "grondin"
+        }
+      ]
+    },
+    {
+      "objectifs": [
+        {
+          "type": "parler",
+          "pnj": "archiviste_petronille",
+          "texte": "Faire votre rapport à Pétronille"
+        }
+      ]
+    }
+  ],
+  "dialogues": {
+    "capitaine_aldebert": {
+      "proposition": [
+        "Grondin, le bélier de siège du Souverain, frappe à la Brèche, au sud-est. Si elle cède, Hautepierre tombe.",
+        "Le Conseil vous envoie. Les humains vous prêtent leurs murs, les gobelins leurs pioches, les elfes… leurs encouragements. Allez-y."
+      ],
+      "en_cours": [
+        "La Brèche tient encore. Chaque coup de Grondin fait trembler la Tour Blanche. Et l'Intendant."
+      ]
+    },
+    "archiviste_petronille": {
+      "fin": [
+        "Grondin est tombé ! La Brèche tiendra. Mais pendant que tout le monde regardait la Brèche…",
+        "La Chevalière Sans-Rouille a disparu de la Citadelle. Le Héraut l'a prise. La quête des Reliques de l'Aube commence. Pour de bon.",
+        "Gardez cet éclat tombé de la Brèche. Il brille comme une Relique. Un jour, peut-être, vous en porterez une vraie."
+      ]
+    }
+  },
+  "recompenses": {
+    "xp_cr": 8,
+    "ecus": 450,
+    "objets": [
+      {
+        "objet": "eclat_de_l_aube",
+        "nombre": 1
+      }
+    ]
+  }
+}

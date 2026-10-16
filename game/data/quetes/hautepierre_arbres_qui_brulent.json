@@ -1,0 +1,64 @@
+{
+  "id": "hautepierre_arbres_qui_brulent",
+  "nom": "Les arbres qui brûlent",
+  "categorie": "principale",
+  "niveau": 20,
+  "pnj": "ilyndra_tel_hautaine",
+  "description": "Des arbres brûlent au nord de Hautepierre. La cendre gagne-t-elle aussi les forêts ?",
+  "acte": 2,
+  "conditions": {
+    "camp": "neutre",
+    "niveau_min": 18,
+    "quetes_terminees": [
+      "hautepierre_notes_d_observatrice"
+    ]
+  },
+  "etapes": [
+    {
+      "objectifs": [
+        {
+          "type": "vaincre",
+          "monstre": "arbre_calcine",
+          "nombre": 4
+        },
+        {
+          "type": "apporter",
+          "objet": "cendre_tiede",
+          "nombre": 3,
+          "pnj": "ilyndra_tel_hautaine",
+          "butin": {
+            "monstres": [
+              "arbre_calcine"
+            ],
+            "taux": 0.5
+          }
+        }
+      ]
+    }
+  ],
+  "dialogues": {
+    "ilyndra_tel_hautaine": {
+      "proposition": [
+        "Au nord de la ville, au Bois-Corbeau et sur la Colline Pelée, des arbres marchent en brûlant. Des arbres calcinés.",
+        "Va voir, et rapporte-moi de leur cendre. Je veux savoir si c'est la même cendre que celle qui grise la toile de la Mère-Toile."
+      ],
+      "en_cours": [
+        "Les arbres brûlent toujours ? Les humains disent que c'est « la saison ». Les humains disent beaucoup de choses."
+      ],
+      "fin": [
+        "La même cendre. Celle du Souverain. Elle gagne les arbres, ici comme chez nous. La forêt ne sera pas épargnée.",
+        "Le conseil croit encore que ce n'est pas notre guerre. Le conseil va devoir délibérer plus vite. Beaucoup plus vite."
+      ]
+    }
+  },
+  "recompenses": {
+    "xp_cr": 5,
+    "ecus": 270,
+    "objets": [
+      {
+        "objet": "ceinture_d_ecorce_calcinee",
+        "nombre": 1
+      }
+    ]
+  }
+}
