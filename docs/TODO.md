@@ -115,7 +115,7 @@ Tout le contenu et les systèmes MVP de l'alpha 1 sont faits (chantiers 1, 3, 4 
 - [x] Questionnaire de référence ([FORMULAIRE_ALPHA1.md](FORMULAIRE_ALPHA1.md))
 - [x] Questionnaire créé avec `docs/creer_formulaire.gs` (Apps Script) ; lien des testeurs dans
   `Session.FEEDBACK_URL` et le guide des testeurs
-- [ ] Vérifier que le lien s'ouvre bien depuis le jeu (« Donner son avis ») dans une fenêtre privée
+- [x] Lien vérifié depuis le jeu (« Donner son avis ») dans une fenêtre privée
 - [ ] Passe de l'auteur dans chaque camp (tutoriel et début de l'acte I, une Voie différente à
   chaque fois) sur la version publiée
 - [ ] Inviter les testeurs (5 au moins), avec le lien du jeu et le guide
