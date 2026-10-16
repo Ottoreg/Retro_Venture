@@ -216,3 +216,14 @@ func test_ia_bloquee_finit_son_tour() -> void:
 	var events := _end_turn(combat)
 	assert_eq(Fixtures.of_type(events, Protocol.EVT_DAMAGE).size(), 0)
 	assert_eq(combat.current_fighter(), _player(combat))
+
+
+func test_les_pnj_ne_bloquent_pas_le_combat() -> void:
+	# Un PNJ au milieu de la carte : obstacle en exploration, case libre en combat (il n'y est pas).
+	var npc_cell := Fixtures.center() + Vector2i(1, 0)
+	var game_map := Fixtures.map({npc_cell: "a"}, [], {"pnj": [{"marqueur": "a", "id": "badaud", "nom": "Badaud", "repliques": ["…"]}]})
+	assert_false(game_map.is_walkable(npc_cell), "bloquée en exploration")
+	assert_true(game_map.is_walkable_in_combat(npc_cell), "libre en combat")
+	var combat := Fixtures.combat(game_map, Fixtures.center(), [["mannequin", Fixtures.center() + Vector2i(4, 0)]])
+	assert_true(combat.is_free(npc_cell))
+	assert_true(combat.reachable_cells(combat.get_fighter(Fixtures.PLAYER)).has(npc_cell), "on peut y marcher")

@@ -433,6 +433,12 @@ func is_walkable(cell: Vector2i) -> bool:
 	return is_inside(cell) and not obstacles.has(cell) and npc_at(cell).is_empty()
 
 
+## Case praticable en combat : les PNJ n'y prennent pas part (ils ne sont pas affichés), leur case
+## est libre comme les autres.
+func is_walkable_in_combat(cell: Vector2i) -> bool:
+	return is_inside(cell) and not obstacles.has(cell)
+
+
 ## PNJ sur la case, ou `{}`.
 func npc_at(cell: Vector2i) -> Dictionary:
 	for npc in npcs:

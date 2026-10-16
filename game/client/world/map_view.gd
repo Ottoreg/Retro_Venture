@@ -515,7 +515,8 @@ func _describe(cell: Vector2i) -> String:
 			if rank > 0:
 				text += "\nButin : +%d %%" % roundi(rank * World.ELITE_LOOT_BONUS_PER_RANK * 100.0)
 			return text
-	return "case (%d, %d)%s" % [cell.x, cell.y, "" if _map.is_walkable(cell) else " — bloquée"]
+	var walkable := _map.is_walkable_in_combat(cell) if mode == Mode.COMBAT else _map.is_walkable(cell)
+	return "case (%d, %d)%s" % [cell.x, cell.y, "" if walkable else " — bloquée"]
 
 
 func _update_preview() -> void:
@@ -1033,7 +1034,8 @@ func _draw() -> void:
 	for cell in _preview:
 		draw_colored_polygon(_scaled_diamond(IsoGrid.cell_to_screen(cell), 0.35), COLOR_PATH)
 	if map.is_inside(_hovered):
-		var color := COLOR_HOVER_OK if map.is_walkable(_hovered) else COLOR_HOVER_KO
+		var walkable := map.is_walkable_in_combat(_hovered) if mode == Mode.COMBAT else map.is_walkable(_hovered)
+		var color := COLOR_HOVER_OK if walkable else COLOR_HOVER_KO
 		draw_colored_polygon(IsoGrid.diamond(IsoGrid.cell_to_screen(_hovered)), color)
 
 	# Objets en relief et personnages, du fond vers l'avant.

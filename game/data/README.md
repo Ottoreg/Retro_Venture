@@ -122,7 +122,8 @@ groupe le montre devant son nom (« Niv. 2 Rat des galeries »).
 ### PNJ
 
 Les lettres minuscules (`a` à `z`) du plan placent les PNJ décrits dans la liste `pnj`, par leur
-`marqueur`. Un PNJ bloque sa case ; un clic dessus fait venir le joueur à côté, puis le PNJ dit ses
+`marqueur`. Un PNJ bloque sa case en exploration (pas en combat : il n'y prend pas part, sa case
+est libre) ; un clic dessus fait venir le joueur à côté, puis le PNJ dit ses
 répliques une par une, dans une bulle.
 
 ```json

@@ -127,7 +127,7 @@ func execute(command: Dictionary) -> Array[Dictionary]:
 # --- Règles consultables par le client et l'IA -----------------------------------------------
 
 func is_free(cell: Vector2i) -> bool:
-	return map.is_walkable(cell) and fighter_at(cell) == null
+	return map.is_walkable_in_combat(cell) and fighter_at(cell) == null
 
 
 ## Cases atteignables avec les PM du combattant, et le chemin pour chacune (4 directions).
@@ -161,7 +161,7 @@ func distances_from(sources: Array[Vector2i], ignored: Fighter = null) -> Dictio
 		var next_frontier: Array[Vector2i] = []
 		for cell in frontier:
 			for neighbor in IsoGrid.neighbors_4(cell):
-				if distances.has(neighbor) or not map.is_walkable(neighbor):
+				if distances.has(neighbor) or not map.is_walkable_in_combat(neighbor):
 					continue
 				var occupant := fighter_at(neighbor)
 				if occupant != null and occupant != ignored:
@@ -283,7 +283,7 @@ func _move(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 		return _refused(command, Protocol.REASON_INVALID_COMMAND)
 	if not map.is_inside(target):
 		return _refused(command, Protocol.REASON_OUT_OF_MAP)
-	if not map.is_walkable(target):
+	if not map.is_walkable_in_combat(target):
 		return _refused(command, Protocol.REASON_BLOCKED)
 	if target == fighter.cell:
 		return _refused(command, Protocol.REASON_ALREADY_THERE)
@@ -331,7 +331,7 @@ func _cast(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 		blocker = Protocol.REASON_OCCUPIED if fighter_at(target) != null else Protocol.REASON_BLOCKED
 	var trap_effect := spell.trap_effect()
 	if blocker.is_empty() and not trap_effect.is_empty() and (not is_free(target) or not trap_at(target).is_empty()):
-		blocker = Protocol.REASON_BLOCKED if not map.is_walkable(target) else Protocol.REASON_OCCUPIED
+		blocker = Protocol.REASON_BLOCKED if not map.is_walkable_in_combat(target) else Protocol.REASON_OCCUPIED
 	if not blocker.is_empty():
 		return _refused(command, blocker)
 
@@ -507,7 +507,7 @@ func _push(from: Vector2i, target: Fighter, distance: int, pull: bool, events: A
 func _place_glyph(caster: Fighter, spell: Spell, effect: Dictionary, cells: Array[Vector2i], events: Array[Dictionary]) -> void:
 	var inside: Array[Vector2i] = []
 	for cell in cells:
-		if map.is_inside(cell) and map.is_walkable(cell):
+		if map.is_inside(cell) and map.is_walkable_in_combat(cell):
 			inside.append(cell)
 	var glyph := {"id": _next_ground_id, "lanceur": caster, "equipe": caster.team, "cases": inside, "effets": effect["effets"],
 		"tours": int(effect["duree"]), "sort": spell.display_name}
