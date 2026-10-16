@@ -12,4 +12,4 @@ static var start_map := ""
 static var minimap_folded := false
 
 ## Questionnaire des testeurs (menu principal et menu pause : « Donner son avis »).
-const FEEDBACK_URL := "https://docs.google.com/forms/d/1FjElWO0e9AP0lCeaVXw6DzaL0U_hO2MZkGy-05V9gKk/viewform"
+const FEEDBACK_URL := "https://docs.google.com/forms/d/e/1FAIpQLSfvVseTPS49X5ssBkdsdkNkJxVPzQwZ-EKNOKwkB1GjovaUDg/viewform"

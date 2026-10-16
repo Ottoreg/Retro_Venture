@@ -113,9 +113,9 @@ Tout le contenu et les systèmes MVP de l'alpha 1 sont faits (chantiers 1, 3, 4 
 - [x] Guide des testeurs à jour ([GUIDE_TESTEURS.md](GUIDE_TESTEURS.md) : par où commencer,
   problèmes connus, questionnaire)
 - [x] Questionnaire de référence ([FORMULAIRE_ALPHA1.md](FORMULAIRE_ALPHA1.md))
-- [ ] Créer le questionnaire avec `docs/creer_formulaire.gs` (Apps Script) ou le reporter à la main,
-  vérifier que le lien des testeurs s'ouvre (formulaire publié), puis mettre ce lien dans
+- [x] Questionnaire créé avec `docs/creer_formulaire.gs` (Apps Script) ; lien des testeurs dans
   `Session.FEEDBACK_URL` et le guide des testeurs
+- [ ] Vérifier que le lien s'ouvre bien depuis le jeu (« Donner son avis ») dans une fenêtre privée
 - [ ] Passe de l'auteur dans chaque camp (tutoriel et début de l'acte I, une Voie différente à
   chaque fois) sur la version publiée
 - [ ] Inviter les testeurs (5 au moins), avec le lien du jeu et le guide

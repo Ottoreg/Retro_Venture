@@ -1,7 +1,8 @@
 # Questionnaire des testeurs — alpha test 1 (version de référence)
 
-Contenu à jour du Google Forms « Retro Venture — Questionnaire de test Alpha Solo »
-(lien des testeurs : https://docs.google.com/forms/d/1FjElWO0e9AP0lCeaVXw6DzaL0U_hO2MZkGy-05V9gKk/viewform,
+Contenu du Google Forms « Retro Venture — Questionnaire alpha test 1 » (créé par `creer_formulaire.gs` ;
+édition : https://docs.google.com/forms/d/18ojkIiUybuPqOvd6Ht2g_8csirDtQsSTds8Sa9WzQWQ/edit)
+(lien des testeurs : https://docs.google.com/forms/d/e/1FAIpQLSfvVseTPS49X5ssBkdsdkNkJxVPzQwZ-EKNOKwkB1GjovaUDg/viewform,
 aussi dans le jeu : « Donner son avis », et dans `client/session.gd`, `Session.FEEDBACK_URL`).
 
 **Création automatique** : le script Apps Script [`creer_formulaire.gs`](creer_formulaire.gs) crée ce

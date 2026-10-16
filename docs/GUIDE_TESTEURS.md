@@ -15,7 +15,7 @@ nous faire vos retours. Le jeu n'affiche volontairement presque aucune aide à l
   provisoires), multijoueur. L'équilibrage sera revu d'après vos retours.
 - À la fin (ou quand vous voulez), **remplissez le questionnaire** : bouton **« Donner son avis »**
   du menu principal ou du menu pause (Échap), ou directement :
-  **https://docs.google.com/forms/d/1FjElWO0e9AP0lCeaVXw6DzaL0U_hO2MZkGy-05V9gKk/viewform**
+  **https://docs.google.com/forms/d/e/1FAIpQLSfvVseTPS49X5ssBkdsdkNkJxVPzQwZ-EKNOKwkB1GjovaUDg/viewform**
 
 ## Lancer le jeu
 
