@@ -118,6 +118,12 @@ Tout le contenu et les systèmes MVP de l'alpha 1 sont faits (chantiers 1, 3, 4 
 - [x] Lien vérifié depuis le jeu (« Donner son avis ») dans une fenêtre privée
 - [ ] Passe de l'auteur dans chaque camp (tutoriel et début de l'acte I, une Voie différente à
   chaque fois) sur la version publiée
+- [x] Retours de la passe de l'auteur : bulle de dialogue sous le bandeau du haut (placée sous le
+  PNJ quand elle déborderait), suivi de quête plus petit et repliable, ligne de vue exigée pour 7
+  sorts de monstres qui traversaient les obstacles (racines, ronces, spores, ultrason, « Ça
+  tombe ! », nuée de corbeaux), garde-fou de la lecture des événements
+- [ ] Gel vu contre Grondin (une fois, non reproduit en 20 combats simulés jusqu'aux 3 phases) :
+  attendre un retour avec la console du navigateur
 - [ ] Inviter les testeurs (5 au moins), avec le lien du jeu et le guide
 - [ ] Après le test : dépouiller les réponses, décider des ajustements d'équilibrage (ci-dessous,
   Monde) et des corrections, puis préparer l'alpha test 2

@@ -3716,7 +3716,7 @@
     "min": 2,
     "max": 5
    },
-   "ligne_de_vue": false,
+   "ligne_de_vue": true,
    "relance": {
     "par_tour": 1
    },
@@ -3996,7 +3996,7 @@
     "min": 1,
     "max": 4
    },
-   "ligne_de_vue": false,
+   "ligne_de_vue": true,
    "relance": {
     "par_tour": 1
    },
@@ -4335,7 +4335,7 @@
     "min": 1,
     "max": 3
    },
-   "ligne_de_vue": false,
+   "ligne_de_vue": true,
    "relance": {
     "par_tour": 1
    },
@@ -4387,7 +4387,7 @@
     "min": 1,
     "max": 3
    },
-   "ligne_de_vue": false,
+   "ligne_de_vue": true,
    "zone": {
     "type": "cercle",
     "taille": 1
@@ -4443,7 +4443,7 @@
     "min": 2,
     "max": 4
    },
-   "ligne_de_vue": false,
+   "ligne_de_vue": true,
    "lancer_en_ligne": true,
    "zone": {
     "type": "croix_latine"

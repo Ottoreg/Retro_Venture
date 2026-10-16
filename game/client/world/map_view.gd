@@ -86,6 +86,10 @@ const CARAC_NAMES := {"force": "Force", "intelligence": "Intelligence", "chance"
 	"pa": "PA", "pm": "PM", "portee": "Portée", "dommages": "Dommages", "critique": "% Critique", "resistance": "Rés."}
 
 const NO_CELL := Vector2i(-99999, -99999)
+## Haut de l'écran sous le bandeau du haut (pixels) : une bulle de dialogue ne monte pas plus haut.
+const DIALOGUE_TOP := 70.0
+## Garde-fou de la lecture des événements (voir `_watch_playback`), en secondes.
+const STALL_LIMIT := 1.0
 ## Place de chaque membre d'un groupe de monstres sur sa case (pixels depuis le centre), selon la
 ## taille du groupe ; le premier est le meneur, devant.
 const GROUP_SPOTS := [
@@ -149,6 +153,7 @@ var _border_polygons: Array[PackedVector2Array] = []
 # Lecture des événements
 var _queue: Array[Dictionary] = []
 var _playing := false
+var _stall_time := 0.0
 var _paused := false
 var _wait := 0.0
 var _walk_actor := ""
@@ -557,13 +562,32 @@ func _process(delta: float) -> void:
 	for group_id: String in _group_walks.keys():
 		if not _actors.has(group_id) or _step_along(_actors[group_id], _group_walks[group_id], delta, GROUP_WALK_SPEED):
 			_group_walks.erase(group_id)
+	if _walk_actor != "" and (not _actors.has(_walk_actor) or _walk_path.is_empty()):
+		push_error("Marche sans chemin (%s) : on passe à l'événement suivant." % _walk_actor)
+		_walk_actor = ""
+		_play_next()
 	if _walk_actor != "":
 		_advance_walk(delta)
 	elif _wait > 0.0:
 		_wait -= delta
 		if _wait <= 0.0:
 			_play_next()
+	_watch_playback(delta)
 	queue_redraw()  # Les personnages respirent, même à l'arrêt.
+
+
+## Garde-fou : la lecture des événements ne doit jamais rester « en cours » sans rien attendre
+## (ni marche, ni délai, ni écran de fin). Si c'est le cas (une erreur l'a interrompue en route),
+## elle repart au bout de STALL_LIMIT secondes, avec un message dans la console du navigateur.
+func _watch_playback(delta: float) -> void:
+	if _playing and not _paused and _walk_actor == "" and _wait <= 0.0:
+		_stall_time += delta
+		if _stall_time >= STALL_LIMIT:
+			push_error("Lecture des événements bloquée (%d en attente) : reprise." % _queue.size())
+			_stall_time = 0.0
+			_play_next()
+	else:
+		_stall_time = 0.0
 
 
 ## Changements du monde qui ne viennent pas d'une commande (repousse, réapparition) : appliqués
@@ -1509,7 +1533,11 @@ func _show_dialogue_line() -> void:
 	var anchor := IsoGrid.cell_to_screen(_dialogue["case"]) + Vector2(0, -68)
 	var top_left := anchor - Vector2(bubble_size.x / 2.0, bubble_size.y)
 	var max_x := _map.screen_rect().size.x - bubble_size.x
-	_bubble.position = Vector2(clampf(top_left.x, 0.0, maxf(max_x, 0.0)), maxf(top_left.y, -60.0))
+	# Au-dessus du PNJ, sauf si la bulle passerait sous le bandeau du haut : alors sous ses pieds.
+	var highest := DIALOGUE_TOP - global_position.y
+	if top_left.y < highest:
+		top_left.y = IsoGrid.cell_to_screen(_dialogue["case"]).y + 18.0
+	_bubble.position = Vector2(clampf(top_left.x, 0.0, maxf(max_x, 0.0)), top_left.y)
 
 
 func _close_dialogue() -> void:

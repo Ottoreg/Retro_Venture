@@ -6,6 +6,7 @@ extends "res://tests/test_case.gd"
 ## Minicarte dépliée au début de chaque test (l'état est gardé dans `Session`, d'un test à l'autre).
 func before_each() -> void:
 	Session.minimap_folded = false
+	Session.tracker_folded = false
 	Options.path = "user://options_tests.cfg"  # Jamais les options du joueur.
 	Options.reset()
 
@@ -136,6 +137,10 @@ func test_pnj_et_changement_de_carte() -> void:
 	assert_true(view.world.character.quests.is_active("brumerive_tutoriel"))
 	assert_true(scene.quest_tracker.is_shown(), "quête suivie sous la minicarte")
 	assert_true(scene.quest_tracker.shown_text().contains("Bienvenue à Brumerive"), scene.quest_tracker.shown_text())
+	scene.quest_tracker.set_folded(true)
+	assert_false(scene.quest_tracker._lines.visible, "suivi replié : seulement le nom de la quête")
+	scene.quest_tracker.set_folded(false)
+	assert_true(scene.quest_tracker._lines.visible)
 
 	# Lui reparler : le joueur s'approche, la bulle s'affiche, chaque clic passe à la suite.
 	view._on_click(npc["case"])
@@ -1035,4 +1040,25 @@ func test_carte_du_monde_depuis_une_maison() -> void:
 	assert_true(world_map._grid.case_tooltip(cases["brumerive_0_0"]).contains("Vous êtes dans une maison de cette carte."),
 		"bulle de survol")
 	assert_eq(cases["brumerive_1_0"]["nom"], "Champs de l'est", "sa voisine, nommée")
+	scene.free()
+
+
+func test_lecture_bloquee_repart_seule() -> void:
+	var tree := Engine.get_main_loop() as SceneTree
+	var scene: Node = load("res://client/world/world.tscn").instantiate()
+	tree.root.add_child(scene)
+	var view: MapView = scene.get_node("MapView")
+	# Lecture interrompue en route (comme après une erreur) : un événement attend encore.
+	view._playing = true
+	view._queue.append({"type": Protocol.EVT_QUEST_PROGRESS, "quete": "", "texte": "Reprise"})
+	view._process(0.5)
+	assert_true(view.is_busy(), "pas encore")
+	view._process(0.6)
+	assert_false(view.is_busy(), "la lecture a repris et s'est terminée")
+	# Marche sans chemin : abandonnée.
+	view._playing = true
+	view._walk_actor = World.PLAYER_ID
+	view._walk_path.clear()
+	view._process(0.1)
+	assert_eq(view._walk_actor, "")
 	scene.free()

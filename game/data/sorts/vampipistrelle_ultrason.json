@@ -7,7 +7,7 @@
     "min": 1,
     "max": 4
   },
-  "ligne_de_vue": false,
+  "ligne_de_vue": true,
   "relance": {
     "par_tour": 1
   },

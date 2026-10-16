@@ -10,6 +10,8 @@ static var continue_game := false
 static var start_map := ""
 ## Minicarte repliée par le joueur (gardé pendant la partie, pas dans la sauvegarde).
 static var minimap_folded := false
+## Suivi de quête replié (même règle que la minicarte).
+static var tracker_folded := false
 
 ## Questionnaire des testeurs (menu principal et menu pause : « Donner son avis »).
 const FEEDBACK_URL := "https://docs.google.com/forms/d/e/1FAIpQLSfvVseTPS49X5ssBkdsdkNkJxVPzQwZ-EKNOKwkB1GjovaUDg/viewform"

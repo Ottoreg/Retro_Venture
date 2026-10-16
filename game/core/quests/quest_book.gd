@@ -397,6 +397,12 @@ func npc_name(npc_id: String) -> String:
 	return npc_location(npc_id).get("nom", npc_id)
 
 
+## Nom court d'un PNJ, sans sa fonction (« Tantine Champignolle » pour « Tantine Champignolle,
+## cueilleuse »), pour les objectifs.
+func npc_short_name(npc_id: String) -> String:
+	return npc_name(npc_id).split(",")[0].strip_edges()
+
+
 ## { nom, carte } d'un PNJ, ou {} s'il n'est sur aucune carte.
 func npc_location(npc_id: String) -> Dictionary:
 	if _npc_index.is_empty():
@@ -422,7 +428,7 @@ func _objective_text(objective: Dictionary, count: int) -> String:
 	if base.is_empty():
 		match type:
 			Quest.OBJ_TALK:
-				base = "Parler à %s" % npc_name(objective["pnj"])
+				base = "Parler à %s" % npc_short_name(objective["pnj"])
 			Quest.OBJ_DEFEAT:
 				base = "Vaincre : %s" % data.monsters[objective["monstre"]]["nom"]
 			Quest.OBJ_DEFEAT_GROUP:
@@ -432,7 +438,7 @@ func _objective_text(objective: Dictionary, count: int) -> String:
 			Quest.OBJ_CRAFT:
 				base = "Fabriquer : %s" % (data.items[objective["objet"]]["nom"] if objective.has("objet") else "un objet (%s)" % data.jobs[objective["metier"]]["nom"])
 			Quest.OBJ_BRING:
-				base = "Apporter à %s : %s" % [npc_name(objective["pnj"]), data.items[objective["objet"]]["nom"]]
+				base = "Apporter à %s : %s" % [npc_short_name(objective["pnj"]), data.items[objective["objet"]]["nom"]]
 			Quest.OBJ_EQUIP:
 				base = "Équiper : %s" % (data.items[objective["objet"]]["nom"] if objective.has("objet") else Item.SLOT_NAMES[objective["emplacement"]])
 			Quest.OBJ_GO:

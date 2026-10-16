@@ -170,8 +170,9 @@ le **lit** de votre maison les rend tous d'un coup.
   proposition s'affiche (texte, objectifs, récompenses) avec « Accepter » ou « Plus tard ».
 - Un **« ? »** jaune : il attend quelque chose de vous maintenant (lui parler, lui rapporter des
   objets) ; un **« ? »** gris : sa quête est en cours.
-- La quête suivie s'affiche **sous la minicarte** (clic : le journal, touche **Q**). Chaque objectif
-  qui avance s'annonce en bas de l'écran.
+- La quête suivie s'affiche **sous la minicarte**, en petit (clic : le journal, touche **Q** ;
+  le bouton **« – »** la replie pour ne garder que son nom). Chaque objectif qui avance s'annonce
+  en bas de l'écran.
 - On rend une quête en parlant au personnage une fois les autres objectifs remplis (les objets
   demandés sont pris à ce moment-là). Certains objets ne tombent des monstres que pendant la quête
   qui les demande ; les **objets de quête** ne se vendent ni ne se jettent.
@@ -233,6 +234,10 @@ le **lit** de votre maison les rend tous d'un coup.
 - Pas de son ; certains dessins sont provisoires (pas de personnages féminins, pas d'animation de
   mort ni d'effets de sorts).
 - Les élites gagnent une marque d'ancienneté par minute (pour le test ; ce sera une par heure).
+- Un gel du jeu a été vu une fois contre Grondin, sans qu'on arrive à le reproduire. Le jeu
+  reprend désormais seul au bout d'une seconde si l'affichage reste bloqué. Si un gel vous arrive
+  quand même, ouvrez la console du navigateur (**F12**, onglet « Console ») et faites une capture
+  des messages en rouge : c'est très précieux.
 
 ## Ce qu'on aimerait que vous regardiez
 

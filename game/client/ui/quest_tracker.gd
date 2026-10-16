@@ -1,18 +1,20 @@
 class_name QuestTracker
 extends CanvasLayer
 ## Suivi de la quête choisie, sous la minicarte (en exploration) : son nom et les objectifs de
-## l'étape, cochés au fur et à mesure. Un clic ouvre le journal.
+## l'étape, cochés au fur et à mesure, en petit pour ne pas cacher la carte. Le bouton « – » le
+## replie (il ne reste que le nom de la quête) ; un clic ailleurs ouvre le journal.
 
 signal pressed
 
-const WIDTH := 236.0
-const GAP := 6.0
+const WIDTH := 196.0
+const GAP := 4.0
 
 var map_view: MapView
 var minimap: Minimap
 var _frame: PanelContainer
 var _title: Label
 var _lines: Label
+var _fold: Button
 
 
 func _ready() -> void:
@@ -32,6 +34,15 @@ func setup(p_map_view: MapView, p_minimap: Minimap) -> void:
 
 func is_shown() -> bool:
 	return _frame.visible
+
+
+func is_folded() -> bool:
+	return Session.tracker_folded
+
+
+func set_folded(folded: bool) -> void:
+	Session.tracker_folded = folded
+	refresh()
 
 
 ## Texte affiché (pour les tests) : nom de la quête, puis les objectifs.
@@ -55,6 +66,9 @@ func refresh() -> void:
 	for objective: Dictionary in tracked["objectifs"]:
 		lines.append(("✔ " if objective["fait"] else "• ") + objective["texte"])
 	_lines.text = "\n".join(lines)
+	_lines.visible = not Session.tracker_folded
+	_fold.text = "+" if Session.tracker_folded else "–"
+	_fold.tooltip_text = "Déplier le suivi" if Session.tracker_folded else "Replier le suivi"
 	_frame.reset_size()
 
 
@@ -81,7 +95,7 @@ func _build() -> void:
 	style.border_color = Color(0.55, 0.42, 0.22)
 	style.set_border_width_all(1)
 	style.set_corner_radius_all(4)
-	style.set_content_margin_all(8)
+	style.set_content_margin_all(5)
 	_frame.add_theme_stylebox_override("panel", style)
 	_frame.custom_minimum_size = Vector2(WIDTH, 0)
 	_frame.tooltip_text = "Journal des quêtes (Q)"
@@ -89,18 +103,30 @@ func _build() -> void:
 	add_child(_frame)
 	var column := VBoxContainer.new()
 	column.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	column.add_theme_constant_override("separation", 1)
 	_frame.add_child(column)
+	var header := HBoxContainer.new()
+	header.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	column.add_child(header)
 	_title = Label.new()
-	_title.add_theme_font_size_override("font_size", 14)
+	_title.add_theme_font_size_override("font_size", 12)
 	_title.add_theme_color_override("font_color", UiTheme.GOLD)
-	_title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_title.custom_minimum_size = Vector2(WIDTH - 16, 0)
+	_title.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	_title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_title.custom_minimum_size = Vector2(WIDTH - 34, 0)
 	_title.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	column.add_child(_title)
+	header.add_child(_title)
+	_fold = Button.new()
+	_fold.flat = true
+	_fold.focus_mode = Control.FOCUS_NONE
+	_fold.custom_minimum_size = Vector2(18, 16)
+	_fold.add_theme_font_size_override("font_size", 12)
+	_fold.pressed.connect(func() -> void: set_folded(not Session.tracker_folded))
+	header.add_child(_fold)
 	_lines = Label.new()
-	_lines.add_theme_font_size_override("font_size", 13)
+	_lines.add_theme_font_size_override("font_size", 11)
 	_lines.add_theme_color_override("font_color", UiTheme.TEXT)
 	_lines.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_lines.custom_minimum_size = Vector2(WIDTH - 16, 0)
+	_lines.custom_minimum_size = Vector2(WIDTH - 10, 0)
 	_lines.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	column.add_child(_lines)
