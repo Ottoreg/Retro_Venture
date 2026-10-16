@@ -807,7 +807,8 @@ ingrédients).
   Les objectifs « parler » et « apporter » se remplissent en dernier (on rend la quête). Contenu
   produit : les 3 tutoriels, l'acte I et l'acte II des trois camps, et le début de l'acte III
   (le Conseil des Peuples Libres, puis Grondin à la Brèche ; la Chevalière Sans-Rouille disparaît :
-  fin de l'histoire de l'alpha). Reste : les quêtes secondaires.
+  fin de l'histoire de l'alpha), et les 15 quêtes secondaires des zones de départ (ouvertes à
+  tous les camps) : **tout le contenu de quêtes de l'alpha 1 est produit**.
 
 ### 11.2 Long terme : quêtes complexes
 

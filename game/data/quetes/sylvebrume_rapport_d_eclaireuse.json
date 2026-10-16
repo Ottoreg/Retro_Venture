@@ -1,0 +1,63 @@
+{
+  "id": "sylvebrume_rapport_d_eclaireuse",
+  "nom": "Rapport d'éclaireuse",
+  "categorie": "secondaire",
+  "niveau": 10,
+  "pnj": "eclaireuse_sylphine",
+  "description": "L'éclaireuse Sylphine doit faire un rapport. Elle préférerait que quelqu'un d'autre regarde.",
+  "conditions": {
+    "niveau_min": 9,
+    "une_quete_terminee": [
+      "brumerive_tutoriel",
+      "crasse_roc_tutoriel",
+      "sylvebrume_tutoriel"
+    ]
+  },
+  "etapes": [
+    {
+      "objectifs": [
+        {
+          "type": "aller",
+          "carte": "sylvebrume_2_1",
+          "texte": "Observer la Scierie de Brumerive"
+        },
+        {
+          "type": "aller",
+          "carte": "sylvebrume_1_2",
+          "texte": "Observer les Toiles grises"
+        },
+        {
+          "type": "vaincre",
+          "monstre": "tisseuse_de_brume",
+          "nombre": 3
+        }
+      ]
+    },
+    {
+      "objectifs": [
+        {
+          "type": "parler",
+          "pnj": "eclaireuse_sylphine"
+        }
+      ]
+    }
+  ],
+  "dialogues": {
+    "eclaireuse_sylphine": {
+      "proposition": [
+        "Je dois rendre un rapport au conseil sur la scierie humaine et les toiles grises. Mais je déteste les deux.",
+        "Va observer à ma place, chasse quelques tisseuses au passage, et reviens me raconter. J'écrirai que j'y étais."
+      ],
+      "en_cours": [
+        "Alors ? La scierie scie ? Les toiles tissent ? Le conseil veut des détails. Pas trop, il délibère lentement."
+      ],
+      "fin": [
+        "Une scierie qui scie, des toiles grises de plus en plus grises… Parfait, ça fera un rapport de trois lignes. Le conseil en délibérera un siècle."
+      ]
+    }
+  },
+  "recompenses": {
+    "xp_cr": 3,
+    "ecus": 70
+  }
+}

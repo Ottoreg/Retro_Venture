@@ -1,0 +1,58 @@
+{
+  "id": "brumerive_moutons_d_alric",
+  "nom": "Les moutons d'Alric",
+  "categorie": "secondaire",
+  "niveau": 2,
+  "pnj": "alric_le_berger",
+  "description": "Les loups des collines dévorent le troupeau d'Alric, mouton après mouton.",
+  "conditions": {
+    "niveau_min": 1,
+    "une_quete_terminee": [
+      "brumerive_tutoriel",
+      "crasse_roc_tutoriel",
+      "sylvebrume_tutoriel"
+    ]
+  },
+  "etapes": [
+    {
+      "objectifs": [
+        {
+          "type": "vaincre",
+          "monstre": "loup_des_collines",
+          "nombre": 5
+        },
+        {
+          "type": "apporter",
+          "objet": "peau_de_loup",
+          "nombre": 3,
+          "pnj": "alric_le_berger",
+          "butin": {
+            "monstres": [
+              "loup_des_collines",
+              "loup_alpha"
+            ],
+            "taux": 0.5
+          }
+        }
+      ]
+    }
+  ],
+  "dialogues": {
+    "alric_le_berger": {
+      "proposition": [
+        "Les loups mangent mes moutons. Il m'en reste quatre. Enfin, trois et demi.",
+        "Chassez-en cinq, et rapportez-moi trois peaux : je ferai des manteaux aux moutons qui restent. Ils ont froid, depuis qu'ils ont peur."
+      ],
+      "en_cours": [
+        "Les loups rôdent encore. Mes moutons dorment avec un œil ouvert. C'est mauvais pour leur laine."
+      ],
+      "fin": [
+        "Trois peaux ! Mes moutons auront des manteaux en loup. Ça devrait faire réfléchir les autres loups."
+      ]
+    }
+  },
+  "recompenses": {
+    "xp_cr": 3,
+    "ecus": 22
+  }
+}

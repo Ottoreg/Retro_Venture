@@ -1,0 +1,58 @@
+{
+  "id": "sylvebrume_champignons_insolents",
+  "nom": "Des champignons qui insultent",
+  "categorie": "secondaire",
+  "niveau": 2,
+  "pnj": "tantine_champignolle",
+  "description": "Les morilles grincheuses insultent Tantine Champignolle. Elle compte en faire une omelette.",
+  "conditions": {
+    "niveau_min": 1,
+    "une_quete_terminee": [
+      "brumerive_tutoriel",
+      "crasse_roc_tutoriel",
+      "sylvebrume_tutoriel"
+    ]
+  },
+  "etapes": [
+    {
+      "objectifs": [
+        {
+          "type": "vaincre",
+          "monstre": "morille_grincheuse",
+          "nombre": 5
+        },
+        {
+          "type": "apporter",
+          "objet": "chapeau_de_morille",
+          "nombre": 3,
+          "pnj": "tantine_champignolle",
+          "butin": {
+            "monstres": [
+              "morille_grincheuse",
+              "vieille_morille_rancuniere"
+            ],
+            "taux": 0.5
+          }
+        }
+      ]
+    }
+  ],
+  "dialogues": {
+    "tantine_champignolle": {
+      "proposition": [
+        "Celle-là est comestible. Celle-là aussi. Celle-là vous insulte : laissez-la. Enfin, non : prenez-la.",
+        "Les morilles grincheuses m'ont traitée de vieille souche. Chasse-en cinq et rapporte-moi trois chapeaux. Je ferai une omelette. Une omelette vexée."
+      ],
+      "en_cours": [
+        "Elles m'insultent encore. J'entends « vieille souche » jusqu'ici."
+      ],
+      "fin": [
+        "Trois chapeaux ! L'omelette sera grincheuse, mais délicieuse. Elle m'insultera un peu en cuisant. C'est le meilleur moment."
+      ]
+    }
+  },
+  "recompenses": {
+    "xp_cr": 3,
+    "ecus": 22
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "id": "crasse_roc_preavis_de_grizzlok",
+  "nom": "Le préavis de Grizzlok",
+  "categorie": "secondaire",
+  "niveau": 8,
+  "pnj": "grizzlok_le_pacifiste",
+  "description": "Grizzlok veut faire grève, pacifiquement. Il lui faut un messager.",
+  "conditions": {
+    "niveau_min": 7,
+    "une_quete_terminee": [
+      "brumerive_tutoriel",
+      "crasse_roc_tutoriel",
+      "sylvebrume_tutoriel"
+    ]
+  },
+  "etapes": [
+    {
+      "objectifs": [
+        {
+          "type": "parler",
+          "pnj": "contremaitre_grumm",
+          "texte": "Porter le préavis de Grizzlok à Grumm"
+        }
+      ]
+    },
+    {
+      "objectifs": [
+        {
+          "type": "vaincre",
+          "monstre": "milicien_de_hautepierre",
+          "nombre": 3
+        },
+        {
+          "type": "parler",
+          "pnj": "grizzlok_le_pacifiste",
+          "texte": "Rapporter la réponse de Grumm à Grizzlok"
+        }
+      ]
+    }
+  ],
+  "dialogues": {
+    "grizzlok_le_pacifiste": {
+      "proposition": [
+        "J'ai rédigé un préavis de grève. Pacifique. Avec des fleurs dessinées dans la marge.",
+        "Porte-le à Grumm, à l'entrée des galeries. Et rapporte-moi sa réponse. Attention, sur le chemin du retour, la milice patrouille."
+      ],
+      "en_cours": [
+        "Alors, il l'a lu ? Il a vu les fleurs ?"
+      ],
+      "fin": [
+        "Un préavis de licenciement en réponse à mon préavis de grève ? … C'est un dialogue social. C'est un début."
+      ]
+    },
+    "contremaitre_grumm": {
+      "objectif": [
+        "Un préavis de grève ? Avec des fleurs ? Tiens, rapporte-lui ma réponse : un préavis de licenciement. Avec des épines."
+      ]
+    }
+  },
+  "recompenses": {
+    "xp_cr": 3,
+    "ecus": 58
+  }
+}

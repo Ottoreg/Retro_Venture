@@ -1,0 +1,58 @@
+{
+  "id": "sylvebrume_dette_de_vieux_branchu",
+  "nom": "La dette de Vieux-Branchu",
+  "categorie": "secondaire",
+  "niveau": 8,
+  "pnj": "druide_feuillemorte",
+  "description": "Feuillemorte veut une stèle pour Vieux-Branchu, l'arbre millénaire qu'on a coupé.",
+  "conditions": {
+    "niveau_min": 7,
+    "une_quete_terminee": [
+      "brumerive_tutoriel",
+      "crasse_roc_tutoriel",
+      "sylvebrume_tutoriel"
+    ]
+  },
+  "etapes": [
+    {
+      "objectifs": [
+        {
+          "type": "vaincre",
+          "monstre": "bucheron_de_brumerive",
+          "nombre": 3
+        },
+        {
+          "type": "apporter",
+          "objet": "copeaux_de_bois",
+          "nombre": 5,
+          "pnj": "druide_feuillemorte",
+          "butin": {
+            "monstres": [
+              "bucheron_de_brumerive",
+              "abatteur_en_chef"
+            ],
+            "taux": 0.5
+          }
+        }
+      ]
+    }
+  ],
+  "dialogues": {
+    "druide_feuillemorte": {
+      "proposition": [
+        "Vieux-Branchu avait mille ans. Il me devait de l'argent. Je veux lui faire une stèle quand même : je suis rancunier, pas ingrat.",
+        "Rapporte-moi cinq poignées de copeaux de bois des bûcherons. Ce sont ses copeaux. Il les reconnaîtra."
+      ],
+      "en_cours": [
+        "Des copeaux de Vieux-Branchu. Les bûcherons en ont plein les poches."
+      ],
+      "fin": [
+        "Une stèle en copeaux. « À Vieux-Branchu, mille ans, toujours débiteur. » Il aurait aimé. Il aurait surtout aimé ne pas payer."
+      ]
+    }
+  },
+  "recompenses": {
+    "xp_cr": 3,
+    "ecus": 58
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "id": "crasse_roc_guano_culture",
+  "nom": "Guano-culture",
+  "categorie": "secondaire",
+  "niveau": 5,
+  "pnj": "gnark_guanoculteur",
+  "description": "Gnark veut une réserve de guano à lui, loin des griffes de Grumm.",
+  "conditions": {
+    "niveau_min": 4,
+    "une_quete_terminee": [
+      "brumerive_tutoriel",
+      "crasse_roc_tutoriel",
+      "sylvebrume_tutoriel"
+    ]
+  },
+  "etapes": [
+    {
+      "objectifs": [
+        {
+          "type": "vaincre",
+          "monstre": "vampipistrelle",
+          "nombre": 5
+        },
+        {
+          "type": "apporter",
+          "objet": "guano_luisant",
+          "nombre": 5,
+          "pnj": "gnark_guanoculteur",
+          "butin": {
+            "monstres": [
+              "vampipistrelle",
+              "vampipistrelle_comtesse"
+            ],
+            "taux": 0.5
+          }
+        }
+      ]
+    }
+  ],
+  "dialogues": {
+    "gnark_guanoculteur": {
+      "proposition": [
+        "Le guano de vampipistrelle, c'est de l'or ! De l'or qui sent mauvais, mais de l'or.",
+        "Grumm prend tout ce que je récolte. Aide-moi à me faire une réserve perso : cinq guanos luisants. Personne n'ira voler un tas de guano."
+      ],
+      "en_cours": [
+        "Le puits, c'est par là. Tu le trouveras à l'odeur."
+      ],
+      "fin": [
+        "Cinq ! Ma réserve perso. Ma retraite, en quelque sorte. Elle sent fort, mais elle est à moi."
+      ]
+    }
+  },
+  "recompenses": {
+    "xp_cr": 3,
+    "ecus": 40
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "id": "crasse_roc_galerie_effondree",
+  "nom": "La galerie effondrée",
+  "categorie": "secondaire",
+  "niveau": 5,
+  "pnj": "zogrub_troc_tout",
+  "description": "Zogrub avait un stock dans une galerie qui s'est effondrée. Un stock qui n'existe pas.",
+  "conditions": {
+    "niveau_min": 4,
+    "une_quete_terminee": [
+      "brumerive_tutoriel",
+      "crasse_roc_tutoriel",
+      "sylvebrume_tutoriel"
+    ]
+  },
+  "etapes": [
+    {
+      "objectifs": [
+        {
+          "type": "aller",
+          "carte": "crasse_roc_1_1",
+          "texte": "Aller à la galerie effondrée"
+        },
+        {
+          "type": "vaincre",
+          "monstre": "grouilleur",
+          "nombre": 3
+        },
+        {
+          "type": "recolter",
+          "objet": "minerai_de_cuivre",
+          "nombre": 4
+        }
+      ]
+    },
+    {
+      "objectifs": [
+        {
+          "type": "parler",
+          "pnj": "zogrub_troc_tout"
+        }
+      ]
+    }
+  ],
+  "dialogues": {
+    "zogrub_troc_tout": {
+      "proposition": [
+        "Psst ! J'avais un stock dans la galerie effondrée. Un stock qui n'existe pas, officiellement. Elle s'est effondrée dessus.",
+        "Va voir s'il reste quelque chose, chasse les grouilleurs qui s'y sont installés, et mine un peu de cuivre pour étayer. Je paie en liquide. Enfin, en écus."
+      ],
+      "en_cours": [
+        "Mon stock qui n'existe pas t'attend. Ne pose pas de questions, surtout à toi-même."
+      ],
+      "fin": [
+        "Étayé ! Mon stock est sauf. Tu n'as rien vu. Moi non plus. Tiens, pour ton silence et ton cuivre."
+      ]
+    }
+  },
+  "recompenses": {
+    "xp_cr": 3,
+    "ecus": 40
+  }
+}

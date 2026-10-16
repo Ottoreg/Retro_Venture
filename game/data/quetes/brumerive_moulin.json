@@ -1,0 +1,58 @@
+{
+  "id": "brumerive_moulin",
+  "nom": "Le moulin de Tournevent",
+  "categorie": "secondaire",
+  "niveau": 5,
+  "pnj": "bernardin_tourneboule",
+  "description": "Les frondeurs gobelins prennent les ailes du moulin pour cible.",
+  "conditions": {
+    "niveau_min": 4,
+    "une_quete_terminee": [
+      "brumerive_tutoriel",
+      "crasse_roc_tutoriel",
+      "sylvebrume_tutoriel"
+    ]
+  },
+  "etapes": [
+    {
+      "objectifs": [
+        {
+          "type": "vaincre",
+          "monstre": "gobelin_frondeur",
+          "nombre": 4
+        },
+        {
+          "type": "recolter",
+          "objet": "bois_de_frene",
+          "nombre": 4
+        }
+      ]
+    },
+    {
+      "objectifs": [
+        {
+          "type": "parler",
+          "pnj": "bernardin_tourneboule"
+        }
+      ]
+    }
+  ],
+  "dialogues": {
+    "bernardin_tourneboule": {
+      "proposition": [
+        "Les frondeurs gobelins visent les ailes de mon moulin. Ils marquent des points. Ils ont un tableau.",
+        "Chassez-en quatre, et rapportez-moi du bois de frêne pour réparer les ailes. Mon moulin tourne au vent, pas aux cailloux."
+      ],
+      "en_cours": [
+        "Un caillou de plus et mon moulin tournera en rond. Enfin, plus en rond que d'habitude."
+      ],
+      "fin": [
+        "Des ailes neuves ! Le moulin tourne, le vent tourne, et moi je tourne… autour du tableau des frondeurs. Ils étaient à 312 points."
+      ]
+    }
+  },
+  "recompenses": {
+    "xp_cr": 3,
+    "ecus": 40
+  }
+}

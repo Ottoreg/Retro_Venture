@@ -1,0 +1,64 @@
+{
+  "id": "sylvebrume_fil_de_brume",
+  "nom": "Du fil de brume",
+  "categorie": "secondaire",
+  "niveau": 11,
+  "pnj": "lindore_feuille_d_argent",
+  "description": "Lindorë coud une robe de saison. Il lui faut un fil qui dure.",
+  "conditions": {
+    "niveau_min": 10,
+    "une_quete_terminee": [
+      "brumerive_tutoriel",
+      "crasse_roc_tutoriel",
+      "sylvebrume_tutoriel"
+    ]
+  },
+  "etapes": [
+    {
+      "objectifs": [
+        {
+          "type": "vaincre",
+          "monstre": "tisseuse_de_brume",
+          "nombre": 3
+        },
+        {
+          "type": "apporter",
+          "objet": "fil_de_brume",
+          "nombre": 4,
+          "pnj": "lindore_feuille_d_argent",
+          "butin": {
+            "monstres": [
+              "tisseuse_de_brume",
+              "grande_tisseuse"
+            ],
+            "taux": 0.5
+          }
+        }
+      ]
+    }
+  ],
+  "dialogues": {
+    "lindore_feuille_d_argent": {
+      "proposition": [
+        "Je couds une robe de saison. La saison dure un siècle : il faut qu'elle tienne.",
+        "Il me faut quatre fils de brume, pris aux tisseuses. Leur fil est le seul qui ne se démode pas en moins de cent ans."
+      ],
+      "en_cours": [
+        "La robe attend son fil. Elle n'est pas pressée : elle a un siècle devant elle."
+      ],
+      "fin": [
+        "Quatre fils de brume ! La robe sera prête dans dix ans. Juste à temps pour le début de la saison. Tiens, une cape de chute de tissu."
+      ]
+    }
+  },
+  "recompenses": {
+    "xp_cr": 3,
+    "ecus": 76,
+    "objets": [
+      {
+        "objet": "cape_de_soie_grise",
+        "nombre": 1
+      }
+    ]
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "id": "crasse_roc_dentier",
+  "nom": "Le dentier de Mamie Ratine",
+  "categorie": "secondaire",
+  "niveau": 2,
+  "pnj": "mamie_ratine",
+  "description": "Mamie Ratine a perdu son dentier. Les rats l'ont gagné aux courses.",
+  "conditions": {
+    "niveau_min": 1,
+    "une_quete_terminee": [
+      "brumerive_tutoriel",
+      "crasse_roc_tutoriel",
+      "sylvebrume_tutoriel"
+    ]
+  },
+  "etapes": [
+    {
+      "objectifs": [
+        {
+          "type": "vaincre",
+          "monstre": "rat_des_galeries",
+          "nombre": 6
+        },
+        {
+          "type": "apporter",
+          "objet": "dent_de_rat",
+          "nombre": 4,
+          "pnj": "mamie_ratine",
+          "butin": {
+            "monstres": [
+              "rat_des_galeries",
+              "rat_roi"
+            ],
+            "taux": 0.5
+          }
+        }
+      ]
+    }
+  ],
+  "dialogues": {
+    "mamie_ratine": {
+      "proposition": [
+        "Avant, j'élevais des rats pour les courses. Puis les rats ont gagné, et ils sont partis avec mon dentier.",
+        "Rapporte-moi quatre dents de rat. Je m'en ferai un nouveau. Ce sera plus pointu, mais on s'habitue."
+      ],
+      "en_cours": [
+        "Fans dentier, ve ne peux pas manver la foupe. Ve la bois."
+      ],
+      "fin": [
+        "Quatre dents ! Avec un peu de colle et beaucoup de courage… Voilà. Je souris. Ne me regarde pas trop, c'est encore frais."
+      ]
+    }
+  },
+  "recompenses": {
+    "xp_cr": 3,
+    "ecus": 22
+  }
+}

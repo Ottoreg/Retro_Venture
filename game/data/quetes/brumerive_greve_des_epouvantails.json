@@ -1,0 +1,79 @@
+{
+  "id": "brumerive_greve_des_epouvantails",
+  "nom": "La grève des épouvantails",
+  "categorie": "secondaire",
+  "niveau": 8,
+  "pnj": "fermier_gaudin",
+  "description": "Les épouvantails de la Lande refusent de travailler. Gaudin ne sait plus quoi faire.",
+  "conditions": {
+    "niveau_min": 7,
+    "une_quete_terminee": [
+      "brumerive_tutoriel",
+      "crasse_roc_tutoriel",
+      "sylvebrume_tutoriel"
+    ]
+  },
+  "etapes": [
+    {
+      "objectifs": [
+        {
+          "type": "vaincre",
+          "monstre": "epouvantail_demotive",
+          "nombre": 4
+        },
+        {
+          "type": "apporter",
+          "objet": "paille_ensorcelee",
+          "nombre": 3,
+          "pnj": "fermier_gaudin",
+          "butin": {
+            "monstres": [
+              "epouvantail_demotive",
+              "grand_epouvantail"
+            ],
+            "taux": 0.5
+          }
+        }
+      ]
+    },
+    {
+      "objectifs": [
+        {
+          "type": "parler",
+          "pnj": "grizzik_le_deserteur",
+          "texte": "Demander conseil à Grizzik, expert en grève"
+        }
+      ]
+    }
+  ],
+  "dialogues": {
+    "fermier_gaudin": {
+      "proposition": [
+        "Les épouvantails se sont mis en grève. Ils disent qu'on ne les paie pas. On ne les a jamais payés ! Ce sont des épouvantails !",
+        "Calmez-en quatre et rapportez-moi leur paille ensorcelée : sans elle, ils redeviennent des épouvantails normaux. Qui ne font rien. Comme avant, quoi."
+      ],
+      "en_cours": [
+        "Ils ont fait un piquet de grève. Avec un piquet. Ils ont toujours eu un piquet, remarquez."
+      ],
+      "objectif": [
+        "Merci ! Mais ils vont recommencer. Le gobelin des champs de l'est, Grizzik, s'y connaît en grèves. Demandez-lui."
+      ]
+    },
+    "grizzik_le_deserteur": {
+      "fin": [
+        "Des épouvantails en grève ? Ils ont raison ! Dis au fermier de leur offrir un syndicat. Ça ne coûte rien et ça les occupe des années.",
+        "Moi, j'ai un syndicat depuis trois ans. Je n'ai rien obtenu, mais j'ai des réunions."
+      ]
+    }
+  },
+  "recompenses": {
+    "xp_cr": 3,
+    "ecus": 58,
+    "objets": [
+      {
+        "objet": "chapeau_d_epouvantail",
+        "nombre": 1
+      }
+    ]
+  }
+}

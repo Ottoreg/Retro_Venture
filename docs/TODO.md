@@ -240,7 +240,8 @@ Les tâches marquées *(alpha 2)* sont reportées au second test.
     sous la minicarte
   - [x] Lot 2, **tutoriels et acte I** : 15 quêtes, 2 PNJ (bourgmestre Pansu, Père Pomponne),
     5 objets et leurs icônes
-  - [ ] Lot 3, **secondaires des zones de départ** (15 quêtes)
+  - [x] Lot 3, **secondaires des zones de départ** (15 quêtes, 5 par zone, ouvertes à tous les
+    camps après n'importe quel tutoriel)
   - [x] Lot 4, **acte II et début de l'acte III** (11 quêtes : 3 par camp à Hautepierre, puis le
     Conseil des Peuples Libres et la Brèche, communs), 8 objets et leurs icônes
   - [ ] Option : secondaires de Hautepierre (3 quêtes), marqueur de quête sur la carte du monde
@@ -251,8 +252,8 @@ Les tâches marquées *(alpha 2)* sont reportées au second test.
   attendra le § 11.2 du GDD)
 - [x] **(MVP)** Tutoriel par camp (déplacement, combat, équipement, métier)
 - [x] **(MVP)** Conditions de quête par camp et par acte de la quête principale
-- [ ] Environ 15 quêtes secondaires
-- [ ] Quête principale : actes I et II (une chaîne par camp), début de l'acte III à Hautepierre
+- [x] Environ 15 quêtes secondaires (15, lot 3 du chantier 6)
+- [x] Quête principale : actes I et II (une chaîne par camp), début de l'acte III à Hautepierre
 - [ ] Réputation simple par camp (si les quêtes de l'acte I le demandent)
 
 ### Monde

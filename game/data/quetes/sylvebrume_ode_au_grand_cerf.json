@@ -1,0 +1,78 @@
+{
+  "id": "sylvebrume_ode_au_grand_cerf",
+  "nom": "L'ode au Grand Cerf",
+  "categorie": "secondaire",
+  "niveau": 5,
+  "pnj": "poete_lyriandel",
+  "description": "Le poète Lyriandel cherche l'inspiration. Dans le pelage des cerfs.",
+  "conditions": {
+    "niveau_min": 4,
+    "une_quete_terminee": [
+      "brumerive_tutoriel",
+      "crasse_roc_tutoriel",
+      "sylvebrume_tutoriel"
+    ]
+  },
+  "etapes": [
+    {
+      "objectifs": [
+        {
+          "type": "apporter",
+          "objet": "poil_scintillant",
+          "nombre": 3,
+          "pnj": "poete_lyriandel",
+          "butin": {
+            "monstres": [
+              "cerf_enchante",
+              "grand_cerf"
+            ],
+            "taux": 0.5
+          }
+        }
+      ]
+    },
+    {
+      "objectifs": [
+        {
+          "type": "parler",
+          "pnj": "gardienne_elwyn",
+          "texte": "Faire lire l'ode à Elwyn"
+        }
+      ]
+    },
+    {
+      "objectifs": [
+        {
+          "type": "parler",
+          "pnj": "poete_lyriandel"
+        }
+      ]
+    }
+  ],
+  "dialogues": {
+    "poete_lyriandel": {
+      "proposition": [
+        "J'écris une ode au Grand Cerf. Quatre cents strophes. Il en manque une. La plus importante : celle sur son pelage.",
+        "Rapporte-moi trois poils scintillants des cerfs enchantés. L'inspiration, ça se touche."
+      ],
+      "en_cours": [
+        "Sans poil, pas de strophe. Sans strophe, pas d'ode. Sans ode, pas de poète. C'est grave."
+      ],
+      "objectif": [
+        "L'inspiration ! Voilà : « Ô pelage d'argent… ». Porte l'ode à Elwyn. Elle est critique. Sévère, mais juste. Surtout sévère."
+      ],
+      "fin": [
+        "« Trop courte » ? Quatre cents strophes, trop courte ? Elle a raison. J'en écris quatre cents autres. Merci !"
+      ]
+    },
+    "gardienne_elwyn": {
+      "objectif": [
+        "Une ode de Lyriandel ? Quatre cents strophes… Je l'ai lue en diagonale. En trois jours. C'est trop court. Dis-le-lui."
+      ]
+    }
+  },
+  "recompenses": {
+    "xp_cr": 3,
+    "ecus": 40
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "id": "brumerive_pret_du_berger",
+  "nom": "Le prêt du berger",
+  "categorie": "secondaire",
+  "niveau": 3,
+  "pnj": "gobillon_l_ermite",
+  "description": "Gobillon réclame trois pièces prêtées au berger. Il y a longtemps. Peut-être.",
+  "conditions": {
+    "niveau_min": 2,
+    "une_quete_terminee": [
+      "brumerive_tutoriel",
+      "crasse_roc_tutoriel",
+      "sylvebrume_tutoriel"
+    ]
+  },
+  "etapes": [
+    {
+      "objectifs": [
+        {
+          "type": "parler",
+          "pnj": "alric_le_berger",
+          "texte": "Réclamer les trois pièces à Alric"
+        }
+      ]
+    },
+    {
+      "objectifs": [
+        {
+          "type": "parler",
+          "pnj": "bernardin_tourneboule",
+          "texte": "Réclamer les trois pièces au meunier"
+        }
+      ]
+    },
+    {
+      "objectifs": [
+        {
+          "type": "parler",
+          "pnj": "gobillon_l_ermite"
+        }
+      ]
+    }
+  ],
+  "dialogues": {
+    "gobillon_l_ermite": {
+      "proposition": [
+        "Mon prêêêt… Il m'a jamais rendu mon prêt, le berger ! Trois pièces. Trois ! Allez les lui réclamer."
+      ],
+      "en_cours": [
+        "Alors, mes trois pièces ? Je les compte tous les soirs. Enfin, je compte qu'elles me manquent."
+      ],
+      "fin": [
+        "Le meunier dit que je les ai dans ma poche ? … Ah. Ah oui. Trois pièces. Bon. Gardez ça pour la peine, je n'en ai plus besoin : je les ai retrouvées."
+      ]
+    },
+    "alric_le_berger": {
+      "objectif": [
+        "Le prêt de Gobillon ? Je l'ai rendu ! Au meunier, qui devait le lui rendre. Allez voir Bernardin, au moulin."
+      ]
+    },
+    "bernardin_tourneboule": {
+      "objectif": [
+        "Les trois pièces d'Alric ? Je les ai rendues à Gobillon le jour même. Il les a mises dans sa poche. La gauche."
+      ]
+    }
+  },
+  "recompenses": {
+    "xp_cr": 3,
+    "ecus": 28
+  }
+}

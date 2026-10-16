@@ -1,0 +1,53 @@
+{
+  "id": "brumerive_fausse_fiche",
+  "nom": "Fausse fiche de présence",
+  "categorie": "secondaire",
+  "niveau": 6,
+  "pnj": "grizzik_le_deserteur",
+  "description": "Grizzik, gobelin « en pause », a besoin de prouver qu'il travaille.",
+  "conditions": {
+    "niveau_min": 5,
+    "une_quete_terminee": [
+      "brumerive_tutoriel",
+      "crasse_roc_tutoriel",
+      "sylvebrume_tutoriel"
+    ]
+  },
+  "etapes": [
+    {
+      "objectifs": [
+        {
+          "type": "apporter",
+          "objet": "fiche_de_paie_gobeline",
+          "nombre": 3,
+          "pnj": "grizzik_le_deserteur",
+          "butin": {
+            "monstres": [
+              "gobelin_frondeur",
+              "frondeur_veteran"
+            ],
+            "taux": 0.5
+          }
+        }
+      ]
+    }
+  ],
+  "dialogues": {
+    "grizzik_le_deserteur": {
+      "proposition": [
+        "Psst ! Officiellement, je suis en train de piller un verger. Officieusement, je fais la sieste ici.",
+        "Si le contremaître contrôle, il me faut une fiche de présence. Rapporte-moi trois fiches de paie des frondeurs : je recopie la signature."
+      ],
+      "en_cours": [
+        "Chut ! Les fiches. Et ne dis à personne que tu m'aides. Surtout pas aux humains. Ni aux gobelins."
+      ],
+      "fin": [
+        "Parfait. « Grizzik, présent au raid, très courageux, prime méritée. » Ça sonne bien. Je me ferais presque peur."
+      ]
+    }
+  },
+  "recompenses": {
+    "xp_cr": 3,
+    "ecus": 46
+  }
+}

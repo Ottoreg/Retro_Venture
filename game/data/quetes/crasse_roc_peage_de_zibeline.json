@@ -1,0 +1,64 @@
+{
+  "id": "crasse_roc_peage_de_zibeline",
+  "nom": "Le péage de Zibeline",
+  "categorie": "secondaire",
+  "niveau": 11,
+  "pnj": "zibeline_la_peagere",
+  "description": "Sur la Route des Charrois, deux péages, c'est un de trop.",
+  "conditions": {
+    "niveau_min": 10,
+    "une_quete_terminee": [
+      "brumerive_tutoriel",
+      "crasse_roc_tutoriel",
+      "sylvebrume_tutoriel"
+    ]
+  },
+  "etapes": [
+    {
+      "objectifs": [
+        {
+          "type": "vaincre",
+          "monstre": "contremaitre_zele",
+          "nombre": 4
+        },
+        {
+          "type": "apporter",
+          "objet": "sifflet_de_contremaitre",
+          "nombre": 3,
+          "pnj": "zibeline_la_peagere",
+          "butin": {
+            "monstres": [
+              "contremaitre_zele",
+              "contremaitre_en_chef"
+            ],
+            "taux": 0.5
+          }
+        }
+      ]
+    }
+  ],
+  "dialogues": {
+    "zibeline_la_peagere": {
+      "proposition": [
+        "Péage ! Deux écus pour passer. Sauf que les contremaîtres zélés ont installé leur propre péage, juste devant le mien.",
+        "Ils taxent mon péage ! Chasse-en quatre et rapporte-moi leurs sifflets : sans sifflet, un contremaître n'est qu'un gobelin qui crie."
+      ],
+      "en_cours": [
+        "Ils sifflent encore. Chaque coup de sifflet, c'est un écu qui m'échappe."
+      ],
+      "fin": [
+        "Trois sifflets ! Mon péage est à nouveau le seul péage. Pour te remercier, tu passes gratuitement. Aujourd'hui. Avant midi."
+      ]
+    }
+  },
+  "recompenses": {
+    "xp_cr": 3,
+    "ecus": 76,
+    "objets": [
+      {
+        "objet": "amulette_sifflet",
+        "nombre": 1
+      }
+    ]
+  }
+}

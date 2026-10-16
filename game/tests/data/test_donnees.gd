@@ -468,3 +468,20 @@ func test_chaines_principales_par_camp() -> void:
 	assert_eq(act_three.size(), 2, "le Conseil et la Brèche")
 	for quest: Dictionary in act_three:
 		assert_false(quest.get("conditions", {}).has("camp"), "%s : ouverte aux trois camps" % quest["id"])
+
+
+## Cinq quêtes secondaires par zone de départ, ouvertes aux trois camps (après n'importe quel tutoriel).
+func test_secondaires_des_zones_de_depart() -> void:
+	var game_data := GameData.load_all()
+	var per_zone := {}
+	for quest: Dictionary in game_data.quests.values():
+		if quest["categorie"] != "secondaire":
+			continue
+		var conditions: Dictionary = quest.get("conditions", {})
+		assert_false(conditions.has("camp"), "%s : ouverte à tous les camps" % quest["id"])
+		assert_eq(conditions.get("une_quete_terminee", []).size(), 3, "%s : après n'importe quel tutoriel" % quest["id"])
+		for zone in ["brumerive", "crasse_roc", "sylvebrume"]:
+			if quest["id"].begins_with(zone + "_"):
+				per_zone[zone] = int(per_zone.get(zone, 0)) + 1
+	for zone in ["brumerive", "crasse_roc", "sylvebrume"]:
+		assert_eq(per_zone.get(zone, 0), 5, "cinq secondaires à %s" % zone)

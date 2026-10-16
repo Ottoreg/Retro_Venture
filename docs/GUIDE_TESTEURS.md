@@ -148,7 +148,9 @@ le **lit** de votre maison les rend tous d'un coup.
   l'Intendant pour les humains, Brokk sur la Route de l'Est pour les gobelins, l'ambassadrice
   Ilyndra pour les elfes), et le début de l'**acte III**, commun aux trois camps : le Conseil des
   Peuples Libres, puis Grondin à la Brèche. Les quêtes des actes I et II sont réservées au camp de
-  votre race.
+  votre race. Enfin, **5 quêtes secondaires par zone de départ**, ouvertes à tous une fois un
+  tutoriel fini (le prêt du berger, la grève des épouvantails, le dentier de Mamie Ratine, l'ode
+  au Grand Cerf…) : n'hésitez pas à visiter les zones des autres camps.
 
 ## Ce qu'il y a dans cette version
 
@@ -233,7 +235,7 @@ le **lit** de votre maison les rend tous d'un coup.
   (« Rare ! » en doré au-dessus du personnage), qui sert à 6 recettes améliorées du forgeron ; ni les
   ressources rares ni ces objets ne se trouvent chez le marchand.
 
-Pas encore là : quêtes secondaires (à venir), multijoueur, sons et musiques.
+Pas encore là : multijoueur, sons et musiques.
 
 ## Ce qu'on aimerait que vous regardiez
 
