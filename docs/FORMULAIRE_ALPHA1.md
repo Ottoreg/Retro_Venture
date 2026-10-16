@@ -4,8 +4,11 @@ Contenu à jour du Google Forms « Retro Venture — Questionnaire de test Alpha
 (lien des testeurs : https://docs.google.com/forms/d/1FjElWO0e9AP0lCeaVXw6DzaL0U_hO2MZkGy-05V9gKk/viewform,
 aussi dans le jeu : « Donner son avis », et dans `client/session.gd`, `Session.FEEDBACK_URL`).
 
-Le formulaire lui-même se modifie à la main dans Google Forms (aucun outil ne peut l'éditer depuis
-le dépôt) : ce fichier sert de modèle. Types : *choix unique*, *cases* (plusieurs choix), *échelle*
+**Création automatique** : le script Apps Script [`creer_formulaire.gs`](creer_formulaire.gs) crée ce
+formulaire complet (sections, types, questions obligatoires, publication) dans le Drive du compte
+qui l'exécute : https://script.google.com → Nouveau projet → coller le script → exécuter
+`creerFormulaire` ; le journal donne le lien des testeurs, à mettre ensuite dans
+`Session.FEEDBACK_URL` et le guide. Sinon, ce fichier sert de modèle pour le remplir à la main. Types : *choix unique*, *cases* (plusieurs choix), *échelle*
 (1 à 5, libellés aux extrémités), *court* / *long* (réponse texte). Les questions marquées ★ sont
 obligatoires ; toutes les autres sont facultatives, pour qu'on puisse répondre même après une
 courte partie.
