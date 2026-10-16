@@ -37,7 +37,7 @@ est ici.
 | Attaquer un groupe de monstres | Clic sur le groupe : le personnage le rejoint et le combat commence |
 | Parler, commercer, fabriquer | Clic sur un PNJ (bulle « … » au-dessus de sa tête) |
 | Récolter | Clic sur un arbre (bûcheron) ou un rocher à minerai (mineur) |
-| Entrer / sortir d'un bâtiment | Clic sur la porte |
+| Entrer / sortir d'un bâtiment | Clic sur la porte : celles où l'on peut entrer sont marquées au sol d'un losange doré (double chevron) |
 | Changer de carte | Clic sur une flèche jaune au bord de l'écran |
 | Voyager vers une autre zone | Clic sur la **Pierre de Passage** (pierre levée aux runes bleues), puis choisir la destination (voir plus bas) |
 | Voir ce qu'on survole | Passer la souris sur un monstre, un PNJ, une ressource : une bulle s'affiche (pour un groupe : chaque monstre avec son niveau) |

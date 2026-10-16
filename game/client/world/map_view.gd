@@ -1070,6 +1070,7 @@ func _draw() -> void:
 			_draw_obstacle(drawable[2], map.obstacles[drawable[2]])
 	if mode == Mode.EXPLORATION:
 		_draw_exit_arrows(map)
+		_draw_door_marks(map)
 	_draw_floating_texts()
 
 
@@ -1410,6 +1411,26 @@ func _monster_look(kind: String) -> Dictionary:
 
 
 ## Flèches au milieu des bords qui mènent à une autre carte.
+## Devant chaque porte d'un bâtiment où l'on peut entrer (hors intérieur, où le paillasson suffit) :
+## un losange doré qui pulse doucement au sol et un double chevron « entrer ». Dessiné par-dessus
+## le décor, pour rester visible au pied du bâtiment.
+func _draw_door_marks(map: GameMap) -> void:
+	if map.floor_kind == "parquet":
+		return
+	var pulse := 0.5 + 0.5 * sin(_time * 2.5)
+	for cell: Vector2i in map.doors:
+		var center := IsoGrid.cell_to_screen(cell)
+		var diamond := _scaled_diamond(center, 0.78)
+		draw_colored_polygon(diamond, Color(1.0, 0.82, 0.3, 0.16 + 0.12 * pulse))
+		diamond.append(diamond[0])
+		draw_polyline(diamond, Color(1.0, 0.85, 0.35, 0.65 + 0.3 * pulse), 2.0)
+		for k in 2:
+			var tip := center + Vector2(0, -3.0 - 5.0 * k - 2.0 * pulse)
+			var chevron := PackedVector2Array([tip + Vector2(-7, 4), tip, tip + Vector2(7, 4)])
+			draw_polyline(chevron, Color(0.25, 0.16, 0.05, 0.9), 4.0)
+			draw_polyline(chevron, Color(1.0, 0.9, 0.5), 2.0)
+
+
 func _draw_exit_arrows(map: GameMap) -> void:
 	var rect := map.screen_rect()
 	var center := rect.get_center()
