@@ -86,6 +86,7 @@ func _build() -> void:
 	column.add_child(title)
 	column.add_child(_button("Reprendre", close))
 	column.add_child(_button("Options", _on_options_pressed))
+	column.add_child(_button("Donner son avis", func() -> void: OS.shell_open(Session.FEEDBACK_URL)))
 	_menu_button = _button("Menu principal", _on_menu_pressed)
 	column.add_child(_menu_button)
 	_quit_button = _button("Quitter le jeu", func() -> void: get_tree().quit())

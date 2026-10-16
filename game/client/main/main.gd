@@ -31,8 +31,15 @@ func _ready() -> void:
 		quit_button.name = "Quit"
 		quit_button.pressed.connect(get_tree().quit)
 		row.add_child(quit_button)
+	var feedback := _menu_button("Donner son avis", 240)
+	feedback.name = "Feedback"
+	feedback.tooltip_text = "Le questionnaire des testeurs (s'ouvre dans le navigateur)"
+	feedback.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	feedback.pressed.connect(func() -> void: OS.shell_open(Session.FEEDBACK_URL))
+	box.add_child(feedback)
+	box.move_child(feedback, row.get_index() + 1)
 	var version: String = ProjectSettings.get_setting("application/config/version", "?")
-	%Version.text = "Version %s — Phase 2 (alpha en construction)" % version
+	%Version.text = "Version %s — Alpha test 1" % version
 	%NewGame.pressed.connect(_on_new_game_pressed)
 	%Continue.pressed.connect(_on_continue_pressed)
 	var summary := SaveGame.summary()

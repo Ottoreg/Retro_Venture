@@ -10,3 +10,6 @@ static var continue_game := false
 static var start_map := ""
 ## Minicarte repliée par le joueur (gardé pendant la partie, pas dans la sauvegarde).
 static var minimap_folded := false
+
+## Questionnaire des testeurs (menu principal et menu pause : « Donner son avis »).
+const FEEDBACK_URL := "https://docs.google.com/forms/d/1FjElWO0e9AP0lCeaVXw6DzaL0U_hO2MZkGy-05V9gKk/viewform"

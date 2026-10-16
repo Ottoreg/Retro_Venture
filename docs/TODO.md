@@ -102,6 +102,25 @@ en deux tests (décision de l'auteur) :
 
 Les tâches marquées *(alpha 2)* sont reportées au second test.
 
+### Lancement de l'alpha test 1
+
+Tout le contenu et les systèmes MVP de l'alpha 1 sont faits (chantiers 1, 3, 4 et 6). Reste :
+
+- [x] Version 0.6.0 « Alpha test 1 » sur l'écran d'accueil ; bouton « Donner son avis » (menu
+  principal et menu pause) vers le questionnaire (`Session.FEEDBACK_URL`)
+- [x] Distribution : GitHub Pages (https://ottoreg.github.io/Retro_Venture/, publié à chaque push
+  sur `main`)
+- [x] Guide des testeurs à jour ([GUIDE_TESTEURS.md](GUIDE_TESTEURS.md) : par où commencer,
+  problèmes connus, questionnaire)
+- [x] Questionnaire de référence ([FORMULAIRE_ALPHA1.md](FORMULAIRE_ALPHA1.md))
+- [ ] Reporter le questionnaire de référence dans le Google Forms et vérifier que le lien des
+  testeurs s'ouvre bien (formulaire publié, réponses acceptées)
+- [ ] Passe de l'auteur dans chaque camp (tutoriel et début de l'acte I, une Voie différente à
+  chaque fois) sur la version publiée
+- [ ] Inviter les testeurs (5 au moins), avec le lien du jeu et le guide
+- [ ] Après le test : dépouiller les réponses, décider des ajustements d'équilibrage (ci-dessous,
+  Monde) et des corrections, puis préparer l'alpha test 2
+
 ### Personnage
 - [x] **(MVP)** Écran de création : race, classe, nom, aperçu et récapitulatif (couleurs selon race et Voie)
 - [x] **(MVP)** 3 races jouables, une par camp : Humain (allié), Gobelin (ennemi), Elfe (neutre) — bonus, passif, sort racial (passifs : Polyvalence +10 % d'XP de métier, Œil perçant +1 portée, Chapardeur +20 prospection et +20 % d'écus)
@@ -152,27 +171,23 @@ Les tâches marquées *(alpha 2)* sont reportées au second test.
   comportements `distance` (frondeurs) et `soutien`
 - [ ] Tacle / fuite (activable pour tester)
 - [ ] Monstres agressifs (engagent le combat à proximité)
-- [ ] Mini-boss de fin de région avec script par phases : **moteur fait** (`boss` et `phases` dans
-  les données : seuils de PV, message, sorts gagnés, effets sur soi ; GDD § 8.1 ; soin interdit au
-  changement de phase, refusé à la validation), le contenu (les mini-boss eux-mêmes) viendra avec
-  les régions : conçus dans le brouillon du chantier 3 (phases de profils différents, réapparition
-  en 60 s au plus)
+- [x] Mini-boss de fin de région avec script par phases (`boss` et `phases` dans les données ; soin
+  interdit au changement de phase) : Krasbouk, Balourd des Abîmes, Mère-Toile et Grondin
+  (réapparition en 60 s au plus pendant l'alpha)
 
 ### Monstres et butin
-- [ ] **(MVP)** Environ 15 à 20 monstres répartis sur les 4 zones (dont des PNJ combattants de chaque camp)
-  (7 aujourd'hui : loup et frondeur gobelin à Brumerive, rat des galeries et grouilleur à Crasse-Roc,
-  cerf enchanté et arbre vivant à Sylvebrume, et le Souverain Cendré)
-- [ ] **(MVP)** Paliers de niveau dans chaque zone de départ : des monstres de niveau 1–3, 4–6, 7–9 et
-  10–12 dans chacune (aucun palier vide), en nombre libre selon la zone pour que chaque race
-  progresse différemment (GDD § 3.5) ; aujourd'hui Sylvebrume n'a rien en 1–3 (cerf 4, arbre 5) et
-  aucune zone n'a de monstres de 7 à 12
+- [x] **(MVP)** Monstres répartis sur les 4 zones, dont des PNJ combattants de chaque camp (miliciens
+  de Hautepierre, bûcherons de Brumerive, gobelins) : 50 monstres (familles, élites, mini-boss,
+  variantes, Grondin, Souverain Cendré)
+- [x] **(MVP)** Paliers de niveau dans chaque zone de départ : 1–3, 4–6, 7–9 et 10–12 dans chacune,
+  asymétriques entre zones (GDD § 3.5)
 - [x] **(MVP)** Niveau variable dans une famille : tiré à l'apparition dans la tranche du palier, avec
   des poids par famille (rat des galeries surtout 1, un peu 2, parfois 3 ; grouilleur l'inverse) ;
   élites à niveau fixe ; niveau sauvegardé avec le groupe et affiché dans la bulle (GDD § 3.5, § 8.1)
 - [x] **(MVP)** Caractéristiques selon le niveau (PV, Force, Intelligence, Chance, Agilité,
   résistances, XP) ; butin indépendant du niveau ; PA et PM fixes pour toute la famille, sauf
   exception déclarée dans ses données
-- [ ] Niveaux variables pour les familles de Brumerive et de Sylvebrume (avec leurs paliers)
+- [x] Niveaux variables pour les familles de toutes les zones (avec leurs paliers)
 - [x] Deux types de monstres par zone de départ, avec deux attaques et un butin propre chacun
 - [x] **(MVP)** Tables de butin, prospection (sans seuil), raretés (couleurs), écus
 - [x] Limite de butin par monstre partagée entre les joueurs (quantité max de la ligne), tirage du
@@ -188,7 +203,8 @@ Les tâches marquées *(alpha 2)* sont reportées au second test.
   en vie par espèce ; ancienneté (losanges puis couronne, +10 % de butin par rang, 10 rangs) ;
   sauvegardées
 - [ ] Ancienneté des élites : passer d'un rang par minute (tests) à un rang par heure
-- [ ] Variantes Corrompues (2 ou 3 pour tester le concept)
+- [x] Variantes Corrompues : loup cendreux, grouilleur de braise, arbre calciné (Hautepierre, et
+  dans le repaire de chaque mini-boss une fois vaincu)
 
 ### Équipement et inventaire
 - [x] **(MVP)** Inventaire (ressources empilées, équipements) limité à 60 places ; fenêtre (touche I)
@@ -199,7 +215,8 @@ Les tâches marquées *(alpha 2)* sont reportées au second test.
 - [x] **(MVP)** Conditions d'équipement (niveau, caractéristiques ; pas deux objets identiques)
 - [x] **(MVP)** Armes utilisables en combat (attaque de l'arme dans la barre de sorts)
 - [x] Jets aléatoires de statistiques
-- [ ] Plus d'objets (64 équipements aujourd'hui) pour couvrir les niveaux 1 à 30
+- [x] Plus d'objets pour couvrir les niveaux 1 à 30 (133 équipements, 66 ressources, 6 objets de
+  quête)
 - [x] **(MVP alpha test)** Système de panoplies : bonus de panoplie qui grandit avec le nombre de
   pièces équipées, affiché dans l'inventaire et chez le marchand (pièces portées / palier actif)
 - [x] **(MVP alpha test)** Six panoplies élémentaires de 6 pièces (coiffe, cape, amulette, anneau,
@@ -261,7 +278,7 @@ Les tâches marquées *(alpha 2)* sont reportées au second test.
   **entièrement validée par l'auteur** (mini-boss révisés compris : réapparition en 60 s au plus,
   phases de profils différents selon le thème, plus de soin en phase). Durée réglée par l'XP ×3,5
   de l'alpha 1 (tout le contenu en 4 à 5 h)
-- [ ] **(MVP)** Production du chantier 3 par lots (4 zones, puis variantes et métiers) : chaque
+- [x] **(MVP)** Production du chantier 3 par lots (4 zones, puis variantes et métiers) : chaque
   nouvelle carte à groupes reçoit son calque de placement. Outils : `src/produire.py <lot>`
   (monstres, sorts, objets, fragment de manifeste), `src/cartes.py` et `src/plans_<lot>.py` (plans)
   - [x] Lot **Brumerive** : 8 nouvelles cartes (et retouches des 2 existantes), 11 monstres dont
@@ -338,7 +355,9 @@ Les tâches marquées *(alpha 2)* sont reportées au second test.
 ### Interface
 - [x] **(MVP)** Bandeau bas façon Dofus Rétro, en exploration comme en combat : PV dans un cœur rouge
   qui se vide, PA dans une étoile bleue, PM dans une case verte, sorts en icônes (raccourci et coût
-  en PA), bouton de fin de tour, boutons de menus (personnage, inventaire, sorts, métiers)
+  en PA), bouton de fin de tour, boutons de menus (personnage, inventaire, sorts, métiers, carte,
+  quêtes)
+- [x] Marque au sol (losange doré) devant les portes où l'on peut entrer
 - [x] **(MVP)** Fenêtres : inventaire + poupée, caractéristiques, sorts, quêtes, métiers
   (inventaire, caractéristiques, sorts avec un onglet par famille (Voie, race, arme), métiers avec
   un onglet par métier, boutique, atelier, coffre, journal des quêtes)
@@ -367,23 +386,25 @@ Les tâches marquées *(alpha 2)* sont reportées au second test.
 - [x] Palettes de zone (Crasse-Roc plus sombre et terne, Sylvebrume plus fraîche) ; cabane gobeline,
   entrée des galeries, pavillon elfe, Pierre de Passage, fougères et champignons
 - [x] Personnages réduits à 80 % (taille validée)
-- [ ] **(MVP)** Tileset Brumerive et Hautepierre (reste : intérieurs, clôtures, ponts, murets, Hautepierre)
-- [ ] **(MVP)** Sprites des 3 races × 2 sexes (repos, marche, attaque, sort, dégât, mort, récolte)
-  (fait : humain, elfe, gobelin, repos / marche / attaque ; reste : femmes, dégât, mort, récolte)
-- [ ] **(MVP)** Sprites des monstres de l'alpha (faits : loup, frondeur gobelin, rat, grouilleur,
-  cerf enchanté, arbre vivant, Souverain Cendré)
-- [ ] **(MVP)** Effets visuels des sorts
+- [ ] **(MVP)** *(alpha 2)* Tileset : intérieurs, clôtures, ponts, murets (Brumerive et Hautepierre
+  sont dessinées, avec les décors de la ville)
+- [ ] **(MVP)** *(alpha 2)* Sprites des 3 races × 2 sexes (repos, marche, attaque, sort, dégât, mort,
+  récolte) (fait : humain, elfe, gobelin, repos / marche / attaque ; reste : femmes, dégât, mort,
+  récolte)
+- [x] **(MVP)** Dessins des monstres de l'alpha (toutes les familles, élites, mini-boss et Grondin)
+- [ ] **(MVP)** *(alpha 2)* Effets visuels des sorts
 - [x] **(MVP)** Icônes d'objets, de ressources et de sorts : sorts des Voies et des races, attaques
-  des armes, jauges du bandeau, les 36 objets (inventaire en grille d'icônes, boutique, coffre,
+  des armes, jauges du bandeau, tous les objets (inventaire en grille d'icônes, boutique, coffre,
   atelier, métiers, butin)
 - [x] Système de recoloration des personnages (modèles SVG à couleurs remplaçables)
-- [ ] Musiques : 2 thèmes de région, 1 thème de combat, 1 thème de boss, menu
-- [ ] Bruitages : interface, pas, impacts, sorts
+- [ ] *(alpha 2)* Musiques : 2 thèmes de région, 1 thème de combat, 1 thème de boss, menu
+- [ ] *(alpha 2)* Bruitages : interface, pas, impacts, sorts
 
 ### Qualité
 - [ ] *(alpha 2)* Équilibrage des 9 combinaisons race × classe sur les niveaux 1 à 30
-- [ ] Session de test externe (5 joueurs minimum) + formulaire de retours
-- [ ] Build distribuable (itch.io en accès privé, par exemple)
+- [ ] Session de test externe (5 joueurs minimum) + formulaire de retours (voir « Lancement de
+  l'alpha test 1 »)
+- [x] Build distribuable : GitHub Pages (itch.io en accès privé plus tard, si besoin)
 
 ---
 
@@ -523,7 +544,6 @@ Peut démarrer dès que l'alpha solo est stable.
 
 ## Idées en attente (backlog)
 
-- Version navigateur
 - PvP (duels, arènes)
 - Maisons de joueurs : achat, décoration, plusieurs maisons par ville
 - Succès / hauts faits

@@ -1,6 +1,6 @@
 extends SceneTree
 ## Combats simulés pour vérifier l'équilibrage, sans affichage :
-##   godot --headless --path game -s res://tools/simulation.gd -- [combats] [sortie.md] [filtre]
+##   godot --headless --path game -s res://tools/simulation.gd -- [combats] [sortie.md] [filtre] [detail] [+niveaux]
 ## Pour chaque groupe de chaque carte (`filtre` : début des ids de cartes, « brumerive,crasse_roc »),
 ## chaque Voie affronte `combats` fois le groupe (10 par défaut), au niveau moyen des monstres tirés
 ## (au niveau du boss s'il y en a un).
@@ -24,6 +24,8 @@ const HP_RATIO_RANGE := [0.25, 1.8]
 var data: GameData
 ## Quatrième argument « detail » : une ligne par combat (issue, tours, PV restants de chacun).
 var detail := false
+## Cinquième argument : niveaux d'avance du joueur sur les monstres (« +3 »), 0 par défaut.
+var level_bonus := 0
 var rng := RandomNumberGenerator.new()
 
 
@@ -33,6 +35,7 @@ func _initialize() -> void:
 	var output := args[1] if args.size() > 1 else ""
 	var filters: Array = Array(args[2].split(",")) if args.size() > 2 and not args[2].is_empty() else []
 	detail = args.size() > 3 and args[3] == "detail"
+	level_bonus = int(args[4]) if args.size() > 4 else 0
 	rng.seed = 12345
 	data = GameData.load_all()
 	var lines: Array[String] = [
@@ -122,6 +125,7 @@ func _fight(map: GameMap, group: Dictionary, voie: String) -> Dictionary:
 	for i in levels.size():
 		if data.monsters[group["monstres"][i]].get("boss", false):
 			level = float(levels[i])  # Contre un boss : le joueur est à son niveau.
+	level = clampf(level + level_bonus, 1, Character.MAX_LEVEL)
 	var race: String = ZONE_RACES.get(map.id.rsplit("_", true, 2)[0], "humain")
 	var character := Character.create("Simulé", race, voie)
 	character.add_xp(Character.xp_for_level(int(level)))

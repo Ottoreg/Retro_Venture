@@ -79,7 +79,7 @@ func test_menu_pause() -> void:
 	assert_true(pause.is_open(), "menu pause ouvert")
 	assert_true(tree.paused, "jeu en pause")
 	var buttons := pause.buttons()
-	for text in ["Reprendre", "Options", "Menu principal"]:
+	for text in ["Reprendre", "Options", "Donner son avis", "Menu principal"]:
 		assert_true(buttons.has(text), "bouton %s" % text)
 	assert_false((buttons["Menu principal"] as Button).disabled)
 	(buttons["Options"] as Button).pressed.emit()
@@ -145,4 +145,5 @@ func test_menu_principal() -> void:
 	options_button.pressed.emit()
 	assert_true(menu.options_window.is_open(), "fenêtre des options")
 	assert_true(menu.find_child("Quit", true, false) != null, "bouton Quitter hors navigateur")
+	assert_true(menu.find_child("Feedback", true, false) != null, "bouton du questionnaire des testeurs")
 	menu.free()

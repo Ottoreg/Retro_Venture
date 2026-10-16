@@ -86,6 +86,11 @@ Phase 2 (alpha solo), en deux tests :
    Conseil et Brèche, `produire_lot4.py`) faits** : tout le contenu de quêtes de l'alpha 1 est
    produit. Option restante : secondaires de Hautepierre, marqueur de quête sur la carte du monde.
 
+**Lancement de l'alpha test 1 en préparation** (version 0.6.0, GitHub Pages) : guide des testeurs à
+jour, questionnaire de référence `docs/FORMULAIRE_ALPHA1.md` (à reporter à la main dans le Google
+Forms : le connecteur Drive ne lit pas les formulaires), bouton « Donner son avis » en jeu
+(`Session.FEEDBACK_URL`). Checklist : TODO, Phase 2, « Lancement de l'alpha test 1 ».
+
 ## Règles de design à respecter (détails dans le GDD)
 
 - Zones de départ : paliers 1–3 / 4–6 / 7–9 / 10–12, asymétriques entre zones (§ 3.5).

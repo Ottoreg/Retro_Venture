@@ -1,8 +1,21 @@
-# Retro Venture — guide des testeurs (alpha solo)
+# Retro Venture — guide des testeurs (alpha test 1)
 
-Merci de tester ! Ce document explique comment jouer, ce qu'il y a à voir dans cette version et
-comment nous faire vos retours. Le jeu n'affiche volontairement presque aucune aide à l'écran : tout
-est ici.
+Merci de tester ! Retro Venture est un RPG tactique au tour par tour, façon Dofus Rétro, dans un
+monde qui parodie gentiment les grandes sagas de fantasy (gobelins syndiqués, elfes snobs, humains
+persuadés d'être les héros…). Ce document explique comment jouer, ce qu'il y a à voir et comment
+nous faire vos retours. Le jeu n'affiche volontairement presque aucune aide à l'écran : tout est ici.
+
+## L'alpha test 1 en bref
+
+- **Version 0.6.0** (affichée sur l'écran d'accueil).
+- **Ce qu'on teste : les mécaniques** (combat, quêtes, exploration, interface, métiers), pas la
+  vitesse de progression : l'expérience est multipliée par 3,5 pour qu'on puisse **tout voir en
+  4 à 5 heures**, du niveau 1 au niveau 30.
+- **Pas encore là** : sons et musiques, dessins définitifs (certains personnages et effets sont
+  provisoires), multijoueur. L'équilibrage sera revu d'après vos retours.
+- À la fin (ou quand vous voulez), **remplissez le questionnaire** : bouton **« Donner son avis »**
+  du menu principal ou du menu pause (Échap), ou directement :
+  **https://docs.google.com/forms/d/1FjElWO0e9AP0lCeaVXw6DzaL0U_hO2MZkGy-05V9gKk/viewform**
 
 ## Lancer le jeu
 
@@ -10,16 +23,37 @@ est ici.
   **https://ottoreg.github.io/Retro_Venture/**
 - La partie est **sauvegardée automatiquement** dans le navigateur (changement de carte, fin de
   combat, retour au menu…). « Continuer » au menu reprend la dernière partie. Vider les données du
-  site efface la sauvegarde.
-- Résolution prévue : 1280 × 720 ou plus.
+  site efface la sauvegarde. Si vous aviez joué à une version précédente, commencez une **nouvelle
+  partie**.
+- Résolution prévue : 1280 × 720 ou plus. Plein écran dans les options.
+
+## Par où commencer
+
+1. **Créez votre personnage** : une race (Humain, Gobelin ou Elfe : elle fixe votre zone de départ
+   et votre camp), une Voie (Guerrier, Rôdeur, Arcaniste ou Théologue) et un nom.
+2. **Parlez au personnage marqué d'un « ! »** près de votre point d'arrivée : Alric (humains), Grumm
+   (gobelins) ou Elwyn (elfes). Son **tutoriel** vous apprend à vous équiper (touche **I**), à
+   combattre, à récolter et à forger.
+3. **Suivez la quête principale de votre camp** (acte I, jusqu'au mini-boss de la zone, vers le
+   niveau 12), puis partez pour **Hautepierre** (acte II, niveaux 13 à 25) par la porte au bout de
+   votre zone ou par la **Pierre de Passage**. L'histoire de l'alpha se termine à la Brèche, contre
+   Grondin (niveau 30).
+4. En chemin, **5 quêtes secondaires par zone**, ouvertes à tous les camps : allez voir les zones
+   des autres peuples.
+5. La quête suivie s'affiche sous la minicarte ; le journal s'ouvre avec **Q**.
+
+Créer un deuxième personnage d'une autre race ou d'une autre Voie est très utile si vous avez le
+temps : chaque camp a sa propre histoire.
 
 ## Créer son personnage
 
 - Trois races, chacune avec sa zone de départ et son sort racial :
-  - **Humain** : départ à **Brumerive** ; sort *Ralliement* ; passif +10 % d'XP de métier.
-  - **Gobelin** : départ à **Crasse-Roc** ; sort *Coup bas* ; passif *Chapardeur* : +20 prospection
-    et +20 % d'écus en fin de combat.
-  - **Elfe** : départ à **Sylvebrume** ; sort *Pas léger* ; passif +1 portée sur les sorts à distance.
+  - **Humain** (camp allié) : départ à **Brumerive** ; sort *Ralliement* ; passif +10 % d'XP de
+    métier.
+  - **Gobelin** (camp ennemi) : départ à **Crasse-Roc** ; sort *Coup bas* ; passif *Chapardeur* :
+    +20 prospection et +20 % d'écus en fin de combat.
+  - **Elfe** (camp neutre) : départ à **Sylvebrume** ; sort *Pas léger* ; passif +1 portée sur les
+    sorts à distance.
 - Quatre Voies (classes) : **Guerrier**, **Rôdeur**, **Arcaniste** et **Théologue** (soigneur
   sacré : soin, bouclier qui absorbe les dégâts jusqu'à son prochain tour, dégâts Sacrés), avec 4
   sorts chacune.
@@ -35,7 +69,7 @@ est ici.
 | --- | --- |
 | Se déplacer | Clic sur une case (un nouveau clic pendant la marche change de destination) |
 | Attaquer un groupe de monstres | Clic sur le groupe : le personnage le rejoint et le combat commence |
-| Parler, commercer, fabriquer | Clic sur un PNJ (bulle « … » au-dessus de sa tête) |
+| Parler, commercer, fabriquer | Clic sur un PNJ (bulle « … », ou « ! » / « ? » s'il a une quête pour vous) |
 | Récolter | Clic sur un arbre (bûcheron) ou un rocher à minerai (mineur) |
 | Entrer / sortir d'un bâtiment | Clic sur la porte : celles où l'on peut entrer sont marquées au sol d'un losange doré (double chevron) |
 | Changer de carte | Clic sur une flèche jaune au bord de l'écran |
@@ -107,8 +141,9 @@ bandeau, hors combat, ouvre sa fiche.
      de la barre de sorts.
 3. Fin du combat : expérience, écus et butin (une icône par objet avec sa quantité ; le nom en
    survolant). Pendant l'alpha 1, l'expérience gagnée est **multipliée par 3,5** : on monte vite de
-   niveau pour tester toutes les mécaniques ; la vraie vitesse de progression viendra à l'alpha 2. En cas de défaite, on se réveille avec 1 PV à côté de la Pierre de Passage de son
-   **point de résurrection** (voir plus bas), même si elle est sur une autre carte.
+   niveau pour tester toutes les mécaniques ; la vraie vitesse de progression viendra à l'alpha 2.
+   En cas de défaite, on se réveille avec 1 PV à côté de la Pierre de Passage de son **point de
+   résurrection** (voir plus bas), même si elle est sur une autre carte.
    Si le sac (60 places) est plein, le butin y entre quand même, en surplus : il faut alors faire de
    la place (vendre, jeter, ranger au coffre) avant de pouvoir relancer un combat.
 
@@ -154,103 +189,69 @@ le **lit** de votre maison les rend tous d'un coup.
 
 ## Ce qu'il y a dans cette version
 
-- **Zones** : **Brumerive, complète** (10 cartes, niveaux 1 à 12 : place du village, champs de
-  l'est, rives de la Brume, moulin de Tournevent, verger des Pommeaux, lande aux épouvantails, Grands
-  Blés, camp du raid, gué de Brume-Haute, palissade de Krasbouk), **Crasse-Roc, complète** (10
-  cartes, niveaux 1 à 12 : entrée des galeries, Crassier, Rataillerie, puits des Vampipistrelles,
-  galerie effondrée, poste avancé de la Milice, carrière aux Échos, Forges noires, route des
-  Charrois, abîme du Balourd), **Sylvebrume, complète** (9 cartes, niveaux 1 à 12 : clairière de la
-  Lisière, futaie ancienne, sous-bois moussu, bosquet des Cerfs, coupe rase, scierie de Brumerive,
-  Toiles grises, orée du Sud, cœur de la Toile), **Hautepierre, complète** (19 cartes, niveaux 13 à
-  30 : la ville au centre avec sa Pierre de Passage sur la Grand-Place, la marchande Rosemonde et le
-  forgeron Gontran, la Citadelle et ses personnages ; trois routes la relient aux zones de départ par
-  une porte, depuis le Gué de Brume-Haute, la Route des Charrois et l'Orée du Sud), Sylvebrume (clairière de la Lisière, futaie ancienne), reliées seulement par les
-  Pierres de Passage (toutes accessibles dès le début, voir plus haut). Le **Trône de Cendre** (carte d'élite) est
-  accessible par n'importe quelle Pierre : le Souverain Cendré y attend, c'est le monstre le plus
-  puissant du jeu.
-- **Monstres** : à Brumerive, par palier — loups (1–3), frondeurs gobelins (4–6), pillards
-  gobelins et épouvantails démotivés (7–9), briseurs gobelins (10–12), chacun avec son élite (loup
-  alpha, frondeur vétéran, pillard émérite, grand épouvantail, défonceur de portes) ; au bout, le
-  **mini-boss Krasbouk**, chef de raid syndiqué (palissade, carte 3, 2), en trois temps : il court
-  et tire de plus loin à 60 % de PV, puis entre en rage à 30 % (critiques, Dommages, mais moins
-  résistant à l'Acier) ; il revient 1 minute après sa défaite. À Crasse-Roc : rats et grouilleurs
-  (1–3), vampipistrelles (4–6), miliciens de Hautepierre (7–9), contremaîtres zélés (10–12), avec
-  leurs élites (rat-roi, grouilleur ancestral, vampipistrelle comtesse, sergent de la milice,
-  contremaître en chef) ; au fond, le **mini-boss Balourd des Abîmes** sur son île au milieu de la
-  lave : à 70 % sa carapace couvre sa faiblesse au Givre, à 40 % il s'embrase (pluie de braises), à
-  15 % il s'envole (plus de PM et de portée). À Sylvebrume : morilles grincheuses (1–3), cerfs
-  enchantés et arbres vivants (4–6), bûcherons de Brumerive (7–9), tisseuses de brume (10–12), avec
-  leurs élites ; au cœur de la Toile, le **mini-boss Mère-Toile** : à 65 % elle tisse toute la
-  clairière (toile géante, plus de PM), à 35 % elle s'enferme dans un cocon (couvre sa faiblesse à
-  la Flamme), à 10 % elle mise tout sur l'attaque. Une fois un mini-boss vaincu, la cendre gagne
-  son repaire : un groupe de sa **variante corrompue** (loup cendreux, grouilleur de braise, arbre
-  calciné, niveaux 13 à 21) y apparaît pour de bon, avant-goût de Hautepierre.
-  À Hautepierre, une famille par palier : détrousseurs (13–15), trolls des ponts (16–18), corbacs
-  espions (19–21), gargouilles (22–24), Cendrillons (25–27), olifants de guerre (28–30), chacune
-  avec son élite ; des **variantes corrompues** (loup cendreux, grouilleur de braise, arbre calciné),
-  plus fortes et de Flamme, sur les premiers paliers ; et à la Brèche, le **boss Grondin**, bélier de
-  siège : à 75 % il se blinde, à 50 % il charge de loin, à 20 % ses roues cassent (il frappe très
-  fort mais ne bouge presque plus). Les groupes comptent 1 à 3 monstres, parfois mélangés,
-  se promènent autour de leur place et réapparaissent 2 à 3 minutes après avoir été vaincus. Les
-  trophées de boss (hachoir, chevalière de Krasbouk) ne se vendent pas en boutique.
-- **Niveaux des monstres** : à Crasse-Roc, rats et grouilleurs ont un niveau de 1 à 3, tiré à chaque
-  apparition (les rats surtout au niveau 1, les grouilleurs surtout au niveau 3). Plus haut niveau :
-  plus de PV, de dégâts et d'XP, mais le même butin. La bulle du groupe et le cadre du combattant
-  survolé montrent le niveau de chacun.
-- **Nouveautés du combat** : coups critiques (5 % par sort, « Coup critique ! », valeurs × 1,5),
-  bonus et malus temporaires, poisons, poussées, glyphes et pièges. Survoler un combattant montre
-  ses états en cours (« −2 PM (1 tour) », « Poison 6 Givre (3 tours) »…).
-  - L'**Arbre millénaire** pose un *Cercle de sève* autour de lui (cases vertes) : il s'y soigne, et
-    qui y commence son tour perd 2 PM.
-  - Le **Frondeur vétéran** sème des *Chausse-trapes* **invisibles** : on ne voit que le nom du sort.
-    Marcher dessus arrête le déplacement, blesse et retire 2 PM.
-  - Les frondeurs gardent leurs distances : ils tirent de loin, puis reculent.
-- **Élites** : chaque famille a sa version élite, plus grande, avec un halo doré, bien plus forte et
-  qui lâche plus souvent les objets rares (Loup alpha, Frondeur vétéran, Rat-roi, Grouilleur
-  ancestral, Grand cerf de la Lisière, Arbre millénaire). Chaque élite tente d'apparaître toutes
-  les 5 à 6 minutes de jeu (où que vous soyez), sur une carte au hasard où vit sa famille : dans un
-  nouveau groupe, ou à la place d'un monstre d'un groupe s'il y a déjà 3 groupes sur la carte. Une
-  seule de chaque espèce à la fois ; une fois vaincue, elle revient 5 à 6 minutes plus tard.
-  Plus une élite reste en vie, plus son butin s'améliore : un losange doré par minute dans sa bulle
-  (5 au plus), puis des triangles au-dessus en couronne ; +10 % de chances de butin par marque,
-  jusqu'à +100 %. (Pour les tests, une marque par minute ; ce sera une par heure ensuite.)
-- **Dans chaque village de départ** : une maison (coffre de 100 places partagé entre les maisons, et
-  un lit), un marchand qui achète et vend tous les objets, et un forgeron.
-- **Panoplies** (vendues par les marchands, niveau 3) : six panoplies élémentaires de 6 pièces
-  (Forgeron Hargneux : Force ; Pyromane Repenti : Intelligence ; Bonhomme de Neige : Chance ;
-  Courant d'Air : Agilité ; Enfant de Chœur : Sacré ; Mauvais Œil : Impie) et deux de 3 pièces à
-  mélanger (Pressé : Initiative et Dommages ; Fouineur : Prospection). Plus on porte de pièces d'une
-  même panoplie, plus son bonus grandit ; le détail d'un objet (inventaire, marchand) montre les
-  pièces portées et le palier actif (marqué « » »).
-- **Éléments Sacré et Impie, statistique Dommages** : à tester avec la Masse bénite (Sacré : Force
-  et Intelligence), la Dague du Mauvais Œil (Impie : Agilité et Chance) et la Chevalière du Cogneur
-  (+Dommages : des dégâts en plus sur chaque coup, quel que soit l'élément), en vente chez les
-  marchands. Les Dommages apparaissent dans la fiche (C).
-- **Reliques** : les huit cases « Reliques » de l'inventaire restent vides pour l'instant (les
-  Reliques arriveront avec la quête principale).
-- **Métiers** : bûcheron (frêne, chêne, if niv. 8, hêtre niv. 15, malorme niv. 22), mineur
-  (cuivre, fer, étain niv. 8, argent niv. 15, obsidienne niv. 22), forgeron (23 recettes, dont
-  certaines demandent des butins de plusieurs zones : il faut voyager). Les ressources repoussent
-  en 1 à 3 minutes. **Récolte rare** : 1 fois sur 100, on obtient à la place une ressource rare
-  (« Rare ! » en doré au-dessus du personnage), qui sert à 6 recettes améliorées du forgeron ; ni les
-  ressources rares ni ces objets ne se trouvent chez le marchand.
+- **4 zones, 52 cartes** :
+  - **Brumerive** (humains, 10 cartes, niveaux 1 à 12), **Crasse-Roc** (gobelins, 10 cartes) et
+    **Sylvebrume** (elfes, 9 cartes), chacune avec son village (maison avec coffre et lit,
+    marchand, forgeron), quatre paliers de monstres (1–3, 4–6, 7–9, 10–12) et un **mini-boss** au
+    bout : **Krasbouk** (chef de raid syndiqué), le **Balourd des Abîmes** (sur son île de lave),
+    la **Mère-Toile** (au cœur de la Toile). Chacun change de comportement en perdant ses PV
+    (phases) et revient 1 minute après sa défaite.
+  - **Hautepierre** (19 cartes, niveaux 13 à 30) : la ville humaine (Pierre de Passage sur la
+    Grand-Place, marchande, forgeron, Citadelle), reliée aux trois zones de départ par une porte, et
+    ses environs : détrousseurs, trolls des ponts, corbacs espions, gargouilles, Cendrillons,
+    olifants de guerre, et à la Brèche le **boss Grondin**.
+  - Le **Trône de Cendre** (carte d'élite de test, gratuit par les Pierres) : le Souverain Cendré,
+    le monstre le plus puissant du jeu, pour les curieux.
+- **50 monstres** : une famille par palier, chacune avec son **élite** (plus grande, halo doré, bien
+  plus forte, meilleur butin ; elle apparaît toutes les 5 à 6 minutes sur une carte de sa famille, et
+  son butin s'améliore tant qu'elle reste en vie : losanges puis couronne dans sa bulle). Les
+  monstres ont un **niveau variable** dans leur palier (affiché dans la bulle du groupe). Une fois un
+  mini-boss vaincu, sa **variante corrompue** (loup cendreux, grouilleur de braise, arbre calciné)
+  apparaît dans son repaire.
+- **41 quêtes** : un tutoriel par camp, la quête principale de chaque camp (acte I dans la zone de
+  départ, acte II à Hautepierre), le début de l'acte III commun (le Conseil des Peuples Libres, puis
+  la Brèche), et 15 quêtes secondaires.
+- **Combat** : coups critiques, bonus et malus, poisons, poussées, glyphes (cases colorées) et
+  pièges invisibles, monstres qui gardent leurs distances ou soignent leurs alliés, **mode
+  tactique** (T).
+- **Équipement** : 133 équipements, des panoplies (six élémentaires de 6 pièces, deux de 3 pièces à
+  mélanger : plus on porte de pièces, plus le bonus grandit), des trophées de boss qui ne se vendent
+  pas.
+- **Métiers** : bûcheron et mineur (5 ressources chacun, de plus en plus rares), forgeron (23
+  recettes, dont certaines demandent des butins de plusieurs zones). **Récolte rare** : 1 fois sur
+  100, une ressource rare à la place (« Rare ! »), pour 6 recettes améliorées.
+- **Pierres de Passage** : pendant ce test, toutes accessibles dès le début (voyage payant). La
+  dernière pierre touchée est votre point de résurrection.
 
-Pas encore là : multijoueur, sons et musiques.
+## Problèmes connus
+
+- **Équilibrage provisoire** : nos simulations disent que certains mini-boss sont durs pour
+  certaines Voies au niveau 12 (surtout la Mère-Toile, et Krasbouk ou le Balourd pour le Rôdeur).
+  Si un mini-boss vous résiste, **allez gagner quelques niveaux** (quêtes secondaires, autres zones,
+  Hautepierre) puis revenez : c'est exactement le genre de retour qu'on attend.
+- Certains combats contre des monstres qui fuient (Cendrillons) peuvent être longs.
+- Pas de son ; certains dessins sont provisoires (pas de personnages féminins, pas d'animation de
+  mort ni d'effets de sorts).
+- Les élites gagnent une marque d'ancienneté par minute (pour le test ; ce sera une par heure).
 
 ## Ce qu'on aimerait que vous regardiez
 
-- Le combat est-il compréhensible sans explication ? Trop facile, trop dur ?
-- Les zones se lisent-elles bien (où marcher, où sont les sorties, ce qui est cliquable) ?
-- Les groupes de monstres : est-ce qu'on voit bien qui est dans un groupe, et où il va ?
-- L'économie : prix du marchand, butin, recettes du forgeron.
-- Les quêtes : savait-on toujours quoi faire et où aller ? Les textes font-ils sourire ?
-- Tout ce qui semble bloqué, lent, illisible ou bizarre.
+- Le **combat** est-il compréhensible sans explication ? Trop facile, trop dur ? Une Voie vous
+  semble-t-elle trop faible ou trop forte ?
+- Les **quêtes** : saviez-vous toujours quoi faire et où aller ? Les textes vous ont-ils fait
+  sourire ? Une quête vous a-t-elle bloqué ?
+- Les **zones** se lisent-elles bien (où marcher, où sont les sorties et les portes, ce qui est
+  cliquable) ? La minicarte et la carte du monde aident-elles ?
+- Le **rythme** : la montée en niveau est-elle trop rapide, trop lente ?
+- L'**économie** : prix du marchand, butin, recettes du forgeron.
+- Tout ce qui semble **bloqué, lent, illisible ou bizarre**.
 
-## Signaler un problème
+## Donner son avis et signaler un problème
 
-Pour chaque problème, donnez si possible :
+Le **questionnaire** (bouton « Donner son avis » du menu principal ou du menu pause) prend une
+dizaine de minutes ; il a une partie pour les bugs. Pour chaque problème, donnez si possible :
 
-1. ce que vous faisiez (carte, action, combat ou non) ;
+1. ce que vous faisiez (carte, action, combat ou non, quête en cours) ;
 2. ce qui s'est passé, et ce que vous attendiez ;
 3. une capture d'écran ;
 4. votre navigateur, et si le problème revient en recommençant.
