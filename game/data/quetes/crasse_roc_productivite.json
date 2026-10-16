@@ -1,0 +1,64 @@
+{
+  "id": "crasse_roc_productivite",
+  "nom": "Objectifs de productivité",
+  "categorie": "principale",
+  "niveau": 3,
+  "pnj": "contremaitre_grumm",
+  "description": "Les rats mangent le minerai. Le minerai, c'est pour le Souverain. Le Souverain n'aime pas partager.",
+  "acte": 1,
+  "conditions": {
+    "camp": "ennemi",
+    "niveau_min": 2,
+    "quetes_terminees": [
+      "crasse_roc_tutoriel"
+    ]
+  },
+  "etapes": [
+    {
+      "objectifs": [
+        {
+          "type": "vaincre",
+          "monstre": "rat_des_galeries",
+          "nombre": 6
+        },
+        {
+          "type": "apporter",
+          "objet": "queue_de_rat",
+          "nombre": 5,
+          "pnj": "contremaitre_grumm",
+          "butin": {
+            "monstres": [
+              "rat_des_galeries",
+              "rat_roi"
+            ],
+            "taux": 0.5
+          }
+        }
+      ]
+    }
+  ],
+  "dialogues": {
+    "contremaitre_grumm": {
+      "proposition": [
+        "Note de service : les rats mangent plus de minerai que les mineurs. La direction veut un quota.",
+        "Six rats, cinq queues comme justificatif. Pas de queue, pas de rat. Pas de rat, pas de prime. Y a pas de prime, mais c'est pour l'exemple."
+      ],
+      "en_cours": [
+        "Le quota, c'est le quota. Le quota, c'est sacré. Le quota, c'est moi qui l'ai inventé."
+      ],
+      "fin": [
+        "Cinq queues, quota atteint. La direction te félicite. Enfin, elle félicite le service. Enfin, elle me félicite."
+      ]
+    }
+  },
+  "recompenses": {
+    "xp_cr": 5,
+    "ecus": 55,
+    "objets": [
+      {
+        "objet": "bottes_feutrees",
+        "nombre": 1
+      }
+    ]
+  }
+}

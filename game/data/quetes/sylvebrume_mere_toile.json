@@ -1,0 +1,59 @@
+{
+  "id": "sylvebrume_mere_toile",
+  "nom": "La Mère-Toile",
+  "categorie": "principale",
+  "niveau": 12,
+  "pnj": "gardienne_elwyn",
+  "description": "La toile de la Mère-Toile devient grise. La cendre gagne la forêt.",
+  "acte": 1,
+  "conditions": {
+    "camp": "neutre",
+    "niveau_min": 11,
+    "quetes_terminees": [
+      "sylvebrume_coupe_rase"
+    ]
+  },
+  "etapes": [
+    {
+      "objectifs": [
+        {
+          "type": "vaincre_groupe",
+          "monstre": "mere_toile"
+        }
+      ]
+    },
+    {
+      "objectifs": [
+        {
+          "type": "parler",
+          "pnj": "gardienne_elwyn"
+        }
+      ]
+    }
+  ],
+  "dialogues": {
+    "gardienne_elwyn": {
+      "proposition": [
+        "Au cœur de la Toile, la Mère-Toile tisse gris. Ses fils sentent la cendre. Ça, c'est notre guerre.",
+        "Va au cœur de la Toile, au nord-ouest. Le conseil délibère pendant ce temps. Ne l'attends pas."
+      ],
+      "en_cours": [
+        "La toile est toujours grise. Le conseil délibère toujours. Rien ne change, c'est rassurant et inquiétant à la fois."
+      ],
+      "fin": [
+        "La Mère-Toile est tombée. Le conseil a décidé, après trois siècles : il envoie une observatrice à Hautepierre. Toi.",
+        "Voici la Broche de la Lisière. On ne l'a remise qu'une fois. Ne la perds pas : il faudrait délibérer pour la remplacer."
+      ]
+    }
+  },
+  "recompenses": {
+    "xp_cr": 8,
+    "ecus": 165,
+    "objets": [
+      {
+        "objet": "broche_de_la_lisiere",
+        "nombre": 1
+      }
+    ]
+  }
+}

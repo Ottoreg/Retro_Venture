@@ -1,0 +1,59 @@
+{
+  "id": "crasse_roc_balourd",
+  "nom": "Le Balourd des Abîmes",
+  "categorie": "principale",
+  "niveau": 12,
+  "pnj": "contremaitre_grumm",
+  "description": "La grande galerie est bloquée par un Balourd. Un gros.",
+  "acte": 1,
+  "conditions": {
+    "camp": "ennemi",
+    "niveau_min": 11,
+    "quetes_terminees": [
+      "crasse_roc_inspection"
+    ]
+  },
+  "etapes": [
+    {
+      "objectifs": [
+        {
+          "type": "vaincre_groupe",
+          "monstre": "balourd_des_abimes"
+        }
+      ]
+    },
+    {
+      "objectifs": [
+        {
+          "type": "parler",
+          "pnj": "contremaitre_grumm"
+        }
+      ]
+    }
+  ],
+  "dialogues": {
+    "contremaitre_grumm": {
+      "proposition": [
+        "Le Balourd des Abîmes bloque la grande galerie. La direction veut la galerie. La direction ne veut pas le Balourd.",
+        "Descends à l'Abîme et règle ça. Si tu reviens, je te nomme délégué. Si tu ne reviens pas, je nomme quelqu'un d'autre."
+      ],
+      "en_cours": [
+        "Le Balourd est toujours là. Je le sais : la galerie fume encore."
+      ],
+      "fin": [
+        "Tu es revenu ! Bon, alors tu es délégué provisoire. Voici ta carte du syndicat.",
+        "Première mission : porter notre préavis à Hautepierre. En main propre au Souverain, ou à quelqu'un de proche. Bon courage."
+      ]
+    }
+  },
+  "recompenses": {
+    "xp_cr": 8,
+    "ecus": 165,
+    "objets": [
+      {
+        "objet": "carte_du_syndicat",
+        "nombre": 1
+      }
+    ]
+  }
+}

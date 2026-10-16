@@ -49,6 +49,13 @@ const CMD_WITHDRAW := "reprendre"
 ## « toujours_connue »), en payant son prix en écus. Arriver par un voyage ne découvre pas la pierre.
 ## { type, entite: String, case: Vector2i (la pierre), destination: String (id de la pierre d'arrivée) }
 const CMD_TRAVEL := "voyager"
+## Exploration, à côté du PNJ qui la propose : accepter une quête. { type, entite: String, quete: String }
+const CMD_QUEST_ACCEPT := "accepter_quete"
+## Remettre une quête proposée à plus tard (le marchand ou l'artisan ouvre alors sa boutique ou son
+## atelier au prochain dialogue). { type, entite: String, quete: String }
+const CMD_QUEST_DECLINE := "refuser_quete"
+## Suivre une quête en cours (sous la minicarte), ou aucune avec "". { type, entite: String, quete: String }
+const CMD_QUEST_TRACK := "suivre_quete"
 ## Exploration : attaquer un groupe de monstres. { type, entite: String, groupe: String }
 const CMD_ENGAGE := "engager"
 ## Combat, phase de placement : { type, entite: String, cible: Vector2i }
@@ -67,8 +74,19 @@ const CMD_END_TURN := "fin_tour"
 const EVT_MOVED := "deplace"
 ## { type, commande: String, raison: String }
 const EVT_REFUSED := "refuse"
-## { type, pnj: String, nom: String, case: Vector2i, repliques: Array[String] }
+## { type, pnj: String, nom: String, case: Vector2i, repliques: Array[String] }, et `quete` (id, ou "")
+## quand le texte vient d'une quête.
 const EVT_DIALOGUE := "dialogue"
+## Un PNJ propose une quête, à la place de son dialogue. { type, pnj, nom, case, quete: String,
+## titre: String, niveau: int, repliques: Array[String], objectifs: Array[{ texte, fait, carte }],
+## recompenses: { xp, ecus, objets: Array[{ objet, nom, rarete, quantite }] } }
+const EVT_QUEST_OFFER := "quete_proposee"
+## Une quête avance (objectif compté ou rempli, étape suivante, quête acceptée). { type, quete, texte }
+const EVT_QUEST_PROGRESS := "quete_avance"
+## Une quête est terminée et ses récompenses données. { type, quete, nom, xp, ecus, objets }
+const EVT_QUEST_DONE := "quete_terminee"
+## Journal des quêtes, après chaque changement. { type, journal: { en_cours, terminees, suivie } }
+const EVT_QUESTS := "quetes"
 ## Boutique d'un marchand, à la place du dialogue quand on lui parle. { type, pnj: String, nom: String,
 ## case: Vector2i, repliques: Array[String], articles: Array[{ objet, nom, type, rarete, niveau,
 ## description, bonus, conditions, prix }], taux_revente: float }
@@ -206,6 +224,8 @@ const REASON_NOT_ENOUGH_ECUS := "ecus_insuffisants"
 ## Voyage vers une Pierre de Passage pas encore découverte.
 const REASON_PASSAGE_UNKNOWN := "pierre_inconnue"
 const REASON_INVENTORY_FULL := "inventaire_plein"
+## Un objet de quête ne se jette ni ne se vend.
+const REASON_QUEST_ITEM := "objet_de_quete"
 ## Le sac déborde (butin en surplus) : pas de nouveau combat avant d'avoir fait de la place.
 const REASON_INVENTORY_OVERLOADED := "inventaire_surcharge"
 const REASON_TOO_FAR := "trop_loin"

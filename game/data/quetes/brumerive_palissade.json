@@ -1,0 +1,63 @@
+{
+  "id": "brumerive_palissade",
+  "nom": "La palissade de Krasbouk",
+  "categorie": "principale",
+  "niveau": 12,
+  "pnj": "bourgmestre_pansu",
+  "description": "Le raid a un chef, le chef a une palissade, et Brumerive a vous.",
+  "acte": 1,
+  "conditions": {
+    "camp": "allie",
+    "niveau_min": 11,
+    "quetes_terminees": [
+      "brumerive_ordres_du_raid"
+    ]
+  },
+  "etapes": [
+    {
+      "objectifs": [
+        {
+          "type": "vaincre_groupe",
+          "monstre": "krasbouk"
+        }
+      ]
+    },
+    {
+      "objectifs": [
+        {
+          "type": "parler",
+          "pnj": "bourgmestre_pansu"
+        }
+      ]
+    }
+  ],
+  "dialogues": {
+    "bourgmestre_pansu": {
+      "proposition": [
+        "Krasbouk, le chef du raid, s'est retranché derrière sa palissade, au bout du gué. Il faut l'en déloger.",
+        "Je vous accompagnerais bien, mais quelqu'un doit rester ici pour recevoir les félicitations."
+      ],
+      "en_cours": [
+        "Krasbouk tient toujours ? Courage ! Je vous soutiens moralement, de très près."
+      ],
+      "fin": [
+        "Krasbouk vaincu ! Grâce à mon plan ! Voici l'écharpe du Héros de Brumerive, et un laissez-passer pour Hautepierre.",
+        "Vous n'en aurez pas besoin, vous êtes avec moi. Mais au cas où on vous demanderait qui vous envoie : c'est moi."
+      ]
+    }
+  },
+  "recompenses": {
+    "xp_cr": 8,
+    "ecus": 165,
+    "objets": [
+      {
+        "objet": "echarpe_du_heros_de_brumerive",
+        "nombre": 1
+      },
+      {
+        "objet": "laissez_passer_de_hautepierre",
+        "nombre": 1
+      }
+    ]
+  }
+}

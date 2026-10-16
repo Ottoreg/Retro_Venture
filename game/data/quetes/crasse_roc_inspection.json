@@ -1,0 +1,78 @@
+{
+  "id": "crasse_roc_inspection",
+  "nom": "Inspection surprise",
+  "categorie": "principale",
+  "niveau": 9,
+  "pnj": "contremaitre_grumm",
+  "description": "La milice humaine inspecte la carrière. Grumm déteste les inspections, sauf quand c'est lui qui inspecte.",
+  "acte": 1,
+  "conditions": {
+    "camp": "ennemi",
+    "niveau_min": 8,
+    "quetes_terminees": [
+      "crasse_roc_heures_sup"
+    ]
+  },
+  "etapes": [
+    {
+      "objectifs": [
+        {
+          "type": "vaincre",
+          "monstre": "milicien_de_hautepierre",
+          "nombre": 4
+        },
+        {
+          "type": "apporter",
+          "objet": "ecusson_de_milice",
+          "nombre": 3,
+          "pnj": "grizzlok_le_pacifiste",
+          "butin": {
+            "monstres": [
+              "milicien_de_hautepierre",
+              "sergent_de_milice"
+            ],
+            "taux": 0.5
+          }
+        }
+      ]
+    },
+    {
+      "objectifs": [
+        {
+          "type": "parler",
+          "pnj": "contremaitre_grumm"
+        }
+      ]
+    }
+  ],
+  "dialogues": {
+    "contremaitre_grumm": {
+      "proposition": [
+        "La milice de Hautepierre est venue inspecter la carrière. On n'aime pas les inspections. Surtout les nôtres.",
+        "Chasse-les. Rapporte des écussons à Grizzlok, c'est lui qui tient le registre des incidents. Il lit tout, même les ordres de mission."
+      ],
+      "en_cours": [
+        "La milice inspecte encore ? Inspecte-la, toi."
+      ],
+      "fin": [
+        "Diversion ? Pas de retour ? … Bah. Les ordres, c'est les ordres. Mais je vais quand même les relire. Lentement."
+      ]
+    },
+    "grizzlok_le_pacifiste": {
+      "objectif": [
+        "Des écussons… Pauvres gars. J'ai lu l'ordre de mission en entier, moi. Personne ne le lit en entier.",
+        "Le raid sur Brumerive est une diversion, ordonnée par un Héraut. Et personne n'a prévu de retour. Va dire ça à Grumm."
+      ]
+    }
+  },
+  "recompenses": {
+    "xp_cr": 5,
+    "ecus": 125,
+    "objets": [
+      {
+        "objet": "casque_cabosse",
+        "nombre": 1
+      }
+    ]
+  }
+}

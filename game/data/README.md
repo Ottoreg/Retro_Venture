@@ -412,7 +412,7 @@ phase.
 
 | Clé | Rôle |
 |---|---|
-| `type` | `ressource` (s'empile) ou équipement : `arme`, `coiffe`, `cape`, `amulette`, `anneau`, `ceinture`, `bottes` |
+| `type` | `ressource` (s'empile), `quete` (objet de quête : s'empile, ni vendu, ni vendable, ni jetable) ou équipement : `arme`, `coiffe`, `cape`, `amulette`, `anneau`, `ceinture`, `bottes` |
 | `rarete` | `commun`, `peu_commun`, `rare`, `epique`, `legendaire`, `relique` (couleur dans l'interface) |
 | `niveau` | Niveau requis pour l'équiper |
 | `bonus` | Plages `[min, max]` tirées au hasard à l'obtention (« jets ») : les 6 caractéristiques, `prospection`, `initiative`, `portee`, `pa`, `pm`, `dommages` (dégâts bruts ajoutés à chaque ligne de dégâts, ni multipliés ni réduits par les résistances, pas sur les soins) |
@@ -555,6 +555,59 @@ Les équipements fabriqués ont des jets tirés au hasard.
 Niveaux de métier : 1 à 100, XP totale pour le niveau n = 5 × n × (n − 1). Les Humains gagnent 10 %
 d'XP de métier en plus (effet de passif `{"type": "xp_metier", "valeur": 10}`).
 
-## À venir
+## Quêtes (`quetes/`)
 
-`quetes/`.
+Conception : `docs/design/chantier6_quetes.md` ; production : `docs/design/chantier6/produire_lot<n>.py`.
+
+```json
+{
+  "id": "brumerive_verger",
+  "nom": "Le verger de Mère Pomponne",
+  "categorie": "principale",
+  "acte": 1,
+  "niveau": 6,
+  "pnj": "mere_pomponne",
+  "description": "Texte du journal.",
+  "conditions": {"camp": "allie", "niveau_min": 5, "quetes_terminees": ["brumerive_aux_armes"]},
+  "donne": [{"objet": "bonnet_de_berger", "nombre": 1}],
+  "etapes": [
+    {"objectifs": [
+      {"type": "vaincre", "monstre": "gobelin_pillard", "nombre": 4},
+      {"type": "apporter", "objet": "panier_de_pommes", "nombre": 5, "pnj": "mere_pomponne",
+       "butin": {"monstres": ["gobelin_pillard"], "taux": 0.4}}
+    ]},
+    {"objectifs": [{"type": "parler", "pnj": "pere_pomponne", "texte": "Retrouver le Père Pomponne"}]}
+  ],
+  "dialogues": {"mere_pomponne": {"proposition": ["…"], "en_cours": ["…"], "objectif": ["…"], "fin": ["…"]}},
+  "recompenses": {"xp_cr": 5, "ecus": 90, "objets": [{"objet": "ceinturon_rivete", "nombre": 1}]}
+}
+```
+
+| Clé | Rôle |
+|---|---|
+| `categorie` | `tutoriel`, `principale` (avec `acte`), `secondaire` |
+| `niveau` | Niveau de la quête (affiché, et base de l'XP) |
+| `pnj` | Le PNJ qui la propose (« ! » au-dessus de lui) |
+| `conditions` | `camp`, `race`, `voie`, `niveau_min`, `quetes_terminees` (toutes), `une_quete_terminee` (une au moins) |
+| `donne` | Objets remis à l'acceptation |
+| `etapes` | Liste d'étapes ; les objectifs d'une étape se font dans n'importe quel ordre |
+| `dialogues` | Par PNJ : `proposition` et `en_cours` (donneur), `objectif` (son objectif rempli, la quête continue ; à défaut `fin`), `fin` (quête terminée en lui parlant) |
+| `recompenses` | `xp_cr` (combats de référence : l'XP d'un combat contre 2 monstres du niveau de la quête, × `Character.XP_RATE`), `ecus`, `objets` |
+
+Objectifs (champ `texte` optionnel pour remplacer le texte affiché) :
+
+| Type | Champs | Rempli quand… |
+|---|---|---|
+| `parler` | `pnj` | on parle au PNJ, une fois les autres objectifs de l'étape remplis |
+| `apporter` | `objet`, `nombre`, `pnj`, `butin` (option) | on parle au PNJ avec les objets (ils sont pris), une fois les autres objectifs remplis |
+| `vaincre` | `monstre`, `nombre` | chaque monstre vaincu (combat gagné) ; l'élite compte pour sa famille |
+| `vaincre_groupe` | `monstre` (un boss) | la victoire contre son groupe |
+| `recolter` | `objet`, `nombre` | les récoltes faites pendant l'étape |
+| `fabriquer` | `objet` ou `metier`, `nombre` | les fabrications faites pendant l'étape |
+| `equiper` | `objet` ou `emplacement` | l'objet porté (tout de suite s'il l'est déjà) |
+| `aller` | `carte` | être sur cette carte |
+
+`butin` : pendant l'étape, l'objet tombe de ces monstres à ce taux (en plus de leur butin, sans
+prospection ni limite), jusqu'au nombre demandé. Dans les zones de départ, `recolter` ne demande que
+des ressources de niveau 1 de métier. Les tests vérifient que chaque quête est faisable (PNJ, cartes,
+monstres de la zone du donneur, chaîne de conditions).

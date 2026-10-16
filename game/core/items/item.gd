@@ -4,6 +4,8 @@ extends RefCounted
 
 const TYPE_RESOURCE := "ressource"
 const TYPE_WEAPON := "arme"
+## Objet de quête : ni vendu, ni vendable, ni jetable ; donné ou demandé par une quête.
+const TYPE_QUEST := "quete"
 ## Type d'objet → emplacements d'équipement possibles.
 const SLOTS_BY_TYPE := {
 	"arme": ["arme"], "coiffe": ["coiffe"], "cape": ["cape"], "amulette": ["amulette"],
@@ -62,7 +64,7 @@ static func sell_price(template: Dictionary) -> int:
 ## Vrai si les marchands vendent cet objet (`"boutique": false` : trophées de boss, objets rares
 ## qu'on ne trouve qu'en butin).
 static func is_sold(template: Dictionary) -> bool:
-	return template.get("boutique", true) == true
+	return template.get("boutique", true) == true and template.get("type") != TYPE_QUEST
 
 
 static func validate(data: Dictionary) -> PackedStringArray:
@@ -74,8 +76,8 @@ static func validate(data: Dictionary) -> PackedStringArray:
 	if typeof(data.get("nom")) != TYPE_STRING:
 		errors.append("« nom » doit être un texte")
 	var type := str(data.get("type", ""))
-	if type != TYPE_RESOURCE and not SLOTS_BY_TYPE.has(type):
-		errors.append("« type » doit valoir « ressource » ou un type d'équipement : %s" % str(SLOTS_BY_TYPE.keys()))
+	if type != TYPE_RESOURCE and type != TYPE_QUEST and not SLOTS_BY_TYPE.has(type):
+		errors.append("« type » doit valoir « ressource », « quete » ou un type d'équipement : %s" % str(SLOTS_BY_TYPE.keys()))
 	if data.get("rarete") not in RARITIES:
 		errors.append("« rarete » doit valoir %s" % str(RARITIES))
 	if not Spell._is_int_at_least(data.get("niveau", 1), 1):
@@ -89,8 +91,8 @@ static func validate(data: Dictionary) -> PackedStringArray:
 			if stat not in bonus_stats() or typeof(span) != TYPE_ARRAY or span.size() != 2 \
 					or not Spell._is_int_at_least(span[0], 0) or not Spell._is_int_at_least(span[1], 0) or int(span[0]) > int(span[1]):
 				errors.append("bonus « %s » : [min, max] attendu, caractéristiques : %s" % [str(stat), str(bonus_stats())])
-		if type == TYPE_RESOURCE and not bonuses.is_empty():
-			errors.append("une ressource n'a pas de bonus")
+		if (type == TYPE_RESOURCE or type == TYPE_QUEST) and not bonuses.is_empty():
+			errors.append("une ressource ou un objet de quête n'a pas de bonus")
 	var conditions: Variant = data.get("conditions", {})
 	if typeof(conditions) != TYPE_DICTIONARY:
 		errors.append("« conditions » doit être un objet { caractéristique: minimum }")

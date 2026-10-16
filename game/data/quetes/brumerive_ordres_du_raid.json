@@ -1,0 +1,90 @@
+{
+  "id": "brumerive_ordres_du_raid",
+  "nom": "Les ordres du raid",
+  "categorie": "principale",
+  "niveau": 9,
+  "pnj": "sentinelle_hubert",
+  "description": "Qui donne les ordres aux gobelins ? Hubert veut savoir. Il ne sait pas lire, mais il veut savoir.",
+  "acte": 1,
+  "conditions": {
+    "camp": "allie",
+    "niveau_min": 8,
+    "quetes_terminees": [
+      "brumerive_verger"
+    ]
+  },
+  "etapes": [
+    {
+      "objectifs": [
+        {
+          "type": "apporter",
+          "objet": "ordre_de_raid",
+          "nombre": 3,
+          "pnj": "sentinelle_hubert",
+          "butin": {
+            "monstres": [
+              "gobelin_briseur",
+              "gobelin_pillard",
+              "defonceur_de_portes",
+              "pillard_emerite"
+            ],
+            "taux": 0.35
+          }
+        }
+      ]
+    },
+    {
+      "objectifs": [
+        {
+          "type": "parler",
+          "pnj": "grizzik_le_deserteur",
+          "texte": "Faire lire les ordres à Grizzik, le gobelin « en pause »"
+        }
+      ]
+    },
+    {
+      "objectifs": [
+        {
+          "type": "parler",
+          "pnj": "bourgmestre_pansu",
+          "texte": "Rendre compte au bourgmestre Pansu"
+        }
+      ]
+    }
+  ],
+  "dialogues": {
+    "sentinelle_hubert": {
+      "proposition": [
+        "Les gobelins reçoivent des ordres écrits. Personne ici ne lit le gobelin. Personne ici ne lit beaucoup, d'ailleurs.",
+        "Rapportez-moi trois ordres de raid, des briseurs ou des pillards. On trouvera bien quelqu'un pour les lire."
+      ],
+      "en_cours": [
+        "Trois ordres. Gobelins. Écrits. C'est tout ce que je sais."
+      ],
+      "objectif": [
+        "Ça, c'est de l'écriture ? On dirait des traces de poule. Il paraît qu'un gobelin se cache aux champs de l'est. Grizzik. Il est « en pause »."
+      ]
+    },
+    "grizzik_le_deserteur": {
+      "objectif": [
+        "Fais voir… « Raid sur Brumerive, signé : un Héraut ». Et en bas, en tout petit : « Les gobelins ne reviendront pas. »",
+        "Ne reviendront pas ?! Moi, je reste en pause. Toi, va dire ça à ton bourgmestre."
+      ]
+    },
+    "bourgmestre_pansu": {
+      "fin": [
+        "Un Héraut ? Un vrai Héraut, avec un grand H ? Alors c'est sérieux. Alors j'avais raison. J'ai toujours raison, mais là, c'est sérieux."
+      ]
+    }
+  },
+  "recompenses": {
+    "xp_cr": 5,
+    "ecus": 125,
+    "objets": [
+      {
+        "objet": "chevaliere_du_cogneur",
+        "nombre": 1
+      }
+    ]
+  }
+}

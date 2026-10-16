@@ -1,0 +1,81 @@
+{
+  "id": "brumerive_tutoriel",
+  "nom": "Bienvenue à Brumerive",
+  "categorie": "tutoriel",
+  "niveau": 1,
+  "pnj": "alric_le_berger",
+  "description": "Alric le berger a besoin d'un héros. Faute de mieux, il vous a choisi.",
+  "conditions": {
+    "camp": "allie"
+  },
+  "donne": [
+    {
+      "objet": "bonnet_de_berger",
+      "nombre": 1
+    }
+  ],
+  "etapes": [
+    {
+      "objectifs": [
+        {
+          "type": "equiper",
+          "objet": "bonnet_de_berger",
+          "texte": "Mettre le bonnet d'Alric"
+        }
+      ]
+    },
+    {
+      "objectifs": [
+        {
+          "type": "vaincre",
+          "monstre": "loup_des_collines",
+          "nombre": 2
+        }
+      ]
+    },
+    {
+      "objectifs": [
+        {
+          "type": "recolter",
+          "objet": "minerai_de_cuivre",
+          "nombre": 4
+        }
+      ]
+    },
+    {
+      "objectifs": [
+        {
+          "type": "fabriquer",
+          "metier": "forgeron",
+          "texte": "Fabriquer un objet chez Célébrimbert"
+        }
+      ]
+    },
+    {
+      "objectifs": [
+        {
+          "type": "parler",
+          "pnj": "alric_le_berger"
+        }
+      ]
+    }
+  ],
+  "dialogues": {
+    "alric_le_berger": {
+      "proposition": [
+        "Ah, un aventurier ! Enfin ! Brumerive manque de héros : le dernier est parti chercher du pain il y a six ans.",
+        "Tenez, mettez ce bonnet. Il était à mon père, qui ne l'a jamais porté. Puis chassez deux loups, ramassez du cuivre et faites-vous forger quelque chose chez Célébrimbert. Un héros, ça s'équipe."
+      ],
+      "en_cours": [
+        "Les loups, le cuivre, la forge. Dans l'ordre. Les héros ont besoin d'ordre, sinon ils improvisent."
+      ],
+      "fin": [
+        "Bonnet, loups, cuivre, forge : vous êtes officiellement un héros de Brumerive. Le bourgmestre voudra vous voir. Il veut voir tous les héros. Il les compte."
+      ]
+    }
+  },
+  "recompenses": {
+    "xp_cr": 5,
+    "ecus": 20
+  }
+}

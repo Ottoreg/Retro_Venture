@@ -1,0 +1,90 @@
+{
+  "id": "brumerive_verger",
+  "nom": "Le verger de Mère Pomponne",
+  "categorie": "principale",
+  "niveau": 6,
+  "pnj": "mere_pomponne",
+  "description": "Les pillards ont vidé le verger. Et emmené le Père Pomponne, qui n'a pas beaucoup résisté.",
+  "acte": 1,
+  "conditions": {
+    "camp": "allie",
+    "niveau_min": 5,
+    "quetes_terminees": [
+      "brumerive_aux_armes"
+    ]
+  },
+  "etapes": [
+    {
+      "objectifs": [
+        {
+          "type": "vaincre",
+          "monstre": "gobelin_pillard",
+          "nombre": 4
+        },
+        {
+          "type": "apporter",
+          "objet": "panier_de_pommes",
+          "nombre": 5,
+          "pnj": "mere_pomponne",
+          "butin": {
+            "monstres": [
+              "gobelin_pillard",
+              "pillard_emerite"
+            ],
+            "taux": 0.4
+          }
+        }
+      ]
+    },
+    {
+      "objectifs": [
+        {
+          "type": "parler",
+          "pnj": "pere_pomponne",
+          "texte": "Retrouver le Père Pomponne au camp du raid"
+        }
+      ]
+    },
+    {
+      "objectifs": [
+        {
+          "type": "parler",
+          "pnj": "mere_pomponne"
+        }
+      ]
+    }
+  ],
+  "dialogues": {
+    "mere_pomponne": {
+      "proposition": [
+        "Ils ont pris mes pommes, mes poules et mon mari. Rapportez-moi au moins les pommes.",
+        "Et si vous croisez mon mari au camp des gobelins… dites-lui que le dîner refroidit. Depuis trois semaines."
+      ],
+      "en_cours": [
+        "Mes pommes ! Et mon mari, si ça ne vous dérange pas."
+      ],
+      "objectif": [
+        "Mes pommes ! Il en manque une, la plus belle. Bon. Et mon mari ? Allez voir au camp du raid, au sud-est."
+      ],
+      "fin": [
+        "Il ne rentre pas ? Des congés payés ? … Dites, ils embauchent, ces gobelins ?"
+      ]
+    },
+    "pere_pomponne": {
+      "objectif": [
+        "Rentrer ? Ici on a une pause déjeuner de deux heures, une mutuelle et un comité d'entreprise.",
+        "Dites à ma femme que je suis prisonnier. Prisonnier volontaire, mais prisonnier."
+      ]
+    }
+  },
+  "recompenses": {
+    "xp_cr": 5,
+    "ecus": 90,
+    "objets": [
+      {
+        "objet": "ceinturon_rivete",
+        "nombre": 1
+      }
+    ]
+  }
+}

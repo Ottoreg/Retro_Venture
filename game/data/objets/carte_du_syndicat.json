@@ -1,0 +1,23 @@
+{
+  "id": "carte_du_syndicat",
+  "nom": "Carte du syndicat",
+  "type": "amulette",
+  "rarete": "rare",
+  "niveau": 12,
+  "boutique": false,
+  "bonus": {
+    "agilite": [
+      6,
+      10
+    ],
+    "chance": [
+      6,
+      10
+    ],
+    "prospection": [
+      10,
+      20
+    ]
+  },
+  "description": "Carte de délégué provisoire du Syndicat des Travailleurs de Crasse-Roc. Donne droit à une pause par décennie."
+}

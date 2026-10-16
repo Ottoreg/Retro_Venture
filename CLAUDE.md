@@ -46,7 +46,7 @@ combats sur chaque groupe des cartes (`-- [combats] [rapport.md] [préfixes de c
   butin : `items/loot.gd` ; données : `data/game_data.gd` (validation des JSON).
 - `game/client/` : rendu isométrique, interface, fenêtres.
 - `game/data/` : contenu en JSON (cartes, monstres, sorts, objets, panoplies, passages, races, voies,
-  métiers), format décrit dans `game/data/README.md`.
+  métiers, quêtes), format décrit dans `game/data/README.md`. Quêtes : `core/quests/`.
 - Dessins : SVG `.svgt` paramétrés, manifeste `art.json` + fragments `art/manifestes/*.json`
   fusionnés par `Art.manifest()` (un fragment par lot de production, pour éviter les conflits).
 
@@ -79,9 +79,11 @@ Phase 2 (alpha solo), en deux tests :
    ajustements d'équilibrage reportés après l'alpha test 1, d'après les retours des joueurs (TODO).
 4. Interface et confort : **mode tactique en combat** (GDD § 14.3), menu pause et options
    (`client/options.gd`, `user://options.cfg`) **faits** ; reste la fenêtre des quêtes (avec le
-   chantier 6) et les petits conforts (infobulles comparées, raccourcis).
-6. Quêtes : **conception proposée, à valider** (`docs/design/chantier6_quetes.md` : système,
-   tutoriels, actes I–III, secondaires, 4 lots de production).
+   chantier 6, faite) et les petits conforts (infobulles comparées, raccourcis).
+6. Quêtes : conception validée (`docs/design/chantier6_quetes.md`). **Lots 1 (système :
+   `core/quests/`, journal Q, suivi, marques `!`/`?`) et 2 (tutoriels et acte I, script
+   `docs/design/chantier6/produire_lot2.py`) faits** ; restent le lot 3 (secondaires) et le lot 4
+   (acte II, début de l'acte III).
 
 ## Règles de design à respecter (détails dans le GDD)
 

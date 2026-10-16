@@ -1,0 +1,67 @@
+{
+  "id": "sylvebrume_observer",
+  "nom": "Observer sans intervenir",
+  "categorie": "principale",
+  "niveau": 3,
+  "pnj": "gardienne_elwyn",
+  "description": "Elwyn veut savoir ce qui se passe dans la forêt, sans que personne ne fasse rien.",
+  "acte": 1,
+  "conditions": {
+    "camp": "neutre",
+    "niveau_min": 2,
+    "quetes_terminees": [
+      "sylvebrume_tutoriel"
+    ]
+  },
+  "etapes": [
+    {
+      "objectifs": [
+        {
+          "type": "aller",
+          "carte": "sylvebrume_1_0",
+          "texte": "Observer la Futaie ancienne"
+        },
+        {
+          "type": "aller",
+          "carte": "sylvebrume_1_1",
+          "texte": "Observer la Coupe rase"
+        }
+      ]
+    },
+    {
+      "objectifs": [
+        {
+          "type": "parler",
+          "pnj": "druide_feuillemorte"
+        }
+      ]
+    }
+  ],
+  "dialogues": {
+    "gardienne_elwyn": {
+      "proposition": [
+        "Les humains et les gobelins se battent. Ce n'est pas notre guerre. Mais il faut bien la regarder pour savoir que ce n'est pas la nôtre.",
+        "Va observer la Futaie ancienne et la Coupe rase, puis parle à Feuillemorte. Observer, c'est déjà agir. Lentement."
+      ],
+      "en_cours": [
+        "Tu observes ? Observe mieux. Plus lentement."
+      ]
+    },
+    "druide_feuillemorte": {
+      "fin": [
+        "Tu as vu ? Ils ont coupé Vieux-Branchu. Mille ans. Il me devait de l'argent.",
+        "Elwyn dit que ce n'est pas notre guerre. La forêt, elle, n'a pas été consultée."
+      ]
+    }
+  },
+  "recompenses": {
+    "xp_cr": 5,
+    "ecus": 55,
+    "objets": [
+      {
+        "objet": "bottes_de_mousse",
+        "nombre": 1
+      }
+    ]
+  }
+}

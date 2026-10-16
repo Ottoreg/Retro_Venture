@@ -124,14 +124,26 @@ func test_pnj_et_changement_de_carte() -> void:
 	var view: MapView = scene.get_node("MapView")
 	var map := view.current_map()
 
-	# Parler au PNJ : le joueur s'approche, la bulle s'affiche, chaque clic passe à la suite.
-	assert_true(map.npcs.size() > 0, "un PNJ au village")
-	var npc: Dictionary = map.npcs[0]
+	# Parler à Alric : il propose le tutoriel (fenêtre de quête), qu'on accepte.
+	var npc := map.get_npc("alric_le_berger")
+	assert_false(npc.is_empty(), "Alric au village")
 	view._on_click(npc["case"])
 	_run_until_idle(view)
+	assert_true(scene.quest_dialog.is_open(), "proposition de quête")
+	assert_eq(scene.quest_dialog.quest_id(), "brumerive_tutoriel")
+	scene.quest_dialog.accept()
+	_run_until_idle(view)
+	assert_true(view.world.character.quests.is_active("brumerive_tutoriel"))
+	assert_true(scene.quest_tracker.is_shown(), "quête suivie sous la minicarte")
+	assert_true(scene.quest_tracker.shown_text().contains("Bienvenue à Brumerive"), scene.quest_tracker.shown_text())
+
+	# Lui reparler : le joueur s'approche, la bulle s'affiche, chaque clic passe à la suite.
+	view._on_click(npc["case"])
+	_run_until_idle(view)
+	var lines: Array = view.world.data.quests["brumerive_tutoriel"]["dialogues"]["alric_le_berger"]["en_cours"]
 	assert_true(view._bubble.visible, "bulle de dialogue affichée")
-	assert_eq(view._bubble_text.text, npc["repliques"][0])
-	for i in npc["repliques"].size():
+	assert_eq(view._bubble_text.text, lines[0])
+	for i in lines.size():
 		view._next_dialogue_line()
 	assert_false(view._bubble.visible, "bulle fermée après la dernière réplique")
 
@@ -570,7 +582,7 @@ func test_barre_d_action_et_fenetre_des_sorts() -> void:
 		var slot: CombatHud.SpellSlot = hud._spell_buttons[spell_id]
 		assert_true(slot.icon != null, "icône du sort %s" % spell_id)
 		assert_true(slot.icon != Art.texture("sort_inconnu"), "icône dessinée pour %s" % spell_id)
-	assert_eq(hud._menu_buttons.size(), 5, "personnage, inventaire, sorts, métiers, carte du monde")
+	assert_eq(hud._menu_buttons.size(), 6, "personnage, inventaire, sorts, métiers, carte du monde, quêtes")
 
 	# Un clic sur un sort hors combat ouvre sa fiche dans la fenêtre des sorts.
 	var first: String = hud._shown_spells[1]

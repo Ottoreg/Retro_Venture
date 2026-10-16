@@ -1,0 +1,23 @@
+{
+  "id": "echarpe_du_heros_de_brumerive",
+  "nom": "Écharpe du Héros de Brumerive",
+  "type": "cape",
+  "rarete": "rare",
+  "niveau": 12,
+  "boutique": false,
+  "bonus": {
+    "vitalite": [
+      20,
+      30
+    ],
+    "force": [
+      5,
+      8
+    ],
+    "intelligence": [
+      5,
+      8
+    ]
+  },
+  "description": "Brodée « Au héros de Brumerive » par le bourgmestre, qui en a commandé une pour lui aussi. Par précaution."
+}

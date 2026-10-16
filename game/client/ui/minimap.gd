@@ -48,6 +48,11 @@ func is_shown() -> bool:
 	return _frame.visible
 
 
+## Rectangle du cadre à l'écran (le suivi des quêtes se place dessous).
+func frame_rect() -> Rect2:
+	return _frame.get_global_rect()
+
+
 ## Vrai si le joueur a replié la minicarte (gardé d'une carte et d'un combat à l'autre, dans `Session`).
 func is_folded() -> bool:
 	return Session.minimap_folded

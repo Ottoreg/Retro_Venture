@@ -1,0 +1,81 @@
+{
+  "id": "crasse_roc_tutoriel",
+  "nom": "Fiche d'embauche",
+  "categorie": "tutoriel",
+  "niveau": 1,
+  "pnj": "contremaitre_grumm",
+  "description": "Grumm vous embauche. Vous n'avez rien signé, mais c'est déjà fait.",
+  "conditions": {
+    "camp": "ennemi"
+  },
+  "donne": [
+    {
+      "objet": "bonnet_de_berger",
+      "nombre": 1
+    }
+  ],
+  "etapes": [
+    {
+      "objectifs": [
+        {
+          "type": "equiper",
+          "objet": "bonnet_de_berger",
+          "texte": "Mettre le casque réglementaire (un bonnet, budget oblige)"
+        }
+      ]
+    },
+    {
+      "objectifs": [
+        {
+          "type": "vaincre",
+          "monstre": "rat_des_galeries",
+          "nombre": 2
+        }
+      ]
+    },
+    {
+      "objectifs": [
+        {
+          "type": "recolter",
+          "objet": "minerai_de_cuivre",
+          "nombre": 4
+        }
+      ]
+    },
+    {
+      "objectifs": [
+        {
+          "type": "fabriquer",
+          "metier": "forgeron",
+          "texte": "Fabriquer un objet chez Krogma"
+        }
+      ]
+    },
+    {
+      "objectifs": [
+        {
+          "type": "parler",
+          "pnj": "contremaitre_grumm"
+        }
+      ]
+    }
+  ],
+  "dialogues": {
+    "contremaitre_grumm": {
+      "proposition": [
+        "Encore un nouveau ? Fiche d'embauche, alinéa un : mettre le casque réglementaire. Le budget casques est épuisé, donc c'est un bonnet.",
+        "Alinéa deux : dératiser, deux rats. Alinéa trois : miner du cuivre. Alinéa quatre : te faire forger un truc chez Krogma. Alinéa cinq : revenir pointer."
+      ],
+      "en_cours": [
+        "T'as pas pointé. Tant que t'as pas pointé, t'as pas travaillé. C'est le règlement."
+      ],
+      "fin": [
+        "Pointé. Bienvenue à Crasse-Roc, matricule… euh… on verra. Va voir s'il reste du travail. Il en reste toujours."
+      ]
+    }
+  },
+  "recompenses": {
+    "xp_cr": 5,
+    "ecus": 20
+  }
+}

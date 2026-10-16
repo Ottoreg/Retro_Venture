@@ -24,7 +24,7 @@
     "...................",
     " @...............A.",
     ":::::::::::::::::::",
-    " ..................",
+    " ...........a......",
     "...................",
     " ...M...2.......3..",
     "....M.....#........",
@@ -120,5 +120,16 @@
     "...................",
     " ..................",
     "..................."
+  ],
+  "pnj": [
+    {
+      "marqueur": "a",
+      "id": "pere_pomponne",
+      "nom": "Père Pomponne, « prisonnier »",
+      "repliques": [
+        "Chut ! Ils m'ont capturé. Enfin, ils m'ont proposé un contrat.",
+        "Ici, le déjeuner dure deux heures. Deux heures !"
+      ]
+    }
   ]
 }

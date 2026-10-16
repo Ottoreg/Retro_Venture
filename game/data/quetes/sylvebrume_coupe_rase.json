@@ -1,0 +1,79 @@
+{
+  "id": "sylvebrume_coupe_rase",
+  "nom": "Coupe rase",
+  "categorie": "principale",
+  "niveau": 9,
+  "pnj": "druide_feuillemorte",
+  "description": "Qui signe les bons de coupe des bûcherons humains ?",
+  "acte": 1,
+  "conditions": {
+    "camp": "neutre",
+    "niveau_min": 8,
+    "quetes_terminees": [
+      "sylvebrume_arbres_nerveux"
+    ]
+  },
+  "etapes": [
+    {
+      "objectifs": [
+        {
+          "type": "vaincre",
+          "monstre": "bucheron_de_brumerive",
+          "nombre": 5
+        },
+        {
+          "type": "apporter",
+          "objet": "bon_de_coupe",
+          "nombre": 3,
+          "pnj": "druide_feuillemorte",
+          "butin": {
+            "monstres": [
+              "bucheron_de_brumerive",
+              "abatteur_en_chef"
+            ],
+            "taux": 0.5
+          }
+        }
+      ]
+    },
+    {
+      "objectifs": [
+        {
+          "type": "parler",
+          "pnj": "gardienne_elwyn",
+          "texte": "Rendre compte à Elwyn"
+        }
+      ]
+    }
+  ],
+  "dialogues": {
+    "druide_feuillemorte": {
+      "proposition": [
+        "Les bûcherons de Brumerive coupent sans demander. Ils ont des papiers, paraît-il : des bons de coupe.",
+        "Chasse-en cinq et rapporte-moi trois de ces bons. Je veux savoir qui signe la mort des arbres."
+      ],
+      "en_cours": [
+        "Des bons de coupe. Trois. Et les bûcherons qui vont avec, pour la forme."
+      ],
+      "objectif": [
+        "Signés de Hautepierre : du bois pour des palissades contre les gobelins. Et les gobelins sont poussés par un « Héraut ».",
+        "Tout le monde a une bonne raison. C'est bien le problème. Va dire ça à Elwyn."
+      ]
+    },
+    "gardienne_elwyn": {
+      "fin": [
+        "Un Héraut… Le conseil va devoir délibérer. Il délibère depuis trois siècles sur l'opportunité de délibérer. Ça va aller vite, pour une fois."
+      ]
+    }
+  },
+  "recompenses": {
+    "xp_cr": 5,
+    "ecus": 125,
+    "objets": [
+      {
+        "objet": "couronne_de_ramure",
+        "nombre": 1
+      }
+    ]
+  }
+}

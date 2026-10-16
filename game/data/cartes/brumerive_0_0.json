@@ -28,7 +28,7 @@
     ".......a::.:::.::::",
     " ........::::::::::",
     ".F......:::::::....",
-    " ........::........",
+    " ........::..d.....",
     "AA....R.::@b.......",
     " A.......:.......U.",
     "....c...:.*..R....A",
@@ -108,6 +108,15 @@
       "atelier": "forgeron",
       "repliques": [
         "Non, je ne forge pas d'anneaux de pouvoir. Juste des anneaux. En cuivre. Apportez du minerai, du bois ou des peaux, et on verra ce qu'on peut en tirer."
+      ]
+    },
+    {
+      "marqueur": "d",
+      "id": "bourgmestre_pansu",
+      "nom": "Fortunat Pansu, bourgmestre",
+      "repliques": [
+        "Brumerive vous remercie ! Enfin, je vous remercie au nom de Brumerive. C'est pareil.",
+        "Un jour, on écrira des chansons sur moi. J'ai déjà écrit les paroles."
       ]
     }
   ],

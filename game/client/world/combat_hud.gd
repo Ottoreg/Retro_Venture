@@ -11,9 +11,10 @@ const OVERLOAD_TEXT := "Inventaire surchargé ! Faites de la place (vendre, jete
 const RESISTANCE_NAMES := {"acier": "Acier", "flamme": "Flamme", "givre": "Givre", "tempete": "Tempête", "sacre": "Sacré", "impie": "Impie"}
 const SPELL_KEYS := [KEY_1, KEY_2, KEY_3, KEY_4, KEY_5, KEY_6, KEY_7, KEY_8, KEY_9, KEY_0]
 const MENUS := [["personnage", "icone_personnage", "Personnage (C)"], ["inventaire", "icone_inventaire", "Inventaire (I)"],
-	["sorts", "icone_sorts", "Sorts (S)"], ["metiers", "icone_metiers", "Métiers (J)"], ["carte", "icone_carte", "Carte du monde (M)"]]
+	["sorts", "icone_sorts", "Sorts (S)"], ["metiers", "icone_metiers", "Métiers (J)"], ["carte", "icone_carte", "Carte du monde (M)"],
+	["quetes", "icone_quetes", "Quêtes (Q)"]]
 
-## Un bouton de menu de la barre : « personnage », « inventaire », « sorts », « metiers » ou « carte ».
+## Un bouton de menu de la barre : « personnage », « inventaire », « sorts », « metiers », « carte » ou « quetes ».
 signal menu_pressed(menu: String)
 ## Clic sur un sort hors combat : afficher sa fiche.
 signal spell_info_requested(spell_id: String)

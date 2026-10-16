@@ -32,6 +32,12 @@ signal chest_refused(event: Dictionary)
 ## Pierre de Passage utilisée : événement EVT_TRAVEL_MENU.
 signal travel_opened(event: Dictionary)
 signal inventory_changed
+## Un PNJ propose une quête : événement EVT_QUEST_OFFER.
+signal quest_offered(event: Dictionary)
+## Journal des quêtes changé (voir `QuestBook.sheet`).
+signal quests_changed(journal: Dictionary)
+## Quête terminée : événement EVT_QUEST_DONE.
+signal quest_done(event: Dictionary)
 ## Progression à sauvegarder sans changement de la fiche : Pierre de Passage découverte, nouveau
 ## point de résurrection.
 signal progress_changed
@@ -405,7 +411,7 @@ func _can_interrupt_walk() -> bool:
 	if world.in_combat() or world.map != _map:
 		return false
 	for event in _queue:
-		if event["type"] not in [Protocol.EVT_DIALOGUE, Protocol.EVT_SHOP, Protocol.EVT_WORKSHOP]:
+		if event["type"] not in [Protocol.EVT_DIALOGUE, Protocol.EVT_SHOP, Protocol.EVT_WORKSHOP, Protocol.EVT_QUEST_OFFER, Protocol.EVT_QUESTS]:
 			return false
 	return true
 
@@ -640,6 +646,25 @@ func _apply(event: Dictionary) -> float:
 	if type == Protocol.EVT_SHOP:
 		shop_opened.emit(event)
 		return 0.0
+	if type == Protocol.EVT_QUEST_OFFER:
+		_close_dialogue()
+		quest_offered.emit(event)
+		return 0.0
+	if type == Protocol.EVT_QUESTS:
+		quests_changed.emit(event["journal"])
+		progress_changed.emit()
+		queue_redraw()  # Les marques des PNJ changent.
+		return 0.0
+	if type == Protocol.EVT_QUEST_PROGRESS:
+		notice.emit(event["texte"])
+		return 0.0
+	if type == Protocol.EVT_QUEST_DONE:
+		if _actors.has(World.PLAYER_ID):
+			_add_floating("Quête terminée !", Color(1, 0.85, 0.3), _actors[World.PLAYER_ID]["pos"] + Vector2(0, -0.6), PHASE_FLOATING_LIFE)
+		notice.emit("Quête terminée : %s — %s" % [event["nom"], QuestsWindow.rewards_text({"xp": event["xp"], "ecus": event["ecus"],
+			"objets": event["objets"]})])
+		quest_done.emit(event)
+		return 0.6
 	if type == Protocol.EVT_TRADE:
 		trade_result.emit(event)
 		return 0.0
@@ -739,6 +764,8 @@ func _apply(event: Dictionary) -> float:
 			notice.emit("Impossible d'utiliser ce meuble d'ici.")
 		if event["commande"] == Protocol.CMD_TRAVEL:
 			notice.emit(_travel_refusals.get(event["raison"], "Le voyage est impossible."))
+		if event.get("raison") == Protocol.REASON_QUEST_ITEM:
+			notice.emit("Un objet de quête ne se jette ni ne se vend.")
 		if event.get("raison") == Protocol.REASON_INVENTORY_OVERLOADED:
 			notice.emit(CombatHud.OVERLOAD_TEXT)
 		if event["commande"] == Protocol.CMD_HARVEST:
@@ -1325,11 +1352,25 @@ func _draw_npc(npc: Dictionary) -> void:
 		Figures.goblin(self, base, base, -1.0, 0.0)
 	else:
 		Figures.humanoid(self, base, base, -1.0, 0.0, Color("6b7d3a"), Color("e8c09a"), Color("c9a64a"), "chapeau")
-	# Petite bulle « … » : ce personnage a quelque chose à dire.
-	var mark := base + Vector2(14, -76)
-	draw_circle(mark, 8, Color(1, 1, 1, 0.9))
-	draw_arc(mark, 8, 0, TAU, 20, Color(0.23, 0.15, 0.09), 1.2)
-	draw_string(ThemeDB.fallback_font, mark + Vector2(-6, 4), "…", HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(0.2, 0.2, 0.2))
+	_draw_npc_mark(base, world.quest_book.marker(npc_id) if world.map == _map else "")
+
+
+## Au-dessus d'un PNJ : « ! » jaune (quête à prendre), « ? » jaune (à rendre, ou objectif à remplir
+## en lui parlant), « ? » gris (quête en cours), sinon une petite bulle « … » (il a quelque chose à dire).
+func _draw_npc_mark(base: Vector2, quest_mark: String) -> void:
+	var font := ThemeDB.fallback_font
+	if quest_mark.is_empty():
+		var mark := base + Vector2(14, -76)
+		draw_circle(mark, 8, Color(1, 1, 1, 0.9))
+		draw_arc(mark, 8, 0, TAU, 20, Color(0.23, 0.15, 0.09), 1.2)
+		draw_string(font, mark + Vector2(-6, 4), "…", HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(0.2, 0.2, 0.2))
+		return
+	var text := "!" if quest_mark == QuestBook.MARKER_AVAILABLE else "?"
+	var color := Color(1.0, 0.82, 0.2) if quest_mark != QuestBook.MARKER_ACTIVE else Color(0.72, 0.72, 0.72)
+	var bounce := sin(_time * 3.0) * 2.0 if quest_mark != QuestBook.MARKER_ACTIVE else 0.0
+	var spot := base + Vector2(-10, -84 + bounce)
+	draw_string_outline(font, spot, text, HORIZONTAL_ALIGNMENT_CENTER, 20, 28, 6, Color(0.2, 0.12, 0.05))
+	draw_string(font, spot, text, HORIZONTAL_ALIGNMENT_CENTER, 20, 28, color)
 
 
 ## Apparence d'un acteur (joueur ou monstre) d'après `art.json`, gardée dans ses données :

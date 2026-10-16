@@ -382,3 +382,81 @@ func test_le_theologue() -> void:
 	assert_true(kinds.has("soin/sacre"), "un soin Sacré")
 	assert_true(kinds.has("bouclier/sacre"), "un bouclier Sacré")
 	assert_true(Art.manifest()["tenues"].has("theologue"), "tenue du Théologue")
+
+
+## Zone d'une carte : son id sans les coordonnées (« crasse_roc_1_3 » → « crasse_roc »).
+static func _zone_of(map_id: String) -> String:
+	var parts := map_id.split("_")
+	return "_".join(parts.slice(0, parts.size() - 2)) if parts.size() > 2 else map_id
+
+
+## Chaque quête est faisable : ses PNJ et ses cartes existent, ses monstres vivent sur des cartes de
+## la zone de son donneur (les boss aussi), ses ressources se récoltent au niveau 1 de métier dans les
+## zones de départ, et sa chaîne remonte à un tutoriel (ou n'a pas de condition de quête).
+func test_quetes_faisables() -> void:
+	var game_data := GameData.load_all()
+	assert_eq(game_data.quests.size(), DataLoader.list_json(DATA_ROOT.path_join("quetes")).size(), "toutes les quêtes sont valides")
+	var npc_maps := {}
+	var monsters_by_zone := {}
+	var maps := {}
+	for path in _find_json(DATA_ROOT.path_join("cartes")):
+		var map := DataLoader.load_map(path)
+		if map == null:
+			continue
+		maps[map.id] = map
+		for npc in map.npcs:
+			npc_maps[npc["id"]] = map.id
+		var zone := _zone_of(map.id)
+		if not monsters_by_zone.has(zone):
+			monsters_by_zone[zone] = {}
+		for group in map.groups:
+			for monster_id: String in GameMap.possible_monsters(group):
+				monsters_by_zone[zone][monster_id] = true
+				var family: String = game_data.monsters.get(monster_id, {}).get("famille", monster_id)
+				monsters_by_zone[zone][family] = true
+	var node_levels := {}
+	for node: Dictionary in game_data.nodes.values():
+		node_levels[node["objet"]] = mini(int(node_levels.get(node["objet"], 99)), int(node.get("niveau", 1)))
+	for quest_id: String in game_data.quests:
+		var quest: Dictionary = game_data.quests[quest_id]
+		assert_true(npc_maps.has(quest["pnj"]), "%s : donneur %s sur une carte" % [quest_id, quest["pnj"]])
+		var zone := _zone_of(npc_maps.get(quest["pnj"], ""))
+		for npc_id: String in quest.get("dialogues", {}):
+			assert_true(npc_maps.has(npc_id), "%s : PNJ des dialogues %s" % [quest_id, npc_id])
+		for step: Dictionary in quest["etapes"]:
+			for objective: Dictionary in step["objectifs"]:
+				if objective.has("pnj"):
+					assert_true(npc_maps.has(objective["pnj"]), "%s : PNJ %s" % [quest_id, objective["pnj"]])
+				if objective.has("carte"):
+					assert_true(maps.has(objective["carte"]), "%s : carte %s" % [quest_id, objective["carte"]])
+				if objective.has("monstre"):
+					assert_true(monsters_by_zone.get(zone, {}).has(objective["monstre"]),
+						"%s : %s vit dans la zone %s" % [quest_id, objective["monstre"], zone])
+				for monster_id: String in objective.get("butin", {}).get("monstres", []):
+					assert_true(game_data.monsters.has(monster_id), "%s : butin de %s" % [quest_id, monster_id])
+				if objective["type"] == Quest.OBJ_HARVEST and int(quest["niveau"]) <= 12:
+					assert_eq(int(node_levels.get(objective["objet"], 99)), 1, "%s : %s se récolte au niveau 1" % [quest_id, objective["objet"]])
+		# Remonter la chaîne jusqu'à une quête sans condition de quête.
+		var current := quest_id
+		for depth in 50:
+			var required: Array = game_data.quests[current].get("conditions", {}).get("quetes_terminees", [])
+			if required.is_empty():
+				break
+			current = required[0]
+		assert_true(game_data.quests[current].get("conditions", {}).get("quetes_terminees", []).is_empty(), "%s : chaîne sans boucle" % quest_id)
+
+
+func test_tutoriels_et_acte_1_par_camp() -> void:
+	var game_data := GameData.load_all()
+	for camp: String in GameData.CAMPS:
+		var tutorials := 0
+		var act_one := 0
+		for quest: Dictionary in game_data.quests.values():
+			if quest.get("conditions", {}).get("camp", "") != camp:
+				continue
+			if quest["categorie"] == "tutoriel":
+				tutorials += 1
+			elif quest["categorie"] == "principale" and int(quest.get("acte", 0)) == 1:
+				act_one += 1
+		assert_eq(tutorials, 1, "un tutoriel pour le camp %s" % camp)
+		assert_eq(act_one, 4, "quatre quêtes d'acte I pour le camp %s" % camp)

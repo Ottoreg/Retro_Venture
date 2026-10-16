@@ -1,0 +1,23 @@
+{
+  "id": "broche_de_la_lisiere",
+  "nom": "Broche de la Lisière",
+  "type": "amulette",
+  "rarete": "rare",
+  "niveau": 12,
+  "boutique": false,
+  "bonus": {
+    "intelligence": [
+      6,
+      10
+    ],
+    "agilite": [
+      6,
+      10
+    ],
+    "sagesse": [
+      4,
+      8
+    ]
+  },
+  "description": "Remise aux observateurs du conseil elfe. On ne l'a remise qu'une fois en trois siècles : à vous."
+}

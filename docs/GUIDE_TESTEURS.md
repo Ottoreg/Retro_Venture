@@ -51,12 +51,13 @@ est ici.
 | **S** | Sorts : un onglet pour la Voie, la race et l'arme ; fiche de chaque sort |
 | **J** | Métiers : un onglet par métier, niveau, ressources et recettes |
 | **M** | Carte du monde : un onglet par zone visitée, ses cartes en grille (voir plus bas) |
+| **Q** | Journal des quêtes : en cours (la suivie en tête) et terminées, objectifs, récompenses, « Suivre » |
 | **Échap** | Ferme la fenêtre ouverte ; sinon, **menu pause** (le jeu s'arrête) : reprendre, options, menu principal (avec sauvegarde, pas en combat), quitter |
 
 **Options** (menu principal ou menu pause) : volume, plein écran, taille de la fenêtre (hors
 navigateur) et mode tactique ; elles sont gardées d'une partie à l'autre, hors sauvegarde.
 
-Les cinq boutons en bas à droite du bandeau ouvrent les mêmes fenêtres. Un clic sur un sort du
+Les six boutons en bas à droite du bandeau ouvrent les mêmes fenêtres. Un clic sur un sort du
 bandeau, hors combat, ouvre sa fiche.
 
 ### Minicarte et carte du monde
@@ -127,6 +128,23 @@ le **lit** de votre maison les rend tous d'un coup.
 - **Point de résurrection** : la dernière pierre que vous avez touchée (au début, celle de votre zone
   de départ ; elle est rappelée en bas de la fenêtre de voyage). Toucher une autre pierre la
   remplace, avec un message « Nouveau point de résurrection ».
+
+### Quêtes
+
+- Un **« ! »** jaune au-dessus d'un personnage : il a une quête pour vous. Cliquez dessus : sa
+  proposition s'affiche (texte, objectifs, récompenses) avec « Accepter » ou « Plus tard ».
+- Un **« ? »** jaune : il attend quelque chose de vous maintenant (lui parler, lui rapporter des
+  objets) ; un **« ? »** gris : sa quête est en cours.
+- La quête suivie s'affiche **sous la minicarte** (clic : le journal, touche **Q**). Chaque objectif
+  qui avance s'annonce en bas de l'écran.
+- On rend une quête en parlant au personnage une fois les autres objectifs remplis (les objets
+  demandés sont pris à ce moment-là). Certains objets ne tombent des monstres que pendant la quête
+  qui les demande ; les **objets de quête** ne se vendent ni ne se jettent.
+- Contenu : un **tutoriel** par camp (Alric à Brumerive, Grumm à Crasse-Roc, Elwyn à Sylvebrume :
+  s'équiper, combattre, récolter, forger), puis l'**acte I** de la quête principale de son camp,
+  quatre quêtes jusqu'au mini-boss de la zone (le raid gobelin pour les humains, le grand raid pour
+  les gobelins, « ce n'est pas notre guerre » pour les elfes). Les quêtes principales sont réservées
+  au camp de votre race.
 
 ## Ce qu'il y a dans cette version
 
@@ -211,7 +229,7 @@ le **lit** de votre maison les rend tous d'un coup.
   (« Rare ! » en doré au-dessus du personnage), qui sert à 6 recettes améliorées du forgeron ; ni les
   ressources rares ni ces objets ne se trouvent chez le marchand.
 
-Pas encore là : quêtes, multijoueur, sons et musiques, options.
+Pas encore là : quêtes secondaires et actes II–III (à venir), multijoueur, sons et musiques.
 
 ## Ce qu'on aimerait que vous regardiez
 
@@ -219,6 +237,7 @@ Pas encore là : quêtes, multijoueur, sons et musiques, options.
 - Les zones se lisent-elles bien (où marcher, où sont les sorties, ce qui est cliquable) ?
 - Les groupes de monstres : est-ce qu'on voit bien qui est dans un groupe, et où il va ?
 - L'économie : prix du marchand, butin, recettes du forgeron.
+- Les quêtes : savait-on toujours quoi faire et où aller ? Les textes font-ils sourire ?
 - Tout ce qui semble bloqué, lent, illisible ou bizarre.
 
 ## Signaler un problème

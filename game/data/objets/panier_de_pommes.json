@@ -1,0 +1,8 @@
+{
+  "id": "panier_de_pommes",
+  "nom": "Panier de pommes",
+  "type": "quete",
+  "rarete": "commun",
+  "niveau": 6,
+  "description": "Les pommes de Mère Pomponne, reprises une à une aux pillards. Il en manque une : la plus belle."
+}

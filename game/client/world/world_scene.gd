@@ -21,6 +21,10 @@ const MENU_SCENE := "res://client/main/main.tscn"
 
 ## Menu pause (Échap quand aucune fenêtre n'est ouverte).
 var pause_menu: PauseMenu
+## Quêtes : proposition d'un PNJ, journal (Q), suivi sous la minicarte.
+var quest_dialog: QuestDialog
+var quests_window: QuestsWindow
+var quest_tracker: QuestTracker
 var _hover_text := ""
 ## Bulle près du curseur : ce qu'on survole (monstres, PNJ, ressources…).
 var _hover_bubble: PanelContainer
@@ -34,6 +38,12 @@ func _ready() -> void:
 	pause_menu = PauseMenu.new()
 	add_child(pause_menu)
 	pause_menu.main_menu_requested.connect(_back_to_menu)
+	quest_dialog = QuestDialog.new()
+	add_child(quest_dialog)
+	quests_window = QuestsWindow.new()
+	add_child(quests_window)
+	quest_tracker = QuestTracker.new()
+	add_child(quest_tracker)
 	var world := _create_world()
 	if world == null:
 		_info.text = "Impossible de charger le monde (carte de départ introuvable)."
@@ -52,6 +62,10 @@ func _ready() -> void:
 	_minimap.setup(_map_view)
 	_world_map.setup(_map_view)
 	_minimap.pressed.connect(_world_map.open)
+	quest_dialog.setup(_map_view)
+	quests_window.setup(_map_view)
+	quest_tracker.setup(_map_view, _minimap)
+	quest_tracker.pressed.connect(quests_window.toggle)
 	_combat_hud.menu_pressed.connect(_on_menu_pressed)
 	_combat_hud.spell_info_requested.connect(_spells.show_spell)
 	_map_view.notice.connect(_combat_hud.show_message)
@@ -108,6 +122,9 @@ func _unhandled_input(event: InputEvent) -> void:
 	if _map_view.mode != MapView.Mode.EXPLORATION:
 		pause_menu.open(true)  # En combat : Échap désélectionne d'abord le sort choisi (barre du bas).
 		return
+	if quest_dialog.is_open():
+		quest_dialog.later()
+		return
 	# La carte du monde d'abord : elle est au-dessus des autres fenêtres (calque 3).
 	if _world_map.is_open():
 		_world_map.close()
@@ -135,6 +152,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 	if _inventory.is_open():
 		_inventory.toggle()
+		return
+	if quests_window.is_open():
+		quests_window.toggle()
 		return
 	pause_menu.open()
 
@@ -169,6 +189,8 @@ func _on_menu_pressed(menu: String) -> void:
 		_jobs.toggle()
 	elif menu == "carte":
 		_world_map.toggle()
+	elif menu == "quetes":
+		quests_window.toggle()
 
 
 func _on_combat_started() -> void:

@@ -45,6 +45,8 @@ var known_passages: Array[String] = []
 var respawn_passage := ""
 ## Cartes où le personnage est déjà allé (ids, sans doublon), pour la future carte du monde.
 var visited_maps: Array[String] = []
+## Quêtes commencées et terminées.
+var quests := QuestLog.new()
 
 
 const BASE_PROSPECTION := 100
@@ -305,6 +307,7 @@ func to_dict() -> Dictionary:
 		"pierres_connues": known_passages.duplicate(),
 		"point_de_resurrection": respawn_passage,
 		"cartes_visitees": visited_maps.duplicate(),
+		"quetes": quests.to_dict(),
 	}
 
 
@@ -345,6 +348,7 @@ static func from_dict(data: Dictionary, known_items: Dictionary = {}) -> Charact
 	if typeof(data.get("point_de_resurrection")) == TYPE_STRING:
 		character.respawn_passage = data["point_de_resurrection"]
 	character.visited_maps = _string_list(data.get("cartes_visitees", []))
+	character.quests = QuestLog.from_dict(data.get("quetes", {}))
 	return character
 
 

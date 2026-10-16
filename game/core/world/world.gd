@@ -94,6 +94,8 @@ var _elite_attempts: Dictionary = {}
 ## Boss déjà vaincus au moins une fois (id → true) : ils débloquent les groupes `apres_boss` des
 ## cartes (les variantes corrompues de leur zone).
 var defeated_bosses: Dictionary = {}
+## Quêtes : propositions, avancement, récompenses (l'état est dans `character.quests`).
+var quest_book: QuestBook
 ## Bonus de butin du combat en cours (élite ancienne), en fraction : 0.3 = +30 %.
 var _combat_loot_bonus := 0.0
 
@@ -103,6 +105,7 @@ func _init(p_map: GameMap, p_data: GameData = null, p_map_loader: Callable = Cal
 	data = p_data
 	_map_loader = p_map_loader
 	rng.randomize()
+	quest_book = QuestBook.new(self)
 	_init_travel()
 	_set_map(p_map, p_map.spawn)
 
@@ -161,7 +164,14 @@ func execute(command: Dictionary) -> Array[Dictionary]:
 		var events := combat.execute(command)
 		if combat.state == Combat.State.FINISHED:
 			_end_combat(events)
+			quest_book.observe(events)
 		return events
+	var events := _execute_exploration(command)
+	quest_book.observe(events)
+	return events
+
+
+func _execute_exploration(command: Dictionary) -> Array[Dictionary]:
 	var type: Variant = command.get("type")
 	if typeof(type) == TYPE_STRING:
 		if type == Protocol.CMD_MOVE:
@@ -194,7 +204,24 @@ func execute(command: Dictionary) -> Array[Dictionary]:
 			return _transfer(command, character.chest, character.inventory)
 		if type == Protocol.CMD_TRAVEL:
 			return _travel(command)
+		if type in [Protocol.CMD_QUEST_ACCEPT, Protocol.CMD_QUEST_DECLINE, Protocol.CMD_QUEST_TRACK]:
+			return _quest_command(command)
 	return _refused(command, Protocol.REASON_UNKNOWN_COMMAND)
+
+
+func _quest_command(command: Dictionary) -> Array[Dictionary]:
+	var quest_id: Variant = command.get("quete")
+	if not _is_player_command(command) or typeof(quest_id) != TYPE_STRING or data == null:
+		return _refused(command, Protocol.REASON_INVALID_COMMAND)
+	var events: Array[Dictionary] = []
+	var reason := ""
+	if command["type"] == Protocol.CMD_QUEST_ACCEPT:
+		reason = quest_book.accept(quest_id, events)
+	elif command["type"] == Protocol.CMD_QUEST_DECLINE:
+		quest_book.decline(quest_id)
+	else:
+		reason = quest_book.track(quest_id, events)
+	return _refused(command, reason) if not reason.is_empty() else events
 
 
 func _move(command: Dictionary) -> Array[Dictionary]:
@@ -278,6 +305,8 @@ func _talk(command: Dictionary) -> Array[Dictionary]:
 		events.append(_moved_event(from, [] as Array[Vector2i]))
 		_positions[PLAYER_ID] = from
 		_remember_walk(from, [] as Array[Vector2i])
+	if data != null and quest_book.talk(npc, events):
+		return events
 	var workshop: String = npc.get("atelier", "")
 	if not workshop.is_empty() and data != null and data.jobs.has(workshop):
 		events.append({
@@ -457,6 +486,13 @@ func _end_combat(events: Array[Dictionary]) -> void:
 	_reward(events)
 	if combat.winner_team == Fighter.TEAM_PLAYERS:
 		_loot(events)
+		var kinds: Array = []
+		for fighter in combat.fighters:
+			if fighter.team != Fighter.TEAM_PLAYERS:
+				kinds.append(fighter.kind)
+		for event in events:
+			if event["type"] == Protocol.EVT_COMBAT_ENDED:
+				quest_book.combat_won(kinds, combat.rng, event, events)
 	var back := {
 		"type": Protocol.EVT_EXPLORATION,
 		"position": _positions[PLAYER_ID],
@@ -591,6 +627,8 @@ func _drop(command: Dictionary) -> Array[Dictionary]:
 	var quantity: Variant = command.get("quantite", 1)
 	if not _is_player_command(command) or typeof(uid) != TYPE_STRING or typeof(quantity) != TYPE_INT:
 		return _refused(command, Protocol.REASON_INVALID_COMMAND)
+	if _is_quest_item(uid):
+		return _refused(command, Protocol.REASON_QUEST_ITEM)
 	if not character.inventory.remove(uid, quantity):
 		return _refused(command, Protocol.REASON_UNKNOWN_ITEM)
 	return _inventory_events()
@@ -700,6 +738,8 @@ func _sell(command: Dictionary) -> Array[Dictionary]:
 		return _refused(command, Protocol.REASON_UNKNOWN_ITEM)
 	if not inventory.slot_of(uid).is_empty():
 		return _refused(command, Protocol.REASON_ITEM_WORN)
+	if _is_quest_item(uid):
+		return _refused(command, Protocol.REASON_QUEST_ITEM)
 	if quantity > int(inventory.entries[uid]["quantite"]):
 		return _refused(command, Protocol.REASON_INVALID_COMMAND)
 	var template: Dictionary = data.items[inventory.entries[uid]["objet"]]
@@ -1349,6 +1389,11 @@ func _job_event(job_id: String, base_gain: int) -> Dictionary:
 		"xp_suivant": Profession.xp_for_level(level + 1) if level < Profession.MAX_LEVEL else character.job_xp(job_id),
 		"niveaux": reached,
 	}
+
+
+func _is_quest_item(uid: String) -> bool:
+	var entry: Dictionary = character.inventory.entries.get(uid, {})
+	return not entry.is_empty() and data != null and data.items.get(entry["objet"], {}).get("type") == Item.TYPE_QUEST
 
 
 func _is_player_command(command: Dictionary) -> bool:

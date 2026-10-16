@@ -12,7 +12,9 @@ extends SceneTree
 ## perdu contre le premier groupe : réveil près de la Pierre de Passage du point de résurrection, à
 ## lancer par exemple sur brumerive_1_0), « carte » (ouvre la carte du monde ; la minicarte, elle,
 ## est visible sur toute capture en exploration), « repliee » (minicarte repliée), « tactique »
-## (comme « cible », en mode tactique), « pause » (menu pause), « options » (fenêtre des options).
+## (comme « cible », en mode tactique), « pause » (menu pause), « options » (fenêtre des options),
+## « quete » (le premier PNJ qui propose une quête : sa proposition), « journal » (cette quête
+## acceptée, le journal ouvert ; le suivi est sous la minicarte).
 ## Si « carte » commence par res://, c'est cette scène qui est capturée (menu, création…).
 
 var _output := "capture.png"
@@ -147,6 +149,16 @@ func _process(_delta: float) -> bool:
 			_scene.get_node("WorldMapWindow").open()
 		elif _action == "repliee":
 			pass  # Minicarte repliée dès le départ (voir `_initialize`).
+		elif _action in ["quete", "journal"]:
+			for npc in view.current_map().npcs:
+				if view.world.quest_book.marker(npc["id"]) == QuestBook.MARKER_AVAILABLE:
+					view._on_click(npc["case"])
+					_wait_for(view)
+					break
+			if _action == "journal":
+				_scene.quest_dialog.accept()
+				_wait_for(view)
+				_scene.quests_window.toggle()
 		elif _action == "pause":
 			_scene.pause_menu.open()
 		elif _action == "options":

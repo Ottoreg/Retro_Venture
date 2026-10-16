@@ -1,0 +1,77 @@
+{
+  "id": "crasse_roc_heures_sup",
+  "nom": "Heures supplémentaires (non payées)",
+  "categorie": "principale",
+  "niveau": 6,
+  "pnj": "contremaitre_grumm",
+  "description": "Des heures supplémentaires, c'est comme des heures, mais en plus.",
+  "acte": 1,
+  "conditions": {
+    "camp": "ennemi",
+    "niveau_min": 5,
+    "quetes_terminees": [
+      "crasse_roc_productivite"
+    ]
+  },
+  "etapes": [
+    {
+      "objectifs": [
+        {
+          "type": "vaincre",
+          "monstre": "vampipistrelle",
+          "nombre": 4
+        },
+        {
+          "type": "apporter",
+          "objet": "guano_luisant",
+          "nombre": 3,
+          "pnj": "gnark_guanoculteur",
+          "butin": {
+            "monstres": [
+              "vampipistrelle",
+              "vampipistrelle_comtesse"
+            ],
+            "taux": 0.5
+          }
+        }
+      ]
+    },
+    {
+      "objectifs": [
+        {
+          "type": "parler",
+          "pnj": "contremaitre_grumm"
+        }
+      ]
+    }
+  ],
+  "dialogues": {
+    "contremaitre_grumm": {
+      "proposition": [
+        "Le puits des vampipistrelles bloque la production. Va en chasser quatre. C'est en dehors de tes heures, donc c'est gratuit.",
+        "Et rapporte du guano à Gnark, il le revend pour moi. Pour le service. Pour moi."
+      ],
+      "en_cours": [
+        "Tu fais des heures sup ? Bien. Elles ne comptent pas, mais c'est bien."
+      ],
+      "fin": [
+        "Gnark m'a payé. Je veux dire, il a payé le service. Tiens, ta part : c'est la mienne, mais je suis généreux aujourd'hui."
+      ]
+    },
+    "gnark_guanoculteur": {
+      "objectif": [
+        "Du guano luisant ! De l'or qui sent mauvais ! Grumm en prend la moitié, la direction l'autre moitié, et moi je garde l'odeur."
+      ]
+    }
+  },
+  "recompenses": {
+    "xp_cr": 5,
+    "ecus": 90,
+    "objets": [
+      {
+        "objet": "cape_de_vampipistrelle",
+        "nombre": 1
+      }
+    ]
+  }
+}

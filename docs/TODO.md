@@ -194,7 +194,7 @@ Les tâches marquées *(alpha 2)* sont reportées au second test.
 - [x] **(MVP)** Inventaire (ressources empilées, équipements) limité à 60 places ; fenêtre (touche I)
 - [x] Sac plein : le butin de combat entre quand même, en surplus ; plus de combat tant qu'on n'a pas
   fait de la place (message à la fin du combat, dans l'inventaire et au clic sur un groupe)
-- [ ] Objets de quête dans l'inventaire (avec les quêtes)
+- [x] Objets de quête dans l'inventaire (type `quete`, ni vendus ni jetables)
 - [x] **(MVP)** Équipement : arme, coiffe, cape, amulette, 2 anneaux, ceinture, bottes ; équipement de départ par Voie
 - [x] **(MVP)** Conditions d'équipement (niveau, caractéristiques ; pas deux objets identiques)
 - [x] **(MVP)** Armes utilisables en combat (attaque de l'arme dans la barre de sorts)
@@ -231,15 +231,25 @@ Les tâches marquées *(alpha 2)* sont reportées au second test.
 - [ ] Animation de récolte (durée fixe, outil en main)
 
 ### Quêtes
-- [ ] **(MVP)** Conception du chantier 6 ([docs/design/chantier6_quetes.md](design/chantier6_quetes.md)) :
-  système, 3 tutoriels, actes I et II par camp, début de l'acte III, 15 secondaires — **à valider
-  par l'auteur** avant la production (4 lots)
-- [ ] **(MVP)** Moteur de quêtes : étapes, objectifs (parler, vaincre, récolter, apporter, aller à), récompenses
-- [ ] **(MVP)** Journal de quêtes et suivi de l'objectif courant
-- [ ] **(MVP)** Icônes `!` / `?` sur les PNJ
-- [ ] **(MVP)** Système de dialogues (arbre simple)
-- [ ] **(MVP)** Tutoriel par camp (déplacement, combat, équipement, métier)
-- [ ] **(MVP)** Conditions de quête par camp et par acte de la quête principale
+- [x] **(MVP)** Conception du chantier 6 ([docs/design/chantier6_quetes.md](design/chantier6_quetes.md)) :
+  système, 3 tutoriels, actes I et II par camp, début de l'acte III, 15 secondaires ; production
+  en 4 lots (`docs/design/chantier6/produire_lot<n>.py`)
+  - [x] Lot 1, **système** : `core/quests/` (`Quest`, `QuestLog`, `QuestBook`), 8 types
+    d'objectifs, butin et objets de quête, conditions de camp, XP en combats de référence,
+    sauvegarde ; marques `!`/`?` des PNJ, proposition (Accepter / Plus tard), journal (Q), suivi
+    sous la minicarte
+  - [x] Lot 2, **tutoriels et acte I** : 15 quêtes, 2 PNJ (bourgmestre Pansu, Père Pomponne),
+    5 objets et leurs icônes
+  - [ ] Lot 3, **secondaires des zones de départ** (15 quêtes)
+  - [ ] Lot 4, **acte II et début de l'acte III** (11 quêtes)
+  - [ ] Option : secondaires de Hautepierre (3 quêtes), marqueur de quête sur la carte du monde
+- [x] **(MVP)** Moteur de quêtes : étapes, objectifs (parler, vaincre, récolter, apporter, aller à), récompenses
+- [x] **(MVP)** Journal de quêtes et suivi de l'objectif courant
+- [x] **(MVP)** Icônes `!` / `?` sur les PNJ
+- [x] **(MVP)** Système de dialogues (simple : proposition, en cours, objectif, fin ; l'arbre ramifié
+  attendra le § 11.2 du GDD)
+- [x] **(MVP)** Tutoriel par camp (déplacement, combat, équipement, métier)
+- [x] **(MVP)** Conditions de quête par camp et par acte de la quête principale
 - [ ] Environ 15 quêtes secondaires
 - [ ] Quête principale : actes I et II (une chaîne par camp), début de l'acte III à Hautepierre
 - [ ] Réputation simple par camp (si les quêtes de l'acte I le demandent)
@@ -327,9 +337,9 @@ Les tâches marquées *(alpha 2)* sont reportées au second test.
 - [x] **(MVP)** Bandeau bas façon Dofus Rétro, en exploration comme en combat : PV dans un cœur rouge
   qui se vide, PA dans une étoile bleue, PM dans une case verte, sorts en icônes (raccourci et coût
   en PA), bouton de fin de tour, boutons de menus (personnage, inventaire, sorts, métiers)
-- [ ] **(MVP)** Fenêtres : inventaire + poupée, caractéristiques, sorts, quêtes, métiers
-  (faits : inventaire, caractéristiques, sorts avec un onglet par famille (Voie, race, arme),
-  métiers avec un onglet par métier, boutique, atelier, coffre ; reste : quêtes)
+- [x] **(MVP)** Fenêtres : inventaire + poupée, caractéristiques, sorts, quêtes, métiers
+  (inventaire, caractéristiques, sorts avec un onglet par famille (Voie, race, arme), métiers avec
+  un onglet par métier, boutique, atelier, coffre, journal des quêtes)
 - [x] **(MVP)** Menu principal, options (volume, plein écran, taille de la fenêtre, mode tactique ;
   `user://options.cfg`, hors sauvegarde), pause (Échap : le jeu s'arrête ; reprendre, options,
   menu principal, quitter)

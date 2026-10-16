@@ -1,0 +1,85 @@
+{
+  "id": "sylvebrume_tutoriel",
+  "nom": "Les premiers pas de la jeune pousse",
+  "categorie": "tutoriel",
+  "niveau": 1,
+  "pnj": "gardienne_elwyn",
+  "description": "Elwyn vous apprend à vivre à la Lisière. Lentement.",
+  "conditions": {
+    "camp": "neutre"
+  },
+  "donne": [
+    {
+      "objet": "bonnet_de_berger",
+      "nombre": 1
+    },
+    {
+      "objet": "minerai_de_cuivre",
+      "nombre": 1
+    }
+  ],
+  "etapes": [
+    {
+      "objectifs": [
+        {
+          "type": "equiper",
+          "objet": "bonnet_de_berger",
+          "texte": "Mettre la couronne de feuilles (un bonnet)"
+        }
+      ]
+    },
+    {
+      "objectifs": [
+        {
+          "type": "vaincre",
+          "monstre": "morille_grincheuse",
+          "nombre": 2
+        }
+      ]
+    },
+    {
+      "objectifs": [
+        {
+          "type": "recolter",
+          "objet": "bois_de_frene",
+          "nombre": 5
+        }
+      ]
+    },
+    {
+      "objectifs": [
+        {
+          "type": "fabriquer",
+          "metier": "forgeron",
+          "texte": "Fabriquer un objet chez Aelthar"
+        }
+      ]
+    },
+    {
+      "objectifs": [
+        {
+          "type": "parler",
+          "pnj": "gardienne_elwyn"
+        }
+      ]
+    }
+  ],
+  "dialogues": {
+    "gardienne_elwyn": {
+      "proposition": [
+        "Bienvenue sous les branches, jeune pousse. Ce bonnet est une couronne de feuilles. Elle a trois siècles, elle est neuve.",
+        "Chasse deux morilles grincheuses, avec respect. Ramasse du bois de frêne, mort, évidemment. Je te donne le cuivre : Aelthar saura persuader le métal."
+      ],
+      "en_cours": [
+        "Prends ton temps. Nous avons des siècles. Toi, un peu moins."
+      ],
+      "fin": [
+        "Tu as fait tout cela en une seule saison ? Quelle précipitation. C'est très bien. Ne le refais pas trop souvent."
+      ]
+    }
+  },
+  "recompenses": {
+    "xp_cr": 5,
+    "ecus": 20
+  }
+}

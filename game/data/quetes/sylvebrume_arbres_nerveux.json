@@ -1,0 +1,64 @@
+{
+  "id": "sylvebrume_arbres_nerveux",
+  "nom": "Les arbres sont nerveux",
+  "categorie": "principale",
+  "niveau": 6,
+  "pnj": "druide_feuillemorte",
+  "description": "Les arbres de la forêt s'agitent depuis qu'on a coupé le plus vieux d'entre eux.",
+  "acte": 1,
+  "conditions": {
+    "camp": "neutre",
+    "niveau_min": 5,
+    "quetes_terminees": [
+      "sylvebrume_observer"
+    ]
+  },
+  "etapes": [
+    {
+      "objectifs": [
+        {
+          "type": "vaincre",
+          "monstre": "arbre_vivant",
+          "nombre": 4
+        },
+        {
+          "type": "apporter",
+          "objet": "seve_ancienne",
+          "nombre": 3,
+          "pnj": "druide_feuillemorte",
+          "butin": {
+            "monstres": [
+              "arbre_vivant",
+              "arbre_millenaire"
+            ],
+            "taux": 0.5
+          }
+        }
+      ]
+    }
+  ],
+  "dialogues": {
+    "druide_feuillemorte": {
+      "proposition": [
+        "Depuis qu'on a coupé Vieux-Branchu, les arbres vivants sont nerveux. Ils marchent. Ils ne devraient pas marcher.",
+        "Calme-en quatre, fermement. Et rapporte-moi de la sève ancienne : je ferai un baume pour la souche de Vieux-Branchu."
+      ],
+      "en_cours": [
+        "Les arbres marchent toujours ? Calme-les. Ils ont le temps, eux. Pas nous."
+      ],
+      "fin": [
+        "Le baume prendra. Dans un siècle ou deux, une pousse. Vieux-Branchu serait fier. Il me devait toujours de l'argent, cela dit."
+      ]
+    }
+  },
+  "recompenses": {
+    "xp_cr": 5,
+    "ecus": 90,
+    "objets": [
+      {
+        "objet": "cape_d_ecorce",
+        "nombre": 1
+      }
+    ]
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "images": {
+    "icone_quetes": {
+      "fichier": "interface/icone_quetes.svgt",
+      "ancre": [
+        12,
+        12
+      ]
+    },
+    "objet_panier_de_pommes": {
+      "fichier": "objets/panier_de_pommes.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_laissez_passer_de_hautepierre": {
+      "fichier": "objets/laissez_passer_de_hautepierre.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_echarpe_du_heros_de_brumerive": {
+      "fichier": "objets/echarpe_du_heros_de_brumerive.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_carte_du_syndicat": {
+      "fichier": "objets/carte_du_syndicat.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_broche_de_la_lisiere": {
+      "fichier": "objets/broche_de_la_lisiere.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    }
+  },
+  "pnj": {
+    "bourgmestre_pansu": {
+      "rig": "humain",
+      "couleurs": {
+        "tunique": "7a2a32",
+        "manches": "6a2028",
+        "pantalon": "3a2e28",
+        "cheveux": "8a8070",
+        "bottes": "2e2620",
+        "etole": "d8b048"
+      },
+      "accessoires": [
+        "barbe",
+        "etole"
+      ]
+    },
+    "pere_pomponne": {
+      "rig": "humain",
+      "couleurs": {
+        "tunique": "8a7a4a",
+        "manches": "7a6a3a",
+        "pantalon": "5a4632",
+        "cheveux": "c8c0b0",
+        "chapeau": "c8a860"
+      },
+      "accessoires": [
+        "chapeau_paille"
+      ]
+    }
+  }
+}

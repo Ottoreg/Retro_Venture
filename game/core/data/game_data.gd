@@ -28,6 +28,8 @@ var passages: Dictionary = {}
 var sets: Dictionary = {}
 ## id d'objet → id de sa panoplie.
 var item_sets: Dictionary = {}
+## Quêtes : id → données (voir `Quest`).
+var quests: Dictionary = {}
 
 const STARTING_ECUS := 20
 
@@ -53,12 +55,13 @@ const PHASE_NO_HEAL := "pas de soin au changement de phase (risque de combat san
 static func load_all(root := DATA_ROOT) -> GameData:
 	return from_dicts(_read_folder(root.path_join("sorts")), _read_folder(root.path_join("monstres")),
 		_read_folder(root.path_join("voies")), _read_folder(root.path_join("races")), _read_folder(root.path_join("objets")),
-		_read_folder(root.path_join("metiers")), _read_folder(root.path_join("passages")), _read_folder(root.path_join("panoplies")))
+		_read_folder(root.path_join("metiers")), _read_folder(root.path_join("passages")), _read_folder(root.path_join("panoplies")),
+		_read_folder(root.path_join("quetes")))
 
 
 ## Construit le contenu à partir de données déjà lues (utile pour les tests).
 static func from_dicts(spell_list: Array, monster_list: Array, voie_list: Array, race_list: Array = [], item_list: Array = [],
-		job_list: Array = [], passage_list: Array = [], set_list: Array = []) -> GameData:
+		job_list: Array = [], passage_list: Array = [], set_list: Array = [], quest_list: Array = []) -> GameData:
 	var data := GameData.new()
 	for raw: Variant in item_list:
 		var errors := Item.validate(raw) if typeof(raw) == TYPE_DICTIONARY else PackedStringArray(["objet attendu"])
@@ -96,7 +99,50 @@ static func from_dicts(spell_list: Array, monster_list: Array, voie_list: Array,
 			data.sets[raw["id"]] = raw
 			for item_id: String in raw["objets"]:
 				data.item_sets[item_id] = raw["id"]
+	for raw: Variant in quest_list:
+		var errors := Quest.validate(raw) if typeof(raw) == TYPE_DICTIONARY else PackedStringArray(["objet attendu"])
+		if _report("quête", raw, errors):
+			data.quests[raw["id"]] = raw
+	# Liens entre quêtes une fois toutes lues : une quête aux liens cassés est retirée.
+	var broken: Array[String] = []
+	for quest_id: String in data.quests:
+		if not _report("quête", data.quests[quest_id], data.validate_quest_links(data.quests[quest_id])):
+			broken.append(quest_id)
+	for quest_id in broken:
+		data.quests.erase(quest_id)
 	return data
+
+
+## Liens d'une quête vers le reste du contenu : monstres, objets, métiers, races, Voies, quêtes.
+func validate_quest_links(quest: Dictionary) -> PackedStringArray:
+	var errors: PackedStringArray = []
+	var conditions: Dictionary = quest.get("conditions", {})
+	for quest_id: String in conditions.get("quetes_terminees", []) + conditions.get("une_quete_terminee", []):
+		if not quests.has(quest_id) or quest_id == quest["id"]:
+			errors.append("quête requise inconnue : %s" % quest_id)
+	if conditions.has("race") and not races.has(conditions["race"]):
+		errors.append("race inconnue : %s" % conditions["race"])
+	if conditions.has("voie") and not voies.has(conditions["voie"]):
+		errors.append("Voie inconnue : %s" % conditions["voie"])
+	var entries: Array = quest.get("donne", []) + quest.get("recompenses", {}).get("objets", [])
+	for entry: Dictionary in entries:
+		if not items.has(entry["objet"]):
+			errors.append("objet inconnu : %s" % entry["objet"])
+	for step: Dictionary in quest["etapes"]:
+		for objective: Dictionary in step["objectifs"]:
+			var type: String = objective["type"]
+			if objective.has("monstre") and not monsters.has(objective["monstre"]):
+				errors.append("monstre inconnu : %s" % objective["monstre"])
+			if objective.has("objet") and not items.has(objective["objet"]):
+				errors.append("objet inconnu : %s" % objective["objet"])
+			if objective.has("metier") and not jobs.has(objective["metier"]):
+				errors.append("métier inconnu : %s" % objective["metier"])
+			if type == Quest.OBJ_DEFEAT_GROUP and not monsters.get(objective["monstre"], {}).get("boss", false):
+				errors.append("« vaincre_groupe » : %s n'est pas un boss" % objective["monstre"])
+			for monster_id: Variant in objective.get("butin", {}).get("monstres", []):
+				if not monsters.has(monster_id):
+					errors.append("butin de quête : monstre inconnu %s" % str(monster_id))
+	return errors
 
 
 ## Panoplie : au moins deux équipements connus, chacun dans une seule panoplie ; bonus par nombre de

@@ -799,6 +799,13 @@ ingrédients).
   atteint un acte de la quête principale.
 - Contenu cible de l'alpha : un tutoriel par camp, environ 15 quêtes secondaires (5 par zone de
   départ), les actes I et II de la quête principale (une chaîne par camp) et le début de l'acte III.
+- **État** : le système est fait (conception validée : `docs/design/chantier6_quetes.md`) avec
+  8 types d'objectifs (parler, vaincre, vaincre un boss, récolter, fabriquer, apporter, équiper,
+  aller), le **butin de quête** (un objet qui ne tombe que pendant la quête qui le demande), les
+  objets de quête, l'XP comptée en « combats de référence » (× `Character.XP_RATE`), les marques
+  `!` / `?`, la proposition (Accepter / Plus tard), le journal (Q) et le suivi sous la minicarte.
+  Les objectifs « parler » et « apporter » se remplissent en dernier (on rend la quête). Contenu
+  produit : les 3 tutoriels et l'acte I des trois camps.
 
 ### 11.2 Long terme : quêtes complexes
 
