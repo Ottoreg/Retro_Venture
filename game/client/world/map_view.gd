@@ -67,6 +67,13 @@ const COLOR_TEAM := [Color(0.25, 0.5, 1.0, 0.8), Color(0.9, 0.25, 0.2, 0.8)]
 const COLOR_GLYPH := [Color(0.45, 0.75, 1.0, 0.3), Color(0.55, 0.95, 0.3, 0.34)]
 const COLOR_GLYPH_EDGE := [Color(0.55, 0.8, 1.0, 0.8), Color(0.65, 0.95, 0.4, 0.8)]
 const COLOR_TRAP := Color(0.35, 0.22, 0.12, 0.85)
+## Mode tactique : cases claires et foncées en damier, obstacles qui bloquent la vue (blocs) ou
+## seulement le passage (eau : à plat), pions des deux camps.
+const TACTICAL_BACKGROUND := Color("1d1914")
+const TACTICAL_CELLS := [Color("8f8a78"), Color("7f7a69")]
+const TACTICAL_BLOCK := Color("4a4038")
+const TACTICAL_WATER := Color("3f6f93")
+const TACTICAL_EDGE := Color(0, 0, 0, 0.35)
 const COLOR_TRAP_FLASH := Color(1.0, 0.45, 0.1, 0.6)
 ## Noms affichés des caractéristiques modifiées par un bonus ou un malus.
 const CARAC_NAMES := {"force": "Force", "intelligence": "Intelligence", "chance": "Chance", "agilite": "Agilité",
@@ -102,6 +109,14 @@ var _travel_refusals := {
 
 var world: World
 var mode: Mode = Mode.EXPLORATION
+## Vue simplifiée en combat (GDD § 14.3), retenue d'un combat à l'autre dans `Options`.
+var tactical: bool:
+	get:
+		return Options.tactical
+	set(value):
+		Options.tactical = value
+		Options.save_options()
+		queue_redraw()
 ## Carte affichée. Elle peut être en retard sur `world.map` pendant une marche vers le bord :
 ## le noyau a déjà changé de carte, l'écran pas encore.
 var _map: GameMap
@@ -971,7 +986,11 @@ func _draw() -> void:
 	if world == null:
 		return
 	var map := _map
-	_draw_ground(map)
+	var tactical_view := mode == Mode.COMBAT and tactical
+	if tactical_view:
+		_draw_tactical_ground(map)
+	else:
+		_draw_ground(map)
 
 	if mode == Mode.COMBAT:
 		_draw_ground_marks()
@@ -992,6 +1011,10 @@ func _draw() -> void:
 
 	# Objets en relief et personnages, du fond vers l'avant.
 	var drawables: Array = []
+	if tactical_view:
+		_draw_tactical_pieces(map)
+		_draw_floating_texts()
+		return
 	for cell: Vector2i in map.obstacles:
 		if map.obstacles[cell] not in GameMap.FLAT_OBSTACLES:
 			drawables.append([IsoGrid.depth(Vector2(cell)), "obstacle", cell])
@@ -1018,7 +1041,10 @@ func _draw() -> void:
 			_draw_obstacle(drawable[2], map.obstacles[drawable[2]])
 	if mode == Mode.EXPLORATION:
 		_draw_exit_arrows(map)
+	_draw_floating_texts()
 
+
+func _draw_floating_texts() -> void:
 	var font := ThemeDB.fallback_font
 	for text in _floating:
 		# Centré au-dessus de la case, assez large pour un long message (changement de phase).
@@ -1029,6 +1055,56 @@ func _draw() -> void:
 		color.a = 1.0 - maxf(0.0, text["age"] - (text["life"] - 0.4)) / 0.4
 		draw_string_outline(font, text_pos, text["text"], HORIZONTAL_ALIGNMENT_CENTER, width, 16, 4, Color(0, 0, 0, color.a))
 		draw_string(font, text_pos, text["text"], HORIZONTAL_ALIGNMENT_CENTER, width, 16, color)
+
+
+## Mode tactique : fond uni, cases à plat en damier, eau à plat, sans décor ni touffes.
+func _draw_tactical_ground(map: GameMap) -> void:
+	draw_rect(map.screen_rect(), TACTICAL_BACKGROUND)
+	for cell: Vector2i in map.cells():
+		var center := IsoGrid.cell_to_screen(cell)
+		var diamond := IsoGrid.diamond(center)
+		if not map.obstacles.has(cell):
+			draw_colored_polygon(diamond, TACTICAL_CELLS[posmod(cell.x + cell.y, 2)])
+		elif map.obstacles[cell] in Combat.SEE_THROUGH_OBSTACLES:
+			draw_colored_polygon(diamond, TACTICAL_WATER)
+		else:
+			continue
+		diamond.append(diamond[0])
+		draw_polyline(diamond, TACTICAL_EDGE)
+
+
+## Mode tactique : obstacles qui bloquent la vue en blocs bas, combattants en pions (couleur du camp,
+## initiale, barre de PV), du fond vers l'avant.
+func _draw_tactical_pieces(map: GameMap) -> void:
+	var drawables: Array = []
+	for cell: Vector2i in map.obstacles:
+		if map.obstacles[cell] not in Combat.SEE_THROUGH_OBSTACLES:
+			drawables.append([IsoGrid.depth(Vector2(cell)), "", cell])
+	for actor_id: String in _actors:
+		if _actors[actor_id]["alive"]:
+			drawables.append([IsoGrid.depth(_actors[actor_id]["pos"]) + 0.01, actor_id, NO_CELL])
+	drawables.sort_custom(func(a: Array, b: Array) -> bool: return a[0] < b[0])
+	var font := ThemeDB.fallback_font
+	for drawable: Array in drawables:
+		if drawable[1] == "":
+			_draw_block(IsoGrid.cell_to_screen(drawable[2]), 14, TACTICAL_BLOCK)
+			continue
+		var data: Dictionary = _actors[drawable[1]]
+		var base := IsoGrid.grid_to_screen(data["pos"])
+		var color: Color = COLOR_TEAM[clampi(data["team"], 0, 1)]
+		color.a = 1.0
+		if drawable[1] == current_turn:
+			draw_colored_polygon(_ellipse(base, 22, 11), Color(1, 1, 1, 0.35))
+		draw_colored_polygon(_ellipse(base, 15, 7.5), color.darkened(0.45))
+		var head := base + Vector2(0, -16)
+		draw_circle(head, 12, color)
+		draw_arc(head, 12, 0, TAU, 24, Color(0, 0, 0, 0.7), 2.0)
+		var initial := str(data.get("name", "?")).left(1).to_upper()
+		draw_string(font, head + Vector2(-12, 6), initial, HORIZONTAL_ALIGNMENT_CENTER, 24, 16, Color.WHITE)
+		var ratio := clampf(float(data["hp"]) / maxf(1.0, data["max_hp"]), 0.0, 1.0)
+		var bar := Rect2(base + Vector2(-15, -36), Vector2(30, 4))
+		draw_rect(bar, Color(0, 0, 0, 0.7))
+		draw_rect(Rect2(bar.position, Vector2(bar.size.x * ratio, bar.size.y)), Color(0.3, 0.85, 0.3) if ratio > 0.3 else Color(0.9, 0.3, 0.2))
 
 
 ## Glyphes (cases teintées et liserés), pièges de l'équipe du joueur, explosion d'un piège.

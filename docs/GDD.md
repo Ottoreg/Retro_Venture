@@ -931,6 +931,10 @@ ingrédients).
   obstacles en blocs pleins (ceux qui bloquent la vue distingués de ceux qui ne bloquent que le
   passage, comme l'eau), arbres et grands décors masqués, combattants en pions ou silhouettes
   lisibles ; portées, zones et glyphes restent affichées. Le choix est retenu d'un combat à l'autre.
+  *Fait* : bouton « Tactique » du bandeau ou touche T, aussi dans les options.
+- **Menu pause** (Échap quand aucune fenêtre n'est ouverte) : le jeu s'arrête ; reprendre, options,
+  retour au menu principal (sauvegardé, pas pendant un combat), quitter. **Options** (menu principal
+  ou pause) : volume, plein écran, taille de la fenêtre, mode tactique ; gardées hors sauvegarde.
 
 - **Bandeau bas :** chat à gauche, PV dans un cœur rouge qui se vide, PA dans une étoile bleue, PM
   dans une case verte, barre de sorts (icônes avec raccourci et coût en PA) et d'objets, boutons de

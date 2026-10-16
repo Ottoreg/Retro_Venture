@@ -275,8 +275,8 @@ Les tâches marquées *(alpha 2)* sont reportées au second test.
   - [x] Intégration : combats simulés sur chaque groupe de chaque carte, pour les 4 Voies
     (`game/tools/simulation.gd`, rapport `docs/design/simulation_combats.md`). Le joueur est joué
     par l'IA des monstres, à leur niveau, équipement modélisé comme dans `balance.py`
-  - [ ] **Ajustements d'équilibrage à décider** (constats de la simulation, IA contre IA, à
-    confirmer en jeu) :
+  - [ ] **Ajustements d'équilibrage, après l'alpha test 1** (décision de l'auteur : attendre les
+    retours des vrais joueurs ; constats de la simulation, IA contre IA, à confirmer en jeu) :
     - mini-boss au niveau 12 en solo : Krasbouk battu par l'arcaniste et le théologue seulement
       (guerrier 30 %, rôdeur 0 %), Mère-Toile par le théologue seulement, Balourd jamais par le
       rôdeur (et il retire ~50 % des PV aux autres) ;
@@ -327,16 +327,18 @@ Les tâches marquées *(alpha 2)* sont reportées au second test.
 - [ ] **(MVP)** Fenêtres : inventaire + poupée, caractéristiques, sorts, quêtes, métiers
   (faits : inventaire, caractéristiques, sorts avec un onglet par famille (Voie, race, arme),
   métiers avec un onglet par métier, boutique, atelier, coffre ; reste : quêtes)
-- [ ] **(MVP)** Menu principal, options (volume, résolution), pause
+- [x] **(MVP)** Menu principal, options (volume, plein écran, taille de la fenêtre, mode tactique ;
+  `user://options.cfg`, hors sauvegarde), pause (Échap : le jeu s'arrête ; reprendre, options,
+  menu principal, quitter)
 - [ ] Infobulles d'objets et de sorts (comparaison avec l'équipement porté)
 - [x] En combat, au survol d'un combattant : nom, niveau, PV, PA, PM et résistances à la place de la
   barre de sorts
 - [x] Inventaire : 8 cases « Reliques » visibles dès le début (vides tant que la Relique n'est pas
   reprise), en plus des 2 anneaux
 - [ ] Raccourcis clavier
-- [ ] **(MVP)** Mode tactique en combat, façon Dofus (GDD § 14.3) : bouton qui bascule vers une vue
-  simplifiée (cases à plat, obstacles en blocs, décor masqué, combattants lisibles), retenu d'un
-  combat à l'autre
+- [x] **(MVP)** Mode tactique en combat, façon Dofus (GDD § 14.3) : bouton « Tactique » ou touche T,
+  cases à plat en damier, eau à plat, obstacles qui bloquent la vue en blocs, décor masqué,
+  combattants en pions (couleur du camp, initiale, PV), retenu d'un combat à l'autre (`Options`)
 
 ### Art et audio
 

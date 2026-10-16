@@ -64,6 +64,13 @@ static func build() -> Theme:
 	return theme
 
 
+## Fond des fenêtres posées au milieu de l'écran (options, pause…).
+static func window_style() -> StyleBoxFlat:
+	var style := _box(Color(0.13, 0.1, 0.07, 0.97), Color(0.55, 0.42, 0.22), 2, 6, 14)
+	style.set_content_margin_all(18)
+	return style
+
+
 static func _box(fill: Color, border: Color, border_width := 1, radius := 4, margin := 8) -> StyleBoxFlat:
 	var box := StyleBoxFlat.new()
 	box.bg_color = fill

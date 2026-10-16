@@ -35,7 +35,7 @@ xvfb-run -a godot --path . -s res://tools/screenshot.gd -- sortie.png [carte] [s
 ```
 
 `tools/screenshot.gd` fait des captures en jeu (actions : glyphe, survol, phase, reveil, carte, sermon,
-cible…) ; `tools/art_sheet.gd` fait une planche des dessins ; `tools/simulation.gd` simule des
+cible, tactique, pause, options…) ; `tools/art_sheet.gd` fait une planche des dessins ; `tools/simulation.gd` simule des
 combats sur chaque groupe des cartes (`-- [combats] [rapport.md] [préfixes de cartes] [detail]`,
 ~7 min pour tout à 10 combats).
 
@@ -76,8 +76,10 @@ Phase 2 (alpha solo), en deux tests :
    PNJ), les variantes et les métiers (`src/metiers_production.py`) : **tout le contenu est produit**.
    Décors de ville dessinés. Variantes dans les repaires des mini-boss une fois vaincus (groupes
    `apres_boss`). Intégration faite (`tools/simulation.gd`, `docs/design/simulation_combats.md`) :
-   reste à décider les ajustements d'équilibrage qu'elle relève (TODO).
-4. Interface et confort : notamment le **mode tactique en combat** façon Dofus (GDD § 14.3).
+   ajustements d'équilibrage reportés après l'alpha test 1, d'après les retours des joueurs (TODO).
+4. Interface et confort : **mode tactique en combat** (GDD § 14.3), menu pause et options
+   (`client/options.gd`, `user://options.cfg`) **faits** ; reste la fenêtre des quêtes (avec le
+   chantier 6) et les petits conforts (infobulles comparées, raccourcis).
 
 ## Règles de design à respecter (détails dans le GDD)
 

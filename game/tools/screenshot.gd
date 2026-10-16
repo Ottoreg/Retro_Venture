@@ -11,7 +11,8 @@ extends SceneTree
 ## une phase pour l'occasion et passe sous son seuil : message et texte flottant), « reveil » (combat
 ## perdu contre le premier groupe : réveil près de la Pierre de Passage du point de résurrection, à
 ## lancer par exemple sur brumerive_1_0), « carte » (ouvre la carte du monde ; la minicarte, elle,
-## est visible sur toute capture en exploration), « repliee » (minicarte repliée).
+## est visible sur toute capture en exploration), « repliee » (minicarte repliée), « tactique »
+## (comme « cible », en mode tactique), « pause » (menu pause), « options » (fenêtre des options).
 ## Si « carte » commence par res://, c'est cette scène qui est capturée (menu, création…).
 
 var _output := "capture.png"
@@ -35,6 +36,9 @@ func _initialize() -> void:
 	if _action == "sermon":
 		Session.new_character = Character.create("Frère Tuck", "humain", "theologue")
 	Session.minimap_folded = _action == "repliee"
+	# Réglages par défaut (ceux du joueur ne comptent pas), mode tactique si demandé.
+	Options.reset()
+	Options.tactical = _action == "tactique"
 	_scene = load(scene_path).instantiate()
 	root.add_child(_scene)
 
@@ -143,8 +147,13 @@ func _process(_delta: float) -> bool:
 			_scene.get_node("WorldMapWindow").open()
 		elif _action == "repliee":
 			pass  # Minicarte repliée dès le départ (voir `_initialize`).
+		elif _action == "pause":
+			_scene.pause_menu.open()
+		elif _action == "options":
+			_scene.pause_menu.open()
+			_scene.pause_menu._on_options_pressed()
 		else:
-			var target: Vector2i = view.world.groups()[0]["case"] if _action in ["combat", "cible", "sermon", "phase"] else view.current_map().travel_stone()
+			var target: Vector2i = view.world.groups()[0]["case"] if _action in ["combat", "cible", "sermon", "phase", "tactique"] else view.current_map().travel_stone()
 			if _action == "phase":
 				# Aucun monstre n'a encore de phases dans les données : le premier du groupe en reçoit une.
 				var monster: Dictionary = view.world.data.monsters[view.world.groups()[0]["monstres"][0]]
@@ -155,7 +164,7 @@ func _process(_delta: float) -> bool:
 				if not view.is_busy():
 					break
 				view._process(0.3)
-			if _action in ["cible", "sermon", "phase"] and view.world.combat != null:
+			if _action in ["cible", "sermon", "phase", "tactique"] and view.world.combat != null:
 				# Placement validé, puis survol du premier monstre.
 				view.request_start_fight()
 				for i in 200:
@@ -169,7 +178,7 @@ func _process(_delta: float) -> bool:
 					view.selected_spell = "theologue_sermon"
 					view._refresh_overlays()
 					view._set_hovered(hero.cell + Spell.direction(hero.cell, foe.cell))
-				for fighter in view.world.combat.fighters if _action in ["cible", "phase"] else []:
+				for fighter in view.world.combat.fighters if _action in ["cible", "phase", "tactique"] else []:
 					if fighter.team != Fighter.TEAM_PLAYERS:
 						if _action == "phase":
 							# Un tiers de ses PV perdus : le noyau déclenche la phase (seuil à 90 %).

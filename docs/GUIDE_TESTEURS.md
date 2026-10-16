@@ -51,7 +51,10 @@ est ici.
 | **S** | Sorts : un onglet pour la Voie, la race et l'arme ; fiche de chaque sort |
 | **J** | Métiers : un onglet par métier, niveau, ressources et recettes |
 | **M** | Carte du monde : un onglet par zone visitée, ses cartes en grille (voir plus bas) |
-| **Échap** | Ferme la fenêtre ouverte ; sinon, retour au menu (avec sauvegarde) |
+| **Échap** | Ferme la fenêtre ouverte ; sinon, **menu pause** (le jeu s'arrête) : reprendre, options, menu principal (avec sauvegarde, pas en combat), quitter |
+
+**Options** (menu principal ou menu pause) : volume, plein écran, taille de la fenêtre (hors
+navigateur) et mode tactique ; elles sont gardées d'une partie à l'autre, hors sauvegarde.
 
 Les cinq boutons en bas à droite du bandeau ouvrent les mêmes fenêtres. Un clic sur un sort du
 bandeau, hors combat, ouvre sa fiche.
@@ -94,6 +97,11 @@ bandeau, hors combat, ouvre sa fiche.
    - lancer un sort : touche **1 à 0** ou clic sur son icône, puis clic sur la cible (cases bleues :
      portée ; un second clic sur le sort, un **clic droit** ou **Échap** l'annule) ;
    - **Fin de tour** : bouton du bandeau.
+   - **Mode tactique** : bouton « Tactique » du bandeau ou touche **T** (aussi dans les options).
+     Vue simplifiée de la grille, comme dans Dofus : cases à plat en damier, eau à plat (elle ne
+     bloque que le passage), obstacles qui bloquent la vue en blocs, arbres et bâtiments masqués,
+     combattants en pions de la couleur de leur camp (initiale et PV). Portées, zones, glyphes et
+     cases de placement restent affichées. Le choix est retenu d'un combat à l'autre.
    - survoler un combattant : son niveau, ses PV, PA, PM et ses résistances s'affichent à la place
      de la barre de sorts.
 3. Fin du combat : expérience, écus et butin (une icône par objet avec sa quantité ; le nom en

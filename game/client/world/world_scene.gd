@@ -19,6 +19,8 @@ const MENU_SCENE := "res://client/main/main.tscn"
 @onready var _world_map: WorldMapWindow = $WorldMapWindow
 @onready var _info: Label = %Info
 
+## Menu pause (Échap quand aucune fenêtre n'est ouverte).
+var pause_menu: PauseMenu
 var _hover_text := ""
 ## Bulle près du curseur : ce qu'on survole (monstres, PNJ, ressources…).
 var _hover_bubble: PanelContainer
@@ -28,6 +30,10 @@ var _hover_crown: EliteCrown
 
 func _ready() -> void:
 	UiTheme.apply(get_tree())
+	Options.load_options()
+	pause_menu = PauseMenu.new()
+	add_child(pause_menu)
+	pause_menu.main_menu_requested.connect(_back_to_menu)
 	var world := _create_world()
 	if world == null:
 		_info.text = "Impossible de charger le monde (carte de départ introuvable)."
@@ -97,37 +103,45 @@ func _process(_delta: float) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("ui_cancel") and _map_view.mode == MapView.Mode.EXPLORATION:
-		# La carte du monde d'abord : elle est au-dessus des autres fenêtres (calque 3).
-		if _world_map.is_open():
-			_world_map.close()
-			return
-		if _shop.is_open():
-			_shop.close()
-			return
-		if _craft.is_open():
-			_craft.close()
-			return
-		if _chest.is_open():
-			_chest.close()
-			return
-		if _travel.is_open():
-			_travel.close()
-			return
-		if _jobs.is_open():
-			_jobs.toggle()
-			return
-		if _spells.is_open():
-			_spells.toggle()
-			return
-		if _sheet.is_open():
-			_sheet.toggle()
-			return
-		if _inventory.is_open():
-			_inventory.toggle()
-			return
-		_save()
-		get_tree().change_scene_to_file(MENU_SCENE)
+	if not event.is_action_pressed("ui_cancel"):
+		return
+	if _map_view.mode != MapView.Mode.EXPLORATION:
+		pause_menu.open(true)  # En combat : Échap désélectionne d'abord le sort choisi (barre du bas).
+		return
+	# La carte du monde d'abord : elle est au-dessus des autres fenêtres (calque 3).
+	if _world_map.is_open():
+		_world_map.close()
+		return
+	if _shop.is_open():
+		_shop.close()
+		return
+	if _craft.is_open():
+		_craft.close()
+		return
+	if _chest.is_open():
+		_chest.close()
+		return
+	if _travel.is_open():
+		_travel.close()
+		return
+	if _jobs.is_open():
+		_jobs.toggle()
+		return
+	if _spells.is_open():
+		_spells.toggle()
+		return
+	if _sheet.is_open():
+		_sheet.toggle()
+		return
+	if _inventory.is_open():
+		_inventory.toggle()
+		return
+	pause_menu.open()
+
+
+func _back_to_menu() -> void:
+	_save()
+	get_tree().change_scene_to_file(MENU_SCENE)
 
 
 ## Sauvegarde automatique (jamais pendant un combat).

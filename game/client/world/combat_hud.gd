@@ -110,6 +110,8 @@ var _target_resistances := {}
 ## Id du combattant survolé ("" si aucun).
 var _target_id := ""
 var _turn_button: Button
+## Bascule du mode tactique (en combat seulement ; touche T).
+var _tactical_button: Button
 var _menu_buttons := {}
 var _order_label: Label
 var _message_label: Label
@@ -128,6 +130,7 @@ var _refresh_time := 0.0
 func _ready() -> void:
 	_build()
 	_turn_button.visible = false
+	_tactical_button.visible = false
 	_order_label.visible = false
 	_result_panel.visible = false
 
@@ -170,6 +173,9 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	var fighter := map_view.player_fighter()
 	if index >= 0 and fighter != null and index < fighter.spells.size():
 		map_view.select_spell(fighter.spells[index].id)
+		get_viewport().set_input_as_handled()
+	elif key == KEY_T:
+		toggle_tactical()
 		get_viewport().set_input_as_handled()
 	elif event.is_action_pressed("ui_cancel") and map_view.selected_spell != "":
 		map_view.select_spell(map_view.selected_spell)
@@ -231,6 +237,8 @@ func _on_spell_pressed(spell_id: String) -> void:
 func _on_combat_started() -> void:
 	_result_panel.visible = false
 	_turn_button.visible = true
+	_tactical_button.visible = true
+	_tactical_button.set_pressed_no_signal(map_view.tactical)
 	_order_label.visible = true
 	_shown_spells.clear()
 	var fighter := map_view.player_fighter()
@@ -354,6 +362,7 @@ func _on_exploration_resumed() -> void:
 	_target_id = ""
 	_show_target()
 	_turn_button.visible = false
+	_tactical_button.visible = false
 	_order_label.visible = false
 	for menu: String in _menu_buttons:
 		_menu_buttons[menu].disabled = false
@@ -364,6 +373,12 @@ func _on_exploration_resumed() -> void:
 func _on_continue_pressed() -> void:
 	_result_panel.visible = false
 	map_view.resume()
+
+
+## Mode tactique : vue simplifiée de la grille, retenue d'un combat à l'autre.
+func toggle_tactical() -> void:
+	map_view.tactical = not map_view.tactical
+	_tactical_button.set_pressed_no_signal(map_view.tactical)
 
 
 func _on_turn_button_pressed() -> void:
@@ -471,6 +486,15 @@ func _build() -> void:
 	_turn_button.focus_mode = Control.FOCUS_NONE
 	_turn_button.pressed.connect(_on_turn_button_pressed)
 	row.add_child(_turn_button)
+	_tactical_button = Button.new()
+	_tactical_button.toggle_mode = true
+	_tactical_button.text = "Tactique"
+	_tactical_button.tooltip_text = "Mode tactique (T) : cases à plat, obstacles en blocs, décor masqué, combattants en pions"
+	_tactical_button.custom_minimum_size = Vector2(84, 34)
+	_tactical_button.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	_tactical_button.focus_mode = Control.FOCUS_NONE
+	_tactical_button.pressed.connect(toggle_tactical)
+	row.add_child(_tactical_button)
 
 	row.add_child(VSeparator.new())
 	var menus := GridContainer.new()

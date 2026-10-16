@@ -6,6 +6,8 @@ extends "res://tests/test_case.gd"
 ## Minicarte dépliée au début de chaque test (l'état est gardé dans `Session`, d'un test à l'autre).
 func before_each() -> void:
 	Session.minimap_folded = false
+	Options.path = "user://options_tests.cfg"  # Jamais les options du joueur.
+	Options.reset()
 
 
 func _run_until_idle(view: MapView) -> void:
