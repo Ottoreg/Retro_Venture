@@ -8,6 +8,9 @@ modifiable sans recompiler et vérifié par les tests à chaque push
 Conventions : clés en français sans accents, une case = `[x, y]`, un fichier par élément, `id` égal au
 nom du fichier.
 
+Catalogue lisible de tous les objets et sorts : [`docs/CATALOGUE.md`](../../docs/CATALOGUE.md),
+regénéré par `python3 game/tools/catalogue.py` (à relancer après un changement de contenu).
+
 ## Cartes (`cartes/`)
 
 Une carte est un rectangle entièrement couvert de cases en losange, en rangées décalées comme dans

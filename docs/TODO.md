@@ -233,6 +233,11 @@ Tout le contenu et les systèmes MVP de l'alpha 1 sont faits (chantiers 1, 3, 4 
 - [ ] Équilibrer les panoplies après les retours de test (prix, niveau, paliers)
 - [ ] Recettes de forgeron et/ou butin pour obtenir ces panoplies
 - [ ] Équipement visible sur le personnage (coiffe, cape, arme)
+- [ ] Objet parodique : **Cape en peau d'ananas** (« la peau d'ananas résiste à une bille d'acier
+  chauffée à 1000 °C » : l'armure anti-dragon). Pas terrible en caractéristiques, mais **beaucoup de
+  résistance Flamme** : l'objet à sortir contre la Cendre, le Souverain Cendré et les variantes
+  corrompues. Demande des bonus de résistance sur l'équipement (aujourd'hui seulement les
+  caractéristiques) ; recette ou butin à définir (GDD § 9.2)
 - [x] Marchands PNJ (achat / vente) : Barlimon (Brumerive), Zogrub (Crasse-Roc) et Lindorë (Sylvebrume) vendent tous les objets, prix selon la rareté, revente à 25 %
 - [x] Coffre personnel dans la maison du joueur (100 places, sauvegardé)
 - [ ] Banque

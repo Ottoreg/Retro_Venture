@@ -710,6 +710,12 @@ vaut quelque chose ; pas de recherche profonde.
 - **Panoplies :** bonus de panoplie qui augmente avec le nombre de pièces du même ensemble équipées
   (voir § 9.3).
 - **Apparence :** coiffe, cape et arme sont visibles sur le personnage.
+- **Objets parodiques :** quelques objets ridicules mais vraiment utiles dans un cas précis. Premier
+  à faire : la **Cape en peau d'ananas** (« la peau d'ananas résiste à une bille d'acier chauffée à
+  1000 °C » : l'armure anti-dragon), faible en caractéristiques mais avec une **forte résistance
+  Flamme**, pour la Cendre, le Souverain Cendré et les variantes corrompues. Il faut pour cela des
+  **bonus de résistance par élément** sur l'équipement (les objets ne donnent aujourd'hui que des
+  caractéristiques). *(À faire, TODO.)*
 - **Long terme :** forgemagie (modification des jets avec des runes), objets légendaires à effets
   uniques liés au butin rare et aux quêtes, objets liés au compte.
 
