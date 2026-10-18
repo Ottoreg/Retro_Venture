@@ -1108,6 +1108,13 @@ func test_historique_du_combat() -> void:
 	var shield := view._log_line({"type": Protocol.EVT_STATUS, "entite": player, "effet": Spell.EFFECT_SHIELD,
 		"valeur": 9, "element": "sacre"})
 	assert_true(shield.contains(SpellsWindow.ELEMENT_COLORS["sacre"].to_html(false)), shield)
+	# Chiffres flottants à la couleur de l'élément aussi (rouge pour un choc, sans élément).
+	view._apply({"type": Protocol.EVT_DAMAGE, "entite": player, "valeur": 3, "element": "givre", "pv": 40})
+	assert_eq(view._floating[-1]["color"], SpellsWindow.ELEMENT_COLORS["givre"])
+	view._apply({"type": Protocol.EVT_HEAL, "entite": player, "valeur": 2, "element": "tempete", "pv": 42})
+	assert_eq(view._floating[-1]["color"], SpellsWindow.ELEMENT_COLORS["tempete"])
+	view._apply({"type": Protocol.EVT_DAMAGE, "entite": player, "valeur": 4, "element": "", "pv": 38, "source": "choc"})
+	assert_eq(view._floating[-1]["color"], Color(1, 0.35, 0.3))
 	# Repli (touche H) : gardé pour la suite de la partie.
 	var key := InputEventKey.new()
 	key.keycode = KEY_H

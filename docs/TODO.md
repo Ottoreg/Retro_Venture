@@ -391,6 +391,7 @@ Tout le contenu et les systèmes MVP de l'alpha 1 sont faits (chantiers 1, 3, 4 
   combattants en pions (couleur du camp, initiale, PV), retenu d'un combat à l'autre (`Options`)
 - [x] Historique du combat (GDD § 14.3) : sorts lancés et leurs effets, couleurs des éléments,
   repliable (touche H) ; survol des glyphes et pièges alliés : sort, lanceur, tours restants
+- [x] Chiffres flottants du combat à la couleur de l'élément (dégâts, soins, boucliers, poisons)
 - [x] Fiche du personnage : l'aide de chaque caractéristique cite dégâts, soins et boucliers de ses
   éléments (l'Intelligence n'était plus seule à « augmenter les soins »)
 

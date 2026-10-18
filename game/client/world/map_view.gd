@@ -635,8 +635,13 @@ func _log_line(event: Dictionary) -> String:
 	return ""
 
 
+## Couleur d'un élément (celle de la fenêtre des sorts), ou `fallback` sans élément (choc).
+static func element_color(element: String, fallback := Color.WHITE) -> Color:
+	return SpellsWindow.ELEMENT_COLORS.get(element, fallback)
+
+
 static func _element_hex(element: String) -> String:
-	return (SpellsWindow.ELEMENT_COLORS.get(element, Color.WHITE) as Color).to_html(false)
+	return element_color(element).to_html(false)
 
 
 static func _colored(text: String, element: String) -> String:
@@ -884,7 +889,7 @@ func _apply(event: Dictionary) -> float:
 		if event["effet"] == Spell.EFFECT_SHIELD:
 			affected["bouclier"] = event["bouclier"]
 			label = "+%d bouclier" % event["valeur"]
-			color = Color(1.0, 0.88, 0.45)
+			color = element_color(event.get("element", ""), Color(1.0, 0.88, 0.45))
 		_add_floating(label, color, affected["pos"])
 		combat_state_changed.emit()
 		return 0.25
@@ -970,7 +975,10 @@ func _apply(event: Dictionary) -> float:
 		if event.has("nouveau"):
 			var label := state_text(event["nouveau"])
 			var good: bool = event["nouveau"]["type"] == Spell.EFFECT_BONUS
-			_add_floating(label, Color(0.55, 0.85, 1.0) if good else Color(0.85, 0.6, 1.0), bearer["pos"])
+			var color := Color(0.55, 0.85, 1.0) if good else Color(0.85, 0.6, 1.0)
+			if event["nouveau"]["type"] == Spell.EFFECT_POISON:
+				color = element_color(event["nouveau"]["element"], color)
+			_add_floating(label, color, bearer["pos"])
 		combat_state_changed.emit()
 		return 0.25 if event.has("nouveau") else 0.0
 	if type == Protocol.EVT_PUSHED:
@@ -1013,13 +1021,13 @@ func _apply(event: Dictionary) -> float:
 			text += " (poison)"
 		elif event.get("source", "") == "choc":
 			text += " (choc)"
-		_add_floating(text, Color(1, 0.35, 0.3), target["pos"])
+		_add_floating(text, element_color(event.get("element", ""), Color(1, 0.35, 0.3)), target["pos"])
 		combat_state_changed.emit()
 		return 0.25
 	if type == Protocol.EVT_HEAL:
 		var healed: Dictionary = _actors[event["entite"]]
 		healed["hp"] = event["pv"]
-		_add_floating("+%d" % event["valeur"], Color(0.45, 1, 0.45), healed["pos"])
+		_add_floating("+%d" % event["valeur"], element_color(event.get("element", ""), Color(0.45, 1, 0.45)), healed["pos"])
 		combat_state_changed.emit()
 		return 0.25
 	if type == Protocol.EVT_DIED:

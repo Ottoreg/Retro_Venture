@@ -144,6 +144,8 @@ bandeau, hors combat, ouvre sa fiche.
    - **Historique du combat** (en bas à gauche, bouton « – » ou touche **H** pour le replier) :
      chaque tour, chaque sort lancé et ses effets ; dégâts, soins et boucliers à la couleur de leur
      élément (Acier ocre, Flamme orange, Givre bleu, Tempête vert, Sacré jaune pâle, Impie violet).
+     Les chiffres qui s'affichent au-dessus des combattants ont les mêmes couleurs (« -12 » :
+     dégâts, « +8 » : soin ; un choc contre un obstacle reste rouge).
 3. Fin du combat : expérience, écus et butin (une icône par objet avec sa quantité ; le nom en
    survolant). Pendant l'alpha 1, l'expérience gagnée est **multipliée par 3,5** : on monte vite de
    niveau pour tester toutes les mécaniques ; la vraie vitesse de progression viendra à l'alpha 2.

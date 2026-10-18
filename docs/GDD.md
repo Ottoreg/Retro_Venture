@@ -982,7 +982,8 @@ ingrédients).
   (coups critiques), dégâts, soins et boucliers à la couleur de leur élément, bonus, malus, poisons
   et PM retirés (avec le sort qui les a posés), glyphes et pièges posés ou déclenchés, poussées,
   changements de phase, combattants vaincus. Un piège ennemi reste secret, dans l'historique comme
-  sur la carte. Au **survol d'une glyphe** (des deux camps) ou d'un piège allié : nom du sort, qui
+  sur la carte. Les **chiffres flottants** (dégâts, soins, boucliers, poisons) prennent aussi la
+  couleur de leur élément (un choc, sans élément, reste rouge). Au **survol d'une glyphe** (des deux camps) ou d'un piège allié : nom du sort, qui
   l'a lancé, camp, et pour une glyphe les tours restants.
 - Interface redimensionnable, lisible en 1280×720 minimum.
 
