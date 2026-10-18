@@ -89,9 +89,32 @@ Phase 2 (alpha solo), en deux tests :
    produit. Option restante : secondaires de Hautepierre, marqueur de quête sur la carte du monde.
 
 **Lancement de l'alpha test 1 en préparation** (version 0.6.0, GitHub Pages) : guide des testeurs à
-jour, questionnaire de référence `docs/FORMULAIRE_ALPHA1.md` (à reporter à la main dans le Google
-Forms : le connecteur Drive ne lit pas les formulaires), bouton « Donner son avis » en jeu
-(`Session.FEEDBACK_URL`). Checklist : TODO, Phase 2, « Lancement de l'alpha test 1 ».
+jour, questionnaire Google Forms créé par `docs/creer_formulaire.gs` (référence
+`docs/FORMULAIRE_ALPHA1.md` ; le connecteur Drive ne lit pas les formulaires), lien vérifié dans le
+bouton « Donner son avis » (`Session.FEEDBACK_URL`). Checklist : TODO, Phase 2, « Lancement de
+l'alpha test 1 » : restent la passe de l'auteur dans chaque camp, le gel vu une fois contre Grondin
+(attendre la console du navigateur) et l'invitation des testeurs.
+
+Dernière session (retours de la passe de l'auteur) :
+
+- Retours de test : bulle de dialogue sous le bandeau, suivi de quête repliable, ligne de vue sur
+  7 sorts de monstres, garde-fou de la lecture des événements (`MapView._watch_playback`).
+- **Catalogue** `docs/CATALOGUE.md` (généré, ne pas éditer) : objets et obtention, panoplies,
+  répartition des éléments par zone (alerte au-delà de 60 % d'une zone ou 35 % du jeu), monstres
+  avec stats par niveau, lieux et phases, sorts. À regénérer après tout changement de contenu.
+- **Règles de monstres** (GDD § 8.1) : un monstre à moins de 3 PM a une menace (PM + portée) d'au
+  moins 7, par ses sorts à distance (jamais en allongeant la mêlée) ; un élément de dégâts dominant
+  par zone (Brumerive Tempête, Crasse-Roc Flamme, Sylvebrume Givre puis Acier, Hautepierre
+  mélangée), Acier 33 % du jeu. Un sort qui change d'élément donne au monstre la caractéristique
+  du nouvel élément à la valeur de l'ancienne.
+- **Combat** : historique (`client/ui/combat_log.gd`, touche H, signal `MapView.combat_logged`),
+  dégâts, soins, boucliers et poisons à la couleur de leur élément (historique et chiffres
+  flottants), survol des glyphes et des pièges alliés (sort, lanceur, tours restants).
+- Idées notées sans les faire : Cape en peau d'ananas (forte résistance Flamme ; demande des
+  bonus de résistance sur l'équipement, GDD § 9.2) ; PNJ qui appellent le joueur par son pseudo
+  (balise `{joueur}` dans les dialogues, refusé pour l'instant).
+- Le pseudo choisi est déjà utilisé partout ; « Aventurier » (`World.DEFAULT_NAME`) n'apparaît
+  que dans les tests et les captures, sans écran de création.
 
 ## Règles de design à respecter (détails dans le GDD)
 

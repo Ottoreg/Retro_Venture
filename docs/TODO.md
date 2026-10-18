@@ -122,6 +122,11 @@ Tout le contenu et les systèmes MVP de l'alpha 1 sont faits (chantiers 1, 3, 4 
   PNJ quand elle déborderait), suivi de quête plus petit et repliable, ligne de vue exigée pour 7
   sorts de monstres qui traversaient les obstacles (racines, ronces, spores, ultrason, « Ça
   tombe ! », nuée de corbeaux), garde-fou de la lecture des événements
+- [x] Suite de la passe de l'auteur : catalogue des objets, monstres et sorts
+  ([CATALOGUE.md](CATALOGUE.md), `game/tools/catalogue.py`) ; monstres à moins de 3 PM avec une
+  menace d'au moins 7 ; éléments des dégâts rééquilibrés par zone (GDD § 8.1) ; historique du
+  combat, couleurs des éléments, survol des glyphes et pièges (GDD § 14.3) ; aide des
+  caractéristiques corrigée
 - [ ] Gel vu contre Grondin (une fois, non reproduit en 20 combats simulés jusqu'aux 3 phases) :
   attendre un retour avec la console du navigateur
 - [ ] Inviter les testeurs (5 au moins), avec le lien du jeu et le guide
