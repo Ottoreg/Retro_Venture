@@ -1078,7 +1078,19 @@ func test_historique_du_combat() -> void:
 	assert_true(log.visible, "historique en combat")
 	view.request_start_fight()
 	_run_until_idle(view)
+	# Un monstre au contact du joueur : il frappe à coup sûr à son tour.
+	var combat := view.world.combat
+	var hero := combat.get_fighter(World.PLAYER_ID)
+	var foe: Fighter = combat.enemies_of(hero)[0]
+	for direction in [Vector2i.RIGHT, Vector2i.LEFT, Vector2i.UP, Vector2i.DOWN]:
+		var next: Vector2i = hero.cell + direction
+		if combat.map.is_walkable_in_combat(next) and combat.fighter_at(next) == null:
+			foe.cell = next
+			view.actor(foe.id)["pos"] = Vector2(next)
+			break
 	for i in 3:
+		if log.plain_text().contains(" perd "):
+			break
 		view.request_end_turn()
 		_run_until_idle(view)
 	var text := log.plain_text()
