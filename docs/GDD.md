@@ -978,6 +978,12 @@ ingrédients).
 - **En combat :** frise d'initiative, prévisualisation de portée et de zone, dégâts estimés au survol,
   bouton « fin de tour ». Au survol d'un combattant, ses informations (nom, niveau, PV, PA, PM,
   résistances aux 6 éléments) remplacent la barre de sorts, comme dans Dofus Rétro.
+  **Historique du combat** en bas à gauche (repliable, touche H) : début de chaque tour, sorts lancés
+  (coups critiques), dégâts, soins et boucliers à la couleur de leur élément, bonus, malus, poisons
+  et PM retirés (avec le sort qui les a posés), glyphes et pièges posés ou déclenchés, poussées,
+  changements de phase, combattants vaincus. Un piège ennemi reste secret, dans l'historique comme
+  sur la carte. Au **survol d'une glyphe** (des deux camps) ou d'un piège allié : nom du sort, qui
+  l'a lancé, camp, et pour une glyphe les tours restants.
 - Interface redimensionnable, lisible en 1280×720 minimum.
 
 ### 14.4 Encyclopédie (long terme)

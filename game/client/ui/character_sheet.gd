@@ -6,10 +6,10 @@ const GOLD := Color(0.95, 0.76, 0.3)
 const STAT_HELP := {
 	"vitalite": "+1 PV par point",
 	"sagesse": "+1 % d'expérience par point",
-	"force": "+1 % de dégâts d'acier et +1 initiative par point",
-	"intelligence": "+1 % de dégâts de flamme et de soins, +1 initiative par point",
-	"chance": "+1 % de dégâts de givre et +1 initiative par point",
-	"agilite": "+1 % de dégâts de tempête et +1 initiative par point",
+	"force": "+1 % aux dégâts, soins et boucliers d'Acier et de Sacré, +1 initiative par point",
+	"intelligence": "+1 % aux dégâts, soins et boucliers de Flamme et de Sacré, +1 initiative par point",
+	"chance": "+1 % aux dégâts, soins et boucliers de Givre et d'Impie, +1 initiative par point",
+	"agilite": "+1 % aux dégâts, soins et boucliers de Tempête et d'Impie, +1 initiative par point",
 }
 ## Valeurs secondaires affichées : [clé de la fiche, nom, aide].
 const DERIVED := [

@@ -115,6 +115,8 @@ var _turn_button: Button
 var _tactical_button: Button
 var _menu_buttons := {}
 var _order_label: Label
+## Historique du combat (sorts lancés et leurs effets), en bas à gauche.
+var combat_log: CombatLog
 var _message_label: Label
 var _message_time := 0.0
 var _result_panel: PanelContainer
@@ -141,6 +143,7 @@ func setup(p_map_view: MapView) -> void:
 	map_view.combat_started.connect(_on_combat_started)
 	map_view.combat_state_changed.connect(_refresh)
 	map_view.combat_message.connect(show_message)
+	map_view.combat_logged.connect(combat_log.add_line)
 	map_view.combat_ended.connect(_on_combat_ended)
 	map_view.exploration_resumed.connect(_on_exploration_resumed)
 	map_view.character_changed.connect(_refresh_exploration)
@@ -177,6 +180,9 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 	elif key == KEY_T:
 		toggle_tactical()
+		get_viewport().set_input_as_handled()
+	elif key == KEY_H:
+		combat_log.toggle_fold()
 		get_viewport().set_input_as_handled()
 	elif event.is_action_pressed("ui_cancel") and map_view.selected_spell != "":
 		map_view.select_spell(map_view.selected_spell)
@@ -241,6 +247,7 @@ func _on_combat_started() -> void:
 	_tactical_button.visible = true
 	_tactical_button.set_pressed_no_signal(map_view.tactical)
 	_order_label.visible = true
+	combat_log.start()
 	_shown_spells.clear()
 	var fighter := map_view.player_fighter()
 	if fighter != null:
@@ -365,6 +372,7 @@ func _on_exploration_resumed() -> void:
 	_turn_button.visible = false
 	_tactical_button.visible = false
 	_order_label.visible = false
+	combat_log.visible = false
 	for menu: String in _menu_buttons:
 		_menu_buttons[menu].disabled = false
 	_shown_spells.clear()
@@ -520,6 +528,14 @@ func _build() -> void:
 	_order_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	_order_label.offset_right = -16
 	add_child(_order_label)
+
+	combat_log = CombatLog.new()
+	combat_log.anchor_top = 1.0
+	combat_log.anchor_bottom = 1.0
+	combat_log.offset_left = 8
+	combat_log.offset_bottom = -BAR_HEIGHT - 8
+	combat_log.grow_vertical = Control.GROW_DIRECTION_BEGIN
+	add_child(combat_log)
 
 	_message_label = _label(22, Color(1, 0.95, 0.75))
 	_message_label.anchor_left = 0.0

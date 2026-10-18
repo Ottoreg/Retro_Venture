@@ -389,6 +389,10 @@ Tout le contenu et les systèmes MVP de l'alpha 1 sont faits (chantiers 1, 3, 4 
 - [x] **(MVP)** Mode tactique en combat, façon Dofus (GDD § 14.3) : bouton « Tactique » ou touche T,
   cases à plat en damier, eau à plat, obstacles qui bloquent la vue en blocs, décor masqué,
   combattants en pions (couleur du camp, initiale, PV), retenu d'un combat à l'autre (`Options`)
+- [x] Historique du combat (GDD § 14.3) : sorts lancés et leurs effets, couleurs des éléments,
+  repliable (touche H) ; survol des glyphes et pièges alliés : sort, lanceur, tours restants
+- [x] Fiche du personnage : l'aide de chaque caractéristique cite dégâts, soins et boucliers de ses
+  éléments (l'Intelligence n'était plus seule à « augmenter les soins »)
 
 ### Art et audio
 

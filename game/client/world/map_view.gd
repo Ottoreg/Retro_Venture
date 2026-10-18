@@ -10,6 +10,9 @@ signal hovered_cell_changed(cell: Vector2i, description: String)
 signal combat_started
 signal combat_state_changed
 signal combat_message(text: String)
+## Ligne de l'historique de combat (BBCode : dégâts, soins et boucliers à la couleur de leur élément),
+## au moment où l'événement est joué.
+signal combat_logged(line: String)
 signal combat_ended(result: Dictionary)
 signal exploration_resumed
 signal map_changed
@@ -167,9 +170,9 @@ var _time := 0.0
 var _arrival_command: Dictionary = {}
 ## Textes flottants : { text, color, pos (Vector2 grille), age, life } (`life` : durée de vie).
 var _floating: Array[Dictionary] = []
-## Glyphes visibles : id → { cases: Array[Vector2i], equipe }.
+## Glyphes visibles : id → { cases: Array[Vector2i], equipe, sort, lanceur }.
 var _glyphs: Dictionary = {}
-## Pièges de l'équipe du joueur (les autres sont invisibles) : id → case.
+## Pièges de l'équipe du joueur (les autres sont invisibles) : id → { case, sort, lanceur }.
 var _traps: Dictionary = {}
 ## Explosion d'un piège en cours d'affichage : { cases, age }, ou {}.
 var _trap_flash: Dictionary = {}
@@ -510,18 +513,134 @@ func _describe(cell: Vector2i) -> String:
 			return "%s — %s niv. %d (%s)" % [node["nom"], job.get("nom", "?"), int(node.get("niveau", 1)), state]
 	if not _map.is_inside(cell):
 		return ""
+	var ground := ground_description(cell) if mode == Mode.COMBAT else ""
 	for actor_id: String in _actors:
 		var data: Dictionary = _actors[actor_id]
 		if data["alive"] and Vector2i(data["pos"].round()) == cell and actor_id != World.PLAYER_ID:
 			if mode == Mode.COMBAT:
-				return "%s — %d / %d PV" % [data["name"], data["hp"], data["max_hp"]]
+				return "%s — %d / %d PV%s" % [data["name"], data["hp"], data["max_hp"], "\n" + ground if ground != "" else ""]
 			var text := group_lines(data.get("members", [data["kind"]]), world.data, data.get("levels", []))
 			var rank := world.elite_rank(world.group(actor_id))
 			if rank > 0:
 				text += "\nButin : +%d %%" % roundi(rank * World.ELITE_LOOT_BONUS_PER_RANK * 100.0)
 			return text
+	if ground != "":
+		return ground
 	var walkable := _map.is_walkable_in_combat(cell) if mode == Mode.COMBAT else _map.is_walkable(cell)
 	return "case (%d, %d)%s" % [cell.x, cell.y, "" if walkable else " — bloquée"]
+
+
+## Glyphes et pièges visibles sur la case : nom du sort, qui l'a lancé et dans quel camp (une ligne
+## chacun ; "" s'il n'y en a pas). Les pièges ennemis restent invisibles.
+func ground_description(cell: Vector2i) -> String:
+	var lines: PackedStringArray = []
+	for glyph_id: int in _glyphs:
+		var glyph: Dictionary = _glyphs[glyph_id]
+		if cell in glyph["cases"]:
+			var turns := ""
+			if world.combat != null:
+				for state: Dictionary in world.combat.glyphs:
+					if state["id"] == glyph_id:
+						turns = ", encore %d tour%s" % [state["tours"], "s" if int(state["tours"]) > 1 else ""]
+			lines.append("Glyphe %s : %s, lancée par %s%s" % [_camp_word(int(glyph["equipe"]), true), glyph["sort"],
+				_actor_name(glyph["lanceur"]), turns])
+	for trap: Dictionary in _traps.values():
+		if trap["case"] == cell:
+			lines.append("Piège allié : %s, posé par %s" % [trap["sort"], _actor_name(trap["lanceur"])])
+	return "\n".join(lines)
+
+
+func _camp_word(team: int, feminine := false) -> String:
+	if team == Fighter.TEAM_PLAYERS:
+		return "alliée" if feminine else "allié"
+	return "ennemie" if feminine else "ennemi"
+
+
+func _actor_name(actor_id: String) -> String:
+	return str(_actors[actor_id]["name"]) if _actors.has(actor_id) else "?"
+
+
+# --- Historique de combat --------------------------------------------------------------------------
+
+const LOG_GREY := "a89c86"
+const LOG_SPELL := "ffe9a0"
+const LOG_BONUS := "8cd9ff"
+const LOG_MALUS := "d99cff"
+const LOG_DEATH := "ff6a5a"
+
+
+## Ligne d'historique d'un événement de combat, en BBCode ("" : rien à noter). Dégâts, soins,
+## boucliers et poisons prennent la couleur de leur élément.
+func _log_line(event: Dictionary) -> String:
+	var type: String = event["type"]
+	var who := _actor_name(str(event.get("entite", "")))
+	match type:
+		Protocol.EVT_FIGHT_BEGINS:
+			return "[b]Le combat commence ![/b]"
+		Protocol.EVT_TURN_STARTED:
+			return "[color=#%s]— Tour de %s —[/color]" % [LOG_GREY, who]
+		Protocol.EVT_SPELL_CAST:
+			var spell: Spell = world.data.spells.get(event["sort"])
+			var spell_name: String = spell.display_name if spell != null else str(event["sort"])
+			return "%s lance [color=#%s]%s[/color]%s" % [who, LOG_SPELL, spell_name,
+				" — [color=#ff9a3c]coup critique ![/color]" if event.get("critique", false) else ""]
+		Protocol.EVT_DAMAGE:
+			var element: String = event.get("element", "")
+			var text := "%s perd %s" % [who, _colored("%d PV" % event["valeur"], element)]
+			if not element.is_empty():
+				text += " " + _colored("(%s)" % SpellsWindow.ELEMENT_LABELS.get(element, element), element)
+			if int(event.get("absorbe", 0)) > 0:
+				text += ", %d absorbés par le bouclier" % event["absorbe"]
+			if event.get("source", "") == "poison":
+				text += " — poison"
+			elif event.get("source", "") == "choc":
+				text += " — choc contre un obstacle"
+			return text
+		Protocol.EVT_HEAL:
+			return "%s récupère %s" % [who, _colored("%d PV" % event["valeur"], event.get("element", ""))]
+		Protocol.EVT_STATUS:
+			if event["effet"] == Spell.EFFECT_SHIELD:
+				return "%s gagne %s" % [who, _colored("%d de bouclier" % event["valeur"], event.get("element", ""))]
+			if event["effet"] == Spell.EFFECT_GAIN_PA:
+				return "%s gagne [color=#%s]%d PA[/color]" % [who, LOG_BONUS, event["valeur"]]
+			return "%s perd [color=#%s]%d PM[/color] au prochain tour" % [who, LOG_MALUS, event["valeur"]]
+		Protocol.EVT_STATES:
+			if not event.has("nouveau"):
+				return ""
+			var state: Dictionary = event["nouveau"]
+			var color: String = LOG_BONUS if state["type"] == Spell.EFFECT_BONUS else LOG_MALUS
+			if state["type"] == Spell.EFFECT_POISON:
+				color = _element_hex(state["element"])
+			var origin := " (%s)" % state["sort"] if str(state.get("sort", "")) != "" else ""
+			return "%s : [color=#%s]%s[/color]%s" % [who, color, state_text(state), origin]
+		Protocol.EVT_PUSHED:
+			return "%s est déplacé de force" % who
+		Protocol.EVT_TELEPORTED:
+			return "%s se téléporte" % who
+		Protocol.EVT_GLYPH:
+			return "%s pose la glyphe [color=#%s]%s[/color] (%d tours)" % [_actor_name(event["lanceur"]), LOG_SPELL,
+				event["sort"], event["tours"]]
+		Protocol.EVT_TRAP:
+			if event["equipe"] != Fighter.TEAM_PLAYERS:
+				return ""  # Un piège ennemi reste secret.
+			return "%s pose le piège [color=#%s]%s[/color]" % [_actor_name(event["lanceur"]), LOG_SPELL, event["sort"]]
+		Protocol.EVT_TRAP_TRIGGERED:
+			return "%s déclenche le piège [color=#%s]%s[/color] !" % [who, LOG_SPELL, event["sort"]]
+		Protocol.EVT_PHASE:
+			return "[color=#ff73d9]%s[/color]" % event["message"]
+		Protocol.EVT_DIED:
+			return "[color=#%s]%s est vaincu.[/color]" % [LOG_DEATH, who]
+		Protocol.EVT_COMBAT_ENDED:
+			return "[b]%s[/b]" % ("Victoire !" if event["vainqueur"] == Fighter.TEAM_PLAYERS else "Défaite…")
+	return ""
+
+
+static func _element_hex(element: String) -> String:
+	return (SpellsWindow.ELEMENT_COLORS.get(element, Color.WHITE) as Color).to_html(false)
+
+
+static func _colored(text: String, element: String) -> String:
+	return "[color=#%s]%s[/color]" % [_element_hex(element), text]
 
 
 func _update_preview() -> void:
@@ -654,6 +773,10 @@ func _play_next() -> void:
 ## (négative pendant une marche).
 func _apply(event: Dictionary) -> float:
 	var type: String = event["type"]
+	if mode == Mode.COMBAT:
+		var line := _log_line(event)
+		if not line.is_empty():
+			combat_logged.emit(line)
 	if type == Protocol.EVT_MOVED:
 		var actor_id: String = event["entite"]
 		if event.has("pm") and _actors.has(actor_id):
@@ -854,14 +977,15 @@ func _apply(event: Dictionary) -> float:
 		_actors[event["entite"]]["pos"] = Vector2(event["case"])
 		return 0.25
 	if type == Protocol.EVT_GLYPH:
-		_glyphs[event["id"]] = {"cases": event["cases"], "equipe": event["equipe"]}
+		_glyphs[event["id"]] = {"cases": event["cases"], "equipe": event["equipe"], "sort": event["sort"],
+			"lanceur": event["lanceur"]}
 		return 0.2
 	if type == Protocol.EVT_GLYPH_ENDED:
 		_glyphs.erase(event["id"])
 		return 0.0
 	if type == Protocol.EVT_TRAP:
 		if event["equipe"] == Fighter.TEAM_PLAYERS:
-			_traps[event["id"]] = event["case"]
+			_traps[event["id"]] = {"case": event["case"], "sort": event["sort"], "lanceur": event["lanceur"]}
 		return 0.0
 	if type == Protocol.EVT_TRAP_ENDED:
 		_traps.erase(event["id"])
@@ -1170,8 +1294,8 @@ func _draw_ground_marks() -> void:
 			draw_colored_polygon(diamond, COLOR_GLYPH[team])
 			diamond.append(diamond[0])
 			draw_polyline(diamond, COLOR_GLYPH_EDGE[team], 2.0)
-	for cell: Vector2i in _traps.values():
-		var center := IsoGrid.cell_to_screen(cell)
+	for trap: Dictionary in _traps.values():
+		var center := IsoGrid.cell_to_screen(trap["case"])
 		for i in 5:
 			var angle := TAU * i / 5.0
 			var tip := center + Vector2(cos(angle) * 11.0, sin(angle) * 5.5)

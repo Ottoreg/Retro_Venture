@@ -139,6 +139,11 @@ bandeau, hors combat, ouvre sa fiche.
      cases de placement restent affichées. Le choix est retenu d'un combat à l'autre.
    - survoler un combattant : son niveau, ses PV, PA, PM et ses résistances s'affichent à la place
      de la barre de sorts.
+   - survoler une glyphe ou un de vos pièges : le sort, qui l'a lancé, et les tours restants d'une
+     glyphe (les pièges ennemis sont invisibles).
+   - **Historique du combat** (en bas à gauche, bouton « – » ou touche **H** pour le replier) :
+     chaque tour, chaque sort lancé et ses effets ; dégâts, soins et boucliers à la couleur de leur
+     élément (Acier ocre, Flamme orange, Givre bleu, Tempête vert, Sacré jaune pâle, Impie violet).
 3. Fin du combat : expérience, écus et butin (une icône par objet avec sa quantité ; le nom en
    survolant). Pendant l'alpha 1, l'expérience gagnée est **multipliée par 3,5** : on monte vite de
    niveau pour tester toutes les mécaniques ; la vraie vitesse de progression viendra à l'alpha 2.

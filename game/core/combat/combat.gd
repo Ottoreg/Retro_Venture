@@ -402,12 +402,13 @@ func _apply_effect(caster: Fighter, target: Fighter, effect: Dictionary, events:
 			amount = roundi(amount * (100 + caster.power(effect["element"])) / 100.0)
 			target.shield += amount
 			events.append({"type": Protocol.EVT_STATUS, "entite": target.id, "effet": Spell.EFFECT_SHIELD, "valeur": amount,
-				"bouclier": target.shield, "pa": target.pa, "pm": target.pm})
+				"element": effect["element"], "bouclier": target.shield, "pa": target.pa, "pm": target.pm})
 		Spell.EFFECT_HEAL:
 			amount = roundi(amount * (100 + caster.power(effect["element"])) / 100.0)
 			amount = mini(amount, target.max_hp - target.hp)
 			target.hp += amount
-			events.append({"type": Protocol.EVT_HEAL, "entite": target.id, "valeur": amount, "pv": target.hp})
+			events.append({"type": Protocol.EVT_HEAL, "entite": target.id, "valeur": amount, "element": effect["element"],
+				"pv": target.hp})
 		Spell.EFFECT_BONUS, Spell.EFFECT_MALUS:
 			_add_state(target, {"type": effect["type"], "carac": effect["carac"], "element": str(effect.get("element", "")),
 				"valeur": amount, "tours": effect["duree"], "sort": source, "lanceur": caster.id}, events)

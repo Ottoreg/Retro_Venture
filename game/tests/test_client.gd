@@ -7,6 +7,7 @@ extends "res://tests/test_case.gd"
 func before_each() -> void:
 	Session.minimap_folded = false
 	Session.tracker_folded = false
+	Session.combat_log_folded = false
 	Options.path = "user://options_tests.cfg"  # Jamais les options du joueur.
 	Options.reset()
 
@@ -1061,4 +1062,73 @@ func test_lecture_bloquee_repart_seule() -> void:
 	view._walk_path.clear()
 	view._process(0.1)
 	assert_eq(view._walk_actor, "")
+	scene.free()
+
+
+func test_historique_du_combat() -> void:
+	var tree := Engine.get_main_loop() as SceneTree
+	var scene: Node = load("res://client/world/world.tscn").instantiate()
+	tree.root.add_child(scene)
+	var view: MapView = scene.get_node("MapView")
+	var hud: CombatHud = scene.get_node("CombatHud")
+	var log := hud.combat_log
+	assert_false(log.visible, "pas d'historique en exploration")
+	view._on_click(view.world.groups()[0]["case"])
+	_run_until_idle(view)
+	assert_true(log.visible, "historique en combat")
+	view.request_start_fight()
+	_run_until_idle(view)
+	for i in 3:
+		view.request_end_turn()
+		_run_until_idle(view)
+	var text := log.plain_text()
+	assert_true(text.contains("Le combat commence !"), text)
+	assert_true(text.contains("— Tour de "), "début des tours")
+	assert_true(text.contains(" lance "), "sorts lancés par les monstres")
+	assert_true(text.contains(" perd "), "et leurs dégâts")
+	# Dégâts, soins et boucliers à la couleur de leur élément.
+	var player := World.PLAYER_ID
+	var damage := view._log_line({"type": Protocol.EVT_DAMAGE, "entite": player, "valeur": 7, "element": "givre"})
+	assert_true(damage.contains(SpellsWindow.ELEMENT_COLORS["givre"].to_html(false)), damage)
+	assert_true(damage.contains("(Givre)"), damage)
+	var heal := view._log_line({"type": Protocol.EVT_HEAL, "entite": player, "valeur": 5, "element": "tempete"})
+	assert_true(heal.contains(SpellsWindow.ELEMENT_COLORS["tempete"].to_html(false)) and heal.contains("récupère"), heal)
+	var shield := view._log_line({"type": Protocol.EVT_STATUS, "entite": player, "effet": Spell.EFFECT_SHIELD,
+		"valeur": 9, "element": "sacre"})
+	assert_true(shield.contains(SpellsWindow.ELEMENT_COLORS["sacre"].to_html(false)), shield)
+	# Repli (touche H) : gardé pour la suite de la partie.
+	var key := InputEventKey.new()
+	key.keycode = KEY_H
+	key.pressed = true
+	hud._unhandled_key_input(key)
+	assert_true(log.is_folded())
+	hud._unhandled_key_input(key)
+	assert_false(log.is_folded())
+	scene.free()
+
+
+func test_survol_des_glyphes_et_pieges() -> void:
+	var tree := Engine.get_main_loop() as SceneTree
+	var scene: Node = load("res://client/world/world.tscn").instantiate()
+	tree.root.add_child(scene)
+	var view: MapView = scene.get_node("MapView")
+	view._on_click(view.world.groups()[0]["case"])
+	_run_until_idle(view)
+	var enemy := ""
+	for fighter in view.world.combat.fighters:
+		if fighter.team != Fighter.TEAM_PLAYERS:
+			enemy = fighter.id
+	var cell := Vector2i(-50, -50)
+	var cells: Array[Vector2i] = [cell]
+	view._apply({"type": Protocol.EVT_GLYPH, "id": 900, "lanceur": enemy, "equipe": Fighter.TEAM_MONSTERS,
+		"cases": cells, "tours": 2, "sort": "Champ maudit"})
+	view._apply({"type": Protocol.EVT_TRAP, "id": 901, "lanceur": World.PLAYER_ID, "equipe": Fighter.TEAM_PLAYERS,
+		"case": cell, "cases": cells, "sort": "Piège à loup"})
+	var text := view.ground_description(cell)
+	assert_true(text.contains("Glyphe ennemie : Champ maudit, lancée par %s" % view.actor(enemy)["name"]), text)
+	assert_true(text.contains("Piège allié : Piège à loup, posé par %s" % view.world.player_name), text)
+	# Piège ennemi : invisible, rien au survol.
+	view._apply({"type": Protocol.EVT_TRAP, "id": 902, "lanceur": enemy, "equipe": Fighter.TEAM_MONSTERS,
+		"case": cell + Vector2i.RIGHT, "cases": cells, "sort": "Souche piégée"})
+	assert_eq(view.ground_description(cell + Vector2i.RIGHT), "")
 	scene.free()

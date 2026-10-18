@@ -14,7 +14,8 @@ extends SceneTree
 ## est visible sur toute capture en exploration), « repliee » (minicarte repliée), « tactique »
 ## (comme « cible », en mode tactique), « pause » (menu pause), « options » (fenêtre des options),
 ## « quete » (le premier PNJ qui propose une quête : sa proposition), « journal » (cette quête
-## acceptée, le journal ouvert ; le suivi est sous la minicarte).
+## acceptée, le journal ouvert ; le suivi est sous la minicarte), « historique » (combat, deux tours
+## passés : historique du combat rempli).
 ## Si « carte » commence par res://, c'est cette scène qui est capturée (menu, création…).
 
 var _output := "capture.png"
@@ -165,7 +166,7 @@ func _process(_delta: float) -> bool:
 			_scene.pause_menu.open()
 			_scene.pause_menu._on_options_pressed()
 		else:
-			var target: Vector2i = view.world.groups()[0]["case"] if _action in ["combat", "cible", "sermon", "phase", "tactique"] else view.current_map().travel_stone()
+			var target: Vector2i = view.world.groups()[0]["case"] if _action in ["combat", "cible", "sermon", "phase", "tactique", "historique"] else view.current_map().travel_stone()
 			if _action == "phase":
 				# Aucun monstre n'a encore de phases dans les données : le premier du groupe en reçoit une.
 				var monster: Dictionary = view.world.data.monsters[view.world.groups()[0]["monstres"][0]]
@@ -176,13 +177,20 @@ func _process(_delta: float) -> bool:
 				if not view.is_busy():
 					break
 				view._process(0.3)
-			if _action in ["cible", "sermon", "phase", "tactique"] and view.world.combat != null:
+			if _action in ["cible", "sermon", "phase", "tactique", "historique"] and view.world.combat != null:
 				# Placement validé, puis survol du premier monstre.
 				view.request_start_fight()
 				for i in 200:
 					if not view.is_busy():
 						break
 					view._process(0.3)
+				# Historique : deux tours passés, le temps que les monstres frappent.
+				for turn in 2 if _action == "historique" else 0:
+					view.request_end_turn()
+					for i in 200:
+						if not view.is_busy() or view._paused:
+							break
+						view._process(0.3)
 				if _action == "sermon":
 					# Sermon choisi, case visée à 2 cases devant le Théologue, vers les monstres.
 					var hero := view.player_fighter()

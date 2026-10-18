@@ -151,13 +151,14 @@ const EVT_TURN_ENDED := "tour_fin"
 const EVT_SPELL_CAST := "sort_lance"
 ## { type, entite: String, valeur: int, element: String, pv: int }
 const EVT_DAMAGE := "degats"
-## { type, entite: String, valeur: int, pv: int }
+## { type, entite: String, valeur: int, element: String, pv: int }
 const EVT_HEAL := "soin"
 ## { type, entite: String }
 const EVT_DIED := "mort"
 ## { type, entite: String, depuis: Vector2i, case: Vector2i }
 const EVT_TELEPORTED := "teleporte"
-## Effet sans dégâts. { type, entite: String, effet: String, valeur: int, pa: int, pm: int }
+## Effet sans dégâts. { type, entite: String, effet: String, valeur: int, pa: int, pm: int } ; un
+## bouclier ajoute `element` et `bouclier` (total porté).
 const EVT_STATUS := "effet"
 ## États d'un combattant après un changement (bonus, malus ou poison posé ou tombé). { type,
 ## entite: String, etats: Array[{ type, carac, element, valeur, min, max, tours, sort }], pa: int,

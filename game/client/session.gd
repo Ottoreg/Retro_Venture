@@ -12,6 +12,8 @@ static var start_map := ""
 static var minimap_folded := false
 ## Suivi de quête replié (même règle que la minicarte).
 static var tracker_folded := false
+## Historique de combat replié (même règle).
+static var combat_log_folded := false
 
 ## Questionnaire des testeurs (menu principal et menu pause : « Donner son avis »).
 const FEEDBACK_URL := "https://docs.google.com/forms/d/e/1FAIpQLSfvVseTPS49X5ssBkdsdkNkJxVPzQwZ-EKNOKwkB1GjovaUDg/viewform"
