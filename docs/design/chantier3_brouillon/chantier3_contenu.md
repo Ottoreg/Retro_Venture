@@ -545,14 +545,14 @@ y=2  [Cœur de la Toile ☠ 12] ────────── [Toiles grises 10
 - Niveaux 1–3 (poids 6/3/1) ; base (niv. 1) : PV 14, PA 5, PM 2, Ini 40 ; par niveau : pv +3, initiative +5, xp +5, chance +4.
 - Résistances : Givre +15, Tempête +10, Acier +0, Flamme -20 ; IA `basique` ; XP 8 (+5/niv.) ; écus 3–5.
 - Sorts : 
-  - **Spores** (`morille_spores`, nouveau) : 3 PA, portée 1–3, sans ldv, 1/tour — 2–4 Givre ; poison Givre 1–2 (2 t). *Un nuage de mauvaise humeur, très contagieux.* 
+  - **Spores** (`morille_spores`, nouveau) : 3 PA, portée 1–5, sans ldv, 1/tour — 2–4 Givre ; poison Givre 1–2 (2 t). *Un nuage de mauvaise humeur, très contagieux.* 
   - **Bouderie** (`morille_bouderie`, nouveau) : 2 PA, portée 0, sans ldv, 1/tour, délai 2 — bouclier Givre 4–6. *Elle boude. C'est étonnamment efficace.*
 - Butin : chapeau_de_morille 60 % ×1–2, spores_grincheuses 12 %, bottes_de_mousse 5 %, coiffe_mauvais_oeil 2 %, cape_mauvais_oeil 2 %, amulette_mauvais_oeil 2 %.
 - Dessin : image `morille` (échelle 0.8). **Nouveau dessin** : monstre/morille.svgt, ~34×42 px : morille debout, chapeau conique alvéolé brun-beige ({{pelage}}/{{pelage_ombre}}), pied blanc trapu servant de corps, deux petits bras, sourcils froncés et bouche boudeuse, petites jambes ; ancre aux pieds..
 - Note : 2 PM, peu de dégâts mais des poisons : une première famille lente et sûre, peu d'XP (gabarit frêle).
 - **Élite : Vieille Morille rancunière** (`vieille_morille_rancuniere`), niveau 6 — *Elle se souvient de chaque pied qui l'a écrasée depuis trois siècles. Elle a une liste.* PV 54, PA 6, PM 2, Ini 70, Cha 30 ; rés. Givre +25, Tempête +20, Acier +10, Flamme -15 ; XP 80 ; écus 8–12.
   - Sorts : `morille_spores`, `morille_bouderie`, `rancune_nuage_de_spores`
-  - **Nuage de rancune** (`rancune_nuage_de_spores`, nouveau) : 4 PA, portée 1–3, cercle 1, sans ldv, 1/tour — poison Givre 2–3 (3 t) ; −1 Portée (1 t). *Elle n'oublie rien. Vos poumons non plus.*
+  - **Nuage de rancune** (`rancune_nuage_de_spores`, nouveau) : 4 PA, portée 1–5, cercle 1, sans ldv, 1/tour — poison Givre 2–3 (3 t) ; −1 Portée (1 t). *Elle n'oublie rien. Vos poumons non plus.*
   - Butin : chapeau_de_morille 90 % ×2–4, spores_grincheuses 48 %, bottes_de_mousse 20 %, coiffe_mauvais_oeil 12 %, cape_mauvais_oeil 12 %, amulette_mauvais_oeil 12 %.
   - Dessin : image `morille` (échelle 1.1 ; teinte #a08060).
 
@@ -1021,7 +1021,7 @@ Plus tard (hors alpha), la même règle permettra une « contamination » : une 
 - Sorts : 
   - `arbre_branche` (existant)
   - `arbre_racines` (existant)
-  - **Pluie de cendres** (`calcine_cendres`, nouveau) : 3 PA, portée 1–3, cercle 1, sans ldv, 1/tour, délai 2 — glyphe 2 t : 4–6 Flamme (ennemis). *Il secoue ses branches mortes ; il en tombe des braises.*
+  - **Pluie de cendres** (`calcine_cendres`, nouveau) : 3 PA, portée 1–6, cercle 1, sans ldv, 1/tour, délai 2 — glyphe 2 t : 4–6 Flamme (ennemis). *Il secoue ses branches mortes ; il en tombe des braises.*
 - Butin : ecorce_vivante 50 % ×1–2, cendre_tiede 50 % ×1–2, eclat_de_cendre 3 %, ceinture_d_ecorce_calcinee 4 %.
 - Dessin : image `arbre_vivant` (échelle 0.95 ; teinte #6a5a50).
 

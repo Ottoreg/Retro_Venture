@@ -5,7 +5,7 @@
   "cout_pa": 4,
   "portee": {
     "min": 1,
-    "max": 3
+    "max": 5
   },
   "ligne_de_vue": true,
   "zone": {

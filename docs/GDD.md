@@ -648,6 +648,12 @@ vaut quelque chose ; pas de recherche profonde.
   cassées qui le clouent sur place). Un mini-boss **réapparaît en 60 s au plus** pendant l'alpha,
   pour qu'on puisse retester ses mécaniques. Les quatre mini-boss de l'alpha sont conçus
   (`docs/design/chantier3_brouillon/`) et viendront avec le contenu.
+- **Menace des monstres lents** : la *menace* d'un monstre est le nombre de cases qu'il peut
+  toucher dans son tour (ses PM plus la plus grande portée de ses sorts). Un monstre à **moins de
+  3 PM** a une menace d'**au moins 7**, par la portée de ses sorts à distance (pas en allongeant ses
+  attaques de mêlée) : sinon un personnage qui frappe de loin et recule le bat sans être touché.
+  Aujourd'hui : arbres (Racines, Pluie de cendres et Ronces à 6 cases, 1 PM), morilles (Spores et
+  Nuage de rancune à 5 cases, 2 PM), épouvantails, trolls et Grondin.
 - **Groupes :** de 1 à 8 monstres (3 au plus pendant l'alpha), d'une ou plusieurs espèces, tous visibles
   sur la carte ; composition fixe ou aléatoire dans une liste par zone.
 - **Variantes Corrompues :** versions plus fortes avec un butin spécifique (cendres, fragments). On
