@@ -575,3 +575,55 @@ Peut démarrer dès que l'alpha solo est stable.
 - Succès / hauts faits
 - Bestiaire et encyclopédie du monde en jeu
 - Éditeur de cartes et de quêtes intégré pour accélérer la production de contenu
+
+### Identité des classes (à décider après les premiers retours de l'alpha 1)
+
+Rien à produire avant les premiers tests. But : que chaque classe se joue différemment (comme
+dans Dofus), au lieu de 4 sorts de dégâts. Trois idées par classe, à choisir (une, deux au
+plus) ; toutes doivent marcher en solo, sans allié.
+
+- **Guerrier**
+  - *Rancune* (jauge) : chaque coup reçu donne de la Rancune (ex. 1 pour 5 PV perdus, 10 au
+    plus) ; Frappe et Tourbillon la dépensent pour plus de dégâts, Second souffle la change en
+    soin. Il cherche à être frappé. Coût moyen (compteur par combattant + affichage).
+  - *Élan* (charge) : chaque case parcourue dans le tour donne +X % au prochain coup de mêlée ;
+    il faut partir de loin. Coût faible (PM dépensés avant le sort).
+  - *Défi* (provocation solo) : un ennemi Défié qui frappe le Guerrier prend un contrecoup ;
+    s'il fuit ou frappe un autre, il prend un malus. Base de la future provocation du Myrmidon.
+    Coût moyen (état qui réagit aux actions de la cible).
+- **Rôdeur**
+  - *Rabatteur* : Collets (pièges existants) + Tir perçant ou Flèche de rabat qui poussent ; un
+    ennemi poussé dans un collet est immobilisé et prend des dégâts en plus (style Sram). Coût
+    le plus faible (reste la règle « poussé dans un piège »).
+  - *Pistage* : chaque Flèche pose une Trace (3 au plus) ; le Coup de dague les consomme pour un
+    gros coup, la Roulade ramène à distance. Va-et-vient distance/contact. Coût moyen (état
+    cumulable).
+  - *Carquois compté* : 6 flèches par combat, chaque tir laisse une flèche au sol près de la
+    cible, à ramasser en marchant dessus. Risque de frustration : tester sur un seul sort. Coût
+    élevé (objets posés sur la grille).
+- **Arcaniste**
+  - *Choc thermique* : la Flamme pose Brûlé (poison Flamme), le Givre pose Gelé ; frapper un
+    Brûlé au Givre (ou l'inverse) déclenche un Choc (gros dégâts, l'état disparaît). Coût moyen.
+  - *Thermostat* (jauge) : la Flamme fait monter la température, le Givre la fait baisser ;
+    chaud, Flamme renforcée ; froid, Givre renforcé ; au maximum il **explose** (touche tout
+    autour de lui, lui compris), au minimum il gèle (perd ses PM). Colle à sa description.
+    Coût moyen (même jauge que la Rancune).
+  - *Incantation différée* : un sort lourd marque une zone visible qui explose au début de son
+    tour suivant ; l'Éclat de givre empêche d'en sortir (style Xélor/Féca). Coût moyen (glyphe
+    à retardement, l'IA doit apprendre à fuir les zones marquées).
+- **Théologue**
+  - *Faire la quête* (jauge de Foi) : Châtiment et Sermon remplissent la Foi, les soins et le
+    Rempart la consomment pour être plus forts : un soigneur qui frappe pour soigner. Coût moyen
+    (même jauge).
+  - *Commandements* : il impose une règle à un ennemi (« Tu ne bougeras point », « Tu ne
+    frapperas point de loin », « Tu ne frapperas point le prêcheur ») ; une désobéissance coûte
+    une Pénitence (dégâts Sacrés). Le plus original. Coût élevé (surveiller déplacements et
+    sorts ; l'IA pourra apprendre à les respecter plus tard).
+  - *Terre consacrée* : un sort pose une zone sacrée (glyphe) qui renforce les soins et brûle
+    les ennemis à chaque tour ; le Sermon pousse vers l'autel ou en chasse. Coût faible.
+
+Synthèse : une **jauge de classe** commune (Rancune, Thermostat, Faire la quête) et un **état
+réactif sur la cible** (Pistage, Choc thermique, Défi) couvrent la plupart des idées. Proposition :
+Guerrier Rancune (+ Élan), Rôdeur Rabatteur, Arcaniste Thermostat, Théologue Faire la quête
+(Commandements plus tard, avec le Paladin ou en alpha 2). Toute adoption demande de relancer
+`tools/simulation.gd` et de mettre à jour GDD § 4.3, le guide des testeurs et le catalogue.

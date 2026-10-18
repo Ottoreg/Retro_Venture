@@ -110,7 +110,8 @@ Dernière session (retours de la passe de l'auteur) :
 - **Combat** : historique (`client/ui/combat_log.gd`, touche H, signal `MapView.combat_logged`),
   dégâts, soins, boucliers et poisons à la couleur de leur élément (historique et chiffres
   flottants), survol des glyphes et des pièges alliés (sort, lanceur, tours restants).
-- Idées notées sans les faire : Cape en peau d'ananas (forte résistance Flamme ; demande des
+- Idées notées sans les faire : identité des classes (3 idées par classe, TODO, « Idées en attente »,
+  à décider après les premiers retours) ; Cape en peau d'ananas (forte résistance Flamme ; demande des
   bonus de résistance sur l'équipement, GDD § 9.2) ; PNJ qui appellent le joueur par son pseudo
   (balise `{joueur}` dans les dialogues, refusé pour l'instant).
 - Le pseudo choisi est déjà utilisé partout ; « Aventurier » (`World.DEFAULT_NAME`) n'apparaît
