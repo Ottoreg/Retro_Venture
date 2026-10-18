@@ -9,7 +9,8 @@
     "pa": 7,
     "pm": 4,
     "initiative": 130,
-    "chance": 25
+    "chance": 25,
+    "agilite": 25
   },
   "resistances": {
     "givre": 30,

@@ -183,6 +183,78 @@ def texte_resistances(r):
     return ", ".join("%s %+d %%" % (ELEMENTS.get(e, e), v) for e, v in r.items() if v) or "aucune"
 
 
+ALERTE_ZONE = 60  # % des dégâts d'une zone dans un seul élément (zones de 3 monstres ou plus)
+ALERTE_JEU = 35  # % des dégâts de tout le jeu dans un seul élément
+
+
+def elements_du_monstre(m, sorts):
+    """Part de chaque élément dans les dégâts moyens des sorts du monstre (phases comprises)."""
+    parts = {}
+
+    def parcourir(liste):
+        for e in liste:
+            if e["type"] in ("degats", "poison") and "element" in e and e.get("cibles") != "allies":
+                parts[e["element"]] = parts.get(e["element"], 0) + (e["min"] + e["max"]) / 2
+            parcourir(e.get("effets", []))
+
+    for i in m.get("sorts", []) + [s for p in m.get("phases", []) for s in p.get("sorts", [])]:
+        parcourir(sorts[i]["effets"])
+    total = sum(parts.values())
+    return {e: v / total for e, v in parts.items()} if total else {}
+
+
+def section_elements(monstres, sorts, cartes):
+    """Répartition des éléments de dégâts par zone et dans tout le jeu (chaque monstre compte pour
+    un, dans chaque zone où il vit ; une élite vit dans la zone de sa famille)."""
+    zones = {i: set() for i in monstres}
+    for carte in cartes.values():
+        for g in carte.get("groupes", []):
+            for i in g.get("monstres", []) + g.get("parmi", []):
+                if i in zones:
+                    zones[i].add(zone_de_carte(carte["id"]))
+    for m in monstres.values():
+        if m.get("elite") and m.get("famille") in zones:
+            zones[m["id"]] = zones[m["famille"]]
+    par_zone = {z: {} for z, _ in ZONES}
+    effectifs = {z: 0 for z, _ in ZONES}
+    jeu = {}
+    for m in monstres.values():
+        parts = elements_du_monstre(m, sorts)
+        for e, v in parts.items():
+            jeu[e] = jeu.get(e, 0) + v
+        for z in zones[m["id"]] or {""}:
+            effectifs[z] += 1
+            for e, v in parts.items():
+                par_zone[z][e] = par_zone[z].get(e, 0) + v
+
+    def pourcents(parts):
+        total = sum(parts.values()) or 1
+        return {e: round(100 * v / total) for e, v in sorted(parts.items(), key=lambda x: -x[1])}
+
+    lignes = ["## Éléments des dégâts", "",
+              "Part de chaque élément dans les dégâts moyens des monstres (chacun compte pour un, dans",
+              "chaque zone où il vit). Règle : un élément dominant par zone, sans dépasser %d %% d'une zone"
+              % ALERTE_ZONE, "ni %d %% du jeu entier, pour qu'aucune résistance unique ne suffise." % ALERTE_JEU, "",
+              "| Zone | Monstres | Répartition |", "|---|---|---|"]
+    alertes = []
+    for z, nom in ZONES:
+        if not effectifs[z]:
+            continue
+        repartition = pourcents(par_zone[z])
+        lignes.append("| %s | %d | %s |" % (nom, effectifs[z], ", ".join(
+            "%s %d %%" % (ELEMENTS[e], v) for e, v in repartition.items())))
+        if effectifs[z] >= 3 and max(repartition.values()) > ALERTE_ZONE:
+            alertes.append("%s : %s au-dessus de %d %%" % (nom, max(repartition, key=repartition.get), ALERTE_ZONE))
+    repartition = pourcents(jeu)
+    lignes.append("| **Jeu entier** | %d | %s |" % (len(monstres), ", ".join(
+        "%s %d %%" % (ELEMENTS[e], v) for e, v in repartition.items())))
+    if max(repartition.values()) > ALERTE_JEU:
+        alertes.append("jeu entier : %s au-dessus de %d %%" % (max(repartition, key=repartition.get), ALERTE_JEU))
+    for a in alertes:
+        print("ALERTE éléments, " + a)
+    return lignes + [""] + ["**Alerte** : " + a for a in alertes] + ([""] if alertes else [])
+
+
 def section_monstres(monstres, objets, sorts, cartes):
     # Où vit chaque espèce : groupes des cartes (fixes ou tirés au sort), regroupés par carte.
     par_carte = {i: {} for i in monstres}
@@ -362,7 +434,7 @@ def main():
     ]
     lignes += ["- [%s](#%s)" % (titre, titre.lower().replace(" ", "-"))
                for _, titre in TYPES]
-    lignes += ["- [Panoplies](#panoplies)", "- [Monstres](#monstres)", "- [Sorts des Voies](#sorts-des-voies)",
+    lignes += ["- [Panoplies](#panoplies)", "- [Éléments des dégâts](#éléments-des-dégâts)", "- [Monstres](#monstres)", "- [Sorts des Voies](#sorts-des-voies)",
                "- [Sorts de race](#sorts-de-race)", "- [Sorts des monstres](#sorts-des-monstres)", ""]
 
     total = {t: sum(1 for o in objets.values() if o["type"] == t) for t, _ in TYPES}
@@ -411,7 +483,9 @@ def main():
             "**%s**" % p["nom"], p.get("orientation", ""), pieces, paliers]) + " |")
     lignes.append("")
 
-    lignes += section_monstres(monstres, objets, sorts, charger("cartes"))
+    cartes = charger("cartes")
+    lignes += section_elements(monstres, sorts, cartes)
+    lignes += section_monstres(monstres, objets, sorts, cartes)
 
     def table_sorts(ids, avec_lanceurs=None):
         sortie = ["| Sort | Caractéristiques | Effets | %sDescription |" % (

@@ -17,13 +17,15 @@
     "pa": 6,
     "pm": 2,
     "initiative": 50,
-    "force": 60
+    "force": 60,
+    "chance": 60
   },
   "par_niveau": {
     "pv": 8,
     "initiative": 5,
     "xp": 21,
-    "force": 4
+    "force": 4,
+    "chance": 4
   },
   "resistances": {
     "acier": 25,

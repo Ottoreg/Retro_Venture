@@ -10,7 +10,8 @@
     "pa": 7,
     "pm": 2,
     "initiative": 80,
-    "force": 90
+    "force": 90,
+    "chance": 90
   },
   "resistances": {
     "acier": 35,

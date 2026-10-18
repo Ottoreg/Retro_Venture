@@ -654,6 +654,13 @@ vaut quelque chose ; pas de recherche profonde.
   attaques de mêlée) : sinon un personnage qui frappe de loin et recule le bat sans être touché.
   Aujourd'hui : arbres (Racines, Pluie de cendres et Ronces à 6 cases, 1 PM), morilles (Spores et
   Nuage de rancune à 5 cases, 2 PM), épouvantails, trolls et Grondin.
+- **Éléments des dégâts** : chaque zone a un élément dominant, qui suit son thème, l'Acier venant
+  en second : Brumerive la Tempête (≈ 50 %), Crasse-Roc la Flamme (≈ 45 %), Sylvebrume le Givre
+  (≈ 40 %, Acier ≈ 35 %), Hautepierre mélangée (aucun élément au-dessus de 35 %), la Cendre la
+  Flamme. Aucun élément ne dépasse 60 % d'une zone ni 35 % du jeu entier, pour qu'une résistance
+  unique ne suffise jamais. Relevé et alertes dans `docs/CATALOGUE.md` (`tools/catalogue.py`).
+  Quand un sort change d'élément, le monstre reçoit la caractéristique de ce nouvel élément à la
+  valeur de l'ancienne (mêmes dégâts) et résiste mieux à son nouvel élément.
 - **Groupes :** de 1 à 8 monstres (3 au plus pendant l'alpha), d'une ou plusieurs espèces, tous visibles
   sur la carte ; composition fixe ou aléatoire dans une liste par zone.
 - **Variantes Corrompues :** versions plus fortes avec un butin spécifique (cendres, fragments). On

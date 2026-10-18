@@ -10,11 +10,12 @@
     "pa": 8,
     "pm": 3,
     "initiative": 120,
-    "force": 25
+    "force": 25,
+    "agilite": 25
   },
   "resistances": {
-    "acier": 15,
-    "tempete": 0
+    "acier": 0,
+    "tempete": 15
   },
   "sorts": [
     "gobelin_fronde",

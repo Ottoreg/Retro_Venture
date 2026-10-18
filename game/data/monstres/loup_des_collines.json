@@ -22,7 +22,8 @@
     "pv": 4,
     "initiative": 5,
     "xp": 7,
-    "force": 4
+    "force": 4,
+    "agilite": 4
   },
   "resistances": {
     "acier": 0,

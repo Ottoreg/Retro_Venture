@@ -1,7 +1,7 @@
 {
   "id": "pillard_razzia",
   "nom": "Razzia",
-  "description": "Il tourne sur lui-même en hurlant le nom de son raid. Tout ce qui l'entoure prend un coup.",
+  "description": "Il tourne sur lui-même, torche au poing, en hurlant le nom de son raid. Tout ce qui l'entoure prend feu.",
   "cout_pa": 4,
   "portee": {
     "min": 0,
@@ -19,7 +19,7 @@
   "effets": [
     {
       "type": "degats",
-      "element": "acier",
+      "element": "flamme",
       "min": 6,
       "max": 9
     }

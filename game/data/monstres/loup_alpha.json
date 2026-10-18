@@ -10,13 +10,14 @@
     "pa": 7,
     "pm": 5,
     "initiative": 150,
-    "force": 20
+    "force": 20,
+    "agilite": 20
   },
   "resistances": {
-    "acier": 10,
+    "acier": 5,
     "flamme": -5,
     "givre": 15,
-    "tempete": 5
+    "tempete": 10
   },
   "sorts": [
     "loup_morsure",

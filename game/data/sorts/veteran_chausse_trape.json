@@ -10,7 +10,7 @@
     {
       "type": "piege",
       "effets": [
-        {"type": "degats", "element": "acier", "min": 8, "max": 12, "cibles": "ennemis"},
+        {"type": "degats", "element": "tempete", "min": 8, "max": 12, "cibles": "ennemis"},
         {"type": "malus", "carac": "pm", "min": 2, "max": 2, "duree": 1, "cibles": "ennemis"}
       ]
     }

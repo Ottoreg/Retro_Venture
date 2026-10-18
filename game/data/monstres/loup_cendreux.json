@@ -20,7 +20,8 @@
     "pm": 4,
     "initiative": 130,
     "force": 24,
-    "intelligence": 24
+    "intelligence": 24,
+    "agilite": 24
   },
   "par_niveau": {
     "pv": 5,

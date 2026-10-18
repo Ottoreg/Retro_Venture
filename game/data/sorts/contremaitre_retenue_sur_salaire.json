@@ -1,7 +1,7 @@
 {
   "id": "contremaitre_retenue_sur_salaire",
   "nom": "Retenue sur salaire",
-  "description": "Vos dégâts sont retenus à la source.",
+  "description": "Vos dégâts sont retenus à la source. La source est brûlante.",
   "cout_pa": 3,
   "portee": {
     "min": 2,
@@ -14,7 +14,7 @@
   "effets": [
     {
       "type": "degats",
-      "element": "tempete",
+      "element": "flamme",
       "min": 4,
       "max": 6
     },

@@ -1,7 +1,7 @@
 {
   "id": "tisseuse_toile",
   "nom": "Toile collante",
-  "description": "On se débat, on s'emmêle, on reste là.",
+  "description": "Une toile de brume que le vent rabat sur vous.",
   "cout_pa": 3,
   "portee": {
     "min": 2,
@@ -14,7 +14,7 @@
   "effets": [
     {
       "type": "degats",
-      "element": "givre",
+      "element": "tempete",
       "min": 2,
       "max": 4
     },

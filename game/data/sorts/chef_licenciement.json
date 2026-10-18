@@ -1,7 +1,7 @@
 {
   "id": "chef_licenciement",
   "nom": "Licenciement",
-  "description": "« Vous êtes viré ! » La porte, c'est par là. Loin.",
+  "description": "« Vous êtes viré ! » Et pour être sûr que vous ne reveniez pas, il brûle votre badge. Sur vous.",
   "cout_pa": 4,
   "portee": {
     "min": 1,
@@ -14,7 +14,7 @@
   "effets": [
     {
       "type": "degats",
-      "element": "acier",
+      "element": "flamme",
       "min": 6,
       "max": 9
     },

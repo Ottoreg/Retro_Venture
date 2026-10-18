@@ -18,19 +18,21 @@
     "pm": 3,
     "initiative": 100,
     "force": 18,
-    "agilite": 18
+    "agilite": 18,
+    "intelligence": 18
   },
   "par_niveau": {
     "pv": 4,
     "initiative": 5,
     "xp": 14,
     "force": 2,
-    "agilite": 2
+    "agilite": 2,
+    "intelligence": 2
   },
   "resistances": {
     "acier": 10,
-    "tempete": 10,
-    "flamme": -10,
+    "tempete": -10,
+    "flamme": 10,
     "givre": -5
   },
   "sorts": [

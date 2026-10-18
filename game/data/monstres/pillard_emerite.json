@@ -11,7 +11,8 @@
     "pm": 3,
     "initiative": 125,
     "force": 54,
-    "agilite": 32
+    "agilite": 32,
+    "intelligence": 54
   },
   "resistances": {
     "acier": 20,

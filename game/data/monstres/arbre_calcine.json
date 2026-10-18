@@ -20,14 +20,16 @@
     "pm": 1,
     "initiative": 40,
     "force": 36,
-    "intelligence": 36
+    "intelligence": 36,
+    "chance": 36
   },
   "par_niveau": {
     "pv": 8,
     "initiative": 5,
     "xp": 23,
     "force": 2,
-    "intelligence": 2
+    "intelligence": 2,
+    "chance": 2
   },
   "resistances": {
     "acier": 25,

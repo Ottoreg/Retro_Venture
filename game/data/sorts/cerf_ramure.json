@@ -1,7 +1,7 @@
 {
   "id": "cerf_ramure",
   "nom": "Coup de ramure",
-  "description": "Des bois enchantés, mais des bois quand même.",
+  "description": "Des bois enchantés, mais des bois quand même. Il charge comme le vent.",
   "cout_pa": 4,
   "portee": {
     "min": 1,
@@ -14,7 +14,7 @@
   "effets": [
     {
       "type": "degats",
-      "element": "acier",
+      "element": "tempete",
       "min": 8,
       "max": 12
     }

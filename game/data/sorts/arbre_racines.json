@@ -1,7 +1,7 @@
 {
   "id": "arbre_racines",
   "nom": "Racines",
-  "description": "Les racines sortent de terre et vous retiennent.",
+  "description": "Les racines gelées sortent de terre et vous retiennent. Elles ont pris froid, vous aussi.",
   "cout_pa": 3,
   "portee": {
     "min": 1,
@@ -14,7 +14,7 @@
   "effets": [
     {
       "type": "degats",
-      "element": "acier",
+      "element": "givre",
       "min": 4,
       "max": 6
     },

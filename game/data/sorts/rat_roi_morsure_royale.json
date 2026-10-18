@@ -14,7 +14,7 @@
   "effets": [
     {
       "type": "degats",
-      "element": "acier",
+      "element": "sacre",
       "min": 7,
       "max": 10
     }

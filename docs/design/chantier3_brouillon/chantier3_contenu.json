@@ -3645,7 +3645,7 @@
    "effets": [
     {
      "type": "degats",
-     "element": "tempete",
+     "element": "flamme",
      "min": 2,
      "max": 4
     },
@@ -3679,7 +3679,7 @@
    "effets": [
     {
      "type": "degats",
-     "element": "acier",
+     "element": "flamme",
      "min": 6,
      "max": 9
     }
@@ -3701,7 +3701,7 @@
    "effets": [
     {
      "type": "degats",
-     "element": "acier",
+     "element": "tempete",
      "min": 6,
      "max": 9
     }
@@ -4110,7 +4110,7 @@
     },
     {
      "type": "degats",
-     "element": "acier",
+     "element": "sacre",
      "min": 4,
      "max": 6
     }
@@ -4177,7 +4177,7 @@
    "effets": [
     {
      "type": "degats",
-     "element": "tempete",
+     "element": "flamme",
      "min": 4,
      "max": 6
     },
@@ -4206,7 +4206,7 @@
    "effets": [
     {
      "type": "degats",
-     "element": "acier",
+     "element": "flamme",
      "min": 6,
      "max": 9
     },
@@ -4547,7 +4547,7 @@
    "effets": [
     {
      "type": "degats",
-     "element": "givre",
+     "element": "tempete",
      "min": 2,
      "max": 4
     },
@@ -4792,7 +4792,7 @@
    "effets": [
     {
      "type": "degats",
-     "element": "acier",
+     "element": "givre",
      "min": 5,
      "max": 8
     }
@@ -4920,7 +4920,7 @@
    "effets": [
     {
      "type": "degats",
-     "element": "acier",
+     "element": "givre",
      "min": 7,
      "max": 10
     }

@@ -331,6 +331,8 @@ Tout le contenu et les systèmes MVP de l'alpha 1 sont faits (chantiers 1, 3, 4 
       bas, y arrive) ;
     - [x] monstres à moins de 3 PM : menace (PM + portée) portée à 7 au moins (GDD § 8.1) :
       Racines, Pluie de cendres, Ronces à 6 cases ; Spores, Nuage de rancune à 5 ;
+    - [x] éléments des dégâts rééquilibrés (l'Acier faisait 74 % des monstres, 87 % de Brumerive) :
+      un élément dominant par zone (GDD § 8.1), Acier 33 % du jeu, relevé dans le catalogue ;
     - monstres trop doux pour leur palier (moins d'un quart des PV de référence perdus) : rats,
       morilles, détrousseurs, gargouilles, olifants (mêlée seule, repoussés par leur propre charge) ;
     - durée : les combats durent 2 à 4 fois les tours du modèle (approche depuis les cases de

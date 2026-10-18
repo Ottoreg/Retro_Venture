@@ -14,7 +14,7 @@
   "effets": [
     {
       "type": "degats",
-      "element": "acier",
+      "element": "tempete",
       "min": 14,
       "max": 20
     }

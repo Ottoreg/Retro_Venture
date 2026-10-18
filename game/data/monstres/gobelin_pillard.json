@@ -18,14 +18,16 @@
     "pm": 3,
     "initiative": 95,
     "force": 24,
-    "agilite": 12
+    "agilite": 12,
+    "intelligence": 12
   },
   "par_niveau": {
     "pv": 4,
     "initiative": 5,
     "xp": 12,
     "force": 4,
-    "agilite": 2
+    "agilite": 2,
+    "intelligence": 2
   },
   "resistances": {
     "acier": 10,

@@ -2,6 +2,9 @@
 
 Document de conception, généré par `src/build.py` (contrôle de cohérence : `src/controle.py`). Brouillon à valider avant toute production.
 
+> **Révisé après production** : les portées des monstres lents et les éléments des dégâts ont été
+> rééquilibrés dans `game/data/` (GDD § 8.1). La référence à jour est `docs/CATALOGUE.md`.
+
 ## 1. Résumé
 
 - **48 cartes** (42 nouvelles), **49 monstres** (familles, élites, mini-boss, variantes), **65 sorts nouveaux** (18 réutilisés), **94 objets**, **14 nouveaux dessins** et 94 icônes.

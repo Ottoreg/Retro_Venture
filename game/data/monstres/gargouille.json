@@ -28,9 +28,9 @@
     "chance": 2
   },
   "resistances": {
-    "acier": 30,
+    "acier": 10,
     "flamme": 20,
-    "givre": 10,
+    "givre": 30,
     "tempete": -15
   },
   "sorts": [

@@ -11,12 +11,13 @@
     "pm": 3,
     "initiative": 130,
     "force": 38,
-    "agilite": 38
+    "agilite": 38,
+    "intelligence": 38
   },
   "resistances": {
     "acier": 20,
-    "tempete": 20,
-    "flamme": -5,
+    "tempete": -5,
+    "flamme": 20,
     "givre": 0
   },
   "sorts": [

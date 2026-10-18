@@ -1,7 +1,7 @@
 {
   "id": "sergent_rappel_a_l_ordre",
   "nom": "Rappel à l'ordre",
-  "description": "« Vous, là ! Approchez ! » On approche, c'est plus fort que soi.",
+  "description": "« Vous, là ! Approchez ! Au nom de la Loi ! » On approche, c'est plus fort que soi.",
   "cout_pa": 3,
   "portee": {
     "min": 2,
@@ -21,7 +21,7 @@
     },
     {
       "type": "degats",
-      "element": "acier",
+      "element": "sacre",
       "min": 4,
       "max": 6
     }

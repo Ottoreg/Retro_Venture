@@ -1,7 +1,7 @@
 {
   "id": "gargouille_griffes",
   "nom": "Griffes de pierre",
-  "description": "Trois siècles à garder une gouttière, ça aiguise les griffes.",
+  "description": "Trois siècles à garder une gouttière gelée, ça aiguise les griffes.",
   "cout_pa": 4,
   "portee": {
     "min": 1,
@@ -14,7 +14,7 @@
   "effets": [
     {
       "type": "degats",
-      "element": "acier",
+      "element": "givre",
       "min": 7,
       "max": 10
     }

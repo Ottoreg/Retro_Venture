@@ -1,7 +1,7 @@
 {
   "id": "troll_rocher",
   "nom": "Lancer de rocher",
-  "description": "Il arrache un morceau de pont et vous le rend.",
+  "description": "Il arrache un bloc de pont gelé par le Fleuve Gris et vous le rend.",
   "cout_pa": 4,
   "portee": {
     "min": 2,
@@ -14,7 +14,7 @@
   "effets": [
     {
       "type": "degats",
-      "element": "acier",
+      "element": "givre",
       "min": 5,
       "max": 8
     }

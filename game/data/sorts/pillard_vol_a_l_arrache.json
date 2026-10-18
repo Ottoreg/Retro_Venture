@@ -1,7 +1,7 @@
 {
   "id": "pillard_vol_a_l_arrache",
   "nom": "Vol à l'arraché",
-  "description": "Il vous prend quelque chose. Vous ne savez pas quoi, mais vous frappez moins fort.",
+  "description": "Il vous prend quelque chose et met le feu à ce qu'il laisse. Vous frappez moins fort, par dépit.",
   "cout_pa": 2,
   "portee": {
     "min": 1,
@@ -14,7 +14,7 @@
   "effets": [
     {
       "type": "degats",
-      "element": "tempete",
+      "element": "flamme",
       "min": 2,
       "max": 4
     },

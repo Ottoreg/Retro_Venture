@@ -22,11 +22,12 @@
     "pv": 3,
     "initiative": 5,
     "xp": 6,
-    "force": 4
+    "force": 4,
+    "agilite": 4
   },
   "resistances": {
-    "acier": 5,
-    "tempete": -5
+    "acier": -5,
+    "tempete": 5
   },
   "sorts": [
     "gobelin_fronde"

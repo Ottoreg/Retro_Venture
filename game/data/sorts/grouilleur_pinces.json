@@ -1,7 +1,7 @@
 {
   "id": "grouilleur_pinces",
   "nom": "Pinces",
-  "description": "Des dizaines de pattes, et deux pinces de trop.",
+  "description": "Des dizaines de pattes, et deux pinces chauffées à blanc.",
   "cout_pa": 3,
   "portee": {
     "min": 1,
@@ -14,7 +14,7 @@
   "effets": [
     {
       "type": "degats",
-      "element": "acier",
+      "element": "flamme",
       "min": 4,
       "max": 7
     }

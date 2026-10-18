@@ -17,13 +17,15 @@
     "pa": 6,
     "pm": 4,
     "initiative": 110,
-    "chance": 36
+    "chance": 36,
+    "agilite": 36
   },
   "par_niveau": {
     "pv": 4,
     "initiative": 5,
     "xp": 13,
-    "chance": 4
+    "chance": 4,
+    "agilite": 4
   },
   "resistances": {
     "givre": 20,

@@ -28,8 +28,8 @@
     "agilite": 2
   },
   "resistances": {
-    "acier": 15,
-    "tempete": 10,
+    "acier": 10,
+    "tempete": 15,
     "givre": 5,
     "flamme": -30
   },
