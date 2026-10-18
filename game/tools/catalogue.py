@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Catalogue de tous les objets et sorts du jeu, tiré des JSON de game/data/.
+"""Catalogue de tous les objets, monstres et sorts du jeu, tiré des JSON de game/data/.
 
 Écrit docs/CATALOGUE.md (à relancer après chaque changement de contenu) :
 
@@ -150,6 +150,156 @@ def nom_monstre(m):
     return "%s%s niv. %s" % (m["nom"], etiquette, niveau)
 
 
+ZONES = [("brumerive", "Brumerive (humains)"), ("crasse_roc", "Crasse-Roc (gobelins)"),
+         ("sylvebrume", "Sylvebrume (elfes)"), ("hautepierre", "Hautepierre"),
+         ("cendre", "La Cendre"), ("", "Ailleurs")]
+STATS_MONSTRE = [("pv", "PV"), ("initiative", "Init."), ("xp", "XP"), ("force", "Force"),
+                 ("intelligence", "Intel."), ("chance", "Chance"), ("agilite", "Agi.")]
+
+
+def zone_de_carte(carte_id):
+    for z, _ in ZONES:
+        if z and carte_id.startswith(z):
+            return z
+    return ""
+
+
+def stats_au_niveau(m, niveau):
+    """Comme GameData.create_monster : la base, plus « par_niveau » pour chaque niveau au-dessus."""
+    pas = niveau - m["niveau"]
+    par_niveau = m.get("par_niveau", {})
+    c = m["caracteristiques"]
+    stats = {k: int(c.get(k, 0)) + pas * int(par_niveau.get(k, 0))
+             for k in ("pv", "pa", "pm", "initiative", "force", "intelligence", "chance", "agilite")}
+    stats["xp"] = int(m.get("xp", 0)) + pas * int(par_niveau.get("xp", 0))
+    resistances = dict(m.get("resistances", {}))
+    for e, v in par_niveau.get("resistances", {}).items():
+        resistances[e] = resistances.get(e, 0) + pas * v
+    stats["resistances"] = resistances
+    return stats
+
+
+def texte_resistances(r):
+    return ", ".join("%s %+d %%" % (ELEMENTS.get(e, e), v) for e, v in r.items() if v) or "aucune"
+
+
+def section_monstres(monstres, objets, sorts, cartes):
+    # Où vit chaque espèce : groupes des cartes (fixes ou tirés au sort), regroupés par carte.
+    par_carte = {i: {} for i in monstres}
+    for carte in cartes.values():
+        for g in carte.get("groupes", []):
+            for i in dict.fromkeys(g.get("monstres", []) + g.get("parmi", [])):
+                if i not in par_carte:
+                    continue
+                details = []
+                if "parmi" in g:
+                    details.append("au hasard")
+                if "apres_boss" in g:
+                    details.append("après %s" % monstres.get(g["apres_boss"], {"nom": g["apres_boss"]})["nom"])
+                if "reapparition" in g:
+                    details.append("réapparition %s s" % plage(*g["reapparition"]))
+                par_carte[i].setdefault(carte["id"], (carte["nom"], []))[1].append(", ".join(details))
+    # Les élites apparaissent d'elles-mêmes là où vit leur famille.
+    for m in monstres.values():
+        if m.get("elite") and m.get("famille") in par_carte:
+            par_carte[m["id"]] = {c: (nom, ["apparition spontanée"])
+                                  for c, (nom, _) in par_carte[m["famille"]].items()}
+
+    def texte_lieu(carte_id, nom, groupes):
+        if groupes == ["apparition spontanée"]:
+            details = "apparition spontanée"
+        else:
+            details = "%d groupe%s" % (len(groupes), "s" if len(groupes) > 1 else "")
+            precisions = {}
+            for g in groupes:
+                if g:
+                    precisions[g] = precisions.get(g, 0) + 1
+            if precisions:
+                details += ", dont " + ", ".join("%d %s" % (n, g) for g, n in precisions.items())
+        return "%s (`%s`, %s)" % (nom.split(" — ")[-1], carte_id, details)
+
+    lieux = {i: [(c, texte_lieu(c, nom, groupes)) for c, (nom, groupes) in sorted(cartes_.items())]
+             for i, cartes_ in par_carte.items()}
+
+    def zone(m):
+        ids = [c for c, _ in lieux[m["id"]]]
+        for rang, (z, _) in enumerate(ZONES):
+            if any(zone_de_carte(c) == z for c in ids):
+                return rang
+        return len(ZONES) - 1
+
+    def ordre(m):
+        famille = m.get("famille") if m.get("elite") else m["id"]
+        base = monstres.get(famille, m)
+        return (zone(base), base["niveau"], base["nom"], 1 if m.get("elite") else 0)
+
+    lignes = ["## Monstres", "",
+              "Stats calculées comme dans le jeu : le niveau de base du fichier, plus « par niveau » pour",
+              "chaque niveau au-dessus. PA et PM sont les mêmes à tous les niveaux (sauf mention). Le",
+              "niveau ne change jamais le butin. Les élites apparaissent seules toutes les 5 à 6 minutes",
+              "sur une carte de leur famille (une à la fois, butin augmenté avec l'ancienneté).", ""]
+    zone_courante = None
+    for m in sorted(monstres.values(), key=ordre):
+        rang = zone(monstres.get(m.get("famille"), m) if m.get("elite") else m)
+        if rang != zone_courante:
+            zone_courante = rang
+            lignes += ["### " + ZONES[rang][1], ""]
+        if m.get("boss"):
+            nature = "boss"
+        elif m.get("elite"):
+            nature = "élite de la famille %s" % monstres.get(m["famille"], {"nom": m["famille"]})["nom"]
+        elif m.get("corrompu"):
+            nature = "variante corrompue de %s" % monstres.get(m["base"], {"nom": m["base"]})["nom"]
+        else:
+            nature = "famille"
+        lignes += ["#### %s *(%s)*" % (m["nom"], nature), "", "*%s*" % m.get("description", ""), ""]
+        if "niveaux" in m:
+            n = m["niveaux"]
+            niveaux = list(range(n["min"], n["max"] + 1))
+            total = sum(n["poids"])
+            texte_niveau = "%s (tirage : %s)" % (plage(n["min"], n["max"]), ", ".join(
+                "niv. %d %d %%" % (v, round(100 * p / total)) for v, p in zip(niveaux, n["poids"])))
+        else:
+            niveaux = [m["niveau"]]
+            texte_niveau = "%d (fixe)" % m["niveau"]
+        base = stats_au_niveau(m, niveaux[0])
+        haut = stats_au_niveau(m, niveaux[-1])
+        pa_pm = "%d PA, %d PM" % (base["pa"], base["pm"])
+        if (haut["pa"], haut["pm"]) != (base["pa"], base["pm"]):
+            pa_pm += " (niv. %d : %d PA, %d PM)" % (niveaux[-1], haut["pa"], haut["pm"])
+        resistances = texte_resistances(base["resistances"])
+        if haut["resistances"] != base["resistances"]:
+            resistances += " (niv. %d : %s)" % (niveaux[-1], texte_resistances(haut["resistances"]))
+        noms_sorts = ", ".join(sorts[i]["nom"] if i in sorts else i for i in m.get("sorts", []))
+        lignes += ["- **Niveau** : %s ; **%s** ; IA %s" % (texte_niveau, pa_pm, m.get("ia", "basique")),
+                   "- **Résistances** : " + resistances,
+                   "- **Sorts** : " + (noms_sorts or "aucun")]
+        for k, phase in enumerate(m.get("phases", []), 1):
+            morceaux = []
+            if phase.get("sorts"):
+                morceaux.append("apprend " + ", ".join(sorts[i]["nom"] for i in phase["sorts"]))
+            if phase.get("effets"):
+                morceaux.append(effets(phase["effets"]))
+            lignes.append("- **Phase %d** (à %d %% PV) : %s. Message : %s" % (
+                k, phase["pv"], " ; ".join(morceaux), phase["message"]))
+        butin = ", ".join("%s %d %%%s" % (
+            objets.get(b["objet"], {"nom": b["objet"]})["nom"], round(b["taux"] * 100),
+            " (×%s)" % plage(*b["quantite"]) if "quantite" in b else "") for b in m.get("butin", []))
+        lignes.append("- **Butin** : %s ; **écus** %s" % (butin or "aucun", plage(*m["ecus"]) if "ecus" in m else "0"))
+        endroits = [texte for _, texte in lieux[m["id"]]]
+        lignes.append("- **Où le trouver** : " + (" · ".join(endroits) if endroits else "nulle part sur les cartes"))
+        lignes.append("")
+        colonnes = [(k, nom) for k, nom in STATS_MONSTRE
+                    if k in ("pv", "initiative", "xp") or base[k] or haut[k]]
+        lignes += ["| Niv. | " + " | ".join(nom for _, nom in colonnes) + " |",
+                   "|---|" + "---|" * len(colonnes)]
+        for v in niveaux:
+            s = stats_au_niveau(m, v)
+            lignes.append("| %d | " % v + " | ".join(str(s[k]) for k, _ in colonnes) + " |")
+        lignes.append("")
+    return lignes
+
+
 def main():
     objets = charger("objets")
     sorts = charger("sorts")
@@ -197,7 +347,7 @@ def main():
     panoplie_de = {i: p for p in panoplies.values() for i in p["objets"]}
 
     lignes = [
-        "# Catalogue des objets et des sorts",
+        "# Catalogue des objets, des monstres et des sorts",
         "",
         "Généré par `game/tools/catalogue.py` à partir de `game/data/` : ne pas modifier à la main,",
         "relancer `python3 game/tools/catalogue.py` après un changement de contenu.",
@@ -212,12 +362,13 @@ def main():
     ]
     lignes += ["- [%s](#%s)" % (titre, titre.lower().replace(" ", "-"))
                for _, titre in TYPES]
-    lignes += ["- [Panoplies](#panoplies)", "- [Sorts des Voies](#sorts-des-voies)",
+    lignes += ["- [Panoplies](#panoplies)", "- [Monstres](#monstres)", "- [Sorts des Voies](#sorts-des-voies)",
                "- [Sorts de race](#sorts-de-race)", "- [Sorts des monstres](#sorts-des-monstres)", ""]
 
     total = {t: sum(1 for o in objets.values() if o["type"] == t) for t, _ in TYPES}
-    lignes.append("**%d objets** (%s) et **%d sorts**." % (
-        len(objets), ", ".join("%d %s" % (total[t], titre.lower()) for t, titre in TYPES), len(sorts)))
+    lignes.append("**%d objets** (%s), **%d monstres** et **%d sorts**." % (
+        len(objets), ", ".join("%d %s" % (total[t], titre.lower()) for t, titre in TYPES),
+        len(monstres), len(sorts)))
     lignes.append("")
 
     for type_objet, titre in TYPES:
@@ -259,6 +410,8 @@ def main():
         lignes.append("| " + " | ".join(cellule(c) for c in [
             "**%s**" % p["nom"], p.get("orientation", ""), pieces, paliers]) + " |")
     lignes.append("")
+
+    lignes += section_monstres(monstres, objets, sorts, charger("cartes"))
 
     def table_sorts(ids, avec_lanceurs=None):
         sortie = ["| Sort | Caractéristiques | Effets | %sDescription |" % (
@@ -311,7 +464,7 @@ def main():
 
     with open(SORTIE, "w", encoding="utf-8") as fichier:
         fichier.write("\n".join(lignes).rstrip() + "\n")
-    print("%s : %d objets, %d sorts" % (os.path.relpath(SORTIE, RACINE), len(objets), len(sorts)))
+    print("%s : %d objets, %d monstres, %d sorts" % (os.path.relpath(SORTIE, RACINE), len(objets), len(monstres), len(sorts)))
 
 
 if __name__ == "__main__":

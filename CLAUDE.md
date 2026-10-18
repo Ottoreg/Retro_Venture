@@ -38,7 +38,7 @@ xvfb-run -a godot --path . -s res://tools/screenshot.gd -- sortie.png [carte] [s
 cible, tactique, pause, options…) ; `tools/art_sheet.gd` fait une planche des dessins ; `tools/simulation.gd` simule des
 combats sur chaque groupe des cartes (`-- [combats] [rapport.md] [préfixes de cartes] [detail]`,
 ~7 min pour tout à 10 combats).
-`python3 tools/catalogue.py` regénère `docs/CATALOGUE.md` (tous les objets et sorts, avec leurs
+`python3 tools/catalogue.py` regénère `docs/CATALOGUE.md` (objets, monstres par niveau et lieux, sorts, avec leurs
 détails et comment les obtenir) : à relancer après tout changement d'objets, de sorts ou de monstres.
 
 ## Architecture

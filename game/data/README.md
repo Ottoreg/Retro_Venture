@@ -8,7 +8,7 @@ modifiable sans recompiler et vérifié par les tests à chaque push
 Conventions : clés en français sans accents, une case = `[x, y]`, un fichier par élément, `id` égal au
 nom du fichier.
 
-Catalogue lisible de tous les objets et sorts : [`docs/CATALOGUE.md`](../../docs/CATALOGUE.md),
+Catalogue lisible de tous les objets, monstres (stats par niveau, lieux) et sorts : [`docs/CATALOGUE.md`](../../docs/CATALOGUE.md),
 regénéré par `python3 game/tools/catalogue.py` (à relancer après un changement de contenu).
 
 ## Cartes (`cartes/`)
