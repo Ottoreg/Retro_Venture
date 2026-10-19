@@ -378,8 +378,8 @@ aussi les Voies Miroir (§ 5.3), à articuler le moment venu.
 - *Ombre Acier* : s'appuie sur l'**invisibilité fréquente** ; elle cumule les bonus sur elle et
   les malus sur l'adversaire pour lui infliger de très lourds dégâts. Une fois dans la mêlée et
   révélée, elle a moins d'échappatoires que l'Ombre Tempête. Elle crée des **armes faites
-  d'obscurité** qui suivent les ennemis dans leur ombre et infligent des **dégâts à retardement**
-  aux cibles qui n'ont pas été achevées après une attaque.
+  d'obscurité** qu'elle cache dans l'ombre d'un ennemi : l'arme le suit et il en subit les effets
+  **à son prochain tour** (dégâts à retardement).
 - *Les deux Voies* : l'Ombre peut **entrer dans l'ombre d'un allié ou d'un ennemi** et en ressortir
   au moment de son choix.
 
