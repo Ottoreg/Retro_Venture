@@ -341,6 +341,66 @@ la Flamme, l'Impie sur la Tempête et le Givre.
 Mécaniques à ajouter pour ces classes : invisibilité, poisons et dégâts sur la durée, provocation,
 auras, invocations, sacrifice de PV, résurrection (multi).
 
+#### Pistes de l'auteur pour les classes à venir (idées, non validées)
+
+Chaque classe aurait **deux Voies principales**, une par élément, qui se jouent différemment. Ces
+pistes changent certains éléments du tableau ci-dessus (Paladin Tempête au lieu d'Acier, Démoniste
+Flamme au lieu de Givre) : le tableau sera mis à jour quand elles seront retenues. Elles recoupent
+aussi les Voies Miroir (§ 5.3), à articuler le moment venu.
+
+**Paladin — Sacré ou Tempête**
+
+- *Paladin Sacré* : dégâts Sacrés et soutien. Il booste ses alliés par des **glyphes autour de lui
+  qui le suivent comme une aura**.
+- *Paladin Tempête* : sorts électrisants à distance. Ses sorts déposent des **balises** : des
+  sortes de pièges qui ne se déclenchent pas au passage (allié ou ennemi) mais servent de points
+  d'ancrage pour créer des **arcs électriques** entre elles (comme les lignes de bombes du Roublard
+  de Dofus 2.0). Un ennemi qui touche ou traverse un arc subit des dégâts. Un sort de projectile du
+  Paladin qui passe par un arc est **renforcé**. Les ennemis peuvent **casser** une balise en
+  marchant dessus ou en lui infligeant 1 point de dégâts.
+
+**Démoniste — Impie ou Flamme**
+
+- *Démoniste Impie* : il **invoque des serviteurs** qui l'aident à se battre, de plusieurs types
+  (offensif, tank, soutien…), qui viennent renforcer les rangs de son armée de démons.
+- *Démoniste de Flamme* : sorts à cumul. Chaque sort lancé **embrase le terrain** des cases
+  touchées : niveaux d'embrasement 1 à 3, puis la case devient **calcinée** si elle est embrasée
+  une 4e fois. Chaque sort a des **variantes selon l'embrasement** de la ou des cases touchées.
+  Exemple : *Mur de flammes* dure un tour par niveau d'embrasement ; sur une case calcinée, il ne
+  dure pas et inflige seulement des dégâts supplémentaires dans la zone du sort.
+
+**Ombre — Tempête ou Acier**
+
+- *Ombre Tempête* : s'appuie sur l'Agilité et la vitesse de déplacement, le repositionnement,
+  l'engagement rapide : appliquer des dégâts puis repartir en lieu sûr. Elle crée des **images
+  rémanentes** : en quittant une case, elle laisse derrière elle un clone à son image, fait de
+  foudre, qui **explose au contact d'un ennemi** ou après être resté un tour complet sur le terrain.
+- *Ombre Acier* : s'appuie sur l'**invisibilité fréquente** ; elle cumule les bonus sur elle et
+  les malus sur l'adversaire pour lui infliger de très lourds dégâts. Une fois dans la mêlée et
+  révélée, elle a moins d'échappatoires que l'Ombre Tempête. Elle crée des **armes faites
+  d'obscurité** qui suivent les ennemis dans leur ombre et infligent des **dégâts à retardement**
+  aux cibles qui n'ont pas été achevées après une attaque.
+- *Les deux Voies* : l'Ombre peut **entrer dans l'ombre d'un allié ou d'un ennemi** et en ressortir
+  au moment de son choix.
+
+**Arcaniste — refonte après l'alpha test : une seule Voie multi-élément**
+(inspirée du kit de l'Invoker de Dota)
+
+- Trois petits **sorts d'état élémentaire** (Flamme, Tempête, Givre), « gratuits » : ils coûtent
+  1 PA, remboursé aussitôt (le coût empêche seulement de les lancer sans PA).
+- Lancer un sort d'état donne un **effet élémentaire permanent** (sans limite de durée). On en
+  garde **3 au plus**, identiques ou mélangés dans n'importe quelle combinaison des trois
+  éléments, soit **10 combinaisons**.
+- Chaque effet élémentaire donne un passif de **+4 % de dégâts dans son élément**.
+- Un quatrième sort de classe, *Créer un sort*, donne un sort qui dépend de la combinaison
+  d'effets : toujours le même sort pour une même combinaison, avec des effets qui reflètent les
+  éléments qui le composent.
+
+Mécaniques que ces pistes demandent : glyphes qui suivent leur lanceur (aura), balises et arcs
+entre deux cases (dégâts à la traversée, renfort des projectiles), état du terrain cumulable
+(embrasement, calciné), clones qui explosent, armes à dégâts différés, entrée dans l'ombre d'un
+combattant, états élémentaires cumulables et sort généré selon une combinaison.
+
 ### 4.4 Caractéristiques
 
 | Carac. | Effet |

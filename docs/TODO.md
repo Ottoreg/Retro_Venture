@@ -601,7 +601,8 @@ plus) ; toutes doivent marcher en solo, sans allié.
   - *Carquois compté* : 6 flèches par combat, chaque tir laisse une flèche au sol près de la
     cible, à ramasser en marchant dessus. Risque de frustration : tester sur un seul sort. Coût
     élevé (objets posés sur la grille).
-- **Arcaniste**
+- **Arcaniste** (refonte multi-élément prévue après l'alpha test, GDD § 4.3 : ces idées
+  ne valent que d'ici là)
   - *Choc thermique* : la Flamme pose Brûlé (poison Flamme), le Givre pose Gelé ; frapper un
     Brûlé au Givre (ou l'inverse) déclenche un Choc (gros dégâts, l'état disparaît). Coût moyen.
   - *Thermostat* (jauge) : la Flamme fait monter la température, le Givre la fait baisser ;
