@@ -326,14 +326,14 @@ que le Théologue garde son rôle.
 | Famille | Classe | Rôle | Éléments principaux | Style |
 |---|---|---|---|---|
 | **Corps à corps** | **Guerrier** | Mêlée polyvalente | Acier (Force) | *(voir plus haut)* |
-| | **Paladin** | Guerrier sacré : mêlée et soutien | Sacré, Acier (Force / Intelligence) | Coups bénis, auras qui protègent les alliés proches, petits soins, protège un allié |
+| | **Paladin** | Guerrier sacré ou électrique : mêlée, soutien, distance | Sacré / Tempête (Force + Intelligence / Agilité) | Voie Sacrée : coups bénis, glyphes en aura qui le suivent et renforcent les alliés. Voie Tempête : sorts électrisants à distance, balises reliées par des arcs électriques |
 | | **Myrmidon** | Guerrier tank | Acier (Force), Vitalité | Bouclier, provocation (attire les coups), réduction de dégâts, poussée, garde un allié |
 | **Mixte** | **Rôdeur** | Distance et mobilité | Acier / Tempête (Force / Agilité) | *(voir plus haut)* |
-| | **Ombre** | Assassin invisible | Tempête / Acier (Agilité / Force) | Invisibilité, coups dans le dos, téléportations courtes, coups critiques |
+| | **Ombre** | Assassin | Tempête / Acier (Agilité / Force) | Voie Tempête : mobilité, frappe et repli, clones de foudre qui explosent. Voie Acier : invisibilité, cumul de bonus et de malus, armes d'obscurité à retardement. Les deux : entrer dans l'ombre d'un combattant |
 | | **Venomancien** | Maître des poisons | Givre / Tempête, un peu d'Impie (Chance / Agilité) | Poisons (dégâts à chaque tour), pièges empoisonnés, affaiblissements, mi-distance |
-| **Distance** | **Arcaniste** | Dégâts magiques, contrôle | Flamme / Givre (Intelligence / Chance) | *(voir plus haut)* |
+| **Distance** | **Arcaniste** | Dégâts magiques, contrôle | Flamme / Givre (Intelligence / Chance) ; après la refonte, Flamme / Tempête / Givre (+ Agilité) | *(voir plus haut)* ; après la refonte : états élémentaires cumulés et sort créé selon leur combinaison |
 | | **Théologue** *(dès l'alpha)* | Soigneur sacré | Sacré (Force + Intelligence) | Soins, boucliers, retrait des états, résurrection (multi), dégâts sacrés modestes |
-| | **Démoniste** | Dégâts impies | Impie, Givre (Chance / Agilité) | Malédictions, sacrifice de PV contre des dégâts, invocation d'un démon mineur |
+| | **Démoniste** | Dégâts impies ou ardents | Impie / Flamme (Agilité + Chance / Intelligence) | Voie Impie : armée de serviteurs invoqués (offensif, tank, soutien). Voie de Flamme : embrasement du terrain (niveaux 1 à 3 puis calciné), sorts qui varient selon l'embrasement |
 
 Le Sacré et l'Impie sont des éléments à part entière (voir § 4.4) : le Sacré s'appuie sur l'Acier et
 la Flamme, l'Impie sur la Tempête et le Givre.
@@ -343,10 +343,9 @@ auras, invocations, sacrifice de PV, résurrection (multi).
 
 #### Pistes de l'auteur pour les classes à venir (idées, non validées)
 
-Chaque classe aurait **deux Voies principales**, une par élément, qui se jouent différemment. Ces
-pistes changent certains éléments du tableau ci-dessus (Paladin Tempête au lieu d'Acier, Démoniste
-Flamme au lieu de Givre) : le tableau sera mis à jour quand elles seront retenues. Elles recoupent
-aussi les Voies Miroir (§ 5.3), à articuler le moment venu.
+Chaque classe aurait **deux Voies principales**, une par élément, qui se jouent différemment (le
+tableau ci-dessus en tient compte : Paladin Tempête au lieu d'Acier, Démoniste Flamme au lieu de
+Givre). Ces pistes recoupent les Voies Miroir (§ 5.3), à articuler le moment venu.
 
 **Paladin — Sacré ou Tempête**
 
