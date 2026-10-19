@@ -346,7 +346,7 @@ auras, invocations, sacrifice de PV, résurrection (multi).
 Chaque classe aurait **deux Voies principales**, une par élément, qui se jouent différemment (le
 tableau ci-dessus en tient compte : Paladin Tempête au lieu d'Acier, Démoniste Flamme au lieu de
 Givre, Rôdeur Flamme au lieu de Tempête, Myrmidon Acier pur ou Givre pur, Venomancien Impie ou
-Givre pur). Les pistes du Myrmidon, du Venomancien et de la Voie Flamme du Rôdeur viendront. Ces pistes recoupent les Voies Miroir (§ 5.3), à articuler le moment venu.
+Givre pur). La piste du Venomancien viendra. Ces pistes recoupent les Voies Miroir (§ 5.3), à articuler le moment venu.
 
 **Paladin — Sacré ou Tempête**
 
@@ -358,6 +358,22 @@ Givre pur). Les pistes du Myrmidon, du Venomancien et de la Voie Flamme du Rôde
   de Dofus 2.0). Un ennemi qui touche ou traverse un arc subit des dégâts. Un sort de projectile du
   Paladin qui passe par un arc est **renforcé**. Les ennemis peuvent **casser** une balise en
   marchant dessus ou en lui infligeant 1 point de dégâts.
+
+**Myrmidon — Acier pur ou Givre pur**
+
+Un tank dans ses deux Voies. Il a beaucoup de moyens d'**arriver au contact**, mais peu ou pas pour
+en sortir. Il peut **forcer les ennemis à l'attaquer** (par exemple une aura de provocation autour
+de lui). Il n'a pas de rôle de soutien : il ne partage pas ses résistances avec ses alliés, comme
+pourrait le faire un Paladin.
+
+- *Myrmidon Acier* : force brute et résistances élémentaires. Il inflige plus de dégâts que la Voie
+  Givre et augmente ses propres résistances. Sa force lui permet de **modifier le terrain** en
+  démolissant certains obstacles (arbres, rochers…, mais pas les gros obstacles sur plusieurs cases
+  comme les bâtiments), pour rejoindre le combat encore plus vite.
+- *Myrmidon Givre* : il entrave ses ennemis, surtout en leur **retirant des PM**, tout en encaissant
+  correctement les coups. Il peut **assommer** un ennemi pour l'empêcher de jouer son prochain tour
+  (avec un temps de relance important). Il peut **geler l'eau ou l'air d'un trou** de la carte pour
+  y passer en marchant.
 
 **Démoniste — Impie ou Flamme**
 
@@ -383,6 +399,19 @@ Givre pur). Les pistes du Myrmidon, du Venomancien et de la Voie Flamme du Rôde
 - *Les deux Voies* : l'Ombre peut **entrer dans l'ombre d'un allié ou d'un ennemi** et en ressortir
   au moment de son choix.
 
+**Rôdeur — Voie Flamme : pièges et explosifs**
+
+La Voie Flamme s'articule autour de **pièges explosifs** qui se déclenchent au passage. Le Rôdeur
+de Flamme doit prévoir à l'avance le chemin des ennemis, tout en cachant l'emplacement exact de ses
+pièges pour être efficace. Pièges principaux :
+
+- *Mâchoire de loup* : piège sur une case. Le personnage qui passe dessus subit des dégâts et se
+  retrouve relié au centre du piège par une **chaîne** qui l'empêche de s'en éloigner de plus de
+  3 cases.
+- *Piège à fil* : piège sur **4 cases en ligne**, perpendiculaire au Rôdeur. Les deux cases
+  extérieures contiennent des explosifs, qui sautent si un combattant traverse les fils (les deux
+  cases du centre) ou marche directement sur un explosif.
+
 **Arcaniste — refonte après l'alpha test : une seule Voie multi-élément**
 (inspirée du kit de l'Invoker de Dota)
 
@@ -399,7 +428,9 @@ Givre pur). Les pistes du Myrmidon, du Venomancien et de la Voie Flamme du Rôde
 Mécaniques que ces pistes demandent : glyphes qui suivent leur lanceur (aura), balises et arcs
 entre deux cases (dégâts à la traversée, renfort des projectiles), état du terrain cumulable
 (embrasement, calciné), clones qui explosent, armes à dégâts différés, entrée dans l'ombre d'un
-combattant, états élémentaires cumulables et sort généré selon une combinaison.
+combattant, états élémentaires cumulables et sort généré selon une combinaison ; aura de
+provocation, assommer (tour passé), terrain modifiable (obstacles démolis, eau et trous gelés),
+piège qui enchaîne sa victime (rayon de 3 cases), piège sur plusieurs cases déclenché par un fil.
 
 ### 4.4 Caractéristiques
 
