@@ -327,10 +327,10 @@ que le Théologue garde son rôle.
 |---|---|---|---|---|
 | **Corps à corps** | **Guerrier** | Mêlée polyvalente | Acier (Force) | *(voir plus haut)* |
 | | **Paladin** | Guerrier sacré ou électrique : mêlée, soutien, distance | Sacré / Tempête (Force + Intelligence / Agilité) | Voie Sacrée : coups bénis, glyphes en aura qui le suivent et renforcent les alliés. Voie Tempête : sorts électrisants à distance, balises reliées par des arcs électriques |
-| | **Myrmidon** | Guerrier tank | Acier (Force), Vitalité | Bouclier, provocation (attire les coups), réduction de dégâts, poussée, garde un allié |
-| **Mixte** | **Rôdeur** | Distance et mobilité | Acier / Tempête (Force / Agilité) | *(voir plus haut)* |
+| | **Myrmidon** | Guerrier tank | Acier / Givre, chacun pur (Force / Chance), Vitalité | Bouclier, provocation (attire les coups), réduction de dégâts, poussée, garde un allié |
+| **Mixte** | **Rôdeur** | Distance et mobilité | Acier / Flamme (Force / Intelligence) ; Acier / Tempête dans l'alpha | *(voir plus haut)* ; à terme, Voie Flamme tournée vers les pièges et les explosifs |
 | | **Ombre** | Assassin | Tempête / Acier (Agilité / Force) | Voie Tempête : mobilité, frappe et repli, clones de foudre qui explosent. Voie Acier : invisibilité, cumul de bonus et de malus, armes d'obscurité à retardement. Les deux : entrer dans l'ombre d'un combattant |
-| | **Venomancien** | Maître des poisons | Givre / Tempête, un peu d'Impie (Chance / Agilité) | Poisons (dégâts à chaque tour), pièges empoisonnés, affaiblissements, mi-distance |
+| | **Venomancien** | Maître des poisons | Impie / Givre pur (Agilité + Chance / Chance) | Poisons (dégâts à chaque tour), pièges empoisonnés, affaiblissements, mi-distance |
 | **Distance** | **Arcaniste** | Dégâts magiques, contrôle | Flamme / Givre (Intelligence / Chance) ; après la refonte, Flamme / Tempête / Givre (+ Agilité) | *(voir plus haut)* ; après la refonte : états élémentaires cumulés et sort créé selon leur combinaison |
 | | **Théologue** *(dès l'alpha)* | Soigneur sacré | Sacré (Force + Intelligence) | Soins, boucliers, retrait des états, résurrection (multi), dégâts sacrés modestes |
 | | **Démoniste** | Dégâts impies ou ardents | Impie / Flamme (Agilité + Chance / Intelligence) | Voie Impie : armée de serviteurs invoqués (offensif, tank, soutien). Voie de Flamme : embrasement du terrain (niveaux 1 à 3 puis calciné), sorts qui varient selon l'embrasement |
@@ -345,7 +345,8 @@ auras, invocations, sacrifice de PV, résurrection (multi).
 
 Chaque classe aurait **deux Voies principales**, une par élément, qui se jouent différemment (le
 tableau ci-dessus en tient compte : Paladin Tempête au lieu d'Acier, Démoniste Flamme au lieu de
-Givre). Ces pistes recoupent les Voies Miroir (§ 5.3), à articuler le moment venu.
+Givre, Rôdeur Flamme au lieu de Tempête, Myrmidon Acier pur ou Givre pur, Venomancien Impie ou
+Givre pur). Les pistes du Myrmidon, du Venomancien et de la Voie Flamme du Rôdeur viendront. Ces pistes recoupent les Voies Miroir (§ 5.3), à articuler le moment venu.
 
 **Paladin — Sacré ou Tempête**
 
