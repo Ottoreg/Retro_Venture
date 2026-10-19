@@ -451,6 +451,11 @@ pièges pour être efficace. Pièges principaux :
   d'effets : toujours le même sort pour une même combinaison, avec des effets qui reflètent les
   éléments qui le composent.
 
+**Effets et états qu'on ne peut pas retirer.** Certains effets et états ne peuvent pas être
+retirés (ni par un sort de retrait des états, comme ceux du Théologue, ni par un envoi dans le
+futur du Chronomancien Givre), entre autres les états élémentaires de l'Arcaniste et l'état
+Manipulation du temps. Chaque effet ou état dira s'il peut être retiré.
+
 Mécaniques que ces pistes demandent : glyphes qui suivent leur lanceur (aura), balises et arcs
 entre deux cases (dégâts à la traversée, renfort des projectiles), état du terrain cumulable
 (embrasement, calciné), clones qui explosent, armes à dégâts différés, entrée dans l'ombre d'un
