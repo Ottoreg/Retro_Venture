@@ -445,7 +445,7 @@ Tout le contenu et les systèmes MVP de l'alpha 1 sont faits (chantiers 1, 3, 4 
 - [ ] Race **Lutin** (neutre) : passif *Farceur*, sort *Tour de passe-passe*, assemblage réduit (≈ 0,8×), zone de départ et chaîne d'acte I
 - [ ] Différencier les races proches (Nain / Orc, Semi-homme / Lutin) et valider leurs noms de peuple (GDD § 4.2)
 - [ ] Voies de corps à corps : **Paladin** (guerrier sacré) et **Myrmidon** (guerrier tank)
-- [ ] Voies mixtes : **Ombre** (assassin invisible) et **Venomancien** (maître des poisons)
+- [ ] Voies mixtes : **Ombre** (assassin invisible) et **Chronomancien** (maître du temps, remplace le Venomancien)
 - [ ] Voie à distance : **Démoniste** (dégâts impies) ; le Théologue est avancé dans l'alpha
 - [ ] Mécaniques de ces Voies : invisibilité, poisons et dégâts sur la durée, provocation, auras,
   invocations, sacrifice de PV, résurrection (multi)

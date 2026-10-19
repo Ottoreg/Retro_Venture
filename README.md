@@ -34,7 +34,7 @@ global découpé en instances.
 | 0. Pré-production | Moteur choisi, GDD validé |
 | 1. Prototype | Un combat jouable de bout en bout |
 | 2. Alpha solo | 3 races (une par camp : allié, ennemi, neutre), 4 classes (Guerrier, Rôdeur, Arcaniste, Théologue), combat + butin, quêtes simples, 3 métiers, équipement |
-| 3. Solo étendu | 9 races (+ Nains, Orcs, Semi-hommes, Géants, Squelettes, Lutins), 9 classes (+ Paladin, Myrmidon, Ombre, Venomancien, Démoniste), système des Voies, donjons, quêtes complexes, légendaires |
+| 3. Solo étendu | 9 races (+ Nains, Orcs, Semi-hommes, Géants, Squelettes, Lutins), 9 classes (+ Paladin, Myrmidon, Ombre, Chronomancien, Démoniste), système des Voies, donjons, quêtes complexes, légendaires |
 | 4. Fondations réseau | Serveur autoritaire, comptes, combat à plusieurs |
 | 5. Multijoueur | Instances, groupe, amis, chat, échanges, guildes |
 

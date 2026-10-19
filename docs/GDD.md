@@ -330,7 +330,7 @@ que le Théologue garde son rôle.
 | | **Myrmidon** | Guerrier tank | Acier / Givre, chacun pur (Force / Chance), Vitalité | Bouclier, provocation (attire les coups), réduction de dégâts, poussée, garde un allié |
 | **Mixte** | **Rôdeur** | Distance et mobilité | Acier / Flamme (Force / Intelligence) ; Acier / Tempête dans l'alpha | *(voir plus haut)* ; à terme, Voie Flamme tournée vers les pièges et les explosifs |
 | | **Ombre** | Assassin | Tempête / Acier (Agilité / Force) | Voie Tempête : mobilité, frappe et repli, clones de foudre qui explosent. Voie Acier : invisibilité, cumul de bonus et de malus, armes d'obscurité à retardement. Les deux : entrer dans l'ombre d'un combattant |
-| | **Venomancien** | Maître des poisons | Impie / Givre pur (Agilité + Chance / Chance) | Poisons (dégâts à chaque tour), pièges empoisonnés, affaiblissements, mi-distance |
+| | **Chronomancien** | Maître du temps : contrôle, mi-distance | Impie / Givre pur (Agilité + Chance / Chance) | Voie Impie : glyphe Horloge, cible téléportée sur le cadran, un effet par heure. Voie Givre : retour à une position passée, envoi dans le futur, pulsions temporelles |
 | **Distance** | **Arcaniste** | Dégâts magiques, contrôle | Flamme / Givre (Intelligence / Chance) ; après la refonte, Flamme / Tempête / Givre (+ Agilité) | *(voir plus haut)* ; après la refonte : états élémentaires cumulés et sort créé selon leur combinaison |
 | | **Théologue** *(dès l'alpha)* | Soigneur sacré | Sacré (Force + Intelligence) | Soins, boucliers, retrait des états, résurrection (multi), dégâts sacrés modestes |
 | | **Démoniste** | Dégâts impies ou ardents | Impie / Flamme (Agilité + Chance / Intelligence) | Voie Impie : armée de serviteurs invoqués (offensif, tank, soutien). Voie de Flamme : embrasement du terrain (niveaux 1 à 3 puis calciné), sorts qui varient selon l'embrasement |
@@ -345,8 +345,8 @@ auras, invocations, sacrifice de PV, résurrection (multi).
 
 Chaque classe aurait **deux Voies principales**, une par élément, qui se jouent différemment (le
 tableau ci-dessus en tient compte : Paladin Tempête au lieu d'Acier, Démoniste Flamme au lieu de
-Givre, Rôdeur Flamme au lieu de Tempête, Myrmidon Acier pur ou Givre pur, Venomancien Impie ou
-Givre pur). La piste du Venomancien viendra. Ces pistes recoupent les Voies Miroir (§ 5.3), à articuler le moment venu.
+Givre, Rôdeur Flamme au lieu de Tempête, Myrmidon Acier pur ou Givre pur, Chronomancien (qui
+remplace le Venomancien) Impie ou Givre pur). Ces pistes recoupent les Voies Miroir (§ 5.3), à articuler le moment venu.
 
 **Paladin — Sacré ou Tempête**
 
@@ -412,6 +412,32 @@ pièges pour être efficace. Pièges principaux :
   extérieures contiennent des explosifs, qui sautent si un combattant traverse les fils (les deux
   cases du centre) ou marche directement sur un explosif.
 
+**Chronomancien — Impie ou Givre pur** (remplace le Venomancien)
+
+- *Chronomancien Impie* : il utilise les pouvoirs impies pour dérégler le temps. Un sort spécial
+  pose une **glyphe Horloge** au sol autour de la cible, qui passe dans l'état **Manipulation du
+  temps**. Ses autres sorts **téléportent** la cible sur les cases du cadran, en la faisant
+  **avancer ou reculer** d'un certain nombre d'heures. Chaque heure applique un **effet propre** à
+  la cible téléportée sur sa case (exemples : 1 h, −1 PA ; 2 h, poison Impie pendant 2 tours ;
+  etc.). Le cadran : les 12 cases à 2 cases de la cible, sans les coins du carré 5 × 5 (C = la
+  cible ; 12 h vers le haut de la grille, sens d'affichage en isométrique à fixer) :
+
+  ```
+  .  11 12  1  .
+  10  .  .  .  2
+   9  .  C  .  3
+   8  .  .  .  4
+  .   7  6  5  .
+  ```
+
+- *Chronomancien Givre* : l'entrave par le déplacement des cibles **dans le temps**. Des sorts
+  ramènent une cible à **sa position d'il y a X tours**. D'autres l'**envoient dans le futur** : ses
+  temps de relance diminuent, mais ses effets en cours s'écoulent d'un coup (bonus retirés) et les
+  poisons qu'elle aurait subis lui sont **infligés en une fois**. Il fait surtout ses dégâts par des
+  **pulsions temporelles**, qui frappent à chaque tour ou une seule fois à un moment du futur ou du
+  passé. Exemple : une pulsion de Givre « passé » inflige des dégâts pour chaque manipulation
+  temporelle que la cible a subie dans le passé.
+
 **Arcaniste — refonte après l'alpha test : une seule Voie multi-élément**
 (inspirée du kit de l'Invoker de Dota)
 
@@ -430,7 +456,9 @@ entre deux cases (dégâts à la traversée, renfort des projectiles), état du 
 (embrasement, calciné), clones qui explosent, armes à dégâts différés, entrée dans l'ombre d'un
 combattant, états élémentaires cumulables et sort généré selon une combinaison ; aura de
 provocation, assommer (tour passé), terrain modifiable (obstacles démolis, eau et trous gelés),
-piège qui enchaîne sa victime (rayon de 3 cases), piège sur plusieurs cases déclenché par un fil.
+piège qui enchaîne sa victime (rayon de 3 cases), piège sur plusieurs cases déclenché par un fil ; glyphe cadran et téléportation d'une heure à
+l'autre, mémoire des positions passées, avance du temps sur une cible (relances, durées, poisons),
+pulsions temporelles différées.
 
 ### 4.4 Caractéristiques
 
@@ -1179,7 +1207,7 @@ exemples en [annexe](#20-annexes--formats-de-données).
 | **0. Pré-production** | Choix techniques, GDD validé, prototypes papier | Moteur choisi, structure du dépôt en place |
 | **1. Prototype** | Une carte, déplacement, un combat 1 contre 1 | Un combat jouable de bout en bout |
 | **2. Alpha solo** (court terme) | 3 races (une par camp), 4 classes (avec le Théologue), combat + butin, quêtes simples, 3 métiers, équipement, 3 zones de départ + Hautepierre | **Alpha test 1** (mécaniques) : tout le contenu, l'interface et les quêtes, XP ×3,5, 4 à 5 h pour tout finir. **Alpha test 2** (progression) : leveling réel (~15 h pour les niveaux 1 à 30), sorts par Voie et rang, art et son |
-| **3. Solo étendu** (long terme) | 6 races de plus (Nains, Orcs, Semi-hommes, Géants, Squelettes, Lutins ; 9 au total), 5 classes de plus (Paladin, Myrmidon, Ombre, Venomancien, Démoniste ; 9 au total), Voies, donjons, quêtes complexes, légendaires, scénario complet | Quête des Reliques jouable jusqu'au boss final |
+| **3. Solo étendu** (long terme) | 6 races de plus (Nains, Orcs, Semi-hommes, Géants, Squelettes, Lutins ; 9 au total), 5 classes de plus (Paladin, Myrmidon, Ombre, Chronomancien, Démoniste ; 9 au total), Voies, donjons, quêtes complexes, légendaires, scénario complet | Quête des Reliques jouable jusqu'au boss final |
 | **4. Fondations réseau** | Serveur autoritaire, comptes, une instance, synchronisation | Deux joueurs se voient et combattent ensemble |
 | **5. Multi** | Instances, groupe, amis, chat, échanges, hôtel des ventes, guildes | Bêta fermée |
 
