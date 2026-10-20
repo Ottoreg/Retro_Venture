@@ -12,7 +12,10 @@
     "arcaniste_boule_de_feu",
     "arcaniste_eclat_de_givre",
     "arcaniste_etincelle",
-    "arcaniste_soin_mineur"
+    "arcaniste_soin_mineur",
+    "arcaniste_braise",
+    "arcaniste_frimas",
+    "arcaniste_creer_un_sort"
   ],
   "equipement_depart": [
     "baton_de_novice",

@@ -34,6 +34,7 @@ TYPES = [("arme", "Armes"), ("coiffe", "Coiffes"), ("cape", "Capes"), ("amulette
          ("anneau", "Anneaux"), ("ceinture", "Ceintures"), ("bottes", "Bottes"),
          ("ressource", "Ressources"), ("quete", "Objets de quête")]
 CIBLES = {"ennemis": " aux ennemis", "allies": " aux alliés"}
+NOMS_SORTS = {}  # id → nom, rempli au chargement (sorts créés par « creer_sort »)
 BUTIN_MAX = 5  # monstres listés par objet (les plus généreux d'abord)
 
 
@@ -89,6 +90,16 @@ def effet(e):
         texte = "+%s PA tout de suite" % valeur
     elif t == "teleportation":
         texte = "téléportation sur la case"
+    elif t == "etat_elementaire":
+        texte = "état élémentaire %s (permanent, 3 au plus)" % element(e)
+    elif t == "creer_sort":
+        texte = "crée le sort de la combinaison des 3 états : " + " ; ".join(
+            "%s → %s" % (" + ".join(ELEMENTS.get(x, x) for x in cle.split("+")), NOMS_SORTS.get(sort, sort))
+            for cle, sort in e["combinaisons"].items())
+    elif t == "charge":
+        texte = "charge en ligne jusqu'au contact (effets suivants au contact seulement)"
+    elif t == "retrait_etats":
+        texte = "retire %s" % " et ".join({"bonus": "les bonus", "malus": "les malus", "poison": "les poisons"}.get(x, x) for x in e["etats"])
     elif t == "glyphe":
         texte = "glyphe%s : [%s]" % (tours(e), effets(e["effets"]))
     elif t == "piege":
@@ -375,6 +386,7 @@ def section_monstres(monstres, objets, sorts, cartes):
 def main():
     objets = charger("objets")
     sorts = charger("sorts")
+    NOMS_SORTS.update({i: s["nom"] for i, s in sorts.items()})
     monstres = charger("monstres")
     voies = charger("voies")
     races = charger("races")
@@ -487,9 +499,9 @@ def main():
     lignes += section_elements(monstres, sorts, cartes)
     lignes += section_monstres(monstres, objets, sorts, cartes)
 
-    def table_sorts(ids, avec_lanceurs=None):
+    def table_sorts(ids, avec_lanceurs=None, titre="Lanceurs"):
         sortie = ["| Sort | Caractéristiques | Effets | %sDescription |" % (
-            "Lanceurs | " if avec_lanceurs else ""), "|---|---|---|---|" + ("---|" if avec_lanceurs else "")]
+            titre + " | " if avec_lanceurs else ""), "|---|---|---|---|" + ("---|" if avec_lanceurs else "")]
         for i in ids:
             s = sorts[i]
             colonnes = ["**%s**" % s["nom"], caracteristiques_sort(s), effets(s["effets"])]
@@ -501,6 +513,13 @@ def main():
 
     utilises = set()
     lignes += ["## Sorts des Voies", ""]
+    crees = {}  # sort créé → (Voie, combinaison)
+    for v in voies.values():
+        for i in v["sorts"]:
+            for e in sorts[i]["effets"]:
+                if e["type"] == "creer_sort":
+                    for cle, cree in e["combinaisons"].items():
+                        crees[cree] = (v["nom"], " + ".join(ELEMENTS.get(x, x) for x in cle.split("+")))
     for v in voies.values():
         c = v["caracteristiques"]
         lignes += ["### %s" % v["nom"], "",
@@ -510,6 +529,11 @@ def main():
                    ""]
         lignes += table_sorts(v["sorts"])
         utilises.update(v["sorts"])
+        siens = [i for i, (voie, _) in crees.items() if voie == v["nom"] and i in sorts]
+        if siens:
+            lignes += ["Sorts créés (*Créer un sort*, selon la combinaison des 3 états élémentaires) :", ""]
+            lignes += table_sorts(siens, {i: crees[i][1] for i in siens}, "Combinaison")
+            utilises.update(siens)
 
     lignes += ["## Sorts de race", ""]
     lanceurs_race = {}

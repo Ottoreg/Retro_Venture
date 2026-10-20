@@ -113,6 +113,7 @@ var _refusals := {
 	Protocol.REASON_OCCUPIED: "Case occupée",
 	Protocol.REASON_BLOCKED: "Case bloquée",
 	Protocol.REASON_NOT_PLACEMENT_CELL: "Choisissez un cercle bleu",
+	Protocol.REASON_NO_COMBINATION: "Il faut 3 états élémentaires (Braise, Frimas) pour créer un sort",
 }
 ## Messages affichés pour les voyages refusés (les autres refus : « Le voyage est impossible. »).
 var _travel_refusals := {
@@ -605,6 +606,9 @@ func _log_line(event: Dictionary) -> String:
 				return "%s gagne [color=#%s]%d PA[/color]" % [who, LOG_BONUS, event["valeur"]]
 			return "%s perd [color=#%s]%d PM[/color] au prochain tour" % [who, LOG_MALUS, event["valeur"]]
 		Protocol.EVT_STATES:
+			if event.has("retires"):
+				return "%s : [color=#%s]%d état%s retiré%s[/color]" % [who, LOG_SPELL, event["retires"],
+					"s" if int(event["retires"]) > 1 else "", "s" if int(event["retires"]) > 1 else ""]
 			if not event.has("nouveau"):
 				return ""
 			var state: Dictionary = event["nouveau"]
@@ -615,6 +619,14 @@ func _log_line(event: Dictionary) -> String:
 			return "%s : [color=#%s]%s[/color]%s" % [who, color, state_text(state), origin]
 		Protocol.EVT_PUSHED:
 			return "%s est déplacé de force" % who
+		Protocol.EVT_CHARGED:
+			return "%s charge%s" % [who, " jusqu'au contact !" if event["contact"] else ", mais s'arrête avant le contact"]
+		Protocol.EVT_ELEMENT_STATES:
+			return "%s prend l'état %s (%s)" % [who, _colored(SpellsWindow.ELEMENT_LABELS.get(event["element"], event["element"]),
+				event["element"]), element_states_text(event["etats"])]
+		Protocol.EVT_SPELL_CREATED:
+			var created: Spell = world.data.spells.get(event["sort"])
+			return "%s crée le sort [color=#%s]%s[/color]" % [who, LOG_SPELL, created.display_name if created != null else event["sort"]]
 		Protocol.EVT_TELEPORTED:
 			return "%s se téléporte" % who
 		Protocol.EVT_GLYPH:
@@ -972,6 +984,8 @@ func _apply(event: Dictionary) -> float:
 		bearer["pa"] = event["pa"]
 		bearer["pm"] = event["pm"]
 		bearer["etats"] = event["etats"]
+		if event.has("retires"):
+			_add_floating("États retirés", Color(1.0, 0.92, 0.6), bearer["pos"])
 		if event.has("nouveau"):
 			var label := state_text(event["nouveau"])
 			var good: bool = event["nouveau"]["type"] == Spell.EFFECT_BONUS
@@ -980,10 +994,29 @@ func _apply(event: Dictionary) -> float:
 				color = element_color(event["nouveau"]["element"], color)
 			_add_floating(label, color, bearer["pos"])
 		combat_state_changed.emit()
-		return 0.25 if event.has("nouveau") else 0.0
+		return 0.25 if event.has("nouveau") or event.has("retires") else 0.0
 	if type == Protocol.EVT_PUSHED:
 		_actors[event["entite"]]["pos"] = Vector2(event["case"])
 		return 0.25
+	if type == Protocol.EVT_CHARGED:
+		var charger: Dictionary = _actors[event["entite"]]
+		charger["pos"] = Vector2(event["case"])
+		_add_floating("Charge !", Color(1.0, 0.85, 0.45), charger["pos"] + Vector2(0, -0.5))
+		combat_state_changed.emit()
+		return 0.3
+	if type == Protocol.EVT_ELEMENT_STATES:
+		var bearer: Dictionary = _actors[event["entite"]]
+		bearer["etats_elementaires"] = event["etats"]
+		_add_floating(SpellsWindow.ELEMENT_LABELS.get(event["element"], event["element"]),
+			element_color(event["element"]), bearer["pos"] + Vector2(0, -0.3))
+		combat_state_changed.emit()
+		return 0.15
+	if type == Protocol.EVT_SPELL_CREATED:
+		var created: Spell = world.data.spells.get(event["sort"])
+		if created != null:
+			_add_floating("Sort créé : %s" % created.display_name, Color(0.8, 0.65, 1.0), _actors[event["entite"]]["pos"] + Vector2(0, -0.5))
+		combat_state_changed.emit()
+		return 0.3
 	if type == Protocol.EVT_GLYPH:
 		_glyphs[event["id"]] = {"cases": event["cases"], "equipe": event["equipe"], "sort": event["sort"],
 			"lanceur": event["lanceur"]}
@@ -1057,6 +1090,14 @@ static func wake_up_text(wake_up: Dictionary) -> String:
 
 
 ## « +100 Force (2 tours) », « −2 PM (1 tour) », « Poison 5 Givre (3 tours) ».
+## « Flamme · Flamme · Givre » (états élémentaires, du plus ancien au plus récent).
+static func element_states_text(states: Array) -> String:
+	var names: PackedStringArray = []
+	for element: String in states:
+		names.append(SpellsWindow.ELEMENT_LABELS.get(element, element))
+	return " · ".join(names)
+
+
 static func state_text(state: Dictionary) -> String:
 	var turns := int(state["tours"])
 	var duration := "%d tour%s" % [turns, "s" if turns > 1 else ""]

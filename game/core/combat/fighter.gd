@@ -50,6 +50,16 @@ var states: Array[Dictionary] = []
 ## sorts: Array[Spell], effets: Array[Dictionary] } (voir `Combat._check_phases`).
 var phases: Array[Dictionary] = []
 
+## États élémentaires (Arcaniste) : éléments dans l'ordre où ils ont été pris, `ELEMENT_STATE_MAX` au
+## plus (le plus ancien part quand un nouveau arrive). Permanents pour le combat, jamais retirés.
+var element_states: Array[String] = []
+## Sort créé par « creer_sort » (id, "" si aucun) : il est dans `spells` tant qu'un autre ne le remplace pas.
+var created_spell := ""
+
+const ELEMENT_STATE_MAX := 3
+## Bonus de dégâts (en %) de chaque état élémentaire dans son élément.
+const ELEMENT_STATE_BONUS := 4
+
 ## Caractéristique qui augmente les dégâts de chaque élément.
 const ELEMENT_STATS := {"acier": "force", "flamme": "intelligence", "givre": "chance", "tempete": "agilite"}
 
@@ -125,7 +135,24 @@ func power(element: String) -> int:
 	if Spell.COMPOSITE_ELEMENTS.has(element):
 		var bases: Array = Spell.COMPOSITE_ELEMENTS[element]
 		return power(bases[0]) + power(bases[1])
-	return stat(ELEMENT_STATS.get(element, ""))
+	return stat(ELEMENT_STATS.get(element, "")) + ELEMENT_STATE_BONUS * element_states.count(element)
+
+
+## Prend un état élémentaire (le plus ancien part au-delà de `ELEMENT_STATE_MAX`).
+func add_element_state(element: String) -> void:
+	element_states.append(element)
+	while element_states.size() > ELEMENT_STATE_MAX:
+		element_states.remove_at(0)
+
+
+## Remplace le sort créé précédent par `spell`.
+func set_created_spell(spell: Spell) -> void:
+	var old := get_spell(created_spell)
+	if old != null:
+		spells.erase(old)
+	created_spell = spell.id
+	if get_spell(spell.id) == null:
+		spells.append(spell)
 
 
 func start_turn() -> void:

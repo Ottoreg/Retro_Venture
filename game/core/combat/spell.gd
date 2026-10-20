@@ -41,8 +41,30 @@ const EFFECT_GLYPH := "glyphe"
 ## Piège posé sur la case visée (libre), invisible pour l'équipe adverse : le premier ennemi qui y
 ## entre le déclenche, ses `effets` touchent la zone du piège (`zone`, une case par défaut).
 const EFFECT_TRAP := "piege"
+## Le lanceur gagne un état élémentaire permanent (`element` : flamme, givre ou tempete) : 3 au plus,
+## le 4e remplace le plus ancien ; chacun donne `Fighter.ELEMENT_STATE_BONUS` % de dégâts dans son
+## élément ; on ne peut pas le retirer. Voir `Fighter.element_states`.
+const EFFECT_ELEMENT_STATE := "etat_elementaire"
+## Le lanceur reçoit le sort de `combinaisons` qui correspond à ses 3 états élémentaires (clé :
+## les éléments triés, joints par « + », par exemple « flamme+flamme+givre ») ; il remplace le sort
+## créé précédent.
+const EFFECT_CREATE_SPELL := "creer_sort"
+## Charge : le lanceur fonce en ligne droite vers la case visée, jusqu'au contact du combattant qui
+## s'y trouve (ou jusqu'à la case si elle est libre) ; un obstacle ou un combattant l'arrête avant.
+## Les autres effets du sort ne touchent la cible que si la charge arrive au contact.
+const EFFECT_CHARGE := "charge"
+## Retire à la cible ses états retirables des types de `etats` (bonus, malus, poison).
+const EFFECT_REMOVE_STATES := "retrait_etats"
 const EFFECT_TYPES := [EFFECT_DAMAGE, EFFECT_HEAL, EFFECT_TELEPORT, EFFECT_GAIN_PA, EFFECT_REMOVE_PM, EFFECT_SHIELD,
-	EFFECT_BONUS, EFFECT_MALUS, EFFECT_POISON, EFFECT_PUSH, EFFECT_PULL, EFFECT_GLYPH, EFFECT_TRAP]
+	EFFECT_BONUS, EFFECT_MALUS, EFFECT_POISON, EFFECT_PUSH, EFFECT_PULL, EFFECT_GLYPH, EFFECT_TRAP,
+	EFFECT_ELEMENT_STATE, EFFECT_CREATE_SPELL, EFFECT_CHARGE, EFFECT_REMOVE_STATES]
+## Effets sans valeur chiffrée (ni `min` ni `max`).
+const VALUELESS_EFFECTS := [EFFECT_TELEPORT, EFFECT_ELEMENT_STATE, EFFECT_CREATE_SPELL, EFFECT_CHARGE, EFFECT_REMOVE_STATES]
+## Effets qui ne concernent que le lanceur ou son déplacement : jamais dans une glyphe ou un piège.
+const CASTER_EFFECTS := [EFFECT_TELEPORT, EFFECT_ELEMENT_STATE, EFFECT_CREATE_SPELL, EFFECT_CHARGE]
+## Éléments d'un état élémentaire, et états qu'un retrait peut enlever.
+const STATE_ELEMENTS := ["flamme", "givre", "tempete"]
+const REMOVABLE_STATE_TYPES := [EFFECT_BONUS, EFFECT_MALUS, EFFECT_POISON]
 ## Effets qui posent quelque chose au sol, avec leurs propres `effets` (sans glyphe, piège ni
 ## téléportation à l'intérieur).
 const GROUND_EFFECTS := [EFFECT_GLYPH, EFFECT_TRAP]
@@ -128,6 +150,10 @@ static func validate(data: Dictionary) -> PackedStringArray:
 			traps += 1
 	if traps > 0 and (effects_data.size() > 1 or data.get("zone", {"type": ZONE_CELL}).get("type") != ZONE_CELL):
 		errors.append("un sort de piège ne fait que poser son piège (un seul effet, zone « case » : la zone d'explosion va dans le piège)")
+	for effect: Variant in effects_data:
+		if typeof(effect) == TYPE_DICTIONARY and effect.get("type") == EFFECT_CHARGE \
+				and (not data.get("lancer_en_ligne", false) or int(data["portee"]["min"]) < 2):
+			errors.append("une charge demande « lancer_en_ligne » et une portée minimale d'au moins 2")
 	return errors
 
 
@@ -138,7 +164,7 @@ static func _validate_effects(effects_data: Array, top_level: bool) -> PackedStr
 			errors.append("effet invalide : %s (types : %s)" % [str(effect), str(EFFECT_TYPES)])
 			continue
 		var type: String = effect["type"]
-		if not top_level and (type in GROUND_EFFECTS or type == EFFECT_TELEPORT):
+		if not top_level and (type in GROUND_EFFECTS or type in CASTER_EFFECTS):
 			errors.append("effet « %s » interdit dans une glyphe ou un piège" % type)
 			continue
 		if effect.get("cibles", TARGETS_ALL) not in TARGETS:
@@ -157,7 +183,26 @@ static func _validate_effects(effects_data: Array, top_level: bool) -> PackedStr
 						or (zone["type"] == ZONE_CIRCLE and not _is_int_at_least(zone.get("taille"), 1)):
 					errors.append("piège : « zone » doit être { type: case } ou { type: cercle, taille ≥ 1 }")
 			continue
-		if type == EFFECT_TELEPORT:
+		if type == EFFECT_ELEMENT_STATE and effect.get("element") not in STATE_ELEMENTS:
+			errors.append("effet « %s » : « element » doit être l'un de %s" % [type, str(STATE_ELEMENTS)])
+		if type == EFFECT_CREATE_SPELL:
+			var combinations: Variant = effect.get("combinaisons")
+			if typeof(combinations) != TYPE_DICTIONARY or combinations.is_empty():
+				errors.append("effet « creer_sort » : « combinaisons » doit être un objet { « élément+élément+élément » : id du sort }")
+			else:
+				for key: Variant in combinations:
+					var parts := str(key).split("+")
+					var sorted_parts := Array(parts)
+					sorted_parts.sort()
+					if parts.size() != Fighter.ELEMENT_STATE_MAX or sorted_parts != Array(parts) \
+							or sorted_parts.any(func(part: String) -> bool: return part not in STATE_ELEMENTS) \
+							or typeof(combinations[key]) != TYPE_STRING:
+						errors.append("effet « creer_sort » : combinaison invalide « %s » (3 éléments de %s, triés, joints par « + », vers un id de sort)" % [str(key), str(STATE_ELEMENTS)])
+		if type == EFFECT_REMOVE_STATES:
+			var kinds: Variant = effect.get("etats")
+			if typeof(kinds) != TYPE_ARRAY or kinds.is_empty() or kinds.any(func(kind: Variant) -> bool: return kind not in REMOVABLE_STATE_TYPES):
+				errors.append("effet « retrait_etats » : « etats » doit être une liste non vide parmi %s" % str(REMOVABLE_STATE_TYPES))
+		if type in VALUELESS_EFFECTS:
 			continue
 		if type in ELEMENT_EFFECTS and effect.get("element") not in ELEMENTS:
 			errors.append("effet « %s » : « element » doit être l'un de %s" % [type, str(ELEMENTS)])
@@ -266,6 +311,37 @@ func trap_effect() -> Dictionary:
 		if effect["type"] == EFFECT_TRAP:
 			return effect
 	return {}
+
+
+func charges() -> bool:
+	for effect in effects:
+		if effect["type"] == EFFECT_CHARGE:
+			return true
+	return false
+
+
+## Effet « creer_sort » du sort (vide s'il n'en a pas).
+func create_effect() -> Dictionary:
+	for effect in effects:
+		if effect["type"] == EFFECT_CREATE_SPELL:
+			return effect
+	return {}
+
+
+## Le sort sert à composer les états élémentaires ou à créer un sort (l'IA ne sait pas encore s'en
+## servir).
+func composes() -> bool:
+	for effect in effects:
+		if effect["type"] in [EFFECT_ELEMENT_STATE, EFFECT_CREATE_SPELL]:
+			return true
+	return false
+
+
+## Clé de combinaison de `states` (états élémentaires) : les éléments triés, joints par « + ».
+static func combination_key(states: Array) -> String:
+	var sorted_states := states.duplicate()
+	sorted_states.sort()
+	return "+".join(PackedStringArray(sorted_states))
 
 
 func teleports() -> bool:

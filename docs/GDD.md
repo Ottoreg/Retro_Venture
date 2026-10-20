@@ -321,6 +321,34 @@ permet de tester le Sacré dès maintenant. Arme de départ : le Sceptre de novi
 Les soins des autres classes restent modestes (le Guerrier et l'Arcaniste en ont un petit) pour
 que le Théologue garde son rôle.
 
+**Identité des Voies pour l'alpha test 1** (fait) : une mécanique de plus par Voie, pour qu'elles
+se jouent différemment et donnent envie de rejouer. Le reste de leur kit ne change pas.
+
+| Voie | Ajout | Sort |
+|---|---|---|
+| **Arcaniste** | Version Flamme / Givre de la refonte (plus bas) : états élémentaires et *Créer un sort* | *Braise*, *Frimas* (1 PA rendu aussitôt : état Flamme ou Givre), *Créer un sort* (1 PA, 1 fois par tour) |
+| **Guerrier** | Charge | *Charge* : 3 PA, 2 à 4 cases **en ligne**, ligne de vue, relance 2 tours ; fonce jusqu'au contact (ou jusqu'à la case si elle est libre ; un obstacle ou un combattant l'arrête avant) et frappe 6 à 9 Acier, seulement s'il arrive au contact |
+| **Rôdeur** | Piège | *Collet* : 3 PA, 1 à 4 cases, relance 2 tours ; piège invisible, 7 à 10 Acier et −2 PM au prochain tour du premier ennemi qui y entre |
+| **Théologue** | Retrait des états | *Absolution* : 3 PA, 0 à 5 cases, relance 2 tours ; retire aux ennemis leurs bonus, aux alliés leurs malus et leurs poisons |
+
+**Arcaniste de l'alpha 1** : les états élémentaires Flamme et Givre seulement (ses caractéristiques
+et son équipement ne changent pas). *Braise* et *Frimas* donnent un état permanent (+4 % de dégâts
+dans son élément, 3 au plus, le 4e remplace le plus ancien, ne peut pas être retiré). Avec 3
+états, *Créer un sort* donne le sort de la combinaison, qui remplace le précédent dans la barre
+(chaque sort créé garde ses propres relances) :
+
+| Combinaison | Sort | Effet |
+|---|---|---|
+| Flamme ×3 | *Fournaise* | 4 PA, 2 à 6 cases, cercle de 1 : 9 à 13 Flamme aux ennemis et glyphe brûlante 2 tours (3 à 5 Flamme) |
+| Flamme ×2 + Givre | *Choc thermique* | 3 PA, 1 à 5 cases : 7 à 10 Flamme, 4 à 6 Givre, −10 % de résistance Flamme 2 tours |
+| Givre ×2 + Flamme | *Armure de givre* | 2 PA, 0 à 3 cases, relance 1 tour : bouclier Givre 14 à 20 et +20 Intelligence 2 tours à un allié |
+| Givre ×3 | *Blizzard* | 4 PA, 1 à 5 cases, cercle de 1 : 6 à 9 Givre et −2 PM au prochain tour aux ennemis |
+
+La **Tempête** viendra après l'alpha 1 (6 combinaisons de plus) : la description de *Créer un
+sort* et le guide des testeurs la laissent deviner. Les effets des phases des boss ne peuvent
+pas être retirés par *Absolution*. L'IA ne sait pas encore composer les états : dans
+`tools/simulation.gd`, l'Arcaniste joue sans ses sorts créés.
+
 **Long terme (9 Voies)** : trois familles de trois classes, selon la distance de combat.
 
 | Famille | Classe | Rôle | Éléments principaux | Style |
@@ -438,7 +466,8 @@ pièges pour être efficace. Pièges principaux :
   passé. Exemple : une pulsion de Givre « passé » inflige des dégâts pour chaque manipulation
   temporelle que la cible a subie dans le passé.
 
-**Arcaniste — refonte après l'alpha test : une seule Voie multi-élément**
+**Arcaniste — refonte : une seule Voie multi-élément** (version Flamme / Givre dans l'alpha 1,
+voir plus haut ; la Tempête après)
 (inspirée du kit de l'Invoker de Dota)
 
 - Trois petits **sorts d'état élémentaire** (Flamme, Tempête, Givre), « gratuits » : ils coûtent

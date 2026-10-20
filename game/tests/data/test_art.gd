@@ -63,6 +63,9 @@ func test_icones_des_sorts_des_armes_et_des_objets() -> void:
 	for voie_id: String in data.voies:
 		for spell_id: String in data.voies[voie_id]["sorts"]:
 			assert_true(Art.has_image("sort_" + spell_id), "icône du sort %s" % spell_id)
+			var create: Dictionary = data.spells[spell_id].create_effect()
+			for created: Spell in create.get("sorts", {}).values():
+				assert_true(Art.has_image("sort_" + created.id), "icône du sort créé %s" % created.id)
 	for race_id: String in data.races:
 		assert_true(Art.has_image("sort_" + str(data.races[race_id]["sort"])), "icône du sort racial de %s" % race_id)
 	var weapon_icons: Dictionary = Art.manifest()["icones_armes"]

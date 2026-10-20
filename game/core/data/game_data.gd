@@ -45,7 +45,8 @@ const MONSTER_STATS := ["force", "intelligence", "chance", "agilite"]
 const PER_LEVEL_KEYS := ["pv", "initiative", "xp", "force", "intelligence", "chance", "agilite", "pa", "pm"]
 ## Effets qu'un monstre ne peut pas s'appliquer en changeant de phase (rien à viser au sol, nulle
 ## part où sauter, personne à pousser ni à attirer).
-const PHASE_FORBIDDEN_EFFECTS := [Spell.EFFECT_GLYPH, Spell.EFFECT_TRAP, Spell.EFFECT_TELEPORT, Spell.EFFECT_PUSH, Spell.EFFECT_PULL]
+const PHASE_FORBIDDEN_EFFECTS := [Spell.EFFECT_GLYPH, Spell.EFFECT_TRAP, Spell.EFFECT_TELEPORT, Spell.EFFECT_PUSH, Spell.EFFECT_PULL,
+	Spell.EFFECT_CHARGE, Spell.EFFECT_CREATE_SPELL, Spell.EFFECT_ELEMENT_STATE, Spell.EFFECT_REMOVE_STATES]
 ## Pas de soin au changement de phase, ni en effet ni en sort appris : un monstre qui se soigne en
 ## passant sous un seuil peut enfermer le joueur dans un combat sans fin.
 const PHASE_NO_HEAL := "pas de soin au changement de phase (risque de combat sans fin)"
@@ -71,6 +72,11 @@ static func from_dicts(spell_list: Array, monster_list: Array, voie_list: Array,
 		var errors := Spell.validate(raw) if typeof(raw) == TYPE_DICTIONARY else PackedStringArray(["objet attendu"])
 		if _report("sort", raw, errors):
 			data.spells[raw["id"]] = Spell.from_dict(raw)
+	# « creer_sort » : chaque combinaison doit nommer un sort connu (qui ne crée rien lui-même).
+	for spell_id: String in data.spells.keys():
+		var link_errors := data._link_created_spells(data.spells[spell_id])
+		if not _report("sort", {"id": spell_id}, link_errors):
+			data.spells.erase(spell_id)
 	for raw: Variant in monster_list:
 		var errors := validate_monster(raw, data.spells, data.items) if typeof(raw) == TYPE_DICTIONARY else PackedStringArray(["objet attendu"])
 		if _report("monstre", raw, errors):
@@ -691,6 +697,25 @@ static func _read_folder(dir_path: String) -> Array:
 
 
 ## Affiche les erreurs éventuelles ; vrai si l'élément est valide.
+## Relie les combinaisons d'un effet « creer_sort » à leurs sorts (`effet.sorts` : clé → Spell).
+func _link_created_spells(spell: Spell) -> PackedStringArray:
+	var errors: PackedStringArray = []
+	var effect := spell.create_effect()
+	if effect.is_empty():
+		return errors
+	var linked := {}
+	for key: String in effect["combinaisons"]:
+		var created: Spell = spells.get(effect["combinaisons"][key])
+		if created == null:
+			errors.append("creer_sort : sort inconnu pour %s : %s" % [key, effect["combinaisons"][key]])
+		elif not created.create_effect().is_empty():
+			errors.append("creer_sort : le sort %s crée lui-même un sort" % created.id)
+		else:
+			linked[key] = created
+	effect["sorts"] = linked
+	return errors
+
+
 static func _report(kind: String, raw: Variant, errors: PackedStringArray) -> bool:
 	if errors.is_empty():
 		return true

@@ -54,9 +54,17 @@ temps : chaque camp a sa propre histoire.
     +20 prospection et +20 % d'écus en fin de combat.
   - **Elfe** (camp neutre) : départ à **Sylvebrume** ; sort *Pas léger* ; passif +1 portée sur les
     sorts à distance.
-- Quatre Voies (classes) : **Guerrier**, **Rôdeur**, **Arcaniste** et **Théologue** (soigneur
-  sacré : soin, bouclier qui absorbe les dégâts jusqu'à son prochain tour, dégâts Sacrés), avec 4
-  sorts chacune.
+- Quatre Voies (classes), chacune avec sa mécanique :
+  - **Guerrier** : *Charge* (en ligne droite, jusqu'au contact, puis un coup d'épée) ;
+  - **Rôdeur** : *Collet*, un piège invisible qui blesse et ralentit le premier ennemi qui y entre ;
+  - **Théologue** (soigneur sacré : soin, bouclier, dégâts Sacrés) : *Absolution*, qui retire leurs
+    bonus aux ennemis, leurs malus et leurs poisons aux alliés ;
+  - **Arcaniste** : *Braise* et *Frimas* donnent un **état élémentaire** (Flamme ou Givre, 3 au
+    plus, +4 % de dégâts chacun ; le PA est rendu aussitôt). Avec 3 états, *Créer un sort* donne
+    un sort selon la combinaison : Flamme ×3 *Fournaise*, Flamme ×2 + Givre *Choc thermique*, Givre
+    ×2 + Flamme *Armure de givre*, Givre ×3 *Blizzard*. Il apparaît au bout de la barre de sorts et
+    remplace le précédent. Les états s'affichent au survol de votre personnage et dans
+    l'historique. On dit qu'un troisième élément compléterait la formule…
 - Les soins et boucliers grandissent avec la caractéristique de leur élément (soin Sacré : Force et
   Intelligence ; *Second souffle* du Guerrier : Force ; *Soin mineur* de l'Arcaniste :
   Intelligence).

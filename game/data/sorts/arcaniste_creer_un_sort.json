@@ -1,0 +1,27 @@
+{
+  "id": "arcaniste_creer_un_sort",
+  "nom": "Créer un sort",
+  "description": "Trois états, une formule, un sort. Les savants de la Tour murmurent qu'un troisième élément, la Tempête, compléterait la formule… mais personne n'a encore osé l'écrire.",
+  "cout_pa": 1,
+  "portee": {
+    "min": 0,
+    "max": 0
+  },
+  "ligne_de_vue": false,
+  "relance": {
+    "par_tour": 1,
+    "delai": 0
+  },
+  "critique": 0,
+  "effets": [
+    {
+      "type": "creer_sort",
+      "combinaisons": {
+        "flamme+flamme+flamme": "arcaniste_fournaise",
+        "flamme+flamme+givre": "arcaniste_choc_thermique",
+        "flamme+givre+givre": "arcaniste_armure_de_givre",
+        "givre+givre+givre": "arcaniste_blizzard"
+      }
+    }
+  ]
+}

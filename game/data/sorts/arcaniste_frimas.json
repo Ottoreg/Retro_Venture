@@ -1,0 +1,27 @@
+{
+  "id": "arcaniste_frimas",
+  "nom": "Frimas",
+  "description": "Un flocon tourne autour de l'Arcaniste et refuse de fondre. Coûte 1 PA, rendu aussitôt.",
+  "cout_pa": 1,
+  "portee": {
+    "min": 0,
+    "max": 0
+  },
+  "ligne_de_vue": false,
+  "relance": {
+    "par_tour": 0,
+    "delai": 0
+  },
+  "critique": 0,
+  "effets": [
+    {
+      "type": "etat_elementaire",
+      "element": "givre"
+    },
+    {
+      "type": "gain_pa",
+      "min": 1,
+      "max": 1
+    }
+  ]
+}

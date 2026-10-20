@@ -26,7 +26,7 @@ Prix de boutique : selon la rareté (revente à 25 %).
 - [Sorts de race](#sorts-de-race)
 - [Sorts des monstres](#sorts-des-monstres)
 
-**205 objets** (31 armes, 16 coiffes, 16 capes, 18 amulettes, 20 anneaux, 15 ceintures, 17 bottes, 66 ressources, 6 objets de quête), **50 monstres** et **105 sorts**.
+**205 objets** (31 armes, 16 coiffes, 16 capes, 18 amulettes, 20 anneaux, 15 ceintures, 17 bottes, 66 ressources, 6 objets de quête), **50 monstres** et **115 sorts**.
 
 ## Armes
 
@@ -1094,6 +1094,18 @@ Maître du feu et du givre. Lit beaucoup, court peu, explose parfois des choses 
 | **Éclat de givre** | 3 PA, portée 1–5, 2/tour | 4–6 Givre ; −1 PM au prochain tour | Un éclat de glace qui engourdit les jambes : la cible aura un PM de moins au prochain tour. |
 | **Étincelle** | 2 PA, portée 1–4, 3/tour | 2–4 Flamme | Petit sort, petit coût, petits dégâts. Mais trois fois par tour. |
 | **Soin mineur** | 3 PA, portée 0–3, 1/tour, relance 2 t. | soin 8–12 (Flamme) | Referme les petites plaies. Pour les grandes, prévoir une potion. Ou un autre arcaniste. |
+| **Braise** | 1 PA, portée soi, sans ligne de vue, critique 0 % | état élémentaire Flamme (permanent, 3 au plus) ; +1 PA tout de suite | Une braise s'allume dans la paume de l'Arcaniste et y reste. Ça chauffe un peu, ça sert beaucoup. Coûte 1 PA, rendu aussitôt. |
+| **Frimas** | 1 PA, portée soi, sans ligne de vue, critique 0 % | état élémentaire Givre (permanent, 3 au plus) ; +1 PA tout de suite | Un flocon tourne autour de l'Arcaniste et refuse de fondre. Coûte 1 PA, rendu aussitôt. |
+| **Créer un sort** | 1 PA, portée soi, sans ligne de vue, 1/tour, critique 0 % | crée le sort de la combinaison des 3 états : Flamme + Flamme + Flamme → Fournaise ; Flamme + Flamme + Givre → Choc thermique ; Flamme + Givre + Givre → Armure de givre ; Givre + Givre + Givre → Blizzard | Trois états, une formule, un sort. Les savants de la Tour murmurent qu'un troisième élément, la Tempête, compléterait la formule… mais personne n'a encore osé l'écrire. |
+
+Sorts créés (*Créer un sort*, selon la combinaison des 3 états élémentaires) :
+
+| Sort | Caractéristiques | Effets | Combinaison | Description |
+|---|---|---|---|---|
+| **Fournaise** | 4 PA, portée 2–6, cercle de rayon 1, 1/tour | 9–13 Flamme aux ennemis ; glyphe (2 t.) : [3–5 Flamme aux ennemis] | Flamme + Flamme + Flamme | Flamme, Flamme, Flamme. Le sol s'embrase et continue de brûler après. L'Arcaniste appelle ça « réchauffer l'ambiance ». |
+| **Choc thermique** | 3 PA, portée 1–5, 1/tour | 7–10 Flamme ; 4–6 Givre ; −10 Résistance Flamme (2 t.) | Flamme + Flamme + Givre | Flamme, Flamme, Givre. Chaud puis froid : la cible se fendille, et le prochain feu la trouvera moins solide. |
+| **Armure de givre** | 2 PA, portée 0–3, 1/tour, relance 1 t. | bouclier 14–20 (Givre) aux alliés ; +20 Intelligence (2 t.) aux alliés | Flamme + Givre + Givre | Givre, Givre, Flamme. Une carapace de glace pour encaisser, et une petite flamme dedans pour garder les idées claires. |
+| **Blizzard** | 4 PA, portée 1–5, cercle de rayon 1, 1/tour | 6–9 Givre aux ennemis ; −2 PM au prochain tour aux ennemis | Givre + Givre + Givre | Givre, Givre, Givre. Une tempête de neige en miniature : les ennemis pris dedans avancent comme dans de la mélasse. |
 
 ### Guerrier
 
@@ -1105,6 +1117,7 @@ Au contact, il encaisse et rend les coups. Réfléchit après, de préférence. 
 | **Lancer de hache** | 4 PA, portée 2–5, 1/tour | 6–9 Acier | Lance sa hache de secours. Pensez à aller la rechercher. |
 | **Tourbillon** | 4 PA, portée soi, cercle de rayon 1 (sans le lanceur), sans ligne de vue, 1/tour | 7–10 Acier | Tourne sur lui-même lame tendue. Frappe tout ce qui est au contact, amis compris. |
 | **Second souffle** | 2 PA, portée soi, sans ligne de vue, 1/tour, relance 3 t. | soin 12–18 (Acier) | Une grande inspiration, une gorgée de gourde, et ça repart. |
+| **Charge** | 3 PA, portée 2–4, en ligne, 1/tour, relance 2 t. | charge en ligne jusqu'au contact (effets suivants au contact seulement) ; 6–9 Acier | Il fonce droit devant, épée en avant, jusqu'au contact. Le freinage est en option, la réflexion aussi. |
 
 ### Rôdeur
 
@@ -1116,6 +1129,7 @@ Tire de loin, file entre les arbres et prétend toujours connaître un raccourci
 | **Tir perçant** | 4 PA, portée 3–7, 1/tour | 8–11 Acier | Une flèche lourde à pointe d'acier. Traverse les armures, et parfois le chapeau d'un voisin. |
 | **Coup de dague** | 2 PA, portée 1, 2/tour | 3–5 Acier | Pour ceux qui s'approchent trop près. Ce qui arrive plus souvent qu'on ne le croit. |
 | **Roulade** | 2 PA, portée 1–2, sans ligne de vue, 1/tour, relance 2 t. | téléportation sur la case | Une roulade élégante vers une case libre, pour reprendre ses distances. |
+| **Collet** | 3 PA, portée 1–4, sans ligne de vue, 1/tour, relance 2 t. | piège invisible : [7–10 Acier aux ennemis ; −2 PM au prochain tour aux ennemis] | Un nœud coulant caché dans l'herbe. Le premier ennemi qui passe y laisse un bout de cheville et la moitié de son élan. |
 
 ### Théologue
 
@@ -1127,6 +1141,7 @@ Soigneur sacré. Bénit les alliés, sermonne les ennemis, et cite des textes qu
 | **Imposition des mains** | 3 PA, portée 0–3, 1/tour | soin 12–18 (Sacré) | Une main sur l'épaule, une prière, et les plaies se referment. Les remerciements sont facultatifs mais conseillés. |
 | **Rempart de foi** | 2 PA, portée 0–3, 1/tour, relance 2 t. | bouclier 12–16 (Sacré) | Un halo doré qui encaisse les coups à votre place jusqu'à votre prochain tour. |
 | **Sermon** | 4 PA, portée 1–4, croix latine, en ligne, 1/tour | 4–7 Sacré aux ennemis ; soin 4–7 (Sacré) aux alliés | Une croix de paroles saintes : les ennemis qui s'y trouvent souffrent, les alliés reprennent courage. |
+| **Absolution** | 3 PA, portée 0–5, 1/tour, relance 2 t., critique 0 % | retire les bonus aux ennemis ; retire les malus et les poisons aux alliés | Pardonne aux alliés leurs malus et leurs poisons, retire aux ennemis leurs bonus. Le Théologue prélève une petite commission spirituelle au passage. |
 
 ## Sorts de race
 

@@ -280,6 +280,31 @@ Au sol :
 - `piege` : posé sur la case visée (libre, sans autre piège), invisible pour l'autre équipe ; le
   premier ennemi qui y entre s'arrête et le déclenche, ses `effets` touchent la `zone` du piège
   (`case` par défaut, ou `cercle`). Un sort de piège n'a que cet effet et une zone `case`.
+
+Mécaniques des Voies :
+
+```json
+{"type": "etat_elementaire", "element": "flamme"}
+{"type": "creer_sort", "combinaisons": {"flamme+flamme+givre": "arcaniste_choc_thermique"}}
+{"type": "charge"}
+{"type": "retrait_etats", "etats": ["malus", "poison"], "cibles": "allies"}
+```
+
+- `etat_elementaire` (`flamme`, `givre` ou `tempete`) : le lanceur garde l'état tout le combat,
+  3 au plus (le 4e remplace le plus ancien), +4 % de dégâts dans son élément ; il ne peut pas être
+  retiré. Avec `gain_pa` 1 dans un sort à 1 PA, le PA est rendu aussitôt.
+- `creer_sort` : avec 3 états élémentaires, le lanceur reçoit le sort de leur combinaison (clé : les
+  3 éléments **triés**, joints par `+`), qui remplace le sort créé précédent. Les sorts nommés
+  doivent exister et ne rien créer eux-mêmes ; sinon le sort qui crée est écarté au chargement.
+  Sans 3 états, ou pour une combinaison absente : refusé (`combinaison_inconnue`).
+- `charge` : demande `lancer_en_ligne` et une portée minimale d'au moins 2. Le lanceur fonce en
+  ligne droite jusqu'au contact du combattant visé (ou jusqu'à la case si elle est libre) ; un
+  obstacle, un combattant ou un piège ennemi l'arrête avant. Les autres effets du sort ne touchent
+  la cible que s'il arrive au contact.
+- `retrait_etats` : retire à la cible ses états des types de `etats` (`bonus`, `malus`, `poison`),
+  sauf ceux qui ne peuvent pas être retirés (effets des phases des boss).
+- Ces effets n'ont ni `min` ni `max` ; `etat_elementaire`, `creer_sort` et `charge` sont interdits
+  dans une glyphe, un piège et une phase de monstre.
 - Les effets d'une glyphe ou d'un piège ne peuvent pas être une glyphe, un piège ou une téléportation.
 
 ## Monstres (`monstres/`)

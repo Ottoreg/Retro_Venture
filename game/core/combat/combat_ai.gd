@@ -61,7 +61,7 @@ static func best_cast(combat: Combat, fighter: Fighter, origin: Vector2i) -> Dic
 	var best := {}
 	var best_value := 0.0
 	for spell in fighter.spells:
-		if not fighter.cast_blocker(spell).is_empty() or spell.teleports():
+		if not fighter.cast_blocker(spell).is_empty() or spell.teleports() or spell.composes():
 			continue
 		for cell in _candidate_cells(combat, fighter, spell, origin):
 			if not combat.targeting_blocker(fighter, spell, cell, origin).is_empty():
@@ -78,6 +78,12 @@ static func evaluate(combat: Combat, fighter: Fighter, spell: Spell, target: Vec
 	var trap := spell.trap_effect()
 	if not trap.is_empty():
 		return _trap_value(combat, fighter, trap, target, origin)
+	if spell.charges():
+		# Une charge ne vaut que si elle arrive au contact de la cible.
+		var path := combat.charge_path(fighter, target, origin)
+		var landing: Vector2i = path[-1] if not path.is_empty() else origin
+		if _fighter_at(combat, fighter, origin, target) == null or IsoGrid.distance(landing, target) != 1:
+			return 0.0
 	var value := 0.0
 	for effect in spell.effects:
 		if effect["type"] == Spell.EFFECT_GLYPH:

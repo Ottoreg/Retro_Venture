@@ -1,0 +1,27 @@
+{
+  "id": "arcaniste_braise",
+  "nom": "Braise",
+  "description": "Une braise s'allume dans la paume de l'Arcaniste et y reste. Ça chauffe un peu, ça sert beaucoup. Coûte 1 PA, rendu aussitôt.",
+  "cout_pa": 1,
+  "portee": {
+    "min": 0,
+    "max": 0
+  },
+  "ligne_de_vue": false,
+  "relance": {
+    "par_tour": 0,
+    "delai": 0
+  },
+  "critique": 0,
+  "effets": [
+    {
+      "type": "etat_elementaire",
+      "element": "flamme"
+    },
+    {
+      "type": "gain_pa",
+      "min": 1,
+      "max": 1
+    }
+  ]
+}

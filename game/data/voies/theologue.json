@@ -12,7 +12,8 @@
     "theologue_chatiment",
     "theologue_imposition",
     "theologue_rempart",
-    "theologue_sermon"
+    "theologue_sermon",
+    "theologue_absolution"
   ],
   "equipement_depart": [
     "sceptre_de_novice",

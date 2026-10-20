@@ -1,0 +1,34 @@
+{
+  "id": "arcaniste_blizzard",
+  "nom": "Blizzard",
+  "description": "Givre, Givre, Givre. Une tempête de neige en miniature : les ennemis pris dedans avancent comme dans de la mélasse.",
+  "cout_pa": 4,
+  "portee": {
+    "min": 1,
+    "max": 5
+  },
+  "ligne_de_vue": true,
+  "zone": {
+    "type": "cercle",
+    "taille": 1
+  },
+  "relance": {
+    "par_tour": 1,
+    "delai": 0
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "givre",
+      "min": 6,
+      "max": 9,
+      "cibles": "ennemis"
+    },
+    {
+      "type": "retrait_pm",
+      "min": 2,
+      "max": 2,
+      "cibles": "ennemis"
+    }
+  ]
+}

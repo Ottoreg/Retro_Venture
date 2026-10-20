@@ -12,7 +12,8 @@
     "guerrier_frappe",
     "guerrier_hache",
     "guerrier_tourbillon",
-    "guerrier_second_souffle"
+    "guerrier_second_souffle",
+    "guerrier_charge"
   ],
   "equipement_depart": [
     "epee_de_fer",

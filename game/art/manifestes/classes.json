@@ -1,0 +1,74 @@
+{
+  "images": {
+    "sort_arcaniste_braise": {
+      "fichier": "sorts/arcaniste_braise.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_arcaniste_frimas": {
+      "fichier": "sorts/arcaniste_frimas.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_arcaniste_creer_un_sort": {
+      "fichier": "sorts/arcaniste_creer_un_sort.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_arcaniste_fournaise": {
+      "fichier": "sorts/arcaniste_fournaise.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_arcaniste_blizzard": {
+      "fichier": "sorts/arcaniste_blizzard.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_arcaniste_choc_thermique": {
+      "fichier": "sorts/arcaniste_choc_thermique.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_arcaniste_armure_de_givre": {
+      "fichier": "sorts/arcaniste_armure_de_givre.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_theologue_absolution": {
+      "fichier": "sorts/theologue_absolution.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_guerrier_charge": {
+      "fichier": "sorts/guerrier_charge.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_rodeur_collet": {
+      "fichier": "sorts/rodeur_collet.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    }
+  }
+}

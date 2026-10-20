@@ -121,6 +121,24 @@ static func _spells() -> Array:
 				{"type": "malus", "carac": "pm", "min": 3, "max": 3, "duree": 1, "cibles": "ennemis"}]}]},
 		{"id": "soin_distance", "nom": "Soin à distance", "cout_pa": 3, "portee": {"min": 0, "max": 4}, "ligne_de_vue": false,
 			"effets": [{"type": "soin", "element": "acier", "min": 15, "max": 15, "cibles": "allies"}]},
+		{"id": "braise", "nom": "Braise", "cout_pa": 1, "portee": {"min": 0, "max": 0}, "ligne_de_vue": false,
+			"effets": [{"type": "etat_elementaire", "element": "flamme"}, {"type": "gain_pa", "min": 1, "max": 1}]},
+		{"id": "frimas", "nom": "Frimas", "cout_pa": 1, "portee": {"min": 0, "max": 0}, "ligne_de_vue": false,
+			"effets": [{"type": "etat_elementaire", "element": "givre"}, {"type": "gain_pa", "min": 1, "max": 1}]},
+		{"id": "creer", "nom": "Créer un sort", "cout_pa": 1, "portee": {"min": 0, "max": 0}, "ligne_de_vue": false,
+			"relance": {"par_tour": 1}, "effets": [{"type": "creer_sort", "combinaisons": {
+				"flamme+flamme+flamme": "brasier", "flamme+flamme+givre": "fondu", "givre+givre+givre": "givrage"}}]},
+		{"id": "brasier", "nom": "Brasier", "cout_pa": 2, "portee": {"min": 1, "max": 4}, "ligne_de_vue": false,
+			"effets": [{"type": "degats", "element": "flamme", "min": 10, "max": 10}]},
+		{"id": "fondu", "nom": "Fondu", "cout_pa": 2, "portee": {"min": 1, "max": 4}, "ligne_de_vue": false,
+			"effets": [{"type": "degats", "element": "flamme", "min": 10, "max": 10}]},
+		{"id": "givrage", "nom": "Givrage", "cout_pa": 2, "portee": {"min": 1, "max": 4}, "ligne_de_vue": false,
+			"effets": [{"type": "degats", "element": "givre", "min": 10, "max": 10}]},
+		{"id": "charge", "nom": "Charge", "cout_pa": 3, "portee": {"min": 2, "max": 4}, "lancer_en_ligne": true,
+			"ligne_de_vue": false, "effets": [{"type": "charge"}, {"type": "degats", "element": "acier", "min": 10, "max": 10}]},
+		{"id": "absolution", "nom": "Absolution", "cout_pa": 1, "portee": {"min": 0, "max": 4}, "ligne_de_vue": false,
+			"effets": [{"type": "retrait_etats", "etats": ["bonus"], "cibles": "ennemis"},
+				{"type": "retrait_etats", "etats": ["malus", "poison"], "cibles": "allies"}]},
 	]
 
 
@@ -170,7 +188,7 @@ static func data(passages := []) -> GameData:
 		"id": "test", "nom": "Test",
 		"caracteristiques": {"pv": 50, "pa": 6, "pm": 3, "initiative": 100},
 		"sorts": ["frappe", "piqure", "tir", "zone", "soin", "elan", "entrave", "sermon", "fatal", "rage", "boulet",
-			"venin", "repousse", "grappin", "cercle", "chausse_trape"],
+			"venin", "repousse", "grappin", "cercle", "chausse_trape", "braise", "frimas", "creer", "charge", "absolution"],
 		"equipement_depart": ["epee", "bague"],
 	}]
 	var races := [{

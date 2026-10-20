@@ -39,7 +39,7 @@ func test_scene_du_monde_jusqu_au_combat_et_retour() -> void:
 	_run_until_idle(view)
 	assert_eq(view.mode, MapView.Mode.COMBAT, "mode combat")
 	assert_true(view.is_placement(), "phase de placement")
-	assert_eq(hud._spell_buttons.size(), 6, "attaque de l'épée de départ, 4 sorts du Guerrier, sort racial")
+	assert_eq(hud._spell_buttons.size(), 7, "attaque de l'épée de départ, 5 sorts du Guerrier, sort racial")
 
 	view.request_start_fight()
 	_run_until_idle(view)
@@ -583,7 +583,7 @@ func test_barre_d_action_et_fenetre_des_sorts() -> void:
 	assert_eq(hud._hp_gauge.maximum, int(sheet["pv_max"]))
 	assert_eq(hud._pa_gauge.value, int(sheet["pa"]))
 	assert_eq(hud._pm_gauge.value, int(sheet["pm"]))
-	assert_eq(hud._spell_buttons.size(), 6, "sorts du personnage dans la barre")
+	assert_eq(hud._spell_buttons.size(), 7, "sorts du personnage dans la barre")
 	for spell_id: String in hud._spell_buttons:
 		var slot: CombatHud.SpellSlot = hud._spell_buttons[spell_id]
 		assert_true(slot.icon != null, "icône du sort %s" % spell_id)
@@ -1150,4 +1150,32 @@ func test_survol_des_glyphes_et_pieges() -> void:
 	view._apply({"type": Protocol.EVT_TRAP, "id": 902, "lanceur": enemy, "equipe": Fighter.TEAM_MONSTERS,
 		"case": cell + Vector2i.RIGHT, "cases": cells, "sort": "Souche piégée"})
 	assert_eq(view.ground_description(cell + Vector2i.RIGHT), "")
+	scene.free()
+
+
+func test_arcaniste_compose_et_cree_un_sort() -> void:
+	var tree := Engine.get_main_loop() as SceneTree
+	Session.new_character = Character.create("Mirabelle", "humain", "arcaniste")
+	var scene: Node = load("res://client/world/world.tscn").instantiate()
+	tree.root.add_child(scene)
+	var view: MapView = scene.get_node("MapView")
+	var hud: CombatHud = scene.get_node("CombatHud")
+	view._on_click(view.world.groups()[0]["case"])
+	_run_until_idle(view)
+	view.request_start_fight()
+	_run_until_idle(view)
+	assert_true(view.is_player_turn())
+	var hero := view.player_fighter()
+	assert_false(hud._spell_buttons.has("arcaniste_choc_thermique"), "pas encore de sort créé")
+	for spell_id in ["arcaniste_braise", "arcaniste_braise", "arcaniste_frimas", "arcaniste_creer_un_sort"]:
+		view.select_spell(spell_id)
+		view._on_click(hero.cell)
+		_run_until_idle(view)
+	assert_eq(hero.element_states, ["flamme", "flamme", "givre"] as Array[String])
+	assert_true(hud._spell_buttons.has("arcaniste_choc_thermique"), "Flamme, Flamme, Givre : Choc thermique dans la barre")
+	var text := hud.combat_log.plain_text()
+	assert_true(text.contains("Mirabelle prend l'état Givre (Flamme · Flamme · Givre)"), text)
+	assert_true(text.contains("Mirabelle crée le sort Choc thermique"), text)
+	view._set_hovered(hero.cell)
+	assert_true(hud._target_stats.text.contains("États élémentaires : Flamme · Flamme · Givre"), hud._target_stats.text)
 	scene.free()

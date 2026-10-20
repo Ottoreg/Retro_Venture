@@ -188,6 +188,34 @@ func targeting_blocker(fighter: Fighter, spell: Spell, target: Vector2i, origin 
 	return ""
 
 
+## Sort que « creer_sort » donnerait à `fighter` avec ses états élémentaires actuels (null si le sort
+## ne crée rien, ou si la combinaison n'a pas de sort).
+func created_spell_for(fighter: Fighter, spell: Spell) -> Spell:
+	var effect := spell.create_effect()
+	if effect.is_empty() or fighter.element_states.size() < Fighter.ELEMENT_STATE_MAX:
+		return null
+	return effect.get("sorts", {}).get(Spell.combination_key(fighter.element_states))
+
+
+## Cases parcourues par une charge de `fighter` vers `target` depuis `origin` : en ligne droite, tant
+## que la case suivante est libre, jusqu'au contact d'un combattant sur la case visée (ou jusqu'à la
+## case visée si elle est libre). Un piège ennemi arrête la charge sur sa case.
+func charge_path(fighter: Fighter, target: Vector2i, origin := Vector2i(-99999, -99999)) -> Array[Vector2i]:
+	var cell := fighter.cell if origin == Vector2i(-99999, -99999) else origin
+	var step := Spell.direction(cell, target)
+	var path: Array[Vector2i] = []
+	while cell != target:
+		var next := cell + step
+		var occupant := fighter_at(next)
+		if not map.is_inside(next) or not map.is_walkable_in_combat(next) or (occupant != null and occupant != fighter):
+			break
+		cell = next
+		path.append(cell)
+		if not enemy_trap_at(cell, fighter).is_empty():
+			break
+	return path
+
+
 ## Portée maximale réelle : les sorts à distance (portée de 2 ou plus) profitent des bonus de portée.
 func max_range(fighter: Fighter, spell: Spell) -> int:
 	return spell.range_max + (fighter.total_range_bonus() if spell.range_max >= 2 else 0)
@@ -332,6 +360,8 @@ func _cast(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 	var trap_effect := spell.trap_effect()
 	if blocker.is_empty() and not trap_effect.is_empty() and (not is_free(target) or not trap_at(target).is_empty()):
 		blocker = Protocol.REASON_BLOCKED if not map.is_walkable_in_combat(target) else Protocol.REASON_OCCUPIED
+	if blocker.is_empty() and not spell.create_effect().is_empty() and created_spell_for(fighter, spell) == null:
+		blocker = Protocol.REASON_NO_COMBINATION
 	if not blocker.is_empty():
 		return _refused(command, blocker)
 
@@ -356,19 +386,42 @@ func _cast(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 		var trap := enemy_trap_at(target, fighter)
 		if not trap.is_empty():
 			_trigger_trap(trap, fighter, events)
+	# Charge : les effets ne touchent la cible que si le lanceur arrive à son contact.
+	var reached := true
+	if spell.charges():
+		var path := charge_path(fighter, target)
+		var from := fighter.cell
+		if not path.is_empty():
+			fighter.cell = path[-1]
+		reached = fighter_at(target) != null and IsoGrid.distance(fighter.cell, target) == 1
+		events.append({"type": Protocol.EVT_CHARGED, "entite": fighter.id, "depuis": from, "chemin": path,
+			"case": fighter.cell, "contact": reached})
+		if not path.is_empty():
+			var trap := enemy_trap_at(fighter.cell, fighter)
+			if not trap.is_empty():
+				_trigger_trap(trap, fighter, events)
+		if not fighter.is_alive():
+			_check_end(events)
+			return events
+	var created := created_spell_for(fighter, spell)
+	if created != null:
+		var old := fighter.created_spell
+		fighter.set_created_spell(created)
+		events.append({"type": Protocol.EVT_SPELL_CREATED, "entite": fighter.id, "sort": created.id, "ancien": old})
 	for effect in spell.effects:
 		if effect["type"] == Spell.EFFECT_GLYPH:
 			_place_glyph(fighter, spell, effect, spell.zone_cells(target, origin), events)
 		elif effect["type"] == Spell.EFFECT_TRAP:
 			_place_trap(fighter, spell, effect, target, events)
 	var targets: Array[Fighter] = []
-	for cell in spell.zone_cells(target, origin):
+	for cell in spell.zone_cells(target, origin) if reached else []:
 		var hit := fighter_at(cell)
 		if hit != null and not (spell.excludes_caster and hit == fighter):
 			targets.append(hit)
 	for hit in targets:
 		for effect in spell.effects:
-			if hit.is_alive() and effect["type"] not in [Spell.EFFECT_TELEPORT, Spell.EFFECT_GLYPH, Spell.EFFECT_TRAP] \
+			if hit.is_alive() and effect["type"] not in [Spell.EFFECT_TELEPORT, Spell.EFFECT_GLYPH, Spell.EFFECT_TRAP,
+					Spell.EFFECT_CHARGE, Spell.EFFECT_CREATE_SPELL] \
 					and Spell.affects(effect, fighter, hit):
 				_apply_effect(fighter, hit, effect, events, critical, origin, spell.display_name)
 	_check_end(events)
@@ -382,7 +435,7 @@ func _cast(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 ## prochain tour de celui qui le porte. Coup critique : la valeur tirée des dégâts, soins, boucliers
 ## et poisons est multipliée par `Spell.CRIT_MULTIPLIER`. `origin` : d'où l'on pousse ou attire.
 func _apply_effect(caster: Fighter, target: Fighter, effect: Dictionary, events: Array[Dictionary], critical := false,
-		origin := Vector2i(-99999, -99999), source := "") -> void:
+		origin := Vector2i(-99999, -99999), source := "", removable := true) -> void:
 	var from := caster.cell if origin == Vector2i(-99999, -99999) else origin
 	var amount := rng.randi_range(effect["min"], effect["max"])
 	if critical and effect["type"] in Spell.ELEMENT_EFFECTS:
@@ -411,10 +464,25 @@ func _apply_effect(caster: Fighter, target: Fighter, effect: Dictionary, events:
 				"pv": target.hp})
 		Spell.EFFECT_BONUS, Spell.EFFECT_MALUS:
 			_add_state(target, {"type": effect["type"], "carac": effect["carac"], "element": str(effect.get("element", "")),
-				"valeur": amount, "tours": effect["duree"], "sort": source, "lanceur": caster.id}, events)
+				"valeur": amount, "tours": effect["duree"], "sort": source, "lanceur": caster.id, "retirable": removable}, events)
 		Spell.EFFECT_POISON:
 			_add_state(target, {"type": Spell.EFFECT_POISON, "element": effect["element"], "valeur": amount,
-				"tours": effect["duree"], "sort": source, "lanceur": caster.id}, events)
+				"tours": effect["duree"], "sort": source, "lanceur": caster.id, "retirable": removable}, events)
+		Spell.EFFECT_ELEMENT_STATE:
+			target.add_element_state(effect["element"])
+			events.append({"type": Protocol.EVT_ELEMENT_STATES, "entite": target.id, "etats": target.element_states.duplicate(),
+				"element": effect["element"]})
+		Spell.EFFECT_REMOVE_STATES:
+			var kept: Array[Dictionary] = []
+			for state in target.states:
+				if state["type"] not in effect["etats"] or not state.get("retirable", true):
+					kept.append(state)
+			var removed := target.states.size() - kept.size()
+			if removed > 0:
+				target.states = kept
+				var event := _states_event(target)
+				event["retires"] = removed
+				events.append(event)
 		Spell.EFFECT_PUSH:
 			_push(from, target, amount, false, events)
 		Spell.EFFECT_PULL:
@@ -455,7 +523,8 @@ func _check_phases(fighter: Fighter, events: Array[Dictionary]) -> void:
 		events.append({"type": Protocol.EVT_PHASE, "entite": fighter.id, "message": phase["message"]})
 		for effect: Dictionary in phase["effets"]:
 			if fighter.is_alive():
-				_apply_effect(fighter, fighter, effect, events, false, fighter.cell, fighter.display_name)
+				# Les effets d'une phase ne peuvent pas être retirés (ils font partie du combat du boss).
+				_apply_effect(fighter, fighter, effect, events, false, fighter.cell, fighter.display_name, false)
 
 
 ## Pose un état (bonus, malus, poison). Un bonus ou malus de PA ou de PM compte tout de suite.

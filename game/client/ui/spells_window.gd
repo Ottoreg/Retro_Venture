@@ -93,6 +93,22 @@ static func effect_lines(effects: Array, indent := "") -> PackedStringArray:
 				line = "Attire de %s case(s)" % _range_text(effect)
 			Spell.EFFECT_GLYPH:
 				line = "Glyphe sur la zone (%s du lanceur), au début du tour de qui s'y trouve :" % duration
+			Spell.EFFECT_ELEMENT_STATE:
+				line = "État élémentaire %s : +%d %% de dégâts de %s, permanent, 3 au plus (le plus ancien part), ne peut pas être retiré" % [
+					ELEMENT_LABELS.get(effect["element"], effect["element"]), Fighter.ELEMENT_STATE_BONUS,
+					ELEMENT_LABELS.get(effect["element"], effect["element"])]
+			Spell.EFFECT_CREATE_SPELL:
+				line = "Avec 3 états élémentaires, donne le sort de leur combinaison (il remplace le précédent) :"
+				for key: String in effect["combinaisons"]:
+					var created: Spell = effect.get("sorts", {}).get(key)
+					line += "\n    · %s : %s" % [MapView.element_states_text(Array(key.split("+"))), created.display_name if created != null else "?"]
+			Spell.EFFECT_CHARGE:
+				line = "Charge en ligne droite jusqu'au contact de la cible (ou jusqu'à la case si elle est libre) ; les effets suivants ne touchent qu'au contact"
+			Spell.EFFECT_REMOVE_STATES:
+				var kinds: PackedStringArray = []
+				for kind: String in effect["etats"]:
+					kinds.append({"bonus": "bonus", "malus": "malus", "poison": "poisons"}.get(kind, kind))
+				line = "Retire les %s (sauf les états qui ne peuvent pas être retirés)" % " et ".join(kinds)
 			Spell.EFFECT_TRAP:
 				var zone: Dictionary = effect.get("zone", {})
 				line = "Piège invisible pour l'adversaire%s, au premier ennemi qui y entre :" % (
@@ -182,6 +198,11 @@ func _update_families() -> void:
 	for spell_id: String in voie.get("sorts", []):
 		if data.spells.has(spell_id):
 			voie_spells.append(data.spells[spell_id])
+	# Les sorts que la Voie peut créer (Arcaniste) se consultent avec les autres.
+	for spell in voie_spells.duplicate():
+		for created: Spell in spell.create_effect().get("sorts", {}).values():
+			if created not in voie_spells:
+				voie_spells.append(created)
 	families.append({"nom": "Voie : %s" % voie.get("nom", "?"), "sorts": voie_spells})
 	var race: Dictionary = data.races.get(world.character.race_id, {})
 	var race_spells: Array[Spell] = []

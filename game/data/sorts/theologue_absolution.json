@@ -1,0 +1,33 @@
+{
+  "id": "theologue_absolution",
+  "nom": "Absolution",
+  "description": "Pardonne aux alliés leurs malus et leurs poisons, retire aux ennemis leurs bonus. Le Théologue prélève une petite commission spirituelle au passage.",
+  "cout_pa": 3,
+  "portee": {
+    "min": 0,
+    "max": 5
+  },
+  "ligne_de_vue": true,
+  "relance": {
+    "par_tour": 1,
+    "delai": 2
+  },
+  "critique": 0,
+  "effets": [
+    {
+      "type": "retrait_etats",
+      "etats": [
+        "bonus"
+      ],
+      "cibles": "ennemis"
+    },
+    {
+      "type": "retrait_etats",
+      "etats": [
+        "malus",
+        "poison"
+      ],
+      "cibles": "allies"
+    }
+  ]
+}

@@ -12,7 +12,8 @@
     "rodeur_fleche",
     "rodeur_tir_percant",
     "rodeur_dague",
-    "rodeur_roulade"
+    "rodeur_roulade",
+    "rodeur_collet"
   ],
   "equipement_depart": [
     "arc_de_frene",

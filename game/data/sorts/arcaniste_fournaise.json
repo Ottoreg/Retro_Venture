@@ -1,0 +1,41 @@
+{
+  "id": "arcaniste_fournaise",
+  "nom": "Fournaise",
+  "description": "Flamme, Flamme, Flamme. Le sol s'embrase et continue de brûler après. L'Arcaniste appelle ça « réchauffer l'ambiance ».",
+  "cout_pa": 4,
+  "portee": {
+    "min": 2,
+    "max": 6
+  },
+  "ligne_de_vue": true,
+  "zone": {
+    "type": "cercle",
+    "taille": 1
+  },
+  "relance": {
+    "par_tour": 1,
+    "delai": 0
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "flamme",
+      "min": 9,
+      "max": 13,
+      "cibles": "ennemis"
+    },
+    {
+      "type": "glyphe",
+      "duree": 2,
+      "effets": [
+        {
+          "type": "degats",
+          "element": "flamme",
+          "min": 3,
+          "max": 5,
+          "cibles": "ennemis"
+        }
+      ]
+    }
+  ]
+}

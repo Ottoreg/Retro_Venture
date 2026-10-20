@@ -296,6 +296,8 @@ func _show_target() -> void:
 		states.append(MapView.state_text(state))
 	if not states.is_empty():
 		_target_stats.text += "\n" + "   ·   ".join(states)
+	if not fighter.element_states.is_empty():
+		_target_stats.text += "\nÉtats élémentaires : " + MapView.element_states_text(fighter.element_states)
 	for element: String in _target_resistances:
 		var label: Label = _target_resistances[element]
 		label.text = "%s %s" % [RESISTANCE_NAMES[element], percent_text(fighter.resistance(element))]
@@ -433,6 +435,8 @@ func _refresh() -> void:
 		_turn_button.text = "Fin du tour"
 		_turn_button.disabled = not player_turn
 	var fighter := map_view.player_fighter()
+	if fighter != null:
+		_show_spells(fighter.spells)  # Un sort créé change la barre (Arcaniste).
 	for spell_id: String in _spell_buttons:
 		var slot: SpellSlot = _spell_buttons[spell_id]
 		var spell: Spell = fighter.get_spell(spell_id) if fighter != null else null

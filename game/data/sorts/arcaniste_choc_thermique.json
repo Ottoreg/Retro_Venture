@@ -1,0 +1,37 @@
+{
+  "id": "arcaniste_choc_thermique",
+  "nom": "Choc thermique",
+  "description": "Flamme, Flamme, Givre. Chaud puis froid : la cible se fendille, et le prochain feu la trouvera moins solide.",
+  "cout_pa": 3,
+  "portee": {
+    "min": 1,
+    "max": 5
+  },
+  "ligne_de_vue": true,
+  "relance": {
+    "par_tour": 1,
+    "delai": 0
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "flamme",
+      "min": 7,
+      "max": 10
+    },
+    {
+      "type": "degats",
+      "element": "givre",
+      "min": 4,
+      "max": 6
+    },
+    {
+      "type": "malus",
+      "carac": "resistance",
+      "element": "flamme",
+      "min": 10,
+      "max": 10,
+      "duree": 2
+    }
+  ]
+}

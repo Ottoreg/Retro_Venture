@@ -162,8 +162,18 @@ const EVT_TELEPORTED := "teleporte"
 const EVT_STATUS := "effet"
 ## États d'un combattant après un changement (bonus, malus ou poison posé ou tombé). { type,
 ## entite: String, etats: Array[{ type, carac, element, valeur, min, max, tours, sort }], pa: int,
-## pm: int } ; `nouveau` : l'état qui vient d'être posé (absent quand un état tombe).
+## pm: int } ; `nouveau` : l'état qui vient d'être posé (absent quand un état tombe) ; `retires` :
+## nombre d'états qu'un sort vient de retirer.
 const EVT_STATES := "etats"
+## États élémentaires d'un combattant après un changement. { type, entite: String, etats: Array[String],
+## element: String (celui qui vient d'être pris) }
+const EVT_ELEMENT_STATES := "etats_elementaires"
+## Sort créé (« creer_sort ») : il remplace le précédent dans la barre. { type, entite: String,
+## sort: String (id), ancien: String (id ou "") }
+const EVT_SPELL_CREATED := "sort_cree"
+## Charge : le combattant fonce en ligne droite. { type, entite: String, depuis: Vector2i,
+## chemin: Array[Vector2i], case: Vector2i, contact: bool (arrivé au contact de la cible) }
+const EVT_CHARGED := "charge"
 ## Combattant poussé ou attiré. { type, entite: String, depuis: Vector2i, case: Vector2i }
 const EVT_PUSHED := "pousse"
 ## Glyphe posée au sol. { type, id: int, lanceur: String, equipe: int, cases: Array[Vector2i],
@@ -242,6 +252,8 @@ const REASON_NOT_ENOUGH_PA := "pa_insuffisants"
 const REASON_UNKNOWN_SPELL := "sort_inconnu"
 const REASON_SPELL_LIMIT := "sort_deja_lance"
 const REASON_SPELL_COOLDOWN := "sort_en_recharge"
+## « Créer un sort » sans 3 états élémentaires, ou avec une combinaison qui n'a pas de sort.
+const REASON_NO_COMBINATION := "combinaison_inconnue"
 const REASON_OUT_OF_RANGE := "hors_portee"
 const REASON_NO_LINE_OF_SIGHT := "pas_de_ligne_de_vue"
 const REASON_NOT_IN_LINE := "pas_en_ligne"
