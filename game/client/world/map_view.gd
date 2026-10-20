@@ -626,7 +626,11 @@ func _log_line(event: Dictionary) -> String:
 				event["element"]), element_states_text(event["etats"])]
 		Protocol.EVT_SPELL_CREATED:
 			var created: Spell = world.data.spells.get(event["sort"])
-			return "%s crée le sort [color=#%s]%s[/color]" % [who, LOG_SPELL, created.display_name if created != null else event["sort"]]
+			var text := "%s crée le sort [color=#%s]%s[/color]" % [who, LOG_SPELL, created.display_name if created != null else event["sort"]]
+			var removed: Spell = world.data.spells.get(str(event.get("ancien", "")))
+			if removed != null:
+				text += ", qui remplace %s" % removed.display_name
+			return text
 		Protocol.EVT_TELEPORTED:
 			return "%s se téléporte" % who
 		Protocol.EVT_GLYPH:

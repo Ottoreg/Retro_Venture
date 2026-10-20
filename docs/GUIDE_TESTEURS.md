@@ -59,15 +59,16 @@ temps : chaque camp a sa propre histoire.
   - **Rôdeur** : *Collet*, un piège invisible qui blesse et ralentit le premier ennemi qui y entre ;
   - **Théologue** (soigneur sacré : soin, bouclier, dégâts Sacrés) : *Absolution*, qui retire leurs
     bonus aux ennemis, leurs malus et leurs poisons aux alliés ;
-  - **Arcaniste** : *Braise* et *Frimas* donnent un **état élémentaire** (Flamme ou Givre, 3 au
-    plus, +4 % de dégâts chacun ; le PA est rendu aussitôt). Avec 3 états, *Créer un sort* donne
-    un sort selon la combinaison : Flamme ×3 *Fournaise*, Flamme ×2 + Givre *Choc thermique*, Givre
-    ×2 + Flamme *Armure de givre*, Givre ×3 *Blizzard*. Il apparaît au bout de la barre de sorts et
-    remplace le précédent. Les états s'affichent au survol de votre personnage et dans
-    l'historique. On dit qu'un troisième élément compléterait la formule…
+  - **Arcaniste** (kit entièrement nouveau) : *Braise* et *Frimas* donnent un **état élémentaire**
+    (Flamme ou Givre, 3 au plus, +4 % de dégâts chacun ; le PA est rendu aussitôt). Avec 3 états,
+    *Créer un sort* (2 PA) donne un sort selon la combinaison : Flamme ×3 *Fournaise*, Flamme ×2 +
+    Givre *Choc thermique*, Givre ×2 + Flamme *Armure de givre*, Givre ×3 *Blizzard* (4 PA chacun).
+    Il apparaît au bout de la barre de sorts ; on en garde **deux**, un troisième chasse le plus
+    ancien. Les états s'affichent au survol de votre personnage et dans l'historique. On dit
+    qu'un troisième élément compléterait la formule…
 - Les soins et boucliers grandissent avec la caractéristique de leur élément (soin Sacré : Force et
-  Intelligence ; *Second souffle* du Guerrier : Force ; *Soin mineur* de l'Arcaniste :
-  Intelligence).
+  Intelligence ; *Second souffle* du Guerrier : Force ; bouclier de l'*Armure de givre* de
+  l'Arcaniste : Chance).
 
 ## Commandes
 

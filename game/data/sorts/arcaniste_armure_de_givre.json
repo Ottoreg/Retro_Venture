@@ -2,7 +2,7 @@
   "id": "arcaniste_armure_de_givre",
   "nom": "Armure de givre",
   "description": "Givre, Givre, Flamme. Une carapace de glace pour encaisser, et une petite flamme dedans pour garder les idées claires.",
-  "cout_pa": 2,
+  "cout_pa": 4,
   "portee": {
     "min": 0,
     "max": 3

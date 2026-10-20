@@ -53,10 +53,13 @@ var phases: Array[Dictionary] = []
 ## États élémentaires (Arcaniste) : éléments dans l'ordre où ils ont été pris, `ELEMENT_STATE_MAX` au
 ## plus (le plus ancien part quand un nouveau arrive). Permanents pour le combat, jamais retirés.
 var element_states: Array[String] = []
-## Sort créé par « creer_sort » (id, "" si aucun) : il est dans `spells` tant qu'un autre ne le remplace pas.
-var created_spell := ""
+## Sorts créés par « creer_sort » (ids, du plus ancien au plus récent), `CREATED_SPELL_SLOTS` au
+## plus : ils sont dans `spells` ; un nouveau sort créé chasse le plus ancien.
+var created_spells: Array[String] = []
 
 const ELEMENT_STATE_MAX := 3
+## Emplacements de sorts créés dans la barre.
+const CREATED_SPELL_SLOTS := 2
 ## Bonus de dégâts (en %) de chaque état élémentaire dans son élément.
 const ELEMENT_STATE_BONUS := 4
 
@@ -145,14 +148,20 @@ func add_element_state(element: String) -> void:
 		element_states.remove_at(0)
 
 
-## Remplace le sort créé précédent par `spell`.
-func set_created_spell(spell: Spell) -> void:
-	var old := get_spell(created_spell)
-	if old != null:
-		spells.erase(old)
-	created_spell = spell.id
-	if get_spell(spell.id) == null:
-		spells.append(spell)
+## Ajoute `spell` aux sorts créés ; renvoie l'id du sort chassé pour lui faire de la place ("" si
+## aucun). Un sort déjà créé redevient simplement le plus récent.
+func add_created_spell(spell: Spell) -> String:
+	if spell.id in created_spells:
+		created_spells.erase(spell.id)
+		created_spells.append(spell.id)
+		return ""
+	var removed := ""
+	if created_spells.size() >= CREATED_SPELL_SLOTS:
+		removed = created_spells.pop_front()
+		spells.erase(get_spell(removed))
+	created_spells.append(spell.id)
+	spells.append(spell)
+	return removed
 
 
 func start_turn() -> void:

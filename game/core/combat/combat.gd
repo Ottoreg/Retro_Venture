@@ -405,9 +405,8 @@ func _cast(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 			return events
 	var created := created_spell_for(fighter, spell)
 	if created != null:
-		var old := fighter.created_spell
-		fighter.set_created_spell(created)
-		events.append({"type": Protocol.EVT_SPELL_CREATED, "entite": fighter.id, "sort": created.id, "ancien": old})
+		var removed := fighter.add_created_spell(created)
+		events.append({"type": Protocol.EVT_SPELL_CREATED, "entite": fighter.id, "sort": created.id, "ancien": removed})
 	for effect in spell.effects:
 		if effect["type"] == Spell.EFFECT_GLYPH:
 			_place_glyph(fighter, spell, effect, spell.zone_cells(target, origin), events)

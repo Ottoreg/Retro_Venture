@@ -51,20 +51,30 @@ func test_creer_un_sort() -> void:
 	var created := Fixtures.of_type(events, Protocol.EVT_SPELL_CREATED)
 	assert_eq(created.size(), 1)
 	assert_eq(created[0]["sort"], "fondu", "Flamme, Flamme, Givre (dans n'importe quel ordre)")
+	assert_eq(created[0]["ancien"], "")
 	assert_true(player.get_spell("fondu") != null, "le sort créé est dans la barre")
 	var damage := Fixtures.of_type(_cast(combat, "fondu", C + Vector2i(3, 0)), Protocol.EVT_DAMAGE)
 	assert_eq(damage[0]["valeur"], 11, "10 + 8 % (deux états Flamme)")
 	assert_eq(_cast(combat, "creer", C)[0]["raison"], Protocol.REASON_SPELL_LIMIT, "une création par tour")
+	# Deux places : un 2e sort créé s'ajoute, un 3e chasse le plus ancien.
 	combat.execute(Fixtures.cmd(Protocol.CMD_END_TURN))
 	for i in 3:
 		_cast(combat, "frimas", C)
 	_cast(combat, "creer", C)
-	assert_true(player.get_spell("givrage") != null)
-	assert_true(player.get_spell("fondu") == null, "le nouveau sort remplace l'ancien")
-	# Une combinaison sans sort : refusée.
-	_cast(combat, "braise", C)
+	assert_eq(player.created_spells, ["fondu", "givrage"] as Array[String])
+	assert_true(player.get_spell("fondu") != null and player.get_spell("givrage") != null, "deux sorts créés dans la barre")
 	combat.execute(Fixtures.cmd(Protocol.CMD_END_TURN))
-	assert_eq(player.element_states, ["givre", "givre", "flamme"] as Array[String])
+	for i in 3:
+		_cast(combat, "braise", C)
+	events = _cast(combat, "creer", C)
+	assert_eq(Fixtures.of_type(events, Protocol.EVT_SPELL_CREATED)[0]["ancien"], "fondu", "le plus ancien part")
+	assert_eq(player.created_spells, ["givrage", "brasier"] as Array[String])
+	assert_true(player.get_spell("fondu") == null)
+	# Une combinaison sans sort : refusée.
+	_cast(combat, "frimas", C)
+	combat.execute(Fixtures.cmd(Protocol.CMD_END_TURN))
+	assert_eq(player.element_states, ["flamme", "flamme", "givre"] as Array[String])
+	player.element_states = ["flamme", "givre", "givre"] as Array[String]
 	assert_eq(_cast(combat, "creer", C)[0]["raison"], Protocol.REASON_NO_COMBINATION)
 
 
@@ -171,4 +181,7 @@ func test_kit_de_l_arcaniste_dans_les_donnees() -> void:
 	var linked: Dictionary = create.create_effect()["sorts"]
 	assert_eq(linked.size(), 4, "Flamme ×3, Givre ×3, Flamme ×2 + Givre, Givre ×2 + Flamme")
 	for voie_id in ["arcaniste", "guerrier", "rodeur", "theologue"]:
-		assert_eq(data.voies[voie_id]["sorts"].size(), 7 if voie_id == "arcaniste" else 5, voie_id)
+		assert_eq(data.voies[voie_id]["sorts"].size(), 3 if voie_id == "arcaniste" else 5, voie_id)
+	assert_eq(data.spells["arcaniste_creer_un_sort"].pa_cost, 2)
+	for created: Spell in linked.values():
+		assert_eq(created.pa_cost, 4, "tous les sorts créés à 4 PA pendant l'alpha 1 (%s)" % created.id)

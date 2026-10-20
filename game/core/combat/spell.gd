@@ -46,8 +46,8 @@ const EFFECT_TRAP := "piege"
 ## élément ; on ne peut pas le retirer. Voir `Fighter.element_states`.
 const EFFECT_ELEMENT_STATE := "etat_elementaire"
 ## Le lanceur reçoit le sort de `combinaisons` qui correspond à ses 3 états élémentaires (clé :
-## les éléments triés, joints par « + », par exemple « flamme+flamme+givre ») ; il remplace le sort
-## créé précédent.
+## les éléments triés, joints par « + », par exemple « flamme+flamme+givre ») ; 2 sorts créés au
+## plus, le plus ancien part (voir `Fighter.add_created_spell`).
 const EFFECT_CREATE_SPELL := "creer_sort"
 ## Charge : le lanceur fonce en ligne droite vers la case visée, jusqu'au contact du combattant qui
 ## s'y trouve (ou jusqu'à la case si elle est libre) ; un obstacle ou un combattant l'arrête avant.

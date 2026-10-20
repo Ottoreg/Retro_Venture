@@ -304,7 +304,7 @@ sexes × équipements × animations) impose de s'en tenir à ces 9.
 |---|---|---|---|
 | **Guerrier** | Mêlée, encaisse | Acier (Force) | Charges, coups de zone en mêlée, réduction de dégâts |
 | **Rôdeur** | Distance, mobilité | Acier / Tempête (Force / Agilité) | Arc, pièges, poussée, gestion de distance |
-| **Arcaniste** | Dégâts magiques, contrôle | Flamme / Givre (Intelligence / Chance) | Sorts de zone, ralentissements, un petit soin |
+| **Arcaniste** | Dégâts magiques, contrôle | Flamme / Givre (Intelligence / Chance) | États élémentaires et sorts créés selon leur combinaison : zones, ralentissements, bouclier |
 | **Théologue** | Soigneur sacré | Sacré (Force + Intelligence) | Soins, boucliers, dégâts sacrés modestes |
 
 Le **Théologue** est jouable dans l'alpha (✅) : une classe de soin rend le solo plus confortable et
@@ -318,30 +318,36 @@ permet de tester le Sacré dès maintenant. Arme de départ : le Sceptre de novi
 | *Rempart de foi* | 2 | 0 à 3 | Bouclier Sacré de 12 à 16, jusqu'au prochain tour du porteur (tous les 2 tours) |
 | *Sermon* | 4 | 1 à 4, **en ligne** | Zone en croix latine : 4 cases dans le sens du lancer depuis la case visée, et une de chaque côté de la 3e (la tête de la croix au loin). Ennemis : 4 à 7 dégâts Sacré ; alliés : soin Sacré de 4 à 7 (1 fois par tour) |
 
-Les soins des autres classes restent modestes (le Guerrier et l'Arcaniste en ont un petit) pour
-que le Théologue garde son rôle.
+Les soins des autres classes restent modestes (le Guerrier en a un petit, l'Arcaniste un bouclier)
+pour que le Théologue garde son rôle.
 
 **Identité des Voies pour l'alpha test 1** (fait) : une mécanique de plus par Voie, pour qu'elles
-se jouent différemment et donnent envie de rejouer. Le reste de leur kit ne change pas.
+se jouent différemment et donnent envie de rejouer. Le reste de leur kit ne change pas, sauf pour
+l'Arcaniste, dont le kit est entièrement remplacé.
 
 | Voie | Ajout | Sort |
 |---|---|---|
-| **Arcaniste** | Version Flamme / Givre de la refonte (plus bas) : états élémentaires et *Créer un sort* | *Braise*, *Frimas* (1 PA rendu aussitôt : état Flamme ou Givre), *Créer un sort* (1 PA, 1 fois par tour) |
+| **Arcaniste** | Version Flamme / Givre de la refonte (plus bas) : états élémentaires et *Créer un sort*, à la place de ses anciens sorts | *Braise*, *Frimas* (1 PA rendu aussitôt : état Flamme ou Givre), *Créer un sort* (2 PA, 1 fois par tour) |
 | **Guerrier** | Charge | *Charge* : 3 PA, 2 à 4 cases **en ligne**, ligne de vue, relance 2 tours ; fonce jusqu'au contact (ou jusqu'à la case si elle est libre ; un obstacle ou un combattant l'arrête avant) et frappe 6 à 9 Acier, seulement s'il arrive au contact |
 | **Rôdeur** | Piège | *Collet* : 3 PA, 1 à 4 cases, relance 2 tours ; piège invisible, 7 à 10 Acier et −2 PM au prochain tour du premier ennemi qui y entre |
 | **Théologue** | Retrait des états | *Absolution* : 3 PA, 0 à 5 cases, relance 2 tours ; retire aux ennemis leurs bonus, aux alliés leurs malus et leurs poisons |
 
 **Arcaniste de l'alpha 1** : les états élémentaires Flamme et Givre seulement (ses caractéristiques
-et son équipement ne changent pas). *Braise* et *Frimas* donnent un état permanent (+4 % de dégâts
-dans son élément, 3 au plus, le 4e remplace le plus ancien, ne peut pas être retiré). Avec 3
-états, *Créer un sort* donne le sort de la combinaison, qui remplace le précédent dans la barre
-(chaque sort créé garde ses propres relances) :
+et son équipement ne changent pas). Ses anciens sorts (*Boule de feu*, *Éclat de givre*,
+*Étincelle*, *Soin mineur*) ne lui sont plus reliés : leurs fichiers restent dans `data/sorts/`
+comme trace de l'ancienne version. Son kit : *Braise* et *Frimas* (1 PA rendu aussitôt) donnent un
+état permanent (+4 % de dégâts dans son élément, 3 au plus, le 4e remplace le plus ancien, ne peut
+pas être retiré). Avec 3 états, *Créer un sort* (2 PA, 1 fois par tour) donne le sort de la
+combinaison, qui prend l'une des **2 places** de sorts créés de la barre ; quand les deux sont
+prises, le nouveau chasse le plus ancien (chaque sort créé garde ses propres relances). Tous les
+sorts créés coûtent **4 PA** pendant l'alpha 1 (équilibrage ensuite). Dès le premier tour : 3 états
+(0 PA), création (2 PA), sort créé (4 PA).
 
 | Combinaison | Sort | Effet |
 |---|---|---|
 | Flamme ×3 | *Fournaise* | 4 PA, 2 à 6 cases, cercle de 1 : 9 à 13 Flamme aux ennemis et glyphe brûlante 2 tours (3 à 5 Flamme) |
-| Flamme ×2 + Givre | *Choc thermique* | 3 PA, 1 à 5 cases : 7 à 10 Flamme, 4 à 6 Givre, −10 % de résistance Flamme 2 tours |
-| Givre ×2 + Flamme | *Armure de givre* | 2 PA, 0 à 3 cases, relance 1 tour : bouclier Givre 14 à 20 et +20 Intelligence 2 tours à un allié |
+| Flamme ×2 + Givre | *Choc thermique* | 4 PA, 1 à 5 cases : 7 à 10 Flamme, 4 à 6 Givre, −10 % de résistance Flamme 2 tours |
+| Givre ×2 + Flamme | *Armure de givre* | 4 PA, 0 à 3 cases, relance 1 tour : bouclier Givre 14 à 20 et +20 Intelligence 2 tours à un allié |
 | Givre ×3 | *Blizzard* | 4 PA, 1 à 5 cases, cercle de 1 : 6 à 9 Givre et −2 PM au prochain tour aux ennemis |
 
 La **Tempête** viendra après l'alpha 1 (6 combinaisons de plus) : la description de *Créer un

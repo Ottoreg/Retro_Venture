@@ -557,7 +557,8 @@ def main():
 
     orphelins = sorted(set(sorts) - utilises)
     if orphelins:
-        lignes += ["## Sorts sans lanceur", ""]
+        lignes += ["## Sorts sans lanceur", "", "Sorts reliés à aucune Voie, race ou monstre (par exemple les anciens sorts de l'Arcaniste,",
+                   "gardés comme trace de sa première version).", ""]
         lignes += table_sorts(orphelins)
 
     with open(SORTIE, "w", encoding="utf-8") as fichier:

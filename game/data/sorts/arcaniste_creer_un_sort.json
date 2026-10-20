@@ -2,7 +2,7 @@
   "id": "arcaniste_creer_un_sort",
   "nom": "Créer un sort",
   "description": "Trois états, une formule, un sort. Les savants de la Tour murmurent qu'un troisième élément, la Tempête, compléterait la formule… mais personne n'a encore osé l'écrire.",
-  "cout_pa": 1,
+  "cout_pa": 2,
   "portee": {
     "min": 0,
     "max": 0

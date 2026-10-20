@@ -98,7 +98,7 @@ static func effect_lines(effects: Array, indent := "") -> PackedStringArray:
 					ELEMENT_LABELS.get(effect["element"], effect["element"]), Fighter.ELEMENT_STATE_BONUS,
 					ELEMENT_LABELS.get(effect["element"], effect["element"])]
 			Spell.EFFECT_CREATE_SPELL:
-				line = "Avec 3 états élémentaires, donne le sort de leur combinaison (il remplace le précédent) :"
+				line = "Avec 3 états élémentaires, donne le sort de leur combinaison (2 sorts créés au plus : un 3e chasse le plus ancien) :"
 				for key: String in effect["combinaisons"]:
 					var created: Spell = effect.get("sorts", {}).get(key)
 					line += "\n    · %s : %s" % [MapView.element_states_text(Array(key.split("+"))), created.display_name if created != null else "?"]

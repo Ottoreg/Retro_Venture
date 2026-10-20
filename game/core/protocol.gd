@@ -168,8 +168,9 @@ const EVT_STATES := "etats"
 ## États élémentaires d'un combattant après un changement. { type, entite: String, etats: Array[String],
 ## element: String (celui qui vient d'être pris) }
 const EVT_ELEMENT_STATES := "etats_elementaires"
-## Sort créé (« creer_sort ») : il remplace le précédent dans la barre. { type, entite: String,
-## sort: String (id), ancien: String (id ou "") }
+## Sort créé (« creer_sort ») : il prend une des 2 places de la barre, et chasse le plus ancien
+## quand elles sont prises. { type, entite: String, sort: String (id), ancien: String (id du sort
+## chassé, ou "") }
 const EVT_SPELL_CREATED := "sort_cree"
 ## Charge : le combattant fonce en ligne droite. { type, entite: String, depuis: Vector2i,
 ## chemin: Array[Vector2i], case: Vector2i, contact: bool (arrivé au contact de la cible) }

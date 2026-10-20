@@ -1090,21 +1090,17 @@ Maître du feu et du givre. Lit beaucoup, court peu, explose parfois des choses 
 
 | Sort | Caractéristiques | Effets | Description |
 |---|---|---|---|
-| **Boule de feu** | 4 PA, portée 2–6, cercle de rayon 1, 1/tour | 5–8 Flamme | Le grand classique. Brûle la cible et tout ce qui l'entoure, amis compris : visez bien. |
-| **Éclat de givre** | 3 PA, portée 1–5, 2/tour | 4–6 Givre ; −1 PM au prochain tour | Un éclat de glace qui engourdit les jambes : la cible aura un PM de moins au prochain tour. |
-| **Étincelle** | 2 PA, portée 1–4, 3/tour | 2–4 Flamme | Petit sort, petit coût, petits dégâts. Mais trois fois par tour. |
-| **Soin mineur** | 3 PA, portée 0–3, 1/tour, relance 2 t. | soin 8–12 (Flamme) | Referme les petites plaies. Pour les grandes, prévoir une potion. Ou un autre arcaniste. |
 | **Braise** | 1 PA, portée soi, sans ligne de vue, critique 0 % | état élémentaire Flamme (permanent, 3 au plus) ; +1 PA tout de suite | Une braise s'allume dans la paume de l'Arcaniste et y reste. Ça chauffe un peu, ça sert beaucoup. Coûte 1 PA, rendu aussitôt. |
 | **Frimas** | 1 PA, portée soi, sans ligne de vue, critique 0 % | état élémentaire Givre (permanent, 3 au plus) ; +1 PA tout de suite | Un flocon tourne autour de l'Arcaniste et refuse de fondre. Coûte 1 PA, rendu aussitôt. |
-| **Créer un sort** | 1 PA, portée soi, sans ligne de vue, 1/tour, critique 0 % | crée le sort de la combinaison des 3 états : Flamme + Flamme + Flamme → Fournaise ; Flamme + Flamme + Givre → Choc thermique ; Flamme + Givre + Givre → Armure de givre ; Givre + Givre + Givre → Blizzard | Trois états, une formule, un sort. Les savants de la Tour murmurent qu'un troisième élément, la Tempête, compléterait la formule… mais personne n'a encore osé l'écrire. |
+| **Créer un sort** | 2 PA, portée soi, sans ligne de vue, 1/tour, critique 0 % | crée le sort de la combinaison des 3 états : Flamme + Flamme + Flamme → Fournaise ; Flamme + Flamme + Givre → Choc thermique ; Flamme + Givre + Givre → Armure de givre ; Givre + Givre + Givre → Blizzard | Trois états, une formule, un sort. Les savants de la Tour murmurent qu'un troisième élément, la Tempête, compléterait la formule… mais personne n'a encore osé l'écrire. |
 
 Sorts créés (*Créer un sort*, selon la combinaison des 3 états élémentaires) :
 
 | Sort | Caractéristiques | Effets | Combinaison | Description |
 |---|---|---|---|---|
 | **Fournaise** | 4 PA, portée 2–6, cercle de rayon 1, 1/tour | 9–13 Flamme aux ennemis ; glyphe (2 t.) : [3–5 Flamme aux ennemis] | Flamme + Flamme + Flamme | Flamme, Flamme, Flamme. Le sol s'embrase et continue de brûler après. L'Arcaniste appelle ça « réchauffer l'ambiance ». |
-| **Choc thermique** | 3 PA, portée 1–5, 1/tour | 7–10 Flamme ; 4–6 Givre ; −10 Résistance Flamme (2 t.) | Flamme + Flamme + Givre | Flamme, Flamme, Givre. Chaud puis froid : la cible se fendille, et le prochain feu la trouvera moins solide. |
-| **Armure de givre** | 2 PA, portée 0–3, 1/tour, relance 1 t. | bouclier 14–20 (Givre) aux alliés ; +20 Intelligence (2 t.) aux alliés | Flamme + Givre + Givre | Givre, Givre, Flamme. Une carapace de glace pour encaisser, et une petite flamme dedans pour garder les idées claires. |
+| **Choc thermique** | 4 PA, portée 1–5, 1/tour | 7–10 Flamme ; 4–6 Givre ; −10 Résistance Flamme (2 t.) | Flamme + Flamme + Givre | Flamme, Flamme, Givre. Chaud puis froid : la cible se fendille, et le prochain feu la trouvera moins solide. |
+| **Armure de givre** | 4 PA, portée 0–3, 1/tour, relance 1 t. | bouclier 14–20 (Givre) aux alliés ; +20 Intelligence (2 t.) aux alliés | Flamme + Givre + Givre | Givre, Givre, Flamme. Une carapace de glace pour encaisser, et une petite flamme dedans pour garder les idées claires. |
 | **Blizzard** | 4 PA, portée 1–5, cercle de rayon 1, 1/tour | 6–9 Givre aux ennemis ; −2 PM au prochain tour aux ennemis | Givre + Givre + Givre | Givre, Givre, Givre. Une tempête de neige en miniature : les ennemis pris dedans avancent comme dans de la mélasse. |
 
 ### Guerrier
@@ -1241,3 +1237,15 @@ Soigneur sacré. Bénit les alliés, sermonne les ennemis, et cite des textes qu
 | **Éclats de porte** | 3 PA, portée 2–5, cercle de rayon 1, 1/tour | 4–6 Acier | Grondin, Bélier de la Brèche (mini-boss) niv. 30 | Il crache les morceaux des portes qu'il a déjà enfoncées. |
 | **Élan** | 2 PA, portée soi, sans ligne de vue, 1/tour, relance 2 t. | +2 PM (1 t.) | Grondin, Bélier de la Brèche (mini-boss) niv. 30 | Les roues grincent, les chaînes claquent : il recule pour mieux frapper. |
 | **Épaulée** | 3 PA, portée 1, 1/tour | 3–5 Acier ; poussée de 2 case(s) | Défonceur de portes (élite) niv. 15, Gobelin briseur niv. 10–12 | Un coup d'épaule de professionnel : on recule, on réfléchit. |
+
+## Sorts sans lanceur
+
+Sorts reliés à aucune Voie, race ou monstre (par exemple les anciens sorts de l'Arcaniste,
+gardés comme trace de sa première version).
+
+| Sort | Caractéristiques | Effets | Description |
+|---|---|---|---|
+| **Boule de feu** | 4 PA, portée 2–6, cercle de rayon 1, 1/tour | 5–8 Flamme | Le grand classique. Brûle la cible et tout ce qui l'entoure, amis compris : visez bien. |
+| **Éclat de givre** | 3 PA, portée 1–5, 2/tour | 4–6 Givre ; −1 PM au prochain tour | Un éclat de glace qui engourdit les jambes : la cible aura un PM de moins au prochain tour. |
+| **Étincelle** | 2 PA, portée 1–4, 3/tour | 2–4 Flamme | Petit sort, petit coût, petits dégâts. Mais trois fois par tour. |
+| **Soin mineur** | 3 PA, portée 0–3, 1/tour, relance 2 t. | soin 8–12 (Flamme) | Referme les petites plaies. Pour les grandes, prévoir une potion. Ou un autre arcaniste. |

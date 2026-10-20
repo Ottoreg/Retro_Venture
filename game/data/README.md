@@ -294,7 +294,8 @@ Mécaniques des Voies :
   3 au plus (le 4e remplace le plus ancien), +4 % de dégâts dans son élément ; il ne peut pas être
   retiré. Avec `gain_pa` 1 dans un sort à 1 PA, le PA est rendu aussitôt.
 - `creer_sort` : avec 3 états élémentaires, le lanceur reçoit le sort de leur combinaison (clé : les
-  3 éléments **triés**, joints par `+`), qui remplace le sort créé précédent. Les sorts nommés
+  3 éléments **triés**, joints par `+`) ; il en garde 2 (`Fighter.CREATED_SPELL_SLOTS`), un 3e
+  chasse le plus ancien. Les sorts nommés
   doivent exister et ne rien créer eux-mêmes ; sinon le sort qui crée est écarté au chargement.
   Sans 3 états, ou pour une combinaison absente : refusé (`combinaison_inconnue`).
 - `charge` : demande `lancer_en_ligne` et une portée minimale d'au moins 2. Le lanceur fonce en
