@@ -1,6 +1,6 @@
 /**
  * Retro Venture — crée le questionnaire de l'alpha test 1 dans Google Forms (contenu :
- * docs/FORMULAIRE_ALPHA1.md).
+ * docs/FORMULAIRE_ALPHA1.md ; version 2 : questions sur les mécaniques des Voies).
  *
  * Mode d'emploi (une seule fois, avec le compte Google qui doit posséder le formulaire) :
  *   1. Aller sur https://script.google.com → « Nouveau projet ».
@@ -77,6 +77,14 @@ function creerFormulaire() {
   choix('Avez-vous utilisé le mode tactique (touche T) ?',
     ['Oui, tout le temps', 'Parfois', "Non, je ne l'ai pas trouvé", 'Non, pas besoin']);
   long('Votre Voie vous a-t-elle semblé trop faible, trop forte, ou bien ? Pourquoi ?');
+  echelle5("La mécanique propre à votre Voie (Charge du Guerrier, Collet du Rôdeur, Absolution du Théologue, états élémentaires de l'Arcaniste) vous a-t-elle plu ?",
+    'Pas du tout', 'Beaucoup');
+  cases("Si vous avez joué l'Arcaniste : composer ses états (Braise, Frimas) puis Créer un sort, c'était…",
+    ['Clair', 'Confus au début', 'Amusant', 'Trop long à préparer', "Je n'ai pas joué l'Arcaniste"]);
+  choix("Quel élément aimeriez-vous voir rejoindre la Flamme et le Givre de l'Arcaniste ?",
+    ['Tempête', 'Acier', 'Sacré', 'Impie'], false, true);
+  choix("Avez-vous utilisé l'historique du combat (en bas à gauche, touche H) ?",
+    ['Oui, souvent', 'Parfois', "Non, je ne l'ai pas vu", 'Non, pas besoin']);
   long('Un sort ou un effet incompris ou inutile ?');
 
   section('4. Quêtes et histoire');

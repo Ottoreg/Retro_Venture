@@ -64,56 +64,73 @@ test 2. »
 18. Avez-vous utilisé le mode tactique (touche T) ? — *choix unique* : Oui, tout le temps / Parfois /
     Non, je ne l'ai pas trouvé / Non, pas besoin
 19. Votre Voie vous a-t-elle semblé trop faible, trop forte, ou bien ? Pourquoi ? — *long*
-20. Un sort ou un effet incompris ou inutile ? — *long*
+20. La mécanique propre à votre Voie (Charge du Guerrier, Collet du Rôdeur, Absolution du Théologue,
+    états élémentaires de l'Arcaniste) vous a-t-elle plu ? — *échelle* : 1 « Pas du tout » … 5
+    « Beaucoup »
+21. Si vous avez joué l'Arcaniste : composer ses états (Braise, Frimas) puis Créer un sort, c'était…
+    — *cases* : Clair / Confus au début / Amusant / Trop long à préparer / Je n'ai pas joué
+    l'Arcaniste
+22. Quel élément aimeriez-vous voir rejoindre la Flamme et le Givre de l'Arcaniste ? — *choix
+    unique* : Tempête / Acier / Sacré / Impie / Autre (« Autre » libre)
+23. Avez-vous utilisé l'historique du combat (en bas à gauche, touche H) ? — *choix unique* : Oui,
+    souvent / Parfois / Non, je ne l'ai pas vu / Non, pas besoin
+24. Un sort ou un effet incompris ou inutile ? — *long*
 
 ## 4. Quêtes et histoire
 
-21. ★ Saviez-vous quoi faire et où aller ? — *échelle* : 1 « Jamais » … 5 « Toujours »
-22. ★ Les textes (dialogues, quêtes, objets) vous ont-ils fait sourire ? — *échelle* : 1 « Pas du
+25. ★ Saviez-vous quoi faire et où aller ? — *échelle* : 1 « Jamais » … 5 « Toujours »
+26. ★ Les textes (dialogues, quêtes, objets) vous ont-ils fait sourire ? — *échelle* : 1 « Pas du
     tout » … 5 « Beaucoup »
-23. Le journal (Q) et le suivi sous la minicarte vous ont-ils aidé ? — *échelle* : 1 … 5
-24. Votre quête préférée, et pourquoi ? — *court*
-25. Une quête vous a-t-elle bloqué ou semblé injuste ? Laquelle ? — *long*
-26. Avez-vous visité les zones des autres camps ? — *choix unique* : Oui / Non / Je ne savais pas que
+27. Le journal (Q) et le suivi sous la minicarte vous ont-ils aidé ? — *échelle* : 1 … 5
+28. Votre quête préférée, et pourquoi ? — *court*
+29. Une quête vous a-t-elle bloqué ou semblé injuste ? Laquelle ? — *long*
+30. Avez-vous visité les zones des autres camps ? — *choix unique* : Oui / Non / Je ne savais pas que
     c'était possible
 
 ## 5. Exploration et interface
 
-27. ★ Les cartes se lisent-elles bien (où marcher, sorties, portes, ce qui est cliquable) ? —
+31. ★ Les cartes se lisent-elles bien (où marcher, sorties, portes, ce qui est cliquable) ? —
     *échelle* : 1 … 5
-28. La minicarte et la carte du monde (M) vous ont-elles aidé à vous orienter ? — *échelle* : 1 … 5
-29. Fenêtres les plus utiles ou les plus pénibles (inventaire, fiche, sorts, métiers, journal,
+32. La minicarte et la carte du monde (M) vous ont-elles aidé à vous orienter ? — *échelle* : 1 … 5
+33. Fenêtres les plus utiles ou les plus pénibles (inventaire, fiche, sorts, métiers, journal,
     boutique, atelier) — *long*
-30. Un clic, une fenêtre ou un raccourci qui ne réagissait pas comme prévu ? — *long*
+34. Un clic, une fenêtre ou un raccourci qui ne réagissait pas comme prévu ? — *long*
 
 ## 6. Progression, économie, métiers
 
-31. ★ Rythme de montée en niveau — *choix unique* : Trop rapide / Bien / Trop lent
-32. Les écus, les prix des marchands et les récompenses vous ont-ils semblé cohérents ? — *échelle* :
+35. ★ Rythme de montée en niveau — *choix unique* : Trop rapide / Bien / Trop lent
+36. Les écus, les prix des marchands et les récompenses vous ont-ils semblé cohérents ? — *échelle* :
     1 … 5
-33. Avez-vous utilisé les métiers (récolte, forge) ? — *choix unique* : Beaucoup / Un peu / Pas du
+37. Avez-vous utilisé les métiers (récolte, forge) ? — *choix unique* : Beaucoup / Un peu / Pas du
     tout
-34. Avez-vous obtenu une ressource rare (« Rare ! ») ou fabriqué une recette améliorée ? — *choix
+38. Avez-vous obtenu une ressource rare (« Rare ! ») ou fabriqué une recette améliorée ? — *choix
     unique* : Oui / Non
-35. Équipement et panoplies : des remarques ? — *long*
+39. Équipement et panoplies : des remarques ? — *long*
 
 ## 7. Bugs
 
-36. Avez-vous rencontré un bug ? — *choix unique* : Non / Oui, gênant / Oui, bloquant
-37. Décrivez-le : ce que vous faisiez (carte, combat, quête), ce qui s'est passé, ce que vous
+40. Avez-vous rencontré un bug ? — *choix unique* : Non / Oui, gênant / Oui, bloquant
+41. Décrivez-le : ce que vous faisiez (carte, combat, quête), ce qui s'est passé, ce que vous
     attendiez, s'il revient en recommençant — *long*
-38. Lien vers une capture d'écran (si vous en avez une) — *court*
+42. Lien vers une capture d'écran (si vous en avez une) — *court*
 
 ## 8. Bilan
 
-39. ★ Note globale de cette version — *échelle* : 1 … 10
-40. ★ Auriez-vous envie de jouer à la suite (alpha test 2 : vraie progression, sorts par niveau,
+43. ★ Note globale de cette version — *échelle* : 1 … 10
+44. ★ Auriez-vous envie de jouer à la suite (alpha test 2 : vraie progression, sorts par niveau,
     dessins et son) ? — *choix unique* : Oui / Peut-être / Non
-41. Ce que vous avez préféré — *long*
-42. Ce qu'il faut changer en priorité — *long*
-43. Un dernier mot ? — *long*
+45. Ce que vous avez préféré — *long*
+46. Ce qu'il faut changer en priorité — *long*
+47. Un dernier mot ? — *long*
 
 ---
+
+### Version 2 (identité des Voies)
+
+Formulaire regénéré par `creer_formulaire.gs` après l'ajout des mécaniques de Voie : 4 questions
+de plus dans la section 3 (mécanique de sa Voie, composition de l'Arcaniste, élément souhaité pour
+l'Arcaniste, historique du combat). Le lien des testeurs change : le reporter dans
+`Session.FEEDBACK_URL`, ce document et le guide des testeurs.
 
 ### Changements par rapport au brouillon
 
