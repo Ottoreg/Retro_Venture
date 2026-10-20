@@ -15,7 +15,8 @@ extends SceneTree
 ## (comme « cible », en mode tactique), « pause » (menu pause), « options » (fenêtre des options),
 ## « quete » (le premier PNJ qui propose une quête : sa proposition), « journal » (cette quête
 ## acceptée, le journal ouvert ; le suivi est sous la minicarte), « historique » (combat, deux tours
-## passés : historique du combat rempli).
+## passés : historique du combat rempli), « arcaniste » (Arcaniste en combat : 3 états, un sort
+## créé, une place vide).
 ## Si « carte » commence par res://, c'est cette scène qui est capturée (menu, création…).
 
 var _output := "capture.png"
@@ -38,6 +39,8 @@ func _initialize() -> void:
 	_action = args[3] if args.size() > 3 else ""
 	if _action == "sermon":
 		Session.new_character = Character.create("Frère Tuck", "humain", "theologue")
+	if _action == "arcaniste":
+		Session.new_character = Character.create("Mirabelle", "humain", "arcaniste")
 	Session.minimap_folded = _action == "repliee"
 	# Réglages par défaut (ceux du joueur ne comptent pas), mode tactique si demandé.
 	Options.reset()
@@ -166,7 +169,7 @@ func _process(_delta: float) -> bool:
 			_scene.pause_menu.open()
 			_scene.pause_menu._on_options_pressed()
 		else:
-			var target: Vector2i = view.world.groups()[0]["case"] if _action in ["combat", "cible", "sermon", "phase", "tactique", "historique"] else view.current_map().travel_stone()
+			var target: Vector2i = view.world.groups()[0]["case"] if _action in ["combat", "cible", "sermon", "phase", "tactique", "historique", "arcaniste"] else view.current_map().travel_stone()
 			if _action == "phase":
 				# Aucun monstre n'a encore de phases dans les données : le premier du groupe en reçoit une.
 				var monster: Dictionary = view.world.data.monsters[view.world.groups()[0]["monstres"][0]]
@@ -177,13 +180,22 @@ func _process(_delta: float) -> bool:
 				if not view.is_busy():
 					break
 				view._process(0.3)
-			if _action in ["cible", "sermon", "phase", "tactique", "historique"] and view.world.combat != null:
+			if _action in ["cible", "sermon", "phase", "tactique", "historique", "arcaniste"] and view.world.combat != null:
 				# Placement validé, puis survol du premier monstre.
 				view.request_start_fight()
 				for i in 200:
 					if not view.is_busy():
 						break
 					view._process(0.3)
+				# Arcaniste : deux états Flamme, un Givre, puis Créer un sort (une place reste vide).
+				if _action == "arcaniste":
+					for spell_id in ["arcaniste_braise", "arcaniste_braise", "arcaniste_frimas", "arcaniste_creer_un_sort"]:
+						view.select_spell(spell_id)
+						view._on_click(view.player_fighter().cell)
+						for i in 50:
+							if not view.is_busy():
+								break
+							view._process(0.3)
 				# Historique : deux tours passés, le temps que les monstres frappent.
 				for turn in 2 if _action == "historique" else 0:
 					view.request_end_turn()

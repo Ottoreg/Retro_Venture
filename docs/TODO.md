@@ -579,7 +579,7 @@ Peut démarrer dès que l'alpha solo est stable.
 ### Identité des classes (à décider après les premiers retours de l'alpha 1)
 
 **Choix de l'auteur pour l'alpha 1 (fait)** : Arcaniste Flamme / Givre (états élémentaires, *Créer
-un sort* à 2 PA, 4 sorts créés à 4 PA, 2 places dans la barre ; anciens sorts retirés ; la Tempête
+un sort* à 2 PA, 4 sorts créés à 4 PA, 2 places dans la barre (vides : « ? ») et 3 orbes d'états ; anciens sorts retirés ; la Tempête
 annoncée pour la suite), *Charge* du Guerrier, *Collet* du
 Rôdeur, *Absolution* du Théologue (GDD § 4.3). Les idées ci-dessous restent pour la suite.
 - [ ] IA qui compose les états de l'Arcaniste (simulation des combats, futurs monstres mages)

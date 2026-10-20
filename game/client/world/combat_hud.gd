@@ -10,6 +10,8 @@ const OVERLOAD_TEXT := "Inventaire surchargé ! Faites de la place (vendre, jete
 ## Noms courts des éléments pour les résistances du combattant survolé.
 const RESISTANCE_NAMES := {"acier": "Acier", "flamme": "Flamme", "givre": "Givre", "tempete": "Tempête", "sacre": "Sacré", "impie": "Impie"}
 const SPELL_KEYS := [KEY_1, KEY_2, KEY_3, KEY_4, KEY_5, KEY_6, KEY_7, KEY_8, KEY_9, KEY_0]
+## Clé des places de sorts créés encore vides dans `_spell_buttons`.
+const EMPTY_SLOT_PREFIX := "_place_vide_"
 const MENUS := [["personnage", "icone_personnage", "Personnage (C)"], ["inventaire", "icone_inventaire", "Inventaire (I)"],
 	["sorts", "icone_sorts", "Sorts (S)"], ["metiers", "icone_metiers", "Métiers (J)"], ["carte", "icone_carte", "Carte du monde (M)"],
 	["quetes", "icone_quetes", "Quêtes (Q)"]]
@@ -60,7 +62,38 @@ class Gauge extends Control:
 		draw_string(font, spot, text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, Color.WHITE)
 
 
-## Emplacement de sort : cadre, icône, raccourci et coût en PA.
+## États élémentaires de l'Arcaniste : 3 petites orbes, à la couleur de chaque état (du plus ancien
+## en haut au plus récent en bas), grises quand la place est libre.
+class ElementOrbs extends Control:
+	var states: Array = []
+
+	func _init() -> void:
+		custom_minimum_size = Vector2(22, 72)
+		mouse_filter = Control.MOUSE_FILTER_STOP
+
+	func show_states(p_states: Array) -> void:
+		if p_states != states:
+			states = p_states.duplicate()
+			var names: PackedStringArray = []
+			for i in Fighter.ELEMENT_STATE_MAX:
+				names.append(SpellsWindow.ELEMENT_LABELS.get(states[i], states[i]) if i < states.size() else "libre")
+			tooltip_text = "États élémentaires (Braise, Frimas) : %s\n+%d %% de dégâts dans leur élément chacun" % [
+				" · ".join(names), Fighter.ELEMENT_STATE_BONUS]
+			queue_redraw()
+
+	func _draw() -> void:
+		for i in Fighter.ELEMENT_STATE_MAX:
+			var center := Vector2(size.x / 2.0, size.y / 2.0 + (i - 1) * 22.0)
+			var filled := i < states.size()
+			var color: Color = MapView.element_color(states[i]) if filled else Color(0.22, 0.18, 0.14)
+			draw_circle(center, 8.0, color)
+			if filled:
+				draw_circle(center + Vector2(-2.5, -2.5), 2.5, Color(1, 1, 1, 0.55))
+			draw_arc(center, 8.0, 0.0, TAU, 24, Color(0.1, 0.06, 0.03), 1.5, true)
+
+
+## Emplacement de sort : cadre, icône, raccourci et coût en PA. `empty` : place d'un sort créé pas
+## encore remplie (Arcaniste).
 class SpellSlot extends Control:
 	signal pressed
 	var icon: Texture2D
@@ -68,6 +101,7 @@ class SpellSlot extends Control:
 	var cost := 0
 	var selected := false
 	var usable := true
+	var empty := false
 
 	func _init() -> void:
 		custom_minimum_size = Vector2(50, 50)
@@ -81,6 +115,13 @@ class SpellSlot extends Control:
 
 	func _draw() -> void:
 		var frame := Rect2(Vector2(1, 1), Vector2(48, 48))
+		if empty:
+			draw_texture_rect(Art.texture("case_sort"), frame, false, Color(0.5, 0.5, 0.5, 0.7))
+			draw_rect(frame.grow(-6), Color(0.75, 0.6, 1.0, 0.5), false, 1.5)
+			var mark_font := ThemeDB.fallback_font
+			var mark_width := mark_font.get_string_size("?", HORIZONTAL_ALIGNMENT_LEFT, -1, 22).x
+			draw_string(mark_font, Vector2(25 - mark_width / 2.0, 33), "?", HORIZONTAL_ALIGNMENT_LEFT, -1, 22, Color(0.75, 0.6, 1.0, 0.7))
+			return
 		draw_texture_rect(Art.texture("case_sort"), frame, false)
 		if icon != null:
 			draw_texture_rect(icon, frame.grow(-3), false, Color.WHITE if usable else Color(0.45, 0.45, 0.45))
@@ -102,6 +143,8 @@ var _hp_gauge: Gauge
 var _pa_gauge: Gauge
 var _pm_gauge: Gauge
 var _spells_box: HBoxContainer
+## Orbes des états élémentaires (Voies qui composent : Arcaniste).
+var _orbs: ElementOrbs
 ## En combat, au survol d'un combattant : ses informations à la place de la barre de sorts.
 var _target_box: HBoxContainer
 var _target_name: Label
@@ -210,26 +253,55 @@ static func spell_icon(spell_id: String, world: World) -> Texture2D:
 
 
 ## Remplit la barre de sorts (si la liste a changé).
+## Remplit la barre de sorts (si la liste a changé). Une Voie qui crée des sorts (Arcaniste) a ses
+## places de sorts créés au bout de la barre, vides tant qu'elles ne sont pas remplies, et ses orbes
+## d'états élémentaires à côté des jauges.
 func _show_spells(spells: Array[Spell]) -> void:
+	var creates := false
+	for spell in spells:
+		if spell.composes():
+			creates = true
+	var created_count := 0
+	if creates:
+		for spell in spells:
+			if _is_created(spell, spells):
+				created_count += 1
 	var ids: Array[String] = []
 	for spell in spells:
 		ids.append(spell.id)
+	var empty_slots := maxi(0, Fighter.CREATED_SPELL_SLOTS - created_count) if creates else 0
+	for i in empty_slots:
+		ids.append(EMPTY_SLOT_PREFIX + str(i))
+	_orbs.visible = creates
 	if ids == _shown_spells and _spell_buttons.size() == ids.size():
 		return
 	_shown_spells = ids
 	for child in _spells_box.get_children():
 		child.queue_free()
 	_spell_buttons.clear()
-	for i in spells.size():
-		var spell := spells[i]
+	for i in ids.size():
 		var slot := SpellSlot.new()
-		slot.icon = spell_icon(spell.id, map_view.world)
 		slot.key_label = str((i + 1) % 10) if i < SPELL_KEYS.size() else ""
-		slot.cost = spell.pa_cost
-		slot.tooltip_text = _spell_tooltip(spell)
-		slot.pressed.connect(_on_spell_pressed.bind(spell.id))
+		if i < spells.size():
+			var spell := spells[i]
+			slot.icon = spell_icon(spell.id, map_view.world)
+			slot.cost = spell.pa_cost
+			slot.tooltip_text = _spell_tooltip(spell)
+			slot.pressed.connect(_on_spell_pressed.bind(spell.id))
+		else:
+			slot.empty = true
+			slot.usable = false
+			slot.tooltip_text = "Place pour un sort créé (vide)\nPrenez 3 états élémentaires avec Braise et Frimas, puis lancez Créer un sort."
 		_spells_box.add_child(slot)
-		_spell_buttons[spell.id] = slot
+		_spell_buttons[ids[i]] = slot
+
+
+## Le sort est-il un sort créé (une combinaison d'un sort « creer_sort » de la liste) ?
+static func _is_created(spell: Spell, spells: Array[Spell]) -> bool:
+	for other in spells:
+		if spell in other.create_effect().get("sorts", {}).values():
+			return true
+	return false
 
 
 func _on_spell_pressed(spell_id: String) -> void:
@@ -409,9 +481,10 @@ func _refresh_exploration() -> void:
 	_pa_gauge.show_values(int(sheet["pa"]), int(sheet["pa"]))
 	_pm_gauge.show_values(int(sheet["pm"]), int(sheet["pm"]))
 	_show_spells(character_spells(world))
+	_orbs.show_states([])  # Les états élémentaires ne durent qu'un combat.
 	for spell_id: String in _spell_buttons:
 		var slot: SpellSlot = _spell_buttons[spell_id]
-		slot.usable = true
+		slot.usable = not slot.empty
 		slot.selected = false
 		slot.queue_redraw()
 
@@ -434,6 +507,7 @@ func _refresh() -> void:
 	else:
 		_turn_button.text = "Fin du tour"
 		_turn_button.disabled = not player_turn
+	_orbs.show_states(player.get("etats_elementaires", []))
 	var fighter := map_view.player_fighter()
 	if fighter != null:
 		_show_spells(fighter.spells)  # Un sort créé change la barre (Arcaniste).
@@ -484,6 +558,10 @@ func _build() -> void:
 	_pm_gauge = _gauge("pm", Vector2(64, 72), "Points de mouvement (PM) : une case par point")
 	for gauge in [_hp_gauge, _pa_gauge, _pm_gauge]:
 		row.add_child(gauge)
+	_orbs = ElementOrbs.new()
+	_orbs.visible = false
+	_orbs.show_states([])
+	row.add_child(_orbs)
 	row.add_child(VSeparator.new())
 
 	_spells_box = HBoxContainer.new()

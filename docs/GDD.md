@@ -341,7 +341,9 @@ pas être retiré). Avec 3 états, *Créer un sort* (2 PA, 1 fois par tour) donn
 combinaison, qui prend l'une des **2 places** de sorts créés de la barre ; quand les deux sont
 prises, le nouveau chasse le plus ancien (chaque sort créé garde ses propres relances). Tous les
 sorts créés coûtent **4 PA** pendant l'alpha 1 (équilibrage ensuite). Dès le premier tour : 3 états
-(0 PA), création (2 PA), sort créé (4 PA).
+(0 PA), création (2 PA), sort créé (4 PA). Dans la barre du bas : **3 petites orbes** à côté des
+jauges, à la couleur de ses états (grises quand la place est libre), et les **2 places de sorts
+créés** au bout des sorts, marquées « ? » tant qu'elles sont vides.
 
 | Combinaison | Sort | Effet |
 |---|---|---|

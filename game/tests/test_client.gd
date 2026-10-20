@@ -584,6 +584,7 @@ func test_barre_d_action_et_fenetre_des_sorts() -> void:
 	assert_eq(hud._pa_gauge.value, int(sheet["pa"]))
 	assert_eq(hud._pm_gauge.value, int(sheet["pm"]))
 	assert_eq(hud._spell_buttons.size(), 7, "sorts du personnage dans la barre")
+	assert_false(hud._orbs.visible, "pas d'orbes pour le Guerrier")
 	for spell_id: String in hud._spell_buttons:
 		var slot: CombatHud.SpellSlot = hud._spell_buttons[spell_id]
 		assert_true(slot.icon != null, "icône du sort %s" % spell_id)
@@ -1167,12 +1168,19 @@ func test_arcaniste_compose_et_cree_un_sort() -> void:
 	assert_true(view.is_player_turn())
 	var hero := view.player_fighter()
 	assert_false(hud._spell_buttons.has("arcaniste_choc_thermique"), "pas encore de sort créé")
+	assert_true(hud._orbs.visible, "orbes des états élémentaires dans la barre")
+	assert_true(hud._orbs.states.is_empty())
+	assert_true(hud._spell_buttons.has(CombatHud.EMPTY_SLOT_PREFIX + "0") and hud._spell_buttons.has(CombatHud.EMPTY_SLOT_PREFIX + "1"),
+		"deux places de sorts créés, vides")
 	for spell_id in ["arcaniste_braise", "arcaniste_braise", "arcaniste_frimas", "arcaniste_creer_un_sort"]:
 		view.select_spell(spell_id)
 		view._on_click(hero.cell)
 		_run_until_idle(view)
 	assert_eq(hero.element_states, ["flamme", "flamme", "givre"] as Array[String])
 	assert_true(hud._spell_buttons.has("arcaniste_choc_thermique"), "Flamme, Flamme, Givre : Choc thermique dans la barre")
+	assert_true(hud._spell_buttons.has(CombatHud.EMPTY_SLOT_PREFIX + "0") and not hud._spell_buttons.has(CombatHud.EMPTY_SLOT_PREFIX + "1"),
+		"une place encore vide")
+	assert_eq(hud._orbs.states, ["flamme", "flamme", "givre"], "les orbes prennent la couleur des états")
 	var text := hud.combat_log.plain_text()
 	assert_true(text.contains("Mirabelle prend l'état Givre (Flamme · Flamme · Givre)"), text)
 	assert_true(text.contains("Mirabelle crée le sort Choc thermique"), text)
