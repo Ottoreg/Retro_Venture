@@ -110,9 +110,14 @@ Dernière session (retours de la passe de l'auteur) :
 - **Combat** : historique (`client/ui/combat_log.gd`, touche H, signal `MapView.combat_logged`),
   dégâts, soins, boucliers et poisons à la couleur de leur élément (historique et chiffres
   flottants), survol des glyphes et des pièges alliés (sort, lanceur, tours restants).
-- Idées notées sans les faire : pistes des classes à venir et refonte multi-élément de l'Arcaniste
-  (GDD § 4.3) ; identité des classes (3 idées par classe, TODO, « Idées en attente »,
-  à décider après les premiers retours) ; Cape en peau d'ananas (forte résistance Flamme ; demande des
+- **Identité des Voies pour l'alpha 1** (GDD § 4.3, `tests/core/test_class_kits.gd`) : Arcaniste
+  Flamme / Givre (effets `etat_elementaire` et `creer_sort` : *Braise*, *Frimas*, *Créer un sort*,
+  4 sorts créés ; `Fighter.element_states`, `created_spell`), *Charge* du Guerrier (effet `charge`,
+  `Combat.charge_path`), *Collet* du Rôdeur (piège), *Absolution* du Théologue (`retrait_etats` ;
+  les effets des phases ont `retirable: false`). L'IA ignore les sorts de composition. La Tempête
+  de l'Arcaniste vient après l'alpha 1 (à laisser deviner aux testeurs).
+- Idées notées sans les faire : pistes des classes à venir et suite de la refonte de l'Arcaniste
+  (GDD § 4.3) ; autres idées d'identité des classes (TODO, « Identité des classes ») ; Cape en peau d'ananas (forte résistance Flamme ; demande des
   bonus de résistance sur l'équipement, GDD § 9.2) ; PNJ qui appellent le joueur par son pseudo
   (balise `{joueur}` dans les dialogues, refusé pour l'instant).
 - Le pseudo choisi est déjà utilisé partout ; « Aventurier » (`World.DEFAULT_NAME`) n'apparaît
