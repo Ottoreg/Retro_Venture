@@ -374,6 +374,31 @@ pas être retirés par *Absolution*. L'IA ne sait pas encore composer les états
 Le Sacré et l'Impie sont des éléments à part entière (voir § 4.4) : le Sacré s'appuie sur l'Acier et
 la Flamme, l'Impie sur la Tempête et le Givre.
 
+**Répartition des éléments entre les classes** (à terme, Arcaniste refondu) :
+
+| Classe | Acier | Tempête | Flamme | Givre | Sacré | Impie |
+|---|:-:|:-:|:-:|:-:|:-:|:-:|
+| Guerrier | ● | | | | | |
+| Paladin | | ● | | | ● | |
+| Myrmidon | ● | | | ● | | |
+| Rôdeur | ● | | ● | | | |
+| Ombre | ● | ● | | | | |
+| Chronomancien | | | | ● | | ● |
+| Arcaniste | | ● | ● | ● | | |
+| Théologue | | | | | ● | |
+| Démoniste | | | ● | | | ● |
+| **Total** | **4** | **3** | **3** | **3** | **2** | **2** |
+
+Par caractéristique (le Sacré compte pour la Force et l'Intelligence, l'Impie pour l'Agilité et la
+Chance) : Force 6 classes, Intelligence 5, Chance 5, Agilité 5. L'Acier a une classe de plus, en
+accord avec ses 33 % chez les monstres (§ 8.1).
+
+Dans l'alpha 1 (4 classes) : Acier 2 (Guerrier, Rôdeur), Tempête 1 (la Flèche du Rôdeur), Flamme 1
+et Givre 1 (Arcaniste), Sacré 1 (Théologue), Impie 0. Points à suivre : aucune classe de l'alpha 1 ne
+joue l'Impie (la Panoplie du Mauvais Œil ne sert encore à personne) ; quand le Rôdeur passera de la
+Tempête à la Flamme, la Tempête n'aura plus de classe de départ en attendant l'Arcaniste refondu, le
+Paladin et l'Ombre.
+
 Mécaniques à ajouter pour ces classes : invisibilité, poisons et dégâts sur la durée, provocation,
 auras, invocations, sacrifice de PV, résurrection (multi).
 
