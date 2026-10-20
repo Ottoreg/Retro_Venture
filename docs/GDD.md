@@ -485,6 +485,24 @@ voir plus haut ; la Tempête après)
 - Un quatrième sort de classe, *Créer un sort*, donne un sort qui dépend de la combinaison
   d'effets : toujours le même sort pour une même combinaison, avec des effets qui reflètent les
   éléments qui le composent.
+- **Progression par niveau** : l'Arcaniste a déjà 4 sorts dès le départ (3 états et *Créer un
+  sort*), plus ses sorts créés ; il n'apprend donc pas un sort tous les X niveaux comme les autres
+  Voies. Ses niveaux débloquent les **fusions**, en 4 paliers (niveaux à fixer avec la progression
+  de l'alpha 2). À la création, le joueur choisit **2 éléments sur 3** (A et B) ; le troisième (C)
+  arrive ensuite par petites touches, et reste secondaire une bonne partie de la progression.
+
+  | Palier | Débloque | Sorts créables |
+  |---|---|:-:|
+  | Niveau 1 | A et B : AAA, BBB, AAB, ABB | 4 |
+  | Palier 2 | C en appoint, seulement en « +1 » : AAC, BBC | 6 |
+  | Palier 3 | C en élément principal : CCC, CCA, CCB | 9 |
+  | Palier 4 | La fusion 1 + 1 + 1 : ABC | 10 |
+
+  L'alpha 1 correspond au premier palier, avec Flamme et Givre imposés.
+- **Points de sort** (1 par niveau, § 4.5) : l'Arcaniste les place dans ses **éléments** (Flamme,
+  Tempête, Givre). Le niveau d'un élément renforce son passif (+4 % de dégâts par état au départ,
+  davantage ensuite) et les sorts créés qui contiennent cet élément, comme les trois orbes de
+  l'Invoker. Chaque niveau reste un choix, et les éléments de départ peuvent rester les plus forts.
 
 **Effets et états qu'on ne peut pas retirer.** Certains effets et états ne peuvent pas être
 retirés (ni par un sort de retrait des états, comme ceux du Théologue, ni par un envoi dans le
