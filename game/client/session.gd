@@ -16,4 +16,4 @@ static var tracker_folded := false
 static var combat_log_folded := false
 
 ## Questionnaire des testeurs (menu principal et menu pause : « Donner son avis »).
-const FEEDBACK_URL := "https://docs.google.com/forms/d/e/1FAIpQLSfvVseTPS49X5ssBkdsdkNkJxVPzQwZ-EKNOKwkB1GjovaUDg/viewform"
+const FEEDBACK_URL := "https://docs.google.com/forms/d/e/1FAIpQLSdwoJr5-OnRuVcVNbvRGnjtO4MqxJTUe7SIIbgfeKJlRuYcxQ/viewform"
