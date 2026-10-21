@@ -3,7 +3,7 @@ extends SceneTree
 ##   xvfb-run -s "-screen 0 1280x720x24" godot --path game --rendering-driver opengl3 \
 ##     -s res://tools/screenshot.gd -- sortie.png [carte] [frames] [action]
 ## Lance la scène du monde (nouvelle partie), attend quelques images et enregistre la vue.
-## Action : « combat » (engage le premier groupe de la carte), « butin » (écran de fin de combat d'exemple), « elite7 » (Loup alpha de rang 7 survolé), « cible » (combat, monstre survolé), « sermon » (Théologue en combat, Sermon visé devant lui), « panoplie » (3 pièces portées), « inventaire », « assis » (blessé, assis), « metiers », « sorts » (ouvre la
+## Action : « combat » (engage le premier groupe de la carte), « butin » (écran de fin de combat d'exemple), « elite7 » (Loup alpha de rang 7 survolé), « cible » (combat, monstre survolé), « sermon » (Théologue en combat, Sermon visé devant lui), « prevision » (comme « sermon », un monstre dans la zone : dégâts prévus), « panoplie » (3 pièces portées), « inventaire », « assis » (blessé, assis), « metiers », « sorts » (ouvre la
 ## fenêtre ; « inventaire » remplit d'abord le sac d'un exemplaire de chaque objet), « pierre » (va utiliser
 ## la Pierre de Passage), « glyphe » (combat contre l'Arbre millénaire, glyphe posée, héros ralenti et
 ## empoisonné, à lancer sur sylvebrume_0_0), « survol » (le plus grand groupe de la carte survolé :
@@ -37,7 +37,7 @@ func _initialize() -> void:
 	if args.size() > 2:
 		_frames = int(args[2])
 	_action = args[3] if args.size() > 3 else ""
-	if _action == "sermon":
+	if _action in ["sermon", "prevision"]:
 		Session.new_character = Character.create("Frère Tuck", "humain", "theologue")
 	if _action in ["arcaniste", "composition"]:
 		Session.new_character = Character.create("Mirabelle", "humain", "arcaniste")
@@ -177,7 +177,7 @@ func _process(_delta: float) -> bool:
 			_scene.pause_menu.open()
 			_scene.pause_menu._on_options_pressed()
 		else:
-			var target: Vector2i = view.world.groups()[0]["case"] if _action in ["combat", "cible", "sermon", "phase", "tactique", "historique", "arcaniste", "composition"] else view.current_map().travel_stone()
+			var target: Vector2i = view.world.groups()[0]["case"] if _action in ["combat", "cible", "sermon", "prevision", "phase", "tactique", "historique", "arcaniste", "composition"] else view.current_map().travel_stone()
 			if _action == "phase":
 				# Aucun monstre n'a encore de phases dans les données : le premier du groupe en reçoit une.
 				var monster: Dictionary = view.world.data.monsters[view.world.groups()[0]["monstres"][0]]
@@ -188,7 +188,7 @@ func _process(_delta: float) -> bool:
 				if not view.is_busy():
 					break
 				view.advance(0.3)
-			if _action in ["cible", "sermon", "phase", "tactique", "historique", "arcaniste", "composition"] and view.world.combat != null:
+			if _action in ["cible", "sermon", "prevision", "phase", "tactique", "historique", "arcaniste", "composition"] and view.world.combat != null:
 				# Placement validé, puis survol du premier monstre.
 				view.request_start_fight()
 				for i in 200:
@@ -218,10 +218,14 @@ func _process(_delta: float) -> bool:
 						if not view.is_busy() or view._paused:
 							break
 						view.advance(0.3)
-				if _action == "sermon":
-					# Sermon choisi, case visée à 2 cases devant le Théologue, vers les monstres.
+				if _action in ["sermon", "prevision"]:
+					# Sermon choisi, case visée à 2 cases devant le Théologue, vers les monstres ;
+					# « prevision » : un monstre amené dans la zone (dégâts prévus au-dessus de lui).
 					var hero := view.player_fighter()
 					var foe := view.world.combat.enemies_of(hero)[0]
+					if _action == "prevision":
+						foe.cell = hero.cell + Spell.direction(hero.cell, foe.cell) * 2
+						view._actors[foe.id]["pos"] = Vector2(foe.cell)
 					view.selected_spell = "theologue_sermon"
 					view._refresh_overlays()
 					view._set_hovered(hero.cell + Spell.direction(hero.cell, foe.cell))

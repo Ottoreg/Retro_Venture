@@ -276,7 +276,8 @@ Au sol :
 ```
 
 - `glyphe` : couvre la `zone` du sort pendant `duree` tours du lanceur ; ses `effets` s'appliquent à
-  qui commence son tour dessus.
+  qui commence son tour dessus. À l'écran, elle prend la couleur de l'élément de son premier effet
+  chiffré (dégâts, soin, bouclier, poison), sinon celle du camp de son lanceur.
 - `piege` : posé sur la case visée (libre, sans autre piège), invisible pour l'autre équipe ; le
   premier ennemi qui y entre s'arrête et le déclenche, ses `effets` touchent la `zone` du piège
   (`case` par défaut, ou `cercle`). Un sort de piège n'a que cet effet et une zone `case`.

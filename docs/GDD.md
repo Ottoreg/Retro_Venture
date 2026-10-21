@@ -1176,7 +1176,7 @@ ingrédients).
 - **Mode tactique en combat** (comme dans Dofus) : un bouton du combat bascule vers une vue
   simplifiée de la grille, pour lire le terrain sans le décor : cases à plat bien délimitées,
   obstacles en blocs pleins (ceux qui bloquent la vue distingués de ceux qui ne bloquent que le
-  passage, comme l'eau), arbres et grands décors masqués, combattants en pions ou silhouettes
+  passage, comme l'eau, dessinée en trou), arbres et grands décors masqués, combattants en pions ou silhouettes
   lisibles ; portées, zones et glyphes restent affichées. Le choix est retenu d'un combat à l'autre.
   *Fait* : bouton « Tactique » du bandeau ou touche T, aussi dans les options.
 - **Menu pause** (Échap quand aucune fenêtre n'est ouverte) : le jeu s'arrête ; reprendre, options,
@@ -1204,15 +1204,20 @@ ingrédients).
   place revient aux boutons du combat) : la carte du monde en réduit autour de la carte actuelle
   (5 × 3 cartes) ; un clic dessus ouvre la carte du monde. **Suivi de la quête** à droite du
   bandeau du haut : son nom et deux objectifs à faire au plus (« (+n) » s'il en reste d'autres).
-- **En combat :** frise d'initiative, prévisualisation de portée et de zone, dégâts estimés au survol,
-  bouton « fin de tour ». Au survol d'un combattant, ses informations (nom, niveau, PV, PA, PM,
+- **En combat :** frise d'initiative en portraits (en haut à droite : chaque combattant vivant
+  dessiné dans un petit cadre à la couleur de son camp, sa barre de PV en bas, cadre doré pour
+  celui qui joue ; nom et PV en infobulle), prévisualisation de portée et de zone, **dégâts et soins
+  estimés** au-dessus de chaque combattant que toucherait le sort visé (fourchette sans coup
+  critique, à la couleur de l'élément ; soins limités aux PV qui manquent), **clic droit sur un
+  sort** pour le lancer sur soi, bouton « fin de tour ». Au survol d'un combattant, ses informations (nom, niveau, PV, PA, PM,
   résistances aux 6 éléments) remplacent la barre de sorts, comme dans Dofus Rétro.
   **Historique du combat** en bas à gauche (repliable, touche H) : début de chaque tour, sorts lancés
   (coups critiques), dégâts, soins et boucliers à la couleur de leur élément, bonus, malus, poisons
   et PM retirés (avec le sort qui les a posés), glyphes et pièges posés ou déclenchés, poussées,
   changements de phase, combattants vaincus. Un piège ennemi reste secret, dans l'historique comme
   sur la carte. Les **chiffres flottants** (dégâts, soins, boucliers, poisons) prennent aussi la
-  couleur de leur élément (un choc, sans élément, reste rouge). Au **survol d'une glyphe** (des deux camps) ou d'un piège allié : nom du sort, qui
+  couleur de leur élément (un choc, sans élément, reste rouge), comme les **glyphes** au sol
+  (celle de leur premier effet chiffré ; sans élément, la couleur du camp). Au **survol d'une glyphe** (des deux camps) ou d'un piège allié : nom du sort, qui
   l'a lancé, camp, et pour une glyphe les tours restants.
 - Interface redimensionnable, lisible en 1280×720 minimum.
 

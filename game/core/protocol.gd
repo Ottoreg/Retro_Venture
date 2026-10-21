@@ -189,7 +189,7 @@ const EVT_CHARGED := "charge"
 ## Combattant poussé ou attiré. { type, entite: String, depuis: Vector2i, case: Vector2i }
 const EVT_PUSHED := "pousse"
 ## Glyphe posée au sol. { type, id: int, lanceur: String, equipe: int, cases: Array[Vector2i],
-## tours: int, sort: String (nom) }
+## tours: int, sort: String (nom), element: String (celui de son premier effet chiffré : dégâts, soin, bouclier, poison ; ou "") }
 const EVT_GLYPH := "glyphe"
 ## Glyphe disparue (durée écoulée ou lanceur vaincu). { type, id: int }
 const EVT_GLYPH_ENDED := "glyphe_fin"

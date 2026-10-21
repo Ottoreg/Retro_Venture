@@ -79,16 +79,18 @@ const COLOR_RANGE_HIDDEN := Color(0.3, 0.55, 1.0, 0.15)
 const COLOR_ZONE := Color(1.0, 0.55, 0.15, 0.55)
 const COLOR_PLACEMENT := Color(0.25, 0.5, 1.0, 0.9)
 const COLOR_TEAM := [Color(0.25, 0.5, 1.0, 0.8), Color(0.9, 0.25, 0.2, 0.8)]
-## Glyphes au sol, selon l'équipe de leur lanceur (alliée, ennemie).
+## Glyphes au sol sans élément, selon l'équipe de leur lanceur (alliée, ennemie) ; les autres
+## prennent la couleur de leur élément (`glyph_colors`).
 const COLOR_GLYPH := [Color(0.45, 0.75, 1.0, 0.3), Color(0.55, 0.95, 0.3, 0.34)]
 const COLOR_GLYPH_EDGE := [Color(0.55, 0.8, 1.0, 0.8), Color(0.65, 0.95, 0.4, 0.8)]
 const COLOR_TRAP := Color(0.35, 0.22, 0.12, 0.85)
 ## Mode tactique : cases claires et foncées en damier, obstacles qui bloquent la vue (blocs) ou
-## seulement le passage (eau : à plat), pions des deux camps.
+## seulement le passage (eau : un trou, plus clair qu'une étendue bleue), pions des deux camps.
 const TACTICAL_BACKGROUND := Color("1d1914")
 const TACTICAL_CELLS := [Color("8f8a78"), Color("7f7a69")]
 const TACTICAL_BLOCK := Color("4a4038")
-const TACTICAL_WATER := Color("3f6f93")
+const TACTICAL_HOLE := Color("0d0b09")
+const TACTICAL_HOLE_WALLS := [Color("5a4e42"), Color("463c32")]
 const TACTICAL_EDGE := Color(0, 0, 0, 0.35)
 const COLOR_TRAP_FLASH := Color(1.0, 0.45, 0.1, 0.6)
 ## Noms affichés des caractéristiques modifiées par un bonus ou un malus.
@@ -170,6 +172,8 @@ var _placement: Array[Vector2i] = []
 var _reachable: Dictionary = {}
 var _range_visible: Array[Vector2i] = []
 var _range_hidden: Array[Vector2i] = []
+## Prévisualisation du sort choisi sur la case survolée (voir `Combat.spell_preview`).
+var _spell_preview: Dictionary = {}
 ## Demi-cases du bord, déjà découpées au rectangle de la carte.
 var _border_polygons: Array[PackedVector2Array] = []
 
@@ -195,7 +199,7 @@ var _time := 0.0
 var _arrival_command: Dictionary = {}
 ## Textes flottants : { text, color, pos (Vector2 grille), age, life } (`life` : durée de vie).
 var _floating: Array[Dictionary] = []
-## Glyphes visibles : id → { cases: Array[Vector2i], equipe, sort, lanceur }.
+## Glyphes visibles : id → { cases: Array[Vector2i], equipe, sort, lanceur, element }.
 var _glyphs: Dictionary = {}
 ## Pièges de l'équipe du joueur (les autres sont invisibles) : id → { case, sort, lanceur }.
 var _traps: Dictionary = {}
@@ -291,8 +295,21 @@ func select_spell(spell_id: String) -> void:
 func cast_composition(spell_id: String, states: String) -> void:
 	if not can_plan() or player_fighter() == null:
 		return
+	_cast_on_self({"type": Protocol.CMD_CAST, "entite": World.PLAYER_ID, "sort": spell_id, "etats": states})
+
+
+## Lance un sort sur soi (clic droit sur le sort dans la barre). Le noyau refuse, avec son message,
+## un sort qui ne peut pas viser la case du lanceur.
+func cast_on_self(spell_id: String) -> void:
+	var fighter := player_fighter()
+	if not can_plan() or fighter == null or fighter.get_spell(spell_id) == null:
+		return
+	_cast_on_self({"type": Protocol.CMD_CAST, "entite": World.PLAYER_ID, "sort": spell_id})
+
+
+## Envoie un sort sur la case du joueur, tout de suite ou après l'animation en cours.
+func _cast_on_self(command: Dictionary) -> void:
 	selected_spell = ""
-	var command := {"type": Protocol.CMD_CAST, "entite": World.PLAYER_ID, "sort": spell_id, "etats": states}
 	if _playing:
 		_plan(command)  # Case visée à l'envoi : le joueur a pu se déplacer d'ici là.
 	else:
@@ -762,8 +779,19 @@ static func _colored(text: String, element: String) -> String:
 	return "[color=#%s]%s[/color]" % [_element_hex(element), text]
 
 
+## Dégâts et soins que ferait le sort choisi sur la case survolée : id → { degats, soin, element }.
+func spell_preview() -> Dictionary:
+	return _spell_preview
+
+
 func _update_preview() -> void:
 	_preview.clear()
+	_spell_preview = {}
+	var fighter := player_fighter()
+	if selected_spell != "" and fighter != null and can_plan() and _hovered in _range_visible:
+		var spell: Spell = fighter.get_spell(selected_spell)
+		if spell != null:
+			_spell_preview = world.combat.spell_preview(fighter, spell, _hovered)
 	if _playing or not _map.is_inside(_hovered):
 		queue_redraw()
 		return
@@ -1179,7 +1207,7 @@ func _apply(event: Dictionary) -> float:
 		return 0.3
 	if type == Protocol.EVT_GLYPH:
 		_glyphs[event["id"]] = {"cases": event["cases"], "equipe": event["equipe"], "sort": event["sort"],
-			"lanceur": event["lanceur"]}
+			"lanceur": event["lanceur"], "element": event.get("element", "")}
 		return 0.2
 	if type == Protocol.EVT_GLYPH_ENDED:
 		_glyphs.erase(event["id"])
@@ -1411,6 +1439,7 @@ func _draw() -> void:
 	var drawables: Array = []
 	if tactical_view:
 		_draw_tactical_pieces(map)
+		_draw_spell_preview(44.0)
 		_draw_floating_texts()
 		return
 	for cell: Vector2i in map.obstacles:
@@ -1440,6 +1469,7 @@ func _draw() -> void:
 	if mode == Mode.EXPLORATION:
 		_draw_exit_arrows(map)
 		_draw_door_marks(map)
+	_draw_spell_preview(90.0)
 	_draw_floating_texts()
 
 
@@ -1458,7 +1488,46 @@ func _draw_floating_texts() -> void:
 		draw_string(font, text_pos, text["text"], HORIZONTAL_ALIGNMENT_CENTER, width, 16, color)
 
 
-## Mode tactique : fond uni, cases à plat en damier, eau à plat, sans décor ni touffes.
+## Au-dessus de chaque combattant que toucherait le sort choisi : ses dégâts (« -12 à 18 ») et soins
+## (« +5 à 8 ») prévus, à la couleur de l'élément, sur une étiquette sombre. `height` : hauteur
+## au-dessus des pieds (personnages ou pions).
+func _draw_spell_preview(height: float) -> void:
+	var font := ThemeDB.fallback_font
+	for actor_id: String in _spell_preview:
+		if not _actors.has(actor_id):
+			continue
+		var lines := preview_lines(_spell_preview[actor_id])
+		var spot := IsoGrid.grid_to_screen(_actors[actor_id]["pos"]) + Vector2(0, -height)
+		for i in range(lines.size() - 1, -1, -1):
+			var text: String = lines[i][0]
+			var width := font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, 15).x
+			var box := Rect2(spot + Vector2(-width / 2.0 - 5.0, -16.0), Vector2(width + 10.0, 20.0))
+			draw_rect(box, Color(0.08, 0.06, 0.04, 0.8))
+			draw_rect(box, Color(lines[i][1], 0.9), false, 1.5)
+			draw_string_outline(font, box.position + Vector2(5, 15), text, HORIZONTAL_ALIGNMENT_LEFT, -1, 15, 4, Color.BLACK)
+			draw_string(font, box.position + Vector2(5, 15), text, HORIZONTAL_ALIGNMENT_LEFT, -1, 15, lines[i][1])
+			spot.y -= 22.0
+
+
+## Lignes d'une prévisualisation (`Combat.spell_preview`) : [texte, couleur], dégâts puis soins.
+static func preview_lines(entry: Dictionary) -> Array:
+	var lines := []
+	var element: String = entry.get("element", "")
+	if entry.has("degats"):
+		lines.append([_range_text("-", entry["degats"]), element_color(element, Color(1, 0.35, 0.3))])
+	if entry.has("soin"):
+		lines.append([_range_text("+", entry["soin"]), element_color(element, Color(0.45, 1, 0.45)) if not entry.has("degats") else Color(0.45, 1, 0.45)])
+	return lines
+
+
+## « -12 à 18 », ou « -12 » si le minimum et le maximum sont égaux.
+static func _range_text(sign_text: String, values: Array) -> String:
+	if int(values[0]) == int(values[1]):
+		return "%s%d" % [sign_text, values[0]]
+	return "%s%d à %d" % [sign_text, values[0], values[1]]
+
+
+## Mode tactique : fond uni, cases à plat en damier, eau en trous, sans décor ni touffes.
 func _draw_tactical_ground(map: GameMap) -> void:
 	draw_rect(map.screen_rect(), TACTICAL_BACKGROUND)
 	for cell: Vector2i in map.cells():
@@ -1467,11 +1536,32 @@ func _draw_tactical_ground(map: GameMap) -> void:
 		if not map.obstacles.has(cell):
 			draw_colored_polygon(diamond, TACTICAL_CELLS[posmod(cell.x + cell.y, 2)])
 		elif map.obstacles[cell] in Combat.SEE_THROUGH_OBSTACLES:
-			draw_colored_polygon(diamond, TACTICAL_WATER)
+			_draw_hole(map, cell, diamond)
+			continue  # Sans liseré : une rivière fait une seule tranchée.
 		else:
 			continue
 		diamond.append(diamond[0])
 		draw_polyline(diamond, TACTICAL_EDGE)
+
+
+## Trou du mode tactique (à la place de l'eau) : un fond noir, et la paroi du fond (bords haut-gauche
+## et haut-droite) éclairée là où la case voisine n'est pas un trou, comme une tranchée vue d'au-dessus.
+func _draw_hole(map: GameMap, cell: Vector2i, diamond: PackedVector2Array) -> void:
+	draw_colored_polygon(diamond, TACTICAL_HOLE)
+	# Haut, droite, bas, gauche ; le fond est un losange plus petit, un peu plus bas.
+	var center := (diamond[0] + diamond[2]) / 2.0
+	var bottom: Array[Vector2] = []
+	for corner in diamond:
+		bottom.append(center + (corner - center) * 0.72 + Vector2(0, 3))
+	# Voisine du bord haut-gauche : (x − 1, y) ; du bord haut-droite : (x, y − 1).
+	if not _is_hole(map, cell + Vector2i(-1, 0)):
+		draw_colored_polygon(PackedVector2Array([diamond[3], diamond[0], bottom[0], bottom[3]]), TACTICAL_HOLE_WALLS[0])
+	if not _is_hole(map, cell + Vector2i(0, -1)):
+		draw_colored_polygon(PackedVector2Array([diamond[0], diamond[1], bottom[1], bottom[0]]), TACTICAL_HOLE_WALLS[1])
+
+
+func _is_hole(map: GameMap, cell: Vector2i) -> bool:
+	return map.obstacles.get(cell, "") in Combat.SEE_THROUGH_OBSTACLES
 
 
 ## Mode tactique : obstacles qui bloquent la vue en blocs bas, combattants en pions (couleur du camp,
@@ -1508,15 +1598,26 @@ func _draw_tactical_pieces(map: GameMap) -> void:
 		draw_rect(Rect2(bar.position, Vector2(bar.size.x * ratio, bar.size.y)), Color(0.3, 0.85, 0.3) if ratio > 0.3 else Color(0.9, 0.3, 0.2))
 
 
+## Couleurs d'une glyphe (fond, liseré) : celles de l'élément de ses effets, sinon de l'équipe de
+## son lanceur.
+static func glyph_colors(glyph: Dictionary) -> Array[Color]:
+	var element: String = glyph.get("element", "")
+	if element.is_empty():
+		var team := clampi(int(glyph["equipe"]), 0, 1)
+		return [COLOR_GLYPH[team], COLOR_GLYPH_EDGE[team]]
+	var color := element_color(element)
+	return [Color(color, 0.32), Color(color, 0.85)]
+
+
 ## Glyphes (cases teintées et liserés), pièges de l'équipe du joueur, explosion d'un piège.
 func _draw_ground_marks() -> void:
 	for glyph: Dictionary in _glyphs.values():
-		var team := clampi(int(glyph["equipe"]), 0, 1)
+		var colors := glyph_colors(glyph)
 		for cell: Vector2i in glyph["cases"]:
 			var diamond := _scaled_diamond(IsoGrid.cell_to_screen(cell), 0.92)
-			draw_colored_polygon(diamond, COLOR_GLYPH[team])
+			draw_colored_polygon(diamond, colors[0])
 			diamond.append(diamond[0])
-			draw_polyline(diamond, COLOR_GLYPH_EDGE[team], 2.0)
+			draw_polyline(diamond, colors[1], 2.0)
 	for trap: Dictionary in _traps.values():
 		var center := IsoGrid.cell_to_screen(trap["case"])
 		for i in 5:
@@ -1745,6 +1846,11 @@ func _draw_npc_mark(base: Vector2, quest_mark: String) -> void:
 	var spot := base + Vector2(-10, -84 + bounce)
 	draw_string_outline(font, spot, text, HORIZONTAL_ALIGNMENT_CENTER, 20, 28, 6, Color(0.2, 0.12, 0.05))
 	draw_string(font, spot, text, HORIZONTAL_ALIGNMENT_CENTER, 20, 28, color)
+
+
+## Apparence d'un acteur affiché (voir `_look_of`), {} s'il n'existe pas : pour les portraits.
+func actor_look(actor_id: String) -> Dictionary:
+	return _look_of(actor_id, _actors[actor_id]) if _actors.has(actor_id) else {}
 
 
 ## Apparence d'un acteur (joueur ou monstre) d'après `art.json`, gardée dans ses données :

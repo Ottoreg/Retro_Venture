@@ -1221,6 +1221,53 @@ func test_survol_des_glyphes_et_pieges() -> void:
 	scene.free()
 
 
+## Retours de test, lot 3 : frise de portraits, clic droit pour se cibler, prévisualisation des
+## soins, glyphes à la couleur de leur élément (le trou du mode tactique : voir la capture « tactique »).
+func test_ergonomie_du_combat() -> void:
+	var tree := Engine.get_main_loop() as SceneTree
+	Session.new_character = Character.create("Mirabelle", "humain", "theologue")
+	var scene: Node = load("res://client/world/world.tscn").instantiate()
+	tree.root.add_child(scene)
+	var view: MapView = scene.get_node("MapView")
+	var hud: CombatHud = scene.get_node("CombatHud")
+	view._on_click(view.world.groups()[0]["case"])
+	_run_until_idle(view)
+	assert_true(hud._order_label.visible and not hud._order_box.visible, "« Placement » avant le combat")
+	view.request_start_fight()
+	_run_until_idle(view)
+	assert_true(view.is_player_turn())
+	# Frise : un portrait par combattant vivant, dans l'ordre de jeu, le joueur avec son dessin.
+	assert_true(hud._order_box.visible and not hud._order_label.visible)
+	assert_eq(hud.order_portraits(), view.turn_order.filter(func(id: String) -> bool: return view.actor(id)["alive"]))
+	var portrait: CombatHud.TurnPortrait = hud._portraits[World.PLAYER_ID]
+	assert_true(portrait.look.has("rig"), "le personnage dessiné dans son cadre")
+	assert_true(portrait.current, "cadre doré : c'est son tour")
+	assert_true(portrait.tooltip_text.begins_with("Mirabelle"), portrait.tooltip_text)
+	# Prévisualisation : soin limité aux PV qui manquent, au-dessus du joueur.
+	var hero := view.player_fighter()
+	hero.hp -= 5
+	view.select_spell("theologue_imposition")
+	view._set_hovered(hero.cell)
+	assert_eq(view.spell_preview()[World.PLAYER_ID]["soin"], [5, 5])
+	assert_eq(MapView.preview_lines(view.spell_preview()[World.PLAYER_ID])[0][0], "+5")
+	assert_eq(MapView.preview_lines({"degats": [12, 18], "element": "flamme"})[0], ["-12 à 18", MapView.element_color("flamme")])
+	view.select_spell("theologue_imposition")
+	assert_true(view.spell_preview().is_empty(), "plus de sort choisi : plus de prévision")
+	# Clic droit sur le sort : lancé sur soi.
+	var right := InputEventMouseButton.new()
+	right.button_index = MOUSE_BUTTON_RIGHT
+	right.pressed = true
+	(hud._spell_buttons["theologue_imposition"] as CombatHud.SpellSlot)._gui_input(right)
+	_run_until_idle(view)
+	assert_eq(hero.hp, hero.max_hp, "soigné")
+	assert_eq(hero.pa, hero.max_pa - 3)
+	# Glyphes : couleur de l'élément, celle du camp sans élément.
+	var colors := MapView.glyph_colors({"equipe": Fighter.TEAM_MONSTERS, "element": "flamme"})
+	assert_eq(colors[1], Color(MapView.element_color("flamme"), 0.85))
+	assert_eq(MapView.glyph_colors({"equipe": Fighter.TEAM_MONSTERS, "element": ""})[0], MapView.COLOR_GLYPH[1])
+	scene.free()
+
+
 func test_arcaniste_compose_et_cree_un_sort() -> void:
 	var tree := Engine.get_main_loop() as SceneTree
 	Session.new_character = Character.create("Mirabelle", "humain", "arcaniste")

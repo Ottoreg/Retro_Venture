@@ -454,17 +454,14 @@ func _apply_effect(caster: Fighter, target: Fighter, effect: Dictionary, events:
 			target.pm_malus += amount
 			events.append({"type": Protocol.EVT_STATUS, "entite": target.id, "effet": Spell.EFFECT_REMOVE_PM, "valeur": amount, "pa": target.pa, "pm": target.pm})
 		Spell.EFFECT_DAMAGE:
-			var element: String = effect["element"]
-			var boosted := amount * (100 + caster.power(element)) / 100.0
-			_hurt(target, maxi(0, roundi(boosted * (100 - target.resistance(element)) / 100.0)) + caster.total_dommages(), element, events)
+			_hurt(target, damage_value(caster, target, effect["element"], amount), effect["element"], events)
 		Spell.EFFECT_SHIELD:
 			amount = roundi(amount * (100 + caster.power(effect["element"])) / 100.0)
 			target.shield += amount
 			events.append({"type": Protocol.EVT_STATUS, "entite": target.id, "effet": Spell.EFFECT_SHIELD, "valeur": amount,
 				"element": effect["element"], "bouclier": target.shield, "pa": target.pa, "pm": target.pm})
 		Spell.EFFECT_HEAL:
-			amount = roundi(amount * (100 + caster.power(effect["element"])) / 100.0)
-			amount = mini(amount, target.max_hp - target.hp)
+			amount = mini(boosted_value(caster, effect["element"], amount), target.max_hp - target.hp)
 			target.hp += amount
 			events.append({"type": Protocol.EVT_HEAL, "entite": target.id, "valeur": amount, "element": effect["element"],
 				"pv": target.hp})
@@ -493,6 +490,61 @@ func _apply_effect(caster: Fighter, target: Fighter, effect: Dictionary, events:
 			_push(from, target, amount, false, events)
 		Spell.EFFECT_PULL:
 			_push(from, target, amount, true, events)
+
+
+## Dégâts d'un effet de valeur tirée `amount` (voir `_apply_effect`).
+static func damage_value(caster: Fighter, target: Fighter, element: String, amount: int) -> int:
+	var boosted := amount * (100 + caster.power(element)) / 100.0
+	return maxi(0, roundi(boosted * (100 - target.resistance(element)) / 100.0)) + caster.total_dommages()
+
+
+## Valeur d'un soin, d'un bouclier ou d'un poison, augmentée par la caractéristique de son élément.
+static func boosted_value(caster: Fighter, element: String, amount: int) -> int:
+	return roundi(amount * (100 + caster.power(element)) / 100.0)
+
+
+## Prévisualisation d'un sort de `fighter` sur `target` (sans coup critique ni hasard) : pour chaque
+## combattant touché, id → { degats: [min, max], soin: [min, max], element } (seulement les
+## entrées non nulles ; `element` : celui du premier effet chiffré). Les soins sont limités aux PV
+## qui manquent (rien à PV pleins) ; une charge qui n'arriverait pas au contact ne touche personne. Vide si la cible
+## n'est pas valide.
+func spell_preview(fighter: Fighter, spell: Spell, target: Vector2i) -> Dictionary:
+	var preview := {}
+	if not targeting_blocker(fighter, spell, target).is_empty():
+		return preview
+	if spell.charges():
+		var path := charge_path(fighter, target)
+		var stop := path[-1] if not path.is_empty() else fighter.cell
+		if fighter_at(target) == null or IsoGrid.distance(stop, target) != 1:
+			return preview
+	for cell in spell.zone_cells(target, fighter.cell):
+		var hit := fighter_at(cell)
+		if hit == null or not hit.is_alive() or (spell.excludes_caster and hit == fighter):
+			continue
+		var entry := {}
+		for effect in spell.effects:
+			if effect["type"] not in [Spell.EFFECT_DAMAGE, Spell.EFFECT_HEAL] or not Spell.affects(effect, fighter, hit):
+				continue
+			var low: int
+			var high: int
+			var key := "degats"
+			if effect["type"] == Spell.EFFECT_DAMAGE:
+				low = damage_value(fighter, hit, effect["element"], effect["min"])
+				high = damage_value(fighter, hit, effect["element"], effect["max"])
+			elif hit.hp >= hit.max_hp:
+				continue  # PV pleins : pas de « +0 ».
+			else:
+				key = "soin"
+				var missing := hit.max_hp - hit.hp
+				low = mini(boosted_value(fighter, effect["element"], effect["min"]), missing)
+				high = mini(boosted_value(fighter, effect["element"], effect["max"]), missing)
+			var total: Array = entry.get(key, [0, 0])
+			entry[key] = [int(total[0]) + low, int(total[1]) + high]
+			if not entry.has("element"):
+				entry["element"] = effect["element"]
+		if entry.has("degats") or entry.has("soin"):
+			preview[hit.id] = entry
+	return preview
 
 
 ## Retire des PV (le bouclier absorbe d'abord) ; `element` vide pour des dégâts sans élément (choc).
@@ -589,8 +641,12 @@ func _place_glyph(caster: Fighter, spell: Spell, effect: Dictionary, cells: Arra
 		"tours": int(effect["duree"]), "sort": spell.display_name}
 	_next_ground_id += 1
 	glyphs.append(glyph)
+	var element := ""
+	for glyph_effect: Dictionary in effect["effets"]:
+		if element.is_empty() and glyph_effect["type"] in Spell.ELEMENT_EFFECTS:
+			element = glyph_effect["element"]
 	events.append({"type": Protocol.EVT_GLYPH, "id": glyph["id"], "lanceur": caster.id, "equipe": caster.team,
-		"cases": inside, "tours": glyph["tours"], "sort": glyph["sort"]})
+		"cases": inside, "tours": glyph["tours"], "sort": glyph["sort"], "element": element})
 
 
 func _place_trap(caster: Fighter, spell: Spell, effect: Dictionary, cell: Vector2i, events: Array[Dictionary]) -> void:

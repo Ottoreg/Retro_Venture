@@ -131,6 +131,7 @@ func test_glyphe_soigne_les_allies_et_ralentit_les_ennemis() -> void:
 	var glyph := Fixtures.of_type(events, Protocol.EVT_GLYPH)
 	assert_eq(glyph.size(), 1)
 	assert_eq(glyph[0]["cases"].size(), 5)
+	assert_eq(glyph[0]["element"], "acier", "l'élément de son premier effet chiffré (sa couleur à l'écran)")
 	events = _end_turn(combat)
 	# Le loup commence son tour dans la glyphe : −2 PM tout de suite.
 	var slowed := Fixtures.of_type(events, Protocol.EVT_STATES)

@@ -99,9 +99,10 @@ class ElementOrbs extends Control:
 
 
 ## Emplacement de sort : cadre, icône, raccourci et coût en PA. `empty` : place d'un sort créé pas
-## encore remplie (Arcaniste).
+## encore remplie (Arcaniste). Clic gauche : choisir le sort ; clic droit : le lancer sur soi.
 class SpellSlot extends Control:
 	signal pressed
+	signal self_cast
 	var icon: Texture2D
 	var key_label := ""
 	var cost := 0
@@ -117,6 +118,9 @@ class SpellSlot extends Control:
 		var click := event as InputEventMouseButton
 		if click != null and click.pressed and click.button_index == MOUSE_BUTTON_LEFT:
 			pressed.emit()
+			accept_event()
+		elif click != null and click.pressed and click.button_index == MOUSE_BUTTON_RIGHT:
+			self_cast.emit()
 			accept_event()
 
 	func _draw() -> void:
@@ -158,6 +162,64 @@ class ItemSlot extends Control:
 		var font := ThemeDB.fallback_font
 		draw_string_outline(font, Vector2(5, 15), key_label, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, 4, Color.BLACK)
 		draw_string(font, Vector2(5, 15), key_label, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(1, 0.95, 0.8, 0.6))
+
+
+## Portrait de la frise de tour : le combattant dessiné en petit dans un cadre à la couleur de son
+## camp, sa barre de PV en bas ; doré et plus grand quand c'est son tour. Nom et PV en infobulle.
+class TurnPortrait extends Control:
+	const SIZE := Vector2(44, 50)
+	const CURRENT_SIZE := Vector2(52, 58)
+	var actor_id := ""
+	var look: Dictionary = {}
+	var kind := ""
+	var team := 0
+	var hp := 0
+	var max_hp := 1
+	var current := false
+
+	func _init() -> void:
+		custom_minimum_size = SIZE
+		size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+		clip_contents = true
+		mouse_filter = Control.MOUSE_FILTER_STOP
+
+	## Met à jour le portrait d'après les données affichées par la carte (`MapView.actor`).
+	func show_actor(data: Dictionary, is_current: bool) -> void:
+		hp = int(data["hp"])
+		max_hp = maxi(1, int(data["max_hp"]))
+		team = clampi(int(data["team"]), 0, 1)
+		kind = data.get("kind", "")
+		tooltip_text = "%s\nPV %d / %d%s" % [data["name"], hp, max_hp, "\nC'est son tour" if is_current else ""]
+		if is_current != current:
+			current = is_current
+			custom_minimum_size = CURRENT_SIZE if current else SIZE
+		queue_redraw()
+
+	func _draw() -> void:
+		var frame := Rect2(Vector2.ZERO, size)
+		var camp: Color = MapView.COLOR_TEAM[team]
+		draw_rect(frame, Color(0.16, 0.12, 0.08).lerp(Color(camp, 1.0), 0.25))
+		if look.has("rig"):
+			# En buste : les jambes sous le cadre.
+			var zoom := size.y / 52.0
+			Rig.draw(self, look, Vector2(size.x / 2.0, size.y + 26.0 * zoom), {"facing": 1.0, "zoom": zoom})
+		elif look.has("image"):
+			# Un monstre dessiné d'un bloc : en entier, à la taille du cadre.
+			var image := Art.texture(look["image"], look.get("couleurs", {}))
+			var drawn := image.get_size() / Art.SCALE if image != null else size
+			var zoom := minf((size.x - 4.0) / drawn.x, (size.y - 8.0) / drawn.y)
+			var anchor := Art.anchor(look["image"]) * zoom
+			var spot := Vector2((size.x - drawn.x * zoom) / 2.0, size.y - 8.0 - drawn.y * zoom) + anchor
+			Art.draw(self, look["image"], spot, look.get("couleurs", {}), false, look.get("teinte", Color.WHITE), zoom)
+		else:
+			var font := ThemeDB.fallback_font
+			var initial := kind.left(1).to_upper()
+			draw_string(font, Vector2(0, size.y * 0.62), initial, HORIZONTAL_ALIGNMENT_CENTER, size.x, 22, Color.WHITE)
+		var ratio := clampf(float(hp) / max_hp, 0.0, 1.0)
+		var bar := Rect2(Vector2(3, size.y - 7), Vector2(size.x - 6, 4))
+		draw_rect(bar, Color(0, 0, 0, 0.75))
+		draw_rect(Rect2(bar.position, Vector2(bar.size.x * ratio, bar.size.y)), Color(0.3, 0.85, 0.3) if ratio > 0.3 else Color(0.9, 0.3, 0.2))
+		draw_rect(frame.grow(-1), Color(1.0, 0.82, 0.3) if current else Color(camp, 1.0), false, 3.0 if current else 2.0)
 
 
 ## Une case de la grille de composition : 3 orbes à la couleur des états, le nom du sort que
@@ -223,7 +285,13 @@ var _tactical_button: Button
 ## Hors combat : s'asseoir pour régénérer plus vite (touche A).
 var _sit_button: Button
 var _menu_buttons := {}
+## Frise de tour : un portrait par combattant vivant, dans l'ordre de jeu (en haut à droite) ;
+## « Placement » à la place pendant le placement.
 var _order_label: Label
+var _order_box: HBoxContainer
+## Portraits affichés : id → TurnPortrait, et ordre des ids affichés.
+var _portraits: Dictionary = {}
+var _shown_order: Array[String] = []
 ## Historique du combat (sorts lancés et leurs effets), en bas à gauche.
 var combat_log: CombatLog
 var _message_label: Label
@@ -251,6 +319,7 @@ func _ready() -> void:
 	_turn_button.visible = false
 	_tactical_button.visible = false
 	_order_label.visible = false
+	_order_box.visible = false
 	_result_panel.visible = false
 
 
@@ -376,7 +445,9 @@ func _show_spells(spells: Array[Spell]) -> void:
 			slot.tooltip_text = _spell_tooltip(spell)
 			if i < SPELL_KEYS.size():
 				slot.tooltip_text += "\nRaccourci : %s ou %s" % [slot.key_label, SPELL_CHARS[i]]
+			slot.tooltip_text += "\nClic droit : lancer sur soi"
 			slot.pressed.connect(_on_spell_pressed.bind(spell.id))
+			slot.self_cast.connect(_on_spell_self_cast.bind(spell.id))
 		else:
 			slot.empty = true
 			slot.usable = false
@@ -397,6 +468,19 @@ func _on_spell_pressed(spell_id: String) -> void:
 	if map_view.mode == MapView.Mode.COMBAT:
 		var slot: SpellSlot = _spell_buttons[spell_id]
 		_use_spell(spell_id, slot.get_global_rect(), slot)
+
+
+## Clic droit sur un sort : lancé sur soi (un sort de composition ouvre sa grille, comme au clic).
+func _on_spell_self_cast(spell_id: String) -> void:
+	if map_view.mode != MapView.Mode.COMBAT:
+		return
+	var fighter := map_view.player_fighter()
+	var spell: Spell = fighter.get_spell(spell_id) if fighter != null else null
+	if spell != null and not spell.state_choices().is_empty():
+		_on_spell_pressed(spell_id)
+	else:
+		close_composition()
+		map_view.cast_on_self(spell_id)
 
 
 ## Choisit un sort en combat ; un sort de composition des états ouvre sa grille au-dessus de
@@ -519,9 +603,9 @@ func _on_combat_started() -> void:
 	_sit_button.visible = false
 	_items_box.visible = false
 	_spells_box.visible = true
-	_order_label.visible = true
 	combat_log.start()
 	_shown_spells.clear()
+	_shown_order.clear()  # Mêmes ids d'un combat à l'autre, pas forcément les mêmes monstres.
 	var fighter := map_view.player_fighter()
 	if fighter != null:
 		_show_spells(fighter.spells)
@@ -589,6 +673,7 @@ static func percent_text(value: float) -> String:
 func _on_combat_ended(result: Dictionary) -> void:
 	_turn_button.visible = false
 	_order_label.visible = false
+	_order_box.visible = false
 	var victory: bool = result["vainqueur"] == Fighter.TEAM_PLAYERS
 	_result_title.text = "Victoire !" if victory else "Défaite…"
 	var lines := PackedStringArray()
@@ -651,6 +736,7 @@ func _on_exploration_resumed() -> void:
 	_sit_button.visible = true
 	_on_sitting_changed(map_view.world.sitting)
 	_order_label.visible = false
+	_order_box.visible = false
 	combat_log.visible = false
 	for menu: String in _menu_buttons:
 		_menu_buttons[menu].disabled = false
@@ -726,20 +812,40 @@ func _refresh() -> void:
 		slot.usable = player_turn and spell != null and fighter.cast_blocker(spell).is_empty()
 		slot.selected = spell_id == map_view.selected_spell
 		slot.queue_redraw()
-	_order_label.text = _order_text()
+	_show_order()
 
 
-func _order_text() -> String:
-	if map_view.turn_order.is_empty():
-		return "Placement"
-	var names: PackedStringArray = []
+## Frise de tour : les portraits des combattants vivants dans l'ordre de jeu, refaite quand un
+## combattant meurt ; « Placement » avant le début du combat.
+func _show_order() -> void:
+	var placement := map_view.turn_order.is_empty()
+	_order_label.text = "Placement"
+	_order_label.visible = placement
+	_order_box.visible = not placement
+	var alive: Array[String] = []
 	for actor_id in map_view.turn_order:
 		var data := map_view.actor(actor_id)
-		if data.is_empty() or not data["alive"]:
-			continue
-		var label: String = data["name"]
-		names.append("▶ %s" % label if actor_id == map_view.current_turn else label)
-	return "  ·  ".join(names)
+		if not data.is_empty() and data["alive"]:
+			alive.append(actor_id)
+	if alive != _shown_order:
+		_shown_order = alive
+		for child in _order_box.get_children():
+			_order_box.remove_child(child)
+			child.queue_free()
+		_portraits.clear()
+		for actor_id in alive:
+			var portrait := TurnPortrait.new()
+			portrait.actor_id = actor_id
+			portrait.look = map_view.actor_look(actor_id)
+			_order_box.add_child(portrait)
+			_portraits[actor_id] = portrait
+	for actor_id: String in _portraits:
+		(_portraits[actor_id] as TurnPortrait).show_actor(map_view.actor(actor_id), actor_id == map_view.current_turn)
+
+
+## Ids des portraits de la frise, dans l'ordre (pour les tests).
+func order_portraits() -> Array[String]:
+	return _shown_order.duplicate()
 
 
 static func _spell_tooltip(spell: Spell) -> String:
@@ -844,6 +950,14 @@ func _build() -> void:
 	_order_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	_order_label.offset_right = -16
 	add_child(_order_label)
+	_order_box = HBoxContainer.new()
+	_order_box.anchor_left = 1.0
+	_order_box.anchor_right = 1.0
+	_order_box.offset_top = 10
+	_order_box.offset_right = -16
+	_order_box.grow_horizontal = Control.GROW_DIRECTION_BEGIN
+	_order_box.add_theme_constant_override("separation", 4)
+	add_child(_order_box)
 
 	combat_log = CombatLog.new()
 	combat_log.anchor_top = 1.0

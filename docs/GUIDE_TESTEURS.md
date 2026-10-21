@@ -143,17 +143,21 @@ Les sorts se consultent dans leur fenêtre (S).
    - se déplacer : clic sur une case verte (1 PM par case) ;
    - lancer un sort : touche **1 à 0** (ou **& é " ' ( - è _ ç à**, sans Maj, sur un clavier AZERTY)
      ou clic sur son icône, puis clic sur la cible (cases bleues : portée ; un second clic sur le
-     sort, un **clic droit** ou **Échap** l'annule) ;
+     sort, un **clic droit** ou **Échap** l'annule). En visant, les dégâts et soins prévus
+     s'affichent au-dessus de chaque combattant touché (sans coup critique) ;
+   - se cibler soi-même : **clic droit sur l'icône du sort** (il part tout de suite sur votre case) ;
    - **enchaîner** : inutile d'attendre la fin des chiffres et des animations, la main revient tout
      de suite. Pendant une marche, les sorts choisis et leurs cibles (marquées en jaune), un
      déplacement ou la fin du tour sont gardés et partent dans l'ordre dès l'arrivée (5 au plus ; un
      clic droit, sans sort choisi, les annule) ;
    - **Fin de tour** : bouton du bandeau.
    - **Mode tactique** : bouton « Tactique » du bandeau ou touche **T** (aussi dans les options).
-     Vue simplifiée de la grille, comme dans Dofus : cases à plat en damier, eau à plat (elle ne
+     Vue simplifiée de la grille, comme dans Dofus : cases à plat en damier, eau en trous (elle ne
      bloque que le passage), obstacles qui bloquent la vue en blocs, arbres et bâtiments masqués,
      combattants en pions de la couleur de leur camp (initiale et PV). Portées, zones, glyphes et
      cases de placement restent affichées. Le choix est retenu d'un combat à l'autre.
+   - **ordre de jeu** en haut à droite : un portrait par combattant (bleu : votre camp, rouge :
+     l'adversaire ; doré : celui qui joue), sa barre de PV en bas, son nom au survol ;
    - survoler un combattant : son niveau, ses PV, PA, PM et ses résistances s'affichent à la place
      de la barre de sorts.
    - survoler une glyphe ou un de vos pièges : le sort, qui l'a lancé, et les tours restants d'une
@@ -237,7 +241,7 @@ le **lit** de votre maison les rend tous d'un coup.
 - **41 quêtes** : un tutoriel par camp, la quête principale de chaque camp (acte I dans la zone de
   départ, acte II à Hautepierre), le début de l'acte III commun (le Conseil des Peuples Libres, puis
   la Brèche), et 15 quêtes secondaires.
-- **Combat** : coups critiques, bonus et malus, poisons, poussées, glyphes (cases colorées) et
+- **Combat** : coups critiques, bonus et malus, poisons, poussées, glyphes (cases à la couleur de leur élément) et
   pièges invisibles, monstres qui gardent leurs distances ou soignent leurs alliés, **mode
   tactique** (T).
 - **Équipement** : 133 équipements, des panoplies (six élémentaires de 6 pièces, deux de 3 pièces à

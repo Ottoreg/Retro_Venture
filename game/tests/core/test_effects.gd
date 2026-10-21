@@ -198,3 +198,22 @@ func test_sort_de_zone_dans_le_vide() -> void:
 	var events := _cast(combat, "sermon", C + Vector2i(1, 0))
 	assert_eq(events[0]["type"], Protocol.EVT_SPELL_CAST, "aucun combattant dans la croix : le sort part quand même")
 	assert_eq(combat.get_fighter(Fixtures.PLAYER).pa, 4)
+
+
+## Prévisualisation au ciblage (retours de test, lot 3) : mêmes calculs que le lancer, sans hasard.
+func test_previsualisation_des_degats_et_soins() -> void:
+	var combat := _hero_fight([["mannequin", C + RIGHT]])
+	var hero := combat.get_fighter(Fixtures.PLAYER)
+	var dummy := combat.get_fighter("m0")
+	var preview := combat.spell_preview(hero, hero.get_spell("frappe"), C + RIGHT)
+	assert_eq(preview.keys(), ["m0"])
+	assert_eq(preview["m0"]["degats"], [15, 15], "10 × (100 + 50) %, comme le lancer")
+	assert_eq(preview["m0"]["element"], "acier")
+	assert_false(preview["m0"].has("soin"))
+	assert_true(combat.spell_preview(hero, hero.get_spell("frappe"), C + Vector2i(2, 0)).is_empty(), "hors de portée")
+	assert_true(combat.spell_preview(hero, hero.get_spell("soin"), C).is_empty(), "PV pleins : rien à soigner")
+	hero.hp -= 4
+	assert_eq(combat.spell_preview(hero, hero.get_spell("soin"), C)[Fixtures.PLAYER]["soin"], [4, 4], "limité aux PV qui manquent")
+	var hp := dummy.hp
+	_cast(combat, "frappe", C + RIGHT)
+	assert_eq(hp - dummy.hp, 15, "la prévision tombe juste")

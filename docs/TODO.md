@@ -80,7 +80,7 @@ durée de tour limitée (Phase 4, combat multijoueur).
 - [x] **(MVP)** IA de monstre simple (mêlée et distance)
 - [x] **(MVP)** Conditions de victoire / défaite, écran de fin
 - [x] Prévisualisation de portée et de zone au survol
-- [x] Ordre de jeu affiché (version texte ; frise illustrée plus tard)
+- [x] Ordre de jeu affiché : frise de portraits (retours de test, lot 3)
 
 ### Contenu de test
 - [x] 1 personnage Guerrier avec 4 sorts
@@ -403,7 +403,7 @@ Tout le contenu et les systèmes MVP de l'alpha 1 sont faits (chantiers 1, 3, 4 
   gardées pendant une marche et envoyées dans l'ordre (5 au plus), raccourcis de sorts AZERTY
   (& é " ' ( - è _ ç à) en plus de 1 à 0
 - [x] **(MVP)** Mode tactique en combat, façon Dofus (GDD § 14.3) : bouton « Tactique » ou touche T,
-  cases à plat en damier, eau à plat, obstacles qui bloquent la vue en blocs, décor masqué,
+  cases à plat en damier, eau en trous (retours de test, lot 3), obstacles qui bloquent la vue en blocs, décor masqué,
   combattants en pions (couleur du camp, initiale, PV), retenu d'un combat à l'autre (`Options`)
 - [x] Historique du combat (GDD § 14.3) : sorts lancés et leurs effets, couleurs des éléments,
   repliable (touche H) ; survol des glyphes et pièges alliés : sort, lanceur, tours restants
@@ -419,6 +419,12 @@ Tout le contenu et les systèmes MVP de l'alpha 1 sont faits (chantiers 1, 3, 4 
   pose assise du `Rig`, relevé en marchant ou en combat), barre d'objets hors combat à la place
   des sorts (`CombatHud.ItemSlot`, 8 emplacements, seulement montrée : pas de raccourcis
   d'équipement, choix de l'auteur)
+- [x] Retours de test, lot 3 : frise de tour en portraits (`CombatHud.TurnPortrait` : le
+  combattant dessiné dans un cadre à la couleur de son camp, PV en bas, doré à son tour, nom en
+  infobulle), clic droit sur un sort pour le lancer sur soi (`MapView.cast_on_self`), dégâts et
+  soins prévus au-dessus des combattants touchés quand on vise (`Combat.spell_preview`, sans
+  hasard ni critique), glyphes à la couleur de leur élément (champ `element` de l'événement
+  `glyphe`), eau en trous dans le mode tactique
 - [ ] Barre d'objets : la rendre utilisable (glisser un consommable, clic ou touche pour l'utiliser,
   emplacements sauvegardés) quand les premiers consommables arriveront (Alchimiste, nourriture)
 
