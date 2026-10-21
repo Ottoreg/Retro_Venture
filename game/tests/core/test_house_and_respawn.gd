@@ -146,6 +146,31 @@ func test_regeneration_hors_combat() -> void:
 	assert_eq(_world.character.hp_lost, 0)
 
 
+func test_assis_la_regeneration_va_plus_vite() -> void:
+	_world.character.hp_lost = 20
+	var events := _command(Protocol.CMD_SIT, {"assis": true})
+	assert_eq(events[0]["type"], Protocol.EVT_SAT)
+	assert_true(events[0]["assis"] and _world.sitting)
+	_world.update(World.REGEN_SECONDS * 2)
+	assert_eq(_world.character.hp_lost, 20 - 2 * int(World.SIT_REGEN_FACTOR), "assis : %d fois plus vite" % int(World.SIT_REGEN_FACTOR))
+	assert_eq(_command(Protocol.CMD_SIT, {"assis": true})[0]["type"], Protocol.EVT_REFUSED, "déjà assis")
+	events = _command(Protocol.CMD_SIT, {"assis": false})
+	assert_false(events[0]["assis"] or _world.sitting, "relevé")
+
+
+func test_marcher_ou_combattre_releve_le_joueur() -> void:
+	_command(Protocol.CMD_SIT, {"assis": true})
+	var events := _command(Protocol.CMD_MOVE, {"cible": _world.position_of(World.PLAYER_ID) + Vector2i(1, 0)})
+	assert_eq(events[0]["type"], Protocol.EVT_SAT, "il se relève avant de marcher")
+	assert_false(events[0]["assis"] or _world.sitting)
+	assert_eq(events[1]["type"], Protocol.EVT_MOVED)
+	_command(Protocol.CMD_SIT, {"assis": true})
+	assert_eq(_command(Protocol.CMD_MOVE, {"cible": Vector2i(-50, -50)})[0]["type"], Protocol.EVT_REFUSED)
+	assert_true(_world.sitting, "une marche refusée ne le relève pas")
+	_command(Protocol.CMD_ENGAGE, {"groupe": "groupe_1"})
+	assert_true(_world.in_combat() and not _world.sitting, "il se relève pour combattre")
+
+
 func test_defaite_avec_un_pv() -> void:
 	_maps["test"] = _village({"monstres": ["loup"]})
 	_world = World.new(_maps["test"], Fixtures.data(), _loader, Fixtures.character())

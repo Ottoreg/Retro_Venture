@@ -7,6 +7,9 @@ extends RefCounted
 
 const WALK_SWING := 0.5
 const ARM_SWING := 0.42
+## Assis : le corps descend (hanches près du sol), les jambes partent vers l'avant.
+const SIT_DROP := 24.0
+const SIT_LEG_ANGLES := {"jambe_avant": 1.45, "jambe_arriere": 1.2}
 
 
 ## Apparence d'un personnage : { rig, couleurs, arme, accessoires } (voir `art.json`).
@@ -57,7 +60,8 @@ static func scale_of(rig_name: String) -> float:
 
 
 ## Dessine le personnage, pieds en `base`. `pose` : { facing (1 ou -1), dos (bool), marche (bool),
-## phase (marche), temps (respiration), attaque (0 à 1, ou négatif), zoom (agrandissement) }.
+## phase (marche), temps (respiration), attaque (0 à 1, ou négatif), zoom (agrandissement),
+## assis (bool) }.
 static func draw(canvas: CanvasItem, appearance: Dictionary, base: Vector2, pose: Dictionary, modulate := Color.WHITE) -> void:
 	var rig_name: String = appearance["rig"]
 	var colors: Dictionary = appearance.get("couleurs", {})
@@ -66,6 +70,7 @@ static func draw(canvas: CanvasItem, appearance: Dictionary, base: Vector2, pose
 	var phase: float = pose.get("phase", 0.0)
 	var time: float = pose.get("temps", 0.0)
 	var attack: float = pose.get("attaque", -1.0)
+	var sitting: bool = pose.get("assis", false) and not walking
 	var size := scale_of(rig_name) * float(pose.get("zoom", 1.0))
 	Art.draw(canvas, "ombre", base, {}, false, Color(1, 1, 1, modulate.a), size)
 	var root := Transform2D(0.0, Vector2(float(pose.get("facing", 1.0)) * size, size), 0.0, base)
@@ -91,6 +96,9 @@ static func draw(canvas: CanvasItem, appearance: Dictionary, base: Vector2, pose
 		elif role == "torse" and attack >= 0.0:
 			angle = 0.08 * sin(attack * PI)
 		var position := Vector2(part["position"][0], part["position"][1])
+		if sitting:
+			position.y += SIT_DROP
+			angle = SIT_LEG_ANGLES.get(role, angle)
 		if not role.begins_with("jambe"):
 			position.y += bob
 		var joint := root * Transform2D(angle, position)

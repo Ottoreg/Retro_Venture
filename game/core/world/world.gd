@@ -9,6 +9,8 @@ const DEFAULT_VOIE := "guerrier"
 const DEFAULT_NAME := "Aventurier"
 ## Régénération hors combat : un PV toutes les REGEN_SECONDS secondes.
 const REGEN_SECONDS := 2.0
+## Assis, la régénération va SIT_REGEN_FACTOR fois plus vite.
+const SIT_REGEN_FACTOR := 3.0
 ## Quand un groupe devrait réapparaître sur la case du joueur, il attend encore un peu.
 const RESPAWN_RETRY := 5.0
 ## Promenade des groupes de monstres : délai entre deux déplacements (secondes), nombre de pas au
@@ -82,6 +84,8 @@ var _depleted: Dictionary = {}
 var _respawns: Dictionary = {}
 ## Temps accumulé pour la régénération des PV hors combat.
 var _regen_time := 0.0
+## Le joueur est assis (régénération plus rapide) ; pas sauvegardé : on recharge debout.
+var sitting := false
 ## Prochaine promenade de chaque groupe de la carte actuelle : id du groupe → instant.
 var _wander_times: Dictionary = {}
 var _combat_count := 0
@@ -167,6 +171,7 @@ func execute(command: Dictionary) -> Array[Dictionary]:
 			quest_book.observe(events)
 		return events
 	var events := _execute_exploration(command)
+	_stand_up_if_leaving(events)
 	quest_book.observe(events)
 	return events
 
@@ -180,6 +185,8 @@ func _execute_exploration(command: Dictionary) -> Array[Dictionary]:
 			return _engage(command)
 		if type == Protocol.CMD_TALK:
 			return _talk(command)
+		if type == Protocol.CMD_SIT:
+			return _sit(command)
 		if type == Protocol.CMD_SPEND_POINTS:
 			return _spend_points(command)
 		if type == Protocol.CMD_RESET_POINTS:
@@ -1011,16 +1018,42 @@ func _free_cell(target: GameMap, states: Dictionary, here: bool) -> Vector2i:
 	return cells[rng.randi_range(0, cells.size() - 1)]
 
 
-## Un PV toutes les REGEN_SECONDS secondes, hors combat.
+## Un PV toutes les REGEN_SECONDS secondes hors combat, SIT_REGEN_FACTOR fois plus vite assis.
 func _regenerate(delta: float) -> void:
 	if in_combat() or character.hp_lost <= 0:
 		_regen_time = 0.0
 		return
-	_regen_time += delta
+	_regen_time += delta * (SIT_REGEN_FACTOR if sitting else 1.0)
 	var healed := floori(_regen_time / REGEN_SECONDS)
 	if healed > 0:
 		_regen_time -= healed * REGEN_SECONDS
 		character.hp_lost = maxi(0, character.hp_lost - healed)
+
+
+func _sit(command: Dictionary) -> Array[Dictionary]:
+	var wanted: Variant = command.get("assis", true)
+	if not _is_player_command(command) or typeof(wanted) != TYPE_BOOL:
+		return _refused(command, Protocol.REASON_INVALID_COMMAND)
+	if wanted == sitting:
+		return _refused(command, Protocol.REASON_ALREADY_THERE)
+	sitting = wanted
+	var events: Array[Dictionary] = [_sat_event()]
+	return events
+
+
+## Un joueur assis se relève avant de marcher, de changer de carte ou d'entrer en combat.
+func _stand_up_if_leaving(events: Array[Dictionary]) -> void:
+	if not sitting:
+		return
+	for event in events:
+		if event["type"] in [Protocol.EVT_MOVED, Protocol.EVT_MAP_CHANGED, Protocol.EVT_COMBAT_STARTED]:
+			sitting = false
+			events.push_front(_sat_event())
+			return
+
+
+func _sat_event() -> Dictionary:
+	return {"type": Protocol.EVT_SAT, "entite": PLAYER_ID, "assis": sitting}
 
 
 func _schedule_respawn(map_id: String, group: Dictionary) -> void:

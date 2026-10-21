@@ -35,7 +35,7 @@ xvfb-run -a godot --path . -s res://tools/screenshot.gd -- sortie.png [carte] [s
 ```
 
 `tools/screenshot.gd` fait des captures en jeu (actions : glyphe, survol, phase, reveil, carte, sermon,
-cible, tactique, pause, options, fiche…) ; `tools/art_sheet.gd` fait une planche des dessins ; `tools/simulation.gd` simule des
+cible, tactique, pause, options, fiche, assis…) ; `tools/art_sheet.gd` fait une planche des dessins ; `tools/simulation.gd` simule des
 combats sur chaque groupe des cartes (`-- [combats] [rapport.md] [préfixes de cartes] [detail]`,
 ~7 min pour tout à 10 combats).
 `python3 tools/catalogue.py` regénère `docs/CATALOGUE.md` (objets, monstres par niveau et lieux, sorts, avec leurs

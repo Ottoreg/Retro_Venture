@@ -79,7 +79,8 @@ temps : chaque camp a sa propre histoire.
 
 | Action | Comment |
 | --- | --- |
-| Se déplacer | Clic sur une case (un nouveau clic pendant la marche change de destination) |
+| Se déplacer | Clic sur une case (un nouveau clic pendant la marche change de destination) ; au-delà de 3 cases, le personnage court |
+| S'asseoir | Bouton « S'asseoir » de la barre du bas, ou touche A : les PV remontent trois fois plus vite ; on se relève en marchant |
 | Attaquer un groupe de monstres | Clic sur le groupe : le personnage le rejoint et le combat commence |
 | Parler, commercer, fabriquer | Clic sur un PNJ (bulle « … », ou « ! » / « ? » s'il a une quête pour vous) |
 | Récolter | Clic sur un arbre (bûcheron) ou un rocher à minerai (mineur) |
@@ -169,7 +170,8 @@ bandeau, hors combat, ouvre sa fiche.
    Si le sac (60 places) est plein, le butin y entre quand même, en surplus : il faut alors faire de
    la place (vendre, jeter, ranger au coffre) avant de pouvoir relancer un combat.
 
-Les points de vie se gardent d'un combat à l'autre et remontent doucement (1 PV toutes les 2 s) ;
+Les points de vie se gardent d'un combat à l'autre et remontent doucement (1 PV toutes les 2 s,
+trois fois plus vite **assis**) ;
 le **lit** de votre maison les rend tous d'un coup.
 
 ### Pierres de Passage et point de résurrection

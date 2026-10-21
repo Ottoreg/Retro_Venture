@@ -198,6 +198,8 @@ var _target_id := ""
 var _turn_button: Button
 ## Bascule du mode tactique (en combat seulement ; touche T).
 var _tactical_button: Button
+## Hors combat : s'asseoir pour régénérer plus vite (touche A).
+var _sit_button: Button
 var _menu_buttons := {}
 var _order_label: Label
 ## Historique du combat (sorts lancés et leurs effets), en bas à gauche.
@@ -241,6 +243,7 @@ func setup(p_map_view: MapView) -> void:
 	map_view.character_changed.connect(_refresh_exploration)
 	map_view.inventory_changed.connect(_refresh_exploration)
 	map_view.hovered_cell_changed.connect(_on_hovered_cell_changed)
+	map_view.sitting_changed.connect(_on_sitting_changed)
 	_refresh_exploration()
 
 
@@ -262,7 +265,12 @@ func _process(delta: float) -> void:
 
 
 func _unhandled_key_input(event: InputEvent) -> void:
-	if map_view == null or map_view.mode != MapView.Mode.COMBAT or not event.is_pressed() or event.is_echo():
+	if map_view == null or not event.is_pressed() or event.is_echo():
+		return
+	if map_view.mode != MapView.Mode.COMBAT:
+		if (event as InputEventKey).keycode == KEY_A:
+			map_view.toggle_sit()
+			get_viewport().set_input_as_handled()
 		return
 	var key := (event as InputEventKey).keycode
 	var index := spell_key_index(event as InputEventKey)
@@ -499,6 +507,7 @@ func _on_combat_started() -> void:
 	_turn_button.visible = true
 	_tactical_button.visible = true
 	_tactical_button.set_pressed_no_signal(map_view.tactical)
+	_sit_button.visible = false
 	_order_label.visible = true
 	combat_log.start()
 	_shown_spells.clear()
@@ -628,6 +637,8 @@ func _on_exploration_resumed() -> void:
 	_show_target()
 	_turn_button.visible = false
 	_tactical_button.visible = false
+	_sit_button.visible = true
+	_on_sitting_changed(map_view.world.sitting)
 	_order_label.visible = false
 	combat_log.visible = false
 	for menu: String in _menu_buttons:
@@ -645,6 +656,11 @@ func _on_continue_pressed() -> void:
 func toggle_tactical() -> void:
 	map_view.tactical = not map_view.tactical
 	_tactical_button.set_pressed_no_signal(map_view.tactical)
+
+
+func _on_sitting_changed(sitting: bool) -> void:
+	_sit_button.set_pressed_no_signal(sitting)
+	_sit_button.text = "Se lever" if sitting else "S'asseoir"
 
 
 func _on_turn_button_pressed() -> void:
@@ -771,6 +787,17 @@ func _build() -> void:
 	_tactical_button.focus_mode = Control.FOCUS_NONE
 	_tactical_button.pressed.connect(toggle_tactical)
 	row.add_child(_tactical_button)
+	_sit_button = Button.new()
+	_sit_button.toggle_mode = true
+	_sit_button.text = "S'asseoir"
+	_sit_button.tooltip_text = "S'asseoir (A) : les PV remontent %d fois plus vite. On se relève en marchant." % int(World.SIT_REGEN_FACTOR)
+	_sit_button.custom_minimum_size = Vector2(96, 34)
+	_sit_button.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	_sit_button.focus_mode = Control.FOCUS_NONE
+	_sit_button.pressed.connect(func() -> void:
+		map_view.toggle_sit()
+		_on_sitting_changed(map_view.world.sitting))  # Refusé pendant une animation : le bouton revient.
+	row.add_child(_sit_button)
 
 	minimap_slot = Control.new()
 	minimap_slot.custom_minimum_size = Vector2(MINIMAP_WIDTH, 0)

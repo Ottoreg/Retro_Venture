@@ -729,7 +729,10 @@ prévoit déjà `voie` et `rang` sur chaque sort** pour que le système s'ajoute
   personnelle, instanciée par joueur en multijoueur). Elle contient un **coffre** (stockage, 100
   places) et un **lit** (tous les PV d'un coup). Prototype : à Brumerive.
 - **Points de vie** : ils se gardent d'un combat à l'autre et remontent lentement hors combat
-  (1 PV toutes les 2 s) ; après une défaite, on se relève avec 1 PV.
+  (1 PV toutes les 2 s, **trois fois plus vite assis** : bouton « S'asseoir » ou touche A, on se
+  relève en marchant ou en entrant en combat) ; après une défaite, on se relève avec 1 PV.
+- **Course** : un trajet de plus de 3 cases se fait en courant (vitesse × 1,5), en exploration
+  comme en combat, pour le joueur comme pour les monstres.
 - **Monstres du prototype** : deux par zone de départ — loup des collines et frondeur gobelin
   (Brumerive, désormais complétée par son lot de production : voir § 3.5), rat des galeries et grouilleur, mille-pattes vert qui crache de l'acide (Crasse-Roc),
   cerf enchanté et arbre vivant (Sylvebrume). Le Souverain Cendré attend sur une carte d'élite de

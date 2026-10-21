@@ -23,6 +23,10 @@ const CMD_SPEND_POINTS := "investir"
 ## Exploration : rendre tous les points investis, à répartir de nouveau (gratuit pendant l'alpha).
 ## { type, entite: String }
 const CMD_RESET_POINTS := "reinitialiser_points"
+## Exploration : s'asseoir (`assis` vrai) ou se relever (faux). Assis, les PV remontent plus vite
+## (World.SIT_REGEN_FACTOR) ; on se relève tout seul en marchant ou en entrant en combat.
+## { type, entite: String, assis: bool }
+const CMD_SIT := "s_asseoir"
 ## Exploration : équiper un objet. { type, entite: String, objet: String (uid), emplacement: String (optionnel) }
 const CMD_EQUIP := "equiper"
 ## Exploration : retirer l'objet d'un emplacement. { type, entite: String, emplacement: String }
@@ -118,6 +122,9 @@ const EVT_GROUP_RESPAWNED := "reapparition"
 const EVT_GROUP_MOVED := "promenade"
 ## Coffre ouvert ou modifié. { type, case: Vector2i, coffre: { objets: Array, places: int } }
 const EVT_CHEST := "coffre"
+## Le joueur s'assoit ou se relève (aussi tout seul, avant une marche ou un combat).
+## { type, entite: String, assis: bool }
+const EVT_SAT := "assis"
 ## Le joueur a dormi : PV au maximum. { type, gain: int, pv: int, pv_max: int }
 const EVT_RESTED := "repos"
 ## Pierre de Passage utilisée : destinations proposées. { type, case: Vector2i, ici: String (id de

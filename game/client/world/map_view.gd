@@ -17,6 +17,8 @@ signal combat_ended(result: Dictionary)
 signal exploration_resumed
 signal map_changed
 signal character_changed
+## Le joueur s'est assis ou relevé (voir `World.sitting`).
+signal sitting_changed(sitting: bool)
 signal level_up(level: int)
 ## Le joueur parle à un marchand : événement EVT_SHOP.
 signal shop_opened(event: Dictionary)
@@ -49,6 +51,9 @@ enum Mode { EXPLORATION, COMBAT }
 
 ## Vitesse de marche, en pixels par seconde.
 const WALK_SPEED := 170.0
+## Au-delà de RUN_CELLS cases, on court : vitesse de marche × RUN_FACTOR.
+const RUN_CELLS := 3
+const RUN_FACTOR := 1.5
 ## Les groupes de monstres se promènent plus lentement que le joueur ne marche.
 const GROUP_WALK_SPEED := 70.0
 ## Durée de l'animation d'attaque ou de sort.
@@ -176,6 +181,8 @@ var _paused := false
 var _wait := 0.0
 var _walk_actor := ""
 var _walk_path: Array[Vector2i] = []
+## Vitesse de la marche en cours (WALK_SPEED, ou plus vite pour une course).
+var _walk_speed := WALK_SPEED
 ## Groupes de monstres en promenade (indépendamment de la file d'événements) : id → cases restantes.
 var _group_walks: Dictionary = {}
 var _pending_click := NO_CELL
@@ -292,6 +299,12 @@ func cast_composition(spell_id: String, states: String) -> void:
 		command["cible"] = player_fighter().cell
 		_send(command)
 	_refresh_overlays()
+
+
+## S'asseoir ou se relever (exploration seulement).
+func toggle_sit() -> void:
+	if mode == Mode.EXPLORATION:
+		send_command({"type": Protocol.CMD_SIT, "entite": World.PLAYER_ID, "assis": not world.sitting})
 
 
 func request_start_fight() -> void:
@@ -849,8 +862,14 @@ func _apply_world_change(event: Dictionary) -> void:
 	queue_redraw()
 
 
+## Vitesse d'un déplacement de `cells` cases : on court au-delà de RUN_CELLS (exploration et combat,
+## joueur et monstres).
+static func walk_speed(cells: int) -> float:
+	return WALK_SPEED * RUN_FACTOR if cells > RUN_CELLS else WALK_SPEED
+
+
 func _advance_walk(delta: float) -> void:
-	if _step_along(_actors[_walk_actor], _walk_path, delta, WALK_SPEED):
+	if _step_along(_actors[_walk_actor], _walk_path, delta, _walk_speed):
 		_walk_actor = ""
 		_play_next()
 
@@ -930,6 +949,7 @@ func _apply(event: Dictionary) -> float:
 			return 0.0
 		_walk_actor = actor_id
 		_walk_path = path.duplicate()
+		_walk_speed = walk_speed(path.size())
 		combat_state_changed.emit()
 		return -1.0
 	if type == Protocol.EVT_DIALOGUE:
@@ -997,6 +1017,11 @@ func _apply(event: Dictionary) -> float:
 			notice.emit("Nouveau point de résurrection : %s." % event["nom"])
 		_discovered_passage = ""
 		progress_changed.emit()
+		return 0.0
+	if type == Protocol.EVT_SAT:
+		if _actors.has(World.PLAYER_ID):
+			_actors[World.PLAYER_ID]["assis"] = event["assis"]
+		sitting_changed.emit(event["assis"])
 		return 0.0
 	if type == Protocol.EVT_RESTED:
 		if int(event["gain"]) > 0:
@@ -1660,7 +1685,7 @@ func _draw_figure(seed_id: String, look: Dictionary, kind: String, base: Vector2
 	if look.has("rig"):
 		var progress := 1.0 - float(data.get("attaque", 0.0)) / ATTACK_TIME if data.get("attaque", 0.0) > 0.0 else -1.0
 		Rig.draw(self, look, base, {"facing": facing, "dos": data.get("dos", false), "marche": walking, "phase": phase,
-			"temps": _time + offset * 0.1, "attaque": progress})
+			"temps": _time + offset * 0.1, "attaque": progress, "assis": data.get("assis", false)})
 	elif look.has("image"):
 		var hop := -absf(sin(phase)) * 2.0 if walking else sin(_time * 2.0 + offset) * 0.4
 		Art.draw(self, look["image"], base + Vector2(0, hop), look.get("couleurs", {}), facing < 0.0, look.get("teinte", Color.WHITE), look["echelle"])

@@ -252,6 +252,30 @@ func test_nouveau_clic_pendant_la_marche() -> void:
 
 
 
+func test_course_et_bouton_s_asseoir() -> void:
+	assert_eq(MapView.walk_speed(MapView.RUN_CELLS), MapView.WALK_SPEED, "on marche jusqu'à 3 cases")
+	assert_eq(MapView.walk_speed(MapView.RUN_CELLS + 1), MapView.WALK_SPEED * MapView.RUN_FACTOR, "on court au-delà")
+	var tree := Engine.get_main_loop() as SceneTree
+	var scene: Node = load("res://client/world/world.tscn").instantiate()
+	tree.root.add_child(scene)
+	var view: MapView = scene.get_node("MapView")
+	var button: Button = scene.get_node("CombatHud")._sit_button
+	assert_true(button.visible and not button.button_pressed, "bouton visible hors combat")
+	button.pressed.emit()
+	_run_until_idle(view)
+	assert_true(view.world.sitting and view.actor(World.PLAYER_ID)["assis"], "assis")
+	assert_eq(button.text, "Se lever")
+	var start := view.world.position_of(World.PLAYER_ID)
+	for cell in IsoGrid.neighbors_4(start):
+		if view.current_map().is_walkable(cell) and view.current_map().exit_directions(cell).is_empty():
+			view._on_click(cell)
+			break
+	_run_until_idle(view)
+	assert_false(view.world.sitting or view.actor(World.PLAYER_ID)["assis"], "relevé en marchant")
+	assert_eq(button.text, "S'asseoir")
+	scene.free()
+
+
 func test_interrompre_la_marche_vers_un_combat_ou_une_sortie() -> void:
 	var tree := Engine.get_main_loop() as SceneTree
 	var scene: Node = load("res://client/world/world.tscn").instantiate()

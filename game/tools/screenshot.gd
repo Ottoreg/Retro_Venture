@@ -3,7 +3,7 @@ extends SceneTree
 ##   xvfb-run -s "-screen 0 1280x720x24" godot --path game --rendering-driver opengl3 \
 ##     -s res://tools/screenshot.gd -- sortie.png [carte] [frames] [action]
 ## Lance la scène du monde (nouvelle partie), attend quelques images et enregistre la vue.
-## Action : « combat » (engage le premier groupe de la carte), « butin » (écran de fin de combat d'exemple), « elite7 » (Loup alpha de rang 7 survolé), « cible » (combat, monstre survolé), « sermon » (Théologue en combat, Sermon visé devant lui), « panoplie » (3 pièces portées), « inventaire », « metiers », « sorts » (ouvre la
+## Action : « combat » (engage le premier groupe de la carte), « butin » (écran de fin de combat d'exemple), « elite7 » (Loup alpha de rang 7 survolé), « cible » (combat, monstre survolé), « sermon » (Théologue en combat, Sermon visé devant lui), « panoplie » (3 pièces portées), « inventaire », « assis » (blessé, assis), « metiers », « sorts » (ouvre la
 ## fenêtre ; « inventaire » remplit d'abord le sac d'un exemplaire de chaque objet), « pierre » (va utiliser
 ## la Pierre de Passage), « glyphe » (combat contre l'Arbre millénaire, glyphe posée, héros ralenti et
 ## empoisonné, à lancer sur sylvebrume_0_0), « survol » (le plus grand groupe de la carte survolé :
@@ -149,6 +149,12 @@ func _process(_delta: float) -> bool:
 			view.world.character.add_xp(Character.xp_for_level(4))
 			view.world.character.spend_points("force", 6)
 			_scene.get_node("CharacterSheet").toggle()
+		elif _action == "assis":
+			view.world.character.hp_lost = 30
+			view.send_command({"type": Protocol.CMD_MOVE, "entite": World.PLAYER_ID, "cible": view.world.position_of(World.PLAYER_ID) + Vector2i(2, 2)})
+			_wait_for(view)
+			view.toggle_sit()
+			_wait_for(view)
 		elif _action == "metiers":
 			_scene.get_node("JobsWindow").toggle()
 		elif _action == "sorts":
