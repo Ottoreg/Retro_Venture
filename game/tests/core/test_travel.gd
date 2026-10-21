@@ -168,13 +168,13 @@ func test_voyager() -> void:
 	var arrival := _world.position_of(World.PLAYER_ID)
 	assert_true(GameMap.is_adjacent(arrival, _world.map.travel_stone()), "on arrive à côté de la pierre")
 	assert_eq(_world.character.respawn_passage, "depart", "arriver par un voyage ne change pas le point de résurrection")
-	# Et retour, contre 10 écus.
+	# Et retour, contre 10 brumes.
 	_world.character.inventory.ecus = 25
 	events = _command(Protocol.CMD_TRAVEL, {"case": _stone, "destination": "depart"})
 	assert_eq(events[0]["type"], Protocol.EVT_MAP_CHANGED)
 	assert_eq(events[0]["prix"], 10)
 	assert_eq(_world.map.id, "test")
-	assert_eq(_world.character.inventory.ecus, 15, "écus débités")
+	assert_eq(_world.character.inventory.ecus, 15, "brumes débitées")
 	var inventory := Fixtures.of_type(events, Protocol.EVT_INVENTORY)
 	assert_eq(inventory.size(), 1, "événement d'inventaire")
 	assert_eq(inventory[0]["inventaire"]["ecus"], 15)

@@ -96,7 +96,7 @@ def equilibrage_md():
           f"- **Alpha 1** : l'XP de combat est multipliée par {balance.XP_ALPHA} (`Character.XP_RATE`) ; tout le contenu (1 → 30) "
           f"se fait alors en ~{total / balance.XP_ALPHA:.1f} h de combat, ~4 à 5 h avec les déplacements. On revient à ×1 "
           "(~15 h pour les 30 premiers niveaux) quand on testera la vraie progression.",
-          "- **Élites** : niveau = max de la famille + 3, PV ≥ 2× la base, XP × 1,8, écus × 2,5, butin plus fréquent ; "
+          "- **Élites** : niveau = max de la famille + 3, PV ≥ 2× la base, XP × 1,8, brumes × 2,5, butin plus fréquent ; "
           "**mini-boss** : groupe fixe, réapparition en 60 s au plus (alpha : on doit pouvoir retester ses mécaniques), 2 ou 3 phases "
           "de profils différents tirés de son thème (agressif, défensif, mobilité, contrôle), **jamais de soin** à un changement de phase "
           "(risque de combat sans fin), trophée de recette.",

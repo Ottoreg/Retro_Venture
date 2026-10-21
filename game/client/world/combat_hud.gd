@@ -751,7 +751,7 @@ func _on_combat_ended(result: Dictionary) -> void:
 
 
 ## Colonnes du tableau de fin, comme celui de Dofus Rétro : nom, niveau, jauge d'expérience, XP et
-## écus gagnés, butin.
+## brumes gagnées, butin.
 const RESULT_COLUMNS := [["Nom", 190], ["Niv.", 64], ["Expérience", 150], ["XP", 72], ["Écus", 60], ["Butin", 248]]
 
 
@@ -776,7 +776,7 @@ func _result_band(text: String, winners: bool) -> Control:
 	return _result_strip(title, fill, 1, UiTheme.BRONZE if winners else Color("6e3426"))
 
 
-## Ligne d'un combattant. Les gains (XP, écus, butin) vont au joueur ; un combattant tombé est grisé.
+## Ligne d'un combattant. Les gains (XP, brumes, butin) vont au joueur ; un combattant tombé est grisé.
 func _result_row(entry: Dictionary, result: Dictionary, odd: bool) -> Control:
 	var row := HBoxContainer.new()
 	row.add_theme_constant_override("separation", 8)
@@ -934,8 +934,8 @@ static func trade_line(event: Dictionary, merchant: String) -> String:
 	var amount := " ×%d" % event["quantite"] if int(event["quantite"]) > 1 else ""
 	var where := " chez %s" % merchant if not merchant.is_empty() else ""
 	if event["operation"] == "achat":
-		return "[color=#e8b04a]Achat[/color] : %s%s%s, [color=#ff8a70]−%d écus[/color]" % [event["nom"], amount, where, event["prix"]]
-	return "[color=#e8b04a]Vente[/color] : %s%s%s, [color=#8fe07a]+%d écus[/color]" % [event["nom"], amount, where, event["prix"]]
+		return "[color=#e8b04a]Achat[/color] : %s%s%s, [color=#ff8a70]−%d brumes[/color]" % [event["nom"], amount, where, event["prix"]]
+	return "[color=#e8b04a]Vente[/color] : %s%s%s, [color=#8fe07a]+%d brumes[/color]" % [event["nom"], amount, where, event["prix"]]
 
 
 func _on_continue_pressed() -> void:
@@ -1322,7 +1322,7 @@ func bands() -> Array[Control]:
 	return [_left_band, _right_band]
 
 
-## Hors combat, dans la bande droite : nom, niveau et Voie, expérience, écus.
+## Hors combat, dans la bande droite : nom, niveau et Voie, expérience, brumes.
 func _show_summary(sheet: Dictionary) -> void:
 	_summary_name.text = sheet["nom"]
 	_summary_level.text = "Niveau %d, %s %s" % [sheet["niveau"], sheet["race_nom"], sheet["voie_nom"]]
@@ -1330,7 +1330,7 @@ func _show_summary(sheet: Dictionary) -> void:
 	_summary_xp.max_value = span
 	_summary_xp.value = clampi(int(sheet["xp"]) - int(sheet["xp_niveau"]), 0, span)
 	_summary_xp.tooltip_text = "Expérience : %d / %d" % [sheet["xp"], sheet["xp_suivant"]]
-	_summary_money.text = "%d écus" % sheet["ecus"]
+	_summary_money.text = "%d brumes" % sheet["ecus"]
 
 
 func _gauge(kind: String, minimum: Vector2, tooltip: String) -> Gauge:

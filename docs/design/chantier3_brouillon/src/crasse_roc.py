@@ -287,7 +287,7 @@ ZONE = {
          "groupes": [{"monstres": ["contremaitre_zele", "contremaitre_zele"]}, {"monstres": ["contremaitre_zele"]},
                      {"parmi": ["contremaitre_zele"], "nombre": [1, 2]}],
          "pnj": [{"marqueur": "a", "id": "zibeline_la_peagere", "nom": "Zibeline, péagère", "role": "PNJ d'ambiance",
-                  "repliques": ["Péage ! Deux écus pour passer. Trois pour repasser. Quatre si vous avez l'air content.",
+                  "repliques": ["Péage ! Deux brumes pour passer. Trois pour repasser. Quatre si vous avez l'air content.",
                                 "Hautepierre, c'est tout droit. Les humains y ont des murs blancs et des idées noires sur nous.",
                                 "Vous ne payez pas ? Bon. Je note. Je note toujours. Je ne fais rien après, mais je note."],
                   "art": {"rig": "gobelin", "couleurs": {"peau": "8a9a4a", "tunique": "c9a04e", "manches": "8a6a2a", "pantalon": "4a3a28", "cheveux": "5a3a1a", "ceinture": "3a2a1a"}}}],

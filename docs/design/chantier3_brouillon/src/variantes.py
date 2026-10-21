@@ -101,7 +101,7 @@ def MARKDOWN():
         L.append(f"*{j['description']}*")
         L.append("")
         L.append(f"- Niveaux {j['niveaux']['min']}–{j['niveaux']['max']} (poids {'/'.join(map(str, j['niveaux']['poids']))}) ; base : {build.carac_txt(j['caracteristiques'])} ; par niveau : {build.pn_txt(j['par_niveau'])}.")
-        L.append(f"- Résistances : {build.res_txt(j['resistances'])} ; IA `{j['ia']}` ; XP {j['xp']} ; écus {j['ecus'][0]}–{j['ecus'][1]}.")
+        L.append(f"- Résistances : {build.res_txt(j['resistances'])} ; IA `{j['ia']}` ; XP {j['xp']} ; brumes {j['ecus'][0]}–{j['ecus'][1]}.")
         L.append("- Sorts : " + "".join("\n  - " + build.sort_txt(s["id"]) for s in v["sorts"]))
         L.append(f"- Butin : {build.butin_txt(j['butin'])}.")
         L.append(f"- Dessin : {build.art_txt(v['art'])}.")

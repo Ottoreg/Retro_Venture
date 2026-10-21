@@ -45,7 +45,7 @@ func test_prix_selon_la_rarete() -> void:
 		previous = price
 		var resource := {"type": "ressource", "rarete": rarity}
 		assert_true(Item.buy_price(resource) < price, "une ressource coûte moins qu'un équipement")
-		assert_true(Item.sell_price(resource) >= 1, "revente d'au moins 1 écu")
+		assert_true(Item.sell_price(resource) >= 1, "revente d'au moins 1 brume")
 		assert_true(Item.sell_price({"type": "anneau", "rarete": rarity}) < price, "revente moins chère que l'achat")
 
 

@@ -20,7 +20,7 @@ const RARITY_NAMES := {
 	"commun": "Commun", "peu_commun": "Peu commun", "rare": "Rare",
 	"epique": "Épique", "legendaire": "Légendaire", "relique": "Relique",
 }
-## Prix d'achat chez un marchand (écus), selon la rareté : équipements et ressources.
+## Prix d'achat chez un marchand (brumes), selon la rareté : équipements et ressources.
 const EQUIPMENT_PRICES := {
 	"commun": 40, "peu_commun": 120, "rare": 350, "epique": 900, "legendaire": 2500, "relique": 6000,
 }
@@ -55,7 +55,7 @@ static func buy_price(template: Dictionary) -> int:
 	return int(prices.get(template.get("rarete", "commun"), prices["commun"]))
 
 
-## Prix de revente d'un objet à un marchand : une part du prix d'achat, au moins 1 écu.
+## Prix de revente d'un objet à un marchand : une part du prix d'achat, au moins 1 brume.
 static func sell_price(template: Dictionary) -> int:
 	return maxi(1, floori(buy_price(template) * RESALE_RATE))
 

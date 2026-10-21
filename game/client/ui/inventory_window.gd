@@ -1,7 +1,7 @@
 class_name InventoryWindow
 extends CanvasLayer
 ## Fenêtre d'inventaire (touche I) : emplacements d'équipement, objets, détail de l'objet choisi,
-## boutons Équiper / Retirer / Jeter, écus. Un double-clic équipe un objet du sac (ou retire un objet
+## boutons Équiper / Retirer / Jeter, brumes. Un double-clic équipe un objet du sac (ou retire un objet
 ## porté) ; on peut aussi glisser un objet du sac sur un emplacement, ou d'un emplacement vers le sac.
 
 const GOLD := Color(0.95, 0.76, 0.3)
@@ -161,7 +161,7 @@ func refresh() -> void:
 		return
 	var world := map_view.world
 	_sheet = world.character.inventory_sheet(world.data)
-	_coins.text = "%d écus   ·   %d / %d places" % [_sheet["ecus"], _sheet["objets"].size(), _sheet["places"]]
+	_coins.text = "%d brumes   ·   %d / %d places" % [_sheet["ecus"], _sheet["objets"].size(), _sheet["places"]]
 	var overloaded: bool = _sheet["objets"].size() > int(_sheet["places"])
 	_coins.add_theme_color_override("font_color", Color(1.0, 0.45, 0.35) if overloaded else GOLD)
 	_overload.visible = overloaded

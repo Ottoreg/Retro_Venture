@@ -282,5 +282,5 @@ func test_passif_chapardeur_prospection_et_ecus() -> void:
 	monster.hp = 1
 	_command(world, Protocol.CMD_READY)
 	var events := _command(world, Protocol.CMD_CAST, {"sort": "frappe", "cible": monster.cell})
-	assert_eq(Fixtures.of_type(events, Protocol.EVT_COMBAT_ENDED)[0]["ecus"], 4, "3 écus + 20 %, arrondi")
+	assert_eq(Fixtures.of_type(events, Protocol.EVT_COMBAT_ENDED)[0]["ecus"], 4, "3 brumes + 20 %, arrondi")
 	assert_eq(world.character.inventory.ecus, 4)

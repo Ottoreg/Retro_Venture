@@ -40,11 +40,11 @@
   "dialogues": {
     "zibeline_la_peagere": {
       "proposition": [
-        "Péage ! Deux écus pour passer. Sauf que les contremaîtres zélés ont installé leur propre péage, juste devant le mien.",
+        "Péage ! Deux brumes pour passer. Sauf que les contremaîtres zélés ont installé leur propre péage, juste devant le mien.",
         "Ils taxent mon péage ! Chasse-en quatre et rapporte-moi leurs sifflets : sans sifflet, un contremaître n'est qu'un gobelin qui crie."
       ],
       "en_cours": [
-        "Ils sifflent encore. Chaque coup de sifflet, c'est un écu qui m'échappe."
+        "Ils sifflent encore. Chaque coup de sifflet, c'est une brume qui m'échappe."
       ],
       "fin": [
         "Trois sifflets ! Mon péage est à nouveau le seul péage. Pour te remercier, tu passes gratuitement. Aujourd'hui. Avant midi."

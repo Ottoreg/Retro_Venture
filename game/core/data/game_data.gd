@@ -35,7 +35,7 @@ const STARTING_ECUS := 20
 
 const CAMPS := ["allie", "ennemi", "neutre"]
 ## Effets de passif de race gérés : portée des sorts, % d'XP de métier en plus, prospection en
-## plus, % d'écus de fin de combat en plus.
+## plus, % de brumes de fin de combat en plus.
 const PASSIVE_EFFECTS := ["portee", "xp_metier", "prospection", "ecus"]
 ## Caractéristiques d'un monstre (facultatives dans « caracteristiques », 0 par défaut) : comme
 ## celles des joueurs, +1 % de dégâts de leur élément par point.
@@ -222,7 +222,7 @@ func set_bonuses(inventory: Inventory) -> Dictionary:
 	return totals
 
 
-## Pierre de Passage : `id`, `nom` et `carte` obligatoires ; `prix` (écus pour y voyager, entier ≥ 0)
+## Pierre de Passage : `id`, `nom` et `carte` obligatoires ; `prix` (brumes pour y voyager, entier ≥ 0)
 ## et `toujours_connue` (vrai ou faux) optionnels.
 static func validate_passage(data: Dictionary) -> PackedStringArray:
 	var errors: PackedStringArray = []
@@ -230,7 +230,7 @@ static func validate_passage(data: Dictionary) -> PackedStringArray:
 		if typeof(data.get(key)) != TYPE_STRING or str(data.get(key)).is_empty():
 			errors.append("« %s » doit être un texte non vide" % key)
 	if not Spell._is_int_at_least(data.get("prix", 0), 0):
-		errors.append("« prix » doit être un entier ≥ 0 (écus)")
+		errors.append("« prix » doit être un entier ≥ 0 (brumes)")
 	if typeof(data.get("toujours_connue", false)) != TYPE_BOOL:
 		errors.append("« toujours_connue » doit être vrai ou faux")
 	return errors
@@ -488,7 +488,7 @@ static func validate_voie(data: Dictionary, known_spells: Dictionary, known_item
 	return errors
 
 
-## Équipement de départ de la Voie (équipé) et quelques écus, pour un personnage tout neuf.
+## Équipement de départ de la Voie (équipé) et quelques brumes, pour un personnage tout neuf.
 func give_starting_kit(character: Character) -> void:
 	var rng := RandomNumberGenerator.new()
 	rng.seed = hash(character.display_name)

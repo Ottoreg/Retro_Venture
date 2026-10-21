@@ -203,10 +203,10 @@ func test_pierres_de_passage_et_zones_de_depart() -> void:
 		var start := str(game_data.races[race_id]["carte_depart"])
 		assert_true(DataLoader.load_map(DataLoader.map_path(start)) != null, "race « %s » : carte de départ %s" % [race_id, start])
 		assert_true(with_stone.has(start), "race « %s » : sa première carte a une Pierre de Passage" % race_id)
-		# Voyage vers une zone de départ : 10 écus, et il faut d'abord y être allé.
+		# Voyage vers une zone de départ : 10 brumes, et il faut d'abord y être allé.
 		var stone := game_data.start_passage(race_id)
 		assert_eq(game_data.passages.get(stone, {}).get("carte"), start, "race « %s » : pierre de sa zone de départ" % race_id)
-		assert_eq(game_data.passage_price(stone), 10, "pierre « %s » : 10 écus" % stone)
+		assert_eq(game_data.passage_price(stone), 10, "pierre « %s » : 10 brumes" % stone)
 		assert_false(game_data.passage_always_known(stone), "pierre « %s » : à découvrir" % stone)
 	# La carte d'élite de test : gratuite et connue de tous.
 	assert_eq(game_data.passage_price("trone_de_cendre"), 0)

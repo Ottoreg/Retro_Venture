@@ -100,7 +100,7 @@ test 2. »
 ## 6. Progression, économie, métiers
 
 35. ★ Rythme de montée en niveau — *choix unique* : Trop rapide / Bien / Trop lent
-36. Les écus, les prix des marchands et les récompenses vous ont-ils semblé cohérents ? — *échelle* :
+36. Les brumes, les prix des marchands et les récompenses vous ont-ils semblé cohérents ? — *échelle* :
     1 … 5
 37. Avez-vous utilisé les métiers (récolte, forge) ? — *choix unique* : Beaucoup / Un peu / Pas du
     tout

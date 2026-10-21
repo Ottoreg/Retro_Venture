@@ -371,7 +371,7 @@ def section_monstres(monstres, objets, sorts, cartes):
         butin = ", ".join("%s %d %%%s" % (
             objets.get(b["objet"], {"nom": b["objet"]})["nom"], round(b["taux"] * 100),
             " (×%s)" % plage(*b["quantite"]) if "quantite" in b else "") for b in m.get("butin", []))
-        lignes.append("- **Butin** : %s ; **écus** %s" % (butin or "aucun", plage(*m["ecus"]) if "ecus" in m else "0"))
+        lignes.append("- **Butin** : %s ; **brumes** %s" % (butin or "aucun", plage(*m["ecus"]) if "ecus" in m else "0"))
         endroits = [texte for _, texte in lieux[m["id"]]]
         lignes.append("- **Où le trouver** : " + (" · ".join(endroits) if endroits else "nulle part sur les cartes"))
         lignes.append("")
@@ -473,7 +473,7 @@ def main():
             sources = list(obtention.get(o["id"], []))
             if o["type"] != "quete" and o.get("boutique", True):
                 prix = (PRIX_EQUIPEMENT if equipement else PRIX_RESSOURCE)[o["rarete"]]
-                sources.insert(0, "boutique %d écus" % prix)
+                sources.insert(0, "boutique %d brumes" % prix)
             nom = "**%s**" % o["nom"]
             if o["id"] in panoplie_de:
                 nom += " *(%s)*" % panoplie_de[o["id"]]["nom"]

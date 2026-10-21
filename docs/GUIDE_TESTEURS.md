@@ -51,7 +51,7 @@ temps : chaque camp a sa propre histoire.
   - **Humain** (camp allié) : départ à **Brumerive** ; sort *Ralliement* ; passif +10 % d'XP de
     métier.
   - **Gobelin** (camp ennemi) : départ à **Crasse-Roc** ; sort *Coup bas* ; passif *Chapardeur* :
-    +20 prospection et +20 % d'écus en fin de combat.
+    +20 prospection et +20 % de brumes en fin de combat.
   - **Elfe** (camp neutre) : départ à **Sylvebrume** ; sort *Pas léger* ; passif +1 portée sur les
     sorts à distance.
 - Quatre Voies (classes), chacune avec sa mécanique :
@@ -85,7 +85,7 @@ temps : chaque camp a sa propre histoire.
 | Attaquer un groupe de monstres | Clic sur le groupe : le personnage le rejoint et le combat commence |
 | Parler, commercer, fabriquer | Clic sur un PNJ (bulle « … », ou « ! » / « ? » s'il a une quête pour vous) |
 | Boutique | Chez un marchand : onglets Acheter / Vendre et **barre de recherche** (un mot du nom ou du type, « botte », « anneau »… sans se soucier des accents) |
-| Historique | À gauche de la barre du bas, touche **H** pour le replier : onglet **Combat** (gardé d'un combat à l'autre) et **Commerce** (chaque achat et vente : objet, quantité, marchand, écus) ; « Tout » mêle les deux |
+| Historique | À gauche de la barre du bas, touche **H** pour le replier : onglet **Combat** (gardé d'un combat à l'autre) et **Commerce** (chaque achat et vente : objet, quantité, marchand, brumes) ; « Tout » mêle les deux |
 | Récolter | Clic sur un arbre (bûcheron) ou un rocher à minerai (mineur) |
 | Entrer / sortir d'un bâtiment | Clic sur la porte : celles où l'on peut entrer sont marquées au sol d'un losange doré (double chevron) |
 | Changer de carte | Clic sur une case du bord marquée d'un halo blanc (la flèche jaune indique la direction) |
@@ -117,7 +117,7 @@ Comme dans Dofus 2, rien ne passe sur la zone de jeu : la carte est entourée du
 aux bandes ; sur un écran plus large, les bandes s'élargissent.
 
 - **Bande gauche** : la minicarte en haut, la quête suivie dessous.
-- **Bande droite** : hors combat, votre nom, niveau, expérience et écus ; en combat, l'ordre de jeu.
+- **Bande droite** : hors combat, votre nom, niveau, expérience et brumes ; en combat, l'ordre de jeu.
 Les sorts se consultent dans leur fenêtre (S).
 
 ### Minicarte et carte du monde
@@ -180,7 +180,7 @@ Les sorts se consultent dans leur fenêtre (S).
      élément (Acier ocre, Flamme orange, Givre bleu, Tempête vert, Sacré jaune pâle, Impie violet).
      Les chiffres qui s'affichent au-dessus des combattants ont les mêmes couleurs (« -12 » :
      dégâts, « +8 » : soin ; un choc contre un obstacle reste rouge).
-3. Fin du combat : expérience, écus et butin (une icône par objet avec sa quantité ; le nom en
+3. Fin du combat : expérience, brumes et butin (une icône par objet avec sa quantité ; le nom en
    survolant). Pendant l'alpha 1, l'expérience gagnée est **multipliée par 3,5** : on monte vite de
    niveau pour tester toutes les mécaniques ; la vraie vitesse de progression viendra à l'alpha 2.
    En cas de défaite, on se réveille avec 1 PV à côté de la Pierre de Passage de son **point de
@@ -198,10 +198,10 @@ le **lit** de votre maison les rend tous d'un coup.
   encore reliées à pied) : depuis n'importe quelle pierre, vous pouvez voyager vers toutes les
   autres. Plus tard, il faudra d'abord aller à pied jusqu'à une pierre et cliquer dessus pour la
   découvrir.
-- Le voyage se **paie** : 10 écus vers une zone de départ. Le **Trône de Cendre** (carte d'élite de
+- Le voyage se **paie** : 10 brumes vers une zone de départ. Le **Trône de Cendre** (carte d'élite de
   test) reste gratuit et connu de tous.
 - La fenêtre de voyage montre votre bourse, le prix de chaque destination (en rouge si vous n'avez
-  pas assez d'écus) et grise les pierres « pas encore découvertes ».
+  pas assez de brumes) et grise les pierres « pas encore découvertes ».
 - **Point de résurrection** : la dernière pierre que vous avez touchée (au début, celle de votre zone
   de départ ; elle est rappelée en bas de la fenêtre de voyage). Toucher une autre pierre la
   remplace, avec un message « Nouveau point de résurrection ».

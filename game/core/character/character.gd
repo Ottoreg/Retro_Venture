@@ -269,7 +269,7 @@ func sheet(data: GameData) -> Dictionary:
 	}
 
 
-## Inventaire affichable : objets avec leur modèle (nom, type, rareté, niveau…), emplacements, écus.
+## Inventaire affichable : objets avec leur modèle (nom, type, rareté, niveau…), emplacements, brumes.
 func inventory_sheet(data: GameData) -> Dictionary:
 	return {"objets": _entries_sheet(inventory, data), "equipement": inventory.equipped.duplicate(), "ecus": inventory.ecus,
 		"places": inventory.capacity}

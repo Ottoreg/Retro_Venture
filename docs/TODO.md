@@ -143,7 +143,7 @@ Tout le contenu et les systèmes MVP de l'alpha 1 sont faits (chantiers 1, 3, 4 
 
 ### Personnage
 - [x] **(MVP)** Écran de création : race, classe, nom, aperçu et récapitulatif (couleurs selon race et Voie)
-- [x] **(MVP)** 3 races jouables, une par camp : Humain (allié), Gobelin (ennemi), Elfe (neutre) — bonus, passif, sort racial (passifs : Polyvalence +10 % d'XP de métier, Œil perçant +1 portée, Chapardeur +20 prospection et +20 % d'écus)
+- [x] **(MVP)** 3 races jouables, une par camp : Humain (allié), Gobelin (ennemi), Elfe (neutre) — bonus, passif, sort racial (passifs : Polyvalence +10 % d'XP de métier, Œil perçant +1 portée, Chapardeur +20 prospection et +20 % de brumes)
 - [x] **(MVP)** Camp porté par la race dans les données ; carte de départ par race (`carte_depart`)
 - [x] Faire partir Gobelins et Elfes de leurs propres zones (Crasse-Roc et Sylvebrume)
 - [x] 3 classes jouables : Guerrier, Rôdeur, Arcaniste (4 sorts chacune)
@@ -211,7 +211,7 @@ Tout le contenu et les systèmes MVP de l'alpha 1 sont faits (chantiers 1, 3, 4 
   exception déclarée dans ses données
 - [x] Niveaux variables pour les familles de toutes les zones (avec leurs paliers)
 - [x] Deux types de monstres par zone de départ, avec deux attaques et un butin propre chacun
-- [x] **(MVP)** Tables de butin, prospection (sans seuil), raretés (couleurs), écus
+- [x] **(MVP)** Tables de butin, prospection (sans seuil), raretés (couleurs), brumes
 - [x] Limite de butin par monstre partagée entre les joueurs (quantité max de la ligne), tirage du
   plus prospecteur au moins prospecteur (prêt pour le groupe)
 - [x] **(MVP)** Écran de butin en fin de combat
@@ -319,7 +319,7 @@ Tout le contenu et les systèmes MVP de l'alpha 1 sont faits (chantiers 1, 3, 4 
   - [x] Lot **Sylvebrume** : 7 nouvelles cartes (et retouches des 2 existantes), 11 monstres dont
     la Mère-Toile, 11 sorts, 13 objets et leurs icônes, dessins de la morille et de l'araignée
   - [x] Lot **Hautepierre, première moitié** : les 19 cartes (ville, routes, cartes cendrées, la
-    Brèche) avec leur calque de placement, la Pierre de Passage de la Grand-Place (20 écus), les 3
+    Brèche) avec leur calque de placement, la Pierre de Passage de la Grand-Place (20 brumes), les 3
     portes vers les zones de départ, palettes « hautepierre » et « cendree »
   - [x] Lot **Hautepierre, seconde moitié** : groupes et PNJ des 19 cartes (marchande, forgeron,
     personnages de la Citadelle…), 13 monstres (6 familles, leurs élites, Grondin), 23 sorts, 35
@@ -370,7 +370,7 @@ Tout le contenu et les systèmes MVP de l'alpha 1 sont faits (chantiers 1, 3, 4 
   leur composition et leur place, groupes vaincus) dans `user://`
 - [x] Pierres de Passage : une sur la 1re carte de chaque zone, voyage de l'une à l'autre
   (les zones ne sont pas reliées autrement pour l'instant)
-- [x] Pierres de Passage à découvrir (en touchant la pierre), voyage payant (10 écus vers une zone de
+- [x] Pierres de Passage à découvrir (en touchant la pierre), voyage payant (10 brumes vers une zone de
   départ ; `prix` et `toujours_connue` dans les données), prix et pierres inconnues dans la fenêtre
 - [x] Phase de test : toutes les Pierres de Passage connues dès le début (`World.ALL_PASSAGES_KNOWN`),
   tant que les zones ne sont pas reliées à pied
@@ -595,7 +595,7 @@ Peut démarrer dès que l'alpha solo est stable.
   quête de l'alliance, annoncée au joueur (GDD § 13.2)
 - [ ] Mode mentor : un joueur de l'acte III rejoint un ami débutant en groupe, sans récolte ni butin
 - [ ] Passer les actes I et II pour commencer à l'acte III (choix définitif, confirmation qui
-  rappelle la perte des récompenses de quêtes : XP, objets, écus) (GDD § 13.2)
+  rappelle la perte des récompenses de quêtes : XP, objets, brumes) (GDD § 13.2)
 - [ ] Rejoindre l'instance d'un ami
 - [ ] Instances privées de donjon par groupe
 - [ ] Maisons de joueurs instanciées : chaque joueur entre dans sa propre copie de `maison_joueur` (et des maisons de Crasse-Roc et Sylvebrume)
@@ -612,7 +612,7 @@ Peut démarrer dès que l'alpha solo est stable.
 - [ ] Rejoindre le combat d'un ami, verrouiller un combat, mode spectateur
 - [ ] Décider et appliquer la règle de groupe entre camps opposés avant l'acte III (GDD § 13.3)
 - [ ] Répartition du butin en groupe : brancher les joueurs du combat sur `Loot.roll` (limite par
-  monstre et tirage par ordre de prospection déjà faits) ; répartition des écus à décider
+  monstre et tirage par ordre de prospection déjà faits) ; répartition des brumes à décider
 - [ ] Objectifs de quêtes partagés en groupe
 - [ ] Ouvrir l'inventaire, la fiche et les autres fenêtres pendant un combat (consultation pendant
   le tour des autres joueurs) : consultation seulement, ni changement d'équipement ni objet

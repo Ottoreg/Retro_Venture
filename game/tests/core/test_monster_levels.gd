@@ -30,8 +30,8 @@ static func _data() -> GameData:
 	rat["niveaux"] = {"min": 1, "max": 3, "poids": [6, 3, 1]}
 	rat["caracteristiques"]["force"] = 10
 	rat["par_niveau"] = {"pv": 5, "initiative": 10, "xp": 4, "force": 20, "agilite": 2, "resistances": {"acier": 5, "givre": -5}}
-	# Taux inférieurs à 1, quantités et écus variables : un niveau qui changerait les taux, les
-	# quantités ou les écus se verrait sur quelques combats.
+	# Taux inférieurs à 1, quantités et brumes variables : un niveau qui changerait les taux, les
+	# quantités ou les brumes se verrait sur quelques combats.
 	rat["butin"] = [{"objet": "dent", "taux": 0.5, "quantite": [1, 3]}, {"objet": "bague", "taux": 0.3}]
 	rat["ecus"] = [1, 9]
 	monsters.append(rat)
@@ -177,7 +177,7 @@ func test_le_combat_cree_chaque_monstre_a_son_niveau() -> void:
 
 func test_le_butin_ne_depend_pas_du_niveau() -> void:
 	# Mêmes combats (même graine, donc même tirage), seul le niveau du rat change. Son butin est
-	# incertain (voir `_data`) : sur plusieurs combats, un taux, une quantité ou des écus qui
+	# incertain (voir `_data`) : sur plusieurs combats, un taux, une quantité ou des brumes qui
 	# dépendraient du niveau changeraient le résultat d'au moins l'un d'eux.
 	var outcomes := {}
 	for attempt in 12:
@@ -192,10 +192,10 @@ func test_le_butin_ne_depend_pas_du_niveau() -> void:
 			assert_eq(ended["vainqueur"], Fighter.TEAM_PLAYERS)
 		var label := "combat %d" % attempt
 		assert_eq(str(results[1]["butin"]), str(results[0]["butin"]), "%s : même butin au niveau 3 qu'au niveau 1" % label)
-		assert_eq(results[1]["ecus"], results[0]["ecus"], "%s : mêmes écus" % label)
+		assert_eq(results[1]["ecus"], results[0]["ecus"], "%s : mêmes brumes" % label)
 		assert_true(int(results[1]["xp"]) > int(results[0]["xp"]), "%s : mais plus d'XP" % label)
 		outcomes[str([results[0]["butin"], results[0]["ecus"]])] = true
-	assert_true(outcomes.size() >= 6, "butin et écus varient d'un combat à l'autre (%d résultats différents)" % outcomes.size())
+	assert_true(outcomes.size() >= 6, "butin et brumes varient d'un combat à l'autre (%d résultats différents)" % outcomes.size())
 
 
 func test_les_elites_gardent_leur_niveau_fixe() -> void:

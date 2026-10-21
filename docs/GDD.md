@@ -221,7 +221,7 @@ l'histoire.
   (niveau 12). **Sylvebrume aussi** : morilles 1–3, cerfs et arbres vivants 4–6, bûcherons 7–9,
   tisseuses 10–12, élites et la Mère-Toile (niveau 12). Les trois zones de départ sont produites.
   **Hautepierre (13–30) aussi** : 19 cartes reliées aux zones de départ par trois portes et une
-  Pierre de Passage (20 écus), une famille par palier (détrousseurs, trolls, corbacs, gargouilles,
+  Pierre de Passage (20 brumes), une famille par palier (détrousseurs, trolls, corbacs, gargouilles,
   Cendrillons, olifants), leurs élites, trois variantes corrompues et le boss Grondin (niveau 30).
   Le lot Métiers a posé les nouvelles ressources sur les cartes : **tout le contenu du chantier 3
   est produit**.
@@ -262,7 +262,7 @@ autres (Nains, Orcs, Semi-hommes, Géants, Squelettes, Lutins) en Phase 3.
 | Race | Camp | Bonus | Passif | Sort racial | Phase |
 |---|---|---|---|---|---|
 | **Humain** | Allié | +Vitalité, +Sagesse | *Polyvalence* : +10 % d'XP de métier | *Ralliement* : +2 PA ce tour (sur soi en solo ; sur un allié en multi) | Alpha |
-| **Gobelin** | Ennemi | +Agilité, +Chance | *Chapardeur* : +20 prospection et +20 % d'écus en fin de combat | *Coup bas* : dégâts Tempête au contact et −1 PM au prochain tour de la cible | Alpha |
+| **Gobelin** | Ennemi | +Agilité, +Chance | *Chapardeur* : +20 prospection et +20 % de brumes en fin de combat | *Coup bas* : dégâts Tempête au contact et −1 PM au prochain tour de la cible | Alpha |
 | **Elfe** | Neutre | +Agilité, +Intelligence | *Œil perçant* : +1 portée sur les sorts à distance | *Pas léger* : téléportation jusqu'à 3 cases | Alpha |
 | **Nain** | Allié | +Force, +Vitalité | *Peau de pierre* : +5 % de résistances | *Fureur des profondeurs* : bonus de dégâts quand PV < 50 % | Phase 3 |
 | **Orc** | Ennemi | +Force, +Vitalité | *Peau épaisse* : réduction des dégâts de mêlée | *Cri de guerre* : bonus de dégâts aux alliés proches | Phase 3 |
@@ -699,8 +699,8 @@ prévoit déjà `voie` et `rang` sur chaque sort** pour que le système s'ajoute
 - **Pierres de Passage** (les zaaps du jeu) : une sur la première carte de chaque zone de départ
   (Brumerive, Crasse-Roc, Sylvebrume) ; c'est pour l'instant le seul lien entre les zones.
   - *Fait :* une pierre se **découvre** en la touchant (clic dessus, à pied ; arriver par un voyage
-    ne compte pas). On ne voyage que vers une pierre découverte, et le voyage se **paie** en écus,
-    au prix de la pierre d'arrivée (10 écus vers une zone de départ). La pierre de la zone de départ
+    ne compte pas). On ne voyage que vers une pierre découverte, et le voyage se **paie** en brumes,
+    au prix de la pierre d'arrivée (10 brumes vers une zone de départ). La pierre de la zone de départ
     de la race est connue dès la création ; la carte d'élite de test (Trône de Cendre) est gratuite
     et connue de tous (`toujours_connue`). La fenêtre de voyage montre le prix de chaque
     destination et grise les pierres pas encore découvertes.
@@ -766,7 +766,7 @@ prévoit déjà `voie` et `rang` sur chaque sort** pour que le système s'ajoute
    n'importe quel ordre.
 4. **Fin :** victoire quand tous les ennemis sont vaincus ; défaite si tous les alliés le sont, ou en
    cas d'abandon.
-5. **Récompenses :** écran de fin avec XP, monnaie et butin pour chaque participant, en tableau façon Dofus Rétro : bandeaux « Gagnants » et « Perdants », une ligne par combattant (nom, niveau et montée de niveau, jauge d'expérience, XP, écus, butin ; les combattants tombés grisés), durée du combat en tours.
+5. **Récompenses :** écran de fin avec XP, monnaie et butin pour chaque participant, en tableau façon Dofus Rétro : bandeaux « Gagnants » et « Perdants », une ligne par combattant (nom, niveau et montée de niveau, jauge d'expérience, XP, brumes, butin ; les combattants tombés grisés), durée du combat en tours.
 
 ### 7.2 Règles
 
@@ -849,7 +849,7 @@ vaut quelque chose ; pas de recherche profonde.
     Agilité, résistances et XP gagnée, d'une valeur fixe par niveau au-dessus du niveau de base
     (`par_niveau` dans les données). Comme pour les joueurs, chaque point de Force, Intelligence,
     Chance ou Agilité donne +1 % de dégâts de son élément.
-  - Le niveau **ne change pas le butin** : même table, mêmes taux, mêmes quantités et mêmes écus pour
+  - Le niveau **ne change pas le butin** : même table, mêmes taux, mêmes quantités et mêmes brumes pour
     toute la famille, quel que soit le niveau.
   - **PA et PM identiques dans toute la famille**, sauf exception pour une famille dont la mécanique
     repose sur ces caractéristiques (par exemple, une espèce qui gagne des PM en vieillissant).
@@ -891,7 +891,7 @@ vaut quelque chose ; pas de recherche profonde.
 
 ### 8.2 Butin (drop)
 
-- Chaque monstre a une **table de butin** : objet, taux de base, quantité, et des écus.
+- Chaque monstre a une **table de butin** : objet, taux de base, quantité, et des brumes.
 - **Chance effective** = `taux_base × (prospection / 100)`, plafonnée à 100 %. Prospection = 100 +
   Chance / 10 + bonus d'équipement + passif de race (Gobelin : +20).
 - **Pas de seuil de prospection** : un personnage seul peut obtenir tous les objets, comme un groupe.
@@ -902,6 +902,12 @@ vaut quelque chose ; pas de recherche profonde.
   les suivants. Exemple : croc de loup `[1, 2]` ; si le premier joueur a eu 1 croc de ce loup, le
   deuxième ne peut plus en avoir qu'un. Chaque monstre du groupe a sa propre limite.
 - Les ressources de monstres alimentent les recettes des métiers.
+- **Monnaie : la brume** (« 1 brume », « 40 brumes » ; nom provisoire choisi pour l'alpha). Nom court
+  qui se lit bien à côté d'un nombre, tiré du lieu de frappe : les premières pièces ont été frappées à
+  Brumerive, dans des ateliers noyés de brouillard, et Sylvebrume revendique (sans preuve) l'invention
+  du procédé. Les gobelins de Crasse-Roc les appellent « les pâles » et les acceptent quand même.
+  Dans le code et les sauvegardes, la clé reste `ecus` (`Inventory.ecus`, `"ecus"` des monstres, des
+  quêtes et des événements) : la renommer casserait les sauvegardes et les données existantes.
 
 ### 8.3 Raretés
 
@@ -1253,7 +1259,7 @@ d'ambiance habituel, sa fiche affiche « Créé par [pseudo de l'artisan] ».
 - **Passer les actes I et II** (multi, long terme) : un joueur peut choisir de sauter les quêtes de
   camp pour commencer directement l'acte III, par exemple pour être aidé par des amis ou par un autre
   de ses personnages de haut niveau. Il est prévenu avant de confirmer : il renonce aux récompenses
-  de ces quêtes (expérience, objets, écus) et bascule tout de suite dans les instances communes. Le
+  de ces quêtes (expérience, objets, brumes) et bascule tout de suite dans les instances communes. Le
   choix est définitif.
 
 ### 13.3 Fonctionnalités multi
@@ -1347,7 +1353,7 @@ d'ambiance habituel, sa fiche affiche « Créé par [pseudo de l'artisan] ».
   **suivi de la quête** : son nom et cinq objectifs à faire au plus (« (+n) » s'il en reste
   d'autres), repliable ; un clic ouvre le journal (hors combat). Les deux restent en combat.
 - **Bande droite** : en combat, l'**ordre de jeu** en colonne ; hors combat, un résumé du
-  personnage (nom, niveau, race et Voie, expérience, écus).
+  personnage (nom, niveau, race et Voie, expérience, brumes).
 - **Repères de quête** : dans la proposition d'une quête et le journal, les noms des PNJ, des
   cartes et des zones sont des liens (en bleu). Un clic pose un repère, une épingle sur la carte
   du monde (ouverte sur sa zone) et la minicarte (une flèche au bord s'il est plus loin dans la
@@ -1373,7 +1379,7 @@ d'ambiance habituel, sa fiche affiche « Créé par [pseudo de l'artisan] ».
   combat comme en exploration (repliable, touche H, état gardé pendant la partie). Chaque message
   est rangé dans un **canal** : *Combat* (rien ne s'efface entre deux combats, un séparateur
   « Nouveau combat » marque le début de chacun) et *Commerce* (achats et ventes : objet, quantité,
-  marchand, écus dépensés ou gagnés). Des onglets filtrent un canal, « Tout » les mêle ; chaque
+  marchand, brumes dépensées ou gagnées). Des onglets filtrent un canal, « Tout » les mêle ; chaque
   canal garde ses 300 dernières lignes, si bien qu'un long combat ne chasse pas le commerce.
   **Prévu pour le chat** (phase multijoueur) : un message a déjà un canal, un auteur facultatif
   (affiché « Auteur : texte ») et une heure ; les canaux *Groupe*, *Équipe* et *Guilde* (puis

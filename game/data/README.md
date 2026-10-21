@@ -146,7 +146,7 @@ répliques une par une, dans une bulle.
 Avec `"marchand": true`, le PNJ ouvre une **boutique** au lieu de la bulle (sa première réplique sert
 de salut). Il vend tous les objets de `objets/` et rachète tout objet non porté. Les prix dépendent de
 la rareté (`Item.EQUIPMENT_PRICES` et `Item.RESOURCE_PRICES` dans `core/items/item.gd`) ; la
-revente rapporte un quart du prix d'achat (`Item.RESALE_RATE`), au moins 1 écu.
+revente rapporte un quart du prix d'achat (`Item.RESALE_RATE`), au moins 1 brume.
 
 | Rareté | Équipement | Ressource |
 |---|---|---|
@@ -377,7 +377,7 @@ de la famille : une famille faible tire surtout bas, une forte surtout haut.
 | `par_niveau` | Facultatif. Ajouté pour chaque niveau au-dessus de `niveau` : `pv`, `initiative`, `xp`, `force`, `intelligence`, `chance`, `agilite` (entiers ≥ 0), `resistances` (`{élément: entier}`, ajouté aux résistances) et, par exception, `pa` et `pm` |
 
 Dans l'exemple, un rat de niveau 3 a 20 PV, 70 d'initiative, 20 XP et 10 de Force. Le niveau ne
-change **pas** le butin : même table, mêmes taux, mêmes quantités et mêmes écus à tous les niveaux.
+change **pas** le butin : même table, mêmes taux, mêmes quantités et mêmes brumes à tous les niveaux.
 PA et PM restent les mêmes dans toute la famille ; `pa` et `pm` dans `par_niveau` sont réservés à une
 famille dont la mécanique en dépend. Les élites restent au-dessus de toute la tranche de leur
 famille.
@@ -483,7 +483,8 @@ les précédents. `orientation` sert à l'affichage.
 
 ## Butin des monstres
 
-Dans chaque monstre : `butin` (liste) et `ecus` (`[min, max]`).
+Dans chaque monstre : `butin` (liste) et `ecus` (`[min, max]`, en brumes, la monnaie du jeu : la clé garde
+l'ancien nom des écus pour ne pas casser les sauvegardes ni les données).
 
 ```json
 "butin": [
@@ -522,7 +523,7 @@ Dans chaque Voie : `equipement_depart` (liste d'objets donnés et équipés à l
 `camp` : `allie`, `ennemi` ou `neutre`. `bonus` : points ajoutés aux caractéristiques (`vitalite`,
 `sagesse`, `force`, `intelligence`, `chance`, `agilite`). `passif.effets` est optionnel (liste de
 `{type, valeur}`) ; types gérés : `portee` (portée des sorts à distance), `xp_metier` (% d'XP de
-métier), `prospection` (points de prospection) et `ecus` (% d'écus de fin de combat). `sort` : sort racial, ajouté aux sorts de la Voie.
+métier), `prospection` (points de prospection) et `ecus` (% de brumes de fin de combat). `sort` : sort racial, ajouté aux sorts de la Voie.
 
 Les tests vérifient tous ces fichiers (format, `id` égal au nom du fichier, sorts et monstres
 référencés existants).
@@ -553,7 +554,7 @@ découvertes. La carte indiquée doit avoir une pierre `*` dans son plan : on ar
 - Le personnage sauvegarde ses pierres découvertes (`pierres_connues`), son point de résurrection
   (`point_de_resurrection`) et les cartes où il est allé (`cartes_visitees`).
 
-Les tests vérifient que chaque zone de départ a sa pierre (10 écus, à découvrir) et que le Trône de
+Les tests vérifient que chaque zone de départ a sa pierre (10 brumes, à découvrir) et que le Trône de
 Cendre reste gratuit et toujours connu.
 
 ## Métiers (`metiers/`)

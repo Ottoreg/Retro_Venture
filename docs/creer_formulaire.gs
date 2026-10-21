@@ -104,7 +104,7 @@ function creerFormulaire() {
 
   section('6. Progression, économie, métiers');
   choix('Rythme de montée en niveau', ['Trop rapide', 'Bien', 'Trop lent'], true);
-  echelle5('Les écus, les prix des marchands et les récompenses vous ont-ils semblé cohérents ?', 'Pas du tout', 'Tout à fait');
+  echelle5('Les brumes, les prix des marchands et les récompenses vous ont-ils semblé cohérents ?', 'Pas du tout', 'Tout à fait');
   choix('Avez-vous utilisé les métiers (récolte, forge) ?', ['Beaucoup', 'Un peu', 'Pas du tout']);
   choix('Avez-vous obtenu une ressource rare (« Rare ! ») ou fabriqué une recette améliorée ?', ['Oui', 'Non']);
   long('Équipement et panoplies : des remarques ?');

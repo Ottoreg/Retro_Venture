@@ -1,7 +1,7 @@
 class_name Inventory
 extends RefCounted
 ## Inventaire du personnage : objets (les ressources s'empilent, chaque équipement est unique avec
-## ses jets), emplacements d'équipement et écus.
+## ses jets), emplacements d'équipement et brumes.
 
 const MAX_ENTRIES := 60
 const SLOTS := ["arme", "coiffe", "cape", "amulette", "anneau_1", "anneau_2", "ceinture", "bottes"]

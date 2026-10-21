@@ -555,7 +555,7 @@ func _reward(events: Array[Dictionary]) -> void:
 
 
 ## Butin de victoire, tiré par `Loot` (limite par monstre partagée entre les joueurs), plus des
-## écus (+X % avec le passif de race « ecus »).
+## brumes (+X % avec le passif de race « ecus »).
 ## Rien ne se perd : si le sac est plein, le butin y entre en surplus (`surcharge` dans
 ## l'événement) et les combats sont refusés tant qu'on n'a pas fait de la place.
 func _loot(events: Array[Dictionary]) -> void:
@@ -1375,7 +1375,7 @@ func _travel_menu(cell: Vector2i) -> Dictionary:
 
 
 ## Voyage d'une Pierre de Passage à une autre, déjà découverte (ou `toujours_connue`), contre son prix
-## en écus : on arrive à côté de la pierre de destination. Arriver ainsi ne la découvre pas et n'en
+## en brumes : on arrive à côté de la pierre de destination. Arriver ainsi ne la découvre pas et n'en
 ## fait pas le point de résurrection : il faut l'utiliser.
 func _travel(command: Dictionary) -> Array[Dictionary]:
 	var destination: Variant = command.get("destination")

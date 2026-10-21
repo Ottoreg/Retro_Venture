@@ -1,6 +1,6 @@
 class_name TravelWindow
 extends CanvasLayer
-## Pierre de Passage : la liste des pierres, pour s'y téléporter contre quelques écus. Les pierres pas
+## Pierre de Passage : la liste des pierres, pour s'y téléporter contre quelques brumes. Les pierres pas
 ## encore découvertes sont grisées ; le bas de la fenêtre rappelle le point de résurrection.
 
 const GOLD := Color(0.95, 0.76, 0.3)
@@ -36,7 +36,7 @@ func open(event: Dictionary) -> void:
 	for child in _list.get_children():
 		child.queue_free()
 	var ecus := int(event.get("ecus", 0))
-	_coins.text = "%d écus" % ecus
+	_coins.text = "%d brumes" % ecus
 	var respawn_name := ""
 	for destination: Dictionary in event["destinations"]:
 		if destination["id"] == event.get("resurrection", ""):
@@ -84,7 +84,7 @@ func _destination_row(destination: Dictionary, here: bool, ecus: int) -> HBoxCon
 		button.text += "   (pas encore découverte)"
 		button.tooltip_text = "Allez-y à pied et touchez la pierre pour pouvoir y revenir en voyage."
 	elif price > ecus:
-		button.tooltip_text = "Pas assez d'écus : il en faut %d." % price
+		button.tooltip_text = "Pas assez de brumes : il en faut %d." % price
 	button.disabled = here or not known
 	button.focus_mode = Control.FOCUS_NONE
 	button.custom_minimum_size = Vector2(300, 40)
@@ -95,7 +95,7 @@ func _destination_row(destination: Dictionary, here: bool, ecus: int) -> HBoxCon
 	cost.custom_minimum_size = Vector2(76, 0)
 	cost.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	cost.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	cost.text = "" if here else ("gratuit" if price == 0 else "%d écus" % price)
+	cost.text = "" if here else ("gratuit" if price == 0 else "%d brumes" % price)
 	var color := GOLD
 	if not known:
 		color = COLOR_UNKNOWN

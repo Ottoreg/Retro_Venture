@@ -156,7 +156,7 @@ QUETES = [
            "maitre_ripaille": {
               "objectif": ["Une observatrice elfe ? Asseyez-vous ! Une bière ? Non ? Une tisane ? On a de la tisane. Elle sent la bière, mais c'est de la tisane."]},
            "frere_benitier": {
-              "objectif": ["J'ai béni la masse, le bouclier, mon pouce, et la porte. Voulez-vous que je bénisse votre carnet ? Ça ne coûte qu'un écu. Deux pour un carnet elfe."]}},
+              "objectif": ["J'ai béni la masse, le bouclier, mon pouce, et la porte. Voulez-vous que je bénisse votre carnet ? Ça ne coûte qu'une brume. Deux pour un carnet elfe."]}},
           {"xp_cr": 5, "ecus": 180, "objets": [{"objet": "amulette_chantante", "nombre": 1}]},
           conditions={"camp": "neutre", "niveau_min": 12, "quetes_terminees": ["sylvebrume_mere_toile"]}, acte=2,
           description="Ilyndra Tel'Hautaine rédige un rapport sur les humains. Elle a besoin d'yeux. Et de sa malle."),

@@ -330,7 +330,7 @@ VILLE = (
     "- **Remparts** : lignes de murs (M) sur les bords des cartes de ville, percées aux sorties ; chaque Porte a un passage de 3 cases encadré de deux tours (décor `tour_de_garde`).\n"
     "- **Nouveaux décors** (3×3 sauf mention) : `tour_blanche` (tour haute, toit d'ardoise bleue, bannière à tour blanche ; emprise 3×3 mais dessinée haute), `temple` (fronton, colonnes, soleil doré), "
     "`tour_de_garde`, et en 1×1 `fontaine` (bassin rond, statue d'un héros dont personne ne se rappelle le nom), `etal` (étal de marché à toile rayée), `poteau_indicateur` (pour les passages entre zones, voir § 2).\n"
-    "- **Pierre de Passage** `hautepierre` sur la Grand-Place, **20 écus** (plus loin que les zones de départ), à découvrir.\n"
+    "- **Pierre de Passage** `hautepierre` sur la Grand-Place, **20 brumes** (plus loin que les zones de départ), à découvrir.\n"
     "- Pas de maison du joueur à Hautepierre pour l'alpha (on garde celle de sa zone de départ ; la Pierre y ramène).")
 
 ZONE = {
@@ -480,7 +480,7 @@ ZONE = {
           {"H": 2, "Y": 1, "G": 1},
           [{"monstres": ["troll_des_ponts"]}, {"monstres": ["troll_des_ponts", "troll_des_ponts"]}, {"monstres": ["troll_des_ponts", "detrousseur"]}],
           [P("a", "passeur_caron", "Caron, passeur", "PNJ d'ambiance",
-             ["Un écu l'aller, deux le retour. Le pont des trolls ? Gratuit. Enfin, ça dépend pour qui.",
+             ["Une brume l'aller, deux le retour. Le pont des trolls ? Gratuit. Enfin, ça dépend pour qui.",
               "Les trolls ne savent pas nager. Moi non plus. On a ça en commun, on en parle parfois."],
              {"rig": "humain", "couleurs": {"tunique": "3a3a3a", "manches": "2a2a2a", "pantalon": "2a2a2a", "cheveux": "e8e8e8", "barbe": "e8e8e8"}, "arme": "baton", "accessoires": ["barbe"]})]),
         C("hautepierre_2_3", "Hautepierre — Pont des Trolls", 2, 3,

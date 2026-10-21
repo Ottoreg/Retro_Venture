@@ -7,7 +7,7 @@ const GOLD := Color(0.95, 0.76, 0.3)
 const BUY := "achat"
 const SELL := "vente"
 var _refusal_texts := {
-	Protocol.REASON_NOT_ENOUGH_ECUS: "Pas assez d'écus.",
+	Protocol.REASON_NOT_ENOUGH_ECUS: "Pas assez de brumes.",
 	Protocol.REASON_INVENTORY_FULL: "Inventaire plein.",
 	Protocol.REASON_ITEM_WORN: "Retirez d'abord cet objet (inventaire, touche I).",
 	Protocol.REASON_TOO_FAR: "Le marchand est trop loin.",
@@ -77,16 +77,16 @@ func refresh() -> void:
 		return
 	_buy_tab.button_pressed = _mode == BUY
 	_sell_tab.button_pressed = _mode == SELL
-	_coins.text = "%d écus" % map_view.world.character.inventory.ecus
+	_coins.text = "%d brumes" % map_view.world.character.inventory.ecus
 	_list.clear()
 	var found := false
 	for entry in _entries():
 		if not matches_search(entry, _search.text):
 			continue
 		var key: String = entry["objet"] if _mode == BUY else entry["uid"]
-		var label := "%s — %d écus" % [entry["nom"], _unit_price(entry)]
+		var label := "%s — %d brumes" % [entry["nom"], _unit_price(entry)]
 		if _mode == SELL:
-			label = "%s%s — %d écus%s" % [entry["nom"], " ×%d" % entry["quantite"] if int(entry["quantite"]) > 1 else "",
+			label = "%s%s — %d brumes%s" % [entry["nom"], " ×%d" % entry["quantite"] if int(entry["quantite"]) > 1 else "",
 				_unit_price(entry), "   (porté)" if _is_worn(entry) else ""]
 		var index := _list.add_item(label, InventoryWindow.item_icon(entry["objet"]))
 		_list.set_item_custom_fg_color(index, Color(0.5, 0.5, 0.5) if _is_worn(entry) else InventoryWindow.rarity_color(entry["rarete"]))
@@ -168,7 +168,7 @@ func _show_details(entry: Dictionary) -> void:
 		lines.append("")
 		lines.append(entry["description"])
 	lines.append("")
-	lines.append(("Prix : %d écus" if _mode == BUY else "Prix de revente : %d écus") % _unit_price(entry)
+	lines.append(("Prix : %d brumes" if _mode == BUY else "Prix de revente : %d brumes") % _unit_price(entry)
 		+ (" l'unité" if entry["type"] == Item.TYPE_RESOURCE else ""))
 	_details.text = "\n".join(lines)
 
@@ -192,10 +192,10 @@ func _update_action_button() -> void:
 	var quantity := int(_quantity.value) if _quantity_box.visible else 1
 	var total := _unit_price(entry) * quantity
 	if _mode == BUY:
-		_action_button.text = "Acheter — %d écus" % total
+		_action_button.text = "Acheter — %d brumes" % total
 		_action_button.disabled = total > map_view.world.character.inventory.ecus
 	else:
-		_action_button.text = "Vendre — %d écus" % total
+		_action_button.text = "Vendre — %d brumes" % total
 		_action_button.disabled = _is_worn(entry)
 
 
@@ -237,9 +237,9 @@ func _on_trade_result(event: Dictionary) -> void:
 		return
 	var amount := " ×%d" % event["quantite"] if int(event["quantite"]) > 1 else ""
 	if event["operation"] == BUY:
-		_message.text = "Acheté : %s%s (−%d écus)" % [event["nom"], amount, event["prix"]]
+		_message.text = "Acheté : %s%s (−%d brumes)" % [event["nom"], amount, event["prix"]]
 	else:
-		_message.text = "Vendu : %s%s (+%d écus)" % [event["nom"], amount, event["prix"]]
+		_message.text = "Vendu : %s%s (+%d brumes)" % [event["nom"], amount, event["prix"]]
 	_message.add_theme_color_override("font_color", Color(0.55, 0.9, 0.5))
 	_quantity.value = 1
 	refresh()

@@ -495,7 +495,7 @@ func test_boutique_du_marchand() -> void:
 	var trades := hud.message_log.lines(MessageLog.CHANNEL_TRADE)
 	assert_eq(trades.size(), 1, "achat dans l'historique du commerce")
 	assert_true(trades[0].contains(resource["nom"]) and trades[0].contains("×3") and trades[0].contains("chez %s," % merchant["nom"].get_slice(",", 0))
-		and trades[0].contains("−%d écus" % (3 * int(resource["prix"]))), trades[0])
+		and trades[0].contains("−%d brumes" % (3 * int(resource["prix"]))), trades[0])
 
 	# Revente de ces ressources.
 	shop._on_tab_pressed(ShopWindow.SELL)
@@ -508,7 +508,7 @@ func test_boutique_du_marchand() -> void:
 	assert_true(shop._message.text.begins_with("Vendu"), shop._message.text)
 	trades = hud.message_log.lines(MessageLog.CHANNEL_TRADE)
 	assert_eq(trades.size(), 2, "vente dans l'historique du commerce")
-	assert_true(trades[1].begins_with("[color=#e8b04a]Vente") and trades[1].contains("+%d écus"
+	assert_true(trades[1].begins_with("[color=#e8b04a]Vente") and trades[1].contains("+%d brumes"
 		% (3 * Item.sell_price(view.world.data.items[resource["objet"]]))), trades[1])
 
 	# L'arme de départ est portée : elle ne se vend pas.
@@ -704,13 +704,13 @@ func test_pierre_de_passage() -> void:
 		assert_true(button.disabled == (button.text.contains("vous êtes ici") or unknown), button.text)
 		if button.text.begins_with("Crasse-Roc"):
 			assert_true(unknown, "Crasse-Roc pas encore découverte")
-			assert_eq(TravelWindow.price_text(button), "10 écus")
+			assert_eq(TravelWindow.price_text(button), "10 brumes")
 		if button.text.begins_with("Trône de Cendre"):
 			assert_false(button.disabled, "la carte d'élite est toujours connue")
 			assert_eq(TravelWindow.price_text(button), "gratuit")
 	assert_eq(travel._respawn.text, "Point de résurrection : Brumerive")
 
-	# Une fois Crasse-Roc découverte, le voyage coûte 10 écus.
+	# Une fois Crasse-Roc découverte, le voyage coûte 10 brumes.
 	view.world.character.discover_passage("crasse_roc")
 	view._on_click(stone)
 	_run_until_idle(view)
@@ -726,7 +726,7 @@ func test_pierre_de_passage() -> void:
 	assert_eq(view.world.map.id, "crasse_roc_0_0", "téléporté à Crasse-Roc")
 	assert_eq(view.current_map().id, "crasse_roc_0_0")
 	assert_eq(view.world.character.inventory.ecus, ecus - 10, "voyage payé")
-	assert_eq(hud._message_label.text, "Voyage payé : 10 écus.")
+	assert_eq(hud._message_label.text, "Voyage payé : 10 brumes.")
 	assert_eq(Art.palette, "crasse_roc", "couleurs de la zone gobeline")
 	assert_eq(view.world.visited_maps(), ["brumerive_0_0", "crasse_roc_0_0"] as Array[String])
 	assert_eq(view.world.character.respawn_passage, "brumerive", "arriver par un voyage ne change rien")
@@ -739,14 +739,14 @@ func test_pierre_de_passage() -> void:
 	assert_eq(SaveGame.read()["personnage"]["point_de_resurrection"], "crasse_roc", "sauvegardé aussitôt")
 	travel.close()
 
-	# Plus assez d'écus : le voyage est refusé, avec un message.
+	# Plus assez de brumes : le voyage est refusé, avec un message.
 	view.world.character.inventory.ecus = 3
 	view.world.character.discover_passage("sylvebrume")
 	view.send_command({"type": Protocol.CMD_TRAVEL, "entite": World.PLAYER_ID, "case": view.current_map().travel_stone(),
 		"destination": "sylvebrume"})
 	_run_until_idle(view)
 	assert_eq(view.world.map.id, "crasse_roc_0_0")
-	assert_eq(hud._message_label.text, "Pas assez d'écus pour ce voyage.")
+	assert_eq(hud._message_label.text, "Pas assez de brumes pour ce voyage.")
 	scene.free()
 
 

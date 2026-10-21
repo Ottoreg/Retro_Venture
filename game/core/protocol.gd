@@ -53,7 +53,7 @@ const CMD_DEPOSIT := "deposer"
 ## { type, entite: String, case: Vector2i (coffre), objet: String (uid dans le coffre), quantite: int (optionnel) }
 const CMD_WITHDRAW := "reprendre"
 ## Exploration, à côté d'une Pierre de Passage : voyager jusqu'à une autre, déjà découverte (ou
-## « toujours_connue »), en payant son prix en écus. Arriver par un voyage ne découvre pas la pierre.
+## « toujours_connue »), en payant son prix en brumes. Arriver par un voyage ne découvre pas la pierre.
 ## { type, entite: String, case: Vector2i (la pierre), destination: String (id de la pierre d'arrivée) }
 const CMD_TRAVEL := "voyager"
 ## Exploration, à côté du PNJ qui la propose : accepter une quête. { type, entite: String, quete: String }
@@ -99,7 +99,7 @@ const EVT_QUESTS := "quetes"
 ## description, bonus, conditions, prix }], taux_revente: float }
 const EVT_SHOP := "boutique"
 ## Achat ou vente effectué. { type, operation: « achat » ou « vente », objet: String (id du modèle),
-## nom: String, quantite: int, prix: int (total), ecus: int (écus restants) }
+## nom: String, quantite: int, prix: int (total), ecus: int (brumes restantes) }
 const EVT_TRADE := "commerce"
 ## Atelier d'un artisan, à la place du dialogue quand on lui parle. { type, pnj: String, nom: String,
 ## case: Vector2i, repliques: Array[String], metier: String, nom_metier: String,
@@ -128,8 +128,8 @@ const EVT_SAT := "assis"
 ## Le joueur a dormi : PV au maximum. { type, gain: int, pv: int, pv_max: int }
 const EVT_RESTED := "repos"
 ## Pierre de Passage utilisée : destinations proposées. { type, case: Vector2i, ici: String (id de
-## cette pierre), destinations: Array[{ id, nom, carte, prix: int (écus), connue: bool }], ecus: int
-## (écus du joueur), resurrection: String (id de la pierre de son point de résurrection, ou "") }
+## cette pierre), destinations: Array[{ id, nom, carte, prix: int (brumes), connue: bool }], ecus: int
+## (brumes du joueur), resurrection: String (id de la pierre de son point de résurrection, ou "") }
 const EVT_TRAVEL_MENU := "pierre_de_passage"
 ## Pierre de Passage découverte en l'utilisant : on pourra y revenir en voyage.
 ## { type, passage: String (id), nom: String }
@@ -143,7 +143,7 @@ const EVT_CRAFTED := "fabrication"
 ## xp_niveau: int, xp_suivant: int, niveaux: Array[int] (niveaux de métier atteints) }
 const EVT_JOB := "metier"
 ## Arrivée sur une autre carte. { type, carte: String, nom: String, position: Vector2i } ; après un
-## voyage par une Pierre de Passage, aussi `prix` : écus payés.
+## voyage par une Pierre de Passage, aussi `prix` : brumes payées.
 const EVT_MAP_CHANGED := "changement_carte"
 ## { type, groupe: String, combattants: Array[Dictionary], placement: Array[Vector2i] } — chaque
 ## combattant comme `Fighter.to_dict` (avec son `niveau` : celui tiré à l'apparition d'un monstre).

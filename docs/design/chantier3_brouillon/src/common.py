@@ -2,7 +2,7 @@
 from balance import pv_monstre, stat_monstre, xp_monstre, ecus as ecus_ref, budget_objet
 
 POIDS = {"faible": [6, 3, 1], "moyen": [3, 4, 3], "fort": [1, 3, 6]}
-# gabarit : (multiplicateur PV, multiplicateur XP et écus)
+# gabarit : (multiplicateur PV, multiplicateur XP et brumes)
 GABARITS = {"frele": (0.8, 0.85), "standard": (1.0, 1.0), "costaud": (1.3, 1.2),
             "tank": (1.7, 1.3), "tireur": (0.85, 0.95), "soutien": (0.9, 1.05)}
 

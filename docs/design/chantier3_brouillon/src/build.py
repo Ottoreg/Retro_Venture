@@ -130,7 +130,7 @@ def md_famille(f):
     L.append(f"*{f['description']}*")
     L.append("")
     L.append(f"- Niveaux {niveau_range(f)} ; base (niv. {f['niveaux']['min']}) : {carac_txt(f['caracteristiques'])} ; par niveau : {pn_txt(f['par_niveau'])}.")
-    L.append(f"- Résistances : {res_txt(f['resistances'])} ; IA `{f['ia']}` ; XP {f['xp']} (+{f['par_niveau']['xp']}/niv.) ; écus {f['ecus'][0]}–{f['ecus'][1]}.")
+    L.append(f"- Résistances : {res_txt(f['resistances'])} ; IA `{f['ia']}` ; XP {f['xp']} (+{f['par_niveau']['xp']}/niv.) ; brumes {f['ecus'][0]}–{f['ecus'][1]}.")
     L.append("- Sorts : " + " ".join("\n  - " + sort_txt(s["id"]) for s in f["sorts"]))
     L.append(f"- Butin : {butin_txt(f['butin'])}.")
     L.append(f"- Dessin : {art_txt(f['art'])}.")
@@ -140,7 +140,7 @@ def md_famille(f):
         L.append(f"- Note : {f['notes']}")
     e = f["elite"]
     tag = " *(existante)*" if e.get("existante") else ""
-    L.append(f"- **Élite : {e['nom']}** (`{e['id']}`){tag}, niveau {e['niveau']} — *{e['description']}* {carac_txt(e['caracteristiques'])} ; rés. {res_txt(e['resistances'])} ; XP {e['xp']} ; écus {e['ecus'][0]}–{e['ecus'][1]}.")
+    L.append(f"- **Élite : {e['nom']}** (`{e['id']}`){tag}, niveau {e['niveau']} — *{e['description']}* {carac_txt(e['caracteristiques'])} ; rés. {res_txt(e['resistances'])} ; XP {e['xp']} ; brumes {e['ecus'][0]}–{e['ecus'][1]}.")
     new = [s["id"] for s in e["sorts"] if s["nouveau"] and s["id"] not in [x["id"] for x in f["sorts"]]]
     L.append("  - Sorts : " + ", ".join(f"`{s['id']}`" for s in e["sorts"]) + ("".join("\n  - " + sort_txt(i) for i in new)))
     L.append(f"  - Butin : {butin_txt(e['butin'])}.")
@@ -155,7 +155,7 @@ def md_boss(b):
     j = b["json"]
     L = [f"#### Mini-boss : {j['nom']} (`{j['id']}`) — niveau {j['niveau']}, carte `{b['carte']}`",
          f"*{j['description']}*", "",
-         f"- {carac_txt(j['caracteristiques'])} ; rés. {res_txt(j['resistances'])} ; IA `{j['ia']}` ; XP {j['xp']} ; écus {j['ecus'][0]}–{j['ecus'][1]}.",
+         f"- {carac_txt(j['caracteristiques'])} ; rés. {res_txt(j['resistances'])} ; IA `{j['ia']}` ; XP {j['xp']} ; brumes {j['ecus'][0]}–{j['ecus'][1]}.",
          f"- Groupe fixe : {', '.join(b['groupe'])} ; réapparition {b['reapparition'][0]}–{b['reapparition'][1]} s.",
          "- Sorts : " + "".join("\n  - " + sort_txt(s["id"]) for s in b["sorts"])]
     L.append("- Phases :")
@@ -210,7 +210,7 @@ def md_carte(c):
 def md_zone(z, num):
     L = [f"## {num}. {z['nom']}", ""]
     p = z["pierre"]
-    L.append(f"Palette `{z['palette']}` ; Pierre de Passage `{p['id']}` sur `{p['carte']}` ({p['prix']} écus{', existante' if p.get('existante') else ''}). {len(z['cartes'])} cartes.")
+    L.append(f"Palette `{z['palette']}` ; Pierre de Passage `{p['id']}` sur `{p['carte']}` ({p['prix']} brumes{', existante' if p.get('existante') else ''}). {len(z['cartes'])} cartes.")
     L.append("")
     L.append("```")
     L += z["plan_zone"]

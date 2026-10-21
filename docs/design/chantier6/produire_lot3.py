@@ -16,7 +16,7 @@ TUTORIELS = ["brumerive_tutoriel", "crasse_roc_tutoriel", "sylvebrume_tutoriel"]
 
 
 def ecus(niveau):
-    """Cinq fois le butin moyen en écus d'un monstre du niveau (voir balance.py)."""
+    """Cinq fois le butin moyen en brumes d'un monstre du niveau (voir balance.py)."""
     return round(5 * (2 + 1.2 * niveau))
 
 
@@ -116,7 +116,7 @@ QUETES = [
                 [{"type": "parler", "pnj": "zogrub_troc_tout"}]],
                {"zogrub_troc_tout": {
                    "proposition": ["Psst ! J'avais un stock dans la galerie effondrée. Un stock qui n'existe pas, officiellement. Elle s'est effondrée dessus.",
-                                   "Va voir s'il reste quelque chose, chasse les grouilleurs qui s'y sont installés, et mine un peu de cuivre pour étayer. Je paie en liquide. Enfin, en écus."],
+                                   "Va voir s'il reste quelque chose, chasse les grouilleurs qui s'y sont installés, et mine un peu de cuivre pour étayer. Je paie en liquide. Enfin, en brumes."],
                    "en_cours": ["Mon stock qui n'existe pas t'attend. Ne pose pas de questions, surtout à toi-même."],
                    "fin": ["Étayé ! Mon stock est sauf. Tu n'as rien vu. Moi non plus. Tiens, pour ton silence et ton cuivre."]}},
                "Zogrub avait un stock dans une galerie qui s'est effondrée. Un stock qui n'existe pas."),
@@ -136,9 +136,9 @@ QUETES = [
                [[{"type": "vaincre", "monstre": "contremaitre_zele", "nombre": 4},
                  apporter("sifflet_de_contremaitre", 3, "zibeline_la_peagere", ["contremaitre_zele", "contremaitre_en_chef"])]],
                {"zibeline_la_peagere": {
-                   "proposition": ["Péage ! Deux écus pour passer. Sauf que les contremaîtres zélés ont installé leur propre péage, juste devant le mien.",
+                   "proposition": ["Péage ! Deux brumes pour passer. Sauf que les contremaîtres zélés ont installé leur propre péage, juste devant le mien.",
                                    "Ils taxent mon péage ! Chasse-en quatre et rapporte-moi leurs sifflets : sans sifflet, un contremaître n'est qu'un gobelin qui crie."],
-                   "en_cours": ["Ils sifflent encore. Chaque coup de sifflet, c'est un écu qui m'échappe."],
+                   "en_cours": ["Ils sifflent encore. Chaque coup de sifflet, c'est une brume qui m'échappe."],
                    "fin": ["Trois sifflets ! Mon péage est à nouveau le seul péage. Pour te remercier, tu passes gratuitement. Aujourd'hui. Avant midi."]}},
                "Sur la Route des Charrois, deux péages, c'est un de trop.",
                objets=["amulette_sifflet"]),

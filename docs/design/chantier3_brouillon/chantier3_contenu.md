@@ -28,7 +28,7 @@ Document de conception, généré par `src/build.py` (contrôle de cohérence : 
 
 ## 3. Collines de Brumerive
 
-Palette `brumerive` ; Pierre de Passage `brumerive` sur `brumerive_0_0` (10 écus, existante). 10 cartes.
+Palette `brumerive` ; Pierre de Passage `brumerive` sur `brumerive_0_0` (10 brumes, existante). 10 cartes.
 
 ```
           x=0                     x=1                      x=2                       x=3
@@ -135,13 +135,13 @@ y=2                       [Les Grands Blés 7-9] ── [Camp du raid 10-12] ─
 *Affamé en permanence. Considère les aventuriers comme un en-cas.*
 
 - Niveaux 1–3 (poids 3/4/3) ; base (niv. 1) : PV 18, PA 6, PM 4, Ini 100 ; par niveau : pv +4, initiative +5, xp +7, force +4.
-- Résistances : Acier +0, Flamme -10, Givre +10, Tempête +0 ; IA `basique` ; XP 16 (+7/niv.) ; écus 2–6.
+- Résistances : Acier +0, Flamme -10, Givre +10, Tempête +0 ; IA `basique` ; XP 16 (+7/niv.) ; brumes 2–6.
 - Sorts : 
   - `loup_morsure` (existant)
 - Butin : croc_de_loup 50 % ×1–2, peau_de_loup 30 %, amulette_croc 6 %, cape_en_peau_de_loup 3 %, bonnet_de_berger 5 %, anneau_mauvais_oeil 2 %, ceinture_mauvais_oeil 2 %, bottes_mauvais_oeil 2 %.
 - Dessin : image `loup` (échelle 0.8).
 - Modifications du fichier existant : Niveau de base 1 au lieu de 3, tranche 1–3 (poids 3/4/3) ; à son niveau 3 il garde exactement ses valeurs actuelles (26 PV, 110 d'initiative, 30 XP). Ajouter la Force par niveau et les pièces Mauvais Œil (anneau, ceinture, bottes) au butin.
-- **Élite : Loup alpha** (`loup_alpha`) *(existante)*, niveau 7 — *Le chef de meute. Il ne chasse plus lui-même : il supervise, et il goûte.* PV 70, PA 7, PM 5, Ini 150, For 20 ; rés. Acier +10, Flamme -5, Givre +15, Tempête +5 ; XP 110 ; écus 10–25.
+- **Élite : Loup alpha** (`loup_alpha`) *(existante)*, niveau 7 — *Le chef de meute. Il ne chasse plus lui-même : il supervise, et il goûte.* PV 70, PA 7, PM 5, Ini 150, For 20 ; rés. Acier +10, Flamme -5, Givre +15, Tempête +5 ; XP 110 ; brumes 10–25.
   - Sorts : `loup_morsure`, `alpha_croc_sanglant`
   - Butin : croc_de_loup 90 % ×2–4, peau_de_loup 70 % ×1–2, amulette_croc 25 %, cape_en_peau_de_loup 15 %, bonnet_de_berger 15 %, anneau_mauvais_oeil 6 %, ceinture_mauvais_oeil 6 %, bottes_mauvais_oeil 6 %.
   - Dessin : image `loup` (échelle 1.05 ; couleurs pelage #4e4f57, pelage_ombre #35363d, ventre #8a8478).
@@ -151,13 +151,13 @@ y=2                       [Les Grands Blés 7-9] ── [Camp du raid 10-12] ─
 *Éclaireur des raids gobelins. Ne s'approche jamais : ce n'est pas dans sa fiche de poste.*
 
 - Niveaux 4–6 (poids 6/3/1) ; base (niv. 4) : PV 22, PA 6, PM 3, Ini 90 ; par niveau : pv +3, initiative +5, xp +6, force +4.
-- Résistances : Acier +5, Tempête -5 ; IA `distance` ; XP 35 (+6/niv.) ; écus 5–12.
+- Résistances : Acier +5, Tempête -5 ; IA `distance` ; XP 35 (+6/niv.) ; brumes 5–12.
 - Sorts : 
   - `gobelin_fronde` (existant)
 - Butin : caillou_de_fronde 60 % ×1–3, fiche_de_paie_gobeline 15 %, anneau_du_frondeur 5 %, bottes_de_marche 5 %, fronde_reglementaire 3 %, anneau_courant_d_air 2 %, ceinture_courant_d_air 2 %, bottes_courant_d_air 2 %.
 - Dessin : rig `gobelin` (arme fronde ; couleurs peau #6f9a3e, tunique #7a6040, manches #5a4630, pantalon #4a3a28, cheveux #2e2418).
 - Modifications du fichier existant : Tranche 4–6 (poids 6/3/1, il reste surtout niveau 4 comme aujourd'hui). Ajouter Force et PV par niveau, et les pièces Courant d'Air (anneau, ceinture, bottes) au butin.
-- **Élite : Frondeur vétéran** (`frondeur_veteran`) *(existante)*, niveau 9 — *Vingt ans de fronde au service du Souverain Cendré. Il attend toujours sa médaille.* PV 60, PA 8, PM 3, Ini 120, For 25 ; rés. Acier +15, Tempête +0 ; XP 140 ; écus 15–35.
+- **Élite : Frondeur vétéran** (`frondeur_veteran`) *(existante)*, niveau 9 — *Vingt ans de fronde au service du Souverain Cendré. Il attend toujours sa médaille.* PV 60, PA 8, PM 3, Ini 120, For 25 ; rés. Acier +15, Tempête +0 ; XP 140 ; brumes 15–35.
   - Sorts : `gobelin_fronde`, `veteran_pluie_de_cailloux`, `veteran_chausse_trape`
   - Butin : caillou_de_fronde 90 % ×2–5, fiche_de_paie_gobeline 50 %, anneau_du_frondeur 20 %, bottes_de_marche 15 %, fronde_reglementaire 12 %, anneau_courant_d_air 6 %, ceinture_courant_d_air 6 %, bottes_courant_d_air 6 %.
   - Dessin : rig `gobelin_veteran` (arme fronde ; accessoires barbe ; couleurs peau #5f8a36, tunique #6e2a22, manches #8a8f96, pantalon #3a3028, cheveux #b0aaa0, ceinture #c9a04e).
@@ -167,14 +167,14 @@ y=2                       [Les Grands Blés 7-9] ── [Camp du raid 10-12] ─
 *Il prend tout ce qui n'est pas cloué. Ce qui est cloué, il revient le chercher avec une pince.*
 
 - Niveaux 7–9 (poids 1/3/6) ; base (niv. 7) : PV 38, PA 6, PM 3, Ini 95, For 24, Agi 12 ; par niveau : pv +4, initiative +5, xp +12, force +4, agilite +2.
-- Résistances : Acier +10, Tempête +5, Flamme -10, Givre +0 ; IA `basique` ; XP 62 (+12/niv.) ; écus 7–16.
+- Résistances : Acier +10, Tempête +5, Flamme -10, Givre +0 ; IA `basique` ; XP 62 (+12/niv.) ; brumes 7–16.
 - Sorts : 
   - **Estocade de pillard** (`pillard_estocade`, nouveau) : 3 PA, portée 1, 2/tour — 5–7 Acier. *Un coup rapide, avant que la victime ne compte ses poules.* 
   - **Vol à l'arraché** (`pillard_vol_a_l_arrache`, nouveau) : 2 PA, portée 1, 1/tour — 2–4 Tempête ; −2 Dommages (2 t). *Il vous prend quelque chose. Vous ne savez pas quoi, mais vous frappez moins fort.*
 - Butin : sac_de_rapine 55 % ×1–2, ordre_de_raid 12 %, coutelas_de_pillard 4 %, bottes_de_rapine 5 %, coiffe_enfant_de_choeur 3 %, cape_enfant_de_choeur 3 %, amulette_enfant_de_choeur 3 %.
 - Dessin : rig `gobelin` (arme epee ; accessoires chapeau_paille ; couleurs peau #7a9a42, tunique #8a2a22, manches #5a2018, pantalon #3e3226, cheveux #2a2018, ceinture #c9a04e).
 - Note : Vient piller la campagne : vit dans le Verger, la Lande et les Grands Blés ; quelques-uns accompagnent les briseurs au Camp du raid.
-- **Élite : Pillard émérite** (`pillard_emerite`), niveau 12 — *Trente ans de carrière, pas un seul jour de congé, et une cave pleine de chandeliers.* PV 118, PA 7, PM 3, Ini 125, For 54, Agi 32 ; rés. Acier +20, Tempête +15, Flamme -5, Givre +10 ; XP 221 ; écus 18–40.
+- **Élite : Pillard émérite** (`pillard_emerite`), niveau 12 — *Trente ans de carrière, pas un seul jour de congé, et une cave pleine de chandeliers.* PV 118, PA 7, PM 3, Ini 125, For 54, Agi 32 ; rés. Acier +20, Tempête +15, Flamme -5, Givre +10 ; XP 221 ; brumes 18–40.
   - Sorts : `pillard_estocade`, `pillard_vol_a_l_arrache`, `pillard_razzia`
   - **Razzia** (`pillard_razzia`, nouveau) : 4 PA, portée 0, cercle 1, sans ldv, lanceur exclu, 1/tour — 6–9 Acier. *Il tourne sur lui-même en hurlant le nom de son raid. Tout ce qui l'entoure prend un coup.*
   - Butin : sac_de_rapine 88 % ×2–4, ordre_de_raid 48 %, coutelas_de_pillard 16 %, bottes_de_rapine 20 %, coiffe_enfant_de_choeur 13 %, cape_enfant_de_choeur 13 %, amulette_enfant_de_choeur 13 %.
@@ -184,14 +184,14 @@ y=2                       [Les Grands Blés 7-9] ── [Camp du raid 10-12] ─
 *Il ne fait plus peur à personne depuis des années. Alors il se venge, mollement mais souvent.*
 
 - Niveaux 7–9 (poids 3/4/3) ; base (niv. 7) : PV 38, PA 7, PM 2, Ini 60, For 12, Agi 12 ; par niveau : pv +4, initiative +5, xp +12, force +2, agilite +2.
-- Résistances : Acier +15, Tempête +10, Givre +5, Flamme -30 ; IA `basique` ; XP 62 (+12/niv.) ; écus 7–16.
+- Résistances : Acier +15, Tempête +10, Givre +5, Flamme -30 ; IA `basique` ; XP 62 (+12/niv.) ; brumes 7–16.
 - Sorts : 
   - **Coup de fourche** (`epouvantail_fourche`, nouveau) : 4 PA, portée 1–2, 1/tour — 6–9 Acier. *Trois dents, une seule intention.* 
   - **Nuée de corbeaux** (`epouvantail_nuee_de_corbeaux`, nouveau) : 3 PA, portée 2–5, sans ldv, 1/tour — 4–6 Tempête. *Il ne fait plus peur aux corbeaux, alors il travaille avec eux.*
 - Butin : paille_ensorcelee 60 % ×1–3, citrouille_grimacante 12 %, chapeau_d_epouvantail 5 %, fourche_d_epouvantail 3 %, coiffe_pyromane_repenti 3 %, cape_pyromane_repenti 3 %, amulette_pyromane_repenti 3 %.
 - Dessin : rig `humain` (arme fourche ; accessoires chapeau_paille ; couleurs peau #c9b27a, cheveux #e0c060, tunique #7a6a4a, manches #a08a5a, pantalon #5a6a8a, bottes #5a4632, ceinture #8a6a3a, chapeau #c8a85a). **Nouveau dessin** : arme « fourche » (petite, 2 dents de fer rouillé sur manche clair, même attache que le bâton).
 - Note : Épouvantail = humain recoloré : peau de toile de jute, cheveux de paille, chapeau de paille et fourche. 2 PM seulement : il faut aller le chercher, ou se méfier de ses corbeaux.
-- **Élite : Grand Épouvantail** (`grand_epouvantail`), niveau 12 — *Le doyen des champs. Il a fait fuir trois générations de corbeaux, puis s'est lassé.* PV 118, PA 8, PM 2, Ini 90, For 32, Agi 32 ; rés. Acier +25, Tempête +20, Givre +15, Flamme -25 ; XP 221 ; écus 18–40.
+- **Élite : Grand Épouvantail** (`grand_epouvantail`), niveau 12 — *Le doyen des champs. Il a fait fuir trois générations de corbeaux, puis s'est lassé.* PV 118, PA 8, PM 2, Ini 90, For 32, Agi 32 ; rés. Acier +25, Tempête +20, Givre +15, Flamme -25 ; XP 221 ; brumes 18–40.
   - Sorts : `epouvantail_fourche`, `epouvantail_nuee_de_corbeaux`, `epouvantail_champ_maudit`
   - **Champ maudit** (`epouvantail_champ_maudit`, nouveau) : 3 PA, portée 1–4, cercle 1, sans ldv, 1/tour, délai 2 — glyphe 2 t : 3–5 Tempête (ennemis), −1 PM (1 t) (ennemis). *La terre se couvre d'épis noirs qui piquent les chevilles.*
   - Butin : paille_ensorcelee 90 % ×2–5, citrouille_grimacante 48 %, chapeau_d_epouvantail 20 %, fourche_d_epouvantail 13 %, coiffe_pyromane_repenti 13 %, cape_pyromane_repenti 13 %, amulette_pyromane_repenti 13 %.
@@ -201,7 +201,7 @@ y=2                       [Les Grands Blés 7-9] ── [Camp du raid 10-12] ─
 *Spécialiste des portes, des palissades et des idées des autres.*
 
 - Niveaux 10–12 (poids 1/3/6) ; base (niv. 10) : PV 65, PA 6, PM 3, Ini 85, For 36 ; par niveau : pv +6, initiative +5, xp +16, force +4.
-- Résistances : Acier +15, Flamme +5, Tempête -10, Givre +0 ; IA `basique` ; XP 116 (+16/niv.) ; écus 11–25.
+- Résistances : Acier +15, Flamme +5, Tempête -10, Givre +0 ; IA `basique` ; XP 116 (+16/niv.) ; brumes 11–25.
 - Sorts : 
   - **Coup de hache** (`briseur_coup_de_hache`, nouveau) : 4 PA, portée 1, 1/tour — 7–10 Acier. *Il brise les portes. Les genoux, c'est en bonus.* 
   - **Épaulée** (`briseur_epaulee`, nouveau) : 3 PA, portée 1, 1/tour — 3–5 Acier ; poussee 2. *Un coup d'épaule de professionnel : on recule, on réfléchit.* 
@@ -209,7 +209,7 @@ y=2                       [Les Grands Blés 7-9] ── [Camp du raid 10-12] ─
 - Butin : gnole_de_raid 55 % ×1–2, medaille_en_chocolat 12 %, ceinture_a_gnole 5 %, ordre_de_raid 8 %.
 - Dessin : rig `gobelin_veteran` (arme hache ; accessoires casque ; couleurs peau #6e8a40, tunique #4e4e58, manches #8a8f96, pantalon #3a3028, cheveux #1e1a16, ceinture #5a3a22, bottes #2e2620). **Nouveau dessin** : arme « hache » (partagée avec le bûcheron de Sylvebrume).
 - Note : Le cœur du raid : mêlée, poussée et un petit soin. Groupes de 1 à 2 (3 seulement s'ils tirent bas).
-- **Élite : Défonceur de portes** (`defonceur_de_portes`), niveau 15 — *Il n'a jamais ouvert une porte de sa vie. Il les a toutes défoncées, y compris celle de chez lui.* PV 187, PA 7, PM 3, Ini 115, For 66 ; rés. Acier +25, Flamme +15, Tempête -5, Givre +10 ; XP 359 ; écus 28–62.
+- **Élite : Défonceur de portes** (`defonceur_de_portes`), niveau 15 — *Il n'a jamais ouvert une porte de sa vie. Il les a toutes défoncées, y compris celle de chez lui.* PV 187, PA 7, PM 3, Ini 115, For 66 ; rés. Acier +25, Flamme +15, Tempête -5, Givre +10 ; XP 359 ; brumes 28–62.
   - Sorts : `briseur_coup_de_hache`, `briseur_epaulee`, `briseur_gnole`, `briseur_belier`
   - **Bélier humain** (`briseur_belier`, nouveau) : 4 PA, portée 1–3, croix latine, en ligne, 1/tour — 5–8 Acier. *Il fonce tête baissée. Il n'a jamais compris pourquoi ça fait mal aux autres et pas à lui.*
   - Butin : gnole_de_raid 88 % ×2–4, medaille_en_chocolat 48 %, ceinture_a_gnole 20 %, ordre_de_raid 32 %.
@@ -220,7 +220,7 @@ y=2                       [Les Grands Blés 7-9] ── [Camp du raid 10-12] ─
 #### Mini-boss : Krasbouk, Chef de Raid (syndiqué) (`krasbouk`) — niveau 12, carte `brumerive_3_2`
 *Il mène le raid sur Brumerive parce que son contrat le dit. Il a lu le contrat. Lui seul.*
 
-- PV 300, PA 7, PM 3, Ini 120, For 30 ; rés. Acier +20, Flamme +10, Tempête +0, Givre -10 ; IA `basique` ; XP 700 ; écus 80–140.
+- PV 300, PA 7, PM 3, Ini 120, For 30 ; rés. Acier +20, Flamme +10, Tempête +0, Givre -10 ; IA `basique` ; XP 700 ; brumes 80–140.
 - Groupe fixe : krasbouk, gobelin_frondeur ; réapparition 45–60 s.
 - Sorts : 
   - **Hachoir réglementaire** (`krasbouk_hachoir`, nouveau) : 4 PA, portée 1, 1/tour — 7–10 Acier. *Coup porté selon l'article 3 du contrat de raid.*
@@ -236,7 +236,7 @@ y=2                       [Les Grands Blés 7-9] ── [Camp du raid 10-12] ─
 
 ## 4. Galeries de Crasse-Roc
 
-Palette `crasse_roc` ; Pierre de Passage `crasse_roc` sur `crasse_roc_0_0` (10 écus, existante). 10 cartes.
+Palette `crasse_roc` ; Pierre de Passage `crasse_roc` sur `crasse_roc_0_0` (10 brumes, existante). 10 cartes.
 
 ```
           x=0                       x=1                        x=2
@@ -319,7 +319,7 @@ y=3                              [L'Abîme du Balourd ☠ 12]
 - Plan : Route (:) large de l'est (vers les forges) à l'ouest, jusqu'au passage « + » sur le bord gauche (porte vers hautepierre_4_2, décor « poteau_indicateur » à côté) ; charrettes renversées (R) ; falaises (R) en haut et en bas.
 - Ressources : T×2, I×1.
 - Groupes : 1. contremaitre_zele + contremaitre_zele; 2. contremaitre_zele; 3. 1–2 parmi {contremaitre_zele}.
-- PNJ `a` **Zibeline, péagère** (`zibeline_la_peagere`) — PNJ d'ambiance : « Péage ! Deux écus pour passer. Trois pour repasser. Quatre si vous avez l'air content. » / « Hautepierre, c'est tout droit. Les humains y ont des murs blancs et des idées noires sur nous. » / « Vous ne payez pas ? Bon. Je note. Je note toujours. Je ne fais rien après, mais je note. »
+- PNJ `a` **Zibeline, péagère** (`zibeline_la_peagere`) — PNJ d'ambiance : « Péage ! Deux brumes pour passer. Trois pour repasser. Quatre si vous avez l'air content. » / « Hautepierre, c'est tout droit. Les humains y ont des murs blancs et des idées noires sur nous. » / « Vous ne payez pas ? Bon. Je note. Je note toujours. Je ne fais rien après, mais je note. »
 - Lien entre zones : Porte « + » vers hautepierre_4_2 (route), posée par le lot Hautepierre avec sa réciproque.
 
 **`crasse_roc_1_3` — L'Abîme du Balourd** (nouvelle ; palier 10-12 ; x=1, y=3 ; **boss**)
@@ -343,14 +343,14 @@ y=3                              [L'Abîme du Balourd ☠ 12]
 *Il vivait là avant les gobelins. Il compte bien y vivre après.*
 
 - Niveaux 1–3 (poids 6/3/1) ; base (niv. 1) : PV 14, PA 5, PM 4, Ini 60 ; par niveau : pv +3, initiative +5, xp +4, force +5.
-- Résistances : Tempête -10 ; IA `basique` ; XP 12 (+4/niv.) ; écus 1–4.
+- Résistances : Tempête -10 ; IA `basique` ; XP 12 (+4/niv.) ; brumes 1–4.
 - Sorts : 
   - `rat_morsure` (existant) 
   - `rat_grignotage` (existant)
 - Butin : queue_de_rat 60 % ×1–2, dent_de_rat 30 %, bottes_feutrees 5 %, coiffe_fouineur 2 %, amulette_fouineur 2 %, cape_fouineur 2 %.
 - Dessin : image `rat` (échelle 0.8).
 - Modifications du fichier existant : Stats inchangées (déjà en tranche 1–3, poids 6/3/1). Ajouter les pièces du Fouineur (coiffe, amulette, cape) au butin : un fouineur chez les rats, évidemment.
-- **Élite : Rat-roi** (`rat_roi`) *(existante)*, niveau 5 — *Douze rats noués par la queue, un seul trône, beaucoup d'opinions.* PV 40, PA 6, PM 4, Ini 90, For 0 ; rés. Tempête -5, Acier +5 ; XP 60 ; écus 5–15.
+- **Élite : Rat-roi** (`rat_roi`) *(existante)*, niveau 5 — *Douze rats noués par la queue, un seul trône, beaucoup d'opinions.* PV 40, PA 6, PM 4, Ini 90, For 0 ; rés. Tempête -5, Acier +5 ; XP 60 ; brumes 5–15.
   - Sorts : `rat_morsure`, `rat_grignotage`, `rat_roi_morsure_royale`
   - Butin : queue_de_rat 90 % ×2–4, dent_de_rat 70 % ×1–2, bottes_feutrees 20 %, coiffe_fouineur 6 %, amulette_fouineur 6 %, cape_fouineur 6 %.
   - Dessin : image `rat` (échelle 1.15 ; teinte #c9b9a0).
@@ -360,14 +360,14 @@ y=3                              [L'Abîme du Balourd ☠ 12]
 *Un mille-pattes vert de la taille d'un chien, qui crache et qui ne compte pas ses pattes.*
 
 - Niveaux 1–3 (poids 1/3/6) ; base (niv. 1) : PV 18, PA 6, PM 3, Ini 60 ; par niveau : pv +4, initiative +5, xp +7, force +3, intelligence +3, rés. Givre +2, Flamme +2.
-- Résistances : Givre +6, Flamme +6, Acier -5 ; IA `basique` ; XP 16 (+7/niv.) ; écus 3–8.
+- Résistances : Givre +6, Flamme +6, Acier -5 ; IA `basique` ; XP 16 (+7/niv.) ; brumes 3–8.
 - Sorts : 
   - `grouilleur_pinces` (existant) 
   - `grouilleur_crachat` (existant)
 - Butin : carapace_de_grouilleur 50 % ×1–2, glande_acide 15 %, ceinture_de_carapace 5 %, anneau_presse 2 %, bottes_presse 2 %, ceinture_presse 2 %.
 - Dessin : image `grouilleur` (échelle 0.85).
 - Modifications du fichier existant : Stats inchangées (tranche 1–3, poids 1/3/6). Ajouter les pièces du Pressé (anneau, bottes, ceinture) au butin.
-- **Élite : Grouilleur ancestral** (`grouilleur_ancestral`) *(existante)*, niveau 7 — *Il a plus de pattes que d'années, et il a beaucoup d'années.* PV 65, PA 7, PM 3, Ini 90, For 0, Int 0 ; rés. Givre +20, Flamme +20, Acier +0 ; XP 100 ; écus 8–20.
+- **Élite : Grouilleur ancestral** (`grouilleur_ancestral`) *(existante)*, niveau 7 — *Il a plus de pattes que d'années, et il a beaucoup d'années.* PV 65, PA 7, PM 3, Ini 90, For 0, Int 0 ; rés. Givre +20, Flamme +20, Acier +0 ; XP 100 ; brumes 8–20.
   - Sorts : `grouilleur_pinces`, `grouilleur_crachat`, `ancestral_jet_d_acide`
   - Butin : carapace_de_grouilleur 90 % ×2–4, glande_acide 50 % ×1–2, ceinture_de_carapace 20 %, anneau_presse 6 %, bottes_presse 6 %, ceinture_presse 6 %.
   - Dessin : image `grouilleur` (échelle 1.15 ; teinte #b8a878).
@@ -377,14 +377,14 @@ y=3                              [L'Abîme du Balourd ☠ 12]
 *Une pipistrelle qui s'est prise pour un vampire. Personne n'a osé la contredire.*
 
 - Niveaux 4–6 (poids 3/4/3) ; base (niv. 4) : PV 22, PA 6, PM 5, Ini 120, Cha 6, Agi 6 ; par niveau : pv +3, initiative +5, xp +8, agilite +2, chance +2.
-- Résistances : Tempête +20, Givre +5, Acier -10, Flamme -5 ; IA `basique` ; XP 27 (+8/niv.) ; écus 4–9.
+- Résistances : Tempête +20, Givre +5, Acier -10, Flamme -5 ; IA `basique` ; XP 27 (+8/niv.) ; brumes 4–9.
 - Sorts : 
   - **Suçon** (`vampipistrelle_sucon`, nouveau) : 3 PA, portée 1, 2/tour — 4–6 Impie. *Une petite morsure, très affectueuse, très impie.* 
   - **Ultrason** (`vampipistrelle_ultrason`, nouveau) : 3 PA, portée 1–4, sans ldv, 1/tour — 3–5 Tempête ; −1 Portée (1 t). *Un cri si aigu qu'on ne vise plus droit.*
 - Butin : aile_de_vampipistrelle 55 % ×1–2, guano_luisant 12 %, cape_de_vampipistrelle 4 %, anneau_bonhomme_de_neige 3 %, ceinture_bonhomme_de_neige 3 %, bottes_bonhomme_de_neige 3 %.
 - Dessin : image `vampipistrelle` (échelle 0.85). **Nouveau dessin** : monstre/vampipistrelle.svgt, ~44×34 px : chauve-souris en vol stationnaire vue de 3/4, corps rond brun-violet ({{pelage}}), grandes ailes membraneuses violet sombre déployées en V, grandes oreilles pointues, deux petits crocs blancs, yeux rouges ; ombre au sol décollée (ellipse à ~8 px sous les pieds, l'ancre au centre de l'ombre)..
 - Note : Vole au-dessus du sol (5 PM) : elle vient chercher les tireurs. Faible à l'Acier.
-- **Élite : Vampipistrelle comtesse** (`vampipistrelle_comtesse`), niveau 9 — *Elle exige qu'on l'appelle « Madame la Comtesse ». Elle mord ceux qui oublient.* PV 74, PA 7, PM 5, Ini 150, Cha 26, Agi 26 ; rés. Tempête +30, Givre +15, Acier -5, Flamme +0 ; XP 130 ; écus 10–22.
+- **Élite : Vampipistrelle comtesse** (`vampipistrelle_comtesse`), niveau 9 — *Elle exige qu'on l'appelle « Madame la Comtesse ». Elle mord ceux qui oublient.* PV 74, PA 7, PM 5, Ini 150, Cha 26, Agi 26 ; rés. Tempête +30, Givre +15, Acier -5, Flamme +0 ; XP 130 ; brumes 10–22.
   - Sorts : `vampipistrelle_sucon`, `vampipistrelle_ultrason`, `comtesse_nuee`
   - **Nuée de la comtesse** (`comtesse_nuee`, nouveau) : 5 PA, portée 1–4, cercle 1, 1/tour — 5–7 Impie. *Toute la famille vient dîner. Vous êtes le dîner.*
   - Butin : aile_de_vampipistrelle 88 % ×2–4, guano_luisant 48 %, cape_de_vampipistrelle 16 %, anneau_bonhomme_de_neige 13 %, ceinture_bonhomme_de_neige 13 %, bottes_bonhomme_de_neige 13 %.
@@ -394,14 +394,14 @@ y=3                              [L'Abîme du Balourd ☠ 12]
 *Envoyé « sécuriser » les galeries. Il sécurise surtout les tonneaux de bière du poste.*
 
 - Niveaux 7–9 (poids 1/3/6) ; base (niv. 7) : PV 38, PA 6, PM 3, Ini 95, For 24 ; par niveau : pv +4, initiative +5, xp +12, force +4.
-- Résistances : Acier +20, Flamme +5, Tempête +0, Givre -10, Sacré +5 ; IA `basique` ; XP 62 (+12/niv.) ; écus 7–16.
+- Résistances : Acier +20, Flamme +5, Tempête +0, Givre -10, Sacré +5 ; IA `basique` ; XP 62 (+12/niv.) ; brumes 7–16.
 - Sorts : 
   - **Coup d'épée réglementaire** (`milicien_coup_d_epee`, nouveau) : 4 PA, portée 1, 1/tour — 7–10 Acier. *Exécuté selon le manuel de la milice, page 12.* 
   - **Bouclier levé** (`milicien_bouclier_leve`, nouveau) : 2 PA, portée 0, sans ldv, 1/tour, délai 2 — bouclier Acier 8–12. *Position de garde numéro 3. Il ne connaît que celle-là, mais il la connaît bien.*
 - Butin : maillon_de_cotte 50 % ×1–3, ecusson_de_milice 12 %, casque_cabosse 4 %, epee_de_milicien 4 %, bottes_de_milicien 4 %, cape_forgeron_hargneux 3 %, ceinture_forgeron_hargneux 3 %, bottes_forgeron_hargneux 3 %.
 - Dessin : rig `humain` (arme epee ; accessoires casque ; couleurs tunique #4a6a9a, manches #8a8f96, pantalon #3a3a4a, bottes #2e2620, ceinture #c9a04e, cheveux #5a3a22). **Nouveau dessin** : accessoire « casque » (casque rond de fer à nasal, 2 vues ; partagé avec plusieurs familles).
 - Note : Des humains combattus par des gobelins : la milice d'Hautepierre (camp allié) est l'ennemie de l'acte I des gobelins. Armure : forte résistance Acier, faible au Givre.
-- **Élite : Sergent de la milice** (`sergent_de_milice`), niveau 12 — *Vingt ans de service, trois promotions, aucune bataille. Ça va changer, croit-il.* PV 118, PA 7, PM 3, Ini 125, For 54 ; rés. Acier +30, Flamme +15, Tempête +10, Givre -5, Sacré +15 ; XP 221 ; écus 18–40.
+- **Élite : Sergent de la milice** (`sergent_de_milice`), niveau 12 — *Vingt ans de service, trois promotions, aucune bataille. Ça va changer, croit-il.* PV 118, PA 7, PM 3, Ini 125, For 54 ; rés. Acier +30, Flamme +15, Tempête +10, Givre -5, Sacré +15 ; XP 221 ; brumes 18–40.
   - Sorts : `milicien_coup_d_epee`, `milicien_bouclier_leve`, `sergent_rappel_a_l_ordre`
   - **Rappel à l'ordre** (`sergent_rappel_a_l_ordre`, nouveau) : 3 PA, portée 2–4, en ligne, 1/tour, délai 1 — attirance 2 ; 4–6 Acier. *« Vous, là ! Approchez ! » On approche, c'est plus fort que soi.*
   - Butin : maillon_de_cotte 80 % ×2–5, ecusson_de_milice 48 %, casque_cabosse 16 %, epee_de_milicien 16 %, bottes_de_milicien 16 %, cape_forgeron_hargneux 13 %, ceinture_forgeron_hargneux 13 %, bottes_forgeron_hargneux 13 %.
@@ -411,7 +411,7 @@ y=3                              [L'Abîme du Balourd ☠ 12]
 *Il fait travailler les autres avec une énergie qu'il n'a jamais mise à travailler lui-même.*
 
 - Niveaux 10–12 (poids 3/4/3) ; base (niv. 10) : PV 45, PA 6, PM 3, Ini 100, For 18, Agi 18 ; par niveau : pv +4, initiative +5, xp +14, force +2, agilite +2.
-- Résistances : Acier +10, Tempête +10, Flamme -10, Givre -5 ; IA `soutien` ; XP 102 (+14/niv.) ; écus 9–22.
+- Résistances : Acier +10, Tempête +10, Flamme -10, Givre -5 ; IA `soutien` ; XP 102 (+14/niv.) ; brumes 9–22.
 - Sorts : 
   - **Coup de bâton** (`contremaitre_coup_de_baton`, nouveau) : 3 PA, portée 1–2, 2/tour — 5–7 Acier. *Motivation par l'exemple. Et par le bâton.* 
   - **Heures sup'** (`contremaitre_heures_sup`, nouveau) : 2 PA, portée 1–4, 1/tour, délai 2 — +2 PA. *Un collègue gagne 2 PA tout de suite. Non payés, évidemment.* 
@@ -419,7 +419,7 @@ y=3                              [L'Abîme du Balourd ☠ 12]
 - Butin : sifflet_de_contremaitre 50 % ×1–2, registre_des_heures 12 %, amulette_sifflet 4 %, anneau_pyromane_repenti 3 %, ceinture_pyromane_repenti 3 %, bottes_pyromane_repenti 3 %.
 - Dessin : rig `gobelin_veteran` (arme baton ; accessoires casque, tablier ; couleurs peau #7c9a48, tunique #5e4a32, manches #4a3a28, pantalon #3e3226, cheveux #2a2018, ceinture #c9a04e, tablier #3a3028).
 - Note : IA soutien : se tient à distance, donne des PA aux autres contremaîtres et retient vos Dommages. Les groupes de 2–3 sont les plus durs de la zone.
-- **Élite : Contremaître en chef** (`contremaitre_en_chef`), niveau 15 — *Il a un bureau, un tampon et un sifflet en or. Il ne descend jamais dans les galeries, sauf pour licencier.* PV 130, PA 7, PM 3, Ini 130, For 38, Agi 38 ; rés. Acier +20, Tempête +20, Flamme -5, Givre +0 ; XP 314 ; écus 22–55.
+- **Élite : Contremaître en chef** (`contremaitre_en_chef`), niveau 15 — *Il a un bureau, un tampon et un sifflet en or. Il ne descend jamais dans les galeries, sauf pour licencier.* PV 130, PA 7, PM 3, Ini 130, For 38, Agi 38 ; rés. Acier +20, Tempête +20, Flamme -5, Givre +0 ; XP 314 ; brumes 22–55.
   - Sorts : `contremaitre_coup_de_baton`, `contremaitre_heures_sup`, `contremaitre_retenue_sur_salaire`, `chef_licenciement`
   - **Licenciement** (`chef_licenciement`, nouveau) : 4 PA, portée 1–2, 1/tour — 6–9 Acier ; poussee 3. *« Vous êtes viré ! » La porte, c'est par là. Loin.*
   - Butin : sifflet_de_contremaitre 80 % ×2–4, registre_des_heures 48 %, amulette_sifflet 16 %, anneau_pyromane_repenti 13 %, ceinture_pyromane_repenti 13 %, bottes_pyromane_repenti 13 %.
@@ -430,7 +430,7 @@ y=3                              [L'Abîme du Balourd ☠ 12]
 #### Mini-boss : Le Balourd des Abîmes (`balourd_des_abimes`) — niveau 12, carte `crasse_roc_1_3`
 *Les gobelins ont creusé trop profond. Le contremaître dit que c'est la faute des ouvriers. Le Balourd dit que c'est la faute de tout le monde.*
 
-- PV 300, PA 7, PM 3, Ini 90, Int 20 ; rés. Flamme +40, Acier +15, Tempête +0, Givre -25 ; IA `basique` ; XP 760 ; écus 90–150.
+- PV 300, PA 7, PM 3, Ini 90, Int 20 ; rés. Flamme +40, Acier +15, Tempête +0, Givre -25 ; IA `basique` ; XP 760 ; brumes 90–150.
 - Groupe fixe : balourd_des_abimes ; réapparition 45–60 s.
 - Sorts : 
   - **Lame de braise** (`balourd_lame_de_braise`, nouveau) : 4 PA, portée 1, 1/tour — 8–11 Flamme. *Une épée faite de feu. Ou un feu en forme d'épée : il n'a jamais su.*
@@ -447,7 +447,7 @@ y=3                              [L'Abîme du Balourd ☠ 12]
 
 ## 5. Lisière de Sylvebrume
 
-Palette `sylvebrume` ; Pierre de Passage `sylvebrume` sur `sylvebrume_0_0` (10 écus, existante). 9 cartes.
+Palette `sylvebrume` ; Pierre de Passage `sylvebrume` sur `sylvebrume_0_0` (10 brumes, existante). 9 cartes.
 
 ```
           x=0                          x=1                         x=2
@@ -546,14 +546,14 @@ y=2  [Cœur de la Toile ☠ 12] ────────── [Toiles grises 10
 *Elle pousse à l'ombre, elle râle à l'ombre, elle mord à l'ombre.*
 
 - Niveaux 1–3 (poids 6/3/1) ; base (niv. 1) : PV 14, PA 5, PM 2, Ini 40 ; par niveau : pv +3, initiative +5, xp +5, chance +4.
-- Résistances : Givre +15, Tempête +10, Acier +0, Flamme -20 ; IA `basique` ; XP 8 (+5/niv.) ; écus 3–5.
+- Résistances : Givre +15, Tempête +10, Acier +0, Flamme -20 ; IA `basique` ; XP 8 (+5/niv.) ; brumes 3–5.
 - Sorts : 
   - **Spores** (`morille_spores`, nouveau) : 3 PA, portée 1–5, sans ldv, 1/tour — 2–4 Givre ; poison Givre 1–2 (2 t). *Un nuage de mauvaise humeur, très contagieux.* 
   - **Bouderie** (`morille_bouderie`, nouveau) : 2 PA, portée 0, sans ldv, 1/tour, délai 2 — bouclier Givre 4–6. *Elle boude. C'est étonnamment efficace.*
 - Butin : chapeau_de_morille 60 % ×1–2, spores_grincheuses 12 %, bottes_de_mousse 5 %, coiffe_mauvais_oeil 2 %, cape_mauvais_oeil 2 %, amulette_mauvais_oeil 2 %.
 - Dessin : image `morille` (échelle 0.8). **Nouveau dessin** : monstre/morille.svgt, ~34×42 px : morille debout, chapeau conique alvéolé brun-beige ({{pelage}}/{{pelage_ombre}}), pied blanc trapu servant de corps, deux petits bras, sourcils froncés et bouche boudeuse, petites jambes ; ancre aux pieds..
 - Note : 2 PM, peu de dégâts mais des poisons : une première famille lente et sûre, peu d'XP (gabarit frêle).
-- **Élite : Vieille Morille rancunière** (`vieille_morille_rancuniere`), niveau 6 — *Elle se souvient de chaque pied qui l'a écrasée depuis trois siècles. Elle a une liste.* PV 54, PA 6, PM 2, Ini 70, Cha 30 ; rés. Givre +25, Tempête +20, Acier +10, Flamme -15 ; XP 80 ; écus 8–12.
+- **Élite : Vieille Morille rancunière** (`vieille_morille_rancuniere`), niveau 6 — *Elle se souvient de chaque pied qui l'a écrasée depuis trois siècles. Elle a une liste.* PV 54, PA 6, PM 2, Ini 70, Cha 30 ; rés. Givre +25, Tempête +20, Acier +10, Flamme -15 ; XP 80 ; brumes 8–12.
   - Sorts : `morille_spores`, `morille_bouderie`, `rancune_nuage_de_spores`
   - **Nuage de rancune** (`rancune_nuage_de_spores`, nouveau) : 4 PA, portée 1–5, cercle 1, sans ldv, 1/tour — poison Givre 2–3 (3 t) ; −1 Portée (1 t). *Elle n'oublie rien. Vos poumons non plus.*
   - Butin : chapeau_de_morille 90 % ×2–4, spores_grincheuses 48 %, bottes_de_mousse 20 %, coiffe_mauvais_oeil 12 %, cape_mauvais_oeil 12 %, amulette_mauvais_oeil 12 %.
@@ -563,14 +563,14 @@ y=2  [Cœur de la Toile ☠ 12] ────────── [Toiles grises 10
 *Ses bois luisent au crépuscule. Il charge aussi, au crépuscule et le reste du temps.*
 
 - Niveaux 4–6 (poids 3/4/3) ; base (niv. 4) : PV 36, PA 7, PM 4, Ini 110 ; par niveau : pv +4, initiative +5, xp +6, force +2, agilite +2.
-- Résistances : Tempête +20, Flamme -10 ; IA `basique` ; XP 45 (+6/niv.) ; écus 4–10.
+- Résistances : Tempête +20, Flamme -10 ; IA `basique` ; XP 45 (+6/niv.) ; brumes 4–10.
 - Sorts : 
   - `cerf_ramure` (existant) 
   - `cerf_eclat_sylvestre` (existant)
 - Butin : poil_scintillant 50 % ×1–2, bois_de_cerf_enchante 20 %, couronne_de_ramure 4 %, coiffe_courant_d_air 3 %, cape_courant_d_air 3 %, amulette_courant_d_air 3 %.
 - Dessin : image `cerf` (échelle 0.8).
 - Modifications du fichier existant : Tranche 4–6 (poids 3/4/3) à partir de ses valeurs actuelles (niveau 4). Ajouter Force et Agilité par niveau, et les pièces Courant d'Air (coiffe, cape, amulette) au butin.
-- **Élite : Grand cerf de la Lisière** (`grand_cerf`) *(existante)*, niveau 9 — *Les elfes le saluent, les humains le chassent, les poètes lui écrivent. Il n'aime aucun des trois.* PV 90, PA 8, PM 5, Ini 150, For 20, Agi 20 ; rés. Tempête +30, Flamme -5, Acier +10 ; XP 150 ; écus 12–30.
+- **Élite : Grand cerf de la Lisière** (`grand_cerf`) *(existante)*, niveau 9 — *Les elfes le saluent, les humains le chassent, les poètes lui écrivent. Il n'aime aucun des trois.* PV 90, PA 8, PM 5, Ini 150, For 20, Agi 20 ; rés. Tempête +30, Flamme -5, Acier +10 ; XP 150 ; brumes 12–30.
   - Sorts : `cerf_ramure`, `cerf_eclat_sylvestre`, `grand_cerf_charge`
   - Butin : poil_scintillant 90 % ×2–4, bois_de_cerf_enchante 60 % ×1–2, couronne_de_ramure 18 %, coiffe_courant_d_air 8 %, cape_courant_d_air 8 %, amulette_courant_d_air 8 %.
   - Dessin : image `cerf` (échelle 1.05 ; teinte #f0e0c0).
@@ -580,14 +580,14 @@ y=2  [Cœur de la Toile ☠ 12] ────────── [Toiles grises 10
 *Un vieux chêne qui en a assez qu'on lui coupe les branches.*
 
 - Niveaux 4–6 (poids 1/3/6) ; base (niv. 4) : PV 52, PA 7, PM 1, Ini 35 ; par niveau : pv +8, initiative +5, xp +8, force +3.
-- Résistances : Acier +25, Givre +15, Flamme -25 ; IA `basique` ; XP 52 (+8/niv.) ; écus 5–12.
+- Résistances : Acier +25, Givre +15, Flamme -25 ; IA `basique` ; XP 52 (+8/niv.) ; brumes 5–12.
 - Sorts : 
   - `arbre_branche` (existant) 
   - `arbre_racines` (existant)
 - Butin : ecorce_vivante 60 % ×1–3, seve_ancienne 10 %, cape_d_ecorce 4 %.
 - Dessin : image `arbre_vivant` (échelle 0.85).
 - Modifications du fichier existant : Niveau de base 4 (tranche 4–6, poids 1/3/6) : 52 PV et 52 XP au niveau 4, +8 par niveau (au niveau 5, ses valeurs actuelles : 60 PV, 60 XP) ; initiative 35 (+5/niveau) ; Force +3 par niveau.
-- **Élite : Arbre millénaire** (`arbre_millenaire`) *(existante)*, niveau 10 — *Il a vu naître Sylvebrume. Il compte bien la voir disparaître, sans se presser.* PV 150, PA 8, PM 1, Ini 50, For 25 ; rés. Acier +35, Givre +25, Flamme -20 ; XP 180 ; écus 15–35.
+- **Élite : Arbre millénaire** (`arbre_millenaire`) *(existante)*, niveau 10 — *Il a vu naître Sylvebrume. Il compte bien la voir disparaître, sans se presser.* PV 150, PA 8, PM 1, Ini 50, For 25 ; rés. Acier +35, Givre +25, Flamme -20 ; XP 180 ; brumes 15–35.
   - Sorts : `arbre_branche`, `arbre_racines`, `millenaire_ronces`, `millenaire_cercle_de_seve`
   - Butin : ecorce_vivante 90 % ×2–5, seve_ancienne 40 % ×1–2, cape_d_ecorce 18 %.
   - Dessin : image `arbre_vivant` (échelle 1.12 ; teinte #a89a88).
@@ -597,14 +597,14 @@ y=2  [Cœur de la Toile ☠ 12] ────────── [Toiles grises 10
 *Il a un bon de coupe signé à Hautepierre et une hache aiguisée. Les elfes ont des flèches. Le débat est ouvert.*
 
 - Niveaux 7–9 (poids 1/3/6) ; base (niv. 7) : PV 49, PA 6, PM 3, Ini 85, For 24 ; par niveau : pv +5, initiative +5, xp +14, force +4.
-- Résistances : Acier +10, Givre +5, Flamme +0, Tempête -10 ; IA `basique` ; XP 74 (+14/niv.) ; écus 8–19.
+- Résistances : Acier +10, Givre +5, Flamme +0, Tempête -10 ; IA `basique` ; XP 74 (+14/niv.) ; brumes 8–19.
 - Sorts : 
   - **Coup de cognée** (`bucheron_cognee`, nouveau) : 4 PA, portée 1, 1/tour — 7–10 Acier. *Bien droit, comme pour un chêne. Vous n'êtes pas un chêne.* 
   - **Attention, ça tombe !** (`bucheron_ca_tombe`, nouveau) : 4 PA, portée 2–4, croix latine, sans ldv, en ligne, 1/tour, délai 1 — 5–7 Acier. *Il crie toujours avant. Personne n'écoute jamais.*
 - Butin : copeaux_de_bois 55 % ×1–3, bon_de_coupe 12 %, hache_de_bucheron 4 %, ceinture_de_bucheron 4 %, anneau_enfant_de_choeur 3 %, ceinture_enfant_de_choeur 3 %, bottes_enfant_de_choeur 3 %.
 - Dessin : rig `humain` (arme hache ; accessoires barbe ; couleurs tunique #a83a2a, manches #7a2a20, pantalon #3a4a6a, bottes #4a3424, ceinture #3d2b1f, cheveux #5a3a22, barbe #5a3a22). **Nouveau dessin** : arme « hache » (fer large, manche clair ; partagée avec le briseur).
 - Note : Les humains (camp allié) envahisseurs de la Lisière : « Attention, ça tombe ! » frappe en croix latine (l'arbre qui tombe).
-- **Élite : Abatteur en chef** (`abatteur_en_chef`), niveau 12 — *Il a abattu Vieux-Branchu, mille ans d'âge, en une matinée. Il en a fait un banc. Personne ne s'assoit dessus.* PV 153, PA 7, PM 3, Ini 115, For 54 ; rés. Acier +20, Givre +15, Flamme +10, Tempête -5 ; XP 266 ; écus 20–48.
+- **Élite : Abatteur en chef** (`abatteur_en_chef`), niveau 12 — *Il a abattu Vieux-Branchu, mille ans d'âge, en une matinée. Il en a fait un banc. Personne ne s'assoit dessus.* PV 153, PA 7, PM 3, Ini 115, For 54 ; rés. Acier +20, Givre +15, Flamme +10, Tempête -5 ; XP 266 ; brumes 20–48.
   - Sorts : `bucheron_cognee`, `bucheron_ca_tombe`, `abatteur_souche_piegee`
   - **Souche piégée** (`abatteur_souche_piegee`, nouveau) : 3 PA, portée 1–4, sans ldv, 1/tour, délai 2 — piège (cercle 1) : 7–10 Acier (ennemis), −2 PM (1 t) (ennemis). *Une souche, des pointes, et un abatteur qui sourit.*
   - Butin : copeaux_de_bois 88 % ×2–5, bon_de_coupe 48 %, hache_de_bucheron 16 %, ceinture_de_bucheron 16 %, anneau_enfant_de_choeur 13 %, ceinture_enfant_de_choeur 13 %, bottes_enfant_de_choeur 13 %.
@@ -614,14 +614,14 @@ y=2  [Cœur de la Toile ☠ 12] ────────── [Toiles grises 10
 *Une araignée grosse comme un poney, qui tisse le brouillard de Sylvebrume. Les elfes disent que c'est poétique. De loin.*
 
 - Niveaux 10–12 (poids 3/4/3) ; base (niv. 10) : PV 50, PA 6, PM 4, Ini 110, Cha 36 ; par niveau : pv +4, initiative +5, xp +13, chance +4.
-- Résistances : Givre +20, Impie +10, Acier +0, Flamme -15 ; IA `basique` ; XP 97 (+13/niv.) ; écus 9–21.
+- Résistances : Givre +20, Impie +10, Acier +0, Flamme -15 ; IA `basique` ; XP 97 (+13/niv.) ; brumes 9–21.
 - Sorts : 
   - **Morsure glacée** (`tisseuse_morsure`, nouveau) : 3 PA, portée 1, 1/tour — 4–6 Givre ; poison Givre 2–3 (2 t). *Le venin des tisseuses gèle le sang. Et l'humeur.* 
   - **Toile collante** (`tisseuse_toile`, nouveau) : 3 PA, portée 2–5, 1/tour — 2–4 Givre ; −2 PM (1 t). *On se débat, on s'emmêle, on reste là.*
 - Butin : fil_de_brume 55 % ×1–3, crochet_d_araignee 12 %, cape_de_soie_grise 4 %, coiffe_bonhomme_de_neige 3 %, cape_bonhomme_de_neige 3 %, amulette_bonhomme_de_neige 3 %.
 - Dessin : image `araignee` (échelle 0.85). **Nouveau dessin** : monstre/araignee.svgt, ~60×38 px : araignée vue de 3/4, abdomen gris perle ({{pelage}}) à motif de toile bleu pâle, céphalothorax plus sombre ({{pelage_ombre}}), 8 pattes fines articulées, 6 petits yeux noirs brillants, crochets ; ancre au centre entre les pattes. Recolorable pour la Mère-Toile..
 - Note : Retrait de PM et poisons : il faut frapper fort et vite. Faible à la Flamme.
-- **Élite : Grande Tisseuse** (`grande_tisseuse`), niveau 15 — *Sa toile couvre trois clairières. Elle a oublié où elle a rangé la dernière proie.* PV 144, PA 7, PM 4, Ini 140, Cha 66 ; rés. Givre +30, Impie +20, Acier +10, Flamme -10 ; XP 299 ; écus 22–52.
+- **Élite : Grande Tisseuse** (`grande_tisseuse`), niveau 15 — *Sa toile couvre trois clairières. Elle a oublié où elle a rangé la dernière proie.* PV 144, PA 7, PM 4, Ini 140, Cha 66 ; rés. Givre +30, Impie +20, Acier +10, Flamme -10 ; XP 299 ; brumes 22–52.
   - Sorts : `tisseuse_morsure`, `tisseuse_toile`, `tisseuse_cocon`
   - **Cocon** (`tisseuse_cocon`, nouveau) : 4 PA, portée 1–4, 1/tour, délai 1 — 6–9 Givre ; −2 PA (1 t). *Elle vous emballe pour plus tard.*
   - Butin : fil_de_brume 88 % ×2–5, crochet_d_araignee 48 %, cape_de_soie_grise 16 %, coiffe_bonhomme_de_neige 13 %, cape_bonhomme_de_neige 13 %, amulette_bonhomme_de_neige 13 %.
@@ -632,7 +632,7 @@ y=2  [Cœur de la Toile ☠ 12] ────────── [Toiles grises 10
 #### Mini-boss : La Mère-Toile (`mere_toile`) — niveau 12, carte `sylvebrume_0_2`
 *Elle tisse depuis l'Âge de l'Aube et n'a jamais fini un seul napperon. Depuis que la Cendre tombe, elle tisse plus vite, et plus noir.*
 
-- PV 300, PA 7, PM 4, Ini 130, Cha 25 ; rés. Givre +30, Impie +15, Tempête +10, Acier +5, Flamme -20 ; IA `basique` ; XP 720 ; écus 80–140.
+- PV 300, PA 7, PM 4, Ini 130, Cha 25 ; rés. Givre +30, Impie +15, Tempête +10, Acier +5, Flamme -20 ; IA `basique` ; XP 720 ; brumes 80–140.
 - Groupe fixe : mere_toile ; réapparition 45–60 s.
 - Sorts : 
   - **Venin ancestral** (`meretoile_venin`, nouveau) : 4 PA, portée 1, 1/tour — 7–10 Givre ; poison Givre 3–4 (3 t). *Une seule morsure, et l'hiver s'installe dans vos veines.*
@@ -649,7 +649,7 @@ y=2  [Cœur de la Toile ☠ 12] ────────── [Toiles grises 10
 
 ## 6. Hautepierre et ses environs
 
-Palette `hautepierre` ; Pierre de Passage `hautepierre` sur `hautepierre_2_2` (20 écus). 19 cartes.
+Palette `hautepierre` ; Pierre de Passage `hautepierre` sur `hautepierre_2_2` (20 brumes). 19 cartes.
 
 ```
             x=0                    x=1                       x=2                        x=3                        x=4
@@ -749,7 +749,7 @@ y=4                                                  [Gorges du Troll 16-18 ✦]
 - Plan : Fleuve (E) large sur le bas de la carte, berge praticable de 4 à 6 lignes ; lavoir (décor « cabane ») ; roseaux (A bas) ; un ponton.
 - Ressources : H×2, Y×1, G×1.
 - Groupes : 1. troll_des_ponts; 2. troll_des_ponts + troll_des_ponts; 3. troll_des_ponts + detrousseur.
-- PNJ `a` **Caron, passeur** (`passeur_caron`) — PNJ d'ambiance : « Un écu l'aller, deux le retour. Le pont des trolls ? Gratuit. Enfin, ça dépend pour qui. » / « Les trolls ne savent pas nager. Moi non plus. On a ça en commun, on en parle parfois. »
+- PNJ `a` **Caron, passeur** (`passeur_caron`) — PNJ d'ambiance : « Une brume l'aller, deux le retour. Le pont des trolls ? Gratuit. Enfin, ça dépend pour qui. » / « Les trolls ne savent pas nager. Moi non plus. On a ça en commun, on en parle parfois. »
 
 **`hautepierre_2_3` — Pont des Trolls** (nouvelle ; palier 16-18 ; x=2, y=3)
 - Sorties : haut → `hautepierre_2_2`, gauche → `hautepierre_1_3`, bas → `hautepierre_2_4`, droite → `hautepierre_3_3`.
@@ -845,14 +845,14 @@ y=4                                                  [Gorges du Troll 16-18 ✦]
 *Il vole les riches pour donner aux pauvres. Il est pauvre. La boucle est bouclée.*
 
 - Niveaux 13–15 (poids 3/4/3) ; base (niv. 13) : PV 63, PA 6, PM 4, Ini 130, Cha 24, Agi 24 ; par niveau : pv +4, initiative +5, xp +14, agilite +2, chance +2.
-- Résistances : Tempête +10, Givre +5, Acier +0, Flamme +0, Sacré -10 ; IA `basique` ; XP 137 (+14/niv.) ; écus 11–26.
+- Résistances : Tempête +10, Givre +5, Acier +0, Flamme +0, Sacré -10 ; IA `basique` ; XP 137 (+14/niv.) ; brumes 11–26.
 - Sorts : 
   - **Coup de surin** (`detrousseur_surin`, nouveau) : 3 PA, portée 1, 2/tour — 5–7 Impie. *Dans l'ombre, sans prévenir, sans facture.* 
   - **La bourse ou la vie** (`detrousseur_la_bourse_ou_la_vie`, nouveau) : 3 PA, portée 1–2, 1/tour — 3–5 Tempête ; −15 Cha (2 t). *Vous choisissez la bourse. Il prend quand même un peu de la vie.*
 - Butin : bourse_vide 55 % ×1–2, carte_au_tresor_douteuse 12 %, capuche_de_detrousseur 4 %, dague_de_detrousseur 3 %, bottes_de_grand_chemin 4 %.
 - Dessin : rig `humain` (arme epee ; accessoires capuche ; couleurs tunique #3a4a32, manches #2e3a28, pantalon #3a3028, bottes #2e2620, ceinture #5a3a22, cheveux #2e2418, chapeau #2e3a28). **Nouveau dessin** : accessoire « capuche » (capuche de tissu rabattue sur la tête, 2 vues, couleur {{chapeau}}).
 - Note : Humains hors-la-loi (aucun camp) : les routes autour de Hautepierre ne sont pas sûres, quel que soit le camp du joueur.
-- **Élite : Chef de bande** (`chef_de_bande`), niveau 18 — *Il se fait appeler « le Prince des voleurs ». Ses hommes l'appellent « le patron » ; sa mère, « Gérard ».* PV 174, PA 7, PM 4, Ini 160, Cha 44, Agi 44 ; rés. Tempête +20, Givre +15, Acier +10, Flamme +10, Sacré -5 ; XP 383 ; écus 28–65.
+- **Élite : Chef de bande** (`chef_de_bande`), niveau 18 — *Il se fait appeler « le Prince des voleurs ». Ses hommes l'appellent « le patron » ; sa mère, « Gérard ».* PV 174, PA 7, PM 4, Ini 160, Cha 44, Agi 44 ; rés. Tempête +20, Givre +15, Acier +10, Flamme +10, Sacré -5 ; XP 383 ; brumes 28–65.
   - Sorts : `detrousseur_surin`, `detrousseur_la_bourse_ou_la_vie`, `chef_de_bande_embuscade`
   - **Embuscade** (`chef_de_bande_embuscade`, nouveau) : 3 PA, portée 1–4, sans ldv, 1/tour, délai 2 — piège : 9–13 Impie (ennemis), −2 PM (1 t) (ennemis). *Ils étaient cachés dans le fossé. Ils y sont toujours, d'ailleurs.*
   - Butin : bourse_vide 88 % ×2–4, carte_au_tresor_douteuse 48 %, capuche_de_detrousseur 16 %, dague_de_detrousseur 13 %, bottes_de_grand_chemin 16 %.
@@ -862,14 +862,14 @@ y=4                                                  [Gorges du Troll 16-18 ✦]
 *Il garde un pont qui ne mène nulle part et réclame un péage que personne ne paie. Il a donc beaucoup de temps libre, et faim.*
 
 - Niveaux 16–18 (poids 1/3/6) ; base (niv. 16) : PV 131, PA 6, PM 2, Ini 50, For 60 ; par niveau : pv +8, initiative +5, xp +21, force +4.
-- Résistances : Acier +25, Givre +15, Tempête +0, Flamme -20, Sacré -10 ; IA `basique` ; XP 235 (+21/niv.) ; écus 17–40.
+- Résistances : Acier +25, Givre +15, Tempête +0, Flamme -20, Sacré -10 ; IA `basique` ; XP 235 (+21/niv.) ; brumes 17–40.
 - Sorts : 
   - **Coup de massue** (`troll_coup_de_massue`, nouveau) : 4 PA, portée 1, 1/tour — 8–11 Acier ; poussee 1. *Pas de technique, beaucoup de massue.* 
   - **Lancer de rocher** (`troll_rocher`, nouveau) : 4 PA, portée 2–5, 1/tour — 5–8 Acier. *Il arrache un morceau de pont et vous le rend.*
 - Butin : dent_de_troll 55 % ×1–2, recette_de_troll 12 %, ceinture_de_troll 4 %, anneau_de_nez_de_troll 4 %, massue_de_troll 3 %.
 - Dessin : rig `troll` (arme massue ; couleurs peau #8a8a6a, tunique #6a5030, manches #8a8a6a, pantalon #5a4630, bottes #8a8a6a, ceinture #3a2a1a, cheveux #4a4a3a). **Nouveau dessin** : têtes « tete_troll » et « tete_troll_dos » (grosse tête ronde au nez énorme, petites oreilles pointues, deux crocs du bas, front bas ; peau {{peau}}) pour le nouvel assemblage « troll » (base humain, échelle 1.15) ; arme « massue » (gourdin noueux avec un clou).
 - Note : Tank lent (2 PM) qui craint la Flamme et le Sacré : les théologues et pyromanes ont l'avantage.
-- **Élite : Troll gastronome** (`troll_gastronome`), niveau 21 — *Il a lu un livre de cuisine. Un seul. Il l'applique à tout le monde.* PV 350, PA 7, PM 2, Ini 80, For 90 ; rés. Acier +35, Givre +25, Tempête +10, Flamme -15, Sacré -5 ; XP 622 ; écus 42–100.
+- **Élite : Troll gastronome** (`troll_gastronome`), niveau 21 — *Il a lu un livre de cuisine. Un seul. Il l'applique à tout le monde.* PV 350, PA 7, PM 2, Ini 80, For 90 ; rés. Acier +35, Givre +25, Tempête +10, Flamme -15, Sacré -5 ; XP 622 ; brumes 42–100.
   - Sorts : `troll_coup_de_massue`, `troll_rocher`, `gastronome_marinade`
   - **Marinade** (`gastronome_marinade`, nouveau) : 3 PA, portée 1–2, 1/tour — poison Flamme 4–6 (3 t) ; −10 Rés. Flamme (3 t). *Il vous assaisonne avant cuisson. Le feu vous fera plus mal ensuite.*
   - Butin : dent_de_troll 88 % ×2–4, recette_de_troll 48 %, ceinture_de_troll 16 %, anneau_de_nez_de_troll 16 %, massue_de_troll 13 %.
@@ -879,14 +879,14 @@ y=4                                                  [Gorges du Troll 16-18 ✦]
 *Un corbeau au service de la Cendre, avec une longue-vue en bandoulière. Il note tout ce que vous faites, surtout les bêtises.*
 
 - Niveaux 19–21 (poids 6/3/1) ; base (niv. 19) : PV 79, PA 6, PM 5, Ini 150, Agi 72 ; par niveau : pv +4, initiative +5, xp +17, agilite +4.
-- Résistances : Tempête +25, Flamme +5, Givre +0, Acier -10 ; IA `distance` ; XP 218 (+17/niv.) ; écus 15–34.
+- Résistances : Tempête +25, Flamme +5, Givre +0, Acier -10 ; IA `distance` ; XP 218 (+17/niv.) ; brumes 15–34.
 - Sorts : 
   - **Coup de bec** (`corbac_bec`, nouveau) : 3 PA, portée 1, 1/tour — 5–7 Acier. *Toujours dans l'œil. Il vise bien, il a de l'entraînement.* 
   - **Piqué** (`corbac_pique`, nouveau) : 4 PA, portée 2–5, 1/tour — 6–9 Tempête. *Il tombe du ciel comme un mauvais présage, et c'en est un.*
 - Butin : plume_de_corbac 55 % ×1–3, message_intercepte 12 %, chapeau_a_plume_de_corbac 4 %, amulette_oeil_de_corbac 2 %.
 - Dessin : image `corbac` (échelle 0.9). **Nouveau dessin** : monstre/corbac.svgt, ~44×42 px : gros corbeau noir aux reflets bleus ({{pelage}}/{{pelage_ombre}}), ailes à demi déployées, bec épais gris, œil rouge, petite longue-vue en laiton en bandoulière ; perché au sol, ancre entre les pattes..
 - Note : Tireur rapide (5 PM, IA distance) : il faut le coincer contre les obstacles. Faible à l'Acier.
-- **Élite : Corbac chef espion** (`corbac_chef_espion`), niveau 24 — *Il dirige un réseau de quatre cents corbeaux. Il connaît votre adresse, votre taille de chapeau et votre plat préféré.* PV 206, PA 7, PM 5, Ini 180, Agi 102 ; rés. Tempête +35, Flamme +15, Givre +10, Acier -5 ; XP 554 ; écus 38–85.
+- **Élite : Corbac chef espion** (`corbac_chef_espion`), niveau 24 — *Il dirige un réseau de quatre cents corbeaux. Il connaît votre adresse, votre taille de chapeau et votre plat préféré.* PV 206, PA 7, PM 5, Ini 180, Agi 102 ; rés. Tempête +35, Flamme +15, Givre +10, Acier -5 ; XP 554 ; brumes 38–85.
   - Sorts : `corbac_bec`, `corbac_pique`, `chef_espion_rapport`
   - **Rapport détaillé** (`chef_espion_rapport`, nouveau) : 3 PA, portée 1–6, 1/tour — −15 Rés. Tempête (2 t) ; −1 Portée (1 t). *Il a tout noté. Vos faiblesses aussi.*
   - Butin : plume_de_corbac 88 % ×2–5, message_intercepte 48 %, chapeau_a_plume_de_corbac 16 %, amulette_oeil_de_corbac 12 %, cape_de_plumes_noires 15 %.
@@ -896,14 +896,14 @@ y=4                                                  [Gorges du Troll 16-18 ✦]
 *Elle a gardé une gouttière de Hautepierre pendant trois siècles. Depuis que la Cendre tombe, elle garde rancune.*
 
 - Niveaux 22–24 (poids 3/4/3) ; base (niv. 22) : PV 142, PA 6, PM 3, Ini 70, For 42, Cha 42 ; par niveau : pv +8, initiative +5, xp +23, force +2, chance +2.
-- Résistances : Acier +30, Flamme +20, Givre +10, Tempête -15 ; IA `basique` ; XP 342 (+23/niv.) ; écus 22–49.
+- Résistances : Acier +30, Flamme +20, Givre +10, Tempête -15 ; IA `basique` ; XP 342 (+23/niv.) ; brumes 22–49.
 - Sorts : 
   - **Griffes de pierre** (`gargouille_griffes`, nouveau) : 4 PA, portée 1, 1/tour — 7–10 Acier. *Trois siècles à garder une gouttière, ça aiguise les griffes.* 
   - **Gargouillis** (`gargouille_gargouillis`, nouveau) : 3 PA, portée 2–4, 1/tour — 5–7 Givre. *Elle crache l'eau de pluie de la semaine. Glacée.*
 - Butin : eclat_de_gargouille 55 % ×1–3, coeur_de_pierre 12 %, anneau_de_granit 4 %, bottes_de_gargouille 3 %, hallebarde_de_la_vieille_garde 3 %.
 - Dessin : image `gargouille` (échelle 0.9). **Nouveau dessin** : monstre/gargouille.svgt, ~54×60 px : gargouille de pierre grise ({{pierre}}) accroupie, petites ailes de chauve-souris repliées, cornes courtes, gueule grande ouverte en gouttière, griffes ; taches de mousse ; ancre aux pieds..
 - Note : Très résistante à l'Acier et à la Flamme, faible à la Tempête : la famille qui oblige les guerriers à varier.
-- **Élite : Gargouille de la Grande Porte** (`gargouille_de_la_grande_porte`), niveau 27 — *La plus vieille de la ville. Elle a vu passer trois rois, deux sièges et un nombre incalculable de pigeons.* PV 361, PA 7, PM 3, Ini 100, For 62, Cha 62 ; rés. Acier +40, Flamme +30, Givre +20, Tempête -10 ; XP 834 ; écus 55–122.
+- **Élite : Gargouille de la Grande Porte** (`gargouille_de_la_grande_porte`), niveau 27 — *La plus vieille de la ville. Elle a vu passer trois rois, deux sièges et un nombre incalculable de pigeons.* PV 361, PA 7, PM 3, Ini 100, For 62, Cha 62 ; rés. Acier +40, Flamme +30, Givre +20, Tempête -10 ; XP 834 ; brumes 55–122.
   - Sorts : `gargouille_griffes`, `gargouille_gargouillis`, `gargouille_petrification`
   - **Regard de pierre** (`gargouille_petrification`, nouveau) : 3 PA, portée 1–3, 1/tour, délai 2 — 3–5 Givre ; −2 PM (1 t) ; −1 PA (1 t). *Un regard figé. Vos jambes suivent l'exemple.*
   - Butin : eclat_de_gargouille 88 % ×2–5, coeur_de_pierre 48 %, anneau_de_granit 16 %, bottes_de_gargouille 13 %, hallebarde_de_la_vieille_garde 13 %, amulette_coeur_de_pierre 15 %.
@@ -913,14 +913,14 @@ y=4                                                  [Gorges du Troll 16-18 ✦]
 *Adepte du Souverain Cendré. Ils dansent dans la cendre et doivent rentrer avant minuit, sinon ils redeviennent des gens normaux.*
 
 - Niveaux 25–27 (poids 3/4/3) ; base (niv. 25) : PV 113, PA 6, PM 3, Ini 110, Int 96 ; par niveau : pv +6, initiative +5, xp +22, intelligence +4.
-- Résistances : Flamme +30, Impie +15, Acier +0, Givre -20, Sacré -15 ; IA `soutien` ; XP 361 (+22/niv.) ; écus 21–48.
+- Résistances : Flamme +30, Impie +15, Acier +0, Givre -20, Sacré -15 ; IA `soutien` ; XP 361 (+22/niv.) ; brumes 21–48.
 - Sorts : 
   - **Cendres ardentes** (`cendrillon_cendres_ardentes`, nouveau) : 4 PA, portée 2–5, 1/tour — 6–9 Flamme. *Une poignée de cendre du Souverain, jetée au visage. Ça ne part pas.* 
   - **Bal de minuit** (`cendrillon_bal_de_minuit`, nouveau) : 3 PA, portée 0–3, 1/tour, délai 1 — soin Flamme 7–10 (alliés). *Une valse de cendre qui referme les plaies d'un fidèle.*
 - Butin : cendre_tiede 55 % ×1–3, invitation_au_bal 12 %, pantoufles_de_cendre 3 %, masque_de_cendrillon 4 %, baguette_de_cendrillon 3 %, bague_de_minuit 3 %.
 - Dessin : rig `humain` (arme sceptre ; accessoires cape_cendre ; couleurs peau #d8c8c0, tunique #3a302c, manches #2a2420, pantalon #1e1a17, bottes #141110, ceinture #8a2a1a, cheveux #8a8a8a).
 - Note : IA soutien : soigne les autres Cendrillons et les olifants qu'ils accompagnent. Faibles au Givre et au Sacré.
-- **Élite : Marraine Cendrée** (`marraine_cendree`), niveau 30 — *Elle exauce les vœux. Le vôtre était de rentrer chez vous ; elle l'a mal compris.* PV 284, PA 7, PM 3, Ini 140, Int 126 ; rés. Flamme +40, Impie +25, Acier +10, Givre -15, Sacré -10 ; XP 856 ; écus 52–120.
+- **Élite : Marraine Cendrée** (`marraine_cendree`), niveau 30 — *Elle exauce les vœux. Le vôtre était de rentrer chez vous ; elle l'a mal compris.* PV 284, PA 7, PM 3, Ini 140, Int 126 ; rés. Flamme +40, Impie +25, Acier +10, Givre -15, Sacré -10 ; XP 856 ; brumes 52–120.
   - Sorts : `cendrillon_cendres_ardentes`, `cendrillon_bal_de_minuit`, `marraine_coup_de_baguette`
   - **Coup de baguette** (`marraine_coup_de_baguette`, nouveau) : 4 PA, portée 1–4, cercle 1, 1/tour — 6–8 Flamme ; −1 PA (1 t). *Un geste gracieux, une citrouille qui explose.*
   - Butin : cendre_tiede 88 % ×2–5, invitation_au_bal 48 %, pantoufles_de_cendre 13 %, masque_de_cendrillon 16 %, baguette_de_cendrillon 13 %, bague_de_minuit 13 %.
@@ -930,14 +930,14 @@ y=4                                                  [Gorges du Troll 16-18 ✦]
 *Trois tonnes, quatre défenses, et un caparaçon rouge brodé « Armée du Souverain ». Il ne sait pas lire, heureusement pour lui.*
 
 - Niveaux 28–30 (poids 1/3/6) ; base (niv. 28) : PV 246, PA 7, PM 3, Ini 60, For 108 ; par niveau : pv +11, initiative +5, xp +29, force +4.
-- Résistances : Acier +30, Tempête +20, Flamme +10, Givre -15 ; IA `basique` ; XP 530 (+29/niv.) ; écus 29–68.
+- Résistances : Acier +30, Tempête +20, Flamme +10, Givre -15 ; IA `basique` ; XP 530 (+29/niv.) ; brumes 29–68.
 - Sorts : 
   - **Charge d'olifant** (`olifant_charge`, nouveau) : 5 PA, portée 1, 1/tour — 9–13 Acier ; poussee 2. *Trois tonnes de bonne humeur, lancées droit sur vous.* 
   - **Barrissement** (`olifant_barrissement`, nouveau) : 3 PA, portée 0, cercle 2, sans ldv, lanceur exclu, 1/tour, délai 1 — 3–5 Tempête (ennemis) ; −1 PM (1 t) (ennemis). *Le cor d'origine. Les oreilles saignent, les jambes flanchent.*
 - Butin : cuir_d_olifant 55 % ×1–2, ivoire_d_olifant 12 %, cape_en_cuir_d_olifant 4 %, semelles_d_olifant 3 %, cor_d_olifant 1.5 %.
 - Dessin : image `olifant` (échelle 0.9). **Nouveau dessin** : monstre/olifant.svgt, ~86×70 px : éléphant de guerre gris ({{pelage}}/{{pelage_ombre}}) vu de 3/4, quatre défenses, grandes oreilles, caparaçon rouge à bordure dorée sur le dos, petite tête de mort cendrée brodée ; ancre entre les pattes..
 - Note : Le monstre normal le plus solide de l'alpha. Ses groupes viennent avec des Cendrillons qui le soignent.
-- **Élite : Olifant-tour** (`olifant_a_tour`), niveau 33 — *Un olifant qui porte une tour sur le dos. Dans la tour, personne. Il l'a gardée par habitude.* PV 605, PA 8, PM 3, Ini 90, For 138 ; rés. Acier +40, Tempête +30, Flamme +20, Givre -10 ; XP 1228 ; écus 72–170.
+- **Élite : Olifant-tour** (`olifant_a_tour`), niveau 33 — *Un olifant qui porte une tour sur le dos. Dans la tour, personne. Il l'a gardée par habitude.* PV 605, PA 8, PM 3, Ini 90, For 138 ; rés. Acier +40, Tempête +30, Flamme +20, Givre -10 ; XP 1228 ; brumes 72–170.
   - Sorts : `olifant_charge`, `olifant_barrissement`, `olifant_pietinement`
   - **Piétinement** (`olifant_pietinement`, nouveau) : 5 PA, portée 0, cercle 1, sans ldv, lanceur exclu, 1/tour — 10–13 Acier. *Il danse. Personne n'a envie d'être son cavalier.*
   - Butin : cuir_d_olifant 88 % ×2–4, ivoire_d_olifant 48 %, cape_en_cuir_d_olifant 16 %, semelles_d_olifant 13 %, cor_d_olifant 12 %.
@@ -948,7 +948,7 @@ y=4                                                  [Gorges du Troll 16-18 ✦]
 #### Mini-boss : Grondin, Bélier de la Brèche (`grondin`) — niveau 30, carte `hautepierre_4_4`
 *Un bélier de siège à tête de loup, forgé dans les Marches Cendrées. Il avance tout seul. Personne ne veut savoir comment.*
 
-- PV 600, PA 8, PM 2, Ini 80, For 40 ; rés. Acier +35, Flamme +25, Tempête +10, Givre -20, Sacré -10 ; IA `basique` ; XP 3600 ; écus 300–500.
+- PV 600, PA 8, PM 2, Ini 80, For 40 ; rés. Acier +35, Flamme +25, Tempête +10, Givre -20, Sacré -10 ; IA `basique` ; XP 3600 ; brumes 300–500.
 - Groupe fixe : grondin ; réapparition 45–60 s.
 - Sorts : 
   - **Coup de bélier** (`grondin_coup_de_belier`, nouveau) : 5 PA, portée 1, 1/tour — 12–16 Acier ; poussee 2. *Le coup qui a fait trembler la Grande Porte. Vous êtes moins solide qu'une porte.*
@@ -971,7 +971,7 @@ Hautepierre est la cité des humains bâtie sur un éperon rocheux blanc : rempa
 - **4 cartes de ville**, palette `hautepierre` (herbe tirant vers le gris-vert des pavés, murs clairs), sans monstres : la Grand-Place (Pierre de Passage, marchande, forgeron, auberge), la Citadelle de la Tour Blanche (PNJ de l'histoire), la Porte de l'Ouest (temple) et la Porte de l'Est (vers les terres cendrées).
 - **Remparts** : lignes de murs (M) sur les bords des cartes de ville, percées aux sorties ; chaque Porte a un passage de 3 cases encadré de deux tours (décor `tour_de_garde`).
 - **Nouveaux décors** (3×3 sauf mention) : `tour_blanche` (tour haute, toit d'ardoise bleue, bannière à tour blanche ; emprise 3×3 mais dessinée haute), `temple` (fronton, colonnes, soleil doré), `tour_de_garde`, et en 1×1 `fontaine` (bassin rond, statue d'un héros dont personne ne se rappelle le nom), `etal` (étal de marché à toile rayée), `poteau_indicateur` (pour les passages entre zones, voir § 2).
-- **Pierre de Passage** `hautepierre` sur la Grand-Place, **20 écus** (plus loin que les zones de départ), à découvrir.
+- **Pierre de Passage** `hautepierre` sur la Grand-Place, **20 brumes** (plus loin que les zones de départ), à découvrir.
 - Pas de maison du joueur à Hautepierre pour l'alpha (on garde celle de sa zone de départ ; la Pierre y ramène).
 
 ## 7. Variantes Corrompues
@@ -998,7 +998,7 @@ Plus tard (hors alpha), la même règle permettra une « contamination » : une 
 *Un loup des collines qui a mangé quelque chose qu'il n'aurait pas dû, dans la cendre. Il a toujours faim, mais maintenant il fume.*
 
 - Niveaux 13–15 (poids 3/4/3) ; base : PV 69, PA 6, PM 4, Ini 130, For 24, Int 24 ; par niveau : pv +5, initiative +5, xp +16, force +2, intelligence +2.
-- Résistances : Flamme +20, Givre +10, Impie +15, Acier +0, Tempête +0, Sacré -10 ; IA `basique` ; XP 151 ; écus 12–29.
+- Résistances : Flamme +20, Givre +10, Impie +15, Acier +0, Tempête +0, Sacré -10 ; IA `basique` ; XP 151 ; brumes 12–29.
 - Sorts : 
   - `loup_morsure` (existant)
   - **Morsure brûlante** (`cendreux_morsure_brulante`, nouveau) : 3 PA, portée 1, 1/tour — 4–6 Flamme ; poison Flamme 2–3 (2 t). *Ses crocs gardent la chaleur de la Cendre.*
@@ -1009,7 +1009,7 @@ Plus tard (hors alpha), la même règle permettra une « contamination » : une 
 *Un grouilleur descendu des mines dans les gorges cendrées. Son acide a pris feu ; ses pattes aussi, un peu.*
 
 - Niveaux 16–18 (poids 1/3/6) ; base : PV 85, PA 6, PM 3, Ini 90, For 30, Int 30 ; par niveau : pv +6, initiative +5, xp +18, force +2, intelligence +2.
-- Résistances : Flamme +35, Impie +10, Acier +0, Givre -10, Sacré -10 ; IA `basique` ; XP 199 ; écus 14–34.
+- Résistances : Flamme +35, Impie +10, Acier +0, Givre -10, Sacré -10 ; IA `basique` ; XP 199 ; brumes 14–34.
 - Sorts : 
   - `grouilleur_pinces` (existant)
   - **Crachat de feu** (`braise_crachat_de_feu`, nouveau) : 4 PA, portée 2–4, cercle 1, 1/tour — 5–7 Flamme. *L'acide a pris feu. Il en est très fier.*
@@ -1020,7 +1020,7 @@ Plus tard (hors alpha), la même règle permettra une « contamination » : une 
 *Un arbre vivant que la première pluie de cendre a brûlé debout. Il marche encore, il fume, et il est de très mauvaise humeur.*
 
 - Niveaux 19–21 (poids 3/4/3) ; base : PV 140, PA 7, PM 1, Ini 40, For 36, Int 36 ; par niveau : pv +8, initiative +5, xp +23, force +2, intelligence +2.
-- Résistances : Acier +25, Flamme +30, Givre -20, Tempête +0, Sacré -10 ; IA `basique` ; XP 299 ; écus 21–47.
+- Résistances : Acier +25, Flamme +30, Givre -20, Tempête +0, Sacré -10 ; IA `basique` ; XP 299 ; brumes 21–47.
 - Sorts : 
   - `arbre_branche` (existant)
   - `arbre_racines` (existant)
@@ -1234,7 +1234,7 @@ Référence : un joueur seul contre un groupe de 2 monstres de son niveau. Le co
 
 - **Durée visée** : 14.0 h de combat du niveau 1 au niveau 30, dont 2.7 h dans la zone de départ (1 → 12, ~129 combats) et ~366 combats dans Hautepierre (12 → 30).
 - **Alpha 1** : l'XP de combat est multipliée par 3.5 (`Character.XP_RATE`) ; tout le contenu (1 → 30) se fait alors en ~4.0 h de combat, ~4 à 5 h avec les déplacements. On revient à ×1 (~15 h pour les 30 premiers niveaux) quand on testera la vraie progression.
-- **Élites** : niveau = max de la famille + 3, PV ≥ 2× la base, XP × 1,8, écus × 2,5, butin plus fréquent ; **mini-boss** : groupe fixe, réapparition en 60 s au plus (alpha : on doit pouvoir retester ses mécaniques), 2 ou 3 phases de profils différents tirés de son thème (agressif, défensif, mobilité, contrôle), **jamais de soin** à un changement de phase (risque de combat sans fin), trophée de recette.
+- **Élites** : niveau = max de la famille + 3, PV ≥ 2× la base, XP × 1,8, brumes × 2,5, butin plus fréquent ; **mini-boss** : groupe fixe, réapparition en 60 s au plus (alpha : on doit pouvoir retester ses mécaniques), 2 ou 3 phases de profils différents tirés de son thème (agressif, défensif, mobilité, contrôle), **jamais de soin** à un changement de phase (risque de combat sans fin), trophée de recette.
 - **Variantes corrompues** : +10 % d'XP, éléments Flamme, apparaissent après le mini-boss de leur zone (voir §7).
 - **À valider en jeu** : la durée réelle des combats (le modèle suppose 70 % de coups portés) et la vitesse de progression de chaque race, puisque les paliers sont asymétriques entre zones.
 

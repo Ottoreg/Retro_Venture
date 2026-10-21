@@ -159,10 +159,10 @@ l'histoire et de vous faire une faveur en vous laissant l'aider.
 
 | # | Quête | Niv. | PNJ | Objectifs | Récompense |
 |---|---|---|---|---|---|
-| 1 | **Aux armes, citoyens (surtout vous)** | 3 | Pansu | Vaincre 4 frondeurs gobelins ; apporter 3 fiches de paie gobelines. *« Ils sont PAYÉS ?! »* | 5 CR, écus, bottes de marche |
-| 2 | **Le verger de Mère Pomponne** | 6 | Mère Pomponne (2_0) | Vaincre 4 pillards ; apporter 5 paniers de pommes (butin de quête des pillards, 40 %) ; retrouver le Père Pomponne au camp du raid (nouveau PNJ, 2_2), qui ne veut pas rentrer : les gobelins ont des congés payés. | 5 CR, écus, objet existant du palier |
-| 3 | **Les ordres du raid** | 9 | Hubert, sentinelle (3_1) | Apporter 3 ordres de raid (butin des briseurs et pillards) ; les faire lire à Grizzik le déserteur (1_0) : signés d'un « Héraut », avec un post-scriptum « les gobelins ne reviendront pas ». | 5 CR, écus |
-| 4 | **La palissade de Krasbouk** | 12 | Pansu | Vaincre Krasbouk (3_2). Pansu s'attribue la victoire et vous remet un laissez-passer pour Hautepierre « dont vous n'aurez pas besoin, vous êtes avec moi ». | 8 CR, écus, **Écharpe du Héros de Brumerive** (nouvelle, « héros autoproclamé ») |
+| 1 | **Aux armes, citoyens (surtout vous)** | 3 | Pansu | Vaincre 4 frondeurs gobelins ; apporter 3 fiches de paie gobelines. *« Ils sont PAYÉS ?! »* | 5 CR, brumes, bottes de marche |
+| 2 | **Le verger de Mère Pomponne** | 6 | Mère Pomponne (2_0) | Vaincre 4 pillards ; apporter 5 paniers de pommes (butin de quête des pillards, 40 %) ; retrouver le Père Pomponne au camp du raid (nouveau PNJ, 2_2), qui ne veut pas rentrer : les gobelins ont des congés payés. | 5 CR, brumes, objet existant du palier |
+| 3 | **Les ordres du raid** | 9 | Hubert, sentinelle (3_1) | Apporter 3 ordres de raid (butin des briseurs et pillards) ; les faire lire à Grizzik le déserteur (1_0) : signés d'un « Héraut », avec un post-scriptum « les gobelins ne reviendront pas ». | 5 CR, brumes |
+| 4 | **La palissade de Krasbouk** | 12 | Pansu | Vaincre Krasbouk (3_2). Pansu s'attribue la victoire et vous remet un laissez-passer pour Hautepierre « dont vous n'aurez pas besoin, vous êtes avec moi ». | 8 CR, brumes, **Écharpe du Héros de Brumerive** (nouvelle, « héros autoproclamé ») |
 
 ### 3.2 Gobelins — « Le grand raid » (camp ennemi, Crasse-Roc)
 
@@ -171,10 +171,10 @@ les lire.
 
 | # | Quête | Niv. | PNJ | Objectifs | Récompense |
 |---|---|---|---|---|---|
-| 1 | **Objectifs de productivité** | 3 | Grumm | Vaincre 6 rats des galeries ; apporter 5 queues de rat (« le quota »). | 5 CR, écus, objet existant |
-| 2 | **Heures supplémentaires (non payées)** | 6 | Grumm | Vaincre 4 vampipistrelles dans le puits (2_0) ; apporter 3 guanos luisants à Gnark (2_0), qui les vend pour Grumm. | 5 CR, écus |
-| 3 | **Inspection surprise** | 9 | Grumm | Vaincre 4 miliciens de Hautepierre (2_1, 2_2) ; apporter 3 écussons de milice ; parler à Grizzlok le pacifiste (2_2), qui a lu l'ordre de mission en entier : les gobelins du raid servent de **diversion**, et personne n'a prévu de retour. | 5 CR, écus |
-| 4 | **Le Balourd des Abîmes** | 12 | Grumm | Vaincre le Balourd (1_3), qui bloque la grande galerie. Grumm vous nomme « délégué provisoire » et vous envoie à Hautepierre porter un préavis de grève « en main propre au Souverain, ou à quelqu'un de proche ». | 8 CR, écus, **Carte du syndicat** (nouvelle, amulette) |
+| 1 | **Objectifs de productivité** | 3 | Grumm | Vaincre 6 rats des galeries ; apporter 5 queues de rat (« le quota »). | 5 CR, brumes, objet existant |
+| 2 | **Heures supplémentaires (non payées)** | 6 | Grumm | Vaincre 4 vampipistrelles dans le puits (2_0) ; apporter 3 guanos luisants à Gnark (2_0), qui les vend pour Grumm. | 5 CR, brumes |
+| 3 | **Inspection surprise** | 9 | Grumm | Vaincre 4 miliciens de Hautepierre (2_1, 2_2) ; apporter 3 écussons de milice ; parler à Grizzlok le pacifiste (2_2), qui a lu l'ordre de mission en entier : les gobelins du raid servent de **diversion**, et personne n'a prévu de retour. | 5 CR, brumes |
+| 4 | **Le Balourd des Abîmes** | 12 | Grumm | Vaincre le Balourd (1_3), qui bloque la grande galerie. Grumm vous nomme « délégué provisoire » et vous envoie à Hautepierre porter un préavis de grève « en main propre au Souverain, ou à quelqu'un de proche ». | 8 CR, brumes, **Carte du syndicat** (nouvelle, amulette) |
 
 ### 3.3 Elfes — « Ce n'est pas notre guerre » (camp neutre, Sylvebrume)
 
@@ -182,10 +182,10 @@ PNJ principaux : **Elwyn**, gardienne (0_0), et **Feuillemorte**, druide (1_1).
 
 | # | Quête | Niv. | PNJ | Objectifs | Récompense |
 |---|---|---|---|---|---|
-| 1 | **Observer sans intervenir** | 3 | Elwyn | Aller à la Futaie ancienne (1_0) et à la Coupe rase (1_1) ; parler à Feuillemorte. *« Observer, c'est déjà agir. Lentement. »* | 5 CR, écus |
-| 2 | **Les arbres sont nerveux** | 6 | Feuillemorte | Vaincre 4 arbres vivants (« pour les calmer ») ; apporter 3 sèves anciennes (un baume pour Vieux-Branchu, qu'on a coupé). | 5 CR, écus, cape d'écorce |
-| 3 | **Coupe rase** | 9 | Feuillemorte | Vaincre 5 bûcherons de Brumerive ; apporter 3 bons de coupe : signés de Hautepierre, pour des palissades contre les gobelins, eux-mêmes poussés par un « Héraut ». *« Tout le monde a une bonne raison. C'est bien le problème. »* | 5 CR, écus |
-| 4 | **La Mère-Toile** | 12 | Elwyn | Vaincre la Mère-Toile (0_2), dont la toile est devenue grise. Le conseil elfe décide, après trois siècles de délibération, d'envoyer une observatrice à Hautepierre : vous. | 8 CR, écus, **Broche de la Lisière** (nouvelle) |
+| 1 | **Observer sans intervenir** | 3 | Elwyn | Aller à la Futaie ancienne (1_0) et à la Coupe rase (1_1) ; parler à Feuillemorte. *« Observer, c'est déjà agir. Lentement. »* | 5 CR, brumes |
+| 2 | **Les arbres sont nerveux** | 6 | Feuillemorte | Vaincre 4 arbres vivants (« pour les calmer ») ; apporter 3 sèves anciennes (un baume pour Vieux-Branchu, qu'on a coupé). | 5 CR, brumes, cape d'écorce |
+| 3 | **Coupe rase** | 9 | Feuillemorte | Vaincre 5 bûcherons de Brumerive ; apporter 3 bons de coupe : signés de Hautepierre, pour des palissades contre les gobelins, eux-mêmes poussés par un « Héraut ». *« Tout le monde a une bonne raison. C'est bien le problème. »* | 5 CR, brumes |
+| 4 | **La Mère-Toile** | 12 | Elwyn | Vaincre la Mère-Toile (0_2), dont la toile est devenue grise. Le conseil elfe décide, après trois siècles de délibération, d'envoyer une observatrice à Hautepierre : vous. | 8 CR, brumes, **Broche de la Lisière** (nouvelle) |
 
 Fin de l'acte I : la victoire contre le mini-boss débloque aussi ses variantes corrompues (déjà en
 jeu) et l'acte II de son camp.
@@ -234,25 +234,25 @@ reprendre les Reliques et asservir tout le monde, ses propres troupes comprises 
 
 | # | Quête | Niv. | PNJ | Objectifs | Récompense |
 |---|---|---|---|---|---|
-| 1 | **Le tampon officiel** | 14 | Gaspard le Sobre, Intendant (2_1) | Parler au Sergent Mordicus (1_2) ; vaincre 5 détrousseurs ; apporter le tampon officiel (butin de quête, 30 %), sans lequel aucun laissez-passer n'est valable, même le vôtre. | 5 CR, écus |
-| 2 | **Messages interceptés** | 20 | Capitaine Aldebert (2_1) | Vaincre 5 corbacs espions ; apporter 4 messages interceptés ; les faire lire à Pétronille l'archiviste : les raids gobelins n'étaient qu'une **diversion**, le Héraut cherche la Chevalière Sans-Rouille. | 5 CR, écus |
-| 3 | **La vieille garde** | 23 | Pétronille (2_1) | Aller aux ruines de la Vieille Garde (3_1) ; vaincre 4 gargouilles ; parler au Capitaine Pérenne (fantôme), qui a vu le Héraut passer : « il cherchait la Chevalière, et il a dit "après, les humains" ». | 8 CR, écus, **Insigne de la Vieille Garde** (nouveau) |
+| 1 | **Le tampon officiel** | 14 | Gaspard le Sobre, Intendant (2_1) | Parler au Sergent Mordicus (1_2) ; vaincre 5 détrousseurs ; apporter le tampon officiel (butin de quête, 30 %), sans lequel aucun laissez-passer n'est valable, même le vôtre. | 5 CR, brumes |
+| 2 | **Messages interceptés** | 20 | Capitaine Aldebert (2_1) | Vaincre 5 corbacs espions ; apporter 4 messages interceptés ; les faire lire à Pétronille l'archiviste : les raids gobelins n'étaient qu'une **diversion**, le Héraut cherche la Chevalière Sans-Rouille. | 5 CR, brumes |
+| 3 | **La vieille garde** | 23 | Pétronille (2_1) | Aller aux ruines de la Vieille Garde (3_1) ; vaincre 4 gargouilles ; parler au Capitaine Pérenne (fantôme), qui a vu le Héraut passer : « il cherchait la Chevalière, et il a dit "après, les humains" ». | 8 CR, brumes, **Insigne de la Vieille Garde** (nouveau) |
 
 ### 5.2 Gobelins — « Le préavis »
 
 | # | Quête | Niv. | PNJ | Objectifs | Récompense |
 |---|---|---|---|---|---|
-| 1 | **Le convoi de Brokk** | 14 | Brokk, caravanier (4_2) | Vaincre 3 loups cendreux et 3 détrousseurs qui pillent le convoi ; apporter 3 caisses de minerai (butin de quête) : du minerai pour forger… des colliers à gobelins. | 5 CR, écus |
-| 2 | **Droit de passage** | 17 | Snagrod, délégué (2_1) | Vaincre 4 trolls des ponts (« ils ont un péage, nous on n'a même pas de chaise ») ; apporter 2 recettes de troll ; parler à l'Intendant, qui refuse de recevoir Snagrod (mais garde les recettes). | 5 CR, écus |
-| 3 | **Le registre des sacrifiés** | 23 | Snagrod | Vaincre 4 gargouilles au Cimetière (4_1) ; apporter la liste du Héraut (butin de quête) : les gobelins y sont inscrits **en premier**, rubrique « consommables ». Snagrod dépose un préavis contre le Souverain lui-même. | 8 CR, écus, **Brassard du délégué** (nouveau) |
+| 1 | **Le convoi de Brokk** | 14 | Brokk, caravanier (4_2) | Vaincre 3 loups cendreux et 3 détrousseurs qui pillent le convoi ; apporter 3 caisses de minerai (butin de quête) : du minerai pour forger… des colliers à gobelins. | 5 CR, brumes |
+| 2 | **Droit de passage** | 17 | Snagrod, délégué (2_1) | Vaincre 4 trolls des ponts (« ils ont un péage, nous on n'a même pas de chaise ») ; apporter 2 recettes de troll ; parler à l'Intendant, qui refuse de recevoir Snagrod (mais garde les recettes). | 5 CR, brumes |
+| 3 | **Le registre des sacrifiés** | 23 | Snagrod | Vaincre 4 gargouilles au Cimetière (4_1) ; apporter la liste du Héraut (butin de quête) : les gobelins y sont inscrits **en premier**, rubrique « consommables ». Snagrod dépose un préavis contre le Souverain lui-même. | 8 CR, brumes, **Brassard du délégué** (nouveau) |
 
 ### 5.3 Elfes — « Ce n'est (finalement) pas pas notre guerre »
 
 | # | Quête | Niv. | PNJ | Objectifs | Récompense |
 |---|---|---|---|---|---|
-| 1 | **Notes d'observatrice** | 14 | Ilyndra Tel'Hautaine, ambassadrice (2_1) | Parler à Clairon et Maître Ripaille (Grand-Place) et à Frère Bénitier (Porte de l'Ouest) pour son rapport sur « les us humains » ; vaincre 4 détrousseurs ; rapporter sa malle volée (butin de quête). | 5 CR, écus |
-| 2 | **Les arbres qui brûlent** | 20 | Ilyndra | Vaincre 4 arbres calcinés (Bois-Corbeau, Colline Pelée) ; apporter 3 cendres tièdes : la cendre gagne les arbres, la forêt ne sera pas épargnée. | 5 CR, écus |
-| 3 | **Le bal des Cendrillons** | 25 | Ilyndra | Vaincre 3 Cendrillons (camp, 3_3) ; apporter 3 invitations au bal : au programme du bal, « embrasement de Sylvebrume ». Ilyndra demande un siège au Conseil (« pour observer de plus près »). | 8 CR, écus, **Feuille d'argent de l'ambassade** (nouvelle) |
+| 1 | **Notes d'observatrice** | 14 | Ilyndra Tel'Hautaine, ambassadrice (2_1) | Parler à Clairon et Maître Ripaille (Grand-Place) et à Frère Bénitier (Porte de l'Ouest) pour son rapport sur « les us humains » ; vaincre 4 détrousseurs ; rapporter sa malle volée (butin de quête). | 5 CR, brumes |
+| 2 | **Les arbres qui brûlent** | 20 | Ilyndra | Vaincre 4 arbres calcinés (Bois-Corbeau, Colline Pelée) ; apporter 3 cendres tièdes : la cendre gagne les arbres, la forêt ne sera pas épargnée. | 5 CR, brumes |
+| 3 | **Le bal des Cendrillons** | 25 | Ilyndra | Vaincre 3 Cendrillons (camp, 3_3) ; apporter 3 invitations au bal : au programme du bal, « embrasement de Sylvebrume ». Ilyndra demande un siège au Conseil (« pour observer de plus près »). | 8 CR, brumes, **Feuille d'argent de l'ambassade** (nouvelle) |
 
 ## 6. Acte III — L'alliance (début, commun, 25–30)
 
@@ -260,8 +260,8 @@ Condition : l'acte II de son camp terminé. Les trois chaînes convergent dans l
 
 | # | Quête | Niv. | PNJ | Objectifs | Récompense |
 |---|---|---|---|---|---|
-| 1 | **Le Conseil des Peuples Libres** | 26 | Gaspard le Sobre (2_1) | Parler à Gaspard, Snagrod et Ilyndra (le Conseil naît, avec un siège pour les gobelins, qu'ils ont apporté eux-mêmes) ; vaincre 3 olifants de guerre aux Champs du Pèle-Ennemi (3_4), pour prouver que l'alliance tient au moins un combat. | 5 CR, écus |
-| 2 | **La Brèche** | 30 | Capitaine Aldebert (2_1) | Vaincre Grondin, bélier de la Brèche (4_4). Au retour, Pétronille annonce que la Chevalière Sans-Rouille a disparu de la Citadelle : la quête des Reliques commence (suite à l'alpha 2 et en Phase 3). | 8 CR, écus, **Éclat de l'Aube** (nouveau, souvenir de fin d'alpha) |
+| 1 | **Le Conseil des Peuples Libres** | 26 | Gaspard le Sobre (2_1) | Parler à Gaspard, Snagrod et Ilyndra (le Conseil naît, avec un siège pour les gobelins, qu'ils ont apporté eux-mêmes) ; vaincre 3 olifants de guerre aux Champs du Pèle-Ennemi (3_4), pour prouver que l'alliance tient au moins un combat. | 5 CR, brumes |
+| 2 | **La Brèche** | 30 | Capitaine Aldebert (2_1) | Vaincre Grondin, bélier de la Brèche (4_4). Au retour, Pétronille annonce que la Chevalière Sans-Rouille a disparu de la Citadelle : la quête des Reliques commence (suite à l'alpha 2 et en Phase 3). | 8 CR, brumes, **Éclat de l'Aube** (nouveau, souvenir de fin d'alpha) |
 
 ## 7. Option : secondaires de Hautepierre (ouvertes à tous)
 

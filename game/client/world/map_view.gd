@@ -138,7 +138,7 @@ var _equip_refusals := {
 }
 ## Messages affichés pour les voyages refusés (les autres refus : « Le voyage est impossible. »).
 var _travel_refusals := {
-	Protocol.REASON_NOT_ENOUGH_ECUS: "Pas assez d'écus pour ce voyage.",
+	Protocol.REASON_NOT_ENOUGH_ECUS: "Pas assez de brumes pour ce voyage.",
 	Protocol.REASON_PASSAGE_UNKNOWN: "Pierre de Passage pas encore découverte : allez-y à pied et touchez-la.",
 }
 
@@ -1067,7 +1067,7 @@ func _apply(event: Dictionary) -> float:
 		_actors[World.PLAYER_ID]["pos"] = Vector2(event["position"])
 		map_changed.emit()
 		if int(event.get("prix", 0)) > 0:
-			notice.emit("Voyage payé : %d écus." % event["prix"])
+			notice.emit("Voyage payé : %d brumes." % event["prix"])
 		return 0.15
 	if type == Protocol.EVT_TELEPORTED:
 		_actors[event["entite"]]["pos"] = Vector2(event["case"])
