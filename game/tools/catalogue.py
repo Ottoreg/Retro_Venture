@@ -534,7 +534,7 @@ def main():
         utilises.update(v["sorts"])
         siens = [i for i, (voie, _) in crees.items() if voie == v["nom"] and i in sorts]
         if siens:
-            lignes += ["Sorts créés (*Créer un sort*, selon la combinaison des 3 états élémentaires) :", ""]
+            lignes += ["Sorts créés (*Fusion arcanique*, selon la combinaison des 3 états élémentaires) :", ""]
             lignes += table_sorts(siens, {i: crees[i][1] for i in siens}, "Combinaison")
             utilises.update(siens)
 

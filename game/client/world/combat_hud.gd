@@ -139,7 +139,7 @@ class SpellSlot extends Control:
 
 
 ## Une case de la grille de composition : 3 orbes à la couleur des états, le nom du sort que
-## « Créer un sort » en tirerait, et son raccourci.
+## « Fusion arcanique » en tirerait, et son raccourci.
 class CompositionChoice extends Control:
 	signal pressed
 	var states: Array = []
@@ -357,7 +357,7 @@ func _show_spells(spells: Array[Spell]) -> void:
 		else:
 			slot.empty = true
 			slot.usable = false
-			slot.tooltip_text = "Place pour un sort créé (vide)\nChoisissez 3 états élémentaires avec Composition, puis lancez Créer un sort."
+			slot.tooltip_text = "Place pour un sort créé (vide)\nChoisissez 3 états élémentaires avec Composition, puis lancez Fusion arcanique."
 		_spells_box.add_child(slot)
 		_spell_buttons[ids[i]] = slot
 
@@ -393,7 +393,7 @@ func _use_spell(spell_id: String, anchor: Rect2, slot: Control = null) -> void:
 
 
 ## Ouvre la grille des combinaisons de `spell` : chaque case montre ses 3 états et le sort que
-## « Créer un sort » en tirerait ; celle des états actuels est encadrée.
+## « Fusion arcanique » en tirerait ; celle des états actuels est encadrée.
 func open_composition(spell: Spell, anchor: Rect2, slot: Control = null) -> void:
 	close_composition()
 	var fighter := map_view.player_fighter()

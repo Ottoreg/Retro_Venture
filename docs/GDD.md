@@ -327,7 +327,7 @@ l'Arcaniste, dont le kit est entièrement remplacé.
 
 | Voie | Ajout | Sort |
 |---|---|---|
-| **Arcaniste** | Version Flamme / Givre de la refonte (plus bas) : états élémentaires et *Créer un sort*, à la place de ses anciens sorts | *Composition* (1 PA rendu aussitôt : choisit ses 3 états Flamme / Givre dans une grille), *Créer un sort* (2 PA, 1 fois par tour) |
+| **Arcaniste** | Version Flamme / Givre de la refonte (plus bas) : états élémentaires et *Fusion arcanique*, à la place de ses anciens sorts | *Composition* (1 PA rendu aussitôt : choisit ses 3 états Flamme / Givre dans une grille), *Fusion arcanique* (2 PA, 1 fois par tour) |
 | **Guerrier** | Charge | *Charge* : 3 PA, 2 à 4 cases **en ligne**, ligne de vue, relance 2 tours ; fonce jusqu'au contact (ou jusqu'à la case si elle est libre ; un obstacle ou un combattant l'arrête avant) et frappe 6 à 9 Acier, seulement s'il arrive au contact |
 | **Rôdeur** | Piège | *Collet* : 3 PA, 1 à 4 cases, relance 2 tours ; piège invisible, 7 à 10 Acier et −2 PM au prochain tour du premier ennemi qui y entre |
 | **Théologue** | Retrait des états | *Absolution* : 3 PA, 0 à 5 cases, relance 2 tours ; retire aux ennemis leurs bonus, aux alliés leurs malus et leurs poisons |
@@ -342,7 +342,7 @@ au-dessus du sort quand on le clique, au-dessus de la souris quand on le lance p
 clic sur une case, ou sa touche (1 à 4), la choisit, Échap ou un clic ailleurs referme la grille.
 Le choix remplace d'un coup les 3 états, permanents (+4 % de dégâts dans leur élément chacun, ne
 peuvent pas être retirés). Elle remplace *Braise* et *Frimas* (un état par lancer, 3 lancers pour
-une combinaison), jugés fastidieux par les testeurs ; leurs fichiers restent dans `data/sorts/`. Avec 3 états, *Créer un sort* (2 PA, 1 fois par tour) donne le sort de la
+une combinaison), jugés fastidieux par les testeurs ; leurs fichiers restent dans `data/sorts/`. Avec 3 états, *Fusion arcanique* (2 PA, 1 fois par tour) donne le sort de la
 combinaison, qui prend l'une des **2 places** de sorts créés de la barre ; quand les deux sont
 prises, le nouveau chasse le plus ancien (chaque sort créé garde ses propres relances). Tous les
 sorts créés coûtent **4 PA** pendant l'alpha 1 (équilibrage ensuite). Dès le premier tour : 3 états
@@ -357,8 +357,8 @@ créés** au bout des sorts, marquées « ? » tant qu'elles sont vides.
 | Givre ×2 + Flamme | *Armure de givre* | 4 PA, 0 à 3 cases, relance 1 tour : bouclier Givre 14 à 20 et +20 Intelligence 2 tours à un allié |
 | Givre ×3 | *Blizzard* | 4 PA, 1 à 5 cases, cercle de 1 : 6 à 9 Givre et −2 PM au prochain tour aux ennemis |
 
-La **Tempête** viendra après l'alpha 1 (6 combinaisons de plus) : la description de *Créer un
-sort* et le guide des testeurs la laissent deviner. Les effets des phases des boss ne peuvent
+La **Tempête** viendra après l'alpha 1 (6 combinaisons de plus) : la description de *Fusion
+arcanique* et le guide des testeurs la laissent deviner. Les effets des phases des boss ne peuvent
 pas être retirés par *Absolution*. L'IA ne sait pas encore composer les états : dans
 `tools/simulation.gd`, l'Arcaniste joue sans ses sorts créés.
 
@@ -514,11 +514,11 @@ voir plus haut ; la Tempête après)
   garde **3 au plus**, identiques ou mélangés dans n'importe quelle combinaison des trois
   éléments, soit **10 combinaisons**.
 - Chaque effet élémentaire donne un passif de **+4 % de dégâts dans son élément**.
-- Un quatrième sort de classe, *Créer un sort*, donne un sort qui dépend de la combinaison
+- Un quatrième sort de classe, *Fusion arcanique*, donne un sort qui dépend de la combinaison
   d'effets : toujours le même sort pour une même combinaison, avec des effets qui reflètent les
   éléments qui le composent.
-- **Progression par niveau** : l'Arcaniste a déjà 4 sorts dès le départ (3 états et *Créer un
-  sort*), plus ses sorts créés ; il n'apprend donc pas un sort tous les X niveaux comme les autres
+- **Progression par niveau** : l'Arcaniste a déjà 4 sorts dès le départ (*Composition* et *Fusion
+  arcanique*), plus ses sorts créés ; il n'apprend donc pas un sort tous les X niveaux comme les autres
   Voies. Ses niveaux débloquent les **fusions**, en 4 paliers (niveaux à fixer avec la progression
   de l'alpha 2). À la création, le joueur choisit **2 éléments sur 3** (A et B) ; le troisième (C)
   arrive ensuite par petites touches, et reste secondaire une bonne partie de la progression.
