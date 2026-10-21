@@ -182,6 +182,8 @@ Tout le contenu et les systèmes MVP de l'alpha 1 sont faits (chantiers 1, 3, 4 
   `placement` (`j` joueurs, `m` monstres), obligatoire sur les cartes à groupes ; le combat démarre
   sur ces cases quel que soit l'endroit où le groupe est engagé (l'ancien placement près du groupe
   est supprimé) ; calques des 7 cartes existantes, outil `tools/placement.py` pour les proposer
+- [x] Côté de départ tiré au sort à chaque combat : une fois sur deux, joueurs et monstres
+  échangent leurs cases (`World._create_combat`, aussi dans `tools/simulation.gd`)
 - [ ] Afficher aussi les cases de départ des monstres (en rouge) pendant le placement, comme Dofus
 - [x] **(MVP)** Coups critiques (5 % par défaut par sort, bonus « % Critique » d'équipement, × 1,5)
 - [x] **(MVP)** Groupes de 1 à 3 monstres (limite de l'alpha), d'espèces mélangées, tous visibles sur

@@ -135,6 +135,12 @@ func _fight(map: GameMap, group: Dictionary, voie: String) -> Dictionary:
 		character.spend_points(stat_name, mini(character.unspent_points, roundi(points * float(build[stat_name]))))
 	var fighters: Array[Fighter] = []
 	var cells: Array[Vector2i] = map.placement_monsters.duplicate()
+	var placement: Array[Vector2i] = map.placement_players.duplicate()
+	if rng.randi_range(0, 1) == 1 and placement.size() >= GameMap.MAX_GROUP_SIZE:
+		# Côtés tirés au sort, comme en jeu (`World._create_combat`).
+		var swap_sides := cells
+		cells = placement
+		placement = swap_sides
 	for i in range(cells.size() - 1, 0, -1):
 		var k := rng.randi_range(0, i)
 		var swap := cells[i]
@@ -152,7 +158,6 @@ func _fight(map: GameMap, group: Dictionary, voie: String) -> Dictionary:
 	player.hp = player.max_hp
 	player.dommages += int(level) / 5
 	player.ai = CombatAI.BASIC if voie == "guerrier" else CombatAI.RANGED
-	var placement: Array[Vector2i] = map.placement_players.duplicate()
 	player.cell = placement[0]
 	fighters.append(player)
 	var combat := Combat.new(map, fighters, placement, rng.randi())

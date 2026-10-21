@@ -44,14 +44,16 @@ func test_engager_un_groupe() -> void:
 	assert_eq(start[0]["groupe"], "groupe_1")
 	assert_eq(start[0]["combattants"].size(), 2)
 	var placement: Array = start[0]["placement"]
-	assert_eq(placement, Fixtures.placement_cells()["joueurs"], "les cases « j » de la carte")
+	var cells := Fixtures.placement_cells()
+	assert_true(placement == cells["joueurs"] or placement == cells["monstres"], "les cases « j » ou « m » de la carte")
 	assert_true(_world.in_combat())
 	var refused := _world.execute({"type": Protocol.CMD_ENGAGE, "entite": World.PLAYER_ID, "groupe": "groupe_1"})
 	assert_eq(refused[0]["type"], Protocol.EVT_REFUSED, "pas d'exploration pendant un combat")
 
 
 func test_combat_sur_les_cases_de_placement_de_la_carte() -> void:
-	# Comme dans Dofus : où que le groupe soit engagé, le combat démarre sur les cases de la carte.
+	# Comme dans Dofus : où que le groupe soit engagé, le combat démarre sur les cases de la carte,
+	# chaque camp sur les cases d'un côté (tiré au sort).
 	var cells := Fixtures.placement_cells()
 	for group_cell: Vector2i in [Fixtures.center(), GameMap.plan_cell(8, 1), GameMap.plan_cell(0, 8)]:
 		var map := Fixtures.map({group_cell: "1"}, [{"monstres": ["mannequin", "mannequin", "mannequin"]}])
@@ -59,16 +61,31 @@ func test_combat_sur_les_cases_de_placement_de_la_carte() -> void:
 		world.player_voie = "test"
 		_engage(world)
 		assert_true(world.in_combat(), "combat engagé en %s" % group_cell)
+		var player_cells: Array = world.combat.placement_cells
+		var foe_cells: Array = cells["monstres"] if player_cells == cells["joueurs"] else cells["joueurs"]
+		assert_true(player_cells == cells["joueurs"] or player_cells == cells["monstres"], "un côté de la carte")
 		var monster_cells: Array[Vector2i] = []
 		for fighter: Fighter in world.combat.fighters:
 			if fighter.id == World.PLAYER_ID:
-				assert_eq(fighter.cell, cells["joueurs"][0], "le joueur sur la première case « j »")
+				assert_eq(fighter.cell, player_cells[0], "le joueur sur la première case de son côté")
 			else:
-				assert_true(fighter.cell in cells["monstres"], "%s sur une case « m »" % fighter.id)
+				assert_true(fighter.cell in foe_cells, "%s sur une case de l'autre côté" % fighter.id)
 				assert_false(fighter.cell in monster_cells, "une case par monstre")
 				monster_cells.append(fighter.cell)
 		assert_eq(monster_cells.size(), 3)
 		assert_eq(world.position_of(World.PLAYER_ID), group_cell, "en exploration, toujours là où il a engagé")
+
+
+func test_cote_de_depart_tire_au_sort() -> void:
+	var cells := Fixtures.placement_cells()
+	var sides := {}
+	for attempt in 20:
+		var world := _world_with("mannequin")
+		world._combat_count = attempt
+		_engage(world)
+		var placement: Array = world.combat.placement_cells
+		sides[placement == cells["joueurs"]] = true
+	assert_eq(sides.size(), 2, "le joueur commence tantôt côté « j », tantôt côté « m »")
 
 
 func test_engagements_refuses() -> void:

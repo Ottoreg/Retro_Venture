@@ -148,8 +148,8 @@ Les sorts se consultent dans leur fenêtre (S).
 ### Combat (au tour par tour)
 
 1. **Placement** : comme dans Dofus, chaque carte a ses cases de départ, toujours les mêmes, où que
-   vous ayez engagé le groupe : les vôtres (cercles bleus) d'un côté, celles des monstres de
-   l'autre. Cliquez sur un cercle bleu pour choisir votre case, puis **Prêt**. Après le combat, vous
+   vous ayez engagé le groupe : deux côtés, un par camp, et le côté de chacun est **tiré au sort** à
+   chaque combat (les vôtres en cercles bleus). Cliquez sur un cercle bleu pour choisir votre case, puis **Prêt**. Après le combat, vous
    reprenez l'exploration là où vous avez engagé le groupe.
 2. **Votre tour** :
    - se déplacer : clic sur une case verte (1 PM par case) ;

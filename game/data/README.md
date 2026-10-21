@@ -78,6 +78,9 @@ de lignes, mêmes longueurs, espace en tête des lignes décalées) :
 | `m` | Case de départ d'un monstre (les monstres du groupe y sont répartis au hasard) |
 | `.` | Rien |
 
+- Les côtés sont **tirés au sort** à chaque combat : une fois sur deux, les camps échangent leurs
+  cases (le joueur part des `m`, les monstres des `j`). Il faut donc au moins 3 cases `j` pour que
+  l'échange soit possible (sinon le joueur reste côté `j`).
 - **Obligatoire** sur une carte qui a des groupes de monstres : au moins une case `j` et au moins
   3 cases `m` (la taille maximale d'un groupe) ; facultatif ailleurs (maisons).
 - Chaque case `j` ou `m` doit être praticable dans le plan (`.`, `@`, `:` ou un chiffre de groupe).

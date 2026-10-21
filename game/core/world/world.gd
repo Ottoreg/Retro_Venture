@@ -435,13 +435,20 @@ func _engage(command: Dictionary) -> Array[Dictionary]:
 
 ## Combat sur les cases de placement de la carte, comme dans Dofus (`GameMap.placement_players`,
 ## `placement_monsters`), où que le groupe ait été engagé : les monstres sur des cases « m » tirées
-## au hasard, le joueur sur la première case « j », libre d'en changer pendant le placement.
+## au hasard, le joueur sur la première case « j », libre d'en changer pendant le placement. Les
+## côtés sont tirés au sort à chaque combat : une fois sur deux, les camps échangent leurs cases
+## (si les cases « j » suffisent au plus grand groupe).
 func _create_combat(group: Dictionary) -> Combat:
 	var fighters: Array[Fighter] = []
 	var seed_value := hash(map.id) + _combat_count + 1
 	var shuffle := RandomNumberGenerator.new()
 	shuffle.seed = seed_value
 	var monster_cells: Array[Vector2i] = map.placement_monsters.duplicate()
+	var placement: Array[Vector2i] = map.placement_players.duplicate()
+	if shuffle.randi_range(0, 1) == 1 and placement.size() >= GameMap.MAX_GROUP_SIZE:
+		var swap_sides := monster_cells
+		monster_cells = placement
+		placement = swap_sides
 	for i in range(monster_cells.size() - 1, 0, -1):
 		var k := shuffle.randi_range(0, i)
 		var swap := monster_cells[i]
@@ -459,7 +466,6 @@ func _create_combat(group: Dictionary) -> Combat:
 		fighters.append(monster)
 		index += 1
 
-	var placement: Array[Vector2i] = map.placement_players.duplicate()
 	var player := data.create_character_fighter(character, PLAYER_ID)
 	player.cell = placement[0]
 	fighters.append(player)
