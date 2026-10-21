@@ -5,6 +5,8 @@ extends CanvasLayer
 ## tour (en combat) et menus. Aussi : ordre de jeu, messages et écran de fin de combat.
 
 const BAR_HEIGHT := 96
+## Largeur réservée à la minicarte dans la barre du bas.
+const MINIMAP_WIDTH := 236.0
 ## Message quand le sac déborde (butin en surplus).
 const OVERLOAD_TEXT := "Inventaire surchargé ! Faites de la place (vendre, jeter, ranger au coffre) pour pouvoir combattre à nouveau."
 ## Noms courts des éléments pour les résistances du combattant survolé.
@@ -173,6 +175,8 @@ var _overload_label: Label
 var _spell_buttons: Dictionary = {}
 var _shown_spells: Array[String] = []
 var _refresh_time := 0.0
+## Emplacement de la minicarte dans la barre, à gauche des menus (en exploration seulement).
+var minimap_slot: Control
 
 
 func _ready() -> void:
@@ -328,8 +332,14 @@ func _on_spell_pressed(spell_id: String) -> void:
 
 # --- Réactions aux événements de la carte ------------------------------------------------------
 
+## Barre du bas (la minicarte s'y pose).
+func bar() -> Control:
+	return _bar
+
+
 func _on_combat_started() -> void:
 	_result_panel.visible = false
+	minimap_slot.visible = false
 	_turn_button.visible = true
 	_tactical_button.visible = true
 	_tactical_button.set_pressed_no_signal(map_view.tactical)
@@ -457,6 +467,7 @@ func _loot_slot(drop: Dictionary) -> Control:
 
 func _on_exploration_resumed() -> void:
 	_target_id = ""
+	minimap_slot.visible = true
 	_show_target()
 	_turn_button.visible = false
 	_tactical_button.visible = false
@@ -602,6 +613,10 @@ func _build() -> void:
 	_tactical_button.pressed.connect(toggle_tactical)
 	row.add_child(_tactical_button)
 
+	minimap_slot = Control.new()
+	minimap_slot.custom_minimum_size = Vector2(MINIMAP_WIDTH, 0)
+	minimap_slot.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	row.add_child(minimap_slot)
 	row.add_child(VSeparator.new())
 	var menus := GridContainer.new()
 	menus.columns = 3

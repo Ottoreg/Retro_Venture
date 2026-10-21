@@ -5,7 +5,6 @@ extends "res://tests/test_case.gd"
 
 ## Minicarte dépliée au début de chaque test (l'état est gardé dans `Session`, d'un test à l'autre).
 func before_each() -> void:
-	Session.minimap_folded = false
 	Session.tracker_folded = false
 	Session.combat_log_folded = false
 	Options.path = "user://options_tests.cfg"  # Jamais les options du joueur.
@@ -136,7 +135,10 @@ func test_pnj_et_changement_de_carte() -> void:
 	scene.quest_dialog.accept()
 	_run_until_idle(view)
 	assert_true(view.world.character.quests.is_active("brumerive_tutoriel"))
-	assert_true(scene.quest_tracker.is_shown(), "quête suivie sous la minicarte")
+	assert_true(scene.quest_tracker.is_shown(), "quête suivie, dans le bandeau du haut")
+	scene.quest_tracker._process(0.0)
+	var banner: Rect2 = scene.get_node("Hud/Bandeau").get_global_rect()
+	assert_true(scene.quest_tracker.frame_rect().end.y <= banner.end.y, "pas sur la zone de jeu : %s" % scene.quest_tracker.frame_rect())
 	assert_true(scene.quest_tracker.shown_text().contains("Bienvenue à Brumerive"), scene.quest_tracker.shown_text())
 	scene.quest_tracker.set_folded(true)
 	assert_false(scene.quest_tracker._lines.visible, "suivi replié : seulement le nom de la quête")
@@ -200,36 +202,20 @@ func test_le_temps_continue_sans_le_focus() -> void:
 	scene.free()
 
 
-## La minicarte et le suivi des quêtes s'estompent (et laissent passer les clics) quand le
-## personnage du joueur passe dessous.
-func test_minicarte_estompee_sur_le_personnage() -> void:
+## Ni la minicarte ni le suivi des quêtes ne passent sur la zone de jeu : ils restent dans les
+## bordures d'interface (barre du bas, bandeau du haut).
+func test_interface_hors_de_la_zone_de_jeu() -> void:
 	var tree := Engine.get_main_loop() as SceneTree
 	var scene: Node = load("res://client/world/world.tscn").instantiate()
 	tree.root.add_child(scene)
 	var view: MapView = scene.get_node("MapView")
+	var hud: CombatHud = scene.get_node("CombatHud")
 	var minimap: Minimap = scene.get_node("Minimap")
-	var map := view.current_map()
-	view.position = Vector2(32, 80)  # Comme dans une fenêtre de 1280 × 720 (sans affichage, elle diffère).
-	scene._uncover_player()
-	assert_true(minimap.is_shown(), "minicarte affichée en exploration")
-	var rect := minimap.frame_rect()
-	var under := Vector2i(-1, -1)
-	for cell: Vector2i in map.cells():
-		if rect.has_point(view.get_global_transform_with_canvas() * IsoGrid.cell_to_screen(cell)):
-			under = cell
-			break
-	assert_true(map.is_inside(under), "une case de la carte est sous la minicarte")
-	var player: Dictionary = view._actors[World.PLAYER_ID]
-	var home: Vector2 = player["pos"]
-	assert_false(minimap.is_faded(), "personnage loin : minicarte normale")
-	player["pos"] = Vector2(under)
-	scene._uncover_player()
-	assert_true(minimap.is_faded(), "personnage dessous : minicarte estompée")
-	assert_eq(minimap._frame.mouse_filter, Control.MOUSE_FILTER_IGNORE, "les clics passent à la carte")
-	player["pos"] = home
-	scene._uncover_player()
-	assert_false(minimap.is_faded(), "elle revient quand il s'éloigne")
-	assert_eq(minimap._frame.mouse_filter, Control.MOUSE_FILTER_STOP)
+	minimap._place()
+	var bar := hud.bar().get_global_rect()
+	assert_true(bar.encloses(minimap.frame_rect()), "minicarte dans la barre du bas")
+	# Le suivi des quêtes : voir `test_pnj_et_changement_de_carte`.
+	view.advance(0.1)
 	scene.free()
 
 
@@ -841,44 +827,33 @@ func test_carte_du_monde_et_minicarte() -> void:
 	var world_map: WorldMapWindow = scene.get_node("WorldMapWindow")
 	var travel: TravelWindow = scene.get_node("TravelWindow")
 
-	# Minicarte en haut à droite, sous le bandeau du haut ; seul son cadre attrape la souris.
+	# Minicarte dans la barre du bas, à gauche des menus : jamais sur la zone de jeu ; seul son
+	# cadre attrape la souris.
 	assert_true(minimap.is_shown(), "minicarte affichée en exploration")
-	assert_false(minimap.is_folded(), "dépliée au départ")
 	var frame := minimap._frame.get_global_rect()
-	var screen := scene.get_viewport().get_visible_rect()
-	assert_true(frame.position.y >= 65.0, "sous le bandeau du haut : %s" % frame)
-	assert_true(frame.size.x <= 240.0 and frame.size.y <= 180.0, "petit encart : %s" % frame)
-	assert_true(frame.end.x <= screen.end.x and frame.end.x >= screen.end.x - 20.0, "contre le bord droit : %s" % frame)
-	assert_false(frame.has_point(screen.get_center()), "le reste de l'écran est à la carte")
+	var bar := hud.bar().get_global_rect()
+	var slot := hud.minimap_slot.get_global_rect()
+	assert_true(bar.encloses(frame), "dans la barre du bas : %s dans %s" % [frame, bar])
+	assert_eq(frame.position.x, slot.position.x, "sur son emplacement")
+	assert_eq(frame.size.x, slot.size.x)
+	assert_true(minimap.get_index() > hud.get_index(), "dessinée par-dessus la barre")
 	for node in minimap._frame.find_children("*", "Control", true, false):
-		if node != minimap._fold_button and node != minimap._grid:
+		if node != minimap._grid:
 			assert_eq((node as Control).mouse_filter, Control.MOUSE_FILTER_IGNORE, "%s laisse passer la souris" % node.name)
 	assert_eq(minimap._grid.mouse_filter, Control.MOUSE_FILTER_PASS, "bulle de survol, clic au cadre")
 	assert_eq(minimap._coordinates.text, "0, 0", "coordonnées de la carte")
 	assert_eq(minimap._zone_name.text, "Brumerive")
-	# Version réduite de la carte du monde : 5 × 5 cartes, la carte actuelle au milieu.
+	# Version réduite de la carte du monde : 5 × 3 cartes, la carte actuelle au milieu.
 	var near := minimap.shown_layout()
-	assert_eq([near["colonnes"], near["lignes"]], [5, 5])
+	assert_eq([near["colonnes"], near["lignes"]], [5, 3])
 	var near_cases := {}
 	for case: Dictionary in near["cases"]:
 		near_cases[case["id"]] = case
-	assert_eq(near_cases["brumerive_0_0"]["case"], Vector2i(2, 2), "la place du village au milieu")
+	assert_eq(near_cases["brumerive_0_0"]["case"], Vector2i(2, 1), "la place du village au milieu")
 	assert_true(near_cases["brumerive_0_0"]["actuelle"])
-	assert_eq(near_cases["brumerive_1_0"]["case"], Vector2i(3, 2), "les champs à droite")
+	assert_eq(near_cases["brumerive_1_0"]["case"], Vector2i(3, 1), "les champs à droite")
 	assert_eq(near_cases["brumerive_1_0"]["nom"], "Champs de l'est", "pas encore visités, mais montrés")
 	assert_eq(minimap._grid.case_tooltip(near_cases["brumerive_0_0"]).get_slice("\n", 0), "Brumerive — Place du village  [0, 0]")
-	# La bulle de survol (dans Hud) passe devant la minicarte : Hud vient après dans l'arbre.
-	assert_true(scene.get_node("Hud").get_index() > minimap.get_index(), "bulle de survol au-dessus de la minicarte")
-
-	# Bouton « – » : la minicarte se replie (il ne reste que sa barre), le coin de la carte est dégagé.
-	minimap._fold_button.pressed.emit()
-	assert_true(minimap.is_folded())
-	assert_true(minimap.is_shown(), "la barre reste")
-	assert_false(minimap._grid.visible, "plus de dessin")
-	var folded := minimap._frame.get_global_rect()
-	assert_true(folded.size.y <= 32.0, "seulement la barre : %s" % folded)
-	assert_eq(folded.end.x, frame.end.x, "toujours contre le bord droit")
-	assert_eq(minimap._fold_button.text, "+")
 
 	# Touche M : la carte du monde s'ouvre sur la zone actuelle ; M la referme.
 	var key := InputEventKey.new()
@@ -938,16 +913,12 @@ func test_carte_du_monde_et_minicarte() -> void:
 	assert_eq(view.world.map.id, "brumerive_1_0")
 	assert_eq(minimap.center_map(), "brumerive_1_0", "la minicarte se recentre sur la nouvelle carte")
 	assert_eq(minimap._coordinates.text, "1, 0")
-	assert_true(minimap.is_folded() and not minimap._grid.visible, "toujours repliée sur la nouvelle carte")
-	minimap._fold_button.pressed.emit()
-	assert_false(minimap.is_folded())
-	assert_true(minimap._grid.visible, "dépliée de nouveau")
 	near_cases = {}
 	for case: Dictionary in minimap.shown_layout()["cases"]:
 		near_cases[case["id"]] = case
-	assert_eq(near_cases["brumerive_1_0"]["case"], Vector2i(2, 2))
+	assert_eq(near_cases["brumerive_1_0"]["case"], Vector2i(2, 1))
 	assert_true(near_cases["brumerive_0_0"]["visitee"] and not near_cases["brumerive_0_0"]["actuelle"])
-	assert_eq(near_cases["brumerive_0_0"]["case"], Vector2i(1, 2), "la place, maintenant à gauche")
+	assert_eq(near_cases["brumerive_0_0"]["case"], Vector2i(1, 1), "la place, maintenant à gauche")
 	assert_eq(minimap._frame.get_global_rect().size.y, frame.size.y, "à sa taille d'avant")
 	world_map.open()
 	cases = _world_map_cases(world_map)
@@ -976,7 +947,6 @@ func test_carte_du_monde_et_minicarte() -> void:
 	world_map.open()
 	assert_false(world_map.is_open(), "pas de carte du monde en combat")
 	scene.free()
-	Session.minimap_folded = false
 
 
 func test_minicarte_dans_une_maison_et_au_trone_de_cendre() -> void:
@@ -991,7 +961,7 @@ func test_minicarte_dans_une_maison_et_au_trone_de_cendre() -> void:
 	assert_eq(minimap.center_map(), "brumerive_0_0", "la place du village, devant la porte")
 	assert_true(minimap._grid.indoors)
 	var center: Dictionary = minimap.shown_layout()["cases"].filter(func(c: Dictionary) -> bool: return c["actuelle"])[0]
-	assert_eq(center["case"], Vector2i(2, 2))
+	assert_eq(center["case"], Vector2i(2, 1))
 	assert_true(minimap._grid.case_tooltip(center).ends_with("Vous êtes dans une maison de cette carte."))
 	scene.free()
 	# Trône de Cendre : une carte isolée, seule au milieu de la minicarte.

@@ -255,14 +255,6 @@ func actor(actor_id: String) -> Dictionary:
 	return _actors.get(actor_id, {}).duplicate()
 
 
-## Position à l'écran (coordonnées du canevas) des pieds du personnage du joueur, ou `null`
-## s'il n'est pas affiché.
-func player_screen_position() -> Variant:
-	if not _actors.has(World.PLAYER_ID):
-		return null
-	return get_global_transform_with_canvas() * IsoGrid.grid_to_screen(_actors[World.PLAYER_ID]["pos"])
-
-
 ## Combattant du joueur dans le noyau (pour les sorts), ou `null` hors combat.
 func player_fighter() -> Fighter:
 	if world.combat == null:

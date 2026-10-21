@@ -11,7 +11,7 @@ extends SceneTree
 ## une phase pour l'occasion et passe sous son seuil : message et texte flottant), « reveil » (combat
 ## perdu contre le premier groupe : réveil près de la Pierre de Passage du point de résurrection, à
 ## lancer par exemple sur brumerive_1_0), « carte » (ouvre la carte du monde ; la minicarte, elle,
-## est visible sur toute capture en exploration), « repliee » (minicarte repliée), « tactique »
+## est visible sur toute capture en exploration), « tactique »
 ## (comme « cible », en mode tactique), « pause » (menu pause), « options » (fenêtre des options),
 ## « quete » (le premier PNJ qui propose une quête : sa proposition), « journal » (cette quête
 ## acceptée, le journal ouvert ; le suivi est sous la minicarte), « historique » (combat, deux tours
@@ -41,7 +41,6 @@ func _initialize() -> void:
 		Session.new_character = Character.create("Frère Tuck", "humain", "theologue")
 	if _action == "arcaniste":
 		Session.new_character = Character.create("Mirabelle", "humain", "arcaniste")
-	Session.minimap_folded = _action == "repliee"
 	# Réglages par défaut (ceux du joueur ne comptent pas), mode tactique si demandé.
 	Options.reset()
 	Options.tactical = _action == "tactique"
@@ -151,8 +150,6 @@ func _process(_delta: float) -> bool:
 			_scene.get_node("SpellsWindow").toggle()
 		elif _action == "carte":
 			_scene.get_node("WorldMapWindow").open()
-		elif _action == "repliee":
-			pass  # Minicarte repliée dès le départ (voir `_initialize`).
 		elif _action in ["quete", "journal"]:
 			for npc in view.current_map().npcs:
 				if view.world.quest_book.marker(npc["id"]) == QuestBook.MARKER_AVAILABLE:

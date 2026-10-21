@@ -2,7 +2,7 @@ class_name QuestsWindow
 extends CanvasLayer
 ## Journal des quêtes (touche Q) : les quêtes en cours (la suivie d'abord) puis terminées ; pour
 ## celle choisie, son donneur, son texte, l'étape, les objectifs cochés, les récompenses, et
-## « Suivre » (affichée sous la minicarte).
+## « Suivre » (affichée dans le bandeau du haut).
 
 const CATEGORY_NAMES := {"tutoriel": "Tutoriel", "principale": "Quête principale", "secondaire": "Quête secondaire"}
 const DONE_COLOR := Color(0.55, 0.75, 0.45)

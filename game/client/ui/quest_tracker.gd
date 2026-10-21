@@ -1,16 +1,20 @@
 class_name QuestTracker
 extends CanvasLayer
-## Suivi de la quête choisie, sous la minicarte (en exploration) : son nom et les objectifs de
-## l'étape, cochés au fur et à mesure, en petit pour ne pas cacher la carte. Le bouton « – » le
-## replie (il ne reste que le nom de la quête) ; un clic ailleurs ouvre le journal.
+## Suivi de la quête choisie, à droite du bandeau du haut (en exploration) : jamais sur la zone de
+## jeu. Son nom et les objectifs de l'étape qui restent à faire (MAX_LINES au plus, le nombre des
+## autres après le nom). Le bouton « – » le replie (il ne reste que le nom de la quête) ; un clic
+## ailleurs ouvre le journal.
 
 signal pressed
 
-const WIDTH := 196.0
-const GAP := 4.0
+const WIDTH := 380.0
+## Distance au bord droit et au haut de l'écran (le bandeau fait 62 pixels de haut).
+const MARGIN_RIGHT := 12.0
+const TOP := 4.0
+## Objectifs montrés au plus (pour tenir dans le bandeau).
+const MAX_LINES := 2
 
 var map_view: MapView
-var minimap: Minimap
 var _frame: PanelContainer
 var _title: Label
 var _lines: Label
@@ -22,9 +26,8 @@ func _ready() -> void:
 	_frame.visible = false
 
 
-func setup(p_map_view: MapView, p_minimap: Minimap) -> void:
+func setup(p_map_view: MapView) -> void:
 	map_view = p_map_view
-	minimap = p_minimap
 	map_view.quests_changed.connect(func(_journal: Dictionary) -> void: refresh())
 	map_view.combat_started.connect(refresh)
 	map_view.exploration_resumed.connect(refresh)
@@ -34,17 +37,6 @@ func setup(p_map_view: MapView, p_minimap: Minimap) -> void:
 
 func is_shown() -> bool:
 	return _frame.visible
-
-
-## Estompé et transparent aux clics quand le personnage du joueur passe dessous (voir
-## `WorldScene._uncover_player`) : la carte reste visible et cliquable sous le cadre.
-func set_faded(faded: bool) -> void:
-	_frame.modulate.a = Minimap.FADED_ALPHA if faded else 1.0
-	_frame.mouse_filter = Control.MOUSE_FILTER_IGNORE if faded else Control.MOUSE_FILTER_STOP
-
-
-func is_faded() -> bool:
-	return _frame.modulate.a < 1.0
 
 
 ## Rectangle du cadre à l'écran.
@@ -77,10 +69,15 @@ func refresh() -> void:
 	_frame.visible = not tracked.is_empty() and map_view.mode == MapView.Mode.EXPLORATION
 	if tracked.is_empty():
 		return
-	_title.text = tracked["nom"]
+	# Les objectifs à faire d'abord ; tous faits (étape en train de se valider) : les derniers.
+	var objectives: Array = tracked["objectifs"].filter(func(o: Dictionary) -> bool: return not o["fait"])
+	if objectives.is_empty():
+		objectives = tracked["objectifs"]
 	var lines: PackedStringArray = []
-	for objective: Dictionary in tracked["objectifs"]:
+	for objective: Dictionary in objectives.slice(0, MAX_LINES):
 		lines.append(("✔ " if objective["fait"] else "• ") + objective["texte"])
+	var hidden := objectives.size() - MAX_LINES
+	_title.text = tracked["nom"] + ("  (+%d)" % hidden if hidden > 0 else "")
 	_lines.text = "\n".join(lines)
 	_lines.visible = not Session.tracker_folded
 	_fold.text = "+" if Session.tracker_folded else "–"
@@ -89,13 +86,8 @@ func refresh() -> void:
 
 
 func _process(_delta: float) -> void:
-	# Juste sous la minicarte (qui change de taille quand on la replie).
-	if _frame.visible and minimap != null:
-		var top := Minimap.TOP
-		if minimap.is_shown():
-			var rect := minimap.frame_rect()
-			top = rect.end.y + GAP
-		_frame.position = Vector2(get_viewport().get_visible_rect().size.x - Minimap.MARGIN_RIGHT - WIDTH, top)
+	if _frame.visible:
+		_frame.position = Vector2(get_viewport().get_visible_rect().size.x - MARGIN_RIGHT - WIDTH, TOP)
 
 
 func _on_input(event: InputEvent) -> void:
@@ -107,11 +99,11 @@ func _on_input(event: InputEvent) -> void:
 func _build() -> void:
 	_frame = PanelContainer.new()
 	var style := StyleBoxFlat.new()
-	style.bg_color = Color(0.1, 0.08, 0.05, 0.82)
+	style.bg_color = Color(0.1, 0.08, 0.05, 0.6)
 	style.border_color = Color(0.55, 0.42, 0.22)
 	style.set_border_width_all(1)
 	style.set_corner_radius_all(4)
-	style.set_content_margin_all(5)
+	style.set_content_margin_all(3)
 	_frame.add_theme_stylebox_override("panel", style)
 	_frame.custom_minimum_size = Vector2(WIDTH, 0)
 	_frame.tooltip_text = "Journal des quêtes (Q)"
@@ -119,7 +111,7 @@ func _build() -> void:
 	add_child(_frame)
 	var column := VBoxContainer.new()
 	column.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	column.add_theme_constant_override("separation", 1)
+	column.add_theme_constant_override("separation", 0)
 	_frame.add_child(column)
 	var header := HBoxContainer.new()
 	header.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -142,7 +134,7 @@ func _build() -> void:
 	_lines = Label.new()
 	_lines.add_theme_font_size_override("font_size", 11)
 	_lines.add_theme_color_override("font_color", UiTheme.TEXT)
-	_lines.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_lines.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	_lines.custom_minimum_size = Vector2(WIDTH - 10, 0)
 	_lines.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	column.add_child(_lines)

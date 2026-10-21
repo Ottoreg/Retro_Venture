@@ -40,7 +40,7 @@ nous faire vos retours. Le jeu n'affiche volontairement presque aucune aide à l
    Grondin (niveau 30).
 4. En chemin, **5 quêtes secondaires par zone**, ouvertes à tous les camps : allez voir les zones
    des autres peuples.
-5. La quête suivie s'affiche sous la minicarte ; le journal s'ouvre avec **Q**.
+5. La quête suivie s'affiche en haut à droite ; le journal s'ouvre avec **Q**.
 
 Créer un deuxième personnage d'une autre race ou d'une autre Voie est très utile si vous avez le
 temps : chaque camp a sa propre histoire.
@@ -107,16 +107,13 @@ bandeau, hors combat, ouvre sa fiche.
 
 ### Minicarte et carte du monde
 
-- **Minicarte** (en haut à droite, en exploration seulement), comme dans Dofus Rétro : la carte du
-  monde en réduit, **5 × 5 cartes autour de vous**. Votre carte est au milieu (cadre doré, point
+- **Minicarte** (dans la barre du bas, à gauche des menus, en exploration seulement), comme dans Dofus Rétro : la carte du
+  monde en réduit, **5 × 3 cartes autour de vous**. Votre carte est au milieu (cadre doré, point
   bleu) ; les autres cartes sont des cases claires, les traits sont les passages entre cartes, le
   losange bleu une Pierre de Passage. Survolez
   une case pour son nom. En haut, le nom de la zone et les coordonnées de la carte ; dans une maison,
   elle montre la carte devant la porte. Un **clic** dessus ouvre la carte du monde. Elle disparaît en
-  combat (l'ordre de jeu prend sa place). Quand votre personnage passe dessous, elle s'estompe (le
-  suivi des quêtes aussi) et vous pouvez cliquer au travers. Pour voir un groupe ou un PNJ caché
-  dessous, **repliez-la** avec le petit bouton **« – »** de sa barre (« + » pour la déplier) ; elle
-  reste repliée d'une carte à l'autre.
+  combat.
 - **Carte du monde** (touche **M**, bouton en forme de carte du bandeau, ou clic sur la minicarte) :
   **tout le monde est montré dès le début**, comme dans Dofus : un onglet par zone du jeu, ouvert
   sur la zone actuelle, avec le nombre de cartes que vous y avez visitées. Chaque carte est une case
@@ -194,7 +191,7 @@ le **lit** de votre maison les rend tous d'un coup.
   proposition s'affiche (texte, objectifs, récompenses) avec « Accepter » ou « Plus tard ».
 - Un **« ? »** jaune : il attend quelque chose de vous maintenant (lui parler, lui rapporter des
   objets) ; un **« ? »** gris : sa quête est en cours.
-- La quête suivie s'affiche **sous la minicarte**, en petit (clic : le journal, touche **Q** ;
+- La quête suivie s'affiche **en haut à droite**, dans le bandeau, en petit (clic : le journal, touche **Q** ;
   le bouton **« – »** la replie pour ne garder que son nom). Chaque objectif qui avance s'annonce
   en bas de l'écran.
 - On rend une quête en parlant au personnage une fois les autres objectifs remplis (les objets

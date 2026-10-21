@@ -8,9 +8,7 @@ static var new_character: Character = null
 static var continue_game := false
 ## Carte de départ imposée (outils de capture d'écran), ou "" pour celle de la race.
 static var start_map := ""
-## Minicarte repliée par le joueur (gardé pendant la partie, pas dans la sauvegarde).
-static var minimap_folded := false
-## Suivi de quête replié (même règle que la minicarte).
+## Suivi de quête replié par le joueur (gardé pendant la partie, pas dans la sauvegarde).
 static var tracker_folded := false
 ## Historique de combat replié (même règle).
 static var combat_log_folded := false

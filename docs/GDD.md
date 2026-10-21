@@ -711,10 +711,10 @@ prévoit déjà `voie` et `rang` sur chaque sort** pour que le système s'ajoute
   et la grille s'adapte à la taille de la zone. Les Pierres de Passage y figurent ; les
   intérieurs, sans coordonnées, n'y sont pas. (`WorldMapLayout` sait encore cacher les cartes non
   visitées, en « ? » pour leurs voisines, si l'on en veut un jour.) La minicarte, comme dans Dofus
-  Rétro, est la carte du monde en réduit : une fenêtre fixe de 5 × 5 cartes centrée sur la carte
+  Rétro, est la carte du monde en réduit : une fenêtre fixe de 5 × 3 cartes centrée sur la carte
   actuelle (cadre doré, point bleu), avec les cartes, les chemins et les Pierres de Passage ; une
-  carte tient sur un écran, inutile de la redessiner en petit. Survol : le nom de la carte ; un clic ouvre la carte du monde, un bouton la
-  replie.
+  carte tient sur un écran, inutile de la redessiner en petit. Survol : le nom de la carte ; un clic ouvre la carte du monde. Elle
+  est dans la barre du bas, jamais sur la zone de jeu (§ 14).
 - **Point de résurrection** : la dernière Pierre de Passage touchée (au départ, celle de la zone de
   départ). *Fait :* après une défaite, on se réveille à côté d'elle avec 1 PV, même si elle est sur
   une autre carte que le combat ; la fenêtre de voyage la rappelle. *À venir :* les temples.
@@ -1030,7 +1030,7 @@ ingrédients).
   8 types d'objectifs (parler, vaincre, vaincre un boss, récolter, fabriquer, apporter, équiper,
   aller), le **butin de quête** (un objet qui ne tombe que pendant la quête qui le demande), les
   objets de quête, l'XP comptée en « combats de référence » (× `Character.XP_RATE`), les marques
-  `!` / `?`, la proposition (Accepter / Plus tard), le journal (Q) et le suivi sous la minicarte.
+  `!` / `?`, la proposition (Accepter / Plus tard), le journal (Q) et le suivi dans le bandeau du haut.
   Les objectifs « parler » et « apporter » se remplissent en dernier (on rend la quête). Contenu
   produit : les 3 tutoriels, l'acte I et l'acte II des trois camps, et le début de l'acte III
   (le Conseil des Peuples Libres, puis Grondin à la Brèche ; la Chevalière Sans-Rouille disparaît :
@@ -1186,11 +1186,12 @@ ingrédients).
   rythme, pour rester lisibles.
 - **Fenêtres :** inventaire avec poupée d'équipement, fiche de caractéristiques, grimoire de sorts,
   journal de quêtes, fenêtre de métier, carte du monde (touche M).
-- **Minicarte** en haut à droite, sous le bandeau du haut, en exploration seulement (en combat, la
-  place revient à l'ordre de jeu) : la carte du monde en réduit autour de la carte actuelle (5 × 5
-  cartes) ; un clic dessus ouvre la carte du monde, et un bouton « – » la replie (il ne reste que
-  sa barre) quand elle cache un monstre ou un PNJ. Quand le personnage passe sous la minicarte ou
-  le suivi des quêtes, ils s'estompent et laissent passer les clics vers la carte.
+- **Aucune interface sur la zone de jeu** : la carte tient entre le bandeau du haut et la barre du
+  bas, et les encarts permanents vont dans ces bordures.
+- **Minicarte** dans la barre du bas, à gauche des menus, en exploration seulement (en combat, la
+  place revient aux boutons du combat) : la carte du monde en réduit autour de la carte actuelle
+  (5 × 3 cartes) ; un clic dessus ouvre la carte du monde. **Suivi de la quête** à droite du
+  bandeau du haut : son nom et deux objectifs à faire au plus (« (+n) » s'il en reste d'autres).
 - **En combat :** frise d'initiative, prévisualisation de portée et de zone, dégâts estimés au survol,
   bouton « fin de tour ». Au survol d'un combattant, ses informations (nom, niveau, PV, PA, PM,
   résistances aux 6 éléments) remplacent la barre de sorts, comme dans Dofus Rétro.

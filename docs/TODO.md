@@ -128,7 +128,8 @@ Tout le contenu et les systèmes MVP de l'alpha 1 sont faits (chantiers 1, 3, 4 
   combat, couleurs des éléments, survol des glyphes et pièges (GDD § 14.3) ; aide des
   caractéristiques corrigée
 - [x] Retours de tests, lot 1 : le jeu tourne sans le focus (temps réel rattrapé, `MapView._real_delta`),
-  minicarte et suivi des quêtes estompés sous le personnage, halo blanc sur les cases de sortie
+  minicarte dans la barre du bas et suivi des quêtes dans le bandeau du haut (plus rien sur la
+  zone de jeu ; minicarte 5 × 3, plus de bouton pour la replier), halo blanc sur les cases de sortie
   praticables et flèche alignée sur l'une d'elles (`GameMap.exit_cells`)
 - [ ] Gel vu contre Grondin (une fois, non reproduit en 20 combats simulés jusqu'aux 3 phases) :
   attendre un retour avec la console du navigateur

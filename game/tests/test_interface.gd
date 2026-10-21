@@ -8,7 +8,6 @@ func before_each() -> void:
 	Options.path = TEST_OPTIONS
 	Options.reset()
 	DirAccess.remove_absolute(TEST_OPTIONS)
-	Session.minimap_folded = false
 
 
 func _run_until_idle(view: MapView) -> void:
