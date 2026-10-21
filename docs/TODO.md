@@ -537,7 +537,8 @@ Tout le contenu et les systèmes MVP de l'alpha 1 sont faits (chantiers 1, 3, 4 
   compétence (Chef-d'œuvre, Pièce de maître, Façonnage libre) ; score par statistique ; limites par
   ligne, par objet, par statistique et nombre de lignes, selon le niveau de l'objet ; coût en
   ressources de l'élément de chaque statistique (lâchées par les monstres de cet élément) ;
-  liste de patrons en plus des recettes classiques ; trancher les questions ouvertes (jets, armes,
+  liste de patrons en plus des recettes classiques ; nom composé à partir de listes de mots
+  (type d'objet, statistiques, ressources du craft) ; signature « Créé par [pseudo] » ; trancher les questions ouvertes (jets, armes,
   objets liés, forgemagie, niveau de métier requis)
 
 ### Monde

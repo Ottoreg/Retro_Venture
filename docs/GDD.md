@@ -1093,6 +1093,23 @@ patron enregistre l'emplacement, le niveau, les lignes de statistiques et la rec
 qui en découle. Les patrons s'ajoutent aux **recettes classiques** données par le jeu (§ 10.2) ; on
 les refabrique sans tout redéfinir.
 
+**Nom de l'objet.** Le joueur ne tape pas un nom libre : le jeu lui propose des **listes de mots**
+tirées de l'objet, qu'il combine.
+
+- **Type d'objet** (selon l'emplacement) : pour une coiffe, « Coiffe », « Chapeau », « Bonnet »,
+  « Couvre-chef »… ;
+- **une liste par statistique ajoutée** : Intelligence → « flamboyant », « torride », « chaleureux »,
+  « enflammé »… ; PA → « rapide », « agile », « fulgurant »… ;
+- **une liste par ressource du craft** : si la recette demande des morilles, « de la Morille »,
+  « grincheux »… (les mots suivent le nom et le ton parodique de la ressource).
+
+Exemple : une coiffe d'Intelligence et +1 PA fabriquée avec des morilles peut s'appeler « Bonnet
+fulgurant de la Morille » ou « Chapeau torride grincheux ». Les mots s'accordent en genre avec le
+type choisi. Le nom est enregistré dans le patron.
+
+**Signature de l'artisan.** Un objet personnalisé est **toujours signé** : à la place du texte
+d'ambiance habituel, sa fiche affiche « Créé par [pseudo de l'artisan] ».
+
 **Questions ouvertes :**
 
 - les objets personnalisés ont-ils des **jets** (§ 9.2) ou des valeurs fixes ? piste : valeurs
