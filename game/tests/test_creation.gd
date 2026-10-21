@@ -46,6 +46,15 @@ func test_le_personnage_cree_arrive_dans_le_monde() -> void:
 	view.world.character.add_xp(80)
 	view.send_command({"type": Protocol.CMD_SPEND_POINTS, "entite": World.PLAYER_ID, "carac": "agilite", "points": 1})
 	assert_eq(sheet._stat_values["agilite"].text, str(agility_before + 1), "un point investi de plus")
+	var tooltip: String = sheet._stat_values["agilite"].tooltip_text
+	assert_true(tooltip.contains("Points investis : 1"), tooltip)
+	assert_true(tooltip.contains("Arc de frêne"), "l'arc de départ dans la provenance : " + tooltip)
+	assert_false(sheet._reset_button.disabled, "un point investi : réinitialisation possible")
+	sheet._on_reset_confirmed()
+	assert_eq(sheet._stat_values["agilite"].text, str(agility_before), "point rendu")
+	assert_eq(sheet._points_label.text, "Points à répartir : %d" % Character.POINTS_PER_LEVEL)
+	assert_true(sheet._reset_button.disabled, "plus rien à rendre")
+	view.send_command({"type": Protocol.CMD_SPEND_POINTS, "entite": World.PLAYER_ID, "carac": "agilite", "points": 1})
 	scene.free()
 
 	# Reprise de la partie sauvegardée.
@@ -91,6 +100,19 @@ func test_fenetre_d_inventaire() -> void:
 	assert_eq(window._slot_buttons["arme"].text, "—")
 	window._on_equip_pressed()
 	assert_eq(inventory.equipped.get("arme"), sword, "épée remise")
+
+	# Double-clic : retirer puis équiper ; glisser : du sac vers l'emplacement, et retour au sac.
+	window.toggle_worn(sword)
+	assert_false(inventory.equipped.has("arme"), "double-clic sur l'épée portée : retirée")
+	window.toggle_worn(sword)
+	assert_eq(inventory.equipped.get("arme"), sword, "double-clic sur l'épée du sac : équipée")
+	window._drop_on_bag(Vector2.ZERO, {"objet": sword, "emplacement": "arme"})
+	assert_false(inventory.equipped.has("arme"), "épée glissée vers le sac : retirée")
+	var dragged := {"objet": sword, "emplacement": ""}
+	assert_false(window.can_drop_on_slot(dragged, "coiffe"), "une épée ne va pas sur la tête")
+	assert_true(window.can_drop_on_slot(dragged, "arme"))
+	window.drop_on_slot(dragged, "arme")
+	assert_eq(inventory.equipped.get("arme"), sword, "épée glissée sur l'emplacement d'arme : équipée")
 
 	# Détail de l'épée : ses jets, et les jets possibles tant qu'on tient Ctrl.
 	window._selected = sword

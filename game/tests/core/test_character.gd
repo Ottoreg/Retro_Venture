@@ -115,3 +115,34 @@ func test_initiative_et_prospection_dans_la_fiche() -> void:
 	assert_eq(sheet["initiative"], fighter.initiative, "même initiative qu'en combat")
 	assert_eq(sheet["prospection"], fighter.prospection)
 	assert_eq(sheet["initiative"], character.initiative(data))
+
+
+func test_reinitialiser_les_points() -> void:
+	var hero := Character.create("Hector", "humain", "guerrier")
+	hero.add_xp(Character.xp_for_level(3))
+	hero.spend_points("force", 4)
+	hero.spend_points("vitalite", 3)
+	assert_eq(hero.unspent_points, 2 * Character.POINTS_PER_LEVEL - 7)
+	assert_eq(hero.reset_points(), 7, "7 points rendus")
+	assert_eq(hero.unspent_points, 2 * Character.POINTS_PER_LEVEL)
+	assert_eq(hero.stat("force"), 0)
+	assert_eq(hero.reset_points(), 0, "rien à rendre")
+
+
+func test_provenance_des_caracteristiques() -> void:
+	var data := Fixtures.data()
+	var character := Fixtures.character()
+	character.add_xp(500)
+	character.spend_points("force", 2)
+	var sources := character.stat_sources("force", data)
+	assert_eq(sources["points"], 2)
+	assert_eq(sources["points"] + sources["race"] + sources["equipement"] + sources["panoplie"], character.stat("force", data),
+		"la provenance fait le total")
+	var objects_total := 0
+	for item: Array in sources["objets"]:
+		objects_total += int(item[1])
+	assert_eq(objects_total, sources["equipement"], "détail objet par objet")
+	var sheet := character.sheet(data)
+	assert_eq(sheet["provenance"]["force"], sources)
+	assert_true(sheet["provenance"].has("pa"), "provenance des bonus d'équipement aussi")
+	assert_eq(sheet["investis"], {"force": 2})

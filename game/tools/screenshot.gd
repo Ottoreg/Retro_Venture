@@ -144,6 +144,11 @@ func _process(_delta: float) -> bool:
 				_wait_for(view)
 			_scene.get_node("CombatHud")._on_continue_pressed()
 			_wait_for(view)
+		elif _action == "fiche":
+			# Fiche du personnage avec quelques points investis (bouton « Réinitialiser » actif).
+			view.world.character.add_xp(Character.xp_for_level(4))
+			view.world.character.spend_points("force", 6)
+			_scene.get_node("CharacterSheet").toggle()
 		elif _action == "metiers":
 			_scene.get_node("JobsWindow").toggle()
 		elif _action == "sorts":

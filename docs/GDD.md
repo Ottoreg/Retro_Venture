@@ -622,7 +622,9 @@ ajoutent 5 dégâts à chaque ligne de dégâts de n'importe quel sort ou arme, 
 - **Vitesse d'XP de l'alpha 1** (en place) : l'XP de combat est multipliée par 3,5
   (`Character.XP_RATE`), pour finir tout le contenu (1 → 30) en 4 à 5 h : l'alpha 1 teste les
   mécaniques, pas la progression. On remettra ×1 pour l'alpha 2, qui testera le leveling.
-- **Restat :** possible via un objet ou une quête, pour ne pas punir l'expérimentation.
+- **Restat :** à terme via un objet ou une quête, pour ne pas punir l'expérimentation. Pendant
+  l'alpha, bouton « Réinitialiser » gratuit sur la fiche (touche C) : tous les points investis
+  sont rendus, les objets portés le restent même si leurs conditions ne sont plus remplies.
 
 ---
 
