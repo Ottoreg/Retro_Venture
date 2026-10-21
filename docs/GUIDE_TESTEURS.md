@@ -84,6 +84,8 @@ temps : chaque camp a sa propre histoire.
 | Barre d'objets | Hors combat, la barre du bas montre des emplacements d'objets à la place des sorts : vides pour l'instant, ils accueilleront les consommables (potions, nourriture) quand il y en aura. Les sorts reviennent en combat et se consultent avec S |
 | Attaquer un groupe de monstres | Clic sur le groupe : le personnage le rejoint et le combat commence |
 | Parler, commercer, fabriquer | Clic sur un PNJ (bulle « … », ou « ! » / « ? » s'il a une quête pour vous) |
+| Boutique | Chez un marchand : onglets Acheter / Vendre et **barre de recherche** (un mot du nom ou du type, « botte », « anneau »… sans se soucier des accents) |
+| Historique | En bas à gauche, touche **H** pour le replier : onglet **Combat** (gardé d'un combat à l'autre) et **Commerce** (chaque achat et vente : objet, quantité, marchand, écus) ; « Tout » mêle les deux |
 | Récolter | Clic sur un arbre (bûcheron) ou un rocher à minerai (mineur) |
 | Entrer / sortir d'un bâtiment | Clic sur la porte : celles où l'on peut entrer sont marquées au sol d'un losange doré (double chevron) |
 | Changer de carte | Clic sur une case du bord marquée d'un halo blanc (la flèche jaune indique la direction) |
@@ -162,8 +164,9 @@ Les sorts se consultent dans leur fenêtre (S).
      de la barre de sorts.
    - survoler une glyphe ou un de vos pièges : le sort, qui l'a lancé, et les tours restants d'une
      glyphe (les pièges ennemis sont invisibles).
-   - **Historique du combat** (en bas à gauche, bouton « – » ou touche **H** pour le replier) :
-     chaque tour, chaque sort lancé et ses effets ; dégâts, soins et boucliers à la couleur de leur
+   - **Historique** (en bas à gauche, en combat comme en exploration ; bouton « – » ou touche **H**
+     pour le replier ; onglets Tout, Combat, Commerce). En combat : chaque tour, chaque sort lancé
+     et ses effets, gardés après le combat ; dégâts, soins et boucliers à la couleur de leur
      élément (Acier ocre, Flamme orange, Givre bleu, Tempête vert, Sacré jaune pâle, Impie violet).
      Les chiffres qui s'affichent au-dessus des combattants ont les mêmes couleurs (« -12 » :
      dégâts, « +8 » : soin ; un choc contre un obstacle reste rouge).

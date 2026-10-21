@@ -6,7 +6,8 @@ extends "res://tests/test_case.gd"
 ## Minicarte dépliée au début de chaque test (l'état est gardé dans `Session`, d'un test à l'autre).
 func before_each() -> void:
 	Session.tracker_folded = false
-	Session.combat_log_folded = false
+	Session.message_log_folded = false
+	Session.message_log_channel = MessageLog.CHANNEL_ALL
 	Session.quest_pin = {}
 	Options.path = "user://options_tests.cfg"  # Jamais les options du joueur.
 	Options.reset()
@@ -411,6 +412,21 @@ func test_boutique_du_marchand() -> void:
 	assert_false(view._bubble.visible, "pas de bulle de dialogue")
 	var sold := view.world.data.items.values().filter(func(item: Dictionary) -> bool: return Item.is_sold(item)).size()
 	assert_eq(shop._list.item_count, sold, "tous les objets en vente (sauf « boutique » : false)")
+	# Recherche : par mot du nom ou du type, sans accents ni majuscules.
+	var first: Dictionary = shop._shop["articles"][0]
+	shop._search.text = ShopWindow.fold_text(first["nom"]).to_upper()
+	shop._search.text_changed.emit(shop._search.text)
+	assert_true(shop._list.item_count >= 1 and shop._list.item_count < sold, "recherche : %d" % shop._list.item_count)
+	for i in shop._list.item_count:
+		assert_true(ShopWindow.fold_text(shop._list.get_item_text(i)).contains(ShopWindow.fold_text(first["nom"])))
+	shop._search.text = "zzzz introuvable"
+	shop._search.text_changed.emit(shop._search.text)
+	assert_eq(shop._list.item_count, 0)
+	shop._search.text = ""
+	shop._search.text_changed.emit("")
+	assert_eq(shop._list.item_count, sold)
+	assert_true(ShopWindow.matches_search({"nom": "Bâton d'Élan", "type": "arme"}, "baton elan"))
+	assert_false(ShopWindow.matches_search({"nom": "Bâton d'Élan", "type": "arme"}, "baton chêne"))
 
 	# Achat d'une ressource en plusieurs exemplaires.
 	var inventory := view.world.character.inventory
@@ -429,6 +445,11 @@ func test_boutique_du_marchand() -> void:
 	assert_eq(inventory.quantity_of(resource["objet"]), 3, "achat effectué")
 	assert_eq(inventory.ecus, 500 - 3 * int(resource["prix"]))
 	assert_true(shop._message.text.begins_with("Acheté"), shop._message.text)
+	var hud: CombatHud = scene.get_node("CombatHud")
+	var trades := hud.message_log.lines(MessageLog.CHANNEL_TRADE)
+	assert_eq(trades.size(), 1, "achat dans l'historique du commerce")
+	assert_true(trades[0].contains(resource["nom"]) and trades[0].contains("×3") and trades[0].contains("chez %s," % merchant["nom"].get_slice(",", 0))
+		and trades[0].contains("−%d écus" % (3 * int(resource["prix"]))), trades[0])
 
 	# Revente de ces ressources.
 	shop._on_tab_pressed(ShopWindow.SELL)
@@ -439,6 +460,10 @@ func test_boutique_du_marchand() -> void:
 	assert_eq(inventory.quantity_of(resource["objet"]), 0, "vente effectuée")
 	assert_eq(inventory.ecus, 500 - 3 * int(resource["prix"]) + 3 * Item.sell_price(view.world.data.items[resource["objet"]]))
 	assert_true(shop._message.text.begins_with("Vendu"), shop._message.text)
+	trades = hud.message_log.lines(MessageLog.CHANNEL_TRADE)
+	assert_eq(trades.size(), 2, "vente dans l'historique du commerce")
+	assert_true(trades[1].begins_with("[color=#e8b04a]Vente") and trades[1].contains("+%d écus"
+		% (3 * Item.sell_price(view.world.data.items[resource["objet"]]))), trades[1])
 
 	# L'arme de départ est portée : elle ne se vend pas.
 	var weapon := inventory.equipped_entry("arme")
@@ -1218,8 +1243,8 @@ func test_historique_du_combat() -> void:
 	tree.root.add_child(scene)
 	var view: MapView = scene.get_node("MapView")
 	var hud: CombatHud = scene.get_node("CombatHud")
-	var log := hud.combat_log
-	assert_false(log.visible, "pas d'historique en exploration")
+	var log := hud.message_log
+	assert_true(log.visible, "historique visible en exploration")
 	view._on_click(view.world.groups()[0]["case"])
 	_run_until_idle(view)
 	assert_true(log.visible, "historique en combat")
@@ -1400,7 +1425,7 @@ func test_arcaniste_compose_et_cree_un_sort() -> void:
 	assert_true(hud._spell_buttons.has(CombatHud.EMPTY_SLOT_PREFIX + "0") and not hud._spell_buttons.has(CombatHud.EMPTY_SLOT_PREFIX + "1"),
 		"une place encore vide")
 	assert_eq(hud._orbs.states, ["flamme", "flamme", "givre"], "les orbes prennent la couleur des états")
-	var text := hud.combat_log.plain_text()
+	var text := hud.message_log.plain_text()
 	assert_true(text.contains("Mirabelle compose ses états : Flamme · Flamme · Givre"), text)
 	assert_true(text.contains("Mirabelle crée le sort Choc thermique"), text)
 	view._set_hovered(hero.cell)
@@ -1449,7 +1474,7 @@ func test_sorts_enchaines_sans_attendre_les_animations() -> void:
 	_run_until_idle(view)
 	assert_true(view.planned_actions().is_empty())
 	assert_eq(hero.element_states, ["flamme", "flamme", "givre"] as Array[String], "composition lancée à l'arrivée, sur la nouvelle case")
-	assert_true(hud.combat_log.plain_text().contains("compose ses états"))
+	assert_true(hud.message_log.plain_text().contains("compose ses états"))
 	assert_true(view.is_player_turn() or view._paused, "le tour est passé, la main revient au joueur")
 	scene.free()
 

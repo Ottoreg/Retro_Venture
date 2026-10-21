@@ -292,8 +292,10 @@ var _order_box: HBoxContainer
 ## Portraits affichés : id → TurnPortrait, et ordre des ids affichés.
 var _portraits: Dictionary = {}
 var _shown_order: Array[String] = []
-## Historique du combat (sorts lancés et leurs effets), en bas à gauche.
-var combat_log: CombatLog
+## Historique (combat, commerce), en bas à gauche, en combat comme en exploration.
+var message_log: MessageLog
+## Marchand de la dernière boutique ouverte (pour l'historique du commerce).
+var _merchant_name := ""
 var _message_label: Label
 var _message_time := 0.0
 var _result_panel: PanelContainer
@@ -328,7 +330,9 @@ func setup(p_map_view: MapView) -> void:
 	map_view.combat_started.connect(_on_combat_started)
 	map_view.combat_state_changed.connect(_refresh)
 	map_view.combat_message.connect(show_message)
-	map_view.combat_logged.connect(combat_log.add_line)
+	map_view.combat_logged.connect(message_log.add_line)
+	map_view.shop_opened.connect(func(event: Dictionary) -> void: _merchant_name = event["nom"].get_slice(",", 0))
+	map_view.trade_result.connect(_on_trade_result)
 	map_view.combat_ended.connect(_on_combat_ended)
 	map_view.exploration_resumed.connect(_on_exploration_resumed)
 	map_view.character_changed.connect(_refresh_exploration)
@@ -358,6 +362,10 @@ func _process(delta: float) -> void:
 func _unhandled_key_input(event: InputEvent) -> void:
 	if map_view == null or not event.is_pressed() or event.is_echo():
 		return
+	if (event as InputEventKey).keycode == KEY_H:
+		message_log.toggle_fold()
+		get_viewport().set_input_as_handled()
+		return
 	if map_view.mode != MapView.Mode.COMBAT:
 		if (event as InputEventKey).keycode == KEY_A:
 			map_view.toggle_sit()
@@ -378,9 +386,6 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 	elif key == KEY_T:
 		toggle_tactical()
-		get_viewport().set_input_as_handled()
-	elif key == KEY_H:
-		combat_log.toggle_fold()
 		get_viewport().set_input_as_handled()
 	elif event.is_action_pressed("ui_cancel") and map_view.selected_spell != "":
 		map_view.select_spell(map_view.selected_spell)
@@ -603,7 +608,7 @@ func _on_combat_started() -> void:
 	_sit_button.visible = false
 	_items_box.visible = false
 	_spells_box.visible = true
-	combat_log.start()
+	message_log.start_combat()
 	_shown_spells.clear()
 	_shown_order.clear()  # Mêmes ids d'un combat à l'autre, pas forcément les mêmes monstres.
 	var fighter := map_view.player_fighter()
@@ -737,11 +742,25 @@ func _on_exploration_resumed() -> void:
 	_on_sitting_changed(map_view.world.sitting)
 	_order_label.visible = false
 	_order_box.visible = false
-	combat_log.visible = false
 	for menu: String in _menu_buttons:
 		_menu_buttons[menu].disabled = false
 	_shown_spells.clear()
 	_refresh_exploration()
+
+
+## Achat ou vente réussi : une ligne dans le canal du commerce (objet, quantité, marchand, prix).
+func _on_trade_result(event: Dictionary) -> void:
+	if event["type"] != Protocol.EVT_TRADE:
+		return
+	message_log.add_entry(MessageLog.CHANNEL_TRADE, trade_line(event, _merchant_name))
+
+
+static func trade_line(event: Dictionary, merchant: String) -> String:
+	var amount := " ×%d" % event["quantite"] if int(event["quantite"]) > 1 else ""
+	var where := " chez %s" % merchant if not merchant.is_empty() else ""
+	if event["operation"] == "achat":
+		return "[color=#e8b04a]Achat[/color] : %s%s%s, [color=#ff8a70]−%d écus[/color]" % [event["nom"], amount, where, event["prix"]]
+	return "[color=#e8b04a]Vente[/color] : %s%s%s, [color=#8fe07a]+%d écus[/color]" % [event["nom"], amount, where, event["prix"]]
 
 
 func _on_continue_pressed() -> void:
@@ -959,13 +978,13 @@ func _build() -> void:
 	_order_box.add_theme_constant_override("separation", 4)
 	add_child(_order_box)
 
-	combat_log = CombatLog.new()
-	combat_log.anchor_top = 1.0
-	combat_log.anchor_bottom = 1.0
-	combat_log.offset_left = 8
-	combat_log.offset_bottom = -BAR_HEIGHT - 8
-	combat_log.grow_vertical = Control.GROW_DIRECTION_BEGIN
-	add_child(combat_log)
+	message_log = MessageLog.new()
+	message_log.anchor_top = 1.0
+	message_log.anchor_bottom = 1.0
+	message_log.offset_left = 8
+	message_log.offset_bottom = -BAR_HEIGHT - 8
+	message_log.grow_vertical = Control.GROW_DIRECTION_BEGIN
+	add_child(message_log)
 
 	_message_label = _label(22, Color(1, 0.95, 0.75))
 	_message_label.anchor_left = 0.0

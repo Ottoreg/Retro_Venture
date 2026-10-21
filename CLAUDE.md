@@ -108,7 +108,7 @@ Dernière session (retours de la passe de l'auteur) :
   par zone (Brumerive Tempête, Crasse-Roc Flamme, Sylvebrume Givre puis Acier, Hautepierre
   mélangée), Acier 33 % du jeu. Un sort qui change d'élément donne au monstre la caractéristique
   du nouvel élément à la valeur de l'ancienne.
-- **Combat** : historique (`client/ui/combat_log.gd`, touche H, signal `MapView.combat_logged`),
+- **Combat** : historique (`client/ui/message_log.gd`, canaux combat et commerce prêts pour le chat, touche H, signal `MapView.combat_logged`),
   dégâts, soins, boucliers et poisons à la couleur de leur élément (historique et chiffres
   flottants), survol des glyphes et des pièges alliés (sort, lanceur, tours restants).
 - **Identité des Voies pour l'alpha 1** (GDD § 4.3, `tests/core/test_class_kits.gd`) : Arcaniste

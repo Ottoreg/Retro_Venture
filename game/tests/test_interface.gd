@@ -146,3 +146,32 @@ func test_menu_principal() -> void:
 	assert_true(menu.find_child("Quit", true, false) != null, "bouton Quitter hors navigateur")
 	assert_true(menu.find_child("Feedback", true, false) != null, "bouton du questionnaire des testeurs")
 	menu.free()
+
+
+func test_historique_a_canaux() -> void:
+	Session.message_log_folded = false
+	Session.message_log_channel = MessageLog.CHANNEL_ALL
+	var log := MessageLog.new()
+	log.start_combat()
+	log.add_line("Grondin perd 5 PV")
+	log.add_entry(MessageLog.CHANNEL_TRADE, "Achat : Épée, −10 écus")
+	log.start_combat()  # Le combat suivant n'efface pas le précédent.
+	assert_true(log.plain_text().contains("Grondin perd 5 PV") and log.plain_text().contains("Nouveau combat"))
+	assert_true(log.plain_text().contains("Achat : Épée"), "« Tout » mêle les canaux")
+	log.select_channel(MessageLog.CHANNEL_TRADE)
+	assert_eq(log.plain_text(), "Achat : Épée, −10 écus", "onglet Commerce : seulement le commerce")
+	log.add_line("Grondin lance Morsure")
+	assert_false(log.plain_text().contains("Morsure"), "une ligne de combat n'apparaît pas dans Commerce")
+	log.select_channel(MessageLog.CHANNEL_COMBAT)
+	assert_true(log.plain_text().contains("Morsure") and not log.plain_text().contains("Achat"))
+	# Un message de chat : l'auteur devant le texte.
+	log.select_channel(MessageLog.CHANNEL_ALL)
+	log.add_entry(MessageLog.CHANNEL_TRADE, "Je vends des peaux", "Pippin")
+	assert_true(log.plain_text().ends_with("Pippin : Je vends des peaux"), log.plain_text())
+	# Chaque canal garde ses dernières lignes, sans chasser celles des autres.
+	for i in MessageLog.MAX_LINES + 5:
+		log.add_line("coup %d" % i)
+	assert_eq(log.lines(MessageLog.CHANNEL_COMBAT).size(), MessageLog.MAX_LINES)
+	assert_eq(log.lines(MessageLog.CHANNEL_TRADE).size(), 2, "le commerce reste")
+	assert_eq(log.lines(MessageLog.CHANNEL_COMBAT)[-1], "coup %d" % (MessageLog.MAX_LINES + 4))
+	log.free()

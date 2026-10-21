@@ -430,6 +430,12 @@ Tout le contenu et les systèmes MVP de l'alpha 1 sont faits (chantiers 1, 3, 4 
   PNJ, cartes, zones ; `QuestLinks`), qui posent un repère (`Session.quest_pin`) : épingle sur la
   carte du monde (ouverte sur sa zone, bouton « Retirer le repère ») et la minicarte (flèche au
   bord s'il est plus loin dans la zone) ; même nom recliqué ou carte atteinte : retiré
+- [x] Retours de test, lot 6 : historique commun à canaux (`MessageLog`, GDD § 14.3) visible en
+  exploration, combats gardés d'un combat à l'autre, canal Commerce (achats et ventes : objet,
+  quantité, marchand, prix), onglets Tout / Combat / Commerce ; barre de recherche dans la
+  boutique (nom ou type, sans accents)
+- [ ] Chat par canaux (phase multijoueur) : onglets Groupe, Équipe, Guilde dans l'historique
+  commun, ligne de saisie, commande « parler » et relais par le serveur (GDD § 14.3)
 - [ ] Barre d'objets : la rendre utilisable (glisser un consommable, clic ou touche pour l'utiliser,
   emplacements sauvegardés) quand les premiers consommables arriveront (Alchimiste, nourriture)
 

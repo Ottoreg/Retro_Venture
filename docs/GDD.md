@@ -1319,7 +1319,7 @@ d'ambiance habituel, sa fiche affiche « Créé par [pseudo de l'artisan] ».
   critique, à la couleur de l'élément ; soins limités aux PV qui manquent), **clic droit sur un
   sort** pour le lancer sur soi, bouton « fin de tour ». Au survol d'un combattant, ses informations (nom, niveau, PV, PA, PM,
   résistances aux 6 éléments) remplacent la barre de sorts, comme dans Dofus Rétro.
-  **Historique du combat** en bas à gauche (repliable, touche H) : début de chaque tour, sorts lancés
+  **Historique du combat** (canal Combat de l'historique commun, ci-dessous) : début de chaque tour, sorts lancés
   (coups critiques), dégâts, soins et boucliers à la couleur de leur élément, bonus, malus, poisons
   et PM retirés (avec le sort qui les a posés), glyphes et pièges posés ou déclenchés, poussées,
   changements de phase, combattants vaincus. Un piège ennemi reste secret, dans l'historique comme
@@ -1327,6 +1327,21 @@ d'ambiance habituel, sa fiche affiche « Créé par [pseudo de l'artisan] ».
   couleur de leur élément (un choc, sans élément, reste rouge), comme les **glyphes** au sol
   (celle de leur premier effet chiffré ; sans élément, la couleur du camp). Au **survol d'une glyphe** (des deux camps) ou d'un piège allié : nom du sort, qui
   l'a lancé, camp, et pour une glyphe les tours restants.
+- **Historique commun** (`client/ui/message_log.gd`), en bas à gauche au-dessus du bandeau, en
+  combat comme en exploration (repliable, touche H, état gardé pendant la partie). Chaque message
+  est rangé dans un **canal** : *Combat* (rien ne s'efface entre deux combats, un séparateur
+  « Nouveau combat » marque le début de chacun) et *Commerce* (achats et ventes : objet, quantité,
+  marchand, écus dépensés ou gagnés). Des onglets filtrent un canal, « Tout » les mêle ; chaque
+  canal garde ses 300 dernières lignes, si bien qu'un long combat ne chasse pas le commerce.
+  **Prévu pour le chat** (phase multijoueur) : un message a déjà un canal, un auteur facultatif
+  (affiché « Auteur : texte ») et une heure ; les canaux *Groupe*, *Équipe* et *Guilde* (puis
+  privé) s'ajouteront comme onglets, avec une ligne de saisie sous le texte et une couleur par
+  canal ; les messages viendront du serveur (commande « parler » vers un canal, événement relayé
+  aux membres), le client ne faisant que les ranger. L'historique reste sur la zone de jeu pour
+  l'instant (décision de l'auteur) ; il pourra rejoindre la gauche du bandeau, comme le chat de
+  Dofus Rétro.
+- **Boutique** : barre de recherche au-dessus de la liste (achat et vente) ; chaque mot doit
+  apparaître dans le nom ou le type de l'objet, sans tenir compte des majuscules ni des accents.
 - Interface redimensionnable, lisible en 1280×720 minimum.
 
 ### 14.4 Encyclopédie (long terme)

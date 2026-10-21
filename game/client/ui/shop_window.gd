@@ -24,6 +24,7 @@ var _show_ranges := false
 var _greeting: Label
 var _buy_tab: Button
 var _sell_tab: Button
+var _search: LineEdit
 var _list: ItemList
 var _details: Label
 var _quantity_box: HBoxContainer
@@ -58,6 +59,7 @@ func open(event: Dictionary) -> void:
 	var lines: Array = event["repliques"]
 	_greeting.text = "« %s »" % lines[0] if not lines.is_empty() else ""
 	_message.text = ""
+	_search.text = ""
 	_set_visible(true)
 	refresh()
 
@@ -79,6 +81,8 @@ func refresh() -> void:
 	_list.clear()
 	var found := false
 	for entry in _entries():
+		if not matches_search(entry, _search.text):
+			continue
 		var key: String = entry["objet"] if _mode == BUY else entry["uid"]
 		var label := "%s — %d écus" % [entry["nom"], _unit_price(entry)]
 		if _mode == SELL:
@@ -93,6 +97,25 @@ func refresh() -> void:
 	if not found:
 		_selected = ""
 	_show_details(_selected_entry())
+
+
+## Vrai si l'objet correspond à la recherche : chaque mot dans son nom ou son type (sans tenir
+## compte des majuscules ni des accents).
+static func matches_search(entry: Dictionary, search: String) -> bool:
+	var haystack := fold_text("%s %s" % [entry["nom"], InventoryWindow.TYPE_NAMES.get(entry["type"], entry["type"])])
+	for word in fold_text(search).split(" ", false):
+		if not haystack.contains(word):
+			return false
+	return true
+
+
+## Texte en minuscules, sans accents (é → e, œ → oe).
+static func fold_text(text: String) -> String:
+	var folded := text.to_lower()
+	for pair: Array in [["àâä", "a"], ["éèêë", "e"], ["îï", "i"], ["ôö", "o"], ["ùûü", "u"], ["ÿ", "y"], ["ç", "c"]]:
+		for letter in pair[0]:
+			folded = folded.replace(letter, pair[1])
+	return folded.replace("œ", "oe").replace("æ", "ae")
 
 
 ## Lignes de la liste : articles du marchand, ou objets de l'inventaire.
@@ -293,6 +316,14 @@ func _build() -> void:
 	_sell_tab = _tab_button("Vendre", SELL, group)
 	tabs.add_child(_buy_tab)
 	tabs.add_child(_sell_tab)
+
+	_search = LineEdit.new()
+	_search.placeholder_text = "Rechercher un objet (nom ou type)…"
+	_search.clear_button_enabled = true
+	_search.custom_minimum_size = Vector2(380, 0)
+	_search.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	_search.text_changed.connect(func(_text: String) -> void: refresh())
+	column.add_child(_search)
 
 	var row := HBoxContainer.new()
 	row.size_flags_vertical = Control.SIZE_EXPAND_FILL

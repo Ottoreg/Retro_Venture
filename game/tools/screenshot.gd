@@ -156,6 +156,29 @@ func _process(_delta: float) -> bool:
 			_wait_for(view)
 			view.toggle_sit()
 			_wait_for(view)
+		elif _action == "boutique":
+			# Un achat et une vente (historique du commerce), puis une recherche dans la boutique.
+			for npc in view.current_map().npcs:
+				if npc["marchand"]:
+					view._on_click(npc["case"])
+					_wait_for(view)
+					break
+			var shop: ShopWindow = _scene.get_node("ShopWindow")
+			view.world.character.inventory.ecus = 500
+			shop._on_item_selected(0)
+			shop._on_action_pressed()
+			_wait_for(view)
+			shop._on_tab_pressed(ShopWindow.SELL)
+			for entry: Dictionary in shop._entries():
+				if not shop._is_worn(entry):
+					shop._selected = entry["uid"]
+					break
+			shop.refresh()
+			shop._on_action_pressed()
+			_wait_for(view)
+			shop._on_tab_pressed(ShopWindow.BUY)
+			shop._search.text = "botte"
+			shop.refresh()
 		elif _action == "metiers":
 			_scene.get_node("JobsWindow").toggle()
 		elif _action == "sorts":

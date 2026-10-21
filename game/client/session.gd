@@ -10,8 +10,9 @@ static var continue_game := false
 static var start_map := ""
 ## Suivi de quête replié par le joueur (gardé pendant la partie, pas dans la sauvegarde).
 static var tracker_folded := false
-## Historique de combat replié (même règle).
-static var combat_log_folded := false
+## Historique replié (même règle), et onglet choisi (`MessageLog.CHANNEL_*`).
+static var message_log_folded := false
+static var message_log_channel := "tout"
 ## Repère posé depuis un texte de quête ({ carte, nom }, voir `QuestLinks`), ou {} : montré sur la
 ## minicarte et la carte du monde, retiré en arrivant sur sa carte (pas dans la sauvegarde).
 static var quest_pin: Dictionary = {}
