@@ -35,6 +35,7 @@ var _hover_crown: EliteCrown
 func _ready() -> void:
 	UiTheme.apply(get_tree())
 	Options.load_options()
+	Session.quest_pin = {}
 	pause_menu = PauseMenu.new()
 	add_child(pause_menu)
 	pause_menu.main_menu_requested.connect(_back_to_menu)
@@ -66,6 +67,9 @@ func _ready() -> void:
 	quests_window.setup(_map_view)
 	quest_tracker.setup(_map_view)
 	quest_tracker.pressed.connect(quests_window.toggle)
+	quest_dialog.pin_requested.connect(_on_pin_requested)
+	quests_window.pin_requested.connect(_on_pin_requested)
+	_world_map.pin_cleared.connect(_set_pin.bind({}))
 	_combat_hud.menu_pressed.connect(_on_menu_pressed)
 	_map_view.notice.connect(_combat_hud.show_message)
 	_map_view.hovered_cell_changed.connect(_on_hovered_cell_changed)
@@ -122,12 +126,13 @@ func _unhandled_input(event: InputEvent) -> void:
 	if _map_view.mode != MapView.Mode.EXPLORATION:
 		pause_menu.open(true)  # En combat : Échap désélectionne d'abord le sort choisi (barre du bas).
 		return
-	if quest_dialog.is_open():
-		quest_dialog.later()
-		return
-	# La carte du monde d'abord : elle est au-dessus des autres fenêtres (calque 3).
+	# La carte du monde d'abord : elle est au-dessus des autres fenêtres (calque 3), même de la
+	# proposition de quête (ouverte par un nom cliqué).
 	if _world_map.is_open():
 		_world_map.close()
+		return
+	if quest_dialog.is_open():
+		quest_dialog.later()
 		return
 	if _shop.is_open():
 		_shop.close()
@@ -202,7 +207,29 @@ func _on_exploration_resumed() -> void:
 	_save()
 
 
+## Nom cliqué dans un texte de quête : pose le repère et ouvre la carte du monde sur sa zone ; le
+## même nom une seconde fois le retire.
+func _on_pin_requested(pin: Dictionary) -> void:
+	if pin == Session.quest_pin:
+		_set_pin({})
+		_combat_hud.show_message("Repère retiré.")
+		return
+	_set_pin(pin)
+	_combat_hud.show_message("Repère posé : %s." % pin["nom"])
+	_world_map.show_pin()
+
+
+func _set_pin(pin: Dictionary) -> void:
+	Session.quest_pin = pin
+	_minimap.refresh()
+	_world_map.refresh()
+
+
 func _on_map_changed() -> void:
+	# Arrivé à la carte du repère : il a servi.
+	if not Session.quest_pin.is_empty() and Session.quest_pin["carte"] == WorldMapWindow.here_map(_map_view.world):
+		_combat_hud.show_message("Vous y êtes : %s." % Session.quest_pin["nom"])
+		_set_pin({})
 	_hover_text = ""
 	_center_map()
 	_update_info()

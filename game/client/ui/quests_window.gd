@@ -2,7 +2,11 @@ class_name QuestsWindow
 extends CanvasLayer
 ## Journal des quêtes (touche Q) : les quêtes en cours (la suivie d'abord) puis terminées ; pour
 ## celle choisie, son donneur, son texte, l'étape, les objectifs cochés, les récompenses, et
-## « Suivre » (affichée dans le bandeau du haut).
+## « Suivre » (affichée dans le bandeau du haut). Les noms des PNJ, cartes et zones du texte et des
+## objectifs sont des liens qui posent un repère sur la carte (`QuestLinks`).
+
+## Clic sur un nom du texte : repère { carte, nom } à poser.
+signal pin_requested(pin: Dictionary)
 
 const CATEGORY_NAMES := {"tutoriel": "Tutoriel", "principale": "Quête principale", "secondaire": "Quête secondaire"}
 const DONE_COLOR := Color(0.55, 0.75, 0.45)
@@ -11,8 +15,8 @@ var map_view: MapView
 var _panel: PanelContainer
 var _list: ItemList
 var _title: Label
-var _details: Label
-var _objectives: Label
+var _details: RichTextLabel
+var _objectives: RichTextLabel
 var _rewards: Label
 var _track: Button
 ## Ids des quêtes de la liste, dans l'ordre ("" pour les intertitres).
@@ -121,12 +125,12 @@ func _show_details() -> void:
 	var lines: PackedStringArray = ["%s — niveau %d — donnée par %s" % [category, entry["niveau"], entry["donneur"]]]
 	if not str(entry["description"]).is_empty():
 		lines.append(entry["description"])
-	_details.text = "\n\n".join(lines)
+	_details.text = QuestLinks.linkify("\n\n".join(lines), map_view.world)
 	if entry.has("objectifs"):
 		var objectives: PackedStringArray = ["Étape %d / %d" % [entry["etape"], entry["etapes"]]]
 		for objective: Dictionary in entry["objectifs"]:
 			objectives.append(("✔  " if objective["fait"] else "•  ") + objective["texte"])
-		_objectives.text = "\n".join(objectives)
+		_objectives.text = QuestLinks.linkify("\n".join(objectives), map_view.world)
 		var tracked: bool = entry["id"] == _journal["suivie"]
 		_track.text = "Ne plus suivre" if tracked else "Suivre"
 	else:
@@ -193,18 +197,14 @@ func _build() -> void:
 	_title.add_theme_font_size_override("font_size", 20)
 	_title.add_theme_color_override("font_color", UiTheme.GOLD)
 	details.add_child(_title)
-	for i in 3:
-		var label := Label.new()
-		label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_details = QuestLinks.make_label(14, UiTheme.TEXT, pin_requested.emit)
+	_objectives = QuestLinks.make_label(14, UiTheme.TEXT, pin_requested.emit)
+	_rewards = Label.new()
+	_rewards.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_rewards.add_theme_font_size_override("font_size", 14)
+	for label: Control in [_details, _objectives, _rewards]:
 		label.custom_minimum_size = Vector2(420, 0)
-		label.add_theme_font_size_override("font_size", 14)
 		details.add_child(label)
-		if i == 0:
-			_details = label
-		elif i == 1:
-			_objectives = label
-		else:
-			_rewards = label
 	_track = Button.new()
 	_track.custom_minimum_size = Vector2(160, 34)
 	_track.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN

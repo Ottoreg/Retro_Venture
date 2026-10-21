@@ -14,7 +14,8 @@ extends SceneTree
 ## est visible sur toute capture en exploration), « tactique »
 ## (comme « cible », en mode tactique), « pause » (menu pause), « options » (fenêtre des options),
 ## « quete » (le premier PNJ qui propose une quête : sa proposition), « journal » (cette quête
-## acceptée, le journal ouvert ; le suivi est sous la minicarte), « historique » (combat, deux tours
+## acceptée, le journal ouvert ; le suivi est sous la minicarte), « repere » (la même, puis un
+## repère posé sur le Moulin de Tournevent : carte du monde ouverte), « historique » (combat, deux tours
 ## passés : historique du combat rempli), « arcaniste » (Arcaniste en combat : 3 états, un sort
 ## créé, une place vide), « composition » (la même, grille de Composition ouverte au-dessus du sort).
 ## Si « carte » commence par res://, c'est cette scène qui est capturée (menu, création…).
@@ -161,16 +162,18 @@ func _process(_delta: float) -> bool:
 			_scene.get_node("SpellsWindow").toggle()
 		elif _action == "carte":
 			_scene.get_node("WorldMapWindow").open()
-		elif _action in ["quete", "journal"]:
+		elif _action in ["quete", "journal", "repere"]:
 			for npc in view.current_map().npcs:
 				if view.world.quest_book.marker(npc["id"]) == QuestBook.MARKER_AVAILABLE:
 					view._on_click(npc["case"])
 					_wait_for(view)
 					break
-			if _action == "journal":
+			if _action in ["journal", "repere"]:
 				_scene.quest_dialog.accept()
 				_wait_for(view)
 				_scene.quests_window.toggle()
+			if _action == "repere":
+				_scene._on_pin_requested({"carte": "brumerive_1_1", "nom": "Moulin de Tournevent"})
 		elif _action == "pause":
 			_scene.pause_menu.open()
 		elif _action == "options":

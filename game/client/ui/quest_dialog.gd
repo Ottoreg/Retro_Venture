@@ -1,7 +1,11 @@
 class_name QuestDialog
 extends CanvasLayer
 ## Proposition de quête d'un PNJ : son texte, les objectifs de la première étape, les récompenses,
-## et « Accepter » / « Plus tard ».
+## et « Accepter » / « Plus tard ». Les noms des PNJ, cartes et zones sont des liens qui posent un
+## repère sur la carte (`QuestLinks`).
+
+## Clic sur un nom du texte : repère { carte, nom } à poser.
+signal pin_requested(pin: Dictionary)
 
 var map_view: MapView
 var _quest_id := ""
@@ -9,8 +13,8 @@ var _backdrop: ColorRect
 var _panel: PanelContainer
 var _npc: Label
 var _title: Label
-var _text: Label
-var _objectives: Label
+var _text: RichTextLabel
+var _objectives: RichTextLabel
 var _rewards: Label
 var _accept: Button
 
@@ -31,11 +35,11 @@ func open(event: Dictionary) -> void:
 	_quest_id = event["quete"]
 	_npc.text = event["nom"]
 	_title.text = "%s  (niveau %d)" % [event["titre"], event["niveau"]]
-	_text.text = "\n\n".join(PackedStringArray(event["repliques"]))
+	_text.text = QuestLinks.linkify("\n\n".join(PackedStringArray(event["repliques"])), map_view.world)
 	var lines: PackedStringArray = []
 	for objective: Dictionary in event["objectifs"]:
 		lines.append("•  " + objective["texte"])
-	_objectives.text = "\n".join(lines)
+	_objectives.text = QuestLinks.linkify("\n".join(lines), map_view.world)
 	_rewards.text = QuestsWindow.rewards_text(event["recompenses"])
 	_set_visible(true)
 
@@ -87,13 +91,12 @@ func _build() -> void:
 	column.add_child(_npc)
 	_title = _label(20, UiTheme.GOLD)
 	column.add_child(_title)
-	_text = _label(15, UiTheme.TEXT)
-	_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_text = QuestLinks.make_label(15, UiTheme.TEXT, pin_requested.emit)
 	_text.custom_minimum_size = Vector2(440, 0)
 	column.add_child(_text)
 	column.add_child(_label(15, UiTheme.GOLD, "Objectifs"))
-	_objectives = _label(14, UiTheme.TEXT)
-	_objectives.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_objectives = QuestLinks.make_label(14, UiTheme.TEXT, pin_requested.emit)
+	_objectives.custom_minimum_size = Vector2(440, 0)
 	column.add_child(_objectives)
 	column.add_child(_label(15, UiTheme.GOLD, "Récompenses"))
 	_rewards = _label(14, UiTheme.TEXT)

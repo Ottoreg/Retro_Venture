@@ -86,7 +86,8 @@ Phase 2 (alpha solo), en deux tests :
    `core/quests/`, journal Q, suivi, marques `!`/`?`) et 2 (tutoriels et acte I, script
    `docs/design/chantier6/produire_lot2.py`), 3 (15 secondaires, `produire_lot3.py`) et 4 (acte II,
    Conseil et Brèche, `produire_lot4.py`) faits** : tout le contenu de quêtes de l'alpha 1 est
-   produit. Option restante : secondaires de Hautepierre, marqueur de quête sur la carte du monde.
+   produit. Option restante : secondaires de Hautepierre. Noms cliquables des textes de quête (PNJ,
+   cartes, zones) qui posent un repère sur la minicarte et la carte du monde (`QuestLinks`) : faits.
 
 **Lancement de l'alpha test 1 en préparation** (version 0.6.0, GitHub Pages) : guide des testeurs à
 jour, questionnaire Google Forms créé par `docs/creer_formulaire.gs` (référence

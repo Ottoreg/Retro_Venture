@@ -1289,6 +1289,12 @@ les refabrique sans tout redéfinir.
   place revient aux boutons du combat) : la carte du monde en réduit autour de la carte actuelle
   (5 × 3 cartes) ; un clic dessus ouvre la carte du monde. **Suivi de la quête** à droite du
   bandeau du haut : son nom et deux objectifs à faire au plus (« (+n) » s'il en reste d'autres).
+- **Repères de quête** : dans la proposition d'une quête et le journal, les noms des PNJ, des
+  cartes et des zones sont des liens (en bleu). Un clic pose un repère, une épingle sur la carte
+  du monde (ouverte sur sa zone) et la minicarte (une flèche au bord s'il est plus loin dans la
+  zone) : là où est le PNJ (devant la porte s'il est dans une maison), la carte, ou la Pierre de
+  Passage de la zone. Un seul repère à la fois ; le même nom recliqué, le bouton « Retirer le
+  repère » de la carte du monde ou l'arrivée sur sa carte le retirent.
 - **En combat :** frise d'initiative en portraits (en haut à droite : chaque combattant vivant
   dessiné dans un petit cadre à la couleur de son camp, sa barre de PV en bas, cadre doré pour
   celui qui joue ; nom et PV en infobulle), prévisualisation de portée et de zone, **dégâts et soins

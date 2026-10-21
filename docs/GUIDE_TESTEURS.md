@@ -202,6 +202,10 @@ le **lit** de votre maison les rend tous d'un coup.
 - La quête suivie s'affiche **en haut à droite**, dans le bandeau, en petit (clic : le journal, touche **Q** ;
   le bouton **« – »** la replie pour ne garder que son nom). Chaque objectif qui avance s'annonce
   en bas de l'écran.
+- Dans la proposition et le journal, les **noms en bleu** (personnages, cartes, zones) se
+  cliquent : un **repère** (épingle rouge) se pose sur la carte du monde, qui s'ouvre, et sur la
+  minicarte (une flèche au bord s'il est plus loin). Recliquez le nom, ou « Retirer le repère »
+  sur la carte du monde, pour l'enlever ; il s'en va aussi quand vous arrivez sur sa carte.
 - On rend une quête en parlant au personnage une fois les autres objectifs remplis (les objets
   demandés sont pris à ce moment-là). Certains objets ne tombent des monstres que pendant la quête
   qui les demande ; les **objets de quête** ne se vendent ni ne se jettent.

@@ -7,6 +7,7 @@ extends "res://tests/test_case.gd"
 func before_each() -> void:
 	Session.tracker_folded = false
 	Session.combat_log_folded = false
+	Session.quest_pin = {}
 	Options.path = "user://options_tests.cfg"  # Jamais les options du joueur.
 	Options.reset()
 
@@ -167,6 +168,84 @@ func test_pnj_et_changement_de_carte() -> void:
 	assert_eq(view.world.map.id, map.exits["droite"])
 	assert_eq(view.current_map().id, map.exits["droite"], "la vue affiche la nouvelle carte")
 	assert_true(view.current_map().is_walkable(view.world.position_of(World.PLAYER_ID)))
+	scene.free()
+
+
+## Noms cliquables des textes de quête : un clic pose un repère sur la minicarte et la carte du
+## monde ; le même clic le retire, arriver sur sa carte aussi.
+func test_reperes_de_quete() -> void:
+	var tree := Engine.get_main_loop() as SceneTree
+	var scene: Node = load("res://client/world/world.tscn").instantiate()
+	tree.root.add_child(scene)
+	var view: MapView = scene.get_node("MapView")
+	var minimap: Minimap = scene.get_node("Minimap")
+	var world_map: WorldMapWindow = scene.get_node("WorldMapWindow")
+	var world := view.world
+
+	# Noms reconnus : PNJ (nom complet, court, mot propre), cartes, zones ; rien d'ambigu.
+	var pins := {}
+	for entries: Array in QuestLinks.names(world).values():
+		for entry: Dictionary in entries:
+			pins[entry["texte"]] = entry["carte"]
+	assert_eq(pins.get("Grumm"), "crasse_roc_0_0", "nom court d'un PNJ")
+	assert_eq(pins.get("Pansu"), "brumerive_0_0", "un mot propre au PNJ")
+	assert_eq(pins.get("Mère Pomponne"), "brumerive_2_0")
+	assert_false(pins.has("Pomponne"), "partagé par deux PNJ : pas de lien")
+	assert_false(pins.has("Capitaine"), "un titre seul")
+	assert_false(pins.has("Cogneuse"), "une épithète")
+	assert_eq(pins.get("la Brèche"), "hautepierre_4_4", "une carte, sans majuscule")
+	assert_eq(pins.get("Brumerive — Moulin de Tournevent"), "brumerive_1_1", "nom complet d'une carte")
+	assert_eq(pins.get("Trône de Cendre"), "cendre_0_0", "sans « (élite) »")
+	assert_eq(pins.get("Hautepierre"), "hautepierre_2_2", "une zone : sa Pierre de Passage")
+	var linked := QuestLinks.linkify("Voir Grumm [vite], pas Grummeau, ni à la Grand-Place.", world)
+	assert_true(linked.contains("[url=repere:crasse_roc_0_0|Grumm]Grumm[/url]"), linked)
+	assert_true(linked.contains("[lb]vite]"), "crochets échappés : " + linked)
+	assert_false(linked.contains("|Grumm]Grummeau"), "un mot entier seulement")
+	assert_true(linked.contains("|Grand-Place]Grand-Place[/url]"), linked)
+
+	# Le journal : texte et objectifs en liens.
+	var npc := view.current_map().get_npc("alric_le_berger")
+	view._on_click(npc["case"])
+	_run_until_idle(view)
+	scene.quest_dialog.accept()
+	_run_until_idle(view)
+	var journal: QuestsWindow = scene.quests_window
+	journal.toggle()
+	assert_true(journal._details.text.contains("[url=repere:brumerive_0_0|Alric le berger]"), journal._details.text)
+
+	# Clic sur le Moulin : repère, carte du monde ouverte sur sa zone, épingle sur la minicarte.
+	journal._details.meta_clicked.emit("repere:brumerive_1_1|Moulin de Tournevent")
+	assert_eq(Session.quest_pin, {"carte": "brumerive_1_1", "nom": "Moulin de Tournevent"})
+	assert_true(world_map.is_open(), "carte du monde ouverte")
+	assert_eq(world_map.current_zone(), "brumerive")
+	assert_true(world_map._grid.pin_in_grid())
+	assert_true(world_map._clear_pin.visible, "bouton « Retirer le repère »")
+	assert_true(minimap._grid.pin_in_grid(), "épingle sur la minicarte")
+	var moulin: Dictionary = minimap.shown_layout()["cases"].filter(func(c: Dictionary) -> bool: return c["id"] == "brumerive_1_1")[0]
+	assert_true(minimap._grid.case_tooltip(moulin).ends_with("Repère : Moulin de Tournevent"))
+	world_map.close()
+	# Hors de la fenêtre de la minicarte (même zone) : une flèche au bord, pas d'épingle.
+	journal._details.meta_clicked.emit("repere:brumerive_3_2|Palissade de Krasbouk")
+	assert_eq(minimap._grid.pin_cell(), Vector2i(3, 2) - minimap.shown_layout()["origine"])
+	assert_false(minimap._grid.pin_in_grid())
+	# Le même nom une seconde fois : retiré.
+	journal._details.meta_clicked.emit("repere:brumerive_3_2|Palissade de Krasbouk")
+	assert_eq(Session.quest_pin, {}, "retiré")
+	assert_eq(minimap._grid.pin_cell(), null)
+	world_map.close()
+	journal.toggle()
+
+	# Arriver sur la carte du repère le retire.
+	var map := view.current_map()
+	scene._on_pin_requested({"carte": map.exits["droite"], "nom": "Champs de l'est"})
+	world_map.close()
+	for cell: Vector2i in map.cells():
+		if map.is_walkable(cell) and "droite" in map.exit_directions(cell):
+			view._on_click(cell)
+			break
+	_run_until_idle(view)
+	assert_eq(view.world.map.id, map.exits["droite"])
+	assert_eq(Session.quest_pin, {}, "repère atteint")
 	scene.free()
 
 

@@ -286,7 +286,8 @@ Tout le contenu et les systèmes MVP de l'alpha 1 sont faits (chantiers 1, 3, 4 
     camps après n'importe quel tutoriel)
   - [x] Lot 4, **acte II et début de l'acte III** (11 quêtes : 3 par camp à Hautepierre, puis le
     Conseil des Peuples Libres et la Brèche, communs), 8 objets et leurs icônes
-  - [ ] Option : secondaires de Hautepierre (3 quêtes), marqueur de quête sur la carte du monde
+  - [ ] Option : secondaires de Hautepierre (3 quêtes) ; repère automatique de l'objectif suivi sur la
+    carte du monde (le repère au clic sur un nom est fait, retours de test lot 5)
 - [x] **(MVP)** Moteur de quêtes : étapes, objectifs (parler, vaincre, récolter, apporter, aller à), récompenses
 - [x] **(MVP)** Journal de quêtes et suivi de l'objectif courant
 - [x] **(MVP)** Icônes `!` / `?` sur les PNJ
@@ -425,6 +426,10 @@ Tout le contenu et les systèmes MVP de l'alpha 1 sont faits (chantiers 1, 3, 4 
   soins prévus au-dessus des combattants touchés quand on vise (`Combat.spell_preview`, sans
   hasard ni critique), glyphes à la couleur de leur élément (champ `element` de l'événement
   `glyphe`), eau en trous dans le mode tactique
+- [x] Retours de test, lot 5 : noms cliquables dans les textes de quête (proposition et journal :
+  PNJ, cartes, zones ; `QuestLinks`), qui posent un repère (`Session.quest_pin`) : épingle sur la
+  carte du monde (ouverte sur sa zone, bouton « Retirer le repère ») et la minicarte (flèche au
+  bord s'il est plus loin dans la zone) ; même nom recliqué ou carte atteinte : retiré
 - [ ] Barre d'objets : la rendre utilisable (glisser un consommable, clic ou touche pour l'utiliser,
   emplacements sauvegardés) quand les premiers consommables arriveront (Alchimiste, nourriture)
 
