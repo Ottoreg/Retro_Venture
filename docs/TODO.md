@@ -402,6 +402,10 @@ Tout le contenu et les systèmes MVP de l'alpha 1 sont faits (chantiers 1, 3, 4 
 - [x] Chiffres flottants du combat à la couleur de l'élément (dégâts, soins, boucliers, poisons)
 - [x] Fiche du personnage : l'aide de chaque caractéristique cite dégâts, soins et boucliers de ses
   éléments (l'Intelligence n'était plus seule à « augmenter les soins »)
+- [x] Retours de test, lot 2 : équiper par double-clic ou glisser-déposer (sac ↔ emplacements, refus
+  expliqués), bouton « Réinitialiser » (restat gratuit pendant l'alpha, commande
+  `reinitialiser_points`), provenance des valeurs de la fiche au survol (points, race, chaque objet,
+  panoplie ; `Character.stat_sources`)
 
 ### Art et audio
 

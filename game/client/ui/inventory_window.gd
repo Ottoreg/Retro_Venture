@@ -1,7 +1,8 @@
 class_name InventoryWindow
 extends CanvasLayer
 ## Fenêtre d'inventaire (touche I) : emplacements d'équipement, objets, détail de l'objet choisi,
-## boutons Équiper / Retirer / Jeter, écus.
+## boutons Équiper / Retirer / Jeter, écus. Un double-clic équipe un objet du sac (ou retire un objet
+## porté) ; on peut aussi glisser un objet du sac sur un emplacement, ou d'un emplacement vers le sac.
 
 const GOLD := Color(0.95, 0.76, 0.3)
 const RARITY_COLORS := {
@@ -213,6 +214,91 @@ func _on_item_selected(index: int) -> void:
 	refresh()
 
 
+## Double-clic dans le sac : équiper l'objet, ou le retirer s'il est déjà porté.
+func _on_item_activated(index: int) -> void:
+	_selected = _list.get_item_metadata(index)
+	toggle_worn(_selected)
+
+
+## Équipe l'objet `uid` (premier emplacement libre) ou le retire s'il est porté ; rien pour un
+## objet qui ne s'équipe pas.
+func toggle_worn(uid: String) -> void:
+	var inventory := map_view.world.character.inventory
+	if not inventory.entries.has(uid):
+		return
+	var slot := inventory.slot_of(uid)
+	if not slot.is_empty():
+		map_view.send_command({"type": Protocol.CMD_UNEQUIP, "entite": World.PLAYER_ID, "emplacement": slot})
+	elif Item.is_equipment(map_view.world.data.items.get(inventory.entries[uid]["objet"], {})):
+		map_view.send_command({"type": Protocol.CMD_EQUIP, "entite": World.PLAYER_ID, "objet": uid})
+
+
+func _on_slot_input(event: InputEvent, slot: String) -> void:
+	var click := event as InputEventMouseButton
+	if click != null and click.double_click and click.button_index == MOUSE_BUTTON_LEFT:
+		var uid: String = _slot_buttons[slot].get_meta("uid", "")
+		if not uid.is_empty():
+			toggle_worn(uid)
+
+
+# --- Glisser-déposer : { "objet": uid, "emplacement": slot d'origine ou "" } -------------------
+
+func _bag_drag_data(at_position: Vector2) -> Variant:
+	var index := _list.get_item_at_position(at_position, true)
+	if index < 0:
+		return null
+	var uid: String = _list.get_item_metadata(index)
+	_list.set_drag_preview(_drag_preview(uid))
+	return {"objet": uid, "emplacement": map_view.world.character.inventory.slot_of(uid)}
+
+
+func _slot_drag_data(_at_position: Vector2, slot: String) -> Variant:
+	var uid: String = _slot_buttons[slot].get_meta("uid", "")
+	if uid.is_empty():
+		return null
+	_slot_buttons[slot].set_drag_preview(_drag_preview(uid))
+	return {"objet": uid, "emplacement": slot}
+
+
+## Vrai si l'objet glissé peut aller dans `slot` (bon type d'objet).
+func can_drop_on_slot(dragged: Variant, slot: String) -> bool:
+	if typeof(dragged) != TYPE_DICTIONARY or not dragged.has("objet"):
+		return false
+	var inventory := map_view.world.character.inventory
+	if not inventory.entries.has(dragged["objet"]) or dragged.get("emplacement", "") == slot:
+		return false
+	var template: Dictionary = map_view.world.data.items.get(inventory.entries[dragged["objet"]]["objet"], {})
+	return slot in Item.SLOTS_BY_TYPE.get(template.get("type", ""), [])
+
+
+func drop_on_slot(dragged: Variant, slot: String) -> void:
+	if can_drop_on_slot(dragged, slot):
+		_selected = dragged["objet"]
+		map_view.send_command({"type": Protocol.CMD_EQUIP, "entite": World.PLAYER_ID, "objet": dragged["objet"], "emplacement": slot})
+
+
+## Un objet porté lâché sur le sac est retiré.
+func _can_drop_on_bag(_at_position: Vector2, dragged: Variant) -> bool:
+	return typeof(dragged) == TYPE_DICTIONARY and not str(dragged.get("emplacement", "")).is_empty()
+
+
+func _drop_on_bag(_at_position: Vector2, dragged: Variant) -> void:
+	if _can_drop_on_bag(_at_position, dragged):
+		map_view.send_command({"type": Protocol.CMD_UNEQUIP, "entite": World.PLAYER_ID, "emplacement": dragged["emplacement"]})
+
+
+func _drag_preview(uid: String) -> Control:
+	var preview := TextureRect.new()
+	preview.texture = item_icon(map_view.world.character.inventory.entries[uid]["objet"])
+	preview.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	preview.size = Vector2(40, 40)
+	preview.position = Vector2(-20, -20)
+	preview.modulate = Color(1, 1, 1, 0.85)
+	var holder := Control.new()
+	holder.add_child(preview)
+	return holder
+
+
 func _on_slot_pressed(slot: String) -> void:
 	var uid: String = _slot_buttons[slot].get_meta("uid", "")
 	if not uid.is_empty():
@@ -322,6 +408,10 @@ func _build() -> void:
 		button.alignment = HORIZONTAL_ALIGNMENT_LEFT
 		button.add_theme_constant_override("icon_max_width", 32)
 		button.pressed.connect(_on_slot_pressed.bind(slot))
+		button.gui_input.connect(_on_slot_input.bind(slot))
+		button.set_drag_forwarding(_slot_drag_data.bind(slot),
+			func(_at: Vector2, dragged: Variant) -> bool: return can_drop_on_slot(dragged, slot),
+			func(_at: Vector2, dragged: Variant) -> void: drop_on_slot(dragged, slot))
 		slots.add_child(name_label)
 		slots.add_child(button)
 		_slot_buttons[slot] = button
@@ -346,6 +436,8 @@ func _build() -> void:
 	_list.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	make_bag_grid(_list)
 	_list.item_selected.connect(_on_item_selected)
+	_list.item_activated.connect(_on_item_activated)
+	_list.set_drag_forwarding(_bag_drag_data, _can_drop_on_bag, _drop_on_bag)
 	row.add_child(_list)
 
 	var detail_box := VBoxContainer.new()
@@ -380,7 +472,7 @@ func _build() -> void:
 	_overload.visible = false
 	column.add_child(_overload)
 	var hint := _label(12, Color(0.6, 0.58, 0.52))
-	hint.text = "Touche I : ouvrir / fermer · Ctrl : jets possibles"
+	hint.text = "Touche I : ouvrir / fermer · Double-clic ou glisser : équiper / retirer · Ctrl : jets possibles"
 	column.add_child(hint)
 
 

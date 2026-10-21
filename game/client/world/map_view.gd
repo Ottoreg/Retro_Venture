@@ -120,6 +120,12 @@ var _refusals := {
 	Protocol.REASON_NOT_PLACEMENT_CELL: "Choisissez un cercle bleu",
 	Protocol.REASON_NO_COMBINATION: "Il faut 3 états élémentaires (Braise, Frimas) pour créer un sort",
 }
+## Messages affichés pour les objets qu'on ne peut pas équiper.
+var _equip_refusals := {
+	Protocol.REASON_REQUIREMENTS: "Niveau ou caractéristiques insuffisants pour porter cet objet.",
+	Protocol.REASON_ALREADY_WORN: "Vous portez déjà un exemplaire de cet objet.",
+	Protocol.REASON_NOT_EQUIPPABLE: "Cet objet ne va pas à cet emplacement.",
+}
 ## Messages affichés pour les voyages refusés (les autres refus : « Le voyage est impossible. »).
 var _travel_refusals := {
 	Protocol.REASON_NOT_ENOUGH_ECUS: "Pas assez d'écus pour ce voyage.",
@@ -988,6 +994,8 @@ func _apply(event: Dictionary) -> float:
 			chest_refused.emit(event)
 		if event["commande"] == Protocol.CMD_USE:
 			notice.emit("Impossible d'utiliser ce meuble d'ici.")
+		if event["commande"] == Protocol.CMD_EQUIP and _equip_refusals.has(event["raison"]):
+			notice.emit(_equip_refusals[event["raison"]])
 		if event["commande"] == Protocol.CMD_TRAVEL:
 			notice.emit(_travel_refusals.get(event["raison"], "Le voyage est impossible."))
 		if event.get("raison") == Protocol.REASON_QUEST_ITEM:
