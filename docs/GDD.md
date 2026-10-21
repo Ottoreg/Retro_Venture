@@ -1040,8 +1040,22 @@ libre**. Côté parodie, l'objet peut porter la signature de son artisan (« fai
 **Tous les métiers d'artisanat** (demande de l'auteur) : chaque métier de craft, une fois au niveau
 maximum, débloque cette compétence pour ses propres emplacements (forgeron pour les armes, tailleur
 pour les capes et coiffes, joaillier pour les anneaux et amulettes, cordonnier pour les bottes et
-ceintures, etc., § 10.3). Aucun métier de craft ne doit en être privé ; les métiers qui ne fabriquent
-pas d'équipement (alchimiste, cuisinier…) auront un équivalent à définir (potion ou plat de maître).
+ceintures, etc., § 10.3). Aucun métier de craft ne doit en être privé.
+
+**Métiers de consommables** (alchimiste, boulanger, cuisinier…) : **même principe que pour les
+équipements**. Chaque métier a sa liste d'effets possibles, chacun avec son **coût en score**, une
+**limite de lignes** et une **limite de score par ligne** (et par objet). Les ingrédients suivent les
+lignes choisies, plus des **ingrédients obligatoires** propres au métier. Exemple du boulanger, tous
+les chiffres étant provisoires (*à équilibrer*, pas des règles fixées) :
+
+- surtout du **regain de vie** et des **bonus de caractéristiques temporaires** ;
+- regain : +1 Vitalité (point de vie rendu) coûte **1 point** de score et demande 1 blé ou 1 farine ;
+- bonus temporaire : +1 Force pendant 1 combat coûte **5 points** de score par point de Force, et
+  chaque combat de durée en plus multiplie le score de la ligne (×1,25 pour 2 combats, ×1,5 pour 3,
+  ×1,75 pour 4…) ; il demande par exemple du seigle ou de la farine ;
+- ingrédients obligatoires de toute recette : levure, eau, sel…
+
+L'alchimiste suit la même logique avec ses potions (effets, durées et ingrédients à définir).
 
 **Score des statistiques.** Chaque point de statistique vaut un nombre de points de score, d'après sa
 rareté et sa puissance (§ 4.4) :
