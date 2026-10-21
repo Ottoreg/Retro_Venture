@@ -258,7 +258,7 @@ const REASON_NOT_ENOUGH_PA := "pa_insuffisants"
 const REASON_UNKNOWN_SPELL := "sort_inconnu"
 const REASON_SPELL_LIMIT := "sort_deja_lance"
 const REASON_SPELL_COOLDOWN := "sort_en_recharge"
-## « Créer un sort » sans 3 états élémentaires, ou avec une combinaison qui n'a pas de sort.
+## « Fusion arcanique » sans 3 états élémentaires, ou avec une combinaison qui n'a pas de sort.
 const REASON_NO_COMBINATION := "combinaison_inconnue"
 ## Sort de composition des états sans combinaison (`etats`) qu'il propose.
 const REASON_INVALID_COMPOSITION := "composition_invalide"

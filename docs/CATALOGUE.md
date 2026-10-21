@@ -1091,9 +1091,9 @@ Maître du feu et du givre. Lit beaucoup, court peu, explose parfois des choses 
 | Sort | Caractéristiques | Effets | Description |
 |---|---|---|---|
 | **Composition** | 1 PA, portée soi, sans ligne de vue, critique 0 % | choisit d'un coup ses 3 états élémentaires parmi Flamme et Givre (permanents) ; +1 PA tout de suite | L'Arcaniste jongle avec ses braises et ses frimas jusqu'à trouver le bon mélange, puis le garde au creux de la main. Coûte 1 PA, rendu aussitôt. |
-| **Créer un sort** | 2 PA, portée soi, sans ligne de vue, 1/tour, critique 0 % | crée le sort de la combinaison des 3 états : Flamme + Flamme + Flamme → Fournaise ; Flamme + Flamme + Givre → Choc thermique ; Flamme + Givre + Givre → Armure de givre ; Givre + Givre + Givre → Blizzard | Trois états, une formule, un sort. Les savants de la Tour murmurent qu'un troisième élément, la Tempête, compléterait la formule… mais personne n'a encore osé l'écrire. |
+| **Fusion arcanique** | 2 PA, portée soi, sans ligne de vue, 1/tour, critique 0 % | crée le sort de la combinaison des 3 états : Flamme + Flamme + Flamme → Fournaise ; Flamme + Flamme + Givre → Choc thermique ; Flamme + Givre + Givre → Armure de givre ; Givre + Givre + Givre → Blizzard | Trois états, une formule, un sort. Les savants de la Tour murmurent qu'un troisième élément, la Tempête, compléterait la formule… mais personne n'a encore osé l'écrire. |
 
-Sorts créés (*Créer un sort*, selon la combinaison des 3 états élémentaires) :
+Sorts créés (*Fusion arcanique*, selon la combinaison des 3 états élémentaires) :
 
 | Sort | Caractéristiques | Effets | Combinaison | Description |
 |---|---|---|---|---|

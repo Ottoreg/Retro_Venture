@@ -133,7 +133,8 @@ Tout le contenu et les systèmes MVP de l'alpha 1 sont faits (chantiers 1, 3, 4 
   praticables et flèche alignée sur l'une d'elles (`GameMap.exit_cells`)
 - [x] Retour de test : les états de l'Arcaniste étaient fastidieux (3 lancers de *Braise* ou
   *Frimas* par combinaison) ; un seul sort, *Composition*, ouvre une grille des 4 combinaisons
-  (au-dessus du sort, ou de la souris par raccourci) et applique celle choisie (GDD § 4.3)
+  (au-dessus du sort, ou de la souris par raccourci) et applique celle choisie (GDD § 4.3) ;
+  *Créer un sort* renommé *Fusion arcanique* (choix de l'auteur ; l'id reste `arcaniste_creer_un_sort`)
 - [ ] Gel vu contre Grondin (une fois, non reproduit en 20 combats simulés jusqu'aux 3 phases) :
   attendre un retour avec la console du navigateur
 - [ ] Inviter les testeurs (5 au moins), avec le lien du jeu et le guide

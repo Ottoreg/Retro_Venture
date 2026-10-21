@@ -189,7 +189,7 @@ func _process(_delta: float) -> bool:
 					if not view.is_busy():
 						break
 					view.advance(0.3)
-				# Arcaniste : Composition (Flamme, Flamme, Givre), puis Créer un sort (une place reste vide).
+				# Arcaniste : Composition (Flamme, Flamme, Givre), puis Fusion arcanique (une place reste vide).
 				if _action in ["arcaniste", "composition"]:
 					view.cast_composition("arcaniste_composition", "flamme+flamme+givre")
 					for i in 50:

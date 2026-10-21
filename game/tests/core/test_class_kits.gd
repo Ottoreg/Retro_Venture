@@ -1,5 +1,5 @@
 extends "res://tests/test_case.gd"
-## Mécaniques des Voies de l'alpha 1 : états élémentaires et « Créer un sort » (Arcaniste), charge
+## Mécaniques des Voies de l'alpha 1 : états élémentaires et « Fusion arcanique » (Arcaniste), charge
 ## (Guerrier), retrait des états (Théologue).
 
 const Fixtures := preload("res://tests/helpers/fixtures.gd")
@@ -57,7 +57,7 @@ func test_composition_des_etats() -> void:
 	assert_eq(player.element_states, ["flamme", "flamme", "givre"] as Array[String], "les 3 états remplacés d'un coup")
 	assert_eq(player.pa, 6, "1 PA dépensé, 1 PA rendu")
 	assert_eq(player.power("flamme"), 2 * Fighter.ELEMENT_STATE_BONUS)
-	assert_eq(Fixtures.of_type(_cast(combat, "creer", C), Protocol.EVT_SPELL_CREATED)[0]["sort"], "fondu", "puis Créer un sort")
+	assert_eq(Fixtures.of_type(_cast(combat, "creer", C), Protocol.EVT_SPELL_CREATED)[0]["sort"], "fondu", "puis Fusion arcanique")
 	combat.execute(Fixtures.cmd(Protocol.CMD_CAST, {"sort": "composer", "cible": C, "etats": "givre+givre+givre"}))
 	assert_eq(player.element_states, ["givre", "givre", "givre"] as Array[String], "relançable dans le tour")
 
