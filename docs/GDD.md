@@ -1008,6 +1008,10 @@ un **bonus de panoplie** qui grandit avec le nombre de pièces équipées (à pa
   Le lot Métiers du chantier 3 ajoute trois bois (if, hêtre, malorme) et trois minerais (étain,
   argent, obsidienne), aux niveaux 8, 15 et 22, et 13 recettes (23 en tout) qui mêlent ressources et
   butins de plusieurs zones, pour pousser à voyager.
+- **Chaque zone de départ a les deux métiers de récolte** (demande de l'auteur) : bois et minerais
+  des niveaux 1, 3 et 8 partout, en gardant le caractère de la zone (Sylvebrume boisée, Crasse-Roc
+  minière, Brumerive mixte) : les ressources de bas niveau vers l'entrée de la zone, celles de
+  niveau 8 vers ses cartes les plus difficiles (`docs/design/chantier3_brouillon/src/recolte_zones.py`).
 - **Ressources rares** (en place, demande de l'auteur) : chaque ressource de récolte a une version
   rare (cœur de frêne, fer météorique, étain chantant, argent lunaire…), obtenue avec 1 % de chance
   par récolte, **un** exemplaire **à la place** de la récolte normale. Elles ne se vendent pas et
@@ -1032,6 +1036,12 @@ statistiques choisies. Rien n'est codé ; toutes les valeurs ci-dessous sont des
 **Nom de la compétence** (à choisir) : **Chef-d'œuvre** (l'objet créé est « un chef-d'œuvre de
 Krogma » ; proposition retenue par défaut dans ce document), **Pièce de maître**, ou **Façonnage
 libre**. Côté parodie, l'objet peut porter la signature de son artisan (« fait main par… »).
+
+**Tous les métiers d'artisanat** (demande de l'auteur) : chaque métier de craft, une fois au niveau
+maximum, débloque cette compétence pour ses propres emplacements (forgeron pour les armes, tailleur
+pour les capes et coiffes, joaillier pour les anneaux et amulettes, cordonnier pour les bottes et
+ceintures, etc., § 10.3). Aucun métier de craft ne doit en être privé ; les métiers qui ne fabriquent
+pas d'équipement (alchimiste, cuisinier…) auront un équivalent à définir (potion ou plat de maître).
 
 **Score des statistiques.** Chaque point de statistique vaut un nombre de points de score, d'après sa
 rareté et sa puissance (§ 4.4) :

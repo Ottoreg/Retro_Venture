@@ -356,6 +356,9 @@ Tout le contenu et les systèmes MVP de l'alpha 1 sont faits (chantiers 1, 3, 4 
       placement comprise) ; à reporter dans `balance.py` (minutes par combat) pour garder 4 à 5 h
   - [x] Lot **Métiers** : 6 ressources de récolte (nœuds recolorés, sans nouveau dessin), posées sur
     31 cartes sans couper de chemin, 13 recettes de forgeron, 16 objets et leurs icônes
+  - [x] Ressources de récolte rééquilibrées : minerais (cuivre, fer, étain) à Sylvebrume, bois
+    (frêne, chêne, if) à Crasse-Roc, pour que chaque zone de départ serve les deux métiers de récolte
+    (`src/recolte_zones.py`)
 - [x] **(MVP)** Zone de départ humaine : Collines de Brumerive — 10 cartes + la maison (lot Brumerive)
 - [x] **(MVP)** Zone de départ gobeline : Galeries de Crasse-Roc — 10 cartes + la maison (lot Crasse-Roc)
 - [x] **(MVP)** Zone de départ elfe : Lisière de Sylvebrume — 9 cartes + la maison (lot Sylvebrume)

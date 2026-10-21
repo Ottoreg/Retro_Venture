@@ -68,12 +68,17 @@ def relie(g):
 
 
 def poser_noeuds():
-    bois = {r["marqueur"] for r in D["recolte"] if r["apparence"] == "arbre"}
     voulus = {}
     for c in D["cartes"]:
         nouveaux = {k: v for k, v in c.get("ressources", {}).items() if k in {r["marqueur"] for r in D["recolte"]}}
         if nouveaux:
             voulus[c["id"]] = nouveaux
+    poser(voulus)
+
+
+def poser(voulus):
+    """Complète chaque carte jusqu'au nombre voulu de chaque ressource ({carte: {marqueur: nombre}})."""
+    bois = {r["marqueur"] for r in lire(os.path.join(JEU, "data", "metiers", "bucheron.json"))["ressources"]}
     manque = []
     for carte_id, ressources in sorted(voulus.items()):
         chemin = os.path.join(JEU, "data", "cartes", carte_id + ".json")
