@@ -1050,10 +1050,20 @@ les chiffres étant provisoires (*à équilibrer*, pas des règles fixées) :
 
 - surtout du **regain de vie** et des **bonus de caractéristiques temporaires** ;
 - regain : +1 Vitalité (point de vie rendu) coûte **1 point** de score et demande 1 blé ou 1 farine ;
-- bonus temporaire : +1 Force pendant 1 combat coûte **5 points** de score par point de Force, et
-  chaque combat de durée en plus multiplie le score de la ligne (×1,25 pour 2 combats, ×1,5 pour 3,
-  ×1,75 pour 4…) ; il demande par exemple du seigle ou de la farine ;
+- bonus temporaire : **5 points** de score par point de Force, multipliés par le nombre de combats
+  de durée, puis par un coefficient de durée (×1 pour 1 combat, puis +0,25 par combat en plus :
+  ×1,25, ×1,5, ×1,75, ×2 pour 5 combats) ;
+- **niveau du consommable** = score / 5 : 500 points font un objet de niveau 100 à son plein
+  potentiel, 200 points un objet de niveau 40 ;
+- ingrédients : la Force demande du **blé** (1 blé par 2 points, ou 1 farine de blé par 10 points),
+  la durée du **seigle** (5 seigles ou 1 farine de seigle par combat en plus) ;
 - ingrédients obligatoires de toute recette : levure, eau, sel…
+
+*Exemple, le pain fortifiant majeur* : +50 Force pendant 5 combats. Score 50 × 5 = 250, × 2 (durée)
+= **500**, donc niveau 100. Recette : 5 farines de blé, 5 farines de seigle, 1 litre d'eau, 1 levure
+boulangère. *(Points à trancher : la Force devait-elle demander de l'avoine plutôt que du blé ? Et
+5 combats font 4 combats en plus, donc 4 farines de seigle selon la règle, ou 5 si on compte chaque
+combat.)*
 
 L'alchimiste suit la même logique avec ses potions (effets, durées et ingrédients à définir).
 
