@@ -14,6 +14,13 @@
         22
       ]
     },
+    "sort_arcaniste_composition": {
+      "fichier": "sorts/arcaniste_composition.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
     "sort_arcaniste_creer_un_sort": {
       "fichier": "sorts/arcaniste_creer_un_sort.svgt",
       "ancre": [

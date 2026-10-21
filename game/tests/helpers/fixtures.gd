@@ -125,6 +125,8 @@ static func _spells() -> Array:
 			"effets": [{"type": "etat_elementaire", "element": "flamme"}, {"type": "gain_pa", "min": 1, "max": 1}]},
 		{"id": "frimas", "nom": "Frimas", "cout_pa": 1, "portee": {"min": 0, "max": 0}, "ligne_de_vue": false,
 			"effets": [{"type": "etat_elementaire", "element": "givre"}, {"type": "gain_pa", "min": 1, "max": 1}]},
+		{"id": "composer", "nom": "Composition", "cout_pa": 1, "portee": {"min": 0, "max": 0}, "ligne_de_vue": false,
+			"effets": [{"type": "composition_etats", "elements": ["givre", "flamme"]}, {"type": "gain_pa", "min": 1, "max": 1}]},
 		{"id": "creer", "nom": "Créer un sort", "cout_pa": 1, "portee": {"min": 0, "max": 0}, "ligne_de_vue": false,
 			"relance": {"par_tour": 1}, "effets": [{"type": "creer_sort", "combinaisons": {
 				"flamme+flamme+flamme": "brasier", "flamme+flamme+givre": "fondu", "givre+givre+givre": "givrage"}}]},
@@ -188,7 +190,7 @@ static func data(passages := []) -> GameData:
 		"id": "test", "nom": "Test",
 		"caracteristiques": {"pv": 50, "pa": 6, "pm": 3, "initiative": 100},
 		"sorts": ["frappe", "piqure", "tir", "zone", "soin", "elan", "entrave", "sermon", "fatal", "rage", "boulet",
-			"venin", "repousse", "grappin", "cercle", "chausse_trape", "braise", "frimas", "creer", "charge", "absolution"],
+			"venin", "repousse", "grappin", "cercle", "chausse_trape", "braise", "frimas", "composer", "creer", "charge", "absolution"],
 		"equipement_depart": ["epee", "bague"],
 	}]
 	var races := [{

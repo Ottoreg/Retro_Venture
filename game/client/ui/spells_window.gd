@@ -97,6 +97,11 @@ static func effect_lines(effects: Array, indent := "") -> PackedStringArray:
 				line = "État élémentaire %s : +%d %% de dégâts de %s, permanent, 3 au plus (le plus ancien part), ne peut pas être retiré" % [
 					ELEMENT_LABELS.get(effect["element"], effect["element"]), Fighter.ELEMENT_STATE_BONUS,
 					ELEMENT_LABELS.get(effect["element"], effect["element"])]
+			Spell.EFFECT_COMPOSE_STATES:
+				line = "Choisit d'un coup 3 états élémentaires (+%d %% de dégâts de leur élément chacun, permanents, ne peuvent pas être retirés) :" % \
+					Fighter.ELEMENT_STATE_BONUS
+				for key in Spell.combinations_of(effect["elements"]):
+					line += "\n    · %s" % MapView.element_states_text(Array(key.split("+")))
 			Spell.EFFECT_CREATE_SPELL:
 				line = "Avec 3 états élémentaires, donne le sort de leur combinaison (2 sorts créés au plus : un 3e chasse le plus ancien) :"
 				for key: String in effect["combinaisons"]:

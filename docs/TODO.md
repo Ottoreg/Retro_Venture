@@ -127,6 +127,9 @@ Tout le contenu et les systèmes MVP de l'alpha 1 sont faits (chantiers 1, 3, 4 
   menace d'au moins 7 ; éléments des dégâts rééquilibrés par zone (GDD § 8.1) ; historique du
   combat, couleurs des éléments, survol des glyphes et pièges (GDD § 14.3) ; aide des
   caractéristiques corrigée
+- [x] Retour de test : les états de l'Arcaniste étaient fastidieux (3 lancers de *Braise* ou
+  *Frimas* par combinaison) ; un seul sort, *Composition*, ouvre une grille des 4 combinaisons
+  (au-dessus du sort, ou de la souris par raccourci) et applique celle choisie (GDD § 4.3)
 - [ ] Gel vu contre Grondin (une fois, non reproduit en 20 combats simulés jusqu'aux 3 phases) :
   attendre un retour avec la console du navigateur
 - [ ] Inviter les testeurs (5 au moins), avec le lien du jeu et le guide
@@ -581,7 +584,8 @@ Peut démarrer dès que l'alpha solo est stable.
 
 ### Identité des classes (à décider après les premiers retours de l'alpha 1)
 
-**Choix de l'auteur pour l'alpha 1 (fait)** : Arcaniste Flamme / Givre (états élémentaires, *Créer
+**Choix de l'auteur pour l'alpha 1 (fait)** : Arcaniste Flamme / Givre (états élémentaires choisis
+par *Composition* dans une grille, *Créer
 un sort* à 2 PA, 4 sorts créés à 4 PA, 2 places dans la barre (vides : « ? ») et 3 orbes d'états ; anciens sorts retirés ; la Tempête
 annoncée pour la suite), *Charge* du Guerrier, *Collet* du
 Rôdeur, *Absolution* du Théologue (GDD § 4.3). Les idées ci-dessous restent pour la suite.

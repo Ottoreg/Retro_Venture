@@ -362,6 +362,9 @@ func _cast(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 		blocker = Protocol.REASON_BLOCKED if not map.is_walkable_in_combat(target) else Protocol.REASON_OCCUPIED
 	if blocker.is_empty() and not spell.create_effect().is_empty() and created_spell_for(fighter, spell) == null:
 		blocker = Protocol.REASON_NO_COMBINATION
+	var choices := spell.state_choices()
+	if blocker.is_empty() and not choices.is_empty() and str(command.get("etats", "")) not in choices:
+		blocker = Protocol.REASON_INVALID_COMPOSITION
 	if not blocker.is_empty():
 		return _refused(command, blocker)
 
@@ -403,6 +406,10 @@ func _cast(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 		if not fighter.is_alive():
 			_check_end(events)
 			return events
+	if not choices.is_empty():
+		fighter.element_states.assign(str(command["etats"]).split("+"))
+		events.append({"type": Protocol.EVT_ELEMENT_STATES, "entite": fighter.id, "etats": fighter.element_states.duplicate(),
+			"composition": true})
 	var created := created_spell_for(fighter, spell)
 	if created != null:
 		var removed := fighter.add_created_spell(created)
@@ -420,7 +427,7 @@ func _cast(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 	for hit in targets:
 		for effect in spell.effects:
 			if hit.is_alive() and effect["type"] not in [Spell.EFFECT_TELEPORT, Spell.EFFECT_GLYPH, Spell.EFFECT_TRAP,
-					Spell.EFFECT_CHARGE, Spell.EFFECT_CREATE_SPELL] \
+					Spell.EFFECT_CHARGE, Spell.EFFECT_CREATE_SPELL, Spell.EFFECT_COMPOSE_STATES] \
 					and Spell.affects(effect, fighter, hit):
 				_apply_effect(fighter, hit, effect, events, critical, origin, spell.display_name)
 	_check_end(events)

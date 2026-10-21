@@ -79,7 +79,7 @@ class ElementOrbs extends Control:
 			var names: PackedStringArray = []
 			for i in Fighter.ELEMENT_STATE_MAX:
 				names.append(SpellsWindow.ELEMENT_LABELS.get(states[i], states[i]) if i < states.size() else "libre")
-			tooltip_text = "États élémentaires (Braise, Frimas) : %s\n+%d %% de dégâts dans leur élément chacun" % [
+			tooltip_text = "États élémentaires (Composition) : %s\n+%d %% de dégâts dans leur élément chacun" % [
 				" · ".join(names), Fighter.ELEMENT_STATE_BONUS]
 			queue_redraw()
 
@@ -138,6 +138,44 @@ class SpellSlot extends Control:
 		draw_string(font, spot, price, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(0.6, 0.85, 1.0))
 
 
+## Une case de la grille de composition : 3 orbes à la couleur des états, le nom du sort que
+## « Créer un sort » en tirerait, et son raccourci.
+class CompositionChoice extends Control:
+	signal pressed
+	var states: Array = []
+	var created_name := ""
+	var key_label := ""
+	var current := false
+	var _hovered := false
+
+	func _init() -> void:
+		custom_minimum_size = Vector2(108, 54)
+		mouse_filter = Control.MOUSE_FILTER_STOP
+		mouse_entered.connect(func() -> void: _hovered = true; queue_redraw())
+		mouse_exited.connect(func() -> void: _hovered = false; queue_redraw())
+
+	func _gui_input(event: InputEvent) -> void:
+		var click := event as InputEventMouseButton
+		if click != null and click.pressed and click.button_index == MOUSE_BUTTON_LEFT:
+			pressed.emit()
+			accept_event()
+
+	func _draw() -> void:
+		var frame := Rect2(Vector2(1, 1), size - Vector2(2, 2))
+		draw_rect(frame, Color(0.32, 0.24, 0.42) if _hovered else Color(0.2, 0.15, 0.26))
+		draw_rect(frame, Color(1.0, 0.82, 0.3) if current else Color(0.5, 0.4, 0.62), false, 2.0 if current else 1.0)
+		for i in states.size():
+			var center := Vector2(size.x / 2.0 + (i - 1) * 20.0, 18)
+			draw_circle(center, 7.5, MapView.element_color(states[i]))
+			draw_circle(center + Vector2(-2.5, -2.5), 2.2, Color(1, 1, 1, 0.55))
+			draw_arc(center, 7.5, 0.0, TAU, 24, Color(0.1, 0.06, 0.03), 1.5, true)
+		var font := ThemeDB.fallback_font
+		var width := font.get_string_size(created_name, HORIZONTAL_ALIGNMENT_LEFT, -1, 12).x
+		draw_string(font, Vector2((size.x - width) / 2.0, 44), created_name, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(1, 0.95, 0.8))
+		draw_string_outline(font, Vector2(4, 12), key_label, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, 4, Color.BLACK)
+		draw_string(font, Vector2(4, 12), key_label, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(1, 0.95, 0.8))
+
+
 var map_view: MapView
 
 var _bar: PanelContainer
@@ -173,6 +211,11 @@ var _overload_label: Label
 var _spell_buttons: Dictionary = {}
 var _shown_spells: Array[String] = []
 var _refresh_time := 0.0
+## Grille flottante d'un sort de composition (Arcaniste), ouverte au-dessus de son emplacement ou à
+## la souris ; un fond transparent la ferme au clic ailleurs. `null` quand elle est fermée.
+var _composition: Control
+var _composition_spell := ""
+var _composition_choices: PackedStringArray = []
 
 
 func _ready() -> void:
@@ -220,8 +263,15 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	var key := (event as InputEventKey).keycode
 	var index := spell_key_index(event as InputEventKey)
 	var fighter := map_view.player_fighter()
-	if index >= 0 and fighter != null and index < fighter.spells.size():
-		map_view.select_spell(fighter.spells[index].id)
+	if _composition != null and (index >= 0 or event.is_action_pressed("ui_cancel")):
+		# Grille ouverte : les touches des sorts choisissent une combinaison.
+		if index >= 0 and index < _composition_choices.size():
+			_choose_composition(_composition_choices[index])
+		else:
+			close_composition()
+		get_viewport().set_input_as_handled()
+	elif index >= 0 and fighter != null and index < fighter.spells.size():
+		_use_spell(fighter.spells[index].id, Rect2(get_viewport().get_mouse_position(), Vector2.ZERO))
 		get_viewport().set_input_as_handled()
 	elif key == KEY_T:
 		toggle_tactical()
@@ -290,6 +340,7 @@ func _show_spells(spells: Array[Spell]) -> void:
 		return
 	_shown_spells = ids
 	for child in _spells_box.get_children():
+		_spells_box.remove_child(child)  # Hors de la boîte tout de suite : les nouveaux prennent leur place.
 		child.queue_free()
 	_spell_buttons.clear()
 	for i in ids.size():
@@ -306,7 +357,7 @@ func _show_spells(spells: Array[Spell]) -> void:
 		else:
 			slot.empty = true
 			slot.usable = false
-			slot.tooltip_text = "Place pour un sort créé (vide)\nPrenez 3 états élémentaires avec Braise et Frimas, puis lancez Créer un sort."
+			slot.tooltip_text = "Place pour un sort créé (vide)\nChoisissez 3 états élémentaires avec Composition, puis lancez Créer un sort."
 		_spells_box.add_child(slot)
 		_spell_buttons[ids[i]] = slot
 
@@ -321,9 +372,114 @@ static func _is_created(spell: Spell, spells: Array[Spell]) -> bool:
 
 func _on_spell_pressed(spell_id: String) -> void:
 	if map_view.mode == MapView.Mode.COMBAT:
-		map_view.select_spell(spell_id)
+		var slot: SpellSlot = _spell_buttons[spell_id]
+		_use_spell(spell_id, slot.get_global_rect(), slot)
 	else:
 		spell_info_requested.emit(spell_id)
+
+
+## Choisit un sort en combat ; un sort de composition des états ouvre sa grille au-dessus de
+## `slot` (l'emplacement cliqué) ou de `anchor` (la souris, pour un raccourci) ; un 2e appel la referme.
+func _use_spell(spell_id: String, anchor: Rect2, slot: Control = null) -> void:
+	var fighter := map_view.player_fighter()
+	var spell: Spell = fighter.get_spell(spell_id) if fighter != null else null
+	if spell == null or spell.state_choices().is_empty():
+		close_composition()
+		map_view.select_spell(spell_id)
+	elif _composition != null and _composition_spell == spell_id:
+		close_composition()
+	else:
+		open_composition(spell, anchor, slot)
+
+
+## Ouvre la grille des combinaisons de `spell` : chaque case montre ses 3 états et le sort que
+## « Créer un sort » en tirerait ; celle des états actuels est encadrée.
+func open_composition(spell: Spell, anchor: Rect2, slot: Control = null) -> void:
+	close_composition()
+	var fighter := map_view.player_fighter()
+	if fighter == null or not map_view.can_plan():
+		return
+	if map_view.selected_spell != "":
+		map_view.select_spell(map_view.selected_spell)
+	var created := {}
+	for other in fighter.spells:
+		created.merge(other.create_effect().get("sorts", {}))
+	var current := Spell.combination_key(fighter.element_states) if fighter.element_states.size() == Fighter.ELEMENT_STATE_MAX else ""
+	_composition_spell = spell.id
+	_composition_choices = spell.state_choices()
+	var veil := Control.new()
+	veil.set_anchors_preset(Control.PRESET_FULL_RECT)
+	veil.mouse_filter = Control.MOUSE_FILTER_STOP
+	veil.gui_input.connect(func(event: InputEvent) -> void:
+		if event is InputEventMouseButton and event.pressed:
+			close_composition())
+	add_child(veil)
+	_composition = veil
+	var panel := PanelContainer.new()
+	panel.add_theme_stylebox_override("panel", _panel_style(Color(0.13, 0.1, 0.16, 0.97)))
+	veil.add_child(panel)
+	var box := VBoxContainer.new()
+	panel.add_child(box)
+	var title := _label(13, Color(0.85, 0.75, 1.0))
+	title.text = "%s : choisissez vos 3 états" % spell.display_name
+	box.add_child(title)
+	var grid := GridContainer.new()
+	grid.columns = ceili(sqrt(_composition_choices.size()))
+	grid.add_theme_constant_override("h_separation", 4)
+	grid.add_theme_constant_override("v_separation", 4)
+	box.add_child(grid)
+	for i in _composition_choices.size():
+		var key := _composition_choices[i]
+		var choice := CompositionChoice.new()
+		choice.states = Array(key.split("+"))
+		var result: Spell = created.get(key)
+		choice.created_name = result.display_name if result != null else ""
+		choice.key_label = str((i + 1) % 10) if i < SPELL_KEYS.size() else ""
+		choice.current = key == current
+		choice.tooltip_text = MapView.element_states_text(choice.states) + (" → " + choice.created_name if result != null else "")
+		choice.pressed.connect(_choose_composition.bind(key))
+		grid.add_child(choice)
+	_place_composition(panel, anchor, slot)
+	# Encore une fois après la mise en page (une barre qui vient de changer n'est pas encore placée).
+	_place_composition.call_deferred(panel, anchor, slot)
+
+
+## Pose la grille au-dessus de `slot` (s'il y en a un) ou de `anchor`, centrée, sans sortir de l'écran.
+func _place_composition(panel: Control, anchor: Rect2, slot: Control) -> void:
+	if not is_instance_valid(panel):
+		return
+	if slot != null and _spell_buttons.has(_composition_spell):
+		anchor = (_spell_buttons[_composition_spell] as Control).get_global_rect()  # La barre a pu être refaite.
+	var screen := get_viewport().get_visible_rect().size
+	var wanted := panel.get_combined_minimum_size()
+	var spot := Vector2(anchor.get_center().x - wanted.x / 2.0, anchor.position.y - wanted.y - 6.0)
+	panel.position = Vector2(clampf(spot.x, 4.0, maxf(4.0, screen.x - wanted.x - 4.0)), clampf(spot.y, 4.0, maxf(4.0, screen.y - wanted.y - 4.0)))
+
+
+func close_composition() -> void:
+	if _composition != null:
+		_composition.queue_free()
+		remove_child(_composition)
+		_composition = null
+		_composition_spell = ""
+		_composition_choices = []
+
+
+## Combinaison choisie dans la grille (« flamme+flamme+givre »).
+func _choose_composition(states: String) -> void:
+	var spell_id := _composition_spell
+	close_composition()
+	map_view.cast_composition(spell_id, states)
+
+
+## La grille ouverte (pour les tests) : ses combinaisons, dans l'ordre, ou vide si elle est fermée.
+func composition_choices() -> PackedStringArray:
+	return _composition_choices.duplicate()
+
+
+## Position de la grille ouverte à l'écran (pour les tests), ou `Rect2()`.
+func composition_rect() -> Rect2:
+	return (_composition.get_child(0) as Control).get_global_rect() if _composition != null else Rect2()
 
 
 # --- Réactions aux événements de la carte ------------------------------------------------------
@@ -456,6 +612,7 @@ func _loot_slot(drop: Dictionary) -> Control:
 
 
 func _on_exploration_resumed() -> void:
+	close_composition()
 	_target_id = ""
 	_show_target()
 	_turn_button.visible = false
@@ -516,6 +673,8 @@ func _refresh() -> void:
 		_pa_gauge.show_values(int(player["pa"]), int(player["pa"]))
 		_pm_gauge.show_values(int(player["pm"]), int(player["pm"]))
 	var player_turn := map_view.can_plan()
+	if not player_turn:
+		close_composition()
 	if map_view.is_placement():
 		_turn_button.text = "Prêt"
 		_turn_button.disabled = map_view.is_busy()

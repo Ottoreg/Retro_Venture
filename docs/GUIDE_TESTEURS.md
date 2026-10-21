@@ -59,8 +59,9 @@ temps : chaque camp a sa propre histoire.
   - **Rôdeur** : *Collet*, un piège invisible qui blesse et ralentit le premier ennemi qui y entre ;
   - **Théologue** (soigneur sacré : soin, bouclier, dégâts Sacrés) : *Absolution*, qui retire leurs
     bonus aux ennemis, leurs malus et leurs poisons aux alliés ;
-  - **Arcaniste** (kit entièrement nouveau) : *Braise* et *Frimas* donnent un **état élémentaire**
-    (Flamme ou Givre, 3 au plus, +4 % de dégâts chacun ; le PA est rendu aussitôt). Avec 3 états,
+  - **Arcaniste** (kit entièrement nouveau) : *Composition* ouvre une petite grille (au-dessus du
+    sort, ou de la souris avec le raccourci) où l'on choisit ses **3 états élémentaires** d'un coup
+    (Flamme ou Givre, +4 % de dégâts chacun ; le PA est rendu aussitôt). Avec 3 états,
     *Créer un sort* (2 PA) donne un sort selon la combinaison : Flamme ×3 *Fournaise*, Flamme ×2 +
     Givre *Choc thermique*, Givre ×2 + Flamme *Armure de givre*, Givre ×3 *Blizzard* (4 PA chacun).
     Il prend l'une des **deux places** au bout de la barre de sorts (marquées « ? » tant qu'elles

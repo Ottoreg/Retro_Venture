@@ -39,6 +39,29 @@ func test_etats_elementaires() -> void:
 	assert_eq(player.power("givre"), 3 * Fighter.ELEMENT_STATE_BONUS)
 
 
+func test_composition_des_etats() -> void:
+	var combat := _fight([["mannequin", C + Vector2i(3, 0)]])
+	var player := _player(combat)
+	var composer := player.get_spell("composer")
+	assert_eq(composer.state_choices(), PackedStringArray(["flamme+flamme+flamme", "flamme+flamme+givre",
+		"flamme+givre+givre", "givre+givre+givre"]), "toutes les combinaisons, triées")
+	assert_eq(Spell.combinations_of(["flamme", "givre", "tempete"]).size(), 10, "avec la Tempête : 10 combinaisons")
+	assert_eq(_cast(combat, "composer", C)[0]["raison"], Protocol.REASON_INVALID_COMPOSITION, "sans combinaison")
+	var odd := combat.execute(Fixtures.cmd(Protocol.CMD_CAST, {"sort": "composer", "cible": C, "etats": "givre+flamme+flamme"}))
+	assert_eq(odd[0]["raison"], Protocol.REASON_INVALID_COMPOSITION, "clé non triée")
+	player.element_states = ["givre"] as Array[String]
+	var events := combat.execute(Fixtures.cmd(Protocol.CMD_CAST, {"sort": "composer", "cible": C, "etats": "flamme+flamme+givre"}))
+	var states := Fixtures.of_type(events, Protocol.EVT_ELEMENT_STATES)
+	assert_eq(states.size(), 1)
+	assert_true(states[0]["composition"])
+	assert_eq(player.element_states, ["flamme", "flamme", "givre"] as Array[String], "les 3 états remplacés d'un coup")
+	assert_eq(player.pa, 6, "1 PA dépensé, 1 PA rendu")
+	assert_eq(player.power("flamme"), 2 * Fighter.ELEMENT_STATE_BONUS)
+	assert_eq(Fixtures.of_type(_cast(combat, "creer", C), Protocol.EVT_SPELL_CREATED)[0]["sort"], "fondu", "puis Créer un sort")
+	combat.execute(Fixtures.cmd(Protocol.CMD_CAST, {"sort": "composer", "cible": C, "etats": "givre+givre+givre"}))
+	assert_eq(player.element_states, ["givre", "givre", "givre"] as Array[String], "relançable dans le tour")
+
+
 func test_creer_un_sort() -> void:
 	var combat := _fight([["mannequin", C + Vector2i(3, 0)]])
 	var player := _player(combat)
@@ -143,7 +166,7 @@ func test_l_ia_ne_compose_pas_et_charge_seulement_au_contact() -> void:
 	var player := _player(combat)
 	var charge := player.get_spell("charge")
 	assert_eq(CombatAI.evaluate(combat, player, charge, C + Vector2i(4, 0), C), 0.0, "charge arrêtée par le rocher")
-	var composing: Array[Spell] = [player.get_spell("braise"), player.get_spell("creer")]
+	var composing: Array[Spell] = [player.get_spell("braise"), player.get_spell("composer"), player.get_spell("creer")]
 	player.spells = composing
 	assert_true(CombatAI.best_cast(combat, player, C).is_empty(), "états et création ignorés par l'IA")
 
@@ -153,6 +176,11 @@ func test_validation_des_nouveaux_effets() -> void:
 	var bad_state := base.duplicate()
 	bad_state["effets"] = [{"type": "etat_elementaire", "element": "acier"}]
 	assert_false(Spell.validate(bad_state).is_empty(), "état élémentaire d'Acier refusé")
+	var bad_composition := base.duplicate()
+	bad_composition["effets"] = [{"type": "composition_etats", "elements": ["flamme", "acier"]}]
+	assert_false(Spell.validate(bad_composition).is_empty(), "composition avec de l'Acier refusée")
+	bad_composition["effets"] = [{"type": "composition_etats", "elements": ["flamme", "flamme"]}]
+	assert_false(Spell.validate(bad_composition).is_empty(), "élément en double")
 	var bad_combo := base.duplicate()
 	bad_combo["effets"] = [{"type": "creer_sort", "combinaisons": {"givre+flamme+flamme": "y"}}]
 	assert_false(Spell.validate(bad_combo).is_empty(), "clé non triée")
@@ -181,7 +209,13 @@ func test_kit_de_l_arcaniste_dans_les_donnees() -> void:
 	var linked: Dictionary = create.create_effect()["sorts"]
 	assert_eq(linked.size(), 4, "Flamme ×3, Givre ×3, Flamme ×2 + Givre, Givre ×2 + Flamme")
 	for voie_id in ["arcaniste", "guerrier", "rodeur", "theologue"]:
-		assert_eq(data.voies[voie_id]["sorts"].size(), 3 if voie_id == "arcaniste" else 5, voie_id)
+		assert_eq(data.voies[voie_id]["sorts"].size(), 2 if voie_id == "arcaniste" else 5, voie_id)
 	assert_eq(data.spells["arcaniste_creer_un_sort"].pa_cost, 2)
+	assert_eq(data.voies["arcaniste"]["sorts"], ["arcaniste_composition", "arcaniste_creer_un_sort"],
+		"un seul sort de composition à la place de Braise et Frimas")
+	var choices: PackedStringArray = (data.spells["arcaniste_composition"] as Spell).state_choices()
+	assert_eq(choices.size(), 4)
+	for key in choices:
+		assert_true(linked.has(key), "chaque combinaison proposée donne un sort : " + key)
 	for created: Spell in linked.values():
 		assert_eq(created.pa_cost, 4, "tous les sorts créés à 4 PA pendant l'alpha 1 (%s)" % created.id)

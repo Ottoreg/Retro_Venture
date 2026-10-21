@@ -285,6 +285,7 @@ Mécaniques des Voies :
 
 ```json
 {"type": "etat_elementaire", "element": "flamme"}
+{"type": "composition_etats", "elements": ["flamme", "givre"]}
 {"type": "creer_sort", "combinaisons": {"flamme+flamme+givre": "arcaniste_choc_thermique"}}
 {"type": "charge"}
 {"type": "retrait_etats", "etats": ["malus", "poison"], "cibles": "allies"}
@@ -292,7 +293,13 @@ Mécaniques des Voies :
 
 - `etat_elementaire` (`flamme`, `givre` ou `tempete`) : le lanceur garde l'état tout le combat,
   3 au plus (le 4e remplace le plus ancien), +4 % de dégâts dans son élément ; il ne peut pas être
-  retiré. Avec `gain_pa` 1 dans un sort à 1 PA, le PA est rendu aussitôt.
+  retiré. Avec `gain_pa` 1 dans un sort à 1 PA, le PA est rendu aussitôt. (Plus utilisé par
+  l'Arcaniste : *Braise* et *Frimas* restent en trace.)
+- `composition_etats` (`elements` : liste sans doublon parmi `flamme`, `givre`, `tempete`) : le
+  lanceur choisit d'un coup ses 3 états parmi toutes les combinaisons des `elements` (2 éléments :
+  4 combinaisons, 3 : 10). La commande de lancer porte la combinaison dans `etats` (clé triée, comme
+  pour `creer_sort`) ; sans combinaison proposée : refusé (`composition_invalide`). Dans le jeu, le
+  sort ouvre une grille des combinaisons au lieu de demander une case.
 - `creer_sort` : avec 3 états élémentaires, le lanceur reçoit le sort de leur combinaison (clé : les
   3 éléments **triés**, joints par `+`) ; il en garde 2 (`Fighter.CREATED_SPELL_SLOTS`), un 3e
   chasse le plus ancien. Les sorts nommés
@@ -304,7 +311,7 @@ Mécaniques des Voies :
   la cible que s'il arrive au contact.
 - `retrait_etats` : retire à la cible ses états des types de `etats` (`bonus`, `malus`, `poison`),
   sauf ceux qui ne peuvent pas être retirés (effets des phases des boss).
-- Ces effets n'ont ni `min` ni `max` ; `etat_elementaire`, `creer_sort` et `charge` sont interdits
+- Ces effets n'ont ni `min` ni `max` ; `etat_elementaire`, `composition_etats`, `creer_sort` et `charge` sont interdits
   dans une glyphe, un piège et une phase de monstre.
 - Les effets d'une glyphe ou d'un piège ne peuvent pas être une glyphe, un piège ou une téléportation.
 

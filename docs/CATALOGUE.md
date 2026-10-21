@@ -26,7 +26,7 @@ Prix de boutique : selon la rareté (revente à 25 %).
 - [Sorts de race](#sorts-de-race)
 - [Sorts des monstres](#sorts-des-monstres)
 
-**205 objets** (31 armes, 16 coiffes, 16 capes, 18 amulettes, 20 anneaux, 15 ceintures, 17 bottes, 66 ressources, 6 objets de quête), **50 monstres** et **115 sorts**.
+**205 objets** (31 armes, 16 coiffes, 16 capes, 18 amulettes, 20 anneaux, 15 ceintures, 17 bottes, 66 ressources, 6 objets de quête), **50 monstres** et **116 sorts**.
 
 ## Armes
 
@@ -1090,8 +1090,7 @@ Maître du feu et du givre. Lit beaucoup, court peu, explose parfois des choses 
 
 | Sort | Caractéristiques | Effets | Description |
 |---|---|---|---|
-| **Braise** | 1 PA, portée soi, sans ligne de vue, critique 0 % | état élémentaire Flamme (permanent, 3 au plus) ; +1 PA tout de suite | Une braise s'allume dans la paume de l'Arcaniste et y reste. Ça chauffe un peu, ça sert beaucoup. Coûte 1 PA, rendu aussitôt. |
-| **Frimas** | 1 PA, portée soi, sans ligne de vue, critique 0 % | état élémentaire Givre (permanent, 3 au plus) ; +1 PA tout de suite | Un flocon tourne autour de l'Arcaniste et refuse de fondre. Coûte 1 PA, rendu aussitôt. |
+| **Composition** | 1 PA, portée soi, sans ligne de vue, critique 0 % | choisit d'un coup ses 3 états élémentaires parmi Flamme et Givre (permanents) ; +1 PA tout de suite | L'Arcaniste jongle avec ses braises et ses frimas jusqu'à trouver le bon mélange, puis le garde au creux de la main. Coûte 1 PA, rendu aussitôt. |
 | **Créer un sort** | 2 PA, portée soi, sans ligne de vue, 1/tour, critique 0 % | crée le sort de la combinaison des 3 états : Flamme + Flamme + Flamme → Fournaise ; Flamme + Flamme + Givre → Choc thermique ; Flamme + Givre + Givre → Armure de givre ; Givre + Givre + Givre → Blizzard | Trois états, une formule, un sort. Les savants de la Tour murmurent qu'un troisième élément, la Tempête, compléterait la formule… mais personne n'a encore osé l'écrire. |
 
 Sorts créés (*Créer un sort*, selon la combinaison des 3 états élémentaires) :
@@ -1246,6 +1245,8 @@ gardés comme trace de sa première version).
 | Sort | Caractéristiques | Effets | Description |
 |---|---|---|---|
 | **Boule de feu** | 4 PA, portée 2–6, cercle de rayon 1, 1/tour | 5–8 Flamme | Le grand classique. Brûle la cible et tout ce qui l'entoure, amis compris : visez bien. |
+| **Braise** | 1 PA, portée soi, sans ligne de vue, critique 0 % | état élémentaire Flamme (permanent, 3 au plus) ; +1 PA tout de suite | Une braise s'allume dans la paume de l'Arcaniste et y reste. Ça chauffe un peu, ça sert beaucoup. Coûte 1 PA, rendu aussitôt. |
 | **Éclat de givre** | 3 PA, portée 1–5, 2/tour | 4–6 Givre ; −1 PM au prochain tour | Un éclat de glace qui engourdit les jambes : la cible aura un PM de moins au prochain tour. |
 | **Étincelle** | 2 PA, portée 1–4, 3/tour | 2–4 Flamme | Petit sort, petit coût, petits dégâts. Mais trois fois par tour. |
+| **Frimas** | 1 PA, portée soi, sans ligne de vue, critique 0 % | état élémentaire Givre (permanent, 3 au plus) ; +1 PA tout de suite | Un flocon tourne autour de l'Arcaniste et refuse de fondre. Coûte 1 PA, rendu aussitôt. |
 | **Soin mineur** | 3 PA, portée 0–3, 1/tour, relance 2 t. | soin 8–12 (Flamme) | Referme les petites plaies. Pour les grandes, prévoir une potion. Ou un autre arcaniste. |
