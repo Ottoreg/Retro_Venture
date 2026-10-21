@@ -10,6 +10,8 @@ const OVERLOAD_TEXT := "Inventaire surchargé ! Faites de la place (vendre, jete
 ## Noms courts des éléments pour les résistances du combattant survolé.
 const RESISTANCE_NAMES := {"acier": "Acier", "flamme": "Flamme", "givre": "Givre", "tempete": "Tempête", "sacre": "Sacré", "impie": "Impie"}
 const SPELL_KEYS := [KEY_1, KEY_2, KEY_3, KEY_4, KEY_5, KEY_6, KEY_7, KEY_8, KEY_9, KEY_0]
+## Deuxième jeu de raccourcis : la rangée des chiffres d'un clavier AZERTY, sans Maj.
+const SPELL_CHARS := "&é\"'(-è_çà"
 ## Clé des places de sorts créés encore vides dans `_spell_buttons`.
 const EMPTY_SLOT_PREFIX := "_place_vide_"
 const MENUS := [["personnage", "icone_personnage", "Personnage (C)"], ["inventaire", "icone_inventaire", "Inventaire (I)"],
@@ -216,7 +218,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	if map_view == null or map_view.mode != MapView.Mode.COMBAT or not event.is_pressed() or event.is_echo():
 		return
 	var key := (event as InputEventKey).keycode
-	var index := SPELL_KEYS.find(key)
+	var index := spell_key_index(event as InputEventKey)
 	var fighter := map_view.player_fighter()
 	if index >= 0 and fighter != null and index < fighter.spells.size():
 		map_view.select_spell(fighter.spells[index].id)
@@ -230,6 +232,17 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	elif event.is_action_pressed("ui_cancel") and map_view.selected_spell != "":
 		map_view.select_spell(map_view.selected_spell)
 		get_viewport().set_input_as_handled()
+
+
+## Place dans la barre du sort d'une touche (0 pour la première), ou -1 : chiffre, caractère de la
+## rangée AZERTY (& é " ' ( - è _ ç à), ou touche à la place d'un chiffre quel que soit le clavier.
+static func spell_key_index(event: InputEventKey) -> int:
+	var index := SPELL_KEYS.find(event.keycode)
+	if index < 0 and event.unicode > 0:
+		index = SPELL_CHARS.find(char(event.unicode))
+	if index < 0 and event.physical_keycode != KEY_NONE:
+		index = SPELL_KEYS.find(event.physical_keycode)
+	return index
 
 
 ## Sorts du personnage hors combat (ceux qu'il aurait en combat : arme, Voie, race).
@@ -287,6 +300,8 @@ func _show_spells(spells: Array[Spell]) -> void:
 			slot.icon = spell_icon(spell.id, map_view.world)
 			slot.cost = spell.pa_cost
 			slot.tooltip_text = _spell_tooltip(spell)
+			if i < SPELL_KEYS.size():
+				slot.tooltip_text += "\nRaccourci : %s ou %s" % [slot.key_label, SPELL_CHARS[i]]
 			slot.pressed.connect(_on_spell_pressed.bind(spell.id))
 		else:
 			slot.empty = true
@@ -500,7 +515,7 @@ func _refresh() -> void:
 		_hp_gauge.show_values(int(player["hp"]), int(player["max_hp"]))
 		_pa_gauge.show_values(int(player["pa"]), int(player["pa"]))
 		_pm_gauge.show_values(int(player["pm"]), int(player["pm"]))
-	var player_turn := map_view.is_player_turn()
+	var player_turn := map_view.can_plan()
 	if map_view.is_placement():
 		_turn_button.text = "Prêt"
 		_turn_button.disabled = map_view.is_busy()

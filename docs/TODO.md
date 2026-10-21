@@ -391,6 +391,9 @@ Tout le contenu et les systèmes MVP de l'alpha 1 sont faits (chantiers 1, 3, 4 
 - [x] Inventaire : 8 cases « Reliques » visibles dès le début (vides tant que la Relique n'est pas
   reprise), en plus des 2 anneaux
 - [ ] Raccourcis clavier
+- [x] Retour de test « combats lents » : un sort ne fait plus attendre ses animations, actions
+  gardées pendant une marche et envoyées dans l'ordre (5 au plus), raccourcis de sorts AZERTY
+  (& é " ' ( - è _ ç à) en plus de 1 à 0
 - [x] **(MVP)** Mode tactique en combat, façon Dofus (GDD § 14.3) : bouton « Tactique » ou touche T,
   cases à plat en damier, eau à plat, obstacles qui bloquent la vue en blocs, décor masqué,
   combattants en pions (couleur du camp, initiale, PV), retenu d'un combat à l'autre (`Options`)

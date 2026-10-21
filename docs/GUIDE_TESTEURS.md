@@ -130,7 +130,7 @@ bandeau, hors combat, ouvre sa fiche.
 - **Cœur rouge** : points de vie (il se vide quand on est blessé).
 - **Étoile bleue** : points d'action (PA), pour lancer des sorts.
 - **Case verte** : points de mouvement (PM), pour se déplacer en combat.
-- **Sorts** : une icône par sort, avec son raccourci (1 à 0) et son coût en PA.
+- **Sorts** : une icône par sort, avec son raccourci (1 à 0, ou & é " ' ( - è _ ç à) et son coût en PA.
 
 ### Combat (au tour par tour)
 
@@ -140,8 +140,13 @@ bandeau, hors combat, ouvre sa fiche.
    reprenez l'exploration là où vous avez engagé le groupe.
 2. **Votre tour** :
    - se déplacer : clic sur une case verte (1 PM par case) ;
-   - lancer un sort : touche **1 à 0** ou clic sur son icône, puis clic sur la cible (cases bleues :
-     portée ; un second clic sur le sort, un **clic droit** ou **Échap** l'annule) ;
+   - lancer un sort : touche **1 à 0** (ou **& é " ' ( - è _ ç à**, sans Maj, sur un clavier AZERTY)
+     ou clic sur son icône, puis clic sur la cible (cases bleues : portée ; un second clic sur le
+     sort, un **clic droit** ou **Échap** l'annule) ;
+   - **enchaîner** : inutile d'attendre la fin des chiffres et des animations, la main revient tout
+     de suite. Pendant une marche, les sorts choisis et leurs cibles (marquées en jaune), un
+     déplacement ou la fin du tour sont gardés et partent dans l'ordre dès l'arrivée (5 au plus ; un
+     clic droit, sans sort choisi, les annule) ;
    - **Fin de tour** : bouton du bandeau.
    - **Mode tactique** : bouton « Tactique » du bandeau ou touche **T** (aussi dans les options).
      Vue simplifiée de la grille, comme dans Dofus : cases à plat en damier, eau à plat (elle ne

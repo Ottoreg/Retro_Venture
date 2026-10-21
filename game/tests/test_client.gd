@@ -1187,3 +1187,73 @@ func test_arcaniste_compose_et_cree_un_sort() -> void:
 	view._set_hovered(hero.cell)
 	assert_true(hud._target_stats.text.contains("États élémentaires : Flamme · Flamme · Givre"), hud._target_stats.text)
 	scene.free()
+
+
+## Retour de test « combats lents » : un sort ne fait pas attendre ses animations, et les actions
+## données pendant une animation de son tour partent dans l'ordre dès que possible.
+func test_sorts_enchaines_sans_attendre_les_animations() -> void:
+	var tree := Engine.get_main_loop() as SceneTree
+	Session.new_character = Character.create("Mirabelle", "humain", "arcaniste")
+	var scene: Node = load("res://client/world/world.tscn").instantiate()
+	tree.root.add_child(scene)
+	var view: MapView = scene.get_node("MapView")
+	var hud: CombatHud = scene.get_node("CombatHud")
+	view._on_click(view.world.groups()[0]["case"])
+	_run_until_idle(view)
+	view.request_start_fight()
+	_run_until_idle(view)
+	assert_true(view.is_player_turn())
+	var hero := view.player_fighter()
+	view.select_spell("arcaniste_braise")
+	view._on_click(hero.cell)
+	assert_eq(hero.element_states, ["flamme"] as Array[String], "sort lancé")
+	assert_false(view.is_busy(), "la main revient tout de suite, sans attendre les textes flottants")
+	assert_true(view.is_player_turn())
+	# Une marche d'une case : pendant qu'elle s'anime, on choisit un sort et sa cible.
+	var step := MapView.NO_CELL
+	for cell: Vector2i in view._reachable:
+		if (view._reachable[cell] as Array).size() == 1:
+			step = cell
+	assert_ne(step, MapView.NO_CELL, "une case voisine accessible")
+	view._on_click(step)
+	assert_true(view.is_busy(), "en marche")
+	view.select_spell("arcaniste_frimas")
+	assert_eq(view.selected_spell, "arcaniste_frimas", "un sort se choisit pendant la marche")
+	assert_true(hud._spell_buttons["arcaniste_frimas"].usable, "la barre reste utilisable")
+	view._on_click(step)
+	assert_eq(view.planned_actions().size(), 1, "sort gardé pour la fin de la marche")
+	assert_eq(view.selected_spell, "")
+	assert_eq(hero.element_states, ["flamme"] as Array[String], "pas encore lancé")
+	view.request_end_turn()
+	view.select_spell("arcaniste_braise")
+	view._on_click(step)
+	assert_eq(view.planned_actions().size(), 2, "rien n'est gardé après la fin du tour")
+	_run_until_idle(view)
+	assert_true(view.planned_actions().is_empty())
+	assert_eq(hero.element_states.slice(0, 2), ["flamme", "givre"] as Array[String], "Frimas lancé à l'arrivée")
+	assert_true(hud.combat_log.plain_text().contains("Frimas"))
+	assert_true(view.is_player_turn() or view._paused, "le tour est passé, la main revient au joueur")
+	scene.free()
+
+
+func test_raccourcis_de_sorts_azerty() -> void:
+	var cases := [[KEY_1, 0, KEY_NONE, 0], [KEY_0, 0, KEY_NONE, 9], [KEY_AMPERSAND, "&".unicode_at(0), KEY_1, 0],
+		[KEY_NONE, "é".unicode_at(0), KEY_NONE, 1], [KEY_QUOTEDBL, "\"".unicode_at(0), KEY_NONE, 2],
+		[KEY_PARENLEFT, "(".unicode_at(0), KEY_NONE, 4], [KEY_NONE, "à".unicode_at(0), KEY_NONE, 9],
+		[KEY_NONE, 0, KEY_7, 6], [KEY_A, "a".unicode_at(0), KEY_Q, -1]]
+	for case: Array in cases:
+		var key := InputEventKey.new()
+		key.keycode = case[0]
+		key.unicode = case[1]
+		key.physical_keycode = case[2]
+		assert_eq(CombatHud.spell_key_index(key), case[3], str(case))
+
+
+func test_textes_flottants_au_meme_endroit_decales() -> void:
+	var view := MapView.new()
+	view._add_floating("Frimas", Color.WHITE, Vector2(2, 3))
+	view._add_floating("-12", Color.RED, Vector2(2, 3))
+	view._add_floating("Ailleurs", Color.RED, Vector2(5, 3))
+	assert_eq(view._floating[1]["age"], -MapView.FLOATING_STAGGER, "le second attend son tour")
+	assert_eq(view._floating[2]["age"], 0.0, "un texte ailleurs apparaît tout de suite")
+	view.free()

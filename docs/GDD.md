@@ -1172,7 +1172,14 @@ ingrédients).
 - **Bandeau bas :** chat à gauche, PV dans un cœur rouge qui se vide, PA dans une étoile bleue, PM
   dans une case verte, barre de sorts (icônes avec raccourci et coût en PA) et d'objets, boutons de
   menus (inventaire, caractéristiques, sorts, quêtes, métiers, carte, amis, guilde). Le bandeau
-  reste affiché en exploration ; un clic sur un sort hors combat ouvre sa fiche.
+  reste affiché en exploration ; un clic sur un sort hors combat ouvre sa fiche. Raccourcis des
+  sorts : 1 à 0, ou la même rangée d'un clavier AZERTY sans Maj (& é " ' ( - è _ ç à).
+- **Rythme du combat :** pendant son tour, le joueur n'attend pas la fin des textes flottants et
+  des animations de ses sorts (seules ses marches se jouent jusqu'au bout ; les textes au même
+  endroit se décalent un peu). Pendant une marche, il peut déjà choisir ses sorts et leurs cibles,
+  un déplacement ou la fin du tour : jusqu'à 5 actions gardées, envoyées dans l'ordre à l'arrivée
+  et jugées par le noyau à ce moment-là (`MapView._plan`). Les tours des monstres gardent leur
+  rythme, pour rester lisibles.
 - **Fenêtres :** inventaire avec poupée d'équipement, fiche de caractéristiques, grimoire de sorts,
   journal de quêtes, fenêtre de métier, carte du monde (touche M).
 - **Minicarte** en haut à droite, sous le bandeau du haut, en exploration seulement (en combat, la

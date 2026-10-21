@@ -93,6 +93,11 @@ const NO_CELL := Vector2i(-99999, -99999)
 const DIALOGUE_TOP := 70.0
 ## Garde-fou de la lecture des événements (voir `_watch_playback`), en secondes.
 const STALL_LIMIT := 1.0
+## Actions que le joueur peut prévoir pendant une animation de son tour (voir `_plan`).
+const PLANNED_LIMIT := 5
+const COLOR_PLANNED := Color(1.0, 0.85, 0.3, 0.55)
+## Écart (secondes) entre deux textes flottants qui apparaissent au même endroit en même temps.
+const FLOATING_STAGGER := 0.2
 ## Place de chaque membre d'un groupe de monstres sur sa case (pixels depuis le centre), selon la
 ## taille du groupe ; le premier est le meneur, devant.
 const GROUP_SPOTS := [
@@ -165,6 +170,9 @@ var _walk_path: Array[Vector2i] = []
 ## Groupes de monstres en promenade (indépendamment de la file d'événements) : id → cases restantes.
 var _group_walks: Dictionary = {}
 var _pending_click := NO_CELL
+## Actions prévues pendant son tour en combat, envoyées une à une dès que la lecture des événements
+## est finie (commandes du noyau : sort, déplacement, fin du tour).
+var _planned: Array[Dictionary] = []
 ## Temps écoulé (respiration des personnages).
 var _time := 0.0
 ## Commande à envoyer quand la marche en cours se termine (attaque d'un groupe, changement de carte).
@@ -220,6 +228,17 @@ func is_player_turn() -> bool:
 	return mode == Mode.COMBAT and current_turn == World.PLAYER_ID and not _playing
 
 
+## C'est le tour du joueur à l'écran : il peut choisir un sort et prévoir ses actions, même pendant
+## l'animation des précédentes (elles partiront dans l'ordre, voir `_plan`).
+func can_plan() -> bool:
+	return mode == Mode.COMBAT and current_turn == World.PLAYER_ID and not _paused
+
+
+## Actions prévues (copie), pour l'interface et les tests.
+func planned_actions() -> Array[Dictionary]:
+	return _planned.duplicate()
+
+
 func is_placement() -> bool:
 	return mode == Mode.COMBAT and not _placement.is_empty()
 
@@ -239,7 +258,7 @@ func player_fighter() -> Fighter:
 # --- Actions demandées par l'interface ---------------------------------------------------------
 
 func select_spell(spell_id: String) -> void:
-	if not is_player_turn():
+	if not can_plan():
 		return
 	selected_spell = "" if selected_spell == spell_id else spell_id
 	_refresh_overlays()
@@ -254,6 +273,10 @@ func request_end_turn() -> void:
 	if is_player_turn():
 		selected_spell = ""
 		_send({"type": Protocol.CMD_END_TURN, "entite": World.PLAYER_ID})
+	elif can_plan() and _playing:
+		selected_spell = ""
+		_plan({"type": Protocol.CMD_END_TURN, "entite": World.PLAYER_ID})
+		_refresh_overlays()
 
 
 ## Reprend la lecture des événements après l'écran de fin de combat.
@@ -283,6 +306,10 @@ func _unhandled_input(event: InputEvent) -> void:
 		elif button.button_index == MOUSE_BUTTON_RIGHT and selected_spell != "":
 			selected_spell = ""
 			_refresh_overlays()
+		elif button.button_index == MOUSE_BUTTON_RIGHT and not _planned.is_empty():
+			_planned.clear()
+			combat_message.emit("Actions prévues annulées")
+			queue_redraw()
 
 
 func _on_click(cell: Vector2i) -> void:
@@ -294,7 +321,17 @@ func _on_click(cell: Vector2i) -> void:
 		else:
 			_pending_click = cell
 		return
-	if _playing or not _map.is_inside(cell):
+	if not _map.is_inside(cell):
+		return
+	if _playing:
+		# Pendant l'animation de son tour : l'action est gardée pour plus tard.
+		if can_plan() and selected_spell != "":
+			var planned_spell := selected_spell
+			selected_spell = ""
+			_plan({"type": Protocol.CMD_CAST, "entite": World.PLAYER_ID, "sort": planned_spell, "cible": cell})
+			_refresh_overlays()
+		elif can_plan():
+			_plan({"type": Protocol.CMD_MOVE, "entite": World.PLAYER_ID, "cible": cell})
 		return
 	if is_placement():
 		_send({"type": Protocol.CMD_PLACE, "entite": World.PLAYER_ID, "cible": cell})
@@ -305,6 +342,19 @@ func _on_click(cell: Vector2i) -> void:
 			_send({"type": Protocol.CMD_CAST, "entite": World.PLAYER_ID, "sort": spell_id, "cible": cell})
 		elif _reachable.has(cell):
 			_send({"type": Protocol.CMD_MOVE, "entite": World.PLAYER_ID, "cible": cell})
+
+
+## Garde une action du joueur pour la fin de la lecture des événements (sorts enchaînés). Le noyau
+## la juge à son envoi : un sort devenu impossible est refusé avec son message. Rien après une fin
+## du tour.
+func _plan(command: Dictionary) -> void:
+	if _planned.size() >= PLANNED_LIMIT:
+		combat_message.emit("Trop d'actions prévues")
+		return
+	if not _planned.is_empty() and _planned.back()["type"] == Protocol.CMD_END_TURN:
+		return
+	_planned.append(command)
+	queue_redraw()
 
 
 ## Commandes d'exploration pour un clic sur `cell` : la marche (ou la discussion avec un PNJ), puis
@@ -772,7 +822,9 @@ func _play_next() -> void:
 		var duration := _apply(_queue.pop_front())
 		if duration < 0.0 or _paused:
 			return  # Marche en cours, ou écran de fin de combat.
-		if duration > 0.0:
+		# Pendant son tour, le joueur n'attend pas la fin des textes et des animations de ses sorts :
+		# ils continuent pendant qu'il joue (seules ses marches se lisent jusqu'au bout).
+		if duration > 0.0 and not (mode == Mode.COMBAT and current_turn == World.PLAYER_ID):
 			_wait = duration
 			return
 	if _paused:
@@ -784,6 +836,11 @@ func _play_next() -> void:
 		_send(command)
 		return
 	_refresh_overlays()
+	if not _planned.is_empty():
+		if is_player_turn():
+			_send(_planned.pop_front())
+			return
+		_planned.clear()
 	if _pending_click != NO_CELL:
 		var cell := _pending_click
 		_pending_click = NO_CELL
@@ -944,6 +1001,7 @@ func _apply(event: Dictionary) -> float:
 		return 0.0
 	if type == Protocol.EVT_COMBAT_STARTED:
 		_close_dialogue()
+		_planned.clear()
 		_glyphs.clear()
 		_traps.clear()
 		_trap_flash = {}
@@ -960,6 +1018,8 @@ func _apply(event: Dictionary) -> float:
 		return 0.4
 	if type == Protocol.EVT_TURN_STARTED:
 		current_turn = event["entite"]
+		if current_turn != World.PLAYER_ID:
+			_planned.clear()  # Mort pendant son tour : rien ne part au tour suivant.
 		var playing: Dictionary = _actors[current_turn]
 		playing["pa"] = event["pa"]
 		playing["pm"] = event["pm"]
@@ -1072,6 +1132,7 @@ func _apply(event: Dictionary) -> float:
 		return 0.3
 	if type == Protocol.EVT_COMBAT_ENDED:
 		current_turn = ""
+		_planned.clear()
 		_paused = true
 		combat_ended.emit(event)
 		return 0.0
@@ -1113,8 +1174,14 @@ static func state_text(state: Dictionary) -> String:
 	return "%s%d %s (%s)" % ["+" if state["type"] == Spell.EFFECT_BONUS else "−", state["valeur"], carac, duration]
 
 
+## Un texte au même endroit qu'un autre tout juste apparu attend son tour (âge négatif), pour ne pas
+## s'y superposer : les sorts enchaînés affichent tout à la fois.
 func _add_floating(text: String, color: Color, grid_pos: Vector2, life := FLOATING_LIFE) -> void:
-	_floating.append({"text": text, "color": color, "pos": grid_pos, "age": 0.0, "life": life})
+	var delay := 0.0
+	for other in _floating:
+		if other["age"] < FLOATING_STAGGER and (other["pos"] as Vector2).distance_to(grid_pos) < 0.3:
+			delay = maxf(delay, FLOATING_STAGGER - other["age"])
+	_floating.append({"text": text, "color": color, "pos": grid_pos, "age": -delay, "life": life})
 
 
 func _load_exploration_actors() -> void:
@@ -1197,7 +1264,7 @@ func _refresh_overlays() -> void:
 	_range_visible.clear()
 	_range_hidden.clear()
 	var fighter := player_fighter()
-	if is_player_turn() and fighter != null:
+	if can_plan() and fighter != null:
 		var spell: Spell = fighter.get_spell(selected_spell)
 		if spell != null:
 			var spell_range := world.combat.spell_range(fighter, spell)
@@ -1232,6 +1299,9 @@ func _draw() -> void:
 			var spell: Spell = fighter.get_spell(selected_spell)
 			if spell != null:
 				_draw_cells(spell.zone_cells(_hovered, fighter.cell).filter(func(c: Vector2i) -> bool: return map.is_inside(c)), COLOR_ZONE)
+		for command in _planned:
+			if command.has("cible"):
+				draw_colored_polygon(_scaled_diamond(IsoGrid.cell_to_screen(command["cible"]), 0.6), COLOR_PLANNED)
 	for cell in _preview:
 		draw_colored_polygon(_scaled_diamond(IsoGrid.cell_to_screen(cell), 0.35), COLOR_PATH)
 	if map.is_inside(_hovered):
@@ -1278,6 +1348,8 @@ func _draw() -> void:
 func _draw_floating_texts() -> void:
 	var font := ThemeDB.fallback_font
 	for text in _floating:
+		if text["age"] < 0.0:
+			continue  # Pas encore apparu (voir `_add_floating`).
 		# Centré au-dessus de la case, assez large pour un long message (changement de phase).
 		var width := maxf(200.0, font.get_string_size(text["text"], HORIZONTAL_ALIGNMENT_LEFT, -1, 16).x + 8.0)
 		# Monte pendant une seconde, puis reste en place (texte qui dure plus longtemps).
