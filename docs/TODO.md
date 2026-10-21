@@ -569,7 +569,8 @@ Peut démarrer dès que l'alpha solo est stable.
   monstre et tirage par ordre de prospection déjà faits) ; répartition des écus à décider
 - [ ] Objectifs de quêtes partagés en groupe
 - [ ] Ouvrir l'inventaire, la fiche et les autres fenêtres pendant un combat (consultation pendant
-  le tour des autres joueurs ; équiper reste interdit en combat). Aujourd'hui fermées en combat
+  le tour des autres joueurs) : consultation seulement, ni changement d'équipement ni objet
+  consommable utilisé en combat. Aujourd'hui fermées en combat
 - [ ] Échange sécurisé entre joueurs
 - [ ] Artisanat assisté et commandes
 - [ ] Hôtel des ventes
