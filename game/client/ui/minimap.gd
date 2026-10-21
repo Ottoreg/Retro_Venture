@@ -19,6 +19,8 @@ const GRID_SIZE := Vector2(210, 140)
 ## Distance au bord droit de l'écran et au haut de l'écran (sous le bandeau du haut).
 const MARGIN_RIGHT := 12.0
 const TOP := 72.0
+## Opacité du cadre estompé (personnage du joueur dessous).
+const FADED_ALPHA := 0.3
 
 var map_view: MapView
 
@@ -51,6 +53,18 @@ func is_shown() -> bool:
 ## Rectangle du cadre à l'écran (le suivi des quêtes se place dessous).
 func frame_rect() -> Rect2:
 	return _frame.get_global_rect()
+
+
+## Estompé et transparent aux clics quand le personnage du joueur passe dessous (voir
+## `WorldScene._uncover_player`) : la carte reste visible et cliquable sous le cadre.
+func set_faded(faded: bool) -> void:
+	_frame.modulate.a = FADED_ALPHA if faded else 1.0
+	_frame.mouse_filter = Control.MOUSE_FILTER_IGNORE if faded else Control.MOUSE_FILTER_STOP
+	_grid.mouse_filter = Control.MOUSE_FILTER_IGNORE if faded else Control.MOUSE_FILTER_PASS
+
+
+func is_faded() -> bool:
+	return _frame.modulate.a < 1.0
 
 
 ## Vrai si le joueur a replié la minicarte (gardé d'une carte et d'un combat à l'autre, dans `Session`).

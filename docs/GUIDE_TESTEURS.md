@@ -83,7 +83,7 @@ temps : chaque camp a sa propre histoire.
 | Parler, commercer, fabriquer | Clic sur un PNJ (bulle « … », ou « ! » / « ? » s'il a une quête pour vous) |
 | Récolter | Clic sur un arbre (bûcheron) ou un rocher à minerai (mineur) |
 | Entrer / sortir d'un bâtiment | Clic sur la porte : celles où l'on peut entrer sont marquées au sol d'un losange doré (double chevron) |
-| Changer de carte | Clic sur une flèche jaune au bord de l'écran |
+| Changer de carte | Clic sur une case du bord marquée d'un halo blanc (la flèche jaune indique la direction) |
 | Voyager vers une autre zone | Clic sur la **Pierre de Passage** (pierre levée aux runes bleues), puis choisir la destination (voir plus bas) |
 | Voir ce qu'on survole | Passer la souris sur un monstre, un PNJ, une ressource : une bulle s'affiche (pour un groupe : chaque monstre avec son niveau) |
 
@@ -113,9 +113,10 @@ bandeau, hors combat, ouvre sa fiche.
   losange bleu une Pierre de Passage. Survolez
   une case pour son nom. En haut, le nom de la zone et les coordonnées de la carte ; dans une maison,
   elle montre la carte devant la porte. Un **clic** dessus ouvre la carte du monde. Elle disparaît en
-  combat (l'ordre de jeu prend sa place). Elle cache le coin en haut à droite de la carte : si un
-  groupe ou un PNJ passe dessous, ou pour aller sur ces cases, **repliez-la** avec le petit bouton
-  **« – »** de sa barre (« + » pour la déplier) ; elle reste repliée d'une carte à l'autre.
+  combat (l'ordre de jeu prend sa place). Quand votre personnage passe dessous, elle s'estompe (le
+  suivi des quêtes aussi) et vous pouvez cliquer au travers. Pour voir un groupe ou un PNJ caché
+  dessous, **repliez-la** avec le petit bouton **« – »** de sa barre (« + » pour la déplier) ; elle
+  reste repliée d'une carte à l'autre.
 - **Carte du monde** (touche **M**, bouton en forme de carte du bandeau, ou clic sur la minicarte) :
   **tout le monde est montré dès le début**, comme dans Dofus : un onglet par zone du jeu, ouvert
   sur la zone actuelle, avec le nombre de cartes que vous y avez visitées. Chaque carte est une case

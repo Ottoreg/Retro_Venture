@@ -15,7 +15,7 @@ func _run_until_idle(view: MapView) -> void:
 	for i in 1000:
 		if not view.is_busy() or view._paused:
 			return
-		view._process(0.5)
+		view.advance(0.5)
 
 
 func _cancel() -> InputEventAction:

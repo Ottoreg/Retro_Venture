@@ -496,6 +496,20 @@ func exit_directions(cell: Vector2i) -> Array[String]:
 	return result
 
 
+## Cases praticables du bord qui font changer de carte, par direction de sortie : celles qu'un
+## clic suffit à rejoindre pour passer sur la carte voisine (le client les marque d'un halo).
+func exit_cells() -> Dictionary:
+	var result := {}
+	for cell: Vector2i in _cells:
+		if not is_walkable(cell):
+			continue
+		for direction in exit_directions(cell):
+			if not result.has(direction):
+				result[direction] = [] as Array[Vector2i]
+			result[direction].append(cell)
+	return result
+
+
 ## Case d'arrivée sur cette carte pour un personnage sorti par `direction` d'une carte voisine,
 ## depuis la case `from_cell` de celle-ci : même rangée (ou même colonne), sur le bord opposé.
 func arrival_cell(direction: String, from_cell: Vector2i) -> Vector2i:

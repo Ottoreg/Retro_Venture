@@ -127,6 +127,9 @@ Tout le contenu et les systèmes MVP de l'alpha 1 sont faits (chantiers 1, 3, 4 
   menace d'au moins 7 ; éléments des dégâts rééquilibrés par zone (GDD § 8.1) ; historique du
   combat, couleurs des éléments, survol des glyphes et pièges (GDD § 14.3) ; aide des
   caractéristiques corrigée
+- [x] Retours de tests, lot 1 : le jeu tourne sans le focus (temps réel rattrapé, `MapView._real_delta`),
+  minicarte et suivi des quêtes estompés sous le personnage, halo blanc sur les cases de sortie
+  praticables et flèche alignée sur l'une d'elles (`GameMap.exit_cells`)
 - [ ] Gel vu contre Grondin (une fois, non reproduit en 20 combats simulés jusqu'aux 3 phases) :
   attendre un retour avec la console du navigateur
 - [ ] Inviter les testeurs (5 au moins), avec le lien du jeu et le guide

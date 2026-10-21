@@ -197,3 +197,25 @@ func test_erreurs_des_cases_de_placement() -> void:
 			data["placement"] = case[0]
 		var errors := "; ".join(GameMap.validate(data))
 		assert_true(errors.contains(case[1]), "%s : « %s » attendu dans « %s »" % [str(case[0]), case[1], errors])
+
+
+## Cases de sortie (halo du client) : seulement les cases praticables du bord, par direction.
+func test_cases_de_sortie_praticables() -> void:
+	_data["sorties"] = {"droite": "voisine_est", "gauche": "voisine_ouest"}
+	var map := _map()
+	var exits := map.exit_cells()
+	assert_eq(exits.keys().size(), 2, "une liste par sortie")
+	var rock := GameMap.plan_cell(4, 0)
+	assert_true("gauche" in map.exit_directions(rock), "le rocher est au bord gauche")
+	assert_false(rock in exits["gauche"], "mais il bloque : pas de halo")
+	assert_false(GameMap.plan_cell(2, 0) in exits["gauche"], "le mur non plus")
+	for direction: String in exits:
+		assert_true(exits[direction].size() > 0, "au moins une case pour %s" % direction)
+		for cell: Vector2i in exits[direction]:
+			assert_true(map.is_walkable(cell), "case praticable")
+			assert_true(direction in map.exit_directions(cell), "case qui mène vers %s" % direction)
+	for cell: Vector2i in map.cells():
+		for direction in map.exit_directions(cell):
+			assert_eq(cell in exits[direction], map.is_walkable(cell), "toutes les cases praticables y sont")
+	_data["sorties"] = {}
+	assert_true(_map().exit_cells().is_empty(), "sans sortie, aucune case")
