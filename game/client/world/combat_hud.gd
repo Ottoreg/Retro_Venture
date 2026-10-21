@@ -1,12 +1,12 @@
 class_name CombatHud
 extends CanvasLayer
-## Barre de jeu du bas, comme dans Dofus Rétro, toujours affichée : points de vie dans un cœur
-## rouge qui se vide, PA dans une étoile bleue, PM dans une case verte, sorts en icônes, bouton de
-## tour (en combat) et menus. Aussi : ordre de jeu, messages et écran de fin de combat.
+## Bordures d'interface autour de la zone de jeu (`ScreenLayout`), toujours affichées. Barre du bas,
+## comme dans Dofus : historique, points de vie dans un cœur rouge qui se vide, PA dans une étoile
+## bleue, PM dans une case verte, sorts en icônes, bouton de tour (en combat) et menus. Bandes
+## latérales : minicarte et suivi des quêtes à gauche, ordre de jeu (ou résumé du personnage) à
+## droite. Aussi : messages (dans le bandeau du haut) et écran de fin de combat.
 
-const BAR_HEIGHT := 96
-## Largeur réservée à la minicarte dans la barre du bas.
-const MINIMAP_WIDTH := 236.0
+const BAR_HEIGHT := ScreenLayout.BOTTOM
 ## Message quand le sac déborde (butin en surplus).
 const OVERLOAD_TEXT := "Inventaire surchargé ! Faites de la place (vendre, jeter, ranger au coffre) pour pouvoir combattre à nouveau."
 ## Noms courts des éléments pour les résistances du combattant survolé.
@@ -164,7 +164,7 @@ class ItemSlot extends Control:
 		draw_string(font, Vector2(5, 15), key_label, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(1, 0.95, 0.8, 0.6))
 
 
-## Portrait de la frise de tour : le combattant dessiné en petit dans un cadre à la couleur de son
+## Portrait de l'ordre de jeu : le combattant dessiné en petit dans un cadre à la couleur de son
 ## camp, sa barre de PV en bas ; doré et plus grand quand c'est son tour. Nom et PV en infobulle.
 class TurnPortrait extends Control:
 	const SIZE := Vector2(44, 50)
@@ -220,6 +220,39 @@ class TurnPortrait extends Control:
 		draw_rect(bar, Color(0, 0, 0, 0.75))
 		draw_rect(Rect2(bar.position, Vector2(bar.size.x * ratio, bar.size.y)), Color(0.3, 0.85, 0.3) if ratio > 0.3 else Color(0.9, 0.3, 0.2))
 		draw_rect(frame.grow(-1), Color(1.0, 0.82, 0.3) if current else Color(camp, 1.0), false, 3.0 if current else 2.0)
+
+
+## Ligne de l'ordre de jeu, dans la bande droite : le portrait, le nom (doré quand c'est son tour)
+## et les PV.
+class OrderRow extends HBoxContainer:
+	var portrait := TurnPortrait.new()
+	var _name := Label.new()
+	var _hp := Label.new()
+
+	func _init() -> void:
+		add_theme_constant_override("separation", 6)
+		add_child(portrait)
+		var column := VBoxContainer.new()
+		column.alignment = BoxContainer.ALIGNMENT_CENTER
+		column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		column.add_theme_constant_override("separation", 0)
+		column.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		add_child(column)
+		for label: Label in [_name, _hp]:
+			label.clip_text = true
+			label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+			label.custom_minimum_size = Vector2(1, 0)
+			label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			column.add_child(label)
+		_name.add_theme_font_size_override("font_size", 12)
+		_hp.add_theme_font_size_override("font_size", 11)
+		_hp.add_theme_color_override("font_color", UiTheme.TEXT_DIM)
+
+	func show_actor(data: Dictionary, is_current: bool) -> void:
+		portrait.show_actor(data, is_current)
+		_name.text = data["name"]
+		_name.add_theme_color_override("font_color", UiTheme.GOLD if is_current else UiTheme.TEXT)
+		_hp.text = "PV %d / %d" % [data["hp"], data["max_hp"]]
 
 
 ## Une case de la grille de composition : 3 orbes à la couleur des états, le nom du sort que
@@ -285,14 +318,14 @@ var _tactical_button: Button
 ## Hors combat : s'asseoir pour régénérer plus vite (touche A).
 var _sit_button: Button
 var _menu_buttons := {}
-## Frise de tour : un portrait par combattant vivant, dans l'ordre de jeu (en haut à droite) ;
+## Ordre de jeu, dans la bande droite : une ligne (portrait, nom, PV) par combattant vivant ;
 ## « Placement » à la place pendant le placement.
 var _order_label: Label
-var _order_box: HBoxContainer
-## Portraits affichés : id → TurnPortrait, et ordre des ids affichés.
+var _order_box: VBoxContainer
+## Lignes affichées : id → OrderRow, et ordre des ids affichés.
 var _portraits: Dictionary = {}
 var _shown_order: Array[String] = []
-## Historique (combat, commerce), en bas à gauche, en combat comme en exploration.
+## Historique (combat, commerce), à gauche de la barre du bas, en combat comme en exploration.
 var message_log: MessageLog
 ## Marchand de la dernière boutique ouverte (pour l'historique du commerce).
 var _merchant_name := ""
@@ -307,8 +340,18 @@ var _overload_label: Label
 var _spell_buttons: Dictionary = {}
 var _shown_spells: Array[String] = []
 var _refresh_time := 0.0
-## Emplacement de la minicarte dans la barre, à gauche des menus (en exploration seulement).
+## Bandes latérales (voir `_build_bands`).
+var _left_band: PanelContainer
+var _right_band: PanelContainer
+## Emplacements de la minicarte et du suivi des quêtes, dans la bande gauche.
 var minimap_slot: Control
+var quest_slot: Control
+## Résumé du personnage, hors combat, dans la bande droite.
+var _summary: VBoxContainer
+var _summary_name: Label
+var _summary_level: Label
+var _summary_xp: ProgressBar
+var _summary_money: Label
 ## Grille flottante d'un sort de composition (Arcaniste), ouverte au-dessus de son emplacement ou à
 ## la souris ; un fond transparent la ferme au clic ailleurs. `null` quand elle est fermée.
 var _composition: Control
@@ -601,7 +644,7 @@ func bar() -> Control:
 
 func _on_combat_started() -> void:
 	_result_panel.visible = false
-	minimap_slot.visible = false
+	_summary.visible = false
 	_turn_button.visible = true
 	_tactical_button.visible = true
 	_tactical_button.set_pressed_no_signal(map_view.tactical)
@@ -734,7 +777,7 @@ func _loot_slot(drop: Dictionary) -> Control:
 func _on_exploration_resumed() -> void:
 	close_composition()
 	_target_id = ""
-	minimap_slot.visible = true
+	_summary.visible = true
 	_show_target()
 	_turn_button.visible = false
 	_tactical_button.visible = false
@@ -799,6 +842,7 @@ func _refresh_exploration() -> void:
 	_spells_box.visible = false
 	_items_box.visible = true
 	_orbs.visible = false  # Les états élémentaires ne durent qu'un combat.
+	_show_summary(sheet)
 
 
 ## En combat : met à jour la barre à partir de ce qu'affiche la carte.
@@ -834,11 +878,10 @@ func _refresh() -> void:
 	_show_order()
 
 
-## Frise de tour : les portraits des combattants vivants dans l'ordre de jeu, refaite quand un
-## combattant meurt ; « Placement » avant le début du combat.
+## Ordre de jeu : une ligne par combattant vivant, dans l'ordre, refaite quand un combattant
+## meurt ; « Placement » avant le début du combat.
 func _show_order() -> void:
 	var placement := map_view.turn_order.is_empty()
-	_order_label.text = "Placement"
 	_order_label.visible = placement
 	_order_box.visible = not placement
 	var alive: Array[String] = []
@@ -853,16 +896,16 @@ func _show_order() -> void:
 			child.queue_free()
 		_portraits.clear()
 		for actor_id in alive:
-			var portrait := TurnPortrait.new()
-			portrait.actor_id = actor_id
-			portrait.look = map_view.actor_look(actor_id)
-			_order_box.add_child(portrait)
-			_portraits[actor_id] = portrait
+			var line := OrderRow.new()
+			line.portrait.actor_id = actor_id
+			line.portrait.look = map_view.actor_look(actor_id)
+			_order_box.add_child(line)
+			_portraits[actor_id] = line
 	for actor_id: String in _portraits:
-		(_portraits[actor_id] as TurnPortrait).show_actor(map_view.actor(actor_id), actor_id == map_view.current_turn)
+		(_portraits[actor_id] as OrderRow).show_actor(map_view.actor(actor_id), actor_id == map_view.current_turn)
 
 
-## Ids des portraits de la frise, dans l'ordre (pour les tests).
+## Ids des lignes de l'ordre de jeu, dans l'ordre (pour les tests).
 func order_portraits() -> Array[String]:
 	return _shown_order.duplicate()
 
@@ -883,44 +926,63 @@ func _build() -> void:
 	_bar.add_theme_stylebox_override("panel", _panel_style(Color(0.13, 0.1, 0.07, 0.97)))
 	add_child(_bar)
 
+	# Barre du bas : l'historique à gauche (comme le chat de Dofus), au milieu les jauges et les
+	# boutons au-dessus des sorts (ou des objets), les menus à droite.
 	var row := HBoxContainer.new()
-	row.add_theme_constant_override("separation", 14)
+	row.add_theme_constant_override("separation", 12)
 	_bar.add_child(row)
+	message_log = MessageLog.new()
+	row.add_child(message_log)
+	row.add_child(VSeparator.new())
+	var middle := VBoxContainer.new()
+	middle.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	middle.alignment = BoxContainer.ALIGNMENT_CENTER
+	middle.add_theme_constant_override("separation", 10)
+	row.add_child(middle)
+	var top_row := HBoxContainer.new()
+	top_row.add_theme_constant_override("separation", 14)
+	middle.add_child(top_row)
+	var bottom_row := HBoxContainer.new()
+	bottom_row.custom_minimum_size = Vector2(0, 56)
+	middle.add_child(bottom_row)
 
 	_hp_gauge = _gauge("pv", Vector2(70, 72), "Points de vie")
 	_pa_gauge = _gauge("pa", Vector2(56, 72), "Points d'action (PA) : pour lancer des sorts")
 	_pm_gauge = _gauge("pm", Vector2(64, 72), "Points de mouvement (PM) : une case par point")
 	for gauge in [_hp_gauge, _pa_gauge, _pm_gauge]:
-		row.add_child(gauge)
+		top_row.add_child(gauge)
 	_orbs = ElementOrbs.new()
 	_orbs.visible = false
 	_orbs.show_states([])
-	row.add_child(_orbs)
-	row.add_child(VSeparator.new())
+	top_row.add_child(_orbs)
+	var spacer := Control.new()
+	spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	spacer.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	top_row.add_child(spacer)
 
 	_spells_box = HBoxContainer.new()
 	_spells_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_spells_box.alignment = BoxContainer.ALIGNMENT_CENTER
 	_spells_box.add_theme_constant_override("separation", 4)
-	row.add_child(_spells_box)
+	bottom_row.add_child(_spells_box)
 	_items_box = HBoxContainer.new()
 	_items_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_items_box.alignment = BoxContainer.ALIGNMENT_CENTER
 	_items_box.add_theme_constant_override("separation", 4)
-	row.add_child(_items_box)
+	bottom_row.add_child(_items_box)
 	for i in ITEM_SLOTS:
 		var item_slot := ItemSlot.new()
 		item_slot.key_label = str(i + 1)
 		item_slot.tooltip_text = "Emplacement d'objet : les consommables (à venir) s'y rangeront"
 		_items_box.add_child(item_slot)
-	_build_target_box(row)
+	_build_target_box(bottom_row)
 
 	_turn_button = Button.new()
 	_turn_button.custom_minimum_size = Vector2(140, 50)
 	_turn_button.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	_turn_button.focus_mode = Control.FOCUS_NONE
 	_turn_button.pressed.connect(_on_turn_button_pressed)
-	row.add_child(_turn_button)
+	top_row.add_child(_turn_button)
 	_tactical_button = Button.new()
 	_tactical_button.toggle_mode = true
 	_tactical_button.text = "Tactique"
@@ -929,7 +991,7 @@ func _build() -> void:
 	_tactical_button.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	_tactical_button.focus_mode = Control.FOCUS_NONE
 	_tactical_button.pressed.connect(toggle_tactical)
-	row.add_child(_tactical_button)
+	top_row.add_child(_tactical_button)
 	_sit_button = Button.new()
 	_sit_button.toggle_mode = true
 	_sit_button.text = "S'asseoir"
@@ -940,59 +1002,38 @@ func _build() -> void:
 	_sit_button.pressed.connect(func() -> void:
 		map_view.toggle_sit()
 		_on_sitting_changed(map_view.world.sitting))  # Refusé pendant une animation : le bouton revient.
-	row.add_child(_sit_button)
+	top_row.add_child(_sit_button)
 
-	minimap_slot = Control.new()
-	minimap_slot.custom_minimum_size = Vector2(MINIMAP_WIDTH, 0)
-	minimap_slot.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	row.add_child(minimap_slot)
 	row.add_child(VSeparator.new())
 	var menus := GridContainer.new()
 	menus.columns = 3
 	menus.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	menus.add_theme_constant_override("h_separation", 6)
+	menus.add_theme_constant_override("v_separation", 6)
 	row.add_child(menus)
 	for menu: Array in MENUS:
 		var button := Button.new()
 		button.icon = Art.texture(menu[1])
 		button.expand_icon = true
-		button.custom_minimum_size = Vector2(36, 34)
+		button.custom_minimum_size = Vector2(44, 42)
 		button.tooltip_text = menu[2]
 		button.focus_mode = Control.FOCUS_NONE
 		button.pressed.connect(func() -> void: menu_pressed.emit(menu[0]))
 		menus.add_child(button)
 		_menu_buttons[menu[0]] = button
 
-	_order_label = _label(15, Color.WHITE)
-	_order_label.anchor_left = 0.0
-	_order_label.anchor_right = 1.0
-	_order_label.offset_top = 12
-	_order_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	_order_label.offset_right = -16
-	add_child(_order_label)
-	_order_box = HBoxContainer.new()
-	_order_box.anchor_left = 1.0
-	_order_box.anchor_right = 1.0
-	_order_box.offset_top = 10
-	_order_box.offset_right = -16
-	_order_box.grow_horizontal = Control.GROW_DIRECTION_BEGIN
-	_order_box.add_theme_constant_override("separation", 4)
-	add_child(_order_box)
+	_build_bands()
 
-	message_log = MessageLog.new()
-	message_log.anchor_top = 1.0
-	message_log.anchor_bottom = 1.0
-	message_log.offset_left = 8
-	message_log.offset_bottom = -BAR_HEIGHT - 8
-	message_log.grow_vertical = Control.GROW_DIRECTION_BEGIN
-	add_child(message_log)
-
-	_message_label = _label(22, Color(1, 0.95, 0.75))
+	# Messages au milieu du bandeau du haut (le nom de la carte est à gauche) : hors de la zone de jeu.
+	_message_label = _label(20, Color(1, 0.95, 0.75))
 	_message_label.anchor_left = 0.0
 	_message_label.anchor_right = 1.0
-	_message_label.anchor_top = 1.0
-	_message_label.anchor_bottom = 1.0
-	_message_label.offset_top = -BAR_HEIGHT - 44
+	_message_label.offset_top = 16
+	_message_label.offset_left = 300
+	_message_label.offset_right = -300
 	_message_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_message_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	_message_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_message_label.modulate.a = 0.0
 	add_child(_message_label)
 
@@ -1066,6 +1107,103 @@ func _build_target_box(row: HBoxContainer) -> void:
 		var label := _label(13, SpellsWindow.ELEMENT_COLORS.get(element, Color.WHITE))
 		resistances.add_child(label)
 		_target_resistances[element] = label
+
+
+## Bandes latérales, hors de la zone de jeu (`ScreenLayout`) : à gauche la minicarte et le suivi des
+## quêtes (posés par leurs calques sur `minimap_slot` et `quest_slot`), à droite l'ordre de jeu en
+## combat, le résumé du personnage hors combat. Opaques : elles cachent aussi le décor qui déborde
+## de la carte sur les côtés.
+func _build_bands() -> void:
+	_left_band = _band()
+	var left := VBoxContainer.new()
+	left.add_theme_constant_override("separation", 8)
+	left.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_left_band.add_child(left)
+	minimap_slot = Control.new()
+	minimap_slot.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	left.add_child(minimap_slot)
+	quest_slot = Control.new()
+	quest_slot.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	quest_slot.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	left.add_child(quest_slot)
+
+	_right_band = _band()
+	var right := VBoxContainer.new()
+	right.add_theme_constant_override("separation", 6)
+	_right_band.add_child(right)
+	_summary = VBoxContainer.new()
+	_summary.add_theme_constant_override("separation", 4)
+	right.add_child(_summary)
+	_summary_name = _label(15, UiTheme.GOLD)
+	_summary_name.clip_text = true
+	_summary_name.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	_summary.add_child(_summary_name)
+	_summary_level = _label(12, UiTheme.TEXT)
+	_summary_level.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_summary.add_child(_summary_level)
+	_summary_xp = ProgressBar.new()
+	_summary_xp.custom_minimum_size = Vector2(0, 10)
+	_summary_xp.show_percentage = false
+	_summary.add_child(_summary_xp)
+	_summary_money = _label(12, UiTheme.TEXT)
+	_summary.add_child(_summary_money)
+	_order_label = _label(15, UiTheme.GOLD)
+	_order_label.text = "Placement"
+	_order_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	right.add_child(_order_label)
+	var scroll := ScrollContainer.new()
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	right.add_child(scroll)
+	_order_box = VBoxContainer.new()
+	_order_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_order_box.add_theme_constant_override("separation", 4)
+	scroll.add_child(_order_box)
+	get_viewport().size_changed.connect(_place_bands)
+	_place_bands()
+
+
+func _band() -> PanelContainer:
+	var band := PanelContainer.new()
+	var style := _panel_style(Color(0.13, 0.1, 0.07, 1.0))
+	style.set_content_margin_all(6)
+	band.add_theme_stylebox_override("panel", style)
+	band.anchor_top = 0.0
+	band.anchor_bottom = 1.0
+	band.offset_top = ScreenLayout.TOP
+	band.offset_bottom = -BAR_HEIGHT
+	add_child(band)
+	return band
+
+
+## Largeur des bandes d'après l'écran ; la minicarte est carrée, en haut de la bande gauche.
+func _place_bands() -> void:
+	var width := ScreenLayout.band_width(get_viewport().get_visible_rect().size)
+	_left_band.anchor_left = 0.0
+	_left_band.anchor_right = 0.0
+	_left_band.offset_left = 0.0
+	_left_band.offset_right = width
+	_right_band.anchor_left = 1.0
+	_right_band.anchor_right = 1.0
+	_right_band.offset_left = -width
+	_right_band.offset_right = 0.0
+	minimap_slot.custom_minimum_size = Vector2(0, minf(width - 12.0, 220.0))
+
+
+## Bandes gauche et droite (pour les tests et les calques qui s'y posent).
+func bands() -> Array[Control]:
+	return [_left_band, _right_band]
+
+
+## Hors combat, dans la bande droite : nom, niveau et Voie, expérience, écus.
+func _show_summary(sheet: Dictionary) -> void:
+	_summary_name.text = sheet["nom"]
+	_summary_level.text = "Niveau %d, %s %s" % [sheet["niveau"], sheet["race_nom"], sheet["voie_nom"]]
+	var span := maxi(1, int(sheet["xp_suivant"]) - int(sheet["xp_niveau"]))
+	_summary_xp.max_value = span
+	_summary_xp.value = clampi(int(sheet["xp"]) - int(sheet["xp_niveau"]), 0, span)
+	_summary_xp.tooltip_text = "Expérience : %d / %d" % [sheet["xp"], sheet["xp_suivant"]]
+	_summary_money.text = "%d écus" % sheet["ecus"]
 
 
 func _gauge(kind: String, minimum: Vector2, tooltip: String) -> Gauge:

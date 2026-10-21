@@ -1,9 +1,9 @@
 class_name Minimap
 extends CanvasLayer
 ## Minicarte, façon Dofus Rétro : la carte du monde en réduit autour de la carte actuelle, pour
-## s'orienter (chaque carte tient sur un écran : inutile de la redessiner en petit). Dans la barre du
-## bas, à gauche des menus (`CombatHud.minimap_slot`) : jamais sur la zone de jeu. En exploration
-## seulement (en combat, la place revient aux boutons du combat). Fenêtre fixe de `RADIUS` cartes de
+## s'orienter (chaque carte tient sur un écran : inutile de la redessiner en petit). En haut de la
+## bande gauche (`CombatHud.minimap_slot`) : jamais sur la zone de jeu ; en combat aussi, mais le clic
+## n'y ouvre pas la carte du monde. Fenêtre fixe de `RADIUS` cartes de
 ## chaque côté, la carte actuelle au milieu (cadre doré, point bleu) ; toutes les cartes (rien n'est
 ## caché), chemins entre cartes et Pierres de Passage, comme sur la carte du monde
 ## (`WorldMapLayout`, `WorldMapWindow.ZoneGrid`). Dans une maison, la carte devant sa porte. Le
@@ -13,10 +13,8 @@ extends CanvasLayer
 ## Clic sur la minicarte.
 signal pressed
 
-## Cartes montrées de chaque côté de la carte actuelle (5 × 3 cartes, pour tenir dans la barre).
-const RADIUS := Vector2i(2, 1)
-## Marge entre le cadre et le haut et le bas de la barre.
-const BAR_MARGIN := 6.0
+## Cartes montrées de chaque côté de la carte actuelle (5 × 5 cartes, dans un cadre carré).
+const RADIUS := Vector2i(2, 2)
 
 var map_view: MapView
 
@@ -24,9 +22,8 @@ var _frame: PanelContainer
 var _grid: WorldMapWindow.ZoneGrid
 var _zone_name: Label
 var _coordinates: Label
-## Emplacement réservé dans la barre du bas, et la barre (voir `setup`).
+## Emplacement réservé dans la bande gauche (voir `setup`).
 var _slot: Control
-var _bar: Control
 ## Carte à coordonnées au centre (la carte actuelle, ou celle devant la porte d'une maison), ou "".
 var _center_map := ""
 
@@ -39,7 +36,6 @@ func _ready() -> void:
 func setup(p_map_view: MapView, hud: CombatHud) -> void:
 	map_view = p_map_view
 	_slot = hud.minimap_slot
-	_bar = hud.bar()
 	map_view.map_changed.connect(refresh)
 	map_view.combat_started.connect(refresh)
 	map_view.exploration_resumed.connect(refresh)
@@ -59,13 +55,13 @@ func _process(_delta: float) -> void:
 	_place()
 
 
-## Pose le cadre sur son emplacement de la barre du bas (qui suit la largeur de l'écran).
+## Pose le cadre sur son emplacement de la bande gauche (qui suit la taille de l'écran).
 func _place() -> void:
 	if _slot == null or not _frame.visible:
 		return
-	var bar_rect := _bar.get_global_rect()
-	_frame.position = Vector2(_slot.global_position.x, bar_rect.position.y + BAR_MARGIN)
-	_frame.size = Vector2(_slot.size.x, bar_rect.size.y - 2.0 * BAR_MARGIN)
+	var slot := _slot.get_global_rect()
+	_frame.position = slot.position
+	_frame.size = slot.size
 
 
 ## Carte au centre ("" sur une carte sans coordonnées, hors d'une maison).
@@ -83,7 +79,7 @@ func refresh() -> void:
 	if map_view == null or map_view.world == null:
 		return
 	var world := map_view.world
-	_frame.visible = map_view.mode == MapView.Mode.EXPLORATION
+	_frame.visible = true
 	_center_map = WorldMapWindow.here_map(world)
 	var coordinates := WorldMapLayout.map_coordinates(_center_map)
 	_coordinates.visible = not coordinates.is_empty()
@@ -106,7 +102,7 @@ func refresh() -> void:
 
 func _on_frame_input(event: InputEvent) -> void:
 	var button := event as InputEventMouseButton
-	if button != null and button.pressed and button.button_index == MOUSE_BUTTON_LEFT:
+	if button != null and button.pressed and button.button_index == MOUSE_BUTTON_LEFT and map_view.mode == MapView.Mode.EXPLORATION:
 		pressed.emit()
 
 

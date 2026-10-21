@@ -1,20 +1,18 @@
 class_name QuestTracker
 extends CanvasLayer
-## Suivi de la quête choisie, à droite du bandeau du haut (en exploration) : jamais sur la zone de
-## jeu. Son nom et les objectifs de l'étape qui restent à faire (MAX_LINES au plus, le nombre des
-## autres après le nom). Le bouton « – » le replie (il ne reste que le nom de la quête) ; un clic
-## ailleurs ouvre le journal.
+## Suivi de la quête choisie, dans la bande gauche sous la minicarte (`CombatHud.quest_slot`) :
+## jamais sur la zone de jeu. Son nom et les objectifs de l'étape qui restent à faire (MAX_LINES au
+## plus, le nombre des autres après le nom). Le bouton « – » le replie (il ne reste que le nom de la
+## quête) ; un clic ailleurs ouvre le journal (hors combat).
 
 signal pressed
 
-const WIDTH := 380.0
-## Distance au bord droit et au haut de l'écran (le bandeau fait 62 pixels de haut).
-const MARGIN_RIGHT := 12.0
-const TOP := 4.0
-## Objectifs montrés au plus (pour tenir dans le bandeau).
-const MAX_LINES := 2
+## Objectifs montrés au plus.
+const MAX_LINES := 5
 
 var map_view: MapView
+## Emplacement réservé dans la bande gauche (voir `setup`).
+var _slot: Control
 var _frame: PanelContainer
 var _title: Label
 var _lines: Label
@@ -26,8 +24,9 @@ func _ready() -> void:
 	_frame.visible = false
 
 
-func setup(p_map_view: MapView) -> void:
+func setup(p_map_view: MapView, hud: CombatHud) -> void:
 	map_view = p_map_view
+	_slot = hud.quest_slot
 	map_view.quests_changed.connect(func(_journal: Dictionary) -> void: refresh())
 	map_view.combat_started.connect(refresh)
 	map_view.exploration_resumed.connect(refresh)
@@ -66,7 +65,7 @@ func refresh() -> void:
 	for entry: Dictionary in journal["en_cours"]:
 		if entry["id"] == journal["suivie"]:
 			tracked = entry
-	_frame.visible = not tracked.is_empty() and map_view.mode == MapView.Mode.EXPLORATION
+	_frame.visible = not tracked.is_empty()
 	if tracked.is_empty():
 		return
 	# Les objectifs à faire d'abord ; tous faits (étape en train de se valider) : les derniers.
@@ -83,29 +82,48 @@ func refresh() -> void:
 	_fold.text = "+" if Session.tracker_folded else "–"
 	_fold.tooltip_text = "Déplier le suivi" if Session.tracker_folded else "Replier le suivi"
 	_frame.reset_size()
+	_place()
 
 
 func _process(_delta: float) -> void:
-	if _frame.visible:
-		_frame.position = Vector2(get_viewport().get_visible_rect().size.x - MARGIN_RIGHT - WIDTH, TOP)
+	_place()
+
+
+## En haut de son emplacement, sur toute sa largeur ; aussi haut que son texte, sans en sortir.
+func _place() -> void:
+	if _slot == null or not _frame.visible:
+		return
+	var slot := _slot.get_global_rect()
+	# Les lignes coupées ont besoin de leur largeur pour connaître leur hauteur.
+	var inner := slot.size.x - 10.0
+	_title.custom_minimum_size.x = inner - _fold.custom_minimum_size.x - 4.0
+	_lines.custom_minimum_size.x = inner
+	_frame.position = slot.position
+	_frame.custom_minimum_size = Vector2(slot.size.x, 0)
+	_frame.size = Vector2(slot.size.x, slot.size.y)
+	for container in [_frame] + _frame.find_children("*", "Container", true, false):
+		container.notification(Container.NOTIFICATION_SORT_CHILDREN)
+	for label in [_title, _lines]:
+		label.update_minimum_size()
+	_frame.size = Vector2(slot.size.x, minf(_frame.get_combined_minimum_size().y, slot.size.y))
 
 
 func _on_input(event: InputEvent) -> void:
 	var button := event as InputEventMouseButton
-	if button != null and button.pressed and button.button_index == MOUSE_BUTTON_LEFT:
+	if button != null and button.pressed and button.button_index == MOUSE_BUTTON_LEFT and map_view.mode == MapView.Mode.EXPLORATION:
 		pressed.emit()
 
 
 func _build() -> void:
 	_frame = PanelContainer.new()
 	var style := StyleBoxFlat.new()
-	style.bg_color = Color(0.1, 0.08, 0.05, 0.6)
-	style.border_color = Color(0.55, 0.42, 0.22)
+	style.bg_color = UiTheme.TOOLTIP_FILL
+	style.border_color = UiTheme.TOOLTIP_EDGE
 	style.set_border_width_all(1)
 	style.set_corner_radius_all(4)
-	style.set_content_margin_all(3)
+	style.set_content_margin_all(5)
 	_frame.add_theme_stylebox_override("panel", style)
-	_frame.custom_minimum_size = Vector2(WIDTH, 0)
+	_frame.clip_contents = true
 	_frame.tooltip_text = "Journal des quêtes (Q)"
 	_frame.gui_input.connect(_on_input)
 	add_child(_frame)
@@ -119,9 +137,9 @@ func _build() -> void:
 	_title = Label.new()
 	_title.add_theme_font_size_override("font_size", 12)
 	_title.add_theme_color_override("font_color", UiTheme.GOLD)
-	_title.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	_title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	_title.custom_minimum_size = Vector2(WIDTH - 34, 0)
+	_title.custom_minimum_size = Vector2(1, 0)
 	_title.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	header.add_child(_title)
 	_fold = Button.new()
@@ -134,7 +152,7 @@ func _build() -> void:
 	_lines = Label.new()
 	_lines.add_theme_font_size_override("font_size", 11)
 	_lines.add_theme_color_override("font_color", UiTheme.TEXT)
-	_lines.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-	_lines.custom_minimum_size = Vector2(WIDTH - 10, 0)
+	_lines.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_lines.custom_minimum_size = Vector2(1, 0)
 	_lines.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	column.add_child(_lines)

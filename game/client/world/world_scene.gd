@@ -21,7 +21,7 @@ const MENU_SCENE := "res://client/main/main.tscn"
 
 ## Menu pause (Échap quand aucune fenêtre n'est ouverte).
 var pause_menu: PauseMenu
-## Quêtes : proposition d'un PNJ, journal (Q), suivi dans le bandeau du haut.
+## Quêtes : proposition d'un PNJ, journal (Q), suivi dans la bande gauche.
 var quest_dialog: QuestDialog
 var quests_window: QuestsWindow
 var quest_tracker: QuestTracker
@@ -65,7 +65,7 @@ func _ready() -> void:
 	_minimap.pressed.connect(_world_map.open)
 	quest_dialog.setup(_map_view)
 	quests_window.setup(_map_view)
-	quest_tracker.setup(_map_view)
+	quest_tracker.setup(_map_view, _combat_hud)
 	quest_tracker.pressed.connect(quests_window.toggle)
 	quest_dialog.pin_requested.connect(_on_pin_requested)
 	quests_window.pin_requested.connect(_on_pin_requested)
@@ -175,11 +175,12 @@ func _save() -> void:
 		SaveGame.write(_map_view.world.save_data())
 
 
+## La carte à l'échelle de la zone de jeu, centrée entre les bordures d'interface (`ScreenLayout`).
 func _center_map() -> void:
-	var map_size := _map_view.current_map().screen_rect().size
-	var free_space := get_viewport_rect().size - map_size
-	# Un peu plus de place en bas, pour la barre d'interface.
-	_map_view.position = Vector2(free_space.x / 2.0, maxf(free_space.y / 2.0 - 8.0, 0.0)).round()
+	var screen := get_viewport_rect().size
+	var map_scale := ScreenLayout.map_scale(screen)
+	_map_view.scale = Vector2(map_scale, map_scale)
+	_map_view.position = ScreenLayout.map_position(screen, _map_view.current_map().screen_rect().size)
 
 
 ## Boutons de menu de la barre du bas.

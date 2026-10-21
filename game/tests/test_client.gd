@@ -137,10 +137,12 @@ func test_pnj_et_changement_de_carte() -> void:
 	scene.quest_dialog.accept()
 	_run_until_idle(view)
 	assert_true(view.world.character.quests.is_active("brumerive_tutoriel"))
-	assert_true(scene.quest_tracker.is_shown(), "quête suivie, dans le bandeau du haut")
-	scene.quest_tracker._process(0.0)
-	var banner: Rect2 = scene.get_node("Hud/Bandeau").get_global_rect()
-	assert_true(scene.quest_tracker.frame_rect().end.y <= banner.end.y, "pas sur la zone de jeu : %s" % scene.quest_tracker.frame_rect())
+	assert_true(scene.quest_tracker.is_shown(), "quête suivie, dans la bande gauche")
+	var hud: CombatHud = scene.get_node("CombatHud")
+	_sort_layout(hud.bands()[0])
+	scene.quest_tracker._place()
+	assert_true(hud.bands()[0].get_global_rect().encloses(scene.quest_tracker.frame_rect()),
+		"pas sur la zone de jeu : %s" % scene.quest_tracker.frame_rect())
 	assert_true(scene.quest_tracker.shown_text().contains("Bienvenue à Brumerive"), scene.quest_tracker.shown_text())
 	scene.quest_tracker.set_folded(true)
 	assert_false(scene.quest_tracker._lines.visible, "suivi replié : seulement le nom de la quête")
@@ -282,21 +284,57 @@ func test_le_temps_continue_sans_le_focus() -> void:
 	scene.free()
 
 
-## Ni la minicarte ni le suivi des quêtes ne passent sur la zone de jeu : ils restent dans les
-## bordures d'interface (barre du bas, bandeau du haut).
+## Bordures d'interface autour de la zone de jeu, comme Dofus 2 : la carte, à l'échelle, tient entre
+## le bandeau, les deux bandes latérales et la barre du bas, et rien ne passe dessus.
 func test_interface_hors_de_la_zone_de_jeu() -> void:
+	# En 1280 × 720 : bandes d'au moins 150 px, carte à environ 81 %.
+	var screen := Vector2(1280, 720)
+	var area := ScreenLayout.play_rect(screen)
+	assert_almost_eq(ScreenLayout.map_scale(screen), 980.0 / 1216.0, 0.001)
+	assert_almost_eq(ScreenLayout.band_width(screen), ScreenLayout.BAND, 0.5)
+	assert_true(area.position.y >= ScreenLayout.TOP and area.end.y <= screen.y - ScreenLayout.BOTTOM, "%s" % area)
+	# Écran plus large (21:9) : le surplus élargit les bandes. Plus haut (4:3) : marge sous le bandeau.
+	assert_true(ScreenLayout.band_width(Vector2(1706, 720)) > 300.0)
+	var tall := ScreenLayout.play_rect(Vector2(1280, 960))
+	assert_almost_eq(tall.size.x, 980.0, 0.5)
+	assert_true(tall.position.y > ScreenLayout.TOP + 50.0, "carte centrée en hauteur : %s" % tall)
+	# Une petite carte (intérieur) garde l'échelle et se centre dans la zone.
+	var small := ScreenLayout.map_position(screen, Vector2(704, 160))
+	assert_almost_eq(small.x + 704.0 * ScreenLayout.map_scale(screen) / 2.0, area.get_center().x, 1.0)
+
 	var tree := Engine.get_main_loop() as SceneTree
 	var scene: Node = load("res://client/world/world.tscn").instantiate()
 	tree.root.add_child(scene)
 	var view: MapView = scene.get_node("MapView")
 	var hud: CombatHud = scene.get_node("CombatHud")
 	var minimap: Minimap = scene.get_node("Minimap")
+	var viewport_size: Vector2 = scene.get_viewport_rect().size
+	assert_almost_eq(view.scale.x, ScreenLayout.map_scale(viewport_size), 0.001, "carte à l'échelle de la zone")
+	var map_rect := Rect2(view.position, view.current_map().screen_rect().size * view.scale)
+	assert_true(ScreenLayout.play_rect(viewport_size).grow(1.0).encloses(map_rect), "%s" % map_rect)
+	for band: Control in hud.bands():
+		_sort_layout(band)
+		assert_false(band.get_global_rect().intersects(map_rect), "bande hors de la zone : %s" % band.get_global_rect())
+	assert_false(hud.bar().get_global_rect().intersects(map_rect), "barre du bas hors de la zone")
+	assert_true(hud.bar().is_ancestor_of(hud.message_log), "historique dans la barre du bas")
 	minimap._place()
-	var bar := hud.bar().get_global_rect()
-	assert_true(bar.encloses(minimap.frame_rect()), "minicarte dans la barre du bas")
-	# Le suivi des quêtes : voir `test_pnj_et_changement_de_carte`.
+	assert_true(hud.bands()[0].get_global_rect().encloses(minimap.frame_rect()), "minicarte dans la bande gauche")
+	assert_almost_eq(minimap.frame_rect().size.x, minimap.frame_rect().size.y, 1.0, "minicarte carrée")
+	# Le suivi des quêtes : voir `test_pnj_et_changement_de_carte` ; l'ordre de jeu (bande droite) :
+	# `test_ergonomie_du_combat`.
 	view.advance(0.1)
 	scene.free()
+
+
+## Range tout de suite les conteneurs sous `root` (Godot le fait aux images suivantes).
+func _sort_layout(root: Control) -> void:
+	var controls: Array = [root] + root.find_children("*", "Control", true, false)
+	for i in 2:
+		for control: Control in controls:
+			control.update_minimum_size()
+		for control: Control in controls:
+			if control is Container:
+				control.notification(Container.NOTIFICATION_SORT_CHILDREN)
 
 
 func test_nouveau_clic_pendant_la_marche() -> void:
@@ -963,31 +1001,33 @@ func test_carte_du_monde_et_minicarte() -> void:
 	var world_map: WorldMapWindow = scene.get_node("WorldMapWindow")
 	var travel: TravelWindow = scene.get_node("TravelWindow")
 
-	# Minicarte dans la barre du bas, à gauche des menus : jamais sur la zone de jeu ; seul son
-	# cadre attrape la souris.
+	# Minicarte en haut de la bande gauche : jamais sur la zone de jeu ; seul son cadre attrape la
+	# souris.
 	assert_true(minimap.is_shown(), "minicarte affichée en exploration")
+	_sort_layout(hud.bands()[0])
+	minimap._place()
 	var frame := minimap._frame.get_global_rect()
-	var bar := hud.bar().get_global_rect()
+	var band := hud.bands()[0].get_global_rect()
 	var slot := hud.minimap_slot.get_global_rect()
-	assert_true(bar.encloses(frame), "dans la barre du bas : %s dans %s" % [frame, bar])
-	assert_eq(frame.position.x, slot.position.x, "sur son emplacement")
+	assert_true(band.encloses(frame), "dans la bande gauche : %s dans %s" % [frame, band])
+	assert_eq(frame.position, slot.position, "sur son emplacement")
 	assert_eq(frame.size.x, slot.size.x)
-	assert_true(minimap.get_index() > hud.get_index(), "dessinée par-dessus la barre")
+	assert_true(minimap.get_index() > hud.get_index(), "dessinée par-dessus la bande")
 	for node in minimap._frame.find_children("*", "Control", true, false):
 		if node != minimap._grid:
 			assert_eq((node as Control).mouse_filter, Control.MOUSE_FILTER_IGNORE, "%s laisse passer la souris" % node.name)
 	assert_eq(minimap._grid.mouse_filter, Control.MOUSE_FILTER_PASS, "bulle de survol, clic au cadre")
 	assert_eq(minimap._coordinates.text, "0, 0", "coordonnées de la carte")
 	assert_eq(minimap._zone_name.text, "Brumerive")
-	# Version réduite de la carte du monde : 5 × 3 cartes, la carte actuelle au milieu.
+	# Version réduite de la carte du monde : 5 × 5 cartes, la carte actuelle au milieu.
 	var near := minimap.shown_layout()
-	assert_eq([near["colonnes"], near["lignes"]], [5, 3])
+	assert_eq([near["colonnes"], near["lignes"]], [5, 5])
 	var near_cases := {}
 	for case: Dictionary in near["cases"]:
 		near_cases[case["id"]] = case
-	assert_eq(near_cases["brumerive_0_0"]["case"], Vector2i(2, 1), "la place du village au milieu")
+	assert_eq(near_cases["brumerive_0_0"]["case"], Vector2i(2, 2), "la place du village au milieu")
 	assert_true(near_cases["brumerive_0_0"]["actuelle"])
-	assert_eq(near_cases["brumerive_1_0"]["case"], Vector2i(3, 1), "les champs à droite")
+	assert_eq(near_cases["brumerive_1_0"]["case"], Vector2i(3, 2), "les champs à droite")
 	assert_eq(near_cases["brumerive_1_0"]["nom"], "Champs de l'est", "pas encore visités, mais montrés")
 	assert_eq(minimap._grid.case_tooltip(near_cases["brumerive_0_0"]).get_slice("\n", 0), "Brumerive — Place du village  [0, 0]")
 
@@ -1052,9 +1092,9 @@ func test_carte_du_monde_et_minicarte() -> void:
 	near_cases = {}
 	for case: Dictionary in minimap.shown_layout()["cases"]:
 		near_cases[case["id"]] = case
-	assert_eq(near_cases["brumerive_1_0"]["case"], Vector2i(2, 1))
+	assert_eq(near_cases["brumerive_1_0"]["case"], Vector2i(2, 2))
 	assert_true(near_cases["brumerive_0_0"]["visitee"] and not near_cases["brumerive_0_0"]["actuelle"])
-	assert_eq(near_cases["brumerive_0_0"]["case"], Vector2i(1, 1), "la place, maintenant à gauche")
+	assert_eq(near_cases["brumerive_0_0"]["case"], Vector2i(1, 2), "la place, maintenant à gauche")
 	assert_eq(minimap._frame.get_global_rect().size.y, frame.size.y, "à sa taille d'avant")
 	world_map.open()
 	cases = _world_map_cases(world_map)
@@ -1075,11 +1115,13 @@ func test_carte_du_monde_et_minicarte() -> void:
 		assert_ne(case["nom"], WorldMapLayout.UNKNOWN_NAME, "aucune carte cachée : %s" % case["id"])
 	world_map.close()
 
-	# En combat : pas de minicarte (l'ordre de jeu est là), ni de carte du monde.
+	# En combat : la minicarte reste dans sa bande, mais ni elle ni M n'ouvrent la carte du monde.
 	view._on_click(view.world.groups()[0]["case"])
 	_run_until_idle(view)
 	assert_eq(view.mode, MapView.Mode.COMBAT)
-	assert_false(minimap.is_shown(), "minicarte masquée en combat")
+	assert_true(minimap.is_shown(), "minicarte toujours là en combat")
+	minimap._frame.gui_input.emit(click)
+	assert_false(world_map.is_open(), "son clic n'ouvre rien en combat")
 	world_map.open()
 	assert_false(world_map.is_open(), "pas de carte du monde en combat")
 	scene.free()
@@ -1097,7 +1139,7 @@ func test_minicarte_dans_une_maison_et_au_trone_de_cendre() -> void:
 	assert_eq(minimap.center_map(), "brumerive_0_0", "la place du village, devant la porte")
 	assert_true(minimap._grid.indoors)
 	var center: Dictionary = minimap.shown_layout()["cases"].filter(func(c: Dictionary) -> bool: return c["actuelle"])[0]
-	assert_eq(center["case"], Vector2i(2, 1))
+	assert_eq(center["case"], Vector2i(2, 2))
 	assert_true(minimap._grid.case_tooltip(center).ends_with("Vous êtes dans une maison de cette carte."))
 	scene.free()
 	# Trône de Cendre : une carte isolée, seule au milieu de la minicarte.
@@ -1152,7 +1194,7 @@ func test_carte_du_monde_grandes_zones() -> void:
 		for container in panel.find_children("*", "Container", true, false):
 			container.notification(Container.NOTIFICATION_SORT_CHILDREN)
 	var grid := world_map._grid
-	assert_true(panel.get_global_rect().end.y <= 720.0 - CombatHud.BAR_HEIGHT, "fenêtre au-dessus du bandeau du bas")
+	assert_true(panel.get_global_rect().end.y <= 720.0 - WorldMapWindow.BOTTOM_MARGIN, "fenêtre au-dessus des menus de la barre")
 	assert_true(grid.size.x >= 700.0 and grid.size.y >= 250.0 and grid.size.y <= 400.0,
 		"taille réelle de la grille : %s" % grid.size)
 	var area := Rect2(Vector2.ZERO, grid.size)
@@ -1340,10 +1382,10 @@ func test_ergonomie_du_combat() -> void:
 	view.request_start_fight()
 	_run_until_idle(view)
 	assert_true(view.is_player_turn())
-	# Frise : un portrait par combattant vivant, dans l'ordre de jeu, le joueur avec son dessin.
+	# Ordre de jeu (bande droite) : une ligne par combattant vivant, le joueur avec son dessin.
 	assert_true(hud._order_box.visible and not hud._order_label.visible)
 	assert_eq(hud.order_portraits(), view.turn_order.filter(func(id: String) -> bool: return view.actor(id)["alive"]))
-	var portrait: CombatHud.TurnPortrait = hud._portraits[World.PLAYER_ID]
+	var portrait: CombatHud.TurnPortrait = (hud._portraits[World.PLAYER_ID] as CombatHud.OrderRow).portrait
 	assert_true(portrait.look.has("rig"), "le personnage dessiné dans son cadre")
 	assert_true(portrait.current, "cadre doré : c'est son tour")
 	assert_true(portrait.tooltip_text.begins_with("Mirabelle"), portrait.tooltip_text)

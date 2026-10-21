@@ -1285,7 +1285,7 @@ d'ambiance habituel, sa fiche affiche « Créé par [pseudo de l'artisan] ».
   retour au menu principal (sauvegardé, pas pendant un combat), quitter. **Options** (menu principal
   ou pause) : volume, plein écran, taille de la fenêtre, mode tactique ; gardées hors sauvegarde.
 
-- **Bandeau bas :** chat à gauche, PV dans un cœur rouge qui se vide, PA dans une étoile bleue, PM
+- **Bandeau bas** (200 px) **:** historique (futur chat) à gauche, PV dans un cœur rouge qui se vide, PA dans une étoile bleue, PM
   dans une case verte, barre de sorts en combat (icônes avec raccourci et coût en PA), **barre
   d'objets hors combat** (8 emplacements, pour les consommables : seulement montrée tant qu'il n'y
   en a pas ; ni objet ni équipement utilisable en combat), boutons de menus (inventaire,
@@ -1300,21 +1300,28 @@ d'ambiance habituel, sa fiche affiche « Créé par [pseudo de l'artisan] ».
   rythme, pour rester lisibles.
 - **Fenêtres :** inventaire avec poupée d'équipement, fiche de caractéristiques, grimoire de sorts,
   journal de quêtes, fenêtre de métier, carte du monde (touche M).
-- **Aucune interface sur la zone de jeu** : la carte tient entre le bandeau du haut et la barre du
-  bas, et les encarts permanents vont dans ces bordures.
-- **Minicarte** dans la barre du bas, à gauche des menus, en exploration seulement (en combat, la
-  place revient aux boutons du combat) : la carte du monde en réduit autour de la carte actuelle
-  (5 × 3 cartes) ; un clic dessus ouvre la carte du monde. **Suivi de la quête** à droite du
-  bandeau du haut : son nom et deux objectifs à faire au plus (« (+n) » s'il en reste d'autres).
+- **Aucune interface sur la zone de jeu**, comme Dofus 2 (`client/world/screen_layout.gd`) : la
+  carte tient entre quatre bordures, le bandeau du haut (nom de la carte, messages au milieu), deux
+  **bandes latérales** (150 px au moins) et la barre du bas. Une carte standard (1216 × 544) est plus
+  large qu'un écran 16:9 : elle est dessinée à l'échelle qui la fait tenir entre les bandes
+  (≈ 81 % en 1280 × 720). Sur un écran plus large, le surplus élargit les bandes ; sur un écran plus
+  haut, il laisse une marge au-dessus et au-dessous de la carte ; un intérieur garde la même
+  échelle, centré. Les bandes sont opaques et cachent le décor qui déborde de la carte.
+- **Bande gauche** : la **minicarte** en haut, carrée (la carte du monde en réduit, 5 × 5 cartes
+  autour de la carte actuelle ; un clic dessus ouvre la carte du monde, hors combat), puis le
+  **suivi de la quête** : son nom et cinq objectifs à faire au plus (« (+n) » s'il en reste
+  d'autres), repliable ; un clic ouvre le journal (hors combat). Les deux restent en combat.
+- **Bande droite** : en combat, l'**ordre de jeu** en colonne ; hors combat, un résumé du
+  personnage (nom, niveau, race et Voie, expérience, écus).
 - **Repères de quête** : dans la proposition d'une quête et le journal, les noms des PNJ, des
   cartes et des zones sont des liens (en bleu). Un clic pose un repère, une épingle sur la carte
   du monde (ouverte sur sa zone) et la minicarte (une flèche au bord s'il est plus loin dans la
   zone) : là où est le PNJ (devant la porte s'il est dans une maison), la carte, ou la Pierre de
   Passage de la zone. Un seul repère à la fois ; le même nom recliqué, le bouton « Retirer le
   repère » de la carte du monde ou l'arrivée sur sa carte le retirent.
-- **En combat :** frise d'initiative en portraits (en haut à droite : chaque combattant vivant
-  dessiné dans un petit cadre à la couleur de son camp, sa barre de PV en bas, cadre doré pour
-  celui qui joue ; nom et PV en infobulle), prévisualisation de portée et de zone, **dégâts et soins
+- **En combat :** ordre de jeu dans la bande droite (une ligne par combattant vivant : son
+  portrait dans un petit cadre à la couleur de son camp, sa barre de PV en bas, cadre doré pour
+  celui qui joue ; son nom, doré à son tour, et ses PV), prévisualisation de portée et de zone, **dégâts et soins
   estimés** au-dessus de chaque combattant que toucherait le sort visé (fourchette sans coup
   critique, à la couleur de l'élément ; soins limités aux PV qui manquent), **clic droit sur un
   sort** pour le lancer sur soi, bouton « fin de tour ». Au survol d'un combattant, ses informations (nom, niveau, PV, PA, PM,
@@ -1327,7 +1334,7 @@ d'ambiance habituel, sa fiche affiche « Créé par [pseudo de l'artisan] ».
   couleur de leur élément (un choc, sans élément, reste rouge), comme les **glyphes** au sol
   (celle de leur premier effet chiffré ; sans élément, la couleur du camp). Au **survol d'une glyphe** (des deux camps) ou d'un piège allié : nom du sort, qui
   l'a lancé, camp, et pour une glyphe les tours restants.
-- **Historique commun** (`client/ui/message_log.gd`), en bas à gauche au-dessus du bandeau, en
+- **Historique commun** (`client/ui/message_log.gd`), à gauche de la barre du bas, en
   combat comme en exploration (repliable, touche H, état gardé pendant la partie). Chaque message
   est rangé dans un **canal** : *Combat* (rien ne s'efface entre deux combats, un séparateur
   « Nouveau combat » marque le début de chacun) et *Commerce* (achats et ventes : objet, quantité,
@@ -1337,9 +1344,7 @@ d'ambiance habituel, sa fiche affiche « Créé par [pseudo de l'artisan] ».
   (affiché « Auteur : texte ») et une heure ; les canaux *Groupe*, *Équipe* et *Guilde* (puis
   privé) s'ajouteront comme onglets, avec une ligne de saisie sous le texte et une couleur par
   canal ; les messages viendront du serveur (commande « parler » vers un canal, événement relayé
-  aux membres), le client ne faisant que les ranger. L'historique reste sur la zone de jeu pour
-  l'instant (décision de l'auteur) ; il pourra rejoindre la gauche du bandeau, comme le chat de
-  Dofus Rétro.
+  aux membres), le client ne faisant que les ranger. Il est à la place du chat de Dofus.
 - **Boutique** : barre de recherche au-dessus de la liste (achat et vente) ; chaque mot doit
   apparaître dans le nom ou le type de l'objet, sans tenir compte des majuscules ni des accents.
 - Interface redimensionnable, lisible en 1280×720 minimum.

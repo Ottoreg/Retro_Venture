@@ -80,7 +80,8 @@ Phase 2 (alpha solo), en deux tests :
    `apres_boss`). Intégration faite (`tools/simulation.gd`, `docs/design/simulation_combats.md`) :
    ajustements d'équilibrage reportés après l'alpha test 1, d'après les retours des joueurs (TODO).
 4. Interface et confort : **mode tactique en combat** (GDD § 14.3), menu pause et options
-   (`client/options.gd`, `user://options.cfg`) **faits** ; reste la fenêtre des quêtes (avec le
+   (`client/options.gd`, `user://options.cfg`) **faits** ; **bandes latérales façon Dofus 2**
+   (`client/world/screen_layout.gd` : carte à l'échelle, rien sur la zone de jeu) **faites** ; reste la fenêtre des quêtes (avec le
    chantier 6, faite) et les petits conforts (infobulles comparées, raccourcis).
 6. Quêtes : conception validée (`docs/design/chantier6_quetes.md`). **Lots 1 (système :
    `core/quests/`, journal Q, suivi, marques `!`/`?`) et 2 (tutoriels et acte I, script

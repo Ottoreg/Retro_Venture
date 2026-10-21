@@ -1,6 +1,6 @@
 class_name MessageLog
 extends PanelContainer
-## Historique commun, en bas à gauche au-dessus de la barre, en combat comme en exploration : une
+## Historique commun, à gauche de la barre du bas, en combat comme en exploration : une
 ## ligne par message, rangée dans un canal (combat, commerce). Des onglets filtrent les canaux
 ## (« Tout » les mêle) ; le bouton « – » (ou la touche H) le replie. Rien ne s'efface entre deux
 ## combats : un séparateur marque le début de chacun.
@@ -8,8 +8,7 @@ extends PanelContainer
 ## Prévu pour le chat (GDD § 14.4) : un message a un canal, un auteur facultatif et une heure ; les
 ## canaux groupe, équipe et guilde s'ajouteront à `CHANNELS`, avec une ligne de saisie sous le texte.
 
-const WIDTH := 380.0
-const HEIGHT := 170.0
+const WIDTH := 340.0
 ## Lignes gardées par canal : un long combat ne chasse pas l'historique du commerce.
 const MAX_LINES := 300
 
@@ -37,7 +36,7 @@ func _init() -> void:
 
 
 func _ready() -> void:
-	_apply_fold()  # Après la mise en place par la barre (bas de l'historique).
+	_apply_fold()
 
 
 ## Nouveau combat : un séparateur après l'historique des combats précédents, qui reste.
@@ -130,15 +129,13 @@ func _apply_fold() -> void:
 	_text.visible = not folded
 	_fold.text = "+" if folded else "–"
 	_fold.tooltip_text = "Déplier l'historique (H)" if folded else "Replier l'historique (H)"
-	custom_minimum_size = Vector2(WIDTH, 0 if folded else HEIGHT)
-	offset_top = offset_bottom - (24.0 if folded else HEIGHT)
-	reset_size()
+	custom_minimum_size = Vector2(WIDTH, 0)
 
 
 func _build() -> void:
 	var style := StyleBoxFlat.new()
-	style.bg_color = Color(0.1, 0.08, 0.05, 0.82)
-	style.border_color = Color(0.55, 0.42, 0.22)
+	style.bg_color = UiTheme.INK
+	style.border_color = UiTheme.TOOLTIP_EDGE
 	style.set_border_width_all(1)
 	style.set_corner_radius_all(4)
 	style.set_content_margin_all(5)

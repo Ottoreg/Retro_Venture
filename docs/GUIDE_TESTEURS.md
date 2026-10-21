@@ -85,7 +85,7 @@ temps : chaque camp a sa propre histoire.
 | Attaquer un groupe de monstres | Clic sur le groupe : le personnage le rejoint et le combat commence |
 | Parler, commercer, fabriquer | Clic sur un PNJ (bulle « … », ou « ! » / « ? » s'il a une quête pour vous) |
 | Boutique | Chez un marchand : onglets Acheter / Vendre et **barre de recherche** (un mot du nom ou du type, « botte », « anneau »… sans se soucier des accents) |
-| Historique | En bas à gauche, touche **H** pour le replier : onglet **Combat** (gardé d'un combat à l'autre) et **Commerce** (chaque achat et vente : objet, quantité, marchand, écus) ; « Tout » mêle les deux |
+| Historique | À gauche de la barre du bas, touche **H** pour le replier : onglet **Combat** (gardé d'un combat à l'autre) et **Commerce** (chaque achat et vente : objet, quantité, marchand, écus) ; « Tout » mêle les deux |
 | Récolter | Clic sur un arbre (bûcheron) ou un rocher à minerai (mineur) |
 | Entrer / sortir d'un bâtiment | Clic sur la porte : celles où l'on peut entrer sont marquées au sol d'un losange doré (double chevron) |
 | Changer de carte | Clic sur une case du bord marquée d'un halo blanc (la flèche jaune indique la direction) |
@@ -107,18 +107,28 @@ temps : chaque camp a sa propre histoire.
 **Options** (menu principal ou menu pause) : volume, plein écran, taille de la fenêtre (hors
 navigateur) et mode tactique ; elles sont gardées d'une partie à l'autre, hors sauvegarde.
 
-Les six boutons en bas à droite du bandeau ouvrent les mêmes fenêtres.
+Les six boutons en bas à droite de la barre ouvrent les mêmes fenêtres.
+
+### L'écran
+
+Comme dans Dofus 2, rien ne passe sur la zone de jeu : la carte est entourée du bandeau du haut
+(nom de la carte et messages), de deux **bandes** à gauche et à droite, et de la barre du bas
+(historique, jauges, sorts ou objets, menus). La carte est un peu réduite pour laisser la place
+aux bandes ; sur un écran plus large, les bandes s'élargissent.
+
+- **Bande gauche** : la minicarte en haut, la quête suivie dessous.
+- **Bande droite** : hors combat, votre nom, niveau, expérience et écus ; en combat, l'ordre de jeu.
 Les sorts se consultent dans leur fenêtre (S).
 
 ### Minicarte et carte du monde
 
-- **Minicarte** (dans la barre du bas, à gauche des menus, en exploration seulement), comme dans Dofus Rétro : la carte du
-  monde en réduit, **5 × 3 cartes autour de vous**. Votre carte est au milieu (cadre doré, point
+- **Minicarte** (en haut de la bande gauche), comme dans Dofus Rétro : la carte du
+  monde en réduit, **5 × 5 cartes autour de vous**. Votre carte est au milieu (cadre doré, point
   bleu) ; les autres cartes sont des cases claires, les traits sont les passages entre cartes, le
   losange bleu une Pierre de Passage. Survolez
   une case pour son nom. En haut, le nom de la zone et les coordonnées de la carte ; dans une maison,
-  elle montre la carte devant la porte. Un **clic** dessus ouvre la carte du monde. Elle disparaît en
-  combat.
+  elle montre la carte devant la porte. Un **clic** dessus ouvre la carte du monde (hors combat :
+  en combat, elle reste affichée mais ne s'ouvre pas).
 - **Carte du monde** (touche **M**, bouton en forme de carte du bandeau, ou clic sur la minicarte) :
   **tout le monde est montré dès le début**, comme dans Dofus : un onglet par zone du jeu, ouvert
   sur la zone actuelle, avec le nombre de cartes que vous y avez visitées. Chaque carte est une case
@@ -158,13 +168,13 @@ Les sorts se consultent dans leur fenêtre (S).
      bloque que le passage), obstacles qui bloquent la vue en blocs, arbres et bâtiments masqués,
      combattants en pions de la couleur de leur camp (initiale et PV). Portées, zones, glyphes et
      cases de placement restent affichées. Le choix est retenu d'un combat à l'autre.
-   - **ordre de jeu** en haut à droite : un portrait par combattant (bleu : votre camp, rouge :
-     l'adversaire ; doré : celui qui joue), sa barre de PV en bas, son nom au survol ;
+   - **ordre de jeu** dans la bande droite : une ligne par combattant, son portrait (bleu : votre
+     camp, rouge : l'adversaire ; doré : celui qui joue), son nom et ses PV ;
    - survoler un combattant : son niveau, ses PV, PA, PM et ses résistances s'affichent à la place
      de la barre de sorts.
    - survoler une glyphe ou un de vos pièges : le sort, qui l'a lancé, et les tours restants d'une
      glyphe (les pièges ennemis sont invisibles).
-   - **Historique** (en bas à gauche, en combat comme en exploration ; bouton « – » ou touche **H**
+   - **Historique** (à gauche de la barre du bas, en combat comme en exploration ; bouton « – » ou touche **H**
      pour le replier ; onglets Tout, Combat, Commerce). En combat : chaque tour, chaque sort lancé
      et ses effets, gardés après le combat ; dégâts, soins et boucliers à la couleur de leur
      élément (Acier ocre, Flamme orange, Givre bleu, Tempête vert, Sacré jaune pâle, Impie violet).
@@ -202,9 +212,9 @@ le **lit** de votre maison les rend tous d'un coup.
   proposition s'affiche (texte, objectifs, récompenses) avec « Accepter » ou « Plus tard ».
 - Un **« ? »** jaune : il attend quelque chose de vous maintenant (lui parler, lui rapporter des
   objets) ; un **« ? »** gris : sa quête est en cours.
-- La quête suivie s'affiche **en haut à droite**, dans le bandeau, en petit (clic : le journal, touche **Q** ;
+- La quête suivie s'affiche **dans la bande gauche**, sous la minicarte (clic : le journal, touche **Q** ;
   le bouton **« – »** la replie pour ne garder que son nom). Chaque objectif qui avance s'annonce
-  en bas de l'écran.
+  dans le bandeau du haut.
 - Dans la proposition et le journal, les **noms en bleu** (personnages, cartes, zones) se
   cliquent : un **repère** (épingle rouge) se pose sur la carte du monde, qui s'ouvre, et sur la
   minicarte (une flèche au bord s'il est plus loin). Recliquez le nom, ou « Retirer le repère »

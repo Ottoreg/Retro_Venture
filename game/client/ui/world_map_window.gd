@@ -22,6 +22,8 @@ const GAP_RATIO := 0.2
 ## Coupure des noms dans les cases : aux mots seulement ; un mot trop long pour la case finit par
 ## des points de suspension (voir `_centered_text`).
 const NAME_BREAKS := TextServer.BREAK_MANDATORY | TextServer.BREAK_WORD_BOUND
+## Distance entre le bas de la fenêtre et le bas de l'écran.
+const BOTTOM_MARGIN := 110.0
 
 
 ## Grille d'une zone, dessinée d'après le résultat de `WorldMapLayout.zone_layout`.
@@ -461,11 +463,12 @@ func _build() -> void:
 	_panel.anchor_left = 0.5
 	_panel.anchor_right = 0.5
 	_panel.anchor_bottom = 1.0
-	# Assez étroite pour laisser voir la minicarte, en haut à droite.
+	# Assez étroite pour laisser voir la minicarte (bande gauche) ; fenêtre au premier plan, elle
+	# peut couvrir le haut de la barre du bas.
 	_panel.offset_left = -410
 	_panel.offset_right = 410
 	_panel.offset_top = 76
-	_panel.offset_bottom = -CombatHud.BAR_HEIGHT - 14
+	_panel.offset_bottom = -BOTTOM_MARGIN
 	var style := StyleBoxFlat.new()
 	style.bg_color = Color(0.13, 0.1, 0.07, 0.97)
 	style.border_color = Color(0.55, 0.42, 0.22)

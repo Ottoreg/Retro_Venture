@@ -438,6 +438,11 @@ Tout le contenu et les systèmes MVP de l'alpha 1 sont faits (chantiers 1, 3, 4 
   liseré bronze de 2 px, comme la grille de Composition), appliqué aux infobulles (aussi dans le
   thème par défaut : celui de la fenêtre n'atteignait pas les barres en CanvasLayer), à la bulle
   de survol de la carte et aux dégâts prévus
+- [x] Bandes latérales « hors jeu », comme Dofus 2 (GDD § 14.3, `ScreenLayout`) : carte à
+  l'échelle entre le bandeau, deux bandes de 150 px au moins et une barre du bas de 200 px ;
+  minicarte (5 × 5, carrée) et suivi des quêtes dans la bande gauche, ordre de jeu en colonne (ou
+  résumé du personnage hors combat) dans la bande droite, historique dans la barre du bas,
+  messages dans le bandeau : plus rien sur la zone de jeu, même en combat
 - [ ] Chat par canaux (phase multijoueur) : onglets Groupe, Équipe, Guilde dans l'historique
   commun, ligne de saisie, commande « parler » et relais par le serveur (GDD § 14.3)
 - [ ] Barre d'objets : la rendre utilisable (glisser un consommable, clic ou touche pour l'utiliser,

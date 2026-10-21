@@ -2005,7 +2005,7 @@ func _show_dialogue_line() -> void:
 	var top_left := anchor - Vector2(bubble_size.x / 2.0, bubble_size.y)
 	var max_x := _map.screen_rect().size.x - bubble_size.x
 	# Au-dessus du PNJ, sauf si la bulle passerait sous le bandeau du haut : alors sous ses pieds.
-	var highest := DIALOGUE_TOP - global_position.y
+	var highest := (DIALOGUE_TOP - global_position.y) / global_scale.y
 	if top_left.y < highest:
 		top_left.y = IsoGrid.cell_to_screen(_dialogue["case"]).y + 18.0
 	_bubble.position = Vector2(clampf(top_left.x, 0.0, maxf(max_x, 0.0)), top_left.y)
