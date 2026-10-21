@@ -214,7 +214,8 @@ const EVT_LEVEL_UP := "niveau"
 const EVT_CHARACTER := "personnage"
 ## Inventaire mis à jour. { type, inventaire: Dictionary (voir Character.inventory_sheet) }
 const EVT_INVENTORY := "inventaire"
-## { type, vainqueur: int (équipe, -1 si aucune), xp: int } ; après le passage du monde, aussi
+## { type, vainqueur: int (équipe, -1 si aucune), xp: int, tours: int (durée en tours),
+## combattants: Array[{ id, nom, type, niveau, equipe, vivant }] (pour l'écran de fin) } ; après le passage du monde, aussi
 ## `butin`: Array[{ objet, nom, rarete, quantite }], `ecus`: int, `niveaux`: Array[int],
 ## `surcharge`: bool (le sac déborde : faire de la place avant le prochain combat) ; après une
 ## défaite, `reveil`: { passage: String (id de la pierre, "" sans point de résurrection), nom: String

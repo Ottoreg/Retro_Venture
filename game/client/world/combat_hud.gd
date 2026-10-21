@@ -333,8 +333,12 @@ var _message_label: Label
 var _message_time := 0.0
 var _result_panel: PanelContainer
 var _result_title: Label
+## Durée du combat, sous le titre.
+var _result_info: Label
+## Tableau des combattants (bandeaux « Gagnants » et « Perdants », une ligne par combattant).
+var _result_rows: VBoxContainer
+## Réveil après une défaite, sous le tableau.
 var _result_detail: Label
-var _loot_box: HFlowContainer
 var _overload_label: Label
 ## Emplacements de sorts affichés : id du sort → SpellSlot.
 var _spell_buttons: Dictionary = {}
@@ -724,30 +728,158 @@ func _on_combat_ended(result: Dictionary) -> void:
 	_order_box.visible = false
 	var victory: bool = result["vainqueur"] == Fighter.TEAM_PLAYERS
 	_result_title.text = "Victoire !" if victory else "Défaite…"
-	var lines := PackedStringArray()
-	if not victory:
-		lines.append(MapView.wake_up_text(result.get("reveil", {})))
-	if int(result["xp"]) > 0:
-		lines.append("+%d points d'expérience" % result["xp"])
-	for level: int in result.get("niveaux", []):
-		lines.append("Niveau %d atteint !" % level)
-	if int(result.get("ecus", 0)) > 0:
-		lines.append("+%d écus" % result["ecus"])
-	_result_detail.text = "\n".join(lines)
+	var turns := int(result.get("tours", 0))
+	_result_info.text = "Combat terminé" + (" · durée : %d tour%s" % [turns, "s" if turns > 1 else ""] if turns > 0 else "")
+	_result_detail.text = "" if victory else MapView.wake_up_text(result.get("reveil", {}))
+	_result_detail.visible = not _result_detail.text.is_empty()
 	_overload_label.visible = result.get("surcharge", false)
-	for child in _loot_box.get_children():
+	for child in _result_rows.get_children():
 		child.queue_free()
-	for drop: Dictionary in result.get("butin", []):
-		_loot_box.add_child(_loot_slot(drop))
-	_loot_box.visible = not result.get("butin", []).is_empty()
+	_result_rows.add_child(_result_header())
+	var roster: Array = result.get("combattants", [])
+	if roster.is_empty() and map_view != null:
+		roster = [{"id": World.PLAYER_ID, "nom": map_view.world.player_name, "niveau": map_view.world.character.level,
+			"equipe": Fighter.TEAM_PLAYERS, "vivant": victory}]
+	for winners: bool in [true, false]:
+		var rows := roster.filter(func(entry: Dictionary) -> bool: return (int(entry["equipe"]) == int(result["vainqueur"])) == winners)
+		if rows.is_empty():
+			continue
+		_result_rows.add_child(_result_band("Gagnants" if winners else "Perdants", winners))
+		for i in rows.size():
+			_result_rows.add_child(_result_row(rows[i], result, i % 2 == 1))
 	_result_panel.visible = true
+
+
+## Colonnes du tableau de fin, comme celui de Dofus Rétro : nom, niveau, jauge d'expérience, XP et
+## écus gagnés, butin.
+const RESULT_COLUMNS := [["Nom", 190], ["Niv.", 64], ["Expérience", 150], ["XP", 72], ["Écus", 60], ["Butin", 248]]
+
+
+func _result_header() -> Control:
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 8)
+	for column: Array in RESULT_COLUMNS:
+		var cell := _label(13, UiTheme.TEXT_DIM)
+		cell.text = column[0]
+		cell.custom_minimum_size.x = column[1]
+		if column[0] != "Nom":
+			cell.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		row.add_child(_cell(cell))
+	return _result_strip(row, Color(0, 0, 0, 0), 0)
+
+
+## Bandeau d'un camp : doré pour les gagnants, rouge sombre pour les perdants.
+func _result_band(text: String, winners: bool) -> Control:
+	var title := _label(15, UiTheme.GOLD if winners else Color(0.9, 0.5, 0.42))
+	title.text = text
+	var fill := Color("4a3622") if winners else Color("3e2119")
+	return _result_strip(title, fill, 1, UiTheme.BRONZE if winners else Color("6e3426"))
+
+
+## Ligne d'un combattant. Les gains (XP, écus, butin) vont au joueur ; un combattant tombé est grisé.
+func _result_row(entry: Dictionary, result: Dictionary, odd: bool) -> Control:
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 8)
+	var is_player: bool = entry["id"] == World.PLAYER_ID
+	var alive: bool = entry.get("vivant", true)
+	var text_color := UiTheme.TEXT if alive else UiTheme.TEXT_DIM
+	var cells: Array[Control] = []
+	var name_label := _label(15, Color(1.0, 0.9, 0.6) if is_player and alive else text_color)
+	name_label.text = str(entry["nom"]) + ("" if alive else " (K.O.)")
+	name_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	name_label.clip_text = true
+	cells.append(name_label)
+	var levels: Array = result.get("niveaux", []) if is_player else []
+	var level_label := _label(15, UiTheme.GOLD if not levels.is_empty() else text_color)
+	level_label.text = "%d → %d" % [int(entry["niveau"]), int(levels[-1])] if not levels.is_empty() else str(int(entry["niveau"]))
+	if not levels.is_empty():
+		level_label.tooltip_text = "Niveau %d atteint !" % int(levels[-1])
+		level_label.mouse_filter = Control.MOUSE_FILTER_STOP
+	cells.append(level_label)
+	cells.append(_xp_gauge() if is_player and map_view != null else Control.new())
+	var xp_label := _label(15, Color(0.75, 0.9, 1.0))
+	var coins_label := _label(15, UiTheme.GOLD)
+	var loot := HFlowContainer.new()
+	loot.add_theme_constant_override("h_separation", 3)
+	loot.add_theme_constant_override("v_separation", 3)
+	if is_player:
+		xp_label.text = "+%d" % int(result.get("xp", 0)) if int(result.get("xp", 0)) > 0 else "0"
+		coins_label.text = "+%d" % int(result.get("ecus", 0)) if int(result.get("ecus", 0)) > 0 else "0"
+		for drop: Dictionary in result.get("butin", []):
+			loot.add_child(_loot_slot(drop, 34))
+	cells.append(xp_label)
+	cells.append(coins_label)
+	cells.append(loot)
+	for i in cells.size():
+		var cell := cells[i]
+		cell.custom_minimum_size.x = RESULT_COLUMNS[i][1]
+		if cell is Label and i > 0:
+			cell.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		row.add_child(_cell(cell))
+	return _result_strip(row, Color(UiTheme.WOOD_LIGHT, 0.35) if odd else Color(UiTheme.INK, 0.6), 0)
+
+
+## Jauge d'expérience du joueur après le combat, avec le pourcentage du niveau en cours.
+func _xp_gauge() -> Control:
+	var character: Character = map_view.world.character
+	var gauge := ProgressBar.new()
+	gauge.custom_minimum_size = Vector2(0, 16)
+	gauge.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	gauge.show_percentage = false
+	var back := StyleBoxFlat.new()
+	back.bg_color = Color(0.06, 0.045, 0.03)
+	back.border_color = UiTheme.BRONZE
+	back.set_border_width_all(1)
+	back.set_corner_radius_all(3)
+	gauge.add_theme_stylebox_override("background", back)
+	var fill := StyleBoxFlat.new()
+	fill.bg_color = Color(0.36, 0.62, 0.86)
+	fill.set_corner_radius_all(3)
+	gauge.add_theme_stylebox_override("fill", fill)
+	var floor_xp := Character.xp_for_level(character.level)
+	var next_xp := Character.xp_for_level(character.level + 1)
+	gauge.max_value = 1.0
+	gauge.step = 0.0
+	gauge.value = 1.0 if character.level >= Character.MAX_LEVEL else clampf(float(character.xp - floor_xp) / (next_xp - floor_xp), 0.0, 1.0)
+	gauge.tooltip_text = "%d / %d XP" % [character.xp, next_xp] if character.level < Character.MAX_LEVEL else "Niveau maximal"
+	var percent := _label(11, Color.WHITE)
+	percent.text = "%d %%" % floori(gauge.value * 100)
+	percent.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	percent.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	percent.set_anchors_preset(Control.PRESET_FULL_RECT)
+	percent.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	gauge.add_child(percent)
+	return gauge
+
+
+## Une cellule du tableau, centrée verticalement dans sa ligne.
+func _cell(cell: Control) -> Control:
+	cell.size_flags_vertical = Control.SIZE_SHRINK_CENTER if cell is Label or cell is ProgressBar else Control.SIZE_FILL
+	return cell
+
+
+## Bande pleine largeur du tableau (en-tête, bandeau de camp, ligne).
+func _result_strip(content: Control, fill: Color, border: int, edge := UiTheme.BRONZE) -> PanelContainer:
+	var strip := PanelContainer.new()
+	var style := StyleBoxFlat.new()
+	style.bg_color = fill
+	style.border_color = edge
+	style.set_border_width_all(border)
+	style.set_corner_radius_all(3)
+	style.content_margin_left = 10
+	style.content_margin_right = 10
+	style.content_margin_top = 4
+	style.content_margin_bottom = 4
+	strip.add_theme_stylebox_override("panel", style)
+	strip.add_child(content)
+	return strip
 
 
 ## Case du butin : l'icône sur un fond de la couleur de la rareté, la quantité en bas, le nom en
 ## infobulle.
-func _loot_slot(drop: Dictionary) -> Control:
+func _loot_slot(drop: Dictionary, size := 52) -> Control:
 	var slot := PanelContainer.new()
-	slot.custom_minimum_size = Vector2(52, 52)
+	slot.custom_minimum_size = Vector2(size, size)
 	slot.mouse_filter = Control.MOUSE_FILTER_STOP
 	var quantity := int(drop["quantite"])
 	slot.tooltip_text = "%s%s" % [drop["nom"], " ×%d" % quantity if quantity > 1 else ""]
@@ -763,7 +895,7 @@ func _loot_slot(drop: Dictionary) -> Control:
 	icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	slot.add_child(icon)
 	if quantity > 1:
-		var amount := _label(13, Color.WHITE)
+		var amount := _label(11 if size < 44 else 13, Color.WHITE)
 		amount.text = str(quantity)
 		amount.size_flags_horizontal = Control.SIZE_SHRINK_END
 		amount.size_flags_vertical = Control.SIZE_SHRINK_END
@@ -1038,44 +1170,39 @@ func _build() -> void:
 	add_child(_message_label)
 
 	_result_panel = PanelContainer.new()
-	_result_panel.anchor_left = 0.5
-	_result_panel.anchor_right = 0.5
-	_result_panel.anchor_top = 0.5
-	_result_panel.anchor_bottom = 0.5
-	_result_panel.offset_left = -190
-	_result_panel.offset_right = 190
-	_result_panel.offset_top = -150
-	_result_panel.offset_bottom = 150
+	_result_panel.set_anchors_preset(Control.PRESET_CENTER)
+	_result_panel.grow_horizontal = Control.GROW_DIRECTION_BOTH
 	_result_panel.grow_vertical = Control.GROW_DIRECTION_BOTH
-	_result_panel.add_theme_stylebox_override("panel", _panel_style(Color(0.13, 0.1, 0.07, 0.96)))
+	_result_panel.add_theme_stylebox_override("panel", UiTheme.window_style())
 	add_child(_result_panel)
 	var result_box := VBoxContainer.new()
-	result_box.alignment = BoxContainer.ALIGNMENT_CENTER
-	result_box.add_theme_constant_override("separation", 12)
+	result_box.add_theme_constant_override("separation", 8)
 	_result_panel.add_child(result_box)
-	_result_title = _label(30, Color(0.95, 0.76, 0.3))
+	_result_title = _label(28, Color(0.95, 0.76, 0.3))
 	_result_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_result_detail = _label(16, Color.WHITE)
+	_result_info = _label(14, UiTheme.TEXT_DIM)
+	_result_info.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_result_rows = VBoxContainer.new()
+	_result_rows.add_theme_constant_override("separation", 3)
+	_result_detail = _label(15, UiTheme.TEXT)
 	_result_detail.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_result_detail.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	var continue_button := Button.new()
-	continue_button.text = "Continuer"
-	continue_button.custom_minimum_size = Vector2(160, 40)
-	continue_button.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
-	continue_button.pressed.connect(_on_continue_pressed)
-	_loot_box = HFlowContainer.new()
-	_loot_box.alignment = FlowContainer.ALIGNMENT_CENTER
-	_loot_box.add_theme_constant_override("h_separation", 6)
-	_loot_box.add_theme_constant_override("v_separation", 6)
-	result_box.add_child(_result_title)
-	result_box.add_child(_result_detail)
-	result_box.add_child(_loot_box)
+	_result_detail.custom_minimum_size = Vector2(500, 0)
 	_overload_label = _label(15, Color(1.0, 0.55, 0.4))
 	_overload_label.text = OVERLOAD_TEXT
 	_overload_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_overload_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_overload_label.custom_minimum_size = Vector2(340, 0)
+	_overload_label.custom_minimum_size = Vector2(500, 0)
 	_overload_label.visible = false
+	var continue_button := Button.new()
+	continue_button.text = "Continuer"
+	continue_button.custom_minimum_size = Vector2(160, 38)
+	continue_button.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	continue_button.pressed.connect(_on_continue_pressed)
+	result_box.add_child(_result_title)
+	result_box.add_child(_result_info)
+	result_box.add_child(_result_rows)
+	result_box.add_child(_result_detail)
 	result_box.add_child(_overload_label)
 	result_box.add_child(continue_button)
 

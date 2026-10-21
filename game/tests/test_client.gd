@@ -78,6 +78,14 @@ func test_scene_du_monde_jusqu_au_combat_et_retour() -> void:
 	assert_true(hud._result_panel.visible, "panneau de résultat affiché")
 	assert_eq(hud._result_title.text, "Défaite…", "le joueur n'a rien fait")
 	assert_true(hud._result_detail.text.contains("Pierre de Passage « Brumerive »"), hud._result_detail.text)
+	assert_true(hud._result_info.text.contains("tour"), "durée du combat : " + hud._result_info.text)
+	var bands := PackedStringArray()
+	for strip in hud._result_rows.get_children():
+		var content: Control = strip.get_child(0)
+		if content is Label:
+			bands.append(content.text)
+	assert_eq(bands, PackedStringArray(["Gagnants", "Perdants"]), "les monstres gagnent, le joueur perd")
+	assert_true(hud._result_rows.get_child_count() >= 5, "en-tête, deux bandeaux, le joueur et au moins un monstre")
 	hud._on_continue_pressed()
 	_run_until_idle(view)
 	assert_eq(view.mode, MapView.Mode.EXPLORATION, "retour en exploration")

@@ -3,7 +3,7 @@ extends SceneTree
 ##   xvfb-run -s "-screen 0 1280x720x24" godot --path game --rendering-driver opengl3 \
 ##     -s res://tools/screenshot.gd -- sortie.png [carte] [frames] [action]
 ## Lance la scène du monde (nouvelle partie), attend quelques images et enregistre la vue.
-## Action : « combat » (engage le premier groupe de la carte), « butin » (écran de fin de combat d'exemple), « elite7 » (Loup alpha de rang 7 survolé), « cible » (combat, monstre survolé), « sermon » (Théologue en combat, Sermon visé devant lui), « prevision » (comme « sermon », un monstre dans la zone : dégâts prévus), « panoplie » (3 pièces portées), « inventaire », « assis » (blessé, assis), « metiers », « sorts » (ouvre la
+## Action : « combat » (engage le premier groupe de la carte), « butin » / « defaite » (écran de fin de combat d’exemple : victoire, défaite), « elite7 » (Loup alpha de rang 7 survolé), « cible » (combat, monstre survolé), « sermon » (Théologue en combat, Sermon visé devant lui), « prevision » (comme « sermon », un monstre dans la zone : dégâts prévus), « panoplie » (3 pièces portées), « inventaire », « assis » (blessé, assis), « metiers », « sorts » (ouvre la
 ## fenêtre ; « inventaire » remplit d'abord le sac d'un exemplaire de chaque objet), « pierre » (va utiliser
 ## la Pierre de Passage), « glyphe » (combat contre l'Arbre millénaire, glyphe posée, héros ralenti et
 ## empoisonné, à lancer sur sylvebrume_0_0), « survol » (le plus grand groupe de la carte survolé :
@@ -83,14 +83,27 @@ func _process(_delta: float) -> bool:
 			var group := world.group(world.elite_location("loup_alpha")["groupe"])
 			view._set_hovered(group["case"])
 			Input.warp_mouse(view.get_global_transform_with_canvas() * IsoGrid.cell_to_screen(group["case"]))
-		elif _action == "butin":
-			# Écran de fin de combat avec un butin d'exemple.
+		elif _action == "butin" or _action == "defaite":
+			# Écran de fin de combat d'exemple : victoire avec butin, ou défaite.
 			var drops: Array = []
 			for item_id: String in ["croc_de_loup", "peau_de_loup", "amulette_croc", "cape_en_peau_de_loup", "lame_cendree"]:
 				var template: Dictionary = view.world.data.items[item_id]
 				drops.append({"objet": item_id, "nom": template["nom"], "rarete": template["rarete"],
 					"quantite": 3 if item_id == "croc_de_loup" else 1})
-			_scene.get_node("CombatHud")._on_combat_ended({"vainqueur": Fighter.TEAM_PLAYERS, "xp": 60, "ecus": 12, "butin": drops, "surcharge": true})
+			var roster: Array = [{"id": World.PLAYER_ID, "nom": view.world.player_name, "niveau": 4, "equipe": Fighter.TEAM_PLAYERS, "vivant": true}]
+			for i in 3:
+				roster.append({"id": "loup%d" % i, "nom": "Loup", "niveau": 3 + i, "equipe": Fighter.TEAM_MONSTERS, "vivant": i > 0})
+			roster.append({"id": "chef", "nom": "Chef de meute", "niveau": 6, "equipe": Fighter.TEAM_MONSTERS, "vivant": true})
+			if _action == "butin":
+				for entry: Dictionary in roster.slice(1):
+					entry["vivant"] = false
+			var victory := _action == "butin"
+			view.world.character.level = 5
+			view.world.character.xp = Character.xp_for_level(5) + 260
+			_scene.get_node("CombatHud")._on_combat_ended({"vainqueur": Fighter.TEAM_PLAYERS if victory else Fighter.TEAM_MONSTERS,
+				"xp": 260 if victory else 40, "ecus": 12 if victory else 0, "butin": drops if victory else [], "surcharge": victory,
+				"niveaux": [5] if victory else [], "tours": 7, "combattants": roster,
+				"reveil": {} if victory else {"passage": "x", "nom": "Brumerive", "carte": ""}})
 		elif _action == "glyphe":
 			# Combat contre l'Arbre millénaire : sa glyphe posée, le héros ralenti et empoisonné, survolé.
 			var world := view.world

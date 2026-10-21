@@ -777,7 +777,13 @@ func _finish(team: int, events: Array[Dictionary]) -> void:
 	for fighter in fighters:
 		if fighter.team != Fighter.TEAM_PLAYERS and not fighter.is_alive():
 			xp += fighter.xp
-	events.append({"type": Protocol.EVT_COMBAT_ENDED, "vainqueur": team, "xp": xp})
+	# Tableau de l'écran de fin : chaque combattant, son camp et s'il est encore debout.
+	var roster: Array[Dictionary] = []
+	for fighter in fighters:
+		roster.append({"id": fighter.id, "nom": fighter.display_name, "type": fighter.kind, "niveau": fighter.level,
+			"equipe": fighter.team, "vivant": fighter.is_alive()})
+	events.append({"type": Protocol.EVT_COMBAT_ENDED, "vainqueur": team, "xp": xp, "tours": maxi(round_number, 1),
+		"combattants": roster})
 
 
 # --- Utilitaires -----------------------------------------------------------------------------

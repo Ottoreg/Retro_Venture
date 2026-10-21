@@ -215,6 +215,7 @@ Tout le contenu et les systèmes MVP de l'alpha 1 sont faits (chantiers 1, 3, 4 
 - [x] Limite de butin par monstre partagée entre les joueurs (quantité max de la ligne), tirage du
   plus prospecteur au moins prospecteur (prêt pour le groupe)
 - [x] **(MVP)** Écran de butin en fin de combat
+- [x] Écran de fin en tableau façon Dofus Rétro (Gagnants / Perdants, jauge d'XP, durée)
 - [x] **(MVP)** Réapparition des groupes vaincus (2 à 3 minutes, réglable par groupe ; sauvegardée)
 - [x] Groupes qui se promènent sur la carte (quelques pas toutes les 8 à 20 s, à 3 cases au plus de
   leur origine, jamais sur le joueur, une porte, un bord de sortie ou derrière un bâtiment)

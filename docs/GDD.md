@@ -766,7 +766,7 @@ prévoit déjà `voie` et `rang` sur chaque sort** pour que le système s'ajoute
    n'importe quel ordre.
 4. **Fin :** victoire quand tous les ennemis sont vaincus ; défaite si tous les alliés le sont, ou en
    cas d'abandon.
-5. **Récompenses :** écran de fin avec XP, monnaie et butin pour chaque participant.
+5. **Récompenses :** écran de fin avec XP, monnaie et butin pour chaque participant, en tableau façon Dofus Rétro : bandeaux « Gagnants » et « Perdants », une ligne par combattant (nom, niveau et montée de niveau, jauge d'expérience, XP, écus, butin ; les combattants tombés grisés), durée du combat en tours.
 
 ### 7.2 Règles
 
