@@ -67,7 +67,6 @@ func _ready() -> void:
 	quest_tracker.setup(_map_view)
 	quest_tracker.pressed.connect(quests_window.toggle)
 	_combat_hud.menu_pressed.connect(_on_menu_pressed)
-	_combat_hud.spell_info_requested.connect(_spells.show_spell)
 	_map_view.notice.connect(_combat_hud.show_message)
 	_map_view.hovered_cell_changed.connect(_on_hovered_cell_changed)
 	_map_view.combat_started.connect(_on_combat_started)

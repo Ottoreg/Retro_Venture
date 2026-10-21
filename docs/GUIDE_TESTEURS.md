@@ -81,6 +81,7 @@ temps : chaque camp a sa propre histoire.
 | --- | --- |
 | Se déplacer | Clic sur une case (un nouveau clic pendant la marche change de destination) ; au-delà de 3 cases, le personnage court |
 | S'asseoir | Bouton « S'asseoir » de la barre du bas, ou touche A : les PV remontent trois fois plus vite ; on se relève en marchant |
+| Barre d'objets | Hors combat, la barre du bas montre des emplacements d'objets à la place des sorts : vides pour l'instant, ils accueilleront les consommables (potions, nourriture) quand il y en aura. Les sorts reviennent en combat et se consultent avec S |
 | Attaquer un groupe de monstres | Clic sur le groupe : le personnage le rejoint et le combat commence |
 | Parler, commercer, fabriquer | Clic sur un PNJ (bulle « … », ou « ! » / « ? » s'il a une quête pour vous) |
 | Récolter | Clic sur un arbre (bûcheron) ou un rocher à minerai (mineur) |

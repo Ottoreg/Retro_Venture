@@ -15,6 +15,10 @@ const SPELL_KEYS := [KEY_1, KEY_2, KEY_3, KEY_4, KEY_5, KEY_6, KEY_7, KEY_8, KEY
 ## Deuxième jeu de raccourcis : la rangée des chiffres d'un clavier AZERTY, sans Maj.
 const SPELL_CHARS := "&é\"'(-è_çà"
 ## Clé des places de sorts créés encore vides dans `_spell_buttons`.
+## Emplacements de la barre d'objets, hors combat (un peu plus petits que les sorts : la barre
+## tient avec le bouton « S'asseoir » et la minicarte).
+const ITEM_SLOTS := 8
+const ITEM_SLOT_SIZE := 44.0
 const EMPTY_SLOT_PREFIX := "_place_vide_"
 const MENUS := [["personnage", "icone_personnage", "Personnage (C)"], ["inventaire", "icone_inventaire", "Inventaire (I)"],
 	["sorts", "icone_sorts", "Sorts (S)"], ["metiers", "icone_metiers", "Métiers (J)"], ["carte", "icone_carte", "Carte du monde (M)"],
@@ -22,8 +26,6 @@ const MENUS := [["personnage", "icone_personnage", "Personnage (C)"], ["inventai
 
 ## Un bouton de menu de la barre : « personnage », « inventaire », « sorts », « metiers », « carte » ou « quetes ».
 signal menu_pressed(menu: String)
-## Clic sur un sort hors combat : afficher sa fiche.
-signal spell_info_requested(spell_id: String)
 
 
 ## Jauge dessinée : PV dans un cœur qui se vide par le haut, PA dans une étoile, PM dans une case.
@@ -140,6 +142,24 @@ class SpellSlot extends Control:
 		draw_string(font, spot, price, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(0.6, 0.85, 1.0))
 
 
+## Emplacement de la barre d'objets (hors combat). Vide et inactif tant que le jeu n'a pas
+## d'objets consommables : la barre est seulement montrée.
+class ItemSlot extends Control:
+	var key_label := ""
+
+	func _init() -> void:
+		custom_minimum_size = Vector2(ITEM_SLOT_SIZE, ITEM_SLOT_SIZE)
+		size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		mouse_filter = Control.MOUSE_FILTER_STOP
+
+	func _draw() -> void:
+		var frame := Rect2(Vector2(1, 1), Vector2(ITEM_SLOT_SIZE - 2, ITEM_SLOT_SIZE - 2))
+		draw_texture_rect(Art.texture("case_sort"), frame, false, Color(0.6, 0.6, 0.6, 0.8))
+		var font := ThemeDB.fallback_font
+		draw_string_outline(font, Vector2(5, 15), key_label, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, 4, Color.BLACK)
+		draw_string(font, Vector2(5, 15), key_label, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(1, 0.95, 0.8, 0.6))
+
+
 ## Une case de la grille de composition : 3 orbes à la couleur des états, le nom du sort que
 ## « Fusion arcanique » en tirerait, et son raccourci.
 class CompositionChoice extends Control:
@@ -185,6 +205,8 @@ var _hp_gauge: Gauge
 var _pa_gauge: Gauge
 var _pm_gauge: Gauge
 var _spells_box: HBoxContainer
+## Hors combat : barre d'objets (ITEM_SLOTS emplacements) à la place des sorts.
+var _items_box: HBoxContainer
 ## Orbes des états élémentaires (Voies qui composent : Arcaniste).
 var _orbs: ElementOrbs
 ## En combat, au survol d'un combattant : ses informations à la place de la barre de sorts.
@@ -307,17 +329,6 @@ static func spell_key_index(event: InputEventKey) -> int:
 	return index
 
 
-## Sorts du personnage hors combat (ceux qu'il aurait en combat : arme, Voie, race).
-static func character_spells(world: World) -> Array[Spell]:
-	var spells: Array[Spell] = []
-	if world == null or world.data == null:
-		return spells
-	var fighter := world.data.create_character_fighter(world.character, World.PLAYER_ID)
-	if fighter != null:
-		spells = fighter.spells
-	return spells
-
-
 ## Icône d'un sort (l'attaque de l'arme prend l'icône de l'arme portée).
 static func spell_icon(spell_id: String, world: World) -> Texture2D:
 	var image := "sort_" + spell_id
@@ -386,8 +397,6 @@ func _on_spell_pressed(spell_id: String) -> void:
 	if map_view.mode == MapView.Mode.COMBAT:
 		var slot: SpellSlot = _spell_buttons[spell_id]
 		_use_spell(spell_id, slot.get_global_rect(), slot)
-	else:
-		spell_info_requested.emit(spell_id)
 
 
 ## Choisit un sort en combat ; un sort de composition des états ouvre sa grille au-dessus de
@@ -508,6 +517,8 @@ func _on_combat_started() -> void:
 	_tactical_button.visible = true
 	_tactical_button.set_pressed_no_signal(map_view.tactical)
 	_sit_button.visible = false
+	_items_box.visible = false
+	_spells_box.visible = true
 	_order_label.visible = true
 	combat_log.start()
 	_shown_spells.clear()
@@ -538,7 +549,7 @@ func _show_target() -> void:
 	if fighter == null or not fighter.is_alive():
 		_target_id = ""
 		_target_box.visible = false
-		_spells_box.visible = true
+		_spells_box.visible = map_view.mode == MapView.Mode.COMBAT
 		return
 	var shown := map_view.actor(fighter.id)  # Ce qu'affiche la carte (les animations peuvent être en retard).
 	_target_name.text = fighter.display_name
@@ -670,7 +681,8 @@ func _on_turn_button_pressed() -> void:
 		map_view.request_end_turn()
 
 
-## Hors combat : PV, PA et PM du personnage, sorts qu'il aurait en combat.
+## Hors combat : PV, PA et PM du personnage, barre d'objets à la place des sorts (les sorts se
+## consultent dans leur fenêtre, touche S).
 func _refresh_exploration() -> void:
 	if map_view == null or map_view.world == null or map_view.mode == MapView.Mode.COMBAT:
 		return
@@ -679,13 +691,9 @@ func _refresh_exploration() -> void:
 	_hp_gauge.show_values(int(sheet["pv"]), int(sheet["pv_max"]))
 	_pa_gauge.show_values(int(sheet["pa"]), int(sheet["pa"]))
 	_pm_gauge.show_values(int(sheet["pm"]), int(sheet["pm"]))
-	_show_spells(character_spells(world))
-	_orbs.show_states([])  # Les états élémentaires ne durent qu'un combat.
-	for spell_id: String in _spell_buttons:
-		var slot: SpellSlot = _spell_buttons[spell_id]
-		slot.usable = not slot.empty
-		slot.selected = false
-		slot.queue_redraw()
+	_spells_box.visible = false
+	_items_box.visible = true
+	_orbs.visible = false  # Les états élémentaires ne durent qu'un combat.
 
 
 ## En combat : met à jour la barre à partir de ce qu'affiche la carte.
@@ -770,6 +778,16 @@ func _build() -> void:
 	_spells_box.alignment = BoxContainer.ALIGNMENT_CENTER
 	_spells_box.add_theme_constant_override("separation", 4)
 	row.add_child(_spells_box)
+	_items_box = HBoxContainer.new()
+	_items_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_items_box.alignment = BoxContainer.ALIGNMENT_CENTER
+	_items_box.add_theme_constant_override("separation", 4)
+	row.add_child(_items_box)
+	for i in ITEM_SLOTS:
+		var item_slot := ItemSlot.new()
+		item_slot.key_label = str(i + 1)
+		item_slot.tooltip_text = "Emplacement d'objet : les consommables (à venir) s'y rangeront"
+		_items_box.add_child(item_slot)
 	_build_target_box(row)
 
 	_turn_button = Button.new()

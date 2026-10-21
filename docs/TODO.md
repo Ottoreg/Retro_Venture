@@ -414,10 +414,13 @@ Tout le contenu et les systèmes MVP de l'alpha 1 sont faits (chantiers 1, 3, 4 
   expliqués), bouton « Réinitialiser » (restat gratuit pendant l'alpha, commande
   `reinitialiser_points`), provenance des valeurs de la fiche au survol (points, race, chaque objet,
   panoplie ; `Character.stat_sources`)
-- [x] Retours de test, lot 4 (en partie) : course au-delà de 3 cases (× 1,5, `MapView.walk_speed`),
+- [x] Retours de test, lot 4 : course au-delà de 3 cases (× 1,5, `MapView.walk_speed`),
   bouton « S'asseoir » et touche A (régénération × 3, `World.sitting`, commande `s_asseoir`,
-  pose assise du `Rig`, relevé en marchant ou en combat)
-- [ ] Retours de test, lot 4 : barre d'objets hors combat à la place des sorts (en discussion)
+  pose assise du `Rig`, relevé en marchant ou en combat), barre d'objets hors combat à la place
+  des sorts (`CombatHud.ItemSlot`, 8 emplacements, seulement montrée : pas de raccourcis
+  d'équipement, choix de l'auteur)
+- [ ] Barre d'objets : la rendre utilisable (glisser un consommable, clic ou touche pour l'utiliser,
+  emplacements sauvegardés) quand les premiers consommables arriveront (Alchimiste, nourriture)
 
 ### Art et audio
 

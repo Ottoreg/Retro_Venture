@@ -1184,9 +1184,11 @@ ingrédients).
   ou pause) : volume, plein écran, taille de la fenêtre, mode tactique ; gardées hors sauvegarde.
 
 - **Bandeau bas :** chat à gauche, PV dans un cœur rouge qui se vide, PA dans une étoile bleue, PM
-  dans une case verte, barre de sorts (icônes avec raccourci et coût en PA) et d'objets, boutons de
-  menus (inventaire, caractéristiques, sorts, quêtes, métiers, carte, amis, guilde). Le bandeau
-  reste affiché en exploration ; un clic sur un sort hors combat ouvre sa fiche. Raccourcis des
+  dans une case verte, barre de sorts en combat (icônes avec raccourci et coût en PA), **barre
+  d'objets hors combat** (8 emplacements, pour les consommables : seulement montrée tant qu'il n'y
+  en a pas ; ni objet ni équipement utilisable en combat), boutons de menus (inventaire,
+  caractéristiques, sorts, quêtes, métiers, carte, amis, guilde). Le bandeau reste affiché en
+  exploration, avec le bouton « S'asseoir » ; les sorts s'y consultent dans leur fenêtre (S). Raccourcis des
   sorts : 1 à 0, ou la même rangée d'un clavier AZERTY sans Maj (& é " ' ( - è _ ç à).
 - **Rythme du combat :** pendant son tour, le joueur n'attend pas la fin des textes flottants et
   des animations de ses sorts (seules ses marches se jouent jusqu'au bout ; les textes au même

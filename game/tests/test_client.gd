@@ -651,24 +651,22 @@ func test_barre_d_action_et_fenetre_des_sorts() -> void:
 	var spells: SpellsWindow = scene.get_node("SpellsWindow")
 	var world := view.world
 
-	# En exploration aussi, la barre montre les PV (cœur), PA (étoile), PM (case) et les sorts en icônes.
+	# En exploration aussi, la barre montre les PV (cœur), PA (étoile), PM (case) ; à la place des
+	# sorts, une barre d'objets (vide tant qu'il n'y a pas de consommables).
 	hud._refresh_exploration()
 	var sheet := world.character.sheet(world.data)
 	assert_eq(hud._hp_gauge.value, int(sheet["pv"]))
 	assert_eq(hud._hp_gauge.maximum, int(sheet["pv_max"]))
 	assert_eq(hud._pa_gauge.value, int(sheet["pa"]))
 	assert_eq(hud._pm_gauge.value, int(sheet["pm"]))
-	assert_eq(hud._spell_buttons.size(), 7, "sorts du personnage dans la barre")
+	assert_true(hud._items_box.visible and not hud._spells_box.visible, "barre d'objets hors combat")
+	assert_eq(hud._items_box.get_child_count(), CombatHud.ITEM_SLOTS)
 	assert_false(hud._orbs.visible, "pas d'orbes pour le Guerrier")
-	for spell_id: String in hud._spell_buttons:
-		var slot: CombatHud.SpellSlot = hud._spell_buttons[spell_id]
-		assert_true(slot.icon != null, "icône du sort %s" % spell_id)
-		assert_true(slot.icon != Art.texture("sort_inconnu"), "icône dessinée pour %s" % spell_id)
 	assert_eq(hud._menu_buttons.size(), 6, "personnage, inventaire, sorts, métiers, carte du monde, quêtes")
 
-	# Un clic sur un sort hors combat ouvre sa fiche dans la fenêtre des sorts.
-	var first: String = hud._shown_spells[1]
-	hud._on_spell_pressed(first)
+	# La fenêtre des sorts montre la fiche d'un sort.
+	var first: String = world.data.voies[world.character.voie_id]["sorts"][0]
+	spells.show_spell(first)
 	assert_true(spells.is_open(), "fenêtre des sorts ouverte")
 	assert_eq(spells._selected, first)
 	assert_eq(spells._tabs.tab_count, 3, "Voie, race, arme")
@@ -684,6 +682,16 @@ func test_barre_d_action_et_fenetre_des_sorts() -> void:
 	assert_false(spells.is_open())
 	hud.menu_pressed.emit("metiers")
 	assert_true((scene.get_node("JobsWindow") as JobsWindow).is_open(), "le bouton métiers ouvre la fenêtre")
+
+	# En combat, les sorts reviennent, avec leurs icônes.
+	view._on_click(world.groups()[0]["case"])
+	_run_until_idle(view)
+	assert_true(hud._spells_box.visible and not hud._items_box.visible, "barre de sorts en combat")
+	assert_eq(hud._spell_buttons.size(), 7, "sorts du personnage dans la barre")
+	for spell_id: String in hud._spell_buttons:
+		var slot: CombatHud.SpellSlot = hud._spell_buttons[spell_id]
+		assert_true(slot.icon != null, "icône du sort %s" % spell_id)
+		assert_true(slot.icon != Art.texture("sort_inconnu"), "icône dessinée pour %s" % spell_id)
 	scene.free()
 
 
