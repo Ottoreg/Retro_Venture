@@ -57,6 +57,8 @@ const ATTACK_TIME := 0.45
 const FLOATING_LIFE := 1.0
 ## Celle du message d'un changement de phase, plus long à lire.
 const PHASE_FLOATING_LIFE := 2.5
+## Temps rattrapé au plus après une absence (fenêtre sans focus ou cachée), en secondes.
+const MAX_CATCH_UP := 600.0
 
 const COLOR_GRASS := Color("7aa35a")
 const COLOR_BORDER := Color("6a8f4e")
@@ -200,6 +202,10 @@ var _dialogue: Dictionary = {}
 var _bubble: PanelContainer
 var _bubble_name: Label
 var _bubble_text: Label
+## Cases de sortie praticables de la carte, par direction (voir `GameMap.exit_cells`).
+var _exit_cells: Dictionary = {}
+## Instant de l'image précédente (µs), pour rattraper le temps réel (voir `_real_delta`).
+var _last_tick_usec := -1
 
 
 func setup(p_world: World) -> void:
@@ -223,6 +229,7 @@ func _load_map(map: GameMap) -> void:
 	_border_polygons.clear()
 	for cell in _map.border_cells():
 		_border_polygons.append_array(Geometry2D.intersect_polygons(IsoGrid.diamond(IsoGrid.cell_to_screen(cell)), rect_polygon))
+	_exit_cells = _map.exit_cells()
 	queue_redraw()
 
 
@@ -252,6 +259,14 @@ func is_placement() -> bool:
 ## Valeurs affichées d'un acteur (copie), ou `{}`.
 func actor(actor_id: String) -> Dictionary:
 	return _actors.get(actor_id, {}).duplicate()
+
+
+## Position à l'écran (coordonnées du canevas) des pieds du personnage du joueur, ou `null`
+## s'il n'est pas affiché.
+func player_screen_position() -> Variant:
+	if not _actors.has(World.PLAYER_ID):
+		return null
+	return get_global_transform_with_canvas() * IsoGrid.grid_to_screen(_actors[World.PLAYER_ID]["pos"])
 
 
 ## Combattant du joueur dans le noyau (pour les sorts), ou `null` hors combat.
@@ -737,6 +752,29 @@ func _update_preview() -> void:
 # --- Lecture des événements --------------------------------------------------------------------
 
 func _process(delta: float) -> void:
+	advance(_real_delta(delta))
+
+
+## Temps réel écoulé depuis l'image précédente. Godot plafonne le `delta` d'une image (~0,13 s) et
+## le navigateur ralentit ou suspend le jeu quand sa fenêtre perd le focus ou est cachée : sans ce
+## rattrapage, le monde (marches, combats, repousse, régénération) s'arrêtait avec lui. Au retour,
+## le temps perdu est rattrapé (au plus MAX_CATCH_UP secondes). Le menu pause, lui, arrête le temps.
+func _real_delta(delta: float) -> float:
+	var now := Time.get_ticks_usec()
+	var elapsed := delta
+	if _last_tick_usec != -1:
+		elapsed = clampf((now - _last_tick_usec) / 1000000.0, delta, MAX_CATCH_UP)
+	_last_tick_usec = now
+	return elapsed
+
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_UNPAUSED:
+		_last_tick_usec = -1  # Le temps passé dans le menu pause ne compte pas.
+
+
+## Fait avancer le monde et l'affichage de `delta` secondes.
+func advance(delta: float) -> void:
 	# Le temps passe pour le monde : les ressources récoltées repoussent.
 	if world != null:
 		for event in world.update(delta):
@@ -804,23 +842,28 @@ func _advance_walk(delta: float) -> void:
 
 
 ## Avance un personnage le long de `path` (les cases atteintes en sont retirées) ; vrai à l'arrivée.
+## Un long `delta` (temps rattrapé) fait franchir plusieurs cases d'un coup.
 func _step_along(data: Dictionary, path: Array[Vector2i], delta: float, speed: float) -> bool:
-	var current: Vector2 = data["pos"]
-	var next := Vector2(path[0])
-	var screen_delta := IsoGrid.grid_to_screen(next) - IsoGrid.grid_to_screen(current)
-	var distance := screen_delta.length()
 	var step := speed * delta
-	if absf(screen_delta.x) > 0.5:
-		data["facing"] = 1.0 if screen_delta.x > 0.0 else -1.0
-	if absf(screen_delta.y) > 0.5:
-		data["dos"] = screen_delta.y < 0.0
 	data["phase"] += delta * 14.0 * speed / WALK_SPEED
-	if distance > step:
-		data["pos"] = current.lerp(next, step / distance)
-		return false
-	data["pos"] = next
-	path.remove_at(0)
-	return path.is_empty()
+	while true:
+		var current: Vector2 = data["pos"]
+		var next := Vector2(path[0])
+		var screen_delta := IsoGrid.grid_to_screen(next) - IsoGrid.grid_to_screen(current)
+		var distance := screen_delta.length()
+		if absf(screen_delta.x) > 0.5:
+			data["facing"] = 1.0 if screen_delta.x > 0.0 else -1.0
+		if absf(screen_delta.y) > 0.5:
+			data["dos"] = screen_delta.y < 0.0
+		if distance > step:
+			data["pos"] = current.lerp(next, step / distance)
+			return false
+		step -= distance
+		data["pos"] = next
+		path.remove_at(0)
+		if path.is_empty():
+			return true
+	return true
 
 
 func _play_next() -> void:
@@ -1310,6 +1353,8 @@ func _draw() -> void:
 		for command in _planned:
 			if command.has("cible"):
 				draw_colored_polygon(_scaled_diamond(IsoGrid.cell_to_screen(command["cible"]), 0.6), COLOR_PLANNED)
+	else:
+		_draw_exit_halos()
 	for cell in _preview:
 		draw_colored_polygon(_scaled_diamond(IsoGrid.cell_to_screen(cell), 0.35), COLOR_PATH)
 	if map.is_inside(_hovered):
@@ -1691,7 +1736,6 @@ func _monster_look(kind: String) -> Dictionary:
 	return look
 
 
-## Flèches au milieu des bords qui mènent à une autre carte.
 ## Devant chaque porte d'un bâtiment où l'on peut entrer (hors intérieur, où le paillasson suffit) :
 ## un losange doré qui pulse doucement au sol et un double chevron « entrer ». Dessiné par-dessus
 ## le décor, pour rester visible au pied du bâtiment.
@@ -1712,20 +1756,39 @@ func _draw_door_marks(map: GameMap) -> void:
 			draw_polyline(chevron, Color(1.0, 0.9, 0.5), 2.0)
 
 
+## Halo blanc léger, qui respire doucement, sur les cases praticables du bord qui mènent à la
+## carte voisine : le joueur voit où cliquer pour changer de carte (dessiné sous les personnages).
+func _draw_exit_halos() -> void:
+	var pulse := 0.5 + 0.5 * sin(_time * 2.0)
+	for direction: String in _exit_cells:
+		for cell: Vector2i in _exit_cells[direction]:
+			var diamond := _scaled_diamond(IsoGrid.cell_to_screen(cell), 0.86)
+			draw_colored_polygon(diamond, Color(1, 1, 1, 0.1 + 0.06 * pulse))
+			diamond.append(diamond[0])
+			draw_polyline(diamond, Color(1, 1, 1, 0.35 + 0.15 * pulse), 1.5)
+
+
+## Flèche au bord de l'écran pour chaque sortie, en face de la case de sortie praticable la plus
+## proche du milieu du bord (jamais devant une case bloquée).
 func _draw_exit_arrows(map: GameMap) -> void:
 	var rect := map.screen_rect()
 	var center := rect.get_center()
-	var arrows := {
-		"haut": [Vector2(center.x, 10), Vector2(0, -1)],
-		"bas": [Vector2(center.x, rect.end.y - 10), Vector2(0, 1)],
-		"gauche": [Vector2(14, center.y), Vector2(-1, 0)],
-		"droite": [Vector2(rect.end.x - 14, center.y), Vector2(1, 0)],
-	}
-	for direction: String in map.exits:
-		if not arrows.has(direction):
+	var forwards := {"haut": Vector2(0, -1), "bas": Vector2(0, 1), "gauche": Vector2(-1, 0), "droite": Vector2(1, 0)}
+	for direction: String in _exit_cells:
+		if not forwards.has(direction):
 			continue
-		var tip: Vector2 = arrows[direction][0]
-		var forward: Vector2 = arrows[direction][1]
+		var forward: Vector2 = forwards[direction]
+		var along := Vector2(absf(forward.y), absf(forward.x))  # Axe du bord.
+		var best := Vector2.ZERO
+		var best_gap := INF
+		for cell: Vector2i in _exit_cells[direction]:
+			var spot := IsoGrid.cell_to_screen(cell)
+			var gap := absf((spot - center).dot(along))
+			if gap < best_gap:
+				best_gap = gap
+				best = spot
+		var tip := Vector2(best.x, 10) if direction == "haut" else Vector2(best.x, rect.end.y - 10) if direction == "bas" \
+			else Vector2(14, best.y) if direction == "gauche" else Vector2(rect.end.x - 14, best.y)
 		var side := Vector2(-forward.y, forward.x)
 		var points := PackedVector2Array([tip + forward * 9, tip - forward * 7 + side * 10, tip - forward * 7 - side * 10])
 		draw_colored_polygon(points, Color(1, 0.85, 0.3, 0.9))

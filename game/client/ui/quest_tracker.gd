@@ -36,6 +36,22 @@ func is_shown() -> bool:
 	return _frame.visible
 
 
+## Estompé et transparent aux clics quand le personnage du joueur passe dessous (voir
+## `WorldScene._uncover_player`) : la carte reste visible et cliquable sous le cadre.
+func set_faded(faded: bool) -> void:
+	_frame.modulate.a = Minimap.FADED_ALPHA if faded else 1.0
+	_frame.mouse_filter = Control.MOUSE_FILTER_IGNORE if faded else Control.MOUSE_FILTER_STOP
+
+
+func is_faded() -> bool:
+	return _frame.modulate.a < 1.0
+
+
+## Rectangle du cadre à l'écran.
+func frame_rect() -> Rect2:
+	return _frame.get_global_rect()
+
+
 func is_folded() -> bool:
 	return Session.tracker_folded
 
