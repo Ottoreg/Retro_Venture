@@ -105,8 +105,8 @@ temps : chaque camp a sa propre histoire.
 **Options** (menu principal ou menu pause) : volume, plein écran, taille de la fenêtre (hors
 navigateur) et mode tactique ; elles sont gardées d'une partie à l'autre, hors sauvegarde.
 
-Les six boutons en bas à droite du bandeau ouvrent les mêmes fenêtres. Un clic sur un sort du
-bandeau, hors combat, ouvre sa fiche.
+Les six boutons en bas à droite du bandeau ouvrent les mêmes fenêtres.
+Les sorts se consultent dans leur fenêtre (S).
 
 ### Minicarte et carte du monde
 
