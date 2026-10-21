@@ -9,8 +9,7 @@
     "initiative": 90
   },
   "sorts": [
-    "arcaniste_braise",
-    "arcaniste_frimas",
+    "arcaniste_composition",
     "arcaniste_creer_un_sort"
   ],
   "equipement_depart": [

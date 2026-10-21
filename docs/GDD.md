@@ -327,7 +327,7 @@ l'Arcaniste, dont le kit est entièrement remplacé.
 
 | Voie | Ajout | Sort |
 |---|---|---|
-| **Arcaniste** | Version Flamme / Givre de la refonte (plus bas) : états élémentaires et *Créer un sort*, à la place de ses anciens sorts | *Braise*, *Frimas* (1 PA rendu aussitôt : état Flamme ou Givre), *Créer un sort* (2 PA, 1 fois par tour) |
+| **Arcaniste** | Version Flamme / Givre de la refonte (plus bas) : états élémentaires et *Créer un sort*, à la place de ses anciens sorts | *Composition* (1 PA rendu aussitôt : choisit ses 3 états Flamme / Givre dans une grille), *Créer un sort* (2 PA, 1 fois par tour) |
 | **Guerrier** | Charge | *Charge* : 3 PA, 2 à 4 cases **en ligne**, ligne de vue, relance 2 tours ; fonce jusqu'au contact (ou jusqu'à la case si elle est libre ; un obstacle ou un combattant l'arrête avant) et frappe 6 à 9 Acier, seulement s'il arrive au contact |
 | **Rôdeur** | Piège | *Collet* : 3 PA, 1 à 4 cases, relance 2 tours ; piège invisible, 7 à 10 Acier et −2 PM au prochain tour du premier ennemi qui y entre |
 | **Théologue** | Retrait des états | *Absolution* : 3 PA, 0 à 5 cases, relance 2 tours ; retire aux ennemis leurs bonus, aux alliés leurs malus et leurs poisons |
@@ -335,13 +335,18 @@ l'Arcaniste, dont le kit est entièrement remplacé.
 **Arcaniste de l'alpha 1** : les états élémentaires Flamme et Givre seulement (ses caractéristiques
 et son équipement ne changent pas). Ses anciens sorts (*Boule de feu*, *Éclat de givre*,
 *Étincelle*, *Soin mineur*) ne lui sont plus reliés : leurs fichiers restent dans `data/sorts/`
-comme trace de l'ancienne version. Son kit : *Braise* et *Frimas* (1 PA rendu aussitôt) donnent un
-état permanent (+4 % de dégâts dans son élément, 3 au plus, le 4e remplace le plus ancien, ne peut
-pas être retiré). Avec 3 états, *Créer un sort* (2 PA, 1 fois par tour) donne le sort de la
+comme trace de l'ancienne version. Son kit : *Composition* (1 PA rendu aussitôt, sans limite par
+tour) ouvre une **grille flottante** des combinaisons de 3 états (Flamme ×3, Flamme ×2 + Givre,
+Flamme + Givre ×2, Givre ×3, chacune avec le nom du sort qu'elle donnera ; celle en cours encadrée) :
+au-dessus du sort quand on le clique, au-dessus de la souris quand on le lance par raccourci ; un
+clic sur une case, ou sa touche (1 à 4), la choisit, Échap ou un clic ailleurs referme la grille.
+Le choix remplace d'un coup les 3 états, permanents (+4 % de dégâts dans leur élément chacun, ne
+peuvent pas être retirés). Elle remplace *Braise* et *Frimas* (un état par lancer, 3 lancers pour
+une combinaison), jugés fastidieux par les testeurs ; leurs fichiers restent dans `data/sorts/`. Avec 3 états, *Créer un sort* (2 PA, 1 fois par tour) donne le sort de la
 combinaison, qui prend l'une des **2 places** de sorts créés de la barre ; quand les deux sont
 prises, le nouveau chasse le plus ancien (chaque sort créé garde ses propres relances). Tous les
 sorts créés coûtent **4 PA** pendant l'alpha 1 (équilibrage ensuite). Dès le premier tour : 3 états
-(0 PA), création (2 PA), sort créé (4 PA). Dans la barre du bas : **3 petites orbes** à côté des
+(Composition, 0 PA), création (2 PA), sort créé (4 PA). Dans la barre du bas : **3 petites orbes** à côté des
 jauges, à la couleur de ses états (grises quand la place est libre), et les **2 places de sorts
 créés** au bout des sorts, marquées « ? » tant qu'elles sont vides.
 

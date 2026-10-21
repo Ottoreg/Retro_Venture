@@ -120,7 +120,8 @@ var _refusals := {
 	Protocol.REASON_OCCUPIED: "Case occupée",
 	Protocol.REASON_BLOCKED: "Case bloquée",
 	Protocol.REASON_NOT_PLACEMENT_CELL: "Choisissez un cercle bleu",
-	Protocol.REASON_NO_COMBINATION: "Il faut 3 états élémentaires (Braise, Frimas) pour créer un sort",
+	Protocol.REASON_NO_COMBINATION: "Il faut 3 états élémentaires (Composition) pour créer un sort",
+	Protocol.REASON_INVALID_COMPOSITION: "Choisissez une combinaison d'états",
 }
 ## Messages affichés pour les objets qu'on ne peut pas équiper.
 var _equip_refusals := {
@@ -274,6 +275,22 @@ func select_spell(spell_id: String) -> void:
 	if not can_plan():
 		return
 	selected_spell = "" if selected_spell == spell_id else spell_id
+	_refresh_overlays()
+
+
+## Lance un sort de composition des états (`Spell.state_choices`) avec la combinaison `states`
+## (« flamme+flamme+givre ») choisie dans la grille : sur la case du joueur, tout de suite ou après
+## l'animation en cours.
+func cast_composition(spell_id: String, states: String) -> void:
+	if not can_plan() or player_fighter() == null:
+		return
+	selected_spell = ""
+	var command := {"type": Protocol.CMD_CAST, "entite": World.PLAYER_ID, "sort": spell_id, "etats": states}
+	if _playing:
+		_plan(command)  # Case visée à l'envoi : le joueur a pu se déplacer d'ici là.
+	else:
+		command["cible"] = player_fighter().cell
+		_send(command)
 	_refresh_overlays()
 
 
@@ -685,6 +702,11 @@ func _log_line(event: Dictionary) -> String:
 		Protocol.EVT_CHARGED:
 			return "%s charge%s" % [who, " jusqu'au contact !" if event["contact"] else ", mais s'arrête avant le contact"]
 		Protocol.EVT_ELEMENT_STATES:
+			if event.get("composition", false):
+				var colored: PackedStringArray = []
+				for element: String in event["etats"]:
+					colored.append(_colored(SpellsWindow.ELEMENT_LABELS.get(element, element), element))
+				return "%s compose ses états : %s" % [who, " · ".join(colored)]
 			return "%s prend l'état %s (%s)" % [who, _colored(SpellsWindow.ELEMENT_LABELS.get(event["element"], event["element"]),
 				event["element"]), element_states_text(event["etats"])]
 		Protocol.EVT_SPELL_CREATED:
@@ -879,7 +901,10 @@ func _play_next() -> void:
 	_refresh_overlays()
 	if not _planned.is_empty():
 		if is_player_turn():
-			_send(_planned.pop_front())
+			var command: Dictionary = _planned.pop_front()
+			if command["type"] == Protocol.CMD_CAST and not command.has("cible"):
+				command["cible"] = player_fighter().cell
+			_send(command)
 			return
 		_planned.clear()
 	if _pending_click != NO_CELL:
@@ -1114,8 +1139,11 @@ func _apply(event: Dictionary) -> float:
 	if type == Protocol.EVT_ELEMENT_STATES:
 		var bearer: Dictionary = _actors[event["entite"]]
 		bearer["etats_elementaires"] = event["etats"]
-		_add_floating(SpellsWindow.ELEMENT_LABELS.get(event["element"], event["element"]),
-			element_color(event["element"]), bearer["pos"] + Vector2(0, -0.3))
+		if event.has("element"):
+			_add_floating(SpellsWindow.ELEMENT_LABELS.get(event["element"], event["element"]),
+				element_color(event["element"]), bearer["pos"] + Vector2(0, -0.3))
+		else:
+			_add_floating(element_states_text(event["etats"]), Color(0.8, 0.68, 1.0), bearer["pos"] + Vector2(0, -0.3))
 		combat_state_changed.emit()
 		return 0.15
 	if type == Protocol.EVT_SPELL_CREATED:

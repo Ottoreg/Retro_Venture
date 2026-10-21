@@ -169,7 +169,8 @@ const EVT_STATUS := "effet"
 ## nombre d'états qu'un sort vient de retirer.
 const EVT_STATES := "etats"
 ## États élémentaires d'un combattant après un changement. { type, entite: String, etats: Array[String],
-## element: String (celui qui vient d'être pris) }
+## element: String (celui qui vient d'être pris, absent pour une composition), composition: bool (les 3
+## états choisis d'un coup, absent sinon) }
 const EVT_ELEMENT_STATES := "etats_elementaires"
 ## Sort créé (« creer_sort ») : il prend une des 2 places de la barre, et chasse le plus ancien
 ## quand elles sont prises. { type, entite: String, sort: String (id), ancien: String (id du sort
@@ -259,6 +260,8 @@ const REASON_SPELL_LIMIT := "sort_deja_lance"
 const REASON_SPELL_COOLDOWN := "sort_en_recharge"
 ## « Créer un sort » sans 3 états élémentaires, ou avec une combinaison qui n'a pas de sort.
 const REASON_NO_COMBINATION := "combinaison_inconnue"
+## Sort de composition des états sans combinaison (`etats`) qu'il propose.
+const REASON_INVALID_COMPOSITION := "composition_invalide"
 const REASON_OUT_OF_RANGE := "hors_portee"
 const REASON_NO_LINE_OF_SIGHT := "pas_de_ligne_de_vue"
 const REASON_NOT_IN_LINE := "pas_en_ligne"

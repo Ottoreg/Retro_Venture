@@ -92,6 +92,9 @@ def effet(e):
         texte = "téléportation sur la case"
     elif t == "etat_elementaire":
         texte = "état élémentaire %s (permanent, 3 au plus)" % element(e)
+    elif t == "composition_etats":
+        texte = "choisit d'un coup ses 3 états élémentaires parmi %s (permanents)" % " et ".join(
+            ELEMENTS.get(x, x) for x in e["elements"])
     elif t == "creer_sort":
         texte = "crée le sort de la combinaison des 3 états : " + " ; ".join(
             "%s → %s" % (" + ".join(ELEMENTS.get(x, x) for x in cle.split("+")), NOMS_SORTS.get(sort, sort))

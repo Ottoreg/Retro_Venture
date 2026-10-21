@@ -45,6 +45,10 @@ const EFFECT_TRAP := "piege"
 ## le 4e remplace le plus ancien ; chacun donne `Fighter.ELEMENT_STATE_BONUS` % de dégâts dans son
 ## élément ; on ne peut pas le retirer. Voir `Fighter.element_states`.
 const EFFECT_ELEMENT_STATE := "etat_elementaire"
+## Le lanceur choisit d'un coup ses 3 états élémentaires parmi les combinaisons des `elements`
+## (flamme, givre, tempete) : la commande de lancer porte la combinaison (`etats`, clé triée comme
+## dans « creer_sort »), qui remplace ses états. Voir `state_choices`.
+const EFFECT_COMPOSE_STATES := "composition_etats"
 ## Le lanceur reçoit le sort de `combinaisons` qui correspond à ses 3 états élémentaires (clé :
 ## les éléments triés, joints par « + », par exemple « flamme+flamme+givre ») ; 2 sorts créés au
 ## plus, le plus ancien part (voir `Fighter.add_created_spell`).
@@ -57,11 +61,12 @@ const EFFECT_CHARGE := "charge"
 const EFFECT_REMOVE_STATES := "retrait_etats"
 const EFFECT_TYPES := [EFFECT_DAMAGE, EFFECT_HEAL, EFFECT_TELEPORT, EFFECT_GAIN_PA, EFFECT_REMOVE_PM, EFFECT_SHIELD,
 	EFFECT_BONUS, EFFECT_MALUS, EFFECT_POISON, EFFECT_PUSH, EFFECT_PULL, EFFECT_GLYPH, EFFECT_TRAP,
-	EFFECT_ELEMENT_STATE, EFFECT_CREATE_SPELL, EFFECT_CHARGE, EFFECT_REMOVE_STATES]
+	EFFECT_ELEMENT_STATE, EFFECT_COMPOSE_STATES, EFFECT_CREATE_SPELL, EFFECT_CHARGE, EFFECT_REMOVE_STATES]
 ## Effets sans valeur chiffrée (ni `min` ni `max`).
-const VALUELESS_EFFECTS := [EFFECT_TELEPORT, EFFECT_ELEMENT_STATE, EFFECT_CREATE_SPELL, EFFECT_CHARGE, EFFECT_REMOVE_STATES]
+const VALUELESS_EFFECTS := [EFFECT_TELEPORT, EFFECT_ELEMENT_STATE, EFFECT_COMPOSE_STATES, EFFECT_CREATE_SPELL, EFFECT_CHARGE,
+	EFFECT_REMOVE_STATES]
 ## Effets qui ne concernent que le lanceur ou son déplacement : jamais dans une glyphe ou un piège.
-const CASTER_EFFECTS := [EFFECT_TELEPORT, EFFECT_ELEMENT_STATE, EFFECT_CREATE_SPELL, EFFECT_CHARGE]
+const CASTER_EFFECTS := [EFFECT_TELEPORT, EFFECT_ELEMENT_STATE, EFFECT_COMPOSE_STATES, EFFECT_CREATE_SPELL, EFFECT_CHARGE]
 ## Éléments d'un état élémentaire, et états qu'un retrait peut enlever.
 const STATE_ELEMENTS := ["flamme", "givre", "tempete"]
 const REMOVABLE_STATE_TYPES := [EFFECT_BONUS, EFFECT_MALUS, EFFECT_POISON]
@@ -185,6 +190,11 @@ static func _validate_effects(effects_data: Array, top_level: bool) -> PackedStr
 			continue
 		if type == EFFECT_ELEMENT_STATE and effect.get("element") not in STATE_ELEMENTS:
 			errors.append("effet « %s » : « element » doit être l'un de %s" % [type, str(STATE_ELEMENTS)])
+		if type == EFFECT_COMPOSE_STATES:
+			var elements: Variant = effect.get("elements")
+			if typeof(elements) != TYPE_ARRAY or elements.is_empty() \
+					or elements.any(func(element: Variant) -> bool: return element not in STATE_ELEMENTS or elements.count(element) > 1):
+				errors.append("effet « composition_etats » : « elements » doit être une liste sans doublon parmi %s" % str(STATE_ELEMENTS))
 		if type == EFFECT_CREATE_SPELL:
 			var combinations: Variant = effect.get("combinaisons")
 			if typeof(combinations) != TYPE_DICTIONARY or combinations.is_empty():
@@ -332,9 +342,35 @@ func create_effect() -> Dictionary:
 ## servir).
 func composes() -> bool:
 	for effect in effects:
-		if effect["type"] in [EFFECT_ELEMENT_STATE, EFFECT_CREATE_SPELL]:
+		if effect["type"] in [EFFECT_ELEMENT_STATE, EFFECT_COMPOSE_STATES, EFFECT_CREATE_SPELL]:
 			return true
 	return false
+
+
+## Combinaisons qu'un sort « composition_etats » propose (clés triées, comme « flamme+flamme+givre »),
+## dans l'ordre des éléments ; vide si le sort n'en a pas.
+func state_choices() -> PackedStringArray:
+	for effect in effects:
+		if effect["type"] == EFFECT_COMPOSE_STATES:
+			return combinations_of(effect["elements"])
+	return PackedStringArray()
+
+
+## Toutes les combinaisons de 3 états tirées de `elements` (clés triées), dans l'ordre alphabétique.
+static func combinations_of(elements: Array) -> PackedStringArray:
+	var sorted_elements := elements.duplicate()
+	sorted_elements.sort()
+	var choices: PackedStringArray = []
+	_add_choices(sorted_elements, [], 0, choices)
+	return choices
+
+
+static func _add_choices(elements: Array, picked: Array, from: int, choices: PackedStringArray) -> void:
+	if picked.size() == Fighter.ELEMENT_STATE_MAX:
+		choices.append("+".join(PackedStringArray(picked)))
+		return
+	for i in range(from, elements.size()):
+		_add_choices(elements, picked + [elements[i]], i, choices)
 
 
 ## Clé de combinaison de `states` (états élémentaires) : les éléments triés, joints par « + ».
