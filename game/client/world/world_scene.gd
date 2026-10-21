@@ -271,16 +271,7 @@ func _update_info() -> void:
 func _build_hover_bubble() -> void:
 	_hover_bubble = PanelContainer.new()
 	_hover_bubble.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	var style := StyleBoxFlat.new()
-	style.bg_color = Color(0.1, 0.08, 0.05, 0.88)
-	style.border_color = Color(0.55, 0.42, 0.22)
-	style.set_border_width_all(1)
-	style.set_corner_radius_all(4)
-	style.content_margin_left = 8
-	style.content_margin_right = 8
-	style.content_margin_top = 3
-	style.content_margin_bottom = 3
-	_hover_bubble.add_theme_stylebox_override("panel", style)
+	_hover_bubble.add_theme_stylebox_override("panel", UiTheme.tooltip_style())
 	var column := VBoxContainer.new()
 	column.add_theme_constant_override("separation", 2)
 	_hover_bubble.add_child(column)

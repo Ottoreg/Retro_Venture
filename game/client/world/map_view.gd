@@ -1502,7 +1502,7 @@ func _draw_spell_preview(height: float) -> void:
 			var text: String = lines[i][0]
 			var width := font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, 15).x
 			var box := Rect2(spot + Vector2(-width / 2.0 - 5.0, -16.0), Vector2(width + 10.0, 20.0))
-			draw_rect(box, Color(0.08, 0.06, 0.04, 0.8))
+			draw_rect(box, UiTheme.TOOLTIP_FILL)
 			draw_rect(box, Color(lines[i][1], 0.9), false, 1.5)
 			draw_string_outline(font, box.position + Vector2(5, 15), text, HORIZONTAL_ALIGNMENT_LEFT, -1, 15, 4, Color.BLACK)
 			draw_string(font, box.position + Vector2(5, 15), text, HORIZONTAL_ALIGNMENT_LEFT, -1, 15, lines[i][1])

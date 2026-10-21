@@ -434,6 +434,10 @@ Tout le contenu et les systèmes MVP de l'alpha 1 sont faits (chantiers 1, 3, 4 
   exploration, combats gardés d'un combat à l'autre, canal Commerce (achats et ventes : objet,
   quantité, marchand, prix), onglets Tout / Combat / Commerce ; barre de recherche dans la
   boutique (nom ou type, sans accents)
+- [x] Infobulles lisibles : style commun `UiTheme.tooltip_style` (bois sombre presque opaque,
+  liseré bronze de 2 px, comme la grille de Composition), appliqué aux infobulles (aussi dans le
+  thème par défaut : celui de la fenêtre n'atteignait pas les barres en CanvasLayer), à la bulle
+  de survol de la carte et aux dégâts prévus
 - [ ] Chat par canaux (phase multijoueur) : onglets Groupe, Équipe, Guilde dans l'historique
   commun, ligne de saisie, commande « parler » et relais par le serveur (GDD § 14.3)
 - [ ] Barre d'objets : la rendre utilisable (glisser un consommable, clic ou touche pour l'utiliser,

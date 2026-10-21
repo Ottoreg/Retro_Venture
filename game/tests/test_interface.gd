@@ -1,5 +1,6 @@
 extends "res://tests/test_case.gd"
-## Options (enregistrées hors sauvegarde), menu pause, menu principal, mode tactique en combat.
+## Options (enregistrées hors sauvegarde), menu pause, menu principal, mode tactique en combat,
+## style des infobulles.
 
 const TEST_OPTIONS := "user://options_tests.cfg"
 
@@ -175,3 +176,20 @@ func test_historique_a_canaux() -> void:
 	assert_eq(log.lines(MessageLog.CHANNEL_TRADE).size(), 2, "le commerce reste")
 	assert_eq(log.lines(MessageLog.CHANNEL_COMBAT)[-1], "coup %d" % (MessageLog.MAX_LINES + 4))
 	log.free()
+
+
+## Infobulles lisibles : fond presque opaque et liseré bronze (comme la grille de Composition), dans le
+## thème de la fenêtre comme dans le thème par défaut (barres posées dans un CanvasLayer).
+func test_infobulles_opaques() -> void:
+	for theme: Theme in [UiTheme.build(), _default_theme_after_apply()]:
+		var panel := theme.get_stylebox("panel", "TooltipPanel") as StyleBoxFlat
+		assert_true(panel != null, "style des infobulles")
+		if panel != null:
+			assert_true(panel.bg_color.a >= 0.95, "fond presque opaque")
+			assert_eq(panel.border_width_top, 2, "liseré de 2 px")
+	assert_true(UiTheme.tooltip_style().bg_color.a >= 0.95, "bulles de survol")
+
+
+func _default_theme_after_apply() -> Theme:
+	UiTheme.apply(Engine.get_main_loop() as SceneTree)
+	return ThemeDB.get_default_theme()

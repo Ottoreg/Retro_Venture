@@ -11,12 +11,18 @@ const GOLD := Color("c9a04e")
 const BRONZE := Color("8d6b38")
 const TEXT := Color("f0e6cc")
 const TEXT_DIM := Color("8a7c66")
+## Infobulles et bulles de survol (voir `tooltip_style`).
+const TOOLTIP_FILL := Color(0.13, 0.1, 0.07, 0.97)
+const TOOLTIP_EDGE := Color(0.55, 0.42, 0.22)
 
 
-## Applique le thème à la fenêtre, une seule fois.
+## Applique le thème à la fenêtre, une seule fois. Les infobulles prennent aussi leur style dans le
+## thème par défaut : celui de la fenêtre ne leur parvient pas toujours (barres posées dans un
+## CanvasLayer), et elles restaient sinon grises et transparentes.
 static func apply(tree: SceneTree) -> void:
 	if tree != null and tree.root.theme == null:
 		tree.root.theme = build()
+	_tooltips(ThemeDB.get_default_theme())
 
 
 static func build() -> Theme:
@@ -59,9 +65,24 @@ static func build() -> Theme:
 	theme.set_color("font_unselected_color", "TabBar", TEXT)
 	theme.set_color("font_hovered_color", "TabBar", Color.WHITE)
 	theme.set_color("font_color", "Label", TEXT)
-	theme.set_color("font_color", "TooltipLabel", TEXT)
-	theme.set_stylebox("panel", "TooltipPanel", _box(INK, GOLD, 1, 4, 6))
+	_tooltips(theme)
 	return theme
+
+
+## Infobulles : le fond presque opaque et le liseré bronze de la grille de Composition.
+static func _tooltips(theme: Theme) -> void:
+	theme.set_stylebox("panel", "TooltipPanel", tooltip_style())
+	theme.set_color("font_color", "TooltipLabel", TEXT)
+	theme.set_color("font_outline_color", "TooltipLabel", Color(0, 0, 0, 0))
+
+
+## Fond commun des infobulles et des bulles de survol (carte, prévisions) : bois sombre presque
+## opaque, liseré bronze de 2 px, comme la grille de Composition de l'Arcaniste.
+static func tooltip_style() -> StyleBoxFlat:
+	var style := _box(TOOLTIP_FILL, TOOLTIP_EDGE, 2, 6, 10)
+	style.content_margin_top = 6
+	style.content_margin_bottom = 6
+	return style
 
 
 ## Fond des fenêtres posées au milieu de l'écran (options, pause…).

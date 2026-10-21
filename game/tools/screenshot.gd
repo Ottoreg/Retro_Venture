@@ -17,7 +17,8 @@ extends SceneTree
 ## acceptée, le journal ouvert ; le suivi est sous la minicarte), « repere » (la même, puis un
 ## repère posé sur le Moulin de Tournevent : carte du monde ouverte), « historique » (combat, deux tours
 ## passés : historique du combat rempli), « arcaniste » (Arcaniste en combat : 3 états, un sort
-## créé, une place vide), « composition » (la même, grille de Composition ouverte au-dessus du sort).
+## créé, une place vide), « composition » (la même, grille de Composition ouverte au-dessus du sort),
+## « infobulle » (la même, souris sur le sort Composition : son infobulle, compter ~120 images).
 ## Si « carte » commence par res://, c'est cette scène qui est capturée (menu, création…).
 
 var _output := "capture.png"
@@ -40,7 +41,7 @@ func _initialize() -> void:
 	_action = args[3] if args.size() > 3 else ""
 	if _action in ["sermon", "prevision"]:
 		Session.new_character = Character.create("Frère Tuck", "humain", "theologue")
-	if _action in ["arcaniste", "composition"]:
+	if _action in ["arcaniste", "composition", "infobulle"]:
 		Session.new_character = Character.create("Mirabelle", "humain", "arcaniste")
 	# Réglages par défaut (ceux du joueur ne comptent pas), mode tactique si demandé.
 	Options.reset()
@@ -203,7 +204,7 @@ func _process(_delta: float) -> bool:
 			_scene.pause_menu.open()
 			_scene.pause_menu._on_options_pressed()
 		else:
-			var target: Vector2i = view.world.groups()[0]["case"] if _action in ["combat", "cible", "sermon", "prevision", "phase", "tactique", "historique", "arcaniste", "composition"] else view.current_map().travel_stone()
+			var target: Vector2i = view.world.groups()[0]["case"] if _action in ["combat", "cible", "sermon", "prevision", "phase", "tactique", "historique", "arcaniste", "composition", "infobulle"] else view.current_map().travel_stone()
 			if _action == "phase":
 				# Aucun monstre n'a encore de phases dans les données : le premier du groupe en reçoit une.
 				var monster: Dictionary = view.world.data.monsters[view.world.groups()[0]["monstres"][0]]
@@ -214,7 +215,7 @@ func _process(_delta: float) -> bool:
 				if not view.is_busy():
 					break
 				view.advance(0.3)
-			if _action in ["cible", "sermon", "prevision", "phase", "tactique", "historique", "arcaniste", "composition"] and view.world.combat != null:
+			if _action in ["cible", "sermon", "prevision", "phase", "tactique", "historique", "arcaniste", "composition", "infobulle"] and view.world.combat != null:
 				# Placement validé, puis survol du premier monstre.
 				view.request_start_fight()
 				for i in 200:
@@ -222,7 +223,7 @@ func _process(_delta: float) -> bool:
 						break
 					view.advance(0.3)
 				# Arcaniste : Composition (Flamme, Flamme, Givre), puis Fusion arcanique (une place reste vide).
-				if _action in ["arcaniste", "composition"]:
+				if _action in ["arcaniste", "composition", "infobulle"]:
 					view.cast_composition("arcaniste_composition", "flamme+flamme+givre")
 					for i in 50:
 						if not view.is_busy():
@@ -237,6 +238,16 @@ func _process(_delta: float) -> bool:
 				if _action == "composition":
 					var hud: CombatHud = _scene.get_node("CombatHud")
 					hud._on_spell_pressed("arcaniste_composition")
+				if _action == "infobulle":
+					# Souris posée sur le sort Composition : son infobulle (prévoir assez d'images).
+					# Après la mise en page de la barre.
+					create_timer(0.2).timeout.connect(func() -> void:
+						var button: Control = _scene.get_node("CombatHud")._spell_buttons["arcaniste_composition"]
+						var motion := InputEventMouseMotion.new()
+						motion.position = button.get_global_rect().get_center()
+						motion.global_position = motion.position
+						Input.warp_mouse(motion.position)
+						root.push_input(motion))
 				# Historique : deux tours passés, le temps que les monstres frappent.
 				for turn in 2 if _action == "historique" else 0:
 					view.request_end_turn()
