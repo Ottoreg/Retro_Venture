@@ -1020,6 +1020,91 @@ Cordonnier (bottes, ceintures), Pêcheur et Cuisinier, Éleveur (montures), forg
 En multi : ateliers publics, commandes entre joueurs, artisanat assisté (le client fournit les
 ingrédients).
 
+### 10.4 Objets personnalisés (long terme, idée de l'auteur)
+
+Les artisans de haut niveau (métier d'artisanat proche du niveau 100, le maximum actuel) peuvent
+**créer leurs propres objets** : ils choisissent l'emplacement, le niveau et les lignes de
+statistiques, dans des limites fixées par un **score**, et le coût de fabrication découle des
+statistiques choisies. Rien n'est codé ; toutes les valeurs ci-dessous sont des **pistes à équilibrer**.
+
+**Nom de la compétence** (à choisir) : **Chef-d'œuvre** (l'objet créé est « un chef-d'œuvre de
+Krogma » ; proposition retenue par défaut dans ce document), **Pièce de maître**, ou **Façonnage
+libre**. Côté parodie, l'objet peut porter la signature de son artisan (« fait main par… »).
+
+**Score des statistiques.** Chaque point de statistique vaut un nombre de points de score, d'après sa
+rareté et sa puissance (§ 4.4) :
+
+| Statistique | Points par unité *(à équilibrer)* |
+|---|---|
+| Force, Intelligence, Chance, Agilité | 1 |
+| Vitalité | 0,25 |
+| Sagesse | 3 |
+| Initiative | 0,1 |
+| Prospection | 3 |
+| Dommages | 3 |
+| Soins | 3 |
+| Coups critiques % | 10 |
+| Résistance % (un élément) | 6 |
+| Invocations max | 30 |
+| Portée | 50 |
+| PM | 90 |
+| PA | 100 |
+
+**Limites** (valeurs au niveau 100, à équilibrer) :
+
+- **par ligne** : une ligne de statistique ne dépasse pas **100 points** de score ;
+- **par objet** : la somme des lignes ne dépasse pas **1 000 points** ;
+- **par statistique** : plafond propre à certaines statistiques, en plus du score (par exemple
+  +1 PA, +1 PM, +1 Portée au plus par objet, quel que soit le budget restant) ;
+- **nombre de lignes** maximal par objet.
+
+**Barème par niveau d'objet.** L'artisan choisit le niveau de l'objet (au plus son niveau de métier) ;
+plus le niveau est bas, plus les limites sont basses, pour qu'un objet personnalisé de niveau 50 reste
+comparable aux objets de niveau 50 du jeu. Piste de départ :
+
+| Niveau de l'objet | Score max par objet | Score max par ligne | Lignes max |
+|---|---|---|---|
+| 20 | 200 | 20 | 3 |
+| 50 | 500 | 50 | 4 |
+| 80 | 800 | 80 | 5 |
+| 100 | 1 000 | 100 | 6 |
+
+(formule possible : objet = 10 × niveau, ligne = niveau, lignes = 2 + niveau / 20 arrondi, 6 au plus ;
+PA et PM réservés aux objets de haut niveau, par exemple à partir du niveau 80.)
+
+**Coût de fabrication lié aux statistiques.** Les ingrédients dépendent des lignes choisies :
+
+- **Statistiques élémentaires** : chaque caractéristique demande des ressources de **son élément**,
+  lâchées par les monstres de cet élément (§ 8.1, un élément dominant par zone) : Force → Acier,
+  Intelligence → Flamme, Chance → Givre, Agilité → Tempête ; une résistance demande des ressources de
+  l'élément résisté (moitié-moitié pour le Sacré et l'Impie). Exemple : +100 Force et
+  +100 Intelligence demandent des ressources d'Acier et de Flamme, à raison de **1 ressource par
+  10 points** (« 1 roche en fusion par 10 points d'Intelligence »), soit 10 d'Acier et 10 de Flamme.
+- **Statistiques sans élément** (Vitalité, Sagesse, Initiative, Prospection, Dommages, Soins,
+  critiques, PA, PM, Portée) : ressources neutres ou rares, par exemple les ressources rares de
+  récolte (§ 10.2) ou des butins de mini-boss pour PA, PM et Portée.
+- **Base de l'objet** : quelques ressources fixes selon l'emplacement (bois et métal pour une arme,
+  cuir ou soie pour une cape…), pour que les métiers de récolte restent utiles.
+- La quantité suit le **score** de la ligne (plutôt que la valeur brute), pour que 1 PA ne coûte pas
+  autant qu'1 point d'Agilité.
+
+**Patrons.** Un artisan qui sait créer des objets personnalisés garde une **liste de patrons** : un
+patron enregistre l'emplacement, le niveau, les lignes de statistiques et la recette d'ingrédients
+qui en découle. Les patrons s'ajoutent aux **recettes classiques** données par le jeu (§ 10.2) ; on
+les refabrique sans tout redéfinir.
+
+**Questions ouvertes :**
+
+- les objets personnalisés ont-ils des **jets** (§ 9.2) ou des valeurs fixes ? piste : valeurs
+  fixes, puisque l'artisan a choisi ;
+- les **armes** (qui sont des sorts : PA, portée, dégâts) entrent-elles dans le système, ou seulement
+  les pièces d'équipement ?
+- objets **liés** au personnage ou échangeables (en multijoueur : commandes entre joueurs, patrons
+  vendus ou partagés) ;
+- rapport avec la **forgemagie** (§ 9.2, long terme) : un objet personnalisé peut-il être forgemagé ?
+- quels métiers d'artisanat y ont droit (Forgeron, puis Tailleur, Joaillier, Cordonnier, § 10.3) et
+  à quel niveau de métier (90 ? 100 ?).
+
 ---
 
 ## 11. Quêtes

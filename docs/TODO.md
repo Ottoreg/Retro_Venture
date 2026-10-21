@@ -528,6 +528,12 @@ Tout le contenu et les systèmes MVP de l'alpha 1 sont faits (chantiers 1, 3, 4 
 - [ ] Tailleur, Joaillier, Cordonnier
 - [ ] Pêcheur et Cuisinier
 - [ ] Éleveur et montures
+- [ ] Objets personnalisés des artisans de haut niveau (GDD § 10.4) : choisir le nom de la
+  compétence (Chef-d'œuvre, Pièce de maître, Façonnage libre) ; score par statistique ; limites par
+  ligne, par objet, par statistique et nombre de lignes, selon le niveau de l'objet ; coût en
+  ressources de l'élément de chaque statistique (lâchées par les monstres de cet élément) ;
+  liste de patrons en plus des recettes classiques ; trancher les questions ouvertes (jets, armes,
+  objets liés, forgemagie, niveau de métier requis)
 
 ### Monde
 - [ ] Régions : Sylvebrume, Forges de Durhal, Plaines d'Orvent, Marais Gris, Marches Cendrées / Nocthrône
