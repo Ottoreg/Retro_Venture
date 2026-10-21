@@ -145,6 +145,11 @@ func _process(_delta: float) -> bool:
 				_wait_for(view)
 			_scene.get_node("CombatHud")._on_continue_pressed()
 			_wait_for(view)
+		elif _action == "fiche":
+			# Fiche du personnage avec quelques points investis (bouton « Réinitialiser » actif).
+			view.world.character.add_xp(Character.xp_for_level(4))
+			view.world.character.spend_points("force", 6)
+			_scene.get_node("CharacterSheet").toggle()
 		elif _action == "metiers":
 			_scene.get_node("JobsWindow").toggle()
 		elif _action == "sorts":
@@ -179,27 +184,27 @@ func _process(_delta: float) -> bool:
 			for i in 200:
 				if not view.is_busy():
 					break
-				view._process(0.3)
+				view.advance(0.3)
 			if _action in ["cible", "sermon", "phase", "tactique", "historique", "arcaniste", "composition"] and view.world.combat != null:
 				# Placement validé, puis survol du premier monstre.
 				view.request_start_fight()
 				for i in 200:
 					if not view.is_busy():
 						break
-					view._process(0.3)
+					view.advance(0.3)
 				# Arcaniste : Composition (Flamme, Flamme, Givre), puis Créer un sort (une place reste vide).
 				if _action in ["arcaniste", "composition"]:
 					view.cast_composition("arcaniste_composition", "flamme+flamme+givre")
 					for i in 50:
 						if not view.is_busy():
 							break
-						view._process(0.3)
+						view.advance(0.3)
 					view.select_spell("arcaniste_creer_un_sort")
 					view._on_click(view.player_fighter().cell)
 					for i in 50:
 						if not view.is_busy():
 							break
-						view._process(0.3)
+						view.advance(0.3)
 				if _action == "composition":
 					var hud: CombatHud = _scene.get_node("CombatHud")
 					hud._on_spell_pressed("arcaniste_composition")
@@ -209,7 +214,7 @@ func _process(_delta: float) -> bool:
 					for i in 200:
 						if not view.is_busy() or view._paused:
 							break
-						view._process(0.3)
+						view.advance(0.3)
 				if _action == "sermon":
 					# Sermon choisi, case visée à 2 cases devant le Théologue, vers les monstres.
 					var hero := view.player_fighter()
@@ -226,7 +231,7 @@ func _process(_delta: float) -> bool:
 							view._queue.append_array(events)
 							view._playing = true
 							view._play_next()
-							view._process(0.3)  # Après les dégâts, le changement de phase.
+							view.advance(0.3)  # Après les dégâts, le changement de phase.
 						view._set_hovered(fighter.cell)
 						break
 		_action = ""
@@ -243,4 +248,4 @@ func _wait_for(view: MapView) -> void:
 	for i in 200:
 		if not view.is_busy():
 			return
-		view._process(0.3)
+		view.advance(0.3)

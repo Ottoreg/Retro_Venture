@@ -4,6 +4,8 @@ extends Node2D
 
 const DEFAULT_START_MAP := "brumerive_0_0"
 const MENU_SCENE := "res://client/main/main.tscn"
+## Marge autour de la minicarte et du suivi des quêtes où le personnage du joueur les estompe.
+const UNCOVER_MARGIN := 24.0
 
 @onready var _map_view: MapView = $MapView
 @onready var _combat_hud: CombatHud = $CombatHud
@@ -108,6 +110,7 @@ func _create_world() -> World:
 
 
 func _process(_delta: float) -> void:
+	_uncover_player()
 	if _hover_bubble != null and _hover_bubble.visible:
 		var viewport_size := get_viewport().get_visible_rect().size
 		var spot := get_viewport().get_mouse_position() + Vector2(18, 22)
@@ -115,6 +118,22 @@ func _process(_delta: float) -> void:
 		spot.y = minf(spot.y, viewport_size.y - _hover_bubble.size.y - CombatHud.BAR_HEIGHT - 4)
 		_hover_bubble.position = spot
 
+
+
+## La minicarte et le suivi des quêtes sont posés sur la carte (elle occupe tout l'écran) : quand
+## le personnage du joueur passe dessous, ils s'estompent et laissent passer les clics.
+func _uncover_player() -> void:
+	if _map_view == null or quest_tracker == null:
+		return
+	var spot: Variant = _map_view.player_screen_position()
+	for overlay: Variant in [_minimap, quest_tracker]:
+		var faded := false
+		if spot != null and overlay.is_shown():
+			var rect: Rect2 = overlay.frame_rect().grow(UNCOVER_MARGIN)
+			# Les pieds ou la tête du personnage (qui dépasse d'environ une case vers le haut).
+			faded = rect.has_point(spot) or rect.has_point(spot - Vector2(0, 48))
+		if faded != overlay.is_faded():
+			overlay.set_faded(faded)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not event.is_action_pressed("ui_cancel"):

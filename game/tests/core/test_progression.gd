@@ -61,6 +61,11 @@ func test_investir_des_points() -> void:
 	assert_eq(events[0]["personnage"]["points"], 3)
 	var refused := world.execute({"type": Protocol.CMD_SPEND_POINTS, "entite": World.PLAYER_ID, "carac": "force", "points": 9})
 	assert_eq(refused[0]["raison"], Protocol.REASON_NOT_ENOUGH_POINTS)
+	var reset := world.execute({"type": Protocol.CMD_RESET_POINTS, "entite": World.PLAYER_ID})
+	assert_eq(reset[0]["personnage"]["points"], 5, "points rendus")
+	assert_eq(reset[0]["personnage"]["caracteristiques"]["force"], 50)
+	var nothing := world.execute({"type": Protocol.CMD_RESET_POINTS, "entite": World.PLAYER_ID})
+	assert_eq(nothing[0]["raison"], Protocol.REASON_NOTHING_TO_RESET)
 
 
 func test_sauvegarde_et_reprise() -> void:

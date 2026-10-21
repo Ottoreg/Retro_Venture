@@ -16,7 +16,7 @@ func _run_until_idle(view: MapView) -> void:
 	for i in 1000:
 		if not view.is_busy() or view._paused:
 			return
-		view._process(0.5)
+		view.advance(0.5)
 
 
 ## Textes flottants affichés par la carte.
@@ -168,6 +168,71 @@ func test_pnj_et_changement_de_carte() -> void:
 	scene.free()
 
 
+## Fenêtre sans focus ou cachée : le navigateur ralentit le jeu et Godot plafonne le `delta` d'une
+## image. Le temps réel écoulé est rattrapé (marche de plusieurs cases d'un coup), sauf la pause.
+func test_le_temps_continue_sans_le_focus() -> void:
+	var tree := Engine.get_main_loop() as SceneTree
+	var scene: Node = load("res://client/world/world.tscn").instantiate()
+	tree.root.add_child(scene)
+	var view: MapView = scene.get_node("MapView")
+	view._last_tick_usec = Time.get_ticks_usec() - 30 * 1000000
+	assert_true(view._real_delta(0.13) >= 29.9, "30 s d'absence rattrapées")
+	view._last_tick_usec = Time.get_ticks_usec() - 5000 * 1000000
+	assert_eq(view._real_delta(0.13), MapView.MAX_CATCH_UP, "rattrapage plafonné")
+	view._notification(Node.NOTIFICATION_UNPAUSED)
+	assert_eq(view._real_delta(0.02), 0.02, "le temps du menu pause ne compte pas")
+
+	var map := view.current_map()
+	var start := view.world.position_of(World.PLAYER_ID)
+	var far := start
+	var longest := 0
+	for cell: Vector2i in map.cells():
+		if not map.is_walkable(cell) or not map.exit_directions(cell).is_empty():
+			continue
+		var length := map.find_path(start, cell).size()
+		if length > longest:
+			longest = length
+			far = cell
+	view._on_click(far)
+	view.advance(60.0)
+	var shown: Vector2 = view.actor(World.PLAYER_ID)["pos"]
+	assert_eq(Vector2i(shown.round()), far, "toute la marche faite en une seule image de rattrapage")
+	scene.free()
+
+
+## La minicarte et le suivi des quêtes s'estompent (et laissent passer les clics) quand le
+## personnage du joueur passe dessous.
+func test_minicarte_estompee_sur_le_personnage() -> void:
+	var tree := Engine.get_main_loop() as SceneTree
+	var scene: Node = load("res://client/world/world.tscn").instantiate()
+	tree.root.add_child(scene)
+	var view: MapView = scene.get_node("MapView")
+	var minimap: Minimap = scene.get_node("Minimap")
+	var map := view.current_map()
+	view.position = Vector2(32, 80)  # Comme dans une fenêtre de 1280 × 720 (sans affichage, elle diffère).
+	scene._uncover_player()
+	assert_true(minimap.is_shown(), "minicarte affichée en exploration")
+	var rect := minimap.frame_rect()
+	var under := Vector2i(-1, -1)
+	for cell: Vector2i in map.cells():
+		if rect.has_point(view.get_global_transform_with_canvas() * IsoGrid.cell_to_screen(cell)):
+			under = cell
+			break
+	assert_true(map.is_inside(under), "une case de la carte est sous la minicarte")
+	var player: Dictionary = view._actors[World.PLAYER_ID]
+	var home: Vector2 = player["pos"]
+	assert_false(minimap.is_faded(), "personnage loin : minicarte normale")
+	player["pos"] = Vector2(under)
+	scene._uncover_player()
+	assert_true(minimap.is_faded(), "personnage dessous : minicarte estompée")
+	assert_eq(minimap._frame.mouse_filter, Control.MOUSE_FILTER_IGNORE, "les clics passent à la carte")
+	player["pos"] = home
+	scene._uncover_player()
+	assert_false(minimap.is_faded(), "elle revient quand il s'éloigne")
+	assert_eq(minimap._frame.mouse_filter, Control.MOUSE_FILTER_STOP)
+	scene.free()
+
+
 func test_nouveau_clic_pendant_la_marche() -> void:
 	var tree := Engine.get_main_loop() as SceneTree
 	var scene: Node = load("res://client/world/world.tscn").instantiate()
@@ -189,7 +254,7 @@ func test_nouveau_clic_pendant_la_marche() -> void:
 	assert_true(longest >= 4, "trajet assez long pour être interrompu")
 
 	view._on_click(far)
-	view._process(0.1)
+	view.advance(0.1)
 	assert_true(view.is_busy(), "le joueur est en train de marcher")
 	view._on_click(start)
 	assert_eq(view._pending_click, MapView.NO_CELL, "le clic n'attend pas la fin de la marche")
@@ -212,7 +277,7 @@ func test_interrompre_la_marche_vers_un_combat_ou_une_sortie() -> void:
 	# Vers un groupe de monstres, puis contrordre : pas de combat.
 	var group: Dictionary = view.world.groups()[0]
 	view._on_click(group["case"])
-	view._process(0.1)
+	view.advance(0.1)
 	assert_true(view.is_busy(), "en marche vers le groupe")
 	assert_false(view.world.in_combat(), "le combat attend l'arrivée")
 	view._on_click(start)
@@ -228,7 +293,7 @@ func test_interrompre_la_marche_vers_un_combat_ou_une_sortie() -> void:
 			exit_cell = cell
 			break
 	view._on_click(exit_cell)
-	view._process(0.1)
+	view.advance(0.1)
 	assert_true(view.is_busy(), "en marche vers la sortie")
 	assert_eq(view.world.map.id, map.id, "le changement de carte attend l'arrivée")
 	view._on_click(start)
@@ -329,7 +394,7 @@ func test_recolte_et_repousse() -> void:
 	assert_eq(notices.size(), 1, "message affiché")
 
 	# Repousse au bout de deux minutes au plus.
-	view._process(121.0)
+	view.advance(121.0)
 	assert_false(view.world.is_depleted(ash), "l'arbre a repoussé")
 	scene.free()
 
@@ -438,7 +503,7 @@ func test_reapparition_des_monstres_et_fenetre_des_metiers() -> void:
 	world._positions.erase(group["id"])
 	view._load_exploration_actors()
 	assert_false(view._actors.has(group["id"]), "groupe vaincu")
-	view._process(200.0)
+	view.advance(200.0)
 	assert_true(view._actors.has(group["id"]), "le groupe est réapparu à l'écran")
 	assert_eq(world.groups().size(), 3)
 
@@ -649,14 +714,14 @@ func test_tous_les_membres_d_un_groupe_sont_affiches() -> void:
 	# Les groupes se promènent : la carte les fait marcher jusqu'à leur nouvelle case.
 	var walked := false
 	for i in 60:
-		view._process(1.0)
+		view.advance(1.0)
 		if not view._group_walks.is_empty():
 			walked = true
 			break
 	assert_true(walked, "un groupe s'est mis en marche")
 	var walker: String = view._group_walks.keys()[0]
 	for i in 20:
-		view._process(0.2)
+		view.advance(0.2)
 	assert_false(view._group_walks.has(walker), "promenade terminée")
 	assert_eq(Vector2i(view._actors[walker]["pos"].round()), view.world.position_of(walker), "arrivé là où le monde l'a mis")
 	scene.free()
@@ -751,9 +816,9 @@ func test_niveaux_tires_dans_la_bulle_et_en_combat() -> void:
 	view._play_next()
 	assert_eq(hud._message_label.text, "Le rat se fâche !", "message de combat")
 	assert_true("Le rat se fâche !" in _floating_texts(view), "texte flottant au-dessus du monstre")
-	view._process(1.5)
+	view.advance(1.5)
 	assert_eq(str(_floating_texts(view)), str(["Le rat se fâche !"]), "encore là quand les autres ont disparu")
-	view._process(1.5)
+	view.advance(1.5)
 	assert_true(_floating_texts(view).is_empty(), "puis il disparaît aussi")
 	scene.free()
 
@@ -1053,15 +1118,15 @@ func test_lecture_bloquee_repart_seule() -> void:
 	# Lecture interrompue en route (comme après une erreur) : un événement attend encore.
 	view._playing = true
 	view._queue.append({"type": Protocol.EVT_QUEST_PROGRESS, "quete": "", "texte": "Reprise"})
-	view._process(0.5)
+	view.advance(0.5)
 	assert_true(view.is_busy(), "pas encore")
-	view._process(0.6)
+	view.advance(0.6)
 	assert_false(view.is_busy(), "la lecture a repris et s'est terminée")
 	# Marche sans chemin : abandonnée.
 	view._playing = true
 	view._walk_actor = World.PLAYER_ID
 	view._walk_path.clear()
-	view._process(0.1)
+	view.advance(0.1)
 	assert_eq(view._walk_actor, "")
 	scene.free()
 

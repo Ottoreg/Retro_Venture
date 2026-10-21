@@ -182,6 +182,8 @@ func _execute_exploration(command: Dictionary) -> Array[Dictionary]:
 			return _talk(command)
 		if type == Protocol.CMD_SPEND_POINTS:
 			return _spend_points(command)
+		if type == Protocol.CMD_RESET_POINTS:
+			return _reset_points(command)
 		if type == Protocol.CMD_EQUIP:
 			return _equip(command)
 		if type == Protocol.CMD_UNEQUIP:
@@ -1419,6 +1421,15 @@ func _spend_points(command: Dictionary) -> Array[Dictionary]:
 	var reason := character.spend_points(stat_name, points)
 	if not reason.is_empty():
 		return _refused(command, reason)
+	var events: Array[Dictionary] = [_character_event()]
+	return events
+
+
+func _reset_points(command: Dictionary) -> Array[Dictionary]:
+	if not _is_player_command(command):
+		return _refused(command, Protocol.REASON_INVALID_COMMAND)
+	if character.reset_points() == 0:
+		return _refused(command, Protocol.REASON_NOTHING_TO_RESET)
 	var events: Array[Dictionary] = [_character_event()]
 	return events
 

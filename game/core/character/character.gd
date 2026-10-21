@@ -16,6 +16,8 @@ const MAX_LEVEL := 30
 ## niveaux) quand on testera la vraie progression.
 const XP_RATE := 3.5
 const POINTS_PER_LEVEL := 5
+## Bonus hors caractéristiques dont la fiche donne aussi la provenance (équipement, panoplie).
+const SOURCED_EXTRAS := ["pa", "pm", "initiative", "prospection", "dommages", "critique"]
 const HP_PER_LEVEL := 5
 const NAME_MIN_LENGTH := 2
 const NAME_MAX_LENGTH := 20
@@ -201,11 +203,43 @@ func spend_points(stat_name: String, points: int) -> String:
 	return ""
 
 
+## Rend tous les points investis, à répartir de nouveau ; renvoie le nombre de points rendus. Les
+## objets portés le restent, même si leurs conditions ne sont plus remplies.
+func reset_points() -> int:
+	var total := 0
+	for stat_name: String in invested:
+		total += int(invested[stat_name])
+	invested.clear()
+	unspent_points += total
+	return total
+
+
+## Provenance d'une caractéristique ou d'un bonus d'équipement : { points, race, equipement,
+## panoplie, objets: [[nom, valeur]…] } (seuls les objets portés qui donnent ce bonus).
+func stat_sources(stat_name: String, data: GameData = null) -> Dictionary:
+	var race_bonus := 0
+	if data != null and data.races.has(race_id):
+		race_bonus = int(data.races[race_id].get("bonus", {}).get(stat_name, 0))
+	var items: Array = []
+	for slot: String in Inventory.SLOTS:
+		var entry := inventory.equipped_entry(slot)
+		var value := int(entry.get("jets", {}).get(stat_name, 0)) if not entry.is_empty() else 0
+		if value != 0:
+			var template: Dictionary = data.items.get(entry["objet"], {}) if data != null else {}
+			items.append([template.get("nom", entry["objet"]), value])
+	return {"points": int(invested.get(stat_name, 0)), "race": race_bonus, "equipement": inventory.bonus(stat_name),
+		"panoplie": set_bonus(stat_name, data), "objets": items}
+
+
 ## Fiche affichable : identité, niveau, XP, caractéristiques totales, PV maximum.
 func sheet(data: GameData) -> Dictionary:
 	var stats := {}
+	var sources := {}
 	for stat_name in STATS:
 		stats[stat_name] = stat(stat_name, data)
+		sources[stat_name] = stat_sources(stat_name, data)
+	for stat_name in SOURCED_EXTRAS:
+		sources[stat_name] = stat_sources(stat_name, data)
 	var voie: Dictionary = data.voies.get(voie_id, {}) if data != null else {}
 	var race: Dictionary = data.races.get(race_id, {}) if data != null else {}
 	return {
@@ -220,6 +254,8 @@ func sheet(data: GameData) -> Dictionary:
 		"xp_suivant": xp_for_level(level + 1) if level < MAX_LEVEL else xp,
 		"points": unspent_points,
 		"caracteristiques": stats,
+		"investis": invested.duplicate(),
+		"provenance": sources,
 		"pv_max": max_hp(data),
 		"pv": hp(data),
 		"prospection": prospection(data),

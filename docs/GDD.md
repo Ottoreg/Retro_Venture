@@ -627,7 +627,9 @@ ajoutent 5 dégâts à chaque ligne de dégâts de n'importe quel sort ou arme, 
 - **Vitesse d'XP de l'alpha 1** (en place) : l'XP de combat est multipliée par 3,5
   (`Character.XP_RATE`), pour finir tout le contenu (1 → 30) en 4 à 5 h : l'alpha 1 teste les
   mécaniques, pas la progression. On remettra ×1 pour l'alpha 2, qui testera le leveling.
-- **Restat :** possible via un objet ou une quête, pour ne pas punir l'expérimentation.
+- **Restat :** à terme via un objet ou une quête, pour ne pas punir l'expérimentation. Pendant
+  l'alpha, bouton « Réinitialiser » gratuit sur la fiche (touche C) : tous les points investis
+  sont rendus, les objets portés le restent même si leurs conditions ne sont plus remplies.
 
 ---
 
@@ -686,7 +688,11 @@ prévoit déjà `voie` et `rang` sur chaque sort** pour que le système s'ajoute
 
 - Le monde est découpé en **cartes** (un écran chacune), reliées par leurs bords et par des portes ou
   escaliers. Chaque carte extérieure a des coordonnées sur la carte du monde, tirées de son id
-  (`<zone>_<x>_<y>`) ; les intérieurs n'en ont pas.
+  (`<zone>_<x>_<y>`) ; les intérieurs n'en ont pas. Les cases praticables du bord qui mènent à la
+  carte voisine portent un **halo blanc léger** ; la flèche jaune de chaque sortie se place en face
+  de l'une d'elles (jamais devant une case bloquée).
+- Le monde **continue de tourner sans le focus** (fenêtre en arrière-plan, onglet caché) : le temps
+  réel écoulé est rattrapé au retour (10 min au plus) ; seul le menu pause arrête le temps.
 - **Déplacement au clic** sur une grille isométrique ; recherche de chemin (A*).
 - Sur une carte : PNJ, groupes de monstres visibles qui errent, ressources récoltables, éléments
   interactifs (portes, coffres, panneaux).
@@ -1190,7 +1196,8 @@ ingrédients).
 - **Minicarte** en haut à droite, sous le bandeau du haut, en exploration seulement (en combat, la
   place revient à l'ordre de jeu) : la carte du monde en réduit autour de la carte actuelle (5 × 5
   cartes) ; un clic dessus ouvre la carte du monde, et un bouton « – » la replie (il ne reste que
-  sa barre) quand elle cache un monstre ou un PNJ.
+  sa barre) quand elle cache un monstre ou un PNJ. Quand le personnage passe sous la minicarte ou
+  le suivi des quêtes, ils s'estompent et laissent passer les clics vers la carte.
 - **En combat :** frise d'initiative, prévisualisation de portée et de zone, dégâts estimés au survol,
   bouton « fin de tour ». Au survol d'un combattant, ses informations (nom, niveau, PV, PA, PM,
   résistances aux 6 éléments) remplacent la barre de sorts, comme dans Dofus Rétro.

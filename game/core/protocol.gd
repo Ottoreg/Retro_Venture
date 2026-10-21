@@ -20,6 +20,9 @@ const CMD_MOVE := "deplacer"
 const CMD_TALK := "parler"
 ## Exploration : répartir des points de caractéristique. { type, entite: String, carac: String, points: int }
 const CMD_SPEND_POINTS := "investir"
+## Exploration : rendre tous les points investis, à répartir de nouveau (gratuit pendant l'alpha).
+## { type, entite: String }
+const CMD_RESET_POINTS := "reinitialiser_points"
 ## Exploration : équiper un objet. { type, entite: String, objet: String (uid), emplacement: String (optionnel) }
 const CMD_EQUIP := "equiper"
 ## Exploration : retirer l'objet d'un emplacement. { type, entite: String, emplacement: String }
@@ -227,6 +230,7 @@ const REASON_ALREADY_THERE := "deja_sur_place"
 const REASON_NO_EXIT := "pas_de_sortie"
 const REASON_UNKNOWN_MAP := "carte_inconnue"
 const REASON_NOT_ENOUGH_POINTS := "points_insuffisants"
+const REASON_NOTHING_TO_RESET := "aucun_point_investi"
 const REASON_UNKNOWN_ITEM := "objet_inconnu"
 const REASON_NOT_EQUIPPABLE := "objet_non_equipable"
 const REASON_REQUIREMENTS := "conditions_non_remplies"

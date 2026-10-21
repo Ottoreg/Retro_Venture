@@ -1,6 +1,8 @@
 class_name CharacterSheet
 extends CanvasLayer
 ## Fiche du personnage (touche C) : niveau, expérience, PV, caractéristiques et points à répartir.
+## Survoler une valeur montre sa provenance (points, race, équipement, panoplie) ; le bouton
+## « Réinitialiser » rend tous les points investis.
 
 const GOLD := Color(0.95, 0.76, 0.3)
 const STAT_HELP := {
@@ -30,6 +32,8 @@ var _xp_bar: ProgressBar
 var _xp_label: Label
 var _hp_label: Label
 var _points_label: Label
+var _reset_button: Button
+var _reset_confirm: ConfirmationDialog
 var _stat_values := {}
 var _stat_buttons := {}
 ## Valeurs secondaires : PA, PM, initiative, prospection.
@@ -72,11 +76,41 @@ func refresh() -> void:
 	var points: int = sheet["points"]
 	_points_label.text = "Points à répartir : %d" % points
 	_points_label.modulate = GOLD if points > 0 else Color(0.7, 0.7, 0.7)
+	var invested := 0
+	for value: Variant in sheet["investis"].values():
+		invested += int(value)
+	_reset_button.disabled = invested <= 0
+	_reset_button.tooltip_text = "Rendre les %d points investis, à répartir de nouveau (gratuit pendant l'alpha)" % invested
 	for stat_name: String in _stat_values:
-		_stat_values[stat_name].text = str(sheet["caracteristiques"][stat_name])
+		var total: int = sheet["caracteristiques"][stat_name]
+		_stat_values[stat_name].text = str(total)
+		_stat_values[stat_name].tooltip_text = source_text(Character.STAT_NAMES[stat_name], total, sheet["provenance"][stat_name], true)
 		_stat_buttons[stat_name].disabled = points <= 0
-	for key: String in _derived_values:
+	for entry: Array in DERIVED:
+		var key: String = entry[0]
 		_derived_values[key].text = str(sheet[key])
+		_derived_values[key].tooltip_text = source_text(entry[1], int(sheet[key]), sheet["provenance"].get(key, {}), false)
+
+
+## Infobulle de provenance d'une valeur : points investis et race (caractéristiques), sinon la base
+## (Voie, caractéristiques), puis l'équipement objet par objet et la panoplie.
+static func source_text(title: String, total: int, sources: Dictionary, is_stat: bool) -> String:
+	var lines: PackedStringArray = ["%s : %d" % [title, total]]
+	var equipment := int(sources.get("equipement", 0))
+	var panoply := int(sources.get("panoplie", 0))
+	if is_stat:
+		lines.append("Points investis : %d" % int(sources.get("points", 0)))
+		if int(sources.get("race", 0)) != 0:
+			lines.append("Race : %+d" % int(sources["race"]))
+	else:
+		lines.append("Base : %d" % (total - equipment - panoply))
+	if equipment != 0:
+		lines.append("Équipement : %+d" % equipment)
+		for item: Array in sources.get("objets", []):
+			lines.append("  %s : %+d" % [item[0], int(item[1])])
+	if panoply != 0:
+		lines.append("Panoplie : %+d" % panoply)
+	return "\n".join(lines)
 
 
 func _unhandled_key_input(event: InputEvent) -> void:
@@ -84,6 +118,14 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	if key != null and key.pressed and not key.echo and key.keycode == KEY_C:
 		toggle()
 		get_viewport().set_input_as_handled()
+
+
+func _on_reset_pressed() -> void:
+	_reset_confirm.popup_centered()
+
+
+func _on_reset_confirmed() -> void:
+	map_view.send_command({"type": Protocol.CMD_RESET_POINTS, "entite": World.PLAYER_ID})
 
 
 func _on_plus_pressed(stat_name: String) -> void:
@@ -131,8 +173,23 @@ func _build() -> void:
 	box.add_child(_xp_label)
 	_hp_label = _label(15, Color(0.95, 0.5, 0.45))
 	box.add_child(_hp_label)
+	var points_row := HBoxContainer.new()
+	box.add_child(points_row)
 	_points_label = _label(16, GOLD)
-	box.add_child(_points_label)
+	_points_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	points_row.add_child(_points_label)
+	_reset_button = Button.new()
+	_reset_button.text = "Réinitialiser"
+	_reset_button.focus_mode = Control.FOCUS_NONE
+	_reset_button.pressed.connect(_on_reset_pressed)
+	points_row.add_child(_reset_button)
+	_reset_confirm = ConfirmationDialog.new()
+	_reset_confirm.title = "Réinitialiser les caractéristiques"
+	_reset_confirm.dialog_text = "Rendre tous les points investis ? Vous pourrez les répartir de nouveau."
+	_reset_confirm.ok_button_text = "Réinitialiser"
+	_reset_confirm.cancel_button_text = "Annuler"
+	_reset_confirm.confirmed.connect(_on_reset_confirmed)
+	add_child(_reset_confirm)
 
 	var grid := GridContainer.new()
 	grid.columns = 3
@@ -147,6 +204,7 @@ func _build() -> void:
 		var value_label := _label(15, Color.WHITE)
 		value_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 		value_label.custom_minimum_size = Vector2(40, 0)
+		value_label.mouse_filter = Control.MOUSE_FILTER_PASS
 		var plus := Button.new()
 		plus.text = "+"
 		plus.focus_mode = Control.FOCUS_NONE
@@ -170,6 +228,7 @@ func _build() -> void:
 		var value_label := _label(14, Color.WHITE)
 		value_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 		value_label.custom_minimum_size = Vector2(36, 0)
+		value_label.mouse_filter = Control.MOUSE_FILTER_PASS
 		derived.add_child(name_label)
 		derived.add_child(value_label)
 		_derived_values[entry[0]] = value_label
