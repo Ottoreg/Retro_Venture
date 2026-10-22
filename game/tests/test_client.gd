@@ -1298,6 +1298,29 @@ func test_lecture_bloquee_repart_seule() -> void:
 	scene.free()
 
 
+func test_pause_avant_la_fin_du_combat() -> void:
+	var tree := Engine.get_main_loop() as SceneTree
+	var scene: Node = load("res://client/world/world.tscn").instantiate()
+	tree.root.add_child(scene)
+	var view: MapView = scene.get_node("MapView")
+	# Même au tour du joueur (son coup final), la fin du combat attend COMBAT_END_DELAY.
+	view.mode = MapView.Mode.COMBAT
+	view.current_turn = World.PLAYER_ID
+	view._playing = true
+	view._queue.append({"type": Protocol.EVT_COMBAT_ENDED})
+	view._play_next()
+	assert_eq(view._queue.size(), 1, "la fin du combat attend")
+	view.advance(MapView.COMBAT_END_DELAY * 0.6)
+	assert_eq(view._queue.size(), 1, "toujours en pause")
+	assert_true(view.is_busy())
+	# (Événement remplacé pour ne pas lancer le récap, sans combat réel.)
+	view._queue[0] = {"type": Protocol.EVT_QUEST_PROGRESS, "quete": "", "texte": "Fin"}
+	view.advance(MapView.COMBAT_END_DELAY * 0.6)
+	assert_true(view._queue.is_empty(), "la pause est finie")
+	view._end_delay_done = false
+	scene.free()
+
+
 func test_historique_du_combat() -> void:
 	var tree := Engine.get_main_loop() as SceneTree
 	var scene: Node = load("res://client/world/world.tscn").instantiate()

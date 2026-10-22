@@ -102,6 +102,9 @@ const NO_CELL := Vector2i(-99999, -99999)
 const DIALOGUE_TOP := 6.0
 ## Garde-fou de la lecture des événements (voir `_watch_playback`), en secondes.
 const STALL_LIMIT := 1.0
+## Pause (secondes) entre le dernier événement d'un combat et sa fin, victoire ou défaite : on voit
+## la dernière perte de vie (et plus tard l'animation de mort, à caler dans `combat_end_delay`).
+const COMBAT_END_DELAY := 1.0
 ## Actions que le joueur peut prévoir pendant une animation de son tour (voir `_plan`).
 const PLANNED_LIMIT := 5
 const COLOR_PLANNED := Color(1.0, 0.85, 0.3, 0.55)
@@ -182,6 +185,8 @@ var _queue: Array[Dictionary] = []
 var _playing := false
 var _stall_time := 0.0
 var _wait := 0.0
+## La pause de fin de combat (COMBAT_END_DELAY) est passée : EVT_COMBAT_ENDED peut s'appliquer.
+var _end_delay_done := false
 var _walk_actor := ""
 var _walk_path: Array[Vector2i] = []
 ## Vitesse de la marche en cours (WALK_SPEED, ou plus vite pour une course).
@@ -919,8 +924,20 @@ func _step_along(data: Dictionary, path: Array[Vector2i], delta: float, speed: f
 	return true
 
 
+## Durée de la pause avant la fin du combat. Une animation de mort s'y ajoutera : la pause
+## couvrira alors au moins sa durée.
+func combat_end_delay() -> float:
+	return COMBAT_END_DELAY
+
+
 func _play_next() -> void:
 	while not _queue.is_empty():
+		# Avant la fin du combat, une pause, même pendant le tour du joueur (son coup final compris).
+		if _queue[0]["type"] == Protocol.EVT_COMBAT_ENDED and not _end_delay_done:
+			_end_delay_done = true
+			_wait = combat_end_delay()
+			if _wait > 0.0:
+				return
 		var duration := _apply(_queue.pop_front())
 		if duration < 0.0:
 			return  # Marche en cours.
@@ -1247,6 +1264,7 @@ func _apply(event: Dictionary) -> float:
 	if type == Protocol.EVT_COMBAT_ENDED:
 		current_turn = ""
 		_planned.clear()
+		_end_delay_done = false
 		combat_ended.emit(event)  # Le récap s'affiche sans bloquer : l'exploration reprend aussitôt.
 		return 0.0
 	if type == Protocol.EVT_EXPLORATION:
