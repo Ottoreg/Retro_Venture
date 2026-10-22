@@ -1321,7 +1321,7 @@ d'ambiance habituel, sa fiche affiche « Créé par [pseudo de l'artisan] ».
   obstacles en blocs pleins (ceux qui bloquent la vue distingués de ceux qui ne bloquent que le
   passage, comme l'eau, dessinée en trou), arbres et grands décors masqués, combattants en pions ou silhouettes
   lisibles ; portées, zones et glyphes restent affichées. Le choix est retenu d'un combat à l'autre.
-  *Fait* : bouton « Tactique » du bandeau ou touche T, aussi dans les options. Les combattants
+  *Fait* : icône en damier gris de la barre de combat ou touche T, aussi dans les options. Les combattants
   restent dessinés par défaut ; l'option « Pions en mode tactique » les remplace par des pions
   (cercle de la couleur du camp, initiale, PV).
 - **Menu pause** (Échap quand aucune fenêtre n'est ouverte) : le jeu s'arrête ; reprendre, options,

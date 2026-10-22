@@ -162,7 +162,7 @@ Les sorts se consultent dans leur fenêtre (S).
      déplacement ou la fin du tour sont gardés et partent dans l'ordre dès l'arrivée (5 au plus ; un
      clic droit, sans sort choisi, les annule) ;
    - **Fin de tour** : bouton du bandeau.
-   - **Mode tactique** : bouton « Tactique » du bandeau ou touche **T** (aussi dans les options ; les
+   - **Mode tactique** : icône en damier gris de la barre de combat ou touche **T** (aussi dans les options ; les
      personnages restent visibles, l'option « Pions en mode tactique » les remplace par des pions).
      Vue simplifiée de la grille, comme dans Dofus : cases à plat en damier, eau en trous (elle ne
      bloque que le passage), obstacles qui bloquent la vue en blocs, arbres et bâtiments masqués,

@@ -166,6 +166,32 @@ class ItemSlot extends Control:
 		draw_string(font, Vector2(5, 15), key_label, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(1, 0.95, 0.8, 0.6))
 
 
+## Icône du bouton du mode tactique : un damier isométrique de 3 × 3 cases grises, plus claires et
+## le bouton cerclé d'or quand le mode est actif. Dessinée (pas de glyphe : la police n'en a pas).
+class TacticalIcon extends Control:
+	var button: Button
+
+	func _init() -> void:
+		mouse_filter = Control.MOUSE_FILTER_IGNORE
+
+	func _draw() -> void:
+		var on := button != null and button.button_pressed
+		var fill := Color(0.86, 0.86, 0.84) if on else Color(0.6, 0.6, 0.58)
+		var line := Color(0.2, 0.2, 0.2)
+		var half := Vector2(5.0, 2.9)  # Demi-diagonales d'une case.
+		var top := Vector2(size.x / 2.0, size.y / 2.0 - 3.0 * half.y)
+		for row in 3:
+			for col in 3:
+				var c := top + Vector2((col - row) * half.x, (col + row + 1) * half.y)
+				var diamond := PackedVector2Array([c + Vector2(0, -half.y), c + Vector2(half.x, 0),
+						c + Vector2(0, half.y), c + Vector2(-half.x, 0)])
+				draw_colored_polygon(diamond, fill.darkened(0.18) if (row + col) % 2 else fill)
+				diamond.append(diamond[0])
+				draw_polyline(diamond, line, 1.0, true)
+		if on:
+			draw_rect(Rect2(Vector2.ONE, size - Vector2(2, 2)), Color(1.0, 0.82, 0.3), false, 2.0)
+
+
 ## Portrait de l'ordre de jeu : le combattant dessiné en petit dans un cadre à la couleur de son
 ## camp, sa barre de PV en bas ; doré et plus grand quand c'est son tour. Nom et PV en infobulle.
 class TurnPortrait extends Control:
@@ -1181,9 +1207,13 @@ func _build() -> void:
 	top_row.add_child(_turn_button)
 	_tactical_button = Button.new()
 	_tactical_button.toggle_mode = true
-	_tactical_button.text = "Tactique"
 	_tactical_button.tooltip_text = "Mode tactique (T) : cases à plat, obstacles en blocs, décor masqué, combattants en pions"
-	_tactical_button.custom_minimum_size = Vector2(84, 34)
+	_tactical_button.custom_minimum_size = Vector2(34, 34)
+	var tactical_icon := TacticalIcon.new()
+	tactical_icon.button = _tactical_button
+	tactical_icon.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_tactical_button.add_child(tactical_icon)
+	_tactical_button.draw.connect(tactical_icon.queue_redraw)  # Suit aussi set_pressed_no_signal.
 	_tactical_button.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	_tactical_button.focus_mode = Control.FOCUS_NONE
 	_tactical_button.pressed.connect(toggle_tactical)
