@@ -32,6 +32,22 @@ static func play_rect(screen: Vector2) -> Rect2:
 	return Rect2(Vector2((screen.x - drawn.x) / 2.0, floorf(screen.y - BOTTOM - drawn.y)), drawn)
 
 
+## Partie de l'écran où l'on voit le jeu (entre les bandes, au-dessus de la barre) : les étiquettes
+## dessinées sur la carte (prévisions, chiffres flottants) y restent entières.
+static func visible_rect(screen: Vector2) -> Rect2:
+	var band := band_width(screen)
+	return Rect2(band, TOP, screen.x - 2.0 * band, screen.y - TOP - BOTTOM)
+
+
+## Décale `box` le moins possible pour qu'elle tienne dans `area` (collée au bord gauche ou haut si
+## elle est plus grande).
+static func fit_inside(box: Rect2, area: Rect2, margin := 2.0) -> Rect2:
+	var inner := area.grow(-margin)
+	box.position.x = maxf(inner.position.x, minf(box.position.x, inner.end.x - box.size.x))
+	box.position.y = maxf(inner.position.y, minf(box.position.y, inner.end.y - box.size.y))
+	return box
+
+
 ## Largeur de chaque bande latérale (au moins `BAND`).
 static func band_width(screen: Vector2) -> float:
 	return play_rect(screen).position.x

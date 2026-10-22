@@ -14,6 +14,10 @@ const TEXT_DIM := Color("8a7c66")
 ## Infobulles et bulles de survol (voir `tooltip_style`).
 const TOOLTIP_FILL := Color(0.13, 0.1, 0.07, 0.97)
 const TOOLTIP_EDGE := Color(0.55, 0.42, 0.22)
+## Calque des bulles de survol dessinées par le jeu : au-dessus de tout (bandes, barre, fenêtres,
+## menu pause à 50, options à 60). Les infobulles natives de Godot sont déjà au premier plan et
+## recalées dans l'écran.
+const TOOLTIP_LAYER := 100
 
 
 ## Applique le thème à la fenêtre, une seule fois. Les infobulles prennent aussi leur style dans le

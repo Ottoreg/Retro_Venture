@@ -6,7 +6,7 @@ extends SceneTree
 ## Action : « combat » (engage le premier groupe de la carte), « butin » / « defaite » (écran de fin de combat d’exemple : victoire, défaite), « elite7 » (Loup alpha de rang 7 survolé), « cible » (combat, monstre survolé), « sermon » (Théologue en combat, Sermon visé devant lui), « prevision » (comme « sermon », un monstre dans la zone : dégâts prévus), « panoplie » (3 pièces portées), « inventaire », « assis » (blessé, assis), « metiers », « sorts » (ouvre la
 ## fenêtre ; « inventaire » remplit d'abord le sac d'un exemplaire de chaque objet), « pierre » (va utiliser
 ## la Pierre de Passage), « glyphe » (combat contre l'Arbre millénaire, glyphe posée, héros ralenti et
-## empoisonné, à lancer sur sylvebrume_0_0), « survol » (le plus grand groupe de la carte survolé :
+## empoisonné, à lancer sur sylvebrume_0_0), « sortie » (sortie de droite survolée : bulle « Vers : … »), « survol » (le plus grand groupe de la carte survolé :
 ## bulle avec le niveau tiré de chaque monstre), « phase » (comme « cible » ; le monstre survolé reçoit
 ## une phase pour l'occasion et passe sous son seuil : message et texte flottant), « reveil » (combat
 ## perdu contre le premier groupe : réveil près de la Pierre de Passage du point de résurrection, à
@@ -148,6 +148,13 @@ func _process(_delta: float) -> bool:
 					biggest = group
 			view._set_hovered(biggest["case"])
 			Input.warp_mouse(view.get_global_transform_with_canvas() * IsoGrid.cell_to_screen(biggest["case"]))
+		elif _action == "sortie":
+			# Souris sur la sortie de droite la plus basse : bulle « Vers : … » au bord de la bande droite.
+			var exits: Dictionary = view.current_map().exit_cells()
+			var side: String = "droite" if exits.has("droite") else str(exits.keys()[0])
+			var cell: Vector2i = exits[side][-1]
+			view._set_hovered(cell)
+			Input.warp_mouse(view.get_global_transform_with_canvas() * IsoGrid.cell_to_screen(cell))
 		elif _action == "reveil":
 			# Combat perdu (le héros à 1 PV passe ses tours), récap refermé : réveil et message.
 			view._on_click(view.world.groups()[0]["case"])

@@ -113,11 +113,22 @@ func _create_world() -> World:
 
 func _process(_delta: float) -> void:
 	if _hover_bubble != null and _hover_bubble.visible:
-		var viewport_size := get_viewport().get_visible_rect().size
-		var spot := get_viewport().get_mouse_position() + Vector2(18, 22)
-		spot.x = minf(spot.x, viewport_size.x - _hover_bubble.size.x - 4)
-		spot.y = minf(spot.y, viewport_size.y - _hover_bubble.size.y - CombatHud.BAR_HEIGHT - 4)
-		_hover_bubble.position = spot
+		var screen := get_viewport().get_visible_rect().size
+		_hover_bubble.position = bubble_position(get_viewport().get_mouse_position(), _hover_bubble.size, screen)
+
+
+## Place d'une bulle de survol près du curseur, entièrement dans l'écran : à droite et en dessous,
+## sinon de l'autre côté du curseur, et toujours recalée au bord s'il le faut.
+static func bubble_position(mouse: Vector2, bubble: Vector2, screen: Vector2) -> Vector2:
+	const MARGIN := 4.0
+	var spot := mouse + Vector2(18, 22)
+	if spot.x + bubble.x > screen.x - MARGIN:
+		spot.x = mouse.x - bubble.x - 8.0
+	if spot.y + bubble.y > screen.y - MARGIN:
+		spot.y = mouse.y - bubble.y - 8.0
+	spot.x = clampf(spot.x, MARGIN, maxf(MARGIN, screen.x - bubble.x - MARGIN))
+	spot.y = clampf(spot.y, MARGIN, maxf(MARGIN, screen.y - bubble.y - MARGIN))
+	return spot
 
 
 
@@ -269,7 +280,8 @@ func _update_info() -> void:
 		_build_hover_bubble()
 	_hover_label.text = _hover_text
 	_hover_crown.rank = _map_view.elite_rank_at(_map_view.hovered_cell())
-	_hover_bubble.visible = not _hover_text.is_empty() and not _hover_text.begins_with("case (")
+	_hover_bubble.visible = not _hover_text.is_empty() and not _hover_text.begins_with("case (") \
+			and get_viewport().gui_get_hovered_control() == null
 	_hover_bubble.reset_size()
 
 
@@ -288,4 +300,9 @@ func _build_hover_bubble() -> void:
 	_hover_label.add_theme_font_size_override("font_size", 14)
 	_hover_label.add_theme_color_override("font_color", Color(0.95, 0.92, 0.85))
 	column.add_child(_hover_label)
-	$Hud.add_child(_hover_bubble)
+	# Au premier plan, au-dessus des bandes, de la barre et des fenêtres (voir `TOOLTIP_LAYER`).
+	var layer := CanvasLayer.new()
+	layer.name = "Infobulles"
+	layer.layer = UiTheme.TOOLTIP_LAYER
+	add_child(layer)
+	layer.add_child(_hover_bubble)

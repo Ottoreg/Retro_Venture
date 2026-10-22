@@ -1561,3 +1561,32 @@ func test_textes_flottants_au_meme_endroit_decales() -> void:
 	assert_eq(view._floating[1]["age"], -MapView.FLOATING_STAGGER, "le second attend son tour")
 	assert_eq(view._floating[2]["age"], 0.0, "un texte ailleurs apparaît tout de suite")
 	view.free()
+
+
+## Infobulles : au premier plan (calque au-dessus des bandes, de la barre et des fenêtres) et
+## entières à l'écran, recalées au bord ou passées de l'autre côté du curseur.
+func test_infobulles_au_premier_plan_et_dans_l_ecran() -> void:
+	var scene_script: GDScript = load("res://client/world/world_scene.gd")
+	var screen := Vector2(1280, 720)
+	var bubble := Vector2(260, 30)
+	# Au milieu : à droite et en dessous du curseur.
+	assert_eq(scene_script.bubble_position(Vector2(400, 300), bubble, screen), Vector2(418, 322))
+	# Près du bord droit (sortie « Vers : … ») ou en bas : de l'autre côté du curseur, entière.
+	for mouse: Vector2 in [Vector2(1270, 300), Vector2(1100, 715), Vector2(1279, 719), Vector2(5, 5)]:
+		var spot: Vector2 = scene_script.bubble_position(mouse, bubble, screen)
+		assert_true(Rect2(Vector2.ZERO, screen).encloses(Rect2(spot, bubble)), "%s → %s" % [mouse, spot])
+	# Étiquettes dessinées sur la carte : recalées entre les bandes et au-dessus de la barre.
+	var visible := ScreenLayout.visible_rect(screen)
+	assert_almost_eq(visible.position.x, ScreenLayout.band_width(screen), 0.5)
+	assert_almost_eq(visible.end.y, screen.y - ScreenLayout.BOTTOM, 0.5)
+	var label := ScreenLayout.fit_inside(Rect2(1100, -10, 80, 20), visible)
+	assert_true(visible.encloses(label), "%s" % label)
+	assert_eq(ScreenLayout.fit_inside(Rect2(500, 200, 80, 20), visible), Rect2(500, 200, 80, 20))
+	# Le calque des bulles passe au-dessus du menu pause (50) et des options (60).
+	assert_true(UiTheme.TOOLTIP_LAYER > 60)
+	var tree := Engine.get_main_loop() as SceneTree
+	var scene: Node = load("res://client/world/world.tscn").instantiate()
+	tree.root.add_child(scene)
+	var layer: CanvasLayer = scene.get_node_or_null("Infobulles")
+	assert_true(layer != null and layer.layer == UiTheme.TOOLTIP_LAYER, "calque des infobulles")
+	scene.free()

@@ -1471,6 +1471,10 @@ func _draw_floating_texts() -> void:
 		var width := maxf(200.0, font.get_string_size(text["text"], HORIZONTAL_ALIGNMENT_LEFT, -1, 16).x + 8.0)
 		# Monte pendant une seconde, puis reste en place (texte qui dure plus longtemps).
 		var text_pos := IsoGrid.grid_to_screen(text["pos"]) + Vector2(-width / 2.0, -60 - 30 * minf(text["age"], FLOATING_LIFE))
+		# Recalé pour rester entier entre les bandes (combattant au bord de la carte).
+		var text_width := font.get_string_size(text["text"], HORIZONTAL_ALIGNMENT_LEFT, -1, 16).x + 8.0
+		var text_box := Rect2(text_pos + Vector2((width - text_width) / 2.0, -16.0), Vector2(text_width, 22.0))
+		text_pos += _fit_on_screen(text_box).position - text_box.position
 		var color: Color = text["color"]
 		color.a = 1.0 - maxf(0.0, text["age"] - (text["life"] - 0.4)) / 0.4
 		draw_string_outline(font, text_pos, text["text"], HORIZONTAL_ALIGNMENT_CENTER, width, 16, 4, Color(0, 0, 0, color.a))
@@ -1487,15 +1491,26 @@ func _draw_spell_preview(height: float) -> void:
 			continue
 		var lines := preview_lines(_spell_preview[actor_id])
 		var spot := IsoGrid.grid_to_screen(_actors[actor_id]["pos"]) + Vector2(0, -height)
+		# La pile d'étiquettes reste entière à l'écran : descendue si elle dépasse en haut.
+		var stack := Rect2(spot + Vector2(0, -16.0 - 22.0 * (lines.size() - 1)), Vector2(0, 22.0 * lines.size()))
+		spot.y += _fit_on_screen(stack).position.y - stack.position.y
 		for i in range(lines.size() - 1, -1, -1):
 			var text: String = lines[i][0]
 			var width := font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, 15).x
-			var box := Rect2(spot + Vector2(-width / 2.0 - 5.0, -16.0), Vector2(width + 10.0, 20.0))
+			var box := _fit_on_screen(Rect2(spot + Vector2(-width / 2.0 - 5.0, -16.0), Vector2(width + 10.0, 20.0)))
 			draw_rect(box, UiTheme.TOOLTIP_FILL)
 			draw_rect(box, Color(lines[i][1], 0.9), false, 1.5)
 			draw_string_outline(font, box.position + Vector2(5, 15), text, HORIZONTAL_ALIGNMENT_LEFT, -1, 15, 4, Color.BLACK)
 			draw_string(font, box.position + Vector2(5, 15), text, HORIZONTAL_ALIGNMENT_LEFT, -1, 15, lines[i][1])
 			spot.y -= 22.0
+
+
+## `box` (en coordonnées de la carte) décalée pour tenir dans la partie visible du jeu, entre les
+## bandes et au-dessus de la barre (`ScreenLayout.visible_rect`).
+func _fit_on_screen(box: Rect2) -> Rect2:
+	var to_screen := get_global_transform_with_canvas()
+	var area := to_screen.affine_inverse() * ScreenLayout.visible_rect(get_viewport_rect().size)
+	return ScreenLayout.fit_inside(box, area)
 
 
 ## Lignes d'une prévisualisation (`Combat.spell_preview`) : [texte, couleur], dégâts puis soins.
