@@ -397,6 +397,7 @@ Tout le contenu et les systèmes MVP de l'alpha 1 sont faits (chantiers 1, 3, 4 
   en PA), bouton de fin de tour, boutons de menus (personnage, inventaire, sorts, métiers, carte,
   quêtes)
 - [x] Marque au sol (losange doré) devant les portes où l'on peut entrer
+- [x] Halo bleu au sol sous les Pierres de Passage (comme celui des portes)
 - [x] **(MVP)** Fenêtres : inventaire + poupée, caractéristiques, sorts, quêtes, métiers
   (inventaire, caractéristiques, sorts avec un onglet par famille (Voie, race, arme), métiers avec
   un onglet par métier, boutique, atelier, coffre, journal des quêtes)

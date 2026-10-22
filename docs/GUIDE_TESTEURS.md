@@ -89,7 +89,7 @@ temps : chaque camp a sa propre histoire.
 | Récolter | Clic sur un arbre (bûcheron) ou un rocher à minerai (mineur) |
 | Entrer / sortir d'un bâtiment | Clic sur la porte : celles où l'on peut entrer sont marquées au sol d'un losange doré (double chevron) |
 | Changer de carte | Clic sur une case du bord marquée d'un halo blanc (la flèche jaune indique la direction) |
-| Voyager vers une autre zone | Clic sur la **Pierre de Passage** (pierre levée aux runes bleues), puis choisir la destination (voir plus bas) |
+| Voyager vers une autre zone | Clic sur la **Pierre de Passage** (pierre levée aux runes bleues, sur un halo bleu au sol), puis choisir la destination (voir plus bas) |
 | Voir ce qu'on survole | Passer la souris sur un monstre, un PNJ, une ressource : une bulle s'affiche (pour un groupe : chaque monstre avec son niveau) |
 
 ### Fenêtres et raccourcis

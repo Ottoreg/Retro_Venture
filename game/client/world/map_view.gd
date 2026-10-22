@@ -1460,6 +1460,7 @@ func _draw() -> void:
 				draw_colored_polygon(_scaled_diamond(IsoGrid.cell_to_screen(command["cible"]), 0.6), COLOR_PLANNED)
 	else:
 		_draw_exit_halos()
+		_draw_passage_halos(map)
 	for cell in _preview:
 		draw_colored_polygon(_scaled_diamond(IsoGrid.cell_to_screen(cell), 0.35), COLOR_PATH)
 	if map.is_inside(_hovered):
@@ -1956,6 +1957,21 @@ func _draw_door_marks(map: GameMap) -> void:
 			var chevron := PackedVector2Array([tip + Vector2(-7, 4), tip, tip + Vector2(7, 4)])
 			draw_polyline(chevron, Color(0.25, 0.16, 0.05, 0.9), 4.0)
 			draw_polyline(chevron, Color(1.0, 0.9, 0.5), 2.0)
+
+
+## Sous chaque Pierre de Passage : un losange bleu qui pulse doucement au sol, comme celui des
+## portes, mais dessiné sous la pierre (avec les halos de sortie) pour l'entourer sans la cacher.
+func _draw_passage_halos(map: GameMap) -> void:
+	var pulse := 0.5 + 0.5 * sin(_time * 2.5)
+	for cell: Vector2i in map.obstacles:
+		if map.obstacles[cell] != GameMap.TRAVEL_STONE:
+			continue
+		var center := IsoGrid.cell_to_screen(cell)
+		draw_colored_polygon(_scaled_diamond(center, 1.15), Color(0.3, 0.6, 1.0, 0.1 + 0.08 * pulse))
+		var diamond := _scaled_diamond(center, 0.9)
+		draw_colored_polygon(diamond, Color(0.35, 0.65, 1.0, 0.2 + 0.14 * pulse))
+		diamond.append(diamond[0])
+		draw_polyline(diamond, Color(0.45, 0.75, 1.0, 0.65 + 0.3 * pulse), 2.0)
 
 
 ## Halo blanc léger, qui respire doucement, sur les cases praticables du bord qui mènent à la
