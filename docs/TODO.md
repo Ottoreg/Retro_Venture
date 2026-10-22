@@ -448,6 +448,10 @@ Tout le contenu et les systèmes MVP de l'alpha 1 sont faits (chantiers 1, 3, 4 
   liseré bronze de 2 px, comme la grille de Composition), appliqué aux infobulles (aussi dans le
   thème par défaut : celui de la fenêtre n'atteignait pas les barres en CanvasLayer), à la bulle
   de survol de la carte et aux dégâts prévus
+- [x] Infobulles toujours au premier plan et entières à l'écran : bulle de survol sur le calque
+  `UiTheme.TOOLTIP_LAYER` (au-dessus des bandes, de la barre et des fenêtres), de l'autre côté du
+  curseur ou recalée au bord (`bubble_position`) ; prévisions et chiffres flottants recalés entre les
+  bandes (`ScreenLayout.fit_inside`) ; infobulles natives déjà au premier plan et recalées par Godot
 - [x] Bandes latérales « hors jeu », comme Dofus 2 (GDD § 14.3, `ScreenLayout`) : carte à
   l'échelle entre le bandeau, deux bandes de 150 px au moins et une barre du bas de 200 px ;
   minicarte (5 × 5, carrée) et suivi des quêtes dans la bande gauche, ordre de jeu en colonne (ou
