@@ -85,7 +85,8 @@ static func names(world: World) -> Dictionary:
 	return index
 
 
-## Texte en BBCode, les noms reconnus en liens (le reste échappé).
+## Texte en BBCode, les noms reconnus en liens (le reste échappé). Le nom du repère est encodé comme
+## une URL : une apostrophe (« Feuille-d'Argent ») dans `[url=…]` casse l'analyse du BBCode de Godot.
 static func linkify(text: String, world: World) -> String:
 	var index := names(world)
 	var out := ""
@@ -103,7 +104,7 @@ static func linkify(text: String, world: World) -> String:
 			i += 1
 			continue
 		out += "[color=#%s][url=%s%s|%s]%s[/url][/color]" % [LINK_COLOR.to_html(false), META_PREFIX, matched["carte"],
-			matched["nom"], matched["texte"].replace("[", "[lb]")]
+			str(matched["nom"]).uri_encode(), matched["texte"].replace("[", "[lb]")]
 		i += matched["texte"].length()
 	return out
 
@@ -114,7 +115,7 @@ static func parse(meta: Variant) -> Dictionary:
 	if not text.begins_with(META_PREFIX):
 		return {}
 	var parts := text.substr(META_PREFIX.length()).split("|")
-	return {"carte": parts[0], "nom": parts[1] if parts.size() > 1 else parts[0]}
+	return {"carte": parts[0], "nom": parts[1].uri_decode() if parts.size() > 1 else parts[0]}
 
 
 ## Texte riche aux liens de quête : un clic appelle `on_pin` avec le repère, le survol l'annonce.

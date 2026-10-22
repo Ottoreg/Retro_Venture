@@ -213,6 +213,18 @@ func test_reperes_de_quete() -> void:
 	assert_eq(pins.get("Hautepierre"), "hautepierre_2_2", "une zone : sa Pierre de Passage")
 	var linked := QuestLinks.linkify("Voir Grumm [vite], pas Grummeau, ni à la Grand-Place.", world)
 	assert_true(linked.contains("[url=repere:crasse_roc_0_0|Grumm]Grumm[/url]"), linked)
+	# Tous les noms reconnus (accents, apostrophes) : le BBCode se lit, rien ne reste en clair.
+	var probe := RichTextLabel.new()
+	probe.bbcode_enabled = true
+	tree.root.add_child(probe)
+	for entries: Array in QuestLinks.names(world).values():
+		for entry: Dictionary in entries:
+			probe.text = QuestLinks.linkify("Voir %s." % entry["texte"], world)
+			assert_eq(probe.get_parsed_text(), "Voir %s." % entry["texte"], probe.text)
+	probe.free()
+	var lindore := QuestLinks.linkify("Lindorë Feuille-d'Argent coud.", world)
+	var meta := lindore.get_slice("[url=", 1).get_slice("]", 0)
+	assert_eq(QuestLinks.parse(meta), {"carte": "sylvebrume_0_0", "nom": "Lindorë Feuille-d'Argent"}, lindore)
 	assert_true(linked.contains("[lb]vite]"), "crochets échappés : " + linked)
 	assert_false(linked.contains("|Grumm]Grummeau"), "un mot entier seulement")
 	assert_true(linked.contains("|Grand-Place]Grand-Place[/url]"), linked)
@@ -225,7 +237,7 @@ func test_reperes_de_quete() -> void:
 	_run_until_idle(view)
 	var journal: QuestsWindow = scene.quests_window
 	journal.toggle()
-	assert_true(journal._details.text.contains("[url=repere:brumerive_0_0|Alric le berger]"), journal._details.text)
+	assert_true(journal._details.text.contains("[url=repere:brumerive_0_0|Alric%20le%20berger]"), journal._details.text)
 
 	# Clic sur le Moulin : repère, carte du monde ouverte sur sa zone, épingle sur la minicarte.
 	journal._details.meta_clicked.emit("repere:brumerive_1_1|Moulin de Tournevent")
