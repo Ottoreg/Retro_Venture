@@ -149,19 +149,18 @@ func _process(_delta: float) -> bool:
 			view._set_hovered(biggest["case"])
 			Input.warp_mouse(view.get_global_transform_with_canvas() * IsoGrid.cell_to_screen(biggest["case"]))
 		elif _action == "reveil":
-			# Combat perdu (le héros à 1 PV passe ses tours), puis « Continuer » : réveil et message.
+			# Combat perdu (le héros à 1 PV passe ses tours), récap refermé : réveil et message.
 			view._on_click(view.world.groups()[0]["case"])
 			_wait_for(view)
 			view.request_start_fight()
 			_wait_for(view)
 			view.world.combat.get_fighter(World.PLAYER_ID).hp = 1
 			for i in 100:
-				if view._paused:
+				if view.mode == MapView.Mode.EXPLORATION:
 					break
 				view.request_end_turn()
 				_wait_for(view)
-			_scene.get_node("CombatHud")._on_continue_pressed()
-			_wait_for(view)
+			_scene.get_node("CombatHud").close_result()
 		elif _action == "fiche":
 			# Fiche du personnage avec quelques points investis (bouton « Réinitialiser » actif).
 			view.world.character.add_xp(Character.xp_for_level(4))
@@ -268,7 +267,7 @@ func _process(_delta: float) -> bool:
 				for turn in 2 if _action == "historique" else 0:
 					view.request_end_turn()
 					for i in 200:
-						if not view.is_busy() or view._paused:
+						if not view.is_busy():
 							break
 						view.advance(0.3)
 				if _action in ["sermon", "prevision"]:

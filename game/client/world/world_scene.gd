@@ -135,6 +135,9 @@ func _unhandled_input(event: InputEvent) -> void:
 	if quest_dialog.is_open():
 		quest_dialog.later()
 		return
+	if _combat_hud.is_result_open():
+		_combat_hud.close_result()
+		return
 	if _shop.is_open():
 		_shop.close()
 		return

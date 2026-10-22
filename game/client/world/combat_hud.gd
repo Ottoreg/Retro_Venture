@@ -756,7 +756,7 @@ func _on_combat_ended(result: Dictionary) -> void:
 
 ## Colonnes du tableau de fin, comme celui de Dofus Rétro : nom, niveau, jauge d'expérience, XP et
 ## brumes gagnées, butin.
-const RESULT_COLUMNS := [["Nom", 190], ["Niv.", 64], ["Expérience", 150], ["XP", 72], ["Écus", 60], ["Butin", 248]]
+const RESULT_COLUMNS := [["Nom", 190], ["Niv.", 64], ["Expérience", 150], ["XP", 72], ["Brumes", 60], ["Butin", 248]]
 
 
 func _result_header() -> Control:
@@ -942,9 +942,14 @@ static func trade_line(event: Dictionary, merchant: String) -> String:
 	return "[color=#e8b04a]Vente[/color] : %s%s%s, [color=#8fe07a]+%d brumes[/color]" % [event["nom"], amount, where, event["prix"]]
 
 
-func _on_continue_pressed() -> void:
+## Le récap de fin de combat ne bloque rien : le combat est déjà fini et le joueur reprend
+## l'exploration dessous ; « Fermer », Échap ou le combat suivant le referment.
+func is_result_open() -> bool:
+	return _result_panel.visible
+
+
+func close_result() -> void:
 	_result_panel.visible = false
-	map_view.resume()
 
 
 ## Mode tactique : vue simplifiée de la grille, retenue d'un combat à l'autre.
@@ -1185,17 +1190,17 @@ func _build() -> void:
 	_overload_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_overload_label.custom_minimum_size = Vector2(500, 0)
 	_overload_label.visible = false
-	var continue_button := Button.new()
-	continue_button.text = "Continuer"
-	continue_button.custom_minimum_size = Vector2(160, 38)
-	continue_button.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
-	continue_button.pressed.connect(_on_continue_pressed)
+	var close_button := Button.new()
+	close_button.text = "Fermer"
+	close_button.custom_minimum_size = Vector2(160, 38)
+	close_button.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	close_button.pressed.connect(close_result)
 	result_box.add_child(_result_title)
 	result_box.add_child(_result_info)
 	result_box.add_child(_result_rows)
 	result_box.add_child(_result_detail)
 	result_box.add_child(_overload_label)
-	result_box.add_child(continue_button)
+	result_box.add_child(close_button)
 
 
 func _build_target_box(row: HBoxContainer) -> void:

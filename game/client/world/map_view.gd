@@ -181,7 +181,6 @@ var _border_polygons: Array[PackedVector2Array] = []
 var _queue: Array[Dictionary] = []
 var _playing := false
 var _stall_time := 0.0
-var _paused := false
 var _wait := 0.0
 var _walk_actor := ""
 var _walk_path: Array[Vector2i] = []
@@ -256,7 +255,7 @@ func is_player_turn() -> bool:
 ## C'est le tour du joueur à l'écran : il peut choisir un sort et prévoir ses actions, même pendant
 ## l'animation des précédentes (elles partiront dans l'ordre, voir `_plan`).
 func can_plan() -> bool:
-	return mode == Mode.COMBAT and current_turn == World.PLAYER_ID and not _paused
+	return mode == Mode.COMBAT and current_turn == World.PLAYER_ID
 
 
 ## Actions prévues (copie), pour l'interface et les tests.
@@ -337,13 +336,6 @@ func request_end_turn() -> void:
 		selected_spell = ""
 		_plan({"type": Protocol.CMD_END_TURN, "entite": World.PLAYER_ID})
 		_refresh_overlays()
-
-
-## Reprend la lecture des événements après l'écran de fin de combat.
-func resume() -> void:
-	if _paused:
-		_paused = false
-		_play_next()
 
 
 # --- Entrées -----------------------------------------------------------------------------------
@@ -866,10 +858,10 @@ func advance(delta: float) -> void:
 
 
 ## Garde-fou : la lecture des événements ne doit jamais rester « en cours » sans rien attendre
-## (ni marche, ni délai, ni écran de fin). Si c'est le cas (une erreur l'a interrompue en route),
+## (ni marche, ni délai). Si c'est le cas (une erreur l'a interrompue en route),
 ## elle repart au bout de STALL_LIMIT secondes, avec un message dans la console du navigateur.
 func _watch_playback(delta: float) -> void:
-	if _playing and not _paused and _walk_actor == "" and _wait <= 0.0:
+	if _playing and _walk_actor == "" and _wait <= 0.0:
 		_stall_time += delta
 		if _stall_time >= STALL_LIMIT:
 			push_error("Lecture des événements bloquée (%d en attente) : reprise." % _queue.size())
@@ -928,17 +920,15 @@ func _step_along(data: Dictionary, path: Array[Vector2i], delta: float, speed: f
 
 
 func _play_next() -> void:
-	while not _queue.is_empty() and not _paused:
+	while not _queue.is_empty():
 		var duration := _apply(_queue.pop_front())
-		if duration < 0.0 or _paused:
-			return  # Marche en cours, ou écran de fin de combat.
+		if duration < 0.0:
+			return  # Marche en cours.
 		# Pendant son tour, le joueur n'attend pas la fin des textes et des animations de ses sorts :
 		# ils continuent pendant qu'il joue (seules ses marches se lisent jusqu'au bout).
 		if duration > 0.0 and not (mode == Mode.COMBAT and current_turn == World.PLAYER_ID):
 			_wait = duration
 			return
-	if _paused:
-		return
 	_playing = false
 	if not _arrival_command.is_empty():
 		var command := _arrival_command
@@ -1257,8 +1247,7 @@ func _apply(event: Dictionary) -> float:
 	if type == Protocol.EVT_COMBAT_ENDED:
 		current_turn = ""
 		_planned.clear()
-		_paused = true
-		combat_ended.emit(event)
+		combat_ended.emit(event)  # Le récap s'affiche sans bloquer : l'exploration reprend aussitôt.
 		return 0.0
 	if type == Protocol.EVT_EXPLORATION:
 		mode = Mode.EXPLORATION

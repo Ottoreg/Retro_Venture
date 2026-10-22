@@ -15,7 +15,7 @@ func before_each() -> void:
 
 func _run_until_idle(view: MapView) -> void:
 	for i in 1000:
-		if not view.is_busy() or view._paused:
+		if not view.is_busy():
 			return
 		view.advance(0.5)
 
@@ -70,12 +70,14 @@ func test_scene_du_monde_jusqu_au_combat_et_retour() -> void:
 
 	# Le joueur passe ses tours jusqu'à la fin du combat.
 	for i in 100:
-		if view._paused:
+		if view.mode == MapView.Mode.EXPLORATION:
 			break
 		view.request_end_turn()
 		_run_until_idle(view)
-	assert_true(view._paused, "écran de fin de combat")
-	assert_true(hud._result_panel.visible, "panneau de résultat affiché")
+	assert_true(hud._result_panel.visible, "récap de fin de combat affiché")
+	assert_eq(view.mode, MapView.Mode.EXPLORATION, "le combat est terminé sans attendre le récap")
+	assert_false(view.world.in_combat())
+	assert_false(view.is_busy(), "rien ne bloque : le joueur peut rejouer, récap ouvert")
 	assert_eq(hud._result_title.text, "Défaite…", "le joueur n'a rien fait")
 	assert_true(hud._result_detail.text.contains("Pierre de Passage « Brumerive »"), hud._result_detail.text)
 	assert_true(hud._result_info.text.contains("tour"), "durée du combat : " + hud._result_info.text)
@@ -86,10 +88,12 @@ func test_scene_du_monde_jusqu_au_combat_et_retour() -> void:
 			bands.append(content.text)
 	assert_eq(bands, PackedStringArray(["Gagnants", "Perdants"]), "les monstres gagnent, le joueur perd")
 	assert_true(hud._result_rows.get_child_count() >= 5, "en-tête, deux bandeaux, le joueur et au moins un monstre")
-	hud._on_continue_pressed()
-	_run_until_idle(view)
-	assert_eq(view.mode, MapView.Mode.EXPLORATION, "retour en exploration")
-	assert_false(view.world.in_combat())
+	assert_true(hud.is_result_open())
+	var cancel := InputEventAction.new()
+	cancel.action = "ui_cancel"
+	cancel.pressed = true
+	scene._unhandled_input(cancel)
+	assert_false(hud._result_panel.visible, "Échap referme le récap")
 	var stone := view.current_map().travel_stone()
 	assert_true(GameMap.is_adjacent(view.world.position_of(World.PLAYER_ID), stone), "réveil à côté de la Pierre de Passage")
 	assert_eq(hud._message_label.text, "Vous vous réveillez près de la Pierre de Passage « Brumerive », un peu groggy.")
@@ -111,13 +115,12 @@ func test_reveil_sur_une_autre_carte() -> void:
 	_run_until_idle(view)
 	view.world.combat.get_fighter(World.PLAYER_ID).hp = 1
 	for i in 100:
-		if view._paused:
+		if view.mode == MapView.Mode.EXPLORATION:
 			break
 		view.request_end_turn()
 		_run_until_idle(view)
 	assert_eq(hud._result_title.text, "Défaite…")
-	hud._on_continue_pressed()
-	_run_until_idle(view)
+	assert_true(hud.is_result_open(), "récap affiché après le retour en exploration")
 	assert_eq(view.mode, MapView.Mode.EXPLORATION)
 	assert_eq(view.world.map.id, "brumerive_0_0", "réveil au village")
 	assert_eq(view.current_map().id, "brumerive_0_0", "l'affichage a suivi")
@@ -1533,7 +1536,7 @@ func test_sorts_enchaines_sans_attendre_les_animations() -> void:
 	assert_true(view.planned_actions().is_empty())
 	assert_eq(hero.element_states, ["flamme", "flamme", "givre"] as Array[String], "composition lancée à l'arrivée, sur la nouvelle case")
 	assert_true(hud.message_log.plain_text().contains("compose ses états"))
-	assert_true(view.is_player_turn() or view._paused, "le tour est passé, la main revient au joueur")
+	assert_true(view.is_player_turn() or view.mode == MapView.Mode.EXPLORATION, "le tour est passé, la main revient au joueur")
 	scene.free()
 
 

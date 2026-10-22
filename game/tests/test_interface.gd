@@ -13,7 +13,7 @@ func before_each() -> void:
 
 func _run_until_idle(view: MapView) -> void:
 	for i in 1000:
-		if not view.is_busy() or view._paused:
+		if not view.is_busy():
 			return
 		view.advance(0.5)
 
