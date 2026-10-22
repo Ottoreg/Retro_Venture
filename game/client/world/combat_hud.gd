@@ -315,6 +315,10 @@ var _target_resistances := {}
 ## Id du combattant survolé ("" si aucun).
 var _target_id := ""
 var _turn_button: Button
+var _ready_styled := false
+var _ready_pulse := 0.0
+const READY_FILL := Color("3f7a2c")
+const READY_PULSE_PERIOD := 1.4
 ## Bascule du mode tactique (en combat seulement ; touche T).
 var _tactical_button: Button
 ## Hors combat : s'asseoir pour régénérer plus vite (touche A).
@@ -400,6 +404,7 @@ func show_message(text: String) -> void:
 
 
 func _process(delta: float) -> void:
+	_pulse_ready_button(delta)
 	if _message_time > 0.0:
 		_message_time -= delta
 		_message_label.modulate.a = clampf(_message_time / 0.5, 0.0, 1.0)
@@ -667,7 +672,7 @@ func _on_combat_started() -> void:
 		_show_spells(fighter.spells)
 	for menu: String in _menu_buttons:
 		_menu_buttons[menu].disabled = true
-	show_message("Placez-vous sur un cercle bleu, puis cliquez sur « Prêt »")
+	show_message("Choisissez un cercle bleu, puis « Prêt »")
 	_refresh()
 
 
@@ -1006,6 +1011,7 @@ func _refresh() -> void:
 	else:
 		_turn_button.text = "Fin du tour"
 		_turn_button.disabled = not player_turn
+	_style_turn_button(map_view.is_placement())
 	_orbs.show_states(player.get("etats_elementaires", []))
 	var fighter := map_view.player_fighter()
 	if fighter != null:
@@ -1017,6 +1023,55 @@ func _refresh() -> void:
 		slot.selected = spell_id == map_view.selected_spell
 		slot.queue_redraw()
 	_show_order()
+
+
+## Placement : « Prêt » en vert et or, plus grand, qui pulse doucement pour qu'on le trouve ;
+## « Fin du tour » garde le style des autres boutons.
+func _style_turn_button(ready: bool) -> void:
+	if ready == _ready_styled:
+		return
+	_ready_styled = ready
+	_ready_pulse = 0.0
+	_turn_button.self_modulate = Color.WHITE
+	if not ready:
+		for state: String in ["normal", "hover", "pressed", "hover_pressed"]:
+			_turn_button.remove_theme_stylebox_override(state)
+		_turn_button.remove_theme_font_size_override("font_size")
+		_turn_button.remove_theme_color_override("font_color")
+		_turn_button.remove_theme_color_override("font_outline_color")
+		_turn_button.remove_theme_constant_override("outline_size")
+		return
+	_turn_button.add_theme_stylebox_override("normal", _ready_style(READY_FILL, UiTheme.GOLD))
+	_turn_button.add_theme_stylebox_override("hover", _ready_style(READY_FILL.lightened(0.18), Color("f3d68a")))
+	_turn_button.add_theme_stylebox_override("pressed", _ready_style(READY_FILL.darkened(0.25), UiTheme.GOLD))
+	_turn_button.add_theme_stylebox_override("hover_pressed", _ready_style(READY_FILL.darkened(0.25), UiTheme.GOLD))
+	_turn_button.add_theme_font_size_override("font_size", 22)
+	_turn_button.add_theme_color_override("font_color", Color.WHITE)
+	_turn_button.add_theme_color_override("font_outline_color", Color(0.05, 0.12, 0.03))
+	_turn_button.add_theme_constant_override("outline_size", 4)
+
+
+func _ready_style(fill: Color, edge: Color) -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = fill
+	style.border_color = edge
+	style.set_border_width_all(3)
+	style.set_corner_radius_all(6)
+	style.shadow_color = Color(edge, 0.45)
+	style.shadow_size = 6
+	style.content_margin_left = 10
+	style.content_margin_right = 10
+	return style
+
+
+func _pulse_ready_button(delta: float) -> void:
+	if not _ready_styled or _turn_button.disabled:
+		if _turn_button != null:
+			_turn_button.self_modulate = Color.WHITE
+		return
+	_ready_pulse = fmod(_ready_pulse + delta, READY_PULSE_PERIOD)
+	var glow := 0.5 + 0.5 * sin(_ready_pulse / READY_PULSE_PERIOD * TAU)
+	_turn_button.self_modulate = Color.WHITE.lerp(Color(1.25, 1.2, 0.9), glow)
 
 
 ## Ordre de jeu : une ligne par combattant vivant, dans l'ordre, refaite quand un combattant
