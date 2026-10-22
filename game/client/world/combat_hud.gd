@@ -118,12 +118,14 @@ class SpellSlot extends Control:
 
 	func _gui_input(event: InputEvent) -> void:
 		var click := event as InputEventMouseButton
+		# Accepté avant le signal : la barre peut être refaite (et ce contrôle retiré de l'arbre),
+		# et un clic non accepté passerait à la carte en dessous (déplacement).
 		if click != null and click.pressed and click.button_index == MOUSE_BUTTON_LEFT:
+			accept_event()
 			pressed.emit()
-			accept_event()
 		elif click != null and click.pressed and click.button_index == MOUSE_BUTTON_RIGHT:
-			self_cast.emit()
 			accept_event()
+			self_cast.emit()
 
 	func _draw() -> void:
 		var frame := Rect2(Vector2(1, 1), Vector2(48, 48))
@@ -301,9 +303,11 @@ class CompositionChoice extends Control:
 
 	func _gui_input(event: InputEvent) -> void:
 		var click := event as InputEventMouseButton
+		# Accepté avant le signal : choisir referme la grille (retirée de l'arbre aussitôt), et un
+		# clic non accepté passerait à la carte en dessous (déplacement vers la case).
 		if click != null and click.pressed and click.button_index == MOUSE_BUTTON_LEFT:
-			pressed.emit()
 			accept_event()
+			pressed.emit()
 
 	func _draw() -> void:
 		var frame := Rect2(Vector2(1, 1), size - Vector2(2, 2))
@@ -604,6 +608,7 @@ func open_composition(spell: Spell, anchor: Rect2, slot: Control = null) -> void
 	veil.mouse_filter = Control.MOUSE_FILTER_STOP
 	veil.gui_input.connect(func(event: InputEvent) -> void:
 		if event is InputEventMouseButton and event.pressed:
+			veil.accept_event()  # Un clic à côté referme la grille sans agir sur la carte.
 			close_composition())
 	add_child(veil)
 	_composition = veil

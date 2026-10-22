@@ -1494,6 +1494,74 @@ func test_arcaniste_compose_et_cree_un_sort() -> void:
 	scene.free()
 
 
+## Retour de test : un clic sur une combinaison de la grille (ou à côté, pour la fermer) ne passe pas
+## à la carte en dessous, même sur une case accessible (sinon le personnage s'y déplaçait).
+func test_clic_sur_la_grille_de_composition_ne_deplace_pas() -> void:
+	var tree := Engine.get_main_loop() as SceneTree
+	Session.new_character = Character.create("Mirabelle", "humain", "arcaniste")
+	var scene: Node = load("res://client/world/world.tscn").instantiate()
+	tree.root.add_child(scene)
+	var view: MapView = scene.get_node("MapView")
+	var hud: CombatHud = scene.get_node("CombatHud")
+	view._on_click(view.world.groups()[0]["case"])
+	_run_until_idle(view)
+	view.request_start_fight()
+	_run_until_idle(view)
+	assert_true(view.is_player_turn())
+	var hero := view.player_fighter()
+	var start := hero.cell
+	var cells: Array = view._reachable.keys()
+	cells.erase(start)
+	assert_true(cells.size() >= 2, "des cases accessibles")
+	var to_screen := func(cell: Vector2i) -> Vector2:
+		return view.get_global_transform_with_canvas() * IsoGrid.cell_to_screen(cell)
+	# Sonde : compte les clics que l'interface laisse passer à la carte (`_unhandled_input`).
+	var probe_script := GDScript.new()
+	probe_script.source_code = "extends Node\nvar clicks := 0\nfunc _unhandled_input(event: InputEvent) -> void:\n\tif event is InputEventMouseButton and event.pressed:\n\t\tclicks += 1\n"
+	probe_script.reload()
+	var probe := Node.new()
+	probe.set_script(probe_script)
+	scene.add_child(probe)
+	var click := func(at: Vector2) -> void:
+		for pressed: bool in [true, false]:
+			var button := InputEventMouseButton.new()
+			button.button_index = MOUSE_BUTTON_LEFT
+			button.pressed = pressed
+			button.position = at
+			button.global_position = at
+			hud.get_viewport().push_input(button, true)
+	# La 1re combinaison posée juste au-dessus d'une case accessible, puis cliquée.
+	hud._on_spell_pressed("arcaniste_composition")
+	var panel := hud._composition.get_child(0) as Control
+	var grid := panel.find_children("*", "GridContainer", true, false)[0] as GridContainer
+	var first := grid.get_child(0) as Control
+	panel.size = panel.get_combined_minimum_size()
+	panel.notification(Container.NOTIFICATION_SORT_CHILDREN)  # Mise en page tout de suite.
+	(grid.get_parent() as Container).notification(Container.NOTIFICATION_SORT_CHILDREN)
+	grid.notification(Container.NOTIFICATION_SORT_CHILDREN)
+	assert_true(first.size.x > 0.0, "grille mise en page")
+	var spot: Vector2 = to_screen.call(cells[0])
+	panel.position += spot - first.get_global_rect().get_center()
+	assert_true(first.get_global_rect().has_point(spot), "la combinaison recouvre la case")
+	click.call(spot)
+	_run_until_idle(view)
+	assert_eq(probe.get("clicks"), 0, "le clic sur la combinaison ne passe pas à la carte")
+	assert_true(hud.composition_choices().is_empty(), "grille refermée par le choix")
+	assert_eq(hero.element_states, ["flamme", "flamme", "flamme"] as Array[String], "1re combinaison lancée")
+	assert_eq(hero.cell, start, "pas de déplacement vers la case sous la grille")
+	assert_eq(hero.pm, hero.max_pm, "aucun PM dépensé")
+	# Un clic à côté de la grille la referme, sans déplacer non plus.
+	hud._on_spell_pressed("arcaniste_composition")
+	var outside: Vector2 = to_screen.call(cells[-1])
+	assert_false(hud.composition_rect().has_point(outside), "case hors de la grille")
+	click.call(outside)
+	_run_until_idle(view)
+	assert_eq(probe.get("clicks"), 0, "le clic qui referme ne passe pas à la carte")
+	assert_true(hud.composition_choices().is_empty(), "grille refermée par le clic à côté")
+	assert_eq(hero.cell, start, "le clic qui referme ne déplace pas")
+	scene.free()
+
+
 ## Retour de test « combats lents » : un sort ne fait pas attendre ses animations, et les actions
 ## données pendant une animation de son tour partent dans l'ordre dès que possible.
 func test_sorts_enchaines_sans_attendre_les_animations() -> void:
