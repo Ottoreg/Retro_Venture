@@ -414,7 +414,8 @@ Tout le contenu et les systèmes MVP de l'alpha 1 sont faits (chantiers 1, 3, 4 
   (& é " ' ( - è _ ç à) en plus de 1 à 0
 - [x] **(MVP)** Mode tactique en combat, façon Dofus (GDD § 14.3) : bouton « Tactique » ou touche T,
   cases à plat en damier, eau en trous (retours de test, lot 3), obstacles qui bloquent la vue en blocs, décor masqué,
-  combattants en pions (couleur du camp, initiale, PV), retenu d'un combat à l'autre (`Options`)
+  combattants dessinés, ou en pions (couleur du camp, initiale, PV) avec l'option « Pions en mode
+  tactique », retenu d'un combat à l'autre (`Options`)
 - [x] Historique du combat (GDD § 14.3) : sorts lancés et leurs effets, couleurs des éléments,
   repliable (touche H) ; survol des glyphes et pièges alliés : sort, lanceur, tours restants
 - [x] Chiffres flottants du combat à la couleur de l'élément (dégâts, soins, boucliers, poisons)

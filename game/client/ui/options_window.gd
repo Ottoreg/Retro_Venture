@@ -12,6 +12,7 @@ var _volume_label: Label
 var _fullscreen: Button
 var _size: OptionButton
 var _tactical: Button
+var _pawns: Button
 
 
 func _ready() -> void:
@@ -29,6 +30,7 @@ func open() -> void:
 	_size.select(Options.window_size)
 	_size.disabled = not Options.can_resize() or Options.fullscreen
 	_set_switch(_tactical, Options.tactical)
+	_set_switch(_pawns, Options.tactical_pawns)
 	_set_visible(true)
 
 
@@ -72,6 +74,11 @@ func _on_size_selected(index: int) -> void:
 
 func _on_tactical_toggled(on: bool) -> void:
 	Options.tactical = on
+	_changed()
+
+
+func _on_pawns_toggled(on: bool) -> void:
+	Options.tactical_pawns = on
 	_changed()
 
 
@@ -146,9 +153,15 @@ func _build() -> void:
 
 	grid.add_child(_caption("Mode tactique en combat"))
 	_tactical = _switch()
-	_tactical.tooltip_text = "Vue simplifiée de la grille : cases à plat, obstacles en blocs, décor masqué, pions (touche T en combat)."
+	_tactical.tooltip_text = "Vue simplifiée de la grille : cases à plat, obstacles en blocs, décor masqué (touche T en combat)."
 	_tactical.toggled.connect(_on_tactical_toggled)
 	grid.add_child(_tactical)
+
+	grid.add_child(_caption("Pions en mode tactique"))
+	_pawns = _switch()
+	_pawns.tooltip_text = "En mode tactique, remplace les personnages par des pions : cercle de la couleur du camp et initiale."
+	_pawns.toggled.connect(_on_pawns_toggled)
+	grid.add_child(_pawns)
 
 	var close_button := Button.new()
 	close_button.text = "Fermer"
@@ -178,4 +191,4 @@ func _caption(text: String) -> Label:
 
 ## Commandes de la fenêtre (pour les tests).
 func controls() -> Dictionary:
-	return {"volume": _volume, "plein_ecran": _fullscreen, "taille": _size, "tactique": _tactical}
+	return {"volume": _volume, "plein_ecran": _fullscreen, "taille": _size, "tactique": _tactical, "pions": _pawns}

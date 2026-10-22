@@ -15,6 +15,9 @@ static var fullscreen := false
 static var window_size := 0
 ## Mode tactique en combat (GDD § 14.3) : retenu d'un combat à l'autre.
 static var tactical := false
+## En mode tactique, combattants en pions (cercle de la couleur du camp, initiale) plutôt qu'en
+## personnages.
+static var tactical_pawns := false
 static var _loaded := false
 
 
@@ -30,6 +33,7 @@ static func load_options(force := false) -> void:
 	fullscreen = bool(file.get_value("affichage", "plein_ecran", fullscreen))
 	window_size = clampi(int(file.get_value("affichage", "taille", window_size)), 0, WINDOW_SIZES.size() - 1)
 	tactical = bool(file.get_value("combat", "tactique", tactical))
+	tactical_pawns = bool(file.get_value("combat", "pions", tactical_pawns))
 
 
 static func save_options() -> void:
@@ -38,6 +42,7 @@ static func save_options() -> void:
 	file.set_value("affichage", "plein_ecran", fullscreen)
 	file.set_value("affichage", "taille", window_size)
 	file.set_value("combat", "tactique", tactical)
+	file.set_value("combat", "pions", tactical_pawns)
 	file.save(path)
 
 
@@ -47,6 +52,7 @@ static func reset() -> void:
 	fullscreen = false
 	window_size = 0
 	tactical = false
+	tactical_pawns = false
 	_loaded = true
 
 

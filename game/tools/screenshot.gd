@@ -12,7 +12,7 @@ extends SceneTree
 ## perdu contre le premier groupe : réveil près de la Pierre de Passage du point de résurrection, à
 ## lancer par exemple sur brumerive_1_0), « carte » (ouvre la carte du monde ; la minicarte, elle,
 ## est visible sur toute capture en exploration), « tactique »
-## (comme « cible », en mode tactique), « pause » (menu pause), « options » (fenêtre des options),
+## (comme « cible », en mode tactique ; « pions » : avec les pions), « pause » (menu pause), « options » (fenêtre des options),
 ## « quete » (le premier PNJ qui propose une quête : sa proposition), « journal » (cette quête
 ## acceptée, le journal ouvert ; le suivi est sous la minicarte), « repere » (la même, puis un
 ## repère posé sur le Moulin de Tournevent : carte du monde ouverte), « historique » (combat, deux tours
@@ -45,6 +45,9 @@ func _initialize() -> void:
 		Session.new_character = Character.create("Mirabelle", "humain", "arcaniste")
 	# Réglages par défaut (ceux du joueur ne comptent pas), mode tactique si demandé.
 	Options.reset()
+	if _action == "pions":
+		_action = "tactique"
+		Options.tactical_pawns = true
 	Options.tactical = _action == "tactique"
 	_scene = load(scene_path).instantiate()
 	root.add_child(_scene)

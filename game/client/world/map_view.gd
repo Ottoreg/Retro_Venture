@@ -1439,7 +1439,7 @@ func _draw() -> void:
 	var drawables: Array = []
 	if tactical_view:
 		_draw_tactical_pieces(map)
-		_draw_spell_preview(44.0)
+		_draw_spell_preview(44.0 if Options.tactical_pawns else 90.0)
 		_draw_floating_texts()
 		return
 	for cell: Vector2i in map.obstacles:
@@ -1564,8 +1564,9 @@ func _is_hole(map: GameMap, cell: Vector2i) -> bool:
 	return map.obstacles.get(cell, "") in Combat.SEE_THROUGH_OBSTACLES
 
 
-## Mode tactique : obstacles qui bloquent la vue en blocs bas, combattants en pions (couleur du camp,
-## initiale, barre de PV), du fond vers l'avant.
+## Mode tactique : obstacles qui bloquent la vue en blocs bas, combattants dessinés comme hors mode
+## tactique ou, selon `Options.tactical_pawns`, en pions (couleur du camp, initiale, barre de PV), du
+## fond vers l'avant.
 func _draw_tactical_pieces(map: GameMap) -> void:
 	var drawables: Array = []
 	for cell: Vector2i in map.obstacles:
@@ -1579,6 +1580,9 @@ func _draw_tactical_pieces(map: GameMap) -> void:
 	for drawable: Array in drawables:
 		if drawable[1] == "":
 			_draw_block(IsoGrid.cell_to_screen(drawable[2]), 14, TACTICAL_BLOCK)
+			continue
+		if not Options.tactical_pawns:
+			_draw_actor(drawable[1])
 			continue
 		var data: Dictionary = _actors[drawable[1]]
 		var base := IsoGrid.grid_to_screen(data["pos"])

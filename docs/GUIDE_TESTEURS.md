@@ -105,7 +105,7 @@ temps : chaque camp a sa propre histoire.
 | **Échap** | Ferme la fenêtre ouverte ; sinon, **menu pause** (le jeu s'arrête) : reprendre, options, menu principal (avec sauvegarde, pas en combat), quitter |
 
 **Options** (menu principal ou menu pause) : volume, plein écran, taille de la fenêtre (hors
-navigateur) et mode tactique ; elles sont gardées d'une partie à l'autre, hors sauvegarde.
+navigateur), mode tactique et pions en mode tactique ; elles sont gardées d'une partie à l'autre, hors sauvegarde.
 
 Les six boutons en bas à droite de la barre ouvrent les mêmes fenêtres.
 
@@ -162,7 +162,8 @@ Les sorts se consultent dans leur fenêtre (S).
      déplacement ou la fin du tour sont gardés et partent dans l'ordre dès l'arrivée (5 au plus ; un
      clic droit, sans sort choisi, les annule) ;
    - **Fin de tour** : bouton du bandeau.
-   - **Mode tactique** : bouton « Tactique » du bandeau ou touche **T** (aussi dans les options).
+   - **Mode tactique** : bouton « Tactique » du bandeau ou touche **T** (aussi dans les options ; les
+     personnages restent visibles, l'option « Pions en mode tactique » les remplace par des pions).
      Vue simplifiée de la grille, comme dans Dofus : cases à plat en damier, eau en trous (elle ne
      bloque que le passage), obstacles qui bloquent la vue en blocs, arbres et bâtiments masqués,
      combattants en pions de la couleur de leur camp (initiale et PV). Portées, zones, glyphes et

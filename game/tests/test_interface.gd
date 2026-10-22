@@ -30,14 +30,17 @@ func test_options_enregistrees() -> void:
 	Options.fullscreen = true
 	Options.window_size = 2
 	Options.tactical = true
+	Options.tactical_pawns = true
 	Options.save_options()
 	Options.reset()
 	assert_false(Options.tactical)
+	assert_false(Options.tactical_pawns, "personnages visibles par défaut en mode tactique")
 	Options.load_options(true)
 	assert_eq(Options.volume, 35)
 	assert_true(Options.fullscreen)
 	assert_eq(Options.window_size, 2)
 	assert_true(Options.tactical, "le mode tactique est retenu")
+	assert_true(Options.tactical_pawns, "les pions aussi")
 	# Valeurs hors bornes dans le fichier : ramenées dans les bornes.
 	var file := ConfigFile.new()
 	file.set_value("son", "volume", 250)
@@ -59,10 +62,14 @@ func test_fenetre_des_options() -> void:
 	(controls["tactique"] as Button).button_pressed = true
 	assert_true(Options.tactical)
 	assert_eq((controls["tactique"] as Button).text, "Activé")
+	assert_false((controls["pions"] as Button).button_pressed)
+	(controls["pions"] as Button).button_pressed = true
+	assert_true(Options.tactical_pawns)
 	Options.reset()
 	Options.load_options(true)
 	assert_eq(Options.volume, 50, "et il est enregistré")
 	assert_true(Options.tactical)
+	assert_true(Options.tactical_pawns)
 	window.close()
 	assert_false(window.is_open())
 	window.free()
