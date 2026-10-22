@@ -75,6 +75,9 @@ const COLOR_PATH := Color(1.0, 0.92, 0.55, 0.85)
 const COLOR_SHADOW := Color(0, 0, 0, 0.25)
 const COLOR_REACHABLE := Color(0.35, 0.85, 0.35, 0.35)
 const COLOR_RANGE := Color(0.3, 0.55, 1.0, 0.4)
+## Cases que peut atteindre l'ennemi survolé (rouge, distinct du vert du joueur).
+const COLOR_ENEMY_REACH := Color(0.95, 0.2, 0.2, 0.42)
+const COLOR_ENEMY_REACH_EDGE := Color(1.0, 0.35, 0.3, 0.9)
 const COLOR_RANGE_HIDDEN := Color(0.3, 0.55, 1.0, 0.15)
 const COLOR_ZONE := Color(1.0, 0.55, 0.15, 0.55)
 const COLOR_PLACEMENT := Color(0.25, 0.5, 1.0, 0.9)
@@ -175,6 +178,8 @@ var _placement: Array[Vector2i] = []
 var _reachable: Dictionary = {}
 var _range_visible: Array[Vector2i] = []
 var _range_hidden: Array[Vector2i] = []
+## Cases que peut atteindre l'ennemi survolé en combat (voir `Combat.movement_zone`).
+var _enemy_reach: Array[Vector2i] = []
 ## Prévisualisation du sort choisi sur la case survolée (voir `Combat.spell_preview`).
 var _spell_preview: Dictionary = {}
 ## Demi-cases du bord, déjà découpées au rectangle de la carte.
@@ -785,6 +790,7 @@ func _update_preview() -> void:
 	_preview.clear()
 	_spell_preview = {}
 	var fighter := player_fighter()
+	_enemy_reach = _enemy_reach_at(_hovered, fighter)
 	if selected_spell != "" and fighter != null and can_plan() and _hovered in _range_visible:
 		var spell: Spell = fighter.get_spell(selected_spell)
 		if spell != null:
@@ -799,6 +805,20 @@ func _update_preview() -> void:
 	elif is_player_turn() and selected_spell == "" and _reachable.has(_hovered):
 		_preview = _reachable[_hovered]
 	queue_redraw()
+
+
+## Cases que peut atteindre l'ennemi sur `cell` (vide si aucun ennemi, ou pendant la lecture).
+func _enemy_reach_at(cell: Vector2i, player: Fighter) -> Array[Vector2i]:
+	if mode != Mode.COMBAT or world.combat == null or _playing or player == null:
+		return []
+	var enemy := world.combat.fighter_at(cell)
+	if enemy == null or enemy.team == player.team:
+		return []
+	return world.combat.movement_zone(enemy)
+
+
+func enemy_reach() -> Array[Vector2i]:
+	return _enemy_reach
 
 
 # --- Lecture des événements --------------------------------------------------------------------
@@ -1425,6 +1445,11 @@ func _draw() -> void:
 		_draw_cells(_reachable.keys(), COLOR_REACHABLE)
 		_draw_cells(_range_hidden, COLOR_RANGE_HIDDEN)
 		_draw_cells(_range_visible, COLOR_RANGE)
+		_draw_cells(_enemy_reach, COLOR_ENEMY_REACH)
+		for cell in _enemy_reach:
+			var edge := _scaled_diamond(IsoGrid.cell_to_screen(cell), 0.86)
+			edge.append(edge[0])
+			draw_polyline(edge, COLOR_ENEMY_REACH_EDGE, 1.5, true)
 		var fighter := player_fighter()
 		if selected_spell != "" and _hovered in _range_visible and fighter != null:
 			var spell: Spell = fighter.get_spell(selected_spell)

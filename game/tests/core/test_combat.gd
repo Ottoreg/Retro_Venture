@@ -84,6 +84,23 @@ func test_les_combattants_bloquent_le_passage() -> void:
 	assert_false(reachable.has(C + RIGHT), "case occupée")
 
 
+func test_zone_de_deplacement_au_survol() -> void:
+	# Hors de son tour, le loup (4 PM) montre les cases qu'il atteindra au prochain tour, même s'il a tout dépensé.
+	var combat := _fight([["loup", C + Vector2i(4, 0)]])
+	var loup := combat.get_fighter("m0")
+	loup.pm = 0
+	var zone := combat.movement_zone(loup)
+	var attendu := combat.reachable_cells(loup, 4)
+	assert_eq(zone.size(), attendu.size(), "les cases à 4 PM")
+	assert_true(attendu.values().any(func(path: Array) -> bool: return path.size() == 4), "jusqu'à 4 pas")
+	assert_false(loup.cell in zone, "pas sa propre case")
+	assert_false(C in zone, "pas la case du joueur")
+	# Pendant son tour, ce sont ses PM restants qui comptent.
+	var joueur := _player(combat)
+	joueur.pm = 1
+	assert_eq(combat.movement_zone(joueur).size(), 4, "1 PM : les 4 voisines")
+
+
 # --- Sorts ---
 
 func test_degats_et_pa() -> void:

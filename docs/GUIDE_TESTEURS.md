@@ -171,7 +171,7 @@ Les sorts se consultent dans leur fenêtre (S).
    - **ordre de jeu** dans la bande droite : une ligne par combattant, son portrait (bleu : votre
      camp, rouge : l'adversaire ; doré : celui qui joue), son nom et ses PV ;
    - survoler un combattant : son niveau, ses PV, PA, PM et ses résistances s'affichent à la place
-     de la barre de sorts.
+     de la barre de sorts ; pour un ennemi, les cases où il peut aller s'affichent en rouge.
    - survoler une glyphe ou un de vos pièges : le sort, qui l'a lancé, et les tours restants d'une
      glyphe (les pièges ennemis sont invisibles).
    - **Historique** (à gauche de la barre du bas, en combat comme en exploration ; bouton « – » ou touche **H**

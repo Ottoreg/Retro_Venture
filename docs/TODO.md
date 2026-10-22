@@ -406,6 +406,7 @@ Tout le contenu et les systèmes MVP de l'alpha 1 sont faits (chantiers 1, 3, 4 
 - [ ] Infobulles d'objets et de sorts (comparaison avec l'équipement porté)
 - [x] En combat, au survol d'un combattant : nom, niveau, PV, PA, PM et résistances à la place de la
   barre de sorts
+- [x] En combat, au survol d'un ennemi : ses cases de déplacement en rouge (PM de son prochain tour)
 - [x] Inventaire : 8 cases « Reliques » visibles dès le début (vides tant que la Relique n'est pas
   reprise), en plus des 2 anneaux
 - [ ] Raccourcis clavier

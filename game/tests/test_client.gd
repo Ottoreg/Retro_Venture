@@ -1453,6 +1453,13 @@ func test_ergonomie_du_combat() -> void:
 	var colors := MapView.glyph_colors({"equipe": Fighter.TEAM_MONSTERS, "element": "flamme"})
 	assert_eq(colors[1], Color(MapView.element_color("flamme"), 0.85))
 	assert_eq(MapView.glyph_colors({"equipe": Fighter.TEAM_MONSTERS, "element": ""})[0], MapView.COLOR_GLYPH[1])
+	# Survol d'un ennemi : ses cases de déplacement, effacées quand la souris le quitte.
+	var enemy: Fighter = view.world.combat.fighters.filter(func(f: Fighter) -> bool: return f.team != hero.team and f.is_alive())[0]
+	view._set_hovered(enemy.cell)
+	assert_eq(view.enemy_reach(), view.world.combat.movement_zone(enemy))
+	assert_false(view.enemy_reach().is_empty(), "l'ennemi a des PM")
+	view._set_hovered(hero.cell)
+	assert_true(view.enemy_reach().is_empty(), "plus survolé : plus affiché")
 	scene.free()
 
 

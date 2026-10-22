@@ -1370,7 +1370,10 @@ d'ambiance habituel, sa fiche affiche « Créé par [pseudo de l'artisan] ».
   estimés** au-dessus de chaque combattant que toucherait le sort visé (fourchette sans coup
   critique, à la couleur de l'élément ; soins limités aux PV qui manquent), **clic droit sur un
   sort** pour le lancer sur soi, bouton « fin de tour ». Au survol d'un combattant, ses informations (nom, niveau, PV, PA, PM,
-  résistances aux 6 éléments) remplacent la barre de sorts, comme dans Dofus Rétro.
+  résistances aux 6 éléments) remplacent la barre de sorts, comme dans Dofus Rétro. Au survol d'un
+  **ennemi**, les cases qu'il peut atteindre s'affichent en rouge cerné (avec ses PM restants pendant son
+  tour, sinon ceux de son prochain tour, `Combat.movement_zone`), distinctes du vert du joueur ;
+  elles s'effacent quand la souris le quitte.
   **Historique du combat** (canal Combat de l'historique commun, ci-dessous) : début de chaque tour, sorts lancés
   (coups critiques), dégâts, soins et boucliers à la couleur de leur élément, bonus, malus, poisons
   et PM retirés (avec le sort qui les a posés), glyphes et pièges posés ou déclenchés, poussées,

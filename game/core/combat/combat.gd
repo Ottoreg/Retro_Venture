@@ -130,11 +130,12 @@ func is_free(cell: Vector2i) -> bool:
 	return map.is_walkable_in_combat(cell) and fighter_at(cell) == null
 
 
-## Cases atteignables avec les PM du combattant, et le chemin pour chacune (4 directions).
-func reachable_cells(fighter: Fighter) -> Dictionary:
+## Cases atteignables avec les PM du combattant (ou `pm` s'il est donné), et le chemin pour chacune
+## (4 directions).
+func reachable_cells(fighter: Fighter, pm := -1) -> Dictionary:
 	var paths := {fighter.cell: [] as Array[Vector2i]}
 	var frontier: Array[Vector2i] = [fighter.cell]
-	for step in fighter.pm:
+	for step in (fighter.pm if pm < 0 else pm):
 		var next_frontier: Array[Vector2i] = []
 		for cell in frontier:
 			for neighbor in IsoGrid.neighbors_4(cell):
@@ -147,6 +148,15 @@ func reachable_cells(fighter: Fighter) -> Dictionary:
 		frontier = next_frontier
 	paths.erase(fighter.cell)
 	return paths
+
+
+## Cases qu'un combattant peut atteindre, affichées au survol (GDD § 14.3) : avec ses PM restants
+## pendant son tour, sinon avec ceux qu'il aura au début du prochain.
+func movement_zone(fighter: Fighter) -> Array[Vector2i]:
+	var pm := fighter.pm if fighter == current_fighter() else fighter.next_turn_pm()
+	var cells: Array[Vector2i] = []
+	cells.assign(reachable_cells(fighter, pm).keys())
+	return cells
 
 
 ## Nombre de pas (4 directions) entre chaque case et la source la plus proche, en contournant
