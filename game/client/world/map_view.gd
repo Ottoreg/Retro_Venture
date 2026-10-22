@@ -53,7 +53,7 @@ enum Mode { EXPLORATION, COMBAT }
 const WALK_SPEED := 170.0
 ## Au-delà de RUN_CELLS cases, on court : vitesse de marche × RUN_FACTOR.
 const RUN_CELLS := 3
-const RUN_FACTOR := 1.5
+const RUN_FACTOR := 1.4
 ## Les groupes de monstres se promènent plus lentement que le joueur ne marche.
 const GROUP_WALK_SPEED := 70.0
 ## Durée de l'animation d'attaque ou de sort.
@@ -98,8 +98,8 @@ const CARAC_NAMES := {"force": "Force", "intelligence": "Intelligence", "chance"
 	"pa": "PA", "pm": "PM", "portee": "Portée", "dommages": "Dommages", "critique": "% Critique", "resistance": "Rés."}
 
 const NO_CELL := Vector2i(-99999, -99999)
-## Haut de l'écran sous le bandeau du haut (pixels) : une bulle de dialogue ne monte pas plus haut.
-const DIALOGUE_TOP := 70.0
+## Marge en haut de l'écran (pixels) : une bulle de dialogue ne monte pas plus haut.
+const DIALOGUE_TOP := 6.0
 ## Garde-fou de la lecture des événements (voir `_watch_playback`), en secondes.
 const STALL_LIMIT := 1.0
 ## Actions que le joueur peut prévoir pendant une animation de son tour (voir `_plan`).
@@ -2004,7 +2004,7 @@ func _show_dialogue_line() -> void:
 	var anchor := IsoGrid.cell_to_screen(_dialogue["case"]) + Vector2(0, -68)
 	var top_left := anchor - Vector2(bubble_size.x / 2.0, bubble_size.y)
 	var max_x := _map.screen_rect().size.x - bubble_size.x
-	# Au-dessus du PNJ, sauf si la bulle passerait sous le bandeau du haut : alors sous ses pieds.
+	# Au-dessus du PNJ, sauf si la bulle sortirait par le haut de l'écran : alors sous ses pieds.
 	var highest := (DIALOGUE_TOP - global_position.y) / global_scale.y
 	if top_left.y < highest:
 		top_left.y = IsoGrid.cell_to_screen(_dialogue["case"]).y + 18.0

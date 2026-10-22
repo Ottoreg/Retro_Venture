@@ -111,13 +111,12 @@ Les six boutons en bas à droite de la barre ouvrent les mêmes fenêtres.
 
 ### L'écran
 
-Comme dans Dofus 2, rien ne passe sur la zone de jeu : la carte est entourée du bandeau du haut
-(nom de la carte et messages), de deux **bandes** à gauche et à droite, et de la barre du bas
-(historique, jauges, sorts ou objets, menus). La carte est un peu réduite pour laisser la place
+Comme dans Dofus 2, rien ne passe sur la zone de jeu : la carte est entourée de deux **bandes** à
+gauche et à droite, et de la barre du bas (historique, jauges, sorts ou objets, menus). La carte est un peu réduite pour laisser la place
 aux bandes ; sur un écran plus large, les bandes s'élargissent.
 
-- **Bande gauche** : la minicarte en haut, la quête suivie dessous.
-- **Bande droite** : hors combat, votre nom, niveau, expérience et brumes ; en combat, l'ordre de jeu.
+- **Bande gauche** : le nom de la carte en haut, puis la minicarte, puis la quête suivie.
+- **Bande droite** : les messages en haut (« À vous de jouer »…) ; dessous, hors combat, votre nom, niveau, expérience et brumes ; en combat, l'ordre de jeu.
 Les sorts se consultent dans leur fenêtre (S).
 
 ### Minicarte et carte du monde
@@ -214,7 +213,7 @@ le **lit** de votre maison les rend tous d'un coup.
   objets) ; un **« ? »** gris : sa quête est en cours.
 - La quête suivie s'affiche **dans la bande gauche**, sous la minicarte (clic : le journal, touche **Q** ;
   le bouton **« – »** la replie pour ne garder que son nom). Chaque objectif qui avance s'annonce
-  dans le bandeau du haut.
+  en haut de la bande droite.
 - Dans la proposition et le journal, les **noms en bleu** (personnages, cartes, zones) se
   cliquent : un **repère** (épingle rouge) se pose sur la carte du monde, qui s'ouvre, et sur la
   minicarte (une flèche au bord s'il est plus loin). Recliquez le nom, ou « Retirer le repère »

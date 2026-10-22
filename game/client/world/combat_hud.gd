@@ -3,10 +3,12 @@ extends CanvasLayer
 ## Bordures d'interface autour de la zone de jeu (`ScreenLayout`), toujours affichées. Barre du bas,
 ## comme dans Dofus : historique, points de vie dans un cœur rouge qui se vide, PA dans une étoile
 ## bleue, PM dans une case verte, sorts en icônes, bouton de tour (en combat) et menus. Bandes
-## latérales : minicarte et suivi des quêtes à gauche, ordre de jeu (ou résumé du personnage) à
-## droite. Aussi : messages (dans le bandeau du haut) et écran de fin de combat.
+## latérales : nom de la carte, minicarte et suivi des quêtes à gauche ; messages, puis ordre de jeu
+## (ou résumé du personnage) à droite. Aussi : écran de fin de combat.
 
 const BAR_HEIGHT := ScreenLayout.BOTTOM
+## Hauteur réservée aux messages en haut de la bande droite (quatre lignes).
+const MESSAGE_HEIGHT := 80.0
 ## Message quand le sac déborde (butin en surplus).
 const OVERLOAD_TEXT := "Inventaire surchargé ! Faites de la place (vendre, jeter, ranger au coffre) pour pouvoir combattre à nouveau."
 ## Noms courts des éléments pour les résistances du combattant survolé.
@@ -348,6 +350,8 @@ var _refresh_time := 0.0
 var _left_band: PanelContainer
 var _right_band: PanelContainer
 ## Emplacements de la minicarte et du suivi des quêtes, dans la bande gauche.
+## Nom de la carte, en haut de la bande gauche (posé par la scène du monde).
+var map_title: Label
 var minimap_slot: Control
 var quest_slot: Control
 ## Résumé du personnage, hors combat, dans la bande droite.
@@ -1156,19 +1160,6 @@ func _build() -> void:
 
 	_build_bands()
 
-	# Messages au milieu du bandeau du haut (le nom de la carte est à gauche) : hors de la zone de jeu.
-	_message_label = _label(20, Color(1, 0.95, 0.75))
-	_message_label.anchor_left = 0.0
-	_message_label.anchor_right = 1.0
-	_message_label.offset_top = 16
-	_message_label.offset_left = 300
-	_message_label.offset_right = -300
-	_message_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_message_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-	_message_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_message_label.modulate.a = 0.0
-	add_child(_message_label)
-
 	_result_panel = PanelContainer.new()
 	_result_panel.set_anchors_preset(Control.PRESET_CENTER)
 	_result_panel.grow_horizontal = Control.GROW_DIRECTION_BOTH
@@ -1246,6 +1237,10 @@ func _build_bands() -> void:
 	left.add_theme_constant_override("separation", 8)
 	left.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_left_band.add_child(left)
+	map_title = _label(15, UiTheme.GOLD)
+	map_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	map_title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	left.add_child(map_title)
 	minimap_slot = Control.new()
 	minimap_slot.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	left.add_child(minimap_slot)
@@ -1258,6 +1253,19 @@ func _build_bands() -> void:
 	var right := VBoxContainer.new()
 	right.add_theme_constant_override("separation", 6)
 	_right_band.add_child(right)
+	# Messages (« À vous de jouer », repère posé…) en haut de la bande droite, hors de la zone de jeu.
+	# Place réservée : le message s'efface sans faire bouger le reste de la bande.
+	_message_label = _label(15, Color(1, 0.95, 0.75))
+	_message_label.custom_minimum_size = Vector2(0, MESSAGE_HEIGHT)
+	_message_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_message_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	_message_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_message_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	_message_label.max_lines_visible = 4
+	_message_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_message_label.modulate.a = 0.0
+	right.add_child(_message_label)
+	right.add_child(HSeparator.new())
 	_summary = VBoxContainer.new()
 	_summary.add_theme_constant_override("separation", 4)
 	right.add_child(_summary)

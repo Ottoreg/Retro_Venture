@@ -293,7 +293,7 @@ func test_le_temps_continue_sans_le_focus() -> void:
 
 
 ## Bordures d'interface autour de la zone de jeu, comme Dofus 2 : la carte, à l'échelle, tient entre
-## le bandeau, les deux bandes latérales et la barre du bas, et rien ne passe dessus.
+## les deux bandes latérales et la barre du bas (pas de bandeau en haut), et rien ne passe dessus.
 func test_interface_hors_de_la_zone_de_jeu() -> void:
 	# En 1280 × 720 : bandes d'au moins 150 px, carte à environ 81 %.
 	var screen := Vector2(1280, 720)
@@ -301,11 +301,15 @@ func test_interface_hors_de_la_zone_de_jeu() -> void:
 	assert_almost_eq(ScreenLayout.map_scale(screen), 980.0 / 1216.0, 0.001)
 	assert_almost_eq(ScreenLayout.band_width(screen), ScreenLayout.BAND, 0.5)
 	assert_true(area.position.y >= ScreenLayout.TOP and area.end.y <= screen.y - ScreenLayout.BOTTOM, "%s" % area)
-	# Écran plus large (21:9) : le surplus élargit les bandes. Plus haut (4:3) : marge sous le bandeau.
-	assert_true(ScreenLayout.band_width(Vector2(1706, 720)) > 300.0)
+	# Écran plus large (21:9) : le surplus élargit les bandes. Plus haut (4:3) : marge au-dessus.
+	assert_true(ScreenLayout.band_width(Vector2(1706, 720)) > ScreenLayout.BAND + 50.0, "bandes élargies")
+	# Sans bandeau, la carte prend toute la hauteur au-dessus de la barre dès que l'écran est assez large.
+	assert_eq(ScreenLayout.TOP, 0.0)
+	assert_almost_eq(ScreenLayout.map_scale(Vector2(1706, 720)), (720.0 - ScreenLayout.BOTTOM) / 544.0, 0.001)
 	var tall := ScreenLayout.play_rect(Vector2(1280, 960))
 	assert_almost_eq(tall.size.x, 980.0, 0.5)
-	assert_true(tall.position.y > ScreenLayout.TOP + 50.0, "carte centrée en hauteur : %s" % tall)
+	assert_true(tall.position.y > ScreenLayout.TOP + 50.0, "carte posée sur la barre, marge en haut : %s" % tall)
+	assert_almost_eq(tall.end.y, 960.0 - ScreenLayout.BOTTOM, 1.0)
 	# Une petite carte (intérieur) garde l'échelle et se centre dans la zone.
 	var small := ScreenLayout.map_position(screen, Vector2(704, 160))
 	assert_almost_eq(small.x + 704.0 * ScreenLayout.map_scale(screen) / 2.0, area.get_center().x, 1.0)
@@ -323,6 +327,10 @@ func test_interface_hors_de_la_zone_de_jeu() -> void:
 	for band: Control in hud.bands():
 		_sort_layout(band)
 		assert_false(band.get_global_rect().intersects(map_rect), "bande hors de la zone : %s" % band.get_global_rect())
+	# Les messages s'affichent dans la bande droite, hors de la zone de jeu.
+	hud.show_message("À vous de jouer !")
+	assert_true(hud.bands()[1].is_ancestor_of(hud._message_label), "message dans la bande droite")
+	assert_false(hud._message_label.get_global_rect().intersects(map_rect))
 	assert_false(hud.bar().get_global_rect().intersects(map_rect), "barre du bas hors de la zone")
 	assert_true(hud.bar().is_ancestor_of(hud.message_log), "historique dans la barre du bas")
 	minimap._place()
@@ -864,8 +872,8 @@ func test_tous_les_membres_d_un_groupe_sont_affiches() -> void:
 	assert_eq(MapView.group_label(["loup_des_collines", "gobelin_frondeur", "loup_des_collines"], data),
 		"Groupe : 2 × Loup des collines, Gobelin frondeur")
 
-	# En haut de l'écran, seulement le nom de la carte ; ce qu'on survole va dans une bulle.
-	var info: Label = scene.get_node("%Info")
+	# En haut de la bande gauche, seulement le nom de la carte ; ce qu'on survole va dans une bulle.
+	var info: Label = scene.get_node("CombatHud").map_title
 	assert_eq(info.text, view.current_map().display_name, "le nom de la carte, rien d'autre")
 	view._set_hovered(view.world.groups()[0]["case"])
 	assert_eq(info.text, view.current_map().display_name)

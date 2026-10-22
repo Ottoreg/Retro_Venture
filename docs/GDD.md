@@ -731,7 +731,7 @@ prévoit déjà `voie` et `rang` sur chaque sort** pour que le système s'ajoute
 - **Points de vie** : ils se gardent d'un combat à l'autre et remontent lentement hors combat
   (1 PV toutes les 2 s, **trois fois plus vite assis** : bouton « S'asseoir » ou touche A, on se
   relève en marchant ou en entrant en combat) ; après une défaite, on se relève avec 1 PV.
-- **Course** : un trajet de plus de 3 cases se fait en courant (vitesse × 1,5), en exploration
+- **Course** : un trajet de plus de 3 cases se fait en courant (vitesse × 1,4), en exploration
   comme en combat, pour le joueur comme pour les monstres.
 - **Monstres du prototype** : deux par zone de départ — loup des collines et frondeur gobelin
   (Brumerive, désormais complétée par son lot de production : voir § 3.5), rat des galeries et grouilleur, mille-pattes vert qui crache de l'acide (Crasse-Roc),
@@ -1183,7 +1183,7 @@ d'ambiance habituel, sa fiche affiche « Créé par [pseudo de l'artisan] ».
   8 types d'objectifs (parler, vaincre, vaincre un boss, récolter, fabriquer, apporter, équiper,
   aller), le **butin de quête** (un objet qui ne tombe que pendant la quête qui le demande), les
   objets de quête, l'XP comptée en « combats de référence » (× `Character.XP_RATE`), les marques
-  `!` / `?`, la proposition (Accepter / Plus tard), le journal (Q) et le suivi dans le bandeau du haut.
+  `!` / `?`, la proposition (Accepter / Plus tard), le journal (Q) et le suivi dans la bande gauche.
   Les objectifs « parler » et « apporter » se remplissent en dernier (on rend la quête). Contenu
   produit : les 3 tutoriels, l'acte I et l'acte II des trois camps, et le début de l'acte III
   (le Conseil des Peuples Libres, puis Grondin à la Brèche ; la Chevalière Sans-Rouille disparaît :
@@ -1326,7 +1326,7 @@ d'ambiance habituel, sa fiche affiche « Créé par [pseudo de l'artisan] ».
   retour au menu principal (sauvegardé, pas pendant un combat), quitter. **Options** (menu principal
   ou pause) : volume, plein écran, taille de la fenêtre, mode tactique ; gardées hors sauvegarde.
 
-- **Bandeau bas** (200 px) **:** historique (futur chat) à gauche, PV dans un cœur rouge qui se vide, PA dans une étoile bleue, PM
+- **Bandeau bas** (180 px) **:** historique (futur chat) à gauche, PV dans un cœur rouge qui se vide, PA dans une étoile bleue, PM
   dans une case verte, barre de sorts en combat (icônes avec raccourci et coût en PA), **barre
   d'objets hors combat** (8 emplacements, pour les consommables : seulement montrée tant qu'il n'y
   en a pas ; ni objet ni équipement utilisable en combat), boutons de menus (inventaire,
@@ -1342,17 +1342,19 @@ d'ambiance habituel, sa fiche affiche « Créé par [pseudo de l'artisan] ».
 - **Fenêtres :** inventaire avec poupée d'équipement, fiche de caractéristiques, grimoire de sorts,
   journal de quêtes, fenêtre de métier, carte du monde (touche M).
 - **Aucune interface sur la zone de jeu**, comme Dofus 2 (`client/world/screen_layout.gd`) : la
-  carte tient entre quatre bordures, le bandeau du haut (nom de la carte, messages au milieu), deux
-  **bandes latérales** (150 px au moins) et la barre du bas. Une carte standard (1216 × 544) est plus
+  carte tient entre trois bordures, deux **bandes latérales** (150 px au moins) et la barre du bas ;
+  pas de bandeau en haut, la carte monte jusqu'au bord de l'écran. Une carte standard (1216 × 544) est plus
   large qu'un écran 16:9 : elle est dessinée à l'échelle qui la fait tenir entre les bandes
-  (≈ 81 % en 1280 × 720). Sur un écran plus large, le surplus élargit les bandes ; sur un écran plus
-  haut, il laisse une marge au-dessus et au-dessous de la carte ; un intérieur garde la même
-  échelle, centré. Les bandes sont opaques et cachent le décor qui déborde de la carte.
-- **Bande gauche** : la **minicarte** en haut, carrée (la carte du monde en réduit, 5 × 5 cartes
+  (≈ 81 % en 1280 × 720). Sur un écran plus large, la carte grandit jusqu'à toucher le haut de
+  l'écran (≈ 99 % en 1600 × 720), puis le surplus élargit les bandes ; sur un écran plus haut, la
+  carte se pose sur la barre et le surplus reste en haut, où débordent arbres et toits ; un
+  intérieur garde la même échelle, centré. Les bandes sont opaques et cachent le décor qui déborde de la carte.
+- **Bande gauche** : le **nom de la carte** en haut, puis la **minicarte**, carrée (la carte du monde en réduit, 5 × 5 cartes
   autour de la carte actuelle ; un clic dessus ouvre la carte du monde, hors combat), puis le
   **suivi de la quête** : son nom et cinq objectifs à faire au plus (« (+n) » s'il en reste
   d'autres), repliable ; un clic ouvre le journal (hors combat). Les deux restent en combat.
-- **Bande droite** : en combat, l'**ordre de jeu** en colonne ; hors combat, un résumé du
+- **Bande droite** : en haut, les **messages** (« À vous de jouer », repère posé, objectif
+  rempli…), qui s'effacent seuls ; dessous, en combat, l'**ordre de jeu** en colonne ; hors combat, un résumé du
   personnage (nom, niveau, race et Voie, expérience, brumes).
 - **Repères de quête** : dans la proposition d'une quête et le journal, les noms des PNJ, des
   cartes et des zones sont des liens (en bleu). Un clic pose un repère, une épingle sur la carte

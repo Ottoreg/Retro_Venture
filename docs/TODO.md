@@ -135,6 +135,9 @@ Tout le contenu et les systèmes MVP de l'alpha 1 sont faits (chantiers 1, 3, 4 
   *Frimas* par combinaison) ; un seul sort, *Composition*, ouvre une grille des 4 combinaisons
   (au-dessus du sort, ou de la souris par raccourci) et applique celle choisie (GDD § 4.3) ;
   *Créer un sort* renommé *Fusion arcanique* (choix de l'auteur ; l'id reste `arcaniste_creer_un_sort`)
+- [x] Retours de l'auteur : course à × 1,4 la marche (au lieu de × 1,5) ; barre du bas 180 px (au
+  lieu de 200) et plus de bandeau en haut : nom de la carte en haut de la bande gauche, messages en
+  haut de la bande droite, carte posée sur la barre (plus grande sur un écran plus large que 16:9)
 - [ ] Gel vu contre Grondin (une fois, non reproduit en 20 combats simulés jusqu'aux 3 phases) :
   attendre un retour avec la console du navigateur
 - [ ] Inviter les testeurs (5 au moins), avec le lien du jeu et le guide

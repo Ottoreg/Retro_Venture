@@ -17,6 +17,7 @@ const MENU_SCENE := "res://client/main/main.tscn"
 @onready var _spells: SpellsWindow = $SpellsWindow
 @onready var _minimap: Minimap = $Minimap
 @onready var _world_map: WorldMapWindow = $WorldMapWindow
+## Message d'erreur si le monde ne se charge pas (le nom de la carte est dans la bande gauche).
 @onready var _info: Label = %Info
 
 ## Menu pause (Échap quand aucune fenêtre n'est ouverte).
@@ -260,7 +261,7 @@ func _on_hovered_cell_changed(_cell: Vector2i, description: String) -> void:
 ## En haut de l'écran : seulement le nom de la carte. Ce qu'on survole s'affiche près du curseur
 ## (sauf une simple case du sol).
 func _update_info() -> void:
-	_info.text = _map_view.current_map().display_name
+	_combat_hud.map_title.text = _map_view.current_map().display_name
 	if _hover_bubble == null:
 		_build_hover_bubble()
 	_hover_label.text = _hover_text
@@ -284,4 +285,4 @@ func _build_hover_bubble() -> void:
 	_hover_label.add_theme_font_size_override("font_size", 14)
 	_hover_label.add_theme_color_override("font_color", Color(0.95, 0.92, 0.85))
 	column.add_child(_hover_label)
-	_info.get_parent().add_child(_hover_bubble)
+	$Hud.add_child(_hover_bubble)
