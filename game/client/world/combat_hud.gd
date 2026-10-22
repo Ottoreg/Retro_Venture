@@ -602,7 +602,7 @@ func open_composition(spell: Spell, anchor: Rect2, slot: Control = null) -> void
 		choice.created_name = result.display_name if result != null else ""
 		choice.key_label = str((i + 1) % 10) if i < SPELL_KEYS.size() else ""
 		choice.current = key == current
-		choice.tooltip_text = MapView.element_states_text(choice.states) + (" → " + choice.created_name if result != null else "")
+		choice.tooltip_text = MapView.element_states_text(choice.states) + (" » " + choice.created_name if result != null else "")
 		choice.pressed.connect(_choose_composition.bind(key))
 		grid.add_child(choice)
 	_place_composition(panel, anchor, slot)
@@ -800,7 +800,7 @@ func _result_row(entry: Dictionary, result: Dictionary, odd: bool) -> Control:
 	cells.append(name_label)
 	var levels: Array = result.get("niveaux", []) if is_player else []
 	var level_label := _label(15, UiTheme.GOLD if not levels.is_empty() else text_color)
-	level_label.text = "%d → %d" % [int(entry["niveau"]), int(levels[-1])] if not levels.is_empty() else str(int(entry["niveau"]))
+	level_label.text = "%d » %d" % [int(entry["niveau"]), int(levels[-1])] if not levels.is_empty() else str(int(entry["niveau"]))
 	if not levels.is_empty():
 		level_label.tooltip_text = "Niveau %d atteint !" % int(levels[-1])
 		level_label.mouse_filter = Control.MOUSE_FILTER_STOP

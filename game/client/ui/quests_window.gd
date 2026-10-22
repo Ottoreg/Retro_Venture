@@ -77,7 +77,7 @@ func refresh() -> void:
 	_ids.clear()
 	_section("En cours (%d)" % _journal["en_cours"].size())
 	for entry: Dictionary in _journal["en_cours"]:
-		var mark := "▶ " if entry["id"] == _journal["suivie"] else "   "
+		var mark := "» " if entry["id"] == _journal["suivie"] else "   "
 		_add(entry, mark + entry["nom"], UiTheme.TEXT)
 	if not _journal["terminees"].is_empty():
 		_section("Terminées (%d)" % _journal["terminees"].size())
@@ -129,7 +129,7 @@ func _show_details() -> void:
 	if entry.has("objectifs"):
 		var objectives: PackedStringArray = ["Étape %d / %d" % [entry["etape"], entry["etapes"]]]
 		for objective: Dictionary in entry["objectifs"]:
-			objectives.append(("✔  " if objective["fait"] else "•  ") + objective["texte"])
+			objectives.append(("√  " if objective["fait"] else "•  ") + objective["texte"])
 		_objectives.text = QuestLinks.linkify("\n".join(objectives), map_view.world)
 		var tracked: bool = entry["id"] == _journal["suivie"]
 		_track.text = "Ne plus suivre" if tracked else "Suivre"

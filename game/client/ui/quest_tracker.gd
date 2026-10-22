@@ -74,7 +74,7 @@ func refresh() -> void:
 		objectives = tracked["objectifs"]
 	var lines: PackedStringArray = []
 	for objective: Dictionary in objectives.slice(0, MAX_LINES):
-		lines.append(("✔ " if objective["fait"] else "• ") + objective["texte"])
+		lines.append(("√ " if objective["fait"] else "• ") + objective["texte"])
 	var hidden := objectives.size() - MAX_LINES
 	_title.text = tracked["nom"] + ("  (+%d)" % hidden if hidden > 0 else "")
 	_lines.text = "\n".join(lines)

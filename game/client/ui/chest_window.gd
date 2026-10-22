@@ -229,12 +229,12 @@ func _build() -> void:
 	_quantity.value = 1
 	actions.add_child(_quantity)
 	_deposit_button = Button.new()
-	_deposit_button.text = "Déposer →"
+	_deposit_button.text = "Déposer »"
 	_deposit_button.focus_mode = Control.FOCUS_NONE
 	_deposit_button.pressed.connect(_on_deposit_pressed)
 	actions.add_child(_deposit_button)
 	_withdraw_button = Button.new()
-	_withdraw_button.text = "← Reprendre"
+	_withdraw_button.text = "« Reprendre"
 	_withdraw_button.focus_mode = Control.FOCUS_NONE
 	_withdraw_button.pressed.connect(_on_withdraw_pressed)
 	actions.add_child(_withdraw_button)
