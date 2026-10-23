@@ -3,6 +3,7 @@ extends CanvasLayer
 ## Fenêtre d'inventaire (touche I) : emplacements d'équipement, objets, détail de l'objet choisi,
 ## boutons Équiper / Retirer / Jeter, brumes. Un double-clic équipe un objet du sac (ou retire un objet
 ## porté) ; on peut aussi glisser un objet du sac sur un emplacement, ou d'un emplacement vers le sac.
+## Le sac a trois onglets : Équipements, Consommables, Ressources (objets de quête compris).
 
 const GOLD := Color(0.95, 0.76, 0.3)
 const RARITY_COLORS := {
@@ -14,6 +15,10 @@ const TYPE_NAMES := {
 	"anneau": "Anneau", "ceinture": "Ceinture", "bottes": "Bottes",
 }
 
+## Onglets du sac, dans l'ordre de la barre.
+enum BagTab { EQUIPMENT, CONSUMABLES, RESOURCES }
+const BAG_TAB_NAMES := ["Équipements", "Consommables", "Ressources"]
+
 var map_view: MapView
 
 var _panel: PanelContainer
@@ -21,6 +26,7 @@ var _slot_buttons := {}
 ## Cases des Reliques (vides tant qu'aucune n'a été reprise).
 var _relic_slots: Array[Control] = []
 var _list: ItemTooltipList
+var _bag_tabs: TabBar
 var _icon: TextureRect
 var _details: Label
 var _equip_button: Button
@@ -64,6 +70,16 @@ static func add_bag_item(list: ItemList, entry: Dictionary, tooltip := "") -> in
 		else "%s%s%s" % [entry["nom"], " ×%d" % quantity if quantity > 1 else "", " (porté)" if worn else ""])
 	list.set_item_metadata(index, entry["uid"])
 	return index
+
+
+## Onglet du sac où ranger un objet de ce type : équipements, ressources (et objets de quête),
+## consommables pour tout le reste (potions, pains…).
+static func bag_tab(item_type: String) -> BagTab:
+	if Item.SLOTS_BY_TYPE.has(item_type):
+		return BagTab.EQUIPMENT
+	if item_type == Item.TYPE_RESOURCE or item_type == Item.TYPE_QUEST:
+		return BagTab.RESOURCES
+	return BagTab.CONSUMABLES
 
 
 static func rarity_color(rarity: String) -> Color:
@@ -183,7 +199,14 @@ func refresh() -> void:
 			button.add_theme_color_override("font_color", Color(0.5, 0.5, 0.5))
 		button.set_meta("uid", uid)
 	_list.clear()
+	var counts := [0, 0, 0]
 	for entry: Dictionary in _sheet["objets"]:
+		counts[bag_tab(entry["type"])] += 1
+	for tab in BAG_TAB_NAMES.size():
+		_bag_tabs.set_tab_title(tab, "%s (%d)" % [BAG_TAB_NAMES[tab], counts[tab]] if counts[tab] > 0 else BAG_TAB_NAMES[tab])
+	for entry: Dictionary in _sheet["objets"]:
+		if bag_tab(entry["type"]) != _bag_tabs.current_tab:
+			continue
 		var index := add_bag_item(_list, entry, ItemTooltipList.tooltip_text_for(entry, world.data, world.character.inventory, _show_ranges))
 		if entry["uid"] == _selected:
 			_list.select(index)
@@ -209,6 +232,13 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	if key != null and key.pressed and not key.echo and key.keycode == KEY_I:
 		toggle()
 		get_viewport().set_input_as_handled()
+
+
+## Affiche l'onglet `tab` du sac (`BagTab`).
+func show_bag_tab(tab: int) -> void:
+	if _bag_tabs.current_tab != tab:
+		_bag_tabs.current_tab = tab
+	refresh()
 
 
 func _on_item_selected(index: int) -> void:
@@ -305,7 +335,7 @@ func _on_slot_pressed(slot: String) -> void:
 	var uid: String = _slot_buttons[slot].get_meta("uid", "")
 	if not uid.is_empty():
 		_selected = uid
-		refresh()
+		show_bag_tab(BagTab.EQUIPMENT)
 
 
 func _show_details(entry: Dictionary) -> void:
@@ -433,6 +463,16 @@ func _build() -> void:
 		relics.add_child(relic)
 		_relic_slots.append(relic)
 
+	var bag := VBoxContainer.new()
+	bag.add_theme_constant_override("separation", 4)
+	row.add_child(bag)
+	_bag_tabs = TabBar.new()
+	_bag_tabs.focus_mode = Control.FOCUS_NONE
+	_bag_tabs.clip_tabs = false
+	for tab_name: String in BAG_TAB_NAMES:
+		_bag_tabs.add_tab(tab_name)
+	_bag_tabs.tab_changed.connect(func(_tab: int) -> void: refresh())
+	bag.add_child(_bag_tabs)
 	_list = ItemTooltipList.new()
 	_list.custom_minimum_size = Vector2(340, 0)
 	_list.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -440,7 +480,7 @@ func _build() -> void:
 	_list.item_selected.connect(_on_item_selected)
 	_list.item_activated.connect(_on_item_activated)
 	_list.set_drag_forwarding(_bag_drag_data, _can_drop_on_bag, _drop_on_bag)
-	row.add_child(_list)
+	bag.add_child(_list)
 
 	var detail_box := VBoxContainer.new()
 	detail_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL

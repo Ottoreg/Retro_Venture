@@ -83,7 +83,7 @@ func test_fenetre_d_inventaire() -> void:
 	assert_eq(inventory.ecus, GameData.STARTING_ECUS)
 	window.toggle()
 	assert_true(window.is_open())
-	assert_eq(window._list.item_count, inventory.entries.size())
+	assert_eq(_bag_count(window), inventory.entries.size(), "chaque objet dans un onglet du sac")
 	assert_eq(window._slot_buttons["arme"].text, "Épée de fer")
 	assert_eq(window._slot_buttons["arme"].icon, InventoryWindow.item_icon("epee_de_fer"), "icône de l'arme portée")
 	assert_eq(window._relic_slots.size(), 8, "huit cases de Reliques")
@@ -144,8 +144,18 @@ func test_fenetre_d_inventaire() -> void:
 	# Un objet ramassé apparaît dans la liste.
 	inventory.add(view.world.data.items["croc_de_loup"], 3)
 	window.refresh()
-	assert_eq(window._list.item_count, inventory.entries.size())
+	assert_eq(_bag_count(window), inventory.entries.size(), "chaque objet dans un onglet du sac")
 	window._selected = "croc_de_loup"
 	window._on_drop_pressed()
 	assert_eq(inventory.quantity_of("croc_de_loup"), 0, "jeté")
 	scene.free()
+
+
+## Nombre d'objets du sac, tous onglets confondus (revient ensuite à l'onglet Équipements).
+func _bag_count(window: InventoryWindow) -> int:
+	var count := 0
+	for tab in InventoryWindow.BAG_TAB_NAMES.size():
+		window.show_bag_tab(tab)
+		count += window._list.item_count
+	window.show_bag_tab(InventoryWindow.BagTab.EQUIPMENT)
+	return count

@@ -3,7 +3,7 @@ extends SceneTree
 ##   xvfb-run -s "-screen 0 1280x720x24" godot --path game --rendering-driver opengl3 \
 ##     -s res://tools/screenshot.gd -- sortie.png [carte] [frames] [action]
 ## Lance la scène du monde (nouvelle partie), attend quelques images et enregistre la vue.
-## Action : « combat » (engage le premier groupe de la carte), « butin » / « defaite » (écran de fin de combat d’exemple : victoire, défaite), « elite7 » (Loup alpha de rang 7 survolé), « cible » (combat, monstre survolé), « sermon » (Théologue en combat, Sermon visé devant lui), « prevision » (comme « sermon », un monstre dans la zone : dégâts prévus), « panoplie » (3 pièces portées), « inventaire », « assis » (blessé, assis), « metiers », « sorts » (ouvre la
+## Action : « combat » (engage le premier groupe de la carte), « butin » / « defaite » (écran de fin de combat d’exemple : victoire, défaite), « elite7 » (Loup alpha de rang 7 survolé), « cible » (combat, monstre survolé), « sermon » (Théologue en combat, Sermon visé devant lui), « prevision » (comme « sermon », un monstre dans la zone : dégâts prévus), « panoplie » (3 pièces portées), « inventaire », « ressources » (inventaire, onglet Ressources), « assis » (blessé, assis), « metiers », « sorts » (ouvre la
 ## fenêtre ; « inventaire » remplit d'abord le sac d'un exemplaire de chaque objet), « pierre » (va utiliser
 ## la Pierre de Passage), « glyphe » (combat contre l'Arbre millénaire, glyphe posée, héros ralenti et
 ## empoisonné, à lancer sur sylvebrume_0_0), « sortie » (sortie de droite survolée : bulle « Vers : … »), « survol » (le plus grand groupe de la carte survolé :
@@ -95,13 +95,15 @@ func _process(_delta: float) -> bool:
 						panel.position = motion.position + Vector2(10, 16)
 						layer.add_child(panel)
 						root.add_child(layer))
-		elif _action == "inventaire":
+		elif _action in ["inventaire", "ressources"]:
 			# Un exemplaire de chaque objet du jeu (les ressources par 5), pour voir toutes les icônes.
 			var world := view.world
 			for item_id: String in world.data.items:
 				var template: Dictionary = world.data.items[item_id]
 				world.character.inventory.add(template, 1 if Item.is_equipment(template) else 5, Item.roll_bonuses(template, world.rng))
 			_scene.get_node("InventoryWindow").toggle()
+			if _action == "ressources":
+				_scene.get_node("InventoryWindow").show_bag_tab(InventoryWindow.BagTab.RESOURCES)
 		elif _action.begins_with("elite"):
 			# « elite7 » : le Loup alpha apparaît, vieux de 7 rangs, et on le survole.
 			var world := view.world

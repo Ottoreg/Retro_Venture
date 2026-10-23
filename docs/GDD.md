@@ -1775,7 +1775,8 @@ préférence ce que les joueurs feront déjà d'eux-mêmes.
   un déplacement ou la fin du tour : jusqu'à 5 actions gardées, envoyées dans l'ordre à l'arrivée
   et jugées par le noyau à ce moment-là (`MapView._plan`). Les tours des monstres gardent leur
   rythme, pour rester lisibles.
-- **Fenêtres :** inventaire avec poupée d'équipement, fiche de caractéristiques, grimoire de sorts,
+- **Fenêtres :** inventaire avec poupée d'équipement et sac en trois onglets (Équipements,
+  Consommables, Ressources, objets de quête compris), fiche de caractéristiques, grimoire de sorts,
   journal de quêtes, fenêtre de métier, carte du monde (touche M).
 - **Infobulles d'objets** (sac, coffre, marchand) : l'objet, puis sa comparaison avec l'objet porté
   qu'il remplacerait (le premier emplacement libre, sinon le premier : anneau de gauche), stat par

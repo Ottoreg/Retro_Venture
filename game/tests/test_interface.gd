@@ -251,6 +251,47 @@ func test_infobulle_objet_en_texte_riche() -> void:
 	scene.free()
 
 
+## Le sac a trois onglets : chaque objet est rangé selon son type.
+func test_onglets_du_sac() -> void:
+	assert_eq(InventoryWindow.bag_tab("anneau"), InventoryWindow.BagTab.EQUIPMENT)
+	assert_eq(InventoryWindow.bag_tab("arme"), InventoryWindow.BagTab.EQUIPMENT)
+	assert_eq(InventoryWindow.bag_tab(Item.TYPE_RESOURCE), InventoryWindow.BagTab.RESOURCES)
+	assert_eq(InventoryWindow.bag_tab(Item.TYPE_QUEST), InventoryWindow.BagTab.RESOURCES, "objets de quête avec les ressources")
+	assert_eq(InventoryWindow.bag_tab("consommable"), InventoryWindow.BagTab.CONSUMABLES)
+	var tree := Engine.get_main_loop() as SceneTree
+	var scene: Node = load("res://client/world/world.tscn").instantiate()
+	tree.root.add_child(scene)
+	var view: MapView = scene.get_node("MapView")
+	var data := view.world.data
+	var inventory := view.world.character.inventory
+	inventory.add(data.items["bois_de_frene"] if data.items.has("bois_de_frene") else _first_resource(data), 3, {})
+	var window: InventoryWindow = scene.get_node("InventoryWindow")
+	window.toggle()
+	var sheet: Array = view.world.character.inventory_sheet(data)["objets"]
+	for tab in InventoryWindow.BAG_TAB_NAMES.size():
+		window.show_bag_tab(tab)
+		var expected := sheet.filter(func(entry: Dictionary) -> bool: return InventoryWindow.bag_tab(entry["type"]) == tab)
+		assert_eq(window._list.item_count, expected.size(), "onglet %s" % InventoryWindow.BAG_TAB_NAMES[tab])
+	window.show_bag_tab(InventoryWindow.BagTab.RESOURCES)
+	assert_true(window._list.item_count > 0, "la ressource ajoutée est dans l'onglet Ressources")
+	# Cliquer un emplacement porté ramène aux équipements.
+	var worn := ""
+	for slot: String in window._slot_buttons:
+		if not str(window._slot_buttons[slot].get_meta("uid", "")).is_empty():
+			worn = slot
+	if not worn.is_empty():
+		window._on_slot_pressed(worn)
+		assert_eq(window._bag_tabs.current_tab, InventoryWindow.BagTab.EQUIPMENT)
+	scene.free()
+
+
+func _first_resource(data: GameData) -> Dictionary:
+	for id: String in data.items:
+		if data.items[id]["type"] == Item.TYPE_RESOURCE:
+			return data.items[id]
+	return {}
+
+
 func _sheet_entry(data: GameData, inventory: Inventory, uid: String) -> Dictionary:
 	var character := Character.new()
 	character.inventory = inventory
