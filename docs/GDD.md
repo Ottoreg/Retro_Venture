@@ -1694,6 +1694,15 @@ guildes). Métiers retenus par l'auteur :
   contrats de livraison de ressources. « Coopérative agricole », réunion de bureau obligatoire avant
   chaque récolte.
 
+**Coffre et cotisation de guilde** (décision de l'auteur, 23/10/2026) : une **cotisation
+automatique en brumes**, un pourcentage des brumes gagnées par chaque membre, fixé par la guilde
+(plafonné), plutôt qu'une cotisation manuelle (personne ne court après les retardataires ; même
+principe que les taxes de guilde d'Albion et d'EVE ou le don d'XP de Dofus). Le coffre a des
+**limites de retrait par rang et par jour** et un **journal** visible de tous les membres, contre le
+vol par un officier. Usages selon le métier de guilde : loyer du comptoir (commerçant), réparations
+et rééquipement après les donjons (raid), kits de départ des filleuls (académie), semences et
+engrais des terrains (exploitants). Parodie : le journal est tenu par un gobelin trésorier syndiqué.
+
 Autres pistes, non retenues pour l'instant : caravaniers (transport entre villes, escortes),
 écuries (location de montures), chasseurs de primes (tableau de contrats), cartographes (chasses aux
 trésors), bâtisseurs (chantiers du Trésor), taverniers (tournois, festins). On officialisera de
