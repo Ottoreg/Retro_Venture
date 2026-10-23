@@ -129,7 +129,21 @@ func test_deux_anneaux_identiques_interdits() -> void:
 	var first := world.character.inventory.add(data.items["bague"], 1, {"force": 5})
 	var second := world.character.inventory.add(data.items["bague"], 1, {"force": 5})
 	_command(world, Protocol.CMD_EQUIP, {"objet": first})
-	assert_eq(_command(world, Protocol.CMD_EQUIP, {"objet": second})[0]["raison"], Protocol.REASON_ALREADY_WORN)
+	assert_eq(_command(world, Protocol.CMD_EQUIP, {"objet": second, "emplacement": "anneau_2"})[0]["raison"], Protocol.REASON_ALREADY_WORN)
+
+
+func test_double_clic_remplace_l_exemplaire_identique_porte() -> void:
+	var world := _world()
+	var data := world.data
+	var inventory := world.character.inventory
+	var first := inventory.add(data.items["bague"], 1, {"force": 3})
+	var second := inventory.add(data.items["bague"], 1, {"force": 5})
+	_command(world, Protocol.CMD_EQUIP, {"objet": first})
+	var slot := inventory.slot_of(first)
+	assert_eq(_command(world, Protocol.CMD_EQUIP, {"objet": second})[0]["type"], Protocol.EVT_INVENTORY)
+	assert_eq(inventory.slot_of(second), slot, "le nouvel exemplaire prend la place de l'ancien")
+	assert_eq(inventory.slot_of(first), "", "l'ancien retourne dans le sac")
+	assert_eq(inventory.equipped.size(), 1)
 
 
 func test_jeter() -> void:

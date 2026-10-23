@@ -605,9 +605,15 @@ func _equip(command: Dictionary) -> Array[Dictionary]:
 	var slots: Array = Item.SLOTS_BY_TYPE[template["type"]]
 	var slot: String = wanted_slot
 	if slot.is_empty():
+		# Un exemplaire identique déjà porté est remplacé ; sinon le premier emplacement libre.
 		slot = slots[0]
 		for candidate: String in slots:
 			if not inventory.equipped.has(candidate):
+				slot = candidate
+				break
+		for candidate: String in slots:
+			var worn := inventory.equipped_entry(candidate)
+			if not worn.is_empty() and worn["uid"] != uid and worn["objet"] == template["id"]:
 				slot = candidate
 				break
 	if slot not in slots:
