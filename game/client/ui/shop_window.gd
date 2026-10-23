@@ -91,6 +91,7 @@ func refresh() -> void:
 		var index := _list.add_item(label, InventoryWindow.item_icon(entry["objet"]))
 		_list.set_item_custom_fg_color(index, Color(0.5, 0.5, 0.5) if _is_worn(entry) else InventoryWindow.rarity_color(entry["rarete"]))
 		_list.set_item_metadata(index, key)
+		_list.set_item_tooltip(index, ItemTooltipList.tooltip_text_for(entry, map_view.world.data, map_view.world.character.inventory, _show_ranges))
 		if key == _selected:
 			_list.select(index)
 			found = true
@@ -329,7 +330,7 @@ func _build() -> void:
 	row.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	row.add_theme_constant_override("separation", 14)
 	column.add_child(row)
-	_list = ItemList.new()
+	_list = ItemTooltipList.new()
 	_list.custom_minimum_size = Vector2(380, 0)
 	_list.fixed_icon_size = Vector2i(28, 28)
 	_list.size_flags_vertical = Control.SIZE_EXPAND_FILL

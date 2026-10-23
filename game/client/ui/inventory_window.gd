@@ -20,7 +20,7 @@ var _panel: PanelContainer
 var _slot_buttons := {}
 ## Cases des Reliques (vides tant qu'aucune n'a été reprise).
 var _relic_slots: Array[Control] = []
-var _list: ItemList
+var _list: ItemTooltipList
 var _icon: TextureRect
 var _details: Label
 var _equip_button: Button
@@ -52,14 +52,16 @@ static func make_bag_grid(list: ItemList) -> void:
 	list.add_theme_constant_override("v_separation", 4)
 
 
-## Ajoute un objet à une grille de sac : icône, quantité, fond de la couleur de sa rareté.
-static func add_bag_item(list: ItemList, entry: Dictionary) -> int:
+## Ajoute un objet à une grille de sac : icône, quantité, fond de la couleur de sa rareté, et
+## infobulle (`tooltip`, son nom par défaut).
+static func add_bag_item(list: ItemList, entry: Dictionary, tooltip := "") -> int:
 	var quantity := int(entry.get("quantite", 1))
 	var worn := not str(entry.get("emplacement", "")).is_empty()
 	var index := list.add_item("×%d" % quantity if quantity > 1 else "porté" if worn else " ", item_icon(entry["objet"]))
 	var tint := GOLD if worn else rarity_color(entry["rarete"])
 	list.set_item_custom_bg_color(index, Color(tint, 0.22 if worn else 0.1))
-	list.set_item_tooltip(index, "%s%s%s" % [entry["nom"], " ×%d" % quantity if quantity > 1 else "", " (porté)" if worn else ""])
+	list.set_item_tooltip(index, tooltip if not tooltip.is_empty()
+		else "%s%s%s" % [entry["nom"], " ×%d" % quantity if quantity > 1 else "", " (porté)" if worn else ""])
 	list.set_item_metadata(index, entry["uid"])
 	return index
 
@@ -182,7 +184,7 @@ func refresh() -> void:
 		button.set_meta("uid", uid)
 	_list.clear()
 	for entry: Dictionary in _sheet["objets"]:
-		var index := add_bag_item(_list, entry)
+		var index := add_bag_item(_list, entry, ItemTooltipList.tooltip_text_for(entry, world.data, world.character.inventory, _show_ranges))
 		if entry["uid"] == _selected:
 			_list.select(index)
 	if not by_uid.has(_selected):
@@ -431,7 +433,7 @@ func _build() -> void:
 		relics.add_child(relic)
 		_relic_slots.append(relic)
 
-	_list = ItemList.new()
+	_list = ItemTooltipList.new()
 	_list.custom_minimum_size = Vector2(340, 0)
 	_list.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	make_bag_grid(_list)

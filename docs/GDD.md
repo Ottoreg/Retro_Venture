@@ -1343,6 +1343,10 @@ d'ambiance habituel, sa fiche affiche « Créé par [pseudo de l'artisan] ».
   rythme, pour rester lisibles.
 - **Fenêtres :** inventaire avec poupée d'équipement, fiche de caractéristiques, grimoire de sorts,
   journal de quêtes, fenêtre de métier, carte du monde (touche M).
+- **Infobulles d'objets** (sac, coffre, marchand) : l'objet, puis sa comparaison avec l'objet porté
+  qu'il remplacerait (le premier emplacement libre, sinon le premier : anneau de gauche), stat par
+  stat, gains en vert et pertes en rouge ; plages pour un article de marchand, dégâts moyens pour une
+  arme ; « Emplacement libre » si rien n'est porté.
 - **Aucune interface sur la zone de jeu**, comme Dofus 2 (`client/world/screen_layout.gd`) : la
   carte tient entre trois bordures, deux **bandes latérales** (150 px au moins) et la barre du bas ;
   pas de bandeau en haut, la carte monte jusqu'au bord de l'écran. Une carte standard (1216 × 544) est plus

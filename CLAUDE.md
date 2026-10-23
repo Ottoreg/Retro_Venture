@@ -34,7 +34,7 @@ godot --headless --path . -s res://tests/run_tests.gd        # tous les tests
 xvfb-run -a godot --path . -s res://tools/screenshot.gd -- sortie.png [carte] [secondes] [action]
 ```
 
-`tools/screenshot.gd` fait des captures en jeu (actions : glyphe, survol, infobulle, phase, reveil, carte, sermon,
+`tools/screenshot.gd` fait des captures en jeu (actions : glyphe, survol, infobulle, objet, phase, reveil, carte, sermon,
 cible, tactique, pause, options, fiche, assis…) ; `tools/art_sheet.gd` fait une planche des dessins ; `tools/simulation.gd` simule des
 combats sur chaque groupe des cartes (`-- [combats] [rapport.md] [préfixes de cartes] [detail]`,
 ~7 min pour tout à 10 combats).
@@ -82,7 +82,8 @@ Phase 2 (alpha solo), en deux tests :
 4. Interface et confort : **mode tactique en combat** (GDD § 14.3), menu pause et options
    (`client/options.gd`, `user://options.cfg`) **faits** ; **bandes latérales façon Dofus 2**
    (`client/world/screen_layout.gd` : carte à l'échelle, rien sur la zone de jeu) **faites** ; reste la fenêtre des quêtes (avec le
-   chantier 6, faite) et les petits conforts (infobulles comparées, raccourcis).
+   chantier 6, faite) et les petits conforts (raccourcis ; infobulles d'objets comparées à l'équipement porté : faites,
+   `client/ui/item_tooltip_list.gd`).
 6. Quêtes : conception validée (`docs/design/chantier6_quetes.md`). **Lots 1 (système :
    `core/quests/`, journal Q, suivi, marques `!`/`?`) et 2 (tutoriels et acte I, script
    `docs/design/chantier6/produire_lot2.py`), 3 (15 secondaires, `produire_lot3.py`) et 4 (acte II,

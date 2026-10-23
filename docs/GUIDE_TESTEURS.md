@@ -97,7 +97,7 @@ temps : chaque camp a sa propre histoire.
 | Touche | Fenêtre |
 | --- | --- |
 | **C** | Personnage : caractéristiques, PA, PM, initiative, prospection, points à répartir après un niveau ; survoler une valeur montre d'où elle vient (points, race, chaque objet, panoplie) ; « Réinitialiser » rend tous les points investis (gratuit pendant l'alpha) |
-| **I** | Inventaire : équipement porté, sac, équiper / retirer / jeter ; **double-clic** sur un objet pour l'équiper ou le retirer, ou **glisser** du sac vers un emplacement (et inversement) ; tenir **Ctrl** : jets possibles de l'objet choisi |
+| **I** | Inventaire : équipement porté, sac, équiper / retirer / jeter ; **double-clic** sur un objet pour l'équiper ou le retirer, ou **glisser** du sac vers un emplacement (et inversement) ; tenir **Ctrl** : jets possibles de l'objet choisi ; au **survol** d'un objet, ses bonus comparés à l'objet porté (gains en vert, pertes en rouge) |
 | **S** | Sorts : un onglet pour la Voie, la race et l'arme ; fiche de chaque sort |
 | **J** | Métiers : un onglet par métier, niveau, ressources et recettes |
 | **M** | Carte du monde : un onglet par zone visitée, ses cartes en grille (voir plus bas) |

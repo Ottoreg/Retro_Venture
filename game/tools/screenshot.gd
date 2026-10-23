@@ -18,7 +18,8 @@ extends SceneTree
 ## repère posé sur le Moulin de Tournevent : carte du monde ouverte), « historique » (combat, deux tours
 ## passés : historique du combat rempli), « arcaniste » (Arcaniste en combat : 3 états, un sort
 ## créé, une place vide), « composition » (la même, grille de Composition ouverte au-dessus du sort),
-## « infobulle » (la même, souris sur le sort Composition : son infobulle, compter ~120 images).
+## « infobulle » (la même, souris sur le sort Composition : son infobulle, compter ~120 images),
+## « objet » (inventaire, bottes portées, souris sur d'autres bottes du sac : infobulle comparée).
 ## Si « carte » commence par res://, c'est cette scène qui est capturée (menu, création…).
 
 var _output := "capture.png"
@@ -67,6 +68,32 @@ func _process(_delta: float) -> bool:
 			window.toggle()
 			window._selected = world.character.inventory.equipped["amulette"]
 			window.refresh()
+		elif _action == "objet":
+			# Bottes de marche portées ; d'autres bottes dans le sac, survolées : leur infobulle comparée.
+			var world := view.world
+			var inventory := world.character.inventory
+			inventory.equip(inventory.add(world.data.items["bottes_de_marche"], 1, {"agilite": 3, "initiative": 12}), "bottes")
+			var other := inventory.add(world.data.items["bottes_forgeron_hargneux"], 1, {"force": 5, "initiative": 8})
+			var window: InventoryWindow = _scene.get_node("InventoryWindow")
+			window.toggle()
+			create_timer(0.2).timeout.connect(func() -> void:
+				for index in window._list.item_count:
+					if window._list.get_item_metadata(index) == other:
+						var motion := InputEventMouseMotion.new()
+						motion.position = window._list.get_global_transform() * window._list.get_item_rect(index).get_center()
+						motion.global_position = motion.position
+						Input.warp_mouse(motion.position)
+						root.push_input(motion)
+						# L'infobulle native n'apparaît pas toujours dans les captures : on la reproduit
+						# (même panneau, même texte) sous le curseur.
+						var layer := CanvasLayer.new()
+						layer.layer = UiTheme.TOOLTIP_LAYER
+						var panel := PanelContainer.new()
+						panel.add_theme_stylebox_override("panel", UiTheme.tooltip_style())
+						panel.add_child(window._list._make_custom_tooltip(window._list.get_item_tooltip(index)))
+						panel.position = motion.position + Vector2(10, 16)
+						layer.add_child(panel)
+						root.add_child(layer))
 		elif _action == "inventaire":
 			# Un exemplaire de chaque objet du jeu (les ressources par 5), pour voir toutes les icônes.
 			var world := view.world

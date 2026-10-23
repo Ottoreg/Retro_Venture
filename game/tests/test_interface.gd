@@ -200,3 +200,61 @@ func test_infobulles_opaques() -> void:
 func _default_theme_after_apply() -> Theme:
 	UiTheme.apply(Engine.get_main_loop() as SceneTree)
 	return ThemeDB.get_default_theme()
+
+
+## Infobulle d'un objet du sac : comparée à l'objet porté au même emplacement (gains en vert,
+## pertes en rouge), ou à un emplacement libre.
+func test_infobulle_objet_comparee_a_l_equipement() -> void:
+	var data := GameData.load_all()
+	var inventory := Inventory.new()
+	var worn := inventory.add(data.items["bottes_de_marche"], 1, {"agilite": 3, "initiative": 10})
+	var bag := inventory.add(data.items["bottes_courant_d_air"], 1, {"agilite": 5, "initiative": 10})
+	var sheet := _sheet_entry(data, inventory, bag)
+	var free := ItemTooltipList.comparison_lines(sheet, data, inventory)
+	assert_true(free.has("[color=#%s]Emplacement libre :[/color]" % ItemTooltipList.DIM.to_html(false)), "\n".join(free))
+	assert_true(free.has("[color=#%s]+5 Agilité[/color]" % ItemTooltipList.GAIN.to_html(false)), "tout est gagné")
+	inventory.equip(worn, "bottes")
+	var lines := ItemTooltipList.comparison_lines(sheet, data, inventory)
+	assert_true(lines.has("[color=#%s]+2 Agilité[/color]" % ItemTooltipList.GAIN.to_html(false)), "\n".join(lines))
+	assert_false("\n".join(lines).contains("Initiative"), "pas de ligne pour une stat égale")
+	var back := ItemTooltipList.comparison_lines(_sheet_entry(data, inventory, worn), data, inventory)
+	assert_true("\n".join(back).contains("Porté"), "l'objet porté ne se compare pas à lui-même")
+	inventory.equip(bag, "bottes")
+	var loss := ItemTooltipList.comparison_lines(_sheet_entry(data, inventory, worn), data, inventory)
+	assert_true(loss.has("[color=#%s]-2 Agilité[/color]" % ItemTooltipList.LOSS.to_html(false)), "\n".join(loss))
+	# Article de marchand : la plage de ses bonus, moins l'objet porté.
+	var article := {"objet": "bottes_de_marche", "nom": "Bottes de marche", "type": "bottes", "rarete": "commun", "niveau": 1,
+		"conditions": {}, "bonus": data.items["bottes_de_marche"]["bonus"]}
+	var text := ItemTooltipList.tooltip_text_for(article, data, inventory)
+	assert_true(text.contains("-4 à -2 Agilité"), text)
+	assert_true(text.contains("-5 à +5 Initiative"), text)
+	# Arme : dégâts moyens comparés.
+	var bow := inventory.add(data.items["arc_de_frene"], 1, {"agilite": 3})
+	inventory.equip(inventory.add(data.items["baton_de_novice"], 1, {"intelligence": 3}), "arme")
+	var weapon := "\n".join(ItemTooltipList.comparison_lines(_sheet_entry(data, inventory, bow), data, inventory))
+	assert_true(weapon.contains("+1 dégâts moyens") or weapon.contains("+1,0 dégâts moyens"), weapon)
+
+
+## La liste du sac de l'inventaire fait son infobulle en texte riche, au thème des infobulles.
+func test_infobulle_objet_en_texte_riche() -> void:
+	var tree := Engine.get_main_loop() as SceneTree
+	var scene: Node = load("res://client/world/world.tscn").instantiate()
+	tree.root.add_child(scene)
+	var window: InventoryWindow = scene.get_node("InventoryWindow")
+	window.toggle()
+	assert_true(window._list.item_count > 0, "le sac de départ n'est pas vide")
+	var tooltip := window._list.get_item_tooltip(0)
+	assert_true(tooltip.begins_with("[color="), tooltip)
+	var label: RichTextLabel = window._list._make_custom_tooltip(tooltip)
+	assert_true(label.bbcode_enabled and label.fit_content, "texte riche à sa taille")
+	label.free()
+	scene.free()
+
+
+func _sheet_entry(data: GameData, inventory: Inventory, uid: String) -> Dictionary:
+	var character := Character.new()
+	character.inventory = inventory
+	for entry: Dictionary in character.inventory_sheet(data)["objets"]:
+		if entry["uid"] == uid:
+			return entry
+	return {}

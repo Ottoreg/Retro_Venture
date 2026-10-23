@@ -404,7 +404,10 @@ Tout le contenu et les systèmes MVP de l'alpha 1 sont faits (chantiers 1, 3, 4 
 - [x] **(MVP)** Menu principal, options (volume, plein écran, taille de la fenêtre, mode tactique ;
   `user://options.cfg`, hors sauvegarde), pause (Échap : le jeu s'arrête ; reprendre, options,
   menu principal, quitter)
-- [ ] Infobulles d'objets et de sorts (comparaison avec l'équipement porté)
+- [x] Infobulles d'objets (sac, coffre, marchand) comparées à l'objet porté au même emplacement :
+  gains en vert, pertes en rouge, plages pour les articles du marchand, dégâts moyens des armes
+  (`client/ui/item_tooltip_list.gd`)
+- [ ] Infobulles de sorts (hors combat, grimoire)
 - [x] En combat, au survol d'un combattant : nom, niveau, PV, PA, PM et résistances à la place de la
   barre de sorts
 - [x] En combat, au survol d'un ennemi : ses cases de déplacement en rouge (PM de son prochain tour)
