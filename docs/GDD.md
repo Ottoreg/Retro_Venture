@@ -1463,6 +1463,10 @@ type choisi. Le nom est enregistré dans le patron.
 **Signature de l'artisan.** Un objet personnalisé est **toujours signé** : à la place du texte
 d'ambiance habituel, sa fiche affiche « Créé par [pseudo de l'artisan] ».
 
+**Copie, maîtrise et économie** (multijoueur) : un chef-d'œuvre peut être recopié par un autre
+artisan, c'est accepté ; le nom déposé, la maîtrise par patron et les garde-fous économiques sont
+décrits au § 13.6.
+
 **Questions ouvertes :**
 
 - les objets personnalisés ont-ils des **jets** (§ 9.2) ou des valeurs fixes ? piste : valeurs
@@ -1582,8 +1586,8 @@ d'ambiance habituel, sa fiche affiche « Créé par [pseudo de l'artisan] ».
 | **Groupe** | Jusqu'à 8 joueurs, partage d'XP, suivi du chef, marqueurs de quête partagés |
 | **Combat** | Rejoindre le combat d'un ami, combats de groupe, mode spectateur, verrouillage du combat |
 | **Quêtes** | Objectifs partagés en groupe (« vaincre X » compte pour tous), événements de monde |
-| **Métiers** | Échange sécurisé entre joueurs, artisanat assisté, commandes, hôtel des ventes |
-| **Guildes** | Création, rangs, banque, niveau de guilde (long terme) |
+| **Métiers** | Échange sécurisé entre joueurs, artisanat assisté, commandes, hôtel des ventes, Trésor des villes (§ 13.6) |
+| **Guildes** | Création, rangs, banque, métier de guilde (§ 13.7) |
 | **Camps** | Opposition en PvE uniquement. **À décider avant la Phase 5 :** deux joueurs de camps opposés peuvent-ils grouper avant l'acte III ? (Pistes : interdit jusqu'à l'acte III ; ou autorisé, mais quêtes de camp non partagées.) |
 | **PvP** | Hors périmètre initial ; duels éventuels plus tard |
 
@@ -1598,6 +1602,102 @@ d'ambiance habituel, sa fiche affiche « Créé par [pseudo de l'artisan] ».
 - Validation serveur de toutes les actions, limitation de débit, journal des transactions
   (anti-duplication), signalement de joueurs, outils de modération de base.
 
+### 13.6 Économie des artisans et guildes (pistes, discussion avec l'auteur)
+
+Pistes validées dans leur principe le 23/10/2026 (avis de design sur les chefs-d'œuvre) ; rien
+n'est codé, tous les chiffres sont *à équilibrer*.
+
+**Copie des chefs-d'œuvre (§ 10.4).** Les statistiques d'un objet sont visibles et la recette en
+découle : un autre artisan au niveau maximum peut refaire un chef-d'œuvre. **C'est accepté** : on
+ne cache pas les statistiques et on n'interdit pas les objets identiques (contournable avec un point
+de différence). On protège plutôt ce qui fait la valeur du créateur :
+
+- **le nom et la signature sont une propriété** : le premier qui enregistre un patron dépose son
+  nom ; un copieur fait le même objet sous un autre nom. Version parodique : un **Bureau des brevets
+  de Hautepierre** tenu par un gobelin syndiqué, exclusivité de quelques jours puis domaine public ;
+- **maîtrise par patron** (comme la spécialisation d'Albion) : chaque fabrication d'un patron fait
+  monter sa maîtrise, qui donne une petite marge (quelques pour cent de budget ou un ingrédient de
+  moins). L'artisan établi fait un peu mieux ou un peu moins cher que le copieur ;
+- plus tard, **vente de copies de patron** à N fabrications (comme les plans d'EVE).
+
+Garde-fous : un chef-d'œuvre a **le même budget** que les objets du jeu de même niveau (plus souple,
+jamais plus fort) ; il faut un **puits d'équipement** en plus des consommables (brisage qui rend
+une partie des ressources, ou usure légère réparée par un artisan) pour que la demande se renouvelle.
+
+**Artisans et profits.** Rien n'empêche un artisan au maximum de farmer lui-même et de revendre
+cher : c'est sa récompense. Les limites viennent de la concurrence des autres artisans, du temps
+(les ressources de plusieurs éléments et zones l'obligent à en acheter, ce qui fait vivre les
+joueurs sans métier), du plafond de prix (le butin offre une alternative à puissance égale) et des
+taxes. L'artisan gagne de l'argent sans en créer : la surveillance économique porte sur les brumes
+créées par les monstres et les PNJ, pas sur la richesse des joueurs.
+
+**Monter ses métiers soi-même.** Possible, mais plus lent qu'acheter : ressources croisées entre
+éléments et zones, niveau 100 long, marge de maîtrise du spécialiste. Une limite du nombre de
+métiers à haut niveau reste en réserve si le marché ne prend pas. En solo (alphas), le joueur monte
+ses métiers lui-même ; ces leviers ne valent qu'en multijoueur.
+
+**Taxes et Trésor des villes.** La taxe de vente **détruit** les brumes (puits), mais le **montant
+réellement perçu** est compté dans le **Trésor** de la ville du marché (Brumerive, Crasse-Roc,
+Sylvebrume, Hautepierre). À des seuils, le Trésor débloque des **chantiers** (pont, boutique, décor
+de fête) ou une semaine de **bonus** (récolte, XP de métier, Pierres de Passage moins chères), jamais
+des brumes redistribuées. Précédents : la reconstruction d'Ishgard (FFXIV), les projets de Guild
+Wars 2. Parodie : le Trésor est géré par le syndicat des gobelins, qui fait grève quand les recettes
+baissent et organise un banquet quand elles montent. Aucun service de base ne dépend d'un chantier.
+
+Pour éviter qu'une seule ville rafle tout :
+
+1. **bonus utiles sur place seulement** (le bonus d'une ville vaut pour sa zone) ;
+2. **marchés à spécialités** (Flamme à Crasse-Roc, Givre et Acier à Sylvebrume, Tempête à
+   Brumerive), comme les hôtels de vente par catégorie de Dofus Rétro ;
+3. en réserve : **taxe progressive selon l'affluence**, **seuils croissants** et Trésor qui baisse
+   un peu chaque semaine, **événement de relance** pour la ville la plus pauvre.
+
+Hautepierre peut rester la capitale commerçante, avec les bonus de sa zone.
+
+### 13.7 Métiers de guilde (pistes)
+
+Une guilde choisit **un seul métier de guilde** à la fois : elle prend une identité, et les guildes
+ont besoin les unes des autres. Un métier de guilde n'a sa place que s'il **vend un service aux
+autres guildes**. Ses bonus sont de **prestige et de confort**, pas de puissance de combat (les
+avantages de guilde de World of Warcraft, retirés en 2014, poussaient tout le monde vers les grosses
+guildes). Métiers retenus par l'auteur :
+
+- **Commerçant** : ouvre un **comptoir** dans une **galerie marchande instanciée** (comme les
+  maisons de Dofus) : un bâtiment en ville, une porte, et à la porte le choix du commerce (enseignes,
+  recherche, favoris). Coût : **loyer fixe** par semaine plus une **taxe réduite** (rentable seulement
+  au-delà d'un certain volume ; loyer impayé, comptoir fermé), versés au Trésor de la ville. L'avantage
+  du comptoir n'est pas le prix mais la vitrine, les commandes sur mesure de chefs-d'œuvre et la
+  réputation. Un étal partagé à loyer bas reste accessible aux petites guildes. Enseigne composée
+  comme les noms d'objets (« Aux Haches Grincheuses »), vendeur PNJ gobelin syndiqué qui réclame ses
+  pauses.
+  - **Registre commun des commerces** (borne en ville puis interface) : on cherche un produit, le
+    registre dit qui le vend, à quel prix et où ; bouton « s'y rendre » qui pose une épingle (comme
+    les liens de quête) ; pas d'achat à distance. Les consommables du quotidien restent à l'hôtel de
+    vente public.
+  - **Avis des clients** : seul un **achat vérifié** permet de noter, une fois par boutique et par
+    période ; **pas de texte libre** mais une note et des phrases toutes faites (« Prix de gobelin »,
+    « Le vendeur m'a regardé de haut ») ; la guilde répond (phrases toutes faites) mais ne masque
+    rien. À côté, des mesures automatiques : clients différents, part de clients qui reviennent.
+    Contre le sabotage : le poids d'une note suit le montant de l'achat ; membres et guildes rivales
+    de la même catégorie, comptes récents ou de bas niveau comptent peu ; médiane et répartition
+    affichées, notes anciennes moins lourdes ; vagues suspectes mises de côté par le serveur.
+- **Raid** : progresse par accomplissements en donjon (donjons terminés, puis exploits : premier du
+  serveur, sans mort, en temps limité, à peu de joueurs). Bonus : titres, trophées de boss dans la
+  maison de guilde, classement, accès direct aux entrées de donjon, réparations moins chères ; un
+  éventuel bonus de combat reste petit, plafonné et limité aux donjons. Les butins de boss servent
+  aux lignes PA, PM et Portée des chefs-d'œuvre : **contrats** de livraison avec les guildes
+  commerçantes. Le passage de donjon peut être proposé comme service dans le registre des commerces.
+  Parodie : une « Compagnie des Héros Autoproclamés » aux trophées « légèrement exagérés ».
+- **Académie** : parrainage des nouveaux joueurs, bonus quand un filleul progresse ou termine un
+  donjon (lien avec le mode mentor, § 13.2). Diplômes remis par des elfes snobs.
+- **Exploitants** : terrains instanciés communs (champs, jardins, mines du § 10.3), rendement accru,
+  contrats de livraison de ressources. « Coopérative agricole », réunion de bureau obligatoire avant
+  chaque récolte.
+
+Autres pistes, non retenues pour l'instant : caravaniers (transport entre villes, escortes),
+écuries (location de montures), chasseurs de primes (tableau de contrats), cartographes (chasses aux
+trésors), bâtisseurs (chantiers du Trésor), taverniers (tournois, festins). On officialisera de
+préférence ce que les joueurs feront déjà d'eux-mêmes.
 ---
 
 ## 14. Direction artistique, audio, interface
