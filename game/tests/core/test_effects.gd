@@ -182,7 +182,7 @@ func test_sermon_en_ligne_degats_aux_ennemis_soin_aux_allies() -> void:
 	var ally := combat.get_fighter("m1")
 	ally.team = combat.get_fighter(Fixtures.PLAYER).team
 	ally.hp = 10
-	var events := _cast(combat, "sermon", C + Vector2i(1, 0))
+	var events := _cast(combat, "sermon", C + Vector2i(3, 0))
 	var damage := Fixtures.of_type(events, Protocol.EVT_DAMAGE)
 	assert_eq(damage.size(), 1, "seul l'ennemi dans la croix est touché")
 	assert_eq(damage[0]["entite"], "m0")

@@ -316,7 +316,7 @@ permet de tester le Sacré dès maintenant. Arme de départ : le Sceptre de novi
 | *Châtiment* | 4 | 2 à 5, ligne de vue | 8 à 12 dégâts Sacré (2 fois par tour) |
 | *Imposition des mains* | 3 | 0 à 3 | Soin Sacré de 12 à 18 (1 fois par tour) |
 | *Rempart de foi* | 2 | 0 à 3 | Bouclier Sacré de 12 à 16, jusqu'au prochain tour du porteur (tous les 2 tours) |
-| *Sermon* | 4 | 1 à 4, **en ligne** | Zone en croix latine : 4 cases dans le sens du lancer depuis la case visée, et une de chaque côté de la 3e (la tête de la croix au loin). Ennemis : 4 à 7 dégâts Sacré ; alliés : soin Sacré de 4 à 7 (1 fois par tour) |
+| *Sermon* | 4 | 1 à 5, **en ligne** | Zone en croix latine centrée sur la case visée (le croisement, sous la souris) : une case de chaque côté, une au-delà (la tête) et deux en deçà vers le lanceur (le pied, qui s'arrête avant sa case). Ennemis : 4 à 7 dégâts Sacré ; alliés : soin Sacré de 4 à 7 (1 fois par tour) |
 
 Les soins des autres classes restent modestes (le Guerrier en a un petit, l'Arcaniste un bouclier)
 pour que le Théologue garde son rôle.

@@ -45,7 +45,7 @@ static func describe(spell: Spell) -> PackedStringArray:
 	if spell.zone_type == Spell.ZONE_CIRCLE:
 		lines.append("Zone : cercle de %d case%s" % [spell.zone_size, "s" if spell.zone_size > 1 else ""])
 	elif spell.zone_type == Spell.ZONE_LATIN_CROSS:
-		lines.append("Zone : croix (4 cases dans le sens du lancer, une de chaque côté de la 3e)")
+		lines.append("Zone : croix centrée sur la case visée (tête au loin, pied de 2 cases vers le lanceur)")
 	if spell.casts_per_turn > 0:
 		lines.append("%d fois par tour au plus" % spell.casts_per_turn)
 	if spell.crit_chance != Spell.DEFAULT_CRIT_CHANCE:

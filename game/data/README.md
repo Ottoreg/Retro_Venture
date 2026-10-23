@@ -234,7 +234,7 @@ voisines de la même zone dans la grille (droite : x + 1, bas : y + 1) ; c'est v
 | `cout_pa` | Points d'action dépensés |
 | `portee` | Distance en cases (4 directions) ; `0` = sur soi |
 | `ligne_de_vue` | La cible doit être visible (défaut : `true`). Arbres, rochers, murs et combattants bloquent la vue ; l'eau non |
-| `zone` | `case`, `cercle` avec `taille` (rayon), ou `croix_latine` : 4 cases dans le sens du lancer depuis la case visée, plus une de chaque côté de la 3e (tête de la croix au loin) (demande `lancer_en_ligne` et une portée minimale d'au moins 1) |
+| `zone` | `case`, `cercle` avec `taille` (rayon), ou `croix_latine` : croix centrée sur la case visée (le croisement), une case de chaque côté et au-delà (la tête, au loin), deux en deçà vers le lanceur (le pied, qui n'atteint jamais sa case) (demande `lancer_en_ligne` et une portée minimale d'au moins 1) |
 | `lancer_en_ligne` | La cible doit être sur la même ligne ou la même colonne de la grille que le lanceur (défaut : `false`) |
 | `lanceur_exclu` | Le lanceur n'est pas touché par sa propre zone |
 | `relance.par_tour` | Lancers maximum par tour (`0` = illimité) |

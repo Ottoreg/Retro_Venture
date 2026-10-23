@@ -4,9 +4,9 @@ extends RefCounted
 
 const ZONE_CELL := "case"
 const ZONE_CIRCLE := "cercle"
-## Croix latine : 4 cases en ligne depuis la case visée, dans le sens du lancer, et une case de
-## chaque côté de la 3e (le pied de la croix vers le lanceur, la tête au loin). Demande un lancer
-## en ligne.
+## Croix latine centrée sur la case visée (le croisement) : une case de chaque côté, une case
+## au-delà (la tête, au loin) et deux en deçà (le pied, vers le lanceur, sans jamais atteindre sa
+## case). Demande un lancer en ligne.
 const ZONE_LATIN_CROSS := "croix_latine"
 const ZONES := [ZONE_CELL, ZONE_CIRCLE, ZONE_LATIN_CROSS]
 ## Qui un effet touche dans la zone (défaut : tout le monde).
@@ -274,10 +274,11 @@ func zone_cells(target: Vector2i, origin := target) -> Array[Vector2i]:
 	if zone_type == ZONE_LATIN_CROSS:
 		var forward := direction(origin, target)
 		var side := Vector2i(-forward.y, forward.x)
-		for i in range(1, 4):
-			cells.append(target + forward * i)
-		cells.append(target + forward * 2 + side)
-		cells.append(target + forward * 2 - side)
+		cells.append(target + forward)
+		cells.append(target + side)
+		cells.append(target - side)
+		for i in range(1, mini(3, IsoGrid.distance(origin, target))):
+			cells.append(target - forward * i)
 	if zone_type == ZONE_CIRCLE:
 		cells = circle_cells(target, zone_size)
 	return cells

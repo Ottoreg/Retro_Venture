@@ -3,7 +3,7 @@
   "nom": "Sermon",
   "description": "Une croix de paroles saintes : les ennemis qui s'y trouvent souffrent, les alliés reprennent courage.",
   "cout_pa": 4,
-  "portee": {"min": 1, "max": 4},
+  "portee": {"min": 1, "max": 5},
   "ligne_de_vue": true,
   "lancer_en_ligne": true,
   "zone": {"type": "croix_latine"},
