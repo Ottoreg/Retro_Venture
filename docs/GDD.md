@@ -1870,6 +1870,34 @@ ses objets) :
 
   Les objets et les classes restent visibles d'emblée.
 
+- **Trophées de chasse** (décision de l'auteur, 23/10/2026 ; argumentaire dans l'avis de designer
+  `avis/bestiaire_bonus_avis_designer.md` des fichiers du projet) : à côté de la connaissance, qui
+  ne donne que de l'information, un second compteur par **famille** compte les **monstres vaincus**
+  (l'élite compte pour 5). Paliers indicatifs, à ajuster selon la fréquence et la durée des combats
+  contre la famille :
+
+  | Palier | Monstres vaincus | Récompense |
+  |---|---|---|
+  | Bronze | 25 | +10 prospection contre la famille |
+  | Argent | 75 | +20 prospection contre la famille (au total), objet d'apparence à l'effigie de la famille |
+  | Or | 150, dont l'élite au moins une fois | familier à l'effigie de la famille, titre, trophée |
+
+  - **La prospection contre la famille est la seule récompense de statistique** : elle ne s'applique
+    qu'au butin des monstres de cette famille (élite comprise). Pas de dégâts ni de résistances
+    contre la famille, pas de bonus global : le bestiaire ne rend personne plus fort en combat et
+    n'est jamais obligatoire ; il fait du chasseur un fournisseur des artisans.
+  - **Le reste est cosmétique, pour les collectionneurs** : équipements d'apparence (tenue affichée
+    par-dessus l'équipement porté, sans statistique) et familiers décoratifs à l'effigie de la
+    famille (chapeau d'épouvantail, bonnet en peau de loup, petite morille boudeuse qui suit le
+    joueur…), titres parodiques sous le nom (« Ami des champignons, pas réciproque », « Ne passe
+    plus sous les ponts »), trophées pour la future maison ou le comptoir de guilde.
+  - En groupe, **tous les joueurs du combat** comptent chaque monstre vaincu. Les monstres trop bas
+    pour le joueur (plus de 10 niveaux en dessous, à régler) ne comptent pas.
+  - Mini-boss : pas de compteur, une entrée « vaincu une fois / dix fois » avec titre et trophée.
+    Variantes cendrées : entrée à part. Archimonstres (long terme) : collection à la quête de
+    l'Ocre de Dofus.
+  - Demande deux systèmes nouveaux : un **emplacement d'apparence** et des **familiers décoratifs**.
+
 Les fiches sont générées à partir des données du jeu (`game/data/`), sans texte à tenir à jour à
 la main.
 

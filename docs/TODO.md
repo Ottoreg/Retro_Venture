@@ -556,6 +556,12 @@ Tout le contenu et les systèmes MVP de l'alpha 1 sont faits (chantiers 1, 3, 4 
 - [ ] Bestiaire : fiches de monstres qui se remplissent à chaque combat gagné, complètes en 10 combats
   (paliers : 1 nom et niveau, 2 PV/PA/PM, 3 résistances, 5 sorts, 7 butin, 10 taux, zones, élite) ;
   compteur de victoires par monstre sauvegardé
+- [ ] Trophées de chasse (GDD § 14.4) : compteur de monstres vaincus par famille (élite = 5, tout le
+  groupe compte, monstres trop bas exclus), paliers Bronze 25 / Argent 75 / Or 150 avec l'élite ;
+  seule statistique : prospection contre la famille ; récompenses cosmétiques (apparence, familier,
+  titre, trophée)
+- [ ] Emplacement d'apparence (tenue sans statistique affichée par-dessus l'équipement porté)
+- [ ] Familiers décoratifs (suivent le joueur, sans effet en combat), un par famille de monstres
 
 ### Objets légendaires
 - [ ] Les 8 Reliques (bagues) : 8 emplacements équipables en même temps en plus des 2 anneaux,
