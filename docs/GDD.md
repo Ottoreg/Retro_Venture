@@ -1703,6 +1703,19 @@ vol par un officier. Usages selon le métier de guilde : loyer du comptoir (comm
 et rééquipement après les donjons (raid), kits de départ des filleuls (académie), semences et
 engrais des terrains (exploitants). Parodie : le journal est tenu par un gobelin trésorier syndiqué.
 
+**Utilisation de l'argent de guilde** (demande de l'auteur) :
+
+- **Achats de guilde** : le meneur ou les officiers achètent avec l'argent de guilde des
+  **consommables** et des **ressources de guilde**, rangés dans le coffre. Ils ne vont pas dans
+  l'inventaire personnel des membres, sauf sous condition : les consommables ne se récupèrent que
+  **pendant un raid** (ou une sortie de guilde), les ressources que **lors d'un craft** pour la
+  guilde, etc. Ce qui n'est pas utilisé revient au coffre ; rien ne se revend.
+- **Registre d'utilisation** : le coffre note **qui utilise quoi et quand** (achat, retrait,
+  consommation en raid, ressource employée dans un craft), consultable par tous les membres.
+- **Frais de guilde** : l'argent de guilde paie la **cotisation du métier de guilde**, le **loyer**
+  du comptoir et la **location des terrains d'exploitation** (§ 10.3). Si le coffre ne suffit pas à
+  l'échéance, le service est suspendu jusqu'au paiement.
+
 Autres pistes, non retenues pour l'instant : caravaniers (transport entre villes, escortes),
 écuries (location de montures), chasseurs de primes (tableau de contrats), cartographes (chasses aux
 trésors), bâtisseurs (chantiers du Trésor), taverniers (tournois, festins). On officialisera de

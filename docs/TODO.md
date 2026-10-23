@@ -633,7 +633,9 @@ Peut démarrer dès que l'alpha solo est stable.
 - [ ] Guildes : création, rangs, banque, puis un métier de guilde : commerçant, raid, académie,
   exploitants (GDD § 13.7)
 - [ ] Coffre de guilde : cotisation automatique en pourcentage des brumes gagnées, limites de retrait
-  par rang et par jour, journal visible (GDD § 13.7)
+  par rang et par jour, journal visible ; achats de guilde (consommables utilisables seulement en
+  raid, ressources seulement en craft), registre d'utilisation, paiement des frais de guilde (loyers,
+  métier de guilde, terrains) (GDD § 13.7)
 - [ ] Comptoirs de guilde : galeries marchandes instanciées, loyer et taxe réduite, registre commun
   des commerces, avis d'achats vérifiés sans texte libre (GDD § 13.7)
 - [ ] Économie des artisans : taxe de vente comptée dans le Trésor de chaque ville (chantiers, bonus
