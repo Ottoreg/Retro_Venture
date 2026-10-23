@@ -570,7 +570,9 @@ Tout le contenu et les systèmes MVP de l'alpha 1 sont faits (chantiers 1, 3, 4 
   montures ; terrains instanciés achetables ; ordre de production proposé. Questions ouvertes au § 10.3
 - [ ] Agriculteur et Boulanger (céréales, farines, pains : regain de vie et bonus pour N combats)
 - [ ] Herboriste et Maître des potions (plantes, élixirs, potions de rappel et d'oubli)
-- [ ] Costumier (coiffes, capes, ceintures, bottes) et Joaillier (anneaux, amulettes, gemmes) :
+- [ ] Pièces d'armure du Forgeron (heaumes, plastrons, ceinturons, solerets, dans les emplacements
+  existants, GDD § 10.3)
+- [ ] Costumier (coiffes, capes, ceintures, bottes en tissu et cuir) et Joaillier (anneaux, amulettes, gemmes) :
   reprennent les recettes correspondantes du Forgeron
 - [ ] Pêcheur (coins de pêche, alevins, perles)
 - [ ] Outils de récolte (Forgeron) et produits intermédiaires (lingots, farines, toiles, gemmes taillées)

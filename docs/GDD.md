@@ -1040,8 +1040,8 @@ Cordonnier, le **Maître des potions** l'Alchimiste, le **Boulanger** le Cuisini
 | Récolte | **Agriculteur** | céréales, fibres (lin, chanvre, coton) | Boulanger, Costumier, Éleveur (fourrage) |
 | Récolte | **Herboriste** | plantes, champignons, fleurs | Maître des potions, Éleveur (soins) |
 | Récolte | **Pêcheur** | poissons, coquillages, perles | Boulanger, Maître des potions, Joaillier (perles), Éleveur |
-| Artisanat | **Forgeron** | armes, boucliers, outils de récolte, lingots | tous |
-| Artisanat | **Costumier** | coiffes, capes, ceintures, bottes ; licols et selles | tous, Éleveur |
+| Artisanat | **Forgeron** | armes, pièces d'armure (heaumes, plastrons, ceinturons, solerets), boucliers, outils, lingots | tous |
+| Artisanat | **Costumier** | coiffes, capes, ceintures, bottes en tissu et cuir ; licols et selles | tous, Éleveur |
 | Artisanat | **Joaillier** | anneaux, amulettes ; taille des gemmes | tous |
 | Artisanat | **Boulanger** | pains (regain de vie, bonus de caractéristiques) | tous |
 | Artisanat | **Maître des potions** | potions (bonus de combat, utilitaires) | tous |
@@ -1197,23 +1197,39 @@ y planter puis récolter les ressources des métiers de récolte. Une carte par 
 
 #### Forgeron
 
-**Armes** (toutes : épées, haches, marteaux, bâtons, arcs, sceptres…) et **armures**. Le jeu n'a pas
-d'emplacement de plastron (§ 9.1) : l'armure du forgeron, c'est le **bouclier** (emplacement main
-gauche, long terme). *Question pour l'auteur : faut-il plutôt ajouter un emplacement « Armure »
-(plastron) au forgeron, ou lui laisser les pièces de métal (heaumes, solerets) à côté du Costumier ?*
+**Armes** (toutes : épées, haches, marteaux, bâtons, arcs, sceptres…) et **armures**. Une pièce
+d'armure est un équipement comme les autres (décision de l'auteur, 23/10/2026) : elle prend un
+emplacement existant (§ 9.1), il n'y a pas d'emplacement de plus. Le partage avec le Costumier se
+fait par la **matière** : le métal au Forgeron, le tissu et le cuir au Costumier.
+
+| Emplacement | Forgeron (métal) | Costumier (tissu, cuir) |
+|---|---|---|
+| Coiffe | heaume, casque, bassinet | chapeau, bonnet, capuche |
+| Cape | plastron, cotte de mailles, cuirasse | cape, manteau, pèlerine |
+| Ceinture | ceinturon riveté, tassette | ceinture, écharpe, cordelière |
+| Bottes | solerets, grèves | bottes, sandales, chaussons |
+| Main gauche (long terme) | bouclier, écu, targe | — |
+
+- Les deux métiers couvrent donc les mêmes emplacements, avec des recettes et des noms différents.
+  Piste de différence de profil (à équilibrer) : le métal penche vers la Vitalité et les
+  résistances, le tissu et le cuir vers les caractéristiques, la Sagesse et l'Initiative ; aucune
+  règle n'interdit une ligne à l'un ou à l'autre.
+- Une pièce d'armure se voit sur le personnage comme la pièce qu'elle remplace (heaume à la place
+  du chapeau, plastron à la place de la cape, § 9.2).
 
 - En plus : **outils de récolte** (tous les métiers) et **lingots**.
 - **Bascule depuis le prototype** : le Forgeron fait aujourd'hui aussi anneaux, amulettes,
-  ceintures et bottes (23 recettes). Quand le Joaillier et le Costumier arrivent, ces recettes leur
-  passent (objets et ingrédients inchangés), le Forgeron garde ses armes ; l'XP déjà gagnée reste
-  au Forgeron. Rien ne change pendant l'alpha test 1.
-- **Chef-d'œuvre** : armes et boucliers (question ouverte de § 10.4 sur les armes, qui sont des
+  ceintures et bottes (23 recettes). Quand le Joaillier et le Costumier arrivent, les bijoux passent
+  au Joaillier et les pièces de cuir ou de corde au Costumier (objets et ingrédients inchangés) ; le
+  Forgeron garde ses armes et les pièces de métal (ceinturon riveté…) ; l'XP déjà gagnée reste au
+  Forgeron. Rien ne change pendant l'alpha test 1.
+- **Chef-d'œuvre** : armes, pièces d'armure de métal et boucliers (question ouverte de § 10.4 sur les armes, qui sont des
   sorts : piste, les dégâts de base suivent le niveau, le score sert aux lignes de statistiques).
 
 #### Costumier (nouveau)
 
 Tous les équipements qui ne sont **ni armes, ni armures, ni bijoux** : **coiffes, capes, ceintures,
-bottes**, et plus tard les emplacements de cosmétique. Matières : **toiles** (lin, coton, chanvre),
+bottes** en tissu et en cuir (les versions de métal sont au Forgeron, tableau plus haut), et plus tard les emplacements de cosmétique. Matières : **toiles** (lin, coton, chanvre),
 **cuirs et fourrures** (peaux de monstres), **soie** (fil de tisseuse de brume), **plumes**
 (corbacs), **teintures** (écorces, sève, fleurs).
 
@@ -1221,7 +1237,7 @@ bottes**, et plus tard les emplacements de cosmétique. Matières : **toiles** (
 - **Apparences** (piste) : coiffe et cape se voient sur le personnage (§ 9.2) ; le Costumier peut
   coudre une apparence (sans statistiques) à poser par-dessus une pièce. Le ton : « haute couture
   héroïque », où les elfes jugent tout le monde.
-- **Chef-d'œuvre** : coiffes, capes, ceintures, bottes.
+- **Chef-d'œuvre** : coiffes, capes, ceintures, bottes (en tissu et en cuir).
 
 #### Joaillier (nouveau)
 
@@ -1323,7 +1339,7 @@ une monture de départ, dans sa zone.
 6. **Éleveur et montures** : apprivoisement, enclos, emplacement monture.
 7. **Chef-d'œuvre** pour tous les métiers d'artisanat (§ 10.4).
 
-**Questions ouvertes** : forme de l'armure du Forgeron (plus haut) ; terrains par personnage ou par
+**Questions ouvertes** : terrains par personnage ou par
 compte ; potions utilisables en combat ; noms des maîtres d'atelier ; part des recettes du Forgeron
 qui passe au Costumier et au Joaillier ; montures échangeables entre joueurs (multi).
 
@@ -1339,8 +1355,9 @@ Krogma » ; proposition retenue par défaut dans ce document), **Pièce de maît
 libre**. Côté parodie, l'objet peut porter la signature de son artisan (« fait main par… »).
 
 **Tous les métiers d'artisanat** (demande de l'auteur) : chaque métier de craft, une fois au niveau
-maximum, débloque cette compétence pour ses propres emplacements (forgeron pour les armes et
-les boucliers, costumier pour les coiffes, capes, ceintures et bottes, joaillier pour les
+maximum, débloque cette compétence pour ses propres emplacements (forgeron pour les armes, les
+pièces d'armure de métal et les boucliers, costumier pour les coiffes, capes, ceintures et bottes
+en tissu et en cuir, joaillier pour les
 anneaux et amulettes, éleveur pour les montures, § 10.3). Aucun métier de craft ne doit en être privé.
 
 **Métiers de consommables** (boulanger, maître des potions) : **même principe que pour les
