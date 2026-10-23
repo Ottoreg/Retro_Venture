@@ -2,7 +2,8 @@
 
 Conception pour l'alpha test 1, **validée par l'auteur** (questions ouvertes du § 9 tranchées
 par défaut : journal sur Q, objets de quête pour les messages, récompenses en équipements,
-secondaires de Hautepierre plus tard). **Lots 1 à 4 produits** (`docs/design/chantier6/`).
+secondaires de Hautepierre plus tard). **Lots 1 à 5 produits** (`docs/design/chantier6/`), les
+secondaires de Hautepierre comprises (lot 5).
 Écart avec ce document : le tutoriel donne le bonnet de berger (objet existant) à équiper. Il couvre le système (moteur, données, interface) puis le contenu : trois
 tutoriels, la quête principale (acte I par camp, acte II par camp, début de l'acte III commun) et
 les quêtes secondaires. Références : GDD § 3.3–3.4 (Reliques, camps, actes), § 11 (quêtes),
@@ -265,8 +266,9 @@ Condition : l'acte II de son camp terminé. Les trois chaînes convergent dans l
 
 ## 7. Option : secondaires de Hautepierre (ouvertes à tous)
 
-À produire seulement si le temps le permet (Hautepierre couvre les deux tiers du jeu, mais l'acte II
-l'occupe déjà).
+**Produites (lot 5, `produire_lot5.py`)** : 3 CR et les brumes d'une secondaire, ouvertes une fois
+un tutoriel fini, sans objet de récompense. Les trois refus de « La relève » se font dans n'importe
+quel ordre (une seule étape), puis on rend compte au fantôme.
 
 | Quête | Niv. | PNJ | Objectifs |
 |---|---|---|---|

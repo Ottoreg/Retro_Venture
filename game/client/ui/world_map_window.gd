@@ -4,7 +4,8 @@ extends CanvasLayer
 ## monde est montré dès le début (décision de l'auteur), un onglet par zone, ses cartes en grille
 ## d'après leurs coordonnées (voir `WorldMapLayout`). La carte actuelle est surlignée ; un losange
 ## marque une Pierre de Passage (plein si elle est connue, en creux sinon) ; une épingle, le repère
-## posé depuis un texte de quête (`Session.quest_pin`, bouton « Retirer le repère »).
+## posé depuis un texte de quête (`Session.quest_pin`, bouton « Retirer le repère ») ; une épingle
+## jaune, l'objectif de la quête suivie (`QuestLinks.objective_pin`), posée et déplacée toute seule.
 
 ## Bouton « Retirer le repère ».
 signal pin_cleared
@@ -14,6 +15,8 @@ const GOLD := Color(0.95, 0.76, 0.3)
 const COLOR_STONE := Color("7fd0f0")
 ## Épingle du repère de quête.
 const COLOR_PIN := Color("ff6a3d")
+## Épingle de l'objectif de la quête suivie.
+const COLOR_OBJECTIVE := Color("ffd23f")
 ## Largeur et hauteur maximales d'une case de la grille, et écart maximal entre deux cases (pixels).
 const CELL_MAX := Vector2(150, 84)
 const CELL_GAP := 16.0
@@ -36,6 +39,8 @@ class ZoneGrid extends Control:
 	var compact := false
 	## Repère de quête { carte, nom } (voir `QuestLinks`), ou {}.
 	var pin: Dictionary = {}
+	## Objectif de la quête suivie { carte, nom } (voir `QuestLinks.objective_pin`), ou {}.
+	var objective: Dictionary = {}
 
 	func _init() -> void:
 		# Rien n'est dessiné hors de la grille, même pour une zone immense.
@@ -100,19 +105,21 @@ class ZoneGrid extends Control:
 			text += "\nVous êtes dans une maison de cette carte." if indoors else "\nVous êtes ici."
 		if case["id"] == pin.get("carte", ""):
 			text += "\nRepère : %s" % pin["nom"]
+		if case["id"] == objective.get("carte", ""):
+			text += "\nQuête suivie : %s" % objective["nom"]
 		return text
 
 	## Case du repère dans la grille (hors de la grille si la minicarte ne la montre pas), ou `null`
 	## s'il n'y a pas de repère dans cette zone.
-	func pin_cell() -> Variant:
-		var coordinates := WorldMapLayout.map_coordinates(pin.get("carte", ""))
+	func pin_cell(marker: Dictionary = pin) -> Variant:
+		var coordinates := WorldMapLayout.map_coordinates(marker.get("carte", ""))
 		if coordinates.is_empty() or coordinates["zone"] != layout.get("zone", ""):
 			return null
 		return coordinates["position"] - layout.get("origine", Vector2i.ZERO)
 
-	## Vrai si le repère est sur une case de la grille.
-	func pin_in_grid() -> bool:
-		var cell: Variant = pin_cell()
+	## Vrai si le repère (ou l'objectif suivi) est sur une case de la grille.
+	func pin_in_grid(marker: Dictionary = pin) -> bool:
+		var cell: Variant = pin_cell(marker)
 		return cell != null and Rect2i(0, 0, int(layout.get("colonnes", 0)), int(layout.get("lignes", 0))).has_point(cell)
 
 	func _draw() -> void:
@@ -174,21 +181,24 @@ class ZoneGrid extends Control:
 				# Le joueur : un point bleu sous le nom.
 				draw_circle(Vector2(rect.get_center().x, rect.end.y - 8), 4.0, Color("4d8fff"))
 				draw_arc(Vector2(rect.get_center().x, rect.end.y - 8), 4.0, 0, TAU, 16, Color.WHITE, 1.2)
-		_draw_pin()
+		_draw_pin(objective, COLOR_OBJECTIVE, true)
+		_draw_pin(pin, COLOR_PIN, false)
 
-	## Le repère : une épingle dans le coin haut gauche de sa case ; sur la minicarte, une flèche au
-	## bord quand sa case est hors de la fenêtre (même zone).
-	func _draw_pin() -> void:
-		var cell: Variant = pin_cell()
+	## Un repère : une épingle dans le coin haut gauche de sa case (bas gauche pour l'objectif suivi) ;
+	## sur la minicarte, une flèche au bord quand sa case est hors de la fenêtre (même zone).
+	func _draw_pin(marker: Dictionary, color: Color, low: bool) -> void:
+		var cell: Variant = pin_cell(marker)
 		if cell == null:
 			return
 		var rect := cell_rect(cell)
-		if pin_in_grid():
+		if pin_in_grid(marker):
 			var radius := clampf(minf(rect.size.x, rect.size.y) * 0.12, 3.0, 7.0)
 			var head := rect.position + Vector2(radius + 3, radius + 3)
+			if low:
+				head.y = rect.end.y - radius * 3.2 - 3
 			var tip := head + Vector2(0, radius * 2.2)
-			draw_colored_polygon(PackedVector2Array([head + Vector2(-radius * 0.7, radius * 0.5), head + Vector2(radius * 0.7, radius * 0.5), tip]), COLOR_PIN)
-			draw_circle(head, radius, COLOR_PIN)
+			draw_colored_polygon(PackedVector2Array([head + Vector2(-radius * 0.7, radius * 0.5), head + Vector2(radius * 0.7, radius * 0.5), tip]), color)
+			draw_circle(head, radius, color)
 			draw_arc(head, radius, 0, TAU, 16, Color("2a1208"), 1.2)
 			draw_circle(head, radius * 0.35, Color.WHITE)
 			return
@@ -200,7 +210,7 @@ class ZoneGrid extends Control:
 		var reach := minf(half.x / maxf(absf(direction.x), 0.001), half.y / maxf(absf(direction.y), 0.001))
 		var point := middle + direction * reach
 		var side := Vector2(-direction.y, direction.x) * 4.0
-		draw_colored_polygon(PackedVector2Array([point + direction * 5.0, point - direction * 3.0 + side, point - direction * 3.0 - side]), COLOR_PIN)
+		draw_colored_polygon(PackedVector2Array([point + direction * 5.0, point - direction * 3.0 + side, point - direction * 3.0 - side]), color)
 
 	## Texte centré dans le rectangle, sur `max_lines` lignes au plus et sans en sortir : coupé aux
 	## mots (un mot trop long finit par « … »), et réduit aux lignes qui tiennent en hauteur (rien s'il
@@ -260,6 +270,7 @@ func setup(p_map_view: MapView) -> void:
 	map_view = p_map_view
 	map_view.combat_started.connect(close)
 	map_view.map_changed.connect(refresh)
+	map_view.quests_changed.connect(func(_journal: Dictionary) -> void: refresh())
 
 
 func toggle() -> void:
@@ -331,6 +342,7 @@ func refresh() -> void:
 	_grid.layout = layout
 	_grid.indoors = here != world.map.id
 	_grid.pin = Session.quest_pin
+	_grid.objective = QuestLinks.objective_pin(world)
 	_grid.queue_redraw()
 	_zone_title.text = layout["nom"]
 	_clear_pin.visible = not Session.quest_pin.is_empty()
@@ -528,7 +540,7 @@ func _build() -> void:
 
 	var legend := _label(13, Color(0.7, 0.67, 0.6))
 	legend.text = "Cadre doré : vous êtes ici.  Losange bleu : Pierre de Passage (en creux : pas encore découverte).  " \
-		+ "Épingle rouge : repère posé en cliquant un nom dans une quête."
+		+ "Épingle rouge : repère posé en cliquant un nom dans une quête.  Épingle jaune : objectif de la quête suivie."
 	legend.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	column.add_child(legend)
 	var hint := _label(12, Color(0.6, 0.58, 0.52))

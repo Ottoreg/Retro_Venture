@@ -219,6 +219,9 @@ le **lit** de votre maison les rend tous d'un coup.
   cliquent : un **repère** (épingle rouge) se pose sur la carte du monde, qui s'ouvre, et sur la
   minicarte (une flèche au bord s'il est plus loin). Recliquez le nom, ou « Retirer le repère »
   sur la carte du monde, pour l'enlever ; il s'en va aussi quand vous arrivez sur sa carte.
+- L'objectif de la quête suivie a son **épingle jaune** sur la carte du monde et la minicarte,
+  posée toute seule : la carte où aller, le personnage à qui parler, ou la carte la plus proche où
+  trouver les monstres ou la ressource demandés.
 - On rend une quête en parlant au personnage une fois les autres objectifs remplis (les objets
   demandés sont pris à ce moment-là). Certains objets ne tombent des monstres que pendant la quête
   qui les demande ; les **objets de quête** ne se vendent ni ne se jettent.
@@ -232,7 +235,8 @@ le **lit** de votre maison les rend tous d'un coup.
   Peuples Libres, puis Grondin à la Brèche. Les quêtes des actes I et II sont réservées au camp de
   votre race. Enfin, **5 quêtes secondaires par zone de départ**, ouvertes à tous une fois un
   tutoriel fini (le prêt du berger, la grève des épouvantails, le dentier de Mamie Ratine, l'ode
-  au Grand Cerf…) : n'hésitez pas à visiter les zones des autres camps.
+  au Grand Cerf…) : n'hésitez pas à visiter les zones des autres camps. Et **3 à Hautepierre**,
+  ouvertes à tous aussi (la relève du fantôme, la recette du troll, les fausses Reliques de Fulbert).
 
 ## Ce qu'il y a dans cette version
 
@@ -255,9 +259,9 @@ le **lit** de votre maison les rend tous d'un coup.
   monstres ont un **niveau variable** dans leur palier (affiché dans la bulle du groupe). Une fois un
   mini-boss vaincu, sa **variante corrompue** (loup cendreux, grouilleur de braise, arbre calciné)
   apparaît dans son repaire.
-- **41 quêtes** : un tutoriel par camp, la quête principale de chaque camp (acte I dans la zone de
+- **44 quêtes** : un tutoriel par camp, la quête principale de chaque camp (acte I dans la zone de
   départ, acte II à Hautepierre), le début de l'acte III commun (le Conseil des Peuples Libres, puis
-  la Brèche), et 15 quêtes secondaires.
+  la Brèche), et 18 quêtes secondaires (15 dans les zones de départ, 3 à Hautepierre).
 - **Combat** : coups critiques, bonus et malus, poisons, poussées, glyphes (cases à la couleur de leur élément) et
   pièges invisibles, monstres qui gardent leurs distances ou soignent leurs alliés, **mode
   tactique** (T).

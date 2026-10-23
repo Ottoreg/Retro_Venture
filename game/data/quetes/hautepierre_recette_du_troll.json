@@ -1,0 +1,67 @@
+{
+  "id": "hautepierre_recette_du_troll",
+  "nom": "La recette du troll",
+  "categorie": "secondaire",
+  "niveau": 18,
+  "pnj": "maitre_ripaille",
+  "description": "Maître Ripaille veut mettre la « spécialité du troll » à la carte du Heaume Fendu. Sans troll.",
+  "conditions": {
+    "niveau_min": 17,
+    "une_quete_terminee": [
+      "brumerive_tutoriel",
+      "crasse_roc_tutoriel",
+      "sylvebrume_tutoriel"
+    ]
+  },
+  "etapes": [
+    {
+      "objectifs": [
+        {
+          "type": "apporter",
+          "objet": "recette_de_troll",
+          "nombre": 3,
+          "pnj": "maitre_ripaille",
+          "butin": {
+            "monstres": [
+              "troll_des_ponts",
+              "troll_gastronome"
+            ],
+            "taux": 0.35
+          }
+        },
+        {
+          "type": "apporter",
+          "objet": "dent_de_troll",
+          "nombre": 3,
+          "pnj": "maitre_ripaille",
+          "butin": {
+            "monstres": [
+              "troll_des_ponts",
+              "troll_gastronome"
+            ],
+            "taux": 0.5
+          }
+        }
+      ]
+    }
+  ],
+  "dialogues": {
+    "maitre_ripaille": {
+      "proposition": [
+        "Les clients réclament la « spécialité du troll ». Moi, je ne sais pas la faire : c'est le troll qui la fait, et c'est le client qui la devient.",
+        "Rapportez-moi trois recettes de troll, celles qu'ils gardent sur eux, aux Rives du Fleuve Gris ou au Pont des Trolls. Et trois dents de troll : c'est l'ingrédient secret. Le seul, en fait."
+      ],
+      "en_cours": [
+        "La soupe du jour attend ses dents. Elle n'est pas pressée, la soupe. Les clients, si."
+      ],
+      "fin": [
+        "« Aventurier rôti, trois façons »… « Aventurier en croûte »… « Ragoût de dents, sans aventurier ». Voilà ! Celle-là, je peux la servir.",
+        "Soupe du jour : ragoût de dents de troll. Je vous la déconseille. Voici vos brumes, et un conseil : ne mangez jamais ici."
+      ]
+    }
+  },
+  "recompenses": {
+    "xp_cr": 3,
+    "ecus": 118
+  }
+}

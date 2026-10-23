@@ -8,7 +8,8 @@ extends CanvasLayer
 ## caché), chemins entre cartes et Pierres de Passage, comme sur la carte du monde
 ## (`WorldMapLayout`, `WorldMapWindow.ZoneGrid`). Dans une maison, la carte devant sa porte. Le
 ## survol d'une case donne son nom ; un clic ouvre la carte du monde. Le repère de quête
-## (`Session.quest_pin`) y est une épingle, ou une flèche au bord s'il est plus loin dans la zone.
+## (`Session.quest_pin`) y est une épingle, ou une flèche au bord s'il est plus loin dans la zone ;
+## l'objectif de la quête suivie aussi, en jaune (`QuestLinks.objective_pin`).
 
 ## Clic sur la minicarte.
 signal pressed
@@ -39,6 +40,7 @@ func setup(p_map_view: MapView, hud: CombatHud) -> void:
 	map_view.map_changed.connect(refresh)
 	map_view.combat_started.connect(refresh)
 	map_view.exploration_resumed.connect(refresh)
+	map_view.quests_changed.connect(func(_journal: Dictionary) -> void: refresh())
 	refresh()
 
 
@@ -96,6 +98,7 @@ func refresh() -> void:
 		_zone_name.text = layout["nom"]
 		_coordinates.text = "%d, %d" % [coordinates["position"].x, coordinates["position"].y]
 	_grid.pin = Session.quest_pin
+	_grid.objective = QuestLinks.objective_pin(world)
 	_place()
 	_grid.queue_redraw()
 

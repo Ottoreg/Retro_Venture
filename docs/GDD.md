@@ -1187,8 +1187,8 @@ d'ambiance habituel, sa fiche affiche « Créé par [pseudo de l'artisan] ».
   Les objectifs « parler » et « apporter » se remplissent en dernier (on rend la quête). Contenu
   produit : les 3 tutoriels, l'acte I et l'acte II des trois camps, et le début de l'acte III
   (le Conseil des Peuples Libres, puis Grondin à la Brèche ; la Chevalière Sans-Rouille disparaît :
-  fin de l'histoire de l'alpha), et les 15 quêtes secondaires des zones de départ (ouvertes à
-  tous les camps) : **tout le contenu de quêtes de l'alpha 1 est produit**.
+  fin de l'histoire de l'alpha), les 15 quêtes secondaires des zones de départ et 3 à
+  Hautepierre (ouvertes à tous les camps) : **tout le contenu de quêtes de l'alpha 1 est produit**.
 
 ### 11.2 Long terme : quêtes complexes
 
@@ -1368,6 +1368,11 @@ d'ambiance habituel, sa fiche affiche « Créé par [pseudo de l'artisan] ».
   zone) : là où est le PNJ (devant la porte s'il est dans une maison), la carte, ou la Pierre de
   Passage de la zone. Un seul repère à la fois ; le même nom recliqué, le bouton « Retirer le
   repère » de la carte du monde ou l'arrivée sur sa carte le retirent.
+- **Objectif de la quête suivie** : une épingle jaune, posée et déplacée toute seule, sur la carte
+  du monde et la minicarte, à l'endroit du premier objectif à faire : la carte à atteindre, le PNJ
+  à qui parler, la carte la plus proche (dans la zone du joueur) où vit le monstre à vaincre ou
+  pousse la ressource, celle des monstres qui lâchent l'objet à apporter tant qu'il en manque, puis
+  le PNJ. Rien pour fabriquer ou équiper (`QuestLinks.objective_pin`).
 - **En combat :** ordre de jeu dans la bande droite (une ligne par combattant vivant : son
   portrait dans un petit cadre à la couleur de son camp, sa barre de PV en bas, cadre doré pour
   celui qui joue ; son nom, doré à son tour, et ses PV), prévisualisation de portée et de zone, **dégâts et soins

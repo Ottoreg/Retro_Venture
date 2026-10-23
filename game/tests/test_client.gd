@@ -239,12 +239,24 @@ func test_reperes_de_quete() -> void:
 	journal.toggle()
 	assert_true(journal._details.text.contains("[url=repere:brumerive_0_0|Alric%20le%20berger]"), journal._details.text)
 
+	# La quête suivie : son objectif en épingle jaune, posée toute seule ; rien pour « équiper ».
+	assert_eq(QuestLinks.objective_pin(world), {}, "équiper : nulle part en particulier")
+	assert_eq(minimap._grid.objective, {})
+	world.character.quests.set_step("brumerive_tutoriel", 1, 1)
+	var prey: String = world.data.quests["brumerive_tutoriel"]["etapes"][1]["objectifs"][0]["monstre"]
+	var objective := QuestLinks.objective_pin(world)
+	assert_true(objective.get("carte", "") in world.quest_book.monster_maps(prey), "%s : %s" % [prey, objective])
+	assert_true(str(objective["nom"]).begins_with("Bienvenue à Brumerive : "), str(objective))
+	minimap.refresh()
+	assert_eq(minimap._grid.objective, objective, "sur la minicarte")
+
 	# Clic sur le Moulin : repère, carte du monde ouverte sur sa zone, épingle sur la minicarte.
 	journal._details.meta_clicked.emit("repere:brumerive_1_1|Moulin de Tournevent")
 	assert_eq(Session.quest_pin, {"carte": "brumerive_1_1", "nom": "Moulin de Tournevent"})
 	assert_true(world_map.is_open(), "carte du monde ouverte")
 	assert_eq(world_map.current_zone(), "brumerive")
 	assert_true(world_map._grid.pin_in_grid())
+	assert_eq(world_map._grid.objective, objective, "et sur la carte du monde")
 	assert_true(world_map._clear_pin.visible, "bouton « Retirer le repère »")
 	assert_true(minimap._grid.pin_in_grid(), "épingle sur la minicarte")
 	var moulin: Dictionary = minimap.shown_layout()["cases"].filter(func(c: Dictionary) -> bool: return c["id"] == "brumerive_1_1")[0]

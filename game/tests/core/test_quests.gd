@@ -310,3 +310,23 @@ func test_rendre_apres_les_autres_objectifs() -> void:
 	var events := _talk("berger")
 	assert_true(_world.character.quests.is_done("rendre"))
 	assert_eq(Fixtures.of_type(events, Protocol.EVT_DIALOGUE)[0]["repliques"], ["Parfait."])
+
+
+## Où avancer un objectif (repère automatique de la quête suivie sur la carte du monde).
+func test_cartes_des_objectifs() -> void:
+	var book := _world.quest_book
+	assert_eq(book.objective_maps({"type": "aller", "carte": "b"}), ["b"])
+	assert_eq(book.objective_maps({"type": "parler", "pnj": "berger"}), ["a"])
+	assert_eq(book.objective_maps({"type": "vaincre", "monstre": "mannequin", "nombre": 2}), ["a"])
+	assert_eq(book.objective_maps({"type": "vaincre_groupe", "monstre": "patron"}), ["b"])
+	assert_eq(book.objective_maps({"type": "recolter", "objet": "buche", "nombre": 2}), ["a"], "là où pousse la ressource")
+	assert_eq(book.objective_maps({"type": "fabriquer", "metier": "forgeron"}), [], "on fabrique où l'on veut")
+	var bring := {"type": "apporter", "objet": "pomme", "nombre": 2, "pnj": "berger", "butin": {"monstres": ["patron"], "taux": 1.0}}
+	assert_eq(book.objective_maps(bring, 0), ["b"], "tant qu'il en manque : chez les monstres qui le lâchent")
+	assert_eq(book.objective_maps(bring, 2), ["a"], "puis le PNJ")
+	assert_eq(book.objective_maps({"type": "apporter", "objet": "buche", "nombre": 1, "pnj": "berger"}, 0), ["a"])
+	# Dans le journal, avec chaque objectif.
+	_talk("berger")
+	_command(Protocol.CMD_QUEST_ACCEPT, {"quete": "tuto"})
+	var tracked: Dictionary = book.sheet()["en_cours"][0]
+	assert_eq(tracked["objectifs"][0]["cartes"], [], "équiper : nulle part en particulier")

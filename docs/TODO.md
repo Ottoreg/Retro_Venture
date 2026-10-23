@@ -292,8 +292,10 @@ Tout le contenu et les systèmes MVP de l'alpha 1 sont faits (chantiers 1, 3, 4 
     camps après n'importe quel tutoriel)
   - [x] Lot 4, **acte II et début de l'acte III** (11 quêtes : 3 par camp à Hautepierre, puis le
     Conseil des Peuples Libres et la Brèche, communs), 8 objets et leurs icônes
-  - [ ] Option : secondaires de Hautepierre (3 quêtes) ; repère automatique de l'objectif suivi sur la
-    carte du monde (le repère au clic sur un nom est fait, retours de test lot 5)
+  - [x] Lot 5, **secondaires de Hautepierre** (3 quêtes : La relève, La recette du troll,
+    Authentiques fausses reliques ; `produire_lot5.py`) et **repère automatique de l'objectif
+    suivi** (épingle jaune sur la carte du monde et la minicarte, `QuestLinks.objective_pin`,
+    `QuestBook.objective_maps`)
 - [x] **(MVP)** Moteur de quêtes : étapes, objectifs (parler, vaincre, récolter, apporter, aller à), récompenses
 - [x] **(MVP)** Journal de quêtes et suivi de l'objectif courant
 - [x] **(MVP)** Icônes `!` / `?` sur les PNJ

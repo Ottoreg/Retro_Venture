@@ -138,6 +138,48 @@ static func make_label(font_size: int, color: Color, on_pin: Callable) -> RichTe
 	return label
 
 
+## Repère automatique de la quête suivie { carte, nom, objectif: true }, ou {} : le premier objectif
+## à faire de son étape qui a un lieu (voir `QuestBook.objective_maps`), sur la carte à coordonnées
+## la plus proche du joueur parmi celles qui conviennent (celle où il est, sinon la plus proche de
+## sa zone, sinon la première).
+static func objective_pin(world: World) -> Dictionary:
+	if world == null or world.quest_book == null:
+		return {}
+	var journal := world.quest_book.sheet()
+	for entry: Dictionary in journal["en_cours"]:
+		if entry["id"] != journal["suivie"]:
+			continue
+		for objective: Dictionary in entry.get("objectifs", []):
+			if objective["fait"]:
+				continue
+			var outdoor: Array[String] = []
+			for map_id: String in objective.get("cartes", []):
+				var target := outdoor_map(world, map_id)
+				if not target.is_empty() and target not in outdoor:
+					outdoor.append(target)
+			if not outdoor.is_empty():
+				return {"carte": nearest_map(world, outdoor), "nom": "%s : %s" % [entry["nom"], objective["texte"]], "objectif": true}
+	return {}
+
+
+## Parmi ces cartes à coordonnées, celle où est le joueur, sinon la plus proche dans sa zone (en
+## cases de la grille), sinon la première.
+static func nearest_map(world: World, maps: Array[String]) -> String:
+	var here := WorldMapLayout.map_coordinates(outdoor_map(world, world.map.id) if world.map != null else "")
+	var best := maps[0]
+	var best_distance := -1
+	for map_id in maps:
+		var coordinates := WorldMapLayout.map_coordinates(map_id)
+		if here.is_empty() or coordinates["zone"] != here["zone"]:
+			continue
+		var gap: Vector2i = coordinates["position"] - here["position"]
+		var distance := absi(gap.x) + absi(gap.y)
+		if best_distance < 0 or distance < best_distance:
+			best = map_id
+			best_distance = distance
+	return best
+
+
 ## Carte à coordonnées d'une carte : elle-même, ou pour une maison celle où mène sa porte ("" sinon).
 static func outdoor_map(world: World, map_id: String) -> String:
 	if not WorldMapLayout.map_coordinates(map_id).is_empty():

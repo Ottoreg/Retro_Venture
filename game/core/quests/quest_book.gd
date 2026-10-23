@@ -14,6 +14,10 @@ var world: World
 var _declined: Dictionary = {}
 ## PNJ de toutes les cartes : id → { nom, carte } (rempli au premier besoin).
 var _npc_index: Dictionary = {}
+## Cartes où vivent les monstres (id de monstre → [ids de cartes]) et où pousse chaque ressource
+## (id d'objet → [ids de cartes]), remplies au premier besoin (voir `objective_maps`).
+var _monster_maps: Dictionary = {}
+var _resource_maps: Dictionary = {}
 
 
 func _init(p_world: World) -> void:
@@ -448,7 +452,8 @@ func _objective_text(objective: Dictionary, count: int) -> String:
 	return base
 
 
-## Objectifs d'une étape : { texte, fait, carte (où aller, pour la carte du monde) }.
+## Objectifs d'une étape : { texte, fait, carte (où aller, pour la carte du monde), cartes (voir
+## `objective_maps`) }.
 func _objective_texts(quest_id: String, step_index: int) -> Array:
 	var objectives: Array = _quests()[quest_id]["etapes"][step_index]["objectifs"]
 	var current := _log().is_active(quest_id) and _log().step(quest_id) == step_index
@@ -461,8 +466,85 @@ func _objective_texts(quest_id: String, step_index: int) -> Array:
 			count = mini(Quest.goal(objective), world.character.inventory.quantity_of(objective["objet"]))
 		var where: String = objective.get("carte", npc_location(objective.get("pnj", "")).get("carte", ""))
 		texts.append({"texte": _objective_text(objective, count), "fait": i < counts.size() and counts[i] >= Quest.goal(objective),
-			"carte": where})
+			"carte": where, "cartes": objective_maps(objective, count)})
 	return texts
+
+
+## Cartes où avancer un objectif, `count` étant son compteur : la carte à atteindre, celle du PNJ à
+## qui parler, celles des groupes où vit le monstre, celles des ressources qui donnent l'objet. Pour
+## un objet à apporter : là où le lâchent ses monstres tant qu'il en manque (s'il en ont un butin
+## de quête, ou là où il se récolte), puis le PNJ. Rien pour fabriquer ou équiper (on le fait où l'on veut).
+func objective_maps(objective: Dictionary, count := 0) -> Array[String]:
+	var maps: Array[String] = []
+	match objective["type"]:
+		Quest.OBJ_GO:
+			maps.append(str(objective["carte"]))
+		Quest.OBJ_TALK:
+			_append_npc_map(maps, objective["pnj"])
+		Quest.OBJ_DEFEAT, Quest.OBJ_DEFEAT_GROUP:
+			maps.append_array(monster_maps(objective["monstre"]))
+		Quest.OBJ_HARVEST:
+			maps.append_array(resource_maps(objective["objet"]))
+		Quest.OBJ_BRING:
+			if count < Quest.goal(objective):
+				for monster_id: String in objective.get("butin", {}).get("monstres", []):
+					for map_id in monster_maps(monster_id):
+						if map_id not in maps:
+							maps.append(map_id)
+				if maps.is_empty():
+					maps.append_array(resource_maps(objective["objet"]))
+			if maps.is_empty():
+				_append_npc_map(maps, objective["pnj"])
+	return maps
+
+
+func _append_npc_map(maps: Array[String], npc_id: String) -> void:
+	var where: String = npc_location(npc_id).get("carte", "")
+	if not where.is_empty():
+		maps.append(where)
+
+
+## Cartes dont un groupe compte ce monstre (ou peut le tirer au sort), triées.
+func monster_maps(monster_id: String) -> Array[String]:
+	if _monster_maps.is_empty() and _resource_maps.is_empty():
+		_index_maps()
+	var found: Array[String] = []
+	found.assign(_monster_maps.get(monster_id, []))
+	return found
+
+
+## Cartes dont une ressource donne cet objet, triées.
+func resource_maps(item_id: String) -> Array[String]:
+	if _monster_maps.is_empty() and _resource_maps.is_empty():
+		_index_maps()
+	var found: Array[String] = []
+	found.assign(_resource_maps.get(item_id, []))
+	return found
+
+
+func _index_maps() -> void:
+	var ids: Array[String] = world.map_ids.duplicate()
+	if world.map != null and world.map.id not in ids:
+		ids.append(world.map.id)
+	ids.sort()
+	var nodes: Dictionary = world.data.nodes if world.data != null else {}
+	for map_id in ids:
+		var found := world.map_by_id(map_id)
+		if found == null:
+			continue
+		for group: Dictionary in found.groups:
+			for monster_id: String in group.get("monstres", []) + group.get("parmi", []):
+				_add_index(_monster_maps, monster_id, map_id)
+		for marker: String in found.resource_nodes.values():
+			if nodes.has(marker):
+				_add_index(_resource_maps, str(nodes[marker]["objet"]), map_id)
+
+
+static func _add_index(index: Dictionary, key: String, map_id: String) -> void:
+	if not index.has(key):
+		index[key] = []
+	if map_id not in index[key]:
+		index[key].append(map_id)
 
 
 func _reward_sheet(quest: Dictionary) -> Dictionary:

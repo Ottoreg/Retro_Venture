@@ -15,7 +15,8 @@ extends SceneTree
 ## (comme « cible », en mode tactique ; « pions » : avec les pions), « pause » (menu pause), « options » (fenêtre des options),
 ## « quete » (le premier PNJ qui propose une quête : sa proposition), « journal » (cette quête
 ## acceptée, le journal ouvert ; le suivi est sous la minicarte), « repere » (la même, puis un
-## repère posé sur le Moulin de Tournevent : carte du monde ouverte), « historique » (combat, deux tours
+## repère posé sur le Moulin de Tournevent : carte du monde ouverte), « suivi » (la même, à l'étape des
+## combats : épingle jaune de l'objectif suivi, carte du monde ouverte), « historique » (combat, deux tours
 ## passés : historique du combat rempli), « arcaniste » (Arcaniste en combat : 3 états, un sort
 ## créé, une place vide), « composition » (la même, grille de Composition ouverte au-dessus du sort),
 ## « infobulle » (la même, souris sur le sort Composition : son infobulle, compter ~120 images),
@@ -234,6 +235,20 @@ func _process(_delta: float) -> bool:
 		elif _action == "sorts":
 			_scene.get_node("SpellsWindow").toggle()
 		elif _action == "carte":
+			_scene.get_node("WorldMapWindow").open()
+		elif _action == "suivi":
+			# Quête suivie : l'épingle jaune de son objectif (vaincre, à l'étape 2 du tutoriel) sur la
+			# carte du monde et la minicarte.
+			for npc in view.current_map().npcs:
+				if view.world.quest_book.marker(npc["id"]) == QuestBook.MARKER_AVAILABLE:
+					view._on_click(npc["case"])
+					_wait_for(view)
+					break
+			_scene.quest_dialog.accept()
+			_wait_for(view)
+			var quest_id: String = view.world.character.quests.tracked
+			view.world.character.quests.set_step(quest_id, 1, 0)
+			_scene.get_node("Minimap").refresh()
 			_scene.get_node("WorldMapWindow").open()
 		elif _action in ["quete", "journal", "repere"]:
 			for npc in view.current_map().npcs:

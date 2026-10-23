@@ -1,0 +1,80 @@
+{
+  "id": "hautepierre_la_releve",
+  "nom": "La relève",
+  "categorie": "secondaire",
+  "niveau": 16,
+  "pnj": "capitaine_perenne",
+  "description": "Le Capitaine Pérenne, fantôme, monte la garde depuis trois cents ans. Il aimerait une relève.",
+  "conditions": {
+    "niveau_min": 15,
+    "une_quete_terminee": [
+      "brumerive_tutoriel",
+      "crasse_roc_tutoriel",
+      "sylvebrume_tutoriel"
+    ]
+  },
+  "etapes": [
+    {
+      "objectifs": [
+        {
+          "type": "parler",
+          "pnj": "sergent_mordicus",
+          "texte": "Proposer la relève au Sergent Mordicus"
+        },
+        {
+          "type": "parler",
+          "pnj": "sergente_brisetout",
+          "texte": "Proposer la relève à la Sergente Brisetout"
+        },
+        {
+          "type": "parler",
+          "pnj": "veteran_clopin",
+          "texte": "Proposer la relève à Clopin, le vétéran"
+        }
+      ]
+    },
+    {
+      "objectifs": [
+        {
+          "type": "parler",
+          "pnj": "capitaine_perenne",
+          "texte": "Rendre compte au Capitaine Pérenne"
+        }
+      ]
+    }
+  ],
+  "dialogues": {
+    "capitaine_perenne": {
+      "proposition": [
+        "Trois cents ans de garde. Je ne me plains pas. Mais le règlement dit : « relève toutes les quatre heures ». J'ai un peu de retard.",
+        "Trouvez-moi une relève. Le Sergent Mordicus, à la Porte de l'Ouest, la Sergente Brisetout, à la Porte de l'Est, ou ce vieux Clopin, aux Champs du Pèle-Ennemi. N'importe qui de vivant. Ou de mort, je ne suis pas difficile."
+      ],
+      "en_cours": [
+        "Alors, ma relève ? Je l'attends au garde-à-vous. Ça fait trois siècles, je ne suis plus à une heure près."
+      ],
+      "fin": [
+        "Personne ? Le premier a trop de travail, la deuxième pas assez de temps, le troisième pas assez de jambes.",
+        "Bon. Je reste. Au fond, je ne saurais pas quoi faire de mes soirées. Merci d'avoir essayé : vous avez le sens du service. Ça se perd."
+      ]
+    },
+    "sergent_mordicus": {
+      "objectif": [
+        "Relever un fantôme ? Aux Ruines ? Avec les gargouilles ? … Je suis déjà de garde ici. Je garde la porte. Et la porte me garde. On est très liés."
+      ]
+    },
+    "sergente_brisetout": {
+      "objectif": [
+        "Une garde de trois cents ans ? Non merci. Dites au Capitaine que je prends mon tour dès qu'il aura fini le sien. C'est le règlement."
+      ]
+    },
+    "veteran_clopin": {
+      "objectif": [
+        "Pérenne ? Il était déjà vieux quand mon grand-père était jeune. Je veux bien le relever, mais il faudrait que je tienne debout. Dites-lui que je suis de cœur avec lui. Assis."
+      ]
+    }
+  },
+  "recompenses": {
+    "xp_cr": 3,
+    "ecus": 106
+  }
+}

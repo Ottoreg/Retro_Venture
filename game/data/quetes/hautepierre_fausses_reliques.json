@@ -1,0 +1,70 @@
+{
+  "id": "hautepierre_fausses_reliques",
+  "nom": "Authentiques fausses reliques",
+  "categorie": "secondaire",
+  "niveau": 24,
+  "pnj": "fulbert_l_authentique",
+  "description": "Fulbert l'Authentique prépare une nouvelle collection de Reliques. Il lui manque la matière première.",
+  "conditions": {
+    "niveau_min": 23,
+    "une_quete_terminee": [
+      "brumerive_tutoriel",
+      "crasse_roc_tutoriel",
+      "sylvebrume_tutoriel"
+    ]
+  },
+  "etapes": [
+    {
+      "objectifs": [
+        {
+          "type": "apporter",
+          "objet": "cendre_tiede",
+          "nombre": 5,
+          "pnj": "fulbert_l_authentique",
+          "butin": {
+            "monstres": [
+              "cendrillon",
+              "loup_cendreux",
+              "grouilleur_de_braise",
+              "arbre_calcine"
+            ],
+            "taux": 0.5
+          }
+        },
+        {
+          "type": "apporter",
+          "objet": "eclat_de_cendre",
+          "nombre": 1,
+          "pnj": "fulbert_l_authentique",
+          "butin": {
+            "monstres": [
+              "loup_cendreux",
+              "grouilleur_de_braise",
+              "arbre_calcine"
+            ],
+            "taux": 0.3
+          }
+        }
+      ]
+    }
+  ],
+  "dialogues": {
+    "fulbert_l_authentique": {
+      "proposition": [
+        "Tout le monde ne parle que des Reliques de l'Aube. La demande explose ! L'offre, elle, est… en cours de fabrication.",
+        "Rapportez-moi cinq cendres tièdes et un éclat de cendre, de la Plaine Cendrée ou d'ailleurs. Avec un peu de colle et beaucoup d'aplomb, ça fera des Reliques garanties d'origine. Une origine. La mienne."
+      ],
+      "en_cours": [
+        "Mes clients attendent leurs Reliques. Ils sont très patients : ils ne savent pas encore à quoi ça ressemble."
+      ],
+      "fin": [
+        "Magnifique ! Un éclat noir qui brûle sans flamme, posé sur de la cendre tiède… La Relique de la Cheminée ! Authentique !",
+        "Ne le répétez pas à la Garde. Ni à la Chevalière Sans-Rouille, si vous la croisez. Surtout pas à elle : elle sait à quoi ressemblent les vraies."
+      ]
+    }
+  },
+  "recompenses": {
+    "xp_cr": 3,
+    "ecus": 154
+  }
+}
