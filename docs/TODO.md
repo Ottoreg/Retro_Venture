@@ -275,7 +275,7 @@ Tout le contenu et les systèmes MVP de l'alpha 1 sont faits (chantiers 1, 3, 4 
 - [x] Ressources rares de récolte : 1 % par récolte, un exemplaire à la place de la récolte normale
   (`rare` dans les données, `Profession.RARE_CHANCE`) ; 10 ressources rares et 6 recettes améliorées
   (`docs/design/chantier3_brouillon/src/ressources_rares.py`)
-- [ ] Futurs métiers de récolte (herboriste, pêcheur…) : une ressource rare par ressource, même règle
+- [ ] Futurs métiers de récolte (agriculteur, herboriste, pêcheur, GDD § 10.3) : une ressource rare par ressource, même règle
 - [ ] Animation de récolte (durée fixe, outil en main)
 
 ### Quêtes
@@ -565,10 +565,18 @@ Tout le contenu et les systèmes MVP de l'alpha 1 sont faits (chantiers 1, 3, 4 
 - [ ] Forgemagie (modification des jets avec des runes)
 
 ### Métiers
-- [ ] Herboriste et Alchimiste (potions)
-- [ ] Tailleur, Joaillier, Cordonnier
-- [ ] Pêcheur et Cuisinier
-- [ ] Éleveur et montures
+- [x] Conception des onze métiers (GDD § 10.3) : récolte (mineur, bûcheron, agriculteur, herboriste,
+  pêcheur), artisanat (forgeron, costumier, joaillier, boulanger, maître des potions), éleveur de
+  montures ; terrains instanciés achetables ; ordre de production proposé. Questions ouvertes au § 10.3
+- [ ] Agriculteur et Boulanger (céréales, farines, pains : regain de vie et bonus pour N combats)
+- [ ] Herboriste et Maître des potions (plantes, élixirs, potions de rappel et d'oubli)
+- [ ] Costumier (coiffes, capes, ceintures, bottes) et Joaillier (anneaux, amulettes, gemmes) :
+  reprennent les recettes correspondantes du Forgeron
+- [ ] Pêcheur (coins de pêche, alevins, perles)
+- [ ] Outils de récolte (Forgeron) et produits intermédiaires (lingots, farines, toiles, gemmes taillées)
+- [ ] Terrains instanciés achetables : champ, jardin, bosquet, étang, mine (galeries) ; engrais
+- [ ] Éleveur et montures : apprivoisement (licol, sort *Apprivoiser*), enclos, dressage, énergie,
+  robes, reproduction, emplacement monture
 - [ ] Objets personnalisés des artisans de haut niveau (GDD § 10.4) : choisir le nom de la
   compétence (Chef-d'œuvre, Pièce de maître, Façonnage libre) ; score par statistique ; limites par
   ligne, par objet, par statistique et nombre de lignes, selon le niveau de l'objet ; coût en

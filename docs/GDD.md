@@ -1023,14 +1023,309 @@ un **bonus de panoplie** qui grandit avec le nombre de pièces équipées (à pa
   par récolte, **un** exemplaire **à la place** de la récolte normale. Elles ne se vendent pas et
   servent à des **recettes améliorées** plus puissantes (rares ou épiques, pas en boutique non plus) :
   anneau vert-de-gris, arc du Cœur de frêne, masse météorique, amulette chantante, épée lunaire,
-  sceptre de malorme. Les futurs métiers de récolte (herboriste, pêcheur…) suivront la même règle.
+  sceptre de malorme. Les futurs métiers de récolte (agriculteur, herboriste, pêcheur, § 10.3) suivront la même règle.
 
-### 10.3 Long terme
+### 10.3 Les onze métiers (conception, demande de l'auteur)
 
-Herboriste → Alchimiste (potions), Tailleur (capes, coiffes), Joaillier (anneaux, amulettes),
-Cordonnier (bottes, ceintures), Pêcheur et Cuisinier, Éleveur (montures), forgemages (amélioration).
-En multi : ateliers publics, commandes entre joueurs, artisanat assisté (le client fournit les
-ingrédients).
+Conception validée en grandes lignes par l'auteur le 23/10/2026 (liste des métiers, terrains
+instanciés, montures tirées des monstres du jeu) ; **tous les chiffres sont des pistes à
+équilibrer**, rien n'est codé au-delà du prototype (§ 10.1, § 10.2). Cette liste remplace l'ancienne
+piste (Tailleur, Cordonnier, Alchimiste, Cuisinier) : le **Costumier** reprend le Tailleur et le
+Cordonnier, le **Maître des potions** l'Alchimiste, le **Boulanger** le Cuisinier.
+
+| Famille | Métier | Produit ou récolte | Principaux clients |
+|---|---|---|---|
+| Récolte | **Mineur** | minerais, pierres, sel gemme, gemmes | Forgeron, Joaillier, Boulanger (sel) |
+| Récolte | **Bûcheron** | bois, écorces, sève | Forgeron, Costumier, Maître des potions |
+| Récolte | **Agriculteur** | céréales, fibres (lin, chanvre, coton) | Boulanger, Costumier, Éleveur (fourrage) |
+| Récolte | **Herboriste** | plantes, champignons, fleurs | Maître des potions, Éleveur (soins) |
+| Récolte | **Pêcheur** | poissons, coquillages, perles | Boulanger, Maître des potions, Joaillier (perles), Éleveur |
+| Artisanat | **Forgeron** | armes, boucliers, outils de récolte, lingots | tous |
+| Artisanat | **Costumier** | coiffes, capes, ceintures, bottes ; licols et selles | tous, Éleveur |
+| Artisanat | **Joaillier** | anneaux, amulettes ; taille des gemmes | tous |
+| Artisanat | **Boulanger** | pains (regain de vie, bonus de caractéristiques) | tous |
+| Artisanat | **Maître des potions** | potions (bonus de combat, utilitaires) | tous |
+| Élevage | **Éleveur de montures** | montures apprivoisées, engrais (fumier) | tous, métiers de récolte |
+
+#### Règles communes
+
+- Niveaux 1 à 100, XP propre à chaque métier (formule du prototype, § 10.2), passif humain +10 %.
+- **Nombre de métiers** : tous connus pendant les tests ; à terme, **3 métiers de récolte et
+  3 métiers d'artisanat** au plus par personnage (l'éleveur compte comme artisanat), pour que les
+  joueurs échangent entre eux en multijoueur. Une *potion d'oubli de métier* (Maître des potions)
+  permet d'en changer, en perdant son niveau.
+- **Paliers de ressources** : une nouvelle ressource aux niveaux **1, 3, 8, 15, 22** (déjà en place
+  pour le bois et le minerai), puis **30, 40, 55, 70, 85, 100**, soit 11 ressources par métier de
+  récolte. Les cinq premières se trouvent dans les zones de départ, les suivantes dans les régions à
+  venir (§ 3.5). Chaque ressource a sa **version rare** (1 %, à la place de la récolte, § 10.2).
+- **Outils** : chaque métier de récolte a son outil (pioche, hache, faucille, serpe, canne à pêche),
+  porté dans un emplacement d'outil hors combat (pas une arme). Fabriqués par le **Forgeron** (le
+  manche par le bûcheron, la lame par le mineur) : un outil meilleur raccourcit la récolte et ajoute
+  une chance de ressource en plus. Sans outil, on récolte quand même, plus lentement (pas de mur
+  pour un nouveau joueur).
+- **Produits intermédiaires** fabriqués à l'atelier du métier qui les utilise, sans recette à
+  apprendre : **lingots** (Forgeron, 5 minerais → 1 lingot, à partir du palier 30), **farines**
+  (Boulanger, 5 grains → 1 farine), **toiles et fils** (Costumier, 5 fibres → 1 toile), **gemmes
+  taillées** (Joaillier). Ils allègent l'inventaire et les recettes de haut niveau.
+- **Ateliers** : chaque capitale de camp a les six ateliers, avec un maître PNJ par métier, dans le
+  ton de son camp (forge humaine qui se croit légendaire, chaudron gobelin aux normes syndicales,
+  atelier elfe « collection Automne Éternel »). Les villes secondaires n'en ont que deux ou trois.
+- **Recettes classiques** données par le jeu jusqu'au niveau 100, puis **Chef-d'œuvre** (§ 10.4) au
+  niveau 100 pour tous les métiers d'artisanat, Éleveur compris (sous une forme propre, plus bas).
+- **Récolte sauvage et terrains instanciés** : les ressources de la carte restent la source normale
+  (et la seule pour les semences de haut niveau) ; les terrains achetés (plus bas) servent à
+  produire régulièrement ce qu'on a déjà trouvé.
+
+#### Mineur
+
+Minerais sur les rochers de la carte, comme aujourd'hui. Paliers : **cuivre** (1), **fer** (3),
+**étain** (8), **argent** (15), **obsidienne** (22), puis **charbon de pierre** (30), **or de
+pacotille** (40, « brille, mais pas trop »), **cristal de brume** (55), **adamantoc** (70, gobelin),
+**pierre de Cendre** (85, Marches Cendrées), **fer-étoile** (100).
+
+- **Sous-produits** : le **sel gemme** (5 % sur les rochers de bas niveau, pour le Boulanger) et les
+  **gemmes brutes** à partir de l'argent (5 % par récolte, en plus) : une gemme par élément
+  (hématite Acier, rubis Flamme, saphir Givre, émeraude Tempête, opale Sacré, onyx Impie), pour le
+  Joaillier.
+- **Mine instanciée** : voir plus bas ; on n'y plante rien.
+
+#### Bûcheron
+
+Arbres de la carte, comme aujourd'hui. Paliers : **frêne** (1), **chêne** (3), **if** (8), **hêtre**
+(15), **malorme** (22), puis **saule pleureur** (30, il pleure vraiment, la sève sert au Maître des
+potions), **érable** (40), **séquoia** (55), **barbe-souche** (70, un vieil arbre qui parle très,
+très lentement et proteste à la coupe), **ébène de Cendre** (85), **bois de l'Aube** (100).
+
+- **Sous-produits** : **écorce** et **sève** (10 %, Maître des potions, Costumier pour les teintures),
+  **glands et pousses** (semences, voir terrains).
+
+#### Agriculteur (nouveau)
+
+Champs sauvages sur les cartes de campagne (Brumerive surtout, Hautepierre), épis à faucher.
+Chaque céréale correspond à une ligne des pains du Boulanger (§ 10.4) ; les fibres vont au Costumier.
+
+| Niveau | Ressource | Usage principal |
+|---|---|---|
+| 1 | Blé | regain de vie (Boulanger) |
+| 3 | Lin | toile (Costumier) |
+| 8 | Avoine | Force (Boulanger) |
+| 15 | Seigle | durée en combats (Boulanger) |
+| 22 | Chanvre | cordes, licols (Costumier, Éleveur) |
+| 30 | Maïs flamboyant | Intelligence (Boulanger) |
+| 40 | Riz des marais | Chance (Boulanger) |
+| 55 | Sarrasin | Agilité (Boulanger) |
+| 70 | Coton de brume | soie légère (Costumier) |
+| 85 | Orge noire | Sagesse (Boulanger) |
+| 100 | Épeautre de l'Aube | Vitalité (Boulanger) |
+
+Le **fourrage** (paille, 1 par récolte de céréale) nourrit les montures herbivores de l'Éleveur.
+
+#### Herboriste (nouveau)
+
+Plantes à cueillir dans les sous-bois, au bord de l'eau et dans les ruines (Sylvebrume surtout).
+Chaque plante correspond à une ligne des potions du Maître des potions.
+
+| Niveau | Ressource | Usage principal (potions) |
+|---|---|---|
+| 1 | Ortie | soin (regain en combat ou hors combat, voir Maître des potions) |
+| 3 | Trèfle | Chance |
+| 8 | Menthe poivrée | Agilité |
+| 15 | Sauge | Sagesse |
+| 22 | Piment des forges | Intelligence |
+| 30 | Mandragore | Force (elle hurle à la cueillette : petit étourdissement comique, sans effet) |
+| 40 | Herbe-à-pipe | Initiative (ou son contraire) |
+| 55 | Pavot de brume | Prospection |
+| 70 | Feuille-de-roy | Soins (« elle s'en croit une ») |
+| 85 | Edelweiss de Cendre | résistances |
+| 100 | Fleur de l'Aube | effets majeurs (dommages, critiques) |
+
+Les **champignons** ne sont pas récoltés : ils sont lâchés par les morilles (monstres), ce qui garde
+le lien avec le combat.
+
+#### Pêcheur (nouveau)
+
+Coins de pêche sur les cases d'eau (remous animés), la pêche se fait depuis une case de bord.
+Paliers : **goujon** (1), **perche** (3), **truite** (8), **brochet** (15), **anguille des
+galeries** (22, Crasse-Roc), puis **silure** (30), **poisson-lanterne** (40, eaux profondes),
+**poisson précieux** (55, « on l'arrache à une créature des cavernes qui le réclame »), **kraken de
+bocal** (70), **léviathan nain** (85), **saumon de l'Aube** (100).
+
+- **Sous-produits** : **coquillages** et **perles** (2 %, Joaillier), **alevins** (petits poissons
+  « trop petits, relâchés » : semences de l'étang instancié).
+- **Usages** : tourtes et pâtés du Boulanger (regain de vie plus fort), huiles du Maître des potions
+  (résistances), nourriture des montures carnivores (loups).
+
+#### Terrains instanciés (idée de l'auteur)
+
+Les joueurs **achètent des cartes instanciées** (personnelles, comme la maison du joueur, § 6) pour
+y planter puis récolter les ressources des métiers de récolte. Une carte par métier :
+
+| Terrain | Métier | On y met | Contenu de départ |
+|---|---|---|---|
+| **Champ** | Agriculteur | graines | 12 sillons |
+| **Jardin** | Herboriste | boutures | 12 plates-bandes |
+| **Bosquet** | Bûcheron | glands et pousses | 6 emplacements d'arbre |
+| **Étang** | Pêcheur | alevins | 4 coins de pêche |
+| **Mine** | Mineur | rien : les filons repoussent seuls | 1 galerie (6 filons) |
+
+- **Achat** en brumes, auprès d'un PNJ du cadastre dans chaque capitale (parodie : un notaire
+  humain, le Syndicat gobelin des Terrassiers, le Conservatoire elfique des Sylves qui vous loue
+  « la permission d'exister près d'un arbre »). Accès par une porte ou un panneau, comme la maison.
+  Pistes de prix : **2 000 brumes** le terrain, puis des **agrandissements** (5 000, 15 000,
+  40 000) qui ajoutent des emplacements ; pas de loyer (ne pas punir l'absence).
+- **Planter** : on pose une semence sur un emplacement libre ; elle **pousse en temps réel**, même
+  déconnecté (piste : 10 min pour une ressource de niveau 1, jusqu'à 4 h au niveau 100), puis on la
+  récolte comme une ressource de la carte (même XP, même chance de rare). Il faut le **niveau de
+  métier** de la ressource pour la planter.
+- **Rendement** : une plante cultivée donne le **double** d'une récolte sauvage, et rend sa semence
+  avec **80 %** de chance : le stock de semences s'use lentement, il faut revenir en récolter dans
+  la nature. Les **semences** viennent de la récolte sauvage (10 % par récolte) ; celles des cinq
+  premiers paliers s'achètent aussi chez les marchands.
+- **Engrais** (lien avec l'Éleveur) : le fumier des montures, posé sur un emplacement, raccourcit la
+  pousse de moitié ou ajoute une récolte. Aucun arrosage ni corvée : on plante, on revient, on récolte.
+- **Mine** : on n'y plante rien (demande de l'auteur) : on achète la mine, et ses filons repoussent
+  seuls, plus lentement que sur la carte. Chaque **galerie** achetée en plus (agrandissement) ouvre
+  un étage plus profond, aux minerais d'une tranche de paliers (étage 1 : cuivre à étain ; étage 2 :
+  argent à charbon ; etc.), à condition d'avoir le niveau de mineur. Le minerai de chaque filon est
+  tiré dans la tranche de l'étage à chaque repousse. Piste parodique : de temps en temps, un **rat
+  des galeries squatte** la mine (petit combat facultatif, il emporte un filon tant qu'il est là).
+- **Multijoueur** : un terrain appartient à un personnage (question ouverte : au compte) ; on peut
+  y **inviter** des amis, qui récoltent pour le propriétaire (la ressource va dans son coffre ou au
+  récoltant, à trancher). Les terrains sont hors du havre de paix des actes I et II (§ 13.2) : ils
+  ne vident pas les ressources communes, ce qui est le but.
+- **Solo** : même fonctionnement ; la carte instanciée suit le modèle de la maison du joueur.
+
+#### Forgeron
+
+**Armes** (toutes : épées, haches, marteaux, bâtons, arcs, sceptres…) et **armures**. Le jeu n'a pas
+d'emplacement de plastron (§ 9.1) : l'armure du forgeron, c'est le **bouclier** (emplacement main
+gauche, long terme). *Question pour l'auteur : faut-il plutôt ajouter un emplacement « Armure »
+(plastron) au forgeron, ou lui laisser les pièces de métal (heaumes, solerets) à côté du Costumier ?*
+
+- En plus : **outils de récolte** (tous les métiers) et **lingots**.
+- **Bascule depuis le prototype** : le Forgeron fait aujourd'hui aussi anneaux, amulettes,
+  ceintures et bottes (23 recettes). Quand le Joaillier et le Costumier arrivent, ces recettes leur
+  passent (objets et ingrédients inchangés), le Forgeron garde ses armes ; l'XP déjà gagnée reste
+  au Forgeron. Rien ne change pendant l'alpha test 1.
+- **Chef-d'œuvre** : armes et boucliers (question ouverte de § 10.4 sur les armes, qui sont des
+  sorts : piste, les dégâts de base suivent le niveau, le score sert aux lignes de statistiques).
+
+#### Costumier (nouveau)
+
+Tous les équipements qui ne sont **ni armes, ni armures, ni bijoux** : **coiffes, capes, ceintures,
+bottes**, et plus tard les emplacements de cosmétique. Matières : **toiles** (lin, coton, chanvre),
+**cuirs et fourrures** (peaux de monstres), **soie** (fil de tisseuse de brume), **plumes**
+(corbacs), **teintures** (écorces, sève, fleurs).
+
+- Fabrique aussi les **licols** (apprivoisement) et les **selles** (montures) de l'Éleveur.
+- **Apparences** (piste) : coiffe et cape se voient sur le personnage (§ 9.2) ; le Costumier peut
+  coudre une apparence (sans statistiques) à poser par-dessus une pièce. Le ton : « haute couture
+  héroïque », où les elfes jugent tout le monde.
+- **Chef-d'œuvre** : coiffes, capes, ceintures, bottes.
+
+#### Joaillier (nouveau)
+
+**Anneaux** et **amulettes**. Matières : métaux précieux (cuivre, étain, argent, or de pacotille,
+cristal de brume), **gemmes** (mineur, taillées à l'atelier), **perles** et coquillages (pêcheur),
+crocs et yeux de monstres.
+
+- La **gemme** porte l'élément : un anneau de Flamme demande un rubis taillé, ce qui suit la règle
+  des ressources élémentaires de § 10.4.
+- **Sertissage** (piste, après le Chef-d'œuvre) : ajouter une gemme sur un bijou déjà fait pour une
+  petite ligne en plus, une fois par bijou.
+- Les **Reliques** (bagues légendaires, § 3.3) ne se fabriquent pas.
+- **Chef-d'œuvre** : anneaux et amulettes.
+
+#### Boulanger (nouveau)
+
+**Pains** : surtout du **regain de vie** et des **bonus de caractéristiques temporaires** (§ 10.4).
+Ingrédients : **farines** (céréales de l'agriculteur, une par caractéristique), **poissons** pour
+les tourtes, et des ingrédients obligatoires : **eau** (puits gratuit en ville), **sel** (sel gemme du
+mineur ou marchand), **levure** (marchand, ou sève fermentée du bûcheron).
+
+- **Hors combat seulement**, depuis la barre d'objets (§ 14.3). Le regain rend des PV tout de suite
+  (le pain de base : 20 PV ; les tourtes : beaucoup plus).
+- Un **bonus de pain** dure un **nombre de combats** (de 1 à 5) ; un seul **repas** actif à la
+  fois : manger un autre pain fortifiant remplace le précédent.
+- Recettes classiques jusqu'au niveau 100, puis **Chef-d'œuvre** (exemple du pain fortifiant majeur,
+  § 10.4).
+
+#### Maître des potions (nouveau)
+
+**Potions** : ce que le pain ne fait pas. Ingrédients : **plantes** de l'herboriste (une par effet,
+tableau plus haut), **fioles** (achetées aux marchands : un des puits à brumes du jeu), **sève**,
+**huiles de poisson**, ressources de monstres (champignons des morilles, venin, ailes).
+
+- **Bonus de combat** pour un nombre de combats : Sagesse, Prospection, Initiative, Dommages, Soins,
+  critiques, **résistances par élément** (huiles de poisson, edelweiss). Un seul **élixir** actif à
+  la fois, cumulable avec un repas du Boulanger : deux familles de bonus, pas plus.
+- **Utilitaires** : *potion de rappel* (retour à la dernière Pierre de Passage touchée), *potion
+  d'oubli* (réinitialise les caractéristiques : le restat « par un objet » de § 4.5), *potion
+  d'oubli de métier*, *potion de sagesse du métier* (+XP de métier pendant une heure).
+- **En combat** : pas pendant l'alpha (piste : une potion de soin par combat, 2 PA, depuis la barre
+  de sorts) ; à décider quand les potions existeront.
+- **Chef-d'œuvre** : même principe que le Boulanger (score par effet, niveau = score / 5).
+
+#### Éleveur de montures (nouveau)
+
+On **apprivoise des monstres du jeu** qui peuvent porter un cavalier, et on les élève. Ils vont dans
+l'emplacement **Familier / monture** (§ 9.1).
+
+**Espèces** (pas tous les monstres : seulement ceux qui peuvent porter, demande de l'auteur) :
+
+| Monstre (famille) | Zone | Niveau d'éleveur | Bonus de la monture (piste) |
+|---|---|---|---|
+| Loup des collines | Brumerive | 1 | Agilité, Force |
+| Cerf enchanté | Sylvebrume | 1 | Chance, Sagesse |
+| Grouilleur (mille-pattes) | Crasse-Roc | 1 | Vitalité, Intelligence (« on n'arrête pas de lui acheter des bottes ») |
+| Loup cendreux | Brumerive, Hautepierre | 20 | Agilité, résistance Flamme |
+| Grand cerf de la Lisière | Sylvebrume (élite) | 30 | Chance, PM hors combat |
+| Olifant de guerre | Hautepierre | 60 | Vitalité, Force (énorme, lent à monter) |
+| Gargouille | Hautepierre | 80 | Intelligence, Initiative (piste : vol décoratif) |
+
+Exclus : les créatures qui parlent ou se croient des personnes (trolls, gobelins, épouvantails,
+arbres vivants, morilles), et celles trop petites (rats, vampipistrelles, corbacs). Chaque camp a
+une monture de départ, dans sa zone.
+
+- **Apprivoisement** : il faut un **licol** (Costumier, ou l'atelier de l'éleveur) dans
+  l'inventaire. En combat contre un monstre de l'espèce, quand il est le **dernier ennemi** et sous
+  **25 % de ses PV**, le sort *Apprivoiser* (3 PA, au contact) le capture avec une chance qui monte
+  avec le niveau d'éleveur et baisse avec le niveau du monstre ; en cas de succès, le monstre quitte
+  le combat (victoire, sans butin de ce monstre) et devient une **monture sauvage** envoyée à
+  l'enclos. Les élites et mini-boss ne s'apprivoisent pas (sauf le grand cerf, plus haut).
+- **Enclos** : un **terrain instancié** de plus (même achat que les terrains), avec des **objets
+  d'élevage** fabriqués par les métiers : mangeoire (céréales ou poissons selon l'espèce), abreuvoir,
+  brosse, et un épouvantail « motivant » qui fait progresser la docilité. Une monture sauvage doit
+  être **dressée** à l'enclos (temps réel, comme les plantes) avant d'être montée.
+- **Monture** : elle a un **niveau** (1 à 100, XP prise sur une part de l'XP de combat du cavalier,
+  au choix de 0 à 50 %) qui fait monter ses bonus, et de l'**énergie** qui baisse à chaque combat et
+  se recharge à la mangeoire : à 0, elle ne donne plus de bonus (elle boude). Hors combat, monté, on
+  se déplace plus vite (course × 1,8 au lieu de × 1,4) ; en combat, le cavalier reste un seul
+  combattant (la monture ne joue pas).
+- **Robes** : chaque monture a une couleur tirée parmi celles de l'espèce (recoloration des dessins
+  `.svgt`, sans dessin de plus) ; certaines robes sont rares.
+- **Reproduction** : deux montures adultes de la même espèce (mâle et femelle) à l'enclos donnent
+  un petit, qui hérite de la robe et d'une partie des bonus de ses parents ; nombre de portées
+  limité par monture. C'est la principale source d'XP du métier avec l'apprivoisement et le dressage.
+- **Fumier** : les montures à l'enclos en produisent ; c'est l'**engrais** des terrains (lien avec
+  les métiers de récolte, et ressort parodique assumé).
+- **Chef-d'œuvre de l'éleveur** (niveau 100) : une **lignée de maître** : pour un petit à naître,
+  l'éleveur choisit ses bonus dans un budget de score (barème de § 10.4), au lieu du tirage ; le
+  petit porte le nom de l'élevage (« de l'élevage de [pseudo] »).
+
+#### Ordre de production proposé
+
+1. **Agriculteur et Boulanger** : les plus simples, ils remplissent la barre d'objets hors combat.
+2. **Herboriste et Maître des potions** : potions de bonus et utilitaires (rappel, oubli).
+3. **Costumier et Joaillier** : reprennent les recettes de bijoux, ceintures et bottes du Forgeron.
+4. **Pêcheur** : coins de pêche, tourtes et huiles.
+5. **Terrains instanciés** : champ, jardin, bosquet, étang, mine (modèle de la maison du joueur).
+6. **Éleveur et montures** : apprivoisement, enclos, emplacement monture.
+7. **Chef-d'œuvre** pour tous les métiers d'artisanat (§ 10.4).
+
+**Questions ouvertes** : forme de l'armure du Forgeron (plus haut) ; terrains par personnage ou par
+compte ; potions utilisables en combat ; noms des maîtres d'atelier ; part des recettes du Forgeron
+qui passe au Costumier et au Joaillier ; montures échangeables entre joueurs (multi).
 
 ### 10.4 Objets personnalisés (long terme, idée de l'auteur)
 
@@ -1044,11 +1339,11 @@ Krogma » ; proposition retenue par défaut dans ce document), **Pièce de maît
 libre**. Côté parodie, l'objet peut porter la signature de son artisan (« fait main par… »).
 
 **Tous les métiers d'artisanat** (demande de l'auteur) : chaque métier de craft, une fois au niveau
-maximum, débloque cette compétence pour ses propres emplacements (forgeron pour les armes, tailleur
-pour les capes et coiffes, joaillier pour les anneaux et amulettes, cordonnier pour les bottes et
-ceintures, etc., § 10.3). Aucun métier de craft ne doit en être privé.
+maximum, débloque cette compétence pour ses propres emplacements (forgeron pour les armes et
+les boucliers, costumier pour les coiffes, capes, ceintures et bottes, joaillier pour les
+anneaux et amulettes, éleveur pour les montures, § 10.3). Aucun métier de craft ne doit en être privé.
 
-**Métiers de consommables** (alchimiste, boulanger, cuisinier…) : **même principe que pour les
+**Métiers de consommables** (boulanger, maître des potions) : **même principe que pour les
 équipements**. Chaque métier a sa liste d'effets possibles, chacun avec son **coût en score**, une
 **limite de lignes** et une **limite de score par ligne** (et par objet). Les ingrédients suivent les
 lignes choisies, plus des **ingrédients obligatoires** propres au métier. Exemple du boulanger, tous
@@ -1070,7 +1365,7 @@ les chiffres étant provisoires (*à équilibrer*, pas des règles fixées) :
 = **500**, donc niveau 100. Recette : 5 farines d'avoine, 5 farines de seigle, 1 litre d'eau,
 1 levure boulangère.
 
-L'alchimiste suit la même logique avec ses potions (effets, durées et ingrédients à définir).
+Le maître des potions suit la même logique avec ses potions (effets, durées et plantes : § 10.3).
 
 **Score des statistiques.** Chaque point de statistique vaut un nombre de points de score, d'après sa
 rareté et sa puissance (§ 4.4) :
@@ -1160,8 +1455,8 @@ d'ambiance habituel, sa fiche affiche « Créé par [pseudo de l'artisan] ».
 - objets **liés** au personnage ou échangeables (en multijoueur : commandes entre joueurs, patrons
   vendus ou partagés) ;
 - rapport avec la **forgemagie** (§ 9.2, long terme) : un objet personnalisé peut-il être forgemagé ?
-- quels métiers d'artisanat y ont droit (Forgeron, puis Tailleur, Joaillier, Cordonnier, § 10.3) et
-  à quel niveau de métier (90 ? 100 ?).
+- ~~quels métiers d'artisanat y ont droit~~ : tous (Forgeron, Costumier, Joaillier, Boulanger,
+  Maître des potions, Éleveur sous forme de lignée de maître, § 10.3), au niveau 100 de métier.
 
 ---
 
