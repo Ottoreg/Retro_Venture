@@ -75,9 +75,9 @@ const COLOR_PATH := Color(1.0, 0.92, 0.55, 0.85)
 const COLOR_SHADOW := Color(0, 0, 0, 0.25)
 const COLOR_REACHABLE := Color(0.35, 0.85, 0.35, 0.35)
 const COLOR_RANGE := Color(0.3, 0.55, 1.0, 0.4)
-## Cases que peut atteindre l'ennemi survolé (rouge, distinct du vert du joueur).
-const COLOR_ENEMY_REACH := Color(0.95, 0.2, 0.2, 0.42)
-const COLOR_ENEMY_REACH_EDGE := Color(1.0, 0.35, 0.3, 0.9)
+## Cases que peut atteindre l'ennemi survolé (vert plus franc que celui du joueur, cerné).
+const COLOR_ENEMY_REACH := Color(0.2, 0.8, 0.25, 0.42)
+const COLOR_ENEMY_REACH_EDGE := Color(0.3, 0.95, 0.35, 0.9)
 const COLOR_RANGE_HIDDEN := Color(0.3, 0.55, 1.0, 0.15)
 const COLOR_ZONE := Color(1.0, 0.55, 0.15, 0.55)
 const COLOR_PLACEMENT := Color(0.25, 0.5, 1.0, 0.9)
@@ -807,9 +807,10 @@ func _update_preview() -> void:
 	queue_redraw()
 
 
-## Cases que peut atteindre l'ennemi sur `cell` (vide si aucun ennemi, ou pendant la lecture).
+## Cases que peut atteindre l'ennemi sur `cell` (vide si aucun ennemi, pendant la lecture ou quand
+## un sort est choisi : la portée du sort seule pour viser).
 func _enemy_reach_at(cell: Vector2i, player: Fighter) -> Array[Vector2i]:
-	if mode != Mode.COMBAT or world.combat == null or _playing or player == null:
+	if mode != Mode.COMBAT or world.combat == null or _playing or player == null or selected_spell != "":
 		return []
 	var enemy := world.combat.fighter_at(cell)
 	if enemy == null or enemy.team == player.team:
