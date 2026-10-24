@@ -1,0 +1,18 @@
+{
+  "id": "ceinture_enclume_rancuniere",
+  "nom": "Ceinture de l'Enclume Rancunière",
+  "type": "ceinture",
+  "rarete": "peu_commun",
+  "niveau": 15,
+  "description": "Forgée par un forgeron qui n'a jamais digéré qu'on lui demande un rabais.",
+  "bonus": {
+    "force": [
+      8,
+      12
+    ],
+    "vitalite": [
+      12,
+      18
+    ]
+  }
+}

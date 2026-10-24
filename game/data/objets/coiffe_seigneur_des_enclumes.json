@@ -1,0 +1,18 @@
+{
+  "id": "coiffe_seigneur_des_enclumes",
+  "nom": "Coiffe du Seigneur des Enclumes",
+  "type": "coiffe",
+  "rarete": "rare",
+  "niveau": 30,
+  "description": "Une enclume pour les gouverner toutes. Et dans le métal, les marteler.",
+  "bonus": {
+    "force": [
+      16,
+      22
+    ],
+    "vitalite": [
+      25,
+      35
+    ]
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "id": "ceinture_coup_de_vent",
+  "nom": "Ceinture du Coup de Vent",
+  "type": "ceinture",
+  "rarete": "peu_commun",
+  "niveau": 15,
+  "description": "Taillée pour aller vite. Les boutons, eux, sont partis devant.",
+  "bonus": {
+    "agilite": [
+      8,
+      12
+    ],
+    "vitalite": [
+      12,
+      18
+    ]
+  }
+}

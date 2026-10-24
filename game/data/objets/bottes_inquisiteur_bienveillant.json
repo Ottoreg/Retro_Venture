@@ -1,0 +1,22 @@
+{
+  "id": "bottes_inquisiteur_bienveillant",
+  "nom": "Bottes de l'Inquisiteur Bienveillant",
+  "type": "bottes",
+  "rarete": "rare",
+  "niveau": 30,
+  "description": "Il pose ses questions gentiment. Puis il insiste. Toujours avec bienveillance.",
+  "bonus": {
+    "force": [
+      6,
+      8
+    ],
+    "intelligence": [
+      6,
+      8
+    ],
+    "pm": [
+      1,
+      1
+    ]
+  }
+}

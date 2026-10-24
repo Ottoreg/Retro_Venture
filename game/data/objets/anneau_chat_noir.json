@@ -1,0 +1,22 @@
+{
+  "id": "anneau_chat_noir",
+  "nom": "Anneau du Chat Noir",
+  "type": "anneau",
+  "rarete": "peu_commun",
+  "niveau": 15,
+  "description": "Elle vous croise la route à chaque pas. Vos ennemis, eux, n'ont plus aucune chance.",
+  "bonus": {
+    "agilite": [
+      4,
+      6
+    ],
+    "chance": [
+      4,
+      6
+    ],
+    "vitalite": [
+      8,
+      12
+    ]
+  }
+}

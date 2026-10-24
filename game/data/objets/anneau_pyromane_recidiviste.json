@@ -1,0 +1,18 @@
+{
+  "id": "anneau_pyromane_recidiviste",
+  "nom": "Anneau du Pyromane Récidiviste",
+  "type": "anneau",
+  "rarete": "peu_commun",
+  "niveau": 15,
+  "description": "Il avait juré de ne plus rien brûler. Il a tenu trois semaines. Ses vêtements l'avaient prévenu.",
+  "bonus": {
+    "intelligence": [
+      7,
+      10
+    ],
+    "vitalite": [
+      8,
+      12
+    ]
+  }
+}

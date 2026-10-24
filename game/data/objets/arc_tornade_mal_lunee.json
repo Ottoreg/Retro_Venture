@@ -1,0 +1,37 @@
+{
+  "id": "arc_tornade_mal_lunee",
+  "nom": "Arc de la Tornade Mal Lunée",
+  "type": "arme",
+  "rarete": "rare",
+  "niveau": 30,
+  "description": "Elle se lève du mauvais pied et emporte tout le monde avec elle.",
+  "bonus": {
+    "agilite": [
+      12,
+      17
+    ],
+    "vitalite": [
+      15,
+      22
+    ]
+  },
+  "attaque": {
+    "cout_pa": 4,
+    "portee": {
+      "min": 2,
+      "max": 7
+    },
+    "ligne_de_vue": true,
+    "relance": {
+      "par_tour": 1
+    },
+    "effets": [
+      {
+        "type": "degats",
+        "element": "tempete",
+        "min": 17,
+        "max": 25
+      }
+    ]
+  }
+}

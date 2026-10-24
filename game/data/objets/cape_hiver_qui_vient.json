@@ -1,0 +1,18 @@
+{
+  "id": "cape_hiver_qui_vient",
+  "nom": "Cape de l'Hiver Qui Vient",
+  "type": "cape",
+  "rarete": "rare",
+  "niveau": 30,
+  "description": "On l'annonce depuis des années. Il est enfin arrivé, et il a apporté ses affaires.",
+  "bonus": {
+    "chance": [
+      14,
+      20
+    ],
+    "sagesse": [
+      7,
+      10
+    ]
+  }
+}

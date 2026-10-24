@@ -1,0 +1,18 @@
+{
+  "id": "coiffe_coup_de_vent",
+  "nom": "Coiffe du Coup de Vent",
+  "type": "coiffe",
+  "rarete": "peu_commun",
+  "niveau": 15,
+  "description": "Taillée pour aller vite. Les boutons, eux, sont partis devant.",
+  "bonus": {
+    "agilite": [
+      9,
+      13
+    ],
+    "vitalite": [
+      12,
+      18
+    ]
+  }
+}

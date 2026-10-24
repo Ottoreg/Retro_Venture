@@ -51,6 +51,30 @@
     {
       "objet": "massue_de_troll",
       "taux": 0.13
+    },
+    {
+      "objet": "anneau_enclume_rancuniere",
+      "taux": 0.13
+    },
+    {
+      "objet": "ceinture_enclume_rancuniere",
+      "taux": 0.13
+    },
+    {
+      "objet": "bottes_enclume_rancuniere",
+      "taux": 0.13
+    },
+    {
+      "objet": "anneau_hiver_qui_vient",
+      "taux": 0.08
+    },
+    {
+      "objet": "ceinture_hiver_qui_vient",
+      "taux": 0.08
+    },
+    {
+      "objet": "bottes_hiver_qui_vient",
+      "taux": 0.08
     }
   ],
   "ecus": [

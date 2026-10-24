@@ -241,7 +241,7 @@ Tout le contenu et les systèmes MVP de l'alpha 1 sont faits (chantiers 1, 3, 4 
 - [x] **(MVP)** Conditions d'équipement (niveau, caractéristiques ; pas deux objets identiques)
 - [x] **(MVP)** Armes utilisables en combat (attaque de l'arme dans la barre de sorts)
 - [x] Jets aléatoires de statistiques
-- [x] Plus d'objets pour couvrir les niveaux 1 à 30 (133 équipements, 66 ressources, 6 objets de
+- [x] Plus d'objets pour couvrir les niveaux 1 à 30 (217 équipements, 66 ressources, 6 objets de
   quête)
 - [x] **(MVP alpha test)** Système de panoplies : bonus de panoplie qui grandit avec le nombre de
   pièces équipées, affiché dans l'inventaire et chez le marchand (pièces portées / palier actif)
@@ -249,6 +249,10 @@ Tout le contenu et les systèmes MVP de l'alpha 1 sont faits (chantiers 1, 3, 4 
   ceinture, bottes) : Acier, Flamme, Givre, Tempête, Sacré, Impie (GDD § 9.3)
 - [x] **(MVP alpha test)** Panoplie Initiative et Dommages (3 pièces) et panoplie Prospection
   (3 pièces), à mélanger avec une panoplie élémentaire incomplète
+- [x] Panoplies élémentaires de niveau 15 et 30 : 6 + 6, de 7 pièces (l'arme comprise), au bonus
+  complet de +1 PA, +1 PM, +1 Portée, +100 (niveau 15) et +2 PA, +1 PM, +2 Portée, +200 (niveau 30) ;
+  amulettes à 1 PA, bottes de niveau 30 à 1 PM ; butin de monstres de leur niveau (GDD § 9.3,
+  `docs/design/panoplies_15_30/produire.py`)
 - [ ] Équilibrer les panoplies après les retours de test (prix, niveau, paliers)
 - [ ] Recettes de forgeron et/ou butin pour obtenir ces panoplies
 - [ ] Équipement visible sur le personnage (coiffe, cape, arme)

@@ -57,6 +57,22 @@
     {
       "objet": "bottes_enfant_de_choeur",
       "taux": 0.13
+    },
+    {
+      "objet": "coiffe_bedeau_zele",
+      "taux": 0.13
+    },
+    {
+      "objet": "cape_bedeau_zele",
+      "taux": 0.13
+    },
+    {
+      "objet": "amulette_bedeau_zele",
+      "taux": 0.13
+    },
+    {
+      "objet": "masse_bedeau_zele",
+      "taux": 0.0975
     }
   ],
   "ecus": [

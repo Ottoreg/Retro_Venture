@@ -26,7 +26,7 @@ Prix de boutique : selon la rareté (revente à 25 %).
 - [Sorts de race](#sorts-de-race)
 - [Sorts des monstres](#sorts-des-monstres)
 
-**205 objets** (31 armes, 16 coiffes, 16 capes, 18 amulettes, 20 anneaux, 15 ceintures, 17 bottes, 66 ressources, 6 objets de quête), **50 monstres** et **116 sorts**.
+**289 objets** (43 armes, 28 coiffes, 28 capes, 30 amulettes, 32 anneaux, 27 ceintures, 29 bottes, 66 ressources, 6 objets de quête), **50 monstres** et **116 sorts**.
 
 ## Armes
 
@@ -52,6 +52,12 @@ Prix de boutique : selon la rareté (revente à 25 %).
 | **Hachoir de Krasbouk** | 12 | Épique | Force 5–8, Vitalité 7–9, Dommages 1 | — | 4 PA, portée 1, 2/tour : 13–19 Acier | butin : Krasbouk, Chef de Raid (syndiqué) 12 % | Inscrit à l'inventaire du raid sous « outil de négociation ». |
 | **Masse météorique** | 12 | Rare | Force 8–12, Vitalité 8–12, Dommages 1 | — | 4 PA, portée 1, 1/tour : 14–20 Acier | Forgeron niv. 12 (1 Fer météorique, 1 Chêne des Anciens, 8 Minerai de fer) | Une tête de fer tombée du ciel sur un manche de chêne des Anciens. Elle retombe souvent. |
 | **Dague de détrousseur** | 14 | Peu commun | Agilité 6–8, Initiative 24–35 | — | 3 PA, portée 1–3, 2/tour : 9–13 Tempête | boutique 120 brumes<br>butin : Chef de bande 13 %, Détrousseur des grands chemins 3 % | Équilibrée pour le lancer, et pour le retour : elle a une ficelle. |
+| **Arc du Coup de Vent** *(Panoplie du Coup de Vent)* | 15 | Peu commun | Agilité 6–9, Vitalité 8–12 | — | 4 PA, portée 2–6, 1/tour : 12–17 Tempête | boutique 120 brumes<br>butin : Loup cendreux 3 % | Taillée pour aller vite. Les boutons, eux, sont partis devant. |
+| **Bâton du Yéti Frileux** *(Panoplie du Yéti Frileux)* | 15 | Peu commun | Chance 6–9, Vitalité 8–12 | — | 3 PA, portée 1–4, 2/tour : 10–14 Givre | boutique 120 brumes<br>butin : Grande Tisseuse 10 %, Tisseuse de brume 2 % | Le yéti la portait par-dessus sa fourrure, avec une écharpe. Il avait quand même froid. |
+| **Dague du Chat Noir** *(Panoplie du Chat Noir)* | 15 | Peu commun | Agilité 3–5, Chance 3–5, Vitalité 8–12 | — | 3 PA, portée 1, 2/tour : 9–13 Impie | boutique 120 brumes<br>butin : Chef de bande 10 %, Détrousseur des grands chemins 2 % | Elle vous croise la route à chaque pas. Vos ennemis, eux, n'ont plus aucune chance. |
+| **Marteau de l'Enclume Rancunière** *(Panoplie de l'Enclume Rancunière)* | 15 | Peu commun | Force 6–9, Vitalité 8–12 | — | 4 PA, portée 1, 1/tour : 14–20 Acier | boutique 120 brumes<br>butin : Défonceur de portes 10 %, Gobelin briseur 2 % | Forgée par un forgeron qui n'a jamais digéré qu'on lui demande un rabais. |
+| **Masse du Bedeau Zélé** *(Panoplie du Bedeau Zélé)* | 15 | Peu commun | Force 3–5, Intelligence 3–5, Vitalité 8–12 | — | 4 PA, portée 1, 1/tour : 14–20 Sacré | boutique 120 brumes<br>butin : Abatteur en chef 10 %, Bûcheron de Brumerive 2 % | Il sonne les cloches à l'heure, mouche les cierges à l'heure et frappe les hérétiques à l'heure. |
+| **Sceptre du Pyromane Récidiviste** *(Panoplie du Pyromane Récidiviste)* | 15 | Peu commun | Intelligence 6–9, Vitalité 8–12 | — | 4 PA, portée 2–6, 1/tour : 12–17 Flamme | boutique 120 brumes<br>butin : Contremaître en chef 10 %, Contremaître zélé 2 % | Il avait juré de ne plus rien brûler. Il a tenu trois semaines. Ses vêtements l'avaient prévenu. |
 | **Épée d'argent** | 15 | Rare | Force 6–9, Vitalité 4–6, Sagesse 2–3 | — | 4 PA, portée 1, 1/tour : 13–19 Acier | boutique 350 brumes<br>Forgeron niv. 15 (6 Minerai d'argent, 2 Bois de hêtre, 4 Maillon de cotte) | Brillante et tranchante. Les Corrompus détestent son reflet. |
 | **Massue de troll** | 17 | Rare | Force 7–10, Vitalité 9–13 | Force ≥ 40 | 5 PA, portée 1, 1/tour : 17–25 Acier ; poussée de 1 case(s) | boutique 350 brumes<br>butin : Troll gastronome 13 %, Troll des ponts 3 % | Un tronc d'arbre avec un clou. Le clou, c'est pour l'élégance. |
 | **Sceptre de Hautepierre** | 18 | Rare | Force 4–5, Intelligence 4–5, Sagesse 2–3, Vitalité 5–7 | — | 4 PA, portée 1–2, 1/tour : 14–20 Sacré | boutique 350 brumes<br>Forgeron niv. 18 (5 Minerai d'argent, 3 Bois de hêtre, 2 Écusson de milice, 1 Ordre de raid) | Surmonté d'une petite Tour Blanche en argent. Béni par Frère Bénitier, pouce compris. |
@@ -62,7 +68,13 @@ Prix de boutique : selon la rareté (revente à 25 %).
 | **Arc de malorme** | 25 | Rare | Agilité 10–14, Initiative 32–46, Sagesse 3–5 | — | 4 PA, portée 2–7, 1/tour : 16–23 Tempête | boutique 350 brumes<br>Forgeron niv. 25 (6 Bois de malorme, 1 Soie de la Mère-Toile, 4 Plume de corbac) | Doré, léger, parfait. Les elfes prétendent qu'il est mal fait, par principe. |
 | **Baguette de Cendrillon** | 26 | Rare | Intelligence 10–14, Sagesse 3–5, Vitalité 7–10 | — | 4 PA, portée 2–6, 1/tour : 16–24 Flamme | boutique 350 brumes<br>butin : Marraine Cendrée 13 %, Cendrillon 3 % | Pas magique. Enfin, pas comme on l'espérait. |
 | **Sceptre de malorme** | 26 | Épique | Intelligence 12–16, Sagesse 5–7, Dommages 1–2 | — | 4 PA, portée 1–3, 1/tour : 16–23 Flamme | Forgeron niv. 26 (1 Malorme ensorcelée, 1 Obsidienne sanglante, 6 Bois de malorme, 4 Obsidienne) | Malorme ensorcelée et obsidienne sanglante : il murmure des sorts que personne ne lui a appris. |
+| **Arc de la Tornade Mal Lunée** *(Panoplie de la Tornade Mal Lunée)* | 30 | Rare | Agilité 12–17, Vitalité 15–22 | — | 4 PA, portée 2–7, 1/tour : 17–25 Tempête | boutique 350 brumes<br>butin : Olifant-tour 8 %, Olifant de guerre 2 % | Elle se lève du mauvais pied et emporte tout le monde avec elle. |
+| **Bâton de l'Hiver Qui Vient** *(Panoplie de l'Hiver Qui Vient)* | 30 | Rare | Chance 12–17, Vitalité 15–22 | — | 3 PA, portée 1–4, 2/tour : 14–20 Givre | boutique 350 brumes<br>butin : Gargouille de la Grande Porte 8 %, Gargouille 2 % | On l'annonce depuis des années. Il est enfin arrivé, et il a apporté ses affaires. |
+| **Dague du Porte-Malheur** *(Panoplie du Porte-Malheur)* | 30 | Rare | Agilité 7–9, Chance 7–9, Vitalité 15–22 | — | 3 PA, portée 1, 2/tour : 13–19 Impie | boutique 350 brumes<br>butin : Chef de bande 6 % | Tout ce qui peut mal tourner tourne mal. Pour les autres, surtout. |
 | **Marteau de Grondin** | 30 | Légendaire | Force 13–18, Vitalité 14–20, Dommages 2–3, PA 1 | Force ≥ 80 | 5 PA, portée 1, 1/tour : 25–37 Acier ; poussée de 1 case(s) | butin : Grondin, Bélier de la Brèche 6 % | Le dernier morceau du bélier. Il frappe toujours trois coups, même quand on n'en demande qu'un. |
+| **Marteau du Seigneur des Enclumes** *(Panoplie du Seigneur des Enclumes)* | 30 | Rare | Force 12–17, Vitalité 15–22 | — | 4 PA, portée 1, 1/tour : 21–30 Acier | boutique 350 brumes<br>butin : Grondin, Bélier de la Brèche 6 % | Une enclume pour les gouverner toutes. Et dans le métal, les marteler. |
+| **Masse de l'Inquisiteur Bienveillant** *(Panoplie de l'Inquisiteur Bienveillant)* | 30 | Rare | Force 7–9, Intelligence 7–9, Vitalité 15–22 | — | 4 PA, portée 1, 1/tour : 21–30 Sacré | boutique 350 brumes<br>butin : Le Souverain Cendré 6 % | Il pose ses questions gentiment. Puis il insiste. Toujours avec bienveillance. |
+| **Sceptre du Dragon Retraité** *(Panoplie du Dragon Retraité)* | 30 | Rare | Intelligence 12–17, Vitalité 15–22 | — | 4 PA, portée 2–6, 1/tour : 17–25 Flamme | boutique 350 brumes<br>butin : Marraine Cendrée 8 %, Cendrillon 2 % | La garde-robe d'un dragon parti à la retraite. Il touche une pension en or et ne crache plus que sur la météo. |
 
 ## Coiffes
 
@@ -80,9 +92,21 @@ Prix de boutique : selon la rareté (revente à 25 %).
 | **Couronne de ramure** | 4 | Rare | Sagesse 4–8, Intelligence 3–6 | — | boutique 350 brumes<br>butin : Grand cerf de la Lisière 18 %, Cerf enchanté 4 %<br>récompense de « Coupe rase » | Tressée dans les bois d'un cerf enchanté. Les elfes trouvent ça déplacé. |
 | **Chapeau d'épouvantail** | 7 | Peu commun | Agilité 4–6, Vitalité 5–7, Sagesse 2 | — | boutique 120 brumes<br>butin : Grand Épouvantail 20 %, Épouvantail démotivé 5 %<br>récompense de « La grève des épouvantails » | Il ne fait plus peur aux corbeaux. Aux aventuriers non plus, mais il tient chaud. |
 | **Capuche de détrousseur** | 13 | Peu commun | Agilité 5–7, Chance 4–6, Prospection 15–22 | — | boutique 120 brumes<br>butin : Chef de bande 16 %, Détrousseur des grands chemins 4 % | On ne voit pas votre visage. On voit très bien vos intentions. |
+| **Coiffe de l'Enclume Rancunière** *(Panoplie de l'Enclume Rancunière)* | 15 | Peu commun | Force 9–13, Vitalité 12–18 | — | boutique 120 brumes<br>butin : Défonceur de portes 13 %, Gobelin briseur 3 % | Forgée par un forgeron qui n'a jamais digéré qu'on lui demande un rabais. |
+| **Coiffe du Bedeau Zélé** *(Panoplie du Bedeau Zélé)* | 15 | Peu commun | Force 5–7, Intelligence 5–7, Vitalité 12–18 | — | boutique 120 brumes<br>butin : Abatteur en chef 13 %, Bûcheron de Brumerive 3 % | Il sonne les cloches à l'heure, mouche les cierges à l'heure et frappe les hérétiques à l'heure. |
+| **Coiffe du Chat Noir** *(Panoplie du Chat Noir)* | 15 | Peu commun | Agilité 5–7, Chance 5–7, Vitalité 12–18 | — | boutique 120 brumes<br>butin : Chef de bande 13 %, Détrousseur des grands chemins 3 % | Elle vous croise la route à chaque pas. Vos ennemis, eux, n'ont plus aucune chance. |
+| **Coiffe du Coup de Vent** *(Panoplie du Coup de Vent)* | 15 | Peu commun | Agilité 9–13, Vitalité 12–18 | — | boutique 120 brumes<br>butin : Loup cendreux 4 % | Taillée pour aller vite. Les boutons, eux, sont partis devant. |
+| **Coiffe du Pyromane Récidiviste** *(Panoplie du Pyromane Récidiviste)* | 15 | Peu commun | Intelligence 9–13, Vitalité 12–18 | — | boutique 120 brumes<br>butin : Contremaître en chef 13 %, Contremaître zélé 3 % | Il avait juré de ne plus rien brûler. Il a tenu trois semaines. Ses vêtements l'avaient prévenu. |
+| **Coiffe du Yéti Frileux** *(Panoplie du Yéti Frileux)* | 15 | Peu commun | Chance 9–13, Vitalité 12–18 | — | boutique 120 brumes<br>butin : Grande Tisseuse 13 %, Tisseuse de brume 3 % | Le yéti la portait par-dessus sa fourrure, avec une écharpe. Il avait quand même froid. |
 | **Chapeau à plume de corbac** | 19 | Peu commun | Agilité 9–13, Prospection 17–25, Initiative 44–63 | — | boutique 120 brumes<br>butin : Corbac chef espion 16 %, Corbac espion 4 % | La plume tourne la tête quand quelqu'un parle de vous. |
 | **Heaume d'argent** | 20 | Rare | Vitalité 22–32, Force 7–10, Sagesse 4–6 | — | boutique 350 brumes<br>Forgeron niv. 20 (6 Minerai d'argent, 6 Maillon de cotte, 3 Plume de corbac)<br>récompense de « Messages interceptés » | Le casque des officiers de Hautepierre. Les miliciens le saluent par réflexe. |
 | **Masque de Cendrillon** | 26 | Rare | Intelligence 14–20, Vitalité 17–24, Sagesse 6–8 | — | boutique 350 brumes<br>butin : Marraine Cendrée 16 %, Cendrillon 4 % | Un loup de bal noir. Personne ne vous reconnaît, surtout pas vous. |
+| **Coiffe de l'Hiver Qui Vient** *(Panoplie de l'Hiver Qui Vient)* | 30 | Rare | Chance 16–22, Vitalité 25–35 | — | boutique 350 brumes<br>butin : Gargouille de la Grande Porte 10 %, Gargouille 2 % | On l'annonce depuis des années. Il est enfin arrivé, et il a apporté ses affaires. |
+| **Coiffe de l'Inquisiteur Bienveillant** *(Panoplie de l'Inquisiteur Bienveillant)* | 30 | Rare | Force 9–12, Intelligence 9–12, Vitalité 25–35 | — | boutique 350 brumes<br>butin : Le Souverain Cendré 8 % | Il pose ses questions gentiment. Puis il insiste. Toujours avec bienveillance. |
+| **Coiffe de la Tornade Mal Lunée** *(Panoplie de la Tornade Mal Lunée)* | 30 | Rare | Agilité 16–22, Vitalité 25–35 | — | boutique 350 brumes<br>butin : Olifant-tour 10 %, Olifant de guerre 2 % | Elle se lève du mauvais pied et emporte tout le monde avec elle. |
+| **Coiffe du Dragon Retraité** *(Panoplie du Dragon Retraité)* | 30 | Rare | Intelligence 16–22, Vitalité 25–35 | — | boutique 350 brumes<br>butin : Marraine Cendrée 10 %, Cendrillon 2 % | La garde-robe d'un dragon parti à la retraite. Il touche une pension en or et ne crache plus que sur la météo. |
+| **Coiffe du Porte-Malheur** *(Panoplie du Porte-Malheur)* | 30 | Rare | Agilité 9–12, Chance 9–12, Vitalité 25–35 | — | boutique 350 brumes<br>butin : Chef de bande 8 % | Tout ce qui peut mal tourner tourne mal. Pour les autres, surtout. |
+| **Coiffe du Seigneur des Enclumes** *(Panoplie du Seigneur des Enclumes)* | 30 | Rare | Force 16–22, Vitalité 25–35 | — | boutique 350 brumes<br>butin : Grondin, Bélier de la Brèche 8 % | Une enclume pour les gouverner toutes. Et dans le métal, les marteler. |
 | **Heaume du Bélier** | 30 | Épique | Force 16–22, Vitalité 31–45, Dommages 2–3 | — | butin : Grondin, Bélier de la Brèche 15 % | Taillé dans la tête de Grondin. Les portes s'ouvrent devant vous. Souvent en morceaux. |
 
 ## Capes
@@ -102,9 +126,21 @@ Prix de boutique : selon la rareté (revente à 25 %).
 | **Cape de soie grise** | 11 | Peu commun | Chance 6–8, Sagesse 2–3, Vitalité 7–10 | — | boutique 120 brumes<br>butin : Grande Tisseuse 16 %, Tisseuse de brume 4 %<br>récompense de « Du fil de brume » | Tissée par les tisseuses de brume. Elle colle un peu, mais elle protège du froid et des regards. |
 | **Cape de fumée** | 12 | Rare | Intelligence 6–8, Agilité 4–6, Vitalité 9–13 | — | butin : Le Balourd des Abîmes 20 % | Taillée dans la fumée du Balourd. Elle sent le roussi, mais elle a de l'allure. |
 | **Écharpe du Héros de Brumerive** | 12 | Rare | Vitalité 20–30, Force 5–8, Intelligence 5–8 | — | récompense de « La palissade de Krasbouk » | Brodée « Au héros de Brumerive » par le bourgmestre, qui en a commandé une pour lui aussi. Par précaution. |
+| **Cape de l'Enclume Rancunière** *(Panoplie de l'Enclume Rancunière)* | 15 | Peu commun | Force 8–12, Sagesse 4–6 | — | boutique 120 brumes<br>butin : Défonceur de portes 13 %, Gobelin briseur 3 % | Forgée par un forgeron qui n'a jamais digéré qu'on lui demande un rabais. |
 | **Cape de loup cendreux** | 15 | Rare | Agilité 7–10, Vitalité 10–15, Initiative 52–75 | — | boutique 350 brumes<br>butin : Loup cendreux 4 %<br>récompense de « Le convoi de Brokk » | Elle sent le brûlé et ne sèche jamais vraiment. Le loup non plus, d'ailleurs. |
+| **Cape du Bedeau Zélé** *(Panoplie du Bedeau Zélé)* | 15 | Peu commun | Force 4–7, Intelligence 4–7, Sagesse 4–6 | — | boutique 120 brumes<br>butin : Abatteur en chef 13 %, Bûcheron de Brumerive 3 % | Il sonne les cloches à l'heure, mouche les cierges à l'heure et frappe les hérétiques à l'heure. |
+| **Cape du Chat Noir** *(Panoplie du Chat Noir)* | 15 | Peu commun | Agilité 4–7, Chance 4–7, Sagesse 4–6 | — | boutique 120 brumes<br>butin : Chef de bande 13 %, Détrousseur des grands chemins 3 % | Elle vous croise la route à chaque pas. Vos ennemis, eux, n'ont plus aucune chance. |
+| **Cape du Coup de Vent** *(Panoplie du Coup de Vent)* | 15 | Peu commun | Agilité 8–12, Sagesse 4–6 | — | boutique 120 brumes<br>butin : Loup cendreux 4 % | Taillée pour aller vite. Les boutons, eux, sont partis devant. |
+| **Cape du Pyromane Récidiviste** *(Panoplie du Pyromane Récidiviste)* | 15 | Peu commun | Intelligence 8–12, Sagesse 4–6 | — | boutique 120 brumes<br>butin : Contremaître en chef 13 %, Contremaître zélé 3 % | Il avait juré de ne plus rien brûler. Il a tenu trois semaines. Ses vêtements l'avaient prévenu. |
+| **Cape du Yéti Frileux** *(Panoplie du Yéti Frileux)* | 15 | Peu commun | Chance 8–12, Sagesse 4–6 | — | boutique 120 brumes<br>butin : Grande Tisseuse 13 %, Tisseuse de brume 3 % | Le yéti la portait par-dessus sa fourrure, avec une écharpe. Il avait quand même froid. |
 | **Cape de plumes noires** | 21 | Rare | Agilité 11–17, Vitalité 14–20, Initiative 46–66 | — | boutique 350 brumes<br>butin : Corbac chef espion 15 % | Elle bruisse comme une volée de corbeaux. Les vrais corbeaux la trouvent vulgaire. |
 | **Cape en cuir d'olifant** | 28 | Rare | Vitalité 29–42, Force 9–13, Sagesse 6–8 | — | boutique 350 brumes<br>butin : Olifant-tour 16 %, Olifant de guerre 4 %<br>récompense de « Le Conseil des Peuples Libres » | Lourde, raide, increvable. On a l'air d'une tente, mais d'une tente blindée. |
+| **Cape de l'Hiver Qui Vient** *(Panoplie de l'Hiver Qui Vient)* | 30 | Rare | Chance 14–20, Sagesse 7–10 | — | boutique 350 brumes<br>butin : Gargouille de la Grande Porte 10 %, Gargouille 2 % | On l'annonce depuis des années. Il est enfin arrivé, et il a apporté ses affaires. |
+| **Cape de l'Inquisiteur Bienveillant** *(Panoplie de l'Inquisiteur Bienveillant)* | 30 | Rare | Force 8–11, Intelligence 8–11, Sagesse 7–10 | — | boutique 350 brumes<br>butin : Le Souverain Cendré 8 % | Il pose ses questions gentiment. Puis il insiste. Toujours avec bienveillance. |
+| **Cape de la Tornade Mal Lunée** *(Panoplie de la Tornade Mal Lunée)* | 30 | Rare | Agilité 14–20, Sagesse 7–10 | — | boutique 350 brumes<br>butin : Olifant-tour 10 %, Olifant de guerre 2 % | Elle se lève du mauvais pied et emporte tout le monde avec elle. |
+| **Cape du Dragon Retraité** *(Panoplie du Dragon Retraité)* | 30 | Rare | Intelligence 14–20, Sagesse 7–10 | — | boutique 350 brumes<br>butin : Marraine Cendrée 10 %, Cendrillon 2 % | La garde-robe d'un dragon parti à la retraite. Il touche une pension en or et ne crache plus que sur la météo. |
+| **Cape du Porte-Malheur** *(Panoplie du Porte-Malheur)* | 30 | Rare | Agilité 8–11, Chance 8–11, Sagesse 7–10 | — | boutique 350 brumes<br>butin : Chef de bande 8 % | Tout ce qui peut mal tourner tourne mal. Pour les autres, surtout. |
+| **Cape du Seigneur des Enclumes** *(Panoplie du Seigneur des Enclumes)* | 30 | Rare | Force 14–20, Sagesse 7–10 | — | boutique 350 brumes<br>butin : Grondin, Bélier de la Brèche 8 % | Une enclume pour les gouverner toutes. Et dans le métal, les marteler. |
 
 ## Amulettes
 
@@ -122,12 +158,24 @@ Prix de boutique : selon la rareté (revente à 25 %).
 | **Broche de la Lisière** | 12 | Rare | Intelligence 6–10, Agilité 6–10, Sagesse 4–8 | — | récompense de « La Mère-Toile » | Remise aux observateurs du conseil elfe. On ne l'a remise qu'une fois en trois siècles : à vous. |
 | **Carte du syndicat** | 12 | Rare | Agilité 6–10, Chance 6–10, Prospection 10–20 | — | récompense de « Le Balourd des Abîmes » | Carte de délégué provisoire du Syndicat des Travailleurs de Crasse-Roc. Donne droit à une pause par décennie. |
 | **Amulette chantante** | 14 | Épique | Intelligence 8–11, Sagesse 4–6, Vitalité 8–12 | — | Forgeron niv. 14 (1 Étain chantant, 1 If funèbre, 6 Minerai d'étain, 2 Fil de brume)<br>récompense de « Notes d'observatrice » | Étain chantant et if funèbre : elle fredonne des airs d'enterrement, juste assez faux. |
+| **Amulette de l'Enclume Rancunière** *(Panoplie de l'Enclume Rancunière)* | 15 | Peu commun | Force 6–9, PA 1 | — | boutique 120 brumes<br>butin : Défonceur de portes 13 %, Gobelin briseur 3 % | Forgée par un forgeron qui n'a jamais digéré qu'on lui demande un rabais. |
+| **Amulette du Bedeau Zélé** *(Panoplie du Bedeau Zélé)* | 15 | Peu commun | Force 3–5, Intelligence 3–5, PA 1 | — | boutique 120 brumes<br>butin : Abatteur en chef 13 %, Bûcheron de Brumerive 3 % | Il sonne les cloches à l'heure, mouche les cierges à l'heure et frappe les hérétiques à l'heure. |
+| **Amulette du Chat Noir** *(Panoplie du Chat Noir)* | 15 | Peu commun | Agilité 3–5, Chance 3–5, PA 1 | — | boutique 120 brumes<br>butin : Chef de bande 13 %, Détrousseur des grands chemins 3 % | Elle vous croise la route à chaque pas. Vos ennemis, eux, n'ont plus aucune chance. |
+| **Amulette du Coup de Vent** *(Panoplie du Coup de Vent)* | 15 | Peu commun | Agilité 6–9, PA 1 | — | boutique 120 brumes<br>butin : Loup cendreux 4 % | Taillée pour aller vite. Les boutons, eux, sont partis devant. |
+| **Amulette du Pyromane Récidiviste** *(Panoplie du Pyromane Récidiviste)* | 15 | Peu commun | Intelligence 6–9, PA 1 | — | boutique 120 brumes<br>butin : Contremaître en chef 13 %, Contremaître zélé 3 % | Il avait juré de ne plus rien brûler. Il a tenu trois semaines. Ses vêtements l'avaient prévenu. |
+| **Amulette du Yéti Frileux** *(Panoplie du Yéti Frileux)* | 15 | Peu commun | Chance 6–9, PA 1 | — | boutique 120 brumes<br>butin : Grande Tisseuse 13 %, Tisseuse de brume 3 % | Le yéti la portait par-dessus sa fourrure, avec une écharpe. Il avait quand même froid. |
 | **Amulette d'argent** | 16 | Peu commun | Vitalité 12–17, Force 3–4, Intelligence 3–4, Chance 3–4 | — | boutique 120 brumes<br>Forgeron niv. 16 (4 Minerai d'argent, 3 Dent de troll, 2 Bourse vide) | Une médaille d'argent à l'effigie d'un héros inconnu. Peut-être vous, un jour. Peut-être pas. |
 | **Amulette œil-de-corbac** | 20 | Rare | Agilité 9–13, Prospection 26–38, Sagesse 7–10 | — | boutique 350 brumes<br>butin : Corbac chef espion 12 %, Corbac espion 2 % | Un œil de verre noir qui voit ce qui brille. Surtout ce qui brille dans les poches des autres. |
 | **Brassard du délégué** | 23 | Rare | Agilité 10–15, Chance 8–12, Prospection 15–25 | — | récompense de « Le registre des sacrifiés » | Brassard rouge du Syndicat des Travailleurs de Crasse-Roc, section « préavis contre le Souverain lui-même ». |
 | **Insigne de la Vieille Garde** | 23 | Rare | Force 10–15, Vitalité 20–30, Sagesse 5–8 | — | récompense de « La vieille garde » | Remis par un fantôme qui monte la garde depuis trois cents ans. Il ne l'a jamais quitté : il ne savait pas qu'on pouvait. |
 | **Amulette cœur-de-pierre** | 24 | Rare | Vitalité 26–37, Chance 8–11, Sagesse 5–7 | — | boutique 350 brumes<br>butin : Gargouille de la Grande Porte 15 % | Elle bat une fois par heure, contre votre poitrine. On s'y fait. |
 | **Cor d'olifant** | 29 | Épique | Force 11–16, Vitalité 23–33, Dommages 2–3, Sagesse 8–11 | — | butin : Olifant-tour 12 %, Olifant de guerre 2 % | Un cor taillé dans une défense. Quand on souffle dedans, quelqu'un, quelque part, accourt. Ou fuit. |
+| **Amulette de l'Hiver Qui Vient** *(Panoplie de l'Hiver Qui Vient)* | 30 | Rare | Chance 10–14, PA 1 | — | boutique 350 brumes<br>butin : Gargouille de la Grande Porte 10 %, Gargouille 2 % | On l'annonce depuis des années. Il est enfin arrivé, et il a apporté ses affaires. |
+| **Amulette de l'Inquisiteur Bienveillant** *(Panoplie de l'Inquisiteur Bienveillant)* | 30 | Rare | Force 6–8, Intelligence 6–8, PA 1 | — | boutique 350 brumes<br>butin : Le Souverain Cendré 8 % | Il pose ses questions gentiment. Puis il insiste. Toujours avec bienveillance. |
+| **Amulette de la Tornade Mal Lunée** *(Panoplie de la Tornade Mal Lunée)* | 30 | Rare | Agilité 10–14, PA 1 | — | boutique 350 brumes<br>butin : Olifant-tour 10 %, Olifant de guerre 2 % | Elle se lève du mauvais pied et emporte tout le monde avec elle. |
+| **Amulette du Dragon Retraité** *(Panoplie du Dragon Retraité)* | 30 | Rare | Intelligence 10–14, PA 1 | — | boutique 350 brumes<br>butin : Marraine Cendrée 10 %, Cendrillon 2 % | La garde-robe d'un dragon parti à la retraite. Il touche une pension en or et ne crache plus que sur la météo. |
+| **Amulette du Porte-Malheur** *(Panoplie du Porte-Malheur)* | 30 | Rare | Agilité 6–8, Chance 6–8, PA 1 | — | boutique 350 brumes<br>butin : Chef de bande 8 % | Tout ce qui peut mal tourner tourne mal. Pour les autres, surtout. |
+| **Amulette du Seigneur des Enclumes** *(Panoplie du Seigneur des Enclumes)* | 30 | Rare | Force 10–14, PA 1 | — | boutique 350 brumes<br>butin : Grondin, Bélier de la Brèche 8 % | Une enclume pour les gouverner toutes. Et dans le métal, les marteler. |
 
 ## Anneaux
 
@@ -147,11 +195,23 @@ Prix de boutique : selon la rareté (revente à 25 %).
 | **Anneau d'étain** | 8 | Commun | Vitalité 8–11, Sagesse 4–5 | — | boutique 40 brumes<br>Forgeron niv. 8 (5 Minerai d'étain, 2 Minerai de cuivre) | Il crie quand on le tord. Évitez de vous ronger les ongles en le portant. |
 | **Anneau aux huit yeux** | 12 | Rare | Chance 4–5, Agilité 2–3, Portée 1 | — | butin : La Mère-Toile 20 % | Huit pierres noires qui vous regardent. Avec, vous voyez plus loin ; eux aussi. |
 | **Chevalière du Délégué** | 12 | Rare | Force 4–6, Prospection 18–25, Dommages 1, Sagesse 3–4 | — | butin : Krasbouk, Chef de Raid (syndiqué) 20 % | Gravée « Délégué syndical, section raids ». Ouvre des portes, et parfois des crânes. |
+| **Anneau de l'Enclume Rancunière** *(Panoplie de l'Enclume Rancunière)* | 15 | Peu commun | Force 7–10, Vitalité 8–12 | — | boutique 120 brumes<br>butin : Troll gastronome 13 %, Troll des ponts 3 % | Forgée par un forgeron qui n'a jamais digéré qu'on lui demande un rabais. |
+| **Anneau du Bedeau Zélé** *(Panoplie du Bedeau Zélé)* | 15 | Peu commun | Force 4–6, Intelligence 4–6, Vitalité 8–12 | — | boutique 120 brumes<br>butin : Pillard émérite 13 %, Gobelin pillard 3 % | Il sonne les cloches à l'heure, mouche les cierges à l'heure et frappe les hérétiques à l'heure. |
+| **Anneau du Chat Noir** *(Panoplie du Chat Noir)* | 15 | Peu commun | Agilité 4–6, Chance 4–6, Vitalité 8–12 | — | boutique 120 brumes<br>butin : Grand Épouvantail 13 %, Épouvantail démotivé 3 % | Elle vous croise la route à chaque pas. Vos ennemis, eux, n'ont plus aucune chance. |
+| **Anneau du Coup de Vent** *(Panoplie du Coup de Vent)* | 15 | Peu commun | Agilité 7–10, Vitalité 8–12 | — | boutique 120 brumes<br>butin : Corbac chef espion 13 %, Corbac espion 3 % | Taillée pour aller vite. Les boutons, eux, sont partis devant. |
+| **Anneau du Pyromane Récidiviste** *(Panoplie du Pyromane Récidiviste)* | 15 | Peu commun | Intelligence 7–10, Vitalité 8–12 | — | boutique 120 brumes<br>butin : Grouilleur de braise 4 % | Il avait juré de ne plus rien brûler. Il a tenu trois semaines. Ses vêtements l'avaient prévenu. |
+| **Anneau du Yéti Frileux** *(Panoplie du Yéti Frileux)* | 15 | Peu commun | Chance 7–10, Vitalité 8–12 | — | boutique 120 brumes<br>butin : Arbre calciné 4 % | Le yéti la portait par-dessus sa fourrure, avec une écharpe. Il avait quand même froid. |
 | **Anneau de nez de troll** | 17 | Peu commun | Force 8–11, Vitalité 10–14, Sagesse 3–5 | — | boutique 120 brumes<br>butin : Troll gastronome 16 %, Troll des ponts 4 % | Il fait le tour du doigt. Et de la main. Et un peu du poignet. |
 | **Anneau de granit** | 22 | Peu commun | Vitalité 20–28, Force 5–7, Chance 5–7 | — | boutique 120 brumes<br>butin : Gargouille de la Grande Porte 16 %, Gargouille 4 % | Taillé dans une gargouille. Lourd, solide, un peu grimaçant. |
 | **Feuille d'argent de l'ambassade** | 25 | Rare | Intelligence 10–15, Agilité 6–10, Sagesse 6–10 | — | récompense de « Le bal des Cendrillons » | Le sceau de l'ambassade elfe. On ne la remet qu'aux observateurs qui ont fini par intervenir. |
 | **Bague de minuit** | 27 | Rare | Intelligence 11–16, Dommages 1–2, Vitalité 17–25, % Critique 1–2 | — | boutique 350 brumes<br>butin : Marraine Cendrée 13 %, Cendrillon 3 % | Elle sonne douze coups. Ensuite, tout redevient citrouille. |
+| **Anneau de l'Hiver Qui Vient** *(Panoplie de l'Hiver Qui Vient)* | 30 | Rare | Chance 12–17, Vitalité 15–22 | — | boutique 350 brumes<br>butin : Troll gastronome 8 % | On l'annonce depuis des années. Il est enfin arrivé, et il a apporté ses affaires. |
+| **Anneau de l'Inquisiteur Bienveillant** *(Panoplie de l'Inquisiteur Bienveillant)* | 30 | Rare | Force 7–9, Intelligence 7–9, Vitalité 15–22 | — | boutique 350 brumes<br>butin : Grondin, Bélier de la Brèche 8 % | Il pose ses questions gentiment. Puis il insiste. Toujours avec bienveillance. |
+| **Anneau de la Tornade Mal Lunée** *(Panoplie de la Tornade Mal Lunée)* | 30 | Rare | Agilité 12–17, Vitalité 15–22 | — | boutique 350 brumes<br>butin : Corbac chef espion 8 % | Elle se lève du mauvais pied et emporte tout le monde avec elle. |
+| **Anneau du Dragon Retraité** *(Panoplie du Dragon Retraité)* | 30 | Rare | Intelligence 12–17, Vitalité 15–22 | — | boutique 350 brumes<br>butin : Le Souverain Cendré 8 % | La garde-robe d'un dragon parti à la retraite. Il touche une pension en or et ne crache plus que sur la météo. |
 | **Anneau du Gond** | 30 | Épique | Force 12–17, Intelligence 12–17, Vitalité 16–22, Dommages 2–3 | — | butin : Grondin, Bélier de la Brèche 15 % | Un gond de la Grande Porte de Hautepierre, arraché par Grondin. Il tient toujours. |
+| **Anneau du Porte-Malheur** *(Panoplie du Porte-Malheur)* | 30 | Rare | Agilité 7–9, Chance 7–9, Vitalité 15–22 | — | boutique 350 brumes<br>butin : Gargouille de la Grande Porte 10 %, Gargouille 2 % | Tout ce qui peut mal tourner tourne mal. Pour les autres, surtout. |
+| **Anneau du Seigneur des Enclumes** *(Panoplie du Seigneur des Enclumes)* | 30 | Rare | Force 12–17, Vitalité 15–22 | — | boutique 350 brumes<br>butin : Olifant-tour 10 %, Olifant de guerre 2 % | Une enclume pour les gouverner toutes. Et dans le métal, les marteler. |
 | **Éclat de l'Aube** | 30 | Épique | Vitalité 20–30, Force 6–10, Intelligence 6–10, Chance 6–10, Agilité 6–10 | — | récompense de « La Brèche » | Un éclat de lumière tombé de la Brèche quand Grondin s'est effondré. Il brille comme une Relique. Ce n'en est pas une. Pas encore. |
 
 ## Ceintures
@@ -170,9 +230,21 @@ Prix de boutique : selon la rareté (revente à 25 %).
 | **Ceinturon riveté** | 3 | Peu commun | Vitalité 8–15, Force 1–3 | — | boutique 120 brumes<br>Forgeron niv. 3 (3 Peau de loup, 3 Minerai de fer)<br>récompense de « Le verger de Mère Pomponne » | Une ceinture de cuir clouté. Tient le pantalon et le moral. |
 | **Ceinture de bûcheron** | 9 | Commun | Force 4–6, Vitalité 8–12 | — | boutique 40 brumes<br>butin : Abatteur en chef 16 %, Bûcheron de Brumerive 4 % | Larges bretelles, larges épaules, petit esprit de conservation. |
 | **Ceinture à gnôle** | 11 | Peu commun | Vitalité 11–16, Force 6–8 | — | boutique 120 brumes<br>butin : Défonceur de portes 20 %, Gobelin briseur 5 % | Avec porte-flasque intégré. La flasque est vide, l'intention est là. |
+| **Ceinture de l'Enclume Rancunière** *(Panoplie de l'Enclume Rancunière)* | 15 | Peu commun | Force 8–12, Vitalité 12–18 | — | boutique 120 brumes<br>butin : Troll gastronome 13 %, Troll des ponts 3 % | Forgée par un forgeron qui n'a jamais digéré qu'on lui demande un rabais. |
+| **Ceinture du Bedeau Zélé** *(Panoplie du Bedeau Zélé)* | 15 | Peu commun | Force 4–7, Intelligence 4–7, Vitalité 12–18 | — | boutique 120 brumes<br>butin : Pillard émérite 13 %, Gobelin pillard 3 % | Il sonne les cloches à l'heure, mouche les cierges à l'heure et frappe les hérétiques à l'heure. |
+| **Ceinture du Chat Noir** *(Panoplie du Chat Noir)* | 15 | Peu commun | Agilité 4–7, Chance 4–7, Vitalité 12–18 | — | boutique 120 brumes<br>butin : Grand Épouvantail 13 %, Épouvantail démotivé 3 % | Elle vous croise la route à chaque pas. Vos ennemis, eux, n'ont plus aucune chance. |
+| **Ceinture du Coup de Vent** *(Panoplie du Coup de Vent)* | 15 | Peu commun | Agilité 8–12, Vitalité 12–18 | — | boutique 120 brumes<br>butin : Corbac chef espion 13 %, Corbac espion 3 % | Taillée pour aller vite. Les boutons, eux, sont partis devant. |
+| **Ceinture du Pyromane Récidiviste** *(Panoplie du Pyromane Récidiviste)* | 15 | Peu commun | Intelligence 8–12, Vitalité 12–18 | — | boutique 120 brumes<br>butin : Grouilleur de braise 4 % | Il avait juré de ne plus rien brûler. Il a tenu trois semaines. Ses vêtements l'avaient prévenu. |
+| **Ceinture du Yéti Frileux** *(Panoplie du Yéti Frileux)* | 15 | Peu commun | Chance 8–12, Vitalité 12–18 | — | boutique 120 brumes<br>butin : Arbre calciné 4 % | Le yéti la portait par-dessus sa fourrure, avec une écharpe. Il avait quand même froid. |
 | **Ceinture de troll** | 16 | Peu commun | Vitalité 18–26, Force 6–9 | — | boutique 120 brumes<br>butin : Troll gastronome 16 %, Troll des ponts 4 %<br>récompense de « Droit de passage » | Une corde de pont, nouée deux fois. Elle fait trois fois votre tour de taille. |
 | **Ceinture d'écorce calcinée** | 21 | Rare | Vitalité 23–33, Force 6–8, Intelligence 6–8 | — | boutique 350 brumes<br>butin : Arbre calciné 4 %<br>récompense de « Les arbres qui brûlent » | Elle craque à chaque pas et laisse un peu de cendre partout. Les aubergistes vous détestent. |
 | **Ceinture d'obsidienne** | 27 | Rare | Vitalité 29–41, Intelligence 7–10, Chance 7–10 | — | boutique 350 brumes<br>Forgeron niv. 27 (6 Obsidienne, 3 Cuir d'olifant, 1 Corne du Balourd) | Des plaques de verre noir sur du cuir d'olifant. Elle tinte quand on court. |
+| **Ceinture de l'Hiver Qui Vient** *(Panoplie de l'Hiver Qui Vient)* | 30 | Rare | Chance 14–20, Vitalité 25–35 | — | boutique 350 brumes<br>butin : Troll gastronome 8 % | On l'annonce depuis des années. Il est enfin arrivé, et il a apporté ses affaires. |
+| **Ceinture de l'Inquisiteur Bienveillant** *(Panoplie de l'Inquisiteur Bienveillant)* | 30 | Rare | Force 8–11, Intelligence 8–11, Vitalité 25–35 | — | boutique 350 brumes<br>butin : Grondin, Bélier de la Brèche 8 % | Il pose ses questions gentiment. Puis il insiste. Toujours avec bienveillance. |
+| **Ceinture de la Tornade Mal Lunée** *(Panoplie de la Tornade Mal Lunée)* | 30 | Rare | Agilité 14–20, Vitalité 25–35 | — | boutique 350 brumes<br>butin : Corbac chef espion 8 % | Elle se lève du mauvais pied et emporte tout le monde avec elle. |
+| **Ceinture du Dragon Retraité** *(Panoplie du Dragon Retraité)* | 30 | Rare | Intelligence 14–20, Vitalité 25–35 | — | boutique 350 brumes<br>butin : Le Souverain Cendré 8 % | La garde-robe d'un dragon parti à la retraite. Il touche une pension en or et ne crache plus que sur la météo. |
+| **Ceinture du Porte-Malheur** *(Panoplie du Porte-Malheur)* | 30 | Rare | Agilité 8–11, Chance 8–11, Vitalité 25–35 | — | boutique 350 brumes<br>butin : Gargouille de la Grande Porte 10 %, Gargouille 2 % | Tout ce qui peut mal tourner tourne mal. Pour les autres, surtout. |
+| **Ceinture du Seigneur des Enclumes** *(Panoplie du Seigneur des Enclumes)* | 30 | Rare | Force 14–20, Vitalité 25–35 | — | boutique 350 brumes<br>butin : Olifant-tour 10 %, Olifant de guerre 2 % | Une enclume pour les gouverner toutes. Et dans le métal, les marteler. |
 
 ## Bottes
 
@@ -191,10 +263,22 @@ Prix de boutique : selon la rareté (revente à 25 %).
 | **Bottes de rapine** | 9 | Peu commun | Agilité 4–6, Initiative 29–42, Prospection 12–17 | — | boutique 120 brumes<br>butin : Pillard émérite 20 %, Gobelin pillard 5 % | Volées, évidemment. On ne sait pas à qui, ni à combien de personnes. |
 | **Bottes de milicien** | 10 | Peu commun | Vitalité 11–15, Force 3–5, Initiative 21–30 | — | boutique 120 brumes<br>butin : Sergent de la milice 16 %, Milicien de Hautepierre 4 % | Cirées pour la parade, crottées pour la patrouille. |
 | **Bottes de grand chemin** | 14 | Peu commun | Agilité 5–8, Vitalité 8–12, Initiative 41–59 | — | boutique 120 brumes<br>butin : Chef de bande 16 %, Détrousseur des grands chemins 4 %<br>récompense de « Le tampon officiel » | Elles connaissent toutes les routes, et surtout tous les fossés pour se cacher. |
+| **Bottes de l'Enclume Rancunière** *(Panoplie de l'Enclume Rancunière)* | 15 | Peu commun | Force 7–10, Initiative 25–40 | — | boutique 120 brumes<br>butin : Troll gastronome 13 %, Troll des ponts 3 % | Forgée par un forgeron qui n'a jamais digéré qu'on lui demande un rabais. |
+| **Bottes du Bedeau Zélé** *(Panoplie du Bedeau Zélé)* | 15 | Peu commun | Force 4–6, Intelligence 4–6, Initiative 25–40 | — | boutique 120 brumes<br>butin : Pillard émérite 13 %, Gobelin pillard 3 % | Il sonne les cloches à l'heure, mouche les cierges à l'heure et frappe les hérétiques à l'heure. |
+| **Bottes du Chat Noir** *(Panoplie du Chat Noir)* | 15 | Peu commun | Agilité 4–6, Chance 4–6, Initiative 25–40 | — | boutique 120 brumes<br>butin : Grand Épouvantail 13 %, Épouvantail démotivé 3 % | Elle vous croise la route à chaque pas. Vos ennemis, eux, n'ont plus aucune chance. |
+| **Bottes du Coup de Vent** *(Panoplie du Coup de Vent)* | 15 | Peu commun | Agilité 7–10, Initiative 25–40 | — | boutique 120 brumes<br>butin : Corbac chef espion 13 %, Corbac espion 3 % | Taillée pour aller vite. Les boutons, eux, sont partis devant. |
+| **Bottes du Pyromane Récidiviste** *(Panoplie du Pyromane Récidiviste)* | 15 | Peu commun | Intelligence 7–10, Initiative 25–40 | — | boutique 120 brumes<br>butin : Grouilleur de braise 4 % | Il avait juré de ne plus rien brûler. Il a tenu trois semaines. Ses vêtements l'avaient prévenu. |
+| **Bottes du Yéti Frileux** *(Panoplie du Yéti Frileux)* | 15 | Peu commun | Chance 7–10, Initiative 25–40 | — | boutique 120 brumes<br>butin : Arbre calciné 4 % | Le yéti la portait par-dessus sa fourrure, avec une écharpe. Il avait quand même froid. |
 | **Bottes de braise** | 18 | Rare | Intelligence 8–12, Force 6–9, Initiative 60–87 | — | boutique 350 brumes<br>butin : Grouilleur de braise 4 % | Taillées dans la carapace d'un grouilleur de braise. Chaudes en hiver, en été aussi, toute l'année en fait. |
 | **Bottes de gargouille** | 23 | Rare | Vitalité 20–29, Force 7–11, Chance 7–11 | — | boutique 350 brumes<br>butin : Gargouille de la Grande Porte 13 %, Gargouille 3 % | On ne court pas avec. On ne tombe pas non plus. |
 | **Pantoufles de cendre** | 25 | Rare | Intelligence 11–15, Agilité 8–12, Initiative 80–115 | — | boutique 350 brumes<br>butin : Marraine Cendrée 13 %, Cendrillon 3 % | Il n'y en a qu'une paire, mais elles ne vont à personne. Sauf à vous, bizarrement. |
 | **Semelles d'olifant** | 29 | Rare | Vitalité 30–44, Force 9–13, Initiative 61–87 | — | boutique 350 brumes<br>butin : Olifant-tour 13 %, Olifant de guerre 3 % | Chaque pas fait trembler le plancher. Chaque plancher s'en souvient. |
+| **Bottes de l'Hiver Qui Vient** *(Panoplie de l'Hiver Qui Vient)* | 30 | Rare | Chance 10–14, PM 1 | — | boutique 350 brumes<br>butin : Troll gastronome 8 % | On l'annonce depuis des années. Il est enfin arrivé, et il a apporté ses affaires. |
+| **Bottes de l'Inquisiteur Bienveillant** *(Panoplie de l'Inquisiteur Bienveillant)* | 30 | Rare | Force 6–8, Intelligence 6–8, PM 1 | — | boutique 350 brumes<br>butin : Grondin, Bélier de la Brèche 8 % | Il pose ses questions gentiment. Puis il insiste. Toujours avec bienveillance. |
+| **Bottes de la Tornade Mal Lunée** *(Panoplie de la Tornade Mal Lunée)* | 30 | Rare | Agilité 10–14, PM 1 | — | boutique 350 brumes<br>butin : Corbac chef espion 8 % | Elle se lève du mauvais pied et emporte tout le monde avec elle. |
+| **Bottes du Dragon Retraité** *(Panoplie du Dragon Retraité)* | 30 | Rare | Intelligence 10–14, PM 1 | — | boutique 350 brumes<br>butin : Le Souverain Cendré 8 % | La garde-robe d'un dragon parti à la retraite. Il touche une pension en or et ne crache plus que sur la météo. |
+| **Bottes du Porte-Malheur** *(Panoplie du Porte-Malheur)* | 30 | Rare | Agilité 6–8, Chance 6–8, PM 1 | — | boutique 350 brumes<br>butin : Gargouille de la Grande Porte 10 %, Gargouille 2 % | Tout ce qui peut mal tourner tourne mal. Pour les autres, surtout. |
+| **Bottes du Seigneur des Enclumes** *(Panoplie du Seigneur des Enclumes)* | 30 | Rare | Force 10–14, PM 1 | — | boutique 350 brumes<br>butin : Olifant-tour 10 %, Olifant de guerre 2 % | Une enclume pour les gouverner toutes. Et dans le métal, les marteler. |
 
 ## Ressources
 
@@ -282,14 +366,26 @@ Prix de boutique : selon la rareté (revente à 25 %).
 
 | Panoplie | Orientation | Pièces | Bonus par nombre de pièces |
 |---|---|---|---|
+| **Panoplie du Bedeau Zélé** | sacre | Coiffe du Bedeau Zélé, Cape du Bedeau Zélé, Amulette du Bedeau Zélé, Anneau du Bedeau Zélé, Ceinture du Bedeau Zélé, Bottes du Bedeau Zélé, Masse du Bedeau Zélé | 2 pièces : Force +8, Intelligence +8<br>3 pièces : Force +15, Intelligence +15, Dommages +3<br>4 pièces : Force +23, Intelligence +23, Dommages +6, Vitalité +30<br>5 pièces : Force +30, Intelligence +30, Dommages +9, Vitalité +45, Portée +1<br>6 pièces : Force +40, Intelligence +40, Dommages +12, Vitalité +60, PM +1, Portée +1<br>7 pièces : Force +50, Intelligence +50, Dommages +15, Vitalité +80, PA +1, PM +1, Portée +1 |
 | **Panoplie du Bonhomme de Neige** | givre | Coiffe du Bonhomme de Neige, Cape du Bonhomme de Neige, Amulette du Bonhomme de Neige, Anneau du Bonhomme de Neige, Ceinture du Bonhomme de Neige, Bottes du Bonhomme de Neige | 2 pièces : Chance +10<br>3 pièces : Chance +20, Dommages +2<br>4 pièces : Chance +30, Dommages +4, Vitalité +20<br>5 pièces : Chance +40, Dommages +6, Vitalité +30<br>6 pièces : Chance +50, Dommages +8, Vitalité +40, PA +1 |
+| **Panoplie du Chat Noir** | impie | Coiffe du Chat Noir, Cape du Chat Noir, Amulette du Chat Noir, Anneau du Chat Noir, Ceinture du Chat Noir, Bottes du Chat Noir, Dague du Chat Noir | 2 pièces : Agilité +8, Chance +8<br>3 pièces : Agilité +15, Chance +15, Dommages +3<br>4 pièces : Agilité +23, Chance +23, Dommages +6, Vitalité +30<br>5 pièces : Agilité +30, Chance +30, Dommages +9, Vitalité +45, Portée +1<br>6 pièces : Agilité +40, Chance +40, Dommages +12, Vitalité +60, PM +1, Portée +1<br>7 pièces : Agilité +50, Chance +50, Dommages +15, Vitalité +80, PA +1, PM +1, Portée +1 |
+| **Panoplie du Coup de Vent** | tempete | Coiffe du Coup de Vent, Cape du Coup de Vent, Amulette du Coup de Vent, Anneau du Coup de Vent, Ceinture du Coup de Vent, Bottes du Coup de Vent, Arc du Coup de Vent | 2 pièces : Agilité +15<br>3 pièces : Agilité +30, Dommages +3<br>4 pièces : Agilité +45, Dommages +6, Vitalité +30<br>5 pièces : Agilité +60, Dommages +9, Vitalité +45, Portée +1<br>6 pièces : Agilité +80, Dommages +12, Vitalité +60, PM +1, Portée +1<br>7 pièces : Agilité +100, Dommages +15, Vitalité +80, PA +1, PM +1, Portée +1 |
 | **Panoplie du Courant d'Air** | tempete | Coiffe du Courant d'Air, Cape du Courant d'Air, Amulette du Courant d'Air, Anneau du Courant d'Air, Ceinture du Courant d'Air, Bottes du Courant d'Air | 2 pièces : Agilité +10<br>3 pièces : Agilité +20, Dommages +2<br>4 pièces : Agilité +30, Dommages +4, Vitalité +20<br>5 pièces : Agilité +40, Dommages +6, Vitalité +30<br>6 pièces : Agilité +50, Dommages +8, Vitalité +40, PA +1 |
+| **Panoplie du Dragon Retraité** | flamme | Coiffe du Dragon Retraité, Cape du Dragon Retraité, Amulette du Dragon Retraité, Anneau du Dragon Retraité, Ceinture du Dragon Retraité, Bottes du Dragon Retraité, Sceptre du Dragon Retraité | 2 pièces : Intelligence +30<br>3 pièces : Intelligence +60, Dommages +5<br>4 pièces : Intelligence +90, Dommages +10, Vitalité +60<br>5 pièces : Intelligence +120, Dommages +15, Vitalité +90, Portée +1<br>6 pièces : Intelligence +160, Dommages +20, Vitalité +120, PA +1, PM +1, Portée +1<br>7 pièces : Intelligence +200, Dommages +25, Vitalité +160, PA +2, PM +1, Portée +2 |
+| **Panoplie de l'Enclume Rancunière** | acier | Coiffe de l'Enclume Rancunière, Cape de l'Enclume Rancunière, Amulette de l'Enclume Rancunière, Anneau de l'Enclume Rancunière, Ceinture de l'Enclume Rancunière, Bottes de l'Enclume Rancunière, Marteau de l'Enclume Rancunière | 2 pièces : Force +15<br>3 pièces : Force +30, Dommages +3<br>4 pièces : Force +45, Dommages +6, Vitalité +30<br>5 pièces : Force +60, Dommages +9, Vitalité +45, Portée +1<br>6 pièces : Force +80, Dommages +12, Vitalité +60, PM +1, Portée +1<br>7 pièces : Force +100, Dommages +15, Vitalité +80, PA +1, PM +1, Portée +1 |
 | **Panoplie de l'Enfant de Chœur** | sacre | Coiffe de l'Enfant de Chœur, Cape de l'Enfant de Chœur, Amulette de l'Enfant de Chœur, Anneau de l'Enfant de Chœur, Ceinture de l'Enfant de Chœur, Bottes de l'Enfant de Chœur | 2 pièces : Force +5, Intelligence +5<br>3 pièces : Force +10, Intelligence +10, Dommages +2<br>4 pièces : Force +15, Intelligence +15, Dommages +4, Vitalité +20<br>5 pièces : Force +20, Intelligence +20, Dommages +6, Vitalité +30<br>6 pièces : Force +25, Intelligence +25, Dommages +8, Vitalité +40, PA +1 |
 | **Panoplie du Forgeron Hargneux** | acier | Coiffe du Forgeron Hargneux, Cape du Forgeron Hargneux, Amulette du Forgeron Hargneux, Anneau du Forgeron Hargneux, Ceinture du Forgeron Hargneux, Bottes du Forgeron Hargneux | 2 pièces : Force +10<br>3 pièces : Force +20, Dommages +2<br>4 pièces : Force +30, Dommages +4, Vitalité +20<br>5 pièces : Force +40, Dommages +6, Vitalité +30<br>6 pièces : Force +50, Dommages +8, Vitalité +40, PA +1 |
 | **Panoplie du Fouineur** | Prospection | Coiffe du Fouineur, Amulette du Fouineur, Cape du Fouineur | 2 pièces : Prospection +20<br>3 pièces : Prospection +50, Chance +10 |
+| **Panoplie de l'Hiver Qui Vient** | givre | Coiffe de l'Hiver Qui Vient, Cape de l'Hiver Qui Vient, Amulette de l'Hiver Qui Vient, Anneau de l'Hiver Qui Vient, Ceinture de l'Hiver Qui Vient, Bottes de l'Hiver Qui Vient, Bâton de l'Hiver Qui Vient | 2 pièces : Chance +30<br>3 pièces : Chance +60, Dommages +5<br>4 pièces : Chance +90, Dommages +10, Vitalité +60<br>5 pièces : Chance +120, Dommages +15, Vitalité +90, Portée +1<br>6 pièces : Chance +160, Dommages +20, Vitalité +120, PA +1, PM +1, Portée +1<br>7 pièces : Chance +200, Dommages +25, Vitalité +160, PA +2, PM +1, Portée +2 |
+| **Panoplie de l'Inquisiteur Bienveillant** | sacre | Coiffe de l'Inquisiteur Bienveillant, Cape de l'Inquisiteur Bienveillant, Amulette de l'Inquisiteur Bienveillant, Anneau de l'Inquisiteur Bienveillant, Ceinture de l'Inquisiteur Bienveillant, Bottes de l'Inquisiteur Bienveillant, Masse de l'Inquisiteur Bienveillant | 2 pièces : Force +15, Intelligence +15<br>3 pièces : Force +30, Intelligence +30, Dommages +5<br>4 pièces : Force +45, Intelligence +45, Dommages +10, Vitalité +60<br>5 pièces : Force +60, Intelligence +60, Dommages +15, Vitalité +90, Portée +1<br>6 pièces : Force +80, Intelligence +80, Dommages +20, Vitalité +120, PA +1, PM +1, Portée +1<br>7 pièces : Force +100, Intelligence +100, Dommages +25, Vitalité +160, PA +2, PM +1, Portée +2 |
 | **Panoplie du Mauvais Œil** | impie | Coiffe du Mauvais Œil, Cape du Mauvais Œil, Amulette du Mauvais Œil, Anneau du Mauvais Œil, Ceinture du Mauvais Œil, Bottes du Mauvais Œil | 2 pièces : Agilité +5, Chance +5<br>3 pièces : Agilité +10, Chance +10, Dommages +2<br>4 pièces : Agilité +15, Chance +15, Dommages +4, Vitalité +20<br>5 pièces : Agilité +20, Chance +20, Dommages +6, Vitalité +30<br>6 pièces : Agilité +25, Chance +25, Dommages +8, Vitalité +40, PA +1 |
+| **Panoplie du Porte-Malheur** | impie | Coiffe du Porte-Malheur, Cape du Porte-Malheur, Amulette du Porte-Malheur, Anneau du Porte-Malheur, Ceinture du Porte-Malheur, Bottes du Porte-Malheur, Dague du Porte-Malheur | 2 pièces : Agilité +15, Chance +15<br>3 pièces : Agilité +30, Chance +30, Dommages +5<br>4 pièces : Agilité +45, Chance +45, Dommages +10, Vitalité +60<br>5 pièces : Agilité +60, Chance +60, Dommages +15, Vitalité +90, Portée +1<br>6 pièces : Agilité +80, Chance +80, Dommages +20, Vitalité +120, PA +1, PM +1, Portée +1<br>7 pièces : Agilité +100, Chance +100, Dommages +25, Vitalité +160, PA +2, PM +1, Portée +2 |
 | **Panoplie du Pressé** | Initiative et Dommages | Anneau du Pressé, Bottes du Pressé, Ceinture du Pressé | 2 pièces : Initiative +20, Dommages +2<br>3 pièces : Initiative +50, Dommages +5 |
+| **Panoplie du Pyromane Récidiviste** | flamme | Coiffe du Pyromane Récidiviste, Cape du Pyromane Récidiviste, Amulette du Pyromane Récidiviste, Anneau du Pyromane Récidiviste, Ceinture du Pyromane Récidiviste, Bottes du Pyromane Récidiviste, Sceptre du Pyromane Récidiviste | 2 pièces : Intelligence +15<br>3 pièces : Intelligence +30, Dommages +3<br>4 pièces : Intelligence +45, Dommages +6, Vitalité +30<br>5 pièces : Intelligence +60, Dommages +9, Vitalité +45, Portée +1<br>6 pièces : Intelligence +80, Dommages +12, Vitalité +60, PM +1, Portée +1<br>7 pièces : Intelligence +100, Dommages +15, Vitalité +80, PA +1, PM +1, Portée +1 |
 | **Panoplie du Pyromane Repenti** | flamme | Coiffe du Pyromane Repenti, Cape du Pyromane Repenti, Amulette du Pyromane Repenti, Anneau du Pyromane Repenti, Ceinture du Pyromane Repenti, Bottes du Pyromane Repenti | 2 pièces : Intelligence +10<br>3 pièces : Intelligence +20, Dommages +2<br>4 pièces : Intelligence +30, Dommages +4, Vitalité +20<br>5 pièces : Intelligence +40, Dommages +6, Vitalité +30<br>6 pièces : Intelligence +50, Dommages +8, Vitalité +40, PA +1 |
+| **Panoplie du Seigneur des Enclumes** | acier | Coiffe du Seigneur des Enclumes, Cape du Seigneur des Enclumes, Amulette du Seigneur des Enclumes, Anneau du Seigneur des Enclumes, Ceinture du Seigneur des Enclumes, Bottes du Seigneur des Enclumes, Marteau du Seigneur des Enclumes | 2 pièces : Force +30<br>3 pièces : Force +60, Dommages +5<br>4 pièces : Force +90, Dommages +10, Vitalité +60<br>5 pièces : Force +120, Dommages +15, Vitalité +90, Portée +1<br>6 pièces : Force +160, Dommages +20, Vitalité +120, PA +1, PM +1, Portée +1<br>7 pièces : Force +200, Dommages +25, Vitalité +160, PA +2, PM +1, Portée +2 |
+| **Panoplie de la Tornade Mal Lunée** | tempete | Coiffe de la Tornade Mal Lunée, Cape de la Tornade Mal Lunée, Amulette de la Tornade Mal Lunée, Anneau de la Tornade Mal Lunée, Ceinture de la Tornade Mal Lunée, Bottes de la Tornade Mal Lunée, Arc de la Tornade Mal Lunée | 2 pièces : Agilité +30<br>3 pièces : Agilité +60, Dommages +5<br>4 pièces : Agilité +90, Dommages +10, Vitalité +60<br>5 pièces : Agilité +120, Dommages +15, Vitalité +90, Portée +1<br>6 pièces : Agilité +160, Dommages +20, Vitalité +120, PA +1, PM +1, Portée +1<br>7 pièces : Agilité +200, Dommages +25, Vitalité +160, PA +2, PM +1, Portée +2 |
+| **Panoplie du Yéti Frileux** | givre | Coiffe du Yéti Frileux, Cape du Yéti Frileux, Amulette du Yéti Frileux, Anneau du Yéti Frileux, Ceinture du Yéti Frileux, Bottes du Yéti Frileux, Bâton du Yéti Frileux | 2 pièces : Chance +15<br>3 pièces : Chance +30, Dommages +3<br>4 pièces : Chance +45, Dommages +6, Vitalité +30<br>5 pièces : Chance +60, Dommages +9, Vitalité +45, Portée +1<br>6 pièces : Chance +80, Dommages +12, Vitalité +60, PM +1, Portée +1<br>7 pièces : Chance +100, Dommages +15, Vitalité +80, PA +1, PM +1, Portée +1 |
 
 ## Éléments des dégâts
 
@@ -382,7 +478,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Niveau** : 7–9 (tirage : niv. 7 10 %, niv. 8 30 %, niv. 9 60 %) ; **6 PA, 3 PM** ; IA basique
 - **Résistances** : Acier +10 %, Tempête +5 %, Flamme -10 %
 - **Sorts** : Estocade de pillard, Vol à l'arraché
-- **Butin** : Sac de rapine 55 % (×1–2), Ordre de raid 12 %, Coutelas de pillard 4 %, Bottes de rapine 5 %, Coiffe de l'Enfant de Chœur 3 %, Cape de l'Enfant de Chœur 3 %, Amulette de l'Enfant de Chœur 3 % ; **brumes** 7–16
+- **Butin** : Sac de rapine 55 % (×1–2), Ordre de raid 12 %, Coutelas de pillard 4 %, Bottes de rapine 5 %, Coiffe de l'Enfant de Chœur 3 %, Cape de l'Enfant de Chœur 3 %, Amulette de l'Enfant de Chœur 3 %, Anneau du Bedeau Zélé 3 %, Ceinture du Bedeau Zélé 3 %, Bottes du Bedeau Zélé 3 % ; **brumes** 7–16
 - **Où le trouver** : Les Grands Blés (`brumerive_1_2`, 1 groupe) · Verger des Pommeaux (`brumerive_2_0`, 4 groupes, dont 1 au hasard) · Lande aux épouvantails (`brumerive_2_1`, 1 groupe) · Camp du raid (`brumerive_2_2`, 1 groupe, dont 1 au hasard)
 
 | Niv. | PV | Init. | XP | Force | Intel. | Agi. |
@@ -398,7 +494,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Niveau** : 12 (fixe) ; **7 PA, 3 PM** ; IA basique
 - **Résistances** : Acier +20 %, Tempête +15 %, Flamme -5 %, Givre +10 %
 - **Sorts** : Estocade de pillard, Vol à l'arraché, Razzia
-- **Butin** : Sac de rapine 88 % (×2–4), Ordre de raid 48 %, Coutelas de pillard 16 %, Bottes de rapine 20 %, Coiffe de l'Enfant de Chœur 13 %, Cape de l'Enfant de Chœur 13 %, Amulette de l'Enfant de Chœur 13 % ; **brumes** 18–40
+- **Butin** : Sac de rapine 88 % (×2–4), Ordre de raid 48 %, Coutelas de pillard 16 %, Bottes de rapine 20 %, Coiffe de l'Enfant de Chœur 13 %, Cape de l'Enfant de Chœur 13 %, Amulette de l'Enfant de Chœur 13 %, Anneau du Bedeau Zélé 13 %, Ceinture du Bedeau Zélé 13 %, Bottes du Bedeau Zélé 13 % ; **brumes** 18–40
 - **Où le trouver** : Les Grands Blés (`brumerive_1_2`, apparition spontanée) · Verger des Pommeaux (`brumerive_2_0`, apparition spontanée) · Lande aux épouvantails (`brumerive_2_1`, apparition spontanée) · Camp du raid (`brumerive_2_2`, apparition spontanée)
 
 | Niv. | PV | Init. | XP | Force | Intel. | Agi. |
@@ -412,7 +508,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Niveau** : 7–9 (tirage : niv. 7 30 %, niv. 8 40 %, niv. 9 30 %) ; **7 PA, 2 PM** ; IA basique
 - **Résistances** : Acier +10 %, Tempête +15 %, Givre +5 %, Flamme -30 %
 - **Sorts** : Coup de fourche, Nuée de corbeaux
-- **Butin** : Paille ensorcelée 60 % (×1–3), Citrouille grimaçante 12 %, Chapeau d'épouvantail 5 %, Fourche d'épouvantail 3 %, Coiffe du Pyromane Repenti 3 %, Cape du Pyromane Repenti 3 %, Amulette du Pyromane Repenti 3 % ; **brumes** 7–16
+- **Butin** : Paille ensorcelée 60 % (×1–3), Citrouille grimaçante 12 %, Chapeau d'épouvantail 5 %, Fourche d'épouvantail 3 %, Coiffe du Pyromane Repenti 3 %, Cape du Pyromane Repenti 3 %, Amulette du Pyromane Repenti 3 %, Anneau du Chat Noir 3 %, Ceinture du Chat Noir 3 %, Bottes du Chat Noir 3 % ; **brumes** 7–16
 - **Où le trouver** : Les Grands Blés (`brumerive_1_2`, 3 groupes) · Lande aux épouvantails (`brumerive_2_1`, 4 groupes, dont 1 au hasard)
 
 | Niv. | PV | Init. | XP | Force | Agi. |
@@ -428,7 +524,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Niveau** : 12 (fixe) ; **8 PA, 2 PM** ; IA basique
 - **Résistances** : Acier +20 %, Tempête +25 %, Givre +15 %, Flamme -25 %
 - **Sorts** : Coup de fourche, Nuée de corbeaux, Champ maudit
-- **Butin** : Paille ensorcelée 90 % (×2–5), Citrouille grimaçante 48 %, Chapeau d'épouvantail 20 %, Fourche d'épouvantail 13 %, Coiffe du Pyromane Repenti 13 %, Cape du Pyromane Repenti 13 %, Amulette du Pyromane Repenti 13 % ; **brumes** 18–40
+- **Butin** : Paille ensorcelée 90 % (×2–5), Citrouille grimaçante 48 %, Chapeau d'épouvantail 20 %, Fourche d'épouvantail 13 %, Coiffe du Pyromane Repenti 13 %, Cape du Pyromane Repenti 13 %, Amulette du Pyromane Repenti 13 %, Anneau du Chat Noir 13 %, Ceinture du Chat Noir 13 %, Bottes du Chat Noir 13 % ; **brumes** 18–40
 - **Où le trouver** : Les Grands Blés (`brumerive_1_2`, apparition spontanée) · Lande aux épouvantails (`brumerive_2_1`, apparition spontanée)
 
 | Niv. | PV | Init. | XP | Force | Agi. |
@@ -442,7 +538,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Niveau** : 10–12 (tirage : niv. 10 10 %, niv. 11 30 %, niv. 12 60 %) ; **6 PA, 3 PM** ; IA basique
 - **Résistances** : Acier +15 %, Flamme +5 %, Tempête -10 %
 - **Sorts** : Coup de hache, Épaulée, Gnôle de raid
-- **Butin** : Gnôle de raid 55 % (×1–2), Médaille en chocolat 12 %, Ceinture à gnôle 5 %, Ordre de raid 8 % ; **brumes** 11–25
+- **Butin** : Gnôle de raid 55 % (×1–2), Médaille en chocolat 12 %, Ceinture à gnôle 5 %, Ordre de raid 8 %, Coiffe de l'Enclume Rancunière 3 %, Cape de l'Enclume Rancunière 3 %, Amulette de l'Enclume Rancunière 3 %, Marteau de l'Enclume Rancunière 2 % ; **brumes** 11–25
 - **Où le trouver** : Camp du raid (`brumerive_2_2`, 4 groupes, dont 1 au hasard) · Gué de Brume-Haute (`brumerive_3_1`, 3 groupes, dont 1 au hasard) · Palissade de Krasbouk (`brumerive_3_2`, 1 groupe)
 
 | Niv. | PV | Init. | XP | Force |
@@ -458,7 +554,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Niveau** : 15 (fixe) ; **7 PA, 3 PM** ; IA basique
 - **Résistances** : Acier +25 %, Flamme +15 %, Tempête -5 %, Givre +10 %
 - **Sorts** : Coup de hache, Épaulée, Gnôle de raid, Bélier humain
-- **Butin** : Gnôle de raid 88 % (×2–4), Médaille en chocolat 48 %, Ceinture à gnôle 20 %, Ordre de raid 32 % ; **brumes** 28–62
+- **Butin** : Gnôle de raid 88 % (×2–4), Médaille en chocolat 48 %, Ceinture à gnôle 20 %, Ordre de raid 32 %, Coiffe de l'Enclume Rancunière 13 %, Cape de l'Enclume Rancunière 13 %, Amulette de l'Enclume Rancunière 13 %, Marteau de l'Enclume Rancunière 10 % ; **brumes** 28–62
 - **Où le trouver** : Camp du raid (`brumerive_2_2`, apparition spontanée) · Gué de Brume-Haute (`brumerive_3_1`, apparition spontanée) · Palissade de Krasbouk (`brumerive_3_2`, apparition spontanée)
 
 | Niv. | PV | Init. | XP | Force |
@@ -488,7 +584,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Niveau** : 13–15 (tirage : niv. 13 30 %, niv. 14 40 %, niv. 15 30 %) ; **6 PA, 4 PM** ; IA basique
 - **Résistances** : Flamme +20 %, Givre +10 %, Impie +15 %, Sacré -10 %
 - **Sorts** : Morsure, Morsure brûlante
-- **Butin** : Croc de loup 50 % (×1–2), Cendre tiède 50 % (×1–2), Éclat de cendre 3 %, Cape de loup cendreux 4 % ; **brumes** 12–29
+- **Butin** : Croc de loup 50 % (×1–2), Cendre tiède 50 % (×1–2), Éclat de cendre 3 %, Cape de loup cendreux 4 %, Coiffe du Coup de Vent 4 %, Cape du Coup de Vent 4 %, Amulette du Coup de Vent 4 %, Arc du Coup de Vent 3 % ; **brumes** 12–29
 - **Où le trouver** : Palissade de Krasbouk (`brumerive_3_2`, 1 groupe, dont 1 après Krasbouk, Chef de Raid (syndiqué)) · Route de l'Est (`hautepierre_4_2`, 2 groupes, dont 1 au hasard)
 
 | Niv. | PV | Init. | XP | Force | Intel. | Agi. |
@@ -626,7 +722,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Niveau** : 10–12 (tirage : niv. 10 30 %, niv. 11 40 %, niv. 12 30 %) ; **6 PA, 3 PM** ; IA soutien
 - **Résistances** : Acier +10 %, Tempête -10 %, Flamme +10 %, Givre -5 %
 - **Sorts** : Coup de bâton, Heures sup', Retenue sur salaire
-- **Butin** : Sifflet de contremaître 50 % (×1–2), Registre des heures 12 %, Amulette-sifflet 4 %, Anneau du Pyromane Repenti 3 %, Ceinture du Pyromane Repenti 3 %, Bottes du Pyromane Repenti 3 % ; **brumes** 9–22
+- **Butin** : Sifflet de contremaître 50 % (×1–2), Registre des heures 12 %, Amulette-sifflet 4 %, Anneau du Pyromane Repenti 3 %, Ceinture du Pyromane Repenti 3 %, Bottes du Pyromane Repenti 3 %, Coiffe du Pyromane Récidiviste 3 %, Cape du Pyromane Récidiviste 3 %, Amulette du Pyromane Récidiviste 3 %, Sceptre du Pyromane Récidiviste 2 % ; **brumes** 9–22
 - **Où le trouver** : Route des Charrois (`crasse_roc_0_2`, 3 groupes, dont 1 au hasard) · Forges noires (`crasse_roc_1_2`, 4 groupes, dont 1 au hasard) · L'Abîme du Balourd (`crasse_roc_1_3`, 1 groupe)
 
 | Niv. | PV | Init. | XP | Force | Intel. | Agi. |
@@ -642,7 +738,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Niveau** : 15 (fixe) ; **7 PA, 3 PM** ; IA soutien
 - **Résistances** : Acier +20 %, Tempête -5 %, Flamme +20 %
 - **Sorts** : Coup de bâton, Heures sup', Retenue sur salaire, Licenciement
-- **Butin** : Sifflet de contremaître 80 % (×2–4), Registre des heures 48 %, Amulette-sifflet 16 %, Anneau du Pyromane Repenti 13 %, Ceinture du Pyromane Repenti 13 %, Bottes du Pyromane Repenti 13 % ; **brumes** 22–55
+- **Butin** : Sifflet de contremaître 80 % (×2–4), Registre des heures 48 %, Amulette-sifflet 16 %, Anneau du Pyromane Repenti 13 %, Ceinture du Pyromane Repenti 13 %, Bottes du Pyromane Repenti 13 %, Coiffe du Pyromane Récidiviste 13 %, Cape du Pyromane Récidiviste 13 %, Amulette du Pyromane Récidiviste 13 %, Sceptre du Pyromane Récidiviste 10 % ; **brumes** 22–55
 - **Où le trouver** : Route des Charrois (`crasse_roc_0_2`, apparition spontanée) · Forges noires (`crasse_roc_1_2`, apparition spontanée) · L'Abîme du Balourd (`crasse_roc_1_3`, apparition spontanée)
 
 | Niv. | PV | Init. | XP | Force | Intel. | Agi. |
@@ -673,7 +769,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Niveau** : 16–18 (tirage : niv. 16 10 %, niv. 17 30 %, niv. 18 60 %) ; **6 PA, 3 PM** ; IA basique
 - **Résistances** : Flamme +35 %, Impie +10 %, Givre -10 %, Sacré -10 %
 - **Sorts** : Pinces, Crachat de feu
-- **Butin** : Carapace de grouilleur 50 % (×1–2), Cendre tiède 50 % (×1–2), Éclat de cendre 3 %, Bottes de braise 4 % ; **brumes** 14–34
+- **Butin** : Carapace de grouilleur 50 % (×1–2), Cendre tiède 50 % (×1–2), Éclat de cendre 3 %, Bottes de braise 4 %, Anneau du Pyromane Récidiviste 4 %, Ceinture du Pyromane Récidiviste 4 %, Bottes du Pyromane Récidiviste 4 % ; **brumes** 14–34
 - **Où le trouver** : L'Abîme du Balourd (`crasse_roc_1_3`, 1 groupe, dont 1 après Le Balourd des Abîmes) · Pont des Trolls (`hautepierre_2_3`, 1 groupe, dont 1 au hasard) · Gorges du Troll (`hautepierre_2_4`, 2 groupes, dont 1 au hasard)
 
 | Niv. | PV | Init. | XP | Force | Intel. |
@@ -781,7 +877,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Niveau** : 7–9 (tirage : niv. 7 10 %, niv. 8 30 %, niv. 9 60 %) ; **6 PA, 3 PM** ; IA basique
 - **Résistances** : Acier +10 %, Givre +5 %, Tempête -10 %
 - **Sorts** : Coup de cognée, Attention, ça tombe !
-- **Butin** : Copeaux de bois 55 % (×1–3), Bon de coupe 12 %, Hache de bûcheron 4 %, Ceinture de bûcheron 4 %, Anneau de l'Enfant de Chœur 3 %, Ceinture de l'Enfant de Chœur 3 %, Bottes de l'Enfant de Chœur 3 % ; **brumes** 8–19
+- **Butin** : Copeaux de bois 55 % (×1–3), Bon de coupe 12 %, Hache de bûcheron 4 %, Ceinture de bûcheron 4 %, Anneau de l'Enfant de Chœur 3 %, Ceinture de l'Enfant de Chœur 3 %, Bottes de l'Enfant de Chœur 3 %, Coiffe du Bedeau Zélé 3 %, Cape du Bedeau Zélé 3 %, Amulette du Bedeau Zélé 3 %, Masse du Bedeau Zélé 2 % ; **brumes** 8–19
 - **Où le trouver** : Coupe rase (`sylvebrume_1_1`, 3 groupes, dont 1 au hasard) · Toiles grises (`sylvebrume_1_2`, 1 groupe) · Scierie de Brumerive (`sylvebrume_2_1`, 3 groupes, dont 1 au hasard)
 
 | Niv. | PV | Init. | XP | Force |
@@ -797,7 +893,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Niveau** : 12 (fixe) ; **7 PA, 3 PM** ; IA basique
 - **Résistances** : Acier +20 %, Givre +15 %, Flamme +10 %, Tempête -5 %
 - **Sorts** : Coup de cognée, Attention, ça tombe !, Souche piégée
-- **Butin** : Copeaux de bois 88 % (×2–5), Bon de coupe 48 %, Hache de bûcheron 16 %, Ceinture de bûcheron 16 %, Anneau de l'Enfant de Chœur 13 %, Ceinture de l'Enfant de Chœur 13 %, Bottes de l'Enfant de Chœur 13 % ; **brumes** 20–48
+- **Butin** : Copeaux de bois 88 % (×2–5), Bon de coupe 48 %, Hache de bûcheron 16 %, Ceinture de bûcheron 16 %, Anneau de l'Enfant de Chœur 13 %, Ceinture de l'Enfant de Chœur 13 %, Bottes de l'Enfant de Chœur 13 %, Coiffe du Bedeau Zélé 13 %, Cape du Bedeau Zélé 13 %, Amulette du Bedeau Zélé 13 %, Masse du Bedeau Zélé 10 % ; **brumes** 20–48
 - **Où le trouver** : Coupe rase (`sylvebrume_1_1`, apparition spontanée) · Toiles grises (`sylvebrume_1_2`, apparition spontanée) · Scierie de Brumerive (`sylvebrume_2_1`, apparition spontanée)
 
 | Niv. | PV | Init. | XP | Force |
@@ -811,7 +907,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Niveau** : 10–12 (tirage : niv. 10 30 %, niv. 11 40 %, niv. 12 30 %) ; **6 PA, 4 PM** ; IA basique
 - **Résistances** : Givre +20 %, Impie +10 %, Flamme -15 %
 - **Sorts** : Morsure glacée, Toile collante
-- **Butin** : Fil de brume 55 % (×1–3), Crochet d'araignée 12 %, Cape de soie grise 4 %, Coiffe du Bonhomme de Neige 3 %, Cape du Bonhomme de Neige 3 %, Amulette du Bonhomme de Neige 3 % ; **brumes** 9–21
+- **Butin** : Fil de brume 55 % (×1–3), Crochet d'araignée 12 %, Cape de soie grise 4 %, Coiffe du Bonhomme de Neige 3 %, Cape du Bonhomme de Neige 3 %, Amulette du Bonhomme de Neige 3 %, Coiffe du Yéti Frileux 3 %, Cape du Yéti Frileux 3 %, Amulette du Yéti Frileux 3 %, Bâton du Yéti Frileux 2 % ; **brumes** 9–21
 - **Où le trouver** : Cœur de la Toile (`sylvebrume_0_2`, 1 groupe) · Toiles grises (`sylvebrume_1_2`, 4 groupes, dont 1 au hasard) · Orée du Sud (`sylvebrume_2_2`, 3 groupes, dont 1 au hasard)
 
 | Niv. | PV | Init. | XP | Chance | Agi. |
@@ -827,7 +923,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Niveau** : 15 (fixe) ; **7 PA, 4 PM** ; IA basique
 - **Résistances** : Givre +30 %, Impie +20 %, Acier +10 %, Flamme -10 %
 - **Sorts** : Morsure glacée, Toile collante, Cocon
-- **Butin** : Fil de brume 88 % (×2–5), Crochet d'araignée 48 %, Cape de soie grise 16 %, Coiffe du Bonhomme de Neige 13 %, Cape du Bonhomme de Neige 13 %, Amulette du Bonhomme de Neige 13 % ; **brumes** 22–52
+- **Butin** : Fil de brume 88 % (×2–5), Crochet d'araignée 48 %, Cape de soie grise 16 %, Coiffe du Bonhomme de Neige 13 %, Cape du Bonhomme de Neige 13 %, Amulette du Bonhomme de Neige 13 %, Coiffe du Yéti Frileux 13 %, Cape du Yéti Frileux 13 %, Amulette du Yéti Frileux 13 %, Bâton du Yéti Frileux 10 % ; **brumes** 22–52
 - **Où le trouver** : Cœur de la Toile (`sylvebrume_0_2`, apparition spontanée) · Toiles grises (`sylvebrume_1_2`, apparition spontanée) · Orée du Sud (`sylvebrume_2_2`, apparition spontanée)
 
 | Niv. | PV | Init. | XP | Chance | Agi. |
@@ -858,7 +954,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Niveau** : 19–21 (tirage : niv. 19 30 %, niv. 20 40 %, niv. 21 30 %) ; **7 PA, 1 PM** ; IA basique
 - **Résistances** : Acier +25 %, Flamme +30 %, Givre -20 %, Sacré -10 %
 - **Sorts** : Coup de branche, Racines, Pluie de cendres
-- **Butin** : Écorce vivante 50 % (×1–2), Cendre tiède 50 % (×1–2), Éclat de cendre 3 %, Ceinture d'écorce calcinée 4 % ; **brumes** 21–47
+- **Butin** : Écorce vivante 50 % (×1–2), Cendre tiède 50 % (×1–2), Éclat de cendre 3 %, Ceinture d'écorce calcinée 4 %, Anneau du Yéti Frileux 4 %, Ceinture du Yéti Frileux 4 %, Bottes du Yéti Frileux 4 % ; **brumes** 21–47
 - **Où le trouver** : Bois-Corbeau (`hautepierre_1_0`, 1 groupe) · Colline Pelée (`hautepierre_3_0`, 2 groupes, dont 1 au hasard) · Cœur de la Toile (`sylvebrume_0_2`, 1 groupe, dont 1 après La Mère-Toile)
 
 | Niv. | PV | Init. | XP | Force | Intel. | Chance |
@@ -876,7 +972,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Niveau** : 13–15 (tirage : niv. 13 30 %, niv. 14 40 %, niv. 15 30 %) ; **6 PA, 4 PM** ; IA basique
 - **Résistances** : Tempête +10 %, Givre +5 %, Sacré -10 %
 - **Sorts** : Coup de surin, La bourse ou la vie
-- **Butin** : Bourse vide 55 % (×1–2), Carte au trésor douteuse 12 %, Capuche de détrousseur 4 %, Dague de détrousseur 3 %, Bottes de grand chemin 4 % ; **brumes** 11–26
+- **Butin** : Bourse vide 55 % (×1–2), Carte au trésor douteuse 12 %, Capuche de détrousseur 4 %, Dague de détrousseur 3 %, Bottes de grand chemin 4 %, Coiffe du Chat Noir 3 %, Cape du Chat Noir 3 %, Amulette du Chat Noir 3 %, Dague du Chat Noir 2 % ; **brumes** 11–26
 - **Où le trouver** : Route de l'Ouest (`hautepierre_0_2`, 3 groupes, dont 1 au hasard) · Rives du Fleuve Gris (`hautepierre_1_3`, 1 groupe) · Route du Nord (`hautepierre_2_0`, 3 groupes, dont 1 au hasard) · Route de l'Est (`hautepierre_4_2`, 3 groupes)
 
 | Niv. | PV | Init. | XP | Chance | Agi. |
@@ -892,7 +988,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Niveau** : 18 (fixe) ; **7 PA, 4 PM** ; IA basique
 - **Résistances** : Tempête +20 %, Givre +15 %, Acier +10 %, Flamme +10 %, Sacré -5 %
 - **Sorts** : Coup de surin, La bourse ou la vie, Embuscade
-- **Butin** : Bourse vide 88 % (×2–4), Carte au trésor douteuse 48 %, Capuche de détrousseur 16 %, Dague de détrousseur 13 %, Bottes de grand chemin 16 % ; **brumes** 28–65
+- **Butin** : Bourse vide 88 % (×2–4), Carte au trésor douteuse 48 %, Capuche de détrousseur 16 %, Dague de détrousseur 13 %, Bottes de grand chemin 16 %, Coiffe du Chat Noir 13 %, Cape du Chat Noir 13 %, Amulette du Chat Noir 13 %, Dague du Chat Noir 10 %, Coiffe du Porte-Malheur 8 %, Cape du Porte-Malheur 8 %, Amulette du Porte-Malheur 8 %, Dague du Porte-Malheur 6 % ; **brumes** 28–65
 - **Où le trouver** : Route de l'Ouest (`hautepierre_0_2`, apparition spontanée) · Rives du Fleuve Gris (`hautepierre_1_3`, apparition spontanée) · Route du Nord (`hautepierre_2_0`, apparition spontanée) · Route de l'Est (`hautepierre_4_2`, apparition spontanée)
 
 | Niv. | PV | Init. | XP | Chance | Agi. |
@@ -906,7 +1002,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Niveau** : 16–18 (tirage : niv. 16 10 %, niv. 17 30 %, niv. 18 60 %) ; **6 PA, 2 PM** ; IA basique
 - **Résistances** : Acier +25 %, Givre +15 %, Flamme -20 %, Sacré -10 %
 - **Sorts** : Coup de massue, Lancer de rocher
-- **Butin** : Dent de troll 55 % (×1–2), Recette de troll 12 %, Ceinture de troll 4 %, Anneau de nez de troll 4 %, Massue de troll 3 % ; **brumes** 17–40
+- **Butin** : Dent de troll 55 % (×1–2), Recette de troll 12 %, Ceinture de troll 4 %, Anneau de nez de troll 4 %, Massue de troll 3 %, Anneau de l'Enclume Rancunière 3 %, Ceinture de l'Enclume Rancunière 3 %, Bottes de l'Enclume Rancunière 3 % ; **brumes** 17–40
 - **Où le trouver** : Vigie aux Corbacs (`hautepierre_1_1`, 1 groupe, dont 1 au hasard) · Rives du Fleuve Gris (`hautepierre_1_3`, 3 groupes) · Pont des Trolls (`hautepierre_2_3`, 4 groupes, dont 1 au hasard) · Gorges du Troll (`hautepierre_2_4`, 2 groupes)
 
 | Niv. | PV | Init. | XP | Force | Chance |
@@ -922,7 +1018,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Niveau** : 21 (fixe) ; **7 PA, 2 PM** ; IA basique
 - **Résistances** : Acier +35 %, Givre +25 %, Tempête +10 %, Flamme -15 %, Sacré -5 %
 - **Sorts** : Coup de massue, Lancer de rocher, Marinade
-- **Butin** : Dent de troll 88 % (×2–4), Recette de troll 48 %, Ceinture de troll 16 %, Anneau de nez de troll 16 %, Massue de troll 13 % ; **brumes** 42–100
+- **Butin** : Dent de troll 88 % (×2–4), Recette de troll 48 %, Ceinture de troll 16 %, Anneau de nez de troll 16 %, Massue de troll 13 %, Anneau de l'Enclume Rancunière 13 %, Ceinture de l'Enclume Rancunière 13 %, Bottes de l'Enclume Rancunière 13 %, Anneau de l'Hiver Qui Vient 8 %, Ceinture de l'Hiver Qui Vient 8 %, Bottes de l'Hiver Qui Vient 8 % ; **brumes** 42–100
 - **Où le trouver** : Vigie aux Corbacs (`hautepierre_1_1`, apparition spontanée) · Rives du Fleuve Gris (`hautepierre_1_3`, apparition spontanée) · Pont des Trolls (`hautepierre_2_3`, apparition spontanée) · Gorges du Troll (`hautepierre_2_4`, apparition spontanée)
 
 | Niv. | PV | Init. | XP | Force | Chance |
@@ -936,7 +1032,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Niveau** : 19–21 (tirage : niv. 19 60 %, niv. 20 30 %, niv. 21 10 %) ; **6 PA, 5 PM** ; IA distance
 - **Résistances** : Tempête +25 %, Flamme +5 %, Acier -10 %
 - **Sorts** : Coup de bec, Piqué
-- **Butin** : Plume de corbac 55 % (×1–3), Message intercepté 12 %, Chapeau à plume de corbac 4 %, Amulette œil-de-corbac 2 % ; **brumes** 15–34
+- **Butin** : Plume de corbac 55 % (×1–3), Message intercepté 12 %, Chapeau à plume de corbac 4 %, Amulette œil-de-corbac 2 %, Anneau du Coup de Vent 3 %, Ceinture du Coup de Vent 3 %, Bottes du Coup de Vent 3 % ; **brumes** 15–34
 - **Où le trouver** : Bois-Corbeau (`hautepierre_1_0`, 4 groupes, dont 1 au hasard) · Vigie aux Corbacs (`hautepierre_1_1`, 3 groupes, dont 1 au hasard) · Colline Pelée (`hautepierre_3_0`, 2 groupes) · Ruines de la Vieille Garde (`hautepierre_3_1`, 1 groupe, dont 1 au hasard)
 
 | Niv. | PV | Init. | XP | Agi. |
@@ -952,7 +1048,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Niveau** : 24 (fixe) ; **7 PA, 5 PM** ; IA distance
 - **Résistances** : Tempête +35 %, Flamme +15 %, Givre +10 %, Acier -5 %
 - **Sorts** : Coup de bec, Piqué, Rapport détaillé
-- **Butin** : Plume de corbac 88 % (×2–5), Message intercepté 48 %, Chapeau à plume de corbac 16 %, Amulette œil-de-corbac 12 %, Cape de plumes noires 15 % ; **brumes** 38–85
+- **Butin** : Plume de corbac 88 % (×2–5), Message intercepté 48 %, Chapeau à plume de corbac 16 %, Amulette œil-de-corbac 12 %, Cape de plumes noires 15 %, Anneau du Coup de Vent 13 %, Ceinture du Coup de Vent 13 %, Bottes du Coup de Vent 13 %, Anneau de la Tornade Mal Lunée 8 %, Ceinture de la Tornade Mal Lunée 8 %, Bottes de la Tornade Mal Lunée 8 % ; **brumes** 38–85
 - **Où le trouver** : Bois-Corbeau (`hautepierre_1_0`, apparition spontanée) · Vigie aux Corbacs (`hautepierre_1_1`, apparition spontanée) · Colline Pelée (`hautepierre_3_0`, apparition spontanée) · Ruines de la Vieille Garde (`hautepierre_3_1`, apparition spontanée)
 
 | Niv. | PV | Init. | XP | Agi. |
@@ -966,7 +1062,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Niveau** : 22–24 (tirage : niv. 22 30 %, niv. 23 40 %, niv. 24 30 %) ; **6 PA, 3 PM** ; IA basique
 - **Résistances** : Acier +10 %, Flamme +20 %, Givre +30 %, Tempête -15 %
 - **Sorts** : Griffes de pierre, Gargouillis
-- **Butin** : Éclat de gargouille 55 % (×1–3), Cœur de pierre 12 %, Anneau de granit 4 %, Bottes de gargouille 3 %, Hallebarde de la Vieille Garde 3 % ; **brumes** 22–49
+- **Butin** : Éclat de gargouille 55 % (×1–3), Cœur de pierre 12 %, Anneau de granit 4 %, Bottes de gargouille 3 %, Hallebarde de la Vieille Garde 3 %, Coiffe de l'Hiver Qui Vient 2 %, Cape de l'Hiver Qui Vient 2 %, Amulette de l'Hiver Qui Vient 2 %, Bâton de l'Hiver Qui Vient 2 %, Anneau du Porte-Malheur 2 %, Ceinture du Porte-Malheur 2 %, Bottes du Porte-Malheur 2 % ; **brumes** 22–49
 - **Où le trouver** : Ruines de la Vieille Garde (`hautepierre_3_1`, 3 groupes, dont 1 au hasard) · Camp des Cendrillons (`hautepierre_3_3`, 1 groupe, dont 1 au hasard) · Cimetière des Gargouilles (`hautepierre_4_1`, 3 groupes, dont 1 au hasard)
 
 | Niv. | PV | Init. | XP | Force | Chance |
@@ -982,7 +1078,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Niveau** : 27 (fixe) ; **7 PA, 3 PM** ; IA basique
 - **Résistances** : Acier +20 %, Flamme +30 %, Givre +40 %, Tempête -10 %
 - **Sorts** : Griffes de pierre, Gargouillis, Regard de pierre
-- **Butin** : Éclat de gargouille 88 % (×2–5), Cœur de pierre 48 %, Anneau de granit 16 %, Bottes de gargouille 13 %, Hallebarde de la Vieille Garde 13 %, Amulette cœur-de-pierre 15 % ; **brumes** 55–122
+- **Butin** : Éclat de gargouille 88 % (×2–5), Cœur de pierre 48 %, Anneau de granit 16 %, Bottes de gargouille 13 %, Hallebarde de la Vieille Garde 13 %, Amulette cœur-de-pierre 15 %, Coiffe de l'Hiver Qui Vient 10 %, Cape de l'Hiver Qui Vient 10 %, Amulette de l'Hiver Qui Vient 10 %, Bâton de l'Hiver Qui Vient 8 %, Anneau du Porte-Malheur 10 %, Ceinture du Porte-Malheur 10 %, Bottes du Porte-Malheur 10 % ; **brumes** 55–122
 - **Où le trouver** : Ruines de la Vieille Garde (`hautepierre_3_1`, apparition spontanée) · Camp des Cendrillons (`hautepierre_3_3`, apparition spontanée) · Cimetière des Gargouilles (`hautepierre_4_1`, apparition spontanée)
 
 | Niv. | PV | Init. | XP | Force | Chance |
@@ -996,7 +1092,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Niveau** : 25–27 (tirage : niv. 25 30 %, niv. 26 40 %, niv. 27 30 %) ; **6 PA, 3 PM** ; IA soutien
 - **Résistances** : Flamme +30 %, Impie +15 %, Givre -20 %, Sacré -15 %
 - **Sorts** : Cendres ardentes, Bal de minuit
-- **Butin** : Cendre tiède 55 % (×1–3), Invitation au bal 12 %, Pantoufles de cendre 3 %, Masque de Cendrillon 4 %, Baguette de Cendrillon 3 %, Bague de minuit 3 % ; **brumes** 21–48
+- **Butin** : Cendre tiède 55 % (×1–3), Invitation au bal 12 %, Pantoufles de cendre 3 %, Masque de Cendrillon 4 %, Baguette de Cendrillon 3 %, Bague de minuit 3 %, Coiffe du Dragon Retraité 2 %, Cape du Dragon Retraité 2 %, Amulette du Dragon Retraité 2 %, Sceptre du Dragon Retraité 2 % ; **brumes** 21–48
 - **Où le trouver** : Camp des Cendrillons (`hautepierre_3_3`, 4 groupes, dont 1 au hasard) · Champs du Pèle-Ennemi (`hautepierre_3_4`, 2 groupes, dont 1 au hasard) · Plaine Cendrée (`hautepierre_4_3`, 3 groupes, dont 1 au hasard) · La Brèche (`hautepierre_4_4`, 1 groupe)
 
 | Niv. | PV | Init. | XP | Intel. |
@@ -1012,7 +1108,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Niveau** : 30 (fixe) ; **7 PA, 3 PM** ; IA soutien
 - **Résistances** : Flamme +40 %, Impie +25 %, Acier +10 %, Givre -15 %, Sacré -10 %
 - **Sorts** : Cendres ardentes, Bal de minuit, Coup de baguette
-- **Butin** : Cendre tiède 88 % (×2–5), Invitation au bal 48 %, Pantoufles de cendre 13 %, Masque de Cendrillon 16 %, Baguette de Cendrillon 13 %, Bague de minuit 13 % ; **brumes** 52–120
+- **Butin** : Cendre tiède 88 % (×2–5), Invitation au bal 48 %, Pantoufles de cendre 13 %, Masque de Cendrillon 16 %, Baguette de Cendrillon 13 %, Bague de minuit 13 %, Coiffe du Dragon Retraité 10 %, Cape du Dragon Retraité 10 %, Amulette du Dragon Retraité 10 %, Sceptre du Dragon Retraité 8 % ; **brumes** 52–120
 - **Où le trouver** : Camp des Cendrillons (`hautepierre_3_3`, apparition spontanée) · Champs du Pèle-Ennemi (`hautepierre_3_4`, apparition spontanée) · Plaine Cendrée (`hautepierre_4_3`, apparition spontanée) · La Brèche (`hautepierre_4_4`, apparition spontanée)
 
 | Niv. | PV | Init. | XP | Intel. |
@@ -1026,7 +1122,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Niveau** : 28–30 (tirage : niv. 28 10 %, niv. 29 30 %, niv. 30 60 %) ; **7 PA, 3 PM** ; IA basique
 - **Résistances** : Acier +30 %, Tempête +20 %, Flamme +10 %, Givre -15 %
 - **Sorts** : Charge d'olifant, Barrissement
-- **Butin** : Cuir d'olifant 55 % (×1–2), Ivoire d'olifant 12 %, Cape en cuir d'olifant 4 %, Semelles d'olifant 3 %, Cor d'olifant 2 % ; **brumes** 29–68
+- **Butin** : Cuir d'olifant 55 % (×1–2), Ivoire d'olifant 12 %, Cape en cuir d'olifant 4 %, Semelles d'olifant 3 %, Cor d'olifant 2 %, Anneau du Seigneur des Enclumes 2 %, Ceinture du Seigneur des Enclumes 2 %, Bottes du Seigneur des Enclumes 2 %, Coiffe de la Tornade Mal Lunée 2 %, Cape de la Tornade Mal Lunée 2 %, Amulette de la Tornade Mal Lunée 2 %, Arc de la Tornade Mal Lunée 2 % ; **brumes** 29–68
 - **Où le trouver** : Camp des Cendrillons (`hautepierre_3_3`, 1 groupe) · Champs du Pèle-Ennemi (`hautepierre_3_4`, 4 groupes, dont 1 au hasard) · La Brèche (`hautepierre_4_4`, 1 groupe)
 
 | Niv. | PV | Init. | XP | Force |
@@ -1042,7 +1138,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Niveau** : 33 (fixe) ; **8 PA, 3 PM** ; IA basique
 - **Résistances** : Acier +40 %, Tempête +30 %, Flamme +20 %, Givre -10 %
 - **Sorts** : Charge d'olifant, Barrissement, Piétinement
-- **Butin** : Cuir d'olifant 88 % (×2–4), Ivoire d'olifant 48 %, Cape en cuir d'olifant 16 %, Semelles d'olifant 13 %, Cor d'olifant 12 % ; **brumes** 72–170
+- **Butin** : Cuir d'olifant 88 % (×2–4), Ivoire d'olifant 48 %, Cape en cuir d'olifant 16 %, Semelles d'olifant 13 %, Cor d'olifant 12 %, Anneau du Seigneur des Enclumes 10 %, Ceinture du Seigneur des Enclumes 10 %, Bottes du Seigneur des Enclumes 10 %, Coiffe de la Tornade Mal Lunée 10 %, Cape de la Tornade Mal Lunée 10 %, Amulette de la Tornade Mal Lunée 10 %, Arc de la Tornade Mal Lunée 8 % ; **brumes** 72–170
 - **Où le trouver** : Camp des Cendrillons (`hautepierre_3_3`, apparition spontanée) · Champs du Pèle-Ennemi (`hautepierre_3_4`, apparition spontanée) · La Brèche (`hautepierre_4_4`, apparition spontanée)
 
 | Niv. | PV | Init. | XP | Force |
@@ -1059,7 +1155,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Phase 1** (à 75 % PV) : bouclier 80 (Acier) ; +20 Résistance Givre (3 t.). Message : Des mains invisibles clouent des planches neuves sur le toit du bélier. Personne ne veut savoir à qui elles sont.
 - **Phase 2** (à 50 % PV) : apprend Charge de la Brèche ; +2 PM (3 t.). Message : « Grondin ! Grondin ! » scandent des voix dans la cendre. Les chaînes lâchent.
 - **Phase 3** (à 20 % PV) : apprend Souffle de forge ; +40 Force (3 t.) ; −2 PM (3 t.). Message : « Trois coups ! On frappe toujours trois coups ! » Ses roues cassent ; sa tête de loup s'embrase.
-- **Butin** : Éclat de cendre 100 % (×1–2), Heaume du Bélier 15 %, Anneau du Gond 15 %, Marteau de Grondin 6 % ; **brumes** 300–500
+- **Butin** : Éclat de cendre 100 % (×1–2), Heaume du Bélier 15 %, Anneau du Gond 15 %, Marteau de Grondin 6 %, Coiffe du Seigneur des Enclumes 8 %, Cape du Seigneur des Enclumes 8 %, Amulette du Seigneur des Enclumes 8 %, Marteau du Seigneur des Enclumes 6 %, Anneau de l'Inquisiteur Bienveillant 8 %, Ceinture de l'Inquisiteur Bienveillant 8 %, Bottes de l'Inquisiteur Bienveillant 8 % ; **brumes** 300–500
 - **Où le trouver** : La Brèche (`hautepierre_4_4`, 1 groupe, dont 1 réapparition 45–60 s)
 
 | Niv. | PV | Init. | XP | Force |
@@ -1075,7 +1171,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Niveau** : 50 (fixe) ; **12 PA, 3 PM** ; IA basique
 - **Résistances** : Flamme +50 %, Acier +25 %, Tempête +25 %, Givre -10 %
 - **Sorts** : Lame de cendre, Souffle cendré, Brasier
-- **Butin** : Fragment de cendre 100 %, Lame cendrée 5 % ; **brumes** 500–800
+- **Butin** : Fragment de cendre 100 %, Lame cendrée 5 %, Anneau du Dragon Retraité 8 %, Ceinture du Dragon Retraité 8 %, Bottes du Dragon Retraité 8 %, Coiffe de l'Inquisiteur Bienveillant 8 %, Cape de l'Inquisiteur Bienveillant 8 %, Amulette de l'Inquisiteur Bienveillant 8 %, Masse de l'Inquisiteur Bienveillant 6 % ; **brumes** 500–800
 - **Où le trouver** : Trône de Cendre (élite) (`cendre_0_0`, 1 groupe, dont 1 réapparition 300 s)
 
 | Niv. | PV | Init. | XP |

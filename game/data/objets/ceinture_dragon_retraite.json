@@ -1,0 +1,18 @@
+{
+  "id": "ceinture_dragon_retraite",
+  "nom": "Ceinture du Dragon Retraité",
+  "type": "ceinture",
+  "rarete": "rare",
+  "niveau": 30,
+  "description": "La garde-robe d'un dragon parti à la retraite. Il touche une pension en or et ne crache plus que sur la météo.",
+  "bonus": {
+    "intelligence": [
+      14,
+      20
+    ],
+    "vitalite": [
+      25,
+      35
+    ]
+  }
+}

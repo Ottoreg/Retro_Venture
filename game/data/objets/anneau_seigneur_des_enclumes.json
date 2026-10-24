@@ -1,0 +1,18 @@
+{
+  "id": "anneau_seigneur_des_enclumes",
+  "nom": "Anneau du Seigneur des Enclumes",
+  "type": "anneau",
+  "rarete": "rare",
+  "niveau": 30,
+  "description": "Une enclume pour les gouverner toutes. Et dans le métal, les marteler.",
+  "bonus": {
+    "force": [
+      12,
+      17
+    ],
+    "vitalite": [
+      15,
+      22
+    ]
+  }
+}

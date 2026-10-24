@@ -1,0 +1,22 @@
+{
+  "id": "anneau_inquisiteur_bienveillant",
+  "nom": "Anneau de l'Inquisiteur Bienveillant",
+  "type": "anneau",
+  "rarete": "rare",
+  "niveau": 30,
+  "description": "Il pose ses questions gentiment. Puis il insiste. Toujours avec bienveillance.",
+  "bonus": {
+    "force": [
+      7,
+      9
+    ],
+    "intelligence": [
+      7,
+      9
+    ],
+    "vitalite": [
+      15,
+      22
+    ]
+  }
+}

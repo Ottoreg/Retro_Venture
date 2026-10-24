@@ -1,0 +1,18 @@
+{
+  "id": "anneau_yeti_frileux",
+  "nom": "Anneau du Yéti Frileux",
+  "type": "anneau",
+  "rarete": "peu_commun",
+  "niveau": 15,
+  "description": "Le yéti la portait par-dessus sa fourrure, avec une écharpe. Il avait quand même froid.",
+  "bonus": {
+    "chance": [
+      7,
+      10
+    ],
+    "vitalite": [
+      8,
+      12
+    ]
+  }
+}

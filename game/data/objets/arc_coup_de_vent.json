@@ -1,0 +1,37 @@
+{
+  "id": "arc_coup_de_vent",
+  "nom": "Arc du Coup de Vent",
+  "type": "arme",
+  "rarete": "peu_commun",
+  "niveau": 15,
+  "description": "Taillée pour aller vite. Les boutons, eux, sont partis devant.",
+  "bonus": {
+    "agilite": [
+      6,
+      9
+    ],
+    "vitalite": [
+      8,
+      12
+    ]
+  },
+  "attaque": {
+    "cout_pa": 4,
+    "portee": {
+      "min": 2,
+      "max": 6
+    },
+    "ligne_de_vue": true,
+    "relance": {
+      "par_tour": 1
+    },
+    "effets": [
+      {
+        "type": "degats",
+        "element": "tempete",
+        "min": 12,
+        "max": 17
+      }
+    ]
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "id": "amulette_porte_malheur",
+  "nom": "Amulette du Porte-Malheur",
+  "type": "amulette",
+  "rarete": "rare",
+  "niveau": 30,
+  "description": "Tout ce qui peut mal tourner tourne mal. Pour les autres, surtout.",
+  "bonus": {
+    "agilite": [
+      6,
+      8
+    ],
+    "chance": [
+      6,
+      8
+    ],
+    "pa": [
+      1,
+      1
+    ]
+  }
+}

@@ -59,6 +59,18 @@
     {
       "objet": "amulette_enfant_de_choeur",
       "taux": 0.13
+    },
+    {
+      "objet": "anneau_bedeau_zele",
+      "taux": 0.13
+    },
+    {
+      "objet": "ceinture_bedeau_zele",
+      "taux": 0.13
+    },
+    {
+      "objet": "bottes_bedeau_zele",
+      "taux": 0.13
     }
   ],
   "ecus": [

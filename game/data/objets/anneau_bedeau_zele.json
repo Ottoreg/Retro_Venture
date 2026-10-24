@@ -1,0 +1,22 @@
+{
+  "id": "anneau_bedeau_zele",
+  "nom": "Anneau du Bedeau Zélé",
+  "type": "anneau",
+  "rarete": "peu_commun",
+  "niveau": 15,
+  "description": "Il sonne les cloches à l'heure, mouche les cierges à l'heure et frappe les hérétiques à l'heure.",
+  "bonus": {
+    "force": [
+      4,
+      6
+    ],
+    "intelligence": [
+      4,
+      6
+    ],
+    "vitalite": [
+      8,
+      12
+    ]
+  }
+}

@@ -63,6 +63,34 @@
     {
       "objet": "hallebarde_de_la_vieille_garde",
       "taux": 0.03
+    },
+    {
+      "objet": "coiffe_hiver_qui_vient",
+      "taux": 0.02
+    },
+    {
+      "objet": "cape_hiver_qui_vient",
+      "taux": 0.02
+    },
+    {
+      "objet": "amulette_hiver_qui_vient",
+      "taux": 0.02
+    },
+    {
+      "objet": "baton_hiver_qui_vient",
+      "taux": 0.015
+    },
+    {
+      "objet": "anneau_porte_malheur",
+      "taux": 0.02
+    },
+    {
+      "objet": "ceinture_porte_malheur",
+      "taux": 0.02
+    },
+    {
+      "objet": "bottes_porte_malheur",
+      "taux": 0.02
     }
   ],
   "ecus": [

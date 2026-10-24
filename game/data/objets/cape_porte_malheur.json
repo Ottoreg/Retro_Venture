@@ -1,0 +1,22 @@
+{
+  "id": "cape_porte_malheur",
+  "nom": "Cape du Porte-Malheur",
+  "type": "cape",
+  "rarete": "rare",
+  "niveau": 30,
+  "description": "Tout ce qui peut mal tourner tourne mal. Pour les autres, surtout.",
+  "bonus": {
+    "agilite": [
+      8,
+      11
+    ],
+    "chance": [
+      8,
+      11
+    ],
+    "sagesse": [
+      7,
+      10
+    ]
+  }
+}

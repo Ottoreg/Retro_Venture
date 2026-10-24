@@ -1,0 +1,18 @@
+{
+  "id": "bottes_coup_de_vent",
+  "nom": "Bottes du Coup de Vent",
+  "type": "bottes",
+  "rarete": "peu_commun",
+  "niveau": 15,
+  "description": "Taillée pour aller vite. Les boutons, eux, sont partis devant.",
+  "bonus": {
+    "agilite": [
+      7,
+      10
+    ],
+    "initiative": [
+      25,
+      40
+    ]
+  }
+}

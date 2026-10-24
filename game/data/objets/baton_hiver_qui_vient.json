@@ -1,0 +1,36 @@
+{
+  "id": "baton_hiver_qui_vient",
+  "nom": "Bâton de l'Hiver Qui Vient",
+  "type": "arme",
+  "rarete": "rare",
+  "niveau": 30,
+  "description": "On l'annonce depuis des années. Il est enfin arrivé, et il a apporté ses affaires.",
+  "bonus": {
+    "chance": [
+      12,
+      17
+    ],
+    "vitalite": [
+      15,
+      22
+    ]
+  },
+  "attaque": {
+    "cout_pa": 3,
+    "portee": {
+      "min": 1,
+      "max": 4
+    },
+    "relance": {
+      "par_tour": 2
+    },
+    "effets": [
+      {
+        "type": "degats",
+        "element": "givre",
+        "min": 14,
+        "max": 20
+      }
+    ]
+  }
+}

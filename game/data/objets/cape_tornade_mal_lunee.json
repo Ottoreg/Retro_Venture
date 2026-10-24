@@ -1,0 +1,18 @@
+{
+  "id": "cape_tornade_mal_lunee",
+  "nom": "Cape de la Tornade Mal Lunée",
+  "type": "cape",
+  "rarete": "rare",
+  "niveau": 30,
+  "description": "Elle se lève du mauvais pied et emporte tout le monde avec elle.",
+  "bonus": {
+    "agilite": [
+      14,
+      20
+    ],
+    "sagesse": [
+      7,
+      10
+    ]
+  }
+}

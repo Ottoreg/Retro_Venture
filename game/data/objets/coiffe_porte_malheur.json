@@ -1,0 +1,22 @@
+{
+  "id": "coiffe_porte_malheur",
+  "nom": "Coiffe du Porte-Malheur",
+  "type": "coiffe",
+  "rarete": "rare",
+  "niveau": 30,
+  "description": "Tout ce qui peut mal tourner tourne mal. Pour les autres, surtout.",
+  "bonus": {
+    "agilite": [
+      9,
+      12
+    ],
+    "chance": [
+      9,
+      12
+    ],
+    "vitalite": [
+      25,
+      35
+    ]
+  }
+}

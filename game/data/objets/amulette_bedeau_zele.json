@@ -1,0 +1,22 @@
+{
+  "id": "amulette_bedeau_zele",
+  "nom": "Amulette du Bedeau Zélé",
+  "type": "amulette",
+  "rarete": "peu_commun",
+  "niveau": 15,
+  "description": "Il sonne les cloches à l'heure, mouche les cierges à l'heure et frappe les hérétiques à l'heure.",
+  "bonus": {
+    "force": [
+      3,
+      5
+    ],
+    "intelligence": [
+      3,
+      5
+    ],
+    "pa": [
+      1,
+      1
+    ]
+  }
+}

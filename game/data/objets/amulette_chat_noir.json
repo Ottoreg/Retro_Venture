@@ -1,0 +1,22 @@
+{
+  "id": "amulette_chat_noir",
+  "nom": "Amulette du Chat Noir",
+  "type": "amulette",
+  "rarete": "peu_commun",
+  "niveau": 15,
+  "description": "Elle vous croise la route à chaque pas. Vos ennemis, eux, n'ont plus aucune chance.",
+  "bonus": {
+    "agilite": [
+      3,
+      5
+    ],
+    "chance": [
+      3,
+      5
+    ],
+    "pa": [
+      1,
+      1
+    ]
+  }
+}

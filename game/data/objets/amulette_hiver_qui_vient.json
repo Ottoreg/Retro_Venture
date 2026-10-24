@@ -1,0 +1,18 @@
+{
+  "id": "amulette_hiver_qui_vient",
+  "nom": "Amulette de l'Hiver Qui Vient",
+  "type": "amulette",
+  "rarete": "rare",
+  "niveau": 30,
+  "description": "On l'annonce depuis des années. Il est enfin arrivé, et il a apporté ses affaires.",
+  "bonus": {
+    "chance": [
+      10,
+      14
+    ],
+    "pa": [
+      1,
+      1
+    ]
+  }
+}

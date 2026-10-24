@@ -1,0 +1,18 @@
+{
+  "id": "amulette_pyromane_recidiviste",
+  "nom": "Amulette du Pyromane Récidiviste",
+  "type": "amulette",
+  "rarete": "peu_commun",
+  "niveau": 15,
+  "description": "Il avait juré de ne plus rien brûler. Il a tenu trois semaines. Ses vêtements l'avaient prévenu.",
+  "bonus": {
+    "intelligence": [
+      6,
+      9
+    ],
+    "pa": [
+      1,
+      1
+    ]
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "id": "inquisiteur_bienveillant",
+  "nom": "Panoplie de l'Inquisiteur Bienveillant",
+  "orientation": "sacre",
+  "objets": [
+    "coiffe_inquisiteur_bienveillant",
+    "cape_inquisiteur_bienveillant",
+    "amulette_inquisiteur_bienveillant",
+    "anneau_inquisiteur_bienveillant",
+    "ceinture_inquisiteur_bienveillant",
+    "bottes_inquisiteur_bienveillant",
+    "masse_inquisiteur_bienveillant"
+  ],
+  "bonus": {
+    "2": {
+      "force": 15,
+      "intelligence": 15
+    },
+    "3": {
+      "force": 30,
+      "intelligence": 30,
+      "dommages": 5
+    },
+    "4": {
+      "force": 45,
+      "intelligence": 45,
+      "dommages": 10,
+      "vitalite": 60
+    },
+    "5": {
+      "force": 60,
+      "intelligence": 60,
+      "dommages": 15,
+      "vitalite": 90,
+      "portee": 1
+    },
+    "6": {
+      "force": 80,
+      "intelligence": 80,
+      "dommages": 20,
+      "vitalite": 120,
+      "pa": 1,
+      "pm": 1,
+      "portee": 1
+    },
+    "7": {
+      "force": 100,
+      "intelligence": 100,
+      "dommages": 25,
+      "vitalite": 160,
+      "pa": 2,
+      "pm": 1,
+      "portee": 2
+    }
+  }
+}

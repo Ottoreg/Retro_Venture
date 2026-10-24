@@ -57,6 +57,18 @@
     {
       "objet": "amulette_oeil_de_corbac",
       "taux": 0.02
+    },
+    {
+      "objet": "anneau_coup_de_vent",
+      "taux": 0.03
+    },
+    {
+      "objet": "ceinture_coup_de_vent",
+      "taux": 0.03
+    },
+    {
+      "objet": "bottes_coup_de_vent",
+      "taux": 0.03
     }
   ],
   "ecus": [

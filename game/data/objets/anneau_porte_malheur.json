@@ -1,0 +1,22 @@
+{
+  "id": "anneau_porte_malheur",
+  "nom": "Anneau du Porte-Malheur",
+  "type": "anneau",
+  "rarete": "rare",
+  "niveau": 30,
+  "description": "Tout ce qui peut mal tourner tourne mal. Pour les autres, surtout.",
+  "bonus": {
+    "agilite": [
+      7,
+      9
+    ],
+    "chance": [
+      7,
+      9
+    ],
+    "vitalite": [
+      15,
+      22
+    ]
+  }
+}

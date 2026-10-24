@@ -1,0 +1,49 @@
+{
+  "id": "yeti_frileux",
+  "nom": "Panoplie du Yéti Frileux",
+  "orientation": "givre",
+  "objets": [
+    "coiffe_yeti_frileux",
+    "cape_yeti_frileux",
+    "amulette_yeti_frileux",
+    "anneau_yeti_frileux",
+    "ceinture_yeti_frileux",
+    "bottes_yeti_frileux",
+    "baton_yeti_frileux"
+  ],
+  "bonus": {
+    "2": {
+      "chance": 15
+    },
+    "3": {
+      "chance": 30,
+      "dommages": 3
+    },
+    "4": {
+      "chance": 45,
+      "dommages": 6,
+      "vitalite": 30
+    },
+    "5": {
+      "chance": 60,
+      "dommages": 9,
+      "vitalite": 45,
+      "portee": 1
+    },
+    "6": {
+      "chance": 80,
+      "dommages": 12,
+      "vitalite": 60,
+      "pm": 1,
+      "portee": 1
+    },
+    "7": {
+      "chance": 100,
+      "dommages": 15,
+      "vitalite": 80,
+      "pa": 1,
+      "pm": 1,
+      "portee": 1
+    }
+  }
+}

@@ -68,6 +68,22 @@
     {
       "objet": "cape_de_loup_cendreux",
       "taux": 0.04
+    },
+    {
+      "objet": "coiffe_coup_de_vent",
+      "taux": 0.04
+    },
+    {
+      "objet": "cape_coup_de_vent",
+      "taux": 0.04
+    },
+    {
+      "objet": "amulette_coup_de_vent",
+      "taux": 0.04
+    },
+    {
+      "objet": "arc_coup_de_vent",
+      "taux": 0.03
     }
   ],
   "ecus": [

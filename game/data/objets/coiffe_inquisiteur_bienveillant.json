@@ -1,0 +1,22 @@
+{
+  "id": "coiffe_inquisiteur_bienveillant",
+  "nom": "Coiffe de l'Inquisiteur Bienveillant",
+  "type": "coiffe",
+  "rarete": "rare",
+  "niveau": 30,
+  "description": "Il pose ses questions gentiment. Puis il insiste. Toujours avec bienveillance.",
+  "bonus": {
+    "force": [
+      9,
+      12
+    ],
+    "intelligence": [
+      9,
+      12
+    ],
+    "vitalite": [
+      25,
+      35
+    ]
+  }
+}

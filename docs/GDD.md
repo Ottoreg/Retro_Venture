@@ -960,7 +960,7 @@ vaut quelque chose ; pas de recherche profonde.
 
 ### 9.3 Panoplies de l'alpha test
 
-Pour l'alpha test, huit panoplies qui permettent de tester chaque façon de jouer. Chaque panoplie a
+Pour l'alpha test, huit panoplies de départ qui permettent de tester chaque façon de jouer. Chaque panoplie a
 un **bonus de panoplie** qui grandit avec le nombre de pièces équipées (à partir de 2).
 
 | Panoplie *(noms provisoires)* | Orientation | Pièces |
@@ -987,6 +987,33 @@ un **bonus de panoplie** qui grandit avec le nombre de pièces équipées (à pa
   +40 Vitalité et +1 PA. Pressé : 2 pièces : +20 Initiative, +2 Dommages ; 3 : +50 Initiative,
   +5 Dommages. Fouineur : 2 pièces : +20 Prospection ; 3 : +50 Prospection, +10 Chance.
 - Pièces de niveau 3, communes, vendues par les marchands (pour l'alpha test).
+
+**Panoplies élémentaires de niveau 15 et 30** : une panoplie par élément à chaque niveau, de
+**7 pièces** (les six emplacements et l'**arme**), vendues aussi par les marchands pendant l'alpha et
+tombées sur des monstres de leur niveau (coiffe, cape, amulette et arme sur une famille, le reste sur
+une autre). Pièces peu communes au niveau 15, rares au niveau 30 ; l'**amulette donne 1 PA** aux deux
+niveaux, les **bottes de niveau 30 donnent 1 PM**.
+
+| Élément | Niveau 15 | Niveau 30 | Arme |
+|---|---|---|---|
+| Acier (Force) | Enclume Rancunière | Seigneur des Enclumes | Marteau |
+| Flamme (Intelligence) | Pyromane Récidiviste | Dragon Retraité | Sceptre |
+| Givre (Chance) | Yéti Frileux | Hiver Qui Vient | Bâton |
+| Tempête (Agilité) | Coup de Vent | Tornade Mal Lunée | Arc |
+| Sacré (Force et Intelligence) | Bedeau Zélé | Inquisiteur Bienveillant | Masse |
+| Impie (Agilité et Chance) | Chat Noir | Porte-Malheur | Dague |
+
+- **Bonus de niveau 15** (caractéristique, moitié dans chacune pour le Sacré et l'Impie) : 2 pièces :
+  +15 ; 3 : +30, +3 Dommages ; 4 : +45, +6 Dommages, +30 Vitalité ; 5 : +60, +9 Dommages,
+  +45 Vitalité, +1 Portée ; 6 : +80, +12 Dommages, +60 Vitalité, +1 PM, +1 Portée ; 7 : +100,
+  +15 Dommages, +80 Vitalité, **+1 PA, +1 PM, +1 Portée**.
+- **Bonus de niveau 30** : 2 pièces : +30 ; 3 : +60, +5 Dommages ; 4 : +90, +10 Dommages,
+  +60 Vitalité ; 5 : +120, +15 Dommages, +90 Vitalité, +1 Portée ; 6 : +160, +20 Dommages,
+  +120 Vitalité, +1 PA, +1 PM, +1 Portée ; 7 : +200, +25 Dommages, +160 Vitalité, **+2 PA, +1 PM,
+  +2 Portée**.
+- Panoplie complète : +2 PA au niveau 15 (amulette comprise), +3 PA et +2 PM au niveau 30 (amulette
+  et bottes comprises). Chiffres à équilibrer après les retours de test. Production :
+  `docs/design/panoplies_15_30/produire.py` (objets, panoplies, icônes, butin).
 
 ---
 

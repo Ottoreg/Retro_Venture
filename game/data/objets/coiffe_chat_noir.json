@@ -1,0 +1,22 @@
+{
+  "id": "coiffe_chat_noir",
+  "nom": "Coiffe du Chat Noir",
+  "type": "coiffe",
+  "rarete": "peu_commun",
+  "niveau": 15,
+  "description": "Elle vous croise la route à chaque pas. Vos ennemis, eux, n'ont plus aucune chance.",
+  "bonus": {
+    "agilite": [
+      5,
+      7
+    ],
+    "chance": [
+      5,
+      7
+    ],
+    "vitalite": [
+      12,
+      18
+    ]
+  }
+}

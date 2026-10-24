@@ -1,0 +1,18 @@
+{
+  "id": "bottes_pyromane_recidiviste",
+  "nom": "Bottes du Pyromane Récidiviste",
+  "type": "bottes",
+  "rarete": "peu_commun",
+  "niveau": 15,
+  "description": "Il avait juré de ne plus rien brûler. Il a tenu trois semaines. Ses vêtements l'avaient prévenu.",
+  "bonus": {
+    "intelligence": [
+      7,
+      10
+    ],
+    "initiative": [
+      25,
+      40
+    ]
+  }
+}

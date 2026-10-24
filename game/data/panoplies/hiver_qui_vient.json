@@ -1,0 +1,50 @@
+{
+  "id": "hiver_qui_vient",
+  "nom": "Panoplie de l'Hiver Qui Vient",
+  "orientation": "givre",
+  "objets": [
+    "coiffe_hiver_qui_vient",
+    "cape_hiver_qui_vient",
+    "amulette_hiver_qui_vient",
+    "anneau_hiver_qui_vient",
+    "ceinture_hiver_qui_vient",
+    "bottes_hiver_qui_vient",
+    "baton_hiver_qui_vient"
+  ],
+  "bonus": {
+    "2": {
+      "chance": 30
+    },
+    "3": {
+      "chance": 60,
+      "dommages": 5
+    },
+    "4": {
+      "chance": 90,
+      "dommages": 10,
+      "vitalite": 60
+    },
+    "5": {
+      "chance": 120,
+      "dommages": 15,
+      "vitalite": 90,
+      "portee": 1
+    },
+    "6": {
+      "chance": 160,
+      "dommages": 20,
+      "vitalite": 120,
+      "pa": 1,
+      "pm": 1,
+      "portee": 1
+    },
+    "7": {
+      "chance": 200,
+      "dommages": 25,
+      "vitalite": 160,
+      "pa": 2,
+      "pm": 1,
+      "portee": 2
+    }
+  }
+}

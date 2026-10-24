@@ -1,0 +1,18 @@
+{
+  "id": "coiffe_yeti_frileux",
+  "nom": "Coiffe du Yéti Frileux",
+  "type": "coiffe",
+  "rarete": "peu_commun",
+  "niveau": 15,
+  "description": "Le yéti la portait par-dessus sa fourrure, avec une écharpe. Il avait quand même froid.",
+  "bonus": {
+    "chance": [
+      9,
+      13
+    ],
+    "vitalite": [
+      12,
+      18
+    ]
+  }
+}

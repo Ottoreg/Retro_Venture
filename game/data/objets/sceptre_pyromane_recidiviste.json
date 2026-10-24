@@ -1,0 +1,36 @@
+{
+  "id": "sceptre_pyromane_recidiviste",
+  "nom": "Sceptre du Pyromane Récidiviste",
+  "type": "arme",
+  "rarete": "peu_commun",
+  "niveau": 15,
+  "description": "Il avait juré de ne plus rien brûler. Il a tenu trois semaines. Ses vêtements l'avaient prévenu.",
+  "bonus": {
+    "intelligence": [
+      6,
+      9
+    ],
+    "vitalite": [
+      8,
+      12
+    ]
+  },
+  "attaque": {
+    "cout_pa": 4,
+    "portee": {
+      "min": 2,
+      "max": 6
+    },
+    "relance": {
+      "par_tour": 1
+    },
+    "effets": [
+      {
+        "type": "degats",
+        "element": "flamme",
+        "min": 12,
+        "max": 17
+      }
+    ]
+  }
+}

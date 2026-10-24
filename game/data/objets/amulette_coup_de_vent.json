@@ -1,0 +1,18 @@
+{
+  "id": "amulette_coup_de_vent",
+  "nom": "Amulette du Coup de Vent",
+  "type": "amulette",
+  "rarete": "peu_commun",
+  "niveau": 15,
+  "description": "Taillée pour aller vite. Les boutons, eux, sont partis devant.",
+  "bonus": {
+    "agilite": [
+      6,
+      9
+    ],
+    "pa": [
+      1,
+      1
+    ]
+  }
+}

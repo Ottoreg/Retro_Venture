@@ -1,0 +1,18 @@
+{
+  "id": "cape_coup_de_vent",
+  "nom": "Cape du Coup de Vent",
+  "type": "cape",
+  "rarete": "peu_commun",
+  "niveau": 15,
+  "description": "Taillée pour aller vite. Les boutons, eux, sont partis devant.",
+  "bonus": {
+    "agilite": [
+      8,
+      12
+    ],
+    "sagesse": [
+      4,
+      6
+    ]
+  }
+}

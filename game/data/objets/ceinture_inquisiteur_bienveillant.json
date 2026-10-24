@@ -1,0 +1,22 @@
+{
+  "id": "ceinture_inquisiteur_bienveillant",
+  "nom": "Ceinture de l'Inquisiteur Bienveillant",
+  "type": "ceinture",
+  "rarete": "rare",
+  "niveau": 30,
+  "description": "Il pose ses questions gentiment. Puis il insiste. Toujours avec bienveillance.",
+  "bonus": {
+    "force": [
+      8,
+      11
+    ],
+    "intelligence": [
+      8,
+      11
+    ],
+    "vitalite": [
+      25,
+      35
+    ]
+  }
+}

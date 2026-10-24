@@ -1,0 +1,50 @@
+{
+  "id": "tornade_mal_lunee",
+  "nom": "Panoplie de la Tornade Mal Lunée",
+  "orientation": "tempete",
+  "objets": [
+    "coiffe_tornade_mal_lunee",
+    "cape_tornade_mal_lunee",
+    "amulette_tornade_mal_lunee",
+    "anneau_tornade_mal_lunee",
+    "ceinture_tornade_mal_lunee",
+    "bottes_tornade_mal_lunee",
+    "arc_tornade_mal_lunee"
+  ],
+  "bonus": {
+    "2": {
+      "agilite": 30
+    },
+    "3": {
+      "agilite": 60,
+      "dommages": 5
+    },
+    "4": {
+      "agilite": 90,
+      "dommages": 10,
+      "vitalite": 60
+    },
+    "5": {
+      "agilite": 120,
+      "dommages": 15,
+      "vitalite": 90,
+      "portee": 1
+    },
+    "6": {
+      "agilite": 160,
+      "dommages": 20,
+      "vitalite": 120,
+      "pa": 1,
+      "pm": 1,
+      "portee": 1
+    },
+    "7": {
+      "agilite": 200,
+      "dommages": 25,
+      "vitalite": 160,
+      "pa": 2,
+      "pm": 1,
+      "portee": 2
+    }
+  }
+}

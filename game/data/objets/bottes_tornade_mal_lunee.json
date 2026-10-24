@@ -1,0 +1,18 @@
+{
+  "id": "bottes_tornade_mal_lunee",
+  "nom": "Bottes de la Tornade Mal Lunée",
+  "type": "bottes",
+  "rarete": "rare",
+  "niveau": 30,
+  "description": "Elle se lève du mauvais pied et emporte tout le monde avec elle.",
+  "bonus": {
+    "agilite": [
+      10,
+      14
+    ],
+    "pm": [
+      1,
+      1
+    ]
+  }
+}

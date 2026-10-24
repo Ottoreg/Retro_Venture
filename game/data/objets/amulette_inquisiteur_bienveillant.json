@@ -1,0 +1,22 @@
+{
+  "id": "amulette_inquisiteur_bienveillant",
+  "nom": "Amulette de l'Inquisiteur Bienveillant",
+  "type": "amulette",
+  "rarete": "rare",
+  "niveau": 30,
+  "description": "Il pose ses questions gentiment. Puis il insiste. Toujours avec bienveillance.",
+  "bonus": {
+    "force": [
+      6,
+      8
+    ],
+    "intelligence": [
+      6,
+      8
+    ],
+    "pa": [
+      1,
+      1
+    ]
+  }
+}

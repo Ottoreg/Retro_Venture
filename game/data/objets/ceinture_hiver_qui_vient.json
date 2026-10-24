@@ -1,0 +1,18 @@
+{
+  "id": "ceinture_hiver_qui_vient",
+  "nom": "Ceinture de l'Hiver Qui Vient",
+  "type": "ceinture",
+  "rarete": "rare",
+  "niveau": 30,
+  "description": "On l'annonce depuis des années. Il est enfin arrivé, et il a apporté ses affaires.",
+  "bonus": {
+    "chance": [
+      14,
+      20
+    ],
+    "vitalite": [
+      25,
+      35
+    ]
+  }
+}

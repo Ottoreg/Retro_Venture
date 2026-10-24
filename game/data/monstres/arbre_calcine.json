@@ -69,6 +69,18 @@
     {
       "objet": "ceinture_d_ecorce_calcinee",
       "taux": 0.04
+    },
+    {
+      "objet": "anneau_yeti_frileux",
+      "taux": 0.04
+    },
+    {
+      "objet": "ceinture_yeti_frileux",
+      "taux": 0.04
+    },
+    {
+      "objet": "bottes_yeti_frileux",
+      "taux": 0.04
     }
   ],
   "ecus": [

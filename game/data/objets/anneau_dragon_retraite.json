@@ -1,0 +1,18 @@
+{
+  "id": "anneau_dragon_retraite",
+  "nom": "Anneau du Dragon Retraité",
+  "type": "anneau",
+  "rarete": "rare",
+  "niveau": 30,
+  "description": "La garde-robe d'un dragon parti à la retraite. Il touche une pension en or et ne crache plus que sur la météo.",
+  "bonus": {
+    "intelligence": [
+      12,
+      17
+    ],
+    "vitalite": [
+      15,
+      22
+    ]
+  }
+}

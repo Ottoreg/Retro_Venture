@@ -54,6 +54,22 @@
     {
       "objet": "bague_de_minuit",
       "taux": 0.13
+    },
+    {
+      "objet": "coiffe_dragon_retraite",
+      "taux": 0.1
+    },
+    {
+      "objet": "cape_dragon_retraite",
+      "taux": 0.1
+    },
+    {
+      "objet": "amulette_dragon_retraite",
+      "taux": 0.1
+    },
+    {
+      "objet": "sceptre_dragon_retraite",
+      "taux": 0.075
     }
   ],
   "ecus": [

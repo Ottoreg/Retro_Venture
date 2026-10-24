@@ -1,0 +1,18 @@
+{
+  "id": "bottes_enclume_rancuniere",
+  "nom": "Bottes de l'Enclume Rancunière",
+  "type": "bottes",
+  "rarete": "peu_commun",
+  "niveau": 15,
+  "description": "Forgée par un forgeron qui n'a jamais digéré qu'on lui demande un rabais.",
+  "bonus": {
+    "force": [
+      7,
+      10
+    ],
+    "initiative": [
+      25,
+      40
+    ]
+  }
+}

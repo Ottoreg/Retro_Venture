@@ -1,0 +1,36 @@
+{
+  "id": "sceptre_dragon_retraite",
+  "nom": "Sceptre du Dragon Retraité",
+  "type": "arme",
+  "rarete": "rare",
+  "niveau": 30,
+  "description": "La garde-robe d'un dragon parti à la retraite. Il touche une pension en or et ne crache plus que sur la météo.",
+  "bonus": {
+    "intelligence": [
+      12,
+      17
+    ],
+    "vitalite": [
+      15,
+      22
+    ]
+  },
+  "attaque": {
+    "cout_pa": 4,
+    "portee": {
+      "min": 2,
+      "max": 6
+    },
+    "relance": {
+      "par_tour": 1
+    },
+    "effets": [
+      {
+        "type": "degats",
+        "element": "flamme",
+        "min": 17,
+        "max": 25
+      }
+    ]
+  }
+}

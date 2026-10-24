@@ -1,0 +1,18 @@
+{
+  "id": "anneau_tornade_mal_lunee",
+  "nom": "Anneau de la Tornade Mal Lunée",
+  "type": "anneau",
+  "rarete": "rare",
+  "niveau": 30,
+  "description": "Elle se lève du mauvais pied et emporte tout le monde avec elle.",
+  "bonus": {
+    "agilite": [
+      12,
+      17
+    ],
+    "vitalite": [
+      15,
+      22
+    ]
+  }
+}

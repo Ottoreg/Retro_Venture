@@ -1,0 +1,49 @@
+{
+  "id": "coup_de_vent",
+  "nom": "Panoplie du Coup de Vent",
+  "orientation": "tempete",
+  "objets": [
+    "coiffe_coup_de_vent",
+    "cape_coup_de_vent",
+    "amulette_coup_de_vent",
+    "anneau_coup_de_vent",
+    "ceinture_coup_de_vent",
+    "bottes_coup_de_vent",
+    "arc_coup_de_vent"
+  ],
+  "bonus": {
+    "2": {
+      "agilite": 15
+    },
+    "3": {
+      "agilite": 30,
+      "dommages": 3
+    },
+    "4": {
+      "agilite": 45,
+      "dommages": 6,
+      "vitalite": 30
+    },
+    "5": {
+      "agilite": 60,
+      "dommages": 9,
+      "vitalite": 45,
+      "portee": 1
+    },
+    "6": {
+      "agilite": 80,
+      "dommages": 12,
+      "vitalite": 60,
+      "pm": 1,
+      "portee": 1
+    },
+    "7": {
+      "agilite": 100,
+      "dommages": 15,
+      "vitalite": 80,
+      "pa": 1,
+      "pm": 1,
+      "portee": 1
+    }
+  }
+}

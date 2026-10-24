@@ -1,0 +1,18 @@
+{
+  "id": "cape_yeti_frileux",
+  "nom": "Cape du Yéti Frileux",
+  "type": "cape",
+  "rarete": "peu_commun",
+  "niveau": 15,
+  "description": "Le yéti la portait par-dessus sa fourrure, avec une écharpe. Il avait quand même froid.",
+  "bonus": {
+    "chance": [
+      8,
+      12
+    ],
+    "sagesse": [
+      4,
+      6
+    ]
+  }
+}

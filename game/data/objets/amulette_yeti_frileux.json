@@ -1,0 +1,18 @@
+{
+  "id": "amulette_yeti_frileux",
+  "nom": "Amulette du Yéti Frileux",
+  "type": "amulette",
+  "rarete": "peu_commun",
+  "niveau": 15,
+  "description": "Le yéti la portait par-dessus sa fourrure, avec une écharpe. Il avait quand même froid.",
+  "bonus": {
+    "chance": [
+      6,
+      9
+    ],
+    "pa": [
+      1,
+      1
+    ]
+  }
+}

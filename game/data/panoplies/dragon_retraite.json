@@ -1,0 +1,50 @@
+{
+  "id": "dragon_retraite",
+  "nom": "Panoplie du Dragon Retraité",
+  "orientation": "flamme",
+  "objets": [
+    "coiffe_dragon_retraite",
+    "cape_dragon_retraite",
+    "amulette_dragon_retraite",
+    "anneau_dragon_retraite",
+    "ceinture_dragon_retraite",
+    "bottes_dragon_retraite",
+    "sceptre_dragon_retraite"
+  ],
+  "bonus": {
+    "2": {
+      "intelligence": 30
+    },
+    "3": {
+      "intelligence": 60,
+      "dommages": 5
+    },
+    "4": {
+      "intelligence": 90,
+      "dommages": 10,
+      "vitalite": 60
+    },
+    "5": {
+      "intelligence": 120,
+      "dommages": 15,
+      "vitalite": 90,
+      "portee": 1
+    },
+    "6": {
+      "intelligence": 160,
+      "dommages": 20,
+      "vitalite": 120,
+      "pa": 1,
+      "pm": 1,
+      "portee": 1
+    },
+    "7": {
+      "intelligence": 200,
+      "dommages": 25,
+      "vitalite": 160,
+      "pa": 2,
+      "pm": 1,
+      "portee": 2
+    }
+  }
+}

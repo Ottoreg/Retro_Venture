@@ -1,0 +1,18 @@
+{
+  "id": "cape_pyromane_recidiviste",
+  "nom": "Cape du Pyromane Récidiviste",
+  "type": "cape",
+  "rarete": "peu_commun",
+  "niveau": 15,
+  "description": "Il avait juré de ne plus rien brûler. Il a tenu trois semaines. Ses vêtements l'avaient prévenu.",
+  "bonus": {
+    "intelligence": [
+      8,
+      12
+    ],
+    "sagesse": [
+      4,
+      6
+    ]
+  }
+}

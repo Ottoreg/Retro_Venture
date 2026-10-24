@@ -1,0 +1,40 @@
+{
+  "id": "masse_bedeau_zele",
+  "nom": "Masse du Bedeau Zélé",
+  "type": "arme",
+  "rarete": "peu_commun",
+  "niveau": 15,
+  "description": "Il sonne les cloches à l'heure, mouche les cierges à l'heure et frappe les hérétiques à l'heure.",
+  "bonus": {
+    "force": [
+      3,
+      5
+    ],
+    "intelligence": [
+      3,
+      5
+    ],
+    "vitalite": [
+      8,
+      12
+    ]
+  },
+  "attaque": {
+    "cout_pa": 4,
+    "portee": {
+      "min": 1,
+      "max": 1
+    },
+    "relance": {
+      "par_tour": 1
+    },
+    "effets": [
+      {
+        "type": "degats",
+        "element": "sacre",
+        "min": 14,
+        "max": 20
+      }
+    ]
+  }
+}

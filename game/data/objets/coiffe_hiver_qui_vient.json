@@ -1,0 +1,18 @@
+{
+  "id": "coiffe_hiver_qui_vient",
+  "nom": "Coiffe de l'Hiver Qui Vient",
+  "type": "coiffe",
+  "rarete": "rare",
+  "niveau": 30,
+  "description": "On l'annonce depuis des années. Il est enfin arrivé, et il a apporté ses affaires.",
+  "bonus": {
+    "chance": [
+      16,
+      22
+    ],
+    "vitalite": [
+      25,
+      35
+    ]
+  }
+}

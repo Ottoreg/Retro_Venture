@@ -1,0 +1,22 @@
+{
+  "id": "ceinture_porte_malheur",
+  "nom": "Ceinture du Porte-Malheur",
+  "type": "ceinture",
+  "rarete": "rare",
+  "niveau": 30,
+  "description": "Tout ce qui peut mal tourner tourne mal. Pour les autres, surtout.",
+  "bonus": {
+    "agilite": [
+      8,
+      11
+    ],
+    "chance": [
+      8,
+      11
+    ],
+    "vitalite": [
+      25,
+      35
+    ]
+  }
+}

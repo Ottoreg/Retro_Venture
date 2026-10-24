@@ -54,6 +54,22 @@
     {
       "objet": "amulette_bonhomme_de_neige",
       "taux": 0.13
+    },
+    {
+      "objet": "coiffe_yeti_frileux",
+      "taux": 0.13
+    },
+    {
+      "objet": "cape_yeti_frileux",
+      "taux": 0.13
+    },
+    {
+      "objet": "amulette_yeti_frileux",
+      "taux": 0.13
+    },
+    {
+      "objet": "baton_yeti_frileux",
+      "taux": 0.0975
     }
   ],
   "ecus": [

@@ -54,6 +54,34 @@
     {
       "objet": "amulette_coeur_de_pierre",
       "taux": 0.15
+    },
+    {
+      "objet": "coiffe_hiver_qui_vient",
+      "taux": 0.1
+    },
+    {
+      "objet": "cape_hiver_qui_vient",
+      "taux": 0.1
+    },
+    {
+      "objet": "amulette_hiver_qui_vient",
+      "taux": 0.1
+    },
+    {
+      "objet": "baton_hiver_qui_vient",
+      "taux": 0.075
+    },
+    {
+      "objet": "anneau_porte_malheur",
+      "taux": 0.1
+    },
+    {
+      "objet": "ceinture_porte_malheur",
+      "taux": 0.1
+    },
+    {
+      "objet": "bottes_porte_malheur",
+      "taux": 0.1
     }
   ],
   "ecus": [

@@ -66,6 +66,18 @@
     {
       "objet": "bottes_de_braise",
       "taux": 0.04
+    },
+    {
+      "objet": "anneau_pyromane_recidiviste",
+      "taux": 0.04
+    },
+    {
+      "objet": "ceinture_pyromane_recidiviste",
+      "taux": 0.04
+    },
+    {
+      "objet": "bottes_pyromane_recidiviste",
+      "taux": 0.04
     }
   ],
   "ecus": [

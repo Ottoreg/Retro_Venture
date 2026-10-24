@@ -1,0 +1,18 @@
+{
+  "id": "amulette_dragon_retraite",
+  "nom": "Amulette du Dragon Retraité",
+  "type": "amulette",
+  "rarete": "rare",
+  "niveau": 30,
+  "description": "La garde-robe d'un dragon parti à la retraite. Il touche une pension en or et ne crache plus que sur la météo.",
+  "bonus": {
+    "intelligence": [
+      10,
+      14
+    ],
+    "pa": [
+      1,
+      1
+    ]
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "id": "enclume_rancuniere",
+  "nom": "Panoplie de l'Enclume Rancunière",
+  "orientation": "acier",
+  "objets": [
+    "coiffe_enclume_rancuniere",
+    "cape_enclume_rancuniere",
+    "amulette_enclume_rancuniere",
+    "anneau_enclume_rancuniere",
+    "ceinture_enclume_rancuniere",
+    "bottes_enclume_rancuniere",
+    "marteau_enclume_rancuniere"
+  ],
+  "bonus": {
+    "2": {
+      "force": 15
+    },
+    "3": {
+      "force": 30,
+      "dommages": 3
+    },
+    "4": {
+      "force": 45,
+      "dommages": 6,
+      "vitalite": 30
+    },
+    "5": {
+      "force": 60,
+      "dommages": 9,
+      "vitalite": 45,
+      "portee": 1
+    },
+    "6": {
+      "force": 80,
+      "dommages": 12,
+      "vitalite": 60,
+      "pm": 1,
+      "portee": 1
+    },
+    "7": {
+      "force": 100,
+      "dommages": 15,
+      "vitalite": 80,
+      "pa": 1,
+      "pm": 1,
+      "portee": 1
+    }
+  }
+}

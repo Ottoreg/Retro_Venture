@@ -1,0 +1,606 @@
+{
+  "images": {
+    "objet_coiffe_enclume_rancuniere": {
+      "fichier": "objets/coiffe_enclume_rancuniere.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_cape_enclume_rancuniere": {
+      "fichier": "objets/cape_enclume_rancuniere.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_amulette_enclume_rancuniere": {
+      "fichier": "objets/amulette_enclume_rancuniere.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_anneau_enclume_rancuniere": {
+      "fichier": "objets/anneau_enclume_rancuniere.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_ceinture_enclume_rancuniere": {
+      "fichier": "objets/ceinture_enclume_rancuniere.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_bottes_enclume_rancuniere": {
+      "fichier": "objets/bottes_enclume_rancuniere.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_marteau_enclume_rancuniere": {
+      "fichier": "objets/marteau_enclume_rancuniere.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_coiffe_pyromane_recidiviste": {
+      "fichier": "objets/coiffe_pyromane_recidiviste.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_cape_pyromane_recidiviste": {
+      "fichier": "objets/cape_pyromane_recidiviste.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_amulette_pyromane_recidiviste": {
+      "fichier": "objets/amulette_pyromane_recidiviste.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_anneau_pyromane_recidiviste": {
+      "fichier": "objets/anneau_pyromane_recidiviste.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_ceinture_pyromane_recidiviste": {
+      "fichier": "objets/ceinture_pyromane_recidiviste.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_bottes_pyromane_recidiviste": {
+      "fichier": "objets/bottes_pyromane_recidiviste.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_sceptre_pyromane_recidiviste": {
+      "fichier": "objets/sceptre_pyromane_recidiviste.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_coiffe_yeti_frileux": {
+      "fichier": "objets/coiffe_yeti_frileux.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_cape_yeti_frileux": {
+      "fichier": "objets/cape_yeti_frileux.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_amulette_yeti_frileux": {
+      "fichier": "objets/amulette_yeti_frileux.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_anneau_yeti_frileux": {
+      "fichier": "objets/anneau_yeti_frileux.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_ceinture_yeti_frileux": {
+      "fichier": "objets/ceinture_yeti_frileux.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_bottes_yeti_frileux": {
+      "fichier": "objets/bottes_yeti_frileux.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_baton_yeti_frileux": {
+      "fichier": "objets/baton_yeti_frileux.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_coiffe_coup_de_vent": {
+      "fichier": "objets/coiffe_coup_de_vent.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_cape_coup_de_vent": {
+      "fichier": "objets/cape_coup_de_vent.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_amulette_coup_de_vent": {
+      "fichier": "objets/amulette_coup_de_vent.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_anneau_coup_de_vent": {
+      "fichier": "objets/anneau_coup_de_vent.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_ceinture_coup_de_vent": {
+      "fichier": "objets/ceinture_coup_de_vent.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_bottes_coup_de_vent": {
+      "fichier": "objets/bottes_coup_de_vent.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_arc_coup_de_vent": {
+      "fichier": "objets/arc_coup_de_vent.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_coiffe_bedeau_zele": {
+      "fichier": "objets/coiffe_bedeau_zele.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_cape_bedeau_zele": {
+      "fichier": "objets/cape_bedeau_zele.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_amulette_bedeau_zele": {
+      "fichier": "objets/amulette_bedeau_zele.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_anneau_bedeau_zele": {
+      "fichier": "objets/anneau_bedeau_zele.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_ceinture_bedeau_zele": {
+      "fichier": "objets/ceinture_bedeau_zele.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_bottes_bedeau_zele": {
+      "fichier": "objets/bottes_bedeau_zele.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_masse_bedeau_zele": {
+      "fichier": "objets/masse_bedeau_zele.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_coiffe_chat_noir": {
+      "fichier": "objets/coiffe_chat_noir.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_cape_chat_noir": {
+      "fichier": "objets/cape_chat_noir.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_amulette_chat_noir": {
+      "fichier": "objets/amulette_chat_noir.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_anneau_chat_noir": {
+      "fichier": "objets/anneau_chat_noir.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_ceinture_chat_noir": {
+      "fichier": "objets/ceinture_chat_noir.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_bottes_chat_noir": {
+      "fichier": "objets/bottes_chat_noir.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_dague_chat_noir": {
+      "fichier": "objets/dague_chat_noir.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_coiffe_seigneur_des_enclumes": {
+      "fichier": "objets/coiffe_seigneur_des_enclumes.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_cape_seigneur_des_enclumes": {
+      "fichier": "objets/cape_seigneur_des_enclumes.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_amulette_seigneur_des_enclumes": {
+      "fichier": "objets/amulette_seigneur_des_enclumes.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_anneau_seigneur_des_enclumes": {
+      "fichier": "objets/anneau_seigneur_des_enclumes.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_ceinture_seigneur_des_enclumes": {
+      "fichier": "objets/ceinture_seigneur_des_enclumes.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_bottes_seigneur_des_enclumes": {
+      "fichier": "objets/bottes_seigneur_des_enclumes.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_marteau_seigneur_des_enclumes": {
+      "fichier": "objets/marteau_seigneur_des_enclumes.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_coiffe_dragon_retraite": {
+      "fichier": "objets/coiffe_dragon_retraite.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_cape_dragon_retraite": {
+      "fichier": "objets/cape_dragon_retraite.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_amulette_dragon_retraite": {
+      "fichier": "objets/amulette_dragon_retraite.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_anneau_dragon_retraite": {
+      "fichier": "objets/anneau_dragon_retraite.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_ceinture_dragon_retraite": {
+      "fichier": "objets/ceinture_dragon_retraite.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_bottes_dragon_retraite": {
+      "fichier": "objets/bottes_dragon_retraite.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_sceptre_dragon_retraite": {
+      "fichier": "objets/sceptre_dragon_retraite.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_coiffe_hiver_qui_vient": {
+      "fichier": "objets/coiffe_hiver_qui_vient.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_cape_hiver_qui_vient": {
+      "fichier": "objets/cape_hiver_qui_vient.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_amulette_hiver_qui_vient": {
+      "fichier": "objets/amulette_hiver_qui_vient.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_anneau_hiver_qui_vient": {
+      "fichier": "objets/anneau_hiver_qui_vient.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_ceinture_hiver_qui_vient": {
+      "fichier": "objets/ceinture_hiver_qui_vient.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_bottes_hiver_qui_vient": {
+      "fichier": "objets/bottes_hiver_qui_vient.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_baton_hiver_qui_vient": {
+      "fichier": "objets/baton_hiver_qui_vient.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_coiffe_tornade_mal_lunee": {
+      "fichier": "objets/coiffe_tornade_mal_lunee.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_cape_tornade_mal_lunee": {
+      "fichier": "objets/cape_tornade_mal_lunee.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_amulette_tornade_mal_lunee": {
+      "fichier": "objets/amulette_tornade_mal_lunee.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_anneau_tornade_mal_lunee": {
+      "fichier": "objets/anneau_tornade_mal_lunee.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_ceinture_tornade_mal_lunee": {
+      "fichier": "objets/ceinture_tornade_mal_lunee.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_bottes_tornade_mal_lunee": {
+      "fichier": "objets/bottes_tornade_mal_lunee.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_arc_tornade_mal_lunee": {
+      "fichier": "objets/arc_tornade_mal_lunee.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_coiffe_inquisiteur_bienveillant": {
+      "fichier": "objets/coiffe_inquisiteur_bienveillant.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_cape_inquisiteur_bienveillant": {
+      "fichier": "objets/cape_inquisiteur_bienveillant.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_amulette_inquisiteur_bienveillant": {
+      "fichier": "objets/amulette_inquisiteur_bienveillant.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_anneau_inquisiteur_bienveillant": {
+      "fichier": "objets/anneau_inquisiteur_bienveillant.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_ceinture_inquisiteur_bienveillant": {
+      "fichier": "objets/ceinture_inquisiteur_bienveillant.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_bottes_inquisiteur_bienveillant": {
+      "fichier": "objets/bottes_inquisiteur_bienveillant.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_masse_inquisiteur_bienveillant": {
+      "fichier": "objets/masse_inquisiteur_bienveillant.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_coiffe_porte_malheur": {
+      "fichier": "objets/coiffe_porte_malheur.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_cape_porte_malheur": {
+      "fichier": "objets/cape_porte_malheur.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_amulette_porte_malheur": {
+      "fichier": "objets/amulette_porte_malheur.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_anneau_porte_malheur": {
+      "fichier": "objets/anneau_porte_malheur.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_ceinture_porte_malheur": {
+      "fichier": "objets/ceinture_porte_malheur.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_bottes_porte_malheur": {
+      "fichier": "objets/bottes_porte_malheur.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_dague_porte_malheur": {
+      "fichier": "objets/dague_porte_malheur.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    }
+  },
+  "icones_armes": {
+    "marteau_enclume_rancuniere": "sort_arme_masse",
+    "sceptre_pyromane_recidiviste": "sort_arme_sceptre",
+    "baton_yeti_frileux": "sort_arme_baton",
+    "arc_coup_de_vent": "sort_arme_arc",
+    "masse_bedeau_zele": "sort_arme_masse_benite",
+    "dague_chat_noir": "sort_arme_dague_impie",
+    "marteau_seigneur_des_enclumes": "sort_arme_masse",
+    "sceptre_dragon_retraite": "sort_arme_sceptre",
+    "baton_hiver_qui_vient": "sort_arme_baton",
+    "arc_tornade_mal_lunee": "sort_arme_arc",
+    "masse_inquisiteur_bienveillant": "sort_arme_masse_benite",
+    "dague_porte_malheur": "sort_arme_dague_impie"
+  }
+}

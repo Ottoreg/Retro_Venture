@@ -58,6 +58,22 @@
     {
       "objet": "ordre_de_raid",
       "taux": 0.08
+    },
+    {
+      "objet": "coiffe_enclume_rancuniere",
+      "taux": 0.03
+    },
+    {
+      "objet": "cape_enclume_rancuniere",
+      "taux": 0.03
+    },
+    {
+      "objet": "amulette_enclume_rancuniere",
+      "taux": 0.03
+    },
+    {
+      "objet": "marteau_enclume_rancuniere",
+      "taux": 0.0225
     }
   ],
   "ecus": [

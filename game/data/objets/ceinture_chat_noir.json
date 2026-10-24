@@ -1,0 +1,22 @@
+{
+  "id": "ceinture_chat_noir",
+  "nom": "Ceinture du Chat Noir",
+  "type": "ceinture",
+  "rarete": "peu_commun",
+  "niveau": 15,
+  "description": "Elle vous croise la route à chaque pas. Vos ennemis, eux, n'ont plus aucune chance.",
+  "bonus": {
+    "agilite": [
+      4,
+      7
+    ],
+    "chance": [
+      4,
+      7
+    ],
+    "vitalite": [
+      12,
+      18
+    ]
+  }
+}

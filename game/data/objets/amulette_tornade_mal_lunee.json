@@ -1,0 +1,18 @@
+{
+  "id": "amulette_tornade_mal_lunee",
+  "nom": "Amulette de la Tornade Mal Lunée",
+  "type": "amulette",
+  "rarete": "rare",
+  "niveau": 30,
+  "description": "Elle se lève du mauvais pied et emporte tout le monde avec elle.",
+  "bonus": {
+    "agilite": [
+      10,
+      14
+    ],
+    "pa": [
+      1,
+      1
+    ]
+  }
+}

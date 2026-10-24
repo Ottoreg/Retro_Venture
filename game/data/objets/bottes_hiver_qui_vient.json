@@ -1,0 +1,18 @@
+{
+  "id": "bottes_hiver_qui_vient",
+  "nom": "Bottes de l'Hiver Qui Vient",
+  "type": "bottes",
+  "rarete": "rare",
+  "niveau": 30,
+  "description": "On l'annonce depuis des années. Il est enfin arrivé, et il a apporté ses affaires.",
+  "bonus": {
+    "chance": [
+      10,
+      14
+    ],
+    "pm": [
+      1,
+      1
+    ]
+  }
+}

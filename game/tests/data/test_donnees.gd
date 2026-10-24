@@ -335,11 +335,14 @@ func test_un_elite_par_famille_de_monstres() -> void:
 func test_panoplies_de_l_alpha_test() -> void:
 	var data := GameData.load_all()
 	var elemental := ["forgeron_hargneux", "pyromane_repenti", "bonhomme_de_neige", "courant_d_air", "enfant_de_choeur", "mauvais_oeil"]
-	for set_id in elemental + ["presse", "fouineur"]:
+	# Niveaux 15 et 30 : 7 pièces, arme comprise (même ordre d'éléments que le niveau 3).
+	var elemental_15 := ["enclume_rancuniere", "pyromane_recidiviste", "yeti_frileux", "coup_de_vent", "bedeau_zele", "chat_noir"]
+	var elemental_30 := ["seigneur_des_enclumes", "dragon_retraite", "hiver_qui_vient", "tornade_mal_lunee", "inquisiteur_bienveillant", "porte_malheur"]
+	for set_id in elemental + elemental_15 + elemental_30 + ["presse", "fouineur"]:
 		assert_true(data.sets.has(set_id), "panoplie « %s »" % set_id)
 	for set_id: String in data.sets:
 		var panoply: Dictionary = data.sets[set_id]
-		var expected := 6 if set_id in elemental else 3
+		var expected := 6 if set_id in elemental else (7 if set_id in elemental_15 + elemental_30 else 3)
 		assert_eq(panoply["objets"].size(), expected, "%s : %d pièces" % [set_id, expected])
 		var slots := {}
 		for item_id: String in panoply["objets"]:
@@ -353,6 +356,26 @@ func test_panoplies_de_l_alpha_test() -> void:
 			for stat: String in previous:
 				assert_true(int(tier.get(stat, 0)) >= int(previous[stat]), "%s : %s ne baisse pas à %d pièces" % [set_id, stat, count])
 			previous = tier
+	# Bonus complet : +1 PA, +1 PM, +1 Portée et 100 de caractéristique au niveau 15 ; +2 PA, +1 PM,
+	# +2 Portée et 200 au niveau 30 (partagés entre deux caractéristiques pour le Sacré et l'Impie).
+	var mains := ["force", "intelligence", "chance", "agilite"]
+	for tier_level: Array in [[elemental_15, 15, 1, 1, 1, 100], [elemental_30, 30, 2, 1, 2, 200]]:
+		for set_id: String in tier_level[0]:
+			var full := data.set_tier(set_id, 7)
+			assert_eq([int(full.get("pa", 0)), int(full.get("pm", 0)), int(full.get("portee", 0))], tier_level.slice(2, 5), "%s : PA, PM, Portée" % set_id)
+			var total := 0
+			for stat: String in mains:
+				total += int(full.get(stat, 0))
+			assert_eq(total, tier_level[5], "%s : caractéristique principale" % set_id)
+			for item_id: String in data.sets[set_id]["objets"]:
+				var item: Dictionary = data.items[item_id]
+				assert_eq(int(item["niveau"]), tier_level[1], "%s : niveau" % item_id)
+				var bonus: Dictionary = item["bonus"]
+				var pa := 1 if item["type"] == "amulette" else 0
+				var pm := 1 if item["type"] == "bottes" and tier_level[1] == 30 else 0
+				for stat_value: Array in [["pa", pa], ["pm", pm]]:
+					var roll: Array = bonus.get(stat_value[0], [0, 0])
+					assert_eq([int(roll[0]), int(roll[1])], [stat_value[1], stat_value[1]], "%s : %s" % [item_id, stat_value[0]])
 	# Les panoplies de 3 pièces se mélangent : Pressé et Fouineur n'ont aucun emplacement en commun.
 	var used := {}
 	for set_id in ["presse", "fouineur"]:

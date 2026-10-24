@@ -1,0 +1,22 @@
+{
+  "id": "coiffe_bedeau_zele",
+  "nom": "Coiffe du Bedeau Zélé",
+  "type": "coiffe",
+  "rarete": "peu_commun",
+  "niveau": 15,
+  "description": "Il sonne les cloches à l'heure, mouche les cierges à l'heure et frappe les hérétiques à l'heure.",
+  "bonus": {
+    "force": [
+      5,
+      7
+    ],
+    "intelligence": [
+      5,
+      7
+    ],
+    "vitalite": [
+      12,
+      18
+    ]
+  }
+}

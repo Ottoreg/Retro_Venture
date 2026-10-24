@@ -476,7 +476,7 @@ phase.
 }
 ```
 
-`objets` : au moins deux équipements, chacun dans une seule panoplie. `bonus` : par nombre de
+`objets` : au moins deux équipements (l'arme peut en faire partie), chacun dans une seule panoplie. `bonus` : par nombre de
 pièces portées (de 2 au nombre de pièces), les bonus du palier (mêmes clés que le `bonus` des objets,
 valeurs fixes). Le palier le plus haut atteint s'applique seul : il doit reprendre ce que donnaient
 les précédents. `orientation` sert à l'affichage.

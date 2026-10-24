@@ -265,7 +265,8 @@ le **lit** de votre maison les rend tous d'un coup.
 - **Combat** : coups critiques, bonus et malus, poisons, poussées, glyphes (cases à la couleur de leur élément) et
   pièges invisibles, monstres qui gardent leurs distances ou soignent leurs alliés, **mode
   tactique** (T).
-- **Équipement** : 133 équipements, des panoplies (six élémentaires de 6 pièces, deux de 3 pièces à
+- **Équipement** : 217 équipements, des panoplies (six élémentaires de 6 pièces au niveau 3, six de
+  7 pièces arme comprise aux niveaux 15 et 30, avec des PA, des PM et de la portée, deux de 3 pièces à
   mélanger : plus on porte de pièces, plus le bonus grandit), des trophées de boss qui ne se vendent
   pas.
 - **Métiers** : bûcheron et mineur (5 ressources chacun, de plus en plus rares), forgeron (23

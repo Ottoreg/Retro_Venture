@@ -1,0 +1,18 @@
+{
+  "id": "coiffe_enclume_rancuniere",
+  "nom": "Coiffe de l'Enclume Rancunière",
+  "type": "coiffe",
+  "rarete": "peu_commun",
+  "niveau": 15,
+  "description": "Forgée par un forgeron qui n'a jamais digéré qu'on lui demande un rabais.",
+  "bonus": {
+    "force": [
+      9,
+      13
+    ],
+    "vitalite": [
+      12,
+      18
+    ]
+  }
+}

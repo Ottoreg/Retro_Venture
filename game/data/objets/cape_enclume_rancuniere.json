@@ -1,0 +1,18 @@
+{
+  "id": "cape_enclume_rancuniere",
+  "nom": "Cape de l'Enclume Rancunière",
+  "type": "cape",
+  "rarete": "peu_commun",
+  "niveau": 15,
+  "description": "Forgée par un forgeron qui n'a jamais digéré qu'on lui demande un rabais.",
+  "bonus": {
+    "force": [
+      8,
+      12
+    ],
+    "sagesse": [
+      4,
+      6
+    ]
+  }
+}

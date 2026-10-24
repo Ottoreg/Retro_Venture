@@ -1,0 +1,22 @@
+{
+  "id": "bottes_porte_malheur",
+  "nom": "Bottes du Porte-Malheur",
+  "type": "bottes",
+  "rarete": "rare",
+  "niveau": 30,
+  "description": "Tout ce qui peut mal tourner tourne mal. Pour les autres, surtout.",
+  "bonus": {
+    "agilite": [
+      6,
+      8
+    ],
+    "chance": [
+      6,
+      8
+    ],
+    "pm": [
+      1,
+      1
+    ]
+  }
+}

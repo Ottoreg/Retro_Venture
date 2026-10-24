@@ -58,6 +58,18 @@
     {
       "objet": "amulette_pyromane_repenti",
       "taux": 0.13
+    },
+    {
+      "objet": "anneau_chat_noir",
+      "taux": 0.13
+    },
+    {
+      "objet": "ceinture_chat_noir",
+      "taux": 0.13
+    },
+    {
+      "objet": "bottes_chat_noir",
+      "taux": 0.13
     }
   ],
   "ecus": [

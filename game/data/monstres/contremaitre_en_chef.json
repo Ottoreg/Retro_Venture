@@ -56,6 +56,22 @@
     {
       "objet": "bottes_pyromane_repenti",
       "taux": 0.13
+    },
+    {
+      "objet": "coiffe_pyromane_recidiviste",
+      "taux": 0.13
+    },
+    {
+      "objet": "cape_pyromane_recidiviste",
+      "taux": 0.13
+    },
+    {
+      "objet": "amulette_pyromane_recidiviste",
+      "taux": 0.13
+    },
+    {
+      "objet": "sceptre_pyromane_recidiviste",
+      "taux": 0.0975
     }
   ],
   "ecus": [

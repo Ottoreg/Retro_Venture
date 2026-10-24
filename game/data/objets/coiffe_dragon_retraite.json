@@ -1,0 +1,18 @@
+{
+  "id": "coiffe_dragon_retraite",
+  "nom": "Coiffe du Dragon Retraité",
+  "type": "coiffe",
+  "rarete": "rare",
+  "niveau": 30,
+  "description": "La garde-robe d'un dragon parti à la retraite. Il touche une pension en or et ne crache plus que sur la météo.",
+  "bonus": {
+    "intelligence": [
+      16,
+      22
+    ],
+    "vitalite": [
+      25,
+      35
+    ]
+  }
+}

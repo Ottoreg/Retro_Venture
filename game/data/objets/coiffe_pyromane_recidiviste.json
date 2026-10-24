@@ -1,0 +1,18 @@
+{
+  "id": "coiffe_pyromane_recidiviste",
+  "nom": "Coiffe du Pyromane Récidiviste",
+  "type": "coiffe",
+  "rarete": "peu_commun",
+  "niveau": 15,
+  "description": "Il avait juré de ne plus rien brûler. Il a tenu trois semaines. Ses vêtements l'avaient prévenu.",
+  "bonus": {
+    "intelligence": [
+      9,
+      13
+    ],
+    "vitalite": [
+      12,
+      18
+    ]
+  }
+}

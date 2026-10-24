@@ -1,0 +1,40 @@
+{
+  "id": "dague_chat_noir",
+  "nom": "Dague du Chat Noir",
+  "type": "arme",
+  "rarete": "peu_commun",
+  "niveau": 15,
+  "description": "Elle vous croise la route à chaque pas. Vos ennemis, eux, n'ont plus aucune chance.",
+  "bonus": {
+    "agilite": [
+      3,
+      5
+    ],
+    "chance": [
+      3,
+      5
+    ],
+    "vitalite": [
+      8,
+      12
+    ]
+  },
+  "attaque": {
+    "cout_pa": 3,
+    "portee": {
+      "min": 1,
+      "max": 1
+    },
+    "relance": {
+      "par_tour": 2
+    },
+    "effets": [
+      {
+        "type": "degats",
+        "element": "impie",
+        "min": 9,
+        "max": 13
+      }
+    ]
+  }
+}

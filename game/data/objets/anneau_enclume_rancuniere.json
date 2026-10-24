@@ -1,0 +1,18 @@
+{
+  "id": "anneau_enclume_rancuniere",
+  "nom": "Anneau de l'Enclume Rancunière",
+  "type": "anneau",
+  "rarete": "peu_commun",
+  "niveau": 15,
+  "description": "Forgée par un forgeron qui n'a jamais digéré qu'on lui demande un rabais.",
+  "bonus": {
+    "force": [
+      7,
+      10
+    ],
+    "vitalite": [
+      8,
+      12
+    ]
+  }
+}

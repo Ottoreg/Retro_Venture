@@ -1,0 +1,55 @@
+{
+  "id": "bedeau_zele",
+  "nom": "Panoplie du Bedeau Zélé",
+  "orientation": "sacre",
+  "objets": [
+    "coiffe_bedeau_zele",
+    "cape_bedeau_zele",
+    "amulette_bedeau_zele",
+    "anneau_bedeau_zele",
+    "ceinture_bedeau_zele",
+    "bottes_bedeau_zele",
+    "masse_bedeau_zele"
+  ],
+  "bonus": {
+    "2": {
+      "force": 8,
+      "intelligence": 8
+    },
+    "3": {
+      "force": 15,
+      "intelligence": 15,
+      "dommages": 3
+    },
+    "4": {
+      "force": 23,
+      "intelligence": 23,
+      "dommages": 6,
+      "vitalite": 30
+    },
+    "5": {
+      "force": 30,
+      "intelligence": 30,
+      "dommages": 9,
+      "vitalite": 45,
+      "portee": 1
+    },
+    "6": {
+      "force": 40,
+      "intelligence": 40,
+      "dommages": 12,
+      "vitalite": 60,
+      "pm": 1,
+      "portee": 1
+    },
+    "7": {
+      "force": 50,
+      "intelligence": 50,
+      "dommages": 15,
+      "vitalite": 80,
+      "pa": 1,
+      "pm": 1,
+      "portee": 1
+    }
+  }
+}

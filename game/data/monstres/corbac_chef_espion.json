@@ -49,6 +49,30 @@
     {
       "objet": "cape_de_plumes_noires",
       "taux": 0.15
+    },
+    {
+      "objet": "anneau_coup_de_vent",
+      "taux": 0.13
+    },
+    {
+      "objet": "ceinture_coup_de_vent",
+      "taux": 0.13
+    },
+    {
+      "objet": "bottes_coup_de_vent",
+      "taux": 0.13
+    },
+    {
+      "objet": "anneau_tornade_mal_lunee",
+      "taux": 0.08
+    },
+    {
+      "objet": "ceinture_tornade_mal_lunee",
+      "taux": 0.08
+    },
+    {
+      "objet": "bottes_tornade_mal_lunee",
+      "taux": 0.08
     }
   ],
   "ecus": [

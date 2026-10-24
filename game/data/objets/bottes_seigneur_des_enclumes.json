@@ -1,0 +1,18 @@
+{
+  "id": "bottes_seigneur_des_enclumes",
+  "nom": "Bottes du Seigneur des Enclumes",
+  "type": "bottes",
+  "rarete": "rare",
+  "niveau": 30,
+  "description": "Une enclume pour les gouverner toutes. Et dans le métal, les marteler.",
+  "bonus": {
+    "force": [
+      10,
+      14
+    ],
+    "pm": [
+      1,
+      1
+    ]
+  }
+}

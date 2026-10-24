@@ -1,0 +1,22 @@
+{
+  "id": "cape_bedeau_zele",
+  "nom": "Cape du Bedeau Zélé",
+  "type": "cape",
+  "rarete": "peu_commun",
+  "niveau": 15,
+  "description": "Il sonne les cloches à l'heure, mouche les cierges à l'heure et frappe les hérétiques à l'heure.",
+  "bonus": {
+    "force": [
+      4,
+      7
+    ],
+    "intelligence": [
+      4,
+      7
+    ],
+    "sagesse": [
+      4,
+      6
+    ]
+  }
+}

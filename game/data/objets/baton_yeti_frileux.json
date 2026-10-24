@@ -1,0 +1,36 @@
+{
+  "id": "baton_yeti_frileux",
+  "nom": "Bâton du Yéti Frileux",
+  "type": "arme",
+  "rarete": "peu_commun",
+  "niveau": 15,
+  "description": "Le yéti la portait par-dessus sa fourrure, avec une écharpe. Il avait quand même froid.",
+  "bonus": {
+    "chance": [
+      6,
+      9
+    ],
+    "vitalite": [
+      8,
+      12
+    ]
+  },
+  "attaque": {
+    "cout_pa": 3,
+    "portee": {
+      "min": 1,
+      "max": 4
+    },
+    "relance": {
+      "par_tour": 2
+    },
+    "effets": [
+      {
+        "type": "degats",
+        "element": "givre",
+        "min": 10,
+        "max": 14
+      }
+    ]
+  }
+}

@@ -49,6 +49,34 @@
     {
       "objet": "cor_d_olifant",
       "taux": 0.12
+    },
+    {
+      "objet": "anneau_seigneur_des_enclumes",
+      "taux": 0.1
+    },
+    {
+      "objet": "ceinture_seigneur_des_enclumes",
+      "taux": 0.1
+    },
+    {
+      "objet": "bottes_seigneur_des_enclumes",
+      "taux": 0.1
+    },
+    {
+      "objet": "coiffe_tornade_mal_lunee",
+      "taux": 0.1
+    },
+    {
+      "objet": "cape_tornade_mal_lunee",
+      "taux": 0.1
+    },
+    {
+      "objet": "amulette_tornade_mal_lunee",
+      "taux": 0.1
+    },
+    {
+      "objet": "arc_tornade_mal_lunee",
+      "taux": 0.075
     }
   ],
   "ecus": [

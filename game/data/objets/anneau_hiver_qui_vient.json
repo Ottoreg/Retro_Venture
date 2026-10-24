@@ -1,0 +1,18 @@
+{
+  "id": "anneau_hiver_qui_vient",
+  "nom": "Anneau de l'Hiver Qui Vient",
+  "type": "anneau",
+  "rarete": "rare",
+  "niveau": 30,
+  "description": "On l'annonce depuis des années. Il est enfin arrivé, et il a apporté ses affaires.",
+  "bonus": {
+    "chance": [
+      12,
+      17
+    ],
+    "vitalite": [
+      15,
+      22
+    ]
+  }
+}

@@ -64,6 +64,22 @@
     {
       "objet": "bottes_de_grand_chemin",
       "taux": 0.04
+    },
+    {
+      "objet": "coiffe_chat_noir",
+      "taux": 0.03
+    },
+    {
+      "objet": "cape_chat_noir",
+      "taux": 0.03
+    },
+    {
+      "objet": "amulette_chat_noir",
+      "taux": 0.03
+    },
+    {
+      "objet": "dague_chat_noir",
+      "taux": 0.0225
     }
   ],
   "ecus": [
