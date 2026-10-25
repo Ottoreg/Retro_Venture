@@ -196,6 +196,12 @@ Tout le contenu et les systèmes MVP de l'alpha 1 sont faits (chantiers 1, 3, 4 
   comportements `distance` (frondeurs) et `soutien`
 - [ ] Tacle / fuite (activable pour tester)
 - [ ] Monstres agressifs (engagent le combat à proximité)
+- [ ] Combats d'essai façon Kanojedo de Dofus (GDD § 7.5) : niveau, caractéristiques, sorts et
+  équipement au choix, mannequins et monstres déjà rencontrés, aucune récompense, tableau des dégâts
+  par sort ; après l'alpha test 1, utile pour l'alpha test 2
+- [ ] Défis façon idoles de Dofus (GDD § 7.6) : Fétiches qui renforcent les monstres (jamais de
+  malus ni de contrainte sur le joueur), score de difficulté → bonus d'XP et de prospection
+  plafonné ; après l'alpha test 1
 - [x] Mini-boss de fin de région avec script par phases (`boss` et `phases` dans les données ; soin
   interdit au changement de phase) : Krasbouk, Balourd des Abîmes, Mère-Toile et Grondin
   (réapparition en 60 s au plus pendant l'alpha)

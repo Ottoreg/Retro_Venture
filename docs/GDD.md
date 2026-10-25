@@ -831,6 +831,96 @@ vaut quelque chose ; pas de recherche profonde.
   *Chausse-trape* du Frondeur vétéran (8 à 12 dégâts d'Acier et −2 PM pour le tour).
 - Un combattant vaincu emporte ses glyphes et ses pièges.
 
+### 7.5 Combats d'essai (idée de l'auteur, inspirée du Kanojedo de Dofus)
+
+Conception seulement, rien n'est codé. But : laisser le joueur **essayer un personnage qu'il n'a
+pas encore** (un niveau, des caractéristiques, des sorts et un équipement de son choix) dans des
+combats fictifs, pour voir ses dégâts futurs et préparer sa progression, sans rien risquer ni rien
+gagner. C'est aussi un outil d'équilibrage pour les testeurs de l'alpha 2 (progression).
+
+- **Lieu** : la *Salle des Songes héroïques*, une par capitale (et à Hautepierre), tenue par
+  **Maître Esbroufe**, un illusionniste humain qui vend du rêve (« Ici, tout le monde est niveau
+  100. Dehors, je ne garantis rien. »). Gratuit ; le joueur garde son personnage réel, intact, à la
+  sortie.
+- **Choix du personnage fictif** (une fenêtre avant le combat, façon fiche C) :
+  - **niveau** de 1 au niveau max du jeu (30 pendant l'alpha, 100 à terme), pas seulement le sien ;
+  - **caractéristiques** : les points qu'aurait un personnage de ce niveau, répartis librement
+    (rendement décroissant compris, § 4.5), ou « comme mon personnage » mis à l'échelle ;
+  - **sorts** : tous ceux de sa Voie disponibles à ce niveau, avec les rangs qu'il choisit (points
+    de sort de ce niveau) ; plus tard, les sorts des Voies mixtes (§ 5) ;
+  - **équipement** : n'importe quel objet de niveau inférieur ou égal au niveau choisi, **même
+    jamais obtenu** (liste issue du catalogue, filtres par emplacement, élément et panoplie), bonus
+    de panoplie compris ; les objets légendaires et personnalisés (§ 10.4) seulement s'il les
+    possède ;
+  - **préréglages** : quelques profils enregistrés (« Arcaniste Givre 30 », « Guerrier tank »…) à
+    recharger, et un bouton « Partir de mon personnage ».
+- **Adversaires** :
+  - **mannequins d'entraînement** (épouvantails syndiqués en grève, qui « encaissent par contrat »)
+    : PV illimités, ne jouent pas ou jouent un tour basique, résistances réglables par élément ;
+  - **monstres déjà rencontrés** (bestiaire, § 14.4) au niveau choisi dans leur famille, en groupe
+    de 1 à 3 ; les mini-boss vaincus avec leurs phases. Pas de monstre jamais vu, pour ne rien
+    gâcher de la découverte.
+  - Une carte d'essai simple (dojo) et, plus tard, le choix d'une carte déjà visitée pour tester
+    lignes de vue et placement.
+- **Règles** : les règles de combat normales (§ 7.1 à 7.4), avec en options : PA et PM illimités,
+  relances sans délai, critiques forcés ou désactivés (pour lire les fourchettes). **Aucune
+  conséquence** : ni XP, ni brumes, ni butin, ni avancement de quête, de métier ou de succès ;
+  aucune usure, aucun consommable dépensé ; la défaite ne renvoie pas au point de résurrection.
+- **Résultats** : à la fin (ou à tout moment), un tableau par sort : dégâts min / moyen / max,
+  avec et sans critique, dégâts par PA, dégâts totaux et par tour, soins et boucliers ; comparaison
+  avec un autre préréglage (le même combat rejoué avec deux équipements). L'historique de combat
+  (touche H) reste le détail ligne à ligne.
+- **Multijoueur (à terme)** : instance privée ; un groupe peut y entrer ensemble, chacun avec son
+  personnage fictif, pour tester des combinaisons ; duels fictifs entre amis possibles, sans
+  classement (le PvP reste une idée en attente).
+- **Technique** : le noyau construit un `Fighter` à partir d'un profil fictif (niveau,
+  caractéristiques, sorts, équipement) sans toucher au `Character` réel ; le `Combat` est le même,
+  avec un drapeau `fictif` qui coupe les récompenses et les conséquences. Le même profil peut
+  servir à `tools/simulation.gd` pour équilibrer avec des personnages de tous niveaux.
+- **Garde-fous** : le dojo ne révèle pas le contenu caché (monstres non rencontrés, objets
+  légendaires) ; en multijoueur, le profil fictif n'existe que dans l'instance et ne peut rien
+  échanger ni vendre.
+- **Quand** : après l'alpha test 1 ; utile dès l'alpha test 2 (sorts par rang, progression 1 → 30).
+
+### 7.6 Défis (idée de l'auteur, inspirée des idoles de Dofus)
+
+Conception seulement, rien n'est codé. But : laisser le joueur rendre ses combats **plus durs**
+quand il le veut, contre plus de récompenses. **Règle de l'auteur : on ne restreint jamais le
+joueur** (pas de malus sur lui, pas de contrainte du type « ne pas bouger » ou « un seul sort par
+tour ») : la difficulté vient uniquement des **monstres renforcés**.
+
+- **Forme** : des **Fétiches** (nom provisoire ; parodie : des porte-bonheur de gobelins vendus
+  comme « certifiés maudits »), objets qu'on active hors combat dans une fenêtre dédiée, pas dans
+  l'équipement. Jusqu'à 4 actifs à la fois (2 pendant l'alpha). Ils valent pour tous les combats
+  tant qu'ils sont actifs ; en groupe, ceux de tous les membres s'additionnent (comme les idoles).
+- **Effets (sur les monstres seulement)**, chacun avec un **score** de difficulté :
+  - statistiques : +X % de PV, +X % de dégâts, +X % de résistance à un élément ou à tous, +1 PA ou
+    +1 PM, + % Critique, + Initiative (ils jouent avant) ;
+  - comportements : bouclier au début du combat, soin d'un allié quand un monstre tombe, renvoi
+    d'une part des dégâts, glyphe ou piège posé au premier tour, poison sur leurs coups,
+    poussée sur leurs coups de mêlée ;
+  - groupe : un monstre de plus dans le groupe (dans la limite de taille), élite qui remplace un
+    monstre de la famille, phase de plus pour les mini-boss (jamais de soin au changement de phase,
+    règle du § 8.1).
+  - Interdit : tout ce qui retire au joueur des PA, des PM, de la portée, des sorts ou des cases ;
+    tout ce qui le punit d'une action (« perdre des PV si on frappe à distance »). Un monstre qui
+    lance déjà des malus avec ses sorts garde ses sorts ; le Fétiche n'en ajoute pas sur le joueur.
+- **Récompenses** : le score total des Fétiches actifs donne un bonus d'XP et de **prospection**
+  (butin) en %, plafonné (ex. +100 % chacun au plus) et réduit si le groupe est bien plus haut que
+  les monstres (pas de défi gratuit en tapant des monstres faciles : comme les idoles, le bonus
+  dépend de l'écart de niveau). Pas d'objet exclusif réservé aux défis au début, pour ne pas les
+  rendre obligatoires ; plus tard, des titres ou des cosmétiques.
+- **Obtention** : quelques Fétiches de base vendus en ville, les plus forts en butin de mini-boss,
+  de donjon ou fabriqués par un métier (joaillier, § 10.3) ; chaque Fétiche a un niveau minimum.
+- **Lisibilité** : en combat, une icône sur chaque monstre renforcé, avec la liste des Fétiches
+  actifs à son survol (comme les états) ; l'écran de fin de combat montre le bonus gagné ; le
+  combat d'essai (§ 7.5) permet de les essayer sans risque.
+- **IA et équilibrage** : les effets passent par les mécanismes existants (bonus, glyphes,
+  pièges, phases), donc l'IA les utilise sans code dédié ; `tools/simulation.gd` pourra mesurer
+  la difficulté de chaque Fétiche pour fixer son score.
+- **Quand** : après l'alpha test 1 (l'équilibrage de base d'abord) ; peut servir à l'alpha test 2
+  pour les joueurs qui trouvent le jeu trop facile.
+
 ---
 
 ## 8. Monstres, butin et raretés
