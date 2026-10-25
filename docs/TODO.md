@@ -530,15 +530,14 @@ Tout le contenu et les systèmes MVP de l'alpha 1 sont faits (chantiers 1, 3, 4 
   invocations, sacrifice de PV, résurrection (multi)
 - [ ] Étendre la progression jusqu'au niveau 100
 
-### Système des Voies (classes mixtes)
-- [ ] Maîtres de Voie (PNJ) et quêtes d'apprentissage des Fondamentaux
-- [ ] Rangs I / II / III et règles de spécialisation
-- [ ] Changement de spécialisation (quête + coût)
+### Système des Voies
+Décision (25/10/2026) : un personnage = une seule classe, pas d'apprentissage des sorts des autres
+classes (option écartée et compromis gardés en piste, GDD § 5.2).
+- [ ] Rangs I / II / III des sorts de sa Voie
 - [ ] Barre de sorts limitée et préréglages de barres
-- [ ] Passif de Maîtrise de Voie
 - [ ] Quêtes de Voie (déblocage du rang III)
-- [ ] **Simulateur de combat** automatisé pour détecter les combinaisons abusives (base faite :
-  `game/tools/simulation.gd` ; reste les Voies mixtes et le modèle voie/rang)
+- [ ] **Simulateur de combat** automatisé pour détecter les sorts abusifs (base faite :
+  `game/tools/simulation.gd` ; reste le modèle voie/rang)
 - [ ] **Voies Miroir** : spécialisation opposée qui retourne l'élément d'une Voie
   (sacré ↔ impie, givre ↔ flamme, acier ↔ tempête), débloquée par une quête de Voie (GDD § 5.3)
 

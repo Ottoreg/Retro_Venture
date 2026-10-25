@@ -15,7 +15,7 @@ Voir [§ 15 Propriété intellectuelle](#15-propriété-intellectuelle) avant de
 2. [Piliers de design](#2-piliers-de-design)
 3. [Univers et scénario](#3-univers-et-scénario)
 4. [Personnage : races, classes, caractéristiques](#4-personnage--races-classes-caractéristiques)
-5. [Système des Voies (classes mixtes)](#5-système-des-voies-classes-mixtes)
+5. [Système des Voies](#5-système-des-voies)
 6. [Exploration et monde](#6-exploration-et-monde)
 7. [Combat tactique](#7-combat-tactique)
 8. [Monstres, butin et raretés](#8-monstres-butin-et-raretés)
@@ -65,7 +65,7 @@ des siècles, seules armes capables de vaincre le **Souverain Cendré** avant qu
 2. **Une quête épique, des histoires locales.** La quête principale (les Reliques) structure le monde ;
    chaque région a ses propres conflits et personnages.
 3. **Progression horizontale autant que verticale.** Monter de niveau compte, mais apprendre les sorts
-   d'autres Voies, maîtriser des métiers et réunir des panoplies comptent autant.
+   les rangs de sa Voie, maîtriser des métiers et réunir des panoplies comptent autant.
 4. **Économie portée par les joueurs.** Les ressources viennent des métiers et du butin ; les meilleurs
    objets non légendaires sont fabriqués, pas achetés à un PNJ.
 5. **Conçu pour le multi dès le jour 1.** Même en solo, la logique de jeu tourne comme un serveur
@@ -249,6 +249,7 @@ les références.
 
 Le joueur choisit : **race**, **Voie de départ** (classe), **sexe/apparence** (couleurs, quelques
 variantes de tête), **nom**. Race et classe sont indépendantes : toute combinaison est autorisée.
+Un personnage garde **une seule classe** (décision de l'auteur, 25/10/2026 ; § 5).
 
 ### 4.2 Races
 
@@ -633,36 +634,42 @@ ajoutent 5 dégâts à chaque ligne de dégâts de n'importe quel sort ou arme, 
 
 ---
 
-## 5. Système des Voies (classes mixtes)
+## 5. Système des Voies
 
-**Objectif long terme :** tout personnage peut apprendre les sorts de base de toutes les classes, mais
-seule la Voie dans laquelle il est **spécialisé** donne accès aux sorts les plus puissants.
+**Décision de l'auteur (25/10/2026) : un personnage = une seule classe.** On reste sur du classique :
+un personnage n'apprend que les sorts de sa Voie, jamais ceux des autres classes (pour le moment).
+La profondeur vient des rangs des sorts de sa Voie, de sa Voie Miroir (§ 5.3), des caractéristiques
+et de l'équipement.
 
 ### 5.1 Règles
 
 1. Chaque sort appartient à une **Voie** et a un **rang** :
-   - **Rang I — Fondamentaux** : apprenables par tous, auprès d'un maître de la Voie.
-   - **Rang II — Avancés** : réservés aux spécialistes de la Voie.
-   - **Rang III — Maîtrise** : réservés aux spécialistes, débloqués par une quête de Voie.
-2. Le personnage commence spécialisé dans sa Voie de départ.
-3. Apprendre un Fondamental d'une **autre** Voie coûte plus cher (×1,5 point de sort, plus une petite
-   quête d'apprentissage auprès du maître).
-4. **Changer de spécialisation** est possible mais coûteux (quête, temps, monnaie). Les sorts de rang
-   II et III de l'ancienne Voie sont désactivés, pas perdus.
-5. **Barre de sorts limitée** (par ex. 12 emplacements actifs) : on choisit ce qu'on emporte au combat,
+   - **Rang I — Fondamentaux** : appris avec la Voie, en montant de niveau.
+   - **Rang II — Avancés** : plus puissants, débloqués plus tard dans la progression.
+   - **Rang III — Maîtrise** : débloqués par une quête de Voie.
+2. Le personnage est lié à sa Voie de départ ; il ne la change pas (seule la Voie Miroir, § 5.3,
+   change l'élément de ses sorts).
+3. **Barre de sorts limitée** (par ex. 12 emplacements actifs) : on choisit ce qu'on emporte au combat,
    le nombre de sorts connus n'est pas limité.
-6. **Maîtrise de Voie** (passif) : +X % d'efficacité sur les sorts de sa Voie de spécialisation, pour que
-   le mono-Voie reste attractif face aux combinaisons.
 
-### 5.2 Garde-fous d'équilibrage
+### 5.2 Option écartée : apprendre les sorts des autres classes
 
-- Les Fondamentaux sont volontairement **utiles mais modestes**.
-- Les combinaisons interdites ou dangereuses (par ex. deux sorts de vol de PA) sont limitées par des
-  **états** incompatibles plutôt que par des interdictions d'apprentissage.
-- Un outil de simulation de combat (`game/tools/simulation.gd`) fait jouer chaque Voie contre chaque
-  groupe des cartes, à son niveau, et compare durée et PV perdus au modèle d'équilibrage
-  (`docs/design/chantier3_brouillon/src/balance.py`) ; rapport dans `docs/design/simulation_combats.md`.
-  Il servira aussi à détecter les combos abusifs des Voies mixtes.
+L'objectif long terme initial (tout personnage apprend les Fondamentaux de toutes les Voies, seule
+la Voie de spécialisation donne les rangs II et III) est **écarté pour l'instant**. Gardé comme piste :
+
+- **Pour** : beaucoup de builds et de liberté (rétention des joueurs expérimentés), moins de reroll,
+  un objectif de progression horizontale (quêtes, maîtres de Voie, coût en brumes), un solo plus
+  confortable (un peu de soin ou de mobilité pour tous).
+- **Contre** : les classes perdent leur identité ; le jeu en groupe compte moins si chacun fait tout ;
+  équilibrage bien plus dur (combos imprévus, méta « meilleurs sorts » où tout le monde a la même
+  barre) ; combat moins lisible (on ne devine plus ce qu'un adversaire peut faire) ; plus de sorts à
+  produire et un grimoire plus lourd.
+- **Compromis possibles si on y revient** : 1 ou 2 emplacements seulement pour les sorts d'autres
+  classes ; puissance réduite hors de sa classe (pas de montée de rang) ; seulement des sorts
+  utilitaires de base, les sorts emblématiques restant à leur classe ; ou seulement dans les combats
+  d'essai (§ 7.5), pour tester. Garde-fous alors prévus : Fondamentaux modestes, états incompatibles
+  plutôt qu'interdictions, passif de Maîtrise de Voie, détection des combos par
+  `game/tools/simulation.gd`.
 
 ### 5.3 Voies Miroir (long terme)
 
@@ -675,12 +682,13 @@ dans un miroir : la **Voie Miroir**. Exemples :
 
 La Voie Miroir garde le rôle de la classe (un Théologue Miroir soigne toujours) mais change
 l'élément de ses sorts, et donc les caractéristiques et l'équipement à privilégier. Elle se débloque
-par une quête de Voie, comme le rang III, et suit les mêmes règles de changement de spécialisation.
+par une quête de Voie, comme le rang III.
 
 ### 5.4 Implication court terme
 
-Les classes sont **fixes** dans l'alpha (pas d'apprentissage croisé), mais **le modèle de données
-prévoit déjà `voie` et `rang` sur chaque sort** pour que le système s'ajoute plus tard sans refonte.
+Les classes sont **fixes** (pas d'apprentissage croisé, § 5.2) ; **le modèle de données prévoit déjà
+`voie` et `rang` sur chaque sort** pour les rangs (alpha 2) et, si on y revient un jour, l'option
+écartée.
 
 ---
 
@@ -847,7 +855,7 @@ gagner. C'est aussi un outil d'équilibrage pour les testeurs de l'alpha 2 (prog
   - **caractéristiques** : les points qu'aurait un personnage de ce niveau, répartis librement
     (rendement décroissant compris, § 4.5), ou « comme mon personnage » mis à l'échelle ;
   - **sorts** : tous ceux de sa Voie disponibles à ce niveau, avec les rangs qu'il choisit (points
-    de sort de ce niveau) ; plus tard, les sorts des Voies mixtes (§ 5) ;
+    de sort de ce niveau) ;
   - **équipement** : n'importe quel objet de niveau inférieur ou égal au niveau choisi, **même
     jamais obtenu** (liste issue du catalogue, filtres par emplacement, élément et panoplie), bonus
     de panoplie compris ; les objets légendaires et personnalisés (§ 10.4) seulement s'il les
@@ -2103,7 +2111,7 @@ exemples en [annexe](#20-annexes--formats-de-données).
 |---|---|---|
 | Périmètre trop large (MMO) | Projet jamais terminé | Phases strictes, chaque phase doit être jouable et livrable |
 | Charge graphique (races × équipements × animations) | Élevé | Personnages modulaires, recolorisation, nombre de races limité tant que le pipeline n'est pas rodé |
-| Équilibrage des Voies mixtes | Combinaisons abusives | Simulateur de combat, Fondamentaux modestes, passif de Maîtrise |
+| Équilibrage des Voies | Sorts ou rangs abusifs | Simulateur de combat ; une classe par personnage (§ 5), pas de combos entre classes |
 | Passage au multi | Réécriture | Noyau séparé, commandes/événements dès la phase 1 |
 | Propriété intellectuelle | Juridique | § 15, noms originaux, registre des assets |
 | Coût serveur | Financier | Combat au tour par tour (peu de bande passante), instances, montée en charge progressive |
