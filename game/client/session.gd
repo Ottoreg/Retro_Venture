@@ -17,5 +17,11 @@ static var message_log_channel := "tout"
 ## minicarte et la carte du monde, retiré en arrivant sur sa carte (pas dans la sauvegarde).
 static var quest_pin: Dictionary = {}
 
+## Jeu en ligne (GDD § 16.5) : connexion au serveur ouverte par l'écran de connexion, ou `null` en
+## solo.
+static var online_connection: RemoteConnection = null
+## Message à montrer sur l'écran de connexion (connexion perdue ou refusée), ou "".
+static var online_error := ""
+
 ## Questionnaire des testeurs (menu principal et menu pause : « Donner son avis »).
 const FEEDBACK_URL := "https://docs.google.com/forms/d/e/1FAIpQLSdwoJr5-OnRuVcVNbvRGnjtO4MqxJTUe7SIIbgfeKJlRuYcxQ/viewform"

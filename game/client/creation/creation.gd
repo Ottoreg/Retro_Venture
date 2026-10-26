@@ -125,13 +125,29 @@ func _on_start_pressed() -> void:
 		_error.text = error
 		_name_edit.grab_focus()
 		return
+	if Session.online_connection != null:
+		# En ligne : le serveur crée le personnage (pseudo unique), l'écran de connexion attend.
+		Session.online_connection.create_character(_name_edit.text.strip_edges(), race_id, voie_id)
+		get_tree().change_scene_to_file(OnlineScreen.SCENE)
+		return
 	Session.new_character = build_character()
 	Session.continue_game = false
 	get_tree().change_scene_to_file(WORLD_SCENE)
 
 
 func _on_back_pressed() -> void:
+	if Session.online_connection != null:
+		Session.online_connection.close()
+		Session.online_connection = null
+		get_tree().change_scene_to_file(OnlineScreen.SCENE)
+		return
 	get_tree().change_scene_to_file(MENU_SCENE)
+
+
+## En ligne, la connexion reste ouverte pendant la création (elle n'attend rien de plus).
+func _process(_delta: float) -> void:
+	if Session.online_connection != null:
+		Session.online_connection.poll()
 
 
 # --- Construction des contrôles ----------------------------------------------------------------

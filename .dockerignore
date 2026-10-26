@@ -1,0 +1,6 @@
+# Contexte de construction du serveur (serveur/Dockerfile) : seulement game/.
+*
+!game/
+game/.godot/
+game/tests/
+game/tools/

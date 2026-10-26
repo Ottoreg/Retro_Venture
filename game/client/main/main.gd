@@ -1,5 +1,6 @@
 extends Control
-## Écran d'accueil : nouvelle partie ou reprise de la partie sauvegardée, options, quitter.
+## Écran d'accueil : nouvelle partie ou reprise de la partie sauvegardée, jeu en ligne (prototype),
+## options, quitter.
 
 const WORLD_SCENE := "res://client/world/world.tscn"
 const CREATION_SCENE := "res://client/creation/creation.tscn"
@@ -31,13 +32,20 @@ func _ready() -> void:
 		quit_button.name = "Quit"
 		quit_button.pressed.connect(get_tree().quit)
 		row.add_child(quit_button)
+	var online := _menu_button("Jouer en ligne (prototype)", 240)
+	online.name = "Online"
+	online.tooltip_text = "Prototype du multijoueur : un compte, un personnage gardé sur le serveur de test."
+	online.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	online.pressed.connect(func() -> void: get_tree().change_scene_to_file(OnlineScreen.SCENE))
+	box.add_child(online)
+	box.move_child(online, row.get_index() + 1)
 	var feedback := _menu_button("Donner son avis", 240)
 	feedback.name = "Feedback"
 	feedback.tooltip_text = "Le questionnaire des testeurs (s'ouvre dans le navigateur)"
 	feedback.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	feedback.pressed.connect(func() -> void: OS.shell_open(Session.FEEDBACK_URL))
 	box.add_child(feedback)
-	box.move_child(feedback, row.get_index() + 1)
+	box.move_child(feedback, online.get_index() + 1)
 	var version: String = ProjectSettings.get_setting("application/config/version", "?")
 	%Version.text = "Version %s — Alpha test 1" % version
 	%NewGame.pressed.connect(_on_new_game_pressed)

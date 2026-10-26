@@ -31,6 +31,8 @@ var _hover_text := ""
 var _hover_bubble: PanelContainer
 var _hover_label: Label
 var _hover_crown: EliteCrown
+## Connexion au serveur perdue : on retourne à l'écran de connexion (une seule fois).
+var _lost := false
 
 
 func _ready() -> void:
@@ -46,12 +48,15 @@ func _ready() -> void:
 	add_child(quests_window)
 	quest_tracker = QuestTracker.new()
 	add_child(quest_tracker)
-	var world := _create_world()
-	if world == null:
-		_info.text = "Impossible de charger le monde (carte de départ introuvable)."
-		return
-	world.map_ids = DataLoader.map_ids()  # Les élites peuvent apparaître sur toutes les cartes.
-	_map_view.setup(LocalConnection.new(world))  # Solo : le monde tourne ici (GDD § 16.5).
+	if Session.online_connection != null and Session.online_connection.is_open():
+		_map_view.setup(Session.online_connection)  # En ligne : le monde tourne sur le serveur.
+	else:
+		var world := _create_world()
+		if world == null:
+			_info.text = "Impossible de charger le monde (carte de départ introuvable)."
+			return
+		world.map_ids = DataLoader.map_ids()  # Les élites peuvent apparaître sur toutes les cartes.
+		_map_view.setup(LocalConnection.new(world))  # Solo : le monde tourne ici (GDD § 16.5).
 	_combat_hud.setup(_map_view)
 	_sheet.setup(_map_view)
 	_inventory.setup(_map_view)
@@ -112,6 +117,13 @@ func _create_world() -> World:
 
 
 func _process(_delta: float) -> void:
+	if _map_view.connection != null and not _map_view.connection.is_open() and not _lost:
+		_lost = true
+		var message := (_map_view.connection as RemoteConnection).error_message if _map_view.connection is RemoteConnection else ""
+		Session.online_connection = null
+		Session.online_error = message if not message.is_empty() else "Connexion au serveur perdue."
+		get_tree().change_scene_to_file(OnlineScreen.SCENE)
+		return
 	if _hover_bubble != null and _hover_bubble.visible:
 		var screen := get_viewport().get_visible_rect().size
 		_hover_bubble.position = bubble_position(get_viewport().get_mouse_position(), _hover_bubble.size, screen)
@@ -181,13 +193,19 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _back_to_menu() -> void:
 	_save()
+	if _map_view.connection != null and _map_view.connection == Session.online_connection:
+		Session.online_connection.close()
+		Session.online_connection = null
 	get_tree().change_scene_to_file(MENU_SCENE)
 
 
-## Sauvegarde automatique (jamais pendant un combat).
+## Sauvegarde automatique (jamais pendant un combat) ; en ligne, le serveur s'en charge.
 func _save() -> void:
-	if _map_view.world != null and not _map_view.world.in_combat():
-		SaveGame.write(_map_view.connection.save_data())
+	if _map_view.world == null or _map_view.world.in_combat():
+		return
+	var save := _map_view.connection.save_data()
+	if not save.is_empty():
+		SaveGame.write(save)
 
 
 ## La carte à l'échelle de la zone de jeu, centrée entre les bordures d'interface (`ScreenLayout`).

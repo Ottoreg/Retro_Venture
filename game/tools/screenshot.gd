@@ -218,6 +218,16 @@ func _process(_delta: float) -> bool:
 			view.server.character.spend_points("force", 6)
 			view.refresh_state()
 			_scene.get_node("CharacterSheet").toggle()
+		elif _action == "joueurs":
+			# Multijoueur (M1) : deux autres joueurs sur la carte, dont un assis.
+			var here := view.server.position_of(World.PLAYER_ID)
+			var others := [["Grizzette", "gobelin", "rodeur", Vector2i(2, 1)], ["Lindëa", "elfe", "arcaniste", Vector2i(-1, 2)]]
+			for other: Array in others:
+				var cell: Vector2i = here + other[3]
+				view.server.add_player(Character.create(other[0], other[1], other[2]), "j:" + other[0], view.server.map.id, cell)
+			view.server.player("j:Lindëa").sitting = true
+			view.refresh_state()
+			view._load_exploration_actors()
 		elif _action == "assis":
 			view.server.character.hp_lost = 30
 			view.refresh_state()

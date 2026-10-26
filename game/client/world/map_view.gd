@@ -689,6 +689,9 @@ func _describe(cell: Vector2i) -> String:
 		if data["alive"] and Vector2i(data["pos"].round()) == cell and actor_id != world.player_id:
 			if mode == Mode.COMBAT:
 				return "%s — %d / %d PV%s" % [data["name"], data["hp"], data["max_hp"], "\n" + ground if ground != "" else ""]
+			if data.has("niveau"):  # Un autre joueur.
+				return "%s\nNiveau %d, %s %s" % [data["name"], data["niveau"],
+					world.data.races.get(data["race"], {}).get("nom", data["race"]), world.data.voies.get(data["kind"], {}).get("nom", data["kind"])]
 			var text := group_lines(data.get("members", [data["kind"]]), world.data, data.get("levels", []))
 			var rank := world.elite_rank(world.group(actor_id))
 			if rank > 0:

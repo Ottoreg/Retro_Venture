@@ -623,21 +623,26 @@ Plan validé par l'auteur le 26/10/2026 : GDD § 16.5, jalons M0 (préparer le n
   (`tests/core/test_multiplayer.gd`)
 - [x] M0 : `GameConnection` locale et copie locale de l'état côté client (`client/net/`, combat
   recréé dans la copie) ; messages en JSON et version du protocole, vérifiés sur tous les tests
-- [ ] M1 : afficher les autres joueurs de la carte (`ClientState.other_players`,
-  `EVT_PLAYER_JOINED` / `EVT_PLAYER_LEFT`) ; connexion distante asynchrone (aujourd'hui `send`
-  renvoie les événements tout de suite) ; envoyer aux autres joueurs le groupe engagé et le groupe
-  vaincu ; `remove_player` ne garde pas l'état d'un combat abandonné
-- [ ] M1 : prototype minimal (compte, personnage sauvegardé sur le serveur, deux joueurs visibles
-  sur une carte, combats solo calculés par le serveur, client web et natif, staging)
+- [x] M1 : afficher les autres joueurs de la carte ; connexion distante asynchrone
+  (`RemoteConnection`, `MapView._request`) ; groupe engagé caché aux autres, rendu s'il n'est pas
+  vaincu ; combat abandonné à la déconnexion (le personnage reste tel qu'avant) — 26/10/2026
+- [x] M1 : serveur sans affichage (`game/server/`), WebSocket, comptes Supabase, personnage créé,
+  chargé et sauvegardé sur le serveur, menu « Jouer en ligne (prototype) », Docker + tunnel
+  Cloudflare + table « serveur actuel » (`serveur/`), joueur automatique `tools/bot.gd` — 26/10/2026
+- [ ] M1 : chez l'auteur — projet Supabase (`serveur/supabase/schema.sql`), clé publique dans
+  `client/net/online_config.gd`, `.env` et Docker sur ses postes (`serveur/README.md`) ; vérifier
+  l'adresse du tunnel lue par le serveur ; critère de sortie : deux comptes sur deux machines
+- [ ] M1 : staging mis à jour par la CI ; renouvellement du jeton de connexion
 - [ ] M1 : préréglages d'export Windows et Linux et archives sur GitHub Releases depuis la CI
 
 - [x] Choisir la pile serveur et le transport (Godot sans affichage et WebSocket, GDD § 16.5)
-- [ ] Définir le protocole (messages JSON, cases en `[x, y]`, numéro de version : faits en M0 ;
-  reste la poignée de main à la connexion et la reconnexion par instantané)
-- [ ] Faire tourner le noyau de jeu côté serveur (même code que le solo)
-- [ ] Comptes : inscription, connexion, sessions (jetons), hachage des mots de passe
-- [ ] Base de données : schéma (comptes, personnages, inventaires, quêtes, métiers) — PostgreSQL
-- [ ] Synchronisation de l'exploration (positions, entrées et sorties de carte)
+- [x] Définir le protocole (messages JSON, cases en `[x, y]`, numéro de version : M0 ; poignée de
+  main, réponse avec instantané, reconnexion par instantané : M1, `Protocol.MSG_*`)
+- [x] Faire tourner le noyau de jeu côté serveur (même code que le solo) — `World.for_server`
+- [x] Comptes : inscription, connexion, sessions (jetons), hachage des mots de passe — Supabase Auth (M1)
+- [x] Base de données : schéma (comptes, personnages, inventaires, quêtes, métiers) — PostgreSQL
+  (Supabase : `personnages` avec l'état complet en JSONB, `serveur_actuel`, M1)
+- [x] Synchronisation de l'exploration (positions, entrées et sorties de carte) — M1
 - [ ] Combat multijoueur : tours avec limite de temps, déconnexion / reconnexion en combat
 - [ ] Tests de charge (combien de joueurs et de combats par processus)
 - [ ] Environnement de test hébergé (staging)

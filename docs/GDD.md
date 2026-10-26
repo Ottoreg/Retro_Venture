@@ -2092,7 +2092,8 @@ exemples en [annexe](#20-annexes--formats-de-données).
 
 > **Statut : plan validé par l'auteur le 26/10/2026** (les sept décisions de fin de section, et
 > un hébergement gratuit pour les tests). **M0 fait le 26/10/2026** (voir « Où en est M0 » plus
-> bas) ; prochaine étape : le prototype M1.
+> bas) ; **prototype M1 en place le 26/10/2026** (« Où en est M1 ») : reste à le monter chez
+> l'auteur (Supabase, Docker), le client natif et le staging.
 
 #### Quand
 
@@ -2308,6 +2309,40 @@ travail côté client : remplacer les lectures directes de `world` par la copie 
 - **Laissé à M1** : afficher les autres joueurs ; connexion distante asynchrone ; groupe engagé ou
   vaincu montré aux autres ; dans un combat à plusieurs, recréer les combattants des autres joueurs
   (la copie ne connaît que son personnage).
+
+#### Où en est M1 (26/10/2026)
+
+- **Serveur** (`game/server/`) : `GameServer` (sessions, un compte = un personnage, `entite` imposé
+  par la session, limite de débit, sauvegarde en fin de combat, au changement de carte, à la
+  déconnexion et toutes les 60 s), `WebSocketHost` (WebSocket en clair, chiffré devant par le
+  tunnel), `server_main.gd` (sans affichage, réglé par variables d'environnement). Le monde du
+  serveur est un `World.for_server` : aucun joueur au départ.
+- **Messages** (`Protocol.MSG_*`, version 2) : `bonjour` (jeton) → `bienvenue` (personnage ou non)
+  → `creer_personnage` au besoin → instantané ; `commande` → `reponse` (événements + instantané) ;
+  `evenements` pour ce qui arrive sans commande ; `erreur` (version, authentification, pseudo pris,
+  débit, compte connecté ailleurs) puis fermeture.
+- **Comptes et base** : Supabase Auth (inscription confirmée par courriel, connexion ; le serveur
+  vérifie le jeton auprès de Supabase, le mot de passe ne passe jamais par lui) ; table
+  `personnages` (pseudo unique sans tenir compte des majuscules, état en JSONB) ; table
+  `serveur_actuel` (adresse publique + garde-fou d'un seul poste à la fois, vue `serveur_en_ligne`
+  des marqueurs de moins de 90 s). Schéma : `serveur/supabase/schema.sql`. Sans Supabase, serveur
+  de développement (pseudo sans mot de passe, personnages dans un dossier).
+- **Client** : `RemoteConnection` asynchrone ; la carte attend la réponse de chaque commande
+  (`MapView._request`) ; les autres joueurs sont dessinés avec leur race et leur Voie, marchent,
+  s'assoient, et se décrivent au survol ; un groupe engagé par un autre joueur disparaît
+  (`groupe_engage`) et revient s'il n'est pas vaincu (`groupe_libere`). Menu « Jouer en ligne
+  (prototype) », écran de connexion, création du personnage par le serveur, champ « Adresse du
+  serveur » dans les options.
+- **Hébergement** : `serveur/` (Dockerfile, `docker-compose.yml` avec le tunnel rapide Cloudflare,
+  dont le serveur lit l'adresse et la publie dans `serveur_actuel` ; README avec les étapes de
+  l'auteur). Image essayée : 64 Mo de mémoire, moins de 1 % d'un processeur au repos.
+- **Outils et tests** : `tools/bot.gd` (un joueur automatique qui se promène, pour essayer seul) ;
+  tests du serveur sans réseau, de bout en bout sur de vrais WebSocket, et du client asynchrone.
+- **Pas encore** : client natif sur GitHub Releases, staging mis à jour par la CI, renouvellement
+  du jeton (une connexion au-delà d'une heure demande de se reconnecter), plusieurs personnages
+  par compte. Un combat abandonné (déconnexion) ne compte pas : le personnage reste tel qu'avant.
+  L'adresse du tunnel est lue dans les métriques de cloudflared (`/quicktunnel`), pas encore
+  essayée en vrai (repli : `RV_PUBLIC_ADDRESS`).
 
 #### Jalons
 

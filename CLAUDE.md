@@ -35,9 +35,12 @@ xvfb-run -a godot --path . -s res://tools/screenshot.gd -- sortie.png [carte] [s
 ```
 
 `tools/screenshot.gd` fait des captures en jeu (actions : glyphe, survol, infobulle, objet, phase, reveil, carte, sermon,
-cible, tactique, pause, options, fiche, assis…) ; `tools/art_sheet.gd` fait une planche des dessins ; `tools/simulation.gd` simule des
+cible, tactique, pause, options, fiche, assis, joueurs…) ; `tools/art_sheet.gd` fait une planche des dessins ; `tools/simulation.gd` simule des
 combats sur chaque groupe des cartes (`-- [combats] [rapport.md] [préfixes de cartes] [detail]`,
 ~7 min pour tout à 10 combats).
+Multijoueur : `godot --headless --path . -s res://server/server_main.gd` (serveur de développement, port
+8080) et `-s res://tools/bot.gd -- ws://localhost:8080 Robotin` (un joueur automatique) ; Docker :
+`serveur/README.md`.
 `python3 tools/catalogue.py` regénère `docs/CATALOGUE.md` (objets, monstres par niveau et lieux, sorts, avec leurs
 détails et comment les obtenir) : à relancer après tout changement d'objets, de sorts ou de monstres.
 
@@ -106,7 +109,13 @@ ou Oracle Always Free), VPS payant pour la bêta. **M0 fait** (GDD § 16.5, « O
 `MapInstance` / `PlayerState` dans `World` (façade solo), portée des événements
 (`World.recipients`), messages JSON (`Protocol.encode`/`decode`, vérifiés sur tous les tests),
 `client/net/` (`LocalConnection`, copie `ClientState` : le client ne lit plus le `World` ; tests et
-outils passent par `MapView.server` puis `refresh_state()`). Prochaine étape : le prototype M1.
+outils passent par `MapView.server` puis `refresh_state()`). **Prototype M1 en place le 26/10/2026**
+(GDD § 16.5, « Où en est M1 ») : serveur `game/server/` (`GameServer`, `WebSocketHost`,
+`server_main.gd`), `RemoteConnection` asynchrone (`MapView._request`, réponses par
+`take_replies`), autres joueurs affichés, groupe engagé caché aux autres, comptes et personnages
+Supabase (`client/net/supabase.gd`, `online_config.gd` à remplir), menu « Jouer en ligne
+(prototype) », Docker + tunnel Cloudflare dans `serveur/` (README : étapes de l'auteur), joueur
+automatique `tools/bot.gd`. Restent : client natif et GitHub Releases, staging.
 
 Dernière session (retours de la passe de l'auteur) :
 

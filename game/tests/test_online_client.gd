@@ -83,6 +83,7 @@ func test_autres_joueurs_de_la_carte() -> void:
 	assert_eq(view._actors["j:sam"]["race"], "gobelin")
 	assert_eq(view._actors["j:sam"]["kind"], "rodeur", "dessiné avec la tenue de sa Voie")
 	assert_true(view.actor_look("j:sam").has("rig"), "en personnage articulé")
+	assert_eq(view._describe(cell), "Sam\nNiveau 1, Gobelin Rôdeur", "son nom au survol")
 	var target := cell + Vector2i(1, 0)
 	var moved: Array[Dictionary] = world.execute({"type": Protocol.CMD_MOVE, "entite": "j:sam", "cible": target})
 	view.world.apply_event(moved[0])
@@ -99,3 +100,28 @@ func test_autres_joueurs_de_la_carte() -> void:
 	view._apply_world_change(left)
 	assert_false(view._actors.has("j:sam"), "Sam est parti")
 	scene.queue_free()
+
+
+func test_ecran_de_connexion_serveur_de_developpement() -> void:
+	var maps := {"test": preload("res://tests/helpers/fixtures.gd").map({}, [], {"id": "test"})}
+	var loader := func(map_id: String) -> GameMap: return maps.get(map_id)
+	var server := GameServer.new(preload("res://tests/helpers/fixtures.gd").data(), loader, CharacterStore.new(), AccountCheck.new(), [], "test")
+	var host := WebSocketHost.new(server)
+	host.listen(0, "127.0.0.1")
+	Options.server_address = "ws://127.0.0.1:%d" % host.port()
+	var screen: OnlineScreen = load(OnlineScreen.SCENE).instantiate()
+	(Engine.get_main_loop() as SceneTree).root.add_child(screen)
+	assert_true(screen._pseudo != null and screen._email == null, "sans Supabase : un pseudo suffit")
+	screen._pseudo.text = "Frodon"
+	screen._on_connect_pressed()
+	var connection := Session.online_connection
+	assert_true(connection != null, "connexion ouverte")
+	var start := Time.get_ticks_msec()
+	while connection.status != RemoteConnection.Status.NEEDS_CHARACTER and Time.get_ticks_msec() - start < 5000:
+		host.poll()
+		connection.poll()
+		OS.delay_msec(2)
+	assert_eq(connection.status, RemoteConnection.Status.NEEDS_CHARACTER, "compte neuf : création du personnage")
+	connection.close()
+	Session.online_connection = null
+	screen.queue_free()

@@ -28,3 +28,7 @@ Règles :
 - Le client ne lit jamais le `World` : il en reçoit des instantanés (`World.snapshot`, rien de
   secret : pas de graine, pas de pièges adverses) et des événements, en JSON (`Protocol.encode`,
   `Protocol.decode`, cases en `[x, y]`, version `Protocol.VERSION`).
+- Sur un serveur (`World.for_server`), aucun joueur au départ, pas de façade solo ; `player_save`
+  donne ce qu'on garde d'un joueur entre deux connexions. Un groupe engagé est annoncé aux autres
+  joueurs de la carte (`EVT_GROUP_ENGAGED`) et revient s'il n'est pas vaincu (`EVT_GROUP_RELEASED`).
+  Le serveur lui-même (sessions, réseau, comptes) est dans `game/server/`.

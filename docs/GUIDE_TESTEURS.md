@@ -26,6 +26,8 @@ nous faire vos retours. Le jeu n'affiche volontairement presque aucune aide à l
   site efface la sauvegarde. Si vous aviez joué à une version précédente, commencez une **nouvelle
   partie**.
 - Résolution prévue : 1280 × 720 ou plus. Plein écran dans les options.
+- Le bouton **« Jouer en ligne (prototype) »** du menu sert aux essais du multijoueur avec
+  l'auteur : il ne marche que pendant ses sessions de test annoncées. L'alpha test 1 se joue en solo.
 
 ## Par où commencer
 

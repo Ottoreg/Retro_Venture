@@ -14,3 +14,9 @@ Scènes, rendu isométrique, interface, audio et entrées du joueur. Le client l
   instantanés du monde. Jamais de lecture ni d'écriture directe du `World` dans le client ; seuls
   les tests et les outils y touchent (`MapView.server`, puis `MapView.refresh_state()`).
 - L'id du joueur est `world.player_id` (pas `World.PLAYER_ID`, qui n'existe qu'en solo).
+- En ligne (jalon M1), `net/remote_connection.gd` parle au serveur par WebSocket : la connexion est
+  **asynchrone** (`asynchronous`) ; `send` ne renvoie rien et la réponse arrive plus tard par
+  `take_replies`, avec l'instantané qui la suit. `MapView._request` envoie une commande et dit quoi
+  faire de sa réponse (tout de suite en local, à son arrivée en ligne). Les événements des autres
+  joueurs arrivent par `update` (`MapView._apply_other_player`). Écran de connexion :
+  `online/online_screen.gd` ; projet Supabase : `net/online_config.gd`.
