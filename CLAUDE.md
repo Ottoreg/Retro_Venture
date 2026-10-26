@@ -30,12 +30,12 @@ Depuis `game/` (binaire Godot 4.5.1 standard) :
 
 ```sh
 godot --headless --path . --import                           # une fois, dans un nouveau clone
-godot --headless --path . -s res://tests/run_tests.gd        # tous les tests
+godot --headless --path . -s res://tests/run_tests.gd        # tous les tests (RV_TESTS=mot : seulement ces fichiers)
 xvfb-run -a godot --path . -s res://tools/screenshot.gd -- sortie.png [carte] [secondes] [action]
 ```
 
 `tools/screenshot.gd` fait des captures en jeu (actions : glyphe, survol, infobulle, objet, phase, reveil, carte, sermon,
-cible, tactique, pause, options, fiche, assis, joueurs…) ; `tools/art_sheet.gd` fait une planche des dessins ; `tools/simulation.gd` simule des
+cible, tactique, pause, options, fiche, assis, joueurs, groupe…) ; `tools/art_sheet.gd` fait une planche des dessins ; `tools/simulation.gd` simule des
 combats sur chaque groupe des cartes (`-- [combats] [rapport.md] [préfixes de cartes] [detail]`,
 ~7 min pour tout à 10 combats).
 Multijoueur : `godot --headless --path . -s res://server/server_main.gd` (serveur de développement, port
@@ -115,7 +115,10 @@ outils passent par `MapView.server` puis `refresh_state()`). **Prototype M1 en p
 `take_replies`), autres joueurs affichés, groupe engagé caché aux autres, comptes et personnages
 Supabase (`client/net/supabase.gd`, `online_config.gd` à remplir), menu « Jouer en ligne
 (prototype) », Docker + tunnel Cloudflare dans `serveur/` (README : étapes de l'auteur), joueur
-automatique `tools/bot.gd`. La CI publie aussi, à chaque push sur `main`, le client natif
+automatique `tools/bot.gd`. **M2 (combat de groupe) codé le 26/10/2026** (GDD § 16.5, « Où en est
+M2 ») : groupes de joueurs, combat rejoint pendant le placement (épées sur la carte), tours de 30 s
+en ligne, déconnexion en combat avec retour, parts d'XP, de brumes et de butin ; jeton Supabase
+renouvelé (reconnexion automatique). Reste l'essai à trois chez l'auteur. La CI publie aussi, à chaque push sur `main`, le client natif
 (release « client-natif ») et l'image du serveur de staging (`ghcr.io/ottoreg/retro-venture-serveur:staging`).
 
 Dernière session (retours de la passe de l'auteur) :

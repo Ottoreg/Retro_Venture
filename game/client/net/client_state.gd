@@ -45,6 +45,11 @@ var _groups: Dictionary = {}
 var _players: Dictionary = {}
 ## Ressources épuisées de la carte : case → true.
 var _depleted: Dictionary = {}
+## Combats des autres joueurs de la carte (leurs épées) : id du groupe combattu → { groupe, case,
+## joueurs, placement }.
+var _fights: Dictionary = {}
+## Groupe de joueurs : { chef, membres: [{ id, nom, niveau, race, voie, absent }] } (voir `World._party_view`).
+var party: Dictionary = {"chef": "", "membres": []}
 
 
 ## `p_map_loader` : Callable(id: String) -> GameMap (ou null).
@@ -76,6 +81,10 @@ func load_snapshot(snapshot: Dictionary) -> void:
 	_depleted = {}
 	for depleted_cell: Vector2i in snapshot["epuisees"]:
 		_depleted[depleted_cell] = true
+	_fights = {}
+	for fight: Dictionary in snapshot.get("combats", []):
+		_fights[fight["groupe"]] = fight
+	party = snapshot.get("groupe_joueurs", {"chef": "", "membres": []})
 	combat = null
 	if snapshot["combat"] != null and data != null:
 		var combat_map := map_by_id(snapshot["combat"]["carte"])
@@ -122,8 +131,24 @@ func apply_event(event: Dictionary) -> bool:
 			return _apply_other_player(event)
 		Protocol.EVT_GROUP_ENGAGED:
 			if event["entite"] != player_id:
+				# Le groupe et le joueur disparaissent ; les épées du combat restent sur la carte.
 				_groups.erase(event["groupe"])
 				_positions.erase(event["groupe"])
+				_players.erase(event["entite"])
+				_positions.erase(event["entite"])
+				var fight: Dictionary = _fights.get(event["groupe"], {"groupe": event["groupe"], "case": event.get("case",
+					Vector2i(-1, -1)), "joueurs": [], "placement": true})
+				if event["entite"] not in fight["joueurs"]:
+					fight["joueurs"].append(event["entite"])
+				_fights[event["groupe"]] = fight
+			return true
+		Protocol.EVT_FIGHT_OVER:
+			_fights.erase(event["groupe"])
+			return true
+		Protocol.EVT_PARTY:
+			party = {"chef": event["chef"], "membres": event["membres"]}
+			return true
+		Protocol.EVT_PARTY_INVITE, Protocol.EVT_PARTY_DECLINED:
 			return true
 		Protocol.EVT_GROUP_RELEASED:
 			var released: Dictionary = event["groupe"]
@@ -187,6 +212,35 @@ func group_at(at: Vector2i) -> Dictionary:
 ## Autres joueurs présents sur la carte (multijoueur).
 func other_players() -> Array:
 	return _players.values()
+
+
+## Combats des autres joueurs de la carte : { groupe, case, joueurs: Array[String], placement }.
+func fights() -> Array:
+	return _fights.values()
+
+
+## Combat d'un autre joueur sur cette case (ses épées), ou {}.
+func fight_at(at: Vector2i) -> Dictionary:
+	for fight: Dictionary in _fights.values():
+		if fight["case"] == at:
+			return fight
+	return {}
+
+
+## Autre joueur de la carte sur cette case, ou {}.
+func player_at(at: Vector2i) -> Dictionary:
+	for other: Dictionary in _players.values():
+		if other["case"] == at:
+			return other
+	return {}
+
+
+## Vrai si ce joueur (id) est du groupe du joueur.
+func is_party_member(other_id: String) -> bool:
+	for member: Dictionary in party.get("membres", []):
+		if member["id"] == other_id:
+			return true
+	return false
 
 
 ## Fait passer le temps de la copie (âge des élites).

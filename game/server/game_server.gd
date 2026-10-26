@@ -16,6 +16,8 @@ const SAVE_INTERVAL := 60.0
 ## Messages par seconde permis à un client (et réserve pour un court rafale).
 const MESSAGE_RATE := 15.0
 const MESSAGE_BURST := 40.0
+## Durée d'un tour de joueur en combat (GDD § 7.2 : 30 s en multi).
+const TURN_SECONDS := 30.0
 ## Carte de départ quand la race n'en donne pas.
 const DEFAULT_START_MAP := "brumerive_0_0"
 
@@ -44,13 +46,15 @@ func _init(p_data: GameData, p_map_loader: Callable, p_store: CharacterStore, p_
 	_default_map = default_map
 	world = World.for_server(p_map_loader.call(default_map), data, p_map_loader)
 	world.map_ids = map_ids
+	world.turn_seconds = TURN_SECONDS
 
 
 func peer_connected(peer_id: int) -> void:
 	_sessions[peer_id] = {"compte": "", "joueur": "", "credit": MESSAGE_BURST, "occupe": false}
 
 
-## Le pair est parti (ou renvoyé) : son personnage est sauvegardé et quitte le monde.
+## Le pair est parti (ou renvoyé) : son personnage est sauvegardé et quitte le monde, sauf en plein
+## combat avec d'autres joueurs : il y reste absent jusqu'à la fin (ou son retour, voir `_hello`).
 func peer_disconnected(peer_id: int) -> void:
 	var session: Dictionary = _sessions.get(peer_id, {})
 	_sessions.erase(peer_id)
@@ -59,7 +63,20 @@ func peer_disconnected(peer_id: int) -> void:
 		return
 	_peer_of.erase(player_id)
 	await _save(player_id)
-	_route(world.remove_player(player_id), "")
+	if world.player(player_id) != null:
+		_route(world.disconnect_player(player_id), "")
+	await _release_departed()
+
+
+## Les joueurs absents dont le combat est fini sont sauvegardés (avec ce qu'ils y ont gagné) puis
+## quittent le monde.
+func _release_departed() -> void:
+	for player_id in world.take_departed():
+		if _peer_of.has(player_id) or world.player(player_id) == null:
+			continue
+		await _save(player_id)
+		if not _peer_of.has(player_id) and world.is_away(player_id):  # Pas revenu pendant la sauvegarde.
+			_route(world.remove_player(player_id), "")
 
 
 ## Nombre de joueurs en jeu.
@@ -106,6 +123,7 @@ func update(delta: float) -> void:
 	for session: Dictionary in _sessions.values():
 		session["credit"] = minf(MESSAGE_BURST, session["credit"] + MESSAGE_RATE * delta)
 	_route(world.update(delta), "")
+	await _release_departed()
 	_save_time += delta
 	if _save_time >= SAVE_INTERVAL:
 		_save_time = 0.0
@@ -133,6 +151,17 @@ func _hello(peer_id: int, message: Dictionary) -> void:
 		if other_id != peer_id and _sessions[other_id]["compte"] == account:
 			_kick(other_id, Protocol.ERROR_ALREADY_CONNECTED, "Ce compte vient de se connecter ailleurs.")
 			await peer_disconnected(other_id)
+	var player_id := "j:%s" % account
+	if world.is_away(player_id) and not _peer_of.has(player_id):
+		# Revenu pendant son combat de groupe : il le retrouve (le personnage est encore dans le monde).
+		session["compte"] = account
+		session["occupe"] = false
+		session["joueur"] = player_id
+		_peer_of[player_id] = peer_id
+		_write(peer_id, {"type": Protocol.MSG_WELCOME, "compte": account, "personnage": true})
+		_route(world.reconnect(player_id), "")
+		_write(peer_id, world.snapshot(player_id))
+		return
 	var saved: Dictionary = await store.load_character(account)
 	if not _sessions.has(peer_id):
 		return
@@ -214,10 +243,15 @@ func _command(peer_id: int, message: Dictionary) -> void:
 	command["entite"] = player_id  # Jamais celle du client : celle de sa session.
 	var events := world.execute(command)
 	_route(events, player_id)
+	# Sauvegarde de chaque joueur dont le combat finit (ceux du groupe aussi) ou qui change de carte.
+	var saved := {}
 	for event in events:
 		if event["type"] in [Protocol.EVT_COMBAT_ENDED, Protocol.EVT_MAP_CHANGED]:
-			_save(player_id)
-			break
+			var owner := str(event.get(Protocol.FIELD_FOR, player_id))
+			if not saved.has(owner) and _peer_of.has(owner):
+				saved[owner] = true
+				_save(owner)
+	_release_departed()
 
 
 ## Envoie à chacun les événements qui le regardent (`World.recipients`) : à l'auteur de la commande
@@ -231,7 +265,12 @@ func _route(events: Array[Dictionary], sender: String) -> void:
 			per_player[player_id].append(event)
 	for player_id: String in per_player:
 		if player_id != sender and _peer_of.has(player_id):
-			_write(_peer_of[player_id], {"type": Protocol.MSG_EVENTS, "evenements": per_player[player_id]})
+			var message := {"type": Protocol.MSG_EVENTS, "evenements": per_player[player_id]}
+			for event: Dictionary in per_player[player_id]:
+				if Protocol.needs_snapshot(event):
+					message["instantane"] = world.snapshot(player_id)  # La copie du client ne saurait pas les appliquer.
+					break
+			_write(_peer_of[player_id], message)
 	if not sender.is_empty() and _peer_of.has(sender):
 		_write(_peer_of[sender], {"type": Protocol.MSG_REPLY, "evenements": per_player.get(sender, []),
 			"instantane": world.snapshot(sender)})

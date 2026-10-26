@@ -632,11 +632,20 @@ Plan validé par l'auteur le 26/10/2026 : GDD § 16.5, jalons M0 (préparer le n
 - [x] M1 : chez l'auteur — projet Supabase, clé publique dans `client/net/online_config.gd`,
   `.env` et Docker sur son PC ; adresse du tunnel lue par le serveur ; essai réussi le 26/10/2026
   (deux clients qui se voient, déplacements et récolte synchronisés, sauvegarde après reconnexion)
-- [ ] M2 (avec les combats de groupe) : un joueur entré en combat reste affiché sur la carte chez
-  les autres ; il doit disparaître une fois le combat lancé (retour de l'auteur, 26/10/2026)
+- [x] M2 : un joueur entré en combat disparaît de la carte chez les autres, remplacé par les épées
+  du combat (retour de l'auteur, 26/10/2026)
+- [x] M2 : groupes de joueurs (invitation, chef, 8 au plus), combat rejoint pendant le placement,
+  prêt à plusieurs, placement de 45 s et tours de 30 s en ligne, déconnexion en combat (tours passés,
+  retour dans le combat), XP (bonus de groupe et part de niveaux), brumes et butin partagés,
+  objectifs « vaincre » pour chacun — 26/10/2026 (GDD § 16.5, « Où en est M2 »)
+- [ ] M2 : essai à trois joueurs chez l'auteur (critère de sortie : chacun reçoit sa part, un
+  joueur déconnecté revient dans le combat)
+- [ ] M2 : inventaire consultable mais non modifiable en combat ; verrou du combat au choix du chef ;
+  suivi du chef ; marqueurs de quête partagés
 - [x] M1 : staging mis à jour par la CI (image `ghcr.io/ottoreg/retro-venture-serveur:staging`,
   reprise par `docker compose up -d`) — 26/10/2026
-- [ ] Renouvellement du jeton de connexion (au-delà d'une heure, il faut se reconnecter)
+- [x] Renouvellement du jeton de connexion : reconnexion automatique après une coupure, sans le
+  mot de passe (jeton de renouvellement Supabase) — 26/10/2026
 - [x] M1 : préréglages d'export Windows et Linux et archives sur GitHub Releases depuis la CI
   (release « client-natif », à chaque push sur main) — 26/10/2026
 

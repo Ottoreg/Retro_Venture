@@ -22,6 +22,8 @@ const MENU_SCENE := "res://client/main/main.tscn"
 
 ## Menu pause (Échap quand aucune fenêtre n'est ouverte).
 var pause_menu: PauseMenu
+## Groupes de joueurs (en ligne) : invitations.
+var party_ui: PartyUi
 ## Quêtes : proposition d'un PNJ, journal (Q), suivi dans la bande gauche.
 var quest_dialog: QuestDialog
 var quests_window: QuestsWindow
@@ -48,6 +50,8 @@ func _ready() -> void:
 	add_child(quests_window)
 	quest_tracker = QuestTracker.new()
 	add_child(quest_tracker)
+	party_ui = PartyUi.new()
+	add_child(party_ui)
 	if Session.online_connection != null and Session.online_connection.is_open():
 		_map_view.setup(Session.online_connection)  # En ligne : le monde tourne sur le serveur.
 	else:
@@ -70,6 +74,7 @@ func _ready() -> void:
 	_world_map.setup(_map_view)
 	_minimap.pressed.connect(_world_map.open)
 	quest_dialog.setup(_map_view)
+	party_ui.setup(_map_view)
 	quests_window.setup(_map_view)
 	quest_tracker.setup(_map_view, _combat_hud)
 	quest_tracker.pressed.connect(quests_window.toggle)

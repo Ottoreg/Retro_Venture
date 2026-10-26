@@ -30,6 +30,15 @@ var combat: Combat = null
 var combat_group := ""
 ## Bonus de butin du combat en cours (élite ancienne), en fraction : 0.3 = +30 %.
 var combat_loot_bonus := 0.0
+## Déconnecté en plein combat avec d'autres joueurs (en ligne) : il reste dans le monde jusqu'à la fin
+## du combat (ses tours passent), et le retrouve s'il revient avant.
+var away := false
+## Joueurs de son combat (ids, lui compris), gardés jusqu'au suivant : à qui envoyer ses événements.
+var fight_mates: Array[String] = []
+## Chef de son groupe de joueurs (id, le sien s'il est le chef), ou "" sans groupe.
+var party_leader := ""
+## Invitations reçues dans un groupe : id de qui a invité → true.
+var invitations: Dictionary = {}
 ## Quêtes : propositions, avancement, récompenses (l'état est dans `character.quests`).
 var quest_book: QuestBook
 

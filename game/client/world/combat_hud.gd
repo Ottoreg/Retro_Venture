@@ -394,6 +394,11 @@ var _summary_name: Label
 var _summary_level: Label
 var _summary_xp: ProgressBar
 var _summary_money: Label
+## Groupe de joueurs (multijoueur), sous le résumé : ses membres et « Quitter le groupe ».
+var _party_box: VBoxContainer
+var _party_lines: Label
+## Temps restant du placement ou du tour (en ligne), sous les messages.
+var _timer_label: Label
 ## Grille flottante d'un sort de composition (Arcaniste), ouverte au-dessus de son emplacement ou à
 ## la souris ; un fond transparent la ferme au clic ailleurs. `null` quand elle est fermée.
 var _composition: Control
@@ -424,7 +429,9 @@ func setup(p_map_view: MapView) -> void:
 	map_view.inventory_changed.connect(_refresh_exploration)
 	map_view.hovered_cell_changed.connect(_on_hovered_cell_changed)
 	map_view.sitting_changed.connect(_on_sitting_changed)
+	map_view.party_changed.connect(_refresh_party)
 	_refresh_exploration()
+	_refresh_party()
 
 
 func show_message(text: String) -> void:
@@ -435,6 +442,10 @@ func show_message(text: String) -> void:
 
 func _process(delta: float) -> void:
 	_pulse_ready_button(delta)
+	if map_view != null:
+		var left := ceili(map_view.turn_time_left) if map_view.mode == MapView.Mode.COMBAT else 0
+		_timer_label.visible = left > 0
+		_timer_label.text = "%s : %d s" % ["Placement" if map_view.is_placement() else "Tour", left]
 	if _message_time > 0.0:
 		_message_time -= delta
 		_message_label.modulate.a = clampf(_message_time / 0.5, 0.0, 1.0)
@@ -1360,6 +1371,10 @@ func _build_bands() -> void:
 	_message_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_message_label.modulate.a = 0.0
 	right.add_child(_message_label)
+	_timer_label = _label(14, Color(1.0, 0.8, 0.35))
+	_timer_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_timer_label.visible = false
+	right.add_child(_timer_label)
 	right.add_child(HSeparator.new())
 	_summary = VBoxContainer.new()
 	_summary.add_theme_constant_override("separation", 4)
@@ -1377,6 +1392,21 @@ func _build_bands() -> void:
 	_summary.add_child(_summary_xp)
 	_summary_money = _label(12, UiTheme.TEXT)
 	_summary.add_child(_summary_money)
+	_party_box = VBoxContainer.new()
+	_party_box.add_theme_constant_override("separation", 4)
+	_summary.add_child(_party_box)
+	_party_box.add_child(HSeparator.new())
+	var party_title := _label(14, UiTheme.GOLD)
+	party_title.text = "Groupe"
+	_party_box.add_child(party_title)
+	_party_lines = _label(12, UiTheme.TEXT)
+	_party_lines.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_party_box.add_child(_party_lines)
+	var leave := Button.new()
+	leave.text = "Quitter le groupe"
+	leave.pressed.connect(func() -> void: map_view.send_command({"type": Protocol.CMD_PARTY_LEAVE, "entite": map_view.world.player_id}))
+	_party_box.add_child(leave)
+	_party_box.visible = false
 	_order_label = _label(15, UiTheme.GOLD)
 	_order_label.text = "Placement"
 	_order_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -1426,6 +1456,19 @@ func bands() -> Array[Control]:
 
 
 ## Hors combat, dans la bande droite : nom, niveau et Voie, expérience, brumes.
+## Membres du groupe de joueurs (le chef d'une étoile) ; caché sans groupe.
+func _refresh_party() -> void:
+	if map_view == null or map_view.world == null:
+		return
+	var members: Array = map_view.world.party.get("membres", [])
+	_party_box.visible = not members.is_empty()
+	var lines: PackedStringArray = []
+	for member: Dictionary in members:
+		lines.append("%s%s, niv. %d%s" % ["★ " if member["id"] == map_view.world.party["chef"] else "", member["nom"],
+			member["niveau"], " (déconnecté)" if member.get("absent", false) else ""])
+	_party_lines.text = "\n".join(lines)
+
+
 func _show_summary(sheet: Dictionary) -> void:
 	_summary_name.text = sheet["nom"]
 	_summary_level.text = "Niveau %d, %s %s" % [sheet["niveau"], sheet["race_nom"], sheet["voie_nom"]]

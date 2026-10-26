@@ -28,6 +28,9 @@ nous faire vos retours. Le jeu n'affiche volontairement presque aucune aide à l
 - Résolution prévue : 1280 × 720 ou plus. Plein écran dans les options.
 - Le bouton **« Jouer en ligne (prototype) »** du menu sert aux essais du multijoueur avec
   l'auteur : il ne marche que pendant ses sessions de test annoncées. L'alpha test 1 se joue en solo.
+  En ligne : cliquez sur un autre joueur pour l'inviter dans votre groupe ; les épées dorées sur la
+  carte sont le combat d'un joueur en placement, cliquez dessus pour le rejoindre (membres du
+  groupe). Tours de 30 s. Une connexion coupée se rouvre toute seule, et on retrouve son combat.
 
 ## Par où commencer
 

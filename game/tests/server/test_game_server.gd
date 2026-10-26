@@ -251,3 +251,62 @@ func test_la_copie_du_client_suit_les_autres_joueurs() -> void:
 	sam_copy.load_snapshot(_command(2, {"type": Protocol.CMD_SIT, "assis": false})["instantane"])
 	assert_true(sam_copy.group("groupe_1").is_empty(), "le groupe combattu par Frodon n'est plus vu")
 	assert_eq(copy.player_id, frodon)
+
+
+## Frodon (chef) invite Sam ; Frodon engage, Sam rejoint ; les deux sont prêts.
+func _group_fight(frodon: String, sam: String) -> Combat:
+	_command(1, {"type": Protocol.CMD_PARTY_INVITE, "joueur": sam})
+	assert_eq(_pushed(_take(2), Protocol.EVT_PARTY_INVITE).size(), 1, "Sam reçoit l'invitation")
+	_command(2, {"type": Protocol.CMD_PARTY_ANSWER, "chef": frodon, "accepte": true})
+	assert_eq(_pushed(_take(1), Protocol.EVT_PARTY).size(), 1, "Frodon voit son groupe")
+	_command(1, {"type": Protocol.CMD_ENGAGE, "groupe": "groupe_1"})
+	var swords := _pushed(_take(2), Protocol.EVT_GROUP_ENGAGED)
+	assert_eq(swords[0]["case"], _server.world.player(frodon).cell, "Sam voit les épées du combat")
+	var joined := _command(2, {"type": Protocol.CMD_JOIN_COMBAT, "groupe": "groupe_1"})
+	assert_eq(joined["evenements"][1]["type"], Protocol.EVT_COMBAT_STARTED)
+	var seen: Array = _of_type(_take(1), Protocol.MSG_EVENTS)
+	assert_true(seen[0].has("instantane"), "Frodon reçoit l'arrivée de Sam avec son instantané")
+	_command(1, {"type": Protocol.CMD_READY})
+	_command(2, {"type": Protocol.CMD_READY})
+	_take(1)
+	return _server.world.player(frodon).combat
+
+
+func test_combat_de_groupe_deconnexion_et_retour() -> void:
+	var frodon := _join(1, "Frodon")
+	var sam := _join(2, "Sam")
+	_take(1)
+	_take(2)
+	var combat := _group_fight(frodon, sam)
+	assert_eq(combat.state, Combat.State.FIGHTING)
+	_server.peer_disconnected(2)
+	assert_true(_server.world.is_away(sam), "Sam reste dans le combat")
+	assert_eq(_pushed(_take(1), Protocol.EVT_FIGHTER_AWAY).size(), 1, "Frodon le sait")
+	_join(3, "Sam")
+	var back := _take(3)
+	assert_true(_of_type(back, Protocol.MSG_WELCOME)[0]["personnage"])
+	var snapshot: Dictionary = _of_type(back, Protocol.EVT_SNAPSHOT)[0]
+	assert_true(snapshot["combat"] != null, "Sam retrouve son combat")
+	assert_false(_server.world.is_away(sam))
+	_take(1)
+	var reply := _win(1, frodon)
+	assert_eq(reply["evenements"].filter(func(e: Dictionary) -> bool: return e["type"] == Protocol.EVT_COMBAT_ENDED).size(), 1,
+		"Frodon reçoit sa fin de combat")
+	var pushed := _of_type(_take(3), Protocol.MSG_EVENTS)
+	var ends := _pushed(pushed, Protocol.EVT_COMBAT_ENDED)
+	assert_eq(ends.size(), 1, "Sam reçoit la sienne")
+	assert_true(int(ends[0]["xp"]) > 0, "avec sa part")
+	assert_true(pushed[-1].has("instantane"))
+	assert_true(int(_store.load_character("dev:sam")["personnage"]["xp"]) > 0, "Sam est sauvegardé aussi")
+
+
+func test_absent_a_la_fin_du_combat_sauvegarde_puis_retire() -> void:
+	var frodon := _join(1, "Frodon")
+	var sam := _join(2, "Sam")
+	_take(1)
+	_take(2)
+	_group_fight(frodon, sam)
+	_server.peer_disconnected(2)
+	_win(1, frodon)
+	assert_true(_server.world.player(sam) == null, "Sam quitte le monde à la fin du combat")
+	assert_true(int(_store.load_character("dev:sam")["personnage"]["xp"]) > 0, "avec ce qu'il y a gagné")

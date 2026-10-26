@@ -46,6 +46,8 @@ var crit_bonus: int = 0
 ## États en cours (bonus, malus, poisons) : { type, carac, element, valeur, min, max, tours, sort,
 ## lanceur }. `tours` : fins de tour de ce combattant avant que l'état ne tombe.
 var states: Array[Dictionary] = []
+## Arme portée (id de l'objet, joueurs) : son attaque est le premier sort.
+var weapon := ""
 ## Phases pas encore déclenchées (monstres), dans l'ordre : { pv: int (% des PV max), message: String,
 ## sorts: Array[Spell], effets: Array[Dictionary] } (voir `Combat._check_phases`).
 var phases: Array[Dictionary] = []
@@ -238,6 +240,20 @@ func to_dict() -> Dictionary:
 		"initiative": initiative,
 		"ia": is_ai(),
 	}
+
+
+## Ce qu'il faut pour recréer un joueur chez les autres joueurs de son combat (copie de leur client,
+## `GameData.create_profile_fighter`) : ses valeurs de départ, sans son inventaire.
+func profile() -> Dictionary:
+	var spell_ids: Array = []
+	for i in spells.size():
+		if (i == 0 and not weapon.is_empty()) or spells[i].id in created_spells:
+			continue
+		spell_ids.append(spells[i].id)
+	return {"voie": kind, "nom": display_name, "race": race, "niveau": level, "caracs": stats.duplicate(),
+		"pv_max": max_hp, "pa": max_pa, "pm": max_pm, "initiative": initiative, "portee": range_bonus,
+		"prospection": prospection, "dommages": dommages, "critique": crit_bonus, "resistances": resistances.duplicate(),
+		"sorts": spell_ids, "arme": weapon}
 
 
 ## État complet du combattant pour la copie d'un client (voir `Combat.snapshot`) : ce qui change

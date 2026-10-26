@@ -228,6 +228,19 @@ func _process(_delta: float) -> bool:
 			view.server.player("j:Lindëa").sitting = true
 			view.refresh_state()
 			view._load_exploration_actors()
+		elif _action == "groupe":
+			# Multijoueur (M2) : groupe avec Grizzette, qui a engagé un groupe de monstres (ses épées).
+			var here := view.server.position_of(World.PLAYER_ID)
+			var friend := Character.create("Grizzette", "gobelin", "rodeur")
+			view.server.add_player(friend, "j:Grizzette", view.server.map.id, here + Vector2i(2, 1))
+			view.server.execute({"type": Protocol.CMD_PARTY_INVITE, "entite": World.PLAYER_ID, "joueur": "j:Grizzette"})
+			view.server.execute({"type": Protocol.CMD_PARTY_ANSWER, "entite": "j:Grizzette", "chef": World.PLAYER_ID, "accepte": true})
+			var group: Dictionary = view.server.groups()[0]
+			view.server.execute({"type": Protocol.CMD_ENGAGE, "entite": "j:Grizzette", "groupe": group["id"]})
+			view.refresh_state()
+			view._load_exploration_actors()
+			view.party_changed.emit()
+			view._set_hovered(group["case"])
 		elif _action == "assis":
 			view.server.character.hp_lost = 30
 			view.refresh_state()

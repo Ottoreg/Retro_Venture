@@ -83,7 +83,7 @@ func test_autres_joueurs_de_la_carte() -> void:
 	assert_eq(view._actors["j:sam"]["race"], "gobelin")
 	assert_eq(view._actors["j:sam"]["kind"], "rodeur", "dessiné avec la tenue de sa Voie")
 	assert_true(view.actor_look("j:sam").has("rig"), "en personnage articulé")
-	assert_eq(view._describe(cell), "Sam\nNiveau 1, Gobelin Rôdeur", "son nom au survol")
+	assert_eq(view._describe(cell), "Sam\nNiveau 1, Gobelin Rôdeur\nCliquer pour l'inviter dans le groupe", "son nom au survol")
 	var target := cell + Vector2i(1, 0)
 	var moved: Array[Dictionary] = world.execute({"type": Protocol.CMD_MOVE, "entite": "j:sam", "cible": target})
 	view.world.apply_event(moved[0])
@@ -154,3 +154,91 @@ func test_adresse_supabase_sans_chemin_de_l_api() -> void:
 	assert_eq(Supabase.new("https://abc.supabase.co/rest/v1/", "cle", host).url, "https://abc.supabase.co")
 	assert_eq(Supabase.new("https://abc.supabase.co/", "cle", host).url, "https://abc.supabase.co")
 	host.free()
+
+
+## Connexions locales de plusieurs joueurs sur un même monde : ce que la commande de l'un produit pour
+## les autres leur arrive à leur prochain `update`, comme par le serveur (`World.recipients`).
+class SharedConnection extends LocalConnection:
+	var others: Array = []
+	var inbox: Array[Dictionary] = []
+
+	func send(command: Dictionary) -> Array[Dictionary]:
+		var events := world.execute(_through_wire(command))
+		for other: SharedConnection in others:
+			var theirs: Array[Dictionary] = []
+			for event in events:
+				if other.player_id in world.recipients(event, player_id):
+					theirs.append(event)
+			other.inbox.append_array(other._received(theirs, player_id))
+		return _received(events, player_id)
+
+	func update(delta: float) -> Array[Dictionary]:
+		var events := inbox
+		inbox = []
+		events.append_array(super.update(delta))
+		return events
+
+
+func test_combat_de_groupe_vu_des_deux_clients() -> void:
+	var scene := _scene()
+	var frodon_view: MapView = scene.get_node("MapView")
+	var world := frodon_view.server
+	var group: Dictionary = frodon_view.world.groups()[0]
+	world.add_player(Character.create("Sam", "humain", World.DEFAULT_VOIE), "j:sam", world.map.id, world.position_of(world.player_id))
+	world.data.give_starting_kit(world.player("j:sam").character)
+	var frodon := SharedConnection.new(world)
+	var sam := SharedConnection.new(world, "j:sam")
+	frodon.others = [sam]
+	sam.others = [frodon]
+	frodon_view.setup(frodon)
+	var sam_view := MapView.new()
+	scene.add_child(sam_view)
+	sam_view.setup(sam)
+	# Groupe : Frodon invite Sam, qui accepte.
+	frodon_view.send_command({"type": Protocol.CMD_PARTY_INVITE, "entite": world.player_id, "joueur": "j:sam"})
+	var invited := []
+	sam_view.party_invited.connect(func(event: Dictionary) -> void: invited.append(event))
+	sam_view.advance(0.1)
+	assert_eq(invited.size(), 1, "Sam reçoit l'invitation")
+	sam_view.send_command({"type": Protocol.CMD_PARTY_ANSWER, "entite": "j:sam", "chef": world.player_id, "accepte": true})
+	_run_until_idle(sam_view)
+	frodon_view.advance(0.1)
+	assert_true(frodon_view.world.is_party_member("j:sam"), "Frodon voit Sam dans son groupe")
+	# Frodon attaque : Sam voit les épées, et Frodon disparaît.
+	frodon_view._on_click(group["case"])
+	_run_until_idle(frodon_view)
+	assert_eq(frodon_view.mode, MapView.Mode.COMBAT)
+	sam_view.advance(0.1)
+	var swords := sam_view.world.fight_at(group["case"])
+	assert_false(swords.is_empty(), "les épées du combat chez Sam")
+	assert_false(sam_view._actors.has(world.player_id), "Frodon n'est plus sur la carte de Sam")
+	assert_true(sam_view._describe(group["case"]).begins_with("Combat de"), "épées décrites au survol")
+	sam_view._on_click(group["case"])
+	_run_until_idle(sam_view)
+	assert_eq(sam_view.mode, MapView.Mode.COMBAT, "Sam a rejoint le combat")
+	assert_true(sam_view._actors.has(world.player_id), "il y voit Frodon")
+	frodon_view.advance(0.1)
+	_run_until_idle(frodon_view)
+	assert_true(frodon_view._actors.has("j:sam"), "Frodon voit Sam arriver")
+	frodon_view.request_start_fight()
+	_run_until_idle(frodon_view)
+	assert_true(frodon_view.is_placement(), "on attend Sam")
+	sam_view.request_start_fight()
+	_run_until_idle(sam_view)
+	frodon_view.advance(0.1)
+	_run_until_idle(frodon_view)
+	assert_false(frodon_view.is_placement(), "le combat commence chez Frodon aussi")
+	var ended := []
+	sam_view.combat_ended.connect(func(result: Dictionary) -> void: ended.append(result))
+	for i in 200:
+		if frodon_view.mode == MapView.Mode.EXPLORATION and sam_view.mode == MapView.Mode.EXPLORATION:
+			break
+		for view: MapView in [frodon_view, sam_view]:
+			view.advance(0.5)
+			if view.is_player_turn():
+				view.request_end_turn()
+			_run_until_idle(view)
+	assert_eq(frodon_view.mode, MapView.Mode.EXPLORATION, "combat fini chez Frodon")
+	assert_eq(sam_view.mode, MapView.Mode.EXPLORATION, "et chez Sam")
+	assert_eq(ended.size(), 1, "Sam a eu sa fin de combat")
+	scene.queue_free()

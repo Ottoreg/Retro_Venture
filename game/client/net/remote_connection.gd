@@ -29,10 +29,11 @@ var account := ""
 var _socket := WebSocketPeer.new()
 var _token := ""
 var _number := 0
-## Réponses reçues, pas encore prises (une liste d'événements par commande).
-var _replies: Array = []
-## Événements reçus sans commande, pas encore pris.
-var _pushed: Array[Dictionary] = []
+## Messages reçus, pas encore pris, dans l'ordre d'arrivée : { reponse: bool, evenements: Array }.
+## `update` prend les événements reçus sans commande jusqu'à la prochaine réponse, `take_replies` les
+## réponses jusqu'aux prochains événements : le client les lit dans l'ordre du serveur (un combat de
+## groupe mêle ses réponses et les actions des autres joueurs).
+var _inbox: Array[Dictionary] = []
 
 
 ## `url` : adresse du serveur (ws:// ou wss://) ; `token` : jeton du compte (voir `Protocol.MSG_HELLO`).
@@ -60,16 +61,18 @@ func create_character(character_name: String, race: String, voie: String) -> voi
 
 func take_replies() -> Array:
 	poll()
-	var replies := _replies
-	_replies = []
+	var replies: Array = []
+	while not _inbox.is_empty() and _inbox[0]["reponse"]:
+		replies.append(_inbox.pop_front()["evenements"])
 	return replies
 
 
 func update(delta: float) -> Array[Dictionary]:
 	state.advance(delta)
 	poll()
-	var events := _pushed
-	_pushed = []
+	var events: Array[Dictionary] = []
+	while not _inbox.is_empty() and not _inbox[0]["reponse"]:
+		events.append_array(_inbox.pop_front()["evenements"])
 	return events
 
 
@@ -121,13 +124,16 @@ func _receive(text: String) -> void:
 			for event in events:
 				state.apply_event(event)
 			state.load_snapshot(message["instantane"])
-			_replies.append(events)
+			_inbox.append({"reponse": true, "evenements": events})
 		Protocol.MSG_EVENTS:
 			var stale := false
-			for event in _events_of(message):
+			var events := _events_of(message)
+			for event in events:
 				stale = not state.apply_event(event) or stale
-				_pushed.append(event)
-			if stale:
+			_inbox.append({"reponse": false, "evenements": events})
+			if typeof(message.get("instantane")) == TYPE_DICTIONARY:
+				state.load_snapshot(message["instantane"])
+			elif stale:
 				_write({"type": Protocol.MSG_SNAPSHOT_REQUEST})
 		Protocol.MSG_ERROR:
 			refused = true

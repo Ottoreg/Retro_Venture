@@ -46,6 +46,11 @@ signal quest_done(event: Dictionary)
 ## Progression à sauvegarder sans changement de la fiche : Pierre de Passage découverte, nouveau
 ## point de résurrection.
 signal progress_changed
+## Multijoueur : un joueur invite dans son groupe (EVT_PARTY_INVITE), le groupe change (EVT_PARTY),
+## un autre joueur est cliqué en exploration (id et nom : proposer de l'inviter).
+signal party_invited(event: Dictionary)
+signal party_changed
+signal player_clicked(player_id: String, player_name: String)
 
 enum Mode { EXPLORATION, COMBAT }
 
@@ -148,6 +153,18 @@ var _travel_refusals := {
 	Protocol.REASON_PASSAGE_UNKNOWN: "Pierre de Passage pas encore découverte : allez-y à pied et touchez-la.",
 }
 
+## Messages des refus de groupe et des combats rejoints (les autres : « Impossible pour l'instant. »).
+var _party_refusals := {
+	Protocol.REASON_COMBAT_STARTED: "Ce combat a déjà commencé : on ne peut le rejoindre que pendant le placement.",
+	Protocol.REASON_COMBAT_FULL: "Plus de place dans ce combat.",
+	Protocol.REASON_NOT_IN_PARTY: "Ce combat n'est pas celui de votre groupe.",
+	Protocol.REASON_PARTY_FULL: "Le groupe est complet (8 joueurs).",
+	Protocol.REASON_ALREADY_IN_PARTY: "Ce joueur est déjà dans un groupe.",
+	Protocol.REASON_NOT_PARTY_LEADER: "Seul le chef du groupe peut inviter.",
+	Protocol.REASON_NO_INVITATION: "Cette invitation n'est plus valable.",
+	Protocol.REASON_UNKNOWN_ENTITY: "Ce joueur ou ce combat n'est plus là.",
+	Protocol.REASON_INVENTORY_OVERLOADED: CombatHud.OVERLOAD_TEXT,
+}
 ## Copie locale de l'état du jeu (lectures seulement) ; les commandes passent par `connection`.
 var world: ClientState
 ## Connexion au jeu (locale en solo, distante plus tard : GDD § 16.5).
@@ -174,6 +191,8 @@ var selected_spell := ""
 ## Ordre de jeu (ids) et combattant dont c'est le tour.
 var turn_order: Array[String] = []
 var current_turn := ""
+## Secondes restantes du placement ou du tour en cours, en ligne (0 : pas de limite).
+var turn_time_left := 0.0
 
 ## Ce qui est affiché : id → { pos: Vector2 (grille), kind, team, name, hp, max_hp, pa, pm, alive, count }
 ## (et pour un groupe en exploration, `members` et `levels` : ses monstres et leurs niveaux).
@@ -246,7 +265,10 @@ func setup(p_connection: GameConnection) -> void:
 	if _bubble == null:
 		_build_bubble()
 	_load_map(world.map)
-	_load_exploration_actors()
+	if world.combat != null:
+		_load_combat_from_state()  # Revenu en plein combat (reconnexion).
+	else:
+		_load_exploration_actors()
 
 
 ## Recharge la copie de l'état (après une modification directe du monde, tests et outils).
@@ -516,6 +538,15 @@ func _harvest_refusal_text(reason: String, cell: Vector2i) -> String:
 ## repart de là vers la nouvelle cible, et le reste de l'ancien trajet (avec le dialogue, le combat
 ## ou le changement de carte qui l'attendait) est abandonné.
 func _explore(cell: Vector2i, stop := NO_CELL) -> void:
+	# Multijoueur : les épées d'un combat (le rejoindre) et les autres joueurs (les inviter).
+	var fight := world.fight_at(cell)
+	if not fight.is_empty():
+		_send({"type": Protocol.CMD_JOIN_COMBAT, "entite": world.player_id, "groupe": fight["groupe"]})
+		return
+	var other := world.player_at(cell)
+	if not other.is_empty():
+		player_clicked.emit(other["id"], other["nom"])
+		return
 	var commands := _exploration_commands(cell, stop if stop != NO_CELL else world.position_of(world.player_id))
 	if commands.is_empty():
 		return
@@ -660,6 +691,12 @@ func _set_hovered(cell: Vector2i) -> void:
 
 func _describe(cell: Vector2i) -> String:
 	if mode == Mode.EXPLORATION:
+		var fight := world.fight_at(cell)
+		if not fight.is_empty():
+			var names: PackedStringArray = []
+			for member_id: String in fight["joueurs"]:
+				names.append(_party_member_name(member_id))
+			return "Combat de %s\n%s" % [", ".join(names), "Placement : cliquer pour le rejoindre (groupe)" if fight["placement"] else "En cours"]
 		var exit := _exit_at(cell)
 		if not exit.is_empty():
 			return "Vers : %s" % world.neighbor_name(exit["direction"])
@@ -690,8 +727,9 @@ func _describe(cell: Vector2i) -> String:
 			if mode == Mode.COMBAT:
 				return "%s — %d / %d PV%s" % [data["name"], data["hp"], data["max_hp"], "\n" + ground if ground != "" else ""]
 			if data.has("niveau"):  # Un autre joueur.
-				return "%s\nNiveau %d, %s %s" % [data["name"], data["niveau"],
-					world.data.races.get(data["race"], {}).get("nom", data["race"]), world.data.voies.get(data["kind"], {}).get("nom", data["kind"])]
+				return "%s\nNiveau %d, %s %s\n%s" % [data["name"], data["niveau"],
+					world.data.races.get(data["race"], {}).get("nom", data["race"]), world.data.voies.get(data["kind"], {}).get("nom", data["kind"]),
+					"Membre du groupe" if world.is_party_member(actor_id) else "Cliquer pour l'inviter dans le groupe"]
 			var text := group_lines(data.get("members", [data["kind"]]), world.data, data.get("levels", []))
 			var rank := world.elite_rank(world.group(actor_id))
 			if rank > 0:
@@ -705,6 +743,16 @@ func _describe(cell: Vector2i) -> String:
 
 ## Glyphes et pièges visibles sur la case : nom du sort, qui l'a lancé et dans quel camp (une ligne
 ## chacun ; "" s'il n'y en a pas). Les pièges ennemis restent invisibles.
+## Nom d'un joueur : de la carte, du groupe, ou son id.
+func _party_member_name(member_id: String) -> String:
+	if member_id == world.player_id:
+		return world.player_name
+	for member: Dictionary in world.party.get("membres", []):
+		if member["id"] == member_id:
+			return member["nom"]
+	return member_id.trim_prefix("j:")
+
+
 func ground_description(cell: Vector2i) -> String:
 	var lines: PackedStringArray = []
 	for glyph_id: int in _glyphs:
@@ -910,11 +958,19 @@ func _notification(what: int) -> void:
 func advance(delta: float) -> void:
 	# Le temps passe pour le monde : les ressources récoltées repoussent.
 	if world != null:
-		for event in connection.update(delta):
-			_apply_world_change(event)
+		var pushed := connection.update(delta)
+		var fight := false
+		for event in pushed:
+			fight = fight or _is_fight_event(event)  # Décidé avant de jouer : le combat peut finir en route.
+		for event in pushed:
+			if fight and Protocol.scope_of(event) != Protocol.SCOPE_MAP and event["type"] not in Protocol.SELF_APPLIED_EVENTS:
+				_queue_pushed(event)
+			else:
+				_apply_world_change(event)
 		if connection.asynchronous:
 			_take_replies()
 	_time += delta
+	turn_time_left = maxf(0.0, turn_time_left - delta)
 	for data: Dictionary in _actors.values():
 		if data.get("attaque", 0.0) > 0.0:
 			data["attaque"] = maxf(0.0, data["attaque"] - delta)
@@ -961,9 +1017,54 @@ func _watch_playback(delta: float) -> void:
 		_stall_time = 0.0
 
 
+## Événement d'un combat arrivé sans commande de ce joueur (actions des autres joueurs du groupe,
+## temps du tour écoulé, fin du combat) : il se lit dans la file, comme ceux de ses commandes.
+func _is_fight_event(event: Dictionary) -> bool:
+	if Protocol.scope_of(event) == Protocol.SCOPE_MAP or event["type"] in Protocol.SELF_APPLIED_EVENTS:
+		return false
+	return mode == Mode.COMBAT or event["type"] == Protocol.EVT_COMBAT_STARTED
+
+
+func _queue_pushed(event: Dictionary) -> void:
+	_queue.append(event)
+	if not _playing:
+		_playing = true
+		_play_next()
+	elif _walk_actor == "" and _wait <= 0.0 and _reply_handlers.is_empty():
+		_play_next()
+
+
+## Combat en cours d'après la copie de l'état (retour dans un combat après une reconnexion).
+func _load_combat_from_state() -> void:
+	var start := {"combattants": [], "placement": []}
+	for fighter in world.combat.fighters:
+		start["combattants"].append(fighter.to_dict())
+		start["combattants"][-1]["pv"] = fighter.hp
+		start["combattants"][-1]["pm"] = fighter.pm
+		start["combattants"][-1]["pa"] = fighter.pa
+	if world.combat.state == Combat.State.PLACEMENT:
+		start["placement"] = world.combat.placement_cells.duplicate()
+	_load_combat_actors(start)
+	for fighter in world.combat.fighters:
+		_actors[fighter.id]["alive"] = fighter.is_alive()
+	if world.combat.state == Combat.State.FIGHTING:
+		for fighter in world.combat.fighters:
+			turn_order.append(fighter.id)
+		current_turn = world.combat.current_fighter().id if world.combat.current_fighter() != null else ""
+	combat_started.emit()
+	combat_state_changed.emit()
+
+
 ## Changements du monde qui ne viennent pas d'une commande (repousse, réapparition) : appliqués
 ## tout de suite, sans attendre la file d'événements.
 func _apply_world_change(event: Dictionary) -> void:
+	match event["type"]:
+		Protocol.EVT_PARTY_INVITE:
+			party_invited.emit(event)
+		Protocol.EVT_PARTY_DECLINED:
+			notice.emit("%s refuse votre invitation." % event["nom"])
+		Protocol.EVT_PARTY:
+			party_changed.emit()
 	var shown: bool = mode == Mode.EXPLORATION and world.map == _map and event.get("carte", _map.id) == _map.id
 	if shown:
 		_apply_other_player(event)
@@ -997,8 +1098,11 @@ func _apply_other_player(event: Dictionary) -> void:
 				_actors[actor_id]["assis"] = event["assis"]
 		Protocol.EVT_GROUP_ENGAGED:
 			if actor_id != world.player_id:
+				# Le groupe et le joueur disparaissent ; les épées du combat se dessinent (`world.fights`).
 				_actors.erase(event["groupe"])
 				_group_walks.erase(event["groupe"])
+				_actors.erase(actor_id)
+				_group_walks.erase(actor_id)
 		Protocol.EVT_GROUP_RELEASED:
 			_add_group_actor(event["groupe"])
 
@@ -1234,6 +1338,8 @@ func _apply(event: Dictionary) -> float:
 			notice.emit(_equip_refusals[event["raison"]])
 		if event["commande"] == Protocol.CMD_TRAVEL:
 			notice.emit(_travel_refusals.get(event["raison"], "Le voyage est impossible."))
+		if event["commande"] in [Protocol.CMD_JOIN_COMBAT, Protocol.CMD_PARTY_INVITE, Protocol.CMD_PARTY_ANSWER, Protocol.CMD_PARTY_LEAVE]:
+			notice.emit(_party_refusals.get(event["raison"], "Impossible pour l'instant."))
 		if event.get("raison") == Protocol.REASON_QUEST_ITEM:
 			notice.emit("Un objet de quête ne se jette ni ne se vend.")
 		if event.get("raison") == Protocol.REASON_INVENTORY_OVERLOADED:
@@ -1250,18 +1356,38 @@ func _apply(event: Dictionary) -> float:
 		_traps.clear()
 		_trap_flash = {}
 		_load_combat_actors(event)
+		turn_time_left = world.combat.time_left() if world.combat != null else 0.0
 		combat_started.emit()
 		return 0.3
 	if type == Protocol.EVT_PLACED:
 		_actors[event["entite"]]["pos"] = Vector2(event["case"])
 		return 0.0
+	if type == Protocol.EVT_FIGHTER_JOINED:
+		var joined: Dictionary = event["combattant"]
+		if not _actors.has(joined["id"]):
+			_add_fighter_actor(joined)
+			combat_message.emit("%s rejoint le combat." % joined["nom"])
+		_actors[joined["id"]]["pos"] = Vector2(joined["case"])
+		combat_state_changed.emit()
+		return 0.0
+	if type == Protocol.EVT_READY:
+		if event["entite"] != world.player_id:
+			combat_message.emit("%s est prêt." % _actor_name(event["entite"]))
+		else:
+			combat_message.emit("Prêt : en attente des autres joueurs…")
+		return 0.0
+	if type == Protocol.EVT_FIGHTER_AWAY:
+		combat_message.emit(("%s est déconnecté : ses tours passent." if event["absent"] else "%s est de retour.") % _actor_name(event["entite"]))
+		return 0.0
 	if type == Protocol.EVT_FIGHT_BEGINS:
 		_placement.clear()
+		turn_time_left = 0.0
 		turn_order.assign(event["ordre"])
 		combat_message.emit("Le combat commence !")
 		return 0.4
 	if type == Protocol.EVT_TURN_STARTED:
 		current_turn = event["entite"]
+		turn_time_left = float(event.get("duree", 0.0))
 		if current_turn != world.player_id:
 			_planned.clear()  # Mort pendant son tour : rien ne part au tour suivant.
 		var playing: Dictionary = _actors[current_turn]
@@ -1492,14 +1618,19 @@ func _load_combat_actors(event: Dictionary) -> void:
 	_actors.clear()
 	_group_walks.clear()
 	for snapshot: Dictionary in event["combattants"]:
-		var data := _new_actor(Vector2(snapshot["case"]), snapshot["type"], snapshot["equipe"], snapshot["nom"], snapshot["pv"], snapshot["pv_max"])
-		data["pa"] = snapshot["pa"]
-		data["pm"] = snapshot["pm"]
-		data["race"] = snapshot.get("race", "")
-		_actors[snapshot["id"]] = data
+		_add_fighter_actor(snapshot)
 	_placement.assign(event["placement"])
 	current_turn = ""
 	turn_order.clear()
+
+
+## Un combattant (comme `Fighter.to_dict`).
+func _add_fighter_actor(snapshot: Dictionary) -> void:
+	var data := _new_actor(Vector2(snapshot["case"]), snapshot["type"], snapshot["equipe"], snapshot["nom"], snapshot["pv"], snapshot["pv_max"])
+	data["pa"] = snapshot["pa"]
+	data["pm"] = snapshot["pm"]
+	data["race"] = snapshot.get("race", "")
+	_actors[snapshot["id"]] = data
 
 
 func _new_actor(pos: Vector2, kind: String, team: int, actor_name: String, hp: int, max_hp: int) -> Dictionary:
@@ -1592,6 +1723,9 @@ func _draw() -> void:
 	if mode == Mode.EXPLORATION:
 		for npc in map.npcs:
 			drawables.append([IsoGrid.depth(Vector2(npc["case"])) + 0.01, "pnj", npc])
+		if world.map == _map:
+			for fight: Dictionary in world.fights():
+				drawables.append([IsoGrid.depth(Vector2(fight["case"])) + 0.01, "epees", fight])
 	for decor: Dictionary in map.decors:
 		# Un bâtiment passe derrière ce qui se tient devant ses faces visibles.
 		var footprint: Array = Art.manifest()["images"].get(decor["image"], {}).get("emprise", [1, 1])
@@ -1602,6 +1736,8 @@ func _draw() -> void:
 			_draw_actor(drawable[2])
 		elif drawable[1] == "pnj":
 			_draw_npc(drawable[2])
+		elif drawable[1] == "epees":
+			_draw_fight_swords(drawable[2])
 		elif drawable[1] == "decor":
 			Art.draw(self, drawable[2]["image"], IsoGrid.cell_to_screen(drawable[2]["case"]))
 		else:
@@ -1968,6 +2104,20 @@ func _draw_elite_aura(base: Vector2, offset: float) -> void:
 	var ring := _ellipse(base, 24, 12)
 	ring.append(ring[0])
 	draw_polyline(ring, Color(1.0, 0.82, 0.3, 0.55 + 0.3 * pulse), 2.0)
+
+
+## Épées croisées d'un combat d'autres joueurs (dorées pendant le placement : on peut le rejoindre).
+func _draw_fight_swords(fight: Dictionary) -> void:
+	var base := IsoGrid.cell_to_screen(fight["case"])
+	var color := Color(1.0, 0.82, 0.3) if fight["placement"] else Color(0.75, 0.75, 0.8)
+	draw_colored_polygon(_ellipse(base, 16.0, 7.0), Color(0, 0, 0, 0.25))
+	for side in [-1.0, 1.0]:
+		var tip := base + Vector2(14.0 * side, -34.0)
+		var hilt := base + Vector2(-9.0 * side, -6.0)
+		draw_line(hilt, tip, color, 3.0, true)
+		var across := (tip - hilt).orthogonal().normalized() * 5.0
+		var guard := hilt.lerp(tip, 0.18)
+		draw_line(guard - across, guard + across, Color(0.45, 0.3, 0.15), 3.0, true)
 
 
 func _draw_npc(npc: Dictionary) -> void:

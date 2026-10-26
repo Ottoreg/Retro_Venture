@@ -638,7 +638,39 @@ func create_character_fighter(character: Character, fighter_id: String) -> Fight
 	fighter.crit_bonus = character.extra("critique", self)
 	var weapon := character.inventory.equipped_entry("arme")
 	if not weapon.is_empty() and items.has(weapon["objet"]):
+		fighter.weapon = weapon["objet"]
 		fighter.spells.insert(0, Spell.from_dict(Item.weapon_spell_data(items[weapon["objet"]])))
+	return fighter
+
+
+## Un joueur recréé d'après son profil (`Fighter.profile`), chez les autres joueurs de son combat ;
+## `null` si sa Voie est inconnue.
+func create_profile_fighter(profile: Dictionary, fighter_id: String) -> Fighter:
+	if not voies.has(profile.get("voie", "")):
+		return null
+	var fighter := _create_fighter(voies[profile["voie"]], fighter_id, str(profile["nom"]), Fighter.TEAM_PLAYERS)
+	fighter.race = str(profile["race"])
+	fighter.level = int(profile["niveau"])
+	fighter.stats = (profile["caracs"] as Dictionary).duplicate()
+	fighter.max_hp = int(profile["pv_max"])
+	fighter.hp = fighter.max_hp
+	fighter.max_pa = int(profile["pa"])
+	fighter.pa = fighter.max_pa
+	fighter.max_pm = int(profile["pm"])
+	fighter.pm = fighter.max_pm
+	fighter.initiative = int(profile["initiative"])
+	fighter.range_bonus = int(profile["portee"])
+	fighter.prospection = int(profile["prospection"])
+	fighter.dommages = int(profile["dommages"])
+	fighter.crit_bonus = int(profile["critique"])
+	fighter.resistances = (profile["resistances"] as Dictionary).duplicate()
+	fighter.spells.clear()
+	for spell_id: String in profile["sorts"]:
+		if spells.has(spell_id):
+			fighter.spells.append(spells[spell_id])
+	fighter.weapon = str(profile.get("arme", ""))
+	if items.has(fighter.weapon):
+		fighter.spells.insert(0, Spell.from_dict(Item.weapon_spell_data(items[fighter.weapon])))
 	return fighter
 
 

@@ -99,3 +99,54 @@ func test_version_differente_refusee() -> void:
 	assert_true(_run_until([], func() -> bool:
 		peer.poll()
 		return peer.get_ready_state() == WebSocketPeer.STATE_CLOSED), "le serveur ferme la connexion")
+
+
+## Envoie une commande et attend sa réponse (événements renvoyés) ; les événements reçus sans
+## commande s'accumulent dans `pushed`.
+func _ask(client: RemoteConnection, clients: Array, command: Dictionary, pushed: Array) -> Array:
+	client.send(command)
+	var reply := []
+	_run_until(clients, func() -> bool:
+		pushed.append_array(client.update(0.0))
+		var replies := client.take_replies()
+		if not replies.is_empty():
+			reply = replies[0]
+		return not replies.is_empty())
+	return reply
+
+
+func test_combat_de_groupe_et_retour_dans_le_combat() -> void:
+	var frodon := _ready_client("Frodon")
+	var sam := _ready_client("Sam", [frodon])
+	var clients := [frodon, sam]
+	var seen := []
+	_ask(frodon, clients, {"type": Protocol.CMD_PARTY_INVITE, "entite": "", "joueur": sam.state.player_id}, seen)
+	var invitations := []
+	_run_until(clients, func() -> bool:
+		invitations.append_array(sam.update(0.0).filter(func(e: Dictionary) -> bool: return e["type"] == Protocol.EVT_PARTY_INVITE))
+		return not invitations.is_empty())
+	assert_eq(invitations.size(), 1, "Sam est invité")
+	_ask(sam, clients, {"type": Protocol.CMD_PARTY_ANSWER, "entite": "", "chef": frodon.state.player_id, "accepte": true}, seen)
+	assert_true(sam.state.is_party_member(frodon.state.player_id))
+	var group_id: String = frodon.state.groups()[0]["id"]
+	_ask(frodon, clients, {"type": Protocol.CMD_ENGAGE, "entite": "", "groupe": group_id}, seen)
+	assert_true(frodon.state.in_combat())
+	_run_until(clients, func() -> bool:
+		sam.update(0.0)
+		return not sam.state.fights().is_empty())
+	assert_eq(sam.state.fights().size(), 1, "Sam voit les épées")
+	_ask(sam, clients, {"type": Protocol.CMD_JOIN_COMBAT, "entite": "", "groupe": group_id}, seen)
+	assert_true(sam.state.in_combat(), "Sam est dans le combat")
+	assert_true(sam.state.combat.get_fighter(frodon.state.player_id) != null, "avec Frodon recréé dans sa copie")
+	_run_until(clients, func() -> bool:
+		frodon.update(0.0)
+		return frodon.state.combat.player_fighters().size() == 2)
+	assert_eq(frodon.state.combat.player_fighters().size(), 2, "la copie de Frodon voit Sam arriver")
+	# Sam perd la connexion, puis revient : il retrouve son combat.
+	sam.close()
+	var again := _client("Sam")
+	_run_until([frodon, again], func() -> bool: return again.status in [RemoteConnection.Status.READY, RemoteConnection.Status.CLOSED])
+	assert_eq(again.status, RemoteConnection.Status.READY, again.error_message)
+	assert_true(again.state.in_combat(), "de retour dans le combat")
+	frodon.close()
+	again.close()

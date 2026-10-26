@@ -30,7 +30,18 @@ var glyphs: Array[Dictionary] = []
 ## Pièges posés : { id, lanceur: Fighter, equipe, case, cases (zone d'explosion), effets, sort }.
 var traps: Array[Dictionary] = []
 
+## Temps limité (en ligne, GDD § 7.2) : secondes d'un tour de joueur, et du placement ; 0 : illimité
+## (solo). Le temps passe par `advance`.
+var turn_limit := 0.0
+var placement_limit := 0.0
+## Joueurs prêts pendant le placement (id → true) : le combat commence quand tous le sont.
+var ready: Dictionary = {}
+## Joueurs déconnectés (id → true) : leurs tours passent tout seuls, et ils comptent comme prêts.
+var absent: Dictionary = {}
+
 var _turn_index := -1
+## Temps écoulé du placement ou du tour du joueur en cours (avec `turn_limit`).
+var _elapsed := 0.0
 ## Ordre d'arrivée des combattants, pour départager les égalités d'initiative.
 var _arrival: Dictionary = {}
 var _next_ground_id := 1
@@ -54,6 +65,75 @@ func start() -> Array[Dictionary]:
 		"placement": placement_cells.duplicate(),
 	}]
 	return events
+
+
+## Ajoute un joueur pendant le placement (combat rejoint), sur la première case de placement libre ;
+## refus s'il n'y en a plus.
+func add_player_fighter(fighter: Fighter) -> Array[Dictionary]:
+	var events: Array[Dictionary] = []
+	if state != State.PLACEMENT:
+		return _refused({"type": Protocol.CMD_JOIN_COMBAT}, Protocol.REASON_COMBAT_STARTED)
+	for cell in placement_cells:
+		if fighter_at(cell) == null:
+			fighter.cell = cell
+			fighters.append(fighter)
+			events.append({"type": Protocol.EVT_FIGHTER_JOINED, "combattant": fighter.to_dict()})
+			return events
+	return _refused({"type": Protocol.CMD_JOIN_COMBAT}, Protocol.REASON_COMBAT_FULL)
+
+
+## Combattants des joueurs (vivants ou non).
+func player_fighters() -> Array[Fighter]:
+	var result: Array[Fighter] = []
+	for fighter in fighters:
+		if not fighter.is_ai():
+			result.append(fighter)
+	return result
+
+
+## Un joueur se déconnecte (`away` vrai) ou revient. Absent, il compte comme prêt et ses tours passent
+## tout seuls (le sien tout de suite).
+func set_absent(fighter_id: String, away: bool) -> Array[Dictionary]:
+	var events: Array[Dictionary] = []
+	var fighter := get_fighter(fighter_id)
+	if fighter == null or fighter.is_ai() or absent.has(fighter_id) == away or state == State.FINISHED:
+		return events
+	if away:
+		absent[fighter_id] = true
+	else:
+		absent.erase(fighter_id)
+	events.append({"type": Protocol.EVT_FIGHTER_AWAY, "entite": fighter_id, "absent": away})
+	if away and state == State.PLACEMENT and _everyone_ready():
+		events.append_array(_start_fighting())
+	elif away and current_fighter() == fighter:
+		events.append({"type": Protocol.EVT_TURN_ENDED, "entite": fighter_id, "absent": true})
+		_next_turn(events)
+	return events
+
+
+## Fait passer le temps du placement ou du tour (avec `turn_limit`) : au bout, le combat commence ou
+## le tour du joueur passe.
+func advance(delta: float) -> Array[Dictionary]:
+	var events: Array[Dictionary] = []
+	if turn_limit <= 0.0:
+		return events
+	if state == State.PLACEMENT and placement_limit > 0.0:
+		_elapsed += delta
+		if _elapsed >= placement_limit:
+			events.append_array(_start_fighting())
+	elif state == State.FIGHTING and current_fighter() != null and not current_fighter().is_ai():
+		_elapsed += delta
+		if _elapsed >= turn_limit:
+			events.append({"type": Protocol.EVT_TURN_ENDED, "entite": current_fighter().id, "temps_ecoule": true})
+			_next_turn(events)
+	return events
+
+
+## Secondes restantes du placement ou du tour du joueur (0 sans limite).
+func time_left() -> float:
+	if turn_limit <= 0.0:
+		return 0.0
+	return maxf(0.0, (placement_limit if state == State.PLACEMENT else turn_limit) - _elapsed)
 
 
 func get_fighter(fighter_id: String) -> Fighter:
@@ -273,6 +353,21 @@ func _begin_fight(command: Dictionary) -> Array[Dictionary]:
 	var fighter := _command_fighter(command)
 	if fighter == null or fighter.is_ai():
 		return _refused(command, Protocol.REASON_UNKNOWN_ENTITY)
+	ready[fighter.id] = true
+	if not _everyone_ready():
+		var waiting: Array[Dictionary] = [{"type": Protocol.EVT_READY, "entite": fighter.id}]
+		return waiting
+	return _start_fighting()
+
+
+func _everyone_ready() -> bool:
+	for player in player_fighters():
+		if not ready.has(player.id) and not absent.has(player.id):
+			return false
+	return true
+
+
+func _start_fighting() -> Array[Dictionary]:
 	state = State.FIGHTING
 	# Ordre de jeu : initiative décroissante ; à égalité, les joueurs d'abord, puis l'ordre d'arrivée.
 	_arrival.clear()
@@ -744,15 +839,20 @@ func _next_turn(events: Array[Dictionary]) -> void:
 			continue
 		fighter.start_turn()
 		events.append({"type": Protocol.EVT_TURN_STARTED, "entite": fighter.id, "tour": round_number, "pa": fighter.pa, "pm": fighter.pm})
+		if turn_limit > 0.0 and not fighter.is_ai():
+			events[-1]["duree"] = turn_limit
 		_start_of_turn_effects(fighter, events)
 		if not fighter.is_alive():
 			_check_end(events)
 			continue
-		if not fighter.is_ai():
+		if not fighter.is_ai() and not absent.has(fighter.id):
+			_elapsed = 0.0
 			return
-		_play_ai_turn(fighter, events)
+		if fighter.is_ai():
+			_play_ai_turn(fighter, events)
 		if state == State.FIGHTING:
-			events.append({"type": Protocol.EVT_TURN_ENDED, "entite": fighter.id})
+			events.append({"type": Protocol.EVT_TURN_ENDED, "entite": fighter.id} if fighter.is_ai()
+				else {"type": Protocol.EVT_TURN_ENDED, "entite": fighter.id, "absent": true})
 
 
 func _play_ai_turn(fighter: Fighter, events: Array[Dictionary]) -> void:
@@ -843,6 +943,8 @@ func snapshot(team := Fighter.TEAM_PLAYERS) -> Dictionary:
 	var fighter_states: Array = []
 	for fighter in fighters:
 		fighter_states.append(fighter.snapshot())
+		if not fighter.is_ai():
+			fighter_states[-1]["profil"] = fighter.profile()
 	var arrival: Array = []
 	for fighter: Fighter in _arrival:
 		arrival.append([fighter.id, _arrival[fighter]])
@@ -865,6 +967,11 @@ func snapshot(team := Fighter.TEAM_PLAYERS) -> Dictionary:
 		"glyphes": ground,
 		"pieges": own_traps,
 		"prochain_sol": _next_ground_id,
+		"prets": ready.keys(),
+		"absents": absent.keys(),
+		"temps_restant": time_left(),
+		"limite_tour": turn_limit,
+		"limite_placement": placement_limit,
 	}
 
 
@@ -884,6 +991,8 @@ static func from_snapshot(saved: Dictionary, p_map: GameMap, p_data: GameData, c
 		var fighter: Fighter = null
 		if characters.has(fighter_id):
 			fighter = p_data.create_character_fighter(characters[fighter_id], fighter_id)
+		elif fighter_state.has("profil"):
+			fighter = p_data.create_profile_fighter(fighter_state["profil"], fighter_id)  # Un allié.
 		else:
 			fighter = p_data.create_monster(fighter_state["type"], fighter_id, int(fighter_state["niveau"]))
 		if fighter == null:
@@ -898,6 +1007,13 @@ static func from_snapshot(saved: Dictionary, p_map: GameMap, p_data: GameData, c
 	combat.round_number = int(saved["manche"])
 	combat.winner_team = int(saved["vainqueur"])
 	combat._next_ground_id = int(saved["prochain_sol"])
+	for fighter_id: String in saved.get("prets", []):
+		combat.ready[fighter_id] = true
+	for fighter_id: String in saved.get("absents", []):
+		combat.absent[fighter_id] = true
+	combat.turn_limit = float(saved.get("limite_tour", 0.0))
+	combat.placement_limit = float(saved.get("limite_placement", 0.0))
+	combat._elapsed = maxf(0.0, (combat.placement_limit if combat.state == State.PLACEMENT else combat.turn_limit) - float(saved.get("temps_restant", 0.0)))
 	for pair: Array in saved["arrivee"]:
 		var fighter := combat.get_fighter(pair[0])
 		if fighter != null:

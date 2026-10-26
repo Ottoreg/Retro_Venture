@@ -44,10 +44,24 @@ const MAX_TRADE_QUANTITY := 100
 ## pierre pour la découvrir (celle de la zone de départ de la race, et les `toujours_connue`, restent
 ## connues).
 const ALL_PASSAGES_KNOWN := true
+## Groupes de joueurs (GDD § 13) : 8 joueurs au plus.
+const PARTY_MAX := 8
+## Bonus d'XP de groupe selon le nombre de joueurs du combat (1 à 8), comme Dofus : chacun reçoit
+## l'XP des monstres × ce bonus × sa part de niveaux (son niveau / somme des niveaux). À régler.
+const PARTY_XP_BONUS := [1.0, 1.1, 1.5, 2.3, 3.1, 3.6, 4.2, 4.7]
+## Placement en ligne (s), quand le temps des tours est limité (`turn_seconds`).
+const PLACEMENT_SECONDS := 45.0
 
 var data: GameData
 ## Toutes les pierres connues (voir `ALL_PASSAGES_KNOWN` ; les tests de découverte le coupent).
 var all_passages_known := ALL_PASSAGES_KNOWN
+## Durée d'un tour de joueur en combat (s), 0 : illimitée (solo). Le serveur la règle (GDD § 7.2 :
+## 30 s en multi) ; le placement dure alors PLACEMENT_SECONDS.
+var turn_seconds := 0.0
+## Groupes de joueurs : id du chef → membres (ids, chef en premier).
+var parties: Dictionary = {}
+## Joueurs absents dont le combat est fini : à sauvegarder puis retirer du monde (`take_departed`).
+var _departed: Array[String] = []
 ## Chance d'une récolte rare (voir `Profession.RARE_CHANCE` ; les tests la fixent à 0 ou 1).
 var rare_harvest_chance := Profession.RARE_CHANCE
 ## Joueurs connectés : id du personnage → PlayerState.
@@ -170,13 +184,76 @@ func remove_player(id: String) -> Array[Dictionary]:
 	if p == null or id == player_id:
 		return events
 	if p.combat != null:
-		p.instance.fighting.erase(p.combat_group)
-		_release_group(p.instance, p.combat_group, events)
-		p.combat = null
-		p.combat_group = ""
+		var mates := _team_of(p.combat)
+		if not _present_mates(p).is_empty() and p.combat.state != Combat.State.FINISHED:
+			# D'autres joueurs restent dans le combat : il continue sans lui (ses tours passent).
+			var mate := _present_mates(p)[0]
+			events.append_array(_tag_combat(p.combat.set_absent(id, true), mates, p))
+			_quit_combat(p)
+			if mate.combat.state == Combat.State.FINISHED:
+				_end_combat(mate, events)
+		else:
+			# Plus personne de connecté : le combat est abandonné, les absents partent aussi.
+			p.instance.fighting.erase(p.combat_group)
+			_release_group(p.instance, p.combat_group, events)
+			for member in mates:
+				if member != p:
+					member.combat = null
+					member.combat_group = ""
+					_departed.append(member.id)
+			p.combat = null
+			p.combat_group = ""
+	_leave_party(p, events)
 	_leave_instance(p, events)
 	players.erase(id)
+	_departed.erase(id)
 	return events
+
+
+## Un joueur se déconnecte (serveur). En plein combat avec d'autres joueurs connectés, il reste
+## dans le monde, absent (ses tours passent) : il retrouve son combat s'il revient avant la fin
+## (`reconnect`), sinon il part à la fin (`take_departed`). Sinon il est retiré (`remove_player`).
+## Renvoie les événements pour les autres joueurs.
+func disconnect_player(id: String) -> Array[Dictionary]:
+	var p: PlayerState = players.get(id)
+	if p == null:
+		return [] as Array[Dictionary]
+	if p.combat == null or p.combat.state == Combat.State.FINISHED or _present_mates(p).is_empty():
+		return remove_player(id)
+	p.away = true
+	var events := _tag_combat(p.combat.set_absent(id, true), _team_of(p.combat), p)
+	events.append_array(_party_events(p.party_leader))
+	if p.combat.state == Combat.State.FINISHED:
+		_end_combat(p, events)
+	return events
+
+
+## Un joueur absent revient (serveur) : il retrouve son combat. Renvoie les événements pour les
+## autres joueurs, ou rien s'il n'était pas absent.
+func reconnect(id: String) -> Array[Dictionary]:
+	var events: Array[Dictionary] = []
+	var p: PlayerState = players.get(id)
+	if p == null or not p.away:
+		return events
+	p.away = false
+	_departed.erase(id)
+	if p.combat != null:
+		events.append_array(_tag_combat(p.combat.set_absent(id, false), _team_of(p.combat), p))
+	events.append_array(_party_events(p.party_leader))
+	return events
+
+
+## Vrai si le joueur est absent (déconnecté pendant un combat de groupe).
+func is_away(id: String) -> bool:
+	return players.has(id) and (players[id] as PlayerState).away
+
+
+## Joueurs absents dont le combat est fini, à sauvegarder puis retirer (`remove_player`) ; la liste
+## est vidée.
+func take_departed() -> Array[String]:
+	var departed := _departed.duplicate()
+	_departed.clear()
+	return departed
 
 
 ## État d'un joueur connecté, ou `null`.
@@ -279,8 +356,13 @@ func snapshot(id := player_id) -> Dictionary:
 			groups.append(group_view(group_state))
 	var others: Array = []
 	for other_id: String in p.instance.player_ids():
-		if other_id != id:
+		if other_id != id and not players[other_id].in_combat():  # En combat : caché de la carte.
 			others.append(player_view(players[other_id]))
+	var fights: Array = []
+	for group_id: String in p.instance.fighting:
+		var starter: PlayerState = players.get(p.instance.fighting[group_id])
+		if starter != null and starter.combat != null and starter.combat != p.combat:
+			fights.append(_fight_view(p.instance, group_id, starter.combat))
 	var fighter: Fighter = p.combat.get_fighter(id) if p.combat != null else null
 	return {
 		"type": Protocol.EVT_SNAPSHOT,
@@ -292,6 +374,8 @@ func snapshot(id := player_id) -> Dictionary:
 		"position": p.cell,
 		"groupes": groups,
 		"joueurs": others,
+		"combats": fights,
+		"groupe_joueurs": _party_view(p.party_leader),
 		"epuisees": p.instance.depleted.keys(),
 		"pierres_toutes_connues": all_passages_known,
 		"combat": p.combat.snapshot(fighter.team if fighter != null else Fighter.TEAM_PLAYERS) if p.combat != null else null,
@@ -331,15 +415,16 @@ func recipients(event: Dictionary, sender_id := "") -> Array[String]:
 			if not sender_id.is_empty() and sender_id not in ids:
 				ids.append(sender_id)
 		Protocol.SCOPE_COMBAT:
-			var p: PlayerState = players.get(sender_id)
-			if p != null and p.combat != null:
-				for fighter in p.combat.fighters:
-					if players.has(fighter.id):
-						ids.append(fighter.id)
-			elif p != null:
-				ids.append(sender_id)
+			var p: PlayerState = players.get(sender_id if not sender_id.is_empty() else str(event.get(Protocol.FIELD_COMBAT_OF, "")))
+			if p != null:
+				for mate_id in p.fight_mates:
+					if players.has(mate_id):
+						ids.append(mate_id)
+				if p.id not in ids:
+					ids.append(p.id)
 		_:
-			var target: String = sender_id if not sender_id.is_empty() else str(event.get("entite", ""))
+			var target: String = str(event[Protocol.FIELD_FOR]) if event.has(Protocol.FIELD_FOR) \
+				else sender_id if not sender_id.is_empty() else str(event.get("entite", ""))
 			if players.has(target):
 				ids.append(target)
 	return ids
@@ -352,6 +437,18 @@ func _execute_exploration(p: PlayerState, command: Dictionary) -> Array[Dictiona
 			return _move(p, command)
 		if type == Protocol.CMD_ENGAGE:
 			return _engage(p, command)
+		if type == Protocol.CMD_JOIN_COMBAT:
+			return _join_combat(p, command)
+		if type == Protocol.CMD_PARTY_INVITE:
+			return _party_invite(p, command)
+		if type == Protocol.CMD_PARTY_ANSWER:
+			return _party_answer(p, command)
+		if type == Protocol.CMD_PARTY_LEAVE:
+			var left: Array[Dictionary] = []
+			if p.party_leader.is_empty():
+				return _refused(command, Protocol.REASON_NOT_IN_PARTY)
+			_leave_party(p, left)
+			return left
 		if type == Protocol.CMD_TALK:
 			return _talk(p, command)
 		if type == Protocol.CMD_SIT:
@@ -652,14 +749,216 @@ func _engage(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
 	p.last_walk.clear()
 	p.combat = _create_combat(p, group)
 	p.combat_group = group_id
+	p.fight_mates.assign([p.id])
 	p.instance.fighting[group_id] = p.id
 	if p.instance.player_ids().size() > 1:
-		# Le groupe disparaît pour les autres joueurs de la carte (GDD § 16.5, M1).
-		events.append({"type": Protocol.EVT_GROUP_ENGAGED, "carte": p.map.id, "groupe": group_id, "entite": p.id})
+		# Le groupe et le joueur disparaissent pour les autres joueurs de la carte, qui voient les
+		# épées du combat (GDD § 16.5, M2).
+		events.append({"type": Protocol.EVT_GROUP_ENGAGED, "carte": p.map.id, "groupe": group_id, "entite": p.id, "case": target})
 	var start_events := p.combat.start()
 	start_events[0]["groupe"] = group_id
 	events.append_array(start_events)
 	return events
+
+
+## Rejoint, pendant le placement, le combat d'un membre de son groupe sur la même carte (GDD § 16.5,
+## M2) : le joueur arrive sur une case de placement libre, et disparaît de la carte chez les autres.
+func _join_combat(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
+	var group_id: Variant = command.get("groupe")
+	if command.get("entite") != p.id or typeof(group_id) != TYPE_STRING:
+		return _refused(command, Protocol.REASON_INVALID_COMMAND)
+	var starter: PlayerState = players.get(p.instance.fighting.get(group_id, ""))
+	if starter == null or starter.combat == null or starter.instance != p.instance:
+		return _refused(command, Protocol.REASON_UNKNOWN_ENTITY)
+	var combat := starter.combat
+	var team := _team_of(combat)
+	var party_mate := false
+	for member in team:
+		party_mate = party_mate or (not p.party_leader.is_empty() and member.party_leader == p.party_leader)
+	if not party_mate:
+		return _refused(command, Protocol.REASON_NOT_IN_PARTY)
+	if combat.state != Combat.State.PLACEMENT:
+		return _refused(command, Protocol.REASON_COMBAT_STARTED)
+	if data == null or not data.voies.has(p.character.voie_id):
+		return _refused(command, Protocol.REASON_WRONG_PHASE)
+	if p.character.inventory.is_overloaded():
+		return _refused(command, Protocol.REASON_INVENTORY_OVERLOADED)
+	var joined := combat.add_player_fighter(data.create_character_fighter(p.character, p.id))
+	if joined[0]["type"] == Protocol.EVT_REFUSED:
+		joined[0]["commande"] = Protocol.CMD_JOIN_COMBAT
+		return joined
+	var events: Array[Dictionary] = []
+	if p.sitting:
+		p.sitting = false
+		events.append(_sat_event(p))
+	p.cell = starter.cell
+	p.last_walk.clear()
+	p.combat = combat
+	p.combat_group = starter.combat_group
+	p.combat_loot_bonus = starter.combat_loot_bonus
+	team.append(p)
+	var mates: Array[String] = []
+	for member in team:
+		mates.append(member.id)
+	for member in team:
+		member.fight_mates.assign(mates)
+	events.append({"type": Protocol.EVT_GROUP_ENGAGED, "carte": p.map.id, "groupe": p.combat_group, "entite": p.id, "case": p.cell})
+	var start := combat.start()[0]
+	start["groupe"] = p.combat_group
+	start["prets"] = combat.ready.keys()
+	start[Protocol.FIELD_FOR] = p.id
+	events.append(start)
+	events.append_array(joined)
+	return events
+
+
+## Joueurs (connectés ou absents) d'un combat.
+func _team_of(combat: Combat) -> Array[PlayerState]:
+	var team: Array[PlayerState] = []
+	if combat == null:
+		return team
+	for fighter in combat.player_fighters():
+		var member: PlayerState = players.get(fighter.id)
+		if member != null and member.combat == combat:
+			team.append(member)
+	return team
+
+
+## Autres joueurs connectés du combat de `p`.
+func _present_mates(p: PlayerState) -> Array[PlayerState]:
+	var mates: Array[PlayerState] = []
+	for member in _team_of(p.combat):
+		if member != p and not member.away:
+			mates.append(member)
+	return mates
+
+
+## Le joueur quitte son combat, qui continue sans lui (déconnexion définitive) : son combattant reste,
+## absent, et le combat passe à un autre joueur s'il l'avait engagé.
+func _quit_combat(p: PlayerState) -> void:
+	if p.instance != null and p.instance.fighting.get(p.combat_group) == p.id:
+		for member in _team_of(p.combat):
+			if member != p:
+				p.instance.fighting[p.combat_group] = member.id
+				break
+	p.combat = null
+	p.combat_group = ""
+
+
+## Événements de combat produits sans commande d'un joueur : ils nomment un joueur du combat
+## (`Protocol.FIELD_COMBAT_OF`, autre que `avoid` si possible) pour trouver leurs destinataires.
+func _tag_combat(events: Array[Dictionary], team: Array[PlayerState], avoid: PlayerState = null) -> Array[Dictionary]:
+	if team.is_empty():
+		return events
+	var owner := team[0]
+	for member in team:
+		if member != avoid:
+			owner = member
+			break
+	for event in events:
+		if Protocol.scope_of(event) == Protocol.SCOPE_COMBAT:
+			event[Protocol.FIELD_COMBAT_OF] = owner.id
+	return events
+
+
+## Les épées d'un combat sur la carte, pour les autres joueurs : { groupe, case, joueurs, placement }.
+func _fight_view(instance: MapInstance, group_id: String, combat: Combat) -> Dictionary:
+	var ids: Array = []
+	for member in _team_of(combat):
+		ids.append(member.id)
+	var group: Dictionary = instance.groups.get(group_id, {})
+	return {"groupe": group_id, "case": group.get("case", Vector2i(-1, -1)), "joueurs": ids,
+		"placement": combat.state == Combat.State.PLACEMENT}
+
+
+# --- Groupes de joueurs ------------------------------------------------------------------------
+
+## Le groupe d'un chef, tel que le voient ses membres : { chef, membres: [{ id, nom, niveau, race,
+## voie, absent }] } ({ chef: "", membres: [] } sans groupe).
+func _party_view(leader_id: String) -> Dictionary:
+	var members: Array = []
+	for member_id: String in parties.get(leader_id, []):
+		var member: PlayerState = players[member_id]
+		members.append({"id": member_id, "nom": member.character.display_name, "niveau": member.character.level,
+			"race": member.character.race_id, "voie": member.character.voie_id, "absent": member.away})
+	return {"chef": leader_id if not members.is_empty() else "", "membres": members}
+
+
+## EVT_PARTY pour chaque membre du groupe de ce chef.
+func _party_events(leader_id: String) -> Array[Dictionary]:
+	var events: Array[Dictionary] = []
+	var view := _party_view(leader_id)
+	for member_id: String in parties.get(leader_id, []):
+		var event := {"type": Protocol.EVT_PARTY, Protocol.FIELD_FOR: member_id}
+		event.merge(view)
+		events.append(event)
+	return events
+
+
+func _party_invite(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
+	var target: PlayerState = players.get(command.get("joueur", ""))
+	if target == null or target == p or target.away:
+		return _refused(command, Protocol.REASON_UNKNOWN_ENTITY)
+	if not p.party_leader.is_empty() and p.party_leader != p.id:
+		return _refused(command, Protocol.REASON_NOT_PARTY_LEADER)
+	if not target.party_leader.is_empty():
+		return _refused(command, Protocol.REASON_ALREADY_IN_PARTY)
+	if parties.get(p.id, []).size() >= PARTY_MAX:
+		return _refused(command, Protocol.REASON_PARTY_FULL)
+	target.invitations[p.id] = true
+	var events: Array[Dictionary] = [{"type": Protocol.EVT_PARTY_INVITE, "chef": p.id, "nom": p.character.display_name,
+		Protocol.FIELD_FOR: target.id}]
+	return events
+
+
+func _party_answer(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
+	var leader_id: Variant = command.get("chef")
+	if typeof(leader_id) != TYPE_STRING or not p.invitations.has(leader_id):
+		return _refused(command, Protocol.REASON_NO_INVITATION)
+	p.invitations.erase(leader_id)
+	var leader: PlayerState = players.get(leader_id)
+	if leader == null:
+		return _refused(command, Protocol.REASON_UNKNOWN_ENTITY)
+	if not command.get("accepte", false):
+		var declined: Array[Dictionary] = [{"type": Protocol.EVT_PARTY_DECLINED, "nom": p.character.display_name,
+			Protocol.FIELD_FOR: leader.id}]
+		return declined
+	if not p.party_leader.is_empty():
+		return _refused(command, Protocol.REASON_ALREADY_IN_PARTY)
+	if not leader.party_leader.is_empty() and leader.party_leader != leader.id:
+		return _refused(command, Protocol.REASON_NOT_PARTY_LEADER)  # Il a rejoint un autre groupe entre-temps.
+	if parties.get(leader.id, []).size() >= PARTY_MAX:
+		return _refused(command, Protocol.REASON_PARTY_FULL)
+	if not parties.has(leader.id):
+		parties[leader.id] = [leader.id] as Array[String]
+		leader.party_leader = leader.id
+	(parties[leader.id] as Array[String]).append(p.id)
+	p.party_leader = leader.id
+	p.invitations.clear()
+	return _party_events(leader.id)
+
+
+## Le joueur quitte son groupe : le suivant devient chef, et un groupe d'un seul joueur se dissout.
+func _leave_party(p: PlayerState, events: Array[Dictionary]) -> void:
+	for invited: PlayerState in players.values():
+		invited.invitations.erase(p.id)
+	if p.party_leader.is_empty():
+		return
+	var leader_id := p.party_leader
+	var members: Array[String] = parties[leader_id]
+	members.erase(p.id)
+	parties.erase(leader_id)
+	p.party_leader = ""
+	events.append({"type": Protocol.EVT_PARTY, "chef": "", "membres": [], Protocol.FIELD_FOR: p.id})
+	if members.size() < 2:
+		for member_id in members:
+			players[member_id].party_leader = ""
+			events.append({"type": Protocol.EVT_PARTY, "chef": "", "membres": [], Protocol.FIELD_FOR: member_id})
+		return
+	parties[members[0]] = members
+	for member_id in members:
+		players[member_id].party_leader = members[0]
+	events.append_array(_party_events(members[0]))
 
 
 ## Combat sur les cases de placement de la carte, comme dans Dofus (`GameMap.placement_players`,
@@ -699,64 +998,113 @@ func _create_combat(p: PlayerState, group: Dictionary) -> Combat:
 	player.cell = placement[0]
 	fighters.append(player)
 	_combat_count += 1
-	return Combat.new(p.map, fighters, placement, seed_value)
+	var combat := Combat.new(p.map, fighters, placement, seed_value)
+	combat.turn_limit = turn_seconds
+	combat.placement_limit = PLACEMENT_SECONDS if turn_seconds > 0.0 else 0.0
+	return combat
 
 
 func _end_combat(p: PlayerState, events: Array[Dictionary]) -> void:
-	var defeated_group := ""
-	var player := p.combat.get_fighter(p.id)
-	var combat_map := p.map.id
+	var combat := p.combat
+	var group_id := p.combat_group
 	var combat_instance := p.instance
-	combat_instance.fighting.erase(p.combat_group)
-	var wake_up := {}
-	var others: Array[Dictionary] = []
-	if p.combat.winner_team == Fighter.TEAM_PLAYERS:
-		defeated_group = p.combat_group
-		var defeated: Dictionary = p.instance.groups[p.combat_group]
-		p.combat_loot_bonus = ELITE_LOOT_BONUS_PER_RANK * elite_rank(defeated)
+	var combat_map := p.map.id
+	var team := _team_of(combat)
+	var won := combat.winner_team == Fighter.TEAM_PLAYERS
+	var loot_bonus := p.combat_loot_bonus
+	combat_instance.fighting.erase(group_id)
+	var map_events: Array[Dictionary] = []
+	var defeated_group := ""
+	if won:
+		defeated_group = group_id
+		var defeated: Dictionary = combat_instance.groups[group_id]
+		loot_bonus = ELITE_LOOT_BONUS_PER_RANK * elite_rank(defeated)
 		if defeated.has("elite"):
 			_elite_defeated(defeated["elite"])
 		for monster_id: String in defeated["monstres"]:
 			if data != null and data.monsters.get(monster_id, {}).get("boss", false):
 				_boss_defeated(monster_id)
-		if not p.combat_group.begins_with(ELITE_GROUP_PREFIX):
-			_schedule_respawn(p.map.id, defeated)
-		combat_instance.groups.erase(p.combat_group)
-		combat_instance.positions.erase(p.combat_group)
-		p.character.set_hp(player.hp, data)
+		if not group_id.begins_with(ELITE_GROUP_PREFIX):
+			_schedule_respawn(combat_map, defeated)
+		combat_instance.groups.erase(group_id)
+		combat_instance.positions.erase(group_id)
 	else:
-		_release_group(combat_instance, p.combat_group, others)
-		p.character.set_hp(1, data)  # Vaincu : on se relève avec 1 PV.
-		wake_up = _wake_up(p, others)
-		for event in events:
-			if event["type"] == Protocol.EVT_COMBAT_ENDED:
-				event["reveil"] = wake_up
-	_reward(p, events)
-	if p.combat.winner_team == Fighter.TEAM_PLAYERS:
-		_loot(p, events)
-		var kinds: Array = []
-		for fighter in p.combat.fighters:
-			if fighter.team != Fighter.TEAM_PLAYERS:
-				kinds.append(fighter.kind)
-		for event in events:
-			if event["type"] == Protocol.EVT_COMBAT_ENDED:
-				p.quest_book.combat_won(kinds, p.combat.rng, event, events)
-	var back := {
-		"type": Protocol.EVT_EXPLORATION,
-		"position": p.cell,
-		"groupe_vaincu": defeated_group,
-	}
-	if not wake_up.is_empty():
-		back["reveil"] = wake_up
-	events.append(back)
-	if p.map.id != combat_map:
-		_append_map_change(events, others, {"type": Protocol.EVT_MAP_CHANGED, "carte": p.map.id, "nom": p.map.display_name,
-			"position": p.cell})
-	else:
-		events.append_array(others)
-	p.combat = null
-	p.combat_group = ""
-	p.combat_loot_bonus = 0.0
+		_release_group(combat_instance, group_id, map_events)
+	var ended: Dictionary = {}
+	for i in range(events.size() - 1, -1, -1):
+		if events[i]["type"] == Protocol.EVT_COMBAT_ENDED:
+			ended = events[i]
+			events.remove_at(i)
+			break
+	# Butin et brumes de victoire (`Loot` : limite par monstre partagée, tirage du plus prospecteur
+	# au moins prospecteur), XP de chacun selon sa part (GDD § 7.1).
+	var kinds: Array = []
+	var monsters: Array = []
+	var coins := 0
+	for fighter in combat.fighters:
+		if fighter.team == Fighter.TEAM_PLAYERS:
+			continue
+		kinds.append(fighter.kind)
+		if won and data.monsters.has(fighter.kind):
+			var monster: Dictionary = data.monsters[fighter.kind]
+			monsters.append(monster)
+			var coin_range: Array = monster.get("ecus", [0, 0])
+			coins += combat.rng.randi_range(int(coin_range[0]), int(coin_range[1]))
+	var prospections := {}
+	var levels := 0
+	for member in team:
+		var fighter := combat.get_fighter(member.id)
+		prospections[member.id] = fighter.prospection if fighter != null else Character.BASE_PROSPECTION
+		levels += member.character.level
+	var drops: Dictionary = Loot.roll(monsters, prospections, combat.rng, loot_bonus) if won else {}
+	for i in team.size():
+		var member := team[i]
+		var block: Array[Dictionary] = []
+		var own: Dictionary = ended.duplicate(true)
+		block.append(own)
+		var fighter := combat.get_fighter(member.id)
+		var moved: Array[Dictionary] = []
+		var wake_up := {}
+		if won:
+			member.character.set_hp(maxi(1, fighter.hp) if fighter != null else 1, data)
+		else:
+			member.character.set_hp(1, data)  # Vaincu : on se relève avec 1 PV.
+			wake_up = _wake_up(member, moved)
+			own["reveil"] = wake_up
+		var share := float(ended.get("xp", 0))
+		if team.size() > 1:
+			share *= PARTY_XP_BONUS[mini(team.size(), PARTY_XP_BONUS.size()) - 1] * member.character.level / float(maxi(1, levels))
+		_reward(member, own, roundi(share), block)
+		if won:
+			# Brumes partagées à parts égales (le reste au premier), puis le passif de race de chacun.
+			var part := coins / team.size() + (coins % team.size() if i == 0 else 0)
+			_loot(member, own, drops.get(member.id, []), part, combat.rng, block)
+			member.quest_book.combat_won(kinds, combat.rng, own, block)
+		var back := {"type": Protocol.EVT_EXPLORATION, "position": member.cell, "groupe_vaincu": defeated_group}
+		if not wake_up.is_empty():
+			back["reveil"] = wake_up
+		block.append(back)
+		if member.map.id != combat_map:
+			_append_map_change(block, moved, {"type": Protocol.EVT_MAP_CHANGED, "carte": member.map.id,
+				"nom": member.map.display_name, "position": member.cell})
+		else:
+			block.append_array(moved)
+		for event in block:
+			if Protocol.scope_of(event) != Protocol.SCOPE_MAP:
+				event[Protocol.FIELD_FOR] = member.id
+		events.append_array(block)
+		member.combat = null
+		member.combat_group = ""
+		member.combat_loot_bonus = 0.0
+		if member.away:
+			_departed.append(member.id)
+	# Les joueurs du combat réapparaissent pour les autres joueurs de la carte, et ses épées disparaissent.
+	if combat_instance.player_ids().size() > 1:
+		for member in team:
+			if member.instance == combat_instance:
+				map_events.append(_player_joined_event(member))
+		map_events.append({"type": Protocol.EVT_FIGHT_OVER, "carte": combat_map, "groupe": group_id})
+	events.append_array(map_events)
 
 
 ## Après une défaite, le joueur se réveille à côté de la Pierre de Passage de son point de
@@ -772,48 +1120,29 @@ func _wake_up(p: PlayerState, events: Array[Dictionary]) -> Dictionary:
 	return {"passage": passage["id"], "nom": passage["nom"], "carte": p.map.id}
 
 
-## XP des monstres vaincus, même en cas de défaite (× `Character.XP_RATE`, bonus de Sagesse : +1 %
-## par point), et montées de niveau.
-func _reward(p: PlayerState, events: Array[Dictionary]) -> void:
-	for event in events:
-		if event["type"] == Protocol.EVT_COMBAT_ENDED:
-			if int(event["xp"]) <= 0:
-				return
-			var gain := roundi(int(event["xp"]) * Character.XP_RATE * (100 + p.character.stat("sagesse", data)) / 100.0)
-			event["xp"] = gain
-			var levels := p.character.add_xp(gain)
-			event["niveaux"] = levels
-			events.append({"type": Protocol.EVT_XP, "gain": gain, "xp": p.character.xp, "niveau": p.character.level})
-			for reached in levels:
-				events.append({"type": Protocol.EVT_LEVEL_UP, "niveau": reached, "points": p.character.unspent_points})
-			events.append(_character_event(p))
-			return
+## XP des monstres vaincus, même en cas de défaite : `base` (la part du joueur) × `Character.XP_RATE`,
+## bonus de Sagesse (+1 % par point) ; montées de niveau. `ended` : son EVT_COMBAT_ENDED.
+func _reward(p: PlayerState, ended: Dictionary, base: int, events: Array[Dictionary]) -> void:
+	ended["xp"] = 0
+	if base <= 0:
+		return
+	var gain := roundi(base * Character.XP_RATE * (100 + p.character.stat("sagesse", data)) / 100.0)
+	ended["xp"] = gain
+	var levels := p.character.add_xp(gain)
+	ended["niveaux"] = levels
+	events.append({"type": Protocol.EVT_XP, "gain": gain, "xp": p.character.xp, "niveau": p.character.level})
+	for reached in levels:
+		events.append({"type": Protocol.EVT_LEVEL_UP, "niveau": reached, "points": p.character.unspent_points})
+	events.append(_character_event(p))
 
 
-## Butin de victoire, tiré par `Loot` (limite par monstre partagée entre les joueurs), plus des
-## brumes (+X % avec le passif de race « ecus »).
-## Rien ne se perd : si le sac est plein, le butin y entre en surplus (`surcharge` dans
-## l'événement) et les combats sont refusés tant qu'on n'a pas fait de la place.
-func _loot(p: PlayerState, events: Array[Dictionary]) -> void:
-	var ended: Dictionary = {}
-	for event in events:
-		if event["type"] == Protocol.EVT_COMBAT_ENDED:
-			ended = event
-	var player := p.combat.get_fighter(p.id)
-	var prospection: int = player.prospection if player != null else Character.BASE_PROSPECTION
-	var rng := p.combat.rng
-	var monsters: Array = []
-	var coins := 0
-	for fighter in p.combat.fighters:
-		if fighter.team == Fighter.TEAM_PLAYERS or not data.monsters.has(fighter.kind):
-			continue
-		var monster: Dictionary = data.monsters[fighter.kind]
-		monsters.append(monster)
-		var coin_range: Array = monster.get("ecus", [0, 0])
-		coins += rng.randi_range(int(coin_range[0]), int(coin_range[1]))
+## Butin de victoire du joueur (`drops`, tiré par `Loot.roll`) et ses brumes (`coins`, +X % avec le
+## passif de race « ecus »). Rien ne se perd : si le sac est plein, le butin y entre en surplus
+## (`surcharge` dans l'événement) et les combats sont refusés tant qu'on n'a pas fait de la place.
+func _loot(p: PlayerState, ended: Dictionary, drops: Array, coins: int, rng: RandomNumberGenerator, events: Array[Dictionary]) -> void:
 	coins = roundi(coins * (100 + data.passive_value(p.character.race_id, "ecus")) / 100.0)
 	var found: Array[Dictionary] = []
-	for drop: Dictionary in Loot.roll(monsters, {p.id: prospection}, rng, p.combat_loot_bonus)[p.id]:
+	for drop: Dictionary in drops:
 		var template: Dictionary = data.items[drop["objet"]]
 		var quantity: int = drop["quantite"]
 		for _unit in (quantity if Item.is_equipment(template) else 1):
@@ -1034,6 +1363,7 @@ func update(delta: float) -> Array[Dictionary]:
 	_respawn_groups(events)
 	_update_elites(events)
 	_wander_groups(events)
+	_advance_combats(delta, events)
 	for map_id: String in instances:
 		var instance: MapInstance = instances[map_id]
 		for cell: Vector2i in instance.depleted.keys():
@@ -1066,6 +1396,24 @@ func _wander_groups(events: Array[Dictionary]) -> void:
 			instance.groups[group_id]["case"] = path[-1]
 			instance.positions[group_id] = path[-1]
 			events.append({"type": Protocol.EVT_GROUP_MOVED, "carte": map_id, "groupe": group_id, "chemin": path, "case": path[-1]})
+
+
+## Temps limité des combats en ligne (`turn_seconds`) : placement et tours de joueur.
+func _advance_combats(delta: float, events: Array[Dictionary]) -> void:
+	if turn_seconds <= 0.0:
+		return
+	var seen := {}
+	for p: PlayerState in players.values():
+		if p.combat == null or seen.has(p.combat):
+			continue
+		seen[p.combat] = true
+		var produced := p.combat.advance(delta)
+		if produced.is_empty():
+			continue
+		_tag_combat(produced, _team_of(p.combat))
+		if p.combat.state == Combat.State.FINISHED:
+			_end_combat(p, produced)
+		events.append_array(produced)
 
 
 func _anyone_fighting(instance: MapInstance) -> bool:

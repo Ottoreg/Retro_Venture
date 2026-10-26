@@ -9,7 +9,7 @@ extends RefCounted
 
 ## Version du protocole, vérifiée à la connexion : à augmenter à chaque changement incompatible
 ## d'une commande ou d'un événement.
-const VERSION := 2
+const VERSION := 3
 
 # --- Commandes (client → noyau) ---
 
@@ -78,6 +78,16 @@ const CMD_READY := "pret"
 const CMD_CAST := "lancer_sort"
 ## Combat : { type, entite: String }
 const CMD_END_TURN := "fin_tour"
+## Exploration : rejoindre, pendant son placement, le combat d'un membre de son groupe sur la même
+## carte (les épées du combat). { type, entite: String, groupe: String (id du groupe de monstres combattu) }
+const CMD_JOIN_COMBAT := "rejoindre_combat"
+## Inviter un autre joueur connecté dans son groupe (le chef seulement, ou sans groupe : on en devient
+## le chef). { type, entite: String, joueur: String (id) }
+const CMD_PARTY_INVITE := "inviter_groupe"
+## Répondre à une invitation. { type, entite: String, chef: String (id de qui a invité), accepte: bool }
+const CMD_PARTY_ANSWER := "repondre_invitation"
+## Quitter son groupe (le suivant devient chef ; un groupe de un se dissout). { type, entite: String }
+const CMD_PARTY_LEAVE := "quitter_groupe"
 
 # --- Événements (noyau → client) ---
 
@@ -155,11 +165,20 @@ const EVT_MAP_CHANGED := "changement_carte"
 const EVT_COMBAT_STARTED := "combat_debut"
 ## { type, entite: String, case: Vector2i }
 const EVT_PLACED := "place"
+## Un joueur de plus dans le combat, pendant le placement (combat rejoint). { type, combattant:
+## Dictionary (comme dans EVT_COMBAT_STARTED) }
+const EVT_FIGHTER_JOINED := "combattant_arrive"
+## Un joueur est prêt, les autres pas encore (le combat commence quand tous le sont). { type, entite: String }
+const EVT_READY := "pret"
+## Un joueur du combat se déconnecte (ses tours passent tout seuls) ou revient. { type, entite: String,
+## absent: bool }
+const EVT_FIGHTER_AWAY := "combattant_absent"
 ## { type, ordre: Array[String] } — ordre de jeu, par initiative.
 const EVT_FIGHT_BEGINS := "combat_commence"
-## { type, entite: String, tour: int, pa: int, pm: int }
+## { type, entite: String, tour: int, pa: int, pm: int } ; en ligne, aussi `duree` : secondes du tour
+## (passé tout seul au bout, GDD § 7.2).
 const EVT_TURN_STARTED := "tour_debut"
-## { type, entite: String }
+## { type, entite: String } ; `temps_ecoule` : tour passé faute de temps, `absent` : joueur déconnecté.
 const EVT_TURN_ENDED := "tour_fin"
 ## { type, entite: String, sort: String, cible: Vector2i, pa: int, critique: bool } — pa : PA
 ## restants ; `cache` : la cible ne doit pas être montrée à l'autre équipe (pose d'un piège).
@@ -232,8 +251,20 @@ const EVT_PLAYER_JOINED := "joueur_arrive"
 ## Un autre joueur quitte la carte (multijoueur ; jamais en solo). { type, carte: String, entite: String }
 const EVT_PLAYER_LEFT := "joueur_part"
 ## Un autre joueur de la carte engage un groupe : le groupe disparaît pour les autres pendant son
-## combat (multijoueur ; jamais en solo). { type, carte: String, groupe: String (id), entite: String }
+## combat (multijoueur ; jamais en solo). { type, carte: String, groupe: String (id), entite: String,
+## case: Vector2i (les épées du combat) }. Aussi quand un joueur rejoint le combat : il disparaît de la
+## carte chez les autres jusqu'à la fin du combat.
 const EVT_GROUP_ENGAGED := "groupe_engage"
+## Combat fini sur la carte : ses épées disparaissent pour les autres joueurs (jamais en solo).
+## { type, carte: String, groupe: String (id du groupe combattu) }
+const EVT_FIGHT_OVER := "combat_termine"
+## Invitation dans un groupe de joueurs. { type, chef: String (id), nom: String }
+const EVT_PARTY_INVITE := "invitation_groupe"
+## Invitation refusée par le joueur `nom`. { type, nom: String }
+const EVT_PARTY_DECLINED := "invitation_refusee"
+## Groupe de joueurs après un changement (vide : plus de groupe). { type, chef: String (id, ou ""),
+## membres: Array[{ id, nom, niveau, race, voie, absent }] (chef en premier) }
+const EVT_PARTY := "groupe_joueurs"
 ## Un groupe n'est plus combattu sans avoir été vaincu (son joueur a perdu ou s'est déconnecté) : il
 ## réapparaît pour les autres joueurs de la carte (jamais en solo). { type, carte: String,
 ## groupe: { id, case, monstres, niveaux… } (voir `World.group_view`) }
@@ -257,25 +288,43 @@ const SCOPE_MAP := "carte"
 ## Tous les participants du combat (et plus tard ses spectateurs).
 const SCOPE_COMBAT := "combat"
 
+## Champ d'un événement personnel destiné à un autre joueur que l'auteur de la commande (id) : fin de
+## combat de chaque participant, invitations, groupe.
+const FIELD_FOR := "pour"
+## Champ d'un événement de combat produit sans commande (temps du tour écoulé, déconnexion) : un joueur
+## du combat (id), pour trouver ses participants.
+const FIELD_COMBAT_OF := "combat_de"
+## Événements personnels que la copie du client applique seule (sans instantané).
+const SELF_APPLIED_EVENTS := [EVT_REGEN, EVT_PARTY, EVT_PARTY_INVITE, EVT_PARTY_DECLINED]
+
 ## Événements visibles de toute la carte : ils ont tous un champ `carte`.
 const MAP_EVENTS := [EVT_MOVED, EVT_SAT, EVT_HARVESTED, EVT_RESOURCE_RESPAWNED, EVT_GROUP_RESPAWNED, EVT_GROUP_MOVED,
-	EVT_PLAYER_JOINED, EVT_PLAYER_LEFT, EVT_GROUP_ENGAGED, EVT_GROUP_RELEASED]
+	EVT_PLAYER_JOINED, EVT_PLAYER_LEFT, EVT_GROUP_ENGAGED, EVT_GROUP_RELEASED, EVT_FIGHT_OVER]
 ## Événements d'un combat, pour tous ses participants.
 const COMBAT_EVENTS := [EVT_COMBAT_STARTED, EVT_PLACED, EVT_FIGHT_BEGINS, EVT_TURN_STARTED, EVT_TURN_ENDED,
 	EVT_SPELL_CAST, EVT_DAMAGE, EVT_HEAL, EVT_DIED, EVT_TELEPORTED, EVT_STATUS, EVT_STATES, EVT_ELEMENT_STATES,
 	EVT_SPELL_CREATED, EVT_CHARGED, EVT_PUSHED, EVT_GLYPH, EVT_GLYPH_ENDED, EVT_TRAP, EVT_TRAP_TRIGGERED,
-	EVT_TRAP_ENDED, EVT_PHASE, EVT_COMBAT_ENDED]
+	EVT_TRAP_ENDED, EVT_PHASE, EVT_COMBAT_ENDED, EVT_FIGHTER_JOINED, EVT_READY, EVT_FIGHTER_AWAY]
 
 
-## Portée d'un événement : SCOPE_MAP, SCOPE_COMBAT ou SCOPE_PERSONAL (tout le reste). Un
-## déplacement en combat (EVT_MOVED sans `carte`) est de portée combat.
+## Portée d'un événement : SCOPE_MAP, SCOPE_COMBAT ou SCOPE_PERSONAL (tout le reste, et tout
+## événement adressé à un joueur par FIELD_FOR). Un déplacement en combat (EVT_MOVED sans `carte`)
+## est de portée combat.
 static func scope_of(event: Dictionary) -> String:
+	if event.has(FIELD_FOR):
+		return SCOPE_PERSONAL
 	var event_type: Variant = event.get("type")
 	if event_type in MAP_EVENTS:
 		return SCOPE_MAP if event.has("carte") else SCOPE_COMBAT
 	if event_type in COMBAT_EVENTS:
 		return SCOPE_COMBAT
 	return SCOPE_PERSONAL
+
+
+## Vrai si un événement envoyé sans commande demande l'instantané avec lui : la copie du client ne
+## sait appliquer seule que les événements de la carte et ceux de SELF_APPLIED_EVENTS.
+static func needs_snapshot(event: Dictionary) -> bool:
+	return scope_of(event) != SCOPE_MAP and event.get("type") not in SELF_APPLIED_EVENTS
 
 
 # --- Messages du réseau (GDD § 16.5, jalon M1) ---
@@ -297,7 +346,8 @@ const MSG_COMMAND := "commande"
 ## evenements: Array (ceux qui regardent ce joueur), instantane: Dictionary (EVT_SNAPSHOT) }
 const MSG_REPLY := "reponse"
 ## Serveur → client : événements arrivés sans commande de ce joueur (temps qui passe, autres
-## joueurs). { type, evenements: Array }
+## joueurs). { type, evenements: Array } ; `instantane` (EVT_SNAPSHOT) quand la copie ne sait pas les
+## appliquer seule (combat d'un autre joueur du groupe, fin de combat : voir `needs_snapshot`).
 const MSG_EVENTS := "evenements"
 ## Client → serveur : redemander l'instantané (après un événement que la copie ne sait pas appliquer).
 const MSG_SNAPSHOT_REQUEST := "demander_instantane"
@@ -348,6 +398,16 @@ const REASON_MISSING_INGREDIENTS := "ingredients_manquants"
 const REASON_WRONG_PHASE := "mauvaise_phase"
 ## Groupe de monstres déjà en combat contre un autre joueur.
 const REASON_GROUP_IN_COMBAT := "groupe_en_combat"
+## Rejoindre un combat : déjà commencé (placement fini), sans case de placement libre, ou d'un joueur
+## qui n'est pas de son groupe.
+const REASON_COMBAT_STARTED := "combat_deja_commence"
+const REASON_COMBAT_FULL := "combat_complet"
+const REASON_NOT_IN_PARTY := "pas_dans_le_groupe"
+## Groupes de joueurs.
+const REASON_PARTY_FULL := "groupe_complet"
+const REASON_ALREADY_IN_PARTY := "deja_en_groupe"
+const REASON_NOT_PARTY_LEADER := "pas_chef_du_groupe"
+const REASON_NO_INVITATION := "pas_d_invitation"
 const REASON_NOT_YOUR_TURN := "pas_votre_tour"
 const REASON_OCCUPIED := "case_occupee"
 const REASON_NOT_PLACEMENT_CELL := "case_de_placement_invalide"

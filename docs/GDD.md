@@ -2092,8 +2092,8 @@ exemples en [annexe](#20-annexes--formats-de-données).
 
 > **Statut : plan validé par l'auteur le 26/10/2026** (les sept décisions de fin de section, et
 > un hébergement gratuit pour les tests). **M0 fait le 26/10/2026** (voir « Où en est M0 » plus
-> bas) ; **prototype M1 en place le 26/10/2026** (« Où en est M1 ») : reste à le monter chez
-> l'auteur (Supabase, Docker) ; client natif et staging publiés par la CI.
+> bas) ; **prototype M1 en place le 26/10/2026** (« Où en est M1 »), essayé chez l'auteur ;
+> **M2 (combat de groupe) codé le 26/10/2026** (« Où en est M2 »), à essayer à plusieurs.
 
 #### Quand
 
@@ -2343,10 +2343,59 @@ travail côté client : remplacer les lectures directes de `world` par la copie 
   l'image Docker du serveur (`ghcr.io/ottoreg/retro-venture-serveur:staging`, essayée par la CI
   avant d'être publiée) ; `docker compose up -d` reprend la dernière image. Le staging suit donc
   toujours `main`, comme le jeu web : client et serveur parlent le même protocole.
-- **Pas encore** : renouvellement du jeton (une connexion au-delà d'une heure demande de se reconnecter), plusieurs personnages
-  par compte. Un combat abandonné (déconnexion) ne compte pas : le personnage reste tel qu'avant.
+- **Jeton** (26/10/2026) : la connexion garde le jeton de renouvellement de Supabase
+  (`Supabase.refresh`, `Session.online_login`) ; une connexion coupée en jeu (réseau, serveur
+  relancé) se rouvre toute seule depuis l'écran de connexion (`Session.online_resume`), sans le mot
+  de passe, même au-delà de l'heure du jeton. Un refus du serveur (`RemoteConnection.refused` :
+  version, compte connecté ailleurs) s'affiche sans reprise.
+- **Pas encore** : plusieurs personnages par compte. Un combat solo abandonné (déconnexion) ne
+  compte pas : le personnage reste tel qu'avant.
   L'adresse du tunnel est lue dans les métriques de cloudflared (`/quicktunnel`), pas encore
   essayée en vrai (repli : `RV_PUBLIC_ADDRESS`).
+
+#### Où en est M2 (26/10/2026)
+
+- **Groupes de joueurs** (`World.parties`, 8 au plus) : clic sur un autre joueur → « Inviter dans le
+  groupe » (`PartyUi`), invitation à accepter ou refuser ; seul le chef invite ; le chef qui part
+  laisse sa place au suivant, un groupe d'un seul joueur se dissout. Membres dans la bande droite
+  (`CombatHud`, chef étoilé, « Quitter le groupe »). Commandes `inviter_groupe`,
+  `repondre_invitation`, `quitter_groupe` ; événements `invitation_groupe`, `invitation_refusee`,
+  `groupe_joueurs`, adressés par le champ `pour` (`Protocol.FIELD_FOR`).
+- **Combat rejoint** : un joueur qui engage un groupe disparaît de la carte chez les autres, qui
+  voient à sa place les épées du combat (`groupe_engage` avec `case`, `World.snapshot` → `combats`,
+  `ClientState.fights`) : dorées pendant le placement, grises ensuite. Un membre du groupe clique
+  dessus pour rejoindre le combat pendant le placement (`rejoindre_combat`, première case de
+  placement libre, `combattant_arrive`) ; il disparaît à son tour. Le combat commence quand tous les
+  joueurs sont prêts (`pret` pour les autres). À la fin, les joueurs réapparaissent et les épées
+  partent (`combat_termine`).
+- **Temps** (en ligne seulement, `World.turn_seconds` réglé par le serveur) : 45 s de placement,
+  30 s par tour de joueur, passé tout seul au bout (`tour_fin` avec `temps_ecoule`) ; compte à
+  rebours dans la bande droite. Le solo reste sans limite.
+- **Déconnexion en combat** : avec d'autres joueurs connectés dans le combat, le joueur reste dans
+  le monde, absent (`combattant_absent`) : ses tours passent tout seuls, il compte comme prêt. S'il
+  revient avant la fin, il retrouve son combat (le serveur ne recharge pas sa sauvegarde) ; sinon il
+  reçoit sa part à la fin, est sauvegardé puis quitte le monde (`World.take_departed`). Quand plus
+  personne n'est connecté, le combat est abandonné comme en solo.
+- **Parts** : chaque joueur reçoit sa fin de combat (`combat_fin` avec `pour`). XP : celle des
+  monstres × bonus de groupe (`World.PARTY_XP_BONUS`, ×1,1 à deux, ×1,5 à trois… comme Dofus, à
+  régler) × sa part de niveaux (son niveau / somme des niveaux), puis taux et Sagesse ; vaincu, la
+  même part. Brumes à parts égales (le reste au premier), puis le passif de race de chacun. Butin par
+  `Loot.roll` entre tous (limite par monstre partagée). Objectifs « vaincre » : chaque joueur du
+  combat compte les monstres. Chacun est sauvegardé à la fin.
+- **Copie du client** : les alliés se recréent d'après leur profil (`Fighter.profile`,
+  `GameData.create_profile_fighter` : valeurs de départ, sorts, arme, sans l'inventaire). Les
+  événements du combat d'un autre joueur arrivent avec l'instantané (`evenements` + `instantane`,
+  `Protocol.needs_snapshot`) et se lisent dans la file de la carte comme les siens
+  (`MapView._is_fight_event`) ; `RemoteConnection` garde l'ordre du serveur entre réponses et
+  événements (`_inbox`). Revenu en plein combat, la carte le reprend d'après la copie
+  (`MapView._load_combat_from_state`).
+- **Protocole** : version 3. **Tests** : `tests/core/test_group_combat.gd` (trois joueurs, parts,
+  temps, déconnexion), serveur (absent puis retour, absent sauvegardé à la fin), WebSocket (combat
+  rejoint et retour), deux clients sur une carte (`test_online_client.gd`). Capture : action
+  `groupe` de `tools/screenshot.gd`.
+- **Pas encore** : inventaire consultable mais non modifiable en combat (aujourd'hui fermé, comme
+  en solo) ; spectateurs ; verrou du combat (« seulement le groupe ») au choix du chef ; suivi du
+  chef ; marqueurs de quête partagés ; chat de groupe (M3).
 
 #### Jalons
 
