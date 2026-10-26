@@ -109,8 +109,10 @@ func test_ecran_de_connexion_serveur_de_developpement() -> void:
 	var host := WebSocketHost.new(server)
 	host.listen(0, "127.0.0.1")
 	Options.server_address = "ws://127.0.0.1:%d" % host.port()
+	OnlineScreen.force_dev = true
 	var screen: OnlineScreen = load(OnlineScreen.SCENE).instantiate()
 	(Engine.get_main_loop() as SceneTree).root.add_child(screen)
+	OnlineScreen.force_dev = false
 	assert_true(screen._pseudo != null and screen._email == null, "sans Supabase : un pseudo suffit")
 	screen._pseudo.text = "Frodon"
 	screen._on_connect_pressed()
@@ -125,3 +127,10 @@ func test_ecran_de_connexion_serveur_de_developpement() -> void:
 	connection.close()
 	Session.online_connection = null
 	screen.queue_free()
+
+
+func test_adresse_supabase_sans_chemin_de_l_api() -> void:
+	var host := Node.new()
+	assert_eq(Supabase.new("https://abc.supabase.co/rest/v1/", "cle", host).url, "https://abc.supabase.co")
+	assert_eq(Supabase.new("https://abc.supabase.co/", "cle", host).url, "https://abc.supabase.co")
+	host.free()

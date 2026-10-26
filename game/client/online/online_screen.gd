@@ -22,13 +22,15 @@ var _sign_up_button: Button
 var _status: Label
 var _supabase: Supabase
 var _waiting := 0.0
+## Serveur de développement même si le projet Supabase est réglé (tests).
+static var force_dev := false
 var _busy := false
 
 
 func _ready() -> void:
 	UiTheme.apply(get_tree())
 	Options.load_options()
-	if OnlineConfig.has_accounts():
+	if OnlineConfig.has_accounts() and not force_dev:
 		_supabase = Supabase.new(OnlineConfig.SUPABASE_URL, OnlineConfig.PUBLISHABLE_KEY, self)
 	_build()
 	if not Session.online_error.is_empty():
@@ -95,13 +97,15 @@ func _on_sign_up_pressed() -> void:
 	_busy = true
 	_set_buttons(false)
 	_show("Création du compte…")
-	var error: String = await _supabase.sign_up(_email.text.strip_edges(), _password.text)
+	var answer: Dictionary = await _supabase.sign_up(_email.text.strip_edges(), _password.text)
 	_busy = false
 	_set_buttons(true)
-	if error.is_empty():
+	if answer.has("erreur"):
+		_show(answer["erreur"], true)
+	elif answer["confirmer"]:
 		_show("Compte créé : confirmez votre adresse avec le lien reçu par courriel, puis connectez-vous.")
 	else:
-		_show(error, true)
+		_show("Compte créé : vous pouvez vous connecter.")
 
 
 ## Adresse du serveur : celle des options, sinon celle que publie le serveur de test (Supabase),

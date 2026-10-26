@@ -15,7 +15,7 @@ var _host: Node
 
 
 func _init(p_url: String, p_key: String, host: Node) -> void:
-	url = p_url.trim_suffix("/")
+	url = p_url.strip_edges().trim_suffix("/").trim_suffix("/rest/v1")  # L'adresse du projet, sans le chemin de l'API.
 	key = p_key
 	_host = host
 
@@ -46,12 +46,14 @@ func request(method: HTTPClient.Method, path: String, body: Variant = null, extr
 
 # --- Comptes ---
 
-## Inscription ; renvoie "" si c'est fait (un courriel de confirmation part), sinon le message d'erreur.
-func sign_up(email: String, password: String) -> String:
+## Inscription ; renvoie { confirmer: bool } (vrai si un courriel de confirmation part, faux si le
+## compte est utilisable tout de suite) ou { erreur }.
+func sign_up(email: String, password: String) -> Dictionary:
 	var answer := await request(HTTPClient.METHOD_POST, "/auth/v1/signup", {"email": email, "password": password})
 	if answer["code"] in [200, 201]:
-		return ""
-	return _auth_error(answer)
+		var data: Variant = answer["data"]
+		return {"confirmer": not (typeof(data) == TYPE_DICTIONARY and data.has("access_token"))}
+	return {"erreur": _auth_error(answer)}
 
 
 ## Connexion ; renvoie { jeton } ou { erreur }.
