@@ -1,7 +1,8 @@
 class_name OptionsWindow
 extends CanvasLayer
 ## Fenêtre des options (depuis le menu principal ou le menu pause) : volume, plein écran, taille de
-## la fenêtre, mode tactique en combat. Chaque changement s'applique et s'enregistre aussitôt.
+## la fenêtre, mode tactique en combat, adresse du serveur (jeu en ligne). Chaque changement
+## s'applique et s'enregistre aussitôt.
 
 signal closed
 
@@ -13,6 +14,7 @@ var _fullscreen: Button
 var _size: OptionButton
 var _tactical: Button
 var _pawns: Button
+var _server: LineEdit
 
 
 func _ready() -> void:
@@ -31,6 +33,7 @@ func open() -> void:
 	_size.disabled = not Options.can_resize() or Options.fullscreen
 	_set_switch(_tactical, Options.tactical)
 	_set_switch(_pawns, Options.tactical_pawns)
+	_server.text = Options.server_address
 	_set_visible(true)
 
 
@@ -80,6 +83,11 @@ func _on_tactical_toggled(on: bool) -> void:
 func _on_pawns_toggled(on: bool) -> void:
 	Options.tactical_pawns = on
 	_changed()
+
+
+func _on_server_changed(text: String) -> void:
+	Options.server_address = text.strip_edges()
+	Options.save_options()
 
 
 func _changed() -> void:
@@ -163,6 +171,14 @@ func _build() -> void:
 	_pawns.toggled.connect(_on_pawns_toggled)
 	grid.add_child(_pawns)
 
+	grid.add_child(_caption("Adresse du serveur"))
+	_server = LineEdit.new()
+	_server.placeholder_text = "automatique"
+	_server.custom_minimum_size = Vector2(220, 34)
+	_server.tooltip_text = "Jeu en ligne : laisser vide pour le serveur de test. Développement : ws://localhost:8080 par exemple."
+	_server.text_changed.connect(_on_server_changed)
+	grid.add_child(_server)
+
 	var close_button := Button.new()
 	close_button.text = "Fermer"
 	close_button.custom_minimum_size = Vector2(160, 38)
@@ -191,4 +207,4 @@ func _caption(text: String) -> Label:
 
 ## Commandes de la fenêtre (pour les tests).
 func controls() -> Dictionary:
-	return {"volume": _volume, "plein_ecran": _fullscreen, "taille": _size, "tactique": _tactical, "pions": _pawns}
+	return {"volume": _volume, "plein_ecran": _fullscreen, "taille": _size, "tactique": _tactical, "pions": _pawns, "serveur": _server}

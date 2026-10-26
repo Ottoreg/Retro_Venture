@@ -204,9 +204,12 @@ var _walk_actor := ""
 var _walk_path: Array[Vector2i] = []
 ## Vitesse de la marche en cours (WALK_SPEED, ou plus vite pour une course).
 var _walk_speed := WALK_SPEED
-## Groupes de monstres en promenade (indépendamment de la file d'événements) : id → cases restantes.
+## Groupes de monstres en promenade et autres joueurs en marche (indépendamment de la file
+## d'événements) : id → cases restantes.
 var _group_walks: Dictionary = {}
 var _pending_click := NO_CELL
+## Connexion distante : que faire de la réponse de chaque commande envoyée, dans l'ordre.
+var _reply_handlers: Array[Callable] = []
 ## Actions prévues pendant son tour en combat, envoyées une à une dès que la lecture des événements
 ## est finie (commandes du noyau : sort, déplacement, fin du tour).
 var _planned: Array[Dictionary] = []
@@ -520,12 +523,22 @@ func _explore(cell: Vector2i, stop := NO_CELL) -> void:
 	var walk := commands[0]
 	if stop != NO_CELL:
 		walk["interrompre_a"] = stop
-	var events := connection.send(walk)
+	elif connection.asynchronous:
+		_playing = true  # Rien d'autre ne part avant la réponse.
+	_request(walk, _on_walk_reply.bind(arrival, stop))
+
+
+## Réponse du serveur au premier pas d'un clic en exploration (voir `_explore`).
+func _on_walk_reply(events: Array[Dictionary], arrival: Dictionary, stop: Vector2i) -> void:
+	if events.is_empty():
+		_reply_failed(stop)
+		return
 	if events[0]["type"] == Protocol.EVT_REFUSED:
 		if arrival.is_empty() or events[0]["raison"] != Protocol.REASON_ALREADY_THERE:
+			_reply_failed(stop)
 			return  # Destination impossible : on garde l'éventuelle marche en cours.
-		events = connection.send(arrival)  # Déjà sur place : on agit tout de suite.
-		arrival = {}
+		_request(arrival, _on_walk_reply.bind({}, stop))  # Déjà sur place : on agit tout de suite.
+		return
 	_arrival_command = arrival
 	_preview.clear()
 	if stop == NO_CELL:
@@ -537,6 +550,32 @@ func _explore(cell: Vector2i, stop := NO_CELL) -> void:
 	_walk_path.append(stop)
 	_queue = events
 	_pending_click = NO_CELL
+
+
+## Un clic sans suite (refusé) : sans marche en cours, la lecture s'arrête.
+func _reply_failed(stop: Vector2i) -> void:
+	if stop == NO_CELL and connection.asynchronous and _queue.is_empty() and _walk_actor == "":
+		_playing = false
+
+
+## Envoie une commande ; `handler` reçoit ses événements, tout de suite (connexion locale) ou à
+## l'arrivée de la réponse du serveur (connexion distante, voir `_take_replies`).
+func _request(command: Dictionary, handler: Callable) -> void:
+	var events := connection.send(command)
+	if connection.asynchronous:
+		_reply_handlers.append(handler)
+	else:
+		handler.call(events)
+
+
+## Réponses arrivées du serveur, dans l'ordre des commandes.
+func _take_replies() -> void:
+	for reply: Array[Dictionary] in connection.take_replies():
+		if _reply_handlers.is_empty():
+			push_error("Réponse du serveur sans commande en attente.")
+			continue
+		var handler: Callable = _reply_handlers.pop_front()
+		handler.call(reply)
 
 
 ## Vrai si le joueur est en train de marcher en exploration et que rien d'autre n'attend derrière
@@ -587,10 +626,13 @@ func send_command(command: Dictionary) -> void:
 
 func _send(command: Dictionary) -> void:
 	_preview.clear()
-	_queue.append_array(connection.send(command))
-	if not _playing:
-		_playing = true
-		_play_next()
+	var was_playing := _playing
+	_playing = true
+	_request(command, func(events: Array[Dictionary]) -> void:
+		_queue.append_array(events)
+		var idle := _walk_actor == "" and _wait <= 0.0  # Rien en cours de lecture (réponse distante).
+		if not was_playing or connection.asynchronous and idle:
+			_play_next())
 
 
 ## Rang d'ancienneté de l'élite du groupe sur cette case (0 s'il n'y en a pas), en exploration.
@@ -867,6 +909,8 @@ func advance(delta: float) -> void:
 	if world != null:
 		for event in connection.update(delta):
 			_apply_world_change(event)
+		if connection.asynchronous:
+			_take_replies()
 	_time += delta
 	for data: Dictionary in _actors.values():
 		if data.get("attaque", 0.0) > 0.0:
@@ -882,7 +926,9 @@ func advance(delta: float) -> void:
 		if _trap_flash["age"] > 0.6:
 			_trap_flash = {}
 	for group_id: String in _group_walks.keys():
-		if not _actors.has(group_id) or _step_along(_actors[group_id], _group_walks[group_id], delta, GROUP_WALK_SPEED):
+		# Les autres joueurs (équipe 0) marchent à leur pas, les groupes flânent.
+		if not _actors.has(group_id) or _step_along(_actors[group_id], _group_walks[group_id], delta,
+				WALK_SPEED if _actors[group_id]["team"] == 0 else GROUP_WALK_SPEED):
 			_group_walks.erase(group_id)
 	if _walk_actor != "" and (not _actors.has(_walk_actor) or _walk_path.is_empty()):
 		push_error("Marche sans chemin (%s) : on passe à l'événement suivant." % _walk_actor)
@@ -902,7 +948,7 @@ func advance(delta: float) -> void:
 ## (ni marche, ni délai). Si c'est le cas (une erreur l'a interrompue en route),
 ## elle repart au bout de STALL_LIMIT secondes, avec un message dans la console du navigateur.
 func _watch_playback(delta: float) -> void:
-	if _playing and _walk_actor == "" and _wait <= 0.0:
+	if _playing and _walk_actor == "" and _wait <= 0.0 and _reply_handlers.is_empty():
 		_stall_time += delta
 		if _stall_time >= STALL_LIMIT:
 			push_error("Lecture des événements bloquée (%d en attente) : reprise." % _queue.size())
@@ -915,12 +961,43 @@ func _watch_playback(delta: float) -> void:
 ## Changements du monde qui ne viennent pas d'une commande (repousse, réapparition) : appliqués
 ## tout de suite, sans attendre la file d'événements.
 func _apply_world_change(event: Dictionary) -> void:
+	var shown: bool = mode == Mode.EXPLORATION and world.map == _map and event.get("carte", _map.id) == _map.id
+	if shown:
+		_apply_other_player(event)
 	if event["type"] == Protocol.EVT_GROUP_RESPAWNED and mode == Mode.EXPLORATION and world.map == _map:
 		_add_group_actor(event["groupe"])
 	elif event["type"] == Protocol.EVT_GROUP_MOVED and mode == Mode.EXPLORATION and world.map == _map and _actors.has(event["groupe"]):
 		var path: Array[Vector2i] = event["chemin"]
 		_group_walks[event["groupe"]] = path.duplicate()
 	queue_redraw()
+
+
+## Ce que font les autres joueurs de la carte et les groupes qu'ils engagent (multijoueur).
+func _apply_other_player(event: Dictionary) -> void:
+	var actor_id: String = str(event.get("entite", ""))
+	match event["type"]:
+		Protocol.EVT_PLAYER_JOINED:
+			if event["joueur"]["id"] != world.player_id:
+				_add_player_actor(event["joueur"])
+		Protocol.EVT_PLAYER_LEFT:
+			if actor_id != world.player_id:
+				_actors.erase(actor_id)
+				_group_walks.erase(actor_id)
+		Protocol.EVT_MOVED:
+			if actor_id != world.player_id and _actors.has(actor_id):
+				var path: Array[Vector2i] = event["chemin"]
+				_actors[actor_id]["assis"] = false
+				if not path.is_empty():
+					_group_walks[actor_id] = path.duplicate()
+		Protocol.EVT_SAT:
+			if actor_id != world.player_id and _actors.has(actor_id):
+				_actors[actor_id]["assis"] = event["assis"]
+		Protocol.EVT_GROUP_ENGAGED:
+			if actor_id != world.player_id:
+				_actors.erase(event["groupe"])
+				_group_walks.erase(event["groupe"])
+		Protocol.EVT_GROUP_RELEASED:
+			_add_group_actor(event["groupe"])
 
 
 ## Vitesse d'un déplacement de `cells` cases : on court au-delà de RUN_CELLS (exploration et combat,
@@ -1358,6 +1435,17 @@ func _load_exploration_actors() -> void:
 	_actors[world.player_id]["race"] = world.character.race_id
 	for group: Dictionary in world.groups():
 		_add_group_actor(group)
+	for other: Dictionary in world.other_players():
+		_add_player_actor(other)
+
+
+## Un autre joueur de la carte (multijoueur) : { id, nom, race, voie, niveau, case, assis }.
+func _add_player_actor(other: Dictionary) -> void:
+	var data := _new_actor(Vector2(other["case"]), other["voie"], 0, other["nom"], 1, 1)
+	data["race"] = other["race"]
+	data["assis"] = other.get("assis", false)
+	data["niveau"] = other.get("niveau", 1)
+	_actors[other["id"]] = data
 
 
 func _add_group_actor(group: Dictionary) -> void:

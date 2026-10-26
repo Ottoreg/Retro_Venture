@@ -9,7 +9,7 @@ extends RefCounted
 
 ## Version du protocole, vérifiée à la connexion : à augmenter à chaque changement incompatible
 ## d'une commande ou d'un événement.
-const VERSION := 1
+const VERSION := 2
 
 # --- Commandes (client → noyau) ---
 
@@ -231,6 +231,13 @@ const EVT_COMBAT_ENDED := "combat_fin"
 const EVT_PLAYER_JOINED := "joueur_arrive"
 ## Un autre joueur quitte la carte (multijoueur ; jamais en solo). { type, carte: String, entite: String }
 const EVT_PLAYER_LEFT := "joueur_part"
+## Un autre joueur de la carte engage un groupe : le groupe disparaît pour les autres pendant son
+## combat (multijoueur ; jamais en solo). { type, carte: String, groupe: String (id), entite: String }
+const EVT_GROUP_ENGAGED := "groupe_engage"
+## Un groupe n'est plus combattu sans avoir été vaincu (son joueur a perdu ou s'est déconnecté) : il
+## réapparaît pour les autres joueurs de la carte (jamais en solo). { type, carte: String,
+## groupe: { id, case, monstres, niveaux… } (voir `World.group_view`) }
+const EVT_GROUP_RELEASED := "groupe_libere"
 ## Instantané de ce que voit le joueur, pour la copie de l'état de son client : voir `World.snapshot`.
 ## En ligne, envoyé à l'entrée d'une carte et à la reconnexion.
 const EVT_SNAPSHOT := "instantane"
@@ -252,7 +259,7 @@ const SCOPE_COMBAT := "combat"
 
 ## Événements visibles de toute la carte : ils ont tous un champ `carte`.
 const MAP_EVENTS := [EVT_MOVED, EVT_SAT, EVT_HARVESTED, EVT_RESOURCE_RESPAWNED, EVT_GROUP_RESPAWNED, EVT_GROUP_MOVED,
-	EVT_PLAYER_JOINED, EVT_PLAYER_LEFT]
+	EVT_PLAYER_JOINED, EVT_PLAYER_LEFT, EVT_GROUP_ENGAGED, EVT_GROUP_RELEASED]
 ## Événements d'un combat, pour tous ses participants.
 const COMBAT_EVENTS := [EVT_COMBAT_STARTED, EVT_PLACED, EVT_FIGHT_BEGINS, EVT_TURN_STARTED, EVT_TURN_ENDED,
 	EVT_SPELL_CAST, EVT_DAMAGE, EVT_HEAL, EVT_DIED, EVT_TELEPORTED, EVT_STATUS, EVT_STATES, EVT_ELEMENT_STATES,
@@ -270,6 +277,42 @@ static func scope_of(event: Dictionary) -> String:
 		return SCOPE_COMBAT
 	return SCOPE_PERSONAL
 
+
+# --- Messages du réseau (GDD § 16.5, jalon M1) ---
+# Autour des commandes et des événements, la connexion distante échange ces messages (même
+# enveloppe JSON : `encode`, `decode`).
+
+## Client → serveur, à l'ouverture : { type, jeton: String } (jeton du service de comptes, ou
+## « dev:Pseudo » sur un serveur de développement). Le client attend MSG_WELCOME ou MSG_ERROR.
+const MSG_HELLO := "bonjour"
+## Serveur → client : connexion acceptée. { type, compte: String, personnage: bool } ; sans
+## personnage, le client envoie MSG_CREATE, sinon l'instantané (EVT_SNAPSHOT) suit.
+const MSG_WELCOME := "bienvenue"
+## Client → serveur : créer le personnage du compte. { type, nom: String, race: String, voie: String }
+const MSG_CREATE := "creer_personnage"
+## Client → serveur : une commande du jeu. { type, commande: Dictionary } (son `entite` est
+## remplacé par le serveur d'après la session).
+const MSG_COMMAND := "commande"
+## Serveur → client : réponse à une MSG_COMMAND, dans l'ordre des commandes. { type,
+## evenements: Array (ceux qui regardent ce joueur), instantane: Dictionary (EVT_SNAPSHOT) }
+const MSG_REPLY := "reponse"
+## Serveur → client : événements arrivés sans commande de ce joueur (temps qui passe, autres
+## joueurs). { type, evenements: Array }
+const MSG_EVENTS := "evenements"
+## Client → serveur : redemander l'instantané (après un événement que la copie ne sait pas appliquer).
+const MSG_SNAPSHOT_REQUEST := "demander_instantane"
+## Serveur → client : refus ou incident ; la connexion est fermée après. { type, raison: String,
+## message: String (à montrer au joueur) }
+const MSG_ERROR := "erreur"
+
+## Raisons de MSG_ERROR.
+const ERROR_VERSION := "version"
+const ERROR_AUTH := "authentification"
+const ERROR_NAME_TAKEN := "pseudo_pris"
+const ERROR_INVALID := "message_invalide"
+const ERROR_ALREADY_CONNECTED := "deja_connecte"
+const ERROR_SERVER := "serveur"
+const ERROR_RATE := "trop_de_messages"
 
 # --- Raisons de refus ---
 

@@ -106,7 +106,52 @@ func apply_event(event: Dictionary) -> bool:
 		Protocol.EVT_RESOURCE_RESPAWNED:
 			_depleted.erase(event["case"])
 			return true
+		# Les autres joueurs de la carte (multijoueur) : ce qu'en voit ce client.
+		Protocol.EVT_PLAYER_JOINED:
+			var joined: Dictionary = event["joueur"]
+			if joined["id"] != player_id:
+				_players[joined["id"]] = joined
+				_positions[joined["id"]] = joined["case"]
+			return joined["id"] != player_id
+		Protocol.EVT_PLAYER_LEFT:
+			_players.erase(event["entite"])
+			if event["entite"] != player_id:
+				_positions.erase(event["entite"])
+			return event["entite"] != player_id
+		Protocol.EVT_MOVED, Protocol.EVT_SAT, Protocol.EVT_HARVESTED:
+			return _apply_other_player(event)
+		Protocol.EVT_GROUP_ENGAGED:
+			if event["entite"] != player_id:
+				_groups.erase(event["groupe"])
+				_positions.erase(event["groupe"])
+			return true
+		Protocol.EVT_GROUP_RELEASED:
+			var released: Dictionary = event["groupe"]
+			released["vu"] = _clock
+			_groups[released["id"]] = released
+			_positions[released["id"]] = released["case"]
+			return true
 	return false
+
+
+## Déplacement, assise ou récolte d'un autre joueur de la carte ; faux pour ceux de ce joueur
+## (l'instantané qui suit sa commande les contient déjà).
+func _apply_other_player(event: Dictionary) -> bool:
+	var other: Dictionary = _players.get(event.get("entite", ""), {})
+	if other.is_empty() or not event.has("carte"):
+		return false
+	match event["type"]:
+		Protocol.EVT_MOVED:
+			var path: Array = event["chemin"]
+			if not path.is_empty():
+				other["case"] = path[-1]
+				_positions[other["id"]] = path[-1]
+			other["assis"] = false
+		Protocol.EVT_SAT:
+			other["assis"] = event["assis"]
+		Protocol.EVT_HARVESTED:
+			_depleted[event["case"]] = true
+	return true
 
 
 func in_combat() -> bool:

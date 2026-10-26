@@ -1,7 +1,8 @@
 class_name Options
 extends RefCounted
 ## Réglages du joueur, gardés d'une partie à l'autre dans `user://options.cfg` (hors sauvegarde) :
-## volume, plein écran, taille de la fenêtre (hors navigateur) et mode tactique en combat.
+## volume, plein écran, taille de la fenêtre (hors navigateur), mode tactique en combat et adresse
+## du serveur de jeu (développement).
 
 ## Tailles de fenêtre proposées (sur ordinateur ; le navigateur garde la taille de sa page).
 const WINDOW_SIZES: Array[Vector2i] = [Vector2i(1280, 720), Vector2i(1600, 900), Vector2i(1920, 1080)]
@@ -18,6 +19,9 @@ static var tactical := false
 ## En mode tactique, combattants en pions (cercle de la couleur du camp, initiale) plutôt qu'en
 ## personnages.
 static var tactical_pawns := false
+## Adresse du serveur de jeu (ws:// ou wss://) pour le développement ; vide : celle que publie le
+## serveur de test dans Supabase (GDD § 16.5).
+static var server_address := ""
 static var _loaded := false
 
 
@@ -34,6 +38,7 @@ static func load_options(force := false) -> void:
 	window_size = clampi(int(file.get_value("affichage", "taille", window_size)), 0, WINDOW_SIZES.size() - 1)
 	tactical = bool(file.get_value("combat", "tactique", tactical))
 	tactical_pawns = bool(file.get_value("combat", "pions", tactical_pawns))
+	server_address = str(file.get_value("en_ligne", "serveur", server_address))
 
 
 static func save_options() -> void:
@@ -43,6 +48,7 @@ static func save_options() -> void:
 	file.set_value("affichage", "taille", window_size)
 	file.set_value("combat", "tactique", tactical)
 	file.set_value("combat", "pions", tactical_pawns)
+	file.set_value("en_ligne", "serveur", server_address)
 	file.save(path)
 
 
@@ -53,6 +59,7 @@ static func reset() -> void:
 	window_size = 0
 	tactical = false
 	tactical_pawns = false
+	server_address = ""
 	_loaded = true
 
 

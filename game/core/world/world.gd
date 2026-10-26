@@ -132,8 +132,16 @@ func _init(p_map: GameMap, p_data: GameData = null, p_map_loader: Callable = Cal
 	rng.randomize()
 	player_id = p_player_id
 	_loaded_maps[p_map.id] = p_map
+	if p_player_id.is_empty():
+		return  # Monde du serveur : les joueurs se connectent ensuite (`add_player`).
 	add_player(p_character if p_character != null else Character.create(DEFAULT_NAME, "humain", DEFAULT_VOIE), p_player_id,
 		p_map.id, p_map.spawn)
+
+
+## Monde d'un serveur (GDD § 16.5) : aucun joueur au départ, pas de façade solo ; chaque joueur se
+## connecte par `add_player` (sur une carte nommée) et chaque commande nomme son joueur (`entite`).
+static func for_server(p_map: GameMap, p_data: GameData, p_map_loader: Callable) -> World:
+	return World.new(p_map, p_data, p_map_loader, null, "")
 
 
 ## Connecte un personnage sous l'id `id`, sur la carte `map_id` (celle du premier joueur si vide), à
@@ -153,8 +161,9 @@ func add_player(p_character: Character, id: String, map_id := "", cell := GameMa
 	return p
 
 
-## Déconnecte un joueur : il quitte sa carte (et son combat, abandonné). Renvoie les événements
-## pour les autres joueurs de la carte.
+## Déconnecte un joueur : il quitte sa carte et son combat, abandonné (le personnage reste tel
+## qu'avant le combat, et le groupe redevient libre). Renvoie les événements pour les autres joueurs
+## de la carte.
 func remove_player(id: String) -> Array[Dictionary]:
 	var events: Array[Dictionary] = []
 	var p: PlayerState = players.get(id)
@@ -162,6 +171,9 @@ func remove_player(id: String) -> Array[Dictionary]:
 		return events
 	if p.combat != null:
 		p.instance.fighting.erase(p.combat_group)
+		_release_group(p.instance, p.combat_group, events)
+		p.combat = null
+		p.combat_group = ""
 	_leave_instance(p, events)
 	players.erase(id)
 	return events
@@ -182,7 +194,7 @@ func _player_of(command: Dictionary) -> PlayerState:
 	var entity_id: Variant = command.get("entite")
 	if typeof(entity_id) == TYPE_STRING and players.has(entity_id):
 		return players[entity_id]
-	return _solo()
+	return players.get(player_id)  # `null` sur un serveur.
 
 
 ## Nom d'une carte d'après son id ("" si elle est introuvable).
@@ -241,6 +253,8 @@ func execute(command: Dictionary) -> Array[Dictionary]:
 
 func _execute(command: Dictionary) -> Array[Dictionary]:
 	var p := _player_of(command)
+	if p == null:
+		return _refused(command, Protocol.REASON_UNKNOWN_ENTITY)
 	if p.in_combat():
 		var events := p.combat.execute(command)
 		if p.combat.state == Combat.State.FINISHED:
@@ -261,11 +275,8 @@ func snapshot(id := player_id) -> Dictionary:
 	var p: PlayerState = players[id]
 	var groups: Array = []
 	for group_state: Dictionary in p.instance.groups.values():
-		var copy := group_state.duplicate(true)
-		if copy.has("apparition"):
-			copy["age"] = clock - float(copy["apparition"])  # Pas l'horloge du monde : l'âge.
-			copy.erase("apparition")
-		groups.append(copy)
+		if p.instance.fighting.get(group_state["id"], id) == id:  # Pas ceux que combat un autre joueur.
+			groups.append(group_view(group_state))
 	var others: Array = []
 	for other_id: String in p.instance.player_ids():
 		if other_id != id:
@@ -285,6 +296,26 @@ func snapshot(id := player_id) -> Dictionary:
 		"pierres_toutes_connues": all_passages_known,
 		"combat": p.combat.snapshot(fighter.team if fighter != null else Fighter.TEAM_PLAYERS) if p.combat != null else null,
 	}
+
+
+## Ce que les clients voient d'un groupe : une copie, avec l'âge de son élite plutôt que l'instant
+## de son apparition (l'horloge du monde ne sort pas du serveur).
+func group_view(group_state: Dictionary) -> Dictionary:
+	var copy := group_state.duplicate(true)
+	if copy.has("apparition"):
+		copy["age"] = clock - float(copy["apparition"])
+		copy.erase("apparition")
+	return copy
+
+
+## État d'un joueur à garder entre deux connexions (serveur, GDD § 16.5) : son personnage, sa carte
+## et sa case. Un combat en cours n'y est pas : le personnage est gardé tel qu'avant le combat.
+func player_save(id: String) -> Dictionary:
+	var p: PlayerState = players.get(id)
+	if p == null:
+		return {}
+	var cell := p.cell
+	return {"personnage": p.character.to_dict(), "carte": p.map.id, "position": [cell.x, cell.y]}
 
 
 ## Joueurs à qui envoyer un événement produit par la commande de `sender_id` (ou par `update` si
@@ -536,6 +567,13 @@ func _set_map(p: PlayerState, next_map: GameMap, player_cell: Vector2i, events: 
 		events.append(_player_joined_event(p))
 
 
+## Un groupe qui n'est plus combattu (joueur vaincu ou parti) redevient visible pour les autres
+## joueurs de la carte.
+func _release_group(instance: MapInstance, group_id: String, events: Array[Dictionary]) -> void:
+	if instance.groups.has(group_id) and instance.player_ids().size() > 1:
+		events.append({"type": Protocol.EVT_GROUP_RELEASED, "carte": instance.map.id, "groupe": group_view(instance.groups[group_id])})
+
+
 func _leave_instance(p: PlayerState, events: Array[Dictionary]) -> void:
 	if p.instance == null:
 		return
@@ -615,6 +653,9 @@ func _engage(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
 	p.combat = _create_combat(p, group)
 	p.combat_group = group_id
 	p.instance.fighting[group_id] = p.id
+	if p.instance.player_ids().size() > 1:
+		# Le groupe disparaît pour les autres joueurs de la carte (GDD § 16.5, M1).
+		events.append({"type": Protocol.EVT_GROUP_ENGAGED, "carte": p.map.id, "groupe": group_id, "entite": p.id})
 	var start_events := p.combat.start()
 	start_events[0]["groupe"] = group_id
 	events.append_array(start_events)
@@ -684,6 +725,7 @@ func _end_combat(p: PlayerState, events: Array[Dictionary]) -> void:
 		combat_instance.positions.erase(p.combat_group)
 		p.character.set_hp(player.hp, data)
 	else:
+		_release_group(combat_instance, p.combat_group, others)
 		p.character.set_hp(1, data)  # Vaincu : on se relève avec 1 PV.
 		wake_up = _wake_up(p, others)
 		for event in events:
@@ -710,6 +752,8 @@ func _end_combat(p: PlayerState, events: Array[Dictionary]) -> void:
 	if p.map.id != combat_map:
 		_append_map_change(events, others, {"type": Protocol.EVT_MAP_CHANGED, "carte": p.map.id, "nom": p.map.display_name,
 			"position": p.cell})
+	else:
+		events.append_array(others)
 	p.combat = null
 	p.combat_group = ""
 	p.combat_loot_bonus = 0.0

@@ -1,0 +1,253 @@
+extends "res://tests/test_case.gd"
+## Serveur de jeu du jalon M1 (GDD § 16.5), sans réseau : les messages JSON de deux clients passent
+## par `GameServer.receive`, ses réponses par le signal `message_out`. Comptes de développement
+## (« dev:Pseudo ») et personnages en mémoire.
+
+const Fixtures := preload("res://tests/helpers/fixtures.gd")
+
+var _maps := {}
+var _server: GameServer
+var _store: CharacterStore
+## Pair → messages reçus du serveur (relus).
+var _inbox := {}
+var _kicked: Array[int] = []
+
+
+func before_each() -> void:
+	_maps = {
+		"test": Fixtures.map({Fixtures.center(): "1"}, [{"monstres": ["mannequin"]}], {"id": "test", "sorties": {"droite": "b"}}),
+		"b": Fixtures.map({}, [], {"id": "b", "sorties": {"gauche": "test"}}),
+	}
+	_store = CharacterStore.new()
+	_server = GameServer.new(Fixtures.data(), _loader, _store, AccountCheck.new(), [], "test")
+	_server.message_out.connect(func(peer_id: int, text: String) -> void:
+		if not _inbox.has(peer_id):
+			_inbox[peer_id] = []
+		_inbox[peer_id].append(Protocol.decode(text)))
+	_server.peer_kicked.connect(func(peer_id: int) -> void: _kicked.append(peer_id))
+
+
+func _loader(map_id: String) -> GameMap:
+	return _maps.get(map_id)
+
+
+func _send(peer_id: int, message: Dictionary) -> void:
+	_server.receive(peer_id, Protocol.encode(message, 1))
+
+
+## Messages reçus par le pair depuis le dernier appel.
+func _take(peer_id: int) -> Array:
+	var messages: Array = _inbox.get(peer_id, [])
+	_inbox[peer_id] = []
+	return messages
+
+
+func _of_type(messages: Array, type: String) -> Array:
+	return messages.filter(func(message: Dictionary) -> bool: return message["type"] == type)
+
+
+## Événements de type `type` dans les MSG_EVENTS reçus.
+func _pushed(messages: Array, type: String) -> Array:
+	var found := []
+	for message: Dictionary in _of_type(messages, Protocol.MSG_EVENTS):
+		for event: Dictionary in message["evenements"]:
+			if event["type"] == type:
+				found.append(event)
+	return found
+
+
+## Connecte un client et crée son personnage (s'il n'en a pas) ; renvoie son id de personnage.
+func _join(peer_id: int, pseudo: String) -> String:
+	_server.peer_connected(peer_id)
+	_send(peer_id, {"type": Protocol.MSG_HELLO, "jeton": "dev:%s" % pseudo})
+	var welcome: Array = _of_type(_inbox.get(peer_id, []), Protocol.MSG_WELCOME)
+	if not welcome.is_empty() and not welcome[0]["personnage"]:
+		_send(peer_id, {"type": Protocol.MSG_CREATE, "nom": pseudo, "race": "testeur", "voie": "test"})
+	return "j:dev:%s" % pseudo.to_lower()
+
+
+func _command(peer_id: int, command: Dictionary) -> Dictionary:
+	_send(peer_id, {"type": Protocol.MSG_COMMAND, "commande": command})
+	var replies := _of_type(_take(peer_id), Protocol.MSG_REPLY)
+	return replies[-1] if not replies.is_empty() else {}
+
+
+func test_connexion_et_creation_du_personnage() -> void:
+	_server.peer_connected(1)
+	_send(1, {"type": Protocol.MSG_HELLO, "jeton": "dev:Frodon"})
+	var messages := _take(1)
+	assert_eq(messages.size(), 1)
+	assert_eq(messages[0]["type"], Protocol.MSG_WELCOME)
+	assert_false(messages[0]["personnage"], "nouveau compte : pas encore de personnage")
+	_send(1, {"type": Protocol.MSG_CREATE, "nom": "Frodon", "race": "testeur", "voie": "test"})
+	messages = _take(1)
+	assert_eq(messages[0]["type"], Protocol.EVT_SNAPSHOT)
+	assert_eq(messages[0]["personnage"]["nom"], "Frodon")
+	assert_eq(messages[0]["carte"], "test", "carte de départ de la race")
+	assert_false(_store.load_character("dev:frodon").is_empty(), "sauvegardé dès sa création")
+	assert_eq(_server.player_count(), 1)
+
+
+func test_refus_a_la_connexion() -> void:
+	_server.peer_connected(1)
+	_send(1, {"type": Protocol.MSG_HELLO, "jeton": "n'importe quoi"})
+	assert_eq(_take(1)[0]["raison"], Protocol.ERROR_AUTH)
+	assert_eq(_kicked, [1] as Array[int])
+	_server.peer_connected(2)
+	_server.receive(2, '{"v": 1, "n": 1, "type": "bonjour", "jeton": "dev:Sam"}')
+	assert_eq(_take(2)[0]["raison"], Protocol.ERROR_VERSION, "ancienne version du protocole")
+	_server.peer_connected(3)
+	_send(3, {"type": Protocol.MSG_HELLO, "jeton": "dev:Sam"})
+	_send(3, {"type": Protocol.MSG_CREATE, "nom": "S4m!", "race": "testeur", "voie": "test"})
+	assert_eq(_of_type(_take(3), Protocol.MSG_ERROR)[0]["raison"], Protocol.ERROR_INVALID, "pseudo invalide")
+	_join(4, "Merry")
+	_server.peer_connected(5)
+	_send(5, {"type": Protocol.MSG_HELLO, "jeton": "dev:Pippin"})
+	_send(5, {"type": Protocol.MSG_CREATE, "nom": "merry", "race": "testeur", "voie": "test"})
+	assert_eq(_of_type(_take(5), Protocol.MSG_ERROR)[0]["raison"], Protocol.ERROR_NAME_TAKEN, "pseudo unique, majuscules comprises")
+
+
+func test_trop_de_messages() -> void:
+	_join(1, "Frodon")
+	for i in int(GameServer.MESSAGE_BURST) + 1:
+		_send(1, {"type": Protocol.MSG_SNAPSHOT_REQUEST})
+	assert_eq(_of_type(_take(1), Protocol.MSG_ERROR)[0]["raison"], Protocol.ERROR_RATE)
+	assert_true(1 in _kicked)
+
+
+func test_deux_joueurs_se_voient() -> void:
+	var frodon := _join(1, "Frodon")
+	_take(1)
+	var sam := _join(2, "Sam")
+	var arrived := _pushed(_take(1), Protocol.EVT_PLAYER_JOINED)
+	assert_eq(arrived.size(), 1, "Frodon voit arriver Sam")
+	assert_eq(arrived[0]["joueur"]["id"], sam)
+	assert_eq(arrived[0]["joueur"]["nom"], "Sam")
+	var snapshot: Dictionary = _of_type(_take(2), Protocol.EVT_SNAPSHOT)[0]
+	assert_eq(snapshot["joueurs"].size(), 1, "Sam voit Frodon déjà là")
+	assert_eq(snapshot["joueurs"][0]["id"], frodon)
+
+
+func test_deplacement_vu_par_l_autre_et_entite_imposee() -> void:
+	var frodon := _join(1, "Frodon")
+	var sam := _join(2, "Sam")
+	_take(1)
+	_take(2)
+	var target := Fixtures.center() + Vector2i(1, 0)
+	# Sam prétend déplacer Frodon : le serveur remplace `entite` par celui de sa session.
+	var reply := _command(2, {"type": Protocol.CMD_MOVE, "entite": frodon, "cible": target})
+	assert_eq(reply["evenements"][0]["type"], Protocol.EVT_MOVED)
+	assert_eq(reply["evenements"][0]["entite"], sam)
+	assert_eq(reply["instantane"]["position"], target, "la réponse porte l'instantané")
+	assert_eq(_server.world.player(frodon).cell, _maps["test"].spawn, "Frodon n'a pas bougé")
+	var seen := _pushed(_take(1), Protocol.EVT_MOVED)
+	assert_eq(seen.size(), 1, "Frodon voit Sam marcher")
+	assert_eq(seen[0]["entite"], sam)
+
+
+## Frodon gagne son combat contre le groupe de la carte (mannequin à 1 PV).
+func _win(peer_id: int, player_id: String) -> Dictionary:
+	if not _server.world.player(player_id).in_combat():
+		_command(peer_id, {"type": Protocol.CMD_ENGAGE, "groupe": "groupe_1"})
+	var combat: Combat = _server.world.player(player_id).combat
+	var monster: Fighter = combat.get_fighter("groupe_1_1")
+	var player: Fighter = combat.get_fighter(player_id)
+	for neighbor in IsoGrid.neighbors_4(monster.cell):
+		if combat.is_free(neighbor):
+			player.cell = neighbor
+			break
+	monster.hp = 1
+	_command(peer_id, {"type": Protocol.CMD_READY})
+	return _command(peer_id, {"type": Protocol.CMD_CAST, "sort": "frappe", "cible": monster.cell})
+
+
+func test_combat_calcule_par_le_serveur_et_sauvegarde() -> void:
+	var frodon := _join(1, "Frodon")
+	_join(2, "Sam")
+	_take(1)
+	_take(2)
+	_command(1, {"type": Protocol.CMD_ENGAGE, "groupe": "groupe_1"})
+	var engaged := _pushed(_take(2), Protocol.EVT_GROUP_ENGAGED)
+	assert_eq(engaged.size(), 1, "le groupe attaqué disparaît pour Sam")
+	assert_eq(engaged[0]["groupe"], "groupe_1")
+	var sam_reply := _command(2, {"type": Protocol.CMD_ENGAGE, "groupe": "groupe_1"})
+	assert_eq(sam_reply["evenements"][0]["raison"], Protocol.REASON_GROUP_IN_COMBAT)
+	assert_eq(sam_reply["instantane"]["groupes"], [], "pas dans l'instantané de Sam")
+	_take(2)
+	var reply := _win(1, frodon)
+	var ended: Array = reply["evenements"].filter(func(event: Dictionary) -> bool: return event["type"] == Protocol.EVT_COMBAT_ENDED)
+	assert_eq(ended.size(), 1, "combat gagné")
+	var saved: Dictionary = _store.load_character("dev:frodon")
+	assert_true(int(saved["personnage"]["xp"]) > 0, "l'XP du combat est enregistrée dès la fin du combat")
+	assert_eq(_pushed(_take(2), Protocol.EVT_GROUP_RELEASED), [], "un groupe vaincu ne revient pas")
+
+
+func test_groupe_libere_si_le_joueur_part_en_combat() -> void:
+	_join(1, "Frodon")
+	_join(2, "Sam")
+	_command(1, {"type": Protocol.CMD_ENGAGE, "groupe": "groupe_1"})
+	_take(2)
+	_server.peer_disconnected(1)
+	var messages := _take(2)
+	var released := _pushed(messages, Protocol.EVT_GROUP_RELEASED)
+	assert_eq(released.size(), 1, "le groupe abandonné réapparaît pour Sam")
+	assert_eq(released[0]["groupe"]["id"], "groupe_1")
+	assert_eq(_pushed(messages, Protocol.EVT_PLAYER_LEFT).size(), 1, "et Frodon s'en va")
+
+
+func test_reconnexion_au_meme_endroit() -> void:
+	var frodon := _join(1, "Frodon")
+	var exit := Vector2i(-1, -1)
+	for cell: Vector2i in _maps["test"].cells():
+		if _maps["test"].is_walkable(cell) and "droite" in _maps["test"].exit_directions(cell):
+			exit = cell
+			break
+	_command(1, {"type": Protocol.CMD_MOVE, "cible": exit, "sortie": "droite"})
+	var target := Fixtures.center() + Vector2i(0, 1)
+	_command(1, {"type": Protocol.CMD_MOVE, "cible": target})
+	_server.peer_disconnected(1)
+	assert_eq(_server.player_count(), 0)
+	assert_true(_server.world.player(frodon) == null)
+	_join(7, "Frodon")
+	var messages := _take(7)
+	assert_true(_of_type(messages, Protocol.MSG_WELCOME)[0]["personnage"], "le compte a déjà son personnage")
+	var snapshot: Dictionary = _of_type(messages, Protocol.EVT_SNAPSHOT)[0]
+	assert_eq(snapshot["carte"], "b", "sur la carte où on l'a laissé")
+	assert_eq(snapshot["position"], target, "et sur sa case")
+
+
+func test_meme_compte_connecte_ailleurs() -> void:
+	_join(1, "Frodon")
+	_join(2, "Frodon")
+	assert_eq(_of_type(_take(1), Protocol.MSG_ERROR)[0]["raison"], Protocol.ERROR_ALREADY_CONNECTED)
+	assert_true(1 in _kicked)
+	assert_eq(_server.player_count(), 1)
+	assert_false(_of_type(_take(2), Protocol.EVT_SNAPSHOT).is_empty(), "la nouvelle connexion reprend le personnage")
+
+
+func test_le_temps_passe_pour_tous() -> void:
+	var frodon := _join(1, "Frodon")
+	_take(1)
+	_server.world.player(frodon).character.hp_lost = 5
+	_server.update(World.REGEN_SECONDS)
+	assert_eq(_pushed(_take(1), Protocol.EVT_REGEN).size(), 1, "régénération envoyée sans commande")
+
+
+func test_la_copie_du_client_suit_les_autres_joueurs() -> void:
+	var frodon := _join(1, "Frodon")
+	var copy := ClientState.new(Fixtures.data(), _loader)
+	copy.load_snapshot(_of_type(_take(1), Protocol.EVT_SNAPSHOT)[0])
+	var sam := _join(2, "Sam")
+	_command(2, {"type": Protocol.CMD_MOVE, "cible": Fixtures.center() + Vector2i(1, 0)})
+	_command(2, {"type": Protocol.CMD_SIT, "assis": true})
+	for message: Dictionary in _of_type(_take(1), Protocol.MSG_EVENTS):
+		for event: Dictionary in message["evenements"]:
+			assert_true(copy.apply_event(event), "%s appliqué sans instantané" % event["type"])
+	assert_eq(copy.other_players().size(), 1)
+	assert_eq(copy.position_of(sam), Fixtures.center() + Vector2i(1, 0))
+	assert_true(copy.other_players()[0]["assis"])
+	_command(1, {"type": Protocol.CMD_ENGAGE, "groupe": "groupe_1"})
+	var sam_copy := ClientState.new(Fixtures.data(), _loader)
+	sam_copy.load_snapshot(_command(2, {"type": Protocol.CMD_SIT, "assis": false})["instantane"])
+	assert_true(sam_copy.group("groupe_1").is_empty(), "le groupe combattu par Frodon n'est plus vu")
+	assert_eq(copy.player_id, frodon)
