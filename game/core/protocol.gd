@@ -221,10 +221,47 @@ const EVT_INVENTORY := "inventaire"
 ## défaite, `reveil`: { passage: String (id de la pierre, "" sans point de résurrection), nom: String
 ## (nom de la pierre, ou de la carte), carte: String } (où le personnage se réveille).
 const EVT_COMBAT_ENDED := "combat_fin"
+## Un autre joueur arrive sur la carte (multijoueur ; jamais en solo). { type, carte: String,
+## joueur: { id, nom, race, voie, niveau, case: Vector2i, assis } } (voir `World.player_view`).
+const EVT_PLAYER_JOINED := "joueur_arrive"
+## Un autre joueur quitte la carte (multijoueur ; jamais en solo). { type, carte: String, entite: String }
+const EVT_PLAYER_LEFT := "joueur_part"
+## PV régénérés hors combat (renvoyé par `World.update`). { type, entite: String, pv: int }
+const EVT_REGEN := "regeneration"
 ## Retour en exploration après un combat. { type, position: Vector2i, groupe_vaincu: String } ; après
 ## une défaite, aussi `reveil` (comme dans EVT_COMBAT_ENDED), suivi d'un EVT_MAP_CHANGED si le point
 ## de résurrection est sur une autre carte.
 const EVT_EXPLORATION := "exploration"
+
+# --- Portée des événements (à qui le serveur les envoie, voir `World.recipients`) ---
+
+## Le joueur concerné seulement (inventaire, quêtes, brumes, fiche…).
+const SCOPE_PERSONAL := "personnel"
+## Tous les joueurs de la carte `carte` de l'événement (déplacements, groupes, ressources).
+const SCOPE_MAP := "carte"
+## Tous les participants du combat (et plus tard ses spectateurs).
+const SCOPE_COMBAT := "combat"
+
+## Événements visibles de toute la carte : ils ont tous un champ `carte`.
+const MAP_EVENTS := [EVT_MOVED, EVT_SAT, EVT_HARVESTED, EVT_RESOURCE_RESPAWNED, EVT_GROUP_RESPAWNED, EVT_GROUP_MOVED,
+	EVT_PLAYER_JOINED, EVT_PLAYER_LEFT]
+## Événements d'un combat, pour tous ses participants.
+const COMBAT_EVENTS := [EVT_COMBAT_STARTED, EVT_PLACED, EVT_FIGHT_BEGINS, EVT_TURN_STARTED, EVT_TURN_ENDED,
+	EVT_SPELL_CAST, EVT_DAMAGE, EVT_HEAL, EVT_DIED, EVT_TELEPORTED, EVT_STATUS, EVT_STATES, EVT_ELEMENT_STATES,
+	EVT_SPELL_CREATED, EVT_CHARGED, EVT_PUSHED, EVT_GLYPH, EVT_GLYPH_ENDED, EVT_TRAP, EVT_TRAP_TRIGGERED,
+	EVT_TRAP_ENDED, EVT_PHASE, EVT_COMBAT_ENDED]
+
+
+## Portée d'un événement : SCOPE_MAP, SCOPE_COMBAT ou SCOPE_PERSONAL (tout le reste). Un
+## déplacement en combat (EVT_MOVED sans `carte`) est de portée combat.
+static func scope_of(event: Dictionary) -> String:
+	var event_type: Variant = event.get("type")
+	if event_type in MAP_EVENTS:
+		return SCOPE_MAP if event.has("carte") else SCOPE_COMBAT
+	if event_type in COMBAT_EVENTS:
+		return SCOPE_COMBAT
+	return SCOPE_PERSONAL
+
 
 # --- Raisons de refus ---
 
@@ -258,6 +295,8 @@ const REASON_DEPLETED := "ressource_epuisee"
 const REASON_JOB_LEVEL := "niveau_de_metier_insuffisant"
 const REASON_MISSING_INGREDIENTS := "ingredients_manquants"
 const REASON_WRONG_PHASE := "mauvaise_phase"
+## Groupe de monstres déjà en combat contre un autre joueur.
+const REASON_GROUP_IN_COMBAT := "groupe_en_combat"
 const REASON_NOT_YOUR_TURN := "pas_votre_tour"
 const REASON_OCCUPIED := "case_occupee"
 const REASON_NOT_PLACEMENT_CELL := "case_de_placement_invalide"

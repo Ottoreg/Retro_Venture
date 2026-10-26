@@ -2,8 +2,14 @@ class_name World
 extends RefCounted
 ## Point d'entrée du noyau de jeu. Le client envoie des commandes à `execute()`, qui les valide,
 ## met à jour l'état et renvoie les événements produits (voir `Protocol`).
-## En multijoueur, ce même code tournera sur le serveur.
+##
+## Le monde tient des cartes vivantes (`MapInstance`, partagées) et des joueurs connectés
+## (`PlayerState`), chacun désigné par l'id de son personnage : le champ `entite` des commandes dit
+## qui agit. En solo, un seul joueur (`PLAYER_ID`) et les raccourcis `character`, `map`, `combat`…
+## gardent l'interface d'avant (façade solo). En multijoueur, ce même code tourne sur le serveur
+## (GDD § 16.5) ; `recipients` dit à qui envoyer chaque événement.
 
+## Id du personnage en solo (en ligne, chaque personnage a le sien).
 const PLAYER_ID := "joueur"
 const DEFAULT_VOIE := "guerrier"
 const DEFAULT_NAME := "Aventurier"
@@ -39,10 +45,45 @@ const MAX_TRADE_QUANTITY := 100
 ## connues).
 const ALL_PASSAGES_KNOWN := true
 
-var map: GameMap
 var data: GameData
+## Toutes les pierres connues (voir `ALL_PASSAGES_KNOWN` ; les tests de découverte le coupent).
+var all_passages_known := ALL_PASSAGES_KNOWN
+## Chance d'une récolte rare (voir `Profession.RARE_CHANCE` ; les tests la fixent à 0 ou 1).
+var rare_harvest_chance := Profession.RARE_CHANCE
+## Joueurs connectés : id du personnage → PlayerState.
+var players: Dictionary = {}
+## Id du premier joueur, celui de la façade solo.
+var player_id := PLAYER_ID
+## Cartes vivantes, une par carte visitée : id de carte → MapInstance.
+var instances: Dictionary = {}
+## Chargement d'une carte par son id : Callable(id: String) -> GameMap (ou null).
+var _map_loader: Callable
+var _loaded_maps: Dictionary = {}
+## Tirages au hasard hors combat : jets des objets achetés ou fabriqués, récoltes, repousse.
+var rng := RandomNumberGenerator.new()
+## Temps de jeu écoulé, en secondes (avancé par `update`).
+var clock := 0.0
+var _combat_count := 0
+## Toutes les cartes du jeu (où les élites peuvent apparaître) ; rempli par le client.
+var map_ids: Array[String] = []
+## Élites en vie : id du monstre élite → { carte, groupe }.
+var _elites: Dictionary = {}
+## Prochaine tentative d'apparition des élites absentes : id du monstre élite → instant.
+var _elite_attempts: Dictionary = {}
+## Boss déjà vaincus au moins une fois (id → true) : ils débloquent les groupes `apres_boss` des
+## cartes (les variantes corrompues de leur zone).
+var defeated_bosses: Dictionary = {}
+
+# --- Façade solo : le premier joueur ----------------------------------------------------------
+
+## Carte du joueur.
+var map: GameMap:
+	get:
+		return _solo().map
 ## Personnage du joueur (niveau, caractéristiques…).
-var character: Character
+var character: Character:
+	get:
+		return _solo().character
 ## Raccourcis vers le personnage.
 var player_voie: String:
 	get:
@@ -55,63 +96,93 @@ var player_name: String:
 	set(value):
 		character.display_name = value
 ## Combat en cours, ou `null` en exploration.
-var combat: Combat = null
-## Toutes les pierres connues (voir `ALL_PASSAGES_KNOWN` ; les tests de découverte le coupent).
-var all_passages_known := ALL_PASSAGES_KNOWN
-## Chance d'une récolte rare (voir `Profession.RARE_CHANCE` ; les tests la fixent à 0 ou 1).
-var rare_harvest_chance := Profession.RARE_CHANCE
-
-## Case occupée par chaque entité, par identifiant (le joueur et les groupes de monstres).
-var _positions: Dictionary = {}
-## Groupes de monstres encore présents sur la carte actuelle : id → { id, case, monstres, niveaux }
-## (`niveaux` : le niveau tiré de chaque monstre à l'apparition, dans l'ordre de `monstres`).
-var _groups: Dictionary = {}
-## Chargement d'une carte par son id : Callable(id: String) -> GameMap (ou null).
-var _map_loader: Callable
-var _loaded_maps: Dictionary = {}
-## Groupes restants des cartes déjà visitées : id de carte → groupes.
-var _map_states: Dictionary = {}
-var _combat_group := ""
-## Cases du dernier trajet du joueur (départ compris), pour pouvoir l'interrompre en chemin.
-var _last_walk: Array[Vector2i] = []
-## Tirages au hasard hors combat : jets des objets achetés ou fabriqués, récoltes, repousse.
-var rng := RandomNumberGenerator.new()
-## Temps de jeu écoulé, en secondes (avancé par `update`).
-var clock := 0.0
-## Ressources récoltées en attente de repousse : id de carte → { case: instant de repousse }.
-var _depleted: Dictionary = {}
-## Groupes de monstres vaincus en attente de réapparition : id de carte → { id du groupe: instant }.
-var _respawns: Dictionary = {}
-## Temps accumulé pour la régénération des PV hors combat.
-var _regen_time := 0.0
-## Le joueur est assis (régénération plus rapide) ; pas sauvegardé : on recharge debout.
-var sitting := false
-## Prochaine promenade de chaque groupe de la carte actuelle : id du groupe → instant.
-var _wander_times: Dictionary = {}
-var _combat_count := 0
-## Toutes les cartes du jeu (où les élites peuvent apparaître) ; rempli par le client.
-var map_ids: Array[String] = []
-## Élites en vie : id du monstre élite → { carte, groupe }.
-var _elites: Dictionary = {}
-## Prochaine tentative d'apparition des élites absentes : id du monstre élite → instant.
-var _elite_attempts: Dictionary = {}
-## Boss déjà vaincus au moins une fois (id → true) : ils débloquent les groupes `apres_boss` des
-## cartes (les variantes corrompues de leur zone).
-var defeated_bosses: Dictionary = {}
-## Quêtes : propositions, avancement, récompenses (l'état est dans `character.quests`).
-var quest_book: QuestBook
-## Bonus de butin du combat en cours (élite ancienne), en fraction : 0.3 = +30 %.
-var _combat_loot_bonus := 0.0
+var combat: Combat:
+	get:
+		return _solo().combat
+## Le joueur est assis (régénération plus rapide).
+var sitting: bool:
+	get:
+		return _solo().sitting
+	set(value):
+		_solo().sitting = value
+## Quêtes du joueur.
+var quest_book: QuestBook:
+	get:
+		return _solo().quest_book
+## Groupes et cases de la carte du joueur (pour les tests).
+var _groups: Dictionary:
+	get:
+		return _solo().instance.groups
+var _positions: Dictionary:
+	get:
+		return _solo().instance.positions
+## Réapparitions en attente, par carte : id de carte → { id du groupe: instant }.
+var _respawns: Dictionary:
+	get:
+		var timers := {}
+		for map_id: String in instances:
+			timers[map_id] = instances[map_id].respawns
+		return timers
 
 
-func _init(p_map: GameMap, p_data: GameData = null, p_map_loader: Callable = Callable(), p_character: Character = null) -> void:
-	character = p_character if p_character != null else Character.create(DEFAULT_NAME, "humain", DEFAULT_VOIE)
+func _init(p_map: GameMap, p_data: GameData = null, p_map_loader: Callable = Callable(), p_character: Character = null,
+		p_player_id := PLAYER_ID) -> void:
 	data = p_data
 	_map_loader = p_map_loader
 	rng.randomize()
-	quest_book = QuestBook.new(self)
-	_init_travel()
-	_set_map(p_map, p_map.spawn)
+	player_id = p_player_id
+	_loaded_maps[p_map.id] = p_map
+	add_player(p_character if p_character != null else Character.create(DEFAULT_NAME, "humain", DEFAULT_VOIE), p_player_id,
+		p_map.id, p_map.spawn)
+
+
+## Connecte un personnage sous l'id `id`, sur la carte `map_id` (celle du premier joueur si vide), à
+## la case `cell` (l'arrivée de la carte si elle n'est pas praticable). Renvoie son état, ou `null`
+## si l'id est pris ou la carte introuvable.
+func add_player(p_character: Character, id: String, map_id := "", cell := GameMap.NO_CELL) -> PlayerState:
+	if players.has(id):
+		return null
+	var target := _load_map(map_id if not map_id.is_empty() else map.id)
+	if target == null:
+		return null
+	var p := PlayerState.new(id, p_character)
+	p.quest_book = QuestBook.new(self, p)
+	players[id] = p
+	_init_travel(p)
+	_set_map(p, target, cell if target.is_walkable(cell) else target.spawn)
+	return p
+
+
+## Déconnecte un joueur : il quitte sa carte (et son combat, abandonné). Renvoie les événements
+## pour les autres joueurs de la carte.
+func remove_player(id: String) -> Array[Dictionary]:
+	var events: Array[Dictionary] = []
+	var p: PlayerState = players.get(id)
+	if p == null or id == player_id:
+		return events
+	if p.combat != null:
+		p.instance.fighting.erase(p.combat_group)
+	_leave_instance(p, events)
+	players.erase(id)
+	return events
+
+
+## État d'un joueur connecté, ou `null`.
+func player(id: String) -> PlayerState:
+	return players.get(id)
+
+
+func _solo() -> PlayerState:
+	return players[player_id]
+
+
+## Joueur qui envoie la commande (`entite`) ; le premier joueur si elle n'en nomme aucun de connu
+## (en ligne, le serveur remplit `entite` d'après la session : il désigne toujours un joueur).
+func _player_of(command: Dictionary) -> PlayerState:
+	var entity_id: Variant = command.get("entite")
+	if typeof(entity_id) == TYPE_STRING and players.has(entity_id):
+		return players[entity_id]
+	return _solo()
 
 
 ## Nom d'une carte d'après son id ("" si elle est introuvable).
@@ -134,11 +205,11 @@ func neighbor_name(direction: String) -> String:
 
 
 func has_entity(entity_id: String) -> bool:
-	return _positions.has(entity_id)
+	return _solo().instance.has_entity(entity_id)
 
 
 func position_of(entity_id: String) -> Vector2i:
-	return _positions.get(entity_id, Vector2i(-1, -1))
+	return _solo().instance.position_of(entity_id)
 
 
 ## Groupes de monstres présents sur la carte.
@@ -153,10 +224,7 @@ func group(group_id: String) -> Dictionary:
 
 ## Groupe de monstres sur la case, ou `{}`.
 func group_at(cell: Vector2i) -> Dictionary:
-	for group: Dictionary in _groups.values():
-		if group["case"] == cell:
-			return group
-	return {}
+	return _solo().instance.group_at(cell)
 
 
 func in_combat() -> bool:
@@ -164,107 +232,135 @@ func in_combat() -> bool:
 
 
 func execute(command: Dictionary) -> Array[Dictionary]:
-	if in_combat():
-		var events := combat.execute(command)
-		if combat.state == Combat.State.FINISHED:
-			_end_combat(events)
-			quest_book.observe(events)
+	var p := _player_of(command)
+	if p.in_combat():
+		var events := p.combat.execute(command)
+		if p.combat.state == Combat.State.FINISHED:
+			_end_combat(p, events)
+			p.quest_book.observe(events)
 		return events
-	var events := _execute_exploration(command)
-	_stand_up_if_leaving(events)
-	quest_book.observe(events)
+	var events := _execute_exploration(p, command)
+	_stand_up_if_leaving(p, events)
+	p.quest_book.observe(events)
 	return events
 
 
-func _execute_exploration(command: Dictionary) -> Array[Dictionary]:
+## Joueurs à qui envoyer un événement produit par la commande de `sender_id` (ou par `update` si
+## `sender_id` est vide), selon sa portée (`Protocol.scope_of`) : lui seul (personnel, ou l'événement
+## nomme son joueur dans `entite`), les joueurs de la carte `carte` (carte), ou ceux de son combat.
+func recipients(event: Dictionary, sender_id := "") -> Array[String]:
+	var ids: Array[String] = []
+	match Protocol.scope_of(event):
+		Protocol.SCOPE_MAP:
+			var instance: MapInstance = instances.get(str(event.get("carte", "")))
+			if instance != null:
+				ids = instance.player_ids()
+			if not sender_id.is_empty() and sender_id not in ids:
+				ids.append(sender_id)
+		Protocol.SCOPE_COMBAT:
+			var p: PlayerState = players.get(sender_id)
+			if p != null and p.combat != null:
+				for fighter in p.combat.fighters:
+					if players.has(fighter.id):
+						ids.append(fighter.id)
+			elif p != null:
+				ids.append(sender_id)
+		_:
+			var target: String = sender_id if not sender_id.is_empty() else str(event.get("entite", ""))
+			if players.has(target):
+				ids.append(target)
+	return ids
+
+
+func _execute_exploration(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
 	var type: Variant = command.get("type")
 	if typeof(type) == TYPE_STRING:
 		if type == Protocol.CMD_MOVE:
-			return _move(command)
+			return _move(p, command)
 		if type == Protocol.CMD_ENGAGE:
-			return _engage(command)
+			return _engage(p, command)
 		if type == Protocol.CMD_TALK:
-			return _talk(command)
+			return _talk(p, command)
 		if type == Protocol.CMD_SIT:
-			return _sit(command)
+			return _sit(p, command)
 		if type == Protocol.CMD_SPEND_POINTS:
-			return _spend_points(command)
+			return _spend_points(p, command)
 		if type == Protocol.CMD_RESET_POINTS:
-			return _reset_points(command)
+			return _reset_points(p, command)
 		if type == Protocol.CMD_EQUIP:
-			return _equip(command)
+			return _equip(p, command)
 		if type == Protocol.CMD_UNEQUIP:
-			return _unequip(command)
+			return _unequip(p, command)
 		if type == Protocol.CMD_DROP:
-			return _drop(command)
+			return _drop(p, command)
 		if type == Protocol.CMD_BUY:
-			return _buy(command)
+			return _buy(p, command)
 		if type == Protocol.CMD_SELL:
-			return _sell(command)
+			return _sell(p, command)
 		if type == Protocol.CMD_HARVEST:
-			return _harvest(command)
+			return _harvest(p, command)
 		if type == Protocol.CMD_CRAFT:
-			return _craft(command)
+			return _craft(p, command)
 		if type == Protocol.CMD_USE:
-			return _use(command)
+			return _use(p, command)
 		if type == Protocol.CMD_DEPOSIT:
-			return _transfer(command, character.inventory, character.chest)
+			return _transfer(p, command, p.character.inventory, p.character.chest)
 		if type == Protocol.CMD_WITHDRAW:
-			return _transfer(command, character.chest, character.inventory)
+			return _transfer(p, command, p.character.chest, p.character.inventory)
 		if type == Protocol.CMD_TRAVEL:
-			return _travel(command)
+			return _travel(p, command)
 		if type in [Protocol.CMD_QUEST_ACCEPT, Protocol.CMD_QUEST_DECLINE, Protocol.CMD_QUEST_TRACK]:
-			return _quest_command(command)
+			return _quest_command(p, command)
 	return _refused(command, Protocol.REASON_UNKNOWN_COMMAND)
 
 
-func _quest_command(command: Dictionary) -> Array[Dictionary]:
+func _quest_command(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
 	var quest_id: Variant = command.get("quete")
-	if not _is_player_command(command) or typeof(quest_id) != TYPE_STRING or data == null:
+	if not _is_player_command(p, command) or typeof(quest_id) != TYPE_STRING or data == null:
 		return _refused(command, Protocol.REASON_INVALID_COMMAND)
 	var events: Array[Dictionary] = []
 	var reason := ""
 	if command["type"] == Protocol.CMD_QUEST_ACCEPT:
-		reason = quest_book.accept(quest_id, events)
+		reason = p.quest_book.accept(quest_id, events)
 	elif command["type"] == Protocol.CMD_QUEST_DECLINE:
-		quest_book.decline(quest_id)
+		p.quest_book.decline(quest_id)
 	else:
-		reason = quest_book.track(quest_id, events)
+		reason = p.quest_book.track(quest_id, events)
 	return _refused(command, reason) if not reason.is_empty() else events
 
 
-func _move(command: Dictionary) -> Array[Dictionary]:
+func _move(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
 	var entity_id: Variant = command.get("entite")
 	var target: Variant = command.get("cible")
 	var exit: Variant = command.get("sortie", "")
 	var door: Variant = command.get("porte", false)
 	if typeof(entity_id) != TYPE_STRING or typeof(target) != TYPE_VECTOR2I or typeof(exit) != TYPE_STRING or typeof(door) != TYPE_BOOL:
 		return _refused(command, Protocol.REASON_INVALID_COMMAND)
-	if entity_id != PLAYER_ID:
+	if entity_id != p.id:
 		return _refused(command, Protocol.REASON_UNKNOWN_ENTITY)
-	if not map.is_inside(target):
+	if not p.map.is_inside(target):
 		return _refused(command, Protocol.REASON_OUT_OF_MAP)
-	if not map.is_walkable(target):
+	if not p.map.is_walkable(target):
 		return _refused(command, Protocol.REASON_BLOCKED)
 	var next_map: GameMap = null
 	if not exit.is_empty():
-		if exit not in map.exit_directions(target):
+		if exit not in p.map.exit_directions(target):
 			return _refused(command, Protocol.REASON_NO_EXIT)
-		next_map = _load_map(map.exits[exit])
+		next_map = _load_map(p.map.exits[exit])
 		if next_map == null:
 			return _refused(command, Protocol.REASON_UNKNOWN_MAP)
 	elif door:
-		if not map.doors.has(target):
+		if not p.map.doors.has(target):
 			return _refused(command, Protocol.REASON_NO_EXIT)
-		next_map = _load_map(map.doors[target])
+		next_map = _load_map(p.map.doors[target])
 		if next_map == null:
 			return _refused(command, Protocol.REASON_UNKNOWN_MAP)
-	var start: Variant = _start_cell(command)
+	var start: Variant = _start_cell(p, command)
 	if start == null:
 		return _refused(command, Protocol.REASON_INVALID_COMMAND)
 	var from: Vector2i = start
 	var interrupted := command.has("interrompre_a")
-	var path := map.find_path(from, target)
+	var path := p.map.find_path(from, target)
 	if from == target and next_map == null and not interrupted:
 		return _refused(command, Protocol.REASON_ALREADY_THERE)
 	if path.is_empty() and from != target:
@@ -272,49 +368,63 @@ func _move(command: Dictionary) -> Array[Dictionary]:
 
 	var events: Array[Dictionary] = []
 	if not path.is_empty() or interrupted:
-		events.append(_moved_event(from, path))
-	_positions[PLAYER_ID] = target
-	_remember_walk(from, path)
+		events.append(_moved_event(p, from, path))
+	p.cell = target
+	_remember_walk(p, from, path)
 	if next_map != null:
-		var previous_map := map.id
-		_set_map(next_map, next_map.door_to(previous_map) if door else next_map.arrival_cell(exit, target))
-		events.append({
+		var previous_map := p.map.id
+		var arrival := next_map.door_to(previous_map) if door else next_map.arrival_cell(exit, target)
+		var others: Array[Dictionary] = []
+		_set_map(p, next_map, arrival, others)
+		_append_map_change(events, others, {
 			"type": Protocol.EVT_MAP_CHANGED,
-			"carte": map.id,
-			"nom": map.display_name,
-			"position": _positions[PLAYER_ID],
+			"carte": p.map.id,
+			"nom": p.map.display_name,
+			"position": p.cell,
 		})
 	return events
 
 
+## Ajoute un changement de carte entre le départ (EVT_PLAYER_LEFT, pour les joueurs de l'ancienne
+## carte) et l'arrivée (EVT_PLAYER_JOINED, pour ceux de la nouvelle).
+static func _append_map_change(events: Array[Dictionary], others: Array[Dictionary], changed: Dictionary) -> void:
+	for event in others:
+		if event["type"] == Protocol.EVT_PLAYER_LEFT:
+			events.append(event)
+	events.append(changed)
+	for event in others:
+		if event["type"] != Protocol.EVT_PLAYER_LEFT:
+			events.append(event)
+
+
 ## Le joueur marche à côté du PNJ, qui lui parle.
-func _talk(command: Dictionary) -> Array[Dictionary]:
+func _talk(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
 	var entity_id: Variant = command.get("entite")
 	var npc_id: Variant = command.get("pnj")
-	if typeof(entity_id) != TYPE_STRING or entity_id != PLAYER_ID or typeof(npc_id) != TYPE_STRING:
+	if typeof(entity_id) != TYPE_STRING or entity_id != p.id or typeof(npc_id) != TYPE_STRING:
 		return _refused(command, Protocol.REASON_INVALID_COMMAND)
-	var npc := map.get_npc(npc_id)
+	var npc := p.map.get_npc(npc_id)
 	if npc.is_empty():
 		return _refused(command, Protocol.REASON_UNKNOWN_ENTITY)
 	var npc_cell: Vector2i = npc["case"]
-	var start: Variant = _start_cell(command)
+	var start: Variant = _start_cell(p, command)
 	if start == null:
 		return _refused(command, Protocol.REASON_INVALID_COMMAND)
 	var from: Vector2i = start
 	var events: Array[Dictionary] = []
 	if not GameMap.is_adjacent(from, npc_cell):
-		var best := map.approach_path(from, npc_cell)
+		var best := p.map.approach_path(from, npc_cell)
 		if best.is_empty():
 			return _refused(command, Protocol.REASON_NO_PATH)
-		events.append(_moved_event(from, best))
-		_positions[PLAYER_ID] = best[-1]
-		_remember_walk(from, best)
-	elif from != _positions[PLAYER_ID]:
+		events.append(_moved_event(p, from, best))
+		p.cell = best[-1]
+		_remember_walk(p, from, best)
+	elif from != p.cell:
 		# Arrêté en chemin juste à côté du PNJ.
-		events.append(_moved_event(from, [] as Array[Vector2i]))
-		_positions[PLAYER_ID] = from
-		_remember_walk(from, [] as Array[Vector2i])
-	if data != null and quest_book.talk(npc, events):
+		events.append(_moved_event(p, from, [] as Array[Vector2i]))
+		p.cell = from
+		_remember_walk(p, from, [] as Array[Vector2i])
+	if data != null and p.quest_book.talk(npc, events):
 		return events
 	var workshop: String = npc.get("atelier", "")
 	if not workshop.is_empty() and data != null and data.jobs.has(workshop):
@@ -352,39 +462,72 @@ func _talk(command: Dictionary) -> Array[Dictionary]:
 
 ## Case de départ d'une commande d'exploration : la position du joueur, ou la case du trajet en
 ## cours où il s'arrête (`interrompre_a`). `null` si cette case n'est pas sur le trajet.
-func _start_cell(command: Dictionary) -> Variant:
+func _start_cell(p: PlayerState, command: Dictionary) -> Variant:
 	if not command.has("interrompre_a"):
-		return _positions[PLAYER_ID]
+		return p.cell
 	var stop: Variant = command["interrompre_a"]
-	if typeof(stop) != TYPE_VECTOR2I or (stop not in _last_walk and stop != _positions[PLAYER_ID]):
+	if typeof(stop) != TYPE_VECTOR2I or (stop not in p.last_walk and stop != p.cell):
 		return null
 	return stop
 
 
-func _remember_walk(from: Vector2i, path: Array[Vector2i]) -> void:
-	_last_walk = [from]
-	_last_walk.append_array(path)
+func _remember_walk(p: PlayerState, from: Vector2i, path: Array[Vector2i]) -> void:
+	p.last_walk = [from]
+	p.last_walk.append_array(path)
 
 
-## Change de carte : mémorise les groupes restants de l'ancienne, retrouve ceux de la nouvelle. La
-## carte rejoint les cartes visitées du personnage.
-func _set_map(next_map: GameMap, player_cell: Vector2i) -> void:
-	if map != null:
-		_map_states[map.id] = _groups
-	map = next_map
-	_loaded_maps[map.id] = map
-	character.visit_map(map.id)
-	_groups = {}
-	if _map_states.has(map.id):
-		_groups = _map_states[map.id]
-	else:
-		for group in available_groups(map):
-			_groups[group["id"]] = GameMap.compose_group(group, rng, data)
-	_positions = {PLAYER_ID: player_cell}
-	_last_walk.clear()
-	_wander_times.clear()
-	for group_id: String in _groups:
-		_positions[group_id] = _groups[group_id]["case"]
+## Change de carte : le joueur quitte la carte vivante de l'ancienne (qui garde ses groupes) et
+## entre dans celle de la nouvelle, créée à la première visite. La carte rejoint les cartes visitées
+## du personnage. Les autres joueurs des deux cartes l'apprennent par `events` (EVT_PLAYER_LEFT et
+## EVT_PLAYER_JOINED, seulement s'il y en a : jamais en solo).
+func _set_map(p: PlayerState, next_map: GameMap, player_cell: Vector2i, events: Array[Dictionary] = []) -> void:
+	_leave_instance(p, events)
+	_loaded_maps[next_map.id] = next_map
+	p.instance = _instance(next_map.id)
+	if not p.instance.has_players():
+		p.instance.wander_times.clear()  # Une carte qui se réveille : pas de promenade tout de suite.
+	var others := p.instance.player_ids()
+	p.instance.add_player(p.id, player_cell)
+	p.character.visit_map(next_map.id)
+	p.last_walk.clear()
+	if not others.is_empty():
+		events.append(_player_joined_event(p))
+
+
+func _leave_instance(p: PlayerState, events: Array[Dictionary]) -> void:
+	if p.instance == null:
+		return
+	p.instance.remove_player(p.id)
+	if p.instance.has_players():
+		events.append({"type": Protocol.EVT_PLAYER_LEFT, "carte": p.map.id, "entite": p.id})
+	p.instance = null
+
+
+## Un joueur arrive sur une carte où il y a déjà du monde : ce que les autres en voient.
+func _player_joined_event(p: PlayerState) -> Dictionary:
+	return {"type": Protocol.EVT_PLAYER_JOINED, "carte": p.map.id, "joueur": player_view(p)}
+
+
+## Ce que les autres joueurs voient d'un joueur : { id, nom, race, voie, niveau, case, assis }.
+func player_view(p: PlayerState) -> Dictionary:
+	return {"id": p.id, "nom": p.character.display_name, "race": p.character.race_id, "voie": p.character.voie_id,
+		"niveau": p.character.level, "case": p.cell, "assis": p.sitting}
+
+
+## Carte vivante d'une carte, créée (avec ses groupes, comme à une première visite) au besoin ;
+## `null` si la carte est introuvable.
+func _instance(map_id: String) -> MapInstance:
+	if instances.has(map_id):
+		return instances[map_id]
+	var source := _load_map(map_id)
+	if source == null:
+		return null
+	var groups := {}
+	for group in available_groups(source):
+		groups[group["id"]] = GameMap.compose_group(group, rng, data)
+	var instance := MapInstance.new(source, groups)
+	instances[map_id] = instance
+	return instance
 
 
 func _load_map(map_id: String) -> GameMap:
@@ -399,35 +542,38 @@ func _load_map(map_id: String) -> GameMap:
 
 
 ## Le joueur marche jusqu'au groupe de monstres, puis le combat commence.
-func _engage(command: Dictionary) -> Array[Dictionary]:
+func _engage(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
 	var group_id: Variant = command.get("groupe")
 	var entity_id: Variant = command.get("entite")
-	if typeof(entity_id) != TYPE_STRING or entity_id != PLAYER_ID or typeof(group_id) != TYPE_STRING:
+	if typeof(entity_id) != TYPE_STRING or entity_id != p.id or typeof(group_id) != TYPE_STRING:
 		return _refused(command, Protocol.REASON_INVALID_COMMAND)
-	if not _groups.has(group_id):
+	if not p.instance.groups.has(group_id):
 		return _refused(command, Protocol.REASON_UNKNOWN_ENTITY)
-	if data == null or not data.voies.has(player_voie):
+	if p.instance.fighting.has(group_id):
+		return _refused(command, Protocol.REASON_GROUP_IN_COMBAT)
+	if data == null or not data.voies.has(p.character.voie_id):
 		return _refused(command, Protocol.REASON_WRONG_PHASE)
-	if character.inventory.is_overloaded():
+	if p.character.inventory.is_overloaded():
 		return _refused(command, Protocol.REASON_INVENTORY_OVERLOADED)
-	var group: Dictionary = _groups[group_id]
-	var start: Variant = _start_cell(command)
+	var group: Dictionary = p.instance.groups[group_id]
+	var start: Variant = _start_cell(p, command)
 	if start == null:
 		return _refused(command, Protocol.REASON_INVALID_COMMAND)
 	var from: Vector2i = start
 	var target: Vector2i = group["case"]
-	var path := map.find_path(from, target)
+	var path := p.map.find_path(from, target)
 	if path.is_empty() and from != target:
 		return _refused(command, Protocol.REASON_NO_PATH)
 
 	var events: Array[Dictionary] = []
 	if not path.is_empty() or command.has("interrompre_a"):
-		events.append(_moved_event(from, path))
-	_positions[PLAYER_ID] = target
-	_last_walk.clear()
-	combat = _create_combat(group)
-	_combat_group = group_id
-	var start_events := combat.start()
+		events.append(_moved_event(p, from, path))
+	p.cell = target
+	p.last_walk.clear()
+	p.combat = _create_combat(p, group)
+	p.combat_group = group_id
+	p.instance.fighting[group_id] = p.id
+	var start_events := p.combat.start()
 	start_events[0]["groupe"] = group_id
 	events.append_array(start_events)
 	return events
@@ -438,13 +584,13 @@ func _engage(command: Dictionary) -> Array[Dictionary]:
 ## au hasard, le joueur sur la première case « j », libre d'en changer pendant le placement. Les
 ## côtés sont tirés au sort à chaque combat : une fois sur deux, les camps échangent leurs cases
 ## (si les cases « j » suffisent au plus grand groupe).
-func _create_combat(group: Dictionary) -> Combat:
+func _create_combat(p: PlayerState, group: Dictionary) -> Combat:
 	var fighters: Array[Fighter] = []
-	var seed_value := hash(map.id) + _combat_count + 1
+	var seed_value := hash(p.map.id) + _combat_count + 1
 	var shuffle := RandomNumberGenerator.new()
 	shuffle.seed = seed_value
-	var monster_cells: Array[Vector2i] = map.placement_monsters.duplicate()
-	var placement: Array[Vector2i] = map.placement_players.duplicate()
+	var monster_cells: Array[Vector2i] = p.map.placement_monsters.duplicate()
+	var placement: Array[Vector2i] = p.map.placement_players.duplicate()
 	if shuffle.randi_range(0, 1) == 1 and placement.size() >= GameMap.MAX_GROUP_SIZE:
 		var swap_sides := monster_cells
 		monster_cells = placement
@@ -466,91 +612,95 @@ func _create_combat(group: Dictionary) -> Combat:
 		fighters.append(monster)
 		index += 1
 
-	var player := data.create_character_fighter(character, PLAYER_ID)
+	var player := data.create_character_fighter(p.character, p.id)
 	player.cell = placement[0]
 	fighters.append(player)
 	_combat_count += 1
-	return Combat.new(map, fighters, placement, seed_value)
+	return Combat.new(p.map, fighters, placement, seed_value)
 
 
-func _end_combat(events: Array[Dictionary]) -> void:
+func _end_combat(p: PlayerState, events: Array[Dictionary]) -> void:
 	var defeated_group := ""
-	var player := combat.get_fighter(PLAYER_ID)
-	var combat_map := map.id
+	var player := p.combat.get_fighter(p.id)
+	var combat_map := p.map.id
+	var combat_instance := p.instance
+	combat_instance.fighting.erase(p.combat_group)
 	var wake_up := {}
-	if combat.winner_team == Fighter.TEAM_PLAYERS:
-		defeated_group = _combat_group
-		var defeated: Dictionary = _groups[_combat_group]
-		_combat_loot_bonus = ELITE_LOOT_BONUS_PER_RANK * elite_rank(defeated)
+	var others: Array[Dictionary] = []
+	if p.combat.winner_team == Fighter.TEAM_PLAYERS:
+		defeated_group = p.combat_group
+		var defeated: Dictionary = p.instance.groups[p.combat_group]
+		p.combat_loot_bonus = ELITE_LOOT_BONUS_PER_RANK * elite_rank(defeated)
 		if defeated.has("elite"):
 			_elite_defeated(defeated["elite"])
 		for monster_id: String in defeated["monstres"]:
 			if data != null and data.monsters.get(monster_id, {}).get("boss", false):
 				_boss_defeated(monster_id)
-		if not _combat_group.begins_with(ELITE_GROUP_PREFIX):
-			_schedule_respawn(map.id, defeated)
-		_groups.erase(_combat_group)
-		_positions.erase(_combat_group)
-		character.set_hp(player.hp, data)
+		if not p.combat_group.begins_with(ELITE_GROUP_PREFIX):
+			_schedule_respawn(p.map.id, defeated)
+		combat_instance.groups.erase(p.combat_group)
+		combat_instance.positions.erase(p.combat_group)
+		p.character.set_hp(player.hp, data)
 	else:
-		character.set_hp(1, data)  # Vaincu : on se relève avec 1 PV.
-		wake_up = _wake_up()
+		p.character.set_hp(1, data)  # Vaincu : on se relève avec 1 PV.
+		wake_up = _wake_up(p, others)
 		for event in events:
 			if event["type"] == Protocol.EVT_COMBAT_ENDED:
 				event["reveil"] = wake_up
-	_reward(events)
-	if combat.winner_team == Fighter.TEAM_PLAYERS:
-		_loot(events)
+	_reward(p, events)
+	if p.combat.winner_team == Fighter.TEAM_PLAYERS:
+		_loot(p, events)
 		var kinds: Array = []
-		for fighter in combat.fighters:
+		for fighter in p.combat.fighters:
 			if fighter.team != Fighter.TEAM_PLAYERS:
 				kinds.append(fighter.kind)
 		for event in events:
 			if event["type"] == Protocol.EVT_COMBAT_ENDED:
-				quest_book.combat_won(kinds, combat.rng, event, events)
+				p.quest_book.combat_won(kinds, p.combat.rng, event, events)
 	var back := {
 		"type": Protocol.EVT_EXPLORATION,
-		"position": _positions[PLAYER_ID],
+		"position": p.cell,
 		"groupe_vaincu": defeated_group,
 	}
 	if not wake_up.is_empty():
 		back["reveil"] = wake_up
 	events.append(back)
-	if map.id != combat_map:
-		events.append({"type": Protocol.EVT_MAP_CHANGED, "carte": map.id, "nom": map.display_name, "position": _positions[PLAYER_ID]})
-	combat = null
-	_combat_group = ""
-	_combat_loot_bonus = 0.0
+	if p.map.id != combat_map:
+		_append_map_change(events, others, {"type": Protocol.EVT_MAP_CHANGED, "carte": p.map.id, "nom": p.map.display_name,
+			"position": p.cell})
+	p.combat = null
+	p.combat_group = ""
+	p.combat_loot_bonus = 0.0
 
 
 ## Après une défaite, le joueur se réveille à côté de la Pierre de Passage de son point de
 ## résurrection, en changeant de carte s'il le faut ; sans point de résurrection (ou si sa carte est
 ## introuvable), au départ de la carte du combat. Renvoie où : { passage, nom, carte }.
-func _wake_up() -> Dictionary:
-	var passage: Dictionary = data.passages.get(character.respawn_passage, {}) if data != null else {}
+func _wake_up(p: PlayerState, events: Array[Dictionary]) -> Dictionary:
+	var passage: Dictionary = data.passages.get(p.character.respawn_passage, {}) if data != null else {}
 	var target: GameMap = _load_map(passage["carte"]) if not passage.is_empty() else null
 	if target == null or target.travel_stone() == Vector2i(-1, -1):
-		_positions[PLAYER_ID] = map.spawn
-		return {"passage": "", "nom": map.display_name, "carte": map.id}
-	_set_map(target, target.beside(target.travel_stone()))
-	return {"passage": passage["id"], "nom": passage["nom"], "carte": map.id}
+		p.cell = p.map.spawn
+		return {"passage": "", "nom": p.map.display_name, "carte": p.map.id}
+	_set_map(p, target, target.beside(target.travel_stone()), events)
+	return {"passage": passage["id"], "nom": passage["nom"], "carte": p.map.id}
 
 
 ## XP des monstres vaincus, même en cas de défaite (× `Character.XP_RATE`, bonus de Sagesse : +1 %
 ## par point), et montées de niveau.
-func _reward(events: Array[Dictionary]) -> void:
+func _reward(p: PlayerState, events: Array[Dictionary]) -> void:
 	for event in events:
 		if event["type"] == Protocol.EVT_COMBAT_ENDED:
 			if int(event["xp"]) <= 0:
 				return
-			var gain := roundi(int(event["xp"]) * Character.XP_RATE * (100 + character.stat("sagesse", data)) / 100.0)
+			var gain := roundi(int(event["xp"]) * Character.XP_RATE * (100 + p.character.stat("sagesse", data)) / 100.0)
 			event["xp"] = gain
-			var levels := character.add_xp(gain)
+			var levels := p.character.add_xp(gain)
 			event["niveaux"] = levels
-			events.append({"type": Protocol.EVT_XP, "gain": gain, "xp": character.xp, "niveau": character.level})
+			events.append({"type": Protocol.EVT_XP, "gain": gain, "xp": p.character.xp, "niveau": p.character.level})
 			for reached in levels:
-				events.append({"type": Protocol.EVT_LEVEL_UP, "niveau": reached, "points": character.unspent_points})
-			events.append(_character_event())
+				events.append({"type": Protocol.EVT_LEVEL_UP, "niveau": reached, "points": p.character.unspent_points})
+			events.append(_character_event(p))
 			return
 
 
@@ -558,45 +708,45 @@ func _reward(events: Array[Dictionary]) -> void:
 ## brumes (+X % avec le passif de race « ecus »).
 ## Rien ne se perd : si le sac est plein, le butin y entre en surplus (`surcharge` dans
 ## l'événement) et les combats sont refusés tant qu'on n'a pas fait de la place.
-func _loot(events: Array[Dictionary]) -> void:
+func _loot(p: PlayerState, events: Array[Dictionary]) -> void:
 	var ended: Dictionary = {}
 	for event in events:
 		if event["type"] == Protocol.EVT_COMBAT_ENDED:
 			ended = event
-	var player := combat.get_fighter(PLAYER_ID)
+	var player := p.combat.get_fighter(p.id)
 	var prospection: int = player.prospection if player != null else Character.BASE_PROSPECTION
-	var rng := combat.rng
+	var rng := p.combat.rng
 	var monsters: Array = []
 	var coins := 0
-	for fighter in combat.fighters:
+	for fighter in p.combat.fighters:
 		if fighter.team == Fighter.TEAM_PLAYERS or not data.monsters.has(fighter.kind):
 			continue
 		var monster: Dictionary = data.monsters[fighter.kind]
 		monsters.append(monster)
 		var coin_range: Array = monster.get("ecus", [0, 0])
 		coins += rng.randi_range(int(coin_range[0]), int(coin_range[1]))
-	coins = roundi(coins * (100 + data.passive_value(character.race_id, "ecus")) / 100.0)
+	coins = roundi(coins * (100 + data.passive_value(p.character.race_id, "ecus")) / 100.0)
 	var found: Array[Dictionary] = []
-	for drop: Dictionary in Loot.roll(monsters, {PLAYER_ID: prospection}, rng, _combat_loot_bonus)[PLAYER_ID]:
+	for drop: Dictionary in Loot.roll(monsters, {p.id: prospection}, rng, p.combat_loot_bonus)[p.id]:
 		var template: Dictionary = data.items[drop["objet"]]
 		var quantity: int = drop["quantite"]
 		for _unit in (quantity if Item.is_equipment(template) else 1):
-			character.inventory.add(template, 1 if Item.is_equipment(template) else quantity, Item.roll_bonuses(template, rng), true)
+			p.character.inventory.add(template, 1 if Item.is_equipment(template) else quantity, Item.roll_bonuses(template, rng), true)
 			found.append({"objet": template["id"], "nom": template["nom"], "rarete": template["rarete"],
 				"quantite": 1 if Item.is_equipment(template) else quantity})
-	character.inventory.ecus += coins
+	p.character.inventory.ecus += coins
 	ended["butin"] = _merged_loot(found)
-	ended["surcharge"] = character.inventory.is_overloaded()
+	ended["surcharge"] = p.character.inventory.is_overloaded()
 	ended["ecus"] = coins
-	events.append(_inventory_event())
+	events.append(_inventory_event(p))
 
 
-func _equip(command: Dictionary) -> Array[Dictionary]:
+func _equip(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
 	var uid: Variant = command.get("objet")
 	var wanted_slot: Variant = command.get("emplacement", "")
-	if not _is_player_command(command) or typeof(uid) != TYPE_STRING or typeof(wanted_slot) != TYPE_STRING:
+	if not _is_player_command(p, command) or typeof(uid) != TYPE_STRING or typeof(wanted_slot) != TYPE_STRING:
 		return _refused(command, Protocol.REASON_INVALID_COMMAND)
-	var inventory := character.inventory
+	var inventory := p.character.inventory
 	if not inventory.entries.has(uid) or not data.items.has(inventory.entries[uid]["objet"]):
 		return _refused(command, Protocol.REASON_UNKNOWN_ITEM)
 	var template: Dictionary = data.items[inventory.entries[uid]["objet"]]
@@ -618,11 +768,11 @@ func _equip(command: Dictionary) -> Array[Dictionary]:
 				break
 	if slot not in slots:
 		return _refused(command, Protocol.REASON_NOT_EQUIPPABLE)
-	if character.level < int(template.get("niveau", 1)):
+	if p.character.level < int(template.get("niveau", 1)):
 		return _refused(command, Protocol.REASON_REQUIREMENTS)
 	var conditions: Dictionary = template.get("conditions", {})
 	for stat_name: String in conditions:
-		if character.stat(stat_name, data) < int(conditions[stat_name]):
+		if p.character.stat(stat_name, data) < int(conditions[stat_name]):
 			return _refused(command, Protocol.REASON_REQUIREMENTS)
 	# Deux exemplaires du même objet (deux anneaux identiques…) ne se portent pas ensemble.
 	for other_slot: String in slots:
@@ -630,29 +780,29 @@ func _equip(command: Dictionary) -> Array[Dictionary]:
 		if other_slot != slot and not other.is_empty() and other["uid"] != uid and other["objet"] == template["id"]:
 			return _refused(command, Protocol.REASON_ALREADY_WORN)
 	inventory.equip(uid, slot)
-	return _inventory_events()
+	return _inventory_events(p)
 
 
-func _unequip(command: Dictionary) -> Array[Dictionary]:
+func _unequip(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
 	var slot: Variant = command.get("emplacement")
-	if not _is_player_command(command) or typeof(slot) != TYPE_STRING or slot not in Inventory.SLOTS:
+	if not _is_player_command(p, command) or typeof(slot) != TYPE_STRING or slot not in Inventory.SLOTS:
 		return _refused(command, Protocol.REASON_INVALID_COMMAND)
-	if not character.inventory.equipped.has(slot):
+	if not p.character.inventory.equipped.has(slot):
 		return _refused(command, Protocol.REASON_EMPTY_SLOT)
-	character.inventory.unequip(slot)
-	return _inventory_events()
+	p.character.inventory.unequip(slot)
+	return _inventory_events(p)
 
 
-func _drop(command: Dictionary) -> Array[Dictionary]:
+func _drop(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
 	var uid: Variant = command.get("objet")
 	var quantity: Variant = command.get("quantite", 1)
-	if not _is_player_command(command) or typeof(uid) != TYPE_STRING or typeof(quantity) != TYPE_INT:
+	if not _is_player_command(p, command) or typeof(uid) != TYPE_STRING or typeof(quantity) != TYPE_INT:
 		return _refused(command, Protocol.REASON_INVALID_COMMAND)
-	if _is_quest_item(uid):
+	if _is_quest_item(p, uid):
 		return _refused(command, Protocol.REASON_QUEST_ITEM)
-	if not character.inventory.remove(uid, quantity):
+	if not p.character.inventory.remove(uid, quantity):
 		return _refused(command, Protocol.REASON_UNKNOWN_ITEM)
-	return _inventory_events()
+	return _inventory_events(p)
 
 
 # --- Marchands ----------------------------------------------------------------------------------
@@ -696,17 +846,17 @@ static func _article_order(a: Dictionary, b: Dictionary) -> bool:
 ## Raison de refuser un achat, une vente ou une fabrication auprès du PNJ `pnj` de la commande
 ## ("" si tout va bien) : il doit être sur la carte et offrir ce service (`marchand`, ou `atelier`
 ## du métier `job_id`), et le joueur doit se tenir à côté de lui.
-func _service_refusal(command: Dictionary, job_id := "") -> String:
+func _service_refusal(p: PlayerState, command: Dictionary, job_id := "") -> String:
 	var npc_id: Variant = command.get("pnj")
 	if typeof(npc_id) != TYPE_STRING:
 		return Protocol.REASON_INVALID_COMMAND
 	if data == null:
 		return Protocol.REASON_WRONG_PHASE
-	var npc := map.get_npc(npc_id)
+	var npc := p.map.get_npc(npc_id)
 	var offered: bool = npc.get("atelier", "") == job_id if not job_id.is_empty() else npc.get("marchand", false)
 	if npc.is_empty() or not offered:
 		return Protocol.REASON_UNKNOWN_ENTITY
-	if not GameMap.is_adjacent(_positions[PLAYER_ID], npc["case"]):
+	if not GameMap.is_adjacent(p.cell, npc["case"]):
 		return Protocol.REASON_TOO_FAR
 	return ""
 
@@ -718,18 +868,18 @@ func _trade_quantity(command: Dictionary) -> int:
 	return quantity
 
 
-func _buy(command: Dictionary) -> Array[Dictionary]:
+func _buy(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
 	var item_id: Variant = command.get("objet")
 	var quantity := _trade_quantity(command)
-	if not _is_player_command(command) or typeof(item_id) != TYPE_STRING or quantity == 0:
+	if not _is_player_command(p, command) or typeof(item_id) != TYPE_STRING or quantity == 0:
 		return _refused(command, Protocol.REASON_INVALID_COMMAND)
-	var reason := _service_refusal(command)
+	var reason := _service_refusal(p, command)
 	if not reason.is_empty():
 		return _refused(command, reason)
 	if not data.items.has(item_id) or not Item.is_sold(data.items[item_id]):
 		return _refused(command, Protocol.REASON_UNKNOWN_ITEM)
 	var template: Dictionary = data.items[item_id]
-	var inventory := character.inventory
+	var inventory := p.character.inventory
 	var price := Item.buy_price(template) * quantity
 	if price > inventory.ecus:
 		return _refused(command, Protocol.REASON_NOT_ENOUGH_ECUS)
@@ -743,23 +893,23 @@ func _buy(command: Dictionary) -> Array[Dictionary]:
 			inventory.add(template, 1, Item.roll_bonuses(template, rng))
 	else:
 		inventory.add(template, quantity)
-	return _trade_events("achat", template, quantity, price)
+	return _trade_events(p, "achat", template, quantity, price)
 
 
-func _sell(command: Dictionary) -> Array[Dictionary]:
+func _sell(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
 	var uid: Variant = command.get("objet")
 	var quantity := _trade_quantity(command)
-	if not _is_player_command(command) or typeof(uid) != TYPE_STRING or quantity == 0:
+	if not _is_player_command(p, command) or typeof(uid) != TYPE_STRING or quantity == 0:
 		return _refused(command, Protocol.REASON_INVALID_COMMAND)
-	var reason := _service_refusal(command)
+	var reason := _service_refusal(p, command)
 	if not reason.is_empty():
 		return _refused(command, reason)
-	var inventory := character.inventory
+	var inventory := p.character.inventory
 	if not inventory.entries.has(uid) or not data.items.has(inventory.entries[uid]["objet"]):
 		return _refused(command, Protocol.REASON_UNKNOWN_ITEM)
 	if not inventory.slot_of(uid).is_empty():
 		return _refused(command, Protocol.REASON_ITEM_WORN)
-	if _is_quest_item(uid):
+	if _is_quest_item(p, uid):
 		return _refused(command, Protocol.REASON_QUEST_ITEM)
 	if quantity > int(inventory.entries[uid]["quantite"]):
 		return _refused(command, Protocol.REASON_INVALID_COMMAND)
@@ -767,10 +917,10 @@ func _sell(command: Dictionary) -> Array[Dictionary]:
 	var price := Item.sell_price(template) * quantity
 	inventory.remove(uid, quantity)
 	inventory.ecus += price
-	return _trade_events("vente", template, quantity, price)
+	return _trade_events(p, "vente", template, quantity, price)
 
 
-func _trade_events(operation: String, template: Dictionary, quantity: int, price: int) -> Array[Dictionary]:
+func _trade_events(p: PlayerState, operation: String, template: Dictionary, quantity: int, price: int) -> Array[Dictionary]:
 	var events: Array[Dictionary] = [{
 		"type": Protocol.EVT_TRADE,
 		"operation": operation,
@@ -778,9 +928,9 @@ func _trade_events(operation: String, template: Dictionary, quantity: int, price
 		"nom": template["nom"],
 		"quantite": quantity,
 		"prix": price,
-		"ecus": character.inventory.ecus,
+		"ecus": p.character.inventory.ecus,
 	}]
-	events.append_array(_inventory_events())
+	events.append_array(_inventory_events(p))
 	return events
 
 
@@ -788,54 +938,64 @@ func _trade_events(operation: String, template: Dictionary, quantity: int, price
 
 ## Fait avancer le temps : les PV se régénèrent hors combat, les ressources récoltées repoussent
 ## et les groupes de monstres vaincus réapparaissent. Renvoie un événement par ressource
-## (EVT_RESOURCE_RESPAWNED) ou groupe (EVT_GROUP_RESPAWNED) revenu sur la carte actuelle.
+## (EVT_RESOURCE_RESPAWNED) ou groupe (EVT_GROUP_RESPAWNED) revenu sur une carte où il y a des
+## joueurs, et par PV régénéré (EVT_REGEN, pour le joueur concerné).
 func update(delta: float) -> Array[Dictionary]:
 	clock += delta
 	var events: Array[Dictionary] = []
-	_regenerate(delta)
+	for p: PlayerState in players.values():
+		_regenerate(p, delta, events)
 	_respawn_groups(events)
 	_update_elites(events)
 	_wander_groups(events)
-	for map_id: String in _depleted:
-		var cells: Dictionary = _depleted[map_id]
-		for cell: Vector2i in cells.keys():
-			if cells[cell] <= clock:
-				cells.erase(cell)
-				if map != null and map_id == map.id:
+	for map_id: String in instances:
+		var instance: MapInstance = instances[map_id]
+		for cell: Vector2i in instance.depleted.keys():
+			if instance.depleted[cell] <= clock:
+				instance.depleted.erase(cell)
+				if instance.has_players():
 					events.append({"type": Protocol.EVT_RESOURCE_RESPAWNED, "carte": map_id, "case": cell})
 	return events
 
 
-## Les groupes de la carte actuelle se promènent de temps en temps, hors combat, sans trop
-## s'éloigner de leur case d'origine.
+## Les groupes des cartes où il y a des joueurs se promènent de temps en temps, sans trop
+## s'éloigner de leur case d'origine ; pas pendant le combat d'un joueur de la carte.
 func _wander_groups(events: Array[Dictionary]) -> void:
-	if in_combat():
-		return
-	for group_id: String in _groups:
-		if not _wander_times.has(group_id):
-			_wander_times[group_id] = clock + rng.randf_range(GROUP_WANDER_DELAY[0], GROUP_WANDER_DELAY[1])
+	for map_id: String in instances:
+		var instance: MapInstance = instances[map_id]
+		if not instance.has_players() or _anyone_fighting(instance):
 			continue
-		if _wander_times[group_id] > clock:
-			continue
-		_wander_times[group_id] = clock + rng.randf_range(GROUP_WANDER_DELAY[0], GROUP_WANDER_DELAY[1])
-		var path := _wander_path(_groups[group_id])
-		if path.is_empty():
-			continue
-		_groups[group_id]["case"] = path[-1]
-		_positions[group_id] = path[-1]
-		events.append({"type": Protocol.EVT_GROUP_MOVED, "groupe": group_id, "chemin": path, "case": path[-1]})
+		for group_id: String in instance.groups:
+			if not instance.wander_times.has(group_id):
+				instance.wander_times[group_id] = clock + rng.randf_range(GROUP_WANDER_DELAY[0], GROUP_WANDER_DELAY[1])
+				continue
+			if instance.wander_times[group_id] > clock:
+				continue
+			instance.wander_times[group_id] = clock + rng.randf_range(GROUP_WANDER_DELAY[0], GROUP_WANDER_DELAY[1])
+			var path := _wander_path(instance, instance.groups[group_id])
+			if path.is_empty():
+				continue
+			instance.groups[group_id]["case"] = path[-1]
+			instance.positions[group_id] = path[-1]
+			events.append({"type": Protocol.EVT_GROUP_MOVED, "carte": map_id, "groupe": group_id, "chemin": path, "case": path[-1]})
+
+
+func _anyone_fighting(instance: MapInstance) -> bool:
+	for player_id: String in instance.player_ids():
+		if players[player_id].in_combat():
+			return true
+	return false
 
 
 ## Petit trajet au hasard pour un groupe (sans sa case de départ), vide s'il reste sur place :
 ## des pas droits, sur des cases libres (ni joueur, ni autre groupe, ni porte, ni bord de sortie,
 ## ni derrière un bâtiment),
 ## à GROUP_WANDER_RANGE cases au plus de son origine.
-func _wander_path(group: Dictionary) -> Array[Vector2i]:
+func _wander_path(instance: MapInstance, group: Dictionary) -> Array[Vector2i]:
+	var source := instance.map
 	var start: Vector2i = group["case"]
 	var home: Vector2i = group.get("foyer", start)
-	var taken := {}
-	for entity_id: String in _positions:
-		taken[_positions[entity_id]] = true
+	var taken := instance.taken_cells()
 	var parents := {start: start}
 	var frontier: Array[Vector2i] = [start]
 	var choices: Array[Vector2i] = []
@@ -843,9 +1003,9 @@ func _wander_path(group: Dictionary) -> Array[Vector2i]:
 		var next_frontier: Array[Vector2i] = []
 		for cell in frontier:
 			for neighbor in IsoGrid.neighbors_4(cell):
-				if parents.has(neighbor) or taken.has(neighbor) or not map.is_walkable(neighbor) or map.doors.has(neighbor) \
-						or map.is_behind_building(neighbor) \
-						or not map.exit_directions(neighbor).is_empty() \
+				if parents.has(neighbor) or taken.has(neighbor) or not source.is_walkable(neighbor) or source.doors.has(neighbor) \
+						or source.is_behind_building(neighbor) \
+						or not source.exit_directions(neighbor).is_empty() \
 						or maxi(absi(neighbor.x - home.x), absi(neighbor.y - home.y)) > GROUP_WANDER_RANGE:
 					continue
 				parents[neighbor] = cell
@@ -906,8 +1066,10 @@ func spawn_elite(elite_id: String, events: Array[Dictionary] = []) -> bool:
 	var family: String = data.monsters[elite_id].get("famille", "")
 	var candidates: Array[String] = []
 	var ids := map_ids.duplicate()
-	if ids.is_empty() and map != null:
-		ids.append(map.id)  # Liste des cartes inconnue : au moins la carte actuelle.
+	if ids.is_empty():
+		for p: PlayerState in players.values():
+			if p.map.id not in ids:
+				ids.append(p.map.id)  # Liste des cartes inconnue : au moins celles des joueurs.
 	for map_id in ids:
 		var candidate := _load_map(map_id)
 		if candidate == null:
@@ -920,11 +1082,12 @@ func spawn_elite(elite_id: String, events: Array[Dictionary] = []) -> bool:
 		return false
 	var target_id: String = candidates[rng.randi_range(0, candidates.size() - 1)]
 	var target := _load_map(target_id)
-	var here := map != null and target_id == map.id
-	var states := _groups_of(target_id)
+	var instance := _instance(target_id)
+	var here := instance.has_players()
+	var states := instance.groups
 	var group := {}
 	if states.size() < ELITE_MAX_GROUPS:
-		var cell := _free_cell(target, states, here)
+		var cell := _free_cell(instance)
 		if cell == GameMap.NO_CELL:
 			return false
 		var monsters: Array = [elite_id]
@@ -933,13 +1096,12 @@ func spawn_elite(elite_id: String, events: Array[Dictionary] = []) -> bool:
 		group = {"id": ELITE_GROUP_PREFIX + elite_id, "case": cell, "foyer": cell, "monstres": monsters,
 			"niveaux": data.roll_group_levels(monsters, rng), "reapparition": GameMap.DEFAULT_RESPAWN.duplicate()}
 		states[group["id"]] = group
-		if here:
-			_positions[group["id"]] = cell
+		instance.positions[group["id"]] = cell
 	else:
 		var choices: Array = []
 		var family_choices: Array = []
 		for candidate: Dictionary in states.values():
-			if candidate.has("elite") or (here and in_combat() and candidate["id"] == _combat_group):
+			if candidate.has("elite") or instance.fighting.has(candidate["id"]):
 				continue
 			choices.append(candidate)
 			if family in candidate["monstres"]:
@@ -976,19 +1138,11 @@ func _boss_defeated(boss_id: String) -> void:
 	if defeated_bosses.has(boss_id):
 		return
 	defeated_bosses[boss_id] = true
-	var visited: Array = _map_states.keys()
-	if not visited.has(map.id):
-		visited.append(map.id)
-	for map_id: String in visited:
-		var source := _load_map(map_id)
-		if source == null:
-			continue
-		var states := _groups_of(map_id)
-		for group in source.groups:
-			if group.get("apres_boss", "") == boss_id and not states.has(group["id"]):
-				if not _respawns.has(map_id):
-					_respawns[map_id] = {}
-				_respawns[map_id][group["id"]] = clock
+	for map_id: String in instances:
+		var instance: MapInstance = instances[map_id]
+		for group in instance.map.groups:
+			if group.get("apres_boss", "") == boss_id and not instance.groups.has(group["id"]):
+				instance.respawns[group["id"]] = clock
 
 
 ## L'élite a été vaincue : elle pourra réapparaître (5 à 6 minutes plus tard, au plus tôt).
@@ -999,27 +1153,15 @@ func _elite_defeated(elite_id: String) -> void:
 
 ## Groupes présents sur une carte (créés comme à une première visite si on n'y est jamais allé).
 func _groups_of(map_id: String) -> Dictionary:
-	if map != null and map_id == map.id:
-		return _groups
-	if not _map_states.has(map_id):
-		var groups := {}
-		var source := _load_map(map_id)
-		if source != null:
-			for group in available_groups(source):
-				groups[group["id"]] = GameMap.compose_group(group, rng, data)
-		_map_states[map_id] = groups
-	return _map_states[map_id]
+	var instance := _instance(map_id)
+	return instance.groups if instance != null else {}
 
 
 ## Case libre au hasard pour un nouveau groupe : praticable, ni occupée, ni porte, ni bord de
 ## sortie, ni derrière un bâtiment. GameMap.NO_CELL s'il n'y en a pas.
-func _free_cell(target: GameMap, states: Dictionary, here: bool) -> Vector2i:
-	var taken := {}
-	for group: Dictionary in states.values():
-		taken[group["case"]] = true
-	if here:
-		for entity_id: String in _positions:
-			taken[_positions[entity_id]] = true
+func _free_cell(instance: MapInstance) -> Vector2i:
+	var target := instance.map
+	var taken := instance.taken_cells()
 	var cells: Array[Vector2i] = []
 	for cell: Vector2i in target.cells():
 		if target.is_walkable(cell) and not taken.has(cell) and not target.doors.has(cell) and cell != target.spawn \
@@ -1031,115 +1173,125 @@ func _free_cell(target: GameMap, states: Dictionary, here: bool) -> Vector2i:
 
 
 ## Un PV toutes les REGEN_SECONDS secondes hors combat, SIT_REGEN_FACTOR fois plus vite assis.
-func _regenerate(delta: float) -> void:
-	if in_combat() or character.hp_lost <= 0:
-		_regen_time = 0.0
+func _regenerate(p: PlayerState, delta: float, events: Array[Dictionary]) -> void:
+	if p.in_combat() or p.character.hp_lost <= 0:
+		p.regen_time = 0.0
 		return
-	_regen_time += delta * (SIT_REGEN_FACTOR if sitting else 1.0)
-	var healed := floori(_regen_time / REGEN_SECONDS)
+	p.regen_time += delta * (SIT_REGEN_FACTOR if p.sitting else 1.0)
+	var healed := floori(p.regen_time / REGEN_SECONDS)
 	if healed > 0:
-		_regen_time -= healed * REGEN_SECONDS
-		character.hp_lost = maxi(0, character.hp_lost - healed)
+		p.regen_time -= healed * REGEN_SECONDS
+		p.character.hp_lost = maxi(0, p.character.hp_lost - healed)
+		events.append({"type": Protocol.EVT_REGEN, "entite": p.id, "pv": p.character.hp(data)})
 
 
-func _sit(command: Dictionary) -> Array[Dictionary]:
+func _sit(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
 	var wanted: Variant = command.get("assis", true)
-	if not _is_player_command(command) or typeof(wanted) != TYPE_BOOL:
+	if not _is_player_command(p, command) or typeof(wanted) != TYPE_BOOL:
 		return _refused(command, Protocol.REASON_INVALID_COMMAND)
-	if wanted == sitting:
+	if wanted == p.sitting:
 		return _refused(command, Protocol.REASON_ALREADY_THERE)
-	sitting = wanted
-	var events: Array[Dictionary] = [_sat_event()]
+	p.sitting = wanted
+	var events: Array[Dictionary] = [_sat_event(p)]
 	return events
 
 
 ## Un joueur assis se relève avant de marcher, de changer de carte ou d'entrer en combat.
-func _stand_up_if_leaving(events: Array[Dictionary]) -> void:
-	if not sitting:
+func _stand_up_if_leaving(p: PlayerState, events: Array[Dictionary]) -> void:
+	if not p.sitting:
 		return
 	for event in events:
 		if event["type"] in [Protocol.EVT_MOVED, Protocol.EVT_MAP_CHANGED, Protocol.EVT_COMBAT_STARTED]:
-			sitting = false
-			events.push_front(_sat_event())
+			p.sitting = false
+			events.push_front(_sat_event(p))
 			return
 
 
-func _sat_event() -> Dictionary:
-	return {"type": Protocol.EVT_SAT, "entite": PLAYER_ID, "assis": sitting}
+func _sat_event(p: PlayerState) -> Dictionary:
+	return {"type": Protocol.EVT_SAT, "carte": p.map.id, "entite": p.id, "assis": p.sitting}
 
 
 func _schedule_respawn(map_id: String, group: Dictionary) -> void:
-	if not _respawns.has(map_id):
-		_respawns[map_id] = {}
 	var delay: Array = group.get("reapparition", GameMap.DEFAULT_RESPAWN)
-	_respawns[map_id][group["id"]] = clock + rng.randf_range(float(delay[0]), float(delay[1]))
+	_instance(map_id).respawns[group["id"]] = clock + rng.randf_range(float(delay[0]), float(delay[1]))
 
 
-## Remet en place les groupes dont l'heure est venue (sur la carte actuelle ou une carte visitée).
+## Remet en place les groupes dont l'heure est venue (sur toutes les cartes visitées).
 func _respawn_groups(events: Array[Dictionary]) -> void:
-	for map_id: String in _respawns:
-		var waiting: Dictionary = _respawns[map_id]
+	for map_id: String in instances:
+		var instance: MapInstance = instances[map_id]
+		var waiting := instance.respawns
 		for group_id: String in waiting.keys():
 			if waiting[group_id] > clock:
 				continue
-			var source := _load_map(map_id)
 			var original: Dictionary = {}
-			if source != null:
-				for group in source.groups:
-					if group["id"] == group_id:
-						original = group
-			var here := map != null and map_id == map.id
-			if here and not original.is_empty() and original["case"] in _positions.values():
-				waiting[group_id] = clock + RESPAWN_RETRY  # Le joueur (ou un groupe) est dessus : un peu plus tard.
+			for group in instance.map.groups:
+				if group["id"] == group_id:
+					original = group
+			var here := instance.has_players()
+			if here and not original.is_empty() and original["case"] in instance.positions.values():
+				waiting[group_id] = clock + RESPAWN_RETRY  # Un joueur (ou un groupe) est dessus : un peu plus tard.
 				continue
 			waiting.erase(group_id)
 			if original.is_empty():
 				continue
-			var states: Dictionary = _groups if here else _map_states.get(map_id, {})
 			var composed := GameMap.compose_group(original, rng, data)
-			states[group_id] = composed
+			instance.groups[group_id] = composed
+			instance.positions[group_id] = original["case"]
+			instance.wander_times.erase(group_id)
 			if here:
-				_positions[group_id] = original["case"]
-				_wander_times.erase(group_id)
 				events.append({"type": Protocol.EVT_GROUP_RESPAWNED, "carte": map_id, "groupe": composed.duplicate(true)})
 
 
-## Ressource de la carte actuelle sur cette case (voir `GameData.nodes`), ou {}.
+## Ressource de la carte du joueur sur cette case (voir `GameData.nodes`), ou {}.
 func resource_node(cell: Vector2i) -> Dictionary:
-	if data == null or not map.resource_nodes.has(cell):
+	return _resource_node(_solo().instance, cell)
+
+
+func _resource_node(instance: MapInstance, cell: Vector2i) -> Dictionary:
+	if data == null or not instance.map.resource_nodes.has(cell):
 		return {}
-	return data.nodes.get(map.resource_nodes[cell], {})
+	return data.nodes.get(instance.map.resource_nodes[cell], {})
 
 
-## Vrai si la ressource de cette case (carte actuelle) a été récoltée et n'a pas encore repoussé.
+## Vrai si la ressource de cette case (carte du joueur) a été récoltée et n'a pas encore repoussé.
 func is_depleted(cell: Vector2i) -> bool:
-	return _depleted.get(map.id, {}).has(cell)
+	return _solo().instance.depleted.has(cell)
 
 
 ## Raison de ne pas pouvoir récolter la ressource de cette case, distance mise à part ("" si on peut).
 func harvest_refusal(cell: Vector2i) -> String:
-	var node := resource_node(cell)
+	return _harvest_refusal(_solo(), cell)
+
+
+func _harvest_refusal(p: PlayerState, cell: Vector2i) -> String:
+	var node := _resource_node(p.instance, cell)
+	return harvest_refusal_for(node, p.instance.depleted.has(cell), p.character)
+
+
+## Règle de récolte, partagée avec la copie de l'état du client (`ClientState`).
+static func harvest_refusal_for(node: Dictionary, depleted: bool, p_character: Character) -> String:
 	if node.is_empty():
 		return Protocol.REASON_UNKNOWN_ENTITY
-	if is_depleted(cell):
+	if depleted:
 		return Protocol.REASON_DEPLETED
-	if character.job_level(node["metier"]) < int(node.get("niveau", 1)):
+	if p_character.job_level(node["metier"]) < int(node.get("niveau", 1)):
 		return Protocol.REASON_JOB_LEVEL
-	if character.inventory.is_full() and not character.inventory.entries.has(node["objet"]):
+	if p_character.inventory.is_full() and not p_character.inventory.entries.has(node["objet"]):
 		return Protocol.REASON_INVENTORY_FULL
 	return ""
 
 
-func _harvest(command: Dictionary) -> Array[Dictionary]:
+func _harvest(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
 	var cell: Variant = command.get("case")
-	if not _is_player_command(command) or typeof(cell) != TYPE_VECTOR2I:
+	if not _is_player_command(p, command) or typeof(cell) != TYPE_VECTOR2I:
 		return _refused(command, Protocol.REASON_INVALID_COMMAND)
-	var reason := harvest_refusal(cell)
+	var reason := _harvest_refusal(p, cell)
 	if not reason.is_empty():
 		return _refused(command, reason)
-	if not GameMap.is_adjacent(_positions[PLAYER_ID], cell):
+	if not GameMap.is_adjacent(p.cell, cell):
 		return _refused(command, Protocol.REASON_TOO_FAR)
-	var node := resource_node(cell)
+	var node := _resource_node(p.instance, cell)
 	var template: Dictionary = data.items[node["objet"]]
 	var amount: Array = node.get("quantite", [1, 1])
 	var quantity := rng.randi_range(int(amount[0]), int(amount[1]))
@@ -1148,14 +1300,13 @@ func _harvest(command: Dictionary) -> Array[Dictionary]:
 	if rare:
 		template = data.items[node["rare"]]
 		quantity = 1
-	character.inventory.add(template, quantity)
+	p.character.inventory.add(template, quantity)
 	var regrowth: Array = node["repousse"]
-	if not _depleted.has(map.id):
-		_depleted[map.id] = {}
-	_depleted[map.id][cell] = clock + rng.randf_range(float(regrowth[0]), float(regrowth[1]))
+	p.instance.depleted[cell] = clock + rng.randf_range(float(regrowth[0]), float(regrowth[1]))
 	var events: Array[Dictionary] = [{
 		"type": Protocol.EVT_HARVESTED,
-		"entite": PLAYER_ID,
+		"carte": p.map.id,
+		"entite": p.id,
 		"case": cell,
 		"ressource": node["nom"],
 		"objet": template["id"],
@@ -1164,8 +1315,8 @@ func _harvest(command: Dictionary) -> Array[Dictionary]:
 		"metier": node["metier"],
 		"rare": rare,
 	}]
-	events.append(_job_event(node["metier"], int(node.get("xp", 0))))
-	events.append_array(_inventory_events())
+	events.append(_job_event(p, node["metier"], int(node.get("xp", 0))))
+	events.append_array(_inventory_events(p))
 	return events
 
 
@@ -1200,21 +1351,21 @@ static func _recipe_order(a: Dictionary, b: Dictionary) -> bool:
 	return str(a["nom"]) < str(b["nom"])
 
 
-func _craft(command: Dictionary) -> Array[Dictionary]:
+func _craft(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
 	var recipe_id: Variant = command.get("recette")
 	var quantity := _trade_quantity(command)
-	if not _is_player_command(command) or typeof(recipe_id) != TYPE_STRING or quantity == 0:
+	if not _is_player_command(p, command) or typeof(recipe_id) != TYPE_STRING or quantity == 0:
 		return _refused(command, Protocol.REASON_INVALID_COMMAND)
 	if data == null or not data.recipes.has(recipe_id):
 		return _refused(command, Protocol.REASON_UNKNOWN_ITEM)
 	var recipe: Dictionary = data.recipes[recipe_id]
 	var job_id: String = recipe["metier"]
-	var reason := _service_refusal(command, job_id)
+	var reason := _service_refusal(p, command, job_id)
 	if not reason.is_empty():
 		return _refused(command, reason)
-	if character.job_level(job_id) < int(recipe.get("niveau", 1)):
+	if p.character.job_level(job_id) < int(recipe.get("niveau", 1)):
 		return _refused(command, Protocol.REASON_JOB_LEVEL)
-	var inventory := character.inventory
+	var inventory := p.character.inventory
 	var ingredients: Dictionary = recipe["ingredients"]
 	var freed := 0
 	for item_id: String in ingredients:
@@ -1244,8 +1395,8 @@ func _craft(command: Dictionary) -> Array[Dictionary]:
 		"quantite": quantity,
 		"metier": job_id,
 	}]
-	events.append(_job_event(job_id, int(recipe.get("xp", 0)) * quantity))
-	events.append_array(_inventory_events())
+	events.append(_job_event(p, job_id, int(recipe.get("xp", 0)) * quantity))
+	events.append_array(_inventory_events(p))
 	return events
 
 
@@ -1253,51 +1404,51 @@ func _craft(command: Dictionary) -> Array[Dictionary]:
 
 ## Raison de refuser d'utiliser le meuble de la case `case` ("" si on peut) : ce doit être un meuble
 ## du type voulu (tous si `kind` est vide) et le joueur doit se tenir à côté.
-func _furniture_refusal(command: Dictionary, kind := "") -> String:
+func _furniture_refusal(p: PlayerState, command: Dictionary, kind := "") -> String:
 	var cell: Variant = command.get("case")
-	if not _is_player_command(command) or typeof(cell) != TYPE_VECTOR2I:
+	if not _is_player_command(p, command) or typeof(cell) != TYPE_VECTOR2I:
 		return Protocol.REASON_INVALID_COMMAND
-	var found: String = map.obstacles.get(cell, "")
+	var found: String = p.map.obstacles.get(cell, "")
 	if found not in GameMap.FURNITURE or (not kind.is_empty() and found != kind):
 		return Protocol.REASON_UNKNOWN_ENTITY
-	if not GameMap.is_adjacent(_positions[PLAYER_ID], cell):
+	if not GameMap.is_adjacent(p.cell, cell):
 		return Protocol.REASON_TOO_FAR
 	return ""
 
 
-func _use(command: Dictionary) -> Array[Dictionary]:
-	var reason := _furniture_refusal(command)
+func _use(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
+	var reason := _furniture_refusal(p, command)
 	if not reason.is_empty():
 		return _refused(command, reason)
 	var cell: Vector2i = command["case"]
-	if map.obstacles[cell] == GameMap.TRAVEL_STONE:
+	if p.map.obstacles[cell] == GameMap.TRAVEL_STONE:
 		var touched: Array[Dictionary] = []
-		_activate_passage(touched)
-		touched.append(_travel_menu(cell))
+		_activate_passage(p, touched)
+		touched.append(_travel_menu(p, cell))
 		return touched
-	if map.obstacles[cell] == "coffre":
-		var opened: Array[Dictionary] = [_chest_event(cell)]
+	if p.map.obstacles[cell] == "coffre":
+		var opened: Array[Dictionary] = [_chest_event(p, cell)]
 		return opened
 	# Le lit : une bonne nuit, et tous les PV reviennent.
-	var gain := character.hp_lost
-	character.hp_lost = 0
+	var gain := p.character.hp_lost
+	p.character.hp_lost = 0
 	var events: Array[Dictionary] = [{
 		"type": Protocol.EVT_RESTED,
 		"gain": gain,
-		"pv": character.hp(data),
-		"pv_max": character.max_hp(data),
+		"pv": p.character.hp(data),
+		"pv_max": p.character.max_hp(data),
 	}]
-	events.append(_character_event())
+	events.append(_character_event(p))
 	return events
 
 
 ## Déplace un objet entre l'inventaire et le coffre (dans un sens ou dans l'autre).
-func _transfer(command: Dictionary, source: Inventory, destination: Inventory) -> Array[Dictionary]:
+func _transfer(p: PlayerState, command: Dictionary, source: Inventory, destination: Inventory) -> Array[Dictionary]:
 	var uid: Variant = command.get("objet")
 	var quantity := _trade_quantity(command)
 	if typeof(uid) != TYPE_STRING or quantity == 0:
 		return _refused(command, Protocol.REASON_INVALID_COMMAND)
-	var reason := _furniture_refusal(command, "coffre")
+	var reason := _furniture_refusal(p, command, "coffre")
 	if not reason.is_empty():
 		return _refused(command, reason)
 	if data == null or not source.entries.has(uid) or not data.items.has(source.entries[uid]["objet"]):
@@ -1313,19 +1464,19 @@ func _transfer(command: Dictionary, source: Inventory, destination: Inventory) -
 	var rolled: Dictionary = entry["jets"].duplicate()
 	source.remove(uid, quantity)
 	destination.add(template, quantity, rolled)
-	var events: Array[Dictionary] = [_chest_event(command["case"])]
-	events.append_array(_inventory_events())
+	var events: Array[Dictionary] = [_chest_event(p, command["case"])]
+	events.append_array(_inventory_events(p))
 	return events
 
 
 # --- Pierres de Passage --------------------------------------------------------------------------
 
 ## Pierre de Passage de la carte actuelle (id), ou "".
-func _here_passage() -> String:
+func _here_passage(p: PlayerState) -> String:
 	if data == null:
 		return ""
 	for passage_id: String in data.passages:
-		if data.passages[passage_id]["carte"] == map.id:
+		if data.passages[passage_id]["carte"] == p.map.id:
 			return passage_id
 	return ""
 
@@ -1333,9 +1484,18 @@ func _here_passage() -> String:
 ## Vrai si le joueur peut voyager jusqu'à cette pierre : il l'a découverte, elle est
 ## `toujours_connue`, ou toutes le sont (`all_passages_known`, phase de test).
 func is_passage_known(passage_id: String) -> bool:
-	if all_passages_known and data != null and data.passages.has(passage_id):
+	return _passage_known(_solo(), passage_id)
+
+
+func _passage_known(p: PlayerState, passage_id: String) -> bool:
+	return passage_known_for(passage_id, p.character, data, all_passages_known)
+
+
+## Règle de connaissance des pierres, partagée avec la copie de l'état du client (`ClientState`).
+static func passage_known_for(passage_id: String, p_character: Character, p_data: GameData, all_known: bool) -> bool:
+	if all_known and p_data != null and p_data.passages.has(passage_id):
 		return true
-	return passage_id in character.known_passages or (data != null and data.passage_always_known(passage_id))
+	return passage_id in p_character.known_passages or (p_data != null and p_data.passage_always_known(passage_id))
 
 
 ## Cartes où le joueur est déjà allé (ids, dans l'ordre des visites), pour l'interface.
@@ -1345,142 +1505,144 @@ func visited_maps() -> Array[String]:
 
 ## La pierre de la zone de départ de la race est toujours connue ; elle sert de point de résurrection
 ## tant qu'il n'y en a pas d'autre (nouveau personnage, vieille sauvegarde, pierre disparue).
-func _init_travel() -> void:
+func _init_travel(p: PlayerState) -> void:
 	if data == null:
 		return
-	var start := data.start_passage(character.race_id)
+	var start := data.start_passage(p.character.race_id)
 	if start.is_empty():
 		return
-	character.discover_passage(start)
-	if not data.passages.has(character.respawn_passage):
-		character.respawn_passage = start
+	p.character.discover_passage(start)
+	if not data.passages.has(p.character.respawn_passage):
+		p.character.respawn_passage = start
 
 
 ## Utiliser la pierre de la carte la découvre (si besoin) et en fait le point de résurrection.
-func _activate_passage(events: Array[Dictionary]) -> void:
-	var passage_id := _here_passage()
+func _activate_passage(p: PlayerState, events: Array[Dictionary]) -> void:
+	var passage_id := _here_passage(p)
 	if passage_id.is_empty():
 		return
 	var passage_name: String = data.passages[passage_id]["nom"]
-	if not is_passage_known(passage_id):
-		character.discover_passage(passage_id)
+	if not _passage_known(p, passage_id):
+		p.character.discover_passage(passage_id)
 		events.append({"type": Protocol.EVT_PASSAGE_DISCOVERED, "passage": passage_id, "nom": passage_name})
-	if character.respawn_passage != passage_id:
-		character.respawn_passage = passage_id
+	if p.character.respawn_passage != passage_id:
+		p.character.respawn_passage = passage_id
 		events.append({"type": Protocol.EVT_RESPAWN_POINT, "passage": passage_id, "nom": passage_name})
 
 
-func _travel_menu(cell: Vector2i) -> Dictionary:
+func _travel_menu(p: PlayerState, cell: Vector2i) -> Dictionary:
 	var destinations: Array = []
 	for passage_id: String in data.passages:
 		var passage: Dictionary = data.passages[passage_id]
 		destinations.append({"id": passage_id, "nom": passage["nom"], "carte": passage["carte"],
-			"prix": data.passage_price(passage_id), "connue": is_passage_known(passage_id)})
-	return {"type": Protocol.EVT_TRAVEL_MENU, "case": cell, "ici": _here_passage(), "destinations": destinations,
-		"ecus": character.inventory.ecus, "resurrection": character.respawn_passage}
+			"prix": data.passage_price(passage_id), "connue": _passage_known(p, passage_id)})
+	return {"type": Protocol.EVT_TRAVEL_MENU, "case": cell, "ici": _here_passage(p), "destinations": destinations,
+		"ecus": p.character.inventory.ecus, "resurrection": p.character.respawn_passage}
 
 
 ## Voyage d'une Pierre de Passage à une autre, déjà découverte (ou `toujours_connue`), contre son prix
 ## en brumes : on arrive à côté de la pierre de destination. Arriver ainsi ne la découvre pas et n'en
 ## fait pas le point de résurrection : il faut l'utiliser.
-func _travel(command: Dictionary) -> Array[Dictionary]:
+func _travel(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
 	var destination: Variant = command.get("destination")
 	if typeof(destination) != TYPE_STRING:
 		return _refused(command, Protocol.REASON_INVALID_COMMAND)
-	var reason := _furniture_refusal(command, GameMap.TRAVEL_STONE)
+	var reason := _furniture_refusal(p, command, GameMap.TRAVEL_STONE)
 	if not reason.is_empty():
 		return _refused(command, reason)
 	if data == null or not data.passages.has(destination):
 		return _refused(command, Protocol.REASON_UNKNOWN_ENTITY)
-	if destination == _here_passage():
+	if destination == _here_passage(p):
 		return _refused(command, Protocol.REASON_ALREADY_THERE)
-	if not is_passage_known(destination):
+	if not _passage_known(p, destination):
 		return _refused(command, Protocol.REASON_PASSAGE_UNKNOWN)
 	var next_map := _load_map(data.passages[destination]["carte"])
 	if next_map == null or next_map.travel_stone() == Vector2i(-1, -1):
 		return _refused(command, Protocol.REASON_UNKNOWN_MAP)
 	var price := data.passage_price(destination)
-	if price > character.inventory.ecus:
+	if price > p.character.inventory.ecus:
 		return _refused(command, Protocol.REASON_NOT_ENOUGH_ECUS)
-	character.inventory.ecus -= price
-	_set_map(next_map, next_map.beside(next_map.travel_stone()))
-	var events: Array[Dictionary] = [{
+	p.character.inventory.ecus -= price
+	var others: Array[Dictionary] = []
+	_set_map(p, next_map, next_map.beside(next_map.travel_stone()), others)
+	var events: Array[Dictionary] = []
+	_append_map_change(events, others, {
 		"type": Protocol.EVT_MAP_CHANGED,
-		"carte": map.id,
-		"nom": map.display_name,
-		"position": _positions[PLAYER_ID],
+		"carte": p.map.id,
+		"nom": p.map.display_name,
+		"position": p.cell,
 		"prix": price,
-	}]
+	})
 	if price > 0:
-		events.append_array(_inventory_events())
+		events.append_array(_inventory_events(p))
 	return events
 
 
-func _chest_event(cell: Vector2i) -> Dictionary:
-	return {"type": Protocol.EVT_CHEST, "case": cell, "coffre": character.chest_sheet(data)}
+func _chest_event(p: PlayerState, cell: Vector2i) -> Dictionary:
+	return {"type": Protocol.EVT_CHEST, "case": cell, "coffre": p.character.chest_sheet(data)}
 
 
 ## Ajoute de l'XP de métier (avec le bonus de race) et décrit le résultat.
-func _job_event(job_id: String, base_gain: int) -> Dictionary:
-	var gain := floori(base_gain * (100 + character.job_xp_bonus(data)) / 100.0)
-	var reached := character.add_job_xp(job_id, gain)
-	var level := character.job_level(job_id)
+func _job_event(p: PlayerState, job_id: String, base_gain: int) -> Dictionary:
+	var gain := floori(base_gain * (100 + p.character.job_xp_bonus(data)) / 100.0)
+	var reached := p.character.add_job_xp(job_id, gain)
+	var level := p.character.job_level(job_id)
 	return {
 		"type": Protocol.EVT_JOB,
 		"metier": job_id,
 		"nom": data.jobs[job_id]["nom"],
 		"gain": gain,
 		"niveau": level,
-		"xp": character.job_xp(job_id),
+		"xp": p.character.job_xp(job_id),
 		"xp_niveau": Profession.xp_for_level(level),
-		"xp_suivant": Profession.xp_for_level(level + 1) if level < Profession.MAX_LEVEL else character.job_xp(job_id),
+		"xp_suivant": Profession.xp_for_level(level + 1) if level < Profession.MAX_LEVEL else p.character.job_xp(job_id),
 		"niveaux": reached,
 	}
 
 
-func _is_quest_item(uid: String) -> bool:
-	var entry: Dictionary = character.inventory.entries.get(uid, {})
+func _is_quest_item(p: PlayerState, uid: String) -> bool:
+	var entry: Dictionary = p.character.inventory.entries.get(uid, {})
 	return not entry.is_empty() and data != null and data.items.get(entry["objet"], {}).get("type") == Item.TYPE_QUEST
 
 
-func _is_player_command(command: Dictionary) -> bool:
+func _is_player_command(p: PlayerState, command: Dictionary) -> bool:
 	var entity_id: Variant = command.get("entite")
-	return typeof(entity_id) == TYPE_STRING and entity_id == PLAYER_ID
+	return typeof(entity_id) == TYPE_STRING and entity_id == p.id
 
 
-func _inventory_events() -> Array[Dictionary]:
-	var events: Array[Dictionary] = [_inventory_event(), _character_event()]
+func _inventory_events(p: PlayerState) -> Array[Dictionary]:
+	var events: Array[Dictionary] = [_inventory_event(p), _character_event(p)]
 	return events
 
 
-func _inventory_event() -> Dictionary:
-	return {"type": Protocol.EVT_INVENTORY, "inventaire": character.inventory_sheet(data)}
+func _inventory_event(p: PlayerState) -> Dictionary:
+	return {"type": Protocol.EVT_INVENTORY, "inventaire": p.character.inventory_sheet(data)}
 
 
-func _spend_points(command: Dictionary) -> Array[Dictionary]:
+func _spend_points(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
 	var entity_id: Variant = command.get("entite")
 	var stat_name: Variant = command.get("carac")
 	var points: Variant = command.get("points", 1)
-	if typeof(entity_id) != TYPE_STRING or entity_id != PLAYER_ID or typeof(stat_name) != TYPE_STRING or typeof(points) != TYPE_INT:
+	if typeof(entity_id) != TYPE_STRING or entity_id != p.id or typeof(stat_name) != TYPE_STRING or typeof(points) != TYPE_INT:
 		return _refused(command, Protocol.REASON_INVALID_COMMAND)
-	var reason := character.spend_points(stat_name, points)
+	var reason := p.character.spend_points(stat_name, points)
 	if not reason.is_empty():
 		return _refused(command, reason)
-	var events: Array[Dictionary] = [_character_event()]
+	var events: Array[Dictionary] = [_character_event(p)]
 	return events
 
 
-func _reset_points(command: Dictionary) -> Array[Dictionary]:
-	if not _is_player_command(command):
+func _reset_points(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
+	if not _is_player_command(p, command):
 		return _refused(command, Protocol.REASON_INVALID_COMMAND)
-	if character.reset_points() == 0:
+	if p.character.reset_points() == 0:
 		return _refused(command, Protocol.REASON_NOTHING_TO_RESET)
-	var events: Array[Dictionary] = [_character_event()]
+	var events: Array[Dictionary] = [_character_event(p)]
 	return events
 
 
-func _character_event() -> Dictionary:
-	return {"type": Protocol.EVT_CHARACTER, "personnage": character.sheet(data)}
+func _character_event(p: PlayerState) -> Dictionary:
+	return {"type": Protocol.EVT_CHARACTER, "personnage": p.character.sheet(data)}
 
 
 # --- Sauvegarde ---------------------------------------------------------------------------------
@@ -1488,13 +1650,18 @@ func _character_event() -> Dictionary:
 const SAVE_VERSION := 1
 
 
-## État à sauvegarder : personnage, carte et position, groupes restants des cartes visitées.
+## État à sauvegarder (solo) : personnage, carte et position, groupes restants des cartes visitées.
 func save_data() -> Dictionary:
+	var p := _solo()
 	var remaining := {}
-	_map_states[map.id] = _groups
-	for map_id: String in _map_states:
+	var respawns := {}
+	var depleted := {}
+	for map_id: String in instances:
+		var instance: MapInstance = instances[map_id]
+		respawns[map_id] = instance.respawns
+		depleted[map_id] = instance.depleted
 		var groups: Array = []
-		for group: Dictionary in _map_states[map_id].values():
+		for group: Dictionary in instance.groups.values():
 			var cell: Vector2i = group["case"]
 			var saved_group := {"id": group["id"], "case": [cell.x, cell.y], "monstres": group["monstres"].duplicate(),
 				"niveaux": group.get("niveaux", []).duplicate()}
@@ -1508,15 +1675,15 @@ func save_data() -> Dictionary:
 	var attempts := {}
 	for elite_id: String in _elite_attempts:
 		attempts[elite_id] = maxf(0.0, float(_elite_attempts[elite_id]) - clock)
-	var position := position_of(PLAYER_ID)
+	var position := p.cell
 	return {
 		"version": SAVE_VERSION,
-		"personnage": character.to_dict(),
-		"carte": map.id,
+		"personnage": p.character.to_dict(),
+		"carte": p.map.id,
 		"position": [position.x, position.y],
 		"groupes_restants": remaining,
-		"reapparitions": _saved_timers(_respawns),
-		"repousses": _saved_timers(_depleted),
+		"reapparitions": _saved_timers(respawns),
+		"repousses": _saved_timers(depleted),
 		"elites": attempts,
 		"boss_vaincus": defeated_bosses.keys(),
 	}
@@ -1685,30 +1852,34 @@ static func from_save(save: Dictionary, p_data: GameData, p_map_loader: Callable
 			for group: Dictionary in groups.values():
 				if group.has("elite"):
 					world._elites[group["elite"]] = {"carte": map_id, "groupe": group["id"]}
-			world._map_states[map_id] = groups
-		if world._map_states.has(start_map.id):
-			world._groups = world._map_states[start_map.id]
+			world._instance(map_id).set_groups(groups)
 	var saved_position: Variant = save.get("position")
 	var position := start_map.spawn
 	if typeof(saved_position) == TYPE_ARRAY and saved_position.size() == 2:
 		var cell := Vector2i(int(saved_position[0]), int(saved_position[1]))
 		if start_map.is_walkable(cell):
 			position = cell
-	world._respawns = world._load_timers(save.get("reapparitions"), false)
-	world._depleted = world._load_timers(save.get("repousses"), true)
+	var respawns := world._load_timers(save.get("reapparitions"), false)
+	var depleted := world._load_timers(save.get("repousses"), true)
+	for map_id: String in respawns:
+		var instance := world._instance(map_id)
+		if instance != null:
+			instance.respawns = respawns[map_id]
+	for map_id: String in depleted:
+		var instance := world._instance(map_id)
+		if instance != null:
+			instance.depleted = depleted[map_id]
 	var attempts: Variant = save.get("elites", {})
 	if typeof(attempts) == TYPE_DICTIONARY:
 		for elite_id: Variant in attempts:
 			if typeof(elite_id) == TYPE_STRING and typeof(attempts[elite_id]) in [TYPE_INT, TYPE_FLOAT] and not world._elites.has(elite_id):
 				world._elite_attempts[elite_id] = world.clock + float(attempts[elite_id])
-	world._positions = {PLAYER_ID: position}
-	for group_id: String in world._groups:
-		world._positions[group_id] = world._groups[group_id]["case"]
+	world._solo().cell = position
 	return world
 
 
-func _moved_event(from: Vector2i, path: Array[Vector2i]) -> Dictionary:
-	return {"type": Protocol.EVT_MOVED, "entite": PLAYER_ID, "depuis": from, "chemin": path}
+func _moved_event(p: PlayerState, from: Vector2i, path: Array[Vector2i]) -> Dictionary:
+	return {"type": Protocol.EVT_MOVED, "carte": p.map.id, "entite": p.id, "depuis": from, "chemin": path}
 
 
 func _refused(command: Dictionary, reason: String) -> Array[Dictionary]:

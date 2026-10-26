@@ -69,7 +69,7 @@ func test_le_format_des_groupes_apres_boss() -> void:
 
 func test_variantes_apres_le_boss() -> void:
 	assert_eq(_world.groups().size(), 1, "pas de variantes avant le boss")
-	_world._set_map(_maps["repaire"], _maps["repaire"].spawn)
+	_world._set_map(_world._solo(), _maps["repaire"], _maps["repaire"].spawn)
 	assert_eq(_world.groups().size(), 1, "seulement le boss dans son repaire")
 	_win_against("groupe_1")
 	assert_true(_world.defeated_bosses.has("patron"))
@@ -85,7 +85,7 @@ func test_variantes_apres_le_boss() -> void:
 
 
 func test_deblocage_sauvegarde() -> void:
-	_world._set_map(_maps["repaire"], _maps["repaire"].spawn)
+	_world._set_map(_world._solo(), _maps["repaire"], _maps["repaire"].spawn)
 	_win_against("groupe_1")
 	var save: Variant = JSON.parse_string(JSON.stringify(_world.save_data()))
 	var restored := World.from_save(save, _data(), _loader)

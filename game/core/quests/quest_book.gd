@@ -8,7 +8,10 @@ const MARKER_AVAILABLE := "!"
 const MARKER_TURN_IN := "?"
 const MARKER_ACTIVE := "…"
 
-var world: World
+## Le monde (`World`) et le joueur (`PlayerState`) dont ce sont les quêtes. Côté client, la copie
+## de l'état (`ClientState`) tient les deux rôles, pour les lectures (journal, marques des PNJ).
+var world
+var player
 ## Quêtes refusées (« Plus tard ») pendant cette partie : le marchand ou l'artisan qui la propose
 ## ouvre alors sa boutique ou son atelier au lieu de la reproposer.
 var _declined: Dictionary = {}
@@ -20,12 +23,13 @@ var _monster_maps: Dictionary = {}
 var _resource_maps: Dictionary = {}
 
 
-func _init(p_world: World) -> void:
+func _init(p_world, p_player) -> void:
 	world = p_world
+	player = p_player
 
 
 func _log() -> QuestLog:
-	return world.character.quests
+	return player.character.quests
 
 
 func _quests() -> Dictionary:
@@ -38,7 +42,7 @@ func _quests() -> Dictionary:
 func is_available(quest_id: String) -> bool:
 	if not _quests().has(quest_id) or not _log().status(quest_id).is_empty():
 		return false
-	var character := world.character
+	var character: Character = player.character
 	var conditions: Dictionary = _quests()[quest_id].get("conditions", {})
 	if character.level < int(conditions.get("niveau_min", 1)):
 		return false
@@ -96,7 +100,7 @@ func _can_complete_by_talking(objectives: Array, counts: Array, index: int, npc_
 	var objective: Dictionary = objectives[index]
 	if objective.get("pnj", "") != npc_id or objective["type"] not in Quest.TALK_OBJECTIVES or counts[index] >= Quest.goal(objective):
 		return false
-	if objective["type"] == Quest.OBJ_BRING and world.character.inventory.quantity_of(objective["objet"]) < Quest.goal(objective):
+	if objective["type"] == Quest.OBJ_BRING and player.character.inventory.quantity_of(objective["objet"]) < Quest.goal(objective):
 		return false
 	for i in objectives.size():
 		if objectives[i]["type"] not in Quest.TALK_OBJECTIVES and counts[i] < Quest.goal(objectives[i]):
@@ -163,10 +167,10 @@ func accept(quest_id: String, events: Array[Dictionary]) -> String:
 	if not _quests().has(quest_id):
 		return Protocol.REASON_UNKNOWN_ENTITY
 	var quest: Dictionary = _quests()[quest_id]
-	var npc := world.map.get_npc(quest["pnj"])
+	var npc: Dictionary = player.map.get_npc(quest["pnj"])
 	if npc.is_empty():
 		return Protocol.REASON_UNKNOWN_ENTITY
-	if not GameMap.is_adjacent(world.position_of(World.PLAYER_ID), npc["case"]):
+	if not GameMap.is_adjacent(player.cell, npc["case"]):
 		return Protocol.REASON_TOO_FAR
 	if not is_available(quest_id):
 		return Protocol.REASON_REQUIREMENTS
@@ -176,7 +180,7 @@ func accept(quest_id: String, events: Array[Dictionary]) -> String:
 	for entry: Dictionary in quest.get("donne", []):
 		_give(entry["objet"], int(entry.get("nombre", 1)), [])
 	if not quest.get("donne", []).is_empty():
-		events.append_array(world._inventory_events())
+		events.append_array(world._inventory_events(player))
 	events.append({"type": Protocol.EVT_QUEST_PROGRESS, "quete": quest_id, "texte": "Nouvelle quête : %s" % quest["nom"]})
 	refresh(events)
 	_journal_events(events)
@@ -230,14 +234,14 @@ func combat_won(kinds: Array, rng: RandomNumberGenerator, ended: Dictionary, eve
 			if loot.is_empty():
 				continue
 			for kind: String in kinds:
-				if kind in loot["monstres"] and world.character.inventory.quantity_of(objective["objet"]) < Quest.goal(objective) \
+				if kind in loot["monstres"] and player.character.inventory.quantity_of(objective["objet"]) < Quest.goal(objective) \
 						and rng.randf() < float(loot["taux"]):
 					_give(objective["objet"], 1, found)
 	if not found.is_empty():
 		var merged: Array = ended.get("butin", [])
 		merged.append_array(found)
 		ended["butin"] = World._merged_loot(merged)
-		events.append(world._inventory_event())
+		events.append(world._inventory_event(player))
 	for kind: String in kinds:
 		var family: String = world.data.monsters.get(kind, {}).get("famille", "")
 		_count(Quest.OBJ_DEFEAT, func(o: Dictionary) -> bool: return o["monstre"] == kind or o["monstre"] == family, 1, events)
@@ -258,7 +262,7 @@ func refresh(events: Array[Dictionary]) -> void:
 			if counts[i] >= Quest.goal(objectives[i]):
 				continue
 			if (objectives[i]["type"] == Quest.OBJ_EQUIP and _is_equipped(objectives[i])) \
-					or (objectives[i]["type"] == Quest.OBJ_GO and world.map.id == objectives[i]["carte"]):
+					or (objectives[i]["type"] == Quest.OBJ_GO and player.map.id == objectives[i]["carte"]):
 				counts[i] = 1
 				changed = true
 				events.append({"type": Protocol.EVT_QUEST_PROGRESS, "quete": quest_id, "texte": "%s : fait" % _objective_text(objectives[i], 1)})
@@ -296,7 +300,7 @@ func _advance(quest_id: String, events: Array[Dictionary]) -> void:
 		var counts := _log().counters(quest_id)
 		for i in objectives.size():
 			if (objectives[i]["type"] == Quest.OBJ_EQUIP and _is_equipped(objectives[i])) \
-					or (objectives[i]["type"] == Quest.OBJ_GO and world.map.id == objectives[i]["carte"]):
+					or (objectives[i]["type"] == Quest.OBJ_GO and player.map.id == objectives[i]["carte"]):
 				counts[i] = 1
 
 
@@ -318,15 +322,15 @@ func _finish(quest_id: String, events: Array[Dictionary]) -> void:
 	var found: Array = []
 	for entry: Dictionary in rewards.get("objets", []):
 		_give(entry["objet"], int(entry.get("nombre", 1)), found)
-	world.character.inventory.ecus += ecus
+	player.character.inventory.ecus += ecus
 	events.append({"type": Protocol.EVT_QUEST_DONE, "quete": quest_id, "nom": quest["nom"], "xp": gain, "ecus": ecus,
 		"objets": World._merged_loot(found)})
 	if gain > 0:
-		var levels := world.character.add_xp(gain)
-		events.append({"type": Protocol.EVT_XP, "gain": gain, "xp": world.character.xp, "niveau": world.character.level})
+		var levels: Array = player.character.add_xp(gain)
+		events.append({"type": Protocol.EVT_XP, "gain": gain, "xp": player.character.xp, "niveau": player.character.level})
 		for reached in levels:
-			events.append({"type": Protocol.EVT_LEVEL_UP, "niveau": reached, "points": world.character.unspent_points})
-	events.append_array(world._inventory_events())
+			events.append({"type": Protocol.EVT_LEVEL_UP, "niveau": reached, "points": player.character.unspent_points})
+	events.append_array(world._inventory_events(player))
 	# Une quête finie peut en débloquer d'autres : la suivante de la chaîne est suivie d'office.
 	if _log().tracked.is_empty() and not _log().active_ids().is_empty():
 		_log().tracked = _log().active_ids()[0]
@@ -338,7 +342,7 @@ func _step_objectives(quest_id: String) -> Array:
 
 
 func _is_equipped(objective: Dictionary) -> bool:
-	var inventory := world.character.inventory
+	var inventory: Inventory = player.character.inventory
 	if objective.has("emplacement"):
 		return inventory.equipped.has(objective["emplacement"])
 	for slot: String in inventory.equipped:
@@ -358,12 +362,12 @@ func _give(item_id: String, quantity: int, found: Array) -> void:
 	var template: Dictionary = world.data.items[item_id]
 	var equipment := Item.is_equipment(template)
 	for _unit in (quantity if equipment else 1):
-		world.character.inventory.add(template, 1 if equipment else quantity, Item.roll_bonuses(template, world.rng), true)
+		player.character.inventory.add(template, 1 if equipment else quantity, Item.roll_bonuses(template, world.rng), true)
 	found.append({"objet": item_id, "nom": template["nom"], "rarete": template["rarete"], "quantite": quantity})
 
 
 func _take_items(item_id: String, quantity: int) -> void:
-	var inventory := world.character.inventory
+	var inventory: Inventory = player.character.inventory
 	var left := quantity
 	for uid: String in inventory.entries.keys():
 		if left <= 0:
@@ -411,22 +415,22 @@ func npc_short_name(npc_id: String) -> String:
 func npc_location(npc_id: String) -> Dictionary:
 	if _npc_index.is_empty():
 		var ids: Array[String] = world.map_ids.duplicate()
-		if world.map != null and world.map.id not in ids:
-			ids.append(world.map.id)
+		if player.map != null and player.map.id not in ids:
+			ids.append(player.map.id)
 		for map_id in ids:
-			var found := world.map_by_id(map_id)
+			var found: GameMap = world.map_by_id(map_id)
 			if found != null:
 				for npc: Dictionary in found.npcs:
 					_npc_index[npc["id"]] = {"nom": npc["nom"], "carte": map_id}
-	if not _npc_index.has(npc_id) and world.map != null:
-		var here := world.map.get_npc(npc_id)
+	if not _npc_index.has(npc_id) and player.map != null:
+		var here: Dictionary = player.map.get_npc(npc_id)
 		if not here.is_empty():
-			_npc_index[npc_id] = {"nom": here["nom"], "carte": world.map.id}
+			_npc_index[npc_id] = {"nom": here["nom"], "carte": player.map.id}
 	return _npc_index.get(npc_id, {})
 
 
 func _objective_text(objective: Dictionary, count: int) -> String:
-	var data := world.data
+	var data: GameData = world.data
 	var base: String = objective.get("texte", "")
 	var type: String = objective["type"]
 	if base.is_empty():
@@ -463,7 +467,7 @@ func _objective_texts(quest_id: String, step_index: int) -> Array:
 		var objective: Dictionary = objectives[i]
 		var count: int = counts[i] if i < counts.size() else 0
 		if objective["type"] == Quest.OBJ_BRING and count < Quest.goal(objective):
-			count = mini(Quest.goal(objective), world.character.inventory.quantity_of(objective["objet"]))
+			count = mini(Quest.goal(objective), player.character.inventory.quantity_of(objective["objet"]))
 		var where: String = objective.get("carte", npc_location(objective.get("pnj", "")).get("carte", ""))
 		texts.append({"texte": _objective_text(objective, count), "fait": i < counts.size() and counts[i] >= Quest.goal(objective),
 			"carte": where, "cartes": objective_maps(objective, count)})
@@ -524,12 +528,12 @@ func resource_maps(item_id: String) -> Array[String]:
 
 func _index_maps() -> void:
 	var ids: Array[String] = world.map_ids.duplicate()
-	if world.map != null and world.map.id not in ids:
-		ids.append(world.map.id)
+	if player.map != null and player.map.id not in ids:
+		ids.append(player.map.id)
 	ids.sort()
 	var nodes: Dictionary = world.data.nodes if world.data != null else {}
 	for map_id in ids:
-		var found := world.map_by_id(map_id)
+		var found: GameMap = world.map_by_id(map_id)
 		if found == null:
 			continue
 		for group: Dictionary in found.groups:

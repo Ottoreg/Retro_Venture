@@ -252,7 +252,7 @@ func test_butin_de_quete_apporter_aller_et_boss() -> void:
 	assert_eq(_world.character.inventory.quantity_of("pomme"), 0, "pommes rendues")
 	assert_eq(_world.character.quests.step("suite"), 1)
 	# Aller sur la carte « b », vaincre le boss.
-	_world._set_map(_maps["b"], _maps["b"].spawn)
+	_world._set_map(_world._solo(), _maps["b"], _maps["b"].spawn)
 	_world.quest_book.refresh([] as Array[Dictionary])
 	assert_eq(_world.character.quests.step("suite"), 2, "arrivé sur la carte")
 	events = _win_against("groupe_1")
