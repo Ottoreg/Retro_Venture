@@ -2270,7 +2270,15 @@ travail côté client : remplacer les lectures directes de `world` par la copie 
   Les hébergeurs gratuits qui mettent le service en veille (Render, Koyeb…) coupent les WebSocket
   et font attendre le premier joueur : à éviter pour un serveur de jeu. Supabase gratuit met en
   pause un projet inactif depuis une semaine (un clic pour le relancer). Passage sur un VPS payant
-  au plus tard pour la bêta fermée (M5). Tarifs et offres à revérifier au moment du choix. Un serveur de jeu garde des connexions ouvertes longtemps : les
+  au plus tard pour la bêta fermée (M5). Tarifs et offres à revérifier au moment du choix.
+- **Choix de l'auteur (26/10/2026) : son PC comme serveur de test**, sur l'un ou l'autre de ses deux
+  postes de travail : les comptes et les personnages sont chez Supabase, le serveur de jeu ne garde
+  rien en local, il suffit d'avoir Docker sur les deux. **Un seul poste à la fois** : deux serveurs
+  derrière le même tunnel se partageraient les joueurs (deux mondes séparés), donc le serveur
+  refuse de démarrer si un autre est déjà actif (marqueur dans la base, rafraîchi pendant qu'il
+  tourne). Adresse fixe : tunnel nommé, qui demande un nom de domaine chez Cloudflare (environ 10 €
+  par an) ; le tunnel rapide gratuit donne une adresse différente à chaque lancement, à saisir dans
+  le client (suffisant pour le prototype). Un serveur de jeu garde des connexions ouvertes longtemps : les
   hébergeurs de fonctions sans serveur (Vercel, Netlify…) ne conviennent pas.
 - **Base et comptes** : Supabase (offre gratuite pour les tests) ou PostgreSQL sur le même VPS.
 - **Deux environnements** : `staging` (test, mis à jour par la CI à chaque push sur `main`) et
