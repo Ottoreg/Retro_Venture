@@ -1720,8 +1720,7 @@ décrits au § 13.6.
 
 - Compte avec plusieurs personnages ; sauvegarde serveur (base de données).
 - Le mode solo utilise **le même format de sauvegarde** (fichier local), ce qui permet d'envisager la
-  migration d'un personnage solo vers le serveur (à décider : risque de triche ; proposition : pas de
-  migration, § 16.5).
+  migration d'un personnage solo vers le serveur (décidé : pas de migration, § 16.5).
 - Plan technique (serveur, protocole, comptes, base, hébergement, jalons) : § 16.5.
 
 ### 13.5 Sécurité et modération
@@ -2089,11 +2088,10 @@ exemples en [annexe](#20-annexes--formats-de-données).
 - **Combat déterministe** à partir d'une graine aléatoire, pour rejouer et déboguer un combat.
 - Intégration continue (GitHub Actions) : tests + validation des fichiers de données à chaque push.
 
-### 16.5 Plan d'architecture multijoueur (proposition, à valider par l'auteur)
+### 16.5 Plan d'architecture multijoueur
 
-> **Statut : proposition du 26/10/2026, rien n'est commencé.** Le premier prototype (jalon M1)
-> démarre après la validation de l'auteur. Les choix marqués *à valider* sont résumés en fin de
-> section.
+> **Statut : plan validé par l'auteur le 26/10/2026** (les sept décisions de fin de section, et
+> un hébergement gratuit pour les tests). Rien n'est encore commencé : M0 puis le prototype M1.
 
 #### Quand
 
@@ -2215,7 +2213,7 @@ travail côté client : remplacer les lectures directes de `world` par la copie 
 
 - Un **compte** (adresse et mot de passe, puis éventuellement Discord ou Google) porte plusieurs
   personnages ; le **pseudo est unique** sur le serveur (aujourd'hui il est libre).
-- *À valider* : confier les comptes à un service géré (**Supabase Auth** proposé : inscription,
+- Les comptes sont confiés à un service géré (**Supabase Auth** proposé : inscription,
   confirmation par courriel, mot de passe oublié, connexion Discord, offre gratuite suffisante pour
   les tests) plutôt que de les écrire soi-même. Le hachage des mots de passe, les courriels et la
   réinitialisation sont la partie la plus risquée d'un système de comptes.
@@ -2236,7 +2234,7 @@ travail côté client : remplacer les lectures directes de `world` par la copie 
   avec un **journal** (anti-duplication, § 13.5).
 - Les états de carte (groupes, réapparitions) ne sont pas sauvegardés : un redémarrage du serveur
   repart des cartes d'origine. Les mini-boss réapparaissent comme aujourd'hui.
-- *À valider* : **pas de migration** des sauvegardes solo du navigateur (on ne peut pas savoir si
+- **Pas de migration** des sauvegardes solo du navigateur (on ne peut pas savoir si
   elles ont été modifiées) ; tout le monde repart du niveau 1 en ligne, sauf peut-être pendant les
   tests fermés.
 
@@ -2260,9 +2258,19 @@ travail côté client : remplacer les lectures directes de `world` par la copie 
 #### Hébergement
 
 - **Client web** : GitHub Pages, comme aujourd'hui.
-- **Serveur de jeu** : *à valider*, un petit serveur privé (VPS, de l'ordre de 5 € par mois chez
-  Hetzner ou OVH) avec le serveur Godot dans un conteneur Docker et **Caddy** devant (certificat
-  HTTPS automatique, donc `wss://`). Un serveur de jeu garde des connexions ouvertes longtemps : les
+- **Serveur de jeu** : un petit serveur privé (VPS, de l'ordre de 5 € par mois chez Hetzner ou OVH)
+  avec le serveur Godot dans un conteneur Docker et **Caddy** devant (certificat HTTPS automatique,
+  donc `wss://`).
+- **Gratuit pendant les tests, payant pour la bêta** (choix de l'auteur) : tout est en conteneur
+  Docker, donc changer d'hébergeur revient à relancer le même conteneur ailleurs et à recopier la
+  base. Pour le prototype (M1) et les premiers tests : le **PC de l'auteur** derrière un **tunnel
+  Cloudflare** (gratuit, adresse `wss://` publique, aucun port à ouvrir ; le serveur ne tourne que
+  quand le PC est allumé), ou une **machine virtuelle « Always Free » d'Oracle Cloud** (gratuite et
+  allumée en permanence, mais inscription parfois refusée et machine reprise si elle reste inactive).
+  Les hébergeurs gratuits qui mettent le service en veille (Render, Koyeb…) coupent les WebSocket
+  et font attendre le premier joueur : à éviter pour un serveur de jeu. Supabase gratuit met en
+  pause un projet inactif depuis une semaine (un clic pour le relancer). Passage sur un VPS payant
+  au plus tard pour la bêta fermée (M5). Tarifs et offres à revérifier au moment du choix. Un serveur de jeu garde des connexions ouvertes longtemps : les
   hébergeurs de fonctions sans serveur (Vercel, Netlify…) ne conviennent pas.
 - **Base et comptes** : Supabase (offre gratuite pour les tests) ou PostgreSQL sur le même VPS.
 - **Deux environnements** : `staging` (test, mis à jour par la CI à chaque push sur `main`) et
@@ -2284,7 +2292,7 @@ travail côté client : remplacer les lectures directes de `world` par la copie 
 
 M0 à M2 forment la Phase 4 (fondations réseau) et M3 à M6 la Phase 5 (multi) du § 17.
 
-#### Décisions à valider par l'auteur
+#### Décisions (validées par l'auteur le 26/10/2026)
 
 1. **Calendrier** : M0 pendant l'alpha test 1, M1 juste après, Phase 3 après M2.
 2. **Serveur** : Godot 4.5 sans affichage, même code `core/` (Node/Colyseus écarté).
@@ -2310,7 +2318,7 @@ M0 à M2 forment la Phase 4 (fondations réseau) et M3 à M6 la Phase 5 (multi) 
 | **5. Multi** | Instances, groupe, amis, chat, échanges, hôtel des ventes, guildes | Bêta fermée |
 
 > Les phases 3 et 4 peuvent se chevaucher : la phase 4 peut démarrer dès que l'alpha solo est stable.
-> Proposition (§ 16.5, à valider) : préparer le noyau pendant l'alpha test 1, prototype juste après,
+> Plan validé (§ 16.5) : préparer le noyau pendant l'alpha test 1, prototype juste après,
 > et Phase 3 après le combat de groupe (jalon M2), pour écrire le nouveau contenu directement pour le multi.
 > Détail des tâches : voir [TODO.md](TODO.md).
 
