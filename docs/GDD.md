@@ -1720,7 +1720,9 @@ décrits au § 13.6.
 
 - Compte avec plusieurs personnages ; sauvegarde serveur (base de données).
 - Le mode solo utilise **le même format de sauvegarde** (fichier local), ce qui permet d'envisager la
-  migration d'un personnage solo vers le serveur (à décider : risque de triche).
+  migration d'un personnage solo vers le serveur (à décider : risque de triche ; proposition : pas de
+  migration, § 16.5).
+- Plan technique (serveur, protocole, comptes, base, hébergement, jalons) : § 16.5.
 
 ### 13.5 Sécurité et modération
 
@@ -2087,6 +2089,213 @@ exemples en [annexe](#20-annexes--formats-de-données).
 - **Combat déterministe** à partir d'une graine aléatoire, pour rejouer et déboguer un combat.
 - Intégration continue (GitHub Actions) : tests + validation des fichiers de données à chaque push.
 
+### 16.5 Plan d'architecture multijoueur (proposition, à valider par l'auteur)
+
+> **Statut : proposition du 26/10/2026, rien n'est commencé.** Le premier prototype (jalon M1)
+> démarre après la validation de l'auteur. Les choix marqués *à valider* sont résumés en fin de
+> section.
+
+#### Quand
+
+Le plus tôt possible une fois la boucle solo stable, et **avant d'ajouter beaucoup de contenu**
+(Phase 3 : six races, cinq classes, donjons) : chaque système écrit pour un seul joueur devra être
+repris pour le serveur. Calendrier proposé :
+
+1. **Pendant l'alpha test 1** : jalon M0 (préparer le noyau), sans rien changer pour les testeurs.
+2. **Juste après** : jalon M1 (prototype minimal), en parallèle de l'alpha test 2 (progression,
+   art et son), qui touche surtout au contenu et à l'affichage.
+3. **Phase 3 après M2** (combat de groupe) : le nouveau contenu s'écrit alors directement pour le
+   multi. Les phases 3 et 4 du § 17 s'inversent donc en partie.
+
+#### L'existant
+
+Ce qui aide (le § 16.1 a été suivi depuis le début) :
+
+- le noyau `game/core/` ne dépend pas de l'affichage ; le client envoie des commandes
+  (`World.execute`) et reçoit des événements, des `Dictionary` décrits dans `Protocol` ;
+- la partie entière se sauvegarde en un dictionnaire (`World.save_data`, `World.from_save`,
+  `Character.to_dict`), ce qui donne déjà le format stocké côté serveur ;
+- le butin est déjà tiré entre plusieurs joueurs (`Loot.roll` : limite par monstre, ordre de
+  prospection) ;
+- l'historique a déjà des canaux, un auteur et une commande « parler » prévus pour le chat (§ 14.3) ;
+- le contenu est en JSON, lu de la même façon par le client et par le serveur ;
+- les combats ont leur propre générateur aléatoire (`Combat.rng`) : avec une graine notée, un combat
+  se rejoue à l'identique pour déboguer (§ 16.4).
+
+Ce qu'il faut reprendre :
+
+- **`World` ne connaît qu'un joueur** (`World.PLAYER_ID`, un seul `character`). Il mélange l'état
+  d'une carte, partagé par tous ceux qui s'y trouvent (groupes de monstres et leur errance,
+  réapparitions, mini-boss, ressources épuisées), et l'état d'un personnage (position, quêtes,
+  cartes visitées, assis). Il faut les séparer.
+- **Le client lit l'état du monde directement** (environ 150 accès à `world.character`,
+  `world.map`, `world.combat`, `world.data`…, dont 50 dans `MapView`). En ligne, le client n'a plus
+  le `World` : il tient une **copie locale** (instantané à l'entrée d'une carte, puis mise à jour par
+  les événements) qui offre les mêmes lectures.
+- **Les événements contiennent des `Vector2i`**, que le JSON ne sait pas écrire : il faut une
+  conversion dans les deux sens (une case devient `[x, y]`).
+- **Le combat n'a qu'un joueur** : placement, fin de combat, récompenses et retour sur la carte sont
+  écrits pour `PLAYER_ID`. Le tour n'a pas de limite de temps.
+- **La sauvegarde vit dans le navigateur** (`SaveGame`, `user://sauvegarde.json`) : en ligne, elle
+  passe sur le serveur, et le client ne garde que ses options.
+
+#### Principe : le serveur fait autorité
+
+Le serveur calcule **tout ce qui a de la valeur** : déplacements, combats, butin, XP, inventaire,
+brumes, récoltes, fabrication, quêtes, échanges. Le client n'envoie que des intentions (les
+commandes actuelles) et affiche ce qu'on lui répond. Conséquences :
+
+- le champ `entite` d'une commande est rempli par le serveur d'après la session, jamais lu du
+  client ;
+- les refus actuels du noyau (case hors de portée, pas assez de PA, objet absent…) deviennent la
+  défense contre la triche, sans code en plus ;
+- le client peut **anticiper** l'affichage d'un déplacement (le trajet est déterministe) mais se
+  recale sur la réponse du serveur ;
+- aucune donnée sensible n'est envoyée au client : pas de graine aléatoire, pas de butin avant sa
+  révélation, pas de pièges invisibles des adversaires.
+
+#### Découpage du noyau
+
+| Aujourd'hui | Demain | Rôle |
+|---|---|---|
+| `World` (tout) | **`MapInstance`** | Une carte vivante : joueurs présents, groupes, errance, réapparitions, mini-boss, ressources épuisées |
+| `World` (partie joueur) | **`PlayerState`** | Un personnage connecté : `Character`, position, quêtes, cartes visitées, assis, combat en cours |
+| `Combat` à un joueur | `Combat` à N joueurs | Fighters de plusieurs joueurs, placement par camp, limite de temps par tour |
+| `World` | `World` (façade solo) | Garde son interface actuelle : une `MapInstance` + un `PlayerState`, en local, pour que le solo et les tests ne changent pas |
+
+- Les identifiants d'entité deviennent ceux des personnages (`"joueur"` n'existe plus qu'en solo).
+- Chaque événement a une **portée** : personnel (inventaire, quêtes, brumes), carte (déplacements,
+  groupes qui apparaissent ou partent) ou combat (tous ses participants et spectateurs). Le serveur
+  s'en sert pour savoir à qui l'envoyer.
+- Le **temps** reste piloté par `update(delta)` : le serveur fait avancer chaque carte occupée
+  (une carte vide se met en veille et rattrape son retard quand quelqu'un y entre).
+
+#### Client : une seule interface pour le solo et le multi
+
+Le client parle à une **connexion** (`GameConnection`), avec deux versions :
+
+- **locale** : le `World` tourne dans le même processus, comme aujourd'hui (jeu hors ligne, tests,
+  captures, simulation) ;
+- **distante** : les commandes partent par le réseau, les événements arrivent du serveur.
+
+Le reste du client (carte, fenêtres, HUD) ne sait pas laquelle il utilise. C'est le plus gros du
+travail côté client : remplacer les lectures directes de `world` par la copie locale.
+
+#### Serveur
+
+- **Godot 4.5 sans affichage** (export Linux « serveur dédié »), qui exécute **le même code
+  `core/`** que le client : aucune règle n'est écrite deux fois. La piste Node/Colyseus (§ 16.2)
+  est écartée pour cette raison.
+- Un seul processus pour le prototype : une passerelle (connexions, authentification, sessions),
+  un gestionnaire de cartes (une `MapInstance` par carte occupée, plus tard plusieurs instances par
+  carte, § 13.2) et les combats. On découpera en plusieurs processus quand un seul ne suffira plus
+  (tests de charge, Phase 4).
+- **Pas l'API multijoueur de haut niveau de Godot** (RPC, synchronisation de nœuds) : elle est
+  pensée pour des scènes partagées et fait confiance aux pairs. On garde nos commandes et
+  événements, envoyés comme messages.
+
+#### Protocole réseau
+
+- **WebSocket** (chiffré, `wss://`) pour tous les clients, web et natif : un seul chemin à écrire
+  et à tester. La page GitHub Pages est servie en HTTPS, donc le navigateur exige `wss`.
+- Messages **JSON** : `{ "v": version, "n": numéro, "type": …, … }`, avec les commandes et
+  événements actuels de `Protocol`. Lisible et facile à déboguer ; le volume d'un jeu au tour par
+  tour est faible (quelques messages par seconde et par joueur). Jamais `bytes_to_var` sur ce qui
+  vient du réseau (il peut créer des objets).
+- **Version du protocole** vérifiée à la connexion : un client trop ancien reçoit « mettez le jeu à
+  jour » (la version web se met à jour toute seule, le client natif doit être retéléchargé).
+- **Reconnexion** : le client renvoie son jeton ; le serveur renvoie un instantané complet (carte,
+  personnage, combat en cours) puis reprend le flux d'événements.
+- **ENet (UDP)** n'est pas retenu : il n'existe pas dans le navigateur et son avantage (latence des
+  jeux d'action) ne sert pas un jeu au tour par tour. **WebRTC** non plus : il sert au pair à pair,
+  or le serveur fait autorité. On pourra ajouter ENet au client natif plus tard si un besoin
+  apparaît, sans toucher aux messages.
+
+#### Comptes et authentification
+
+- Un **compte** (adresse et mot de passe, puis éventuellement Discord ou Google) porte plusieurs
+  personnages ; le **pseudo est unique** sur le serveur (aujourd'hui il est libre).
+- *À valider* : confier les comptes à un service géré (**Supabase Auth** proposé : inscription,
+  confirmation par courriel, mot de passe oublié, connexion Discord, offre gratuite suffisante pour
+  les tests) plutôt que de les écrire soi-même. Le hachage des mots de passe, les courriels et la
+  réinitialisation sont la partie la plus risquée d'un système de comptes.
+- Le client obtient un **jeton** du service de comptes et le présente au serveur de jeu à
+  l'ouverture du WebSocket ; le serveur vérifie la signature du jeton et en tire l'identifiant du
+  compte. Le mot de passe ne passe jamais par le serveur de jeu.
+- Limitation de débit des connexions et des commandes (par compte et par adresse), dès le prototype.
+
+#### Sauvegarde côté serveur
+
+- **PostgreSQL** (fourni par Supabase dans la proposition ci-dessus, ou installé à côté du serveur).
+- Tables du prototype : `comptes`, `personnages` (compte, pseudo unique, race, voie, niveau, carte,
+  et l'état complet en **JSONB**, c'est-à-dire le `Character.to_dict` actuel avec quêtes et
+  métiers). On sortira des colonnes ou des tables quand une recherche en aura besoin (hôtel des
+  ventes, classements).
+- Écriture à la fin de chaque combat, à chaque changement de carte, à la déconnexion et toutes les
+  60 s ; les opérations entre joueurs (échange, hôtel des ventes) se feront en **une transaction**
+  avec un **journal** (anti-duplication, § 13.5).
+- Les états de carte (groupes, réapparitions) ne sont pas sauvegardés : un redémarrage du serveur
+  repart des cartes d'origine. Les mini-boss réapparaissent comme aujourd'hui.
+- *À valider* : **pas de migration** des sauvegardes solo du navigateur (on ne peut pas savoir si
+  elles ont été modifiées) ; tout le monde repart du niveau 1 en ligne, sauf peut-être pendant les
+  tests fermés.
+
+#### Client web et client natif
+
+| | Navigateur (GitHub Pages) | Client natif (Windows, Linux, macOS) |
+|---|---|---|
+| Installation | Aucune, un lien suffit | Téléchargement (GitHub Releases, puis itch.io) |
+| Mises à jour | Automatiques | À retélécharger (l'application itch.io peut le faire) |
+| Performances | WebAssembly, pas de fils d'exécution (`thread_support=false`), WebGL 2, chargement plus long | Natif et multithread, Vulkan ou OpenGL, chargement rapide |
+| Onglet en arrière-plan | Ralenti par le navigateur | Pas de ralentissement |
+| Réseau | WebSocket | WebSocket (ENet possible plus tard) |
+| Inconvénients | Plus lent sur les petites machines | Avertissements Windows et macOS sans certificat de signature (payant) |
+
+- Le même projet Godot s'exporte vers les deux ; il suffit d'ajouter des préréglages d'export et
+  une étape à la CI. **Proposé** : client natif Windows et Linux en archive sur GitHub Releases dès
+  le prototype, macOS plus tard (signature Apple).
+- Pour RV, l'écart de performances reste modéré (tour par tour, 2D) : le navigateur reste la porte
+  d'entrée principale, le natif sert le confort des joueurs réguliers.
+
+#### Hébergement
+
+- **Client web** : GitHub Pages, comme aujourd'hui.
+- **Serveur de jeu** : *à valider*, un petit serveur privé (VPS, de l'ordre de 5 € par mois chez
+  Hetzner ou OVH) avec le serveur Godot dans un conteneur Docker et **Caddy** devant (certificat
+  HTTPS automatique, donc `wss://`). Un serveur de jeu garde des connexions ouvertes longtemps : les
+  hébergeurs de fonctions sans serveur (Vercel, Netlify…) ne conviennent pas.
+- **Base et comptes** : Supabase (offre gratuite pour les tests) ou PostgreSQL sur le même VPS.
+- **Deux environnements** : `staging` (test, mis à jour par la CI à chaque push sur `main`) et
+  `production` (mis à jour à la main), chacun avec sa base. Sauvegardes automatiques de la base.
+- **Jeu hors ligne** : la version solo (connexion locale) reste disponible pour les alpha tests et
+  le développement, au moins jusqu'à la bêta.
+
+#### Jalons
+
+| Jalon | Contenu | Critère de sortie |
+|---|---|---|
+| **M0. Préparer le noyau** (pendant l'alpha 1) | Séparer `MapInstance` et `PlayerState`, `World` en façade solo ; ids de personnages ; portée des événements ; sérialisation JSON des commandes et événements (cases) et version du protocole ; `GameConnection` locale et copie locale de l'état côté client | Le solo marche comme avant, tous les tests passent, et un test fait tourner deux joueurs sur une même `MapInstance` sans réseau |
+| **M1. Prototype minimal** | Serveur Godot sans affichage + WebSocket ; compte (inscription, connexion) ; création, chargement et sauvegarde du personnage sur le serveur ; deux joueurs sur la même carte se voient bouger, entrer et sortir ; combats encore en solo mais **calculés par le serveur** (le groupe attaqué disparaît pour les autres) ; client web et natif ; serveur de staging | Deux comptes sur deux machines se voient sur la même carte ; un combat gagné donne XP et butin enregistrés en base ; après déconnexion et reconnexion, on retrouve son personnage là où on l'a laissé |
+| **M2. Combat de groupe** | Groupe (invitation, chef) ; rejoindre le combat d'un membre pendant le placement ; placement à plusieurs ; tour de 30 s (§ 7.2) ; déconnexion en combat (tours passés automatiquement, reprise à la reconnexion) ; butin entre joueurs par `Loot.roll` ; partage de l'XP et des brumes ; inventaire consultable mais non modifiable en combat (TODO, Phase 5) ; objectifs de quête « vaincre X » comptés pour le groupe | Trois joueurs finissent un combat ensemble, chacun reçoit sa part, et un joueur déconnecté peut revenir dans le combat |
+| **M3. Social** | Chat par canaux (local, groupe, commerce, privé) branché sur l'historique ; amis, ignorés, statut en ligne ; signalement | Deux joueurs sur des cartes différentes discutent en privé et en groupe |
+| **M4. Commerce** | Échange sécurisé entre joueurs ; hôtel des ventes ; journal des transactions | Aucun objet ni aucune brume ne peut être dupliqué (tests de déconnexion en plein échange) |
+| **M5. Monde partagé** | Plusieurs instances par carte (§ 13.2) et deux mondes selon l'acte ; donjons et maisons instanciés ; guildes et métiers de guilde (§ 13.7) | Bêta fermée possible |
+| **M6. Exploitation** | Supervision, sauvegardes, modération, déploiement sans perte, tests de charge | Bêta fermée ouverte |
+
+M0 à M2 forment la Phase 4 (fondations réseau) et M3 à M6 la Phase 5 (multi) du § 17.
+
+#### Décisions à valider par l'auteur
+
+1. **Calendrier** : M0 pendant l'alpha test 1, M1 juste après, Phase 3 après M2.
+2. **Serveur** : Godot 4.5 sans affichage, même code `core/` (Node/Colyseus écarté).
+3. **Transport** : WebSocket seul, web et natif, messages JSON (pas d'ENet ni de WebRTC pour
+   l'instant).
+4. **Comptes et base** : Supabase (comptes + PostgreSQL) pour commencer, ou tout héberger soi-même.
+5. **Hébergement** : un VPS avec Docker et Caddy, un staging et une production.
+6. **Client natif** : Windows et Linux sur GitHub Releases dès le prototype, macOS plus tard.
+7. **Sauvegardes solo** : pas de migration vers le serveur ; le solo hors ligne reste jouable
+   jusqu'à la bêta.
+
 ---
 
 ## 17. Périmètre par phase
@@ -2101,6 +2310,8 @@ exemples en [annexe](#20-annexes--formats-de-données).
 | **5. Multi** | Instances, groupe, amis, chat, échanges, hôtel des ventes, guildes | Bêta fermée |
 
 > Les phases 3 et 4 peuvent se chevaucher : la phase 4 peut démarrer dès que l'alpha solo est stable.
+> Proposition (§ 16.5, à valider) : préparer le noyau pendant l'alpha test 1, prototype juste après,
+> et Phase 3 après le combat de groupe (jalon M2), pour écrire le nouveau contenu directement pour le multi.
 > Détail des tâches : voir [TODO.md](TODO.md).
 
 ---

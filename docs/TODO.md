@@ -611,10 +611,22 @@ classes (option écartée et compromis gardés en piste, GDD § 5.2).
 
 ## Phase 4 — Fondations réseau
 
-Peut démarrer dès que l'alpha solo est stable.
+Peut démarrer dès que l'alpha solo est stable. Plan proposé (à valider par l'auteur avant de
+commencer) : GDD § 16.5, jalons M0 (préparer le noyau) à M6.
 
-- [ ] Choisir la pile serveur (Godot sans affichage, Node/Colyseus…) et le transport (WebSocket, ENet)
-- [ ] Définir le protocole (sérialisation des commandes / événements, versionnage)
+- [ ] Valider le plan du GDD § 16.5 (calendrier, Godot sans affichage, WebSocket seul, Supabase ou
+  hébergement maison, VPS + Caddy, client natif sur GitHub Releases, pas de migration du solo)
+- [ ] M0 : séparer `MapInstance` (état partagé d'une carte) et `PlayerState` (personnage connecté),
+  `World` en façade solo ; ids de personnages à la place de `World.PLAYER_ID` ; portée des
+  événements (personnel, carte, combat)
+- [ ] M0 : `GameConnection` locale et copie locale de l'état côté client (remplacer les lectures
+  directes de `world.*`, ~150 accès)
+- [ ] M1 : prototype minimal (compte, personnage sauvegardé sur le serveur, deux joueurs visibles
+  sur une carte, combats solo calculés par le serveur, client web et natif, staging)
+- [ ] M1 : préréglages d'export Windows et Linux et archives sur GitHub Releases depuis la CI
+
+- [ ] Choisir la pile serveur et le transport (proposé : Godot sans affichage et WebSocket, GDD § 16.5)
+- [ ] Définir le protocole (messages JSON, cases en `[x, y]`, numéro de version, reconnexion par instantané)
 - [ ] Faire tourner le noyau de jeu côté serveur (même code que le solo)
 - [ ] Comptes : inscription, connexion, sessions (jetons), hachage des mots de passe
 - [ ] Base de données : schéma (comptes, personnages, inventaires, quêtes, métiers) — PostgreSQL

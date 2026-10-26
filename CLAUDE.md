@@ -99,6 +99,10 @@ bouton « Donner son avis » (`Session.FEEDBACK_URL`). Checklist : TODO, Phase 2
 l'alpha test 1 » : restent la passe de l'auteur dans chaque camp, le gel vu une fois contre Grondin
 (attendre la console du navigateur) et l'invitation des testeurs.
 
+**Multijoueur** : plan d'architecture proposé dans le GDD § 16.5 (serveur Godot sans affichage qui
+fait autorité, WebSocket, comptes et PostgreSQL via Supabase, client web + natif, jalons M0 à M6).
+**En attente de la validation de l'auteur** : ne pas commencer M0 ni le prototype M1 avant.
+
 Dernière session (retours de la passe de l'auteur) :
 
 - Retours de test : bulle de dialogue sous le bandeau, suivi de quête repliable, ligne de vue sur
