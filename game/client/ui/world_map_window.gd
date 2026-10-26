@@ -357,7 +357,7 @@ func refresh() -> void:
 
 ## Cartes des zones demandées : id → { nom, sorties } (voir `WorldMapLayout.zone_layout`). Les
 ## cartes viennent de `World.map_ids` (toutes celles du jeu), et des cartes visitées à défaut.
-static func map_infos(world: World, zone_ids: Array) -> Dictionary:
+static func map_infos(world: ClientState, zone_ids: Array) -> Dictionary:
 	var ids: Array[String] = world.map_ids.duplicate()
 	for map_id in world.visited_maps():
 		if not ids.has(map_id):
@@ -374,7 +374,7 @@ static func map_infos(world: World, zone_ids: Array) -> Dictionary:
 
 
 ## Pierres de Passage découvertes (ids).
-static func known_passages(world: World) -> Array[String]:
+static func known_passages(world: ClientState) -> Array[String]:
 	var known: Array[String] = []
 	for passage_id: String in world.data.passages:
 		if world.is_passage_known(passage_id):
@@ -384,7 +384,7 @@ static func known_passages(world: World) -> Array[String]:
 
 ## Carte à coordonnées où l'on est : la carte actuelle ; dans une maison, celle où mène sa porte
 ## ("" s'il n'y en a pas).
-static func here_map(world: World) -> String:
+static func here_map(world: ClientState) -> String:
 	var map := world.map
 	if not WorldMapLayout.map_coordinates(map.id).is_empty():
 		return map.id
@@ -401,7 +401,7 @@ func _here_zone() -> String:
 
 ## Cartes visitées, plus celle où mène la porte de la maison où l'on est : on la connaît même si l'on
 ## n'y est pas encore sorti (départ dans la maison, ou sauvegarde antérieure à la liste des visites).
-static func visited_here(world: World) -> Array[String]:
+static func visited_here(world: ClientState) -> Array[String]:
 	var visited := world.visited_maps()
 	var here := here_map(world)
 	if not here.is_empty() and not visited.has(here):
@@ -411,7 +411,7 @@ static func visited_here(world: World) -> Array[String]:
 
 ## Cartes montrées sur la carte du monde et la minicarte : toutes celles du jeu qui ont des
 ## coordonnées (comme dans Dofus, rien n'est caché), celles visitées en premier (ordre des onglets).
-static func shown_maps(world: World) -> Array[String]:
+static func shown_maps(world: ClientState) -> Array[String]:
 	var shown := visited_here(world)
 	var all_ids: Array[String] = world.map_ids.duplicate()
 	all_ids.sort()

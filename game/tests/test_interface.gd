@@ -97,7 +97,7 @@ func test_menu_pause() -> void:
 	assert_false(tree.paused, "le jeu reprend")
 	# En combat : pas de retour au menu (on ne sauvegarde pas en combat).
 	var view: MapView = scene.get_node("MapView")
-	view._on_click(view.world.groups()[0]["case"])
+	view._on_click(view.server.groups()[0]["case"])
 	_run_until_idle(view)
 	assert_eq(view.mode, MapView.Mode.COMBAT)
 	scene._unhandled_input(_cancel())
@@ -115,7 +115,7 @@ func test_mode_tactique_retenu_d_un_combat_a_l_autre() -> void:
 	var view: MapView = scene.get_node("MapView")
 	var hud: CombatHud = scene.get_node("CombatHud")
 	assert_false(hud._tactical_button.visible, "pas de bouton tactique en exploration")
-	view._on_click(view.world.groups()[0]["case"])
+	view._on_click(view.server.groups()[0]["case"])
 	_run_until_idle(view)
 	assert_true(hud._tactical_button.visible, "bouton tactique en combat")
 	assert_false(hud._tactical_button.button_pressed)
@@ -134,7 +134,7 @@ func test_mode_tactique_retenu_d_un_combat_a_l_autre() -> void:
 	tree.root.add_child(scene)
 	view = scene.get_node("MapView")
 	hud = scene.get_node("CombatHud")
-	view._on_click(view.world.groups()[0]["case"])
+	view._on_click(view.server.groups()[0]["case"])
 	_run_until_idle(view)
 	assert_true(view.tactical)
 	assert_true(hud._tactical_button.button_pressed, "le bouton suit")
@@ -262,12 +262,13 @@ func test_onglets_du_sac() -> void:
 	var scene: Node = load("res://client/world/world.tscn").instantiate()
 	tree.root.add_child(scene)
 	var view: MapView = scene.get_node("MapView")
-	var data := view.world.data
-	var inventory := view.world.character.inventory
+	var data := view.server.data
+	var inventory := view.server.character.inventory
 	inventory.add(data.items["bois_de_frene"] if data.items.has("bois_de_frene") else _first_resource(data), 3, {})
+	view.refresh_state()
 	var window: InventoryWindow = scene.get_node("InventoryWindow")
 	window.toggle()
-	var sheet: Array = view.world.character.inventory_sheet(data)["objets"]
+	var sheet: Array = view.server.character.inventory_sheet(data)["objets"]
 	for tab in InventoryWindow.BAG_TAB_NAMES.size():
 		window.show_bag_tab(tab)
 		var expected := sheet.filter(func(entry: Dictionary) -> bool: return InventoryWindow.bag_tab(entry["type"]) == tab)

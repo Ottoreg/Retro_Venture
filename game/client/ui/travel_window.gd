@@ -110,7 +110,7 @@ func _destination_row(destination: Dictionary, here: bool, ecus: int) -> HBoxCon
 
 func _on_destination_pressed(destination: String) -> void:
 	close()
-	map_view.send_command({"type": Protocol.CMD_TRAVEL, "entite": World.PLAYER_ID, "case": _stone, "destination": destination})
+	map_view.send_command({"type": Protocol.CMD_TRAVEL, "entite": map_view.world.player_id, "case": _stone, "destination": destination})
 
 
 func _on_backdrop_input(event: InputEvent) -> void:

@@ -224,7 +224,7 @@ func _on_action_pressed() -> void:
 	var quantity := int(_quantity.value) if _quantity_box.visible else 1
 	map_view.send_command({
 		"type": Protocol.CMD_BUY if _mode == BUY else Protocol.CMD_SELL,
-		"entite": World.PLAYER_ID,
+		"entite": map_view.world.player_id,
 		"pnj": _shop["pnj"],
 		"objet": _selected,
 		"quantite": quantity,

@@ -58,12 +58,12 @@ func quest_id() -> String:
 
 func accept() -> void:
 	close()
-	map_view.send_command({"type": Protocol.CMD_QUEST_ACCEPT, "entite": World.PLAYER_ID, "quete": _quest_id})
+	map_view.send_command({"type": Protocol.CMD_QUEST_ACCEPT, "entite": map_view.world.player_id, "quete": _quest_id})
 
 
 func later() -> void:
 	close()
-	map_view.send_command({"type": Protocol.CMD_QUEST_DECLINE, "entite": World.PLAYER_ID, "quete": _quest_id})
+	map_view.send_command({"type": Protocol.CMD_QUEST_DECLINE, "entite": map_view.world.player_id, "quete": _quest_id})
 
 
 func _set_visible(shown: bool) -> void:

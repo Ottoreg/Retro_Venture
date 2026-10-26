@@ -125,11 +125,11 @@ func _on_reset_pressed() -> void:
 
 
 func _on_reset_confirmed() -> void:
-	map_view.send_command({"type": Protocol.CMD_RESET_POINTS, "entite": World.PLAYER_ID})
+	map_view.send_command({"type": Protocol.CMD_RESET_POINTS, "entite": map_view.world.player_id})
 
 
 func _on_plus_pressed(stat_name: String) -> void:
-	map_view.send_command({"type": Protocol.CMD_SPEND_POINTS, "entite": World.PLAYER_ID, "carac": stat_name, "points": 1})
+	map_view.send_command({"type": Protocol.CMD_SPEND_POINTS, "entite": map_view.world.player_id, "carac": stat_name, "points": 1})
 
 
 # --- Construction des contrôles ----------------------------------------------------------------

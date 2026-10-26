@@ -156,7 +156,7 @@ func _on_craft_pressed() -> void:
 		return
 	map_view.send_command({
 		"type": Protocol.CMD_CRAFT,
-		"entite": World.PLAYER_ID,
+		"entite": map_view.world.player_id,
 		"pnj": _workshop["pnj"],
 		"recette": _selected,
 		"quantite": int(_quantity.value) if _quantity_box.visible else 1,

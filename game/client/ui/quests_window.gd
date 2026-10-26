@@ -146,7 +146,7 @@ func _on_item_selected(index: int) -> void:
 
 func _on_track_pressed() -> void:
 	var tracked: bool = _selected == _journal.get("suivie", "")
-	map_view.send_command({"type": Protocol.CMD_QUEST_TRACK, "entite": World.PLAYER_ID, "quete": "" if tracked else _selected})
+	map_view.send_command({"type": Protocol.CMD_QUEST_TRACK, "entite": map_view.world.player_id, "quete": "" if tracked else _selected})
 
 
 func _unhandled_key_input(event: InputEvent) -> void:

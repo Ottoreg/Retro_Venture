@@ -25,7 +25,7 @@ static var _cache: Dictionary = {}
 
 ## Repère d'un nom : { carte (à coordonnées), nom } ; index par première lettre : [{ texte, carte,
 ## nom }], du plus long au plus court.
-static func names(world: World) -> Dictionary:
+static func names(world: ClientState) -> Dictionary:
 	if _cache_key == world.get_instance_id() and not _cache.is_empty():
 		return _cache
 	var found := {}  # texte → { carte, nom } ; {} si le texte est ambigu.
@@ -87,7 +87,7 @@ static func names(world: World) -> Dictionary:
 
 ## Texte en BBCode, les noms reconnus en liens (le reste échappé). Le nom du repère est encodé comme
 ## une URL : une apostrophe (« Feuille-d'Argent ») dans `[url=…]` casse l'analyse du BBCode de Godot.
-static func linkify(text: String, world: World) -> String:
+static func linkify(text: String, world: ClientState) -> String:
 	var index := names(world)
 	var out := ""
 	var i := 0
@@ -142,7 +142,7 @@ static func make_label(font_size: int, color: Color, on_pin: Callable) -> RichTe
 ## à faire de son étape qui a un lieu (voir `QuestBook.objective_maps`), sur la carte à coordonnées
 ## la plus proche du joueur parmi celles qui conviennent (celle où il est, sinon la plus proche de
 ## sa zone, sinon la première).
-static func objective_pin(world: World) -> Dictionary:
+static func objective_pin(world: ClientState) -> Dictionary:
 	if world == null or world.quest_book == null:
 		return {}
 	var journal := world.quest_book.sheet()
@@ -164,7 +164,7 @@ static func objective_pin(world: World) -> Dictionary:
 
 ## Parmi ces cartes à coordonnées, celle où est le joueur, sinon la plus proche dans sa zone (en
 ## cases de la grille), sinon la première.
-static func nearest_map(world: World, maps: Array[String]) -> String:
+static func nearest_map(world: ClientState, maps: Array[String]) -> String:
 	var here := WorldMapLayout.map_coordinates(outdoor_map(world, world.map.id) if world.map != null else "")
 	var best := maps[0]
 	var best_distance := -1
@@ -181,7 +181,7 @@ static func nearest_map(world: World, maps: Array[String]) -> String:
 
 
 ## Carte à coordonnées d'une carte : elle-même, ou pour une maison celle où mène sa porte ("" sinon).
-static func outdoor_map(world: World, map_id: String) -> String:
+static func outdoor_map(world: ClientState, map_id: String) -> String:
 	if not WorldMapLayout.map_coordinates(map_id).is_empty():
 		return map_id
 	var map := world.map_by_id(map_id)
@@ -217,7 +217,7 @@ static func _own_words(short: String) -> Array[String]:
 	return own
 
 
-static func _zone_map(world: World, zone_id: String, fallback: String) -> String:
+static func _zone_map(world: ClientState, zone_id: String, fallback: String) -> String:
 	var stones: Array[String] = []
 	for passage: Dictionary in world.data.passages.values():
 		var stone_map := str(passage.get("carte", ""))

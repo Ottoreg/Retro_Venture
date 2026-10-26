@@ -231,6 +231,9 @@ const EVT_COMBAT_ENDED := "combat_fin"
 const EVT_PLAYER_JOINED := "joueur_arrive"
 ## Un autre joueur quitte la carte (multijoueur ; jamais en solo). { type, carte: String, entite: String }
 const EVT_PLAYER_LEFT := "joueur_part"
+## Instantané de ce que voit le joueur, pour la copie de l'état de son client : voir `World.snapshot`.
+## En ligne, envoyé à l'entrée d'une carte et à la reconnexion.
+const EVT_SNAPSHOT := "instantane"
 ## PV régénérés hors combat (renvoyé par `World.update`). { type, entite: String, pv: int }
 const EVT_REGEN := "regeneration"
 ## Retour en exploration après un combat. { type, position: Vector2i, groupe_vaincu: String } ; après
@@ -324,7 +327,7 @@ const REASON_NOT_IN_LINE := "pas_en_ligne"
 ## Champs qui contiennent une case (`Vector2i`, écrite [x, y]), où qu'ils soient dans le message.
 const CELL_FIELDS := ["case", "cible", "position", "depuis", "interrompre_a", "foyer"]
 ## Champs qui contiennent une liste de cases (`Array[Vector2i]`).
-const CELL_LIST_FIELDS := ["chemin", "cases", "placement"]
+const CELL_LIST_FIELDS := ["chemin", "cases", "placement", "epuisees"]
 ## Vérification des allers-retours en JSON de toutes les commandes et de tous les événements du
 ## noyau (activée par les tests : voir `check_round_trip`) ; les écarts trouvés y sont notés.
 static var verify_json := false

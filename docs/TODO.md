@@ -617,17 +617,23 @@ Plan validé par l'auteur le 26/10/2026 : GDD § 16.5, jalons M0 (préparer le n
   VPS + Caddy, client natif sur GitHub Releases, pas de migration du solo)
 - [ ] Hébergement gratuit pour M1 et les tests (PC de l'auteur + tunnel Cloudflare, ou Oracle
   Cloud Always Free), VPS payant au plus tard pour la bêta fermée
-- [ ] M0 : séparer `MapInstance` (état partagé d'une carte) et `PlayerState` (personnage connecté),
+- [x] M0 : séparer `MapInstance` (état partagé d'une carte) et `PlayerState` (personnage connecté),
   `World` en façade solo ; ids de personnages à la place de `World.PLAYER_ID` ; portée des
-  événements (personnel, carte, combat)
-- [ ] M0 : `GameConnection` locale et copie locale de l'état côté client (remplacer les lectures
-  directes de `world.*`, ~150 accès)
+  événements (personnel, carte, combat) — fait le 26/10/2026, test à deux joueurs
+  (`tests/core/test_multiplayer.gd`)
+- [x] M0 : `GameConnection` locale et copie locale de l'état côté client (`client/net/`, combat
+  recréé dans la copie) ; messages en JSON et version du protocole, vérifiés sur tous les tests
+- [ ] M1 : afficher les autres joueurs de la carte (`ClientState.other_players`,
+  `EVT_PLAYER_JOINED` / `EVT_PLAYER_LEFT`) ; connexion distante asynchrone (aujourd'hui `send`
+  renvoie les événements tout de suite) ; envoyer aux autres joueurs le groupe engagé et le groupe
+  vaincu ; `remove_player` ne garde pas l'état d'un combat abandonné
 - [ ] M1 : prototype minimal (compte, personnage sauvegardé sur le serveur, deux joueurs visibles
   sur une carte, combats solo calculés par le serveur, client web et natif, staging)
 - [ ] M1 : préréglages d'export Windows et Linux et archives sur GitHub Releases depuis la CI
 
 - [x] Choisir la pile serveur et le transport (Godot sans affichage et WebSocket, GDD § 16.5)
-- [ ] Définir le protocole (messages JSON, cases en `[x, y]`, numéro de version, reconnexion par instantané)
+- [ ] Définir le protocole (messages JSON, cases en `[x, y]`, numéro de version : faits en M0 ;
+  reste la poignée de main à la connexion et la reconnexion par instantané)
 - [ ] Faire tourner le noyau de jeu côté serveur (même code que le solo)
 - [ ] Comptes : inscription, connexion, sessions (jetons), hachage des mots de passe
 - [ ] Base de données : schéma (comptes, personnages, inventaires, quêtes, métiers) — PostgreSQL

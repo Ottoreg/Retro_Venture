@@ -113,7 +113,7 @@ func _add_line(text: String, unlocked: bool, rarity: String, item_id: String) ->
 
 
 ## Un onglet par métier des données, dans leur ordre.
-func _update_tabs(world: World) -> void:
+func _update_tabs(world: ClientState) -> void:
 	var ids: Array[String] = []
 	for job_id: String in world.data.jobs:
 		ids.append(job_id)

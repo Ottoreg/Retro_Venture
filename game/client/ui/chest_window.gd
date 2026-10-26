@@ -139,7 +139,7 @@ func _send(type: String) -> void:
 	_message.text = ""
 	map_view.send_command({
 		"type": type,
-		"entite": World.PLAYER_ID,
+		"entite": map_view.world.player_id,
 		"case": _chest_cell,
 		"objet": _selected,
 		"quantite": int(_quantity.value),

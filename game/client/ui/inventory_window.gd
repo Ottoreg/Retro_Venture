@@ -260,9 +260,9 @@ func toggle_worn(uid: String) -> void:
 		return
 	var slot := inventory.slot_of(uid)
 	if not slot.is_empty():
-		map_view.send_command({"type": Protocol.CMD_UNEQUIP, "entite": World.PLAYER_ID, "emplacement": slot})
+		map_view.send_command({"type": Protocol.CMD_UNEQUIP, "entite": map_view.world.player_id, "emplacement": slot})
 	elif Item.is_equipment(map_view.world.data.items.get(inventory.entries[uid]["objet"], {})):
-		map_view.send_command({"type": Protocol.CMD_EQUIP, "entite": World.PLAYER_ID, "objet": uid})
+		map_view.send_command({"type": Protocol.CMD_EQUIP, "entite": map_view.world.player_id, "objet": uid})
 
 
 func _on_slot_input(event: InputEvent, slot: String) -> void:
@@ -306,7 +306,7 @@ func can_drop_on_slot(dragged: Variant, slot: String) -> bool:
 func drop_on_slot(dragged: Variant, slot: String) -> void:
 	if can_drop_on_slot(dragged, slot):
 		_selected = dragged["objet"]
-		map_view.send_command({"type": Protocol.CMD_EQUIP, "entite": World.PLAYER_ID, "objet": dragged["objet"], "emplacement": slot})
+		map_view.send_command({"type": Protocol.CMD_EQUIP, "entite": map_view.world.player_id, "objet": dragged["objet"], "emplacement": slot})
 
 
 ## Un objet porté lâché sur le sac est retiré.
@@ -316,7 +316,7 @@ func _can_drop_on_bag(_at_position: Vector2, dragged: Variant) -> bool:
 
 func _drop_on_bag(_at_position: Vector2, dragged: Variant) -> void:
 	if _can_drop_on_bag(_at_position, dragged):
-		map_view.send_command({"type": Protocol.CMD_UNEQUIP, "entite": World.PLAYER_ID, "emplacement": dragged["emplacement"]})
+		map_view.send_command({"type": Protocol.CMD_UNEQUIP, "entite": map_view.world.player_id, "emplacement": dragged["emplacement"]})
 
 
 func _drag_preview(uid: String) -> Control:
@@ -366,20 +366,20 @@ func _show_details(entry: Dictionary) -> void:
 
 
 func _on_equip_pressed() -> void:
-	map_view.send_command({"type": Protocol.CMD_EQUIP, "entite": World.PLAYER_ID, "objet": _selected})
+	map_view.send_command({"type": Protocol.CMD_EQUIP, "entite": map_view.world.player_id, "objet": _selected})
 
 
 func _on_unequip_pressed() -> void:
 	var slot := map_view.world.character.inventory.slot_of(_selected)
 	if not slot.is_empty():
-		map_view.send_command({"type": Protocol.CMD_UNEQUIP, "entite": World.PLAYER_ID, "emplacement": slot})
+		map_view.send_command({"type": Protocol.CMD_UNEQUIP, "entite": map_view.world.player_id, "emplacement": slot})
 
 
 func _on_drop_pressed() -> void:
 	if _selected.is_empty():
 		return
 	var quantity := int(map_view.world.character.inventory.entries[_selected]["quantite"])
-	map_view.send_command({"type": Protocol.CMD_DROP, "entite": World.PLAYER_ID, "objet": _selected, "quantite": quantity})
+	map_view.send_command({"type": Protocol.CMD_DROP, "entite": map_view.world.player_id, "objet": _selected, "quantite": quantity})
 
 
 # --- Construction des contrôles ----------------------------------------------------------------

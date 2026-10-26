@@ -253,6 +253,40 @@ func _execute(command: Dictionary) -> Array[Dictionary]:
 	return events
 
 
+## Instantané de ce que voit le joueur `id`, pour la copie de l'état de son client
+## (`ClientState`) : son personnage, sa carte et ce qui s'y trouve (groupes avec l'âge de leur élite,
+## autres joueurs, ressources épuisées), son combat vu de son équipe. En ligne, le serveur l'envoie à
+## l'entrée d'une carte et à la reconnexion (GDD § 16.5).
+func snapshot(id := player_id) -> Dictionary:
+	var p: PlayerState = players[id]
+	var groups: Array = []
+	for group_state: Dictionary in p.instance.groups.values():
+		var copy := group_state.duplicate(true)
+		if copy.has("apparition"):
+			copy["age"] = clock - float(copy["apparition"])  # Pas l'horloge du monde : l'âge.
+			copy.erase("apparition")
+		groups.append(copy)
+	var others: Array = []
+	for other_id: String in p.instance.player_ids():
+		if other_id != id:
+			others.append(player_view(players[other_id]))
+	var fighter: Fighter = p.combat.get_fighter(id) if p.combat != null else null
+	return {
+		"type": Protocol.EVT_SNAPSHOT,
+		"joueur": id,
+		"personnage": p.character.to_dict(),
+		"places": p.character.inventory.capacity,
+		"assis": p.sitting,
+		"carte": p.map.id,
+		"position": p.cell,
+		"groupes": groups,
+		"joueurs": others,
+		"epuisees": p.instance.depleted.keys(),
+		"pierres_toutes_connues": all_passages_known,
+		"combat": p.combat.snapshot(fighter.team if fighter != null else Fighter.TEAM_PLAYERS) if p.combat != null else null,
+	}
+
+
 ## Joueurs à qui envoyer un événement produit par la commande de `sender_id` (ou par `update` si
 ## `sender_id` est vide), selon sa portée (`Protocol.scope_of`) : lui seul (personnel, ou l'événement
 ## nomme son joueur dans `entite`), les joueurs de la carte `carte` (carte), ou ceux de son combat.
@@ -1036,7 +1070,12 @@ func _wander_path(instance: MapInstance, group: Dictionary) -> Array[Vector2i]:
 func elite_rank(group: Dictionary) -> int:
 	if not group.has("elite"):
 		return 0
-	return clampi(floori((clock - float(group["apparition"])) / ELITE_RANK_SECONDS), 0, ELITE_MAX_RANK)
+	return rank_for_age(clock - float(group["apparition"]))
+
+
+## Rang d'une élite en vie depuis `age` secondes (règle partagée avec `ClientState`).
+static func rank_for_age(age: float) -> int:
+	return clampi(floori(age / ELITE_RANK_SECONDS), 0, ELITE_MAX_RANK)
 
 
 ## Où est l'élite de cette espèce : { carte, groupe }, ou {} si elle n'est pas en vie.

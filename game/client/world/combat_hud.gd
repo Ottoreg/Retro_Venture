@@ -490,7 +490,7 @@ static func spell_key_index(event: InputEventKey) -> int:
 
 
 ## Icône d'un sort (l'attaque de l'arme prend l'icône de l'arme portée).
-static func spell_icon(spell_id: String, world: World) -> Texture2D:
+static func spell_icon(spell_id: String, world: ClientState) -> Texture2D:
 	var image := "sort_" + spell_id
 	if spell_id == "arme" and world != null:
 		var weapon := world.character.inventory.equipped_entry("arme")
@@ -778,7 +778,7 @@ func _on_combat_ended(result: Dictionary) -> void:
 	_result_rows.add_child(_result_header())
 	var roster: Array = result.get("combattants", [])
 	if roster.is_empty() and map_view != null:
-		roster = [{"id": World.PLAYER_ID, "nom": map_view.world.player_name, "niveau": map_view.world.character.level,
+		roster = [{"id": map_view.world.player_id, "nom": map_view.world.player_name, "niveau": map_view.world.character.level,
 			"equipe": Fighter.TEAM_PLAYERS, "vivant": victory}]
 	for winners: bool in [true, false]:
 		var rows := roster.filter(func(entry: Dictionary) -> bool: return (int(entry["equipe"]) == int(result["vainqueur"])) == winners)
@@ -820,7 +820,7 @@ func _result_band(text: String, winners: bool) -> Control:
 func _result_row(entry: Dictionary, result: Dictionary, odd: bool) -> Control:
 	var row := HBoxContainer.new()
 	row.add_theme_constant_override("separation", 8)
-	var is_player: bool = entry["id"] == World.PLAYER_ID
+	var is_player: bool = entry["id"] == map_view.world.player_id
 	var alive: bool = entry.get("vivant", true)
 	var text_color := UiTheme.TEXT if alive else UiTheme.TEXT_DIM
 	var cells: Array[Control] = []
@@ -1028,7 +1028,7 @@ func _refresh() -> void:
 		return
 	if not _target_id.is_empty():
 		_show_target()
-	var player := map_view.actor(World.PLAYER_ID)
+	var player := map_view.actor(map_view.world.player_id)
 	if not player.is_empty():
 		_hp_gauge.show_values(int(player["hp"]), int(player["max_hp"]))
 		_pa_gauge.show_values(int(player["pa"]), int(player["pa"]))

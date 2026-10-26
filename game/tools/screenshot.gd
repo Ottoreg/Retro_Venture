@@ -60,21 +60,25 @@ func _process(_delta: float) -> bool:
 		var view: MapView = _scene.get_node("MapView")
 		if _action == "panoplie":
 			# Trois pièces de la Panoplie du Pyromane Repenti portées, l'amulette choisie.
-			var world := view.world
+			var world := view.server
 			for slot in ["coiffe", "cape", "amulette"]:
 				var template: Dictionary = world.data.items[slot + "_pyromane_repenti"]
 				var uid := world.character.inventory.add(template, 1, Item.roll_bonuses(template, world.rng))
+				view.refresh_state()
 				world.character.inventory.equip(uid, slot)
+				view.refresh_state()
 			var window: InventoryWindow = _scene.get_node("InventoryWindow")
 			window.toggle()
 			window._selected = world.character.inventory.equipped["amulette"]
 			window.refresh()
 		elif _action == "objet":
 			# Bottes de marche portées ; d'autres bottes dans le sac, survolées : leur infobulle comparée.
-			var world := view.world
+			var world := view.server
 			var inventory := world.character.inventory
 			inventory.equip(inventory.add(world.data.items["bottes_de_marche"], 1, {"agilite": 3, "initiative": 12}), "bottes")
+			view.refresh_state()
 			var other := inventory.add(world.data.items["bottes_forgeron_hargneux"], 1, {"force": 5, "initiative": 8})
+			view.refresh_state()
 			var window: InventoryWindow = _scene.get_node("InventoryWindow")
 			window.toggle()
 			create_timer(0.2).timeout.connect(func() -> void:
@@ -97,22 +101,26 @@ func _process(_delta: float) -> bool:
 						root.add_child(layer))
 		elif _action in ["inventaire", "ressources"]:
 			# Un exemplaire de chaque objet du jeu (les ressources par 5), pour voir toutes les icônes.
-			var world := view.world
+			var world := view.server
 			for item_id: String in world.data.items:
 				var template: Dictionary = world.data.items[item_id]
 				world.character.inventory.add(template, 1 if Item.is_equipment(template) else 5, Item.roll_bonuses(template, world.rng))
+				view.refresh_state()
 			_scene.get_node("InventoryWindow").toggle()
 			if _action == "ressources":
 				_scene.get_node("InventoryWindow").show_bag_tab(InventoryWindow.BagTab.RESOURCES)
 		elif _action.begins_with("elite"):
 			# « elite7 » : le Loup alpha apparaît, vieux de 7 rangs, et on le survole.
-			var world := view.world
+			var world := view.server
 			world.map_ids = [world.map.id]
+			view.refresh_state()
 			var events: Array[Dictionary] = []
 			world.spawn_elite("loup_alpha", events)
+			view.refresh_state()
 			for event in events:
 				view._apply_world_change(event)
 			world.clock += int(_action.trim_prefix("elite")) * World.ELITE_RANK_SECONDS + 1.0
+			view.refresh_state()
 			var group := world.group(world.elite_location("loup_alpha")["groupe"])
 			view._set_hovered(group["case"])
 			Input.warp_mouse(view.get_global_transform_with_canvas() * IsoGrid.cell_to_screen(group["case"]))
@@ -120,10 +128,10 @@ func _process(_delta: float) -> bool:
 			# Écran de fin de combat d'exemple : victoire avec butin, ou défaite.
 			var drops: Array = []
 			for item_id: String in ["croc_de_loup", "peau_de_loup", "amulette_croc", "cape_en_peau_de_loup", "lame_cendree"]:
-				var template: Dictionary = view.world.data.items[item_id]
+				var template: Dictionary = view.server.data.items[item_id]
 				drops.append({"objet": item_id, "nom": template["nom"], "rarete": template["rarete"],
 					"quantite": 3 if item_id == "croc_de_loup" else 1})
-			var roster: Array = [{"id": World.PLAYER_ID, "nom": view.world.player_name, "niveau": 4, "equipe": Fighter.TEAM_PLAYERS, "vivant": true}]
+			var roster: Array = [{"id": World.PLAYER_ID, "nom": view.server.player_name, "niveau": 4, "equipe": Fighter.TEAM_PLAYERS, "vivant": true}]
 			for i in 3:
 				roster.append({"id": "loup%d" % i, "nom": "Loup", "niveau": 3 + i, "equipe": Fighter.TEAM_MONSTERS, "vivant": i > 0})
 			roster.append({"id": "chef", "nom": "Chef de meute", "niveau": 6, "equipe": Fighter.TEAM_MONSTERS, "vivant": true})
@@ -131,18 +139,22 @@ func _process(_delta: float) -> bool:
 				for entry: Dictionary in roster.slice(1):
 					entry["vivant"] = false
 			var victory := _action == "butin"
-			view.world.character.level = 5
-			view.world.character.xp = Character.xp_for_level(5) + 260
+			view.server.character.level = 5
+			view.refresh_state()
+			view.server.character.xp = Character.xp_for_level(5) + 260
+			view.refresh_state()
 			_scene.get_node("CombatHud")._on_combat_ended({"vainqueur": Fighter.TEAM_PLAYERS if victory else Fighter.TEAM_MONSTERS,
 				"xp": 260 if victory else 40, "ecus": 12 if victory else 0, "butin": drops if victory else [], "surcharge": victory,
 				"niveaux": [5] if victory else [], "tours": 7, "combattants": roster,
 				"reveil": {} if victory else {"passage": "x", "nom": "Brumerive", "carte": ""}})
 		elif _action == "glyphe":
 			# Combat contre l'Arbre millénaire : sa glyphe posée, le héros ralenti et empoisonné, survolé.
-			var world := view.world
+			var world := view.server
 			world.map_ids = [world.map.id]
+			view.refresh_state()
 			var spawned: Array[Dictionary] = []
 			world.spawn_elite("arbre_millenaire", spawned)
+			view.refresh_state()
 			for event in spawned:
 				view._apply_world_change(event)
 			view._on_click(world.group(world.elite_location("arbre_millenaire")["groupe"])["case"])
@@ -150,7 +162,7 @@ func _process(_delta: float) -> bool:
 			view.request_start_fight()
 			_wait_for(view)
 			var combat := world.combat
-			var hero := view.player_fighter()
+			var hero := view.server.combat.get_fighter(World.PLAYER_ID)
 			var tree: Fighter = null
 			for fighter in combat.fighters:
 				if fighter.kind == "arbre_millenaire":
@@ -168,7 +180,7 @@ func _process(_delta: float) -> bool:
 			# niveau tiré.
 			var biggest: Dictionary = {}
 			var best_score := -1
-			for group: Dictionary in view.world.groups():
+			for group: Dictionary in view.server.groups():
 				var kinds := {}
 				for monster_id: String in group["monstres"]:
 					kinds[monster_id] = true
@@ -187,11 +199,12 @@ func _process(_delta: float) -> bool:
 			Input.warp_mouse(view.get_global_transform_with_canvas() * IsoGrid.cell_to_screen(cell))
 		elif _action == "reveil":
 			# Combat perdu (le héros à 1 PV passe ses tours), récap refermé : réveil et message.
-			view._on_click(view.world.groups()[0]["case"])
+			view._on_click(view.server.groups()[0]["case"])
 			_wait_for(view)
 			view.request_start_fight()
 			_wait_for(view)
-			view.world.combat.get_fighter(World.PLAYER_ID).hp = 1
+			view.server.combat.get_fighter(World.PLAYER_ID).hp = 1
+			view.refresh_state()
 			for i in 100:
 				if view.mode == MapView.Mode.EXPLORATION:
 					break
@@ -200,12 +213,15 @@ func _process(_delta: float) -> bool:
 			_scene.get_node("CombatHud").close_result()
 		elif _action == "fiche":
 			# Fiche du personnage avec quelques points investis (bouton « Réinitialiser » actif).
-			view.world.character.add_xp(Character.xp_for_level(4))
-			view.world.character.spend_points("force", 6)
+			view.server.character.add_xp(Character.xp_for_level(4))
+			view.refresh_state()
+			view.server.character.spend_points("force", 6)
+			view.refresh_state()
 			_scene.get_node("CharacterSheet").toggle()
 		elif _action == "assis":
-			view.world.character.hp_lost = 30
-			view.send_command({"type": Protocol.CMD_MOVE, "entite": World.PLAYER_ID, "cible": view.world.position_of(World.PLAYER_ID) + Vector2i(2, 2)})
+			view.server.character.hp_lost = 30
+			view.refresh_state()
+			view.send_command({"type": Protocol.CMD_MOVE, "entite": World.PLAYER_ID, "cible": view.server.position_of(World.PLAYER_ID) + Vector2i(2, 2)})
 			_wait_for(view)
 			view.toggle_sit()
 			_wait_for(view)
@@ -217,7 +233,8 @@ func _process(_delta: float) -> bool:
 					_wait_for(view)
 					break
 			var shop: ShopWindow = _scene.get_node("ShopWindow")
-			view.world.character.inventory.ecus = 500
+			view.server.character.inventory.ecus = 500
+			view.refresh_state()
 			shop._on_item_selected(0)
 			shop._on_action_pressed()
 			_wait_for(view)
@@ -242,19 +259,20 @@ func _process(_delta: float) -> bool:
 			# Quête suivie : l'épingle jaune de son objectif (vaincre, à l'étape 2 du tutoriel) sur la
 			# carte du monde et la minicarte.
 			for npc in view.current_map().npcs:
-				if view.world.quest_book.marker(npc["id"]) == QuestBook.MARKER_AVAILABLE:
+				if view.server.quest_book.marker(npc["id"]) == QuestBook.MARKER_AVAILABLE:
 					view._on_click(npc["case"])
 					_wait_for(view)
 					break
 			_scene.quest_dialog.accept()
 			_wait_for(view)
-			var quest_id: String = view.world.character.quests.tracked
-			view.world.character.quests.set_step(quest_id, 1, 0)
+			var quest_id: String = view.server.character.quests.tracked
+			view.server.character.quests.set_step(quest_id, 1, 0)
+			view.refresh_state()
 			_scene.get_node("Minimap").refresh()
 			_scene.get_node("WorldMapWindow").open()
 		elif _action in ["quete", "journal", "repere"]:
 			for npc in view.current_map().npcs:
-				if view.world.quest_book.marker(npc["id"]) == QuestBook.MARKER_AVAILABLE:
+				if view.server.quest_book.marker(npc["id"]) == QuestBook.MARKER_AVAILABLE:
 					view._on_click(npc["case"])
 					_wait_for(view)
 					break
@@ -270,10 +288,10 @@ func _process(_delta: float) -> bool:
 			_scene.pause_menu.open()
 			_scene.pause_menu._on_options_pressed()
 		else:
-			var target: Vector2i = view.world.groups()[0]["case"] if _action in ["combat", "cible", "sermon", "prevision", "phase", "tactique", "historique", "arcaniste", "composition", "infobulle"] else view.current_map().travel_stone()
+			var target: Vector2i = view.server.groups()[0]["case"] if _action in ["combat", "cible", "sermon", "prevision", "phase", "tactique", "historique", "arcaniste", "composition", "infobulle"] else view.current_map().travel_stone()
 			if _action == "phase":
 				# Aucun monstre n'a encore de phases dans les données : le premier du groupe en reçoit une.
-				var monster: Dictionary = view.world.data.monsters[view.world.groups()[0]["monstres"][0]]
+				var monster: Dictionary = view.server.data.monsters[view.server.groups()[0]["monstres"][0]]
 				monster["phases"] = [{"pv": 90, "message": "%s entre dans une rage folle !" % monster["nom"], "sorts": [],
 					"effets": [{"type": "bonus", "carac": "force", "min": 50, "max": 50, "duree": 2}]}]
 			view._on_click(target)
@@ -281,7 +299,7 @@ func _process(_delta: float) -> bool:
 				if not view.is_busy():
 					break
 				view.advance(0.3)
-			if _action in ["cible", "sermon", "prevision", "phase", "tactique", "historique", "arcaniste", "composition", "infobulle"] and view.world.combat != null:
+			if _action in ["cible", "sermon", "prevision", "phase", "tactique", "historique", "arcaniste", "composition", "infobulle"] and view.server.combat != null:
 				# Placement validé, puis survol du premier monstre.
 				view.request_start_fight()
 				for i in 200:
@@ -296,7 +314,7 @@ func _process(_delta: float) -> bool:
 							break
 						view.advance(0.3)
 					view.select_spell("arcaniste_creer_un_sort")
-					view._on_click(view.player_fighter().cell)
+					view._on_click(view.server.combat.get_fighter(World.PLAYER_ID).cell)
 					for i in 50:
 						if not view.is_busy():
 							break
@@ -324,20 +342,21 @@ func _process(_delta: float) -> bool:
 				if _action in ["sermon", "prevision"]:
 					# Sermon choisi, case visée à 2 cases devant le Théologue, vers les monstres ;
 					# « prevision » : un monstre amené dans la zone (dégâts prévus au-dessus de lui).
-					var hero := view.player_fighter()
-					var foe := view.world.combat.enemies_of(hero)[0]
+					var hero := view.server.combat.get_fighter(World.PLAYER_ID)
+					var foe := view.server.combat.enemies_of(hero)[0]
 					if _action == "prevision":
 						foe.cell = hero.cell + Spell.direction(hero.cell, foe.cell) * 2
+						view.refresh_state()
 						view._actors[foe.id]["pos"] = Vector2(foe.cell)
 					view.selected_spell = "theologue_sermon"
 					view._refresh_overlays()
 					view._set_hovered(hero.cell + Spell.direction(hero.cell, foe.cell))
-				for fighter in view.world.combat.fighters if _action in ["cible", "phase", "tactique"] else []:
+				for fighter in view.server.combat.fighters if _action in ["cible", "phase", "tactique"] else []:
 					if fighter.team != Fighter.TEAM_PLAYERS:
 						if _action == "phase":
 							# Un tiers de ses PV perdus : le noyau déclenche la phase (seuil à 90 %).
 							var events: Array[Dictionary] = []
-							view.world.combat._hurt(fighter, ceili(fighter.hp / 3.0), "acier", events)
+							view.server.combat._hurt(fighter, ceili(fighter.hp / 3.0), "acier", events)
 							view._queue.append_array(events)
 							view._playing = true
 							view._play_next()

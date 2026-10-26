@@ -832,3 +832,84 @@ func _refused(command: Dictionary, reason: String) -> Array[Dictionary]:
 		"raison": reason,
 	}]
 	return events
+
+
+# --- Copie du client -----------------------------------------------------------------------------
+
+## Instantané du combat tel que le voit un joueur de l'équipe `team` (pour la copie de l'état de son
+## client, `ClientState`) : combattants, tour, glyphes, et seulement les pièges de son équipe. Pas de
+## graine aléatoire (GDD § 16.5 : rien de sensible n'est envoyé au client).
+func snapshot(team := Fighter.TEAM_PLAYERS) -> Dictionary:
+	var fighter_states: Array = []
+	for fighter in fighters:
+		fighter_states.append(fighter.snapshot())
+	var arrival: Array = []
+	for fighter: Fighter in _arrival:
+		arrival.append([fighter.id, _arrival[fighter]])
+	var ground: Array = []
+	for glyph in glyphs:
+		ground.append(_ground_snapshot(glyph))
+	var own_traps: Array = []
+	for trap in traps:
+		if trap["equipe"] == team:
+			own_traps.append(_ground_snapshot(trap))
+	return {
+		"carte": map.id,
+		"etat": state,
+		"tour": _turn_index,
+		"manche": round_number,
+		"vainqueur": winner_team,
+		"placement": placement_cells.duplicate(),
+		"combattants": fighter_states,
+		"arrivee": arrival,
+		"glyphes": ground,
+		"pieges": own_traps,
+		"prochain_sol": _next_ground_id,
+	}
+
+
+static func _ground_snapshot(ground: Dictionary) -> Dictionary:
+	var copy := ground.duplicate(true)
+	copy["lanceur"] = (ground["lanceur"] as Fighter).id
+	return copy
+
+
+## Combat recréé d'après un instantané (voir `snapshot`), pour les lectures du client (portées,
+## déplacements possibles, aperçu des sorts…) : les combattants viennent des données (`p_data`), un
+## joueur d'après son personnage (`characters` : id → Character). `null` si un combattant manque.
+static func from_snapshot(saved: Dictionary, p_map: GameMap, p_data: GameData, characters: Dictionary) -> Combat:
+	var restored: Array[Fighter] = []
+	for fighter_state: Dictionary in saved["combattants"]:
+		var fighter_id: String = fighter_state["id"]
+		var fighter: Fighter = null
+		if characters.has(fighter_id):
+			fighter = p_data.create_character_fighter(characters[fighter_id], fighter_id)
+		else:
+			fighter = p_data.create_monster(fighter_state["type"], fighter_id, int(fighter_state["niveau"]))
+		if fighter == null:
+			return null
+		fighter.restore(fighter_state)
+		restored.append(fighter)
+	var placement: Array[Vector2i] = []
+	placement.assign(saved["placement"])
+	var combat := Combat.new(p_map, restored, placement)
+	combat.state = int(saved["etat"]) as State
+	combat._turn_index = int(saved["tour"])
+	combat.round_number = int(saved["manche"])
+	combat.winner_team = int(saved["vainqueur"])
+	combat._next_ground_id = int(saved["prochain_sol"])
+	for pair: Array in saved["arrivee"]:
+		var fighter := combat.get_fighter(pair[0])
+		if fighter != null:
+			combat._arrival[fighter] = int(pair[1])
+	for kind: String in ["glyphes", "pieges"]:
+		for ground: Dictionary in saved[kind]:
+			var copy := ground.duplicate(true)
+			copy["lanceur"] = combat.get_fighter(ground["lanceur"])
+			if copy["lanceur"] == null:
+				continue
+			if kind == "glyphes":
+				combat.glyphs.append(copy)
+			else:
+				combat.traps.append(copy)
+	return combat

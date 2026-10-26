@@ -2091,7 +2091,8 @@ exemples en [annexe](#20-annexes--formats-de-données).
 ### 16.5 Plan d'architecture multijoueur
 
 > **Statut : plan validé par l'auteur le 26/10/2026** (les sept décisions de fin de section, et
-> un hébergement gratuit pour les tests). Rien n'est encore commencé : M0 puis le prototype M1.
+> un hébergement gratuit pour les tests). **M0 fait le 26/10/2026** (voir « Où en est M0 » plus
+> bas) ; prochaine étape : le prototype M1.
 
 #### Quand
 
@@ -2288,6 +2289,25 @@ travail côté client : remplacer les lectures directes de `world` par la copie 
   `production` (mis à jour à la main), chacun avec sa base. Sauvegardes automatiques de la base.
 - **Jeu hors ligne** : la version solo (connexion locale) reste disponible pour les alpha tests et
   le développement, au moins jusqu'à la bêta.
+
+#### Où en est M0 (26/10/2026)
+
+- **Noyau** : `World` tient des `MapInstance` (une par carte visitée, partagée) et des `PlayerState`
+  (un par personnage connecté, par son id) ; en solo, un seul joueur (`World.PLAYER_ID`) et la façade
+  d'avant. Un groupe engagé est réservé (`groupe_en_combat` pour les autres) ; un joueur qui arrive
+  ou part est annoncé aux autres de la carte (`joueur_arrive`, `joueur_part`, jamais en solo).
+- **Portée** : `Protocol.scope_of` (personnel, carte, combat) et `World.recipients` ; tout événement
+  de carte porte son `carte`.
+- **Protocole** : `Protocol.encode` / `decode` (`{ v, n, type… }`, cases `[x, y]`, entiers rendus en
+  `int`, autre version refusée). Les tests font l'aller-retour en JSON de chaque commande et de chaque
+  événement qu'ils produisent.
+- **Client** : `GameConnection` (locale : `LocalConnection`, qui passe aussi par le JSON) et copie de
+  l'état `ClientState` (instantané `World.snapshot` après chaque commande, événements du temps qui
+  passe appliqués directement ; combat recréé d'après l'instantané pour les portées et aperçus, sans
+  graine ni pièges adverses). Le client ne lit plus jamais le `World`.
+- **Laissé à M1** : afficher les autres joueurs ; connexion distante asynchrone ; groupe engagé ou
+  vaincu montré aux autres ; dans un combat à plusieurs, recréer les combattants des autres joueurs
+  (la copie ne connaît que son personnage).
 
 #### Jalons
 

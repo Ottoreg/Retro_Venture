@@ -148,7 +148,15 @@ var _travel_refusals := {
 	Protocol.REASON_PASSAGE_UNKNOWN: "Pierre de Passage pas encore découverte : allez-y à pied et touchez-la.",
 }
 
-var world: World
+## Copie locale de l'état du jeu (lectures seulement) ; les commandes passent par `connection`.
+var world: ClientState
+## Connexion au jeu (locale en solo, distante plus tard : GDD § 16.5).
+var connection: GameConnection
+## Le monde quand il tourne dans ce processus (connexion locale), pour les tests et les outils
+## seulement ; `null` en ligne. Après l'avoir modifié, appeler `refresh_state`.
+var server: World:
+	get:
+		return (connection as LocalConnection).world if connection is LocalConnection else null
 var mode: Mode = Mode.EXPLORATION
 ## Vue simplifiée en combat (GDD § 14.3), retenue d'un combat à l'autre dans `Options`.
 var tactical: bool:
@@ -229,12 +237,19 @@ var _exit_cells: Dictionary = {}
 var _last_tick_usec := -1
 
 
-func setup(p_world: World) -> void:
-	world = p_world
+func setup(p_connection: GameConnection) -> void:
+	connection = p_connection
+	world = connection.state
 	if _bubble == null:
 		_build_bubble()
 	_load_map(world.map)
 	_load_exploration_actors()
+
+
+## Recharge la copie de l'état (après une modification directe du monde, tests et outils).
+func refresh_state() -> void:
+	if connection is LocalConnection:
+		(connection as LocalConnection).refresh()
 
 
 func current_map() -> GameMap:
@@ -259,13 +274,13 @@ func is_busy() -> bool:
 
 
 func is_player_turn() -> bool:
-	return mode == Mode.COMBAT and current_turn == World.PLAYER_ID and not _playing
+	return mode == Mode.COMBAT and current_turn == world.player_id and not _playing
 
 
 ## C'est le tour du joueur à l'écran : il peut choisir un sort et prévoir ses actions, même pendant
 ## l'animation des précédentes (elles partiront dans l'ordre, voir `_plan`).
 func can_plan() -> bool:
-	return mode == Mode.COMBAT and current_turn == World.PLAYER_ID
+	return mode == Mode.COMBAT and current_turn == world.player_id
 
 
 ## Actions prévues (copie), pour l'interface et les tests.
@@ -286,7 +301,7 @@ func actor(actor_id: String) -> Dictionary:
 func player_fighter() -> Fighter:
 	if world.combat == null:
 		return null
-	return world.combat.get_fighter(World.PLAYER_ID)
+	return world.combat.get_fighter(world.player_id)
 
 
 # --- Actions demandées par l'interface ---------------------------------------------------------
@@ -304,7 +319,7 @@ func select_spell(spell_id: String) -> void:
 func cast_composition(spell_id: String, states: String) -> void:
 	if not can_plan() or player_fighter() == null:
 		return
-	_cast_on_self({"type": Protocol.CMD_CAST, "entite": World.PLAYER_ID, "sort": spell_id, "etats": states})
+	_cast_on_self({"type": Protocol.CMD_CAST, "entite": world.player_id, "sort": spell_id, "etats": states})
 
 
 ## Lance un sort sur soi (clic droit sur le sort dans la barre). Le noyau refuse, avec son message,
@@ -313,7 +328,7 @@ func cast_on_self(spell_id: String) -> void:
 	var fighter := player_fighter()
 	if not can_plan() or fighter == null or fighter.get_spell(spell_id) == null:
 		return
-	_cast_on_self({"type": Protocol.CMD_CAST, "entite": World.PLAYER_ID, "sort": spell_id})
+	_cast_on_self({"type": Protocol.CMD_CAST, "entite": world.player_id, "sort": spell_id})
 
 
 ## Envoie un sort sur la case du joueur, tout de suite ou après l'animation en cours.
@@ -330,21 +345,21 @@ func _cast_on_self(command: Dictionary) -> void:
 ## S'asseoir ou se relever (exploration seulement).
 func toggle_sit() -> void:
 	if mode == Mode.EXPLORATION:
-		send_command({"type": Protocol.CMD_SIT, "entite": World.PLAYER_ID, "assis": not world.sitting})
+		send_command({"type": Protocol.CMD_SIT, "entite": world.player_id, "assis": not world.sitting})
 
 
 func request_start_fight() -> void:
 	if is_placement() and not _playing:
-		_send({"type": Protocol.CMD_READY, "entite": World.PLAYER_ID})
+		_send({"type": Protocol.CMD_READY, "entite": world.player_id})
 
 
 func request_end_turn() -> void:
 	if is_player_turn():
 		selected_spell = ""
-		_send({"type": Protocol.CMD_END_TURN, "entite": World.PLAYER_ID})
+		_send({"type": Protocol.CMD_END_TURN, "entite": world.player_id})
 	elif can_plan() and _playing:
 		selected_spell = ""
-		_plan({"type": Protocol.CMD_END_TURN, "entite": World.PLAYER_ID})
+		_plan({"type": Protocol.CMD_END_TURN, "entite": world.player_id})
 		_refresh_overlays()
 
 
@@ -390,20 +405,20 @@ func _on_click(cell: Vector2i) -> void:
 		if can_plan() and selected_spell != "":
 			var planned_spell := selected_spell
 			selected_spell = ""
-			_plan({"type": Protocol.CMD_CAST, "entite": World.PLAYER_ID, "sort": planned_spell, "cible": cell})
+			_plan({"type": Protocol.CMD_CAST, "entite": world.player_id, "sort": planned_spell, "cible": cell})
 			_refresh_overlays()
 		elif can_plan():
-			_plan({"type": Protocol.CMD_MOVE, "entite": World.PLAYER_ID, "cible": cell})
+			_plan({"type": Protocol.CMD_MOVE, "entite": world.player_id, "cible": cell})
 		return
 	if is_placement():
-		_send({"type": Protocol.CMD_PLACE, "entite": World.PLAYER_ID, "cible": cell})
+		_send({"type": Protocol.CMD_PLACE, "entite": world.player_id, "cible": cell})
 	elif is_player_turn():
 		if selected_spell != "":
 			var spell_id := selected_spell
 			selected_spell = ""
-			_send({"type": Protocol.CMD_CAST, "entite": World.PLAYER_ID, "sort": spell_id, "cible": cell})
+			_send({"type": Protocol.CMD_CAST, "entite": world.player_id, "sort": spell_id, "cible": cell})
 		elif _reachable.has(cell):
-			_send({"type": Protocol.CMD_MOVE, "entite": World.PLAYER_ID, "cible": cell})
+			_send({"type": Protocol.CMD_MOVE, "entite": world.player_id, "cible": cell})
 
 
 ## Garde une action du joueur pour la fin de la lecture des événements (sorts enchaînés). Le noyau
@@ -426,11 +441,11 @@ func _exploration_commands(cell: Vector2i, from: Vector2i) -> Array[Dictionary]:
 	if _map.resource_nodes.has(cell):
 		return _harvest_commands(cell, from)
 	if _map.obstacles.get(cell, "") in GameMap.FURNITURE:
-		return _approach_commands(cell, from, {"type": Protocol.CMD_USE, "entite": World.PLAYER_ID, "case": cell})
+		return _approach_commands(cell, from, {"type": Protocol.CMD_USE, "entite": world.player_id, "case": cell})
 	if _map.doors.has(cell):
 		var through: Array[Dictionary] = [
-			{"type": Protocol.CMD_MOVE, "entite": World.PLAYER_ID, "cible": cell},
-			{"type": Protocol.CMD_MOVE, "entite": World.PLAYER_ID, "cible": cell, "porte": true},
+			{"type": Protocol.CMD_MOVE, "entite": world.player_id, "cible": cell},
+			{"type": Protocol.CMD_MOVE, "entite": world.player_id, "cible": cell, "porte": true},
 		]
 		return through
 	var npc := _map.npc_at(cell)
@@ -438,7 +453,7 @@ func _exploration_commands(cell: Vector2i, from: Vector2i) -> Array[Dictionary]:
 	var exit := _exit_at(cell)
 	var commands: Array[Dictionary] = []
 	if not npc.is_empty():
-		commands.append({"type": Protocol.CMD_TALK, "entite": World.PLAYER_ID, "pnj": npc["id"]})
+		commands.append({"type": Protocol.CMD_TALK, "entite": world.player_id, "pnj": npc["id"]})
 		return commands
 	var target := cell
 	if not group.is_empty() and world.character.inventory.is_overloaded():
@@ -448,11 +463,11 @@ func _exploration_commands(cell: Vector2i, from: Vector2i) -> Array[Dictionary]:
 		target = group["case"]
 	elif not exit.is_empty():
 		target = exit["case"]
-	commands.append({"type": Protocol.CMD_MOVE, "entite": World.PLAYER_ID, "cible": target})
+	commands.append({"type": Protocol.CMD_MOVE, "entite": world.player_id, "cible": target})
 	if not group.is_empty():
-		commands.append({"type": Protocol.CMD_ENGAGE, "entite": World.PLAYER_ID, "groupe": group["id"]})
+		commands.append({"type": Protocol.CMD_ENGAGE, "entite": world.player_id, "groupe": group["id"]})
 	elif not exit.is_empty():
-		commands.append({"type": Protocol.CMD_MOVE, "entite": World.PLAYER_ID, "cible": target, "sortie": exit["direction"]})
+		commands.append({"type": Protocol.CMD_MOVE, "entite": world.player_id, "cible": target, "sortie": exit["direction"]})
 	return commands
 
 
@@ -464,7 +479,7 @@ func _harvest_commands(cell: Vector2i, from: Vector2i) -> Array[Dictionary]:
 		notice.emit(_harvest_refusal_text(refusal, cell))
 		var none: Array[Dictionary] = []
 		return none
-	return _approach_commands(cell, from, {"type": Protocol.CMD_HARVEST, "entite": World.PLAYER_ID, "case": cell})
+	return _approach_commands(cell, from, {"type": Protocol.CMD_HARVEST, "entite": world.player_id, "case": cell})
 
 
 ## Marcher jusqu'à une case qui touche `cell` (ou rester sur place si on y est), puis `action`.
@@ -477,7 +492,7 @@ func _approach_commands(cell: Vector2i, from: Vector2i, action: Dictionary) -> A
 			notice.emit("Impossible d'y accéder.")
 			return commands
 		target = path[-1]
-	commands.append({"type": Protocol.CMD_MOVE, "entite": World.PLAYER_ID, "cible": target})
+	commands.append({"type": Protocol.CMD_MOVE, "entite": world.player_id, "cible": target})
 	commands.append(action)
 	return commands
 
@@ -498,18 +513,18 @@ func _harvest_refusal_text(reason: String, cell: Vector2i) -> String:
 ## repart de là vers la nouvelle cible, et le reste de l'ancien trajet (avec le dialogue, le combat
 ## ou le changement de carte qui l'attendait) est abandonné.
 func _explore(cell: Vector2i, stop := NO_CELL) -> void:
-	var commands := _exploration_commands(cell, stop if stop != NO_CELL else world.position_of(World.PLAYER_ID))
+	var commands := _exploration_commands(cell, stop if stop != NO_CELL else world.position_of(world.player_id))
 	if commands.is_empty():
 		return
 	var arrival: Dictionary = commands[1] if commands.size() > 1 else {}
 	var walk := commands[0]
 	if stop != NO_CELL:
 		walk["interrompre_a"] = stop
-	var events := world.execute(walk)
+	var events := connection.send(walk)
 	if events[0]["type"] == Protocol.EVT_REFUSED:
 		if arrival.is_empty() or events[0]["raison"] != Protocol.REASON_ALREADY_THERE:
 			return  # Destination impossible : on garde l'éventuelle marche en cours.
-		events = world.execute(arrival)  # Déjà sur place : on agit tout de suite.
+		events = connection.send(arrival)  # Déjà sur place : on agit tout de suite.
 		arrival = {}
 	_arrival_command = arrival
 	_preview.clear()
@@ -527,7 +542,7 @@ func _explore(cell: Vector2i, stop := NO_CELL) -> void:
 ## Vrai si le joueur est en train de marcher en exploration et que rien d'autre n'attend derrière
 ## sa marche (sinon un dialogue tout au plus) : il peut alors changer de destination en chemin.
 func _can_interrupt_walk() -> bool:
-	if mode != Mode.EXPLORATION or _walk_actor != World.PLAYER_ID or _walk_path.is_empty():
+	if mode != Mode.EXPLORATION or _walk_actor != world.player_id or _walk_path.is_empty():
 		return false
 	if world.in_combat() or world.map != _map:
 		return false
@@ -572,7 +587,7 @@ func send_command(command: Dictionary) -> void:
 
 func _send(command: Dictionary) -> void:
 	_preview.clear()
-	_queue.append_array(world.execute(command))
+	_queue.append_array(connection.send(command))
 	if not _playing:
 		_playing = true
 		_play_next()
@@ -588,7 +603,7 @@ func elite_rank_at(cell: Vector2i) -> int:
 		return 0
 	for actor_id: String in _actors:
 		var data: Dictionary = _actors[actor_id]
-		if data["alive"] and actor_id != World.PLAYER_ID and Vector2i(data["pos"].round()) == cell:
+		if data["alive"] and actor_id != world.player_id and Vector2i(data["pos"].round()) == cell:
 			return world.elite_rank(world.group(actor_id))
 	return 0
 
@@ -629,7 +644,7 @@ func _describe(cell: Vector2i) -> String:
 	var ground := ground_description(cell) if mode == Mode.COMBAT else ""
 	for actor_id: String in _actors:
 		var data: Dictionary = _actors[actor_id]
-		if data["alive"] and Vector2i(data["pos"].round()) == cell and actor_id != World.PLAYER_ID:
+		if data["alive"] and Vector2i(data["pos"].round()) == cell and actor_id != world.player_id:
 			if mode == Mode.COMBAT:
 				return "%s — %d / %d PV%s" % [data["name"], data["hp"], data["max_hp"], "\n" + ground if ground != "" else ""]
 			var text := group_lines(data.get("members", [data["kind"]]), world.data, data.get("levels", []))
@@ -801,7 +816,7 @@ func _update_preview() -> void:
 	if mode == Mode.EXPLORATION:
 		var exit := _exit_at(_hovered)
 		var target: Vector2i = exit["case"] if not exit.is_empty() else _hovered
-		_preview = _map.find_path(world.position_of(World.PLAYER_ID), target)
+		_preview = _map.find_path(world.position_of(world.player_id), target)
 	elif is_player_turn() and selected_spell == "" and _reachable.has(_hovered):
 		_preview = _reachable[_hovered]
 	queue_redraw()
@@ -850,7 +865,7 @@ func _notification(what: int) -> void:
 func advance(delta: float) -> void:
 	# Le temps passe pour le monde : les ressources récoltées repoussent.
 	if world != null:
-		for event in world.update(delta):
+		for event in connection.update(delta):
 			_apply_world_change(event)
 	_time += delta
 	for data: Dictionary in _actors.values():
@@ -964,7 +979,7 @@ func _play_next() -> void:
 			return  # Marche en cours.
 		# Pendant son tour, le joueur n'attend pas la fin des textes et des animations de ses sorts :
 		# ils continuent pendant qu'il joue (seules ses marches se lisent jusqu'au bout).
-		if duration > 0.0 and not (mode == Mode.COMBAT and current_turn == World.PLAYER_ID):
+		if duration > 0.0 and not (mode == Mode.COMBAT and current_turn == world.player_id):
 			_wait = duration
 			return
 	_playing = false
@@ -1027,8 +1042,8 @@ func _apply(event: Dictionary) -> float:
 		notice.emit(event["texte"])
 		return 0.0
 	if type == Protocol.EVT_QUEST_DONE:
-		if _actors.has(World.PLAYER_ID):
-			_add_floating("Quête terminée !", Color(1, 0.85, 0.3), _actors[World.PLAYER_ID]["pos"] + Vector2(0, -0.6), PHASE_FLOATING_LIFE)
+		if _actors.has(world.player_id):
+			_add_floating("Quête terminée !", Color(1, 0.85, 0.3), _actors[world.player_id]["pos"] + Vector2(0, -0.6), PHASE_FLOATING_LIFE)
 		notice.emit("Quête terminée : %s — %s" % [event["nom"], QuestsWindow.rewards_text({"xp": event["xp"], "ecus": event["ecus"],
 			"objets": event["objets"]})])
 		quest_done.emit(event)
@@ -1043,7 +1058,7 @@ func _apply(event: Dictionary) -> float:
 		craft_result.emit(event)
 		return 0.0
 	if type == Protocol.EVT_HARVESTED:
-		var player: Dictionary = _actors[World.PLAYER_ID]
+		var player: Dictionary = _actors[world.player_id]
 		var toward: float = IsoGrid.cell_to_screen(event["case"]).x - IsoGrid.grid_to_screen(player["pos"]).x
 		if absf(toward) > 0.5:
 			player["facing"] = signf(toward)
@@ -1061,8 +1076,8 @@ func _apply(event: Dictionary) -> float:
 		return 0.0
 	if type == Protocol.EVT_PASSAGE_DISCOVERED:
 		_discovered_passage = event["passage"]
-		if _actors.has(World.PLAYER_ID):
-			_add_floating("Pierre découverte !", Color(0.55, 0.8, 1.0), _actors[World.PLAYER_ID]["pos"])
+		if _actors.has(world.player_id):
+			_add_floating("Pierre découverte !", Color(0.55, 0.8, 1.0), _actors[world.player_id]["pos"])
 		notice.emit("Pierre de Passage découverte : %s ! Vous pourrez y revenir en voyage." % event["nom"])
 		progress_changed.emit()
 		return 0.0
@@ -1075,24 +1090,24 @@ func _apply(event: Dictionary) -> float:
 		progress_changed.emit()
 		return 0.0
 	if type == Protocol.EVT_SAT:
-		if _actors.has(World.PLAYER_ID):
-			_actors[World.PLAYER_ID]["assis"] = event["assis"]
+		if _actors.has(world.player_id):
+			_actors[world.player_id]["assis"] = event["assis"]
 		sitting_changed.emit(event["assis"])
 		return 0.0
 	if type == Protocol.EVT_RESTED:
 		if int(event["gain"]) > 0:
-			_add_floating("+%d PV" % event["gain"], Color(0.45, 1, 0.45), _actors[World.PLAYER_ID]["pos"])
+			_add_floating("+%d PV" % event["gain"], Color(0.45, 1, 0.45), _actors[world.player_id]["pos"])
 		notice.emit("Une bonne nuit de sommeil : %d / %d PV." % [event["pv"], event["pv_max"]])
 		return 0.6
 	if type == Protocol.EVT_JOB:
 		for level_reached: int in event["niveaux"]:
-			_add_floating("%s niv. %d !" % [event["nom"], level_reached], Color(1, 0.85, 0.3), _actors[World.PLAYER_ID]["pos"] + Vector2(0, -0.6))
+			_add_floating("%s niv. %d !" % [event["nom"], level_reached], Color(1, 0.85, 0.3), _actors[world.player_id]["pos"] + Vector2(0, -0.6))
 			notice.emit("%s niveau %d !" % [event["nom"], level_reached])
 		return 0.0
 	if type == Protocol.EVT_MAP_CHANGED:
 		_load_map(world.map)
 		_load_exploration_actors()
-		_actors[World.PLAYER_ID]["pos"] = Vector2(event["position"])
+		_actors[world.player_id]["pos"] = Vector2(event["position"])
 		map_changed.emit()
 		if int(event.get("prix", 0)) > 0:
 			notice.emit("Voyage payé : %d brumes." % event["prix"])
@@ -1116,8 +1131,8 @@ func _apply(event: Dictionary) -> float:
 	if type == Protocol.EVT_XP:
 		return 0.0
 	if type == Protocol.EVT_LEVEL_UP:
-		if _actors.has(World.PLAYER_ID):
-			_add_floating("Niveau %d !" % event["niveau"], Color(1, 0.85, 0.3), _actors[World.PLAYER_ID]["pos"])
+		if _actors.has(world.player_id):
+			_add_floating("Niveau %d !" % event["niveau"], Color(1, 0.85, 0.3), _actors[world.player_id]["pos"])
 		level_up.emit(event["niveau"])
 		return 0.6
 	if type == Protocol.EVT_CHARACTER:
@@ -1167,14 +1182,14 @@ func _apply(event: Dictionary) -> float:
 		return 0.4
 	if type == Protocol.EVT_TURN_STARTED:
 		current_turn = event["entite"]
-		if current_turn != World.PLAYER_ID:
+		if current_turn != world.player_id:
 			_planned.clear()  # Mort pendant son tour : rien ne part au tour suivant.
 		var playing: Dictionary = _actors[current_turn]
 		playing["pa"] = event["pa"]
 		playing["pm"] = event["pm"]
 		playing["bouclier"] = 0  # Le bouclier tombe au début de son tour.
 		combat_state_changed.emit()
-		if current_turn == World.PLAYER_ID:
+		if current_turn == world.player_id:
 			combat_message.emit("À vous de jouer !")
 			return 0.0
 		return 0.35
@@ -1339,8 +1354,8 @@ func _add_floating(text: String, color: Color, grid_pos: Vector2, life := FLOATI
 func _load_exploration_actors() -> void:
 	_actors.clear()
 	_group_walks.clear()
-	_actors[World.PLAYER_ID] = _new_actor(Vector2(world.position_of(World.PLAYER_ID)), world.player_voie, 0, world.player_name, 1, 1)
-	_actors[World.PLAYER_ID]["race"] = world.character.race_id
+	_actors[world.player_id] = _new_actor(Vector2(world.position_of(world.player_id)), world.player_voie, 0, world.player_name, 1, 1)
+	_actors[world.player_id]["race"] = world.character.race_id
 	for group: Dictionary in world.groups():
 		_add_group_actor(group)
 
@@ -1870,7 +1885,7 @@ func _draw_npc(npc: Dictionary) -> void:
 	var spec: Dictionary = Art.manifest().get("pnj", {}).get(npc_id, {})
 	if spec.has("rig"):
 		# Le PNJ regarde le joueur.
-		var player: Dictionary = _actors.get(World.PLAYER_ID, {})
+		var player: Dictionary = _actors.get(world.player_id, {})
 		var facing := -1.0
 		if not player.is_empty():
 			facing = 1.0 if IsoGrid.grid_to_screen(player["pos"]).x > base.x else -1.0
@@ -1915,7 +1930,7 @@ func _look_of(actor_id: String, data: Dictionary) -> Dictionary:
 	var manifest := Art.manifest()
 	var look := {}
 	var kind: String = data["kind"]
-	if actor_id == World.PLAYER_ID or manifest.get("tenues", {}).has(kind) and data["team"] == 0:
+	if actor_id == world.player_id or manifest.get("tenues", {}).has(kind) and data["team"] == 0:
 		look = Rig.player_look(data.get("race", "humain"), kind, world.data)
 	else:
 		look = _monster_look(kind)

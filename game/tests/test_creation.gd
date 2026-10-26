@@ -31,9 +31,9 @@ func test_le_personnage_cree_arrive_dans_le_monde() -> void:
 	var scene: Node = load("res://client/world/world.tscn").instantiate()
 	tree.root.add_child(scene)
 	var view: MapView = scene.get_node("MapView")
-	assert_eq(view.world.character.display_name, "Grik")
-	assert_eq(view.world.character.race_id, "gobelin")
-	assert_eq(view.world.player_voie, "rodeur")
+	assert_eq(view.server.character.display_name, "Grik")
+	assert_eq(view.server.character.race_id, "gobelin")
+	assert_eq(view.server.player_voie, "rodeur")
 	assert_true(SaveGame.exists(), "partie sauvegardée dès l'arrivée")
 	assert_eq(SaveGame.read()["personnage"]["nom"], "Grik")
 
@@ -41,9 +41,10 @@ func test_le_personnage_cree_arrive_dans_le_monde() -> void:
 	sheet.toggle()
 	assert_true(sheet.is_open(), "fiche ouverte")
 	assert_eq(sheet._title.text, "Grik")
-	var agility_before := view.world.character.stat("agilite", view.world.data)
+	var agility_before := view.server.character.stat("agilite", view.server.data)
 	assert_true(agility_before > 10, "10 de race + le bonus de l'arc de départ")
-	view.world.character.add_xp(80)
+	view.server.character.add_xp(80)
+	view.refresh_state()
 	view.send_command({"type": Protocol.CMD_SPEND_POINTS, "entite": World.PLAYER_ID, "carac": "agilite", "points": 1})
 	assert_eq(sheet._stat_values["agilite"].text, str(agility_before + 1), "un point investi de plus")
 	var tooltip: String = sheet._stat_values["agilite"].tooltip_text
@@ -63,9 +64,9 @@ func test_le_personnage_cree_arrive_dans_le_monde() -> void:
 	var resumed: Node = load("res://client/world/world.tscn").instantiate()
 	tree.root.add_child(resumed)
 	var resumed_view: MapView = resumed.get_node("MapView")
-	assert_eq(resumed_view.world.character.display_name, "Grik", "partie reprise")
-	assert_eq(resumed_view.world.character.stat("agilite", resumed_view.world.data), agility_before + 1)
-	assert_eq(resumed_view.world.character.inventory.equipped_entry("arme")["objet"], "arc_de_frene", "équipement repris")
+	assert_eq(resumed_view.server.character.display_name, "Grik", "partie reprise")
+	assert_eq(resumed_view.server.character.stat("agilite", resumed_view.server.data), agility_before + 1)
+	assert_eq(resumed_view.server.character.inventory.equipped_entry("arme")["objet"], "arc_de_frene", "équipement repris")
 	resumed.free()
 	Session.continue_game = false
 
@@ -78,7 +79,7 @@ func test_fenetre_d_inventaire() -> void:
 	tree.root.add_child(scene)
 	var view: MapView = scene.get_node("MapView")
 	var window: InventoryWindow = scene.get_node("InventoryWindow")
-	var inventory := view.world.character.inventory
+	var inventory := view.server.character.inventory
 	assert_eq(inventory.equipped_entry("arme")["objet"], "epee_de_fer", "épée de départ portée")
 	assert_eq(inventory.ecus, GameData.STARTING_ECUS)
 	window.toggle()
@@ -124,7 +125,7 @@ func test_fenetre_d_inventaire() -> void:
 	ctrl.keycode = KEY_CTRL
 	ctrl.pressed = true
 	window._input(ctrl)
-	var span: Array = view.world.data.items["epee_de_fer"]["bonus"]["force"]
+	var span: Array = view.server.data.items["epee_de_fer"]["bonus"]["force"]
 	assert_true(window._details.text.contains("Jets possibles"), window._details.text)
 	assert_true(window._details.text.contains("+%d à %d Force" % [span[0], span[1]]), window._details.text)
 	ctrl.pressed = false
@@ -132,17 +133,20 @@ func test_fenetre_d_inventaire() -> void:
 	assert_false(window._details.text.contains("Jets possibles"), "Ctrl relâché : retour aux jets de l'objet")
 
 	# Objet de panoplie : la panoplie, les pièces portées et les paliers dans le détail.
-	var template: Dictionary = view.world.data.items["amulette_pyromane_repenti"]
+	var template: Dictionary = view.server.data.items["amulette_pyromane_repenti"]
 	var amulet := inventory.add(template, 1, Item.roll_bonuses(template, RandomNumberGenerator.new()))
+	view.refresh_state()
 	window._selected = amulet
 	window.refresh()
 	assert_true(window._details.text.contains("Panoplie du Pyromane Repenti — 0 / 6"), window._details.text)
-	view.world.character.add_xp(500)  # Niveau 3 requis.
+	view.server.character.add_xp(500)  # Niveau 3 requis.
+	view.refresh_state()
 	window._on_equip_pressed()
 	assert_true(window._details.text.contains("Panoplie du Pyromane Repenti — 1 / 6"), window._details.text)
 
 	# Un objet ramassé apparaît dans la liste.
-	inventory.add(view.world.data.items["croc_de_loup"], 3)
+	inventory.add(view.server.data.items["croc_de_loup"], 3)
+	view.refresh_state()
 	window.refresh()
 	assert_eq(_bag_count(window), inventory.entries.size(), "chaque objet dans un onglet du sac")
 	window._selected = "croc_de_loup"

@@ -102,7 +102,11 @@ l'alpha test 1 » : restent la passe de l'auteur dans chaque camp, le gel vu une
 **Multijoueur** : plan d'architecture dans le GDD § 16.5 (serveur Godot sans affichage qui
 fait autorité, WebSocket, comptes et PostgreSQL via Supabase, client web + natif, jalons M0 à M6).
 **Validé par l'auteur le 26/10/2026**, hébergement gratuit pour les tests (PC + tunnel Cloudflare
-ou Oracle Always Free), VPS payant pour la bêta. Rien n'est commencé : M0 puis le prototype M1.
+ou Oracle Always Free), VPS payant pour la bêta. **M0 fait** (GDD § 16.5, « Où en est M0 ») :
+`MapInstance` / `PlayerState` dans `World` (façade solo), portée des événements
+(`World.recipients`), messages JSON (`Protocol.encode`/`decode`, vérifiés sur tous les tests),
+`client/net/` (`LocalConnection`, copie `ClientState` : le client ne lit plus le `World` ; tests et
+outils passent par `MapView.server` puis `refresh_state()`). Prochaine étape : le prototype M1.
 
 Dernière session (retours de la passe de l'auteur) :
 

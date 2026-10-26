@@ -238,3 +238,54 @@ func to_dict() -> Dictionary:
 		"initiative": initiative,
 		"ia": is_ai(),
 	}
+
+
+## État complet du combattant pour la copie d'un client (voir `Combat.snapshot`) : ce qui change
+## pendant le combat, le reste se recrée d'après les données (`restore`).
+func snapshot() -> Dictionary:
+	return {
+		"id": id,
+		"type": kind,
+		"equipe": team,
+		"niveau": level,
+		"ia": is_ai(),
+		"case": cell,
+		"pv": hp,
+		"pa": pa,
+		"pm": pm,
+		"pm_malus": pm_malus,
+		"bouclier": shield,
+		"etats": states.duplicate(true),
+		"phases": phases.size(),
+		"etats_elementaires": element_states.duplicate(),
+		"sorts_crees": created_spells.duplicate(),
+		"recharges": _cooldowns.duplicate(),
+		"lances": _casts_this_turn.duplicate(),
+	}
+
+
+## Reprend l'état d'un instantané (voir `snapshot`) sur un combattant recréé d'après les données :
+## phases passées (et leurs sorts appris), sorts créés, états, recharges.
+func restore(saved: Dictionary) -> void:
+	cell = saved["case"]
+	hp = int(saved["pv"])
+	pa = int(saved["pa"])
+	pm = int(saved["pm"])
+	pm_malus = int(saved["pm_malus"])
+	shield = int(saved["bouclier"])
+	states.assign(saved["etats"])
+	while phases.size() > int(saved["phases"]):
+		for spell: Spell in phases.pop_front()["sorts"]:
+			if get_spell(spell.id) == null:
+				spells.append(spell)
+	element_states.assign(saved["etats_elementaires"])
+	for spell_id: String in saved["sorts_crees"]:
+		for source in spells.duplicate():
+			var created: Spell = null
+			for candidate: Spell in source.create_effect().get("sorts", {}).values():
+				if candidate.id == spell_id:
+					created = candidate
+			if created != null and spell_id not in created_spells:
+				add_created_spell(created)
+	_cooldowns = saved["recharges"].duplicate()
+	_casts_this_turn = saved["lances"].duplicate()

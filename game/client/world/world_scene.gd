@@ -51,7 +51,7 @@ func _ready() -> void:
 		_info.text = "Impossible de charger le monde (carte de départ introuvable)."
 		return
 	world.map_ids = DataLoader.map_ids()  # Les élites peuvent apparaître sur toutes les cartes.
-	_map_view.setup(world)
+	_map_view.setup(LocalConnection.new(world))  # Solo : le monde tourne ici (GDD § 16.5).
 	_combat_hud.setup(_map_view)
 	_sheet.setup(_map_view)
 	_inventory.setup(_map_view)
@@ -187,7 +187,7 @@ func _back_to_menu() -> void:
 ## Sauvegarde automatique (jamais pendant un combat).
 func _save() -> void:
 	if _map_view.world != null and not _map_view.world.in_combat():
-		SaveGame.write(_map_view.world.save_data())
+		SaveGame.write(_map_view.connection.save_data())
 
 
 ## La carte à l'échelle de la zone de jeu, centrée entre les bordures d'interface (`ScreenLayout`).

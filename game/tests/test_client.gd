@@ -31,11 +31,11 @@ func test_scene_du_monde_jusqu_au_combat_et_retour() -> void:
 	tree.root.add_child(scene)
 	var view: MapView = scene.get_node("MapView")
 	var hud: CombatHud = scene.get_node("CombatHud")
-	assert_true(view.world != null, "monde créé")
-	assert_eq(view.world.groups().size(), 3, "groupes de monstres de Brumerive")
+	assert_true(view.server != null, "monde créé")
+	assert_eq(view.server.groups().size(), 3, "groupes de monstres de Brumerive")
 
 	# Clic sur un groupe : le joueur marche jusqu'à lui et le combat commence.
-	var group: Dictionary = view.world.groups()[0]
+	var group: Dictionary = view.server.groups()[0]
 	view._on_click(group["case"])
 	_run_until_idle(view)
 	assert_eq(view.mode, MapView.Mode.COMBAT, "mode combat")
@@ -48,7 +48,7 @@ func test_scene_du_monde_jusqu_au_combat_et_retour() -> void:
 
 	# Survol d'un monstre : ses infos remplacent la barre de sorts.
 	var enemy: Fighter = null
-	for fighter in view.world.combat.fighters:
+	for fighter in view.server.combat.fighters:
 		if fighter.team != Fighter.TEAM_PLAYERS:
 			enemy = fighter
 	view._set_hovered(enemy.cell)
@@ -60,7 +60,7 @@ func test_scene_du_monde_jusqu_au_combat_et_retour() -> void:
 	assert_true(hud._target_stats.text.contains("PV %d / %d" % [enemy.hp, enemy.max_hp]), hud._target_stats.text)
 	assert_eq(hud._target_resistances.size(), 6, "résistances aux 6 éléments")
 	assert_eq(hud._target_resistances["givre"].text, "Givre " + CombatHud.percent_text(enemy.resistance("givre")))
-	view._set_hovered(view.world.combat.get_fighter(World.PLAYER_ID).cell + Vector2i(40, 40))
+	view._set_hovered(view.server.combat.get_fighter(World.PLAYER_ID).cell + Vector2i(40, 40))
 	assert_true(hud._spells_box.visible and not hud._target_box.visible, "les sorts reviennent")
 	var fighter := view.player_fighter()
 	view.select_spell(fighter.spells[0].id)
@@ -76,7 +76,7 @@ func test_scene_du_monde_jusqu_au_combat_et_retour() -> void:
 		_run_until_idle(view)
 	assert_true(hud._result_panel.visible, "récap de fin de combat affiché")
 	assert_eq(view.mode, MapView.Mode.EXPLORATION, "le combat est terminé sans attendre le récap")
-	assert_false(view.world.in_combat())
+	assert_false(view.server.in_combat())
 	assert_false(view.is_busy(), "rien ne bloque : le joueur peut rejouer, récap ouvert")
 	assert_eq(hud._result_title.text, "Défaite…", "le joueur n'a rien fait")
 	assert_true(hud._result_detail.text.contains("Pierre de Passage « Brumerive »"), hud._result_detail.text)
@@ -95,7 +95,7 @@ func test_scene_du_monde_jusqu_au_combat_et_retour() -> void:
 	scene._unhandled_input(cancel)
 	assert_false(hud._result_panel.visible, "Échap referme le récap")
 	var stone := view.current_map().travel_stone()
-	assert_true(GameMap.is_adjacent(view.world.position_of(World.PLAYER_ID), stone), "réveil à côté de la Pierre de Passage")
+	assert_true(GameMap.is_adjacent(view.server.position_of(World.PLAYER_ID), stone), "réveil à côté de la Pierre de Passage")
 	assert_eq(hud._message_label.text, "Vous vous réveillez près de la Pierre de Passage « Brumerive », un peu groggy.")
 	scene.free()
 
@@ -109,11 +109,12 @@ func test_reveil_sur_une_autre_carte() -> void:
 	Session.start_map = ""
 	var view: MapView = scene.get_node("MapView")
 	var hud: CombatHud = scene.get_node("CombatHud")
-	view._on_click(view.world.groups()[0]["case"])
+	view._on_click(view.server.groups()[0]["case"])
 	_run_until_idle(view)
 	view.request_start_fight()
 	_run_until_idle(view)
-	view.world.combat.get_fighter(World.PLAYER_ID).hp = 1
+	view.server.combat.get_fighter(World.PLAYER_ID).hp = 1
+	view.refresh_state()
 	for i in 100:
 		if view.mode == MapView.Mode.EXPLORATION:
 			break
@@ -122,11 +123,11 @@ func test_reveil_sur_une_autre_carte() -> void:
 	assert_eq(hud._result_title.text, "Défaite…")
 	assert_true(hud.is_result_open(), "récap affiché après le retour en exploration")
 	assert_eq(view.mode, MapView.Mode.EXPLORATION)
-	assert_eq(view.world.map.id, "brumerive_0_0", "réveil au village")
+	assert_eq(view.server.map.id, "brumerive_0_0", "réveil au village")
 	assert_eq(view.current_map().id, "brumerive_0_0", "l'affichage a suivi")
-	assert_true(GameMap.is_adjacent(view.world.position_of(World.PLAYER_ID), view.current_map().travel_stone()))
-	assert_eq(view._actors[World.PLAYER_ID]["pos"], Vector2(view.world.position_of(World.PLAYER_ID)))
-	assert_eq(view.world.visited_maps(), ["brumerive_1_0", "brumerive_0_0"] as Array[String])
+	assert_true(GameMap.is_adjacent(view.server.position_of(World.PLAYER_ID), view.current_map().travel_stone()))
+	assert_eq(view._actors[World.PLAYER_ID]["pos"], Vector2(view.server.position_of(World.PLAYER_ID)))
+	assert_eq(view.server.visited_maps(), ["brumerive_1_0", "brumerive_0_0"] as Array[String])
 	assert_eq(hud._message_label.text, "Vous vous réveillez près de la Pierre de Passage « Brumerive », un peu groggy.")
 	scene.free()
 
@@ -147,7 +148,7 @@ func test_pnj_et_changement_de_carte() -> void:
 	assert_eq(scene.quest_dialog.quest_id(), "brumerive_tutoriel")
 	scene.quest_dialog.accept()
 	_run_until_idle(view)
-	assert_true(view.world.character.quests.is_active("brumerive_tutoriel"))
+	assert_true(view.server.character.quests.is_active("brumerive_tutoriel"))
 	assert_true(scene.quest_tracker.is_shown(), "quête suivie, dans la bande gauche")
 	var hud: CombatHud = scene.get_node("CombatHud")
 	_sort_layout(hud.bands()[0])
@@ -163,7 +164,7 @@ func test_pnj_et_changement_de_carte() -> void:
 	# Lui reparler : le joueur s'approche, la bulle s'affiche, chaque clic passe à la suite.
 	view._on_click(npc["case"])
 	_run_until_idle(view)
-	var lines: Array = view.world.data.quests["brumerive_tutoriel"]["dialogues"]["alric_le_berger"]["en_cours"]
+	var lines: Array = view.server.data.quests["brumerive_tutoriel"]["dialogues"]["alric_le_berger"]["en_cours"]
 	assert_true(view._bubble.visible, "bulle de dialogue affichée")
 	assert_eq(view._bubble_text.text, lines[0])
 	for i in lines.size():
@@ -179,9 +180,9 @@ func test_pnj_et_changement_de_carte() -> void:
 	assert_true(map.is_inside(exit_cell), "case de sortie trouvée")
 	view._on_click(exit_cell)
 	_run_until_idle(view)
-	assert_eq(view.world.map.id, map.exits["droite"])
+	assert_eq(view.server.map.id, map.exits["droite"])
 	assert_eq(view.current_map().id, map.exits["droite"], "la vue affiche la nouvelle carte")
-	assert_true(view.current_map().is_walkable(view.world.position_of(World.PLAYER_ID)))
+	assert_true(view.current_map().is_walkable(view.server.position_of(World.PLAYER_ID)))
 	scene.free()
 
 
@@ -242,7 +243,8 @@ func test_reperes_de_quete() -> void:
 	# La quête suivie : son objectif en épingle jaune, posée toute seule ; rien pour « équiper ».
 	assert_eq(QuestLinks.objective_pin(world), {}, "équiper : nulle part en particulier")
 	assert_eq(minimap._grid.objective, {})
-	world.character.quests.set_step("brumerive_tutoriel", 1, 1)
+	view.server.character.quests.set_step("brumerive_tutoriel", 1, 1)
+	view.refresh_state()
 	var prey: String = world.data.quests["brumerive_tutoriel"]["etapes"][1]["objectifs"][0]["monstre"]
 	var objective := QuestLinks.objective_pin(world)
 	assert_true(objective.get("carte", "") in world.quest_book.monster_maps(prey), "%s : %s" % [prey, objective])
@@ -282,7 +284,7 @@ func test_reperes_de_quete() -> void:
 			view._on_click(cell)
 			break
 	_run_until_idle(view)
-	assert_eq(view.world.map.id, map.exits["droite"])
+	assert_eq(view.server.map.id, map.exits["droite"])
 	assert_eq(Session.quest_pin, {}, "repère atteint")
 	scene.free()
 
@@ -302,7 +304,7 @@ func test_le_temps_continue_sans_le_focus() -> void:
 	assert_eq(view._real_delta(0.02), 0.02, "le temps du menu pause ne compte pas")
 
 	var map := view.current_map()
-	var start := view.world.position_of(World.PLAYER_ID)
+	var start := view.server.position_of(World.PLAYER_ID)
 	var far := start
 	var longest := 0
 	for cell: Vector2i in map.cells():
@@ -386,7 +388,7 @@ func test_nouveau_clic_pendant_la_marche() -> void:
 	tree.root.add_child(scene)
 	var view: MapView = scene.get_node("MapView")
 	var map := view.current_map()
-	var start := view.world.position_of(World.PLAYER_ID)
+	var start := view.server.position_of(World.PLAYER_ID)
 
 	# Case la plus lointaine du départ, sans PNJ ni sortie.
 	var far := start
@@ -406,7 +408,7 @@ func test_nouveau_clic_pendant_la_marche() -> void:
 	view._on_click(start)
 	assert_eq(view._pending_click, MapView.NO_CELL, "le clic n'attend pas la fin de la marche")
 	_run_until_idle(view)
-	assert_eq(view.world.position_of(World.PLAYER_ID), start, "nouvelle destination prise en compte")
+	assert_eq(view.server.position_of(World.PLAYER_ID), start, "nouvelle destination prise en compte")
 	var shown: Vector2 = view.actor(World.PLAYER_ID)["pos"]
 	assert_eq(Vector2i(shown.round()), start, "l'affichage suit le noyau")
 	scene.free()
@@ -424,15 +426,15 @@ func test_course_et_bouton_s_asseoir() -> void:
 	assert_true(button.visible and not button.button_pressed, "bouton visible hors combat")
 	button.pressed.emit()
 	_run_until_idle(view)
-	assert_true(view.world.sitting and view.actor(World.PLAYER_ID)["assis"], "assis")
+	assert_true(view.server.sitting and view.actor(World.PLAYER_ID)["assis"], "assis")
 	assert_eq(button.text, "Se lever")
-	var start := view.world.position_of(World.PLAYER_ID)
+	var start := view.server.position_of(World.PLAYER_ID)
 	for cell in IsoGrid.neighbors_4(start):
 		if view.current_map().is_walkable(cell) and view.current_map().exit_directions(cell).is_empty():
 			view._on_click(cell)
 			break
 	_run_until_idle(view)
-	assert_false(view.world.sitting or view.actor(World.PLAYER_ID)["assis"], "relevé en marchant")
+	assert_false(view.server.sitting or view.actor(World.PLAYER_ID)["assis"], "relevé en marchant")
 	assert_eq(button.text, "S'asseoir")
 	scene.free()
 
@@ -443,19 +445,19 @@ func test_interrompre_la_marche_vers_un_combat_ou_une_sortie() -> void:
 	tree.root.add_child(scene)
 	var view: MapView = scene.get_node("MapView")
 	var map := view.current_map()
-	var start := view.world.position_of(World.PLAYER_ID)
+	var start := view.server.position_of(World.PLAYER_ID)
 
 	# Vers un groupe de monstres, puis contrordre : pas de combat.
-	var group: Dictionary = view.world.groups()[0]
+	var group: Dictionary = view.server.groups()[0]
 	view._on_click(group["case"])
 	view.advance(0.1)
 	assert_true(view.is_busy(), "en marche vers le groupe")
-	assert_false(view.world.in_combat(), "le combat attend l'arrivée")
+	assert_false(view.server.in_combat(), "le combat attend l'arrivée")
 	view._on_click(start)
 	_run_until_idle(view)
 	assert_eq(view.mode, MapView.Mode.EXPLORATION, "pas de combat")
-	assert_false(view.world.in_combat())
-	assert_eq(view.world.position_of(World.PLAYER_ID), start)
+	assert_false(view.server.in_combat())
+	assert_eq(view.server.position_of(World.PLAYER_ID), start)
 
 	# Vers la sortie, puis contrordre : on reste sur la carte.
 	var exit_cell := Vector2i(-1, -1)
@@ -466,12 +468,12 @@ func test_interrompre_la_marche_vers_un_combat_ou_une_sortie() -> void:
 	view._on_click(exit_cell)
 	view.advance(0.1)
 	assert_true(view.is_busy(), "en marche vers la sortie")
-	assert_eq(view.world.map.id, map.id, "le changement de carte attend l'arrivée")
+	assert_eq(view.server.map.id, map.id, "le changement de carte attend l'arrivée")
 	view._on_click(start)
 	_run_until_idle(view)
-	assert_eq(view.world.map.id, map.id, "toujours sur la même carte")
+	assert_eq(view.server.map.id, map.id, "toujours sur la même carte")
 	assert_eq(view.current_map().id, map.id)
-	assert_eq(view.world.position_of(World.PLAYER_ID), start)
+	assert_eq(view.server.position_of(World.PLAYER_ID), start)
 	scene.free()
 
 
@@ -491,7 +493,7 @@ func test_boutique_du_marchand() -> void:
 	_run_until_idle(view)
 	assert_true(shop.is_open(), "la boutique s'ouvre")
 	assert_false(view._bubble.visible, "pas de bulle de dialogue")
-	var sold := view.world.data.items.values().filter(func(item: Dictionary) -> bool: return Item.is_sold(item)).size()
+	var sold := view.server.data.items.values().filter(func(item: Dictionary) -> bool: return Item.is_sold(item)).size()
 	assert_eq(shop._list.item_count, sold, "tous les objets en vente (sauf « boutique » : false)")
 	# Recherche : par mot du nom ou du type, sans accents ni majuscules.
 	var first: Dictionary = shop._shop["articles"][0]
@@ -510,8 +512,9 @@ func test_boutique_du_marchand() -> void:
 	assert_false(ShopWindow.matches_search({"nom": "Bâton d'Élan", "type": "arme"}, "baton chêne"))
 
 	# Achat d'une ressource en plusieurs exemplaires.
-	var inventory := view.world.character.inventory
+	var inventory := view.server.character.inventory
 	inventory.ecus = 500
+	view.refresh_state()
 	var cheapest := -1
 	for i in shop._shop["articles"].size():
 		var article: Dictionary = shop._shop["articles"][i]
@@ -539,12 +542,12 @@ func test_boutique_du_marchand() -> void:
 	shop._quantity.value = 3
 	shop._on_action_pressed()
 	assert_eq(inventory.quantity_of(resource["objet"]), 0, "vente effectuée")
-	assert_eq(inventory.ecus, 500 - 3 * int(resource["prix"]) + 3 * Item.sell_price(view.world.data.items[resource["objet"]]))
+	assert_eq(inventory.ecus, 500 - 3 * int(resource["prix"]) + 3 * Item.sell_price(view.server.data.items[resource["objet"]]))
 	assert_true(shop._message.text.begins_with("Vendu"), shop._message.text)
 	trades = hud.message_log.lines(MessageLog.CHANNEL_TRADE)
 	assert_eq(trades.size(), 2, "vente dans l'historique du commerce")
 	assert_true(trades[1].begins_with("[color=#e8b04a]Vente") and trades[1].contains("+%d brumes"
-		% (3 * Item.sell_price(view.world.data.items[resource["objet"]]))), trades[1])
+		% (3 * Item.sell_price(view.server.data.items[resource["objet"]]))), trades[1])
 
 	# L'arme de départ est portée : elle ne se vend pas.
 	var weapon := inventory.equipped_entry("arme")
@@ -565,23 +568,24 @@ func test_recolte_et_repousse() -> void:
 	var map := view.current_map()
 	var notices: Array[String] = []
 	view.notice.connect(func(text: String) -> void: notices.append(text))
-	view.world.rare_harvest_chance = 0.0  # Pas de frêne rare (1 %) qui ferait échouer le test.
+	view.server.rare_harvest_chance = 0.0  # Pas de frêne rare (1 %) qui ferait échouer le test.
+	view.refresh_state()
 
 	# Un frêne du village : le joueur marche jusqu'à lui et le coupe.
 	var ash := Vector2i(-1, -1)
 	for cell: Vector2i in map.resource_nodes:
-		if view.world.resource_node(cell).get("objet") == "bois_de_frene":
+		if view.server.resource_node(cell).get("objet") == "bois_de_frene":
 			ash = cell
 			break
 	assert_true(map.is_inside(ash), "un frêne au village")
 	assert_true(view._describe(ash).begins_with("Frêne"), view._describe(ash))
 	view._on_click(ash)
 	_run_until_idle(view)
-	var inventory := view.world.character.inventory
+	var inventory := view.server.character.inventory
 	assert_true(inventory.quantity_of("bois_de_frene") > 0, "bois récolté")
-	assert_true(GameMap.is_adjacent(view.world.position_of(World.PLAYER_ID), ash), "à côté de l'arbre")
-	assert_true(view.world.is_depleted(ash), "arbre coupé")
-	assert_true(view.world.character.job_xp("bucheron") > 0, "XP de bûcheron")
+	assert_true(GameMap.is_adjacent(view.server.position_of(World.PLAYER_ID), ash), "à côté de l'arbre")
+	assert_true(view.server.is_depleted(ash), "arbre coupé")
+	assert_true(view.server.character.job_xp("bucheron") > 0, "XP de bûcheron")
 
 	# Déjà coupé : un message, pas de marche.
 	view._on_click(ash)
@@ -590,7 +594,7 @@ func test_recolte_et_repousse() -> void:
 
 	# Repousse au bout de deux minutes au plus.
 	view.advance(121.0)
-	assert_false(view.world.is_depleted(ash), "l'arbre a repoussé")
+	assert_false(view.server.is_depleted(ash), "l'arbre a repoussé")
 	scene.free()
 
 
@@ -609,8 +613,9 @@ func test_atelier_du_forgeron() -> void:
 	view._on_click(smith["case"])
 	_run_until_idle(view)
 	assert_true(craft.is_open(), "l'atelier s'ouvre")
-	var inventory := view.world.character.inventory
-	inventory.add(view.world.data.items["minerai_de_cuivre"], 4)
+	var inventory := view.server.character.inventory
+	inventory.add(view.server.data.items["minerai_de_cuivre"], 4)
+	view.refresh_state()
 	var index := -1
 	for i in craft._list.item_count:
 		if craft._list.get_item_metadata(i) == "anneau_de_cuivre":
@@ -622,7 +627,7 @@ func test_atelier_du_forgeron() -> void:
 	assert_eq(inventory.quantity_of("anneau_de_cuivre"), 1, "anneau fabriqué")
 	assert_eq(inventory.quantity_of("minerai_de_cuivre"), 0, "minerai consommé")
 	assert_true(craft._message.text.begins_with("Fabriqué"), craft._message.text)
-	assert_true(view.world.character.job_level("forgeron") >= 2, "XP de forgeron")
+	assert_true(view.server.character.job_level("forgeron") >= 2, "XP de forgeron")
 	assert_true(craft._craft_button.disabled, "plus assez de minerai")
 	craft.close()
 	scene.free()
@@ -641,7 +646,7 @@ func test_maison_lit_et_coffre() -> void:
 
 	view._on_click(door)
 	_run_until_idle(view)
-	assert_eq(view.world.map.id, "maison_joueur", "dans la maison")
+	assert_eq(view.server.map.id, "maison_joueur", "dans la maison")
 	assert_eq(view.current_map().id, "maison_joueur")
 	var house := view.current_map()
 	var bed := Vector2i(-99, -99)
@@ -653,14 +658,16 @@ func test_maison_lit_et_coffre() -> void:
 			chest = cell
 
 	# Le lit rend tous les PV.
-	var character := view.world.character
+	var character := view.server.character
 	character.hp_lost = 30
+	view.refresh_state()
 	view._on_click(bed)
 	_run_until_idle(view)
 	assert_eq(character.hp_lost, 0, "PV au maximum après une nuit")
 
 	# Le coffre : déposer puis reprendre une pile de ressources.
-	character.inventory.add(view.world.data.items["peau_de_loup"], 3)
+	character.inventory.add(view.server.data.items["peau_de_loup"], 3)
+	view.refresh_state()
 	view._on_click(chest)
 	_run_until_idle(view)
 	assert_true(chest_window.is_open(), "coffre ouvert")
@@ -679,8 +686,8 @@ func test_maison_lit_et_coffre() -> void:
 	# Ressortir.
 	view._on_click(house.door_to(village.id))
 	_run_until_idle(view)
-	assert_eq(view.world.map.id, village.id, "de retour au village")
-	assert_eq(view.world.position_of(World.PLAYER_ID), door, "devant la porte")
+	assert_eq(view.server.map.id, village.id, "de retour au village")
+	assert_eq(view.server.position_of(World.PLAYER_ID), door, "devant la porte")
 	scene.free()
 
 
@@ -689,13 +696,16 @@ func test_reapparition_des_monstres_et_fenetre_des_metiers() -> void:
 	var scene: Node = load("res://client/world/world.tscn").instantiate()
 	tree.root.add_child(scene)
 	var view: MapView = scene.get_node("MapView")
-	var world := view.world
+	var world := view.server
 
 	# Un groupe vaincu (simulé) revient tout seul sur la carte affichée.
 	var group: Dictionary = world.groups()[0]
 	world._schedule_respawn(world.map.id, group)
+	view.refresh_state()
 	world._groups.erase(group["id"])
+	view.refresh_state()
 	world._positions.erase(group["id"])
+	view.refresh_state()
 	view._load_exploration_actors()
 	assert_false(view._actors.has(group["id"]), "groupe vaincu")
 	view.advance(200.0)
@@ -724,7 +734,8 @@ func test_pierre_de_passage() -> void:
 	var view: MapView = scene.get_node("MapView")
 	var hud: CombatHud = scene.get_node("CombatHud")
 	var travel: TravelWindow = scene.get_node("TravelWindow")
-	view.world.all_passages_known = false
+	view.server.all_passages_known = false
+	view.refresh_state()
 	var stone := view.current_map().travel_stone()
 	assert_ne(stone, Vector2i(-1, -1), "une Pierre de Passage à Brumerive")
 	assert_true(view._describe(stone).begins_with("Pierre de Passage"), view._describe(stone))
@@ -733,7 +744,7 @@ func test_pierre_de_passage() -> void:
 	_run_until_idle(view)
 	assert_true(travel.is_open(), "la liste des destinations s'ouvre")
 	var buttons := travel.destination_buttons()
-	assert_eq(buttons.size(), view.world.data.passages.size())
+	assert_eq(buttons.size(), view.server.data.passages.size())
 	for button in buttons:
 		var unknown := button.text.contains("pas encore découverte")
 		assert_true(button.disabled == (button.text.contains("vous êtes ici") or unknown), button.text)
@@ -746,7 +757,8 @@ func test_pierre_de_passage() -> void:
 	assert_eq(travel._respawn.text, "Point de résurrection : Brumerive")
 
 	# Une fois Crasse-Roc découverte, le voyage coûte 10 brumes.
-	view.world.character.discover_passage("crasse_roc")
+	view.server.character.discover_passage("crasse_roc")
+	view.refresh_state()
 	view._on_click(stone)
 	_run_until_idle(view)
 	var target: Button = null
@@ -754,33 +766,35 @@ func test_pierre_de_passage() -> void:
 		if button.text.begins_with("Crasse-Roc"):
 			target = button
 	assert_true(target != null and not target.disabled, "Crasse-Roc parmi les destinations")
-	var ecus := view.world.character.inventory.ecus
+	var ecus := view.server.character.inventory.ecus
 	target.pressed.emit()
 	_run_until_idle(view)
 	assert_false(travel.is_open())
-	assert_eq(view.world.map.id, "crasse_roc_0_0", "téléporté à Crasse-Roc")
+	assert_eq(view.server.map.id, "crasse_roc_0_0", "téléporté à Crasse-Roc")
 	assert_eq(view.current_map().id, "crasse_roc_0_0")
-	assert_eq(view.world.character.inventory.ecus, ecus - 10, "voyage payé")
+	assert_eq(view.server.character.inventory.ecus, ecus - 10, "voyage payé")
 	assert_eq(hud._message_label.text, "Voyage payé : 10 brumes.")
 	assert_eq(Art.palette, "crasse_roc", "couleurs de la zone gobeline")
-	assert_eq(view.world.visited_maps(), ["brumerive_0_0", "crasse_roc_0_0"] as Array[String])
-	assert_eq(view.world.character.respawn_passage, "brumerive", "arriver par un voyage ne change rien")
+	assert_eq(view.server.visited_maps(), ["brumerive_0_0", "crasse_roc_0_0"] as Array[String])
+	assert_eq(view.server.character.respawn_passage, "brumerive", "arriver par un voyage ne change rien")
 
 	# Toucher la pierre de Crasse-Roc en fait le point de résurrection.
 	view._on_click(view.current_map().travel_stone())
 	_run_until_idle(view)
-	assert_eq(view.world.character.respawn_passage, "crasse_roc")
+	assert_eq(view.server.character.respawn_passage, "crasse_roc")
 	assert_eq(hud._message_label.text, "Nouveau point de résurrection : Crasse-Roc.")
 	assert_eq(SaveGame.read()["personnage"]["point_de_resurrection"], "crasse_roc", "sauvegardé aussitôt")
 	travel.close()
 
 	# Plus assez de brumes : le voyage est refusé, avec un message.
-	view.world.character.inventory.ecus = 3
-	view.world.character.discover_passage("sylvebrume")
+	view.server.character.inventory.ecus = 3
+	view.refresh_state()
+	view.server.character.discover_passage("sylvebrume")
+	view.refresh_state()
 	view.send_command({"type": Protocol.CMD_TRAVEL, "entite": World.PLAYER_ID, "case": view.current_map().travel_stone(),
 		"destination": "sylvebrume"})
 	_run_until_idle(view)
-	assert_eq(view.world.map.id, "crasse_roc_0_0")
+	assert_eq(view.server.map.id, "crasse_roc_0_0")
 	assert_eq(hud._message_label.text, "Pas assez de brumes pour ce voyage.")
 	scene.free()
 
@@ -795,11 +809,12 @@ func test_decouverte_d_une_pierre_de_passage() -> void:
 	var view: MapView = scene.get_node("MapView")
 	var hud: CombatHud = scene.get_node("CombatHud")
 	var travel: TravelWindow = scene.get_node("TravelWindow")
-	view.world.all_passages_known = false
-	assert_false(view.world.is_passage_known("crasse_roc"))
+	view.server.all_passages_known = false
+	view.refresh_state()
+	assert_false(view.server.is_passage_known("crasse_roc"))
 	view._on_click(view.current_map().travel_stone())
 	_run_until_idle(view)
-	assert_true(view.world.is_passage_known("crasse_roc"), "découverte en la touchant")
+	assert_true(view.server.is_passage_known("crasse_roc"), "découverte en la touchant")
 	assert_eq(hud._message_label.text, "Pierre de Passage découverte : Crasse-Roc ! C'est votre nouveau point de résurrection.")
 	# Sauvegardé aussitôt : rien n'est perdu si le joueur ferme le jeu juste après.
 	var hero: Dictionary = SaveGame.read()["personnage"]
@@ -809,7 +824,7 @@ func test_decouverte_d_une_pierre_de_passage() -> void:
 	view.send_command({"type": Protocol.CMD_TRAVEL, "entite": World.PLAYER_ID, "case": view.current_map().travel_stone(),
 		"destination": "sylvebrume"})
 	_run_until_idle(view)
-	assert_eq(view.world.map.id, "crasse_roc_0_0", "Sylvebrume n'est pas encore découverte")
+	assert_eq(view.server.map.id, "crasse_roc_0_0", "Sylvebrume n'est pas encore découverte")
 	assert_eq(hud._message_label.text, "Pierre de Passage pas encore découverte : allez-y à pied et touchez-la.")
 	scene.free()
 
@@ -822,7 +837,7 @@ func test_chaque_race_part_de_sa_zone() -> void:
 		var scene: Node = load("res://client/world/world.tscn").instantiate()
 		tree.root.add_child(scene)
 		var view: MapView = scene.get_node("MapView")
-		assert_eq(view.world.map.id, pair[1], "départ des %ss" % pair[0])
+		assert_eq(view.server.map.id, pair[1], "départ des %ss" % pair[0])
 		scene.free()
 	Session.new_character = null
 
@@ -834,7 +849,7 @@ func test_barre_d_action_et_fenetre_des_sorts() -> void:
 	var view: MapView = scene.get_node("MapView")
 	var hud: CombatHud = scene.get_node("CombatHud")
 	var spells: SpellsWindow = scene.get_node("SpellsWindow")
-	var world := view.world
+	var world := view.server
 
 	# En exploration aussi, la barre montre les PV (cœur), PA (étoile), PM (case) ; à la place des
 	# sorts, une barre d'objets (vide tant qu'il n'y a pas de consommables).
@@ -885,15 +900,15 @@ func test_tous_les_membres_d_un_groupe_sont_affiches() -> void:
 	var scene: Node = load("res://client/world/world.tscn").instantiate()
 	tree.root.add_child(scene)
 	var view: MapView = scene.get_node("MapView")
-	for group: Dictionary in view.world.groups():
+	for group: Dictionary in view.server.groups():
 		var actor: Dictionary = view._actors[group["id"]]
 		assert_eq(str(actor["members"]), str(group["monstres"]), "chaque membre du groupe est dessiné")
 		assert_true(actor["members"].size() <= GameMap.MAX_GROUP_SIZE)
-	for group: Dictionary in view.world.groups():
-		assert_eq(view._actors[group["id"]]["name"], MapView.group_label(group["monstres"], view.world.data), "nommé au survol")
+	for group: Dictionary in view.server.groups():
+		assert_eq(view._actors[group["id"]]["name"], MapView.group_label(group["monstres"], view.server.data), "nommé au survol")
 	assert_eq(view._actors["groupe_2"]["name"], "Groupe : 2 × Loup des collines")
 	assert_eq(view._actors["groupe_1"]["name"], "Loup des collines")
-	var data := view.world.data
+	var data := view.server.data
 	assert_eq(MapView.group_label(["gobelin_frondeur", "loup_des_collines"], data), "Groupe : Gobelin frondeur, Loup des collines",
 		"groupe mixte")
 	assert_eq(MapView.group_label(["loup_des_collines", "gobelin_frondeur", "loup_des_collines"], data),
@@ -902,14 +917,14 @@ func test_tous_les_membres_d_un_groupe_sont_affiches() -> void:
 	# En haut de la bande gauche, seulement le nom de la carte ; ce qu'on survole va dans une bulle.
 	var info: Label = scene.get_node("CombatHud").map_title
 	assert_eq(info.text, view.current_map().display_name, "le nom de la carte, rien d'autre")
-	view._set_hovered(view.world.groups()[0]["case"])
+	view._set_hovered(view.server.groups()[0]["case"])
 	assert_eq(info.text, view.current_map().display_name)
 	assert_true(scene._hover_bubble.visible, "bulle au survol d'un groupe")
-	var hovered: Dictionary = view.world.groups()[0]
+	var hovered: Dictionary = view.server.groups()[0]
 	var expected: PackedStringArray = []
 	for i in hovered["monstres"].size():
 		var monster_id: String = hovered["monstres"][i]
-		expected.append("Niv. %d %s" % [hovered["niveaux"][i], view.world.data.monsters[monster_id]["nom"]])
+		expected.append("Niv. %d %s" % [hovered["niveaux"][i], view.server.data.monsters[monster_id]["nom"]])
 	assert_eq(scene._hover_label.text, "\n".join(expected), "un monstre par ligne, niveau devant")
 	view._set_hovered(view.current_map().spawn)
 	assert_false(scene._hover_bubble.visible, "pas de bulle sur une case vide")
@@ -926,7 +941,7 @@ func test_tous_les_membres_d_un_groupe_sont_affiches() -> void:
 	for i in 20:
 		view.advance(0.2)
 	assert_false(view._group_walks.has(walker), "promenade terminée")
-	assert_eq(Vector2i(view._actors[walker]["pos"].round()), view.world.position_of(walker), "arrivé là où le monde l'a mis")
+	assert_eq(Vector2i(view._actors[walker]["pos"].round()), view.server.position_of(walker), "arrivé là où le monde l'a mis")
 	scene.free()
 
 
@@ -935,15 +950,16 @@ func test_sac_surcharge_pas_de_combat() -> void:
 	var scene: Node = load("res://client/world/world.tscn").instantiate()
 	tree.root.add_child(scene)
 	var view: MapView = scene.get_node("MapView")
-	var inventory := view.world.character.inventory
+	var inventory := view.server.character.inventory
 	inventory.capacity = inventory.entries.size() - 1  # Le sac déborde d'un objet.
+	view.refresh_state()
 	var messages: Array[String] = []
 	view.notice.connect(func(text: String) -> void: messages.append(text))
-	var start := view.world.position_of(World.PLAYER_ID)
-	view._on_click(view.world.groups()[0]["case"])
+	var start := view.server.position_of(World.PLAYER_ID)
+	view._on_click(view.server.groups()[0]["case"])
 	_run_until_idle(view)
 	assert_eq(view.mode, MapView.Mode.EXPLORATION, "pas de combat")
-	assert_eq(view.world.position_of(World.PLAYER_ID), start, "le personnage ne part même pas")
+	assert_eq(view.server.position_of(World.PLAYER_ID), start, "le personnage ne part même pas")
 	assert_eq(messages, [CombatHud.OVERLOAD_TEXT] as Array[String], "on lui dit de faire de la place")
 	var window: InventoryWindow = scene.get_node("InventoryWindow")
 	window.toggle()
@@ -956,8 +972,9 @@ func test_couronne_d_anciennete_d_une_elite() -> void:
 	var scene: Node = load("res://client/world/world.tscn").instantiate()
 	tree.root.add_child(scene)
 	var view: MapView = scene.get_node("MapView")
-	var world := view.world
+	var world := view.server
 	world.map_ids = [world.map.id]
+	view.refresh_state()
 	var events: Array[Dictionary] = []
 	assert_true(world.spawn_elite("loup_alpha", events), "le Loup alpha apparaît à Brumerive")
 	for event in events:
@@ -966,6 +983,7 @@ func test_couronne_d_anciennete_d_une_elite() -> void:
 	var cell: Vector2i = world.group(where["groupe"])["case"]
 	assert_true(view._actors[where["groupe"]]["members"].has("loup_alpha"), "dessiné sur la carte")
 	world.clock += 7 * World.ELITE_RANK_SECONDS + 1.0
+	view.refresh_state()
 	view._set_hovered(cell)
 	var crown: EliteCrown = scene._hover_crown
 	assert_eq(crown.rank, 7)
@@ -986,11 +1004,12 @@ func test_niveaux_tires_dans_la_bulle_et_en_combat() -> void:
 	tree.root.add_child(scene)
 	var view: MapView = scene.get_node("MapView")
 	var hud: CombatHud = scene.get_node("CombatHud")
-	assert_eq(view.world.map.id, "crasse_roc_0_0")
+	assert_eq(view.server.map.id, "crasse_roc_0_0")
 	# Les deux rats du premier groupe, à des niveaux choisis pour le test (tirés au sort d'habitude).
-	var group: Dictionary = view.world.group("groupe_1")
+	var group: Dictionary = view.server.group("groupe_1")
 	assert_eq(str(group["monstres"]), str(["rat_des_galeries", "rat_des_galeries"]))
 	group["niveaux"] = [3, 1]
+	view.refresh_state()
 	view._load_exploration_actors()
 	view._set_hovered(group["case"])
 	assert_eq(scene._hover_label.text, "Niv. 3 Rat des galeries\nNiv. 1 Rat des galeries", "le niveau tiré de chaque monstre")
@@ -1000,7 +1019,7 @@ func test_niveaux_tires_dans_la_bulle_et_en_combat() -> void:
 	view.request_start_fight()
 	_run_until_idle(view)
 	var strongest: Fighter = null
-	for fighter in view.world.combat.fighters:
+	for fighter in view.server.combat.fighters:
 		if fighter.kind == "rat_des_galeries" and fighter.level == 3:
 			strongest = fighter
 	assert_true(strongest != null, "un rat de niveau 3 en combat")
@@ -1129,7 +1148,7 @@ func test_carte_du_monde_et_minicarte() -> void:
 			break
 	view._on_click(exit_cell)
 	_run_until_idle(view)
-	assert_eq(view.world.map.id, "brumerive_1_0")
+	assert_eq(view.server.map.id, "brumerive_1_0")
 	assert_eq(minimap.center_map(), "brumerive_1_0", "la minicarte se recentre sur la nouvelle carte")
 	assert_eq(minimap._coordinates.text, "1, 0")
 	near_cases = {}
@@ -1147,7 +1166,8 @@ func test_carte_du_monde_et_minicarte() -> void:
 	world_map.close()
 
 	# Déjà passé par Crasse-Roc (simulé) : un second onglet ; on ouvre toujours sur la zone actuelle.
-	view.world.character.visit_map("crasse_roc_0_0")
+	view.server.character.visit_map("crasse_roc_0_0")
+	view.refresh_state()
 	world_map.open()
 	assert_eq(world_map._tabs.tab_count, zone_count, "toujours un onglet par zone")
 	assert_eq(world_map._tabs.get_tab_title(1), "Crasse-Roc", "les zones visitées d'abord")
@@ -1159,7 +1179,7 @@ func test_carte_du_monde_et_minicarte() -> void:
 	world_map.close()
 
 	# En combat : la minicarte reste dans sa bande, mais ni elle ni M n'ouvrent la carte du monde.
-	view._on_click(view.world.groups()[0]["case"])
+	view._on_click(view.server.groups()[0]["case"])
 	_run_until_idle(view)
 	assert_eq(view.mode, MapView.Mode.COMBAT)
 	assert_true(minimap.is_shown(), "minicarte toujours là en combat")
@@ -1178,7 +1198,7 @@ func test_minicarte_dans_une_maison_et_au_trone_de_cendre() -> void:
 	tree.root.add_child(scene)
 	var view: MapView = scene.get_node("MapView")
 	var minimap: Minimap = scene.get_node("Minimap")
-	assert_eq(view.world.map.id, "maison_joueur")
+	assert_eq(view.server.map.id, "maison_joueur")
 	assert_eq(minimap.center_map(), "brumerive_0_0", "la place du village, devant la porte")
 	assert_true(minimap._grid.indoors)
 	var center: Dictionary = minimap.shown_layout()["cases"].filter(func(c: Dictionary) -> bool: return c["actuelle"])[0]
@@ -1286,8 +1306,8 @@ func test_carte_du_monde_depuis_une_maison() -> void:
 	Session.start_map = ""
 	var view: MapView = scene.get_node("MapView")
 	var world_map: WorldMapWindow = scene.get_node("WorldMapWindow")
-	assert_eq(view.world.map.id, "maison_joueur")
-	assert_false(view.world.visited_maps().has("brumerive_0_0"), "pas encore sorti")
+	assert_eq(view.server.map.id, "maison_joueur")
+	assert_false(view.server.visited_maps().has("brumerive_0_0"), "pas encore sorti")
 	world_map.open()
 	assert_eq(world_map.current_zone(), "brumerive", "l'onglet de la zone de la maison")
 	assert_eq(world_map._zone_title.text, "Brumerive")
@@ -1353,13 +1373,13 @@ func test_historique_du_combat() -> void:
 	var hud: CombatHud = scene.get_node("CombatHud")
 	var log := hud.message_log
 	assert_true(log.visible, "historique visible en exploration")
-	view._on_click(view.world.groups()[0]["case"])
+	view._on_click(view.server.groups()[0]["case"])
 	_run_until_idle(view)
 	assert_true(log.visible, "historique en combat")
 	view.request_start_fight()
 	_run_until_idle(view)
 	# Un monstre au contact du joueur : il frappe à coup sûr à son tour.
-	var combat := view.world.combat
+	var combat := view.server.combat
 	var hero := combat.get_fighter(World.PLAYER_ID)
 	var foe: Fighter = combat.enemies_of(hero)[0]
 	for direction in [Vector2i.RIGHT, Vector2i.LEFT, Vector2i.UP, Vector2i.DOWN]:
@@ -1411,10 +1431,10 @@ func test_survol_des_glyphes_et_pieges() -> void:
 	var scene: Node = load("res://client/world/world.tscn").instantiate()
 	tree.root.add_child(scene)
 	var view: MapView = scene.get_node("MapView")
-	view._on_click(view.world.groups()[0]["case"])
+	view._on_click(view.server.groups()[0]["case"])
 	_run_until_idle(view)
 	var enemy := ""
-	for fighter in view.world.combat.fighters:
+	for fighter in view.server.combat.fighters:
 		if fighter.team != Fighter.TEAM_PLAYERS:
 			enemy = fighter.id
 	var cell := Vector2i(-50, -50)
@@ -1425,7 +1445,7 @@ func test_survol_des_glyphes_et_pieges() -> void:
 		"case": cell, "cases": cells, "sort": "Piège à loup"})
 	var text := view.ground_description(cell)
 	assert_true(text.contains("Glyphe ennemie : Champ maudit, lancée par %s" % view.actor(enemy)["name"]), text)
-	assert_true(text.contains("Piège allié : Piège à loup, posé par %s" % view.world.player_name), text)
+	assert_true(text.contains("Piège allié : Piège à loup, posé par %s" % view.server.player_name), text)
 	# Piège ennemi : invisible, rien au survol.
 	view._apply({"type": Protocol.EVT_TRAP, "id": 902, "lanceur": enemy, "equipe": Fighter.TEAM_MONSTERS,
 		"case": cell + Vector2i.RIGHT, "cases": cells, "sort": "Souche piégée"})
@@ -1442,7 +1462,7 @@ func test_ergonomie_du_combat() -> void:
 	tree.root.add_child(scene)
 	var view: MapView = scene.get_node("MapView")
 	var hud: CombatHud = scene.get_node("CombatHud")
-	view._on_click(view.world.groups()[0]["case"])
+	view._on_click(view.server.groups()[0]["case"])
 	_run_until_idle(view)
 	assert_true(hud._order_label.visible and not hud._order_box.visible, "« Placement » avant le combat")
 	view.request_start_fight()
@@ -1456,8 +1476,9 @@ func test_ergonomie_du_combat() -> void:
 	assert_true(portrait.current, "cadre doré : c'est son tour")
 	assert_true(portrait.tooltip_text.begins_with("Mirabelle"), portrait.tooltip_text)
 	# Prévisualisation : soin limité aux PV qui manquent, au-dessus du joueur.
-	var hero := view.player_fighter()
+	var hero := view.server.combat.get_fighter(World.PLAYER_ID)
 	hero.hp -= 5
+	view.refresh_state()
 	view.select_spell("theologue_imposition")
 	view._set_hovered(hero.cell)
 	assert_eq(view.spell_preview()[World.PLAYER_ID]["soin"], [5, 5])
@@ -1478,9 +1499,9 @@ func test_ergonomie_du_combat() -> void:
 	assert_eq(colors[1], Color(MapView.element_color("flamme"), 0.85))
 	assert_eq(MapView.glyph_colors({"equipe": Fighter.TEAM_MONSTERS, "element": ""})[0], MapView.COLOR_GLYPH[1])
 	# Survol d'un ennemi : ses cases de déplacement, effacées quand la souris le quitte.
-	var enemy: Fighter = view.world.combat.fighters.filter(func(f: Fighter) -> bool: return f.team != hero.team and f.is_alive())[0]
+	var enemy: Fighter = view.server.combat.fighters.filter(func(f: Fighter) -> bool: return f.team != hero.team and f.is_alive())[0]
 	view._set_hovered(enemy.cell)
-	assert_eq(view.enemy_reach(), view.world.combat.movement_zone(enemy))
+	assert_eq(view.enemy_reach(), view.server.combat.movement_zone(enemy))
 	assert_false(view.enemy_reach().is_empty(), "l'ennemi a des PM")
 	view.select_spell("theologue_imposition")
 	assert_true(view.enemy_reach().is_empty(), "sort choisi : la portée du sort seule")
@@ -1498,12 +1519,12 @@ func test_arcaniste_compose_et_cree_un_sort() -> void:
 	tree.root.add_child(scene)
 	var view: MapView = scene.get_node("MapView")
 	var hud: CombatHud = scene.get_node("CombatHud")
-	view._on_click(view.world.groups()[0]["case"])
+	view._on_click(view.server.groups()[0]["case"])
 	_run_until_idle(view)
 	view.request_start_fight()
 	_run_until_idle(view)
 	assert_true(view.is_player_turn())
-	var hero := view.player_fighter()
+	var hero := view.server.combat.get_fighter(World.PLAYER_ID)
 	assert_false(hud._spell_buttons.has("arcaniste_choc_thermique"), "pas encore de sort créé")
 	assert_true(hud._orbs.visible, "orbes des états élémentaires dans la barre")
 	assert_true(hud._orbs.states.is_empty())
@@ -1561,12 +1582,12 @@ func test_clic_sur_la_grille_de_composition_ne_deplace_pas() -> void:
 	tree.root.add_child(scene)
 	var view: MapView = scene.get_node("MapView")
 	var hud: CombatHud = scene.get_node("CombatHud")
-	view._on_click(view.world.groups()[0]["case"])
+	view._on_click(view.server.groups()[0]["case"])
 	_run_until_idle(view)
 	view.request_start_fight()
 	_run_until_idle(view)
 	assert_true(view.is_player_turn())
-	var hero := view.player_fighter()
+	var hero := view.server.combat.get_fighter(World.PLAYER_ID)
 	var start := hero.cell
 	var cells: Array = view._reachable.keys()
 	cells.erase(start)
@@ -1629,12 +1650,12 @@ func test_sorts_enchaines_sans_attendre_les_animations() -> void:
 	tree.root.add_child(scene)
 	var view: MapView = scene.get_node("MapView")
 	var hud: CombatHud = scene.get_node("CombatHud")
-	view._on_click(view.world.groups()[0]["case"])
+	view._on_click(view.server.groups()[0]["case"])
 	_run_until_idle(view)
 	view.request_start_fight()
 	_run_until_idle(view)
 	assert_true(view.is_player_turn())
-	var hero := view.player_fighter()
+	var hero := view.server.combat.get_fighter(World.PLAYER_ID)
 	view.cast_composition("arcaniste_composition", "flamme+flamme+flamme")
 	assert_eq(hero.element_states, ["flamme", "flamme", "flamme"] as Array[String], "sort lancé")
 	assert_false(view.is_busy(), "la main revient tout de suite, sans attendre les textes flottants")
