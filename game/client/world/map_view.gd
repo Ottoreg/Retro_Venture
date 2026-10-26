@@ -1050,8 +1050,14 @@ func _load_combat_from_state() -> void:
 		for fighter in world.combat.fighters:
 			turn_order.append(fighter.id)
 		current_turn = world.combat.current_fighter().id if world.combat.current_fighter() != null else ""
-	combat_started.emit()
-	combat_state_changed.emit()
+
+
+## Rejoue l'entrée en combat pour l'interface branchée après `setup` (retour en plein combat) : sans
+## cela, la barre resterait en exploration.
+func announce_combat() -> void:
+	if mode == Mode.COMBAT:
+		combat_started.emit()
+		combat_state_changed.emit()
 
 
 ## Changements du monde qui ne viennent pas d'une commande (repousse, réapparition) : appliqués

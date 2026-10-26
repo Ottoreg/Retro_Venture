@@ -92,6 +92,7 @@ func _ready() -> void:
 	_map_view.inventory_changed.connect(_on_inventory_changed)
 	_map_view.progress_changed.connect(_save)
 	get_viewport().size_changed.connect(_center_map)
+	_map_view.announce_combat()
 	_center_map()
 	_update_info()
 	_save()

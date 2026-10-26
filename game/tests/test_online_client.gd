@@ -245,3 +245,28 @@ func test_combat_de_groupe_vu_des_deux_clients() -> void:
 	assert_eq(sam_view.mode, MapView.Mode.EXPLORATION, "et chez Sam")
 	assert_eq(ended.size(), 1, "Sam a eu sa fin de combat")
 	scene.queue_free()
+
+
+func test_retour_en_plein_combat_barre_de_combat() -> void:
+	var first := _scene()
+	var view: MapView = first.get_node("MapView")
+	var group: Dictionary = view.world.groups()[0]
+	view._on_click(group["case"])
+	_run_until_idle(view)
+	view.request_start_fight()
+	_run_until_idle(view)
+	assert_eq(view.mode, MapView.Mode.COMBAT)
+	# Reconnexion : la carte se charge sur un monde déjà en combat, puis l'interface s'y branche
+	# (ordre de `world_scene._ready`).
+	var again := MapView.new()
+	first.add_child(again)
+	again.setup(LocalConnection.new(view.server))
+	var hud := CombatHud.new()
+	first.add_child(hud)
+	hud.setup(again)
+	again.announce_combat()
+	assert_eq(again.mode, MapView.Mode.COMBAT)
+	assert_true(hud._turn_button.visible, "bouton « Fin du tour » au retour")
+	assert_false(hud._sit_button.visible, "plus de « S'asseoir »")
+	assert_true(hud._spells_box.visible, "barre des sorts")
+	first.queue_free()

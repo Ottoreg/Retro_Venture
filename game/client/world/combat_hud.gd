@@ -714,7 +714,8 @@ func _on_combat_started() -> void:
 		_show_spells(fighter.spells)
 	for menu: String in _menu_buttons:
 		_menu_buttons[menu].disabled = true
-	show_message("Choisissez un cercle bleu, puis « Prêt »")
+	if map_view.is_placement():
+		show_message("Choisissez un cercle bleu, puis « Prêt »")
 	_refresh()
 
 
