@@ -615,7 +615,7 @@ Plan validé par l'auteur le 26/10/2026 : GDD § 16.5, jalons M0 (préparer le n
 
 - [x] Valider le plan du GDD § 16.5 (calendrier, Godot sans affichage, WebSocket seul, Supabase,
   VPS + Caddy, client natif sur GitHub Releases, pas de migration du solo)
-- [ ] Hébergement gratuit pour M1 et les tests (PC de l'auteur + tunnel Cloudflare, ou Oracle
+- [x] Hébergement gratuit pour M1 et les tests (PC de l'auteur + tunnel Cloudflare, ou Oracle
   Cloud Always Free), VPS payant au plus tard pour la bêta fermée
 - [x] M0 : séparer `MapInstance` (état partagé d'une carte) et `PlayerState` (personnage connecté),
   `World` en façade solo ; ids de personnages à la place de `World.PLAYER_ID` ; portée des
@@ -629,9 +629,11 @@ Plan validé par l'auteur le 26/10/2026 : GDD § 16.5, jalons M0 (préparer le n
 - [x] M1 : serveur sans affichage (`game/server/`), WebSocket, comptes Supabase, personnage créé,
   chargé et sauvegardé sur le serveur, menu « Jouer en ligne (prototype) », Docker + tunnel
   Cloudflare + table « serveur actuel » (`serveur/`), joueur automatique `tools/bot.gd` — 26/10/2026
-- [ ] M1 : chez l'auteur — projet Supabase (`serveur/supabase/schema.sql`), clé publique dans
-  `client/net/online_config.gd`, `.env` et Docker sur ses postes (`serveur/README.md`) ; vérifier
-  l'adresse du tunnel lue par le serveur ; critère de sortie : deux comptes sur deux machines
+- [x] M1 : chez l'auteur — projet Supabase, clé publique dans `client/net/online_config.gd`,
+  `.env` et Docker sur son PC ; adresse du tunnel lue par le serveur ; essai réussi le 26/10/2026
+  (deux clients qui se voient, déplacements et récolte synchronisés, sauvegarde après reconnexion)
+- [ ] M2 (avec les combats de groupe) : un joueur entré en combat reste affiché sur la carte chez
+  les autres ; il doit disparaître une fois le combat lancé (retour de l'auteur, 26/10/2026)
 - [x] M1 : staging mis à jour par la CI (image `ghcr.io/ottoreg/retro-venture-serveur:staging`,
   reprise par `docker compose up -d`) — 26/10/2026
 - [ ] Renouvellement du jeton de connexion (au-delà d'une heure, il faut se reconnecter)
