@@ -232,6 +232,14 @@ func in_combat() -> bool:
 
 
 func execute(command: Dictionary) -> Array[Dictionary]:
+	Protocol.check_round_trip(command)
+	var events := _execute(command)
+	for event in events:
+		Protocol.check_round_trip(event)
+	return events
+
+
+func _execute(command: Dictionary) -> Array[Dictionary]:
 	var p := _player_of(command)
 	if p.in_combat():
 		var events := p.combat.execute(command)
@@ -955,6 +963,8 @@ func update(delta: float) -> Array[Dictionary]:
 				instance.depleted.erase(cell)
 				if instance.has_players():
 					events.append({"type": Protocol.EVT_RESOURCE_RESPAWNED, "carte": map_id, "case": cell})
+	for event in events:
+		Protocol.check_round_trip(event)
 	return events
 
 

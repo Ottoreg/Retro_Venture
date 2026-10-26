@@ -4,7 +4,12 @@ extends RefCounted
 ##
 ## Le client envoie des **commandes** (intentions du joueur) à `World.execute()`, qui renvoie des
 ## **événements** (ce qui s'est réellement passé). Les deux sont des `Dictionary` avec un champ
-## `"type"`, sérialisables tels quels le jour où ils passeront par le réseau.
+## `"type"`. Sur le réseau, ils passent en JSON (`encode`, `decode`) : `{ "v": VERSION, "n": numéro,
+## "type": …, … }`, les cases (`Vector2i`) écrites `[x, y]` (GDD § 16.5).
+
+## Version du protocole, vérifiée à la connexion : à augmenter à chaque changement incompatible
+## d'une commande ou d'un événement.
+const VERSION := 1
 
 # --- Commandes (client → noyau) ---
 
@@ -312,3 +317,137 @@ const REASON_INVALID_COMPOSITION := "composition_invalide"
 const REASON_OUT_OF_RANGE := "hors_portee"
 const REASON_NO_LINE_OF_SIGHT := "pas_de_ligne_de_vue"
 const REASON_NOT_IN_LINE := "pas_en_ligne"
+
+
+# --- Sérialisation JSON (réseau) ---
+
+## Champs qui contiennent une case (`Vector2i`, écrite [x, y]), où qu'ils soient dans le message.
+const CELL_FIELDS := ["case", "cible", "position", "depuis", "interrompre_a", "foyer"]
+## Champs qui contiennent une liste de cases (`Array[Vector2i]`).
+const CELL_LIST_FIELDS := ["chemin", "cases", "placement"]
+## Vérification des allers-retours en JSON de toutes les commandes et de tous les événements du
+## noyau (activée par les tests : voir `check_round_trip`) ; les écarts trouvés y sont notés.
+static var verify_json := false
+static var json_mismatches: Array[String] = []
+
+
+## Message en texte JSON, avec la version du protocole et son numéro d'ordre.
+static func encode(message: Dictionary, number := 0) -> String:
+	var wire: Dictionary = to_wire(message)
+	wire["v"] = VERSION
+	wire["n"] = number
+	return JSON.stringify(wire)
+
+
+## Message relu d'un texte JSON (sans `v` ni `n`, rangés dans `header`), ou {} s'il est illisible,
+## d'une autre version du protocole, ou sans `type`. Jamais `bytes_to_var` sur ce qui vient du
+## réseau : le JSON ne crée que des données.
+static func decode(text: String, header := {}) -> Dictionary:
+	var parsed: Variant = JSON.parse_string(text)
+	if typeof(parsed) != TYPE_DICTIONARY or typeof(parsed.get("type")) != TYPE_STRING:
+		return {}
+	header["v"] = parsed.get("v")
+	header["n"] = parsed.get("n")
+	if typeof(parsed.get("v")) not in [TYPE_INT, TYPE_FLOAT] or int(parsed["v"]) != VERSION:
+		return {}
+	parsed.erase("v")
+	parsed.erase("n")
+	return from_wire(parsed)
+
+
+## Valeur prête pour le JSON : cases en [x, y], clés en texte (une case en clé devient "x,y").
+## Un objet n'a rien à faire dans un message : il devient `null` (et une erreur est signalée).
+static func to_wire(value: Variant) -> Variant:
+	match typeof(value):
+		TYPE_VECTOR2I:
+			return [value.x, value.y]
+		TYPE_DICTIONARY:
+			var result := {}
+			for key: Variant in value:
+				var wire_key: String = "%d,%d" % [key.x, key.y] if typeof(key) == TYPE_VECTOR2I else str(key)
+				result[wire_key] = to_wire(value[key])
+			return result
+		TYPE_ARRAY, TYPE_PACKED_STRING_ARRAY, TYPE_PACKED_INT32_ARRAY:
+			var result: Array = []
+			for item: Variant in value:
+				result.append(to_wire(item))
+			return result
+		TYPE_OBJECT:
+			push_error("Protocol.to_wire : objet dans un message (%s)" % value)
+			return null
+		TYPE_STRING_NAME:
+			return str(value)
+	return value
+
+
+## Valeur relue du JSON : nombres entiers redevenus `int`, cases des champs `CELL_FIELDS` et
+## `CELL_LIST_FIELDS` redevenues des `Vector2i`.
+static func from_wire(value: Variant, key := "") -> Variant:
+	match typeof(value):
+		TYPE_FLOAT:
+			return int(value) if is_finite(value) and value == floorf(value) and absf(value) < 9.0e15 else value
+		TYPE_DICTIONARY:
+			var result := {}
+			for item_key: String in value:
+				result[item_key] = from_wire(value[item_key], item_key)
+			return result
+		TYPE_ARRAY:
+			if key in CELL_FIELDS and _is_wire_cell(value):
+				return Vector2i(int(value[0]), int(value[1]))
+			if key in CELL_LIST_FIELDS:
+				var cells: Array[Vector2i] = []
+				for item: Variant in value:
+					if not _is_wire_cell(item):
+						return _from_wire_array(value)
+					cells.append(Vector2i(int(item[0]), int(item[1])))
+				return cells
+			return _from_wire_array(value)
+	return value
+
+
+static func _from_wire_array(value: Array) -> Array:
+	var result: Array = []
+	for item: Variant in value:
+		result.append(from_wire(item))
+	return result
+
+
+static func _is_wire_cell(value: Variant) -> bool:
+	return typeof(value) == TYPE_ARRAY and value.size() == 2 and typeof(value[0]) in [TYPE_INT, TYPE_FLOAT] \
+			and typeof(value[1]) in [TYPE_INT, TYPE_FLOAT]
+
+
+## Les deux valeurs sont-elles les mêmes au JSON près (nombres comparés par leur valeur) ?
+static func same(a: Variant, b: Variant) -> bool:
+	if typeof(a) in [TYPE_INT, TYPE_FLOAT] and typeof(b) in [TYPE_INT, TYPE_FLOAT]:
+		return is_equal_approx(float(a), float(b))
+	if typeof(a) == TYPE_STRING_NAME or typeof(b) == TYPE_STRING_NAME:
+		return str(a) == str(b)
+	if typeof(a) == TYPE_ARRAY and typeof(b) == TYPE_VECTOR2I:
+		return _is_wire_cell(a) and Vector2i(int(a[0]), int(a[1])) == b  # Case écrite [x, y] dans la commande.
+	if typeof(a) == TYPE_DICTIONARY and typeof(b) == TYPE_DICTIONARY:
+		if a.size() != b.size():
+			return false
+		for key: Variant in a:
+			if not b.has(key) or not same(a[key], b[key]):
+				return false
+		return true
+	if typeof(a) in [TYPE_ARRAY, TYPE_PACKED_STRING_ARRAY, TYPE_PACKED_INT32_ARRAY] \
+			and typeof(b) in [TYPE_ARRAY, TYPE_PACKED_STRING_ARRAY, TYPE_PACKED_INT32_ARRAY]:
+		if a.size() != b.size():
+			return false
+		for i in a.size():
+			if not same(a[i], b[i]):
+				return false
+		return true
+	return typeof(a) == typeof(b) and a == b
+
+
+## Avec `verify_json`, vérifie qu'un message survit à l'aller-retour en JSON (sinon le note dans
+## `json_mismatches`).
+static func check_round_trip(message: Dictionary) -> void:
+	if not verify_json:
+		return
+	var back := decode(encode(message))
+	if not same(message, back):
+		json_mismatches.append("%s devient %s" % [str(message).left(300), str(back).left(300)])

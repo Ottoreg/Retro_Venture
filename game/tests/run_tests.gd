@@ -25,6 +25,8 @@ func _process(_delta: float) -> bool:
 func _run_all() -> void:
 	var passed := 0
 	var failed := 0
+	# Toutes les commandes et tous les événements des tests doivent survivre au JSON (réseau).
+	Protocol.verify_json = true
 	for path in _find_test_files(TEST_ROOT):
 		var script: GDScript = load(path)
 		if script == null:
@@ -45,6 +47,10 @@ func _run_all() -> void:
 				failed += 1
 				for failure in test.failures:
 					printerr("ÉCHEC  %s::%s : %s" % [path.get_file(), test_name, failure])
+	for mismatch in Protocol.json_mismatches:
+		printerr("ÉCHEC  protocole JSON : %s" % mismatch)
+	if not Protocol.json_mismatches.is_empty():
+		failed += 1
 	print("\n%d test(s) réussi(s), %d échec(s)" % [passed, failed])
 	quit(1 if failed > 0 else 0)
 
