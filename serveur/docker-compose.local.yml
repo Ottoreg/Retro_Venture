@@ -1,0 +1,9 @@
+# Serveur construit depuis ce clone du dépôt (changements pas encore sur main) :
+#   docker compose -f docker-compose.yml -f docker-compose.local.yml up --build -d
+services:
+  serveur:
+    image: retro-venture-serveur:local
+    pull_policy: build
+    build:
+      context: ..
+      dockerfile: serveur/Dockerfile

@@ -7,8 +7,20 @@ que le solo, reçoit les commandes des clients par WebSocket et leur renvoie les
 Deux façons de le lancer :
 
 - **Développement** (sans Supabase) : pseudos sans mot de passe, personnages dans un dossier.
-- **Serveur de test** (Supabase + tunnel Cloudflare) : comptes, personnages dans la base, adresse
-  publiée automatiquement pour le jeu sur GitHub Pages.
+- **Serveur de test, ou « staging »** (Supabase + tunnel Cloudflare) : comptes, personnages dans
+  la base, adresse publiée automatiquement pour le jeu sur GitHub Pages et le client natif.
+
+**Staging** : c'est l'environnement de test, qui suit toujours `main`. À chaque push sur `main`, la
+CI publie à la fois le jeu web, le client natif et l'image Docker du serveur
+(`ghcr.io/ottoreg/retro-venture-serveur:staging`) : client et serveur ont toujours la même version
+(même protocole). Le PC qui sert de serveur reprend la dernière image à chaque lancement, sans
+cloner ni compiler le dépôt. Plus tard (bêta), une **production** sur un VPS, mise à jour à la main
+et avec sa propre base, pour que les essais ne cassent pas les parties des joueurs.
+
+**Client natif** (Windows, Linux) : release « client-natif » du dépôt
+(https://github.com/Ottoreg/Retro_Venture/releases/tag/client-natif), mise à jour à chaque push sur
+`main`. Windows avertit (pas de certificat de signature) : « Informations complémentaires » puis
+« Exécuter quand même ».
 
 ## Développement, sur son poste
 
@@ -45,10 +57,17 @@ une conversation : elles vont dans des fichiers sur le PC (ou, pour la clé publ
 5. Dans le dépôt, remplir `game/client/net/online_config.gd` : `SUPABASE_URL` et `PUBLISHABLE_KEY`
    (la clé publique est faite pour être dans le jeu). Pousser sur `main` : le jeu web se met à jour.
 
+### Une fois : rendre l'image du serveur publique
+
+Après le premier passage de la CI qui la publie : https://github.com/Ottoreg?tab=packages →
+**retro-venture-serveur** → **Package settings** → *Change visibility* → **Public** (elle ne
+contient que le code du jeu, déjà public ; sinon chaque poste doit faire `docker login ghcr.io`).
+
 ### Sur chaque poste qui peut servir de serveur
 
 1. Installer **Docker Desktop** (Windows : avec WSL 2, proposé à l'installation) et le lancer.
-2. Dans le dossier `serveur/` du dépôt, copier `exemple.env` en `.env` et le remplir :
+2. Récupérer le dossier `serveur/` du dépôt (un clone, ou seulement `docker-compose.yml` et
+   `exemple.env`). Y copier `exemple.env` en `.env` et le remplir :
    `SUPABASE_URL`, `SUPABASE_SECRET_KEY` (la clé secrète), `RV_POSTE` (le nom du poste). Le fichier
    `.env` n'est jamais commité (`.gitignore`).
 
@@ -56,7 +75,7 @@ une conversation : elles vont dans des fichiers sur le PC (ou, pour la clé publ
 
 ```sh
 cd serveur
-docker compose up --build -d      # démarre le serveur et le tunnel (--build : après un git pull)
+docker compose up -d              # démarre le serveur (dernière image de main) et le tunnel
 docker compose logs -f serveur    # « Adresse publique : wss://….trycloudflare.com » une fois prêt
 docker compose down               # arrête tout
 ```
@@ -71,6 +90,9 @@ docker compose down               # arrête tout
   (`docker compose logs tunnel`, ligne en `https://….trycloudflare.com`) et l'ajouter dans `.env` :
   `RV_PUBLIC_ADDRESS=wss://….trycloudflare.com`, puis `docker compose up -d`.
 - Sur le poste du serveur, le jeu peut aussi viser `ws://localhost:8080` (Options).
+
+Pour essayer un serveur construit depuis son clone (changements pas encore sur `main`) :
+`docker compose -f docker-compose.yml -f docker-compose.local.yml up --build -d`.
 
 ## Réglages (variables d'environnement)
 

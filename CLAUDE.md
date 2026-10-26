@@ -115,7 +115,8 @@ outils passent par `MapView.server` puis `refresh_state()`). **Prototype M1 en p
 `take_replies`), autres joueurs affichés, groupe engagé caché aux autres, comptes et personnages
 Supabase (`client/net/supabase.gd`, `online_config.gd` à remplir), menu « Jouer en ligne
 (prototype) », Docker + tunnel Cloudflare dans `serveur/` (README : étapes de l'auteur), joueur
-automatique `tools/bot.gd`. Restent : client natif et GitHub Releases, staging.
+automatique `tools/bot.gd`. La CI publie aussi, à chaque push sur `main`, le client natif
+(release « client-natif ») et l'image du serveur de staging (`ghcr.io/ottoreg/retro-venture-serveur:staging`).
 
 Dernière session (retours de la passe de l'auteur) :
 

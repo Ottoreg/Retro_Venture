@@ -8,6 +8,9 @@ inputs:
   web-templates:
     description: Installer aussi les modèles d'export web
     default: "false"
+  desktop-templates:
+    description: Installer aussi les modèles d'export Linux et Windows (client natif)
+    default: "false"
 
 runs:
   using: composite
@@ -52,6 +55,29 @@ runs:
           "https://github.com/godotengine/godot/releases/download/${V}-stable/Godot_v${V}-stable_export_templates.tpz"
         # On ne garde que les modèles web sans threads (compatibles GitHub Pages).
         unzip -j -q /tmp/templates.tpz "templates/web_nothreads_*.zip" "templates/version.txt" -d "$dir"
+        rm /tmp/templates.tpz
+        ls -la "$dir"
+
+    - name: Cache des modèles d'export Linux et Windows
+      id: cache-desktop
+      if: inputs.desktop-templates == 'true'
+      uses: actions/cache@v4
+      with:
+        path: ~/.local/share/godot/export_templates/${{ inputs.version }}.stable
+        key: godot-templates-desktop-${{ inputs.version }}
+
+    - name: Télécharger les modèles d'export Linux et Windows
+      if: inputs.desktop-templates == 'true' && steps.cache-desktop.outputs.cache-hit != 'true'
+      shell: bash
+      env:
+        V: ${{ inputs.version }}
+      run: |
+        dir=~/.local/share/godot/export_templates/${V}.stable
+        mkdir -p "$dir"
+        curl -fsSL -o /tmp/templates.tpz \
+          "https://github.com/godotengine/godot/releases/download/${V}-stable/Godot_v${V}-stable_export_templates.tpz"
+        unzip -j -q -o /tmp/templates.tpz "templates/linux_release.x86_64" "templates/windows_release_x86_64.exe" \
+          "templates/windows_release_x86_64_console.exe" "templates/version.txt" -d "$dir"
         rm /tmp/templates.tpz
         ls -la "$dir"
 

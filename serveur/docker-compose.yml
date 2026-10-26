@@ -1,14 +1,16 @@
 # Serveur de test sur le PC de l'auteur (GDD § 16.5) : le serveur de jeu et un tunnel rapide
 # Cloudflare (adresse wss:// publique, gratuite, aucun port à ouvrir). Le serveur lit l'adresse du
 # tunnel et la publie dans Supabase (table « serveur_actuel ») : les joueurs n'ont rien à saisir.
-#   cd serveur && docker compose up --build -d     (démarrer)
-#   docker compose logs -f serveur                  (journal)
-#   docker compose down                             (arrêter)
+# Staging : l'image « staging » est construite par la CI à chaque push sur main (même version que
+# le jeu web) ; elle est reprise à chaque lancement (pull_policy: always).
+#   cd serveur && docker compose up -d     (démarrer, avec la dernière image)
+#   docker compose logs -f serveur         (journal)
+#   docker compose down                    (arrêter)
+# Pour essayer des changements pas encore sur main : voir docker-compose.local.yml.
 services:
   serveur:
-    build:
-      context: ..
-      dockerfile: serveur/Dockerfile
+    image: ghcr.io/ottoreg/retro-venture-serveur:staging
+    pull_policy: always
     env_file: .env
     environment:
       RV_TUNNEL_METRICS: http://tunnel:2000

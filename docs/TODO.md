@@ -632,8 +632,11 @@ Plan validé par l'auteur le 26/10/2026 : GDD § 16.5, jalons M0 (préparer le n
 - [ ] M1 : chez l'auteur — projet Supabase (`serveur/supabase/schema.sql`), clé publique dans
   `client/net/online_config.gd`, `.env` et Docker sur ses postes (`serveur/README.md`) ; vérifier
   l'adresse du tunnel lue par le serveur ; critère de sortie : deux comptes sur deux machines
-- [ ] M1 : staging mis à jour par la CI ; renouvellement du jeton de connexion
-- [ ] M1 : préréglages d'export Windows et Linux et archives sur GitHub Releases depuis la CI
+- [x] M1 : staging mis à jour par la CI (image `ghcr.io/ottoreg/retro-venture-serveur:staging`,
+  reprise par `docker compose up -d`) — 26/10/2026
+- [ ] Renouvellement du jeton de connexion (au-delà d'une heure, il faut se reconnecter)
+- [x] M1 : préréglages d'export Windows et Linux et archives sur GitHub Releases depuis la CI
+  (release « client-natif », à chaque push sur main) — 26/10/2026
 
 - [x] Choisir la pile serveur et le transport (Godot sans affichage et WebSocket, GDD § 16.5)
 - [x] Définir le protocole (messages JSON, cases en `[x, y]`, numéro de version : M0 ; poignée de
@@ -645,7 +648,7 @@ Plan validé par l'auteur le 26/10/2026 : GDD § 16.5, jalons M0 (préparer le n
 - [x] Synchronisation de l'exploration (positions, entrées et sorties de carte) — M1
 - [ ] Combat multijoueur : tours avec limite de temps, déconnexion / reconnexion en combat
 - [ ] Tests de charge (combien de joueurs et de combats par processus)
-- [ ] Environnement de test hébergé (staging)
+- [x] Environnement de test hébergé (staging) — image Docker publiée par la CI, PC de l'auteur (M1)
 
 ---
 

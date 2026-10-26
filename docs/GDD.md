@@ -2093,7 +2093,7 @@ exemples en [annexe](#20-annexes--formats-de-données).
 > **Statut : plan validé par l'auteur le 26/10/2026** (les sept décisions de fin de section, et
 > un hébergement gratuit pour les tests). **M0 fait le 26/10/2026** (voir « Où en est M0 » plus
 > bas) ; **prototype M1 en place le 26/10/2026** (« Où en est M1 ») : reste à le monter chez
-> l'auteur (Supabase, Docker), le client natif et le staging.
+> l'auteur (Supabase, Docker) ; client natif et staging publiés par la CI.
 
 #### Quand
 
@@ -2338,8 +2338,12 @@ travail côté client : remplacer les lectures directes de `world` par la copie 
   l'auteur). Image essayée : 64 Mo de mémoire, moins de 1 % d'un processeur au repos.
 - **Outils et tests** : `tools/bot.gd` (un joueur automatique qui se promène, pour essayer seul) ;
   tests du serveur sans réseau, de bout en bout sur de vrais WebSocket, et du client asynchrone.
-- **Pas encore** : client natif sur GitHub Releases, staging mis à jour par la CI, renouvellement
-  du jeton (une connexion au-delà d'une heure demande de se reconnecter), plusieurs personnages
+- **Client natif et staging** : la CI publie à chaque push sur `main` le client Windows et Linux
+  (release « client-natif », archives zip, préréglages d'export « Linux » et « Windows ») et
+  l'image Docker du serveur (`ghcr.io/ottoreg/retro-venture-serveur:staging`, essayée par la CI
+  avant d'être publiée) ; `docker compose up -d` reprend la dernière image. Le staging suit donc
+  toujours `main`, comme le jeu web : client et serveur parlent le même protocole.
+- **Pas encore** : renouvellement du jeton (une connexion au-delà d'une heure demande de se reconnecter), plusieurs personnages
   par compte. Un combat abandonné (déconnexion) ne compte pas : le personnage reste tel qu'avant.
   L'adresse du tunnel est lue dans les métriques de cloudflared (`/quicktunnel`), pas encore
   essayée en vrai (repli : `RV_PUBLIC_ADDRESS`).
