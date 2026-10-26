@@ -2276,9 +2276,12 @@ travail côté client : remplacer les lectures directes de `world` par la copie 
   rien en local, il suffit d'avoir Docker sur les deux. **Un seul poste à la fois** : deux serveurs
   derrière le même tunnel se partageraient les joueurs (deux mondes séparés), donc le serveur
   refuse de démarrer si un autre est déjà actif (marqueur dans la base, rafraîchi pendant qu'il
-  tourne). Adresse fixe : tunnel nommé, qui demande un nom de domaine chez Cloudflare (environ 10 €
-  par an) ; le tunnel rapide gratuit donne une adresse différente à chaque lancement, à saisir dans
-  le client (suffisant pour le prototype). Un serveur de jeu garde des connexions ouvertes longtemps : les
+  tourne). **Adresse du serveur** : le tunnel rapide gratuit de Cloudflare donne une adresse
+  différente à chaque lancement ; au démarrage, le serveur l'écrit dans une table Supabase
+  (« serveur actuel », la même que le marqueur ci-dessus) et le client, web ou natif, la lit avant
+  de se connecter. Rien à saisir pour les joueurs ni à changer dans le code ; pas besoin de nom de
+  domaine pendant les tests. Un champ « adresse du serveur » dans les options permet de forcer un
+  serveur local pendant le développement. Un serveur de jeu garde des connexions ouvertes longtemps : les
   hébergeurs de fonctions sans serveur (Vercel, Netlify…) ne conviennent pas.
 - **Base et comptes** : Supabase (offre gratuite pour les tests) ou PostgreSQL sur le même VPS.
 - **Deux environnements** : `staging` (test, mis à jour par la CI à chaque push sur `main`) et
