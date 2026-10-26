@@ -28,7 +28,7 @@ var _running := false
 
 func _initialize() -> void:
 	Engine.max_fps = FPS
-	_start()
+	_start.call_deferred()  # La racine n'est dans l'arbre qu'après `_initialize` (requêtes HTTP).
 
 
 func _start() -> void:
@@ -128,7 +128,8 @@ func _find_tunnel_address() -> void:
 		return
 	var result: Array = await http.request_completed
 	http.queue_free()
-	var parsed: Variant = JSON.parse_string((result[3] as PackedByteArray).get_string_from_utf8())
+	var json := JSON.new()  # Sans message d'erreur tant que le tunnel n'est pas prêt (réponse vide).
+	var parsed: Variant = json.data if json.parse((result[3] as PackedByteArray).get_string_from_utf8()) == OK else null
 	if typeof(parsed) == TYPE_DICTIONARY and not str(parsed.get("hostname", "")).is_empty() and _public_address.is_empty():
 		_public_address = "wss://%s" % parsed["hostname"]
 		print("Adresse publique : %s" % _public_address)
