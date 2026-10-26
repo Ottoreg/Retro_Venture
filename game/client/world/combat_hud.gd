@@ -840,7 +840,9 @@ func _result_row(entry: Dictionary, result: Dictionary, odd: bool) -> Control:
 	name_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	name_label.clip_text = true
 	cells.append(name_label)
-	var levels: Array = result.get("niveaux", []) if is_player else []
+	# Les gains des autres joueurs du combat (combat de groupe) : `gains` de la fin du combat.
+	var gains: Dictionary = result if is_player else result.get("gains", {}).get(entry["id"], {})
+	var levels: Array = gains.get("niveaux", [])
 	var level_label := _label(15, UiTheme.GOLD if not levels.is_empty() else text_color)
 	level_label.text = "%d » %d" % [int(entry["niveau"]), int(levels[-1])] if not levels.is_empty() else str(int(entry["niveau"]))
 	if not levels.is_empty():
@@ -853,10 +855,10 @@ func _result_row(entry: Dictionary, result: Dictionary, odd: bool) -> Control:
 	var loot := HFlowContainer.new()
 	loot.add_theme_constant_override("h_separation", 3)
 	loot.add_theme_constant_override("v_separation", 3)
-	if is_player:
-		xp_label.text = "+%d" % int(result.get("xp", 0)) if int(result.get("xp", 0)) > 0 else "0"
-		coins_label.text = "+%d" % int(result.get("ecus", 0)) if int(result.get("ecus", 0)) > 0 else "0"
-		for drop: Dictionary in result.get("butin", []):
+	if not gains.is_empty():
+		xp_label.text = "+%d" % int(gains.get("xp", 0)) if int(gains.get("xp", 0)) > 0 else "0"
+		coins_label.text = "+%d" % int(gains.get("ecus", 0)) if int(gains.get("ecus", 0)) > 0 else "0"
+		for drop: Dictionary in gains.get("butin", []):
 			loot.add_child(_loot_slot(drop, 34))
 	cells.append(xp_label)
 	cells.append(coins_label)
@@ -1031,6 +1033,7 @@ func _refresh_exploration() -> void:
 	_items_box.visible = true
 	_orbs.visible = false  # Les états élémentaires ne durent qu'un combat.
 	_show_summary(sheet)
+	_refresh_party()
 
 
 ## En combat : met à jour la barre à partir de ce qu'affiche la carte.
@@ -1464,8 +1467,8 @@ func _refresh_party() -> void:
 	_party_box.visible = not members.is_empty()
 	var lines: PackedStringArray = []
 	for member: Dictionary in members:
-		lines.append("%s%s, niv. %d%s" % ["★ " if member["id"] == map_view.world.party["chef"] else "", member["nom"],
-			member["niveau"], " (déconnecté)" if member.get("absent", false) else ""])
+		lines.append("%s, niv. %d%s%s" % [member["nom"], member["niveau"],
+			" (chef)" if member["id"] == map_view.world.party["chef"] else "", " (déconnecté)" if member.get("absent", false) else ""])
 	_party_lines.text = "\n".join(lines)
 
 

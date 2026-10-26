@@ -899,11 +899,9 @@ func _party_invite(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
 	var target: PlayerState = players.get(command.get("joueur", ""))
 	if target == null or target == p or target.away:
 		return _refused(command, Protocol.REASON_UNKNOWN_ENTITY)
-	if not p.party_leader.is_empty() and p.party_leader != p.id:
-		return _refused(command, Protocol.REASON_NOT_PARTY_LEADER)
 	if not target.party_leader.is_empty():
 		return _refused(command, Protocol.REASON_ALREADY_IN_PARTY)
-	if parties.get(p.id, []).size() >= PARTY_MAX:
+	if parties.get(p.party_leader, []).size() >= PARTY_MAX:
 		return _refused(command, Protocol.REASON_PARTY_FULL)
 	target.invitations[p.id] = true
 	var events: Array[Dictionary] = [{"type": Protocol.EVT_PARTY_INVITE, "chef": p.id, "nom": p.character.display_name,
@@ -916,17 +914,17 @@ func _party_answer(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
 	if typeof(leader_id) != TYPE_STRING or not p.invitations.has(leader_id):
 		return _refused(command, Protocol.REASON_NO_INVITATION)
 	p.invitations.erase(leader_id)
-	var leader: PlayerState = players.get(leader_id)
-	if leader == null:
+	var inviter: PlayerState = players.get(leader_id)
+	if inviter == null:
 		return _refused(command, Protocol.REASON_UNKNOWN_ENTITY)
+	# Tout membre invite dans son groupe : le chef est celui de qui a invité (lui-même s'il est seul).
+	var leader: PlayerState = players.get(inviter.party_leader, inviter)
 	if not command.get("accepte", false):
 		var declined: Array[Dictionary] = [{"type": Protocol.EVT_PARTY_DECLINED, "nom": p.character.display_name,
-			Protocol.FIELD_FOR: leader.id}]
+			Protocol.FIELD_FOR: inviter.id}]
 		return declined
 	if not p.party_leader.is_empty():
 		return _refused(command, Protocol.REASON_ALREADY_IN_PARTY)
-	if not leader.party_leader.is_empty() and leader.party_leader != leader.id:
-		return _refused(command, Protocol.REASON_NOT_PARTY_LEADER)  # Il a rejoint un autre groupe entre-temps.
 	if parties.get(leader.id, []).size() >= PARTY_MAX:
 		return _refused(command, Protocol.REASON_PARTY_FULL)
 	if not parties.has(leader.id):
@@ -1057,10 +1055,12 @@ func _end_combat(p: PlayerState, events: Array[Dictionary]) -> void:
 		prospections[member.id] = fighter.prospection if fighter != null else Character.BASE_PROSPECTION
 		levels += member.character.level
 	var drops: Dictionary = Loot.roll(monsters, prospections, combat.rng, loot_bonus) if won else {}
+	var ends: Array[Dictionary] = []
 	for i in team.size():
 		var member := team[i]
 		var block: Array[Dictionary] = []
 		var own: Dictionary = ended.duplicate(true)
+		ends.append(own)
 		block.append(own)
 		var fighter := combat.get_fighter(member.id)
 		var moved: Array[Dictionary] = []
@@ -1098,6 +1098,14 @@ func _end_combat(p: PlayerState, events: Array[Dictionary]) -> void:
 		member.combat_loot_bonus = 0.0
 		if member.away:
 			_departed.append(member.id)
+	# Gains de chacun, pour le tableau de fin de tous (`gains` : id → { xp, ecus, butin, niveaux }).
+	if team.size() > 1:
+		var gains := {}
+		for own in ends:
+			gains[own[Protocol.FIELD_FOR]] = {"xp": own.get("xp", 0), "ecus": own.get("ecus", 0),
+				"butin": own.get("butin", []), "niveaux": own.get("niveaux", [])}
+		for own in ends:
+			own["gains"] = gains.duplicate(true)
 	# Les joueurs du combat réapparaissent pour les autres joueurs de la carte, et ses épées disparaissent.
 	if combat_instance.player_ids().size() > 1:
 		for member in team:

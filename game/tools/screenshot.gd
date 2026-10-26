@@ -122,7 +122,6 @@ func _process(_delta: float) -> bool:
 			world.clock += int(_action.trim_prefix("elite")) * World.ELITE_RANK_SECONDS + 1.0
 			view.refresh_state()
 			var group := world.group(world.elite_location("loup_alpha")["groupe"])
-			view._set_hovered(group["case"])
 			Input.warp_mouse(view.get_global_transform_with_canvas() * IsoGrid.cell_to_screen(group["case"]))
 		elif _action == "butin" or _action == "defaite":
 			# Écran de fin de combat d'exemple : victoire avec butin, ou défaite.
@@ -240,7 +239,6 @@ func _process(_delta: float) -> bool:
 			view.refresh_state()
 			view._load_exploration_actors()
 			view.party_changed.emit()
-			view._set_hovered(group["case"])
 		elif _action == "assis":
 			view.server.character.hp_lost = 30
 			view.refresh_state()

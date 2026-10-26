@@ -81,10 +81,10 @@ const CMD_END_TURN := "fin_tour"
 ## Exploration : rejoindre, pendant son placement, le combat d'un membre de son groupe sur la même
 ## carte (les épées du combat). { type, entite: String, groupe: String (id du groupe de monstres combattu) }
 const CMD_JOIN_COMBAT := "rejoindre_combat"
-## Inviter un autre joueur connecté dans son groupe (le chef seulement, ou sans groupe : on en devient
-## le chef). { type, entite: String, joueur: String (id) }
+## Inviter un autre joueur connecté dans son groupe (tout membre ; sans groupe, on en devient le chef). { type, entite: String, joueur: String (id) }
 const CMD_PARTY_INVITE := "inviter_groupe"
-## Répondre à une invitation. { type, entite: String, chef: String (id de qui a invité), accepte: bool }
+## Répondre à une invitation. { type, entite: String, chef: String (id de qui a invité, pas forcément
+## le chef), accepte: bool }
 const CMD_PARTY_ANSWER := "repondre_invitation"
 ## Quitter son groupe (le suivant devient chef ; un groupe de un se dissout). { type, entite: String }
 const CMD_PARTY_LEAVE := "quitter_groupe"
@@ -241,7 +241,8 @@ const EVT_INVENTORY := "inventaire"
 ## { type, vainqueur: int (équipe, -1 si aucune), xp: int, tours: int (durée en tours),
 ## combattants: Array[{ id, nom, type, niveau, equipe, vivant }] (pour l'écran de fin) } ; après le passage du monde, aussi
 ## `butin`: Array[{ objet, nom, rarete, quantite }], `ecus`: int, `niveaux`: Array[int],
-## `surcharge`: bool (le sac déborde : faire de la place avant le prochain combat) ; après une
+## `surcharge`: bool (le sac déborde : faire de la place avant le prochain combat) ; à plusieurs,
+## `gains`: { id du joueur: { xp, ecus, butin, niveaux } } (le tableau de fin de chacun) ; après une
 ## défaite, `reveil`: { passage: String (id de la pierre, "" sans point de résurrection), nom: String
 ## (nom de la pierre, ou de la carte), carte: String } (où le personnage se réveille).
 const EVT_COMBAT_ENDED := "combat_fin"
@@ -258,7 +259,7 @@ const EVT_GROUP_ENGAGED := "groupe_engage"
 ## Combat fini sur la carte : ses épées disparaissent pour les autres joueurs (jamais en solo).
 ## { type, carte: String, groupe: String (id du groupe combattu) }
 const EVT_FIGHT_OVER := "combat_termine"
-## Invitation dans un groupe de joueurs. { type, chef: String (id), nom: String }
+## Invitation dans un groupe de joueurs. { type, chef: String (id de qui invite), nom: String }
 const EVT_PARTY_INVITE := "invitation_groupe"
 ## Invitation refusée par le joueur `nom`. { type, nom: String }
 const EVT_PARTY_DECLINED := "invitation_refusee"
@@ -406,7 +407,6 @@ const REASON_NOT_IN_PARTY := "pas_dans_le_groupe"
 ## Groupes de joueurs.
 const REASON_PARTY_FULL := "groupe_complet"
 const REASON_ALREADY_IN_PARTY := "deja_en_groupe"
-const REASON_NOT_PARTY_LEADER := "pas_chef_du_groupe"
 const REASON_NO_INVITATION := "pas_d_invitation"
 const REASON_NOT_YOUR_TURN := "pas_votre_tour"
 const REASON_OCCUPIED := "case_occupee"

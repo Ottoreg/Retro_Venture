@@ -160,7 +160,6 @@ var _party_refusals := {
 	Protocol.REASON_NOT_IN_PARTY: "Ce combat n'est pas celui de votre groupe.",
 	Protocol.REASON_PARTY_FULL: "Le groupe est complet (8 joueurs).",
 	Protocol.REASON_ALREADY_IN_PARTY: "Ce joueur est déjà dans un groupe.",
-	Protocol.REASON_NOT_PARTY_LEADER: "Seul le chef du groupe peut inviter.",
 	Protocol.REASON_NO_INVITATION: "Cette invitation n'est plus valable.",
 	Protocol.REASON_UNKNOWN_ENTITY: "Ce joueur ou ce combat n'est plus là.",
 	Protocol.REASON_INVENTORY_OVERLOADED: CombatHud.OVERLOAD_TEXT,
@@ -1207,6 +1206,9 @@ func _apply(event: Dictionary) -> float:
 		_walk_speed = walk_speed(path.size())
 		combat_state_changed.emit()
 		return -1.0
+	if type in [Protocol.EVT_PARTY, Protocol.EVT_PARTY_INVITE, Protocol.EVT_PARTY_DECLINED]:
+		_apply_world_change(event)  # Réponse à sa propre commande (invitation acceptée…).
+		return 0.0
 	if type == Protocol.EVT_DIALOGUE:
 		_open_dialogue(event)
 		return 0.0
@@ -1723,9 +1725,6 @@ func _draw() -> void:
 	if mode == Mode.EXPLORATION:
 		for npc in map.npcs:
 			drawables.append([IsoGrid.depth(Vector2(npc["case"])) + 0.01, "pnj", npc])
-		if world.map == _map:
-			for fight: Dictionary in world.fights():
-				drawables.append([IsoGrid.depth(Vector2(fight["case"])) + 0.01, "epees", fight])
 	for decor: Dictionary in map.decors:
 		# Un bâtiment passe derrière ce qui se tient devant ses faces visibles.
 		var footprint: Array = Art.manifest()["images"].get(decor["image"], {}).get("emprise", [1, 1])
@@ -1736,8 +1735,6 @@ func _draw() -> void:
 			_draw_actor(drawable[2])
 		elif drawable[1] == "pnj":
 			_draw_npc(drawable[2])
-		elif drawable[1] == "epees":
-			_draw_fight_swords(drawable[2])
 		elif drawable[1] == "decor":
 			Art.draw(self, drawable[2]["image"], IsoGrid.cell_to_screen(drawable[2]["case"]))
 		else:
@@ -1745,6 +1742,9 @@ func _draw() -> void:
 	if mode == Mode.EXPLORATION:
 		_draw_exit_arrows(map)
 		_draw_door_marks(map)
+		if world.map == _map:
+			for fight: Dictionary in world.fights():
+				_draw_fight_swords(fight)  # Par-dessus le décor : jamais cachées derrière un arbre.
 	_draw_spell_preview(90.0)
 	_draw_floating_texts()
 
@@ -2111,13 +2111,15 @@ func _draw_fight_swords(fight: Dictionary) -> void:
 	var base := IsoGrid.cell_to_screen(fight["case"])
 	var color := Color(1.0, 0.82, 0.3) if fight["placement"] else Color(0.75, 0.75, 0.8)
 	draw_colored_polygon(_ellipse(base, 16.0, 7.0), Color(0, 0, 0, 0.25))
-	for side in [-1.0, 1.0]:
-		var tip := base + Vector2(14.0 * side, -34.0)
-		var hilt := base + Vector2(-9.0 * side, -6.0)
-		draw_line(hilt, tip, color, 3.0, true)
-		var across := (tip - hilt).orthogonal().normalized() * 5.0
-		var guard := hilt.lerp(tip, 0.18)
-		draw_line(guard - across, guard + across, Color(0.45, 0.3, 0.15), 3.0, true)
+	for outline in [true, false]:  # Contour sombre d'abord : lisibles sur l'herbe comme sur les arbres.
+		for side in [-1.0, 1.0]:
+			var tip := base + Vector2(20.0 * side, -48.0)
+			var hilt := base + Vector2(-12.0 * side, -8.0)
+			draw_line(hilt, tip, Color(0.1, 0.07, 0.04) if outline else color, 7.0 if outline else 4.0, true)
+			var across := (tip - hilt).orthogonal().normalized() * 7.0
+			var guard := hilt.lerp(tip, 0.18)
+			draw_line(guard - across, guard + across, Color(0.1, 0.07, 0.04) if outline else Color(0.55, 0.36, 0.18),
+				7.0 if outline else 4.0, true)
 
 
 func _draw_npc(npc: Dictionary) -> void:

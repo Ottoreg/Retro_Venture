@@ -200,8 +200,11 @@ func test_combat_de_groupe_vu_des_deux_clients() -> void:
 	sam_view.party_invited.connect(func(event: Dictionary) -> void: invited.append(event))
 	sam_view.advance(0.1)
 	assert_eq(invited.size(), 1, "Sam reçoit l'invitation")
+	var party_shown := []
+	sam_view.party_changed.connect(func() -> void: party_shown.append(true))
 	sam_view.send_command({"type": Protocol.CMD_PARTY_ANSWER, "entite": "j:sam", "chef": world.player_id, "accepte": true})
 	_run_until_idle(sam_view)
+	assert_false(party_shown.is_empty(), "le groupe s'affiche aussi chez Sam, qui n'est pas le chef")
 	frodon_view.advance(0.1)
 	assert_true(frodon_view.world.is_party_member("j:sam"), "Frodon voit Sam dans son groupe")
 	# Frodon attaque : Sam voit les épées, et Frodon disparaît.

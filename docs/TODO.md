@@ -639,7 +639,9 @@ Plan validé par l'auteur le 26/10/2026 : GDD § 16.5, jalons M0 (préparer le n
   retour dans le combat), XP (bonus de groupe et part de niveaux), brumes et butin partagés,
   objectifs « vaincre » pour chacun — 26/10/2026 (GDD § 16.5, « Où en est M2 »)
 - [ ] M2 : essai à trois joueurs chez l'auteur (critère de sortie : chacun reçoit sa part, un
-  joueur déconnecté revient dans le combat)
+  joueur déconnecté revient dans le combat). Premier essai le 26/10/2026, retours corrigés : butin
+  des autres dans le récapitulatif, invitation par tout membre, épées au-dessus des arbres, groupe
+  affiché chez les non-chefs, marque du chef ; reste à vérifier la déconnexion
 - [ ] M2 : inventaire consultable mais non modifiable en combat ; verrou du combat au choix du chef ;
   suivi du chef ; marqueurs de quête partagés
 - [x] M1 : staging mis à jour par la CI (image `ghcr.io/ottoreg/retro-venture-serveur:staging`,

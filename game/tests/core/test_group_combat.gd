@@ -76,13 +76,15 @@ func test_invitation_et_chef_du_groupe() -> void:
 	assert_eq(joined[0]["membres"].size(), 2)
 	assert_eq(_world.recipients(joined[1], "p2"), ["p2"] as Array[String])
 	assert_eq(_world.recipients(joined[0], "p2"), ["p1"] as Array[String], "adressé au chef par « pour »")
-	assert_eq(_as("p2", Protocol.CMD_PARTY_INVITE, {"joueur": "p3"})[0]["raison"], Protocol.REASON_NOT_PARTY_LEADER)
 	_as("p1", Protocol.CMD_PARTY_INVITE, {"joueur": "p3"})
 	var declined := _as("p3", Protocol.CMD_PARTY_ANSWER, {"chef": "p1", "accepte": false})
 	assert_eq(declined[0]["type"], Protocol.EVT_PARTY_DECLINED)
 	assert_eq(_world.recipients(declined[0], "p3"), ["p1"] as Array[String])
-	_party(["p3"])
+	# Tout membre invite, dans le groupe de son chef.
+	assert_eq(_as("p2", Protocol.CMD_PARTY_INVITE, {"joueur": "p3"})[0]["type"], Protocol.EVT_PARTY_INVITE)
+	assert_eq(_as("p3", Protocol.CMD_PARTY_ANSWER, {"chef": "p2", "accepte": true}).size(), 3, "les trois membres le savent")
 	assert_eq(_world.parties["p1"], ["p1", "p2", "p3"] as Array[String])
+	assert_eq(_world.player("p3").party_leader, "p1")
 	# Le chef part : le suivant prend sa place.
 	var left := _as("p1", Protocol.CMD_PARTY_LEAVE)
 	assert_eq(left[0]["membres"], [], "Frodon n'a plus de groupe")
@@ -125,6 +127,8 @@ func test_trois_joueurs_finissent_un_combat_et_ont_chacun_leur_part() -> void:
 	var ended := _finish(combat)
 	var ends := Fixtures.of_type(ended, Protocol.EVT_COMBAT_ENDED)
 	assert_eq(ends.size(), 3, "une fin de combat par joueur")
+	assert_eq(ends[0]["gains"].size(), 3, "avec les gains de tous, pour le tableau de fin")
+	assert_eq(ends[1]["gains"]["p1"]["butin"], ends[0]["butin"], "le butin de Frodon chez Sam aussi")
 	var dents := 0
 	var coins := 0
 	for end in ends:

@@ -2356,13 +2356,14 @@ travail côté client : remplacer les lectures directes de `world` par la copie 
 #### Où en est M2 (26/10/2026)
 
 - **Groupes de joueurs** (`World.parties`, 8 au plus) : clic sur un autre joueur → « Inviter dans le
-  groupe » (`PartyUi`), invitation à accepter ou refuser ; seul le chef invite ; le chef qui part
+  groupe » (`PartyUi`), invitation à accepter ou refuser ; tout membre peut inviter (le nouveau rejoint le groupe de celui
+  qui l'invite) ; le chef qui part
   laisse sa place au suivant, un groupe d'un seul joueur se dissout. Membres dans la bande droite
-  (`CombatHud`, chef étoilé, « Quitter le groupe »). Commandes `inviter_groupe`,
+  (`CombatHud`, « (chef) » après son nom, « Quitter le groupe »), chez chaque membre. Commandes `inviter_groupe`,
   `repondre_invitation`, `quitter_groupe` ; événements `invitation_groupe`, `invitation_refusee`,
   `groupe_joueurs`, adressés par le champ `pour` (`Protocol.FIELD_FOR`).
 - **Combat rejoint** : un joueur qui engage un groupe disparaît de la carte chez les autres, qui
-  voient à sa place les épées du combat (`groupe_engage` avec `case`, `World.snapshot` → `combats`,
+  voient à sa place les épées du combat, dessinées par-dessus le décor (`groupe_engage` avec `case`, `World.snapshot` → `combats`,
   `ClientState.fights`) : dorées pendant le placement, grises ensuite. Un membre du groupe clique
   dessus pour rejoindre le combat pendant le placement (`rejoindre_combat`, première case de
   placement libre, `combattant_arrive`) ; il disparaît à son tour. Le combat commence quand tous les
@@ -2381,7 +2382,8 @@ travail côté client : remplacer les lectures directes de `world` par la copie 
   régler) × sa part de niveaux (son niveau / somme des niveaux), puis taux et Sagesse ; vaincu, la
   même part. Brumes à parts égales (le reste au premier), puis le passif de race de chacun. Butin par
   `Loot.roll` entre tous (limite par monstre partagée). Objectifs « vaincre » : chaque joueur du
-  combat compte les monstres. Chacun est sauvegardé à la fin.
+  combat compte les monstres. Chacun est sauvegardé à la fin. Le récapitulatif montre les gains de
+  tous : la fin de combat de chacun porte `gains` (XP, brumes, butin, niveaux par joueur).
 - **Copie du client** : les alliés se recréent d'après leur profil (`Fighter.profile`,
   `GameData.create_profile_fighter` : valeurs de départ, sorts, arme, sans l'inventaire). Les
   événements du combat d'un autre joueur arrivent avec l'instantané (`evenements` + `instantane`,
