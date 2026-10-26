@@ -6,9 +6,9 @@ extends RefCounted
 ## ne marche qu'avec un serveur de développement (adresse dans les options, pseudo sans mot de passe).
 
 ## Ex. « https://abcdefgh.supabase.co ».
-const SUPABASE_URL := ""
+const SUPABASE_URL := "https://gvwgmtvlrlnaefvwsuuu.supabase.co/rest/v1/"
 ## Ex. « sb_publishable_… ».
-const PUBLISHABLE_KEY := ""
+const PUBLISHABLE_KEY := "sb_publishable_tzX0sWfrdjk8CYpoJKo3YQ_Yh1QW-3E"
 
 
 static func has_accounts() -> bool:
