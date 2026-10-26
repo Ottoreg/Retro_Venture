@@ -1,7 +1,8 @@
 extends SceneTree
 ## Lanceur de tests minimal, sans dépendance externe.
 ##   godot --headless --path game -s res://tests/run_tests.gd
-## Exécute toutes les méthodes `test_*` des fichiers `tests/**/test_*.gd`.
+## Exécute toutes les méthodes `test_*` des fichiers `tests/**/test_*.gd` (seulement ceux dont le
+## chemin contient `RV_TESTS`, si cette variable d'environnement est donnée : `RV_TESTS=multi`).
 ## Code de sortie : 0 si tout passe, 1 sinon.
 ##
 ## Limite : une erreur d'exécution GDScript interrompt le test sans le marquer en échec ;
@@ -27,7 +28,10 @@ func _run_all() -> void:
 	var failed := 0
 	# Toutes les commandes et tous les événements des tests doivent survivre au JSON (réseau).
 	Protocol.verify_json = true
+	var only := OS.get_environment("RV_TESTS")
 	for path in _find_test_files(TEST_ROOT):
+		if not only.is_empty() and not only in path:
+			continue
 		var script: GDScript = load(path)
 		if script == null:
 			printerr("ÉCHEC  %s : impossible de charger le script" % path)

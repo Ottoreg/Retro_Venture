@@ -119,9 +119,13 @@ func _create_world() -> World:
 func _process(_delta: float) -> void:
 	if _map_view.connection != null and not _map_view.connection.is_open() and not _lost:
 		_lost = true
-		var message := (_map_view.connection as RemoteConnection).error_message if _map_view.connection is RemoteConnection else ""
+		var remote := _map_view.connection as RemoteConnection
+		var message := remote.error_message if remote != null else ""
 		Session.online_connection = null
-		Session.online_error = message if not message.is_empty() else "Connexion au serveur perdue."
+		# Coupure (réseau, serveur relancé) : l'écran de connexion la rouvre tout seul ; un refus du
+		# serveur (version, compte connecté ailleurs…) s'affiche.
+		Session.online_resume = remote != null and not remote.refused and not Session.online_login.is_empty()
+		Session.online_error = "" if Session.online_resume else message if not message.is_empty() else "Connexion au serveur perdue."
 		get_tree().change_scene_to_file(OnlineScreen.SCENE)
 		return
 	if _hover_bubble != null and _hover_bubble.visible:

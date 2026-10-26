@@ -124,9 +124,29 @@ func test_ecran_de_connexion_serveur_de_developpement() -> void:
 		connection.poll()
 		OS.delay_msec(2)
 	assert_eq(connection.status, RemoteConnection.Status.NEEDS_CHARACTER, "compte neuf : création du personnage")
+	assert_eq(Session.online_login, {"jeton": "dev:Frodon"}, "connexion retenue pour une reprise")
 	connection.close()
 	Session.online_connection = null
 	screen.queue_free()
+	# Connexion coupée en jeu : l'écran la rouvre tout seul, sans redemander le pseudo.
+	Session.online_resume = true
+	OnlineScreen.force_dev = true
+	var again: OnlineScreen = load(OnlineScreen.SCENE).instantiate()
+	(Engine.get_main_loop() as SceneTree).root.add_child(again)
+	OnlineScreen.force_dev = false
+	assert_false(Session.online_resume, "reprise lancée une seule fois")
+	connection = Session.online_connection
+	assert_true(connection != null, "connexion rouverte sans rien demander")
+	start = Time.get_ticks_msec()
+	while connection != null and connection.status != RemoteConnection.Status.NEEDS_CHARACTER and Time.get_ticks_msec() - start < 5000:
+		host.poll()
+		connection.poll()
+		OS.delay_msec(2)
+	assert_eq(connection.status, RemoteConnection.Status.NEEDS_CHARACTER, "même compte retrouvé")
+	connection.close()
+	Session.online_connection = null
+	Session.online_login = {}
+	again.queue_free()
 
 
 func test_adresse_supabase_sans_chemin_de_l_api() -> void:

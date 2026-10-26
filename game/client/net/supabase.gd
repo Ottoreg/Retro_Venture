@@ -56,11 +56,24 @@ func sign_up(email: String, password: String) -> Dictionary:
 	return {"erreur": _auth_error(answer)}
 
 
-## Connexion ; renvoie { jeton } ou { erreur }.
+## Connexion ; renvoie { jeton, renouvellement } ou { erreur }. Le jeton ne vaut qu'une heure ; le
+## jeton de renouvellement en donne un nouveau sans le mot de passe (`refresh`).
 func sign_in(email: String, password: String) -> Dictionary:
-	var answer := await request(HTTPClient.METHOD_POST, "/auth/v1/token?grant_type=password", {"email": email, "password": password})
-	if answer["code"] == 200 and typeof(answer["data"]) == TYPE_DICTIONARY and answer["data"].has("access_token"):
-		return {"jeton": str(answer["data"]["access_token"])}
+	return _session_of(await request(HTTPClient.METHOD_POST, "/auth/v1/token?grant_type=password",
+		{"email": email, "password": password}))
+
+
+## Nouveau jeton d'après le jeton de renouvellement d'une connexion précédente (qui ne sert qu'une
+## fois : la réponse en donne un autre) ; renvoie { jeton, renouvellement } ou { erreur }.
+func refresh(refresh_token: String) -> Dictionary:
+	return _session_of(await request(HTTPClient.METHOD_POST, "/auth/v1/token?grant_type=refresh_token",
+		{"refresh_token": refresh_token}))
+
+
+static func _session_of(answer: Dictionary) -> Dictionary:
+	var data: Variant = answer["data"]
+	if answer["code"] == 200 and typeof(data) == TYPE_DICTIONARY and data.has("access_token"):
+		return {"jeton": str(data["access_token"]), "renouvellement": str(data.get("refresh_token", ""))}
 	return {"erreur": _auth_error(answer)}
 
 
@@ -90,6 +103,8 @@ static func _auth_error(answer: Dictionary) -> String:
 				return "Un compte existe déjà avec cette adresse."
 			"weak_password":
 				return "Mot de passe trop faible (6 caractères au moins)."
+			"refresh_token_not_found", "refresh_token_already_used", "session_not_found", "session_expired":
+				return "Session expirée : reconnectez-vous."
 			"over_email_send_rate_limit", "over_request_rate_limit":
 				return "Trop de tentatives : réessayez dans quelques minutes."
 		var text := str(data.get("msg", data.get("error_description", data.get("message", ""))))

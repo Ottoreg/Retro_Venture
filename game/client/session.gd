@@ -22,6 +22,12 @@ static var quest_pin: Dictionary = {}
 static var online_connection: RemoteConnection = null
 ## Message à montrer sur l'écran de connexion (connexion perdue ou refusée), ou "".
 static var online_error := ""
+## Dernière connexion réussie, pour revenir sans retaper le mot de passe après une coupure :
+## { jeton, renouvellement } (Supabase : le jeton ne vaut qu'une heure, le renouvellement en redonne
+## un), ou { jeton } seul sur un serveur de développement ; {} sans connexion.
+static var online_login: Dictionary = {}
+## Vrai quand la connexion vient d'être coupée : l'écran de connexion la rouvre tout seul.
+static var online_resume := false
 
 ## Questionnaire des testeurs (menu principal et menu pause : « Donner son avis »).
 const FEEDBACK_URL := "https://docs.google.com/forms/d/e/1FAIpQLSdwoJr5-OnRuVcVNbvRGnjtO4MqxJTUe7SIIbgfeKJlRuYcxQ/viewform"

@@ -39,6 +39,9 @@ func _ready() -> void:
 	if Session.online_connection != null:
 		_busy = true  # Retour de l'écran de création : on attend le personnage.
 		_show("Création du personnage…")
+	elif Session.online_resume:
+		Session.online_resume = false
+		_resume()
 
 
 func _process(delta: float) -> void:
@@ -74,6 +77,7 @@ func _on_connect_pressed() -> void:
 		if answer.has("erreur"):
 			_fail(answer["erreur"])
 			return
+		Session.online_login = answer
 		token = answer["jeton"]
 	else:
 		var error := Character.name_error(_pseudo.text)
@@ -81,6 +85,34 @@ func _on_connect_pressed() -> void:
 			_fail(error)
 			return
 		token = AccountCheck.DEV_PREFIX + _pseudo.text.strip_edges()
+		Session.online_login = {"jeton": token}
+	await _open(token)
+
+
+## Connexion coupée en jeu : on la rouvre sans le mot de passe, avec un jeton renouvelé (celui de la
+## connexion ne vaut qu'une heure) ; si le renouvellement est refusé, il faut se reconnecter.
+func _resume() -> void:
+	_busy = true
+	_set_buttons(false)
+	_show("Connexion perdue : reconnexion…")
+	var login := Session.online_login
+	var token := str(login.get("jeton", ""))
+	if _supabase != null and not str(login.get("renouvellement", "")).is_empty():
+		var answer: Dictionary = await _supabase.refresh(login["renouvellement"])
+		if answer.has("erreur"):
+			Session.online_login = {}
+			_fail(answer["erreur"])
+			return
+		Session.online_login = answer
+		token = answer["jeton"]
+	if token.is_empty():
+		_fail("Connexion au serveur perdue.")
+		return
+	await _open(token)
+
+
+## Ouvre la connexion au serveur avec ce jeton ; `_process` attend le personnage.
+func _open(token: String) -> void:
 	var address := await _server_address()
 	if address.is_empty():
 		_fail("Aucun serveur de test en ligne pour l'instant : réessayez plus tard.")

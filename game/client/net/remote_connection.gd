@@ -21,6 +21,9 @@ enum Status {
 var status := Status.CONNECTING
 ## Raison de la fermeture, à montrer au joueur ("" tant que tout va bien).
 var error_message := ""
+## Vrai si le serveur a fermé lui-même la connexion (`Protocol.MSG_ERROR` : version, jeton refusé,
+## compte connecté ailleurs…) : on ne la rouvre pas toute seule.
+var refused := false
 ## Compte du joueur, donné par le serveur.
 var account := ""
 var _socket := WebSocketPeer.new()
@@ -103,6 +106,7 @@ func _receive(text: String) -> void:
 	var message := Protocol.decode(text, header)
 	if message.is_empty():
 		if header.get("v") != null and int(header["v"]) != Protocol.VERSION:
+			refused = true
 			_close("Le serveur n'a pas la même version du jeu : mettez le jeu à jour (rechargez la page).")
 		return
 	match message["type"]:
@@ -126,6 +130,7 @@ func _receive(text: String) -> void:
 			if stale:
 				_write({"type": Protocol.MSG_SNAPSHOT_REQUEST})
 		Protocol.MSG_ERROR:
+			refused = true
 			_close(str(message.get("message", "Le serveur a refusé la connexion.")))
 
 
