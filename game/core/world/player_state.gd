@@ -49,6 +49,9 @@ var invitations: Dictionary = {}
 ## Amis et joueurs ignorés (jalon M3), par pseudo, gardés dans sa sauvegarde (`World.player_save`).
 var friends: Array[String] = []
 var ignored: Array[String] = []
+## Race et Voie de chaque ami, la dernière fois qu'on l'a vu connecté (pseudo en minuscules →
+## { race, voie }) : son portrait dans la liste, même hors ligne.
+var friend_looks: Dictionary = {}
 ## Signalements faits : pseudo signalé (en minuscules) → heure du monde (un par heure et par joueur).
 var reports: Dictionary = {}
 ## Quêtes : propositions, avancement, récompenses (l'état est dans `character.quests`).

@@ -83,7 +83,7 @@ func _ready() -> void:
 	_combat_hud.message_log.author_clicked.connect(party_ui.on_author_clicked)
 	party_ui.whisper_requested.connect(_combat_hud.message_log.whisper_to)
 	friends_window.setup(_map_view)
-	friends_window.whisper_requested.connect(_combat_hud.message_log.whisper_to)
+	friends_window.player_menu_requested.connect(party_ui.on_author_clicked)
 	_combat_hud.friends_pressed.connect(friends_window.toggle)
 	quests_window.setup(_map_view)
 	quest_tracker.setup(_map_view, _combat_hud)

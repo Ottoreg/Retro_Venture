@@ -58,6 +58,11 @@ func _on_player_clicked(player_id: String, player_name: String) -> void:
 	_menu.add_item("Ne plus ignorer %s" % player_name if world.has_relation("ignores", player_name)
 		else "Ignorer %s" % player_name, 4)
 	_menu.add_item("Signaler %s…" % player_name, 5)
+	# Échange : seulement sur la même carte ; il arrive avec le commerce (jalon M4).
+	if world.other_players().any(func(other: Dictionary) -> bool: return other["nom"] == player_name):
+		_menu.add_item("Échanger avec %s (bientôt)" % player_name, 6)
+		_menu.set_item_disabled(_menu.get_item_index(6), true)
+		_menu.set_item_tooltip(_menu.get_item_index(6), "L'échange entre joueurs arrive avec le commerce (jalon M4).")
 	_menu.position = Vector2i(get_viewport().get_mouse_position())
 	_menu.popup()
 

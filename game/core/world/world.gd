@@ -431,7 +431,7 @@ func player_save(id: String) -> Dictionary:
 		return {}
 	var cell := p.cell
 	return {"personnage": p.character.to_dict(), "carte": p.map.id, "position": [cell.x, cell.y],
-		"amis": p.friends.duplicate(), "ignores": p.ignored.duplicate()}
+		"amis": p.friends.duplicate(), "ignores": p.ignored.duplicate(), "apparences": p.friend_looks.duplicate(true)}
 
 
 ## Joueurs à qui envoyer un événement produit par la commande de `sender_id` (ou par `update` si
@@ -1061,17 +1061,23 @@ func restore_relations(id: String, saved: Dictionary) -> void:
 	if p != null:
 		p.friends = Relations.read_list(saved.get("amis"))
 		p.ignored = Relations.read_list(saved.get("ignores"))
+		p.friend_looks = Relations.read_looks(saved.get("apparences"), p.friends)
 
 
 ## Amis et ignorés du joueur, tels qu'il les voit : le statut d'un ami (en ligne, carte, combat)
-## seulement s'il nous compte aussi parmi les siens.
+## seulement s'il nous compte aussi parmi les siens ; sa race et sa Voie (portrait) dès qu'on l'a vu
+## connecté une fois.
 func relations_view(p: PlayerState) -> Dictionary:
 	var friends: Array = []
 	for friend_name in p.friends:
 		var friend := player_named(friend_name)
+		if friend != null:
+			p.friend_looks[friend_name.to_lower()] = {"race": friend.character.race_id, "voie": friend.character.voie_id}
 		var shown := friend != null and not friend.away and Relations.has(friend.friends, p.character.display_name)
+		var look: Dictionary = p.friend_looks.get(friend_name.to_lower(), {})
 		friends.append({"nom": friend.character.display_name if friend != null else friend_name, "en_ligne": shown,
-			"carte": friend.map.id if shown else "", "combat": shown and friend.in_combat()})
+			"carte": friend.map.id if shown else "", "combat": shown and friend.in_combat(),
+			"race": str(look.get("race", "")), "voie": str(look.get("voie", ""))})
 	return {"amis": friends, "ignores": p.ignored.duplicate()}
 
 
@@ -1119,6 +1125,8 @@ func _relations_command(p: PlayerState, command: Dictionary) -> Array[Dictionary
 			var list: Array[String] = p.friends if action == Relations.REMOVE else p.ignored
 			if Relations.has(list, other_name):
 				list.remove_at(Relations.find(list, other_name))
+	if not Relations.has(p.friends, other_name):
+		p.friend_looks.erase(other_name.to_lower())
 	var own := {"type": Protocol.EVT_RELATIONS, Protocol.FIELD_FOR: p.id, "annonce": ""}
 	own.merge(relations_view(p))
 	events.append(own)

@@ -46,6 +46,19 @@ static func has(names: Array[String], player_name: String) -> bool:
 	return find(names, player_name) >= 0
 
 
+## Apparences des amis lues d'une sauvegarde : { pseudo en minuscules : { race, voie } }, pour les
+## amis de la liste seulement.
+static func read_looks(value: Variant, friends: Array[String]) -> Dictionary:
+	var looks := {}
+	if typeof(value) != TYPE_DICTIONARY:
+		return looks
+	for friend_name in friends:
+		var look: Variant = value.get(friend_name.to_lower())
+		if typeof(look) == TYPE_DICTIONARY and typeof(look.get("race")) == TYPE_STRING and typeof(look.get("voie")) == TYPE_STRING:
+			looks[friend_name.to_lower()] = {"race": look["race"], "voie": look["voie"]}
+	return looks
+
+
 ## Liste lue d'une sauvegarde : des pseudos valides, sans doublon, au plus MAX_ENTRIES.
 static func read_list(value: Variant) -> Array[String]:
 	var names: Array[String] = []

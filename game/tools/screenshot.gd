@@ -257,7 +257,9 @@ func _process(_delta: float) -> bool:
 			var here := view.server.position_of(World.PLAYER_ID)
 			view.server.add_player(Character.create("Grizzette", "gobelin", "rodeur"), "j:Grizzette", view.server.map.id, here + Vector2i(2, 1))
 			view.server.player("j:Grizzette").friends.append(view.server.character.display_name)
-			for entry: Array in [[Relations.ADD, "Grizzette"], [Relations.ADD, "Barlomir"], [Relations.IGNORE, "Trolldu"]]:
+			view.server.add_player(Character.create("Lindëa", "elfe", "arcaniste"), "j:Lindëa", view.server.map.id, here + Vector2i(-1, 2))
+			for entry: Array in [[Relations.ADD, "Grizzette"], [Relations.ADD, "Lindëa"], [Relations.ADD, "Barlomir"],
+					[Relations.IGNORE, "Trolldu"]]:
 				view.server.execute({"type": Protocol.CMD_RELATIONS, "entite": World.PLAYER_ID, "action": entry[0], "nom": entry[1]})
 			view.refresh_state()
 			var window: FriendsWindow = _scene.friends_window

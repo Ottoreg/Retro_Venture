@@ -2542,9 +2542,14 @@ la ligne de saisie reste cachée.
   l'historique si l'amitié est réciproque. Un ignoré n'atteint plus rien, sans le savoir : ses
   messages (tous canaux, privé compris : il voit son message partir) et ses invitations de groupe
   sont retenus par le serveur. Client : fenêtre **Amis** (`client/ui/friends_window.gd`, touche F
-  ou bouton « Amis (F) » de la bande droite, en ligne seulement : statut et carte, « Écrire »,
-  « Retirer », ajout par pseudo, ignorés avec « Ne plus ignorer ») ; menu du pseudo (`PartyUi`) :
-  « Ajouter en ami » / « Retirer des amis », « Ignorer » / « Ne plus ignorer », « Signaler… ».
+  ou bouton « Amis (F) » de la bande droite, en ligne seulement) : pour chaque ami un petit
+  **portrait** de sa race et de sa Voie (gardées dans la sauvegarde, `apparences`, dès qu'on l'a vu
+  connecté ; « ? » avant), son statut et sa carte, une croix pour le retirer ; **clic droit sur un
+  pseudo** : le menu du joueur. Ajout par pseudo ; ignorés avec leur croix. Menu du joueur
+  (`PartyUi`, aussi au clic sur un nom dans l'historique ou sur la carte) : message privé, inviter
+  ou suivre, « Ajouter en ami » / « Retirer des amis », « Ignorer » / « Ne plus ignorer »,
+  « Signaler… », et « Échanger » sur la même carte, grisé jusqu'au commerce (M4). Retours de
+  l'auteur du 27/10/2026 (portrait, fenêtre plus large, croix, clic droit).
 - **Lot 4, signalement** : commande `CMD_REPORT` (`signaler` : `nom`, `motif` parmi
   `Relations.REPORT_REASONS` — insultes, triche, spam, pseudo, autre —, `commentaire` de 200
   caractères au plus) pour un joueur connecté ou encore au journal du chat (`Chat.author_id` : on

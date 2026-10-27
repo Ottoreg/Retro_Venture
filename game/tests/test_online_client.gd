@@ -504,6 +504,19 @@ func test_amis_et_signalement_entre_deux_clients() -> void:
 	_run_until_idle(frodon_view)
 	friends.refresh()
 	assert_true(friends.friend_lines()[-1].contains("en ligne"), str(friends.friend_lines()))
+	var row: HBoxContainer = friends._friends.get_child(friends._friends.get_child_count() - 1)
+	var portrait: FriendsWindow.FriendPortrait = row.get_child(0)
+	assert_true(portrait.look.has("rig"), "portrait de sa race et de sa Voie")
+	var asked := []
+	friends.player_menu_requested.connect(func(player_name: String) -> void: asked.append(player_name))
+	var right_click := InputEventMouseButton.new()
+	right_click.button_index = MOUSE_BUTTON_RIGHT
+	right_click.pressed = true
+	(row.get_child(1) as Label).gui_input.emit(right_click)
+	assert_eq(asked, [sam], "clic droit sur le pseudo : son menu")
+	party_ui.on_author_clicked(sam)
+	var trade := party_ui._menu.get_item_index(6)
+	assert_true(trade >= 0 and party_ui._menu.is_item_disabled(trade), "échange proposé sur la même carte, pas encore actif (M4)")
 
 	# Ignorer depuis le menu, puis signaler : la fenêtre du motif, puis l'accusé du serveur.
 	party_ui._on_player_clicked("j:sam", sam)

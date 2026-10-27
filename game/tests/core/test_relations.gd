@@ -62,7 +62,7 @@ func test_ami_a_sens_unique_statut_si_reciproque() -> void:
 
 func test_ami_hors_ligne_et_refus() -> void:
 	var events := _relation("p1", Relations.ADD, "Gandalf")
-	assert_eq(events[0]["amis"], [{"nom": "Gandalf", "en_ligne": false, "carte": "", "combat": false}],
+	assert_eq(events[0]["amis"], [{"nom": "Gandalf", "en_ligne": false, "carte": "", "combat": false, "race": "", "voie": ""}],
 		"un pseudo hors ligne s'ajoute, sans statut")
 	assert_eq(_relation("p1", Relations.ADD, "Frodon")[0]["raison"], Protocol.REASON_INVALID_COMMAND, "pas soi-même")
 	assert_eq(_relation("p1", Relations.ADD, "x")[0]["raison"], Protocol.REASON_INVALID_COMMAND, "pseudo invalide")

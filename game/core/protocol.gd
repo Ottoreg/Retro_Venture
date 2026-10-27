@@ -302,8 +302,9 @@ const EVT_PARTY := "groupe_joueurs"
 ## en privé, aussi `a` (nom du destinataire).
 const EVT_CHAT := "message_chat"
 ## Amis et ignorés, après chaque changement et quand un ami se connecte ou part. { type,
-## amis: Array[{ nom, en_ligne, carte, combat }] (en ligne, carte et combat seulement pour un ami
-## qui nous compte aussi parmi les siens), ignores: Array[String], annonce: String (« X vient de se
+## amis: Array[{ nom, en_ligne, carte, combat, race, voie }] (en ligne, carte et combat seulement
+## pour un ami qui nous compte aussi parmi les siens ; race et Voie "" tant qu'on ne l'a jamais vu
+## connecté), ignores: Array[String], annonce: String (« X vient de se
 ## connecter. », ou "") }.
 const EVT_RELATIONS := "relations"
 ## Signalement enregistré. { type, nom: String }
