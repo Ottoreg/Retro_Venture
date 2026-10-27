@@ -693,8 +693,8 @@ Plan validé par l'auteur le 26/10/2026 : GDD § 16.5, jalons M0 (préparer le n
 - [ ] M3 (découpage validé le 27/10/2026 : GDD § 16.5, « Préparation de M3 ») :
   - [x] Lot 1 (27/10/2026) : chat côté serveur (`parler`, `message_chat`, canaux local, groupe, commerce,
     recrutement, privé ; anti-flood ; journal en mémoire) et critère de sortie testé par WebSocket
-  - [ ] Lot 2 : chat côté client (onglets, ligne de saisie sans conflit de raccourcis, couleurs,
-    préfixes `/w` `/r`…, menu du pseudo)
+  - [x] Lot 2 (27/10/2026) : chat côté client (onglets, ligne de saisie sans conflit de raccourcis,
+    couleurs, préfixes `/w` `/r`…, menu du pseudo)
   - [ ] Lot 3 : amis et ignorés (Supabase), statut en ligne, ignorés filtrés par le serveur
   - [ ] Lot 4 : signalement (motif + derniers messages dans Supabase)
 - [x] Groupe (jusqu'à 8) : invitation, chef, partage d'XP, suivi — M2, 27/10/2026

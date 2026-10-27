@@ -5,8 +5,10 @@ extends PanelContainer
 ## (« Tout » les mêle) ; le bouton « – » (ou la touche H) le replie. Rien ne s'efface entre deux
 ## combats : un séparateur marque le début de chacun.
 ##
-## Prévu pour le chat (GDD § 14.4) : un message a un canal, un auteur facultatif et une heure ; les
-## canaux groupe, équipe et guilde s'ajouteront à `CHANNELS`, avec une ligne de saisie sous le texte.
+## Chat (GDD § 16.5, jalon M3) : en ligne, une ligne de saisie sous le texte envoie la commande
+## `ecrire` sur le canal de l'onglet ouvert, ou sur celui d'un préfixe (`/g`, `/w Pseudo`…). Les
+## messages des joueurs arrivent par `MapView.chat_received` : chaque canal a sa couleur et le nom
+## de l'auteur est cliquable (menu : message privé, invitation…).
 
 const WIDTH := 340.0
 ## Lignes gardées par canal : un long combat ne chasse pas l'historique du commerce.
@@ -14,17 +16,54 @@ const MAX_LINES := 300
 
 const CHANNEL_ALL := "tout"
 const CHANNEL_COMBAT := "combat"
-const CHANNEL_TRADE := "commerce"
-## Canaux dans l'ordre des onglets : nom de l'onglet.
+## Commerce : les achats et ventes chez les marchands et les annonces des joueurs (`Chat.TRADE`),
+## d'une autre couleur, partagent un seul onglet (choix de l'auteur).
+const CHANNEL_TRADE := Chat.TRADE
+## Canaux dans l'ordre des onglets : nom de l'onglet (les canaux du chat viennent de `Chat`).
 const CHANNELS := {
 	CHANNEL_COMBAT: "Combat",
+	Chat.LOCAL: "Local",
+	Chat.PARTY: "Groupe",
 	CHANNEL_TRADE: "Commerce",
+	Chat.RECRUIT: "Recrut.",
+	Chat.PRIVATE: "Privé",
 }
+## Couleur des messages de chaque canal du chat (le reste garde la couleur du texte).
+const CHANNEL_COLORS := {
+	Chat.LOCAL: "#e8e2d0",
+	Chat.PARTY: "#8fd0f0",
+	Chat.TRADE: "#f0c070",
+	Chat.RECRUIT: "#b0e090",
+	Chat.PRIVATE: "#e0a0e8",
+}
+## Canal où écrire quand l'onglet ouvert n'en est pas un du chat (Tout, Combat).
+const DEFAULT_CHANNEL := Chat.LOCAL
+## Préfixe d'un canal tapé au début du message (`/w Pseudo bonjour`), et `/r` : répondre au dernier privé.
+const PREFIXES := {
+	"/l": Chat.LOCAL,
+	"/g": Chat.PARTY,
+	"/c": Chat.TRADE,
+	"/rec": Chat.RECRUIT,
+	"/w": Chat.PRIVATE,
+}
+const REPLY_PREFIX := "/r"
+## Métadonnée d'un nom d'auteur cliquable.
+const AUTHOR_META := "joueur:"
 const SEPARATOR_COLOR := "#c9a04e"
+
+## Nom d'un joueur cliqué dans l'historique (menu du chat).
+signal author_clicked(player_name: String)
+## Message à envoyer : { canal, texte } et `a` (pseudo) en privé.
+signal chat_submitted(command: Dictionary)
 
 var _text: RichTextLabel
 var _fold: Button
+var _input: LineEdit
 var _tabs: Dictionary = {}
+## Nom du joueur, pour reconnaître ses propres messages privés (réglé par `CombatHud`).
+var own_name := ""
+## Dernier joueur à nous avoir écrit en privé (`/r`).
+var _last_whisper := ""
 ## Messages de tous les canaux, du plus ancien au plus récent : { canal, texte, auteur, heure }.
 var _entries: Array[Dictionary] = []
 var _shown := 0
@@ -69,6 +108,143 @@ func add_entry(channel: String, text: String, author := "") -> void:
 		_shown += 1
 
 
+## Message de chat reçu (EVT_CHAT) : rangé dans son canal, à sa couleur, l'auteur cliquable. Le
+## texte d'un joueur est échappé (jamais de BBCode venu d'un autre joueur).
+func add_chat(event: Dictionary) -> void:
+	var channel := str(event["canal"])
+	var author := str(event["auteur"])
+	var color: String = CHANNEL_COLORS.get(channel, "#e8e2d0")
+	var text := "[color=%s]%s[/color]" % [color, escape(str(event["texte"]))]
+	if channel == Chat.PRIVATE:
+		# Privé : qui parle à qui (« à Sam » pour le message qu'on envoie).
+		var to := str(event.get("a", ""))
+		if author == own_name:
+			text = "[color=%s]à %s :[/color] %s" % [color, escape(to), text]
+			author = ""
+		else:
+			_last_whisper = author
+	add_entry(channel, text, author)
+
+
+## Texte d'un joueur sans BBCode : les crochets restent lisibles mais ne sont plus des balises.
+static func escape(text: String) -> String:
+	return text.replace("[", "[lb]")
+
+
+## Refus du serveur (EVT_REFUSED sur `ecrire`) : dit dans l'historique, sur le canal visé.
+func add_chat_refusal(event: Dictionary) -> void:
+	var reason := str(event.get("raison", ""))
+	var text := "Message impossible."
+	if reason == Protocol.REASON_CHAT_FLOOD:
+		text = "Vous écrivez trop vite : attendez %d s." % int(event.get("attente", 0))
+	elif reason == Protocol.REASON_PLAYER_OFFLINE:
+		text = "Ce joueur n'est pas connecté."
+	elif reason == Protocol.REASON_NOT_IN_PARTY:
+		text = "Vous n'êtes dans aucun groupe."
+	add_entry(channel(), "[color=%s]%s[/color]" % [SEPARATOR_COLOR, text])
+
+
+## Canal où part le prochain message (celui de l'onglet, sinon Local).
+func typing_channel() -> String:
+	var channel := channel()
+	return channel if channel in Chat.CHANNELS else DEFAULT_CHANNEL
+
+
+## Ouvre (ou ferme) la ligne de saisie du chat ; vrai si elle est ouverte ensuite.
+func toggle_typing() -> bool:
+	if not _input.visible:
+		return false
+	if _input.has_focus():
+		_input.release_focus()
+		return false
+	if is_folded():
+		toggle_fold()
+	_input.grab_focus()
+	_refresh_placeholder()
+	return true
+
+
+## Vrai quand le joueur écrit (les raccourcis de l'interface se taisent).
+func is_typing() -> bool:
+	return _input.visible and _input.has_focus()
+
+
+## Montre la ligne de saisie (en ligne seulement).
+func set_chat_enabled(enabled: bool) -> void:
+	_input.visible = enabled
+
+
+## Prépare un message privé pour ce joueur.
+func whisper_to(player_name: String) -> void:
+	if not _input.visible:
+		return
+	select_channel(Chat.PRIVATE)
+	_input.text = "/w %s " % player_name
+	if is_folded():
+		toggle_fold()
+	_input.grab_focus()
+	_input.caret_column = _input.text.length()
+
+
+## Commande à envoyer pour ce qui est tapé ({} si rien à envoyer), d'après le canal de l'onglet,
+## les préfixes (`/g`, `/w Pseudo`, `/r`) et le dernier privé reçu.
+static func parse_input(text: String, tab_channel: String, last_whisper := "") -> Dictionary:
+	var rest := text.strip_edges()
+	var channel := tab_channel
+	var target := ""
+	if rest.begins_with("/"):
+		var word := rest.split(" ", true, 1)[0].to_lower()
+		rest = rest.trim_prefix(rest.split(" ", true, 1)[0]).strip_edges()
+		if word == REPLY_PREFIX:
+			if last_whisper.is_empty():
+				return {}
+			channel = Chat.PRIVATE
+			target = last_whisper
+		elif PREFIXES.has(word):
+			channel = PREFIXES[word]
+			if channel == Chat.PRIVATE:
+				var parts := rest.split(" ", true, 1)
+				target = parts[0]
+				rest = parts[1].strip_edges() if parts.size() > 1 else ""
+		else:
+			return {}  # Préfixe inconnu : rien d'envoyé (le joueur corrige).
+	elif channel == Chat.PRIVATE:
+		if last_whisper.is_empty():
+			return {}
+		target = last_whisper
+	if rest.is_empty() or channel == Chat.PRIVATE and target.is_empty():
+		return {}
+	var command := {"canal": channel, "texte": rest}
+	if channel == Chat.PRIVATE:
+		command["a"] = target
+	return command
+
+
+## Lignes de l'onglet ouvert telles que le joueur les lit (auteur compris), sans BBCode : le texte
+## riche ne se met à jour qu'à la frame suivante, les tests lisent donc celles-ci.
+func visible_lines() -> PackedStringArray:
+	var shown: PackedStringArray = []
+	for entry: Dictionary in _entries:
+		if _visible_in_tab(entry):
+			shown.append(_strip(_format(entry)))
+	return shown
+
+
+## Texte sans ses balises BBCode.
+static func _strip(text: String) -> String:
+	var clean := ""
+	var depth := 0
+	for i in text.length():
+		var glyph := text[i]
+		if glyph == "[":
+			depth += 1
+		elif glyph == "]":
+			depth = maxi(0, depth - 1)
+		elif depth == 0:
+			clean += glyph
+	return clean
+
+
 ## Texte affiché sans BBCode (pour les tests).
 func plain_text() -> String:
 	return _text.get_parsed_text()
@@ -91,6 +267,8 @@ func channel() -> String:
 func select_channel(p_channel: String) -> void:
 	Session.message_log_channel = p_channel
 	_show_channel()
+	if _input != null:
+		_refresh_placeholder()
 
 
 func is_folded() -> bool:
@@ -107,9 +285,13 @@ func _visible_in_tab(entry: Dictionary) -> bool:
 
 
 func _format(entry: Dictionary) -> String:
-	if str(entry["auteur"]).is_empty():
+	var author := str(entry["auteur"])
+	if author.is_empty():
 		return entry["texte"]
-	return "[b]%s[/b] : %s" % [entry["auteur"], entry["texte"]]
+	# Chat : le nom de l'auteur ouvre son menu (message privé, invitation…).
+	if entry["canal"] in Chat.CHANNELS:
+		return "[url=%s%s][b]%s[/b][/url] : %s" % [AUTHOR_META, author.uri_encode(), escape(author), entry["texte"]]
+	return "[b]%s[/b] : %s" % [escape(author), entry["texte"]]
 
 
 func _show_channel() -> void:
@@ -127,6 +309,8 @@ func _show_channel() -> void:
 func _apply_fold() -> void:
 	var folded := Session.message_log_folded
 	_text.visible = not folded
+	if _input != null and folded:
+		_input.release_focus()
 	_fold.text = "+" if folded else "–"
 	_fold.tooltip_text = "Déplier l'historique (H)" if folded else "Replier l'historique (H)"
 	custom_minimum_size = Vector2(WIDTH, 0)
@@ -172,7 +356,37 @@ func _build() -> void:
 	_text.add_theme_font_size_override("normal_font_size", 12)
 	_text.add_theme_font_size_override("bold_font_size", 12)
 	_text.add_theme_color_override("default_color", UiTheme.TEXT)
+	_text.meta_clicked.connect(_on_meta_clicked)
 	column.add_child(_text)
+	_input = LineEdit.new()
+	_input.visible = false  # En ligne seulement (`set_chat_enabled`).
+	_input.max_length = Chat.MAX_LENGTH
+	_input.add_theme_font_size_override("font_size", 12)
+	_input.text_submitted.connect(_on_submitted)
+	column.add_child(_input)
+
+
+## Nom d'auteur cliqué : son menu (message privé, invitation…).
+func _on_meta_clicked(meta: Variant) -> void:
+	var text := str(meta)
+	if text.begins_with(AUTHOR_META):
+		author_clicked.emit(text.substr(AUTHOR_META.length()).uri_decode())
+
+
+func _on_submitted(text: String) -> void:
+	var command := parse_input(text, typing_channel(), _last_whisper)
+	if command.is_empty():
+		_input.release_focus()
+		return
+	_input.clear()
+	select_channel(command["canal"])
+	chat_submitted.emit(command)
+
+
+func _refresh_placeholder() -> void:
+	var channel := typing_channel()
+	var label: String = CHANNELS.get(channel, channel)
+	_input.placeholder_text = "Écrire (%s) : /l /g /c /rec /w Pseudo /r" % label.to_lower()
 
 
 func _add_tab(header: HBoxContainer, group: ButtonGroup, key: String, label: String) -> void:

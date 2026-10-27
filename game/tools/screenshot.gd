@@ -239,6 +239,19 @@ func _process(_delta: float) -> bool:
 			view.refresh_state()
 			view._load_exploration_actors()
 			view.party_changed.emit()
+		elif _action == "chat":
+			# Chat (M3) : quelques messages de joueurs dans l'historique, la ligne de saisie ouverte.
+			var log: MessageLog = _scene.get_node("CombatHud").message_log
+			log.set_chat_enabled(true)
+			log.own_name = view.world.player_name
+			log.select_channel(MessageLog.CHANNEL_ALL)
+			log.add_chat({"canal": Chat.LOCAL, "de": "j:1", "auteur": "Grizzette", "texte": "Quelqu'un pour les Brumes du Nord ?"})
+			log.add_chat({"canal": Chat.RECRUIT, "de": "j:2", "auteur": "Lindëa", "texte": "Groupe pour Grondin, il manque un soigneur"})
+			log.add_chat({"canal": Chat.TRADE, "de": "j:3", "auteur": "Barlomir", "texte": "Vends 20 bois de frêne, 15 brumes pièce"})
+			log.add_chat({"canal": Chat.PRIVATE, "de": "j:1", "auteur": "Grizzette", "texte": "Tu es où ?", "a": view.world.player_name})
+			log.add_chat({"canal": Chat.PARTY, "de": "j:1", "auteur": "Grizzette", "texte": "J'arrive par la Pierre"})
+			log.toggle_typing()
+			log._input.text = "/g deux minutes et je suis là"
 		elif _action == "assis":
 			view.server.character.hp_lost = 30
 			view.refresh_state()

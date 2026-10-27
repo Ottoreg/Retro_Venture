@@ -425,6 +425,12 @@ func setup(p_map_view: MapView) -> void:
 	map_view.combat_state_changed.connect(_refresh)
 	map_view.combat_message.connect(show_message)
 	map_view.combat_logged.connect(message_log.add_line)
+	# Chat (jalon M3) : en ligne seulement, les messages des joueurs vont dans l'historique.
+	message_log.set_chat_enabled(map_view.connection.asynchronous)
+	message_log.own_name = map_view.world.player_name
+	map_view.chat_received.connect(message_log.add_chat)
+	map_view.chat_refused.connect(message_log.add_chat_refusal)
+	message_log.chat_submitted.connect(_on_chat_submitted)
 	map_view.shop_opened.connect(func(event: Dictionary) -> void: _merchant_name = event["nom"].get_slice(",", 0))
 	map_view.trade_result.connect(_on_trade_result)
 	map_view.combat_ended.connect(_on_combat_ended)
@@ -461,8 +467,22 @@ func _process(delta: float) -> void:
 		_refresh_exploration()
 
 
+## Envoie un message de chat (ligne de saisie de l'historique).
+func _on_chat_submitted(command: Dictionary) -> void:
+	var full := {"type": Protocol.CMD_CHAT, "entite": map_view.world.player_id}
+	full.merge(command)
+	map_view.send_command(full)
+
+
 func _unhandled_key_input(event: InputEvent) -> void:
 	if map_view == null or not event.is_pressed() or event.is_echo():
+		return
+	# Entrée ouvre la ligne de saisie du chat ; pendant qu'on écrit, les raccourcis se taisent.
+	if (event as InputEventKey).keycode in [KEY_ENTER, KEY_KP_ENTER]:
+		if message_log.toggle_typing():
+			get_viewport().set_input_as_handled()
+		return
+	if message_log.is_typing():
 		return
 	if (event as InputEventKey).keycode == KEY_H:
 		message_log.toggle_fold()

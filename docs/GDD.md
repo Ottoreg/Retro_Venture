@@ -1975,11 +1975,14 @@ préférence ce que les joueurs feront déjà d'eux-mêmes.
   « Nouveau combat » marque le début de chacun) et *Commerce* (achats et ventes : objet, quantité,
   marchand, brumes dépensées ou gagnées). Des onglets filtrent un canal, « Tout » les mêle ; chaque
   canal garde ses 300 dernières lignes, si bien qu'un long combat ne chasse pas le commerce.
-  **Prévu pour le chat** (phase multijoueur) : un message a déjà un canal, un auteur facultatif
-  (affiché « Auteur : texte ») et une heure ; les canaux *Groupe*, *Équipe* et *Guilde* (puis
-  privé) s'ajouteront comme onglets, avec une ligne de saisie sous le texte et une couleur par
-  canal ; les messages viendront du serveur (commande « écrire » vers un canal, événement relayé
-  aux membres), le client ne faisant que les ranger. Il est à la place du chat de Dofus.
+  **Chat** (en ligne, jalon M3) : les canaux *Local*, *Groupe*, *Commerce*, *Recrut.* et *Privé*
+  s'ajoutent comme onglets, chacun de sa couleur ; un message porte le nom de son auteur, cliquable
+  (message privé, invitation, suivre). *Commerce* mêle les achats et ventes chez les marchands et
+  les annonces des joueurs. Sous le texte, une **ligne de saisie** : Entrée l'ouvre et l'envoie
+  (Entrée à vide la referme), le message part sur le canal de l'onglet ouvert ou sur celui de son
+  préfixe (`/l`, `/g`, `/c`, `/rec`, `/w Pseudo`, `/r` pour répondre au dernier privé). Pendant la
+  saisie, les raccourcis de l'interface (I, H, Q, sorts…) se taisent. Les messages viennent du
+  serveur, le client ne faisant que les ranger. Il est à la place du chat de Dofus.
 - **Boutique** : barre de recherche au-dessus de la liste (achat et vente) ; chaque mot doit
   apparaître dans le nom ou le type de l'objet, sans tenir compte des majuscules ni des accents.
 - Interface redimensionnable, lisible en 1280×720 minimum.
@@ -2110,8 +2113,8 @@ exemples en [annexe](#20-annexes--formats-de-données).
 > un hébergement gratuit pour les tests). **M0 fait le 26/10/2026** (voir « Où en est M0 » plus
 > bas) ; **prototype M1 en place le 26/10/2026** (« Où en est M1 »), essayé chez l'auteur ;
 > **M2 (combat de groupe) codé le 26/10/2026, clos le 27/10/2026** (« Où en est M2 ») ;
-> **M3 (social) en cours** (« Préparation de M3 », découpage validé le 27/10/2026) : lot 1 (chat côté
-> serveur) fait le 27/10/2026 (« Où en est M3 »).
+> **M3 (social) en cours** (« Préparation de M3 », découpage validé le 27/10/2026) : lots 1 (chat côté
+> serveur) et 2 (chat côté client) faits le 27/10/2026 (« Où en est M3 »).
 
 #### Quand
 
@@ -2508,10 +2511,25 @@ la ligne de saisie reste cachée.
   et un par minute sur chaque canal de tout le serveur (refus `chat_trop_rapide` avec `attente` en
   secondes). Journal des 200 derniers messages par canal, en mémoire (`Chat.recent_by` pour le
   signalement du lot 4).
+- **Lot 2, chat côté client** (`client/ui/message_log.gd`) : onglets *Local*, *Groupe*,
+  *Commerce* (partagé avec les marchands, choix de l'auteur), *Recrut.* et *Privé*, couleur par
+  canal (`MessageLog.CHANNEL_COLORS`), ligne de saisie en ligne seulement
+  (`set_chat_enabled`) ; Entrée ouvre la saisie, l'envoie et la referme (`CombatHud`), et
+  `MessageLog.is_typing()` coupe les raccourcis. Préfixes `MessageLog.parse_input` (`/l`, `/g`,
+  `/c`, `/rec`, `/w Pseudo`, `/r`) ; sans préfixe, le canal de l'onglet (Local par défaut), et
+  l'onglet suit le canal où l'on vient d'écrire. Le texte d'un joueur est échappé
+  (`MessageLog.escape` : jamais de BBCode d'un autre joueur) ; en privé, « à Pseudo : … » pour ses
+  propres messages. Le nom d'un auteur est cliquable : `MessageLog.author_clicked` ouvre le menu de
+  `PartyUi` (message privé, inviter, suivre) et « Message privé » prépare `/w Pseudo `. Les refus
+  du serveur (trop vite, hors ligne) s'écrivent dans l'historique (`add_chat_refusal`). Capture :
+  action `chat` de `tools/screenshot.gd`.
 - Le joueur automatique (`tools/bot.gd`) répond aux messages privés, pour essayer seul.
 - **Protocole** : version 5. **Tests** : `tests/core/test_chat.gd` (canaux, deux cartes, flood,
-  texte, combat et absent, journal) et le critère de sortie par WebSocket
-  (`test_websocket.gd` : privé puis groupe entre deux cartes).
+  texte, combat et absent, journal), le critère de sortie par WebSocket (`test_websocket.gd` :
+  privé puis groupe entre deux cartes), l'historique et la ligne de saisie
+  (`test_interface.gd`) et le chat entre deux clients (`test_online_client.gd` : local, privé,
+  réponse `/r`, menu de l'auteur, refus pour cause de débit).
+- **Reste de M3** : amis, ignorés et statut en ligne (lot 3), signalement (lot 4).
 
 #### Jalons
 

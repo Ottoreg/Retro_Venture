@@ -75,6 +75,9 @@ func _ready() -> void:
 	_minimap.pressed.connect(_world_map.open)
 	quest_dialog.setup(_map_view)
 	party_ui.setup(_map_view)
+	# Chat : le nom d'un auteur de l'historique ouvre son menu, « Message privé » la ligne de saisie.
+	_combat_hud.message_log.author_clicked.connect(party_ui.on_author_clicked)
+	party_ui.whisper_requested.connect(_combat_hud.message_log.whisper_to)
 	quests_window.setup(_map_view)
 	quest_tracker.setup(_map_view, _combat_hud)
 	quest_tracker.pressed.connect(quests_window.toggle)

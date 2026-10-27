@@ -250,6 +250,18 @@ func player_at(at: Vector2i) -> Dictionary:
 	return {}
 
 
+## Autre joueur de la carte, ou membre du groupe, de ce pseudo ({} si on ne le voit pas : un auteur
+## de chat peut être n'importe où sur le serveur).
+func player_named(player_name: String) -> Dictionary:
+	for other: Dictionary in _players.values():
+		if other["nom"] == player_name:
+			return other
+	for member: Dictionary in party.get("membres", []):
+		if member["nom"] == player_name:
+			return member
+	return {}
+
+
 ## Membre du groupe (id) : { id, nom, niveau, race, voie, absent, carte, repere }, ou {}.
 func party_member(other_id: String) -> Dictionary:
 	for member: Dictionary in party.get("membres", []):

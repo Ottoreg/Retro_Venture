@@ -35,7 +35,7 @@ xvfb-run -a godot --path . -s res://tools/screenshot.gd -- sortie.png [carte] [s
 ```
 
 `tools/screenshot.gd` fait des captures en jeu (actions : glyphe, survol, infobulle, objet, phase, reveil, carte, sermon,
-cible, tactique, pause, options, fiche, assis, joueurs, groupe…) ; `tools/art_sheet.gd` fait une planche des dessins ; `tools/simulation.gd` simule des
+cible, tactique, pause, options, fiche, assis, joueurs, groupe, chat…) ; `tools/art_sheet.gd` fait une planche des dessins ; `tools/simulation.gd` simule des
 combats sur chaque groupe des cartes (`-- [combats] [rapport.md] [préfixes de cartes] [detail]`,
 ~7 min pour tout à 10 combats).
 Multijoueur : `godot --headless --path . -s res://server/server_main.gd` (serveur de développement, port
@@ -122,9 +122,10 @@ en ligne, déconnexion en combat avec retour, parts d'XP, de brumes et de butin 
 renouvelé (reconnexion automatique). **Fin de M2 le 27/10/2026** : inventaire consultable en
 combat, verrous du combat, spectateurs, suivre un membre du groupe, position et repères des membres
 sur la minicarte (protocole v4). Reste l'essai à plusieurs chez l'auteur.
-**M3 (social) découpé et validé le 27/10/2026** (GDD § 16.5, « Préparation de M3 », 4 lots) : **lot 1
-(chat côté serveur) fait** (`core/social/chat.gd`, commande `ecrire`, événement `message_chat`,
-protocole v5) ; suivent le chat côté client, les amis et ignorés, le signalement. La CI publie aussi, à chaque push sur `main`, le client natif
+**M3 (social) découpé et validé le 27/10/2026** (GDD § 16.5, « Préparation de M3 », 4 lots) : **lots 1
+(chat côté serveur : `core/social/chat.gd`, commande `ecrire`, événement `message_chat`,
+protocole v5) et 2 (chat côté client : onglets, ligne de saisie, préfixes, menu du pseudo dans
+`client/ui/message_log.gd`) faits** ; suivent les amis et ignorés, puis le signalement. La CI publie aussi, à chaque push sur `main`, le client natif
 (release « client-natif ») et l'image du serveur de staging (`ghcr.io/ottoreg/retro-venture-serveur:staging`).
 
 Dernière session (retours de la passe de l'auteur) :

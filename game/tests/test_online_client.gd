@@ -397,3 +397,67 @@ func test_inventaire_consultable_en_combat() -> void:
 	assert_eq(view.world.character.inventory.slot_of(uid), slot, "rien ne change")
 	assert_false(view.is_busy(), "aucune commande envoyée")
 	scene.queue_free()
+
+
+## Chat de bout en bout (jalon M3, lot 2) : Frodon écrit dans la ligne de saisie, Sam le lit dans
+## son historique, et le menu d'un auteur prépare un message privé.
+func test_chat_entre_deux_clients() -> void:
+	var scene := _scene()
+	var views := _two_clients(scene)
+	var frodon_view := views[0]
+	var sam_view := views[1]
+	var frodon_hud := CombatHud.new()
+	scene.add_child(frodon_hud)
+	frodon_hud.setup(frodon_view)
+	var sam_hud := CombatHud.new()
+	scene.add_child(sam_hud)
+	sam_hud.setup(sam_view)
+	var party_ui := PartyUi.new()
+	scene.add_child(party_ui)
+	party_ui.setup(sam_view)
+	sam_hud.message_log.author_clicked.connect(party_ui.on_author_clicked)
+	party_ui.whisper_requested.connect(sam_hud.message_log.whisper_to)
+	var frodon: String = frodon_view.world.player_name
+	var sam: String = sam_view.world.player_name
+	# `SharedConnection` répond tout de suite (elle ne pose pas `asynchronous`) : la ligne de saisie
+	# s'allume comme elle le ferait en ligne.
+	for hud: CombatHud in [frodon_hud, sam_hud]:
+		hud.message_log.set_chat_enabled(true)
+	assert_true(frodon_hud.message_log._input.visible, "ligne de saisie en ligne")
+
+	# Frodon écrit en local : les deux le lisent, lui compris.
+	frodon_hud.message_log.select_channel(Chat.LOCAL)
+	frodon_hud.message_log._on_submitted("Bonjour la Comté")
+	_run_until_idle(frodon_view)
+	assert_true("%s : Bonjour la Comté" % frodon in frodon_hud.message_log.visible_lines(), str(frodon_hud.message_log.visible_lines()))
+	sam_view.advance(0.1)
+	_run_until_idle(sam_view)
+	assert_true("%s : Bonjour la Comté" % frodon in sam_hud.message_log.visible_lines(), "Sam le lit aussi")
+	assert_eq(sam_hud.message_log.lines(Chat.LOCAL).size(), 1, "rangé dans le canal Local")
+
+	# Un message privé de Frodon : Sam répond par `/r`.
+	frodon_hud.message_log._on_submitted("/w %s tu es là ?" % sam)
+	_run_until_idle(frodon_view)
+	sam_view.advance(0.1)
+	_run_until_idle(sam_view)
+	assert_true(sam_hud.message_log.lines(Chat.PRIVATE)[0].contains("tu es là ?"))
+	sam_hud.message_log._on_submitted("/r présent")
+	_run_until_idle(sam_view)
+	frodon_view.advance(0.1)
+	_run_until_idle(frodon_view)
+	assert_true("%s : présent" % sam in frodon_hud.message_log.visible_lines(), str(frodon_hud.message_log.visible_lines()))
+
+	# Clic sur le nom de Frodon dans l'historique de Sam : son menu, puis la ligne préparée.
+	sam_hud.message_log._on_meta_clicked(MessageLog.AUTHOR_META + frodon.uri_encode())
+	assert_true(party_ui._menu.item_count >= 2, "menu de l'auteur (inviter, message privé)")
+	party_ui._on_menu_pressed(1)
+	assert_eq(sam_hud.message_log._input.text, "/w %s " % frodon)
+
+	# Trop vite : le refus du serveur est annoncé au joueur.
+	frodon_hud.message_log.select_channel(Chat.LOCAL)
+	for i in Chat.FLOOD_MESSAGES + 1:
+		frodon_hud.message_log._on_submitted("message %d" % i)
+		_run_until_idle(frodon_view)
+	var tail := "\n".join(frodon_hud.message_log.visible_lines().slice(-3))
+	assert_true(tail.contains("trop vite"), tail)
+	scene.queue_free()

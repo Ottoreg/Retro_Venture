@@ -52,6 +52,8 @@ signal party_invited(event: Dictionary)
 signal party_changed
 ## Message de chat reçu (EVT_CHAT, jalon M3), le sien compris : à ranger dans l'historique.
 signal chat_received(event: Dictionary)
+## Message de chat refusé par le serveur (trop vite, destinataire hors ligne) : à dire au joueur.
+signal chat_refused(event: Dictionary)
 signal player_clicked(player_id: String, player_name: String)
 ## Le joueur suivi a changé (`follow_id`).
 signal follow_changed
@@ -1468,6 +1470,8 @@ func _apply(event: Dictionary) -> float:
 			notice.emit("Un objet de quête ne se jette ni ne se vend.")
 		if event.get("raison") == Protocol.REASON_INVENTORY_OVERLOADED:
 			notice.emit(CombatHud.OVERLOAD_TEXT)
+		if event["commande"] == Protocol.CMD_CHAT:
+			chat_refused.emit(event)
 		if event["commande"] == Protocol.CMD_HARVEST:
 			notice.emit(_harvest_refusal_text(event["raison"], NO_CELL))
 		if mode == Mode.COMBAT and _refusals.has(event["raison"]):

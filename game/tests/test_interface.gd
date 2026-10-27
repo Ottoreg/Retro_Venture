@@ -300,3 +300,69 @@ func _sheet_entry(data: GameData, inventory: Inventory, uid: String) -> Dictiona
 		if entry["uid"] == uid:
 			return entry
 	return {}
+
+
+## Chat dans l'historique (jalon M3, lot 2) : canaux, couleurs, texte d'un joueur échappé,
+## préfixes de la ligne de saisie.
+func test_chat_dans_l_historique() -> void:
+	Session.message_log_folded = false
+	Session.message_log_channel = MessageLog.CHANNEL_ALL
+	var log := MessageLog.new()
+	log.own_name = "Frodon"
+	log.set_chat_enabled(true)
+	log.add_chat({"canal": Chat.LOCAL, "de": "j:sam", "auteur": "Sam", "texte": "Bonjour la Comté"})
+	assert_true(log.plain_text().ends_with("Sam : Bonjour la Comté"), log.plain_text())
+	log.add_chat({"canal": Chat.PARTY, "de": "j:merry", "auteur": "Merry", "texte": "J'arrive"})
+	log.select_channel(Chat.PARTY)
+	assert_eq(log.plain_text(), "Merry : J'arrive", "onglet Groupe : seulement le groupe")
+	log.select_channel(MessageLog.CHANNEL_TRADE)
+	log.add_entry(MessageLog.CHANNEL_TRADE, "Achat : Épée, −10 brumes")
+	log.add_chat({"canal": Chat.TRADE, "de": "j:sam", "auteur": "Sam", "texte": "Vends du bois"})
+	assert_true(log.plain_text().contains("Achat : Épée") and log.plain_text().contains("Sam : Vends du bois"),
+		"un seul onglet Commerce pour les marchands et les annonces des joueurs")
+	# Privé : reçu, son auteur ; envoyé, le destinataire.
+	log.select_channel(Chat.PRIVATE)
+	log.add_chat({"canal": Chat.PRIVATE, "de": "j:sam", "auteur": "Sam", "texte": "Tu es où ?", "a": "Frodon"})
+	log.add_chat({"canal": Chat.PRIVATE, "de": "j:frodon", "auteur": "Frodon", "texte": "Ici", "a": "Sam"})
+	assert_true(log.plain_text().contains("Sam : Tu es où ?") and log.plain_text().contains("à Sam : Ici"), log.plain_text())
+	# Le BBCode d'un joueur ne s'interprète pas.
+	log.add_chat({"canal": Chat.PRIVATE, "de": "j:sam", "auteur": "Sam", "texte": "[color=red]rouge[/color]", "a": "Frodon"})
+	assert_true(log.plain_text().contains("[color=red]rouge[/color]"), "crochets gardés, pas de balise")
+	log.free()
+
+
+func test_ligne_de_saisie_du_chat() -> void:
+	Session.message_log_channel = Chat.LOCAL
+	var log := MessageLog.new()
+	(Engine.get_main_loop() as SceneTree).root.add_child(log)  # Le focus demande d'être dans l'arbre.
+	log.own_name = "Frodon"
+	log.set_chat_enabled(true)
+	# Le canal de l'onglet, sauf préfixe.
+	assert_eq(MessageLog.parse_input("Bonjour", Chat.LOCAL), {"canal": Chat.LOCAL, "texte": "Bonjour"})
+	assert_eq(MessageLog.parse_input("/g On y va", Chat.LOCAL), {"canal": Chat.PARTY, "texte": "On y va"})
+	assert_eq(MessageLog.parse_input("/c Vends du bois", Chat.LOCAL), {"canal": Chat.TRADE, "texte": "Vends du bois"})
+	assert_eq(MessageLog.parse_input("/rec Cherche groupe", Chat.LOCAL), {"canal": Chat.RECRUIT, "texte": "Cherche groupe"})
+	assert_eq(MessageLog.parse_input("/w Sam salut toi", Chat.LOCAL), {"canal": Chat.PRIVATE, "texte": "salut toi", "a": "Sam"})
+	# Répondre au dernier privé reçu, ou écrire depuis l'onglet Privé.
+	assert_eq(MessageLog.parse_input("/r de retour", Chat.LOCAL, "Sam"), {"canal": Chat.PRIVATE, "texte": "de retour", "a": "Sam"})
+	assert_eq(MessageLog.parse_input("coucou", Chat.PRIVATE, "Sam"), {"canal": Chat.PRIVATE, "texte": "coucou", "a": "Sam"})
+	# Rien à envoyer : vide, préfixe inconnu, privé sans destinataire.
+	assert_eq(MessageLog.parse_input("   ", Chat.LOCAL), {})
+	assert_eq(MessageLog.parse_input("/plop coucou", Chat.LOCAL), {})
+	assert_eq(MessageLog.parse_input("/r rien", Chat.LOCAL), {})
+	assert_eq(MessageLog.parse_input("coucou", Chat.PRIVATE), {})
+	assert_eq(MessageLog.parse_input("/w Sam", Chat.LOCAL), {}, "un pseudo sans message")
+	# Le dernier privé reçu sert de destinataire à `/r`, et « Message privé » prépare la ligne.
+	log.add_chat({"canal": Chat.PRIVATE, "de": "j:sam", "auteur": "Sam", "texte": "ohé", "a": "Frodon"})
+	var sent: Array[Dictionary] = []
+	log.chat_submitted.connect(func(command: Dictionary) -> void: sent.append(command))
+	log._on_submitted("/r présent")
+	assert_eq(sent, [{"canal": Chat.PRIVATE, "texte": "présent", "a": "Sam"}])
+	assert_eq(log.channel(), Chat.PRIVATE, "l'onglet suit le canal où l'on écrit")
+	log.whisper_to("Merry")
+	assert_eq(log._input.text, "/w Merry ")
+	assert_true(log.is_typing(), "la ligne prend le clavier (les raccourcis se taisent)")
+	assert_false(log.toggle_typing(), "Entrée referme la saisie")
+	assert_false(log.is_typing())
+	(Engine.get_main_loop() as SceneTree).root.remove_child(log)
+	log.free()
