@@ -730,6 +730,15 @@ Les classes sont **fixes** (pas d'apprentissage croisé, § 5.2) ; **le modèle 
   actuelle (cadre doré, point bleu), avec les cartes, les chemins et les Pierres de Passage ; une
   carte tient sur un écran, inutile de la redessiner en petit. Survol : le nom de la carte ; un clic ouvre la carte du monde. Elle
   est dans la barre du bas, jamais sur la zone de jeu (§ 14).
+  *Refaite façon Dofus Rétro le 27/10/2026* (demande de l'auteur) : chaque carte y est une
+  **vignette** de son plan (`MapThumbnail` : sol, chemins, eau, arbres, bâtiments vus d'en haut),
+  en cases jointives plus larges que hautes ; **molette** de 3 × 3 à 9 × 9 cartes
+  (`Options.minimap_radius`), **glisser** pour se déplacer (un clic recentre, puis ouvre la carte
+  du monde) ; **icônes** (`MapIcons` : Pierres de Passage, ateliers A, marchands M, coffres C,
+  repaires de mini-boss B, quêtes à prendre ou à rendre !), masquables dans la légende de la carte
+  du monde (`Options.hidden_icons`), qui montre aussi les vignettes ; **drapeaux** : clic droit sur
+  une carte de la minicarte ou de la carte du monde (le même le retire), Maj + clic droit le montre
+  au groupe ; sous la minicarte, une flèche vers le repère et sa distance en cartes.
 - **Point de résurrection** : la dernière Pierre de Passage touchée (au départ, celle de la zone de
   départ). *Fait :* après une défaite, on se réveille à côté d'elle avec 1 PV, même si elle est sur
   une autre carte que le combat ; la fenêtre de voyage la rappelle. *À venir :* les temples.
@@ -1916,7 +1925,7 @@ préférence ce que les joueurs feront déjà d'eux-mêmes.
   l'écran (≈ 99 % en 1600 × 720), puis le surplus élargit les bandes ; sur un écran plus haut, la
   carte se pose sur la barre et le surplus reste en haut, où débordent arbres et toits ; un
   intérieur garde la même échelle, centré. Les bandes sont opaques et cachent le décor qui déborde de la carte.
-- **Bande gauche** : le **nom de la carte** en haut, puis la **minicarte**, carrée (la carte du monde en réduit, 5 × 5 cartes
+- **Bande gauche** : le **nom de la carte** en haut, puis la **minicarte** (la carte du monde en réduit, 5 × 5 cartes par défaut, § 3)
   autour de la carte actuelle ; un clic dessus ouvre la carte du monde, hors combat), puis le
   **suivi de la quête** : son nom et cinq objectifs à faire au plus (« (+n) » s'il en reste
   d'autres), repliable ; un clic ouvre le journal (hors combat). Les deux restent en combat.

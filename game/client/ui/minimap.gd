@@ -14,9 +14,10 @@ extends CanvasLayer
 
 ## Clic sur la minicarte.
 signal pressed
+## Clic droit sur une carte : un drapeau (repère) ; `shared` avec Maj (montré au groupe).
+signal flag_requested(pin: Dictionary, shared: bool)
 
-## Cartes montrées de chaque côté de la carte actuelle (5 × 5 cartes, dans un cadre carré).
-const RADIUS := Vector2i(2, 2)
+const NO_POINT := Vector2(-1, -1)
 
 var map_view: MapView
 
@@ -28,6 +29,30 @@ var _coordinates: Label
 var _slot: Control
 ## Carte à coordonnées au centre (la carte actuelle, ou celle devant la porte d'une maison), ou "".
 var _center_map := ""
+## Décalage de la fenêtre (glisser), en cartes ; remis à zéro à chaque changement de carte.
+var _offset := Vector2i.ZERO
+var _drag_from := NO_POINT
+var _drag_offset := Vector2i.ZERO
+var _dragged := false
+## Ligne du repère, sous la grille : flèche vers sa carte, nom et distance.
+var _flag_row: HBoxContainer
+var _flag_arrow: FlagArrow
+var _flag_label: Label
+
+
+## Flèche vers la carte du repère (dessinée : la police n'a pas de flèches).
+class FlagArrow extends Control:
+	var direction := Vector2.ZERO
+
+	func _draw() -> void:
+		var middle := size / 2.0
+		if direction == Vector2.ZERO:
+			draw_circle(middle, 4.0, WorldMapWindow.COLOR_PIN)
+			return
+		var tip := middle + direction * 6.0
+		var side := Vector2(-direction.y, direction.x) * 4.0
+		draw_colored_polygon(PackedVector2Array([tip, middle - direction * 5.0 + side, middle - direction * 2.0,
+			middle - direction * 5.0 - side]), WorldMapWindow.COLOR_PIN)
 
 
 func _ready() -> void:
@@ -38,7 +63,7 @@ func _ready() -> void:
 func setup(p_map_view: MapView, hud: CombatHud) -> void:
 	map_view = p_map_view
 	_slot = hud.minimap_slot
-	map_view.map_changed.connect(refresh)
+	map_view.map_changed.connect(recenter)
 	map_view.combat_started.connect(refresh)
 	map_view.exploration_resumed.connect(refresh)
 	map_view.quests_changed.connect(func(_journal: Dictionary) -> void: refresh())
@@ -95,21 +120,101 @@ func refresh() -> void:
 		var infos := WorldMapWindow.map_infos(world, [zone_id])
 		var layout := WorldMapLayout.zone_layout(zone_id, infos, WorldMapWindow.shown_maps(world), _center_map,
 			world.data.passages, WorldMapWindow.known_passages(world))
-		_grid.layout = WorldMapLayout.neighborhood(layout, coordinates["position"], RADIUS)
+		var radius := Options.minimap_radius
+		_grid.layout = WorldMapLayout.neighborhood(layout, coordinates["position"] + _offset, Vector2i(radius, radius))
 		_grid.indoors = _center_map != world.map.id
 		_zone_name.text = layout["nom"]
 		_coordinates.text = "%d, %d" % [coordinates["position"].x, coordinates["position"].y]
 	_grid.pin = Session.quest_pin
 	_grid.objective = QuestLinks.objective_pin(world)
 	_grid.party = WorldMapWindow.party_markers(world)
+	_grid.world = world
+	_refresh_flag(coordinates)
 	_place()
 	_grid.queue_redraw()
 
 
+## Ligne du repère (`Session.quest_pin`) : flèche vers sa carte, son nom et sa distance en cartes.
+func _refresh_flag(here: Dictionary) -> void:
+	var pin: Dictionary = Session.quest_pin
+	_flag_row.visible = not pin.is_empty()
+	if pin.is_empty():
+		return
+	var target := WorldMapLayout.map_coordinates(pin.get("carte", ""))
+	var shift := Vector2i.ZERO
+	if not here.is_empty() and not target.is_empty() and target["zone"] == here["zone"]:
+		shift = target["position"] - here["position"]
+		var steps := absi(shift.x) + absi(shift.y)
+		_flag_label.text = "%s : ici" % pin["nom"] if steps == 0 else "%s : %d carte%s" % [pin["nom"], steps, "s" if steps > 1 else ""]
+	else:
+		_flag_label.text = "%s (autre zone)" % pin["nom"]
+	_flag_arrow.direction = Vector2(shift).normalized()
+	_flag_arrow.queue_redraw()
+
+
+## Revient sur la carte actuelle (après un changement de carte, ou un clic quand on a glissé).
+func recenter() -> void:
+	_offset = Vector2i.ZERO
+	refresh()
+
+
+## Molette : de 3 × 3 (1) à 9 × 9 (4) cartes.
+func zoom(step: int) -> void:
+	var radius := clampi(Options.minimap_radius + step, 1, 4)
+	if radius != Options.minimap_radius:
+		Options.minimap_radius = radius
+		Options.save_options()
+		refresh()
+
+
+## Molette : zoom ; glisser : déplace la fenêtre ; clic : recentre si on a glissé, sinon ouvre la
+## carte du monde ; clic droit : drapeau sur la carte visée (Maj : montré au groupe).
 func _on_frame_input(event: InputEvent) -> void:
 	var button := event as InputEventMouseButton
-	if button != null and button.pressed and button.button_index == MOUSE_BUTTON_LEFT and map_view.mode == MapView.Mode.EXPLORATION:
-		pressed.emit()
+	if button != null:
+		if button.pressed and button.button_index in [MOUSE_BUTTON_WHEEL_UP, MOUSE_BUTTON_WHEEL_DOWN]:
+			zoom(-1 if button.button_index == MOUSE_BUTTON_WHEEL_UP else 1)
+			_frame.accept_event()
+		elif button.button_index == MOUSE_BUTTON_LEFT:
+			if button.pressed:
+				_drag_from = button.position
+				_drag_offset = _offset
+				_dragged = false
+			elif _drag_from != NO_POINT:
+				_drag_from = NO_POINT
+				if _dragged:
+					return
+				if _offset != Vector2i.ZERO:
+					recenter()
+				elif map_view.mode == MapView.Mode.EXPLORATION:
+					pressed.emit()
+		elif button.button_index == MOUSE_BUTTON_RIGHT and button.pressed:
+			flag_at(_grid.get_local_mouse_position(), button.shift_pressed)
+		return
+	var motion := event as InputEventMouseMotion
+	if motion != null and _drag_from != NO_POINT and motion.button_mask & MOUSE_BUTTON_MASK_LEFT:
+		drag_to(motion.position)
+
+
+## Glisser jusqu'à ce point du cadre (depuis l'appui).
+func drag_to(point: Vector2) -> void:
+	var moved := point - _drag_from
+	if moved.length() > 4.0:
+		_dragged = true
+	if not _dragged:
+		return
+	var step := _grid.cell_size()
+	var shift := _drag_offset - Vector2i(roundi(moved.x / maxf(step.x, 1.0)), roundi(moved.y / maxf(step.y, 1.0)))
+	if shift != _offset:
+		_offset = shift
+		refresh()
+
+
+## Drapeau sur la carte sous ce point de la grille (rien hors des cartes).
+func flag_at(point: Vector2, shared: bool) -> void:
+	var case := _grid.case_at(point)
+	if not case.is_empty():
+		flag_requested.emit(WorldMapWindow.flag_pin(case), shared)
 
 
 # --- Construction des contrôles ----------------------------------------------------------------
@@ -125,7 +230,6 @@ func _build() -> void:
 	_frame.add_theme_stylebox_override("panel", style)
 	_frame.mouse_filter = Control.MOUSE_FILTER_STOP
 	_frame.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
-	_frame.tooltip_text = "Carte du monde (M)"
 	_frame.gui_input.connect(_on_frame_input)
 	add_child(_frame)
 	var column := VBoxContainer.new()
@@ -151,8 +255,26 @@ func _build() -> void:
 	_coordinates.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	caption.add_child(_coordinates)
 	# Le voisinage laisse passer le clic au cadre (carte du monde), mais garde la bulle de survol.
+	_frame.tooltip_text = "Clic : carte du monde (M). Molette : zoom. Glisser : se déplacer. Clic droit : drapeau (Maj : pour le groupe)."
 	_grid = WorldMapWindow.ZoneGrid.new()
 	_grid.compact = true
 	_grid.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	_grid.mouse_filter = Control.MOUSE_FILTER_PASS
 	column.add_child(_grid)
+	_flag_row = HBoxContainer.new()
+	_flag_row.add_theme_constant_override("separation", 3)
+	_flag_row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_flag_row.visible = false
+	column.add_child(_flag_row)
+	_flag_arrow = FlagArrow.new()
+	_flag_arrow.custom_minimum_size = Vector2(16, 16)
+	_flag_arrow.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_flag_row.add_child(_flag_arrow)
+	_flag_label = Label.new()
+	_flag_label.add_theme_font_size_override("font_size", 11)
+	_flag_label.add_theme_color_override("font_color", Color(1.0, 0.75, 0.6))
+	_flag_label.clip_text = true
+	_flag_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	_flag_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_flag_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_flag_row.add_child(_flag_label)

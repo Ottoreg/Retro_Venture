@@ -1485,7 +1485,8 @@ func _place_bands() -> void:
 	_right_band.anchor_right = 1.0
 	_right_band.offset_left = -width
 	_right_band.offset_right = 0.0
-	minimap_slot.custom_minimum_size = Vector2(0, minf(width - 12.0, 220.0))
+	# Minicarte : cases à la forme des cartes (plus larges que hautes), plus son titre et son repère.
+	minimap_slot.custom_minimum_size = Vector2(0, minf((width - 18.0) / WorldMapWindow.COMPACT_RATIO + 40.0, 220.0))
 
 
 ## Bandes gauche et droite (pour les tests et les calques qui s'y posent).

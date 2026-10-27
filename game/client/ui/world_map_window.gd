@@ -9,6 +9,10 @@ extends CanvasLayer
 
 ## Bouton « Retirer le repère ».
 signal pin_cleared
+## Clic droit sur une carte : un drapeau (repère) ; `shared` avec Maj (montré au groupe).
+signal flag_requested(pin: Dictionary, shared: bool)
+## Une sorte d'icône montrée ou masquée (la minicarte se redessine).
+signal icons_changed
 
 const GOLD := Color(0.95, 0.76, 0.3)
 ## Bleu des runes des Pierres de Passage.
@@ -19,6 +23,8 @@ const COLOR_PIN := Color("ff6a3d")
 const COLOR_OBJECTIVE := Color("ffd23f")
 ## Membres du groupe de joueurs (point) et leurs repères (épingle).
 const COLOR_PARTY := Color("5fd38a")
+## Minicarte : largeur / hauteur d'une case (une carte est plus large que haute).
+const COMPACT_RATIO := 1.6
 ## Largeur et hauteur maximales d'une case de la grille, et écart maximal entre deux cases (pixels).
 const CELL_MAX := Vector2(150, 84)
 const CELL_GAP := 16.0
@@ -29,6 +35,14 @@ const GAP_RATIO := 0.2
 const NAME_BREAKS := TextServer.BREAK_MANDATORY | TextServer.BREAK_WORD_BOUND
 ## Distance entre le bas de la fenêtre et le bas de l'écran.
 const BOTTOM_MARGIN := 110.0
+
+
+## Drapeau posé d'un clic droit sur une case de la grille : { carte, nom } (comme un repère de quête).
+static func flag_pin(case: Dictionary) -> Dictionary:
+	var coordinates: Vector2i = case["coordonnees"]
+	var named := str(case.get("nom_complet", ""))
+	return {"carte": case["id"], "nom": "Drapeau [%d, %d]%s" % [coordinates.x, coordinates.y,
+		"" if named.is_empty() else " " + WorldMapLayout.short_name(named)]}
 
 
 ## Autres membres du groupe de joueurs, pour les grilles : [{ nom, carte, repere }].
@@ -54,6 +68,9 @@ class ZoneGrid extends Control:
 	var objective: Dictionary = {}
 	## Autres membres du groupe de joueurs : [{ nom, carte, repere }] (voir `party_markers`).
 	var party: Array = []
+	## Copie de l'état du jeu (`ClientState`) : vignettes des cartes (`MapThumbnail`) et icônes
+	## (`MapIcons`) ; sans elle, des cases unies.
+	var world: Variant = null
 
 	func _init() -> void:
 		# Rien n'est dessiné hors de la grille, même pour une zone immense.
@@ -62,11 +79,17 @@ class ZoneGrid extends Control:
 	## Taille d'une case : la plus grande qui laisse tenir toute la zone, écarts compris, sans
 	## plancher (cases plus petites pour une grande zone).
 	func cell_size() -> Vector2:
+		if compact:
+			# Minicarte : cases jointives, à peu près à la forme d'une carte (plus larges que hautes).
+			var width := minf(size.x / maxi(1, int(layout.get("colonnes", 1))), size.y * COMPACT_RATIO / maxi(1, int(layout.get("lignes", 1))))
+			return Vector2(floorf(width), floorf(width / COMPACT_RATIO))
 		return Vector2(_fit(size.x, int(layout.get("colonnes", 1)), CELL_MAX.x),
 			_fit(size.y, int(layout.get("lignes", 1)), CELL_MAX.y))
 
 	## Écart entre deux cases, en largeur et en hauteur (il rétrécit avec les cases).
 	func cell_gap() -> Vector2:
+		if compact:
+			return Vector2.ZERO
 		var cell_px := cell_size()
 		return Vector2(minf(CELL_GAP, cell_px.x * GAP_RATIO), minf(CELL_GAP, cell_px.y * GAP_RATIO))
 
@@ -114,6 +137,13 @@ class ZoneGrid extends Control:
 			text += "\nPierre de Passage découverte"
 		elif case["pierre"] == WorldMapLayout.STONE_UNKNOWN:
 			text += "\nPierre de Passage pas encore découverte : touchez-la pour pouvoir y revenir en voyage."
+		if world != null and case["visitee"]:
+			var names: PackedStringArray = []
+			for kind in MapIcons.of(world, case["id"]):
+				if kind != "pierre":
+					names.append(MapIcons.NAMES[kind])
+			if not names.is_empty():
+				text += "\n" + ", ".join(names)
 		if case["actuelle"]:
 			text += "\nVous êtes dans une maison de cette carte." if indoors else "\nVous êtes ici."
 		if case["id"] == pin.get("carte", ""):
@@ -151,13 +181,35 @@ class ZoneGrid extends Control:
 			for row in int(layout.get("lignes", 0)):
 				for col in int(layout.get("colonnes", 0)):
 					draw_rect(cell_rect(Vector2i(col, row)), Color(1, 1, 1, 0.035))
-		# Les liens d'abord : un chemin entre deux cartes voisines.
+		# Les liens d'abord : un chemin entre deux cartes voisines (inutile entre des cases jointives).
 		var link_width := clampf(minf(cell_px.x, cell_px.y) * 0.08, 1.5, 4.0)
-		for link: Array in layout.get("liens", []):
-			draw_line(cell_rect(link[0]).get_center(), cell_rect(link[1]).get_center(), UiTheme.BRONZE, link_width)
+		if not (compact and world != null):
+			for link: Array in layout.get("liens", []):
+				draw_line(cell_rect(link[0]).get_center(), cell_rect(link[1]).get_center(), UiTheme.BRONZE, link_width)
+		var hidden: Array = Options.hidden_icons
 		for case: Dictionary in layout["cases"]:
 			var rect := cell_rect(case["case"])
 			var visited: bool = case["visitee"]
+			var picture: Texture2D = MapThumbnail.texture(case["id"], world.map_by_id) if world != null and visited else null
+			if picture != null:
+				draw_texture_rect(picture, rect, false)
+				if compact:
+					draw_rect(rect, GOLD if case["actuelle"] else Color(0, 0, 0, 0.3), false, 2.0 if case["actuelle"] else 1.0)
+				else:
+					var frame := StyleBoxFlat.new()
+					frame.bg_color = Color(0, 0, 0, 0)
+					frame.set_border_width_all(3 if case["actuelle"] else 1)
+					frame.border_color = GOLD if case["actuelle"] else UiTheme.BRONZE
+					draw_style_box(frame, rect)
+				_draw_icons(rect, case, hidden)
+				if compact:
+					if case["actuelle"]:
+						draw_circle(rect.get_center(), 3.5, Color("4d8fff"))
+						draw_arc(rect.get_center(), 3.5, 0, TAU, 16, Color.WHITE, 1.2)
+					continue
+				var inner := rect.grow(-4)
+				_centered_text(get_theme_default_font(), inner, case["nom"], name_size, GOLD if case["actuelle"] else Color.WHITE, 3, true)
+				continue
 			var box := StyleBoxFlat.new()
 			box.set_corner_radius_all(mini(5, int(minf(cell_px.x, cell_px.y) * 0.15)))
 			box.set_border_width_all(3 if case["actuelle"] else 1)
@@ -176,7 +228,7 @@ class ZoneGrid extends Control:
 				_centered_text(font, rect, WorldMapLayout.UNKNOWN_NAME, mark_size, UiTheme.TEXT_DIM, 1)
 				continue
 			if compact:
-				if case["pierre"] != WorldMapLayout.STONE_NONE:
+				if case["pierre"] != WorldMapLayout.STONE_NONE and "pierre" not in hidden:
 					var small := minf(4.0, minf(cell_px.x, cell_px.y) * 0.18)
 					_draw_stone(rect.position + Vector2(rect.size.x - small - 2, small * 1.3 + 2), small,
 						case["pierre"] == WorldMapLayout.STONE_KNOWN)
@@ -187,7 +239,7 @@ class ZoneGrid extends Control:
 			# Marges intérieures, plus fines pour une petite case.
 			var pad := Vector2(minf(6.0, cell_px.x * 0.08), minf(4.0, cell_px.y * 0.08))
 			var text_rect := rect.grow_individual(-pad.x, -pad.y, -pad.x, -pad.y)
-			if case["pierre"] != WorldMapLayout.STONE_NONE:
+			if case["pierre"] != WorldMapLayout.STONE_NONE and "pierre" not in hidden:
 				var radius := minf(6.0, minf(cell_px.x, cell_px.y) * 0.12)
 				var stone_center := rect.position + Vector2(rect.size.x - radius - 3, radius * 1.3 + 3)
 				_draw_stone(stone_center, radius, case["pierre"] == WorldMapLayout.STONE_KNOWN)
@@ -243,16 +295,46 @@ class ZoneGrid extends Control:
 		var side := Vector2(-direction.y, direction.x) * 4.0
 		draw_colored_polygon(PackedVector2Array([point + direction * 5.0, point - direction * 3.0 + side, point - direction * 3.0 - side]), color)
 
+	## Icônes d'une carte (`MapIcons`, sauf celles masquées), en ligne en bas à gauche de sa case :
+	## un rond de couleur avec sa lettre, un simple point sur une petite case. Le losange de la Pierre
+	## de Passage, en haut à droite.
+	func _draw_icons(rect: Rect2, case: Dictionary, hidden: Array) -> void:
+		var small := rect.size.x < 60.0
+		if rect.size.x < 34.0:
+			return  # Trop petite (minicarte dézoomée) : les icônes cacheraient la carte.
+		var radius := 2.5 if small else clampf(rect.size.y * 0.1, 5.0, 8.0)
+		var position := rect.position + Vector2(radius + 3, rect.size.y - radius - 3)
+		var font := get_theme_default_font()
+		for kind in MapIcons.of(world, case["id"]):
+			if kind in hidden:
+				continue
+			if kind == "pierre":
+				var stone := minf(6.0, maxf(3.0, rect.size.y * 0.12))
+				_draw_stone(rect.position + Vector2(rect.size.x - stone - 3, stone * 1.3 + 3), stone, case["pierre"] != WorldMapLayout.STONE_UNKNOWN)
+				continue
+			draw_circle(position, radius, MapIcons.COLORS[kind])
+			draw_arc(position, radius, 0, TAU, 16, Color(0.1, 0.07, 0.04), 1.0)
+			if not small:
+				var letter_size := int(radius * 1.5)
+				var width := font.get_string_size(MapIcons.LETTERS[kind], HORIZONTAL_ALIGNMENT_LEFT, -1, letter_size).x
+				draw_string(font, position + Vector2(-width / 2.0, letter_size * 0.36), MapIcons.LETTERS[kind], HORIZONTAL_ALIGNMENT_LEFT, -1, letter_size, Color(0.1, 0.07, 0.04))
+			position.x += radius * 2.0 + 2.0
+			if position.x > rect.end.x - radius:
+				break
+
 	## Texte centré dans le rectangle, sur `max_lines` lignes au plus et sans en sortir : coupé aux
 	## mots (un mot trop long finit par « … »), et réduit aux lignes qui tiennent en hauteur (rien s'il
-	## n'en tient aucune ; le nom reste dans la bulle de survol).
-	func _centered_text(font: Font, rect: Rect2, text: String, text_size: int, color: Color, max_lines: int) -> void:
+	## n'en tient aucune ; le nom reste dans la bulle de survol). `outline` : cerné de noir (sur une vignette).
+	func _centered_text(font: Font, rect: Rect2, text: String, text_size: int, color: Color, max_lines: int, outline := false) -> void:
 		var lines := mini(max_lines, int(rect.size.y / font.get_height(text_size)))
 		if lines < 1 or rect.size.x < text_size:
 			return
 		text = fit_words(font, text, rect.size.x, text_size)
 		var block := font.get_multiline_string_size(text, HORIZONTAL_ALIGNMENT_CENTER, rect.size.x, text_size, lines, NAME_BREAKS)
 		var top := rect.position.y + (rect.size.y - block.y) / 2.0 + font.get_ascent(text_size)
+		if outline:
+			draw_multiline_string_outline(font, Vector2(rect.position.x, top), text, HORIZONTAL_ALIGNMENT_CENTER, rect.size.x,
+				text_size, lines, 4, Color(0.08, 0.05, 0.03), NAME_BREAKS)
 		draw_multiline_string(font, Vector2(rect.position.x, top), text, HORIZONTAL_ALIGNMENT_CENTER, rect.size.x,
 			text_size, lines, color, NAME_BREAKS)
 
@@ -287,6 +369,8 @@ var _tabs: TabBar
 var _zone_title: Label
 var _zone_info: Label
 var _grid: ZoneGrid
+## Cases de la légende des icônes : sorte → CheckBox.
+var _icon_toggles := {}
 var _clear_pin: Button
 ## Zones des onglets (ids), dans l'ordre de la première visite.
 var _zone_ids: Array[String] = []
@@ -376,6 +460,7 @@ func refresh() -> void:
 	_grid.pin = Session.quest_pin
 	_grid.objective = QuestLinks.objective_pin(world)
 	_grid.party = party_markers(world)
+	_grid.world = world
 	_grid.queue_redraw()
 	_zone_title.text = layout["nom"]
 	_clear_pin.visible = not Session.quest_pin.is_empty()
@@ -569,16 +654,50 @@ func _build() -> void:
 	_grid = ZoneGrid.new()
 	_grid.mouse_filter = Control.MOUSE_FILTER_PASS
 	_grid.resized.connect(_grid.queue_redraw)
+	_grid.gui_input.connect(_on_grid_input)
 	frame.add_child(_grid)
 
+	# Légende : une case par sorte d'icône, pour l'afficher ou la masquer (minicarte comprise).
+	var filters := HFlowContainer.new()
+	filters.add_theme_constant_override("h_separation", 10)
+	column.add_child(filters)
+	for kind in MapIcons.KINDS:
+		var toggle := CheckBox.new()
+		toggle.text = MapIcons.NAMES[kind]
+		toggle.focus_mode = Control.FOCUS_NONE
+		toggle.add_theme_font_size_override("font_size", 12)
+		toggle.add_theme_color_override("font_color", MapIcons.COLORS[kind])
+		toggle.add_theme_color_override("font_hover_color", MapIcons.COLORS[kind].lightened(0.2))
+		toggle.add_theme_color_override("font_pressed_color", MapIcons.COLORS[kind])
+		toggle.button_pressed = kind not in Options.hidden_icons
+		toggle.toggled.connect(_on_icon_toggled.bind(kind))
+		filters.add_child(toggle)
+		_icon_toggles[kind] = toggle
 	var legend := _label(13, Color(0.7, 0.67, 0.6))
-	legend.text = "Cadre doré : vous êtes ici.  Losange bleu : Pierre de Passage (en creux : pas encore découverte).  " \
-		+ "Épingle rouge : repère posé en cliquant un nom dans une quête.  Épingle jaune : objectif de la quête suivie."
+	legend.text = "Cadre doré : vous êtes ici.  Épingle rouge : repère ou drapeau.  Épingle jaune : objectif de la " \
+		+ "quête suivie.  Vert : membres du groupe et leurs repères.  Icônes : A atelier, M marchand, C coffre, B mini-boss, ! quête."
 	legend.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	column.add_child(legend)
 	var hint := _label(12, Color(0.6, 0.58, 0.52))
-	hint.text = "Touche M : ouvrir / fermer"
+	hint.text = "Touche M : ouvrir / fermer.  Clic droit sur une carte : drapeau (Maj + clic droit : montré au groupe)."
 	column.add_child(hint)
+
+
+func _on_icon_toggled(shown: bool, kind: String) -> void:
+	Options.hidden_icons.erase(kind)
+	if not shown:
+		Options.hidden_icons.append(kind)
+	Options.save_options()
+	_grid.queue_redraw()
+	icons_changed.emit()
+
+
+func _on_grid_input(event: InputEvent) -> void:
+	var button := event as InputEventMouseButton
+	if button != null and button.pressed and button.button_index == MOUSE_BUTTON_RIGHT:
+		var case := _grid.case_at(button.position)
+		if not case.is_empty():
+			flag_requested.emit(flag_pin(case), button.shift_pressed)
 
 
 func _label(font_size: int, color: Color) -> Label:

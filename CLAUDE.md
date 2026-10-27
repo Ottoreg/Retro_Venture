@@ -71,7 +71,8 @@ Phase 2 (alpha solo), en deux tests :
    invisibles, IA distance et soutien). Le modèle de sorts voie/rang passe à l'alpha 2.
 3. Contenu du monde — **systèmes faits** (niveaux variables, mini-boss à phases, Pierres de Passage
    payantes — toutes connues dès le début pendant la phase de test, `World.ALL_PASSAGES_KNOWN` —,
-   point de résurrection, carte du monde qui montre tout dès le début, minicarte façon Dofus Rétro).
+   point de résurrection, carte du monde qui montre tout dès le début, minicarte façon Dofus Rétro :
+   vignettes `MapThumbnail`, molette, glisser, icônes `MapIcons`, drapeaux au clic droit).
    **Conception entièrement validée par l'auteur** (mini-boss révisés compris) :
    `docs/design/chantier3_brouillon/` (document, JSON par lot, scripts `src/build.py` et
    `src/controle.py`). Cases de placement prédéfinies par carte **faites** (calque `placement`,

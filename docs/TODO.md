@@ -646,6 +646,8 @@ Plan validé par l'auteur le 26/10/2026 : GDD § 16.5, jalons M0 (préparer le n
   spectateurs) par qui l'a engagé ; spectateurs ; suivre un membre du groupe au choix de chacun ;
   position et repères des membres sur la minicarte et la carte du monde — 27/10/2026
 - [ ] M2 : essayer à plusieurs la fin de M2 (suivre, regarder, verrous, repères partagés)
+- [x] Minicarte façon Dofus Rétro : vignettes des cartes, molette et glisser, icônes avec légende,
+  drapeaux au clic droit (Maj : pour le groupe) et flèche vers le repère — 27/10/2026 (GDD § 3)
 - [x] M1 : staging mis à jour par la CI (image `ghcr.io/ottoreg/retro-venture-serveur:staging`,
   reprise par `docker compose up -d`) — 26/10/2026
 - [x] Renouvellement du jeton de connexion : reconnexion automatique après une coupure, sans le

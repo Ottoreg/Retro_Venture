@@ -130,17 +130,21 @@ Les sorts se consultent dans leur fenêtre (S).
 ### Minicarte et carte du monde
 
 - **Minicarte** (en haut de la bande gauche), comme dans Dofus Rétro : la carte du
-  monde en réduit, **5 × 5 cartes autour de vous**. Votre carte est au milieu (cadre doré, point
-  bleu) ; les autres cartes sont des cases claires, les traits sont les passages entre cartes, le
-  losange bleu une Pierre de Passage. Survolez
-  une case pour son nom. En haut, le nom de la zone et les coordonnées de la carte ; dans une maison,
-  elle montre la carte devant la porte. Un **clic** dessus ouvre la carte du monde (hors combat :
-  en combat, elle reste affichée mais ne s'ouvre pas).
+  monde en réduit, **5 × 5 cartes autour de vous**, chacune dessinée d'après son plan (sol,
+  chemins, eau, arbres, bâtiments). Votre carte est au milieu (cadre doré, point bleu). **Molette**
+  : de 3 × 3 à 9 × 9 cartes. **Glisser** : voir plus loin ; un clic vous recentre. Les icônes
+  disent ce qu'il y a sur chaque carte : losange bleu, Pierre de Passage ; A atelier, M marchand,
+  C coffre, B mini-boss, ! quête à prendre ou à rendre. **Clic droit** sur une carte : un drapeau
+  (Maj + clic droit : vos coéquipiers le voient aussi) ; sous la minicarte, une flèche vous indique
+  sa direction et sa distance. Survolez une case pour son nom. En haut, le nom de la zone et les
+  coordonnées de la carte ; dans une maison, elle montre la carte devant la porte. Un **clic** dessus
+  ouvre la carte du monde (hors combat).
 - **Carte du monde** (touche **M**, bouton en forme de carte du bandeau, ou clic sur la minicarte) :
   **tout le monde est montré dès le début**, comme dans Dofus : un onglet par zone du jeu, ouvert
   sur la zone actuelle, avec le nombre de cartes que vous y avez visitées. Chaque carte est une case
   avec son nom, à sa place (est à droite, sud en bas) ; la carte où vous êtes a un **cadre doré**.
-  Un losange bleu marque une Pierre de Passage.
+  Un losange bleu marque une Pierre de Passage, les mêmes icônes que sur la minicarte le reste ;
+  sous la grille, cochez ou décochez chaque sorte d'icône. Clic droit : un drapeau.
   Les maisons n'y figurent pas (depuis une maison, la carte s'ouvre sur sa zone, avec le cadre doré
   sur la carte devant la porte, comptée comme visitée). Survolez une case pour son nom complet et ses coordonnées. Échap
   ferme la carte du monde avant toute autre fenêtre.

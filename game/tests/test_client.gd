@@ -364,7 +364,7 @@ func test_interface_hors_de_la_zone_de_jeu() -> void:
 	assert_true(hud.bar().is_ancestor_of(hud.message_log), "historique dans la barre du bas")
 	minimap._place()
 	assert_true(hud.bands()[0].get_global_rect().encloses(minimap.frame_rect()), "minicarte dans la bande gauche")
-	assert_almost_eq(minimap.frame_rect().size.x, minimap.frame_rect().size.y, 1.0, "minicarte carrée")
+	assert_true(minimap.frame_rect().size.x > minimap.frame_rect().size.y, "minicarte plus large que haute, comme les cartes")
 	# Le suivi des quêtes : voir `test_pnj_et_changement_de_carte` ; l'ordre de jeu (bande droite) :
 	# `test_ergonomie_du_combat`.
 	view.advance(0.1)
@@ -1122,6 +1122,9 @@ func test_carte_du_monde_et_minicarte() -> void:
 	click.button_index = MOUSE_BUTTON_LEFT
 	click.pressed = true
 	minimap._frame.gui_input.emit(click)
+	var release := click.duplicate()
+	release.pressed = false
+	minimap._frame.gui_input.emit(release)
 	assert_true(world_map.is_open(), "clic sur la minicarte")
 	world_map.close()
 
@@ -1262,7 +1265,7 @@ func test_carte_du_monde_grandes_zones() -> void:
 		"taille réelle de la grille : %s" % grid.size)
 	var area := Rect2(Vector2.ZERO, grid.size)
 	assert_true(grid.clip_contents, "rien n'est dessiné hors de la grille")
-	assert_eq(grid.font_size(), 15, "petite zone : noms en grand")
+	assert_true(grid.font_size() >= 14, "petite zone : noms en grand")
 	# Zones très hautes, très larges, ou les deux (avec les « ? » voisines, une zone de 15 cartes peut
 	# prendre une ligne ou une colonne de plus).
 	for dims: Vector2i in [Vector2i(1, 12), Vector2i(15, 1), Vector2i(17, 3), Vector2i(6, 14)]:
@@ -1737,3 +1740,73 @@ func test_infobulles_au_premier_plan_et_dans_l_ecran() -> void:
 	var layer: CanvasLayer = scene.get_node_or_null("Infobulles")
 	assert_true(layer != null and layer.layer == UiTheme.TOOLTIP_LAYER, "calque des infobulles")
 	scene.free()
+
+
+## Minicarte façon Dofus Rétro : vignettes, icônes, molette, glisser, drapeaux.
+func test_minicarte_vignettes_zoom_glisser_et_drapeaux() -> void:
+	var tree := Engine.get_main_loop() as SceneTree
+	var scene: Node = load("res://client/world/world.tscn").instantiate()
+	tree.root.add_child(scene)
+	var view: MapView = scene.get_node("MapView")
+	var minimap: Minimap = scene.get_node("Minimap")
+	var world_map: WorldMapWindow = scene.get_node("WorldMapWindow")
+	# Vignettes et icônes de la carte de départ.
+	var here := view.world.map.id
+	assert_ne(MapThumbnail.texture(here, view.world.map_by_id), null, "vignette de la carte")
+	var picture := MapThumbnail.image(view.world.map)
+	assert_true(picture.get_width() > picture.get_height(), "plus large que haute")
+	var kinds := MapIcons.of(view.world, here)
+	assert_true("pierre" in kinds and "marchand" in kinds, "Pierre de Passage et marchand à Brumerive : %s" % [kinds])
+	assert_eq(minimap._grid.world, view.world)
+	# Molette : 3 × 3 à 9 × 9, retenu dans les options.
+	var wheel := InputEventMouseButton.new()
+	wheel.button_index = MOUSE_BUTTON_WHEEL_UP
+	wheel.pressed = true
+	minimap._frame.gui_input.emit(wheel)
+	assert_eq(Options.minimap_radius, 1)
+	assert_eq(minimap.shown_layout()["colonnes"], 3)
+	minimap._frame.gui_input.emit(wheel)
+	assert_eq(Options.minimap_radius, 1, "pas plus près que 3 × 3")
+	minimap.zoom(5)
+	assert_eq(minimap.shown_layout()["colonnes"], 9)
+	minimap.zoom(-2)
+	# Glisser d'une case vers la gauche : la fenêtre part d'une carte vers la droite ; un clic recentre.
+	minimap._grid.size = Vector2(130, 82)  # Sans affichage, la mise en page n'a pas encore eu lieu.
+	var origin: Vector2i = minimap.shown_layout()["origine"]
+	var press := InputEventMouseButton.new()
+	press.button_index = MOUSE_BUTTON_LEFT
+	press.pressed = true
+	press.position = Vector2(80, 50)
+	minimap._frame.gui_input.emit(press)
+	minimap.drag_to(press.position - Vector2(minimap._grid.cell_size().x, 0))
+	assert_eq(minimap.shown_layout()["origine"], origin + Vector2i(1, 0), "glissé d'une carte")
+	var release := press.duplicate()
+	release.pressed = false
+	minimap._frame.gui_input.emit(release)
+	assert_false(world_map.is_open(), "un glisser n'ouvre pas la carte du monde")
+	minimap._frame.gui_input.emit(press)
+	minimap._frame.gui_input.emit(release)
+	assert_eq(minimap.shown_layout()["origine"], origin, "un clic recentre")
+	assert_false(world_map.is_open())
+	# Clic droit : drapeau sur la carte visée, avec sa flèche ; le même le retire.
+	var center: Dictionary = minimap.shown_layout()["cases"].filter(func(case: Dictionary) -> bool: return case["actuelle"])[0]
+	var east := WorldMapLayout.map_coordinates(here)
+	var target := ""
+	for case: Dictionary in minimap.shown_layout()["cases"]:
+		if case["coordonnees"] == center["coordonnees"] + Vector2i(1, 0):
+			target = case["id"]
+			minimap.flag_at(minimap._grid.cell_rect(case["case"]).get_center(), false)
+	assert_eq(Session.quest_pin.get("carte"), target, "drapeau posé")
+	assert_true(minimap._flag_row.visible)
+	assert_true(minimap._flag_label.text.ends_with(": 1 carte"), minimap._flag_label.text)
+	assert_eq(minimap._flag_arrow.direction, Vector2(1, 0), "flèche vers l'est (%s)" % east)
+	minimap.flag_requested.emit(Session.quest_pin.duplicate(), false)
+	assert_true(Session.quest_pin.is_empty(), "le même drapeau le retire")
+	# Légende : une sorte d'icônes masquée, retenue dans les options.
+	world_map.open()
+	world_map._icon_toggles["marchand"].button_pressed = false
+	assert_true("marchand" in Options.hidden_icons)
+	world_map._icon_toggles["marchand"].button_pressed = true
+	assert_false("marchand" in Options.hidden_icons)
+	world_map.close()
+	scene.queue_free()

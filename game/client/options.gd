@@ -1,8 +1,8 @@
 class_name Options
 extends RefCounted
 ## Réglages du joueur, gardés d'une partie à l'autre dans `user://options.cfg` (hors sauvegarde) :
-## volume, plein écran, taille de la fenêtre (hors navigateur), mode tactique en combat et adresse
-## du serveur de jeu (développement).
+## volume, plein écran, taille de la fenêtre (hors navigateur), mode tactique en combat, adresse
+## du serveur de jeu (développement), zoom de la minicarte et icônes masquées.
 
 ## Tailles de fenêtre proposées (sur ordinateur ; le navigateur garde la taille de sa page).
 const WINDOW_SIZES: Array[Vector2i] = [Vector2i(1280, 720), Vector2i(1600, 900), Vector2i(1920, 1080)]
@@ -22,6 +22,10 @@ static var tactical_pawns := false
 ## Adresse du serveur de jeu (ws:// ou wss://) pour le développement ; vide : celle que publie le
 ## serveur de test dans Supabase (GDD § 16.5).
 static var server_address := ""
+## Minicarte : cartes montrées de chaque côté (1 à 4 : de 3 × 3 à 9 × 9, molette) et icônes masquées
+## (sortes de `MapIcons.KINDS`, légende de la carte du monde).
+static var minimap_radius := 2
+static var hidden_icons: Array = []
 static var _loaded := false
 
 
@@ -39,6 +43,9 @@ static func load_options(force := false) -> void:
 	tactical = bool(file.get_value("combat", "tactique", tactical))
 	tactical_pawns = bool(file.get_value("combat", "pions", tactical_pawns))
 	server_address = str(file.get_value("en_ligne", "serveur", server_address))
+	minimap_radius = clampi(int(file.get_value("carte", "minicarte", minimap_radius)), 1, 4)
+	var hidden: Variant = file.get_value("carte", "icones_masquees", hidden_icons)
+	hidden_icons = hidden if typeof(hidden) == TYPE_ARRAY else []
 
 
 static func save_options() -> void:
@@ -49,6 +56,8 @@ static func save_options() -> void:
 	file.set_value("combat", "tactique", tactical)
 	file.set_value("combat", "pions", tactical_pawns)
 	file.set_value("en_ligne", "serveur", server_address)
+	file.set_value("carte", "minicarte", minimap_radius)
+	file.set_value("carte", "icones_masquees", hidden_icons)
 	file.save(path)
 
 
@@ -60,6 +69,8 @@ static func reset() -> void:
 	tactical = false
 	tactical_pawns = false
 	server_address = ""
+	minimap_radius = 2
+	hidden_icons = []
 	_loaded = true
 
 

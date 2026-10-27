@@ -81,6 +81,9 @@ func _ready() -> void:
 	quest_dialog.pin_requested.connect(_on_pin_requested)
 	quests_window.pin_requested.connect(_on_pin_requested)
 	_world_map.pin_cleared.connect(_set_pin.bind({}))
+	_world_map.flag_requested.connect(_on_flag_requested)
+	_world_map.icons_changed.connect(_minimap.refresh)
+	_minimap.flag_requested.connect(_on_flag_requested)
 	_combat_hud.menu_pressed.connect(_on_menu_pressed)
 	_map_view.notice.connect(_combat_hud.show_message)
 	_map_view.hovered_cell_changed.connect(_on_hovered_cell_changed)
@@ -266,9 +269,22 @@ func _on_pin_requested(pin: Dictionary) -> void:
 	_world_map.show_pin()
 
 
-func _set_pin(pin: Dictionary) -> void:
+## Drapeau (clic droit sur la minicarte ou la carte du monde) : le repère, montré au groupe avec Maj ;
+## le même une seconde fois le retire.
+func _on_flag_requested(pin: Dictionary, shared: bool) -> void:
+	if pin.get("carte") == Session.quest_pin.get("carte") and pin.get("nom") == Session.quest_pin.get("nom"):
+		_set_pin({})
+		_combat_hud.show_message("Drapeau retiré.")
+		return
+	_set_pin(pin, shared)
+	_combat_hud.show_message("Drapeau posé%s : %s." % [" pour le groupe" if shared else "", pin["nom"]])
+
+
+## Pose le repère (`share` : montré aux membres du groupe, GDD § 16.5, M2 ; sinon, celui qu'ils
+## voyaient est retiré).
+func _set_pin(pin: Dictionary, share := true) -> void:
 	Session.quest_pin = pin
-	_map_view.share_pin(pin)  # Montré aux membres du groupe (GDD § 16.5, M2).
+	_map_view.share_pin(pin if share else {})
 	_minimap.refresh()
 	_world_map.refresh()
 
