@@ -461,3 +461,66 @@ func test_chat_entre_deux_clients() -> void:
 	var tail := "\n".join(frodon_hud.message_log.visible_lines().slice(-3))
 	assert_true(tail.contains("trop vite"), tail)
 	scene.queue_free()
+
+
+## Amis, ignorés et signalement côté client (jalon M3, lots 3 et 4) : menu du pseudo, fenêtre Amis,
+## annonce d'arrivée, fenêtre du signalement.
+func test_amis_et_signalement_entre_deux_clients() -> void:
+	var scene := _scene()
+	var views := _two_clients(scene)
+	var frodon_view := views[0]
+	var sam_view := views[1]
+	var hud := CombatHud.new()
+	scene.add_child(hud)
+	hud.setup(frodon_view)
+	hud.message_log.set_chat_enabled(true)
+	var party_ui := PartyUi.new()
+	scene.add_child(party_ui)
+	party_ui.setup(frodon_view)
+	var friends := FriendsWindow.new()
+	scene.add_child(friends)
+	friends.setup(frodon_view)
+	friends.enabled = true
+	var sam: String = sam_view.world.player_name
+
+	# Menu du pseudo : « Ajouter Sam en ami », puis « Retirer ».
+	party_ui._on_player_clicked("j:sam", sam)
+	assert_true(party_ui._menu.get_item_text(party_ui._menu.get_item_index(3)).begins_with("Ajouter"))
+	party_ui._on_menu_pressed(3)
+	_run_until_idle(frodon_view)
+	assert_true(frodon_view.world.has_relation("amis", sam), "la copie du client connaît la liste")
+	party_ui._on_player_clicked("j:sam", sam)
+	assert_true(party_ui._menu.get_item_text(party_ui._menu.get_item_index(3)).begins_with("Retirer"))
+
+	# Fenêtre Amis : Sam hors de vue tant qu'il ne compte pas Frodon parmi ses amis.
+	friends.open()
+	_run_until_idle(frodon_view)
+	assert_true(friends.is_open())
+	assert_eq(friends.friend_lines(), PackedStringArray(["%s (hors ligne)" % sam]))
+	sam_view.send_command({"type": Protocol.CMD_RELATIONS, "entite": "j:sam", "action": Relations.ADD,
+		"nom": frodon_view.world.player_name})
+	_run_until_idle(sam_view)
+	frodon_view.advance(0.1)
+	_run_until_idle(frodon_view)
+	friends.refresh()
+	assert_true(friends.friend_lines()[-1].contains("en ligne"), str(friends.friend_lines()))
+
+	# Ignorer depuis le menu, puis signaler : la fenêtre du motif, puis l'accusé du serveur.
+	party_ui._on_player_clicked("j:sam", sam)
+	party_ui._on_menu_pressed(4)
+	_run_until_idle(frodon_view)
+	assert_true(frodon_view.world.has_relation("ignores", sam))
+	assert_false(frodon_view.world.has_relation("amis", sam), "ignoré, il n'est plus ami")
+	party_ui._on_menu_pressed(5)
+	assert_true(party_ui.is_reporting())
+	party_ui._report_comment.text = "Il insulte"
+	var sent := []
+	frodon_view.report_sent.connect(func(event: Dictionary) -> void: sent.append(event))
+	party_ui._send_report()
+	_run_until_idle(frodon_view)
+	assert_eq(sent.size(), 1, "le serveur accuse réception")
+	var report: Dictionary = frodon_view.server.take_reports()[0]
+	assert_eq(report["cible_nom"], sam)
+	assert_eq(report["motif"], Relations.REPORT_REASONS.keys()[0])
+	assert_eq(report["commentaire"], "Il insulte")
+	scene.queue_free()

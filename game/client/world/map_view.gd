@@ -52,6 +52,10 @@ signal party_invited(event: Dictionary)
 signal party_changed
 ## Message de chat reçu (EVT_CHAT, jalon M3), le sien compris : à ranger dans l'historique.
 signal chat_received(event: Dictionary)
+## Amis ou ignorés changés (EVT_RELATIONS) ; `annonce` : un ami vient d'arriver ou de partir.
+signal relations_changed(event: Dictionary)
+## Signalement enregistré par le serveur (EVT_REPORTED).
+signal report_sent(event: Dictionary)
 ## Message de chat refusé par le serveur (trop vite, destinataire hors ligne) : à dire au joueur.
 signal chat_refused(event: Dictionary)
 signal player_clicked(player_id: String, player_name: String)
@@ -1173,6 +1177,10 @@ func _apply_world_change(event: Dictionary) -> void:
 			notice.emit("%s refuse votre invitation." % event["nom"])
 		Protocol.EVT_CHAT:
 			chat_received.emit(event)
+		Protocol.EVT_RELATIONS:
+			relations_changed.emit(event)
+		Protocol.EVT_REPORTED:
+			report_sent.emit(event)
 		Protocol.EVT_PARTY:
 			party_changed.emit()
 			if not follow_id.is_empty() and world.party_member(follow_id).is_empty():
@@ -1329,7 +1337,8 @@ func _apply(event: Dictionary) -> float:
 		_walk_speed = walk_speed(path.size())
 		combat_state_changed.emit()
 		return -1.0
-	if type in [Protocol.EVT_PARTY, Protocol.EVT_PARTY_INVITE, Protocol.EVT_PARTY_DECLINED, Protocol.EVT_CHAT]:
+	if type in [Protocol.EVT_PARTY, Protocol.EVT_PARTY_INVITE, Protocol.EVT_PARTY_DECLINED, Protocol.EVT_CHAT,
+			Protocol.EVT_RELATIONS, Protocol.EVT_REPORTED]:
 		_apply_world_change(event)  # Réponse à sa propre commande (invitation acceptée, message écrit…).
 		return 0.0
 	if type == Protocol.EVT_DIALOGUE:
@@ -1472,6 +1481,12 @@ func _apply(event: Dictionary) -> float:
 			notice.emit(CombatHud.OVERLOAD_TEXT)
 		if event["commande"] == Protocol.CMD_CHAT:
 			chat_refused.emit(event)
+		if event["commande"] == Protocol.CMD_RELATIONS:
+			notice.emit("Votre liste est pleine (%d noms)." % Relations.MAX_ENTRIES if event["raison"] == Protocol.REASON_LIST_FULL
+				else "Pseudo invalide.")
+		if event["commande"] == Protocol.CMD_REPORT:
+			notice.emit("Vous avez déjà signalé ce joueur il y a peu." if event["raison"] == Protocol.REASON_ALREADY_REPORTED
+				else "Ce joueur est introuvable : signalement impossible.")
 		if event["commande"] == Protocol.CMD_HARVEST:
 			notice.emit(_harvest_refusal_text(event["raison"], NO_CELL))
 		if mode == Mode.COMBAT and _refusals.has(event["raison"]):

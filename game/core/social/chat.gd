@@ -85,3 +85,17 @@ func recent_by(sender_id: String, count := 20) -> Array:
 	found.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a["heure"] < b["heure"])
 	return found.slice(maxi(0, found.size() - count))
 
+
+
+## Id du dernier auteur de ce pseudo encore au journal (sans tenir compte des majuscules), ou "" :
+## on peut signaler un joueur parti après avoir écrit.
+func author_id(author_name: String) -> String:
+	var wanted := author_name.strip_edges().to_lower()
+	var found := ""
+	var latest := -INF
+	for channel: String in journal:
+		for line: Dictionary in journal[channel]:
+			if str(line["auteur"]).to_lower() == wanted and float(line["heure"]) >= latest:
+				latest = float(line["heure"])
+				found = line["de"]
+	return found

@@ -9,7 +9,7 @@ extends RefCounted
 
 ## Version du protocole, vérifiée à la connexion : à augmenter à chaque changement incompatible
 ## d'une commande ou d'un événement.
-const VERSION := 5
+const VERSION := 6
 
 # --- Commandes (client → noyau) ---
 
@@ -103,6 +103,12 @@ const CMD_PARTY_PIN := "repere_groupe"
 ## (`Chat.CHANNELS` : local, groupe, commerce, recrutement, privé). { type, entite: String,
 ## canal: String, texte: String, a: String (pseudo du destinataire, privé seulement) }
 const CMD_CHAT := "ecrire"
+## Amis et ignorés (jalon M3) : { type, entite: String, action: String (`Relations.ACTIONS` :
+## ajouter, retirer, ignorer, ne_plus_ignorer ; "" : seulement redemander la liste), nom: String }.
+const CMD_RELATIONS := "relations"
+## Signaler un joueur (jalon M3) : { type, entite: String, nom: String, motif: String
+## (`Relations.REPORT_REASONS`), commentaire: String (facultatif) }.
+const CMD_REPORT := "signaler"
 
 # --- Événements (noyau → client) ---
 
@@ -295,6 +301,13 @@ const EVT_PARTY := "groupe_joueurs"
 ## { type, canal: String, de: String (id de l'auteur), auteur: String (son nom), texte: String } ;
 ## en privé, aussi `a` (nom du destinataire).
 const EVT_CHAT := "message_chat"
+## Amis et ignorés, après chaque changement et quand un ami se connecte ou part. { type,
+## amis: Array[{ nom, en_ligne, carte, combat }] (en ligne, carte et combat seulement pour un ami
+## qui nous compte aussi parmi les siens), ignores: Array[String], annonce: String (« X vient de se
+## connecter. », ou "") }.
+const EVT_RELATIONS := "relations"
+## Signalement enregistré. { type, nom: String }
+const EVT_REPORTED := "signalement_recu"
 ## Un groupe n'est plus combattu sans avoir été vaincu (son joueur a perdu ou s'est déconnecté) : il
 ## réapparaît pour les autres joueurs de la carte (jamais en solo). { type, carte: String,
 ## groupe: { id, case, monstres, niveaux… } (voir `World.group_view`) }
@@ -325,7 +338,8 @@ const FIELD_FOR := "pour"
 ## du combat (id), pour trouver ses participants.
 const FIELD_COMBAT_OF := "combat_de"
 ## Événements personnels que la copie du client applique seule (sans instantané).
-const SELF_APPLIED_EVENTS := [EVT_REGEN, EVT_PARTY, EVT_PARTY_INVITE, EVT_PARTY_DECLINED, EVT_CHAT]
+const SELF_APPLIED_EVENTS := [EVT_REGEN, EVT_PARTY, EVT_PARTY_INVITE, EVT_PARTY_DECLINED, EVT_CHAT, EVT_RELATIONS,
+	EVT_REPORTED]
 
 ## Événements visibles de toute la carte : ils ont tous un champ `carte`.
 const MAP_EVENTS := [EVT_MOVED, EVT_SAT, EVT_HARVESTED, EVT_RESOURCE_RESPAWNED, EVT_GROUP_RESPAWNED, EVT_GROUP_MOVED,
@@ -449,6 +463,10 @@ const REASON_NOT_YOUR_TURN := "pas_votre_tour"
 const REASON_CHAT_FLOOD := "chat_trop_rapide"
 ## Chat : le destinataire d'un privé n'est pas connecté (ou n'existe pas).
 const REASON_PLAYER_OFFLINE := "joueur_hors_ligne"
+## Amis : liste pleine (`Relations.MAX_ENTRIES`).
+const REASON_LIST_FULL := "liste_pleine"
+## Signalement : ce joueur a déjà été signalé par vous il y a moins d'une heure.
+const REASON_ALREADY_REPORTED := "deja_signale"
 const REASON_OCCUPIED := "case_occupee"
 const REASON_NOT_PLACEMENT_CELL := "case_de_placement_invalide"
 const REASON_NOT_ENOUGH_PM := "pm_insuffisants"

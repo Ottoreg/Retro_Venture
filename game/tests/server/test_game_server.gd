@@ -310,3 +310,34 @@ func test_absent_a_la_fin_du_combat_sauvegarde_puis_retire() -> void:
 	_win(1, frodon)
 	assert_true(_server.world.player(sam) == null, "Sam quitte le monde à la fin du combat")
 	assert_true(int(_store.load_character("dev:sam")["personnage"]["xp"]) > 0, "avec ce qu'il y a gagné")
+
+
+## Jalon M3 : les listes d'amis et d'ignorés suivent le personnage d'une connexion à l'autre, les
+## amis apprennent son arrivée, et un signalement part dans le magasin du serveur.
+func test_amis_sauvegardes_et_signalement() -> void:
+	var frodon := _join(1, "Frodon")
+	var sam := _join(2, "Sam")
+	_take(1)
+	_take(2)
+	_command(1, {"type": Protocol.CMD_RELATIONS, "action": Relations.ADD, "nom": "Sam"})
+	_command(2, {"type": Protocol.CMD_RELATIONS, "action": Relations.ADD, "nom": "Frodon"})
+	_command(1, {"type": Protocol.CMD_RELATIONS, "action": Relations.IGNORE, "nom": "Gollum"})
+	_server.peer_disconnected(1)
+	assert_eq(_pushed(_take(2), Protocol.EVT_RELATIONS)[-1]["annonce"], "Frodon vient de partir.")
+	assert_eq(_store.load_character("dev:frodon")["amis"], ["Sam"], "sauvegardées avec le personnage")
+	_join(1, "Frodon")
+	var snapshot: Dictionary = _of_type(_take(1), Protocol.EVT_SNAPSHOT)[0]
+	assert_eq(snapshot["relations"]["ignores"], ["Gollum"], "retrouvées à la connexion")
+	assert_true(snapshot["relations"]["amis"][0]["en_ligne"], "Sam, ami réciproque, est en ligne")
+	assert_eq(_pushed(_take(2), Protocol.EVT_RELATIONS)[-1]["annonce"], "Frodon vient de se connecter.")
+
+	_command(2, {"type": Protocol.CMD_CHAT, "canal": Chat.LOCAL, "texte": "Grossièreté"})
+	var reply := _command(1, {"type": Protocol.CMD_REPORT, "nom": "Sam", "motif": "insultes", "commentaire": "à vérifier"})
+	assert_eq(reply["evenements"][0]["type"], Protocol.EVT_REPORTED)
+	assert_eq(_store.reports.size(), 1, "le signalement est enregistré")
+	var report: Dictionary = _store.reports[0]
+	assert_eq(report["auteur"], "dev:frodon", "les comptes, sans « j: »")
+	assert_eq(report["cible"], "dev:sam")
+	assert_eq(report["messages"][0]["texte"], "Grossièreté")
+	assert_false(report["messages"][0].has("de"), "pas d'id de joueur dans le journal enregistré")
+	assert_true(frodon != sam)

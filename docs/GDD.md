@@ -2113,8 +2113,8 @@ exemples en [annexe](#20-annexes--formats-de-données).
 > un hébergement gratuit pour les tests). **M0 fait le 26/10/2026** (voir « Où en est M0 » plus
 > bas) ; **prototype M1 en place le 26/10/2026** (« Où en est M1 »), essayé chez l'auteur ;
 > **M2 (combat de groupe) codé le 26/10/2026, clos le 27/10/2026** (« Où en est M2 ») ;
-> **M3 (social) en cours** (« Préparation de M3 », découpage validé le 27/10/2026) : lots 1 (chat côté
-> serveur) et 2 (chat côté client) faits le 27/10/2026 (« Où en est M3 »).
+> **M3 (social) en cours** (« Préparation de M3 », découpage validé le 27/10/2026) : **M3 codé le
+> 27/10/2026** (chat, amis et ignorés, signalement : « Où en est M3 »), à essayer à plusieurs.
 
 #### Quand
 
@@ -2470,13 +2470,13 @@ la ligne de saisie reste cachée.
    ouvert. En combat comme en exploration. Clic sur un pseudo
    dans l'historique : menu *Message privé*, *Inviter dans le groupe*, *Ajouter en ami*,
    *Ignorer*, *Signaler*.
-3. **Amis, ignorés, statut en ligne** : deux listes par personnage dans Supabase (table
-   `relations`), lues à la connexion. Fenêtre *Amis* (touche à choisir) : en ligne ou non, carte
+3. **Amis, ignorés, statut en ligne** (**fait le 27/10/2026**) : deux listes par personnage,
+   finalement gardées dans sa sauvegarde, lues à la connexion. Fenêtre *Amis* (touche à choisir) : en ligne ou non, carte
    et « en combat » pour les amis réciproques seulement ; « X s'est connecté » dans l'historique.
    Un joueur ignoré n'atteint plus rien : ses messages (tous canaux), ses privés et ses
    invitations de groupe sont filtrés **par le serveur** (il ne le sait pas). Entrées depuis le
    menu du pseudo ou par nom dans la fenêtre.
-4. **Signalement** : depuis le menu du pseudo, un motif dans une liste (insultes, triche, spam,
+4. **Signalement** (**fait le 27/10/2026**) : depuis le menu du pseudo, un motif dans une liste (insultes, triche, spam,
    autre) et un commentaire court facultatif ; le serveur range dans une table `signalements`
    l'auteur, la cible, le motif et les derniers messages de la cible (journal du lot 1). Pas encore
    d'outil de sanction : on les lit dans Supabase, la modération vient en M6.
@@ -2529,7 +2529,40 @@ la ligne de saisie reste cachée.
   privé puis groupe entre deux cartes), l'historique et la ligne de saisie
   (`test_interface.gd`) et le chat entre deux clients (`test_online_client.gd` : local, privé,
   réponse `/r`, menu de l'auteur, refus pour cause de débit).
-- **Reste de M3** : amis, ignorés et statut en ligne (lot 3), signalement (lot 4).
+- **Lot 3, amis, ignorés, statut en ligne** (`core/social/relations.gd`, `World` : section « Amis,
+  ignorés et signalements ») : deux listes par pseudo (100 au plus), gardées **dans la sauvegarde
+  du personnage** (`amis`, `ignores` de `World.player_save`, reprises par
+  `World.restore_relations`) plutôt que dans une table à part. Commande `CMD_RELATIONS`
+  (`relations` : `action` ajouter, retirer, ignorer, ne_plus_ignorer, ou vide pour redemander la
+  liste ; `nom`) ; événement `EVT_RELATIONS` (amis avec `en_ligne`, `carte`, `combat`, ignorés,
+  `annonce`), aussi dans l'instantané (`relations`). Liste à sens unique comme Dofus ; le statut
+  d'un ami ne se voit que s'il nous compte aussi parmi les siens. Ami ou ignoré, pas les deux.
+  Quand un joueur arrive ou part (ou s'absente en combat), ceux qui le comptent parmi leurs amis
+  reçoivent leur liste à jour (`World.presence_events`), avec « X vient de se connecter. » dans
+  l'historique si l'amitié est réciproque. Un ignoré n'atteint plus rien, sans le savoir : ses
+  messages (tous canaux, privé compris : il voit son message partir) et ses invitations de groupe
+  sont retenus par le serveur. Client : fenêtre **Amis** (`client/ui/friends_window.gd`, touche F
+  ou bouton « Amis (F) » de la bande droite, en ligne seulement : statut et carte, « Écrire »,
+  « Retirer », ajout par pseudo, ignorés avec « Ne plus ignorer ») ; menu du pseudo (`PartyUi`) :
+  « Ajouter en ami » / « Retirer des amis », « Ignorer » / « Ne plus ignorer », « Signaler… ».
+- **Lot 4, signalement** : commande `CMD_REPORT` (`signaler` : `nom`, `motif` parmi
+  `Relations.REPORT_REASONS` — insultes, triche, spam, pseudo, autre —, `commentaire` de 200
+  caractères au plus) pour un joueur connecté ou encore au journal du chat (`Chat.author_id` : on
+  signale aussi un joueur parti après avoir écrit). Un même joueur une fois par heure
+  (`deja_signale`). Le signalement emporte ses 20 derniers messages (`Chat.recent_by`) et sa
+  carte ; `World.take_reports` les passe au serveur, qui les enregistre
+  (`CharacterStore.save_report` : en mémoire et dans `signalements/` du dossier de développement ;
+  `SupabaseStore` : table `signalements`, comptes sans « j: », colonne `traite` pour la suite).
+  Accusé `EVT_REPORTED` (« Signalement de X envoyé. Merci. »). Fenêtre du motif et d'un
+  commentaire dans `PartyUi`. Table créée dans le projet Supabase de l'auteur le 27/10/2026 (et
+  dans `serveur/supabase/schema.sql`) ; on lit les signalements dans le Table Editor en attendant les
+  outils de modération (M6).
+- **Protocole** : version 6. **Tests** : `tests/core/test_relations.gd` (sens unique, statut
+  réciproque, annonces, sauvegarde, ignorés filtrés, signalements), serveur (listes gardées d'une
+  connexion à l'autre, signalement enregistré), client (`test_online_client.gd` : menu, fenêtre,
+  signalement). Captures : actions `chat` et `amis` de `tools/screenshot.gd`.
+- **M3 codé le 27/10/2026** : reste l'essai à plusieurs chez l'auteur (critère de sortie déjà
+  vérifié par le test WebSocket).
 
 #### Jalons
 

@@ -37,6 +37,27 @@ func name_taken(pseudo: String, account: String) -> bool:
 	return false
 
 
+## Signalements reçus (jalon M3), du plus ancien au plus récent ; dans le dossier, un fichier par
+## signalement.
+var reports: Array[Dictionary] = []
+
+
+## Enregistre un signalement ({ auteur, auteur_nom, cible, cible_nom, motif, commentaire, messages,
+## carte }, comptes sans « j: ») ; faux en cas d'échec.
+func save_report(report: Dictionary) -> bool:
+	reports.append(report.duplicate(true))
+	if directory.is_empty():
+		return true
+	var folder := directory.path_join("signalements")
+	DirAccess.make_dir_recursive_absolute(folder)
+	var stamp := Time.get_datetime_string_from_system(true).replace(":", "-")
+	var file := FileAccess.open(folder.path_join("%s_%d.json" % [stamp, reports.size()]), FileAccess.WRITE)
+	if file == null:
+		return false
+	file.store_string(JSON.stringify(report, "\t"))
+	return true
+
+
 ## Enregistre le personnage du compte ; faux en cas d'échec.
 func save_character(account: String, pseudo: String, state: Dictionary) -> bool:
 	var entry := {"compte": account, "pseudo": pseudo, "etat": state.duplicate(true)}

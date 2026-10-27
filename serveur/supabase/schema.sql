@@ -34,3 +34,22 @@ create or replace view public.serveur_en_ligne as
   select adresse, instance, poste, vu from public.serveur_actuel
   where vu > now() - interval '90 seconds';
 grant select on public.serveur_en_ligne to anon, authenticated;
+
+-- Signalements de joueurs (jalon M3, GDD § 16.5) : écrits par le serveur, lus par l'auteur dans
+-- Supabase (Table Editor) en attendant les outils de modération (M6). `messages` : les derniers
+-- messages de chat du joueur signalé ({ auteur, texte, canal, heure, a }).
+create table if not exists public.signalements (
+  id bigint generated always as identity primary key,
+  auteur uuid references auth.users (id) on delete set null,
+  auteur_nom text not null,
+  cible uuid references auth.users (id) on delete set null,
+  cible_nom text not null,
+  motif text not null,
+  commentaire text not null default '',
+  messages jsonb not null default '[]',
+  carte text not null default '',
+  traite boolean not null default false,
+  cree timestamptz not null default now()
+);
+alter table public.signalements enable row level security;
+-- Aucune règle : seul le serveur (clé secrète) écrit les signalements.

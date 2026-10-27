@@ -227,7 +227,9 @@ func _enter(peer_id: int, character: Character, saved: Dictionary) -> void:
 		return
 	session["joueur"] = player_id
 	_peer_of[player_id] = peer_id
+	world.restore_relations(player_id, saved)
 	_write(peer_id, world.snapshot(player_id))
+	_route(world.presence_events(p, true), "")  # Ses amis l'apprennent.
 	var joined := {"type": Protocol.EVT_PLAYER_JOINED, "carte": p.map.id, "joueur": world.player_view(p)}
 	for other_id in p.instance.player_ids():
 		if other_id != player_id and _peer_of.has(other_id):
@@ -243,6 +245,8 @@ func _command(peer_id: int, message: Dictionary) -> void:
 	command["entite"] = player_id  # Jamais celle du client : celle de sa session.
 	var events := world.execute(command)
 	_route(events, player_id)
+	for report in world.take_reports():
+		_store_report(report)
 	# Sauvegarde de chaque joueur dont le combat finit (ceux du groupe aussi) ou qui change de carte.
 	var saved := {}
 	for event in events:
@@ -274,6 +278,20 @@ func _route(events: Array[Dictionary], sender: String) -> void:
 	if not sender.is_empty() and _peer_of.has(sender):
 		_write(_peer_of[sender], {"type": Protocol.MSG_REPLY, "evenements": per_player.get(sender, []),
 			"instantane": world.snapshot(sender)})
+
+
+## Enregistre un signalement (jalon M3) ; rien n'est dit au joueur en cas d'échec, mais le
+## journal du serveur le garde.
+func _store_report(report: Dictionary) -> void:
+	var stored := report.duplicate(true)
+	stored["auteur"] = str(stored["auteur"]).trim_prefix("j:")  # Les comptes, pas les ids de joueur.
+	stored["cible"] = str(stored["cible"]).trim_prefix("j:")
+	for line: Dictionary in stored["messages"]:
+		line.erase("de")
+		line["a"] = str(line.get("a", "")).trim_prefix("j:")
+	var ok: bool = await store.save_report(stored)
+	if not ok:
+		push_error("Signalement non enregistré : %s" % JSON.stringify(stored))
 
 
 func _save(player_id: String) -> void:

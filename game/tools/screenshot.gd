@@ -252,6 +252,17 @@ func _process(_delta: float) -> bool:
 			log.add_chat({"canal": Chat.PARTY, "de": "j:1", "auteur": "Grizzette", "texte": "J'arrive par la Pierre"})
 			log.toggle_typing()
 			log._input.text = "/g deux minutes et je suis là"
+		elif _action == "amis":
+			# Amis (M3) : un ami en ligne (réciproque), un hors ligne, un ignoré ; la fenêtre ouverte.
+			var here := view.server.position_of(World.PLAYER_ID)
+			view.server.add_player(Character.create("Grizzette", "gobelin", "rodeur"), "j:Grizzette", view.server.map.id, here + Vector2i(2, 1))
+			view.server.player("j:Grizzette").friends.append(view.server.character.display_name)
+			for entry: Array in [[Relations.ADD, "Grizzette"], [Relations.ADD, "Barlomir"], [Relations.IGNORE, "Trolldu"]]:
+				view.server.execute({"type": Protocol.CMD_RELATIONS, "entite": World.PLAYER_ID, "action": entry[0], "nom": entry[1]})
+			view.refresh_state()
+			var window: FriendsWindow = _scene.friends_window
+			window.enabled = true
+			window.open()
 		elif _action == "assis":
 			view.server.character.hp_lost = 30
 			view.refresh_state()

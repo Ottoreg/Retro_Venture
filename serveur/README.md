@@ -48,6 +48,9 @@ une conversation : elles vont dans des fichiers sur le PC (ou, pour la clé publ
 1. Sur https://supabase.com, créer un compte puis un projet (offre gratuite, région Europe ;
    noter le mot de passe de la base dans un gestionnaire de mots de passe, il ne sert pas au jeu).
 2. **SQL Editor** → New query → coller tout `serveur/supabase/schema.sql` → **Run**.
+   (Le script se relance sans risque : il ne crée que ce qui manque, comme la table
+   `signalements` du jalon M3. Les signalements des joueurs se lisent dans **Table Editor →
+   signalements**.)
 3. **Authentication → Sign In / Providers → Email** : laisser « Confirm email » activé.
    **Authentication → URL Configuration** : *Site URL* = `https://ottoreg.github.io/Retro_Venture/`
    (le lien du courriel de confirmation y ramène).

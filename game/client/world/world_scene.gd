@@ -24,6 +24,8 @@ const MENU_SCENE := "res://client/main/main.tscn"
 var pause_menu: PauseMenu
 ## Groupes de joueurs (en ligne) : invitations.
 var party_ui: PartyUi
+## Amis et ignorés (en ligne, touche F).
+var friends_window: FriendsWindow
 ## Quêtes : proposition d'un PNJ, journal (Q), suivi dans la bande gauche.
 var quest_dialog: QuestDialog
 var quests_window: QuestsWindow
@@ -52,6 +54,8 @@ func _ready() -> void:
 	add_child(quest_tracker)
 	party_ui = PartyUi.new()
 	add_child(party_ui)
+	friends_window = FriendsWindow.new()
+	add_child(friends_window)
 	if Session.online_connection != null and Session.online_connection.is_open():
 		_map_view.setup(Session.online_connection)  # En ligne : le monde tourne sur le serveur.
 	else:
@@ -78,6 +82,9 @@ func _ready() -> void:
 	# Chat : le nom d'un auteur de l'historique ouvre son menu, « Message privé » la ligne de saisie.
 	_combat_hud.message_log.author_clicked.connect(party_ui.on_author_clicked)
 	party_ui.whisper_requested.connect(_combat_hud.message_log.whisper_to)
+	friends_window.setup(_map_view)
+	friends_window.whisper_requested.connect(_combat_hud.message_log.whisper_to)
+	_combat_hud.friends_pressed.connect(friends_window.toggle)
 	quests_window.setup(_map_view)
 	quest_tracker.setup(_map_view, _combat_hud)
 	quest_tracker.pressed.connect(quests_window.toggle)

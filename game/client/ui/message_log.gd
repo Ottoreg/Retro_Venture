@@ -131,6 +131,11 @@ static func escape(text: String) -> String:
 	return text.replace("[", "[lb]")
 
 
+## Annonce du jeu dans le chat (un ami arrive ou part), sur le canal Privé, en doré.
+func add_notice(text: String) -> void:
+	add_entry(Chat.PRIVATE, "[color=%s]%s[/color]" % [SEPARATOR_COLOR, escape(text)])
+
+
 ## Refus du serveur (EVT_REFUSED sur `ecrire`) : dit dans l'historique, sur le canal visé.
 func add_chat_refusal(event: Dictionary) -> void:
 	var reason := str(event.get("raison", ""))

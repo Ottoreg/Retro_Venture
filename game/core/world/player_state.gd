@@ -46,6 +46,11 @@ var last_combat: Combat = null
 var pin: Dictionary = {}
 ## Invitations reçues dans un groupe : id de qui a invité → true.
 var invitations: Dictionary = {}
+## Amis et joueurs ignorés (jalon M3), par pseudo, gardés dans sa sauvegarde (`World.player_save`).
+var friends: Array[String] = []
+var ignored: Array[String] = []
+## Signalements faits : pseudo signalé (en minuscules) → heure du monde (un par heure et par joueur).
+var reports: Dictionary = {}
 ## Quêtes : propositions, avancement, récompenses (l'état est dans `character.quests`).
 var quest_book: QuestBook
 

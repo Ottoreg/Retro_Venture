@@ -30,6 +30,23 @@ func name_taken(pseudo: String, account: String) -> bool:
 	return false
 
 
+func save_report(report: Dictionary) -> bool:
+	reports.append(report.duplicate(true))
+	var row := {
+		"auteur": report["auteur"],
+		"auteur_nom": report["auteur_nom"],
+		"cible": report["cible"],
+		"cible_nom": report["cible_nom"],
+		"motif": report["motif"],
+		"commentaire": report["commentaire"],
+		"messages": report["messages"],
+		"carte": report["carte"],
+	}
+	var answer: Dictionary = await supabase.request(HTTPClient.METHOD_POST, "/rest/v1/signalements", row,
+		["Prefer: return=minimal"])
+	return answer["code"] in [200, 201, 204]
+
+
 func save_character(account: String, pseudo: String, state: Dictionary) -> bool:
 	var character: Dictionary = state.get("personnage", {})
 	var row := {

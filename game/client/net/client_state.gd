@@ -54,6 +54,9 @@ var _depleted: Dictionary = {}
 var _fights: Dictionary = {}
 ## Groupe de joueurs : { chef, membres: [{ id, nom, niveau, race, voie, absent }] } (voir `World._party_view`).
 var party: Dictionary = {"chef": "", "membres": []}
+## Amis et ignorés (en ligne, jalon M3) : { amis: Array[{ nom, en_ligne, carte, combat }],
+## ignores: Array[String] }.
+var relations: Dictionary = {"amis": [], "ignores": []}
 
 
 ## `p_map_loader` : Callable(id: String) -> GameMap (ou null).
@@ -89,6 +92,7 @@ func load_snapshot(snapshot: Dictionary) -> void:
 	for fight: Dictionary in snapshot.get("combats", []):
 		_fights[fight["groupe"]] = fight
 	party = snapshot.get("groupe_joueurs", {"chef": "", "membres": []})
+	relations = snapshot.get("relations", {"amis": [], "ignores": []})
 	combat = null
 	spectating = snapshot.get("spectateur", false)
 	fight_leader = snapshot.get("chef_combat", "")
@@ -162,7 +166,10 @@ func apply_event(event: Dictionary) -> bool:
 		Protocol.EVT_PARTY:
 			party = {"chef": event["chef"], "membres": event["membres"]}
 			return true
-		Protocol.EVT_PARTY_INVITE, Protocol.EVT_PARTY_DECLINED, Protocol.EVT_CHAT:
+		Protocol.EVT_RELATIONS:
+			relations = {"amis": event["amis"], "ignores": event["ignores"]}
+			return true
+		Protocol.EVT_PARTY_INVITE, Protocol.EVT_PARTY_DECLINED, Protocol.EVT_CHAT, Protocol.EVT_REPORTED:
 			return true
 		Protocol.EVT_GROUP_RELEASED:
 			var released: Dictionary = event["groupe"]
@@ -248,6 +255,15 @@ func player_at(at: Vector2i) -> Dictionary:
 		if other["case"] == at:
 			return other
 	return {}
+
+
+## Vrai si ce pseudo est dans la liste d'amis (`amis`) ou d'ignorés (`ignores`).
+func has_relation(list: String, player_name: String) -> bool:
+	for entry: Variant in relations.get(list, []):
+		var entry_name := str(entry["nom"]) if typeof(entry) == TYPE_DICTIONARY else str(entry)
+		if entry_name.to_lower() == player_name.to_lower():
+			return true
+	return false
 
 
 ## Autre joueur de la carte, ou membre du groupe, de ce pseudo ({} si on ne le voit pas : un auteur

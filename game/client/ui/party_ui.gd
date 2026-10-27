@@ -5,7 +5,8 @@ extends CanvasLayer
 ## bande droite (`CombatHud`).
 ##
 ## Chat (M3) : le même menu s'ouvre au clic sur le nom d'un auteur dans l'historique, avec en plus
-## « Message privé » (le joueur n'est alors connu que par son pseudo).
+## « Message privé » (le joueur n'est alors connu que par son pseudo). Il propose aussi d'ajouter le
+## joueur en ami, de l'ignorer et de le signaler (fenêtre du motif et d'un commentaire).
 
 ## Le joueur veut écrire en privé à ce pseudo (la ligne de saisie de l'historique s'ouvre).
 signal whisper_requested(player_name: String)
@@ -13,6 +14,9 @@ signal whisper_requested(player_name: String)
 var map_view: MapView
 var _menu: PopupMenu
 var _invitation: ConfirmationDialog
+var _report: ConfirmationDialog
+var _report_reason: OptionButton
+var _report_comment: LineEdit
 ## Joueur cliqué (id) et chef qui invite (id).
 var _clicked := ""
 var _clicked_name := ""
@@ -30,6 +34,7 @@ func _ready() -> void:
 	_invitation.confirmed.connect(_answer.bind(true))
 	_invitation.canceled.connect(_answer.bind(false))
 	add_child(_invitation)
+	_build_report()
 
 
 func setup(p_map_view: MapView) -> void:
@@ -47,6 +52,12 @@ func _on_player_clicked(player_id: String, player_name: String) -> void:
 	elif not player_id.is_empty():
 		_menu.add_item("Inviter %s dans le groupe" % player_name, 0)
 	_menu.add_item("Message privé à %s" % player_name, 1)
+	var world := map_view.world
+	_menu.add_item("Retirer %s des amis" % player_name if world.has_relation("amis", player_name)
+		else "Ajouter %s en ami" % player_name, 3)
+	_menu.add_item("Ne plus ignorer %s" % player_name if world.has_relation("ignores", player_name)
+		else "Ignorer %s" % player_name, 4)
+	_menu.add_item("Signaler %s…" % player_name, 5)
 	_menu.position = Vector2i(get_viewport().get_mouse_position())
 	_menu.popup()
 
@@ -68,6 +79,61 @@ func _on_menu_pressed(id: int) -> void:
 		whisper_requested.emit(_clicked_name)
 	elif id == 2:
 		map_view.toggle_follow(_clicked)
+	elif id == 3:
+		var friend := map_view.world.has_relation("amis", _clicked_name)
+		_relation(Relations.REMOVE if friend else Relations.ADD)
+	elif id == 4:
+		var ignored := map_view.world.has_relation("ignores", _clicked_name)
+		_relation(Relations.UNIGNORE if ignored else Relations.IGNORE)
+	elif id == 5:
+		open_report(_clicked_name)
+
+
+func _relation(action: String) -> void:
+	map_view.send_command({"type": Protocol.CMD_RELATIONS, "entite": map_view.world.player_id, "action": action,
+		"nom": _clicked_name})
+
+
+## Fenêtre du signalement de ce joueur : motif et commentaire facultatif.
+func open_report(player_name: String) -> void:
+	_clicked_name = player_name
+	_report.title = "Signaler %s" % player_name
+	_report_reason.select(0)
+	_report_comment.clear()
+	_report.popup_centered()
+
+
+## Vrai tant que la fenêtre de signalement est ouverte (tests).
+func is_reporting() -> bool:
+	return _report.visible
+
+
+func _send_report() -> void:
+	var reasons := Relations.REPORT_REASONS.keys()
+	map_view.send_command({"type": Protocol.CMD_REPORT, "entite": map_view.world.player_id, "nom": _clicked_name,
+		"motif": reasons[maxi(0, _report_reason.selected)], "commentaire": _report_comment.text})
+
+
+func _build_report() -> void:
+	_report = ConfirmationDialog.new()
+	_report.ok_button_text = "Signaler"
+	_report.cancel_button_text = "Annuler"
+	_report.confirmed.connect(_send_report)
+	add_child(_report)
+	var column := VBoxContainer.new()
+	column.add_theme_constant_override("separation", 6)
+	_report.add_child(column)
+	var hint := Label.new()
+	hint.text = "Ses derniers messages sont joints au signalement."
+	column.add_child(hint)
+	_report_reason = OptionButton.new()
+	for reason: String in Relations.REPORT_REASONS:
+		_report_reason.add_item(Relations.REPORT_REASONS[reason])
+	column.add_child(_report_reason)
+	_report_comment = LineEdit.new()
+	_report_comment.placeholder_text = "Commentaire (facultatif)"
+	_report_comment.max_length = Relations.COMMENT_LENGTH
+	column.add_child(_report_comment)
 
 
 func _on_invited(event: Dictionary) -> void:

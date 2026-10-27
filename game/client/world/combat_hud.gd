@@ -28,6 +28,8 @@ const MENUS := [["personnage", "icone_personnage", "Personnage (C)"], ["inventai
 
 ## Un bouton de menu de la barre : « personnage », « inventaire », « sorts », « metiers », « carte » ou « quetes ».
 signal menu_pressed(menu: String)
+## Bouton « Amis » de la bande droite (en ligne).
+signal friends_pressed
 
 
 ## Jauge dessinée : PV dans un cœur qui se vide par le haut, PA dans une étoile, PM dans une case.
@@ -396,6 +398,8 @@ var _summary_xp: ProgressBar
 var _summary_money: Label
 ## Groupe de joueurs (multijoueur), sous le résumé : ses membres et « Quitter le groupe ».
 var _party_box: VBoxContainer
+## « Amis (F) » sous le résumé du personnage, en ligne seulement (jalon M3).
+var _friends_button: Button
 var _party_lines: VBoxContainer
 ## Verrous du combat, pour celui qui l'a engagé : fermé, spectateurs permis.
 var _lock_box: HBoxContainer
@@ -430,6 +434,12 @@ func setup(p_map_view: MapView) -> void:
 	message_log.own_name = map_view.world.player_name
 	map_view.chat_received.connect(message_log.add_chat)
 	map_view.chat_refused.connect(message_log.add_chat_refusal)
+	map_view.relations_changed.connect(func(event: Dictionary) -> void:
+		if not str(event.get("annonce", "")).is_empty():
+			message_log.add_notice(event["annonce"]))
+	map_view.report_sent.connect(func(event: Dictionary) -> void:
+		show_message("Signalement de %s envoyé. Merci." % event["nom"]))
+	_friends_button.visible = map_view.connection.asynchronous
 	message_log.chat_submitted.connect(_on_chat_submitted)
 	map_view.shop_opened.connect(func(event: Dictionary) -> void: _merchant_name = event["nom"].get_slice(",", 0))
 	map_view.trade_result.connect(_on_trade_result)
@@ -1450,6 +1460,12 @@ func _build_bands() -> void:
 	_summary.add_child(_summary_xp)
 	_summary_money = _label(12, UiTheme.TEXT)
 	_summary.add_child(_summary_money)
+	_friends_button = Button.new()
+	_friends_button.text = "Amis (F)"
+	_friends_button.focus_mode = Control.FOCUS_NONE
+	_friends_button.visible = false  # En ligne seulement.
+	_friends_button.pressed.connect(func() -> void: friends_pressed.emit())
+	_summary.add_child(_friends_button)
 	_party_box = VBoxContainer.new()
 	_party_box.add_theme_constant_override("separation", 4)
 	_summary.add_child(_party_box)

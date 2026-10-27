@@ -62,6 +62,8 @@ var turn_seconds := 0.0
 var parties: Dictionary = {}
 ## Chat par canaux (jalon M3) : débit de chacun et journal des derniers messages.
 var chat := Chat.new()
+## Signalements faits depuis le dernier `take_reports` (le serveur les enregistre).
+var _reports: Array[Dictionary] = []
 ## Joueurs absents dont le combat est fini : à sauvegarder puis retirer du monde (`take_departed`).
 var _departed: Array[String] = []
 ## Chance d'une récolte rare (voir `Profession.RARE_CHANCE` ; les tests la fixent à 0 ou 1).
@@ -213,6 +215,8 @@ func remove_player(id: String) -> Array[Dictionary]:
 	_leave_instance(p, events)
 	players.erase(id)
 	_departed.erase(id)
+	if not p.away:  # Absent, il a déjà été annoncé parti (`disconnect_player`).
+		events.append_array(presence_events(p, false))
 	return events
 
 
@@ -229,6 +233,7 @@ func disconnect_player(id: String) -> Array[Dictionary]:
 	p.away = true
 	var events := _tag_combat(p.combat.set_absent(id, true), _team_of(p.combat), p)
 	events.append_array(_party_events(p.party_leader))
+	events.append_array(presence_events(p, false))
 	if p.combat.state == Combat.State.FINISHED:
 		_end_combat(p, events)
 	return events
@@ -246,6 +251,7 @@ func reconnect(id: String) -> Array[Dictionary]:
 	if p.combat != null:
 		events.append_array(_tag_combat(p.combat.set_absent(id, false), _team_of(p.combat), p))
 	events.append_array(_party_events(p.party_leader))
+	events.append_array(presence_events(p, true))
 	return events
 
 
@@ -342,6 +348,10 @@ func _execute(command: Dictionary) -> Array[Dictionary]:
 		return _party_pin(p, command)
 	if command.get("type") == Protocol.CMD_CHAT:
 		return _chat_message(p, command)
+	if command.get("type") == Protocol.CMD_RELATIONS:
+		return _relations_command(p, command)
+	if command.get("type") == Protocol.CMD_REPORT:
+		return _report(p, command)
 	if p.in_combat():
 		if command.get("type") == Protocol.CMD_COMBAT_LOCK:
 			return _combat_lock(p, command)
@@ -394,6 +404,7 @@ func snapshot(id := player_id) -> Dictionary:
 		"joueurs": others,
 		"combats": fights,
 		"groupe_joueurs": _party_view(p.party_leader),
+		"relations": relations_view(p),
 		"epuisees": p.instance.depleted.keys(),
 		"pierres_toutes_connues": all_passages_known,
 		"combat": shown.snapshot(fighter.team if fighter != null else Fighter.TEAM_PLAYERS) if shown != null else null,
@@ -419,7 +430,8 @@ func player_save(id: String) -> Dictionary:
 	if p == null:
 		return {}
 	var cell := p.cell
-	return {"personnage": p.character.to_dict(), "carte": p.map.id, "position": [cell.x, cell.y]}
+	return {"personnage": p.character.to_dict(), "carte": p.map.id, "position": [cell.x, cell.y],
+		"amis": p.friends.duplicate(), "ignores": p.ignored.duplicate()}
 
 
 ## Joueurs à qui envoyer un événement produit par la commande de `sender_id` (ou par `update` si
@@ -1021,8 +1033,8 @@ func _chat_message(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
 	var events: Array[Dictionary] = []
 	for target_id in targets:
 		var receiver: PlayerState = players.get(target_id)
-		if receiver == null or receiver.away:
-			continue
+		if receiver == null or receiver.away or Relations.has(receiver.ignored, p.character.display_name):
+			continue  # Un joueur qui ignore l'auteur ne reçoit rien (l'auteur n'en sait rien).
 		var event := {"type": Protocol.EVT_CHAT, "canal": channel, "de": p.id, "auteur": p.character.display_name,
 			"texte": text, Protocol.FIELD_FOR: target_id}
 		if target != null:
@@ -1038,6 +1050,129 @@ func player_named(player_name: String) -> PlayerState:
 		if other.character.display_name.to_lower() == wanted:
 			return other
 	return null
+
+
+# --- Amis, ignorés et signalements (jalon M3) -----------------------------------------------------
+
+## Reprend les listes d'amis et d'ignorés d'une sauvegarde (`player_save`), avant le premier
+## instantané du joueur.
+func restore_relations(id: String, saved: Dictionary) -> void:
+	var p: PlayerState = players.get(id)
+	if p != null:
+		p.friends = Relations.read_list(saved.get("amis"))
+		p.ignored = Relations.read_list(saved.get("ignores"))
+
+
+## Amis et ignorés du joueur, tels qu'il les voit : le statut d'un ami (en ligne, carte, combat)
+## seulement s'il nous compte aussi parmi les siens.
+func relations_view(p: PlayerState) -> Dictionary:
+	var friends: Array = []
+	for friend_name in p.friends:
+		var friend := player_named(friend_name)
+		var shown := friend != null and not friend.away and Relations.has(friend.friends, p.character.display_name)
+		friends.append({"nom": friend.character.display_name if friend != null else friend_name, "en_ligne": shown,
+			"carte": friend.map.id if shown else "", "combat": shown and friend.in_combat()})
+	return {"amis": friends, "ignores": p.ignored.duplicate()}
+
+
+## EVT_RELATIONS pour chaque joueur connecté qui compte `p` parmi ses amis, quand `p` arrive ou
+## part : sa liste à jour et, si `p` le compte aussi parmi les siens, une annonce.
+func presence_events(p: PlayerState, online: bool) -> Array[Dictionary]:
+	var events: Array[Dictionary] = []
+	for other: PlayerState in players.values():
+		if other == p or other.away or not Relations.has(other.friends, p.character.display_name):
+			continue
+		var event := {"type": Protocol.EVT_RELATIONS, Protocol.FIELD_FOR: other.id, "annonce": ""}
+		event.merge(relations_view(other))
+		if Relations.has(p.friends, other.character.display_name):
+			event["annonce"] = ("%s vient de se connecter." if online else "%s vient de partir.") % p.character.display_name
+		events.append(event)
+	return events
+
+
+## Ajoute, retire ou ignore un joueur (`CMD_RELATIONS`) ; une action vide redemande la liste.
+func _relations_command(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
+	var action: Variant = command.get("action", "")
+	var raw: Variant = command.get("nom", "")
+	if typeof(action) != TYPE_STRING or action not in Relations.ACTIONS or typeof(raw) != TYPE_STRING:
+		return _refused(command, Protocol.REASON_INVALID_COMMAND)
+	var other_name: String = raw.strip_edges()
+	var other := player_named(other_name)
+	if other != null:
+		other_name = other.character.display_name  # Le pseudo tel qu'il s'écrit.
+	if not action.is_empty() and (not Character.name_error(other_name).is_empty()
+			or other_name.to_lower() == p.character.display_name.to_lower()):
+		return _refused(command, Protocol.REASON_INVALID_COMMAND)
+	var events: Array[Dictionary] = []
+	match action:
+		Relations.ADD, Relations.IGNORE:
+			var list: Array[String] = p.friends if action == Relations.ADD else p.ignored
+			if not Relations.has(list, other_name):
+				if list.size() >= Relations.MAX_ENTRIES:
+					return _refused(command, Protocol.REASON_LIST_FULL)
+				list.append(other_name)
+			# Ami ou ignoré, pas les deux.
+			var other_list: Array[String] = p.ignored if action == Relations.ADD else p.friends
+			if Relations.has(other_list, other_name):
+				other_list.remove_at(Relations.find(other_list, other_name))
+		Relations.REMOVE, Relations.UNIGNORE:
+			var list: Array[String] = p.friends if action == Relations.REMOVE else p.ignored
+			if Relations.has(list, other_name):
+				list.remove_at(Relations.find(list, other_name))
+	var own := {"type": Protocol.EVT_RELATIONS, Protocol.FIELD_FOR: p.id, "annonce": ""}
+	own.merge(relations_view(p))
+	events.append(own)
+	# Son statut apparaît (ou disparaît) chez l'autre, s'il le compte parmi ses amis.
+	if other != null and other != p and action in [Relations.ADD, Relations.REMOVE, Relations.IGNORE] \
+			and Relations.has(other.friends, p.character.display_name) and not other.away:
+		var theirs := {"type": Protocol.EVT_RELATIONS, Protocol.FIELD_FOR: other.id, "annonce": ""}
+		theirs.merge(relations_view(other))
+		events.append(theirs)
+	return events
+
+
+## Signale un joueur (`CMD_REPORT`) : connecté, ou auteur d'un message encore au journal du chat.
+## Le signalement garde ses derniers messages ; le serveur le prend par `take_reports`.
+func _report(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
+	var raw_name: Variant = command.get("nom")
+	var reason: Variant = command.get("motif")
+	var raw_comment: Variant = command.get("commentaire", "")
+	if typeof(raw_name) != TYPE_STRING or typeof(reason) != TYPE_STRING or not Relations.REPORT_REASONS.has(reason) \
+			or typeof(raw_comment) != TYPE_STRING:
+		return _refused(command, Protocol.REASON_INVALID_COMMAND)
+	var target_name: String = raw_name.strip_edges()
+	var target_id := ""
+	var target := player_named(target_name)
+	if target != null:
+		target_id = target.id
+		target_name = target.character.display_name
+	else:
+		target_id = chat.author_id(target_name)
+	if target_id.is_empty() or target_id == p.id:
+		return _refused(command, Protocol.REASON_UNKNOWN_ENTITY)
+	var key := target_name.to_lower()
+	if p.reports.has(key) and clock - float(p.reports[key]) < Relations.REPORT_DELAY:
+		return _refused(command, Protocol.REASON_ALREADY_REPORTED)
+	p.reports[key] = clock
+	_reports.append({
+		"auteur": p.id,
+		"auteur_nom": p.character.display_name,
+		"cible": target_id,
+		"cible_nom": target_name,
+		"motif": reason,
+		"commentaire": Chat.clean(raw_comment).left(Relations.COMMENT_LENGTH),
+		"messages": chat.recent_by(target_id, Relations.REPORT_MESSAGES),
+		"carte": target.map.id if target != null else "",
+	})
+	var events: Array[Dictionary] = [{"type": Protocol.EVT_REPORTED, "nom": target_name}]
+	return events
+
+
+## Signalements faits depuis le dernier appel (à enregistrer) ; la liste est vidée.
+func take_reports() -> Array[Dictionary]:
+	var taken := _reports.duplicate()
+	_reports.clear()
+	return taken
 
 
 # --- Groupes de joueurs ------------------------------------------------------------------------
@@ -1073,6 +1208,8 @@ func _party_invite(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
 		return _refused(command, Protocol.REASON_ALREADY_IN_PARTY)
 	if parties.get(p.party_leader, []).size() >= PARTY_MAX:
 		return _refused(command, Protocol.REASON_PARTY_FULL)
+	if Relations.has(target.ignored, p.character.display_name):
+		return [] as Array[Dictionary]  # Ignoré : l'invitation se perd, sans le dire.
 	target.invitations[p.id] = true
 	var events: Array[Dictionary] = [{"type": Protocol.EVT_PARTY_INVITE, "chef": p.id, "nom": p.character.display_name,
 		Protocol.FIELD_FOR: target.id}]

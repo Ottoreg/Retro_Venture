@@ -27,6 +27,8 @@ Règles :
   son champ `carte`.
 - `social/chat.gd` (`Chat`, jalon M3) : canaux du chat, texte nettoyé, anti-flood et journal des
   derniers messages ; `World` y passe la commande `ecrire` et dit qui reçoit chaque canal.
+- `social/relations.gd` (`Relations`, jalon M3) : amis et ignorés (par pseudo, dans la sauvegarde),
+  motifs et délai des signalements ; `World` applique `relations` et `signaler`.
 - Le client ne lit jamais le `World` : il en reçoit des instantanés (`World.snapshot`, rien de
   secret : pas de graine, pas de pièges adverses) et des événements, en JSON (`Protocol.encode`,
   `Protocol.decode`, cases en `[x, y]`, version `Protocol.VERSION`).
