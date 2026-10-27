@@ -203,3 +203,68 @@ func test_zones_du_jeu() -> void:
 	assert_eq(cases["brumerive_1_0"]["nom"], WorldMapLayout.UNKNOWN_NAME)
 	assert_eq(WorldMapLayout.zone_name("cendre", maps, data.passages), "Trône de Cendre", "sans « (élite) »")
 	assert_eq(WorldMapLayout.zone_name("crasse_roc", maps, data.passages), "Crasse-Roc")
+
+
+func test_monde_d_un_seul_tenant() -> void:
+	# Deux zones : « val » placée par l'appelant, « ile » sans place, posée dessous avec une carte d'écart.
+	var maps := {
+		"val_0_0": {"nom": "Val — Gué", "sorties": ["val_1_0"], "portes": ["ile_0_0"]},
+		"val_1_0": {"nom": "Val — Pont", "sorties": ["val_0_0"]},
+		"mont_0_0": {"nom": "Mont — Col", "sorties": [], "portes": ["val_0_0"]},
+		"ile_0_0": {"nom": "Île — Plage", "sorties": []},
+	}
+	var origins := {"val": Vector2i(1, 0), "mont": Vector2i(0, 0)}
+	var layout := WorldMapLayout.world_layout(maps, maps.keys(), "val_1_0", {}, [], origins)
+	assert_eq([layout["colonnes"], layout["lignes"]], [3, 1])
+	var cases := _cases_by_id(layout)
+	assert_eq(cases["mont_0_0"]["case"], Vector2i(0, 0))
+	assert_eq(cases["val_0_0"]["case"], Vector2i(1, 0), "val décalée d'une carte : collée au col")
+	assert_eq(cases["val_1_0"]["zone"], "val")
+	assert_eq(cases["val_1_0"]["coordonnees"], Vector2i(1, 0), "coordonnées de la zone gardées (bulle, drapeau)")
+	assert_true(cases["val_1_0"]["actuelle"])
+	assert_true([Vector2i(0, 0), Vector2i(1, 0)] in layout["liens"] or [Vector2i(1, 0), Vector2i(0, 0)] in layout["liens"],
+		"la porte entre deux zones voisines dans le monde : un lien %s" % [layout["liens"]])
+	assert_eq(layout["liens"].size(), 2, "pas de lien vers l'île, qui n'est pas affichée")
+	assert_eq(layout["origines"], {"mont": Vector2i(0, 0), "val": Vector2i(-1, 0)})
+	assert_eq(layout["zones"].map(func(z: Dictionary) -> Rect2i: return z["cases"]), [Rect2i(0, 0, 1, 1), Rect2i(1, 0, 2, 1)])
+	# Sans place donnée : les zones de `ZONE_ORIGINS`, les autres dessous.
+	var placed := WorldMapLayout.zone_origins(["hautepierre_0_0", "hautepierre_4_4", "zz_0_0", "aa_0_0", "aa_2_0"])
+	assert_eq(placed["hautepierre"], Vector2i(0, 0))
+	assert_eq(placed["aa"], Vector2i(0, 6), "sous Hautepierre, une ligne d'écart")
+	assert_eq(placed["zz"], Vector2i(4, 6), "à droite de la précédente, une colonne d'écart")
+	assert_eq(WorldMapLayout.world_position("aa_2_0", placed), Vector2i(2, 6))
+	assert_eq(WorldMapLayout.world_position("maison", placed), null)
+	# Le voisinage (minicarte) garde les origines des zones, recadrées.
+	var near := WorldMapLayout.neighborhood(layout, Vector2i(1, 0), Vector2i(1, 1))
+	assert_eq(near["origines"]["val"], Vector2i(-1, -1))
+	assert_eq(_cases_by_id(near)["val_0_0"]["case"], Vector2i(1, 1))
+
+
+func test_zones_du_jeu_collees_par_leurs_portes() -> void:
+	# Toutes les vraies cartes dans un monde : aucune case ne se chevauche, et chaque porte d'une zone
+	# à l'autre relie deux cartes voisines dans le monde (Hautepierre au milieu des zones de départ).
+	var maps := {}
+	for map_id in DataLoader.map_ids():
+		var map := DataLoader.load_map(DataLoader.map_path(map_id))
+		maps[map_id] = {"nom": map.display_name, "sorties": map.exits.values(), "portes": map.doors.values()}
+	var origins := WorldMapLayout.zone_origins(maps.keys())
+	var taken := {}
+	var crossings := 0
+	for map_id: String in maps:
+		var at: Variant = WorldMapLayout.world_position(map_id, origins)
+		if at == null:
+			continue
+		assert_false(taken.has(at), "%s et %s au même endroit %s" % [map_id, taken.get(at, ""), at])
+		taken[at] = map_id
+	for map_id: String in maps:
+		var from: Variant = WorldMapLayout.world_position(map_id, origins)
+		for target: String in maps[map_id]["portes"]:
+			var to: Variant = WorldMapLayout.world_position(target, origins)
+			if from == null or to == null or WorldMapLayout.map_coordinates(target)["zone"] == WorldMapLayout.map_coordinates(map_id)["zone"]:
+				continue
+			crossings += 1
+			assert_eq(absi(from.x - to.x) + absi(from.y - to.y), 1, "%s %s → %s %s : voisines" % [map_id, from, target, to])
+	assert_eq(crossings, 6, "trois portes de Hautepierre, dans les deux sens")
+	var layout := WorldMapLayout.world_layout(maps, maps.keys(), "brumerive_0_0")
+	assert_eq(layout["cases"].size(), taken.size(), "toutes les cartes à coordonnées")
+	assert_eq(layout["zones"].size(), 5)

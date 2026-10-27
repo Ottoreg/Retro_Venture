@@ -266,7 +266,7 @@ func test_reperes_de_quete() -> void:
 	world_map.close()
 	# Hors de la fenêtre de la minicarte (même zone) : une flèche au bord, pas d'épingle.
 	journal._details.meta_clicked.emit("repere:brumerive_3_2|Palissade de Krasbouk")
-	assert_eq(minimap._grid.pin_cell(), Vector2i(3, 2) - minimap.shown_layout()["origine"])
+	assert_eq(minimap._grid.pin_cell(), WorldMapLayout.world_position("brumerive_3_2", WorldMapLayout.ZONE_ORIGINS) - minimap.shown_layout()["origine"])
 	assert_false(minimap._grid.pin_in_grid())
 	# Le même nom une seconde fois : retiré.
 	journal._details.meta_clicked.emit("repere:brumerive_3_2|Palissade de Krasbouk")
@@ -1100,17 +1100,60 @@ func test_carte_du_monde_et_minicarte() -> void:
 	world_map._unhandled_key_input(key)
 	assert_true(world_map.is_open(), "M ouvre la carte du monde")
 	assert_eq(world_map.current_zone(), "brumerive")
-	# Tout le monde est montré dès le début (comme Dofus) : un onglet par zone du jeu, la zone de
-	# départ en premier.
+	# Tout le monde est montré dès le début (comme Dofus), sur un seul panneau : toutes les zones à leur
+	# place, un bouton par zone pour y aller, la zone de départ en premier.
 	var zone_count := WorldMapLayout.visited_zones(WorldMapWindow.shown_maps(view.world)).size()
-	assert_true(zone_count >= 4, "Brumerive, Crasse-Roc, Sylvebrume et le Trône de Cendre")
-	assert_eq(world_map._tabs.tab_count, zone_count, "un onglet par zone du jeu")
-	assert_eq(world_map._tabs.get_tab_title(0), "Brumerive", "le nom de sa Pierre de Passage")
+	assert_true(zone_count >= 5, "Brumerive, Crasse-Roc, Sylvebrume, Hautepierre et le Trône de Cendre")
+	assert_eq(world_map._zone_buttons.size(), zone_count, "un bouton par zone du jeu")
+	assert_eq(world_map._zone_buttons[world_map._zone_ids[0]].text, "Brumerive", "le nom de sa Pierre de Passage")
+	assert_true(world_map._zone_buttons["brumerive"].button_pressed, "la zone actuelle")
 	var cases := _world_map_cases(world_map)
+	assert_eq(world_map.shown_layout()["zones"].size(), zone_count, "toutes les zones ensemble")
 	assert_true(cases["brumerive_0_0"]["actuelle"])
 	assert_eq(cases["brumerive_0_0"]["pierre"], WorldMapLayout.STONE_KNOWN, "pierre de la zone de départ")
 	assert_eq(cases["brumerive_1_0"]["nom"], "Champs de l'est", "pas encore visités, mais nommés")
-	assert_eq(world_map._zone_info.text, "1 / %d carte visitée" % cases.size())
+	assert_eq(cases["hautepierre_0_2"]["case"] - cases["brumerive_3_1"]["case"], Vector2i(1, 0),
+		"Hautepierre à l'est du gué, par la Route de l'Ouest")
+	var brumerive_count := cases.values().filter(func(c: Dictionary) -> bool: return c["zone"] == "brumerive").size()
+	assert_eq(world_map._zone_info.text, "1 / %d carte visitée" % brumerive_count)
+	# Les cases ont toujours la forme d'une carte, à tous les zooms (Hautepierre n'est plus écrasée).
+	for level in WorldMapWindow.ZOOM_WIDTHS.size():
+		Options.world_map_zoom = level
+		var cell := WorldMapWindow.zoom_cell()
+		assert_almost_eq(cell.x / cell.y, WorldMapWindow.MAP_RATIO, 0.001, "zoom %d : %s" % [level, cell])
+	Options.world_map_zoom = WorldMapWindow.DEFAULT_ZOOM
+	assert_eq(world_map._grid.cell_size(), WorldMapWindow.zoom_cell())
+	# Molette : zoom, puis dézoom ; la case sous la souris y reste.
+	world_map._grid.size = Vector2(780, 330)  # Sans affichage, la mise en page n'a pas encore eu lieu.
+	world_map.center_on("brumerive_0_0")
+	var spot := world_map._grid.cell_rect(cases["brumerive_0_0"]["case"]).get_center()
+	assert_true(Rect2(Vector2.ZERO, world_map._grid.size).has_point(spot), "ouverte sur la carte actuelle")
+	var wheel := InputEventMouseButton.new()
+	wheel.button_index = MOUSE_BUTTON_WHEEL_UP
+	wheel.pressed = true
+	wheel.position = spot
+	world_map._grid.gui_input.emit(wheel)
+	assert_eq(Options.world_map_zoom, WorldMapWindow.DEFAULT_ZOOM + 1, "molette vers le haut : plus gros")
+	assert_eq(world_map._grid.case_at(spot).get("id", ""), "brumerive_0_0", "toujours sous la souris")
+	wheel.button_index = MOUSE_BUTTON_WHEEL_DOWN
+	world_map._grid.gui_input.emit(wheel)
+	world_map._grid.gui_input.emit(wheel)
+	assert_eq(Options.world_map_zoom, WorldMapWindow.DEFAULT_ZOOM - 1)
+	Options.world_map_zoom = WorldMapWindow.DEFAULT_ZOOM
+	world_map.refresh()
+	# Glisser : la vue suit la souris.
+	var before := world_map._grid.cell_rect(Vector2i.ZERO).position
+	var press := InputEventMouseButton.new()
+	press.button_index = MOUSE_BUTTON_LEFT
+	press.pressed = true
+	press.position = Vector2(400, 150)
+	world_map._grid.gui_input.emit(press)
+	world_map.drag_to(Vector2(340, 130))
+	assert_eq(world_map._grid.cell_rect(Vector2i.ZERO).position, before + Vector2(-60, -20), "glissé")
+	world_map.select_zone("hautepierre")
+	assert_eq(world_map._zone_title.text, "Hautepierre")
+	var middle := world_map._grid.cell_rect(_world_map_cases(world_map)["hautepierre_2_2"]["case"]).get_center()
+	assert_true(middle.distance_to(world_map._grid.size / 2.0) < 2.0, "son bouton amène la vue sur la zone")
 	world_map._unhandled_key_input(key)
 	assert_false(world_map.is_open(), "M referme")
 
@@ -1172,11 +1215,11 @@ func test_carte_du_monde_et_minicarte() -> void:
 	view.server.character.visit_map("crasse_roc_0_0")
 	view.refresh_state()
 	world_map.open()
-	assert_eq(world_map._tabs.tab_count, zone_count, "toujours un onglet par zone")
-	assert_eq(world_map._tabs.get_tab_title(1), "Crasse-Roc", "les zones visitées d'abord")
+	assert_eq(world_map._zone_buttons.size(), zone_count, "toujours un bouton par zone")
+	assert_eq(world_map._zone_ids[1], "crasse_roc", "les zones visitées d'abord")
 	assert_eq(world_map.current_zone(), "brumerive", "toujours dans les champs de l'est")
 	world_map.select_zone("crasse_roc")
-	assert_eq(world_map.shown_layout()["nom"], "Crasse-Roc")
+	assert_eq(world_map._zone_title.text, "Crasse-Roc")
 	for case: Dictionary in world_map.shown_layout()["cases"]:
 		assert_ne(case["nom"], WorldMapLayout.UNKNOWN_NAME, "aucune carte cachée : %s" % case["id"])
 	world_map.close()
@@ -1265,37 +1308,41 @@ func test_carte_du_monde_grandes_zones() -> void:
 		"taille réelle de la grille : %s" % grid.size)
 	var area := Rect2(Vector2.ZERO, grid.size)
 	assert_true(grid.clip_contents, "rien n'est dessiné hors de la grille")
-	assert_true(grid.font_size() >= 14, "petite zone : noms en grand")
-	# Zones très hautes, très larges, ou les deux (avec les « ? » voisines, une zone de 15 cartes peut
-	# prendre une ligne ou une colonne de plus).
+	assert_true(grid.font_size() >= 12, "noms lisibles au zoom de départ : %d" % grid.font_size())
+	# Zones très hautes, très larges, ou les deux : les cases gardent la forme d'une carte (rien n'est
+	# écrasé pour tout faire tenir) ; on fait glisser la vue pour voir chaque coin.
 	for dims: Vector2i in [Vector2i(1, 12), Vector2i(15, 1), Vector2i(17, 3), Vector2i(6, 14)]:
 		var maps := _big_zone(dims.x, dims.y)
 		var layout := WorldMapLayout.zone_layout("grande", maps, maps.keys(), "grande_0_0")
 		assert_eq([layout["colonnes"], layout["lignes"]], [dims.x, dims.y])
 		grid.layout = layout
+		assert_eq(grid.cell_size(), WorldMapWindow.zoom_cell(), "%s : cases à la taille du zoom" % dims)
 		var rects: Array[Rect2] = []
-		var inside := true
 		var apart := true
 		for case: Dictionary in layout["cases"]:
 			var rect := grid.cell_rect(case["case"])
-			inside = inside and area.encloses(rect)
 			for other in rects:
 				apart = apart and not other.intersects(rect)
 			rects.append(rect)
-		assert_true(inside, "%s : toutes les cases dans la grille (case %s)" % [dims, grid.cell_size()])
 		assert_true(apart, "%s : aucune case n'en chevauche une autre" % dims)
 		assert_true(grid.cell_gap().x > 0.0 and grid.cell_gap().y > 0.0, "%s : un écart entre les cases" % dims)
-		var corner := Vector2i(dims.x - 1, dims.y - 1)
-		assert_eq(grid.case_at(grid.cell_rect(corner).get_center())["coordonnees"], corner, "%s : case sous la souris" % dims)
-		if dims.x >= 15:
-			assert_true(grid.font_size() < 15, "%s : cases étroites, noms en plus petit" % dims)
-			# Pas de mot coupé en deux lignes : un mot trop large finit par « … ».
-			var font := grid.get_theme_default_font()
-			var width := grid.cell_size().x - 6.0
-			var fitted := WorldMapWindow.ZoneGrid.fit_words(font, "Clairière des Ronces", width, grid.font_size())
-			for word in fitted.split(" "):
-				assert_true(font.get_string_size(word, HORIZONTAL_ALIGNMENT_LEFT, -1, grid.font_size()).x <= width,
-					"%s : « %s » tient dans la case (%s)" % [dims, word, fitted])
+		for corner: Vector2i in [Vector2i.ZERO, Vector2i(dims.x - 1, dims.y - 1)]:
+			grid.pan_to(grid.cell_rect(corner).get_center() - grid.cell_rect(Vector2i.ZERO).position)
+			assert_true(area.encloses(grid.cell_rect(corner)), "%s : coin %s visible après glissement" % [dims, corner])
+			assert_eq(grid.case_at(grid.cell_rect(corner).get_center())["coordonnees"], corner, "%s : case sous la souris" % dims)
+		grid.pan = Vector2(1e6, -1e6)
+		var whole := Rect2(grid.cell_rect(Vector2i.ZERO).position, grid.whole_size())
+		assert_true(whole.intersects(area), "%s : on ne perd pas la carte en glissant trop loin" % dims)
+	# Un mot trop large pour une case étroite (petit zoom) finit par « … », jamais coupé en deux lignes.
+	Options.world_map_zoom = 0
+	grid.cell_fixed = WorldMapWindow.zoom_cell()
+	var font := grid.get_theme_default_font()
+	var width := grid.cell_size().x - 6.0
+	var fitted := WorldMapWindow.ZoneGrid.fit_words(font, "Clairière des Ronces", width, grid.font_size())
+	for word in fitted.split(" "):
+		assert_true(font.get_string_size(word, HORIZONTAL_ALIGNMENT_LEFT, -1, grid.font_size()).x <= width,
+			"« %s » tient dans la case (%s)" % [word, fitted])
+	Options.world_map_zoom = WorldMapWindow.DEFAULT_ZOOM
 	scene.free()
 	tree.root.size = screen_size
 

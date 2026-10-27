@@ -1,8 +1,10 @@
 class_name WorldMapWindow
 extends CanvasLayer
 ## Carte du monde (touche M, bouton du bandeau ou clic sur la minicarte), comme dans Dofus : tout le
-## monde est montré dès le début (décision de l'auteur), un onglet par zone, ses cartes en grille
-## d'après leurs coordonnées (voir `WorldMapLayout`). La carte actuelle est surlignée ; un losange
+## monde est montré dès le début (décision de l'auteur), sur un seul panneau : toutes les zones à leur
+## place, reliées par leurs portes (`WorldMapLayout.world_layout`), chaque carte en vignette de la forme
+## d'une carte, quel que soit le zoom (molette ; glisser pour se déplacer, un bouton par zone pour y
+## aller). La carte actuelle est surlignée ; un losange
 ## marque une Pierre de Passage (plein si elle est connue, en creux sinon) ; une épingle, le repère
 ## posé depuis un texte de quête (`Session.quest_pin`, bouton « Retirer le repère ») ; une épingle
 ## jaune, l'objectif de la quête suivie (`QuestLinks.objective_pin`), posée et déplacée toute seule.
@@ -23,8 +25,17 @@ const COLOR_PIN := Color("ff6a3d")
 const COLOR_OBJECTIVE := Color("ffd23f")
 ## Membres du groupe de joueurs (point) et leurs repères (épingle).
 const COLOR_PARTY := Color("5fd38a")
-## Minicarte : largeur / hauteur d'une case (une carte est plus large que haute).
-const COMPACT_RATIO := 1.6
+## Largeur / hauteur d'une case, sur la minicarte comme sur la carte du monde (une carte est plus
+## large que haute) : toujours la même, quitte à faire défiler.
+const MAP_RATIO := 1.6
+## Carte du monde : largeur d'une case à chaque niveau de zoom (molette), et le niveau de départ.
+const ZOOM_WIDTHS: Array[int] = [40, 56, 80, 104, 136, 176]
+const DEFAULT_ZOOM := 3
+## Marge autour du monde, jusqu'où l'on peut le faire glisser (pixels).
+const WORLD_MARGIN := 24.0
+## Plus étroite qu'une case (pixels), la carte du monde écrit en grand le nom de chaque zone par-dessus
+## ses cartes, à la place des noms des cartes.
+const ZONE_NAMES_BELOW := 80.0
 ## Largeur et hauteur maximales d'une case de la grille, et écart maximal entre deux cases (pixels).
 const CELL_MAX := Vector2(150, 84)
 const CELL_GAP := 6.0
@@ -71,6 +82,10 @@ class ZoneGrid extends Control:
 	## Copie de l'état du jeu (`ClientState`) : vignettes des cartes (`MapThumbnail`) et icônes
 	## (`MapIcons`) ; sans elle, des cases unies.
 	var world: Variant = null
+	## Taille fixe des cases (carte du monde : selon le zoom), ou zéro : d'après la place.
+	var cell_fixed := Vector2.ZERO
+	## Glissement de la grille (pixels, vers le haut et la gauche), quand elle dépasse (voir `cell_fixed`).
+	var pan := Vector2.ZERO
 
 	func _init() -> void:
 		# Rien n'est dessiné hors de la grille, même pour une zone immense.
@@ -79,10 +94,12 @@ class ZoneGrid extends Control:
 	## Taille d'une case : la plus grande qui laisse tenir toute la zone, écarts compris, sans
 	## plancher (cases plus petites pour une grande zone).
 	func cell_size() -> Vector2:
+		if cell_fixed != Vector2.ZERO:
+			return cell_fixed
 		if compact:
 			# Minicarte : cases jointives, à peu près à la forme d'une carte (plus larges que hautes).
-			var width := minf(size.x / maxi(1, int(layout.get("colonnes", 1))), size.y * COMPACT_RATIO / maxi(1, int(layout.get("lignes", 1))))
-			return Vector2(floorf(width), floorf(width / COMPACT_RATIO))
+			var width := minf(size.x / maxi(1, int(layout.get("colonnes", 1))), size.y * MAP_RATIO / maxi(1, int(layout.get("lignes", 1))))
+			return Vector2(floorf(width), floorf(width / MAP_RATIO))
 		return Vector2(_fit(size.x, int(layout.get("colonnes", 1)), CELL_MAX.x),
 			_fit(size.y, int(layout.get("lignes", 1)), CELL_MAX.y))
 
@@ -113,9 +130,30 @@ class ZoneGrid extends Control:
 		var cell_px := cell_size()
 		var gap := cell_gap()
 		var step := cell_px + gap
-		var whole := Vector2(int(layout.get("colonnes", 0)), int(layout.get("lignes", 0))) * step - gap
-		var origin := ((size - whole) / 2.0).floor()
+		var origin := ((size - whole_size()) / 2.0).floor() - clamped_pan(pan)
 		return Rect2(origin + Vector2(cell) * step, cell_px)
+
+	## Taille de toute la grille, écarts compris (pixels).
+	func whole_size() -> Vector2:
+		var gap := cell_gap()
+		return Vector2(int(layout.get("colonnes", 0)), int(layout.get("lignes", 0))) * (cell_size() + gap) - gap
+
+	## Glissement ramené à ce qui garde la grille à l'écran (une marge au-delà de ses bords) ; rien
+	## sur une grille qui tient.
+	func clamped_pan(wanted: Vector2) -> Vector2:
+		if cell_fixed == Vector2.ZERO:
+			return Vector2.ZERO
+		var limit := ((whole_size() - size) / 2.0 + Vector2(WORLD_MARGIN, WORLD_MARGIN)).max(Vector2.ZERO)
+		return wanted.clamp(-limit, limit)
+
+	## Glissement qui met ce point de la grille (pixels depuis son coin haut gauche) au milieu.
+	func pan_to(point: Vector2) -> void:
+		pan = clamped_pan(point - whole_size() / 2.0)
+		queue_redraw()
+
+	## Case de la carte `map_id` dans la grille, ou `null` (autre zone, sans coordonnées).
+	func map_cell(map_id: String) -> Variant:
+		return pin_cell({"carte": map_id})
 
 	## Case affichée sous ce point ({} s'il n'y en a pas).
 	func case_at(point: Vector2) -> Dictionary:
@@ -161,9 +199,13 @@ class ZoneGrid extends Control:
 	## s'il n'y a pas de repère dans cette zone.
 	func pin_cell(marker: Dictionary = pin) -> Variant:
 		var coordinates := WorldMapLayout.map_coordinates(marker.get("carte", ""))
-		if coordinates.is_empty() or coordinates["zone"] != layout.get("zone", ""):
+		if coordinates.is_empty():
 			return null
-		return coordinates["position"] - layout.get("origine", Vector2i.ZERO)
+		# Grille du monde : une origine par zone ; grille d'une zone : la sienne.
+		var origins: Dictionary = layout.get("origines", {layout.get("zone", ""): layout.get("origine", Vector2i.ZERO)})
+		if not origins.has(coordinates["zone"]):
+			return null
+		return coordinates["position"] - origins[coordinates["zone"]]
 
 	## Vrai si le repère (ou l'objectif suivi) est sur une case de la grille.
 	func pin_in_grid(marker: Dictionary = pin) -> bool:
@@ -181,6 +223,8 @@ class ZoneGrid extends Control:
 			for row in int(layout.get("lignes", 0)):
 				for col in int(layout.get("colonnes", 0)):
 					draw_rect(cell_rect(Vector2i(col, row)), Color(1, 1, 1, 0.035))
+		if not compact:
+			_draw_zone_frames()
 		# Les liens d'abord : un chemin entre deux cartes voisines (inutile entre des cases jointives).
 		var link_width := clampf(minf(cell_px.x, cell_px.y) * 0.08, 1.5, 4.0)
 		if not (compact and world != null):
@@ -205,8 +249,8 @@ class ZoneGrid extends Control:
 					frame.border_color = GOLD if case["actuelle"] else UiTheme.BRONZE
 					draw_style_box(frame, rect)
 				_draw_icons(rect, case, hidden)
-				if compact:
-					continue
+				if compact or (layout.has("zones") and cell_px.x < ZONE_NAMES_BELOW):
+					continue  # Dézoomée, la carte du monde nomme ses zones (les cartes : bulle de survol).
 				var inner := rect.grow(-4)
 				_centered_text(get_theme_default_font(), inner, case["nom"], name_size, GOLD if case["actuelle"] else Color.WHITE, 3, true)
 				continue
@@ -256,9 +300,32 @@ class ZoneGrid extends Control:
 			draw_rect(current_rect.grow(-1.0), GOLD, false, 2.0)
 			draw_circle(current_rect.get_center(), 3.5, Color("4d8fff"))
 			draw_arc(current_rect.get_center(), 3.5, 0, TAU, 16, Color.WHITE, 1.2)
+		if not compact and cell_px.x < ZONE_NAMES_BELOW:
+			_draw_zone_names()
 		_draw_pin(objective, COLOR_OBJECTIVE, true)
 		_draw_pin(pin, COLOR_PIN, false)
 		_draw_party()
+
+	## Grille du monde : le contour de chaque zone, à mi-écart autour de ses cartes.
+	func _draw_zone_frames() -> void:
+		var half := cell_gap() / 2.0 + Vector2(1, 1)
+		for zone: Dictionary in layout.get("zones", []):
+			var area: Rect2i = zone["cases"]
+			var box := cell_rect(area.position).merge(cell_rect(area.end - Vector2i.ONE))
+			box = box.grow_individual(half.x, half.y, half.x, half.y)
+			draw_rect(box, Color(1, 1, 1, 0.04))
+			draw_rect(box, Color("5a4630"), false, 1.0)
+
+	## Grille du monde dézoomée : le nom de chaque zone en grand, cerné, au milieu de ses cartes.
+	func _draw_zone_names() -> void:
+		var font := get_theme_default_font()
+		for zone: Dictionary in layout.get("zones", []):
+			var area: Rect2i = zone["cases"]
+			var box := cell_rect(area.position).merge(cell_rect(area.end - Vector2i.ONE))
+			var text_size := clampi(int(box.size.y * 0.22), 12, 22)
+			# Une petite zone (une seule carte) : son nom déborde sur les côtés plutôt que d'être coupé.
+			box = box.grow_individual(maxf(0.0, (160.0 - box.size.x) / 2.0), 0, maxf(0.0, (160.0 - box.size.x) / 2.0), 0)
+			_centered_text(font, box, str(zone["nom"]), text_size, GOLD, 2, true)
 
 	## Membres du groupe : un point vert dans leur case (en bas à droite), leurs repères en épingle verte.
 	func _draw_party() -> void:
@@ -370,15 +437,22 @@ var map_view: MapView
 
 var _backdrop: ColorRect
 var _panel: PanelContainer
-var _tabs: TabBar
+## Boutons des zones (id → Button) : un clic y amène la vue.
+var _zone_buttons := {}
+var _zone_row: HFlowContainer
 var _zone_title: Label
 var _zone_info: Label
 var _grid: ZoneGrid
 ## Cases de la légende des icônes : sorte → CheckBox.
 var _icon_toggles := {}
 var _clear_pin: Button
-## Zones des onglets (ids), dans l'ordre de la première visite.
+## Zones du jeu (ids), celles visitées d'abord.
 var _zone_ids: Array[String] = []
+## Zone nommée en haut (celle de la carte survolée, ou choisie).
+var _focus_zone := ""
+var _drag_from := Minimap.NO_POINT
+var _drag_pan := Vector2.ZERO
+var _dragged := false
 
 
 func _ready() -> void:
@@ -401,20 +475,24 @@ func toggle() -> void:
 		open()
 
 
+## Ouvre la carte du monde centrée sur la carte où l'on est.
 func open() -> void:
 	if map_view == null or map_view.mode == MapView.Mode.COMBAT:
 		return
 	_set_visible(true)
-	_update_tabs(true)
+	_focus_zone = _here_zone()
 	refresh()
+	center_on(here_map(map_view.world))
 
 
-## Ouvre la carte du monde sur la zone du repère de quête.
+## Ouvre la carte du monde centrée sur le repère de quête.
 func show_pin() -> void:
 	open()
 	if is_open():
-		select_zone(WorldMapLayout.map_coordinates(Session.quest_pin.get("carte", "")).get("zone", ""))
+		var target := str(Session.quest_pin.get("carte", ""))
+		_focus_zone = WorldMapLayout.map_coordinates(target).get("zone", _focus_zone)
 		refresh()
+		center_on(target)
 
 
 func close() -> void:
@@ -425,61 +503,106 @@ func is_open() -> bool:
 	return _panel.visible
 
 
-## Zone de l'onglet choisi ("" s'il n'y en a pas).
+## Zone nommée en haut de la fenêtre ("" s'il n'y en a pas).
 func current_zone() -> String:
-	if _tabs.tab_count == 0 or _tabs.current_tab < 0:
-		return ""
-	return _zone_ids[_tabs.current_tab]
+	return _focus_zone
 
 
+## Amène la vue sur une zone (bouton de la zone).
 func select_zone(zone_id: String) -> void:
-	var index := _zone_ids.find(zone_id)
-	if index >= 0:
-		# Le changement d'onglet lance `refresh` (signal tab_changed).
-		_tabs.current_tab = index
+	if not _zone_ids.has(zone_id):
+		return
+	_focus_zone = zone_id
+	refresh()
+	for zone: Dictionary in _grid.layout.get("zones", []):
+		if zone["zone"] == zone_id:
+			var area: Rect2i = zone["cases"]
+			var box := _grid.cell_rect(area.position).merge(_grid.cell_rect(area.end - Vector2i.ONE))
+			_grid.pan_to(box.get_center() - _grid.cell_rect(Vector2i.ZERO).position)
 
 
-## Grille affichée (voir `WorldMapLayout.zone_layout`).
+## Amène la vue sur une carte (rien si elle n'a pas de coordonnées).
+func center_on(map_id: String) -> void:
+	var cell: Variant = _grid.map_cell(map_id)
+	if cell != null:
+		_grid.pan_to(_grid.cell_rect(cell).get_center() - _grid.cell_rect(Vector2i.ZERO).position)
+
+
+## Grille affichée : tout le monde (voir `WorldMapLayout.world_layout`).
 func shown_layout() -> Dictionary:
 	return _grid.layout
+
+
+## Taille d'une case au zoom actuel (`Options.world_map_zoom`) : toujours de la forme d'une carte.
+static func zoom_cell() -> Vector2:
+	var width := float(ZOOM_WIDTHS[clampi(Options.world_map_zoom, 0, ZOOM_WIDTHS.size() - 1)])
+	return Vector2(width, roundf(width / MAP_RATIO))
+
+
+## Molette : un cran de zoom (`step` : + pour grossir), le point `at` de la grille restant sous la souris.
+func zoom(step: int, at: Vector2 = Vector2(-1, -1)) -> void:
+	var level := clampi(Options.world_map_zoom + step, 0, ZOOM_WIDTHS.size() - 1)
+	if level == Options.world_map_zoom:
+		return
+	if at == Vector2(-1, -1):
+		at = _grid.size / 2.0
+	var corner := _grid.cell_rect(Vector2i.ZERO).position
+	var spot := (at - corner) / (_grid.cell_size() + _grid.cell_gap())
+	Options.world_map_zoom = level
+	Options.save_options()
+	_grid.cell_fixed = zoom_cell()
+	var step_px := _grid.cell_size() + _grid.cell_gap()
+	_grid.pan = _grid.clamped_pan(((_grid.size - _grid.whole_size()) / 2.0).floor() + spot * step_px - at)
+	_grid.queue_redraw()
 
 
 func refresh() -> void:
 	if map_view == null or not is_open():
 		return
-	_update_tabs(false)
 	var world := map_view.world
-	var zone_id := current_zone()
-	if zone_id.is_empty():
-		_grid.layout = {}
-		_zone_title.text = "Aucune carte extérieure visitée"
-		_zone_info.text = ""
-		_grid.queue_redraw()
-		return
+	_update_zones()
 	# Dans une maison, la carte devant sa porte est encadrée comme carte actuelle.
 	var here := here_map(world)
-	var layout := WorldMapLayout.zone_layout(zone_id, map_infos(world, [zone_id]), shown_maps(world), here,
+	var layout := WorldMapLayout.world_layout(map_infos(world, _zone_ids), shown_maps(world), here,
 		world.data.passages, known_passages(world))
 	_grid.layout = layout
+	_grid.cell_fixed = zoom_cell()
 	_grid.indoors = here != world.map.id
 	_grid.pin = Session.quest_pin
 	_grid.objective = QuestLinks.objective_pin(world)
 	_grid.party = party_markers(world)
 	_grid.world = world
 	_grid.queue_redraw()
-	_zone_title.text = layout["nom"]
 	_clear_pin.visible = not Session.quest_pin.is_empty()
 	_clear_pin.text = "Retirer le repère (%s)" % Session.quest_pin.get("nom", "")
+	_refresh_zone_title()
+
+
+## En haut : nom de la zone nommée (`_focus_zone`) et ses cartes visitées.
+func _refresh_zone_title() -> void:
+	for zone_id: String in _zone_buttons:
+		_zone_buttons[zone_id].set_pressed_no_signal(zone_id == _focus_zone)
+	if _grid.layout.get("cases", []).is_empty():
+		_zone_title.text = "Aucune carte extérieure visitée"
+		_zone_info.text = ""
+		return
+	var total := 0
 	var visited := 0
-	var seen := visited_here(world)
-	for case: Dictionary in layout["cases"]:
-		if seen.has(case["id"]):
-			visited += 1
-	_zone_info.text = "%d / %d carte%s visitée%s" % [visited, layout["cases"].size(), "s" if visited > 1 else "", "s" if visited > 1 else ""]
+	var seen := visited_here(map_view.world)
+	for case: Dictionary in _grid.layout["cases"]:
+		if case["zone"] == _focus_zone:
+			total += 1
+			if seen.has(case["id"]):
+				visited += 1
+	_zone_title.text = ""
+	for zone: Dictionary in _grid.layout.get("zones", []):
+		if zone["zone"] == _focus_zone:
+			_zone_title.text = zone["nom"]
+	_zone_info.text = "%d / %d carte%s visitée%s" % [visited, total, "s" if visited > 1 else "", "s" if visited > 1 else ""]
 
 
-## Cartes des zones demandées : id → { nom, sorties } (voir `WorldMapLayout.zone_layout`). Les
-## cartes viennent de `World.map_ids` (toutes celles du jeu), et des cartes visitées à défaut.
+## Cartes des zones demandées : id → { nom, sorties, portes } (voir `WorldMapLayout.world_layout`).
+## Les cartes viennent de `World.map_ids` (toutes celles du jeu), et des cartes visitées à défaut.
 static func map_infos(world: ClientState, zone_ids: Array) -> Dictionary:
 	var ids: Array[String] = world.map_ids.duplicate()
 	for map_id in world.visited_maps():
@@ -492,7 +615,7 @@ static func map_infos(world: ClientState, zone_ids: Array) -> Dictionary:
 			continue
 		var map := world.map_by_id(map_id)
 		if map != null:
-			infos[map_id] = {"nom": map.display_name, "sorties": map.exits.values()}
+			infos[map_id] = {"nom": map.display_name, "sorties": map.exits.values(), "portes": map.doors.values()}
 	return infos
 
 
@@ -533,7 +656,7 @@ static func visited_here(world: ClientState) -> Array[String]:
 
 
 ## Cartes montrées sur la carte du monde et la minicarte : toutes celles du jeu qui ont des
-## coordonnées (comme dans Dofus, rien n'est caché), celles visitées en premier (ordre des onglets).
+## coordonnées (comme dans Dofus, rien n'est caché), celles visitées en premier (ordre des zones).
 static func shown_maps(world: ClientState) -> Array[String]:
 	var shown := visited_here(world)
 	var all_ids: Array[String] = world.map_ids.duplicate()
@@ -544,23 +667,33 @@ static func shown_maps(world: ClientState) -> Array[String]:
 	return shown
 
 
-## Un onglet par zone du jeu ; à l'ouverture (`to_here`), celui de la zone actuelle.
-func _update_tabs(to_here: bool) -> void:
+## Grille du monde : toutes les zones, chacune à sa place (`WorldMapLayout.zone_origins`).
+static func world_grid_layout(world: ClientState, here := "") -> Dictionary:
+	var shown := shown_maps(world)
+	return WorldMapLayout.world_layout(map_infos(world, WorldMapLayout.visited_zones(shown)), shown, here,
+		world.data.passages, known_passages(world))
+
+
+## Un bouton par zone du jeu, celles visitées d'abord.
+func _update_zones() -> void:
 	var world := map_view.world
 	var zones := WorldMapLayout.visited_zones(shown_maps(world))
-	var previous := current_zone()
-	# Pas de refresh imbriqué pendant la reconstruction des onglets.
-	_tabs.set_block_signals(true)
-	if zones != _zone_ids:
-		_zone_ids = zones
-		var infos := map_infos(world, zones)
-		_tabs.clear_tabs()
-		for zone_id in _zone_ids:
-			_tabs.add_tab(WorldMapLayout.zone_name(zone_id, infos, world.data.passages))
-	var wanted := _here_zone() if to_here else previous
-	if _zone_ids.has(wanted):
-		_tabs.current_tab = _zone_ids.find(wanted)
-	_tabs.set_block_signals(false)
+	if zones == _zone_ids:
+		return
+	_zone_ids = zones
+	var infos := map_infos(world, zones)
+	for button in _zone_buttons.values():
+		button.queue_free()
+	_zone_buttons.clear()
+	for zone_id in _zone_ids:
+		var button := Button.new()
+		button.text = WorldMapLayout.zone_name(zone_id, infos, world.data.passages)
+		button.toggle_mode = true
+		button.focus_mode = Control.FOCUS_NONE
+		button.add_theme_font_size_override("font_size", 13)
+		button.pressed.connect(select_zone.bind(zone_id))
+		_zone_row.add_child(button)
+		_zone_buttons[zone_id] = button
 
 
 func _unhandled_key_input(event: InputEvent) -> void:
@@ -568,10 +701,6 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	if key != null and key.pressed and not key.echo and key.keycode == KEY_M:
 		toggle()
 		get_viewport().set_input_as_handled()
-
-
-func _on_tab_changed(_index: int) -> void:
-	refresh()
 
 
 func _on_backdrop_input(event: InputEvent) -> void:
@@ -628,10 +757,9 @@ func _build() -> void:
 	close_button.pressed.connect(close)
 	header.add_child(close_button)
 
-	_tabs = TabBar.new()
-	_tabs.focus_mode = Control.FOCUS_NONE
-	_tabs.tab_changed.connect(_on_tab_changed)
-	column.add_child(_tabs)
+	_zone_row = HFlowContainer.new()
+	_zone_row.add_theme_constant_override("h_separation", 6)
+	column.add_child(_zone_row)
 
 	var zone_row := HBoxContainer.new()
 	column.add_child(zone_row)
@@ -657,7 +785,9 @@ func _build() -> void:
 	frame.add_theme_stylebox_override("panel", frame_style)
 	column.add_child(frame)
 	_grid = ZoneGrid.new()
+	_grid.cell_fixed = zoom_cell()
 	_grid.mouse_filter = Control.MOUSE_FILTER_PASS
+	_grid.mouse_default_cursor_shape = Control.CURSOR_MOVE
 	_grid.resized.connect(_grid.queue_redraw)
 	_grid.gui_input.connect(_on_grid_input)
 	frame.add_child(_grid)
@@ -684,7 +814,8 @@ func _build() -> void:
 	legend.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	column.add_child(legend)
 	var hint := _label(12, Color(0.6, 0.58, 0.52))
-	hint.text = "Touche M : ouvrir / fermer.  Clic droit sur une carte : drapeau (Maj + clic droit : montré au groupe)."
+	hint.text = "M : ouvrir / fermer.  Molette : zoom.  Glisser : se déplacer.  Clic droit : drapeau (Maj : montré au groupe)."
+	hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	column.add_child(hint)
 
 
@@ -697,12 +828,46 @@ func _on_icon_toggled(shown: bool, kind: String) -> void:
 	icons_changed.emit()
 
 
+## Molette : zoom ; glisser : déplace la vue ; survol : nomme la zone en haut ; clic droit : drapeau
+## (Maj : montré au groupe).
 func _on_grid_input(event: InputEvent) -> void:
 	var button := event as InputEventMouseButton
-	if button != null and button.pressed and button.button_index == MOUSE_BUTTON_RIGHT:
-		var case := _grid.case_at(button.position)
-		if not case.is_empty():
-			flag_requested.emit(flag_pin(case), button.shift_pressed)
+	if button != null:
+		if button.pressed and button.button_index in [MOUSE_BUTTON_WHEEL_UP, MOUSE_BUTTON_WHEEL_DOWN]:
+			zoom(1 if button.button_index == MOUSE_BUTTON_WHEEL_UP else -1, button.position)
+			_grid.accept_event()
+		elif button.button_index == MOUSE_BUTTON_LEFT:
+			if button.pressed:
+				_drag_from = button.position
+				_drag_pan = _grid.clamped_pan(_grid.pan)
+				_dragged = false
+			else:
+				_drag_from = Minimap.NO_POINT
+		elif button.button_index == MOUSE_BUTTON_RIGHT and button.pressed:
+			var case := _grid.case_at(button.position)
+			if not case.is_empty():
+				flag_requested.emit(flag_pin(case), button.shift_pressed)
+		return
+	var motion := event as InputEventMouseMotion
+	if motion == null:
+		return
+	if _drag_from != Minimap.NO_POINT and motion.button_mask & MOUSE_BUTTON_MASK_LEFT:
+		drag_to(motion.position)
+		return
+	var case := _grid.case_at(motion.position)
+	if not case.is_empty() and case["zone"] != _focus_zone:
+		_focus_zone = case["zone"]
+		_refresh_zone_title()
+
+
+## Glisser jusqu'à ce point de la grille (depuis l'appui).
+func drag_to(point: Vector2) -> void:
+	var moved := point - _drag_from
+	if moved.length() > 4.0:
+		_dragged = true
+	if _dragged:
+		_grid.pan = _grid.clamped_pan(_drag_pan - moved)
+		_grid.queue_redraw()
 
 
 func _label(font_size: int, color: Color) -> Label:

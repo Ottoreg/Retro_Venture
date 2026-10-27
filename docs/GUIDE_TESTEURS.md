@@ -108,7 +108,7 @@ temps : chaque camp a sa propre histoire.
 | **I** | Inventaire : équipement porté, sac en trois onglets (Équipements, Consommables, Ressources), équiper / retirer / jeter ; **double-clic** sur un objet pour l'équiper ou le retirer (il remplace l'objet porté, ou le même objet déjà porté, comme une seconde bague identique), ou **glisser** du sac vers un emplacement (et inversement) ; tenir **Ctrl** : jets possibles de l'objet choisi ; au **survol** d'un objet, ses bonus comparés à l'objet porté (gains en vert, pertes en rouge) |
 | **S** | Sorts : un onglet pour la Voie, la race et l'arme ; fiche de chaque sort |
 | **J** | Métiers : un onglet par métier, niveau, ressources et recettes |
-| **M** | Carte du monde : un onglet par zone visitée, ses cartes en grille (voir plus bas) |
+| **M** | Carte du monde : toutes les zones sur un seul panneau, molette pour zoomer (voir plus bas) |
 | **Q** | Journal des quêtes : en cours (la suivie en tête) et terminées, objectifs, récompenses, « Suivre » |
 | **Échap** | Ferme la fenêtre ouverte ; sinon, **menu pause** (le jeu s'arrête) : reprendre, options, menu principal (avec sauvegarde, pas en combat), quitter |
 
@@ -140,9 +140,12 @@ Les sorts se consultent dans leur fenêtre (S).
   coordonnées de la carte ; dans une maison, elle montre la carte devant la porte. Un **clic** dessus
   ouvre la carte du monde (hors combat).
 - **Carte du monde** (touche **M**, bouton en forme de carte du bandeau, ou clic sur la minicarte) :
-  **tout le monde est montré dès le début**, comme dans Dofus : un onglet par zone du jeu, ouvert
-  sur la zone actuelle, avec le nombre de cartes que vous y avez visitées. Chaque carte est une case
-  avec son nom, à sa place (est à droite, sud en bas) ; la carte où vous êtes a un **cadre doré**.
+  **tout le monde est montré dès le début**, comme dans Dofus, sur un seul panneau : les zones sont
+  à leur place les unes par rapport aux autres (Hautepierre au milieu, reliée aux trois zones de
+  départ). Elle s'ouvre centrée sur vous ; **molette** : zoom, **glisser** : se déplacer, un bouton
+  par zone pour y aller. En haut, la zone survolée et le nombre de cartes que vous y avez visitées.
+  Chaque carte est une case avec son nom, à sa place (est à droite, sud en bas), toujours de la même
+  forme ; dézoomée, ce sont les noms des zones qui s'affichent. La carte où vous êtes a un **cadre doré**.
   Un losange bleu marque une Pierre de Passage, les mêmes icônes que sur la minicarte le reste ;
   sous la grille, cochez ou décochez chaque sorte d'icône. Clic droit : un drapeau.
   Les maisons n'y figurent pas (depuis une maison, la carte s'ouvre sur sa zone, avec le cadre doré

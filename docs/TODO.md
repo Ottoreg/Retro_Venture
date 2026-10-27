@@ -396,6 +396,10 @@ Tout le contenu et les systèmes MVP de l'alpha 1 sont faits (chantiers 1, 3, 4 
   montré dès le début** comme dans Dofus (nombre de cartes visitées par zone), Pierres de Passage ;
   minicarte façon Dofus Rétro : la carte du monde en réduit, 5 × 5 cartes autour de la carte
   actuelle (nom au survol, repliable)
+- [x] Carte du monde d'un seul tenant (demande de l'auteur, 27/10/2026) : toutes les zones sur un
+  panneau, collées par leurs portes (Hautepierre au milieu, `WorldMapLayout.ZONE_ORIGINS`), cases
+  toujours de la forme d'une carte (Hautepierre n'est plus écrasée), molette (6 zooms,
+  `Options.world_map_zoom`) et glisser, un bouton par zone ; la minicarte passe d'une zone à l'autre
 - [x] Point de résurrection : la dernière Pierre de Passage touchée (au départ, celle de la zone de
   départ) ; après une défaite, réveil à côté d'elle avec 1 PV, même sur une autre carte
 - [ ] Point de résurrection aux temples

@@ -6,6 +6,9 @@ extends RefCounted
 ## Une carte a des coordonnées si son id est de la forme « <zone>_<x>_<y> » (`brumerive_1_0`,
 ## `crasse_roc_-1_2`) : x vers la droite, y vers le bas, éventuellement négatifs. Les autres (maisons,
 ## intérieurs) n'apparaissent pas sur la carte du monde.
+##
+## Toutes les zones tiennent dans un même monde (`world_layout`) : chacune y est décalée de son
+## origine (`ZONE_ORIGINS`), de sorte que les zones reliées par une porte se touchent.
 
 ## Texte d'une carte voisine pas encore visitée.
 const UNKNOWN_NAME := "?"
@@ -13,6 +16,17 @@ const UNKNOWN_NAME := "?"
 const STONE_NONE := ""
 const STONE_KNOWN := "connue"
 const STONE_UNKNOWN := "inconnue"
+
+## Place de chaque zone dans le monde : coordonnées monde de sa carte (0, 0). Hautepierre au milieu ;
+## les trois zones de départ s'y collent par leurs portes (Route de l'Ouest ↔ Gué de Brume-Haute,
+## Route du Nord ↔ Orée du Sud, Route de l'Est ↔ Route des Charrois : vérifié par les tests). Une
+## zone absente d'ici est posée sous les autres (`zone_origins`).
+const ZONE_ORIGINS := {
+	"hautepierre": Vector2i(0, 0),
+	"brumerive": Vector2i(-4, 1),
+	"sylvebrume": Vector2i(0, -3),
+	"crasse_roc": Vector2i(5, 0),
+}
 
 static var _id_pattern: RegEx
 
@@ -167,6 +181,115 @@ static func neighborhood(layout: Dictionary, center: Vector2i, radius: Vector2i)
 		if window.has_point(ends[0]) or window.has_point(ends[1]):
 			links.append(ends)
 	result["liens"] = links
+	if layout.has("origines"):
+		var origins := {}
+		for zone_id: String in layout["origines"]:
+			origins[zone_id] = layout["origines"][zone_id] - shift
+		result["origines"] = origins
+		var zones: Array = []
+		for zone: Dictionary in layout.get("zones", []):
+			var moved: Dictionary = zone.duplicate()
+			moved["cases"] = Rect2i(zone["cases"].position + shift, zone["cases"].size)
+			zones.append(moved)
+		result["zones"] = zones
+	return result
+
+
+## Origine de chaque zone des cartes `map_ids` dans le monde : celle de `ZONE_ORIGINS`, sinon sous
+## les zones placées, de gauche à droite, une carte d'écart entre deux zones (ordre des ids).
+static func zone_origins(map_ids: Array) -> Dictionary:
+	var bounds := {}  # zone → Rect2i de ses coordonnées
+	for map_id: String in map_ids:
+		var coordinates := map_coordinates(map_id)
+		if coordinates.is_empty():
+			continue
+		var cell := Rect2i(coordinates["position"], Vector2i.ONE)
+		bounds[coordinates["zone"]] = bounds[coordinates["zone"]].merge(cell) if bounds.has(coordinates["zone"]) else cell
+	var origins := {}
+	var placed := Rect2i()
+	for zone_id: String in bounds:
+		if ZONE_ORIGINS.has(zone_id):
+			origins[zone_id] = ZONE_ORIGINS[zone_id]
+			var rect: Rect2i = bounds[zone_id]
+			rect.position += ZONE_ORIGINS[zone_id]
+			placed = rect if placed.size == Vector2i.ZERO else placed.merge(rect)
+	var others := bounds.keys().filter(func(zone_id: String) -> bool: return not origins.has(zone_id))
+	others.sort()
+	var x := placed.position.x
+	for zone_id: String in others:
+		var rect: Rect2i = bounds[zone_id]
+		origins[zone_id] = Vector2i(x, placed.end.y + 1) - rect.position
+		x += rect.size.x + 1
+	return origins
+
+
+## Coordonnées d'une carte dans le monde (son id, décalé de l'origine de sa zone), ou `null`.
+static func world_position(map_id: String, origins: Dictionary) -> Variant:
+	var coordinates := map_coordinates(map_id)
+	if coordinates.is_empty() or not origins.has(coordinates["zone"]):
+		return null
+	return coordinates["position"] + origins[coordinates["zone"]]
+
+
+## Toutes les zones sur une même grille, chacune à sa place (`origins`, voir `zone_origins`). Mêmes
+## arguments que `zone_layout` (`maps` avec toutes les zones ; une carte peut y avoir des `portes` :
+## ids des cartes où mènent ses portes) et même format, en coordonnées monde (`origine`), avec en
+## plus : pour chaque case sa `zone` ; `origines` : zone → coordonnées de zone qui tombent sur la
+## case (0, 0) (case = position dans la zone − origines[zone]) ; `zones` : [{ zone, nom, cases:
+## Rect2i (dans la grille) }]. Les liens comprennent les portes entre deux cartes voisines dans le
+## monde (d'une zone à l'autre).
+static func world_layout(maps: Dictionary, visited: Array, current := "", passages: Dictionary = {},
+		known_passages: Array = [], origins: Dictionary = {}) -> Dictionary:
+	if origins.is_empty():
+		origins = zone_origins(maps.keys())
+	var result := {"zone": "", "nom": "", "origine": Vector2i.ZERO, "colonnes": 0, "lignes": 0,
+		"cases": [], "liens": [], "zones": [], "origines": {}}
+	var layouts: Array = []
+	var low := Vector2i(1 << 30, 1 << 30)
+	var high := -low
+	var zone_ids := origins.keys()
+	zone_ids.sort()
+	for zone_id: String in zone_ids:
+		var layout := zone_layout(zone_id, maps, visited, current, passages, known_passages)
+		if layout["cases"].is_empty():
+			continue
+		layouts.append(layout)
+		var corner: Vector2i = layout["origine"] + origins[zone_id]
+		low = Vector2i(mini(low.x, corner.x), mini(low.y, corner.y))
+		high = Vector2i(maxi(high.x, corner.x + layout["colonnes"] - 1), maxi(high.y, corner.y + layout["lignes"] - 1))
+	if layouts.is_empty():
+		return result
+	result["origine"] = low
+	result["colonnes"] = high.x - low.x + 1
+	result["lignes"] = high.y - low.y + 1
+	var cells := {}  # id de carte → case
+	for layout: Dictionary in layouts:
+		var zone_id: String = layout["zone"]
+		var shift: Vector2i = layout["origine"] + origins[zone_id] - low
+		result["origines"][zone_id] = low - origins[zone_id]
+		result["zones"].append({"zone": zone_id, "nom": layout["nom"],
+			"cases": Rect2i(shift, Vector2i(layout["colonnes"], layout["lignes"]))})
+		for case: Dictionary in layout["cases"]:
+			var moved := case.duplicate()
+			moved["case"] = case["case"] + shift
+			moved["zone"] = zone_id
+			result["cases"].append(moved)
+			cells[case["id"]] = moved["case"]
+		for link: Array in layout["liens"]:
+			result["liens"].append([link[0] + shift, link[1] + shift])
+	# Portes d'une zone à l'autre, entre cartes voisines dans le monde.
+	var linked := {}
+	for map_id: String in cells:
+		for target: String in maps.get(map_id, {}).get("portes", []):
+			if not cells.has(target) or map_coordinates(target)["zone"] == map_coordinates(map_id)["zone"]:
+				continue
+			var ends: Array = [cells[map_id], cells[target]]
+			var key := "%s|%s" % ([map_id, target] if map_id < target else [target, map_id])
+			if linked.has(key) or absi(ends[0].x - ends[1].x) + absi(ends[0].y - ends[1].y) != 1:
+				continue
+			linked[key] = true
+			result["liens"].append(ends)
+	result["cases"].sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return _before(a["case"], b["case"]))
 	return result
 
 

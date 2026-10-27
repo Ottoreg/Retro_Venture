@@ -10,7 +10,7 @@ extends SceneTree
 ## bulle avec le niveau tiré de chaque monstre), « phase » (comme « cible » ; le monstre survolé reçoit
 ## une phase pour l'occasion et passe sous son seuil : message et texte flottant), « reveil » (combat
 ## perdu contre le premier groupe : réveil près de la Pierre de Passage du point de résurrection, à
-## lancer par exemple sur brumerive_1_0), « carte » (ouvre la carte du monde ; la minicarte, elle,
+## lancer par exemple sur brumerive_1_0), « carte » (ouvre la carte du monde ; « monde » : dézoomée au plus loin ; la minicarte, elle,
 ## est visible sur toute capture en exploration), « tactique »
 ## (comme « cible », en mode tactique ; « pions » : avec les pions), « pause » (menu pause), « options » (fenêtre des options),
 ## « quete » (le premier PNJ qui propose une quête : sa proposition), « journal » (cette quête
@@ -274,7 +274,9 @@ func _process(_delta: float) -> bool:
 			_scene.get_node("JobsWindow").toggle()
 		elif _action == "sorts":
 			_scene.get_node("SpellsWindow").toggle()
-		elif _action == "carte":
+		elif _action in ["carte", "monde"]:
+			if _action == "monde":
+				Options.world_map_zoom = 0
 			_scene.get_node("WorldMapWindow").open()
 		elif _action == "suivi":
 			# Quête suivie : l'épingle jaune de son objectif (vaincre, à l'étape 2 du tutoriel) sur la

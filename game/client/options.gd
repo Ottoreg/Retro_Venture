@@ -25,6 +25,8 @@ static var server_address := ""
 ## Minicarte : cartes montrées de chaque côté (1 à 4 : de 3 × 3 à 9 × 9, molette) et icônes masquées
 ## (sortes de `MapIcons.KINDS`, légende de la carte du monde).
 static var minimap_radius := 2
+## Carte du monde : niveau de zoom (molette), d'une case par carte de `WorldMapWindow.ZOOM_WIDTHS`.
+static var world_map_zoom := WorldMapWindow.DEFAULT_ZOOM
 static var hidden_icons: Array = []
 static var _loaded := false
 
@@ -44,6 +46,7 @@ static func load_options(force := false) -> void:
 	tactical_pawns = bool(file.get_value("combat", "pions", tactical_pawns))
 	server_address = str(file.get_value("en_ligne", "serveur", server_address))
 	minimap_radius = clampi(int(file.get_value("carte", "minicarte", minimap_radius)), 1, 4)
+	world_map_zoom = clampi(int(file.get_value("carte", "zoom_monde", world_map_zoom)), 0, WorldMapWindow.ZOOM_WIDTHS.size() - 1)
 	var hidden: Variant = file.get_value("carte", "icones_masquees", hidden_icons)
 	hidden_icons = hidden if typeof(hidden) == TYPE_ARRAY else []
 
@@ -57,6 +60,7 @@ static func save_options() -> void:
 	file.set_value("combat", "pions", tactical_pawns)
 	file.set_value("en_ligne", "serveur", server_address)
 	file.set_value("carte", "minicarte", minimap_radius)
+	file.set_value("carte", "zoom_monde", world_map_zoom)
 	file.set_value("carte", "icones_masquees", hidden_icons)
 	file.save(path)
 
@@ -70,6 +74,7 @@ static func reset() -> void:
 	tactical_pawns = false
 	server_address = ""
 	minimap_radius = 2
+	world_map_zoom = WorldMapWindow.DEFAULT_ZOOM
 	hidden_icons = []
 	_loaded = true
 

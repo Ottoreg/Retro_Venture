@@ -720,10 +720,16 @@ Les classes sont **fixes** (pas d'apprentissage croisé, § 5.2) ; **le modèle 
     distance.
 - **Carte du monde** et **minicarte** consultables. *Fait :* le personnage retient les cartes où il
   est allé (`cartes_visitees` dans la sauvegarde). La carte du monde (touche M), comme dans
-  Dofus, **montre tout le monde dès le début** (décision de l'auteur) : un onglet par zone du jeu
-  (les zones visitées d'abord), toutes les cartes nommées, le nombre de cartes visitées par zone ;
-  les coordonnées d'une carte viennent de son id (`<zone>_<x>_<y>`, x vers l'est, y vers le sud),
-  et la grille s'adapte à la taille de la zone. Les Pierres de Passage y figurent ; les
+  Dofus, **montre tout le monde dès le début** (décision de l'auteur), **sur un seul panneau**
+  (27/10/2026, en prévision des zones reliées) : toutes les zones ensemble, chacune à sa place
+  dans le monde (`WorldMapLayout.ZONE_ORIGINS` : Hautepierre au milieu, Brumerive à l'ouest,
+  Sylvebrume au nord, Crasse-Roc à l'est, collées par leurs portes ; une zone sans place est posée
+  dessous), un contour par zone, son nom en grand quand on dézoome ; les coordonnées d'une carte
+  viennent de son id (`<zone>_<x>_<y>`, x vers l'est, y vers le sud), décalées de l'origine de sa
+  zone. Chaque carte garde **toujours la forme d'une carte** (`MAP_RATIO`, 1,6), quitte à faire
+  défiler : **molette** pour zoomer (6 niveaux, `Options.world_map_zoom`, le point sous la souris
+  reste en place), **glisser** pour se déplacer, un bouton par zone pour y aller ; en haut, la zone
+  survolée et ses cartes visitées. Les Pierres de Passage y figurent ; les
   intérieurs, sans coordonnées, n'y sont pas. (`WorldMapLayout` sait encore cacher les cartes non
   visitées, en « ? » pour leurs voisines, si l'on en veut un jour.) La minicarte, comme dans Dofus
   Rétro, est la carte du monde en réduit : une fenêtre fixe de 5 × 3 cartes centrée sur la carte
@@ -734,7 +740,7 @@ Les classes sont **fixes** (pas d'apprentissage croisé, § 5.2) ; **le modèle 
   **vignette** de son plan (`MapThumbnail` : sol, chemins, eau, arbres, bâtiments vus d'en haut),
   en cases jointives plus larges que hautes ; **molette** de 3 × 3 à 9 × 9 cartes
   (`Options.minimap_radius`), **glisser** pour se déplacer (un clic recentre, puis ouvre la carte
-  du monde) ; **icônes** (`MapIcons` : Pierres de Passage, ateliers A, marchands M, coffres C,
+  du monde ; elle montre le même monde d'un seul tenant, les zones voisines au bord) ; **icônes** (`MapIcons` : Pierres de Passage, ateliers A, marchands M, coffres C,
   repaires de mini-boss B, quêtes à prendre ou à rendre !), masquables dans la légende de la carte
   du monde (`Options.hidden_icons`), qui montre aussi les vignettes ; **drapeaux** : clic droit sur
   une carte de la minicarte ou de la carte du monde (le même le retire), Maj + clic droit le montre

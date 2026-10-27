@@ -8,7 +8,7 @@ extends CanvasLayer
 ## caché), chemins entre cartes et Pierres de Passage, comme sur la carte du monde
 ## (`WorldMapLayout`, `WorldMapWindow.ZoneGrid`). Dans une maison, la carte devant sa porte. Le
 ## survol d'une case donne son nom ; un clic ouvre la carte du monde. Le repère de quête
-## (`Session.quest_pin`) y est une épingle, ou une flèche au bord s'il est plus loin dans la zone ;
+## (`Session.quest_pin`) y est une épingle, ou une flèche au bord s'il est plus loin (dans le monde : les zones voisines se touchent) ;
 ## l'objectif de la quête suivie aussi, en jaune (`QuestLinks.objective_pin`) ; les membres du groupe
 ## de joueurs en points verts, leurs repères en épingles vertes (`WorldMapWindow.party_markers`).
 
@@ -116,14 +116,15 @@ func refresh() -> void:
 		_grid.layout = {}
 		_zone_name.text = WorldMapLayout.short_name(world.map.display_name)
 	else:
-		var zone_id: String = coordinates["zone"]
-		var infos := WorldMapWindow.map_infos(world, [zone_id])
-		var layout := WorldMapLayout.zone_layout(zone_id, infos, WorldMapWindow.shown_maps(world), _center_map,
-			world.data.passages, WorldMapWindow.known_passages(world))
+		# Le monde entier (les zones voisines se touchent), recadré autour de la carte.
+		var layout := WorldMapWindow.world_grid_layout(world, _center_map)
+		var center: Vector2i = coordinates["position"] - layout["origines"][coordinates["zone"]] + layout["origine"]
 		var radius := Options.minimap_radius
-		_grid.layout = WorldMapLayout.neighborhood(layout, coordinates["position"] + _offset, Vector2i(radius, radius))
+		_grid.layout = WorldMapLayout.neighborhood(layout, center + _offset, Vector2i(radius, radius))
 		_grid.indoors = _center_map != world.map.id
-		_zone_name.text = layout["nom"]
+		for zone: Dictionary in layout["zones"]:
+			if zone["zone"] == coordinates["zone"]:
+				_zone_name.text = zone["nom"]
 		_coordinates.text = "%d, %d" % [coordinates["position"].x, coordinates["position"].y]
 	_grid.pin = Session.quest_pin
 	_grid.objective = QuestLinks.objective_pin(world)
@@ -140,14 +141,15 @@ func _refresh_flag(here: Dictionary) -> void:
 	_flag_row.visible = not pin.is_empty()
 	if pin.is_empty():
 		return
-	var target := WorldMapLayout.map_coordinates(pin.get("carte", ""))
+	var target: Variant = _grid.map_cell(pin.get("carte", ""))
+	var from: Variant = _grid.map_cell(_center_map)
 	var shift := Vector2i.ZERO
-	if not here.is_empty() and not target.is_empty() and target["zone"] == here["zone"]:
-		shift = target["position"] - here["position"]
+	if not here.is_empty() and target != null and from != null:
+		shift = target - from
 		var steps := absi(shift.x) + absi(shift.y)
 		_flag_label.text = "%s : ici" % pin["nom"] if steps == 0 else "%s : %d carte%s" % [pin["nom"], steps, "s" if steps > 1 else ""]
 	else:
-		_flag_label.text = "%s (autre zone)" % pin["nom"]
+		_flag_label.text = "%s (ailleurs)" % pin["nom"]
 	_flag_arrow.direction = Vector2(shift).normalized()
 	_flag_arrow.queue_redraw()
 
