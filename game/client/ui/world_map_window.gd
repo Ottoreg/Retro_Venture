@@ -27,9 +27,9 @@ const COLOR_PARTY := Color("5fd38a")
 const COMPACT_RATIO := 1.6
 ## Largeur et hauteur maximales d'une case de la grille, et écart maximal entre deux cases (pixels).
 const CELL_MAX := Vector2(150, 84)
-const CELL_GAP := 16.0
+const CELL_GAP := 6.0
 ## Pour une petite case, l'écart rétrécit avec elle : au plus cette part de la case.
-const GAP_RATIO := 0.2
+const GAP_RATIO := 0.08
 ## Coupure des noms dans les cases : aux mots seulement ; un mot trop long pour la case finit par
 ## des points de suspension (voir `_centered_text`).
 const NAME_BREAKS := TextServer.BREAK_MANDATORY | TextServer.BREAK_WORD_BOUND
