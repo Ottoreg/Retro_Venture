@@ -187,6 +187,7 @@ class ZoneGrid extends Control:
 			for link: Array in layout.get("liens", []):
 				draw_line(cell_rect(link[0]).get_center(), cell_rect(link[1]).get_center(), UiTheme.BRONZE, link_width)
 		var hidden: Array = Options.hidden_icons
+		var current_rect := Rect2()
 		for case: Dictionary in layout["cases"]:
 			var rect := cell_rect(case["case"])
 			var visited: bool = case["visitee"]
@@ -194,7 +195,9 @@ class ZoneGrid extends Control:
 			if picture != null:
 				draw_texture_rect(picture, rect, false)
 				if compact:
-					draw_rect(rect, GOLD if case["actuelle"] else Color(0, 0, 0, 0.3), false, 2.0 if case["actuelle"] else 1.0)
+					draw_rect(rect, Color(0, 0, 0, 0.3), false, 1.0)
+					if case["actuelle"]:
+						current_rect = rect  # Son cadre doré se dessine après les autres cases.
 				else:
 					var frame := StyleBoxFlat.new()
 					frame.bg_color = Color(0, 0, 0, 0)
@@ -203,9 +206,6 @@ class ZoneGrid extends Control:
 					draw_style_box(frame, rect)
 				_draw_icons(rect, case, hidden)
 				if compact:
-					if case["actuelle"]:
-						draw_circle(rect.get_center(), 3.5, Color("4d8fff"))
-						draw_arc(rect.get_center(), 3.5, 0, TAU, 16, Color.WHITE, 1.2)
 					continue
 				var inner := rect.grow(-4)
 				_centered_text(get_theme_default_font(), inner, case["nom"], name_size, GOLD if case["actuelle"] else Color.WHITE, 3, true)
@@ -251,6 +251,11 @@ class ZoneGrid extends Control:
 				# Le joueur : un point bleu sous le nom.
 				draw_circle(Vector2(rect.get_center().x, rect.end.y - 8), 4.0, Color("4d8fff"))
 				draw_arc(Vector2(rect.get_center().x, rect.end.y - 8), 4.0, 0, TAU, 16, Color.WHITE, 1.2)
+		if current_rect.has_area():
+			# Carte actuelle de la minicarte : cadre doré et point bleu, par-dessus les cases voisines.
+			draw_rect(current_rect.grow(-1.0), GOLD, false, 2.0)
+			draw_circle(current_rect.get_center(), 3.5, Color("4d8fff"))
+			draw_arc(current_rect.get_center(), 3.5, 0, TAU, 16, Color.WHITE, 1.2)
 		_draw_pin(objective, COLOR_OBJECTIVE, true)
 		_draw_pin(pin, COLOR_PIN, false)
 		_draw_party()
