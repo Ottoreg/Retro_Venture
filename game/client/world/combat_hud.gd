@@ -396,7 +396,11 @@ var _summary_xp: ProgressBar
 var _summary_money: Label
 ## Groupe de joueurs (multijoueur), sous le résumé : ses membres et « Quitter le groupe ».
 var _party_box: VBoxContainer
-var _party_lines: Label
+var _party_lines: VBoxContainer
+## Verrous du combat, pour celui qui l'a engagé : fermé, spectateurs permis.
+var _lock_box: HBoxContainer
+var _lock_button: CheckBox
+var _spectators_button: CheckBox
 ## Temps restant du placement ou du tour (en ligne), sous les messages.
 var _timer_label: Label
 ## Grille flottante d'un sort de composition (Arcaniste), ouverte au-dessus de son emplacement ou à
@@ -430,6 +434,7 @@ func setup(p_map_view: MapView) -> void:
 	map_view.hovered_cell_changed.connect(_on_hovered_cell_changed)
 	map_view.sitting_changed.connect(_on_sitting_changed)
 	map_view.party_changed.connect(_refresh_party)
+	map_view.follow_changed.connect(_refresh_party)
 	_refresh_exploration()
 	_refresh_party()
 
@@ -713,7 +718,7 @@ func _on_combat_started() -> void:
 	if fighter != null:
 		_show_spells(fighter.spells)
 	for menu: String in _menu_buttons:
-		_menu_buttons[menu].disabled = true
+		_menu_buttons[menu].disabled = menu != "inventaire"  # Consultable, pas modifiable (M2).
 	if map_view.is_placement():
 		show_message("Choisissez un cercle bleu, puis « Prêt »")
 	_refresh()
@@ -1014,7 +1019,9 @@ func _on_sitting_changed(sitting: bool) -> void:
 
 
 func _on_turn_button_pressed() -> void:
-	if map_view.is_placement():
+	if map_view.world.spectating:
+		map_view.stop_watching()
+	elif map_view.is_placement():
 		map_view.request_start_fight()
 	else:
 		map_view.request_end_turn()
@@ -1051,13 +1058,24 @@ func _refresh() -> void:
 	var player_turn := map_view.can_plan()
 	if not player_turn:
 		close_composition()
-	if map_view.is_placement():
+	var spectating := map_view.world.spectating
+	if spectating:
+		_turn_button.text = "Quitter"
+		_turn_button.disabled = false
+	elif map_view.is_placement():
 		_turn_button.text = "Prêt"
 		_turn_button.disabled = map_view.is_busy()
 	else:
 		_turn_button.text = "Fin du tour"
 		_turn_button.disabled = not player_turn
-	_style_turn_button(map_view.is_placement())
+	_style_turn_button(map_view.is_placement() and not spectating)
+	var combat := map_view.world.combat
+	# Seulement en multijoueur : avec un groupe ou d'autres joueurs sur la carte.
+	_lock_box.visible = not spectating and combat != null and map_view.world.fight_leader == map_view.world.player_id \
+		and not (map_view.world.party.get("membres", []).is_empty() and map_view.world.other_players().is_empty())
+	if combat != null:
+		_lock_button.set_pressed_no_signal(combat.locked)
+		_spectators_button.set_pressed_no_signal(combat.spectators_allowed)
 	_orbs.show_states(player.get("etats_elementaires", []))
 	var fighter := map_view.player_fighter()
 	if fighter != null:
@@ -1379,6 +1397,22 @@ func _build_bands() -> void:
 	_timer_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_timer_label.visible = false
 	right.add_child(_timer_label)
+	_lock_box = HBoxContainer.new()
+	_lock_box.alignment = BoxContainer.ALIGNMENT_CENTER
+	_lock_box.visible = false
+	right.add_child(_lock_box)
+	_lock_button = CheckBox.new()
+	_lock_button.text = "Fermé"
+	_lock_button.tooltip_text = "Plus personne, même du groupe, ne rejoint le combat"
+	_lock_button.focus_mode = Control.FOCUS_NONE
+	_lock_box.add_child(_lock_button)
+	_spectators_button = CheckBox.new()
+	_spectators_button.text = "Spectateurs"
+	_spectators_button.tooltip_text = "Les autres joueurs de la carte peuvent regarder le combat"
+	_spectators_button.focus_mode = Control.FOCUS_NONE
+	_lock_box.add_child(_spectators_button)
+	_lock_button.toggled.connect(func(on: bool) -> void: map_view.set_combat_lock(on, _spectators_button.button_pressed))
+	_spectators_button.toggled.connect(func(on: bool) -> void: map_view.set_combat_lock(_lock_button.button_pressed, on))
 	right.add_child(HSeparator.new())
 	_summary = VBoxContainer.new()
 	_summary.add_theme_constant_override("separation", 4)
@@ -1403,8 +1437,8 @@ func _build_bands() -> void:
 	var party_title := _label(14, UiTheme.GOLD)
 	party_title.text = "Groupe"
 	_party_box.add_child(party_title)
-	_party_lines = _label(12, UiTheme.TEXT)
-	_party_lines.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_party_lines = VBoxContainer.new()
+	_party_lines.add_theme_constant_override("separation", 0)
 	_party_box.add_child(_party_lines)
 	var leave := Button.new()
 	leave.text = "Quitter le groupe"
@@ -1466,11 +1500,29 @@ func _refresh_party() -> void:
 		return
 	var members: Array = map_view.world.party.get("membres", [])
 	_party_box.visible = not members.is_empty()
-	var lines: PackedStringArray = []
+	for line in _party_lines.get_children():
+		line.queue_free()
+	# Un membre par ligne ; un clic sur un autre membre le suit (ou arrête de le suivre).
 	for member: Dictionary in members:
-		lines.append("%s, niv. %d%s%s" % [member["nom"], member["niveau"],
-			" (chef)" if member["id"] == map_view.world.party["chef"] else "", " (déconnecté)" if member.get("absent", false) else ""])
-	_party_lines.text = "\n".join(lines)
+		var line := Button.new()
+		line.flat = true
+		line.alignment = HORIZONTAL_ALIGNMENT_LEFT
+		line.focus_mode = Control.FOCUS_NONE
+		line.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		line.add_theme_font_size_override("font_size", 12)
+		var followed: bool = member["id"] == map_view.follow_id
+		line.text = "%s, niv. %d%s%s%s" % [member["nom"], member["niveau"],
+			" (chef)" if member["id"] == map_view.world.party["chef"] else "", " (déconnecté)" if member.get("absent", false) else "",
+			" · suivi" if followed else ""]
+		if member["id"] == map_view.world.player_id:
+			line.disabled = true
+			line.add_theme_color_override("font_disabled_color", UiTheme.TEXT)
+		else:
+			line.tooltip_text = "Cliquer pour ne plus le suivre" if followed else "Cliquer pour le suivre"
+			line.pressed.connect(map_view.toggle_follow.bind(member["id"]))
+		if followed:
+			line.add_theme_color_override("font_color", UiTheme.GOLD)
+		_party_lines.add_child(line)
 
 
 func _show_summary(sheet: Dictionary) -> void:

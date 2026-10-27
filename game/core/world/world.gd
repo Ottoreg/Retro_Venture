@@ -183,6 +183,9 @@ func remove_player(id: String) -> Array[Dictionary]:
 	var p: PlayerState = players.get(id)
 	if p == null or id == player_id:
 		return events
+	if p.watching != null:
+		p.watching.spectators.erase(id)
+		p.watching = null
 	if p.combat != null:
 		var mates := _team_of(p.combat)
 		if not _present_mates(p).is_empty() and p.combat.state != Combat.State.FINISHED:
@@ -194,6 +197,7 @@ func remove_player(id: String) -> Array[Dictionary]:
 				_end_combat(mate, events)
 		else:
 			# Plus personne de connecté : le combat est abandonné, les absents partent aussi.
+			_release_spectators(p.combat, false, events)
 			p.instance.fighting.erase(p.combat_group)
 			_release_group(p.instance, p.combat_group, events)
 			for member in mates:
@@ -332,12 +336,21 @@ func _execute(command: Dictionary) -> Array[Dictionary]:
 	var p := _player_of(command)
 	if p == null:
 		return _refused(command, Protocol.REASON_UNKNOWN_ENTITY)
+	if command.get("type") == Protocol.CMD_PARTY_PIN:
+		return _party_pin(p, command)
 	if p.in_combat():
+		if command.get("type") == Protocol.CMD_COMBAT_LOCK:
+			return _combat_lock(p, command)
 		var events := p.combat.execute(command)
 		if p.combat.state == Combat.State.FINISHED:
 			_end_combat(p, events)
 			p.quest_book.observe(events)
 		return events
+	if p.watching != null:
+		if command.get("type") == Protocol.CMD_STOP_WATCHING:
+			return _stop_watching(p, false)
+		if command.get("type") not in [Protocol.CMD_PARTY_INVITE, Protocol.CMD_PARTY_ANSWER, Protocol.CMD_PARTY_LEAVE]:
+			return _refused(command, Protocol.REASON_WATCHING)
 	var events := _execute_exploration(p, command)
 	_stand_up_if_leaving(p, events)
 	p.quest_book.observe(events)
@@ -361,9 +374,10 @@ func snapshot(id := player_id) -> Dictionary:
 	var fights: Array = []
 	for group_id: String in p.instance.fighting:
 		var starter: PlayerState = players.get(p.instance.fighting[group_id])
-		if starter != null and starter.combat != null and starter.combat != p.combat:
+		if starter != null and starter.combat != null and starter.combat != p.combat and starter.combat != p.watching:
 			fights.append(_fight_view(p.instance, group_id, starter.combat))
 	var fighter: Fighter = p.combat.get_fighter(id) if p.combat != null else null
+	var shown: Combat = p.combat if p.combat != null else p.watching
 	return {
 		"type": Protocol.EVT_SNAPSHOT,
 		"joueur": id,
@@ -378,7 +392,9 @@ func snapshot(id := player_id) -> Dictionary:
 		"groupe_joueurs": _party_view(p.party_leader),
 		"epuisees": p.instance.depleted.keys(),
 		"pierres_toutes_connues": all_passages_known,
-		"combat": p.combat.snapshot(fighter.team if fighter != null else Fighter.TEAM_PLAYERS) if p.combat != null else null,
+		"combat": shown.snapshot(fighter.team if fighter != null else Fighter.TEAM_PLAYERS) if shown != null else null,
+		"spectateur": p.watching != null,
+		"chef_combat": p.instance.fighting.get(p.combat_group, "") if p.combat != null else "",
 	}
 
 
@@ -422,6 +438,10 @@ func recipients(event: Dictionary, sender_id := "") -> Array[String]:
 						ids.append(mate_id)
 				if p.id not in ids:
 					ids.append(p.id)
+				if p.last_combat != null:
+					for spectator_id in p.last_combat.spectators:
+						if players.has(spectator_id) and spectator_id not in ids:
+							ids.append(spectator_id)
 		_:
 			var target: String = str(event[Protocol.FIELD_FOR]) if event.has(Protocol.FIELD_FOR) \
 				else sender_id if not sender_id.is_empty() else str(event.get("entite", ""))
@@ -439,6 +459,8 @@ func _execute_exploration(p: PlayerState, command: Dictionary) -> Array[Dictiona
 			return _engage(p, command)
 		if type == Protocol.CMD_JOIN_COMBAT:
 			return _join_combat(p, command)
+		if type == Protocol.CMD_WATCH_COMBAT:
+			return _watch_combat(p, command)
 		if type == Protocol.CMD_PARTY_INVITE:
 			return _party_invite(p, command)
 		if type == Protocol.CMD_PARTY_ANSWER:
@@ -546,6 +568,14 @@ func _move(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
 		var arrival := next_map.door_to(previous_map) if door else next_map.arrival_cell(exit, target)
 		var others: Array[Dictionary] = []
 		_set_map(p, next_map, arrival, others)
+		for left in others:
+			if left["type"] == Protocol.EVT_PLAYER_LEFT:
+				# Par où il part, pour qui le suit (GDD § 16.5, M2).
+				left["case"] = target
+				if door:
+					left["porte"] = true
+				else:
+					left["sortie"] = exit
 		_append_map_change(events, others, {
 			"type": Protocol.EVT_MAP_CHANGED,
 			"carte": p.map.id,
@@ -662,6 +692,7 @@ func _set_map(p: PlayerState, next_map: GameMap, player_cell: Vector2i, events: 
 	p.last_walk.clear()
 	if not others.is_empty():
 		events.append(_player_joined_event(p))
+	events.append_array(_party_events(p.party_leader))  # Les membres voient où il est.
 
 
 ## Un groupe qui n'est plus combattu (joueur vaincu ou parti) redevient visible pour les autres
@@ -748,6 +779,7 @@ func _engage(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
 	p.cell = target
 	p.last_walk.clear()
 	p.combat = _create_combat(p, group)
+	p.last_combat = p.combat
 	p.combat_group = group_id
 	p.fight_mates.assign([p.id])
 	p.instance.fighting[group_id] = p.id
@@ -777,6 +809,8 @@ func _join_combat(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
 		party_mate = party_mate or (not p.party_leader.is_empty() and member.party_leader == p.party_leader)
 	if not party_mate:
 		return _refused(command, Protocol.REASON_NOT_IN_PARTY)
+	if combat.locked:
+		return _refused(command, Protocol.REASON_COMBAT_LOCKED)
 	if combat.state != Combat.State.PLACEMENT:
 		return _refused(command, Protocol.REASON_COMBAT_STARTED)
 	if data == null or not data.voies.has(p.character.voie_id):
@@ -794,6 +828,7 @@ func _join_combat(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
 	p.cell = starter.cell
 	p.last_walk.clear()
 	p.combat = combat
+	p.last_combat = combat
 	p.combat_group = starter.combat_group
 	p.combat_loot_bonus = starter.combat_loot_bonus
 	team.append(p)
@@ -868,7 +903,76 @@ func _fight_view(instance: MapInstance, group_id: String, combat: Combat) -> Dic
 		ids.append(member.id)
 	var group: Dictionary = instance.groups.get(group_id, {})
 	return {"groupe": group_id, "case": group.get("case", Vector2i(-1, -1)), "joueurs": ids,
-		"placement": combat.state == Combat.State.PLACEMENT}
+		"placement": combat.state == Combat.State.PLACEMENT, "ferme": combat.locked, "spectateurs": combat.spectators_allowed}
+
+
+## Verrous du combat (`CMD_COMBAT_LOCK`), par le joueur qui l'a engagé : toute la carte l'apprend
+## (épées) ; spectateurs interdits, ceux qui regardent s'en vont.
+func _combat_lock(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
+	var locked: Variant = command.get("ferme", p.combat.locked)
+	var allowed: Variant = command.get("spectateurs", p.combat.spectators_allowed)
+	if typeof(locked) != TYPE_BOOL or typeof(allowed) != TYPE_BOOL:
+		return _refused(command, Protocol.REASON_INVALID_COMMAND)
+	if p.instance.fighting.get(p.combat_group) != p.id:
+		return _refused(command, Protocol.REASON_NOT_FIGHT_LEADER)
+	p.combat.locked = locked
+	p.combat.spectators_allowed = allowed
+	var events: Array[Dictionary] = [{"type": Protocol.EVT_COMBAT_LOCK, "carte": p.map.id, "groupe": p.combat_group,
+		"ferme": locked, "spectateurs": allowed}]
+	if not allowed:
+		_release_spectators(p.combat, false, events)
+	return events
+
+
+## Regarde le combat d'un autre joueur de la carte (`CMD_WATCH_COMBAT`) : le joueur reste sur la
+## carte, mais ne fait plus rien d'autre jusqu'à `CMD_STOP_WATCHING` ou la fin du combat.
+func _watch_combat(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
+	var group_id: Variant = command.get("groupe")
+	if command.get("entite") != p.id or typeof(group_id) != TYPE_STRING:
+		return _refused(command, Protocol.REASON_INVALID_COMMAND)
+	var starter: PlayerState = players.get(p.instance.fighting.get(group_id, ""))
+	if starter == null or starter.combat == null or starter.instance != p.instance or starter == p:
+		return _refused(command, Protocol.REASON_UNKNOWN_ENTITY)
+	if not starter.combat.spectators_allowed:
+		return _refused(command, Protocol.REASON_NO_SPECTATORS)
+	var events: Array[Dictionary] = []
+	if p.sitting:
+		p.sitting = false
+		events.append(_sat_event(p))
+	p.watching = starter.combat
+	p.watching.spectators.append(p.id)
+	events.append({"type": Protocol.EVT_WATCH_STARTED, "groupe": group_id})
+	return events
+
+
+func _stop_watching(p: PlayerState, finished: bool) -> Array[Dictionary]:
+	var events: Array[Dictionary] = []
+	if p.watching != null:
+		if not finished:
+			p.watching.spectators.erase(p.id)
+		p.watching = null
+	events.append({"type": Protocol.EVT_WATCH_ENDED, "fini": finished, Protocol.FIELD_FOR: p.id})
+	return events
+
+
+## Les spectateurs d'un combat s'en vont (combat fini, abandonné ou spectateurs interdits).
+func _release_spectators(combat: Combat, finished: bool, events: Array[Dictionary]) -> void:
+	for spectator_id: String in combat.spectators.duplicate():
+		var spectator: PlayerState = players.get(spectator_id)
+		if spectator != null and spectator.watching == combat:
+			events.append_array(_stop_watching(spectator, finished))
+	if not finished:
+		combat.spectators.clear()
+	# Fini : la liste reste, pour leur envoyer les derniers événements du combat (`recipients`).
+
+
+## Repère du joueur (`CMD_PARTY_PIN`), montré aux membres de son groupe.
+func _party_pin(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
+	var pin: Variant = command.get("repere")
+	if typeof(pin) != TYPE_DICTIONARY or command.get("entite") != p.id:
+		return _refused(command, Protocol.REASON_INVALID_COMMAND)
+	p.pin = pin
+	return _party_events(p.party_leader)
 
 
 # --- Groupes de joueurs ------------------------------------------------------------------------
@@ -880,7 +984,8 @@ func _party_view(leader_id: String) -> Dictionary:
 	for member_id: String in parties.get(leader_id, []):
 		var member: PlayerState = players[member_id]
 		members.append({"id": member_id, "nom": member.character.display_name, "niveau": member.character.level,
-			"race": member.character.race_id, "voie": member.character.voie_id, "absent": member.away})
+			"race": member.character.race_id, "voie": member.character.voie_id, "absent": member.away,
+			"carte": member.map.id if member.map != null else "", "repere": member.pin})
 	return {"chef": leader_id if not members.is_empty() else "", "membres": members}
 
 
@@ -1011,6 +1116,7 @@ func _end_combat(p: PlayerState, events: Array[Dictionary]) -> void:
 	var won := combat.winner_team == Fighter.TEAM_PLAYERS
 	var loot_bonus := p.combat_loot_bonus
 	combat_instance.fighting.erase(group_id)
+	_release_spectators(combat, true, events)
 	var map_events: Array[Dictionary] = []
 	var defeated_group := ""
 	if won:
@@ -1090,7 +1196,7 @@ func _end_combat(p: PlayerState, events: Array[Dictionary]) -> void:
 		else:
 			block.append_array(moved)
 		for event in block:
-			if Protocol.scope_of(event) != Protocol.SCOPE_MAP:
+			if Protocol.scope_of(event) != Protocol.SCOPE_MAP and not event.has(Protocol.FIELD_FOR):
 				event[Protocol.FIELD_FOR] = member.id
 		events.append_array(block)
 		member.combat = null

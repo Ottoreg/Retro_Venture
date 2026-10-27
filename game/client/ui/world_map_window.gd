@@ -17,6 +17,8 @@ const COLOR_STONE := Color("7fd0f0")
 const COLOR_PIN := Color("ff6a3d")
 ## Épingle de l'objectif de la quête suivie.
 const COLOR_OBJECTIVE := Color("ffd23f")
+## Membres du groupe de joueurs (point) et leurs repères (épingle).
+const COLOR_PARTY := Color("5fd38a")
 ## Largeur et hauteur maximales d'une case de la grille, et écart maximal entre deux cases (pixels).
 const CELL_MAX := Vector2(150, 84)
 const CELL_GAP := 16.0
@@ -27,6 +29,15 @@ const GAP_RATIO := 0.2
 const NAME_BREAKS := TextServer.BREAK_MANDATORY | TextServer.BREAK_WORD_BOUND
 ## Distance entre le bas de la fenêtre et le bas de l'écran.
 const BOTTOM_MARGIN := 110.0
+
+
+## Autres membres du groupe de joueurs, pour les grilles : [{ nom, carte, repere }].
+static func party_markers(world: ClientState) -> Array:
+	var markers: Array = []
+	for member: Dictionary in world.party.get("membres", []):
+		if member["id"] != world.player_id:
+			markers.append({"nom": member["nom"], "carte": member.get("carte", ""), "repere": member.get("repere", {})})
+	return markers
 
 
 ## Grille d'une zone, dessinée d'après le résultat de `WorldMapLayout.zone_layout`.
@@ -41,6 +52,8 @@ class ZoneGrid extends Control:
 	var pin: Dictionary = {}
 	## Objectif de la quête suivie { carte, nom } (voir `QuestLinks.objective_pin`), ou {}.
 	var objective: Dictionary = {}
+	## Autres membres du groupe de joueurs : [{ nom, carte, repere }] (voir `party_markers`).
+	var party: Array = []
 
 	func _init() -> void:
 		# Rien n'est dessiné hors de la grille, même pour une zone immense.
@@ -107,6 +120,11 @@ class ZoneGrid extends Control:
 			text += "\nRepère : %s" % pin["nom"]
 		if case["id"] == objective.get("carte", ""):
 			text += "\nQuête suivie : %s" % objective["nom"]
+		for member: Dictionary in party:
+			if case["id"] == member["carte"]:
+				text += "\nGroupe : %s est ici" % member["nom"]
+			if case["id"] == member["repere"].get("carte", ""):
+				text += "\nRepère de %s : %s" % [member["nom"], member["repere"]["nom"]]
 		return text
 
 	## Case du repère dans la grille (hors de la grille si la minicarte ne la montre pas), ou `null`
@@ -183,17 +201,30 @@ class ZoneGrid extends Control:
 				draw_arc(Vector2(rect.get_center().x, rect.end.y - 8), 4.0, 0, TAU, 16, Color.WHITE, 1.2)
 		_draw_pin(objective, COLOR_OBJECTIVE, true)
 		_draw_pin(pin, COLOR_PIN, false)
+		_draw_party()
+
+	## Membres du groupe : un point vert dans leur case (en bas à droite), leurs repères en épingle verte.
+	func _draw_party() -> void:
+		for member: Dictionary in party:
+			_draw_pin(member["repere"], COLOR_PARTY, false, 1)
+			var at := {"carte": member["carte"]}
+			if pin_in_grid(at):
+				var rect := cell_rect(pin_cell(at))
+				var radius := clampf(minf(rect.size.x, rect.size.y) * 0.1, 2.5, 4.5)
+				var center := rect.end - Vector2(radius + 3, radius + 3)
+				draw_circle(center, radius, COLOR_PARTY)
+				draw_arc(center, radius, 0, TAU, 16, Color.WHITE, 1.0)
 
 	## Un repère : une épingle dans le coin haut gauche de sa case (bas gauche pour l'objectif suivi) ;
 	## sur la minicarte, une flèche au bord quand sa case est hors de la fenêtre (même zone).
-	func _draw_pin(marker: Dictionary, color: Color, low: bool) -> void:
+	func _draw_pin(marker: Dictionary, color: Color, low: bool, shift := 0) -> void:
 		var cell: Variant = pin_cell(marker)
 		if cell == null:
 			return
 		var rect := cell_rect(cell)
 		if pin_in_grid(marker):
 			var radius := clampf(minf(rect.size.x, rect.size.y) * 0.12, 3.0, 7.0)
-			var head := rect.position + Vector2(radius + 3, radius + 3)
+			var head := rect.position + Vector2(radius + 3 + shift * radius * 2.2, radius + 3)
 			if low:
 				head.y = rect.end.y - radius * 3.2 - 3
 			var tip := head + Vector2(0, radius * 2.2)
@@ -271,6 +302,7 @@ func setup(p_map_view: MapView) -> void:
 	map_view.combat_started.connect(close)
 	map_view.map_changed.connect(refresh)
 	map_view.quests_changed.connect(func(_journal: Dictionary) -> void: refresh())
+	map_view.party_changed.connect(refresh)
 
 
 func toggle() -> void:
@@ -343,6 +375,7 @@ func refresh() -> void:
 	_grid.indoors = here != world.map.id
 	_grid.pin = Session.quest_pin
 	_grid.objective = QuestLinks.objective_pin(world)
+	_grid.party = party_markers(world)
 	_grid.queue_redraw()
 	_zone_title.text = layout["nom"]
 	_clear_pin.visible = not Session.quest_pin.is_empty()

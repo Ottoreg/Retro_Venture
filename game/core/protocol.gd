@@ -9,7 +9,7 @@ extends RefCounted
 
 ## Version du protocole, vérifiée à la connexion : à augmenter à chaque changement incompatible
 ## d'une commande ou d'un événement.
-const VERSION := 3
+const VERSION := 4
 
 # --- Commandes (client → noyau) ---
 
@@ -88,6 +88,17 @@ const CMD_PARTY_INVITE := "inviter_groupe"
 const CMD_PARTY_ANSWER := "repondre_invitation"
 ## Quitter son groupe (le suivant devient chef ; un groupe de un se dissout). { type, entite: String }
 const CMD_PARTY_LEAVE := "quitter_groupe"
+## Verrous de son combat, par celui qui l'a engagé (en combat). { type, entite: String, ferme: bool
+## (plus personne ne le rejoint), spectateurs: bool (permis) } ; un champ absent ne change pas.
+const CMD_COMBAT_LOCK := "verrou_combat"
+## Exploration : regarder le combat d'un autre joueur de la carte (ses épées). { type, entite: String,
+## groupe: String (id du groupe de monstres combattu) }
+const CMD_WATCH_COMBAT := "regarder_combat"
+## Ne plus regarder le combat. { type, entite: String }
+const CMD_STOP_WATCHING := "quitter_spectateur"
+## Repère posé sur la carte du monde (nom cliqué d'un texte de quête), montré aux membres de son groupe.
+## { type, entite: String, repere: Dictionary ({ nom, carte, case… } ; {} : retiré) }
+const CMD_PARTY_PIN := "repere_groupe"
 
 # --- Événements (noyau → client) ---
 
@@ -249,7 +260,9 @@ const EVT_COMBAT_ENDED := "combat_fin"
 ## Un autre joueur arrive sur la carte (multijoueur ; jamais en solo). { type, carte: String,
 ## joueur: { id, nom, race, voie, niveau, case: Vector2i, assis } } (voir `World.player_view`).
 const EVT_PLAYER_JOINED := "joueur_arrive"
-## Un autre joueur quitte la carte (multijoueur ; jamais en solo). { type, carte: String, entite: String }
+## Un autre joueur quitte la carte (multijoueur ; jamais en solo). { type, carte: String, entite: String },
+## et par où, s'il marche vers une autre carte : `case`: Vector2i et `sortie`: String (direction) ou
+## `porte`: true (pour le suivre).
 const EVT_PLAYER_LEFT := "joueur_part"
 ## Un autre joueur de la carte engage un groupe : le groupe disparaît pour les autres pendant son
 ## combat (multijoueur ; jamais en solo). { type, carte: String, groupe: String (id), entite: String,
@@ -259,12 +272,20 @@ const EVT_GROUP_ENGAGED := "groupe_engage"
 ## Combat fini sur la carte : ses épées disparaissent pour les autres joueurs (jamais en solo).
 ## { type, carte: String, groupe: String (id du groupe combattu) }
 const EVT_FIGHT_OVER := "combat_termine"
+## Verrous d'un combat changés (`CMD_COMBAT_LOCK`) : pour toute la carte (épées). { type, carte: String,
+## groupe: String, ferme: bool, spectateurs: bool }
+const EVT_COMBAT_LOCK := "verrou_combat"
+## Le joueur regarde un combat (l'instantané porte le combat et `spectateur`). { type, groupe: String }
+const EVT_WATCH_STARTED := "spectateur_debut"
+## Le joueur ne regarde plus le combat (fini, quitté, ou spectateurs interdits). { type, fini: bool }
+const EVT_WATCH_ENDED := "spectateur_fin"
 ## Invitation dans un groupe de joueurs. { type, chef: String (id de qui invite), nom: String }
 const EVT_PARTY_INVITE := "invitation_groupe"
 ## Invitation refusée par le joueur `nom`. { type, nom: String }
 const EVT_PARTY_DECLINED := "invitation_refusee"
 ## Groupe de joueurs après un changement (vide : plus de groupe). { type, chef: String (id, ou ""),
-## membres: Array[{ id, nom, niveau, race, voie, absent }] (chef en premier) }
+## membres: Array[{ id, nom, niveau, race, voie, absent, carte, repere }] (chef en premier ; `repere` :
+## celui du membre, {} sans) }. Aussi quand un membre change de carte ou de repère.
 const EVT_PARTY := "groupe_joueurs"
 ## Un groupe n'est plus combattu sans avoir été vaincu (son joueur a perdu ou s'est déconnecté) : il
 ## réapparaît pour les autres joueurs de la carte (jamais en solo). { type, carte: String,
@@ -286,7 +307,7 @@ const EVT_EXPLORATION := "exploration"
 const SCOPE_PERSONAL := "personnel"
 ## Tous les joueurs de la carte `carte` de l'événement (déplacements, groupes, ressources).
 const SCOPE_MAP := "carte"
-## Tous les participants du combat (et plus tard ses spectateurs).
+## Tous les participants du combat et ses spectateurs.
 const SCOPE_COMBAT := "combat"
 
 ## Champ d'un événement personnel destiné à un autre joueur que l'auteur de la commande (id) : fin de
@@ -300,7 +321,7 @@ const SELF_APPLIED_EVENTS := [EVT_REGEN, EVT_PARTY, EVT_PARTY_INVITE, EVT_PARTY_
 
 ## Événements visibles de toute la carte : ils ont tous un champ `carte`.
 const MAP_EVENTS := [EVT_MOVED, EVT_SAT, EVT_HARVESTED, EVT_RESOURCE_RESPAWNED, EVT_GROUP_RESPAWNED, EVT_GROUP_MOVED,
-	EVT_PLAYER_JOINED, EVT_PLAYER_LEFT, EVT_GROUP_ENGAGED, EVT_GROUP_RELEASED, EVT_FIGHT_OVER]
+	EVT_PLAYER_JOINED, EVT_PLAYER_LEFT, EVT_GROUP_ENGAGED, EVT_GROUP_RELEASED, EVT_FIGHT_OVER, EVT_COMBAT_LOCK]
 ## Événements d'un combat, pour tous ses participants.
 const COMBAT_EVENTS := [EVT_COMBAT_STARTED, EVT_PLACED, EVT_FIGHT_BEGINS, EVT_TURN_STARTED, EVT_TURN_ENDED,
 	EVT_SPELL_CAST, EVT_DAMAGE, EVT_HEAL, EVT_DIED, EVT_TELEPORTED, EVT_STATUS, EVT_STATES, EVT_ELEMENT_STATES,
@@ -404,6 +425,13 @@ const REASON_GROUP_IN_COMBAT := "groupe_en_combat"
 const REASON_COMBAT_STARTED := "combat_deja_commence"
 const REASON_COMBAT_FULL := "combat_complet"
 const REASON_NOT_IN_PARTY := "pas_dans_le_groupe"
+## Combat fermé par celui qui l'a engagé, ou spectateurs interdits.
+const REASON_COMBAT_LOCKED := "combat_ferme"
+const REASON_NO_SPECTATORS := "spectateurs_interdits"
+## Verrou demandé par un autre que celui qui a engagé le combat.
+const REASON_NOT_FIGHT_LEADER := "pas_chef_du_combat"
+## Commande d'exploration pendant qu'on regarde un combat.
+const REASON_WATCHING := "spectateur"
 ## Groupes de joueurs.
 const REASON_PARTY_FULL := "groupe_complet"
 const REASON_ALREADY_IN_PARTY := "deja_en_groupe"

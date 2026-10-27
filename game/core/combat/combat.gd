@@ -38,6 +38,12 @@ var placement_limit := 0.0
 var ready: Dictionary = {}
 ## Joueurs déconnectés (id → true) : leurs tours passent tout seuls, et ils comptent comme prêts.
 var absent: Dictionary = {}
+## Verrous du combat, au choix de celui qui l'a engagé (en ligne, GDD § 16.5, M2) : fermé, plus
+## personne ne le rejoint ; sans spectateurs, plus personne ne le regarde.
+var locked := false
+var spectators_allowed := true
+## Joueurs qui regardent le combat (ids) : ils reçoivent ses événements.
+var spectators: Array[String] = []
 
 var _turn_index := -1
 ## Temps écoulé du placement ou du tour du joueur en cours (avec `turn_limit`).
@@ -972,6 +978,8 @@ func snapshot(team := Fighter.TEAM_PLAYERS) -> Dictionary:
 		"temps_restant": time_left(),
 		"limite_tour": turn_limit,
 		"limite_placement": placement_limit,
+		"ferme": locked,
+		"spectateurs_permis": spectators_allowed,
 	}
 
 
@@ -1013,6 +1021,8 @@ static func from_snapshot(saved: Dictionary, p_map: GameMap, p_data: GameData, c
 		combat.absent[fighter_id] = true
 	combat.turn_limit = float(saved.get("limite_tour", 0.0))
 	combat.placement_limit = float(saved.get("limite_placement", 0.0))
+	combat.locked = bool(saved.get("ferme", false))
+	combat.spectators_allowed = bool(saved.get("spectateurs_permis", true))
 	combat._elapsed = maxf(0.0, (combat.placement_limit if combat.state == State.PLACEMENT else combat.turn_limit) - float(saved.get("temps_restant", 0.0)))
 	for pair: Array in saved["arrivee"]:
 		var fighter := combat.get_fighter(pair[0])

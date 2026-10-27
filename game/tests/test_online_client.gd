@@ -270,3 +270,130 @@ func test_retour_en_plein_combat_barre_de_combat() -> void:
 	assert_false(hud._sit_button.visible, "plus de « S'asseoir »")
 	assert_true(hud._spells_box.visible, "barre des sorts")
 	first.queue_free()
+
+
+## Frodon (le monde de la scène) et Sam, chacun avec sa vue, sur la même carte.
+func _two_clients(scene: Node) -> Array[MapView]:
+	var frodon_view: MapView = scene.get_node("MapView")
+	var world := frodon_view.server
+	world.add_player(Character.create("Sam", "humain", World.DEFAULT_VOIE), "j:sam", world.map.id, world.position_of(world.player_id))
+	world.data.give_starting_kit(world.player("j:sam").character)
+	var frodon := SharedConnection.new(world)
+	var sam := SharedConnection.new(world, "j:sam")
+	frodon.others = [sam]
+	sam.others = [frodon]
+	frodon_view.setup(frodon)
+	var sam_view := MapView.new()
+	scene.add_child(sam_view)
+	sam_view.setup(sam)
+	var views: Array[MapView] = [frodon_view, sam_view]
+	return views
+
+
+func _run_both(views: Array[MapView]) -> void:
+	for i in 400:
+		for view in views:
+			view.advance(0.25)
+		if views.all(func(view: MapView) -> bool: return not view.is_busy()):
+			return
+
+
+func test_suivre_un_membre_du_groupe_jusque_sur_une_autre_carte() -> void:
+	var scene := _scene()
+	var views := _two_clients(scene)
+	var frodon_view := views[0]
+	var sam_view := views[1]
+	var world := frodon_view.server
+	frodon_view.send_command({"type": Protocol.CMD_PARTY_INVITE, "entite": world.player_id, "joueur": "j:sam"})
+	sam_view.send_command({"type": Protocol.CMD_PARTY_ANSWER, "entite": "j:sam", "chef": world.player_id, "accepte": true})
+	_run_both(views)
+	sam_view.toggle_follow(world.player_id)
+	assert_eq(sam_view.follow_id, world.player_id)
+	# Frodon marche : Sam part au même endroit.
+	var map := frodon_view.current_map()
+	var start := world.position_of(world.player_id)
+	var target := start
+	for cell: Vector2i in map.cells():
+		if map.is_walkable(cell) and map.exit_directions(cell).is_empty() and map.npc_at(cell).is_empty() \
+				and frodon_view.world.group_at(cell).is_empty() and not map.resource_nodes.has(cell) and absi(cell.x - start.x) + absi(cell.y - start.y) in range(3, 6) \
+				and not map.find_path(start, cell).is_empty():
+			target = cell
+			break
+	frodon_view._on_click(target)
+	_run_both(views)
+	assert_eq(world.position_of("j:sam"), target, "Sam a suivi Frodon")
+	# Frodon change de carte par une sortie : Sam aussi.
+	var exit := Vector2i(-1, -1)
+	for cell: Vector2i in map.cells():
+		if map.is_walkable(cell) and not map.exit_directions(cell).is_empty() and not map.find_path(target, cell).is_empty():
+			exit = cell
+			break
+	frodon_view._on_click(exit)
+	_run_both(views)
+	assert_ne(world.player(world.player_id).map.id, map.id, "Frodon a changé de carte")
+	assert_eq(world.player("j:sam").map.id, world.player(world.player_id).map.id, "Sam l'a suivi")
+	assert_eq(sam_view.world.party_member(world.player_id)["carte"], world.player(world.player_id).map.id, "carte du membre connue")
+	# Un clic pour marcher arrête de suivre.
+	var elsewhere := sam_view.world.position_of("j:sam")
+	for cell: Vector2i in sam_view.current_map().cells():
+		if sam_view.current_map().is_walkable(cell) and sam_view.world.player_at(cell).is_empty():
+			elsewhere = cell
+			break
+	sam_view._explore(elsewhere)
+	assert_eq(sam_view.follow_id, "")
+	scene.queue_free()
+
+
+func test_regarder_le_combat_d_un_autre_joueur() -> void:
+	var scene := _scene()
+	var views := _two_clients(scene)
+	var frodon_view := views[0]
+	var sam_view := views[1]
+	var group: Dictionary = frodon_view.world.groups()[0]
+	frodon_view._on_click(group["case"])
+	_run_until_idle(frodon_view)
+	var hud: CombatHud = scene.get_node("CombatHud")
+	assert_true(hud._lock_box.visible, "verrous pour celui qui a engagé le combat")
+	sam_view.advance(0.1)
+	assert_true(sam_view._describe(group["case"]).contains("regarder"), "les épées proposent de regarder")
+	sam_view._on_click(group["case"])
+	_run_until_idle(sam_view)
+	assert_eq(sam_view.mode, MapView.Mode.COMBAT, "Sam regarde le combat")
+	assert_true(sam_view.world.spectating)
+	assert_true(sam_view._actors.has(frodon_view.world.player_id), "il y voit Frodon")
+	sam_view._on_click(sam_view.world.combat.placement_cells[0])
+	assert_false(sam_view.is_busy(), "un spectateur ne joue pas")
+	frodon_view.request_start_fight()
+	_run_until_idle(frodon_view)
+	for i in 200:
+		if sam_view.mode == MapView.Mode.EXPLORATION:
+			break
+		frodon_view.advance(0.5)
+		if frodon_view.is_player_turn():
+			frodon_view.request_end_turn()
+		_run_until_idle(frodon_view)
+		sam_view.advance(0.5)
+		_run_until_idle(sam_view)
+	assert_eq(sam_view.mode, MapView.Mode.EXPLORATION, "le combat fini, Sam revient sur la carte")
+	assert_false(sam_view.world.spectating)
+	scene.queue_free()
+
+
+func test_inventaire_consultable_en_combat() -> void:
+	var scene := _scene()
+	var view: MapView = scene.get_node("MapView")
+	var inventory: InventoryWindow = scene.get_node("InventoryWindow")
+	var group: Dictionary = view.world.groups()[0]
+	view._on_click(group["case"])
+	_run_until_idle(view)
+	assert_eq(view.mode, MapView.Mode.COMBAT)
+	inventory.toggle()
+	assert_true(inventory.is_open(), "s'ouvre en combat")
+	assert_true(inventory.is_read_only())
+	var worn: Dictionary = view.world.character.inventory.entries
+	var uid: String = worn.keys()[0]
+	var slot := view.world.character.inventory.slot_of(uid)
+	inventory.toggle_worn(uid)
+	assert_eq(view.world.character.inventory.slot_of(uid), slot, "rien ne change")
+	assert_false(view.is_busy(), "aucune commande envoyée")
+	scene.queue_free()

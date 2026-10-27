@@ -1,7 +1,7 @@
 class_name PartyUi
 extends CanvasLayer
 ## Groupes de joueurs (multijoueur, GDD § 16.5, M2) : un clic sur un autre joueur propose de
-## l'inviter, une invitation reçue demande d'accepter ou de refuser. Les membres s'affichent dans la
+## l'inviter (ou de le suivre, s'il est du groupe), une invitation reçue demande d'accepter ou de refuser. Les membres s'affichent dans la
 ## bande droite (`CombatHud`).
 
 var map_view: MapView
@@ -35,8 +35,7 @@ func _on_player_clicked(player_id: String, player_name: String) -> void:
 	_clicked = player_id
 	_menu.clear()
 	if map_view.world.is_party_member(player_id):
-		_menu.add_item("%s est dans votre groupe" % player_name, 1)
-		_menu.set_item_disabled(0, true)
+		_menu.add_item(("Ne plus suivre %s" if map_view.follow_id == player_id else "Suivre %s") % player_name, 2)
 	else:
 		_menu.add_item("Inviter %s dans le groupe" % player_name, 0)
 	_menu.position = Vector2i(get_viewport().get_mouse_position())
@@ -47,6 +46,8 @@ func _on_menu_pressed(id: int) -> void:
 	if id == 0:
 		map_view.send_command({"type": Protocol.CMD_PARTY_INVITE, "entite": map_view.world.player_id, "joueur": _clicked})
 		map_view.notice.emit("Invitation envoyée.")
+	elif id == 2:
+		map_view.toggle_follow(_clicked)
 
 
 func _on_invited(event: Dictionary) -> void:

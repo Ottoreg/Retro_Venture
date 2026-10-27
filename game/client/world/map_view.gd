@@ -51,6 +51,8 @@ signal progress_changed
 signal party_invited(event: Dictionary)
 signal party_changed
 signal player_clicked(player_id: String, player_name: String)
+## Le joueur suivi a changé (`follow_id`).
+signal follow_changed
 
 enum Mode { EXPLORATION, COMBAT }
 
@@ -163,7 +165,15 @@ var _party_refusals := {
 	Protocol.REASON_NO_INVITATION: "Cette invitation n'est plus valable.",
 	Protocol.REASON_UNKNOWN_ENTITY: "Ce joueur ou ce combat n'est plus là.",
 	Protocol.REASON_INVENTORY_OVERLOADED: CombatHud.OVERLOAD_TEXT,
+	Protocol.REASON_COMBAT_LOCKED: "Ce combat est fermé.",
+	Protocol.REASON_NO_SPECTATORS: "Ce combat n'accepte pas de spectateurs.",
+	Protocol.REASON_NOT_FIGHT_LEADER: "Seul celui qui a engagé le combat peut le fermer.",
+	Protocol.REASON_WATCHING: "Vous regardez un combat : quittez-le d'abord.",
 }
+## Membre du groupe suivi (id), ou "" : le joueur part là où il marche et change de carte avec lui.
+var follow_id := ""
+## Pas du joueur suivi arrivé pendant une lecture : [marche, action à l'arrivée], envoyé ensuite.
+var _follow_pending: Array = []
 ## Copie locale de l'état du jeu (lectures seulement) ; les commandes passent par `connection`.
 var world: ClientState
 ## Connexion au jeu (locale en solo, distante plus tard : GDD § 16.5).
@@ -373,8 +383,86 @@ func toggle_sit() -> void:
 
 
 func request_start_fight() -> void:
-	if is_placement() and not _playing:
+	if is_placement() and not _playing and not world.spectating:
 		_send({"type": Protocol.CMD_READY, "entite": world.player_id})
+
+
+## Repère de quête montré aux membres du groupe : envoyé même pendant une marche ou un combat.
+func share_pin(pin: Dictionary) -> void:
+	if world.party.get("membres", []).is_empty():
+		return
+	_request({"type": Protocol.CMD_PARTY_PIN, "entite": world.player_id, "repere": pin},
+		func(events: Array[Dictionary]) -> void:
+			for event in events:
+				_apply_world_change(event))
+
+
+## Spectateur : ne plus regarder le combat.
+func stop_watching() -> void:
+	if world.spectating:
+		send_command({"type": Protocol.CMD_STOP_WATCHING, "entite": world.player_id})
+
+
+## Verrous de son combat (celui qui l'a engagé) : `ferme`, `spectateurs` (voir `CMD_COMBAT_LOCK`).
+func set_combat_lock(locked: bool, spectators: bool) -> void:
+	if mode == Mode.COMBAT and not world.spectating:
+		send_command({"type": Protocol.CMD_COMBAT_LOCK, "entite": world.player_id, "ferme": locked, "spectateurs": spectators})
+
+
+## Suit ce membre du groupe, ou arrête de le suivre s'il l'était déjà.
+func toggle_follow(member_id: String) -> void:
+	if follow_id == member_id:
+		stop_follow()
+		return
+	var member := world.party_member(member_id)
+	if member.is_empty() or member_id == world.player_id:
+		return
+	follow_id = member_id
+	notice.emit("Vous suivez %s." % member["nom"])
+	follow_changed.emit()
+
+
+func stop_follow() -> void:
+	if follow_id.is_empty():
+		return
+	var member := world.party_member(follow_id)
+	follow_id = ""
+	_follow_pending = []
+	notice.emit("Vous ne suivez plus %s." % member.get("nom", "ce joueur"))
+	follow_changed.emit()
+
+
+## Un pas du joueur suivi (sur la carte du joueur) : on part au même endroit, ou par la même sortie.
+func _follow(event: Dictionary) -> void:
+	if follow_id.is_empty() or str(event.get("entite", "")) != follow_id or str(event.get("carte", "")) != world.map.id:
+		return
+	var walk := {"type": Protocol.CMD_MOVE, "entite": world.player_id}
+	if event["type"] == Protocol.EVT_MOVED and not event["chemin"].is_empty():
+		walk["cible"] = event["chemin"][-1]
+		_follow_step(walk, {})
+	elif event["type"] == Protocol.EVT_PLAYER_LEFT and event.has("case"):
+		walk["cible"] = event["case"]
+		var through := walk.duplicate()
+		if event.get("porte", false):
+			through["porte"] = true
+		else:
+			through["sortie"] = event["sortie"]
+		_follow_step(walk, through)
+
+
+func _follow_step(walk: Dictionary, arrival: Dictionary) -> void:
+	if mode != Mode.EXPLORATION or world.spectating:
+		return
+	if not _playing:
+		if connection.asynchronous:
+			_playing = true
+		_request(walk, _on_walk_reply.bind(arrival, NO_CELL))
+	elif _can_interrupt_walk():
+		var stop: Vector2i = _walk_path[0]
+		walk["interrompre_a"] = stop
+		_request(walk, _on_walk_reply.bind(arrival, stop))
+	else:
+		_follow_pending = [walk, arrival]
 
 
 func request_end_turn() -> void:
@@ -422,7 +510,7 @@ func _on_click(cell: Vector2i) -> void:
 		else:
 			_pending_click = cell
 		return
-	if not _map.is_inside(cell):
+	if not _map.is_inside(cell) or world.spectating:
 		return
 	if _playing:
 		# Pendant l'animation de son tour : l'action est gardée pour plus tard.
@@ -540,12 +628,19 @@ func _explore(cell: Vector2i, stop := NO_CELL) -> void:
 	# Multijoueur : les épées d'un combat (le rejoindre) et les autres joueurs (les inviter).
 	var fight := world.fight_at(cell)
 	if not fight.is_empty():
-		_send({"type": Protocol.CMD_JOIN_COMBAT, "entite": world.player_id, "groupe": fight["groupe"]})
+		# Le combat de son groupe pendant le placement : on le rejoint ; sinon on le regarde.
+		var type := Protocol.CMD_WATCH_COMBAT
+		if fight["placement"] and not fight.get("ferme", false):
+			for member_id: String in fight["joueurs"]:
+				if world.is_party_member(member_id):
+					type = Protocol.CMD_JOIN_COMBAT
+		_send({"type": type, "entite": world.player_id, "groupe": fight["groupe"]})
 		return
 	var other := world.player_at(cell)
 	if not other.is_empty():
 		player_clicked.emit(other["id"], other["nom"])
 		return
+	stop_follow()  # Un clic pour marcher : on ne suit plus personne.
 	var commands := _exploration_commands(cell, stop if stop != NO_CELL else world.position_of(world.player_id))
 	if commands.is_empty():
 		return
@@ -695,7 +790,11 @@ func _describe(cell: Vector2i) -> String:
 			var names: PackedStringArray = []
 			for member_id: String in fight["joueurs"]:
 				names.append(_party_member_name(member_id))
-			return "Combat de %s\n%s" % [", ".join(names), "Placement : cliquer pour le rejoindre (groupe)" if fight["placement"] else "En cours"]
+			var joinable: bool = fight["placement"] and not fight.get("ferme", false)
+			var hint := "Placement : cliquer pour le rejoindre (groupe) ou le regarder" if joinable else "En cours : cliquer pour le regarder"
+			if not fight.get("spectateurs", true):
+				hint = "Placement : cliquer pour le rejoindre (groupe)" if joinable else "Fermé aux spectateurs"
+			return "Combat de %s%s\n%s" % [", ".join(names), " (fermé)" if fight.get("ferme", false) else "", hint]
 		var exit := _exit_at(cell)
 		if not exit.is_empty():
 			return "Vers : %s" % world.neighbor_name(exit["direction"])
@@ -1070,6 +1169,13 @@ func _apply_world_change(event: Dictionary) -> void:
 			notice.emit("%s refuse votre invitation." % event["nom"])
 		Protocol.EVT_PARTY:
 			party_changed.emit()
+			if not follow_id.is_empty() and world.party_member(follow_id).is_empty():
+				stop_follow()  # Parti du groupe.
+		Protocol.EVT_COMBAT_LOCK:
+			if mode == Mode.COMBAT and world.combat != null and world.combat.map.id == event["carte"] and not world.spectating:
+				combat_message.emit(("Combat fermé" if event["ferme"] else "Combat ouvert au groupe")
+					+ ("" if event["spectateurs"] else ", sans spectateurs"))
+	_follow(event)
 	var shown: bool = mode == Mode.EXPLORATION and world.map == _map and event.get("carte", _map.id) == _map.id
 	if shown:
 		_apply_other_player(event)
@@ -1176,6 +1282,11 @@ func _play_next() -> void:
 		var command := _arrival_command
 		_arrival_command = {}
 		_send(command)
+		return
+	if not _follow_pending.is_empty():
+		var pending := _follow_pending
+		_follow_pending = []
+		_follow_step(pending[0], pending[1])
 		return
 	_refresh_overlays()
 	if not _planned.is_empty():
@@ -1346,7 +1457,8 @@ func _apply(event: Dictionary) -> float:
 			notice.emit(_equip_refusals[event["raison"]])
 		if event["commande"] == Protocol.CMD_TRAVEL:
 			notice.emit(_travel_refusals.get(event["raison"], "Le voyage est impossible."))
-		if event["commande"] in [Protocol.CMD_JOIN_COMBAT, Protocol.CMD_PARTY_INVITE, Protocol.CMD_PARTY_ANSWER, Protocol.CMD_PARTY_LEAVE]:
+		if event["commande"] in [Protocol.CMD_JOIN_COMBAT, Protocol.CMD_PARTY_INVITE, Protocol.CMD_PARTY_ANSWER, Protocol.CMD_PARTY_LEAVE,
+				Protocol.CMD_WATCH_COMBAT, Protocol.CMD_COMBAT_LOCK]:
 			notice.emit(_party_refusals.get(event["raison"], "Impossible pour l'instant."))
 		if event.get("raison") == Protocol.REASON_QUEST_ITEM:
 			notice.emit("Un objet de quête ne se jette ni ne se vend.")
@@ -1369,6 +1481,26 @@ func _apply(event: Dictionary) -> float:
 		return 0.3
 	if type == Protocol.EVT_PLACED:
 		_actors[event["entite"]]["pos"] = Vector2(event["case"])
+		return 0.0
+	if type == Protocol.EVT_WATCH_STARTED:
+		_close_dialogue()
+		_follow_pending = []
+		_glyphs.clear()
+		_traps.clear()
+		if world.combat != null:
+			_load_combat_from_state()
+			turn_time_left = world.combat.time_left()
+			announce_combat()
+			combat_message.emit("Vous regardez le combat.")
+		return 0.3
+	if type == Protocol.EVT_WATCH_ENDED:
+		mode = Mode.EXPLORATION
+		selected_spell = ""
+		turn_order.clear()
+		_placement.clear()
+		_load_exploration_actors()
+		exploration_resumed.emit()
+		notice.emit("Le combat est fini." if event["fini"] else "Vous ne regardez plus le combat.")
 		return 0.0
 	if type == Protocol.EVT_FIGHTER_JOINED:
 		var joined: Dictionary = event["combattant"]

@@ -2391,13 +2391,33 @@ travail côté client : remplacer les lectures directes de `world` par la copie 
   (`MapView._is_fight_event`) ; `RemoteConnection` garde l'ordre du serveur entre réponses et
   événements (`_inbox`). Revenu en plein combat, la carte le reprend d'après la copie
   (`MapView._load_combat_from_state`).
-- **Protocole** : version 3. **Tests** : `tests/core/test_group_combat.gd` (trois joueurs, parts,
-  temps, déconnexion), serveur (absent puis retour, absent sauvegardé à la fin), WebSocket (combat
-  rejoint et retour), deux clients sur une carte (`test_online_client.gd`). Capture : action
-  `groupe` de `tools/screenshot.gd`.
-- **Pas encore** : inventaire consultable mais non modifiable en combat (aujourd'hui fermé, comme
-  en solo) ; spectateurs ; verrou du combat (« seulement le groupe ») au choix du chef ; suivi du
-  chef ; marqueurs de quête partagés ; chat de groupe (M3).
+- **Fin de M2 (27/10/2026)** :
+  - **Inventaire en combat** : il s'ouvre (touche I, bouton), mais rien ne s'y change
+    (`InventoryWindow.is_read_only` : ni équiper, ni jeter, ni glisser).
+  - **Verrous du combat**, par le joueur qui l'a engagé (`chef_combat` de l'instantané) : cases
+    « Fermé » (plus personne ne le rejoint, même du groupe) et « Spectateurs » dans la bande droite
+    (`CMD_COMBAT_LOCK`, `Combat.locked`, `spectators_allowed`, `verrou_combat` pour toute la carte :
+    les épées disent « (fermé) »). Seul un membre du groupe rejoint un combat (pas d'inconnus).
+  - **Spectateurs** : clic sur les épées d'un combat qu'on ne peut pas rejoindre → on le regarde
+    (`CMD_WATCH_COMBAT`, `PlayerState.watching`, `Combat.spectators`, `spectateur` de l'instantané) ;
+    le spectateur reste sur la carte mais ne fait plus rien, reçoit les événements du combat
+    (`World.recipients`, `PlayerState.last_combat` pour les derniers), « Quitter » à la place de
+    « Fin du tour » (`CMD_STOP_WATCHING`) ; renvoyé à la fin du combat ou si les spectateurs sont
+    interdits (`spectateur_fin`).
+  - **Suivre un membre du groupe**, au choix de chacun (pas seulement le chef) : clic sur son nom
+    dans la bande droite ou sur lui (« Suivre »). Le client repart là où le membre suivi marche, et
+    par la même sortie ou porte quand il change de carte (`joueur_part` porte `case` et `sortie` ou
+    `porte`) ; `MapView.follow_id`, `_follow`. Un clic pour marcher, ou le départ du groupe, arrête.
+  - **Marqueurs partagés** : la carte et le repère de quête de chaque membre (`_party_view` :
+    `carte`, `repere` ; `CMD_PARTY_PIN`, envoyé quand on pose ou retire un repère) ; sur la minicarte
+    et la carte du monde, un point vert là où est chaque membre et ses repères en épingle verte
+    (`WorldMapWindow.party_markers`).
+- **Protocole** : version 4. **Tests** : `tests/core/test_group_combat.gd` (trois joueurs, parts,
+  temps, déconnexion, verrous, spectateurs, sortie et repère), serveur (absent puis retour, absent
+  sauvegardé à la fin), WebSocket (combat rejoint et retour), deux clients sur une carte
+  (`test_online_client.gd` : combat de groupe, suivre jusque sur une autre carte, regarder un
+  combat, inventaire en combat). Capture : action `groupe` de `tools/screenshot.gd`.
+- **Pas encore** : chat de groupe (M3).
 
 #### Jalons
 

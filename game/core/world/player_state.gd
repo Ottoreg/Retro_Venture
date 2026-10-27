@@ -37,6 +37,13 @@ var away := false
 var fight_mates: Array[String] = []
 ## Chef de son groupe de joueurs (id, le sien s'il est le chef), ou "" sans groupe.
 var party_leader := ""
+## Combat regardé en spectateur, ou `null`.
+var watching: Combat = null
+## Dernier combat du joueur, gardé après sa fin : ses spectateurs reçoivent encore les derniers
+## événements.
+var last_combat: Combat = null
+## Repère posé sur la carte du monde, montré aux membres de son groupe ({} sans).
+var pin: Dictionary = {}
 ## Invitations reçues dans un groupe : id de qui a invité → true.
 var invitations: Dictionary = {}
 ## Quêtes : propositions, avancement, récompenses (l'état est dans `character.quests`).

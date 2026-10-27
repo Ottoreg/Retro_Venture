@@ -14,6 +14,10 @@ var character: Character
 var map: GameMap
 ## Combat en cours, recréé d'après l'instantané (pour les portées et aperçus), ou `null`.
 var combat: Combat = null
+## Le joueur regarde le combat `combat` sans y être (spectateur).
+var spectating := false
+## Joueur qui a engagé le combat du joueur (lui seul le verrouille), ou "".
+var fight_leader := ""
 var sitting := false
 ## Toutes les cartes du jeu (carte du monde, liens des quêtes).
 var map_ids: Array[String] = []
@@ -86,6 +90,8 @@ func load_snapshot(snapshot: Dictionary) -> void:
 		_fights[fight["groupe"]] = fight
 	party = snapshot.get("groupe_joueurs", {"chef": "", "membres": []})
 	combat = null
+	spectating = snapshot.get("spectateur", false)
+	fight_leader = snapshot.get("chef_combat", "")
 	if snapshot["combat"] != null and data != null:
 		var combat_map := map_by_id(snapshot["combat"]["carte"])
 		if combat_map != null:
@@ -144,6 +150,14 @@ func apply_event(event: Dictionary) -> bool:
 			return true
 		Protocol.EVT_FIGHT_OVER:
 			_fights.erase(event["groupe"])
+			return true
+		Protocol.EVT_COMBAT_LOCK:
+			if _fights.has(event["groupe"]):
+				_fights[event["groupe"]]["ferme"] = event["ferme"]
+				_fights[event["groupe"]]["spectateurs"] = event["spectateurs"]
+			if combat != null and combat.map.id == event["carte"]:
+				combat.locked = event["ferme"]
+				combat.spectators_allowed = event["spectateurs"]
 			return true
 		Protocol.EVT_PARTY:
 			party = {"chef": event["chef"], "membres": event["membres"]}
@@ -214,7 +228,8 @@ func other_players() -> Array:
 	return _players.values()
 
 
-## Combats des autres joueurs de la carte : { groupe, case, joueurs: Array[String], placement }.
+## Combats des autres joueurs de la carte : { groupe, case, joueurs: Array[String], placement, ferme,
+## spectateurs }.
 func fights() -> Array:
 	return _fights.values()
 
@@ -232,6 +247,14 @@ func player_at(at: Vector2i) -> Dictionary:
 	for other: Dictionary in _players.values():
 		if other["case"] == at:
 			return other
+	return {}
+
+
+## Membre du groupe (id) : { id, nom, niveau, race, voie, absent, carte, repere }, ou {}.
+func party_member(other_id: String) -> Dictionary:
+	for member: Dictionary in party.get("membres", []):
+		if member["id"] == other_id:
+			return member
 	return {}
 
 

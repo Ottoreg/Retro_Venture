@@ -158,6 +158,9 @@ func _unhandled_input(event: InputEvent) -> void:
 	if not event.is_action_pressed("ui_cancel"):
 		return
 	if _map_view.mode != MapView.Mode.EXPLORATION:
+		if _inventory.is_open():  # Consultable en combat.
+			_inventory.toggle()
+			return
 		pause_menu.open(true)  # En combat : Échap désélectionne d'abord le sort choisi (barre du bas).
 		return
 	# La carte du monde d'abord : elle est au-dessus des autres fenêtres (calque 3), même de la
@@ -265,6 +268,7 @@ func _on_pin_requested(pin: Dictionary) -> void:
 
 func _set_pin(pin: Dictionary) -> void:
 	Session.quest_pin = pin
+	_map_view.share_pin(pin)  # Montré aux membres du groupe (GDD § 16.5, M2).
 	_minimap.refresh()
 	_world_map.refresh()
 

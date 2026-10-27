@@ -118,7 +118,9 @@ Supabase (`client/net/supabase.gd`, `online_config.gd` à remplir), menu « Joue
 automatique `tools/bot.gd`. **M2 (combat de groupe) codé le 26/10/2026** (GDD § 16.5, « Où en est
 M2 ») : groupes de joueurs, combat rejoint pendant le placement (épées sur la carte), tours de 30 s
 en ligne, déconnexion en combat avec retour, parts d'XP, de brumes et de butin ; jeton Supabase
-renouvelé (reconnexion automatique). Reste l'essai à trois chez l'auteur. La CI publie aussi, à chaque push sur `main`, le client natif
+renouvelé (reconnexion automatique). **Fin de M2 le 27/10/2026** : inventaire consultable en
+combat, verrous du combat, spectateurs, suivre un membre du groupe, position et repères des membres
+sur la minicarte (protocole v4). Reste l'essai à plusieurs chez l'auteur. La CI publie aussi, à chaque push sur `main`, le client natif
 (release « client-natif ») et l'image du serveur de staging (`ghcr.io/ottoreg/retro-venture-serveur:staging`).
 
 Dernière session (retours de la passe de l'auteur) :

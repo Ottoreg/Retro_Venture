@@ -160,14 +160,20 @@ func _ready() -> void:
 func setup(p_map_view: MapView) -> void:
 	map_view = p_map_view
 	map_view.inventory_changed.connect(refresh)
-	map_view.combat_started.connect(func() -> void: _panel.visible = false)
+	map_view.combat_started.connect(refresh)
+	map_view.exploration_resumed.connect(refresh)
 
 
+## En combat, l'inventaire se consulte sans se modifier (GDD § 16.5, M2).
 func toggle() -> void:
-	if map_view == null or map_view.mode == MapView.Mode.COMBAT:
+	if map_view == null:
 		return
 	_panel.visible = not _panel.visible
 	refresh()
+
+
+func is_read_only() -> bool:
+	return map_view != null and map_view.mode == MapView.Mode.COMBAT
 
 
 func is_open() -> bool:
@@ -256,7 +262,7 @@ func _on_item_activated(index: int) -> void:
 ## objet qui ne s'équipe pas.
 func toggle_worn(uid: String) -> void:
 	var inventory := map_view.world.character.inventory
-	if not inventory.entries.has(uid):
+	if not inventory.entries.has(uid) or is_read_only():
 		return
 	var slot := inventory.slot_of(uid)
 	if not slot.is_empty():
@@ -277,7 +283,7 @@ func _on_slot_input(event: InputEvent, slot: String) -> void:
 
 func _bag_drag_data(at_position: Vector2) -> Variant:
 	var index := _list.get_item_at_position(at_position, true)
-	if index < 0:
+	if index < 0 or is_read_only():
 		return null
 	var uid: String = _list.get_item_metadata(index)
 	_list.set_drag_preview(_drag_preview(uid))
@@ -286,7 +292,7 @@ func _bag_drag_data(at_position: Vector2) -> Variant:
 
 func _slot_drag_data(_at_position: Vector2, slot: String) -> Variant:
 	var uid: String = _slot_buttons[slot].get_meta("uid", "")
-	if uid.is_empty():
+	if uid.is_empty() or is_read_only():
 		return null
 	_slot_buttons[slot].set_drag_preview(_drag_preview(uid))
 	return {"objet": uid, "emplacement": slot}
@@ -361,8 +367,9 @@ func _show_details(entry: Dictionary) -> void:
 		lines.append(entry["description"])
 	_details.text = "\n".join(lines)
 	var worn := not str(entry["emplacement"]).is_empty()
-	_equip_button.disabled = worn or not Item.SLOTS_BY_TYPE.has(entry["type"])
-	_unequip_button.disabled = not worn
+	_equip_button.disabled = worn or not Item.SLOTS_BY_TYPE.has(entry["type"]) or is_read_only()
+	_unequip_button.disabled = not worn or is_read_only()
+	_drop_button.disabled = is_read_only()
 
 
 func _on_equip_pressed() -> void:

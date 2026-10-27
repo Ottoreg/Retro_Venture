@@ -9,7 +9,8 @@ extends CanvasLayer
 ## (`WorldMapLayout`, `WorldMapWindow.ZoneGrid`). Dans une maison, la carte devant sa porte. Le
 ## survol d'une case donne son nom ; un clic ouvre la carte du monde. Le repère de quête
 ## (`Session.quest_pin`) y est une épingle, ou une flèche au bord s'il est plus loin dans la zone ;
-## l'objectif de la quête suivie aussi, en jaune (`QuestLinks.objective_pin`).
+## l'objectif de la quête suivie aussi, en jaune (`QuestLinks.objective_pin`) ; les membres du groupe
+## de joueurs en points verts, leurs repères en épingles vertes (`WorldMapWindow.party_markers`).
 
 ## Clic sur la minicarte.
 signal pressed
@@ -41,6 +42,7 @@ func setup(p_map_view: MapView, hud: CombatHud) -> void:
 	map_view.combat_started.connect(refresh)
 	map_view.exploration_resumed.connect(refresh)
 	map_view.quests_changed.connect(func(_journal: Dictionary) -> void: refresh())
+	map_view.party_changed.connect(refresh)
 	refresh()
 
 
@@ -99,6 +101,7 @@ func refresh() -> void:
 		_coordinates.text = "%d, %d" % [coordinates["position"].x, coordinates["position"].y]
 	_grid.pin = Session.quest_pin
 	_grid.objective = QuestLinks.objective_pin(world)
+	_grid.party = WorldMapWindow.party_markers(world)
 	_place()
 	_grid.queue_redraw()
 

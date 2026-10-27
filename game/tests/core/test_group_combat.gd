@@ -9,7 +9,10 @@ var _world: World
 
 
 func before_each() -> void:
-	_maps = {"a": Fixtures.map({Fixtures.center(): "1"}, [{"monstres": ["mannequin"]}], {"id": "a"})}
+	_maps = {
+		"a": Fixtures.map({Fixtures.center(): "1"}, [{"monstres": ["mannequin"]}], {"id": "a", "sorties": {"droite": "b"}}),
+		"b": Fixtures.map({}, [], {"id": "b", "sorties": {"gauche": "a"}}),
+	}
 	_world = World.new(_maps["a"], Fixtures.data(), _loader, _character("Frodon"), "p1")
 	_world.add_player(_character("Sam"), "p2", "a")
 	_world.add_player(_character("Merry"), "p3", "a")
@@ -229,3 +232,88 @@ func test_le_dernier_connecte_part_et_le_combat_est_abandonne() -> void:
 	assert_true(_world.player("p2") == null)
 	assert_eq(_world.take_departed(), ["p1"] as Array[String])
 	assert_false(_world.player("p1").in_combat())
+
+
+func _exit_cell(game_map: GameMap, direction: String) -> Vector2i:
+	for cell: Vector2i in game_map.cells():
+		if game_map.is_walkable(cell) and direction in game_map.exit_directions(cell):
+			return cell
+	return Vector2i(-1, -1)
+
+
+func _of_type(events: Array[Dictionary], type: String) -> Array[Dictionary]:
+	var found: Array[Dictionary] = []
+	for event in events:
+		if event["type"] == type:
+			found.append(event)
+	return found
+
+
+func test_verrou_du_combat_par_celui_qui_l_a_engage() -> void:
+	_party(["p2", "p3"])
+	var combat := _fight([])
+	assert_eq(_as("p2", Protocol.CMD_JOIN_COMBAT, {"groupe": "groupe_1"})[-1]["type"], Protocol.EVT_FIGHTER_JOINED)
+	assert_eq(_as("p2", Protocol.CMD_COMBAT_LOCK, {"ferme": true})[0]["raison"], Protocol.REASON_NOT_FIGHT_LEADER)
+	var locked := _as("p1", Protocol.CMD_COMBAT_LOCK, {"ferme": true})
+	assert_eq(locked[0]["type"], Protocol.EVT_COMBAT_LOCK)
+	assert_true(combat.locked)
+	assert_eq(_sorted(_world.recipients(locked[0], "p1")), ["p1", "p2", "p3", "p4"], "toute la carte voit le cadenas")
+	assert_eq(_as("p3", Protocol.CMD_JOIN_COMBAT, {"groupe": "groupe_1"})[0]["raison"], Protocol.REASON_COMBAT_LOCKED)
+	assert_true(_world.snapshot("p4")["combats"][0]["ferme"], "épées fermées vues des autres")
+	_as("p1", Protocol.CMD_COMBAT_LOCK, {"ferme": false})
+	assert_eq(_as("p3", Protocol.CMD_JOIN_COMBAT, {"groupe": "groupe_1"})[-1]["type"], Protocol.EVT_FIGHTER_JOINED, "rouvert")
+
+
+func test_spectateur_d_un_combat() -> void:
+	var combat := _fight([])
+	var watched := _as("p4", Protocol.CMD_WATCH_COMBAT, {"groupe": "groupe_1"})
+	assert_eq(watched[-1]["type"], Protocol.EVT_WATCH_STARTED)
+	assert_eq(combat.spectators, ["p4"] as Array[String])
+	var view := _world.snapshot("p4")
+	assert_true(view["spectateur"])
+	assert_ne(view["combat"], null, "le spectateur reçoit le combat")
+	assert_true(view["combats"].is_empty(), "pas d'épées par-dessus le combat regardé")
+	assert_eq(_as("p4", Protocol.CMD_MOVE, {"cible": _world.position_of("p4") + Vector2i(1, 0)})[0]["raison"], Protocol.REASON_WATCHING)
+	var placed := _as("p1", Protocol.CMD_READY)
+	assert_true("p4" in _world.recipients(placed[0], "p1"), "il reçoit les événements du combat")
+	# Fin du combat : le spectateur repart en exploration.
+	var ended := _finish(combat)
+	var gone := _of_type(ended, Protocol.EVT_WATCH_ENDED)
+	assert_eq(gone.size(), 1)
+	assert_true(gone[0]["fini"])
+	assert_eq(_world.recipients(gone[0], "p1"), ["p4"] as Array[String])
+	assert_eq(_world.player("p4").watching, null)
+	assert_true("p4" in _world.recipients(_of_type(ended, Protocol.EVT_SPELL_CAST)[0], "p1"), "dont le coup final")
+
+
+func test_spectateurs_interdits_et_depart() -> void:
+	_fight([])
+	_as("p4", Protocol.CMD_WATCH_COMBAT, {"groupe": "groupe_1"})
+	_as("p3", Protocol.CMD_WATCH_COMBAT, {"groupe": "groupe_1"})
+	assert_eq(_as("p3", Protocol.CMD_STOP_WATCHING)[0]["type"], Protocol.EVT_WATCH_ENDED)
+	var closed := _as("p1", Protocol.CMD_COMBAT_LOCK, {"spectateurs": false})
+	assert_eq(_of_type(closed, Protocol.EVT_WATCH_ENDED).size(), 1, "p4 est renvoyé")
+	assert_eq(_world.player("p4").watching, null)
+	assert_eq(_as("p3", Protocol.CMD_WATCH_COMBAT, {"groupe": "groupe_1"})[0]["raison"], Protocol.REASON_NO_SPECTATORS)
+
+
+func test_le_depart_d_un_joueur_dit_par_ou_il_sort_et_le_groupe_suit_sa_carte() -> void:
+	_party(["p2"])
+	var events := _as("p1", Protocol.CMD_MOVE, {"cible": _exit_cell(_maps["a"], "droite"), "sortie": "droite"})
+	var left := _of_type(events, Protocol.EVT_PLAYER_LEFT)
+	assert_eq(left[0]["sortie"], "droite", "pour le suivre")
+	assert_eq(left[0]["case"], _exit_cell(_maps["a"], "droite"))
+	var party := _of_type(events, Protocol.EVT_PARTY)
+	assert_eq(party.size(), 2, "chaque membre apprend sa nouvelle carte")
+	assert_eq(party[0]["membres"][0]["carte"], "b")
+
+
+func test_repere_partage_avec_le_groupe() -> void:
+	_party(["p2"])
+	var events := _as("p2", Protocol.CMD_PARTY_PIN, {"repere": {"nom": "Le puits", "carte": "a"}})
+	assert_eq(events.size(), 2)
+	assert_eq(events[0]["membres"][1]["repere"]["nom"], "Le puits")
+	assert_eq(_world.snapshot("p1")["groupe_joueurs"]["membres"][1]["repere"]["nom"], "Le puits")
+	_fight([])
+	assert_eq(_as("p1", Protocol.CMD_PARTY_PIN, {"repere": {}})[0]["type"], Protocol.EVT_PARTY, "aussi en combat")
+	assert_eq(_as("p3", Protocol.CMD_PARTY_PIN, {"repere": {"nom": "x"}}).size(), 0, "sans groupe : gardé pour soi")

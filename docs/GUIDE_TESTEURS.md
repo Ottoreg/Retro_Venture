@@ -30,7 +30,10 @@ nous faire vos retours. Le jeu n'affiche volontairement presque aucune aide à l
   l'auteur : il ne marche que pendant ses sessions de test annoncées. L'alpha test 1 se joue en solo.
   En ligne : cliquez sur un autre joueur pour l'inviter dans votre groupe ; les épées dorées sur la
   carte sont le combat d'un joueur en placement, cliquez dessus pour le rejoindre (membres du
-  groupe). Tours de 30 s. Une connexion coupée se rouvre toute seule, et on retrouve son combat.
+  groupe), ou pour le regarder. Cliquez sur un membre du groupe (sur la carte ou dans la bande
+  droite) pour le suivre ; sa position et ses repères apparaissent en vert sur la minicarte. Celui
+  qui engage un combat peut le fermer ou refuser les spectateurs. L'inventaire se consulte en
+  combat. Tours de 30 s. Une connexion coupée se rouvre toute seule, et on retrouve son combat.
 
 ## Par où commencer
 
