@@ -663,7 +663,7 @@ Plan validé par l'auteur le 26/10/2026 : GDD § 16.5, jalons M0 (préparer le n
 - [x] Base de données : schéma (comptes, personnages, inventaires, quêtes, métiers) — PostgreSQL
   (Supabase : `personnages` avec l'état complet en JSONB, `serveur_actuel`, M1)
 - [x] Synchronisation de l'exploration (positions, entrées et sorties de carte) — M1
-- [ ] Combat multijoueur : tours avec limite de temps, déconnexion / reconnexion en combat
+- [x] Combat multijoueur : tours avec limite de temps, déconnexion / reconnexion en combat
 - [ ] Tests de charge (combien de joueurs et de combats par processus)
 - [x] Environnement de test hébergé (staging) — image Docker publiée par la CI, PC de l'auteur (M1)
 
@@ -686,9 +686,14 @@ Plan validé par l'auteur le 26/10/2026 : GDD § 16.5, jalons M0 (préparer le n
   (cartes marquées `"instance": "joueur"`), avec son coffre
 
 ### Social
-- [ ] Chat : local, groupe, commerce, recrutement, privé ; filtres
-- [ ] Liste d'amis et d'ignorés, statut en ligne
-- [ ] Groupe (jusqu'à 8) : invitation, chef, partage d'XP, suivi
+- [ ] M3 (découpage proposé le 27/10/2026, à valider : GDD § 16.5, « Préparation de M3 ») :
+  - [ ] Lot 1 : chat côté serveur (`parler`, `message_chat`, canaux local, groupe, commerce,
+    recrutement, privé ; anti-flood ; journal en mémoire) et critère de sortie testé par WebSocket
+  - [ ] Lot 2 : chat côté client (onglets, ligne de saisie sans conflit de raccourcis, couleurs,
+    préfixes `/w` `/r`…, menu du pseudo)
+  - [ ] Lot 3 : amis et ignorés (Supabase), statut en ligne, ignorés filtrés par le serveur
+  - [ ] Lot 4 : signalement (motif + derniers messages dans Supabase)
+- [x] Groupe (jusqu'à 8) : invitation, chef, partage d'XP, suivi — M2, 27/10/2026
 - [ ] Guildes : création, rangs, banque, puis un métier de guilde : commerçant, raid, académie,
   exploitants (GDD § 13.7)
 - [ ] Coffre de guilde : cotisation automatique en pourcentage des brumes gagnées, limites de retrait
@@ -702,14 +707,14 @@ Plan validé par l'auteur le 26/10/2026 : GDD § 16.5, jalons M0 (préparer le n
 - [ ] Émotes
 
 ### Gameplay multi
-- [ ] Rejoindre le combat d'un ami, verrouiller un combat, mode spectateur
-- [ ] Décider et appliquer la règle de groupe entre camps opposés avant l'acte III (GDD § 13.3)
-- [ ] Répartition du butin en groupe : brancher les joueurs du combat sur `Loot.roll` (limite par
-  monstre et tirage par ordre de prospection déjà faits) ; répartition des brumes à décider
-- [ ] Objectifs de quêtes partagés en groupe
-- [ ] Ouvrir l'inventaire, la fiche et les autres fenêtres pendant un combat (consultation pendant
-  le tour des autres joueurs) : consultation seulement, ni changement d'équipement ni objet
-  consommable utilisé en combat. Aujourd'hui fermées en combat
+- [x] Rejoindre le combat d'un membre du groupe, verrouiller un combat, mode spectateur — M2
+- [ ] Décider et appliquer la règle de groupe entre camps opposés avant l'acte III (GDD § 13.3 ;
+  à trancher avec M3, aujourd'hui rien ne l'interdit)
+- [x] Répartition du butin en groupe (M2) : brancher les joueurs du combat sur `Loot.roll` (limite par
+  monstre et tirage par ordre de prospection) ; brumes à parts égales
+- [x] Objectifs « vaincre » comptés pour chaque joueur du combat — M2
+- [x] Ouvrir l'inventaire pendant un combat, consultation seulement (M2, 27/10/2026)
+- [ ] Ouvrir aussi la fiche et les autres fenêtres pendant un combat, en consultation
 - [ ] Échange sécurisé entre joueurs
 - [ ] Artisanat assisté et commandes
 - [ ] Hôtel des ventes

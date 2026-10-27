@@ -2102,7 +2102,8 @@ exemples en [annexe](#20-annexes--formats-de-données).
 > **Statut : plan validé par l'auteur le 26/10/2026** (les sept décisions de fin de section, et
 > un hébergement gratuit pour les tests). **M0 fait le 26/10/2026** (voir « Où en est M0 » plus
 > bas) ; **prototype M1 en place le 26/10/2026** (« Où en est M1 »), essayé chez l'auteur ;
-> **M2 (combat de groupe) codé le 26/10/2026** (« Où en est M2 »), à essayer à plusieurs.
+> **M2 (combat de groupe) codé le 26/10/2026, clos le 27/10/2026** (« Où en est M2 ») ;
+> **M3 (social) en préparation** (« Préparation de M3 », découpage à valider).
 
 #### Quand
 
@@ -2427,6 +2428,58 @@ travail côté client : remplacer les lectures directes de `world` par la copie 
   (`test_online_client.gd` : combat de groupe, suivre jusque sur une autre carte, regarder un
   combat, inventaire en combat). Capture : action `groupe` de `tools/screenshot.gd`.
 - **Pas encore** : chat de groupe (M3).
+
+#### Préparation de M3 (27/10/2026, découpage proposé, à valider par l'auteur)
+
+M2 est clos par l'auteur le 27/10/2026. **Reporté de M2** : l'essai à plusieurs chez l'auteur
+(déconnexion puis retour en plein combat, suivre, regarder, verrous, repères partagés, TODO
+Phase 4) ; il peut se faire pendant M3, avec les premiers essais du chat.
+
+**Point de départ** : l'historique (`client/ui/message_log.gd`) a déjà des canaux, un auteur et une
+heure par message ; le serveur adresse déjà ses événements à une carte, un combat, un joueur
+(`Protocol.FIELD_FOR`) ou un groupe (`World.parties`, `World.recipients`) ; les comptes et les
+personnages sont dans Supabase (`serveur/supabase/schema.sql`). Rien de M3 ne touche au solo, où
+la ligne de saisie reste cachée.
+
+**Lots proposés** (chacun testé et poussé seul) :
+
+1. **Chat côté serveur** : commande `parler` (`canal`, `texte`, `a` pour le privé) et événement
+   `message_chat` (`canal`, `auteur`, `texte`, `heure`) relayé par le serveur, seul juge des
+   destinataires. Canaux : *Local* (la carte), *Groupe*, *Commerce* et *Recrutement* (tout le
+   serveur), *Privé* (un pseudo, réponse « hors ligne » sinon). Garde-fous : 200 caractères,
+   anti-flood (5 messages par 10 s, attente de 60 s sur les canaux de tout le serveur), texte
+   sans BBCode. Journal des 200 derniers messages par canal gardé en mémoire (pour le
+   signalement). Tests : noyau, serveur, et le critère de sortie par WebSocket (deux joueurs sur
+   deux cartes discutent en privé et en groupe). Le joueur automatique (`tools/bot.gd`) répond
+   en privé, pour essayer seul.
+2. **Chat côté client** : onglets Local, Groupe, Commerce, Recrutement et Privé dans l'historique
+   (à côté de Combat), ligne de saisie sous le texte (Entrée l'ouvre, Échap la ferme ; pendant la
+   saisie, les raccourcis I, H, Q… ne jouent pas), une couleur par canal, préfixes `/l`, `/g`,
+   `/c`, `/rec`, `/w Pseudo` et `/r` (répondre au dernier privé), sinon le canal de l'onglet
+   ouvert. En combat comme en exploration. Clic sur un pseudo
+   dans l'historique : menu *Message privé*, *Inviter dans le groupe*, *Ajouter en ami*,
+   *Ignorer*, *Signaler*.
+3. **Amis, ignorés, statut en ligne** : deux listes par personnage dans Supabase (table
+   `relations`), lues à la connexion. Fenêtre *Amis* (touche à choisir) : en ligne ou non, carte
+   et « en combat » pour les amis réciproques seulement ; « X s'est connecté » dans l'historique.
+   Un joueur ignoré n'atteint plus rien : ses messages (tous canaux), ses privés et ses
+   invitations de groupe sont filtrés **par le serveur** (il ne le sait pas). Entrées depuis le
+   menu du pseudo ou par nom dans la fenêtre.
+4. **Signalement** : depuis le menu du pseudo, un motif dans une liste (insultes, triche, spam,
+   autre) et un commentaire court facultatif ; le serveur range dans une table `signalements`
+   l'auteur, la cible, le motif et les derniers messages de la cible (journal du lot 1). Pas encore
+   d'outil de sanction : on les lit dans Supabase, la modération vient en M6.
+
+**À trancher par l'auteur avant de coder** (propositions entre parenthèses) :
+
+- Canaux de tout le serveur : Commerce et Recrutement dès M3 ? (oui, faciles, utiles au test) ;
+  canal *Camp* ? (plus tard, avec la règle de groupe entre camps).
+- **Groupe entre camps opposés avant l'acte III** (§ 13.3, à décider avant la Phase 5, donc
+  maintenant) : aujourd'hui rien ne l'interdit. (Laisser autorisé pendant les tests, quêtes de
+  camp non partagées ; décider pour la bêta.)
+- Amis : liste à sens unique comme Dofus, mais statut visible seulement si réciproque ? (oui).
+- Filtre de grossièretés ? (non pour M3 : ignorer + signaler suffit entre testeurs).
+- Émotes (§ 13.3) : hors M3 (elles demandent des animations, alpha 2).
 
 #### Jalons
 
