@@ -1971,7 +1971,7 @@ préférence ce que les joueurs feront déjà d'eux-mêmes.
   **Prévu pour le chat** (phase multijoueur) : un message a déjà un canal, un auteur facultatif
   (affiché « Auteur : texte ») et une heure ; les canaux *Groupe*, *Équipe* et *Guilde* (puis
   privé) s'ajouteront comme onglets, avec une ligne de saisie sous le texte et une couleur par
-  canal ; les messages viendront du serveur (commande « parler » vers un canal, événement relayé
+  canal ; les messages viendront du serveur (commande « écrire » vers un canal, événement relayé
   aux membres), le client ne faisant que les ranger. Il est à la place du chat de Dofus.
 - **Boutique** : barre de recherche au-dessus de la liste (achat et vente) ; chaque mot doit
   apparaître dans le nom ou le type de l'objet, sans tenir compte des majuscules ni des accents.
@@ -2103,7 +2103,8 @@ exemples en [annexe](#20-annexes--formats-de-données).
 > un hébergement gratuit pour les tests). **M0 fait le 26/10/2026** (voir « Où en est M0 » plus
 > bas) ; **prototype M1 en place le 26/10/2026** (« Où en est M1 »), essayé chez l'auteur ;
 > **M2 (combat de groupe) codé le 26/10/2026, clos le 27/10/2026** (« Où en est M2 ») ;
-> **M3 (social) préparé** (« Préparation de M3 », découpage validé le 27/10/2026, code pas lancé).
+> **M3 (social) en cours** (« Préparation de M3 », découpage validé le 27/10/2026) : lot 1 (chat côté
+> serveur) fait le 27/10/2026 (« Où en est M3 »).
 
 #### Quand
 
@@ -2127,7 +2128,7 @@ Ce qui aide (le § 16.1 a été suivi depuis le début) :
   `Character.to_dict`), ce qui donne déjà le format stocké côté serveur ;
 - le butin est déjà tiré entre plusieurs joueurs (`Loot.roll` : limite par monstre, ordre de
   prospection) ;
-- l'historique a déjà des canaux, un auteur et une commande « parler » prévus pour le chat (§ 14.3) ;
+- l'historique a déjà des canaux, un auteur et des canaux prévus pour le chat (§ 14.3 ; la commande s'appelle « écrire », `parler` étant celle des PNJ) ;
 - le contenu est en JSON, lu de la même façon par le client et par le serveur ;
 - les combats ont leur propre générateur aléatoire (`Combat.rng`) : avec une graine notée, un combat
   se rejoue à l'identique pour déboguer (§ 16.4).
@@ -2429,7 +2430,7 @@ travail côté client : remplacer les lectures directes de `world` par la copie 
   combat, inventaire en combat). Capture : action `groupe` de `tools/screenshot.gd`.
 - **Pas encore** : chat de groupe (M3).
 
-#### Préparation de M3 (27/10/2026, découpage validé par l'auteur, code pas encore lancé)
+#### Préparation de M3 (27/10/2026, découpage validé par l'auteur)
 
 M2 est clos par l'auteur le 27/10/2026. **Reporté de M2** : l'essai à plusieurs chez l'auteur
 (déconnexion puis retour en plein combat, suivre, regarder, verrous, repères partagés, TODO
@@ -2443,8 +2444,8 @@ la ligne de saisie reste cachée.
 
 **Lots proposés** (chacun testé et poussé seul) :
 
-1. **Chat côté serveur** : commande `parler` (`canal`, `texte`, `a` pour le privé) et événement
-   `message_chat` (`canal`, `auteur`, `texte`, `heure`) relayé par le serveur, seul juge des
+1. **Chat côté serveur** (**fait le 27/10/2026**, « Où en est M3 ») : commande `ecrire` (`canal`,
+   `texte`, `a` pour le privé) et événement `message_chat` (`canal`, `de`, `auteur`, `texte`) relayé par le serveur, seul juge des
    destinataires. Canaux : *Local* (la carte), *Groupe*, *Commerce* et *Recrutement* (tout le
    serveur), *Privé* (un pseudo, réponse « hors ligne » sinon). Garde-fous : 200 caractères,
    anti-flood (5 messages par 10 s, attente de 60 s sur les canaux de tout le serveur), texte
@@ -2483,6 +2484,27 @@ la ligne de saisie reste cachée.
   (puis une guilde).
 - Filtre de grossièretés ? (non pour M3 : ignorer + signaler suffit entre testeurs).
 - Émotes (§ 13.3) : hors M3 (elles demandent des animations, alpha 2).
+
+#### Où en est M3 (27/10/2026)
+
+- **Lot 1, chat côté serveur** : règles dans `core/social/chat.gd` (`Chat` : canaux, texte nettoyé,
+  anti-flood, journal), routage dans `World._chat_message`, accepté en exploration, en combat et en
+  spectateur. Commande `CMD_CHAT` (`ecrire` : `canal`, `texte`, `a`) ; un `EVT_CHAT`
+  (`message_chat` : `canal`, `de`, `auteur`, `texte`, `a` en privé) par destinataire, adressé par
+  `pour`, l'auteur compris (il voit son message comme les autres) ; appliqué par la copie du client
+  sans instantané (`SELF_APPLIED_EVENTS`), relayé par `MapView.chat_received` (pour le lot 2).
+  Canaux : `local` (les joueurs de la carte de l'auteur, en combat compris), `groupe`, `commerce`
+  et `recrutement` (tous les joueurs connectés), `prive` (pseudo sans tenir compte des majuscules,
+  `joueur_hors_ligne` sinon, pas à soi-même). Les absents (déconnectés en plein combat) ne
+  reçoivent rien. Texte sans caractères de contrôle, coupé à 200 caractères ; les crochets restent,
+  le client devra les échapper (pas de BBCode venu d'un joueur). Anti-flood : 5 messages par 10 s,
+  et un par minute sur chaque canal de tout le serveur (refus `chat_trop_rapide` avec `attente` en
+  secondes). Journal des 200 derniers messages par canal, en mémoire (`Chat.recent_by` pour le
+  signalement du lot 4).
+- Le joueur automatique (`tools/bot.gd`) répond aux messages privés, pour essayer seul.
+- **Protocole** : version 5. **Tests** : `tests/core/test_chat.gd` (canaux, deux cartes, flood,
+  texte, combat et absent, journal) et le critère de sortie par WebSocket
+  (`test_websocket.gd` : privé puis groupe entre deux cartes).
 
 #### Jalons
 

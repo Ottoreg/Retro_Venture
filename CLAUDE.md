@@ -121,7 +121,10 @@ M2 ») : groupes de joueurs, combat rejoint pendant le placement (épées sur la
 en ligne, déconnexion en combat avec retour, parts d'XP, de brumes et de butin ; jeton Supabase
 renouvelé (reconnexion automatique). **Fin de M2 le 27/10/2026** : inventaire consultable en
 combat, verrous du combat, spectateurs, suivre un membre du groupe, position et repères des membres
-sur la minicarte (protocole v4). Reste l'essai à plusieurs chez l'auteur. La CI publie aussi, à chaque push sur `main`, le client natif
+sur la minicarte (protocole v4). Reste l'essai à plusieurs chez l'auteur.
+**M3 (social) découpé et validé le 27/10/2026** (GDD § 16.5, « Préparation de M3 », 4 lots) : **lot 1
+(chat côté serveur) fait** (`core/social/chat.gd`, commande `ecrire`, événement `message_chat`,
+protocole v5) ; suivent le chat côté client, les amis et ignorés, le signalement. La CI publie aussi, à chaque push sur `main`, le client natif
 (release « client-natif ») et l'image du serveur de staging (`ghcr.io/ottoreg/retro-venture-serveur:staging`).
 
 Dernière session (retours de la passe de l'auteur) :

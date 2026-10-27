@@ -60,6 +60,8 @@ var all_passages_known := ALL_PASSAGES_KNOWN
 var turn_seconds := 0.0
 ## Groupes de joueurs : id du chef → membres (ids, chef en premier).
 var parties: Dictionary = {}
+## Chat par canaux (jalon M3) : débit de chacun et journal des derniers messages.
+var chat := Chat.new()
 ## Joueurs absents dont le combat est fini : à sauvegarder puis retirer du monde (`take_departed`).
 var _departed: Array[String] = []
 ## Chance d'une récolte rare (voir `Profession.RARE_CHANCE` ; les tests la fixent à 0 ou 1).
@@ -338,6 +340,8 @@ func _execute(command: Dictionary) -> Array[Dictionary]:
 		return _refused(command, Protocol.REASON_UNKNOWN_ENTITY)
 	if command.get("type") == Protocol.CMD_PARTY_PIN:
 		return _party_pin(p, command)
+	if command.get("type") == Protocol.CMD_CHAT:
+		return _chat_message(p, command)
 	if p.in_combat():
 		if command.get("type") == Protocol.CMD_COMBAT_LOCK:
 			return _combat_lock(p, command)
@@ -973,6 +977,67 @@ func _party_pin(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
 		return _refused(command, Protocol.REASON_INVALID_COMMAND)
 	p.pin = pin
 	return _party_events(p.party_leader)
+
+
+# --- Chat (jalon M3) --------------------------------------------------------------------------
+
+## Message de chat (`CMD_CHAT`) : un EVT_CHAT par destinataire (l'auteur compris), selon le canal :
+## la carte de l'auteur, son groupe, tout le monde (commerce, recrutement) ou un pseudo (privé). Les
+## joueurs absents (déconnectés en plein combat) ne reçoivent rien.
+func _chat_message(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
+	var channel: Variant = command.get("canal")
+	var raw: Variant = command.get("texte")
+	if typeof(channel) != TYPE_STRING or channel not in Chat.CHANNELS or typeof(raw) != TYPE_STRING:
+		return _refused(command, Protocol.REASON_INVALID_COMMAND)
+	var text := Chat.clean(raw)
+	if text.is_empty():
+		return _refused(command, Protocol.REASON_INVALID_COMMAND)
+	var targets: Array[String] = []
+	var target: PlayerState = null
+	match channel:
+		Chat.LOCAL:
+			targets = p.instance.player_ids()
+		Chat.PARTY:
+			if p.party_leader.is_empty():
+				return _refused(command, Protocol.REASON_NOT_IN_PARTY)
+			targets.assign(parties.get(p.party_leader, []))
+		Chat.TRADE, Chat.RECRUIT:
+			targets.assign(players.keys())
+		Chat.PRIVATE:
+			target = player_named(str(command.get("a", "")))
+			if target == null or target.away:
+				return _refused(command, Protocol.REASON_PLAYER_OFFLINE)
+			if target == p:
+				return _refused(command, Protocol.REASON_INVALID_COMMAND)
+			targets.assign([p.id, target.id])
+	var wait := chat.wait_time(p.id, channel, clock)
+	if wait > 0.0:
+		var refused := _refused(command, Protocol.REASON_CHAT_FLOOD)
+		refused[0]["attente"] = ceili(wait)
+		return refused
+	chat.record(p.id, p.character.display_name, channel, text, clock, target.id if target != null else "")
+	if p.id not in targets:
+		targets.append(p.id)
+	var events: Array[Dictionary] = []
+	for target_id in targets:
+		var receiver: PlayerState = players.get(target_id)
+		if receiver == null or receiver.away:
+			continue
+		var event := {"type": Protocol.EVT_CHAT, "canal": channel, "de": p.id, "auteur": p.character.display_name,
+			"texte": text, Protocol.FIELD_FOR: target_id}
+		if target != null:
+			event["a"] = target.character.display_name
+		events.append(event)
+	return events
+
+
+## Joueur connecté de ce pseudo, sans tenir compte des majuscules (null s'il n'y en a pas).
+func player_named(player_name: String) -> PlayerState:
+	var wanted := player_name.strip_edges().to_lower()
+	for other: PlayerState in players.values():
+		if other.character.display_name.to_lower() == wanted:
+			return other
+	return null
 
 
 # --- Groupes de joueurs ------------------------------------------------------------------------

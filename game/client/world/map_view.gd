@@ -50,6 +50,8 @@ signal progress_changed
 ## un autre joueur est cliqué en exploration (id et nom : proposer de l'inviter).
 signal party_invited(event: Dictionary)
 signal party_changed
+## Message de chat reçu (EVT_CHAT, jalon M3), le sien compris : à ranger dans l'historique.
+signal chat_received(event: Dictionary)
 signal player_clicked(player_id: String, player_name: String)
 ## Le joueur suivi a changé (`follow_id`).
 signal follow_changed
@@ -1167,6 +1169,8 @@ func _apply_world_change(event: Dictionary) -> void:
 			party_invited.emit(event)
 		Protocol.EVT_PARTY_DECLINED:
 			notice.emit("%s refuse votre invitation." % event["nom"])
+		Protocol.EVT_CHAT:
+			chat_received.emit(event)
 		Protocol.EVT_PARTY:
 			party_changed.emit()
 			if not follow_id.is_empty() and world.party_member(follow_id).is_empty():
@@ -1323,8 +1327,8 @@ func _apply(event: Dictionary) -> float:
 		_walk_speed = walk_speed(path.size())
 		combat_state_changed.emit()
 		return -1.0
-	if type in [Protocol.EVT_PARTY, Protocol.EVT_PARTY_INVITE, Protocol.EVT_PARTY_DECLINED]:
-		_apply_world_change(event)  # Réponse à sa propre commande (invitation acceptée…).
+	if type in [Protocol.EVT_PARTY, Protocol.EVT_PARTY_INVITE, Protocol.EVT_PARTY_DECLINED, Protocol.EVT_CHAT]:
+		_apply_world_change(event)  # Réponse à sa propre commande (invitation acceptée, message écrit…).
 		return 0.0
 	if type == Protocol.EVT_DIALOGUE:
 		_open_dialogue(event)

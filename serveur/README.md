@@ -32,7 +32,7 @@ godot --headless --path game -s res://server/server_main.gd
 
 Puis dans le jeu : Options → « Adresse du serveur » : `ws://localhost:8080`, et menu « Jouer en
 ligne (prototype) » avec un pseudo. Pour voir un autre joueur sans second poste, un joueur
-automatique qui se promène :
+automatique qui se promène et répond aux messages privés (chat, jalon M3) :
 
 ```sh
 godot --headless --path game -s res://tools/bot.gd -- ws://localhost:8080 Robotin

@@ -25,6 +25,8 @@ Règles :
 - Chaque événement a une **portée** (`Protocol.scope_of` : personnel, carte, combat) ;
   `World.recipients(événement, expéditeur)` dit à qui l'envoyer. Un événement de carte a toujours
   son champ `carte`.
+- `social/chat.gd` (`Chat`, jalon M3) : canaux du chat, texte nettoyé, anti-flood et journal des
+  derniers messages ; `World` y passe la commande `ecrire` et dit qui reçoit chaque canal.
 - Le client ne lit jamais le `World` : il en reçoit des instantanés (`World.snapshot`, rien de
   secret : pas de graine, pas de pièges adverses) et des événements, en JSON (`Protocol.encode`,
   `Protocol.decode`, cases en `[x, y]`, version `Protocol.VERSION`).

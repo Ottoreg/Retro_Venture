@@ -13,7 +13,10 @@ var _url := ""
 
 
 func before_each() -> void:
-	_maps = {"test": Fixtures.map({Fixtures.center(): "1"}, [{"monstres": ["mannequin"]}], {"id": "test"})}
+	_maps = {
+		"test": Fixtures.map({Fixtures.center(): "1"}, [{"monstres": ["mannequin"]}], {"id": "test", "sorties": {"droite": "b"}}),
+		"b": Fixtures.map({}, [], {"id": "b", "sorties": {"gauche": "test"}}),
+	}
 	var server := GameServer.new(Fixtures.data(), _loader, CharacterStore.new(), AccountCheck.new(), [], "test")
 	_host = WebSocketHost.new(server)
 	_host.listen(0, "127.0.0.1")
@@ -110,7 +113,7 @@ func _ask(client: RemoteConnection, clients: Array, command: Dictionary, pushed:
 		pushed.append_array(client.update(0.0))
 		var replies := client.take_replies()
 		if not replies.is_empty():
-			reply = replies[0]
+			reply.append_array(replies[0])  # Un lambda ne réassigne pas une variable du dehors.
 		return not replies.is_empty())
 	return reply
 
@@ -150,3 +153,47 @@ func test_combat_de_groupe_et_retour_dans_le_combat() -> void:
 	assert_true(again.state.in_combat(), "de retour dans le combat")
 	frodon.close()
 	again.close()
+
+
+## Critère de sortie du jalon M3 (GDD § 16.5) : deux joueurs sur des cartes différentes discutent en
+## privé et en groupe.
+func test_chat_prive_et_de_groupe_entre_deux_cartes() -> void:
+	var frodon := _ready_client("Frodon")
+	var sam := _ready_client("Sam", [frodon])
+	var clients := [frodon, sam]
+	var seen := []
+	var exit := GameMap.NO_CELL
+	for cell: Vector2i in _maps["test"].cells():
+		if _maps["test"].is_walkable(cell) and "droite" in _maps["test"].exit_directions(cell):
+			exit = cell
+			break
+	_ask(sam, clients, {"type": Protocol.CMD_MOVE, "entite": "", "cible": exit, "sortie": "droite"}, seen)
+	assert_eq(sam.state.map.id, "b", "Sam est passé sur l'autre carte")
+
+	var heard := func(client: RemoteConnection, channel: String) -> Array:
+		var found := []
+		_run_until(clients, func() -> bool:
+			found.append_array(client.update(0.0).filter(func(e: Dictionary) -> bool:
+				return e["type"] == Protocol.EVT_CHAT and e["canal"] == channel))
+			return not found.is_empty())
+		return found
+	var own := _ask(frodon, clients, {"type": Protocol.CMD_CHAT, "entite": "", "canal": Chat.PRIVATE, "texte": "Où es-tu ?",
+		"a": "Sam"}, seen)
+	assert_eq(own.size(), 1, "Frodon voit son propre message")
+	assert_eq(own[0]["a"], "Sam")
+	var whispers: Array = heard.call(sam, Chat.PRIVATE)
+	assert_eq(whispers.size(), 1, "Sam reçoit le privé sur l'autre carte")
+	assert_eq(whispers[0]["auteur"], "Frodon")
+	assert_eq(whispers[0]["texte"], "Où es-tu ?")
+
+	_ask(frodon, clients, {"type": Protocol.CMD_PARTY_INVITE, "entite": "", "joueur": sam.state.player_id}, seen)
+	_run_until(clients, func() -> bool: return sam.update(0.0).any(func(e: Dictionary) -> bool: return e["type"] == Protocol.EVT_PARTY_INVITE))
+	_ask(sam, clients, {"type": Protocol.CMD_PARTY_ANSWER, "entite": "", "chef": frodon.state.player_id, "accepte": true}, seen)
+	_ask(sam, clients, {"type": Protocol.CMD_CHAT, "entite": "", "canal": Chat.PARTY, "texte": "Sur la carte b !"}, seen)
+	var party: Array = heard.call(frodon, Chat.PARTY)
+	assert_eq(party.size(), 1, "Frodon reçoit le message de groupe")
+	assert_eq(party[0]["auteur"], "Sam")
+	var local := _ask(sam, clients, {"type": Protocol.CMD_CHAT, "entite": "", "canal": Chat.LOCAL, "texte": "Seul ici"}, seen)
+	assert_eq(local.size(), 1, "en local, Sam est seul sur sa carte")
+	frodon.close()
+	sam.close()

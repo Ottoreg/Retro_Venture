@@ -1,6 +1,7 @@
 extends SceneTree
 ## Joueur automatique pour essayer le multijoueur seul (GDD § 16.5, jalon M1) : il se connecte à un
-## serveur de développement, crée son personnage au besoin, puis marche au hasard sur sa carte.
+## serveur de développement, crée son personnage au besoin, puis marche au hasard sur sa carte. Il
+## répond aux messages privés (jalon M3), pour essayer le chat seul.
 ##   godot --headless --path game -s res://tools/bot.gd -- [adresse] [pseudo] [secondes]
 ## Par défaut : ws://localhost:8080, « Robotin », sans limite de durée.
 
@@ -29,8 +30,10 @@ func _process(delta: float) -> bool:
 		if _left < 0.0:
 			_connection.close()
 			return true
-	_connection.update(delta)
+	var events := _connection.update(delta)
 	_connection.take_replies()
+	for event in events:
+		_answer(event)
 	match _connection.status:
 		RemoteConnection.Status.CLOSED:
 			printerr("Connexion fermée : %s" % _connection.error_message)
@@ -57,3 +60,12 @@ func _walk() -> void:
 			_connection.send({"type": Protocol.CMD_MOVE, "entite": state.player_id, "cible": target})
 			print("%s marche vers %s (%s)" % [state.player_name, target, state.map.display_name])
 			return
+
+
+## Répond à un message privé d'un joueur.
+func _answer(event: Dictionary) -> void:
+	if event["type"] != Protocol.EVT_CHAT or event["canal"] != Chat.PRIVATE or event["de"] == _connection.state.player_id:
+		return
+	print("%s me dit : %s" % [event["auteur"], event["texte"]])
+	_connection.send({"type": Protocol.CMD_CHAT, "entite": _connection.state.player_id, "canal": Chat.PRIVATE,
+		"a": event["auteur"], "texte": "Bip boup, %s ! « %s », bien reçu. Je ne suis qu'un robot." % [event["auteur"], event["texte"]]})

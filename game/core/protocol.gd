@@ -9,7 +9,7 @@ extends RefCounted
 
 ## Version du protocole, vérifiée à la connexion : à augmenter à chaque changement incompatible
 ## d'une commande ou d'un événement.
-const VERSION := 4
+const VERSION := 5
 
 # --- Commandes (client → noyau) ---
 
@@ -99,6 +99,10 @@ const CMD_STOP_WATCHING := "quitter_spectateur"
 ## Repère posé sur la carte du monde (nom cliqué d'un texte de quête), montré aux membres de son groupe.
 ## { type, entite: String, repere: Dictionary ({ nom, carte, case… } ; {} : retiré) }
 const CMD_PARTY_PIN := "repere_groupe"
+## Chat (jalon M3), en exploration comme en combat ou en spectateur : écrire sur un canal
+## (`Chat.CHANNELS` : local, groupe, commerce, recrutement, privé). { type, entite: String,
+## canal: String, texte: String, a: String (pseudo du destinataire, privé seulement) }
+const CMD_CHAT := "ecrire"
 
 # --- Événements (noyau → client) ---
 
@@ -287,6 +291,10 @@ const EVT_PARTY_DECLINED := "invitation_refusee"
 ## membres: Array[{ id, nom, niveau, race, voie, absent, carte, repere }] (chef en premier ; `repere` :
 ## celui du membre, {} sans) }. Aussi quand un membre change de carte ou de repère.
 const EVT_PARTY := "groupe_joueurs"
+## Message de chat relayé par le serveur, un par destinataire (`pour`), l'auteur compris.
+## { type, canal: String, de: String (id de l'auteur), auteur: String (son nom), texte: String } ;
+## en privé, aussi `a` (nom du destinataire).
+const EVT_CHAT := "message_chat"
 ## Un groupe n'est plus combattu sans avoir été vaincu (son joueur a perdu ou s'est déconnecté) : il
 ## réapparaît pour les autres joueurs de la carte (jamais en solo). { type, carte: String,
 ## groupe: { id, case, monstres, niveaux… } (voir `World.group_view`) }
@@ -317,7 +325,7 @@ const FIELD_FOR := "pour"
 ## du combat (id), pour trouver ses participants.
 const FIELD_COMBAT_OF := "combat_de"
 ## Événements personnels que la copie du client applique seule (sans instantané).
-const SELF_APPLIED_EVENTS := [EVT_REGEN, EVT_PARTY, EVT_PARTY_INVITE, EVT_PARTY_DECLINED]
+const SELF_APPLIED_EVENTS := [EVT_REGEN, EVT_PARTY, EVT_PARTY_INVITE, EVT_PARTY_DECLINED, EVT_CHAT]
 
 ## Événements visibles de toute la carte : ils ont tous un champ `carte`.
 const MAP_EVENTS := [EVT_MOVED, EVT_SAT, EVT_HARVESTED, EVT_RESOURCE_RESPAWNED, EVT_GROUP_RESPAWNED, EVT_GROUP_MOVED,
@@ -437,6 +445,10 @@ const REASON_PARTY_FULL := "groupe_complet"
 const REASON_ALREADY_IN_PARTY := "deja_en_groupe"
 const REASON_NO_INVITATION := "pas_d_invitation"
 const REASON_NOT_YOUR_TURN := "pas_votre_tour"
+## Chat : trop de messages (EVT_REFUSED porte alors `attente`, en secondes, arrondie au-dessus).
+const REASON_CHAT_FLOOD := "chat_trop_rapide"
+## Chat : le destinataire d'un privé n'est pas connecté (ou n'existe pas).
+const REASON_PLAYER_OFFLINE := "joueur_hors_ligne"
 const REASON_OCCUPIED := "case_occupee"
 const REASON_NOT_PLACEMENT_CELL := "case_de_placement_invalide"
 const REASON_NOT_ENOUGH_PM := "pm_insuffisants"

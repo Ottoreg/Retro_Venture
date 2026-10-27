@@ -162,7 +162,7 @@ func apply_event(event: Dictionary) -> bool:
 		Protocol.EVT_PARTY:
 			party = {"chef": event["chef"], "membres": event["membres"]}
 			return true
-		Protocol.EVT_PARTY_INVITE, Protocol.EVT_PARTY_DECLINED:
+		Protocol.EVT_PARTY_INVITE, Protocol.EVT_PARTY_DECLINED, Protocol.EVT_CHAT:
 			return true
 		Protocol.EVT_GROUP_RELEASED:
 			var released: Dictionary = event["groupe"]
