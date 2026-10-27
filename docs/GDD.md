@@ -724,7 +724,8 @@ Les classes sont **fixes** (pas d'apprentissage croisé, § 5.2) ; **le modèle 
   (27/10/2026, en prévision des zones reliées) : toutes les zones ensemble, chacune à sa place
   dans le monde (`WorldMapLayout.ZONE_ORIGINS` : Hautepierre au milieu, Brumerive à l'ouest,
   Sylvebrume au nord, Crasse-Roc à l'est, collées par leurs portes ; une zone sans place est posée
-  dessous), un contour par zone, son nom en grand quand on dézoome ; les coordonnées d'une carte
+  dessous), sans cadre entre elles : au survol d'une carte, les cartes de sa zone sont entourées
+  d'un liseré doré ; son nom en grand quand on dézoome ; les coordonnées d'une carte
   viennent de son id (`<zone>_<x>_<y>`, x vers l'est, y vers le sud), décalées de l'origine de sa
   zone. Chaque carte garde **toujours la forme d'une carte** (`MAP_RATIO`, 1,6), quitte à faire
   défiler : **molette** pour zoomer (6 niveaux, `Options.world_map_zoom`, le point sous la souris

@@ -1150,6 +1150,12 @@ func test_carte_du_monde_et_minicarte() -> void:
 	world_map._grid.gui_input.emit(press)
 	world_map.drag_to(Vector2(340, 130))
 	assert_eq(world_map._grid.cell_rect(Vector2i.ZERO).position, before + Vector2(-60, -20), "glissé")
+	# Survol d'une carte : toute sa zone est entourée, et nommée en haut.
+	world_map.hover(world_map._grid.cell_rect(_world_map_cases(world_map)["sylvebrume_1_1"]["case"]).get_center())
+	assert_eq(world_map._grid.hover_zone, "sylvebrume")
+	assert_eq(world_map._zone_title.text, "Sylvebrume")
+	world_map.hover(Vector2(-1e6, -1e6))
+	assert_eq(world_map._grid.hover_zone, "", "hors des cartes : plus de contour")
 	world_map.select_zone("hautepierre")
 	assert_eq(world_map._zone_title.text, "Hautepierre")
 	var middle := world_map._grid.cell_rect(_world_map_cases(world_map)["hautepierre_2_2"]["case"]).get_center()

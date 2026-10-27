@@ -84,6 +84,8 @@ class ZoneGrid extends Control:
 	var world: Variant = null
 	## Taille fixe des cases (carte du monde : selon le zoom), ou zéro : d'après la place.
 	var cell_fixed := Vector2.ZERO
+	## Zone de la carte survolée (carte du monde : ses cartes sont entourées), ou "".
+	var hover_zone := ""
 	## Glissement de la grille (pixels, vers le haut et la gauche), quand elle dépasse (voir `cell_fixed`).
 	var pan := Vector2.ZERO
 
@@ -223,8 +225,6 @@ class ZoneGrid extends Control:
 			for row in int(layout.get("lignes", 0)):
 				for col in int(layout.get("colonnes", 0)):
 					draw_rect(cell_rect(Vector2i(col, row)), Color(1, 1, 1, 0.035))
-		if not compact:
-			_draw_zone_frames()
 		# Les liens d'abord : un chemin entre deux cartes voisines (inutile entre des cases jointives).
 		var link_width := clampf(minf(cell_px.x, cell_px.y) * 0.08, 1.5, 4.0)
 		if not (compact and world != null):
@@ -300,21 +300,32 @@ class ZoneGrid extends Control:
 			draw_rect(current_rect.grow(-1.0), GOLD, false, 2.0)
 			draw_circle(current_rect.get_center(), 3.5, Color("4d8fff"))
 			draw_arc(current_rect.get_center(), 3.5, 0, TAU, 16, Color.WHITE, 1.2)
+		if not compact:
+			_draw_zone_outline(hover_zone)
 		if not compact and cell_px.x < ZONE_NAMES_BELOW:
 			_draw_zone_names()
 		_draw_pin(objective, COLOR_OBJECTIVE, true)
 		_draw_pin(pin, COLOR_PIN, false)
 		_draw_party()
 
-	## Grille du monde : le contour de chaque zone, à mi-écart autour de ses cartes.
-	func _draw_zone_frames() -> void:
-		var half := cell_gap() / 2.0 + Vector2(1, 1)
-		for zone: Dictionary in layout.get("zones", []):
-			var area: Rect2i = zone["cases"]
-			var box := cell_rect(area.position).merge(cell_rect(area.end - Vector2i.ONE))
-			box = box.grow_individual(half.x, half.y, half.x, half.y)
-			draw_rect(box, Color(1, 1, 1, 0.04))
-			draw_rect(box, Color("5a4630"), false, 1.0)
+	## Grille du monde : le contour des cartes d'une zone (celle de la carte survolée), à mi-écart
+	## autour d'elles, en suivant sa forme.
+	func _draw_zone_outline(zone_id: String) -> void:
+		if zone_id.is_empty():
+			return
+		var cells := {}
+		for case: Dictionary in layout.get("cases", []):
+			if case.get("zone", "") == zone_id:
+				cells[case["case"]] = true
+		var half := cell_gap() / 2.0
+		for cell: Vector2i in cells:
+			var box := cell_rect(cell).grow_individual(half.x, half.y, half.x, half.y)
+			var corners := [box.position, Vector2(box.end.x, box.position.y), box.end, Vector2(box.position.x, box.end.y)]
+			# Côtés haut, droite, bas, gauche : tracés là où la voisine n'est pas de la zone.
+			var sides := [Vector2i.UP, Vector2i.RIGHT, Vector2i.DOWN, Vector2i.LEFT]
+			for i in 4:
+				if not cells.has(cell + sides[i]):
+					draw_line(corners[i], corners[(i + 1) % 4], GOLD, 2.0)
 
 	## Grille du monde dézoomée : le nom de chaque zone en grand, cerné, au milieu de ses cartes.
 	func _draw_zone_names() -> void:
@@ -497,6 +508,7 @@ func show_pin() -> void:
 
 func close() -> void:
 	_set_visible(false)
+	_grid.hover_zone = ""
 
 
 func is_open() -> bool:
@@ -790,6 +802,7 @@ func _build() -> void:
 	_grid.mouse_default_cursor_shape = Control.CURSOR_MOVE
 	_grid.resized.connect(_grid.queue_redraw)
 	_grid.gui_input.connect(_on_grid_input)
+	_grid.mouse_exited.connect(hover.bind(Vector2(-1e6, -1e6)))
 	frame.add_child(_grid)
 
 	# Légende : une case par sorte d'icône, pour l'afficher ou la masquer (minicarte comprise).
@@ -854,9 +867,19 @@ func _on_grid_input(event: InputEvent) -> void:
 	if _drag_from != Minimap.NO_POINT and motion.button_mask & MOUSE_BUTTON_MASK_LEFT:
 		drag_to(motion.position)
 		return
-	var case := _grid.case_at(motion.position)
-	if not case.is_empty() and case["zone"] != _focus_zone:
-		_focus_zone = case["zone"]
+	hover(motion.position)
+
+
+## Survol de ce point de la grille : les cartes de la zone survolée sont entourées, et la zone est
+## nommée en haut.
+func hover(point: Vector2) -> void:
+	var case := _grid.case_at(point)
+	var zone_id: String = case.get("zone", "")
+	if zone_id != _grid.hover_zone:
+		_grid.hover_zone = zone_id
+		_grid.queue_redraw()
+	if not zone_id.is_empty() and zone_id != _focus_zone:
+		_focus_zone = zone_id
 		_refresh_zone_title()
 
 
