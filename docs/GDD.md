@@ -2103,7 +2103,7 @@ exemples en [annexe](#20-annexes--formats-de-données).
 > un hébergement gratuit pour les tests). **M0 fait le 26/10/2026** (voir « Où en est M0 » plus
 > bas) ; **prototype M1 en place le 26/10/2026** (« Où en est M1 »), essayé chez l'auteur ;
 > **M2 (combat de groupe) codé le 26/10/2026, clos le 27/10/2026** (« Où en est M2 ») ;
-> **M3 (social) en préparation** (« Préparation de M3 », découpage à valider).
+> **M3 (social) préparé** (« Préparation de M3 », découpage validé le 27/10/2026, code pas lancé).
 
 #### Quand
 
@@ -2429,7 +2429,7 @@ travail côté client : remplacer les lectures directes de `world` par la copie 
   combat, inventaire en combat). Capture : action `groupe` de `tools/screenshot.gd`.
 - **Pas encore** : chat de groupe (M3).
 
-#### Préparation de M3 (27/10/2026, découpage proposé, à valider par l'auteur)
+#### Préparation de M3 (27/10/2026, découpage validé par l'auteur, code pas encore lancé)
 
 M2 est clos par l'auteur le 27/10/2026. **Reporté de M2** : l'essai à plusieurs chez l'auteur
 (déconnexion puis retour en plein combat, suivre, regarder, verrous, repères partagés, TODO
@@ -2470,7 +2470,7 @@ la ligne de saisie reste cachée.
    l'auteur, la cible, le motif et les derniers messages de la cible (journal du lot 1). Pas encore
    d'outil de sanction : on les lit dans Supabase, la modération vient en M6.
 
-**À trancher par l'auteur avant de coder** (propositions entre parenthèses) :
+**Décisions (validées par l'auteur le 27/10/2026, propositions retenues entre parenthèses)** :
 
 - Canaux de tout le serveur : Commerce et Recrutement dès M3 ? (oui, faciles, utiles au test) ;
   canal *Camp* ? (plus tard, avec la règle de groupe entre camps).
@@ -2478,6 +2478,9 @@ la ligne de saisie reste cachée.
   maintenant) : aujourd'hui rien ne l'interdit. (Laisser autorisé pendant les tests, quêtes de
   camp non partagées ; décider pour la bêta.)
 - Amis : liste à sens unique comme Dofus, mais statut visible seulement si réciproque ? (oui).
+- Commerce : un seul onglet *Commerce* mêle les achats et ventes chez les PNJ et les annonces des
+  joueurs (« Vends… », « Achète… »), d'une autre couleur ; *Recrutement* sert à chercher un groupe
+  (puis une guilde).
 - Filtre de grossièretés ? (non pour M3 : ignorer + signaler suffit entre testeurs).
 - Émotes (§ 13.3) : hors M3 (elles demandent des animations, alpha 2).
 
