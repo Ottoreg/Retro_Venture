@@ -1,7 +1,8 @@
 class_name Sprites
 extends RefCounted
-## Personnages en pixel art : une planche PNG par monstre (`res://art/sprites/`, faite par
-## `tools/planche_sprites.py`), citée par « planche » dans la section `monstres` d'`art.json`.
+## Personnages en pixel art : une planche PNG par race (`res://art/sprites/`, faite par
+## `tools/planche_sprites.py`), citée par « planche » dans la section `races` d'`art.json`. Sur la
+## carte, debout ou en course, elle remplace l'assemblage (`Rig.draw`).
 ##
 ## La planche a une ligne par direction (`DIRECTIONS`) et 5 cases de 96 × 96 : l'image fixe puis
 ## les 4 images de la course. Les pieds sont en `FEET` de chaque case. Elle est agrandie au

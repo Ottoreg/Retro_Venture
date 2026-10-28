@@ -1668,7 +1668,9 @@
   },
   "races": {
     "humain": {
-      "rig": "humain"
+      "rig": "humain",
+      "planche": "sprites/humain.png",
+      "echelle": 1.1
     },
     "elfe": {
       "rig": "humain",

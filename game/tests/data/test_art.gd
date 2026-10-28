@@ -126,6 +126,7 @@ func test_directions_des_sprites() -> void:
 	assert_eq(Sprites.side_of(6), -1)
 	assert_eq(Sprites.side_of(4), 0)
 	assert_eq(Sprites.DIRECTIONS[Sprites.from_facing(-1.0, true)], "nord-ouest")
-	# Seule la race gobelin est en pixel art pour l'instant (debout et en course, sur la carte).
+	# Gobelins et humains en pixel art pour l'instant (debout et en course, sur la carte).
 	assert_true(Rig.player_look("gobelin", "guerrier", null).has("planche"), "gobelin en pixel art")
-	assert_false(Rig.player_look("humain", "guerrier", null).has("planche"), "humain articulé")
+	assert_true(Rig.player_look("humain", "guerrier", null).has("planche"), "humain en pixel art")
+	assert_false(Rig.player_look("elfe", "guerrier", null).has("planche"), "elfe articulé")
