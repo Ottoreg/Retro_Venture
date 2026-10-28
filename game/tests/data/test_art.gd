@@ -126,7 +126,13 @@ func test_directions_des_sprites() -> void:
 	assert_eq(Sprites.side_of(6), -1)
 	assert_eq(Sprites.side_of(4), 0)
 	assert_eq(Sprites.DIRECTIONS[Sprites.from_facing(-1.0, true)], "nord-ouest")
-	# Gobelins et humains en pixel art pour l'instant (debout et en course, sur la carte).
+	# Les trois races en pixel art (debout et en course, sur la carte).
 	assert_true(Rig.player_look("gobelin", "guerrier", null).has("planche"), "gobelin en pixel art")
 	assert_true(Rig.player_look("humain", "guerrier", null).has("planche"), "humain en pixel art")
-	assert_false(Rig.player_look("elfe", "guerrier", null).has("planche"), "elfe articulé")
+	assert_true(Rig.player_look("elfe", "guerrier", null).has("planche"), "elfe en pixel art")
+	# Une planche aux couleurs de chaque Voie.
+	for race_id: String in ["gobelin", "humain", "elfe"]:
+		for voie_id: String in Art.manifest()["tenues"]:
+			var look := Rig.player_look(race_id, voie_id, null)
+			assert_eq(look["planche"], "sprites/%s_%s.png" % [race_id, voie_id], "%s %s : couleurs de la Voie" % [race_id, voie_id])
+			assert_true(Sprites.texture(look["planche"]) != null, "%s %s : planche lisible" % [race_id, voie_id])

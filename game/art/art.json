@@ -1670,10 +1670,14 @@
     "humain": {
       "rig": "humain",
       "planche": "sprites/humain.png",
-      "echelle": 1.1
+      "echelle": 1.1,
+      "recoloration": {"teinte": [100, 300], "saturation": [0, 0.4], "valeur": [0.12, 0.8], "force": 0.75}
     },
     "elfe": {
       "rig": "humain",
+      "planche": "sprites/elfe.png",
+      "echelle": 1.15,
+      "recoloration": {"teinte": [250, 345], "saturation": [0.1, 0.7], "valeur": [0.08, 0.55], "force": 0.85},
       "couleurs": {
         "cheveux": "e0c070"
       },
@@ -1685,6 +1689,7 @@
       "rig": "gobelin",
       "planche": "sprites/gobelin.png",
       "echelle": 0.95,
+      "recoloration": {"teinte": [355, 30], "saturation": [0.3, 0.75], "valeur": [0.12, 0.62], "force": 0.85},
       "couleurs": {
         "cheveux": "3a2a1a"
       }

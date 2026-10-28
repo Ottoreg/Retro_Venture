@@ -34,7 +34,9 @@ static func player_look(race_id: String, voie_id: String, data: GameData) -> Dic
 	var result := look(race_spec.get("rig", "humain"), colors, outfit.get("arme", ""), accessories)
 	# Race en pixel art : sa planche remplace l'assemblage sur la carte (voir `draw`).
 	if race_spec.has("planche") and Sprites.exists(race_spec["planche"]):
-		result["planche"] = race_spec["planche"]
+		# Planche aux couleurs de la Voie (`tools/couleurs_sprites.py`), sinon celle d'origine.
+		var colored := "%s_%s.png" % [str(race_spec["planche"]).get_basename(), voie_id]
+		result["planche"] = colored if Sprites.exists(colored) else race_spec["planche"]
 		result["echelle"] = float(race_spec.get("echelle", 1.0))
 	return result
 
