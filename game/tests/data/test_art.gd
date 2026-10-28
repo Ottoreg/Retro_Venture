@@ -23,13 +23,19 @@ func test_personnages_et_accessoires() -> void:
 		assert_true(Art.has_image(weapon), "arme « %s »" % weapon)
 	for accessory: String in manifest["accessoires"]:
 		assert_true(Art.has_image(manifest["accessoires"][accessory].get("image", accessory)), "accessoire « %s »" % accessory)
-	for group: String in ["tenues", "pnj", "monstres"]:
+	for group: String in ["tenues", "races", "pnj", "monstres"]:
 		for entry_name: String in manifest[group]:
 			var spec: Dictionary = manifest[group][entry_name]
 			if spec.has("rig"):
 				assert_true(Rig.exists(spec["rig"]), "%s « %s » : assemblage « %s »" % [group, entry_name, spec["rig"]])
 			if spec.has("image"):
 				assert_true(Art.has_image(spec["image"]), "%s « %s » : image" % [group, entry_name])
+			if spec.has("planche"):
+				var sheet := Sprites.texture(spec["planche"])
+				assert_true(sheet != null, "%s « %s » : planche de sprites" % [group, entry_name])
+				if sheet != null:
+					assert_eq(sheet.get_size(), Vector2(Sprites.CELL * (1 + Sprites.RUN_FRAMES), Sprites.CELL * Sprites.DIRECTIONS.size()) * Art.SCALE,
+						"%s « %s » : 8 directions, image fixe et course" % [group, entry_name])
 			if not str(spec.get("arme", "")).is_empty():
 				assert_true(manifest["armes"].has(spec["arme"]), "%s « %s » : arme" % [group, entry_name])
 			for accessory: String in spec.get("accessoires", []):
@@ -102,3 +108,24 @@ func test_fragments_du_manifeste_sans_doublon() -> void:
 	Art._merge_fragment(merged, {"images": {"b": 2}, "monstres": {"m": {}}}, "test")
 	assert_eq(merged["images"], {"a": 1, "b": 2})
 	assert_true(merged["monstres"].has("m"))
+
+
+func test_directions_des_sprites() -> void:
+	var half := IsoGrid.HALF_TILE
+	# Un pas le long d'un axe de la grille est une diagonale à l'écran.
+	assert_eq(Sprites.DIRECTIONS[Sprites.direction_of(IsoGrid.grid_to_screen(Vector2(1, 0)))], "sud-est")
+	assert_eq(Sprites.DIRECTIONS[Sprites.direction_of(IsoGrid.grid_to_screen(Vector2(-1, 0)))], "nord-ouest")
+	assert_eq(Sprites.DIRECTIONS[Sprites.direction_of(IsoGrid.grid_to_screen(Vector2(0, 1)))], "sud-ouest")
+	assert_eq(Sprites.DIRECTIONS[Sprites.direction_of(IsoGrid.grid_to_screen(Vector2(0, -1)))], "nord-est")
+	assert_eq(Sprites.DIRECTIONS[Sprites.direction_of(Vector2(half.x * 2.0, 0))], "est")
+	assert_eq(Sprites.DIRECTIONS[Sprites.direction_of(Vector2(0, half.y * 2.0))], "sud")
+	assert_eq(Sprites.DIRECTIONS[Sprites.direction_of(Vector2(0, -half.y * 2.0))], "nord")
+	assert_eq(Sprites.DIRECTIONS[Sprites.mirrored(1)], "sud-ouest", "miroir est ↔ ouest")
+	assert_eq(Sprites.mirrored(0), 0, "de face : pas de miroir")
+	assert_eq(Sprites.side_of(2), 1)
+	assert_eq(Sprites.side_of(6), -1)
+	assert_eq(Sprites.side_of(4), 0)
+	assert_eq(Sprites.DIRECTIONS[Sprites.from_facing(-1.0, true)], "nord-ouest")
+	# Seule la race gobelin est en pixel art pour l'instant (debout et en course, sur la carte).
+	assert_true(Rig.player_look("gobelin", "guerrier", null).has("planche"), "gobelin en pixel art")
+	assert_false(Rig.player_look("humain", "guerrier", null).has("planche"), "humain articulé")

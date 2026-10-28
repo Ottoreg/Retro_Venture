@@ -3,7 +3,8 @@ extends SceneTree
 ##   xvfb-run -s "-screen 0 1280x720x24" godot --path game --rendering-driver opengl3 \
 ##     -s res://tools/screenshot.gd -- sortie.png [carte] [frames] [action]
 ## Lance la scène du monde (nouvelle partie), attend quelques images et enregistre la vue.
-## Action : « combat » (engage le premier groupe de la carte), « butin » / « defaite » (écran de fin de combat d’exemple : victoire, défaite), « elite7 » (Loup alpha de rang 7 survolé), « cible » (combat, monstre survolé), « sermon » (Théologue en combat, Sermon visé devant lui), « prevision » (comme « sermon », un monstre dans la zone : dégâts prévus), « panoplie » (3 pièces portées), « inventaire », « ressources » (inventaire, onglet Ressources), « assis » (blessé, assis), « metiers », « sorts » (ouvre la
+## Action : « combat » (engage le premier groupe de la carte), « gobelin » / « gobelin_combat » (personnage gobelin, en
+## exploration ou en combat), « butin » / « defaite » (écran de fin de combat d’exemple : victoire, défaite), « elite7 » (Loup alpha de rang 7 survolé), « cible » (combat, monstre survolé), « sermon » (Théologue en combat, Sermon visé devant lui), « prevision » (comme « sermon », un monstre dans la zone : dégâts prévus), « panoplie » (3 pièces portées), « inventaire », « ressources » (inventaire, onglet Ressources), « assis » (blessé, assis), « metiers », « sorts » (ouvre la
 ## fenêtre ; « inventaire » remplit d'abord le sac d'un exemplaire de chaque objet), « pierre » (va utiliser
 ## la Pierre de Passage), « glyphe » (combat contre l'Arbre millénaire, glyphe posée, héros ralenti et
 ## empoisonné, à lancer sur sylvebrume_0_0), « sortie » (sortie de droite survolée : bulle « Vers : … »), « survol » (le plus grand groupe de la carte survolé :
@@ -45,6 +46,10 @@ func _initialize() -> void:
 		Session.new_character = Character.create("Frère Tuck", "humain", "theologue")
 	if _action in ["arcaniste", "composition", "infobulle"]:
 		Session.new_character = Character.create("Mirabelle", "humain", "arcaniste")
+	if _action.begins_with("gobelin"):
+		# Personnage gobelin (pixel art) ; « gobelin_combat » : le même en combat.
+		Session.new_character = Character.create("Grizzette", "gobelin", "guerrier")
+		_action = "combat" if _action == "gobelin_combat" else ""
 	# Réglages par défaut (ceux du joueur ne comptent pas), mode tactique si demandé.
 	Options.reset()
 	if _action == "pions":

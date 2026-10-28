@@ -1274,6 +1274,8 @@ func _step_along(data: Dictionary, path: Array[Vector2i], delta: float, speed: f
 			data["facing"] = 1.0 if screen_delta.x > 0.0 else -1.0
 		if absf(screen_delta.y) > 0.5:
 			data["dos"] = screen_delta.y < 0.0
+		if distance > 0.5:
+			data["cap"] = Sprites.direction_of(screen_delta)
 		if distance > step:
 			data["pos"] = current.lerp(next, step / distance)
 			return false
@@ -1829,6 +1831,8 @@ func _face_toward(data: Dictionary, target: Vector2) -> void:
 		data["facing"] = signf(delta.x)
 	if absf(delta.y) > 0.5:
 		data["dos"] = delta.y < 0.0
+	if delta.length() > 0.5:
+		data["cap"] = Sprites.direction_of(delta)
 
 
 ## Recalcule les zones affichées en combat (déplacement, portée du sort).
@@ -2262,7 +2266,7 @@ func _draw_figure(seed_id: String, look: Dictionary, kind: String, base: Vector2
 		_draw_elite_aura(base, offset)
 	if look.has("rig"):
 		var progress := 1.0 - float(data.get("attaque", 0.0)) / ATTACK_TIME if data.get("attaque", 0.0) > 0.0 else -1.0
-		Rig.draw(self, look, base, {"facing": facing, "dos": data.get("dos", false), "marche": walking, "phase": phase,
+		Rig.draw(self, look, base, {"facing": facing, "dos": data.get("dos", false), "cap": data.get("cap", -1), "marche": walking, "phase": phase,
 			"temps": _time + offset * 0.1, "attaque": progress, "assis": data.get("assis", false)})
 	elif look.has("image"):
 		var hop := -absf(sin(phase)) * 2.0 if walking else sin(_time * 2.0 + offset) * 0.4
@@ -2347,8 +2351,8 @@ func actor_look(actor_id: String) -> Dictionary:
 
 
 ## Apparence d'un acteur (joueur ou monstre) d'après `art.json`, gardée dans ses données :
-## { rig, couleurs, arme } pour un personnage articulé, { image } pour un monstre dessiné d'un bloc,
-## {} s'il n'a pas de dessin.
+## { rig, couleurs, arme } pour un personnage articulé (avec { planche } s'il est en pixel art, voir
+## `Sprites`), { image } pour un monstre dessiné d'un bloc, {} s'il n'a pas de dessin.
 func _look_of(actor_id: String, data: Dictionary) -> Dictionary:
 	if data.has("look"):
 		return data["look"]

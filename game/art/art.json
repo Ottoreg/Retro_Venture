@@ -1681,6 +1681,8 @@
     },
     "gobelin": {
       "rig": "gobelin",
+      "planche": "sprites/gobelin.png",
+      "echelle": 0.95,
       "couleurs": {
         "cheveux": "3a2a1a"
       }

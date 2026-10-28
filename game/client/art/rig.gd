@@ -31,7 +31,12 @@ static func player_look(race_id: String, voie_id: String, data: GameData) -> Dic
 	# Accessoires de la race (oreilles…) puis de la tenue de la Voie (étole…).
 	var accessories: Array = race_spec.get("accessoires", []).duplicate()
 	accessories.append_array(outfit.get("accessoires", []))
-	return look(race_spec.get("rig", "humain"), colors, outfit.get("arme", ""), accessories)
+	var result := look(race_spec.get("rig", "humain"), colors, outfit.get("arme", ""), accessories)
+	# Race en pixel art : sa planche remplace l'assemblage sur la carte (voir `draw`).
+	if race_spec.has("planche") and Sprites.exists(race_spec["planche"]):
+		result["planche"] = race_spec["planche"]
+		result["echelle"] = float(race_spec.get("echelle", 1.0))
+	return result
 
 
 ## Vrai si l'assemblage existe.
@@ -61,8 +66,15 @@ static func scale_of(rig_name: String) -> float:
 
 ## Dessine le personnage, pieds en `base`. `pose` : { facing (1 ou -1), dos (bool), marche (bool),
 ## phase (marche), temps (respiration), attaque (0 à 1, ou négatif), zoom (agrandissement),
-## assis (bool) }.
+## assis (bool), cap (direction parmi les 8 de `Sprites`, -1 si inconnue) }.
+## Un personnage qui a une planche de pixel art (`Sprites`) est dessiné avec elle sur la carte (pose
+## avec `cap`), debout ou en course ; l'assemblage reste pour le reste (attaque, assis, portraits…),
+## faute d'images pour l'instant.
 static func draw(canvas: CanvasItem, appearance: Dictionary, base: Vector2, pose: Dictionary, modulate := Color.WHITE) -> void:
+	if appearance.has("planche") and pose.has("cap") and float(pose.get("attaque", -1.0)) < 0.0 \
+			and not (pose.get("assis", false) and not pose.get("marche", false)):
+		Sprites.draw_pose(canvas, appearance, base, pose, modulate)
+		return
 	var rig_name: String = appearance["rig"]
 	var colors: Dictionary = appearance.get("couleurs", {})
 	var back: bool = pose.get("dos", false)

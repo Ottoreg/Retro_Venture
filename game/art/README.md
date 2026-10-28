@@ -33,6 +33,17 @@ PNJ ou essences d'arbres.
   transparent), `objet_inconnu` à défaut. Les jauges du bandeau (cœur des PV, étoile des PA, case des PM, cadre de sort) et les
   icônes des menus sont dans `interface/`.
 
+## Pixel art (`sprites/`)
+
+Une race peut avoir une **planche** de pixel art (`"planche": "sprites/gobelin.png"` et son
+`echelle` dans `races`) : sur la carte, debout et en course, le personnage est dessiné avec elle en
+8 directions (`client/art/sprites.gd`) ; l'assemblage reste pour ce qui n'a pas encore d'images
+(attaque, assis, portraits, écran de création). La planche a une ligne par direction (sud, sud-est,
+est, nord-est, nord, nord-ouest, ouest, sud-ouest) et 5 cases de 96 × 96 (image fixe puis 4 images
+de course), pieds en (48, 80). Elle est assemblée à partir des PNG fixes et des GIF de course par
+`python3 tools/planche_sprites.py dossier/ art/sprites/<nom>.png`. Seul exemple pour l'instant, à
+l'essai : la race gobelin (sprites fournis par l'auteur).
+
 ## Conventions de dessin
 
 - 1 unité SVG = 1 pixel à l'écran (le jeu rend les SVG en 2× puis les réduit).
