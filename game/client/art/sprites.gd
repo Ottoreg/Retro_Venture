@@ -19,7 +19,8 @@ static var _textures: Dictionary = {}
 
 
 static func exists(sheet: String) -> bool:
-	return ResourceLoader.exists(ROOT.path_join(sheet))
+	var path := ROOT.path_join(sheet)
+	return ResourceLoader.exists(path) or FileAccess.file_exists(path)
 
 
 ## Planche agrandie (`null` si elle n'existe pas).
@@ -28,8 +29,13 @@ static func texture(sheet: String) -> Texture2D:
 		return _textures[sheet]
 	var result: Texture2D = null
 	var path := ROOT.path_join(sheet)
+	var image: Image = null
 	if ResourceLoader.exists(path):
-		var image: Image = (load(path) as Texture2D).get_image()
+		image = (load(path) as Texture2D).get_image()
+	elif FileAccess.file_exists(path):
+		# Pas encore importée par Godot (nouveau clone lancé sans « --import ») : le PNG lui-même.
+		image = Image.load_from_file(path)
+	if image != null and not image.is_empty():
 		if image.is_compressed():
 			image.decompress()
 		image.resize(int(image.get_width() * Art.SCALE), int(image.get_height() * Art.SCALE), Image.INTERPOLATE_NEAREST)
