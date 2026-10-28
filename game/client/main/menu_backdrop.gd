@@ -50,7 +50,7 @@ func _draw() -> void:
 	for item: Array in items:
 		if typeof(item[1]) == TYPE_INT:
 			var index: int = item[1]
-			Rig.draw(self, _looks[index], item[0], {"facing": -1.0 if index == 2 else 1.0, "temps": _time + index, "zoom": 1.5})
+			Rig.draw(self, _looks[index], item[0], {"facing": -1.0 if index == 2 else 1.0, "cap": -1, "temps": _time + index, "zoom": 1.5})
 		else:
 			Art.draw(self, item[1], item[0])
 	# Fondu vers le fond, en haut.

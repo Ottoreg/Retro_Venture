@@ -20,7 +20,7 @@ class Preview extends Control:
 	func _draw() -> void:
 		if look.is_empty():
 			return
-		Rig.draw(self, look, Vector2(size.x / 2.0, size.y - 20.0), {"facing": 1.0, "temps": time, "zoom": 2.6})
+		Rig.draw(self, look, Vector2(size.x / 2.0, size.y - 20.0), {"facing": 1.0, "cap": 0, "temps": time, "zoom": 2.6})
 
 
 var data: GameData

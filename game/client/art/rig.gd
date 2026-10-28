@@ -69,9 +69,9 @@ static func scale_of(rig_name: String) -> float:
 ## Dessine le personnage, pieds en `base`. `pose` : { facing (1 ou -1), dos (bool), marche (bool),
 ## phase (marche), temps (respiration), attaque (0 à 1, ou négatif), zoom (agrandissement),
 ## assis (bool), cap (direction parmi les 8 de `Sprites`, -1 si inconnue) }.
-## Un personnage qui a une planche de pixel art (`Sprites`) est dessiné avec elle sur la carte (pose
-## avec `cap`), debout ou en course ; l'assemblage reste pour le reste (attaque, assis, portraits…),
-## faute d'images pour l'instant.
+## Un personnage qui a une planche de pixel art (`Sprites`) est dessiné avec elle quand la pose a un
+## `cap` (carte, création, menu principal), debout ou en course ; l'assemblage reste pour le reste
+## (attaque, assis, portraits…), faute d'images pour l'instant.
 static func draw(canvas: CanvasItem, appearance: Dictionary, base: Vector2, pose: Dictionary, modulate := Color.WHITE) -> void:
 	if appearance.has("planche") and pose.has("cap") and float(pose.get("attaque", -1.0)) < 0.0 \
 			and not (pose.get("assis", false) and not pose.get("marche", false)):
