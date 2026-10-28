@@ -9,6 +9,8 @@ extends RefCounted
 var directory := ""
 ## Compte → { pseudo, etat }.
 var _entries: Dictionary = {}
+## Pour les tests : les sauvegardes groupées échouent (base injoignable).
+var fail_saves := false
 
 
 func _init(p_directory := "") -> void:
@@ -56,6 +58,17 @@ func save_report(report: Dictionary) -> bool:
 		return false
 	file.store_string(JSON.stringify(report, "\t"))
 	return true
+
+
+## Enregistre plusieurs personnages d'un coup, tout ou rien ({ compte, pseudo, etat } chacun) :
+## ceux d'un échange (jalon M4). Faux en cas d'échec.
+func save_characters(entries: Array[Dictionary]) -> bool:
+	if fail_saves:
+		return false
+	var ok := true
+	for entry in entries:
+		ok = save_character(entry["compte"], entry["pseudo"], entry["etat"]) and ok
+	return ok
 
 
 ## Enregistre le personnage du compte ; faux en cas d'échec.

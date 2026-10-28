@@ -341,3 +341,63 @@ func test_amis_sauvegardes_et_signalement() -> void:
 	assert_eq(report["messages"][0]["texte"], "Grossièreté")
 	assert_false(report["messages"][0].has("de"), "pas d'id de joueur dans le journal enregistré")
 	assert_true(frodon != sam)
+
+
+## Échange (jalon M4) : les deux personnages sont sauvegardés ensemble dès la fin de l'échange ; une
+## déconnexion en plein échange ne déplace rien ; si la base ne répond pas, ils restent liés et ne
+## sont jamais écrits l'un sans l'autre.
+func test_echange_sauvegarde_les_deux_ensemble() -> void:
+	var frodon := _join(1, "Frodon")
+	var sam := _join(2, "Sam")
+	var items: Dictionary = _server.world.data.items
+	_server.world.player(frodon).character.inventory.add(items["dent"], 4)
+	_server.world.player(frodon).character.inventory.ecus = 0
+	_server.world.player(sam).character.inventory.ecus = 30
+	_take(1)
+	_take(2)
+	_command(1, {"type": Protocol.CMD_EXCHANGE, "action": Exchange.PROPOSE, "joueur": sam})
+	assert_eq(_pushed(_take(2), Protocol.EVT_EXCHANGE_REQUEST)[0]["nom"], "Frodon")
+	_command(2, {"type": Protocol.CMD_EXCHANGE, "action": Exchange.ACCEPT, "joueur": frodon})
+	assert_eq(_pushed(_take(1), Protocol.EVT_EXCHANGE).size(), 1, "Frodon voit l'échange s'ouvrir")
+	_command(1, {"type": Protocol.CMD_EXCHANGE, "action": Exchange.ITEM, "objet": "dent", "quantite": 4})
+	_command(2, {"type": Protocol.CMD_EXCHANGE, "action": Exchange.ECUS, "brumes": 30})
+	_server.update(Exchange.VALIDATE_DELAY)
+	_command(1, {"type": Protocol.CMD_EXCHANGE, "action": Exchange.VALIDATE})
+	_store.fail_saves = true  # La base ne répond plus au moment de conclure.
+	_command(2, {"type": Protocol.CMD_EXCHANGE, "action": Exchange.VALIDATE})
+	var pushed := _take(1)
+	assert_eq(_pushed(pushed, Protocol.EVT_EXCHANGE_CLOSED)[0]["raison"], Exchange.CLOSED_DONE)
+	var with_inventory := _of_type(pushed, Protocol.MSG_EVENTS).filter(func(m: Dictionary) -> bool: return m.has("instantane"))
+	assert_eq(with_inventory.size(), 1, "Frodon reçoit son inventaire et l'instantané")
+	assert_eq(int(_store.load_character("dev:frodon")["personnage"]["inventaire"]["ecus"]), 20, "pas encore écrit (brumes de départ)")
+	assert_true(_server.has_unsaved_exchange(sam))
+	# Sam part : sa sauvegarde échoue aussi ; son état est gardé, jamais écrit sans celui de Frodon.
+	_server.peer_disconnected(2)
+	assert_eq(int(_store.load_character("dev:sam")["personnage"]["inventaire"]["ecus"]), 20)
+	_store.fail_saves = false
+	_server.save_all()  # Frodon seul est connecté : Sam est écrit avec lui.
+	assert_false(_server.has_unsaved_exchange(frodon))
+	assert_eq(int(_store.load_character("dev:frodon")["personnage"]["inventaire"]["ecus"]), 30)
+	var sam_saved: Dictionary = _store.load_character("dev:sam")["personnage"]["inventaire"]
+	var dents := 0
+	for entry: Dictionary in sam_saved["objets"]:
+		if entry["objet"] == "dent":
+			dents += int(entry["quantite"])
+	assert_eq(dents, 4, "Sam a les dents dans la base")
+
+
+func test_deconnexion_en_plein_echange_ne_deplace_rien() -> void:
+	var frodon := _join(1, "Frodon")
+	var sam := _join(2, "Sam")
+	_server.world.player(frodon).character.inventory.ecus = 50
+	_command(1, {"type": Protocol.CMD_EXCHANGE, "action": Exchange.PROPOSE, "joueur": sam})
+	_command(2, {"type": Protocol.CMD_EXCHANGE, "action": Exchange.ACCEPT, "joueur": frodon})
+	_command(1, {"type": Protocol.CMD_EXCHANGE, "action": Exchange.ECUS, "brumes": 50})
+	_server.update(Exchange.VALIDATE_DELAY)
+	_command(2, {"type": Protocol.CMD_EXCHANGE, "action": Exchange.VALIDATE})
+	_take(2)
+	_server.peer_disconnected(1)
+	assert_eq(_pushed(_take(2), Protocol.EVT_EXCHANGE_CLOSED)[0]["raison"], Exchange.CLOSED_LEFT)
+	assert_eq(int(_store.load_character("dev:frodon")["personnage"]["inventaire"]["ecus"]), 50)
+	assert_eq(_server.world.player(sam).character.inventory.ecus, 20, "ses brumes de départ, sans celles de Frodon")
+	assert_true(_server.world.player(sam).exchange == null, "Sam est libre")

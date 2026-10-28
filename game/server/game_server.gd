@@ -9,6 +9,8 @@ extends RefCounted
 signal message_out(peer_id: int, text: String)
 ## Le pair est renvoyé (après un MSG_ERROR) : fermer sa connexion.
 signal peer_kicked(peer_id: int)
+## Une sauvegarde vient de finir (elles passent une à une, dans l'ordre : voir `_save`).
+signal _save_done
 
 ## Sauvegarde de tous les personnages connectés, en secondes (en plus des fins de combat, des
 ## changements de carte et des déconnexions).
@@ -35,6 +37,16 @@ var _map_loader: Callable
 var _default_map := DEFAULT_START_MAP
 var _save_time := 0.0
 var _number := 0
+## Une sauvegarde est en cours : les suivantes attendent leur tour, pour qu'un état ancien
+## n'écrase jamais un état plus récent dans la base.
+var _saving := false
+## Échanges pas encore sauvegardés (jalon M4) : id de personnage → { id de l'autre joueur: true }.
+## Ces personnages ne se sauvegardent qu'ensemble, en une seule écriture : sans cela, un arrêt du
+## serveur entre les deux sauvegardes dupliquerait ce qui a été échangé.
+var _links: Dictionary = {}
+## Dernier état connu d'un personnage lié parti du monde avant que la sauvegarde commune ait
+## réussi (id → état) : il sera écrit avec ceux de ses partenaires.
+var _linked_states: Dictionary = {}
 
 
 func _init(p_data: GameData, p_map_loader: Callable, p_store: CharacterStore, p_accounts: AccountCheck,
@@ -247,6 +259,8 @@ func _command(peer_id: int, message: Dictionary) -> void:
 	_route(events, player_id)
 	for report in world.take_reports():
 		_store_report(report)
+	for pair in world.take_exchanges():
+		_exchanged(pair)
 	# Sauvegarde de chaque joueur dont le combat finit (ceux du groupe aussi) ou qui change de carte.
 	var saved := {}
 	for event in events:
@@ -294,14 +308,62 @@ func _store_report(report: Dictionary) -> void:
 		push_error("Signalement non enregistré : %s" % JSON.stringify(stored))
 
 
+## Échange conclu entre deux personnages : ils sont liés jusqu'à leur sauvegarde commune, faite
+## tout de suite, et l'échange est noté dans le journal du serveur.
+func _exchanged(pair: Array) -> void:
+	for id: String in pair:
+		if not _links.has(id):
+			_links[id] = {}
+		_links[id][pair[1] if id == pair[0] else pair[0]] = true
+	print("Échange : %s ↔ %s" % [str(pair[0]).trim_prefix("j:"), str(pair[1]).trim_prefix("j:")])
+	_save(pair[0])
+
+
+## Sauvegarde le personnage, avec tous ceux qui lui sont liés par un échange pas encore sauvegardé
+## (en une seule écriture, tout ou rien). Les sauvegardes passent une à une.
 func _save(player_id: String) -> void:
-	var state := world.player_save(player_id)
-	var account := player_id.trim_prefix("j:")
-	if state.is_empty():
-		return
-	var ok: bool = await store.save_character(account, str(state["personnage"].get("nom", "")), state)
-	if not ok:
-		push_error("Sauvegarde impossible du personnage de %s" % account)
+	while _saving:
+		await _save_done
+	_saving = true
+	var group := _linked_group(player_id)
+	var entries: Array[Dictionary] = []
+	for id in group:
+		var state := world.player_save(id)
+		if state.is_empty():
+			state = _linked_states.get(id, {})
+		if not state.is_empty():
+			entries.append({"compte": id.trim_prefix("j:"), "pseudo": str(state["personnage"].get("nom", "")), "etat": state})
+	var ok := true
+	if not entries.is_empty():
+		ok = await store.save_characters(entries)
+	if ok:
+		for id in group:
+			_links.erase(id)
+			_linked_states.erase(id)
+	else:
+		push_error("Sauvegarde impossible : %s" % ", ".join(group))
+		if group.size() > 1:
+			for entry in entries:  # Gardés pour la prochaine tentative, même s'ils partent du monde.
+				_linked_states["j:" + entry["compte"]] = entry["etat"]
+	_saving = false
+	_save_done.emit()
+
+
+## Le personnage et tous ceux qui lui sont liés, de proche en proche.
+func _linked_group(player_id: String) -> Array[String]:
+	var group: Array[String] = [player_id]
+	var index := 0
+	while index < group.size():
+		for other: String in _links.get(group[index], {}):
+			if other not in group:
+				group.append(other)
+		index += 1
+	return group
+
+
+## Vrai tant qu'un échange du personnage attend sa sauvegarde commune (tests).
+func has_unsaved_exchange(player_id: String) -> bool:
+	return _links.has(player_id)
 
 
 func _write(peer_id: int, message: Dictionary) -> void:

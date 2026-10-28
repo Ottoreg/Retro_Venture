@@ -29,6 +29,9 @@ Règles :
   derniers messages ; `World` y passe la commande `ecrire` et dit qui reçoit chaque canal.
 - `social/relations.gd` (`Relations`, jalon M3) : amis et ignorés (par pseudo, dans la sauvegarde),
   motifs et délai des signalements ; `World` applique `relations` et `signaler`.
+- `social/exchange.gd` (`Exchange`, jalon M4) : échange entre deux joueurs (offres, validations,
+  transfert tout ou rien sur des copies des inventaires) ; `World` applique `echange` et donne les
+  échanges conclus au serveur (`take_exchanges`), qui sauvegarde les deux personnages ensemble.
 - Le client ne lit jamais le `World` : il en reçoit des instantanés (`World.snapshot`, rien de
   secret : pas de graine, pas de pièges adverses) et des événements, en JSON (`Protocol.encode`,
   `Protocol.decode`, cases en `[x, y]`, version `Protocol.VERSION`).

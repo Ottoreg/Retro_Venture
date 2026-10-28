@@ -9,7 +9,7 @@ extends RefCounted
 
 ## Version du protocole, vérifiée à la connexion : à augmenter à chaque changement incompatible
 ## d'une commande ou d'un événement.
-const VERSION := 6
+const VERSION := 7
 
 # --- Commandes (client → noyau) ---
 
@@ -109,6 +109,13 @@ const CMD_RELATIONS := "relations"
 ## Signaler un joueur (jalon M3) : { type, entite: String, nom: String, motif: String
 ## (`Relations.REPORT_REASONS`), commentaire: String (facultatif) }.
 const CMD_REPORT := "signaler"
+## Échange entre joueurs (jalon M4, `Exchange`), en exploration, avec un joueur de la même carte :
+## { type, entite: String, action: String (`Exchange.ACTIONS`), … } selon l'action :
+## proposer { joueur: String (id) } ; accepter ou refuser { joueur: String (id de qui propose) } ;
+## objet { objet: String (uid dans son inventaire), quantite: int (0 : retiré de l'offre) } ;
+## brumes { brumes: int } ; valider, annuler (aussi une proposition en attente) : rien de plus.
+## Pendant un échange, seules les commandes de EXCHANGE_ALLOWED passent.
+const CMD_EXCHANGE := "echange"
 
 # --- Événements (noyau → client) ---
 
@@ -309,6 +316,16 @@ const EVT_CHAT := "message_chat"
 const EVT_RELATIONS := "relations"
 ## Signalement enregistré. { type, nom: String }
 const EVT_REPORTED := "signalement_recu"
+## Un joueur propose un échange (jalon M4). { type, pour, de: String (id), nom: String }
+const EVT_EXCHANGE_REQUEST := "demande_echange"
+## État d'un échange, à son ouverture et après chaque changement, pour chacun des deux joueurs.
+## { type, pour, avec: String (id), nom: String, mien et sien: { objets: Array[{ uid, objet, quantite,
+## jets }], brumes: int }, valide_moi: bool, valide_lui: bool, attente: float (secondes avant de
+## pouvoir valider), erreur: String ("" sauf échange impossible au moment de conclure) }
+const EVT_EXCHANGE := "echange_etat"
+## Fin d'un échange ou d'une proposition. { type, pour, nom: String (l'autre joueur), raison: String
+## (`Exchange.CLOSED_*` : conclu, annule, refuse, parti) } ; conclu : suivi de l'inventaire.
+const EVT_EXCHANGE_CLOSED := "echange_fin"
 ## Un groupe n'est plus combattu sans avoir été vaincu (son joueur a perdu ou s'est déconnecté) : il
 ## réapparaît pour les autres joueurs de la carte (jamais en solo). { type, carte: String,
 ## groupe: { id, case, monstres, niveaux… } (voir `World.group_view`) }
@@ -340,7 +357,10 @@ const FIELD_FOR := "pour"
 const FIELD_COMBAT_OF := "combat_de"
 ## Événements personnels que la copie du client applique seule (sans instantané).
 const SELF_APPLIED_EVENTS := [EVT_REGEN, EVT_PARTY, EVT_PARTY_INVITE, EVT_PARTY_DECLINED, EVT_CHAT, EVT_RELATIONS,
-	EVT_REPORTED]
+	EVT_REPORTED, EVT_EXCHANGE_REQUEST, EVT_EXCHANGE, EVT_EXCHANGE_CLOSED]
+## Commandes permises pendant un échange (les autres sont refusées : REASON_IN_EXCHANGE).
+const EXCHANGE_ALLOWED := [CMD_EXCHANGE, CMD_CHAT, CMD_RELATIONS, CMD_REPORT, CMD_PARTY_PIN, CMD_PARTY_INVITE,
+	CMD_PARTY_ANSWER, CMD_PARTY_LEAVE, CMD_QUEST_TRACK]
 
 ## Événements visibles de toute la carte : ils ont tous un champ `carte`.
 const MAP_EVENTS := [EVT_MOVED, EVT_SAT, EVT_HARVESTED, EVT_RESOURCE_RESPAWNED, EVT_GROUP_RESPAWNED, EVT_GROUP_MOVED,
@@ -468,6 +488,12 @@ const REASON_PLAYER_OFFLINE := "joueur_hors_ligne"
 const REASON_LIST_FULL := "liste_pleine"
 ## Signalement : ce joueur a déjà été signalé par vous il y a moins d'une heure.
 const REASON_ALREADY_REPORTED := "deja_signale"
+## Échange (M4) : commande impossible pendant un échange ; l'autre joueur est occupé (combat, autre
+## échange) ; validation trop tôt après un changement ; offre pleine.
+const REASON_IN_EXCHANGE := "en_echange"
+const REASON_PLAYER_BUSY := "joueur_occupe"
+const REASON_TOO_SOON := "trop_tot"
+const REASON_OFFER_FULL := "offre_pleine"
 const REASON_OCCUPIED := "case_occupee"
 const REASON_NOT_PLACEMENT_CELL := "case_de_placement_invalide"
 const REASON_NOT_ENOUGH_PM := "pm_insuffisants"

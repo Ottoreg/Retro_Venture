@@ -2115,6 +2115,8 @@ exemples en [annexe](#20-annexes--formats-de-données).
 > **M2 (combat de groupe) codé le 26/10/2026, clos le 27/10/2026** (« Où en est M2 ») ;
 > **M3 (social) en cours** (« Préparation de M3 », découpage validé le 27/10/2026) : **M3 codé le
 > 27/10/2026** (chat, amis et ignorés, signalement : « Où en est M3 »), à essayer à plusieurs.
+> **M4 (commerce) commencé le 28/10/2026 par l'échange entre joueurs** (« Où en est M4 ») ; l'hôtel
+> des ventes et le journal complet des transactions viendront ensuite.
 
 #### Quand
 
@@ -2548,7 +2550,7 @@ la ligne de saisie reste cachée.
   pseudo** : le menu du joueur. Ajout par pseudo ; ignorés avec leur croix. Menu du joueur
   (`PartyUi`, aussi au clic sur un nom dans l'historique ou sur la carte) : message privé, inviter
   ou suivre, « Ajouter en ami » / « Retirer des amis », « Ignorer » / « Ne plus ignorer »,
-  « Signaler… », et « Échanger » sur la même carte, grisé jusqu'au commerce (M4). Retours de
+  « Signaler… », et « Échanger » sur la même carte (actif depuis M4). Retours de
   l'auteur du 27/10/2026 (portrait, fenêtre plus large, croix, clic droit).
 - **Lot 4, signalement** : commande `CMD_REPORT` (`signaler` : `nom`, `motif` parmi
   `Relations.REPORT_REASONS` — insultes, triche, spam, pseudo, autre —, `commentaire` de 200
@@ -2568,6 +2570,56 @@ la ligne de saisie reste cachée.
   signalement). Captures : actions `chat` et `amis` de `tools/screenshot.gd`.
 - **M3 codé le 27/10/2026** : reste l'essai à plusieurs chez l'auteur (critère de sortie déjà
   vérifié par le test WebSocket).
+
+#### Où en est M4 (28/10/2026)
+
+Premier lot, demandé par l'auteur le 28/10/2026 : **l'échange sécurisé entre joueurs** seulement
+(ni hôtel des ventes ni journal complet des transactions pour l'instant).
+
+- **Règles** (`core/social/exchange.gd`, `Exchange` ; `World`, section « Échanges entre joueurs ») :
+  avec un joueur de la même carte, en exploration, hors combat et hors spectateur. « Échanger avec
+  X » du menu du joueur propose ; X accepte ou refuse (un ignoré ne peut rien proposer, sans le
+  savoir). Chacun met dans son offre des objets **non portés** et pas de quête (20 lignes au plus,
+  les piles en partie) et des brumes. Comme Dofus, **chaque changement d'une offre retire les deux
+  validations**, et on ne peut valider que **3 s** après le dernier changement
+  (`Exchange.VALIDATE_DELAY` : contre l'objet retiré au dernier moment). L'échange se fait quand
+  les deux ont validé. Pendant un échange, le joueur ne fait rien d'autre que le chat, ses listes,
+  son groupe, le suivi de quête et l'échange (`Protocol.EXCHANGE_ALLOWED`, refus `en_echange`) :
+  il ne peut ni jeter, ni vendre, ni équiper ce qu'il propose. Annuler, changer de carte ou se
+  déconnecter ferme l'échange sans rien déplacer.
+- **Pas de duplication, côté jeu** : `Exchange.conclude` refait toutes les vérifications (objets
+  présents en quantité, non portés, brumes, place dans les deux sacs) et fait le transfert **sur
+  des copies des deux inventaires** avant de toucher aux vrais : tout ou rien. Les jets d'un
+  équipement le suivent. Sac plein : rien ne bouge, les validations tombent et les deux voient
+  pourquoi.
+- **Pas de duplication, côté base** : `World.take_exchanges` donne les échanges conclus au serveur,
+  qui sauvegarde aussitôt **les deux personnages en une seule écriture**
+  (`CharacterStore.save_characters` ; `SupabaseStore` : une requête PostgREST pour les deux
+  lignes, donc une transaction). Tant que cette écriture n'a pas réussi, les deux personnages
+  restent **liés** (`GameServer._links`) : toute sauvegarde de l'un emporte l'autre (son état
+  gardé s'il s'est déconnecté entre-temps), jamais l'un sans l'autre. Les sauvegardes passent
+  **une à une, dans l'ordre** (`GameServer._saving`), pour qu'une ancienne n'écrase jamais une plus
+  récente. Un arrêt du serveur avant l'écriture commune ramène donc les deux personnages d'avant
+  l'échange. Chaque échange conclu laisse une ligne « Échange : A ↔ B » dans la console du
+  serveur, en attendant le journal (table à créer avec l'hôtel des ventes).
+- **Protocole** : version 7. Commande `CMD_EXCHANGE` (`echange` : `action` proposer, accepter,
+  refuser, objet, brumes, valider, annuler) ; événements `EVT_EXCHANGE_REQUEST`
+  (`demande_echange`), `EVT_EXCHANGE` (`echange_etat` : les deux offres, les validations,
+  `attente`, `erreur`) et `EVT_EXCHANGE_CLOSED` (`echange_fin` : conclu, annule, refuse, parti),
+  tous adressés par `pour` et appliqués sans instantané ; l'inventaire de l'autre joueur arrive
+  avec son instantané.
+- **Client** : proposition reçue dans `PartyUi` (Accepter / Refuser) ; fenêtre
+  `client/ui/exchange_window.gd` : l'inventaire à gauche (sans ce qui est déjà proposé), sa propre
+  offre avec ses brumes et celle de l'autre à droite, infobulles des objets, validations, bouton
+  « Valider (3, 2, 1) » ; ×, Annuler ou Échap annulent. Capture : action `echange` de
+  `tools/screenshot.gd`.
+- **Tests** : `tests/core/test_exchange.gd` (échange complet et conservation des objets et
+  brumes, validations retirées, offres refusées, commandes bloquées, **déconnexion en plein
+  échange**, annulation, refus, ignoré, sac plein), serveur (`test_game_server.gd` : sauvegarde
+  commune, base injoignable au moment de conclure puis déconnexion de l'un, déconnexion en plein
+  échange) et deux clients (`test_online_client.gd`).
+- Reste : l'essai à deux chez l'auteur (relancer le serveur Docker avec la nouvelle image), puis
+  l'hôtel des ventes et le journal des transactions.
 
 #### Jalons
 

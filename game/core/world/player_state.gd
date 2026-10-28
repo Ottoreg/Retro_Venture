@@ -54,6 +54,10 @@ var ignored: Array[String] = []
 var friend_looks: Dictionary = {}
 ## Signalements faits : pseudo signalé (en minuscules) → heure du monde (un par heure et par joueur).
 var reports: Dictionary = {}
+## Échange en cours avec un autre joueur (jalon M4), ou `null`.
+var exchange: Exchange = null
+## Joueur à qui il a proposé un échange, sans réponse encore (id), ou "".
+var exchange_asked := ""
 ## Quêtes : propositions, avancement, récompenses (l'état est dans `character.quests`).
 var quest_book: QuestBook
 

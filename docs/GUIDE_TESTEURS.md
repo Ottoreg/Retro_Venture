@@ -34,6 +34,10 @@ nous faire vos retours. Le jeu n'affiche volontairement presque aucune aide à l
   droite) pour le suivre ; sa position et ses repères apparaissent en vert sur la minicarte. Celui
   qui engage un combat peut le fermer ou refuser les spectateurs. L'inventaire se consulte en
   combat. Tours de 30 s. Une connexion coupée se rouvre toute seule, et on retrouve son combat.
+  Pour **échanger** avec un joueur de la même carte : clic sur lui (ou sur son pseudo dans
+  l'historique), « Échanger avec… ». Chacun met des objets non portés et des brumes ; tout
+  changement retire les validations, et « Valider » attend 3 s après le dernier changement.
+  L'échange se fait quand les deux ont validé ; Échap l'annule.
 
 ## Par où commencer
 

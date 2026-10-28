@@ -35,7 +35,7 @@ xvfb-run -a godot --path . -s res://tools/screenshot.gd -- sortie.png [carte] [s
 ```
 
 `tools/screenshot.gd` fait des captures en jeu (actions : glyphe, survol, infobulle, objet, phase, reveil, carte, sermon,
-cible, tactique, pause, options, fiche, assis, joueurs, groupe, chat, amis…) ; `tools/art_sheet.gd` fait une planche des dessins ; `tools/simulation.gd` simule des
+cible, tactique, pause, options, fiche, assis, joueurs, groupe, chat, amis, echange…) ; `tools/art_sheet.gd` fait une planche des dessins ; `tools/simulation.gd` simule des
 combats sur chaque groupe des cartes (`-- [combats] [rapport.md] [préfixes de cartes] [detail]`,
 ~7 min pour tout à 10 combats).
 Multijoueur : `godot --headless --path . -s res://server/server_main.gd` (serveur de développement, port
@@ -127,7 +127,12 @@ sur la minicarte (protocole v4). Reste l'essai à plusieurs chez l'auteur.
 protocole v5) et 2 (chat côté client : onglets, ligne de saisie, préfixes, menu du pseudo dans
 `client/ui/message_log.gd`), 3 (amis et ignorés dans la sauvegarde, `core/social/relations.gd`,
 fenêtre `client/ui/friends_window.gd`, touche F) et 4 (signalement, table Supabase `signalements`)
-faits** (protocole v6) ; reste l'essai à plusieurs chez l'auteur. La CI publie aussi, à chaque push sur `main`, le client natif
+faits** (protocole v6) ; reste l'essai à plusieurs chez l'auteur.
+**M4 (commerce) commencé le 28/10/2026 par l'échange entre joueurs** (GDD § 16.5, « Où en est M4 ») :
+`core/social/exchange.gd`, commande `echange`, fenêtre `client/ui/exchange_window.gd`, transfert tout
+ou rien et sauvegarde des deux personnages en une écriture (`CharacterStore.save_characters`,
+personnages liés tant qu'elle n'a pas réussi, sauvegardes une à une) ; protocole v7. Hôtel des
+ventes et journal des transactions plus tard. La CI publie aussi, à chaque push sur `main`, le client natif
 (release « client-natif ») et l'image du serveur de staging (`ghcr.io/ottoreg/retro-venture-serveur:staging`).
 
 Dernière session (retours de la passe de l'auteur) :

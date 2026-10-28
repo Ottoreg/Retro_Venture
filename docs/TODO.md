@@ -721,7 +721,10 @@ Plan validé par l'auteur le 26/10/2026 : GDD § 16.5, jalons M0 (préparer le n
 - [x] Objectifs « vaincre » comptés pour chaque joueur du combat — M2
 - [x] Ouvrir l'inventaire pendant un combat, consultation seulement (M2, 27/10/2026)
 - [ ] Ouvrir aussi la fiche et les autres fenêtres pendant un combat, en consultation
-- [ ] Échange sécurisé entre joueurs
+- [ ] Échange sécurisé entre joueurs — M4, codé le 28/10/2026 (GDD § 16.5, « Où en est M4 ») :
+  offres d'objets et de brumes, validations retirées à chaque changement, transfert tout ou rien,
+  sauvegarde commune des deux personnages ; reste l'essai à deux chez l'auteur
+- [ ] Journal des transactions (table en base) : avec l'hôtel des ventes (M4)
 - [ ] Artisanat assisté et commandes
 - [ ] Hôtel des ventes
 - [ ] Événements de monde collectifs

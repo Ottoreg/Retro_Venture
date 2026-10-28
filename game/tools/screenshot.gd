@@ -265,6 +265,31 @@ func _process(_delta: float) -> bool:
 			var window: FriendsWindow = _scene.friends_window
 			window.enabled = true
 			window.open()
+		elif _action == "echange":
+			# Échange (M4) avec Grizzette : chacun a mis quelque chose, elle a validé.
+			var here := view.server.position_of(World.PLAYER_ID)
+			view.server.add_player(Character.create("Grizzette", "gobelin", "rodeur"), "j:Grizzette", view.server.map.id, here + Vector2i(2, 1))
+			view.server.data.give_starting_kit(view.server.player("j:Grizzette").character)
+			for template: Dictionary in view.server.data.items.values():
+				if template.get("type") == "ressource":
+					view.server.player("j:Grizzette").character.inventory.add(template, 7)
+					break
+			var me := World.PLAYER_ID
+			var exchange := {"type": Protocol.CMD_EXCHANGE, "entite": me, "action": Exchange.PROPOSE, "joueur": "j:Grizzette"}
+			view.server.execute(exchange)
+			view.server.execute({"type": Protocol.CMD_EXCHANGE, "entite": "j:Grizzette", "action": Exchange.ACCEPT, "joueur": me})
+			var mine: Inventory = view.server.character.inventory
+			view.server.execute({"type": Protocol.CMD_EXCHANGE, "entite": me, "action": Exchange.ECUS, "brumes": mini(15, mine.ecus)})
+			for uid: String in view.server.player("j:Grizzette").character.inventory.entries:
+				if view.server.player("j:Grizzette").character.inventory.slot_of(uid).is_empty():
+					view.server.execute({"type": Protocol.CMD_EXCHANGE, "entite": "j:Grizzette", "action": Exchange.ITEM, "objet": uid, "quantite": 5})
+					break
+			view.server.update(Exchange.VALIDATE_DELAY)
+			var events := view.server.execute({"type": Protocol.CMD_EXCHANGE, "entite": "j:Grizzette", "action": Exchange.VALIDATE})
+			view.refresh_state()
+			for event in events:
+				if event[Protocol.FIELD_FOR] == me:
+					_scene.exchange_window.show_exchange(event)
 		elif _action == "assis":
 			view.server.character.hp_lost = 30
 			view.refresh_state()

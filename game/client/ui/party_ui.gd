@@ -7,6 +7,9 @@ extends CanvasLayer
 ## Chat (M3) : le même menu s'ouvre au clic sur le nom d'un auteur dans l'historique, avec en plus
 ## « Message privé » (le joueur n'est alors connu que par son pseudo). Il propose aussi d'ajouter le
 ## joueur en ami, de l'ignorer et de le signaler (fenêtre du motif et d'un commentaire).
+##
+## Échange (M4) : « Échanger » propose un échange à un joueur de la même carte ; une proposition
+## reçue demande d'accepter ou de refuser (la fenêtre d'échange, `ExchangeWindow`, s'ouvre ensuite).
 
 ## Le joueur veut écrire en privé à ce pseudo (la ligne de saisie de l'historique s'ouvre).
 signal whisper_requested(player_name: String)
@@ -17,6 +20,9 @@ var _invitation: ConfirmationDialog
 var _report: ConfirmationDialog
 var _report_reason: OptionButton
 var _report_comment: LineEdit
+var _exchange_request: ConfirmationDialog
+## Joueur qui propose un échange (id).
+var _exchange_asker := ""
 ## Joueur cliqué (id) et chef qui invite (id).
 var _clicked := ""
 var _clicked_name := ""
@@ -34,6 +40,13 @@ func _ready() -> void:
 	_invitation.confirmed.connect(_answer.bind(true))
 	_invitation.canceled.connect(_answer.bind(false))
 	add_child(_invitation)
+	_exchange_request = ConfirmationDialog.new()
+	_exchange_request.title = "Échange"
+	_exchange_request.ok_button_text = "Accepter"
+	_exchange_request.cancel_button_text = "Refuser"
+	_exchange_request.confirmed.connect(_answer_exchange.bind(true))
+	_exchange_request.canceled.connect(_answer_exchange.bind(false))
+	add_child(_exchange_request)
 	_build_report()
 
 
@@ -41,6 +54,11 @@ func setup(p_map_view: MapView) -> void:
 	map_view = p_map_view
 	map_view.player_clicked.connect(_on_player_clicked)
 	map_view.party_invited.connect(_on_invited)
+	map_view.exchange_requested.connect(_on_exchange_requested)
+	map_view.exchange_closed.connect(func(event: Dictionary) -> void:
+		if _exchange_request.visible and event["raison"] != Exchange.CLOSED_DONE:
+			_exchange_request.hide()  # Proposition retirée (ou son auteur est parti).
+			_exchange_asker = "")
 
 
 func _on_player_clicked(player_id: String, player_name: String) -> void:
@@ -58,11 +76,11 @@ func _on_player_clicked(player_id: String, player_name: String) -> void:
 	_menu.add_item("Ne plus ignorer %s" % player_name if world.has_relation("ignores", player_name)
 		else "Ignorer %s" % player_name, 4)
 	_menu.add_item("Signaler %s…" % player_name, 5)
-	# Échange : seulement sur la même carte ; il arrive avec le commerce (jalon M4).
-	if world.other_players().any(func(other: Dictionary) -> bool: return other["nom"] == player_name):
-		_menu.add_item("Échanger avec %s (bientôt)" % player_name, 6)
-		_menu.set_item_disabled(_menu.get_item_index(6), true)
-		_menu.set_item_tooltip(_menu.get_item_index(6), "L'échange entre joueurs arrive avec le commerce (jalon M4).")
+	# Échange (jalon M4) : seulement sur la même carte.
+	var here: Array = world.other_players().filter(func(other: Dictionary) -> bool: return other["nom"] == player_name)
+	if not here.is_empty():
+		_clicked = str(here[0]["id"])
+		_menu.add_item("Échanger avec %s" % player_name, 6)
 	_menu.position = Vector2i(get_viewport().get_mouse_position())
 	_menu.popup()
 
@@ -92,6 +110,10 @@ func _on_menu_pressed(id: int) -> void:
 		_relation(Relations.UNIGNORE if ignored else Relations.IGNORE)
 	elif id == 5:
 		open_report(_clicked_name)
+	elif id == 6:
+		map_view.send_command({"type": Protocol.CMD_EXCHANGE, "entite": map_view.world.player_id,
+			"action": Exchange.PROPOSE, "joueur": _clicked})
+		map_view.notice.emit("Proposition d'échange envoyée à %s." % _clicked_name)
 
 
 func _relation(action: String) -> void:
@@ -157,3 +179,22 @@ func _answer(accepted: bool) -> void:
 		return
 	map_view.send_command({"type": Protocol.CMD_PARTY_ANSWER, "entite": map_view.world.player_id, "chef": _inviter, "accepte": accepted})
 	_inviter = ""
+
+
+func _on_exchange_requested(event: Dictionary) -> void:
+	_exchange_asker = event["de"]
+	_exchange_request.dialog_text = "%s vous propose un échange." % event["nom"]
+	_exchange_request.popup_centered()
+
+
+## Vrai tant qu'une proposition d'échange attend sa réponse (tests).
+func is_asking_exchange() -> bool:
+	return _exchange_request.visible
+
+
+func _answer_exchange(accepted: bool) -> void:
+	if _exchange_asker.is_empty():
+		return
+	map_view.send_command({"type": Protocol.CMD_EXCHANGE, "entite": map_view.world.player_id,
+		"action": Exchange.ACCEPT if accepted else Exchange.DECLINE, "joueur": _exchange_asker})
+	_exchange_asker = ""

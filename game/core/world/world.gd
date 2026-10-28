@@ -64,6 +64,9 @@ var parties: Dictionary = {}
 var chat := Chat.new()
 ## Signalements faits depuis le dernier `take_reports` (le serveur les enregistre).
 var _reports: Array[Dictionary] = []
+## Échanges conclus depuis le dernier `take_exchanges` : [id, id] (le serveur sauvegarde les deux
+## personnages ensemble).
+var _exchanges: Array[Array] = []
 ## Joueurs absents dont le combat est fini : à sauvegarder puis retirer du monde (`take_departed`).
 var _departed: Array[String] = []
 ## Chance d'une récolte rare (voir `Profession.RARE_CHANCE` ; les tests la fixent à 0 ou 1).
@@ -187,6 +190,7 @@ func remove_player(id: String) -> Array[Dictionary]:
 	var p: PlayerState = players.get(id)
 	if p == null or id == player_id:
 		return events
+	_end_exchange(p, Exchange.CLOSED_LEFT, events)
 	if p.watching != null:
 		p.watching.spectators.erase(id)
 		p.watching = null
@@ -352,6 +356,10 @@ func _execute(command: Dictionary) -> Array[Dictionary]:
 		return _relations_command(p, command)
 	if command.get("type") == Protocol.CMD_REPORT:
 		return _report(p, command)
+	if command.get("type") == Protocol.CMD_EXCHANGE:
+		return _exchange_command(p, command)
+	if p.exchange != null and command.get("type") not in Protocol.EXCHANGE_ALLOWED:
+		return _refused(command, Protocol.REASON_IN_EXCHANGE)
 	if p.in_combat():
 		if command.get("type") == Protocol.CMD_COMBAT_LOCK:
 			return _combat_lock(p, command)
@@ -697,6 +705,7 @@ func _remember_walk(p: PlayerState, from: Vector2i, path: Array[Vector2i]) -> vo
 ## du personnage. Les autres joueurs des deux cartes l'apprennent par `events` (EVT_PLAYER_LEFT et
 ## EVT_PLAYER_JOINED, seulement s'il y en a : jamais en solo).
 func _set_map(p: PlayerState, next_map: GameMap, player_cell: Vector2i, events: Array[Dictionary] = []) -> void:
+	_end_exchange(p, Exchange.CLOSED_LEFT, events)
 	_leave_instance(p, events)
 	_loaded_maps[next_map.id] = next_map
 	p.instance = _instance(next_map.id)
@@ -1181,6 +1190,188 @@ func take_reports() -> Array[Dictionary]:
 	var taken := _reports.duplicate()
 	_reports.clear()
 	return taken
+
+
+# --- Échanges entre joueurs (jalon M4) ----------------------------------------------------------
+
+func _exchange_command(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
+	var action: Variant = command.get("action")
+	if not _is_player_command(p, command) or action not in Exchange.ACTIONS:
+		return _refused(command, Protocol.REASON_INVALID_COMMAND)
+	match action:
+		Exchange.PROPOSE:
+			return _exchange_propose(p, command)
+		Exchange.ACCEPT, Exchange.DECLINE:
+			return _exchange_answer(p, command, action == Exchange.ACCEPT)
+		Exchange.CANCEL:
+			var events: Array[Dictionary] = []
+			_end_exchange(p, Exchange.CLOSED_CANCELLED, events)
+			return events
+	if p.exchange == null:
+		return _refused(command, Protocol.REASON_INVALID_COMMAND)
+	match action:
+		Exchange.ITEM:
+			return _exchange_item(p, command)
+		Exchange.ECUS:
+			var amount: Variant = command.get("brumes")
+			if typeof(amount) != TYPE_INT or amount < 0 or amount > p.character.inventory.ecus:
+				return _refused(command, Protocol.REASON_NOT_ENOUGH_ECUS)
+			p.exchange.set_ecus(p.id, amount, clock)
+			return _exchange_views(p.exchange)
+	return _exchange_validate(p, command)
+
+
+## Libre pour un échange : connecté, en exploration, sans échange ni spectateur.
+func _exchange_free(p: PlayerState) -> bool:
+	return p != null and not p.away and p.combat == null and p.watching == null and p.exchange == null
+
+
+func _exchange_propose(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
+	var target: PlayerState = players.get(command.get("joueur", ""))
+	if target == null or target == p or target.instance != p.instance:
+		return _refused(command, Protocol.REASON_UNKNOWN_ENTITY)
+	if not _exchange_free(p):
+		return _refused(command, Protocol.REASON_IN_EXCHANGE if p.exchange != null else Protocol.REASON_WRONG_PHASE)
+	if not _exchange_free(target):
+		return _refused(command, Protocol.REASON_PLAYER_BUSY)
+	var events: Array[Dictionary] = []
+	_withdraw_request(p, events)
+	p.exchange_asked = target.id
+	if Relations.has(target.ignored, p.character.display_name):
+		return events  # Ignoré : la proposition se perd, sans le dire.
+	events.append({"type": Protocol.EVT_EXCHANGE_REQUEST, Protocol.FIELD_FOR: target.id, "de": p.id,
+		"nom": p.character.display_name})
+	return events
+
+
+func _exchange_answer(p: PlayerState, command: Dictionary, accepted: bool) -> Array[Dictionary]:
+	var asker: PlayerState = players.get(command.get("joueur", ""))
+	if asker == null or asker.exchange_asked != p.id:
+		return _refused(command, Protocol.REASON_NO_INVITATION)
+	asker.exchange_asked = ""
+	if not accepted:
+		var declined: Array[Dictionary] = [_exchange_closed(asker, p, Exchange.CLOSED_DECLINED)]
+		return declined
+	if asker.instance != p.instance:
+		return _refused(command, Protocol.REASON_UNKNOWN_ENTITY)
+	if not _exchange_free(p) or not _exchange_free(asker):
+		return _refused(command, Protocol.REASON_PLAYER_BUSY)
+	var events: Array[Dictionary] = []
+	_withdraw_request(p, events)
+	var exchange := Exchange.new(asker.id, p.id, clock)
+	asker.exchange = exchange
+	p.exchange = exchange
+	events.append_array(_exchange_views(exchange))
+	return events
+
+
+func _exchange_item(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
+	var uid: Variant = command.get("objet")
+	var quantity: Variant = command.get("quantite", 1)
+	if typeof(uid) != TYPE_STRING or typeof(quantity) != TYPE_INT or quantity < 0:
+		return _refused(command, Protocol.REASON_INVALID_COMMAND)
+	var inventory := p.character.inventory
+	if quantity > 0:
+		if not inventory.entries.has(uid) or data == null or not data.items.has(inventory.entries[uid]["objet"]):
+			return _refused(command, Protocol.REASON_UNKNOWN_ITEM)
+		if not inventory.slot_of(uid).is_empty():
+			return _refused(command, Protocol.REASON_ITEM_WORN)
+		if _is_quest_item(p, uid):
+			return _refused(command, Protocol.REASON_QUEST_ITEM)
+		if quantity > int(inventory.entries[uid]["quantite"]):
+			return _refused(command, Protocol.REASON_INVALID_COMMAND)
+	if not p.exchange.set_item(p.id, uid, quantity, clock):
+		return _refused(command, Protocol.REASON_OFFER_FULL)
+	return _exchange_views(p.exchange)
+
+
+## Validation : l'échange se fait quand les deux ont validé ; impossible à ce moment-là (sac plein),
+## les validations tombent et les deux le voient.
+func _exchange_validate(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
+	var exchange := p.exchange
+	if exchange.wait_time(clock) > 0.0:
+		return _refused(command, Protocol.REASON_TOO_SOON)
+	exchange.validated[p.id] = true
+	if not exchange.both_validated():
+		return _exchange_views(exchange)
+	var pair: Array[PlayerState] = [players[exchange.players[0]], players[exchange.players[1]]]
+	if not exchange.conclude(_exchange_inventories(exchange), data.items):
+		exchange.validated[pair[0].id] = false
+		exchange.validated[pair[1].id] = false
+		return _exchange_views(exchange, "Échange impossible : un sac est plein, ou une offre a changé.")
+	var events: Array[Dictionary] = []
+	for member in pair:
+		member.exchange = null
+	_exchanges.append([pair[0].id, pair[1].id])
+	for member in pair:
+		var other: PlayerState = pair[1] if member == pair[0] else pair[0]
+		events.append(_exchange_closed(member, other, Exchange.CLOSED_DONE))
+		for event in _inventory_events(member):
+			event[Protocol.FIELD_FOR] = member.id
+			events.append(event)
+	return events
+
+
+## Échanges conclus depuis le dernier appel ([id, id] chacun), à sauvegarder ensemble ; la liste
+## est vidée.
+func take_exchanges() -> Array[Array]:
+	var done := _exchanges.duplicate()
+	_exchanges.clear()
+	return done
+
+
+func _exchange_inventories(exchange: Exchange) -> Dictionary:
+	var inventories := {}
+	for id in exchange.players:
+		inventories[id] = (players[id] as PlayerState).character.inventory
+	return inventories
+
+
+## EVT_EXCHANGE pour chacun des deux joueurs.
+func _exchange_views(exchange: Exchange, error := "") -> Array[Dictionary]:
+	var events: Array[Dictionary] = []
+	var inventories := _exchange_inventories(exchange)
+	for id in exchange.players:
+		var event := {"type": Protocol.EVT_EXCHANGE, Protocol.FIELD_FOR: id,
+			"nom": (players[exchange.other(id)] as PlayerState).character.display_name, "erreur": error}
+		event.merge(exchange.view(id, inventories, clock))
+		events.append(event)
+	return events
+
+
+func _exchange_closed(p: PlayerState, other: PlayerState, reason: String) -> Dictionary:
+	return {"type": Protocol.EVT_EXCHANGE_CLOSED, Protocol.FIELD_FOR: p.id, "nom": other.character.display_name,
+		"raison": reason}
+
+
+## Retire la proposition d'échange en attente du joueur (celui qui l'a reçue l'apprend).
+func _withdraw_request(p: PlayerState, events: Array[Dictionary]) -> void:
+	var asked: PlayerState = players.get(p.exchange_asked)
+	p.exchange_asked = ""
+	if asked != null:
+		events.append(_exchange_closed(asked, p, Exchange.CLOSED_CANCELLED))
+
+
+## Fin de l'échange du joueur (annulé, parti), et de sa proposition en attente (en partant, aussi
+## de celles qu'il a reçues) : rien ne bouge, les deux le voient.
+func _end_exchange(p: PlayerState, reason: String, events: Array[Dictionary]) -> void:
+	_withdraw_request(p, events)
+	if reason == Exchange.CLOSED_LEFT:
+		for asker: PlayerState in players.values():
+			if asker.exchange_asked == p.id:  # Proposition reçue d'un joueur : il apprend le départ.
+				asker.exchange_asked = ""
+				events.append(_exchange_closed(asker, p, reason))
+	var exchange := p.exchange
+	if exchange == null:
+		return
+	for id in exchange.players:
+		var member: PlayerState = players.get(id)
+		if member != null:
+			member.exchange = null
+			if member != p:
+				events.append(_exchange_closed(member, p, reason))
+	if players.has(p.id):
+		events.append(_exchange_closed(p, players.get(exchange.other(p.id), p), reason))
 
 
 # --- Groupes de joueurs ------------------------------------------------------------------------

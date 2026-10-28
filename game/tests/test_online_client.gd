@@ -516,7 +516,7 @@ func test_amis_et_signalement_entre_deux_clients() -> void:
 	assert_eq(asked, [sam], "clic droit sur le pseudo : son menu")
 	party_ui.on_author_clicked(sam)
 	var trade := party_ui._menu.get_item_index(6)
-	assert_true(trade >= 0 and party_ui._menu.is_item_disabled(trade), "échange proposé sur la même carte, pas encore actif (M4)")
+	assert_true(trade >= 0 and not party_ui._menu.is_item_disabled(trade), "échange proposé sur la même carte (M4)")
 
 	# Ignorer depuis le menu, puis signaler : la fenêtre du motif, puis l'accusé du serveur.
 	party_ui._on_player_clicked("j:sam", sam)
@@ -536,4 +536,56 @@ func test_amis_et_signalement_entre_deux_clients() -> void:
 	assert_eq(report["cible_nom"], sam)
 	assert_eq(report["motif"], Relations.REPORT_REASONS.keys()[0])
 	assert_eq(report["commentaire"], "Il insulte")
+	scene.queue_free()
+
+
+func test_echange_entre_deux_clients() -> void:
+	var scene := _scene()
+	var views := _two_clients(scene)
+	var frodon_view := views[0]
+	var sam_view := views[1]
+	var uis: Array[PartyUi] = []
+	var windows: Array[ExchangeWindow] = []
+	for view in views:
+		var ui := PartyUi.new()
+		scene.add_child(ui)
+		ui.setup(view)
+		uis.append(ui)
+		var window := ExchangeWindow.new()
+		scene.add_child(window)
+		window.setup(view)
+		windows.append(window)
+	var server := frodon_view.server
+	server.player(server.player_id).character.inventory.add(server.data.items.values()[0], 1)
+	var gift: String = server.player(server.player_id).character.inventory.entries.keys()[-1]
+	server.player(server.player_id).character.inventory.ecus = 70
+	var sam_ecus: int = server.player("j:sam").character.inventory.ecus
+	frodon_view.advance(0.1)
+	uis[0]._on_player_clicked("j:sam", sam_view.world.player_name)
+	uis[0]._on_menu_pressed(6)
+	_run_both(views)
+	assert_true(uis[1].is_asking_exchange(), "Sam reçoit la proposition")
+	uis[1]._answer_exchange(true)
+	_run_both(views)
+	assert_true(windows[0].is_open() and windows[1].is_open(), "la fenêtre s'ouvre chez les deux")
+	windows[0].offer(gift, 1)
+	_run_both(views)
+	windows[0]._ecus.value = 70
+	_run_both(views)
+	assert_eq(windows[1]._theirs_list.item_count, 1, "Sam voit l'objet proposé")
+	assert_eq(windows[1]._theirs_ecus.text, "70 brumes")
+	assert_true(windows[0]._validate_button.disabled, "pas de validation tout de suite")
+	for i in 8:
+		for view in views:
+			view.advance(0.25)
+	windows[0].validate()
+	_run_both(views)
+	assert_true(windows[1].status_text().contains("a validé"), windows[1].status_text())
+	windows[1].validate()
+	_run_both(views)
+	assert_false(windows[0].is_open() or windows[1].is_open(), "fermée chez les deux")
+	assert_true(sam_view.world.character.inventory.entries.size() > 0)
+	assert_eq(sam_view.world.character.inventory.ecus, sam_ecus + 70, "la copie de Sam est à jour")
+	assert_eq(frodon_view.world.character.inventory.ecus, 0)
+	assert_false(server.player(server.player_id).character.inventory.entries.has(gift))
 	scene.queue_free()

@@ -169,7 +169,8 @@ func apply_event(event: Dictionary) -> bool:
 		Protocol.EVT_RELATIONS:
 			relations = {"amis": event["amis"], "ignores": event["ignores"]}
 			return true
-		Protocol.EVT_PARTY_INVITE, Protocol.EVT_PARTY_DECLINED, Protocol.EVT_CHAT, Protocol.EVT_REPORTED:
+		Protocol.EVT_PARTY_INVITE, Protocol.EVT_PARTY_DECLINED, Protocol.EVT_CHAT, Protocol.EVT_REPORTED, \
+				Protocol.EVT_EXCHANGE_REQUEST, Protocol.EVT_EXCHANGE, Protocol.EVT_EXCHANGE_CLOSED:
 			return true
 		Protocol.EVT_GROUP_RELEASED:
 			var released: Dictionary = event["groupe"]

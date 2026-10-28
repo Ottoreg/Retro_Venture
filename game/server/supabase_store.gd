@@ -48,8 +48,23 @@ func save_report(report: Dictionary) -> bool:
 
 
 func save_character(account: String, pseudo: String, state: Dictionary) -> bool:
+	return await save_characters([{"compte": account, "pseudo": pseudo, "etat": state}] as Array[Dictionary])
+
+
+## Une seule requête pour toutes les lignes : PostgREST les écrit en une instruction, donc en une
+## transaction (tout ou rien), ce qu'il faut pour les deux personnages d'un échange.
+func save_characters(entries: Array[Dictionary]) -> bool:
+	var rows: Array = []
+	for entry in entries:
+		rows.append(_row(entry["compte"], entry["pseudo"], entry["etat"]))
+	var answer: Dictionary = await supabase.request(HTTPClient.METHOD_POST, "/rest/v1/personnages?on_conflict=compte", rows,
+		["Prefer: resolution=merge-duplicates,return=minimal"])
+	return answer["code"] in [200, 201, 204]
+
+
+func _row(account: String, pseudo: String, state: Dictionary) -> Dictionary:
 	var character: Dictionary = state.get("personnage", {})
-	var row := {
+	return {
 		"compte": account,
 		"pseudo": pseudo,
 		"race": str(character.get("race", "")),
@@ -59,6 +74,3 @@ func save_character(account: String, pseudo: String, state: Dictionary) -> bool:
 		"etat": state,
 		"maj": Time.get_datetime_string_from_system(true) + "Z",
 	}
-	var answer: Dictionary = await supabase.request(HTTPClient.METHOD_POST, "/rest/v1/personnages?on_conflict=compte", row,
-		["Prefer: resolution=merge-duplicates,return=minimal"])
-	return answer["code"] in [200, 201, 204]

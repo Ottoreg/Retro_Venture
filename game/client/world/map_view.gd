@@ -58,6 +58,12 @@ signal relations_changed(event: Dictionary)
 signal report_sent(event: Dictionary)
 ## Message de chat refusé par le serveur (trop vite, destinataire hors ligne) : à dire au joueur.
 signal chat_refused(event: Dictionary)
+## Échange entre joueurs (jalon M4) : proposition reçue (EVT_EXCHANGE_REQUEST), état de l'échange
+## (EVT_EXCHANGE), fin (EVT_EXCHANGE_CLOSED), commande refusée.
+signal exchange_requested(event: Dictionary)
+signal exchange_changed(event: Dictionary)
+signal exchange_closed(event: Dictionary)
+signal exchange_refused(event: Dictionary)
 signal player_clicked(player_id: String, player_name: String)
 ## Le joueur suivi a changé (`follow_id`).
 signal follow_changed
@@ -1181,6 +1187,16 @@ func _apply_world_change(event: Dictionary) -> void:
 			relations_changed.emit(event)
 		Protocol.EVT_REPORTED:
 			report_sent.emit(event)
+		Protocol.EVT_EXCHANGE_REQUEST:
+			exchange_requested.emit(event)
+		Protocol.EVT_EXCHANGE:
+			exchange_changed.emit(event)
+		Protocol.EVT_EXCHANGE_CLOSED:
+			exchange_closed.emit(event)
+		Protocol.EVT_INVENTORY:
+			inventory_changed.emit()  # Reçu d'un échange conclu par l'autre joueur.
+		Protocol.EVT_CHARACTER:
+			character_changed.emit()
 		Protocol.EVT_PARTY:
 			party_changed.emit()
 			if not follow_id.is_empty() and world.party_member(follow_id).is_empty():
@@ -1338,7 +1354,8 @@ func _apply(event: Dictionary) -> float:
 		combat_state_changed.emit()
 		return -1.0
 	if type in [Protocol.EVT_PARTY, Protocol.EVT_PARTY_INVITE, Protocol.EVT_PARTY_DECLINED, Protocol.EVT_CHAT,
-			Protocol.EVT_RELATIONS, Protocol.EVT_REPORTED]:
+			Protocol.EVT_RELATIONS, Protocol.EVT_REPORTED, Protocol.EVT_EXCHANGE_REQUEST, Protocol.EVT_EXCHANGE,
+			Protocol.EVT_EXCHANGE_CLOSED]:
 		_apply_world_change(event)  # Réponse à sa propre commande (invitation acceptée, message écrit…).
 		return 0.0
 	if type == Protocol.EVT_DIALOGUE:
@@ -1484,6 +1501,10 @@ func _apply(event: Dictionary) -> float:
 		if event["commande"] == Protocol.CMD_RELATIONS:
 			notice.emit("Votre liste est pleine (%d noms)." % Relations.MAX_ENTRIES if event["raison"] == Protocol.REASON_LIST_FULL
 				else "Pseudo invalide.")
+		if event["commande"] == Protocol.CMD_EXCHANGE:
+			exchange_refused.emit(event)
+		elif event["raison"] == Protocol.REASON_IN_EXCHANGE:
+			notice.emit("Terminez d'abord votre échange (ou annulez-le).")
 		if event["commande"] == Protocol.CMD_REPORT:
 			notice.emit("Vous avez déjà signalé ce joueur il y a peu." if event["raison"] == Protocol.REASON_ALREADY_REPORTED
 				else "Ce joueur est introuvable : signalement impossible.")

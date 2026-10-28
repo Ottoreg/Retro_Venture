@@ -26,6 +26,8 @@ var pause_menu: PauseMenu
 var party_ui: PartyUi
 ## Amis et ignorés (en ligne, touche F).
 var friends_window: FriendsWindow
+## Échange entre joueurs (en ligne, jalon M4).
+var exchange_window: ExchangeWindow
 ## Quêtes : proposition d'un PNJ, journal (Q), suivi dans la bande gauche.
 var quest_dialog: QuestDialog
 var quests_window: QuestsWindow
@@ -56,6 +58,8 @@ func _ready() -> void:
 	add_child(party_ui)
 	friends_window = FriendsWindow.new()
 	add_child(friends_window)
+	exchange_window = ExchangeWindow.new()
+	add_child(exchange_window)
 	if Session.online_connection != null and Session.online_connection.is_open():
 		_map_view.setup(Session.online_connection)  # En ligne : le monde tourne sur le serveur.
 	else:
@@ -83,6 +87,7 @@ func _ready() -> void:
 	_combat_hud.message_log.author_clicked.connect(party_ui.on_author_clicked)
 	party_ui.whisper_requested.connect(_combat_hud.message_log.whisper_to)
 	friends_window.setup(_map_view)
+	exchange_window.setup(_map_view)
 	friends_window.player_menu_requested.connect(party_ui.on_author_clicked)
 	_combat_hud.friends_pressed.connect(friends_window.toggle)
 	quests_window.setup(_map_view)
