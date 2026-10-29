@@ -192,7 +192,13 @@ Lots 0 (conception dans le GDD), 1 (personnage, poussé sur `main` à la demande
   mesure ses gains
 - [x] **Lot 3. Objets et monde** : fin des conditions de niveau des objets (le niveau devient un
   palier) ; panoplies 15 / 30 rééquilibrées ; lignes de Sagesse converties (objets, ressources,
-  montures, races Humain et Squelette) ; menace des monstres affichée ; zones et carte du monde
+  montures, races Humain et Squelette) ; menace des monstres affichée ; zones et carte du monde.
+  Demandes de l'auteur ajoutées : plafond 300 par caractéristique, plus de bonus de caractéristiques
+  de race ni d'équipement de départ ; Semi-homme et Lutin (Phase 3) : esquive des retraits PA/PM
+  et fuite (+10 % finaux) à la place de la prospection
+- [ ] Mécaniques à faire avant le Semi-homme et le Lutin (Phase 3) : esquive des retraits de PA/PM
+  et tacle / fuite (GDD § 7 ; les passifs de race en +10 % finaux)
+- [ ] Lot 4 : le passif des Humains (+10 % d'XP de métier) devient +10 % de réputation de métier
 - [ ] **Lot 4. Métiers** : récolte et recettes ouvertes ; réputation et maîtrise de métier (qualité,
   jamais d'échec) ; nouvelle activité par palier de réputation
 - [ ] **Lot 5. Quêtes et maîtres** : conditions et récompenses en réputation (scripts

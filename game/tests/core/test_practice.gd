@@ -86,11 +86,11 @@ func test_gains_d_un_combat() -> void:
 
 
 func test_pratique_d_une_caracteristique() -> void:
-	var character := Fixtures.character()
+	var character := Character.create("Testeur", "testeur", "test")
 	assert_eq(character.practice_stat("force", 0.6), 0, "une fraction se garde")
 	assert_eq(character.practice_stat("force", 0.6), 1, "et s'ajoute au gain suivant")
 	assert_almost_eq(character.practiced["force"], 0.2, 0.02)
-	character.earned["agilite"] = 50
+	character.earned["agilite"] = Character.STAT_CAP / 2
 	assert_eq(character.practice_stat("agilite", 4.0), 2, "à mi-plafond, deux fois plus lent")
 	character.earned["intelligence"] = Character.STAT_CAP
 	assert_eq(character.practice_stat("intelligence", 10.0), 0, "rien au plafond")

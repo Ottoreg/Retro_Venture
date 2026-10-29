@@ -68,6 +68,8 @@ temps : chaque camp a sa propre histoire.
 
 ## Créer son personnage
 
+- On commence sans équipement, avec 20 brumes : armes et armures viennent du butin, des marchands
+  et des artisans. Une race ne donne pas de caractéristiques, seulement un passif et un sort.
 - Trois races, chacune avec sa zone de départ et son sort racial :
   - **Humain** (camp allié) : départ à **Brumerive** ; sort *Ralliement* ; passif +10 % d'XP de
     métier.

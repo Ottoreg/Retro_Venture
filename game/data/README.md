@@ -508,7 +508,8 @@ joueurs confondus. Chaque joueur tire la ligne à son tour, le plus prospecteur 
 obtient est retiré de ce qui reste (croc `[1, 2]` : si le premier joueur a eu 1 croc de ce loup, le
 suivant ne peut plus en avoir qu'un). Deux loups ont chacun leur propre limite.
 
-Dans chaque Voie : `equipement_depart` (liste d'objets donnés et équipés à la création).
+Une Voie n'a plus d'`equipement_depart` (refusé par la validation) : on commence sans équipement,
+avec 20 brumes (`GameData.STARTING_ECUS`).
 
 ## Races (`races/`)
 
@@ -518,16 +519,14 @@ Dans chaque Voie : `equipement_depart` (liste d'objets donnés et équipés à l
   "nom": "Elfe",
   "camp": "neutre",
   "description": "« Ce n'est pas notre guerre. »",
-  "bonus": {"agilite": 10, "intelligence": 10},
   "passif": {"nom": "Œil perçant", "description": "+1 portée…", "effets": [{"type": "portee", "valeur": 1}]},
   "sort": "elfe_pas_leger",
   "carte_depart": "brumerive_0_0"
 }
 ```
 
-`camp` : `allie`, `ennemi` ou `neutre`. `bonus` : points ajoutés aux caractéristiques (`vitalite`,
-`force`, `intelligence`, `perception`, `agilite` ; la Sagesse n'existe plus et la Chance s'appelle
-Perception depuis le 29/10/2026, GDD § 4.4). `passif.effets` est optionnel (liste de
+`camp` : `allie`, `ennemi` ou `neutre`. Une race ne donne plus de caractéristiques (`bonus` refusé
+par la validation depuis le 29/10/2026) : seulement son passif et son sort. `passif.effets` est optionnel (liste de
 `{type, valeur}`) ; types gérés : `portee` (portée des sorts à distance), `xp_metier` (% d'XP de
 métier), `prospection` (points de prospection) et `ecus` (% de brumes de fin de combat). `sort` : sort racial, ajouté aux sorts de la Voie.
 

@@ -389,8 +389,6 @@ func test_le_theologue() -> void:
 	var data := GameData.load_all()
 	assert_true(data.voies.has("theologue"), "Voie du Théologue")
 	var character := Character.create("Frère Tuck-Tuck", "humain", "theologue")
-	data.give_starting_kit(character)
-	assert_eq(character.inventory.equipped_entry("arme")["objet"], "sceptre_de_novice", "sceptre de départ")
 	var fighter := data.create_character_fighter(character, "joueur")
 	var ids: Array[String] = []
 	for spell in fighter.spells:

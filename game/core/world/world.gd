@@ -2590,19 +2590,15 @@ func _inventory_event(p: PlayerState) -> Dictionary:
 
 
 ## Rend une autre classe active (hors combat : les commandes d'exploration ne passent pas en
-## combat). Une classe commencée pour la première fois donne son équipement de départ, dans le sac.
+## combat). Une classe commencée pour la première fois part de zéro (réputation, maîtrises).
 func _switch_class(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
 	var class_id: Variant = command.get("voie")
 	if not _is_player_command(p, command) or typeof(class_id) != TYPE_STRING or data == null or not data.voies.has(class_id):
 		return _refused(command, Protocol.REASON_INVALID_COMMAND)
-	var first_time: bool = not p.character.classes.has(class_id)
 	var reason := p.character.switch_class(class_id)
 	if not reason.is_empty():
 		return _refused(command, reason)
 	var events: Array[Dictionary] = [{"type": Protocol.EVT_CLASS_SWITCHED, "entite": p.id, "voie": class_id}]
-	if first_time:
-		data.give_class_kit(p.character, class_id)
-		events.append({"type": Protocol.EVT_INVENTORY, "inventaire": p.character.inventory_sheet(data)})
 	events.append(_character_event(p))
 	return events
 

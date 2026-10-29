@@ -382,6 +382,9 @@ func test_regarder_le_combat_d_un_autre_joueur() -> void:
 func test_inventaire_consultable_en_combat() -> void:
 	var scene := _scene()
 	var view: MapView = scene.get_node("MapView")
+	var bag := view.server.character.inventory
+	bag.equip(bag.add(view.server.data.items["epee_de_fer"], 1, {}), "arme")
+	view.refresh_state()
 	var inventory: InventoryWindow = scene.get_node("InventoryWindow")
 	var group: Dictionary = view.world.groups()[0]
 	view._on_click(group["case"])

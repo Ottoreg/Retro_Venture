@@ -3,7 +3,6 @@
   "nom": "Elfe",
   "camp": "neutre",
   "description": "« Ce n'est pas notre guerre. » Ils le disent depuis trois siècles, avec une très belle diction.",
-  "bonus": {"agilite": 10, "intelligence": 10},
   "passif": {"nom": "Œil perçant", "description": "+1 portée sur les sorts à distance.", "effets": [{"type": "portee", "valeur": 1}]},
   "sort": "elfe_pas_leger",
   "carte_depart": "sylvebrume_0_0",

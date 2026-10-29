@@ -290,13 +290,8 @@ static func validate_race(data: Dictionary, known_spells: Dictionary) -> PackedS
 		errors.append("« nom » doit être un texte")
 	if data.get("camp") not in CAMPS:
 		errors.append("« camp » doit valoir %s" % str(CAMPS))
-	var bonus: Variant = data.get("bonus", {})
-	if typeof(bonus) != TYPE_DICTIONARY:
-		errors.append("« bonus » doit être un objet { caractéristique: valeur }")
-	else:
-		for stat_name: Variant in bonus:
-			if stat_name not in Character.STATS or not Spell._is_int_at_least(bonus[stat_name], 0):
-				errors.append("bonus invalide : %s (caractéristiques : %s)" % [str(stat_name), str(Character.STATS)])
+	if data.has("bonus"):
+		errors.append("« bonus » n'existe plus : une race ne donne pas de caractéristiques, seulement son passif et son sort")
 	var passive: Variant = data.get("passif", {})
 	if typeof(passive) != TYPE_DICTIONARY or typeof(passive.get("nom")) != TYPE_STRING:
 		errors.append("« passif » doit être un objet avec un « nom »")
@@ -478,13 +473,8 @@ static func _heals(effects: Array) -> bool:
 
 static func validate_voie(data: Dictionary, known_spells: Dictionary, known_items: Dictionary = {}) -> PackedStringArray:
 	var errors := _validate_common(data, known_spells)
-	var kit: Variant = data.get("equipement_depart", [])
-	if typeof(kit) != TYPE_ARRAY:
-		errors.append("« equipement_depart » doit être une liste d'objets")
-	else:
-		for item_id: Variant in kit:
-			if not known_items.has(item_id):
-				errors.append("équipement de départ inconnu : %s" % str(item_id))
+	if data.has("equipement_depart"):
+		errors.append("« equipement_depart » n'existe plus : on commence sans équipement")
 	var advanced: Variant = data.get("sorts_rang_2", {})
 	if typeof(advanced) != TYPE_DICTIONARY:
 		errors.append("« sorts_rang_2 » doit être un objet { id du sort : réputation qui le débloque }")
@@ -512,30 +502,10 @@ func class_spells(class_id: String, reputation_value: int) -> Array[String]:
 	return ids
 
 
-## Équipement de départ de la Voie (équipé) et quelques brumes, pour un personnage tout neuf.
+## Brumes de départ d'un personnage tout neuf (plus d'équipement de départ : demande de l'auteur
+## du 29/10/2026, tout vient du butin, des marchands et des artisans).
 func give_starting_kit(character: Character) -> void:
-	var rng := RandomNumberGenerator.new()
-	rng.seed = hash(character.display_name)
 	character.inventory.ecus += STARTING_ECUS
-	for item_id: String in voies.get(character.voie_id, {}).get("equipement_depart", []):
-		var template: Dictionary = items[item_id]
-		var uid := character.inventory.add(template, 1, Item.roll_bonuses(template, rng))
-		if not uid.is_empty() and Item.is_equipment(template):
-			var slots: Array = Item.SLOTS_BY_TYPE[template["type"]]
-			for slot: String in slots:
-				if not character.inventory.equipped.has(slot):
-					character.inventory.equip(uid, slot)
-					break
-
-
-## Équipement de départ d'une classe qu'on commence en cours de partie (`World._switch_class`) : dans
-## le sac, sans rien retirer de ce qu'on porte.
-func give_class_kit(character: Character, class_id: String) -> void:
-	var rng := RandomNumberGenerator.new()
-	rng.seed = hash(character.display_name + class_id)
-	for item_id: String in voies.get(class_id, {}).get("equipement_depart", []):
-		var template: Dictionary = items[item_id]
-		character.inventory.add(template, 1, Item.roll_bonuses(template, rng))
 
 
 ## Tranche de niveaux des monstres des groupes d'une carte (`monstres` ou `parmi`, variantes

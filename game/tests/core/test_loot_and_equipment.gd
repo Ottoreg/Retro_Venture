@@ -187,13 +187,15 @@ func test_kit_de_depart() -> void:
 	var hero := Fixtures.character()
 	data.give_starting_kit(hero)
 	assert_eq(hero.inventory.ecus, GameData.STARTING_ECUS)
-	assert_eq(hero.inventory.equipped_entry("arme")["objet"], "epee")
-	assert_eq(hero.inventory.equipped_entry("anneau_1")["objet"], "bague")
+	assert_true(hero.inventory.entries.is_empty(), "plus d'équipement de départ")
+	assert_true(GameData.validate_voie({"id": "v", "nom": "V", "caracteristiques": {"pv": 1, "pa": 6, "pm": 3},
+		"sorts": ["frappe"], "equipement_depart": ["epee"]}, data.spells, data.items).size() > 0, "« equipement_depart » refusé")
 
 
 func test_sauvegarde_avec_inventaire() -> void:
 	var world := _world()
 	world.data.give_starting_kit(world.character)
+	world.character.inventory.equip(world.character.inventory.add(world.data.items["epee"], 1, {}), "arme")
 	world.character.inventory.add(world.data.items["dent"], 7)
 	var save: Variant = JSON.parse_string(JSON.stringify(world.save_data()))
 	var loader := func(_id: String) -> GameMap: return world.map

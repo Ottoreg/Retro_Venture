@@ -97,8 +97,6 @@ static func source_text(title: String, total: int, sources: Dictionary, is_stat:
 	var panoply := int(sources.get("panoplie", 0))
 	if is_stat:
 		lines.append("Gagnés par la pratique : %d" % int(sources.get("points", 0)))
-		if int(sources.get("race", 0)) != 0:
-			lines.append("Race : %+d" % int(sources["race"]))
 	else:
 		lines.append("Base : %d" % (total - equipment - panoply))
 	if equipment != 0:

@@ -32,10 +32,10 @@ Prix de boutique : selon la rareté (revente à 25 %).
 
 | Nom | Niv. | Rareté | Bonus | Conditions | Attaque | Obtention | Description |
 |---|---|---|---|---|---|---|---|
-| **Arc de frêne** | 1 | Commun | Agilité 2–5 | — | 4 PA, portée 2–5, 1/tour : 5–8 Tempête | boutique 40 brumes<br>Forgeron niv. 1 (6 Bois de frêne, 1 Peau de loup)<br>équipement de départ : Rôdeur | Taillé dans une branche de frêne par quelqu'un qui avait vu un arc une fois. |
-| **Bâton de novice** | 1 | Commun | Intelligence 2–5 | — | 3 PA, portée 1–2, 1/tour : 4–7 Flamme | boutique 40 brumes<br>Forgeron niv. 1 (5 Bois de frêne, 1 Minerai de cuivre)<br>équipement de départ : Arcaniste | Un bâton. Les apprentis jurent qu'il est magique. Il est surtout en bois. |
-| **Sceptre de novice** | 1 | Commun | Intelligence 1–3, Force 1–3 | — | 3 PA, portée 1, 2/tour : 4–7 Sacré | boutique 40 brumes<br>équipement de départ : Théologue | Un bâton avec un soleil en laiton au bout. Le laiton a la foi, le bâton un peu moins. |
-| **Épée de fer** | 1 | Commun | Force 2–5 | — | 4 PA, portée 1, 1/tour : 7–11 Acier | boutique 40 brumes<br>Forgeron niv. 2 (4 Minerai de fer, 2 Bois de frêne)<br>équipement de départ : Guerrier | Une épée honnête. Ni légendaire, ni maudite, juste en fer. |
+| **Arc de frêne** | 1 | Commun | Agilité 2–5 | — | 4 PA, portée 2–5, 1/tour : 5–8 Tempête | boutique 40 brumes<br>Forgeron niv. 1 (6 Bois de frêne, 1 Peau de loup) | Taillé dans une branche de frêne par quelqu'un qui avait vu un arc une fois. |
+| **Bâton de novice** | 1 | Commun | Intelligence 2–5 | — | 3 PA, portée 1–2, 1/tour : 4–7 Flamme | boutique 40 brumes<br>Forgeron niv. 1 (5 Bois de frêne, 1 Minerai de cuivre) | Un bâton. Les apprentis jurent qu'il est magique. Il est surtout en bois. |
+| **Sceptre de novice** | 1 | Commun | Intelligence 1–3, Force 1–3 | — | 3 PA, portée 1, 2/tour : 4–7 Sacré | boutique 40 brumes | Un bâton avec un soleil en laiton au bout. Le laiton a la foi, le bâton un peu moins. |
+| **Épée de fer** | 1 | Commun | Force 2–5 | — | 4 PA, portée 1, 1/tour : 7–11 Acier | boutique 40 brumes<br>Forgeron niv. 2 (4 Minerai de fer, 2 Bois de frêne) | Une épée honnête. Ni légendaire, ni maudite, juste en fer. |
 | **Fronde réglementaire** | 3 | Rare | Agilité 4–8, Perception 2–5, Prospection 5–10 | — | 3 PA, portée 2–6, 2/tour : 4–7 Tempête | boutique 350 brumes<br>butin : Frondeur vétéran 12 %, Gobelin frondeur 3 % | Modèle officiel de l'armée du Souverain Cendré. Fournie sans cailloux. |
 | **Dague du Mauvais Œil** | 4 | Peu commun | Agilité 2–5, Perception 2–5 | — | 3 PA, portée 1, 2/tour : 5–8 Impie | boutique 120 brumes | L'œil sur la garde vous regarde. Il vous juge. Il a raison. |
 | **Masse bénite** | 4 | Peu commun | Force 2–5, Intelligence 2–5 | — | 4 PA, portée 1, 1/tour : 9–13 Sacré | boutique 120 brumes | Bénie trois fois par un prêtre de Hautepierre. Il a béni le manche, la tête et, par erreur, son pouce. |
@@ -181,7 +181,7 @@ Prix de boutique : selon la rareté (revente à 25 %).
 
 | Nom | Niv. | Rareté | Bonus | Conditions | Obtention | Description |
 |---|---|---|---|---|---|---|
-| **Anneau de cuivre** | 1 | Commun | Intelligence 1–3, Perception 1–3 | — | boutique 40 brumes<br>Forgeron niv. 1 (4 Minerai de cuivre)<br>équipement de départ : Arcaniste<br>équipement de départ : Théologue | Il verdit le doigt, mais il porte chance. |
+| **Anneau de cuivre** | 1 | Commun | Intelligence 1–3, Perception 1–3 | — | boutique 40 brumes<br>Forgeron niv. 1 (4 Minerai de cuivre) | Il verdit le doigt, mais il porte chance. |
 | **Anneau de l'Enfant de Chœur** *(Panoplie de l'Enfant de Chœur)* | 3 | Commun | Force 1–3, Intelligence 1–3, Vitalité 3–6 | — | boutique 40 brumes<br>butin : Abatteur en chef 13 %, Bûcheron de Brumerive 3 % | Immaculé, béni, repassé. On se demande comment il reste aussi propre en combat. |
 | **Anneau du Bonhomme de Neige** *(Panoplie du Bonhomme de Neige)* | 3 | Commun | Perception 3–6, Vitalité 3–6 | — | boutique 40 brumes<br>butin : Vampipistrelle comtesse 13 %, Vampipistrelle 3 % | Frais toute l'année. Ne pas porter près d'un feu de camp, ni d'un pyromane, même repenti. |
 | **Anneau du Courant d'Air** *(Panoplie du Courant d'Air)* | 3 | Commun | Agilité 3–6, Vitalité 3–6 | — | boutique 40 brumes<br>butin : Frondeur vétéran 6 %, Gobelin frondeur 2 % | On ne le voit pas arriver. On le sent passer, surtout dans le dos. |
@@ -218,7 +218,7 @@ Prix de boutique : selon la rareté (revente à 25 %).
 
 | Nom | Niv. | Rareté | Bonus | Conditions | Obtention | Description |
 |---|---|---|---|---|---|---|
-| **Ceinture de corde** | 1 | Commun | Vitalité 2–5 | — | boutique 40 brumes<br>Forgeron niv. 1 (2 Peau de loup, 1 Minerai de cuivre)<br>équipement de départ : Guerrier<br>équipement de départ : Rôdeur | Tient le pantalon. Mission accomplie. |
+| **Ceinture de corde** | 1 | Commun | Vitalité 2–5 | — | boutique 40 brumes<br>Forgeron niv. 1 (2 Peau de loup, 1 Minerai de cuivre) | Tient le pantalon. Mission accomplie. |
 | **Ceinture de carapace** | 3 | Peu commun | Vitalité 5–10, Force 2–4 | — | boutique 120 brumes<br>butin : Grouilleur ancestral 20 %, Grouilleur 5 % | Des anneaux de grouilleur enfilés sur une lanière. Ça craque à chaque pas. |
 | **Ceinture de l'Enfant de Chœur** *(Panoplie de l'Enfant de Chœur)* | 3 | Commun | Force 2–4, Intelligence 2–4, Vitalité 5–10 | — | boutique 40 brumes<br>butin : Abatteur en chef 13 %, Bûcheron de Brumerive 3 % | Immaculé, béni, repassé. On se demande comment il reste aussi propre en combat. |
 | **Ceinture du Bonhomme de Neige** *(Panoplie du Bonhomme de Neige)* | 3 | Commun | Perception 4–7, Vitalité 5–10 | — | boutique 40 brumes<br>butin : Vampipistrelle comtesse 13 %, Vampipistrelle 3 % | Frais toute l'année. Ne pas porter près d'un feu de camp, ni d'un pyromane, même repenti. |
@@ -1182,7 +1182,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 
 ### Arcaniste
 
-Maître du feu et du givre. Lit beaucoup, court peu, explose parfois des choses par accident. PV 46, PA 6, PM 3, initiative 90. Départ : Bâton de novice, Anneau de cuivre.
+Maître du feu et du givre. Lit beaucoup, court peu, explose parfois des choses par accident. PV 46, PA 6, PM 3, initiative 90. Départ : .
 
 | Sort | Caractéristiques | Effets | Description |
 |---|---|---|---|
@@ -1200,7 +1200,7 @@ Sorts créés (*Fusion arcanique*, selon la combinaison des 3 états élémentai
 
 ### Guerrier
 
-Au contact, il encaisse et rend les coups. Réfléchit après, de préférence. PV 60, PA 6, PM 3, initiative 100. Départ : Épée de fer, Ceinture de corde.
+Au contact, il encaisse et rend les coups. Réfléchit après, de préférence. PV 60, PA 6, PM 3, initiative 100. Départ : .
 
 | Sort | Caractéristiques | Effets | Description |
 |---|---|---|---|
@@ -1212,7 +1212,7 @@ Au contact, il encaisse et rend les coups. Réfléchit après, de préférence. 
 
 ### Rôdeur
 
-Tire de loin, file entre les arbres et prétend toujours connaître un raccourci. PV 52, PA 6, PM 3, initiative 120. Départ : Arc de frêne, Ceinture de corde.
+Tire de loin, file entre les arbres et prétend toujours connaître un raccourci. PV 52, PA 6, PM 3, initiative 120. Départ : .
 
 | Sort | Caractéristiques | Effets | Description |
 |---|---|---|---|
@@ -1224,7 +1224,7 @@ Tire de loin, file entre les arbres et prétend toujours connaître un raccourci
 
 ### Théologue
 
-Soigneur sacré. Bénit les alliés, sermonne les ennemis, et cite des textes que personne n'a lus. PV 48, PA 6, PM 3, initiative 85. Départ : Sceptre de novice, Anneau de cuivre.
+Soigneur sacré. Bénit les alliés, sermonne les ennemis, et cite des textes que personne n'a lus. PV 48, PA 6, PM 3, initiative 85. Départ : .
 
 | Sort | Caractéristiques | Effets | Description |
 |---|---|---|---|

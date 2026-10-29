@@ -14,7 +14,7 @@ func test_paliers_de_reputation() -> void:
 
 
 func test_reputation_et_points_de_maitrise() -> void:
-	var hero := Fixtures.character()
+	var hero := _bare()
 	assert_eq(hero.reputation(), 0, "une classe commence à zéro")
 	assert_eq(hero.add_reputation(400).size(), 0)
 	assert_eq(hero.mastery_points(), 0)
@@ -28,7 +28,7 @@ func test_reputation_et_points_de_maitrise() -> void:
 
 
 func test_maitrise_des_sorts() -> void:
-	var hero := Fixtures.character()
+	var hero := _bare()
 	var spells := ["frappe", "tir"]
 	assert_eq(hero.raise_spell("frappe", spells), Protocol.REASON_NOT_ENOUGH_POINTS)
 	hero.add_reputation(3 * Character.REPUTATION_PER_MASTERY_POINT)
@@ -45,16 +45,23 @@ func test_maitrise_des_sorts() -> void:
 	assert_eq(hero.raise_spell("frappe", spells), Protocol.REASON_INVALID_COMMAND, "rang maximal")
 
 
+## Personnage de test sans caractéristiques gagnées.
+func _bare() -> Character:
+	return Character.create("Testeur", "testeur", "test")
+
+
 func test_caracteristiques_gagnees_et_plafonnees() -> void:
-	var hero := Fixtures.character()
+	var hero := _bare()
 	assert_eq(hero.gain_stat("force", 30), 30)
-	assert_eq(hero.gain_stat("force", 200), Character.STAT_CAP - 30, "plafond")
+	assert_eq(hero.gain_stat("force", 400), Character.STAT_CAP - 30, "plafond")
+	assert_eq(Character.STAT_CAP, 300, "300 par caractéristique (décision de l'auteur)")
 	assert_eq(hero.gain_stat("force", 5), 0)
-	assert_eq(hero.gain_stat("vitalite", 250), 250, "la Vitalité monte plus haut")
+	assert_eq(hero.gain_stat("vitalite", 400), Character.VITALITY_CAP, "la Vitalité au même plafond")
+	assert_eq(Character.VITALITY_CAP, Character.STAT_CAP)
 	assert_eq(hero.gain_stat("sagesse", 5), 0, "Sagesse supprimée")
 	assert_eq(hero.gain_stat("force", -3), 0)
 	var data := Fixtures.data()
-	assert_eq(hero.stat("force", data), Character.STAT_CAP + 50, "points gagnés + bonus de race au-dessus du plafond")
+	assert_eq(hero.stat("force", data), Character.STAT_CAP, "pas de bonus de race")
 	assert_eq(hero.stat("force"), Character.STAT_CAP, "sans données : points gagnés seulement")
 
 
@@ -88,7 +95,7 @@ func test_noms() -> void:
 
 func test_fiche_et_pv() -> void:
 	var data := Fixtures.data()
-	var hero := Fixtures.character()
+	var hero := _bare()
 	hero.add_reputation(1500)
 	hero.gain_stat("vitalite", 20)
 	var sheet := hero.sheet(data)
@@ -98,13 +105,13 @@ func test_fiche_et_pv() -> void:
 	assert_eq(sheet["points_maitrise"], 3)
 	assert_eq(sheet["voie_nom"], "Test")
 	assert_eq(sheet["race_nom"], "Testeur")
-	assert_eq(sheet["caracteristiques"]["vitalite"], 27)
+	assert_eq(sheet["caracteristiques"]["vitalite"], 20, "pas de bonus de race")
 	assert_eq(sheet["gagnes"]["vitalite"], 20)
-	assert_eq(sheet["pv_max"], 50 + 27, "PV de la Voie + Vitalité, plus de PV par niveau")
+	assert_eq(sheet["pv_max"], 50 + 20, "PV de la Voie + Vitalité, plus de PV par niveau")
 
 
 func test_sauvegarde_du_personnage() -> void:
-	var hero := Fixtures.character()
+	var hero := _bare()
 	hero.add_reputation(3000)
 	hero.raise_spell("frappe", ["frappe"])
 	hero.gain_stat("agilite", 4)
@@ -127,7 +134,7 @@ func test_sauvegarde_d_avant_la_refonte() -> void:
 
 
 func test_pierres_et_cartes_sauvegardees() -> void:
-	var hero := Fixtures.character()
+	var hero := _bare()
 	assert_true(hero.discover_passage("brumerive"))
 	assert_false(hero.discover_passage("brumerive"), "déjà découverte")
 	hero.respawn_passage = "brumerive"
@@ -155,7 +162,7 @@ func test_pierres_et_cartes_sauvegardees() -> void:
 func test_combattant_du_personnage() -> void:
 	var data := Fixtures.data()
 	var fighter := data.create_character_fighter(Fixtures.character(), Fixtures.PLAYER)
-	assert_eq(fighter.max_hp, 57)
+	assert_eq(fighter.max_hp, 57, "PV de la Voie + Vitalité gagnée")
 	assert_eq(fighter.stat("force"), 50)
 	assert_eq(fighter.range_bonus, 1)
 	assert_true(fighter.get_spell("bond") != null, "sort racial ajouté")
@@ -166,7 +173,7 @@ func test_combattant_du_personnage() -> void:
 
 func test_initiative_et_prospection_dans_la_fiche() -> void:
 	var data := Fixtures.data()
-	var character := Fixtures.character()
+	var character := _bare()
 	character.gain_stat("agilite", 3)
 	character.gain_stat("perception", 2)
 	var sheet := character.sheet(data)
@@ -178,11 +185,11 @@ func test_initiative_et_prospection_dans_la_fiche() -> void:
 
 func test_provenance_des_caracteristiques() -> void:
 	var data := Fixtures.data()
-	var character := Fixtures.character()
+	var character := _bare()
 	character.gain_stat("force", 2)
 	var sources := character.stat_sources("force", data)
 	assert_eq(sources["points"], 2)
-	assert_eq(sources["points"] + sources["race"] + sources["equipement"] + sources["panoplie"], character.stat("force", data),
+	assert_eq(sources["points"] + sources["equipement"] + sources["panoplie"], character.stat("force", data),
 		"la provenance fait le total")
 	var objects_total := 0
 	for item: Array in sources["objets"]:

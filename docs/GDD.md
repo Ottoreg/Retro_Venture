@@ -264,20 +264,26 @@ combinaisons « optimales ».
 **Les 9 races du jeu** (validées) : trois par camp (voir § 3.4). Une par camp dès l'alpha, les six
 autres (Nains, Orcs, Semi-hommes, Géants, Squelettes, Lutins) en Phase 3.
 
-| Race | Camp | Bonus | Passif | Sort racial | Phase |
-|---|---|---|---|---|---|
-| **Humain** | Allié | +Vitalité, +Force (+Sagesse avant la refonte) | *Polyvalence* : +10 % d'XP de métier | *Ralliement* : +2 PA ce tour (sur soi en solo ; sur un allié en multi) | Alpha |
-| **Gobelin** | Ennemi | +Agilité, +Perception | *Chapardeur* : +20 prospection et +20 % de brumes en fin de combat | *Coup bas* : dégâts Tempête au contact et −1 PM au prochain tour de la cible | Alpha |
-| **Elfe** | Neutre | +Agilité, +Intelligence | *Œil perçant* : +1 portée sur les sorts à distance | *Pas léger* : téléportation jusqu'à 3 cases | Alpha |
-| **Nain** | Allié | +Force, +Vitalité | *Peau de pierre* : +5 % de résistances | *Fureur des profondeurs* : bonus de dégâts quand PV < 50 % | Phase 3 |
-| **Orc** | Ennemi | +Force, +Vitalité | *Peau épaisse* : réduction des dégâts de mêlée | *Cri de guerre* : bonus de dégâts aux alliés proches | Phase 3 |
-| **Semi-homme** | Neutre | +Perception, +Agilité | *Petit mais discret* : +prospection, esquive accrue | *Second petit-déjeuner* : se soigne, une fois par combat | Phase 3 |
-| **Géant** | Allié | +Force, +Vitalité | *Carrure* : +10 % de PV max | *Coup de semelle* : dégâts Acier au contact, repousse la cible de 2 cases | Phase 3 |
-| **Squelette** (mort-vivant) | Ennemi | +Intelligence, +Sagesse | *Déjà mort* : une fois par combat, survit à un coup fatal avec 1 PV | *Remonter les os* : se soigne de 15 % de ses PV (relance tous les 3 tours) | Phase 3 |
-| **Lutin** | Neutre | +Perception, +Agilité | *Farceur* : +prospection, esquive accrue | *Tour de passe-passe* : échange sa place avec une créature à 4 cases au plus | Phase 3 |
+| Race | Camp | Passif | Sort racial | Phase |
+|---|---|---|---|---|
+| **Humain** | Allié | *Polyvalence* : +10 % d'XP de métier | *Ralliement* : +2 PA ce tour (sur soi en solo ; sur un allié en multi) | Alpha |
+| **Gobelin** | Ennemi | *Chapardeur* : +20 prospection et +20 % de brumes en fin de combat | *Coup bas* : dégâts Tempête au contact et −1 PM au prochain tour de la cible | Alpha |
+| **Elfe** | Neutre | *Œil perçant* : +1 portée sur les sorts à distance | *Pas léger* : téléportation jusqu'à 3 cases | Alpha |
+| **Nain** | Allié | *Peau de pierre* : +5 % de résistances | *Fureur des profondeurs* : bonus de dégâts quand PV < 50 % | Phase 3 |
+| **Orc** | Ennemi | *Peau épaisse* : réduction des dégâts de mêlée | *Cri de guerre* : bonus de dégâts aux alliés proches | Phase 3 |
+| **Semi-homme** | Neutre | *Petit mais discret* : +10 % d'esquive aux retraits de PA et de PM, **finaux** (appliqués après tous les effets de sorts, d'équipement…) | *Second petit-déjeuner* : se soigne, une fois par combat | Phase 3 |
+| **Géant** | Allié | *Carrure* : +10 % de PV max | *Coup de semelle* : dégâts Acier au contact, repousse la cible de 2 cases | Phase 3 |
+| **Squelette** (mort-vivant) | Ennemi | *Déjà mort* : une fois par combat, survit à un coup fatal avec 1 PV | *Remonter les os* : se soigne de 15 % de ses PV (relance tous les 3 tours) | Phase 3 |
+| **Lutin** | Neutre | *Farceur* : +10 % de **fuite** finaux (pour quitter le contact d'un monstre sans se faire tacler) | *Tour de passe-passe* : échange sa place avec une créature à 4 cases au plus | Phase 3 |
 
-Les bonus, passifs et sorts sont des propositions, à équilibrer (certains se ressemblent, par exemple
-Nain et Orc, ou Semi-homme et Lutin : à différencier). Trois races par camp.
+**Plus de bonus de caractéristiques ni d'équipement de départ** (décision de l'auteur du 29/10/2026) :
+une race se distingue par son passif, qui touche l'expérience de jeu (butin, métiers, portée,
+esquive…) sans toucher aux caractéristiques de base, et par son sort racial ; on commence sans
+équipement, avec 20 brumes. Le Semi-homme et le Lutin n'ont plus de prospection (redondant avec le
+Gobelin) mais chacun une esquive : retraits de PA/PM pour le Semi-homme, fuite pour le Lutin. Ces
+deux esquives demandent les mécaniques de retrait esquivable et de tacle / fuite (§ 7, à venir).
+Les passifs et sorts restants sont des propositions, à équilibrer (Nain et Orc se ressemblent
+encore). Trois races par camp.
 
 Graphisme : les Géants sont dessinés plus grands (environ 1,25×) et les Lutins plus petits (environ
 0,8×), mais toutes les races occupent une seule case en combat. Les Squelettes ont leur propre
@@ -313,7 +319,8 @@ sexes × équipements × animations) impose de s'en tenir à ces 9.
 | **Théologue** | Soigneur sacré | Sacré (Force + Intelligence) | Soins, boucliers, dégâts sacrés modestes |
 
 Le **Théologue** est jouable dans l'alpha (✅) : une classe de soin rend le solo plus confortable et
-permet de tester le Sacré dès maintenant. Arme de départ : le Sceptre de novice (Sacré, 4 à 7). Ses
+permet de tester le Sacré dès maintenant. Son arme d'apprentissage : le Sceptre de novice (Sacré,
+4 à 7 ; plus d'équipement de départ depuis le 29/10/2026, il s'achète ou se trouve). Ses
 4 sorts sont tous Sacrés (ils grandissent avec la Force et l'Intelligence) :
 
 | Sort | PA | Portée | Effet |
@@ -569,8 +576,7 @@ pulsions temporelles différées.
 **Refonte du 29/10/2026 (alpha 2, § 4.5)** : la **Chance devient la Perception** (nom seulement :
 même rôle pour le Givre et l'Impie ; les données et le code de l'alpha 1 disent encore `chance`) et
 **ne donne plus de prospection** ; la **Sagesse est supprimée**. Ses lignes sur les objets, les
-ressources, les montures et les bonus de race (Humain, Squelette) seront converties au lot des
-objets ; la résistance au retrait de PA/PM qu'on lui prévoyait deviendra une statistique d'objet.
+ressources et les montures seront converties au lot des objets (les bonus de race n'existent plus) ; la résistance au retrait de PA/PM qu'on lui prévoyait deviendra une statistique d'objet.
 La prospection vient de sa base (100), de l'équipement, du passif de race et d'autres mécaniques à
 définir (Fétiches § 7.6, consommables). Les caractéristiques se gagnent par la pratique, avec un
 plafond (§ 4.5).
@@ -625,7 +631,7 @@ ajoutent 5 dégâts à chaque ligne de dégâts de n'importe quel sort ou arme, 
   vaincus avant une défaite.
 - Les bonus des objets équipés s'ajoutent aux caractéristiques (et à PA, PM, portée, initiative,
   prospection).
-- Les bonus de race s'ajoutent aux points investis (+10 dans deux caractéristiques par race).
+- Les races ne donnent plus de caractéristiques (29/10/2026) : seulement leur passif et leur sort.
 
 ### 4.5 Progression : réputation et maîtrises
 
@@ -702,7 +708,8 @@ difficulté**, qui compare la menace des monstres à la force du joueur, pour qu
   **Agilité** ; la **Sagesse est supprimée** (§ 4.4).
 - Elles montent **par la pratique** (tableau ci-dessus) et plus lentement à l'approche du
   **plafond** (piste : 100 points gagnés par caractéristique, Vitalité plus haut puisque 1 point =
-  1 PV ; à régler). Équipement, panoplies et bonus de race s'ajoutent au-dessus du plafond.
+  1 PV ; à régler). **Plafond fixé à 300 pour chaque caractéristique** (décision de l'auteur du
+29/10/2026) ; équipement et panoplies s'ajoutent au-dessus du plafond, les races ne donnent rien.
 - Elles appartiennent au **personnage**, pas à la classe : passer d'un Guerrier (Acier) à un Rôdeur
   (Acier / Tempête) garde la Force, il faut monter l'Agilité ; passer à un Arcaniste (Flamme / Givre)
   repart de zéro pour l'Intelligence et la Perception.
@@ -788,10 +795,13 @@ toujours leur réputation telle quelle (lot 5). **Sorts de rang II validés par 
 
 **Lot 3 fait (29/10/2026, sur `main`)** : objets sans conditions, niveau affiché comme **palier**
 dans les fenêtres (inventaire, boutique, infobulles, atelier), prix d'achat selon le palier (§ 9.2).
-Face aux plafonds, la pratique d'une caractéristique passe à 0,03 point par PA : un Compagnon
-(≈ 100 combats) a ≈ 50 points dans son élément, comme l'ancien niveau 13 ; un personnage au
-plafond (100) avec une panoplie de palier 30 (+200) reste proche de l'ancien niveau 30 (145 points +
-200), donc les bonus des panoplies 15 et 30 sont gardés. **Menace affichée** : la bulle d'un groupe
+La pratique d'une caractéristique passe à 0,03 point par PA : un Compagnon (≈ 100 combats) a
+≈ 50 points dans son élément, comme l'ancien niveau 13. **Demande de l'auteur intégrée au lot 3** :
+plafond de **300 par caractéristique** (Vitalité comprise), le reste venant de l'équipement ; plus
+de bonus de caractéristiques de race (les passifs et sorts raciaux restent) ni d'équipement de
+départ (20 brumes seulement ; `bonus` des races et `equipement_depart` des Voies refusés par la
+validation). Les bonus des panoplies 15 et 30 sont gardés (à revoir avec les retours : un
+personnage au plafond y gagne 300 + 200). **Menace affichée** : la bulle d'un groupe
 dit sa menace pour le personnage (« Menace : faible (gains × 0,5) » : négligeable sous ×0,2, faible
 sous ×0,75, à votre mesure sous ×1,25, redoutable au-delà ; `Progression.threat_name`,
 `MapView.threat_line`), et la carte du monde, au survol d'une carte visitée, la tranche de niveaux

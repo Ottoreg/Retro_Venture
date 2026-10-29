@@ -191,20 +191,21 @@ static func data(passages := []) -> GameData:
 		"caracteristiques": {"pv": 50, "pa": 6, "pm": 3, "initiative": 100},
 		"sorts": ["frappe", "piqure", "tir", "zone", "soin", "elan", "entrave", "sermon", "fatal", "rage", "boulet",
 			"venin", "repousse", "grappin", "cercle", "chausse_trape", "braise", "frimas", "composer", "creer", "charge", "absolution"],
-		"equipement_depart": ["epee", "bague"],
 	}]
 	var races := [{
 		"id": "testeur", "nom": "Testeur", "camp": "allie", "carte_depart": "test",
-		"bonus": {"force": 50, "vitalite": 7},
 		"passif": {"nom": "Vue perçante", "effets": [{"type": "portee", "valeur": 1}]},
 		"sort": "bond",
 	}]
 	return GameData.from_dicts(spells(), monsters, voies, races, items(), [], passages)
 
 
-## Personnage de test : race « testeur » (Force +50, Vitalité +7, portée +1, sort « bond »).
+## Personnage de test : race « testeur » (portée +1, sort « bond »), Force 50 et Vitalité 7 gagnées.
 static func character() -> Character:
-	return Character.create("Testeur", "testeur", "test")
+	var character := Character.create("Testeur", "testeur", "test")
+	character.gain_stat("force", 50)
+	character.gain_stat("vitalite", 7)
+	return character
 
 
 ## Combat avec le joueur en `player_cell` et des monstres [[id, case], …] (ids m0, m1…).

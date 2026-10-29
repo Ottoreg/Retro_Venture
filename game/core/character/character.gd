@@ -13,9 +13,9 @@ const STAT_NAMES := {
 }
 ## Caractéristiques qui s'ajoutent à l'initiative.
 const INITIATIVE_STATS := ["force", "intelligence", "perception", "agilite"]
-## Plafond des points gagnés par la pratique (hors race, équipement et panoplies ; pistes à
-## équilibrer, GDD § 4.5). La Vitalité monte plus haut : 1 point = 1 PV.
-const STAT_CAP := 100
+## Plafond des points gagnés par la pratique, le même pour chaque caractéristique (décision de
+## l'auteur du 29/10/2026, GDD § 4.5) ; le reste vient de l'équipement et des panoplies.
+const STAT_CAP := 300
 const VITALITY_CAP := 300
 ## Paliers de réputation d'une classe : [réputation minimale, nom] (pistes, GDD § 4.5).
 const REPUTATION_TIERS := [[0, "Inconnu"], [1000, "Apprenti"], [5000, "Compagnon"], [15000, "Vétéran"],
@@ -108,12 +108,10 @@ static func name_error(candidate: String) -> String:
 	return ""
 
 
-## Valeur totale d'une caractéristique : points gagnés + bonus de race + équipement.
+## Valeur totale d'une caractéristique : points gagnés + équipement (une race ne donne pas de
+## caractéristiques, seulement son passif et son sort).
 func stat(stat_name: String, data: GameData = null) -> int:
-	var total := int(earned.get(stat_name, 0)) + inventory.bonus(stat_name)
-	if data != null and data.races.has(race_id):
-		total += int(data.races[race_id].get("bonus", {}).get(stat_name, 0))
-	return total + set_bonus(stat_name, data)
+	return int(earned.get(stat_name, 0)) + inventory.bonus(stat_name) + set_bonus(stat_name, data)
 
 
 ## Bonus d'équipement hors caractéristiques : prospection, initiative, portee, pa, pm, dommages, critique
@@ -306,12 +304,9 @@ func visit_map(map_id: String) -> bool:
 	return true
 
 
-## Provenance d'une caractéristique ou d'un bonus d'équipement : { points, race, equipement,
+## Provenance d'une caractéristique ou d'un bonus d'équipement : { points, equipement,
 ## panoplie, objets: [[nom, valeur]…] } (seuls les objets portés qui donnent ce bonus).
 func stat_sources(stat_name: String, data: GameData = null) -> Dictionary:
-	var race_bonus := 0
-	if data != null and data.races.has(race_id):
-		race_bonus = int(data.races[race_id].get("bonus", {}).get(stat_name, 0))
 	var items: Array = []
 	for slot: String in Inventory.SLOTS:
 		var entry := inventory.equipped_entry(slot)
@@ -319,7 +314,7 @@ func stat_sources(stat_name: String, data: GameData = null) -> Dictionary:
 		if value != 0:
 			var template: Dictionary = data.items.get(entry["objet"], {}) if data != null else {}
 			items.append([template.get("nom", entry["objet"]), value])
-	return {"points": int(earned.get(stat_name, 0)), "race": race_bonus, "equipement": inventory.bonus(stat_name),
+	return {"points": int(earned.get(stat_name, 0)), "equipement": inventory.bonus(stat_name),
 		"panoplie": set_bonus(stat_name, data), "objets": items}
 
 

@@ -64,7 +64,6 @@ func _select_race(id: String) -> void:
 	var lines: PackedStringArray = [
 		str(race.get("description", "")),
 		"Camp : %s" % CAMP_NAMES.get(race.get("camp", ""), "?"),
-		"Bonus : %s" % _bonus_text(race.get("bonus", {})),
 	]
 	var passive: Dictionary = race.get("passif", {})
 	if not passive.is_empty():
@@ -110,13 +109,6 @@ func _refresh() -> void:
 		lines.append("• %s (%d PA, portée %s)" % [spell.display_name, spell.pa_cost, reach])
 	_summary.text = "\n".join(lines)
 	_error.text = ""
-
-
-func _bonus_text(bonus: Dictionary) -> String:
-	var parts := PackedStringArray()
-	for stat_name: String in bonus:
-		parts.append("%s +%d" % [Character.STAT_NAMES.get(stat_name, stat_name), int(bonus[stat_name])])
-	return ", ".join(parts) if not parts.is_empty() else "aucun"
 
 
 func _on_start_pressed() -> void:

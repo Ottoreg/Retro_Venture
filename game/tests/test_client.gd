@@ -40,7 +40,7 @@ func test_scene_du_monde_jusqu_au_combat_et_retour() -> void:
 	_run_until_idle(view)
 	assert_eq(view.mode, MapView.Mode.COMBAT, "mode combat")
 	assert_true(view.is_placement(), "phase de placement")
-	assert_eq(hud._spell_buttons.size(), 7, "attaque de l'épée de départ, 5 sorts du Guerrier, sort racial")
+	assert_eq(hud._spell_buttons.size(), 6, "5 sorts du Guerrier et le sort racial (plus d'arme de départ)")
 
 	view.request_start_fight()
 	_run_until_idle(view)
@@ -549,7 +549,10 @@ func test_boutique_du_marchand() -> void:
 	assert_true(trades[1].begins_with("[color=#e8b04a]Vente") and trades[1].contains("+%d brumes"
 		% (3 * Item.sell_price(view.server.data.items[resource["objet"]]))), trades[1])
 
-	# L'arme de départ est portée : elle ne se vend pas.
+	# Une arme portée ne se vend pas.
+	var weapon_uid := inventory.add(view.server.data.items["epee_de_fer"], 1, {})
+	inventory.equip(weapon_uid, "arme")
+	view.refresh_state()
 	var weapon := inventory.equipped_entry("arme")
 	shop._selected = weapon["uid"]
 	shop.refresh()
@@ -869,7 +872,7 @@ func test_barre_d_action_et_fenetre_des_sorts() -> void:
 	spells.show_spell(first)
 	assert_true(spells.is_open(), "fenêtre des sorts ouverte")
 	assert_eq(spells._selected, first)
-	assert_eq(spells._tabs.tab_count, 3, "Voie, race, arme")
+	assert_eq(spells._tabs.tab_count, 2, "Voie, race (pas d'arme portée)")
 	assert_eq(spells._title.text, world.data.spells[first].display_name)
 	var voie: Dictionary = world.data.voies[world.character.voie_id]
 	assert_eq(spells._list.item_count, voie["sorts"].size(), "tous les sorts de la Voie")
@@ -887,7 +890,7 @@ func test_barre_d_action_et_fenetre_des_sorts() -> void:
 	view._on_click(world.groups()[0]["case"])
 	_run_until_idle(view)
 	assert_true(hud._spells_box.visible and not hud._items_box.visible, "barre de sorts en combat")
-	assert_eq(hud._spell_buttons.size(), 7, "sorts du personnage dans la barre")
+	assert_eq(hud._spell_buttons.size(), 6, "sorts du personnage dans la barre")
 	for spell_id: String in hud._spell_buttons:
 		var slot: CombatHud.SpellSlot = hud._spell_buttons[spell_id]
 		assert_true(slot.icon != null, "icône du sort %s" % spell_id)
@@ -1677,7 +1680,11 @@ func test_clic_sur_la_grille_de_composition_ne_deplace_pas() -> void:
 	(grid.get_parent() as Container).notification(Container.NOTIFICATION_SORT_CHILDREN)
 	grid.notification(Container.NOTIFICATION_SORT_CHILDREN)
 	assert_true(first.size.x > 0.0, "grille mise en page")
-	var spot: Vector2 = to_screen.call(cells[0])
+	# Une case accessible dont le centre est bien à l'écran (la grille doit pouvoir la recouvrir).
+	var visible := hud.get_viewport().get_visible_rect().grow(-80.0)
+	var on_screen := cells.filter(func(cell: Vector2i) -> bool: return visible.has_point(to_screen.call(cell)))
+	assert_false(on_screen.is_empty(), "une case accessible à l'écran")
+	var spot: Vector2 = to_screen.call(on_screen[0])
 	panel.position += spot - first.get_global_rect().get_center()
 	assert_true(first.get_global_rect().has_point(spot), "la combinaison recouvre la case")
 	click.call(spot)
@@ -1689,7 +1696,7 @@ func test_clic_sur_la_grille_de_composition_ne_deplace_pas() -> void:
 	assert_eq(hero.pm, hero.max_pm, "aucun PM dépensé")
 	# Un clic à côté de la grille la referme, sans déplacer non plus.
 	hud._on_spell_pressed("arcaniste_composition")
-	var outside: Vector2 = to_screen.call(cells[-1])
+	var outside: Vector2 = to_screen.call(on_screen[-1])
 	assert_false(hud.composition_rect().has_point(outside), "case hors de la grille")
 	click.call(outside)
 	_run_until_idle(view)

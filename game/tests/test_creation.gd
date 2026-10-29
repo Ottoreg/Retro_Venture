@@ -41,8 +41,12 @@ func test_le_personnage_cree_arrive_dans_le_monde() -> void:
 	sheet.toggle()
 	assert_true(sheet.is_open(), "fiche ouverte")
 	assert_eq(sheet._title.text, "Grik")
+	# Plus d'équipement de départ : un arc porté pour la provenance.
+	var bow := view.server.character.inventory.add(view.server.data.items["arc_de_frene"], 1, {"agilite": 3})
+	view.server.character.inventory.equip(bow, "arme")
+	view.refresh_state()
 	var agility_before := view.server.character.stat("agilite", view.server.data)
-	assert_true(agility_before > 10, "10 de race + le bonus de l'arc de départ")
+	assert_eq(agility_before, 3, "pas de bonus de race, seulement l'arc")
 	view.server.character.gain_stat("agilite", 1)
 	view.server.character.add_reputation(1200)
 	view.refresh_state()
@@ -50,7 +54,7 @@ func test_le_personnage_cree_arrive_dans_le_monde() -> void:
 	assert_eq(sheet._stat_values["agilite"].text, str(agility_before + 1), "un point gagné de plus")
 	var tooltip: String = sheet._stat_values["agilite"].tooltip_text
 	assert_true(tooltip.contains("Gagnés par la pratique : 1"), tooltip)
-	assert_true(tooltip.contains("Arc de frêne"), "l'arc de départ dans la provenance : " + tooltip)
+	assert_true(tooltip.contains("Arc de frêne"), "l'arc dans la provenance : " + tooltip)
 	assert_eq(sheet._stat_caps["agilite"].text, "1 / %d" % Character.STAT_CAP)
 	assert_eq(sheet._points_label.text, "Points de maîtrise : 2")
 	assert_true(sheet._subtitle.text.begins_with("Apprenti"), sheet._subtitle.text)
@@ -82,8 +86,11 @@ func test_fenetre_d_inventaire() -> void:
 	var view: MapView = scene.get_node("MapView")
 	var window: InventoryWindow = scene.get_node("InventoryWindow")
 	var inventory := view.server.character.inventory
-	assert_eq(inventory.equipped_entry("arme")["objet"], "epee_de_fer", "épée de départ portée")
+	assert_true(inventory.entries.is_empty(), "plus d'équipement de départ")
 	assert_eq(inventory.ecus, GameData.STARTING_ECUS)
+	var epee: Dictionary = view.server.data.items["epee_de_fer"]
+	inventory.equip(inventory.add(epee, 1, Item.roll_bonuses(epee, RandomNumberGenerator.new())), "arme")
+	view.refresh_state()
 	window.toggle()
 	assert_true(window.is_open())
 	assert_eq(_bag_count(window), inventory.entries.size(), "chaque objet dans un onglet du sac")

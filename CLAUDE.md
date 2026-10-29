@@ -71,7 +71,8 @@ Phase 2 (alpha solo), en deux tests :
   protocole v8 ; gains par action en combat (`Progression`, `Combat.practice`, facteur de
   difficulté), rangs de maîtrise (`Spell.mastered`, champ `maitrise`), sorts de rang II
   (`sorts_rang_2`, Cri de guerre et Fendoir validés) ; objets sans conditions, prix selon le palier,
-  menace des monstres affichée (`MapView.threat_line`). Prochain : lot 4 (métiers).
+  menace des monstres affichée (`MapView.threat_line`) ; plafond 300 par caractéristique, plus de bonus
+  de caractéristiques de race ni d'équipement de départ (demande de l'auteur). Prochain : lot 4 (métiers).
 
 État des chantiers :
 
