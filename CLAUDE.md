@@ -62,8 +62,12 @@ Phase 2 (alpha solo), en deux tests :
 - **Alpha test 1 : les mécaniques.** Chantiers dans l'ordre : contenu du monde (3), puis
   interface (4) et quêtes (6) en derniers avant le lancement. XP de combat ×3,5
   (`Character.XP_RATE`) : tout le contenu en 4 à 5 h.
-- **Alpha test 2 : la progression.** Progression 1 → 30 (2 : sorts par niveau, modèle voie/rang,
-  rendement décroissant, XP ×1 soit ~15 h pour 1 → 30) et art et son (5).
+- **Alpha test 2 : la progression.** **Refonte décidée le 29/10/2026** (GDD § 4.5, lots dans la TODO) :
+  plus de niveaux de personnage, d'arme ni de métier ; réputation (débloque) et points de maîtrise
+  (à répartir dans les sorts ou compétences) par classe et par métier ; une classe active à la fois,
+  changée hors combat ; caractéristiques gagnées par la pratique et plafonnées ; Chance → Perception,
+  Sagesse supprimée ; équipement sans condition ; maîtrise de métier = qualité, jamais d'échec.
+  Plus art et son (5). L'alpha 1 garde les niveaux.
 
 État des chantiers :
 

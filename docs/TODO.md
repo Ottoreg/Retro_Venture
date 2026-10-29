@@ -97,8 +97,10 @@ en deux tests (décision de l'auteur) :
 - **Alpha test 1 — les mécaniques.** Tout le contenu du chantier 3, puis l'**interface** et les
   **quêtes** en derniers chantiers avant le lancement. XP de combat ×3,5 (`Character.XP_RATE`) :
   tout le contenu se finit en 4 à 5 h. Pas de test de la progression.
-- **Alpha test 2 — la progression.** Leveling réel (XP ×1, ~15 h pour les niveaux 1 à 30), sorts
-  par niveau et modèle voie/rang, équilibrage race × classe, **art et son**.
+- **Alpha test 2 — la progression.** **Refonte décidée le 29/10/2026** (GDD § 4.5) : plus de
+  niveaux (personnage, armes, métiers), progression par **réputation** et **maîtrises** de classe et
+  de métier, caractéristiques gagnées par la pratique et plafonnées ; sorts par rang et maîtrise,
+  équilibrage race × classe, **art et son**. Lots ci-dessous (« Refonte de la progression »).
 
 Les tâches marquées *(alpha 2)* sont reportées au second test.
 
@@ -161,10 +163,36 @@ Tout le contenu et les systèmes MVP de l'alpha 1 sont faits (chantiers 1, 3, 4 
 - [ ] Points de sort (avec le système des Voies)
 - [x] Vitesse d'XP de l'alpha 1 : XP de combat ×3,5 (`Character.XP_RATE`), tout le contenu en 4 à 5 h ;
   à remettre à 1.0 pour l'alpha 2
-- [ ] *(alpha 2)* Rendement décroissant des caractéristiques
+- [ ] ~~*(alpha 2)* Rendement décroissant des caractéristiques~~ (remplacé par les plafonds, GDD § 4.5)
 - [ ] **(MVP)** *(alpha 2)* Modèle de sort avec `voie` et `rang` (préparation du système des Voies) :
   sorti de l'alpha 1, qui teste les mécaniques et pas la progression
-- [ ] Restat (objet ou PNJ)
+- [ ] ~~Restat (objet ou PNJ)~~ (plus de remise à zéro avec la refonte, GDD § 4.5)
+
+### Refonte de la progression (alpha 2, GDD § 4.5, décisions du 29/10/2026)
+
+Rien n'est codé ; l'alpha test 1 garde les niveaux. Lot 0 (conception dans le GDD) fait le
+29/10/2026. Restent ouverts : valeur des plafonds de caractéristiques, autre source de prospection.
+
+- [ ] **Lot 1. Personnage** : réputations, maîtrises et caractéristiques par activité dans
+  `Character` (fin de `level`, `xp`, `XP_RATE`, points à répartir, PV par niveau) ; Chance renommée
+  Perception (script, sans toucher aux « chances » de butin) ; Sagesse supprimée ; prospection sans
+  Perception ; changement de classe hors combat ; sauvegarde (remise à zéro des personnages d'alpha)
+  et Supabase ; protocole v8
+- [ ] **Lot 2. Combat** : facteur de difficulté (menace des monstres contre force du joueur ou du
+  groupe) ; gains par sort à effet réel (selon les PA), par monstre vaincu et par coups reçus
+  (Vitalité) ; plafond par combat ; rangs de maîtrise des sorts (Voie pilote : Guerrier, GDD § 4.5) ;
+  sorts de rang II débloqués par réputation ; parts de groupe ; `tools/simulation.gd`
+- [ ] **Lot 3. Objets et monde** : fin des conditions de niveau des objets (le niveau devient un
+  palier) ; panoplies 15 / 30 rééquilibrées ; lignes de Sagesse converties (objets, ressources,
+  montures, races Humain et Squelette) ; menace des monstres affichée ; zones et carte du monde
+- [ ] **Lot 4. Métiers** : récolte et recettes ouvertes ; réputation et maîtrise de métier (qualité,
+  jamais d'échec) ; nouvelle activité par palier de réputation
+- [ ] **Lot 5. Quêtes et maîtres** : conditions et récompenses en réputation (scripts
+  `produire_lot*.py`) ; maîtres de classe et de métier ; changement de classe expliqué
+- [ ] **Lot 6. Interface et documents** : fiche, grimoire (maîtrises), métiers, artisanat,
+  infobulles, carte du monde ; catalogue, guide des testeurs, `game/data/README.md`
+- [ ] **Plus tard** : chefs-d'œuvre redéfinis par la maîtrise (GDD § 10.4) ; les cinq autres Voies
+  après la Voie pilote
 
 ### Combat
 - [x] **(MVP)** Éléments composés **Sacré** (Force + Intelligence ; résistance (Acier + Flamme) / 2 + Sacré)
@@ -510,7 +538,7 @@ Tout le contenu et les systèmes MVP de l'alpha 1 sont faits (chantiers 1, 3, 4 
 - [ ] *(alpha 2)* Bruitages : interface, pas, impacts, sorts
 
 ### Qualité
-- [ ] *(alpha 2)* Équilibrage des 9 combinaisons race × classe sur les niveaux 1 à 30
+- [ ] *(alpha 2)* Équilibrage des 9 combinaisons race × classe (avec la refonte : par paliers de réputation)
 - [ ] Session de test externe (5 joueurs minimum) + formulaire de retours (voir « Lancement de
   l'alpha test 1 »)
 - [x] Build distribuable : GitHub Pages (itch.io en accès privé plus tard, si besoin)

@@ -195,6 +195,10 @@ l'histoire.
 
 #### Paliers de niveau des zones de départ
 
+**Alpha 2 (§ 4.5)** : le personnage n'a plus de niveau ; ces paliers deviennent des **paliers de
+difficulté**, mesurés par le niveau des monstres, qui reste leur menace. Ils guident le joueur
+(affichés sur la carte du monde et dans la bulle des groupes) et règlent les gains de progression.
+
 - Chaque zone de départ couvre **toute la plage 1–12**, par paliers de 3 niveaux : **1–3, 4–6, 7–9,
   10–12**. Chaque palier a des monstres dans chaque zone : un personnage peut toujours progresser
   dans sa zone, quelle que soit sa race.
@@ -263,14 +267,14 @@ autres (Nains, Orcs, Semi-hommes, Géants, Squelettes, Lutins) en Phase 3.
 | Race | Camp | Bonus | Passif | Sort racial | Phase |
 |---|---|---|---|---|---|
 | **Humain** | Allié | +Vitalité, +Sagesse | *Polyvalence* : +10 % d'XP de métier | *Ralliement* : +2 PA ce tour (sur soi en solo ; sur un allié en multi) | Alpha |
-| **Gobelin** | Ennemi | +Agilité, +Chance | *Chapardeur* : +20 prospection et +20 % de brumes en fin de combat | *Coup bas* : dégâts Tempête au contact et −1 PM au prochain tour de la cible | Alpha |
+| **Gobelin** | Ennemi | +Agilité, +Perception | *Chapardeur* : +20 prospection et +20 % de brumes en fin de combat | *Coup bas* : dégâts Tempête au contact et −1 PM au prochain tour de la cible | Alpha |
 | **Elfe** | Neutre | +Agilité, +Intelligence | *Œil perçant* : +1 portée sur les sorts à distance | *Pas léger* : téléportation jusqu'à 3 cases | Alpha |
 | **Nain** | Allié | +Force, +Vitalité | *Peau de pierre* : +5 % de résistances | *Fureur des profondeurs* : bonus de dégâts quand PV < 50 % | Phase 3 |
 | **Orc** | Ennemi | +Force, +Vitalité | *Peau épaisse* : réduction des dégâts de mêlée | *Cri de guerre* : bonus de dégâts aux alliés proches | Phase 3 |
-| **Semi-homme** | Neutre | +Chance, +Agilité | *Petit mais discret* : +prospection, esquive accrue | *Second petit-déjeuner* : se soigne, une fois par combat | Phase 3 |
+| **Semi-homme** | Neutre | +Perception, +Agilité | *Petit mais discret* : +prospection, esquive accrue | *Second petit-déjeuner* : se soigne, une fois par combat | Phase 3 |
 | **Géant** | Allié | +Force, +Vitalité | *Carrure* : +10 % de PV max | *Coup de semelle* : dégâts Acier au contact, repousse la cible de 2 cases | Phase 3 |
 | **Squelette** (mort-vivant) | Ennemi | +Intelligence, +Sagesse | *Déjà mort* : une fois par combat, survit à un coup fatal avec 1 PV | *Remonter les os* : se soigne de 15 % de ses PV (relance tous les 3 tours) | Phase 3 |
-| **Lutin** | Neutre | +Chance, +Agilité | *Farceur* : +prospection, esquive accrue | *Tour de passe-passe* : échange sa place avec une créature à 4 cases au plus | Phase 3 |
+| **Lutin** | Neutre | +Perception, +Agilité | *Farceur* : +prospection, esquive accrue | *Tour de passe-passe* : échange sa place avec une créature à 4 cases au plus | Phase 3 |
 
 Les bonus, passifs et sorts sont des propositions, à équilibrer (certains se ressemblent, par exemple
 Nain et Orc, ou Semi-homme et Lutin : à différencier). Trois races par camp.
@@ -305,7 +309,7 @@ sexes × équipements × animations) impose de s'en tenir à ces 9.
 |---|---|---|---|
 | **Guerrier** | Mêlée, encaisse | Acier (Force) | Charges, coups de zone en mêlée, réduction de dégâts |
 | **Rôdeur** | Distance, mobilité | Acier / Tempête (Force / Agilité) | Arc, pièges, poussée, gestion de distance |
-| **Arcaniste** | Dégâts magiques, contrôle | Flamme / Givre (Intelligence / Chance) | États élémentaires et sorts créés selon leur combinaison : zones, ralentissements, bouclier |
+| **Arcaniste** | Dégâts magiques, contrôle | Flamme / Givre (Intelligence / Perception) | États élémentaires et sorts créés selon leur combinaison : zones, ralentissements, bouclier |
 | **Théologue** | Soigneur sacré | Sacré (Force + Intelligence) | Soins, boucliers, dégâts sacrés modestes |
 
 Le **Théologue** est jouable dans l'alpha (✅) : une classe de soin rend le solo plus confortable et
@@ -369,13 +373,13 @@ pas être retirés par *Absolution*. L'IA ne sait pas encore composer les états
 |---|---|---|---|---|
 | **Corps à corps** | **Guerrier** | Mêlée polyvalente | Acier (Force) | *(voir plus haut)* |
 | | **Paladin** | Guerrier sacré ou électrique : mêlée, soutien, distance | Sacré / Tempête (Force + Intelligence / Agilité) | Voie Sacrée : coups bénis, glyphes en aura qui le suivent et renforcent les alliés. Voie Tempête : sorts électrisants à distance, balises reliées par des arcs électriques |
-| | **Myrmidon** | Guerrier tank | Acier / Givre, chacun pur (Force / Chance), Vitalité | Bouclier, provocation (attire les coups), réduction de dégâts, poussée, garde un allié |
+| | **Myrmidon** | Guerrier tank | Acier / Givre, chacun pur (Force / Perception), Vitalité | Bouclier, provocation (attire les coups), réduction de dégâts, poussée, garde un allié |
 | **Mixte** | **Rôdeur** | Distance et mobilité | Acier / Flamme (Force / Intelligence) ; Acier / Tempête dans l'alpha | *(voir plus haut)* ; à terme, Voie Flamme tournée vers les pièges et les explosifs |
 | | **Ombre** | Assassin | Tempête / Acier (Agilité / Force) | Voie Tempête : mobilité, frappe et repli, clones de foudre qui explosent. Voie Acier : invisibilité, cumul de bonus et de malus, armes d'obscurité à retardement. Les deux : entrer dans l'ombre d'un combattant |
-| | **Chronomancien** | Maître du temps : contrôle, mi-distance | Impie / Givre pur (Agilité + Chance / Chance) | Voie Impie : glyphe Horloge, cible téléportée sur le cadran, un effet par heure. Voie Givre : retour à une position passée, envoi dans le futur, pulsions temporelles |
-| **Distance** | **Arcaniste** | Dégâts magiques, contrôle | Flamme / Givre (Intelligence / Chance) ; après la refonte, Flamme / Tempête / Givre (+ Agilité) | *(voir plus haut)* ; après la refonte : états élémentaires cumulés et sort créé selon leur combinaison |
+| | **Chronomancien** | Maître du temps : contrôle, mi-distance | Impie / Givre pur (Agilité + Perception / Perception) | Voie Impie : glyphe Horloge, cible téléportée sur le cadran, un effet par heure. Voie Givre : retour à une position passée, envoi dans le futur, pulsions temporelles |
+| **Distance** | **Arcaniste** | Dégâts magiques, contrôle | Flamme / Givre (Intelligence / Perception) ; après la refonte, Flamme / Tempête / Givre (+ Agilité) | *(voir plus haut)* ; après la refonte : états élémentaires cumulés et sort créé selon leur combinaison |
 | | **Théologue** *(dès l'alpha)* | Soigneur sacré | Sacré (Force + Intelligence) | Soins, boucliers, retrait des états, résurrection (multi), dégâts sacrés modestes |
-| | **Démoniste** | Dégâts impies ou ardents | Impie / Flamme (Agilité + Chance / Intelligence) | Voie Impie : armée de serviteurs invoqués (offensif, tank, soutien). Voie de Flamme : embrasement du terrain (niveaux 1 à 3 puis calciné), sorts qui varient selon l'embrasement |
+| | **Démoniste** | Dégâts impies ou ardents | Impie / Flamme (Agilité + Perception / Intelligence) | Voie Impie : armée de serviteurs invoqués (offensif, tank, soutien). Voie de Flamme : embrasement du terrain (niveaux 1 à 3 puis calciné), sorts qui varient selon l'embrasement |
 
 Le Sacré et l'Impie sont des éléments à part entière (voir § 4.4) : le Sacré s'appuie sur l'Acier et
 la Flamme, l'Impie sur la Tempête et le Givre.
@@ -396,7 +400,7 @@ la Flamme, l'Impie sur la Tempête et le Givre.
 | **Total** | **4** | **3** | **3** | **3** | **2** | **2** |
 
 Par caractéristique (le Sacré compte pour la Force et l'Intelligence, l'Impie pour l'Agilité et la
-Chance) : Force 6 classes, Intelligence 5, Chance 5, Agilité 5. L'Acier a une classe de plus, en
+Perception) : Force 6 classes, Intelligence 5, Perception 5, Agilité 5. L'Acier a une classe de plus, en
 accord avec ses 33 % chez les monstres (§ 8.1).
 
 Dans l'alpha 1 (4 classes) : Acier 2 (Guerrier, Rôdeur), Tempête 1 (la Flèche du Rôdeur), Flamme 1
@@ -532,7 +536,7 @@ voir plus haut ; la Tempête après)
   | Palier 4 | La fusion 1 + 1 + 1 : ABC | 10 |
 
   L'alpha 1 correspond au premier palier, avec Flamme et Givre imposés.
-- **Points de sort** (1 par niveau, § 4.5) : l'Arcaniste les place dans ses **éléments** (Flamme,
+- **Points de maîtrise** de l'Arcaniste (§ 4.5) : l'Arcaniste les place dans ses **éléments** (Flamme,
   Tempête, Givre). Le niveau d'un élément renforce son passif (+4 % de dégâts par état au départ,
   davantage ensuite) et les sorts créés qui contiennent cet élément, comme les trois orbes de
   l'Invoker. Chaque niveau reste un choix, et les éléments de départ peuvent rester les plus forts.
@@ -556,11 +560,20 @@ pulsions temporelles différées.
 | Carac. | Effet |
 |---|---|
 | **Vitalité** | Points de vie |
-| **Sagesse** | Bonus d'XP, résistance au retrait de PA/PM |
+| **Sagesse** | *Supprimée à l'alpha 2* (plus d'XP de niveau). Alpha 1 : bonus d'XP |
 | **Force** | Dégâts, soins et boucliers Acier (physique) |
 | **Intelligence** | Dégâts, soins et boucliers Flamme |
-| **Chance** | Dégâts, soins et boucliers Givre ; prospection |
+| **Perception** | Dégâts, soins et boucliers Givre (ancienne Chance, sans effet sur la prospection) |
 | **Agilité** | Dégâts, soins et boucliers Tempête ; esquive, initiative |
+
+**Refonte du 29/10/2026 (alpha 2, § 4.5)** : la **Chance devient la Perception** (nom seulement :
+même rôle pour le Givre et l'Impie ; les données et le code de l'alpha 1 disent encore `chance`) et
+**ne donne plus de prospection** ; la **Sagesse est supprimée**. Ses lignes sur les objets, les
+ressources, les montures et les bonus de race (Humain, Squelette) seront converties au lot des
+objets ; la résistance au retrait de PA/PM qu'on lui prévoyait deviendra une statistique d'objet.
+La prospection vient de sa base (100), de l'équipement, du passif de race et d'autres mécaniques à
+définir (Fétiches § 7.6, consommables). Les caractéristiques se gagnent par la pratique, avec un
+plafond (§ 4.5).
 
 **Les 6 éléments :** 4 éléments de base et 2 éléments composés, chacun appuyé sur deux éléments de
 base.
@@ -569,10 +582,10 @@ base.
 |---|---|---|
 | Acier | Force | Acier |
 | Flamme | Intelligence | Flamme |
-| Givre | Chance | Givre |
+| Givre | Perception | Givre |
 | Tempête | Agilité | Tempête |
 | **Sacré** | Force + Intelligence | (Acier + Flamme) / 2 + Sacré |
-| **Impie** | Agilité + Chance | (Tempête + Givre) / 2 + Impie |
+| **Impie** | Agilité + Perception | (Tempête + Givre) / 2 + Impie |
 
 **Règle :** chaque effet chiffré a un élément (dégâts, soins, boucliers, et plus tard poisons,
 pièges, invocations…) et grandit avec la caractéristique de cet élément, jamais avec une
@@ -605,38 +618,152 @@ ajoutent 5 dégâts à chaque ligne de dégâts de n'importe quel sort ou arme, 
   Sacré et l'Impie). Ni résistance ni Dommages ne s'y appliquent.
 - Bouclier : points qui absorbent les dégâts reçus avant les PV ; plusieurs boucliers s'additionnent ;
   ce qui reste disparaît au début du prochain tour du porteur.
-- PV max = PV de la Voie + 5 par niveau au-delà du 1er + Vitalité.
-- Initiative = initiative de la Voie + Force + Intelligence + Chance + Agilité (pas Vitalité ni Sagesse)
-  + bonus d'équipement. XP gagnée × (100 + Sagesse) %, y compris pour les monstres vaincus avant
-  une défaite.
+- PV max = PV de la Voie + 5 par niveau au-delà du 1er + Vitalité (alpha 2 : PV de la Voie +
+  Vitalité, § 4.5).
+- Initiative = initiative de la Voie + Force + Intelligence + Perception + Agilité (pas Vitalité ni Sagesse)
+  + bonus d'équipement. Alpha 1 : XP gagnée × (100 + Sagesse) %, y compris pour les monstres
+  vaincus avant une défaite.
 - Les bonus des objets équipés s'ajoutent aux caractéristiques (et à PA, PM, portée, initiative,
   prospection).
 - Les bonus de race s'ajoutent aux points investis (+10 dans deux caractéristiques par race).
 
-### 4.5 Progression
+### 4.5 Progression : réputation et maîtrises
 
-- **Niveau max :** 30 en alpha solo, 100 à terme.
-- **Par niveau :** 5 points de caractéristique à répartir, 1 point de sort.
-- **Rendement décroissant** (à décider) : au-delà de certains paliers, un point de caractéristique
-  coûte plus de points à répartir, comme dans Dofus. Exemple : 1 point de capital = 1 point de Force
-  jusqu'à 100 de Force, puis il faut 2 points de capital par point de Force jusqu'à 200, puis 3.
-  Seuls les points répartis sont concernés (pas l'équipement ni les panoplies). But : rendre
-  intéressant de monter une deuxième caractéristique au lieu de tout mettre dans une seule.
-- **Courbe d'XP** (en place) : passer du niveau n à n+1 coûte 60·n + 20·n² XP (80 pour le niveau 2,
-  200 de plus pour le 3, environ 8 400 au total pour le niveau 10). Cible de la vraie progression :
-  niveau 10 en environ 2 h, niveau 30 en environ 15 h.
-- **Vitesse d'XP de l'alpha 1** (en place) : l'XP de combat est multipliée par 3,5
-  (`Character.XP_RATE`), pour finir tout le contenu (1 → 30) en 4 à 5 h : l'alpha 1 teste les
-  mécaniques, pas la progression. On remettra ×1 pour l'alpha 2, qui testera le leveling.
-- **Restat :** à terme via un objet ou une quête, pour ne pas punir l'expérimentation. Pendant
-  l'alpha, bouton « Réinitialiser » gratuit sur la fiche (touche C) : tous les points investis
-  sont rendus, les objets portés le restent même si leurs conditions ne sont plus remplies.
+**Refonte décidée par l'auteur le 29/10/2026, cible de l'alpha test 2.** Il n'y a plus de niveau de
+personnage, ni de niveau d'arme, ni de niveau de métier. Un personnage se distingue par ses
+**maîtrises** et sa **réputation** dans chaque classe et chaque métier qu'il pratique, par ses
+caractéristiques et par son équipement. L'alpha test 1 garde l'ancien système (niveaux 1 à 30, décrit
+en fin de section) : il teste les mécaniques, pas la progression. Partout où ce document parle encore
+du niveau du personnage, d'un niveau requis ou d'un niveau de métier, il décrit l'alpha 1 ; le
+**niveau des monstres** reste, comme mesure de leur menace (§ 8.1). Les chiffres ci-dessous sont des
+**pistes à équilibrer** avec `tools/simulation.gd`, pas des règles fixées.
+
+#### Principes (décisions de l'auteur)
+
+- **Activités** : chaque classe et chaque métier est une activité, avec sa **réputation** et ses
+  **points de maîtrise**, propres à cette activité et conservés pour toujours.
+- **Réputation** : total cumulé de ce qu'on a accompli dans l'activité ; elle ne baisse jamais. Elle
+  **débloque** : sorts (rangs, § 5.1), compétences et recettes spéciales de métier, chef-d'œuvre
+  (§ 10.4), et l'accès à une nouvelle activité.
+- **Points de maîtrise** : gagnés en même temps que la réputation, ils se **répartissent** dans les
+  sorts de la classe (ou les compétences du métier) pour les faire monter. Un sort ne monte **pas**
+  parce qu'on le lance souvent : on peut jouer une spécialisation pour accumuler des points, puis les
+  placer dans d'autres sorts pour en commencer une nouvelle. Pas de remise à zéro des points placés,
+  donc pas de coût de nouvelle répartition : les points d'une classe restent acquis quand elle est
+  inactive, et chaque classe accumule les siens.
+- **Une seule classe active à la fois**, changée librement **hors combat**. Commencer une autre
+  classe, c'est repartir de zéro en réputation et en maîtrises dans cette classe ; seules les
+  **caractéristiques** suivent le personnage.
+- **Nouvelle activité** : un personnage commence avec sa classe ; un palier de réputation dans une
+  activité ouvre le droit d'en commencer une autre (autre classe ou métier). Les **maîtres de classe et
+  de métier** (PNJ des capitales) expliquent la réputation, les maîtrises et ce changement.
+- **Équipement sans condition** : toute arme et tout objet s'équipe dès le départ ; seule la
+  difficulté d'obtention (ressources rares, monstres difficiles, prix) les rend moins accessibles.
+  Recevoir du matériel de ses amis est accepté.
+- **Caractéristiques plafonnées** et gagnées par la pratique (plus bas). Un personnage ancien a toutes
+  ses caractéristiques au plafond et garde cet avantage sur un nouveau : c'est un choix assumé.
+
+#### Difficulté d'un combat : la pièce centrale
+
+Toutes les montées (réputation, maîtrise, caractéristiques) passent par un **facteur de
+difficulté**, qui compare la menace des monstres à la force du joueur, pour qu'on ne progresse pas en
+écrasant des monstres faciles :
+
+- **Menace** du combat : niveaux des monstres (le niveau d'un monstre reste sa mesure de puissance) ;
+  en groupe, comparée à la force de tout le groupe.
+- **Force** du joueur : tirée de sa réputation et de ses maîtrises dans la classe active (un « niveau
+  équivalent », interne au calcul, jamais affiché comme un niveau de personnage).
+- **Facteur** (piste) : monstre bien au-dessus de la force du joueur ×1,5 ; à sa mesure ×1 ; un peu
+  en dessous ×0,5 ; très en dessous ×0,1 (presque rien). Formule exacte au lot 2, par simulation.
+
+#### Ce qui fait progresser en combat
+
+| Action | Réputation de classe | Points de maîtrise | Caractéristiques |
+|---|---|---|---|
+| Sort qui a un **effet réel** : dégâts infligés à un ennemi, soins de PV réellement perdus, bouclier qui absorbe | principale source | oui (une part de la réputation) | la caractéristique de l'élément du sort (Sacré : Force et Intelligence par moitié ; Impie : Agilité et Perception par moitié) |
+| Sort utilitaire qui touche une cible (déplacement, bonus, malus) | oui, moins | oui | aucune (pas d'élément) |
+| Monstre vaincu | un peu (partagé par le groupe) | oui | aucune |
+| **Coups reçus** (PV réellement perdus) | non | non | **Vitalité** (endurance) |
+
+- Le gain d'un sort dépend des **PA dépensés** et du facteur de difficulté, pas des dégâts : un gros
+  équipement ne fait pas progresser plus vite.
+- Lancer un sort dans le vide, sur un allié à pleine vie ou sur un monstre très facile ne rapporte rien
+  ou presque. Les gains d'un même combat sont plafonnés (contre les combats sans fin).
+- En groupe, chacun gagne par ses propres actions ; le facteur de difficulté est celui du groupe.
+
+#### Caractéristiques
+
+- Cinq caractéristiques : **Vitalité, Force, Intelligence, Perception** (ancienne Chance) et
+  **Agilité** ; la **Sagesse est supprimée** (§ 4.4).
+- Elles montent **par la pratique** (tableau ci-dessus) et plus lentement à l'approche du
+  **plafond** (piste : 100 points gagnés par caractéristique, Vitalité plus haut puisque 1 point =
+  1 PV ; à régler). Équipement, panoplies et bonus de race s'ajoutent au-dessus du plafond.
+- Elles appartiennent au **personnage**, pas à la classe : passer d'un Guerrier (Acier) à un Rôdeur
+  (Acier / Tempête) garde la Force, il faut monter l'Agilité ; passer à un Arcaniste (Flamme / Givre)
+  repart de zéro pour l'Intelligence et la Perception.
+- Plus de points de caractéristique à répartir ni de bouton « Réinitialiser » : la fiche montre les
+  points gagnés et le plafond.
+- **PV max** = PV de la Voie + Vitalité (plus de PV par niveau).
+
+#### Réputation de classe : paliers (piste)
+
+| Palier | Réputation | Débloque |
+|---|---|---|
+| Inconnu | 0 | sorts de rang I (le kit actuel) |
+| Apprenti | 1 000 | premières compétences passives |
+| Compagnon | 5 000 | sorts de rang II ; droit de commencer une autre activité |
+| Vétéran | 15 000 | derniers sorts de rang II |
+| Maître | 40 000 | quête de Voie : rang III, Voie Miroir (§ 5.3) |
+| Légende | 100 000 | titre, apparence (prestige, pas de puissance) |
+
+Noms provisoires ; chaque camp pourra avoir les siens (« Délégué syndical » chez les gobelins). Le
+palier Compagnon vise la fin des zones de départ (≈ 4 à 5 h de jeu).
+
+#### Maîtrise des sorts
+
+- Chaque sort a **5 rangs de maîtrise** (0 au départ). Monter au rang n coûte n points (15 points
+  pour un sort au rang 5).
+- Chaque rang donne **+10 % aux valeurs de base** du sort (dégâts, soins, boucliers ; +50 % au
+  rang 5) ; les rangs **3 et 5** ajoutent un effet propre au sort (portée, relance, coût, effet en
+  plus). Voie pilote : le Guerrier (ci-dessous) ; les autres Voies suivront une fois le modèle
+  validé en jeu.
+- Nombre total de points d'une classe : non plafonné, mais assez lent pour qu'un personnage reste
+  longtemps spécialisé (à régler).
+
+| Sort du Guerrier | Base | Rang 3 | Rang 5 |
+|---|---|---|---|
+| Frappe | 3 PA, mêlée, 8–12 Acier, 2 par tour | +5 % de critique | retire 1 PM à la cible (1 tour) |
+| Lancer de hache | 4 PA, portée 2–5, 6–9 Acier | portée 2–6 | coûte 3 PA |
+| Tourbillon | 4 PA, autour de soi, 7–10 Acier | repousse d'une case | zone de taille 2 |
+| Second souffle | 2 PA, soin Acier 12–18, délai 3 | délai 2 | bouclier Acier égal à la moitié du soin |
+| Charge | 3 PA, portée 2–4, 6–9 Acier, délai 2 | portée 2–5 | délai 1 |
+
+#### Métiers
+
+Voir § 10.2 : pas de niveau de métier, réputation et maîtrise de métier sur le même modèle, la
+difficulté venant de la rareté des ressources.
+
+#### Ancien système (alpha test 1, en place)
+
+- Niveau max 30 ; par niveau, 5 points de caractéristique à répartir et 1 point de sort ; PV max +5
+  par niveau au-delà du 1er.
+- Courbe d'XP : passer du niveau n à n+1 coûte 60·n + 20·n² XP. L'XP de combat est multipliée par
+  3,5 (`Character.XP_RATE`) pour finir tout le contenu (1 → 30) en 4 à 5 h.
+- Bouton « Réinitialiser » gratuit sur la fiche (touche C) : tous les points investis sont rendus.
+- L'ancienne cible de l'alpha 2 (1 → 30 en ≈ 15 h, rendement décroissant des caractéristiques) est
+  remplacée par la refonte ci-dessus.
 
 ---
 
 ## 5. Système des Voies
 
-**Décision de l'auteur (25/10/2026) : un personnage = une seule classe.** On reste sur du classique :
+**Décision de l'auteur (29/10/2026, alpha 2) : une seule classe active à la fois**, changée
+librement hors combat ; chaque classe a sa réputation et ses maîtrises, conservées quand elle est
+inactive ; une nouvelle classe s'ouvre à un palier de réputation et repart de zéro, seules les
+caractéristiques suivent (§ 4.5). On n'apprend toujours pas les sorts d'une autre classe dans la
+classe active (§ 5.2 reste écartée).
+
+*Décision précédente, remplacée (25/10/2026) : un personnage = une seule classe.* On reste sur du classique :
 un personnage n'apprend que les sorts de sa Voie, jamais ceux des autres classes (pour le moment).
 La profondeur vient des rangs des sorts de sa Voie, de sa Voie Miroir (§ 5.3), des caractéristiques
 et de l'équipement.
@@ -644,13 +771,16 @@ et de l'équipement.
 ### 5.1 Règles
 
 1. Chaque sort appartient à une **Voie** et a un **rang** :
-   - **Rang I — Fondamentaux** : appris avec la Voie, en montant de niveau.
-   - **Rang II — Avancés** : plus puissants, débloqués plus tard dans la progression.
-   - **Rang III — Maîtrise** : débloqués par une quête de Voie.
-2. Le personnage est lié à sa Voie de départ ; il ne la change pas (seule la Voie Miroir, § 5.3,
-   change l'élément de ses sorts).
+   - **Rang I — Fondamentaux** : connus dès qu'on commence la Voie.
+   - **Rang II — Avancés** : plus puissants, débloqués par la réputation de classe (paliers
+     Compagnon et Vétéran, § 4.5).
+   - **Rang III — Maîtrise** : débloqués par une quête de Voie (palier Maître).
+   Le **rang** d'un sort (I à III) dit quand on l'obtient ; ses **rangs de maîtrise** (0 à 5, § 4.5)
+   disent combien de points de maîtrise on y a placés.
+2. Une seule Voie active à la fois, changée hors combat (§ 4.5) ; la Voie Miroir (§ 5.3) change
+   l'élément de ses sorts.
 3. **Barre de sorts limitée** (par ex. 12 emplacements actifs) : on choisit ce qu'on emporte au combat,
-   le nombre de sorts connus n'est pas limité.
+   le nombre de sorts connus n'est pas limité. Chaque classe garde sa propre barre.
 
 ### 5.2 Option écartée : apprendre les sorts des autres classes
 
@@ -835,7 +965,7 @@ vaut quelque chose ; pas de recherche profonde.
 
 ### 7.4 Effets durables, glyphes et pièges
 
-- **Bonus et malus** (`bonus`, `malus`) : changent une caractéristique (Force, Intelligence, Chance,
+- **Bonus et malus** (`bonus`, `malus`) : changent une caractéristique (Force, Intelligence, Perception,
   Agilité, PA, PM, portée, Dommages, % Critique, résistance à un élément) pendant `duree` tours de la
   cible ; un état perd un tour à la fin de chaque tour de celui qui le porte. Un bonus ou malus de PA
   ou de PM compte tout de suite (PM retirés pendant son tour : il marche moins loin).
@@ -866,7 +996,8 @@ gagner. C'est aussi un outil d'équilibrage pour les testeurs de l'alpha 2 (prog
   **Maître Esbroufe**, un illusionniste humain qui vend du rêve (« Ici, tout le monde est niveau
   100. Dehors, je ne garantis rien. »). Gratuit ; le joueur garde son personnage réel, intact, à la
   sortie.
-- **Choix du personnage fictif** (une fenêtre avant le combat, façon fiche C) :
+- **Choix du personnage fictif** (une fenêtre avant le combat, façon fiche C ; à l'alpha 2, réputation,
+  maîtrises et caractéristiques choisies remplacent le niveau, § 4.5) :
   - **niveau** de 1 au niveau max du jeu (30 pendant l'alpha, 100 à terme), pas seulement le sien ;
   - **caractéristiques** : les points qu'aurait un personnage de ce niveau, répartis librement
     (rendement décroissant compris, § 4.5), ou « comme mon personnage » mis à l'échelle ;
@@ -953,16 +1084,19 @@ tour ») : la difficulté vient uniquement des **monstres renforcés**.
 
 - Chaque monstre a : niveau (plage), caractéristiques, résistances, sorts, comportement IA, table de
   butin, XP et monnaie de base.
+- **Alpha 2 (§ 4.5)** : le niveau d'un monstre reste sa **mesure de menace** (ses stats en dépendent
+  toujours) ; il sert au facteur de difficulté des gains. Son XP devient la base de la réputation
+  qu'il rapporte une fois vaincu.
 - **Niveaux :** chaque zone de départ a des monstres à chaque palier de 3 niveaux (1–3, 4–6, 7–9,
   10–12), en nombre libre selon la zone (voir § 3.5, *Paliers de niveau des zones de départ*).
 - **Niveau d'un membre de famille** (fait) : tiré à l'apparition dans la tranche du palier, selon les
   poids de la famille (une famille faible tire surtout bas, une forte surtout haut ; élites et boss à
   niveau fixe). Tiré à nouveau à chaque réapparition, gardé dans la sauvegarde, montré dans la bulle
   du groupe (« Niv. 2 Rat des galeries ») et dans le cadre du combattant survolé.
-  - Le niveau change les **caractéristiques** (fait) : PV, initiative, Force, Intelligence, Chance,
+  - Le niveau change les **caractéristiques** (fait) : PV, initiative, Force, Intelligence, Perception,
     Agilité, résistances et XP gagnée, d'une valeur fixe par niveau au-dessus du niveau de base
     (`par_niveau` dans les données). Comme pour les joueurs, chaque point de Force, Intelligence,
-    Chance ou Agilité donne +1 % de dégâts de son élément.
+    Perception ou Agilité donne +1 % de dégâts de son élément.
   - Le niveau **ne change pas le butin** : même table, mêmes taux, mêmes quantités et mêmes brumes pour
     toute la famille, quel que soit le niveau.
   - **PA et PM identiques dans toute la famille**, sauf exception pour une famille dont la mécanique
@@ -1007,7 +1141,7 @@ tour ») : la difficulté vient uniquement des **monstres renforcés**.
 
 - Chaque monstre a une **table de butin** : objet, taux de base, quantité, et des brumes.
 - **Chance effective** = `taux_base × (prospection / 100)`, plafonnée à 100 %. Prospection = 100 +
-  Chance / 10 + bonus d'équipement + passif de race (Gobelin : +20).
+  Chance / 10 (alpha 1 ; plus à l'alpha 2, § 4.4) + bonus d'équipement + passif de race (Gobelin : +20).
 - **Pas de seuil de prospection** : un personnage seul peut obtenir tous les objets, comme un groupe.
   La prospection augmente seulement les chances.
 - **Limite par monstre et par joueur :** chaque ligne de la table donne au plus sa quantité maximale
@@ -1055,8 +1189,12 @@ tour ») : la difficulté vient uniquement des **monstres renforcés**.
 
 ### 9.2 Règles
 
-- Chaque objet a un **niveau requis**, éventuellement des **conditions** (caractéristique minimale,
-  Voie, quête accomplie).
+- **Alpha 2 (§ 4.5) : aucune condition pour équiper un objet** ; seule la difficulté d'obtention
+  compte. Le niveau d'un objet devient son **palier** (puissance indicative, prix, catalogue). Les
+  panoplies « niv. 15 » et « niv. 30 » deviennent des paliers 15 et 30, à rééquilibrer face aux
+  plafonds de caractéristiques.
+- Alpha 1 : chaque objet a un **niveau requis**, éventuellement des **conditions** (caractéristique
+  minimale, Voie, quête accomplie).
 - **Jets aléatoires :** les objets fabriqués ou ramassés ont des statistiques tirées dans une plage
   (par ex. Force 10–15).
 - **Armes :** une arme est un « sort » particulier (coût en PA, portée, zone, dégâts par élément).
@@ -1081,10 +1219,10 @@ un **bonus de panoplie** qui grandit avec le nombre de pièces équipées (à pa
 |---|---|---|
 | Panoplie du Forgeron Hargneux | Acier (Force) | 6 |
 | Panoplie du Pyromane Repenti | Flamme (Intelligence) | 6 |
-| Panoplie du Bonhomme de Neige | Givre (Chance) | 6 |
+| Panoplie du Bonhomme de Neige | Givre (Perception) | 6 |
 | Panoplie du Courant d'Air | Tempête (Agilité) | 6 |
 | Panoplie de l'Enfant de Chœur | Sacré (Force et Intelligence) | 6 |
-| Panoplie du Mauvais Œil | Impie (Agilité et Chance) | 6 |
+| Panoplie du Mauvais Œil | Impie (Agilité et Perception) | 6 |
 | Panoplie du Pressé | Initiative et Dommages | 3 |
 | Panoplie du Fouineur | Prospection | 3 |
 
@@ -1099,7 +1237,7 @@ un **bonus de panoplie** qui grandit avec le nombre de pièces équipées (à pa
   dans chacune pour le Sacré et l'Impie) : 2 pièces : +10 ; 3 : +20 et +2 Dommages ; 4 : +30,
   +4 Dommages, +20 Vitalité ; 5 : +40, +6 Dommages, +30 Vitalité ; 6 : +50, +8 Dommages,
   +40 Vitalité et +1 PA. Pressé : 2 pièces : +20 Initiative, +2 Dommages ; 3 : +50 Initiative,
-  +5 Dommages. Fouineur : 2 pièces : +20 Prospection ; 3 : +50 Prospection, +10 Chance.
+  +5 Dommages. Fouineur : 2 pièces : +20 Prospection ; 3 : +50 Prospection, +10 Perception.
 - Pièces de niveau 3, communes, vendues par les marchands (pour l'alpha test).
 
 **Panoplies élémentaires de niveau 15 et 30** : une panoplie par élément à chaque niveau, de
@@ -1112,10 +1250,10 @@ niveaux, les **bottes de niveau 30 donnent 1 PM**.
 |---|---|---|---|
 | Acier (Force) | Enclume Rancunière | Seigneur des Enclumes | Marteau |
 | Flamme (Intelligence) | Pyromane Récidiviste | Dragon Retraité | Sceptre |
-| Givre (Chance) | Yéti Frileux | Hiver Qui Vient | Bâton |
+| Givre (Perception) | Yéti Frileux | Hiver Qui Vient | Bâton |
 | Tempête (Agilité) | Coup de Vent | Tornade Mal Lunée | Arc |
 | Sacré (Force et Intelligence) | Bedeau Zélé | Inquisiteur Bienveillant | Masse |
-| Impie (Agilité et Chance) | Chat Noir | Porte-Malheur | Dague |
+| Impie (Agilité et Perception) | Chat Noir | Porte-Malheur | Dague |
 
 - **Bonus de niveau 15** (caractéristique, moitié dans chacune pour le Sacré et l'Impie) : 2 pièces :
   +15 ; 3 : +30, +3 Dommages ; 4 : +45, +6 Dommages, +30 Vitalité ; 5 : +60, +9 Dommages,
@@ -1142,6 +1280,29 @@ niveaux, les **bottes de niveau 30 donnent 1 PM**.
 | **Forgeron** | Artisanat | Armes et pièces d'armure à partir de bois, minerais et ressources de monstres |
 
 ### 10.2 Fonctionnement
+
+**Refonte du 29/10/2026 (alpha 2, § 4.5) : plus de niveau de métier.**
+
+- **Tout est ouvert dès le départ** : toutes les ressources se récoltent et toutes les recettes
+  classiques se fabriquent. Ce qui freine, c'est la **rareté ou la difficulté d'obtention** des
+  ressources (zones dangereuses, butin de monstres difficiles, versions rares) : un artisan commence
+  par des objets modestes, comparables aux objets de bas niveau d'avant, et monte en maîtrise jusqu'à
+  pouvoir exploiter les ressources rares. Aventuriers et artisans ont besoin les uns des autres.
+- **Réputation de métier** (cumulée, ne baisse jamais) : elle débloque des **compétences** (recettes
+  améliorées des ressources rares, produits intermédiaires, chef-d'œuvre § 10.4) et, à un palier,
+  le droit de commencer une autre activité.
+- **Maîtrise de métier** (points à répartir dans les compétences du métier) : elle améliore la
+  **qualité**, jamais la réussite. **Aucun échec de fabrication** ne détruit de ressources. Pistes :
+  jets tirés plus haut dans leur plage, chance d'un exemplaire en plus ; en récolte, récolte plus
+  rapide, quantité et chance de ressource rare en hausse.
+- **Gains** : fabriquer ou récolter rapporte réputation et maîtrise selon la **difficulté** de
+  l'objet ou de la ressource comparée à la maîtrise de l'artisan (même facteur que pour les combats,
+  § 4.5) : les objets faibles font progresser un débutant, presque plus un maître.
+- Les **maîtres de métier** des ateliers (§ 10.3) expliquent tout cela.
+- Le niveau des ressources et des recettes ci-dessous (et en § 10.3) devient leur **palier de
+  rareté**, indicatif, sans condition.
+
+**Alpha 1 (en place)** :
 
 - Chaque métier a son **niveau** (1 à 100) et son **XP** propres.
 - **Récolte :** clic sur la ressource → animation pendant un temps fixe → gain ; la ressource
@@ -1190,11 +1351,15 @@ Cordonnier, le **Maître des potions** l'Alchimiste, le **Boulanger** le Cuisini
 
 #### Règles communes
 
-- Niveaux 1 à 100, XP propre à chaque métier (formule du prototype, § 10.2), passif humain +10 %.
+- Alpha 2 : pas de niveau, réputation et maîtrise de métier (§ 10.2) ; passif humain : +10 % de
+  réputation et de maîtrise de métier. (Alpha 1 : niveaux 1 à 100, XP propre à chaque métier,
+  passif humain +10 %.) Les « niveaux » des ressources et des recettes de cette section sont leurs
+  paliers de rareté.
 - **Nombre de métiers** : tous connus pendant les tests ; à terme, **3 métiers de récolte et
   3 métiers d'artisanat** au plus par personnage (l'éleveur compte comme artisanat), pour que les
-  joueurs échangent entre eux en multijoueur. Une *potion d'oubli de métier* (Maître des potions)
-  permet d'en changer, en perdant son niveau.
+  joueurs échangent entre eux en multijoueur. Alpha 2 : plus de limite fixe ni de potion d'oubli ;
+  on commence un nouveau métier en atteignant un palier de réputation dans une activité déjà
+  commencée (§ 4.5), et l'on garde ses réputations.
 - **Paliers de ressources** : une nouvelle ressource aux niveaux **1, 3, 8, 15, 22** (déjà en place
   pour le bois et le minerai), puis **30, 40, 55, 70, 85, 100**, soit 11 ressources par métier de
   récolte. Les cinq premières se trouvent dans les zones de départ, les suivantes dans les régions à
@@ -1211,8 +1376,8 @@ Cordonnier, le **Maître des potions** l'Alchimiste, le **Boulanger** le Cuisini
 - **Ateliers** : chaque capitale de camp a les six ateliers, avec un maître PNJ par métier, dans le
   ton de son camp (forge humaine qui se croit légendaire, chaudron gobelin aux normes syndicales,
   atelier elfe « collection Automne Éternel »). Les villes secondaires n'en ont que deux ou trois.
-- **Recettes classiques** données par le jeu jusqu'au niveau 100, puis **Chef-d'œuvre** (§ 10.4) au
-  niveau 100 pour tous les métiers d'artisanat, Éleveur compris (sous une forme propre, plus bas).
+- **Recettes classiques** données par le jeu (toutes ouvertes à l'alpha 2), puis **Chef-d'œuvre**
+  (§ 10.4) débloqué par la réputation de métier pour tous les métiers d'artisanat, Éleveur compris (sous une forme propre, plus bas).
 - **Récolte sauvage et terrains instanciés** : les ressources de la carte restent la source normale
   (et la seule pour les semences de haut niveau) ; les terrains achetés (plus bas) servent à
   produire régulièrement ce qu'on a déjà trouvé.
@@ -1253,7 +1418,7 @@ Chaque céréale correspond à une ligne des pains du Boulanger (§ 10.4) ; les 
 | 15 | Seigle | durée en combats (Boulanger) |
 | 22 | Chanvre | cordes, licols (Costumier, Éleveur) |
 | 30 | Maïs flamboyant | Intelligence (Boulanger) |
-| 40 | Riz des marais | Chance (Boulanger) |
+| 40 | Riz des marais | Perception (Boulanger) |
 | 55 | Sarrasin | Agilité (Boulanger) |
 | 70 | Coton de brume | soie légère (Costumier) |
 | 85 | Orge noire | Sagesse (Boulanger) |
@@ -1269,7 +1434,7 @@ Chaque plante correspond à une ligne des potions du Maître des potions.
 | Niveau | Ressource | Usage principal (potions) |
 |---|---|---|
 | 1 | Ortie | soin (regain en combat ou hors combat, voir Maître des potions) |
-| 3 | Trèfle | Chance |
+| 3 | Trèfle | Perception |
 | 8 | Menthe poivrée | Agilité |
 | 15 | Sauge | Sagesse |
 | 22 | Piment des forges | Intelligence |
@@ -1417,8 +1582,9 @@ tableau plus haut), **fioles** (achetées aux marchands : un des puits à brumes
   critiques, **résistances par élément** (huiles de poisson, edelweiss). Un seul **élixir** actif à
   la fois, cumulable avec un repas du Boulanger : deux familles de bonus, pas plus.
 - **Utilitaires** : *potion de rappel* (retour à la dernière Pierre de Passage touchée), *potion
-  d'oubli* (réinitialise les caractéristiques : le restat « par un objet » de § 4.5), *potion
-  d'oubli de métier*, *potion de sagesse du métier* (+XP de métier pendant une heure).
+  d'application* (+réputation et maîtrise de métier pendant une heure). Les *potions d'oubli*
+  (caractéristiques, métier) disparaissent avec la refonte du § 4.5 : on ne réinitialise plus, on
+  gagne de nouveaux points.
 - **En combat** : pas pendant l'alpha (piste : une potion de soin par combat, 2 PA, depuis la barre
   de sorts) ; à décider quand les potions existeront.
 - **Chef-d'œuvre** : même principe que le Boulanger (score par effet, niveau = score / 5).
@@ -1433,10 +1599,10 @@ l'emplacement **Familier / monture** (§ 9.1).
 | Monstre (famille) | Zone | Niveau d'éleveur | Bonus de la monture (piste) |
 |---|---|---|---|
 | Loup des collines | Brumerive | 1 | Agilité, Force |
-| Cerf enchanté | Sylvebrume | 1 | Chance, Sagesse |
+| Cerf enchanté | Sylvebrume | 1 | Perception, Sagesse |
 | Grouilleur (mille-pattes) | Crasse-Roc | 1 | Vitalité, Intelligence (« on n'arrête pas de lui acheter des bottes ») |
 | Loup cendreux | Brumerive, Hautepierre | 20 | Agilité, résistance Flamme |
-| Grand cerf de la Lisière | Sylvebrume (élite) | 30 | Chance, PM hors combat |
+| Grand cerf de la Lisière | Sylvebrume (élite) | 30 | Perception, PM hors combat |
 | Olifant de guerre | Hautepierre | 60 | Vitalité, Force (énorme, lent à monter) |
 | Gargouille | Hautepierre | 80 | Intelligence, Initiative (piste : vol décoratif) |
 
@@ -1491,6 +1657,20 @@ Les artisans de haut niveau (métier d'artisanat proche du niveau 100, le maximu
 statistiques, dans des limites fixées par un **score**, et le coût de fabrication découle des
 statistiques choisies. Rien n'est codé ; toutes les valeurs ci-dessous sont des **pistes à équilibrer**.
 
+**Refonte du 29/10/2026 (alpha 2, § 4.5 et § 10.2) : à redéfinir avec la maîtrise** (demande de
+l'auteur ; proposition, non validée) :
+
+- La compétence **se débloque par la réputation de métier** (palier Maître) au lieu du niveau 100.
+- Le « niveau » d'un objet personnalisé devient son **palier** (1 à 100) : il ne sert plus de
+  condition pour l'équiper, seulement à fixer ses limites (barème plus bas, inchangé) et son coût.
+- **Palier maximal** qu'un artisan peut fabriquer = sa **maîtrise** dans la compétence Chef-d'œuvre
+  (par exemple 10 paliers par point placé, 100 au plus) : la maîtrise ouvre les objets les plus forts,
+  la rareté des ingrédients les rend chers.
+- Consommables : on garde le score (le pain fortifiant majeur vaut toujours **500**) ; « niveau du
+  consommable = score / 5 » devient « palier = score / 5 », avec le même plafond tiré de la maîtrise.
+- Partout plus bas, lire « palier » pour « niveau de l'objet » et « maîtrise » pour « niveau de
+  métier ».
+
 **Nom de la compétence** (à choisir) : **Chef-d'œuvre** (l'objet créé est « un chef-d'œuvre de
 Krogma » ; proposition retenue par défaut dans ce document), **Pièce de maître**, ou **Façonnage
 libre**. Côté parodie, l'objet peut porter la signature de son artisan (« fait main par… »).
@@ -1530,7 +1710,7 @@ rareté et sa puissance (§ 4.4) :
 
 | Statistique | Points par unité *(à équilibrer)* |
 |---|---|
-| Force, Intelligence, Chance, Agilité | 1 |
+| Force, Intelligence, Perception, Agilité | 1 |
 | Vitalité | 0,25 |
 | Sagesse | 3 |
 | Initiative | 0,1 |
@@ -1570,7 +1750,7 @@ PA et PM réservés aux objets de haut niveau, par exemple à partir du niveau 8
 
 - **Statistiques élémentaires** : chaque caractéristique demande des ressources de **son élément**,
   lâchées par les monstres de cet élément (§ 8.1, un élément dominant par zone) : Force → Acier,
-  Intelligence → Flamme, Chance → Givre, Agilité → Tempête ; une résistance demande des ressources de
+  Intelligence → Flamme, Perception → Givre, Agilité → Tempête ; une résistance demande des ressources de
   l'élément résisté (moitié-moitié pour le Sacré et l'Impie). Exemple : +100 Force et
   +100 Intelligence demandent des ressources d'Acier et de Flamme, à raison de **1 ressource par
   10 points** (« 1 roche en fusion par 10 points d'Intelligence »), soit 10 d'Acier et 10 de Flamme.
@@ -1629,9 +1809,13 @@ décrits au § 13.6.
 - **Types d'objectifs :** parler à un PNJ, vaincre N monstres d'un type, récolter ou apporter N objets,
   aller à un lieu, vaincre un groupe précis.
 - **Structure :** une quête = une suite d'**étapes**, chaque étape = un ou plusieurs **objectifs**.
-- **Récompenses :** XP, monnaie, objets, déblocage de quête suivante.
+- **Récompenses :** XP, monnaie, objets, déblocage de quête suivante. Alpha 2 (§ 4.5) : l'XP devient
+  de la **réputation** (classe active, ou métier pour une quête de métier) ; les combats de référence
+  restent l'unité.
 - **Journal de quêtes** consultable, objectif courant affiché, PNJ marqués d'une icône (`!` / `?`).
-- **Conditions d'accès :** niveau, quête précédente terminée, race ou Voie (optionnel).
+- **Conditions d'accès :** niveau, quête précédente terminée, race ou Voie (optionnel). Alpha 2 : le
+  niveau minimal devient un palier de réputation, ou disparaît quand la difficulté suffit ; nouvelles
+  quêtes et dialogues des **maîtres de classe et de métier**.
 - **Conditions de camp** : une quête peut être réservée à un camp (acte I), ou demander d'avoir
   atteint un acte de la quête principale.
 - Contenu cible de l'alpha : un tutoriel par camp, environ 15 quêtes secondaires (5 par zone de
@@ -2635,6 +2819,13 @@ Premier lot, demandé par l'auteur le 28/10/2026 : **l'échange sécurisé entre
 
 M0 à M2 forment la Phase 4 (fondations réseau) et M3 à M6 la Phase 5 (multi) du § 17.
 
+**Refonte de la progression (§ 4.5, alpha 2)** : elle ne change pas l'architecture. Elle change le
+format des personnages en base (réputations, maîtrises et caractéristiques par activité au lieu du
+niveau et de l'XP ; remise à zéro des personnages d'alpha acceptable), le protocole (nouveaux
+événements de gains, plus de niveau des joueurs et des membres de groupe), les parts de groupe
+(chacun gagne par ses actions) et oblige le serveur à compter les gains, avec les parades contre le
+farm, en faisant autorité.
+
 #### Décisions (validées par l'auteur le 26/10/2026)
 
 1. **Calendrier** : M0 pendant l'alpha test 1, M1 juste après, Phase 3 après M2.
@@ -2655,7 +2846,7 @@ M0 à M2 forment la Phase 4 (fondations réseau) et M3 à M6 la Phase 5 (multi) 
 |---|---|---|
 | **0. Pré-production** | Choix techniques, GDD validé, prototypes papier | Moteur choisi, structure du dépôt en place |
 | **1. Prototype** | Une carte, déplacement, un combat 1 contre 1 | Un combat jouable de bout en bout |
-| **2. Alpha solo** (court terme) | 3 races (une par camp), 4 classes (avec le Théologue), combat + butin, quêtes simples, 3 métiers, équipement, 3 zones de départ + Hautepierre | **Alpha test 1** (mécaniques) : tout le contenu, l'interface et les quêtes, XP ×3,5, 4 à 5 h pour tout finir. **Alpha test 2** (progression) : leveling réel (~15 h pour les niveaux 1 à 30), sorts par Voie et rang, art et son |
+| **2. Alpha solo** (court terme) | 3 races (une par camp), 4 classes (avec le Théologue), combat + butin, quêtes simples, 3 métiers, équipement, 3 zones de départ + Hautepierre | **Alpha test 1** (mécaniques) : tout le contenu, l'interface et les quêtes, XP ×3,5, 4 à 5 h pour tout finir. **Alpha test 2** (progression) : refonte sans niveaux, réputation et maîtrises (§ 4.5), sorts par Voie et rang, art et son |
 | **3. Solo étendu** (long terme) | 6 races de plus (Nains, Orcs, Semi-hommes, Géants, Squelettes, Lutins ; 9 au total), 5 classes de plus (Paladin, Myrmidon, Ombre, Chronomancien, Démoniste ; 9 au total), Voies, donjons, quêtes complexes, légendaires, scénario complet | Quête des Reliques jouable jusqu'au boss final |
 | **4. Fondations réseau** | Serveur autoritaire, comptes, une instance, synchronisation | Deux joueurs se voient et combattent ensemble |
 | **5. Multi** | Instances, groupe, amis, chat, échanges, hôtel des ventes, guildes | Bêta fermée |
