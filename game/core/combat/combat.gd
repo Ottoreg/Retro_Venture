@@ -948,7 +948,7 @@ static func clock_noon(from: Vector2i, center: Vector2i) -> Vector2i:
 
 
 ## Pose l'horloge de `effect` autour de `target` (qui en change si elle en avait une), orientée par la
-## direction du lancer depuis `from`, puis place aussitôt la cible à 12 h (sans effet d'heure).
+## direction du lancer depuis `from`, puis place aussitôt la cible à 12 h (avec l'effet de 12 h).
 func _place_clock(caster: Fighter, target: Fighter, effect: Dictionary, from: Vector2i, source: String,
 		events: Array[Dictionary]) -> void:
 	var old := clock_of(target)
@@ -970,7 +970,7 @@ func _place_clock(caster: Fighter, target: Fighter, effect: Dictionary, from: Ve
 		"cible": target.id})
 	_add_state(target, {"type": Spell.EFFECT_STATE, "etat": Spell.STATE_TIME_MANIPULATION, "valeur": 0,
 		"tours": int(effect["duree"]), "sort": source, "lanceur": caster.id, "retirable": false}, events)
-	_move_on_clock(target, _clock_arrival(target, glyph, 12, 1), false, events)
+	_move_on_clock(target, _clock_arrival(target, glyph, 12, 1), true, events)
 
 
 ## Case où un décalage de `hours` heures enverrait `target` sur son horloge (sa case s'il n'a pas

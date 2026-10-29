@@ -332,7 +332,7 @@ Chronomancien (Voie Impie) :
 - `horloge` : pose un cadran au sol autour de la cible (les 12 cases à 2 pas, sans les coins du carré
   5 × 5, `Combat.CLOCK_RING`) pendant `duree` tours du lanceur. 12 h est à 2 pas du centre dans la
   direction du lancer, puis les heures suivent le sens des aiguilles d'une montre vu à l'écran. La
-  cible est aussitôt envoyée à 12 h (sans son effet) et passe dans l'état `manipulation_temps` (non
+  cible est aussitôt envoyée à 12 h (avec son effet) et passe dans l'état `manipulation_temps` (non
   retirable), qui tombe avec l'horloge. Une seule horloge par cible : une
   nouvelle remplace l'ancienne. `heures` : de `"1"` à `"12"`, les effets appliqués à la cible quand un
   décalage l'amène sur cette heure (le poseur de l'horloge en est le lanceur) ; une liste vide ou une

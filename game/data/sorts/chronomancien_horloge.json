@@ -1,7 +1,7 @@
 {
   "id": "chronomancien_horloge",
   "nom": "Horloge",
-  "description": "Dessine un cadran géant autour d'un ennemi à exactement 3 cases en ligne, midi droit devant soi, et l'envoie aussitôt sur midi. La cible passe dans l'état Manipulation du temps ; les autres sorts la font tourner sur le cadran, et chaque heure a son petit désagrément. Les heures 3, 4 et 9 attendent encore leurs aiguilles.",
+  "description": "Dessine un cadran géant autour d'un ennemi à exactement 3 cases en ligne, midi droit devant soi, et l'envoie aussitôt sur midi, qui lui fait déjà son effet. La cible passe dans l'état Manipulation du temps ; les autres sorts la font tourner sur le cadran, et chaque heure a son petit désagrément. Les heures 3, 4 et 9 attendent encore leurs aiguilles.",
   "cout_pa": 3,
   "portee": {
     "min": 3,

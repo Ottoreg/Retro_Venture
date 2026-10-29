@@ -352,9 +352,10 @@ un **cadran** au sol autour de lui (les 12 cases à 2 pas, sans les coins du car
 **s'oriente selon le lanceur** : 12 h est dans la direction où il regarde en lançant (s'il regarde
 vers le sud-est, 12 h est au sud-est de la cible), puis les heures tournent dans le sens des aiguilles
 d'une montre vu à l'écran (`Combat.CLOCK_RING`, `clock_noon`) ; les chiffres sont écrits droits. La
-cible est **aussitôt envoyée sur 12 h** (sans l'effet de 12 h) et passe dans l'état **Manipulation du
+cible est **aussitôt envoyée sur 12 h** (l'effet de 12 h s'applique déjà) et passe dans l'état **Manipulation du
 temps** (3 tours, ne peut pas être retiré). Ses autres sorts font des dégâts Impie **avec ou sans
-cadran**, et décalent la cible sur son horloge (si elle en a été poussée, elle repart de midi). Si
+cadran**, et décalent la cible sur son horloge (si elle en a été poussée, elle repart de midi) ; leur portée de 6
+cases atteint tout le cadran, jusqu'à 11 h et 1 h. Si
 la case d'arrivée est occupée par un combattant, ils **échangent leurs places** ; si c'est un
 obstacle (ou hors de la carte), la cible va à l'heure suivante dans le sens du décalage. L'heure
 atteinte applique son effet à la cible :
@@ -375,9 +376,9 @@ retours) :
 | Sort | PA | Portée | Effet |
 |---|---|---|---|
 | *Horloge* | 3 | 3 exactement, en ligne, ligne de vue, non modifiable | 3 à 5 Impie, horloge 3 tours, cible envoyée à 12 h (1 fois par tour, relance 2 tours) |
-| *Tic* / *Tac* | 2 | 1 à 5, ligne de vue | 4 à 6 Impie, +1 h / −1 h (2 fois par tour) |
-| *Avance rapide* / *Retour en arrière* | 4 | 1 à 4, ligne de vue | 9 à 12 Impie, +3 h / −3 h (1 fois par tour) |
-| *Contretemps* | 3 | 1 à 3, ligne de vue | 6 à 8 Impie, +6 h, de l'autre côté du cadran (+6 h et −6 h mènent à la même heure ; relance 2 tours) |
+| *Tic* / *Tac* | 2 | 1 à 6, ligne de vue | 4 à 6 Impie, +1 h / −1 h (2 fois par tour) |
+| *Avance rapide* / *Retour en arrière* | 4 | 1 à 6, ligne de vue | 9 à 12 Impie, +3 h / −3 h (1 fois par tour) |
+| *Contretemps* | 3 | 1 à 6, ligne de vue | 6 à 8 Impie, +6 h, de l'autre côté du cadran (+6 h et −6 h mènent à la même heure ; relance 2 tours) |
 
 En combat : les heures sont écrites sur la glyphe, et le survol d'une cible avec un sort de
 décalage montre sa case d'arrivée et l'heure (« vers 3 h »).

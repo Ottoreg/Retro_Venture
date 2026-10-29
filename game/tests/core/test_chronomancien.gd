@@ -100,7 +100,7 @@ func test_cible_placee_a_midi() -> void:
 	assert_eq(glyph["cases"].size(), 12)
 	assert_eq(dummy.cell, _hour(12), "la cible passe aussitôt à 12 h")
 	assert_eq(Fixtures.of_type(events, Protocol.EVT_TELEPORTED)[0]["heure"], 12)
-	assert_eq(dummy.next_turn_pa(), 6, "sans l'effet de 12 h à la pose")
+	assert_eq(dummy.next_turn_pa(), 5, "l'effet de 12 h dès la pose")
 	assert_true(dummy.has_state(Spell.STATE_TIME_MANIPULATION), "état Manipulation du temps")
 
 
@@ -118,7 +118,7 @@ func test_horloge_et_decalages() -> void:
 	assert_eq(dummy.hp, 100 - 2 - 10)
 	_cast(combat, "tac", dummy.cell)
 	assert_eq(dummy.cell, _hour(12), "−1 h : retour à 12 h")
-	assert_eq(dummy.next_turn_pa(), 5, "12 h : −1 PA")
+	assert_eq(dummy.next_turn_pa(), 4, "12 h : −1 PA, en plus de celui de la pose")
 	_cast(combat, "contre", dummy.cell)
 	assert_eq(dummy.cell, _hour(6), "+6 h : de l'autre côté")
 	assert_eq(dummy.next_turn_pm(), 2, "6 h : −1 PM")
@@ -265,6 +265,9 @@ func test_kit_du_chronomancien() -> void:
 				assert_eq(effect["element"], "impie", "Voie Impie : " + spell_id)
 	var horloge: Spell = data.spells["chronomancien_horloge"]
 	assert_eq([horloge.range_min, horloge.range_max], [3, 3], "la 3e case")
+	for spell_id: String in voie["sorts"]:
+		if spell_id != "chronomancien_horloge":
+			assert_true((data.spells[spell_id] as Spell).range_max >= 6, "atteint 11 h et 1 h : " + spell_id)
 	assert_true(horloge.cast_in_line, "en ligne, sans diagonale")
 	assert_true(horloge.fixed_range, "portée non modifiable")
 	var clock: Dictionary = horloge.effects[1]

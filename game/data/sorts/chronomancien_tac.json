@@ -5,7 +5,7 @@
   "cout_pa": 2,
   "portee": {
     "min": 1,
-    "max": 5
+    "max": 6
   },
   "ligne_de_vue": true,
   "relance": {
@@ -28,7 +28,7 @@
       "critique": 5
     },
     "5": {
-      "portee_max": 1
+      "critique": 5
     }
   }
 }

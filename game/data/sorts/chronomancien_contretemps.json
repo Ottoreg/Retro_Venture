@@ -5,7 +5,7 @@
   "cout_pa": 3,
   "portee": {
     "min": 1,
-    "max": 3
+    "max": 6
   },
   "ligne_de_vue": true,
   "relance": {
@@ -26,7 +26,7 @@
   ],
   "maitrise": {
     "3": {
-      "portee_max": 1
+      "critique": 5
     },
     "5": {
       "delai": 1
