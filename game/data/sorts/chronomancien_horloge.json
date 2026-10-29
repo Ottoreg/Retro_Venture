@@ -1,0 +1,120 @@
+{
+  "id": "chronomancien_horloge",
+  "nom": "Horloge",
+  "description": "Dessine un cadran géant autour de l'ennemi, qui passe dans l'état Manipulation du temps. Ses autres sorts le font tourner dessus, et chaque heure a son petit désagrément. Les heures 3, 4 et 9 attendent encore leurs aiguilles.",
+  "cout_pa": 3,
+  "portee": {
+    "min": 1,
+    "max": 5
+  },
+  "ligne_de_vue": true,
+  "relance": {
+    "par_tour": 1,
+    "delai": 2
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "impie",
+      "min": 3,
+      "max": 5,
+      "cibles": "ennemis"
+    },
+    {
+      "type": "horloge",
+      "duree": 3,
+      "cibles": "ennemis",
+      "heures": {
+        "1": [
+          {
+            "type": "degats",
+            "element": "givre",
+            "min": 10,
+            "max": 10
+          }
+        ],
+        "2": [
+          {
+            "type": "poison",
+            "element": "givre",
+            "min": 5,
+            "max": 5,
+            "duree": 2
+          }
+        ],
+        "3": [],
+        "4": [],
+        "5": [
+          {
+            "type": "malus",
+            "carac": "resistance",
+            "element": "impie",
+            "min": 10,
+            "max": 10,
+            "duree": 1
+          }
+        ],
+        "6": [
+          {
+            "type": "malus",
+            "carac": "pm",
+            "min": 1,
+            "max": 1,
+            "duree": 1
+          }
+        ],
+        "7": [
+          {
+            "type": "degats",
+            "element": "tempete",
+            "min": 10,
+            "max": 10
+          }
+        ],
+        "8": [
+          {
+            "type": "poison",
+            "element": "tempete",
+            "min": 5,
+            "max": 5,
+            "duree": 2
+          }
+        ],
+        "9": [],
+        "10": [
+          {
+            "type": "etat",
+            "etat": "insoignable",
+            "duree": 1
+          }
+        ],
+        "11": [
+          {
+            "type": "malus",
+            "carac": "degats_infliges",
+            "min": 10,
+            "max": 10,
+            "duree": 1
+          }
+        ],
+        "12": [
+          {
+            "type": "malus",
+            "carac": "pa",
+            "min": 1,
+            "max": 1,
+            "duree": 1
+          }
+        ]
+      }
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "portee_max": 1
+    },
+    "5": {
+      "delai": 1
+    }
+  }
+}

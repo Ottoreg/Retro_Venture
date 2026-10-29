@@ -118,6 +118,17 @@ static func effect_lines(effects: Array, indent := "") -> PackedStringArray:
 				for kind: String in effect["etats"]:
 					kinds.append({"bonus": "bonus", "malus": "malus", "poison": "poisons"}.get(kind, kind))
 				line = "Retire les %s (sauf les états qui ne peuvent pas être retirés)" % " et ".join(kinds)
+			Spell.EFFECT_STATE:
+				line = "État %s (%s)" % [MapView.STATE_NAMES.get(effect["etat"], effect["etat"]), duration]
+			Spell.EFFECT_CLOCK:
+				line = "Horloge : cadran de 12 cases autour de la cible, état Manipulation du temps (%s, ne peut pas être retiré) ; quand un sort la décale, l'heure d'arrivée lui applique :" % duration
+				for hour in range(1, 13):
+					var hour_lines := effect_lines(effect["heures"].get(str(hour), []))
+					line += "\n    · %d h : %s" % [hour, " ; ".join(hour_lines) if not hour_lines.is_empty() else "sans effet pour l'instant"]
+			Spell.EFFECT_CLOCK_SHIFT:
+				var hours := int(effect["heures"])
+				line = "Sur son horloge, la cible %s de %d heure%s (une case occupée : échange de place ; un obstacle : heure suivante)" % [
+					"avance" if hours > 0 else "recule", absi(hours), "s" if absi(hours) > 1 else ""]
 			Spell.EFFECT_TRAP:
 				var zone: Dictionary = effect.get("zone", {})
 				line = "Piège invisible pour l'adversaire%s, au premier ennemi qui y entre :" % (

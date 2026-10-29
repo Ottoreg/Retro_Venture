@@ -14,6 +14,13 @@ const MAX_AI_ACTIONS := 20
 const MAX_ROUNDS := 200
 ## Dégâts de choc par case de poussée non parcourue (obstacle, bord ou combattant sur le chemin).
 const PUSH_DAMAGE_PER_CELL := 4
+## Cadran d'une horloge (Chronomancien, GDD § 4.3) : case de chaque heure, de 1 h à 12 h, par rapport
+## au centre. Ce sont les 12 cases à 2 pas de la cible sans les coins du carré 5 × 5, rangées dans le
+## sens des aiguilles d'une montre tel qu'on le voit à l'écran (isométrique) : 12 h est la case juste
+## à droite du haut, 3 h à droite, 6 h juste à gauche du bas, 9 h à gauche.
+const CLOCK_OFFSETS: Array[Vector2i] = [Vector2i(0, -2), Vector2i(1, -2), Vector2i(2, -1), Vector2i(2, 0),
+	Vector2i(2, 1), Vector2i(1, 2), Vector2i(0, 2), Vector2i(-1, 2), Vector2i(-2, 1), Vector2i(-2, 0), Vector2i(-2, -1),
+	Vector2i(-1, -2)]
 
 var map: GameMap
 var state: State = State.PLACEMENT
@@ -629,6 +636,8 @@ func _apply_effect(caster: Fighter, target: Fighter, effect: Dictionary, events:
 				"element": effect["element"], "bouclier": target.shield, "pa": target.pa, "pm": target.pm})
 		Spell.EFFECT_HEAL:
 			amount = mini(boosted_value(caster, effect["element"], amount), target.max_hp - target.hp)
+			if target.has_state(Spell.STATE_UNHEALABLE):
+				amount = 0
 			target.hp += amount
 			if amount > 0 and target.team == caster.team:
 				_credit_effect(caster, effect["element"])
@@ -644,6 +653,13 @@ func _apply_effect(caster: Fighter, target: Fighter, effect: Dictionary, events:
 				poison["pa"] = float(_credit["pa"]) / maxi(1, int(effect["duree"]))  # Pratique : à chaque tour qui blesse.
 				_credit["utile"] = true
 			_add_state(target, poison, events)
+		Spell.EFFECT_STATE:
+			_add_state(target, {"type": Spell.EFFECT_STATE, "etat": effect["etat"], "valeur": 0, "tours": effect["duree"],
+				"sort": source, "lanceur": caster.id, "retirable": removable}, events)
+		Spell.EFFECT_CLOCK:
+			_place_clock(caster, target, effect, source, events)
+		Spell.EFFECT_CLOCK_SHIFT:
+			_shift_on_clock(target, int(effect["heures"]), events)
 		Spell.EFFECT_ELEMENT_STATE:
 			target.add_element_state(effect["element"])
 			events.append({"type": Protocol.EVT_ELEMENT_STATES, "entite": target.id, "etats": target.element_states.duplicate(),
@@ -667,8 +683,13 @@ func _apply_effect(caster: Fighter, target: Fighter, effect: Dictionary, events:
 
 ## Dégâts d'un effet de valeur tirée `amount` (voir `_apply_effect`).
 static func damage_value(caster: Fighter, target: Fighter, element: String, amount: int) -> int:
-	var boosted := amount * (100 + caster.power(element)) / 100.0
+	var boosted := amount * (100 + caster.power(element)) / 100.0 * dealt_factor(caster)
 	return maxi(0, roundi(boosted * (100 - target.resistance(element)) / 100.0)) + caster.total_dommages()
+
+
+## Multiplicateur des dégâts infligés par `caster` (bonus et malus « degats_infliges », jamais négatif).
+static func dealt_factor(caster: Fighter) -> float:
+	return maxf(0.0, (100 + caster.modifier("degats_infliges")) / 100.0) if caster != null else 1.0
 
 
 ## Valeur d'un soin, d'un bouclier ou d'un poison, augmentée par la caractéristique de son élément.
@@ -677,8 +698,9 @@ static func boosted_value(caster: Fighter, element: String, amount: int) -> int:
 
 
 ## Prévisualisation d'un sort de `fighter` sur `target` (sans coup critique ni hasard) : pour chaque
-## combattant touché, id → { degats: [min, max], soin: [min, max], element } (seulement les
-## entrées non nulles ; `element` : celui du premier effet chiffré). Les soins sont limités aux PV
+## combattant touché, id → { degats: [min, max], soin: [min, max], element, heure, arrivee } (seulement
+## les entrées non nulles ; `element` : celui du premier effet chiffré ; `heure` et `arrivee` : où un
+## décalage sur son horloge l'enverrait). Les soins sont limités aux PV
 ## qui manquent (rien à PV pleins) ; une charge qui n'arriverait pas au contact ne touche personne. Vide si la cible
 ## n'est pas valide.
 func spell_preview(fighter: Fighter, spell: Spell, target: Vector2i) -> Dictionary:
@@ -704,8 +726,8 @@ func spell_preview(fighter: Fighter, spell: Spell, target: Vector2i) -> Dictiona
 			if effect["type"] == Spell.EFFECT_DAMAGE:
 				low = damage_value(fighter, hit, effect["element"], effect["min"])
 				high = damage_value(fighter, hit, effect["element"], effect["max"])
-			elif hit.hp >= hit.max_hp:
-				continue  # PV pleins : pas de « +0 ».
+			elif hit.hp >= hit.max_hp or hit.has_state(Spell.STATE_UNHEALABLE):
+				continue  # PV pleins ou insoignable : pas de « +0 ».
 			else:
 				key = "soin"
 				var missing := hit.max_hp - hit.hp
@@ -715,7 +737,13 @@ func spell_preview(fighter: Fighter, spell: Spell, target: Vector2i) -> Dictiona
 			entry[key] = [int(total[0]) + low, int(total[1]) + high]
 			if not entry.has("element"):
 				entry["element"] = effect["element"]
-		if entry.has("degats") or entry.has("soin"):
+		for effect in spell.effects:
+			if effect["type"] == Spell.EFFECT_CLOCK_SHIFT and Spell.affects(effect, fighter, hit) and not entry.has("heure"):
+				var arrival := clock_destination(hit, int(effect["heures"]))
+				if int(arrival["heure"]) > 0:
+					entry["heure"] = arrival["heure"]
+					entry["arrivee"] = arrival["case"]
+		if entry.has("degats") or entry.has("soin") or entry.has("heure"):
 			preview[hit.id] = entry
 	return preview
 
@@ -779,7 +807,7 @@ func _add_state(target: Fighter, new_state: Dictionary, events: Array[Dictionary
 		target.pm = maxi(0, target.pm + signed)
 	var event := _states_event(target)
 	event["nouveau"] = {"type": new_state["type"], "carac": new_state.get("carac", ""), "element": new_state.get("element", ""),
-		"valeur": new_state["valeur"], "tours": new_state["tours"], "sort": new_state["sort"]}
+		"valeur": new_state["valeur"], "tours": new_state["tours"], "sort": new_state["sort"], "etat": new_state.get("etat", "")}
 	events.append(event)
 
 
@@ -868,12 +896,120 @@ func _trigger_trap(trap: Dictionary, victim: Fighter, events: Array[Dictionary])
 	_credit = outer
 
 
+## Retire une glyphe ; celle d'une horloge emporte l'état « manipulation_temps » de sa cible.
+func _end_glyph(glyph: Dictionary, events: Array[Dictionary]) -> void:
+	glyphs.erase(glyph)
+	events.append({"type": Protocol.EVT_GLYPH_ENDED, "id": glyph["id"]})
+	if not glyph.has("horloge"):
+		return
+	var target := get_fighter(str(glyph["horloge"]["cible"]))
+	if target == null:
+		return
+	var kept: Array[Dictionary] = []
+	for state in target.states:
+		if state.get("etat") != Spell.STATE_TIME_MANIPULATION:
+			kept.append(state)
+	if kept.size() != target.states.size():
+		target.states = kept
+		if target.is_alive():
+			events.append(_states_event(target))
+
+
+# --- Horloge (Chronomancien) ----------------------------------------------------------------------
+
+## Horloge dont `fighter` est la cible (vide s'il n'en a pas).
+func clock_of(fighter: Fighter) -> Dictionary:
+	for glyph in glyphs:
+		if glyph.has("horloge") and str(glyph["horloge"]["cible"]) == fighter.id:
+			return glyph
+	return {}
+
+
+## Heure de `cell` sur le cadran centré en `center` (1 à 12), 0 hors du cadran.
+static func clock_hour(center: Vector2i, cell: Vector2i) -> int:
+	return CLOCK_OFFSETS.find(cell - center) + 1
+
+
+## Case de l'heure `hour` (1 à 12) du cadran centré en `center`.
+static func clock_cell(center: Vector2i, hour: int) -> Vector2i:
+	return center + CLOCK_OFFSETS[(hour - 1) % 12]
+
+
+## Pose l'horloge de `effect` autour de `target` (qui en change si elle en avait une).
+func _place_clock(caster: Fighter, target: Fighter, effect: Dictionary, source: String, events: Array[Dictionary]) -> void:
+	var old := clock_of(target)
+	if not old.is_empty():
+		_end_glyph(old, events)
+	var center := target.cell
+	var cells: Array[Vector2i] = []
+	for offset in CLOCK_OFFSETS:
+		if map.is_inside(center + offset) and map.is_walkable_in_combat(center + offset):
+			cells.append(center + offset)
+	var glyph := {"id": _next_ground_id, "lanceur": caster, "equipe": caster.team, "cases": cells, "effets": [],
+		"tours": int(effect["duree"]), "sort": source, "pa": 0.0,
+		"horloge": {"centre": center, "cible": target.id, "heures": effect["heures"].duplicate(true)}}
+	_next_ground_id += 1
+	glyphs.append(glyph)
+	events.append({"type": Protocol.EVT_GLYPH, "id": glyph["id"], "lanceur": caster.id, "equipe": caster.team,
+		"cases": cells, "tours": glyph["tours"], "sort": source, "element": "impie", "centre": center, "cible": target.id})
+	_add_state(target, {"type": Spell.EFFECT_STATE, "etat": Spell.STATE_TIME_MANIPULATION, "valeur": 0,
+		"tours": int(effect["duree"]), "sort": source, "lanceur": caster.id, "retirable": false}, events)
+
+
+## Case où un décalage de `hours` heures enverrait `target` sur son horloge (sa case s'il n'a pas
+## d'horloge ou si aucune heure n'est praticable), et l'heure atteinte (0 si rien ne bouge). Hors du
+## cadran (au centre, ou poussée ailleurs), la cible part de midi : +1 h l'envoie à 1 h, −1 h à 11 h.
+## Une heure hors de la carte ou sur un obstacle est sautée (heure suivante dans le sens du décalage).
+func clock_destination(target: Fighter, hours: int) -> Dictionary:
+	var clock := clock_of(target)
+	if clock.is_empty() or hours == 0:
+		return {"case": target.cell, "heure": 0}
+	var center: Vector2i = clock["horloge"]["centre"]
+	var start := clock_hour(center, target.cell)
+	var hour := posmod((start if start > 0 else 12) + hours - 1, 12) + 1
+	for i in 12:
+		var cell := clock_cell(center, hour)
+		if cell == target.cell:
+			break
+		if map.is_inside(cell) and map.is_walkable_in_combat(cell):
+			return {"case": cell, "heure": hour}
+		hour = posmod(hour - 1 + signi(hours), 12) + 1
+	return {"case": target.cell, "heure": 0}
+
+
+## Décale `target` sur son horloge (voir `clock_destination`). Un combattant sur la case d'arrivée
+## échange sa place avec lui. Les effets de l'heure atteinte s'appliquent ensuite à la cible, avec
+## le poseur de l'horloge pour lanceur. Un piège ennemi sur une case d'arrivée se déclenche.
+func _shift_on_clock(target: Fighter, hours: int, events: Array[Dictionary]) -> void:
+	var arrival := clock_destination(target, hours)
+	var hour: int = arrival["heure"]
+	if hour == 0:
+		return
+	var clock := clock_of(target)
+	var cell: Vector2i = arrival["case"]
+	var from := target.cell
+	var other := fighter_at(cell)
+	target.cell = cell
+	events.append({"type": Protocol.EVT_TELEPORTED, "entite": target.id, "depuis": from, "case": cell, "heure": hour})
+	if other != null:
+		other.cell = from
+		events.append({"type": Protocol.EVT_TELEPORTED, "entite": other.id, "depuis": cell, "case": from, "echange": true})
+	for moved: Fighter in [target, other]:
+		if moved != null and moved.is_alive():
+			var trap := enemy_trap_at(moved.cell, moved)
+			if not trap.is_empty():
+				_trigger_trap(trap, moved, events)
+	var caster: Fighter = clock["lanceur"]
+	for effect: Dictionary in clock["horloge"]["heures"].get(str(hour), []):
+		if target.is_alive() and Spell.affects(effect, caster, target):
+			_apply_effect(caster, target, effect, events, false, cell, "%s (%d h)" % [clock["sort"], hour])
+
+
 ## Un combattant vaincu emporte ses glyphes et ses pièges.
 func _remove_ground_of(fighter: Fighter, events: Array[Dictionary]) -> void:
 	for glyph in glyphs.duplicate():
-		if glyph["lanceur"] == fighter:
-			glyphs.erase(glyph)
-			events.append({"type": Protocol.EVT_GLYPH_ENDED, "id": glyph["id"]})
+		if glyph["lanceur"] == fighter or str(glyph.get("horloge", {}).get("cible", "")) == fighter.id:
+			_end_glyph(glyph, events)
 	for trap in traps.duplicate():
 		if trap["lanceur"] == fighter:
 			traps.erase(trap)
@@ -887,14 +1023,13 @@ func _start_of_turn_effects(fighter: Fighter, events: Array[Dictionary]) -> void
 		if glyph["lanceur"] == fighter:
 			glyph["tours"] = int(glyph["tours"]) - 1
 			if int(glyph["tours"]) <= 0:
-				glyphs.erase(glyph)
-				events.append({"type": Protocol.EVT_GLYPH_ENDED, "id": glyph["id"]})
+				_end_glyph(glyph, events)
 	for poison in fighter.states.duplicate():
 		if poison["type"] != Spell.EFFECT_POISON or not fighter.is_alive():
 			continue
 		var caster := get_fighter(poison["lanceur"])
 		var element: String = poison["element"]
-		var boosted := int(poison["valeur"]) * (100 + (caster.power(element) if caster != null else 0)) / 100.0
+		var boosted := int(poison["valeur"]) * (100 + (caster.power(element) if caster != null else 0)) / 100.0 * dealt_factor(caster)
 		_open_credit(caster, float(poison.get("pa", 0.0)))
 		_hurt(fighter, maxi(0, roundi(boosted * (100 - fighter.resistance(element)) / 100.0)), element, events, "poison")
 		_close_credit()

@@ -140,6 +140,10 @@ static func _effect_value(combat: Combat, caster: Fighter, target: Fighter, effe
 			return average * PA_PM_VALUE * 0.5 if ally and target == caster else 0.0
 		Spell.EFFECT_PUSH, Spell.EFFECT_PULL:
 			return -2.0 if ally else 2.0
+		Spell.EFFECT_CLOCK:
+			return 6.0 if not ally and combat.clock_of(target).is_empty() else 0.0
+		Spell.EFFECT_CLOCK_SHIFT:
+			return 3.0 if not ally and not combat.clock_of(target).is_empty() else 0.0
 	return 0.0
 
 

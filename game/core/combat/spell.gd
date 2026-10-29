@@ -59,14 +59,32 @@ const EFFECT_CREATE_SPELL := "creer_sort"
 const EFFECT_CHARGE := "charge"
 ## Retire à la cible ses états retirables des types de `etats` (bonus, malus, poison).
 const EFFECT_REMOVE_STATES := "retrait_etats"
+## Horloge (Chronomancien) : pose un cadran au sol autour de la cible, qui passe dans l'état
+## « manipulation_temps » pendant `duree` tours (non retirable). `heures` : { "1" … "12" : effets
+## appliqués à la cible quand un décalage l'amène sur cette heure } (liste vide : sans effet). Une
+## seule horloge par cible : une nouvelle remplace l'ancienne. Voir `Combat.CLOCK_OFFSETS`.
+const EFFECT_CLOCK := "horloge"
+## Décale la cible de `heures` heures sur son horloge (négatif : en arrière) ; sans effet sans
+## horloge. Voir `Combat._shift_on_clock`.
+const EFFECT_CLOCK_SHIFT := "decalage_horaire"
+## État nommé (`etat`, voir NAMED_STATES) pendant `duree` tours de la cible.
+const EFFECT_STATE := "etat"
 const EFFECT_TYPES := [EFFECT_DAMAGE, EFFECT_HEAL, EFFECT_TELEPORT, EFFECT_GAIN_PA, EFFECT_REMOVE_PM, EFFECT_SHIELD,
 	EFFECT_BONUS, EFFECT_MALUS, EFFECT_POISON, EFFECT_PUSH, EFFECT_PULL, EFFECT_GLYPH, EFFECT_TRAP,
-	EFFECT_ELEMENT_STATE, EFFECT_COMPOSE_STATES, EFFECT_CREATE_SPELL, EFFECT_CHARGE, EFFECT_REMOVE_STATES]
+	EFFECT_ELEMENT_STATE, EFFECT_COMPOSE_STATES, EFFECT_CREATE_SPELL, EFFECT_CHARGE, EFFECT_REMOVE_STATES,
+	EFFECT_CLOCK, EFFECT_CLOCK_SHIFT, EFFECT_STATE]
 ## Effets sans valeur chiffrée (ni `min` ni `max`).
 const VALUELESS_EFFECTS := [EFFECT_TELEPORT, EFFECT_ELEMENT_STATE, EFFECT_COMPOSE_STATES, EFFECT_CREATE_SPELL, EFFECT_CHARGE,
-	EFFECT_REMOVE_STATES]
-## Effets qui ne concernent que le lanceur ou son déplacement : jamais dans une glyphe ou un piège.
-const CASTER_EFFECTS := [EFFECT_TELEPORT, EFFECT_ELEMENT_STATE, EFFECT_COMPOSE_STATES, EFFECT_CREATE_SPELL, EFFECT_CHARGE]
+	EFFECT_REMOVE_STATES, EFFECT_CLOCK, EFFECT_CLOCK_SHIFT, EFFECT_STATE]
+## Effets qui ne concernent que le lanceur ou son déplacement, ou le cadran d'une horloge : jamais
+## dans une glyphe, un piège ou une heure d'horloge.
+const CASTER_EFFECTS := [EFFECT_TELEPORT, EFFECT_ELEMENT_STATE, EFFECT_COMPOSE_STATES, EFFECT_CREATE_SPELL, EFFECT_CHARGE,
+	EFFECT_CLOCK, EFFECT_CLOCK_SHIFT]
+## États nommés : « insoignable » (aucun soin ne lui rend de PV) ; « manipulation_temps » (posé par
+## une horloge).
+const STATE_UNHEALABLE := "insoignable"
+const STATE_TIME_MANIPULATION := "manipulation_temps"
+const NAMED_STATES := [STATE_UNHEALABLE, STATE_TIME_MANIPULATION]
 ## Éléments d'un état élémentaire, et états qu'un retrait peut enlever.
 const STATE_ELEMENTS := ["flamme", "givre", "tempete"]
 const REMOVABLE_STATE_TYPES := [EFFECT_BONUS, EFFECT_MALUS, EFFECT_POISON]
@@ -74,9 +92,11 @@ const REMOVABLE_STATE_TYPES := [EFFECT_BONUS, EFFECT_MALUS, EFFECT_POISON]
 ## téléportation à l'intérieur).
 const GROUND_EFFECTS := [EFFECT_GLYPH, EFFECT_TRAP]
 ## Effets qui durent plusieurs tours (`duree` obligatoire).
-const LASTING_EFFECTS := [EFFECT_BONUS, EFFECT_MALUS, EFFECT_POISON, EFFECT_GLYPH]
-## Caractéristiques qu'un bonus ou un malus peut changer ; « resistance » demande un `element`.
-const MODIFIABLE := ["force", "intelligence", "perception", "agilite", "pa", "pm", "portee", "dommages", "critique", "resistance"]
+const LASTING_EFFECTS := [EFFECT_BONUS, EFFECT_MALUS, EFFECT_POISON, EFFECT_GLYPH, EFFECT_CLOCK, EFFECT_STATE]
+## Caractéristiques qu'un bonus ou un malus peut changer ; « resistance » demande un `element` ;
+## « degats_infliges » : % de tous les dégâts infligés (poisons compris).
+const MODIFIABLE := ["force", "intelligence", "perception", "agilite", "pa", "pm", "portee", "dommages", "critique", "resistance",
+	"degats_infliges"]
 ## Effets chiffrés qui ont un élément : leur valeur monte avec la caractéristique de cet élément
 ## (un soin Sacré avec la Force et l'Intelligence, un bouclier de Tempête avec l'Agilité, un poison
 ## de Givre avec la Perception…).
@@ -249,6 +269,23 @@ static func _validate_effects(effects_data: Array, top_level: bool) -> PackedStr
 							or sorted_parts.any(func(part: String) -> bool: return part not in STATE_ELEMENTS) \
 							or typeof(combinations[key]) != TYPE_STRING:
 						errors.append("effet « creer_sort » : combinaison invalide « %s » (3 éléments de %s, triés, joints par « + », vers un id de sort)" % [str(key), str(STATE_ELEMENTS)])
+		if type == EFFECT_STATE and effect.get("etat") not in NAMED_STATES:
+			errors.append("effet « etat » : « etat » doit être l'un de %s" % str(NAMED_STATES))
+		if type == EFFECT_CLOCK:
+			var hours: Variant = effect.get("heures")
+			if typeof(hours) != TYPE_DICTIONARY or hours.keys().any(func(key: Variant) -> bool:
+					return not str(key).is_valid_int() or int(str(key)) < 1 or int(str(key)) > 12):
+				errors.append("effet « horloge » : « heures » doit être un objet { « 1 » … « 12 » : liste d'effets }")
+			else:
+				for key: Variant in hours:
+					if typeof(hours[key]) != TYPE_ARRAY:
+						errors.append("effet « horloge » : l'heure %s doit être une liste d'effets (vide : sans effet)" % str(key))
+					else:
+						errors.append_array(_validate_effects(hours[key], false))
+		if type == EFFECT_CLOCK_SHIFT:
+			var shift: Variant = effect.get("heures")
+			if typeof(shift) not in [TYPE_INT, TYPE_FLOAT] or shift != floorf(shift) or int(shift) == 0 or absi(int(shift)) > 11:
+				errors.append("effet « decalage_horaire » : « heures » doit être un entier non nul de -11 à 11")
 		if type == EFFECT_REMOVE_STATES:
 			var kinds: Variant = effect.get("etats")
 			if typeof(kinds) != TYPE_ARRAY or kinds.is_empty() or kinds.any(func(kind: Variant) -> bool: return kind not in REMOVABLE_STATE_TYPES):
@@ -335,6 +372,11 @@ static func _scaled_effects(source: Array[Dictionary], percent: int) -> Array[Di
 			var inner: Array[Dictionary] = []
 			inner.assign(effect["effets"])
 			copy["effets"] = _scaled_effects(inner, percent)
+		if effect["type"] == EFFECT_CLOCK:
+			for hour: String in effect["heures"]:
+				var hour_effects: Array[Dictionary] = []
+				hour_effects.assign(effect["heures"][hour])
+				copy["heures"][hour] = _scaled_effects(hour_effects, percent)
 		result.append(copy)
 	return result
 
@@ -350,6 +392,13 @@ static func normalized_effects(effects_data: Array) -> Array[Dictionary]:
 		copy["duree"] = int(effect.get("duree", 0))
 		if effect.has("effets"):
 			copy["effets"] = normalized_effects(effect["effets"])
+		if effect["type"] == EFFECT_CLOCK:
+			var hours := {}
+			for key: Variant in effect.get("heures", {}):
+				hours[str(int(str(key)))] = normalized_effects(effect["heures"][key])
+			copy["heures"] = hours
+		if effect["type"] == EFFECT_CLOCK_SHIFT:
+			copy["heures"] = int(effect["heures"])
 		if effect["type"] == EFFECT_TRAP:
 			copy["zone"] = effect.get("zone", {"type": ZONE_CELL}).duplicate()
 		result.append(copy)

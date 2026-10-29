@@ -15,6 +15,7 @@ const BUILDS := {
 	"arcaniste": {"intelligence": 1.0},
 	"rodeur": {"agilite": 0.5, "force": 0.5},
 	"theologue": {"force": 0.5, "intelligence": 0.5},
+	"chronomancien": {"agilite": 0.5, "perception": 0.5},
 }
 const ZONE_RACES := {"brumerive": "humain", "crasse_roc": "gobelin", "sylvebrume": "elfe"}
 ## Hors de ces bornes, la ligne du rapport est signalée (victoires, PV perdus en rapport à la référence).
@@ -49,7 +50,7 @@ func _initialize() -> void:
 				roundi(MIN_WIN_RATE * 100), HP_RATIO_RANGE[0], HP_RATIO_RANGE[1]], "",
 		"Progression (GDD § 4.5) : facteur de difficulté du combat et réputation gagnée par combat gagné, "
 			+ "pour un joueur au niveau équivalent (`Progression`).", "",
-		"| Carte | Groupe | Niv. | Victoires (G/A/R/T) | Tours (réf.) | PV perdus % (réf.) | Rapport PV | Facteur | Rép./combat | |",
+		"| Carte | Groupe | Niv. | Victoires (G/A/R/T/C) | Tours (réf.) | PV perdus % (réf.) | Rapport PV | Facteur | Rép./combat | |",
 		"|---|---|---|---|---|---|---|---|---|---|",
 	]
 	var summary := {}

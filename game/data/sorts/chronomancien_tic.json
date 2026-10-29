@@ -1,0 +1,34 @@
+{
+  "id": "chronomancien_tic",
+  "nom": "Tic",
+  "description": "Une petite piqûre de temps. Sur une horloge, la cible avance d'une heure.",
+  "cout_pa": 2,
+  "portee": {
+    "min": 1,
+    "max": 5
+  },
+  "ligne_de_vue": true,
+  "relance": {
+    "par_tour": 2
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "impie",
+      "min": 4,
+      "max": 6
+    },
+    {
+      "type": "decalage_horaire",
+      "heures": 1
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "critique": 5
+    },
+    "5": {
+      "portee_max": 1
+    }
+  }
+}

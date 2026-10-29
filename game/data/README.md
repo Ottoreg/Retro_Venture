@@ -319,6 +319,32 @@ Mécaniques des Voies :
   sauf ceux qui ne peuvent pas être retirés (effets des phases des boss).
 - Ces effets n'ont ni `min` ni `max` ; `etat_elementaire`, `composition_etats`, `creer_sort` et `charge` sont interdits
   dans une glyphe, un piège et une phase de monstre.
+
+Chronomancien (Voie Impie) :
+
+```json
+{"type": "horloge", "duree": 3, "cibles": "ennemis", "heures": {"1": [{"type": "degats", "element": "givre", "min": 10, "max": 10}], "3": []}}
+{"type": "decalage_horaire", "heures": -3}
+{"type": "etat", "etat": "insoignable", "duree": 1}
+{"type": "malus", "carac": "degats_infliges", "min": 10, "max": 10, "duree": 1}
+```
+
+- `horloge` : pose un cadran au sol autour de la cible (les 12 cases à 2 pas, sans les coins du carré
+  5 × 5, numérotées dans le sens des aiguilles d'une montre vu à l'écran, 12 h juste à droite du haut :
+  `Combat.CLOCK_OFFSETS`) pendant `duree` tours du lanceur ; la cible passe dans l'état
+  `manipulation_temps` (non retirable), qui tombe avec l'horloge. Une seule horloge par cible : une
+  nouvelle remplace l'ancienne. `heures` : de `"1"` à `"12"`, les effets appliqués à la cible quand un
+  décalage l'amène sur cette heure (le poseur de l'horloge en est le lanceur) ; une liste vide ou une
+  heure absente : sans effet.
+- `decalage_horaire` (`heures` : entier non nul de −11 à 11) : la cible avance (ou recule) d'autant
+  d'heures sur son horloge ; hors du cadran (au centre), elle part de midi (+1 h : 1 h, −1 h : 11 h).
+  Une heure hors de la carte ou sur un obstacle est sautée (heure suivante dans le sens du
+  décalage) ; un combattant sur la case d'arrivée échange sa place avec la cible. Sans horloge,
+  rien ne bouge (les autres effets du sort restent). Placé après les dégâts du sort.
+- `etat` : état nommé pendant `duree` tours : `insoignable` (aucun soin ne lui rend de PV).
+- Caractéristique `degats_infliges` (bonus ou malus) : % de tous les dégâts infligés, poisons compris.
+- `horloge` et `decalage_horaire` n'ont ni `min` ni `max` et sont interdits dans une glyphe, un piège,
+  une heure d'horloge et une phase de monstre.
 - Les effets d'une glyphe ou d'un piège ne peuvent pas être une glyphe, un piège ou une téléportation.
 
 ## Monstres (`monstres/`)

@@ -4,7 +4,7 @@ extends Control
 const WORLD_SCENE := "res://client/world/world.tscn"
 const MENU_SCENE := "res://client/main/main.tscn"
 const RACE_ORDER := ["humain", "gobelin", "elfe"]
-const VOIE_ORDER := ["guerrier", "rodeur", "arcaniste", "theologue"]
+const VOIE_ORDER := ["guerrier", "rodeur", "arcaniste", "theologue", "chronomancien"]
 const CAMP_NAMES := {"allie": "Allié", "ennemi": "Ennemi", "neutre": "Neutre"}
 const GOLD := Color(0.95, 0.76, 0.3)
 

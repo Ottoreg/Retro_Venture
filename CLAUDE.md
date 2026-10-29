@@ -168,6 +168,10 @@ Dernière session (retours de la passe de l'auteur) :
   `Combat.charge_path`), *Collet* du Rôdeur (piège), *Absolution* du Théologue (`retrait_etats` ;
   les effets des phases ont `retirable: false`). L'IA ignore les sorts de composition. La Tempête
   de l'Arcaniste vient après l'alpha 1 (à laisser deviner aux testeurs).
+- **Chronomancien, Voie Impie** (29/10/2026, demande de l'auteur, GDD § 4.3) : 5e Voie de l'alpha 1,
+  effets `horloge` / `decalage_horaire` (`Combat.CLOCK_OFFSETS`, `clock_destination`, échange de
+  place), état `insoignable`, carac `degats_infliges` ; heures 3 h, 4 h et 9 h sans effet en
+  attendant l'esquive des retraits et le tacle / fuite (à coder dès que possible, TODO) ; protocole v9.
 - Idées notées sans les faire : pistes des classes à venir et suite de la refonte de l'Arcaniste
   (GDD § 4.3) ; autres idées d'identité des classes (TODO, « Identité des classes ») ; Cape en peau d'ananas (forte résistance Flamme ; demande des
   bonus de résistance sur l'équipement, GDD § 9.2) ; PNJ qui appellent le joueur par son pseudo

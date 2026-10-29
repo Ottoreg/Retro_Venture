@@ -46,8 +46,8 @@ var shield: int = 0
 var shield_credit: Dictionary = {}
 ## Chance de coup critique en plus (en %, équipement).
 var crit_bonus: int = 0
-## États en cours (bonus, malus, poisons) : { type, carac, element, valeur, min, max, tours, sort,
-## lanceur }. `tours` : fins de tour de ce combattant avant que l'état ne tombe.
+## États en cours (bonus, malus, poisons, états nommés) : { type, carac, element, valeur, min, max,
+## tours, sort, lanceur, etat (états nommés) }. `tours` : fins de tour de ce combattant avant que l'état ne tombe.
 var states: Array[Dictionary] = []
 ## Rangs de maîtrise des sorts (joueurs, id → rang ≥ 1), pour son profil (GDD § 4.5).
 var masteries: Dictionary = {}
@@ -113,6 +113,14 @@ func modifier(carac: String, element := "") -> int:
 		if state.get("carac") == carac and (carac != "resistance" or state.get("element") == element):
 			total += int(state["valeur"]) * (1 if state["type"] == Spell.EFFECT_BONUS else -1 if state["type"] == Spell.EFFECT_MALUS else 0)
 	return total
+
+
+## Porte-t-il l'état nommé `state_name` (voir `Spell.NAMED_STATES`) ?
+func has_state(state_name: String) -> bool:
+	for state in states:
+		if state["type"] == Spell.EFFECT_STATE and state.get("etat") == state_name:
+			return true
+	return false
 
 
 ## Portée en plus des sorts à distance : passif, équipement et états.
@@ -202,7 +210,7 @@ func states_snapshot() -> Array:
 	for state in states:
 		result.append({"type": state["type"], "carac": state.get("carac", ""), "element": state.get("element", ""),
 			"valeur": state.get("valeur", 0), "min": state.get("min", 0), "max": state.get("max", 0),
-			"tours": state["tours"], "sort": state.get("sort", "")})
+			"tours": state["tours"], "sort": state.get("sort", ""), "etat": state.get("etat", "")})
 	return result
 
 

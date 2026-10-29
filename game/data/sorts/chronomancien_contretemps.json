@@ -1,0 +1,35 @@
+{
+  "id": "chronomancien_contretemps",
+  "nom": "Contretemps",
+  "description": "Un rendez-vous manqué de six heures pile. Sur une horloge, la cible passe de l'autre côté du cadran.",
+  "cout_pa": 3,
+  "portee": {
+    "min": 1,
+    "max": 3
+  },
+  "ligne_de_vue": true,
+  "relance": {
+    "par_tour": 1,
+    "delai": 2
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "impie",
+      "min": 6,
+      "max": 8
+    },
+    {
+      "type": "decalage_horaire",
+      "heures": 6
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "portee_max": 1
+    },
+    "5": {
+      "delai": 1
+    }
+  }
+}

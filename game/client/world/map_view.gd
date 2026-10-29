@@ -120,7 +120,10 @@ const TACTICAL_EDGE := Color(0, 0, 0, 0.35)
 const COLOR_TRAP_FLASH := Color(1.0, 0.45, 0.1, 0.6)
 ## Noms affichés des caractéristiques modifiées par un bonus ou un malus.
 const CARAC_NAMES := {"force": "Force", "intelligence": "Intelligence", "perception": "Perception", "agilite": "Agilité",
-	"pa": "PA", "pm": "PM", "portee": "Portée", "dommages": "Dommages", "critique": "% Critique", "resistance": "Rés."}
+	"pa": "PA", "pm": "PM", "portee": "Portée", "dommages": "Dommages", "critique": "% Critique", "resistance": "Rés.",
+	"degats_infliges": "% dégâts infligés"}
+## Noms des états nommés (`Spell.NAMED_STATES`).
+const STATE_NAMES := {"insoignable": "Insoignable", "manipulation_temps": "Manipulation du temps"}
 
 const NO_CELL := Vector2i(-99999, -99999)
 ## Marge en haut de l'écran (pixels) : une bulle de dialogue ne monte pas plus haut.
@@ -972,6 +975,10 @@ func _log_line(event: Dictionary) -> String:
 				text += ", qui remplace %s" % removed.display_name
 			return text
 		Protocol.EVT_TELEPORTED:
+			if event.has("heure"):
+				return "%s est envoyé à [color=#%s]%d h[/color]" % [who, _element_hex("impie"), event["heure"]]
+			if event.get("echange", false):
+				return "%s échange sa place" % who
 			return "%s se téléporte" % who
 		Protocol.EVT_GLYPH:
 			return "%s pose la glyphe [color=#%s]%s[/color] (%d tours)" % [_actor_name(event["lanceur"]), LOG_SPELL,
@@ -1650,6 +1657,8 @@ func _apply(event: Dictionary) -> float:
 	if type == Protocol.EVT_GLYPH:
 		_glyphs[event["id"]] = {"cases": event["cases"], "equipe": event["equipe"], "sort": event["sort"],
 			"lanceur": event["lanceur"], "element": event.get("element", "")}
+		if event.has("centre"):
+			_glyphs[event["id"]]["centre"] = event["centre"]  # Horloge : les heures se dessinent dessus.
 		return 0.2
 	if type == Protocol.EVT_GLYPH_ENDED:
 		_glyphs.erase(event["id"])
@@ -1734,6 +1743,8 @@ static func state_text(state: Dictionary) -> String:
 	var duration := "%d tour%s" % [turns, "s" if turns > 1 else ""]
 	if state["type"] == Spell.EFFECT_POISON:
 		return "Poison %d %s (%s)" % [state["valeur"], SpellsWindow.ELEMENT_LABELS.get(state["element"], state["element"]), duration]
+	if state["type"] == Spell.EFFECT_STATE:
+		return "%s (%s)" % [STATE_NAMES.get(state.get("etat", ""), state.get("etat", "")), duration]
 	var carac: String = CARAC_NAMES.get(state["carac"], state["carac"])
 	if state["carac"] == "resistance":
 		carac = "Rés. %s %%" % SpellsWindow.ELEMENT_LABELS.get(state["element"], state["element"])
@@ -1904,6 +1915,11 @@ func _draw() -> void:
 			var spell: Spell = fighter.get_spell(selected_spell)
 			if spell != null:
 				_draw_cells(spell.zone_cells(_hovered, fighter.cell).filter(func(c: Vector2i) -> bool: return map.is_inside(c)), COLOR_ZONE)
+				for entry: Dictionary in _spell_preview.values():
+					if entry.has("arrivee"):
+						var arrival := _scaled_diamond(IsoGrid.cell_to_screen(entry["arrivee"]), 0.8)
+						arrival.append(arrival[0])
+						draw_polyline(arrival, element_color("impie"), 3.0)
 		for command in _planned:
 			if command.has("cible"):
 				draw_colored_polygon(_scaled_diamond(IsoGrid.cell_to_screen(command["cible"]), 0.6), COLOR_PLANNED)
@@ -2017,6 +2033,8 @@ static func preview_lines(entry: Dictionary) -> Array:
 		lines.append([_range_text("-", entry["degats"]), element_color(element, Color(1, 0.35, 0.3))])
 	if entry.has("soin"):
 		lines.append([_range_text("+", entry["soin"]), element_color(element, Color(0.45, 1, 0.45)) if not entry.has("degats") else Color(0.45, 1, 0.45)])
+	if entry.has("heure"):
+		lines.append(["vers %d h" % entry["heure"], element_color("impie")])
 	return lines
 
 
@@ -2122,6 +2140,8 @@ func _draw_ground_marks() -> void:
 			draw_colored_polygon(diamond, colors[0])
 			diamond.append(diamond[0])
 			draw_polyline(diamond, colors[1], 2.0)
+		if glyph.has("centre"):
+			_draw_clock_hours(glyph["centre"], glyph["cases"])
 	for trap: Dictionary in _traps.values():
 		var center := IsoGrid.cell_to_screen(trap["case"])
 		for i in 5:
@@ -2133,6 +2153,18 @@ func _draw_ground_marks() -> void:
 		var flash := COLOR_TRAP_FLASH
 		flash.a *= 1.0 - _trap_flash["age"] / 0.6
 		_draw_cells(_trap_flash["cases"], flash)
+
+
+## Heures d'une horloge (Chronomancien), écrites droites sur chaque case du cadran.
+func _draw_clock_hours(center: Vector2i, cells: Array) -> void:
+	var font := ThemeDB.fallback_font
+	for hour in range(1, 13):
+		var cell := Combat.clock_cell(center, hour)
+		if cell not in cells:
+			continue
+		var text_pos := IsoGrid.cell_to_screen(cell) + Vector2(-16, 5)
+		draw_string_outline(font, text_pos, str(hour), HORIZONTAL_ALIGNMENT_CENTER, 32, 13, 4, Color(0.1, 0.05, 0.15))
+		draw_string(font, text_pos, str(hour), HORIZONTAL_ALIGNMENT_CENTER, 32, 13, Color(1.0, 0.95, 0.8))
 
 
 ## Cases de placement : des cercles bleus (pour ne pas les confondre avec l'eau).

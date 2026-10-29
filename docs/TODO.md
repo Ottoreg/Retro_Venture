@@ -196,8 +196,9 @@ Lots 0 (conception dans le GDD), 1 (personnage, poussé sur `main` à la demande
   Demandes de l'auteur ajoutées : plafond 300 par caractéristique, plus de bonus de caractéristiques
   de race ni d'équipement de départ ; Semi-homme et Lutin (Phase 3) : esquive des retraits PA/PM
   et fuite (+10 % finaux) à la place de la prospection
-- [ ] Mécaniques à faire avant le Semi-homme et le Lutin (Phase 3) : esquive des retraits de PA/PM
-  et tacle / fuite (GDD § 7 ; les passifs de race en +10 % finaux)
+- [ ] **Dès que possible** (demande de l'auteur, 29/10/2026) : esquive des retraits de PA/PM et tacle /
+  fuite (GDD § 7) ; elles manquent aux heures 3 h, 4 h et 9 h de l'Horloge du Chronomancien (sans
+  effet en attendant, GDD § 4.3) et au Semi-homme et au Lutin (Phase 3, passifs en +10 % finaux)
 - [ ] Lot 4 : le passif des Humains (+10 % d'XP de métier) devient +10 % de réputation de métier
 - [ ] **Lot 4. Métiers** : récolte et recettes ouvertes ; réputation et maîtrise de métier (qualité,
   jamais d'échec) ; nouvelle activité par palier de réputation
@@ -216,6 +217,12 @@ Lots 0 (conception dans le GDD), 1 (personnage, poussé sur `main` à la demande
   arme, sans élément ni résistance, pas sur les soins ; portée par les objets (Chevalière du
   Cogneur), affichée dans la fiche
 - [ ] Sorts de Voie sacrés et impies (avec les nouvelles Voies)
+- [x] **Chronomancien, Voie Impie**, jouable dans l'alpha 1 (29/10/2026, GDD § 4.3) : effets
+  `horloge` (cadran de 12 heures vu à l'écran, état Manipulation du temps), `decalage_horaire`
+  (échange de place, obstacle sauté), état `insoignable`, caractéristique `degats_infliges` ; 6 sorts,
+  heures écrites sur la glyphe, aperçu de la case d'arrivée ; protocole v9
+- [ ] Chronomancien : effets de 3 h, 4 h et 9 h (avec l'esquive et le tacle), Voie Givre (positions
+  passées, envoi dans le futur, pulsions), sorts de rang II, équilibrage d'après les retours
 - [x] **(MVP)** Effets : soin, bouclier, téléportation, bonus/malus temporaires (caractéristiques, PA,
   PM, portée, Dommages, % Critique, résistances), poisons, poussée (avec dégâts de choc) et attirance
   (GDD § 7.4)

@@ -51,7 +51,7 @@ nous faire vos retours. Le jeu n'affiche volontairement presque aucune aide à l
 ## Par où commencer
 
 1. **Créez votre personnage** : une race (Humain, Gobelin ou Elfe : elle fixe votre zone de départ
-   et votre camp), une Voie (Guerrier, Rôdeur, Arcaniste ou Théologue) et un nom.
+   et votre camp), une Voie (Guerrier, Rôdeur, Arcaniste, Théologue ou Chronomancien) et un nom.
 2. **Parlez au personnage marqué d'un « ! »** près de votre point d'arrivée : Alric (humains), Grumm
    (gobelins) ou Elwyn (elfes). Son **tutoriel** vous apprend à vous équiper (touche **I**), à
    combattre, à récolter et à forger.
@@ -77,7 +77,7 @@ temps : chaque camp a sa propre histoire.
     +20 prospection et +20 % de brumes en fin de combat.
   - **Elfe** (camp neutre) : départ à **Sylvebrume** ; sort *Pas léger* ; passif +1 portée sur les
     sorts à distance.
-- Quatre Voies (classes), chacune avec sa mécanique :
+- Cinq Voies (classes), chacune avec sa mécanique :
   - **Guerrier** : *Charge* (en ligne droite, jusqu'au contact, puis un coup d'épée) ;
   - **Rôdeur** : *Collet*, un piège invisible qui blesse et ralentit le premier ennemi qui y entre ;
   - **Théologue** (soigneur sacré : soin, bouclier, dégâts Sacrés) : *Absolution*, qui retire leurs
@@ -92,6 +92,14 @@ temps : chaque camp a sa propre histoire.
     couleur de vos états (orange : Flamme, bleu : Givre) ; ils s'affichent aussi au survol de
     votre personnage et dans l'historique. On dit
     qu'un troisième élément compléterait la formule…
+  - **Chronomancien** (nouveau, dégâts Impie : Agilité et Perception) : *Horloge* dessine un
+    **cadran** de 12 cases autour d'un ennemi, heures écrites au sol (12 h en haut à droite). *Tic*
+    et *Tac* (±1 h), *Avance rapide* et *Retour en arrière* (±3 h) et *Contretemps* (+6 h) blessent
+    toujours, et font tourner la cible sur son cadran : chaque heure lui inflige son effet (−1 PA à
+    12 h, −1 PM à 6 h, dégâts ou poison de Givre et de Tempête, insoignable à 10 h, plus de dégâts
+    Impie subis à 5 h, moins de dégâts infligés à 11 h ; 3 h, 4 h et 9 h n'ont pas encore d'effet).
+    Une case occupée : les deux combattants échangent leurs places ; un obstacle : heure suivante.
+    En visant, la case d'arrivée est entourée en violet, avec l'heure au-dessus de la cible.
 - Les soins et boucliers grandissent avec la caractéristique de leur élément (soin Sacré : Force et
   Intelligence ; *Second souffle* du Guerrier : Force ; bouclier de l'*Armure de givre* de
   l'Arcaniste : Perception, l'ancienne Chance).

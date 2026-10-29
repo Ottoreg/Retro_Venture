@@ -1,0 +1,46 @@
+{
+  "images": {
+    "sort_chronomancien_horloge": {
+      "fichier": "sorts/chronomancien_horloge.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_chronomancien_tic": {
+      "fichier": "sorts/chronomancien_tic.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_chronomancien_tac": {
+      "fichier": "sorts/chronomancien_tac.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_chronomancien_avance_rapide": {
+      "fichier": "sorts/chronomancien_avance_rapide.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_chronomancien_retour_en_arriere": {
+      "fichier": "sorts/chronomancien_retour_en_arriere.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_chronomancien_contretemps": {
+      "fichier": "sorts/chronomancien_contretemps.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    }
+  }
+}

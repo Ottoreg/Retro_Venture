@@ -1,0 +1,19 @@
+{
+  "id": "chronomancien",
+  "nom": "Chronomancien",
+  "description": "Dérègle le temps avec des pouvoirs impies. Toujours en avance, ou en retard, mais jamais à l'heure.",
+  "caracteristiques": {
+    "pv": 50,
+    "pa": 6,
+    "pm": 3,
+    "initiative": 95
+  },
+  "sorts": [
+    "chronomancien_horloge",
+    "chronomancien_tic",
+    "chronomancien_tac",
+    "chronomancien_avance_rapide",
+    "chronomancien_retour_en_arriere",
+    "chronomancien_contretemps"
+  ]
+}

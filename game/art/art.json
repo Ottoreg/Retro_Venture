@@ -1664,6 +1664,16 @@
       "accessoires": [
         "etole"
       ]
+    },
+    "chronomancien": {
+      "couleurs": {
+        "tunique": "5a3a78",
+        "manches": "463060",
+        "pantalon": "3a3348",
+        "bottes": "3d2b1f",
+        "ceinture": "b8a46a"
+      },
+      "arme": "baton"
     }
   },
   "races": {

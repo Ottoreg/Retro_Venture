@@ -47,7 +47,7 @@ const PER_LEVEL_KEYS := ["pv", "initiative", "xp", "force", "intelligence", "per
 ## part où sauter, personne à pousser ni à attirer).
 const PHASE_FORBIDDEN_EFFECTS := [Spell.EFFECT_GLYPH, Spell.EFFECT_TRAP, Spell.EFFECT_TELEPORT, Spell.EFFECT_PUSH, Spell.EFFECT_PULL,
 	Spell.EFFECT_CHARGE, Spell.EFFECT_CREATE_SPELL, Spell.EFFECT_ELEMENT_STATE, Spell.EFFECT_COMPOSE_STATES,
-	Spell.EFFECT_REMOVE_STATES]
+	Spell.EFFECT_REMOVE_STATES, Spell.EFFECT_CLOCK, Spell.EFFECT_CLOCK_SHIFT]
 ## Pas de soin au changement de phase, ni en effet ni en sort appris : un monstre qui se soigne en
 ## passant sous un seuil peut enfermer le joueur dans un combat sans fin.
 const PHASE_NO_HEAL := "pas de soin au changement de phase (risque de combat sans fin)"

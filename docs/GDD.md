@@ -309,7 +309,7 @@ sexes × équipements × animations) impose de s'en tenir à ces 9.
 
 ### 4.3 Classes (Voies)
 
-**Court terme (4 classes) :**
+**Court terme (4 classes, plus le Chronomancien Impie ajouté le 29/10/2026 pour l'alpha 1) :**
 
 | Classe | Rôle | Éléments principaux | Style |
 |---|---|---|---|
@@ -317,6 +317,7 @@ sexes × équipements × animations) impose de s'en tenir à ces 9.
 | **Rôdeur** | Distance, mobilité | Acier / Tempête (Force / Agilité) | Arc, pièges, poussée, gestion de distance |
 | **Arcaniste** | Dégâts magiques, contrôle | Flamme / Givre (Intelligence / Perception) | États élémentaires et sorts créés selon leur combinaison : zones, ralentissements, bouclier |
 | **Théologue** | Soigneur sacré | Sacré (Force + Intelligence) | Soins, boucliers, dégâts sacrés modestes |
+| **Chronomancien** | Contrôle, mi-distance | Impie (Agilité + Perception) | Horloge : la cible tourne sur un cadran, chaque heure a son effet (détails plus bas) |
 
 Le **Théologue** est jouable dans l'alpha (✅) : une classe de soin rend le solo plus confortable et
 permet de tester le Sacré dès maintenant. Son arme d'apprentissage : le Sceptre de novice (Sacré,
@@ -343,6 +344,40 @@ l'Arcaniste, dont le kit est entièrement remplacé.
 | **Guerrier** | Charge | *Charge* : 3 PA, 2 à 4 cases **en ligne**, ligne de vue, relance 2 tours ; fonce jusqu'au contact (ou jusqu'à la case si elle est libre ; un obstacle ou un combattant l'arrête avant) et frappe 6 à 9 Acier, seulement s'il arrive au contact |
 | **Rôdeur** | Piège | *Collet* : 3 PA, 1 à 4 cases, relance 2 tours ; piège invisible, 7 à 10 Acier et −2 PM au prochain tour du premier ennemi qui y entre |
 | **Théologue** | Retrait des états | *Absolution* : 3 PA, 0 à 5 cases, relance 2 tours ; retire aux ennemis leurs bonus, aux alliés leurs malus et leurs poisons |
+
+**Chronomancien de l'alpha 1** (Voie Impie seulement, demandé par l'auteur le 29/10/2026 ; la Voie
+Givre viendra plus tard) : *Horloge* pose un **cadran** au sol autour d'un ennemi (les 12 cases à
+2 pas, sans les coins du carré 5 × 5), qui passe dans l'état **Manipulation du temps** (3 tours, ne
+peut pas être retiré). Les heures se lisent **à l'écran**, droites et dans le sens des aiguilles
+d'une montre : 12 h est la case juste à droite du haut, 6 h juste à gauche du bas
+(`Combat.CLOCK_OFFSETS`). Ses autres sorts font des dégâts Impie **avec ou sans cadran**, et
+décalent la cible sur son horloge : au centre, elle part de midi. Si la case d'arrivée est occupée
+par un combattant, ils **échangent leurs places** ; si c'est un obstacle (ou hors de la carte), la
+cible va à l'heure suivante dans le sens du décalage. L'heure atteinte applique son effet à la
+cible :
+
+| Heure | Effet | Heure | Effet |
+|---|---|---|---|
+| 12 h | −1 PA (1 tour) | 6 h | −1 PM (1 tour) |
+| 1 h | 10 dégâts Givre | 7 h | 10 dégâts Tempête |
+| 2 h | Poison Givre 5 (2 tours) | 8 h | Poison Tempête 5 (2 tours) |
+| 3 h | *(à venir : −10 % d'esquive des retraits de PA, 2 tours)* | 9 h | *(à venir : −10 % d'esquive des retraits de PM, 2 tours)* |
+| 4 h | *(à venir : inblocable 1 tour, ne tacle pas non plus)* | 10 h | Insoignable (1 tour) |
+| 5 h | +10 % de dégâts Impie subis (1 tour) | 11 h | −10 % de dégâts infligés (1 tour) |
+
+3 h, 4 h et 9 h sont **sans effet** tant que l'esquive des retraits et le tacle / fuite n'existent
+pas (à coder dès que possible, TODO). Les sorts (valeurs de départ, à équilibrer d'après les
+retours) :
+
+| Sort | PA | Portée | Effet |
+|---|---|---|---|
+| *Horloge* | 3 | 1 à 5, ligne de vue | 3 à 5 Impie, horloge 3 tours (1 fois par tour, relance 2 tours) |
+| *Tic* / *Tac* | 2 | 1 à 5, ligne de vue | 4 à 6 Impie, +1 h / −1 h (2 fois par tour) |
+| *Avance rapide* / *Retour en arrière* | 4 | 1 à 4, ligne de vue | 9 à 12 Impie, +3 h / −3 h (1 fois par tour) |
+| *Contretemps* | 3 | 1 à 3, ligne de vue | 6 à 8 Impie, +6 h, de l'autre côté du cadran (+6 h et −6 h mènent à la même heure ; relance 2 tours) |
+
+En combat : les heures sont écrites sur la glyphe, et le survol d'une cible avec un sort de
+décalage montre sa case d'arrivée et l'heure (« vers 3 h »).
 
 **Arcaniste de l'alpha 1** : les états élémentaires Flamme et Givre seulement (ses caractéristiques
 et son équipement ne changent pas). Ses anciens sorts (*Boule de feu*, *Éclat de givre*,
@@ -410,8 +445,8 @@ Par caractéristique (le Sacré compte pour la Force et l'Intelligence, l'Impie 
 Perception) : Force 6 classes, Intelligence 5, Perception 5, Agilité 5. L'Acier a une classe de plus, en
 accord avec ses 33 % chez les monstres (§ 8.1).
 
-Dans l'alpha 1 (4 classes) : Acier 2 (Guerrier, Rôdeur), Tempête 1 (la Flèche du Rôdeur), Flamme 1
-et Givre 1 (Arcaniste), Sacré 1 (Théologue), Impie 0. Points à suivre : aucune classe de l'alpha 1 ne
+Dans l'alpha 1 (5 classes) : Acier 2 (Guerrier, Rôdeur), Tempête 1 (la Flèche du Rôdeur), Flamme 1
+et Givre 1 (Arcaniste), Sacré 1 (Théologue), Impie 1 (Chronomancien, depuis le 29/10/2026 ; avant, Impie 0). Points à suivre : aucune classe de l'alpha 1 ne
 joue l'Impie (la Panoplie du Mauvais Œil ne sert encore à personne) ; quand le Rôdeur passera de la
 Tempête à la Flamme, la Tempête n'aura plus de classe de départ en attendant l'Arcaniste refondu, le
 Paladin et l'Ombre.

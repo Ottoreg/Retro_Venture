@@ -79,6 +79,8 @@ def effet(e):
         carac = STATS.get(e["carac"], e["carac"])
         if e["carac"] == "resistance":
             carac += " " + element(e)
+        if e["carac"] == "degats_infliges":
+            carac = "% dégâts infligés"
         texte = "%s%s %s%s" % ("+" if t == "bonus" else "−", valeur, carac, tours(e))
     elif t == "poussee":
         texte = "poussée de %s case(s)" % valeur
@@ -105,6 +107,13 @@ def effet(e):
         texte = "retire %s" % " et ".join({"bonus": "les bonus", "malus": "les malus", "poison": "les poisons"}.get(x, x) for x in e["etats"])
     elif t == "glyphe":
         texte = "glyphe%s : [%s]" % (tours(e), effets(e["effets"]))
+    elif t == "horloge":
+        texte = "horloge%s : [%s]" % (tours(e), " ; ".join(
+            "%s h : %s" % (h, effets(e["heures"].get(str(h), [])) or "sans effet") for h in range(1, 13)))
+    elif t == "decalage_horaire":
+        texte = "%+d h sur l'horloge" % e["heures"]
+    elif t == "etat":
+        texte = "%s%s" % (e["etat"], tours(e))
     elif t == "piege":
         zone_piege = " " + zone(e["zone"]) if "zone" in e else ""
         texte = "piège invisible%s : [%s]" % (zone_piege, effets(e["effets"]))

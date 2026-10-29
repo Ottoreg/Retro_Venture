@@ -26,7 +26,7 @@ Prix de boutique : selon la rareté (revente à 25 %).
 - [Sorts de race](#sorts-de-race)
 - [Sorts des monstres](#sorts-des-monstres)
 
-**289 objets** (43 armes, 28 coiffes, 28 capes, 30 amulettes, 32 anneaux, 27 ceintures, 29 bottes, 66 ressources, 6 objets de quête), **50 monstres** et **118 sorts**.
+**289 objets** (43 armes, 28 coiffes, 28 capes, 30 amulettes, 32 anneaux, 27 ceintures, 29 bottes, 66 ressources, 6 objets de quête), **50 monstres** et **124 sorts**.
 
 ## Armes
 
@@ -1197,6 +1197,19 @@ Sorts créés (*Fusion arcanique*, selon la combinaison des 3 états élémentai
 | **Choc thermique** | 4 PA, portée 1–5, 1/tour | 7–10 Flamme ; 4–6 Givre ; −10 Résistance Flamme (2 t.) | Flamme + Flamme + Givre | Flamme, Flamme, Givre. Chaud puis froid : la cible se fendille, et le prochain feu la trouvera moins solide. |
 | **Armure de givre** | 4 PA, portée 0–3, 1/tour, relance 1 t. | bouclier 14–20 (Givre) aux alliés ; +20 Intelligence (2 t.) aux alliés | Flamme + Givre + Givre | Givre, Givre, Flamme. Une carapace de glace pour encaisser, et une petite flamme dedans pour garder les idées claires. |
 | **Blizzard** | 4 PA, portée 1–5, cercle de rayon 1, 1/tour | 6–9 Givre aux ennemis ; −2 PM au prochain tour aux ennemis | Givre + Givre + Givre | Givre, Givre, Givre. Une tempête de neige en miniature : les ennemis pris dedans avancent comme dans de la mélasse. |
+
+### Chronomancien
+
+Dérègle le temps avec des pouvoirs impies. Toujours en avance, ou en retard, mais jamais à l'heure. PV 50, PA 6, PM 3, initiative 95. Départ : .
+
+| Sort | Caractéristiques | Effets | Description |
+|---|---|---|---|
+| **Horloge** | 3 PA, portée 1–5, 1/tour, relance 2 t. | 3–5 Impie aux ennemis ; horloge (3 t.) : [1 h : 10 Givre ; 2 h : poison 5 Givre par tour (2 t.) ; 3 h : sans effet ; 4 h : sans effet ; 5 h : −10 Résistance Impie (1 t.) ; 6 h : −1 PM (1 t.) ; 7 h : 10 Tempête ; 8 h : poison 5 Tempête par tour (2 t.) ; 9 h : sans effet ; 10 h : insoignable (1 t.) ; 11 h : −10 % dégâts infligés (1 t.) ; 12 h : −1 PA (1 t.)] aux ennemis | Dessine un cadran géant autour de l'ennemi, qui passe dans l'état Manipulation du temps. Ses autres sorts le font tourner dessus, et chaque heure a son petit désagrément. Les heures 3, 4 et 9 attendent encore leurs aiguilles. |
+| **Tic** | 2 PA, portée 1–5, 2/tour | 4–6 Impie ; +1 h sur l'horloge | Une petite piqûre de temps. Sur une horloge, la cible avance d'une heure. |
+| **Tac** | 2 PA, portée 1–5, 2/tour | 4–6 Impie ; -1 h sur l'horloge | Le même, à rebours. Sur une horloge, la cible recule d'une heure. |
+| **Avance rapide** | 4 PA, portée 1–4, 1/tour | 9–12 Impie ; +3 h sur l'horloge | Trois heures de vie en un claquement de doigts. Sur une horloge, la cible avance de trois heures. |
+| **Retour en arrière** | 4 PA, portée 1–4, 1/tour | 9–12 Impie ; -3 h sur l'horloge | « Recommençons depuis le début. » Sur une horloge, la cible recule de trois heures. |
+| **Contretemps** | 3 PA, portée 1–3, 1/tour, relance 2 t. | 6–8 Impie ; +6 h sur l'horloge | Un rendez-vous manqué de six heures pile. Sur une horloge, la cible passe de l'autre côté du cadran. |
 
 ### Guerrier
 
