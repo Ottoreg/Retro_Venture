@@ -538,6 +538,19 @@ func give_class_kit(character: Character, class_id: String) -> void:
 		character.inventory.add(template, 1, Item.roll_bonuses(template, rng))
 
 
+## Tranche de niveaux des monstres des groupes d'une carte (`monstres` ou `parmi`, variantes
+## d'après boss comprises) : Vector2i(min, max), ou (0, 0) sans groupe.
+func map_level_range(map: GameMap) -> Vector2i:
+	var result := Vector2i.ZERO
+	for group: Dictionary in map.groups:
+		for monster_id: Variant in group.get("monstres", group.get("parmi", [])):
+			if not monsters.has(monster_id):
+				continue
+			var levels := monster_level_range(monster_id)
+			result = levels if result == Vector2i.ZERO else Vector2i(mini(result.x, levels.x), maxi(result.y, levels.y))
+	return result
+
+
 ## Tranche de niveaux d'un monstre : Vector2i(min, max). Sans « niveaux » (élites, boss…), son
 ## niveau fixe aux deux bouts.
 func monster_level_range(monster_id: String) -> Vector2i:

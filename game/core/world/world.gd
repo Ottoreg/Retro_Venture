@@ -1767,7 +1767,6 @@ func _shop_articles() -> Array:
 			"niveau": int(template.get("niveau", 1)),
 			"description": template.get("description", ""),
 			"bonus": template.get("bonus", {}).duplicate(true),
-			"conditions": template.get("conditions", {}).duplicate(),
 			"prix": Item.buy_price(template),
 		})
 	articles.sort_custom(_article_order)
@@ -2309,7 +2308,6 @@ func _workshop_recipes(job_id: String) -> Array:
 			"niveau_objet": int(template.get("niveau", 1)),
 			"description": template.get("description", ""),
 			"bonus": template.get("bonus", {}).duplicate(true),
-			"conditions": template.get("conditions", {}).duplicate(),
 			"ingredients": ingredients,
 			"xp": int(recipe.get("xp", 0)),
 		})

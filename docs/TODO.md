@@ -177,19 +177,20 @@ Lots 0 (conception dans le GDD), 1 (personnage, poussé sur `main` à la demande
   `Character` (fin de `level`, `xp`, `XP_RATE`, points à répartir, PV par niveau) ; Chance renommée
   Perception (script, sans toucher aux « chances » de butin) ; Sagesse supprimée ; prospection sans
   Perception ; changement de classe hors combat ; sauvegarde (remise à zéro des personnages d'alpha)
-  et Supabase ; protocole v8. Les scripts de production (`docs/design/`) écrivent encore `sagesse`
+  et Supabase ; protocole v8. Les scripts de production (`docs/design/`) écrivent encore `sagesse` (et `chantier3_brouillon/src/common.py` des `conditions` d'objets, refusées depuis le lot 3)
   (à convertir avant de les relancer)
 - [x] **Lot 2. Combat** : facteur de difficulté (menace des monstres contre force du joueur ou du
   groupe) ; gains par sort à effet réel (selon les PA), par monstre vaincu et par coups reçus
   (Vitalité) ; plafond par combat ; rangs de maîtrise des sorts (Voie pilote : Guerrier, GDD § 4.5) ;
   sorts de rang II débloqués par réputation ; parts de groupe ; `tools/simulation.gd` (colonnes
   facteur et réputation par combat) ; bouton de maîtrise dans la fenêtre des sorts
-- [ ] Valider les deux sorts de rang II proposés pour le Guerrier (*Cri de guerre*, *Fendoir*,
-  GDD § 4.5) et régler les gains (réputation, caractéristiques, facteur) après des parties réelles
+- [x] Sorts de rang II du Guerrier (*Cri de guerre*, *Fendoir*) validés par l'auteur le 29/10/2026
+  (à revoir si les tests montrent un souci)
+- [ ] Régler les gains (réputation, caractéristiques, facteur) après des parties réelles
 - [ ] La simulation montre 0 % de victoires pour l'Arcaniste (aussi avant le lot 2) : son IA ignore
   *Composition* et *Fusion arcanique*, donc ses sorts créés ; à traiter pour que la simulation
   mesure ses gains
-- [ ] **Lot 3. Objets et monde** : fin des conditions de niveau des objets (le niveau devient un
+- [x] **Lot 3. Objets et monde** : fin des conditions de niveau des objets (le niveau devient un
   palier) ; panoplies 15 / 30 rééquilibrées ; lignes de Sagesse converties (objets, ressources,
   montures, races Humain et Squelette) ; menace des monstres affichée ; zones et carte du monde
 - [ ] **Lot 4. Métiers** : récolte et recettes ouvertes ; réputation et maîtrise de métier (qualité,

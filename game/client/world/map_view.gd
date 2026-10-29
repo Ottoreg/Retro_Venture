@@ -845,6 +845,7 @@ func _describe(cell: Vector2i) -> String:
 					world.data.races.get(data["race"], {}).get("nom", data["race"]), world.data.voies.get(data["kind"], {}).get("nom", data["kind"]),
 					"Membre du groupe" if world.is_party_member(actor_id) else "Cliquer pour l'inviter dans le groupe"]
 			var text := group_lines(data.get("members", [data["kind"]]), world.data, data.get("levels", []))
+			text += "\n" + threat_line(_group_levels(data), world.character)
 			var rank := world.elite_rank(world.group(actor_id))
 			if rank > 0:
 				text += "\nButin : +%d %%" % roundi(rank * World.ELITE_LOOT_BONUS_PER_RANK * 100.0)
@@ -1789,6 +1790,22 @@ static func group_lines(monster_ids: Array, data: GameData, levels: Array = []) 
 		var level := int(levels[i]) if i < levels.size() else int(monster.get("niveau", 1))
 		lines.append("Niv. %d %s%s" % [level, monster.get("nom", monster_id), " (élite)" if monster.get("elite", false) else ""])
 	return "\n".join(lines)
+
+
+## Niveaux des monstres d'un groupe affiché (tirés, ou de base à défaut).
+func _group_levels(data: Dictionary) -> Array:
+	var levels: Array = data.get("levels", []).duplicate()
+	var members: Array = data.get("members", [data["kind"]])
+	for i in range(levels.size(), members.size()):
+		levels.append(int(world.data.monsters.get(members[i], {}).get("niveau", 1)))
+	return levels
+
+
+## Menace d'un combat contre ces niveaux de monstres pour le personnage (GDD § 4.5) : « Menace :
+## faible (gains × 0,5) ».
+static func threat_line(monster_levels: Array, character: Character) -> String:
+	var factor := Progression.difficulty(monster_levels, [Progression.equivalent_level(character.reputation())])
+	return "Menace : %s (gains × %s)" % [Progression.threat_name(factor), CombatHud.difficulty_text(factor)]
 
 
 ## Nom affiché d'un groupe : « Loup des collines », ou « Groupe : 2 × Rat des galeries, Grouilleur ».

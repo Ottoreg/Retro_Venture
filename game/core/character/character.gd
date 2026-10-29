@@ -411,7 +411,6 @@ static func _entries_sheet(source: Inventory, data: GameData) -> Array:
 			"description": template.get("description", ""),
 			"quantite": entry["quantite"],
 			"jets": entry["jets"].duplicate(),
-			"conditions": template.get("conditions", {}).duplicate(),
 			"emplacement": source.slot_of(entry["uid"]),
 		})
 	listed.sort_custom(_inventory_order)

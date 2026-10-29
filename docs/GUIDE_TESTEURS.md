@@ -105,13 +105,13 @@ temps : chaque camp a sa propre histoire.
 | Barre d'objets | Hors combat, la barre du bas montre des emplacements d'objets à la place des sorts : vides pour l'instant, ils accueilleront les consommables (potions, nourriture) quand il y en aura. Les sorts reviennent en combat et se consultent avec S |
 | Attaquer un groupe de monstres | Clic sur le groupe : le personnage le rejoint et le combat commence |
 | Parler, commercer, fabriquer | Clic sur un PNJ (bulle « … », ou « ! » / « ? » s'il a une quête pour vous) |
-| Boutique | Chez un marchand : onglets Acheter / Vendre et **barre de recherche** (un mot du nom ou du type, « botte », « anneau »… sans se soucier des accents) |
+| Boutique | Chez un marchand : onglets Acheter / Vendre et **barre de recherche** (un mot du nom ou du type, « botte », « anneau »… sans se soucier des accents) ; un équipement coûte plus cher quand son palier est haut (× 5 au palier 15, × 10 au palier 30) |
 | Historique | À gauche de la barre du bas, touche **H** pour le replier : onglet **Combat** (gardé d'un combat à l'autre) et **Commerce** (chaque achat et vente : objet, quantité, marchand, brumes) ; « Tout » mêle les deux |
 | Récolter | Clic sur un arbre (bûcheron) ou un rocher à minerai (mineur) |
 | Entrer / sortir d'un bâtiment | Clic sur la porte : celles où l'on peut entrer sont marquées au sol d'un losange doré (double chevron) |
 | Changer de carte | Clic sur une case du bord marquée d'un halo blanc (la flèche jaune indique la direction) |
 | Voyager vers une autre zone | Clic sur la **Pierre de Passage** (pierre levée aux runes bleues, sur un halo bleu au sol), puis choisir la destination (voir plus bas) |
-| Voir ce qu'on survole | Passer la souris sur un monstre, un PNJ, une ressource : une bulle s'affiche (pour un groupe : chaque monstre avec son niveau) |
+| Voir ce qu'on survole | Passer la souris sur un monstre, un PNJ, une ressource : une bulle s'affiche (pour un groupe : chaque monstre avec son niveau, puis sa **menace** pour vous : négligeable, faible, à votre mesure ou redoutable, et le multiplicateur de vos gains) |
 
 ### Fenêtres et raccourcis
 
@@ -149,7 +149,7 @@ Les sorts se consultent dans leur fenêtre (S).
   disent ce qu'il y a sur chaque carte : losange bleu, Pierre de Passage ; A atelier, M marchand,
   C coffre, B mini-boss, ! quête à prendre ou à rendre. **Clic droit** sur une carte : un drapeau
   (Maj + clic droit : vos coéquipiers le voient aussi) ; sous la minicarte, une flèche vous indique
-  sa direction et sa distance. Survolez une case pour son nom. En haut, le nom de la zone et les
+  sa direction et sa distance. Survolez une case pour son nom (et, si vous l'avez visitée, le niveau de ses monstres et leur menace pour vous). En haut, le nom de la zone et les
   coordonnées de la carte ; dans une maison, elle montre la carte devant la porte. Un **clic** dessus
   ouvre la carte du monde (hors combat).
 - **Carte du monde** (touche **M**, bouton en forme de carte du bandeau, ou clic sur la minicarte) :

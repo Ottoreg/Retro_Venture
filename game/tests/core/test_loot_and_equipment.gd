@@ -119,7 +119,7 @@ func test_aucune_condition_d_equipement() -> void:
 	var helmet := world.character.inventory.add(data.items["heaume"], 1, {"vitalite": 10})
 	assert_eq(_command(world, Protocol.CMD_EQUIP, {"objet": helmet})[0]["type"], Protocol.EVT_INVENTORY, "ancien niveau 3 requis")
 	var cloak := world.character.inventory.add(data.items["lourd"], 1, {})
-	assert_eq(_command(world, Protocol.CMD_EQUIP, {"objet": cloak})[0]["type"], Protocol.EVT_INVENTORY, "ancienne Force 60 requise")
+	assert_eq(_command(world, Protocol.CMD_EQUIP, {"objet": cloak})[0]["type"], Protocol.EVT_INVENTORY, "manteau rare : rien de requis")
 	var tooth := world.character.inventory.add(data.items["dent"], 1)
 	assert_eq(_command(world, Protocol.CMD_EQUIP, {"objet": tooth})[0]["raison"], Protocol.REASON_NOT_EQUIPPABLE)
 	assert_eq(_command(world, Protocol.CMD_EQUIP, {"objet": "o999"})[0]["raison"], Protocol.REASON_UNKNOWN_ITEM)

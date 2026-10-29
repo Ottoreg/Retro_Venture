@@ -66,11 +66,12 @@ Phase 2 (alpha solo), en deux tests :
   (à répartir dans les sorts ou compétences) par classe et par métier ; une classe active à la fois,
   changée hors combat ; caractéristiques gagnées par la pratique et plafonnées ; Chance → Perception,
   Sagesse supprimée ; équipement sans condition ; maîtrise de métier = qualité, jamais d'échec.
-  Plus art et son (5). **Lots 0, 1 et 2 faits sur `main`** (29/10/2026, GDD § 4.5 « Où en est la
+  Plus art et son (5). **Lots 0 à 3 faits sur `main`** (29/10/2026, GDD § 4.5 « Où en est la
   refonte ») : `Character.classes` / `earned` / `practiced`, commandes `changer_voie` et `maitriser`,
   protocole v8 ; gains par action en combat (`Progression`, `Combat.practice`, facteur de
   difficulté), rangs de maîtrise (`Spell.mastered`, champ `maitrise`), sorts de rang II
-  (`sorts_rang_2`, deux propositions du Guerrier à faire valider). Prochain : lot 3 (objets et monde).
+  (`sorts_rang_2`, Cri de guerre et Fendoir validés) ; objets sans conditions, prix selon le palier,
+  menace des monstres affichée (`MapView.threat_line`). Prochain : lot 4 (métiers).
 
 État des chantiers :
 

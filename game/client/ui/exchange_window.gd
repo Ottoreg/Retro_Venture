@@ -170,7 +170,7 @@ func _sheet(lines: Array) -> Array:
 		sheet.append({"uid": line["uid"], "objet": line["objet"], "nom": template.get("nom", line["objet"]),
 			"type": template.get("type", ""), "rarete": template.get("rarete", "commun"),
 			"niveau": int(template.get("niveau", 1)), "description": template.get("description", ""),
-			"quantite": line["quantite"], "jets": line["jets"], "conditions": template.get("conditions", {}),
+			"quantite": line["quantite"], "jets": line["jets"],
 			"emplacement": ""})
 	return sheet
 

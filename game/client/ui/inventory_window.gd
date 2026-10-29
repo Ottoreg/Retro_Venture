@@ -354,12 +354,10 @@ func _show_details(entry: Dictionary) -> void:
 		return
 	var lines: PackedStringArray = [
 		"%s — %s" % [entry["nom"], Item.RARITY_NAMES.get(entry["rarete"], "")],
-		"%s, niveau %d" % [TYPE_NAMES.get(entry["type"], entry["type"]), entry["niveau"]],
+		"%s, palier %d" % [TYPE_NAMES.get(entry["type"], entry["type"]), entry["niveau"]],
 	]
 	var template: Dictionary = map_view.world.data.items.get(entry["objet"], {})
 	lines.append_array(roll_lines(entry, template, _show_ranges))
-	for stat: String in entry["conditions"]:
-		lines.append("Condition : %s ≥ %d" % [Item.stat_name(stat), entry["conditions"][stat]])
 	lines.append_array(attack_lines(template))
 	lines.append_array(set_lines(entry["objet"], map_view.world.data, map_view.world.character.inventory))
 	if not str(entry["description"]).is_empty():

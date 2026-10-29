@@ -29,20 +29,18 @@ static func make_label(bbcode: String) -> RichTextLabel:
 
 
 ## Infobulle d'un objet (ligne de `Character.inventory_sheet`, ou article de marchand avec ses
-## plages « bonus ») : nom, type, bonus, conditions, attaque, puis la comparaison.
+## plages « bonus ») : nom, type, bonus, attaque, puis la comparaison.
 static func tooltip_text_for(entry: Dictionary, data: GameData, inventory: Inventory, show_ranges := false) -> String:
 	var template: Dictionary = data.items.get(entry["objet"], {}) if data != null else {}
 	var lines: PackedStringArray = [
 		_colored(_escape(str(entry["nom"])) + (" ×%d" % int(entry["quantite"]) if int(entry.get("quantite", 1)) > 1 else ""),
 			InventoryWindow.rarity_color(entry["rarete"])),
-		_colored("%s, niveau %d" % [InventoryWindow.TYPE_NAMES.get(entry["type"], entry["type"]), entry["niveau"]], DIM),
+		_colored("%s, palier %d" % [InventoryWindow.TYPE_NAMES.get(entry["type"], entry["type"]), entry["niveau"]], DIM),
 	]
 	var bonus_lines := InventoryWindow.roll_lines(entry, template, show_ranges) if entry.has("jets") \
 		else InventoryWindow.bonus_range_lines(entry.get("bonus", {}))
 	for line in bonus_lines:
 		lines.append(_escape(line))
-	for stat: String in entry.get("conditions", {}):
-		lines.append("Condition : %s ≥ %d" % [Item.stat_name(stat), entry["conditions"][stat]])
 	for line in InventoryWindow.attack_lines(template):
 		lines.append(_escape(line))
 	lines.append_array(comparison_lines(entry, data, inventory))

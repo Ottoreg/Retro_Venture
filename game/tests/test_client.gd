@@ -925,7 +925,8 @@ func test_tous_les_membres_d_un_groupe_sont_affiches() -> void:
 	for i in hovered["monstres"].size():
 		var monster_id: String = hovered["monstres"][i]
 		expected.append("Niv. %d %s" % [hovered["niveaux"][i], view.server.data.monsters[monster_id]["nom"]])
-	assert_eq(scene._hover_label.text, "\n".join(expected), "un monstre par ligne, niveau devant")
+	expected.append(MapView.threat_line(hovered["niveaux"], view.world.character))
+	assert_eq(scene._hover_label.text, "\n".join(expected), "un monstre par ligne, niveau devant, puis la menace")
 	view._set_hovered(view.current_map().spawn)
 	assert_false(scene._hover_bubble.visible, "pas de bulle sur une case vide")
 
@@ -1012,7 +1013,8 @@ func test_niveaux_tires_dans_la_bulle_et_en_combat() -> void:
 	view.refresh_state()
 	view._load_exploration_actors()
 	view._set_hovered(group["case"])
-	assert_eq(scene._hover_label.text, "Niv. 3 Rat des galeries\nNiv. 1 Rat des galeries", "le niveau tiré de chaque monstre")
+	assert_true(scene._hover_label.text.begins_with("Niv. 3 Rat des galeries\nNiv. 1 Rat des galeries\nMenace : "),
+		"le niveau tiré de chaque monstre")
 	# En combat : chaque rat à son niveau, affiché dans le cadre du combattant survolé.
 	view._on_click(group["case"])
 	_run_until_idle(view)

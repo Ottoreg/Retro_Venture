@@ -40,6 +40,25 @@ func test_facteur_de_difficulte() -> void:
 	assert_true(Progression.difficulty([2], [3]) > Progression.difficulty([2], [4]), "entre deux points, interpolé")
 
 
+func test_menace_en_mots() -> void:
+	assert_eq(Progression.threat_name(0.1), "négligeable")
+	assert_eq(Progression.threat_name(0.5), "faible")
+	assert_eq(Progression.threat_name(1.0), "à votre mesure")
+	assert_eq(Progression.threat_name(1.5), "redoutable")
+	var character := Fixtures.character()
+	assert_eq(MapView.threat_line([1, 1], character), "Menace : à votre mesure (gains × 1)")
+	character.add_reputation(5000)
+	assert_eq(MapView.threat_line([1, 1], character), "Menace : négligeable (gains × 0,1)", "un Compagnon contre deux monstres de niveau 1")
+
+
+func test_tranche_de_niveaux_d_une_carte() -> void:
+	var data := GameData.load_all()
+	var map := DataLoader.load_map(DataLoader.map_path("brumerive_0_0"))
+	var levels := data.map_level_range(map)
+	assert_true(levels.x >= 1 and levels.x <= levels.y and levels.y <= 3, "Brumerive (0, 0) : premier palier (%s)" % str(levels))
+	assert_eq(data.map_level_range(GameMap.new()), Vector2i.ZERO, "sans groupe")
+
+
 func test_niveau_equivalent_tire_de_la_reputation() -> void:
 	assert_eq(Progression.equivalent_level(0), 1)
 	assert_eq(Progression.equivalent_level(22), 1, "l'ancienne courbe sans le × 3,5 : 80 / 3,5 pour le niveau 2")
@@ -52,14 +71,14 @@ func test_niveau_equivalent_tire_de_la_reputation() -> void:
 func test_gains_d_un_combat() -> void:
 	var gains := Progression.gains({"effet": {"acier": 10.0}, "utile": 4.0, "pv_recus": 50.0}, 1.0)
 	assert_eq(gains["reputation"], 24, "(10 PA + la moitié de 4) × 2")
-	assert_almost_eq(gains["caracteristiques"]["force"], 0.15, 0.0001, "l'Acier fait la Force")
+	assert_almost_eq(gains["caracteristiques"]["force"], 10 * Progression.STAT_PER_PA, 0.0001, "l'Acier fait la Force")
 	assert_almost_eq(gains["caracteristiques"]["vitalite"], 1.0, 0.0001, "les coups reçus font la Vitalité")
 	assert_false(gains["caracteristiques"].has("intelligence"))
 	var halved := Progression.gains({"effet": {"acier": 10.0}}, 0.5, 3.0)
 	assert_eq(halved["reputation"], 13, "facteur 0,5, plus la part des monstres vaincus")
 	var sacred: Dictionary = Progression.gains({"effet": {"sacre": 10.0}}, 1.0)["caracteristiques"]
-	assert_almost_eq(sacred["force"], 0.075, 0.0001, "Sacré : Force et Intelligence par moitié")
-	assert_almost_eq(sacred["intelligence"], 0.075, 0.0001)
+	assert_almost_eq(sacred["force"], 5 * Progression.STAT_PER_PA, 0.0001, "Sacré : Force et Intelligence par moitié")
+	assert_almost_eq(sacred["intelligence"], 5 * Progression.STAT_PER_PA, 0.0001)
 	var endless := Progression.gains({"effet": {"acier": 120.0}, "pv_recus": 1000.0}, 1.0)
 	assert_eq(endless["reputation"], roundi(Progression.MAX_PA_PER_COMBAT * Progression.REPUTATION_PER_PA), "PA plafonnés par combat")
 	assert_almost_eq(endless["caracteristiques"]["vitalite"], Progression.MAX_HP_PER_COMBAT * Progression.VITALITY_PER_HP, 0.0001)

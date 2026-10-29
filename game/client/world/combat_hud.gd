@@ -807,7 +807,9 @@ func _show_target() -> void:
 
 ## Facteur de difficulté d'un combat : « 1,5 », « 0,25 » (GDD § 4.5).
 static func difficulty_text(factor: float) -> String:
-	return str(snappedf(factor, 0.01)).replace(".", ",")
+	var text := "%.2f" % snappedf(factor, 0.01)
+	text = text.rstrip("0").rstrip(".")
+	return text.replace(".", ",")
 
 
 ## Caractéristiques gagnées par la pratique : « +1 Force, +2 Vitalité », dans l'ordre de la fiche.

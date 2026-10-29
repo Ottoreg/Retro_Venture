@@ -184,6 +184,14 @@ class ZoneGrid extends Control:
 					names.append(MapIcons.NAMES[kind])
 			if not names.is_empty():
 				text += "\n" + ", ".join(names)
+		if world != null and case["visitee"]:
+			var map: GameMap = world.map_by_id(case["id"])
+			var levels: Vector2i = world.data.map_level_range(map) if map != null else Vector2i.ZERO
+			if levels != Vector2i.ZERO:
+				# Menace des monstres pour le personnage (GDD § 4.5) : ceux de niveau moyen, à deux.
+				var typical := roundi((levels.x + levels.y) / 2.0)
+				text += "\nMonstres de niveau %s · %s" % [str(levels.x) if levels.x == levels.y else "%d à %d" % [levels.x, levels.y],
+					MapView.threat_line([typical, typical], world.character).to_lower()]
 		if case["actuelle"]:
 			text += "\nVous êtes dans une maison de cette carte." if indoors else "\nVous êtes ici."
 		if case["id"] == pin.get("carte", ""):

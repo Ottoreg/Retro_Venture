@@ -15,9 +15,6 @@
       13
     ]
   },
-  "conditions": {
-    "force": 40
-  },
   "attaque": {
     "cout_pa": 5,
     "portee": {

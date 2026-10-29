@@ -12,7 +12,7 @@ const UTILITY_SHARE := 0.5
 ## Réputation d'un monstre vaincu : cette part de son XP, partagée entre les joueurs du combat.
 const KILL_SHARE := 0.25
 ## Caractéristique de l'élément d'un sort à effet réel, par PA (avant le ralentissement).
-const STAT_PER_PA := 0.015
+const STAT_PER_PA := 0.03
 ## Vitalité par PV réellement perdu.
 const VITALITY_PER_HP := 0.02
 ## Plafonds d'un combat (contre les combats sans fin) : PA comptés, PV perdus comptés.
@@ -65,6 +65,18 @@ static func difficulty(monster_levels: Array, player_levels: Array) -> float:
 			var weight := (ratio - float(low[0])) / (float(high[0]) - float(low[0]))
 			return lerpf(float(low[1]), float(high[1]), weight)
 	return float(points[-1][1])
+
+
+## Menace d'un combat en mots, d'après son facteur de difficulté (affichage : bulle des groupes,
+## carte du monde).
+static func threat_name(factor: float) -> String:
+	if factor < 0.2:
+		return "négligeable"
+	if factor < 0.75:
+		return "faible"
+	if factor < 1.25:
+		return "à votre mesure"
+	return "redoutable"
 
 
 ## Caractéristiques d'un élément, avec leur part : Acier → Force, Flamme → Intelligence, Givre →

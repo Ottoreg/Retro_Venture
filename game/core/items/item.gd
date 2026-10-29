@@ -27,6 +27,8 @@ const EQUIPMENT_PRICES := {
 const RESOURCE_PRICES := {
 	"commun": 4, "peu_commun": 12, "rare": 35, "epique": 90, "legendaire": 250, "relique": 600,
 }
+## Palier d'équipement jusqu'auquel le prix ne dépend que de la rareté (voir `tier_price_factor`).
+const PRICE_TIER_STEP := 3.0
 ## Part du prix d'achat que le marchand paie quand on lui revend un objet.
 const RESALE_RATE := 0.25
 ## Bonus que peut donner un équipement, en plus des 6 caractéristiques.
@@ -52,7 +54,17 @@ static func stat_name(stat: String) -> String:
 ## Prix d'achat d'un objet chez un marchand.
 static func buy_price(template: Dictionary) -> int:
 	var prices: Dictionary = EQUIPMENT_PRICES if is_equipment(template) else RESOURCE_PRICES
-	return int(prices.get(template.get("rarete", "commun"), prices["commun"]))
+	var price := int(prices.get(template.get("rarete", "commun"), prices["commun"]))
+	if is_equipment(template):
+		# Sans condition pour l'équiper, le palier d'un équipement le rend plus cher (GDD § 9.2).
+		price = roundi(price * tier_price_factor(int(template.get("niveau", 1))))
+	return price
+
+
+## Multiplicateur du prix d'un équipement selon son palier (`niveau`) : × 1 jusqu'au palier
+## `PRICE_TIER_STEP`, puis palier / `PRICE_TIER_STEP` (palier 15 : × 5, palier 30 : × 10).
+static func tier_price_factor(tier: int) -> float:
+	return maxf(1.0, float(tier) / PRICE_TIER_STEP)
 
 
 ## Prix de revente d'un objet à un marchand : une part du prix d'achat, au moins 1 brume.
@@ -93,13 +105,8 @@ static func validate(data: Dictionary) -> PackedStringArray:
 				errors.append("bonus « %s » : [min, max] attendu, caractéristiques : %s" % [str(stat), str(bonus_stats())])
 		if (type == TYPE_RESOURCE or type == TYPE_QUEST) and not bonuses.is_empty():
 			errors.append("une ressource ou un objet de quête n'a pas de bonus")
-	var conditions: Variant = data.get("conditions", {})
-	if typeof(conditions) != TYPE_DICTIONARY:
-		errors.append("« conditions » doit être un objet { caractéristique: minimum }")
-	else:
-		for stat: Variant in conditions:
-			if stat not in Character.STATS or not Spell._is_int_at_least(conditions[stat], 1):
-				errors.append("condition « %s » invalide" % str(stat))
+	if data.has("conditions"):
+		errors.append("« conditions » n'existe plus : aucune condition pour équiper un objet (GDD § 9.2)")
 	if type == TYPE_WEAPON:
 		var weapon: Variant = data.get("attaque")
 		if typeof(weapon) != TYPE_DICTIONARY:

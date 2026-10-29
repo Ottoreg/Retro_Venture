@@ -145,7 +145,8 @@ répliques une par une, dans une bulle.
 
 Avec `"marchand": true`, le PNJ ouvre une **boutique** au lieu de la bulle (sa première réplique sert
 de salut). Il vend tous les objets de `objets/` et rachète tout objet non porté. Les prix dépendent de
-la rareté (`Item.EQUIPMENT_PRICES` et `Item.RESOURCE_PRICES` dans `core/items/item.gd`) ; la
+la rareté (`Item.EQUIPMENT_PRICES` et `Item.RESOURCE_PRICES` dans `core/items/item.gd`) et, pour
+un équipement, de son palier (`niveau`) : × palier / 3 au-delà du palier 3 (`Item.tier_price_factor`) ; la
 revente rapporte un quart du prix d'achat (`Item.RESALE_RATE`), au moins 1 brume.
 
 | Rareté | Équipement | Ressource |
@@ -452,7 +453,6 @@ Vétéran 15 000).
   "niveau": 1,
   "description": "Une épée honnête.",
   "bonus": {"force": [2, 5]},
-  "conditions": {"force": 10},
   "attaque": {"cout_pa": 4, "portee": {"min": 1, "max": 1}, "effets": [{"type": "degats", "element": "acier", "min": 7, "max": 11}]}
 }
 ```
@@ -463,7 +463,6 @@ Vétéran 15 000).
 | `rarete` | `commun`, `peu_commun`, `rare`, `epique`, `legendaire`, `relique` (couleur dans l'interface) |
 | `niveau` | Palier de l'objet (puissance indicative, prix, catalogue) : plus une condition pour l'équiper (GDD § 4.5) |
 | `bonus` | Plages `[min, max]` tirées au hasard à l'obtention (« jets ») : les 5 caractéristiques, `prospection`, `initiative`, `portee`, `pa`, `pm`, `dommages` (dégâts bruts ajoutés à chaque ligne de dégâts, ni multipliés ni réduits par les résistances, pas sur les soins) |
-| `conditions` | Ancien : caractéristiques minimales ; plus vérifiées depuis la refonte (aucune condition d'équipement, GDD § 4.5), à retirer des données au lot des objets |
 | `boutique` | `false` : les marchands ne le vendent pas (trophée de boss, objet de butin rare) ; défaut `true` |
 | `attaque` | Armes seulement : attaque utilisable en combat, décrite comme un sort |
 

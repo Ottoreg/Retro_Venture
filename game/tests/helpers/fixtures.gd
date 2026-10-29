@@ -165,7 +165,7 @@ static func items() -> Array:
 		{"id": "tresor", "nom": "Trésor", "type": "ressource", "rarete": "legendaire"},
 		{"id": "bague", "nom": "Bague", "type": "anneau", "rarete": "commun", "niveau": 1, "bonus": {"force": [5, 5]}},
 		{"id": "heaume", "nom": "Heaume", "type": "coiffe", "rarete": "rare", "niveau": 3, "bonus": {"vitalite": [10, 10]}},
-		{"id": "lourd", "nom": "Manteau lourd", "type": "cape", "rarete": "rare", "niveau": 1, "conditions": {"force": 60}},
+		{"id": "lourd", "nom": "Manteau lourd", "type": "cape", "rarete": "rare", "niveau": 1},
 		{"id": "bottes", "nom": "Bottes", "type": "bottes", "rarete": "epique", "niveau": 1,
 			"bonus": {"pa": [1, 1], "pm": [1, 1], "portee": [1, 1], "initiative": [10, 10], "prospection": [50, 50]}},
 		{"id": "epee", "nom": "Épée", "type": "arme", "rarete": "commun", "niveau": 1, "bonus": {"force": [1, 3]},

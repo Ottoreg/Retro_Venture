@@ -224,7 +224,7 @@ func test_infobulle_objet_comparee_a_l_equipement() -> void:
 	assert_true(loss.has("[color=#%s]-2 Agilité[/color]" % ItemTooltipList.LOSS.to_html(false)), "\n".join(loss))
 	# Article de marchand : la plage de ses bonus, moins l'objet porté.
 	var article := {"objet": "bottes_de_marche", "nom": "Bottes de marche", "type": "bottes", "rarete": "commun", "niveau": 1,
-		"conditions": {}, "bonus": data.items["bottes_de_marche"]["bonus"]}
+		"bonus": data.items["bottes_de_marche"]["bonus"]}
 	var text := ItemTooltipList.tooltip_text_for(article, data, inventory)
 	assert_true(text.contains("-4 à -2 Agilité"), text)
 	assert_true(text.contains("-5 à +5 Initiative"), text)

@@ -123,11 +123,9 @@ func _show_details(recipe: Dictionary) -> void:
 	var inventory := map_view.world.character.inventory
 	var lines: PackedStringArray = [
 		"%s — %s" % [recipe["nom"], Item.RARITY_NAMES.get(recipe["rarete"], "")],
-		"%s, niveau %d" % [InventoryWindow.TYPE_NAMES.get(recipe["type"], recipe["type"]), recipe["niveau_objet"]],
+		"%s, palier %d" % [InventoryWindow.TYPE_NAMES.get(recipe["type"], recipe["type"]), recipe["niveau_objet"]],
 	]
 	lines.append_array(InventoryWindow.bonus_range_lines(recipe["bonus"]))
-	for stat: String in recipe["conditions"]:
-		lines.append("Condition : %s ≥ %d" % [Item.stat_name(stat), recipe["conditions"][stat]])
 	lines.append_array(InventoryWindow.attack_lines(map_view.world.data.items.get(recipe["objet"], {})))
 	lines.append("")
 	lines.append("Ingrédients :")

@@ -49,6 +49,23 @@ func test_prix_selon_la_rarete() -> void:
 		assert_true(Item.sell_price({"type": "anneau", "rarete": rarity}) < price, "revente moins chère que l'achat")
 
 
+func test_prix_selon_le_palier() -> void:
+	# Sans condition pour s'équiper, un équipement de haut palier coûte plus cher (GDD § 9.2).
+	var base := Item.buy_price({"type": "coiffe", "rarete": "rare", "niveau": 1})
+	assert_eq(Item.buy_price({"type": "coiffe", "rarete": "rare", "niveau": 3}), base, "jusqu'au palier 3 : la rareté seule")
+	assert_eq(Item.buy_price({"type": "coiffe", "rarete": "rare", "niveau": 15}), base * 5)
+	assert_eq(Item.buy_price({"type": "coiffe", "rarete": "rare", "niveau": 30}), base * 10)
+	assert_eq(Item.buy_price({"type": "ressource", "rarete": "rare", "niveau": 30}),
+		Item.buy_price({"type": "ressource", "rarete": "rare"}), "les ressources ne dépendent pas du palier")
+
+
+func test_plus_de_conditions_sur_les_objets() -> void:
+	var item := {"id": "x", "nom": "X", "type": "cape", "rarete": "commun", "conditions": {"force": 10}}
+	assert_eq(Item.validate(item).size(), 1, "« conditions » refusé")
+	item.erase("conditions")
+	assert_eq(Item.validate(item), PackedStringArray())
+
+
 func test_parler_au_marchand_ouvre_la_boutique() -> void:
 	var events := _talk()
 	assert_eq(Fixtures.of_type(events, Protocol.EVT_DIALOGUE).size(), 0, "pas de simple dialogue")

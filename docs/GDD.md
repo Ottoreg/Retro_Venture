@@ -770,7 +770,8 @@ et une glyphe comptent les PA de leur sort répartis sur leurs tours, à chaque 
 piège, à son déclenchement. À la fin du combat (victoire ou défaite), au facteur de difficulté du
 groupe : **2 de réputation par PA** à effet réel, la moitié pour un sort utilitaire, plus un quart de
 l'XP des monstres vaincus partagé entre les joueurs ; **0,015 point de caractéristique par PA** dans
-la caractéristique de l'élément (Sacré et Impie par moitié) ; **0,02 Vitalité par PV perdu** ;
+la caractéristique de l'élément (Sacré et Impie par moitié ; relevé à **0,03** au lot 3) ;
+**0,02 Vitalité par PV perdu** ;
 plafond de 60 PA et 200 PV comptés par combat. Les caractéristiques montent plus lentement près du
 plafond (× (1 − points / plafond), au moins ×0,2), les fractions se gardent (`Character.practiced`,
 sauvegardées). Simulation (Brumerive, joueur au niveau des monstres) : 13 à 150 de réputation par
@@ -782,7 +783,22 @@ réputation) : **à valider par l'auteur**, deux propositions pour le Guerrier, 
 (Compagnon : 3 PA, Dommages +4–6 aux alliés à 2 cases pendant 2 tours, délai 4) et *Fendoir*
 (Vétéran : 5 PA, mêlée, 16–22 Acier). Fenêtre des sorts : rang de maîtrise et bouton pour placer
 des points ; écran de fin de combat : difficulté et caractéristiques gagnées. Les quêtes donnent
-toujours leur réputation telle quelle (lot 5).
+toujours leur réputation telle quelle (lot 5). **Sorts de rang II validés par l'auteur** le
+29/10/2026 (à revoir si les tests montrent un souci).
+
+**Lot 3 fait (29/10/2026, sur `main`)** : objets sans conditions, niveau affiché comme **palier**
+dans les fenêtres (inventaire, boutique, infobulles, atelier), prix d'achat selon le palier (§ 9.2).
+Face aux plafonds, la pratique d'une caractéristique passe à 0,03 point par PA : un Compagnon
+(≈ 100 combats) a ≈ 50 points dans son élément, comme l'ancien niveau 13 ; un personnage au
+plafond (100) avec une panoplie de palier 30 (+200) reste proche de l'ancien niveau 30 (145 points +
+200), donc les bonus des panoplies 15 et 30 sont gardés. **Menace affichée** : la bulle d'un groupe
+dit sa menace pour le personnage (« Menace : faible (gains × 0,5) » : négligeable sous ×0,2, faible
+sous ×0,75, à votre mesure sous ×1,25, redoutable au-delà ; `Progression.threat_name`,
+`MapView.threat_line`), et la carte du monde, au survol d'une carte visitée, la tranche de niveaux
+de ses monstres et la menace de deux monstres de niveau moyen (`GameData.map_level_range`). La
+Sagesse avait déjà quitté toutes les données au lot 1 (pas de race Squelette ni de monture dans le
+jeu pour l'instant). La menace ne compte que le personnage, pas son groupe (le client ne connaît
+pas la réputation des autres).
 
 #### Ancien système (avant le 29/10/2026)
 
@@ -1232,8 +1248,11 @@ tour ») : la difficulté vient uniquement des **monstres renforcés**.
 
 - **Alpha 2 (§ 4.5) : aucune condition pour équiper un objet** ; seule la difficulté d'obtention
   compte. Le niveau d'un objet devient son **palier** (puissance indicative, prix, catalogue). Les
-  panoplies « niv. 15 » et « niv. 30 » deviennent des paliers 15 et 30, à rééquilibrer face aux
-  plafonds de caractéristiques.
+  panoplies « niv. 15 » et « niv. 30 » deviennent des paliers 15 et 30. **Fait au lot 3** : plus de
+  champ `conditions` dans les objets (refusé par la validation) ; le prix d'achat d'un équipement
+  est multiplié par palier / 3 au-delà du palier 3 (`Item.tier_price_factor` : palier 15 × 5, palier
+  30 × 10, soit 3 500 brumes une pièce rare de palier 30) pour que les marchands ne vendent plus les
+  panoplies 15 et 30 pour presque rien ; les ressources gardent leur prix.
 - Alpha 1 : chaque objet a un **niveau requis**, éventuellement des **conditions** (caractéristique
   minimale, Voie, quête accomplie).
 - **Jets aléatoires :** les objets fabriqués ou ramassés ont des statistiques tirées dans une plage
