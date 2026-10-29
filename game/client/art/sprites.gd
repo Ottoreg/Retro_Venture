@@ -86,6 +86,27 @@ static func draw(canvas: CanvasItem, sheet: String, base: Vector2, direction: in
 	canvas.draw_texture_rect_region(tex, target, source, modulate)
 
 
+## Partie visible de l'image fixe d'une direction, en pixels de la planche agrandie (relative à sa case).
+static func _used_rect(sheet: String, direction: int) -> Rect2i:
+	var key := "%s:%d" % [sheet, direction]
+	if not _used_rects.has(key):
+		var tex := texture(sheet)
+		var cell := Rect2i(Vector2i(0, direction) * CELL * int(Art.SCALE), Vector2i.ONE * CELL * int(Art.SCALE))
+		_used_rects[key] = tex.get_image().get_region(cell).get_used_rect() if tex != null else Rect2i()
+	return _used_rects[key]
+
+
+## Hauteur au-dessus des pieds de l'image fixe la plus haute, à l'échelle 1 (pour placer la barre de
+## vie juste au-dessus du sprite).
+static func height(sheet: String) -> float:
+	var top := FEET.y
+	for direction in DIRECTIONS.size():
+		var used := _used_rect(sheet, direction)
+		if used.size.y > 0:
+			top = minf(top, used.position.y / Art.SCALE)
+	return FEET.y - top
+
+
 ## Dessine l'image fixe d'une direction, rognée à ce qu'elle montre et agrandie pour tenir dans
 ## `rect` (en bas au centre) : pour les portraits.
 static func draw_still_fit(canvas: CanvasItem, sheet: String, rect: Rect2, direction: int, modulate := Color.WHITE) -> void:
@@ -93,10 +114,7 @@ static func draw_still_fit(canvas: CanvasItem, sheet: String, rect: Rect2, direc
 	if tex == null:
 		return
 	var cell := Rect2i(Vector2i(0, direction) * CELL * int(Art.SCALE), Vector2i.ONE * CELL * int(Art.SCALE))
-	var key := "%s:%d" % [sheet, direction]
-	if not _used_rects.has(key):
-		_used_rects[key] = tex.get_image().get_region(cell).get_used_rect()
-	var used: Rect2i = _used_rects[key]
+	var used := _used_rect(sheet, direction)
 	if used.size.x <= 0 or used.size.y <= 0:
 		return
 	var source := Rect2(Vector2(cell.position + used.position), Vector2(used.size))

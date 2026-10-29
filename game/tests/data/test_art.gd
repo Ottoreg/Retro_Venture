@@ -135,6 +135,12 @@ func test_directions_des_sprites() -> void:
 			"morille_grincheuse", "vieille_morille_rancuniere"]:
 		var spec: Dictionary = Art.manifest()["monstres"][monster_id]
 		assert_true(spec.has("planche") and spec.has("image"), "%s en pixel art, dessin en secours" % monster_id)
+	# Une élite en pixel art fait 1,2 fois la taille de sa famille.
+	var data := GameData.load_all()
+	for monster_id: String in ["loup_alpha", "rat_roi", "vieille_morille_rancuniere"]:
+		var family: String = data.monsters[monster_id]["famille"]
+		var ratio := float(Art.manifest()["monstres"][monster_id]["echelle"]) / float(Art.manifest()["monstres"][family]["echelle"])
+		assert_true(absf(ratio - 1.2) < 0.01, "%s : 1,2 fois %s" % [monster_id, family])
 	# Une planche aux couleurs de chaque Voie.
 	for race_id: String in ["gobelin", "humain", "elfe"]:
 		for voie_id: String in Art.manifest()["tenues"]:

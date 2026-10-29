@@ -2260,7 +2260,12 @@ func _draw_actor(actor_id: String) -> void:
 		_draw_figure(actor_id, _look_of(actor_id, data), data["kind"], base, facing, walking, phase, data)
 	if mode == Mode.COMBAT:
 		var ratio := clampf(float(data["hp"]) / maxf(1.0, data["max_hp"]), 0.0, 1.0)
-		var bar := Rect2(base + Vector2(-17, -80), Vector2(34, 5))
+		# Au-dessus de la tête : juste au-dessus du sprite d'un monstre en pixel art.
+		var look := _look_of(actor_id, data)
+		var top := -80.0
+		if look.has("planche") and not look.has("rig"):
+			top = -Sprites.height(look["planche"]) * float(look.get("echelle", 1.0)) - 10.0
+		var bar := Rect2(base + Vector2(-17, top), Vector2(34, 5))
 		draw_rect(bar, Color(0, 0, 0, 0.6))
 		draw_rect(Rect2(bar.position, Vector2(bar.size.x * ratio, bar.size.y)), Color(0.3, 0.85, 0.3) if ratio > 0.3 else Color(0.9, 0.3, 0.2))
 

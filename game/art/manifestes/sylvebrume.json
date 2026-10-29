@@ -3,12 +3,12 @@
     "morille_grincheuse": {
       "image": "morille",
       "planche": "sprites/morille.png",
-      "echelle": 0.9
+      "echelle": 0.63
     },
     "vieille_morille_rancuniere": {
       "image": "morille",
       "planche": "sprites/morille.png",
-      "echelle": 1.1,
+      "echelle": 0.76,
       "teinte": "a08060"
     },
     "bucheron_de_brumerive": {

@@ -55,7 +55,9 @@ gardée en secours) : sur la carte il est dessiné en 8 directions, à son `eche
 monstre garde son petit saut en marchant. Pour l'instant : loup (`loup.png` : Loup des collines,
 Loup alpha, Loup cendreux), rat (`rat.png` : Rat des galeries, Rat-roi) et morille (`morille.png` :
 Morille grincheuse, Vieille morille rancunière). Les `couleurs` des variantes (pelage du Loup alpha,
-ventre de braise du Loup cendreux) ne s'appliquent pas aux planches.
+ventre de braise du Loup cendreux) ne s'appliquent pas aux planches. L'élite d'une famille en pixel
+art fait 1,2 fois l'`echelle` de sa famille (vérifié par `tests/data/test_art.gd`) ; en combat, la
+barre de vie se place juste au-dessus du sprite (`Sprites.height`).
 
 ## Conventions de dessin
 
