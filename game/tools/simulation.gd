@@ -18,6 +18,9 @@ const BUILDS := {
 }
 const ZONE_RACES := {"brumerive": "humain", "crasse_roc": "gobelin", "sylvebrume": "elfe"}
 ## Hors de ces bornes, la ligne du rapport est signalée (victoires, PV perdus en rapport à la référence).
+## Niveau équivalent maximal des profils simulés, et points par niveau (ancien système).
+const MAX_LEVEL := 30
+const POINTS_PER_LEVEL := 5
 const MIN_WIN_RATE := 0.8
 const HP_RATIO_RANGE := [0.25, 1.8]
 
@@ -121,18 +124,21 @@ func _fight(map: GameMap, group: Dictionary, voie: String) -> Dictionary:
 	var level := 0.0
 	for value: Variant in levels:
 		level += float(value)
-	level = clampf(roundf(level / levels.size()), 1, Character.MAX_LEVEL)
+	level = clampf(roundf(level / levels.size()), 1, MAX_LEVEL)
 	for i in levels.size():
 		if data.monsters[group["monstres"][i]].get("boss", false):
 			level = float(levels[i])  # Contre un boss : le joueur est à son niveau.
-	level = clampf(level + level_bonus, 1, Character.MAX_LEVEL)
+	level = clampf(level + level_bonus, 1, MAX_LEVEL)
 	var race: String = ZONE_RACES.get(map.id.rsplit("_", true, 2)[0], "humain")
+	# Profil équivalent à l'ancien niveau (plus de niveau depuis la refonte, GDD § 4.5) : 5 points de
+	# caractéristique et 5 PV par niveau au-dessus du 1er, répartis selon le build. Les gains par la
+	# pratique (lot 2) remplaceront ce profil.
 	var character := Character.create("Simulé", race, voie)
-	character.add_xp(Character.xp_for_level(int(level)))
 	var build: Dictionary = BUILDS[voie]
-	var points := character.unspent_points
+	var points := POINTS_PER_LEVEL * int(level - 1)
+	character.gain_stat("vitalite", POINTS_PER_LEVEL * int(level - 1))
 	for stat_name: String in build:
-		character.spend_points(stat_name, mini(character.unspent_points, roundi(points * float(build[stat_name]))))
+		character.gain_stat(stat_name, roundi(points * float(build[stat_name])))
 	var fighters: Array[Fighter] = []
 	var cells: Array[Vector2i] = map.placement_monsters.duplicate()
 	var placement: Array[Vector2i] = map.placement_players.duplicate()

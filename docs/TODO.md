@@ -170,14 +170,15 @@ Tout le contenu et les systèmes MVP de l'alpha 1 sont faits (chantiers 1, 3, 4 
 
 ### Refonte de la progression (alpha 2, GDD § 4.5, décisions du 29/10/2026)
 
-Rien n'est codé ; l'alpha test 1 garde les niveaux. Lot 0 (conception dans le GDD) fait le
-29/10/2026. Restent ouverts : valeur des plafonds de caractéristiques, autre source de prospection.
+Lot 0 (conception dans le GDD) et lot 1 (personnage, poussé sur `main` à la demande de l'auteur ;
+détail GDD § 4.5, « Où en est la refonte ») faits le 29/10/2026. Restent ouverts : valeur des plafonds de caractéristiques, autre source de prospection.
 
-- [ ] **Lot 1. Personnage** : réputations, maîtrises et caractéristiques par activité dans
+- [x] **Lot 1. Personnage** : réputations, maîtrises et caractéristiques par activité dans
   `Character` (fin de `level`, `xp`, `XP_RATE`, points à répartir, PV par niveau) ; Chance renommée
   Perception (script, sans toucher aux « chances » de butin) ; Sagesse supprimée ; prospection sans
   Perception ; changement de classe hors combat ; sauvegarde (remise à zéro des personnages d'alpha)
-  et Supabase ; protocole v8
+  et Supabase ; protocole v8. Les scripts de production (`docs/design/`) écrivent encore `sagesse`
+  (à convertir avant de les relancer)
 - [ ] **Lot 2. Combat** : facteur de difficulté (menace des monstres contre force du joueur ou du
   groupe) ; gains par sort à effet réel (selon les PA), par monstre vaincu et par coups reçus
   (Vitalité) ; plafond par combat ; rangs de maîtrise des sorts (Voie pilote : Guerrier, GDD § 4.5) ;

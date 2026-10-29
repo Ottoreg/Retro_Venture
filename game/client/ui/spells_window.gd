@@ -5,8 +5,8 @@ extends CanvasLayer
 
 const GOLD := Color(0.95, 0.76, 0.3)
 const TARGET_NAMES := {"ennemis": "ennemis", "allies": "alliés"}
-const ELEMENT_NAMES := {"acier": "Acier (Force)", "flamme": "Flamme (Intelligence)", "givre": "Givre (Chance)", "tempete": "Tempête (Agilité)",
-	"sacre": "Sacré (Force et Intelligence)", "impie": "Impie (Agilité et Chance)"}
+const ELEMENT_NAMES := {"acier": "Acier (Force)", "flamme": "Flamme (Intelligence)", "givre": "Givre (Perception)", "tempete": "Tempête (Agilité)",
+	"sacre": "Sacré (Force et Intelligence)", "impie": "Impie (Agilité et Perception)"}
 ## Noms courts des éléments.
 const ELEMENT_LABELS := {"acier": "Acier", "flamme": "Flamme", "givre": "Givre", "tempete": "Tempête", "sacre": "Sacré", "impie": "Impie"}
 const ELEMENT_COLORS := {"acier": Color("d9a066"), "flamme": Color("ff8a5a"), "givre": Color("7ccfff"), "tempete": Color("9ade6a"),

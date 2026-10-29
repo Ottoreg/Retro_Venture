@@ -26,7 +26,7 @@ ressource("corne_du_balourd", "Corne du Balourd", "rare",
 
 equipement("cape_de_vampipistrelle", "Cape de vampipistrelle", "cape", "peu_commun", 5,
            "Cousue d'ailes. On ne vole pas avec, mais on a l'air de pouvoir.",
-           {"agilite": 0.4, "chance": 0.3, "initiative": 0.3}, "butin:vampipistrelle",
+           {"agilite": 0.4, "perception": 0.3, "initiative": 0.3}, "butin:vampipistrelle",
            "cape violette découpée en festons d'aile de chauve-souris, col haut")
 equipement("epee_de_milicien", "Épée de milicien", "arme", "commun", 8,
            "Modèle réglementaire de Hautepierre. Gravée « Propriété de la milice — ne pas perdre ». Perdue.",
@@ -122,7 +122,7 @@ GROUILLEUR = famille(
 
 VAMPI = famille(
     "vampipistrelle", "Vampipistrelle", "Une pipistrelle qui s'est prise pour un vampire. Personne n'a osé la contredire.",
-    (4, 6), "moyen", "frele", 6, 5, 120, {"agilite": 0.5, "chance": 0.5},
+    (4, 6), "moyen", "frele", 6, 5, 120, {"agilite": 0.5, "perception": 0.5},
     {"tempete": 20, "givre": 5, "acier": -10, "flamme": -5}, ["vampipistrelle_sucon", "vampipistrelle_ultrason"], "basique",
     [drop("aile_de_vampipistrelle", 0.55, [1, 2]), drop("guano_luisant", 0.12), drop("cape_de_vampipistrelle", 0.04),
      drop("anneau_bonhomme_de_neige", 0.03), drop("ceinture_bonhomme_de_neige", 0.03), drop("bottes_bonhomme_de_neige", 0.03)],

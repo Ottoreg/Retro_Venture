@@ -6,7 +6,7 @@
   "niveau": 12,
   "description": "Huit pierres noires qui vous regardent. Avec, vous voyez plus loin ; eux aussi.",
   "bonus": {
-    "chance": [
+    "perception": [
       4,
       5
     ],

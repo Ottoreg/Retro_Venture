@@ -44,7 +44,7 @@ ressource("eclat_de_cendre", "Éclat de cendre", "rare",
 
 equipement("capuche_de_detrousseur", "Capuche de détrousseur", "coiffe", "peu_commun", 13,
            "On ne voit pas votre visage. On voit très bien vos intentions.",
-           {"agilite": 0.4, "chance": 0.3, "prospection": 0.3}, "butin:detrousseur",
+           {"agilite": 0.4, "perception": 0.3, "prospection": 0.3}, "butin:detrousseur",
            "capuche vert sombre rabattue, masque de tissu sur le bas")
 equipement("dague_de_detrousseur", "Dague de détrousseur", "arme", "peu_commun", 14,
            "Équilibrée pour le lancer, et pour le retour : elle a une ficelle.",
@@ -82,7 +82,7 @@ equipement("cape_de_plumes_noires", "Cape de plumes noires", "cape", "rare", 21,
            "cape faite de plumes noires superposées, col en plumes dressées")
 equipement("anneau_de_granit", "Anneau de granit", "anneau", "peu_commun", 22,
            "Taillé dans une gargouille. Lourd, solide, un peu grimaçant.",
-           {"vitalite": 0.5, "force": 0.25, "chance": 0.25}, "butin:gargouille",
+           {"vitalite": 0.5, "force": 0.25, "perception": 0.25}, "butin:gargouille",
            "anneau épais de pierre grise mouchetée")
 equipement("hallebarde_de_la_vieille_garde", "Hallebarde de la Vieille Garde", "arme", "rare", 22,
            "Arme des gardes d'il y a trois siècles. Les gargouilles l'ont gardée, par habitude.",
@@ -91,11 +91,11 @@ equipement("hallebarde_de_la_vieille_garde", "Hallebarde de la Vieille Garde", "
            attaque=attaque(22, "rare", "acier", 4, (1, 2)))
 equipement("bottes_de_gargouille", "Bottes de gargouille", "bottes", "rare", 23,
            "On ne court pas avec. On ne tombe pas non plus.",
-           {"vitalite": 0.4, "force": 0.3, "chance": 0.3}, "butin:gargouille",
+           {"vitalite": 0.4, "force": 0.3, "perception": 0.3}, "butin:gargouille",
            "bottes de pierre grise aux griffes sculptées sur la pointe")
 equipement("amulette_coeur_de_pierre", "Amulette cœur-de-pierre", "amulette", "rare", 24,
            "Elle bat une fois par heure, contre votre poitrine. On s'y fait.",
-           {"vitalite": 0.5, "chance": 0.3, "sagesse": 0.2}, "butin:gargouille_de_la_grande_porte",
+           {"vitalite": 0.5, "perception": 0.3, "sagesse": 0.2}, "butin:gargouille_de_la_grande_porte",
            "pendentif en forme de cœur de pierre veiné de bleu, chaîne d'argent")
 equipement("pantoufles_de_cendre", "Pantoufles de cendre", "bottes", "rare", 25,
            "Il n'y en a qu'une paire, mais elles ne vont à personne. Sauf à vous, bizarrement.",
@@ -145,7 +145,7 @@ equipement("anneau_du_gond", "Anneau du Gond", "anneau", "epique", 30,
 sort("detrousseur_surin", "Coup de surin", "Dans l'ombre, sans prévenir, sans facture.",
      3, (1, 1), [dg("impie", 5, 7)], relance={"par_tour": 2})
 sort("detrousseur_la_bourse_ou_la_vie", "La bourse ou la vie", "Vous choisissez la bourse. Il prend quand même un peu de la vie.",
-     3, (1, 2), [dg("tempete", 3, 5), malus("chance", 15, 15, 2)])
+     3, (1, 2), [dg("tempete", 3, 5), malus("perception", 15, 15, 2)])
 sort("chef_de_bande_embuscade", "Embuscade", "Ils étaient cachés dans le fossé. Ils y sont toujours, d'ailleurs.",
      3, (1, 4), [piege([dg("impie", 9, 13, "ennemis"), malus("pm", 2, 2, 1, cibles="ennemis")])], ldv=False,
      relance={"par_tour": 1, "delai": 2})
@@ -194,7 +194,7 @@ sort("grondin_souffle_de_forge", "Souffle de forge", "La tête de loup crache le
 # ---------------- familles ----------------
 DETROUSSEUR = famille(
     "detrousseur", "Détrousseur des grands chemins", "Il vole les riches pour donner aux pauvres. Il est pauvre. La boucle est bouclée.",
-    (13, 15), "moyen", "standard", 6, 4, 130, {"agilite": 0.5, "chance": 0.5},
+    (13, 15), "moyen", "standard", 6, 4, 130, {"agilite": 0.5, "perception": 0.5},
     {"tempete": 10, "givre": 5, "acier": 0, "flamme": 0, "sacre": -10},
     ["detrousseur_surin", "detrousseur_la_bourse_ou_la_vie"], "basique",
     [drop("bourse_vide", 0.55, [1, 2]), drop("carte_au_tresor_douteuse", 0.12), drop("capuche_de_detrousseur", 0.04),
@@ -243,7 +243,7 @@ CORBAC = famille(
 
 GARGOUILLE = famille(
     "gargouille", "Gargouille", "Elle a gardé une gouttière de Hautepierre pendant trois siècles. Depuis que la Cendre tombe, elle garde rancune.",
-    (22, 24), "moyen", "costaud", 6, 3, 70, {"force": 0.5, "chance": 0.5},
+    (22, 24), "moyen", "costaud", 6, 3, 70, {"force": 0.5, "perception": 0.5},
     {"acier": 30, "flamme": 20, "givre": 10, "tempete": -15}, ["gargouille_griffes", "gargouille_gargouillis"], "basique",
     [drop("eclat_de_gargouille", 0.55, [1, 3]), drop("coeur_de_pierre", 0.12), drop("anneau_de_granit", 0.04),
      drop("bottes_de_gargouille", 0.03), drop("hallebarde_de_la_vieille_garde", 0.03)],

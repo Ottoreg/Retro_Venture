@@ -20,7 +20,7 @@
     },
     {
       "type": "malus",
-      "carac": "chance",
+      "carac": "perception",
       "min": 15,
       "max": 15,
       "duree": 2

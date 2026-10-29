@@ -262,7 +262,7 @@ Effets durables (`duree` : tours de la cible ; un état perd un tour à la fin d
 {"type": "poison", "element": "givre", "min": 4, "max": 6, "duree": 3}
 ```
 
-- `bonus` / `malus` : `carac` parmi `force`, `intelligence`, `chance`, `agilite`, `pa`, `pm`,
+- `bonus` / `malus` : `carac` parmi `force`, `intelligence`, `perception`, `agilite`, `pa`, `pm`,
   `portee`, `dommages`, `critique`, `resistance` (avec `element`). PA et PM comptent tout de suite.
 - `poison` : dégâts de l'élément au début de chaque tour de la cible (Dommages non ajoutés).
 - `poussee` / `attirance` (`min`, `max` en cases) : en ligne droite, depuis le lanceur ou vers lui ;
@@ -342,7 +342,7 @@ Mécaniques des Voies :
 résistances à l'Acier et à la Flamme, plus la résistance au Sacré (`sacre`, facultatif) : 10 % Flamme,
 5 % Acier et 5 % Sacré donnent 12,5 %. Celle à l'Impie : moyenne de la Tempête et du Givre, plus
 `impie`. De même, le bonus de dégâts Sacré est
-Force + Intelligence, et l'Impie Agilité + Chance. `ia` : `basique` (se rapproche par
+Force + Intelligence, et l'Impie Agilité + Perception. `ia` : `basique` (se rapproche par
 le plus court chemin pour frapper), `distance` (tire depuis la case la plus éloignée des ennemis, puis
 recule) ou `soutien` (comme `distance`, pour les soigneurs). Dans tous les cas, l'IA note chaque sort
 sur chaque cible utile et lance le meilleur tant qu'il vaut quelque chose.
@@ -374,7 +374,7 @@ de la famille : une famille faible tire surtout bas, une forte surtout haut.
 |---|---|
 | `niveau` | Niveau de base : celui des `caracteristiques`, `resistances` et `xp` écrits dans le fichier |
 | `niveaux` | Facultatif. `min` (égal à `niveau`), `max` (≥ `min`) et `poids` : un entier ≥ 0 par niveau de `min` à `max`, de somme non nulle (un poids nul n'est jamais tiré). Sans `niveaux`, le niveau est fixe. Interdit sur une élite et un boss (niveau fixe) |
-| `par_niveau` | Facultatif. Ajouté pour chaque niveau au-dessus de `niveau` : `pv`, `initiative`, `xp`, `force`, `intelligence`, `chance`, `agilite` (entiers ≥ 0), `resistances` (`{élément: entier}`, ajouté aux résistances) et, par exception, `pa` et `pm` |
+| `par_niveau` | Facultatif. Ajouté pour chaque niveau au-dessus de `niveau` : `pv`, `initiative`, `xp`, `force`, `intelligence`, `perception`, `agilite` (entiers ≥ 0), `resistances` (`{élément: entier}`, ajouté aux résistances) et, par exception, `pa` et `pm` |
 
 Dans l'exemple, un rat de niveau 3 a 20 PV, 70 d'initiative, 20 XP et 10 de Force. Le niveau ne
 change **pas** le butin : même table, mêmes taux, mêmes quantités et mêmes brumes à tous les niveaux.
@@ -455,9 +455,9 @@ phase.
 |---|---|
 | `type` | `ressource` (s'empile), `quete` (objet de quête : s'empile, ni vendu, ni vendable, ni jetable) ou équipement : `arme`, `coiffe`, `cape`, `amulette`, `anneau`, `ceinture`, `bottes` |
 | `rarete` | `commun`, `peu_commun`, `rare`, `epique`, `legendaire`, `relique` (couleur dans l'interface) |
-| `niveau` | Niveau requis pour l'équiper |
-| `bonus` | Plages `[min, max]` tirées au hasard à l'obtention (« jets ») : les 6 caractéristiques, `prospection`, `initiative`, `portee`, `pa`, `pm`, `dommages` (dégâts bruts ajoutés à chaque ligne de dégâts, ni multipliés ni réduits par les résistances, pas sur les soins) |
-| `conditions` | Caractéristiques minimales pour l'équiper (optionnel) |
+| `niveau` | Palier de l'objet (puissance indicative, prix, catalogue) : plus une condition pour l'équiper (GDD § 4.5) |
+| `bonus` | Plages `[min, max]` tirées au hasard à l'obtention (« jets ») : les 5 caractéristiques, `prospection`, `initiative`, `portee`, `pa`, `pm`, `dommages` (dégâts bruts ajoutés à chaque ligne de dégâts, ni multipliés ni réduits par les résistances, pas sur les soins) |
+| `conditions` | Ancien : caractéristiques minimales ; plus vérifiées depuis la refonte (aucune condition d'équipement, GDD § 4.5), à retirer des données au lot des objets |
 | `boutique` | `false` : les marchands ne le vendent pas (trophée de boss, objet de butin rare) ; défaut `true` |
 | `attaque` | Armes seulement : attaque utilisable en combat, décrite comme un sort |
 
@@ -495,7 +495,7 @@ l'ancien nom des écus pour ne pas casser les sauvegardes ni les données).
 ```
 
 Chance = `taux × prospection / 100` (au plus 100 %), sans seuil : un personnage seul peut tout obtenir.
-Prospection = 100 + Chance / 10 + bonus d'équipement + passif de race. Le butin n'est donné qu'en cas
+Prospection = 100 + bonus d'équipement + passif de race (plus de lien avec une caractéristique). Le butin n'est donné qu'en cas
 de victoire.
 
 **Limite par monstre** : chaque ligne donne au plus `quantite[1]` unités par monstre vaincu, tous
@@ -521,7 +521,8 @@ Dans chaque Voie : `equipement_depart` (liste d'objets donnés et équipés à l
 ```
 
 `camp` : `allie`, `ennemi` ou `neutre`. `bonus` : points ajoutés aux caractéristiques (`vitalite`,
-`sagesse`, `force`, `intelligence`, `chance`, `agilite`). `passif.effets` est optionnel (liste de
+`force`, `intelligence`, `perception`, `agilite` ; la Sagesse n'existe plus et la Chance s'appelle
+Perception depuis le 29/10/2026, GDD § 4.4). `passif.effets` est optionnel (liste de
 `{type, valeur}`) ; types gérés : `portee` (portée des sorts à distance), `xp_metier` (% d'XP de
 métier), `prospection` (points de prospection) et `ecus` (% de brumes de fin de combat). `sort` : sort racial, ajouté aux sorts de la Voie.
 
@@ -630,11 +631,11 @@ Conception : `docs/design/chantier6_quetes.md` ; production : `docs/design/chant
 | `categorie` | `tutoriel`, `principale` (avec `acte`), `secondaire` |
 | `niveau` | Niveau de la quête (affiché, et base de l'XP) |
 | `pnj` | Le PNJ qui la propose (« ! » au-dessus de lui) |
-| `conditions` | `camp`, `race`, `voie`, `niveau_min`, `quetes_terminees` (toutes), `une_quete_terminee` (une au moins) |
+| `conditions` | `camp`, `race`, `voie`, `niveau_min` (plus vérifié : le personnage n'a plus de niveau ; à convertir en palier de réputation, lot 5), `quetes_terminees` (toutes), `une_quete_terminee` (une au moins) |
 | `donne` | Objets remis à l'acceptation |
 | `etapes` | Liste d'étapes ; les objectifs d'une étape se font dans n'importe quel ordre |
 | `dialogues` | Par PNJ : `proposition` et `en_cours` (donneur), `objectif` (son objectif rempli, la quête continue ; à défaut `fin`), `fin` (quête terminée en lui parlant) |
-| `recompenses` | `xp_cr` (combats de référence : l'XP d'un combat contre 2 monstres du niveau de la quête, × `Character.XP_RATE`), `ecus`, `objets` |
+| `recompenses` | `xp_cr` (combats de référence : l'XP d'un combat contre 2 monstres du niveau de la quête, donnée en **réputation** de la classe active), `ecus`, `objets` |
 
 Objectifs (champ `texte` optionnel pour remplacer le texte affiché) :
 

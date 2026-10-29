@@ -83,7 +83,7 @@ func test_autres_joueurs_de_la_carte() -> void:
 	assert_eq(view._actors["j:sam"]["race"], "gobelin")
 	assert_eq(view._actors["j:sam"]["kind"], "rodeur", "dessiné avec la tenue de sa Voie")
 	assert_true(view.actor_look("j:sam").has("rig"), "en personnage articulé")
-	assert_eq(view._describe(cell), "Sam\nNiveau 1, Gobelin Rôdeur\nCliquer pour l'inviter dans le groupe", "son nom au survol")
+	assert_eq(view._describe(cell), "Sam\nInconnu, Gobelin Rôdeur\nCliquer pour l'inviter dans le groupe", "son nom au survol")
 	var target := cell + Vector2i(1, 0)
 	var moved: Array[Dictionary] = world.execute({"type": Protocol.CMD_MOVE, "entite": "j:sam", "cible": target})
 	view.world.apply_event(moved[0])

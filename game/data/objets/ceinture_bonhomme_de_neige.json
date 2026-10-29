@@ -6,7 +6,7 @@
   "niveau": 3,
   "description": "Frais toute l'année. Ne pas porter près d'un feu de camp, ni d'un pyromane, même repenti.",
   "bonus": {
-    "chance": [
+    "perception": [
       4,
       7
     ],

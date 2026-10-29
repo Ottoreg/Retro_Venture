@@ -19,7 +19,8 @@ signal map_changed
 signal character_changed
 ## Le joueur s'est assis ou relevé (voir `World.sitting`).
 signal sitting_changed(sitting: bool)
-signal level_up(level: int)
+## Palier de réputation atteint par la classe active (son nom).
+signal tier_reached(tier_name: String)
 ## Le joueur parle à un marchand : événement EVT_SHOP.
 signal shop_opened(event: Dictionary)
 ## Résultat d'un achat ou d'une vente : EVT_TRADE, ou EVT_REFUSED.
@@ -118,7 +119,7 @@ const TACTICAL_HOLE_WALLS := [Color("5a4e42"), Color("463c32")]
 const TACTICAL_EDGE := Color(0, 0, 0, 0.35)
 const COLOR_TRAP_FLASH := Color(1.0, 0.45, 0.1, 0.6)
 ## Noms affichés des caractéristiques modifiées par un bonus ou un malus.
-const CARAC_NAMES := {"force": "Force", "intelligence": "Intelligence", "chance": "Chance", "agilite": "Agilité",
+const CARAC_NAMES := {"force": "Force", "intelligence": "Intelligence", "perception": "Perception", "agilite": "Agilité",
 	"pa": "PA", "pm": "PM", "portee": "Portée", "dommages": "Dommages", "critique": "% Critique", "resistance": "Rés."}
 
 const NO_CELL := Vector2i(-99999, -99999)
@@ -159,7 +160,8 @@ var _refusals := {
 }
 ## Messages affichés pour les objets qu'on ne peut pas équiper.
 var _equip_refusals := {
-	Protocol.REASON_REQUIREMENTS: "Niveau ou caractéristiques insuffisants pour porter cet objet.",
+	Protocol.REASON_REQUIREMENTS: "Conditions non remplies.",
+	Protocol.REASON_REPUTATION_TOO_LOW: "Il faut %d de réputation dans une classe pour en commencer une autre." % Character.NEW_CLASS_REPUTATION,
 	Protocol.REASON_ALREADY_WORN: "Vous portez déjà un exemplaire de cet objet.",
 	Protocol.REASON_NOT_EQUIPPABLE: "Cet objet ne va pas à cet emplacement.",
 }
@@ -838,8 +840,8 @@ func _describe(cell: Vector2i) -> String:
 		if data["alive"] and Vector2i(data["pos"].round()) == cell and actor_id != world.player_id:
 			if mode == Mode.COMBAT:
 				return "%s — %d / %d PV%s" % [data["name"], data["hp"], data["max_hp"], "\n" + ground if ground != "" else ""]
-			if data.has("niveau"):  # Un autre joueur.
-				return "%s\nNiveau %d, %s %s\n%s" % [data["name"], data["niveau"],
+			if data.has("palier"):  # Un autre joueur.
+				return "%s\n%s, %s %s\n%s" % [data["name"], data["palier"],
 					world.data.races.get(data["race"], {}).get("nom", data["race"]), world.data.voies.get(data["kind"], {}).get("nom", data["kind"]),
 					"Membre du groupe" if world.is_party_member(actor_id) else "Cliquer pour l'inviter dans le groupe"]
 			var text := group_lines(data.get("members", [data["kind"]]), world.data, data.get("levels", []))
@@ -1381,7 +1383,7 @@ func _apply(event: Dictionary) -> float:
 	if type == Protocol.EVT_QUEST_DONE:
 		if _actors.has(world.player_id):
 			_add_floating("Quête terminée !", Color(1, 0.85, 0.3), _actors[world.player_id]["pos"] + Vector2(0, -0.6), PHASE_FLOATING_LIFE)
-		notice.emit("Quête terminée : %s — %s" % [event["nom"], QuestsWindow.rewards_text({"xp": event["xp"], "ecus": event["ecus"],
+		notice.emit("Quête terminée : %s — %s" % [event["nom"], QuestsWindow.rewards_text({"reputation": event["reputation"], "ecus": event["ecus"],
 			"objets": event["objets"]})])
 		quest_done.emit(event)
 		return 0.6
@@ -1465,13 +1467,17 @@ func _apply(event: Dictionary) -> float:
 		_add_floating(label, color, affected["pos"])
 		combat_state_changed.emit()
 		return 0.25
-	if type == Protocol.EVT_XP:
+	if type == Protocol.EVT_REPUTATION:
 		return 0.0
-	if type == Protocol.EVT_LEVEL_UP:
+	if type == Protocol.EVT_REPUTATION_TIER:
 		if _actors.has(world.player_id):
-			_add_floating("Niveau %d !" % event["niveau"], Color(1, 0.85, 0.3), _actors[world.player_id]["pos"])
-		level_up.emit(event["niveau"])
+			_add_floating("%s !" % event["nom"], Color(1, 0.85, 0.3), _actors[world.player_id]["pos"])
+		tier_reached.emit(event["nom"])
 		return 0.6
+	if type == Protocol.EVT_CLASS_SWITCHED:
+		if mode != Mode.COMBAT:
+			_load_exploration_actors()  # Le personnage change d'apparence avec sa classe.
+		return 0.0
 	if type == Protocol.EVT_CHARACTER:
 		character_changed.emit()
 		return 0.0
@@ -1759,7 +1765,7 @@ func _add_player_actor(other: Dictionary) -> void:
 	var data := _new_actor(Vector2(other["case"]), other["voie"], 0, other["nom"], 1, 1)
 	data["race"] = other["race"]
 	data["assis"] = other.get("assis", false)
-	data["niveau"] = other.get("niveau", 1)
+	data["palier"] = other.get("palier", "")
 	_actors[other["id"]] = data
 
 

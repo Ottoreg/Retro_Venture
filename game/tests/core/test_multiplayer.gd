@@ -77,7 +77,7 @@ func test_portee_des_evenements() -> void:
 	assert_eq(_sorted(_world.recipients(moved[0], "p2")), ["p1", "p2"], "un déplacement se voit de toute la carte")
 	var sat := _as("p1", Protocol.CMD_SIT)
 	assert_eq(_sorted(_world.recipients(sat[0], "p1")), ["p1", "p2"])
-	var refused := _as("p2", Protocol.CMD_RESET_POINTS)
+	var refused := _as("p2", Protocol.CMD_RAISE_SPELL, {"sort": "frappe"})
 	assert_eq(refused[0]["type"], Protocol.EVT_REFUSED)
 	assert_eq(_world.recipients(refused[0], "p2"), ["p2"], "un refus ne regarde que son joueur")
 	var wounded := _world.player("p1").character

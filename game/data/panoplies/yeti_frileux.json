@@ -13,32 +13,32 @@
   ],
   "bonus": {
     "2": {
-      "chance": 15
+      "perception": 15
     },
     "3": {
-      "chance": 30,
+      "perception": 30,
       "dommages": 3
     },
     "4": {
-      "chance": 45,
+      "perception": 45,
       "dommages": 6,
       "vitalite": 30
     },
     "5": {
-      "chance": 60,
+      "perception": 60,
       "dommages": 9,
       "vitalite": 45,
       "portee": 1
     },
     "6": {
-      "chance": 80,
+      "perception": 80,
       "dommages": 12,
       "vitalite": 60,
       "pm": 1,
       "portee": 1
     },
     "7": {
-      "chance": 100,
+      "perception": 100,
       "dommages": 15,
       "vitalite": 80,
       "pa": 1,

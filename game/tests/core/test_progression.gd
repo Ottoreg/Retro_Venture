@@ -1,5 +1,5 @@
 extends "res://tests/test_case.gd"
-## Expérience après les combats, points de caractéristique et sauvegarde du monde.
+## Réputation après les combats, maîtrise des sorts, changement de classe et sauvegarde du monde.
 
 const Fixtures := preload("res://tests/helpers/fixtures.gd")
 
@@ -35,44 +35,65 @@ func _win_against(world: World, group_id: String) -> Array[Dictionary]:
 	return world.execute({"type": Protocol.CMD_CAST, "entite": World.PLAYER_ID, "sort": "frappe", "cible": monster.cell})
 
 
-func test_experience_et_niveau_apres_victoire() -> void:
+func test_reputation_apres_victoire() -> void:
 	var world := _world()
 	var events := _win_against(world, "groupe_1")
-	var xp := Fixtures.of_type(events, Protocol.EVT_XP)
-	assert_eq(xp.size(), 1)
-	var gain := roundi(20 * Character.XP_RATE)
-	assert_eq(xp[0]["gain"], gain, "10 XP × XP_RATE × (100 + 100 de Sagesse) %")
-	assert_eq(Fixtures.of_type(events, Protocol.EVT_COMBAT_ENDED)[0]["xp"], gain, "XP affichée en fin de combat")
-	assert_eq(world.character.xp, gain)
-	world.character.xp = 75
+	var gains := Fixtures.of_type(events, Protocol.EVT_REPUTATION)
+	assert_eq(gains.size(), 1)
+	assert_eq(gains[0]["gain"], 10, "l'XP du mannequin vaut sa réputation")
+	assert_eq(gains[0]["voie"], "test", "réputation de la classe active")
+	assert_eq(Fixtures.of_type(events, Protocol.EVT_COMBAT_ENDED)[0]["reputation"], 10, "affichée en fin de combat")
+	assert_eq(world.character.reputation(), 10)
+	world.character.add_reputation(985)
 	var more := _win_against(world, "groupe_2")
-	var levels := Fixtures.of_type(more, Protocol.EVT_LEVEL_UP)
-	assert_eq(levels.size(), 1, "80 XP et plus (sous 280) : niveau 2")
-	assert_eq(levels[0]["points"], Character.POINTS_PER_LEVEL)
-	assert_eq(Fixtures.of_type(more, Protocol.EVT_CHARACTER)[0]["personnage"]["niveau"], 2)
+	var tiers := Fixtures.of_type(more, Protocol.EVT_REPUTATION_TIER)
+	assert_eq(tiers.size(), 1, "1 000 de réputation : palier Apprenti")
+	assert_eq(tiers[0]["nom"], "Apprenti")
+	assert_eq(tiers[0]["points"], 2, "points de maîtrise à placer")
+	assert_eq(Fixtures.of_type(more, Protocol.EVT_CHARACTER)[0]["personnage"]["palier_nom"], "Apprenti")
 
 
-func test_investir_des_points() -> void:
+func test_maitriser_un_sort() -> void:
 	var world := _world()
-	world.character.add_xp(80)
-	var events := world.execute({"type": Protocol.CMD_SPEND_POINTS, "entite": World.PLAYER_ID, "carac": "force", "points": 2})
-	assert_eq(events[0]["type"], Protocol.EVT_CHARACTER)
-	assert_eq(events[0]["personnage"]["caracteristiques"]["force"], 52)
-	assert_eq(events[0]["personnage"]["points"], 3)
-	var refused := world.execute({"type": Protocol.CMD_SPEND_POINTS, "entite": World.PLAYER_ID, "carac": "force", "points": 9})
+	var refused := world.execute({"type": Protocol.CMD_RAISE_SPELL, "entite": World.PLAYER_ID, "sort": "frappe"})
 	assert_eq(refused[0]["raison"], Protocol.REASON_NOT_ENOUGH_POINTS)
-	var reset := world.execute({"type": Protocol.CMD_RESET_POINTS, "entite": World.PLAYER_ID})
-	assert_eq(reset[0]["personnage"]["points"], 5, "points rendus")
-	assert_eq(reset[0]["personnage"]["caracteristiques"]["force"], 50)
-	var nothing := world.execute({"type": Protocol.CMD_RESET_POINTS, "entite": World.PLAYER_ID})
-	assert_eq(nothing[0]["raison"], Protocol.REASON_NOTHING_TO_RESET)
+	world.character.add_reputation(Character.REPUTATION_PER_MASTERY_POINT)
+	var events := world.execute({"type": Protocol.CMD_RAISE_SPELL, "entite": World.PLAYER_ID, "sort": "frappe"})
+	assert_eq(events[0]["type"], Protocol.EVT_CHARACTER)
+	assert_eq(events[0]["personnage"]["maitrises"], {"frappe": 1})
+	var unknown := world.execute({"type": Protocol.CMD_RAISE_SPELL, "entite": World.PLAYER_ID, "sort": "inconnu"})
+	assert_eq(unknown[0]["raison"], Protocol.REASON_INVALID_COMMAND)
+
+
+func test_changer_de_classe_hors_combat() -> void:
+	var world := _world()
+	var other: Dictionary = world.data.voies["test"].duplicate(true)
+	other["id"] = "autre"
+	other["nom"] = "Autre"
+	world.data.voies["autre"] = other
+	var command := {"type": Protocol.CMD_SWITCH_CLASS, "entite": World.PLAYER_ID, "voie": "autre"}
+	assert_eq(world.execute(command)[0]["raison"], Protocol.REASON_REPUTATION_TOO_LOW)
+	world.character.add_reputation(Character.NEW_CLASS_REPUTATION)
+	var items := world.character.inventory.entries.size()
+	var events := world.execute(command)
+	assert_eq(events[0]["type"], Protocol.EVT_CLASS_SWITCHED)
+	assert_eq(world.character.voie_id, "autre")
+	assert_true(world.character.inventory.entries.size() > items, "équipement de départ de la nouvelle classe, dans le sac")
+	assert_eq(Fixtures.of_type(events, Protocol.EVT_CHARACTER)[0]["personnage"]["voie"], "autre")
+	var unknown := world.execute({"type": Protocol.CMD_SWITCH_CLASS, "entite": World.PLAYER_ID, "voie": "inconnue"})
+	assert_eq(unknown[0]["raison"], Protocol.REASON_INVALID_COMMAND)
+	# En combat : refusé (seules les commandes de combat passent).
+	world.execute({"type": Protocol.CMD_ENGAGE, "entite": World.PLAYER_ID, "groupe": "groupe_1"})
+	var back := world.execute({"type": Protocol.CMD_SWITCH_CLASS, "entite": World.PLAYER_ID, "voie": "test"})
+	assert_eq(back[0]["type"], Protocol.EVT_REFUSED)
+	assert_eq(world.character.voie_id, "autre")
 
 
 func test_sauvegarde_et_reprise() -> void:
 	var world := _world()
 	_win_against(world, "groupe_1")
-	world.character.add_xp(500)
-	world.character.spend_points("chance", 5)
+	world.character.add_reputation(500)
+	world.character.gain_stat("perception", 5)
 	var position := world.position_of(World.PLAYER_ID)
 	var save: Variant = JSON.parse_string(JSON.stringify(world.save_data()))
 	assert_true(typeof(save) == TYPE_DICTIONARY, "sauvegarde sérialisable en JSON")
@@ -81,7 +102,7 @@ func test_sauvegarde_et_reprise() -> void:
 	assert_true(restored != null, "monde restauré")
 	assert_eq(restored.map.id, "est")
 	assert_eq(restored.position_of(World.PLAYER_ID), position)
-	assert_eq(restored.character.to_dict(), world.character.to_dict())
+	assert_eq(JSON.stringify(restored.character.to_dict()), JSON.stringify(world.character.to_dict()))
 	assert_eq(restored.groups().size(), 1, "le groupe vaincu ne revient pas")
 	assert_eq(restored.groups()[0]["id"], "groupe_2")
 

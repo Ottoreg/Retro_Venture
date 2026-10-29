@@ -27,10 +27,10 @@ ELEMENTS = {
     # élément : caractéristiques, panoplie de niveau 3 dont on reprend les icônes
     "acier": (["force"], "forgeron_hargneux"),
     "flamme": (["intelligence"], "pyromane_repenti"),
-    "givre": (["chance"], "bonhomme_de_neige"),
+    "givre": (["perception"], "bonhomme_de_neige"),
     "tempete": (["agilite"], "courant_d_air"),
     "sacre": (["force", "intelligence"], "enfant_de_choeur"),
-    "impie": (["agilite", "chance"], "mauvais_oeil"),
+    "impie": (["agilite", "perception"], "mauvais_oeil"),
 }
 
 # id, nom (avec article), élément, description, arme (type, source de l'icône),

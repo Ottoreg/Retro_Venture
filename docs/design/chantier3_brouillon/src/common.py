@@ -142,7 +142,7 @@ def construire_elite(e, fam, palier, gabarit):
     pv = e.get("pv") or max(2 * base["pv"] + 4, round(pv_monstre(lvl) * gpv * 2.0))
     carac = {"pv": pv, "pa": e.get("pa", base["pa"] + 1), "pm": e.get("pm", base["pm"]),
              "initiative": e.get("initiative", base["initiative"] + 30)}
-    for stat in ("force", "intelligence", "chance", "agilite"):
+    for stat in ("force", "intelligence", "perception", "agilite"):
         if stat in fam["par_niveau"]:
             share = fam["par_niveau"][stat] / 4
             carac[stat] = e.get("stats", {}).get(stat, round(stat_monstre(lvl) * share) + 10)
@@ -186,7 +186,7 @@ def drop(objet, taux, quantite=None):
 
 # ---------- objets ----------
 OBJETS = {}
-POIDS_STAT = {"force": 1, "intelligence": 1, "chance": 1, "agilite": 1, "vitalite": 0.5, "sagesse": 1,
+POIDS_STAT = {"force": 1, "intelligence": 1, "perception": 1, "agilite": 1, "vitalite": 0.5, "sagesse": 1,
               "prospection": 0.25, "initiative": 0.1, "dommages": 4, "portee": 15, "pa": 30, "pm": 25, "critique": 2}
 ARME_MULT = {"commun": 1, "peu_commun": 1.08, "rare": 1.16, "epique": 1.25, "legendaire": 1.35}
 

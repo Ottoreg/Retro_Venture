@@ -18,14 +18,14 @@
     "pm": 3,
     "initiative": 70,
     "force": 42,
-    "chance": 42
+    "perception": 42
   },
   "par_niveau": {
     "pv": 8,
     "initiative": 5,
     "xp": 23,
     "force": 2,
-    "chance": 2
+    "perception": 2
   },
   "resistances": {
     "acier": 10,

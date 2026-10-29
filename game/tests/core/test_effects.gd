@@ -83,15 +83,15 @@ func test_elements_sacre_et_impie() -> void:
 	var combat := _hero_fight([["mannequin", C + RIGHT]])
 	var hero := combat.get_fighter(Fixtures.PLAYER)
 	var dummy := combat.get_fighter("m0")
-	hero.stats = {"force": 40, "intelligence": 20, "agilite": 10, "chance": 30}
+	hero.stats = {"force": 40, "intelligence": 20, "agilite": 10, "perception": 30}
 	assert_eq(hero.power("sacre"), 60, "Force + Intelligence : 1 % par point de chacune")
-	assert_eq(hero.power("impie"), 40, "Agilité + Chance")
+	assert_eq(hero.power("impie"), 40, "Agilité + Perception")
 	hero.stats = {"intelligence": 100}
 	assert_eq(hero.power("sacre"), 100, "100 d'Intelligence seule…")
 	hero.stats = {"force": 50, "intelligence": 50}
 	assert_eq(hero.power("sacre"), 100, "… autant que 50 Force + 50 Intelligence")
 	assert_eq(hero.power("flamme"), 50, "mais moins de Flamme")
-	hero.stats = {"force": 40, "intelligence": 20, "agilite": 10, "chance": 30}
+	hero.stats = {"force": 40, "intelligence": 20, "agilite": 10, "perception": 30}
 	dummy.resistances = {"flamme": 10, "acier": 5, "sacre": 5}
 	assert_eq(dummy.resistance("sacre"), 12.5, "(10 + 5) / 2 + 5")
 	dummy.resistances = {"flamme": 10, "acier": -5, "sacre": 15}

@@ -499,10 +499,10 @@ func _execute_exploration(p: PlayerState, command: Dictionary) -> Array[Dictiona
 			return _talk(p, command)
 		if type == Protocol.CMD_SIT:
 			return _sit(p, command)
-		if type == Protocol.CMD_SPEND_POINTS:
-			return _spend_points(p, command)
-		if type == Protocol.CMD_RESET_POINTS:
-			return _reset_points(p, command)
+		if type == Protocol.CMD_SWITCH_CLASS:
+			return _switch_class(p, command)
+		if type == Protocol.CMD_RAISE_SPELL:
+			return _raise_spell(p, command)
 		if type == Protocol.CMD_EQUIP:
 			return _equip(p, command)
 		if type == Protocol.CMD_UNEQUIP:
@@ -741,10 +741,11 @@ func _player_joined_event(p: PlayerState) -> Dictionary:
 	return {"type": Protocol.EVT_PLAYER_JOINED, "carte": p.map.id, "joueur": player_view(p)}
 
 
-## Ce que les autres joueurs voient d'un joueur : { id, nom, race, voie, niveau, case, assis }.
+## Ce que les autres joueurs voient d'un joueur : { id, nom, race, voie, palier (nom du palier de
+## réputation de sa classe active), case, assis }.
 func player_view(p: PlayerState) -> Dictionary:
 	return {"id": p.id, "nom": p.character.display_name, "race": p.character.race_id, "voie": p.character.voie_id,
-		"niveau": p.character.level, "case": p.cell, "assis": p.sitting}
+		"palier": Character.tier_name(p.character.tier()), "case": p.cell, "assis": p.sitting}
 
 
 ## Carte vivante d'une carte, créée (avec ses groupes, comme à une première visite) au besoin ;
@@ -1382,7 +1383,7 @@ func _party_view(leader_id: String) -> Dictionary:
 	var members: Array = []
 	for member_id: String in parties.get(leader_id, []):
 		var member: PlayerState = players[member_id]
-		members.append({"id": member_id, "nom": member.character.display_name, "niveau": member.character.level,
+		members.append({"id": member_id, "nom": member.character.display_name, "palier": Character.tier_name(member.character.tier()),
 			"race": member.character.race_id, "voie": member.character.voie_id, "absent": member.away,
 			"carte": member.map.id if member.map != null else "", "repere": member.pin})
 	return {"chef": leader_id if not members.is_empty() else "", "membres": members}
@@ -1556,11 +1557,9 @@ func _end_combat(p: PlayerState, events: Array[Dictionary]) -> void:
 			var coin_range: Array = monster.get("ecus", [0, 0])
 			coins += combat.rng.randi_range(int(coin_range[0]), int(coin_range[1]))
 	var prospections := {}
-	var levels := 0
 	for member in team:
 		var fighter := combat.get_fighter(member.id)
 		prospections[member.id] = fighter.prospection if fighter != null else Character.BASE_PROSPECTION
-		levels += member.character.level
 	var drops: Dictionary = Loot.roll(monsters, prospections, combat.rng, loot_bonus) if won else {}
 	var ends: Array[Dictionary] = []
 	for i in team.size():
@@ -1578,9 +1577,10 @@ func _end_combat(p: PlayerState, events: Array[Dictionary]) -> void:
 			member.character.set_hp(1, data)  # Vaincu : on se relève avec 1 PV.
 			wake_up = _wake_up(member, moved)
 			own["reveil"] = wake_up
+		# Parts égales, avec le bonus de groupe (provisoire : au lot 2, chacun gagnera par ses actions).
 		var share := float(ended.get("xp", 0))
 		if team.size() > 1:
-			share *= PARTY_XP_BONUS[mini(team.size(), PARTY_XP_BONUS.size()) - 1] * member.character.level / float(maxi(1, levels))
+			share *= PARTY_XP_BONUS[mini(team.size(), PARTY_XP_BONUS.size()) - 1] / team.size()
 		_reward(member, own, roundi(share), block)
 		if won:
 			# Brumes partagées à parts égales (le reste au premier), puis le passif de race de chacun.
@@ -1605,12 +1605,12 @@ func _end_combat(p: PlayerState, events: Array[Dictionary]) -> void:
 		member.combat_loot_bonus = 0.0
 		if member.away:
 			_departed.append(member.id)
-	# Gains de chacun, pour le tableau de fin de tous (`gains` : id → { xp, ecus, butin, niveaux }).
+	# Gains de chacun, pour le tableau de fin de tous (`gains` : id → { reputation, ecus, butin, paliers }).
 	if team.size() > 1:
 		var gains := {}
 		for own in ends:
-			gains[own[Protocol.FIELD_FOR]] = {"xp": own.get("xp", 0), "ecus": own.get("ecus", 0),
-				"butin": own.get("butin", []), "niveaux": own.get("niveaux", [])}
+			gains[own[Protocol.FIELD_FOR]] = {"reputation": own.get("reputation", 0), "ecus": own.get("ecus", 0),
+				"butin": own.get("butin", []), "paliers": own.get("paliers", [])}
 		for own in ends:
 			own["gains"] = gains.duplicate(true)
 	# Les joueurs du combat réapparaissent pour les autres joueurs de la carte, et ses épées disparaissent.
@@ -1635,20 +1635,28 @@ func _wake_up(p: PlayerState, events: Array[Dictionary]) -> Dictionary:
 	return {"passage": passage["id"], "nom": passage["nom"], "carte": p.map.id}
 
 
-## XP des monstres vaincus, même en cas de défaite : `base` (la part du joueur) × `Character.XP_RATE`,
-## bonus de Sagesse (+1 % par point) ; montées de niveau. `ended` : son EVT_COMBAT_ENDED.
+## Réputation de la classe active pour les monstres vaincus, même en cas de défaite : `base`, la part
+## du joueur de leur XP (l'XP d'un monstre vaut sa réputation, GDD § 8.1 ; provisoire jusqu'aux gains
+## par action du lot 2). `ended` : son EVT_COMBAT_ENDED (`reputation`, `paliers` atteints).
 func _reward(p: PlayerState, ended: Dictionary, base: int, events: Array[Dictionary]) -> void:
-	ended["xp"] = 0
+	ended["reputation"] = 0
 	if base <= 0:
 		return
-	var gain := roundi(base * Character.XP_RATE * (100 + p.character.stat("sagesse", data)) / 100.0)
-	ended["xp"] = gain
-	var levels := p.character.add_xp(gain)
-	ended["niveaux"] = levels
-	events.append({"type": Protocol.EVT_XP, "gain": gain, "xp": p.character.xp, "niveau": p.character.level})
-	for reached in levels:
-		events.append({"type": Protocol.EVT_LEVEL_UP, "niveau": reached, "points": p.character.unspent_points})
+	ended["reputation"] = base
+	ended["paliers"] = reputation_events(p.character, base, events)
 	events.append(_character_event(p))
+
+
+## Ajoute de la réputation à la classe active et décrit le gain (EVT_REPUTATION, puis un
+## EVT_REPUTATION_TIER par palier atteint) ; renvoie les paliers atteints.
+static func reputation_events(character: Character, gain: int, events: Array[Dictionary]) -> Array[int]:
+	var reached := character.add_reputation(gain)
+	events.append({"type": Protocol.EVT_REPUTATION, "gain": gain, "reputation": character.reputation(),
+		"palier": character.tier(), "voie": character.voie_id})
+	for index in reached:
+		events.append({"type": Protocol.EVT_REPUTATION_TIER, "palier": index, "nom": Character.tier_name(index),
+			"points": character.mastery_points()})
+	return reached
 
 
 ## Butin de victoire du joueur (`drops`, tiré par `Loot.roll`) et ses brumes (`coins`, +X % avec le
@@ -1698,12 +1706,7 @@ func _equip(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
 				break
 	if slot not in slots:
 		return _refused(command, Protocol.REASON_NOT_EQUIPPABLE)
-	if p.character.level < int(template.get("niveau", 1)):
-		return _refused(command, Protocol.REASON_REQUIREMENTS)
-	var conditions: Dictionary = template.get("conditions", {})
-	for stat_name: String in conditions:
-		if p.character.stat(stat_name, data) < int(conditions[stat_name]):
-			return _refused(command, Protocol.REASON_REQUIREMENTS)
+	# Aucune condition pour équiper un objet (GDD § 4.5) : ni niveau, ni caractéristique.
 	# Deux exemplaires du même objet (deux anneaux identiques…) ne se portent pas ensemble.
 	for other_slot: String in slots:
 		var other := inventory.equipped_entry(other_slot)
@@ -2575,24 +2578,32 @@ func _inventory_event(p: PlayerState) -> Dictionary:
 	return {"type": Protocol.EVT_INVENTORY, "inventaire": p.character.inventory_sheet(data)}
 
 
-func _spend_points(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
-	var entity_id: Variant = command.get("entite")
-	var stat_name: Variant = command.get("carac")
-	var points: Variant = command.get("points", 1)
-	if typeof(entity_id) != TYPE_STRING or entity_id != p.id or typeof(stat_name) != TYPE_STRING or typeof(points) != TYPE_INT:
+## Rend une autre classe active (hors combat : les commandes d'exploration ne passent pas en
+## combat). Une classe commencée pour la première fois donne son équipement de départ, dans le sac.
+func _switch_class(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
+	var class_id: Variant = command.get("voie")
+	if not _is_player_command(p, command) or typeof(class_id) != TYPE_STRING or data == null or not data.voies.has(class_id):
 		return _refused(command, Protocol.REASON_INVALID_COMMAND)
-	var reason := p.character.spend_points(stat_name, points)
+	var first_time: bool = not p.character.classes.has(class_id)
+	var reason := p.character.switch_class(class_id)
 	if not reason.is_empty():
 		return _refused(command, reason)
-	var events: Array[Dictionary] = [_character_event(p)]
+	var events: Array[Dictionary] = [{"type": Protocol.EVT_CLASS_SWITCHED, "entite": p.id, "voie": class_id}]
+	if first_time:
+		data.give_class_kit(p.character, class_id)
+		events.append({"type": Protocol.EVT_INVENTORY, "inventaire": p.character.inventory_sheet(data)})
+	events.append(_character_event(p))
 	return events
 
 
-func _reset_points(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
-	if not _is_player_command(p, command):
+## Place des points de maîtrise dans un sort de la classe active (un rang de plus).
+func _raise_spell(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
+	var spell_id: Variant = command.get("sort")
+	if not _is_player_command(p, command) or typeof(spell_id) != TYPE_STRING or data == null:
 		return _refused(command, Protocol.REASON_INVALID_COMMAND)
-	if p.character.reset_points() == 0:
-		return _refused(command, Protocol.REASON_NOTHING_TO_RESET)
+	var reason := p.character.raise_spell(spell_id, data.voies.get(p.character.voie_id, {}).get("sorts", []))
+	if not reason.is_empty():
+		return _refused(command, reason)
 	var events: Array[Dictionary] = [_character_event(p)]
 	return events
 

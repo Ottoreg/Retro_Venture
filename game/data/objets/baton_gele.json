@@ -6,11 +6,11 @@
   "niveau": 11,
   "description": "Un bâton d'if cerclé d'étain, couvert de givre en permanence. Ne pas lécher.",
   "bonus": {
-    "chance": [
+    "perception": [
       5,
       7
     ],
-    "sagesse": [
+    "prospection": [
       2,
       3
     ]

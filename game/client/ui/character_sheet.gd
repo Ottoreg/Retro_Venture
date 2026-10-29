@@ -1,24 +1,23 @@
 class_name CharacterSheet
 extends CanvasLayer
-## Fiche du personnage (touche C) : niveau, expérience, PV, caractéristiques et points à répartir.
-## Survoler une valeur montre sa provenance (points, race, équipement, panoplie) ; le bouton
-## « Réinitialiser » rend tous les points investis.
+## Fiche du personnage (touche C) : réputation de la classe active (palier, points de maîtrise), PV,
+## caractéristiques (points gagnés par la pratique et leur plafond, GDD § 4.5) et choix de la classe
+## active. Survoler une valeur montre sa provenance (points gagnés, race, équipement, panoplie).
 
 const GOLD := Color(0.95, 0.76, 0.3)
 const STAT_HELP := {
 	"vitalite": "+1 PV par point",
-	"sagesse": "+1 % d'expérience par point",
 	"force": "+1 % aux dégâts, soins et boucliers d'Acier et de Sacré, +1 initiative par point",
 	"intelligence": "+1 % aux dégâts, soins et boucliers de Flamme et de Sacré, +1 initiative par point",
-	"chance": "+1 % aux dégâts, soins et boucliers de Givre et d'Impie, +1 initiative par point",
+	"perception": "+1 % aux dégâts, soins et boucliers de Givre et d'Impie, +1 initiative par point",
 	"agilite": "+1 % aux dégâts, soins et boucliers de Tempête et d'Impie, +1 initiative par point",
 }
 ## Valeurs secondaires affichées : [clé de la fiche, nom, aide].
 const DERIVED := [
 	["pa", "PA", "Points d'action : pour lancer des sorts"],
 	["pm", "PM", "Points de mouvement : une case par point en combat"],
-	["initiative", "Initiative", "Ordre de jeu en combat : base de la Voie + Force, Intelligence, Chance et Agilité + équipement"],
-	["prospection", "Prospection", "Chances de butin : 100 + Chance / 10 + équipement"],
+	["initiative", "Initiative", "Ordre de jeu en combat : base de la Voie + Force, Intelligence, Perception et Agilité + équipement"],
+	["prospection", "Prospection", "Chances de butin : 100 + équipement + passif de race"],
 	["dommages", "Dommages", "Dégâts bruts ajoutés à chaque ligne de dégâts, quel que soit l'élément (ni multipliés, ni réduits par les résistances)"],
 	["critique", "Critique (%)", "Chance de coup critique d'un sort ordinaire (5 % + équipement) : dégâts, soins, boucliers et poisons × 1,5"],
 ]
@@ -32,10 +31,12 @@ var _xp_bar: ProgressBar
 var _xp_label: Label
 var _hp_label: Label
 var _points_label: Label
-var _reset_button: Button
-var _reset_confirm: ConfirmationDialog
+## Choix de la classe active (ids des Voies dans l'ordre des données).
+var _class_choice: OptionButton
+var _class_ids: Array = []
 var _stat_values := {}
-var _stat_buttons := {}
+## Points gagnés / plafond de chaque caractéristique.
+var _stat_caps := {}
 ## Valeurs secondaires : PA, PM, initiative, prospection.
 var _derived_values := {}
 
@@ -68,38 +69,34 @@ func refresh() -> void:
 	var world := map_view.world
 	var sheet := world.character.sheet(world.data)
 	_title.text = sheet["nom"]
-	_subtitle.text = "Niveau %d — %s %s" % [sheet["niveau"], sheet["race_nom"], sheet["voie_nom"]]
-	var span := maxi(1, int(sheet["xp_suivant"]) - int(sheet["xp_niveau"]))
-	_xp_bar.value = 100.0 * (int(sheet["xp"]) - int(sheet["xp_niveau"])) / span
-	_xp_label.text = "Expérience : %d / %d" % [sheet["xp"], sheet["xp_suivant"]]
+	_subtitle.text = "%s — %s %s" % [sheet["palier_nom"], sheet["race_nom"], sheet["voie_nom"]]
+	var span := maxi(1, int(sheet["reputation_suivante"]) - int(sheet["reputation_palier"]))
+	_xp_bar.value = 100.0 * (int(sheet["reputation"]) - int(sheet["reputation_palier"])) / span
+	_xp_label.text = "Réputation de %s : %d / %d" % [sheet["voie_nom"], sheet["reputation"], sheet["reputation_suivante"]]
 	_hp_label.text = "Points de vie : %d / %d" % [sheet["pv"], sheet["pv_max"]]
-	var points: int = sheet["points"]
-	_points_label.text = "Points à répartir : %d" % points
+	var points: int = sheet["points_maitrise"]
+	_points_label.text = "Points de maîtrise : %d" % points
 	_points_label.modulate = GOLD if points > 0 else Color(0.7, 0.7, 0.7)
-	var invested := 0
-	for value: Variant in sheet["investis"].values():
-		invested += int(value)
-	_reset_button.disabled = invested <= 0
-	_reset_button.tooltip_text = "Rendre les %d points investis, à répartir de nouveau (gratuit pendant l'alpha)" % invested
+	_refresh_classes(world)
 	for stat_name: String in _stat_values:
 		var total: int = sheet["caracteristiques"][stat_name]
 		_stat_values[stat_name].text = str(total)
 		_stat_values[stat_name].tooltip_text = source_text(Character.STAT_NAMES[stat_name], total, sheet["provenance"][stat_name], true)
-		_stat_buttons[stat_name].disabled = points <= 0
+		_stat_caps[stat_name].text = "%d / %d" % [int(sheet["gagnes"].get(stat_name, 0)), int(sheet["plafonds"][stat_name])]
 	for entry: Array in DERIVED:
 		var key: String = entry[0]
 		_derived_values[key].text = str(sheet[key])
 		_derived_values[key].tooltip_text = source_text(entry[1], int(sheet[key]), sheet["provenance"].get(key, {}), false)
 
 
-## Infobulle de provenance d'une valeur : points investis et race (caractéristiques), sinon la base
+## Infobulle de provenance d'une valeur : points gagnés et race (caractéristiques), sinon la base
 ## (Voie, caractéristiques), puis l'équipement objet par objet et la panoplie.
 static func source_text(title: String, total: int, sources: Dictionary, is_stat: bool) -> String:
 	var lines: PackedStringArray = ["%s : %d" % [title, total]]
 	var equipment := int(sources.get("equipement", 0))
 	var panoply := int(sources.get("panoplie", 0))
 	if is_stat:
-		lines.append("Points investis : %d" % int(sources.get("points", 0)))
+		lines.append("Gagnés par la pratique : %d" % int(sources.get("points", 0)))
 		if int(sources.get("race", 0)) != 0:
 			lines.append("Race : %+d" % int(sources["race"]))
 	else:
@@ -120,16 +117,27 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 
 
-func _on_reset_pressed() -> void:
-	_reset_confirm.popup_centered()
+## Liste des classes : la classe active choisie, celles qu'on ne peut pas encore commencer grisées.
+func _refresh_classes(world: Variant) -> void:
+	_class_choice.clear()
+	_class_ids = world.data.voies.keys()
+	for i in _class_ids.size():
+		var class_id: String = _class_ids[i]
+		var label: String = world.data.voies[class_id].get("nom", class_id)
+		if world.character.classes.has(class_id):
+			label += " (%s)" % Character.tier_name(Character.tier_index(world.character.reputation(class_id)))
+		_class_choice.add_item(label, i)
+		_class_choice.set_item_disabled(i, not world.character.can_switch_to(class_id))
+		if class_id == world.character.voie_id:
+			_class_choice.select(i)
+	_class_choice.tooltip_text = ("Classe active, changée hors combat. Une nouvelle classe demande %d de réputation "
+		+ "dans une autre et repart de zéro ; les caractéristiques suivent.") % Character.NEW_CLASS_REPUTATION
 
 
-func _on_reset_confirmed() -> void:
-	map_view.send_command({"type": Protocol.CMD_RESET_POINTS, "entite": map_view.world.player_id})
-
-
-func _on_plus_pressed(stat_name: String) -> void:
-	map_view.send_command({"type": Protocol.CMD_SPEND_POINTS, "entite": map_view.world.player_id, "carac": stat_name, "points": 1})
+func _on_class_selected(index: int) -> void:
+	if index < 0 or index >= _class_ids.size() or _class_ids[index] == map_view.world.character.voie_id:
+		return
+	map_view.send_command({"type": Protocol.CMD_SWITCH_CLASS, "entite": map_view.world.player_id, "voie": _class_ids[index]})
 
 
 # --- Construction des contrôles ----------------------------------------------------------------
@@ -178,18 +186,12 @@ func _build() -> void:
 	_points_label = _label(16, GOLD)
 	_points_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	points_row.add_child(_points_label)
-	_reset_button = Button.new()
-	_reset_button.text = "Réinitialiser"
-	_reset_button.focus_mode = Control.FOCUS_NONE
-	_reset_button.pressed.connect(_on_reset_pressed)
-	points_row.add_child(_reset_button)
-	_reset_confirm = ConfirmationDialog.new()
-	_reset_confirm.title = "Réinitialiser les caractéristiques"
-	_reset_confirm.dialog_text = "Rendre tous les points investis ? Vous pourrez les répartir de nouveau."
-	_reset_confirm.ok_button_text = "Réinitialiser"
-	_reset_confirm.cancel_button_text = "Annuler"
-	_reset_confirm.confirmed.connect(_on_reset_confirmed)
-	add_child(_reset_confirm)
+	_class_choice = OptionButton.new()
+	_class_choice.focus_mode = Control.FOCUS_NONE
+	_class_choice.fit_to_longest_item = false
+	_class_choice.clip_text = true
+	_class_choice.item_selected.connect(_on_class_selected)
+	box.add_child(_class_choice)
 
 	var grid := GridContainer.new()
 	grid.columns = 3
@@ -205,16 +207,16 @@ func _build() -> void:
 		value_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 		value_label.custom_minimum_size = Vector2(40, 0)
 		value_label.mouse_filter = Control.MOUSE_FILTER_PASS
-		var plus := Button.new()
-		plus.text = "+"
-		plus.focus_mode = Control.FOCUS_NONE
-		plus.tooltip_text = "Investir 1 point : %s" % STAT_HELP.get(stat_name, "")
-		plus.pressed.connect(_on_plus_pressed.bind(stat_name))
+		var cap_label := _label(13, Color(0.7, 0.68, 0.6))
+		cap_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+		cap_label.custom_minimum_size = Vector2(70, 0)
+		cap_label.mouse_filter = Control.MOUSE_FILTER_PASS
+		cap_label.tooltip_text = "Points gagnés par la pratique / plafond (hors race et équipement)"
 		grid.add_child(name_label)
 		grid.add_child(value_label)
-		grid.add_child(plus)
+		grid.add_child(cap_label)
 		_stat_values[stat_name] = value_label
-		_stat_buttons[stat_name] = plus
+		_stat_caps[stat_name] = cap_label
 	var derived := GridContainer.new()
 	derived.columns = 4
 	derived.add_theme_constant_override("h_separation", 10)

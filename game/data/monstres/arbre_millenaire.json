@@ -11,7 +11,7 @@
     "pm": 1,
     "initiative": 50,
     "force": 25,
-    "chance": 25
+    "perception": 25
   },
   "resistances": {
     "acier": 35,

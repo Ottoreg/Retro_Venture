@@ -6,7 +6,7 @@
   "niveau": 15,
   "description": "Le yéti la portait par-dessus sa fourrure, avec une écharpe. Il avait quand même froid.",
   "bonus": {
-    "chance": [
+    "perception": [
       7,
       10
     ],

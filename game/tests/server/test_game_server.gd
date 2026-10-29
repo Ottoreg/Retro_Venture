@@ -178,7 +178,7 @@ func test_combat_calcule_par_le_serveur_et_sauvegarde() -> void:
 	var ended: Array = reply["evenements"].filter(func(event: Dictionary) -> bool: return event["type"] == Protocol.EVT_COMBAT_ENDED)
 	assert_eq(ended.size(), 1, "combat gagné")
 	var saved: Dictionary = _store.load_character("dev:frodon")
-	assert_true(int(saved["personnage"]["xp"]) > 0, "l'XP du combat est enregistrée dès la fin du combat")
+	assert_true(int(saved["personnage"]["classes"][saved["personnage"]["voie"]]["reputation"]) > 0, "la réputation du combat est enregistrée dès la fin du combat")
 	assert_eq(_pushed(_take(2), Protocol.EVT_GROUP_RELEASED), [], "un groupe vaincu ne revient pas")
 
 
@@ -295,9 +295,9 @@ func test_combat_de_groupe_deconnexion_et_retour() -> void:
 	var pushed := _of_type(_take(3), Protocol.MSG_EVENTS)
 	var ends := _pushed(pushed, Protocol.EVT_COMBAT_ENDED)
 	assert_eq(ends.size(), 1, "Sam reçoit la sienne")
-	assert_true(int(ends[0]["xp"]) > 0, "avec sa part")
+	assert_true(int(ends[0]["reputation"]) > 0, "avec sa part")
 	assert_true(pushed[-1].has("instantane"))
-	assert_true(int(_store.load_character("dev:sam")["personnage"]["xp"]) > 0, "Sam est sauvegardé aussi")
+	assert_true(_reputation(_store.load_character("dev:sam")) > 0, "Sam est sauvegardé aussi")
 
 
 func test_absent_a_la_fin_du_combat_sauvegarde_puis_retire() -> void:
@@ -309,7 +309,7 @@ func test_absent_a_la_fin_du_combat_sauvegarde_puis_retire() -> void:
 	_server.peer_disconnected(2)
 	_win(1, frodon)
 	assert_true(_server.world.player(sam) == null, "Sam quitte le monde à la fin du combat")
-	assert_true(int(_store.load_character("dev:sam")["personnage"]["xp"]) > 0, "avec ce qu'il y a gagné")
+	assert_true(_reputation(_store.load_character("dev:sam")) > 0, "avec ce qu'il y a gagné")
 
 
 ## Jalon M3 : les listes d'amis et d'ignorés suivent le personnage d'une connexion à l'autre, les
@@ -401,3 +401,8 @@ func test_deconnexion_en_plein_echange_ne_deplace_rien() -> void:
 	assert_eq(int(_store.load_character("dev:frodon")["personnage"]["inventaire"]["ecus"]), 50)
 	assert_eq(_server.world.player(sam).character.inventory.ecus, 20, "ses brumes de départ, sans celles de Frodon")
 	assert_true(_server.world.player(sam).exchange == null, "Sam est libre")
+
+
+static func _reputation(state: Dictionary) -> int:
+	var hero: Dictionary = state["personnage"]
+	return int(hero["classes"][hero["voie"]]["reputation"])

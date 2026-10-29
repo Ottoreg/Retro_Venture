@@ -6,7 +6,7 @@
   "niveau": 4,
   "description": "Tressée dans les bois d'un cerf enchanté. Les elfes trouvent ça déplacé.",
   "bonus": {
-    "sagesse": [
+    "prospection": [
       4,
       8
     ],

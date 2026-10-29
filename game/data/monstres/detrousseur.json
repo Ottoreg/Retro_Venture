@@ -18,14 +18,14 @@
     "pm": 4,
     "initiative": 130,
     "agilite": 24,
-    "chance": 24
+    "perception": 24
   },
   "par_niveau": {
     "pv": 4,
     "initiative": 5,
     "xp": 14,
     "agilite": 2,
-    "chance": 2
+    "perception": 2
   },
   "resistances": {
     "tempete": 10,

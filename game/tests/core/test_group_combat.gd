@@ -138,13 +138,13 @@ func test_trois_joueurs_finissent_un_combat_et_ont_chacun_leur_part() -> void:
 		var owner: String = end[Protocol.FIELD_FOR]
 		assert_eq(_world.recipients(end, "p1"), [owner] as Array[String], "chacun reçoit la sienne")
 		assert_eq(end["vainqueur"], Fighter.TEAM_PLAYERS)
-		# 10 XP × bonus de groupe 1,5 × un tiers (mêmes niveaux) × XP_RATE × Sagesse +100 %.
-		assert_eq(end["xp"], roundi(roundi(10 * 1.5 / 3.0) * Character.XP_RATE * 2.0), "sa part de l'XP")
+		# 10 XP × bonus de groupe 1,5 × un tiers (parts égales), en réputation.
+		assert_eq(end["reputation"], roundi(10 * 1.5 / 3.0), "sa part de la réputation")
 		coins += int(end["ecus"])
 		for drop: Dictionary in end["butin"]:
 			if drop["objet"] == "dent":
 				dents += int(drop["quantite"])
-		assert_true(_world.player(owner).character.xp > 0)
+		assert_true(_world.player(owner).character.reputation() > 0)
 		assert_false(_world.player(owner).in_combat())
 	assert_eq(coins, 3, "les brumes du monstre partagées")
 	assert_eq(dents, 2, "la limite du butin est partagée entre les joueurs")
@@ -218,7 +218,7 @@ func test_deconnexion_en_combat_et_reprise() -> void:
 	_world.disconnect_player("p2")
 	_finish(combat)
 	assert_eq(_world.take_departed(), ["p2"] as Array[String], "parti à la fin du combat, avec sa part")
-	assert_true(_world.player("p2").character.xp > 0)
+	assert_true(_world.player("p2").character.reputation() > 0)
 	_world.remove_player("p2")
 	assert_eq(_world.parties, {}, "plus de groupe à un")
 

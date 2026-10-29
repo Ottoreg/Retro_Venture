@@ -266,7 +266,7 @@ autres (Nains, Orcs, Semi-hommes, Géants, Squelettes, Lutins) en Phase 3.
 
 | Race | Camp | Bonus | Passif | Sort racial | Phase |
 |---|---|---|---|---|---|
-| **Humain** | Allié | +Vitalité, +Sagesse | *Polyvalence* : +10 % d'XP de métier | *Ralliement* : +2 PA ce tour (sur soi en solo ; sur un allié en multi) | Alpha |
+| **Humain** | Allié | +Vitalité, +Force (+Sagesse avant la refonte) | *Polyvalence* : +10 % d'XP de métier | *Ralliement* : +2 PA ce tour (sur soi en solo ; sur un allié en multi) | Alpha |
 | **Gobelin** | Ennemi | +Agilité, +Perception | *Chapardeur* : +20 prospection et +20 % de brumes en fin de combat | *Coup bas* : dégâts Tempête au contact et −1 PM au prochain tour de la cible | Alpha |
 | **Elfe** | Neutre | +Agilité, +Intelligence | *Œil perçant* : +1 portée sur les sorts à distance | *Pas léger* : téléportation jusqu'à 3 cases | Alpha |
 | **Nain** | Allié | +Force, +Vitalité | *Peau de pierre* : +5 % de résistances | *Fureur des profondeurs* : bonus de dégâts quand PV < 50 % | Phase 3 |
@@ -632,10 +632,10 @@ ajoutent 5 dégâts à chaque ligne de dégâts de n'importe quel sort ou arme, 
 **Refonte décidée par l'auteur le 29/10/2026, cible de l'alpha test 2.** Il n'y a plus de niveau de
 personnage, ni de niveau d'arme, ni de niveau de métier. Un personnage se distingue par ses
 **maîtrises** et sa **réputation** dans chaque classe et chaque métier qu'il pratique, par ses
-caractéristiques et par son équipement. L'alpha test 1 garde l'ancien système (niveaux 1 à 30, décrit
-en fin de section) : il teste les mécaniques, pas la progression. Partout où ce document parle encore
-du niveau du personnage, d'un niveau requis ou d'un niveau de métier, il décrit l'alpha 1 ; le
-**niveau des monstres** reste, comme mesure de leur menace (§ 8.1). Les chiffres ci-dessous sont des
+caractéristiques et par son équipement. L'ancien système (niveaux 1 à 30) est décrit en fin de
+section ; partout où ce document parle encore du niveau du personnage, d'un niveau requis ou d'un
+niveau de métier, il décrit cet ancien système ; le **niveau des monstres** reste, comme mesure de
+leur menace (§ 8.1). Les chiffres ci-dessous sont des
 **pistes à équilibrer** avec `tools/simulation.gd`, pas des règles fixées.
 
 #### Principes (décisions de l'auteur)
@@ -743,7 +743,22 @@ palier Compagnon vise la fin des zones de départ (≈ 4 à 5 h de jeu).
 Voir § 10.2 : pas de niveau de métier, réputation et maîtrise de métier sur le même modèle, la
 difficulté venant de la rareté des ressources.
 
-#### Ancien système (alpha test 1, en place)
+#### Où en est la refonte (29/10/2026)
+
+**Lot 1 fait, sur `main` (décision de l'auteur)** : plus de niveau, d'XP ni de points à répartir ;
+`Character.classes` (réputation, points de maîtrise et rangs des sorts par classe), `earned`
+(caractéristiques gagnées, plafonds 100 et 300 pour la Vitalité), paliers et points de maîtrise
+(un par 500 de réputation, `Character.REPUTATION_PER_MASTERY_POINT`) ; commandes `changer_voie`
+(hors combat, équipement de départ de la nouvelle classe dans le sac) et `maitriser` (rang de
+maîtrise d'un sort, sans effet en combat avant le lot 2) ; protocole v8. Chance renommée Perception
+dans les données et le code ; Sagesse supprimée (ses lignes d'objets converties en prospection, le
+bonus des Humains en Force) ; prospection sans caractéristique ; aucune condition d'équipement.
+**Provisoire jusqu'au lot 2** : la réputation vient de l'XP des monstres vaincus (×1, parts égales
+en groupe) et des quêtes ; les caractéristiques ne montent pas encore. Les vieilles sauvegardes
+sont converties (XP / 3,5 en réputation, points investis en points gagnés, `chance` → `perception`).
+Les niveaux de métier restent jusqu'au lot 4, `niveau_min` des quêtes n'est plus vérifié (lot 5).
+
+#### Ancien système (avant le 29/10/2026)
 
 - Niveau max 30 ; par niveau, 5 points de caractéristique à répartir et 1 point de sort ; PV max +5
   par niveau au-delà du 1er.
@@ -1823,7 +1838,7 @@ décrits au § 13.6.
 - **État** : le système est fait (conception validée : `docs/design/chantier6_quetes.md`) avec
   8 types d'objectifs (parler, vaincre, vaincre un boss, récolter, fabriquer, apporter, équiper,
   aller), le **butin de quête** (un objet qui ne tombe que pendant la quête qui le demande), les
-  objets de quête, l'XP comptée en « combats de référence » (× `Character.XP_RATE`), les marques
+  objets de quête, l'XP comptée en « combats de référence » (donnée en réputation depuis la refonte, § 4.5), les marques
   `!` / `?`, la proposition (Accepter / Plus tard), le journal (Q) et le suivi dans la bande gauche.
   Les objectifs « parler » et « apporter » se remplissent en dernier (on rend la quête). Contenu
   produit : les 3 tutoriels, l'acte I et l'acte II des trois camps, et le début de l'acte III

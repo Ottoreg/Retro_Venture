@@ -3,7 +3,7 @@
   "nom": "Gobelin",
   "camp": "ennemi",
   "description": "Main-d'œuvre corvéable du Souverain Cendré. Payé en cailloux, nourri de promesses, et franchement pas convaincu par le projet.",
-  "bonus": {"agilite": 10, "chance": 10},
+  "bonus": {"agilite": 10, "perception": 10},
   "passif": {"nom": "Chapardeur", "description": "+20 prospection et +20 % de brumes en fin de combat.",
     "effets": [{"type": "prospection", "valeur": 20}, {"type": "ecus", "valeur": 20}]},
   "sort": "gobelin_coup_bas",

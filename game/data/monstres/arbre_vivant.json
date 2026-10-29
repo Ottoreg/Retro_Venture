@@ -23,7 +23,7 @@
     "initiative": 5,
     "xp": 8,
     "force": 3,
-    "chance": 3
+    "perception": 3
   },
   "resistances": {
     "acier": 25,

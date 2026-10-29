@@ -69,7 +69,6 @@ func _row(account: String, pseudo: String, state: Dictionary) -> Dictionary:
 		"pseudo": pseudo,
 		"race": str(character.get("race", "")),
 		"voie": str(character.get("voie", "")),
-		"niveau": int(character.get("niveau", 1)),
 		"carte": str(state.get("carte", "")),
 		"etat": state,
 		"maj": Time.get_datetime_string_from_system(true) + "Z",

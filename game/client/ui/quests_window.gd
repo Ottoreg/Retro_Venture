@@ -47,11 +47,11 @@ func is_open() -> bool:
 	return _panel.visible
 
 
-## Texte des récompenses d'une quête : « 120 XP, 30 brumes, Bottes de marche ».
+## Texte des récompenses d'une quête : « 120 de réputation, 30 brumes, Bottes de marche ».
 static func rewards_text(rewards: Dictionary) -> String:
 	var parts: PackedStringArray = []
-	if int(rewards.get("xp", 0)) > 0:
-		parts.append("%d XP" % rewards["xp"])
+	if int(rewards.get("reputation", 0)) > 0:
+		parts.append("%d de réputation" % rewards["reputation"])
 	if int(rewards.get("ecus", 0)) > 0:
 		parts.append("%d brumes" % rewards["ecus"])
 	for item: Dictionary in rewards.get("objets", []):

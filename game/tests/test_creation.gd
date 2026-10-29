@@ -43,19 +43,21 @@ func test_le_personnage_cree_arrive_dans_le_monde() -> void:
 	assert_eq(sheet._title.text, "Grik")
 	var agility_before := view.server.character.stat("agilite", view.server.data)
 	assert_true(agility_before > 10, "10 de race + le bonus de l'arc de départ")
-	view.server.character.add_xp(80)
+	view.server.character.gain_stat("agilite", 1)
+	view.server.character.add_reputation(1200)
 	view.refresh_state()
-	view.send_command({"type": Protocol.CMD_SPEND_POINTS, "entite": World.PLAYER_ID, "carac": "agilite", "points": 1})
-	assert_eq(sheet._stat_values["agilite"].text, str(agility_before + 1), "un point investi de plus")
+	sheet.refresh()
+	assert_eq(sheet._stat_values["agilite"].text, str(agility_before + 1), "un point gagné de plus")
 	var tooltip: String = sheet._stat_values["agilite"].tooltip_text
-	assert_true(tooltip.contains("Points investis : 1"), tooltip)
+	assert_true(tooltip.contains("Gagnés par la pratique : 1"), tooltip)
 	assert_true(tooltip.contains("Arc de frêne"), "l'arc de départ dans la provenance : " + tooltip)
-	assert_false(sheet._reset_button.disabled, "un point investi : réinitialisation possible")
-	sheet._on_reset_confirmed()
-	assert_eq(sheet._stat_values["agilite"].text, str(agility_before), "point rendu")
-	assert_eq(sheet._points_label.text, "Points à répartir : %d" % Character.POINTS_PER_LEVEL)
-	assert_true(sheet._reset_button.disabled, "plus rien à rendre")
-	view.send_command({"type": Protocol.CMD_SPEND_POINTS, "entite": World.PLAYER_ID, "carac": "agilite", "points": 1})
+	assert_eq(sheet._stat_caps["agilite"].text, "1 / %d" % Character.STAT_CAP)
+	assert_eq(sheet._points_label.text, "Points de maîtrise : 2")
+	assert_true(sheet._subtitle.text.begins_with("Apprenti"), sheet._subtitle.text)
+	assert_eq(sheet._class_choice.get_item_text(sheet._class_choice.selected).get_slice(" (", 0), "Rôdeur", "classe active choisie")
+	# Une commande qui change la fiche (un rang de maîtrise) déclenche la sauvegarde.
+	view.send_command({"type": Protocol.CMD_RAISE_SPELL, "entite": World.PLAYER_ID, "sort": "rodeur_fleche"})
+	assert_eq(view.server.character.spell_rank("rodeur_fleche"), 1)
 	scene.free()
 
 	# Reprise de la partie sauvegardée.
@@ -139,9 +141,7 @@ func test_fenetre_d_inventaire() -> void:
 	window._selected = amulet
 	window.refresh()
 	assert_true(window._details.text.contains("Panoplie du Pyromane Repenti — 0 / 6"), window._details.text)
-	view.server.character.add_xp(500)  # Niveau 3 requis.
-	view.refresh_state()
-	window._on_equip_pressed()
+	window._on_equip_pressed()  # Plus de niveau requis.
 	assert_true(window._details.text.contains("Panoplie du Pyromane Repenti — 1 / 6"), window._details.text)
 
 	# Un objet ramassé apparaît dans la liste.

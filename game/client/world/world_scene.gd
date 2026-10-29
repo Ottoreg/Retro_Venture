@@ -106,7 +106,7 @@ func _ready() -> void:
 	_map_view.exploration_resumed.connect(_on_exploration_resumed)
 	_map_view.map_changed.connect(_on_map_changed)
 	_map_view.character_changed.connect(_on_character_changed)
-	_map_view.level_up.connect(_on_level_up)
+	_map_view.tier_reached.connect(_on_tier_reached)
 	_map_view.inventory_changed.connect(_on_inventory_changed)
 	_map_view.progress_changed.connect(_save)
 	get_viewport().size_changed.connect(_center_map)
@@ -326,8 +326,8 @@ func _on_inventory_changed() -> void:
 	_save()
 
 
-func _on_level_up(level: int) -> void:
-	_combat_hud.show_message("Niveau %d ! Ouvrez la fiche (C) pour répartir vos points." % level)
+func _on_tier_reached(tier_name: String) -> void:
+	_combat_hud.show_message("Palier de réputation : %s ! De nouveaux points de maîtrise vous attendent." % tier_name)
 
 
 func _on_hovered_cell_changed(_cell: Vector2i, description: String) -> void:

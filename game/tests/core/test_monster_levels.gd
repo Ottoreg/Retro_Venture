@@ -167,7 +167,7 @@ func test_le_combat_cree_chaque_monstre_a_son_niveau() -> void:
 	assert_eq(str([foes[0].level, foes[1].level, foes[2].level]), str([3, 1, 4]), "dans l'ordre du groupe")
 	assert_eq(str([foes[0].max_hp, foes[1].max_hp]), str([30, 20]))
 	var player := world.combat.get_fighter(World.PLAYER_ID)
-	assert_eq(player.level, world.character.level, "le joueur à son niveau")
+	assert_eq(player.level, 0, "un joueur n'a pas de niveau")
 	var started := Fixtures.of_type(events, Protocol.EVT_COMBAT_STARTED)[0]
 	var shown := {}
 	for snapshot: Dictionary in started["combattants"]:
@@ -312,6 +312,6 @@ func test_erreurs_de_validation_des_niveaux() -> void:
 		assert_true(errors.contains(case[1]), "%s : « %s » attendu dans « %s »" % [str(case[0]), case[1], errors])
 	var valid := Fixtures.monster("essai", 20, 6, 3, 10, ["frappe"])
 	valid.merge({"niveau": 2, "niveaux": {"min": 2, "max": 4, "poids": [5, 0, 1]}, "boss": false,
-		"caracteristiques": {"pv": 10, "pa": 6, "pm": 3, "chance": 4},
+		"caracteristiques": {"pv": 10, "pa": 6, "pm": 3, "perception": 4},
 		"par_niveau": {"pv": 2, "pa": 1, "resistances": {"impie": -3}}}, true)
 	assert_eq(GameData.validate_monster(valid, data.spells, data.items).size(), 0, "monstre valide")

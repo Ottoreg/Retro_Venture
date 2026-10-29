@@ -17,8 +17,8 @@ SORTIE = os.path.join(RACINE, "docs", "CATALOGUE.md")
 
 # Repris de core/items/item.gd et core/character/character.gd.
 STATS = {
-    "vitalite": "Vitalité", "sagesse": "Sagesse", "force": "Force", "intelligence": "Intelligence",
-    "chance": "Chance", "agilite": "Agilité", "prospection": "Prospection", "initiative": "Initiative",
+    "vitalite": "Vitalité", "force": "Force", "intelligence": "Intelligence",
+    "perception": "Perception", "agilite": "Agilité", "prospection": "Prospection", "initiative": "Initiative",
     "portee": "Portée", "pa": "PA", "pm": "PM", "dommages": "Dommages", "critique": "% Critique",
     "resistance": "Résistance",
 }
@@ -168,7 +168,7 @@ ZONES = [("brumerive", "Brumerive (humains)"), ("crasse_roc", "Crasse-Roc (gobel
          ("sylvebrume", "Sylvebrume (elfes)"), ("hautepierre", "Hautepierre"),
          ("cendre", "La Cendre"), ("", "Ailleurs")]
 STATS_MONSTRE = [("pv", "PV"), ("initiative", "Init."), ("xp", "XP"), ("force", "Force"),
-                 ("intelligence", "Intel."), ("chance", "Chance"), ("agilite", "Agi.")]
+                 ("intelligence", "Intel."), ("perception", "Percep."), ("agilite", "Agi.")]
 
 
 def zone_de_carte(carte_id):
@@ -184,7 +184,7 @@ def stats_au_niveau(m, niveau):
     par_niveau = m.get("par_niveau", {})
     c = m["caracteristiques"]
     stats = {k: int(c.get(k, 0)) + pas * int(par_niveau.get(k, 0))
-             for k in ("pv", "pa", "pm", "initiative", "force", "intelligence", "chance", "agilite")}
+             for k in ("pv", "pa", "pm", "initiative", "force", "intelligence", "perception", "agilite")}
     stats["xp"] = int(m.get("xp", 0)) + pas * int(par_niveau.get("xp", 0))
     resistances = dict(m.get("resistances", {}))
     for e, v in par_niveau.get("resistances", {}).items():
@@ -441,7 +441,7 @@ def main():
         "",
         "Lecture : les plages (8–12) sont des jets aléatoires ; « t. » = tours. Les sorts gagnent en",
         "puissance avec la caractéristique de leur élément (Acier : Force, Flamme : Intelligence,",
-        "Givre : Chance, Tempête : Agilité, Sacré : Force et Intelligence, Impie : Agilité et Chance).",
+        "Givre : Perception, Tempête : Agilité, Sacré : Force et Intelligence, Impie : Agilité et Perception).",
         "Prix de boutique : selon la rareté (revente à 25 %).",
         "",
         "## Sommaire",

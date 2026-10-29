@@ -25,13 +25,13 @@ OBJETS = [
      "boutique": False, "bonus": {"force": [10, 15], "vitalite": [20, 30], "sagesse": [5, 8]},
      "description": "Remis par un fantôme qui monte la garde depuis trois cents ans. Il ne l'a jamais quitté : il ne savait pas qu'on pouvait."},
     {"id": "brassard_du_delegue", "nom": "Brassard du délégué", "type": "amulette", "rarete": "rare", "niveau": 23,
-     "boutique": False, "bonus": {"agilite": [10, 15], "chance": [8, 12], "prospection": [15, 25]},
+     "boutique": False, "bonus": {"agilite": [10, 15], "perception": [8, 12], "prospection": [15, 25]},
      "description": "Brassard rouge du Syndicat des Travailleurs de Crasse-Roc, section « préavis contre le Souverain lui-même »."},
     {"id": "feuille_d_argent_de_l_ambassade", "nom": "Feuille d'argent de l'ambassade", "type": "anneau", "rarete": "rare", "niveau": 25,
      "boutique": False, "bonus": {"intelligence": [10, 15], "agilite": [6, 10], "sagesse": [6, 10]},
      "description": "Le sceau de l'ambassade elfe. On ne la remet qu'aux observateurs qui ont fini par intervenir."},
     {"id": "eclat_de_l_aube", "nom": "Éclat de l'Aube", "type": "anneau", "rarete": "epique", "niveau": 30,
-     "boutique": False, "bonus": {"vitalite": [20, 30], "force": [6, 10], "intelligence": [6, 10], "chance": [6, 10], "agilite": [6, 10]},
+     "boutique": False, "bonus": {"vitalite": [20, 30], "force": [6, 10], "intelligence": [6, 10], "perception": [6, 10], "agilite": [6, 10]},
      "description": "Un éclat de lumière tombé de la Brèche quand Grondin s'est effondré. Il brille comme une Relique. Ce n'en est pas une. Pas encore."},
 ]
 

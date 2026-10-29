@@ -10,7 +10,7 @@ create table if not exists public.personnages (
   pseudo_min text generated always as (lower(pseudo)) stored unique,
   race text not null,
   voie text not null,
-  niveau integer not null default 1,
+  niveau integer not null default 1,  -- plus écrit depuis la refonte sans niveaux (29/10/2026)
   carte text not null,
   etat jsonb not null,
   maj timestamptz not null default now()

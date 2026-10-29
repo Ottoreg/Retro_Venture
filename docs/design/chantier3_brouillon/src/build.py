@@ -20,9 +20,9 @@ for name in ["variantes", "metiers", "transverse"]:
         extra[name] = None
 
 ELEM = {"acier": "Acier", "flamme": "Flamme", "givre": "Givre", "tempete": "Tempête", "sacre": "Sacré", "impie": "Impie"}
-CARAC = {"force": "For", "intelligence": "Int", "chance": "Cha", "agilite": "Agi", "pa": "PA", "pm": "PM",
+CARAC = {"force": "For", "intelligence": "Int", "perception": "Per", "agilite": "Agi", "pa": "PA", "pm": "PM",
          "portee": "Portée", "dommages": "Dommages", "critique": "% Crit", "resistance": "Rés."}
-STAT_FR = {"force": "Force", "intelligence": "Intelligence", "chance": "Chance", "agilite": "Agilité", "vitalite": "Vitalité",
+STAT_FR = {"force": "Force", "intelligence": "Intelligence", "perception": "Perception", "agilite": "Agilité", "vitalite": "Vitalité",
            "sagesse": "Sagesse", "prospection": "Prospection", "initiative": "Initiative", "dommages": "Dommages",
            "portee": "Portée", "pa": "PA", "pm": "PM", "critique": "% Critique"}
 RARETE = {"commun": "commun", "peu_commun": "peu commun", "rare": "rare", "epique": "épique", "legendaire": "légendaire"}
@@ -88,8 +88,8 @@ def res_txt(r):
 
 
 def carac_txt(c):
-    order = ["pv", "pa", "pm", "initiative", "force", "intelligence", "chance", "agilite"]
-    names = {"pv": "PV", "pa": "PA", "pm": "PM", "initiative": "Ini", "force": "For", "intelligence": "Int", "chance": "Cha", "agilite": "Agi"}
+    order = ["pv", "pa", "pm", "initiative", "force", "intelligence", "perception", "agilite"]
+    names = {"pv": "PV", "pa": "PA", "pm": "PM", "initiative": "Ini", "force": "For", "intelligence": "Int", "perception": "Per", "agilite": "Agi"}
     return ", ".join(f"{names[k]} {c[k]}" for k in order if k in c)
 
 

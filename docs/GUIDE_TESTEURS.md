@@ -9,8 +9,11 @@ nous faire vos retours. Le jeu n'affiche volontairement presque aucune aide à l
 
 - **Version 0.6.0** (affichée sur l'écran d'accueil).
 - **Ce qu'on teste : les mécaniques** (combat, quêtes, exploration, interface, métiers), pas la
-  vitesse de progression : l'expérience est multipliée par 3,5 pour qu'on puisse **tout voir en
-  4 à 5 heures**, du niveau 1 au niveau 30.
+  vitesse de progression.
+- **Progression en refonte** : plus de niveaux. Les combats et les quêtes donnent de la
+  **réputation** à votre classe (paliers Inconnu, Apprenti, Compagnon…) et des **points de
+  maîtrise** ; les caractéristiques se gagneront par la pratique (en cours : pour l'instant elles ne
+  montent pas encore, seuls la race et l'équipement les donnent). Tout objet s'équipe sans condition.
 - **Pas encore là** : sons et musiques, dessins définitifs (certains personnages et effets sont
   provisoires), multijoueur. L'équilibrage sera revu d'après vos retours.
 - À la fin (ou quand vous voulez), **remplissez le questionnaire** : bouton **« Donner son avis »**
@@ -83,7 +86,7 @@ temps : chaque camp a sa propre histoire.
     qu'un troisième élément compléterait la formule…
 - Les soins et boucliers grandissent avec la caractéristique de leur élément (soin Sacré : Force et
   Intelligence ; *Second souffle* du Guerrier : Force ; bouclier de l'*Armure de givre* de
-  l'Arcaniste : Chance).
+  l'Arcaniste : Perception, l'ancienne Chance).
 
 ## Commandes
 
@@ -108,7 +111,7 @@ temps : chaque camp a sa propre histoire.
 
 | Touche | Fenêtre |
 | --- | --- |
-| **C** | Personnage : caractéristiques, PA, PM, initiative, prospection, points à répartir après un niveau ; survoler une valeur montre d'où elle vient (points, race, chaque objet, panoplie) ; « Réinitialiser » rend tous les points investis (gratuit pendant l'alpha) |
+| **C** | Personnage : palier et réputation de la classe active, points de maîtrise, caractéristiques (points gagnés / plafond), PA, PM, initiative, prospection ; survoler une valeur montre d'où elle vient (points gagnés, race, chaque objet, panoplie) ; la liste des classes change la classe active hors combat (une nouvelle classe demande 5 000 de réputation dans une autre et repart de zéro) |
 | **I** | Inventaire : équipement porté, sac en trois onglets (Équipements, Consommables, Ressources), équiper / retirer / jeter ; **double-clic** sur un objet pour l'équiper ou le retirer (il remplace l'objet porté, ou le même objet déjà porté, comme une seconde bague identique), ou **glisser** du sac vers un emplacement (et inversement) ; tenir **Ctrl** : jets possibles de l'objet choisi ; au **survol** d'un objet, ses bonus comparés à l'objet porté (gains en vert, pertes en rouge) |
 | **S** | Sorts : un onglet pour la Voie, la race et l'arme ; fiche de chaque sort |
 | **J** | Métiers : un onglet par métier, niveau, ressources et recettes |
@@ -128,7 +131,7 @@ gauche et à droite, et de la barre du bas (historique, jauges, sorts ou objets,
 aux bandes ; sur un écran plus large, les bandes s'élargissent.
 
 - **Bande gauche** : le nom de la carte en haut, puis la minicarte, puis la quête suivie.
-- **Bande droite** : les messages en haut (« À vous de jouer »…) ; dessous, hors combat, votre nom, niveau, expérience et brumes ; en combat, l'ordre de jeu.
+- **Bande droite** : les messages en haut (« À vous de jouer »…) ; dessous, hors combat, votre nom, palier, réputation et brumes ; en combat, l'ordre de jeu.
 Les sorts se consultent dans leur fenêtre (S).
 
 ### Minicarte et carte du monde
@@ -199,9 +202,9 @@ Les sorts se consultent dans leur fenêtre (S).
      élément (Acier ocre, Flamme orange, Givre bleu, Tempête vert, Sacré jaune pâle, Impie violet).
      Les chiffres qui s'affichent au-dessus des combattants ont les mêmes couleurs (« -12 » :
      dégâts, « +8 » : soin ; un choc contre un obstacle reste rouge).
-3. Fin du combat : expérience, brumes et butin (une icône par objet avec sa quantité ; le nom en
-   survolant). Pendant l'alpha 1, l'expérience gagnée est **multipliée par 3,5** : on monte vite de
-   niveau pour tester toutes les mécaniques ; la vraie vitesse de progression viendra à l'alpha 2.
+3. Fin du combat : réputation, brumes et butin (une icône par objet avec sa quantité ; le nom en
+   survolant). La réputation vient pour l'instant de l'XP des monstres vaincus ; les gains par
+   action (sorts lancés, coups reçus) arrivent ensuite.
    En cas de défaite, on se réveille avec 1 PV à côté de la Pierre de Passage de son **point de
    résurrection** (voir plus bas), même si elle est sur une autre carte.
    Si le sac (60 places) est plein, le butin y entre quand même, en surplus : il faut alors faire de
@@ -298,7 +301,7 @@ le **lit** de votre maison les rend tous d'un coup.
 
 - **Équilibrage provisoire** : nos simulations disent que certains mini-boss sont durs pour
   certaines Voies au niveau 12 (surtout la Mère-Toile, et Krasbouk ou le Balourd pour le Rôdeur).
-  Si un mini-boss vous résiste, **allez gagner quelques niveaux** (quêtes secondaires, autres zones,
+  Si un mini-boss vous résiste, **allez chercher de l'équipement** (quêtes secondaires, autres zones,
   Hautepierre) puis revenez : c'est exactement le genre de retour qu'on attend.
 - Certains combats contre des monstres qui fuient (Cendrillons) peuvent être longs.
 - Pas de son ; certains dessins sont provisoires (pas de personnages féminins, pas d'animation de
@@ -317,7 +320,7 @@ le **lit** de votre maison les rend tous d'un coup.
   sourire ? Une quête vous a-t-elle bloqué ?
 - Les **zones** se lisent-elles bien (où marcher, où sont les sorties et les portes, ce qui est
   cliquable) ? La minicarte et la carte du monde aident-elles ?
-- Le **rythme** : la montée en niveau est-elle trop rapide, trop lente ?
+- Le **rythme** : la réputation monte-t-elle trop vite, trop lentement ?
 - L'**économie** : prix du marchand, butin, recettes du forgeron.
 - Tout ce qui semble **bloqué, lent, illisible ou bizarre**.
 

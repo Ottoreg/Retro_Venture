@@ -66,7 +66,7 @@ const CREATED_SPELL_SLOTS := 2
 const ELEMENT_STATE_BONUS := 4
 
 ## Caractéristique qui augmente les dégâts de chaque élément.
-const ELEMENT_STATS := {"acier": "force", "flamme": "intelligence", "givre": "chance", "tempete": "agilite"}
+const ELEMENT_STATS := {"acier": "force", "flamme": "intelligence", "givre": "perception", "tempete": "agilite"}
 
 var _casts_this_turn: Dictionary = {}
 var _cooldowns: Dictionary = {}
@@ -135,7 +135,7 @@ func next_turn_pm() -> int:
 
 
 ## Bonus en % des dégâts de cet élément : 1 % par point de la caractéristique associée ; pour un élément
-## composé, de chacune des deux (Sacré : Force + Intelligence ; Impie : Agilité + Chance).
+## composé, de chacune des deux (Sacré : Force + Intelligence ; Impie : Agilité + Perception).
 func power(element: String) -> int:
 	if Spell.COMPOSITE_ELEMENTS.has(element):
 		var bases: Array = Spell.COMPOSITE_ELEMENTS[element]

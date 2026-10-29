@@ -6,11 +6,11 @@
   "niveau": 30,
   "description": "On l'annonce depuis des années. Il est enfin arrivé, et il a apporté ses affaires.",
   "bonus": {
-    "chance": [
+    "perception": [
       14,
       20
     ],
-    "sagesse": [
+    "prospection": [
       7,
       10
     ]

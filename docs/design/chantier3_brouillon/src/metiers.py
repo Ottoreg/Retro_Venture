@@ -52,7 +52,7 @@ equipement("arc_d_if", "Arc d'if", "arme", "peu_commun", 10,
            attaque=attaque(10, "peu_commun", "tempete", 4, (2, 6)))
 equipement("baton_gele", "Bâton gelé", "arme", "peu_commun", 11,
            "Un bâton d'if cerclé d'étain, couvert de givre en permanence. Ne pas lécher.",
-           {"chance": 0.7, "sagesse": 0.3}, "recette", "bâton d'if cerclé d'étain, cristaux de givre bleu au sommet",
+           {"perception": 0.7, "sagesse": 0.3}, "recette", "bâton d'if cerclé d'étain, cristaux de givre bleu au sommet",
            attaque=attaque(11, "peu_commun", "givre", 3, (1, 4), par_tour=2))
 equipement("epee_d_argent", "Épée d'argent", "arme", "rare", 15,
            "Brillante et tranchante. Les Corrompus détestent son reflet.",
@@ -60,7 +60,7 @@ equipement("epee_d_argent", "Épée d'argent", "arme", "rare", 15,
            attaque=attaque(15, "rare", "acier", 4, (1, 1)))
 equipement("amulette_d_argent", "Amulette d'argent", "amulette", "peu_commun", 16,
            "Une médaille d'argent à l'effigie d'un héros inconnu. Peut-être vous, un jour. Peut-être pas.",
-           {"vitalite": 0.4, "force": 0.2, "intelligence": 0.2, "chance": 0.2}, "recette",
+           {"vitalite": 0.4, "force": 0.2, "intelligence": 0.2, "perception": 0.2}, "recette",
            "médaille ronde d'argent au profil gravé, chaîne fine")
 equipement("sceptre_de_hautepierre", "Sceptre de Hautepierre", "arme", "rare", 18,
            "Surmonté d'une petite Tour Blanche en argent. Béni par Frère Bénitier, pouce compris.",
@@ -72,7 +72,7 @@ equipement("heaume_d_argent", "Heaume d'argent", "coiffe", "rare", 20,
            {"vitalite": 0.5, "force": 0.3, "sagesse": 0.2}, "recette", "heaume d'argent poli à nasal, petit plumet bleu")
 equipement("dague_d_obsidienne", "Dague d'obsidienne", "arme", "rare", 23,
            "Noire, tranchante, fragile. Comme le caractère de celui qui l'a forgée.",
-           {"agilite": 0.4, "chance": 0.4, "critique": 0.2}, "recette", "dague à lame de verre noir aux reflets violets, manche de malorme doré",
+           {"agilite": 0.4, "perception": 0.4, "critique": 0.2}, "recette", "dague à lame de verre noir aux reflets violets, manche de malorme doré",
            attaque=attaque(23, "rare", "impie", 3, (1, 1), par_tour=2))
 equipement("arc_de_malorme", "Arc de malorme", "arme", "rare", 25,
            "Doré, léger, parfait. Les elfes prétendent qu'il est mal fait, par principe.",
@@ -81,7 +81,7 @@ equipement("arc_de_malorme", "Arc de malorme", "arme", "rare", 25,
            attaque=attaque(25, "rare", "tempete", 4, (2, 7)))
 equipement("ceinture_d_obsidienne", "Ceinture d'obsidienne", "ceinture", "rare", 27,
            "Des plaques de verre noir sur du cuir d'olifant. Elle tinte quand on court.",
-           {"vitalite": 0.5, "intelligence": 0.25, "chance": 0.25}, "recette",
+           {"vitalite": 0.5, "intelligence": 0.25, "perception": 0.25}, "recette",
            "ceinture de cuir gris à plaques d'obsidienne violettes, boucle en corne")
 
 RECETTES = [

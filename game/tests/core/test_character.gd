@@ -3,37 +3,78 @@ extends "res://tests/test_case.gd"
 const Fixtures := preload("res://tests/helpers/fixtures.gd")
 
 
-func test_courbe_d_experience() -> void:
-	assert_eq(Character.xp_for_level(1), 0)
-	assert_eq(Character.xp_for_level(2), 80)
-	assert_eq(Character.xp_for_level(3), 280)
-	for level in range(2, Character.MAX_LEVEL):
-		assert_true(Character.xp_for_level(level + 1) > Character.xp_for_level(level), "courbe croissante")
+func test_paliers_de_reputation() -> void:
+	assert_eq(Character.tier_index(0), 0)
+	assert_eq(Character.tier_index(999), 0)
+	assert_eq(Character.tier_index(1000), 1)
+	assert_eq(Character.tier_name(Character.tier_index(5000)), "Compagnon")
+	assert_eq(Character.tier_index(10000000), Character.REPUTATION_TIERS.size() - 1, "dernier palier")
+	for i in range(1, Character.REPUTATION_TIERS.size()):
+		assert_true(int(Character.REPUTATION_TIERS[i][0]) > int(Character.REPUTATION_TIERS[i - 1][0]), "paliers croissants")
 
 
-func test_montee_de_niveau() -> void:
+func test_reputation_et_points_de_maitrise() -> void:
 	var hero := Fixtures.character()
-	assert_eq(hero.add_xp(79).size(), 0)
-	assert_eq(hero.add_xp(1), [2] as Array[int])
-	assert_eq(hero.unspent_points, Character.POINTS_PER_LEVEL)
-	var levels := hero.add_xp(1000)
-	assert_true(levels.size() >= 2, "plusieurs niveaux d'un coup")
-	assert_eq(hero.level, levels[-1])
-	hero.add_xp(100000000)
-	assert_eq(hero.level, Character.MAX_LEVEL, "niveau plafonné")
+	assert_eq(hero.reputation(), 0, "une classe commence à zéro")
+	assert_eq(hero.add_reputation(400).size(), 0)
+	assert_eq(hero.mastery_points(), 0)
+	assert_eq(hero.add_reputation(700), [1] as Array[int], "palier Apprenti à 1 000")
+	assert_eq(hero.mastery_points(), 2, "un point par tranche de %d" % Character.REPUTATION_PER_MASTERY_POINT)
+	var reached := hero.add_reputation(20000)
+	assert_eq(reached, [2, 3] as Array[int], "plusieurs paliers d'un coup")
+	assert_eq(hero.reputation(), 21100)
+	assert_eq(hero.add_reputation(-50).size(), 0, "jamais de baisse")
+	assert_eq(hero.reputation(), 21100)
 
 
-func test_repartition_des_points() -> void:
+func test_maitrise_des_sorts() -> void:
 	var hero := Fixtures.character()
-	hero.add_xp(80)
-	assert_eq(hero.spend_points("force", 3), "")
-	assert_eq(hero.unspent_points, 2)
-	assert_eq(hero.spend_points("force", 3), Protocol.REASON_NOT_ENOUGH_POINTS)
-	assert_eq(hero.spend_points("charisme", 1), Protocol.REASON_INVALID_COMMAND)
-	assert_eq(hero.spend_points("force", 0), Protocol.REASON_INVALID_COMMAND)
+	var spells := ["frappe", "tir"]
+	assert_eq(hero.raise_spell("frappe", spells), Protocol.REASON_NOT_ENOUGH_POINTS)
+	hero.add_reputation(3 * Character.REPUTATION_PER_MASTERY_POINT)
+	assert_eq(hero.raise_spell("frappe", spells), "", "rang 1 : 1 point")
+	assert_eq(hero.raise_spell("frappe", spells), "", "rang 2 : 2 points")
+	assert_eq(hero.spell_rank("frappe"), 2)
+	assert_eq(hero.mastery_points(), 0)
+	assert_eq(hero.raise_spell("frappe", spells), Protocol.REASON_NOT_ENOUGH_POINTS)
+	assert_eq(hero.raise_spell("boule", spells), Protocol.REASON_INVALID_COMMAND, "pas un sort de la classe")
+	hero.add_reputation(100 * Character.REPUTATION_PER_MASTERY_POINT)
+	for i in 3:
+		hero.raise_spell("frappe", spells)
+	assert_eq(hero.spell_rank("frappe"), Character.SPELL_MAX_RANK)
+	assert_eq(hero.raise_spell("frappe", spells), Protocol.REASON_INVALID_COMMAND, "rang maximal")
+
+
+func test_caracteristiques_gagnees_et_plafonnees() -> void:
+	var hero := Fixtures.character()
+	assert_eq(hero.gain_stat("force", 30), 30)
+	assert_eq(hero.gain_stat("force", 200), Character.STAT_CAP - 30, "plafond")
+	assert_eq(hero.gain_stat("force", 5), 0)
+	assert_eq(hero.gain_stat("vitalite", 250), 250, "la Vitalité monte plus haut")
+	assert_eq(hero.gain_stat("sagesse", 5), 0, "Sagesse supprimée")
+	assert_eq(hero.gain_stat("force", -3), 0)
 	var data := Fixtures.data()
-	assert_eq(hero.stat("force", data), 53, "3 points + 50 de bonus de race")
-	assert_eq(hero.stat("force"), 3, "sans données : points investis seulement")
+	assert_eq(hero.stat("force", data), Character.STAT_CAP + 50, "points gagnés + bonus de race au-dessus du plafond")
+	assert_eq(hero.stat("force"), Character.STAT_CAP, "sans données : points gagnés seulement")
+
+
+func test_changer_de_classe() -> void:
+	var hero := Character.create("Hector", "humain", "guerrier")
+	hero.gain_stat("force", 40)
+	hero.add_reputation(1200)
+	assert_false(hero.can_switch_to("arcaniste"), "pas avant %d de réputation" % Character.NEW_CLASS_REPUTATION)
+	assert_eq(hero.switch_class("arcaniste"), Protocol.REASON_REPUTATION_TOO_LOW)
+	assert_eq(hero.switch_class("guerrier"), Protocol.REASON_INVALID_COMMAND, "déjà active")
+	hero.add_reputation(Character.NEW_CLASS_REPUTATION)
+	var points := hero.mastery_points()
+	assert_eq(hero.switch_class("arcaniste"), "")
+	assert_eq(hero.voie_id, "arcaniste")
+	assert_eq(hero.reputation(), 0, "la nouvelle classe repart de zéro")
+	assert_eq(hero.mastery_points(), 0)
+	assert_eq(hero.stat("force"), 40, "les caractéristiques suivent")
+	assert_eq(hero.switch_class("guerrier"), "", "retour à une classe commencée")
+	assert_eq(hero.reputation(), 1200 + Character.NEW_CLASS_REPUTATION, "elle a tout gardé")
+	assert_eq(hero.mastery_points(), points)
 
 
 func test_noms() -> void:
@@ -48,22 +89,41 @@ func test_noms() -> void:
 func test_fiche_et_pv() -> void:
 	var data := Fixtures.data()
 	var hero := Fixtures.character()
-	hero.add_xp(280)
+	hero.add_reputation(1500)
+	hero.gain_stat("vitalite", 20)
 	var sheet := hero.sheet(data)
-	assert_eq(sheet["niveau"], 3)
+	assert_eq(sheet["palier_nom"], "Apprenti")
+	assert_eq(sheet["reputation"], 1500)
+	assert_eq(sheet["reputation_suivante"], 5000)
+	assert_eq(sheet["points_maitrise"], 3)
 	assert_eq(sheet["voie_nom"], "Test")
 	assert_eq(sheet["race_nom"], "Testeur")
-	assert_eq(sheet["caracteristiques"]["vitalite"], 7)
-	assert_eq(sheet["pv_max"], 50 + 2 * Character.HP_PER_LEVEL + 7)
+	assert_eq(sheet["caracteristiques"]["vitalite"], 27)
+	assert_eq(sheet["gagnes"]["vitalite"], 20)
+	assert_eq(sheet["pv_max"], 50 + 27, "PV de la Voie + Vitalité, plus de PV par niveau")
 
 
 func test_sauvegarde_du_personnage() -> void:
 	var hero := Fixtures.character()
-	hero.add_xp(300)
-	hero.spend_points("agilite", 4)
-	var copy := Character.from_dict(hero.to_dict())
-	assert_eq(copy.to_dict(), hero.to_dict())
+	hero.add_reputation(3000)
+	hero.raise_spell("frappe", ["frappe"])
+	hero.gain_stat("agilite", 4)
+	var copy := Character.from_dict(JSON.parse_string(JSON.stringify(hero.to_dict())))
+	assert_eq(JSON.stringify(copy.to_dict()), JSON.stringify(hero.to_dict()))
+	assert_eq(copy.spell_rank("frappe"), 1)
 	assert_true(Character.from_dict({"nom": "X"}) == null, "sauvegarde incomplète refusée")
+
+
+func test_sauvegarde_d_avant_la_refonte() -> void:
+	# Niveau, XP (×3,5 de l'alpha 1) et points investis : convertis en réputation et points gagnés.
+	var old := {"nom": "Ancien", "race": "humain", "voie": "guerrier", "niveau": 5, "xp": 3500, "points": 2,
+		"caracteristiques": {"force": 12, "chance": 3, "sagesse": 4}}
+	var hero := Character.from_dict(old)
+	assert_eq(hero.reputation(), 1000, "XP sans le ×3,5")
+	assert_eq(hero.mastery_points(), 2)
+	assert_eq(hero.stat("force"), 12)
+	assert_eq(hero.stat("perception"), 3, "la Chance devient la Perception")
+	assert_false(hero.earned.has("sagesse"), "la Sagesse disparaît")
 
 
 func test_pierres_et_cartes_sauvegardees() -> void:
@@ -107,9 +167,8 @@ func test_combattant_du_personnage() -> void:
 func test_initiative_et_prospection_dans_la_fiche() -> void:
 	var data := Fixtures.data()
 	var character := Fixtures.character()
-	character.add_xp(500)
-	character.spend_points("agilite", 3)
-	character.spend_points("chance", 2)
+	character.gain_stat("agilite", 3)
+	character.gain_stat("perception", 2)
 	var sheet := character.sheet(data)
 	var fighter := data.create_character_fighter(character, Fixtures.PLAYER)
 	assert_eq(sheet["initiative"], fighter.initiative, "même initiative qu'en combat")
@@ -117,23 +176,10 @@ func test_initiative_et_prospection_dans_la_fiche() -> void:
 	assert_eq(sheet["initiative"], character.initiative(data))
 
 
-func test_reinitialiser_les_points() -> void:
-	var hero := Character.create("Hector", "humain", "guerrier")
-	hero.add_xp(Character.xp_for_level(3))
-	hero.spend_points("force", 4)
-	hero.spend_points("vitalite", 3)
-	assert_eq(hero.unspent_points, 2 * Character.POINTS_PER_LEVEL - 7)
-	assert_eq(hero.reset_points(), 7, "7 points rendus")
-	assert_eq(hero.unspent_points, 2 * Character.POINTS_PER_LEVEL)
-	assert_eq(hero.stat("force"), 0)
-	assert_eq(hero.reset_points(), 0, "rien à rendre")
-
-
 func test_provenance_des_caracteristiques() -> void:
 	var data := Fixtures.data()
 	var character := Fixtures.character()
-	character.add_xp(500)
-	character.spend_points("force", 2)
+	character.gain_stat("force", 2)
 	var sources := character.stat_sources("force", data)
 	assert_eq(sources["points"], 2)
 	assert_eq(sources["points"] + sources["race"] + sources["equipement"] + sources["panoplie"], character.stat("force", data),
@@ -145,4 +191,4 @@ func test_provenance_des_caracteristiques() -> void:
 	var sheet := character.sheet(data)
 	assert_eq(sheet["provenance"]["force"], sources)
 	assert_true(sheet["provenance"].has("pa"), "provenance des bonus d'équipement aussi")
-	assert_eq(sheet["investis"], {"force": 2})
+	assert_eq(sheet["gagnes"], {"force": 2})

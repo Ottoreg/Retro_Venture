@@ -7,12 +7,8 @@
   "description": "Il trouve toujours quelque chose. Parfois même ce qu'il cherchait.",
   "bonus": {
     "prospection": [
-      10,
-      20
-    ],
-    "sagesse": [
-      2,
-      4
+      12,
+      24
     ]
   }
 }

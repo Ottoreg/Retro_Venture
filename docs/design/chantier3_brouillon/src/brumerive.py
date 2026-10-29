@@ -33,7 +33,7 @@ equipement("fourche_d_epouvantail", "Fourche d'épouvantail", "arme", "commun", 
            attaque=attaque(8, "commun", "acier", 4, (1, 2)))
 equipement("coutelas_de_pillard", "Coutelas de pillard", "arme", "peu_commun", 9,
            "Une lame courte, pratique pour couper les cordes à linge et les conversations.",
-           {"agilite": 0.5, "chance": 0.5}, "butin:gobelin_pillard",
+           {"agilite": 0.5, "perception": 0.5}, "butin:gobelin_pillard",
            "coutelas courbe à lame sombre, garde en os, reflet violet (Impie)",
            attaque=attaque(9, "peu_commun", "impie", 3, (1, 1), par_tour=2))
 equipement("bottes_de_rapine", "Bottes de rapine", "bottes", "peu_commun", 9,

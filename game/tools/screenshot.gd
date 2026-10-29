@@ -137,7 +137,7 @@ func _process(_delta: float) -> bool:
 				var template: Dictionary = view.server.data.items[item_id]
 				drops.append({"objet": item_id, "nom": template["nom"], "rarete": template["rarete"],
 					"quantite": 3 if item_id == "croc_de_loup" else 1})
-			var roster: Array = [{"id": World.PLAYER_ID, "nom": view.server.player_name, "niveau": 4, "equipe": Fighter.TEAM_PLAYERS, "vivant": true}]
+			var roster: Array = [{"id": World.PLAYER_ID, "nom": view.server.player_name, "niveau": 0, "equipe": Fighter.TEAM_PLAYERS, "vivant": true}]
 			for i in 3:
 				roster.append({"id": "loup%d" % i, "nom": "Loup", "niveau": 3 + i, "equipe": Fighter.TEAM_MONSTERS, "vivant": i > 0})
 			roster.append({"id": "chef", "nom": "Chef de meute", "niveau": 6, "equipe": Fighter.TEAM_MONSTERS, "vivant": true})
@@ -145,13 +145,11 @@ func _process(_delta: float) -> bool:
 				for entry: Dictionary in roster.slice(1):
 					entry["vivant"] = false
 			var victory := _action == "butin"
-			view.server.character.level = 5
-			view.refresh_state()
-			view.server.character.xp = Character.xp_for_level(5) + 260
+			view.server.character.add_reputation(1260)
 			view.refresh_state()
 			_scene.get_node("CombatHud")._on_combat_ended({"vainqueur": Fighter.TEAM_PLAYERS if victory else Fighter.TEAM_MONSTERS,
-				"xp": 260 if victory else 40, "ecus": 12 if victory else 0, "butin": drops if victory else [], "surcharge": victory,
-				"niveaux": [5] if victory else [], "tours": 7, "combattants": roster,
+				"reputation": 260 if victory else 40, "ecus": 12 if victory else 0, "butin": drops if victory else [], "surcharge": victory,
+				"paliers": [1] if victory else [], "tours": 7, "combattants": roster,
 				"reveil": {} if victory else {"passage": "x", "nom": "Brumerive", "carte": ""}})
 		elif _action == "glyphe":
 			# Combat contre l'Arbre millénaire : sa glyphe posée, le héros ralenti et empoisonné, survolé.
@@ -218,10 +216,10 @@ func _process(_delta: float) -> bool:
 				_wait_for(view)
 			_scene.get_node("CombatHud").close_result()
 		elif _action == "fiche":
-			# Fiche du personnage avec quelques points investis (bouton « Réinitialiser » actif).
-			view.server.character.add_xp(Character.xp_for_level(4))
-			view.refresh_state()
-			view.server.character.spend_points("force", 6)
+			# Fiche du personnage avec de la réputation et quelques points gagnés par la pratique.
+			view.server.character.add_reputation(1800)
+			view.server.character.gain_stat("force", 12)
+			view.server.character.gain_stat("vitalite", 30)
 			view.refresh_state()
 			_scene.get_node("CharacterSheet").toggle()
 		elif _action == "joueurs":

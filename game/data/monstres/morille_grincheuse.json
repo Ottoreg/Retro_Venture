@@ -22,7 +22,7 @@
     "pv": 3,
     "initiative": 5,
     "xp": 5,
-    "chance": 4
+    "perception": 4
   },
   "resistances": {
     "givre": 15,

@@ -14,29 +14,29 @@
   "bonus": {
     "2": {
       "agilite": 8,
-      "chance": 8
+      "perception": 8
     },
     "3": {
       "agilite": 15,
-      "chance": 15,
+      "perception": 15,
       "dommages": 3
     },
     "4": {
       "agilite": 23,
-      "chance": 23,
+      "perception": 23,
       "dommages": 6,
       "vitalite": 30
     },
     "5": {
       "agilite": 30,
-      "chance": 30,
+      "perception": 30,
       "dommages": 9,
       "vitalite": 45,
       "portee": 1
     },
     "6": {
       "agilite": 40,
-      "chance": 40,
+      "perception": 40,
       "dommages": 12,
       "vitalite": 60,
       "pm": 1,
@@ -44,7 +44,7 @@
     },
     "7": {
       "agilite": 50,
-      "chance": 50,
+      "perception": 50,
       "dommages": 15,
       "vitalite": 80,
       "pa": 1,

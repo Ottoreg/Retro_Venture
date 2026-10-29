@@ -84,8 +84,8 @@ func test_pas_de_butin_en_cas_de_defaite_mais_l_xp_des_vaincus() -> void:
 	var events := _command(world, Protocol.CMD_END_TURN)
 	var ended := Fixtures.of_type(events, Protocol.EVT_COMBAT_ENDED)[0]
 	assert_eq(ended["vainqueur"], Fighter.TEAM_MONSTERS)
-	assert_eq(ended["xp"], roundi(20 * Character.XP_RATE), "10 XP du mannequin vaincu × XP_RATE × (100 + 100 de Sagesse) %")
-	assert_eq(world.character.xp, roundi(20 * Character.XP_RATE))
+	assert_eq(ended["reputation"], 10, "les 10 XP du mannequin vaincu, en réputation")
+	assert_eq(world.character.reputation(), 10)
 	assert_false(ended.has("butin"), "pas de butin en cas de défaite")
 	assert_eq(world.character.inventory.quantity_of("dent"), 0)
 
@@ -106,18 +106,14 @@ func test_equiper_et_retirer() -> void:
 	assert_eq(_command(world, Protocol.CMD_UNEQUIP, {"emplacement": "anneau_1"})[0]["raison"], Protocol.REASON_EMPTY_SLOT)
 
 
-func test_conditions_d_equipement() -> void:
+func test_aucune_condition_d_equipement() -> void:
+	# Ni niveau ni caractéristique requis (GDD § 4.5) : seule la difficulté d'obtention compte.
 	var world := _world()
 	var data := world.data
 	var helmet := world.character.inventory.add(data.items["heaume"], 1, {"vitalite": 10})
-	assert_eq(_command(world, Protocol.CMD_EQUIP, {"objet": helmet})[0]["raison"], Protocol.REASON_REQUIREMENTS, "niveau 3 requis")
-	world.character.add_xp(280)
-	assert_eq(_command(world, Protocol.CMD_EQUIP, {"objet": helmet})[0]["type"], Protocol.EVT_INVENTORY)
+	assert_eq(_command(world, Protocol.CMD_EQUIP, {"objet": helmet})[0]["type"], Protocol.EVT_INVENTORY, "ancien niveau 3 requis")
 	var cloak := world.character.inventory.add(data.items["lourd"], 1, {})
-	assert_eq(_command(world, Protocol.CMD_EQUIP, {"objet": cloak})[0]["raison"], Protocol.REASON_REQUIREMENTS, "Force 60 requise")
-	world.character.unspent_points = 10
-	world.character.spend_points("force", 10)
-	assert_eq(_command(world, Protocol.CMD_EQUIP, {"objet": cloak})[0]["type"], Protocol.EVT_INVENTORY)
+	assert_eq(_command(world, Protocol.CMD_EQUIP, {"objet": cloak})[0]["type"], Protocol.EVT_INVENTORY, "ancienne Force 60 requise")
 	var tooth := world.character.inventory.add(data.items["dent"], 1)
 	assert_eq(_command(world, Protocol.CMD_EQUIP, {"objet": tooth})[0]["raison"], Protocol.REASON_NOT_EQUIPPABLE)
 	assert_eq(_command(world, Protocol.CMD_EQUIP, {"objet": "o999"})[0]["raison"], Protocol.REASON_UNKNOWN_ITEM)
@@ -174,11 +170,10 @@ func test_equipement_en_combat() -> void:
 func test_initiative_avec_toutes_les_caracteristiques_offensives() -> void:
 	var data := Fixtures.data()
 	var hero := Fixtures.character()
-	hero.unspent_points = 40
-	for stat_name in ["force", "intelligence", "chance", "agilite", "vitalite", "sagesse"]:
-		hero.spend_points(stat_name, 5)
+	for stat_name in ["force", "intelligence", "perception", "agilite", "vitalite"]:
+		hero.gain_stat(stat_name, 5)
 	var fighter := data.create_character_fighter(hero, "joueur")
-	assert_eq(fighter.initiative, 100 + (50 + 5) + 5 + 5 + 5, "Force, Intelligence, Chance, Agilité ; pas Vitalité ni Sagesse")
+	assert_eq(fighter.initiative, 100 + (50 + 5) + 5 + 5 + 5, "Force, Intelligence, Perception, Agilité ; pas la Vitalité")
 
 
 func test_kit_de_depart() -> void:

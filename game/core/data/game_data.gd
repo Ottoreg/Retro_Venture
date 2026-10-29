@@ -39,10 +39,10 @@ const CAMPS := ["allie", "ennemi", "neutre"]
 const PASSIVE_EFFECTS := ["portee", "xp_metier", "prospection", "ecus"]
 ## Caractéristiques d'un monstre (facultatives dans « caracteristiques », 0 par défaut) : comme
 ## celles des joueurs, +1 % de dégâts de leur élément par point.
-const MONSTER_STATS := ["force", "intelligence", "chance", "agilite"]
+const MONSTER_STATS := ["force", "intelligence", "perception", "agilite"]
 ## Ce que « par_niveau » ajoute pour chaque niveau au-dessus du niveau de base (« resistances » à
 ## part ; « pa » et « pm » seulement par exception, pour une famille dont la mécanique en dépend).
-const PER_LEVEL_KEYS := ["pv", "initiative", "xp", "force", "intelligence", "chance", "agilite", "pa", "pm"]
+const PER_LEVEL_KEYS := ["pv", "initiative", "xp", "force", "intelligence", "perception", "agilite", "pa", "pm"]
 ## Effets qu'un monstre ne peut pas s'appliquer en changeant de phase (rien à viser au sol, nulle
 ## part où sauter, personne à pousser ni à attirer).
 const PHASE_FORBIDDEN_EFFECTS := [Spell.EFFECT_GLYPH, Spell.EFFECT_TRAP, Spell.EFFECT_TELEPORT, Spell.EFFECT_PUSH, Spell.EFFECT_PULL,
@@ -504,6 +504,16 @@ func give_starting_kit(character: Character) -> void:
 					break
 
 
+## Équipement de départ d'une classe qu'on commence en cours de partie (`World._switch_class`) : dans
+## le sac, sans rien retirer de ce qu'on porte.
+func give_class_kit(character: Character, class_id: String) -> void:
+	var rng := RandomNumberGenerator.new()
+	rng.seed = hash(character.display_name + class_id)
+	for item_id: String in voies.get(class_id, {}).get("equipement_depart", []):
+		var template: Dictionary = items[item_id]
+		character.inventory.add(template, 1, Item.roll_bonuses(template, rng))
+
+
 ## Tranche de niveaux d'un monstre : Vector2i(min, max). Sans « niveaux » (élites, boss…), son
 ## niveau fixe aux deux bouts.
 func monster_level_range(monster_id: String) -> Vector2i:
@@ -616,12 +626,12 @@ func create_character_fighter(character: Character, fighter_id: String) -> Fight
 		return null
 	var fighter := _create_fighter(voies[character.voie_id], fighter_id, character.display_name, Fighter.TEAM_PLAYERS)
 	fighter.race = character.race_id
-	fighter.level = character.level
+	fighter.level = 0  # Un joueur n'a pas de niveau (GDD § 4.5) ; celui des monstres reste leur menace.
 	for stat_name in Character.STATS:
 		fighter.stats[stat_name] = character.stat(stat_name, self)
 	fighter.max_hp = character.max_hp(self)
 	fighter.hp = character.hp(self)  # Les PV perdus se gardent d'un combat à l'autre.
-	# Initiative : base de la Voie + Force, Intelligence, Chance et Agilité + équipement.
+	# Initiative : base de la Voie + Force, Intelligence, Perception et Agilité + équipement.
 	fighter.initiative = character.initiative(self)
 	var race: Dictionary = races.get(character.race_id, {})
 	if race.has("sort") and spells.has(race["sort"]):

@@ -6,7 +6,7 @@
   "niveau": 2,
   "description": "Douces, silencieuses, un peu humides. Les champignons poussent dessus si on ne marche pas assez.",
   "bonus": {
-    "chance": [
+    "perception": [
       2,
       3
     ],

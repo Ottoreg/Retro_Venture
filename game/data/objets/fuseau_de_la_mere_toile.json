@@ -6,7 +6,7 @@
   "niveau": 12,
   "description": "Elle tissait avec ; vous frappez avec. Le fil gèle tout ce qu'il touche.",
   "bonus": {
-    "chance": [
+    "perception": [
       5,
       8
     ],

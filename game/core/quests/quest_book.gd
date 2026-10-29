@@ -44,8 +44,8 @@ func is_available(quest_id: String) -> bool:
 		return false
 	var character: Character = player.character
 	var conditions: Dictionary = _quests()[quest_id].get("conditions", {})
-	if character.level < int(conditions.get("niveau_min", 1)):
-		return false
+	# « niveau_min » n'est plus vérifié : le personnage n'a plus de niveau (GDD § 4.5) ; il deviendra
+	# un palier de réputation, ou disparaîtra (refonte des quêtes, lot 5).
 	if conditions.has("camp") and world.data.races.get(character.race_id, {}).get("camp", "") != conditions["camp"]:
 		return false
 	if conditions.has("race") and character.race_id != conditions["race"]:
@@ -317,19 +317,16 @@ func _finish(quest_id: String, events: Array[Dictionary]) -> void:
 	var quest: Dictionary = _quests()[quest_id]
 	_log().finish(quest_id)
 	var rewards: Dictionary = quest.get("recompenses", {})
-	var gain := Quest.reward_xp(quest)
+	var gain := Quest.reward_reputation(quest)
 	var ecus := int(rewards.get("ecus", 0))
 	var found: Array = []
 	for entry: Dictionary in rewards.get("objets", []):
 		_give(entry["objet"], int(entry.get("nombre", 1)), found)
 	player.character.inventory.ecus += ecus
-	events.append({"type": Protocol.EVT_QUEST_DONE, "quete": quest_id, "nom": quest["nom"], "xp": gain, "ecus": ecus,
+	events.append({"type": Protocol.EVT_QUEST_DONE, "quete": quest_id, "nom": quest["nom"], "reputation": gain, "ecus": ecus,
 		"objets": World._merged_loot(found)})
 	if gain > 0:
-		var levels: Array = player.character.add_xp(gain)
-		events.append({"type": Protocol.EVT_XP, "gain": gain, "xp": player.character.xp, "niveau": player.character.level})
-		for reached in levels:
-			events.append({"type": Protocol.EVT_LEVEL_UP, "niveau": reached, "points": player.character.unspent_points})
+		World.reputation_events(player.character, gain, events)
 	events.append_array(world._inventory_events(player))
 	# Une quête finie peut en débloquer d'autres : la suivante de la chaîne est suivie d'office.
 	if _log().tracked.is_empty() and not _log().active_ids().is_empty():
@@ -557,7 +554,7 @@ func _reward_sheet(quest: Dictionary) -> Dictionary:
 	for entry: Dictionary in rewards.get("objets", []):
 		var template: Dictionary = world.data.items[entry["objet"]]
 		items.append({"objet": entry["objet"], "nom": template["nom"], "rarete": template["rarete"], "quantite": int(entry.get("nombre", 1))})
-	return {"xp": Quest.reward_xp(quest), "ecus": int(rewards.get("ecus", 0)), "objets": items}
+	return {"reputation": Quest.reward_reputation(quest), "ecus": int(rewards.get("ecus", 0)), "objets": items}
 
 
 ## Journal pour l'interface : quêtes en cours (la suivie d'abord) puis terminées.

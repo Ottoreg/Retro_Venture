@@ -195,14 +195,14 @@ static func data(passages := []) -> GameData:
 	}]
 	var races := [{
 		"id": "testeur", "nom": "Testeur", "camp": "allie", "carte_depart": "test",
-		"bonus": {"force": 50, "vitalite": 7, "sagesse": 100},
+		"bonus": {"force": 50, "vitalite": 7},
 		"passif": {"nom": "Vue perçante", "effets": [{"type": "portee", "valeur": 1}]},
 		"sort": "bond",
 	}]
 	return GameData.from_dicts(spells(), monsters, voies, races, items(), [], passages)
 
 
-## Personnage de test : race « testeur » (Force +50, Vitalité +7, Sagesse +100, portée +1, sort « bond »).
+## Personnage de test : race « testeur » (Force +50, Vitalité +7, portée +1, sort « bond »).
 static func character() -> Character:
 	return Character.create("Testeur", "testeur", "test")
 

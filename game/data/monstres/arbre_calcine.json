@@ -21,7 +21,7 @@
     "initiative": 40,
     "force": 36,
     "intelligence": 36,
-    "chance": 36
+    "perception": 36
   },
   "par_niveau": {
     "pv": 8,
@@ -29,7 +29,7 @@
     "xp": 23,
     "force": 2,
     "intelligence": 2,
-    "chance": 2
+    "perception": 2
   },
   "resistances": {
     "acier": 25,

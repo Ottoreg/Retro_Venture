@@ -6,11 +6,11 @@
   "niveau": 11,
   "description": "Tissée par les tisseuses de brume. Elle colle un peu, mais elle protège du froid et des regards.",
   "bonus": {
-    "chance": [
+    "perception": [
       6,
       8
     ],
-    "sagesse": [
+    "prospection": [
       2,
       3
     ],

@@ -1,36 +1,45 @@
 class_name Character
 extends RefCounted
-## Le personnage du joueur : identité, race, Voie, niveau, expérience et caractéristiques.
-## C'est lui qui est sauvegardé entre deux parties (voir `to_dict` / `from_dict`).
+## Le personnage du joueur : identité, race, classe active, réputation et maîtrises de chaque
+## classe, caractéristiques gagnées. C'est lui qui est sauvegardé entre deux parties (voir `to_dict` /
+## `from_dict`). Pas de niveau (GDD § 4.5) : on progresse par la réputation (cumulée, elle débloque)
+## et les points de maîtrise (à répartir), propres à chaque classe ; les caractéristiques se gagnent
+## par la pratique, jusqu'à un plafond, et suivent le personnage d'une classe à l'autre.
 
-const STATS := ["vitalite", "sagesse", "force", "intelligence", "chance", "agilite"]
+const STATS := ["vitalite", "force", "intelligence", "perception", "agilite"]
 const STAT_NAMES := {
-	"vitalite": "Vitalité", "sagesse": "Sagesse", "force": "Force",
-	"intelligence": "Intelligence", "chance": "Chance", "agilite": "Agilité",
+	"vitalite": "Vitalité", "force": "Force",
+	"intelligence": "Intelligence", "perception": "Perception", "agilite": "Agilité",
 }
 ## Caractéristiques qui s'ajoutent à l'initiative.
-const INITIATIVE_STATS := ["force", "intelligence", "chance", "agilite"]
-const MAX_LEVEL := 30
-## Multiplicateur de l'XP de combat. Alpha 1 : ×3,5, pour finir tout le contenu (1 → 30) en 4 à 5 h
-## et tester les mécaniques plutôt que la progression ; remettre 1.0 (~15 h pour les 30 premiers
-## niveaux) quand on testera la vraie progression.
-const XP_RATE := 3.5
-const POINTS_PER_LEVEL := 5
+const INITIATIVE_STATS := ["force", "intelligence", "perception", "agilite"]
+## Plafond des points gagnés par la pratique (hors race, équipement et panoplies ; pistes à
+## équilibrer, GDD § 4.5). La Vitalité monte plus haut : 1 point = 1 PV.
+const STAT_CAP := 100
+const VITALITY_CAP := 300
+## Paliers de réputation d'une classe : [réputation minimale, nom] (pistes, GDD § 4.5).
+const REPUTATION_TIERS := [[0, "Inconnu"], [1000, "Apprenti"], [5000, "Compagnon"], [15000, "Vétéran"],
+	[40000, "Maître"], [100000, "Légende"]]
+## Réputation qu'il faut dans une classe (la meilleure) pour en commencer une autre.
+const NEW_CLASS_REPUTATION := 5000
+## Un point de maîtrise à répartir par tranche de cette réputation, dans la classe qui la gagne.
+const REPUTATION_PER_MASTERY_POINT := 500
+## Rang de maîtrise maximal d'un sort ; monter au rang n coûte n points.
+const SPELL_MAX_RANK := 5
 ## Bonus hors caractéristiques dont la fiche donne aussi la provenance (équipement, panoplie).
 const SOURCED_EXTRAS := ["pa", "pm", "initiative", "prospection", "dommages", "critique"]
-const HP_PER_LEVEL := 5
 const NAME_MIN_LENGTH := 2
 const NAME_MAX_LENGTH := 20
 
 var display_name := "Aventurier"
 var race_id := "humain"
+## Classe active (une seule à la fois, changée hors combat).
 var voie_id := "guerrier"
-var level := 1
-## Expérience totale accumulée depuis le niveau 1.
-var xp := 0
-## Points investis par caractéristique (hors bonus de race).
-var invested: Dictionary = {}
-var unspent_points := 0
+## Classes commencées : id de Voie → { reputation, points (de maîtrise, pas encore placés),
+## sorts: { id du sort → rang de maîtrise } }. Une classe inactive garde tout.
+var classes: Dictionary = {}
+## Points gagnés par la pratique, par caractéristique (hors bonus de race), plafonnés.
+var earned: Dictionary = {}
 var inventory := Inventory.new()
 ## XP de métier : id du métier → XP totale (un métier absent est au niveau 1).
 var jobs: Dictionary = {}
@@ -63,15 +72,26 @@ static func create(p_name: String, p_race: String, p_voie: String) -> Character:
 	character.display_name = p_name.strip_edges()
 	character.race_id = p_race
 	character.voie_id = p_voie
+	character._start_class(p_voie)
 	return character
 
 
-## XP totale nécessaire pour atteindre `target_level` (0 pour le niveau 1).
-static func xp_for_level(target_level: int) -> int:
-	var total := 0
-	for n in range(1, target_level):
-		total += 60 * n + 20 * n * n
-	return total
+## Index du palier de réputation atteint avec `reputation_value` (0 : Inconnu).
+static func tier_index(reputation_value: int) -> int:
+	var index := 0
+	for i in REPUTATION_TIERS.size():
+		if reputation_value >= int(REPUTATION_TIERS[i][0]):
+			index = i
+	return index
+
+
+static func tier_name(index: int) -> String:
+	return str(REPUTATION_TIERS[clampi(index, 0, REPUTATION_TIERS.size() - 1)][1])
+
+
+## Plafond des points gagnés dans une caractéristique.
+static func stat_cap(stat_name: String) -> int:
+	return VITALITY_CAP if stat_name == "vitalite" else STAT_CAP
 
 
 ## Raison pour laquelle le nom est refusé, ou "".
@@ -85,9 +105,9 @@ static func name_error(candidate: String) -> String:
 	return ""
 
 
-## Valeur totale d'une caractéristique : points investis + bonus de race + équipement.
+## Valeur totale d'une caractéristique : points gagnés + bonus de race + équipement.
 func stat(stat_name: String, data: GameData = null) -> int:
-	var total := int(invested.get(stat_name, 0)) + inventory.bonus(stat_name)
+	var total := int(earned.get(stat_name, 0)) + inventory.bonus(stat_name)
 	if data != null and data.races.has(race_id):
 		total += int(data.races[race_id].get("bonus", {}).get(stat_name, 0))
 	return total + set_bonus(stat_name, data)
@@ -106,14 +126,14 @@ func set_bonus(stat_name: String, data: GameData) -> int:
 	return int(data.set_bonuses(inventory).get(stat_name, 0))
 
 
-## Prospection : 100 + Chance / 10 + équipement + passif de race. Augmente les chances de butin.
-@warning_ignore("integer_division")
+## Prospection : 100 + équipement + passif de race (plus de lien avec une caractéristique, GDD § 4.4).
+## Augmente les chances de butin.
 func prospection(data: GameData = null) -> int:
 	var passive := data.passive_value(race_id, "prospection") if data != null else 0
-	return BASE_PROSPECTION + stat("chance", data) / 10 + extra("prospection", data) + passive
+	return BASE_PROSPECTION + extra("prospection", data) + passive
 
 
-## Initiative : base de la Voie + Force, Intelligence, Chance et Agilité + équipement. Décide de
+## Initiative : base de la Voie + Force, Intelligence, Perception et Agilité + équipement. Décide de
 ## l'ordre de jeu en combat.
 func initiative(data: GameData = null) -> int:
 	var voie: Dictionary = data.voies.get(voie_id, {}) if data != null else {}
@@ -123,15 +143,94 @@ func initiative(data: GameData = null) -> int:
 	return total
 
 
-## Ajoute de l'expérience ; renvoie les niveaux atteints (vide si aucun).
-func add_xp(amount: int) -> Array[int]:
+func _start_class(class_id: String) -> void:
+	if not classes.has(class_id):
+		classes[class_id] = {"reputation": 0, "points": 0, "sorts": {}}
+
+
+## Réputation dans une classe (la classe active par défaut ; 0 si elle n'est pas commencée).
+func reputation(class_id := "") -> int:
+	return int(classes.get(voie_id if class_id.is_empty() else class_id, {}).get("reputation", 0))
+
+
+## Palier de réputation de la classe active (index dans `REPUTATION_TIERS`).
+func tier() -> int:
+	return tier_index(reputation())
+
+
+## Points de maîtrise pas encore placés dans la classe active.
+func mastery_points() -> int:
+	return int(classes.get(voie_id, {}).get("points", 0))
+
+
+## Rang de maîtrise d'un sort dans la classe active (0 : pas de point placé).
+func spell_rank(spell_id: String) -> int:
+	return int(classes.get(voie_id, {}).get("sorts", {}).get(spell_id, 0))
+
+
+## Ajoute de la réputation à la classe active, avec ses points de maîtrise (un par tranche de
+## `REPUTATION_PER_MASTERY_POINT`) ; renvoie les paliers atteints (index, vide si aucun).
+@warning_ignore("integer_division")
+func add_reputation(amount: int) -> Array[int]:
+	_start_class(voie_id)
+	var entry: Dictionary = classes[voie_id]
+	var before := int(entry["reputation"])
+	var after := before + maxi(0, amount)
+	entry["reputation"] = after
+	entry["points"] = int(entry["points"]) + after / REPUTATION_PER_MASTERY_POINT - before / REPUTATION_PER_MASTERY_POINT
 	var reached: Array[int] = []
-	xp += maxi(0, amount)
-	while level < MAX_LEVEL and xp >= xp_for_level(level + 1):
-		level += 1
-		unspent_points += POINTS_PER_LEVEL
-		reached.append(level)
+	for index in range(tier_index(before) + 1, tier_index(after) + 1):
+		reached.append(index)
 	return reached
+
+
+## Place des points de maîtrise pour monter un sort d'un rang (rang n : n points) ; renvoie la
+## raison du refus, ou "". `spell_ids` : les sorts de la classe active.
+func raise_spell(spell_id: String, spell_ids: Array) -> String:
+	if spell_id not in spell_ids:
+		return Protocol.REASON_INVALID_COMMAND
+	var rank := spell_rank(spell_id)
+	if rank >= SPELL_MAX_RANK:
+		return Protocol.REASON_INVALID_COMMAND
+	if mastery_points() < rank + 1:
+		return Protocol.REASON_NOT_ENOUGH_POINTS
+	var entry: Dictionary = classes[voie_id]
+	entry["points"] = int(entry["points"]) - (rank + 1)
+	entry["sorts"][spell_id] = rank + 1
+	return ""
+
+
+## Ajoute des points gagnés par la pratique à une caractéristique, sans dépasser son plafond ;
+## renvoie les points réellement ajoutés.
+func gain_stat(stat_name: String, amount: int) -> int:
+	if stat_name not in STATS or amount <= 0:
+		return 0
+	var before := int(earned.get(stat_name, 0))
+	earned[stat_name] = mini(stat_cap(stat_name), before + amount)
+	return int(earned[stat_name]) - before
+
+
+## Classes qu'on peut rendre actives : celles déjà commencées, et toutes les autres dès qu'une classe
+## a `NEW_CLASS_REPUTATION` de réputation.
+func can_switch_to(class_id: String) -> bool:
+	if classes.has(class_id):
+		return true
+	for entry: Dictionary in classes.values():
+		if int(entry["reputation"]) >= NEW_CLASS_REPUTATION:
+			return true
+	return false
+
+
+## Rend une autre classe active (hors combat : à vérifier par l'appelant) ; renvoie la raison du
+## refus, ou "". Une nouvelle classe part de zéro ; les caractéristiques suivent.
+func switch_class(class_id: String) -> String:
+	if class_id == voie_id:
+		return Protocol.REASON_INVALID_COMMAND
+	if not can_switch_to(class_id):
+		return Protocol.REASON_REPUTATION_TOO_LOW
+	_start_class(class_id)
+	voie_id = class_id
+	return ""
 
 
 func job_xp(job_id: String) -> int:
@@ -192,28 +291,6 @@ func visit_map(map_id: String) -> bool:
 	return true
 
 
-## Investit des points ; renvoie la raison du refus, ou "".
-func spend_points(stat_name: String, points: int) -> String:
-	if stat_name not in STATS or points <= 0:
-		return Protocol.REASON_INVALID_COMMAND
-	if points > unspent_points:
-		return Protocol.REASON_NOT_ENOUGH_POINTS
-	invested[stat_name] = int(invested.get(stat_name, 0)) + points
-	unspent_points -= points
-	return ""
-
-
-## Rend tous les points investis, à répartir de nouveau ; renvoie le nombre de points rendus. Les
-## objets portés le restent, même si leurs conditions ne sont plus remplies.
-func reset_points() -> int:
-	var total := 0
-	for stat_name: String in invested:
-		total += int(invested[stat_name])
-	invested.clear()
-	unspent_points += total
-	return total
-
-
 ## Provenance d'une caractéristique ou d'un bonus d'équipement : { points, race, equipement,
 ## panoplie, objets: [[nom, valeur]…] } (seuls les objets portés qui donnent ce bonus).
 func stat_sources(stat_name: String, data: GameData = null) -> Dictionary:
@@ -227,11 +304,12 @@ func stat_sources(stat_name: String, data: GameData = null) -> Dictionary:
 		if value != 0:
 			var template: Dictionary = data.items.get(entry["objet"], {}) if data != null else {}
 			items.append([template.get("nom", entry["objet"]), value])
-	return {"points": int(invested.get(stat_name, 0)), "race": race_bonus, "equipement": inventory.bonus(stat_name),
+	return {"points": int(earned.get(stat_name, 0)), "race": race_bonus, "equipement": inventory.bonus(stat_name),
 		"panoplie": set_bonus(stat_name, data), "objets": items}
 
 
-## Fiche affichable : identité, niveau, XP, caractéristiques totales, PV maximum.
+## Fiche affichable : identité, réputation et maîtrise de la classe active, caractéristiques totales
+## (et points gagnés, avec leur plafond), PV maximum.
 func sheet(data: GameData) -> Dictionary:
 	var stats := {}
 	var sources := {}
@@ -248,13 +326,17 @@ func sheet(data: GameData) -> Dictionary:
 		"race_nom": race.get("nom", race_id),
 		"voie": voie_id,
 		"voie_nom": voie.get("nom", voie_id),
-		"niveau": level,
-		"xp": xp,
-		"xp_niveau": xp_for_level(level),
-		"xp_suivant": xp_for_level(level + 1) if level < MAX_LEVEL else xp,
-		"points": unspent_points,
+		"reputation": reputation(),
+		"palier": tier(),
+		"palier_nom": tier_name(tier()),
+		"reputation_palier": int(REPUTATION_TIERS[tier()][0]),
+		"reputation_suivante": int(REPUTATION_TIERS[tier() + 1][0]) if tier() + 1 < REPUTATION_TIERS.size() else reputation(),
+		"points_maitrise": mastery_points(),
+		"maitrises": classes.get(voie_id, {}).get("sorts", {}).duplicate(),
+		"classes": _classes_sheet(data),
 		"caracteristiques": stats,
-		"investis": invested.duplicate(),
+		"gagnes": earned.duplicate(),
+		"plafonds": _caps(),
 		"provenance": sources,
 		"pv_max": max_hp(data),
 		"pv": hp(data),
@@ -267,6 +349,26 @@ func sheet(data: GameData) -> Dictionary:
 		"ecus": inventory.ecus,
 		"metiers": jobs_sheet(data),
 	}
+
+
+static func _caps() -> Dictionary:
+	var caps := {}
+	for stat_name in STATS:
+		caps[stat_name] = stat_cap(stat_name)
+	return caps
+
+
+## Classes commencées : [{ id, nom, reputation, palier_nom, active }], dans l'ordre des données.
+func _classes_sheet(data: GameData) -> Array:
+	var listed: Array = []
+	var ids: Array = data.voies.keys() if data != null else classes.keys()
+	for class_id: String in ids:
+		if classes.has(class_id):
+			var value := reputation(class_id)
+			var voie: Dictionary = data.voies.get(class_id, {}) if data != null else {}
+			listed.append({"id": class_id, "nom": voie.get("nom", class_id), "reputation": value,
+				"palier_nom": tier_name(tier_index(value)), "active": class_id == voie_id})
+	return listed
 
 
 ## Inventaire affichable : objets avec leur modèle (nom, type, rareté, niveau…), emplacements, brumes.
@@ -324,7 +426,7 @@ func max_hp(data: GameData) -> int:
 	if data == null or not data.voies.has(voie_id):
 		return 0
 	var base := int(data.voies[voie_id]["caracteristiques"]["pv"])
-	return base + (level - 1) * HP_PER_LEVEL + stat("vitalite", data)
+	return base + stat("vitalite", data)
 
 
 func to_dict() -> Dictionary:
@@ -332,10 +434,8 @@ func to_dict() -> Dictionary:
 		"nom": display_name,
 		"race": race_id,
 		"voie": voie_id,
-		"niveau": level,
-		"xp": xp,
-		"caracteristiques": invested.duplicate(),
-		"points": unspent_points,
+		"classes": classes.duplicate(true),
+		"caracteristiques": earned.duplicate(),
 		"inventaire": inventory.to_dict(),
 		"metiers": jobs.duplicate(),
 		"pv_perdus": hp_lost,
@@ -349,23 +449,29 @@ func to_dict() -> Dictionary:
 
 ## Personnage relu depuis une sauvegarde, ou `null` si elle est invalide. Les objets inconnus de
 ## `known_items` (id → données) sont ignorés. Une vieille sauvegarde sans pierres connues ni point de
-## résurrection les reçoit de `World` (pierre de la zone de départ de la race).
+## résurrection les reçoit de `World` (pierre de la zone de départ de la race). Une sauvegarde
+## d'avant la refonte (niveau, XP, points investis) est convertie (`_from_levels`).
 static func from_dict(data: Dictionary, known_items: Dictionary = {}) -> Character:
 	for key in ["nom", "race", "voie"]:
 		if typeof(data.get(key)) != TYPE_STRING:
 			return null
-	for key in ["niveau", "xp", "points"]:
-		if typeof(data.get(key)) not in [TYPE_INT, TYPE_FLOAT]:
-			return null
 	var character := Character.create(data["nom"], data["race"], data["voie"])
-	character.level = clampi(int(data["niveau"]), 1, MAX_LEVEL)
-	character.xp = maxi(0, int(data["xp"]))
-	character.unspent_points = maxi(0, int(data["points"]))
+	var saved_classes: Variant = data.get("classes")
+	if typeof(saved_classes) == TYPE_DICTIONARY:
+		for class_id: Variant in saved_classes:
+			var entry: Variant = saved_classes[class_id]
+			if typeof(entry) == TYPE_DICTIONARY:
+				character.classes[str(class_id)] = _class_entry(entry)
+	elif typeof(data.get("xp")) in [TYPE_INT, TYPE_FLOAT]:
+		character.add_reputation(_from_levels(int(data["xp"])))
+	character._start_class(character.voie_id)
 	var stats: Variant = data.get("caracteristiques", {})
 	if typeof(stats) == TYPE_DICTIONARY:
 		for stat_name: Variant in stats:
-			if stat_name in STATS and typeof(stats[stat_name]) in [TYPE_INT, TYPE_FLOAT]:
-				character.invested[stat_name] = maxi(0, int(stats[stat_name]))
+			var key := str(stat_name)
+			key = "perception" if key == "chance" else key  # Avant le 29/10/2026 : Chance.
+			if typeof(stats[stat_name]) in [TYPE_INT, TYPE_FLOAT]:
+				character.gain_stat(key, int(stats[stat_name]))
 	var lost: Variant = data.get("pv_perdus", 0)
 	if typeof(lost) in [TYPE_INT, TYPE_FLOAT]:
 		character.hp_lost = maxi(0, int(lost))
@@ -386,6 +492,26 @@ static func from_dict(data: Dictionary, known_items: Dictionary = {}) -> Charact
 	character.visited_maps = _string_list(data.get("cartes_visitees", []))
 	character.quests = QuestLog.from_dict(data.get("quetes", {}))
 	return character
+
+
+## Réputation d'un personnage sauvegardé avec l'ancien système : son XP totale sans le ×3,5 de
+## l'alpha 1 (l'XP brute d'un monstre vaut sa réputation, GDD § 8.1).
+static func _from_levels(old_xp: int) -> int:
+	return roundi(maxi(0, old_xp) / 3.5)
+
+
+## Classe sauvegardée, avec des valeurs sûres (entiers positifs, rangs de 1 à `SPELL_MAX_RANK`).
+static func _class_entry(saved: Dictionary) -> Dictionary:
+	var entry := {"reputation": 0, "points": 0, "sorts": {}}
+	for key in ["reputation", "points"]:
+		if typeof(saved.get(key)) in [TYPE_INT, TYPE_FLOAT]:
+			entry[key] = maxi(0, int(saved[key]))
+	var ranks: Variant = saved.get("sorts", {})
+	if typeof(ranks) == TYPE_DICTIONARY:
+		for spell_id: Variant in ranks:
+			if typeof(ranks[spell_id]) in [TYPE_INT, TYPE_FLOAT] and int(ranks[spell_id]) > 0:
+				entry["sorts"][str(spell_id)] = mini(int(ranks[spell_id]), SPELL_MAX_RANK)
+	return entry
 
 
 ## Textes d'une liste sauvegardée, sans doublon ni texte vide (les autres valeurs sont ignorées).

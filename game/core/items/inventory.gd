@@ -114,6 +114,10 @@ func to_dict() -> Dictionary:
 	return {"objets": saved_entries, "equipement": equipped.duplicate(), "ecus": ecus, "prochain": _next_uid}
 
 
+## Jets sauvegardés sous un ancien nom de caractéristique (GDD § 4.4, refonte du 29/10/2026).
+const RENAMED_STATS := {"chance": "perception", "sagesse": "prospection"}
+
+
 static func from_dict(data: Dictionary, known_items: Dictionary) -> Inventory:
 	var inventory := Inventory.new()
 	inventory.ecus = maxi(0, int(data.get("ecus", 0)))
@@ -126,7 +130,9 @@ static func from_dict(data: Dictionary, known_items: Dictionary) -> Inventory:
 			var jets := {}
 			if typeof(entry.get("jets")) == TYPE_DICTIONARY:
 				for stat: Variant in entry["jets"]:
-					jets[str(stat)] = int(entry["jets"][stat])
+					# Avant le 29/10/2026 : Chance (devenue Perception) et Sagesse (devenue prospection).
+					var key: String = RENAMED_STATS.get(str(stat), str(stat))
+					jets[key] = int(jets.get(key, 0)) + int(entry["jets"][stat])
 			inventory.entries[entry["uid"]] = {"uid": entry["uid"], "objet": entry["objet"], "quantite": maxi(1, int(entry.get("quantite", 1))), "jets": jets}
 	var saved_equipment: Variant = data.get("equipement", {})
 	if typeof(saved_equipment) == TYPE_DICTIONARY:

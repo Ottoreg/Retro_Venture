@@ -36,7 +36,7 @@ OBJETS = [
      "boutique": False, "bonus": {"vitalite": [20, 30], "force": [5, 8], "intelligence": [5, 8]},
      "description": "Brodée « Au héros de Brumerive » par le bourgmestre, qui en a commandé une pour lui aussi. Par précaution."},
     {"id": "carte_du_syndicat", "nom": "Carte du syndicat", "type": "amulette", "rarete": "rare", "niveau": 12,
-     "boutique": False, "bonus": {"agilite": [6, 10], "chance": [6, 10], "prospection": [10, 20]},
+     "boutique": False, "bonus": {"agilite": [6, 10], "perception": [6, 10], "prospection": [10, 20]},
      "description": "Carte de délégué provisoire du Syndicat des Travailleurs de Crasse-Roc. Donne droit à une pause par décennie."},
     {"id": "broche_de_la_lisiere", "nom": "Broche de la Lisière", "type": "amulette", "rarete": "rare", "niveau": 12,
      "boutique": False, "bonus": {"intelligence": [6, 10], "agilite": [6, 10], "sagesse": [4, 8]},

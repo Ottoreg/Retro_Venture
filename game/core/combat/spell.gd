@@ -76,10 +76,10 @@ const GROUND_EFFECTS := [EFFECT_GLYPH, EFFECT_TRAP]
 ## Effets qui durent plusieurs tours (`duree` obligatoire).
 const LASTING_EFFECTS := [EFFECT_BONUS, EFFECT_MALUS, EFFECT_POISON, EFFECT_GLYPH]
 ## Caractéristiques qu'un bonus ou un malus peut changer ; « resistance » demande un `element`.
-const MODIFIABLE := ["force", "intelligence", "chance", "agilite", "pa", "pm", "portee", "dommages", "critique", "resistance"]
+const MODIFIABLE := ["force", "intelligence", "perception", "agilite", "pa", "pm", "portee", "dommages", "critique", "resistance"]
 ## Effets chiffrés qui ont un élément : leur valeur monte avec la caractéristique de cet élément
 ## (un soin Sacré avec la Force et l'Intelligence, un bouclier de Tempête avec l'Agilité, un poison
-## de Givre avec la Chance…).
+## de Givre avec la Perception…).
 const ELEMENT_EFFECTS := [EFFECT_DAMAGE, EFFECT_HEAL, EFFECT_SHIELD, EFFECT_POISON]
 ## Chance de coup critique d'un sort sans « critique » (en %).
 const DEFAULT_CRIT_CHANCE := 5

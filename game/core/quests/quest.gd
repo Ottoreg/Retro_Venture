@@ -26,15 +26,16 @@ const CONDITION_KEYS := ["camp", "race", "voie", "niveau_min", "quetes_terminees
 
 
 ## XP d'un « combat de référence » au niveau `level` (2 monstres de ce niveau, voir
-## `docs/design/chantier3_brouillon/src/balance.py`), avant `Character.XP_RATE`.
+## `docs/design/chantier3_brouillon/src/balance.py`).
 static func reference_xp(level: int) -> int:
 	return 2 * roundi(7.0 * level + 0.27 * level * level)
 
 
-## XP de la récompense d'une quête (combats de référence × XP du niveau × `Character.XP_RATE`).
-static func reward_xp(quest: Dictionary) -> int:
+## Réputation de la récompense d'une quête : combats de référence × XP de ce combat au niveau de la
+## quête (l'XP d'un monstre vaut sa réputation, GDD § 8.1).
+static func reward_reputation(quest: Dictionary) -> int:
 	var units := float(quest.get("recompenses", {}).get("xp_cr", 0))
-	return roundi(units * reference_xp(int(quest.get("niveau", 1))) * Character.XP_RATE)
+	return roundi(units * reference_xp(int(quest.get("niveau", 1))))
 
 
 ## Nombre à atteindre pour un objectif (1 pour ceux qui ne se comptent pas).

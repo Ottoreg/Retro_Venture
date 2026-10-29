@@ -26,10 +26,10 @@ static func write(data: Dictionary) -> bool:
 	return true
 
 
-## Résumé affiché dans le menu (« Elara, Elfe Rôdeur niveau 3 »), ou "".
+## Résumé affiché dans le menu (« Elara — Rôdeur »), ou "".
 static func summary() -> String:
 	var save := read()
 	var hero: Variant = save.get("personnage")
 	if typeof(hero) != TYPE_DICTIONARY:
 		return ""
-	return "%s — niveau %d" % [str(hero.get("nom", "?")), int(hero.get("niveau", 1))]
+	return "%s — %s" % [str(hero.get("nom", "?")), str(hero.get("voie", "?")).capitalize()]

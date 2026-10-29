@@ -358,7 +358,7 @@ func test_panoplies_de_l_alpha_test() -> void:
 			previous = tier
 	# Bonus complet : +1 PA, +1 PM, +1 Portée et 100 de caractéristique au niveau 15 ; +2 PA, +1 PM,
 	# +2 Portée et 200 au niveau 30 (partagés entre deux caractéristiques pour le Sacré et l'Impie).
-	var mains := ["force", "intelligence", "chance", "agilite"]
+	var mains := ["force", "intelligence", "perception", "agilite"]
 	for tier_level: Array in [[elemental_15, 15, 1, 1, 1, 100], [elemental_30, 30, 2, 1, 2, 200]]:
 		for set_id: String in tier_level[0]:
 			var full := data.set_tier(set_id, 7)

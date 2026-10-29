@@ -31,7 +31,7 @@ RARES = {
 RECETTES = [
     ({"id": "anneau_vert_de_gris", "nom": "Anneau vert-de-gris", "type": "anneau", "rarete": "rare", "niveau": 5,
       "description": "Il verdit les doigts et porte chance. Les deux sont liés, assure le forgeron.",
-      "bonus": {"chance": [4, 6], "agilite": [4, 6], "prospection": [8, 12]}},
+      "bonus": {"perception": [4, 6], "agilite": [4, 6], "prospection": [8, 12]}},
      {"cuivre_vert_de_gris": 1, "minerai_de_cuivre": 6, "croc_de_loup": 3}, 30),
     ({"id": "arc_coeur_de_frene", "nom": "Arc du Cœur de frêne", "type": "arme", "rarete": "rare", "niveau": 7,
       "description": "Taillé dans le cœur d'un frêne têtu : il plie, mais c'est lui qui décide quand.",

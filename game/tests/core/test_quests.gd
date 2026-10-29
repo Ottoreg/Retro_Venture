@@ -156,7 +156,7 @@ func test_format_des_quetes() -> void:
 func test_recompense_en_combats_de_reference() -> void:
 	assert_eq(Quest.reference_xp(1), 14)
 	assert_eq(Quest.reference_xp(12), 2 * roundi(7 * 12 + 0.27 * 144))
-	assert_eq(Quest.reward_xp({"niveau": 10, "recompenses": {"xp_cr": 3}}), roundi(3 * Quest.reference_xp(10) * Character.XP_RATE))
+	assert_eq(Quest.reward_reputation({"niveau": 10, "recompenses": {"xp_cr": 3}}), roundi(3 * Quest.reference_xp(10)))
 
 
 func test_conditions_et_marques_des_pnj() -> void:
@@ -170,10 +170,9 @@ func test_conditions_et_marques_des_pnj() -> void:
 	_world.character.quests.finish("tuto")
 	assert_true(book.is_available("suite"))
 	assert_true(book.is_available("commerce"), "« une_quete_terminee » : une seule suffit")
-	_world.character.level = 1
 	var high: Dictionary = _world.data.quests["suite"]
 	high["conditions"]["niveau_min"] = 5
-	assert_false(book.is_available("suite"), "niveau trop bas")
+	assert_true(book.is_available("suite"), "plus de niveau du personnage : « niveau_min » ignoré (GDD § 4.5)")
 
 
 func test_proposition_acceptation_et_tutoriel_complet() -> void:
@@ -217,14 +216,15 @@ func test_proposition_acceptation_et_tutoriel_complet() -> void:
 	assert_eq(_world.character.quests.step("tuto"), 3)
 	assert_eq(_world.quest_book.marker("berger"), QuestBook.MARKER_TURN_IN)
 	# Étape 4 : revenir voir le berger ; récompenses.
-	var xp := _world.character.xp
+	var reputation := _world.character.reputation()
 	var ecus := _world.character.inventory.ecus
 	events = _talk("berger")
 	assert_true(_world.character.quests.is_done("tuto"))
 	assert_eq(Fixtures.of_type(events, Protocol.EVT_DIALOGUE)[0]["repliques"], ["Merci !"])
 	var done := Fixtures.of_type(events, Protocol.EVT_QUEST_DONE)
 	assert_eq(done.size(), 1)
-	assert_eq(_world.character.xp - xp, Quest.reward_xp(_world.data.quests["tuto"]))
+	assert_eq(_world.character.reputation() - reputation, Quest.reward_reputation(_world.data.quests["tuto"]))
+	assert_eq(done[0]["reputation"], Quest.reward_reputation(_world.data.quests["tuto"]))
 	assert_eq(_world.character.inventory.ecus - ecus, 10)
 	assert_eq(_world.character.inventory.quantity_of("epee"), 1, "épée de récompense")
 	assert_eq(_world.quest_book.marker("berger"), QuestBook.MARKER_AVAILABLE, "la suite est proposée")

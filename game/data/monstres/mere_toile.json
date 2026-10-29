@@ -9,7 +9,7 @@
     "pa": 7,
     "pm": 4,
     "initiative": 130,
-    "chance": 25,
+    "perception": 25,
     "agilite": 25
   },
   "resistances": {
@@ -71,7 +71,7 @@
       "effets": [
         {
           "type": "bonus",
-          "carac": "chance",
+          "carac": "perception",
           "min": 40,
           "max": 40,
           "duree": 3

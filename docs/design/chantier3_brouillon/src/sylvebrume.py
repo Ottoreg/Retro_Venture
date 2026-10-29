@@ -26,7 +26,7 @@ ressource("soie_de_la_mere_toile", "Soie de la Mère-Toile", "rare",
 
 equipement("bottes_de_mousse", "Bottes de mousse", "bottes", "commun", 2,
            "Douces, silencieuses, un peu humides. Les champignons poussent dessus si on ne marche pas assez.",
-           {"chance": 0.5, "vitalite": 0.5}, "butin:morille_grincheuse",
+           {"perception": 0.5, "vitalite": 0.5}, "butin:morille_grincheuse",
            "petites bottes vert mousse, deux minuscules champignons sur la tige")
 equipement("hache_de_bucheron", "Hache de bûcheron", "arme", "peu_commun", 9,
            "Une cognée honnête. Elle a abattu Vieux-Branchu ; elle n'en est pas fière.",
@@ -39,16 +39,16 @@ equipement("ceinture_de_bucheron", "Ceinture de bûcheron", "ceinture", "commun"
            "ceinture de cuir avec une boucle carrée et un étui à hachette vide")
 equipement("cape_de_soie_grise", "Cape de soie grise", "cape", "peu_commun", 11,
            "Tissée par les tisseuses de brume. Elle colle un peu, mais elle protège du froid et des regards.",
-           {"chance": 0.5, "sagesse": 0.2, "vitalite": 0.3}, "butin:tisseuse_de_brume",
+           {"perception": 0.5, "sagesse": 0.2, "vitalite": 0.3}, "butin:tisseuse_de_brume",
            "cape gris perle à motif de toile d'araignée argentée")
 equipement("fuseau_de_la_mere_toile", "Fuseau de la Mère-Toile", "arme", "epique", 12,
            "Elle tissait avec ; vous frappez avec. Le fil gèle tout ce qu'il touche.",
-           {"chance": 0.5, "vitalite": 0.3, "dommages": 0.2}, "boss:mere_toile",
+           {"perception": 0.5, "vitalite": 0.3, "dommages": 0.2}, "boss:mere_toile",
            "long fuseau d'os blanc enroulé de fil argenté, givre bleu à la pointe",
            attaque=attaque(12, "epique", "givre", 4, (2, 5)), boutique=False)
 equipement("anneau_aux_huit_yeux", "Anneau aux huit yeux", "anneau", "rare", 12,
            "Huit pierres noires qui vous regardent. Avec, vous voyez plus loin ; eux aussi.",
-           {"chance": 0.25, "agilite": 0.15}, "boss:mere_toile",
+           {"perception": 0.25, "agilite": 0.15}, "boss:mere_toile",
            "anneau d'argent serti de huit petites pierres noires en cercle", fixe={"portee": [1, 1]}, boutique=False)
 
 # ---------------- sorts ----------------
@@ -81,7 +81,7 @@ sort("meretoile_toile_geante", "Toile géante", "Toute la clairière devient un 
 # ---------------- familles ----------------
 MORILLE = famille(
     "morille_grincheuse", "Morille grincheuse", "Elle pousse à l'ombre, elle râle à l'ombre, elle mord à l'ombre.",
-    (1, 3), "faible", "frele", 5, 2, 40, {"chance": 1},
+    (1, 3), "faible", "frele", 5, 2, 40, {"perception": 1},
     {"givre": 15, "tempete": 10, "acier": 0, "flamme": -20}, ["morille_spores", "morille_bouderie"], "basique",
     [drop("chapeau_de_morille", 0.6, [1, 2]), drop("spores_grincheuses", 0.12), drop("bottes_de_mousse", 0.05),
      drop("coiffe_mauvais_oeil", 0.02), drop("cape_mauvais_oeil", 0.02), drop("amulette_mauvais_oeil", 0.02)],
@@ -148,7 +148,7 @@ BUCHERON = famille(
 
 TISSEUSE = famille(
     "tisseuse_de_brume", "Tisseuse de brume", "Une araignée grosse comme un poney, qui tisse le brouillard de Sylvebrume. Les elfes disent que c'est poétique. De loin.",
-    (10, 12), "moyen", "standard", 6, 4, 110, {"chance": 1},
+    (10, 12), "moyen", "standard", 6, 4, 110, {"perception": 1},
     {"givre": 20, "impie": 10, "acier": 0, "flamme": -15}, ["tisseuse_morsure", "tisseuse_toile"], "basique",
     [drop("fil_de_brume", 0.55, [1, 3]), drop("crochet_d_araignee", 0.12), drop("cape_de_soie_grise", 0.04),
      drop("coiffe_bonhomme_de_neige", 0.03), drop("cape_bonhomme_de_neige", 0.03), drop("amulette_bonhomme_de_neige", 0.03)],
@@ -164,7 +164,7 @@ MERE_TOILE = {
     "id": "mere_toile", "nom": "La Mère-Toile",
     "description": "Elle tisse depuis l'Âge de l'Aube et n'a jamais fini un seul napperon. Depuis que la Cendre tombe, elle tisse plus vite, et plus noir.",
     "boss": True, "niveau": 12,
-    "caracteristiques": {"pv": 300, "pa": 7, "pm": 4, "initiative": 130, "chance": 25},
+    "caracteristiques": {"pv": 300, "pa": 7, "pm": 4, "initiative": 130, "perception": 25},
     "resistances": {"givre": 30, "impie": 15, "tempete": 10, "acier": 5, "flamme": -20},
     "sorts": ["meretoile_venin", "tisseuse_morsure", "tisseuse_toile"],
     "ia": "basique", "xp": 720,
@@ -174,7 +174,7 @@ MERE_TOILE = {
         {"pv": 35, "message": "« Mes petites ! … Ah, non : elles sont toutes à la Lisière, à embêter les elfes. » Elle s'emmaillote dans sa soie.",
          "effets": [bonus("resistance", 30, 30, 3, element="flamme"), bonus("resistance", 20, 20, 3, element="acier")]},
         {"pv": 10, "message": "Elle file un dernier fil… et décide qu'elle a assez tissé pour aujourd'hui.",
-         "effets": [bonus("chance", 40, 40, 3), bonus("critique", 20, 20, 3)]}],
+         "effets": [bonus("perception", 40, 40, 3), bonus("critique", 20, 20, 3)]}],
     "butin": [drop("soie_de_la_mere_toile", 1.0), drop("fil_de_brume", 0.9, [2, 4]), drop("anneau_aux_huit_yeux", 0.2),
               drop("fuseau_de_la_mere_toile", 0.12)],
     "ecus": [80, 140]}

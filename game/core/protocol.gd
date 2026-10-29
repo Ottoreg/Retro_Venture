@@ -9,7 +9,7 @@ extends RefCounted
 
 ## Version du protocole, vérifiée à la connexion : à augmenter à chaque changement incompatible
 ## d'une commande ou d'un événement.
-const VERSION := 7
+const VERSION := 8
 
 # --- Commandes (client → noyau) ---
 
@@ -23,11 +23,12 @@ const VERSION := 7
 const CMD_MOVE := "deplacer"
 ## Exploration : aller parler à un PNJ. { type, entite: String, pnj: String }
 const CMD_TALK := "parler"
-## Exploration : répartir des points de caractéristique. { type, entite: String, carac: String, points: int }
-const CMD_SPEND_POINTS := "investir"
-## Exploration : rendre tous les points investis, à répartir de nouveau (gratuit pendant l'alpha).
-## { type, entite: String }
-const CMD_RESET_POINTS := "reinitialiser_points"
+## Exploration : rendre une autre classe active (hors combat ; une classe pas encore commencée
+## demande `Character.NEW_CLASS_REPUTATION` dans une autre). { type, entite: String, voie: String }
+const CMD_SWITCH_CLASS := "changer_voie"
+## Exploration : placer des points de maîtrise pour monter un sort de la classe active d'un rang.
+## { type, entite: String, sort: String }
+const CMD_RAISE_SPELL := "maitriser"
 ## Exploration : s'asseoir (`assis` vrai) ou se relever (faux). Assis, les PV remontent plus vite
 ## (World.SIT_REGEN_FACTOR) ; on se relève tout seul en marchant ou en entrant en combat.
 ## { type, entite: String, assis: bool }
@@ -258,10 +259,14 @@ const EVT_TRAP_ENDED := "piege_fin"
 ## par phase). { type, entite: String, message: String } ; ses nouveaux sorts sont déjà appris, les
 ## effets de la phase (sur lui-même) suivent.
 const EVT_PHASE := "phase"
-## Gain d'expérience après un combat. { type, gain: int, xp: int, niveau: int }
-const EVT_XP := "experience"
-## { type, niveau: int, points: int (points de caractéristique à répartir) }
-const EVT_LEVEL_UP := "niveau"
+## Gain de réputation de la classe active (combat, quête). { type, gain: int, reputation: int (total),
+## palier: int (index de `Character.REPUTATION_TIERS`), voie: String }
+const EVT_REPUTATION := "reputation"
+## Palier de réputation atteint. { type, palier: int, nom: String, points: int (points de maîtrise
+## à placer) }
+const EVT_REPUTATION_TIER := "palier_reputation"
+## Classe active changée. { type, entite: String, voie: String } (la fiche suit)
+const EVT_CLASS_SWITCHED := "voie_changee"
 ## Fiche du personnage mise à jour. { type, personnage: Dictionary }
 const EVT_CHARACTER := "personnage"
 ## Inventaire mis à jour. { type, inventaire: Dictionary (voir Character.inventory_sheet) }
@@ -441,7 +446,7 @@ const REASON_ALREADY_THERE := "deja_sur_place"
 const REASON_NO_EXIT := "pas_de_sortie"
 const REASON_UNKNOWN_MAP := "carte_inconnue"
 const REASON_NOT_ENOUGH_POINTS := "points_insuffisants"
-const REASON_NOTHING_TO_RESET := "aucun_point_investi"
+const REASON_REPUTATION_TOO_LOW := "reputation_insuffisante"
 const REASON_UNKNOWN_ITEM := "objet_inconnu"
 const REASON_NOT_EQUIPPABLE := "objet_non_equipable"
 const REASON_REQUIREMENTS := "conditions_non_remplies"

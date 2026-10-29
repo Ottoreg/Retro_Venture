@@ -60,14 +60,15 @@ détails et comment les obtenir) : à relancer après tout changement d'objets, 
 Phase 2 (alpha solo), en deux tests :
 
 - **Alpha test 1 : les mécaniques.** Chantiers dans l'ordre : contenu du monde (3), puis
-  interface (4) et quêtes (6) en derniers avant le lancement. XP de combat ×3,5
-  (`Character.XP_RATE`) : tout le contenu en 4 à 5 h.
+  interface (4) et quêtes (6) en derniers avant le lancement. XP de combat ×3,5 jusqu'au 29/10/2026 (supprimé par la refonte de la progression).
 - **Alpha test 2 : la progression.** **Refonte décidée le 29/10/2026** (GDD § 4.5, lots dans la TODO) :
   plus de niveaux de personnage, d'arme ni de métier ; réputation (débloque) et points de maîtrise
   (à répartir dans les sorts ou compétences) par classe et par métier ; une classe active à la fois,
   changée hors combat ; caractéristiques gagnées par la pratique et plafonnées ; Chance → Perception,
   Sagesse supprimée ; équipement sans condition ; maîtrise de métier = qualité, jamais d'échec.
-  Plus art et son (5). L'alpha 1 garde les niveaux.
+  Plus art et son (5). **Lots 0 et 1 faits sur `main`** (29/10/2026, GDD § 4.5 « Où en est la
+  refonte ») : `Character.classes` / `earned`, commandes `changer_voie` et `maitriser`, protocole v8 ;
+  réputation provisoire = XP des monstres et des quêtes jusqu'au lot 2 (gains par action).
 
 État des chantiers :
 

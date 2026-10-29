@@ -777,7 +777,8 @@ func _show_target() -> void:
 	var shown := map_view.actor(fighter.id)  # Ce qu'affiche la carte (les animations peuvent être en retard).
 	_target_name.text = fighter.display_name
 	_target_name.add_theme_color_override("font_color", Color(0.6, 0.8, 1.0) if fighter.team == Fighter.TEAM_PLAYERS else Color(1.0, 0.62, 0.5))
-	_target_level.text = "Niveau %d" % fighter.level  # Pour un monstre, celui tiré à son apparition.
+	# Pour un monstre, celui tiré à son apparition ; un joueur n'a pas de niveau.
+	_target_level.text = "Niveau %d" % fighter.level if fighter.level > 0 else ""
 	# PA et PM : ce qu'il lui reste pendant son tour, sinon ce qu'il aura au prochain (PM retirés compris).
 	var pa := fighter.next_turn_pa()
 	var pm := fighter.next_turn_pm()
@@ -825,7 +826,7 @@ func _on_combat_ended(result: Dictionary) -> void:
 	_result_rows.add_child(_result_header())
 	var roster: Array = result.get("combattants", [])
 	if roster.is_empty() and map_view != null:
-		roster = [{"id": map_view.world.player_id, "nom": map_view.world.player_name, "niveau": map_view.world.character.level,
+		roster = [{"id": map_view.world.player_id, "nom": map_view.world.player_name, "niveau": 0,
 			"equipe": Fighter.TEAM_PLAYERS, "vivant": victory}]
 	for winners: bool in [true, false]:
 		var rows := roster.filter(func(entry: Dictionary) -> bool: return (int(entry["equipe"]) == int(result["vainqueur"])) == winners)
@@ -837,9 +838,9 @@ func _on_combat_ended(result: Dictionary) -> void:
 	_result_panel.visible = true
 
 
-## Colonnes du tableau de fin, comme celui de Dofus Rétro : nom, niveau, jauge d'expérience, XP et
-## brumes gagnées, butin.
-const RESULT_COLUMNS := [["Nom", 190], ["Niv.", 64], ["Expérience", 150], ["XP", 72], ["Brumes", 60], ["Butin", 248]]
+## Colonnes du tableau de fin, comme celui de Dofus Rétro : nom, palier de réputation (niveau pour un
+## monstre), jauge de réputation, réputation et brumes gagnées, butin.
+const RESULT_COLUMNS := [["Nom", 190], ["Palier", 84], ["Réputation", 150], ["Rép.", 52], ["Brumes", 60], ["Butin", 248]]
 
 
 func _result_header() -> Control:
@@ -878,12 +879,16 @@ func _result_row(entry: Dictionary, result: Dictionary, odd: bool) -> Control:
 	cells.append(name_label)
 	# Les gains des autres joueurs du combat (combat de groupe) : `gains` de la fin du combat.
 	var gains: Dictionary = result if is_player else result.get("gains", {}).get(entry["id"], {})
-	var levels: Array = gains.get("niveaux", [])
-	var level_label := _label(15, UiTheme.GOLD if not levels.is_empty() else text_color)
-	level_label.text = "%d » %d" % [int(entry["niveau"]), int(levels[-1])] if not levels.is_empty() else str(int(entry["niveau"]))
-	if not levels.is_empty():
-		level_label.tooltip_text = "Niveau %d atteint !" % int(levels[-1])
+	# Un monstre garde son niveau (sa menace) ; un joueur montre le palier de réputation atteint.
+	var tiers: Array = gains.get("paliers", [])
+	var level_label := _label(15, UiTheme.GOLD if not tiers.is_empty() else text_color)
+	level_label.text = str(int(entry["niveau"])) if int(entry.get("niveau", 0)) > 0 else ""
+	if not tiers.is_empty():
+		level_label.text = Character.tier_name(int(tiers[-1]))
+		level_label.tooltip_text = "Palier %s atteint !" % Character.tier_name(int(tiers[-1]))
 		level_label.mouse_filter = Control.MOUSE_FILTER_STOP
+	elif is_player and map_view != null:
+		level_label.text = Character.tier_name(map_view.world.character.tier())
 	cells.append(level_label)
 	cells.append(_xp_gauge() if is_player and map_view != null else Control.new())
 	var xp_label := _label(15, Color(0.75, 0.9, 1.0))
@@ -892,7 +897,7 @@ func _result_row(entry: Dictionary, result: Dictionary, odd: bool) -> Control:
 	loot.add_theme_constant_override("h_separation", 3)
 	loot.add_theme_constant_override("v_separation", 3)
 	if not gains.is_empty():
-		xp_label.text = "+%d" % int(gains.get("xp", 0)) if int(gains.get("xp", 0)) > 0 else "0"
+		xp_label.text = "+%d" % int(gains.get("reputation", 0)) if int(gains.get("reputation", 0)) > 0 else "0"
 		coins_label.text = "+%d" % int(gains.get("ecus", 0)) if int(gains.get("ecus", 0)) > 0 else "0"
 		for drop: Dictionary in gains.get("butin", []):
 			loot.add_child(_loot_slot(drop, 34))
@@ -908,7 +913,7 @@ func _result_row(entry: Dictionary, result: Dictionary, odd: bool) -> Control:
 	return _result_strip(row, Color(UiTheme.WOOD_LIGHT, 0.35) if odd else Color(UiTheme.INK, 0.6), 0)
 
 
-## Jauge d'expérience du joueur après le combat, avec le pourcentage du niveau en cours.
+## Jauge de réputation du joueur après le combat, avec le pourcentage du palier en cours.
 func _xp_gauge() -> Control:
 	var character: Character = map_view.world.character
 	var gauge := ProgressBar.new()
@@ -925,12 +930,14 @@ func _xp_gauge() -> Control:
 	fill.bg_color = Color(0.36, 0.62, 0.86)
 	fill.set_corner_radius_all(3)
 	gauge.add_theme_stylebox_override("fill", fill)
-	var floor_xp := Character.xp_for_level(character.level)
-	var next_xp := Character.xp_for_level(character.level + 1)
+	var tier := character.tier()
+	var last: bool = tier + 1 >= Character.REPUTATION_TIERS.size()
+	var floor_value := int(Character.REPUTATION_TIERS[tier][0])
+	var next_value := character.reputation() if last else int(Character.REPUTATION_TIERS[tier + 1][0])
 	gauge.max_value = 1.0
 	gauge.step = 0.0
-	gauge.value = 1.0 if character.level >= Character.MAX_LEVEL else clampf(float(character.xp - floor_xp) / (next_xp - floor_xp), 0.0, 1.0)
-	gauge.tooltip_text = "%d / %d XP" % [character.xp, next_xp] if character.level < Character.MAX_LEVEL else "Niveau maximal"
+	gauge.value = 1.0 if last else clampf(float(character.reputation() - floor_value) / (next_value - floor_value), 0.0, 1.0)
+	gauge.tooltip_text = "Palier maximal" if last else "%d / %d de réputation" % [character.reputation(), next_value]
 	var percent := _label(11, Color.WHITE)
 	percent.text = "%d %%" % floori(gauge.value * 100)
 	percent.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -1548,7 +1555,7 @@ func _refresh_party() -> void:
 		line.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		line.add_theme_font_size_override("font_size", 12)
 		var followed: bool = member["id"] == map_view.follow_id
-		line.text = "%s, niv. %d%s%s%s" % [member["nom"], member["niveau"],
+		line.text = "%s, %s%s%s%s" % [member["nom"], member.get("palier", ""),
 			" (chef)" if member["id"] == map_view.world.party["chef"] else "", " (déconnecté)" if member.get("absent", false) else "",
 			" · suivi" if followed else ""]
 		if member["id"] == map_view.world.player_id:
@@ -1564,11 +1571,11 @@ func _refresh_party() -> void:
 
 func _show_summary(sheet: Dictionary) -> void:
 	_summary_name.text = sheet["nom"]
-	_summary_level.text = "Niveau %d, %s %s" % [sheet["niveau"], sheet["race_nom"], sheet["voie_nom"]]
-	var span := maxi(1, int(sheet["xp_suivant"]) - int(sheet["xp_niveau"]))
+	_summary_level.text = "%s, %s %s" % [sheet["palier_nom"], sheet["race_nom"], sheet["voie_nom"]]
+	var span := maxi(1, int(sheet["reputation_suivante"]) - int(sheet["reputation_palier"]))
 	_summary_xp.max_value = span
-	_summary_xp.value = clampi(int(sheet["xp"]) - int(sheet["xp_niveau"]), 0, span)
-	_summary_xp.tooltip_text = "Expérience : %d / %d" % [sheet["xp"], sheet["xp_suivant"]]
+	_summary_xp.value = clampi(int(sheet["reputation"]) - int(sheet["reputation_palier"]), 0, span)
+	_summary_xp.tooltip_text = "Réputation : %d / %d" % [sheet["reputation"], sheet["reputation_suivante"]]
 	_summary_money.text = "%d brumes" % sheet["ecus"]
 
 

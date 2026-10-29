@@ -3,7 +3,7 @@ import balance
 from common import OBJETS, SPELLS, REUSED
 
 TYPES = ["arme", "coiffe", "cape", "amulette", "anneau", "ceinture", "bottes", "ressource"]
-ABR = {"force": "For", "intelligence": "Int", "chance": "Cha", "agilite": "Agi", "vitalite": "Vit", "sagesse": "Sag",
+ABR = {"force": "For", "intelligence": "Int", "perception": "Per", "agilite": "Agi", "vitalite": "Vit", "sagesse": "Sag",
        "prospection": "Pro", "initiative": "Ini", "dommages": "Dom", "portee": "PO", "pa": "PA", "pm": "PM", "critique": "Crit"}
 PLURIEL = {"arme": "armes", "coiffe": "coiffes", "cape": "capes", "amulette": "amulettes", "anneau": "anneaux",
            "ceinture": "ceintures", "bottes": "bottes", "ressource": "ressources"}
