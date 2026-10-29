@@ -20,6 +20,10 @@ var _list: ItemList
 var _icon: TextureRect
 var _title: Label
 var _details: Label
+## Maîtrise du sort choisi (sorts de la Voie) : rang, points à placer, bouton pour monter d'un rang.
+var _mastery_row: HBoxContainer
+var _mastery_label: Label
+var _mastery_button: Button
 ## Onglets : { nom, sorts: Array[Spell] }.
 var _families: Array[Dictionary] = []
 var _selected := ""
@@ -141,6 +145,7 @@ func setup(p_map_view: MapView) -> void:
 	map_view = p_map_view
 	map_view.combat_started.connect(func() -> void: _panel.visible = false)
 	map_view.inventory_changed.connect(refresh)
+	map_view.character_changed.connect(refresh)
 
 
 func toggle() -> void:
@@ -200,9 +205,11 @@ func _update_families() -> void:
 	var families: Array[Dictionary] = []
 	var voie: Dictionary = data.voies.get(world.character.voie_id, {})
 	var voie_spells: Array[Spell] = []
-	for spell_id: String in voie.get("sorts", []):
+	# Sorts de rang I et de rang II débloqués, au rang de maîtrise du personnage (GDD § 4.5).
+	var character := world.character
+	for spell_id in data.class_spells(character.voie_id, character.reputation()):
 		if data.spells.has(spell_id):
-			voie_spells.append(data.spells[spell_id])
+			voie_spells.append(data.spells[spell_id].mastered(character.spell_rank(spell_id)))
 	# Les sorts que la Voie peut créer (Arcaniste) se consultent avec les autres.
 	for spell in voie_spells.duplicate():
 		for created: Spell in spell.create_effect().get("sorts", {}).values():
@@ -240,6 +247,7 @@ func _show(spell: Spell) -> void:
 		_icon.texture = null
 		_title.text = "Aucun sort"
 		_details.text = ""
+		_mastery_row.visible = false
 		return
 	_icon.texture = CombatHud.spell_icon(spell.id, map_view.world)
 	_title.text = spell.display_name
@@ -252,6 +260,31 @@ func _show(spell: Spell) -> void:
 	var lines := describe(spell)
 	lines.remove_at(0)
 	_details.text = "\n".join(lines)
+	_show_mastery(spell)
+
+
+## Rang de maîtrise d'un sort de la Voie et bouton pour placer des points (GDD § 4.5) ; caché pour
+## les sorts de race et d'arme.
+func _show_mastery(spell: Spell) -> void:
+	var character := map_view.world.character
+	var data := map_view.world.data
+	_mastery_row.visible = spell.id in data.class_spells(character.voie_id, character.reputation())
+	if not _mastery_row.visible:
+		return
+	var rank := character.spell_rank(spell.id)
+	var points := character.mastery_points()
+	_mastery_label.text = "Maîtrise : rang %d / %d   ·   %d point%s à placer" % [rank, Spell.MASTERY_MAX_RANK, points,
+		"s" if points > 1 else ""]
+	var maxed := rank >= Spell.MASTERY_MAX_RANK
+	_mastery_button.text = "Rang maximal" if maxed else "Rang %d (%d point%s)" % [rank + 1, rank + 1, "s" if rank > 0 else ""]
+	_mastery_button.disabled = maxed or points < rank + 1
+	var next: Dictionary = spell.mastery.get(rank + 1, {})
+	_mastery_button.tooltip_text = "" if maxed else "+%d %% aux valeurs de base%s" % [Spell.MASTERY_BONUS_PER_RANK,
+		" et un effet propre au sort" if not next.is_empty() else ""]
+
+
+func _on_mastery_pressed() -> void:
+	map_view.send_command({"type": Protocol.CMD_RAISE_SPELL, "entite": map_view.world.player_id, "sort": _selected})
 
 
 func _on_tab_changed(_index: int) -> void:
@@ -338,6 +371,17 @@ func _build() -> void:
 	_details.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_details.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	detail.add_child(_details)
+	_mastery_row = HBoxContainer.new()
+	_mastery_row.add_theme_constant_override("separation", 10)
+	detail.add_child(_mastery_row)
+	_mastery_label = _label(14, GOLD)
+	_mastery_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_mastery_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_mastery_row.add_child(_mastery_label)
+	_mastery_button = Button.new()
+	_mastery_button.focus_mode = Control.FOCUS_NONE
+	_mastery_button.pressed.connect(_on_mastery_pressed)
+	_mastery_row.add_child(_mastery_button)
 	var hint := _label(12, Color(0.6, 0.58, 0.52))
 	hint.text = "Touche S : ouvrir / fermer · En combat, les touches 1 à 0 choisissent les sorts de la barre"
 	column.add_child(hint)

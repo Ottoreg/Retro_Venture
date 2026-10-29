@@ -45,7 +45,16 @@ var spectators_allowed := true
 ## Joueurs qui regardent le combat (ids) : ils reçoivent ses événements.
 var spectators: Array[String] = []
 
+## Pratique des joueurs pendant le combat, pour leur progression (GDD § 4.5, `Progression`) :
+## id → { effet: { élément → PA des sorts à effet réel }, utile: PA des sorts utilitaires qui ont touché
+## quelqu'un, pv_recus: PV réellement perdus }. Les PA d'un poison ou d'une glyphe sont répartis sur
+## ses tours.
+var practice: Dictionary = {}
+
 var _turn_index := -1
+## Sort en cours d'effet, pour la pratique : { lanceur: Fighter, pa: float, element: élément du
+## premier effet réel (vide sinon), utile: bool } ; vide hors d'un sort de l'équipe des joueurs.
+var _credit: Dictionary = {}
 ## Temps écoulé du placement ou du tour du joueur en cours (avec `turn_limit`).
 var _elapsed := 0.0
 ## Ordre d'arrivée des combattants, pour départager les égalités d'initiative.
@@ -530,6 +539,7 @@ func _cast(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 			_place_glyph(fighter, spell, effect, spell.zone_cells(target, origin), events)
 		elif effect["type"] == Spell.EFFECT_TRAP:
 			_place_trap(fighter, spell, effect, target, events)
+	_open_credit(fighter, spell.pa_cost)
 	var targets: Array[Fighter] = []
 	for cell in spell.zone_cells(target, origin) if reached else []:
 		var hit := fighter_at(cell)
@@ -541,8 +551,50 @@ func _cast(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 					Spell.EFFECT_CHARGE, Spell.EFFECT_CREATE_SPELL, Spell.EFFECT_COMPOSE_STATES] \
 					and Spell.affects(effect, fighter, hit):
 				_apply_effect(fighter, hit, effect, events, critical, origin, spell.display_name)
+	_close_credit()
 	_check_end(events)
 	return events
+
+
+# --- Pratique (progression des joueurs, GDD § 4.5) ---------------------------------------------
+
+## Commence à noter ce que fait un sort de `caster` (s'il est de l'équipe des joueurs) qui a coûté `pa`.
+func _open_credit(caster: Fighter, pa: float) -> void:
+	_credit = {}
+	if caster != null and caster.team == Fighter.TEAM_PLAYERS and pa > 0.0:
+		_credit = {"lanceur": caster, "pa": pa, "element": "", "utile": false}
+
+
+## Inscrit le sort noté dans la pratique de son lanceur : effet réel (par élément) ou utilitaire.
+func _close_credit() -> void:
+	if _credit.is_empty():
+		return
+	var caster: Fighter = _credit["lanceur"]
+	if not str(_credit["element"]).is_empty():
+		_add_practice(caster.id, "effet", float(_credit["pa"]), _credit["element"])
+	elif _credit["utile"]:
+		_add_practice(caster.id, "utile", float(_credit["pa"]))
+	_credit = {}
+
+
+func _add_practice(fighter_id: String, kind: String, amount: float, element := "") -> void:
+	if not practice.has(fighter_id):
+		practice[fighter_id] = {"effet": {}, "utile": 0.0, "pv_recus": 0.0}
+	var entry: Dictionary = practice[fighter_id]
+	if kind == "effet":
+		entry["effet"][element] = float(entry["effet"].get(element, 0.0)) + amount
+	else:
+		entry[kind] = float(entry[kind]) + amount
+
+
+## Note l'effet réel du sort en cours (le premier élément compte) ; `element` vide : seulement utile.
+func _credit_effect(caster: Fighter, element: String) -> void:
+	if _credit.is_empty() or _credit["lanceur"] != caster:
+		return
+	if element.is_empty():
+		_credit["utile"] = true
+	elif str(_credit["element"]).is_empty():
+		_credit["element"] = element
 
 
 ## Dégâts : base × (100 + caractéristique de l'élément du lanceur) % × (100 − résistance de la cible) %,
@@ -555,6 +607,8 @@ func _apply_effect(caster: Fighter, target: Fighter, effect: Dictionary, events:
 		origin := Vector2i(-99999, -99999), source := "", removable := true) -> void:
 	var from := caster.cell if origin == Vector2i(-99999, -99999) else origin
 	var amount := rng.randi_range(effect["min"], effect["max"])
+	if effect["type"] not in [Spell.EFFECT_DAMAGE, Spell.EFFECT_HEAL, Spell.EFFECT_SHIELD, Spell.EFFECT_POISON]:
+		_credit_effect(caster, "")  # Effet utilitaire qui touche quelqu'un.
 	if critical and effect["type"] in Spell.ELEMENT_EFFECTS:
 		amount = roundi(amount * Spell.CRIT_MULTIPLIER)
 	match effect["type"]:
@@ -569,19 +623,27 @@ func _apply_effect(caster: Fighter, target: Fighter, effect: Dictionary, events:
 		Spell.EFFECT_SHIELD:
 			amount = roundi(amount * (100 + caster.power(effect["element"])) / 100.0)
 			target.shield += amount
+			if not _credit.is_empty() and _credit["lanceur"] == caster and target.team == caster.team:
+				target.shield_credit = {"lanceur": caster.id, "pa": float(_credit["pa"]), "element": effect["element"]}
 			events.append({"type": Protocol.EVT_STATUS, "entite": target.id, "effet": Spell.EFFECT_SHIELD, "valeur": amount,
 				"element": effect["element"], "bouclier": target.shield, "pa": target.pa, "pm": target.pm})
 		Spell.EFFECT_HEAL:
 			amount = mini(boosted_value(caster, effect["element"], amount), target.max_hp - target.hp)
 			target.hp += amount
+			if amount > 0 and target.team == caster.team:
+				_credit_effect(caster, effect["element"])
 			events.append({"type": Protocol.EVT_HEAL, "entite": target.id, "valeur": amount, "element": effect["element"],
 				"pv": target.hp})
 		Spell.EFFECT_BONUS, Spell.EFFECT_MALUS:
 			_add_state(target, {"type": effect["type"], "carac": effect["carac"], "element": str(effect.get("element", "")),
 				"valeur": amount, "tours": effect["duree"], "sort": source, "lanceur": caster.id, "retirable": removable}, events)
 		Spell.EFFECT_POISON:
-			_add_state(target, {"type": Spell.EFFECT_POISON, "element": effect["element"], "valeur": amount,
-				"tours": effect["duree"], "sort": source, "lanceur": caster.id, "retirable": removable}, events)
+			var poison := {"type": Spell.EFFECT_POISON, "element": effect["element"], "valeur": amount,
+				"tours": effect["duree"], "sort": source, "lanceur": caster.id, "retirable": removable}
+			if not _credit.is_empty() and _credit["lanceur"] == caster and target.team != caster.team:
+				poison["pa"] = float(_credit["pa"]) / maxi(1, int(effect["duree"]))  # Pratique : à chaque tour qui blesse.
+				_credit["utile"] = true
+			_add_state(target, poison, events)
 		Spell.EFFECT_ELEMENT_STATE:
 			target.add_element_state(effect["element"])
 			events.append({"type": Protocol.EVT_ELEMENT_STATES, "entite": target.id, "etats": target.element_states.duplicate(),
@@ -659,11 +721,22 @@ func spell_preview(fighter: Fighter, spell: Spell, target: Vector2i) -> Dictiona
 
 
 ## Retire des PV (le bouclier absorbe d'abord) ; `element` vide pour des dégâts sans élément (choc).
+## Pratique : des PV perdus par un ennemi comptent pour le sort en cours, des dégâts absorbés pour
+## celui qui a posé le bouclier, et un joueur note les PV qu'il perd (Vitalité).
 func _hurt(target: Fighter, amount: int, element: String, events: Array[Dictionary], source := "") -> void:
 	var absorbed := mini(target.shield, amount)
 	target.shield -= absorbed
 	amount -= absorbed
+	var lost := mini(amount, target.hp)
 	target.hp = maxi(0, target.hp - amount)
+	if lost > 0 and not _credit.is_empty() and (_credit["lanceur"] as Fighter).team != target.team:
+		_credit_effect(_credit["lanceur"], element)
+	if absorbed > 0 and not target.shield_credit.is_empty():
+		var shield_credit := target.shield_credit
+		target.shield_credit = {}
+		_add_practice(shield_credit["lanceur"], "effet", float(shield_credit["pa"]), shield_credit["element"])
+	if lost > 0 and target.team == Fighter.TEAM_PLAYERS:
+		_add_practice(target.id, "pv_recus", float(lost))
 	var event := {"type": Protocol.EVT_DAMAGE, "entite": target.id, "valeur": amount, "element": element, "pv": target.hp,
 		"absorbe": absorbed, "bouclier": target.shield}
 	if not source.is_empty():
@@ -749,7 +822,7 @@ func _place_glyph(caster: Fighter, spell: Spell, effect: Dictionary, cells: Arra
 		if map.is_inside(cell) and map.is_walkable_in_combat(cell):
 			inside.append(cell)
 	var glyph := {"id": _next_ground_id, "lanceur": caster, "equipe": caster.team, "cases": inside, "effets": effect["effets"],
-		"tours": int(effect["duree"]), "sort": spell.display_name}
+		"tours": int(effect["duree"]), "sort": spell.display_name, "pa": float(spell.pa_cost) / maxi(1, int(effect["duree"]))}
 	_next_ground_id += 1
 	glyphs.append(glyph)
 	var element := ""
@@ -767,7 +840,7 @@ func _place_trap(caster: Fighter, spell: Spell, effect: Dictionary, cell: Vector
 		if map.is_inside(zone_cell):
 			cells.append(zone_cell)
 	var trap := {"id": _next_ground_id, "lanceur": caster, "equipe": caster.team, "case": cell, "cases": cells,
-		"effets": effect["effets"], "sort": spell.display_name}
+		"effets": effect["effets"], "sort": spell.display_name, "pa": spell.pa_cost}
 	_next_ground_id += 1
 	traps.append(trap)
 	events.append({"type": Protocol.EVT_TRAP, "id": trap["id"], "lanceur": caster.id, "equipe": caster.team,
@@ -785,10 +858,14 @@ func _trigger_trap(trap: Dictionary, victim: Fighter, events: Array[Dictionary])
 		var hit := fighter_at(cell)
 		if hit != null:
 			hits.append(hit)
+	var outer := _credit
+	_open_credit(caster, float(trap.get("pa", 0)))
 	for hit in hits:
 		for effect: Dictionary in trap["effets"]:
 			if hit.is_alive() and Spell.affects(effect, caster, hit):
 				_apply_effect(caster, hit, effect, events, false, trap["case"], trap["sort"])
+	_close_credit()
+	_credit = outer
 
 
 ## Un combattant vaincu emporte ses glyphes et ses pièges.
@@ -818,11 +895,15 @@ func _start_of_turn_effects(fighter: Fighter, events: Array[Dictionary]) -> void
 		var caster := get_fighter(poison["lanceur"])
 		var element: String = poison["element"]
 		var boosted := int(poison["valeur"]) * (100 + (caster.power(element) if caster != null else 0)) / 100.0
+		_open_credit(caster, float(poison.get("pa", 0.0)))
 		_hurt(fighter, maxi(0, roundi(boosted * (100 - fighter.resistance(element)) / 100.0)), element, events, "poison")
+		_close_credit()
 	for glyph in glyphs_at(fighter.cell):
+		_open_credit(glyph["lanceur"], float(glyph.get("pa", 0.0)))
 		for effect: Dictionary in glyph["effets"]:
 			if fighter.is_alive() and Spell.affects(effect, glyph["lanceur"], fighter):
 				_apply_effect(glyph["lanceur"], fighter, effect, events, false, fighter.cell, glyph["sort"])
+		_close_credit()
 
 
 # --- Enchaînement des tours ------------------------------------------------------------------

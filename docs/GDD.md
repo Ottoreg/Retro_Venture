@@ -674,6 +674,11 @@ difficulté**, qui compare la menace des monstres à la force du joueur, pour qu
 - **Force** du joueur : tirée de sa réputation et de ses maîtrises dans la classe active (un « niveau
   équivalent », interne au calcul, jamais affiché comme un niveau de personnage).
 - **Facteur** (piste) : monstre bien au-dessus de la force du joueur ×1,5 ; à sa mesure ×1 ; un peu
+  en dessous ×0,5 ; très en dessous ×0,1 (presque rien). **Formule du lot 2** (`Progression`) : rapport
+  = somme des niveaux des monstres du combat / somme des niveaux équivalents des joueurs ; facteur
+  interpolé entre les points (0,4 → ×0,1), (1 → ×0,5), (2 → ×1), (3 et plus → ×1,5). Le niveau
+  équivalent suit l'ancienne courbe d'XP sans le ×3,5 (Compagnon ≈ niveau 13, la fin des zones de
+  départ).
   en dessous ×0,5 ; très en dessous ×0,1 (presque rien). Formule exacte au lot 2, par simulation.
 
 #### Ce qui fait progresser en combat
@@ -753,10 +758,31 @@ difficulté venant de la rareté des ressources.
 maîtrise d'un sort, sans effet en combat avant le lot 2) ; protocole v8. Chance renommée Perception
 dans les données et le code ; Sagesse supprimée (ses lignes d'objets converties en prospection, le
 bonus des Humains en Force) ; prospection sans caractéristique ; aucune condition d'équipement.
-**Provisoire jusqu'au lot 2** : la réputation vient de l'XP des monstres vaincus (×1, parts égales
-en groupe) et des quêtes ; les caractéristiques ne montent pas encore. Les vieilles sauvegardes
+Jusqu'au lot 2, la réputation venait de l'XP des monstres vaincus. Les vieilles sauvegardes
 sont converties (XP / 3,5 en réputation, points investis en points gagnés, `chance` → `perception`).
 Les niveaux de métier restent jusqu'au lot 4, `niveau_min` des quêtes n'est plus vérifié (lot 5).
+
+**Lot 2 fait (29/10/2026, sur `main`)** : gains par action (`core/character/progression.gd`). Le
+combat note la pratique de chaque joueur (`Combat.practice`) : PA d'un sort à effet réel par
+élément (dégâts qui retirent des PV à un ennemi, soin de PV perdus, bouclier posé sur un allié quand
+il absorbe, une fois), PA d'un sort utilitaire qui touche quelqu'un, PV réellement perdus. Un poison
+et une glyphe comptent les PA de leur sort répartis sur leurs tours, à chaque tour qui blesse ; un
+piège, à son déclenchement. À la fin du combat (victoire ou défaite), au facteur de difficulté du
+groupe : **2 de réputation par PA** à effet réel, la moitié pour un sort utilitaire, plus un quart de
+l'XP des monstres vaincus partagé entre les joueurs ; **0,015 point de caractéristique par PA** dans
+la caractéristique de l'élément (Sacré et Impie par moitié) ; **0,02 Vitalité par PV perdu** ;
+plafond de 60 PA et 200 PV comptés par combat. Les caractéristiques montent plus lentement près du
+plafond (× (1 − points / plafond), au moins ×0,2), les fractions se gardent (`Character.practiced`,
+sauvegardées). Simulation (Brumerive, joueur au niveau des monstres) : 13 à 150 de réputation par
+combat gagné, ≈ 50 en moyenne, soit Compagnon en une centaine de combats. Rangs de maîtrise
+appliqués en combat (`Spell.mastered`, champ `maitrise` des sorts) : +10 % par rang, effets des
+rangs 3 et 5 du Guerrier comme dans le tableau ci-dessus (Frappe : rang 5, retrait d'1 PM ; Second
+souffle : rang 5, bouclier Acier 9–14). Sorts de rang II (`sorts_rang_2` des Voies, débloqués par la
+réputation) : **à valider par l'auteur**, deux propositions pour le Guerrier, *Cri de guerre*
+(Compagnon : 3 PA, Dommages +4–6 aux alliés à 2 cases pendant 2 tours, délai 4) et *Fendoir*
+(Vétéran : 5 PA, mêlée, 16–22 Acier). Fenêtre des sorts : rang de maîtrise et bouton pour placer
+des points ; écran de fin de combat : difficulté et caractéristiques gagnées. Les quêtes donnent
+toujours leur réputation telle quelle (lot 5).
 
 #### Ancien système (avant le 29/10/2026)
 

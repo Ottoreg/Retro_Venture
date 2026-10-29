@@ -3,9 +3,39 @@
   "nom": "Second souffle",
   "description": "Une grande inspiration, une gorgée de gourde, et ça repart.",
   "cout_pa": 2,
-  "portee": {"min": 0, "max": 0},
+  "portee": {
+    "min": 0,
+    "max": 0
+  },
   "ligne_de_vue": false,
-  "zone": {"type": "case"},
-  "relance": {"par_tour": 1, "delai": 3},
-  "effets": [{"type": "soin", "element": "acier", "min": 12, "max": 18}]
+  "zone": {
+    "type": "case"
+  },
+  "relance": {
+    "par_tour": 1,
+    "delai": 3
+  },
+  "effets": [
+    {
+      "type": "soin",
+      "element": "acier",
+      "min": 12,
+      "max": 18
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "delai": 2
+    },
+    "5": {
+      "effets": [
+        {
+          "type": "bouclier",
+          "element": "acier",
+          "min": 9,
+          "max": 14
+        }
+      ]
+    }
+  }
 }

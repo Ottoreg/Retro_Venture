@@ -170,8 +170,8 @@ Tout le contenu et les systèmes MVP de l'alpha 1 sont faits (chantiers 1, 3, 4 
 
 ### Refonte de la progression (alpha 2, GDD § 4.5, décisions du 29/10/2026)
 
-Lot 0 (conception dans le GDD) et lot 1 (personnage, poussé sur `main` à la demande de l'auteur ;
-détail GDD § 4.5, « Où en est la refonte ») faits le 29/10/2026. Restent ouverts : valeur des plafonds de caractéristiques, autre source de prospection.
+Lots 0 (conception dans le GDD), 1 (personnage, poussé sur `main` à la demande de l'auteur) et 2
+(combat) faits le 29/10/2026 (détail GDD § 4.5, « Où en est la refonte »). Restent ouverts : valeur des plafonds de caractéristiques, autre source de prospection.
 
 - [x] **Lot 1. Personnage** : réputations, maîtrises et caractéristiques par activité dans
   `Character` (fin de `level`, `xp`, `XP_RATE`, points à répartir, PV par niveau) ; Chance renommée
@@ -179,10 +179,16 @@ détail GDD § 4.5, « Où en est la refonte ») faits le 29/10/2026. Restent ou
   Perception ; changement de classe hors combat ; sauvegarde (remise à zéro des personnages d'alpha)
   et Supabase ; protocole v8. Les scripts de production (`docs/design/`) écrivent encore `sagesse`
   (à convertir avant de les relancer)
-- [ ] **Lot 2. Combat** : facteur de difficulté (menace des monstres contre force du joueur ou du
+- [x] **Lot 2. Combat** : facteur de difficulté (menace des monstres contre force du joueur ou du
   groupe) ; gains par sort à effet réel (selon les PA), par monstre vaincu et par coups reçus
   (Vitalité) ; plafond par combat ; rangs de maîtrise des sorts (Voie pilote : Guerrier, GDD § 4.5) ;
-  sorts de rang II débloqués par réputation ; parts de groupe ; `tools/simulation.gd`
+  sorts de rang II débloqués par réputation ; parts de groupe ; `tools/simulation.gd` (colonnes
+  facteur et réputation par combat) ; bouton de maîtrise dans la fenêtre des sorts
+- [ ] Valider les deux sorts de rang II proposés pour le Guerrier (*Cri de guerre*, *Fendoir*,
+  GDD § 4.5) et régler les gains (réputation, caractéristiques, facteur) après des parties réelles
+- [ ] La simulation montre 0 % de victoires pour l'Arcaniste (aussi avant le lot 2) : son IA ignore
+  *Composition* et *Fusion arcanique*, donc ses sorts créés ; à traiter pour que la simulation
+  mesure ses gains
 - [ ] **Lot 3. Objets et monde** : fin des conditions de niveau des objets (le niveau devient un
   palier) ; panoplies 15 / 30 rééquilibrées ; lignes de Sagesse converties (objets, ressources,
   montures, races Humain et Squelette) ; menace des monstres affichée ; zones et carte du monde

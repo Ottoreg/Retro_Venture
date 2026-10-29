@@ -29,7 +29,7 @@ var ai: String = ""
 var xp: int = 0
 ## Race (personnages joueurs), pour l'affichage.
 var race: String = ""
-## Caractéristiques : vitalite, sagesse, force, intelligence, chance, agilite.
+## Caractéristiques : vitalite, force, intelligence, perception, agilite.
 var stats: Dictionary = {}
 ## Portée supplémentaire des sorts à distance (passif de race, équipement…).
 var range_bonus: int = 0
@@ -41,11 +41,16 @@ var prospection: int = 100
 var dommages: int = 0
 ## Bouclier : points de dégâts absorbés avant les PV, jusqu'au début de son prochain tour.
 var shield: int = 0
+## Qui a posé le bouclier, pour la pratique (`Combat.practice`) : { lanceur: id, pa } ; vide sans
+## bouclier d'un joueur. Le lanceur progresse quand il absorbe des dégâts.
+var shield_credit: Dictionary = {}
 ## Chance de coup critique en plus (en %, équipement).
 var crit_bonus: int = 0
 ## États en cours (bonus, malus, poisons) : { type, carac, element, valeur, min, max, tours, sort,
 ## lanceur }. `tours` : fins de tour de ce combattant avant que l'état ne tombe.
 var states: Array[Dictionary] = []
+## Rangs de maîtrise des sorts (joueurs, id → rang ≥ 1), pour son profil (GDD § 4.5).
+var masteries: Dictionary = {}
 ## Arme portée (id de l'objet, joueurs) : son attaque est le premier sort.
 var weapon := ""
 ## Phases pas encore déclenchées (monstres), dans l'ordre : { pv: int (% des PV max), message: String,
@@ -168,6 +173,7 @@ func add_created_spell(spell: Spell) -> String:
 
 func start_turn() -> void:
 	shield = 0
+	shield_credit = {}
 	pa = next_turn_pa()
 	pm = next_turn_pm()
 	pm_malus = 0
@@ -253,7 +259,7 @@ func profile() -> Dictionary:
 	return {"voie": kind, "nom": display_name, "race": race, "niveau": level, "caracs": stats.duplicate(),
 		"pv_max": max_hp, "pa": max_pa, "pm": max_pm, "initiative": initiative, "portee": range_bonus,
 		"prospection": prospection, "dommages": dommages, "critique": crit_bonus, "resistances": resistances.duplicate(),
-		"sorts": spell_ids, "arme": weapon}
+		"sorts": spell_ids, "maitrises": masteries.duplicate(), "arme": weapon}
 
 
 ## État complet du combattant pour la copie d'un client (voir `Combat.snapshot`) : ce qui change

@@ -241,6 +241,7 @@ voisines de la même zone dans la grille (droite : x + 1, bas : y + 1) ; c'est v
 | `relance.delai` | Tours à attendre avant de relancer |
 | `critique` | Chance de coup critique en % (défaut : 5 ; `0` = jamais). Critique : dégâts, soins, boucliers et poisons × 1,5 |
 | `effets` | `degats`, `soin` ou `bouclier`, avec `min`, `max` et `element` (`acier`, `flamme`, `givre`, `tempete`, ou les éléments composés `sacre` et `impie`) |
+| `maitrise` | Rangs de maîtrise (sorts des Voies, GDD § 4.5), facultatif : `{ "3": {…}, "5": {…} }` (rangs 1 à 5). Chaque rang donne déjà +10 % aux valeurs de base des effets élémentaires ; un rang listé ajoute ses changements : `critique` et `portee_max` (ajoutés), `cout_pa`, `delai` et `zone_taille` (nouvelles valeurs), `effets` (effets en plus, sans glyphe, piège ni effet du lanceur) |
 
 Chaque effet chiffré grandit avec la caractéristique de son élément : un soin `sacre` avec la Force
 et l'Intelligence, un bouclier `tempete` avec l'Agilité, etc. `bouclier` donne à la cible des points
@@ -431,9 +432,14 @@ phase.
   "id": "guerrier",
   "nom": "Guerrier",
   "caracteristiques": {"pv": 60, "pa": 6, "pm": 3, "initiative": 100},
-  "sorts": ["guerrier_frappe", "guerrier_hache", "guerrier_tourbillon", "guerrier_second_souffle"]
+  "sorts": ["guerrier_frappe", "guerrier_hache", "guerrier_tourbillon", "guerrier_second_souffle"],
+  "sorts_rang_2": {"guerrier_cri_de_guerre": 5000, "guerrier_fendoir": 15000}
 }
 ```
+
+`sorts` : les sorts de rang I, connus dès qu'on commence la Voie. `sorts_rang_2` (facultatif) : les
+sorts de rang II et la réputation de la classe qui les débloque (GDD § 5.1 ; Compagnon 5 000,
+Vétéran 15 000).
 
 ## Objets (`objets/`)
 

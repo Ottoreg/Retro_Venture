@@ -15,6 +15,10 @@
     "guerrier_second_souffle",
     "guerrier_charge"
   ],
+  "sorts_rang_2": {
+    "guerrier_cri_de_guerre": 5000,
+    "guerrier_fendoir": 15000
+  },
   "equipement_depart": [
     "epee_de_fer",
     "ceinture_de_corde"

@@ -289,6 +289,7 @@ func test_combat_de_groupe_deconnexion_et_retour() -> void:
 	assert_true(snapshot["combat"] != null, "Sam retrouve son combat")
 	assert_false(_server.world.is_away(sam))
 	_take(1)
+	_practiced(sam)
 	var reply := _win(1, frodon)
 	assert_eq(reply["evenements"].filter(func(e: Dictionary) -> bool: return e["type"] == Protocol.EVT_COMBAT_ENDED).size(), 1,
 		"Frodon reçoit sa fin de combat")
@@ -300,6 +301,11 @@ func test_combat_de_groupe_deconnexion_et_retour() -> void:
 	assert_true(_reputation(_store.load_character("dev:sam")) > 0, "Sam est sauvegardé aussi")
 
 
+## Sam a lancé des sorts à effet réel pendant le combat (sa pratique, GDD § 4.5).
+func _practiced(player_id: String) -> void:
+	_server.world.player(player_id).combat.practice[player_id] = {"effet": {"acier": 30.0}, "utile": 0.0, "pv_recus": 0.0}
+
+
 func test_absent_a_la_fin_du_combat_sauvegarde_puis_retire() -> void:
 	var frodon := _join(1, "Frodon")
 	var sam := _join(2, "Sam")
@@ -307,6 +313,7 @@ func test_absent_a_la_fin_du_combat_sauvegarde_puis_retire() -> void:
 	_take(2)
 	_group_fight(frodon, sam)
 	_server.peer_disconnected(2)
+	_practiced(sam)
 	_win(1, frodon)
 	assert_true(_server.world.player(sam) == null, "Sam quitte le monde à la fin du combat")
 	assert_true(_reputation(_store.load_character("dev:sam")) > 0, "avec ce qu'il y a gagné")

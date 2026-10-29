@@ -148,7 +148,7 @@ func _process(_delta: float) -> bool:
 			view.server.character.add_reputation(1260)
 			view.refresh_state()
 			_scene.get_node("CombatHud")._on_combat_ended({"vainqueur": Fighter.TEAM_PLAYERS if victory else Fighter.TEAM_MONSTERS,
-				"reputation": 260 if victory else 40, "ecus": 12 if victory else 0, "butin": drops if victory else [], "surcharge": victory,
+				"reputation": 260 if victory else 40, "difficulte": 1.2, "caracteristiques": {"force": 1, "vitalite": 2}, "ecus": 12 if victory else 0, "butin": drops if victory else [], "surcharge": victory,
 				"paliers": [1] if victory else [], "tours": 7, "combattants": roster,
 				"reveil": {} if victory else {"passage": "x", "nom": "Brumerive", "carte": ""}})
 		elif _action == "glyphe":

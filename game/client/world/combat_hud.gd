@@ -802,6 +802,20 @@ func _show_target() -> void:
 	_spells_box.visible = false
 
 
+## Facteur de difficulté d'un combat : « 1,5 », « 0,25 » (GDD § 4.5).
+static func difficulty_text(factor: float) -> String:
+	return str(snappedf(factor, 0.01)).replace(".", ",")
+
+
+## Caractéristiques gagnées par la pratique : « +1 Force, +2 Vitalité », dans l'ordre de la fiche.
+static func raised_stats_text(raised: Dictionary) -> String:
+	var parts: PackedStringArray = []
+	for stat_name: String in Character.STATS:
+		if int(raised.get(stat_name, 0)) > 0:
+			parts.append("+%d %s" % [int(raised[stat_name]), Character.STAT_NAMES[stat_name]])
+	return ", ".join(parts)
+
+
 ## « +10 % », « -5 % », « +12,5 % », « 0 % ».
 static func percent_text(value: float) -> String:
 	if is_zero_approx(value):
@@ -818,7 +832,14 @@ func _on_combat_ended(result: Dictionary) -> void:
 	_result_title.text = "Victoire !" if victory else "Défaite…"
 	var turns := int(result.get("tours", 0))
 	_result_info.text = "Combat terminé" + (" · durée : %d tour%s" % [turns, "s" if turns > 1 else ""] if turns > 0 else "")
-	_result_detail.text = "" if victory else MapView.wake_up_text(result.get("reveil", {}))
+	if result.has("difficulte"):
+		_result_info.text += " · difficulté × %s" % difficulty_text(float(result["difficulte"]))
+	var details: PackedStringArray = []
+	if not victory:
+		details.append(MapView.wake_up_text(result.get("reveil", {})))
+	if not result.get("caracteristiques", {}).is_empty():
+		details.append("Pratique : " + raised_stats_text(result["caracteristiques"]))
+	_result_detail.text = "\n".join(details)
 	_result_detail.visible = not _result_detail.text.is_empty()
 	_overload_label.visible = result.get("surcharge", false)
 	for child in _result_rows.get_children():
@@ -898,6 +919,9 @@ func _result_row(entry: Dictionary, result: Dictionary, odd: bool) -> Control:
 	loot.add_theme_constant_override("v_separation", 3)
 	if not gains.is_empty():
 		xp_label.text = "+%d" % int(gains.get("reputation", 0)) if int(gains.get("reputation", 0)) > 0 else "0"
+		if not gains.get("caracteristiques", {}).is_empty():
+			xp_label.tooltip_text = raised_stats_text(gains["caracteristiques"])
+			xp_label.mouse_filter = Control.MOUSE_FILTER_STOP
 		coins_label.text = "+%d" % int(gains.get("ecus", 0)) if int(gains.get("ecus", 0)) > 0 else "0"
 		for drop: Dictionary in gains.get("butin", []):
 			loot.add_child(_loot_slot(drop, 34))

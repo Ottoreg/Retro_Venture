@@ -69,12 +69,13 @@ func test_la_prospection_augmente_les_chances() -> void:
 	assert_true(Fixtures.of_type(events, Protocol.EVT_COMBAT_ENDED)[0]["butin"].size() >= 3)
 
 
-func test_pas_de_butin_en_cas_de_defaite_mais_l_xp_des_vaincus() -> void:
+func test_pas_de_butin_en_cas_de_defaite_mais_la_reputation_des_vaincus() -> void:
 	var world := _world(["mannequin", "loup"])
 	_engage(world)
 	var dummy := _stick(world, "groupe_1_1")
 	dummy.hp = 1
 	var wolf := world.combat.get_fighter("groupe_1_2")
+	var combat := world.combat
 	var player := world.combat.get_fighter(World.PLAYER_ID)
 	player.hp = 1
 	_command(world, Protocol.CMD_READY)
@@ -84,8 +85,13 @@ func test_pas_de_butin_en_cas_de_defaite_mais_l_xp_des_vaincus() -> void:
 	var events := _command(world, Protocol.CMD_END_TURN)
 	var ended := Fixtures.of_type(events, Protocol.EVT_COMBAT_ENDED)[0]
 	assert_eq(ended["vainqueur"], Fighter.TEAM_MONSTERS)
-	assert_eq(ended["reputation"], 10, "les 10 XP du mannequin vaincu, en réputation")
-	assert_eq(world.character.reputation(), 10)
+	# La Frappe sur le mannequin et sa part du monstre vaincu comptent, même en cas de défaite.
+	var factor := Progression.difficulty([1, wolf.level], [1])
+	var expected: int = Progression.gains(combat.practice[World.PLAYER_ID], factor,
+		10 * Progression.KILL_SHARE * factor)["reputation"]
+	assert_true(expected > 0)
+	assert_eq(ended["reputation"], expected, "la pratique et le mannequin vaincu, en réputation")
+	assert_eq(world.character.reputation(), expected)
 	assert_false(ended.has("butin"), "pas de butin en cas de défaite")
 	assert_eq(world.character.inventory.quantity_of("dent"), 0)
 

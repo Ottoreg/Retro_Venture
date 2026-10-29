@@ -3,9 +3,31 @@
   "nom": "Lancer de hache",
   "description": "Lance sa hache de secours. Pensez à aller la rechercher.",
   "cout_pa": 4,
-  "portee": {"min": 2, "max": 5},
+  "portee": {
+    "min": 2,
+    "max": 5
+  },
   "ligne_de_vue": true,
-  "zone": {"type": "case"},
-  "relance": {"par_tour": 1},
-  "effets": [{"type": "degats", "element": "acier", "min": 6, "max": 9}]
+  "zone": {
+    "type": "case"
+  },
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "acier",
+      "min": 6,
+      "max": 9
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "portee_max": 1
+    },
+    "5": {
+      "cout_pa": 3
+    }
+  }
 }

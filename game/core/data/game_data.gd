@@ -485,7 +485,31 @@ static func validate_voie(data: Dictionary, known_spells: Dictionary, known_item
 		for item_id: Variant in kit:
 			if not known_items.has(item_id):
 				errors.append("équipement de départ inconnu : %s" % str(item_id))
+	var advanced: Variant = data.get("sorts_rang_2", {})
+	if typeof(advanced) != TYPE_DICTIONARY:
+		errors.append("« sorts_rang_2 » doit être un objet { id du sort : réputation qui le débloque }")
+	else:
+		for spell_id: Variant in advanced:
+			if not known_spells.has(spell_id):
+				errors.append("sort de rang II inconnu : %s" % str(spell_id))
+			elif not Spell._is_int_at_least(advanced[spell_id], 0):
+				errors.append("sort de rang II %s : la réputation doit être un entier positif ou nul" % str(spell_id))
+			elif spell_id in data.get("sorts", []):
+				errors.append("sort de rang II %s : déjà dans les sorts de rang I" % str(spell_id))
 	return errors
+
+
+## Sorts qu'une classe donne avec `reputation_value` de réputation (GDD § 5.1) : ceux de rang I, puis
+## ceux de rang II débloqués (`sorts_rang_2` : id → réputation), dans l'ordre des données.
+func class_spells(class_id: String, reputation_value: int) -> Array[String]:
+	var ids: Array[String] = []
+	var voie: Dictionary = voies.get(class_id, {})
+	ids.assign(voie.get("sorts", []))
+	var advanced: Dictionary = voie.get("sorts_rang_2", {})
+	for spell_id: String in advanced:
+		if reputation_value >= int(advanced[spell_id]):
+			ids.append(spell_id)
+	return ids
 
 
 ## Équipement de départ de la Voie (équipé) et quelques brumes, pour un personnage tout neuf.
@@ -625,6 +649,12 @@ func create_character_fighter(character: Character, fighter_id: String) -> Fight
 	if not voies.has(character.voie_id):
 		return null
 	var fighter := _create_fighter(voies[character.voie_id], fighter_id, character.display_name, Fighter.TEAM_PLAYERS)
+	# Sorts de la classe active : rang II débloqués par la réputation, rangs de maîtrise (GDD § 4.5).
+	fighter.spells.clear()
+	for spell_id in class_spells(character.voie_id, character.reputation()):
+		if character.spell_rank(spell_id) > 0:
+			fighter.masteries[spell_id] = character.spell_rank(spell_id)
+		fighter.spells.append(spells[spell_id].mastered(character.spell_rank(spell_id)))
 	fighter.race = character.race_id
 	fighter.level = 0  # Un joueur n'a pas de niveau (GDD § 4.5) ; celui des monstres reste leur menace.
 	for stat_name in Character.STATS:
@@ -675,9 +705,11 @@ func create_profile_fighter(profile: Dictionary, fighter_id: String) -> Fighter:
 	fighter.crit_bonus = int(profile["critique"])
 	fighter.resistances = (profile["resistances"] as Dictionary).duplicate()
 	fighter.spells.clear()
+	var ranks: Dictionary = profile.get("maitrises", {})
 	for spell_id: String in profile["sorts"]:
 		if spells.has(spell_id):
-			fighter.spells.append(spells[spell_id])
+			fighter.spells.append(spells[spell_id].mastered(int(ranks.get(spell_id, 0))))
+	fighter.masteries = ranks.duplicate()
 	fighter.weapon = str(profile.get("arme", ""))
 	if items.has(fighter.weapon):
 		fighter.spells.insert(0, Spell.from_dict(Item.weapon_spell_data(items[fighter.weapon])))

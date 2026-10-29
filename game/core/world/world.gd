@@ -46,9 +46,6 @@ const MAX_TRADE_QUANTITY := 100
 const ALL_PASSAGES_KNOWN := true
 ## Groupes de joueurs (GDD § 13) : 8 joueurs au plus.
 const PARTY_MAX := 8
-## Bonus d'XP de groupe selon le nombre de joueurs du combat (1 à 8), comme Dofus : chacun reçoit
-## l'XP des monstres × ce bonus × sa part de niveaux (son niveau / somme des niveaux). À régler.
-const PARTY_XP_BONUS := [1.0, 1.1, 1.5, 2.3, 3.1, 3.6, 4.2, 4.7]
 ## Placement en ligne (s), quand le temps des tours est limité (`turn_seconds`).
 const PLACEMENT_SECONDS := 45.0
 
@@ -1543,7 +1540,7 @@ func _end_combat(p: PlayerState, events: Array[Dictionary]) -> void:
 			events.remove_at(i)
 			break
 	# Butin et brumes de victoire (`Loot` : limite par monstre partagée, tirage du plus prospecteur
-	# au moins prospecteur), XP de chacun selon sa part (GDD § 7.1).
+	# au moins prospecteur) ; progression de chacun selon ses actions (GDD § 4.5).
 	var kinds: Array = []
 	var monsters: Array = []
 	var coins := 0
@@ -1561,6 +1558,17 @@ func _end_combat(p: PlayerState, events: Array[Dictionary]) -> void:
 		var fighter := combat.get_fighter(member.id)
 		prospections[member.id] = fighter.prospection if fighter != null else Character.BASE_PROSPECTION
 	var drops: Dictionary = Loot.roll(monsters, prospections, combat.rng, loot_bonus) if won else {}
+	# Progression (GDD § 4.5) : facteur de difficulté du combat (monstres contre force du groupe), et
+	# part de chacun de la réputation des monstres vaincus (même en cas de défaite).
+	var monster_levels: Array = []
+	for fighter in combat.fighters:
+		if fighter.team != Fighter.TEAM_PLAYERS:
+			monster_levels.append(fighter.level)
+	var strengths: Array = []
+	for member in team:
+		strengths.append(Progression.equivalent_level(member.character.reputation()))
+	var factor := Progression.difficulty(monster_levels, strengths)
+	var kill_share := float(ended.get("xp", 0)) * Progression.KILL_SHARE * factor / maxi(1, team.size())
 	var ends: Array[Dictionary] = []
 	for i in team.size():
 		var member := team[i]
@@ -1577,11 +1585,8 @@ func _end_combat(p: PlayerState, events: Array[Dictionary]) -> void:
 			member.character.set_hp(1, data)  # Vaincu : on se relève avec 1 PV.
 			wake_up = _wake_up(member, moved)
 			own["reveil"] = wake_up
-		# Parts égales, avec le bonus de groupe (provisoire : au lot 2, chacun gagnera par ses actions).
-		var share := float(ended.get("xp", 0))
-		if team.size() > 1:
-			share *= PARTY_XP_BONUS[mini(team.size(), PARTY_XP_BONUS.size()) - 1] / team.size()
-		_reward(member, own, roundi(share), block)
+		# Chacun progresse par ses propres actions, au facteur de difficulté du groupe (GDD § 4.5).
+		_reward(member, own, Progression.gains(combat.practice.get(member.id, {}), factor, kill_share), factor, block)
 		if won:
 			# Brumes partagées à parts égales (le reste au premier), puis le passif de race de chacun.
 			var part := coins / team.size() + (coins % team.size() if i == 0 else 0)
@@ -1610,6 +1615,7 @@ func _end_combat(p: PlayerState, events: Array[Dictionary]) -> void:
 		var gains := {}
 		for own in ends:
 			gains[own[Protocol.FIELD_FOR]] = {"reputation": own.get("reputation", 0), "ecus": own.get("ecus", 0),
+				"caracteristiques": own.get("caracteristiques", {}),
 				"butin": own.get("butin", []), "paliers": own.get("paliers", [])}
 		for own in ends:
 			own["gains"] = gains.duplicate(true)
@@ -1635,16 +1641,23 @@ func _wake_up(p: PlayerState, events: Array[Dictionary]) -> Dictionary:
 	return {"passage": passage["id"], "nom": passage["nom"], "carte": p.map.id}
 
 
-## Réputation de la classe active pour les monstres vaincus, même en cas de défaite : `base`, la part
-## du joueur de leur XP (l'XP d'un monstre vaut sa réputation, GDD § 8.1 ; provisoire jusqu'aux gains
-## par action du lot 2). `ended` : son EVT_COMBAT_ENDED (`reputation`, `paliers` atteints).
-func _reward(p: PlayerState, ended: Dictionary, base: int, events: Array[Dictionary]) -> void:
-	ended["reputation"] = 0
-	if base <= 0:
-		return
-	ended["reputation"] = base
-	ended["paliers"] = reputation_events(p.character, base, events)
-	events.append(_character_event(p))
+## Progression d'un joueur à la fin d'un combat (`gains` : voir `Progression.gains`) : réputation de
+## la classe active et caractéristiques pratiquées. `ended` : son EVT_COMBAT_ENDED (`reputation`,
+## `paliers` atteints, `caracteristiques` : points entiers gagnés, `difficulte`).
+func _reward(p: PlayerState, ended: Dictionary, gains: Dictionary, factor: float, events: Array[Dictionary]) -> void:
+	ended["difficulte"] = snappedf(factor, 0.01)
+	ended["reputation"] = int(gains["reputation"])
+	var raised := {}
+	var practiced: Dictionary = gains["caracteristiques"]
+	for stat_name: String in practiced:
+		var points := p.character.practice_stat(stat_name, float(practiced[stat_name]))
+		if points > 0:
+			raised[stat_name] = points
+	ended["caracteristiques"] = raised
+	if int(gains["reputation"]) > 0:
+		ended["paliers"] = reputation_events(p.character, int(gains["reputation"]), events)
+	if int(gains["reputation"]) > 0 or not raised.is_empty():
+		events.append(_character_event(p))
 
 
 ## Ajoute de la réputation à la classe active et décrit le gain (EVT_REPUTATION, puis un
@@ -2601,7 +2614,7 @@ func _raise_spell(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
 	var spell_id: Variant = command.get("sort")
 	if not _is_player_command(p, command) or typeof(spell_id) != TYPE_STRING or data == null:
 		return _refused(command, Protocol.REASON_INVALID_COMMAND)
-	var reason := p.character.raise_spell(spell_id, data.voies.get(p.character.voie_id, {}).get("sorts", []))
+	var reason := p.character.raise_spell(spell_id, data.class_spells(p.character.voie_id, p.character.reputation()))
 	if not reason.is_empty():
 		return _refused(command, reason)
 	var events: Array[Dictionary] = [_character_event(p)]

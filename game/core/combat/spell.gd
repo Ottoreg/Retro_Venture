@@ -90,6 +90,14 @@ const CRIT_MULTIPLIER := 1.5
 const BASE_ELEMENTS := ["acier", "flamme", "givre", "tempete"]
 const COMPOSITE_ELEMENTS := {"sacre": ["acier", "flamme"], "impie": ["tempete", "givre"]}
 const ELEMENTS := ["acier", "flamme", "givre", "tempete", "sacre", "impie"]
+## Maîtrise d'un sort (GDD § 4.5) : chaque rang ajoute ce pourcentage aux valeurs de base des effets
+## élémentaires (dégâts, soins, boucliers, poisons) ; rang maximal.
+const MASTERY_BONUS_PER_RANK := 10
+const MASTERY_MAX_RANK := 5
+## Changements qu'un rang de maîtrise peut apporter (« maitrise » : { "3": {…}, "5": {…} }) : ajouts
+## (critique, portee_max), nouvelles valeurs (cout_pa, delai, zone_taille) et effets en plus (effets).
+const MASTERY_ADDS := ["critique", "portee_max"]
+const MASTERY_SETS := ["cout_pa", "delai", "zone_taille"]
 
 var id: String
 var display_name: String
@@ -113,6 +121,11 @@ var cooldown: int
 var crit_chance: int
 ## Effets, dans l'ordre : { type, element?, min, max, cibles? }.
 var effects: Array[Dictionary] = []
+## Changements des rangs de maîtrise : rang → { critique?, portee_max?, cout_pa?, delai?, zone_taille?,
+## effets? } (voir `mastered`).
+var mastery: Dictionary = {}
+## Rang de maîtrise de cet exemplaire du sort (0 : celui des données).
+var rank := 0
 
 
 ## Liste des erreurs de `data` (vide si le sort est valide).
@@ -149,6 +162,7 @@ static func validate(data: Dictionary) -> PackedStringArray:
 		errors.append("« effets » doit être une liste non vide")
 		return errors
 	errors.append_array(_validate_effects(effects_data, true))
+	errors.append_array(_validate_mastery(data.get("maitrise", {})))
 	var traps := 0
 	for effect: Variant in effects_data:
 		if typeof(effect) == TYPE_DICTIONARY and effect.get("type") == EFFECT_TRAP:
@@ -159,6 +173,33 @@ static func validate(data: Dictionary) -> PackedStringArray:
 		if typeof(effect) == TYPE_DICTIONARY and effect.get("type") == EFFECT_CHARGE \
 				and (not data.get("lancer_en_ligne", false) or int(data["portee"]["min"]) < 2):
 			errors.append("une charge demande « lancer_en_ligne » et une portée minimale d'au moins 2")
+	return errors
+
+
+static func _validate_mastery(mastery_data: Variant) -> PackedStringArray:
+	var errors: PackedStringArray = []
+	if typeof(mastery_data) != TYPE_DICTIONARY:
+		return PackedStringArray(["« maitrise » doit être un objet { rang : changements }"])
+	for key: Variant in mastery_data:
+		var changes: Variant = mastery_data[key]
+		if not str(key).is_valid_int() or int(str(key)) < 1 or int(str(key)) > MASTERY_MAX_RANK or typeof(changes) != TYPE_DICTIONARY:
+			errors.append("« maitrise » : « %s » doit être un rang de 1 à %d, vers un objet de changements" % [str(key), MASTERY_MAX_RANK])
+			continue
+		for change: Variant in changes:
+			if change == "effets":
+				if typeof(changes["effets"]) != TYPE_ARRAY or changes["effets"].is_empty():
+					errors.append("« maitrise.%s.effets » doit être une liste non vide" % str(key))
+				else:
+					errors.append_array(_validate_effects(changes["effets"], false))
+			elif change in MASTERY_ADDS:
+				if typeof(changes[change]) not in [TYPE_INT, TYPE_FLOAT] or changes[change] != floorf(changes[change]):
+					errors.append("« maitrise.%s.%s » doit être un entier" % [str(key), str(change)])
+			elif change in MASTERY_SETS:
+				if not _is_int_at_least(changes[change], 0):
+					errors.append("« maitrise.%s.%s » doit être un entier positif ou nul" % [str(key), str(change)])
+			else:
+				errors.append("« maitrise.%s » : changement inconnu « %s » (%s, effets)" % [str(key), str(change),
+					str(MASTERY_ADDS + MASTERY_SETS)])
 	return errors
 
 
@@ -247,7 +288,55 @@ static func from_dict(data: Dictionary) -> Spell:
 	spell.cooldown = int(recast.get("delai", 0))
 	spell.crit_chance = int(data.get("critique", DEFAULT_CRIT_CHANCE))
 	spell.effects = normalized_effects(data["effets"])
+	var mastery_data: Dictionary = data.get("maitrise", {})
+	for key: String in mastery_data:
+		spell.mastery[int(key)] = mastery_data[key].duplicate(true)
 	return spell
+
+
+## Ce sort au rang de maîtrise `level` (GDD § 4.5) : valeurs de base des effets élémentaires
+## +`MASTERY_BONUS_PER_RANK` % par rang (glyphes et pièges compris), puis les changements de chaque
+## rang atteint, dans l'ordre. Le sort lui-même au rang 0.
+func mastered(level: int) -> Spell:
+	level = clampi(level, 0, MASTERY_MAX_RANK)
+	if level == 0:
+		return self
+	var copy := Spell.new()
+	for property in ["id", "display_name", "description", "pa_cost", "range_min", "range_max", "needs_line_of_sight",
+			"cast_in_line", "zone_type", "zone_size", "excludes_caster", "casts_per_turn", "cooldown", "crit_chance"]:
+		copy.set(property, get(property))
+	copy.mastery = mastery
+	copy.rank = level
+	copy.effects = _scaled_effects(effects, 100 + MASTERY_BONUS_PER_RANK * level)
+	var ranks := mastery.keys()
+	ranks.sort()
+	for rank_reached: int in ranks:
+		if rank_reached > level:
+			break
+		var changes: Dictionary = mastery[rank_reached]
+		copy.crit_chance += int(changes.get("critique", 0))
+		copy.range_max += int(changes.get("portee_max", 0))
+		copy.pa_cost = int(changes.get("cout_pa", copy.pa_cost))
+		copy.cooldown = int(changes.get("delai", copy.cooldown))
+		copy.zone_size = int(changes.get("zone_taille", copy.zone_size))
+		copy.effects.append_array(normalized_effects(changes.get("effets", [])))
+	return copy
+
+
+## Effets dont les valeurs élémentaires sont multipliées par `percent` %.
+static func _scaled_effects(source: Array[Dictionary], percent: int) -> Array[Dictionary]:
+	var result: Array[Dictionary] = []
+	for effect in source:
+		var copy := effect.duplicate(true)
+		if effect["type"] in ELEMENT_EFFECTS:
+			copy["min"] = roundi(int(effect["min"]) * percent / 100.0)
+			copy["max"] = roundi(int(effect["max"]) * percent / 100.0)
+		if effect.has("effets"):
+			var inner: Array[Dictionary] = []
+			inner.assign(effect["effets"])
+			copy["effets"] = _scaled_effects(inner, percent)
+		result.append(copy)
+	return result
 
 
 ## Effets avec leurs valeurs par défaut (min, max, cibles, duree ; effets des glyphes et pièges).

@@ -10,10 +10,16 @@ nous faire vos retours. Le jeu n'affiche volontairement presque aucune aide à l
 - **Version 0.6.0** (affichée sur l'écran d'accueil).
 - **Ce qu'on teste : les mécaniques** (combat, quêtes, exploration, interface, métiers), pas la
   vitesse de progression.
-- **Progression en refonte** : plus de niveaux. Les combats et les quêtes donnent de la
-  **réputation** à votre classe (paliers Inconnu, Apprenti, Compagnon…) et des **points de
-  maîtrise** ; les caractéristiques se gagneront par la pratique (en cours : pour l'instant elles ne
-  montent pas encore, seuls la race et l'équipement les donnent). Tout objet s'équipe sans condition.
+- **Progression en refonte** : plus de niveaux. On progresse par la **pratique** : chaque sort qui
+  a un effet réel (dégâts sur un ennemi, soin de PV perdus, bouclier qui absorbe) donne de la
+  **réputation** à votre classe (paliers Inconnu, Apprenti, Compagnon…) et fait monter la
+  caractéristique de son élément (Acier → Force, Flamme → Intelligence, Givre → Perception, Tempête
+  → Agilité) ; les coups reçus font monter la Vitalité. Plus le combat est difficile pour vous, plus
+  il rapporte : des monstres trop faibles ne rapportent presque rien. Les quêtes donnent aussi de la
+  réputation. Tous les 500 de réputation, un **point de maîtrise** à placer dans un sort (fenêtre
+  des sorts, touche S) : chaque rang ajoute 10 % au sort, et le Guerrier a des effets en plus aux
+  rangs 3 et 5. Le Guerrier gagne deux sorts de rang II à 5 000 et 15 000 de réputation. Tout objet
+  s'équipe sans condition.
 - **Pas encore là** : sons et musiques, dessins définitifs (certains personnages et effets sont
   provisoires), multijoueur. L'équilibrage sera revu d'après vos retours.
 - À la fin (ou quand vous voulez), **remplissez le questionnaire** : bouton **« Donner son avis »**
@@ -113,7 +119,7 @@ temps : chaque camp a sa propre histoire.
 | --- | --- |
 | **C** | Personnage : palier et réputation de la classe active, points de maîtrise, caractéristiques (points gagnés / plafond), PA, PM, initiative, prospection ; survoler une valeur montre d'où elle vient (points gagnés, race, chaque objet, panoplie) ; la liste des classes change la classe active hors combat (une nouvelle classe demande 5 000 de réputation dans une autre et repart de zéro) |
 | **I** | Inventaire : équipement porté, sac en trois onglets (Équipements, Consommables, Ressources), équiper / retirer / jeter ; **double-clic** sur un objet pour l'équiper ou le retirer (il remplace l'objet porté, ou le même objet déjà porté, comme une seconde bague identique), ou **glisser** du sac vers un emplacement (et inversement) ; tenir **Ctrl** : jets possibles de l'objet choisi ; au **survol** d'un objet, ses bonus comparés à l'objet porté (gains en vert, pertes en rouge) |
-| **S** | Sorts : un onglet pour la Voie, la race et l'arme ; fiche de chaque sort |
+| **S** | Sorts : un onglet pour la Voie, la race et l'arme ; fiche de chaque sort ; rang de maîtrise et bouton pour y placer des points |
 | **J** | Métiers : un onglet par métier, niveau, ressources et recettes |
 | **M** | Carte du monde : toutes les zones sur un seul panneau, molette pour zoomer (voir plus bas) |
 | **Q** | Journal des quêtes : en cours (la suivie en tête) et terminées, objectifs, récompenses, « Suivre » |
@@ -203,8 +209,8 @@ Les sorts se consultent dans leur fenêtre (S).
      Les chiffres qui s'affichent au-dessus des combattants ont les mêmes couleurs (« -12 » :
      dégâts, « +8 » : soin ; un choc contre un obstacle reste rouge).
 3. Fin du combat : réputation, brumes et butin (une icône par objet avec sa quantité ; le nom en
-   survolant). La réputation vient pour l'instant de l'XP des monstres vaincus ; les gains par
-   action (sorts lancés, coups reçus) arrivent ensuite.
+   survolant), la difficulté du combat (× 0,1 à × 1,5 : elle multiplie vos gains) et les
+   caractéristiques gagnées par la pratique. En groupe, chacun gagne par ses propres actions.
    En cas de défaite, on se réveille avec 1 PV à côté de la Pierre de Passage de son **point de
    résurrection** (voir plus bas), même si elle est sur une autre carte.
    Si le sac (60 places) est plein, le butin y entre quand même, en surplus : il faut alors faire de

@@ -26,7 +26,7 @@ Prix de boutique : selon la rareté (revente à 25 %).
 - [Sorts de race](#sorts-de-race)
 - [Sorts des monstres](#sorts-des-monstres)
 
-**289 objets** (43 armes, 28 coiffes, 28 capes, 30 amulettes, 32 anneaux, 27 ceintures, 29 bottes, 66 ressources, 6 objets de quête), **50 monstres** et **116 sorts**.
+**289 objets** (43 armes, 28 coiffes, 28 capes, 30 amulettes, 32 anneaux, 27 ceintures, 29 bottes, 66 ressources, 6 objets de quête), **50 monstres** et **118 sorts**.
 
 ## Armes
 
@@ -1346,3 +1346,5 @@ gardés comme trace de sa première version).
 | **Étincelle** | 2 PA, portée 1–4, 3/tour | 2–4 Flamme | Petit sort, petit coût, petits dégâts. Mais trois fois par tour. |
 | **Frimas** | 1 PA, portée soi, sans ligne de vue, critique 0 % | état élémentaire Givre (permanent, 3 au plus) ; +1 PA tout de suite | Un flocon tourne autour de l'Arcaniste et refuse de fondre. Coûte 1 PA, rendu aussitôt. |
 | **Soin mineur** | 3 PA, portée 0–3, 1/tour, relance 2 t. | soin 8–12 (Flamme) | Referme les petites plaies. Pour les grandes, prévoir une potion. Ou un autre arcaniste. |
+| **Cri de guerre** | 3 PA, portée soi, cercle de rayon 2, sans ligne de vue, 1/tour, relance 4 t. | +4–6 Dommages (2 t.) aux alliés | Un hurlement qui galvanise les alliés proches et réveille tout le voisinage. Sort de rang II. |
+| **Fendoir** | 5 PA, portée 1, 1/tour | 16–22 Acier | Le grand coup qu'on garde pour la fin. Ou pour le début, ça dépend de l'humeur. Sort de rang II. |

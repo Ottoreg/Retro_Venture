@@ -40,6 +40,9 @@ var voie_id := "guerrier"
 var classes: Dictionary = {}
 ## Points gagnés par la pratique, par caractéristique (hors bonus de race), plafonnés.
 var earned: Dictionary = {}
+## Fractions de point déjà pratiquées, par caractéristique (entre 0 et 1) : elles s'ajoutent aux
+## gains suivants.
+var practiced: Dictionary = {}
 var inventory := Inventory.new()
 ## XP de métier : id du métier → XP totale (un métier absent est au niveau 1).
 var jobs: Dictionary = {}
@@ -208,6 +211,18 @@ func gain_stat(stat_name: String, amount: int) -> int:
 	var before := int(earned.get(stat_name, 0))
 	earned[stat_name] = mini(stat_cap(stat_name), before + amount)
 	return int(earned[stat_name]) - before
+
+
+## Pratique d'une caractéristique (`amount` points, fractions comprises, voir `Progression`) : plus
+## lente près du plafond ; renvoie les points entiers gagnés. Rien au plafond.
+func practice_stat(stat_name: String, amount: float) -> int:
+	var points := int(earned.get(stat_name, 0))
+	if stat_name not in STATS or amount <= 0.0 or points >= stat_cap(stat_name):
+		return 0
+	var total := float(practiced.get(stat_name, 0.0)) + amount * Progression.stat_pace(points, stat_cap(stat_name))
+	var whole := floori(total)
+	practiced[stat_name] = total - whole
+	return gain_stat(stat_name, whole)
 
 
 ## Classes qu'on peut rendre actives : celles déjà commencées, et toutes les autres dès qu'une classe
@@ -436,6 +451,7 @@ func to_dict() -> Dictionary:
 		"voie": voie_id,
 		"classes": classes.duplicate(true),
 		"caracteristiques": earned.duplicate(),
+		"pratique": practiced.duplicate(),
 		"inventaire": inventory.to_dict(),
 		"metiers": jobs.duplicate(),
 		"pv_perdus": hp_lost,
@@ -472,6 +488,11 @@ static func from_dict(data: Dictionary, known_items: Dictionary = {}) -> Charact
 			key = "perception" if key == "chance" else key  # Avant le 29/10/2026 : Chance.
 			if typeof(stats[stat_name]) in [TYPE_INT, TYPE_FLOAT]:
 				character.gain_stat(key, int(stats[stat_name]))
+	var saved_practice: Variant = data.get("pratique", {})
+	if typeof(saved_practice) == TYPE_DICTIONARY:
+		for stat_name: Variant in saved_practice:
+			if str(stat_name) in STATS and typeof(saved_practice[stat_name]) in [TYPE_INT, TYPE_FLOAT]:
+				character.practiced[str(stat_name)] = clampf(float(saved_practice[stat_name]), 0.0, 0.999)
 	var lost: Variant = data.get("pv_perdus", 0)
 	if typeof(lost) in [TYPE_INT, TYPE_FLOAT]:
 		character.hp_lost = maxi(0, int(lost))

@@ -47,8 +47,10 @@ func _initialize() -> void:
 			+ "2 + n/10 tours et 40 % des PV pour 2 monstres de son niveau, au prorata du nombre de monstres. "
 			+ "Rapport PV : PV perdus / référence (1 = conforme). ⚠ : moins de %d %% de victoires ou rapport hors de %.2f–%.2f." % [
 				roundi(MIN_WIN_RATE * 100), HP_RATIO_RANGE[0], HP_RATIO_RANGE[1]], "",
-		"| Carte | Groupe | Niv. | Victoires (G/A/R/T) | Tours (réf.) | PV perdus % (réf.) | Rapport PV | |",
-		"|---|---|---|---|---|---|---|---|",
+		"Progression (GDD § 4.5) : facteur de difficulté du combat et réputation gagnée par combat gagné, "
+			+ "pour un joueur au niveau équivalent (`Progression`).", "",
+		"| Carte | Groupe | Niv. | Victoires (G/A/R/T) | Tours (réf.) | PV perdus % (réf.) | Rapport PV | Facteur | Rép./combat | |",
+		"|---|---|---|---|---|---|---|---|---|---|",
 	]
 	var summary := {}
 	for map_id in DataLoader.map_ids():
@@ -87,6 +89,8 @@ func _simulate_group(map: GameMap, group: Dictionary, fights: int) -> Dictionary
 	var won_total := 0
 	var levels_total := 0.0
 	var size_total := 0.0
+	var factor_total := 0.0
+	var reputation_total := 0.0
 	var names := {}
 	for voie: String in BUILDS:
 		var won := 0
@@ -94,6 +98,7 @@ func _simulate_group(map: GameMap, group: Dictionary, fights: int) -> Dictionary
 			var composed := GameMap.compose_group(group, rng, data)
 			var result := _fight(map, composed, voie)
 			levels_total += result["niveau"]
+			factor_total += result["facteur"]
 			size_total += composed["monstres"].size()
 			for monster_id: String in composed["monstres"]:
 				names[data.monsters[monster_id]["nom"]] = true
@@ -101,6 +106,7 @@ func _simulate_group(map: GameMap, group: Dictionary, fights: int) -> Dictionary
 				won += 1
 				rounds += result["tours"]
 				lost += result["pv_perdus"]
+				reputation_total += result["reputation"]
 		wins.append("%d" % roundi(100.0 * won / fights))
 		won_total += won
 	var count := fights * BUILDS.size()
@@ -113,12 +119,14 @@ func _simulate_group(map: GameMap, group: Dictionary, fights: int) -> Dictionary
 	var ratio := mean_lost / ref_lost
 	var alert := float(won_total) / count < MIN_WIN_RATE or ratio < HP_RATIO_RANGE[0] or ratio > HP_RATIO_RANGE[1]
 	var label := ", ".join(names.keys())
-	var line := "| %s | %s | %.0f | %s | %.1f (%.1f) | %.0f (%.0f) | %.2f | %s |" % [map.id, label, level, "/".join(wins),
-		mean_rounds, ref_turns, mean_lost, ref_lost, ratio, "⚠" if alert else ""]
+	var line := "| %s | %s | %.0f | %s | %.1f (%.1f) | %.0f (%.0f) | %.2f | %.2f | %.0f | %s |" % [map.id, label, level,
+		"/".join(wins), mean_rounds, ref_turns, mean_lost, ref_lost, ratio, factor_total / count,
+		reputation_total / maxi(1, won_total), "⚠" if alert else ""]
 	return {"ligne": line, "alerte": alert}
 
 
-## Un combat du joueur (IA) contre le groupe : { victoire, tours, pv_perdus (fraction), niveau }.
+## Un combat du joueur (IA) contre le groupe : { victoire, tours, pv_perdus (fraction), niveau, facteur
+## (de difficulté), reputation (gagnée par la pratique et les monstres vaincus) }.
 func _fight(map: GameMap, group: Dictionary, voie: String) -> Dictionary:
 	var levels: Array = group["niveaux"]
 	var level := 0.0
@@ -131,8 +139,8 @@ func _fight(map: GameMap, group: Dictionary, voie: String) -> Dictionary:
 	level = clampf(level + level_bonus, 1, MAX_LEVEL)
 	var race: String = ZONE_RACES.get(map.id.rsplit("_", true, 2)[0], "humain")
 	# Profil équivalent à l'ancien niveau (plus de niveau depuis la refonte, GDD § 4.5) : 5 points de
-	# caractéristique et 5 PV par niveau au-dessus du 1er, répartis selon le build. Les gains par la
-	# pratique (lot 2) remplaceront ce profil.
+	# caractéristique et 5 PV par niveau au-dessus du 1er, répartis selon le build (les caractéristiques
+	# gagnées par la pratique y arrivent à peu près, plafonnées).
 	var character := Character.create("Simulé", race, voie)
 	var build: Dictionary = BUILDS[voie]
 	var points := POINTS_PER_LEVEL * int(level - 1)
@@ -185,7 +193,18 @@ func _fight(map: GameMap, group: Dictionary, voie: String) -> Dictionary:
 			states.append("%s %d/%d" % [fighter.kind, fighter.hp, fighter.max_hp])
 		print("%s %s niv. %d : %s en %d tours — %s" % [map.id, voie, level,
 			{Fighter.TEAM_PLAYERS: "victoire", -1: "nul"}.get(combat.winner_team, "défaite"), combat.round_number, ", ".join(states)])
+	# Progression d'un joueur à ce niveau équivalent (GDD § 4.5), comme `World._end_combat`.
+	var monster_levels: Array = []
+	var fallen_xp := 0
+	for fighter in fighters:
+		if fighter.team != Fighter.TEAM_PLAYERS:
+			monster_levels.append(fighter.level)
+			fallen_xp += fighter.xp if not fighter.is_alive() else 0
+	var factor := Progression.difficulty(monster_levels, [level])
+	var gains := Progression.gains(combat.practice.get("joueur", {}), factor, fallen_xp * Progression.KILL_SHARE * factor)
 	return {
+		"facteur": factor,
+		"reputation": float(gains["reputation"]),
 		"victoire": combat.winner_team == Fighter.TEAM_PLAYERS,
 		"tours": float(combat.round_number),
 		"pv_perdus": 1.0 - float(player.hp) / player.max_hp,

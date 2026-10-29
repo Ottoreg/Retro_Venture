@@ -1,0 +1,15 @@
+{
+  "id": "guerrier_cri_de_guerre",
+  "nom": "Cri de guerre",
+  "description": "Un hurlement qui galvanise les alliés proches et réveille tout le voisinage. Sort de rang II.",
+  "cout_pa": 3,
+  "portee": {"min": 0, "max": 0},
+  "ligne_de_vue": false,
+  "zone": {"type": "cercle", "taille": 2},
+  "relance": {"par_tour": 1, "delai": 4},
+  "effets": [{"type": "bonus", "carac": "dommages", "min": 4, "max": 6, "duree": 2, "cibles": "allies"}],
+  "maitrise": {
+    "3": {"delai": 3},
+    "5": {"zone_taille": 3}
+  }
+}
