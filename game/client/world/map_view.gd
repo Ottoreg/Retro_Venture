@@ -2274,6 +2274,11 @@ func _draw_figure(seed_id: String, look: Dictionary, kind: String, base: Vector2
 		var progress := 1.0 - float(data.get("attaque", 0.0)) / ATTACK_TIME if data.get("attaque", 0.0) > 0.0 else -1.0
 		Rig.draw(self, look, base, {"facing": facing, "dos": data.get("dos", false), "cap": data.get("cap", -1), "marche": walking, "phase": phase,
 			"temps": _time + offset * 0.1, "attaque": progress, "assis": data.get("assis", false)})
+	elif look.has("planche"):
+		# Images fixes seulement (pas de course) : le petit saut du déplacement suffit.
+		var hop := -absf(sin(phase)) * 2.0 if walking else sin(_time * 2.0 + offset) * 0.4
+		Sprites.draw_pose(self, look, base + Vector2(0, hop), {"facing": facing, "dos": data.get("dos", false), "cap": data.get("cap", -1)},
+			look.get("teinte", Color.WHITE))
 	elif look.has("image"):
 		var hop := -absf(sin(phase)) * 2.0 if walking else sin(_time * 2.0 + offset) * 0.4
 		Art.draw(self, look["image"], base + Vector2(0, hop), look.get("couleurs", {}), facing < 0.0, look.get("teinte", Color.WHITE), look["echelle"])
@@ -2358,7 +2363,8 @@ func actor_look(actor_id: String) -> Dictionary:
 
 ## Apparence d'un acteur (joueur ou monstre) d'après `art.json`, gardée dans ses données :
 ## { rig, couleurs, arme } pour un personnage articulé (avec { planche } s'il est en pixel art, voir
-## `Sprites`), { image } pour un monstre dessiné d'un bloc, {} s'il n'a pas de dessin.
+## `Sprites`), { image } pour un monstre dessiné d'un bloc (avec { planche } s'il est en pixel art),
+## {} s'il n'a pas de dessin.
 func _look_of(actor_id: String, data: Dictionary) -> Dictionary:
 	if data.has("look"):
 		return data["look"]
@@ -2382,6 +2388,9 @@ func _monster_look(kind: String) -> Dictionary:
 	if spec.has("image"):
 		look = {"image": spec["image"], "echelle": float(spec.get("echelle", 1.0)), "couleurs": spec.get("couleurs", {}),
 			"teinte": Color(str(spec.get("teinte", "ffffff")))}
+		# Monstre en pixel art : sa planche (`Sprites`) remplace le dessin, gardé pour le reste.
+		if spec.has("planche") and Sprites.exists(spec["planche"]):
+			look["planche"] = spec["planche"]
 	elif spec.has("rig"):
 		look = Rig.look(spec["rig"], spec.get("couleurs", {}), spec.get("arme", ""), spec.get("accessoires", []))
 	if world != null and world.data != null and world.data.monsters.get(kind, {}).get("elite", false):

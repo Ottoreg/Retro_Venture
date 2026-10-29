@@ -48,6 +48,15 @@ par Voie, `sprites/<race>_<voie>.png`, où le vêtement prend la couleur de tuni
 `force` du mélange) et `python3 tools/couleurs_sprites.py` regénère ces planches, à relancer après
 tout changement de planche, de recoloration ou de tenue.
 
+Un monstre dessiné d'un bloc peut aussi avoir une `planche` dans `monstres` (à côté de son `image`,
+gardée en secours) : sur la carte il est dessiné en 8 directions, à son `echelle` et sous sa
+`teinte`, et l'ordre de jeu montre son image fixe de trois quarts. Fournis en images fixes seulement
+(pas de GIF de course), `planche_sprites.py` recopie l'image fixe dans les cases de la course et le
+monstre garde son petit saut en marchant. Pour l'instant : loup (`loup.png` : Loup des collines,
+Loup alpha, Loup cendreux), rat (`rat.png` : Rat des galeries, Rat-roi) et morille (`morille.png` :
+Morille grincheuse, Vieille morille rancunière). Les `couleurs` des variantes (pelage du Loup alpha,
+ventre de braise du Loup cendreux) ne s'appliquent pas aux planches.
+
 ## Conventions de dessin
 
 - 1 unité SVG = 1 pixel à l'écran (le jeu rend les SVG en 2× puis les réduit).

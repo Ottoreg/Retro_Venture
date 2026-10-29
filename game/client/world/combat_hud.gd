@@ -235,6 +235,9 @@ class TurnPortrait extends Control:
 			# En buste : les jambes sous le cadre.
 			var zoom := size.y / 52.0
 			Rig.draw(self, look, Vector2(size.x / 2.0, size.y + 26.0 * zoom), {"facing": 1.0, "zoom": zoom})
+		elif look.has("planche"):
+			# Un monstre en pixel art : son image fixe de trois quarts, à la taille du cadre.
+			Sprites.draw_still_fit(self, look["planche"], Rect2(Vector2(2, 2), size - Vector2(4, 10)), 1, look.get("teinte", Color.WHITE))
 		elif look.has("image"):
 			# Un monstre dessiné d'un bloc : en entier, à la taille du cadre.
 			var image := Art.texture(look["image"], look.get("couleurs", {}))

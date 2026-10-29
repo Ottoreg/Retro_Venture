@@ -1840,7 +1840,8 @@
   "monstres": {
     "loup_des_collines": {
       "image": "loup",
-      "echelle": 0.8
+      "planche": "sprites/loup.png",
+      "echelle": 1.1
     },
     "gobelin_frondeur": {
       "rig": "gobelin",
@@ -1855,6 +1856,7 @@
     },
     "rat_des_galeries": {
       "image": "rat",
+      "planche": "sprites/rat.png",
       "echelle": 0.8
     },
     "grouilleur": {
@@ -1886,7 +1888,8 @@
     },
     "loup_alpha": {
       "image": "loup",
-      "echelle": 1.05,
+      "planche": "sprites/loup.png",
+      "echelle": 1.4,
       "couleurs": {
         "pelage": "4e4f57",
         "pelage_ombre": "35363d",
@@ -1910,6 +1913,7 @@
     },
     "rat_roi": {
       "image": "rat",
+      "planche": "sprites/rat.png",
       "echelle": 1.15,
       "teinte": "c9b9a0"
     },

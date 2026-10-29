@@ -2,7 +2,8 @@
   "monstres": {
     "loup_cendreux": {
       "image": "loup",
-      "echelle": 0.9,
+      "planche": "sprites/loup.png",
+      "echelle": 1.2,
       "couleurs": {
         "pelage": "3a3634",
         "pelage_ombre": "26221f",

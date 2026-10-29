@@ -2,10 +2,12 @@
   "monstres": {
     "morille_grincheuse": {
       "image": "morille",
-      "echelle": 0.8
+      "planche": "sprites/morille.png",
+      "echelle": 0.9
     },
     "vieille_morille_rancuniere": {
       "image": "morille",
+      "planche": "sprites/morille.png",
       "echelle": 1.1,
       "teinte": "a08060"
     },

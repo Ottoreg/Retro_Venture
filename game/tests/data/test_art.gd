@@ -130,6 +130,11 @@ func test_directions_des_sprites() -> void:
 	assert_true(Rig.player_look("gobelin", "guerrier", null).has("planche"), "gobelin en pixel art")
 	assert_true(Rig.player_look("humain", "guerrier", null).has("planche"), "humain en pixel art")
 	assert_true(Rig.player_look("elfe", "guerrier", null).has("planche"), "elfe en pixel art")
+	# Monstres en pixel art : la planche remplace le dessin d'un bloc, gardé en secours.
+	for monster_id: String in ["loup_des_collines", "loup_alpha", "loup_cendreux", "rat_des_galeries", "rat_roi",
+			"morille_grincheuse", "vieille_morille_rancuniere"]:
+		var spec: Dictionary = Art.manifest()["monstres"][monster_id]
+		assert_true(spec.has("planche") and spec.has("image"), "%s en pixel art, dessin en secours" % monster_id)
 	# Une planche aux couleurs de chaque Voie.
 	for race_id: String in ["gobelin", "humain", "elfe"]:
 		for voie_id: String in Art.manifest()["tenues"]:

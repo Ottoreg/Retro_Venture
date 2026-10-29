@@ -1,8 +1,9 @@
 class_name Sprites
 extends RefCounted
-## Personnages en pixel art : une planche PNG par race (`res://art/sprites/`, faite par
-## `tools/planche_sprites.py`), citée par « planche » dans la section `races` d'`art.json`. Sur la
-## carte, debout ou en course, elle remplace l'assemblage (`Rig.draw`).
+## Personnages en pixel art : une planche PNG par race ou par monstre (`res://art/sprites/`, faite
+## par `tools/planche_sprites.py`), citée par « planche » dans les sections `races` et `monstres`
+## d'`art.json`. Sur la carte, debout ou en course, elle remplace l'assemblage (`Rig.draw`) ou le
+## dessin d'un bloc du monstre.
 ##
 ## La planche a une ligne par direction (`DIRECTIONS`) et 5 cases de 96 × 96 : l'image fixe puis
 ## les 4 images de la course. Les pieds sont en `FEET` de chaque case. Elle est agrandie au
@@ -17,6 +18,8 @@ const FEET := Vector2(48, 80)
 const RUN_FRAMES := 4
 
 static var _textures: Dictionary = {}
+## Partie visible de chaque image fixe, par « planche:direction » (voir `draw_still_fit`).
+static var _used_rects: Dictionary = {}
 
 
 static func exists(sheet: String) -> bool:
@@ -80,6 +83,26 @@ static func draw(canvas: CanvasItem, sheet: String, base: Vector2, direction: in
 		return
 	var source := Rect2(Vector2(frame, direction) * CELL * Art.SCALE, Vector2.ONE * CELL * Art.SCALE)
 	var target := Rect2(base - FEET * size_factor, Vector2.ONE * CELL * size_factor)
+	canvas.draw_texture_rect_region(tex, target, source, modulate)
+
+
+## Dessine l'image fixe d'une direction, rognée à ce qu'elle montre et agrandie pour tenir dans
+## `rect` (en bas au centre) : pour les portraits.
+static func draw_still_fit(canvas: CanvasItem, sheet: String, rect: Rect2, direction: int, modulate := Color.WHITE) -> void:
+	var tex := texture(sheet)
+	if tex == null:
+		return
+	var cell := Rect2i(Vector2i(0, direction) * CELL * int(Art.SCALE), Vector2i.ONE * CELL * int(Art.SCALE))
+	var key := "%s:%d" % [sheet, direction]
+	if not _used_rects.has(key):
+		_used_rects[key] = tex.get_image().get_region(cell).get_used_rect()
+	var used: Rect2i = _used_rects[key]
+	if used.size.x <= 0 or used.size.y <= 0:
+		return
+	var source := Rect2(Vector2(cell.position + used.position), Vector2(used.size))
+	var zoom := minf(rect.size.x / source.size.x, rect.size.y / source.size.y)
+	var drawn := source.size * zoom
+	var target := Rect2(rect.position + Vector2((rect.size.x - drawn.x) / 2.0, rect.size.y - drawn.y), drawn)
 	canvas.draw_texture_rect_region(tex, target, source, modulate)
 
 
