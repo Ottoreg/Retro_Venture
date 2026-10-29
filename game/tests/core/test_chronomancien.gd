@@ -7,6 +7,8 @@ const Fixtures := preload("res://tests/helpers/fixtures.gd")
 var C := Fixtures.center()
 ## Le joueur se tient à 3 pas de la cible, hors du cadran.
 var START := C + Vector2i(-3, 0)
+## Midi des horloges lancées depuis START sur C : vers +x, la direction du lancer.
+const NOON := Vector2i(2, 0)
 
 const HOURS := {
 	"1": [{"type": "degats", "element": "givre", "min": 10, "max": 10}],
@@ -61,83 +63,114 @@ func _fight(monsters: Array, changes := {}) -> Combat:
 	return combat
 
 
+func _hour(hour: int) -> Vector2i:
+	return Combat.clock_cell(C, NOON, hour)
+
+
 func _cast(combat: Combat, spell_id: String, target: Vector2i) -> Array[Dictionary]:
 	return combat.execute(Fixtures.cmd(Protocol.CMD_CAST, {"sort": spell_id, "cible": target}))
 
 
 func test_cadran() -> void:
-	assert_eq(Combat.CLOCK_OFFSETS.size(), 12)
-	var previous := -1.0
-	var from_noon: Array[Vector2i] = [Combat.CLOCK_OFFSETS[11]]
-	from_noon.append_array(Combat.CLOCK_OFFSETS.slice(0, 11))
-	for offset in from_noon:
+	assert_eq(Combat.CLOCK_RING.size(), 12)
+	for i in 12:
+		var offset := Combat.CLOCK_RING[i]
 		assert_eq(maxi(absi(offset.x), absi(offset.y)), 2, "à 2 cases de la cible")
 		assert_false(absi(offset.x) == 2 and absi(offset.y) == 2, "sans les coins")
-		# Sens des aiguilles d'une montre à l'écran, en partant du haut.
-		var screen := IsoGrid.cell_to_screen(offset)
-		var angle := fposmod(atan2(screen.x, -screen.y), TAU)
-		assert_true(angle > previous, "dans l'ordre des heures à l'écran : %s" % str(offset))
-		previous = angle
-	assert_eq(Combat.clock_cell(C, 12), C + Vector2i(-1, -2), "12 h juste à droite du haut de l'écran")
-	assert_eq(Combat.clock_hour(C, C + Vector2i(2, -1)), 3)
-	assert_eq(Combat.clock_hour(C, C), 0, "le centre n'est pas une heure")
+		# Sens des aiguilles d'une montre à l'écran : chaque heure un peu plus loin que la précédente.
+		var here := IsoGrid.cell_to_screen(offset)
+		var next := IsoGrid.cell_to_screen(Combat.CLOCK_RING[(i + 1) % 12])
+		var turn := fposmod(atan2(next.x, -next.y) - atan2(here.x, -here.y), TAU)
+		assert_true(turn > 0.0 and turn < PI / 2, "dans l'ordre des heures à l'écran : %s" % str(offset))
+	assert_eq(Combat.clock_noon(START, C), NOON, "midi dans la direction du lancer")
+	assert_eq(Combat.clock_noon(C + Vector2i(0, 3), C), Vector2i(0, -2))
+	assert_eq(_hour(12), C + Vector2i(2, 0))
+	assert_eq(_hour(6), C + Vector2i(-2, 0), "6 h du côté du lanceur")
+	assert_eq(Combat.clock_hour(C, NOON, _hour(3)), 3)
+	assert_eq(Combat.clock_hour(C, NOON, C), 0, "le centre n'est pas une heure")
 
 
-func test_horloge_et_decalages() -> void:
+func test_cible_placee_a_midi() -> void:
 	var combat := _fight([C])
 	var dummy := combat.get_fighter("m0")
 	var events := _cast(combat, "horloge", C)
 	var glyph := Fixtures.of_type(events, Protocol.EVT_GLYPH)[0]
 	assert_eq(glyph["centre"], C)
+	assert_eq(glyph["midi"], NOON)
 	assert_eq(glyph["cases"].size(), 12)
+	assert_eq(dummy.cell, _hour(12), "la cible passe aussitôt à 12 h")
+	assert_eq(Fixtures.of_type(events, Protocol.EVT_TELEPORTED)[0]["heure"], 12)
+	assert_eq(dummy.next_turn_pa(), 6, "sans l'effet de 12 h à la pose")
 	assert_true(dummy.has_state(Spell.STATE_TIME_MANIPULATION), "état Manipulation du temps")
-	events = _cast(combat, "tic", C)
+
+
+func test_horloge_et_decalages() -> void:
+	var combat := _fight([C])
+	var dummy := combat.get_fighter("m0")
+	_cast(combat, "horloge", C)
+	var events := _cast(combat, "tic", dummy.cell)
 	var moved := Fixtures.of_type(events, Protocol.EVT_TELEPORTED)[0]
-	assert_eq(moved["heure"], 1, "depuis le centre, +1 h mène à 1 h")
-	assert_eq(dummy.cell, Combat.clock_cell(C, 1))
+	assert_eq(moved["heure"], 1, "de 12 h, +1 h mène à 1 h")
+	assert_eq(dummy.cell, _hour(1))
 	var damage := Fixtures.of_type(events, Protocol.EVT_DAMAGE)
 	assert_eq(damage.size(), 2, "les dégâts du sort, puis ceux de 1 h")
 	assert_eq(damage[1]["element"], "givre")
 	assert_eq(dummy.hp, 100 - 2 - 10)
 	_cast(combat, "tac", dummy.cell)
-	assert_eq(dummy.cell, Combat.clock_cell(C, 12), "−1 h : retour à 12 h")
+	assert_eq(dummy.cell, _hour(12), "−1 h : retour à 12 h")
 	assert_eq(dummy.next_turn_pa(), 5, "12 h : −1 PA")
 	_cast(combat, "contre", dummy.cell)
-	assert_eq(dummy.cell, Combat.clock_cell(C, 6), "+6 h : de l'autre côté")
+	assert_eq(dummy.cell, _hour(6), "+6 h : de l'autre côté")
 	assert_eq(dummy.next_turn_pm(), 2, "6 h : −1 PM")
 	_cast(combat, "tac", dummy.cell)
 	_cast(combat, "tac", dummy.cell)
-	assert_eq(dummy.cell, Combat.clock_cell(C, 4), "4 h (sans effet pour l'instant)")
+	assert_eq(dummy.cell, _hour(4), "4 h (sans effet pour l'instant)")
 	_cast(combat, "tic", dummy.cell)
 	assert_true(dummy.resistance("impie") < 0, "5 h : +10 % de dégâts Impie subis")
 
 
-func test_depuis_le_centre_en_arriere() -> void:
+func test_en_arriere_depuis_midi() -> void:
 	var combat := _fight([C])
 	_cast(combat, "horloge", C)
-	_cast(combat, "tac", C)
-	assert_eq(combat.get_fighter("m0").cell, Combat.clock_cell(C, 11), "−1 h depuis le centre : 11 h")
+	_cast(combat, "tac", _hour(12))
+	assert_eq(combat.get_fighter("m0").cell, _hour(11), "−1 h depuis 12 h : 11 h")
+
+
+func test_hors_du_cadran_on_part_de_midi() -> void:
+	var combat := _fight([C])
+	var dummy := combat.get_fighter("m0")
+	_cast(combat, "horloge", C)
+	dummy.cell = C  # Poussé au centre.
+	_cast(combat, "tic", C)
+	assert_eq(dummy.cell, _hour(1))
 
 
 func test_echange_de_place() -> void:
-	var one := Combat.clock_cell(C, 1)
+	var one := _hour(1)
 	var combat := _fight([C, one])
 	var other := combat.get_fighter("m1")
 	_cast(combat, "horloge", C)
-	var events := _cast(combat, "tic", C)
+	var events := _cast(combat, "tic", _hour(12))
 	assert_eq(Fixtures.of_type(events, Protocol.EVT_TELEPORTED).size(), 2)
 	assert_eq(combat.get_fighter("m0").cell, one)
-	assert_eq(other.cell, C, "l'occupant prend la place de la cible")
+	assert_eq(other.cell, _hour(12), "l'occupant prend la place de la cible")
 	assert_eq(other.hp, 100, "seule la cible subit l'heure")
 
 
 func test_obstacle_saute() -> void:
-	var combat := _fight([C], {Combat.clock_cell(C, 1): "R"})
-	_cast(combat, "horloge", C)
+	var combat := _fight([C], {_hour(1): "R"})
 	assert_eq(Fixtures.of_type(_cast(combat, "horloge", C), Protocol.EVT_GLYPH)[0]["cases"].size(), 11, "pas d'heure sur le rocher")
-	_cast(combat, "tic", C)
-	assert_eq(combat.get_fighter("m0").cell, Combat.clock_cell(C, 2), "1 h bloquée : 2 h")
+	_cast(combat, "tic", _hour(12))
+	assert_eq(combat.get_fighter("m0").cell, _hour(2), "1 h bloquée : 2 h")
+
+
+func test_une_horloge_par_cible() -> void:
+	var combat := _fight([C])
+	var dummy := combat.get_fighter("m0")
+	_cast(combat, "horloge", C)
+	_cast(combat, "horloge", dummy.cell)
 	assert_eq(combat.glyphs.size(), 1, "une nouvelle horloge remplace l'ancienne")
+	assert_eq(combat.glyphs[0]["horloge"]["centre"], C + NOON)
 
 
 func test_sans_horloge() -> void:
@@ -152,17 +185,17 @@ func test_apercu_de_l_arrivee() -> void:
 	var combat := _fight([C])
 	var player := combat.get_fighter(Fixtures.PLAYER)
 	_cast(combat, "horloge", C)
-	var preview := combat.spell_preview(player, player.get_spell("tac"), C)
+	var preview := combat.spell_preview(player, player.get_spell("tac"), _hour(12))
 	assert_eq(preview["m0"]["heure"], 11)
-	assert_eq(preview["m0"]["arrivee"], Combat.clock_cell(C, 11))
+	assert_eq(preview["m0"]["arrivee"], _hour(11))
 
 
 func test_insoignable_et_degats_infliges() -> void:
 	var combat := _fight([C])
 	var dummy := combat.get_fighter("m0")
 	_cast(combat, "horloge", C)
-	_cast(combat, "tac", C)
-	assert_eq(dummy.cell, Combat.clock_cell(C, 11))
+	_cast(combat, "tac", _hour(12))
+	assert_eq(dummy.cell, _hour(11))
 	assert_eq(Combat.damage_value(dummy, combat.get_fighter(Fixtures.PLAYER), "acier", 10), 5, "11 h : −50 % (test)")
 	_cast(combat, "tac", dummy.cell)
 	assert_true(dummy.has_state(Spell.STATE_UNHEALABLE), "10 h : insoignable")
@@ -195,6 +228,16 @@ func test_instantane() -> void:
 	assert_eq(saved["glyphes"][0]["horloge"]["centre"], C, "le centre redevient une case")
 
 
+func test_portee_fixe() -> void:
+	var combat := _fight([C])
+	var player := combat.get_fighter(Fixtures.PLAYER)
+	var spell := Spell.from_dict({"id": "x", "nom": "X", "cout_pa": 1, "portee": {"min": 3, "max": 3},
+		"portee_fixe": true, "effets": [{"type": "degats", "element": "impie", "min": 1, "max": 1}]})
+	player.range_bonus = 2
+	assert_eq(combat.max_range(player, spell), 3, "le bonus de portée ne compte pas")
+	assert_true(spell.mastered(3).fixed_range)
+
+
 func test_validation() -> void:
 	var base := {"id": "x", "nom": "X", "cout_pa": 1, "portee": {"min": 0, "max": 0}}
 	var bad := base.duplicate()
@@ -220,7 +263,11 @@ func test_kit_du_chronomancien() -> void:
 		for effect: Dictionary in (data.spells[spell_id] as Spell).effects:
 			if effect.has("element"):
 				assert_eq(effect["element"], "impie", "Voie Impie : " + spell_id)
-	var clock: Dictionary = (data.spells["chronomancien_horloge"] as Spell).effects[1]
+	var horloge: Spell = data.spells["chronomancien_horloge"]
+	assert_eq([horloge.range_min, horloge.range_max], [3, 3], "la 3e case")
+	assert_true(horloge.cast_in_line, "en ligne, sans diagonale")
+	assert_true(horloge.fixed_range, "portée non modifiable")
+	var clock: Dictionary = horloge.effects[1]
 	assert_eq(clock["type"], Spell.EFFECT_CLOCK)
 	assert_eq(clock["heures"].size(), 12, "les 12 heures")
 	for hour in ["3", "4", "9"]:

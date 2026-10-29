@@ -44,6 +44,8 @@ static func describe(spell: Spell) -> PackedStringArray:
 		notes.append("en ligne")
 	if not spell.needs_line_of_sight and spell.range_max > 0:
 		notes.append("sans ligne de vue")
+	if spell.fixed_range:
+		notes.append("portée non modifiable")
 	lines.append("Coût : %d PA — Portée : %s%s" % [spell.pa_cost, reach, "" if notes.is_empty() else " (%s)" % ", ".join(notes)])
 	lines.append_array(effect_lines(spell.effects))
 	if spell.zone_type == Spell.ZONE_CIRCLE:
@@ -121,7 +123,7 @@ static func effect_lines(effects: Array, indent := "") -> PackedStringArray:
 			Spell.EFFECT_STATE:
 				line = "État %s (%s)" % [MapView.STATE_NAMES.get(effect["etat"], effect["etat"]), duration]
 			Spell.EFFECT_CLOCK:
-				line = "Horloge : cadran de 12 cases autour de la cible, état Manipulation du temps (%s, ne peut pas être retiré) ; quand un sort la décale, l'heure d'arrivée lui applique :" % duration
+				line = "Horloge : cadran de 12 cases autour de la cible, 12 h dans la direction du lancer ; la cible passe aussitôt à 12 h, état Manipulation du temps (%s, ne peut pas être retiré) ; quand un sort la décale, l'heure d'arrivée lui applique :" % duration
 				for hour in range(1, 13):
 					var hour_lines := effect_lines(effect["heures"].get(str(hour), []))
 					line += "\n    · %d h : %s" % [hour, " ; ".join(hour_lines) if not hour_lines.is_empty() else "sans effet pour l'instant"]

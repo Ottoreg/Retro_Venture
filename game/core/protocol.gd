@@ -518,7 +518,7 @@ const REASON_NOT_IN_LINE := "pas_en_ligne"
 # --- Sérialisation JSON (réseau) ---
 
 ## Champs qui contiennent une case (`Vector2i`, écrite [x, y]), où qu'ils soient dans le message.
-const CELL_FIELDS := ["case", "cible", "position", "depuis", "interrompre_a", "foyer", "centre"]
+const CELL_FIELDS := ["case", "cible", "position", "depuis", "interrompre_a", "foyer", "centre", "midi"]
 ## Champs qui contiennent une liste de cases (`Array[Vector2i]`).
 const CELL_LIST_FIELDS := ["chemin", "cases", "placement", "epuisees"]
 ## Vérification des allers-retours en JSON de toutes les commandes et de tous les événements du

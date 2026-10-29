@@ -145,6 +145,8 @@ def caracteristiques_sort(s):
         morceaux.append("sans ligne de vue")
     if s.get("lancer_en_ligne"):
         morceaux.append("en ligne")
+    if s.get("portee_fixe"):
+        morceaux.append("portée non modifiable")
     relance = s.get("relance", {})
     if relance.get("par_tour"):
         morceaux.append("%d/tour" % relance["par_tour"])

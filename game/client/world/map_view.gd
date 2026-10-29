@@ -1658,7 +1658,9 @@ func _apply(event: Dictionary) -> float:
 		_glyphs[event["id"]] = {"cases": event["cases"], "equipe": event["equipe"], "sort": event["sort"],
 			"lanceur": event["lanceur"], "element": event.get("element", "")}
 		if event.has("centre"):
-			_glyphs[event["id"]]["centre"] = event["centre"]  # Horloge : les heures se dessinent dessus.
+			# Horloge : les heures se dessinent dessus.
+			_glyphs[event["id"]]["centre"] = event["centre"]
+			_glyphs[event["id"]]["midi"] = event["midi"]
 		return 0.2
 	if type == Protocol.EVT_GLYPH_ENDED:
 		_glyphs.erase(event["id"])
@@ -2141,7 +2143,7 @@ func _draw_ground_marks() -> void:
 			diamond.append(diamond[0])
 			draw_polyline(diamond, colors[1], 2.0)
 		if glyph.has("centre"):
-			_draw_clock_hours(glyph["centre"], glyph["cases"])
+			_draw_clock_hours(glyph["centre"], glyph["midi"], glyph["cases"])
 	for trap: Dictionary in _traps.values():
 		var center := IsoGrid.cell_to_screen(trap["case"])
 		for i in 5:
@@ -2156,10 +2158,10 @@ func _draw_ground_marks() -> void:
 
 
 ## Heures d'une horloge (Chronomancien), écrites droites sur chaque case du cadran.
-func _draw_clock_hours(center: Vector2i, cells: Array) -> void:
+func _draw_clock_hours(center: Vector2i, noon: Vector2i, cells: Array) -> void:
 	var font := ThemeDB.fallback_font
 	for hour in range(1, 13):
-		var cell := Combat.clock_cell(center, hour)
+		var cell := Combat.clock_cell(center, noon, hour)
 		if cell not in cells:
 			continue
 		var text_pos := IsoGrid.cell_to_screen(cell) + Vector2(-16, 5)

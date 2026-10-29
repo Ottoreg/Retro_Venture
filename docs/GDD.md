@@ -346,15 +346,18 @@ l'Arcaniste, dont le kit est entièrement remplacé.
 | **Théologue** | Retrait des états | *Absolution* : 3 PA, 0 à 5 cases, relance 2 tours ; retire aux ennemis leurs bonus, aux alliés leurs malus et leurs poisons |
 
 **Chronomancien de l'alpha 1** (Voie Impie seulement, demandé par l'auteur le 29/10/2026 ; la Voie
-Givre viendra plus tard) : *Horloge* pose un **cadran** au sol autour d'un ennemi (les 12 cases à
-2 pas, sans les coins du carré 5 × 5), qui passe dans l'état **Manipulation du temps** (3 tours, ne
-peut pas être retiré). Les heures se lisent **à l'écran**, droites et dans le sens des aiguilles
-d'une montre : 12 h est la case juste à droite du haut, 6 h juste à gauche du bas
-(`Combat.CLOCK_OFFSETS`). Ses autres sorts font des dégâts Impie **avec ou sans cadran**, et
-décalent la cible sur son horloge : au centre, elle part de midi. Si la case d'arrivée est occupée
-par un combattant, ils **échangent leurs places** ; si c'est un obstacle (ou hors de la carte), la
-cible va à l'heure suivante dans le sens du décalage. L'heure atteinte applique son effet à la
-cible :
+Givre viendra plus tard) : *Horloge* vise un ennemi **à exactement 3 cases en ligne** (la 3e case
+dans l'une des 4 directions, jamais en diagonale ; portée non modifiable, champ `portee_fixe`) et pose
+un **cadran** au sol autour de lui (les 12 cases à 2 pas, sans les coins du carré 5 × 5). Le cadran
+**s'oriente selon le lanceur** : 12 h est dans la direction où il regarde en lançant (s'il regarde
+vers le sud-est, 12 h est au sud-est de la cible), puis les heures tournent dans le sens des aiguilles
+d'une montre vu à l'écran (`Combat.CLOCK_RING`, `clock_noon`) ; les chiffres sont écrits droits. La
+cible est **aussitôt envoyée sur 12 h** (sans l'effet de 12 h) et passe dans l'état **Manipulation du
+temps** (3 tours, ne peut pas être retiré). Ses autres sorts font des dégâts Impie **avec ou sans
+cadran**, et décalent la cible sur son horloge (si elle en a été poussée, elle repart de midi). Si
+la case d'arrivée est occupée par un combattant, ils **échangent leurs places** ; si c'est un
+obstacle (ou hors de la carte), la cible va à l'heure suivante dans le sens du décalage. L'heure
+atteinte applique son effet à la cible :
 
 | Heure | Effet | Heure | Effet |
 |---|---|---|---|
@@ -371,7 +374,7 @@ retours) :
 
 | Sort | PA | Portée | Effet |
 |---|---|---|---|
-| *Horloge* | 3 | 1 à 5, ligne de vue | 3 à 5 Impie, horloge 3 tours (1 fois par tour, relance 2 tours) |
+| *Horloge* | 3 | 3 exactement, en ligne, ligne de vue, non modifiable | 3 à 5 Impie, horloge 3 tours, cible envoyée à 12 h (1 fois par tour, relance 2 tours) |
 | *Tic* / *Tac* | 2 | 1 à 5, ligne de vue | 4 à 6 Impie, +1 h / −1 h (2 fois par tour) |
 | *Avance rapide* / *Retour en arrière* | 4 | 1 à 4, ligne de vue | 9 à 12 Impie, +3 h / −3 h (1 fois par tour) |
 | *Contretemps* | 3 | 1 à 3, ligne de vue | 6 à 8 Impie, +6 h, de l'autre côté du cadran (+6 h et −6 h mènent à la même heure ; relance 2 tours) |

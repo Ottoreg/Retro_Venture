@@ -92,8 +92,9 @@ temps : chaque camp a sa propre histoire.
     couleur de vos états (orange : Flamme, bleu : Givre) ; ils s'affichent aussi au survol de
     votre personnage et dans l'historique. On dit
     qu'un troisième élément compléterait la formule…
-  - **Chronomancien** (nouveau, dégâts Impie : Agilité et Perception) : *Horloge* dessine un
-    **cadran** de 12 cases autour d'un ennemi, heures écrites au sol (12 h en haut à droite). *Tic*
+  - **Chronomancien** (nouveau, dégâts Impie : Agilité et Perception) : *Horloge* vise un ennemi à
+    exactement 3 cases en ligne, dessine un **cadran** de 12 cases autour de lui (12 h dans la
+    direction où vous lancez, heures écrites au sol) et l'envoie aussitôt sur 12 h. *Tic*
     et *Tac* (±1 h), *Avance rapide* et *Retour en arrière* (±3 h) et *Contretemps* (+6 h) blessent
     toujours, et font tourner la cible sur son cadran : chaque heure lui inflige son effet (−1 PA à
     12 h, −1 PM à 6 h, dégâts ou poison de Givre et de Tempête, insoignable à 10 h, plus de dégâts

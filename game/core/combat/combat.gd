@@ -14,11 +14,11 @@ const MAX_AI_ACTIONS := 20
 const MAX_ROUNDS := 200
 ## Dégâts de choc par case de poussée non parcourue (obstacle, bord ou combattant sur le chemin).
 const PUSH_DAMAGE_PER_CELL := 4
-## Cadran d'une horloge (Chronomancien, GDD § 4.3) : case de chaque heure, de 1 h à 12 h, par rapport
-## au centre. Ce sont les 12 cases à 2 pas de la cible sans les coins du carré 5 × 5, rangées dans le
-## sens des aiguilles d'une montre tel qu'on le voit à l'écran (isométrique) : 12 h est la case juste
-## à droite du haut, 3 h à droite, 6 h juste à gauche du bas, 9 h à gauche.
-const CLOCK_OFFSETS: Array[Vector2i] = [Vector2i(0, -2), Vector2i(1, -2), Vector2i(2, -1), Vector2i(2, 0),
+## Cadran d'une horloge (Chronomancien, GDD § 4.3) : les 12 cases à 2 pas de la cible, sans les coins
+## du carré 5 × 5, par rapport au centre, rangées dans le sens des aiguilles d'une montre tel qu'on
+## le voit à l'écran (isométrique). Le cadran s'oriente selon le lanceur : 12 h est la case à 2 pas du
+## centre dans la direction où il regarde en lançant (vers la cible), et les heures suivent ce sens.
+const CLOCK_RING: Array[Vector2i] = [Vector2i(0, -2), Vector2i(1, -2), Vector2i(2, -1), Vector2i(2, 0),
 	Vector2i(2, 1), Vector2i(1, 2), Vector2i(0, 2), Vector2i(-1, 2), Vector2i(-2, 1), Vector2i(-2, 0), Vector2i(-2, -1),
 	Vector2i(-1, -2)]
 
@@ -328,9 +328,10 @@ func charge_path(fighter: Fighter, target: Vector2i, origin := Vector2i(-99999, 
 	return path
 
 
-## Portée maximale réelle : les sorts à distance (portée de 2 ou plus) profitent des bonus de portée.
+## Portée maximale réelle : les sorts à distance (portée de 2 ou plus) profitent des bonus de portée,
+## sauf à portée fixe.
 func max_range(fighter: Fighter, spell: Spell) -> int:
-	return spell.range_max + (fighter.total_range_bonus() if spell.range_max >= 2 else 0)
+	return spell.range_max + (fighter.total_range_bonus() if spell.range_max >= 2 and not spell.fixed_range else 0)
 
 
 ## Cases à portée du sort, avec et sans ligne de vue (pour l'affichage).
@@ -657,7 +658,7 @@ func _apply_effect(caster: Fighter, target: Fighter, effect: Dictionary, events:
 			_add_state(target, {"type": Spell.EFFECT_STATE, "etat": effect["etat"], "valeur": 0, "tours": effect["duree"],
 				"sort": source, "lanceur": caster.id, "retirable": removable}, events)
 		Spell.EFFECT_CLOCK:
-			_place_clock(caster, target, effect, source, events)
+			_place_clock(caster, target, effect, from, source, events)
 		Spell.EFFECT_CLOCK_SHIFT:
 			_shift_on_clock(target, int(effect["heures"]), events)
 		Spell.EFFECT_ELEMENT_STATE:
@@ -925,63 +926,89 @@ func clock_of(fighter: Fighter) -> Dictionary:
 	return {}
 
 
-## Heure de `cell` sur le cadran centré en `center` (1 à 12), 0 hors du cadran.
-static func clock_hour(center: Vector2i, cell: Vector2i) -> int:
-	return CLOCK_OFFSETS.find(cell - center) + 1
+## Heure de `cell` (1 à 12) sur le cadran centré en `center` dont midi est à `noon` (décalage depuis
+## le centre, l'une des 4 cases à 2 pas en ligne) ; 0 hors du cadran.
+static func clock_hour(center: Vector2i, noon: Vector2i, cell: Vector2i) -> int:
+	var index := CLOCK_RING.find(cell - center)
+	if index < 0:
+		return 0
+	var hour := posmod(index - CLOCK_RING.find(noon), 12)
+	return 12 if hour == 0 else hour
 
 
-## Case de l'heure `hour` (1 à 12) du cadran centré en `center`.
-static func clock_cell(center: Vector2i, hour: int) -> Vector2i:
-	return center + CLOCK_OFFSETS[(hour - 1) % 12]
+## Case de l'heure `hour` (1 à 12) du cadran centré en `center` dont midi est à `noon`.
+static func clock_cell(center: Vector2i, noon: Vector2i, hour: int) -> Vector2i:
+	return center + CLOCK_RING[posmod(CLOCK_RING.find(noon) + hour, 12)]
 
 
-## Pose l'horloge de `effect` autour de `target` (qui en change si elle en avait une).
-func _place_clock(caster: Fighter, target: Fighter, effect: Dictionary, source: String, events: Array[Dictionary]) -> void:
+## Midi d'une horloge posée par un lanceur en `from` sur une cible en `center` : à 2 pas du centre,
+## dans la direction du lancer.
+static func clock_noon(from: Vector2i, center: Vector2i) -> Vector2i:
+	return Spell.direction(from, center) * 2
+
+
+## Pose l'horloge de `effect` autour de `target` (qui en change si elle en avait une), orientée par la
+## direction du lancer depuis `from`, puis place aussitôt la cible à 12 h (sans effet d'heure).
+func _place_clock(caster: Fighter, target: Fighter, effect: Dictionary, from: Vector2i, source: String,
+		events: Array[Dictionary]) -> void:
 	var old := clock_of(target)
 	if not old.is_empty():
 		_end_glyph(old, events)
 	var center := target.cell
+	var noon := clock_noon(from, center)
 	var cells: Array[Vector2i] = []
-	for offset in CLOCK_OFFSETS:
+	for offset in CLOCK_RING:
 		if map.is_inside(center + offset) and map.is_walkable_in_combat(center + offset):
 			cells.append(center + offset)
 	var glyph := {"id": _next_ground_id, "lanceur": caster, "equipe": caster.team, "cases": cells, "effets": [],
 		"tours": int(effect["duree"]), "sort": source, "pa": 0.0,
-		"horloge": {"centre": center, "cible": target.id, "heures": effect["heures"].duplicate(true)}}
+		"horloge": {"centre": center, "midi": noon, "cible": target.id, "heures": effect["heures"].duplicate(true)}}
 	_next_ground_id += 1
 	glyphs.append(glyph)
 	events.append({"type": Protocol.EVT_GLYPH, "id": glyph["id"], "lanceur": caster.id, "equipe": caster.team,
-		"cases": cells, "tours": glyph["tours"], "sort": source, "element": "impie", "centre": center, "cible": target.id})
+		"cases": cells, "tours": glyph["tours"], "sort": source, "element": "impie", "centre": center, "midi": noon,
+		"cible": target.id})
 	_add_state(target, {"type": Spell.EFFECT_STATE, "etat": Spell.STATE_TIME_MANIPULATION, "valeur": 0,
 		"tours": int(effect["duree"]), "sort": source, "lanceur": caster.id, "retirable": false}, events)
+	_move_on_clock(target, _clock_arrival(target, glyph, 12, 1), false, events)
 
 
 ## Case où un décalage de `hours` heures enverrait `target` sur son horloge (sa case s'il n'a pas
 ## d'horloge ou si aucune heure n'est praticable), et l'heure atteinte (0 si rien ne bouge). Hors du
-## cadran (au centre, ou poussée ailleurs), la cible part de midi : +1 h l'envoie à 1 h, −1 h à 11 h.
-## Une heure hors de la carte ou sur un obstacle est sautée (heure suivante dans le sens du décalage).
+## cadran (poussée ailleurs), la cible part de midi : +1 h l'envoie à 1 h, −1 h à 11 h.
 func clock_destination(target: Fighter, hours: int) -> Dictionary:
 	var clock := clock_of(target)
 	if clock.is_empty() or hours == 0:
 		return {"case": target.cell, "heure": 0}
+	var start := clock_hour(clock["horloge"]["centre"], clock["horloge"]["midi"], target.cell)
+	return _clock_arrival(target, clock, posmod((start if start > 0 else 12) + hours - 1, 12) + 1, signi(hours))
+
+
+## Première heure praticable à partir de `hour` sur l'horloge `clock`, en avançant de `step` (±1) : une
+## heure hors de la carte ou sur un obstacle est sautée. { case, heure } ; heure 0 si rien ne bouge.
+func _clock_arrival(target: Fighter, clock: Dictionary, hour: int, step: int) -> Dictionary:
 	var center: Vector2i = clock["horloge"]["centre"]
-	var start := clock_hour(center, target.cell)
-	var hour := posmod((start if start > 0 else 12) + hours - 1, 12) + 1
+	var noon: Vector2i = clock["horloge"]["midi"]
 	for i in 12:
-		var cell := clock_cell(center, hour)
+		var cell := clock_cell(center, noon, hour)
 		if cell == target.cell:
 			break
 		if map.is_inside(cell) and map.is_walkable_in_combat(cell):
 			return {"case": cell, "heure": hour}
-		hour = posmod(hour - 1 + signi(hours), 12) + 1
+		hour = posmod(hour - 1 + step, 12) + 1
 	return {"case": target.cell, "heure": 0}
 
 
-## Décale `target` sur son horloge (voir `clock_destination`). Un combattant sur la case d'arrivée
-## échange sa place avec lui. Les effets de l'heure atteinte s'appliquent ensuite à la cible, avec
-## le poseur de l'horloge pour lanceur. Un piège ennemi sur une case d'arrivée se déclenche.
+## Décale `target` sur son horloge (voir `clock_destination`) et lui applique l'heure atteinte.
 func _shift_on_clock(target: Fighter, hours: int, events: Array[Dictionary]) -> void:
-	var arrival := clock_destination(target, hours)
+	_move_on_clock(target, clock_destination(target, hours), true, events)
+
+
+## Envoie `target` sur la case de `arrival` ({ case, heure }, rien si heure 0). Un combattant sur la
+## case d'arrivée échange sa place avec lui ; un piège ennemi sur une case d'arrivée se déclenche.
+## Avec `hour_effects`, les effets de l'heure atteinte s'appliquent ensuite à la cible, avec le poseur
+## de l'horloge pour lanceur.
+func _move_on_clock(target: Fighter, arrival: Dictionary, hour_effects: bool, events: Array[Dictionary]) -> void:
 	var hour: int = arrival["heure"]
 	if hour == 0:
 		return
@@ -999,6 +1026,8 @@ func _shift_on_clock(target: Fighter, hours: int, events: Array[Dictionary]) -> 
 			var trap := enemy_trap_at(moved.cell, moved)
 			if not trap.is_empty():
 				_trigger_trap(trap, moved, events)
+	if not hour_effects:
+		return
 	var caster: Fighter = clock["lanceur"]
 	for effect: Dictionary in clock["horloge"]["heures"].get(str(hour), []):
 		if target.is_alive() and Spell.affects(effect, caster, target):

@@ -62,7 +62,7 @@ const EFFECT_REMOVE_STATES := "retrait_etats"
 ## Horloge (Chronomancien) : pose un cadran au sol autour de la cible, qui passe dans l'état
 ## « manipulation_temps » pendant `duree` tours (non retirable). `heures` : { "1" … "12" : effets
 ## appliqués à la cible quand un décalage l'amène sur cette heure } (liste vide : sans effet). Une
-## seule horloge par cible : une nouvelle remplace l'ancienne. Voir `Combat.CLOCK_OFFSETS`.
+## seule horloge par cible : une nouvelle remplace l'ancienne. Voir `Combat.CLOCK_RING`.
 const EFFECT_CLOCK := "horloge"
 ## Décale la cible de `heures` heures sur son horloge (négatif : en arrière) ; sans effet sans
 ## horloge. Voir `Combat._shift_on_clock`.
@@ -128,6 +128,8 @@ var range_max: int
 var needs_line_of_sight: bool
 ## La cible doit être sur la même ligne ou la même colonne que le lanceur.
 var cast_in_line: bool
+## Portée non modifiable (« portee_fixe ») : les bonus de portée ne s'y ajoutent pas.
+var fixed_range: bool
 var zone_type: String
 ## Rayon de la zone (distance de Manhattan) pour une zone en cercle.
 var zone_size: int
@@ -316,6 +318,7 @@ static func from_dict(data: Dictionary) -> Spell:
 	spell.range_max = int(data["portee"]["max"])
 	spell.needs_line_of_sight = bool(data.get("ligne_de_vue", true))
 	spell.cast_in_line = bool(data.get("lancer_en_ligne", false))
+	spell.fixed_range = bool(data.get("portee_fixe", false))
 	var zone: Dictionary = data.get("zone", {"type": ZONE_CELL})
 	spell.zone_type = zone["type"]
 	spell.zone_size = int(zone.get("taille", 0))
@@ -340,7 +343,7 @@ func mastered(level: int) -> Spell:
 		return self
 	var copy := Spell.new()
 	for property in ["id", "display_name", "description", "pa_cost", "range_min", "range_max", "needs_line_of_sight",
-			"cast_in_line", "zone_type", "zone_size", "excludes_caster", "casts_per_turn", "cooldown", "crit_chance"]:
+			"cast_in_line", "fixed_range", "zone_type", "zone_size", "excludes_caster", "casts_per_turn", "cooldown", "crit_chance"]:
 		copy.set(property, get(property))
 	copy.mastery = mastery
 	copy.rank = level
