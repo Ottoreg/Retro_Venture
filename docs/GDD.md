@@ -2,7 +2,7 @@
 
 > **Version :** 0.1 (document de cadrage)
 > **Statut :** brouillon vivant, à faire évoluer à chaque jalon
-> **Dernière mise à jour :** 2026-10-12
+> **Dernière mise à jour :** 2026-10-30
 
 Tous les noms propres de ce document (monde, lieux, peuples, personnages) sont **provisoires**.
 Voir [§ 15 Propriété intellectuelle](#15-propriété-intellectuelle) avant de les figer.
@@ -253,12 +253,14 @@ les références.
 
 Le joueur choisit : **race**, **Voie de départ** (classe), **sexe/apparence** (couleurs, quelques
 variantes de tête), **nom**. Race et classe sont indépendantes : toute combinaison est autorisée.
-Un personnage garde **une seule classe** (décision de l'auteur, 25/10/2026 ; § 5).
+Un personnage a **une seule classe active à la fois**, changée hors combat ; une autre classe
+s'ouvre à un palier de réputation (refonte du 29/10/2026, § 4.5 et § 5). On commence sans
+équipement, avec 20 brumes.
 
 ### 4.2 Races
 
-Une race apporte : un bonus de caractéristiques, un passif racial et un sort racial. Elle ne bloque
-aucune classe. L'impact doit rester modéré (environ 5 à 10 % de puissance) pour ne pas imposer de
+Une race apporte un passif racial et un sort racial (plus de bonus de caractéristiques depuis le
+29/10/2026, plus bas). Elle ne bloque aucune classe. L'impact doit rester modéré (environ 5 à 10 % de puissance) pour ne pas imposer de
 combinaisons « optimales ».
 
 **Les 9 races du jeu** (validées) : trois par camp (voir § 3.4). Une par camp dès l'alpha, les six
@@ -320,7 +322,7 @@ sexes × équipements × animations) impose de s'en tenir à ces 9.
 | **Chronomancien** | Contrôle, mi-distance | Impie (Agilité + Perception) | Horloge : la cible tourne sur un cadran, chaque heure a son effet (détails plus bas) |
 
 Le **Théologue** est jouable dans l'alpha (✅) : une classe de soin rend le solo plus confortable et
-permet de tester le Sacré dès maintenant. Son arme d'apprentissage : le Sceptre de novice (Sacré,
+permet de tester le Sacré dès maintenant. Son arme de départ prévue : le Sceptre de novice (Sacré,
 4 à 7 ; plus d'équipement de départ depuis le 29/10/2026, il s'achète ou se trouve). Ses
 4 sorts sont tous Sacrés (ils grandissent avec la Force et l'Intelligence) :
 
@@ -606,16 +608,17 @@ pulsions temporelles différées.
 | Carac. | Effet |
 |---|---|
 | **Vitalité** | Points de vie |
-| **Sagesse** | *Supprimée à l'alpha 2* (plus d'XP de niveau). Alpha 1 : bonus d'XP |
 | **Force** | Dégâts, soins et boucliers Acier (physique) |
 | **Intelligence** | Dégâts, soins et boucliers Flamme |
 | **Perception** | Dégâts, soins et boucliers Givre (ancienne Chance, sans effet sur la prospection) |
 | **Agilité** | Dégâts, soins et boucliers Tempête ; esquive, initiative |
 
-**Refonte du 29/10/2026 (alpha 2, § 4.5)** : la **Chance devient la Perception** (nom seulement :
-même rôle pour le Givre et l'Impie ; les données et le code de l'alpha 1 disent encore `chance`) et
-**ne donne plus de prospection** ; la **Sagesse est supprimée**. Ses lignes sur les objets, les
-ressources et les montures seront converties au lot des objets (les bonus de race n'existent plus) ; la résistance au retrait de PA/PM qu'on lui prévoyait deviendra une statistique d'objet.
+**Refonte du 29/10/2026 (§ 4.5, faite sur `main`)** : la **Chance devient la Perception** (même
+rôle pour le Givre et l'Impie ; `perception` dans les données et le code depuis le lot 1) et **ne
+donne plus de prospection** ; la **Sagesse est supprimée** (ses lignes d'objets converties en
+prospection au lot 1) ; la résistance au retrait de PA/PM qu'on lui prévoyait deviendra une
+statistique d'objet. Les mentions de la Sagesse qui restent dans la conception des métiers et des
+chefs-d'œuvre (§ 10.3, § 10.4) sont à remplacer, au choix de l'auteur.
 La prospection vient de sa base (100), de l'équipement, du passif de race et d'autres mécaniques à
 définir (Fétiches § 7.6, consommables). Les caractéristiques se gagnent par la pratique, avec un
 plafond (§ 4.5).
@@ -663,19 +666,20 @@ ajoutent 5 dégâts à chaque ligne de dégâts de n'importe quel sort ou arme, 
   Sacré et l'Impie). Ni résistance ni Dommages ne s'y appliquent.
 - Bouclier : points qui absorbent les dégâts reçus avant les PV ; plusieurs boucliers s'additionnent ;
   ce qui reste disparaît au début du prochain tour du porteur.
-- PV max = PV de la Voie + 5 par niveau au-delà du 1er + Vitalité (alpha 2 : PV de la Voie +
-  Vitalité, § 4.5).
-- Initiative = initiative de la Voie + Force + Intelligence + Perception + Agilité (pas Vitalité ni Sagesse)
-  + bonus d'équipement. Alpha 1 : XP gagnée × (100 + Sagesse) %, y compris pour les monstres
-  vaincus avant une défaite.
+- PV max = PV de la Voie + Vitalité (plus de PV par niveau depuis la refonte, § 4.5).
+- Initiative = initiative de la Voie + Force + Intelligence + Perception + Agilité (pas la Vitalité)
+  + bonus d'équipement.
+- Prospection = 100 + bonus d'équipement + passif de race (Gobelin : +20) ; aucune caractéristique
+  ne la change (`Character.prospection`).
 - Les bonus des objets équipés s'ajoutent aux caractéristiques (et à PA, PM, portée, initiative,
   prospection).
 - Les races ne donnent plus de caractéristiques (29/10/2026) : seulement leur passif et leur sort.
 
 ### 4.5 Progression : réputation et maîtrises
 
-**Refonte décidée par l'auteur le 29/10/2026, cible de l'alpha test 2.** Il n'y a plus de niveau de
-personnage, ni de niveau d'arme, ni de niveau de métier. Un personnage se distingue par ses
+**Refonte décidée par l'auteur le 29/10/2026, cible de l'alpha test 2 ; lots 0 à 3 déjà faits sur
+`main` (le personnage n'a plus de niveau dans le jeu actuel, les métiers gardent le leur jusqu'au
+lot 4).** Il n'y a plus de niveau de personnage, ni de niveau d'arme, ni de niveau de métier. Un personnage se distingue par ses
 **maîtrises** et sa **réputation** dans chaque classe et chaque métier qu'il pratique, par ses
 caractéristiques et par son équipement. L'ancien système (niveaux 1 à 30) est décrit en fin de
 section ; partout où ce document parle encore du niveau du personnage, d'un niveau requis ou d'un
@@ -724,7 +728,6 @@ difficulté**, qui compare la menace des monstres à la force du joueur, pour qu
   interpolé entre les points (0,4 → ×0,1), (1 → ×0,5), (2 → ×1), (3 et plus → ×1,5). Le niveau
   équivalent suit l'ancienne courbe d'XP sans le ×3,5 (Compagnon ≈ niveau 13, la fin des zones de
   départ).
-  en dessous ×0,5 ; très en dessous ×0,1 (presque rien). Formule exacte au lot 2, par simulation.
 
 #### Ce qui fait progresser en combat
 
@@ -746,9 +749,9 @@ difficulté**, qui compare la menace des monstres à la force du joueur, pour qu
 - Cinq caractéristiques : **Vitalité, Force, Intelligence, Perception** (ancienne Chance) et
   **Agilité** ; la **Sagesse est supprimée** (§ 4.4).
 - Elles montent **par la pratique** (tableau ci-dessus) et plus lentement à l'approche du
-  **plafond** (piste : 100 points gagnés par caractéristique, Vitalité plus haut puisque 1 point =
-  1 PV ; à régler). **Plafond fixé à 300 pour chaque caractéristique** (décision de l'auteur du
-29/10/2026) ; équipement et panoplies s'ajoutent au-dessus du plafond, les races ne donnent rien.
+  **plafond** : **300 points gagnés pour chaque caractéristique**, Vitalité comprise (décision de
+  l'auteur du 29/10/2026, `Character.STAT_CAP`) ; équipement et panoplies s'ajoutent au-dessus du
+  plafond, les races ne donnent rien.
 - Elles appartiennent au **personnage**, pas à la classe : passer d'un Guerrier (Acier) à un Rôdeur
   (Acier / Tempête) garde la Force, il faut monter l'Agilité ; passer à un Arcaniste (Flamme / Givre)
   repart de zéro pour l'Intelligence et la Perception.
@@ -788,6 +791,14 @@ palier Compagnon vise la fin des zones de départ (≈ 4 à 5 h de jeu).
 | Tourbillon | 4 PA, autour de soi, 7–10 Acier | repousse d'une case | zone de taille 2 |
 | Second souffle | 2 PA, soin Acier 12–18, délai 3 | délai 2 | bouclier Acier égal à la moitié du soin |
 | Charge | 3 PA, portée 2–4, 6–9 Acier, délai 2 | portée 2–5 | délai 1 |
+| Cri de guerre (rang II, Compagnon) | 3 PA, Dommages +4–6 aux alliés à 2 cases pendant 2 tours, délai 4 | délai 3 | zone de taille 3 |
+| Fendoir (rang II, Vétéran) | 5 PA, mêlée, 16–22 Acier | +5 % de critique | coûte 4 PA |
+
+**Chronomancien** (rangs de maîtrise proposés avec la classe le 29/10/2026, à équilibrer) : rang 3,
++5 % de critique pour tous ses sorts ; rang 5, *Avance rapide* et *Retour en arrière* coûtent 3 PA,
+*Contretemps* passe à 1 tour de délai, les autres gagnent encore +5 % de critique. Pas encore de
+sorts de rang II. Arcaniste, Rôdeur et Théologue n'ont que le +10 % par rang (pas d'effet de rang 3
+ou 5).
 
 #### Métiers
 
@@ -800,7 +811,8 @@ difficulté venant de la rareté des ressources.
 `Character.classes` (réputation, points de maîtrise et rangs des sorts par classe), `earned`
 (caractéristiques gagnées, plafonds 100 et 300 pour la Vitalité), paliers et points de maîtrise
 (un par 500 de réputation, `Character.REPUTATION_PER_MASTERY_POINT`) ; commandes `changer_voie`
-(hors combat, équipement de départ de la nouvelle classe dans le sac) et `maitriser` (rang de
+(hors combat ; elle donnait aussi l'équipement de départ de la nouvelle classe, supprimé au lot 3)
+et `maitriser` (rang de
 maîtrise d'un sort, sans effet en combat avant le lot 2) ; protocole v8. Chance renommée Perception
 dans les données et le code ; Sagesse supprimée (ses lignes d'objets converties en prospection, le
 bonus des Humains en Force) ; prospection sans caractéristique ; aucune condition d'équipement.
@@ -922,7 +934,7 @@ par une quête de Voie, comme le rang III.
 
 ### 5.4 Implication court terme
 
-Les classes sont **fixes** (pas d'apprentissage croisé, § 5.2) ; **le modèle de données prévoit déjà
+Les sorts restent **propres à leur classe** (pas d'apprentissage croisé, § 5.2) ; **le modèle de données prévoit déjà
 `voie` et `rang` sur chaque sort** pour les rangs (alpha 2) et, si on y revient un jour, l'option
 écartée.
 
@@ -1026,7 +1038,7 @@ Les classes sont **fixes** (pas d'apprentissage croisé, § 5.2) ; **le modèle 
    n'importe quel ordre.
 4. **Fin :** victoire quand tous les ennemis sont vaincus ; défaite si tous les alliés le sont, ou en
    cas d'abandon.
-5. **Récompenses :** écran de fin avec XP, monnaie et butin pour chaque participant, en tableau façon Dofus Rétro : bandeaux « Gagnants » et « Perdants », une ligne par combattant (nom, niveau et montée de niveau, jauge d'expérience, XP, brumes, butin ; les combattants tombés grisés), durée du combat en tours. Une seconde après le dernier coup (victoire ou défaite, `MapView.COMBAT_END_DELAY`), le temps de voir la dernière perte de vie, et plus tard l'animation de mort, le combat se termine (retour en exploration, réveil compris) ; le récap s'affiche ensuite sans rien bloquer : le joueur peut se déplacer dessous, « Fermer », Échap ou le combat suivant le referment.
+5. **Récompenses :** écran de fin avec réputation, monnaie et butin pour chaque participant, en tableau façon Dofus Rétro : bandeaux « Gagnants » et « Perdants », une ligne par combattant (nom, palier de réputation, en doré s'il vient d'être atteint, ou niveau pour un monstre ; jauge de réputation dans le palier ; réputation gagnée, avec les caractéristiques gagnées en infobulle ; brumes ; butin ; les combattants tombés grisés), durée du combat en tours et facteur de difficulté (« difficulté × 0,5 »). Une seconde après le dernier coup (victoire ou défaite, `MapView.COMBAT_END_DELAY`), le temps de voir la dernière perte de vie, et plus tard l'animation de mort, le combat se termine (retour en exploration, réveil compris) ; le récap s'affiche ensuite sans rien bloquer : le joueur peut se déplacer dessous, « Fermer », Échap ou le combat suivant le referment.
 
 ### 7.2 Règles
 
@@ -1190,9 +1202,10 @@ tour ») : la difficulté vient uniquement des **monstres renforcés**.
 
 - Chaque monstre a : niveau (plage), caractéristiques, résistances, sorts, comportement IA, table de
   butin, XP et monnaie de base.
-- **Alpha 2 (§ 4.5)** : le niveau d'un monstre reste sa **mesure de menace** (ses stats en dépendent
-  toujours) ; il sert au facteur de difficulté des gains. Son XP devient la base de la réputation
-  qu'il rapporte une fois vaincu.
+- **Depuis la refonte (§ 4.5)** : le niveau d'un monstre reste sa **mesure de menace** (ses stats en dépendent
+  toujours) ; il sert au facteur de difficulté des gains et à la menace affichée dans la bulle du
+  groupe. Son XP sert de base à la réputation qu'il rapporte une fois vaincu (un quart, partagé
+  entre les joueurs).
 - **Niveaux :** chaque zone de départ a des monstres à chaque palier de 3 niveaux (1–3, 4–6, 7–9,
   10–12), en nombre libre selon la zone (voir § 3.5, *Paliers de niveau des zones de départ*).
 - **Niveau d'un membre de famille** (fait) : tiré à l'apparition dans la tranche du palier, selon les
@@ -1247,7 +1260,8 @@ tour ») : la difficulté vient uniquement des **monstres renforcés**.
 
 - Chaque monstre a une **table de butin** : objet, taux de base, quantité, et des brumes.
 - **Chance effective** = `taux_base × (prospection / 100)`, plafonnée à 100 %. Prospection = 100 +
-  Chance / 10 (alpha 1 ; plus à l'alpha 2, § 4.4) + bonus d'équipement + passif de race (Gobelin : +20).
+  bonus d'équipement + passif de race (Gobelin : +20) ; plus de part de la Chance depuis la refonte
+  (§ 4.4).
 - **Pas de seuil de prospection** : un personnage seul peut obtenir tous les objets, comme un groupe.
   La prospection augmente seulement les chances.
 - **Limite par monstre et par joueur :** chaque ligne de la table donne au plus sa quantité maximale
@@ -1302,8 +1316,8 @@ tour ») : la difficulté vient uniquement des **monstres renforcés**.
   est multiplié par palier / 3 au-delà du palier 3 (`Item.tier_price_factor` : palier 15 × 5, palier
   30 × 10, soit 3 500 brumes une pièce rare de palier 30) pour que les marchands ne vendent plus les
   panoplies 15 et 30 pour presque rien ; les ressources gardent leur prix.
-- Alpha 1 : chaque objet a un **niveau requis**, éventuellement des **conditions** (caractéristique
-  minimale, Voie, quête accomplie).
+- *Avant la refonte* : chaque objet avait un **niveau requis**, éventuellement des **conditions**
+  (caractéristique minimale, Voie, quête accomplie).
 - **Jets aléatoires :** les objets fabriqués ou ramassés ont des statistiques tirées dans une plage
   (par ex. Force 10–15).
 - **Armes :** une arme est un « sort » particulier (coût en PA, portée, zone, dégâts par élément).
@@ -1918,12 +1932,13 @@ décrits au § 13.6.
 - **Types d'objectifs :** parler à un PNJ, vaincre N monstres d'un type, récolter ou apporter N objets,
   aller à un lieu, vaincre un groupe précis.
 - **Structure :** une quête = une suite d'**étapes**, chaque étape = un ou plusieurs **objectifs**.
-- **Récompenses :** XP, monnaie, objets, déblocage de quête suivante. Alpha 2 (§ 4.5) : l'XP devient
-  de la **réputation** (classe active, ou métier pour une quête de métier) ; les combats de référence
-  restent l'unité.
+- **Récompenses :** réputation, monnaie, objets, déblocage de quête suivante. Depuis la refonte
+  (§ 4.5), l'XP des quêtes est donnée en **réputation** de la classe active (de métier pour une quête
+  de métier, au lot 4) ; les combats de référence restent l'unité.
 - **Journal de quêtes** consultable, objectif courant affiché, PNJ marqués d'une icône (`!` / `?`).
-- **Conditions d'accès :** niveau, quête précédente terminée, race ou Voie (optionnel). Alpha 2 : le
-  niveau minimal devient un palier de réputation, ou disparaît quand la difficulté suffit ; nouvelles
+- **Conditions d'accès :** quête précédente terminée, camp, race ou Voie (optionnel). Le niveau
+  minimal (`niveau_min`) n'est plus vérifié depuis la refonte ; au lot 5, il devient un palier de
+  réputation, ou disparaît quand la difficulté suffit ; nouvelles
   quêtes et dialogues des **maîtres de classe et de métier**.
 - **Conditions de camp** : une quête peut être réservée à un camp (acte I), ou demander d'avoir
   atteint un acte de la quête principale.
@@ -2017,7 +2032,7 @@ décrits au § 13.6.
 | Domaine | Fonctionnalités |
 |---|---|
 | **Social** | Chat (local, groupe, commerce, recrutement, privé), liste d'amis, ignorés, émotes |
-| **Groupe** | Jusqu'à 8 joueurs, partage d'XP, suivi du chef, marqueurs de quête partagés |
+| **Groupe** | Jusqu'à 8 joueurs, partage de la réputation des monstres vaincus, des brumes et du butin, suivi d'un membre, marqueurs de quête partagés |
 | **Combat** | Rejoindre le combat d'un ami, combats de groupe, mode spectateur, verrouillage du combat |
 | **Quêtes** | Objectifs partagés en groupe (« vaincre X » compte pour tous), événements de monde |
 | **Métiers** | Échange sécurisé entre joueurs, artisanat assisté, commandes, hôtel des ventes, Trésor des villes (§ 13.6) |
@@ -2216,7 +2231,7 @@ préférence ce que les joueurs feront déjà d'eux-mêmes.
   rythme, pour rester lisibles.
 - **Fenêtres :** inventaire avec poupée d'équipement et sac en trois onglets (Équipements,
   Consommables, Ressources, objets de quête compris), fiche de caractéristiques, grimoire de sorts,
-  journal de quêtes, fenêtre de métier, carte du monde (touche M).
+  journal de quêtes, fenêtre de métier, carte du monde (touche M), amis (F), échange entre joueurs (§ 16.5, M4).
 - **Infobulles d'objets** (sac, coffre, marchand) : l'objet, puis sa comparaison avec l'objet porté
   qu'il remplacerait (le premier emplacement libre, sinon le premier : anneau de gauche), stat par
   stat, gains en vert et pertes en rouge ; plages pour un article de marchand, dégâts moyens pour une
@@ -2235,7 +2250,7 @@ préférence ce que les joueurs feront déjà d'eux-mêmes.
   d'autres), repliable ; un clic ouvre le journal (hors combat). Les deux restent en combat.
 - **Bande droite** : en haut, les **messages** (« À vous de jouer », repère posé, objectif
   rempli…), qui s'effacent seuls ; dessous, en combat, l'**ordre de jeu** en colonne ; hors combat, un résumé du
-  personnage (nom, niveau, race et Voie, expérience, brumes).
+  personnage (nom, palier de réputation, race et Voie, jauge de réputation, brumes).
 - **Repères de quête** : dans la proposition d'une quête et le journal, les noms des PNJ, des
   cartes et des zones sont des liens (en bleu). Un clic pose un repère, une épingle sur la carte
   du monde (ouverte sur sa zone) et la minicarte (une flèche au bord s'il est plus loin dans la
@@ -2252,7 +2267,7 @@ préférence ce que les joueurs feront déjà d'eux-mêmes.
   celui qui joue ; son nom, doré à son tour, et ses PV), prévisualisation de portée et de zone, **dégâts et soins
   estimés** au-dessus de chaque combattant que toucherait le sort visé (fourchette sans coup
   critique, à la couleur de l'élément ; soins limités aux PV qui manquent), **clic droit sur un
-  sort** pour le lancer sur soi, bouton « fin de tour ». Au survol d'un combattant, ses informations (nom, niveau, PV, PA, PM,
+  sort** pour le lancer sur soi, bouton « fin de tour ». Au survol d'un combattant, ses informations (nom, niveau pour un monstre, PV, PA, PM,
   résistances aux 6 éléments) remplacent la barre de sorts, comme dans Dofus Rétro. Au survol d'un
   **ennemi**, les cases qu'il peut atteindre s'affichent en vert cerné (avec ses PM restants pendant son
   tour, sinon ceux de son prochain tour, `Combat.movement_zone`), comme la portée de déplacement du
@@ -2277,7 +2292,8 @@ préférence ce que les joueurs feront déjà d'eux-mêmes.
   (message privé, invitation, suivre). *Commerce* mêle les achats et ventes chez les marchands et
   les annonces des joueurs. Sous le texte, une **ligne de saisie** : Entrée l'ouvre et l'envoie
   (Entrée à vide la referme), le message part sur le canal de l'onglet ouvert ou sur celui de son
-  préfixe (`/l`, `/g`, `/c`, `/rec`, `/w Pseudo`, `/r` pour répondre au dernier privé). Pendant la
+  préfixe (`/l`, `/g`, `/c`, `/rec`, `/w Pseudo`, `/r` pour répondre au dernier privé ; un pseudo peut
+  contenir des espaces, `/w Soso la fusée salut` va bien à « Soso la fusée »). Pendant la
   saisie, les raccourcis de l'interface (I, H, Q, sorts…) se taisent. Les messages viennent du
   serveur, le client ne faisant que les ranger. Il est à la place du chat de Dofus.
 - **Boutique** : barre de recherche au-dessus de la liste (achat et vente) ; chaque mot doit
@@ -2697,13 +2713,15 @@ travail côté client : remplacer les lectures directes de `world` par la copie 
   revient avant la fin, il retrouve son combat (le serveur ne recharge pas sa sauvegarde) ; sinon il
   reçoit sa part à la fin, est sauvegardé puis quitte le monde (`World.take_departed`). Quand plus
   personne n'est connecté, le combat est abandonné comme en solo.
-- **Parts** : chaque joueur reçoit sa fin de combat (`combat_fin` avec `pour`). XP : celle des
-  monstres × bonus de groupe (`World.PARTY_XP_BONUS`, ×1,1 à deux, ×1,5 à trois… comme Dofus, à
-  régler) × sa part de niveaux (son niveau / somme des niveaux), puis taux et Sagesse ; vaincu, la
-  même part. Brumes à parts égales (le reste au premier), puis le passif de race de chacun. Butin par
+- **Parts** : chaque joueur reçoit sa fin de combat (`combat_fin` avec `pour`). Depuis la refonte
+  (§ 4.5) : chacun gagne la réputation et les caractéristiques de ses propres actions, au facteur de
+  difficulté du groupe, plus un quart de l'XP des monstres vaincus partagé à parts égales (même en
+  cas de défaite). *Avant : XP des monstres × bonus de groupe × part de niveaux, puis taux et
+  Sagesse.* Brumes à parts égales (le reste au premier), puis le passif de race de chacun. Butin par
   `Loot.roll` entre tous (limite par monstre partagée). Objectifs « vaincre » : chaque joueur du
   combat compte les monstres. Chacun est sauvegardé à la fin. Le récapitulatif montre les gains de
-  tous : la fin de combat de chacun porte `gains` (XP, brumes, butin, niveaux par joueur).
+  tous : la fin de combat de chacun porte `gains` (réputation, caractéristiques, brumes, butin,
+  paliers par joueur).
 - **Copie du client** : les alliés se recréent d'après leur profil (`Fighter.profile`,
   `GameData.create_profile_fighter` : valeurs de départ, sorts, arme, sans l'inventaire). Les
   événements du combat d'un autre joueur arrivent avec l'instantané (`evenements` + `instantane`,
@@ -2919,7 +2937,8 @@ Premier lot, demandé par l'auteur le 28/10/2026 : **l'échange sécurisé entre
   commune, base injoignable au moment de conclure puis déconnexion de l'un, déconnexion en plein
   échange) et deux clients (`test_online_client.gd`).
 - Reste : l'essai à deux chez l'auteur (relancer le serveur Docker avec la nouvelle image), puis
-  l'hôtel des ventes et le journal des transactions.
+  l'hôtel des ventes et le journal des transactions. **M4 en pause** depuis le 28/10/2026 (demande
+  de l'auteur : pas d'hôtel des ventes ni de journal sans nouvelle demande).
 
 #### Jalons
 
@@ -2962,8 +2981,8 @@ farm, en faisant autorité.
 |---|---|---|
 | **0. Pré-production** | Choix techniques, GDD validé, prototypes papier | Moteur choisi, structure du dépôt en place |
 | **1. Prototype** | Une carte, déplacement, un combat 1 contre 1 | Un combat jouable de bout en bout |
-| **2. Alpha solo** (court terme) | 3 races (une par camp), 4 classes (avec le Théologue), combat + butin, quêtes simples, 3 métiers, équipement, 3 zones de départ + Hautepierre | **Alpha test 1** (mécaniques) : tout le contenu, l'interface et les quêtes, XP ×3,5, 4 à 5 h pour tout finir. **Alpha test 2** (progression) : refonte sans niveaux, réputation et maîtrises (§ 4.5), sorts par Voie et rang, art et son |
-| **3. Solo étendu** (long terme) | 6 races de plus (Nains, Orcs, Semi-hommes, Géants, Squelettes, Lutins ; 9 au total), 5 classes de plus (Paladin, Myrmidon, Ombre, Chronomancien, Démoniste ; 9 au total), Voies, donjons, quêtes complexes, légendaires, scénario complet | Quête des Reliques jouable jusqu'au boss final |
+| **2. Alpha solo** (court terme) | 3 races (une par camp), 5 classes (avec le Théologue et le Chronomancien Impie), combat + butin, quêtes simples, 3 métiers, équipement, 3 zones de départ + Hautepierre | **Alpha test 1** (mécaniques) : tout le contenu, l'interface et les quêtes, 4 à 5 h pour tout finir (XP ×3,5 jusqu'au 29/10/2026). **Alpha test 2** (progression) : refonte sans niveaux, réputation et maîtrises (§ 4.5 ; lots 0 à 3 déjà sur `main`), sorts par Voie et rang, art et son |
+| **3. Solo étendu** (long terme) | 6 races de plus (Nains, Orcs, Semi-hommes, Géants, Squelettes, Lutins ; 9 au total), 4 classes de plus (Paladin, Myrmidon, Ombre, Démoniste ; 9 au total) et la Voie Givre du Chronomancien, Voies, donjons, quêtes complexes, légendaires, scénario complet | Quête des Reliques jouable jusqu'au boss final |
 | **4. Fondations réseau** | Serveur autoritaire, comptes, une instance, synchronisation | Deux joueurs se voient et combattent ensemble |
 | **5. Multi** | Instances, groupe, amis, chat, échanges, hôtel des ventes, guildes | Bêta fermée |
 
