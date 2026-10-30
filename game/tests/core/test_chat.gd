@@ -102,6 +102,23 @@ func test_anti_flood() -> void:
 	assert_eq(_say("p1", Chat.LOCAL, "de nouveau")[0]["type"], Protocol.EVT_CHAT)
 
 
+func test_prive_a_un_pseudo_avec_espaces() -> void:
+	_world.add_player(_character("Soso la fusée"), "p4", "b")
+	_world.add_player(_character("Soso"), "p5", "b")
+	# `/w Soso la fusée salut` : le client ne sait pas où finit le pseudo et envoie le premier mot.
+	var events := _say("p1", Chat.PRIVATE, "la fusée salut", "Soso")
+	assert_eq(_receivers(events), ["p1", "p4"], "le plus long pseudo connecté l'emporte")
+	assert_eq(events[0]["texte"], "salut", "le pseudo est ôté du texte")
+	assert_eq(events[0]["a"], "Soso la fusée")
+	events = _say("p1", Chat.PRIVATE, "SALUT", "soso LA fusée")
+	assert_eq(_receivers(events), ["p1", "p4"], "pseudo complet (menu du pseudo, /r), majuscules ignorées")
+	assert_eq(events[0]["texte"], "SALUT")
+	events = _say("p1", Chat.PRIVATE, "la forme ?", "Soso")
+	assert_eq(_receivers(events), ["p1", "p5"], "sinon le premier mot")
+	assert_eq(events[0]["texte"], "la forme ?")
+	assert_eq(_say("p1", Chat.PRIVATE, "salut", "Soso la")[0]["raison"], Protocol.REASON_PLAYER_OFFLINE)
+
+
 func test_texte_nettoye() -> void:
 	var events := _say("p1", Chat.LOCAL, "  Salut\n[color=red]toi[/color]\t ")
 	assert_eq(events[0]["texte"], "Salut [color=red]toi[/color]", "sans contrôle ni espaces autour ; le client échappe les crochets")

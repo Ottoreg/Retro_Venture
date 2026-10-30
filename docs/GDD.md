@@ -2822,6 +2822,9 @@ la ligne de saisie reste cachée.
   `PartyUi` (message privé, inviter, suivre) et « Message privé » prépare `/w Pseudo `. Les refus
   du serveur (trop vite, hors ligne) s'écrivent dans l'historique (`add_chat_refusal`). Capture :
   action `chat` de `tools/screenshot.gd`.
+  Un pseudo peut contenir des espaces (« Soso la fusée ») : le client envoie le premier mot après
+  `/w`, et le serveur (`World._private_target`) cherche le plus long pseudo connecté qui commence ce
+  mot suivi du texte, puis l'ôte du texte (correction du 30/10/2026 : ces joueurs semblaient hors ligne).
 - Le joueur automatique (`tools/bot.gd`) répond aux messages privés, pour essayer seul.
 - **Protocole** : version 5. **Tests** : `tests/core/test_chat.gd` (canaux, deux cartes, flood,
   texte, combat et absent, journal), le critère de sortie par WebSocket (`test_websocket.gd` :

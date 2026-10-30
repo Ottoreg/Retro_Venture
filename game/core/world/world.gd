@@ -1023,7 +1023,9 @@ func _chat_message(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
 		Chat.TRADE, Chat.RECRUIT:
 			targets.assign(players.keys())
 		Chat.PRIVATE:
-			target = player_named(str(command.get("a", "")))
+			var addressed := _private_target(str(command.get("a", "")), text)
+			target = addressed[0]
+			text = addressed[1]
 			if target == null or target.away:
 				return _refused(command, Protocol.REASON_PLAYER_OFFLINE)
 			if target == p:
@@ -1048,6 +1050,26 @@ func _chat_message(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
 			event["a"] = target.character.display_name
 		events.append(event)
 	return events
+
+
+## Destinataire d'un privé et texte qui reste : [PlayerState ou null, texte]. Un pseudo peut contenir
+## des espaces (« Soso la fusée ») alors que `/w Soso la fusée salut` ne donne que le premier mot dans
+## `a` : on cherche le plus long pseudo connecté qui commence `a` suivi du texte, et on l'ôte du texte.
+func _private_target(addressed: String, text: String) -> Array:
+	var full := (addressed.strip_edges() + " " + text).strip_edges()
+	var lowered := full.to_lower()
+	var found: PlayerState = null
+	var found_length := 0
+	for other: PlayerState in players.values():
+		var other_name := other.character.display_name.to_lower()
+		if other_name.length() <= found_length or other_name.length() < addressed.strip_edges().length():
+			continue
+		if lowered.length() > other_name.length() and lowered.begins_with(other_name) and lowered[other_name.length()] == " ":
+			found = other
+			found_length = other_name.length()
+	if found == null:
+		return [player_named(addressed), text]
+	return [found, full.substr(found_length).strip_edges()]
 
 
 ## Joueur connecté de ce pseudo, sans tenir compte des majuscules (null s'il n'y en a pas).
