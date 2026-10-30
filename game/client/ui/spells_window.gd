@@ -75,11 +75,11 @@ static func effect_lines(effects: Array, indent := "") -> PackedStringArray:
 		var line := ""
 		match type:
 			Spell.EFFECT_DAMAGE:
-				line = "Dégâts %s : %d à %d" % [element, effect["min"], effect["max"]]
+				line = "Dégâts %s : %s" % [element, _range_text(effect)]
 			Spell.EFFECT_HEAL:
-				line = "Soin %s : %d à %d" % [element, effect["min"], effect["max"]]
+				line = "Soin %s : %s" % [element, _range_text(effect)]
 			Spell.EFFECT_SHIELD:
-				line = "Bouclier %s : %d à %d (absorbe les dégâts jusqu'au prochain tour de la cible)" % [element, effect["min"], effect["max"]]
+				line = "Bouclier %s : %s (absorbe les dégâts jusqu'au prochain tour de la cible)" % [element, _range_text(effect)]
 			Spell.EFFECT_REMOVE_PM:
 				line = "Retire %d PM au prochain tour" % effect["min"]
 			Spell.EFFECT_GAIN_PA:
@@ -380,10 +380,16 @@ func _build() -> void:
 	_title = _label(22, GOLD)
 	_title.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	title_row.add_child(_title)
+	# Fiche défilante : une longue fiche (l'Horloge et ses 12 heures) reste dans la fenêtre, et la
+	# ligne de maîtrise en dessous reste visible.
+	var scroll := ScrollContainer.new()
+	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	detail.add_child(scroll)
 	_details = _label(15, Color(0.92, 0.9, 0.85))
 	_details.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_details.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	detail.add_child(_details)
+	_details.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	scroll.add_child(_details)
 	_mastery_row = HBoxContainer.new()
 	_mastery_row.add_theme_constant_override("separation", 10)
 	detail.add_child(_mastery_row)

@@ -84,6 +84,11 @@ static func evaluate(combat: Combat, fighter: Fighter, spell: Spell, target: Vec
 		var landing: Vector2i = path[-1] if not path.is_empty() else origin
 		if _fighter_at(combat, fighter, origin, target) == null or IsoGrid.distance(landing, target) != 1:
 			return 0.0
+	if spell.places_clock():
+		# Pas de nouvelle horloge sur une cible déjà manipulée (refusé).
+		var aimed := _fighter_at(combat, fighter, origin, target)
+		if aimed != null and aimed.has_state(Spell.STATE_TIME_MANIPULATION):
+			return 0.0
 	var value := 0.0
 	for effect in spell.effects:
 		if effect["type"] == Spell.EFFECT_GLYPH:

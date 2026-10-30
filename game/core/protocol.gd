@@ -508,6 +508,8 @@ const REASON_SPELL_LIMIT := "sort_deja_lance"
 const REASON_SPELL_COOLDOWN := "sort_en_recharge"
 ## « Fusion arcanique » sans 3 états élémentaires, ou avec une combinaison qui n'a pas de sort.
 const REASON_NO_COMBINATION := "combinaison_inconnue"
+## Horloge sur une cible déjà dans l'état Manipulation du temps.
+const REASON_ALREADY_MANIPULATED := "deja_manipule"
 ## Sort de composition des états sans combinaison (`etats`) qu'il propose.
 const REASON_INVALID_COMPOSITION := "composition_invalide"
 const REASON_OUT_OF_RANGE := "hors_portee"

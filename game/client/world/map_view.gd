@@ -159,6 +159,7 @@ var _refusals := {
 	Protocol.REASON_BLOCKED: "Case bloquée",
 	Protocol.REASON_NOT_PLACEMENT_CELL: "Choisissez un cercle bleu",
 	Protocol.REASON_NO_COMBINATION: "Il faut 3 états élémentaires (Composition) pour créer un sort",
+	Protocol.REASON_ALREADY_MANIPULATED: "Cette cible est déjà sous une horloge (Manipulation du temps)",
 	Protocol.REASON_INVALID_COMPOSITION: "Choisissez une combinaison d'états",
 }
 ## Messages affichés pour les objets qu'on ne peut pas équiper.

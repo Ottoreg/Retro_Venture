@@ -522,6 +522,14 @@ static func combination_key(states: Array) -> String:
 	return "+".join(PackedStringArray(sorted_states))
 
 
+## Le sort pose une horloge (refusé sur une cible déjà dans l'état Manipulation du temps).
+func places_clock() -> bool:
+	for effect in effects:
+		if effect["type"] == EFFECT_CLOCK:
+			return true
+	return false
+
+
 func teleports() -> bool:
 	for effect in effects:
 		if effect["type"] == EFFECT_TELEPORT:

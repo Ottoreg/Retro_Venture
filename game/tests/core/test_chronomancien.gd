@@ -136,13 +136,15 @@ func test_en_arriere_depuis_midi() -> void:
 	assert_eq(combat.get_fighter("m0").cell, _hour(11), "−1 h depuis 12 h : 11 h")
 
 
-func test_hors_du_cadran_on_part_de_midi() -> void:
+func test_hors_du_cadran_on_garde_la_derniere_heure() -> void:
 	var combat := _fight([C])
 	var dummy := combat.get_fighter("m0")
 	_cast(combat, "horloge", C)
-	dummy.cell = C  # Poussé au centre.
-	_cast(combat, "tic", C)
-	assert_eq(dummy.cell, _hour(1))
+	_cast(combat, "tac", _hour(12))
+	assert_eq(dummy.cell, _hour(11))
+	dummy.cell = C + Vector2i(0, 3)  # Poussé hors du cadran.
+	_cast(combat, "tic", dummy.cell)
+	assert_eq(dummy.cell, _hour(12), "11 h + 1 h, pas midi + 1 h")
 
 
 func test_echange_de_place() -> void:
@@ -164,13 +166,17 @@ func test_obstacle_saute() -> void:
 	assert_eq(combat.get_fighter("m0").cell, _hour(2), "1 h bloquée : 2 h")
 
 
-func test_une_horloge_par_cible() -> void:
+func test_pas_de_seconde_horloge() -> void:
 	var combat := _fight([C])
 	var dummy := combat.get_fighter("m0")
 	_cast(combat, "horloge", C)
-	_cast(combat, "horloge", dummy.cell)
-	assert_eq(combat.glyphs.size(), 1, "une nouvelle horloge remplace l'ancienne")
-	assert_eq(combat.glyphs[0]["horloge"]["centre"], C + NOON)
+	var refused := _cast(combat, "horloge", dummy.cell)
+	assert_eq(refused[0]["raison"], Protocol.REASON_ALREADY_MANIPULATED, "pas sur une cible déjà manipulée")
+	assert_eq(combat.glyphs.size(), 1)
+	assert_eq(combat.glyphs[0]["horloge"]["centre"], C)
+	var player := combat.get_fighter(Fixtures.PLAYER)
+	assert_eq(CombatAI.evaluate(combat, player, player.get_spell("horloge"), dummy.cell, player.cell), 0.0,
+		"l'IA ne la tente pas")
 
 
 func test_sans_horloge() -> void:

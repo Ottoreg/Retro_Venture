@@ -488,6 +488,9 @@ func _cast(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 	var trap_effect := spell.trap_effect()
 	if blocker.is_empty() and not trap_effect.is_empty() and (not is_free(target) or not trap_at(target).is_empty()):
 		blocker = Protocol.REASON_BLOCKED if not map.is_walkable_in_combat(target) else Protocol.REASON_OCCUPIED
+	if blocker.is_empty() and spell.places_clock() and fighter_at(target) != null \
+			and fighter_at(target).has_state(Spell.STATE_TIME_MANIPULATION):
+		blocker = Protocol.REASON_ALREADY_MANIPULATED
 	if blocker.is_empty() and not spell.create_effect().is_empty() and created_spell_for(fighter, spell) == null:
 		blocker = Protocol.REASON_NO_COMBINATION
 	var choices := spell.state_choices()
@@ -962,7 +965,7 @@ func _place_clock(caster: Fighter, target: Fighter, effect: Dictionary, from: Ve
 			cells.append(center + offset)
 	var glyph := {"id": _next_ground_id, "lanceur": caster, "equipe": caster.team, "cases": cells, "effets": [],
 		"tours": int(effect["duree"]), "sort": source, "pa": 0.0,
-		"horloge": {"centre": center, "midi": noon, "cible": target.id, "heures": effect["heures"].duplicate(true)}}
+		"horloge": {"centre": center, "midi": noon, "cible": target.id, "heure": 12, "heures": effect["heures"].duplicate(true)}}
 	_next_ground_id += 1
 	glyphs.append(glyph)
 	events.append({"type": Protocol.EVT_GLYPH, "id": glyph["id"], "lanceur": caster.id, "equipe": caster.team,
@@ -974,14 +977,14 @@ func _place_clock(caster: Fighter, target: Fighter, effect: Dictionary, from: Ve
 
 
 ## Case où un décalage de `hours` heures enverrait `target` sur son horloge (sa case s'il n'a pas
-## d'horloge ou si aucune heure n'est praticable), et l'heure atteinte (0 si rien ne bouge). Hors du
-## cadran (poussée ailleurs), la cible part de midi : +1 h l'envoie à 1 h, −1 h à 11 h.
+## d'horloge ou si aucune heure n'est praticable), et l'heure atteinte (0 si rien ne bouge). Le décalage
+## part de la dernière heure atteinte, même si la cible a été poussée hors du cadran depuis.
 func clock_destination(target: Fighter, hours: int) -> Dictionary:
 	var clock := clock_of(target)
 	if clock.is_empty() or hours == 0:
 		return {"case": target.cell, "heure": 0}
-	var start := clock_hour(clock["horloge"]["centre"], clock["horloge"]["midi"], target.cell)
-	return _clock_arrival(target, clock, posmod((start if start > 0 else 12) + hours - 1, 12) + 1, signi(hours))
+	var start := int(clock["horloge"]["heure"])
+	return _clock_arrival(target, clock, posmod(start + hours - 1, 12) + 1, signi(hours))
 
 
 ## Première heure praticable à partir de `hour` sur l'horloge `clock`, en avançant de `step` (±1) : une
@@ -1017,6 +1020,7 @@ func _move_on_clock(target: Fighter, arrival: Dictionary, hour_effects: bool, ev
 	var from := target.cell
 	var other := fighter_at(cell)
 	target.cell = cell
+	clock["horloge"]["heure"] = hour  # Dernière heure atteinte : le prochain décalage en part.
 	events.append({"type": Protocol.EVT_TELEPORTED, "entite": target.id, "depuis": from, "case": cell, "heure": hour})
 	if other != null:
 		other.cell = from

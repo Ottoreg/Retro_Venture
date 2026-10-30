@@ -100,6 +100,8 @@ temps : chaque camp a sa propre histoire.
     12 h, −1 PM à 6 h, dégâts ou poison de Givre et de Tempête, insoignable à 10 h, plus de dégâts
     Impie subis à 5 h, moins de dégâts infligés à 11 h ; 3 h, 4 h et 9 h n'ont pas encore d'effet).
     Une case occupée : les deux combattants échangent leurs places ; un obstacle : heure suivante.
+    Pas de nouvelle Horloge sur une cible qui en a déjà une ; poussée hors du cadran, elle garde sa
+    dernière heure.
     En visant, la case d'arrivée est entourée en violet, avec l'heure au-dessus de la cible.
 - Les soins et boucliers grandissent avec la caractéristique de leur élément (soin Sacré : Force et
   Intelligence ; *Second souffle* du Guerrier : Force ; bouclier de l'*Armure de givre* de

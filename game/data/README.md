@@ -333,12 +333,13 @@ Chronomancien (Voie Impie) :
   5 × 5, `Combat.CLOCK_RING`) pendant `duree` tours du lanceur. 12 h est à 2 pas du centre dans la
   direction du lancer, puis les heures suivent le sens des aiguilles d'une montre vu à l'écran. La
   cible est aussitôt envoyée à 12 h (avec son effet) et passe dans l'état `manipulation_temps` (non
-  retirable), qui tombe avec l'horloge. Une seule horloge par cible : une
+  retirable), qui tombe avec l'horloge ; tant qu'elle l'a, un sort d'horloge est refusé sur elle
+  (`deja_manipule`). Une seule horloge par cible : une
   nouvelle remplace l'ancienne. `heures` : de `"1"` à `"12"`, les effets appliqués à la cible quand un
   décalage l'amène sur cette heure (le poseur de l'horloge en est le lanceur) ; une liste vide ou une
   heure absente : sans effet.
 - `decalage_horaire` (`heures` : entier non nul de −11 à 11) : la cible avance (ou recule) d'autant
-  d'heures sur son horloge ; hors du cadran (poussée ailleurs), elle part de midi (+1 h : 1 h, −1 h : 11 h).
+  d'heures sur son horloge, à partir de la dernière heure atteinte (même poussée hors du cadran).
   Une heure hors de la carte ou sur un obstacle est sautée (heure suivante dans le sens du
   décalage) ; un combattant sur la case d'arrivée échange sa place avec la cible. Sans horloge,
   rien ne bouge (les autres effets du sort restent). Placé après les dégâts du sort.

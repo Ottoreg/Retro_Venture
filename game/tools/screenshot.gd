@@ -46,8 +46,10 @@ func _initialize() -> void:
 		Session.new_character = Character.create("Frère Tuck", "humain", "theologue")
 	if _action in ["arcaniste", "composition", "infobulle"]:
 		Session.new_character = Character.create("Mirabelle", "humain", "arcaniste")
-	if _action == "horloge":
+	if _action == "horloge" or _action == "sorts_chronomancien":
 		Session.new_character = Character.create("Pendulette", "elfe", "chronomancien")
+		if _action == "sorts_chronomancien":
+			_action = "sorts"  # Fenêtre des sorts du Chronomancien (fiche longue de l'Horloge).
 	if _action.begins_with("gobelin") or _action.begins_with("perso_"):
 		# Personnage d'une race et d'une Voie (« perso_elfe_theologue », « gobelin » : gobelin guerrier),
 		# « _combat » au bout : le même en combat.
