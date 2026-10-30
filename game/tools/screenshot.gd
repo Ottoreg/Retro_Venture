@@ -330,6 +330,20 @@ func _process(_delta: float) -> bool:
 			shop._on_tab_pressed(ShopWindow.BUY)
 			shop._search.text = "botte"
 			shop.refresh()
+		elif _action == "boutique_panoplie":
+			# Fiche longue (arme et sa panoplie) : elle défile, la fenêtre garde sa taille.
+			for npc in view.current_map().npcs:
+				if npc.get("marchand", false):
+					view._on_click(npc["case"])
+					_wait_for(view)
+					break
+			var shop: ShopWindow = _scene.get_node("ShopWindow")
+			shop._search.text = "chat noir"
+			shop.refresh()
+			for i in shop._list.item_count:
+				if shop._list.get_item_text(i).begins_with("Dague"):
+					shop._list.select(i)
+					shop._on_item_selected(i)
 		elif _action == "metiers":
 			_scene.get_node("JobsWindow").toggle()
 		elif _action == "sorts":

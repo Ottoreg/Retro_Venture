@@ -369,3 +369,56 @@ func test_ligne_de_saisie_du_chat() -> void:
 	assert_false(log.is_typing())
 	(Engine.get_main_loop() as SceneTree).root.remove_child(log)
 	log.free()
+
+
+## Règle de l'interface : une fenêtre garde sa taille quand un texte est long ou une liste
+## nombreuse ; ce qui ne tient pas défile dedans (`UiTheme.scroll_area`). Les textes défilants
+## reçoivent un très long texte, les titres et messages une longue phrase (coupée ou à la ligne).
+func test_fenetres_a_taille_fixe() -> void:
+	var tree := Engine.get_main_loop() as SceneTree
+	var scene: Node = load("res://client/world/world.tscn").instantiate()
+	tree.root.add_child(scene)
+	var sentence := "Une phrase bien trop longue pour tenir sur une seule ligne de la fenêtre. ".repeat(2)
+	var long_text := sentence.repeat(20)
+	var windows := {  # Fenêtre : [textes défilants], [titres et messages].
+		"ShopWindow": [["_greeting", "_details"], ["_title", "_message"]],
+		"CraftWindow": [["_greeting", "_details"], ["_title", "_message"]],
+		"InventoryWindow": [["_details"], []],
+		"SpellsWindow": [["_details"], ["_title", "_mastery_label"]],
+		"ChestWindow": [[], ["_message"]],
+		"JobsWindow": [[], ["_title", "_description"]],
+		"TravelWindow": [[], []],
+		"CharacterSheet": [[], ["_title", "_subtitle"]],
+	}
+	var nodes := {}
+	for window_name: String in windows:
+		nodes[window_name] = scene.get_node(window_name)
+	nodes["ExchangeWindow"] = scene.exchange_window
+	windows["ExchangeWindow"] = [[], ["_title", "_status", "_message"]]
+	nodes["QuestsWindow"] = scene.quests_window
+	windows["QuestsWindow"] = [["_details", "_objectives", "_rewards"], ["_title"]]
+	nodes["QuestDialog"] = scene.quest_dialog
+	windows["QuestDialog"] = [["_text", "_objectives", "_rewards"], ["_npc", "_title"]]
+	var travel: TravelWindow = nodes["TravelWindow"]
+	for i in 30:
+		travel._list.add_child(travel._destination_row({"id": "pierre_%d" % i, "nom": "Pierre de Passage numéro %d" % i, "prix": 50}, false, 10))
+	for window_name: String in windows:
+		var window: Node = nodes[window_name]
+		var panel: Control = window.get("_panel")
+		panel.visible = true
+		var fixed := Vector2(panel.offset_right - panel.offset_left, panel.offset_bottom - panel.offset_top).max(panel.custom_minimum_size)
+		assert_true(fixed.x > 0.0 and fixed.y > 0.0, "%s : taille fixée" % window_name)
+		for field: String in windows[window_name][0]:
+			(window.get(field) as Control).set("text", long_text)
+		for field: String in windows[window_name][1]:
+			(window.get(field) as Control).set("text", sentence)
+		for pass_index in 3:  # Mise en page tout de suite, jusqu'à ce que les retours à la ligne se stabilisent.
+			panel.size = fixed
+			for container: Container in [panel] + panel.find_children("*", "Container", true, false):
+				container.notification(Container.NOTIFICATION_SORT_CHILDREN)
+			for control: Control in panel.find_children("*", "Control", true, false):
+				control.update_minimum_size()  # Textes à la ligne : hauteur selon leur largeur.
+		var needed := panel.get_combined_minimum_size()
+		assert_true(needed.x <= fixed.x + 0.5 and needed.y <= fixed.y + 0.5,
+			"%s : %s demandés pour %s fixés" % [window_name, needed, fixed])
+	scene.queue_free()

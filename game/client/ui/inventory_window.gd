@@ -393,8 +393,8 @@ func _build() -> void:
 	_panel = PanelContainer.new()
 	_panel.anchor_left = 0.5
 	_panel.anchor_right = 0.5
-	_panel.offset_left = -450
-	_panel.offset_right = 450
+	_panel.offset_left = -455
+	_panel.offset_right = 455
 	_panel.offset_top = 66
 	_panel.offset_bottom = 612
 	var style := StyleBoxFlat.new()
@@ -497,15 +497,11 @@ func _build() -> void:
 	_icon.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 	detail_box.add_child(_icon)
 	# Le détail défile s'il est long (panoplie complète) : la fenêtre garde sa taille.
-	var scroll := ScrollContainer.new()
-	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	scroll.custom_minimum_size = Vector2(230, 0)
-	detail_box.add_child(scroll)
 	_details = _label(13, Color(0.92, 0.9, 0.85))
 	_details.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_details.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	scroll.add_child(_details)
+	var scroll := UiTheme.scroll_area(_details)
+	scroll.custom_minimum_size = Vector2(230, 0)
+	detail_box.add_child(scroll)
 	var buttons := HBoxContainer.new()
 	detail_box.add_child(buttons)
 	_equip_button = _action_button("Équiper", _on_equip_pressed)

@@ -136,7 +136,8 @@ func _build() -> void:
 	_panel.anchor_right = 0.5
 	_panel.offset_left = -230
 	_panel.offset_right = 230
-	_panel.offset_top = 160
+	_panel.offset_top = 110
+	_panel.offset_bottom = 560
 	var style := StyleBoxFlat.new()
 	style.bg_color = Color(0.13, 0.1, 0.07, 0.97)
 	style.border_color = Color(0.55, 0.42, 0.22)
@@ -173,7 +174,7 @@ func _build() -> void:
 	column.add_child(hint)
 	_list = VBoxContainer.new()
 	_list.add_theme_constant_override("separation", 6)
-	column.add_child(_list)
+	column.add_child(UiTheme.scroll_area(_list))
 	column.add_child(HSeparator.new())
 	_respawn = Label.new()
 	_respawn.add_theme_font_size_override("font_size", 14)

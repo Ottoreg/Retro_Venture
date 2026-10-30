@@ -2193,6 +2193,10 @@ préférence ce que les joueurs feront déjà d'eux-mêmes.
   *Fait* : icône en damier gris de la barre de combat ou touche T, aussi dans les options. Les combattants
   restent dessinés par défaut ; l'option « Pions en mode tactique » les remplace par des pions
   (cercle de la couleur du camp, initiale, PV).
+- **Fenêtres à taille fixe** : une fenêtre garde toujours sa taille ; ce qui ne tient pas (fiche
+  d'objet et sa panoplie, texte de quête, réplique d'un PNJ, liste des Pierres de Passage) défile
+  dedans, et un titre trop long est coupé par « … ». *Fait* pour toutes les fenêtres
+  (`UiTheme.scroll_area`, test `test_fenetres_a_taille_fixe`).
 - **Menu pause** (Échap quand aucune fenêtre n'est ouverte) : le jeu s'arrête ; reprendre, options,
   retour au menu principal (sauvegardé, pas pendant un combat), quitter. **Options** (menu principal
   ou pause) : volume, plein écran, taille de la fenêtre, mode tactique, pions en mode tactique ; gardées hors sauvegarde.

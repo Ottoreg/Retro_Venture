@@ -147,6 +147,7 @@ func _build() -> void:
 	_panel.offset_left = -330
 	_panel.offset_right = -16
 	_panel.offset_top = 70
+	_panel.offset_bottom = 530
 	var style := StyleBoxFlat.new()
 	style.bg_color = Color(0.13, 0.1, 0.07, 0.95)
 	style.border_color = Color(0.55, 0.42, 0.22)
@@ -158,10 +159,11 @@ func _build() -> void:
 
 	var box := VBoxContainer.new()
 	box.add_theme_constant_override("separation", 6)
-	_panel.add_child(box)
+	_panel.add_child(UiTheme.scroll_area(box))  # Taille fixe : ce qui ne tient pas défile.
 	var header := HBoxContainer.new()
 	box.add_child(header)
 	_title = _label(22, GOLD)
+	_title.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	_title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	header.add_child(_title)
 	var close := Button.new()
@@ -170,6 +172,7 @@ func _build() -> void:
 	close.pressed.connect(toggle)
 	header.add_child(close)
 	_subtitle = _label(15, Color(0.85, 0.82, 0.75))
+	_subtitle.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	box.add_child(_subtitle)
 	_xp_bar = ProgressBar.new()
 	_xp_bar.show_percentage = false

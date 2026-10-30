@@ -194,6 +194,7 @@ func _build() -> void:
 	details.add_theme_constant_override("separation", 10)
 	row.add_child(details)
 	_title = Label.new()
+	_title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_title.add_theme_font_size_override("font_size", 20)
 	_title.add_theme_color_override("font_color", UiTheme.GOLD)
 	details.add_child(_title)
@@ -202,9 +203,13 @@ func _build() -> void:
 	_rewards = Label.new()
 	_rewards.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_rewards.add_theme_font_size_override("font_size", 14)
+	# Texte, objectifs et récompenses défilent : la fenêtre garde sa taille.
+	var text_box := VBoxContainer.new()
+	text_box.add_theme_constant_override("separation", 10)
 	for label: Control in [_details, _objectives, _rewards]:
 		label.custom_minimum_size = Vector2(420, 0)
-		details.add_child(label)
+		text_box.add_child(label)
+	details.add_child(UiTheme.scroll_area(text_box))
 	_track = Button.new()
 	_track.custom_minimum_size = Vector2(160, 34)
 	_track.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN

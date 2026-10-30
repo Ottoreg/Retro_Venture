@@ -179,6 +179,7 @@ func _build() -> void:
 	column.add_child(_tabs)
 
 	_title = _label(20, Color(0.95, 0.92, 0.85))
+	_title.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	column.add_child(_title)
 	_description = _label(14, Color(0.8, 0.78, 0.7))
 	_description.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART

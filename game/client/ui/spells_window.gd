@@ -379,17 +379,14 @@ func _build() -> void:
 	title_row.add_child(_icon)
 	_title = _label(22, GOLD)
 	_title.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	_title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	title_row.add_child(_title)
 	# Fiche défilante : une longue fiche (l'Horloge et ses 12 heures) reste dans la fenêtre, et la
 	# ligne de maîtrise en dessous reste visible.
-	var scroll := ScrollContainer.new()
-	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	detail.add_child(scroll)
 	_details = _label(15, Color(0.92, 0.9, 0.85))
 	_details.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_details.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	scroll.add_child(_details)
+	detail.add_child(UiTheme.scroll_area(_details))
 	_mastery_row = HBoxContainer.new()
 	_mastery_row.add_theme_constant_override("separation", 10)
 	detail.add_child(_mastery_row)

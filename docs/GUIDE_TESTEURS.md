@@ -141,7 +141,9 @@ temps : chaque camp a sa propre histoire.
 **Options** (menu principal ou menu pause) : volume, plein écran, taille de la fenêtre (hors
 navigateur), mode tactique et pions en mode tactique ; elles sont gardées d'une partie à l'autre, hors sauvegarde.
 
-Les six boutons en bas à droite de la barre ouvrent les mêmes fenêtres.
+Les six boutons en bas à droite de la barre ouvrent les mêmes fenêtres. Les fenêtres gardent
+leur taille : un texte long (fiche d'objet avec sa panoplie, quête) défile à la molette. Si un texte
+sort quand même d'une fenêtre, signalez-le.
 
 ### L'écran
 

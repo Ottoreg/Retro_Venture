@@ -295,6 +295,7 @@ func _build() -> void:
 	column.add_child(header)
 	_title = _label(22, GOLD)
 	_title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_title.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	header.add_child(_title)
 	_coins = _label(16, GOLD)
 	header.add_child(_coins)
@@ -306,7 +307,7 @@ func _build() -> void:
 
 	_greeting = _label(14, Color(0.85, 0.82, 0.72))
 	_greeting.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	column.add_child(_greeting)
+	column.add_child(UiTheme.scroll_area(_greeting, 46))
 
 	var tabs := HBoxContainer.new()
 	column.add_child(tabs)
@@ -341,8 +342,7 @@ func _build() -> void:
 	_details = _label(14, Color(0.92, 0.9, 0.85))
 	_details.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_details.custom_minimum_size = Vector2(260, 0)
-	_details.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	detail_box.add_child(_details)
+	detail_box.add_child(UiTheme.scroll_area(_details))
 	_quantity_box = HBoxContainer.new()
 	detail_box.add_child(_quantity_box)
 	var quantity_label := _label(14, Color(0.8, 0.78, 0.7))

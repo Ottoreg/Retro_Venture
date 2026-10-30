@@ -269,6 +269,7 @@ func _build() -> void:
 	column.add_child(header)
 	_title = _label(22, GOLD)
 	_title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_title.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	header.add_child(_title)
 	header.add_child(_button("×", cancel, "Annuler l'échange"))
 
@@ -324,8 +325,10 @@ func _build() -> void:
 	offers.add_child(_theirs_ecus)
 
 	_status = _label(15, Color(0.85, 0.82, 0.72))
+	_status.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	column.add_child(_status)
 	_message = _label(14, Color(1.0, 0.5, 0.4))
+	_message.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	column.add_child(_message)
 	var buttons := HBoxContainer.new()
 	buttons.alignment = BoxContainer.ALIGNMENT_END

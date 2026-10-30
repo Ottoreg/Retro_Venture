@@ -89,6 +89,23 @@ static func tooltip_style() -> StyleBoxFlat:
 	return style
 
 
+## Zone défilante d'une fenêtre. Règle de l'interface : une fenêtre garde toujours sa taille, et ce
+## qui ne tient pas (fiche d'objet avec sa panoplie, texte de quête, longue liste) défile dedans au
+## lieu de l'agrandir (`tests/test_interface.gd` le vérifie sur chaque fenêtre). Sans `height`, la
+## zone prend la place libre ; avec, elle a cette hauteur fixe (une réplique d'accueil, par exemple).
+static func scroll_area(content: Control, height := 0.0) -> ScrollContainer:
+	var scroll := ScrollContainer.new()
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	if height > 0.0:
+		scroll.custom_minimum_size = Vector2(0, height)
+	else:
+		scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	content.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	scroll.add_child(content)
+	return scroll
+
+
 ## Fond des fenêtres posées au milieu de l'écran (options, pause…).
 static func window_style() -> StyleBoxFlat:
 	var style := _box(Color(0.13, 0.1, 0.07, 0.97), Color(0.55, 0.42, 0.22), 2, 6, 14)

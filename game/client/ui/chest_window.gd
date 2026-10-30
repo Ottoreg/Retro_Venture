@@ -252,6 +252,7 @@ func _build() -> void:
 	chest_box.add_child(_chest_list)
 
 	_message = _label(14, Color(1.0, 0.5, 0.4))
+	_message.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	column.add_child(_message)
 	var hint := _label(12, Color(0.6, 0.58, 0.52))
 	hint.text = "Les objets portés restent sur vous · Échap : fermer"

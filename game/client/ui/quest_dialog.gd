@@ -7,6 +7,9 @@ extends CanvasLayer
 ## Clic sur un nom du texte : repère { carte, nom } à poser.
 signal pin_requested(pin: Dictionary)
 
+## Taille fixe de la fenêtre : un long texte défile dedans.
+const SIZE := Vector2(480, 440)
+
 var map_view: MapView
 var _quest_id := ""
 var _backdrop: ColorRect
@@ -82,26 +85,30 @@ func _build() -> void:
 	_panel.grow_horizontal = Control.GROW_DIRECTION_BOTH
 	_panel.grow_vertical = Control.GROW_DIRECTION_BOTH
 	_panel.add_theme_stylebox_override("panel", UiTheme.window_style())
-	_panel.custom_minimum_size = Vector2(460, 0)
+	_panel.custom_minimum_size = SIZE
 	add_child(_panel)
 	var column := VBoxContainer.new()
 	column.add_theme_constant_override("separation", 8)
 	_panel.add_child(column)
 	_npc = _label(14, UiTheme.TEXT_DIM)
+	_npc.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	column.add_child(_npc)
 	_title = _label(20, UiTheme.GOLD)
+	_title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	column.add_child(_title)
+	# Texte, objectifs et récompenses défilent : la fenêtre garde sa taille, les boutons restent visibles.
+	var text_box := VBoxContainer.new()
+	text_box.add_theme_constant_override("separation", 8)
+	column.add_child(UiTheme.scroll_area(text_box))
 	_text = QuestLinks.make_label(15, UiTheme.TEXT, pin_requested.emit)
-	_text.custom_minimum_size = Vector2(440, 0)
-	column.add_child(_text)
-	column.add_child(_label(15, UiTheme.GOLD, "Objectifs"))
+	text_box.add_child(_text)
+	text_box.add_child(_label(15, UiTheme.GOLD, "Objectifs"))
 	_objectives = QuestLinks.make_label(14, UiTheme.TEXT, pin_requested.emit)
-	_objectives.custom_minimum_size = Vector2(440, 0)
-	column.add_child(_objectives)
-	column.add_child(_label(15, UiTheme.GOLD, "Récompenses"))
+	text_box.add_child(_objectives)
+	text_box.add_child(_label(15, UiTheme.GOLD, "Récompenses"))
 	_rewards = _label(14, UiTheme.TEXT)
 	_rewards.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	column.add_child(_rewards)
+	text_box.add_child(_rewards)
 	var buttons := HBoxContainer.new()
 	buttons.alignment = BoxContainer.ALIGNMENT_CENTER
 	buttons.add_theme_constant_override("separation", 12)

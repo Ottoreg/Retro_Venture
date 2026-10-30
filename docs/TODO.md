@@ -466,6 +466,10 @@ Lots 0 (conception dans le GDD), 1 (personnage, poussé sur `main` à la demande
 - [x] **(MVP)** Fenêtres : inventaire + poupée, caractéristiques, sorts, quêtes, métiers
   (inventaire avec onglets Équipements / Consommables / Ressources, caractéristiques, sorts avec un onglet par famille (Voie, race, arme), métiers avec
   un onglet par métier, boutique, atelier, coffre, journal des quêtes)
+- [x] Fenêtres à taille fixe (demande de l'auteur, 30/10/2026) : un long texte (fiche d'objet avec
+  sa panoplie, quête, réplique d'accueil) ou une longue liste (Pierres de Passage) défile dans la
+  fenêtre au lieu de l'agrandir ; titres coupés par « … » (`UiTheme.scroll_area`, vérifié sur
+  chaque fenêtre par `test_fenetres_a_taille_fixe`)
 - [x] **(MVP)** Menu principal, options (volume, plein écran, taille de la fenêtre, mode tactique ;
   `user://options.cfg`, hors sauvegarde), pause (Échap : le jeu s'arrête ; reprendre, options,
   menu principal, quitter)
