@@ -1337,16 +1337,30 @@ tour ») : la difficulté vient uniquement des **monstres renforcés**.
   - **destruction** : détruire un objet donne une **essence** d'une de ses statistiques, **tirée au
     hasard** parmi ses lignes (« essence de Force », « essence de PA »…). L'objet disparaît : c'est
     ce qui renouvelle la demande auprès des artisans ;
-  - **amélioration** : une essence s'utilise pour **essayer d'améliorer** un autre objet sur la même
-    statistique (monter un jet, voire ajouter la ligne si l'objet ne l'a pas). L'essai peut rater :
-    l'essence est alors perdue, **jamais l'objet** (dans l'esprit du « jamais d'échec destructeur »
-    du § 10.2) ;
-  - *pistes* : la puissance de l'essence suit le jet et le palier de l'objet détruit (une essence de
-    palier 5 n'améliore pas un objet de palier 30) ; les plafonds du § 10.4 (par ligne, par objet,
-    par statistique) s'appliquent toujours, l'amélioration ne fait jamais dépasser le budget du
-    palier ; les essences rares (PA, PM, Portée) sont les plus recherchées et ont la plus faible
-    chance de réussite ; la maîtrise de l'artisan (§ 10.2) augmente la chance de réussite ; en
-    multijoueur, les essences s'échangent et se vendent ;
+  - **amélioration par greffe** (validée le 01/11/2026 pour se démarquer de la forgemagie de Dofus,
+    faite de runes à petits pas, d'un puits caché et de lignes qui baissent) : l'essence garde la
+    **valeur exacte** du jet détruit (« Force 14 ») et, en **un seul essai**, **remplace** la ligne de
+    même statistique de l'objet visé si elle est meilleure (ou ajoute la ligne s'il ne l'a pas).
+    L'essai peut rater : l'essence est alors perdue, **jamais l'objet** (dans l'esprit du « jamais
+    d'échec destructeur » du § 10.2) ;
+  - **tout se voit** : la chance de réussite s'affiche avant l'essai, pas de puits caché, et un échec
+    ne fait **jamais baisser les autres lignes** (pilier « aucune mécanique cachée ») ;
+  - **nombre fixe de greffes par objet** (par exemple **trois cicatrices**, visibles sur la fiche) au
+    lieu d'une amélioration sans fin : l'objet a un état final, et un objet vierge garde sa valeur ;
+  - **l'essence garde son histoire** : « essence de Force du Bonnet fulgurant, fait main par
+    Krogma » ; la greffe s'inscrit sur la fiche de l'objet (§ 1 : chaque objet a une histoire).
+    Parodie : recycleur gobelin syndiqué, certificat d'origine ;
+  - **l'essence sert aussi à fabriquer** : dans un objet personnalisé (§ 10.4), elle remplace une
+    partie des ressources de sa statistique. Briser, fabriquer et améliorer forment un **seul
+    circuit**, pas des métiers séparés ;
+  - **le hasard est à la destruction** (quelle ligne sort) ; une fois l'essence en main, son usage
+    est maîtrisé ;
+  - *pistes* : une essence ne se greffe que sur un objet de palier proche (une essence de palier 5
+    ne va pas sur un objet de palier 30) ; les plafonds du § 10.4 (par ligne, par objet, par
+    statistique) s'appliquent toujours, la greffe ne fait jamais dépasser le budget du palier ; les
+    essences rares (PA, PM, Portée) sont les plus recherchées et ont la plus faible chance de
+    réussite ; la maîtrise de l'artisan (§ 10.2) augmente la chance de réussite ; en multijoueur,
+    les essences s'échangent et se vendent ;
   - les essences **remplacent les runes** de la forgemagie : un seul système d'amélioration ;
   - *questions ouvertes* : le tirage est-il pondéré (une ligne forte plus probable) ? les panoplies
     et objets prédéfinis peuvent-ils être détruits et améliorés ? métier dédié ou compétence de
