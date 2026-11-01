@@ -1794,6 +1794,39 @@ l'auteur ; proposition, non validée) :
 - Partout plus bas, lire « palier » pour « niveau de l'objet » et « maîtrise » pour « niveau de
   métier ».
 
+**Piste : presque aucun objet prédéfini** (idée de l'auteur du 01/11/2026, analysée, **non
+tranchée**) : tous les équipements sont créés par les joueurs en associant des **ressources à
+statistiques prédéfinies**, sur le modèle des objets personnalisés ; les artisans les plus
+expérimentés (maîtrise de métier) obtiennent de **meilleurs jets**. Exceptions prédéfinies : les
+panoplies élémentaires, le butin rare à histoire, les légendaires et les Reliques de l'Aube.
+
+- *Points forts* :
+  - **cohérence avec la refonte** (§ 4.5, § 10.2) : sans conditions d'équipement et avec une maîtrise
+    qui améliore la qualité sans échec, le chef-d'œuvre devient la règle et non une récompense de fin
+    de jeu ; le palier d'un objet découle de la rareté de ses ressources ;
+  - **économie portée par les joueurs** (pilier 4) : presque chaque pièce passe par un artisan, ce
+    qui répond à la crainte que les aventuriers n'aient plus besoin des artisans (§ 13.6) ;
+  - **un butin qui compte partout** : chaque monstre lâche des ingrédients à statistiques, et
+    l'élément dominant de chaque zone (§ 8.1) façonne ses ressources, d'où une raison de visiter
+    chaque zone ;
+  - **builds variés** : plus de « la » bonne pièce d'un palier, chacun règle ses lignes selon sa
+    Voie, au même budget que le reste du jeu ;
+  - **moins de contenu à produire** : on équilibre une centaine de ressources et un barème de score
+    plutôt que des centaines d'objets ; le catalogue et la simulation vérifient le barème ;
+  - **identité et parodie** : signature, nom choisi, bureau des brevets (§ 13.6).
+- *Risques et parades* :
+  - **en solo** (toutes les alphas), le joueur doit tout fabriquer : recettes de base simples et
+    rapides, ou pièces génériques vendues par les PNJ ;
+  - **méta qui converge** vers une combinaison optimale : plafonds par ligne et ressources aux
+    statistiques mêlées ;
+  - **« chaque objet rare a une histoire »** (§ 1) : d'où les exceptions prédéfinies ci-dessus ;
+  - **puits d'équipement** (usure ou brisage) indispensable, sinon le marché sature ;
+  - **apparence** : dessins modulaires par emplacement et par matière ;
+  - **écart débutant / maître** : le meilleur jet apporte quelques %, jamais un palier entier.
+- *Calendrier conseillé* : objets prédéfinis gardés pour l'alpha 1 ; création libre comme règle à
+  l'alpha 2, avec le lot 4 (métiers). Cette piste répond à la question ouverte des **jets** (plus
+  bas) : jets oui, tirés plus haut avec la maîtrise.
+
 **Nom de la compétence** (à choisir) : **Chef-d'œuvre** (l'objet créé est « un chef-d'œuvre de
 Krogma » ; proposition retenue par défaut dans ce document), **Pièce de maître**, ou **Façonnage
 libre**. Côté parodie, l'objet peut porter la signature de son artisan (« fait main par… »).

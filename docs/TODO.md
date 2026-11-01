@@ -206,6 +206,8 @@ Lots 0 (conception dans le GDD), 1 (personnage, poussé sur `main` à la demande
   `produire_lot*.py`) ; maîtres de classe et de métier ; changement de classe expliqué
 - [ ] **Lot 6. Interface et documents** : fiche, grimoire (maîtrises), métiers, artisanat,
   infobulles, carte du monde ; catalogue, guide des testeurs, `game/data/README.md`
+- [ ] **À trancher** : presque aucun objet prédéfini, tout l'équipement créé par les joueurs à partir de
+  ressources à statistiques, meilleurs jets pour les maîtres (piste du 01/11/2026, GDD § 10.4)
 - [ ] **Plus tard** : chefs-d'œuvre redéfinis par la maîtrise (GDD § 10.4) ; les cinq autres Voies
   après la Voie pilote
 
