@@ -1332,6 +1332,25 @@ tour ») : la difficulté vient uniquement des **monstres renforcés**.
   caractéristiques). *(À faire, TODO.)*
 - **Long terme :** forgemagie (modification des jets avec des runes), objets légendaires à effets
   uniques liés au butin rare et aux quêtes, objets liés au compte.
+- **Essences** (idée de l'auteur du 01/11/2026, le **puits d'équipement** du § 10.4 et du § 13.6 ;
+  rien n'est codé, chiffres à équilibrer) :
+  - **destruction** : détruire un objet donne une **essence** d'une de ses statistiques, **tirée au
+    hasard** parmi ses lignes (« essence de Force », « essence de PA »…). L'objet disparaît : c'est
+    ce qui renouvelle la demande auprès des artisans ;
+  - **amélioration** : une essence s'utilise pour **essayer d'améliorer** un autre objet sur la même
+    statistique (monter un jet, voire ajouter la ligne si l'objet ne l'a pas). L'essai peut rater :
+    l'essence est alors perdue, **jamais l'objet** (dans l'esprit du « jamais d'échec destructeur »
+    du § 10.2) ;
+  - *pistes* : la puissance de l'essence suit le jet et le palier de l'objet détruit (une essence de
+    palier 5 n'améliore pas un objet de palier 30) ; les plafonds du § 10.4 (par ligne, par objet,
+    par statistique) s'appliquent toujours, l'amélioration ne fait jamais dépasser le budget du
+    palier ; les essences rares (PA, PM, Portée) sont les plus recherchées et ont la plus faible
+    chance de réussite ; la maîtrise de l'artisan (§ 10.2) augmente la chance de réussite ; en
+    multijoueur, les essences s'échangent et se vendent ;
+  - les essences **remplacent les runes** de la forgemagie : un seul système d'amélioration ;
+  - *questions ouvertes* : le tirage est-il pondéré (une ligne forte plus probable) ? les panoplies
+    et objets prédéfinis peuvent-ils être détruits et améliorés ? métier dédié ou compétence de
+    chaque artisan sur ses propres emplacements ?
 
 ### 9.3 Panoplies de l'alpha test
 
@@ -1820,7 +1839,7 @@ panoplies élémentaires, le butin rare à histoire, les légendaires et les Rel
   - **méta qui converge** vers une combinaison optimale : plafonds par ligne et ressources aux
     statistiques mêlées ;
   - **« chaque objet rare a une histoire »** (§ 1) : d'où les exceptions prédéfinies ci-dessus ;
-  - **puits d'équipement** (usure ou brisage) indispensable, sinon le marché sature ;
+  - **puits d'équipement** indispensable, sinon le marché sature : les **essences** (§ 9.2) ;
   - **apparence** : dessins modulaires par emplacement et par matière ;
   - **écart débutant / maître** : le meilleur jet apporte quelques %, jamais un palier entier.
 - *Calendrier conseillé* : objets prédéfinis gardés pour l'alpha 1 ; création libre comme règle à
@@ -2104,8 +2123,9 @@ de différence). On protège plutôt ce qui fait la valeur du créateur :
 - plus tard, **vente de copies de patron** à N fabrications (comme les plans d'EVE).
 
 Garde-fous : un chef-d'œuvre a **le même budget** que les objets du jeu de même niveau (plus souple,
-jamais plus fort) ; il faut un **puits d'équipement** en plus des consommables (brisage qui rend
-une partie des ressources, ou usure légère réparée par un artisan) pour que la demande se renouvelle.
+jamais plus fort) ; il faut un **puits d'équipement** en plus des consommables pour que la demande
+se renouvelle : piste retenue, les **essences** (§ 9.2 : détruire un objet donne l'essence d'une de
+ses statistiques au hasard, qui sert à essayer d'en améliorer un autre).
 
 **Artisans et profits.** Rien n'empêche un artisan au maximum de farmer lui-même et de revendre
 cher : c'est sa récompense. Les limites viennent de la concurrence des autres artisans, du temps

@@ -636,7 +636,8 @@ classes (option écartée et compromis gardés en piste, GDD § 5.2).
   pouvoirs uniques, une par Héraut Cendré (GDD § 3.3, § 9.1)
 - [ ] Objets légendaires à effets uniques (butin très rare et quêtes)
 - [ ] Archimonstres (variantes rares nommées)
-- [ ] Forgemagie (modification des jets avec des runes)
+- [ ] Essences (GDD § 9.2) : détruire un objet donne l'essence d'une de ses statistiques au hasard,
+  qui sert à essayer d'améliorer un autre objet (puits d'équipement ; remplace les runes de forgemagie)
 
 ### Métiers
 - [x] Conception des onze métiers (GDD § 10.3) : récolte (mineur, bûcheron, agriculteur, herboriste,
