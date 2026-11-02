@@ -324,7 +324,7 @@ le **lit** de votre maison les rend tous d'un coup.
   ci-dessus). Pas de niveau : tout se récolte dès le début (une récolte prend de 2 à 7 secondes,
   plus pour une ressource rare ; bouger l'interrompt ; personne d'autre ne peut la prendre pendant ce temps), et chaque récolte ou objet forgé donne
   de la **réputation de métier**, d'autant plus que la ressource est rare pour vous. Tous les 500, un
-  point de maîtrise à placer (touche J) dans les compétences : Abondance et Œil exercé en récolte,
+  point de maîtrise à placer (touche J) dans les compétences : Abondance (quantité), Œil exercé (rare) et Célérité (vitesse) en récolte,
   Précision (jets plus hauts) à la forge. **Récolte rare** : 1 fois sur 100 au départ, une ressource
   rare à la place (« Rare ! »).
 - **Pierres de Passage** : pendant ce test, toutes accessibles dès le début (voyage payant). La

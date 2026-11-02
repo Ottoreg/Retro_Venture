@@ -126,9 +126,12 @@ func test_recolte_rare() -> void:
 func test_temps_de_recolte() -> void:
 	assert_eq(Profession.harvest_time(1), 1.75)
 	assert_true(Profession.harvest_time(22) > Profession.harvest_time(3), "plus long pour une ressource difficile")
+	assert_eq(Profession.harvest_time(22, 5), 3.5, "Célérité au rang 5 : moitié moins")
+	assert_eq(Profession.harvest_time(1, 5), Profession.HARVEST_MIN_TIME, "jamais moins d'une seconde")
+	_world.character.jobs["bucheron"] = {"reputation": 0, "points": 0, "competences": {"celerite": 2}}
 	var tree := Fixtures.center()
 	_go_next_to(tree)
-	_command(Protocol.CMD_HARVEST, {"case": tree})
+	assert_true(is_equal_approx(_command(Protocol.CMD_HARVEST, {"case": tree})[0]["duree"], 1.4), "Célérité au rang 2 : -20 %")
 	assert_true(_world.update(1.0).is_empty(), "pas encore fini")
 	assert_eq(_world.update(1.0)[0]["type"], Protocol.EVT_HARVESTED)
 	# S'en aller interrompt la récolte.

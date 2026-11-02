@@ -201,7 +201,7 @@ Lots 0 (conception dans le GDD), 1 (personnage, poussé sur `main` à la demande
   effet en attendant, GDD § 4.3) et au Semi-homme et au Lutin (Phase 3, passifs en +10 % finaux)
 - [x] Lot 4 : le passif des Humains (+10 % d'XP de métier) devient +10 % de réputation de métier
 - [x] **Lot 4. Métiers** (02/11/2026, GDD § 10.2) : récolte ouverte ; réputation et maîtrise de métier
-  (compétences Abondance, Œil exercé, Précision : qualité, jamais d'échec) ; gains selon la difficulté
+  (compétences Abondance, Œil exercé, Célérité, Précision : qualité, jamais d'échec) ; gains selon la difficulté
   du palier ; protocole v11
 - [ ] Nouvelle activité par palier de réputation de métier (tous les métiers sont ouverts pour
   l'instant) : à trancher avec les maîtres de métier (lot 5)

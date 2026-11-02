@@ -733,7 +733,7 @@ func test_reapparition_des_monstres_et_fenetre_des_metiers() -> void:
 	assert_eq(jobs._list.item_count, 1, "ce que le forgeron sait lire des ressources")
 	jobs.select_job("bucheron")
 	assert_eq(jobs._list.item_count, world.data.jobs["bucheron"]["ressources"].size(), "toutes les ressources")
-	assert_true(jobs._skills.get_child(-1).get_child(0).text.begins_with("Œil exercé, rang 0"), "compétences de récolte")
+	assert_true(jobs._skills.get_child(-1).get_child(0).text.begins_with("Célérité, rang 0"), "compétences de récolte")
 	jobs.toggle()
 	scene.free()
 

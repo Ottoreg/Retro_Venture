@@ -13,14 +13,17 @@ const APPEARANCES := ["arbre", "rocher"]
 ## Chance qu'une récolte donne la ressource rare du nœud (`rare`) à la place de la ressource de base :
 ## un seul exemplaire, pour les recettes améliorées.
 const RARE_CHANCE := 0.01
-## Durée d'une récolte en secondes : base + par palier de la ressource (palier 1 : 1,75 s, 22 : 7 s).
+## Durée d'une récolte en secondes : base + par palier de la ressource (palier 1 : 1,75 s, 22 : 7 s),
+## moins la Célérité, jamais sous HARVEST_MIN_TIME.
 const HARVEST_BASE_TIME := 1.5
 const HARVEST_TIME_PER_TIER := 0.25
+const HARVEST_MIN_TIME := 1.0
 ## Compétences par type de métier : id → [nom, effet par rang (texte : %s = valeur), valeur par rang].
 const SKILLS := {
 	TYPE_HARVEST: {
 		"abondance": ["Abondance", "+%s %% de chances d'une ressource de plus", 20],
 		"oeil": ["Œil exercé", "+%s %% de chances de ressource rare", 0.5],
+		"celerite": ["Célérité", "-%s %% de temps de récolte (1 s au moins)", 10],
 	},
 	TYPE_CRAFT: {
 		"precision": ["Précision", "+%s %% au plancher des jets (75 %% du maximum au départ)", 5],
@@ -28,8 +31,9 @@ const SKILLS := {
 }
 
 
-static func harvest_time(tier: int) -> float:
-	return HARVEST_BASE_TIME + HARVEST_TIME_PER_TIER * tier
+static func harvest_time(tier: int, speed_rank := 0) -> float:
+	var reduction := skill_value(TYPE_HARVEST, "celerite", speed_rank) / 100.0
+	return maxf(HARVEST_MIN_TIME, (HARVEST_BASE_TIME + HARVEST_TIME_PER_TIER * tier) * (1.0 - reduction))
 
 
 ## Compétences d'un métier de ce type.

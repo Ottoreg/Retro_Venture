@@ -1471,7 +1471,8 @@ palier contre le niveau équivalent de la réputation du métier (`Profession.re
 sa mesure, × 3 au plus, × 0,2 au moins) ; +10 % pour les Humains. Compétences
 (`Profession.SKILLS`, rang n : n points, rang 5 au plus, commande `maitriser` avec `metier` et
 `competence`, fenêtre des métiers) : récolte **Abondance** (+20 % par rang de chances d'une ressource
-de plus) et **Œil exercé** (+0,5 % par rang de chances de ressource rare) ; forge **Précision** (+5 %
+de plus) et **Œil exercé** (+0,5 % par rang de chances de ressource rare) et **Célérité** (-10 % de temps de récolte par
+rang, 1 s au moins avec la maîtrise au maximum : demande de l'auteur) ; forge **Précision** (+5 %
 par rang au plancher des jets, 100 % au rang 5). Protocole v11. Pas encore de « nouvelle activité »
 par palier : tous les métiers sont ouverts, à revoir avec les maîtres de métier (lot 5).
 **Temps de récolte** (demande de l'auteur, 02/11/2026) : une récolte dure 1,5 s + 0,25 s par palier de

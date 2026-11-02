@@ -2277,7 +2277,8 @@ func _harvest(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
 	if not GameMap.is_adjacent(p.cell, cell):
 		return _refused(command, Protocol.REASON_TOO_FAR)
 	var node := _resource_node(p.instance, cell)
-	p.harvesting = {"case": cell, "fin": clock + Profession.harvest_time(int(node.get("niveau", 1)))}
+	p.harvesting = {"case": cell, "fin": clock + Profession.harvest_time(int(node.get("niveau", 1)),
+		p.character.job_rank(node["metier"], "celerite"))}
 	var events: Array[Dictionary] = [{"type": Protocol.EVT_HARVEST_STARTED, "entite": p.id, "case": cell,
 		"duree": p.harvesting["fin"] - clock}]
 	return events
