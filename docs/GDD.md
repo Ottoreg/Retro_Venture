@@ -1477,6 +1477,7 @@ par palier : tous les métiers sont ouverts, à revoir avec les maîtres de mét
 **Temps de récolte** (demande de l'auteur, 02/11/2026) : une récolte dure 1,5 s + 0,25 s par palier de
 la ressource (`Profession.harvest_time` : 1,75 s au palier 1, 7 s au palier 22), avec une barre
 au-dessus du joueur ; marcher, changer de carte ou entrer en combat l'interrompt (rien n'est perdu).
+Pendant ce temps, la ressource est réservée : un autre joueur ne peut pas la récolter (`ressource_occupee`).
 Le serveur la finit dans `World.update` (`PlayerState.harvesting`, événement `debut_recolte`,
 protocole v12).
 

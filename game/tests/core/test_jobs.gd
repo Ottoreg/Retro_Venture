@@ -139,6 +139,19 @@ func test_temps_de_recolte() -> void:
 	assert_false(_world.is_depleted(tree))
 
 
+func test_ressource_reservee_pendant_la_recolte() -> void:
+	var tree := Fixtures.center()
+	_world.add_player(Fixtures.character(), "p2", _map.id)
+	_go_next_to(tree)
+	_command(Protocol.CMD_HARVEST, {"case": tree})
+	var path := _map.approach_path(_world.position_of("p2"), tree)
+	if not path.is_empty():
+		_world.execute({"type": Protocol.CMD_MOVE, "entite": "p2", "cible": path[-1]})
+	var refused := _world.execute({"type": Protocol.CMD_HARVEST, "entite": "p2", "case": tree})
+	assert_eq(refused[0].get("raison"), Protocol.REASON_HARVEST_TAKEN, "un autre joueur la récolte")
+	assert_eq(_harvest(tree)[0]["type"], Protocol.EVT_HARVESTED, "le premier peut la reprendre et la finir")
+
+
 func test_repousse_entre_une_et_deux_minutes() -> void:
 	var tree := Fixtures.center()
 	_go_next_to(tree)

@@ -465,6 +465,8 @@ const REASON_QUEST_ITEM := "objet_de_quete"
 const REASON_INVENTORY_OVERLOADED := "inventaire_surcharge"
 const REASON_TOO_FAR := "trop_loin"
 const REASON_DEPLETED := "ressource_epuisee"
+## Un autre joueur est en train de récolter cette ressource.
+const REASON_HARVEST_TAKEN := "ressource_occupee"
 const REASON_MISSING_INGREDIENTS := "ingredients_manquants"
 const REASON_WRONG_PHASE := "mauvaise_phase"
 ## Groupe de monstres déjà en combat contre un autre joueur.

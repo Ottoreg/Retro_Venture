@@ -2249,7 +2249,11 @@ func harvest_refusal(cell: Vector2i) -> String:
 
 func _harvest_refusal(p: PlayerState, cell: Vector2i) -> String:
 	var node := _resource_node(p.instance, cell)
-	return harvest_refusal_for(node, p.instance.depleted.has(cell), p.character)
+	var reason := harvest_refusal_for(node, p.instance.depleted.has(cell), p.character)
+	for other_id in p.instance.player_ids():
+		if reason.is_empty() and other_id != p.id and players[other_id].harvesting.get("case") == cell:
+			reason = Protocol.REASON_HARVEST_TAKEN  # Réservée par celui qui la récolte.
+	return reason
 
 
 ## Règle de récolte, partagée avec la copie de l'état du client (`ClientState`).

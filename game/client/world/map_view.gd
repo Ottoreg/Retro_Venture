@@ -636,6 +636,8 @@ func _harvest_refusal_text(reason: String, cell: Vector2i) -> String:
 	var node := world.resource_node(cell)
 	if reason == Protocol.REASON_DEPLETED:
 		return "%s : déjà récolté, ça repousse." % node.get("nom", "Ressource")
+	if reason == Protocol.REASON_HARVEST_TAKEN:
+		return "Quelqu'un est déjà en train de la récolter."
 	if reason == Protocol.REASON_INVENTORY_FULL:
 		return "Inventaire plein."
 	return "Impossible d'y accéder."
