@@ -45,6 +45,8 @@ esquive, hôtel des ventes, art et son.
 |---|---|
 | [docs/GDD.md](docs/GDD.md) | Game Design Document : vision, univers, systèmes, architecture, phases |
 | [docs/TODO.md](docs/TODO.md) | Liste des tâches par phase |
+| [docs/CATALOGUE.md](docs/CATALOGUE.md) | Objets, monstres et sorts (généré) |
+| [docs/METIERS.md](docs/METIERS.md) · [docs/CLASSES.md](docs/CLASSES.md) | Toutes les variables des métiers et de la forge, des classes et des races, pour l'équilibrage (générés) |
 | [docs/design/](docs/design/) | Documents de design détaillés (équilibrage, formules, tableurs) |
 | [docs/lore/](docs/lore/) | Univers, histoire, personnages, régions |
 | [docs/decisions/](docs/decisions/) | Journal des décisions techniques et de design |

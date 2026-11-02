@@ -9,7 +9,9 @@ Conventions : clés en français sans accents, une case = `[x, y]`, un fichier p
 nom du fichier.
 
 Catalogue lisible de tous les objets, monstres (stats par niveau, lieux) et sorts : [`docs/CATALOGUE.md`](../../docs/CATALOGUE.md),
-regénéré par `python3 game/tools/catalogue.py` (à relancer après un changement de contenu).
+regénéré par `python3 game/tools/catalogue.py` (à relancer après un changement de contenu). Variables d'équilibrage
+des métiers et de la forge, des classes et des races : [`docs/METIERS.md`](../../docs/METIERS.md) et
+[`docs/CLASSES.md`](../../docs/CLASSES.md), regénérés par `python3 game/tools/equilibrage.py`.
 
 ## Cartes (`cartes/`)
 

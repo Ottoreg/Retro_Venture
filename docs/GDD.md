@@ -249,6 +249,9 @@ les références.
 
 ## 4. Personnage : races, classes, caractéristiques
 
+> Chiffres actuels (stats des Voies, sorts, passifs, constantes de progression) : [CLASSES.md](CLASSES.md),
+> généré par `game/tools/equilibrage.py`.
+
 ### 4.1 Création de personnage
 
 Le joueur choisit : **race**, **Voie de départ** (classe), **sexe/apparence** (couleurs, quelques
@@ -1431,6 +1434,9 @@ niveaux, les **bottes de niveau 30 donnent 1 PM**.
 ---
 
 ## 10. Métiers
+
+> Chiffres actuels (ressources, paliers, quantités, temps, compétences, forge, plans) : [METIERS.md](METIERS.md),
+> généré par `game/tools/equilibrage.py`.
 
 ### 10.1 Court terme (3 métiers)
 

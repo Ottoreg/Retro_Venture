@@ -17,7 +17,7 @@ Solo d'abord, multijoueur plus tard. Vision et règles : [docs/GDD.md](docs/GDD.
 - À chaque ajout important, mettre à jour **tous** les fichiers de documentation concernés : GDD,
   TODO, `README.md` (état du projet affiché sur GitHub), `game/data/README.md`,
   `docs/GUIDE_TESTEURS.md`, les README des dossiers (`game/core/`, `game/client/`, `game/art/`,
-  `serveur/`…), `docs/CATALOGUE.md` (regénéré) et ce fichier.
+  `serveur/`…), `docs/CATALOGUE.md`, `docs/METIERS.md` et `docs/CLASSES.md` (regénérés) et ce fichier.
 - **Économiser les tokens** (demande de l'auteur) :
   - pas de vérification par plusieurs agents : préférer un script de contrôle mécanique, et les tests ;
   - écrire soi-même quand c'est faisable, plutôt que de lancer un workflow ;
@@ -55,6 +55,9 @@ Multijoueur : `godot --headless --path . -s res://server/server_main.gd` (serveu
 `serveur/README.md`.
 `python3 tools/catalogue.py` regénère `docs/CATALOGUE.md` (objets, monstres par niveau et lieux, sorts, avec leurs
 détails et comment les obtenir) : à relancer après tout changement d'objets, de sorts ou de monstres.
+`python3 tools/equilibrage.py` regénère `docs/METIERS.md` (métiers, récolte, compétences, forge, plans) et
+`docs/CLASSES.md` (Voies, sorts, races, progression) à partir des constantes des scripts et des JSON : à relancer
+après tout changement de métier, de forge, de sort, de Voie, de race ou de constante de progression.
 
 ## Architecture
 
