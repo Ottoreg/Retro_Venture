@@ -1,5 +1,6 @@
 extends "res://tests/test_case.gd"
-## Métiers : récolte (bûcheron), repousse des ressources, sauvegarde (la forge : `test_forge.gd`).
+## Métiers : récolte (bûcheron), repousse des ressources, réputation et compétences de métier,
+## sauvegarde (la forge : `test_forge.gd`).
 
 const Fixtures := preload("res://tests/helpers/fixtures.gd")
 
@@ -52,12 +53,11 @@ func _assert_refused(events: Array[Dictionary], reason: String, message := "") -
 	assert_eq(events[0].get("raison"), reason, message)
 
 
-func test_courbe_d_experience() -> void:
-	assert_eq(Profession.xp_for_level(1), 0)
-	assert_eq(Profession.xp_for_level(2), 10)
-	assert_eq(Profession.level_for_xp(9), 1)
-	assert_eq(Profession.level_for_xp(10), 2)
-	assert_eq(Profession.level_for_xp(1000000), Profession.MAX_LEVEL)
+func test_reputation_selon_la_difficulte() -> void:
+	assert_eq(Profession.reputation_gain(10, 1, 0, 0), 10, "à sa mesure : la base")
+	assert_eq(Profession.reputation_gain(10, 3, 0, 0), 30, "palier 3 pour un débutant : × 3")
+	assert_eq(Profession.reputation_gain(10, 1, 100000, 0), 2, "trop facile : × 0,2")
+	assert_eq(Profession.reputation_gain(10, 1, 0, 10), 11, "bonus de race")
 
 
 func test_ressources_sur_la_carte() -> void:
@@ -81,10 +81,11 @@ func test_recolter() -> void:
 	assert_eq(job.size(), 1)
 	assert_eq(job[0]["metier"], "bucheron")
 	assert_eq(job[0]["gain"], 10)
-	assert_eq(str(job[0]["niveaux"]), "[2]", "bûcheron niveau 2")
+	assert_eq(job[0]["reputation"], 10)
+	assert_eq(job[0]["paliers"], [], "pas encore Apprenti")
 	assert_eq(Fixtures.of_type(events, Protocol.EVT_INVENTORY).size(), 1)
 	assert_eq(_world.character.inventory.quantity_of("buche"), 2)
-	assert_eq(_world.character.job_level("bucheron"), 2)
+	assert_eq(_world.character.job_reputation("bucheron"), 10)
 	assert_true(_world.is_depleted(tree), "l'arbre est coupé")
 	_assert_refused(_command(Protocol.CMD_HARVEST, {"case": tree}), Protocol.REASON_DEPLETED)
 	_assert_refused(_command(Protocol.CMD_HARVEST, {"case": GameMap.plan_cell(1, 1)}), Protocol.REASON_UNKNOWN_ENTITY)
@@ -104,9 +105,9 @@ func test_recolte_rare() -> void:
 	assert_eq(events[0]["quantite"], 1, "un seul exemplaire")
 	assert_eq(_world.character.inventory.quantity_of("buche_rare"), 1)
 	assert_eq(_world.character.inventory.quantity_of("buche"), 0, "à la place de la récolte normale")
-	assert_eq(Fixtures.of_type(events, Protocol.EVT_JOB)[0]["gain"], 10, "même XP de métier")
+	assert_eq(Fixtures.of_type(events, Protocol.EVT_JOB)[0]["gain"], 10, "même réputation de métier")
 	# Le chêne n'a pas de ressource rare : récolte normale même à 100 %.
-	_world.character.add_job_xp("bucheron", 1000)
+
 	var oak := GameMap.plan_cell(0, 4)
 	_go_next_to(oak)
 	var normal := _command(Protocol.CMD_HARVEST, {"case": oak})
@@ -128,14 +129,29 @@ func test_repousse_entre_une_et_deux_minutes() -> void:
 	assert_eq(_command(Protocol.CMD_HARVEST, {"case": tree})[0]["type"], Protocol.EVT_HARVESTED, "on peut le recouper")
 
 
-func test_niveau_de_metier_requis() -> void:
+func test_recolte_ouverte_des_le_debut() -> void:
 	var oak := GameMap.plan_cell(0, 4)
-	assert_eq(_world.harvest_refusal(oak), Protocol.REASON_JOB_LEVEL)
+	assert_eq(_world.harvest_refusal(oak), "", "palier 3 sans réputation : permis")
 	_go_next_to(oak)
-	_assert_refused(_command(Protocol.CMD_HARVEST, {"case": oak}), Protocol.REASON_JOB_LEVEL)
-	_world.character.jobs["bucheron"] = Profession.xp_for_level(3)
-	assert_eq(_world.harvest_refusal(oak), "")
-	assert_eq(_command(Protocol.CMD_HARVEST, {"case": oak})[0]["type"], Protocol.EVT_HARVESTED)
+	var events := _command(Protocol.CMD_HARVEST, {"case": oak})
+	assert_eq(events[0]["type"], Protocol.EVT_HARVESTED)
+	assert_eq(Fixtures.of_type(events, Protocol.EVT_JOB)[0]["gain"], 15, "5 × 3 : plus difficile, plus de réputation")
+
+
+func test_competences_de_metier() -> void:
+	_world.character.add_job_reputation("bucheron", 2 * Character.REPUTATION_PER_MASTERY_POINT)
+	assert_eq(_world.character.job_points("bucheron"), 2)
+	var raise := {"metier": "bucheron", "competence": "abondance"}
+	assert_eq(_command(Protocol.CMD_RAISE_SPELL, raise)[0]["type"], Protocol.EVT_CHARACTER, "rang 1 : 1 point")
+	_assert_refused(_command(Protocol.CMD_RAISE_SPELL, raise), Protocol.REASON_NOT_ENOUGH_POINTS, "rang 2 : 2 points")
+	_assert_refused(_command(Protocol.CMD_RAISE_SPELL, {"metier": "bucheron", "competence": "precision"}),
+		Protocol.REASON_INVALID_COMMAND, "compétence de la forge")
+	_assert_refused(_command(Protocol.CMD_RAISE_SPELL, {"metier": "cuisinier", "competence": "abondance"}), Protocol.REASON_INVALID_COMMAND)
+	assert_eq(_world.character.job_rank("bucheron", "abondance"), 1)
+	# Abondance au rang 5 : 100 % de chances d'une ressource de plus.
+	_world.character.jobs["bucheron"]["competences"]["abondance"] = 5
+	_go_next_to(Fixtures.center())
+	assert_eq(_command(Protocol.CMD_HARVEST, {"case": Fixtures.center()})[0]["quantite"], 3)
 
 
 func test_inventaire_plein() -> void:
@@ -150,15 +166,21 @@ func test_inventaire_plein() -> void:
 
 
 func test_sauvegarde_et_fiche_des_metiers() -> void:
-	_world.character.add_job_xp("forgeron", 42)
+	assert_eq(_world.character.add_job_reputation("forgeron", 1200), [1], "Apprenti")
+	assert_eq(_world.character.raise_skill("forgeron", "precision", Profession.skills(Profession.TYPE_CRAFT)), "")
 	var copy := Character.from_dict(_world.character.to_dict(), _world.data.items)
-	assert_eq(copy.job_xp("forgeron"), 42)
-	assert_eq(copy.job_level("forgeron"), Profession.level_for_xp(42))
+	assert_eq(copy.job_reputation("forgeron"), 1200)
+	assert_eq(copy.job_points("forgeron"), 1)
+	assert_eq(copy.job_rank("forgeron", "precision"), 1)
 	var jobs: Array = _world.character.sheet(_world.data)["metiers"]
 	assert_eq(jobs.size(), 2)
 	assert_eq(jobs[1]["id"], "forgeron")
-	assert_eq(jobs[1]["niveau"], 3)
-	assert_eq(jobs[0]["niveau"], 1, "bûcheron jamais pratiqué")
+	assert_eq(jobs[1]["palier"], 1)
+	assert_eq(jobs[0]["reputation"], 0, "bûcheron jamais pratiqué")
+	# Sauvegarde d'avant le lot 4 : l'XP de métier devient de la réputation.
+	var old := _world.character.to_dict()
+	old["metiers"] = {"bucheron": 600}
+	assert_eq(Character.from_dict(old).job_points("bucheron"), 1)
 
 
 func test_metiers_invalides() -> void:
@@ -183,14 +205,14 @@ func test_metiers_invalides() -> void:
 	assert_false(data._validate_job_links(_jobs()[0]).is_empty(), "marqueurs déjà utilisés")
 
 
-func test_bonus_d_xp_de_metier_des_humains() -> void:
+func test_bonus_de_reputation_de_metier_des_humains() -> void:
 	var races := [{"id": "humain", "nom": "Humain", "camp": "allie", "carte_depart": "test",
-		"passif": {"nom": "Polyvalence", "effets": [{"type": "xp_metier", "valeur": 10}]}}]
+		"passif": {"nom": "Polyvalence", "effets": [{"type": "reputation_metier", "valeur": 10}]}}]
 	var data := GameData.from_dicts(Fixtures.spells(), [], [], races, _items(), _jobs())
 	var character := Character.create("Humain", "humain", "test")
-	assert_eq(character.job_xp_bonus(data), 10)
+	assert_eq(character.job_reputation_bonus(data), 10)
 	_world = World.new(_map, data, Callable(), character)
 	_go_next_to(Fixtures.center())
 	var events := _command(Protocol.CMD_HARVEST, {"case": Fixtures.center()})
-	assert_eq(Fixtures.of_type(events, Protocol.EVT_JOB)[0]["gain"], 11, "10 XP + 10 %")
-	assert_eq(character.job_xp("bucheron"), 11)
+	assert_eq(Fixtures.of_type(events, Protocol.EVT_JOB)[0]["gain"], 11, "10 + 10 %")
+	assert_eq(character.job_reputation("bucheron"), 11)

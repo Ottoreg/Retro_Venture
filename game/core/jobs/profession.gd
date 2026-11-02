@@ -2,28 +2,44 @@ class_name Profession
 extends RefCounted
 ## Règles des métiers (données de `data/metiers/`) : métiers de récolte (bûcheron, mineur), dont les
 ## ressources sont placées sur les cartes et repoussent, et métiers d'artisanat (forgeron, qui forge à
-## l'enclume : `Forge`).
+## l'enclume : `Forge`). Tout est ouvert dès le début : on gagne de la réputation de métier selon la
+## difficulté de ce qu'on récolte ou forge, et des points de maîtrise à placer dans des compétences qui
+## améliorent la qualité, sans jamais faire échouer (GDD § 10.2).
 
 const TYPE_HARVEST := "recolte"
 const TYPE_CRAFT := "artisanat"
-const MAX_LEVEL := 100
 ## Dessin d'une ressource sur la carte.
 const APPEARANCES := ["arbre", "rocher"]
 ## Chance qu'une récolte donne la ressource rare du nœud (`rare`) à la place de la ressource de base :
 ## un seul exemplaire, pour les recettes améliorées.
 const RARE_CHANCE := 0.01
+## Compétences par type de métier : id → [nom, effet par rang (texte : %s = valeur), valeur par rang].
+const SKILLS := {
+	TYPE_HARVEST: {
+		"abondance": ["Abondance", "+%s %% de chances d'une ressource de plus", 20],
+		"oeil": ["Œil exercé", "+%s %% de chances de ressource rare", 0.5],
+	},
+	TYPE_CRAFT: {
+		"precision": ["Précision", "+%s %% au plancher des jets (75 %% du maximum au départ)", 5],
+	},
+}
 
 
-## XP de métier totale nécessaire pour atteindre `target_level` (0 pour le niveau 1).
-static func xp_for_level(target_level: int) -> int:
-	return 5 * target_level * (target_level - 1)
+## Compétences d'un métier de ce type.
+static func skills(type: String) -> Array:
+	return SKILLS.get(type, {}).keys()
 
 
-static func level_for_xp(xp: int) -> int:
-	var level := 1
-	while level < MAX_LEVEL and xp >= xp_for_level(level + 1):
-		level += 1
-	return level
+## Effet d'une compétence au rang `rank` (valeur par rang × rang).
+static func skill_value(type: String, skill_id: String, rank: int) -> float:
+	return float(SKILLS[type][skill_id][2]) * rank
+
+
+## Réputation de métier gagnée : `base` (celle du nœud, ou de la forge) × 2 × le facteur de difficulté
+## du palier contre la réputation de l'artisan (le même qu'en combat : × 1 à sa mesure) + bonus en %.
+static func reputation_gain(base: int, tier: int, reputation_value: int, bonus_percent: int) -> int:
+	var factor := Progression.difficulty([tier], [Progression.equivalent_level(reputation_value)])
+	return roundi(base * 2.0 * factor * (100 + bonus_percent) / 100.0)
 
 
 ## Vrai pour un caractère de plan qui place une ressource : lettre majuscule hors de `GameMap.LEGEND`.

@@ -43,10 +43,13 @@ func test_caracteristiques_cachees_sans_reputation_d_artisan() -> void:
 	var hidden := Forge.preview("anneau", {"minerai": 1, "croc": 2}, _world.data.items, character)
 	assert_eq(hidden["cachees"], 2)
 	assert_eq(hidden["bonus"], {})
-	character.add_job_xp("forgeron", Profession.xp_for_level(8))
-	assert_true(Forge.reveals(character, 8), "niveau 8 : palier 8 révélé")
+	character.add_job_reputation("forgeron", 1300)
+	assert_true(Forge.reveals(character, 8), "réputation de niveau équivalent 8 : palier 8 révélé")
 	assert_false(Forge.reveals(character, 9))
 	assert_eq(Forge.preview("anneau", {"minerai": 1, "croc": 2}, _world.data.items, character)["bonus"], {"force": [3, 4]})
+	character.jobs["forgeron"]["competences"]["precision"] = 5
+	assert_eq(Forge.preview("anneau", {"minerai": 1, "croc": 2}, _world.data.items, character)["bonus"], {"force": [4, 4]},
+		"Précision au rang 5 : jets au maximum")
 
 
 func test_apercu() -> void:
@@ -92,7 +95,7 @@ func test_forger_a_l_enclume() -> void:
 	assert_eq(template["nom"], "Souliers costauds")
 	assert_eq(template["description"], "Créé par Testeur", "signature à la place du texte d'ambiance")
 	assert_eq(template["niveau"], 6, "palier : (1 + 8 × 2) / 3")
-	assert_eq(Fixtures.of_type(events, Protocol.EVT_JOB)[0]["gain"], Forge.XP_PER_TIER * 6)
+	assert_eq(Fixtures.of_type(events, Protocol.EVT_JOB)[0]["gain"], Profession.reputation_gain(Forge.REPUTATION_PER_TIER * 6, 6, 0, 0))
 	# La sauvegarde garde l'objet forgé.
 	var copy := Character.from_dict(_world.character.to_dict(), _world.data.items)
 	assert_eq(copy.inventory.entries[entry["uid"]]["forge"], entry["forge"])

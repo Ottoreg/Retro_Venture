@@ -1,10 +1,10 @@
 class_name JobsWindow
 extends CanvasLayer
-## Fenêtre des métiers (touche J) : un onglet par métier, avec son niveau, son expérience, et la
-## liste de ses ressources (récolte) ou ce qu'il sait lire des ressources à forger (artisanat).
+## Fenêtre des métiers (touche J) : un onglet par métier, avec sa réputation et son palier, ses
+## compétences où placer les points de maîtrise, et la liste de ses ressources (récolte) ou ce qu'il
+## sait lire des ressources à forger (artisanat).
 
 const GOLD := Color(0.95, 0.76, 0.3)
-const LOCKED := Color(0.5, 0.5, 0.5)
 
 var map_view: MapView
 
@@ -15,6 +15,7 @@ var _description: Label
 var _level: Label
 var _xp_bar: ProgressBar
 var _xp_label: Label
+var _skills: VBoxContainer
 var _list_title: Label
 var _list: ItemList
 var _job_ids: Array[String] = []
@@ -67,16 +68,22 @@ func refresh() -> void:
 		return
 	var job: Dictionary = world.data.jobs[job_id]
 	var character := world.character
-	var level := character.job_level(job_id)
-	var xp := character.job_xp(job_id)
-	var floor_xp := Profession.xp_for_level(level)
-	var next_xp := Profession.xp_for_level(level + 1) if level < Profession.MAX_LEVEL else xp
+	var reputation_value := character.job_reputation(job_id)
+	var tier := Character.tier_index(reputation_value)
+	var floor_value := int(Character.REPUTATION_TIERS[tier][0])
+	var last := tier == Character.REPUTATION_TIERS.size() - 1
+	var next_value := reputation_value if last else int(Character.REPUTATION_TIERS[tier + 1][0])
 	var harvest: bool = job["type"] == Profession.TYPE_HARVEST
 	_title.text = job["nom"]
 	_description.text = "%s (%s)" % [job.get("description", ""), "récolte" if harvest else "artisanat"]
-	_level.text = "Niveau %d / %d" % [level, Profession.MAX_LEVEL]
-	_xp_bar.value = 100.0 * (xp - floor_xp) / maxi(1, next_xp - floor_xp)
-	_xp_label.text = "Expérience : %d / %d" % [xp, next_xp]
+	_level.text = "%s  ·  %d point%s de maîtrise à placer" % [Character.tier_name(tier), character.job_points(job_id),
+		"s" if character.job_points(job_id) > 1 else ""]
+	_xp_bar.value = 100.0 if last else 100.0 * (reputation_value - floor_value) / (next_value - floor_value)
+	_xp_label.text = "Réputation : %d%s" % [reputation_value, "" if last else " / %d (%s)" % [next_value, Character.tier_name(tier + 1)]]
+	for row in _skills.get_children():
+		row.queue_free()
+	for skill_id: String in Profession.skills(job["type"]):
+		_add_skill(job_id, job["type"], skill_id, character)
 	_list.clear()
 	if harvest:
 		_list_title.text = "Ressources (récolter en cliquant dessus sur la carte)"
@@ -84,19 +91,39 @@ func refresh() -> void:
 			var item: Dictionary = world.data.items.get(node["objet"], {})
 			var amount: Array = node.get("quantite", [1, 1])
 			var regrowth: Array = node["repousse"]
-			_add_line("Niv. %d — %s : %s ×%d à %d, +%d XP, repousse en %d à %d s" % [node.get("niveau", 1), node["nom"],
-				item.get("nom", node["objet"]), amount[0], amount[1], node.get("xp", 0), regrowth[0], regrowth[1]],
-				level >= int(node.get("niveau", 1)), str(item.get("rarete", "commun")), node["objet"])
+			_add_line("Palier %d — %s : %s ×%d à %d, repousse en %d à %d s" % [node.get("niveau", 1), node["nom"],
+				item.get("nom", node["objet"]), amount[0], amount[1], regrowth[0], regrowth[1]],
+				str(item.get("rarete", "commun")), node["objet"])
 	else:
 		_list_title.text = "Forge (à l'enclume de votre maison)"
-		_add_line("Caractéristiques des ressources lues : %s" % ("jusqu'au palier %d" % level if Forge.reveals(character, 1) else "aucune (forgez une première fois)"),
-			true, "commun", "forge_epee")
+		_add_line("Caractéristiques des ressources lues : %s" % ("jusqu'au palier %d" % Progression.equivalent_level(reputation_value)
+			if Forge.reveals(character, 1) else "aucune (forgez une première fois)"), "commun", "forge_epee")
 
 
-func _add_line(text: String, unlocked: bool, rarity: String, item_id: String) -> void:
-	var index := _list.add_item(text if unlocked else "%s   (verrouillé)" % text, InventoryWindow.item_icon(item_id))
-	_list.set_item_icon_modulate(index, Color.WHITE if unlocked else Color(1, 1, 1, 0.4))
-	_list.set_item_custom_fg_color(index, InventoryWindow.rarity_color(rarity) if unlocked else LOCKED)
+## Ligne d'une compétence : rang, effet, et bouton pour y placer des points (rang n : n points).
+func _add_skill(job_id: String, type: String, skill_id: String, character: Character) -> void:
+	var skill: Array = Profession.SKILLS[type][skill_id]
+	var rank := character.job_rank(job_id, skill_id)
+	var row := HBoxContainer.new()
+	var label := _label(14, Color(0.9, 0.86, 0.75))
+	label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	label.text = "%s, rang %d / %d : %s" % [skill[0], rank, Character.SPELL_MAX_RANK,
+		skill[1] % String.num(Profession.skill_value(type, skill_id, rank))]
+	row.add_child(label)
+	var button := Button.new()
+	button.focus_mode = Control.FOCUS_NONE
+	var maxed := rank >= Character.SPELL_MAX_RANK
+	button.text = "Rang maximal" if maxed else "Rang %d (%d pt%s)" % [rank + 1, rank + 1, "s" if rank > 0 else ""]
+	button.disabled = maxed or character.job_points(job_id) < rank + 1
+	button.pressed.connect(func() -> void: map_view.send_command({"type": Protocol.CMD_RAISE_SPELL,
+		"entite": map_view.world.player_id, "metier": job_id, "competence": skill_id}))
+	row.add_child(button)
+	_skills.add_child(row)
+
+
+func _add_line(text: String, rarity: String, item_id: String) -> void:
+	var index := _list.add_item(text, InventoryWindow.item_icon(item_id))
+	_list.set_item_custom_fg_color(index, InventoryWindow.rarity_color(rarity))
 	_list.set_item_selectable(index, false)
 
 
@@ -180,6 +207,8 @@ func _build() -> void:
 	column.add_child(_xp_bar)
 	_xp_label = _label(13, Color(0.75, 0.72, 0.65))
 	column.add_child(_xp_label)
+	_skills = VBoxContainer.new()
+	column.add_child(_skills)
 	_list_title = _label(15, Color(0.85, 0.82, 0.72))
 	column.add_child(_list_title)
 	_list = ItemList.new()

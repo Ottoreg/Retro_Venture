@@ -517,7 +517,8 @@ palier de l'objet est la moyenne des paliers des ressources ; une arme forgée a
 modèle × (1 + (palier − 1) / 20). Le nom se compose d'un nom du type et de deux adjectifs au plus,
 pris dans les lignes de l'objet (`Forge.TYPES`, `Forge.WORDS`), et l'objet est signé « Créé par
 <pseudo> ». Les caractéristiques des ressources sont **cachées** tant qu'on n'a jamais forgé, puis
-lues jusqu'au palier égal au niveau de forgeron (5 XP par palier de l'objet forgé). Un **plan**
+lues jusqu'au palier égal au niveau équivalent de la réputation de forgeron (5 de base par palier de
+l'objet forgé, voir « Métiers »). Un **plan**
 (récompense de quête, ou vendu par les marchands) donne type, ressources et nom, et montre tout.
 Production des données : `docs/design/forge/produire.py` (déjà lancé ; répartition des
 caractéristiques par tourniquet pondéré, PA, PM et Portée sur des butins de mini-boss).
@@ -583,7 +584,7 @@ avec 20 brumes (`GameData.STARTING_ECUS`).
 
 `camp` : `allie`, `ennemi` ou `neutre`. Une race ne donne plus de caractéristiques (`bonus` refusé
 par la validation depuis le 29/10/2026) : seulement son passif et son sort. `passif.effets` est optionnel (liste de
-`{type, valeur}`) ; types gérés : `portee` (portée des sorts à distance), `xp_metier` (% d'XP de
+`{type, valeur}`) ; types gérés : `portee` (portée des sorts à distance), `reputation_metier` (% de réputation de
 métier), `prospection` (points de prospection) et `ecus` (% de brumes de fin de combat). `sort` : sort racial, ajouté aux sorts de la Voie.
 
 Les tests vérifient tous ces fichiers (format, `id` égal au nom du fichier, sorts et monstres
@@ -634,11 +635,12 @@ case voisine. Une fois récoltée, elle repousse au bout d'un temps tiré dans `
 }
 ```
 
-- `objet` : ressource obtenue (`quantite` : [min, max] par récolte) ; `niveau` : niveau de métier requis.
+- `objet` : ressource obtenue (`quantite` : [min, max] par récolte) ; `niveau` : palier de la ressource (indicatif, rien n'est verrouillé) ;
+  `xp` : réputation de métier de base par récolte.
 - `apparence` : `arbre` ou `rocher` ; `couleur` : feuillage de l'arbre ou veines du minerai.
 - `rare` (facultatif) : id d'une autre ressource, sa **version rare**. Chaque récolte a 1 % de chance
   (`Profession.RARE_CHANCE`) de donner **un** exemplaire de cette ressource à la place de la récolte
-  normale (même XP de métier). Les ressources rares servent aux recettes améliorées et ne sont pas en
+  normale (même réputation de métier). Les ressources rares servent aux recettes améliorées et ne sont pas en
   boutique (`"boutique": false`). Les 10 bois et minerais en ont une (cœur de frêne, chêne des
   Anciens, if funèbre, hêtre centenaire, malorme ensorcelée, cuivre vert-de-gris, fer météorique,
   étain chantant, argent lunaire, obsidienne sanglante) ; tout futur métier de récolte en aura aussi.
@@ -646,8 +648,10 @@ case voisine. Une fois récoltée, elle repousse au bout d'un temps tiré dans `
 Un métier d'**artisanat** n'a plus de recettes (`{"id": "forgeron", "nom": "Forgeron", "type":
 "artisanat"}`) : le forgeron forge à l'enclume (voir « Forge »).
 
-Niveaux de métier : 1 à 100, XP totale pour le niveau n = 5 × n × (n − 1). Les Humains gagnent 10 %
-d'XP de métier en plus (effet de passif `{"type": "xp_metier", "valeur": 10}`).
+Plus de niveaux de métier (lot 4, GDD § 10.2) : réputation, points de maîtrise et compétences
+(`Profession.SKILLS`) par métier ; gain = base × 2 × facteur de difficulté du palier contre la
+réputation (`Profession.reputation_gain`). Les Humains gagnent 10 % de réputation de métier en plus
+(effet de passif `{"type": "reputation_metier", "valeur": 10}`).
 
 ## Quêtes (`quetes/`)
 

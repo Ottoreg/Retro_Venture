@@ -268,7 +268,7 @@ autres (Nains, Orcs, Semi-hommes, Géants, Squelettes, Lutins) en Phase 3.
 
 | Race | Camp | Passif | Sort racial | Phase |
 |---|---|---|---|---|
-| **Humain** | Allié | *Polyvalence* : +10 % d'XP de métier | *Ralliement* : +2 PA ce tour (sur soi en solo ; sur un allié en multi) | Alpha |
+| **Humain** | Allié | *Polyvalence* : +10 % de réputation de métier | *Ralliement* : +2 PA ce tour (sur soi en solo ; sur un allié en multi) | Alpha |
 | **Gobelin** | Ennemi | *Chapardeur* : +20 prospection et +20 % de brumes en fin de combat | *Coup bas* : dégâts Tempête au contact et −1 PM au prochain tour de la cible | Alpha |
 | **Elfe** | Neutre | *Œil perçant* : +1 portée sur les sorts à distance | *Pas léger* : téléportation jusqu'à 3 cases | Alpha |
 | **Nain** | Allié | *Peau de pierre* : +5 % de résistances | *Fureur des profondeurs* : bonus de dégâts quand PV < 50 % | Phase 3 |
@@ -818,7 +818,7 @@ dans les données et le code ; Sagesse supprimée (ses lignes d'objets convertie
 bonus des Humains en Force) ; prospection sans caractéristique ; aucune condition d'équipement.
 Jusqu'au lot 2, la réputation venait de l'XP des monstres vaincus. Les vieilles sauvegardes
 sont converties (XP / 3,5 en réputation, points investis en points gagnés, `chance` → `perception`).
-Les niveaux de métier restent jusqu'au lot 4, `niveau_min` des quêtes n'est plus vérifié (lot 5).
+Les niveaux de métier sont restés jusqu'au lot 4, `niveau_min` des quêtes n'est plus vérifié (lot 5).
 
 **Lot 2 fait (29/10/2026, sur `main`)** : gains par action (`core/character/progression.gd`). Le
 combat note la pratique de chaque joueur (`Combat.practice`) : PA d'un sort à effet réel par
@@ -860,6 +860,9 @@ de ses monstres et la menace de deux monstres de niveau moyen (`GameData.map_lev
 Sagesse avait déjà quitté toutes les données au lot 1 (pas de race Squelette ni de monture dans le
 jeu pour l'instant). La menace ne compte que le personnage, pas son groupe (le client ne connaît
 pas la réputation des autres).
+
+**Lot 4 fait (02/11/2026, sur `main`)** : métiers sans niveau, réputation, points de maîtrise et
+compétences de métier, récolte ouverte, gains selon la difficulté du palier (détails en § 10.2).
 
 #### Ancien système (avant le 29/10/2026)
 
@@ -1460,9 +1463,21 @@ niveaux, les **bottes de niveau 30 donnent 1 PM**.
 - Le niveau des ressources et des recettes ci-dessous (et en § 10.3) devient leur **palier de
   rareté**, indicatif, sans condition.
 
-**Alpha 1 (en place)** :
+**Lot 4 fait (02/11/2026, sur `main`)** : `Character.jobs` garde, par métier, réputation, points
+de maîtrise (un par 500) et rangs des compétences, comme les classes (paliers Inconnu à Légende ; les
+vieilles sauvegardes : XP de métier → réputation). Toutes les ressources se récoltent dès le début.
+Gain : la base (`xp` du nœud, ou 5 par palier de l'objet forgé) × 2 × le facteur de difficulté du
+palier contre le niveau équivalent de la réputation du métier (`Profession.reputation_gain` : × 1 à
+sa mesure, × 3 au plus, × 0,2 au moins) ; +10 % pour les Humains. Compétences
+(`Profession.SKILLS`, rang n : n points, rang 5 au plus, commande `maitriser` avec `metier` et
+`competence`, fenêtre des métiers) : récolte **Abondance** (+20 % par rang de chances d'une ressource
+de plus) et **Œil exercé** (+0,5 % par rang de chances de ressource rare) ; forge **Précision** (+5 %
+par rang au plancher des jets, 100 % au rang 5). Protocole v11. Pas encore de « nouvelle activité »
+par palier : tous les métiers sont ouverts, à revoir avec les maîtres de métier (lot 5).
 
-- Chaque métier a son **niveau** (1 à 100) et son **XP** propres.
+**Alpha 1 (avant le lot 4)** :
+
+- Chaque métier avait son **niveau** (1 à 100) et son **XP** propres.
 - **Récolte :** clic sur la ressource → animation pendant un temps fixe → gain ; la ressource
   réapparaît après un délai. Le niveau débloque de nouvelles ressources.
 - **Artisanat :** atelier en ville ; recettes débloquées par niveau ; nombre de cases d'ingrédients
@@ -1839,9 +1854,10 @@ compris) et les recettes du forgeron sont supprimés, tout le reste se forge.
   des paliers des ressources), **nom proposé** que le joueur change avec des listes de mots (nom du
   type, puis deux adjectifs au plus tirés des lignes, accordés en genre et en nombre). L'objet sort
   avec ses jets tirés au hasard, son nom, et **« Créé par <pseudo> »** à la place du texte d'ambiance.
-- **Réputation d'artisan** (en attendant le lot 4 de la refonte : le niveau de forgeron) : sans avoir
-  jamais forgé, les caractéristiques des ressources sont **cachées** ; ensuite elles se lisent
-  jusqu'au palier égal au niveau de forgeron (5 XP par palier de l'objet forgé).
+- **Réputation d'artisan** : sans avoir jamais forgé, les caractéristiques des ressources sont
+  **cachées** ; ensuite elles se lisent jusqu'au palier égal au niveau équivalent de la réputation de
+  forgeron (`Progression.equivalent_level`, 1 280 de réputation pour le palier 8). La compétence
+  **Précision** relève le plancher des jets (§ 10.2).
 - **Plans** (objets de type « recette », gardés dans le sac) : type, ressources et nom d'avance, tout
   visible. Les 25 quêtes qui donnaient un objet supprimé donnent son plan ; les marchands en vendent
   11 (35 brumes). Les recettes ne sont pas obligatoires.

@@ -634,9 +634,6 @@ func _harvest_refusal_text(reason: String, cell: Vector2i) -> String:
 	var node := world.resource_node(cell)
 	if reason == Protocol.REASON_DEPLETED:
 		return "%s : déjà récolté, ça repousse." % node.get("nom", "Ressource")
-	if reason == Protocol.REASON_JOB_LEVEL:
-		var job: Dictionary = world.data.jobs.get(node.get("metier", ""), {})
-		return "%s : il faut être %s niveau %d." % [node.get("nom", "Ressource"), job.get("nom", "?"), int(node.get("niveau", 1))]
 	if reason == Protocol.REASON_INVENTORY_FULL:
 		return "Inventaire plein."
 	return "Impossible d'y accéder."
@@ -1451,9 +1448,9 @@ func _apply(event: Dictionary) -> float:
 		notice.emit("Une bonne nuit de sommeil : %d / %d PV." % [event["pv"], event["pv_max"]])
 		return 0.6
 	if type == Protocol.EVT_JOB:
-		for level_reached: int in event["niveaux"]:
-			_add_floating("%s niv. %d !" % [event["nom"], level_reached], Color(1, 0.85, 0.3), _actors[world.player_id]["pos"] + Vector2(0, -0.6))
-			notice.emit("%s niveau %d !" % [event["nom"], level_reached])
+		for reached: int in event["paliers"]:
+			_add_floating("%s : %s !" % [event["nom"], Character.tier_name(reached)], Color(1, 0.85, 0.3), _actors[world.player_id]["pos"] + Vector2(0, -0.6))
+			notice.emit("%s : vous voilà %s !" % [event["nom"], Character.tier_name(reached)])
 		return 0.0
 	if type == Protocol.EVT_MAP_CHANGED:
 		_load_map(world.map)

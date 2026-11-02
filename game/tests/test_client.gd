@@ -588,7 +588,7 @@ func test_recolte_et_repousse() -> void:
 	assert_true(inventory.quantity_of("bois_de_frene") > 0, "bois récolté")
 	assert_true(GameMap.is_adjacent(view.server.position_of(World.PLAYER_ID), ash), "à côté de l'arbre")
 	assert_true(view.server.is_depleted(ash), "arbre coupé")
-	assert_true(view.server.character.job_xp("bucheron") > 0, "XP de bûcheron")
+	assert_true(view.server.character.job_reputation("bucheron") > 0, "réputation de bûcheron")
 
 	# Déjà coupé : un message, pas de marche.
 	view._on_click(ash)
@@ -729,6 +729,7 @@ func test_reapparition_des_monstres_et_fenetre_des_metiers() -> void:
 	assert_eq(jobs._list.item_count, 1, "ce que le forgeron sait lire des ressources")
 	jobs.select_job("bucheron")
 	assert_eq(jobs._list.item_count, world.data.jobs["bucheron"]["ressources"].size(), "toutes les ressources")
+	assert_true(jobs._skills.get_child(-1).get_child(0).text.begins_with("Œil exercé, rang 0"), "compétences de récolte")
 	jobs.toggle()
 	scene.free()
 

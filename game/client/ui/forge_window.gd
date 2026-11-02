@@ -37,7 +37,7 @@ static func forge_lines(template: Dictionary, data: GameData, character: Charact
 	if template.has("caracteristique") and character != null:
 		var tier := int(template.get("niveau", 1))
 		lines.append("Forge : %s" % ("+%d %s" % [Forge.value(template["caracteristique"], tier), Item.stat_name(template["caracteristique"])]
-			if Forge.reveals(character, tier) else "caractéristique inconnue (forgeron de palier %d requis)" % tier))
+			if Forge.reveals(character, tier) else "caractéristique inconnue (réputation de forgeron trop basse pour le palier %d)" % tier))
 	if template.has("matiere"):
 		lines.append("Matière : %s" % template["matiere"])
 	var plan: Dictionary = template.get("recette", {})
@@ -45,7 +45,7 @@ static func forge_lines(template: Dictionary, data: GameData, character: Charact
 		lines.append("%s : %s" % [Forge.TYPE_NAMES[plan["type"]], plan["nom"]])
 		for item_id: String in plan["ressources"]:
 			lines.append("  • %d %s" % [plan["ressources"][item_id], data.items.get(item_id, {}).get("nom", item_id)])
-		for line in InventoryWindow.bonus_range_lines(Forge.preview(plan["type"], plan["ressources"], data.items)["bonus"]):
+		for line in InventoryWindow.bonus_range_lines(Forge.preview(plan["type"], plan["ressources"], data.items, character, false)["bonus"]):
 			lines.append("  " + line)
 	return lines
 
@@ -86,7 +86,8 @@ func refresh() -> void:
 		return
 	var world := map_view.world
 	var character := world.character
-	_job_label.text = "Forgeron niveau %d" % character.job_level(Forge.JOB)
+	var reputation_value := character.job_reputation(Forge.JOB)
+	_job_label.text = "Forgeron %s (réputation %d)" % [Character.tier_name(Character.tier_index(reputation_value)), reputation_value]
 	_types.select(Forge.TYPES.keys().find(_type))
 	_plans.clear()
 	_bag.clear()
@@ -109,7 +110,7 @@ func refresh() -> void:
 func _show_preview() -> void:
 	var data := map_view.world.data
 	var plan: Dictionary = data.items.get(_plan, {}).get("recette", {})
-	var preview := Forge.preview(_type, _chosen, data.items, null if not plan.is_empty() else map_view.world.character)
+	var preview := Forge.preview(_type, _chosen, data.items, map_view.world.character, plan.is_empty())
 	_update_words(preview["bonus"], plan)
 	var lines: PackedStringArray = ["%s, palier %d" % [Forge.TYPE_NAMES[_type], preview["palier"]]]
 	lines.append_array(InventoryWindow.bonus_range_lines(preview["bonus"]))

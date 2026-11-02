@@ -10,10 +10,10 @@ const JOB := "forgeron"
 const TYPE_RECIPE := "recette"
 ## Ressources au plus par objet, matières obligatoires comprises.
 const MAX_RESOURCES := 6
-## Une ligne de total T se tire entre T × ROLL_LOW et T.
+## Une ligne de total T se tire entre T × ROLL_LOW et T (plus haut avec la compétence « precision »).
 const ROLL_LOW := 0.75
-## XP de forgeron par palier de l'objet forgé.
-const XP_PER_TIER := 5
+## Réputation de forgeron de base par palier de l'objet forgé (`Profession.reputation_gain`).
+const REPUTATION_PER_TIER := 5
 ## Caractéristiques à 1 par ressource quel que soit le palier, et à 1 au plus par objet.
 const FIXED_STATS := ["pa", "pm", "portee"]
 ## Points de la caractéristique pour un point de Force (d'après le score du GDD § 10.4).
@@ -64,16 +64,18 @@ static func value(stat: String, tier: int) -> int:
 	return 1 if stat in FIXED_STATS else maxi(1, roundi((1.0 + tier / 8.0) * STAT_WEIGHTS[stat]))
 
 
-## Vrai si l'artisan voit la caractéristique des ressources de ce palier : il a déjà forgé, et son
-## niveau de forgeron atteint le palier.
+## Vrai si l'artisan voit la caractéristique des ressources de ce palier : il a déjà forgé, et le niveau
+## équivalent de sa réputation de forgeron (`Progression.equivalent_level`) atteint le palier.
 static func reveals(character: Character, tier: int) -> bool:
-	return character.job_xp(JOB) > 0 and tier <= character.job_level(JOB)
+	var reputation_value := character.job_reputation(JOB)
+	return reputation_value > 0 and tier <= Progression.equivalent_level(reputation_value)
 
 
 ## Aperçu de l'objet : { erreur (raison du protocole, "" si on peut forger), palier, bonus: { stat:
 ## [min, max] }, cachees (ressources à caractéristique cachée pour `character`), manquantes (matières) }.
-## Sans `character`, tout est visible (le serveur). `revealed` : un plan montre tout.
-static func preview(type: String, resources: Dictionary, items: Dictionary, character: Character = null) -> Dictionary:
+## Le plancher des jets suit la Précision de `character` ; `hide` : cacher ce qu'il ne sait pas lire
+## (faux pour le serveur et pour un plan, qui montre tout).
+static func preview(type: String, resources: Dictionary, items: Dictionary, character: Character = null, hide := true) -> Dictionary:
 	var result := {"erreur": "", "palier": 1, "bonus": {}, "cachees": 0, "manquantes": []}
 	if not TYPES.has(type) or not items.has(template_id(type)):
 		result["erreur"] = Protocol.REASON_INVALID_COMMAND
@@ -93,7 +95,7 @@ static func preview(type: String, resources: Dictionary, items: Dictionary, char
 		tiers += quantity * tier
 		materials.append(item.get("matiere", ""))
 		var stat: String = item.get("caracteristique", "")
-		if character != null and not stat.is_empty() and not reveals(character, tier):
+		if character != null and hide and not stat.is_empty() and not reveals(character, tier):
 			result["cachees"] += quantity
 		elif not stat.is_empty():
 			totals[stat] = int(totals.get(stat, 0)) + quantity * value(stat, tier)
@@ -105,9 +107,10 @@ static func preview(type: String, resources: Dictionary, items: Dictionary, char
 	elif not result["manquantes"].is_empty():
 		result["erreur"] = Protocol.REASON_MISSING_INGREDIENTS
 	result["palier"] = maxi(1, roundi(float(tiers) / maxi(1, count)))
+	var low := ROLL_LOW + (Profession.skill_value(Profession.TYPE_CRAFT, "precision", character.job_rank(JOB, "precision")) / 100.0 if character != null else 0.0)
 	for stat: String in totals:
 		var total: int = mini(1, totals[stat]) if stat in FIXED_STATS else totals[stat]
-		result["bonus"][stat] = [total if stat in FIXED_STATS else maxi(1, roundi(total * ROLL_LOW)), total]
+		result["bonus"][stat] = [total if stat in FIXED_STATS else maxi(1, roundi(total * minf(1.0, low))), total]
 	return result
 
 

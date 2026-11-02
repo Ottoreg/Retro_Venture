@@ -2254,8 +2254,6 @@ static func harvest_refusal_for(node: Dictionary, depleted: bool, p_character: C
 		return Protocol.REASON_UNKNOWN_ENTITY
 	if depleted:
 		return Protocol.REASON_DEPLETED
-	if p_character.job_level(node["metier"]) < int(node.get("niveau", 1)):
-		return Protocol.REASON_JOB_LEVEL
 	if p_character.inventory.is_full() and not p_character.inventory.entries.has(node["objet"]):
 		return Protocol.REASON_INVENTORY_FULL
 	return ""
@@ -2273,9 +2271,12 @@ func _harvest(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
 	var node := _resource_node(p.instance, cell)
 	var template: Dictionary = data.items[node["objet"]]
 	var amount: Array = node.get("quantite", [1, 1])
-	var quantity := rng.randi_range(int(amount[0]), int(amount[1]))
+	var job_id: String = node["metier"]
+	var abundance := Profession.skill_value(Profession.TYPE_HARVEST, "abondance", p.character.job_rank(job_id, "abondance")) / 100.0
+	var quantity := rng.randi_range(int(amount[0]), int(amount[1])) + (1 if rng.randf() < abundance else 0)
 	# Parfois, une ressource rare à la place de la récolte normale : un seul exemplaire.
-	var rare: bool = node.has("rare") and data.items.has(node["rare"]) and rng.randf() < rare_harvest_chance
+	var eye := Profession.skill_value(Profession.TYPE_HARVEST, "oeil", p.character.job_rank(job_id, "oeil")) / 100.0
+	var rare: bool = node.has("rare") and data.items.has(node["rare"]) and rng.randf() < rare_harvest_chance + eye
 	if rare:
 		template = data.items[node["rare"]]
 		quantity = 1
@@ -2294,7 +2295,7 @@ func _harvest(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
 		"metier": node["metier"],
 		"rare": rare,
 	}]
-	events.append(_job_event(p, node["metier"], int(node.get("xp", 0))))
+	events.append(_job_event(p, job_id, int(node.get("xp", 0)), int(node.get("niveau", 1))))
 	events.append_array(_inventory_events(p))
 	return events
 
@@ -2313,7 +2314,7 @@ func _forge(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
 	var resources: Variant = plan.get("ressources", command.get("ressources"))
 	if typeof(type) != TYPE_STRING or typeof(resources) != TYPE_DICTIONARY:
 		return _refused(command, Protocol.REASON_INVALID_COMMAND)
-	var preview := Forge.preview(type, resources, data.items)
+	var preview := Forge.preview(type, resources, data.items, p.character, false)
 	var item_name: String = plan.get("nom", Forge.name_of(command.get("mots"), type, preview["bonus"].keys()))
 	if not preview["erreur"].is_empty() or item_name.is_empty():
 		return _refused(command, preview["erreur"] if not preview["erreur"].is_empty() else Protocol.REASON_INVALID_COMMAND)
@@ -2330,7 +2331,7 @@ func _forge(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
 	inventory.add(template, 1, Forge.roll(preview["bonus"], rng), false,
 		{"nom": item_name, "artisan": p.character.display_name, "palier": preview["palier"], "bonus": preview["bonus"]})
 	var events: Array[Dictionary] = [{"type": Protocol.EVT_CRAFTED, "objet": template["id"], "nom": item_name, "quantite": 1, "metier": Forge.JOB}]
-	events.append(_job_event(p, Forge.JOB, Forge.XP_PER_TIER * int(preview["palier"])))
+	events.append(_job_event(p, Forge.JOB, Forge.REPUTATION_PER_TIER * int(preview["palier"]), int(preview["palier"])))
 	events.append_array(_inventory_events(p))
 	return events
 
@@ -2518,22 +2519,13 @@ func _chest_event(p: PlayerState, cell: Vector2i) -> Dictionary:
 	return {"type": Protocol.EVT_CHEST, "case": cell, "coffre": p.character.chest_sheet(data)}
 
 
-## Ajoute de l'XP de métier (avec le bonus de race) et décrit le résultat.
-func _job_event(p: PlayerState, job_id: String, base_gain: int) -> Dictionary:
-	var gain := floori(base_gain * (100 + p.character.job_xp_bonus(data)) / 100.0)
-	var reached := p.character.add_job_xp(job_id, gain)
-	var level := p.character.job_level(job_id)
-	return {
-		"type": Protocol.EVT_JOB,
-		"metier": job_id,
-		"nom": data.jobs[job_id]["nom"],
-		"gain": gain,
-		"niveau": level,
-		"xp": p.character.job_xp(job_id),
-		"xp_niveau": Profession.xp_for_level(level),
-		"xp_suivant": Profession.xp_for_level(level + 1) if level < Profession.MAX_LEVEL else p.character.job_xp(job_id),
-		"niveaux": reached,
-	}
+## Ajoute de la réputation de métier (`Profession.reputation_gain`, bonus de race compris) pour une
+## action de ce palier, et décrit le résultat.
+func _job_event(p: PlayerState, job_id: String, base_gain: int, tier: int) -> Dictionary:
+	var gain := Profession.reputation_gain(base_gain, tier, p.character.job_reputation(job_id), p.character.job_reputation_bonus(data))
+	var reached := p.character.add_job_reputation(job_id, gain)
+	return {"type": Protocol.EVT_JOB, "metier": job_id, "nom": data.jobs[job_id]["nom"], "gain": gain,
+		"reputation": p.character.job_reputation(job_id), "points": p.character.job_points(job_id), "paliers": reached}
 
 
 func _is_quest_item(p: PlayerState, uid: String) -> bool:
@@ -2569,12 +2561,16 @@ func _switch_class(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
 	return events
 
 
-## Place des points de maîtrise dans un sort de la classe active (un rang de plus).
+## Place des points de maîtrise dans un sort de la classe active, ou (`metier`, `competence`) dans une
+## compétence de métier : un rang de plus.
 func _raise_spell(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
 	var spell_id: Variant = command.get("sort")
-	if not _is_player_command(p, command) or typeof(spell_id) != TYPE_STRING or data == null:
+	var job: Dictionary = data.jobs.get(command.get("metier"), {}) if data != null else {}
+	var skill_id: Variant = command.get("competence")
+	if not _is_player_command(p, command) or data == null or typeof(spell_id if job.is_empty() else skill_id) != TYPE_STRING:
 		return _refused(command, Protocol.REASON_INVALID_COMMAND)
-	var reason := p.character.raise_spell(spell_id, data.class_spells(p.character.voie_id, p.character.reputation()))
+	var reason := p.character.raise_spell(spell_id, data.class_spells(p.character.voie_id, p.character.reputation())) if job.is_empty() \
+		else p.character.raise_skill(job["id"], skill_id, Profession.skills(job["type"]))
 	if not reason.is_empty():
 		return _refused(command, reason)
 	var events: Array[Dictionary] = [_character_event(p)]

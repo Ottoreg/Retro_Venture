@@ -87,7 +87,7 @@ func _process(_delta: float) -> bool:
 			var world := view.server
 			for item_id: String in ["peau_de_loup", "croc_de_loup", "dent_de_rat", "corne_du_balourd", "plan_casque_cabosse", "fil_de_brume"]:
 				world.character.inventory.add(world.data.items[item_id], 3)
-			world.character.add_job_xp("forgeron", Profession.xp_for_level(5))
+			world.character.add_job_reputation("forgeron", 400)
 			view.refresh_state()
 			var forge: ForgeWindow = _scene.get_node("ForgeWindow")
 			forge.open({"case": Vector2i.ZERO})

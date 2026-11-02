@@ -199,9 +199,12 @@ Lots 0 (conception dans le GDD), 1 (personnage, poussé sur `main` à la demande
 - [ ] **Dès que possible** (demande de l'auteur, 29/10/2026) : esquive des retraits de PA/PM et tacle /
   fuite (GDD § 7) ; elles manquent aux heures 3 h, 4 h et 9 h de l'Horloge du Chronomancien (sans
   effet en attendant, GDD § 4.3) et au Semi-homme et au Lutin (Phase 3, passifs en +10 % finaux)
-- [ ] Lot 4 : le passif des Humains (+10 % d'XP de métier) devient +10 % de réputation de métier
-- [ ] **Lot 4. Métiers** : récolte et recettes ouvertes ; réputation et maîtrise de métier (qualité,
-  jamais d'échec) ; nouvelle activité par palier de réputation
+- [x] Lot 4 : le passif des Humains (+10 % d'XP de métier) devient +10 % de réputation de métier
+- [x] **Lot 4. Métiers** (02/11/2026, GDD § 10.2) : récolte ouverte ; réputation et maîtrise de métier
+  (compétences Abondance, Œil exercé, Précision : qualité, jamais d'échec) ; gains selon la difficulté
+  du palier ; protocole v11
+- [ ] Nouvelle activité par palier de réputation de métier (tous les métiers sont ouverts pour
+  l'instant) : à trancher avec les maîtres de métier (lot 5)
 - [ ] **Lot 5. Quêtes et maîtres** : conditions et récompenses en réputation (scripts
   `produire_lot*.py`) ; maîtres de classe et de métier ; changement de classe expliqué
 - [ ] **Lot 6. Interface et documents** : fiche, grimoire (maîtrises), métiers, artisanat,
@@ -339,7 +342,7 @@ Lots 0 (conception dans le GDD), 1 (personnage, poussé sur `main` à la demande
   PNJ) ; type d'objet (6 emplacements, 6 formes d'armes), matières obligatoires, 6 ressources au
   plus, une caractéristique par ressource de monstre selon son palier (PA, PM, Portée à 1, très
   rares), aperçu (lignes, jets, palier), nom fait de mots proposés, signature de l'artisan ;
-  caractéristiques cachées sans réputation d'artisan, lues jusqu'au palier du niveau de forgeron ;
+  caractéristiques cachées sans réputation d'artisan, lues jusqu'au palier de la réputation de forgeron (lot 4) ;
   plans en récompense de 25 quêtes et 11 vendus par les marchands (`core/items/forge.gd`,
   `client/ui/forge_window.gd`, commande `forger`, protocole v10)
 - [ ] **Plus tard (après la forge, demande de l'auteur)** : un **maître par catégorie d'équipement**,

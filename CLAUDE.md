@@ -81,7 +81,10 @@ Phase 2 (alpha solo), en deux tests :
   difficulté), rangs de maîtrise (`Spell.mastered`, champ `maitrise`), sorts de rang II
   (`sorts_rang_2`, Cri de guerre et Fendoir validés) ; objets sans conditions, prix selon le palier,
   menace des monstres affichée (`MapView.threat_line`) ; plafond 300 par caractéristique, plus de bonus
-  de caractéristiques de race ni d'équipement de départ (demande de l'auteur). Prochain : lot 4 (métiers).
+  de caractéristiques de race ni d'équipement de départ (demande de l'auteur). **Lot 4 (métiers) fait le
+  02/11/2026** : réputation, points et compétences par métier (`Character.jobs`, `Profession.SKILLS`,
+  `Profession.reputation_gain`), récolte ouverte, `maitriser` avec `metier`/`competence`, protocole v11.
+  Prochain : lot 5 (quêtes et maîtres).
 
 État des chantiers :
 

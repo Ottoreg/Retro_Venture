@@ -71,8 +71,8 @@ temps : chaque camp a sa propre histoire.
 - On commence sans équipement, avec 20 brumes : armes et armures viennent du butin, des marchands
   et des artisans. Une race ne donne pas de caractéristiques, seulement un passif et un sort.
 - Trois races, chacune avec sa zone de départ et son sort racial :
-  - **Humain** (camp allié) : départ à **Brumerive** ; sort *Ralliement* ; passif +10 % d'XP de
-    métier.
+  - **Humain** (camp allié) : départ à **Brumerive** ; sort *Ralliement* ; passif +10 % de réputation
+    de métier.
   - **Gobelin** (camp ennemi) : départ à **Crasse-Roc** ; sort *Coup bas* ; passif *Chapardeur* :
     +20 prospection et +20 % de brumes en fin de combat.
   - **Elfe** (camp neutre) : départ à **Sylvebrume** ; sort *Pas léger* ; passif +1 portée sur les
@@ -133,7 +133,7 @@ temps : chaque camp a sa propre histoire.
 | **C** | Personnage : palier et réputation de la classe active, points de maîtrise, caractéristiques (points gagnés / plafond), PA, PM, initiative, prospection ; survoler une valeur montre d'où elle vient (points gagnés, race, chaque objet, panoplie) ; la liste des classes change la classe active hors combat (une nouvelle classe demande 5 000 de réputation dans une autre et repart de zéro) |
 | **I** | Inventaire : équipement porté, sac en trois onglets (Équipements, Consommables, Ressources), équiper / retirer / jeter ; **double-clic** sur un objet pour l'équiper ou le retirer (il remplace l'objet porté, ou le même objet déjà porté, comme une seconde bague identique), ou **glisser** du sac vers un emplacement (et inversement) ; tenir **Ctrl** : jets possibles de l'objet choisi ; au **survol** d'un objet, ses bonus comparés à l'objet porté (gains en vert, pertes en rouge) |
 | **S** | Sorts : un onglet pour la Voie, la race et l'arme ; fiche de chaque sort ; rang de maîtrise et bouton pour y placer des points |
-| **J** | Métiers : un onglet par métier, niveau, ressources et recettes |
+| **J** | Métiers : un onglet par métier, réputation, compétences et ressources |
 | **M** | Carte du monde : toutes les zones sur un seul panneau, molette pour zoomer (voir plus bas) |
 | **Q** | Journal des quêtes : en cours (la suivie en tête) et terminées, objectifs, récompenses, « Suivre » |
 | **Échap** | Ferme la fenêtre ouverte ; sinon, **menu pause** (le jeu s'arrête) : reprendre, options, menu principal (avec sauvegarde, pas en combat), quitter |
@@ -321,7 +321,11 @@ le **lit** de votre maison les rend tous d'un coup.
   **cachées** : c'est en forgeant qu'on apprend à les lire. Les **plans** (récompenses de quêtes, ou
   vendus par les marchands) disent tout d'avance.
 - **Métiers** : bûcheron et mineur (5 ressources chacun, de plus en plus rares), forgeron (la forge
-  ci-dessus). **Récolte rare** : 1 fois sur 100, une ressource rare à la place (« Rare ! »).
+  ci-dessus). Pas de niveau : tout se récolte dès le début, et chaque récolte ou objet forgé donne
+  de la **réputation de métier**, d'autant plus que la ressource est rare pour vous. Tous les 500, un
+  point de maîtrise à placer (touche J) dans les compétences : Abondance et Œil exercé en récolte,
+  Précision (jets plus hauts) à la forge. **Récolte rare** : 1 fois sur 100 au départ, une ressource
+  rare à la place (« Rare ! »).
 - **Pierres de Passage** : pendant ce test, toutes accessibles dès le début (voyage payant). La
   dernière pierre touchée est votre point de résurrection.
 

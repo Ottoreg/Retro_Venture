@@ -9,7 +9,7 @@ extends RefCounted
 
 ## Version du protocole, vérifiée à la connexion : à augmenter à chaque changement incompatible
 ## d'une commande ou d'un événement.
-const VERSION := 10
+const VERSION := 11
 
 # --- Commandes (client → noyau) ---
 
@@ -26,8 +26,9 @@ const CMD_TALK := "parler"
 ## Exploration : rendre une autre classe active (hors combat ; une classe pas encore commencée
 ## demande `Character.NEW_CLASS_REPUTATION` dans une autre). { type, entite: String, voie: String }
 const CMD_SWITCH_CLASS := "changer_voie"
-## Exploration : placer des points de maîtrise pour monter un sort de la classe active d'un rang.
-## { type, entite: String, sort: String }
+## Exploration : placer des points de maîtrise pour monter d'un rang un sort de la classe active
+## ({ type, entite: String, sort: String }) ou une compétence de métier ({ type, entite, metier: String,
+## competence: String }, voir `Profession.SKILLS`).
 const CMD_RAISE_SPELL := "maitriser"
 ## Exploration : s'asseoir (`assis` vrai) ou se relever (faux). Assis, les PV remontent plus vite
 ## (World.SIT_REGEN_FACTOR) ; on se relève tout seul en marchant ou en entrant en combat.
@@ -181,8 +182,8 @@ const EVT_RESPAWN_POINT := "point_de_resurrection"
 ## Le joueur utilise l'enclume de sa maison : la forge s'ouvre. { type, case: Vector2i }
 const EVT_ANVIL := "enclume"
 const EVT_CRAFTED := "fabrication"
-## XP de métier gagnée. { type, metier: String, nom: String, gain: int, niveau: int, xp: int,
-## xp_niveau: int, xp_suivant: int, niveaux: Array[int] (niveaux de métier atteints) }
+## Réputation de métier gagnée. { type, metier: String, nom: String, gain: int, reputation: int,
+## points: int (de maîtrise à placer), paliers: Array[int] (paliers de réputation atteints) }
 const EVT_JOB := "metier"
 ## Arrivée sur une autre carte. { type, carte: String, nom: String, position: Vector2i } ; après un
 ## voyage par une Pierre de Passage, aussi `prix` : brumes payées.
@@ -461,7 +462,6 @@ const REASON_QUEST_ITEM := "objet_de_quete"
 const REASON_INVENTORY_OVERLOADED := "inventaire_surcharge"
 const REASON_TOO_FAR := "trop_loin"
 const REASON_DEPLETED := "ressource_epuisee"
-const REASON_JOB_LEVEL := "niveau_de_metier_insuffisant"
 const REASON_MISSING_INGREDIENTS := "ingredients_manquants"
 const REASON_WRONG_PHASE := "mauvaise_phase"
 ## Groupe de monstres déjà en combat contre un autre joueur.

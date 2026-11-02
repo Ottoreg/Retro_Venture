@@ -44,7 +44,7 @@ var earned: Dictionary = {}
 ## gains suivants.
 var practiced: Dictionary = {}
 var inventory := Inventory.new()
-## XP de métier : id du métier → XP totale (un métier absent est au niveau 1).
+## Métiers commencés : id → { reputation, points, competences } (voir `_job`).
 var jobs: Dictionary = {}
 ## Points de vie perdus (les PV actuels valent PV max − PV perdus, au moins 1). Ils se gardent
 ## d'un combat à l'autre ; on les regagne peu à peu, ou d'un coup en dormant dans son lit.
@@ -171,10 +171,13 @@ func spell_rank(spell_id: String) -> int:
 
 ## Ajoute de la réputation à la classe active, avec ses points de maîtrise (un par tranche de
 ## `REPUTATION_PER_MASTERY_POINT`) ; renvoie les paliers atteints (index, vide si aucun).
-@warning_ignore("integer_division")
 func add_reputation(amount: int) -> Array[int]:
 	_start_class(voie_id)
-	var entry: Dictionary = classes[voie_id]
+	return _add_reputation_to(classes[voie_id], amount)
+
+
+@warning_ignore("integer_division")
+static func _add_reputation_to(entry: Dictionary, amount: int) -> Array[int]:
 	var before := int(entry["reputation"])
 	var after := before + maxi(0, amount)
 	entry["reputation"] = after
@@ -188,16 +191,18 @@ func add_reputation(amount: int) -> Array[int]:
 ## Place des points de maîtrise pour monter un sort d'un rang (rang n : n points) ; renvoie la
 ## raison du refus, ou "". `spell_ids` : les sorts de la classe active.
 func raise_spell(spell_id: String, spell_ids: Array) -> String:
-	if spell_id not in spell_ids:
-		return Protocol.REASON_INVALID_COMMAND
-	var rank := spell_rank(spell_id)
+	return _raise(classes[voie_id], "sorts", spell_id) if spell_id in spell_ids else Protocol.REASON_INVALID_COMMAND
+
+
+## Monte d'un rang `id` dans `entry[key]` (rang n : n points) ; renvoie la raison du refus, ou "".
+static func _raise(entry: Dictionary, key: String, id: String) -> String:
+	var rank := int(entry[key].get(id, 0))
 	if rank >= SPELL_MAX_RANK:
 		return Protocol.REASON_INVALID_COMMAND
-	if mastery_points() < rank + 1:
+	if int(entry["points"]) < rank + 1:
 		return Protocol.REASON_NOT_ENOUGH_POINTS
-	var entry: Dictionary = classes[voie_id]
 	entry["points"] = int(entry["points"]) - (rank + 1)
-	entry["sorts"][spell_id] = rank + 1
+	entry[key][id] = rank + 1
 	return ""
 
 
@@ -246,45 +251,49 @@ func switch_class(class_id: String) -> String:
 	return ""
 
 
-func job_xp(job_id: String) -> int:
-	return int(jobs.get(job_id, 0))
+## Métier tel qu'il est gardé : { reputation, points, competences: { id → rang } } (même modèle que
+## les classes, GDD § 4.5 et § 10.2).
+func _job(job_id: String) -> Dictionary:
+	if not jobs.has(job_id):
+		jobs[job_id] = {"reputation": 0, "points": 0, "competences": {}}
+	return jobs[job_id]
 
 
-func job_level(job_id: String) -> int:
-	return Profession.level_for_xp(job_xp(job_id))
+func job_reputation(job_id: String) -> int:
+	return int(jobs.get(job_id, {}).get("reputation", 0))
 
 
-## Bonus d'XP de métier en % (passif de race « xp_metier »).
-func job_xp_bonus(data: GameData) -> int:
-	return data.passive_value(race_id, "xp_metier") if data != null else 0
+func job_points(job_id: String) -> int:
+	return int(jobs.get(job_id, {}).get("points", 0))
 
 
-## Ajoute de l'XP de métier ; renvoie les niveaux de métier atteints (vide si aucun).
-func add_job_xp(job_id: String, amount: int) -> Array[int]:
-	var before := job_level(job_id)
-	jobs[job_id] = job_xp(job_id) + maxi(0, amount)
-	var reached: Array[int] = []
-	for level_reached in range(before + 1, job_level(job_id) + 1):
-		reached.append(level_reached)
-	return reached
+## Rang de maîtrise d'une compétence de métier (0 : pas de point placé).
+func job_rank(job_id: String, skill_id: String) -> int:
+	return int(jobs.get(job_id, {}).get("competences", {}).get(skill_id, 0))
 
 
-## Métiers affichables, dans l'ordre des données : { id, nom, type, niveau, xp, xp_niveau, xp_suivant }.
+## Bonus de réputation de métier en % (passif de race « reputation_metier »).
+func job_reputation_bonus(data: GameData) -> int:
+	return data.passive_value(race_id, "reputation_metier") if data != null else 0
+
+
+## Ajoute de la réputation de métier, avec ses points de maîtrise ; renvoie les paliers atteints.
+func add_job_reputation(job_id: String, amount: int) -> Array[int]:
+	return _add_reputation_to(_job(job_id), amount)
+
+
+## Place des points de maîtrise dans une compétence du métier (`skill_ids` : ses compétences).
+func raise_skill(job_id: String, skill_id: String, skill_ids: Array) -> String:
+	return _raise(_job(job_id), "competences", skill_id) if skill_id in skill_ids else Protocol.REASON_INVALID_COMMAND
+
+
+## Métiers affichables, dans l'ordre des données : { id, nom, type, reputation, palier, points, competences }.
 func jobs_sheet(data: GameData) -> Array:
 	var listed: Array = []
-	if data == null:
-		return listed
-	for job_id: String in data.jobs:
-		var level := job_level(job_id)
-		listed.append({
-			"id": job_id,
-			"nom": data.jobs[job_id]["nom"],
-			"type": data.jobs[job_id]["type"],
-			"niveau": level,
-			"xp": job_xp(job_id),
-			"xp_niveau": Profession.xp_for_level(level),
-			"xp_suivant": Profession.xp_for_level(level + 1) if level < Profession.MAX_LEVEL else job_xp(job_id),
-		})
+	for job_id: String in (data.jobs if data != null else {}):
+		listed.append({"id": job_id, "nom": data.jobs[job_id]["nom"], "type": data.jobs[job_id]["type"],
+			"reputation": job_reputation(job_id), "palier": tier_index(job_reputation(job_id)), "points": job_points(job_id),
+			"competences": jobs.get(job_id, {}).get("competences", {}).duplicate()})
 	return listed
 
 
@@ -448,7 +457,7 @@ func to_dict() -> Dictionary:
 		"caracteristiques": earned.duplicate(),
 		"pratique": practiced.duplicate(),
 		"inventaire": inventory.to_dict(),
-		"metiers": jobs.duplicate(),
+		"metiers": jobs.duplicate(true),
 		"pv_perdus": hp_lost,
 		"coffre": chest.to_dict(),
 		"pierres_connues": known_passages.duplicate(),
@@ -498,8 +507,11 @@ static func from_dict(data: Dictionary, known_items: Dictionary = {}) -> Charact
 	var saved_jobs: Variant = data.get("metiers", {})
 	if typeof(saved_jobs) == TYPE_DICTIONARY:
 		for job_id: Variant in saved_jobs:
-			if typeof(saved_jobs[job_id]) in [TYPE_INT, TYPE_FLOAT]:
-				character.jobs[str(job_id)] = maxi(0, int(saved_jobs[job_id]))
+			var saved_job: Variant = saved_jobs[job_id]
+			if typeof(saved_job) in [TYPE_INT, TYPE_FLOAT]:  # Avant le lot 4 (02/11/2026) : XP de métier.
+				character.add_job_reputation(str(job_id), int(saved_job))
+			elif typeof(saved_job) == TYPE_DICTIONARY:
+				character.jobs[str(job_id)] = _class_entry(saved_job, "competences")
 	if typeof(data.get("inventaire")) == TYPE_DICTIONARY:
 		character.inventory = Inventory.from_dict(data["inventaire"], known_items)
 	character.known_passages = _string_list(data.get("pierres_connues", []))
@@ -516,17 +528,17 @@ static func _from_levels(old_xp: int) -> int:
 	return roundi(maxi(0, old_xp) / 3.5)
 
 
-## Classe sauvegardée, avec des valeurs sûres (entiers positifs, rangs de 1 à `SPELL_MAX_RANK`).
-static func _class_entry(saved: Dictionary) -> Dictionary:
-	var entry := {"reputation": 0, "points": 0, "sorts": {}}
+## Classe ou métier sauvegardé, avec des valeurs sûres (entiers positifs, rangs de 1 à `SPELL_MAX_RANK`).
+static func _class_entry(saved: Dictionary, ranks_key := "sorts") -> Dictionary:
+	var entry := {"reputation": 0, "points": 0, ranks_key: {}}
 	for key in ["reputation", "points"]:
 		if typeof(saved.get(key)) in [TYPE_INT, TYPE_FLOAT]:
 			entry[key] = maxi(0, int(saved[key]))
-	var ranks: Variant = saved.get("sorts", {})
+	var ranks: Variant = saved.get(ranks_key, {})
 	if typeof(ranks) == TYPE_DICTIONARY:
 		for spell_id: Variant in ranks:
 			if typeof(ranks[spell_id]) in [TYPE_INT, TYPE_FLOAT] and int(ranks[spell_id]) > 0:
-				entry["sorts"][str(spell_id)] = mini(int(ranks[spell_id]), SPELL_MAX_RANK)
+				entry[ranks_key][str(spell_id)] = mini(int(ranks[spell_id]), SPELL_MAX_RANK)
 	return entry
 
 
