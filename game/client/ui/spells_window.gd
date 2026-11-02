@@ -236,8 +236,9 @@ func _update_families() -> void:
 	families.append({"nom": "Race : %s" % race.get("nom", "?"), "sorts": race_spells})
 	var weapon := world.character.inventory.equipped_entry("arme")
 	if not weapon.is_empty() and data.items.has(weapon["objet"]):
-		var weapon_spells: Array[Spell] = [Spell.from_dict(Item.weapon_spell_data(data.items[weapon["objet"]]))]
-		families.append({"nom": "Arme : %s" % data.items[weapon["objet"]]["nom"], "sorts": weapon_spells})
+		var template := Item.entry_template(weapon, data.items)
+		var weapon_spells: Array[Spell] = [Spell.from_dict(Item.weapon_spell_data(template))]
+		families.append({"nom": "Arme : %s" % template["nom"], "sorts": weapon_spells})
 	var names: Array[String] = []
 	for family in families:
 		names.append(family["nom"])

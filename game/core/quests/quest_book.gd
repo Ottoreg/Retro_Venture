@@ -146,7 +146,7 @@ func talk(npc: Dictionary, events: Array[Dictionary]) -> bool:
 		_journal_events(events)
 		return true
 	var offered := offers(npc_id)
-	var has_service: bool = npc.get("marchand", false) or not str(npc.get("atelier", "")).is_empty()
+	var has_service: bool = npc.get("marchand", false) or not npc.get("explication", []).is_empty()
 	if not offered.is_empty() and not (has_service and _declined.has(offered[0])):
 		var quest: Dictionary = _quests()[offered[0]]
 		events.append({

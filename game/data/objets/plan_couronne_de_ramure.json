@@ -1,0 +1,18 @@
+{
+  "id": "plan_couronne_de_ramure",
+  "nom": "Plan : Couronne de ramure",
+  "type": "recette",
+  "rarete": "peu_commun",
+  "niveau": 4,
+  "boutique": false,
+  "description": "Plan de forge : Couronne de ramure. Tressée dans les bois d'un cerf enchanté. Les elfes trouvent ça déplacé.",
+  "recette": {
+    "nom": "Couronne de ramure",
+    "type": "coiffe",
+    "ressources": {
+      "poil_scintillant": 1,
+      "queue_de_rat": 3,
+      "bois_de_cerf_enchante": 2
+    }
+  }
+}

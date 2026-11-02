@@ -88,8 +88,12 @@ static func validate(data: Dictionary) -> PackedStringArray:
 	if typeof(data.get("nom")) != TYPE_STRING:
 		errors.append("« nom » doit être un texte")
 	var type := str(data.get("type", ""))
-	if type != TYPE_RESOURCE and type != TYPE_QUEST and not SLOTS_BY_TYPE.has(type):
-		errors.append("« type » doit valoir « ressource », « quete » ou un type d'équipement : %s" % str(SLOTS_BY_TYPE.keys()))
+	if type not in [TYPE_RESOURCE, TYPE_QUEST, Forge.TYPE_RECIPE] and not SLOTS_BY_TYPE.has(type):
+		errors.append("« type » doit valoir « ressource », « quete », « recette » ou un type d'équipement : %s" % str(SLOTS_BY_TYPE.keys()))
+	if type == Forge.TYPE_RECIPE:
+		errors.append_array(Forge.validate_recipe(data.get("recette")))
+	if data.get("caracteristique", "force") not in Forge.STAT_WEIGHTS.keys() + Forge.FIXED_STATS or data.get("matiere", "cuir") not in Forge.MATERIALS:
+		errors.append("« caracteristique » doit valoir %s et « matiere » %s" % [str(Forge.STAT_WEIGHTS.keys() + Forge.FIXED_STATS), str(Forge.MATERIALS)])
 	if data.get("rarete") not in RARITIES:
 		errors.append("« rarete » doit valoir %s" % str(RARITIES))
 	if not Spell._is_int_at_least(data.get("niveau", 1), 1):
@@ -103,8 +107,8 @@ static func validate(data: Dictionary) -> PackedStringArray:
 			if stat not in bonus_stats() or typeof(span) != TYPE_ARRAY or span.size() != 2 \
 					or not Spell._is_int_at_least(span[0], 0) or not Spell._is_int_at_least(span[1], 0) or int(span[0]) > int(span[1]):
 				errors.append("bonus « %s » : [min, max] attendu, caractéristiques : %s" % [str(stat), str(bonus_stats())])
-		if (type == TYPE_RESOURCE or type == TYPE_QUEST) and not bonuses.is_empty():
-			errors.append("une ressource ou un objet de quête n'a pas de bonus")
+		if not is_equipment(data) and not bonuses.is_empty():
+			errors.append("seul un équipement a des bonus")
 	if data.has("conditions"):
 		errors.append("« conditions » n'existe plus : aucune condition pour équiper un objet (GDD § 9.2)")
 	if type == TYPE_WEAPON:
@@ -125,6 +129,21 @@ static func weapon_spell_data(template: Dictionary) -> Dictionary:
 	if not spell.has("description"):
 		spell["description"] = "Attaque avec %s." % str(template.get("nom", "l'arme"))
 	return spell
+
+
+## Modèle d'un objet de l'inventaire (`entry`) : celui de `items`, ou, pour un objet forgé (`forge` :
+## { nom, artisan, palier, bonus }), son nom, son palier, ses plages, son attaque et sa signature.
+static func entry_template(entry: Dictionary, items: Dictionary) -> Dictionary:
+	var template: Dictionary = items.get(entry.get("objet", ""), {})
+	var forged: Dictionary = entry.get("forge", {})
+	if forged.is_empty() or template.is_empty():
+		return template
+	template = template.duplicate(true)
+	template.merge({"nom": forged["nom"], "niveau": forged["palier"], "bonus": forged["bonus"].duplicate(true),
+		"description": "Créé par %s" % forged["artisan"]}, true)
+	if template.has("attaque"):
+		template["attaque"] = Forge.scaled_attack(template["attaque"], int(forged["palier"]))
+	return template
 
 
 ## Tire les bonus d'un équipement au hasard dans leurs plages (« jets »).

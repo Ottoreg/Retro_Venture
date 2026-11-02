@@ -10,7 +10,7 @@
   },
   "donne": [
     {
-      "objet": "bonnet_de_berger",
+      "objet": "coiffe_fouineur",
       "nombre": 1
     },
     {
@@ -23,7 +23,7 @@
       "objectifs": [
         {
           "type": "equiper",
-          "objet": "bonnet_de_berger",
+          "objet": "coiffe_fouineur",
           "texte": "Mettre la couronne de feuilles (un bonnet)"
         }
       ]
@@ -51,7 +51,7 @@
         {
           "type": "fabriquer",
           "metier": "forgeron",
-          "texte": "Fabriquer un objet chez Aelthar"
+          "texte": "Forger un objet à l'enclume de votre maison"
         }
       ]
     },

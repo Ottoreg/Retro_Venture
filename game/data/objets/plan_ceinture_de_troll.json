@@ -1,0 +1,18 @@
+{
+  "id": "plan_ceinture_de_troll",
+  "nom": "Plan : Ceinture de troll",
+  "type": "recette",
+  "rarete": "peu_commun",
+  "niveau": 16,
+  "boutique": false,
+  "description": "Plan de forge : Ceinture de troll. Une corde de pont, nouée deux fois. Elle fait trois fois votre tour de taille.",
+  "recette": {
+    "nom": "Ceinture de troll",
+    "type": "ceinture",
+    "ressources": {
+      "aile_de_vampipistrelle": 1,
+      "carte_au_tresor_douteuse": 3,
+      "cendre_tiede": 2
+    }
+  }
+}

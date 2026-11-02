@@ -70,7 +70,7 @@
     "ecus": 125,
     "objets": [
       {
-        "objet": "casque_cabosse",
+        "objet": "plan_casque_cabosse",
         "nombre": 1
       }
     ]

@@ -1,7 +1,7 @@
 class_name JobsWindow
 extends CanvasLayer
 ## Fenêtre des métiers (touche J) : un onglet par métier, avec son niveau, son expérience, et la
-## liste de ses ressources (récolte) ou de ses recettes (artisanat).
+## liste de ses ressources (récolte) ou ce qu'il sait lire des ressources à forger (artisanat).
 
 const GOLD := Color(0.95, 0.76, 0.3)
 const LOCKED := Color(0.5, 0.5, 0.5)
@@ -88,21 +88,9 @@ func refresh() -> void:
 				item.get("nom", node["objet"]), amount[0], amount[1], node.get("xp", 0), regrowth[0], regrowth[1]],
 				level >= int(node.get("niveau", 1)), str(item.get("rarete", "commun")), node["objet"])
 	else:
-		_list_title.text = "Recettes (fabriquer à l'atelier)"
-		var recipes: Array = job["recettes"].duplicate()
-		recipes.sort_custom(_recipe_order)
-		for recipe: Dictionary in recipes:
-			var item: Dictionary = world.data.items.get(recipe["objet"], {})
-			var parts: PackedStringArray = []
-			for ingredient_id: String in recipe["ingredients"]:
-				var ingredient: Dictionary = world.data.items.get(ingredient_id, {})
-				parts.append("%d %s" % [recipe["ingredients"][ingredient_id], ingredient.get("nom", ingredient_id)])
-			_add_line("Niv. %d — %s : %s, +%d XP" % [recipe.get("niveau", 1), item.get("nom", recipe["objet"]), ", ".join(parts), recipe.get("xp", 0)],
-				level >= int(recipe.get("niveau", 1)), str(item.get("rarete", "commun")), recipe["objet"])
-
-
-static func _recipe_order(a: Dictionary, b: Dictionary) -> bool:
-	return int(a.get("niveau", 1)) < int(b.get("niveau", 1))
+		_list_title.text = "Forge (à l'enclume de votre maison)"
+		_add_line("Caractéristiques des ressources lues : %s" % ("jusqu'au palier %d" % level if Forge.reveals(character, 1) else "aucune (forgez une première fois)"),
+			true, "commun", "forge_epee")
 
 
 func _add_line(text: String, unlocked: bool, rarity: String, item_id: String) -> void:

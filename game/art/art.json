@@ -844,162 +844,8 @@
         22
       ]
     },
-    "objet_amulette_croc": {
-      "fichier": "objets/amulette_croc.svgt",
-      "ancre": [
-        22,
-        22
-      ]
-    },
-    "objet_anneau_de_cuivre": {
-      "fichier": "objets/anneau_de_cuivre.svgt",
-      "ancre": [
-        22,
-        22
-      ]
-    },
-    "objet_anneau_du_frondeur": {
-      "fichier": "objets/anneau_du_frondeur.svgt",
-      "ancre": [
-        22,
-        22
-      ]
-    },
-    "objet_bonnet_de_berger": {
-      "fichier": "objets/bonnet_de_berger.svgt",
-      "ancre": [
-        22,
-        22
-      ]
-    },
-    "objet_bottes_de_marche": {
-      "fichier": "objets/bottes_de_marche.svgt",
-      "ancre": [
-        22,
-        22
-      ]
-    },
-    "objet_bottes_feutrees": {
-      "fichier": "objets/bottes_feutrees.svgt",
-      "ancre": [
-        22,
-        22
-      ]
-    },
-    "objet_cape_d_ecorce": {
-      "fichier": "objets/cape_d_ecorce.svgt",
-      "ancre": [
-        22,
-        22
-      ]
-    },
-    "objet_cape_en_peau_de_loup": {
-      "fichier": "objets/cape_en_peau_de_loup.svgt",
-      "ancre": [
-        22,
-        22
-      ]
-    },
-    "objet_casque_cabosse": {
-      "fichier": "objets/casque_cabosse.svgt",
-      "ancre": [
-        22,
-        22
-      ]
-    },
-    "objet_ceinture_de_carapace": {
-      "fichier": "objets/ceinture_de_carapace.svgt",
-      "ancre": [
-        22,
-        22
-      ]
-    },
-    "objet_ceinture_de_corde": {
-      "fichier": "objets/ceinture_de_corde.svgt",
-      "ancre": [
-        22,
-        22
-      ]
-    },
-    "objet_ceinturon_rivete": {
-      "fichier": "objets/ceinturon_rivete.svgt",
-      "ancre": [
-        22,
-        22
-      ]
-    },
-    "objet_couronne_de_ramure": {
-      "fichier": "objets/couronne_de_ramure.svgt",
-      "ancre": [
-        22,
-        22
-      ]
-    },
     "objet_inconnu": {
       "fichier": "objets/inconnu.svgt",
-      "ancre": [
-        22,
-        22
-      ]
-    },
-    "objet_lame_cendree": {
-      "fichier": "objets/lame_cendree.svgt",
-      "ancre": [
-        22,
-        22
-      ]
-    },
-    "objet_epee_de_fer": {
-      "fichier": "objets/epee_de_fer.svgt",
-      "ancre": [
-        22,
-        22
-      ]
-    },
-    "objet_baton_de_novice": {
-      "fichier": "objets/baton_de_novice.svgt",
-      "ancre": [
-        22,
-        22
-      ]
-    },
-    "objet_arc_de_frene": {
-      "fichier": "objets/arc_de_frene.svgt",
-      "ancre": [
-        22,
-        22
-      ]
-    },
-    "objet_fronde_reglementaire": {
-      "fichier": "objets/fronde_reglementaire.svgt",
-      "ancre": [
-        22,
-        22
-      ]
-    },
-    "objet_masse_cerclee": {
-      "fichier": "objets/masse_cerclee.svgt",
-      "ancre": [
-        22,
-        22
-      ]
-    },
-    "objet_masse_benite": {
-      "fichier": "objets/masse_benite.svgt",
-      "ancre": [
-        22,
-        22
-      ]
-    },
-    "objet_dague_du_mauvais_oeil": {
-      "fichier": "objets/dague_du_mauvais_oeil.svgt",
-      "ancre": [
-        22,
-        22
-      ]
-    },
-    "objet_chevaliere_du_cogneur": {
-      "fichier": "objets/chevaliere_du_cogneur.svgt",
       "ancre": [
         22,
         22
@@ -1361,13 +1207,6 @@
         22,
         22
       ]
-    },
-    "objet_sceptre_de_novice": {
-      "fichier": "objets/sceptre_de_novice.svgt",
-      "ancre": [
-        22,
-        22
-      ]
     }
   },
   "personnages": {
@@ -1681,13 +1520,41 @@
       "rig": "humain",
       "planche": "sprites/humain.png",
       "echelle": 1.1,
-      "recoloration": {"teinte": [100, 300], "saturation": [0, 0.4], "valeur": [0.12, 0.8], "force": 0.75}
+      "recoloration": {
+        "teinte": [
+          100,
+          300
+        ],
+        "saturation": [
+          0,
+          0.4
+        ],
+        "valeur": [
+          0.12,
+          0.8
+        ],
+        "force": 0.75
+      }
     },
     "elfe": {
       "rig": "humain",
       "planche": "sprites/elfe.png",
       "echelle": 1.15,
-      "recoloration": {"teinte": [250, 345], "saturation": [0.1, 0.7], "valeur": [0.08, 0.55], "force": 0.85},
+      "recoloration": {
+        "teinte": [
+          250,
+          345
+        ],
+        "saturation": [
+          0.1,
+          0.7
+        ],
+        "valeur": [
+          0.08,
+          0.55
+        ],
+        "force": 0.85
+      },
       "couleurs": {
         "cheveux": "e0c070"
       },
@@ -1699,7 +1566,21 @@
       "rig": "gobelin",
       "planche": "sprites/gobelin.png",
       "echelle": 0.95,
-      "recoloration": {"teinte": [355, 30], "saturation": [0.3, 0.75], "valeur": [0.12, 0.62], "force": 0.85},
+      "recoloration": {
+        "teinte": [
+          355,
+          30
+        ],
+        "saturation": [
+          0.3,
+          0.75
+        ],
+        "valeur": [
+          0.12,
+          0.62
+        ],
+        "force": 0.85
+      },
       "couleurs": {
         "cheveux": "3a2a1a"
       }
@@ -2058,15 +1939,5 @@
       }
     }
   },
-  "icones_armes": {
-    "epee_de_fer": "sort_arme_epee",
-    "baton_de_novice": "sort_arme_baton",
-    "arc_de_frene": "sort_arme_arc",
-    "fronde_reglementaire": "sort_arme_fronde",
-    "masse_cerclee": "sort_arme_masse",
-    "lame_cendree": "sort_arme_epee_cendre",
-    "masse_benite": "sort_arme_masse_benite",
-    "dague_du_mauvais_oeil": "sort_arme_dague_impie",
-    "sceptre_de_novice": "sort_arme_sceptre"
-  }
+  "icones_armes": {}
 }

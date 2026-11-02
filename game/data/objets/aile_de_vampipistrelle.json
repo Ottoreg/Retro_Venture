@@ -3,6 +3,8 @@
   "nom": "Aile de vampipistrelle",
   "type": "ressource",
   "rarete": "commun",
-  "niveau": 1,
-  "description": "Fine comme du papier, solide comme du cuir, et elle sent la cave."
+  "niveau": 4,
+  "description": "Fine comme du papier, solide comme du cuir, et elle sent la cave.",
+  "caracteristique": "force",
+  "matiere": "cuir"
 }

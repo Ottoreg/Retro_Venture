@@ -82,11 +82,23 @@ func _process(_delta: float) -> bool:
 			window.toggle()
 			window._selected = world.character.inventory.equipped["amulette"]
 			window.refresh()
+		elif _action == "forge":
+			# Forge à l'enclume : bottes en cours, un plan dans le sac, forgeron qui lit les paliers 1 à 5.
+			var world := view.server
+			for item_id: String in ["peau_de_loup", "croc_de_loup", "dent_de_rat", "corne_du_balourd", "plan_casque_cabosse", "fil_de_brume"]:
+				world.character.inventory.add(world.data.items[item_id], 3)
+			world.character.add_job_xp("forgeron", Profession.xp_for_level(5))
+			view.refresh_state()
+			var forge: ForgeWindow = _scene.get_node("ForgeWindow")
+			forge.open({"case": Vector2i.ZERO})
+			forge._type = "bottes"
+			for item_id: String in ["peau_de_loup", "croc_de_loup", "croc_de_loup", "dent_de_rat", "corne_du_balourd"]:
+				forge._change(item_id, 1)
 		elif _action == "objet":
-			# Bottes de marche portées ; d'autres bottes dans le sac, survolées : leur infobulle comparée.
+			# Bottes du Pressé portées ; d'autres bottes dans le sac, survolées : leur infobulle comparée.
 			var world := view.server
 			var inventory := world.character.inventory
-			inventory.equip(inventory.add(world.data.items["bottes_de_marche"], 1, {"agilite": 3, "initiative": 12}), "bottes")
+			inventory.equip(inventory.add(world.data.items["bottes_presse"], 1, {"agilite": 3, "initiative": 18}), "bottes")
 			view.refresh_state()
 			var other := inventory.add(world.data.items["bottes_forgeron_hargneux"], 1, {"force": 5, "initiative": 8})
 			view.refresh_state()
@@ -137,7 +149,7 @@ func _process(_delta: float) -> bool:
 		elif _action == "butin" or _action == "defaite":
 			# Écran de fin de combat d'exemple : victoire avec butin, ou défaite.
 			var drops: Array = []
-			for item_id: String in ["croc_de_loup", "peau_de_loup", "amulette_croc", "cape_en_peau_de_loup", "lame_cendree"]:
+			for item_id: String in ["croc_de_loup", "peau_de_loup", "amulette_fouineur", "cape_courant_d_air", "plan_amulette_croc"]:
 				var template: Dictionary = view.server.data.items[item_id]
 				drops.append({"objet": item_id, "nom": template["nom"], "rarete": template["rarete"],
 					"quantite": 3 if item_id == "croc_de_loup" else 1})

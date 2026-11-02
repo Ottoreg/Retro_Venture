@@ -1,0 +1,21 @@
+{
+  "id": "plan_eclat_de_l_aube",
+  "nom": "Plan : Éclat de l'Aube",
+  "type": "recette",
+  "rarete": "peu_commun",
+  "niveau": 30,
+  "boutique": false,
+  "description": "Plan de forge : Éclat de l'Aube. Un éclat de lumière tombé de la Brèche quand Grondin s'est effondré. Il brille comme une Relique. Ce n'en est pas une. Pas encore.",
+  "recette": {
+    "nom": "Éclat de l'Aube",
+    "type": "anneau",
+    "ressources": {
+      "obsidienne": 1,
+      "cuir_d_olifant": 1,
+      "plume_de_corbac": 1,
+      "coeur_de_pierre": 1,
+      "eclat_de_gargouille": 1,
+      "invitation_au_bal": 1
+    }
+  }
+}

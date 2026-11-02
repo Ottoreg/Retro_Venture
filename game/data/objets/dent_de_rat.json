@@ -4,5 +4,6 @@
   "type": "ressource",
   "rarete": "commun",
   "niveau": 1,
-  "description": "Jaune, pointue, et encore un peu mordante."
+  "description": "Jaune, pointue, et encore un peu mordante.",
+  "caracteristique": "agilite"
 }

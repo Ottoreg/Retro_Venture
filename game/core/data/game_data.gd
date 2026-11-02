@@ -19,8 +19,6 @@ var items: Dictionary = {}
 var jobs: Dictionary = {}
 ## Caractère du plan → ressource récoltable { marqueur, nom, objet, niveau, … , metier: id du métier }.
 var nodes: Dictionary = {}
-## id de l'objet fabriqué → recette { objet, niveau, ingredients, xp, metier: id du métier }.
-var recipes: Dictionary = {}
 ## Pierres de Passage : id → { id, nom, carte, prix, toujours_connue } (on voyage de l'une à l'autre ;
 ## `prix` et `toujours_connue` sont optionnels, voir `passage_price` et `passage_always_known`).
 var passages: Dictionary = {}
@@ -69,6 +67,12 @@ static func from_dicts(spell_list: Array, monster_list: Array, voie_list: Array,
 		var errors := Item.validate(raw) if typeof(raw) == TYPE_DICTIONARY else PackedStringArray(["objet attendu"])
 		if _report("objet", raw, errors):
 			data.items[raw["id"]] = raw
+	for item_id: String in data.items.keys():
+		for resource_id: Variant in data.items[item_id].get("recette", {}).get("ressources", {}):
+			if data.items.get(resource_id, {}).get("type") != Item.TYPE_RESOURCE:
+				_report("objet", data.items[item_id], PackedStringArray(["plan : « %s » n'est pas une ressource" % resource_id]))
+				data.items.erase(item_id)
+				break
 	for raw: Variant in spell_list:
 		var errors := Spell.validate(raw) if typeof(raw) == TYPE_DICTIONARY else PackedStringArray(["objet attendu"])
 		if _report("sort", raw, errors):
@@ -258,15 +262,12 @@ func start_passage(race_id: String) -> String:
 	return ""
 
 
-## Erreurs qui dépendent des autres métiers : marqueurs de ressources et objets fabriqués uniques.
+## Erreurs qui dépendent des autres métiers : marqueurs de ressources uniques.
 func _validate_job_links(job: Dictionary) -> PackedStringArray:
 	var errors: PackedStringArray = []
 	for node: Dictionary in job.get("ressources", []):
 		if nodes.has(node["marqueur"]):
 			errors.append("marqueur « %s » déjà utilisé par %s" % [node["marqueur"], nodes[node["marqueur"]]["nom"]])
-	for recipe: Dictionary in job.get("recettes", []):
-		if recipes.has(recipe["objet"]):
-			errors.append("« %s » a déjà une recette" % recipe["objet"])
 	return errors
 
 
@@ -276,10 +277,6 @@ func _add_job(job: Dictionary) -> void:
 		var entry := node.duplicate(true)
 		entry["metier"] = job["id"]
 		nodes[node["marqueur"]] = entry
-	for recipe: Dictionary in job.get("recettes", []):
-		var entry := recipe.duplicate(true)
-		entry["metier"] = job["id"]
-		recipes[recipe["objet"]] = entry
 
 
 static func validate_race(data: Dictionary, known_spells: Dictionary) -> PackedStringArray:
@@ -662,7 +659,8 @@ func create_character_fighter(character: Character, fighter_id: String) -> Fight
 	var weapon := character.inventory.equipped_entry("arme")
 	if not weapon.is_empty() and items.has(weapon["objet"]):
 		fighter.weapon = weapon["objet"]
-		fighter.spells.insert(0, Spell.from_dict(Item.weapon_spell_data(items[weapon["objet"]])))
+		fighter.weapon_tier = int(weapon.get("forge", {}).get("palier", 0))
+		fighter.spells.insert(0, Spell.from_dict(Item.weapon_spell_data(Item.entry_template(weapon, items))))
 	return fighter
 
 
@@ -694,8 +692,10 @@ func create_profile_fighter(profile: Dictionary, fighter_id: String) -> Fighter:
 			fighter.spells.append(spells[spell_id].mastered(int(ranks.get(spell_id, 0))))
 	fighter.masteries = ranks.duplicate()
 	fighter.weapon = str(profile.get("arme", ""))
+	fighter.weapon_tier = int(profile.get("palier_arme", 0))
 	if items.has(fighter.weapon):
-		fighter.spells.insert(0, Spell.from_dict(Item.weapon_spell_data(items[fighter.weapon])))
+		var forged := {"forge": {"nom": items[fighter.weapon]["nom"], "artisan": "", "palier": fighter.weapon_tier, "bonus": {}}} if fighter.weapon_tier > 0 else {}
+		fighter.spells.insert(0, Spell.from_dict(Item.weapon_spell_data(Item.entry_template(forged.merged({"objet": fighter.weapon}), items))))
 	return fighter
 
 

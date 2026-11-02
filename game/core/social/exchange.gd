@@ -126,7 +126,7 @@ func _transfer(inventories: Dictionary, items: Dictionary) -> bool:
 		given[id] = []
 		for uid: String in offer["objets"]:
 			var entry: Dictionary = inventory.entries[uid]
-			given[id].append([items[entry["objet"]], int(offer["objets"][uid]), entry["jets"].duplicate()])
+			given[id].append([items[entry["objet"]], int(offer["objets"][uid]), entry["jets"].duplicate(), entry.get("forge", {})])
 			inventory.remove(uid, offer["objets"][uid])
 		inventory.ecus -= int(offer["brumes"])
 	for id in players:
@@ -135,7 +135,7 @@ func _transfer(inventories: Dictionary, items: Dictionary) -> bool:
 		for gift: Array in given[id]:
 			if Item.is_equipment(gift[0]):
 				for _unit in gift[1]:
-					receiver.add(gift[0], 1, gift[2], true)
+					receiver.add(gift[0], 1, gift[2], true, gift[3])
 			else:
 				receiver.add(gift[0], gift[1], {}, true)
 	return true
@@ -159,5 +159,5 @@ func _offer_view(id: String, inventory: Inventory) -> Dictionary:
 		var entry: Dictionary = inventory.entries.get(uid, {})
 		if not entry.is_empty():
 			lines.append({"uid": uid, "objet": entry["objet"], "quantite": offers[id]["objets"][uid],
-				"jets": entry["jets"].duplicate()})
+				"jets": entry["jets"].duplicate(), "forge": entry.get("forge", {}).duplicate(true)})
 	return {"objets": lines, "brumes": offers[id]["brumes"]}

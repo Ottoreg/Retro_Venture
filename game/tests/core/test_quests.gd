@@ -9,7 +9,7 @@ var _world: World
 
 
 static func _items() -> Array:
-	var items := Fixtures.items()
+	var items := Fixtures.items() + Fixtures.forge_items()
 	items.append({"id": "buche", "nom": "Bûche", "type": "ressource", "rarete": "commun"})
 	items.append({"id": "pomme", "nom": "Panier de pommes", "type": "quete", "rarete": "commun"})
 	return items
@@ -21,9 +21,7 @@ static func _jobs() -> Array:
 			{"marqueur": "F", "nom": "Frêne", "objet": "buche", "niveau": 1, "quantite": [2, 2], "xp": 10,
 				"repousse": [60, 120], "apparence": "arbre"},
 		]},
-		{"id": "forgeron", "nom": "Forgeron", "type": "artisanat", "recettes": [
-			{"objet": "bague", "niveau": 1, "xp": 10, "ingredients": {"buche": 1}},
-		]},
+		{"id": "forgeron", "nom": "Forgeron", "type": "artisanat"},
 	]
 
 
@@ -78,12 +76,11 @@ func before_each() -> void:
 	var npcs := {"pnj": [
 		{"marqueur": "b", "id": "berger", "nom": "Le berger", "repliques": ["Bonjour."]},
 		{"marqueur": "c", "id": "marchand", "nom": "Le marchand", "marchand": true, "repliques": ["Achetez !"]},
-		{"marqueur": "a", "id": "forge", "nom": "La forge", "atelier": "forgeron", "repliques": ["Clang."]},
 	]}
 	npcs["id"] = "a"
 	_maps = {
 		"a": Fixtures.map({cells[0]: "1", cells[1]: "2", cells[2]: "F", GameMap.plan_cell(0, 6): "b", GameMap.plan_cell(0, 8): "c",
-			GameMap.plan_cell(8, 8): "a"}, [{"monstres": ["mannequin"]}, {"monstres": ["mannequin", "chef"]}], npcs),
+			GameMap.plan_cell(8, 8): "&"}, [{"monstres": ["mannequin"]}, {"monstres": ["mannequin", "chef"]}], npcs),
 		"b": Fixtures.map({cells[0]: "1"}, [{"monstres": ["patron"]}], {"id": "b"}),
 	}
 	_world = World.new(_maps["a"], _data(), _loader, Fixtures.character())
@@ -204,7 +201,7 @@ func test_proposition_acceptation_et_tutoriel_complet() -> void:
 	assert_true(Fixtures.of_type(events, Protocol.EVT_QUEST_PROGRESS).any(func(e: Dictionary) -> bool: return e["texte"] == "Vaincre : Mannequin 1 / 2"))
 	_win_against("groupe_2")
 	assert_eq(_world.character.quests.step("tuto"), 2, "le chef compte pour sa famille")
-	# Étape 3 : récolter 2 bûches et fabriquer chez la forge.
+	# Étape 3 : récolter 2 bûches et forger à l'enclume.
 	var tree := Fixtures.center() + Vector2i(3, 0)
 	var path: Array[Vector2i] = _maps["a"].approach_path(_world.position_of(World.PLAYER_ID), tree)
 	_command(Protocol.CMD_MOVE, {"cible": path[-1]})
@@ -212,7 +209,8 @@ func test_proposition_acceptation_et_tutoriel_complet() -> void:
 	assert_eq(_counters("tuto"), [2, 0])
 	path = _maps["a"].approach_path(_world.position_of(World.PLAYER_ID), GameMap.plan_cell(8, 8))
 	_command(Protocol.CMD_MOVE, {"cible": path[-1]})
-	_command(Protocol.CMD_CRAFT, {"pnj": "forge", "recette": "bague"})
+	_world.character.inventory.add(_world.data.items["minerai"], 1)
+	_command(Protocol.CMD_FORGE, {"case": GameMap.plan_cell(8, 8), "type_objet": "anneau", "ressources": {"minerai": 1}, "mots": ["Anneau"]})
 	assert_eq(_world.character.quests.step("tuto"), 3)
 	assert_eq(_world.quest_book.marker("berger"), QuestBook.MARKER_TURN_IN)
 	# Étape 4 : revenir voir le berger ; récompenses.

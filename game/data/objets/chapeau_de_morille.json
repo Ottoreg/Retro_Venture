@@ -4,5 +4,6 @@
   "type": "ressource",
   "rarete": "commun",
   "niveau": 1,
-  "description": "Alvéolé, parfumé, vexé. Il continue de bouder même détaché."
+  "description": "Alvéolé, parfumé, vexé. Il continue de bouder même détaché.",
+  "caracteristique": "intelligence"
 }

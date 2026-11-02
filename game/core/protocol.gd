@@ -9,7 +9,7 @@ extends RefCounted
 
 ## Version du protocole, vérifiée à la connexion : à augmenter à chaque changement incompatible
 ## d'une commande ou d'un événement.
-const VERSION := 9
+const VERSION := 10
 
 # --- Commandes (client → noyau) ---
 
@@ -47,9 +47,10 @@ const CMD_BUY := "acheter"
 const CMD_SELL := "vendre"
 ## Exploration, à côté d'une ressource (arbre, minerai) : la récolter. { type, entite: String, case: Vector2i }
 const CMD_HARVEST := "recolter"
-## Exploration, à côté d'un atelier (PNJ avec « atelier ») : fabriquer un objet d'après sa recette.
-## { type, entite: String, pnj: String, recette: String (id de l'objet fabriqué), quantite: int (optionnel) }
-const CMD_CRAFT := "fabriquer"
+## Exploration, à côté de l'enclume : forger un objet (`Forge`). { type, entite: String, case: Vector2i (enclume),
+## type_objet: String (`Forge.TYPES`), ressources: { id: quantité }, mots: Array[String] (nom choisi) } ;
+## ou { type, entite, case, recette: String (id d'un plan du sac) }.
+const CMD_FORGE := "forger"
 ## Exploration, à côté d'un meuble (coffre, lit) : l'utiliser. { type, entite: String, case: Vector2i }
 const CMD_USE := "utiliser"
 ## Exploration, à côté du coffre : y déposer un objet non porté.
@@ -125,8 +126,8 @@ const CMD_EXCHANGE := "echange"
 const EVT_MOVED := "deplace"
 ## { type, commande: String, raison: String }
 const EVT_REFUSED := "refuse"
-## { type, pnj: String, nom: String, case: Vector2i, repliques: Array[String] }, et `quete` (id, ou "")
-## quand le texte vient d'une quête.
+## { type, pnj: String, nom: String, case: Vector2i, repliques: Array[String], explication: Array[String]
+## (proposée à la fin, si le joueur l'accepte) }, et `quete` (id, ou "") quand le texte vient d'une quête.
 const EVT_DIALOGUE := "dialogue"
 ## Un PNJ propose une quête, à la place de son dialogue. { type, pnj, nom, case, quete: String,
 ## titre: String, niveau: int, repliques: Array[String], objectifs: Array[{ texte, fait, carte }],
@@ -145,11 +146,6 @@ const EVT_SHOP := "boutique"
 ## Achat ou vente effectué. { type, operation: « achat » ou « vente », objet: String (id du modèle),
 ## nom: String, quantite: int, prix: int (total), ecus: int (brumes restantes) }
 const EVT_TRADE := "commerce"
-## Atelier d'un artisan, à la place du dialogue quand on lui parle. { type, pnj: String, nom: String,
-## case: Vector2i, repliques: Array[String], metier: String, nom_metier: String,
-## recettes: Array[{ objet, nom, type, rarete, niveau (du métier), niveau_objet, description, bonus,
-## conditions, ingredients: Array[{ objet, nom, quantite }], xp }] }
-const EVT_WORKSHOP := "atelier"
 ## Ressource récoltée. { type, entite: String, case: Vector2i, ressource: String (nom), objet: String,
 ## nom: String, quantite: int, metier: String }
 ## `rare` : vrai si c'est la ressource rare du nœud (1 exemplaire, voir `Profession.RARE_CHANCE`).
@@ -181,7 +177,9 @@ const EVT_PASSAGE_DISCOVERED := "pierre_decouverte"
 ## Nouveau point de résurrection (la dernière Pierre de Passage utilisée), seulement s'il change.
 ## { type, passage: String (id), nom: String }
 const EVT_RESPAWN_POINT := "point_de_resurrection"
-## Objet fabriqué. { type, objet: String, nom: String, quantite: int, metier: String }
+## Objet forgé. { type, objet: String (modèle), nom: String, quantite: int, metier: String }
+## Le joueur utilise l'enclume de sa maison : la forge s'ouvre. { type, case: Vector2i }
+const EVT_ANVIL := "enclume"
 const EVT_CRAFTED := "fabrication"
 ## XP de métier gagnée. { type, metier: String, nom: String, gain: int, niveau: int, xp: int,
 ## xp_niveau: int, xp_suivant: int, niveaux: Array[int] (niveaux de métier atteints) }

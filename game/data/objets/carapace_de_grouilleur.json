@@ -4,5 +4,6 @@
   "type": "ressource",
   "rarete": "commun",
   "niveau": 1,
-  "description": "Un anneau de carapace verte. Il en manque une centaine pour faire le tour."
+  "description": "Un anneau de carapace verte. Il en manque une centaine pour faire le tour.",
+  "caracteristique": "force"
 }

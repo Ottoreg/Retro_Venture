@@ -3,6 +3,7 @@
   "nom": "Éclat de cendre",
   "type": "ressource",
   "rarete": "rare",
-  "niveau": 1,
-  "description": "Un fragment noir qui brûle sans flamme. Les Corrompus en ont plein le corps."
+  "niveau": 13,
+  "description": "Un fragment noir qui brûle sans flamme. Les Corrompus en ont plein le corps.",
+  "caracteristique": "portee"
 }

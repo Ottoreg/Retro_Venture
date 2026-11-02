@@ -53,6 +53,8 @@ var states: Array[Dictionary] = []
 var masteries: Dictionary = {}
 ## Arme portée (id de l'objet, joueurs) : son attaque est le premier sort.
 var weapon := ""
+## Palier d'une arme forgée (0 : arme prédéfinie), pour recréer son attaque (`profile`).
+var weapon_tier := 0
 ## Phases pas encore déclenchées (monstres), dans l'ordre : { pv: int (% des PV max), message: String,
 ## sorts: Array[Spell], effets: Array[Dictionary] } (voir `Combat._check_phases`).
 var phases: Array[Dictionary] = []
@@ -267,7 +269,7 @@ func profile() -> Dictionary:
 	return {"voie": kind, "nom": display_name, "race": race, "niveau": level, "caracs": stats.duplicate(),
 		"pv_max": max_hp, "pa": max_pa, "pm": max_pm, "initiative": initiative, "portee": range_bonus,
 		"prospection": prospection, "dommages": dommages, "critique": crit_bonus, "resistances": resistances.duplicate(),
-		"sorts": spell_ids, "maitrises": masteries.duplicate(), "arme": weapon}
+		"sorts": spell_ids, "maitrises": masteries.duplicate(), "arme": weapon, "palier_arme": weapon_tier}
 
 
 ## État complet du combattant pour la copie d'un client (voir `Combat.snapshot`) : ce qui change

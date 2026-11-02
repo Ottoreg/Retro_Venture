@@ -1,0 +1,19 @@
+{
+  "id": "plan_cape_de_loup_cendreux",
+  "nom": "Plan : Cape de loup cendreux",
+  "type": "recette",
+  "rarete": "peu_commun",
+  "niveau": 15,
+  "boutique": false,
+  "description": "Plan de forge : Cape de loup cendreux. Elle sent le brûlé et ne sèche jamais vraiment. Le loup non plus, d'ailleurs.",
+  "recette": {
+    "nom": "Cape de loup cendreux",
+    "type": "cape",
+    "ressources": {
+      "soie_de_la_mere_toile": 1,
+      "sifflet_de_contremaitre": 2,
+      "carte_au_tresor_douteuse": 2,
+      "bourse_vide": 1
+    }
+  }
+}

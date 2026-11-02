@@ -166,11 +166,11 @@ func _update_validate() -> void:
 func _sheet(lines: Array) -> Array:
 	var sheet: Array = []
 	for line: Dictionary in lines:
-		var template: Dictionary = map_view.world.data.items.get(line["objet"], {})
+		var template := Item.entry_template(line, map_view.world.data.items)
 		sheet.append({"uid": line["uid"], "objet": line["objet"], "nom": template.get("nom", line["objet"]),
 			"type": template.get("type", ""), "rarete": template.get("rarete", "commun"),
 			"niveau": int(template.get("niveau", 1)), "description": template.get("description", ""),
-			"quantite": line["quantite"], "jets": line["jets"],
+			"quantite": line["quantite"], "jets": line["jets"], "forge": line.get("forge", {}),
 			"emplacement": ""})
 	return sheet
 
@@ -186,7 +186,7 @@ func _fill(list: ItemList, entries: Array, offer_side: Variant) -> bool:
 		var index := list.add_item(label, InventoryWindow.item_icon(entry["objet"]))
 		list.set_item_custom_fg_color(index, Color(0.5, 0.5, 0.5) if worn else InventoryWindow.rarity_color(entry["rarete"]))
 		list.set_item_metadata(index, entry["uid"])
-		list.set_item_tooltip(index, ItemTooltipList.tooltip_text_for(entry, map_view.world.data, map_view.world.character.inventory))
+		list.set_item_tooltip(index, ItemTooltipList.tooltip_text_for(entry, map_view.world.data, map_view.world.character))
 		if offer_side == null:
 			list.set_item_selectable(index, false)
 		elif entry["uid"] == _selected and _from_offer == offer_side:

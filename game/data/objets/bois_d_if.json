@@ -3,6 +3,7 @@
   "nom": "Bois d'if",
   "type": "ressource",
   "rarete": "peu_commun",
-  "niveau": 1,
-  "description": "Sombre, souple, toxique. Les rôdeurs l'adorent, les chèvres beaucoup moins."
+  "niveau": 8,
+  "description": "Sombre, souple, toxique. Les rôdeurs l'adorent, les chèvres beaucoup moins.",
+  "matiere": "bois"
 }

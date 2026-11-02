@@ -42,8 +42,12 @@ var _selected := ""
 
 ## Icône d'un objet (image `objet_<id>` de `art/art.json`, ou un sac « ? » à défaut).
 static func item_icon(item_id: String) -> Texture2D:
-	var image := "objet_" + item_id
-	return Art.texture(image if Art.has_image(image) else "objet_inconnu")
+	return Art.texture(icon_name(item_id) if Art.has_image(icon_name(item_id)) else "objet_inconnu")
+
+
+## Image d'un objet : `objet_<id>`, ou le parchemin commun à tous les plans de forge.
+static func icon_name(item_id: String) -> String:
+	return "objet_plan" if item_id.begins_with("plan_") else "objet_" + item_id
 
 
 ## Liste d'objets en grille d'icônes, comme un sac (texte : la quantité).
@@ -77,7 +81,7 @@ static func add_bag_item(list: ItemList, entry: Dictionary, tooltip := "") -> in
 static func bag_tab(item_type: String) -> BagTab:
 	if Item.SLOTS_BY_TYPE.has(item_type):
 		return BagTab.EQUIPMENT
-	if item_type == Item.TYPE_RESOURCE or item_type == Item.TYPE_QUEST:
+	if item_type in [Item.TYPE_RESOURCE, Item.TYPE_QUEST, Forge.TYPE_RECIPE]:
 		return BagTab.RESOURCES
 	return BagTab.CONSUMABLES
 
@@ -213,7 +217,7 @@ func refresh() -> void:
 	for entry: Dictionary in _sheet["objets"]:
 		if bag_tab(entry["type"]) != _bag_tabs.current_tab:
 			continue
-		var index := add_bag_item(_list, entry, ItemTooltipList.tooltip_text_for(entry, world.data, world.character.inventory, _show_ranges))
+		var index := add_bag_item(_list, entry, ItemTooltipList.tooltip_text_for(entry, world.data, world.character, _show_ranges))
 		if entry["uid"] == _selected:
 			_list.select(index)
 	if not by_uid.has(_selected):
@@ -356,9 +360,10 @@ func _show_details(entry: Dictionary) -> void:
 		"%s — %s" % [entry["nom"], Item.RARITY_NAMES.get(entry["rarete"], "")],
 		"%s, palier %d" % [TYPE_NAMES.get(entry["type"], entry["type"]), entry["niveau"]],
 	]
-	var template: Dictionary = map_view.world.data.items.get(entry["objet"], {})
+	var template := Item.entry_template(entry, map_view.world.data.items)
 	lines.append_array(roll_lines(entry, template, _show_ranges))
 	lines.append_array(attack_lines(template))
+	lines.append_array(ForgeWindow.forge_lines(template, map_view.world.data, map_view.world.character))
 	lines.append_array(set_lines(entry["objet"], map_view.world.data, map_view.world.character.inventory))
 	if not str(entry["description"]).is_empty():
 		lines.append("")

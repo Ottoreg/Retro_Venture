@@ -1,0 +1,19 @@
+{
+  "id": "plan_carte_du_syndicat",
+  "nom": "Plan : Carte du syndicat",
+  "type": "recette",
+  "rarete": "peu_commun",
+  "niveau": 12,
+  "boutique": false,
+  "description": "Plan de forge : Carte du syndicat. Carte de délégué provisoire du Syndicat des Travailleurs de Crasse-Roc. Donne droit à une pause par décennie.",
+  "recette": {
+    "nom": "Carte du syndicat",
+    "type": "amulette",
+    "ressources": {
+      "minerai_d_etain": 1,
+      "sifflet_de_contremaitre": 2,
+      "registre_des_heures": 2,
+      "crochet_d_araignee": 1
+    }
+  }
+}

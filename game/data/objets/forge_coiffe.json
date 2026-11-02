@@ -1,0 +1,9 @@
+{
+  "id": "forge_coiffe",
+  "nom": "Coiffe",
+  "type": "coiffe",
+  "rarete": "commun",
+  "niveau": 1,
+  "boutique": false,
+  "description": "Objet forgé à l'enclume."
+}

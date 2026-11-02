@@ -3,6 +3,8 @@
   "nom": "Fil de brume",
   "type": "ressource",
   "rarete": "commun",
-  "niveau": 1,
-  "description": "Un fil d'araignée si fin qu'on le voit seulement quand il fait humide. Il fait toujours humide."
+  "niveau": 10,
+  "description": "Un fil d'araignée si fin qu'on le voit seulement quand il fait humide. Il fait toujours humide.",
+  "caracteristique": "dommages",
+  "matiere": "tissu"
 }

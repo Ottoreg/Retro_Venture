@@ -3,6 +3,7 @@
   "nom": "Recette de troll",
   "type": "ressource",
   "rarete": "peu_commun",
-  "niveau": 1,
-  "description": "« Aventurier rôti, trois façons. » Il manque la troisième, heureusement."
+  "niveau": 16,
+  "description": "« Aventurier rôti, trois façons. » Il manque la troisième, heureusement.",
+  "caracteristique": "perception"
 }

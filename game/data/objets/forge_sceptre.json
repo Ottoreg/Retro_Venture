@@ -1,0 +1,27 @@
+{
+  "id": "forge_sceptre",
+  "nom": "Sceptre",
+  "type": "arme",
+  "rarete": "commun",
+  "niveau": 1,
+  "boutique": false,
+  "description": "Objet forgé à l'enclume.",
+  "attaque": {
+    "cout_pa": 4,
+    "portee": {
+      "min": 2,
+      "max": 5
+    },
+    "relance": {
+      "par_tour": 1
+    },
+    "effets": [
+      {
+        "type": "degats",
+        "element": "flamme",
+        "min": 5,
+        "max": 8
+      }
+    ]
+  }
+}

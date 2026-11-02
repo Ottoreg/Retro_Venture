@@ -53,6 +53,7 @@ Dofus. Elle est décrite par un **plan texte** : une ligne par rangée, un carac
 | `*` | Pierre de Passage (voir `passages/`) |
 | `$` | Coffre (maison du joueur) |
 | `=` | Lit (maison du joueur) |
+| `&` | Enclume (maison du joueur) : la forge |
 | Autres majuscules | Ressource de métier, définie dans `metiers/` : `F` frêne, `C` chêne, `U` cuivre, `I` fer |
 
 Les tests vérifient chaque carte : format du plan, `id` égal au nom du fichier, et **toutes les cases
@@ -158,8 +159,9 @@ revente rapporte un quart du prix d'achat (`Item.RESALE_RATE`), au moins 1 brume
 | Légendaire | 2 500 | 250 |
 | Relique | 6 000 | 600 |
 
-Avec `"atelier": "forgeron"` (id d'un métier d'artisanat), le PNJ ouvre l'**atelier** de ce métier :
-la liste de ses recettes, les ingrédients possédés et la fabrication.
+`explication` (facultatif, liste de textes) : à la dernière réplique, la bulle propose « Oui,
+expliquez-moi » et montre ces textes si le joueur accepte (un clic ailleurs refuse). Les forgerons
+indiquent ainsi l'enclume de la maison et expliquent la forge.
 
 ### Grands décors (bâtiments)
 
@@ -188,8 +190,8 @@ ramène d'où l'on vient (les tests vérifient que chaque porte a sa réciproque
   maison : en multijoueur, chaque joueur aura sa propre copie (et son coffre).
 - Chaque zone de départ a sa maison (`maison_joueur` à Brumerive, `maison_crasse_roc`,
   `maison_sylvebrume`) ; le coffre est le même partout (il appartient au personnage).
-- La maison contient un coffre `$` (on y range des objets non portés) et un lit `=`
-  (dormir rend tous les PV). On les utilise depuis une case voisine.
+- La maison contient un coffre `$` (on y range des objets non portés), un lit `=` (dormir rend tous
+  les PV) et une enclume `&` (la forge, ci-dessous). On les utilise depuis une case voisine.
 
 ### Sorties
 
@@ -475,25 +477,50 @@ Vétéran 15 000).
 
 ```json
 {
-  "id": "epee_de_fer",
-  "nom": "Épée de fer",
+  "id": "marteau_enclume_rancuniere",
+  "nom": "Marteau de l'Enclume Rancunière",
   "type": "arme",
-  "rarete": "commun",
-  "niveau": 1,
-  "description": "Une épée honnête.",
-  "bonus": {"force": [2, 5]},
-  "attaque": {"cout_pa": 4, "portee": {"min": 1, "max": 1}, "effets": [{"type": "degats", "element": "acier", "min": 7, "max": 11}]}
+  "rarete": "peu_commun",
+  "niveau": 15,
+  "description": "…",
+  "bonus": {"force": [6, 9], "vitalite": [8, 12]},
+  "attaque": {"cout_pa": 4, "portee": {"min": 1, "max": 1}, "effets": [{"type": "degats", "element": "acier", "min": 14, "max": 20}]}
 }
 ```
 
 | Clé | Rôle |
 |---|---|
-| `type` | `ressource` (s'empile), `quete` (objet de quête : s'empile, ni vendu, ni vendable, ni jetable) ou équipement : `arme`, `coiffe`, `cape`, `amulette`, `anneau`, `ceinture`, `bottes` |
+| `type` | `ressource` (s'empile), `quete` (objet de quête : s'empile, ni vendu, ni vendable, ni jetable), `recette` (plan de forge, ci-dessous) ou équipement : `arme`, `coiffe`, `cape`, `amulette`, `anneau`, `ceinture`, `bottes` |
 | `rarete` | `commun`, `peu_commun`, `rare`, `epique`, `legendaire`, `relique` (couleur dans l'interface) |
 | `niveau` | Palier de l'objet (puissance indicative, prix, catalogue) : plus une condition pour l'équiper (GDD § 4.5) |
 | `bonus` | Plages `[min, max]` tirées au hasard à l'obtention (« jets ») : les 5 caractéristiques, `prospection`, `initiative`, `portee`, `pa`, `pm`, `dommages` (dégâts bruts ajoutés à chaque ligne de dégâts, ni multipliés ni réduits par les résistances, pas sur les soins) |
 | `boutique` | `false` : les marchands ne le vendent pas (trophée de boss, objet de butin rare) ; défaut `true` |
 | `attaque` | Armes seulement : attaque utilisable en combat, décrite comme un sort |
+| `caracteristique` | Ressources de monstres : ce qu'elles donnent à la forge (une des 12 statistiques ; la valeur dépend du `niveau`, voir « Forge ») |
+| `matiere` | `cuir`, `tissu`, `minerai` ou `bois` : matière obligatoire de certains types d'objets forgés |
+| `recette` | Plans seulement : `{ "nom": nom de l'objet, "type": type de forge, "ressources": { id: quantité } }` |
+
+**Équipement** (02/11/2026, demande de l'auteur) : seules les **panoplies** restent des objets
+prédéfinis ; tout le reste se forge. `forge_<type>` sont les modèles des objets forgés (un par type
+de la forge, `boutique: false`), à ne pas donner tels quels.
+
+### Forge (`core/items/forge.gd`, GDD § 10.4)
+
+À l'enclume, on choisit un **type** (`coiffe`, `cape`, `amulette`, `anneau`, `ceinture`, `bottes`,
+`epee`, `arc`, `baton`, `dague`, `masse`, `sceptre`) et on pose au plus **6 ressources**, dont les
+**matières obligatoires** du type : tissu (coiffe, cape), cuir (ceinture, bottes), minerai (anneau,
+amulette), minerai et bois (armes). Chaque ressource de monstre ajoute sa caractéristique :
+`max(1, arrondi((1 + palier / 8) × poids))`, poids 1 pour les élémentaires, 4 Vitalité,
+10 Initiative, 0,34 Prospection et Dommages, 0,1 Critique ; **PA, PM et Portée valent toujours 1**
+et une seule ligne de chacun par objet. Chaque ligne se tire entre 75 % et 100 % de son total ; le
+palier de l'objet est la moyenne des paliers des ressources ; une arme forgée a les dégâts de son
+modèle × (1 + (palier − 1) / 20). Le nom se compose d'un nom du type et de deux adjectifs au plus,
+pris dans les lignes de l'objet (`Forge.TYPES`, `Forge.WORDS`), et l'objet est signé « Créé par
+<pseudo> ». Les caractéristiques des ressources sont **cachées** tant qu'on n'a jamais forgé, puis
+lues jusqu'au palier égal au niveau de forgeron (5 XP par palier de l'objet forgé). Un **plan**
+(récompense de quête, ou vendu par les marchands) donne type, ressources et nom, et montre tout.
+Production des données : `docs/design/forge/produire.py` (déjà lancé ; répartition des
+caractéristiques par tourniquet pondéré, PA, PM et Portée sur des butins de mini-boss).
 
 ## Panoplies (`panoplies/`)
 
@@ -616,17 +643,8 @@ case voisine. Une fois récoltée, elle repousse au bout d'un temps tiré dans `
   Anciens, if funèbre, hêtre centenaire, malorme ensorcelée, cuivre vert-de-gris, fer météorique,
   étain chantant, argent lunaire, obsidienne sanglante) ; tout futur métier de récolte en aura aussi.
 
-Un métier d'**artisanat** liste ses recettes ; on fabrique auprès d'un PNJ qui tient son `atelier`.
-Les équipements fabriqués ont des jets tirés au hasard.
-
-```json
-{
-  "id": "forgeron", "nom": "Forgeron", "type": "artisanat",
-  "recettes": [
-    {"objet": "epee_de_fer", "niveau": 2, "xp": 15, "ingredients": {"minerai_de_fer": 4, "bois_de_frene": 2}}
-  ]
-}
-```
+Un métier d'**artisanat** n'a plus de recettes (`{"id": "forgeron", "nom": "Forgeron", "type":
+"artisanat"}`) : le forgeron forge à l'enclume (voir « Forge »).
 
 Niveaux de métier : 1 à 100, XP totale pour le niveau n = 5 × n × (n − 1). Les Humains gagnent 10 %
 d'XP de métier en plus (effet de passif `{"type": "xp_metier", "valeur": 10}`).

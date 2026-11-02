@@ -3,6 +3,7 @@
   "nom": "Sève ancienne",
   "type": "ressource",
   "rarete": "rare",
-  "niveau": 1,
-  "description": "Ambrée, épaisse, plus vieille que Brumerive."
+  "niveau": 4,
+  "description": "Ambrée, épaisse, plus vieille que Brumerive.",
+  "caracteristique": "intelligence"
 }

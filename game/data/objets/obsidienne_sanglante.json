@@ -3,7 +3,8 @@
   "nom": "Obsidienne sanglante",
   "type": "ressource",
   "rarete": "rare",
-  "niveau": 1,
+  "niveau": 22,
   "description": "Un verre noir veiné de rouge. Il coupe, et il a l'air content de couper.",
-  "boutique": false
+  "boutique": false,
+  "matiere": "minerai"
 }

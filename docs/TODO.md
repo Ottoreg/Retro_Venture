@@ -311,14 +311,16 @@ Lots 0 (conception dans le GDD), 1 (personnage, poussé sur `main` à la demande
   amulettes à 1 PA, bottes de niveau 30 à 1 PM ; butin de monstres de leur niveau (GDD § 9.3,
   `docs/design/panoplies_15_30/produire.py`)
 - [ ] Équilibrer les panoplies après les retours de test (prix, niveau, paliers)
-- [ ] Recettes de forgeron et/ou butin pour obtenir ces panoplies
+- [x] **Équipement réduit aux panoplies** (02/11/2026, demande de l'auteur) : les 91 équipements
+  hors panoplies supprimés (trophées de boss compris), avec leur butin, leurs dessins et les recettes
+  du forgeron ; les récompenses de quêtes deviennent des plans de forge (`docs/design/forge/produire.py`)
 - [ ] Équipement visible sur le personnage (coiffe, cape, arme)
 - [ ] Objet parodique : **Cape en peau d'ananas** (« la peau d'ananas résiste à une bille d'acier
   chauffée à 1000 °C » : l'armure anti-dragon). Pas terrible en caractéristiques, mais **beaucoup de
   résistance Flamme** : l'objet à sortir contre la Cendre, le Souverain Cendré et les variantes
   corrompues. Demande des bonus de résistance sur l'équipement (aujourd'hui seulement les
   caractéristiques) ; recette ou butin à définir (GDD § 9.2)
-- [x] Marchands PNJ (achat / vente) : Barlimon (Brumerive), Zogrub (Crasse-Roc) et Lindorë (Sylvebrume) vendent tous les objets, prix selon la rareté, revente à 25 %
+- [x] Marchands PNJ (achat / vente) : Barlimon (Brumerive), Zogrub (Crasse-Roc) et Lindorë (Sylvebrume) vendent tous les objets, prix selon la rareté, revente à 25 % (équipement : les panoplies seulement depuis le 02/11/2026, plus les ressources et des plans de forge)
 - [x] Coffre personnel dans la maison du joueur (100 places, sauvegardé)
 - [ ] Banque
 
@@ -332,6 +334,19 @@ Lots 0 (conception dans le GDD), 1 (personnage, poussé sur `main` à la demande
 - [x] Forgeron : 23 recettes (13 de plus avec le lot Métiers, qui demandent des butins de
   plusieurs zones)
 - [x] Ressources de monstres utilisées dans les recettes (peau et croc de loup)
+- [x] **Forge personnalisée** (02/11/2026, demande de l'auteur, GDD § 10.4 « Forge personnalisée ») :
+  enclume `&` dans les trois maisons, forgerons qui l'indiquent et l'expliquent (`explication` des
+  PNJ) ; type d'objet (6 emplacements, 6 formes d'armes), matières obligatoires, 6 ressources au
+  plus, une caractéristique par ressource de monstre selon son palier (PA, PM, Portée à 1, très
+  rares), aperçu (lignes, jets, palier), nom fait de mots proposés, signature de l'artisan ;
+  caractéristiques cachées sans réputation d'artisan, lues jusqu'au palier du niveau de forgeron ;
+  plans en récompense de 25 quêtes et 11 vendus par les marchands (`core/items/forge.gd`,
+  `client/ui/forge_window.gd`, commande `forger`, protocole v10)
+- [ ] **Plus tard (après la forge, demande de l'auteur)** : un **maître par catégorie d'équipement**,
+  qui donne des plans par des quêtes : armurier (toutes les armes et les armures), tailleur (tous
+  les tissus : capes, coiffes), cordonnier (tous les cuirs : bottes, ceintures)… (GDD § 10.4)
+- [ ] Équilibrer la forge après les retours de test (valeurs par palier, 6 ressources, part du jet,
+  dégâts des armes) ; dessins des objets forgés par type et par matière
 - [x] Passif humain : +10 % d'XP de métier
 - [x] Ressources rares de récolte : 1 % par récolte, un exemplaire à la place de la récolte normale
   (`rare` dans les données, `Profession.RARE_CHANCE`) ; 10 ressources rares et 6 recettes améliorées

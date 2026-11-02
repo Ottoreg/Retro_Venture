@@ -383,7 +383,7 @@ func test_inventaire_consultable_en_combat() -> void:
 	var scene := _scene()
 	var view: MapView = scene.get_node("MapView")
 	var bag := view.server.character.inventory
-	bag.equip(bag.add(view.server.data.items["epee_de_fer"], 1, {}), "arme")
+	bag.equip(bag.add(view.server.data.items["marteau_enclume_rancuniere"], 1, {}), "arme")
 	view.refresh_state()
 	var inventory: InventoryWindow = scene.get_node("InventoryWindow")
 	var group: Dictionary = view.world.groups()[0]

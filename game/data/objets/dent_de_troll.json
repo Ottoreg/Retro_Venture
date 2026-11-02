@@ -3,6 +3,7 @@
   "nom": "Dent de troll",
   "type": "ressource",
   "rarete": "commun",
-  "niveau": 1,
-  "description": "Grosse comme un poing, jaune comme un vieux fromage. Le troll en a d'autres."
+  "niveau": 16,
+  "description": "Grosse comme un poing, jaune comme un vieux fromage. Le troll en a d'autres.",
+  "caracteristique": "intelligence"
 }

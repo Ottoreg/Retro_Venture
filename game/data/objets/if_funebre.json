@@ -3,7 +3,8 @@
   "nom": "If funèbre",
   "type": "ressource",
   "rarete": "rare",
-  "niveau": 1,
+  "niveau": 8,
   "description": "Il pousse près des tombes. Les archers l'adorent ; les fossoyeurs, moins.",
-  "boutique": false
+  "boutique": false,
+  "matiere": "bois"
 }

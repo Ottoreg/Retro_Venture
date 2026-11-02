@@ -4,5 +4,7 @@
   "type": "ressource",
   "rarete": "commun",
   "niveau": 1,
-  "description": "Ne demandez pas à quoi ça sert. Les gobelins, eux, savent."
+  "description": "Ne demandez pas à quoi ça sert. Les gobelins, eux, savent.",
+  "caracteristique": "prospection",
+  "matiere": "cuir"
 }

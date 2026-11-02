@@ -192,52 +192,7 @@
         22,
         22
       ]
-    },
-    "objet_bottes_de_mousse": {
-      "fichier": "objets/bottes_de_mousse.svgt",
-      "ancre": [
-        22,
-        22
-      ]
-    },
-    "objet_hache_de_bucheron": {
-      "fichier": "objets/hache_de_bucheron.svgt",
-      "ancre": [
-        22,
-        22
-      ]
-    },
-    "objet_ceinture_de_bucheron": {
-      "fichier": "objets/ceinture_de_bucheron.svgt",
-      "ancre": [
-        22,
-        22
-      ]
-    },
-    "objet_cape_de_soie_grise": {
-      "fichier": "objets/cape_de_soie_grise.svgt",
-      "ancre": [
-        22,
-        22
-      ]
-    },
-    "objet_fuseau_de_la_mere_toile": {
-      "fichier": "objets/fuseau_de_la_mere_toile.svgt",
-      "ancre": [
-        22,
-        22
-      ]
-    },
-    "objet_anneau_aux_huit_yeux": {
-      "fichier": "objets/anneau_aux_huit_yeux.svgt",
-      "ancre": [
-        22,
-        22
-      ]
     }
   },
-  "icones_armes": {
-    "hache_de_bucheron": "sort_arme_masse",
-    "fuseau_de_la_mere_toile": "sort_arme_baton"
-  }
+  "icones_armes": {}
 }

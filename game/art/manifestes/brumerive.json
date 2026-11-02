@@ -245,55 +245,6 @@
         22,
         22
       ]
-    },
-    "objet_chapeau_d_epouvantail": {
-      "fichier": "objets/chapeau_d_epouvantail.svgt",
-      "ancre": [
-        22,
-        22
-      ]
-    },
-    "objet_fourche_d_epouvantail": {
-      "fichier": "objets/fourche_d_epouvantail.svgt",
-      "ancre": [
-        22,
-        22
-      ]
-    },
-    "objet_coutelas_de_pillard": {
-      "fichier": "objets/coutelas_de_pillard.svgt",
-      "ancre": [
-        22,
-        22
-      ]
-    },
-    "objet_bottes_de_rapine": {
-      "fichier": "objets/bottes_de_rapine.svgt",
-      "ancre": [
-        22,
-        22
-      ]
-    },
-    "objet_ceinture_a_gnole": {
-      "fichier": "objets/ceinture_a_gnole.svgt",
-      "ancre": [
-        22,
-        22
-      ]
-    },
-    "objet_hachoir_de_krasbouk": {
-      "fichier": "objets/hachoir_de_krasbouk.svgt",
-      "ancre": [
-        22,
-        22
-      ]
-    },
-    "objet_chevaliere_du_delegue": {
-      "fichier": "objets/chevaliere_du_delegue.svgt",
-      "ancre": [
-        22,
-        22
-      ]
     }
   },
   "personnages": {
@@ -339,9 +290,5 @@
       ]
     }
   },
-  "icones_armes": {
-    "fourche_d_epouvantail": "sort_arme_baton",
-    "coutelas_de_pillard": "sort_arme_dague_impie",
-    "hachoir_de_krasbouk": "sort_arme_epee"
-  }
+  "icones_armes": {}
 }

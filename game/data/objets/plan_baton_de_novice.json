@@ -1,0 +1,18 @@
+{
+  "id": "plan_baton_de_novice",
+  "nom": "Plan : Bâton de novice",
+  "type": "recette",
+  "rarete": "rare",
+  "niveau": 1,
+  "boutique": true,
+  "description": "Plan de forge : Bâton de novice. Un bâton. Les apprentis jurent qu'il est magique. Il est surtout en bois.",
+  "recette": {
+    "nom": "Bâton de novice",
+    "type": "baton",
+    "ressources": {
+      "minerai_de_cuivre": 1,
+      "bois_de_frene": 1,
+      "chapeau_de_morille": 4
+    }
+  }
+}

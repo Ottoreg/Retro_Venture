@@ -1,0 +1,19 @@
+{
+  "id": "plan_sceptre_de_novice",
+  "nom": "Plan : Sceptre de novice",
+  "type": "recette",
+  "rarete": "rare",
+  "niveau": 1,
+  "boutique": true,
+  "description": "Plan de forge : Sceptre de novice. Un bâton avec un soleil en laiton au bout. Le laiton a la foi, le bâton un peu moins.",
+  "recette": {
+    "nom": "Sceptre de novice",
+    "type": "sceptre",
+    "ressources": {
+      "minerai_de_cuivre": 1,
+      "bois_de_frene": 1,
+      "chapeau_de_morille": 2,
+      "carapace_de_grouilleur": 2
+    }
+  }
+}

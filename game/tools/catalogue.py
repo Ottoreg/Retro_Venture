@@ -32,7 +32,27 @@ PRIX_RESSOURCE = {"commun": 4, "peu_commun": 12, "rare": 35, "epique": 90, "lege
                   "relique": 600}
 TYPES = [("arme", "Armes"), ("coiffe", "Coiffes"), ("cape", "Capes"), ("amulette", "Amulettes"),
          ("anneau", "Anneaux"), ("ceinture", "Ceintures"), ("bottes", "Bottes"),
-         ("ressource", "Ressources"), ("quete", "Objets de quête")]
+         ("ressource", "Ressources"), ("recette", "Plans de forge"), ("quete", "Objets de quête")]
+CARACS = {"vitalite": "Vitalité", "force": "Force", "intelligence": "Intelligence", "perception": "Perception",
+          "agilite": "Agilité", "prospection": "Prospection", "initiative": "Initiative", "portee": "Portée",
+          "pa": "PA", "pm": "PM", "dommages": "Dommages", "critique": "% Critique"}
+POIDS_FORGE = {"force": 1, "intelligence": 1, "perception": 1, "agilite": 1, "vitalite": 4, "initiative": 10,
+               "prospection": 0.34, "dommages": 0.34, "critique": 0.1}  # comme Forge.STAT_WEIGHTS
+
+
+def forge_objet(o, objets):
+    """Colonne « Forge » : caractéristique et matière d'une ressource, contenu d'un plan."""
+    if "recette" in o:
+        r = o["recette"]
+        return "%s « %s » : %s" % (r["type"], r["nom"], ", ".join("%d %s" % (n, objets[k]["nom"]) for k, n in r["ressources"].items()))
+    parts = []
+    if "caracteristique" in o:
+        c = o["caracteristique"]
+        v = 1 if c not in POIDS_FORGE else max(1, int((1 + o["niveau"] / 8) * POIDS_FORGE[c] + 0.5))
+        parts.append("+%d %s" % (v, CARACS[c]))
+    if "matiere" in o:
+        parts.append(o["matiere"])
+    return ", ".join(parts)
 CIBLES = {"ennemis": " aux ennemis", "allies": " aux alliés"}
 NOMS_SORTS = {}  # id → nom, rempli au chargement (sorts créés par « creer_sort »)
 BUTIN_MAX = 5  # monstres listés par objet (les plus généreux d'abord)
@@ -422,10 +442,6 @@ def main():
         if liste:
             obtention[i].append("butin : " + texte)
     for metier in metiers.values():
-        for r in metier.get("recettes", []):
-            ingredients = ", ".join("%d %s" % (n, objets.get(k, {"nom": k})["nom"])
-                                    for k, n in r["ingredients"].items())
-            obtention[r["objet"]].append("%s niv. %d (%s)" % (metier["nom"], r["niveau"], ingredients))
         for r in metier.get("ressources", []):
             obtention[r["objet"]].append("%s : %s niv. %d" % (metier["nom"], r["nom"], r["niveau"]))
             if r.get("rare"):
@@ -473,22 +489,22 @@ def main():
         liste = sorted((o for o in objets.values() if o["type"] == type_objet),
                        key=lambda o: (o["niveau"], o["nom"]))
         lignes += ["## " + titre, ""]
-        equipement = type_objet not in ("ressource", "quete")
+        equipement = type_objet not in ("ressource", "recette", "quete")
         if equipement:
             entete = "| Nom | Niv. | Rareté | Bonus | Conditions | %sObtention | Description |" % (
                 "Attaque | " if type_objet == "arme" else "")
         else:
-            entete = "| Nom | Niv. | Rareté | Obtention | Description |"
+            entete = "| Nom | Niv. | Rareté | Forge | Obtention | Description |"
         lignes += [entete, "|" + "---|" * (entete.count("|") - 1)]
         for o in liste:
-            sources = list(obtention.get(o["id"], []))
+            sources = list(obtention.get(o["id"], [])) + (["forgé à l'enclume (modèle de la forge)"] if o["id"].startswith("forge_") else [])
             if o["type"] != "quete" and o.get("boutique", True):
                 prix = (PRIX_EQUIPEMENT if equipement else PRIX_RESSOURCE)[o["rarete"]]
                 sources.insert(0, "boutique %d brumes" % prix)
             nom = "**%s**" % o["nom"]
             if o["id"] in panoplie_de:
                 nom += " *(%s)*" % panoplie_de[o["id"]]["nom"]
-            colonnes = [nom, o["niveau"], RARETES.get(o["rarete"], o["rarete"])]
+            colonnes = [nom, o["niveau"], RARETES.get(o["rarete"], o["rarete"])] + ([] if equipement else [forge_objet(o, objets) or "—"])
             if equipement:
                 colonnes += [bonus_objet(o) or "—", conditions_objet(o) or "—"]
                 if type_objet == "arme":

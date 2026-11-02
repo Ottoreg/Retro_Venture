@@ -1,0 +1,19 @@
+{
+  "id": "plan_amulette_sifflet",
+  "nom": "Plan : Amulette-sifflet",
+  "type": "recette",
+  "rarete": "peu_commun",
+  "niveau": 11,
+  "boutique": false,
+  "description": "Plan de forge : Amulette-sifflet. Un sifflet de contremaître porté en pendentif. Les gobelins sursautent quand vous respirez fort.",
+  "recette": {
+    "nom": "Amulette-sifflet",
+    "type": "amulette",
+    "ressources": {
+      "minerai_d_etain": 1,
+      "copeaux_de_bois": 2,
+      "sifflet_de_contremaitre": 2,
+      "crochet_d_araignee": 1
+    }
+  }
+}

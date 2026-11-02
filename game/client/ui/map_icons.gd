@@ -53,7 +53,7 @@ static func _fixed_kinds(world: Variant, game_map: GameMap) -> Array[String]:
 	if "coffre" in game_map.obstacles.values():
 		kinds.append("coffre")
 	for npc: Dictionary in game_map.npcs:
-		if not str(npc.get("atelier", "")).is_empty() and "atelier" not in kinds:
+		if not npc.get("explication", []).is_empty() and "atelier" not in kinds:
 			kinds.append("atelier")
 		if npc.get("marchand", false) and "marchand" not in kinds:
 			kinds.append("marchand")

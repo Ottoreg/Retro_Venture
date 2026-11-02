@@ -1,0 +1,18 @@
+{
+  "id": "plan_ceinturon_rivete",
+  "nom": "Plan : Ceinturon riveté",
+  "type": "recette",
+  "rarete": "peu_commun",
+  "niveau": 3,
+  "boutique": false,
+  "description": "Plan de forge : Ceinturon riveté. Une ceinture de cuir clouté. Tient le pantalon et le moral.",
+  "recette": {
+    "nom": "Ceinturon riveté",
+    "type": "ceinture",
+    "ressources": {
+      "peau_de_loup": 1,
+      "glande_acide": 3,
+      "carapace_de_grouilleur": 2
+    }
+  }
+}

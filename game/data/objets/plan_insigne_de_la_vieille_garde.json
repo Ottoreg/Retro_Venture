@@ -1,0 +1,19 @@
+{
+  "id": "plan_insigne_de_la_vieille_garde",
+  "nom": "Plan : Insigne de la Vieille Garde",
+  "type": "recette",
+  "rarete": "peu_commun",
+  "niveau": 23,
+  "boutique": false,
+  "description": "Plan de forge : Insigne de la Vieille Garde. Remis par un fantôme qui monte la garde depuis trois cents ans. Il ne l'a jamais quitté : il ne savait pas qu'on pouvait.",
+  "recette": {
+    "nom": "Insigne de la Vieille Garde",
+    "type": "amulette",
+    "ressources": {
+      "obsidienne": 1,
+      "plume_de_corbac": 2,
+      "carte_au_tresor_douteuse": 2,
+      "crochet_d_araignee": 1
+    }
+  }
+}

@@ -3,7 +3,8 @@
   "nom": "Argent lunaire",
   "type": "ressource",
   "rarete": "rare",
-  "niveau": 1,
+  "niveau": 15,
   "description": "Il brille même la nuit, surtout la nuit. Les loups le regardent bizarrement.",
-  "boutique": false
+  "boutique": false,
+  "matiere": "minerai"
 }

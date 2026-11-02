@@ -512,8 +512,8 @@ func _execute_exploration(p: PlayerState, command: Dictionary) -> Array[Dictiona
 			return _sell(p, command)
 		if type == Protocol.CMD_HARVEST:
 			return _harvest(p, command)
-		if type == Protocol.CMD_CRAFT:
-			return _craft(p, command)
+		if type == Protocol.CMD_FORGE:
+			return _forge(p, command)
 		if type == Protocol.CMD_USE:
 			return _use(p, command)
 		if type == Protocol.CMD_DEPOSIT:
@@ -647,19 +647,6 @@ func _talk(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
 		_remember_walk(p, from, [] as Array[Vector2i])
 	if data != null and p.quest_book.talk(npc, events):
 		return events
-	var workshop: String = npc.get("atelier", "")
-	if not workshop.is_empty() and data != null and data.jobs.has(workshop):
-		events.append({
-			"type": Protocol.EVT_WORKSHOP,
-			"pnj": npc["id"],
-			"nom": npc["nom"],
-			"case": npc_cell,
-			"repliques": npc["repliques"].duplicate(),
-			"metier": workshop,
-			"nom_metier": data.jobs[workshop]["nom"],
-			"recettes": _workshop_recipes(workshop),
-		})
-		return events
 	if npc.get("marchand", false) and data != null:
 		events.append({
 			"type": Protocol.EVT_SHOP,
@@ -677,6 +664,7 @@ func _talk(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
 		"nom": npc["nom"],
 		"case": npc_cell,
 		"repliques": npc["repliques"].duplicate(),
+		"explication": npc.get("explication", []).duplicate(),
 	})
 	return events
 
@@ -1810,18 +1798,16 @@ static func _article_order(a: Dictionary, b: Dictionary) -> bool:
 	return str(a["nom"]) < str(b["nom"])
 
 
-## Raison de refuser un achat, une vente ou une fabrication auprès du PNJ `pnj` de la commande
-## ("" si tout va bien) : il doit être sur la carte et offrir ce service (`marchand`, ou `atelier`
-## du métier `job_id`), et le joueur doit se tenir à côté de lui.
-func _service_refusal(p: PlayerState, command: Dictionary, job_id := "") -> String:
+## Raison de refuser un achat ou une vente auprès du PNJ `pnj` de la commande ("" si tout va bien) : il
+## doit être sur la carte et marchand, et le joueur doit se tenir à côté de lui.
+func _service_refusal(p: PlayerState, command: Dictionary) -> String:
 	var npc_id: Variant = command.get("pnj")
 	if typeof(npc_id) != TYPE_STRING:
 		return Protocol.REASON_INVALID_COMMAND
 	if data == null:
 		return Protocol.REASON_WRONG_PHASE
 	var npc := p.map.get_npc(npc_id)
-	var offered: bool = npc.get("atelier", "") == job_id if not job_id.is_empty() else npc.get("marchand", false)
-	if npc.is_empty() or not offered:
+	if npc.is_empty() or not npc.get("marchand", false):
 		return Protocol.REASON_UNKNOWN_ENTITY
 	if not GameMap.is_adjacent(p.cell, npc["case"]):
 		return Protocol.REASON_TOO_FAR
@@ -1880,7 +1866,7 @@ func _sell(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
 		return _refused(command, Protocol.REASON_QUEST_ITEM)
 	if quantity > int(inventory.entries[uid]["quantite"]):
 		return _refused(command, Protocol.REASON_INVALID_COMMAND)
-	var template: Dictionary = data.items[inventory.entries[uid]["objet"]]
+	var template: Dictionary = Item.entry_template(inventory.entries[uid], data.items)
 	var price := Item.sell_price(template) * quantity
 	inventory.remove(uid, quantity)
 	inventory.ecus += price
@@ -2313,81 +2299,38 @@ func _harvest(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
 	return events
 
 
-## Recettes d'un métier d'artisanat, par niveau puis par nom.
-func _workshop_recipes(job_id: String) -> Array:
-	var listed: Array = []
-	for recipe: Dictionary in data.jobs[job_id].get("recettes", []):
-		var template: Dictionary = data.items[recipe["objet"]]
-		var ingredients: Array = []
-		for item_id: String in recipe["ingredients"]:
-			ingredients.append({"objet": item_id, "nom": data.items[item_id]["nom"], "quantite": int(recipe["ingredients"][item_id])})
-		listed.append({
-			"objet": template["id"],
-			"nom": template["nom"],
-			"type": template["type"],
-			"rarete": template["rarete"],
-			"niveau": int(recipe.get("niveau", 1)),
-			"niveau_objet": int(template.get("niveau", 1)),
-			"description": template.get("description", ""),
-			"bonus": template.get("bonus", {}).duplicate(true),
-			"ingredients": ingredients,
-			"xp": int(recipe.get("xp", 0)),
-		})
-	listed.sort_custom(_recipe_order)
-	return listed
-
-
-static func _recipe_order(a: Dictionary, b: Dictionary) -> bool:
-	if a["niveau"] != b["niveau"]:
-		return int(a["niveau"]) < int(b["niveau"])
-	return str(a["nom"]) < str(b["nom"])
-
-
-func _craft(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
-	var recipe_id: Variant = command.get("recette")
-	var quantity := _trade_quantity(command)
-	if not _is_player_command(p, command) or typeof(recipe_id) != TYPE_STRING or quantity == 0:
-		return _refused(command, Protocol.REASON_INVALID_COMMAND)
-	if data == null or not data.recipes.has(recipe_id):
-		return _refused(command, Protocol.REASON_UNKNOWN_ITEM)
-	var recipe: Dictionary = data.recipes[recipe_id]
-	var job_id: String = recipe["metier"]
-	var reason := _service_refusal(p, command, job_id)
-	if not reason.is_empty():
-		return _refused(command, reason)
-	if p.character.job_level(job_id) < int(recipe.get("niveau", 1)):
-		return _refused(command, Protocol.REASON_JOB_LEVEL)
+## Forge un objet à l'enclume (`Forge`) : avec un plan du sac (`recette`), ou le type, les ressources et
+## les mots du nom choisis. L'objet est signé du pseudo de l'artisan.
+func _forge(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
+	var reason := _furniture_refusal(p, command, "enclume")
+	if not reason.is_empty() or data == null:
+		return _refused(command, reason if data != null else Protocol.REASON_WRONG_PHASE)
 	var inventory := p.character.inventory
-	var ingredients: Dictionary = recipe["ingredients"]
+	var plan: Dictionary = data.items.get(command.get("recette", ""), {}).get("recette", {}) if typeof(command.get("recette", "")) == TYPE_STRING else {}
+	if command.has("recette") and (plan.is_empty() or inventory.quantity_of(command["recette"]) == 0):
+		return _refused(command, Protocol.REASON_UNKNOWN_ITEM)
+	var type: Variant = plan.get("type", command.get("type_objet"))
+	var resources: Variant = plan.get("ressources", command.get("ressources"))
+	if typeof(type) != TYPE_STRING or typeof(resources) != TYPE_DICTIONARY:
+		return _refused(command, Protocol.REASON_INVALID_COMMAND)
+	var preview := Forge.preview(type, resources, data.items)
+	var item_name: String = plan.get("nom", Forge.name_of(command.get("mots"), type, preview["bonus"].keys()))
+	if not preview["erreur"].is_empty() or item_name.is_empty():
+		return _refused(command, preview["erreur"] if not preview["erreur"].is_empty() else Protocol.REASON_INVALID_COMMAND)
 	var freed := 0
-	for item_id: String in ingredients:
-		var needed := int(ingredients[item_id]) * quantity
-		var owned := inventory.quantity_of(item_id)
-		if owned < needed:
+	for item_id: String in resources:
+		if inventory.quantity_of(item_id) < int(resources[item_id]):
 			return _refused(command, Protocol.REASON_MISSING_INGREDIENTS)
-		if owned == needed:
-			freed += 1
-	var template: Dictionary = data.items[recipe_id]
-	var equipment := Item.is_equipment(template)
-	var places := quantity if equipment else (0 if inventory.entries.has(recipe_id) else 1)
-	if inventory.entries.size() - freed + places > inventory.capacity:
+		freed += 1 if inventory.quantity_of(item_id) == int(resources[item_id]) else 0
+	if inventory.entries.size() - freed >= inventory.capacity:
 		return _refused(command, Protocol.REASON_INVENTORY_FULL)
-	# Les ingrédients sont des ressources : leur uid est leur id.
-	for item_id: String in ingredients:
-		inventory.remove(item_id, int(ingredients[item_id]) * quantity)
-	if equipment:
-		for _unit in quantity:
-			inventory.add(template, 1, Item.roll_bonuses(template, rng))
-	else:
-		inventory.add(template, quantity)
-	var events: Array[Dictionary] = [{
-		"type": Protocol.EVT_CRAFTED,
-		"objet": recipe_id,
-		"nom": template["nom"],
-		"quantite": quantity,
-		"metier": job_id,
-	}]
-	events.append(_job_event(p, job_id, int(recipe.get("xp", 0)) * quantity))
+	for item_id: String in resources:
+		inventory.remove(item_id, int(resources[item_id]))
+	var template: Dictionary = data.items[Forge.template_id(type)]
+	inventory.add(template, 1, Forge.roll(preview["bonus"], rng), false,
+		{"nom": item_name, "artisan": p.character.display_name, "palier": preview["palier"], "bonus": preview["bonus"]})
+	var events: Array[Dictionary] = [{"type": Protocol.EVT_CRAFTED, "objet": template["id"], "nom": item_name, "quantite": 1, "metier": Forge.JOB}]
+	events.append(_job_event(p, Forge.JOB, Forge.XP_PER_TIER * int(preview["palier"])))
 	events.append_array(_inventory_events(p))
 	return events
 
@@ -2418,8 +2361,8 @@ func _use(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
 		_activate_passage(p, touched)
 		touched.append(_travel_menu(p, cell))
 		return touched
-	if p.map.obstacles[cell] == "coffre":
-		var opened: Array[Dictionary] = [_chest_event(p, cell)]
+	if p.map.obstacles[cell] in ["coffre", "enclume"]:
+		var opened: Array[Dictionary] = [_chest_event(p, cell) if p.map.obstacles[cell] == "coffre" else {"type": Protocol.EVT_ANVIL, "case": cell}]
 		return opened
 	# Le lit : une bonne nuit, et tous les PV reviennent.
 	var gain := p.character.hp_lost
@@ -2454,8 +2397,9 @@ func _transfer(p: PlayerState, command: Dictionary, source: Inventory, destinati
 	if not destination.has_room_for(template, 1 if Item.is_equipment(template) else quantity):
 		return _refused(command, Protocol.REASON_INVENTORY_FULL)
 	var rolled: Dictionary = entry["jets"].duplicate()
+	var forged: Dictionary = entry.get("forge", {})
 	source.remove(uid, quantity)
-	destination.add(template, quantity, rolled)
+	destination.add(template, quantity, rolled, false, forged)
 	var events: Array[Dictionary] = [_chest_event(p, command["case"])]
 	events.append_array(_inventory_events(p))
 	return events

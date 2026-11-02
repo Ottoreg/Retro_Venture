@@ -1,0 +1,18 @@
+{
+  "id": "plan_bottes_de_mousse",
+  "nom": "Plan : Bottes de mousse",
+  "type": "recette",
+  "rarete": "peu_commun",
+  "niveau": 2,
+  "boutique": false,
+  "description": "Plan de forge : Bottes de mousse. Douces, silencieuses, un peu humides. Les champignons poussent dessus si on ne marche pas assez.",
+  "recette": {
+    "nom": "Bottes de mousse",
+    "type": "bottes",
+    "ressources": {
+      "peau_de_loup": 1,
+      "croc_de_loup": 3,
+      "glande_acide": 2
+    }
+  }
+}

@@ -28,27 +28,6 @@
         22,
         22
       ]
-    },
-    "objet_cape_de_loup_cendreux": {
-      "fichier": "objets/cape_de_loup_cendreux.svgt",
-      "ancre": [
-        22,
-        22
-      ]
-    },
-    "objet_bottes_de_braise": {
-      "fichier": "objets/bottes_de_braise.svgt",
-      "ancre": [
-        22,
-        22
-      ]
-    },
-    "objet_ceinture_d_ecorce_calcinee": {
-      "fichier": "objets/ceinture_d_ecorce_calcinee.svgt",
-      "ancre": [
-        22,
-        22
-      ]
     }
   }
 }

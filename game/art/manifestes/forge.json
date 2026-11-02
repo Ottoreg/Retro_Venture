@@ -1,0 +1,110 @@
+{
+  "images": {
+    "enclume": {
+      "fichier": "meuble/enclume.svgt",
+      "ancre": [
+        22,
+        30
+      ]
+    },
+    "objet_plan": {
+      "fichier": "objets/ordre_de_raid.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_forge_sceptre": {
+      "fichier": "objets/forge_sceptre.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_forge_anneau": {
+      "fichier": "objets/forge_anneau.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_forge_masse": {
+      "fichier": "objets/forge_masse.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_forge_arc": {
+      "fichier": "objets/forge_arc.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_forge_cape": {
+      "fichier": "objets/forge_cape.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_forge_coiffe": {
+      "fichier": "objets/forge_coiffe.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_forge_epee": {
+      "fichier": "objets/forge_epee.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_forge_ceinture": {
+      "fichier": "objets/forge_ceinture.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_forge_amulette": {
+      "fichier": "objets/forge_amulette.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_forge_dague": {
+      "fichier": "objets/forge_dague.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_forge_baton": {
+      "fichier": "objets/forge_baton.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_forge_bottes": {
+      "fichier": "objets/forge_bottes.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    }
+  },
+  "icones_armes": {
+    "forge_epee": "sort_arme_epee",
+    "forge_arc": "sort_arme_arc",
+    "forge_baton": "sort_arme_baton",
+    "forge_dague": "sort_arme_dague_impie",
+    "forge_masse": "sort_arme_masse",
+    "forge_sceptre": "sort_arme_sceptre"
+  }
+}

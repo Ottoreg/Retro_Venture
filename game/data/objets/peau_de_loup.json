@@ -4,5 +4,7 @@
   "type": "ressource",
   "rarete": "commun",
   "niveau": 1,
-  "description": "Chaude, souple, et presque pas trouée."
+  "description": "Chaude, souple, et presque pas trouée.",
+  "caracteristique": "initiative",
+  "matiere": "cuir"
 }

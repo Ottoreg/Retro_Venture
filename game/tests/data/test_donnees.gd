@@ -105,7 +105,7 @@ func test_metiers_valides() -> void:
 	assert_eq(game_data.jobs.size(), paths.size(), "tous les métiers sont chargés")
 
 
-func test_ressources_et_ateliers_des_cartes() -> void:
+func test_ressources_des_cartes() -> void:
 	var game_data := GameData.load_all()
 	for path in _find_json(DATA_ROOT.path_join("cartes")):
 		var map := DataLoader.load_map(path)
@@ -116,10 +116,6 @@ func test_ressources_et_ateliers_des_cartes() -> void:
 			assert_true(game_data.nodes.has(marker), "%s : aucune ressource de métier n'utilise « %s »" % [path, marker])
 			var reachable := GameMap.is_adjacent(map.spawn, cell) or not map.approach_path(map.spawn, cell).is_empty()
 			assert_true(reachable, "%s : ressource %s inaccessible" % [path, cell])
-		for npc: Dictionary in map.npcs:
-			var workshop: String = npc["atelier"]
-			if not workshop.is_empty():
-				assert_eq(str(game_data.jobs.get(workshop, {}).get("type")), Profession.TYPE_CRAFT, "%s : atelier « %s » inconnu" % [path, workshop])
 
 
 func test_sorties_des_cartes_reciproques() -> void:
@@ -270,7 +266,7 @@ func test_maison_marchand_et_forgeron_dans_chaque_zone_de_depart() -> void:
 		var smith := false
 		for npc: Dictionary in map.npcs:
 			merchant = merchant or npc.get("marchand", false)
-			smith = smith or npc.get("atelier", "") == "forgeron"
+			smith = smith or not npc.get("explication", []).is_empty()
 		assert_true(merchant, "%s : un marchand" % map.id)
 		assert_true(smith, "%s : un forgeron" % map.id)
 		var house: GameMap = null
@@ -506,3 +502,29 @@ func test_secondaires_des_zones_de_depart() -> void:
 				per_zone[zone] = int(per_zone.get(zone, 0)) + 1
 	for zone in ["brumerive", "crasse_roc", "sylvebrume"]:
 		assert_eq(per_zone.get(zone, 0), 5, "cinq secondaires à %s" % zone)
+
+
+## Forge (GDD § 10.4) : chaque ressource de monstre a une caractéristique ; les élémentaires sont à
+## égalité, PA et PM très rares ; plus d'équipement hors panoplies ; une enclume dans chaque maison.
+func test_forge_ressources_et_enclumes() -> void:
+	var game_data := GameData.load_all()
+	var resources := {}  # ressources de monstres (hors minerai et bois) → caractéristique
+	for monster: Dictionary in game_data.monsters.values():
+		for drop: Dictionary in monster.get("butin", []):
+			var item: Dictionary = game_data.items[drop["objet"]]
+			if item["type"] == Item.TYPE_RESOURCE and item.get("matiere", "cuir") in ["cuir", "tissu"]:
+				assert_true(item.has("caracteristique"), "%s : une caractéristique de forge" % item["id"])
+				resources[item["id"]] = item.get("caracteristique", "")
+	var counts := {}
+	for stat: String in resources.values():
+		counts[stat] = int(counts.get(stat, 0)) + 1
+	for stat: String in ["intelligence", "perception", "agilite"]:
+		assert_eq(counts.get(stat), counts.get("force"), "%s autant que Force" % stat)
+	assert_true(int(counts.get("pa", 0)) + int(counts.get("pm", 0)) <= 3, "PA et PM très rares")
+	for item: Dictionary in game_data.items.values():
+		if Item.is_equipment(item):
+			assert_true(game_data.item_sets.has(item["id"]) or item["id"].begins_with("forge_"), "%s : hors panoplie" % item["id"])
+	for type: String in Forge.TYPES:
+		assert_true(game_data.items.has(Forge.template_id(type)), "modèle de forge %s" % type)
+	for map_id in ["maison_joueur", "maison_crasse_roc", "maison_sylvebrume"]:
+		assert_true("enclume" in DataLoader.load_map(DataLoader.map_path(map_id)).obstacles.values(), "%s : une enclume" % map_id)

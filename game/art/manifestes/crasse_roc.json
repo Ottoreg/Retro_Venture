@@ -197,54 +197,9 @@
         22,
         22
       ]
-    },
-    "objet_cape_de_vampipistrelle": {
-      "fichier": "objets/cape_de_vampipistrelle.svgt",
-      "ancre": [
-        22,
-        22
-      ]
-    },
-    "objet_epee_de_milicien": {
-      "fichier": "objets/epee_de_milicien.svgt",
-      "ancre": [
-        22,
-        22
-      ]
-    },
-    "objet_bottes_de_milicien": {
-      "fichier": "objets/bottes_de_milicien.svgt",
-      "ancre": [
-        22,
-        22
-      ]
-    },
-    "objet_amulette_sifflet": {
-      "fichier": "objets/amulette_sifflet.svgt",
-      "ancre": [
-        22,
-        22
-      ]
-    },
-    "objet_fouet_du_balourd": {
-      "fichier": "objets/fouet_du_balourd.svgt",
-      "ancre": [
-        22,
-        22
-      ]
-    },
-    "objet_cape_de_fumee": {
-      "fichier": "objets/cape_de_fumee.svgt",
-      "ancre": [
-        22,
-        22
-      ]
     }
   },
-  "icones_armes": {
-    "epee_de_milicien": "sort_arme_epee",
-    "fouet_du_balourd": "sort_arme_fronde"
-  },
+  "icones_armes": {},
   "palettes": {
     "forges": {
       "couleurs": {

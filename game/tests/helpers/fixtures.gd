@@ -173,6 +173,24 @@ static func items() -> Array:
 	]
 
 
+## Modèles de la forge et ressources à forger (`Forge`) : minerai (matière), croc (Force, palier 8),
+## peau (cuir, Vitalité), corne (PA).
+static func forge_items() -> Array:
+	return [
+		{"id": "forge_anneau", "nom": "Anneau", "type": "anneau", "rarete": "commun", "boutique": false},
+		{"id": "forge_bottes", "nom": "Bottes", "type": "bottes", "rarete": "commun", "boutique": false},
+		{"id": "forge_epee", "nom": "Épée", "type": "arme", "rarete": "commun", "boutique": false,
+			"attaque": {"cout_pa": 4, "portee": {"min": 1, "max": 1}, "critique": 0, "effets": [{"type": "degats", "element": "acier", "min": 10, "max": 10}]}},
+		{"id": "minerai", "nom": "Minerai", "type": "ressource", "rarete": "commun", "matiere": "minerai"},
+		{"id": "bois", "nom": "Bois", "type": "ressource", "rarete": "commun", "matiere": "bois"},
+		{"id": "croc", "nom": "Croc", "type": "ressource", "rarete": "commun", "niveau": 8, "caracteristique": "force"},
+		{"id": "peau", "nom": "Peau", "type": "ressource", "rarete": "commun", "matiere": "cuir", "caracteristique": "vitalite"},
+		{"id": "corne", "nom": "Corne", "type": "ressource", "rarete": "rare", "niveau": 12, "caracteristique": "pa"},
+		{"id": "plan_bague", "nom": "Plan : Bague du test", "type": "recette", "rarete": "rare",
+			"recette": {"nom": "Bague du test", "type": "anneau", "ressources": {"minerai": 1, "croc": 2}}},
+	]
+
+
 ## Données de test ; `passages` : Pierres de Passage (la race « testeur » part de la carte « test »).
 static func data(passages := []) -> GameData:
 	var monsters := [

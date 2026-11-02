@@ -1,0 +1,9 @@
+{
+  "id": "forge_bottes",
+  "nom": "Bottes",
+  "type": "bottes",
+  "rarete": "commun",
+  "niveau": 1,
+  "boutique": false,
+  "description": "Objet forgé à l'enclume."
+}

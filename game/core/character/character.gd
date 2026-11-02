@@ -312,7 +312,7 @@ func stat_sources(stat_name: String, data: GameData = null) -> Dictionary:
 		var entry := inventory.equipped_entry(slot)
 		var value := int(entry.get("jets", {}).get(stat_name, 0)) if not entry.is_empty() else 0
 		if value != 0:
-			var template: Dictionary = data.items.get(entry["objet"], {}) if data != null else {}
+			var template: Dictionary = Item.entry_template(entry, data.items) if data != null else {}
 			items.append([template.get("nom", entry["objet"]), value])
 	return {"points": int(earned.get(stat_name, 0)), "equipement": inventory.bonus(stat_name),
 		"panoplie": set_bonus(stat_name, data), "objets": items}
@@ -395,7 +395,7 @@ func chest_sheet(data: GameData) -> Dictionary:
 static func _entries_sheet(source: Inventory, data: GameData) -> Array:
 	var listed: Array = []
 	for entry: Dictionary in source.entries.values():
-		var template: Dictionary = data.items.get(entry["objet"], {}) if data != null else {}
+		var template: Dictionary = Item.entry_template(entry, data.items) if data != null else {}
 		listed.append({
 			"uid": entry["uid"],
 			"objet": entry["objet"],
@@ -407,6 +407,7 @@ static func _entries_sheet(source: Inventory, data: GameData) -> Array:
 			"quantite": entry["quantite"],
 			"jets": entry["jets"].duplicate(),
 			"emplacement": source.slot_of(entry["uid"]),
+			"forge": entry.get("forge", {}).duplicate(true),
 		})
 	listed.sort_custom(_inventory_order)
 	return listed

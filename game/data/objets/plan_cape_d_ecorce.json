@@ -1,0 +1,18 @@
+{
+  "id": "plan_cape_d_ecorce",
+  "nom": "Plan : Cape d'écorce",
+  "type": "recette",
+  "rarete": "peu_commun",
+  "niveau": 5,
+  "boutique": false,
+  "description": "Plan de forge : Cape d'écorce. Elle pousse un peu chaque printemps. Prévoir une taille au-dessus.",
+  "recette": {
+    "nom": "Cape d'écorce",
+    "type": "cape",
+    "ressources": {
+      "poil_scintillant": 1,
+      "fiche_de_paie_gobeline": 3,
+      "caillou_de_fronde": 2
+    }
+  }
+}

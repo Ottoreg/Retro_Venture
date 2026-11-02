@@ -3,6 +3,7 @@
   "nom": "Cendre tiède",
   "type": "ressource",
   "rarete": "commun",
-  "niveau": 1,
-  "description": "Elle tombe de l'est depuis quelques mois. Elle ne refroidit jamais tout à fait."
+  "niveau": 13,
+  "description": "Elle tombe de l'est depuis quelques mois. Elle ne refroidit jamais tout à fait.",
+  "caracteristique": "force"
 }

@@ -1395,7 +1395,8 @@ un **bonus de panoplie** qui grandit avec le nombre de pièces équipées (à pa
   +4 Dommages, +20 Vitalité ; 5 : +40, +6 Dommages, +30 Vitalité ; 6 : +50, +8 Dommages,
   +40 Vitalité et +1 PA. Pressé : 2 pièces : +20 Initiative, +2 Dommages ; 3 : +50 Initiative,
   +5 Dommages. Fouineur : 2 pièces : +20 Prospection ; 3 : +50 Prospection, +10 Perception.
-- Pièces de niveau 3, communes, vendues par les marchands (pour l'alpha test).
+- Pièces de niveau 3, communes, vendues par les marchands (pour l'alpha test). Depuis le 02/11/2026,
+  les panoplies sont les seuls équipements prédéfinis ; le reste se forge (§ 10.4).
 
 **Panoplies élémentaires de niveau 15 et 30** : une panoplie par élément à chaque niveau, de
 **7 pièces** (les six emplacements et l'**arme**), vendues aussi par les marchands pendant l'alpha et
@@ -1469,7 +1470,8 @@ niveaux, les **bottes de niveau 30 donnent 1 PM**.
 - Un personnage peut apprendre plusieurs métiers (limite à définir, par ex. 3 au court terme).
 - **Prototype actuel :** les trois métiers sont connus d'office. Les ressources (frêne, chêne,
   cuivre, fer) repoussent 1 à 2 minutes après la récolte ; XP pour le niveau n = 5 × n × (n − 1).
-  Célébrimbert, le forgeron de Brumerive, propose 10 recettes (bois, minerai, peaux et crocs de loup).
+  Célébrimbert, le forgeron de Brumerive, proposait 10 recettes (bois, minerai, peaux et crocs de loup) ;
+  **depuis le 02/11/2026, plus de recettes : on forge à l'enclume de la maison (§ 10.4).**
   Le lot Métiers du chantier 3 ajoute trois bois (if, hêtre, malorme) et trois minerais (étain,
   argent, obsidienne), aux niveaux 8, 15 et 22, et 13 recettes (23 en tout) qui mêlent ressources et
   butins de plusieurs zones, pour pousser à voyager.
@@ -1813,6 +1815,39 @@ Les artisans de haut niveau (métier d'artisanat proche du niveau 100, le maximu
 **créer leurs propres objets** : ils choisissent l'emplacement, le niveau et les lignes de
 statistiques, dans des limites fixées par un **score**, et le coût de fabrication découle des
 statistiques choisies. Rien n'est codé ; toutes les valeurs ci-dessous sont des **pistes à équilibrer**.
+
+**Forge personnalisée (codée le 02/11/2026, demande de l'auteur ; chiffres à équilibrer)** : la piste
+« presque aucun objet prédéfini » plus bas est tranchée pour l'alpha : **seules les panoplies**
+restent prédéfinies (vendues par les marchands) ; les 91 autres équipements (trophées de boss
+compris) et les recettes du forgeron sont supprimés, tout le reste se forge.
+
+- **Enclume** dans chaque maison de joueur ; les forgerons (Célébrimbert, Krogma, Aelthar et celui
+  de Hautepierre) disent où elle est et, si le joueur accepte, expliquent la forge.
+- **Type d'objet** d'abord : coiffe, cape, amulette, anneau, ceinture, bottes, et six formes
+  d'armes (épée Acier, arc Tempête, bâton Givre, dague Impie, masse Sacré, sceptre Flamme ; dégâts
+  de base × (1 + (palier − 1) / 20)). **Matières obligatoires** : tissu (coiffe, cape), cuir
+  (ceinture, bottes), minerai (anneau, amulette), minerai et bois (armes). **6 ressources au plus.**
+- **Ressources de monstres** : chacune a un **palier** (niveau du plus faible monstre qui la lâche)
+  et **une caractéristique**, répartie par tourniquet pondéré : élémentaires à égalité (7 chacune),
+  Vitalité 5, Initiative 4, Prospection 2, Dommages 2, Critique 1 ; **PA** (corne du Balourd,
+  fragment de cendre), **PM** (soie de la Mère-Toile), **Portée** (éclat de cendre) : toujours 1,
+  une ligne au plus par objet. Valeur : max(1, arrondi((1 + palier / 8) × poids)), poids 1 pour les
+  élémentaires, 4 Vitalité, 10 Initiative, 0,34 Prospection et Dommages, 0,1 Critique (d'après le
+  score plus bas). Quelques ressources ont une matière (peaux, cuir et ailes : cuir ; poils, paille,
+  fils, soie, plumes : tissu).
+- **Aperçu** avant de forger : lignes et **jets possibles** (75 % à 100 % du total), palier (moyenne
+  des paliers des ressources), **nom proposé** que le joueur change avec des listes de mots (nom du
+  type, puis deux adjectifs au plus tirés des lignes, accordés en genre et en nombre). L'objet sort
+  avec ses jets tirés au hasard, son nom, et **« Créé par <pseudo> »** à la place du texte d'ambiance.
+- **Réputation d'artisan** (en attendant le lot 4 de la refonte : le niveau de forgeron) : sans avoir
+  jamais forgé, les caractéristiques des ressources sont **cachées** ; ensuite elles se lisent
+  jusqu'au palier égal au niveau de forgeron (5 XP par palier de l'objet forgé).
+- **Plans** (objets de type « recette », gardés dans le sac) : type, ressources et nom d'avance, tout
+  visible. Les 25 quêtes qui donnaient un objet supprimé donnent son plan ; les marchands en vendent
+  11 (35 brumes). Les recettes ne sont pas obligatoires.
+- **Plus tard** : un **maître par catégorie d'équipement** qui donne des plans par des quêtes :
+  armurier (armes et armures), tailleur (tissus : capes, coiffes), cordonnier (cuirs : bottes,
+  ceintures)…
 
 **Refonte du 29/10/2026 (alpha 2, § 4.5 et § 10.2) : à redéfinir avec la maîtrise** (demande de
 l'auteur ; proposition, non validée) :

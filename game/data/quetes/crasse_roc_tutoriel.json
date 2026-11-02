@@ -10,7 +10,7 @@
   },
   "donne": [
     {
-      "objet": "bonnet_de_berger",
+      "objet": "coiffe_fouineur",
       "nombre": 1
     }
   ],
@@ -19,7 +19,7 @@
       "objectifs": [
         {
           "type": "equiper",
-          "objet": "bonnet_de_berger",
+          "objet": "coiffe_fouineur",
           "texte": "Mettre le casque réglementaire (un bonnet, budget oblige)"
         }
       ]
@@ -47,7 +47,7 @@
         {
           "type": "fabriquer",
           "metier": "forgeron",
-          "texte": "Fabriquer un objet chez Krogma"
+          "texte": "Forger un objet à l'enclume de votre maison"
         }
       ]
     },

@@ -161,7 +161,7 @@ Les sorts se consultent dans leur fenêtre (S).
   monde en réduit, **5 × 5 cartes autour de vous**, chacune dessinée d'après son plan (sol,
   chemins, eau, arbres, bâtiments). Votre carte est au milieu (cadre doré, point bleu). **Molette**
   : de 3 × 3 à 9 × 9 cartes. **Glisser** : voir plus loin ; un clic vous recentre. Les icônes
-  disent ce qu'il y a sur chaque carte : losange bleu, Pierre de Passage ; A atelier, M marchand,
+  disent ce qu'il y a sur chaque carte : losange bleu, Pierre de Passage ; A forgeron, M marchand,
   C coffre, B mini-boss, ! quête à prendre ou à rendre. **Clic droit** sur une carte : un drapeau
   (Maj + clic droit : vos coéquipiers le voient aussi) ; sous la minicarte, une flèche vous indique
   sa direction et sa distance. Survolez une case pour son nom (et, si vous l'avez visitée, le niveau de ses monstres et leur menace pour vous). En haut, le nom de la zone et les
@@ -308,13 +308,20 @@ le **lit** de votre maison les rend tous d'un coup.
 - **Combat** : coups critiques, bonus et malus, poisons, poussées, glyphes (cases à la couleur de leur élément) et
   pièges invisibles, monstres qui gardent leurs distances ou soignent leurs alliés, **mode
   tactique** (T).
-- **Équipement** : 217 équipements, des panoplies (six élémentaires de 6 pièces au niveau 3, six de
-  7 pièces arme comprise aux niveaux 15 et 30, avec des PA, des PM et de la portée, deux de 3 pièces à
-  mélanger : plus on porte de pièces, plus le bonus grandit), des trophées de boss qui ne se vendent
-  pas.
-- **Métiers** : bûcheron et mineur (5 ressources chacun, de plus en plus rares), forgeron (23
-  recettes, dont certaines demandent des butins de plusieurs zones). **Récolte rare** : 1 fois sur
-  100, une ressource rare à la place (« Rare ! »), pour 6 recettes améliorées.
+- **Équipement** : les panoplies, vendues par les marchands (six élémentaires de 6 pièces au niveau 3,
+  six de 7 pièces arme comprise aux niveaux 15 et 30, avec des PA, des PM et de la portée, deux de
+  3 pièces à mélanger : plus on porte de pièces, plus le bonus grandit). **Tout le reste se forge.**
+- **Forge** : une **enclume** dans votre maison (les forgerons vous le disent, et vous l'expliquent
+  si vous acceptez). Choisissez le type d'objet, posez jusqu'à 6 ressources : la matière obligatoire
+  (tissu pour coiffes et capes, cuir pour ceintures et bottes, minerai pour anneaux et amulettes,
+  minerai et bois pour les armes) et des **ressources de monstres**, qui donnent chacune une
+  caractéristique d'autant plus forte que le monstre est coriace (PA et PM : très rares). L'enclume
+  montre l'objet avant de le forger (lignes, jets possibles, palier) ; choisissez son nom parmi les
+  mots proposés, il sort signé de votre pseudo. Au début, les caractéristiques des ressources sont
+  **cachées** : c'est en forgeant qu'on apprend à les lire. Les **plans** (récompenses de quêtes, ou
+  vendus par les marchands) disent tout d'avance.
+- **Métiers** : bûcheron et mineur (5 ressources chacun, de plus en plus rares), forgeron (la forge
+  ci-dessus). **Récolte rare** : 1 fois sur 100, une ressource rare à la place (« Rare ! »).
 - **Pierres de Passage** : pendant ce test, toutes accessibles dès le début (voyage payant). La
   dernière pierre touchée est votre point de résurrection.
 
@@ -342,7 +349,8 @@ le **lit** de votre maison les rend tous d'un coup.
 - Les **zones** se lisent-elles bien (où marcher, où sont les sorties et les portes, ce qui est
   cliquable) ? La minicarte et la carte du monde aident-elles ?
 - Le **rythme** : la réputation monte-t-elle trop vite, trop lentement ?
-- L'**économie** : prix du marchand, butin, recettes du forgeron.
+- L'**économie** : prix du marchand, butin ; la **forge** : objets trop forts, trop faibles, noms
+  amusants ? ressources introuvables ?
 - Tout ce qui semble **bloqué, lent, illisible ou bizarre**.
 
 ## Donner son avis et signaler un problème

@@ -1,0 +1,19 @@
+{
+  "id": "plan_amulette_chantante",
+  "nom": "Plan : Amulette chantante",
+  "type": "recette",
+  "rarete": "peu_commun",
+  "niveau": 14,
+  "boutique": false,
+  "description": "Plan de forge : Amulette chantante. Étain chantant et if funèbre : elle fredonne des airs d'enterrement, juste assez faux.",
+  "recette": {
+    "nom": "Amulette chantante",
+    "type": "amulette",
+    "ressources": {
+      "minerai_d_etain": 1,
+      "medaille_en_chocolat": 2,
+      "crochet_d_araignee": 2,
+      "carte_au_tresor_douteuse": 1
+    }
+  }
+}

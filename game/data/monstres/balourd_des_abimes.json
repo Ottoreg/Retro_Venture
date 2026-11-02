@@ -90,14 +90,6 @@
       "taux": 1.0
     },
     {
-      "objet": "cape_de_fumee",
-      "taux": 0.2
-    },
-    {
-      "objet": "fouet_du_balourd",
-      "taux": 0.12
-    },
-    {
       "objet": "registre_des_heures",
       "taux": 0.5,
       "quantite": [

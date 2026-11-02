@@ -1,0 +1,18 @@
+{
+  "id": "plan_anneau_de_cuivre",
+  "nom": "Plan : Anneau de cuivre",
+  "type": "recette",
+  "rarete": "rare",
+  "niveau": 1,
+  "boutique": true,
+  "description": "Plan de forge : Anneau de cuivre. Il verdit le doigt, mais il porte chance.",
+  "recette": {
+    "nom": "Anneau de cuivre",
+    "type": "anneau",
+    "ressources": {
+      "minerai_de_cuivre": 1,
+      "chapeau_de_morille": 3,
+      "croc_de_loup": 2
+    }
+  }
+}

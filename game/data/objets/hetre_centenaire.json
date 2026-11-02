@@ -3,7 +3,8 @@
   "nom": "Hêtre centenaire",
   "type": "ressource",
   "rarete": "rare",
-  "niveau": 1,
+  "niveau": 15,
   "description": "Cent ans de patience dans chaque cerne. Il se fend quand il l'a décidé.",
-  "boutique": false
+  "boutique": false,
+  "matiere": "bois"
 }

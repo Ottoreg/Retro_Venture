@@ -3,6 +3,8 @@
   "nom": "Paille ensorcelée",
   "type": "ressource",
   "rarete": "commun",
-  "niveau": 1,
-  "description": "Elle frissonne quand on parle de feu. On la comprend."
+  "niveau": 7,
+  "description": "Elle frissonne quand on parle de feu. On la comprend.",
+  "caracteristique": "agilite",
+  "matiere": "tissu"
 }

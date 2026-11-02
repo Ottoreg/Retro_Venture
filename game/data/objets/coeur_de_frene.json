@@ -5,5 +5,6 @@
   "rarete": "rare",
   "niveau": 1,
   "description": "Le centre d'un frêne qui a tenu trois tempêtes. Il en garde la souplesse, et la rancune.",
-  "boutique": false
+  "boutique": false,
+  "matiere": "bois"
 }

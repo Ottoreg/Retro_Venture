@@ -30,8 +30,9 @@ static func make_label(bbcode: String) -> RichTextLabel:
 
 ## Infobulle d'un objet (ligne de `Character.inventory_sheet`, ou article de marchand avec ses
 ## plages « bonus ») : nom, type, bonus, attaque, puis la comparaison.
-static func tooltip_text_for(entry: Dictionary, data: GameData, inventory: Inventory, show_ranges := false) -> String:
-	var template: Dictionary = data.items.get(entry["objet"], {}) if data != null else {}
+static func tooltip_text_for(entry: Dictionary, data: GameData, character: Character, show_ranges := false) -> String:
+	var inventory: Inventory = character.inventory if character != null else null
+	var template: Dictionary = Item.entry_template(entry, data.items) if data != null else {}
 	var lines: PackedStringArray = [
 		_colored(_escape(str(entry["nom"])) + (" ×%d" % int(entry["quantite"]) if int(entry.get("quantite", 1)) > 1 else ""),
 			InventoryWindow.rarity_color(entry["rarete"])),
@@ -41,7 +42,7 @@ static func tooltip_text_for(entry: Dictionary, data: GameData, inventory: Inven
 		else InventoryWindow.bonus_range_lines(entry.get("bonus", {}))
 	for line in bonus_lines:
 		lines.append(_escape(line))
-	for line in InventoryWindow.attack_lines(template):
+	for line in InventoryWindow.attack_lines(template) + ForgeWindow.forge_lines(template, data, character):
 		lines.append(_escape(line))
 	lines.append_array(comparison_lines(entry, data, inventory))
 	return "\n".join(lines)
@@ -51,7 +52,7 @@ static func tooltip_text_for(entry: Dictionary, data: GameData, inventory: Inven
 ## premier emplacement) : vide pour un objet porté, une ressource, ou sans inventaire.
 static func comparison_lines(entry: Dictionary, data: GameData, inventory: Inventory) -> PackedStringArray:
 	var lines: PackedStringArray = []
-	var template: Dictionary = data.items.get(entry["objet"], {}) if data != null else {}
+	var template: Dictionary = Item.entry_template(entry, data.items) if data != null else {}
 	if inventory == null or not Item.is_equipment(template):
 		return lines
 	if not str(entry.get("emplacement", "")).is_empty():
@@ -59,7 +60,7 @@ static func comparison_lines(entry: Dictionary, data: GameData, inventory: Inven
 		lines.append(_colored("Porté", MIXED))
 		return lines
 	var worn := compared_entry(template, inventory)
-	var worn_template: Dictionary = data.items.get(worn.get("objet", ""), {})
+	var worn_template: Dictionary = Item.entry_template(worn, data.items)
 	lines.append("")
 	lines.append(_colored("Par rapport à %s :" % _escape(str(worn_template.get("nom", worn.get("objet", "")))) if not worn.is_empty()
 		else "Emplacement libre :", DIM))

@@ -1,0 +1,18 @@
+{
+  "id": "plan_epee_de_fer",
+  "nom": "Plan : Épée de fer",
+  "type": "recette",
+  "rarete": "rare",
+  "niveau": 1,
+  "boutique": true,
+  "description": "Plan de forge : Épée de fer. Une épée honnête. Ni légendaire, ni maudite, juste en fer.",
+  "recette": {
+    "nom": "Épée de fer",
+    "type": "epee",
+    "ressources": {
+      "minerai_de_cuivre": 1,
+      "bois_de_frene": 1,
+      "carapace_de_grouilleur": 4
+    }
+  }
+}

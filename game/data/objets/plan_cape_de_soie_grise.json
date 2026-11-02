@@ -1,0 +1,19 @@
+{
+  "id": "plan_cape_de_soie_grise",
+  "nom": "Plan : Cape de soie grise",
+  "type": "recette",
+  "rarete": "peu_commun",
+  "niveau": 11,
+  "boutique": false,
+  "description": "Plan de forge : Cape de soie grise. Tissée par les tisseuses de brume. Elle colle un peu, mais elle protège du froid et des regards.",
+  "recette": {
+    "nom": "Cape de soie grise",
+    "type": "cape",
+    "ressources": {
+      "fil_de_brume": 1,
+      "registre_des_heures": 2,
+      "crochet_d_araignee": 2,
+      "sac_de_rapine": 1
+    }
+  }
+}

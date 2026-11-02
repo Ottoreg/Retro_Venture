@@ -69,54 +69,7 @@
         22,
         22
       ]
-    },
-    "objet_anneau_vert_de_gris": {
-      "fichier": "objets/anneau_vert_de_gris.svgt",
-      "ancre": [
-        22,
-        22
-      ]
-    },
-    "objet_arc_coeur_de_frene": {
-      "fichier": "objets/arc_coeur_de_frene.svgt",
-      "ancre": [
-        22,
-        22
-      ]
-    },
-    "objet_masse_meteorique": {
-      "fichier": "objets/masse_meteorique.svgt",
-      "ancre": [
-        22,
-        22
-      ]
-    },
-    "objet_amulette_chantante": {
-      "fichier": "objets/amulette_chantante.svgt",
-      "ancre": [
-        22,
-        22
-      ]
-    },
-    "objet_epee_lunaire": {
-      "fichier": "objets/epee_lunaire.svgt",
-      "ancre": [
-        22,
-        22
-      ]
-    },
-    "objet_sceptre_de_malorme": {
-      "fichier": "objets/sceptre_de_malorme.svgt",
-      "ancre": [
-        22,
-        22
-      ]
     }
   },
-  "icones_armes": {
-    "arc_coeur_de_frene": "sort_arme_arc",
-    "masse_meteorique": "sort_arme_masse",
-    "epee_lunaire": "sort_arme_epee",
-    "sceptre_de_malorme": "sort_arme_sceptre"
-  }
+  "icones_armes": {}
 }

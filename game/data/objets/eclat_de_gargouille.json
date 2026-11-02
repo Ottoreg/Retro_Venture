@@ -3,6 +3,7 @@
   "nom": "Éclat de gargouille",
   "type": "ressource",
   "rarete": "commun",
-  "niveau": 1,
-  "description": "Un morceau de gargouille. Il grimace encore."
+  "niveau": 22,
+  "description": "Un morceau de gargouille. Il grimace encore.",
+  "caracteristique": "perception"
 }

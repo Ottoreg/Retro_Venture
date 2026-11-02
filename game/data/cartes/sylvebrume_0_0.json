@@ -93,9 +93,15 @@
       "marqueur": "c",
       "id": "aelthar_forgeron",
       "nom": "Aelthar, forgeron des sèves",
-      "atelier": "forgeron",
       "repliques": [
-        "Les humains frappent le métal. Nous, nous le persuadons. C'est plus long, mais le métal nous en veut moins."
+        "Les humains frappent le métal. Nous, nous le persuadons. C'est plus long, mais le métal nous en veut moins.",
+        "Je ne forge plus pour les autres : il y a une enclume chez vous, dans votre maison de la zone de départ. Vous voulez que je vous explique comment on s'en sert ?"
+      ],
+      "explication": [
+        "À l'enclume, on choisit d'abord le type d'objet : coiffe, bottes, épée… Chaque type demande sa matière : du tissu pour les coiffes et les capes, du cuir pour les bottes et les ceintures, du minerai pour les anneaux et les amulettes, du minerai et du bois pour les armes.",
+        "Ensuite on ajoute des ressources de monstres, six au plus. Chacune donne une caractéristique, d'autant plus forte que la bête était coriace. PA et PM : une ligne par objet, et c'est rare.",
+        "Les débutants forgent à l'aveugle : c'est en forgeant qu'on apprend à lire les ressources, les plus faibles d'abord. Un plan, lui, dit tout d'avance.",
+        "L'enclume montre l'objet avant de le forger : ses lignes, ses jets possibles et un nom, que vous pouvez changer avec les mots proposés. Votre nom sera gravé dessus. Le jet, lui, c'est la surprise."
       ]
     }
   ],

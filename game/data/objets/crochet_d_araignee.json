@@ -3,6 +3,7 @@
   "nom": "Crochet d'araignée",
   "type": "ressource",
   "rarete": "peu_commun",
-  "niveau": 1,
-  "description": "Encore une goutte de venin au bout. Ne pas s'en servir comme cure-dent."
+  "niveau": 10,
+  "description": "Encore une goutte de venin au bout. Ne pas s'en servir comme cure-dent.",
+  "caracteristique": "prospection"
 }

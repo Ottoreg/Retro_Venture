@@ -1,0 +1,19 @@
+{
+  "id": "plan_chapeau_d_epouvantail",
+  "nom": "Plan : Chapeau d'épouvantail",
+  "type": "recette",
+  "rarete": "peu_commun",
+  "niveau": 7,
+  "boutique": false,
+  "description": "Plan de forge : Chapeau d'épouvantail. Il ne fait plus peur aux corbeaux. Aux aventuriers non plus, mais il tient chaud.",
+  "recette": {
+    "nom": "Chapeau d'épouvantail",
+    "type": "coiffe",
+    "ressources": {
+      "paille_ensorcelee": 1,
+      "citrouille_grimacante": 2,
+      "sac_de_rapine": 2,
+      "queue_de_rat": 1
+    }
+  }
+}

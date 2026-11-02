@@ -1,0 +1,18 @@
+{
+  "id": "plan_casque_cabosse",
+  "nom": "Plan : Casque cabossé",
+  "type": "recette",
+  "rarete": "rare",
+  "niveau": 4,
+  "boutique": true,
+  "description": "Plan de forge : Casque cabossé. A appartenu à un garde de Hautepierre. Les bosses aussi.",
+  "recette": {
+    "nom": "Casque cabossé",
+    "type": "coiffe",
+    "ressources": {
+      "poil_scintillant": 1,
+      "fiche_de_paie_gobeline": 3,
+      "aile_de_vampipistrelle": 2
+    }
+  }
+}

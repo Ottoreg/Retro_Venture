@@ -82,7 +82,7 @@
     "ecus": 90,
     "objets": [
       {
-        "objet": "ceinturon_rivete",
+        "objet": "plan_ceinturon_rivete",
         "nombre": 1
       }
     ]

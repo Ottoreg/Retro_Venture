@@ -1,0 +1,28 @@
+{
+  "id": "forge_baton",
+  "nom": "Bâton",
+  "type": "arme",
+  "rarete": "commun",
+  "niveau": 1,
+  "boutique": false,
+  "description": "Objet forgé à l'enclume.",
+  "attaque": {
+    "cout_pa": 3,
+    "portee": {
+      "min": 1,
+      "max": 2
+    },
+    "relance": {
+      "par_tour": 1
+    },
+    "effets": [
+      {
+        "type": "degats",
+        "element": "givre",
+        "min": 4,
+        "max": 7
+      }
+    ],
+    "ligne_de_vue": true
+  }
+}

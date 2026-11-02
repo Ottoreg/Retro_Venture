@@ -1,0 +1,19 @@
+{
+  "id": "plan_cape_en_peau_de_loup",
+  "nom": "Plan : Cape en peau de loup",
+  "type": "recette",
+  "rarete": "rare",
+  "niveau": 3,
+  "boutique": true,
+  "description": "Plan de forge : Cape en peau de loup. Le loup n'en a plus besoin.",
+  "recette": {
+    "nom": "Cape en peau de loup",
+    "type": "cape",
+    "ressources": {
+      "poil_scintillant": 1,
+      "dent_de_rat": 2,
+      "glande_acide": 2,
+      "peau_de_loup": 1
+    }
+  }
+}

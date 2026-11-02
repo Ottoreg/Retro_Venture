@@ -1,0 +1,18 @@
+{
+  "id": "plan_heaume_d_argent",
+  "nom": "Plan : Heaume d'argent",
+  "type": "recette",
+  "rarete": "peu_commun",
+  "niveau": 20,
+  "boutique": false,
+  "description": "Plan de forge : Heaume d'argent. Le casque des officiers de Hautepierre. Les miliciens le saluent par réflexe.",
+  "recette": {
+    "nom": "Heaume d'argent",
+    "type": "coiffe",
+    "ressources": {
+      "plume_de_corbac": 3,
+      "carte_au_tresor_douteuse": 2,
+      "crochet_d_araignee": 1
+    }
+  }
+}

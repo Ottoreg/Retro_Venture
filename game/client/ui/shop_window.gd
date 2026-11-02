@@ -91,7 +91,7 @@ func refresh() -> void:
 		var index := _list.add_item(label, InventoryWindow.item_icon(entry["objet"]))
 		_list.set_item_custom_fg_color(index, Color(0.5, 0.5, 0.5) if _is_worn(entry) else InventoryWindow.rarity_color(entry["rarete"]))
 		_list.set_item_metadata(index, key)
-		_list.set_item_tooltip(index, ItemTooltipList.tooltip_text_for(entry, map_view.world.data, map_view.world.character.inventory, _show_ranges))
+		_list.set_item_tooltip(index, ItemTooltipList.tooltip_text_for(entry, map_view.world.data, map_view.world.character, _show_ranges))
 		if key == _selected:
 			_list.select(index)
 			found = true
@@ -139,7 +139,7 @@ func _selected_entry() -> Dictionary:
 func _unit_price(entry: Dictionary) -> int:
 	if _mode == BUY:
 		return int(entry["prix"])
-	return Item.sell_price(map_view.world.data.items.get(entry["objet"], {}))
+	return Item.sell_price(Item.entry_template(entry, map_view.world.data.items))
 
 
 func _is_worn(entry: Dictionary) -> bool:
@@ -160,8 +160,10 @@ func _show_details(entry: Dictionary) -> void:
 	if _mode == BUY:
 		lines.append_array(InventoryWindow.bonus_range_lines(entry["bonus"]))
 	else:
-		lines.append_array(InventoryWindow.roll_lines(entry, map_view.world.data.items.get(entry["objet"], {}), _show_ranges))
-	lines.append_array(InventoryWindow.attack_lines(map_view.world.data.items.get(entry["objet"], {})))
+		lines.append_array(InventoryWindow.roll_lines(entry, Item.entry_template(entry, map_view.world.data.items), _show_ranges))
+	var template := Item.entry_template(entry, map_view.world.data.items)
+	lines.append_array(InventoryWindow.attack_lines(template))
+	lines.append_array(ForgeWindow.forge_lines(template, map_view.world.data, map_view.world.character))
 	lines.append_array(InventoryWindow.set_lines(entry["objet"], map_view.world.data, map_view.world.character.inventory))
 	if not str(entry["description"]).is_empty():
 		lines.append("")

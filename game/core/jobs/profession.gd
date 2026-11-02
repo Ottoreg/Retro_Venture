@@ -1,8 +1,8 @@
 class_name Profession
 extends RefCounted
 ## Règles des métiers (données de `data/metiers/`) : métiers de récolte (bûcheron, mineur), dont les
-## ressources sont placées sur les cartes et repoussent, et métiers d'artisanat (forgeron), qui
-## fabriquent des objets à partir de recettes.
+## ressources sont placées sur les cartes et repoussent, et métiers d'artisanat (forgeron, qui forge à
+## l'enclume : `Forge`).
 
 const TYPE_HARVEST := "recolte"
 const TYPE_CRAFT := "artisanat"
@@ -46,14 +46,7 @@ static func validate(data: Dictionary, known_items: Dictionary) -> PackedStringA
 		else:
 			for node: Variant in nodes:
 				errors.append_array(_validate_node(node, known_items))
-	elif type == TYPE_CRAFT:
-		var recipes: Variant = data.get("recettes")
-		if typeof(recipes) != TYPE_ARRAY or recipes.is_empty():
-			errors.append("« recettes » doit être une liste non vide")
-		else:
-			for recipe: Variant in recipes:
-				errors.append_array(_validate_recipe(recipe, known_items))
-	else:
+	elif type != TYPE_CRAFT:
 		errors.append("« type » doit valoir « %s » ou « %s »" % [TYPE_HARVEST, TYPE_CRAFT])
 	return errors
 
@@ -87,27 +80,6 @@ static func _validate_node(node: Variant, known_items: Dictionary) -> PackedStri
 			errors.append("ressource %s : « rare » doit être une autre ressource connue" % label)
 	if typeof(node.get("couleur", "ffffff")) != TYPE_STRING or not Color.html_is_valid(str(node.get("couleur", "ffffff"))):
 		errors.append("ressource %s : « couleur » doit être une couleur (« 6f9a3e »)" % label)
-	return errors
-
-
-static func _validate_recipe(recipe: Variant, known_items: Dictionary) -> PackedStringArray:
-	var errors: PackedStringArray = []
-	if typeof(recipe) != TYPE_DICTIONARY or not known_items.has(recipe.get("objet")):
-		errors.append("recette : « objet » doit être un objet connu (%s)" % str(recipe))
-		return errors
-	var label := str(recipe["objet"])
-	if not Spell._is_int_at_least(recipe.get("niveau", 1), 1):
-		errors.append("recette %s : « niveau » doit être un entier ≥ 1" % label)
-	if not Spell._is_int_at_least(recipe.get("xp", 0), 0):
-		errors.append("recette %s : « xp » doit être un entier ≥ 0" % label)
-	var ingredients: Variant = recipe.get("ingredients")
-	if typeof(ingredients) != TYPE_DICTIONARY or ingredients.is_empty():
-		errors.append("recette %s : « ingredients » doit être un objet { ressource: quantité } non vide" % label)
-		return errors
-	for item_id: Variant in ingredients:
-		var item: Dictionary = known_items.get(item_id, {})
-		if item.is_empty() or str(item.get("type")) != Item.TYPE_RESOURCE or not Spell._is_int_at_least(ingredients[item_id], 1):
-			errors.append("recette %s : ingrédient « %s » invalide (ressource connue et quantité ≥ 1)" % [label, str(item_id)])
 	return errors
 
 

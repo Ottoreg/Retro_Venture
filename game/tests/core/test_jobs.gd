@@ -1,5 +1,5 @@
 extends "res://tests/test_case.gd"
-## Métiers : récolte (bûcheron), repousse des ressources, artisanat (forgeron), sauvegarde.
+## Métiers : récolte (bûcheron), repousse des ressources, sauvegarde (la forge : `test_forge.gd`).
 
 const Fixtures := preload("res://tests/helpers/fixtures.gd")
 
@@ -22,17 +22,12 @@ static func _jobs() -> Array:
 			{"marqueur": "C", "nom": "Chêne", "objet": "buche", "niveau": 3, "quantite": [1, 1], "xp": 5,
 				"repousse": [60, 60], "apparence": "arbre"},
 		]},
-		{"id": "forgeron", "nom": "Forgeron", "type": "artisanat", "recettes": [
-			{"objet": "heaume", "niveau": 2, "xp": 5, "ingredients": {"buche": 1}},
-			{"objet": "bague", "niveau": 1, "xp": 10, "ingredients": {"buche": 3, "dent": 1}},
-		]},
+		{"id": "forgeron", "nom": "Forgeron", "type": "artisanat"},
 	]
 
 
 func before_each() -> void:
-	_map = Fixtures.map({Fixtures.center(): "F", GameMap.plan_cell(0, 4): "C", GameMap.plan_cell(8, 8): "a"}, [], {"pnj": [
-		{"marqueur": "a", "id": "forge", "nom": "Forge", "atelier": "forgeron", "repliques": ["Salut"]},
-	]})
+	_map = Fixtures.map({Fixtures.center(): "F", GameMap.plan_cell(0, 4): "C"})
 	var data := GameData.from_dicts(Fixtures.spells(), [], [], [], _items(), _jobs())
 	_world = World.new(_map, data, Callable(), Fixtures.character())
 	_world.rare_harvest_chance = 0.0  # récoltes normales, sauf dans le test des récoltes rares
@@ -154,45 +149,6 @@ func test_inventaire_plein() -> void:
 	assert_eq(_world.harvest_refusal(Fixtures.center()), "", "la pile de bûches existe déjà")
 
 
-func test_atelier_du_forgeron() -> void:
-	var events := _command(Protocol.CMD_TALK, {"pnj": "forge"})
-	assert_eq(Fixtures.of_type(events, Protocol.EVT_DIALOGUE).size(), 0, "pas de simple dialogue")
-	var workshops := Fixtures.of_type(events, Protocol.EVT_WORKSHOP)
-	assert_eq(workshops.size(), 1)
-	assert_eq(workshops[0]["metier"], "forgeron")
-	assert_eq(workshops[0]["nom_metier"], "Forgeron")
-	var recipes: Array = workshops[0]["recettes"]
-	assert_eq(recipes.size(), 2)
-	assert_eq(recipes[0]["objet"], "bague", "triées par niveau")
-	assert_eq(recipes[0]["ingredients"], [{"objet": "buche", "nom": "Bûche", "quantite": 3}, {"objet": "dent", "nom": "Dent", "quantite": 1}])
-
-
-func test_fabriquer() -> void:
-	var inventory := _world.character.inventory
-	_assert_refused(_command(Protocol.CMD_CRAFT, {"pnj": "forge", "recette": "bague"}), Protocol.REASON_TOO_FAR)
-	_command(Protocol.CMD_TALK, {"pnj": "forge"})
-	_assert_refused(_command(Protocol.CMD_CRAFT, {"pnj": "forge", "recette": "bague"}), Protocol.REASON_MISSING_INGREDIENTS)
-	_assert_refused(_command(Protocol.CMD_CRAFT, {"pnj": "forge", "recette": "epee"}), Protocol.REASON_UNKNOWN_ITEM, "pas de recette")
-	inventory.add(_world.data.items["buche"], 7)
-	inventory.add(_world.data.items["dent"], 2)
-	_assert_refused(_command(Protocol.CMD_CRAFT, {"pnj": "forge", "recette": "heaume"}), Protocol.REASON_JOB_LEVEL)
-
-	var events := _command(Protocol.CMD_CRAFT, {"pnj": "forge", "recette": "bague", "quantite": 2})
-	assert_eq(events[0]["type"], Protocol.EVT_CRAFTED)
-	assert_eq(events[0]["quantite"], 2)
-	assert_eq(inventory.quantity_of("bague"), 2, "deux bagues, chacune avec ses jets")
-	for entry: Dictionary in inventory.entries.values():
-		if entry["objet"] == "bague":
-			assert_eq(entry["jets"], {"force": 5})
-	assert_eq(inventory.quantity_of("buche"), 1, "ingrédients consommés")
-	assert_eq(inventory.quantity_of("dent"), 0)
-	var job := Fixtures.of_type(events, Protocol.EVT_JOB)[0]
-	assert_eq(job["gain"], 20)
-	assert_eq(str(job["niveaux"]), "[2]")
-	assert_eq(_command(Protocol.CMD_CRAFT, {"pnj": "forge", "recette": "heaume"})[0]["type"], Protocol.EVT_CRAFTED, "niveau 2 atteint")
-	assert_eq(inventory.quantity_of("buche"), 0)
-
-
 func test_sauvegarde_et_fiche_des_metiers() -> void:
 	_world.character.add_job_xp("forgeron", 42)
 	var copy := Character.from_dict(_world.character.to_dict(), _world.data.items)
@@ -221,14 +177,10 @@ func test_metiers_invalides() -> void:
 		var bad_rare: Dictionary = _jobs()[0]
 		bad_rare["ressources"][0]["rare"] = rare
 		assert_false(Profession.validate(bad_rare, items).is_empty(), "« rare » : %s refusé" % rare)
-	var bad_recipe: Dictionary = _jobs()[1]
-	bad_recipe["recettes"][0]["ingredients"] = {"inconnu": 2}
-	assert_false(Profession.validate(bad_recipe, items).is_empty(), "ingrédient inconnu")
 	assert_false(Profession.validate({"id": "x", "nom": "X", "type": "magie"}, items).is_empty())
-	# Deux métiers qui utilisent le même marqueur, ou deux recettes du même objet : refusé.
+	# Deux métiers qui utilisent le même marqueur : refusé.
 	var data := GameData.from_dicts([], [], [], [], _items(), _jobs())
 	assert_false(data._validate_job_links(_jobs()[0]).is_empty(), "marqueurs déjà utilisés")
-	assert_false(data._validate_job_links(_jobs()[1]).is_empty(), "recettes déjà existantes")
 
 
 func test_bonus_d_xp_de_metier_des_humains() -> void:

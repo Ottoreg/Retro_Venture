@@ -44,7 +44,7 @@ xvfb-run -a godot --path . -s res://tools/screenshot.gd -- sortie.png [carte] [s
 ```
 
 `tools/screenshot.gd` fait des captures en jeu (actions : glyphe, survol, infobulle, objet, boutique_panoplie, phase, reveil, carte, sermon,
-cible, tactique, pause, options, fiche, assis, joueurs, groupe, chat, amis, echange…) ; `tools/art_sheet.gd` fait une planche des dessins ; `tools/simulation.gd` simule des
+cible, tactique, pause, options, fiche, assis, joueurs, groupe, chat, amis, echange, forge…) ; `tools/art_sheet.gd` fait une planche des dessins ; `tools/simulation.gd` simule des
 combats sur chaque groupe des cartes (`-- [combats] [rapport.md] [préfixes de cartes] [detail]`,
 ~7 min pour tout à 10 combats).
 Multijoueur : `godot --headless --path . -s res://server/server_main.gd` (serveur de développement, port
@@ -152,6 +152,13 @@ ou rien et sauvegarde des deux personnages en une écriture (`CharacterStore.sav
 personnages liés tant qu'elle n'a pas réussi, sauvegardes une à une) ; protocole v7. Hôtel des
 ventes et journal des transactions plus tard. La CI publie aussi, à chaque push sur `main`, le client natif
 (release « client-natif ») et l'image du serveur de staging (`ghcr.io/ottoreg/retro-venture-serveur:staging`).
+
+**Forge personnalisée (02/11/2026, GDD § 10.4)** : équipement prédéfini réduit aux panoplies (91 objets
+et les recettes du forgeron supprimés) ; enclume `&` dans les maisons, `Forge` (`core/items/forge.gd`),
+`ForgeWindow`, commande `forger` (protocole v10), objets forgés = modèle `forge_<type>` + champ `forge`
+de l'entrée d'inventaire (`Item.entry_template`) ; ressources de monstres avec `caracteristique`,
+`matiere`, palier ; plans (`type: recette`) ; données produites par `docs/design/forge/produire.py`.
+Plus tard : maîtres par catégorie (armurier, tailleur, cordonnier) qui donnent des plans par quêtes.
 
 Dernière session (retours de la passe de l'auteur) :
 

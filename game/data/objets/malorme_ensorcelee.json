@@ -3,7 +3,8 @@
   "nom": "Malorme ensorcelée",
   "type": "ressource",
   "rarete": "rare",
-  "niveau": 1,
+  "niveau": 22,
   "description": "Ses feuilles dorées chuchotent. Ce qu'elles disent n'est pas très gentil.",
-  "boutique": false
+  "boutique": false,
+  "matiere": "bois"
 }

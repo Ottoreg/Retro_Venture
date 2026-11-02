@@ -1,0 +1,9 @@
+{
+  "id": "forge_anneau",
+  "nom": "Anneau",
+  "type": "anneau",
+  "rarete": "commun",
+  "niveau": 1,
+  "boutique": false,
+  "description": "Objet forgé à l'enclume."
+}

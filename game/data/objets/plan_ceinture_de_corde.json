@@ -1,0 +1,17 @@
+{
+  "id": "plan_ceinture_de_corde",
+  "nom": "Plan : Ceinture de corde",
+  "type": "recette",
+  "rarete": "rare",
+  "niveau": 1,
+  "boutique": true,
+  "description": "Plan de forge : Ceinture de corde. Tient le pantalon. Mission accomplie.",
+  "recette": {
+    "nom": "Ceinture de corde",
+    "type": "ceinture",
+    "ressources": {
+      "peau_de_loup": 1,
+      "glande_acide": 5
+    }
+  }
+}

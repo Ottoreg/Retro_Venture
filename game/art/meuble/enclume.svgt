@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="44" height="40" viewBox="0 0 44 40">
+<ellipse cx="22" cy="31" rx="17" ry="5.5" fill="#000000" opacity="0.22"/>
+<polygon points="16,32 28,32 26,22 18,22" fill="#5a3a22" stroke="#2a1a10" stroke-width="1.1" stroke-linejoin="round"/>
+<polygon points="19,22 25,22 24,17 20,17" fill="#4a4c52" stroke="#1e1f22" stroke-width="1.1" stroke-linejoin="round"/>
+<path d="M4 10 Q10 12 14 11 L34 11 Q38 11 40 9 L40 14 Q38 17 34 17 L12 17 Q8 16 4 10 Z" fill="#6c7078" stroke="#1e1f22" stroke-width="1.1" stroke-linejoin="round"/>
+<path d="M14 11 L34 11 L40 9 L21 8 Z" fill="#9aa0a8" stroke="#1e1f22" stroke-width="1" stroke-linejoin="round"/>
+<path d="M15 13 L33 13" stroke="#b8bec6" stroke-width="1" opacity="0.6"/>
+</svg>

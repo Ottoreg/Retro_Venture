@@ -3,6 +3,7 @@
   "nom": "Carte au trésor douteuse",
   "type": "ressource",
   "rarete": "peu_commun",
-  "niveau": 1,
-  "description": "Une croix rouge, une flèche, et la mention « à peu près par là »."
+  "niveau": 13,
+  "description": "Une croix rouge, une flèche, et la mention « à peu près par là ».",
+  "caracteristique": "vitalite"
 }

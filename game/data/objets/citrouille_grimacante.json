@@ -3,6 +3,7 @@
   "nom": "Citrouille grimaçante",
   "type": "ressource",
   "rarete": "peu_commun",
-  "niveau": 1,
-  "description": "Elle a été sculptée par personne. C'est bien ce qui inquiète."
+  "niveau": 7,
+  "description": "Elle a été sculptée par personne. C'est bien ce qui inquiète.",
+  "caracteristique": "agilite"
 }

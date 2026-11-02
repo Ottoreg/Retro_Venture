@@ -3,6 +3,8 @@
   "nom": "Plume de corbac",
   "type": "ressource",
   "rarete": "commun",
-  "niveau": 1,
-  "description": "Noire, luisante, et elle a l'air de vous écouter."
+  "niveau": 19,
+  "description": "Noire, luisante, et elle a l'air de vous écouter.",
+  "caracteristique": "force",
+  "matiere": "tissu"
 }

@@ -550,7 +550,7 @@ func test_boutique_du_marchand() -> void:
 		% (3 * Item.sell_price(view.server.data.items[resource["objet"]]))), trades[1])
 
 	# Une arme portée ne se vend pas.
-	var weapon_uid := inventory.add(view.server.data.items["epee_de_fer"], 1, {})
+	var weapon_uid := inventory.add(view.server.data.items["marteau_enclume_rancuniere"], 1, {})
 	inventory.equip(weapon_uid, "arme")
 	view.refresh_state()
 	var weapon := inventory.equipped_entry("arme")
@@ -601,38 +601,41 @@ func test_recolte_et_repousse() -> void:
 	scene.free()
 
 
-func test_atelier_du_forgeron() -> void:
+func test_forge_a_l_enclume() -> void:
 	var tree := Engine.get_main_loop() as SceneTree
 	var scene: Node = load("res://client/world/world.tscn").instantiate()
 	tree.root.add_child(scene)
 	var view: MapView = scene.get_node("MapView")
-	var craft: CraftWindow = scene.get_node("CraftWindow")
-	var smith: Dictionary = {}
-	for npc: Dictionary in view.current_map().npcs:
-		if npc["atelier"] == "forgeron":
-			smith = npc
-	assert_false(smith.is_empty(), "un forgeron au village")
-
-	view._on_click(smith["case"])
-	_run_until_idle(view)
-	assert_true(craft.is_open(), "l'atelier s'ouvre")
+	var forge: ForgeWindow = scene.get_node("ForgeWindow")
+	var anvil: Vector2i = view.server.position_of(World.PLAYER_ID) + Vector2i(1, 0)
+	view.server.map.obstacles[anvil] = "enclume"
+	view.anvil_opened.emit({"type": Protocol.EVT_ANVIL, "case": anvil})
+	assert_true(forge.is_open(), "la forge s'ouvre")
 	var inventory := view.server.character.inventory
-	inventory.add(view.server.data.items["minerai_de_cuivre"], 4)
+	inventory.add(view.server.data.items["peau_de_loup"], 1)
+	inventory.add(view.server.data.items["croc_de_loup"], 2)
+	inventory.add(view.server.data.items["plan_amulette_croc"], 1)
 	view.refresh_state()
-	var index := -1
-	for i in craft._list.item_count:
-		if craft._list.get_item_metadata(i) == "anneau_de_cuivre":
-			index = i
-	assert_true(index >= 0, "recette de l'anneau de cuivre")
-	craft._on_item_selected(index)
-	assert_false(craft._craft_button.disabled, "ingrédients réunis")
-	craft._on_craft_pressed()
-	assert_eq(inventory.quantity_of("anneau_de_cuivre"), 1, "anneau fabriqué")
-	assert_eq(inventory.quantity_of("minerai_de_cuivre"), 0, "minerai consommé")
-	assert_true(craft._message.text.begins_with("Fabriqué"), craft._message.text)
-	assert_true(view.server.character.job_level("forgeron") >= 2, "XP de forgeron")
-	assert_true(craft._craft_button.disabled, "plus assez de minerai")
-	craft.close()
+	forge._type = "bottes"
+	forge.refresh()
+	assert_eq(forge._plans.item_count, 1, "le plan du sac")
+	assert_eq(forge._bag.item_count, 2, "les ressources à forger")
+	assert_true(forge._forge_button.disabled, "rien sur l'enclume")
+	forge._change("croc_de_loup", 2)
+	assert_true(forge._preview.text.contains("Manque : cuir"), forge._preview.text)
+	assert_true(forge._preview.text.contains("caractéristique inconnue"), "jamais forgé : caractéristiques cachées")
+	forge._change("peau_de_loup", 1)
+	assert_false(forge._forge_button.disabled)
+	assert_eq(forge._words[0].get_item_text(forge._words[0].selected), "Bottes")
+	forge._words[0].select(1)
+	forge._show_preview()
+	assert_eq(forge._words_chosen(), ["Souliers"], "mots proposés pour les bottes")
+	forge._on_forge_pressed()
+	_run_until_idle(view)
+	assert_true(forge._message.text.begins_with("Forgé : Souliers"), forge._message.text)
+	assert_eq(inventory.quantity_of("forge_bottes"), 1, "bottes forgées")
+	assert_eq(inventory.quantity_of("croc_de_loup"), 0, "ressources consommées")
+	forge.close()
 	scene.free()
 
 
@@ -723,7 +726,7 @@ func test_reapparition_des_monstres_et_fenetre_des_metiers() -> void:
 	jobs.select_job("forgeron")
 	assert_eq(jobs.current_job(), "forgeron")
 	assert_eq(jobs._title.text, "Forgeron")
-	assert_eq(jobs._list.item_count, world.data.jobs["forgeron"]["recettes"].size(), "toutes les recettes")
+	assert_eq(jobs._list.item_count, 1, "ce que le forgeron sait lire des ressources")
 	jobs.select_job("bucheron")
 	assert_eq(jobs._list.item_count, world.data.jobs["bucheron"]["ressources"].size(), "toutes les ressources")
 	jobs.toggle()

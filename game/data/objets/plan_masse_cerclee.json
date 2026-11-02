@@ -1,0 +1,19 @@
+{
+  "id": "plan_masse_cerclee",
+  "nom": "Plan : Masse cerclée",
+  "type": "recette",
+  "rarete": "rare",
+  "niveau": 4,
+  "boutique": true,
+  "description": "Plan de forge : Masse cerclée. Du chêne, du fer, et l'intention bien arrêtée de cabosser quelque chose.",
+  "recette": {
+    "nom": "Masse cerclée",
+    "type": "masse",
+    "ressources": {
+      "minerai_de_fer": 1,
+      "bois_de_chene": 1,
+      "aile_de_vampipistrelle": 2,
+      "fiche_de_paie_gobeline": 2
+    }
+  }
+}

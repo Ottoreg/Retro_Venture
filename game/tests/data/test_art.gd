@@ -81,7 +81,7 @@ func test_icones_des_sorts_des_armes_et_des_objets() -> void:
 	for icon: String in weapon_icons.values():
 		assert_true(Art.has_image(icon), icon)
 	for item_id: String in data.items:
-		assert_true(Art.has_image("objet_" + item_id), "icône de l'objet %s" % item_id)
+		assert_true(Art.has_image(InventoryWindow.icon_name(item_id)), "icône de l'objet %s" % item_id)
 	for image in ["coeur_vide", "coeur_plein", "etoile_pa", "case_pm", "case_sort", "sort_inconnu", "objet_inconnu"]:
 		assert_true(Art.has_image(image), image)
 

@@ -4,5 +4,6 @@
   "type": "ressource",
   "rarete": "peu_commun",
   "niveau": 1,
-  "description": "À manipuler avec des gants. Et une pince. Et de loin."
+  "description": "À manipuler avec des gants. Et une pince. Et de loin.",
+  "caracteristique": "vitalite"
 }

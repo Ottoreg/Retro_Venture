@@ -1,0 +1,19 @@
+{
+  "id": "plan_feuille_d_argent_de_l_ambassade",
+  "nom": "Plan : Feuille d'argent de l'ambassade",
+  "type": "recette",
+  "rarete": "peu_commun",
+  "niveau": 25,
+  "boutique": false,
+  "description": "Plan de forge : Feuille d'argent de l'ambassade. Le sceau de l'ambassade elfe. On ne la remet qu'aux observateurs qui ont fini par intervenir.",
+  "recette": {
+    "nom": "Feuille d'argent de l'ambassade",
+    "type": "anneau",
+    "ressources": {
+      "obsidienne": 1,
+      "coeur_de_pierre": 2,
+      "invitation_au_bal": 2,
+      "crochet_d_araignee": 1
+    }
+  }
+}

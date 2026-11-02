@@ -1,0 +1,18 @@
+{
+  "id": "plan_cape_en_cuir_d_olifant",
+  "nom": "Plan : Cape en cuir d'olifant",
+  "type": "recette",
+  "rarete": "peu_commun",
+  "niveau": 28,
+  "boutique": false,
+  "description": "Plan de forge : Cape en cuir d'olifant. Lourde, raide, increvable. On a l'air d'une tente, mais d'une tente blindée.",
+  "recette": {
+    "nom": "Cape en cuir d'olifant",
+    "type": "cape",
+    "ressources": {
+      "plume_de_corbac": 3,
+      "cuir_d_olifant": 2,
+      "crochet_d_araignee": 1
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "id": "plan_brassard_du_delegue",
+  "nom": "Plan : Brassard du délégué",
+  "type": "recette",
+  "rarete": "peu_commun",
+  "niveau": 23,
+  "boutique": false,
+  "description": "Plan de forge : Brassard du délégué. Brassard rouge du Syndicat des Travailleurs de Crasse-Roc, section « préavis contre le Souverain lui-même ».",
+  "recette": {
+    "nom": "Brassard du délégué",
+    "type": "amulette",
+    "ressources": {
+      "obsidienne": 1,
+      "message_intercepte": 2,
+      "eclat_de_gargouille": 2,
+      "crochet_d_araignee": 1
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "id": "plan_echarpe_du_heros_de_brumerive",
+  "nom": "Plan : Écharpe du Héros de Brumerive",
+  "type": "recette",
+  "rarete": "peu_commun",
+  "niveau": 12,
+  "boutique": false,
+  "description": "Plan de forge : Écharpe du Héros de Brumerive. Brodée « Au héros de Brumerive » par le bourgmestre, qui en a commandé une pour lui aussi. Par précaution.",
+  "recette": {
+    "nom": "Écharpe du Héros de Brumerive",
+    "type": "cape",
+    "ressources": {
+      "soie_de_la_mere_toile": 1,
+      "sac_de_rapine": 2,
+      "gnole_de_raid": 2,
+      "medaille_en_chocolat": 1
+    }
+  }
+}

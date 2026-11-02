@@ -1,0 +1,19 @@
+{
+  "id": "plan_cape_de_vampipistrelle",
+  "nom": "Plan : Cape de vampipistrelle",
+  "type": "recette",
+  "rarete": "peu_commun",
+  "niveau": 5,
+  "boutique": false,
+  "description": "Plan de forge : Cape de vampipistrelle. Cousue d'ailes. On ne vole pas avec, mais on a l'air de pouvoir.",
+  "recette": {
+    "nom": "Cape de vampipistrelle",
+    "type": "cape",
+    "ressources": {
+      "poil_scintillant": 1,
+      "ecorce_vivante": 2,
+      "caillou_de_fronde": 2,
+      "peau_de_loup": 1
+    }
+  }
+}

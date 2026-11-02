@@ -1,0 +1,18 @@
+{
+  "id": "plan_amulette_croc",
+  "nom": "Plan : Amulette-croc",
+  "type": "recette",
+  "rarete": "rare",
+  "niveau": 2,
+  "boutique": true,
+  "description": "Plan de forge : Amulette-croc. Un croc de loup au bout d'une ficelle. Très à la mode chez les bergers.",
+  "recette": {
+    "nom": "Amulette-croc",
+    "type": "amulette",
+    "ressources": {
+      "minerai_de_cuivre": 1,
+      "carapace_de_grouilleur": 3,
+      "croc_de_loup": 2
+    }
+  }
+}

@@ -25,9 +25,9 @@ signal tier_reached(tier_name: String)
 signal shop_opened(event: Dictionary)
 ## Résultat d'un achat ou d'une vente : EVT_TRADE, ou EVT_REFUSED.
 signal trade_result(event: Dictionary)
-## Le joueur parle à un artisan : événement EVT_WORKSHOP.
-signal workshop_opened(event: Dictionary)
-## Résultat d'une fabrication : EVT_CRAFTED, ou EVT_REFUSED.
+## Le joueur utilise l'enclume : événement EVT_ANVIL.
+signal anvil_opened(event: Dictionary)
+## Résultat d'une forge : EVT_CRAFTED, ou EVT_REFUSED.
 signal craft_result(event: Dictionary)
 ## Message court pour le joueur (récolte impossible, niveau de métier…).
 signal notice(text: String)
@@ -280,6 +280,7 @@ var _discovered_passage := ""
 # Dialogue en cours avec un PNJ : { nom, repliques, index, case }, ou {}.
 var _dialogue: Dictionary = {}
 var _bubble: PanelContainer
+var _bubble_accept: Button
 var _bubble_name: Label
 var _bubble_text: Label
 ## Cases de sortie praticables de la carte, par direction (voir `GameMap.exit_cells`).
@@ -731,7 +732,7 @@ func _can_interrupt_walk() -> bool:
 	if world.in_combat() or world.map != _map:
 		return false
 	for event in _queue:
-		if event["type"] not in [Protocol.EVT_DIALOGUE, Protocol.EVT_SHOP, Protocol.EVT_WORKSHOP, Protocol.EVT_QUEST_OFFER, Protocol.EVT_QUESTS]:
+		if event["type"] not in [Protocol.EVT_DIALOGUE, Protocol.EVT_SHOP, Protocol.EVT_QUEST_OFFER, Protocol.EVT_QUESTS]:
 			return false
 	return true
 
@@ -823,13 +824,15 @@ func _describe(cell: Vector2i) -> String:
 		var furniture: String = _map.obstacles.get(cell, "")
 		if furniture == "coffre":
 			return "Coffre (cliquer pour l'ouvrir)"
+		if furniture == "enclume":
+			return "Enclume (cliquer pour forger)"
 		if furniture == "lit":
 			return "Lit (cliquer pour dormir : PV au maximum)"
 		if furniture == GameMap.TRAVEL_STONE:
 			return "Pierre de Passage (cliquer pour voyager)"
 		var npc := _map.npc_at(cell)
 		if not npc.is_empty():
-			var action: String = "commercer" if npc.get("marchand", false) else "fabriquer" if not str(npc.get("atelier", "")).is_empty() else "parler"
+			var action: String = "commercer" if npc.get("marchand", false) else "parler"
 			return "%s (cliquer pour %s)" % [npc["nom"], action]
 		var node: Dictionary = world.resource_node(cell) if world.map == _map else {}
 		if not node.is_empty():
@@ -1399,8 +1402,8 @@ func _apply(event: Dictionary) -> float:
 	if type == Protocol.EVT_TRADE:
 		trade_result.emit(event)
 		return 0.0
-	if type == Protocol.EVT_WORKSHOP:
-		workshop_opened.emit(event)
+	if type == Protocol.EVT_ANVIL:
+		anvil_opened.emit(event)
 		return 0.0
 	if type == Protocol.EVT_CRAFTED:
 		craft_result.emit(event)
@@ -1496,7 +1499,7 @@ func _apply(event: Dictionary) -> float:
 	if type == Protocol.EVT_REFUSED:
 		if event["commande"] == Protocol.CMD_BUY or event["commande"] == Protocol.CMD_SELL:
 			trade_result.emit(event)
-		if event["commande"] == Protocol.CMD_CRAFT:
+		if event["commande"] == Protocol.CMD_FORGE:
 			craft_result.emit(event)
 		if event["commande"] == Protocol.CMD_DEPOSIT or event["commande"] == Protocol.CMD_WITHDRAW:
 			chest_refused.emit(event)
@@ -2562,12 +2565,18 @@ func _build_bubble() -> void:
 	for label: Label in [_bubble_name, _bubble_text, hint]:
 		label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		box.add_child(label)
+	# Explication proposée à la fin (forgerons) : un clic ailleurs la refuse.
+	_bubble_accept = Button.new()
+	_bubble_accept.text = "Oui, expliquez-moi"
+	_bubble_accept.pressed.connect(func() -> void: _open_dialogue({"nom": _dialogue["nom"], "repliques": _dialogue["explication"], "case": _dialogue["case"]}))
+	box.add_child(_bubble_accept)
 	_bubble.visible = false
 	add_child(_bubble)
 
 
 func _open_dialogue(event: Dictionary) -> void:
-	_dialogue = {"nom": event["nom"], "repliques": event["repliques"], "index": 0, "case": event["case"]}
+	_dialogue = {"nom": event["nom"], "repliques": event["repliques"], "index": 0, "case": event["case"],
+		"explication": event.get("explication", [])}
 	_show_dialogue_line()
 
 
@@ -2582,6 +2591,7 @@ func _next_dialogue_line() -> void:
 func _show_dialogue_line() -> void:
 	_bubble_name.text = _dialogue["nom"]
 	_bubble_text.text = _dialogue["repliques"][_dialogue["index"]]
+	_bubble_accept.visible = not _dialogue["explication"].is_empty() and _dialogue["index"] == _dialogue["repliques"].size() - 1
 	_bubble.visible = true
 	_bubble.reset_size()
 	var bubble_size := _bubble.get_combined_minimum_size()

@@ -51,7 +51,7 @@
     "ecus": 165,
     "objets": [
       {
-        "objet": "carte_du_syndicat",
+        "objet": "plan_carte_du_syndicat",
         "nombre": 1
       }
     ]

@@ -1,0 +1,19 @@
+{
+  "id": "plan_broche_de_la_lisiere",
+  "nom": "Plan : Broche de la Lisière",
+  "type": "recette",
+  "rarete": "peu_commun",
+  "niveau": 12,
+  "boutique": false,
+  "description": "Plan de forge : Broche de la Lisière. Remise aux observateurs du conseil elfe. On ne l'a remise qu'une fois en trois siècles : à vous.",
+  "recette": {
+    "nom": "Broche de la Lisière",
+    "type": "amulette",
+    "ressources": {
+      "minerai_d_etain": 1,
+      "medaille_en_chocolat": 2,
+      "sifflet_de_contremaitre": 2,
+      "crochet_d_araignee": 1
+    }
+  }
+}

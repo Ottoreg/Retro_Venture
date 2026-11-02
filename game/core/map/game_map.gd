@@ -14,6 +14,7 @@ extends RefCounted
 const LEGEND := {
 	".": "", "@": "", "A": "arbre", "M": "mur", "R": "rocher", "E": "eau",
 	"+": "", "$": "coffre", "=": "lit", ":": "", "#": "bloc", "*": "pierre_passage",
+	"&": "enclume",
 }
 ## Sol dessiné autrement que le sol de la carte (praticable) : caractère du plan → type.
 const GROUND_KINDS := {":": "chemin"}
@@ -26,7 +27,7 @@ const NO_CELL := Vector2i(-99999, -99999)
 ## Porte : case praticable qui mène à une autre carte (liste `portes`, dans l'ordre du plan).
 const DOOR_CHAR := "+"
 ## Meubles avec lesquels on interagit depuis une case voisine.
-const FURNITURE := ["coffre", "lit", "pierre_passage"]
+const FURNITURE := ["coffre", "lit", "pierre_passage", "enclume"]
 ## Pierre de Passage : on y voyage d'une zone à l'autre (voir `data/passages/`).
 const TRAVEL_STONE := "pierre_passage"
 ## Sols possibles (dessin).
@@ -73,7 +74,8 @@ var resource_nodes: Dictionary = {}
 ## fois ce boss vaincu (variantes corrompues d'une zone de départ, voir `World.defeated_bosses`).
 ## Dans le monde, un groupe a aussi son `foyer` (sa case d'origine) et peut s'en éloigner un peu.
 var groups: Array[Dictionary] = []
-## PNJ : { id: String, nom: String, case: Vector2i, repliques: Array (textes) }.
+## PNJ : { id: String, nom: String, case: Vector2i, repliques: Array (textes), marchand: bool, explication: Array
+## (textes proposés à la fin du dialogue, comme la forge expliquée par les forgerons) }.
 var npcs: Array[Dictionary] = []
 ## Cartes voisines : direction (« haut », « bas », « gauche », « droite ») → id de carte.
 var exits: Dictionary = {}
@@ -203,8 +205,8 @@ static func validate(data: Dictionary) -> PackedStringArray:
 				npc_markers[marker] = 0
 			if typeof(npc.get("id")) != TYPE_STRING or str(npc.get("id")).is_empty() or typeof(npc.get("nom")) != TYPE_STRING:
 				errors.append("PNJ %s : « id » et « nom » doivent être des textes" % str(marker))
-			if typeof(npc.get("atelier", "")) != TYPE_STRING:
-				errors.append("PNJ %s : « atelier » doit être un id de métier" % str(marker))
+			if typeof(npc.get("explication", [])) != TYPE_ARRAY or npc.get("explication", []).any(func(line: Variant) -> bool: return typeof(line) != TYPE_STRING):
+				errors.append("PNJ %s : « explication » doit être une liste de textes" % str(marker))
 			if typeof(npc.get("marchand", false)) != TYPE_BOOL:
 				errors.append("PNJ %s : « marchand » doit valoir true ou false" % str(marker))
 			var lines: Variant = npc.get("repliques")
@@ -358,7 +360,7 @@ static func from_dict(data: Dictionary) -> GameMap:
 			elif _is_npc_char(character):
 				var npc: Dictionary = npcs_by_marker[character]
 				map.npcs.append({"id": npc["id"], "nom": npc["nom"], "case": cell, "repliques": npc["repliques"].duplicate(),
-					"marchand": npc.get("marchand", false), "atelier": npc.get("atelier", "")})
+					"marchand": npc.get("marchand", false), "explication": npc.get("explication", []).duplicate()})
 			elif Profession.is_node_char(character):
 				map.resource_nodes[cell] = character
 				map.obstacles[cell] = RESOURCE_OBSTACLE

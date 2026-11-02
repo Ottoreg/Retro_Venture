@@ -3,6 +3,7 @@
   "nom": "Invitation au bal",
   "type": "ressource",
   "rarete": "peu_commun",
-  "niveau": 1,
-  "description": "« Bal du Souverain, minuit. Tenue cendrée exigée. Les citrouilles ne sont pas admises. »"
+  "niveau": 25,
+  "description": "« Bal du Souverain, minuit. Tenue cendrée exigée. Les citrouilles ne sont pas admises. »",
+  "caracteristique": "agilite"
 }

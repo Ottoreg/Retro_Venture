@@ -206,8 +206,9 @@ func _default_theme_after_apply() -> Theme:
 ## pertes en rouge), ou à un emplacement libre.
 func test_infobulle_objet_comparee_a_l_equipement() -> void:
 	var data := GameData.load_all()
-	var inventory := Inventory.new()
-	var worn := inventory.add(data.items["bottes_de_marche"], 1, {"agilite": 3, "initiative": 10})
+	var character := Character.create("Testeur", "humain", "guerrier")
+	var inventory := character.inventory
+	var worn := inventory.add(data.items["bottes_presse"], 1, {"agilite": 3, "initiative": 10})
 	var bag := inventory.add(data.items["bottes_courant_d_air"], 1, {"agilite": 5, "initiative": 10})
 	var sheet := _sheet_entry(data, inventory, bag)
 	var free := ItemTooltipList.comparison_lines(sheet, data, inventory)
@@ -223,16 +224,16 @@ func test_infobulle_objet_comparee_a_l_equipement() -> void:
 	var loss := ItemTooltipList.comparison_lines(_sheet_entry(data, inventory, worn), data, inventory)
 	assert_true(loss.has("[color=#%s]-2 Agilité[/color]" % ItemTooltipList.LOSS.to_html(false)), "\n".join(loss))
 	# Article de marchand : la plage de ses bonus, moins l'objet porté.
-	var article := {"objet": "bottes_de_marche", "nom": "Bottes de marche", "type": "bottes", "rarete": "commun", "niveau": 1,
-		"bonus": data.items["bottes_de_marche"]["bonus"]}
-	var text := ItemTooltipList.tooltip_text_for(article, data, inventory)
-	assert_true(text.contains("-4 à -2 Agilité"), text)
-	assert_true(text.contains("-5 à +5 Initiative"), text)
+	var article := {"objet": "bottes_presse", "nom": "Bottes du Pressé", "type": "bottes", "rarete": "commun", "niveau": 3,
+		"bonus": data.items["bottes_presse"]["bonus"]}
+	var text := ItemTooltipList.tooltip_text_for(article, data, character)
+	assert_true(text.contains("-3 à -1 Agilité"), text)
+	assert_true(text.contains("+5 à +15 Initiative"), text)
 	# Arme : dégâts moyens comparés.
-	var bow := inventory.add(data.items["arc_de_frene"], 1, {"agilite": 3})
-	inventory.equip(inventory.add(data.items["baton_de_novice"], 1, {"intelligence": 3}), "arme")
+	var bow := inventory.add(data.items["arc_coup_de_vent"], 1, {"agilite": 3})
+	inventory.equip(inventory.add(data.items["baton_yeti_frileux"], 1, {"intelligence": 3}), "arme")
 	var weapon := "\n".join(ItemTooltipList.comparison_lines(_sheet_entry(data, inventory, bow), data, inventory))
-	assert_true(weapon.contains("+1 dégâts moyens") or weapon.contains("+1,0 dégâts moyens"), weapon)
+	assert_true(weapon.contains("+2,5 dégâts moyens"), weapon)
 
 
 ## La liste du sac de l'inventaire fait son infobulle en texte riche, au thème des infobulles.
@@ -242,7 +243,7 @@ func test_infobulle_objet_en_texte_riche() -> void:
 	tree.root.add_child(scene)
 	var window: InventoryWindow = scene.get_node("InventoryWindow")
 	var view: MapView = scene.get_node("MapView")
-	view.server.character.inventory.add(view.server.data.items["epee_de_fer"], 1, {})
+	view.server.character.inventory.add(view.server.data.items["marteau_enclume_rancuniere"], 1, {})
 	view.refresh_state()
 	window.toggle()
 	assert_true(window._list.item_count > 0, "un objet dans le sac")
@@ -382,7 +383,7 @@ func test_fenetres_a_taille_fixe() -> void:
 	var long_text := sentence.repeat(20)
 	var windows := {  # Fenêtre : [textes défilants], [titres et messages].
 		"ShopWindow": [["_greeting", "_details"], ["_title", "_message"]],
-		"CraftWindow": [["_greeting", "_details"], ["_title", "_message"]],
+		"ForgeWindow": [["_preview"], ["_message"]],
 		"InventoryWindow": [["_details"], []],
 		"SpellsWindow": [["_details"], ["_title", "_mastery_label"]],
 		"ChestWindow": [[], ["_message"]],

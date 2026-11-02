@@ -9,7 +9,8 @@ const SLOTS := ["arme", "coiffe", "cape", "amulette", "anneau_1", "anneau_2", "c
 ## anneaux). Visibles dans l'inventaire ; pas encore équipables (aucune Relique dans le jeu).
 const RELIC_SLOT_COUNT := 8
 
-## uid → { uid, objet (id du modèle), quantite, jets: { caractéristique: valeur } }
+## uid → { uid, objet (id du modèle), quantite, jets: { caractéristique: valeur } } ; un objet forgé a en
+## plus `forge` : { nom, artisan, palier, bonus } (voir `Item.entry_template`).
 var entries: Dictionary = {}
 ## emplacement → uid
 var equipped: Dictionary = {}
@@ -45,8 +46,8 @@ func quantity_of(item_id: String) -> int:
 
 
 ## Ajoute un objet ; renvoie son uid, ou "" si l'inventaire est plein (sauf avec `overflow` : le
-## butin de combat entre toujours, en surplus).
-func add(template: Dictionary, quantity := 1, rolled := {}, overflow := false) -> String:
+## butin de combat entre toujours, en surplus). `forged` : description d'un objet forgé.
+func add(template: Dictionary, quantity := 1, rolled := {}, overflow := false, forged := {}) -> String:
 	var item_id: String = template["id"]
 	if not Item.is_equipment(template):
 		if entries.has(item_id):
@@ -61,6 +62,8 @@ func add(template: Dictionary, quantity := 1, rolled := {}, overflow := false) -
 	var uid := "o%d" % _next_uid
 	_next_uid += 1
 	entries[uid] = {"uid": uid, "objet": item_id, "quantite": 1, "jets": rolled.duplicate()}
+	if not forged.is_empty():
+		entries[uid]["forge"] = forged.duplicate(true)
 	return uid
 
 
@@ -134,6 +137,8 @@ static func from_dict(data: Dictionary, known_items: Dictionary) -> Inventory:
 					var key: String = RENAMED_STATS.get(str(stat), str(stat))
 					jets[key] = int(jets.get(key, 0)) + int(entry["jets"][stat])
 			inventory.entries[entry["uid"]] = {"uid": entry["uid"], "objet": entry["objet"], "quantite": maxi(1, int(entry.get("quantite", 1))), "jets": jets}
+			if typeof(entry.get("forge")) == TYPE_DICTIONARY:
+				inventory.entries[entry["uid"]]["forge"] = entry["forge"].duplicate(true)
 	var saved_equipment: Variant = data.get("equipement", {})
 	if typeof(saved_equipment) == TYPE_DICTIONARY:
 		for slot: Variant in saved_equipment:

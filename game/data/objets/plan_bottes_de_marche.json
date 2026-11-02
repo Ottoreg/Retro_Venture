@@ -1,0 +1,17 @@
+{
+  "id": "plan_bottes_de_marche",
+  "nom": "Plan : Bottes de marche",
+  "type": "recette",
+  "rarete": "peu_commun",
+  "niveau": 2,
+  "boutique": false,
+  "description": "Plan de forge : Bottes de marche. Usées par mille chemins, dont une bonne moitié de raccourcis ratés.",
+  "recette": {
+    "nom": "Bottes de marche",
+    "type": "bottes",
+    "ressources": {
+      "peau_de_loup": 3,
+      "dent_de_rat": 3
+    }
+  }
+}

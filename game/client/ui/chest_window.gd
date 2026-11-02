@@ -92,7 +92,7 @@ func _fill(list: ItemList, entries: Array, chest_side: bool) -> bool:
 		var index := list.add_item(label, InventoryWindow.item_icon(entry["objet"]))
 		list.set_item_custom_fg_color(index, Color(0.5, 0.5, 0.5) if worn else InventoryWindow.rarity_color(entry["rarete"]))
 		list.set_item_metadata(index, entry["uid"])
-		list.set_item_tooltip(index, ItemTooltipList.tooltip_text_for(entry, map_view.world.data, map_view.world.character.inventory))
+		list.set_item_tooltip(index, ItemTooltipList.tooltip_text_for(entry, map_view.world.data, map_view.world.character))
 		if entry["uid"] == _selected and _from_chest == chest_side:
 			list.select(index)
 			found = true

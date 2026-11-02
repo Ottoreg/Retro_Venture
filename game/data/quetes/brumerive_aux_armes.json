@@ -56,7 +56,7 @@
     "ecus": 55,
     "objets": [
       {
-        "objet": "bottes_de_marche",
+        "objet": "plan_bottes_de_marche",
         "nombre": 1
       }
     ]

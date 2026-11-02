@@ -1,0 +1,19 @@
+{
+  "id": "plan_dague_du_mauvais_oeil",
+  "nom": "Plan : Dague du Mauvais Œil",
+  "type": "recette",
+  "rarete": "rare",
+  "niveau": 4,
+  "boutique": true,
+  "description": "Plan de forge : Dague du Mauvais Œil. L'œil sur la garde vous regarde. Il vous juge. Il a raison.",
+  "recette": {
+    "nom": "Dague du Mauvais Œil",
+    "type": "dague",
+    "ressources": {
+      "minerai_de_fer": 1,
+      "bois_de_chene": 1,
+      "ecorce_vivante": 2,
+      "caillou_de_fronde": 2
+    }
+  }
+}
