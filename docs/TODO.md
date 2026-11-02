@@ -638,8 +638,8 @@ classes (option écartée et compromis gardés en piste, GDD § 5.2).
 - [ ] Archimonstres (variantes rares nommées)
 - [ ] Essences (GDD § 9.2) : détruire un objet donne l'essence d'une de ses statistiques au hasard,
   qui sert à essayer d'améliorer un autre objet (puits d'équipement ; remplace les runes de forgemagie)
-  ; greffe de la valeur exacte en un essai, chance affichée, trois cicatrices par objet, essence
-  signée, utilisable aussi en fabrication
+  ; greffe de la valeur exacte en un essai, chance affichée, trois cicatrices par objet, historique
+  des greffes sur la fiche (sans objet de provenance ni artisan), essence utilisable aussi en fabrication
 
 ### Métiers
 - [x] Conception des onze métiers (GDD § 10.3) : récolte (mineur, bûcheron, agriculteur, herboriste,

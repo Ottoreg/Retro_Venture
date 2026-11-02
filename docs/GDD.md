@@ -1347,9 +1347,10 @@ tour ») : la difficulté vient uniquement des **monstres renforcés**.
     ne fait **jamais baisser les autres lignes** (pilier « aucune mécanique cachée ») ;
   - **nombre fixe de greffes par objet** (par exemple **trois cicatrices**, visibles sur la fiche) au
     lieu d'une amélioration sans fin : l'objet a un état final, et un objet vierge garde sa valeur ;
-  - **l'essence garde son histoire** : « essence de Force du Bonnet fulgurant, fait main par
-    Krogma » ; la greffe s'inscrit sur la fiche de l'objet (§ 1 : chaque objet a une histoire).
-    Parodie : recycleur gobelin syndiqué, certificat d'origine ;
+  - **l'objet garde l'historique de ses greffes** (décision de l'auteur du 02/11/2026) : sa fiche
+    liste les modifications reçues (« greffe : Force 9 → 14 »), mais **ni le nom de l'objet de
+    provenance ni celui de l'artisan** ; l'essence elle-même ne porte que sa statistique, sa
+    valeur et son palier. Parodie possible : recycleur gobelin syndiqué ;
   - **l'essence sert aussi à fabriquer** : dans un objet personnalisé (§ 10.4), elle remplace une
     partie des ressources de sa statistique. Briser, fabriquer et améliorer forment un **seul
     circuit**, pas des métiers séparés ;
