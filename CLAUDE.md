@@ -83,7 +83,8 @@ Phase 2 (alpha solo), en deux tests :
   menace des monstres affichée (`MapView.threat_line`) ; plafond 300 par caractéristique, plus de bonus
   de caractéristiques de race ni d'équipement de départ (demande de l'auteur). **Lot 4 (métiers) fait le
   02/11/2026** : réputation, points et compétences par métier (`Character.jobs`, `Profession.SKILLS`,
-  `Profession.reputation_gain`), récolte ouverte, `maitriser` avec `metier`/`competence`, protocole v11.
+  `Profession.reputation_gain`), récolte ouverte, `maitriser` avec `metier`/`competence` ;
+  temps de récolte selon le palier (`Profession.harvest_time`, fini par `World.update`), protocole v12.
   Prochain : lot 5 (quêtes et maîtres).
 
 État des chantiers :

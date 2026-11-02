@@ -584,6 +584,10 @@ func test_recolte_et_repousse() -> void:
 	assert_true(view._describe(ash).begins_with("Frêne"), view._describe(ash))
 	view._on_click(ash)
 	_run_until_idle(view)
+	assert_false(view._harvest_bar.is_empty(), "barre de récolte")
+	view.advance(Profession.harvest_time(1))
+	_run_until_idle(view)
+	assert_true(view._harvest_bar.is_empty(), "récolte finie")
 	var inventory := view.server.character.inventory
 	assert_true(inventory.quantity_of("bois_de_frene") > 0, "bois récolté")
 	assert_true(GameMap.is_adjacent(view.server.position_of(World.PLAYER_ID), ash), "à côté de l'arbre")

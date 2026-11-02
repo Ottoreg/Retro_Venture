@@ -321,7 +321,8 @@ le **lit** de votre maison les rend tous d'un coup.
   **cachées** : c'est en forgeant qu'on apprend à les lire. Les **plans** (récompenses de quêtes, ou
   vendus par les marchands) disent tout d'avance.
 - **Métiers** : bûcheron et mineur (5 ressources chacun, de plus en plus rares), forgeron (la forge
-  ci-dessus). Pas de niveau : tout se récolte dès le début, et chaque récolte ou objet forgé donne
+  ci-dessus). Pas de niveau : tout se récolte dès le début (une récolte prend de 2 à 7 secondes,
+  plus pour une ressource rare ; bouger l'interrompt), et chaque récolte ou objet forgé donne
   de la **réputation de métier**, d'autant plus que la ressource est rare pour vous. Tous les 500, un
   point de maîtrise à placer (touche J) dans les compétences : Abondance et Œil exercé en récolte,
   Précision (jets plus hauts) à la forge. **Récolte rare** : 1 fois sur 100 au départ, une ressource

@@ -9,7 +9,7 @@ extends RefCounted
 
 ## Version du protocole, vérifiée à la connexion : à augmenter à chaque changement incompatible
 ## d'une commande ou d'un événement.
-const VERSION := 11
+const VERSION := 12
 
 # --- Commandes (client → noyau) ---
 
@@ -147,6 +147,9 @@ const EVT_SHOP := "boutique"
 ## Achat ou vente effectué. { type, operation: « achat » ou « vente », objet: String (id du modèle),
 ## nom: String, quantite: int, prix: int (total), ecus: int (brumes restantes) }
 const EVT_TRADE := "commerce"
+## Récolte commencée : elle finit (EVT_HARVESTED) au bout de `duree` secondes (`Profession.harvest_time`),
+## sauf si le joueur s'en va d'ici là. { type, entite: String, case: Vector2i, duree: float }
+const EVT_HARVEST_STARTED := "debut_recolte"
 ## Ressource récoltée. { type, entite: String, case: Vector2i, ressource: String (nom), objet: String,
 ## nom: String, quantite: int, metier: String }
 ## `rare` : vrai si c'est la ressource rare du nœud (1 exemplaire, voir `Profession.RARE_CHANCE`).

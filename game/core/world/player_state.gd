@@ -22,6 +22,8 @@ var cell: Vector2i:
 var last_walk: Array[Vector2i] = []
 ## Assis : régénération plus rapide ; pas sauvegardé, on recharge debout.
 var sitting := false
+## Récolte en cours : { case, fin (heure du monde) }, vide sinon ; finie par `World.update`.
+var harvesting: Dictionary = {}
 ## Temps accumulé pour la régénération des PV hors combat.
 var regen_time := 0.0
 ## Combat en cours, ou `null` en exploration.

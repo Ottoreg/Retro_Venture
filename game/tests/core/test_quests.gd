@@ -206,6 +206,7 @@ func test_proposition_acceptation_et_tutoriel_complet() -> void:
 	var path: Array[Vector2i] = _maps["a"].approach_path(_world.position_of(World.PLAYER_ID), tree)
 	_command(Protocol.CMD_MOVE, {"cible": path[-1]})
 	_command(Protocol.CMD_HARVEST, {"case": tree})
+	_world.update(Profession.harvest_time(1))
 	assert_eq(_counters("tuto"), [2, 0])
 	path = _maps["a"].approach_path(_world.position_of(World.PLAYER_ID), GameMap.plan_cell(8, 8))
 	_command(Protocol.CMD_MOVE, {"cible": path[-1]})

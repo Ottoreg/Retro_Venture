@@ -1898,6 +1898,10 @@ func update(delta: float) -> Array[Dictionary]:
 	var events: Array[Dictionary] = []
 	for p: PlayerState in players.values():
 		_regenerate(p, delta, events)
+		if not p.harvesting.is_empty() and p.in_combat():
+			p.harvesting = {}  # Attaqué par un groupe qui se promène.
+		elif not p.harvesting.is_empty() and p.harvesting["fin"] <= clock:
+			_finish_harvest(p, events)
 	_respawn_groups(events)
 	_update_elites(events)
 	_wander_groups(events)
@@ -2175,14 +2179,14 @@ func _sit(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
 	return events
 
 
-## Un joueur assis se relève avant de marcher, de changer de carte ou d'entrer en combat.
+## Un joueur qui marche, change de carte ou entre en combat se relève et laisse sa récolte en cours.
 func _stand_up_if_leaving(p: PlayerState, events: Array[Dictionary]) -> void:
-	if not p.sitting:
-		return
 	for event in events:
 		if event["type"] in [Protocol.EVT_MOVED, Protocol.EVT_MAP_CHANGED, Protocol.EVT_COMBAT_STARTED]:
-			p.sitting = false
-			events.push_front(_sat_event(p))
+			p.harvesting = {}
+			if p.sitting:
+				p.sitting = false
+				events.push_front(_sat_event(p))
 			return
 
 
@@ -2268,6 +2272,28 @@ func _harvest(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
 		return _refused(command, reason)
 	if not GameMap.is_adjacent(p.cell, cell):
 		return _refused(command, Protocol.REASON_TOO_FAR)
+	var node := _resource_node(p.instance, cell)
+	p.harvesting = {"case": cell, "fin": clock + Profession.harvest_time(int(node.get("niveau", 1)))}
+	var events: Array[Dictionary] = [{"type": Protocol.EVT_HARVEST_STARTED, "entite": p.id, "case": cell,
+		"duree": p.harvesting["fin"] - clock}]
+	return events
+
+
+## Fin d'une récolte commencée (`_harvest`) : la ressource, si personne ne l'a prise entre-temps.
+## Les événements du joueur lui sont adressés (FIELD_FOR) : ils viennent de `update`.
+func _finish_harvest(p: PlayerState, events: Array[Dictionary]) -> void:
+	var cell: Vector2i = p.harvesting["case"]
+	p.harvesting = {}
+	var reason := _harvest_refusal(p, cell)
+	var own: Array[Dictionary] = _refused({"type": Protocol.CMD_HARVEST}, reason) if not reason.is_empty() else _harvested(p, cell)
+	p.quest_book.observe(own)
+	for event in own:
+		if Protocol.scope_of(event) != Protocol.SCOPE_MAP:
+			event[Protocol.FIELD_FOR] = p.id
+	events.append_array(own)
+
+
+func _harvested(p: PlayerState, cell: Vector2i) -> Array[Dictionary]:
 	var node := _resource_node(p.instance, cell)
 	var template: Dictionary = data.items[node["objet"]]
 	var amount: Array = node.get("quantite", [1, 1])

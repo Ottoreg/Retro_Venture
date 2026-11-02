@@ -13,6 +13,9 @@ const APPEARANCES := ["arbre", "rocher"]
 ## Chance qu'une récolte donne la ressource rare du nœud (`rare`) à la place de la ressource de base :
 ## un seul exemplaire, pour les recettes améliorées.
 const RARE_CHANCE := 0.01
+## Durée d'une récolte en secondes : base + par palier de la ressource (palier 1 : 1,75 s, 22 : 7 s).
+const HARVEST_BASE_TIME := 1.5
+const HARVEST_TIME_PER_TIER := 0.25
 ## Compétences par type de métier : id → [nom, effet par rang (texte : %s = valeur), valeur par rang].
 const SKILLS := {
 	TYPE_HARVEST: {
@@ -23,6 +26,10 @@ const SKILLS := {
 		"precision": ["Précision", "+%s %% au plancher des jets (75 %% du maximum au départ)", 5],
 	},
 }
+
+
+static func harvest_time(tier: int) -> float:
+	return HARVEST_BASE_TIME + HARVEST_TIME_PER_TIER * tier
 
 
 ## Compétences d'un métier de ce type.

@@ -1474,6 +1474,11 @@ sa mesure, × 3 au plus, × 0,2 au moins) ; +10 % pour les Humains. Compétences
 de plus) et **Œil exercé** (+0,5 % par rang de chances de ressource rare) ; forge **Précision** (+5 %
 par rang au plancher des jets, 100 % au rang 5). Protocole v11. Pas encore de « nouvelle activité »
 par palier : tous les métiers sont ouverts, à revoir avec les maîtres de métier (lot 5).
+**Temps de récolte** (demande de l'auteur, 02/11/2026) : une récolte dure 1,5 s + 0,25 s par palier de
+la ressource (`Profession.harvest_time` : 1,75 s au palier 1, 7 s au palier 22), avec une barre
+au-dessus du joueur ; marcher, changer de carte ou entrer en combat l'interrompt (rien n'est perdu).
+Le serveur la finit dans `World.update` (`PlayerState.harvesting`, événement `debut_recolte`,
+protocole v12).
 
 **Alpha 1 (avant le lot 4)** :
 

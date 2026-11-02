@@ -263,6 +263,8 @@ var _reply_handlers: Array[Callable] = []
 var _planned: Array[Dictionary] = []
 ## Temps écoulé (respiration des personnages).
 var _time := 0.0
+## Récolte en cours du joueur : { fin, duree, pos (où il se tenait) } ; la barre disparaît s'il bouge.
+var _harvest_bar: Dictionary = {}
 ## Commande à envoyer quand la marche en cours se termine (attaque d'un groupe, changement de carte).
 var _arrival_command: Dictionary = {}
 ## Textes flottants : { text, color, pos (Vector2 grille), age, life } (`life` : durée de vie).
@@ -1083,10 +1085,14 @@ func advance(delta: float) -> void:
 	if world != null:
 		var pushed := connection.update(delta)
 		var fight := false
+		var harvested := false  # Fin d'une récolte : ses événements se jouent comme ceux d'une commande.
 		for event in pushed:
 			fight = fight or _is_fight_event(event)  # Décidé avant de jouer : le combat peut finir en route.
+			harvested = harvested or event["type"] == Protocol.EVT_HARVESTED and event["entite"] == world.player_id \
+				or event["type"] == Protocol.EVT_REFUSED and event["commande"] == Protocol.CMD_HARVEST
 		for event in pushed:
-			if fight and Protocol.scope_of(event) != Protocol.SCOPE_MAP and event["type"] not in Protocol.SELF_APPLIED_EVENTS:
+			var own := Protocol.scope_of(event) != Protocol.SCOPE_MAP
+			if (fight and own or harvested and (own or event.get("entite") == world.player_id)) and event["type"] not in Protocol.SELF_APPLIED_EVENTS:
 				_queue_pushed(event)
 			else:
 				_apply_world_change(event)
@@ -1405,11 +1411,16 @@ func _apply(event: Dictionary) -> float:
 	if type == Protocol.EVT_CRAFTED:
 		craft_result.emit(event)
 		return 0.0
-	if type == Protocol.EVT_HARVESTED:
+	if type == Protocol.EVT_HARVEST_STARTED:
 		var player: Dictionary = _actors[world.player_id]
 		var toward: float = IsoGrid.cell_to_screen(event["case"]).x - IsoGrid.grid_to_screen(player["pos"]).x
 		if absf(toward) > 0.5:
 			player["facing"] = signf(toward)
+		_harvest_bar = {"fin": _time + float(event["duree"]), "duree": float(event["duree"]), "pos": player["pos"]}
+		return 0.0
+	if type == Protocol.EVT_HARVESTED:
+		var player: Dictionary = _actors[world.player_id]
+		_harvest_bar = {}
 		if event.get("rare", false):
 			_add_floating("Rare ! +1 %s" % event["nom"], Color(1.0, 0.82, 0.3), player["pos"])
 		else:
@@ -1494,6 +1505,8 @@ func _apply(event: Dictionary) -> float:
 		inventory_changed.emit()
 		return 0.0
 	if type == Protocol.EVT_REFUSED:
+		if event["commande"] == Protocol.CMD_HARVEST:
+			_harvest_bar = {}
 		if event["commande"] == Protocol.CMD_BUY or event["commande"] == Protocol.CMD_SELL:
 			trade_result.emit(event)
 		if event["commande"] == Protocol.CMD_FORGE:
@@ -1974,7 +1987,20 @@ func _draw() -> void:
 			for fight: Dictionary in world.fights():
 				_draw_fight_swords(fight)  # Par-dessus le décor : jamais cachées derrière un arbre.
 	_draw_spell_preview(90.0)
+	_draw_harvest_bar()
 	_draw_floating_texts()
+
+
+## Barre de la récolte en cours, au-dessus du joueur, tant qu'il n'a pas bougé.
+func _draw_harvest_bar() -> void:
+	var player: Dictionary = _actors.get(world.player_id, {})
+	if _harvest_bar.is_empty() or mode != Mode.EXPLORATION or player.get("pos") != _harvest_bar["pos"] or _time >= _harvest_bar["fin"]:
+		return
+	var bar := Rect2(IsoGrid.grid_to_screen(player["pos"]) + Vector2(-25, -110), Vector2(50, 6))
+	draw_rect(bar, Color(0, 0, 0, 0.7))
+	draw_rect(Rect2(bar.position, Vector2(bar.size.x * (1.0 - (_harvest_bar["fin"] - _time) / _harvest_bar["duree"]), bar.size.y)),
+		Color(0.6, 0.95, 0.5))
+	queue_redraw()
 
 
 func _draw_floating_texts() -> void:

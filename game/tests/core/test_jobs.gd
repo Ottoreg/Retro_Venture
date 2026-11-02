@@ -47,6 +47,14 @@ func _go_next_to(cell: Vector2i) -> void:
 	assert_true(GameMap.is_adjacent(_world.position_of(World.PLAYER_ID), cell), "à côté de %s" % cell)
 
 
+## Récolte complète : la commande, puis le temps de récolte (les événements de la fin).
+func _harvest(cell: Vector2i) -> Array[Dictionary]:
+	var started := _command(Protocol.CMD_HARVEST, {"case": cell})
+	assert_eq(started[0]["type"], Protocol.EVT_HARVEST_STARTED)
+	assert_eq(started[0]["duree"], Profession.harvest_time(int(_world.resource_node(cell).get("niveau", 1))))
+	return _world.update(started[0]["duree"])
+
+
 func _assert_refused(events: Array[Dictionary], reason: String, message := "") -> void:
 	assert_eq(events.size(), 1, message)
 	assert_eq(events[0]["type"], Protocol.EVT_REFUSED, message)
@@ -73,7 +81,7 @@ func test_recolter() -> void:
 	var tree := Fixtures.center()
 	_assert_refused(_command(Protocol.CMD_HARVEST, {"case": tree}), Protocol.REASON_TOO_FAR)
 	_go_next_to(tree)
-	var events := _command(Protocol.CMD_HARVEST, {"case": tree})
+	var events := _harvest(tree)
 	assert_eq(events[0]["type"], Protocol.EVT_HARVESTED)
 	assert_eq(events[0]["objet"], "buche")
 	assert_eq(events[0]["quantite"], 2)
@@ -98,7 +106,7 @@ func test_recolte_rare() -> void:
 	_world.rare_harvest_chance = 1.0
 	var tree := Fixtures.center()
 	_go_next_to(tree)
-	var events := _command(Protocol.CMD_HARVEST, {"case": tree})
+	var events := _harvest(tree)
 	assert_eq(events[0]["type"], Protocol.EVT_HARVESTED)
 	assert_true(events[0]["rare"])
 	assert_eq(events[0]["objet"], "buche_rare")
@@ -110,15 +118,31 @@ func test_recolte_rare() -> void:
 
 	var oak := GameMap.plan_cell(0, 4)
 	_go_next_to(oak)
-	var normal := _command(Protocol.CMD_HARVEST, {"case": oak})
+	var normal := _harvest(oak)
 	assert_false(normal[0]["rare"])
 	assert_eq(normal[0]["objet"], "buche")
+
+
+func test_temps_de_recolte() -> void:
+	assert_eq(Profession.harvest_time(1), 1.75)
+	assert_true(Profession.harvest_time(22) > Profession.harvest_time(3), "plus long pour une ressource difficile")
+	var tree := Fixtures.center()
+	_go_next_to(tree)
+	_command(Protocol.CMD_HARVEST, {"case": tree})
+	assert_true(_world.update(1.0).is_empty(), "pas encore fini")
+	assert_eq(_world.update(1.0)[0]["type"], Protocol.EVT_HARVESTED)
+	# S'en aller interrompt la récolte.
+	_world.update(121.0)
+	_command(Protocol.CMD_HARVEST, {"case": tree})
+	_command(Protocol.CMD_MOVE, {"cible": _world.position_of(World.PLAYER_ID) + Vector2i(0, 1)})
+	assert_true(_world.update(5.0).is_empty(), "récolte abandonnée")
+	assert_false(_world.is_depleted(tree))
 
 
 func test_repousse_entre_une_et_deux_minutes() -> void:
 	var tree := Fixtures.center()
 	_go_next_to(tree)
-	_command(Protocol.CMD_HARVEST, {"case": tree})
+	_harvest(tree)
 	assert_true(_world.update(59.0).is_empty(), "pas avant une minute")
 	assert_true(_world.is_depleted(tree))
 	var events := _world.update(61.0)
@@ -126,14 +150,14 @@ func test_repousse_entre_une_et_deux_minutes() -> void:
 	assert_eq(events[0]["type"], Protocol.EVT_RESOURCE_RESPAWNED)
 	assert_eq(events[0]["case"], tree)
 	assert_false(_world.is_depleted(tree))
-	assert_eq(_command(Protocol.CMD_HARVEST, {"case": tree})[0]["type"], Protocol.EVT_HARVESTED, "on peut le recouper")
+	assert_eq(_harvest(tree)[0]["type"], Protocol.EVT_HARVESTED, "on peut le recouper")
 
 
 func test_recolte_ouverte_des_le_debut() -> void:
 	var oak := GameMap.plan_cell(0, 4)
 	assert_eq(_world.harvest_refusal(oak), "", "palier 3 sans réputation : permis")
 	_go_next_to(oak)
-	var events := _command(Protocol.CMD_HARVEST, {"case": oak})
+	var events := _harvest(oak)
 	assert_eq(events[0]["type"], Protocol.EVT_HARVESTED)
 	assert_eq(Fixtures.of_type(events, Protocol.EVT_JOB)[0]["gain"], 15, "5 × 3 : plus difficile, plus de réputation")
 
@@ -151,7 +175,7 @@ func test_competences_de_metier() -> void:
 	# Abondance au rang 5 : 100 % de chances d'une ressource de plus.
 	_world.character.jobs["bucheron"]["competences"]["abondance"] = 5
 	_go_next_to(Fixtures.center())
-	assert_eq(_command(Protocol.CMD_HARVEST, {"case": Fixtures.center()})[0]["quantite"], 3)
+	assert_eq(_harvest(Fixtures.center())[0]["quantite"], 3)
 
 
 func test_inventaire_plein() -> void:
@@ -213,6 +237,6 @@ func test_bonus_de_reputation_de_metier_des_humains() -> void:
 	assert_eq(character.job_reputation_bonus(data), 10)
 	_world = World.new(_map, data, Callable(), character)
 	_go_next_to(Fixtures.center())
-	var events := _command(Protocol.CMD_HARVEST, {"case": Fixtures.center()})
+	var events := _harvest(Fixtures.center())
 	assert_eq(Fixtures.of_type(events, Protocol.EVT_JOB)[0]["gain"], 11, "10 + 10 %")
 	assert_eq(character.job_reputation("bucheron"), 11)

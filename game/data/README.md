@@ -636,7 +636,8 @@ case voisine. Une fois récoltée, elle repousse au bout d'un temps tiré dans `
 ```
 
 - `objet` : ressource obtenue (`quantite` : [min, max] par récolte) ; `niveau` : palier de la ressource (indicatif, rien n'est verrouillé) ;
-  `xp` : réputation de métier de base par récolte.
+  `xp` : réputation de métier de base par récolte. Une récolte dure 1,5 s + 0,25 s par palier
+  (`Profession.harvest_time`).
 - `apparence` : `arbre` ou `rocher` ; `couleur` : feuillage de l'arbre ou veines du minerai.
 - `rare` (facultatif) : id d'une autre ressource, sa **version rare**. Chaque récolte a 1 % de chance
   (`Profession.RARE_CHANCE`) de donner **un** exemplaire de cette ressource à la place de la récolte
