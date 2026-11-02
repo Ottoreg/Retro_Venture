@@ -2,7 +2,8 @@
 
 [![CI](https://github.com/Ottoreg/Retro_Venture/actions/workflows/ci.yml/badge.svg)](https://github.com/Ottoreg/Retro_Venture/actions/workflows/ci.yml)
 
-▶️ **Jouer dans le navigateur : https://ottoreg.github.io/Retro_Venture/** (dernière version de la branche par défaut)
+▶️ **Jouer dans le navigateur : https://ottoreg.github.io/Retro_Venture/** (dernière version de la branche par défaut ; client natif dans la release
+[« client-natif »](https://github.com/Ottoreg/Retro_Venture/releases/tag/client-natif))
 — commandes et contenu de l'alpha : [guide des testeurs](docs/GUIDE_TESTEURS.md)
 
 RPG tactique au tour par tour en 2D isométrique, inspiré de *Dofus Rétro* pour le rendu et le gameplay
@@ -15,7 +16,28 @@ global découpé en instances.
 
 ## Statut
 
-🟢 **Phase 1 — Prototype** : deux cartes reliées, PNJ avec dialogues, combat tactique jouable contre des loups et des gobelins.
+🟡 **Alpha (novembre 2026)** — l'alpha test 1 (mécaniques) est passé ; l'auteur teste maintenant tout ce qui
+a été ajouté depuis, avant de retravailler le fond des mécaniques, des classes et des métiers.
+
+**Déjà jouable**
+
+- **Monde** : trois zones de départ (Brumerive, Crasse-Roc, Sylvebrume) et la ville de Hautepierre, monstres à
+  niveau variable, mini-boss à phases, Pierres de Passage, minicarte et carte du monde façon Dofus Rétro.
+- **Combat tactique** : cases de placement, coups critiques, poison, glyphes et pièges, poussée, mode tactique,
+  historique de combat, IA à distance et de soutien.
+- **Cinq Voies** : Guerrier, Rôdeur, Arcaniste (composition Flamme / Givre), Théologue et Chronomancien
+  (Voie Impie et son horloge) ; trois races : Humains, Elfes, Gobelins.
+- **Progression sans niveaux** : réputation (qui débloque) et points de maîtrise à répartir, par classe et par
+  métier ; caractéristiques gagnées par la pratique et plafonnées ; une classe active, changée hors combat.
+- **Équipement et métiers** : forge personnalisée à l'enclume (l'équipement prédéfini se limite aux
+  panoplies), récolte avec temps selon le palier, agriculteur, herboriste et pêcheur.
+- **Quêtes** : tutoriels, actes I et II, quêtes secondaires, journal et suivi avec repères sur la carte.
+- **Multijoueur (prototype)** : serveur Godot qui fait autorité, comptes Supabase, groupes et combats de
+  groupe, spectateurs, chat par canaux, amis et ignorés, signalement, échange entre joueurs (jalons M0 à M4).
+- **Graphismes** : sprites en pixel art pour les trois races et quelques monstres (loup, rat, morille).
+
+**Ensuite** : quêtes et maîtres de classe et de métier (fin de la refonte de la progression), tacle et
+esquive, hôtel des ventes, art et son.
 
 ## Documentation
 
@@ -29,14 +51,14 @@ global découpé en instances.
 
 ## Feuille de route
 
-| Phase | Objectif |
-|---|---|
-| 0. Pré-production | Moteur choisi, GDD validé |
-| 1. Prototype | Un combat jouable de bout en bout |
-| 2. Alpha solo | 3 races (une par camp : allié, ennemi, neutre), 4 classes (Guerrier, Rôdeur, Arcaniste, Théologue), combat + butin, quêtes simples, 3 métiers, équipement |
-| 3. Solo étendu | 9 races (+ Nains, Orcs, Semi-hommes, Géants, Squelettes, Lutins), 9 classes (+ Paladin, Myrmidon, Ombre, Chronomancien, Démoniste), système des Voies, donjons, quêtes complexes, légendaires |
-| 4. Fondations réseau | Serveur autoritaire, comptes, combat à plusieurs |
-| 5. Multijoueur | Instances, groupe, amis, chat, échanges, guildes |
+| Phase | Objectif | État |
+|---|---|---|
+| 0. Pré-production | Moteur choisi, GDD validé | ✅ |
+| 1. Prototype | Un combat jouable de bout en bout | ✅ |
+| 2. Alpha | Alpha test 1 (mécaniques), puis alpha test 2 (progression sans niveaux, art et son) | 🟡 en cours |
+| 3. Solo étendu | 9 races, 9 classes, système des Voies, donjons, quêtes complexes, légendaires | ⚪ |
+| 4. Fondations réseau | Serveur autoritaire, comptes, combat à plusieurs | 🟡 prototype fait (M0–M2) |
+| 5. Multijoueur | Instances, groupe, amis, chat, échanges, guildes, hôtel des ventes | 🟡 commencé (M3–M4) |
 
 ## Structure du dépôt
 
@@ -44,12 +66,15 @@ global découpé en instances.
 Retro_Venture/
 ├── docs/          # GDD, TODO, design, lore, décisions
 ├── .github/       # Intégration continue (tests Godot)
-└── game/          # Projet Godot 4
-    ├── core/      # Noyau de jeu : règles, sans affichage (partagé solo / futur serveur)
-    ├── client/    # Scènes, rendu isométrique, interface, audio
-    ├── data/      # Contenu piloté par les données (sorts, monstres, objets, quêtes…)
-    ├── assets/    # Graphismes, sons, musiques, polices
-    └── tests/     # Tests automatisés
+├── game/          # Projet Godot 4
+│   ├── core/      # Noyau de jeu : règles, sans affichage (partagé par le solo et le serveur)
+│   ├── client/    # Scènes, rendu isométrique, interface, audio
+│   ├── data/      # Contenu piloté par les données (sorts, monstres, objets, quêtes…)
+│   ├── assets/    # Graphismes, sons, musiques, polices
+│   ├── server/    # Serveur multijoueur sans affichage (WebSocket)
+│   ├── tools/     # Captures, simulation de combats, joueur automatique
+│   └── tests/     # Tests automatisés
+└── serveur/       # Docker et tunnel pour héberger le serveur de test
 ```
 
 ## Démarrer
