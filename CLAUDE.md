@@ -13,8 +13,11 @@ Solo d'abord, multijoueur plus tard. Vision et règles : [docs/GDD.md](docs/GDD.
 - Développer sur la branche de session, la pousser, attendre la CI verte (onglet Actions ou API GitHub),
   puis pousser sur `main` : chaque push sur `main` publie le jeu sur GitHub Pages.
 - Pas de pull request sauf demande explicite.
-- Garder les tests verts et en ajouter pour chaque règle du noyau ; mettre à jour GDD, TODO,
-  `game/data/README.md` et `docs/GUIDE_TESTEURS.md` quand un système ou un contenu change.
+- Garder les tests verts et en ajouter pour chaque règle du noyau.
+- À chaque ajout important, mettre à jour **tous** les fichiers de documentation concernés : GDD,
+  TODO, `README.md` (état du projet affiché sur GitHub), `game/data/README.md`,
+  `docs/GUIDE_TESTEURS.md`, les README des dossiers (`game/core/`, `game/client/`, `game/art/`,
+  `serveur/`…), `docs/CATALOGUE.md` (regénéré) et ce fichier.
 - **Économiser les tokens** (demande de l'auteur) :
   - pas de vérification par plusieurs agents : préférer un script de contrôle mécanique, et les tests ;
   - écrire soi-même quand c'est faisable, plutôt que de lancer un workflow ;
