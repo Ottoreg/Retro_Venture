@@ -512,7 +512,9 @@ de la forge, `boutique: false`), à ne pas donner tels quels.
 amulette), minerai et bois (armes). Chaque ressource de monstre ajoute sa caractéristique :
 `max(1, arrondi((1 + palier / 8) × poids))`, poids 1 pour les élémentaires, 4 Vitalité,
 10 Initiative, 0,34 Prospection et Dommages, 0,1 Critique ; **PA, PM et Portée valent toujours 1**
-et une seule ligne de chacun par objet. Chaque ligne se tire entre 75 % et 100 % de son total ; le
+et une seule ligne de chacun par objet. Une ligne vaut au plus 100 points de score (`Forge.line_cap` :
+100 Force, 400 Vitalité…) et un objet a au plus 8 lignes (`Forge.MAX_LINES`). `caracteristique` peut
+être une liste (ressource de haut palier à plusieurs caractéristiques). Chaque ligne se tire entre 75 % et 100 % de son total ; le
 palier de l'objet est la moyenne des paliers des ressources ; une arme forgée a les dégâts de son
 modèle × (1 + (palier − 1) / 20). Le nom se compose d'un nom du type et de deux adjectifs au plus,
 pris dans les lignes de l'objet (`Forge.TYPES`, `Forge.WORDS`), et l'objet est signé « Créé par

@@ -92,7 +92,9 @@ static func validate(data: Dictionary) -> PackedStringArray:
 		errors.append("« type » doit valoir « ressource », « quete », « recette » ou un type d'équipement : %s" % str(SLOTS_BY_TYPE.keys()))
 	if type == Forge.TYPE_RECIPE:
 		errors.append_array(Forge.validate_recipe(data.get("recette")))
-	if data.get("caracteristique", "force") not in Forge.STAT_WEIGHTS.keys() + Forge.FIXED_STATS or data.get("matiere", "cuir") not in Forge.MATERIALS:
+	var stats: Array = Forge.stats_of(data) if data.has("caracteristique") else ["force"]
+	if stats.is_empty() or stats.any(func(s: Variant) -> bool: return s not in Forge.STAT_WEIGHTS.keys() + Forge.FIXED_STATS) \
+			or data.get("matiere", "cuir") not in Forge.MATERIALS:
 		errors.append("« caracteristique » doit valoir %s et « matiere » %s" % [str(Forge.STAT_WEIGHTS.keys() + Forge.FIXED_STATS), str(Forge.MATERIALS)])
 	if data.get("rarete") not in RARITIES:
 		errors.append("« rarete » doit valoir %s" % str(RARITIES))

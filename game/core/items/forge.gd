@@ -10,6 +10,10 @@ const JOB := "forgeron"
 const TYPE_RECIPE := "recette"
 ## Ressources au plus par objet, matières obligatoires comprises.
 const MAX_RESOURCES := 6
+## Score d'une ligne au plus (points de Force : `STAT_WEIGHTS`) et lignes au plus par objet. Les essences
+## (GDD § 9.2, à venir) pourront dépasser le score d'une ligne.
+const MAX_LINE_SCORE := 100
+const MAX_LINES := 8
 ## Une ligne de total T se tire entre T × ROLL_LOW et T (plus haut avec la compétence « precision »).
 const ROLL_LOW := 0.75
 ## Réputation de forgeron de base par palier de l'objet forgé (`Profession.reputation_gain`).
@@ -59,6 +63,18 @@ static func template_id(type: String) -> String:
 	return "forge_" + type
 
 
+## Caractéristiques d'une ressource : `caracteristique` est un nom, ou une liste pour une ressource de
+## haut palier qui en donne plusieurs (chacune à sa valeur pleine).
+static func stats_of(item: Dictionary) -> Array:
+	var stats: Variant = item.get("caracteristique", [])
+	return stats if typeof(stats) == TYPE_ARRAY else [stats]
+
+
+## Valeur d'une ligne au plus : MAX_LINE_SCORE points de Force (1 pour PA, PM et Portée).
+static func line_cap(stat: String) -> int:
+	return 1 if stat in FIXED_STATS else floori(MAX_LINE_SCORE * STAT_WEIGHTS[stat])
+
+
 ## Caractéristique que donne une ressource de ce palier.
 static func value(stat: String, tier: int) -> int:
 	return 1 if stat in FIXED_STATS else maxi(1, roundi((1.0 + tier / 8.0) * STAT_WEIGHTS[stat]))
@@ -94,22 +110,24 @@ static func preview(type: String, resources: Dictionary, items: Dictionary, char
 		count += quantity
 		tiers += quantity * tier
 		materials.append(item.get("matiere", ""))
-		var stat: String = item.get("caracteristique", "")
-		if character != null and hide and not stat.is_empty() and not reveals(character, tier):
+		if character != null and hide and item.has("caracteristique") and not reveals(character, tier):
 			result["cachees"] += quantity
-		elif not stat.is_empty():
+			continue
+		for stat: String in stats_of(item):
 			totals[stat] = int(totals.get(stat, 0)) + quantity * value(stat, tier)
 	for material: String in TYPES[type]["matieres"]:
 		if material not in materials:
 			result["manquantes"].append(material)
 	if count > MAX_RESOURCES:
 		result["erreur"] = Protocol.REASON_INVALID_COMMAND
+	elif totals.size() > MAX_LINES:
+		result["erreur"] = Protocol.REASON_TOO_MANY_LINES
 	elif not result["manquantes"].is_empty():
 		result["erreur"] = Protocol.REASON_MISSING_INGREDIENTS
 	result["palier"] = maxi(1, roundi(float(tiers) / maxi(1, count)))
 	var low := ROLL_LOW + (Profession.skill_value(Profession.TYPE_CRAFT, "precision", character.job_rank(JOB, "precision")) / 100.0 if character != null else 0.0)
 	for stat: String in totals:
-		var total: int = mini(1, totals[stat]) if stat in FIXED_STATS else totals[stat]
+		var total: int = mini(line_cap(stat), totals[stat])
 		result["bonus"][stat] = [total if stat in FIXED_STATS else maxi(1, roundi(total * minf(1.0, low))), total]
 	return result
 

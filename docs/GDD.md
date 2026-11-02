@@ -1865,6 +1865,13 @@ compris) et les recettes du forgeron sont supprimés, tout le reste se forge.
   élémentaires, 4 Vitalité, 10 Initiative, 0,34 Prospection et Dommages, 0,1 Critique (d'après le
   score plus bas). Quelques ressources ont une matière (peaux, cuir et ailes : cuir ; poils, paille,
   fils, soie, plumes : tissu).
+- **Limites** (demande de l'auteur, 02/11/2026) : **100 points de score par ligne** au plus (100 Force,
+  400 Vitalité, 1 000 Initiative, 34 Prospection ou Dommages, 10 Critique ; 1 PA, PM ou Portée) et
+  **8 lignes par objet** au plus (forge refusée au-delà, `trop_de_lignes`). Seules les **essences**
+  (§ 9.2, à venir) pourront dépasser le plafond d'une ligne. Une ressource de haut palier peut donner
+  **plusieurs caractéristiques** (`caracteristique` en liste, chacune à sa valeur pleine ; par exemple
+  Intelligence et Force pour une ressource liée au Sacré) : prévu dans le code, aucune ressource n'en a
+  encore.
 - **Aperçu** avant de forger : lignes et **jets possibles** (75 % à 100 % du total), palier (moyenne
   des paliers des ressources), **nom proposé** que le joueur change avec des listes de mots (nom du
   type, puis deux adjectifs au plus tirés des lignes, accordés en genre et en nombre). L'objet sort

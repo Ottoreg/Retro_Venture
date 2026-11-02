@@ -66,6 +66,23 @@ func test_apercu() -> void:
 	assert_eq(Forge.preview("chaussette", {"peau": 1}, items)["erreur"], Protocol.REASON_INVALID_COMMAND)
 
 
+func test_plafond_par_ligne_et_lignes_par_objet() -> void:
+	assert_eq(Forge.line_cap("force"), 100, "100 points de score par ligne")
+	assert_eq(Forge.line_cap("vitalite"), 400)
+	assert_eq(Forge.line_cap("critique"), 10)
+	assert_eq(Forge.line_cap("pa"), 1)
+	var items := _world.data.items.duplicate(true)
+	items["croc"]["niveau"] = 500  # 64 de Force par croc : 128 pour deux, plafonnés à 100.
+	assert_eq(Forge.preview("anneau", {"minerai": 1, "croc": 2}, items)["bonus"]["force"][1], 100)
+	# Une ressource de haut palier peut donner plusieurs caractéristiques (Sacré : Flamme et Acier).
+	var stats := ["force", "intelligence", "perception", "agilite", "vitalite", "initiative", "prospection", "dommages", "critique"]
+	items["croc"]["caracteristique"] = stats.slice(0, 2)
+	assert_eq(Forge.preview("anneau", {"minerai": 1, "croc": 1}, items)["bonus"].keys(), ["force", "intelligence"])
+	items["croc"]["caracteristique"] = stats
+	assert_eq(Forge.preview("anneau", {"minerai": 1, "croc": 1}, items)["erreur"], Protocol.REASON_TOO_MANY_LINES, "9 lignes : 8 au plus")
+	assert_eq(Item.validate(items["croc"]).size(), 0, "liste de caractéristiques permise")
+
+
 func test_nom_fait_de_mots_proposes() -> void:
 	assert_eq(Forge.default_words("bottes", {"force": [3, 4], "pa": [1, 1]}), ["Bottes", "rapides"], "accord au féminin pluriel")
 	assert_eq(Forge.name_of(["Bague", "costaude"], "anneau", ["force"]), "Bague costaude")

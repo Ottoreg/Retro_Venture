@@ -468,6 +468,8 @@ const REASON_DEPLETED := "ressource_epuisee"
 ## Un autre joueur est en train de récolter cette ressource.
 const REASON_HARVEST_TAKEN := "ressource_occupee"
 const REASON_MISSING_INGREDIENTS := "ingredients_manquants"
+## Forge : plus de `Forge.MAX_LINES` lignes de caractéristiques.
+const REASON_TOO_MANY_LINES := "trop_de_lignes"
 const REASON_WRONG_PHASE := "mauvaise_phase"
 ## Groupe de monstres déjà en combat contre un autre joueur.
 const REASON_GROUP_IN_COMBAT := "groupe_en_combat"

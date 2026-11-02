@@ -8,6 +8,7 @@ const REFUSALS := {
 	Protocol.REASON_MISSING_INGREDIENTS: "Il manque des ressources.",
 	Protocol.REASON_INVENTORY_FULL: "Inventaire plein.",
 	Protocol.REASON_TOO_FAR: "L'enclume est trop loin.",
+	Protocol.REASON_TOO_MANY_LINES: "Trop de lignes : %d au plus par objet." % Forge.MAX_LINES,
 }
 
 var map_view: MapView
@@ -36,8 +37,8 @@ static func forge_lines(template: Dictionary, data: GameData, character: Charact
 	var lines: PackedStringArray = []
 	if template.has("caracteristique") and character != null:
 		var tier := int(template.get("niveau", 1))
-		lines.append("Forge : %s" % ("+%d %s" % [Forge.value(template["caracteristique"], tier), Item.stat_name(template["caracteristique"])]
-			if Forge.reveals(character, tier) else "caractéristique inconnue (réputation de forgeron trop basse pour le palier %d)" % tier))
+		lines.append("Forge : %s" % (", ".join(Forge.stats_of(template).map(func(s: String) -> String:
+			return "+%d %s" % [Forge.value(s, tier), Item.stat_name(s)])) if Forge.reveals(character, tier) else "caractéristique inconnue (réputation de forgeron trop basse pour le palier %d)" % tier))
 	if template.has("matiere"):
 		lines.append("Matière : %s" % template["matiere"])
 	var plan: Dictionary = template.get("recette", {})
@@ -128,6 +129,8 @@ func _show_preview() -> void:
 		lines.append("Manque : %s" % ", ".join(PackedStringArray(preview["manquantes"])))
 	if count > Forge.MAX_RESOURCES:
 		lines.append("Trop de ressources.")
+	if preview["erreur"] == Protocol.REASON_TOO_MANY_LINES:
+		lines.append(REFUSALS[Protocol.REASON_TOO_MANY_LINES])
 	lines.append("Nom : %s" % _name())
 	_preview.text = "\n".join(lines)
 	_forge_button.disabled = not preview["erreur"].is_empty() or not _owns_all()
