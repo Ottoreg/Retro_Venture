@@ -1959,7 +1959,7 @@ func _draw() -> void:
 		_draw_floating_texts()
 		return
 	for cell: Vector2i in map.obstacles:
-		if map.obstacles[cell] not in GameMap.FLAT_OBSTACLES:
+		if map.obstacles[cell] not in GameMap.FLAT_OBSTACLES or map.resource_nodes.has(cell):  # Coin de pêche compris.
 			drawables.append([IsoGrid.depth(Vector2(cell)), "obstacle", cell])
 	for actor_id: String in _actors:
 		var data: Dictionary = _actors[actor_id]
@@ -2262,6 +2262,9 @@ func _draw_obstacle(cell: Vector2i, kind: String) -> void:
 	var base := IsoGrid.cell_to_screen(cell)
 	if kind in GameMap.HIDDEN_OBSTACLES:
 		return
+	if _map.resource_nodes.has(cell):
+		_draw_resource(cell, base)
+		return
 	if kind == "mur" and _map.floor_kind == "parquet":
 		# Dans une maison, les murs du devant sont bas, pour voir l'intérieur.
 		var front := not _map.is_walkable(cell + Vector2i(1, 0)) and not _map.is_walkable(cell + Vector2i(0, 1))
@@ -2274,13 +2277,11 @@ func _draw_obstacle(cell: Vector2i, kind: String) -> void:
 	if not variants.is_empty():
 		Art.draw(self, Art.substitute(variants[posmod(cell.x * 5 + cell.y * 3, variants.size())]), base, {}, false, _fade_if_hiding(cell))
 		return
-	if kind == GameMap.RESOURCE_OBSTACLE:
-		_draw_resource(cell, base)
-		return
 	_draw_block(base, 20, Color.MAGENTA)  # Pas de dessin pour ce type : bien visible pour le corriger.
 
 
-## Ressource récoltable : arbre ou rocher à minerai, ou ce qu'il en reste en attendant la repousse.
+## Ressource récoltable (arbre, rocher à minerai, champ, plante, coin de pêche), ou ce qu'il en reste en
+## attendant la repousse.
 func _draw_resource(cell: Vector2i, base: Vector2) -> void:
 	var node: Dictionary = world.resource_node(cell) if world.map == _map else {}
 	var manifest := Art.manifest()

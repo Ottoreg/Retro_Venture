@@ -1,0 +1,98 @@
+{
+  "id": "herboriste",
+  "nom": "Herboriste",
+  "type": "recolte",
+  "description": "Cueille les plantes des prés et des berges.",
+  "ressources": [
+    {
+      "marqueur": "O",
+      "nom": "Ortie",
+      "objet": "ortie",
+      "niveau": 1,
+      "quantite": [
+        1,
+        3
+      ],
+      "xp": 5,
+      "repousse": [
+        60,
+        120
+      ],
+      "apparence": "plante",
+      "couleur": "4a8a3a",
+      "rare": "ortie_royale"
+    },
+    {
+      "marqueur": "Q",
+      "nom": "Trèfle",
+      "objet": "trefle",
+      "niveau": 3,
+      "quantite": [
+        1,
+        2
+      ],
+      "xp": 8,
+      "repousse": [
+        60,
+        120
+      ],
+      "apparence": "plante",
+      "couleur": "5aa84a",
+      "rare": "trefle_a_quatre_feuilles"
+    },
+    {
+      "marqueur": "P",
+      "nom": "Menthe",
+      "objet": "menthe_poivree",
+      "niveau": 8,
+      "quantite": [
+        1,
+        2
+      ],
+      "xp": 12,
+      "repousse": [
+        90,
+        150
+      ],
+      "apparence": "plante",
+      "couleur": "3ac0a0",
+      "rare": "menthe_glaciale"
+    },
+    {
+      "marqueur": "W",
+      "nom": "Sauge",
+      "objet": "sauge",
+      "niveau": 15,
+      "quantite": [
+        1,
+        2
+      ],
+      "xp": 18,
+      "repousse": [
+        90,
+        150
+      ],
+      "apparence": "plante",
+      "couleur": "8aa898",
+      "rare": "sauge_des_anciens"
+    },
+    {
+      "marqueur": "Z",
+      "nom": "Piment",
+      "objet": "piment_des_forges",
+      "niveau": 22,
+      "quantite": [
+        1,
+        2
+      ],
+      "xp": 25,
+      "repousse": [
+        120,
+        180
+      ],
+      "apparence": "plante",
+      "couleur": "3a6a2a",
+      "rare": "piment_du_dragon"
+    }
+  ]
+}

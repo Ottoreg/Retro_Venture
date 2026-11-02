@@ -77,6 +77,20 @@ func test_ressources_sur_la_carte() -> void:
 	assert_true(_world.resource_node(GameMap.plan_cell(1, 1)).is_empty())
 
 
+func test_coin_de_peche() -> void:
+	var lake := Fixtures.map({Fixtures.center(): "Â"})
+	assert_eq(lake.resource_nodes.get(Fixtures.center()), "Â")
+	assert_eq(lake.obstacles[Fixtures.center()], "eau", "la case reste de l'eau (combat, dessin)")
+	var items := {}
+	for item: Dictionary in _items():
+		items[item["id"]] = item
+	var fishing := {"id": "pecheur", "nom": "Pêcheur", "type": "recolte", "ressources": [{"marqueur": "Â", "nom": "Remous",
+		"objet": "buche", "repousse": [60, 60], "apparence": "peche"}]}
+	assert_eq(Profession.validate(fishing, items).size(), 0)
+	fishing["ressources"][0]["marqueur"] = "X"
+	assert_false(Profession.validate(fishing, items).is_empty(), "un coin de pêche a un marqueur d'eau")
+
+
 func test_recolter() -> void:
 	var tree := Fixtures.center()
 	_assert_refused(_command(Protocol.CMD_HARVEST, {"case": tree}), Protocol.REASON_TOO_FAR)

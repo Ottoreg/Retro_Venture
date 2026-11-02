@@ -1,0 +1,9 @@
+{
+  "id": "piment_du_dragon",
+  "nom": "Piment du Dragon",
+  "type": "ressource",
+  "rarete": "rare",
+  "niveau": 22,
+  "description": "Croqué une fois par un gobelin. On l'a retrouvé de l'autre côté de la rivière.",
+  "boutique": false
+}

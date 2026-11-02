@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50">
+<ellipse cx="25" cy="43" rx="20" ry="5.5" fill="#000000" opacity="0.2"/>
+<ellipse cx="25" cy="42" rx="17" ry="4" fill="#6a5a34"/>
+<g stroke="{{tige}}" stroke-width="1.6" stroke-linecap="round" fill="none">
+<path d="M12 42 Q11 28 9 18"/><path d="M18 43 Q18 26 16 12"/><path d="M25 43 Q25 24 25 8"/><path d="M32 43 Q32 26 34 12"/><path d="M38 42 Q39 28 41 18"/>
+<path d="M21 42 Q20 32 19 24"/><path d="M29 42 Q30 32 31 24"/>
+</g>
+<g fill="{{epi}}" stroke="#3a2618" stroke-width="0.7">
+<ellipse cx="9" cy="15" rx="2.3" ry="5" transform="rotate(-12 9 15)"/><ellipse cx="16" cy="9" rx="2.5" ry="5.5" transform="rotate(-8 16 9)"/>
+<ellipse cx="25" cy="5.5" rx="2.6" ry="5.5"/><ellipse cx="34" cy="9" rx="2.5" ry="5.5" transform="rotate(8 34 9)"/>
+<ellipse cx="41" cy="15" rx="2.3" ry="5" transform="rotate(12 41 15)"/><ellipse cx="19" cy="21" rx="2.2" ry="4.5"/><ellipse cx="31" cy="21" rx="2.2" ry="4.5"/>
+</g>
+</svg>

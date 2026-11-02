@@ -1,0 +1,542 @@
+{
+  "images": {
+    "objet_ble": {
+      "fichier": "objets/gerbe.svgt",
+      "ancre": [
+        22,
+        22
+      ],
+      "couleurs": {
+        "epi": "e8c860",
+        "tige": "c8a848"
+      }
+    },
+    "objet_epi_dore": {
+      "fichier": "objets/gerbe.svgt",
+      "ancre": [
+        22,
+        22
+      ],
+      "couleurs": {
+        "epi": "f0c040",
+        "tige": "c8a848"
+      }
+    },
+    "noeud_ble": {
+      "fichier": "decor/epis.svgt",
+      "ancre": [
+        25,
+        42
+      ],
+      "couleurs": {
+        "epi": "e8c860",
+        "tige": "c8a848"
+      }
+    },
+    "objet_lin": {
+      "fichier": "objets/gerbe.svgt",
+      "ancre": [
+        22,
+        22
+      ],
+      "couleurs": {
+        "epi": "8aa8e0",
+        "tige": "7a9a58"
+      }
+    },
+    "objet_lin_des_fees": {
+      "fichier": "objets/gerbe.svgt",
+      "ancre": [
+        22,
+        22
+      ],
+      "couleurs": {
+        "epi": "f0c040",
+        "tige": "7a9a58"
+      }
+    },
+    "noeud_lin": {
+      "fichier": "decor/epis.svgt",
+      "ancre": [
+        25,
+        42
+      ],
+      "couleurs": {
+        "epi": "8aa8e0",
+        "tige": "7a9a58"
+      }
+    },
+    "objet_avoine": {
+      "fichier": "objets/gerbe.svgt",
+      "ancre": [
+        22,
+        22
+      ],
+      "couleurs": {
+        "epi": "d8d0a0",
+        "tige": "a8a070"
+      }
+    },
+    "objet_avoine_du_champion": {
+      "fichier": "objets/gerbe.svgt",
+      "ancre": [
+        22,
+        22
+      ],
+      "couleurs": {
+        "epi": "f0c040",
+        "tige": "a8a070"
+      }
+    },
+    "noeud_avoine": {
+      "fichier": "decor/epis.svgt",
+      "ancre": [
+        25,
+        42
+      ],
+      "couleurs": {
+        "epi": "d8d0a0",
+        "tige": "a8a070"
+      }
+    },
+    "objet_seigle": {
+      "fichier": "objets/gerbe.svgt",
+      "ancre": [
+        22,
+        22
+      ],
+      "couleurs": {
+        "epi": "a88a58",
+        "tige": "8a7448"
+      }
+    },
+    "objet_seigle_ergote": {
+      "fichier": "objets/gerbe.svgt",
+      "ancre": [
+        22,
+        22
+      ],
+      "couleurs": {
+        "epi": "f0c040",
+        "tige": "8a7448"
+      }
+    },
+    "noeud_seigle": {
+      "fichier": "decor/epis.svgt",
+      "ancre": [
+        25,
+        42
+      ],
+      "couleurs": {
+        "epi": "a88a58",
+        "tige": "8a7448"
+      }
+    },
+    "objet_chanvre": {
+      "fichier": "objets/gerbe.svgt",
+      "ancre": [
+        22,
+        22
+      ],
+      "couleurs": {
+        "epi": "6a9a3a",
+        "tige": "4a7a2a"
+      }
+    },
+    "objet_chanvre_d_acier": {
+      "fichier": "objets/gerbe.svgt",
+      "ancre": [
+        22,
+        22
+      ],
+      "couleurs": {
+        "epi": "f0c040",
+        "tige": "4a7a2a"
+      }
+    },
+    "noeud_chanvre": {
+      "fichier": "decor/epis.svgt",
+      "ancre": [
+        25,
+        42
+      ],
+      "couleurs": {
+        "epi": "6a9a3a",
+        "tige": "4a7a2a"
+      }
+    },
+    "objet_ortie": {
+      "fichier": "objets/brin.svgt",
+      "ancre": [
+        22,
+        22
+      ],
+      "couleurs": {
+        "feuille": "4a8a3a",
+        "fleur": "c8d890"
+      }
+    },
+    "objet_ortie_royale": {
+      "fichier": "objets/brin.svgt",
+      "ancre": [
+        22,
+        22
+      ],
+      "couleurs": {
+        "feuille": "4a8a3a",
+        "fleur": "f0c040"
+      }
+    },
+    "noeud_ortie": {
+      "fichier": "decor/plante.svgt",
+      "ancre": [
+        22,
+        34
+      ],
+      "couleurs": {
+        "feuille": "4a8a3a",
+        "fleur": "c8d890"
+      }
+    },
+    "objet_trefle": {
+      "fichier": "objets/brin.svgt",
+      "ancre": [
+        22,
+        22
+      ],
+      "couleurs": {
+        "feuille": "5aa84a",
+        "fleur": "f0f0f0"
+      }
+    },
+    "objet_trefle_a_quatre_feuilles": {
+      "fichier": "objets/brin.svgt",
+      "ancre": [
+        22,
+        22
+      ],
+      "couleurs": {
+        "feuille": "5aa84a",
+        "fleur": "f0c040"
+      }
+    },
+    "noeud_trefle": {
+      "fichier": "decor/plante.svgt",
+      "ancre": [
+        22,
+        34
+      ],
+      "couleurs": {
+        "feuille": "5aa84a",
+        "fleur": "f0f0f0"
+      }
+    },
+    "objet_menthe_poivree": {
+      "fichier": "objets/brin.svgt",
+      "ancre": [
+        22,
+        22
+      ],
+      "couleurs": {
+        "feuille": "3ac0a0",
+        "fleur": "c8a8e8"
+      }
+    },
+    "objet_menthe_glaciale": {
+      "fichier": "objets/brin.svgt",
+      "ancre": [
+        22,
+        22
+      ],
+      "couleurs": {
+        "feuille": "3ac0a0",
+        "fleur": "f0c040"
+      }
+    },
+    "noeud_menthe_poivree": {
+      "fichier": "decor/plante.svgt",
+      "ancre": [
+        22,
+        34
+      ],
+      "couleurs": {
+        "feuille": "3ac0a0",
+        "fleur": "c8a8e8"
+      }
+    },
+    "objet_sauge": {
+      "fichier": "objets/brin.svgt",
+      "ancre": [
+        22,
+        22
+      ],
+      "couleurs": {
+        "feuille": "8aa898",
+        "fleur": "8a6ac8"
+      }
+    },
+    "objet_sauge_des_anciens": {
+      "fichier": "objets/brin.svgt",
+      "ancre": [
+        22,
+        22
+      ],
+      "couleurs": {
+        "feuille": "8aa898",
+        "fleur": "f0c040"
+      }
+    },
+    "noeud_sauge": {
+      "fichier": "decor/plante.svgt",
+      "ancre": [
+        22,
+        34
+      ],
+      "couleurs": {
+        "feuille": "8aa898",
+        "fleur": "8a6ac8"
+      }
+    },
+    "objet_piment_des_forges": {
+      "fichier": "objets/brin.svgt",
+      "ancre": [
+        22,
+        22
+      ],
+      "couleurs": {
+        "feuille": "3a6a2a",
+        "fleur": "e04020"
+      }
+    },
+    "objet_piment_du_dragon": {
+      "fichier": "objets/brin.svgt",
+      "ancre": [
+        22,
+        22
+      ],
+      "couleurs": {
+        "feuille": "3a6a2a",
+        "fleur": "f0c040"
+      }
+    },
+    "noeud_piment_des_forges": {
+      "fichier": "decor/plante.svgt",
+      "ancre": [
+        22,
+        34
+      ],
+      "couleurs": {
+        "feuille": "3a6a2a",
+        "fleur": "e04020"
+      }
+    },
+    "objet_goujon": {
+      "fichier": "objets/poisson.svgt",
+      "ancre": [
+        22,
+        22
+      ],
+      "couleurs": {
+        "ecaille": "a8a890",
+        "ventre": "e8e0c8"
+      }
+    },
+    "objet_goujon_dore": {
+      "fichier": "objets/poisson.svgt",
+      "ancre": [
+        22,
+        22
+      ],
+      "couleurs": {
+        "ecaille": "f0c040",
+        "ventre": "e8e0c8"
+      }
+    },
+    "noeud_goujon": {
+      "fichier": "decor/remous.svgt",
+      "ancre": [
+        30,
+        15
+      ],
+      "couleurs": {
+        "ecaille": "a8a890",
+        "ventre": "e8e0c8"
+      }
+    },
+    "objet_perche": {
+      "fichier": "objets/poisson.svgt",
+      "ancre": [
+        22,
+        22
+      ],
+      "couleurs": {
+        "ecaille": "8aa84a",
+        "ventre": "e8c870"
+      }
+    },
+    "objet_perche_arc_en_ciel": {
+      "fichier": "objets/poisson.svgt",
+      "ancre": [
+        22,
+        22
+      ],
+      "couleurs": {
+        "ecaille": "f0c040",
+        "ventre": "e8c870"
+      }
+    },
+    "noeud_perche": {
+      "fichier": "decor/remous.svgt",
+      "ancre": [
+        30,
+        15
+      ],
+      "couleurs": {
+        "ecaille": "8aa84a",
+        "ventre": "e8c870"
+      }
+    },
+    "objet_truite": {
+      "fichier": "objets/poisson.svgt",
+      "ancre": [
+        22,
+        22
+      ],
+      "couleurs": {
+        "ecaille": "7a8a6a",
+        "ventre": "e8b0a0"
+      }
+    },
+    "objet_truite_saumonee": {
+      "fichier": "objets/poisson.svgt",
+      "ancre": [
+        22,
+        22
+      ],
+      "couleurs": {
+        "ecaille": "f0c040",
+        "ventre": "e8b0a0"
+      }
+    },
+    "noeud_truite": {
+      "fichier": "decor/remous.svgt",
+      "ancre": [
+        30,
+        15
+      ],
+      "couleurs": {
+        "ecaille": "7a8a6a",
+        "ventre": "e8b0a0"
+      }
+    },
+    "objet_brochet": {
+      "fichier": "objets/poisson.svgt",
+      "ancre": [
+        22,
+        22
+      ],
+      "couleurs": {
+        "ecaille": "5a7a4a",
+        "ventre": "d8d8a8"
+      }
+    },
+    "objet_brochet_centenaire": {
+      "fichier": "objets/poisson.svgt",
+      "ancre": [
+        22,
+        22
+      ],
+      "couleurs": {
+        "ecaille": "f0c040",
+        "ventre": "d8d8a8"
+      }
+    },
+    "noeud_brochet": {
+      "fichier": "decor/remous.svgt",
+      "ancre": [
+        30,
+        15
+      ],
+      "couleurs": {
+        "ecaille": "5a7a4a",
+        "ventre": "d8d8a8"
+      }
+    },
+    "objet_anguille_des_galeries": {
+      "fichier": "objets/poisson.svgt",
+      "ancre": [
+        22,
+        22
+      ],
+      "couleurs": {
+        "ecaille": "4a4a5a",
+        "ventre": "8a8a7a"
+      }
+    },
+    "objet_anguille_electrique": {
+      "fichier": "objets/poisson.svgt",
+      "ancre": [
+        22,
+        22
+      ],
+      "couleurs": {
+        "ecaille": "f0c040",
+        "ventre": "8a8a7a"
+      }
+    },
+    "noeud_anguille_des_galeries": {
+      "fichier": "decor/remous.svgt",
+      "ancre": [
+        30,
+        15
+      ],
+      "couleurs": {
+        "ecaille": "4a4a5a",
+        "ventre": "8a8a7a"
+      }
+    },
+    "chaume": {
+      "fichier": "decor/chaume.svgt",
+      "ancre": [
+        25,
+        42
+      ]
+    },
+    "plante_coupee": {
+      "fichier": "decor/plante_coupee.svgt",
+      "ancre": [
+        22,
+        34
+      ]
+    },
+    "remous_calme": {
+      "fichier": "decor/remous_calme.svgt",
+      "ancre": [
+        30,
+        15
+      ]
+    }
+  },
+  "ressources": {
+    "B": "noeud_ble",
+    "J": "noeud_lin",
+    "K": "noeud_avoine",
+    "S": "noeud_seigle",
+    "V": "noeud_chanvre",
+    "O": "noeud_ortie",
+    "Q": "noeud_trefle",
+    "P": "noeud_menthe_poivree",
+    "W": "noeud_sauge",
+    "Z": "noeud_piment_des_forges",
+    "Â": "noeud_goujon",
+    "Ê": "noeud_perche",
+    "Î": "noeud_truite",
+    "Ô": "noeud_brochet",
+    "Û": "noeud_anguille_des_galeries"
+  },
+  "epuisees": {
+    "champ": "chaume",
+    "plante": "plante_coupee",
+    "peche": "remous_calme"
+  }
+}

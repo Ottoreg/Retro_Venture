@@ -320,7 +320,9 @@ le **lit** de votre maison les rend tous d'un coup.
   mots proposés, il sort signé de votre pseudo. Au début, les caractéristiques des ressources sont
   **cachées** : c'est en forgeant qu'on apprend à les lire. Les **plans** (récompenses de quêtes, ou
   vendus par les marchands) disent tout d'avance.
-- **Métiers** : bûcheron et mineur (5 ressources chacun, de plus en plus rares), forgeron (la forge
+- **Métiers** : bûcheron, mineur, agriculteur, herboriste et pêcheur (5 ressources chacun, de plus
+  en plus rares ; champs et prés au nord-ouest et au sud-ouest de Hautepierre, coins de pêche sur
+  chaque point d'eau), forgeron (la forge
   ci-dessus). Pas de niveau : tout se récolte dès le début (une récolte prend de 2 à 7 secondes,
   plus pour une ressource rare ; bouger l'interrompt ; personne d'autre ne peut la prendre pendant ce temps), et chaque récolte ou objet forgé donne
   de la **réputation de métier**, d'autant plus que la ressource est rare pour vous. Tous les 500, un

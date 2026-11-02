@@ -1,0 +1,9 @@
+{
+  "id": "goujon_dore",
+  "nom": "Goujon doré",
+  "type": "ressource",
+  "rarete": "rare",
+  "niveau": 1,
+  "description": "Un goujon qui a réussi. Il ne parle plus aux autres.",
+  "boutique": false
+}

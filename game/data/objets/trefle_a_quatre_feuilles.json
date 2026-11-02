@@ -1,0 +1,9 @@
+{
+  "id": "trefle_a_quatre_feuilles",
+  "nom": "Trèfle à quatre feuilles",
+  "type": "ressource",
+  "rarete": "rare",
+  "niveau": 3,
+  "description": "La chance en personne. Elle a pourtant mis du temps à se montrer.",
+  "boutique": false
+}

@@ -1,0 +1,98 @@
+{
+  "id": "agriculteur",
+  "nom": "Agriculteur",
+  "type": "recolte",
+  "description": "Fauche les champs sauvages : céréales et fibres.",
+  "ressources": [
+    {
+      "marqueur": "B",
+      "nom": "Blé",
+      "objet": "ble",
+      "niveau": 1,
+      "quantite": [
+        1,
+        3
+      ],
+      "xp": 5,
+      "repousse": [
+        60,
+        120
+      ],
+      "apparence": "champ",
+      "couleur": "e8c860",
+      "rare": "epi_dore"
+    },
+    {
+      "marqueur": "J",
+      "nom": "Lin",
+      "objet": "lin",
+      "niveau": 3,
+      "quantite": [
+        1,
+        2
+      ],
+      "xp": 8,
+      "repousse": [
+        60,
+        120
+      ],
+      "apparence": "champ",
+      "couleur": "8aa8e0",
+      "rare": "lin_des_fees"
+    },
+    {
+      "marqueur": "K",
+      "nom": "Avoine",
+      "objet": "avoine",
+      "niveau": 8,
+      "quantite": [
+        1,
+        2
+      ],
+      "xp": 12,
+      "repousse": [
+        90,
+        150
+      ],
+      "apparence": "champ",
+      "couleur": "d8d0a0",
+      "rare": "avoine_du_champion"
+    },
+    {
+      "marqueur": "S",
+      "nom": "Seigle",
+      "objet": "seigle",
+      "niveau": 15,
+      "quantite": [
+        1,
+        2
+      ],
+      "xp": 18,
+      "repousse": [
+        90,
+        150
+      ],
+      "apparence": "champ",
+      "couleur": "a88a58",
+      "rare": "seigle_ergote"
+    },
+    {
+      "marqueur": "V",
+      "nom": "Chanvre",
+      "objet": "chanvre",
+      "niveau": 22,
+      "quantite": [
+        1,
+        2
+      ],
+      "xp": 25,
+      "repousse": [
+        120,
+        180
+      ],
+      "apparence": "champ",
+      "couleur": "6a9a3a",
+      "rare": "chanvre_d_acier"
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "id": "sauge",
+  "nom": "Sauge",
+  "type": "ressource",
+  "rarete": "commun",
+  "niveau": 15,
+  "description": "La plante des sages. Elle ne rend pas sage, mais elle sent bon."
+}

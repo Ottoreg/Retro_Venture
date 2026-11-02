@@ -1,0 +1,98 @@
+{
+  "id": "pecheur",
+  "nom": "Pêcheur",
+  "type": "recolte",
+  "description": "Pêche depuis la berge, dans les remous des points d'eau.",
+  "ressources": [
+    {
+      "marqueur": "Â",
+      "nom": "Remous (goujon)",
+      "objet": "goujon",
+      "niveau": 1,
+      "quantite": [
+        1,
+        3
+      ],
+      "xp": 5,
+      "repousse": [
+        60,
+        120
+      ],
+      "apparence": "peche",
+      "couleur": "a8a890",
+      "rare": "goujon_dore"
+    },
+    {
+      "marqueur": "Ê",
+      "nom": "Remous (perche)",
+      "objet": "perche",
+      "niveau": 3,
+      "quantite": [
+        1,
+        2
+      ],
+      "xp": 8,
+      "repousse": [
+        60,
+        120
+      ],
+      "apparence": "peche",
+      "couleur": "8aa84a",
+      "rare": "perche_arc_en_ciel"
+    },
+    {
+      "marqueur": "Î",
+      "nom": "Remous (truite)",
+      "objet": "truite",
+      "niveau": 8,
+      "quantite": [
+        1,
+        2
+      ],
+      "xp": 12,
+      "repousse": [
+        90,
+        150
+      ],
+      "apparence": "peche",
+      "couleur": "7a8a6a",
+      "rare": "truite_saumonee"
+    },
+    {
+      "marqueur": "Ô",
+      "nom": "Remous (brochet)",
+      "objet": "brochet",
+      "niveau": 15,
+      "quantite": [
+        1,
+        2
+      ],
+      "xp": 18,
+      "repousse": [
+        90,
+        150
+      ],
+      "apparence": "peche",
+      "couleur": "5a7a4a",
+      "rare": "brochet_centenaire"
+    },
+    {
+      "marqueur": "Û",
+      "nom": "Remous (anguille des galeries)",
+      "objet": "anguille_des_galeries",
+      "niveau": 22,
+      "quantite": [
+        1,
+        2
+      ],
+      "xp": 25,
+      "repousse": [
+        120,
+        180
+      ],
+      "apparence": "peche",
+      "couleur": "4a4a5a",
+      "rare": "anguille_electrique"
+    }
+  ]
+}

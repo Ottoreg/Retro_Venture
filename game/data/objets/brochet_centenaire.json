@@ -1,0 +1,9 @@
+{
+  "id": "brochet_centenaire",
+  "nom": "Brochet centenaire",
+  "type": "ressource",
+  "rarete": "rare",
+  "niveau": 15,
+  "description": "Il a mangé trois cannes à pêche et un pêcheur distrait.",
+  "boutique": false
+}

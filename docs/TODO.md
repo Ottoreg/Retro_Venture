@@ -354,7 +354,7 @@ Lots 0 (conception dans le GDD), 1 (personnage, poussé sur `main` à la demande
 - [x] Ressources rares de récolte : 1 % par récolte, un exemplaire à la place de la récolte normale
   (`rare` dans les données, `Profession.RARE_CHANCE`) ; 10 ressources rares et 6 recettes améliorées
   (`docs/design/chantier3_brouillon/src/ressources_rares.py`)
-- [ ] Futurs métiers de récolte (agriculteur, herboriste, pêcheur, GDD § 10.3) : une ressource rare par ressource, même règle
+- [x] Métiers de récolte agriculteur, herboriste, pêcheur (02/11/2026, cinq paliers, trois cartes autour de Hautepierre, coins de pêche ; GDD § 10.3) : une ressource rare par ressource, même règle
 - [ ] Animation de récolte (durée fixe, outil en main)
 
 ### Quêtes

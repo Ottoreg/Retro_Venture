@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="60" height="30" viewBox="0 0 60 30">
+<g fill="none" stroke="#e8f4ff" stroke-linecap="round">
+<ellipse cx="30" cy="15" rx="22" ry="9" stroke-width="1.2" opacity="0.45"/>
+<ellipse cx="30" cy="15" rx="14" ry="5.5" stroke-width="1.4" opacity="0.7"/>
+<ellipse cx="30" cy="15" rx="6" ry="2.4" stroke-width="1.4" opacity="0.9"/>
+</g>
+<path d="M36 12 Q40 6 43 11 Q40 12 36 12 Z" fill="{{ecaille}}" stroke="#1a2a3a" stroke-width="0.8"/>
+</svg>

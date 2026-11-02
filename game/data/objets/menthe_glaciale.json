@@ -1,0 +1,9 @@
+{
+  "id": "menthe_glaciale",
+  "nom": "Menthe glaciale",
+  "type": "ressource",
+  "rarete": "rare",
+  "niveau": 8,
+  "description": "Une feuille et l'haleine gèle. Les dragons la détestent.",
+  "boutique": false
+}

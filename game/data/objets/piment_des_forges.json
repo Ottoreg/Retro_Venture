@@ -1,0 +1,8 @@
+{
+  "id": "piment_des_forges",
+  "nom": "Piment des forges",
+  "type": "ressource",
+  "rarete": "commun",
+  "niveau": 22,
+  "description": "Il pousse près des fours. Les forgerons s'en servent pour se réveiller."
+}

@@ -1,0 +1,9 @@
+{
+  "id": "anguille_electrique",
+  "nom": "Anguille électrique",
+  "type": "ressource",
+  "rarete": "rare",
+  "niveau": 22,
+  "description": "Elle pique comme une ortie royale, mais en plus vexée.",
+  "boutique": false
+}

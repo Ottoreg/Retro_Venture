@@ -1,0 +1,10 @@
+{
+  "id": "chanvre_d_acier",
+  "nom": "Chanvre d'acier",
+  "type": "ressource",
+  "rarete": "rare",
+  "niveau": 22,
+  "description": "Une corde tressée avec ça a déjà retenu un olifant. Il s'en souvient.",
+  "boutique": false,
+  "matiere": "tissu"
+}

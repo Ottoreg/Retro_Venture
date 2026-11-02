@@ -3,7 +3,8 @@
   "nom": "Hautepierre — Gorges du Troll",
   "sorties": {
     "haut": "hautepierre_2_3",
-    "droite": "hautepierre_3_4"
+    "droite": "hautepierre_3_4",
+    "gauche": "hautepierre_1_4"
   },
   "palette": "cendree",
   "plan": [
@@ -19,15 +20,15 @@
     " R.....R....RRRRRRR",
     "R...........RRRRR.R",
     " R.H..............R",
-    "R........EE........",
+    "R........ÔE........",
     " R......EEEE.......",
-    "R......EE..E.......",
+    "R......EE..Î.......",
     " T.....E....ER.....",
-    "R..R...............",
-    " R2..........RE....",
-    "RE............E....",
-    " REEEE.........EEE.",
-    "RAEEE.......R..EEE.",
+    "...R...............",
+    " .2..........RÔ....",
+    "RÔ............E....",
+    " REEEE.........EEÎ.",
+    "RAEEÎ.......R..EEE.",
     " RAAA..3..........R",
     "RARRRGR.........1.R",
     " RRRRRRRRRGRR.....R",

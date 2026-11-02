@@ -1,0 +1,8 @@
+{
+  "id": "brochet",
+  "nom": "Brochet",
+  "type": "ressource",
+  "rarete": "commun",
+  "niveau": 15,
+  "description": "Des dents partout. Il mord l'hameçon, puis le pêcheur."
+}

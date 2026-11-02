@@ -1,0 +1,9 @@
+{
+  "id": "epi_dore",
+  "nom": "Épi doré",
+  "type": "ressource",
+  "rarete": "rare",
+  "niveau": 1,
+  "description": "Un épi qui brille au soleil. Personne ne sait s'il se mange ou s'il se porte.",
+  "boutique": false
+}

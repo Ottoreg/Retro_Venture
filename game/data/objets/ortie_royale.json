@@ -1,0 +1,9 @@
+{
+  "id": "ortie_royale",
+  "nom": "Ortie royale",
+  "type": "ressource",
+  "rarete": "rare",
+  "niveau": 1,
+  "description": "Elle pique avec distinction, et exige qu'on la cueille avec des gants brodés.",
+  "boutique": false
+}

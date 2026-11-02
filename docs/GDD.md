@@ -1586,6 +1586,14 @@ très lentement et proteste à la coupe), **ébène de Cendre** (85), **bois de 
 - **Sous-produits** : **écorce** et **sève** (10 %, Maître des potions, Costumier pour les teintures),
   **glands et pousses** (semences, voir terrains).
 
+**En place (02/11/2026, demande de l'auteur)** : agriculteur, herboriste et pêcheur jouables, chacun
+avec les cinq premiers paliers de son tableau (1, 3, 8, 15, 22) et une ressource rare par ressource
+(`docs/design/recolte/produire.py`). Trois cartes de récolte autour de Hautepierre, sans monstres :
+Champs de l'Ouest (0, 1), Prés aux Simples (0, 3) et Jardins du Fleuve (1, 4). Deux ou trois coins
+de pêche (remous) sur chaque point d'eau des cartes, poissons au palier des monstres de la carte ;
+on pêche depuis la berge, la case reste de l'eau (`GameMap.FISHING_CHARS` : Â Ê Î Ô Û). Le lin et le
+chanvre sont du tissu pour la forge.
+
 #### Agriculteur (nouveau)
 
 Champs sauvages sur les cartes de campagne (Brumerive surtout, Hautepierre), épis à faucher.

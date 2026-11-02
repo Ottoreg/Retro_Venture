@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 44 44">
+<ellipse cx="22" cy="39.5" rx="11" ry="2.4" fill="#000000" fill-opacity="0.18"/>
+<g stroke="{{tige}}" stroke-width="1.8" stroke-linecap="round" fill="none"><path d="M22 39 L12 14"/><path d="M22 39 L17 10"/><path d="M22 39 V8"/><path d="M22 39 L27 10"/><path d="M22 39 L32 14"/></g>
+<g fill="{{epi}}" stroke="#2a1c10" stroke-width="0.9"><ellipse cx="11" cy="11" rx="2.6" ry="5.5" transform="rotate(-22 11 11)"/><ellipse cx="16.5" cy="7" rx="2.6" ry="5.5" transform="rotate(-10 16.5 7)"/><ellipse cx="22" cy="5.5" rx="2.7" ry="5.5"/><ellipse cx="27.5" cy="7" rx="2.6" ry="5.5" transform="rotate(10 27.5 7)"/><ellipse cx="33" cy="11" rx="2.6" ry="5.5" transform="rotate(22 33 11)"/></g>
+<rect x="16" y="26" width="12" height="4" rx="1.5" fill="#a0522d" stroke="#2a1c10" stroke-width="1"/>
+</svg>

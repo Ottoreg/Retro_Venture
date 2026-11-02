@@ -1,0 +1,9 @@
+{
+  "id": "seigle_ergote",
+  "nom": "Seigle ergoté",
+  "type": "ressource",
+  "rarete": "rare",
+  "niveau": 15,
+  "description": "Taché de noir. À ne pas manger, à moins d'aimer les visions de troll dansant.",
+  "boutique": false
+}

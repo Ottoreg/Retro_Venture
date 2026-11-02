@@ -1,0 +1,10 @@
+{
+  "id": "lin_des_fees",
+  "nom": "Lin des fées",
+  "type": "ressource",
+  "rarete": "rare",
+  "niveau": 3,
+  "description": "Si fin qu'on le voit à peine. Les elfes jurent l'avoir inventé.",
+  "boutique": false,
+  "matiere": "tissu"
+}

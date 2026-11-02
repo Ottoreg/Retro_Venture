@@ -41,6 +41,8 @@ const MAX_GROUP_SIZE := 3
 const SPAWN_CHAR := "@"
 ## Type d'obstacle des ressources récoltables (lettres majuscules hors légende, voir `Profession`).
 const RESOURCE_OBSTACLE := "ressource"
+## Coins de pêche : ressources posées sur l'eau, qui reste de l'eau (on pêche depuis le bord).
+const FISHING_CHARS := ["Â", "Ê", "Î", "Ô", "Û"]
 ## Obstacles plats : bloquent le passage mais se dessinent au niveau du sol.
 const FLAT_OBSTACLES := ["eau"]
 ## Bords de carte, et bord d'arrivée sur la carte voisine.
@@ -363,7 +365,7 @@ static func from_dict(data: Dictionary) -> GameMap:
 					"marchand": npc.get("marchand", false), "explication": npc.get("explication", []).duplicate()})
 			elif Profession.is_node_char(character):
 				map.resource_nodes[cell] = character
-				map.obstacles[cell] = RESOURCE_OBSTACLE
+				map.obstacles[cell] = LEGEND["E"] if character in FISHING_CHARS else RESOURCE_OBSTACLE
 			elif LEGEND[character] != "":
 				map.obstacles[cell] = LEGEND[character]
 	for row in map.rows + 1:

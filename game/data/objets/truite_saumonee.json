@@ -1,0 +1,9 @@
+{
+  "id": "truite_saumonee",
+  "nom": "Truite saumonée",
+  "type": "ressource",
+  "rarete": "rare",
+  "niveau": 8,
+  "description": "Elle se prend pour un saumon. On n'ose pas la contrarier.",
+  "boutique": false
+}

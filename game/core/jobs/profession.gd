@@ -9,7 +9,9 @@ extends RefCounted
 const TYPE_HARVEST := "recolte"
 const TYPE_CRAFT := "artisanat"
 ## Dessin d'une ressource sur la carte.
-const APPEARANCES := ["arbre", "rocher"]
+const APPEARANCES := ["arbre", "rocher", "champ", "plante", "peche"]
+## Apparence d'un coin de pêche : sa case reste de l'eau (`GameMap.FISHING_CHARS`).
+const FISHING := "peche"
 ## Chance qu'une récolte donne la ressource rare du nœud (`rare`) à la place de la ressource de base :
 ## un seul exemplaire, pour les recettes améliorées.
 const RARE_CHANCE := 0.01
@@ -53,9 +55,11 @@ static func reputation_gain(base: int, tier: int, reputation_value: int, bonus_p
 	return roundi(base * 2.0 * factor * (100 + bonus_percent) / 100.0)
 
 
-## Vrai pour un caractère de plan qui place une ressource : lettre majuscule hors de `GameMap.LEGEND`.
+## Vrai pour un caractère de plan qui place une ressource : lettre majuscule hors de `GameMap.LEGEND`, ou
+## coin de pêche (`GameMap.FISHING_CHARS`).
 static func is_node_char(character: String) -> bool:
-	return character.length() == 1 and character >= "A" and character <= "Z" and not GameMap.LEGEND.has(character)
+	return character in GameMap.FISHING_CHARS or character.length() == 1 and character >= "A" and character <= "Z" \
+		and not GameMap.LEGEND.has(character)
 
 
 ## Liste des erreurs de `data` (vide si le métier est valide).
@@ -101,6 +105,8 @@ static func _validate_node(node: Variant, known_items: Dictionary) -> PackedStri
 		errors.append("ressource %s : « repousse » doit être [min, max] en secondes" % label)
 	if node.get("apparence") not in APPEARANCES:
 		errors.append("ressource %s : « apparence » doit valoir %s" % [label, str(APPEARANCES)])
+	elif (node.get("apparence") == FISHING) != (node.get("marqueur") in GameMap.FISHING_CHARS):
+		errors.append("ressource %s : un coin de pêche (et lui seul) a un marqueur de %s" % [label, str(GameMap.FISHING_CHARS)])
 	if node.has("rare"):
 		var rare: Dictionary = known_items.get(node["rare"], {})
 		if rare.is_empty() or str(rare.get("type")) != Item.TYPE_RESOURCE or node["rare"] == node.get("objet"):

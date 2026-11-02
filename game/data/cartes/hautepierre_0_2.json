@@ -2,14 +2,16 @@
   "id": "hautepierre_0_2",
   "nom": "Hautepierre — Route de l'Ouest",
   "sorties": {
-    "droite": "hautepierre_1_2"
+    "droite": "hautepierre_1_2",
+    "haut": "hautepierre_0_1",
+    "bas": "hautepierre_0_3"
   },
   "portes": [
     "brumerive_3_1"
   ],
   "palette": "hautepierre",
   "plan": [
-    "AAAAAAAAAAAAAAAAAAA",
+    "AAAAAAAA...AAAAAAAA",
     " Y................A",
     "A.................A",
     " A....#...........A",
@@ -20,7 +22,7 @@
     "A.................A",
     " A................A",
     "A.................A",
-    " AEEEEEEE..EEEEEEEA",
+    " AÔEEÎEEE..ÔEEÎEEEA",
     "AAAAAAAAA.AAAAAAAAA",
     " ...........T......",
     ".#.....C...........",
@@ -30,7 +32,7 @@
     "...................",
     " ..................",
     "AAAAAAYAA.AAAAAAAAA",
-    " AEEEEEEE..EEEEEEEA",
+    " AÔEEÎEEE..ÔEEÎEEEA",
     "A................AA",
     " A...............CA",
     "A.................A",
@@ -41,7 +43,7 @@
     " A................A",
     "A.................A",
     " A................A",
-    "AAAAAAAAAAAAAAAAAAA"
+    "AAAAAAAA...AAAAAAAA"
   ],
   "groupes": [
     {

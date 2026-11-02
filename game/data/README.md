@@ -638,11 +638,14 @@ case voisine. Une fois récoltée, elle repousse au bout d'un temps tiré dans `
 - `objet` : ressource obtenue (`quantite` : [min, max] par récolte) ; `niveau` : palier de la ressource (indicatif, rien n'est verrouillé) ;
   `xp` : réputation de métier de base par récolte. Une récolte dure 1,5 s + 0,25 s par palier
   (`Profession.harvest_time`).
-- `apparence` : `arbre` ou `rocher` ; `couleur` : feuillage de l'arbre ou veines du minerai.
+- `apparence` : `arbre`, `rocher`, `champ` (céréales), `plante` ou `peche` ; `couleur` : feuillage de
+  l'arbre ou veines du minerai. Un coin de pêche (`peche`) a un marqueur de `GameMap.FISHING_CHARS`
+  (Â Ê Î Ô Û) : sa case reste de l'eau, on pêche depuis la berge. Les autres marqueurs sont des
+  majuscules hors de la légende (B, J, K, S, V : agriculteur ; O, Q, P, W, Z : herboriste).
 - `rare` (facultatif) : id d'une autre ressource, sa **version rare**. Chaque récolte a 1 % de chance
   (`Profession.RARE_CHANCE`) de donner **un** exemplaire de cette ressource à la place de la récolte
   normale (même réputation de métier). Les ressources rares servent aux recettes améliorées et ne sont pas en
-  boutique (`"boutique": false`). Les 10 bois et minerais en ont une (cœur de frêne, chêne des
+  boutique (`"boutique": false`). Les 10 bois et minerais et les 15 ressources d'agriculteur, d'herboriste et de pêcheur en ont une (cœur de frêne, chêne des
   Anciens, if funèbre, hêtre centenaire, malorme ensorcelée, cuivre vert-de-gris, fer météorique,
   étain chantant, argent lunaire, obsidienne sanglante) ; tout futur métier de récolte en aura aussi.
 

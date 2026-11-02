@@ -1,0 +1,9 @@
+{
+  "id": "chanvre",
+  "nom": "Chanvre",
+  "type": "ressource",
+  "rarete": "commun",
+  "niveau": 22,
+  "description": "Fibre solide : cordes, licols, et sacs qui ne craquent pas.",
+  "matiere": "tissu"
+}

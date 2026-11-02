@@ -1,0 +1,8 @@
+{
+  "id": "truite",
+  "nom": "Truite",
+  "type": "ressource",
+  "rarete": "commun",
+  "niveau": 8,
+  "description": "Elle remonte le courant par principe."
+}

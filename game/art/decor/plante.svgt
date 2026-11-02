@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="44" height="40" viewBox="0 0 44 40">
+<ellipse cx="22" cy="34" rx="15" ry="4.5" fill="#000000" opacity="0.2"/>
+<g fill="{{feuille}}" stroke="#1e3a1a" stroke-width="0.9" stroke-linejoin="round">
+<path d="M22 34 Q8 30 6 18 Q16 22 22 34 Z"/><path d="M22 34 Q36 30 38 18 Q28 22 22 34 Z"/>
+<path d="M22 34 Q13 22 16 8 Q23 18 22 34 Z"/><path d="M22 34 Q31 22 28 8 Q21 18 22 34 Z"/>
+</g>
+<g fill="{{fleur}}" stroke="#3a2618" stroke-width="0.6"><circle cx="16" cy="9" r="3"/><circle cx="28" cy="9" r="3"/><circle cx="7" cy="18" r="2.5"/><circle cx="37" cy="18" r="2.5"/></g>
+<g fill="#ffffff" opacity="0.6"><circle cx="15" cy="8" r="0.9"/><circle cx="27" cy="8" r="0.9"/></g>
+</svg>

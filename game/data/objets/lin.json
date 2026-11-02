@@ -1,0 +1,9 @@
+{
+  "id": "lin",
+  "nom": "Lin",
+  "type": "ressource",
+  "rarete": "commun",
+  "niveau": 3,
+  "description": "Fibre souple et bleutée : la base des chemises qui grattent.",
+  "matiere": "tissu"
+}
