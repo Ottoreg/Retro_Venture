@@ -24,6 +24,15 @@ Solo d'abord, multijoueur plus tard. Vision et règles : [docs/GDD.md](docs/GDD.
 - Ne rien laisser seulement dans la session (scratchpad, worktrees) : le conteneur est éphémère,
   tout ce qui compte est commité et poussé.
 
+## Règles de programmation
+
+À appliquer dorénavant, et rétroactivement sur tout fichier existant qu'on modifie :
+
+- Synthétiser le code au maximum, pour avoir le moins de lignes possible.
+- Ne coder que ce que l'auteur demande ; avant tout ajout non demandé, demander d'abord en
+  expliquant ce qui sera fait.
+- Garder un code et des conventions de nommage lisibles par des humains.
+
 ## Commandes
 
 Depuis `game/` (binaire Godot 4.5.1 standard) :
