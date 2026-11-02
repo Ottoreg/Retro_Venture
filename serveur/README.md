@@ -1,4 +1,4 @@
-# Serveur de jeu (prototype M1)
+# Serveur de jeu (prototype, jalons M1 à M4)
 
 Serveur Godot 4.5 sans affichage qui fait autorité (GDD § 16.5) : il fait tourner le même `game/core/`
 que le solo, reçoit les commandes des clients par WebSocket et leur renvoie les événements. Code :
@@ -108,15 +108,18 @@ Pour essayer un serveur construit depuis son clone (changements pas encore sur `
 | `RV_PUBLIC_ADDRESS` | Adresse publique fixe (`wss://…`), à la place de celle du tunnel |
 | `RV_POSTE` | Nom du poste, montré si un autre serveur tourne déjà |
 
-## Ce que fait le prototype (M1)
+## Ce que fait le prototype (M1 à M4)
 
 - Compte (inscription avec confirmation par courriel, connexion) ; un personnage par compte, pseudo
   unique ; création, chargement et sauvegarde sur le serveur (fin de combat, changement de carte,
   déconnexion, toutes les 60 s).
-- Deux joueurs sur la même carte se voient arriver, bouger, s'asseoir et partir ; le nom, le niveau,
-  la race et la Voie au survol.
-- Combats encore en solo mais calculés par le serveur : le groupe attaqué disparaît pour les autres
-  (il revient si le joueur perd ou se déconnecte).
+- Deux joueurs sur la même carte se voient arriver, bouger, s'asseoir et partir ; le nom, la race
+  et la Voie au survol.
+- Groupes de joueurs et combats de groupe calculés par le serveur (M2) : combat rejoint pendant le
+  placement, tours de 30 s, spectateurs, retour après une déconnexion, parts de brumes et de
+  butin ; le groupe attaqué disparaît pour les autres (il revient s'il n'est pas vaincu).
+- Social (M3) : chat par canaux, amis et ignorés, signalements (table `signalements`).
+- Échange entre joueurs (M4), les deux personnages sauvegardés en une seule écriture.
 - Reconnexion : on retrouve son personnage là où on l'a laissé ; un compte connecté ailleurs
   remplace l'ancienne connexion.
 - Protocole versionné (`Protocol.VERSION`) : un client trop ancien est prié de recharger la page ;

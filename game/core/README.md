@@ -1,8 +1,9 @@
 # core/ — noyau de jeu
 
-Toute la **logique de jeu** : règles de combat, grille et déplacements, inventaire, butin, quêtes,
-métiers. C'est le « serveur local » décrit au [GDD § 16.1](../../docs/GDD.md#161-principe-directeur) :
-en solo il tourne dans le client, en multi il tournera sur le serveur (Godot sans affichage).
+Toute la **logique de jeu** : règles de combat, grille et déplacements, inventaire, butin, forge
+(`items/forge.gd`), quêtes, métiers (`jobs/profession.gd`), progression par la pratique
+(`character/progression.gd`), social (`social/`). C'est le « serveur local » décrit au [GDD § 16.1](../../docs/GDD.md#161-principe-directeur) :
+en solo il tourne dans le client, en multi il tourne sur le serveur (Godot sans affichage, `game/server/`).
 
 Règles :
 
