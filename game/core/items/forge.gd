@@ -161,24 +161,19 @@ static func adjective(forms: Array, noun_gender: String) -> String:
 	return word + "s" if noun_gender.ends_with("p") and not word.ends_with("s") and not word.ends_with("x") else word
 
 
-## Nom formé de `words` (nom du type puis adjectifs de caractéristiques différentes de `stats`, accordés),
-## ou "" si ces mots ne sont pas permis.
+## Nom formé de `words` (nom du type puis adjectifs des lignes `stats`, accordés, deux d'une même ligne permis mais jamais
+## deux fois le même mot), ou "" si ces mots ne sont pas permis.
 static func name_of(words: Variant, type: String, stats: Array) -> String:
 	if typeof(words) != TYPE_ARRAY or words.is_empty() or words.size() > MAX_ADJECTIVES + 1 or typeof(words[0]) != TYPE_STRING:
 		return ""
 	var noun_gender := gender(type, words[0])
 	if noun_gender.is_empty():
 		return ""
-	var used: Array = []
-	for word: Variant in words.slice(1):
-		var found := ""
-		for stat: String in stats:
-			for forms: Array in WORDS.get(stat, []):
-				if stat not in used and adjective(forms, noun_gender) == word:
-					found = stat
-		if found.is_empty():
+	var adjectives: Array = words.slice(1)
+	for word: Variant in adjectives:
+		if adjectives.count(word) > 1 or not stats.any(func(stat: String) -> bool:
+				return WORDS.get(stat, []).any(func(forms: Array) -> bool: return adjective(forms, noun_gender) == word)):
 			return ""
-		used.append(found)
 	return " ".join(words)
 
 
@@ -190,13 +185,19 @@ static func roll(bonus: Dictionary, rng: RandomNumberGenerator) -> Dictionary:
 	return rolled
 
 
-## Attaque d'une arme forgée : dégâts de base × (1 + (palier − 1) / 20).
-static func scaled_attack(attack: Dictionary, tier: int) -> Dictionary:
+## Attaque d'une arme forgée : dégâts de base × (1 + (palier − 1) / 20), dans l'élément de la caractéristique
+## élémentaire la plus forte de ses lignes (`bonus`, au maximum de leur plage ; celui de l'arme à égalité ou sans).
+static func scaled_attack(attack: Dictionary, tier: int, bonus := {}) -> Dictionary:
 	var scaled := attack.duplicate(true)
 	for effect: Dictionary in scaled.get("effets", []):
 		if effect.get("type") == Spell.EFFECT_DAMAGE:
 			for key in ["min", "max"]:
 				effect[key] = roundi(effect[key] * (1.0 + (tier - 1) / 20.0))
+			var best := int(bonus.get(Fighter.ELEMENT_STATS.get(effect["element"], ""), [0, 0])[1])
+			for element: String in Fighter.ELEMENT_STATS:
+				if int(bonus.get(Fighter.ELEMENT_STATS[element], [0, 0])[1]) > best:
+					best = int(bonus[Fighter.ELEMENT_STATS[element]][1])
+					effect["element"] = element
 	return scaled
 
 

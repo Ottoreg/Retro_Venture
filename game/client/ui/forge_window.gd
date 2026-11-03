@@ -118,12 +118,13 @@ func _show_preview() -> void:
 	var data := map_view.world.data
 	var plan: Dictionary = data.items.get(_plan, {}).get("recette", {})
 	var preview := Forge.preview(_type, _chosen, data.items, map_view.world.character, plan.is_empty())
-	# Adjectifs de toutes les lignes, même cachées : ils laissent deviner ce que l'objet donnera.
-	_update_words(Forge.preview(_type, _chosen, data.items, map_view.world.character, false)["bonus"], plan)
+	# Adjectifs et élément d'attaque d'après toutes les lignes, même cachées : ils laissent deviner l'objet.
+	var full: Dictionary = Forge.preview(_type, _chosen, data.items, map_view.world.character, false)["bonus"]
+	_update_words(full, plan)
 	var lines: PackedStringArray = ["%s, palier %d" % [Forge.TYPE_NAMES[_type], preview["palier"]]]
 	lines.append_array(InventoryWindow.bonus_range_lines(preview["bonus"]))
 	lines.append_array(InventoryWindow.attack_lines(Item.entry_template({"objet": Forge.template_id(_type),
-		"forge": {"nom": "", "artisan": "", "palier": preview["palier"], "bonus": {}}}, data.items)))
+		"forge": {"nom": "", "artisan": "", "palier": preview["palier"], "bonus": full}}, data.items)))
 	if preview["cachees"] > 0:
 		lines.append("+ %d ressource(s) à la caractéristique inconnue" % preview["cachees"])
 	lines.append("")

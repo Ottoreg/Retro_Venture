@@ -144,7 +144,7 @@ static func entry_template(entry: Dictionary, items: Dictionary) -> Dictionary:
 	template.merge({"nom": forged["nom"], "niveau": forged["palier"], "bonus": forged["bonus"].duplicate(true),
 		"description": "Créé par %s" % forged["artisan"]}, true)
 	if template.has("attaque"):
-		template["attaque"] = Forge.scaled_attack(template["attaque"], int(forged["palier"]))
+		template["attaque"] = Forge.scaled_attack(template["attaque"], int(forged["palier"]), forged["bonus"])
 	return template
 
 

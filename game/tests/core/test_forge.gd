@@ -90,7 +90,8 @@ func test_plafond_par_ligne_et_lignes_par_objet() -> void:
 func test_nom_fait_de_mots_proposes() -> void:
 	assert_eq(Forge.default_words("bottes", {"force": [3, 4], "pa": [1, 1]}), ["Bottes", "rapides"], "accord au féminin pluriel")
 	assert_eq(Forge.name_of(["Bague", "costaude"], "anneau", ["force"]), "Bague costaude")
-	assert_eq(Forge.name_of(["Anneau", "costaud", "massif"], "anneau", ["force"]), "", "deux mots pour une même ligne")
+	assert_eq(Forge.name_of(["Anneau", "costaud", "massif"], "anneau", ["force"]), "Anneau costaud massif", "deux mots d'une même ligne")
+	assert_eq(Forge.name_of(["Anneau", "costaud", "costaud"], "anneau", ["force"]), "", "pas deux fois le même mot")
 	assert_eq(Forge.name_of(["Anneau", "rapide"], "anneau", ["force"]), "", "pas de ligne de PA")
 	assert_eq(Forge.name_of(["Chapeau"], "anneau", []), "", "nom d'un autre type")
 	assert_eq(Forge.name_of("Anneau", "anneau", []), "")
@@ -143,6 +144,15 @@ func test_forger_avec_un_plan_et_une_arme() -> void:
 	assert_eq(fighter.weapon_tier, 6)
 	var copy := _world.data.create_profile_fighter(fighter.profile(), "j")
 	assert_eq(copy.spells[0].effects[0]["min"], 13, "la copie du combat garde l'attaque forgée")
+
+
+func test_element_d_attaque_selon_les_ressources() -> void:
+	var attack: Dictionary = _world.data.items["forge_epee"]["attaque"]
+	var element := func(bonus: Dictionary) -> String: return Forge.scaled_attack(attack, 1, bonus)["effets"][0]["element"]
+	assert_eq(element.call({}), "acier", "élément de l'arme sans ligne élémentaire")
+	assert_eq(element.call({"force": [3, 4], "perception": [6, 8], "vitalite": [40, 50]}), "givre", "beaucoup de Perception : Givre")
+	assert_eq(element.call({"force": [6, 8], "intelligence": [6, 8]}), "acier", "à égalité : l'élément de l'arme")
+	assert_eq(element.call({"agilite": [1, 2], "intelligence": [1, 3]}), "flamme")
 
 
 func test_enclume_a_cote() -> void:

@@ -1861,7 +1861,10 @@ compris) et les recettes du forgeron sont supprimés, tout le reste se forge.
   de Hautepierre) disent où elle est et, si le joueur accepte, expliquent la forge.
 - **Type d'objet** d'abord : coiffe, cape, amulette, anneau, ceinture, bottes, et six formes
   d'armes (épée Acier, arc Tempête, bâton Givre, dague Impie, masse Sacré, sceptre Flamme ; dégâts
-  de base × (1 + (palier − 1) / 20)). **Matières obligatoires** : tissu (coiffe, cape), cuir
+  de base × (1 + (palier − 1) / 20) ; **élément d'attaque** : celui de la caractéristique
+  élémentaire la plus forte de l'arme, Force Acier, Intelligence Flamme, Perception Givre, Agilité
+  Tempête, celui de la forme à égalité ou sans ligne élémentaire, demande de l'auteur du 03/11/2026).
+  **Matières obligatoires** : tissu (coiffe, cape), cuir
   (ceinture, bottes), minerai (anneau, amulette), minerai et bois (armes). **8 ressources différentes
   au plus** (les 8 cases de la recette, demande de l'auteur du 03/11/2026 ; quantité de chacune libre,
   bornée par le plafond des lignes).

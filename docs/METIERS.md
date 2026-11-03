@@ -167,7 +167,7 @@ pour un point de Force.
 
 ### Types d'objets
 
-| Type | Matières obligatoires | Noms proposés | Attaque (dégâts selon le palier : × (1 + (P − 1) / 20)) |
+| Type | Matières obligatoires | Noms proposés | Attaque (dégâts selon le palier : × (1 + (P − 1) / 20) ; élément de la carac. élémentaire la plus forte) |
 |---|---|---|---|
 | coiffe | tissu | Coiffe, Chapeau, Bonnet, Heaume | — |
 | cape | tissu | Cape, Manteau, Pèlerine | — |
