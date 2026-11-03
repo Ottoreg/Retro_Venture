@@ -348,7 +348,7 @@ Lots 0 (conception dans le GDD), 1 (personnage, poussé sur `main` à la demande
 - [x] **Fenêtre de l'enclume refaite** (03/11/2026, demande de l'auteur, sur `main`) : sac en icônes à
   gauche, clic ou glisser vers 8 cases de recette en bas au centre (8 ressources différentes au plus,
   quantité libre), molette sans effet, choix du nom réparé (l'adjectif suit le genre du nom, « — »
-  reste choisi), jet obtenu affiché à droite (`jets`, `bonus` et `palier` dans l'événement `fabrication`)
+  reste choisi ; adjectifs proposés même pour les caractéristiques cachées, pour deviner l'objet), jet obtenu affiché à droite (`jets`, `bonus` et `palier` dans l'événement `fabrication`)
 - [ ] **Plus tard (après la forge, demande de l'auteur)** : un **maître par catégorie d'équipement**,
   qui donne des plans par des quêtes : armurier (toutes les armes et les armures), tailleur (tous
   les tissus : capes, coiffes), cordonnier (tous les cuirs : bottes, ceintures)… (GDD § 10.4)

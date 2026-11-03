@@ -118,7 +118,8 @@ func _show_preview() -> void:
 	var data := map_view.world.data
 	var plan: Dictionary = data.items.get(_plan, {}).get("recette", {})
 	var preview := Forge.preview(_type, _chosen, data.items, map_view.world.character, plan.is_empty())
-	_update_words(preview["bonus"], plan)
+	# Adjectifs de toutes les lignes, même cachées : ils laissent deviner ce que l'objet donnera.
+	_update_words(Forge.preview(_type, _chosen, data.items, map_view.world.character, false)["bonus"], plan)
 	var lines: PackedStringArray = ["%s, palier %d" % [Forge.TYPE_NAMES[_type], preview["palier"]]]
 	lines.append_array(InventoryWindow.bonus_range_lines(preview["bonus"]))
 	lines.append_array(InventoryWindow.attack_lines(Item.entry_template({"objet": Forge.template_id(_type),

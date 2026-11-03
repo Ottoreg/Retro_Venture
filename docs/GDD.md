@@ -1891,7 +1891,8 @@ compris) et les recettes du forgeron sont supprimés, tout le reste se forge.
 - **Fenêtre de l'enclume** (03/11/2026, demande de l'auteur) : à gauche le sac en icônes (ressources de
   forge et plans) ; un clic gauche ou un glisser pose une ressource dans les **8 cases de la recette**,
   en bas au centre (la molette ne fait rien) ; au centre le type, l'aperçu et le nom ; à droite
-  l'**objet forgé et ses jets obtenus** (avec leurs plages).
+  l'**objet forgé et ses jets obtenus** (avec leurs plages). Les adjectifs du nom sont proposés même
+  pour les caractéristiques cachées : ils laissent deviner à peu près ce que l'objet donnera.
 - **Plans** (objets de type « recette », gardés dans le sac) : type, ressources et nom d'avance, tout
   visible. Les 25 quêtes qui donnaient un objet supprimé donnent son plan ; les marchands en vendent
   11 (35 brumes). Les recettes ne sont pas obligatoires.
