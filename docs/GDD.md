@@ -1707,7 +1707,7 @@ conception du 23/10/2026 (achat en brumes et agrandissements). Décisions valid�
 jour (en fin de section).
 
 - **Accès par la réputation** : la réputation d'un métier de récolte débloque l'**instance
-  personnelle** de ce métier, au palier **Compagnon** (5 000). Rien ne s'achète, il n'y a
+  personnelle** de ce métier à **2 500** de réputation. Rien ne s'achète, il n'y a
   pas de loyer.
 - **Une instance par métier de récolte** : **champ** (agriculteur), **jardin**
   (herboriste), **étang** (pêcheur), **bosquet** (bûcheron), **mine** (mineur). Les métiers
@@ -1731,20 +1731,25 @@ jour (en fin de section).
 - **Interface de disposition** : une **vue d'ensemble de l'instance** (la carte vue de haut) et la
   **liste des ressources disponibles** ; le joueur pose chaque ressource sur un emplacement libre
   (une céréale par sillon pour l'agriculteur, un filon par paroi pour le mineur, un banc de poissons
-  par coin de l'étang), dans la limite du **nombre d'emplacements** et des **paliers de ressources**
-  que sa réputation lui donne. Elle s'ouvre au panneau du Cadastre (prévisualiser avant d'entrer) et
+  par coin de l'étang), dans la limite du **nombre d'emplacements** que sa réputation lui donne et
+  des **ressources débloquées**.
+- **Ressources débloquées par la maîtrise** : chaque ressource se débloque pour l'instance en y
+  investissant des **points de maîtrise du métier** (§ 10.2), **sans condition de palier** : 1 point
+  par ressource, davantage pour les ressources des paliers élevés (piste : 1 point jusqu'au palier 8,
+  2 jusqu'au palier 22, 3 au-delà). Ces points sont pris sur ceux des compétences (Abondance, Œil
+  exercé, Célérité) : choisir entre récolter mieux partout et cultiver plus varié chez soi. Elle s'ouvre au panneau du Cadastre (prévisualiser avant d'entrer) et
   dans l'instance. Changer la ressource d'un emplacement remet sa pousse à zéro.
 - **Taille de la carte** : une carte de taille normale, avec une **zone exploitable** fixe
   (sillons, plates-bandes, berges, parois) plus grande que le nombre d'emplacements du maître : le
   joueur choisit **où** il plante, pas seulement **quoi**. Pas de monstres dans l'instance.
 - **Ce que donne la réputation** (pistes à équilibrer) :
 
-| Palier de réputation | Emplacements | Ressources plantables | Bonus d'instance |
-|---|---|---|---|
-| Compagnon (5 000) | 6 | jusqu'au palier 8 | aucun |
-| Vétéran (15 000) | 12 | jusqu'au palier 22 | +10 % de quantité récoltée |
-| Maître (40 000) | 25 | jusqu'au palier 55 | +25 % de quantité, pousse −15 %, récolte −10 % de temps |
-| Légende (100 000) | 40 | tous les paliers | +50 % de quantité, pousse −30 %, récolte −20 % de temps, +0,5 % de rare |
+| Réputation | Emplacements | Bonus d'instance |
+|---|---|---|
+| Ouverture (2 500) | 10 | aucun |
+| Vétéran (15 000) | 15 | +10 % de quantité récoltée |
+| Maître (40 000) | 25 | +25 % de quantité, pousse −15 %, récolte −10 % de temps |
+| Légende (100 000) | 40 | +50 % de quantité, pousse −30 %, récolte −20 % de temps, +0,5 % de rare |
 
 - **Bonus d'instance** : ils ne valent **que dans l'instance** et s'ajoutent aux compétences du
   métier ; la récolte sauvage reste la source normale des ressources, et celle de la carte reste
@@ -1770,7 +1775,8 @@ jour (en fin de section).
 
 1. **Métiers qui ont une instance** : les cinq métiers de récolte ; pas l'artisanat ; l'enclos de
    l'éleveur plus tard sur le même modèle.
-2. **Ouverture** : au palier Compagnon (5 000 de réputation du métier).
+2. **Ouverture** : à 2 500 de réputation du métier, avec 10 emplacements ; chaque ressource se
+   débloque par des points de maîtrise du métier, sans condition de palier.
 3. **Croissance et temps simulé** : 10 min au palier 1, +5 min par palier ; une ressource mûre attend
    sans cumul (au plus une récolte par emplacement en revenant).
 4. **Semences** : aucune, la ressource repousse seule ; les sous-produits « semences » (glands et
@@ -1779,7 +1785,7 @@ jour (en fin de section).
 6. **Carte des instances** : le Cadastre près de Hautepierre, puis une par capitale ; un panneau par
    métier.
 7. **Taille de la carte** : carte normale, zone exploitable plus grande que le maximum d'emplacements.
-8. **Paliers, emplacements et bonus** : le tableau ci-dessus (à équilibrer pendant les tests).
+8. **Emplacements et bonus** : le tableau ci-dessus (à équilibrer pendant les tests).
 9. **Gains dans l'instance** : la moitié de ceux d'une récolte sauvage.
 10. **Visiteurs** : aucun dans l'instance personnelle.
 11. **Propriété** : par personnage.
