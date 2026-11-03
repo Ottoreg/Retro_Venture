@@ -7,5 +7,5 @@
   "description": "Une bûche si vieille qu'elle se souvient de l'Âge de l'Aube. Elle refuse d'en parler.",
   "boutique": false,
   "matiere": "bois",
-  "caracteristique": "intelligence"
+  "caracteristique": "resistance_acier"
 }

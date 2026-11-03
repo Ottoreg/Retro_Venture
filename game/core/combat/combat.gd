@@ -688,7 +688,7 @@ func _apply_effect(caster: Fighter, target: Fighter, effect: Dictionary, events:
 ## Dégâts d'un effet de valeur tirée `amount` (voir `_apply_effect`).
 static func damage_value(caster: Fighter, target: Fighter, element: String, amount: int) -> int:
 	var boosted := amount * (100 + caster.power(element)) / 100.0 * dealt_factor(caster)
-	return maxi(0, roundi(boosted * (100 - target.resistance(element)) / 100.0)) + caster.total_dommages()
+	return maxi(0, roundi(boosted * (100 - target.resistance(element)) / 100.0)) + caster.total_dommages() + caster.element_damage(element)
 
 
 ## Multiplicateur des dégâts infligés par `caster` (bonus et malus « degats_infliges », jamais négatif).

@@ -656,10 +656,14 @@ func create_character_fighter(character: Character, fighter_id: String) -> Fight
 	fighter.prospection = character.prospection(self)
 	fighter.dommages = character.extra("dommages", self)
 	fighter.crit_bonus = character.extra("critique", self)
+	for element: String in Fighter.ELEMENT_STATS:
+		fighter.element_dommages[element] = character.extra("dommages_" + element, self)
+		fighter.resistances[element] = int(fighter.resistances.get(element, 0)) + character.extra("resistance_" + element, self)
 	var weapon := character.inventory.equipped_entry("arme")
 	if not weapon.is_empty() and items.has(weapon["objet"]):
 		fighter.weapon = weapon["objet"]
 		fighter.weapon_tier = int(weapon.get("forge", {}).get("palier", 0))
+		fighter.weapon_bonus = weapon.get("forge", {}).get("bonus", {}).duplicate(true)
 		fighter.spells.insert(0, Spell.from_dict(Item.weapon_spell_data(Item.entry_template(weapon, items))))
 	return fighter
 
@@ -685,6 +689,7 @@ func create_profile_fighter(profile: Dictionary, fighter_id: String) -> Fighter:
 	fighter.dommages = int(profile["dommages"])
 	fighter.crit_bonus = int(profile["critique"])
 	fighter.resistances = (profile["resistances"] as Dictionary).duplicate()
+	fighter.element_dommages = (profile.get("dommages_elements", {}) as Dictionary).duplicate()
 	fighter.spells.clear()
 	var ranks: Dictionary = profile.get("maitrises", {})
 	for spell_id: String in profile["sorts"]:
@@ -693,8 +698,9 @@ func create_profile_fighter(profile: Dictionary, fighter_id: String) -> Fighter:
 	fighter.masteries = ranks.duplicate()
 	fighter.weapon = str(profile.get("arme", ""))
 	fighter.weapon_tier = int(profile.get("palier_arme", 0))
+	fighter.weapon_bonus = (profile.get("bonus_arme", {}) as Dictionary).duplicate(true)
 	if items.has(fighter.weapon):
-		var forged := {"forge": {"nom": items[fighter.weapon]["nom"], "artisan": "", "palier": fighter.weapon_tier, "bonus": {}}} if fighter.weapon_tier > 0 else {}
+		var forged := {"forge": {"nom": items[fighter.weapon]["nom"], "artisan": "", "palier": fighter.weapon_tier, "bonus": fighter.weapon_bonus}} if fighter.weapon_tier > 0 else {}
 		fighter.spells.insert(0, Spell.from_dict(Item.weapon_spell_data(Item.entry_template(forged.merged({"objet": fighter.weapon}), items))))
 	return fighter
 

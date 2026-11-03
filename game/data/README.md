@@ -495,10 +495,10 @@ Vétéran 15 000).
 | `type` | `ressource` (s'empile), `quete` (objet de quête : s'empile, ni vendu, ni vendable, ni jetable), `recette` (plan de forge, ci-dessous) ou équipement : `arme`, `coiffe`, `cape`, `amulette`, `anneau`, `ceinture`, `bottes` |
 | `rarete` | `commun`, `peu_commun`, `rare`, `epique`, `legendaire`, `relique` (couleur dans l'interface) |
 | `niveau` | Palier de l'objet (puissance indicative, prix, catalogue) : plus une condition pour l'équiper (GDD § 4.5) |
-| `bonus` | Plages `[min, max]` tirées au hasard à l'obtention (« jets ») : les 5 caractéristiques, `prospection`, `initiative`, `portee`, `pa`, `pm`, `dommages` (dégâts bruts ajoutés à chaque ligne de dégâts, ni multipliés ni réduits par les résistances, pas sur les soins) |
+| `bonus` | Plages `[min, max]` tirées au hasard à l'obtention (« jets ») : les 5 caractéristiques, `prospection`, `initiative`, `portee`, `pa`, `pm`, `dommages` (dégâts bruts ajoutés à chaque ligne de dégâts, ni multipliés ni réduits par les résistances, pas sur les soins), `dommages_<élément>` (pareil, seulement pour les dégâts de cet élément : `acier`, `flamme`, `givre`, `tempete` ; Sacré et Impie : la moyenne des deux), `resistance_<élément>` (% de résistance) |
 | `boutique` | `false` : les marchands ne le vendent pas (trophée de boss, objet de butin rare) ; défaut `true` |
 | `attaque` | Armes seulement : attaque utilisable en combat, décrite comme un sort |
-| `caracteristique` | Ressources de monstres et matières récoltées (minerai, bois, tissu : une caractéristique élémentaire) : ce qu'elles donnent à la forge (une des 12 statistiques ; la valeur dépend du `niveau`, voir « Forge ») |
+| `caracteristique` | Ressources de monstres et matières récoltées (minerais et bois élémentaires, leurs rares en `dommages_` / `resistance_` de l'élément ; chanvre, lin et rares en Portée) : ce qu'elles donnent à la forge (une des 12 statistiques ; la valeur dépend du `niveau`, voir « Forge ») |
 | `matiere` | `cuir`, `tissu`, `minerai` ou `bois` : matière obligatoire de certains types d'objets forgés |
 | `recette` | Plans seulement : `{ "nom": nom de l'objet, "type": type de forge, "ressources": { id: quantité } }` |
 

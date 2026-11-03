@@ -7,5 +7,5 @@
   "description": "Un verre noir veiné de rouge. Il coupe, et il a l'air content de couper.",
   "boutique": false,
   "matiere": "minerai",
-  "caracteristique": "force"
+  "caracteristique": "dommages_acier"
 }

@@ -1,0 +1,9 @@
+{
+  "id": "patron",
+  "nom": "Patron",
+  "type": "ressource",
+  "rarete": "peu_commun",
+  "niveau": 1,
+  "boutique": false,
+  "description": "Patron d'un objet forgé : ses ressources, ses jets et ses effets."
+}

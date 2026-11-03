@@ -2349,12 +2349,15 @@ func _forge(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
 	var item_name: String = plan.get("nom", Forge.name_of(command.get("mots"), type, preview["bonus"].keys()))
 	if not preview["erreur"].is_empty() or item_name.is_empty():
 		return _refused(command, preview["erreur"] if not preview["erreur"].is_empty() else Protocol.REASON_INVALID_COMMAND)
-	var freed := 0
+	var paper: bool = command.get("papier") == true
+	if paper and inventory.quantity_of(Forge.PAPER) < 1:
+		return _refused(command, Protocol.REASON_MISSING_INGREDIENTS)
+	var freed := 1 if paper and inventory.quantity_of(Forge.PAPER) == 1 else 0
 	for item_id: String in resources:
 		if inventory.quantity_of(item_id) < int(resources[item_id]):
 			return _refused(command, Protocol.REASON_MISSING_INGREDIENTS)
 		freed += 1 if inventory.quantity_of(item_id) == int(resources[item_id]) else 0
-	if inventory.entries.size() - freed >= inventory.capacity:
+	if inventory.entries.size() - freed + (2 if paper else 1) > inventory.capacity:
 		return _refused(command, Protocol.REASON_INVENTORY_FULL)
 	for item_id: String in resources:
 		inventory.remove(item_id, int(resources[item_id]))
@@ -2362,7 +2365,12 @@ func _forge(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
 	var uid := inventory.add(template, 1, Forge.roll(preview["bonus"], rng), false,
 		{"nom": item_name, "artisan": p.character.display_name, "palier": preview["palier"], "bonus": preview["bonus"]})
 	var events: Array[Dictionary] = [{"type": Protocol.EVT_CRAFTED, "objet": template["id"], "nom": item_name, "quantite": 1, "metier": Forge.JOB,
-		"palier": preview["palier"], "jets": inventory.entries[uid]["jets"], "bonus": preview["bonus"]}]
+		"palier": preview["palier"], "jets": inventory.entries[uid]["jets"], "bonus": preview["bonus"], "patron": paper}]
+	if paper:  # Le patron note les ressources, les jets et les plages de l'objet forgé.
+		inventory.remove(Forge.PAPER)
+		inventory.add(data.items[Forge.PATTERN], 1, {}, false, {"nom": "Patron de " + item_name, "artisan": p.character.display_name,
+			"palier": preview["palier"], "bonus": {}, "patron": {"nom": item_name, "type": type, "palier": preview["palier"],
+			"ressources": resources.duplicate(), "jets": inventory.entries[uid]["jets"].duplicate(), "bonus": preview["bonus"].duplicate(true)}})
 	events.append(_job_event(p, Forge.JOB, Forge.REPUTATION_PER_TIER * int(preview["palier"]), int(preview["palier"])))
 	events.append_array(_inventory_events(p))
 	return events

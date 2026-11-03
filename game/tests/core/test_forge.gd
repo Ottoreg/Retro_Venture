@@ -163,3 +163,35 @@ func test_enclume_a_cote() -> void:
 	_world.execute({"type": Protocol.CMD_MOVE, "entite": World.PLAYER_ID, "cible": GameMap.plan_cell(1, 1)})
 	_give("minerai")
 	assert_eq(_forge({"type_objet": "anneau", "ressources": {"minerai": 1}, "mots": ["Anneau"]})[0].get("raison"), Protocol.REASON_TOO_FAR)
+
+
+func test_dommages_et_resistances_par_element() -> void:
+	var inventory := _world.character.inventory
+	inventory.equip(inventory.add(_world.data.items["forge_bottes"], 1, {"dommages_flamme": 10, "dommages_acier": 4, "resistance_givre": 5}), "bottes")
+	var fighter := _world.data.create_character_fighter(_world.character, "j")
+	assert_eq(fighter.resistances.get("givre"), 5, "résistance de l'équipement")
+	assert_eq(fighter.element_damage("sacre"), 7, "élément composé : moyenne de ses deux éléments")
+	var target := Fighter.new()
+	target.resistances = {"flamme": 50}
+	assert_eq(Combat.damage_value(fighter, target, "flamme", 20), 20, "20 × 50 % + 10 dommages Flamme")
+	assert_eq(_world.data.create_profile_fighter(fighter.profile(), "j").element_damage("flamme"), 10, "gardés dans la copie du combat")
+
+
+func test_patron_sur_une_feuille_de_papier() -> void:
+	var inventory := _world.character.inventory
+	_give("peau", 2)
+	_give("croc", 4)
+	var command := {"type_objet": "bottes", "ressources": {"peau": 1, "croc": 2}, "mots": ["Bottes"], "papier": true}
+	assert_eq(_forge(command)[0].get("raison"), Protocol.REASON_MISSING_INGREDIENTS, "pas de feuille de papier")
+	_give("feuille_de_papier", 2)
+	for i in 2:
+		assert_true(_forge(command)[0]["patron"])
+	assert_eq(inventory.quantity_of("feuille_de_papier"), 0, "feuilles consommées")
+	var patterns: Array = inventory.entries.values().filter(func(e: Dictionary) -> bool: return e["objet"] == Forge.PATTERN)
+	assert_eq(patterns.size(), 2, "un patron par objet, sans empilement")
+	var template := Item.entry_template(patterns[0], _world.data.items)
+	assert_eq(template["nom"], "Patron de Bottes")
+	assert_eq(template["patron"]["ressources"], {"peau": 1, "croc": 2}, "les ressources")
+	var boots: Dictionary = inventory.entries.values().filter(func(e: Dictionary) -> bool: return e["objet"] == "forge_bottes")[0]
+	assert_eq(template["patron"]["jets"], boots["jets"], "les jets de l'objet forgé")
+	assert_eq(Inventory.from_dict(inventory.to_dict(), _world.data.items).quantity_of(Forge.PATTERN), 2, "gardés à la sauvegarde")

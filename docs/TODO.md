@@ -350,8 +350,11 @@ Lots 0 (conception dans le GDD), 1 (personnage, poussé sur `main` à la demande
   quantité libre), molette sans effet, choix du nom réparé (l'adjectif suit le genre du nom, « — »
   reste choisi ; adjectifs proposés même pour les caractéristiques cachées, pour deviner l'objet) ;
   élément d'attaque des armes forgées selon leur caractéristique élémentaire la plus forte, Sacré ou Impie
-  si les deux caractéristiques du composé sont à 10 % près (`Forge.scaled_attack`) ; minerais, bois et
-  tissus récoltés orientés vers un élément (`docs/design/forge/matieres.py`, à valider pendant les tests) ;
+  si les deux caractéristiques du composé sont à 10 % près (`Forge.scaled_attack`) ; minerais et bois
+  récoltés élémentaires, leurs rares en dommages / résistance de l'élément, chanvre Initiative, lin
+  Prospection, rares +1 Portée (`docs/design/forge/matieres.py`) ; lignes `dommages_<élément>` et
+  `resistance_<élément>` ; 9e case : feuille de papier → « Patron de <nom> »
+- [ ] Feuille de papier faite par l'agriculteur (artisanat à créer ; vendue par les marchands en attendant) ;
   deux adjectifs d'une même caractéristique permis, jamais deux fois le même (`Forge.name_of`), jet obtenu affiché à droite (`jets`, `bonus` et `palier` dans l'événement `fabrication`)
 - [ ] **Plus tard (après la forge, demande de l'auteur)** : un **maître par catégorie d'équipement**,
   qui donne des plans par des quêtes : armurier (toutes les armes et les armures), tailleur (tous

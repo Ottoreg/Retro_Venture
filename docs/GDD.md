@@ -1876,10 +1876,16 @@ compris) et les recettes du forgeron sont supprimés, tout le reste se forge.
   fragment de cendre), **PM** (soie de la Mère-Toile), **Portée** (éclat de cendre) : toujours 1,
   une ligne au plus par objet. Valeur : max(1, arrondi((1 + palier / 8) × poids)), poids 1 pour les
   élémentaires, 4 Vitalité, 10 Initiative, 0,34 Prospection et Dommages, 0,1 Critique (d'après le
-  score plus bas). **Matières récoltées orientées** (demande de l'auteur du 03/11/2026) : chaque
-  minerai, bois et tissu récolté donne aussi une caractéristique élémentaire (la commune et la rare d'un
-  palier, deux éléments différents ; les quatre par matière), pour choisir sa matière selon l'objet
-  voulu (`docs/design/forge/matieres.py`). Quelques ressources ont une matière (peaux, cuir et ailes : cuir ; poils, paille,
+  score plus bas). **Matières récoltées orientées** (demandes de l'auteur du 03/11/2026,
+  `docs/design/forge/matieres.py`) : minerais et bois communs donnent une caractéristique élémentaire
+  (les quatre par matière), pour choisir sa matière selon l'objet voulu ; les **minerais rares** donnent
+  les **dommages de l'élément** de leur minerai (vert-de-gris : Dommages Flamme, comme le cuivre est
+  Intelligence), les **bois rares** la **résistance** de cet élément (en %) ; le **chanvre** donne
+  l'Initiative, le **lin** la Prospection, leurs rares **+1 Portée** ; les tissus de monstres sont
+  élémentaires (fil de brume : Perception), la soie de la Mère-Toile garde ses PM. Nouvelles lignes
+  d'équipement : **Dommages Acier, Flamme, Givre, Tempête** (ajoutés aux dégâts de l'élément ; Sacré et
+  Impie : la moyenne de leurs deux éléments ; 0,5 point par point de Force, 50 par ligne) et **%
+  Résistance** aux mêmes éléments (0,2, 20 % par ligne). Quelques ressources ont une matière (peaux, cuir et ailes : cuir ; poils, paille,
   fils, soie, plumes : tissu).
 - **Limites** (demande de l'auteur, 02/11/2026) : **100 points de score par ligne** au plus (100 Force,
   400 Vitalité, 1 000 Initiative, 34 Prospection ou Dommages, 10 Critique ; 1 PA, PM ou Portée) et
@@ -1901,6 +1907,10 @@ compris) et les recettes du forgeron sont supprimés, tout le reste se forge.
   en bas au centre (la molette ne fait rien) ; au centre le type, l'aperçu et le nom ; à droite
   l'**objet forgé et ses jets obtenus** (avec leurs plages). Les adjectifs du nom sont proposés même
   pour les caractéristiques cachées : ils laissent deviner à peu près ce que l'objet donnera.
+- **Patron** (03/11/2026, demande de l'auteur) : une **9e case** reçoit une **feuille de papier** (faite
+  plus tard par l'agriculteur ; vendue par les marchands en attendant). L'objet forgé sort avec son
+  **« Patron de <nom> »**, qui note les ressources, les jets obtenus (et leurs plages) et les effets
+  (attaque d'une arme).
 - **Plans** (objets de type « recette », gardés dans le sac) : type, ressources et nom d'avance, tout
   visible. Les 25 quêtes qui donnaient un objet supprimé donnent son plan ; les marchands en vendent
   11 (35 brumes). Les recettes ne sont pas obligatoires.

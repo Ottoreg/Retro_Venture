@@ -7,5 +7,5 @@
   "description": "Il brille même la nuit, surtout la nuit. Les loups le regardent bizarrement.",
   "boutique": false,
   "matiere": "minerai",
-  "caracteristique": "perception"
+  "caracteristique": "dommages_givre"
 }

@@ -19,6 +19,8 @@ var _type := "coiffe"
 var _chosen := {}
 ## Plan choisi (id), ou "".
 var _plan := ""
+## Vrai quand une feuille de papier est dans la 9e case : elle recevra le patron de l'objet.
+var _paper := false
 ## Vrai quand le joueur a touché au nom : on ne lui remet plus les mots proposés.
 var _named := false
 var _backdrop: ColorRect
@@ -27,6 +29,7 @@ var _job_label: Label
 var _types: OptionButton
 var _bag: ItemList
 var _slots: Array[Button] = []
+var _paper_slot: Button
 var _preview: Label
 var _words: Array[OptionButton] = []
 var _forge_button: Button
@@ -36,7 +39,7 @@ var _result: Label
 
 
 ## Lignes de forge d'un modèle pour ses infobulles : caractéristique et matière d'une ressource
-## (cachée sans la réputation d'artisan), contenu d'un plan.
+## (cachée sans la réputation d'artisan), contenu d'un plan ou d'un patron (ses jets et ses effets).
 static func forge_lines(template: Dictionary, data: GameData, character: Character) -> PackedStringArray:
 	var lines: PackedStringArray = []
 	if template.has("caracteristique") and character != null:
@@ -45,13 +48,25 @@ static func forge_lines(template: Dictionary, data: GameData, character: Charact
 			return "+%d %s" % [Forge.value(s, tier), Item.stat_name(s)])) if Forge.reveals(character, tier) else "caractéristique inconnue (réputation de forgeron trop basse pour le palier %d)" % tier))
 	if template.has("matiere"):
 		lines.append("Matière : %s" % template["matiere"])
-	var plan: Dictionary = template.get("recette", {})
+	var plan: Dictionary = template.get("recette", template.get("patron", {}))
 	if not plan.is_empty() and data != null:
 		lines.append("%s : %s" % [Forge.TYPE_NAMES[plan["type"]], plan["nom"]])
 		for item_id: String in plan["ressources"]:
 			lines.append("  • %d %s" % [plan["ressources"][item_id], data.items.get(item_id, {}).get("nom", item_id)])
-		for line in InventoryWindow.bonus_range_lines(Forge.preview(plan["type"], plan["ressources"], data.items, character, false)["bonus"]):
+		var details := roll_lines(plan["jets"], plan["bonus"]) + InventoryWindow.attack_lines(Item.entry_template({"objet": Forge.template_id(plan["type"]),
+			"forge": {"nom": "", "artisan": "", "palier": plan["palier"], "bonus": plan["bonus"]}}, data.items)) if plan.has("jets") \
+			else InventoryWindow.bonus_range_lines(Forge.preview(plan["type"], plan["ressources"], data.items, character, false)["bonus"])
+		for line in details:
 			lines.append("  " + line)
+	return lines
+
+
+## Jets obtenus avec leur plage : « +9 Initiative (8 à 11) ».
+static func roll_lines(jets: Dictionary, bonus: Dictionary) -> PackedStringArray:
+	var lines: PackedStringArray = []
+	for stat: String in jets:
+		var span: Array = bonus.get(stat, [])
+		lines.append("+%d %s%s" % [jets[stat], Item.stat_name(stat), " (%d à %d)" % span if span.size() == 2 and span[0] != span[1] else ""])
 	return lines
 
 
@@ -74,6 +89,7 @@ func open(event: Dictionary) -> void:
 	_chosen = {}
 	_plan = ""
 	_named = false
+	_paper = false
 	_message.text = ""
 	_result.text = "Le jet obtenu s'affichera ici."
 	_result_icon.texture = null
@@ -100,8 +116,8 @@ func refresh() -> void:
 	_bag.clear()
 	for entry: Dictionary in character.inventory_sheet(world.data)["objets"]:
 		var template: Dictionary = world.data.items.get(entry["objet"], {})
-		var left := int(entry["quantite"]) - int(_chosen.get(entry["objet"], 0))
-		if template.has("recette") or (template.get("type") == Item.TYPE_RESOURCE and (template.has("caracteristique") or template.has("matiere")) and left > 0):
+		var left := int(entry["quantite"]) - ((1 if _paper else 0) if entry["objet"] == Forge.PAPER else int(_chosen.get(entry["objet"], 0)))
+		if template.has("recette") or (left > 0 and (entry["objet"] == Forge.PAPER or template.get("type") == Item.TYPE_RESOURCE and (template.has("caracteristique") or template.has("matiere")))):
 			InventoryWindow.add_bag_item(_bag, entry.merged({"quantite": left}, true),
 				"\n".join([entry["nom"] + (" (cliquer pour le suivre)" if template.has("recette") else "")] + Array(forge_lines(template, world.data, character))))
 	var ids := _chosen.keys()
@@ -111,6 +127,7 @@ func refresh() -> void:
 		_slots[i].icon = InventoryWindow.item_icon(item_id) if not item_id.is_empty() else null
 		_slots[i].text = "×%d" % _chosen[item_id] if not item_id.is_empty() else ""
 		_slots[i].tooltip_text = "%s ×%d (cliquer pour en retirer un)" % [world.data.items[item_id]["nom"], _chosen[item_id]] if not item_id.is_empty() else ""
+	_paper_slot.icon = InventoryWindow.item_icon(Forge.PAPER) if _paper else null
 	_show_preview()
 
 
@@ -190,6 +207,10 @@ func _owns_all() -> bool:
 
 
 func _change(item_id: String, delta: int) -> void:
+	if item_id == Forge.PAPER:
+		_paper = delta > 0
+		refresh()
+		return
 	if delta > 0 and not _chosen.has(item_id) and _chosen.size() >= Forge.MAX_SLOTS:
 		_message.text = "%d ressources différentes au plus." % Forge.MAX_SLOTS
 		return
@@ -221,23 +242,21 @@ func _follow_plan(item_id: String) -> void:
 func _on_forge_pressed() -> void:
 	var command := {"type": Protocol.CMD_FORGE, "entite": map_view.world.player_id, "case": _anvil}
 	command.merge({"recette": _plan} if not _plan.is_empty() else {"type_objet": _type, "ressources": _chosen.duplicate(), "mots": _words_chosen()})
+	command["papier"] = _paper
 	map_view.send_command(command)
 
 
 func _on_result(event: Dictionary) -> void:
 	var refused: bool = event["type"] == Protocol.EVT_REFUSED
-	_message.text = REFUSALS.get(event.get("raison"), "Impossible.") if refused else "Forgé : %s" % event["nom"]
+	_message.text = REFUSALS.get(event.get("raison"), "Impossible.") if refused else "Forgé : %s%s" % [event["nom"], ", et son patron" if event.get("patron", false) else ""]
 	_message.add_theme_color_override("font_color", Color(1.0, 0.5, 0.4) if refused else Color(0.55, 0.9, 0.5))
 	if not refused:
 		_chosen = {}
 		_plan = ""
 		_named = false
 		_result_icon.texture = InventoryWindow.item_icon(event["objet"])
-		var lines: PackedStringArray = [event["nom"], "Palier %d" % event.get("palier", 1), ""]
-		for stat: String in event.get("jets", {}):
-			var span: Array = event.get("bonus", {}).get(stat, [])
-			lines.append("+%d %s%s" % [event["jets"][stat], Item.stat_name(stat), " (%d à %d)" % span if span.size() == 2 and span[0] != span[1] else ""])
-		_result.text = "\n".join(lines)
+		_paper = false
+		_result.text = "\n".join(PackedStringArray([event["nom"], "Palier %d" % event.get("palier", 1), ""]) + roll_lines(event.get("jets", {}), event.get("bonus", {})))
 	refresh()
 
 
@@ -312,7 +331,7 @@ func _build() -> void:
 		preview.size = Vector2(40, 40)
 		_bag.set_drag_preview(preview)
 		return {"forge": _bag.get_item_metadata(index)}, Callable(), Callable())
-	var left := _titled("Sac : ressources de forge et plans (cliquer ou glisser vers la recette)", _bag)
+	var left := _titled("Sac : ressources de forge, plans et papier (cliquer ou glisser vers la recette)", _bag)
 	left.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	(left.get_child(0) as Label).autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	row.add_child(left)
@@ -346,9 +365,9 @@ func _build() -> void:
 	center.add_child(_titled("Nom de l'objet", names))
 	var slots := HBoxContainer.new()
 	slots.alignment = BoxContainer.ALIGNMENT_CENTER
-	for i in Forge.MAX_SLOTS:
+	for i in Forge.MAX_SLOTS + 1:  # 8 cases de ressources, puis celle de la feuille de papier.
 		var slot := Button.new()
-		slot.custom_minimum_size = Vector2(54, 62)
+		slot.custom_minimum_size = Vector2(48, 62)
 		slot.focus_mode = Control.FOCUS_NONE
 		slot.expand_icon = true
 		slot.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -360,6 +379,11 @@ func _build() -> void:
 		slot.set_drag_forwarding(Callable(), _can_drop_on_recipe, _drop_on_recipe)
 		slots.add_child(slot)
 		_slots.append(slot)
+	_paper_slot = _slots.pop_back()
+	_paper_slot.set_meta("objet", Forge.PAPER)
+	_paper_slot.text = "patron"
+	_paper_slot.tooltip_text = "Feuille de papier (vendue par les marchands) : elle reçoit le patron de l'objet forgé"
+	_paper_slot.modulate = Color(1.0, 0.9, 0.7)
 	center.add_child(_titled("Recette (cliquer une case pour en retirer)", slots))
 	_forge_button = Button.new()
 	_forge_button.text = "Forger"

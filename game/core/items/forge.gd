@@ -8,6 +8,9 @@ extends RefCounted
 
 const JOB := "forgeron"
 const TYPE_RECIPE := "recette"
+## Feuille de papier posée dans la 9e case de l'enclume : elle devient le patron de l'objet forgé (`PATTERN`).
+const PAPER := "feuille_de_papier"
+const PATTERN := "patron"
 ## Ressources différentes au plus par objet (cases de l'enclume), matières obligatoires comprises ; la
 ## quantité de chacune est libre, bornée par le plafond des lignes.
 const MAX_SLOTS := 8
@@ -23,7 +26,9 @@ const REPUTATION_PER_TIER := 5
 const FIXED_STATS := ["pa", "pm", "portee"]
 ## Points de la caractéristique pour un point de Force (d'après le score du GDD § 10.4).
 const STAT_WEIGHTS := {"force": 1.0, "intelligence": 1.0, "perception": 1.0, "agilite": 1.0, "vitalite": 4.0,
-	"initiative": 10.0, "prospection": 0.34, "dommages": 0.34, "critique": 0.1}
+	"initiative": 10.0, "prospection": 0.34, "dommages": 0.34, "critique": 0.1,
+	"dommages_acier": 0.5, "dommages_flamme": 0.5, "dommages_givre": 0.5, "dommages_tempete": 0.5,
+	"resistance_acier": 0.2, "resistance_flamme": 0.2, "resistance_givre": 0.2, "resistance_tempete": 0.2}
 const MATERIALS := ["cuir", "tissu", "minerai", "bois"]
 ## Type d'objet à l'enclume (modèle `forge_<type>`) → matières obligatoires et noms proposés [nom, genre].
 const TYPES := {
@@ -56,6 +61,14 @@ const WORDS := {
 	"pa": [["rapide", "rapide"], ["fulgurant", "fulgurante"]],
 	"pm": [["voyageur", "voyageuse"], ["infatigable", "infatigable"]],
 	"portee": [["lointain", "lointaine"], ["clairvoyant", "clairvoyante"]],
+	"dommages_acier": [["tranchant", "tranchante"], ["acéré", "acérée"]],
+	"dommages_flamme": [["brûlant", "brûlante"], ["ardent", "ardente"]],
+	"dommages_givre": [["glacial", "glaciale"], ["mordant", "mordante"]],
+	"dommages_tempete": [["foudroyant", "foudroyante"], ["tonnant", "tonnante"]],
+	"resistance_acier": [["blindé", "blindée"], ["cuirassé", "cuirassée"]],
+	"resistance_flamme": [["ignifugé", "ignifugée"], ["incombustible", "incombustible"]],
+	"resistance_givre": [["fourré", "fourrée"], ["douillet", "douillette"]],
+	"resistance_tempete": [["abrité", "abritée"], ["isolant", "isolante"]],
 }
 const MAX_ADJECTIVES := 2
 

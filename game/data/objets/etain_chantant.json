@@ -7,5 +7,5 @@
   "description": "Il crie quand on le plie. Les forgerons trouvent ça touchant ; les voisins, non.",
   "boutique": false,
   "matiere": "minerai",
-  "caracteristique": "intelligence"
+  "caracteristique": "dommages_tempete"
 }

@@ -45,9 +45,9 @@ static func item_icon(item_id: String) -> Texture2D:
 	return Art.texture(icon_name(item_id) if Art.has_image(icon_name(item_id)) else "objet_inconnu")
 
 
-## Image d'un objet : `objet_<id>`, ou le parchemin commun à tous les plans de forge.
+## Image d'un objet : `objet_<id>`, ou le parchemin commun aux plans, feuilles de papier et patrons de forge.
 static func icon_name(item_id: String) -> String:
-	return "objet_plan" if item_id.begins_with("plan_") else "objet_" + item_id
+	return "objet_plan" if item_id.begins_with("plan_") or item_id in [Forge.PAPER, Forge.PATTERN] else "objet_" + item_id
 
 
 ## Liste d'objets en grille d'icônes, comme un sac (texte : la quantité).

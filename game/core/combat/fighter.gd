@@ -39,6 +39,8 @@ var pm_malus: int = 0
 var prospection: int = 100
 ## Dommages : dégâts bruts ajoutés à chaque ligne de dégâts, sans élément ni résistance.
 var dommages: int = 0
+## Dommages par élément de base (équipement) : ajoutés aux dégâts de cet élément.
+var element_dommages: Dictionary = {}
 ## Bouclier : points de dégâts absorbés avant les PV, jusqu'au début de son prochain tour.
 var shield: int = 0
 ## Qui a posé le bouclier, pour la pratique (`Combat.practice`) : { lanceur: id, pa } ; vide sans
@@ -55,6 +57,8 @@ var masteries: Dictionary = {}
 var weapon := ""
 ## Palier d'une arme forgée (0 : arme prédéfinie), pour recréer son attaque (`profile`).
 var weapon_tier := 0
+## Lignes d'une arme forgée, qui décident de l'élément de son attaque (`Forge.scaled_attack`).
+var weapon_bonus: Dictionary = {}
 ## Phases pas encore déclenchées (monstres), dans l'ordre : { pv: int (% des PV max), message: String,
 ## sorts: Array[Spell], effets: Array[Dictionary] } (voir `Combat._check_phases`).
 var phases: Array[Dictionary] = []
@@ -133,6 +137,12 @@ func total_range_bonus() -> int:
 ## Dommages : équipement et états (jamais négatifs).
 func total_dommages() -> int:
 	return maxi(0, dommages + modifier("dommages"))
+
+
+## Dommages d'un élément (équipement) ; pour un élément composé, la moyenne de ses deux éléments.
+func element_damage(element: String) -> int:
+	var bases: Array = Spell.COMPOSITE_ELEMENTS.get(element, [element, element])
+	return roundi((int(element_dommages.get(bases[0], 0)) + int(element_dommages.get(bases[1], 0))) / 2.0)
 
 
 ## Chance de coup critique en plus : équipement et états.
@@ -269,7 +279,7 @@ func profile() -> Dictionary:
 	return {"voie": kind, "nom": display_name, "race": race, "niveau": level, "caracs": stats.duplicate(),
 		"pv_max": max_hp, "pa": max_pa, "pm": max_pm, "initiative": initiative, "portee": range_bonus,
 		"prospection": prospection, "dommages": dommages, "critique": crit_bonus, "resistances": resistances.duplicate(),
-		"sorts": spell_ids, "maitrises": masteries.duplicate(), "arme": weapon, "palier_arme": weapon_tier}
+		"dommages_elements": element_dommages.duplicate(), "sorts": spell_ids, "maitrises": masteries.duplicate(), "arme": weapon, "palier_arme": weapon_tier, "bonus_arme": weapon_bonus.duplicate(true)}
 
 
 ## État complet du combattant pour la copie d'un client (voir `Combat.snapshot`) : ce qui change

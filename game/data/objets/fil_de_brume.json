@@ -5,6 +5,6 @@
   "rarete": "commun",
   "niveau": 10,
   "description": "Un fil d'araignée si fin qu'on le voit seulement quand il fait humide. Il fait toujours humide.",
-  "caracteristique": "dommages",
+  "caracteristique": "perception",
   "matiere": "tissu"
 }

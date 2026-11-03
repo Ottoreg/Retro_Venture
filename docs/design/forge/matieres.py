@@ -1,27 +1,25 @@
 #!/usr/bin/env python3
-"""Matières de récolte orientées (demande de l'auteur du 03/11/2026) : chaque minerai, bois et tissu
-récolté donne une caractéristique élémentaire, pour qu'un artisan choisisse sa matière selon l'objet
-voulu (un minerai de Force pour une bague de Force). À chaque palier, la ressource commune et la rare
-donnent deux éléments différents ; chaque matière offre les quatre. À lancer depuis la racine du dépôt.
+"""Matières de récolte orientées (demandes de l'auteur du 03/11/2026). Minerais et bois communs : une
+caractéristique élémentaire (les quatre par matière), pour choisir sa matière selon l'objet voulu ; leurs
+variantes rares renforcent cet élément : dommages de l'élément (minerais) ou résistance (bois). Tissus
+récoltés : chanvre Initiative, lin Prospection, leurs rares +1 Portée. Les tissus de monstres donnent une
+caractéristique élémentaire (fil de brume : Perception, échangée avec le registre des heures, qui passe
+en Dommages, pour garder les éléments à égalité). À lancer depuis la racine du dépôt.
 """
 import json
 
-CARACS = {
-    # Minerai : cuivre (Flamme), fer (Acier), étain (Tempête), argent (Acier), obsidienne (Flamme).
-    "minerai_de_cuivre": "intelligence", "cuivre_vert_de_gris": "perception",
-    "minerai_de_fer": "force", "fer_meteorique": "agilite",
-    "minerai_d_etain": "agilite", "etain_chantant": "intelligence",
-    "minerai_d_argent": "force", "argent_lunaire": "perception",
-    "obsidienne": "intelligence", "obsidienne_sanglante": "force",
-    # Bois : frêne souple (Tempête), chêne (Acier), if (Givre), hêtre (Acier), malorme (Tempête).
-    "bois_de_frene": "agilite", "coeur_de_frene": "perception",
-    "bois_de_chene": "force", "chene_des_anciens": "intelligence",
-    "bois_d_if": "perception", "if_funebre": "agilite",
-    "bois_de_hetre": "force", "hetre_centenaire": "perception",
-    "bois_de_malorme": "agilite", "malorme_ensorcelee": "intelligence",
-    # Tissu.
-    "lin": "agilite", "lin_des_fees": "intelligence", "chanvre": "perception", "chanvre_d_acier": "force",
-}
+ELEMENTS = {"force": "acier", "intelligence": "flamme", "perception": "givre", "agilite": "tempete"}
+MINERAIS = {"minerai_de_cuivre": ("intelligence", "cuivre_vert_de_gris"), "minerai_de_fer": ("force", "fer_meteorique"),
+            "minerai_d_etain": ("agilite", "etain_chantant"), "minerai_d_argent": ("perception", "argent_lunaire"),
+            "obsidienne": ("force", "obsidienne_sanglante")}
+BOIS = {"bois_de_frene": ("agilite", "coeur_de_frene"), "bois_de_chene": ("force", "chene_des_anciens"),
+        "bois_d_if": ("perception", "if_funebre"), "bois_de_hetre": ("force", "hetre_centenaire"),
+        "bois_de_malorme": ("intelligence", "malorme_ensorcelee")}
+CARACS = {"chanvre": "initiative", "lin": "prospection", "chanvre_d_acier": "portee", "lin_des_fees": "portee",
+          "fil_de_brume": "perception", "registre_des_heures": "dommages"}
+for prefixe, matieres in (("dommages_", MINERAIS), ("resistance_", BOIS)):
+    for commun, (stat, rare) in matieres.items():
+        CARACS[commun], CARACS[rare] = stat, prefixe + ELEMENTS[stat]
 for item_id, stat in CARACS.items():
     path = f"game/data/objets/{item_id}.json"
     d = json.load(open(path, encoding="utf-8"))

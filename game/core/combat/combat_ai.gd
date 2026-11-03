@@ -117,7 +117,7 @@ static func _effect_value(combat: Combat, caster: Fighter, target: Fighter, effe
 	var element: String = str(effect.get("element", ""))
 	match effect["type"]:
 		Spell.EFFECT_DAMAGE:
-			var damage := average * (100 + caster.power(element)) / 100.0 * (100 - target.resistance(element)) / 100.0 + caster.total_dommages()
+			var damage := average * (100 + caster.power(element)) / 100.0 * (100 - target.resistance(element)) / 100.0 + caster.total_dommages() + caster.element_damage(element)
 			damage = minf(maxf(0.0, damage), target.hp + target.shield)
 			if damage >= target.hp + target.shield:
 				damage += 10.0  # Achever un combattant compte double.

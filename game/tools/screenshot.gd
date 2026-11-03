@@ -85,7 +85,7 @@ func _process(_delta: float) -> bool:
 		elif _action == "forge":
 			# Forge à l'enclume : des bottes forgées (jet à droite), d'autres en cours, un plan dans le sac, forgeron qui lit les paliers 1 à 5.
 			var world := view.server
-			for item_id: String in ["peau_de_loup", "croc_de_loup", "dent_de_rat", "corne_du_balourd", "plan_casque_cabosse", "fil_de_brume"]:
+			for item_id: String in ["peau_de_loup", "croc_de_loup", "dent_de_rat", "corne_du_balourd", "plan_casque_cabosse", "fil_de_brume", "feuille_de_papier"]:
 				world.character.inventory.add(world.data.items[item_id], 3)
 			world.character.add_job_reputation("forgeron", 400)
 			view.refresh_state()
@@ -94,7 +94,7 @@ func _process(_delta: float) -> bool:
 			forge._type = "bottes"
 			forge._on_result({"type": Protocol.EVT_CRAFTED, "objet": "forge_bottes", "nom": "Souliers pressés", "palier": 3,
 				"jets": {"initiative": 9, "perception": 2, "agilite": 1}, "bonus": {"initiative": [8, 11], "perception": [2, 2], "agilite": [1, 1]}})
-			for item_id: String in ["peau_de_loup", "croc_de_loup", "croc_de_loup", "dent_de_rat", "corne_du_balourd"]:
+			for item_id: String in ["peau_de_loup", "croc_de_loup", "croc_de_loup", "dent_de_rat", "corne_du_balourd", "feuille_de_papier"]:
 				forge._change(item_id, 1)
 		elif _action == "objet":
 			# Bottes du Pressé portées ; d'autres bottes dans le sac, survolées : leur infobulle comparée.

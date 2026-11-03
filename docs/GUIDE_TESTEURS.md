@@ -317,11 +317,13 @@ le **lit** de votre maison les rend tous d'un coup.
   (tissu pour coiffes et capes, cuir pour ceintures et bottes, minerai pour anneaux et amulettes,
   minerai et bois pour les armes ; une arme frappe dans l'élément de sa caractéristique élémentaire la
   plus forte, Perception pour le Givre par exemple ; Force et Intelligence proches : Sacré, Agilité et
-  Perception proches : Impie ; chaque minerai, bois et tissu donne aussi un élément : prenez celui de
-  l'objet voulu) et des **ressources de monstres**, qui donnent chacune une
+  Perception proches : Impie ; minerais et bois donnent un élément, prenez celui de l'objet voulu ;
+  les minerais rares donnent des dommages de cet élément, les bois rares sa résistance ; chanvre :
+  Initiative, lin : Prospection, leurs rares : +1 Portée) et des **ressources de monstres**, qui donnent chacune une
   caractéristique d'autant plus forte que le monstre est coriace (PA et PM : très rares). L'enclume
   montre l'objet avant de le forger (lignes, jets possibles, palier) ; choisissez son nom parmi les
-  mots proposés, il sort signé de votre pseudo, et ses jets s'affichent à droite. Au début, les caractéristiques des ressources sont
+  mots proposés, il sort signé de votre pseudo, et ses jets s'affichent à droite. Une **feuille de papier** (vendue par les marchands) dans la 9e case
+  vous donne aussi le **patron** de l'objet : ressources, jets et effets. Au début, les caractéristiques des ressources sont
   **cachées** : c'est en forgeant qu'on apprend à les lire. Les **plans** (récompenses de quêtes, ou
   vendus par les marchands) disent tout d'avance.
 - **Métiers** : bûcheron, mineur, agriculteur, herboriste et pêcheur (5 ressources chacun, de plus

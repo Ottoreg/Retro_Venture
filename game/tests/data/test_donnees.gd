@@ -521,17 +521,24 @@ func test_forge_ressources_et_enclumes() -> void:
 	for stat: String in ["intelligence", "perception", "agilite"]:
 		assert_eq(counts.get(stat), counts.get("force"), "%s autant que Force" % stat)
 	assert_true(int(counts.get("pa", 0)) + int(counts.get("pm", 0)) <= 3, "PA et PM très rares")
-	var harvested := {}  # matières récoltées : matière → éléments proposés
+	# Matières récoltées : minerais et bois communs élémentaires (les quatre par matière), leurs rares en
+	# dommages (minerais) ou résistance (bois) du même élément ; chanvre et lin Initiative et Prospection, rares en Portée.
+	var elements := {}
 	for job: Dictionary in game_data.jobs.values():
 		for node: Dictionary in job.get("ressources", []):
-			for item_id: Variant in [node["objet"], node.get("rare")]:
-				var item: Dictionary = game_data.items.get(item_id, {})
-				if item.has("matiere"):
-					assert_true(item.get("caracteristique") in Fighter.ELEMENT_STATS.values(), "%s : une caractéristique élémentaire" % item_id)
-					harvested[item["matiere"]] = harvested.get(item["matiere"], []) + [item.get("caracteristique")]
-	for material: String in ["minerai", "bois", "tissu"]:
-		for stat: String in Fighter.ELEMENT_STATS.values():
-			assert_true(stat in harvested.get(material, []), "%s : une matière de %s" % [material, stat])
+			var common: Dictionary = game_data.items[node["objet"]]
+			var rare: Dictionary = game_data.items.get(node.get("rare"), {})
+			match common.get("matiere"):
+				"minerai", "bois":
+					var element: String = Fighter.ELEMENT_STATS.find_key(common.get("caracteristique"))
+					elements[common["matiere"]] = elements.get(common["matiere"], []) + [element]
+					assert_eq(rare.get("caracteristique"), ("dommages_" if common["matiere"] == "minerai" else "resistance_") + element, rare.get("id", ""))
+				"tissu":
+					assert_true(common.get("caracteristique") in ["initiative", "prospection"], common["id"])
+					assert_eq(rare.get("caracteristique"), "portee", rare.get("id", ""))
+	for material: String in ["minerai", "bois"]:
+		for element: String in Fighter.ELEMENT_STATS:
+			assert_true(element in elements.get(material, []), "%s : une matière %s" % [material, element])
 	for item: Dictionary in game_data.items.values():
 		if Item.is_equipment(item):
 			assert_true(game_data.item_sets.has(item["id"]) or item["id"].begins_with("forge_"), "%s : hors panoplie" % item["id"])

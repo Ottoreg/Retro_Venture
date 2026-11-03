@@ -31,11 +31,17 @@ const RESOURCE_PRICES := {
 const PRICE_TIER_STEP := 3.0
 ## Part du prix d'achat que le marchand paie quand on lui revend un objet.
 const RESALE_RATE := 0.25
-## Bonus que peut donner un équipement, en plus des 6 caractéristiques.
-const EXTRA_STATS := ["prospection", "initiative", "portee", "pa", "pm", "dommages", "critique"]
+## Bonus que peut donner un équipement, en plus des 6 caractéristiques ; dommages et résistances (%) par
+## élément de base : « dommages_flamme », « resistance_givre »…
+const EXTRA_STATS := ["prospection", "initiative", "portee", "pa", "pm", "dommages", "critique",
+	"dommages_acier", "dommages_flamme", "dommages_givre", "dommages_tempete",
+	"resistance_acier", "resistance_flamme", "resistance_givre", "resistance_tempete"]
 const EXTRA_STAT_NAMES := {
 	"prospection": "Prospection", "initiative": "Initiative", "portee": "Portée", "pa": "PA", "pm": "PM",
 	"dommages": "Dommages", "critique": "% Critique",
+	"dommages_acier": "Dommages Acier", "dommages_flamme": "Dommages Flamme", "dommages_givre": "Dommages Givre",
+	"dommages_tempete": "Dommages Tempête", "resistance_acier": "% Résistance Acier", "resistance_flamme": "% Résistance Flamme",
+	"resistance_givre": "% Résistance Givre", "resistance_tempete": "% Résistance Tempête",
 }
 
 
@@ -143,6 +149,8 @@ static func entry_template(entry: Dictionary, items: Dictionary) -> Dictionary:
 	template = template.duplicate(true)
 	template.merge({"nom": forged["nom"], "niveau": forged["palier"], "bonus": forged["bonus"].duplicate(true),
 		"description": "Créé par %s" % forged["artisan"]}, true)
+	if forged.has("patron"):
+		template["patron"] = forged["patron"].duplicate(true)
 	if template.has("attaque"):
 		template["attaque"] = Forge.scaled_attack(template["attaque"], int(forged["palier"]), forged["bonus"])
 	return template

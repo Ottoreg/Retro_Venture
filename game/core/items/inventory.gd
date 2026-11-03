@@ -49,7 +49,7 @@ func quantity_of(item_id: String) -> int:
 ## butin de combat entre toujours, en surplus). `forged` : description d'un objet forgé.
 func add(template: Dictionary, quantity := 1, rolled := {}, overflow := false, forged := {}) -> String:
 	var item_id: String = template["id"]
-	if not Item.is_equipment(template):
+	if not Item.is_equipment(template) and forged.is_empty():
 		if entries.has(item_id):
 			entries[item_id]["quantite"] += quantity
 			return item_id

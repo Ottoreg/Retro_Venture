@@ -35,9 +35,13 @@ TYPES = [("arme", "Armes"), ("coiffe", "Coiffes"), ("cape", "Capes"), ("amulette
          ("ressource", "Ressources"), ("recette", "Plans de forge"), ("quete", "Objets de quête")]
 CARACS = {"vitalite": "Vitalité", "force": "Force", "intelligence": "Intelligence", "perception": "Perception",
           "agilite": "Agilité", "prospection": "Prospection", "initiative": "Initiative", "portee": "Portée",
-          "pa": "PA", "pm": "PM", "dommages": "Dommages", "critique": "% Critique"}
+          "pa": "PA", "pm": "PM", "dommages": "Dommages", "critique": "% Critique",
+          **{f"dommages_{e}": f"Dommages {n}" for e, n in (("acier", "Acier"), ("flamme", "Flamme"), ("givre", "Givre"), ("tempete", "Tempête"))},
+          **{f"resistance_{e}": f"% Résistance {n}" for e, n in (("acier", "Acier"), ("flamme", "Flamme"), ("givre", "Givre"), ("tempete", "Tempête"))}}
 POIDS_FORGE = {"force": 1, "intelligence": 1, "perception": 1, "agilite": 1, "vitalite": 4, "initiative": 10,
-               "prospection": 0.34, "dommages": 0.34, "critique": 0.1}  # comme Forge.STAT_WEIGHTS
+               "prospection": 0.34, "dommages": 0.34, "critique": 0.1,
+               **{f"dommages_{e}": 0.5 for e in ("acier", "flamme", "givre", "tempete")},
+               **{f"resistance_{e}": 0.2 for e in ("acier", "flamme", "givre", "tempete")}}  # comme Forge.STAT_WEIGHTS
 
 
 def forge_objet(o, objets):
