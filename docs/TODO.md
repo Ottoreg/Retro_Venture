@@ -693,8 +693,8 @@ classes (option écartée et compromis gardés en piste, GDD § 5.2).
   reprennent les recettes correspondantes du Forgeron
 - [ ] Pêcheur (coins de pêche, alevins, perles)
 - [ ] Outils de récolte (Forgeron) et produits intermédiaires (lingots, farines, toiles, gemmes taillées)
-- [ ] Instances de métier (GDD § 10.3, conçu le 03/11/2026, 12 points à valider) : débloquées par la
-  réputation, carte du Cadastre, état sauvegardé, temps simulé à l'entrée, interface de disposition,
+- [ ] Instances de métier (GDD § 10.3, conçu et validé le 03/11/2026) : débloquées au
+  palier Compagnon, carte du Cadastre, état sauvegardé, temps simulé à l'entrée, interface de disposition,
   emplacements, paliers et bonus d'instance selon la réputation ; engrais
 - [ ] Éleveur et montures : apprivoisement (licol, sort *Apprivoiser*), enclos, dressage, énergie,
   robes, reproduction, emplacement monture
