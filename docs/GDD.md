@@ -2196,8 +2196,8 @@ décrits au § 13.6.
 
 ## 12. Donjons
 
-Conception de l'auteur du 03/11/2026, rien n'est codé. Les réponses par défaut aux questions ouvertes
-(fin de section) sont appliquées dans le texte en attendant l'avis de l'auteur.
+Conception de l'auteur du 03/11/2026, rien n'est codé. Décisions validées par l'auteur le même jour
+(§ 12.7).
 
 ### 12.1 Principes
 
@@ -2229,8 +2229,8 @@ Conception de l'auteur du 03/11/2026, rien n'est codé. Les réponses par défau
 - **Consommation** : une clé est **consommée à l'entrée** de l'instance par **chaque joueur** qui y
   entre (comme Dofus : la clé fait vivre les artisans). Elle se donne et s'échange entre joueurs.
 - **Ressortir** : sortir par la porte ferme l'instance pour soi ; y revenir demande une nouvelle clé.
-- **Instance de guilde** : une seule clé, fournie par le coffre de guilde ou un membre, ouvre
-  l'instance de guilde pour tous (§ 12.4).
+- **Instance de guilde** : **une clé par groupe** qui y entre (pas une par joueur), fournie par le
+  coffre de guilde ou un membre (§ 12.4).
 
 ### 12.3 Déroulement
 
@@ -2274,21 +2274,17 @@ Conception de l'auteur du 03/11/2026, rien n'est codé. Les réponses par défau
 - **Donjons de Relique** : un par Relique, boss = un Héraut Cendré.
 - **Un donjon par région** au début (panoplie et ressources exclusives).
 
-### 12.7 Questions ouvertes (réponses par défaut appliquées ci-dessus)
+### 12.7 Décisions (validées par l'auteur le 03/11/2026)
 
-1. **Métier qui fabrique la clé** : le Joaillier (défaut) ; ou le métier lié au thème du donjon, ou
-   un nouveau métier (serrurier).
-2. **Consommation de la clé** : une clé par joueur à chaque entrée (défaut) ; ou une seule pour tout
-   le groupe.
-3. **Réapparition des monstres** : aucune dans l'instance (défaut) ; ou réapparition lente.
-4. **Sortie et reconnexion** : sortir ferme l'instance pour soi ; déconnexion tolérée 15 minutes
-   (défaut).
-5. **Défaite** : retour au vestibule, instance gardée (défaut) ; ou expulsion et clé perdue.
-6. **Taille de groupe** : 1 à 8 joueurs, avec la même instance pour tout le groupe (défaut).
-7. **Instance de guilde** : copie commune, ouverte jusqu'au boss ou 24 heures, une seule clé
-   (défaut) ; ou instance permanente sans clé.
-8. **Plan du donjon** : vestibule qui mène aux salles voisines (défaut) ; ou vestibule à portes qui
-   téléportent dans chaque salle.
+1. **Métier qui fabrique la clé** : le Joaillier.
+2. **Consommation de la clé** : une clé par joueur à chaque entrée.
+3. **Réapparition des monstres** : aucune dans l'instance.
+4. **Sortie et reconnexion** : sortir ferme l'instance pour soi ; déconnexion tolérée 15 minutes.
+5. **Défaite** : retour au vestibule, instance gardée.
+6. **Taille de groupe** : 1 à 8 joueurs, avec la même instance pour tout le groupe.
+7. **Instance de guilde** : copie commune, ouverte jusqu'au boss ou 24 heures, une clé pour tout un
+   groupe qui y entre.
+8. **Plan du donjon** : vestibule qui mène aux salles voisines.
 
 ---
 
