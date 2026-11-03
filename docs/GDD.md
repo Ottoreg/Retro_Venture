@@ -700,7 +700,7 @@ reçus, elles renvoient seulement un montant. Chaque épine existe en **fixe** (
 - **Pas d'épine sur épine** : un renvoi ne déclenche jamais les épines de l'attaquant. Le renvoi peut
   tuer l'attaquant et compte pour sa progression comme dégâts subis.
 
-**Réduction de dégâts fixe** (nouvelle statistique, score et plafond à fixer) : retire un montant fixe à
+**Réduction de dégâts fixe** (nouvelle statistique, 12 points par point, +8 au plus par objet) : retire un montant fixe à
 chaque coup reçu ; c'est la seule défense contre l'épine brute.
 
 **Dégâts spectraux** (fixe et %) : contre les épines. Ils n'augmentent pas les dégâts : ils rendent
@@ -1930,7 +1930,7 @@ compris) et les recettes du forgeron sont supprimés, tout le reste se forge.
   élémentaires (fil de brume : Perception), la soie de la Mère-Toile garde ses PM. Nouvelles lignes
   d'équipement : **Dommages Acier, Flamme, Givre, Tempête** (ajoutés aux dégâts de l'élément ; Sacré et
   Impie : la moyenne de leurs deux éléments ; 0,5 point par point de Force, 50 par ligne) et **%
-  Résistance** aux mêmes éléments (0,2, 20 % par ligne). Quelques ressources de monstres ont une matière (peaux, cuir et ailes : cuir) ;
+  Résistance** aux mêmes éléments (0,2, 20 % par ligne ; à passer à 8 points par %, soit 12 % au plus, décision du 03/11/2026). Quelques ressources de monstres ont une matière (peaux, cuir et ailes : cuir) ;
   le **tissu** ne vient que de la récolte (lin, chanvre) : poils, paille, fils, soie et plumes gardent leur
   caractéristique de forge mais ne sont plus du tissu (les plans de coiffe et de cape prennent un lin ou un
   chanvre). **Résistance d'équipement des joueurs plafonnée à 60 %** par élément (`Fighter.MAX_RESISTANCE`) ;
@@ -2064,7 +2064,8 @@ rareté et sa puissance (§ 4.4) :
 | Dommages | 3 |
 | Soins | 3 |
 | Coups critiques % | 10 |
-| Résistance % (un élément) | 6 |
+| Résistance % (un élément) | 8 (+12 % au plus par objet) |
+| Réduction de dégâts fixe | 12 (+8 au plus par objet) |
 | Invocations max | 30 |
 | Épine brute fixe / % | 14 / 20 |
 | Épine élémentaire fixe / % | 11 / 16 |
