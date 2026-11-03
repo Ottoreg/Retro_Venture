@@ -6,5 +6,6 @@
   "niveau": 1,
   "description": "Un cuivre qui a pris l'air pendant un siècle. Il a de la patine, et de l'opinion.",
   "boutique": false,
-  "matiere": "minerai"
+  "matiere": "minerai",
+  "caracteristique": "perception"
 }

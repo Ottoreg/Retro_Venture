@@ -1876,7 +1876,10 @@ compris) et les recettes du forgeron sont supprimés, tout le reste se forge.
   fragment de cendre), **PM** (soie de la Mère-Toile), **Portée** (éclat de cendre) : toujours 1,
   une ligne au plus par objet. Valeur : max(1, arrondi((1 + palier / 8) × poids)), poids 1 pour les
   élémentaires, 4 Vitalité, 10 Initiative, 0,34 Prospection et Dommages, 0,1 Critique (d'après le
-  score plus bas). Quelques ressources ont une matière (peaux, cuir et ailes : cuir ; poils, paille,
+  score plus bas). **Matières récoltées orientées** (demande de l'auteur du 03/11/2026) : chaque
+  minerai, bois et tissu récolté donne aussi une caractéristique élémentaire (la commune et la rare d'un
+  palier, deux éléments différents ; les quatre par matière), pour choisir sa matière selon l'objet
+  voulu (`docs/design/forge/matieres.py`). Quelques ressources ont une matière (peaux, cuir et ailes : cuir ; poils, paille,
   fils, soie, plumes : tissu).
 - **Limites** (demande de l'auteur, 02/11/2026) : **100 points de score par ligne** au plus (100 Force,
   400 Vitalité, 1 000 Initiative, 34 Prospection ou Dommages, 10 Critique ; 1 PA, PM ou Portée) et

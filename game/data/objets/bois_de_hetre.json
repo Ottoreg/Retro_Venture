@@ -5,5 +5,6 @@
   "rarete": "peu_commun",
   "niveau": 15,
   "description": "Blond, dur, régulier. On en fait des manches, des tables et des excuses.",
-  "matiere": "bois"
+  "matiere": "bois",
+  "caracteristique": "force"
 }

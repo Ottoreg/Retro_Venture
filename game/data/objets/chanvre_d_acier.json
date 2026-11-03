@@ -6,5 +6,6 @@
   "niveau": 22,
   "description": "Une corde tressée avec ça a déjà retenu un olifant. Il s'en souvient.",
   "boutique": false,
-  "matiere": "tissu"
+  "matiere": "tissu",
+  "caracteristique": "force"
 }

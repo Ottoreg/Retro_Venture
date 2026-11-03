@@ -6,5 +6,6 @@
   "niveau": 3,
   "description": "Tombé du ciel il y a longtemps. Les gobelins disent que c'était une réclamation.",
   "boutique": false,
-  "matiere": "minerai"
+  "matiere": "minerai",
+  "caracteristique": "agilite"
 }

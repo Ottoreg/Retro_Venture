@@ -498,7 +498,7 @@ Vétéran 15 000).
 | `bonus` | Plages `[min, max]` tirées au hasard à l'obtention (« jets ») : les 5 caractéristiques, `prospection`, `initiative`, `portee`, `pa`, `pm`, `dommages` (dégâts bruts ajoutés à chaque ligne de dégâts, ni multipliés ni réduits par les résistances, pas sur les soins) |
 | `boutique` | `false` : les marchands ne le vendent pas (trophée de boss, objet de butin rare) ; défaut `true` |
 | `attaque` | Armes seulement : attaque utilisable en combat, décrite comme un sort |
-| `caracteristique` | Ressources de monstres : ce qu'elles donnent à la forge (une des 12 statistiques ; la valeur dépend du `niveau`, voir « Forge ») |
+| `caracteristique` | Ressources de monstres et matières récoltées (minerai, bois, tissu : une caractéristique élémentaire) : ce qu'elles donnent à la forge (une des 12 statistiques ; la valeur dépend du `niveau`, voir « Forge ») |
 | `matiere` | `cuir`, `tissu`, `minerai` ou `bois` : matière obligatoire de certains types d'objets forgés |
 | `recette` | Plans seulement : `{ "nom": nom de l'objet, "type": type de forge, "ressources": { id: quantité } }` |
 

@@ -5,5 +5,6 @@
   "rarete": "commun",
   "niveau": 1,
   "description": "Ça brille un peu, ça verdit beaucoup.",
-  "matiere": "minerai"
+  "matiere": "minerai",
+  "caracteristique": "intelligence"
 }

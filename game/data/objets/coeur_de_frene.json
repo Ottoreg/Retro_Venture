@@ -6,5 +6,6 @@
   "niveau": 1,
   "description": "Le centre d'un frêne qui a tenu trois tempêtes. Il en garde la souplesse, et la rancune.",
   "boutique": false,
-  "matiere": "bois"
+  "matiere": "bois",
+  "caracteristique": "perception"
 }

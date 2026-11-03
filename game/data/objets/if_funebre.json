@@ -6,5 +6,6 @@
   "niveau": 8,
   "description": "Il pousse près des tombes. Les archers l'adorent ; les fossoyeurs, moins.",
   "boutique": false,
-  "matiere": "bois"
+  "matiere": "bois",
+  "caracteristique": "agilite"
 }

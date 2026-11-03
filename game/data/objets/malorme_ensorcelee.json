@@ -6,5 +6,6 @@
   "niveau": 22,
   "description": "Ses feuilles dorées chuchotent. Ce qu'elles disent n'est pas très gentil.",
   "boutique": false,
-  "matiere": "bois"
+  "matiere": "bois",
+  "caracteristique": "intelligence"
 }

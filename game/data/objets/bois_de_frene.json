@@ -5,5 +5,6 @@
   "rarete": "commun",
   "niveau": 1,
   "description": "Souple et droit. Les elfes en font des arcs, les humains des manches de pioche.",
-  "matiere": "bois"
+  "matiere": "bois",
+  "caracteristique": "agilite"
 }

@@ -317,7 +317,8 @@ le **lit** de votre maison les rend tous d'un coup.
   (tissu pour coiffes et capes, cuir pour ceintures et bottes, minerai pour anneaux et amulettes,
   minerai et bois pour les armes ; une arme frappe dans l'élément de sa caractéristique élémentaire la
   plus forte, Perception pour le Givre par exemple ; Force et Intelligence proches : Sacré, Agilité et
-  Perception proches : Impie) et des **ressources de monstres**, qui donnent chacune une
+  Perception proches : Impie ; chaque minerai, bois et tissu donne aussi un élément : prenez celui de
+  l'objet voulu) et des **ressources de monstres**, qui donnent chacune une
   caractéristique d'autant plus forte que le monstre est coriace (PA et PM : très rares). L'enclume
   montre l'objet avant de le forger (lignes, jets possibles, palier) ; choisissez son nom parmi les
   mots proposés, il sort signé de votre pseudo, et ses jets s'affichent à droite. Au début, les caractéristiques des ressources sont

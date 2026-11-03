@@ -5,5 +5,6 @@
   "rarete": "commun",
   "niveau": 8,
   "description": "Il crie quand on le tord. Si, si : écoutez bien.",
-  "matiere": "minerai"
+  "matiere": "minerai",
+  "caracteristique": "agilite"
 }

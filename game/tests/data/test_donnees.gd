@@ -521,6 +521,17 @@ func test_forge_ressources_et_enclumes() -> void:
 	for stat: String in ["intelligence", "perception", "agilite"]:
 		assert_eq(counts.get(stat), counts.get("force"), "%s autant que Force" % stat)
 	assert_true(int(counts.get("pa", 0)) + int(counts.get("pm", 0)) <= 3, "PA et PM très rares")
+	var harvested := {}  # matières récoltées : matière → éléments proposés
+	for job: Dictionary in game_data.jobs.values():
+		for node: Dictionary in job.get("ressources", []):
+			for item_id: Variant in [node["objet"], node.get("rare")]:
+				var item: Dictionary = game_data.items.get(item_id, {})
+				if item.has("matiere"):
+					assert_true(item.get("caracteristique") in Fighter.ELEMENT_STATS.values(), "%s : une caractéristique élémentaire" % item_id)
+					harvested[item["matiere"]] = harvested.get(item["matiere"], []) + [item.get("caracteristique")]
+	for material: String in ["minerai", "bois", "tissu"]:
+		for stat: String in Fighter.ELEMENT_STATS.values():
+			assert_true(stat in harvested.get(material, []), "%s : une matière de %s" % [material, stat])
 	for item: Dictionary in game_data.items.values():
 		if Item.is_equipment(item):
 			assert_true(game_data.item_sets.has(item["id"]) or item["id"].begins_with("forge_"), "%s : hors panoplie" % item["id"])

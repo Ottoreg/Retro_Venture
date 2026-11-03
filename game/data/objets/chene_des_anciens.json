@@ -6,5 +6,6 @@
   "niveau": 3,
   "description": "Une bûche si vieille qu'elle se souvient de l'Âge de l'Aube. Elle refuse d'en parler.",
   "boutique": false,
-  "matiere": "bois"
+  "matiere": "bois",
+  "caracteristique": "intelligence"
 }

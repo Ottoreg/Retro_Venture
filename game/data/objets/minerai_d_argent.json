@@ -5,5 +5,6 @@
   "rarete": "peu_commun",
   "niveau": 15,
   "description": "Brillant, précieux, et mortel pour les choses qui ne devraient pas exister.",
-  "matiere": "minerai"
+  "matiere": "minerai",
+  "caracteristique": "force"
 }
