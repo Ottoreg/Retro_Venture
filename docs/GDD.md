@@ -1735,14 +1735,14 @@ jour (en fin de section).
   des **ressources débloquées**.
 - **Ressources débloquées par la maîtrise** : chaque ressource se débloque pour l'instance en y
   investissant des **points de maîtrise du métier** (§ 10.2), **sans condition de palier** : 1 point
-  par ressource, davantage pour les ressources des paliers élevés (piste : 1 point jusqu'au palier 8,
+  par ressource, davantage pour les ressources des paliers élevés (1 point jusqu'au palier 8,
   2 jusqu'au palier 22, 3 au-delà). Ces points sont pris sur ceux des compétences (Abondance, Œil
   exercé, Célérité) : choisir entre récolter mieux partout et cultiver plus varié chez soi. Elle s'ouvre au panneau du Cadastre (prévisualiser avant d'entrer) et
   dans l'instance. Changer la ressource d'un emplacement remet sa pousse à zéro.
 - **Taille de la carte** : une carte de taille normale, avec une **zone exploitable** fixe
   (sillons, plates-bandes, berges, parois) plus grande que le nombre d'emplacements du maître : le
   joueur choisit **où** il plante, pas seulement **quoi**. Pas de monstres dans l'instance.
-- **Ce que donne la réputation** (pistes à équilibrer) :
+- **Ce que donne la réputation** (chiffres validés, à équilibrer pendant les tests) :
 
 | Réputation | Emplacements | Bonus d'instance |
 |---|---|---|
