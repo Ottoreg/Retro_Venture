@@ -114,7 +114,7 @@ def metiers_md():
     rare = constante(prof, "RARE_CHANCE")
     t_base, t_palier, t_min = (constante(prof, n) for n in ("HARVEST_BASE_TIME", "HARVEST_TIME_PER_TIER", "HARVEST_MIN_TIME"))
     forge = "items/forge.gd"
-    max_res, jet_bas, rep_palier = (constante(forge, n) for n in ("MAX_RESOURCES", "ROLL_LOW", "REPUTATION_PER_TIER"))
+    max_res, jet_bas, rep_palier = (constante(forge, n) for n in ("MAX_SLOTS", "ROLL_LOW", "REPUTATION_PER_TIER"))
     fixes, poids, types = constante(forge, "FIXED_STATS"), constante(forge, "STAT_WEIGHTS"), constante(forge, "TYPES")
     score_ligne, max_lignes = constante(forge, "MAX_LINE_SCORE"), constante(forge, "MAX_LINES")
 
@@ -206,7 +206,7 @@ def metiers_md():
 
     lignes += ["## Forge personnalisée", "",
                "`core/items/forge.gd` (GDD § 10.4). À l'enclume de la maison, on choisit un type d'objet et on y",
-               "met **%d ressources au plus**, matières obligatoires comprises. Chaque ressource de monstre donne" % max_res,
+               "pose **%d ressources différentes au plus** (les cases de la recette, quantité libre), matières obligatoires comprises. Chaque ressource de monstre donne" % max_res,
                "une caractéristique (plusieurs pour certaines ressources de haut palier, chacune à sa valeur pleine)",
                "selon son palier. Une ligne vaut au plus **%d points de score** (en points de Force, `Forge.line_cap`)" % score_ligne,
                "et un objet a au plus **%d lignes**. Le palier de l'objet est la moyenne des paliers (pondérée" % max_lignes,

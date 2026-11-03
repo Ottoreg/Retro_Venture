@@ -383,7 +383,7 @@ func test_fenetres_a_taille_fixe() -> void:
 	var long_text := sentence.repeat(20)
 	var windows := {  # Fenêtre : [textes défilants], [titres et messages].
 		"ShopWindow": [["_greeting", "_details"], ["_title", "_message"]],
-		"ForgeWindow": [["_preview"], ["_message"]],
+		"ForgeWindow": [["_preview", "_result"], ["_message"]],
 		"InventoryWindow": [["_details"], []],
 		"SpellsWindow": [["_details"], ["_title", "_mastery_label"]],
 		"ChestWindow": [[], ["_message"]],

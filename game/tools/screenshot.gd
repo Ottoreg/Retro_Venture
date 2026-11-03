@@ -83,7 +83,7 @@ func _process(_delta: float) -> bool:
 			window._selected = world.character.inventory.equipped["amulette"]
 			window.refresh()
 		elif _action == "forge":
-			# Forge à l'enclume : bottes en cours, un plan dans le sac, forgeron qui lit les paliers 1 à 5.
+			# Forge à l'enclume : des bottes forgées (jet à droite), d'autres en cours, un plan dans le sac, forgeron qui lit les paliers 1 à 5.
 			var world := view.server
 			for item_id: String in ["peau_de_loup", "croc_de_loup", "dent_de_rat", "corne_du_balourd", "plan_casque_cabosse", "fil_de_brume"]:
 				world.character.inventory.add(world.data.items[item_id], 3)
@@ -92,6 +92,8 @@ func _process(_delta: float) -> bool:
 			var forge: ForgeWindow = _scene.get_node("ForgeWindow")
 			forge.open({"case": Vector2i.ZERO})
 			forge._type = "bottes"
+			forge._on_result({"type": Protocol.EVT_CRAFTED, "objet": "forge_bottes", "nom": "Souliers pressés", "palier": 3,
+				"jets": {"initiative": 9, "perception": 2, "agilite": 1}, "bonus": {"initiative": [8, 11], "perception": [2, 2], "agilite": [1, 1]}})
 			for item_id: String in ["peau_de_loup", "croc_de_loup", "croc_de_loup", "dent_de_rat", "corne_du_balourd"]:
 				forge._change(item_id, 1)
 		elif _action == "objet":

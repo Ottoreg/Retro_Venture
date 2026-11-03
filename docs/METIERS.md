@@ -136,7 +136,7 @@ ressource récoltée) ; nombre de nœuds par carte.
 ## Forge personnalisée
 
 `core/items/forge.gd` (GDD § 10.4). À l'enclume de la maison, on choisit un type d'objet et on y
-met **6 ressources au plus**, matières obligatoires comprises. Chaque ressource de monstre donne
+pose **8 ressources différentes au plus** (les cases de la recette, quantité libre), matières obligatoires comprises. Chaque ressource de monstre donne
 une caractéristique (plusieurs pour certaines ressources de haut palier, chacune à sa valeur pleine)
 selon son palier. Une ligne vaut au plus **100 points de score** (en points de Force, `Forge.line_cap`)
 et un objet a au plus **8 lignes**. Le palier de l'objet est la moyenne des paliers (pondérée

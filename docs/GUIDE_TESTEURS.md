@@ -312,12 +312,13 @@ le **lit** de votre maison les rend tous d'un coup.
   six de 7 pièces arme comprise aux niveaux 15 et 30, avec des PA, des PM et de la portée, deux de
   3 pièces à mélanger : plus on porte de pièces, plus le bonus grandit). **Tout le reste se forge.**
 - **Forge** : une **enclume** dans votre maison (les forgerons vous le disent, et vous l'expliquent
-  si vous acceptez). Choisissez le type d'objet, posez jusqu'à 6 ressources : la matière obligatoire
+  si vous acceptez). Choisissez le type d'objet, cliquez ou glissez les ressources du sac
+  (à gauche) vers les 8 cases de la recette (8 ressources différentes au plus) : la matière obligatoire
   (tissu pour coiffes et capes, cuir pour ceintures et bottes, minerai pour anneaux et amulettes,
   minerai et bois pour les armes) et des **ressources de monstres**, qui donnent chacune une
   caractéristique d'autant plus forte que le monstre est coriace (PA et PM : très rares). L'enclume
   montre l'objet avant de le forger (lignes, jets possibles, palier) ; choisissez son nom parmi les
-  mots proposés, il sort signé de votre pseudo. Au début, les caractéristiques des ressources sont
+  mots proposés, il sort signé de votre pseudo, et ses jets s'affichent à droite. Au début, les caractéristiques des ressources sont
   **cachées** : c'est en forgeant qu'on apprend à les lire. Les **plans** (récompenses de quêtes, ou
   vendus par les marchands) disent tout d'avance.
 - **Métiers** : bûcheron, mineur, agriculteur, herboriste et pêcheur (5 ressources chacun, de plus

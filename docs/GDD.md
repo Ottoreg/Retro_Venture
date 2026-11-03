@@ -1862,7 +1862,9 @@ compris) et les recettes du forgeron sont supprimés, tout le reste se forge.
 - **Type d'objet** d'abord : coiffe, cape, amulette, anneau, ceinture, bottes, et six formes
   d'armes (épée Acier, arc Tempête, bâton Givre, dague Impie, masse Sacré, sceptre Flamme ; dégâts
   de base × (1 + (palier − 1) / 20)). **Matières obligatoires** : tissu (coiffe, cape), cuir
-  (ceinture, bottes), minerai (anneau, amulette), minerai et bois (armes). **6 ressources au plus.**
+  (ceinture, bottes), minerai (anneau, amulette), minerai et bois (armes). **8 ressources différentes
+  au plus** (les 8 cases de la recette, demande de l'auteur du 03/11/2026 ; quantité de chacune libre,
+  bornée par le plafond des lignes).
 - **Ressources de monstres** : chacune a un **palier** (niveau du plus faible monstre qui la lâche)
   et **une caractéristique**, répartie par tourniquet pondéré : élémentaires à égalité (7 chacune),
   Vitalité 5, Initiative 4, Prospection 2, Dommages 2, Critique 1 ; **PA** (corne du Balourd,
@@ -1886,6 +1888,10 @@ compris) et les recettes du forgeron sont supprimés, tout le reste se forge.
   **cachées** ; ensuite elles se lisent jusqu'au palier égal au niveau équivalent de la réputation de
   forgeron (`Progression.equivalent_level`, 1 280 de réputation pour le palier 8). La compétence
   **Précision** relève le plancher des jets (§ 10.2).
+- **Fenêtre de l'enclume** (03/11/2026, demande de l'auteur) : à gauche le sac en icônes (ressources de
+  forge et plans) ; un clic gauche ou un glisser pose une ressource dans les **8 cases de la recette**,
+  en bas au centre (la molette ne fait rien) ; au centre le type, l'aperçu et le nom ; à droite
+  l'**objet forgé et ses jets obtenus** (avec leurs plages).
 - **Plans** (objets de type « recette », gardés dans le sac) : type, ressources et nom d'avance, tout
   visible. Les 25 quêtes qui donnaient un objet supprimé donnent son plan ; les marchands en vendent
   11 (35 brumes). Les recettes ne sont pas obligatoires.

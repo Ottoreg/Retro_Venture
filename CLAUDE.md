@@ -176,6 +176,8 @@ et les recettes du forgeron supprimés) ; enclume `&` dans les maisons, `Forge` 
 `ForgeWindow`, commande `forger` (protocole v10), objets forgés = modèle `forge_<type>` + champ `forge`
 de l'entrée d'inventaire (`Item.entry_template`) ; ressources de monstres avec `caracteristique`,
 `matiere`, palier ; plans (`type: recette`) ; données produites par `docs/design/forge/produire.py`.
+Fenêtre refaite le 03/11/2026 : sac en icônes à gauche, clic ou glisser vers 8 cases de recette
+(`Forge.MAX_SLOTS` ressources différentes, quantité libre), jet obtenu à droite.
 Plus tard : maîtres par catégorie (armurier, tailleur, cordonnier) qui donnent des plans par quêtes.
 
 Dernière session (retours de la passe de l'auteur) :

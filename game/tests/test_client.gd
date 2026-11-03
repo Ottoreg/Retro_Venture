@@ -622,10 +622,28 @@ func test_forge_a_l_enclume() -> void:
 	view.refresh_state()
 	forge._type = "bottes"
 	forge.refresh()
-	assert_eq(forge._plans.item_count, 1, "le plan du sac")
-	assert_eq(forge._bag.item_count, 2, "les ressources à forger")
+	assert_eq(forge._bag.item_count, 3, "les ressources à forger et le plan, en icônes")
 	assert_true(forge._forge_button.disabled, "rien sur l'enclume")
-	forge._change("croc_de_loup", 2)
+	var croc: int = range(forge._bag.item_count).filter(func(i: int) -> bool: return forge._bag.get_item_metadata(i) == "croc_de_loup")[0]
+	forge._bag.size = Vector2(360, 300)
+	forge._bag.force_update_list_size()
+	var at := forge._bag.get_item_rect(croc).get_center()
+	for button in [MOUSE_BUTTON_WHEEL_DOWN, MOUSE_BUTTON_WHEEL_UP, MOUSE_BUTTON_LEFT]:
+		var click := InputEventMouseButton.new()
+		click.button_index = button
+		click.position = at
+		forge._bag.gui_input.emit(click)
+	assert_eq(forge._chosen, {"croc_de_loup": 1}, "la molette n'ajoute rien, le clic gauche relâché ajoute une ressource")
+	var slot := forge._slots[0]
+	assert_eq(slot.get_meta("objet"), "croc_de_loup", "la première case de la recette")
+	forge._drop_on_recipe(Vector2.ZERO, {"forge": "croc_de_loup"})
+	assert_eq(slot.text, "×2", "ressource glissée sur la recette")
+	for i in Forge.MAX_SLOTS:
+		forge._chosen["autre_%d" % i] = 1
+	forge._change("peau_de_loup", 1)
+	assert_false(forge._chosen.has("peau_de_loup"), "8 ressources différentes au plus")
+	forge._chosen = {"croc_de_loup": 2}
+	forge.refresh()
 	assert_true(forge._preview.text.contains("Manque : cuir"), forge._preview.text)
 	assert_true(forge._preview.text.contains("caractéristique inconnue"), "jamais forgé : caractéristiques cachées")
 	forge._change("peau_de_loup", 1)
@@ -637,6 +655,7 @@ func test_forge_a_l_enclume() -> void:
 	forge._on_forge_pressed()
 	_run_until_idle(view)
 	assert_true(forge._message.text.begins_with("Forgé : Souliers"), forge._message.text)
+	assert_true(forge._result.text.begins_with("Souliers\nPalier 1"), "le jet obtenu à droite : " + forge._result.text)
 	assert_eq(inventory.quantity_of("forge_bottes"), 1, "bottes forgées")
 	assert_eq(inventory.quantity_of("croc_de_loup"), 0, "ressources consommées")
 	forge.close()

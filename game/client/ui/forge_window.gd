@@ -1,7 +1,8 @@
 class_name ForgeWindow
 extends CanvasLayer
-## Forge à l'enclume de la maison (`Forge`) : type d'objet, ressources du sac (ou un plan), aperçu de
-## l'objet (lignes, jets possibles, palier), nom fait de mots proposés, puis forge.
+## Forge à l'enclume de la maison (`Forge`) : à gauche le sac (ressources de forge et plans, en icônes),
+## qu'on clique ou glisse vers les 8 cases de la recette en bas au centre ; au centre le type d'objet,
+## l'aperçu (lignes, jets possibles, palier) et le nom fait de mots proposés ; à droite le jet obtenu.
 
 const GOLD := Color(0.95, 0.76, 0.3)
 const REFUSALS := {
@@ -14,21 +15,24 @@ const REFUSALS := {
 var map_view: MapView
 var _anvil := Vector2i.ZERO
 var _type := "coiffe"
-## Ressources posées sur l'enclume : id → quantité.
+## Ressources posées sur l'enclume, dans l'ordre des cases : id → quantité.
 var _chosen := {}
 ## Plan choisi (id), ou "".
 var _plan := ""
+## Vrai quand le joueur a touché au nom : on ne lui remet plus les mots proposés.
+var _named := false
 var _backdrop: ColorRect
 var _panel: PanelContainer
 var _job_label: Label
 var _types: OptionButton
-var _plans: ItemList
 var _bag: ItemList
-var _placed: ItemList
+var _slots: Array[Button] = []
 var _preview: Label
 var _words: Array[OptionButton] = []
 var _forge_button: Button
 var _message: Label
+var _result_icon: TextureRect
+var _result: Label
 
 
 ## Lignes de forge d'un modèle pour ses infobulles : caractéristique et matière d'une ressource
@@ -69,7 +73,10 @@ func open(event: Dictionary) -> void:
 	_anvil = event["case"]
 	_chosen = {}
 	_plan = ""
+	_named = false
 	_message.text = ""
+	_result.text = "Le jet obtenu s'affichera ici."
+	_result_icon.texture = null
 	_set_visible(true)
 	refresh()
 
@@ -90,21 +97,20 @@ func refresh() -> void:
 	var reputation_value := character.job_reputation(Forge.JOB)
 	_job_label.text = "Forgeron %s (réputation %d)" % [Character.tier_name(Character.tier_index(reputation_value)), reputation_value]
 	_types.select(Forge.TYPES.keys().find(_type))
-	_plans.clear()
 	_bag.clear()
-	_placed.clear()
 	for entry: Dictionary in character.inventory_sheet(world.data)["objets"]:
 		var template: Dictionary = world.data.items.get(entry["objet"], {})
-		if template.has("recette"):
-			_plans.set_item_metadata(_plans.add_item(template["recette"]["nom"], InventoryWindow.item_icon(entry["objet"])), entry["objet"])
 		var left := int(entry["quantite"]) - int(_chosen.get(entry["objet"], 0))
-		if template.get("type") == Item.TYPE_RESOURCE and (template.has("caracteristique") or template.has("matiere")) and left > 0:
-			var index := _bag.add_item("%s ×%d" % [entry["nom"], left], InventoryWindow.item_icon(entry["objet"]))
-			_bag.set_item_tooltip(index, "\n".join(forge_lines(template, world.data, character)))
-			_bag.set_item_metadata(index, entry["objet"])
-	for item_id: String in _chosen:
-		var index := _placed.add_item("%s ×%d" % [world.data.items[item_id]["nom"], _chosen[item_id]], InventoryWindow.item_icon(item_id))
-		_placed.set_item_metadata(index, item_id)
+		if template.has("recette") or (template.get("type") == Item.TYPE_RESOURCE and (template.has("caracteristique") or template.has("matiere")) and left > 0):
+			InventoryWindow.add_bag_item(_bag, entry.merged({"quantite": left}, true),
+				"\n".join([entry["nom"] + (" (cliquer pour le suivre)" if template.has("recette") else "")] + Array(forge_lines(template, world.data, character))))
+	var ids := _chosen.keys()
+	for i in _slots.size():
+		var item_id: String = ids[i] if i < ids.size() else ""
+		_slots[i].set_meta("objet", item_id)
+		_slots[i].icon = InventoryWindow.item_icon(item_id) if not item_id.is_empty() else null
+		_slots[i].text = "×%d" % _chosen[item_id] if not item_id.is_empty() else ""
+		_slots[i].tooltip_text = "%s ×%d (cliquer pour en retirer un)" % [world.data.items[item_id]["nom"], _chosen[item_id]] if not item_id.is_empty() else ""
 	_show_preview()
 
 
@@ -119,16 +125,11 @@ func _show_preview() -> void:
 		"forge": {"nom": "", "artisan": "", "palier": preview["palier"], "bonus": {}}}, data.items)))
 	if preview["cachees"] > 0:
 		lines.append("+ %d ressource(s) à la caractéristique inconnue" % preview["cachees"])
-	var count := 0
-	for item_id: String in _chosen:
-		count += int(_chosen[item_id])
 	lines.append("")
-	lines.append("Ressources : %d / %d · matières : %s" % [count, Forge.MAX_RESOURCES,
+	lines.append("Ressources différentes : %d / %d · matières : %s" % [_chosen.size(), Forge.MAX_SLOTS,
 		", ".join(PackedStringArray(Forge.TYPES[_type]["matieres"]))])
 	if not preview["manquantes"].is_empty():
 		lines.append("Manque : %s" % ", ".join(PackedStringArray(preview["manquantes"])))
-	if count > Forge.MAX_RESOURCES:
-		lines.append("Trop de ressources.")
 	if preview["erreur"] == Protocol.REASON_TOO_MANY_LINES:
 		lines.append(REFUSALS[Protocol.REASON_TOO_MANY_LINES])
 	lines.append("Nom : %s" % _name())
@@ -136,14 +137,15 @@ func _show_preview() -> void:
 	_forge_button.disabled = not preview["erreur"].is_empty() or not _owns_all()
 
 
-## Choix du nom : le nom du type puis deux adjectifs des lignes de l'objet (un plan impose son nom).
+## Choix du nom : le nom du type puis deux adjectifs des lignes de l'objet (un plan impose son nom). Les mots
+## proposés ne s'appliquent que tant que le joueur n'a pas touché au nom ; un adjectif choisi suit le genre du nom.
 func _update_words(bonus: Dictionary, plan: Dictionary) -> void:
 	var noun: String = _words[0].get_item_text(_words[0].selected) if _words[0].selected >= 0 else ""
 	var wanted := Forge.default_words(_type, bonus)
 	if Forge.gender(_type, noun).is_empty():
 		noun = wanted[0]
-	var previous: Array = _words.slice(1).map(func(option: OptionButton) -> String:
-		return option.get_item_text(option.selected) if option.selected > 0 else "")
+	var previous: Array = _words.slice(1).map(func(option: OptionButton) -> Variant:
+		return option.get_item_metadata(option.selected) if option.selected > 0 else null)
 	_words[0].clear()
 	for entry: Array in Forge.TYPES[_type]["noms"]:
 		_words[0].add_item(entry[0])
@@ -153,13 +155,13 @@ func _update_words(bonus: Dictionary, plan: Dictionary) -> void:
 		var option := _words[i]
 		option.clear()
 		option.add_item("—")
+		option.select(0)
 		for stat: String in bonus:
-			for forms: Array in Forge.WORDS[stat]:
-				option.add_item(Forge.adjective(forms, Forge.gender(_type, noun)))
-				if option.get_item_text(option.item_count - 1) == (previous[i - 1] if not previous[i - 1].is_empty() else wanted[i] if i < wanted.size() else ""):
+			for k in Forge.WORDS[stat].size():
+				option.add_item(Forge.adjective(Forge.WORDS[stat][k], Forge.gender(_type, noun)))
+				option.set_item_metadata(option.item_count - 1, [stat, k])
+				if previous[i - 1] == [stat, k] or (not _named and i < wanted.size() and Forge.adjective(Forge.WORDS[stat][k], Forge.gender(_type, wanted[0])) == wanted[i]):
 					option.select(option.item_count - 1)
-		if option.selected < 0:
-			option.select(0)
 	for option in _words:
 		option.disabled = not plan.is_empty()
 
@@ -186,6 +188,9 @@ func _owns_all() -> bool:
 
 
 func _change(item_id: String, delta: int) -> void:
+	if delta > 0 and not _chosen.has(item_id) and _chosen.size() >= Forge.MAX_SLOTS:
+		_message.text = "%d ressources différentes au plus." % Forge.MAX_SLOTS
+		return
 	_plan = ""
 	_chosen[item_id] = int(_chosen.get(item_id, 0)) + delta
 	if _chosen[item_id] <= 0:
@@ -194,8 +199,17 @@ func _change(item_id: String, delta: int) -> void:
 	refresh()
 
 
-func _on_plan_selected(index: int) -> void:
-	_plan = _plans.get_item_metadata(index)
+func _can_drop_on_recipe(_at: Vector2, dragged: Variant) -> bool:
+	return typeof(dragged) == TYPE_DICTIONARY and dragged.has("forge")
+
+
+func _drop_on_recipe(at: Vector2, dragged: Variant) -> void:
+	if _can_drop_on_recipe(at, dragged):
+		_change(dragged["forge"], 1)
+
+
+func _follow_plan(item_id: String) -> void:
+	_plan = item_id
 	var plan: Dictionary = map_view.world.data.items[_plan]["recette"]
 	_type = plan["type"]
 	_chosen = plan["ressources"].duplicate()
@@ -215,6 +229,13 @@ func _on_result(event: Dictionary) -> void:
 	if not refused:
 		_chosen = {}
 		_plan = ""
+		_named = false
+		_result_icon.texture = InventoryWindow.item_icon(event["objet"])
+		var lines: PackedStringArray = [event["nom"], "Palier %d" % event.get("palier", 1), ""]
+		for stat: String in event.get("jets", {}):
+			var span: Array = event.get("bonus", {}).get(stat, [])
+			lines.append("+%d %s%s" % [event["jets"][stat], Item.stat_name(stat), " (%d à %d)" % span if span.size() == 2 and span[0] != span[1] else ""])
+		_result.text = "\n".join(lines)
 	refresh()
 
 
@@ -237,17 +258,11 @@ func _build() -> void:
 	_panel = PanelContainer.new()
 	_panel.anchor_left = 0.5
 	_panel.anchor_right = 0.5
-	_panel.offset_left = -440
-	_panel.offset_right = 440
-	_panel.offset_top = 50
-	_panel.offset_bottom = 620
-	var style := StyleBoxFlat.new()
-	style.bg_color = Color(0.13, 0.1, 0.07, 0.97)
-	style.border_color = Color(0.55, 0.42, 0.22)
-	style.set_border_width_all(2)
-	style.set_corner_radius_all(6)
-	style.set_content_margin_all(14)
-	_panel.add_theme_stylebox_override("panel", style)
+	_panel.offset_left = -560
+	_panel.offset_right = 560
+	_panel.offset_top = 40
+	_panel.offset_bottom = 650
+	_panel.add_theme_stylebox_override("panel", UiTheme.window_style())
 	add_child(_panel)
 	var column := VBoxContainer.new()
 	column.add_theme_constant_override("separation", 8)
@@ -270,61 +285,108 @@ func _build() -> void:
 	row.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	row.add_theme_constant_override("separation", 14)
 	column.add_child(row)
-	var left := VBoxContainer.new()
-	left.custom_minimum_size = Vector2(400, 0)
+	# Gauche : le sac en icônes. Un clic gauche relâché ajoute une ressource (ou suit un plan), sans la
+	# molette ; on peut aussi glisser une ressource vers les cases de la recette.
+	_bag = ItemList.new()
+	InventoryWindow.make_bag_grid(_bag)
+	_bag.custom_minimum_size = Vector2(360, 0)
+	_bag.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_bag.gui_input.connect(func(event: InputEvent) -> void:
+		var click := event as InputEventMouseButton
+		var index := _bag.get_item_at_position(click.position, true) if click != null and click.button_index == MOUSE_BUTTON_LEFT and not click.pressed else -1
+		if index >= 0:
+			var item_id: String = _bag.get_item_metadata(index)
+			if map_view.world.data.items[item_id].has("recette"):
+				_follow_plan(item_id)
+			else:
+				_change(item_id, 1))
+	_bag.set_drag_forwarding(func(at: Vector2) -> Variant:
+		var index := _bag.get_item_at_position(at, true)
+		if index < 0 or map_view.world.data.items[_bag.get_item_metadata(index)].has("recette"):
+			return null
+		var preview := TextureRect.new()
+		preview.texture = _bag.get_item_icon(index)
+		preview.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		preview.size = Vector2(40, 40)
+		_bag.set_drag_preview(preview)
+		return {"forge": _bag.get_item_metadata(index)}, Callable(), Callable())
+	var left := _titled("Sac : ressources de forge et plans (cliquer ou glisser vers la recette)", _bag)
+	left.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	(left.get_child(0) as Label).autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	row.add_child(left)
+
+	# Centre : type, aperçu, nom, puis la recette (8 cases) et le bouton.
+	var center := VBoxContainer.new()
+	center.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	row.add_child(center)
 	_types = OptionButton.new()
 	for type: String in Forge.TYPES:
 		_types.add_item(Forge.TYPE_NAMES[type])
 	_types.item_selected.connect(func(index: int) -> void:
 		_type = Forge.TYPES.keys()[index]
 		_plan = ""
+		_named = false
 		refresh())
-	left.add_child(_titled("Type d'objet", _types))
-	_plans = _list(70)
-	_plans.item_selected.connect(_on_plan_selected)
-	left.add_child(_titled("Plans du sac (cliquer pour les suivre)", _plans))
-	_bag = _list(140)
-	_bag.item_clicked.connect(func(index: int, _at: Vector2, _button: int) -> void: _change(_bag.get_item_metadata(index), 1))
-	left.add_child(_titled("Ressources du sac (cliquer pour ajouter)", _bag))
-	_placed = _list(90)
-	_placed.item_clicked.connect(func(index: int, _at: Vector2, _button: int) -> void: _change(_placed.get_item_metadata(index), -1))
-	left.add_child(_titled("Sur l'enclume (cliquer pour retirer)", _placed))
-
-	var right := VBoxContainer.new()
-	right.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	row.add_child(right)
+	center.add_child(_titled("Type d'objet", _types))
 	_preview = _label(14, Color(0.92, 0.9, 0.85))
 	_preview.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	right.add_child(UiTheme.scroll_area(_preview))
+	center.add_child(UiTheme.scroll_area(_preview))
 	var names := HBoxContainer.new()
 	for i in 1 + Forge.MAX_ADJECTIVES:
 		var option := OptionButton.new()
 		option.fit_to_longest_item = false
-		option.custom_minimum_size = Vector2(120, 0)
-		option.item_selected.connect(func(_index: int) -> void: _show_preview())
+		option.custom_minimum_size = Vector2(130, 0)
+		option.item_selected.connect(func(_index: int) -> void:
+			_named = true
+			_show_preview())
 		names.add_child(option)
 		_words.append(option)
-	right.add_child(_titled("Nom de l'objet", names))
+	center.add_child(_titled("Nom de l'objet", names))
+	var slots := HBoxContainer.new()
+	slots.alignment = BoxContainer.ALIGNMENT_CENTER
+	for i in Forge.MAX_SLOTS:
+		var slot := Button.new()
+		slot.custom_minimum_size = Vector2(54, 62)
+		slot.focus_mode = Control.FOCUS_NONE
+		slot.expand_icon = true
+		slot.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		slot.vertical_icon_alignment = VERTICAL_ALIGNMENT_TOP
+		slot.add_theme_font_size_override("font_size", 11)
+		slot.pressed.connect(func() -> void:
+			if not str(slot.get_meta("objet", "")).is_empty():
+				_change(slot.get_meta("objet"), -1))
+		slot.set_drag_forwarding(Callable(), _can_drop_on_recipe, _drop_on_recipe)
+		slots.add_child(slot)
+		_slots.append(slot)
+	center.add_child(_titled("Recette (cliquer une case pour en retirer)", slots))
 	_forge_button = Button.new()
 	_forge_button.text = "Forger"
 	_forge_button.focus_mode = Control.FOCUS_NONE
 	_forge_button.pressed.connect(_on_forge_pressed)
-	right.add_child(_forge_button)
+	center.add_child(_forge_button)
 	_message = _label(14, Color(0.55, 0.9, 0.5))
 	_message.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	right.add_child(_message)
+	center.add_child(_message)
+
+	# Droite : l'objet forgé et ses jets.
+	var right := VBoxContainer.new()
+	right.custom_minimum_size = Vector2(220, 0)
+	row.add_child(right)
+	var result_title := _label(15, GOLD)
+	result_title.text = "Objet forgé"
+	right.add_child(result_title)
+	_result_icon = TextureRect.new()
+	_result_icon.custom_minimum_size = Vector2(64, 64)
+	_result_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_result_icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	right.add_child(_result_icon)
+	_result = _label(14, Color(0.92, 0.9, 0.85))
+	_result.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	right.add_child(UiTheme.scroll_area(_result))
 	var hint := _label(12, Color(0.6, 0.58, 0.52))
 	hint.text = "Les jets sont tirés au hasard dans les plages affichées ; votre nom est gravé sur l'objet · Échap : fermer"
 	hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	column.add_child(hint)
-
-
-func _list(height: float) -> ItemList:
-	var list := ItemList.new()
-	list.custom_minimum_size = Vector2(0, height)
-	list.fixed_icon_size = Vector2i(24, 24)
-	return list
 
 
 func _titled(text: String, content: Control) -> VBoxContainer:

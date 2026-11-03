@@ -2359,9 +2359,10 @@ func _forge(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
 	for item_id: String in resources:
 		inventory.remove(item_id, int(resources[item_id]))
 	var template: Dictionary = data.items[Forge.template_id(type)]
-	inventory.add(template, 1, Forge.roll(preview["bonus"], rng), false,
+	var uid := inventory.add(template, 1, Forge.roll(preview["bonus"], rng), false,
 		{"nom": item_name, "artisan": p.character.display_name, "palier": preview["palier"], "bonus": preview["bonus"]})
-	var events: Array[Dictionary] = [{"type": Protocol.EVT_CRAFTED, "objet": template["id"], "nom": item_name, "quantite": 1, "metier": Forge.JOB}]
+	var events: Array[Dictionary] = [{"type": Protocol.EVT_CRAFTED, "objet": template["id"], "nom": item_name, "quantite": 1, "metier": Forge.JOB,
+		"palier": preview["palier"], "jets": inventory.entries[uid]["jets"], "bonus": preview["bonus"]}]
 	events.append(_job_event(p, Forge.JOB, Forge.REPUTATION_PER_TIER * int(preview["palier"]), int(preview["palier"])))
 	events.append_array(_inventory_events(p))
 	return events

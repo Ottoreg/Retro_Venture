@@ -8,8 +8,9 @@ extends RefCounted
 
 const JOB := "forgeron"
 const TYPE_RECIPE := "recette"
-## Ressources au plus par objet, matières obligatoires comprises.
-const MAX_RESOURCES := 6
+## Ressources différentes au plus par objet (cases de l'enclume), matières obligatoires comprises ; la
+## quantité de chacune est libre, bornée par le plafond des lignes.
+const MAX_SLOTS := 8
 ## Score d'une ligne au plus (points de Force : `STAT_WEIGHTS`) et lignes au plus par objet. Les essences
 ## (GDD § 9.2, à venir) pourront dépasser le score d'une ligne.
 const MAX_LINE_SCORE := 100
@@ -96,6 +97,9 @@ static func preview(type: String, resources: Dictionary, items: Dictionary, char
 	if not TYPES.has(type) or not items.has(template_id(type)):
 		result["erreur"] = Protocol.REASON_INVALID_COMMAND
 		return result
+	if resources.size() > MAX_SLOTS:
+		result["erreur"] = Protocol.REASON_INVALID_COMMAND
+		return result
 	var count := 0
 	var tiers := 0
 	var totals := {}
@@ -118,9 +122,7 @@ static func preview(type: String, resources: Dictionary, items: Dictionary, char
 	for material: String in TYPES[type]["matieres"]:
 		if material not in materials:
 			result["manquantes"].append(material)
-	if count > MAX_RESOURCES:
-		result["erreur"] = Protocol.REASON_INVALID_COMMAND
-	elif totals.size() > MAX_LINES:
+	if totals.size() > MAX_LINES:
 		result["erreur"] = Protocol.REASON_TOO_MANY_LINES
 	elif not result["manquantes"].is_empty():
 		result["erreur"] = Protocol.REASON_MISSING_INGREDIENTS

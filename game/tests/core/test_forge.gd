@@ -62,7 +62,11 @@ func test_apercu() -> void:
 	assert_eq(Forge.preview("bottes", {"croc": 1}, items)["manquantes"], ["cuir"], "les bottes demandent du cuir")
 	assert_eq(Forge.preview("bottes", {"croc": 1}, items)["erreur"], Protocol.REASON_MISSING_INGREDIENTS)
 	assert_eq(Forge.preview("epee", {"minerai": 1}, items)["manquantes"], ["bois"])
-	assert_eq(Forge.preview("bottes", {"peau": 1, "croc": Forge.MAX_RESOURCES}, items)["erreur"], Protocol.REASON_INVALID_COMMAND, "trop de ressources")
+	var nine := {"peau": 1}
+	for i in Forge.MAX_SLOTS:
+		nine["ressource_%d" % i] = 1
+	assert_eq(Forge.preview("bottes", nine, items)["erreur"], Protocol.REASON_INVALID_COMMAND, "8 ressources différentes au plus")
+	assert_eq(Forge.preview("bottes", {"peau": 1, "croc": 60}, items)["bonus"]["force"], [75, 100], "quantité libre, plafond de la ligne")
 	assert_eq(Forge.preview("chaussette", {"peau": 1}, items)["erreur"], Protocol.REASON_INVALID_COMMAND)
 
 
@@ -107,6 +111,7 @@ func test_forger_a_l_enclume() -> void:
 	assert_eq(inventory.quantity_of("croc"), 0, "ressources consommées")
 	var entry: Dictionary = inventory.entries.values().filter(func(e: Dictionary) -> bool: return e["objet"] == "forge_bottes")[0]
 	assert_eq(entry["forge"]["artisan"], "Testeur")
+	assert_eq(events[0]["jets"], entry["jets"], "jets obtenus dans l'événement")
 	assert_true(int(entry["jets"]["force"]) in [3, 4] and int(entry["jets"]["vitalite"]) in [4, 5], "jets tirés dans leurs plages : %s" % entry["jets"])
 	var template := Item.entry_template(entry, _world.data.items)
 	assert_eq(template["nom"], "Souliers costauds")

@@ -345,10 +345,14 @@ Lots 0 (conception dans le GDD), 1 (personnage, poussé sur `main` à la demande
   caractéristiques cachées sans réputation d'artisan, lues jusqu'au palier de la réputation de forgeron (lot 4) ;
   plans en récompense de 25 quêtes et 11 vendus par les marchands (`core/items/forge.gd`,
   `client/ui/forge_window.gd`, commande `forger`, protocole v10)
+- [x] **Fenêtre de l'enclume refaite** (03/11/2026, demande de l'auteur, sur `main`) : sac en icônes à
+  gauche, clic ou glisser vers 8 cases de recette en bas au centre (8 ressources différentes au plus,
+  quantité libre), molette sans effet, choix du nom réparé (l'adjectif suit le genre du nom, « — »
+  reste choisi), jet obtenu affiché à droite (`jets`, `bonus` et `palier` dans l'événement `fabrication`)
 - [ ] **Plus tard (après la forge, demande de l'auteur)** : un **maître par catégorie d'équipement**,
   qui donne des plans par des quêtes : armurier (toutes les armes et les armures), tailleur (tous
   les tissus : capes, coiffes), cordonnier (tous les cuirs : bottes, ceintures)… (GDD § 10.4)
-- [ ] Équilibrer la forge après les retours de test (valeurs par palier, 6 ressources, part du jet,
+- [ ] Équilibrer la forge après les retours de test (valeurs par palier, 8 ressources différentes, part du jet,
   dégâts des armes) ; dessins des objets forgés par type et par matière
 - [x] Passif humain : +10 % d'XP de métier
 - [x] Ressources rares de récolte : 1 % par récolte, un exemplaire à la place de la récolte normale

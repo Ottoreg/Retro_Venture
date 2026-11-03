@@ -509,7 +509,7 @@ de la forge, `boutique: false`), à ne pas donner tels quels.
 ### Forge (`core/items/forge.gd`, GDD § 10.4)
 
 À l'enclume, on choisit un **type** (`coiffe`, `cape`, `amulette`, `anneau`, `ceinture`, `bottes`,
-`epee`, `arc`, `baton`, `dague`, `masse`, `sceptre`) et on pose au plus **6 ressources**, dont les
+`epee`, `arc`, `baton`, `dague`, `masse`, `sceptre`) et on pose au plus **8 ressources différentes** (quantité libre), dont les
 **matières obligatoires** du type : tissu (coiffe, cape), cuir (ceinture, bottes), minerai (anneau,
 amulette), minerai et bois (armes). Chaque ressource de monstre ajoute sa caractéristique :
 `max(1, arrondi((1 + palier / 8) × poids))`, poids 1 pour les élémentaires, 4 Vitalité,
