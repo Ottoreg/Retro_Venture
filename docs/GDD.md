@@ -678,6 +678,51 @@ ajoutent 5 dégâts à chaque ligne de dégâts de n'importe quel sort ou arme, 
   prospection).
 - Les races ne donnent plus de caractéristiques (29/10/2026) : seulement leur passif et leur sort.
 
+#### Épines, dégâts spectraux et dégâts dévastateurs (conception de l'auteur du 03/11/2026, pas encore codé)
+
+**Épines** : renvoi à l'attaquant d'une partie des dégâts subis. Elles ne réduisent pas les dégâts
+reçus, elles renvoient seulement un montant. Chaque épine existe en **fixe** (par coup subi) et en **%**
+(des dégâts subis), en **brut** ou par **élément** (Acier, Flamme, Givre, Tempête, Sacré, Impie).
+
+- **Base** : les dégâts **subis** après tous les bonus, résistances et boucliers ; un coup entièrement
+  absorbé par un bouclier ne renvoie rien. Tout dégât d'un adversaire compte, à toute distance (sorts,
+  armes, poisons et pièges, renvoyés à leur lanceur) ; pas les dégâts d'un allié.
+- **Un jet par type** : le fixe et le % d'un même type s'additionnent en un jet ; le brut et chaque
+  élément font des jets séparés. 10 épine brute fixe et 10 épine Flamme fixe sur un coup à 20 renvoient
+  10 brut et 10 Flamme ; 10 Flamme fixe et 20 % Flamme sur 100 renvoient un jet de 30 Flamme.
+- **Plafond** : le total renvoyé (brut et éléments) ne dépasse pas **60 % des dégâts subis**. Au-delà,
+  chaque jet est ramené au prorata de son montant calculé, avant la réduction par l'attaquant.
+- **Réduction chez l'attaquant** : l'épine brute ignore les résistances, seule la **réduction de dégâts
+  fixe** la baisse ; l'épine élémentaire est réduite par la résistance de l'élément (Sacré et Impie :
+  résistance combinée, ci-dessus) puis par la réduction fixe. 20 % d'épine Flamme sur 100 renvoient 20
+  Flamme, 18 contre 10 % de résistance Flamme.
+- **Montant pur** : ni caractéristique, ni Dommages, ni critique n'augmentent une épine.
+- **Pas d'épine sur épine** : un renvoi ne déclenche jamais les épines de l'attaquant. Le renvoi peut
+  tuer l'attaquant et compte pour sa progression comme dégâts subis.
+
+**Réduction de dégâts fixe** (nouvelle statistique, score et plafond à fixer) : retire un montant fixe à
+chaque coup reçu ; c'est la seule défense contre l'épine brute.
+
+**Dégâts spectraux** (fixe et %) : contre les épines. Ils n'augmentent pas les dégâts : ils rendent
+**spectrale** une partie des dégâts infligés, sans lien avec leur élément, et cette part ne compte pas
+pour les épines de la cible. Fixe et % s'additionnent, plafonnés à **50 % des dégâts infligés**. Un coup
+à 100 dont 50 sont spectraux ne compte que pour 50 : 60 % d'épine renvoient 30 au lieu de 60.
+
+**Dégâts dévastateurs** (fixe et %) : contre les profils tout épines et soins. Même principe : une part
+des dégâts infligés (fixe + %, au plus **50 %**) baisse aussi les **PV max** de la cible, d'autant ; ces
+dégâts retirent normalement des PV, et on ne soigne plus au-dessus du nouveau maximum. Une cible ne perd
+pas plus de **60 % de ses PV max** du début du combat (Vitalité et équipement compris) ; les PV max
+reviennent à la fin du combat. Les dégâts dévastateurs ne changent pas les renvois d'épines.
+
+**Plafonds par objet et score** (§ 10.4, toutes les lignes sous 100 points) : épine brute 14 points par
+point fixe (+7 au plus) et 20 par % (+5 %) ; épine élémentaire 11 par point fixe (+9) et 16 par %
+(+6 %) ; dégâts spectraux et dévastateurs 20 par point fixe (+5) et 10 par % (+10 %). Une pièce peut
+porter l'épine brute et des épines de plusieurs éléments à la fois, chacune avec son plafond, dans la
+limite de 8 lignes.
+
+**Introduction** : des monstres font découvrir ces mécaniques (épines, dégâts spectraux et dévastateurs,
+sans le plafond d'équipement) et donnent des ressources de forge qui les portent.
+
 ### 4.5 Progression : réputation et maîtrises
 
 **Refonte décidée par l'auteur le 29/10/2026, cible de l'alpha test 2 ; lots 0 à 3 déjà faits sur
@@ -2021,6 +2066,9 @@ rareté et sa puissance (§ 4.4) :
 | Coups critiques % | 10 |
 | Résistance % (un élément) | 6 |
 | Invocations max | 30 |
+| Épine brute fixe / % | 14 / 20 |
+| Épine élémentaire fixe / % | 11 / 16 |
+| Dégâts spectraux ou dévastateurs fixes / % | 20 / 10 |
 | Portée | 50 |
 | PM | 90 |
 | PA | 100 |

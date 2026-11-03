@@ -222,6 +222,9 @@ Lots 0 (conception dans le GDD), 1 (personnage, poussé sur `main` à la demande
   arme, sans élément ni résistance, pas sur les soins ; portée par les objets (Chevalière du
   Cogneur), affichée dans la fiche
 - [ ] Sorts de Voie sacrés et impies (avec les nouvelles Voies)
+- [ ] **Épines** (brutes et élémentaires, fixes et %), **réduction de dégâts fixe**, **dégâts spectraux** et
+  **dévastateurs** (conception validée le 03/11/2026, GDD § 4.4) : statistiques, lignes de forge, monstres
+  qui les introduisent et ressources qui les portent ; score et plafond de la réduction fixe à fixer
 - [x] **Chronomancien, Voie Impie**, jouable dans l'alpha 1 (29/10/2026, GDD § 4.3) : effets
   `horloge` (cadran de 12 heures vu à l'écran, état Manipulation du temps), `decalage_horaire`
   (échange de place, obstacle sauté), état `insoignable`, caractéristique `degats_infliges` ; 6 sorts,
