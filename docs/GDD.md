@@ -1610,9 +1610,8 @@ Cordonnier, le **Maître des potions** l'Alchimiste, le **Boulanger** le Cuisini
   atelier elfe « collection Automne Éternel »). Les villes secondaires n'en ont que deux ou trois.
 - **Recettes classiques** données par le jeu (toutes ouvertes à l'alpha 2), puis **Chef-d'œuvre**
   (§ 10.4) débloqué par la réputation de métier pour tous les métiers d'artisanat, Éleveur compris (sous une forme propre, plus bas).
-- **Récolte sauvage et terrains instanciés** : les ressources de la carte restent la source normale
-  (et la seule pour les semences de haut niveau) ; les terrains achetés (plus bas) servent à
-  produire régulièrement ce qu'on a déjà trouvé.
+- **Récolte sauvage et instances de métier** : les ressources de la carte restent la source normale ;
+  les instances de métier (plus bas), débloquées par la réputation, servent à produire régulièrement.
 
 #### Mineur
 
@@ -1625,7 +1624,7 @@ pacotille** (40, « brille, mais pas trop »), **cristal de brume** (55), **adam
   **gemmes brutes** à partir de l'argent (5 % par récolte, en plus) : une gemme par élément
   (hématite Acier, rubis Flamme, saphir Givre, émeraude Tempête, opale Sacré, onyx Impie), pour le
   Joaillier.
-- **Mine instanciée** : voir plus bas ; on n'y plante rien.
+- **Mine** : instance de métier (plus bas), où l'on choisit le minerai de chaque filon.
 
 #### Bûcheron
 
@@ -1635,7 +1634,7 @@ potions), **érable** (40), **séquoia** (55), **barbe-souche** (70, un vieil ar
 très lentement et proteste à la coupe), **ébène de Cendre** (85), **bois de l'Aube** (100).
 
 - **Sous-produits** : **écorce** et **sève** (10 %, Maître des potions, Costumier pour les teintures),
-  **glands et pousses** (semences, voir terrains).
+  **glands et pousses** (semences, voir instances de métier, point 4).
 
 **En place (02/11/2026, demande de l'auteur)** : agriculteur, herboriste et pêcheur jouables, chacun
 avec les cinq premiers paliers de son tableau (1, 3, 8, 15, 22) et une ressource rare par ressource
@@ -1697,49 +1696,96 @@ galeries** (22, Crasse-Roc), puis **silure** (30), **poisson-lanterne** (40, eau
 bocal** (70), **léviathan nain** (85), **saumon de l'Aube** (100).
 
 - **Sous-produits** : **coquillages** et **perles** (2 %, Joaillier), **alevins** (petits poissons
-  « trop petits, relâchés » : semences de l'étang instancié).
+  « trop petits, relâchés » : semences de l'étang, voir instances de métier, point 4).
 - **Usages** : tourtes et pâtés du Boulanger (regain de vie plus fort), huiles du Maître des potions
   (résistances), nourriture des montures carnivores (loups).
 
-#### Terrains instanciés (idée de l'auteur)
+#### Instances de métier (demande de l'auteur, 03/11/2026)
 
-Les joueurs **achètent des cartes instanciées** (personnelles, comme la maison du joueur, § 6) pour
-y planter puis récolter les ressources des métiers de récolte. Une carte par métier :
+Conception de l'auteur du 03/11/2026, rien n'est codé ; elle **remplace les terrains achetés** de la
+conception du 23/10/2026 (achat en brumes et agrandissements). Les points marqués *(défaut)* sont des
+réponses proposées en attendant la validation de l'auteur (questions en fin de section).
 
-| Terrain | Métier | On y met | Contenu de départ |
+- **Accès par la réputation** : la réputation d'un métier de récolte débloque l'**instance
+  personnelle** de ce métier, au palier **Apprenti** (1 000) *(défaut)*. Rien ne s'achète, il n'y a
+  pas de loyer.
+- **Une instance par métier de récolte** *(défaut)* : **champ** (agriculteur), **jardin**
+  (herboriste), **étang** (pêcheur), **bosquet** (bûcheron), **mine** (mineur). Les métiers
+  d'artisanat n'en ont pas (ils ont l'atelier et l'enclume) ; l'**enclos** de l'éleveur suivra le
+  même modèle plus tard.
+- **Carte des instances** : dans le monde, une **carte dédiée** d'où l'on entre dans ses instances,
+  avec un **panneau par métier** (porte du champ, ponton de l'étang, entrée de la mine…). Parodie :
+  le **Cadastre**, tenu par un notaire humain qui tamponne tout deux fois. Une seule carte pour
+  commencer, près de Hautepierre *(défaut)*, puis une par capitale de camp. Sortir de l'instance
+  ramène sur cette carte.
+- **Sauvegarde** : l'état de l'instance (disposition, pousse de chaque emplacement, ressources mûres)
+  est **sauvegardé avec le personnage** entre deux entrées.
+- **Temps simulé** : le temps passé dehors (connecté ou non) est **simulé à l'entrée** : chaque
+  emplacement avance de la durée écoulée depuis la dernière sortie. Une ressource **mûre attend**
+  qu'on la récolte, elle ne pourrit pas et ne se cumule pas *(défaut)* : le plafond hors ligne est
+  d'**une récolte par emplacement**, sans corvée ni punition de l'absence.
+- **Pousse** : une fois récoltée, une ressource **repousse d'elle-même** sur son emplacement, sans
+  semence *(défaut)*. Durée de pousse (piste) : **10 minutes** au palier 1, **+5 minutes par palier**
+  (1 h 55 au palier 22), raccourcie par les bonus d'instance. La récolte elle-même suit les règles de
+  la carte (temps de récolte, compétences Abondance, Œil exercé et Célérité, ressource rare).
+- **Interface de disposition** : une **vue d'ensemble de l'instance** (la carte vue de haut) et la
+  **liste des ressources disponibles** ; le joueur pose chaque ressource sur un emplacement libre
+  (une céréale par sillon pour l'agriculteur, un filon par paroi pour le mineur, un banc de poissons
+  par coin de l'étang), dans la limite du **nombre d'emplacements** et des **paliers de ressources**
+  que sa réputation lui donne. Elle s'ouvre au panneau du Cadastre (prévisualiser avant d'entrer) et
+  dans l'instance. Changer la ressource d'un emplacement remet sa pousse à zéro *(défaut)*.
+- **Taille de la carte** : une carte de taille normale *(défaut)*, avec une **zone exploitable** fixe
+  (sillons, plates-bandes, berges, parois) plus grande que le nombre d'emplacements du maître : le
+  joueur choisit **où** il plante, pas seulement **quoi**. Pas de monstres dans l'instance.
+- **Ce que donne la réputation** (pistes à équilibrer) :
+
+| Palier de réputation | Emplacements | Ressources plantables | Bonus d'instance |
 |---|---|---|---|
-| **Champ** | Agriculteur | graines | 12 sillons |
-| **Jardin** | Herboriste | boutures | 12 plates-bandes |
-| **Bosquet** | Bûcheron | glands et pousses | 6 emplacements d'arbre |
-| **Étang** | Pêcheur | alevins | 4 coins de pêche |
-| **Mine** | Mineur | rien : les filons repoussent seuls | 1 galerie (6 filons) |
+| Apprenti (1 000) | 6 | paliers 1 à 3 | aucun |
+| Compagnon (5 000) | 12 | jusqu'au palier 8 | +10 % de quantité récoltée |
+| Vétéran (15 000) | 20 | jusqu'au palier 22 | +20 % de quantité, pousse −10 % |
+| Maître (40 000) | 30 | jusqu'au palier 55 | +30 % de quantité, pousse −20 %, récolte −10 % de temps |
+| Légende (100 000) | 40 | tous les paliers | +50 % de quantité, pousse −30 %, récolte −20 % de temps, +0,5 % de rare |
 
-- **Achat** en brumes, auprès d'un PNJ du cadastre dans chaque capitale (parodie : un notaire
-  humain, le Syndicat gobelin des Terrassiers, le Conservatoire elfique des Sylves qui vous loue
-  « la permission d'exister près d'un arbre »). Accès par une porte ou un panneau, comme la maison.
-  Pistes de prix : **2 000 brumes** le terrain, puis des **agrandissements** (5 000, 15 000,
-  40 000) qui ajoutent des emplacements ; pas de loyer (ne pas punir l'absence).
-- **Planter** : on pose une semence sur un emplacement libre ; elle **pousse en temps réel**, même
-  déconnecté (piste : 10 min pour une ressource de niveau 1, jusqu'à 4 h au niveau 100), puis on la
-  récolte comme une ressource de la carte (même XP, même chance de rare). Il faut le **niveau de
-  métier** de la ressource pour la planter.
-- **Rendement** : une plante cultivée donne le **double** d'une récolte sauvage, et rend sa semence
-  avec **80 %** de chance : le stock de semences s'use lentement, il faut revenir en récolter dans
-  la nature. Les **semences** viennent de la récolte sauvage (10 % par récolte) ; celles des cinq
-  premiers paliers s'achètent aussi chez les marchands.
-- **Engrais** (lien avec l'Éleveur) : le fumier des montures, posé sur un emplacement, raccourcit la
-  pousse de moitié ou ajoute une récolte. Aucun arrosage ni corvée : on plante, on revient, on récolte.
-- **Mine** : on n'y plante rien (demande de l'auteur) : on achète la mine, et ses filons repoussent
-  seuls, plus lentement que sur la carte. Chaque **galerie** achetée en plus (agrandissement) ouvre
-  un étage plus profond, aux minerais d'une tranche de paliers (étage 1 : cuivre à étain ; étage 2 :
-  argent à charbon ; etc.), à condition d'avoir le niveau de mineur. Le minerai de chaque filon est
-  tiré dans la tranche de l'étage à chaque repousse. Piste parodique : de temps en temps, un **rat
-  des galeries squatte** la mine (petit combat facultatif, il emporte un filon tant qu'il est là).
-- **Multijoueur** : un terrain appartient à un personnage (question ouverte : au compte) ; on peut
-  y **inviter** des amis, qui récoltent pour le propriétaire (la ressource va dans son coffre ou au
-  récoltant, à trancher). Les terrains sont hors du havre de paix des actes I et II (§ 13.2) : ils
-  ne vident pas les ressources communes, ce qui est le but.
-- **Solo** : même fonctionnement ; la carte instanciée suit le modèle de la maison du joueur.
+- **Bonus d'instance** : ils ne valent **que dans l'instance** et s'ajoutent aux compétences du
+  métier ; la récolte sauvage reste la source normale des ressources, et celle de la carte reste
+  ouverte à tous dès le départ (§ 10.2) : l'instance est un confort de production régulière, pas un
+  passage obligé.
+- **Progression** : récolter dans l'instance rapporte **la moitié** de la réputation et de la
+  pratique d'une récolte sauvage *(défaut)*, pour que la progression vienne surtout du monde.
+- **Engrais** (lien avec l'éleveur, plus tard) : le fumier posé sur un emplacement raccourcit sa
+  pousse de moitié.
+- **Visiteurs** (multijoueur) : le propriétaire peut **inviter** ses amis et son groupe, qui
+  regardent mais ne récoltent pas *(défaut, contre les abus)*. En solo, l'instance suit le modèle de
+  la maison du joueur ; en ligne, c'est une `MapInstance` propre au personnage, hors du havre de paix
+  des actes I et II (§ 13.2).
+- **Exploitants de guilde** (§ 13.7) : la guilde d'exploitants a des **instances de guilde** sur le
+  même modèle, une par métier de récolte, dont les emplacements et les bonus suivent la **réputation
+  d'exploitants** de la guilde (plus grandes et plus généreuses que les instances personnelles) ; les
+  officiers disposent les ressources, les membres récoltent pour eux-mêmes, et les livraisons
+  passent par les contrats et le coffre *(défaut)*.
+
+**Points flous, avec la réponse par défaut proposée** (à valider par l'auteur) :
+
+1. **Métiers qui ont une instance** : les cinq métiers de récolte (champ, jardin, étang, bosquet,
+   mine) ; pas l'artisanat ; l'enclos de l'éleveur plus tard sur le même modèle.
+2. **Palier d'ouverture** : Apprenti (1 000 de réputation du métier).
+3. **Croissance et temps simulé** : 10 min au palier 1, +5 min par palier ; une ressource mûre
+   attend sans cumul, donc au plus une récolte par emplacement en revenant (plafond hors ligne).
+4. **Semences** : aucune ; la ressource repousse seule sur son emplacement. Les sous-produits
+   « semences » (glands et pousses, alevins) disparaissent si c'est validé.
+5. **Changer la disposition** : libre, à tout moment hors combat, mais l'emplacement changé repart
+   de zéro.
+6. **Carte des instances** : une seule (le Cadastre, près de Hautepierre) pour commencer, puis une
+   par capitale ; un panneau par métier.
+7. **Taille de la carte** : une carte normale avec une zone exploitable fixe, plus grande que le
+   maximum d'emplacements (le joueur choisit où planter).
+8. **Paliers, emplacements et bonus** : le tableau ci-dessus.
+9. **Gains de réputation dans l'instance** : la moitié de ceux d'une récolte sauvage.
+10. **Visiteurs** : invités par le propriétaire, sans droit de récolte.
+11. **Par personnage ou par compte** : par personnage (la réputation de métier l'est aussi).
+12. **Exploitants de guilde** : instances de guilde sur le même modèle, selon la réputation
+    d'exploitants, disposition par les officiers, récolte pour soi.
 
 #### Forgeron
 
@@ -1856,7 +1902,7 @@ une monture de départ, dans sa zone.
   avec le niveau d'éleveur et baisse avec le niveau du monstre ; en cas de succès, le monstre quitte
   le combat (victoire, sans butin de ce monstre) et devient une **monture sauvage** envoyée à
   l'enclos. Les élites et mini-boss ne s'apprivoisent pas (sauf le grand cerf, plus haut).
-- **Enclos** : un **terrain instancié** de plus (même achat que les terrains), avec des **objets
+- **Enclos** : une **instance de métier** de plus (même modèle que le champ), avec des **objets
   d'élevage** fabriqués par les métiers : mangeoire (céréales ou poissons selon l'espèce), abreuvoir,
   brosse, et un épouvantail « motivant » qui fait progresser la docilité. Une monture sauvage doit
   être **dressée** à l'enclos (temps réel, comme les plantes) avant d'être montée.
@@ -1870,7 +1916,7 @@ une monture de départ, dans sa zone.
 - **Reproduction** : deux montures adultes de la même espèce (mâle et femelle) à l'enclos donnent
   un petit, qui hérite de la robe et d'une partie des bonus de ses parents ; nombre de portées
   limité par monture. C'est la principale source d'XP du métier avec l'apprivoisement et le dressage.
-- **Fumier** : les montures à l'enclos en produisent ; c'est l'**engrais** des terrains (lien avec
+- **Fumier** : les montures à l'enclos en produisent ; c'est l'**engrais** des instances de métier (lien avec
   les métiers de récolte, et ressort parodique assumé).
 - **Chef-d'œuvre de l'éleveur** (niveau 100) : une **lignée de maître** : pour un petit à naître,
   l'éleveur choisit ses bonus dans un budget de score (barème de § 10.4), au lieu du tirage ; le
@@ -1882,12 +1928,11 @@ une monture de départ, dans sa zone.
 2. **Herboriste et Maître des potions** : potions de bonus et utilitaires (rappel, oubli).
 3. **Costumier et Joaillier** : reprennent les recettes de bijoux, ceintures et bottes du Forgeron.
 4. **Pêcheur** : coins de pêche, tourtes et huiles.
-5. **Terrains instanciés** : champ, jardin, bosquet, étang, mine (modèle de la maison du joueur).
+5. **Instances de métier** : champ, jardin, bosquet, étang, mine, débloqués par la réputation.
 6. **Éleveur et montures** : apprivoisement, enclos, emplacement monture.
 7. **Chef-d'œuvre** pour tous les métiers d'artisanat (§ 10.4).
 
-**Questions ouvertes** : terrains par personnage ou par
-compte ; potions utilisables en combat ; noms des maîtres d'atelier ; part des recettes du Forgeron
+**Questions ouvertes** : potions utilisables en combat ; noms des maîtres d'atelier ; part des recettes du Forgeron
 qui passe au Costumier et au Joaillier ; montures échangeables entre joueurs (multi).
 
 ### 10.4 Objets personnalisés (long terme, idée de l'auteur)
@@ -2486,7 +2531,7 @@ guildes). Métiers retenus par l'auteur :
   Parodie : une « Compagnie des Héros Autoproclamés » aux trophées « légèrement exagérés ».
 - **Académie** : parrainage des nouveaux joueurs, bonus quand un filleul progresse ou termine un
   donjon (lien avec le mode mentor, § 13.2). Diplômes remis par des elfes snobs.
-- **Exploitants** : terrains instanciés communs (champs, jardins, mines du § 10.3), rendement accru,
+- **Exploitants** : instances de métier de guilde (champs, jardins, mines du § 10.3), rendement accru,
   contrats de livraison de ressources. « Coopérative agricole », réunion de bureau obligatoire avant
   chaque récolte.
 
@@ -2496,8 +2541,8 @@ automatique en brumes**, un pourcentage des brumes gagnées par chaque membre, f
 principe que les taxes de guilde d'Albion et d'EVE ou le don d'XP de Dofus). Le coffre a des
 **limites de retrait par rang et par jour** et un **journal** visible de tous les membres, contre le
 vol par un officier. Usages selon le métier de guilde : loyer du comptoir (commerçant), réparations
-et rééquipement après les donjons (raid), kits de départ des filleuls (académie), semences et
-engrais des terrains (exploitants). Parodie : le journal est tenu par un gobelin trésorier syndiqué.
+et rééquipement après les donjons (raid), kits de départ des filleuls (académie), engrais des
+instances (exploitants). Parodie : le journal est tenu par un gobelin trésorier syndiqué.
 
 **Utilisation de l'argent de guilde** (demande de l'auteur) :
 
@@ -2509,7 +2554,7 @@ engrais des terrains (exploitants). Parodie : le journal est tenu par un gobelin
 - **Registre d'utilisation** : le coffre note **qui utilise quoi et quand** (achat, retrait,
   consommation en raid, ressource employée dans un craft), consultable par tous les membres.
 - **Frais de guilde** : l'argent de guilde paie la **cotisation du métier de guilde**, le **loyer**
-  du comptoir et la **location des terrains d'exploitation** (§ 10.3). Si le coffre ne suffit pas à
+  du comptoir et la **cotisation des instances d'exploitants** (§ 10.3). Si le coffre ne suffit pas à
   l'échéance, le service est suspendu jusqu'au paiement.
 
 Autres pistes, non retenues pour l'instant : caravaniers (transport entre villes, escortes),

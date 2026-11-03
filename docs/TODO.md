@@ -684,7 +684,7 @@ classes (option écartée et compromis gardés en piste, GDD § 5.2).
 ### Métiers
 - [x] Conception des onze métiers (GDD § 10.3) : récolte (mineur, bûcheron, agriculteur, herboriste,
   pêcheur), artisanat (forgeron, costumier, joaillier, boulanger, maître des potions), éleveur de
-  montures ; terrains instanciés achetables ; ordre de production proposé. Questions ouvertes au § 10.3
+  montures ; instances de métier ; ordre de production proposé. Questions ouvertes au § 10.3
 - [ ] Agriculteur et Boulanger (céréales, farines, pains : regain de vie et bonus pour N combats)
 - [ ] Herboriste et Maître des potions (plantes, élixirs, potions de rappel et d'oubli)
 - [ ] Pièces d'armure du Forgeron (heaumes, plastrons, ceinturons, solerets, dans les emplacements
@@ -693,7 +693,9 @@ classes (option écartée et compromis gardés en piste, GDD § 5.2).
   reprennent les recettes correspondantes du Forgeron
 - [ ] Pêcheur (coins de pêche, alevins, perles)
 - [ ] Outils de récolte (Forgeron) et produits intermédiaires (lingots, farines, toiles, gemmes taillées)
-- [ ] Terrains instanciés achetables : champ, jardin, bosquet, étang, mine (galeries) ; engrais
+- [ ] Instances de métier (GDD § 10.3, conçu le 03/11/2026, 12 points à valider) : débloquées par la
+  réputation, carte du Cadastre, état sauvegardé, temps simulé à l'entrée, interface de disposition,
+  emplacements, paliers et bonus d'instance selon la réputation ; engrais
 - [ ] Éleveur et montures : apprivoisement (licol, sort *Apprivoiser*), enclos, dressage, énergie,
   robes, reproduction, emplacement monture
 - [ ] Objets personnalisés des artisans de haut niveau (GDD § 10.4) : choisir le nom de la
