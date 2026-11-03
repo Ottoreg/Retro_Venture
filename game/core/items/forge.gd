@@ -187,17 +187,23 @@ static func roll(bonus: Dictionary, rng: RandomNumberGenerator) -> Dictionary:
 
 ## Attaque d'une arme forgée : dégâts de base × (1 + (palier − 1) / 20), dans l'élément de la caractéristique
 ## élémentaire la plus forte de ses lignes (`bonus`, au maximum de leur plage ; celui de l'arme à égalité ou sans).
+## Si les deux caractéristiques d'un élément composé (Sacré : Force et Intelligence, Impie : Agilité et Perception)
+## sont à 10 % au plus de la plus forte, l'arme frappe dans cet élément composé.
 static func scaled_attack(attack: Dictionary, tier: int, bonus := {}) -> Dictionary:
 	var scaled := attack.duplicate(true)
+	var scores := {}
+	for element: String in Fighter.ELEMENT_STATS:
+		scores[element] = int(bonus.get(Fighter.ELEMENT_STATS[element], [0, 0])[1])
+	var top: int = scores.values().max()
 	for effect: Dictionary in scaled.get("effets", []):
 		if effect.get("type") == Spell.EFFECT_DAMAGE:
 			for key in ["min", "max"]:
 				effect[key] = roundi(effect[key] * (1.0 + (tier - 1) / 20.0))
-			var best := int(bonus.get(Fighter.ELEMENT_STATS.get(effect["element"], ""), [0, 0])[1])
-			for element: String in Fighter.ELEMENT_STATS:
-				if int(bonus.get(Fighter.ELEMENT_STATS[element], [0, 0])[1]) > best:
-					best = int(bonus[Fighter.ELEMENT_STATS[element]][1])
-					effect["element"] = element
+			if top > 0 and scores.get(effect["element"], 0) < top:
+				effect["element"] = scores.find_key(top)
+			for composite: String in Spell.COMPOSITE_ELEMENTS:
+				if top > 0 and Spell.COMPOSITE_ELEMENTS[composite].all(func(base: String) -> bool: return scores[base] >= top * 0.9):
+					effect["element"] = composite
 	return scaled
 
 

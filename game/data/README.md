@@ -519,7 +519,8 @@ et une seule ligne de chacun par objet. Une ligne vaut au plus 100 points de sco
 être une liste (ressource de haut palier à plusieurs caractéristiques). Chaque ligne se tire entre 75 % et 100 % de son total ; le
 palier de l'objet est la moyenne des paliers des ressources ; une arme forgée a les dégâts de son
 modèle × (1 + (palier − 1) / 20), dans l'élément de sa caractéristique élémentaire la plus forte
-(Force Acier, Intelligence Flamme, Perception Givre, Agilité Tempête ; celui du modèle à égalité ou sans). Le nom se compose d'un nom du type et de deux adjectifs au plus,
+(Force Acier, Intelligence Flamme, Perception Givre, Agilité Tempête ; celui du modèle à égalité ou sans ;
+Sacré si Force et Intelligence, Impie si Agilité et Perception sont à 10 % au plus de la plus forte). Le nom se compose d'un nom du type et de deux adjectifs au plus,
 pris dans les lignes de l'objet (`Forge.TYPES`, `Forge.WORDS`), et l'objet est signé « Créé par
 <pseudo> ». Les caractéristiques des ressources sont **cachées** tant qu'on n'a jamais forgé, puis
 lues jusqu'au palier égal au niveau équivalent de la réputation de forgeron (5 de base par palier de

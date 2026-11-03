@@ -234,7 +234,7 @@ def metiers_md():
                 "P%d : %s" % (p, ", ".join("%s %s" % (plage(round(e["min"] * (1 + (p - 1) / 20)), round(e["max"] * (1 + (p - 1) / 20))),
                                                      ELEMENTS.get(e.get("element"), "")) for e in degats)) for p in (1, 5, 10, 20, 30)))
         modeles.append([t, ", ".join(d["matieres"]), ", ".join(n for n, _ in d["noms"]), attaque or "—"])
-    lignes += table(["Type", "Matières obligatoires", "Noms proposés", "Attaque (dégâts selon le palier : × (1 + (P − 1) / 20) ; élément de la carac. élémentaire la plus forte)"],
+    lignes += table(["Type", "Matières obligatoires", "Noms proposés", "Attaque (dégâts selon le palier : × (1 + (P − 1) / 20) ; élément de la carac. élémentaire la plus forte, Sacré / Impie si leurs deux caracs sont à 10 % près)"],
                     modeles)
 
     lignes += ["### Ressources", "",

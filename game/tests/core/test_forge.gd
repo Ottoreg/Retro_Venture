@@ -151,8 +151,11 @@ func test_element_d_attaque_selon_les_ressources() -> void:
 	var element := func(bonus: Dictionary) -> String: return Forge.scaled_attack(attack, 1, bonus)["effets"][0]["element"]
 	assert_eq(element.call({}), "acier", "élément de l'arme sans ligne élémentaire")
 	assert_eq(element.call({"force": [3, 4], "perception": [6, 8], "vitalite": [40, 50]}), "givre", "beaucoup de Perception : Givre")
-	assert_eq(element.call({"force": [6, 8], "intelligence": [6, 8]}), "acier", "à égalité : l'élément de l'arme")
+	assert_eq(element.call({"force": [6, 8], "agilite": [6, 8]}), "acier", "à égalité : l'élément de l'arme")
 	assert_eq(element.call({"agilite": [1, 2], "intelligence": [1, 3]}), "flamme")
+	assert_eq(element.call({"force": [60, 100], "intelligence": [70, 91]}), "sacre", "Force et Intelligence à 10 % près : Sacré")
+	assert_eq(element.call({"force": [60, 100], "intelligence": [70, 89]}), "acier", "au-delà de 10 % : l'élément le plus fort")
+	assert_eq(element.call({"agilite": [30, 40], "perception": [30, 38], "force": [5, 5]}), "impie", "Agilité et Perception : Impie")
 
 
 func test_enclume_a_cote() -> void:
