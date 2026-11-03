@@ -644,7 +644,7 @@ classes (option écartée et compromis gardés en piste, GDD § 5.2).
 - [ ] Donjons de l'Aube (Reliques) : salle unique, combat en 4 à 5 vagues (sbires, puis boss et
   généraux), clé par personne, pas d'instance de guilde (GDD § 12.7)
 - [ ] Tour Céleste et Infratour Infernale : 50 étages, mini-boss et palier tous les 5, reprise au
-  palier, boss à l'étage 50 (GDD § 12.8)
+  palier, boss à l'étage 50, pas d'instance de guilde, récompenses à surveiller en farm (GDD § 12.8)
 - [ ] Compagnons PNJ pour aider en solo
 
 ### Quêtes et scénario

@@ -2204,7 +2204,7 @@ Conception de l'auteur du 03/11/2026, rien n'est codé. Décisions validées par
 - **Instance** : un donjon est une **instance privée**, liée à un **joueur seul ou à un groupe**
   (jusqu'à 8 joueurs, la taille d'un groupe, § 13.3). Les autres joueurs ne la voient pas et ne
   peuvent pas y entrer. En solo, l'instance suit le modèle de la maison du joueur.
-- **Instance de guilde** : une guilde dont la **réputation de raid** (métier de guilde, § 13.7)
+- **Instance de guilde** (sauf donjons de l'Aube et tours, § 12.7 et 12.8) : une guilde dont la **réputation de raid** (métier de guilde, § 13.7)
   atteint un palier obtient une **instance de guilde** : une copie du donjon commune à la guilde,
   où **tous les membres** entrent et sortent librement, ensemble ou chacun à son heure (§ 12.4).
 - **Structure** : un donjon est un **ensemble de cartes** (salles) accessible par une **entrée**
@@ -2302,11 +2302,16 @@ une tour inversée qui s'enfonce dans le sous-sol. Pour commencer, **une de chaq
   membres.
 - **Étage 50** : le **boss** de la Tour ou de l'Infratour.
 - **Défaite** : retour au dernier palier atteint ; il faut une nouvelle entrée pour reprendre.
-- **Clé** : une par joueur à chaque entrée, comme les autres donjons (§ 12.2).
+- **Clé** : une par joueur à chaque entrée, comme les autres donjons (§ 12.2). **Pas d'instance de
+  guilde** pour les tours, comme pour l'Aube.
 - **Récompenses** : terminer (vaincre le boss de l'étage 50) rapporte de **grosses récompenses** en
-  réputation, en brumes et en ressources rares.
+  réputation, en brumes et en ressources rares, **à chaque fin** (pas seulement la première). À
+  tester : qu'une équipe qui farme une tour ne gagne pas trop.
 
 ### 12.9 Décisions (validées par l'auteur le 03/11/2026)
+
+Les règles des § 12.7 et 12.8 sont aussi validées (vagues, défaites, paliers, clés, pas de guilde,
+récompenses à chaque fin). Donjons classiques :
 
 1. **Métier qui fabrique la clé** : le Joaillier.
 2. **Consommation de la clé** : une clé par joueur à chaque entrée.
