@@ -98,14 +98,14 @@ func get_spell(spell_id: String) -> Spell:
 	return null
 
 
+const MAX_RESISTANCE := 60.0
 ## Résistance en % à un élément. Pour un élément composé (Sacré, Impie) : la moyenne des résistances
 ## aux deux éléments de base, plus sa résistance propre (10 % Flamme, 5 % Acier, 5 % Sacré : 12,5 %).
+## Plafonnée à MAX_RESISTANCE (demande de l'auteur du 03/11/2026).
 func resistance(element: String) -> float:
 	var own := float(resistances.get(element, 0)) + modifier("resistance", element)
-	if not Spell.COMPOSITE_ELEMENTS.has(element):
-		return own
-	var bases: Array = Spell.COMPOSITE_ELEMENTS[element]
-	return (resistance(bases[0]) + resistance(bases[1])) / 2.0 + own
+	var bases: Array = Spell.COMPOSITE_ELEMENTS.get(element, [])
+	return minf(MAX_RESISTANCE, own if bases.is_empty() else (resistance(bases[0]) + resistance(bases[1])) / 2.0 + own)
 
 
 func stat(stat_name: String) -> int:

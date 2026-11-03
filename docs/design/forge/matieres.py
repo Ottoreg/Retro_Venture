@@ -25,3 +25,21 @@ for item_id, stat in CARACS.items():
     d = json.load(open(path, encoding="utf-8"))
     d["caracteristique"] = stat
     open(path, "w", encoding="utf-8").write(json.dumps(d, ensure_ascii=False, indent=2) + "\n")
+
+# Tissus : seulement ceux de la récolte (lin, chanvre) ; les ressources de monstres (poils, paille, fils, soie,
+# plumes) gardent leur caractéristique mais ne sont plus du tissu. Les plans de coiffe et de cape qui n'ont plus
+# de tissu prennent un lin (un chanvre au palier 22 et plus).
+lire = lambda p: json.load(open(p, encoding="utf-8"))
+ecrire = lambda p, d: open(p, "w", encoding="utf-8").write(json.dumps(d, ensure_ascii=False, indent=2) + "\n")
+for item_id in ["poil_scintillant", "paille_ensorcelee", "fil_de_brume", "soie_de_la_mere_toile", "plume_de_corbac"]:
+    d = lire(f"game/data/objets/{item_id}.json")
+    d.pop("matiere", None)
+    ecrire(f"game/data/objets/{item_id}.json", d)
+import glob
+for path in glob.glob("game/data/objets/plan_*.json"):
+    d = lire(path)
+    recette = d["recette"]
+    tissu = any(lire(f"game/data/objets/{r}.json").get("matiere") == "tissu" for r in recette["ressources"])
+    if recette["type"] in ("coiffe", "cape") and not tissu:
+        recette["ressources"]["chanvre" if d.get("niveau", 1) >= 22 else "lin"] = 1
+        ecrire(path, d)

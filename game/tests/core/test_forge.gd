@@ -175,6 +175,8 @@ func test_dommages_et_resistances_par_element() -> void:
 	target.resistances = {"flamme": 50}
 	assert_eq(Combat.damage_value(fighter, target, "flamme", 20), 20, "20 × 50 % + 10 dommages Flamme")
 	assert_eq(_world.data.create_profile_fighter(fighter.profile(), "j").element_damage("flamme"), 10, "gardés dans la copie du combat")
+	fighter.resistances["givre"] = 90
+	assert_eq(fighter.resistance("givre"), Fighter.MAX_RESISTANCE, "résistance plafonnée à 60 %")
 
 
 func test_patron_sur_une_feuille_de_papier() -> void:

@@ -665,6 +665,25 @@ func test_forge_a_l_enclume() -> void:
 	assert_true(forge._result.text.begins_with("Souliers givrés\nPalier 1"), "le jet obtenu à droite : " + forge._result.text)
 	assert_eq(inventory.quantity_of("forge_bottes"), 1, "bottes forgées")
 	assert_eq(inventory.quantity_of("croc_de_loup"), 0, "ressources consommées")
+	inventory.add(view.server.data.items["croc_de_loup"], 3)
+	view.refresh_state()
+	forge.refresh()
+	forge._bag.force_update_list_size()
+	var click_on := func(objet: String, ctrl: bool) -> void:
+		forge._bag.force_update_list_size()
+		for i in forge._bag.item_count:
+			if inventory.entries[forge._bag.get_item_metadata(i)]["objet"] == objet:
+				var click := InputEventMouseButton.new()
+				click.button_index = MOUSE_BUTTON_LEFT
+				click.ctrl_pressed = ctrl
+				click.position = forge._bag.get_item_rect(i).get_center()
+				forge._bag.gui_input.emit(click)
+				return
+	click_on.call("croc_de_loup", true)
+	assert_eq(forge._chosen, {"croc_de_loup": 3}, "Ctrl + clic : toute la quantité")
+	click_on.call(Forge.PATTERN, false)
+	assert_eq(forge._chosen, {"croc_de_loup": 2, "peau_de_loup": 1}, "le patron remplit la recette")
+	assert_eq(forge._plan, "", "le nom reste à choisir")
 	forge.close()
 	scene.free()
 
@@ -1906,3 +1925,23 @@ func test_minicarte_vignettes_zoom_glisser_et_drapeaux() -> void:
 	assert_false("marchand" in Options.hidden_icons)
 	world_map.close()
 	scene.queue_free()
+
+
+func test_caracteristiques_detaillees() -> void:
+	var tree := Engine.get_main_loop() as SceneTree
+	var scene: Node = load("res://client/world/world.tscn").instantiate()
+	tree.root.add_child(scene)
+	var view: MapView = scene.get_node("MapView")
+	var inventory := view.server.character.inventory
+	inventory.equip(inventory.add(view.server.data.items["forge_bottes"], 1, {"resistance_givre": 8}), "bottes")
+	view.refresh_state()
+	var sheet: CharacterSheet = scene.get_node("CharacterSheet")
+	sheet.toggle()
+	sheet._details.visible = true
+	sheet.refresh()
+	assert_eq(sheet._elements.get_child_count(), 4 * (1 + Spell.ELEMENTS.size()), "une ligne par élément")
+	var givre: int = (1 + Spell.ELEMENTS.find("givre")) * 4
+	assert_eq((sheet._elements.get_child(givre + 3) as Label).text, "8 %", "résistance Givre de l'équipement")
+	sheet.toggle()
+	assert_false(sheet._details.visible, "se ferme avec la fiche")
+	scene.free()

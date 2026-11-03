@@ -2,7 +2,9 @@ class_name CharacterSheet
 extends CanvasLayer
 ## Fiche du personnage (touche C) : réputation de la classe active (palier, points de maîtrise), PV,
 ## caractéristiques (points gagnés par la pratique et leur plafond, GDD § 4.5) et choix de la classe
-## active. Survoler une valeur montre sa provenance (points gagnés, race, équipement, panoplie).
+## active. Survoler une valeur montre sa provenance (points gagnés, race, équipement, panoplie). Le bouton
+## « Détails » ouvre à côté les caractéristiques détaillées (façon Dofus Rétro) : valeurs de combat, et par
+## élément la puissance (% de dégâts), les dommages et la résistance.
 
 const GOLD := Color(0.95, 0.76, 0.3)
 const STAT_HELP := {
@@ -39,6 +41,9 @@ var _stat_values := {}
 var _stat_caps := {}
 ## Valeurs secondaires : PA, PM, initiative, prospection.
 var _derived_values := {}
+var _details: PanelContainer
+var _general: GridContainer
+var _elements: GridContainer
 
 
 func _ready() -> void:
@@ -87,6 +92,35 @@ func refresh() -> void:
 		var key: String = entry[0]
 		_derived_values[key].text = str(sheet[key])
 		_derived_values[key].tooltip_text = source_text(entry[1], int(sheet[key]), sheet["provenance"].get(key, {}), false)
+	_refresh_details(world)
+
+
+## Caractéristiques détaillées, lues sur le combattant que deviendrait le personnage (équipement compris).
+func _refresh_details(world: Variant) -> void:
+	if not _details.visible:
+		return
+	var fighter: Fighter = world.data.create_character_fighter(world.character, "fiche")
+	for grid in [_general, _elements]:
+		for child in grid.get_children():
+			grid.remove_child(child)
+			child.queue_free()
+	for row: Array in [["Points de vie", fighter.max_hp], ["PA", fighter.max_pa], ["PM", fighter.max_pm], ["Initiative", fighter.initiative],
+			["Prospection", fighter.prospection], ["Portée", "%+d" % fighter.range_bonus], ["Critique", "%d %%" % (Spell.DEFAULT_CRIT_CHANCE + fighter.crit_bonus)],
+			["Dommages", fighter.total_dommages()]]:
+		_cells(_general, row, Color.WHITE)
+	_cells(_elements, ["Élément", "Puissance", "Dommages", "Résistance"], GOLD)
+	for element: String in Spell.ELEMENTS:
+		_cells(_elements, [SpellsWindow.ELEMENT_LABELS[element], "%+d %%" % fighter.power(element), "%+d" % fighter.element_damage(element),
+			"%d %%" % roundi(fighter.resistance(element))], SpellsWindow.ELEMENT_COLORS[element])
+
+
+func _cells(grid: GridContainer, values: Array, color: Color) -> void:
+	for i in values.size():
+		var label := _label(14, color if i == 0 or color == GOLD else Color.WHITE)
+		label.text = str(values[i])
+		label.size_flags_horizontal = Control.SIZE_EXPAND_FILL if i == 0 else Control.SIZE_FILL
+		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT if i == 0 else HORIZONTAL_ALIGNMENT_RIGHT
+		grid.add_child(label)
 
 
 ## Infobulle de provenance d'une valeur : points gagnés et race (caractéristiques), sinon la base
@@ -166,6 +200,13 @@ func _build() -> void:
 	_title.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	_title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	header.add_child(_title)
+	var details_button := Button.new()
+	details_button.text = "Détails"
+	details_button.focus_mode = Control.FOCUS_NONE
+	details_button.pressed.connect(func() -> void:
+		_details.visible = not _details.visible
+		refresh())
+	header.add_child(details_button)
 	var close := Button.new()
 	close.text = "×"
 	close.focus_mode = Control.FOCUS_NONE
@@ -238,6 +279,36 @@ func _build() -> void:
 	var hint := _label(12, Color(0.6, 0.58, 0.52))
 	hint.text = "Touche C : ouvrir / fermer"
 	box.add_child(hint)
+
+	# Caractéristiques détaillées, à gauche de la fiche.
+	_details = PanelContainer.new()
+	_details.anchor_left = 1.0
+	_details.anchor_right = 1.0
+	_details.offset_left = -680
+	_details.offset_right = -340
+	_details.offset_top = 70
+	_details.offset_bottom = 530
+	_details.add_theme_stylebox_override("panel", UiTheme.window_style())
+	_details.visible = false
+	_panel.visibility_changed.connect(func() -> void: _details.visible = _details.visible and _panel.visible)
+	add_child(_details)
+	var details_box := VBoxContainer.new()
+	details_box.add_theme_constant_override("separation", 8)
+	_details.add_child(UiTheme.scroll_area(details_box))
+	var details_title := _label(18, GOLD)
+	details_title.text = "Caractéristiques détaillées"
+	details_box.add_child(details_title)
+	_general = GridContainer.new()
+	_general.columns = 2
+	details_box.add_child(_general)
+	_elements = GridContainer.new()
+	_elements.columns = 4
+	_elements.add_theme_constant_override("h_separation", 12)
+	details_box.add_child(_elements)
+	var details_hint := _label(12, Color(0.6, 0.58, 0.52))
+	details_hint.text = "Puissance : % de dégâts, soins et boucliers de l'élément (sa caractéristique) ; Dommages : ajoutés aux dégâts de l'élément ; Sacré et Impie : leurs deux éléments."
+	details_hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	details_box.add_child(details_hint)
 
 
 func _label(font_size: int, color: Color) -> Label:

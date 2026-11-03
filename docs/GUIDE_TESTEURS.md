@@ -314,7 +314,7 @@ le **lit** de votre maison les rend tous d'un coup.
 - **Forge** : une **enclume** dans votre maison (les forgerons vous le disent, et vous l'expliquent
   si vous acceptez). Choisissez le type d'objet, cliquez ou glissez les ressources du sac
   (à gauche) vers les 8 cases de la recette (8 ressources différentes au plus) : la matière obligatoire
-  (tissu pour coiffes et capes, cuir pour ceintures et bottes, minerai pour anneaux et amulettes,
+  (tissu pour coiffes et capes : lin ou chanvre, cuir pour ceintures et bottes, minerai pour anneaux et amulettes,
   minerai et bois pour les armes ; une arme frappe dans l'élément de sa caractéristique élémentaire la
   plus forte, Perception pour le Givre par exemple ; Force et Intelligence proches : Sacré, Agilité et
   Perception proches : Impie ; minerais et bois donnent un élément, prenez celui de l'objet voulu ;
@@ -323,7 +323,10 @@ le **lit** de votre maison les rend tous d'un coup.
   caractéristique d'autant plus forte que le monstre est coriace (PA et PM : très rares). L'enclume
   montre l'objet avant de le forger (lignes, jets possibles, palier) ; choisissez son nom parmi les
   mots proposés, il sort signé de votre pseudo, et ses jets s'affichent à droite. Une **feuille de papier** (vendue par les marchands) dans la 9e case
-  vous donne aussi le **patron** de l'objet : ressources, jets et effets. Au début, les caractéristiques des ressources sont
+  vous donne aussi le **patron** de l'objet : ressources, jets et effets ; cliquez-le à l'enclume pour
+  remplir la recette. **Ctrl + clic** pose ou retire toute la quantité d'une ressource. Le bouton
+  **Détails** de la fiche du personnage montre toutes vos caractéristiques, élément par élément
+  (résistance plafonnée à 60 %). Au début, les caractéristiques des ressources sont
   **cachées** : c'est en forgeant qu'on apprend à les lire. Les **plans** (récompenses de quêtes, ou
   vendus par les marchands) disent tout d'avance.
 - **Métiers** : bûcheron, mineur, agriculteur, herboriste et pêcheur (5 ressources chacun, de plus

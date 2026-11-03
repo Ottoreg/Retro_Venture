@@ -12,7 +12,8 @@
     "ressources": {
       "poil_scintillant": 1,
       "queue_de_rat": 3,
-      "bois_de_cerf_enchante": 2
+      "bois_de_cerf_enchante": 2,
+      "lin": 1
     }
   }
 }

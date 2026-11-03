@@ -233,13 +233,20 @@ func _process(_delta: float) -> bool:
 				view.request_end_turn()
 				_wait_for(view)
 			_scene.get_node("CombatHud").close_result()
-		elif _action == "fiche":
-			# Fiche du personnage avec de la réputation et quelques points gagnés par la pratique.
+		elif _action == "fiche" or _action == "fiche_details":
+			# Fiche du personnage avec de la réputation et quelques points gagnés par la pratique (« fiche_details » :
+			# caractéristiques détaillées ouvertes, des bottes forgées portées).
 			view.server.character.add_reputation(1800)
 			view.server.character.gain_stat("force", 12)
 			view.server.character.gain_stat("vitalite", 30)
+			var inventory := view.server.character.inventory
+			if _action == "fiche_details":
+				inventory.equip(inventory.add(view.server.data.items["forge_bottes"], 1, {"dommages_flamme": 6, "resistance_givre": 8}), "bottes")
 			view.refresh_state()
-			_scene.get_node("CharacterSheet").toggle()
+			var sheet: CharacterSheet = _scene.get_node("CharacterSheet")
+			sheet.toggle()
+			sheet._details.visible = _action == "fiche_details"
+			sheet.refresh()
 		elif _action == "joueurs":
 			# Multijoueur (M1) : deux autres joueurs sur la carte, dont un assis.
 			var here := view.server.position_of(World.PLAYER_ID)

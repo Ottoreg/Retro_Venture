@@ -353,7 +353,9 @@ Lots 0 (conception dans le GDD), 1 (personnage, poussé sur `main` à la demande
   si les deux caractéristiques du composé sont à 10 % près (`Forge.scaled_attack`) ; minerais et bois
   récoltés élémentaires, leurs rares en dommages / résistance de l'élément, chanvre Initiative, lin
   Prospection, rares +1 Portée (`docs/design/forge/matieres.py`) ; lignes `dommages_<élément>` et
-  `resistance_<élément>` ; 9e case : feuille de papier → « Patron de <nom> »
+  `resistance_<élément>` ; 9e case : feuille de papier → « Patron de <nom> » (cliquable pour remplir la recette) ;
+  Ctrl + clic pour toute une quantité ; tissus de monstres retirés du tissu ; résistance plafonnée à 60 % ;
+  caractéristiques détaillées (bouton « Détails » de la fiche)
 - [ ] Feuille de papier faite par l'agriculteur (artisanat à créer ; vendue par les marchands en attendant) ;
   deux adjectifs d'une même caractéristique permis, jamais deux fois le même (`Forge.name_of`), jet obtenu affiché à droite (`jets`, `bonus` et `palier` dans l'événement `fabrication`)
 - [ ] **Plus tard (après la forge, demande de l'auteur)** : un **maître par catégorie d'équipement**,

@@ -1885,8 +1885,10 @@ compris) et les recettes du forgeron sont supprimés, tout le reste se forge.
   élémentaires (fil de brume : Perception), la soie de la Mère-Toile garde ses PM. Nouvelles lignes
   d'équipement : **Dommages Acier, Flamme, Givre, Tempête** (ajoutés aux dégâts de l'élément ; Sacré et
   Impie : la moyenne de leurs deux éléments ; 0,5 point par point de Force, 50 par ligne) et **%
-  Résistance** aux mêmes éléments (0,2, 20 % par ligne). Quelques ressources ont une matière (peaux, cuir et ailes : cuir ; poils, paille,
-  fils, soie, plumes : tissu).
+  Résistance** aux mêmes éléments (0,2, 20 % par ligne). Quelques ressources de monstres ont une matière (peaux, cuir et ailes : cuir) ;
+  le **tissu** ne vient que de la récolte (lin, chanvre) : poils, paille, fils, soie et plumes gardent leur
+  caractéristique de forge mais ne sont plus du tissu (les plans de coiffe et de cape prennent un lin ou un
+  chanvre). **Résistance plafonnée à 60 %** par élément, pour tous (`Fighter.MAX_RESISTANCE`).
 - **Limites** (demande de l'auteur, 02/11/2026) : **100 points de score par ligne** au plus (100 Force,
   400 Vitalité, 1 000 Initiative, 34 Prospection ou Dommages, 10 Critique ; 1 PA, PM ou Portée) et
   **8 lignes par objet** au plus (forge refusée au-delà, `trop_de_lignes`). Seules les **essences**
@@ -1910,7 +1912,11 @@ compris) et les recettes du forgeron sont supprimés, tout le reste se forge.
 - **Patron** (03/11/2026, demande de l'auteur) : une **9e case** reçoit une **feuille de papier** (faite
   plus tard par l'agriculteur ; vendue par les marchands en attendant). L'objet forgé sort avec son
   **« Patron de <nom> »**, qui note les ressources, les jets obtenus (et leurs plages) et les effets
-  (attaque d'une arme).
+  (attaque d'une arme). Cliquer un patron à l'enclume remplit la recette (le nom reste à choisir).
+  **Ctrl + clic** : toute la quantité d'une ressource dans la recette, ou toute celle d'une case retirée.
+- **Caractéristiques détaillées** (bouton « Détails » de la fiche du personnage, façon Dofus Rétro) : PV,
+  PA, PM, Initiative, Prospection, Portée, Critique, Dommages, et par élément la puissance (% de dégâts),
+  les dommages et la résistance.
 - **Plans** (objets de type « recette », gardés dans le sac) : type, ressources et nom d'avance, tout
   visible. Les 25 quêtes qui donnaient un objet supprimé donnent son plan ; les marchands en vendent
   11 (35 brumes). Les recettes ne sont pas obligatoires.

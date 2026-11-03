@@ -115,18 +115,18 @@ func refresh() -> void:
 	_types.select(Forge.TYPES.keys().find(_type))
 	_bag.clear()
 	for entry: Dictionary in character.inventory_sheet(world.data)["objets"]:
-		var template: Dictionary = world.data.items.get(entry["objet"], {})
+		var template := Item.entry_template(character.inventory.entries.get(entry["uid"], entry), world.data.items)
 		var left := int(entry["quantite"]) - ((1 if _paper else 0) if entry["objet"] == Forge.PAPER else int(_chosen.get(entry["objet"], 0)))
-		if template.has("recette") or (left > 0 and (entry["objet"] == Forge.PAPER or template.get("type") == Item.TYPE_RESOURCE and (template.has("caracteristique") or template.has("matiere")))):
+		if template.has("recette") or template.has("patron") or (left > 0 and (entry["objet"] == Forge.PAPER or template.get("type") == Item.TYPE_RESOURCE and (template.has("caracteristique") or template.has("matiere")))):
 			InventoryWindow.add_bag_item(_bag, entry.merged({"quantite": left}, true),
-				"\n".join([entry["nom"] + (" (cliquer pour le suivre)" if template.has("recette") else "")] + Array(forge_lines(template, world.data, character))))
+				"\n".join([entry["nom"] + (" (cliquer pour le suivre)" if template.has("recette") or template.has("patron") else "")] + Array(forge_lines(template, world.data, character))))
 	var ids := _chosen.keys()
 	for i in _slots.size():
 		var item_id: String = ids[i] if i < ids.size() else ""
 		_slots[i].set_meta("objet", item_id)
 		_slots[i].icon = InventoryWindow.item_icon(item_id) if not item_id.is_empty() else null
 		_slots[i].text = "×%d" % _chosen[item_id] if not item_id.is_empty() else ""
-		_slots[i].tooltip_text = "%s ×%d (cliquer pour en retirer un)" % [world.data.items[item_id]["nom"], _chosen[item_id]] if not item_id.is_empty() else ""
+		_slots[i].tooltip_text = "%s ×%d (clic : en retirer un, Ctrl + clic : tout retirer)" % [world.data.items[item_id]["nom"], _chosen[item_id]] if not item_id.is_empty() else ""
 	_paper_slot.icon = InventoryWindow.item_icon(Forge.PAPER) if _paper else null
 	_show_preview()
 
@@ -231,11 +231,11 @@ func _drop_on_recipe(at: Vector2, dragged: Variant) -> void:
 		_change(dragged["forge"], 1)
 
 
-func _follow_plan(item_id: String) -> void:
-	_plan = item_id
-	var plan: Dictionary = map_view.world.data.items[_plan]["recette"]
-	_type = plan["type"]
-	_chosen = plan["ressources"].duplicate()
+## Suit un plan (`plan_id` : son nom est imposé) ou un patron (le nom reste à choisir) : type et ressources.
+func _follow(recipe: Dictionary, plan_id: String) -> void:
+	_plan = plan_id
+	_type = recipe["type"]
+	_chosen = recipe["ressources"].duplicate()
 	refresh()
 
 
@@ -315,15 +315,16 @@ func _build() -> void:
 	_bag.gui_input.connect(func(event: InputEvent) -> void:
 		var click := event as InputEventMouseButton
 		var index := _bag.get_item_at_position(click.position, true) if click != null and click.button_index == MOUSE_BUTTON_LEFT and not click.pressed else -1
-		if index >= 0:
-			var item_id: String = _bag.get_item_metadata(index)
-			if map_view.world.data.items[item_id].has("recette"):
-				_follow_plan(item_id)
+		if index >= 0:  # Ctrl + clic : toute la quantité d'un coup.
+			var entry: Dictionary = map_view.world.character.inventory.entries[_bag.get_item_metadata(index)]
+			var template := Item.entry_template(entry, map_view.world.data.items)
+			if template.has("recette") or template.has("patron"):
+				_follow(template.get("recette", template.get("patron")), entry["objet"] if template.has("recette") else "")
 			else:
-				_change(item_id, 1))
+				_change(entry["objet"], int(entry["quantite"]) - int(_chosen.get(entry["objet"], 0)) if click.ctrl_pressed else 1))
 	_bag.set_drag_forwarding(func(at: Vector2) -> Variant:
 		var index := _bag.get_item_at_position(at, true)
-		if index < 0 or map_view.world.data.items[_bag.get_item_metadata(index)].has("recette"):
+		if index < 0 or map_view.world.data.items.get(_bag.get_item_metadata(index), {"recette": true}).has("recette"):  # Ni plan ni patron.
 			return null
 		var preview := TextureRect.new()
 		preview.texture = _bag.get_item_icon(index)
@@ -331,7 +332,7 @@ func _build() -> void:
 		preview.size = Vector2(40, 40)
 		_bag.set_drag_preview(preview)
 		return {"forge": _bag.get_item_metadata(index)}, Callable(), Callable())
-	var left := _titled("Sac : ressources de forge, plans et papier (cliquer ou glisser vers la recette)", _bag)
+	var left := _titled("Sac : ressources, plans, patrons et papier (clic, Ctrl + clic : tout, ou glisser vers la recette)", _bag)
 	left.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	(left.get_child(0) as Label).autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	row.add_child(left)
@@ -375,7 +376,7 @@ func _build() -> void:
 		slot.add_theme_font_size_override("font_size", 11)
 		slot.pressed.connect(func() -> void:
 			if not str(slot.get_meta("objet", "")).is_empty():
-				_change(slot.get_meta("objet"), -1))
+				_change(slot.get_meta("objet"), -int(_chosen.get(slot.get_meta("objet"), 1)) if Input.is_key_pressed(KEY_CTRL) else -1))
 		slot.set_drag_forwarding(Callable(), _can_drop_on_recipe, _drop_on_recipe)
 		slots.add_child(slot)
 		_slots.append(slot)

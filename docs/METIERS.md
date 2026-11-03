@@ -219,7 +219,7 @@ Toutes les ressources qui servent à la forge (caractéristique ou matière), pa
 | **Caillou de fronde** | 4 | commun | Perception | +2 | — | Frondeur vétéran (élite) niv. 9 90 % ×2–5<br>Gobelin frondeur niv. 4–6 60 % ×1–3 |
 | **Fiche de paie gobeline** | 4 | peu_commun | Vitalité | +6 | — | Frondeur vétéran (élite) niv. 9 50 %<br>Gobelin frondeur niv. 4–6 15 % |
 | **Guano luisant** | 4 | peu_commun | % Critique | +1 | — | Vampipistrelle comtesse (élite) niv. 9 48 %<br>Vampipistrelle niv. 4–6 12 % |
-| **Poil scintillant** | 4 | commun | Force | +2 | tissu | Grand cerf de la Lisière (élite) niv. 9 90 % ×2–4<br>Cerf enchanté niv. 4–6 50 % ×1–2 |
+| **Poil scintillant** | 4 | commun | Force | +2 | — | Grand cerf de la Lisière (élite) niv. 9 90 % ×2–4<br>Cerf enchanté niv. 4–6 50 % ×1–2 |
 | **Sève ancienne** | 4 | rare | Intelligence | +2 | — | Arbre millénaire (élite) niv. 10 40 % ×1–2<br>Arbre vivant niv. 4–6 10 % |
 | **Écorce vivante** | 4 | commun | Agilité | +2 | — | Arbre millénaire (élite) niv. 10 90 % ×2–5<br>Arbre vivant niv. 4–6 60 % ×1–3<br>Arbre calciné niv. 19–21 50 % ×1–2 |
 | **Bon de coupe** | 7 | peu_commun | Perception | +2 | — | Abatteur en chef (élite) niv. 12 48 %<br>Bûcheron de Brumerive niv. 7–9 12 % |
@@ -227,7 +227,7 @@ Toutes les ressources qui servent à la forge (caractéristique ou matière), pa
 | **Copeaux de bois** | 7 | commun | Initiative | +19 | — | Abatteur en chef (élite) niv. 12 88 % ×2–5<br>Bûcheron de Brumerive niv. 7–9 55 % ×1–3 |
 | **Maillon de cotte** | 7 | commun | Intelligence | +2 | — | Sergent de la milice (élite) niv. 12 80 % ×2–5<br>Milicien de Hautepierre niv. 7–9 50 % ×1–3 |
 | **Ordre de raid** | 7 | peu_commun | Perception | +2 | — | Krasbouk, Chef de Raid (syndiqué) (mini-boss) niv. 12 100 %<br>Pillard émérite (élite) niv. 12 48 %<br>Défonceur de portes (élite) niv. 15 32 %<br>Gobelin pillard niv. 7–9 12 %<br>Gobelin briseur niv. 10–12 8 % |
-| **Paille ensorcelée** | 7 | commun | Agilité | +2 | tissu | Grand Épouvantail (élite) niv. 12 90 % ×2–5<br>Épouvantail démotivé niv. 7–9 60 % ×1–3 |
+| **Paille ensorcelée** | 7 | commun | Agilité | +2 | — | Grand Épouvantail (élite) niv. 12 90 % ×2–5<br>Épouvantail démotivé niv. 7–9 60 % ×1–3 |
 | **Sac de rapine** | 7 | commun | Vitalité | +8 | — | Krasbouk, Chef de Raid (syndiqué) (mini-boss) niv. 12 90 % ×2–4<br>Pillard émérite (élite) niv. 12 88 % ×2–4<br>Gobelin pillard niv. 7–9 55 % ×1–2 |
 | **Écusson de milice** | 7 | peu_commun | Force | +2 | — | Sergent de la milice (élite) niv. 12 48 %<br>Milicien de Hautepierre niv. 7–9 12 % |
 | **Bois d'if** | 8 | peu_commun | Perception | +2 | bois | Bûcheron (If) |
@@ -235,13 +235,13 @@ Toutes les ressources qui servent à la forge (caractéristique ou matière), pa
 | **Minerai d'étain** | 8 | commun | Agilité | +2 | minerai | Mineur (Étain) |
 | **Étain chantant** | 8 | rare | Dommages Tempête | +1 | minerai | Mineur (Étain, rare) |
 | **Crochet d'araignée** | 10 | peu_commun | Prospection | +1 | — | Grande Tisseuse (élite) niv. 15 48 %<br>Tisseuse de brume niv. 10–12 12 % |
-| **Fil de brume** | 10 | commun | Perception | +2 | tissu | La Mère-Toile (mini-boss) niv. 12 90 % ×2–4<br>Grande Tisseuse (élite) niv. 15 88 % ×2–5<br>Tisseuse de brume niv. 10–12 55 % ×1–3 |
+| **Fil de brume** | 10 | commun | Perception | +2 | — | La Mère-Toile (mini-boss) niv. 12 90 % ×2–4<br>Grande Tisseuse (élite) niv. 15 88 % ×2–5<br>Tisseuse de brume niv. 10–12 55 % ×1–3 |
 | **Gnôle de raid** | 10 | commun | Force | +2 | — | Défonceur de portes (élite) niv. 15 88 % ×2–4<br>Gobelin briseur niv. 10–12 55 % ×1–2 |
 | **Médaille en chocolat** | 10 | peu_commun | Intelligence | +2 | — | Défonceur de portes (élite) niv. 15 48 %<br>Gobelin briseur niv. 10–12 12 % |
 | **Registre des heures** | 10 | peu_commun | Dommages | +1 | — | Le Balourd des Abîmes (mini-boss) niv. 12 50 % ×1–2<br>Contremaître en chef (élite) niv. 15 48 %<br>Contremaître zélé niv. 10–12 12 % |
 | **Sifflet de contremaître** | 10 | commun | Agilité | +2 | — | Contremaître en chef (élite) niv. 15 80 % ×2–4<br>Contremaître zélé niv. 10–12 50 % ×1–2 |
 | **Corne du Balourd** | 12 | rare | PA | +1 | — | Le Balourd des Abîmes (mini-boss) niv. 12 100 % |
-| **Soie de la Mère-Toile** | 12 | rare | PM | +1 | tissu | La Mère-Toile (mini-boss) niv. 12 100 % |
+| **Soie de la Mère-Toile** | 12 | rare | PM | +1 | — | La Mère-Toile (mini-boss) niv. 12 100 % |
 | **Bourse vide** | 13 | commun | Initiative | +26 | — | Chef de bande (élite) niv. 18 88 % ×2–4<br>Détrousseur des grands chemins niv. 13–15 55 % ×1–2 |
 | **Carte au trésor douteuse** | 13 | peu_commun | Vitalité | +11 | — | Chef de bande (élite) niv. 18 48 %<br>Détrousseur des grands chemins niv. 13–15 12 % |
 | **Cendre tiède** | 13 | commun | Force | +3 | — | Marraine Cendrée (élite) niv. 30 88 % ×2–5<br>Cendrillon niv. 25–27 55 % ×1–3<br>Arbre calciné niv. 19–21 50 % ×1–2<br>Grouilleur de braise niv. 16–18 50 % ×1–2<br>Loup cendreux niv. 13–15 50 % ×1–2 |
@@ -253,7 +253,7 @@ Toutes les ressources qui servent à la forge (caractéristique ou matière), pa
 | **Dent de troll** | 16 | commun | Intelligence | +3 | — | Troll gastronome (élite) niv. 21 88 % ×2–4<br>Troll des ponts niv. 16–18 55 % ×1–2 |
 | **Recette de troll** | 16 | peu_commun | Perception | +3 | — | Troll gastronome (élite) niv. 21 48 %<br>Troll des ponts niv. 16–18 12 % |
 | **Message intercepté** | 19 | peu_commun | Agilité | +3 | — | Corbac chef espion (élite) niv. 24 48 %<br>Corbac espion niv. 19–21 12 % |
-| **Plume de corbac** | 19 | commun | Force | +3 | tissu | Corbac chef espion (élite) niv. 24 88 % ×2–5<br>Corbac espion niv. 19–21 55 % ×1–3 |
+| **Plume de corbac** | 19 | commun | Force | +3 | — | Corbac chef espion (élite) niv. 24 88 % ×2–5<br>Corbac espion niv. 19–21 55 % ×1–3 |
 | **Bois de malorme** | 22 | rare | Intelligence | +4 | bois | Bûcheron (Malorme) |
 | **Chanvre** | 22 | commun | Initiative | +38 | tissu | Agriculteur (Chanvre) |
 | **Chanvre d'acier** | 22 | rare | Portée | +1 | tissu | Agriculteur (Chanvre, rare) |
@@ -286,29 +286,29 @@ montre tout. Bonus calculés comme `Forge.preview` sans Précision (plage du jet
 | **Bottes de marche** | bottes | 1 | 3 Peau de loup, 3 Dent de rat | Initiative 25–33, Agilité 2–3 | « Aux armes, citoyens (surtout vous) » |
 | **Bottes de mousse** | bottes | 1 | 1 Peau de loup, 3 Croc de loup, 2 Glande acide | Initiative 8–11, Perception 2–3, Vitalité 8–10 | « Observer sans intervenir » |
 | **Bottes feutrées** | bottes | 1 | 1 Peau de loup, 3 Dent de rat, 2 Queue de rat | Initiative 8–11, Agilité 2–3, Prospection 2 | « Objectifs de productivité » |
-| **Cape en peau de loup** | cape | 2 | 1 Poil scintillant, 2 Dent de rat, 2 Glande acide, 1 Peau de loup | Force 2, Agilité 2, Vitalité 8–10, Initiative 8–11 | boutique |
+| **Cape en peau de loup** | cape | 2 | 1 Poil scintillant, 2 Dent de rat, 2 Glande acide, 1 Peau de loup, 1 Lin | Force 2, Agilité 2, Vitalité 8–10, Initiative 8–11, Prospection 1 | boutique |
 | **Ceinturon riveté** | ceinture | 1 | 1 Peau de loup, 3 Glande acide, 2 Carapace de grouilleur | Initiative 8–11, Vitalité 11–15, Force 2 | « Le verger de Mère Pomponne » |
-| **Casque cabossé** | coiffe | 4 | 1 Poil scintillant, 3 Fiche de paie gobeline, 2 Aile de vampipistrelle | Force 5–6, Vitalité 14–18 | boutique, « Inspection surprise » |
-| **Couronne de ramure** | coiffe | 3 | 1 Poil scintillant, 3 Queue de rat, 2 Bois de cerf enchanté | Force 2, Prospection 2–3, Intelligence 3–4 | « Coupe rase » |
+| **Casque cabossé** | coiffe | 4 | 1 Poil scintillant, 3 Fiche de paie gobeline, 2 Aile de vampipistrelle, 1 Lin | Force 5–6, Vitalité 14–18, Prospection 1 | boutique, « Inspection surprise » |
+| **Couronne de ramure** | coiffe | 3 | 1 Poil scintillant, 3 Queue de rat, 2 Bois de cerf enchanté, 1 Lin | Force 2, Prospection 3–4, Intelligence 3–4 | « Coupe rase » |
 | **Dague du Mauvais Œil** | dague | 4 | 1 Minerai de fer, 1 Bois de chêne, 2 Écorce vivante, 2 Caillou de fronde | Force 2, Agilité 3–4, Perception 3–4 | boutique |
 | **Masse cerclée** | masse | 4 | 1 Minerai de fer, 1 Bois de chêne, 2 Aile de vampipistrelle, 2 Fiche de paie gobeline | Force 5–6, Vitalité 9–12 | boutique |
-| **Cape d'écorce** | cape | 4 | 1 Poil scintillant, 3 Fiche de paie gobeline, 2 Caillou de fronde | Force 2, Vitalité 14–18, Perception 3–4 | « Les arbres sont nerveux » |
-| **Cape de vampipistrelle** | cape | 4 | 1 Poil scintillant, 2 Écorce vivante, 2 Caillou de fronde, 1 Peau de loup | Force 2, Agilité 3–4, Perception 3–4, Initiative 8–11 | « Heures supplémentaires (non payées) » |
+| **Cape d'écorce** | cape | 4 | 1 Poil scintillant, 3 Fiche de paie gobeline, 2 Caillou de fronde, 1 Lin | Force 2, Vitalité 14–18, Perception 3–4, Prospection 1 | « Les arbres sont nerveux » |
+| **Cape de vampipistrelle** | cape | 3 | 1 Poil scintillant, 2 Écorce vivante, 2 Caillou de fronde, 1 Peau de loup, 1 Lin | Force 2, Agilité 3–4, Perception 3–4, Initiative 8–11, Prospection 1 | « Heures supplémentaires (non payées) » |
 | **Chevalière du Cogneur** | anneau | 2 | 1 Minerai de fer, 3 Spores grincheuses, 2 Aile de vampipistrelle | Force 4–5, Dommages 2–3 | « Les ordres du raid » |
-| **Chapeau d'épouvantail** | coiffe | 6 | 1 Paille ensorcelée, 2 Citrouille grimaçante, 2 Sac de rapine, 1 Queue de rat | Agilité 5–6, Vitalité 12–16, Prospection 1 | « La grève des épouvantails » |
+| **Chapeau d'épouvantail** | coiffe | 6 | 1 Paille ensorcelée, 2 Citrouille grimaçante, 2 Sac de rapine, 1 Queue de rat, 1 Lin | Agilité 5–6, Vitalité 12–16, Prospection 2 | « La grève des épouvantails » |
 | **Amulette-sifflet** | amulette | 9 | 1 Minerai d'étain, 2 Copeaux de bois, 2 Sifflet de contremaître, 1 Crochet d'araignée | Agilité 5–6, Initiative 29–38, Prospection 1 | « Le péage de Zibeline » |
-| **Cape de soie grise** | cape | 10 | 1 Fil de brume, 2 Registre des heures, 2 Crochet d'araignée, 1 Sac de rapine | Perception 2, Dommages 2, Prospection 2, Vitalité 6–8 | « Du fil de brume » |
+| **Cape de soie grise** | cape | 9 | 1 Fil de brume, 2 Registre des heures, 2 Crochet d'araignée, 1 Sac de rapine, 1 Lin | Perception 2, Dommages 2, Prospection 2–3, Vitalité 6–8 | « Du fil de brume » |
 | **Broche de la Lisière** | amulette | 10 | 1 Minerai d'étain, 2 Médaille en chocolat, 2 Sifflet de contremaître, 1 Crochet d'araignée | Agilité 5–6, Intelligence 3–4, Prospection 1 | « La Mère-Toile » |
 | **Carte du syndicat** | amulette | 10 | 1 Minerai d'étain, 2 Sifflet de contremaître, 2 Registre des heures, 1 Crochet d'araignée | Agilité 5–6, Dommages 2, Prospection 1 | « Le Balourd des Abîmes » |
-| **Écharpe du Héros de Brumerive** | cape | 9 | 1 Soie de la Mère-Toile, 2 Sac de rapine, 2 Gnôle de raid, 1 Médaille en chocolat | PM 1, Vitalité 12–16, Force 3–4, Intelligence 2 | « La palissade de Krasbouk » |
+| **Écharpe du Héros de Brumerive** | cape | 8 | 1 Soie de la Mère-Toile, 2 Sac de rapine, 2 Gnôle de raid, 1 Médaille en chocolat, 1 Lin | PM 1, Vitalité 12–16, Force 3–4, Intelligence 2, Prospection 1 | « La palissade de Krasbouk » |
 | **Amulette chantante** | amulette | 10 | 1 Minerai d'étain, 2 Médaille en chocolat, 2 Crochet d'araignée, 1 Carte au trésor douteuse | Agilité 2, Intelligence 3–4, Prospection 2, Vitalité 8–11 | « Notes d'observatrice » |
 | **Bottes de grand chemin** | bottes | 11 | 1 Aile de vampipistrelle, 2 Sifflet de contremaître, 2 Carte au trésor douteuse, 1 Bourse vide | Force 2, Agilité 3–4, Vitalité 17–22, Initiative 20–26 | « Le tampon officiel » |
-| **Cape de loup cendreux** | cape | 12 | 1 Soie de la Mère-Toile, 2 Sifflet de contremaître, 2 Carte au trésor douteuse, 1 Bourse vide | PM 1, Agilité 3–4, Vitalité 17–22, Initiative 20–26 | « Le convoi de Brokk » |
+| **Cape de loup cendreux** | cape | 11 | 1 Soie de la Mère-Toile, 2 Sifflet de contremaître, 2 Carte au trésor douteuse, 1 Bourse vide, 1 Lin | PM 1, Agilité 3–4, Vitalité 17–22, Initiative 20–26, Prospection 1 | « Le convoi de Brokk » |
 | **Ceinture de troll** | ceinture | 12 | 1 Aile de vampipistrelle, 3 Carte au trésor douteuse, 2 Cendre tiède | Force 6–8, Vitalité 25–33 | « Droit de passage » |
-| **Heaume d'argent** | coiffe | 16 | 3 Plume de corbac, 2 Carte au trésor douteuse, 1 Crochet d'araignée | Force 7–9, Vitalité 17–22, Prospection 1 | « Messages interceptés » |
+| **Heaume d'argent** | coiffe | 14 | 3 Plume de corbac, 2 Carte au trésor douteuse, 1 Crochet d'araignée, 1 Lin | Force 7–9, Vitalité 17–22, Prospection 2 | « Messages interceptés » |
 | **Ceinture d'écorce calcinée** | ceinture | 14 | 1 Aile de vampipistrelle, 2 Carte au trésor douteuse, 2 Plume de corbac, 1 Dent de troll | Force 6–8, Vitalité 17–22, Intelligence 2–3 | « Les arbres qui brûlent » |
 | **Brassard du délégué** | amulette | 19 | 1 Obsidienne, 2 Message intercepté, 2 Éclat de gargouille, 1 Crochet d'araignée | Force 3–4, Agilité 5–6, Perception 6–8, Prospection 1 | « Le registre des sacrifiés » |
 | **Insigne de la Vieille Garde** | amulette | 16 | 1 Obsidienne, 2 Plume de corbac, 2 Carte au trésor douteuse, 1 Crochet d'araignée | Force 8–10, Vitalité 17–22, Prospection 1 | « La vieille garde » |
 | **Feuille d'argent de l'ambassade** | anneau | 21 | 1 Obsidienne, 2 Cœur de pierre, 2 Invitation au bal, 1 Crochet d'araignée | Force 3–4, Intelligence 6–8, Agilité 6–8, Prospection 1 | « Le bal des Cendrillons » |
-| **Cape en cuir d'olifant** | cape | 21 | 3 Plume de corbac, 2 Cuir d'olifant, 1 Crochet d'araignée | Force 7–9, Vitalité 27–36, Prospection 1 | « Le Conseil des Peuples Libres » |
+| **Cape en cuir d'olifant** | cape | 21 | 3 Plume de corbac, 2 Cuir d'olifant, 1 Crochet d'araignée, 1 Chanvre | Force 7–9, Vitalité 27–36, Prospection 1, Initiative 29–38 | « Le Conseil des Peuples Libres » |
 | **Éclat de l'Aube** | anneau | 23 | 1 Obsidienne, 1 Cuir d'olifant, 1 Plume de corbac, 1 Cœur de pierre, 1 Éclat de gargouille, 1 Invitation au bal | Force 5–7, Vitalité 14–18, Intelligence 3–4, Perception 3–4, Agilité 3–4 | « La Brèche » |
