@@ -2196,15 +2196,99 @@ décrits au § 13.6.
 
 ## 12. Donjons
 
-- **Entrée :** une **clé** (fabriquée ou lootée) consommée à l'entrée ; condition de niveau ou de quête.
-- **Structure :** une suite de salles (3 à 6), chacune un combat imposé ; on ne peut pas sortir sans
-  abandonner la progression.
-- **Salle finale :** boss avec mécaniques propres (phases, invocations, zones dangereuses).
-- **Récompenses :** butin exclusif au donjon (ressources de boss → panoplie du donjon), XP bonus,
-  progression de quête.
-- **Solo :** les donjons sont faisables seul (avec équilibrage dédié), ou avec des **compagnons PNJ**
-  (long terme) ; en multi, conçus pour 4 à 8 joueurs.
-- **Donjons de Relique :** un par Relique, boss = un Héraut Cendré.
+Conception de l'auteur du 03/11/2026, rien n'est codé. Les réponses par défaut aux questions ouvertes
+(fin de section) sont appliquées dans le texte en attendant l'avis de l'auteur.
+
+### 12.1 Principes
+
+- **Instance** : un donjon est une **instance privée**, liée à un **joueur seul ou à un groupe**
+  (jusqu'à 8 joueurs, la taille d'un groupe, § 13.3). Les autres joueurs ne la voient pas et ne
+  peuvent pas y entrer. En solo, l'instance suit le modèle de la maison du joueur.
+- **Instance de guilde** : une guilde dont la **réputation de raid** (métier de guilde, § 13.7)
+  atteint un palier obtient une **instance de guilde** : une copie du donjon commune à la guilde,
+  où **tous les membres** entrent et sortent librement, ensemble ou chacun à son heure (§ 12.4).
+- **Structure** : un donjon est un **ensemble de cartes** (salles) accessible par une **entrée**
+  dans le monde extérieur (porte, grotte, escalier : un passage vers la carte d'entrée de l'instance).
+- **Toutes les salles ouvertes dès l'entrée** (contrairement à Dofus) : aucune salle n'est
+  verrouillée par la précédente. Le joueur ou le groupe choisit : aller **droit au boss** et repartir,
+  ou **nettoyer toutes les salles** avant de quitter le donjon. Les groupes de monstres sont visibles
+  sur les cartes comme dehors, et on les attaque à son gré.
+- **Entrée par une clé** fabriquée par un métier d'artisanat (§ 12.2).
+- **Monstres exclusifs** : chaque donjon a son **boss** et **au moins un monstre exclusif** (qu'on
+  ne rencontre nulle part ailleurs), qui donnent des **ressources introuvables hors du donjon**. C'est
+  la raison d'y revenir et de nettoyer les salles plutôt que de seulement tuer le boss.
+
+### 12.2 La clé
+
+- **Fabrication** : par le **Joaillier** (orfèvrerie et serrurerie ; piste de parodie : la clé est
+  « certifiée inviolable », la serrure beaucoup moins), sur **plan** (`type: recette`, § 10.4) ; le
+  plan s'obtient auprès d'un PNJ près de l'entrée ou en butin des monstres de la zone.
+- **Ingrédients** : des ressources des **monstres et de la récolte de la zone** autour de l'entrée,
+  pour que la clé suive la progression de la région ; jamais de ressource du donjon lui-même (pas de
+  cercle vicieux pour la première entrée).
+- **Consommation** : une clé est **consommée à l'entrée** de l'instance par **chaque joueur** qui y
+  entre (comme Dofus : la clé fait vivre les artisans). Elle se donne et s'échange entre joueurs.
+- **Ressortir** : sortir par la porte ferme l'instance pour soi ; y revenir demande une nouvelle clé.
+- **Instance de guilde** : une seule clé, fournie par le coffre de guilde ou un membre, ouvre
+  l'instance de guilde pour tous (§ 12.4).
+
+### 12.3 Déroulement
+
+- **Carte d'entrée** (vestibule) : sans monstre, avec la sortie vers le monde extérieur et les
+  passages vers les salles. Chaque salle mène aux autres comme des cartes voisines, et le boss est
+  à quelques cartes au plus du vestibule.
+- **Combats** : les règles normales (§ 7), avec les cases de placement de chaque carte (calque
+  `placement`). Le boss suit les règles des mini-boss (phases de profils différents, jamais de soin
+  au changement de phase, § 8.1) en plus difficile.
+- **Pas de réapparition** : un groupe vaincu dans l'instance ne revient pas tant qu'elle existe.
+- **Défaite** : les joueurs reviennent au **vestibule** (pas au point de résurrection), avec les PV
+  d'une défaite normale ; l'instance reste ouverte et le groupe de monstres reste en place, à pleine
+  vie.
+- **Déconnexion** : l'instance reste ouverte tant qu'un membre y est, et **15 minutes** après le
+  départ du dernier ; un joueur qui revient dans ce délai y retrouve sa place (dans le combat en
+  cours si celui-ci dure encore, comme en § 16.5, M2).
+- **Fin** : l'instance se ferme quand tous ses joueurs en sont sortis (ou au bout du délai). Le boss
+  vaincu ouvre une sortie directe au fond de sa salle.
+
+### 12.4 Instance de guilde
+
+- **Accès** : débloquée par un palier de réputation de raid de la guilde (§ 13.7, valeur à fixer),
+  par donjon (on débloque donjon par donjon, en commençant par ceux qu'on a terminés).
+- **Durée** : l'instance de guilde reste ouverte **jusqu'à la mort du boss, ou 24 heures** ; les
+  salles nettoyées par un membre le restent pour tous. Chaque combat garde la taille d'un groupe
+  normal (8 joueurs au plus).
+- **Butin** : chacun garde le butin de ses combats ; rien n'est versé d'office au coffre.
+
+### 12.5 Récompenses
+
+- **Butin exclusif** : ressources du boss et des monstres exclusifs (panoplie du donjon, lignes PA,
+  PM et Portée des chefs-d'œuvre, § 13.7), avancement de quête.
+- **Progression** (§ 4.5) : réputation et pratique comme pour tout combat, selon la difficulté.
+- **Raid** : chaque donjon terminé (boss vaincu) compte pour la réputation de raid de la guilde du
+  joueur (§ 13.7).
+
+### 12.6 Solo et contenu
+
+- Les donjons sont faisables seul (avec équilibrage dédié), ou avec des **compagnons PNJ** (long
+  terme) ; en multi, conçus pour 4 à 8 joueurs.
+- **Donjons de Relique** : un par Relique, boss = un Héraut Cendré.
+- **Un donjon par région** au début (panoplie et ressources exclusives).
+
+### 12.7 Questions ouvertes (réponses par défaut appliquées ci-dessus)
+
+1. **Métier qui fabrique la clé** : le Joaillier (défaut) ; ou le métier lié au thème du donjon, ou
+   un nouveau métier (serrurier).
+2. **Consommation de la clé** : une clé par joueur à chaque entrée (défaut) ; ou une seule pour tout
+   le groupe.
+3. **Réapparition des monstres** : aucune dans l'instance (défaut) ; ou réapparition lente.
+4. **Sortie et reconnexion** : sortir ferme l'instance pour soi ; déconnexion tolérée 15 minutes
+   (défaut).
+5. **Défaite** : retour au vestibule, instance gardée (défaut) ; ou expulsion et clé perdue.
+6. **Taille de groupe** : 1 à 8 joueurs, avec la même instance pour tout le groupe (défaut).
+7. **Instance de guilde** : copie commune, ouverte jusqu'au boss ou 24 heures, une seule clé
+   (défaut) ; ou instance permanente sans clé.
+8. **Plan du donjon** : vestibule qui mène aux salles voisines (défaut) ; ou vestibule à portes qui
+   téléportent dans chaque salle.
 
 ---
 
@@ -2228,7 +2312,7 @@ décrits au § 13.6.
   reste de la place (dépassement léger toléré pour les membres d'un groupe).
 - **Groupe :** les membres d'un groupe sont toujours placés dans la même instance.
 - **Fusion :** les instances sous-peuplées sont fusionnées progressivement.
-- **Donjons :** instance privée par groupe.
+- **Donjons :** instance privée par joueur ou par groupe, instance de guilde pour les guildes de raid (§ 12).
 
 **Séparation par avancement dans la quête principale.** Les instances sont réparties en deux
 « mondes » selon l'avancement de chaque joueur :
@@ -2361,7 +2445,8 @@ guildes). Métiers retenus par l'auteur :
     affichées, notes anciennes moins lourdes ; vagues suspectes mises de côté par le serveur.
 - **Raid** : progresse par accomplissements en donjon (donjons terminés, puis exploits : premier du
   serveur, sans mort, en temps limité, à peu de joueurs). Bonus : titres, trophées de boss dans la
-  maison de guilde, classement, accès direct aux entrées de donjon, réparations moins chères ; un
+  maison de guilde, **instance de guilde** des donjons à un palier de réputation (§ 12.4),
+  classement, accès direct aux entrées de donjon, réparations moins chères ; un
   éventuel bonus de combat reste petit, plafonné et limité aux donjons. Les butins de boss servent
   aux lignes PA, PM et Portée des chefs-d'œuvre : **contrats** de livraison avec les guildes
   commerçantes. Le passage de donjon peut être proposé comme service dans le registre des commerces.
