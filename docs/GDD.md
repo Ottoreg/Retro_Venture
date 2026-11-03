@@ -2197,7 +2197,7 @@ décrits au § 13.6.
 ## 12. Donjons
 
 Conception de l'auteur du 03/11/2026, rien n'est codé. Décisions validées par l'auteur le même jour
-(§ 12.7).
+(§ 12.9).
 
 ### 12.1 Principes
 
@@ -2271,10 +2271,42 @@ Conception de l'auteur du 03/11/2026, rien n'est codé. Décisions validées par
 
 - Les donjons sont faisables seul (avec équilibrage dédié), ou avec des **compagnons PNJ** (long
   terme) ; en multi, conçus pour 4 à 8 joueurs.
-- **Donjons de Relique** : un par Relique, boss = un Héraut Cendré.
+- **Donjons de l'Aube** (Reliques) et **tours** : règles propres (§ 12.7 et 12.8).
 - **Un donjon par région** au début (panoplie et ressources exclusives).
 
-### 12.7 Décisions (validées par l'auteur le 03/11/2026)
+### 12.7 Donjons de l'Aube (Reliques)
+
+Demande de l'auteur du 03/11/2026 : un donjon par Relique de l'Aube (§ 3.3), au boss correspondant
+(un Héraut Cendré). Ils dérogent aux règles générales sur ces points :
+
+- **Salle unique** : une seule carte, celle du boss, sans vestibule ni autres salles.
+- **Combat à vagues** : un seul combat en **4 à 5 vagues** (nombre à valider pendant les tests) :
+  d'abord des **sbires** du boss, puis, pour la **vague finale**, le **boss accompagné de ses
+  généraux**. Une vague arrive sur les cases de placement des monstres quand la précédente est
+  vaincue ; les joueurs gardent leurs PV, leurs effets et leurs relances (pas de nouveau placement).
+- **Clé** : toujours **une par personne**. **Pas d'instance de guilde** : un donjon de l'Aube ne se
+  privatise pas pour une guilde.
+- **Défaite** : sortie du donjon (pas de vestibule), clé perdue.
+
+### 12.8 Tour Céleste et Infratour Infernale
+
+Demande de l'auteur du 03/11/2026 : des donjons spéciaux à la structure plus classique, où l'on
+enchaîne beaucoup de salles. La **Tour Céleste** monte vers le ciel ; l'**Infratour Infernale** est
+une tour inversée qui s'enfonce dans le sous-sol. Pour commencer, **une de chaque**.
+
+- **50 étages**, un combat par étage (une carte, un groupe de monstres), de plus en plus difficiles.
+- **Paliers tous les 5 étages** : un **mini-boss** garde chaque 5e étage, avant le palier ; le
+  vaincre fait atteindre le palier.
+- **Pauses** : les joueurs peuvent sortir et **reprendre au palier le plus élevé atteint**. Le
+  palier est retenu par joueur ; un groupe reprend au plus haut palier atteint par **tous** ses
+  membres.
+- **Étage 50** : le **boss** de la Tour ou de l'Infratour.
+- **Défaite** : retour au dernier palier atteint ; il faut une nouvelle entrée pour reprendre.
+- **Clé** : une par joueur à chaque entrée, comme les autres donjons (§ 12.2).
+- **Récompenses** : terminer (vaincre le boss de l'étage 50) rapporte de **grosses récompenses** en
+  réputation, en brumes et en ressources rares.
+
+### 12.9 Décisions (validées par l'auteur le 03/11/2026)
 
 1. **Métier qui fabrique la clé** : le Joaillier.
 2. **Consommation de la clé** : une clé par joueur à chaque entrée.
