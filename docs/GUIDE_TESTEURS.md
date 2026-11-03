@@ -326,7 +326,7 @@ le **lit** de votre maison les rend tous d'un coup.
   vous donne aussi le **patron** de l'objet : ressources, jets et effets ; cliquez-le à l'enclume pour
   remplir la recette. **Ctrl + clic** pose ou retire toute la quantité d'une ressource. Le bouton
   **Détails** de la fiche du personnage montre toutes vos caractéristiques, élément par élément
-  (résistance plafonnée à 60 %). Au début, les caractéristiques des ressources sont
+  (résistance de l'équipement plafonnée à 60 %). Au début, les caractéristiques des ressources sont
   **cachées** : c'est en forgeant qu'on apprend à les lire. Les **plans** (récompenses de quêtes, ou
   vendus par les marchands) disent tout d'avance.
 - **Métiers** : bûcheron, mineur, agriculteur, herboriste et pêcheur (5 ressources chacun, de plus

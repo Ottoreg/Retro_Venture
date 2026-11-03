@@ -98,14 +98,15 @@ func get_spell(spell_id: String) -> Spell:
 	return null
 
 
-const MAX_RESISTANCE := 60.0
+## Résistance d'un joueur par élément venue de son équipement : 60 % au plus (demande de l'auteur du
+## 03/11/2026 ; les monstres et les effets de combat n'ont pas de plafond).
+const MAX_RESISTANCE := 60
 ## Résistance en % à un élément. Pour un élément composé (Sacré, Impie) : la moyenne des résistances
 ## aux deux éléments de base, plus sa résistance propre (10 % Flamme, 5 % Acier, 5 % Sacré : 12,5 %).
-## Plafonnée à MAX_RESISTANCE (demande de l'auteur du 03/11/2026).
 func resistance(element: String) -> float:
 	var own := float(resistances.get(element, 0)) + modifier("resistance", element)
 	var bases: Array = Spell.COMPOSITE_ELEMENTS.get(element, [])
-	return minf(MAX_RESISTANCE, own if bases.is_empty() else (resistance(bases[0]) + resistance(bases[1])) / 2.0 + own)
+	return own if bases.is_empty() else (resistance(bases[0]) + resistance(bases[1])) / 2.0 + own
 
 
 func stat(stat_name: String) -> int:

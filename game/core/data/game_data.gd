@@ -658,7 +658,7 @@ func create_character_fighter(character: Character, fighter_id: String) -> Fight
 	fighter.crit_bonus = character.extra("critique", self)
 	for element: String in Fighter.ELEMENT_STATS:
 		fighter.element_dommages[element] = character.extra("dommages_" + element, self)
-		fighter.resistances[element] = int(fighter.resistances.get(element, 0)) + character.extra("resistance_" + element, self)
+		fighter.resistances[element] = mini(Fighter.MAX_RESISTANCE, int(fighter.resistances.get(element, 0)) + character.extra("resistance_" + element, self))
 	var weapon := character.inventory.equipped_entry("arme")
 	if not weapon.is_empty() and items.has(weapon["objet"]):
 		fighter.weapon = weapon["objet"]

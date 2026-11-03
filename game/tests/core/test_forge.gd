@@ -175,8 +175,13 @@ func test_dommages_et_resistances_par_element() -> void:
 	target.resistances = {"flamme": 50}
 	assert_eq(Combat.damage_value(fighter, target, "flamme", 20), 20, "20 × 50 % + 10 dommages Flamme")
 	assert_eq(_world.data.create_profile_fighter(fighter.profile(), "j").element_damage("flamme"), 10, "gardés dans la copie du combat")
-	fighter.resistances["givre"] = 90
-	assert_eq(fighter.resistance("givre"), Fighter.MAX_RESISTANCE, "résistance plafonnée à 60 %")
+	inventory.equip(inventory.add(_world.data.items["forge_anneau"], 1, {"resistance_givre": 70}), "anneau_1")
+	fighter = _world.data.create_character_fighter(_world.character, "j")
+	assert_eq(fighter.resistance("givre"), 60.0, "équipement : 60 % au plus")
+	fighter.states.append({"type": Spell.EFFECT_BONUS, "carac": "resistance", "element": "givre", "valeur": 20})
+	assert_eq(fighter.resistance("givre"), 80.0, "les effets de combat dépassent le plafond")
+	target.resistances["givre"] = 90
+	assert_eq(target.resistance("givre"), 90.0, "les monstres aussi")
 
 
 func test_patron_sur_une_feuille_de_papier() -> void:

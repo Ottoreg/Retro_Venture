@@ -1888,7 +1888,8 @@ compris) et les recettes du forgeron sont supprimés, tout le reste se forge.
   Résistance** aux mêmes éléments (0,2, 20 % par ligne). Quelques ressources de monstres ont une matière (peaux, cuir et ailes : cuir) ;
   le **tissu** ne vient que de la récolte (lin, chanvre) : poils, paille, fils, soie et plumes gardent leur
   caractéristique de forge mais ne sont plus du tissu (les plans de coiffe et de cape prennent un lin ou un
-  chanvre). **Résistance plafonnée à 60 %** par élément, pour tous (`Fighter.MAX_RESISTANCE`).
+  chanvre). **Résistance d'équipement des joueurs plafonnée à 60 %** par élément (`Fighter.MAX_RESISTANCE`) ;
+  les monstres et les effets de combat n'ont pas ce plafond.
 - **Limites** (demande de l'auteur, 02/11/2026) : **100 points de score par ligne** au plus (100 Force,
   400 Vitalité, 1 000 Initiative, 34 Prospection ou Dommages, 10 Critique ; 1 PA, PM ou Portée) et
   **8 lignes par objet** au plus (forge refusée au-delà, `trop_de_lignes`). Seules les **essences**
