@@ -1,0 +1,98 @@
+{
+  "id": "tour_celeste_sommet",
+  "nom": "Tour céleste — Chœur de Raphaël",
+  "palette": "celeste",
+  "plan": [
+    "EEEEEEEEEEEEEEEEEEE",
+    " EEEEEEEMMMMEEEEEEE",
+    "EEEEEEMMMMMMMEEEEEE",
+    " EEEEMMMM..MMMMEEEE",
+    "EEEEMM.......MMEEEE",
+    " EEEMM........MMEEE",
+    "EEEMM.........MMEEE",
+    " EEMM..........MMEE",
+    "EEMM...........MMEE",
+    " EMM............MME",
+    "EMM.............MME",
+    " EM..............ME",
+    "EM...M.......M...ME",
+    " MM......r.......MM",
+    "EM...............ME",
+    " MM..............MM",
+    "EM...............ME",
+    " MM..............MM",
+    "EM...............ME",
+    " MM..............MM",
+    "EM...M.......M...ME",
+    " EM..............ME",
+    "EMM.............MME",
+    " EMM............MME",
+    "EEMM...........MMEE",
+    " EEMM..........MMEE",
+    "EEEMM.........MMEEE",
+    " EEEMM...@.s..MMEEE",
+    "EEEEMM.......MMEEEE",
+    " EEEEMMMM..MMMMEEEE",
+    "EEEEEEMMMMMMMEEEEEE",
+    " EEEEEEEMMMMEEEEEEE",
+    "EEEEEEEEEEEEEEEEEEE"
+  ],
+  "pnj": [
+    {
+      "marqueur": "s",
+      "id": "gardien_celeste",
+      "nom": "Gardien des marches",
+      "repliques": [
+        "Trop de lumière ? Je vous raccompagne au parvis. Il faudra une autre clé pour remonter."
+      ],
+      "entree": {
+        "carte": "celeste_0_0"
+      }
+    },
+    {
+      "marqueur": "r",
+      "id": "raphael_sommet",
+      "nom": "Archange Raphaël",
+      "don": "calice_toujours_ruisselant",
+      "repliques": [
+        "Bien combattu. Prenez ce calice : il ne se vide jamais, c'est bien là le problème.",
+        "Plus haut, quelqu'un vous attend avec une coupe. Méfiez-vous de ceux qui comptent leurs pièces."
+      ]
+    }
+  ],
+  "placement": [
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ....j........m....",
+    "......j.....m......",
+    " ...j..........m...",
+    ".....j.......m.....",
+    " ..................",
+    "......j.....m......",
+    " ....j........m....",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "..................."
+  ]
+}

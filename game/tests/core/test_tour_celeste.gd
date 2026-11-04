@@ -32,7 +32,7 @@ func test_la_tour_et_ses_etages() -> void:
 	assert_true(_data.passage_always_known("tour_celeste"))
 	var parvis := DataLoader.load_map(DataLoader.map_path("celeste_0_0"))
 	assert_eq(parvis.groups[0]["monstres"], ["cupidon"], "Cupidon seul sur le parvis")
-	assert_eq(_data.monsters["cupidon"]["butin"], [{"objet": "cle_celeste", "taux": 1.0}], "la clé à 100 %")
+	assert_eq(_data.monsters["cupidon"]["butin"], [{"objet": "cle_celeste", "taux": 1.0, "par_joueur": true}], "la clé à 100 %")
 	assert_eq(parvis.npcs[0]["entree"], {"carte": "tour_celeste_1", "cle": "cle_celeste"})
 	var rooms := [["ange", "colombe_baptiste", "colombe_baptiste", "colombe_baptiste"],
 		["ange", "ange", "colombe_baptiste", "lion_de_juda"], ["colombe_baptiste", "lion_de_juda", "lion_de_juda", "lion_de_juda"],
@@ -42,7 +42,8 @@ func test_la_tour_et_ses_etages() -> void:
 		var monsters: Array = room.groups[0]["monstres"].duplicate()
 		monsters.sort()
 		assert_eq(monsters, rooms[n], "étage %d" % (n + 1))
-		assert_eq(room.next_floor, "tour_celeste_%d" % (n + 2) if n < 4 else "celeste_0_0", "puis l'étage suivant, le parvis au sommet")
+		assert_eq(room.next_floor, "tour_celeste_%d" % (n + 2) if n < 4 else "tour_celeste_sommet", "puis l'étage suivant, le chœur au sommet")
+		assert_eq(room.get_npc("gardien_celeste")["entree"], {"carte": "celeste_0_0"}, "étage %d : un gardien fait sortir" % (n + 1))
 	assert_true(_data.monsters["archange_raphael"].get("boss", false), "l'Archange est le mini-boss")
 
 
@@ -73,8 +74,46 @@ func test_une_victoire_fait_monter_d_un_etage() -> void:
 		player.cell = IsoGrid.neighbors_4(last.cell).filter(func(cell: Vector2i) -> bool: return world.combat.is_free(cell))[0]
 		var events := world.execute({"type": Protocol.CMD_CAST, "entite": World.PLAYER_ID, "sort": "guerrier_frappe", "cible": last.cell})
 		assert_false(world.in_combat())
-		assert_eq(world.map.id, "tour_celeste_5" if floor_id == "tour_celeste_4" else "celeste_0_0", "%s : on monte" % floor_id)
+		assert_eq(world.map.id, "tour_celeste_5" if floor_id == "tour_celeste_4" else "tour_celeste_sommet", "%s : on monte" % floor_id)
 		assert_eq(Fixtures.of_type(events, Protocol.EVT_MAP_CHANGED).size(), 1)
+
+
+func test_cupidon_donne_une_cle_a_chaque_joueur() -> void:
+	var rng := RandomNumberGenerator.new()
+	var loot := Loot.roll([_data.monsters["cupidon"]], {"a": 100, "b": 100, "c": 100}, rng)
+	for player_id: String in loot:
+		assert_eq(loot[player_id].filter(func(drop: Dictionary) -> bool: return drop["objet"] == "cle_celeste").size(), 1, player_id)
+
+
+func test_le_gardien_fait_sortir_sans_cle() -> void:
+	var world := _world("tour_celeste_3")
+	var events := world.execute({"type": Protocol.CMD_TALK, "entite": World.PLAYER_ID, "pnj": "gardien_celeste"})
+	assert_eq(Fixtures.of_type(events, Protocol.EVT_MAP_CHANGED)[0]["carte"], "celeste_0_0", "retour au parvis")
+
+
+func test_raphael_donne_le_calice_une_fois_par_visite() -> void:
+	var world := _world("tour_celeste_sommet")
+	var talk := {"type": Protocol.CMD_TALK, "entite": World.PLAYER_ID, "pnj": "raphael_sommet"}
+	assert_eq(Fixtures.of_type(world.execute(talk), Protocol.EVT_DIALOGUE).size(), 1, "il parle aussi")
+	world.execute(talk)
+	assert_eq(world.character.inventory.quantity_of("calice_toujours_ruisselant"), 1, "un seul calice par visite")
+	world.execute({"type": Protocol.CMD_TALK, "entite": World.PLAYER_ID, "pnj": "gardien_celeste"})
+	world.character.inventory.add(_data.items["cle_celeste"])
+	world.execute({"type": Protocol.CMD_TALK, "entite": World.PLAYER_ID, "pnj": "saint_pierrot"})
+	assert_eq(world.map.id, "tour_celeste_1")
+	assert_true(_data.items["calice_toujours_ruisselant"]["description"].contains("trente deniers"), "l'indice sur la suite")
+
+
+func test_le_groupe_revient_pendant_le_combat() -> void:
+	var world := _world("tour_celeste_1")
+	world.execute({"type": Protocol.CMD_ENGAGE, "entite": World.PLAYER_ID, "groupe": "groupe_1"})
+	assert_true(world.in_combat())
+	assert_true(world.group("groupe_1").is_empty(), "le groupe combattu a quitté la carte")
+	world.update(4.0)
+	assert_true(world.group("groupe_1").is_empty(), "pas avant 5 s")
+	world.update(7.0)
+	assert_false(world.group("groupe_1").is_empty(), "de retour 5 à 10 s après le début du combat")
+	assert_true(world.in_combat(), "pendant le combat")
 
 
 func test_vol_de_vie_et_exorcisme() -> void:

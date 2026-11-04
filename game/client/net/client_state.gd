@@ -142,8 +142,8 @@ func apply_event(event: Dictionary) -> bool:
 		Protocol.EVT_GROUP_ENGAGED:
 			if event["entite"] != player_id:
 				# Le groupe et le joueur disparaissent ; les épées du combat restent sur la carte.
-				_groups.erase(event["groupe"])
-				_positions.erase(event["groupe"])
+				_groups.erase(event.get("remplace", event["groupe"]))
+				_positions.erase(event.get("remplace", event["groupe"]))
 				_players.erase(event["entite"])
 				_positions.erase(event["entite"])
 				var fight: Dictionary = _fights.get(event["groupe"], {"groupe": event["groupe"], "case": event.get("case",

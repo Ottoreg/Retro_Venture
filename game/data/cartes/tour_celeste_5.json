@@ -30,7 +30,7 @@
     "EEMM...........MMEE",
     " EEMM..........MMEE",
     "EEEMM.........MMEEE",
-    " EEEMM...@....MMEEE",
+    " EEEMM...@.s..MMEEE",
     "EEEEMM.......MMEEEE",
     " EEEEMMMM..MMMMEEEE",
     "EEEEEEMMMMMMMEEEEEE",
@@ -46,12 +46,26 @@
         "colombe_baptiste"
       ],
       "reapparition": [
-        60,
-        60
-      ]
+        5,
+        10
+      ],
+      "reapparition_au_combat": true
     }
   ],
-  "etage_suivant": "celeste_0_0",
+  "pnj": [
+    {
+      "marqueur": "s",
+      "id": "gardien_celeste",
+      "nom": "Gardien des marches",
+      "repliques": [
+        "Trop de lumière ? Je vous raccompagne au parvis. Il faudra une autre clé pour remonter."
+      ],
+      "entree": {
+        "carte": "celeste_0_0"
+      }
+    }
+  ],
+  "etage_suivant": "tour_celeste_sommet",
   "placement": [
     "...................",
     " ..................",
