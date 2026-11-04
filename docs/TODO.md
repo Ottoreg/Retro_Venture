@@ -858,6 +858,18 @@ Plan validé par l'auteur le 26/10/2026 : GDD § 16.5, jalons M0 (préparer le n
 - Bestiaire et encyclopédie du monde en jeu
 - Éditeur de cartes et de quêtes intégré pour accélérer la production de contenu
 
+### Lumière et Ténèbres (idée de l'auteur du 04/11/2026, rien de conçu)
+
+- [ ] Deux nouveaux doubles éléments pour concurrencer le Sacré et l'Impie : **Lumière** (Flamme +
+  Givre) et **Ténèbres** (Tempête + Acier).
+- [ ] Un lot de nouveaux monstres et de ressources liés à ces éléments, pour répondre à tous les
+  aspects du jeu.
+- [ ] Comme la Tour Céleste et l'Infratour Infernale (GDD § 12.8), deux donjons à thème : Lumière,
+  basé sur les lignes de vue (ombres projetées par des sources lumineuses), le positionnement et les
+  bonus liés au positionnement ; Ténèbres, basé aussi sur le positionnement mais orienté entrave,
+  avec des entités ténébreuses qui agrippent les alliés pour les restreindre (comme la manipulation
+  des ombres de Naruto).
+
 ### Identité des classes (à décider après les premiers retours de l'alpha 1)
 
 **Choix de l'auteur pour l'alpha 1 (fait)** : Arcaniste Flamme / Givre (états élémentaires choisis
