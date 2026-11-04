@@ -14,7 +14,7 @@ const PATTERN := "patron"
 ## Ressources différentes au plus par objet (cases de l'enclume), matières obligatoires comprises ; la
 ## quantité de chacune est libre, bornée par le plafond des lignes.
 const MAX_SLOTS := 8
-## Score d'une ligne au plus (points de Force : `STAT_WEIGHTS`) et lignes au plus par objet. Les essences
+## Score d'une ligne au plus (points de score : `STAT_WEIGHTS`) et lignes au plus par objet. Les essences
 ## (GDD § 9.2, à venir) pourront dépasser le score d'une ligne.
 const MAX_LINE_SCORE := 100
 const MAX_LINES := 8
@@ -24,11 +24,14 @@ const ROLL_LOW := 0.75
 const REPUTATION_PER_TIER := 5
 ## Caractéristiques à 1 par ressource quel que soit le palier, et à 1 au plus par objet.
 const FIXED_STATS := ["pa", "pm", "portee"]
-## Points de la caractéristique pour un point de Force (d'après le score du GDD § 10.4).
+## Points de la caractéristique pour un point de score (inverse du score du GDD § 10.4 : le plafond d'une ligne
+## en découle, 12 % de résistance pour 8 points par %).
 const STAT_WEIGHTS := {"force": 1.0, "intelligence": 1.0, "perception": 1.0, "agilite": 1.0, "vitalite": 4.0,
 	"initiative": 10.0, "prospection": 0.34, "dommages": 0.34, "critique": 0.1,
 	"dommages_acier": 0.5, "dommages_flamme": 0.5, "dommages_givre": 0.5, "dommages_tempete": 0.5,
-	"resistance_acier": 0.2, "resistance_flamme": 0.2, "resistance_givre": 0.2, "resistance_tempete": 0.2}
+	"resistance_acier": 0.125, "resistance_flamme": 0.125, "resistance_givre": 0.125, "resistance_tempete": 0.125}
+## Multiplicateur de la valeur des ressources rares, quel que soit leur palier (sauf PA, PM et Portée).
+const RARE_FACTOR := 3
 const MATERIALS := ["cuir", "tissu", "minerai", "bois"]
 ## Type d'objet à l'enclume (modèle `forge_<type>`) → matières obligatoires et noms proposés [nom, genre].
 const TYPES := {
@@ -84,14 +87,14 @@ static func stats_of(item: Dictionary) -> Array:
 	return stats if typeof(stats) == TYPE_ARRAY else [stats]
 
 
-## Valeur d'une ligne au plus : MAX_LINE_SCORE points de Force (1 pour PA, PM et Portée).
+## Valeur d'une ligne au plus : MAX_LINE_SCORE points de score (1 pour PA, PM et Portée).
 static func line_cap(stat: String) -> int:
 	return 1 if stat in FIXED_STATS else floori(MAX_LINE_SCORE * STAT_WEIGHTS[stat])
 
 
-## Caractéristique que donne une ressource de ce palier.
-static func value(stat: String, tier: int) -> int:
-	return 1 if stat in FIXED_STATS else maxi(1, roundi((1.0 + tier / 8.0) * STAT_WEIGHTS[stat]))
+## Caractéristique que donne une ressource de ce palier (× RARE_FACTOR si elle est rare).
+static func value(stat: String, tier: int, rare := false) -> int:
+	return 1 if stat in FIXED_STATS else maxi(1, roundi((1.0 + tier / 8.0) * STAT_WEIGHTS[stat])) * (RARE_FACTOR if rare else 1)
 
 
 ## Vrai si l'artisan voit la caractéristique des ressources de ce palier : il a déjà forgé, et le niveau
@@ -131,7 +134,7 @@ static func preview(type: String, resources: Dictionary, items: Dictionary, char
 			result["cachees"] += quantity
 			continue
 		for stat: String in stats_of(item):
-			totals[stat] = int(totals.get(stat, 0)) + quantity * value(stat, tier)
+			totals[stat] = int(totals.get(stat, 0)) + quantity * value(stat, tier, item.get("rarete") == "rare")
 	for material: String in TYPES[type]["matieres"]:
 		if material not in materials:
 			result["manquantes"].append(material)
@@ -147,7 +150,7 @@ static func preview(type: String, resources: Dictionary, items: Dictionary, char
 	return result
 
 
-## Nom par défaut : le premier nom du type et l'adjectif de la ligne la plus forte (en points de Force ;
+## Nom par défaut : le premier nom du type et l'adjectif de la ligne la plus forte (en points de score ;
 ## PA, PM et Portée l'emportent toujours).
 static func default_words(type: String, bonus: Dictionary) -> Array:
 	var words: Array = [TYPES[type]["noms"][0][0]]

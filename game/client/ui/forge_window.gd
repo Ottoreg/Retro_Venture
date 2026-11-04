@@ -45,7 +45,7 @@ static func forge_lines(template: Dictionary, data: GameData, character: Charact
 	if template.has("caracteristique") and character != null:
 		var tier := int(template.get("niveau", 1))
 		lines.append("Forge : %s" % (", ".join(Forge.stats_of(template).map(func(s: String) -> String:
-			return "+%d %s" % [Forge.value(s, tier), Item.stat_name(s)])) if Forge.reveals(character, tier) else "caractéristique inconnue (réputation de forgeron trop basse pour le palier %d)" % tier))
+			return "+%d %s" % [Forge.value(s, tier, template.get("rarete") == "rare"), Item.stat_name(s)])) if Forge.reveals(character, tier) else "caractéristique inconnue (réputation de forgeron trop basse pour le palier %d)" % tier))
 	if template.has("matiere"):
 		lines.append("Matière : %s" % template["matiere"])
 	var plan: Dictionary = template.get("recette", template.get("patron", {}))

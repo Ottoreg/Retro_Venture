@@ -138,7 +138,7 @@ ressource récoltée) ; nombre de nœuds par carte.
 `core/items/forge.gd` (GDD § 10.4). À l'enclume de la maison, on choisit un type d'objet et on y
 pose **8 ressources différentes au plus** (les cases de la recette, quantité libre), matières obligatoires comprises. Chaque ressource de monstre donne
 une caractéristique (plusieurs pour certaines ressources de haut palier, chacune à sa valeur pleine)
-selon son palier. Une ligne vaut au plus **100 points de score** (en points de Force, `Forge.line_cap`)
+selon son palier. Une ligne vaut au plus **100 points de score** (`Forge.line_cap`)
 et un objet a au plus **8 lignes**. Le palier de l'objet est la moyenne des paliers (pondérée
 par les quantités) ; les jets sont tirés entre 75 % et 100 % du total (plus avec Précision).
 PA, PM, Portée : 1 par ressource quel que soit le palier, 1 au plus par objet. La caractéristique d'une ressource
@@ -147,8 +147,8 @@ de forgeron atteint son palier (`Forge.reveals`). Réputation : 5 × palier de l
 
 ### Valeur d'une ressource
 
-`Forge.value` : max(1, arrondi((1 + palier / 8) × poids)) ; poids = points de la caractéristique
-pour un point de Force.
+`Forge.value` : max(1, arrondi((1 + palier / 8) × poids)), **× 3 pour une ressource rare** ; poids = points de
+la caractéristique pour un point de score (le tableau donne la valeur d'une ressource non rare).
 
 | Caractéristique | Poids | Plafond d'une ligne | P1 | P3 | P4 | P7 | P8 | P10 | P12 | P13 | P15 | P16 | P19 | P22 | P25 | P28 | P50 |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
@@ -165,10 +165,10 @@ pour un point de Force.
 | Dommages Flamme | 0,5 | 50 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 2 | 2 | 2 | 2 | 2 | 4 |
 | Dommages Givre | 0,5 | 50 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 2 | 2 | 2 | 2 | 2 | 4 |
 | Dommages Tempête | 0,5 | 50 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 2 | 2 | 2 | 2 | 2 | 4 |
-| % Résistance Acier | 0,2 | 20 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-| % Résistance Flamme | 0,2 | 20 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-| % Résistance Givre | 0,2 | 20 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-| % Résistance Tempête | 0,2 | 20 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
+| % Résistance Acier | 0,12 | 12 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
+| % Résistance Flamme | 0,12 | 12 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
+| % Résistance Givre | 0,12 | 12 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
+| % Résistance Tempête | 0,12 | 12 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
 | PA | fixe | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
 | PM | fixe | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
 | Portée | fixe | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
@@ -200,8 +200,8 @@ Toutes les ressources qui servent à la forge (caractéristique ou matière), pa
 | **Carapace de grouilleur** | 1 | commun | Force | +1 | — | Grouilleur ancestral (élite) niv. 7 90 % ×2–4<br>Grouilleur niv. 1–3 50 % ×1–2<br>Grouilleur de braise niv. 16–18 50 % ×1–2 |
 | **Chapeau de morille** | 1 | commun | Intelligence | +1 | — | Vieille Morille rancunière (élite) niv. 6 90 % ×2–4<br>Morille grincheuse niv. 1–3 60 % ×1–2 |
 | **Croc de loup** | 1 | commun | Perception | +1 | — | Loup alpha (élite) niv. 7 90 % ×2–4<br>Loup cendreux niv. 13–15 50 % ×1–2<br>Loup des collines niv. 1–3 50 % ×1–2 |
-| **Cuivre vert-de-gris** | 1 | rare | Dommages Flamme | +1 | minerai | Mineur (Cuivre, rare) |
-| **Cœur de frêne** | 1 | rare | % Résistance Tempête | +1 | bois | Bûcheron (Frêne, rare) |
+| **Cuivre vert-de-gris** | 1 | rare | Dommages Flamme | +3 | minerai | Mineur (Cuivre, rare) |
+| **Cœur de frêne** | 1 | rare | % Résistance Tempête | +3 | bois | Bûcheron (Frêne, rare) |
 | **Dent de rat** | 1 | commun | Agilité | +1 | — | Rat-roi (élite) niv. 5 70 % ×1–2<br>Rat des galeries niv. 1–3 30 % |
 | **Glande acide** | 1 | peu_commun | Vitalité | +5 | — | Grouilleur ancestral (élite) niv. 7 50 % ×1–2<br>Grouilleur niv. 1–3 15 % |
 | **Minerai de cuivre** | 1 | commun | Intelligence | +1 | minerai | Mineur (Cuivre) |
@@ -209,8 +209,8 @@ Toutes les ressources qui servent à la forge (caractéristique ou matière), pa
 | **Queue de rat** | 1 | commun | Prospection | +1 | cuir | Rat-roi (élite) niv. 5 90 % ×2–4<br>Rat des galeries niv. 1–3 60 % ×1–2 |
 | **Spores grincheuses** | 1 | peu_commun | Dommages | +1 | — | Vieille Morille rancunière (élite) niv. 6 48 %<br>Morille grincheuse niv. 1–3 12 % |
 | **Bois de chêne** | 3 | peu_commun | Force | +1 | bois | Bûcheron (Chêne) |
-| **Chêne des Anciens** | 3 | rare | % Résistance Acier | +1 | bois | Bûcheron (Chêne, rare) |
-| **Fer météorique** | 3 | rare | Dommages Acier | +1 | minerai | Mineur (Fer, rare) |
+| **Chêne des Anciens** | 3 | rare | % Résistance Acier | +3 | bois | Bûcheron (Chêne, rare) |
+| **Fer météorique** | 3 | rare | Dommages Acier | +3 | minerai | Mineur (Fer, rare) |
 | **Lin** | 3 | commun | Prospection | +1 | tissu | Agriculteur (Lin) |
 | **Lin des fées** | 3 | rare | Portée | +1 | tissu | Agriculteur (Lin, rare) |
 | **Minerai de fer** | 3 | peu_commun | Force | +1 | minerai | Mineur (Fer) |
@@ -220,7 +220,7 @@ Toutes les ressources qui servent à la forge (caractéristique ou matière), pa
 | **Fiche de paie gobeline** | 4 | peu_commun | Vitalité | +6 | — | Frondeur vétéran (élite) niv. 9 50 %<br>Gobelin frondeur niv. 4–6 15 % |
 | **Guano luisant** | 4 | peu_commun | % Critique | +1 | — | Vampipistrelle comtesse (élite) niv. 9 48 %<br>Vampipistrelle niv. 4–6 12 % |
 | **Poil scintillant** | 4 | commun | Force | +2 | — | Grand cerf de la Lisière (élite) niv. 9 90 % ×2–4<br>Cerf enchanté niv. 4–6 50 % ×1–2 |
-| **Sève ancienne** | 4 | rare | Intelligence | +2 | — | Arbre millénaire (élite) niv. 10 40 % ×1–2<br>Arbre vivant niv. 4–6 10 % |
+| **Sève ancienne** | 4 | rare | Intelligence | +6 | — | Arbre millénaire (élite) niv. 10 40 % ×1–2<br>Arbre vivant niv. 4–6 10 % |
 | **Écorce vivante** | 4 | commun | Agilité | +2 | — | Arbre millénaire (élite) niv. 10 90 % ×2–5<br>Arbre vivant niv. 4–6 60 % ×1–3<br>Arbre calciné niv. 19–21 50 % ×1–2 |
 | **Bon de coupe** | 7 | peu_commun | Perception | +2 | — | Abatteur en chef (élite) niv. 12 48 %<br>Bûcheron de Brumerive niv. 7–9 12 % |
 | **Citrouille grimaçante** | 7 | peu_commun | Agilité | +2 | — | Grand Épouvantail (élite) niv. 12 48 %<br>Épouvantail démotivé niv. 7–9 12 % |
@@ -231,9 +231,9 @@ Toutes les ressources qui servent à la forge (caractéristique ou matière), pa
 | **Sac de rapine** | 7 | commun | Vitalité | +8 | — | Krasbouk, Chef de Raid (syndiqué) (mini-boss) niv. 12 90 % ×2–4<br>Pillard émérite (élite) niv. 12 88 % ×2–4<br>Gobelin pillard niv. 7–9 55 % ×1–2 |
 | **Écusson de milice** | 7 | peu_commun | Force | +2 | — | Sergent de la milice (élite) niv. 12 48 %<br>Milicien de Hautepierre niv. 7–9 12 % |
 | **Bois d'if** | 8 | peu_commun | Perception | +2 | bois | Bûcheron (If) |
-| **If funèbre** | 8 | rare | % Résistance Givre | +1 | bois | Bûcheron (If, rare) |
+| **If funèbre** | 8 | rare | % Résistance Givre | +3 | bois | Bûcheron (If, rare) |
 | **Minerai d'étain** | 8 | commun | Agilité | +2 | minerai | Mineur (Étain) |
-| **Étain chantant** | 8 | rare | Dommages Tempête | +1 | minerai | Mineur (Étain, rare) |
+| **Étain chantant** | 8 | rare | Dommages Tempête | +3 | minerai | Mineur (Étain, rare) |
 | **Crochet d'araignée** | 10 | peu_commun | Prospection | +1 | — | Grande Tisseuse (élite) niv. 15 48 %<br>Tisseuse de brume niv. 10–12 12 % |
 | **Fil de brume** | 10 | commun | Perception | +2 | — | La Mère-Toile (mini-boss) niv. 12 90 % ×2–4<br>Grande Tisseuse (élite) niv. 15 88 % ×2–5<br>Tisseuse de brume niv. 10–12 55 % ×1–3 |
 | **Gnôle de raid** | 10 | commun | Force | +2 | — | Défonceur de portes (élite) niv. 15 88 % ×2–4<br>Gobelin briseur niv. 10–12 55 % ×1–2 |
@@ -246,21 +246,21 @@ Toutes les ressources qui servent à la forge (caractéristique ou matière), pa
 | **Carte au trésor douteuse** | 13 | peu_commun | Vitalité | +11 | — | Chef de bande (élite) niv. 18 48 %<br>Détrousseur des grands chemins niv. 13–15 12 % |
 | **Cendre tiède** | 13 | commun | Force | +3 | — | Marraine Cendrée (élite) niv. 30 88 % ×2–5<br>Cendrillon niv. 25–27 55 % ×1–3<br>Arbre calciné niv. 19–21 50 % ×1–2<br>Grouilleur de braise niv. 16–18 50 % ×1–2<br>Loup cendreux niv. 13–15 50 % ×1–2 |
 | **Éclat de cendre** | 13 | rare | Portée | +1 | — | Grondin, Bélier de la Brèche (mini-boss) niv. 30 100 % ×1–2<br>Arbre calciné niv. 19–21 3 %<br>Grouilleur de braise niv. 16–18 3 %<br>Loup cendreux niv. 13–15 3 % |
-| **Argent lunaire** | 15 | rare | Dommages Givre | +1 | minerai | Mineur (Argent, rare) |
+| **Argent lunaire** | 15 | rare | Dommages Givre | +3 | minerai | Mineur (Argent, rare) |
 | **Bois de hêtre** | 15 | peu_commun | Force | +3 | bois | Bûcheron (Hêtre) |
-| **Hêtre centenaire** | 15 | rare | % Résistance Acier | +1 | bois | Bûcheron (Hêtre, rare) |
+| **Hêtre centenaire** | 15 | rare | % Résistance Acier | +3 | bois | Bûcheron (Hêtre, rare) |
 | **Minerai d'argent** | 15 | peu_commun | Perception | +3 | minerai | Mineur (Argent) |
 | **Dent de troll** | 16 | commun | Intelligence | +3 | — | Troll gastronome (élite) niv. 21 88 % ×2–4<br>Troll des ponts niv. 16–18 55 % ×1–2 |
 | **Recette de troll** | 16 | peu_commun | Perception | +3 | — | Troll gastronome (élite) niv. 21 48 %<br>Troll des ponts niv. 16–18 12 % |
 | **Message intercepté** | 19 | peu_commun | Agilité | +3 | — | Corbac chef espion (élite) niv. 24 48 %<br>Corbac espion niv. 19–21 12 % |
 | **Plume de corbac** | 19 | commun | Force | +3 | — | Corbac chef espion (élite) niv. 24 88 % ×2–5<br>Corbac espion niv. 19–21 55 % ×1–3 |
-| **Bois de malorme** | 22 | rare | Intelligence | +4 | bois | Bûcheron (Malorme) |
+| **Bois de malorme** | 22 | rare | Intelligence | +12 | bois | Bûcheron (Malorme) |
 | **Chanvre** | 22 | commun | Initiative | +38 | tissu | Agriculteur (Chanvre) |
 | **Chanvre d'acier** | 22 | rare | Portée | +1 | tissu | Agriculteur (Chanvre, rare) |
 | **Cœur de pierre** | 22 | peu_commun | Intelligence | +4 | — | Gargouille de la Grande Porte (élite) niv. 27 48 %<br>Gargouille niv. 22–24 12 % |
-| **Malorme ensorcelée** | 22 | rare | % Résistance Flamme | +1 | bois | Bûcheron (Malorme, rare) |
-| **Obsidienne** | 22 | rare | Force | +4 | minerai | Mineur (Obsidienne) |
-| **Obsidienne sanglante** | 22 | rare | Dommages Acier | +2 | minerai | Mineur (Obsidienne, rare) |
+| **Malorme ensorcelée** | 22 | rare | % Résistance Flamme | +3 | bois | Bûcheron (Malorme, rare) |
+| **Obsidienne** | 22 | rare | Force | +12 | minerai | Mineur (Obsidienne) |
+| **Obsidienne sanglante** | 22 | rare | Dommages Acier | +6 | minerai | Mineur (Obsidienne, rare) |
 | **Éclat de gargouille** | 22 | commun | Perception | +4 | — | Gargouille de la Grande Porte (élite) niv. 27 88 % ×2–5<br>Gargouille niv. 22–24 55 % ×1–3 |
 | **Invitation au bal** | 25 | peu_commun | Agilité | +4 | — | Marraine Cendrée (élite) niv. 30 48 %<br>Cendrillon niv. 25–27 12 % |
 | **Cuir d'olifant** | 28 | commun | Vitalité | +18 | cuir | Olifant-tour (élite) niv. 33 88 % ×2–4<br>Olifant de guerre niv. 28–30 55 % ×1–2 |
@@ -307,8 +307,8 @@ montre tout. Bonus calculés comme `Forge.preview` sans Précision (plage du jet
 | **Ceinture de troll** | ceinture | 12 | 1 Aile de vampipistrelle, 3 Carte au trésor douteuse, 2 Cendre tiède | Force 6–8, Vitalité 25–33 | « Droit de passage » |
 | **Heaume d'argent** | coiffe | 14 | 3 Plume de corbac, 2 Carte au trésor douteuse, 1 Crochet d'araignée, 1 Lin | Force 7–9, Vitalité 17–22, Prospection 2 | « Messages interceptés » |
 | **Ceinture d'écorce calcinée** | ceinture | 14 | 1 Aile de vampipistrelle, 2 Carte au trésor douteuse, 2 Plume de corbac, 1 Dent de troll | Force 6–8, Vitalité 17–22, Intelligence 2–3 | « Les arbres qui brûlent » |
-| **Brassard du délégué** | amulette | 19 | 1 Obsidienne, 2 Message intercepté, 2 Éclat de gargouille, 1 Crochet d'araignée | Force 3–4, Agilité 5–6, Perception 6–8, Prospection 1 | « Le registre des sacrifiés » |
-| **Insigne de la Vieille Garde** | amulette | 16 | 1 Obsidienne, 2 Plume de corbac, 2 Carte au trésor douteuse, 1 Crochet d'araignée | Force 8–10, Vitalité 17–22, Prospection 1 | « La vieille garde » |
-| **Feuille d'argent de l'ambassade** | anneau | 21 | 1 Obsidienne, 2 Cœur de pierre, 2 Invitation au bal, 1 Crochet d'araignée | Force 3–4, Intelligence 6–8, Agilité 6–8, Prospection 1 | « Le bal des Cendrillons » |
+| **Brassard du délégué** | amulette | 19 | 1 Obsidienne, 2 Message intercepté, 2 Éclat de gargouille, 1 Crochet d'araignée | Force 9–12, Agilité 5–6, Perception 6–8, Prospection 1 | « Le registre des sacrifiés » |
+| **Insigne de la Vieille Garde** | amulette | 16 | 1 Obsidienne, 2 Plume de corbac, 2 Carte au trésor douteuse, 1 Crochet d'araignée | Force 14–18, Vitalité 17–22, Prospection 1 | « La vieille garde » |
+| **Feuille d'argent de l'ambassade** | anneau | 21 | 1 Obsidienne, 2 Cœur de pierre, 2 Invitation au bal, 1 Crochet d'araignée | Force 9–12, Intelligence 6–8, Agilité 6–8, Prospection 1 | « Le bal des Cendrillons » |
 | **Cape en cuir d'olifant** | cape | 21 | 3 Plume de corbac, 2 Cuir d'olifant, 1 Crochet d'araignée, 1 Chanvre | Force 7–9, Vitalité 27–36, Prospection 1, Initiative 29–38 | « Le Conseil des Peuples Libres » |
-| **Éclat de l'Aube** | anneau | 23 | 1 Obsidienne, 1 Cuir d'olifant, 1 Plume de corbac, 1 Cœur de pierre, 1 Éclat de gargouille, 1 Invitation au bal | Force 5–7, Vitalité 14–18, Intelligence 3–4, Perception 3–4, Agilité 3–4 | « La Brèche » |
+| **Éclat de l'Aube** | anneau | 23 | 1 Obsidienne, 1 Cuir d'olifant, 1 Plume de corbac, 1 Cœur de pierre, 1 Éclat de gargouille, 1 Invitation au bal | Force 11–15, Vitalité 14–18, Intelligence 3–4, Perception 3–4, Agilité 3–4 | « La Brèche » |

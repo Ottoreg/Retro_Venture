@@ -32,9 +32,14 @@ func test_valeur_selon_le_palier() -> void:
 	assert_eq(Forge.value("force", 1), 1)
 	assert_eq(Forge.value("force", 16), 3)
 	assert_eq(Forge.value("force", 30), 5)
-	assert_eq(Forge.value("vitalite", 8), 8, "Vitalité : 4 points pour un de Force")
+	assert_eq(Forge.value("vitalite", 8), 8, "Vitalité : 4 points pour un point de score")
 	assert_eq(Forge.value("pa", 50), 1, "PA et PM toujours à 1")
 	assert_eq(Forge.value("prospection", 1), 1, "au moins 1")
+	assert_eq(Forge.value("dommages_flamme", 1, true), 3, "ressource rare : × 3, même au palier 1")
+	assert_eq(Forge.value("portee", 3, true), 1, "PA, PM et Portée restent à 1")
+	assert_eq(Forge.line_cap("resistance_givre"), 12, "8 points de score par % : 12 % par ligne")
+	var preview := Forge.preview("anneau", {"cuivre_vert_de_gris": 2, "minerai_de_cuivre": 1}, _world.data.items, null, false)
+	assert_eq(preview["bonus"]["dommages_flamme"][1], 6, "2 cuivres vert-de-gris : 2 × 3 Dommages Flamme")
 
 
 func test_caracteristiques_cachees_sans_reputation_d_artisan() -> void:
