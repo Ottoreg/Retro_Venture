@@ -1,0 +1,11 @@
+{
+  "id": "cortex_feral",
+  "nom": "Cortex féral",
+  "type": "ressource",
+  "rarete": "legendaire",
+  "niveau": 15,
+  "description": "Une colère sainte, en conserve.",
+  "caracteristique": "degats_devastateurs",
+  "valeur": 10,
+  "boutique": false
+}

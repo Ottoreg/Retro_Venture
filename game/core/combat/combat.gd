@@ -31,6 +31,8 @@ var placement_cells: Array[Vector2i] = []
 var round_number := 0
 ## Équipe gagnante (-1 tant que le combat n'est pas fini, ou en cas d'abandon des deux camps).
 var winner_team := -1
+## PV max de chaque combattant à son premier coup reçu (plancher des dégâts dévastateurs).
+var _max_hp_at_start: Dictionary = {}
 var rng := RandomNumberGenerator.new()
 ## Glyphes au sol : { id, lanceur: Fighter, equipe, cases: Array[Vector2i], effets, tours, sort }.
 var glyphs: Array[Dictionary] = []
@@ -632,6 +634,7 @@ func _apply_effect(caster: Fighter, target: Fighter, effect: Dictionary, events:
 		Spell.EFFECT_DAMAGE:
 			var hp_before := target.hp
 			_hurt(target, damage_value(caster, target, effect["element"], amount), effect["element"], events)
+			_devastate(caster, target, hp_before - target.hp, events)
 			var stolen := mini(hp_before - target.hp, caster.max_hp - caster.hp)
 			if effect.get("vol", false) and caster.is_alive() and stolen > 0 and not caster.has_state(Spell.STATE_UNHEALABLE):
 				caster.hp += stolen  # Vol de vie : le lanceur reprend les PV qu'il a fait perdre.
@@ -644,7 +647,7 @@ func _apply_effect(caster: Fighter, target: Fighter, effect: Dictionary, events:
 			events.append({"type": Protocol.EVT_STATUS, "entite": target.id, "effet": Spell.EFFECT_SHIELD, "valeur": amount,
 				"element": effect["element"], "bouclier": target.shield, "pa": target.pa, "pm": target.pm})
 		Spell.EFFECT_HEAL:
-			amount = mini(boosted_value(caster, effect["element"], amount), target.max_hp - target.hp)
+			amount = mini(boosted_value(caster, effect["element"], amount) + caster.total_heal_bonus(effect["element"]), target.max_hp - target.hp)
 			if target.has_state(Spell.STATE_UNHEALABLE):
 				amount = 0
 			target.hp += amount
@@ -740,8 +743,8 @@ func spell_preview(fighter: Fighter, spell: Spell, target: Vector2i) -> Dictiona
 			else:
 				key = "soin"
 				var missing := hit.max_hp - hit.hp
-				low = mini(boosted_value(fighter, effect["element"], effect["min"]), missing)
-				high = mini(boosted_value(fighter, effect["element"], effect["max"]), missing)
+				low = mini(boosted_value(fighter, effect["element"], effect["min"]) + fighter.total_heal_bonus(effect["element"]), missing)
+				high = mini(boosted_value(fighter, effect["element"], effect["max"]) + fighter.total_heal_bonus(effect["element"]), missing)
 			var total: Array = entry.get(key, [0, 0])
 			entry[key] = [int(total[0]) + low, int(total[1]) + high]
 			if not entry.has("element"):
@@ -790,6 +793,17 @@ func _hurt(target: Fighter, amount: int, element: String, events: Array[Dictiona
 		_remove_ground_of(target, events)
 	else:
 		_check_phases(target, events)
+
+
+## Dégâts dévastateurs (GDD § 4.4) : une part des PV perdus (au plus 50 %) baisse aussi les PV max de la
+## cible, sans la descendre sous 40 % de ses PV max du début du combat.
+func _devastate(caster: Fighter, target: Fighter, lost: int, events: Array[Dictionary]) -> void:
+	var start_max: int = _max_hp_at_start.get_or_add(target.id, target.max_hp)
+	var cut := mini(roundi(lost * mini(caster.devastating, 50) / 100.0), target.max_hp - ceili(start_max * 0.4))
+	if cut > 0 and target.is_alive():
+		target.max_hp -= cut
+		events.append({"type": Protocol.EVT_STATUS, "entite": target.id, "effet": "devastation", "valeur": cut, "pv_max": target.max_hp,
+			"pa": target.pa, "pm": target.pm})
 
 
 ## Dernier en vie de son camp : un monstre à sorts « seul » les échange (Archange Raphaël), une fois.

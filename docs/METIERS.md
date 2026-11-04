@@ -150,28 +150,40 @@ de forgeron atteint son palier (`Forge.reveals`). Réputation : 5 × palier de l
 `Forge.value` : max(1, arrondi((1 + palier / 8) × poids)), **× 3 pour une ressource rare** ; poids = points de
 la caractéristique pour un point de score (le tableau donne la valeur d'une ressource non rare).
 
-| Caractéristique | Poids | Plafond d'une ligne | P1 | P3 | P4 | P7 | P8 | P10 | P12 | P13 | P15 | P16 | P19 | P22 | P25 | P28 | P50 |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| Force | 1 | 100 | 1 | 1 | 2 | 2 | 2 | 2 | 3 | 3 | 3 | 3 | 3 | 4 | 4 | 5 | 7 |
-| Intelligence | 1 | 100 | 1 | 1 | 2 | 2 | 2 | 2 | 3 | 3 | 3 | 3 | 3 | 4 | 4 | 5 | 7 |
-| Perception | 1 | 100 | 1 | 1 | 2 | 2 | 2 | 2 | 3 | 3 | 3 | 3 | 3 | 4 | 4 | 5 | 7 |
-| Agilité | 1 | 100 | 1 | 1 | 2 | 2 | 2 | 2 | 3 | 3 | 3 | 3 | 3 | 4 | 4 | 5 | 7 |
-| Vitalité | 4 | 400 | 5 | 6 | 6 | 8 | 8 | 9 | 10 | 11 | 12 | 12 | 14 | 15 | 17 | 18 | 29 |
-| Initiative | 10 | 1000 | 11 | 14 | 15 | 19 | 20 | 23 | 25 | 26 | 29 | 30 | 34 | 38 | 41 | 45 | 73 |
-| Prospection | 0,34 | 34 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 2 | 2 |
-| Dommages | 0,34 | 34 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 2 | 2 |
-| % Critique | 0,1 | 10 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-| Dommages Acier | 0,5 | 50 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 2 | 2 | 2 | 2 | 2 | 4 |
-| Dommages Flamme | 0,5 | 50 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 2 | 2 | 2 | 2 | 2 | 4 |
-| Dommages Givre | 0,5 | 50 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 2 | 2 | 2 | 2 | 2 | 4 |
-| Dommages Tempête | 0,5 | 50 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 2 | 2 | 2 | 2 | 2 | 4 |
-| % Résistance Acier | 0,12 | 12 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-| % Résistance Flamme | 0,12 | 12 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-| % Résistance Givre | 0,12 | 12 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-| % Résistance Tempête | 0,12 | 12 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-| PA | fixe | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-| PM | fixe | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-| Portée | fixe | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
+| Caractéristique | Poids | Plafond d'une ligne | P1 | P3 | P4 | P6 | P7 | P8 | P9 | P10 | P12 | P13 | P15 | P16 | P18 | P19 | P22 | P25 | P28 | P50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| Force | 1 | 100 | 1 | 1 | 2 | 2 | 2 | 2 | 2 | 2 | 3 | 3 | 3 | 3 | 3 | 3 | 4 | 4 | 5 | 7 |
+| Intelligence | 1 | 100 | 1 | 1 | 2 | 2 | 2 | 2 | 2 | 2 | 3 | 3 | 3 | 3 | 3 | 3 | 4 | 4 | 5 | 7 |
+| Perception | 1 | 100 | 1 | 1 | 2 | 2 | 2 | 2 | 2 | 2 | 3 | 3 | 3 | 3 | 3 | 3 | 4 | 4 | 5 | 7 |
+| Agilité | 1 | 100 | 1 | 1 | 2 | 2 | 2 | 2 | 2 | 2 | 3 | 3 | 3 | 3 | 3 | 3 | 4 | 4 | 5 | 7 |
+| Vitalité | 4 | 400 | 5 | 6 | 6 | 7 | 8 | 8 | 9 | 9 | 10 | 11 | 12 | 12 | 13 | 14 | 15 | 17 | 18 | 29 |
+| Initiative | 10 | 1000 | 11 | 14 | 15 | 18 | 19 | 20 | 21 | 23 | 25 | 26 | 29 | 30 | 33 | 34 | 38 | 41 | 45 | 73 |
+| Prospection | 0,34 | 34 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 2 | 2 |
+| Dommages | 0,34 | 34 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 2 | 2 |
+| % Critique | 0,1 | 10 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
+| Soins | 0,34 | 34 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 2 | 2 |
+| % Dégâts dévastateurs | 0,1 | 10 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
+| Dommages Acier | 0,5 | 50 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 2 | 2 | 2 | 2 | 2 | 2 | 4 |
+| Dommages Flamme | 0,5 | 50 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 2 | 2 | 2 | 2 | 2 | 2 | 4 |
+| Dommages Givre | 0,5 | 50 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 2 | 2 | 2 | 2 | 2 | 2 | 4 |
+| Dommages Tempête | 0,5 | 50 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 2 | 2 | 2 | 2 | 2 | 2 | 4 |
+| Dommages Sacré | 0,5 | 50 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 2 | 2 | 2 | 2 | 2 | 2 | 4 |
+| Dommages Impie | 0,5 | 50 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 2 | 2 | 2 | 2 | 2 | 2 | 4 |
+| Soins Acier | 0,5 | 50 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 2 | 2 | 2 | 2 | 2 | 2 | 4 |
+| Soins Flamme | 0,5 | 50 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 2 | 2 | 2 | 2 | 2 | 2 | 4 |
+| Soins Givre | 0,5 | 50 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 2 | 2 | 2 | 2 | 2 | 2 | 4 |
+| Soins Tempête | 0,5 | 50 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 2 | 2 | 2 | 2 | 2 | 2 | 4 |
+| Soins Sacré | 0,5 | 50 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 2 | 2 | 2 | 2 | 2 | 2 | 4 |
+| Soins Impie | 0,5 | 50 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 2 | 2 | 2 | 2 | 2 | 2 | 4 |
+| % Résistance Acier | 0,12 | 12 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
+| % Résistance Flamme | 0,12 | 12 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
+| % Résistance Givre | 0,12 | 12 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
+| % Résistance Tempête | 0,12 | 12 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
+| % Résistance Sacré | 0,12 | 12 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
+| % Résistance Impie | 0,12 | 12 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
+| PA | fixe | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
+| PM | fixe | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
+| Portée | fixe | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
 
 ### Types d'objets
 
@@ -222,6 +234,9 @@ Toutes les ressources qui servent à la forge (caractéristique ou matière), pa
 | **Poil scintillant** | 4 | commun | Force | +2 | — | Grand cerf de la Lisière (élite) niv. 9 90 % ×2–4<br>Cerf enchanté niv. 4–6 50 % ×1–2 |
 | **Sève ancienne** | 4 | rare | Intelligence | +6 | — | Arbre millénaire (élite) niv. 10 40 % ×1–2<br>Arbre vivant niv. 4–6 10 % |
 | **Écorce vivante** | 4 | commun | Agilité | +2 | — | Arbre millénaire (élite) niv. 10 90 % ×2–5<br>Arbre vivant niv. 4–6 60 % ×1–3<br>Arbre calciné niv. 19–21 50 % ×1–2 |
+| **Bec de colombe** | 6 | rare | Dommages Sacré | +3 | — | Colombe baptiste niv. 6 10 % |
+| **Plume de colombe** | 6 | commun | Force, Intelligence | +2, +2 | — | Colombe baptiste niv. 6 50 % |
+| **Squelette de colombe** | 6 | legendaire | PM | +1 | — | Colombe baptiste niv. 6 0 % |
 | **Bon de coupe** | 7 | peu_commun | Perception | +2 | — | Abatteur en chef (élite) niv. 12 48 %<br>Bûcheron de Brumerive niv. 7–9 12 % |
 | **Citrouille grimaçante** | 7 | peu_commun | Agilité | +2 | — | Grand Épouvantail (élite) niv. 12 48 %<br>Épouvantail démotivé niv. 7–9 12 % |
 | **Copeaux de bois** | 7 | commun | Initiative | +19 | — | Abatteur en chef (élite) niv. 12 88 % ×2–5<br>Bûcheron de Brumerive niv. 7–9 55 % ×1–3 |
@@ -234,6 +249,9 @@ Toutes les ressources qui servent à la forge (caractéristique ou matière), pa
 | **If funèbre** | 8 | rare | % Résistance Givre | +3 | bois | Bûcheron (If, rare) |
 | **Minerai d'étain** | 8 | commun | Agilité | +2 | minerai | Mineur (Étain) |
 | **Étain chantant** | 8 | rare | Dommages Tempête | +3 | minerai | Mineur (Étain, rare) |
+| **Glaive brisé d'ange** | 9 | rare | Dommages Acier | +3 | — | Ange niv. 9 12 % |
+| **Plume d'ange** | 9 | commun | Force, Intelligence | +2, +2 | — | Ange niv. 9 35 % |
+| **Sacré cœur** | 9 | legendaire | Force, Intelligence | +2, +2 | — | Ange niv. 9 0 % |
 | **Crochet d'araignée** | 10 | peu_commun | Prospection | +1 | — | Grande Tisseuse (élite) niv. 15 48 %<br>Tisseuse de brume niv. 10–12 12 % |
 | **Fil de brume** | 10 | commun | Perception | +2 | — | La Mère-Toile (mini-boss) niv. 12 90 % ×2–4<br>Grande Tisseuse (élite) niv. 15 88 % ×2–5<br>Tisseuse de brume niv. 10–12 55 % ×1–3 |
 | **Gnôle de raid** | 10 | commun | Force | +2 | — | Défonceur de portes (élite) niv. 15 88 % ×2–4<br>Gobelin briseur niv. 10–12 55 % ×1–2 |
@@ -248,10 +266,16 @@ Toutes les ressources qui servent à la forge (caractéristique ou matière), pa
 | **Éclat de cendre** | 13 | rare | Portée | +1 | — | Grondin, Bélier de la Brèche (mini-boss) niv. 30 100 % ×1–2<br>Arbre calciné niv. 19–21 3 %<br>Grouilleur de braise niv. 16–18 3 %<br>Loup cendreux niv. 13–15 3 % |
 | **Argent lunaire** | 15 | rare | Dommages Givre | +3 | minerai | Mineur (Argent, rare) |
 | **Bois de hêtre** | 15 | peu_commun | Force | +3 | bois | Bûcheron (Hêtre) |
+| **Cortex féral** | 15 | legendaire | % Dégâts dévastateurs | +1 | — | Lion de Juda niv. 15 0 % |
+| **Croc de lion féroce** | 15 | rare | Dommages Sacré | +3 | — | Lion de Juda niv. 15 5 % |
 | **Hêtre centenaire** | 15 | rare | % Résistance Acier | +3 | bois | Bûcheron (Hêtre, rare) |
 | **Minerai d'argent** | 15 | peu_commun | Perception | +3 | minerai | Mineur (Argent) |
+| **Poil de crinière léonin** | 15 | commun | Dommages Sacré | +1 | — | Lion de Juda niv. 15 25 % |
 | **Dent de troll** | 16 | commun | Intelligence | +3 | — | Troll gastronome (élite) niv. 21 88 % ×2–4<br>Troll des ponts niv. 16–18 55 % ×1–2 |
 | **Recette de troll** | 16 | peu_commun | Perception | +3 | — | Troll gastronome (élite) niv. 21 48 %<br>Troll des ponts niv. 16–18 12 % |
+| **Aile de Raphaël** | 18 | rare | Soins Sacré | +6 | — | Archange Raphaël (mini-boss) niv. 18 10 % |
+| **Sacré cœur de Raphaël** | 18 | legendaire | Soins | +1 | — | Archange Raphaël (mini-boss) niv. 18 0 % |
+| **Tunique déchirée de Raphaël** | 18 | commun | % Résistance Impie | +1 | — | Archange Raphaël (mini-boss) niv. 18 55 % |
 | **Message intercepté** | 19 | peu_commun | Agilité | +3 | — | Corbac chef espion (élite) niv. 24 48 %<br>Corbac espion niv. 19–21 12 % |
 | **Plume de corbac** | 19 | commun | Force | +3 | — | Corbac chef espion (élite) niv. 24 88 % ×2–5<br>Corbac espion niv. 19–21 55 % ×1–3 |
 | **Bois de malorme** | 22 | rare | Intelligence | +12 | bois | Bûcheron (Malorme) |
@@ -267,7 +291,7 @@ Toutes les ressources qui servent à la forge (caractéristique ou matière), pa
 | **Ivoire d'olifant** | 28 | peu_commun | Initiative | +45 | — | Olifant-tour (élite) niv. 33 48 %<br>Olifant de guerre niv. 28–30 12 % |
 | **Fragment de cendre** | 50 | legendaire | PA | +1 | — | Le Souverain Cendré (mini-boss) niv. 50 100 % |
 
-Ressources par caractéristique : Force 11, Agilité 9, Intelligence 9, Perception 9, Vitalité 5, Initiative 5, Prospection 3, Portée 3, Dommages 2, % Résistance Acier 2, Dommages Acier 2, PA 2, Dommages Flamme 1, % Résistance Tempête 1, % Critique 1, % Résistance Givre 1, Dommages Tempête 1, PM 1, Dommages Givre 1, % Résistance Flamme 1.
+Ressources par caractéristique : Force 14, Intelligence 12, Agilité 9, Perception 9, Vitalité 5, Initiative 5, Prospection 3, Dommages Acier 3, Portée 3, Dommages Sacré 3, Dommages 2, % Résistance Acier 2, PM 2, PA 2, Dommages Flamme 1, % Résistance Tempête 1, % Critique 1, % Résistance Givre 1, Dommages Tempête 1, Dommages Givre 1, % Dégâts dévastateurs 1, Soins Sacré 1, Soins 1, % Résistance Impie 1, % Résistance Flamme 1.
 
 ### Plans
 

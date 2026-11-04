@@ -2375,6 +2375,21 @@ tour (`donjon` : sans élite) :
 | Lion de Juda | 150 / 5 / 3 | *Griffe de Juda* 1 à 50 Sacré au contact, 5 PA ; *Bond* 1 à 3 PO, 4 PA, un tour sur deux | `chasseur` : frappe l'ennemi le plus faible qu'il peut atteindre, bondit s'il ne peut frapper personne |
 | Archange Raphaël (mini-boss) | 120 / 6 / 5 | *Bénédiction de Raphaël* soin 20 Sacré aux alliés en croix (comme le *Sermon*), 3 PA, 1 par tour ; *Exorcisme* au contact, 3 PA, 1 par tour : état « exorcisme » (2 tours), les prochains dégâts Sacré achèvent la cible ; seul (plus d'allié en vie), *Jugement dernier* remplace la *Bénédiction* : 25 Sacré sur les 4 cases à son contact, 3 PA, 1 par tour | `corps_a_corps` ; l'Exorcisme avant tout soin ou attaque, ne soigne que les blessés |
 
+**Ressources de la tour (04/11/2026, demande de l'auteur)** : valeurs fixes à la forge (champ `valeur`).
+
+| Monstre | Commune | Rare | Légendaire (0,5 %) |
+|---|---|---|---|
+| Colombe baptiste | Plume de colombe, 50 % : 1 Sacré (1 Force + 1 Intelligence) | Bec de colombe, 10 % : 3 Dommages Sacré | Squelette de colombe : 1 PM |
+| Ange | Plume d'ange, 35 % : 3 Sacré | Glaive brisé d'ange, 12 % : 3 Dommages Acier | Sacré cœur : 30 Sacré |
+| Lion de Juda | Poil de crinière léonin, 25 % : 3 Dommages Sacré | Croc de lion féroce, 5 % : 9 Dommages Sacré | Cortex féral : 10 % Dégâts dévastateurs |
+| Archange Raphaël | Tunique déchirée de Raphaël, 55 % : 3 % Résistance Impie | Aile de Raphaël, 10 % : 10 Soins Sacré | Sacré cœur de Raphaël : 30 Soins |
+
+Nouvelles lignes de forge : **Soins** (neutres, 3 points de score par point comme les Dommages) et **Soins
+d'un élément** (2 points, comme les Dommages d'un élément ; Sacré et Impie : moyenne de leurs deux
+éléments plus les leurs), Dommages et Résistance Sacré et Impie, % de **dégâts dévastateurs** (10 points
+par %, +10 % au plus par objet), dont l'effet de combat est codé (ci-dessus, § 4.4 : la part qui baisse
+les PV max ; le plancher de 40 %).
+
 Étages : 1) 3 colombes et 1 ange ; 2) 1 lion, 2 anges, 1 colombe ; 3) 3 lions, 1 colombe ; 4) 3 anges,
 1 lion ; 5) l'Archange, 1 ange, 1 lion, 1 colombe. Les groupes de la tour ont 4 monstres (un groupe en
 a désormais 4 au plus, `GameMap.MAX_GROUP_SIZE`). Données produites par

@@ -514,7 +514,8 @@ func test_forge_ressources_et_enclumes() -> void:
 			var item: Dictionary = game_data.items[drop["objet"]]
 			if item["type"] == Item.TYPE_RESOURCE and item.get("matiere", "cuir") in ["cuir", "tissu"]:
 				assert_true(item.has("caracteristique"), "%s : une caractéristique de forge" % item["id"])
-				resources[item["id"]] = item.get("caracteristique", "")
+				if not monster.get("donjon", false):  # Ressources exclusives d'un donjon : orientées à part.
+					resources[item["id"]] = item.get("caracteristique", "")
 	var counts := {}
 	for stat: String in resources.values():
 		counts[stat] = int(counts.get(stat, 0)) + 1

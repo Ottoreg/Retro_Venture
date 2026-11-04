@@ -35,13 +35,15 @@ TYPES = [("arme", "Armes"), ("coiffe", "Coiffes"), ("cape", "Capes"), ("amulette
          ("ressource", "Ressources"), ("recette", "Plans de forge"), ("quete", "Objets de quête")]
 CARACS = {"vitalite": "Vitalité", "force": "Force", "intelligence": "Intelligence", "perception": "Perception",
           "agilite": "Agilité", "prospection": "Prospection", "initiative": "Initiative", "portee": "Portée",
-          "pa": "PA", "pm": "PM", "dommages": "Dommages", "critique": "% Critique",
-          **{f"dommages_{e}": f"Dommages {n}" for e, n in (("acier", "Acier"), ("flamme", "Flamme"), ("givre", "Givre"), ("tempete", "Tempête"))},
-          **{f"resistance_{e}": f"% Résistance {n}" for e, n in (("acier", "Acier"), ("flamme", "Flamme"), ("givre", "Givre"), ("tempete", "Tempête"))}}
+          "pa": "PA", "pm": "PM", "dommages": "Dommages", "soins": "Soins", "critique": "% Critique",
+          "degats_devastateurs": "% Dégâts dévastateurs",
+          **{f"dommages_{e}": f"Dommages {n}" for e, n in ELEMENTS.items()}, **{f"soins_{e}": f"Soins {n}" for e, n in ELEMENTS.items()},
+          **{f"resistance_{e}": f"% Résistance {n}" for e, n in ELEMENTS.items()}}
 POIDS_FORGE = {"force": 1, "intelligence": 1, "perception": 1, "agilite": 1, "vitalite": 4, "initiative": 10,
                "prospection": 0.34, "dommages": 0.34, "critique": 0.1,
                **{f"dommages_{e}": 0.5 for e in ("acier", "flamme", "givre", "tempete")},
-               **{f"resistance_{e}": 0.2 for e in ("acier", "flamme", "givre", "tempete")}}  # comme Forge.STAT_WEIGHTS
+               "soins": 0.34, "degats_devastateurs": 0.1, **{f"dommages_{e}": 0.5 for e in ("sacre", "impie")},
+               **{f"soins_{e}": 0.5 for e in ELEMENTS}, **{f"resistance_{e}": 0.125 for e in ELEMENTS}}  # comme Forge.STAT_WEIGHTS
 
 
 def forge_objet(o, objets):
@@ -52,7 +54,7 @@ def forge_objet(o, objets):
     parts = []
     if "caracteristique" in o:
         for c in o["caracteristique"] if isinstance(o["caracteristique"], list) else [o["caracteristique"]]:
-            v = 1 if c not in POIDS_FORGE else max(1, int((1 + o["niveau"] / 8) * POIDS_FORGE[c] + 0.5))
+            v = o.get("valeur", 1 if c not in POIDS_FORGE else max(1, int((1 + o["niveau"] / 8) * POIDS_FORGE[c] + 0.5)))
             parts.append("+%d %s" % (v, CARACS[c]))
     if "matiere" in o:
         parts.append(o["matiere"])

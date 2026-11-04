@@ -1,4 +1,18 @@
 {
+  "butin": [
+    {
+      "objet": "tunique_dechiree_de_raphael",
+      "taux": 0.55
+    },
+    {
+      "objet": "aile_de_raphael",
+      "taux": 0.1
+    },
+    {
+      "objet": "sacre_coeur_de_raphael",
+      "taux": 0.005
+    }
+  ],
   "id": "archange_raphael",
   "nom": "Archange Raphaël",
   "description": "Le chef de chœur de la tour : il soigne les siens et exorcise les autres.",

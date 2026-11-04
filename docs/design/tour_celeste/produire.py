@@ -44,8 +44,38 @@ ecrire("objets", {"id": "cle_celeste", "nom": "Clé céleste", "type": "quete", 
 ecrire("passages", {"id": "tour_celeste", "nom": "Tour céleste", "carte": "celeste_0_0", "prix": 0, "toujours_connue": True})
 
 
+SACRE = ["force", "intelligence"]
+RESSOURCES = {  # monstre → [(id, nom, rareté, taux, caractéristique, valeur, description)] (demande de l'auteur du 04/11/2026)
+    "colombe_baptiste": [
+        ("plume_de_colombe", "Plume de colombe", "commun", 0.5, SACRE, 1, "Blanche comme une âme avant le premier mensonge."),
+        ("bec_de_colombe", "Bec de colombe", "rare", 0.1, "dommages_sacre", 3, "Il a béni bien des crânes."),
+        ("squelette_de_colombe", "Squelette de colombe", "legendaire", 0.005, "pm", 1, "Léger, si léger qu'il vole encore un peu.")],
+    "ange": [
+        ("plume_d_ange", "Plume d'ange", "commun", 0.35, SACRE, 3, "Tombée pendant une prière un peu trop agitée."),
+        ("glaive_brise_d_ange", "Glaive brisé d'ange", "rare", 0.12, "dommages_acier", 3, "La paix, oui, mais armée."),
+        ("sacre_coeur", "Sacré cœur", "legendaire", 0.005, SACRE, 30, "Il bat encore, et il juge.")],
+    "lion_de_juda": [
+        ("poil_de_criniere_leonin", "Poil de crinière léonin", "commun", 0.25, "dommages_sacre", 3, "Doré, soyeux, et plein de puces bénites."),
+        ("croc_de_lion_feroce", "Croc de lion féroce", "rare", 0.05, "dommages_sacre", 9, "Il ne mordait que les pécheurs. Enfin, surtout."),
+        ("cortex_feral", "Cortex féral", "legendaire", 0.005, "degats_devastateurs", 10, "Une colère sainte, en conserve.")],
+    "archange_raphael": [
+        ("tunique_dechiree_de_raphael", "Tunique déchirée de Raphaël", "commun", 0.55, "resistance_impie", 3, "L'Archange en a d'autres, il les fait laver au ciel."),
+        ("aile_de_raphael", "Aile de Raphaël", "rare", 0.1, "soins_sacre", 10, "Elle guérit tout, sauf l'orgueil."),
+        ("sacre_coeur_de_raphael", "Sacré cœur de Raphaël", "legendaire", 0.005, "soins", 30, "Un cœur qui soigne tout ce qu'il touche.")],
+}
+NIVEAUX = {"colombe_baptiste": 6, "ange": 9, "lion_de_juda": 15, "archange_raphael": 18}
+for monstre_id, ressources in RESSOURCES.items():
+    for id, nom, rarete, _, carac, valeur, description in ressources:
+        ecrire("objets", {"id": id, "nom": nom, "type": "ressource", "rarete": rarete, "niveau": NIVEAUX[monstre_id],
+                          "description": description, "caracteristique": carac, "valeur": valeur, "boutique": False})
+
+
+def butin(monstre_id):
+    return [{"objet": r[0], "taux": r[3]} for r in RESSOURCES.get(monstre_id, [])]
+
+
 def monstre(id, nom, description, niveau, pv, pa, pm, initiative, sorts, ia, xp, ecus, **autres):
-    ecrire("monstres", {"id": id, "nom": nom, "description": description, **autres, "niveau": niveau,
+    ecrire("monstres", {"butin": butin(id), "id": id, "nom": nom, "description": description, **autres, "niveau": niveau,
                         "caracteristiques": {"pv": pv, "pa": pa, "pm": pm, "initiative": initiative},
                         "sorts": sorts, "ia": ia, "xp": xp, "ecus": ecus})
 

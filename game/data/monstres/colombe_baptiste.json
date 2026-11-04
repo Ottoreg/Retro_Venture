@@ -1,4 +1,18 @@
 {
+  "butin": [
+    {
+      "objet": "plume_de_colombe",
+      "taux": 0.5
+    },
+    {
+      "objet": "bec_de_colombe",
+      "taux": 0.1
+    },
+    {
+      "objet": "squelette_de_colombe",
+      "taux": 0.005
+    }
+  ],
   "id": "colombe_baptiste",
   "nom": "Colombe baptiste",
   "description": "Elle bénit d'un coup de bec, puis s'enfuit à tire-d'aile.",
