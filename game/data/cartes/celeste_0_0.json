@@ -6,14 +6,14 @@
     "EEEEEEEEEEEEEEEEEEE",
     " EEEEEEE....EEEEEEE",
     "EEEEEE.......EEEEEE",
-    " EEEE..MMMMM...EEEE",
-    "EEEE...MMMMM...EEEE",
-    " EEE...MMMMM....EEE",
-    "EEE.R..MMMMM....EEE",
-    " EE....MMMMM.....EE",
-    "EE.....MMMMM.....EE",
+    " EEEE..........EEEE",
+    "EEEE.....#.....EEEE",
+    " EEE.....##.....EEE",
+    "EEE.R...###.....EEE",
+    " EE......##......EE",
+    "EE.......#.......EE",
     " E................E",
-    "E........a........E",
+    "E......#.a.#......E",
     " E................E",
     "E.................E",
     " ..................",
@@ -36,6 +36,29 @@
     "EEEEEE.......EEEEEE",
     " EEEEEEE....EEEEEEE",
     "EEEEEEEEEEEEEEEEEEE"
+  ],
+  "decors": [
+    {
+      "image": "tour_blanche",
+      "case": [
+        8,
+        9
+      ]
+    },
+    {
+      "image": "cierges",
+      "case": [
+        10,
+        7
+      ]
+    },
+    {
+      "image": "cierges",
+      "case": [
+        10,
+        11
+      ]
+    }
   ],
   "groupes": [
     {

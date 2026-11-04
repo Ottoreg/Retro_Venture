@@ -9,27 +9,27 @@
     " EEEEMMMM..MMMMEEEE",
     "EEEEMM.......MMEEEE",
     " EEEMM........MMEEE",
-    "EEEMM.........MMEEE",
+    "EEEMM....#....MMEEE",
     " EEMM..........MMEE",
     "EEMM...........MMEE",
     " EMM............MME",
-    "EMM.............MME",
+    "EMM...#.....#...MME",
     " EM..............ME",
-    "EM...M.......M...ME",
+    "EM...#.......#...ME",
     " MM..............MM",
     "EM...............ME",
     " MM......1.......MM",
     "EM...............ME",
-    " MM..............MM",
-    "EM...............ME",
-    " MM..............MM",
-    "EM...M.......M...ME",
-    " EM..............ME",
-    "EMM.............MME",
-    " EMM............MME",
-    "EEMM...........MMEE",
-    " EEMM..........MMEE",
-    "EEEMM.........MMEEE",
+    " MM......:.......MM",
+    "EM.......:.......ME",
+    " MM......:.......MM",
+    "EM...#...:...#...ME",
+    " EM......:.......ME",
+    "EMM...#..:..#...MME",
+    " EMM.....:......MME",
+    "EEMM.....:.....MMEE",
+    " EEMM....:.....MMEE",
+    "EEEMM....:....MMEEE",
     " EEEMM...@.s..MMEEE",
     "EEEEMM.......MMEEEE",
     " EEEEMMMM..MMMMEEEE",
@@ -37,6 +37,72 @@
     " EEEEEEEMMMMEEEEEEE",
     "EEEEEEEEEEEEEEEEEEE"
   ],
+  "decors": [
+    {
+      "image": "colonne_celeste",
+      "case": [
+        12,
+        5
+      ]
+    },
+    {
+      "image": "colonne_celeste",
+      "case": [
+        12,
+        13
+      ]
+    },
+    {
+      "image": "colonne_celeste",
+      "case": [
+        20,
+        5
+      ]
+    },
+    {
+      "image": "colonne_celeste",
+      "case": [
+        20,
+        13
+      ]
+    },
+    {
+      "image": "cierges",
+      "case": [
+        10,
+        6
+      ]
+    },
+    {
+      "image": "cierges",
+      "case": [
+        10,
+        12
+      ]
+    },
+    {
+      "image": "cierges",
+      "case": [
+        22,
+        6
+      ]
+    },
+    {
+      "image": "cierges",
+      "case": [
+        22,
+        12
+      ]
+    },
+    {
+      "image": "escalier_celeste",
+      "case": [
+        6,
+        9
+      ]
+    }
+  ],
+  "reveil": "celeste_0_0",
   "groupes": [
     {
       "monstres": [

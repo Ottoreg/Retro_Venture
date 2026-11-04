@@ -114,8 +114,12 @@ def plan(rang, bord, poser):
     return lignes
 
 
-def carte(id, nom, lignes, groupes=(), pnj=(), etage_suivant=None):
+def carte(id, nom, lignes, groupes=(), pnj=(), etage_suivant=None, decors=(), reveil=None):
     contenu = {"id": id, "nom": nom, "palette": "celeste", "plan": lignes}
+    if decors:
+        contenu["decors"] = [{"image": image, "case": list(case)} for case, image in decors]
+    if reveil:
+        contenu["reveil"] = reveil
     if groupes:
         contenu["groupes"] = list(groupes)
     if pnj:
@@ -125,9 +129,17 @@ def carte(id, nom, lignes, groupes=(), pnj=(), etage_suivant=None):
     ecrire("cartes", contenu)
 
 
-tour = {(i, j): "M" for i in range(3, 9) for j in range(7, 12)}
-carte("celeste_0_0", "Tour céleste — Parvis des nuées",
-      plan(15.5, False, {**tour, (10, 9): "a", (6, 4): "R", (20, 15): "R", (24, 3): "R", (17, 14): "1", (25, 5): "*", (27, 9): "@"}),
+# Grands décors : emprise de 3 × 3 cases (ligne paire), décors d'une case posés sur un « # ».
+EMPRISE = [(-4, 0), (-3, 0), (-3, 1), (-2, -1), (-2, 0), (-2, 1), (-1, 0), (-1, 1), (0, 0)]
+
+
+def poser_decors(decors):
+    return {(i + di, j + dj): "#" for (i, j), image in decors for di, dj in (EMPRISE if image == "tour_blanche" else [(0, 0)])}
+
+
+PARVIS = [((8, 9), "tour_blanche"), ((10, 7), "cierges"), ((10, 11), "cierges")]
+carte("celeste_0_0", "Tour céleste — Parvis des nuées", decors=PARVIS,
+      lignes=plan(15.5, False, {**poser_decors(PARVIS), (10, 9): "a", (6, 4): "R", (20, 15): "R", (24, 3): "R", (17, 14): "1", (25, 5): "*", (27, 9): "@"}),
       groupes=[{"monstres": ["cupidon"], "reapparition": [20, 30]}],
       pnj=[{"marqueur": "a", "id": "saint_pierrot", "nom": "Saint Pierrot, portier céleste",
             "repliques": ["Halte ! Pas de clé, pas de tour. Le règlement, c'est le règlement.",
@@ -148,13 +160,24 @@ SALLES = [
 SORTIE = {"marqueur": "s", "id": "gardien_celeste", "nom": "Gardien des marches",  # Un par salle : on sort sans rien garder de l'avancée.
           "repliques": ["Trop de lumière ? Je vous raccompagne au parvis. Il faudra une autre clé pour remonter."],
           "entree": {"carte": "celeste_0_0"}}
-piliers = {(12, 5): "M", (12, 13): "M", (20, 5): "M", (20, 13): "M"}
+TAPIS = {(i, 9): ":" for i in range(17, 27)}  # Tapis rouge et or de l'entrée au centre de la salle.
+COLONNES = [(12, 5), (12, 13), (20, 5), (20, 13)]
+DECORS_SALLES = [  # Une disposition par étage, l'escalier vers l'étage suivant au fond.
+    [(c, "colonne_celeste") for c in COLONNES] + [((16, 3), "cierges"), ((16, 15), "cierges")],
+    [(c, "colonne_celeste") for c in COLONNES + [(16, 3), (16, 15)]],
+    [(c, "colonne_celeste") for c in [(10, 7), (10, 11), (22, 6), (22, 12)]] + [(c, "cierges") for c in COLONNES],
+    [(c, "colonne_celeste") for c in COLONNES] + [(c, "cierges") for c in [(10, 6), (10, 12), (22, 6), (22, 12)]],
+    [(c, "colonne_celeste") for c in COLONNES + [(16, 3), (16, 15), (8, 7), (8, 11)]] + [((24, 6), "cierges"), ((24, 12), "cierges")],
+]
 for n, (nom, monstres) in enumerate(SALLES, 1):
-    # Groupe de nouveau là 5 à 10 s après le début du combat : les salles restent partagées.
-    carte(f"tour_celeste_{n}", f"Tour céleste — {nom}", plan(15.5, True, {**piliers, (15, 9): "1", (27, 9): "@", (27, 11): "s"}),
-          groupes=[{"monstres": monstres, "reapparition": [5, 10], "reapparition_au_combat": True}], pnj=[SORTIE],
-          etage_suivant=f"tour_celeste_{n + 1}" if n < 5 else "tour_celeste_sommet")
-carte("tour_celeste_sommet", "Tour céleste — Chœur de Raphaël", plan(15.5, True, {**piliers, (13, 9): "r", (27, 9): "@", (27, 11): "s"}),
+    decors = DECORS_SALLES[n - 1] + [((6, 9), "escalier_celeste")]
+    # Groupe de nouveau là 5 à 10 s après le début du combat : les salles restent partagées ; les vaincus se réveillent au parvis.
+    carte(f"tour_celeste_{n}", f"Tour céleste — {nom}", plan(15.5, True, {**TAPIS, **poser_decors(decors), (15, 9): "1", (27, 9): "@", (27, 11): "s"}),
+          groupes=[{"monstres": monstres, "reapparition": [5, 10], "reapparition_au_combat": True}], pnj=[SORTIE], decors=decors,
+          reveil="celeste_0_0", etage_suivant=f"tour_celeste_{n + 1}" if n < 5 else "tour_celeste_sommet")
+CHOEUR = [(c, "colonne_celeste") for c in COLONNES] + [((9, 9), "autel_celeste"), ((10, 7), "cierges"), ((10, 11), "cierges")]
+carte("tour_celeste_sommet", "Tour céleste — Chœur de Raphaël", decors=CHOEUR,
+      lignes=plan(15.5, True, {**{(i, 9): ":" for i in range(14, 27)}, **poser_decors(CHOEUR), (13, 9): "r", (27, 9): "@", (27, 11): "s"}),
       pnj=[SORTIE, {"marqueur": "r", "id": "raphael_sommet", "nom": "Archange Raphaël", "don": "calice_toujours_ruisselant",
                     "repliques": ["Bien combattu. Prenez ce calice : il ne se vide jamais, c'est bien là le problème.",
                                   "Plus haut, quelqu'un vous attend avec une coupe. Méfiez-vous de ceux qui comptent leurs pièces."]}])

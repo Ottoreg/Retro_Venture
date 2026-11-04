@@ -12,30 +12,81 @@
     "EEEMM.........MMEEE",
     " EEMM..........MMEE",
     "EEMM...........MMEE",
-    " EMM............MME",
-    "EMM.............MME",
+    " EMM.....#......MME",
+    "EMM....#...#....MME",
     " EM..............ME",
-    "EM...M.......M...ME",
+    "EM...#.......#...ME",
     " MM......r.......MM",
-    "EM...............ME",
-    " MM..............MM",
-    "EM...............ME",
-    " MM..............MM",
-    "EM...............ME",
-    " MM..............MM",
-    "EM...M.......M...ME",
-    " EM..............ME",
-    "EMM.............MME",
-    " EMM............MME",
-    "EEMM...........MMEE",
-    " EEMM..........MMEE",
-    "EEEMM.........MMEEE",
+    "EM.......:.......ME",
+    " MM......:.......MM",
+    "EM.......:.......ME",
+    " MM......:.......MM",
+    "EM.......:.......ME",
+    " MM......:.......MM",
+    "EM...#...:...#...ME",
+    " EM......:.......ME",
+    "EMM......:......MME",
+    " EMM.....:......MME",
+    "EEMM.....:.....MMEE",
+    " EEMM....:.....MMEE",
+    "EEEMM....:....MMEEE",
     " EEEMM...@.s..MMEEE",
     "EEEEMM.......MMEEEE",
     " EEEEMMMM..MMMMEEEE",
     "EEEEEEMMMMMMMEEEEEE",
     " EEEEEEEMMMMEEEEEEE",
     "EEEEEEEEEEEEEEEEEEE"
+  ],
+  "decors": [
+    {
+      "image": "colonne_celeste",
+      "case": [
+        12,
+        5
+      ]
+    },
+    {
+      "image": "colonne_celeste",
+      "case": [
+        12,
+        13
+      ]
+    },
+    {
+      "image": "colonne_celeste",
+      "case": [
+        20,
+        5
+      ]
+    },
+    {
+      "image": "colonne_celeste",
+      "case": [
+        20,
+        13
+      ]
+    },
+    {
+      "image": "autel_celeste",
+      "case": [
+        9,
+        9
+      ]
+    },
+    {
+      "image": "cierges",
+      "case": [
+        10,
+        7
+      ]
+    },
+    {
+      "image": "cierges",
+      "case": [
+        10,
+        11
+      ]
+    }
   ],
   "pnj": [
     {

@@ -98,6 +98,9 @@ var floor_kind := "herbe"
 var instance := ""
 ## Étage d'une tour : carte où vont les vainqueurs d'un combat sur celle-ci ("" : on reste).
 var next_floor := ""
+## Carte où se réveillent les vaincus d'un combat sur cette carte, à côté de sa Pierre de Passage
+## (le parvis pour les étages de la Tour céleste) ; vide : le point de résurrection du joueur.
+var revive_map := ""
 ## Palette de couleurs de la zone (voir « palettes » dans art/art.json), "" pour celle de base.
 var palette := ""
 ## Cases de départ en combat (voir `PLACEMENT_PLAYER`, `PLACEMENT_MONSTER`), dans l'ordre du calque.
@@ -203,6 +206,8 @@ static func validate(data: Dictionary) -> PackedStringArray:
 		errors.append("« sol » doit valoir %s" % str(FLOORS))
 	if typeof(data.get("palette", "")) != TYPE_STRING:
 		errors.append("« palette » doit être un nom de palette")
+	if typeof(data.get("reveil", "")) != TYPE_STRING:
+		errors.append("« reveil » doit être un id de carte")
 	if typeof(data.get("etage_suivant", "")) != TYPE_STRING:
 		errors.append("« etage_suivant » doit être un id de carte")
 	if data.get("instance", "") not in INSTANCES:
@@ -350,6 +355,7 @@ static func from_dict(data: Dictionary) -> GameMap:
 	map.instance = str(data.get("instance", ""))
 	map.palette = str(data.get("palette", ""))
 	map.next_floor = str(data.get("etage_suivant", ""))
+	map.revive_map = str(data.get("reveil", ""))
 	for decor: Dictionary in data.get("decors", []):
 		map.decors.append({"image": decor["image"], "case": plan_cell(int(decor["case"][0]), int(decor["case"][1]))})
 	var door_targets: Array = data.get("portes", [])

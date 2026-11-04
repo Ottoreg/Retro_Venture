@@ -2374,7 +2374,10 @@ le **Calice toujours ruisselant** (ressource sans effet, une fois par visite, ch
 le texte annonce l'étage suivant : « Gravé sous le pied : un disciple aux trente brumes garde une coupe
 vide pour les visiteurs. Il sait déjà ce qu'il y versera. » **Easter egg de l'alpha et de la bêta, à
 retirer avant la sortie** : Saint Pierrot reprend une ressource légendaire de chaque monstre de la tour
-(les quatre) contre un million de brumes (champ `secret`, dialogue caché). Monstres de la tour (`donjon` : sans élite) :
+(les quatre) contre un million de brumes (champ `secret`, dialogue caché). Un vaincu se réveille au pied
+de la tour (champ `reveil` des étages). Décor : la tour blanche au fond du parvis, et dans chaque salle
+des colonnes et des cierges disposés autrement, un tapis de l'entrée au centre et l'escalier vers
+l'étage suivant ; un autel derrière Raphaël dans le Chœur. Monstres de la tour (`donjon` : sans élite) :
 
 | Monstre | PV / PA / PM | Sorts | IA |
 |---|---|---|---|

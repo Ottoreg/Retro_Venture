@@ -86,7 +86,8 @@ ses images dans son propre fichier `art/manifestes/<nom>.json`, avec les mêmes 
 leurs entrées sont ajoutées à celles d'`art.json` ; un nom déjà défini ailleurs est une erreur
 (signalée par les tests).
 Exemple : `tour_celeste.json` (palette `celeste` de nuages, accessoires `ailes` et `aureole` des anges,
-arc rouge de Cupidon, assemblages `cupidon` et `archange` à leur taille).
+arc rouge de Cupidon, assemblages `cupidon` et `archange` à leur taille, décors `colonne_celeste`, `cierges`,
+`escalier_celeste` et `autel_celeste`).
 
 ```json
 {

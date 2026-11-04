@@ -1684,9 +1684,13 @@ func _end_combat(p: PlayerState, events: Array[Dictionary]) -> void:
 
 ## Après une défaite, le joueur se réveille à côté de la Pierre de Passage de son point de
 ## résurrection, en changeant de carte s'il le faut ; sans point de résurrection (ou si sa carte est
-## introuvable), au départ de la carte du combat. Renvoie où : { passage, nom, carte }.
+## introuvable), au départ de la carte du combat. Une carte à `reveil` (étages de la Tour céleste)
+## renvoie à la Pierre de cette carte-là. Renvoie où : { passage, nom, carte }.
 func _wake_up(p: PlayerState, events: Array[Dictionary]) -> Dictionary:
 	var passage: Dictionary = data.passages.get(p.character.respawn_passage, {}) if data != null else {}
+	if not p.map.revive_map.is_empty() and data != null:
+		for other: Dictionary in data.passages.values():
+			passage = other if other["carte"] == p.map.revive_map else passage
 	var target: GameMap = _load_map(passage["carte"]) if not passage.is_empty() else null
 	if target == null or target.travel_stone() == Vector2i(-1, -1):
 		p.cell = p.map.spawn
