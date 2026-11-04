@@ -1,0 +1,11 @@
+{
+  "id": "glaive_brise_d_ange",
+  "nom": "Glaive brisé d'ange",
+  "type": "ressource",
+  "rarete": "rare",
+  "niveau": 9,
+  "description": "La paix, oui, mais armée.",
+  "caracteristique": "dommages_acier",
+  "valeur": 3,
+  "boutique": false
+}

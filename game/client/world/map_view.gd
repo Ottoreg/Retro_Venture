@@ -974,6 +974,8 @@ func _log_line(event: Dictionary) -> String:
 				return "%s gagne %s" % [who, _colored("%d de bouclier" % event["valeur"], event.get("element", ""))]
 			if event["effet"] == Spell.EFFECT_GAIN_PA:
 				return "%s gagne [color=#%s]%d PA[/color]" % [who, LOG_BONUS, event["valeur"]]
+			if event["effet"] == "devastation":
+				return "%s perd [color=#%s]%d PV max[/color] (dégâts dévastateurs)" % [who, LOG_MALUS, event["valeur"]]
 			return "%s perd [color=#%s]%d PM[/color] au prochain tour" % [who, LOG_MALUS, event["valeur"]]
 		Protocol.EVT_STATES:
 			if event.has("retires"):
@@ -1516,6 +1518,9 @@ func _apply(event: Dictionary) -> float:
 			affected["bouclier"] = event["bouclier"]
 			label = "+%d bouclier" % event["valeur"]
 			color = element_color(event.get("element", ""), Color(1.0, 0.88, 0.45))
+		elif event["effet"] == "devastation":
+			affected["max_hp"] = event["pv_max"]
+			label = "-%d PV max" % event["valeur"]
 		_add_floating(label, color, affected["pos"])
 		combat_state_changed.emit()
 		return 0.25

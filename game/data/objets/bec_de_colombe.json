@@ -1,0 +1,11 @@
+{
+  "id": "bec_de_colombe",
+  "nom": "Bec de colombe",
+  "type": "ressource",
+  "rarete": "rare",
+  "niveau": 6,
+  "description": "Il a béni bien des crânes.",
+  "caracteristique": "dommages_sacre",
+  "valeur": 3,
+  "boutique": false
+}

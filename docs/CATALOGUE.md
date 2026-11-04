@@ -27,7 +27,7 @@ Prix de boutique : selon la rareté (revente à 25 %).
 - [Sorts de race](#sorts-de-race)
 - [Sorts des monstres](#sorts-des-monstres)
 
-**279 objets** (18 armes, 20 coiffes, 20 capes, 20 amulettes, 20 anneaux, 20 ceintures, 20 bottes, 98 ressources, 36 plans de forge, 7 objets de quête), **55 monstres** et **133 sorts**.
+**291 objets** (18 armes, 20 coiffes, 20 capes, 20 amulettes, 20 anneaux, 20 ceintures, 20 bottes, 110 ressources, 36 plans de forge, 7 objets de quête), **55 monstres** et **133 sorts**.
 
 ## Armes
 
@@ -244,6 +244,9 @@ Prix de boutique : selon la rareté (revente à 25 %).
 | **Poil scintillant** | 4 | Commun | +2 Force | boutique 4 brumes<br>butin : Grand cerf de la Lisière 90 %, Cerf enchanté 50 %<br>« L'ode au Grand Cerf » : sur Cerf enchanté, Grand cerf de la Lisière (50 %) | Il brille encore un peu dans le noir, comme le cerf qui l'a perdu. |
 | **Sève ancienne** | 4 | Rare | +2 Intelligence | boutique 35 brumes<br>butin : Arbre millénaire 40 %, Arbre vivant 10 %<br>« Les arbres sont nerveux » : sur Arbre vivant, Arbre millénaire (50 %) | Ambrée, épaisse, plus vieille que Brumerive. |
 | **Écorce vivante** | 4 | Commun | +2 Agilité | boutique 4 brumes<br>butin : Arbre millénaire 90 %, Arbre vivant 60 %, Arbre calciné 50 % | Elle bouge encore un peu. C'est normal, paraît-il. |
+| **Bec de colombe** | 6 | Rare | +3 Dommages Sacré | butin : Colombe baptiste 10 % | Il a béni bien des crânes. |
+| **Plume de colombe** | 6 | Commun | +1 Force, +1 Intelligence | butin : Colombe baptiste 50 % | Blanche comme une âme avant le premier mensonge. |
+| **Squelette de colombe** | 6 | Légendaire | +1 PM | butin : Colombe baptiste 0 % | Léger, si léger qu'il vole encore un peu. |
 | **Bon de coupe** | 7 | Peu commun | +2 Perception | boutique 12 brumes<br>butin : Abatteur en chef 48 %, Bûcheron de Brumerive 12 %<br>« Coupe rase » : sur Bûcheron de Brumerive, Abatteur en chef (50 %) | Autorisation de couper « quelques arbres ». Le mot « quelques » a été rayé. |
 | **Citrouille grimaçante** | 7 | Peu commun | +2 Agilité | boutique 12 brumes<br>butin : Grand Épouvantail 48 %, Épouvantail démotivé 12 % | Elle a été sculptée par personne. C'est bien ce qui inquiète. |
 | **Copeaux de bois** | 7 | Commun | +19 Initiative | boutique 4 brumes<br>butin : Abatteur en chef 88 %, Bûcheron de Brumerive 55 %<br>« La dette de Vieux-Branchu » : sur Bûcheron de Brumerive, Abatteur en chef (50 %) | Ce qui reste d'un arbre quand un bûcheron est passé. Les elfes les ramassent en pleurant. |
@@ -262,6 +265,9 @@ Prix de boutique : selon la rareté (revente à 25 %).
 | **Truite** | 8 | Commun | — | boutique 4 brumes<br>Pêcheur : Remous (truite) niv. 8 | Elle remonte le courant par principe. |
 | **Truite saumonée** | 8 | Rare | — | Pêcheur : Remous (truite) niv. 8, récolte rare | Elle se prend pour un saumon. On n'ose pas la contrarier. |
 | **Étain chantant** | 8 | Rare | +1 Dommages Tempête, minerai | Mineur : Étain niv. 8, récolte rare | Il crie quand on le plie. Les forgerons trouvent ça touchant ; les voisins, non. |
+| **Glaive brisé d'ange** | 9 | Rare | +3 Dommages Acier | butin : Ange 12 % | La paix, oui, mais armée. |
+| **Plume d'ange** | 9 | Commun | +3 Force, +3 Intelligence | butin : Ange 35 % | Tombée pendant une prière un peu trop agitée. |
+| **Sacré cœur** | 9 | Légendaire | +30 Force, +30 Intelligence | butin : Ange 0 % | Il bat encore, et il juge. |
 | **Crochet d'araignée** | 10 | Peu commun | +1 Prospection | boutique 12 brumes<br>butin : Grande Tisseuse 48 %, Tisseuse de brume 12 % | Encore une goutte de venin au bout. Ne pas s'en servir comme cure-dent. |
 | **Fil de brume** | 10 | Commun | +2 Perception | boutique 4 brumes<br>butin : La Mère-Toile 90 %, Grande Tisseuse 88 %, Tisseuse de brume 55 %<br>« Du fil de brume » : sur Tisseuse de brume, Grande Tisseuse (50 %) | Un fil d'araignée si fin qu'on le voit seulement quand il fait humide. Il fait toujours humide. |
 | **Gnôle de raid** | 10 | Commun | +2 Force | boutique 4 brumes<br>butin : Défonceur de portes 88 %, Gobelin briseur 55 % | Désinfecte, dégraisse, décape. Se boit aussi, paraît-il. |
@@ -278,14 +284,20 @@ Prix de boutique : selon la rareté (revente à 25 %).
 | **Bois de hêtre** | 15 | Peu commun | +3 Force, bois | boutique 12 brumes<br>Bûcheron : Hêtre niv. 15 | Blond, dur, régulier. On en fait des manches, des tables et des excuses. |
 | **Brochet** | 15 | Commun | — | boutique 4 brumes<br>Pêcheur : Remous (brochet) niv. 15 | Des dents partout. Il mord l'hameçon, puis le pêcheur. |
 | **Brochet centenaire** | 15 | Rare | — | Pêcheur : Remous (brochet) niv. 15, récolte rare | Il a mangé trois cannes à pêche et un pêcheur distrait. |
+| **Cortex féral** | 15 | Légendaire | +10 % Dégâts dévastateurs | butin : Lion de Juda 0 % | Une colère sainte, en conserve. |
+| **Croc de lion féroce** | 15 | Rare | +9 Dommages Sacré | butin : Lion de Juda 5 % | Il ne mordait que les pécheurs. Enfin, surtout. |
 | **Hêtre centenaire** | 15 | Rare | +1 % Résistance Acier, bois | Bûcheron : Hêtre niv. 15, récolte rare | Cent ans de patience dans chaque cerne. Il se fend quand il l'a décidé. |
 | **Minerai d'argent** | 15 | Peu commun | +3 Perception, minerai | boutique 12 brumes<br>Mineur : Argent niv. 15 | Brillant, précieux, et mortel pour les choses qui ne devraient pas exister. |
+| **Poil de crinière léonin** | 15 | Commun | +3 Dommages Sacré | butin : Lion de Juda 25 % | Doré, soyeux, et plein de puces bénites. |
 | **Sauge** | 15 | Commun | — | boutique 4 brumes<br>Herboriste : Sauge niv. 15 | La plante des sages. Elle ne rend pas sage, mais elle sent bon. |
 | **Sauge des Anciens** | 15 | Rare | — | Herboriste : Sauge niv. 15, récolte rare | Cueillie au pied d'une tour en ruine. Elle radote un peu. |
 | **Seigle** | 15 | Commun | — | boutique 4 brumes<br>Agriculteur : Seigle niv. 15 | Un grain sombre qui tient au corps et à la mâchoire. |
 | **Seigle ergoté** | 15 | Rare | — | Agriculteur : Seigle niv. 15, récolte rare | Taché de noir. À ne pas manger, à moins d'aimer les visions de troll dansant. |
 | **Dent de troll** | 16 | Commun | +3 Intelligence | boutique 4 brumes<br>butin : Troll gastronome 88 %, Troll des ponts 55 %<br>« La recette du troll » : sur Troll des ponts, Troll gastronome (50 %) | Grosse comme un poing, jaune comme un vieux fromage. Le troll en a d'autres. |
 | **Recette de troll** | 16 | Peu commun | +3 Perception | boutique 12 brumes<br>butin : Troll gastronome 48 %, Troll des ponts 12 %<br>« Droit de passage » : sur Troll des ponts, Troll gastronome (40 %)<br>« La recette du troll » : sur Troll des ponts, Troll gastronome (35 %) | « Aventurier rôti, trois façons. » Il manque la troisième, heureusement. |
+| **Aile de Raphaël** | 18 | Rare | +10 Soins Sacré | butin : Archange Raphaël 10 % | Elle guérit tout, sauf l'orgueil. |
+| **Sacré cœur de Raphaël** | 18 | Légendaire | +30 Soins | butin : Archange Raphaël 0 % | Un cœur qui soigne tout ce qu'il touche. |
+| **Tunique déchirée de Raphaël** | 18 | Commun | +3 % Résistance Impie | butin : Archange Raphaël 55 % | L'Archange en a d'autres, il les fait laver au ciel. |
 | **Message intercepté** | 19 | Peu commun | +3 Agilité | boutique 12 brumes<br>butin : Corbac chef espion 48 %, Corbac espion 12 %<br>« Messages interceptés » : sur Corbac espion, Corbac chef espion (40 %) | « Rapport n° 412 : RAS. Rapport n° 413 : toujours RAS. Rapport n° 414 : j'ai faim. » |
 | **Plume de corbac** | 19 | Commun | +3 Force | boutique 4 brumes<br>butin : Corbac chef espion 88 %, Corbac espion 55 % | Noire, luisante, et elle a l'air de vous écouter. |
 | **Anguille des galeries** | 22 | Commun | — | boutique 4 brumes<br>Pêcheur : Remous (anguille des galeries) niv. 22 | Elle glisse entre les doigts et entre les lois du Syndicat. |
@@ -1200,7 +1212,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Niveau** : 6 (fixe) ; **4 PA, 10 PM** ; IA distance
 - **Résistances** : aucune
 - **Sorts** : Baptême express
-- **Butin** : aucun ; **brumes** 5–12
+- **Butin** : Plume de colombe 50 %, Bec de colombe 10 %, Squelette de colombe 0 % ; **brumes** 5–12
 - **Où le trouver** : Premier étage (`tour_celeste_1`, 1 groupe, dont 1 réapparition 30–45 s) · Deuxième étage (`tour_celeste_2`, 1 groupe, dont 1 réapparition 30–45 s) · Troisième étage (`tour_celeste_3`, 1 groupe, dont 1 réapparition 30–45 s) · Sommet, salle de l'Archange (`tour_celeste_5`, 1 groupe, dont 1 réapparition 60 s)
 
 | Niv. | PV | Init. | XP |
@@ -1214,7 +1226,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Niveau** : 9 (fixe) ; **6 PA, 4 PM** ; IA corps_a_corps
 - **Résistances** : aucune
 - **Sorts** : Trait de lumière, Glaive
-- **Butin** : aucun ; **brumes** 8–18
+- **Butin** : Plume d'ange 35 %, Glaive brisé d'ange 12 %, Sacré cœur 0 % ; **brumes** 8–18
 - **Où le trouver** : Premier étage (`tour_celeste_1`, 1 groupe, dont 1 réapparition 30–45 s) · Deuxième étage (`tour_celeste_2`, 1 groupe, dont 1 réapparition 30–45 s) · Quatrième étage (`tour_celeste_4`, 1 groupe, dont 1 réapparition 30–45 s) · Sommet, salle de l'Archange (`tour_celeste_5`, 1 groupe, dont 1 réapparition 60 s)
 
 | Niv. | PV | Init. | XP |
@@ -1228,7 +1240,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Niveau** : 15 (fixe) ; **5 PA, 3 PM** ; IA chasseur
 - **Résistances** : aucune
 - **Sorts** : Griffe de Juda, Bond
-- **Butin** : aucun ; **brumes** 15–35
+- **Butin** : Poil de crinière léonin 25 %, Croc de lion féroce 5 %, Cortex féral 0 % ; **brumes** 15–35
 - **Où le trouver** : Deuxième étage (`tour_celeste_2`, 1 groupe, dont 1 réapparition 30–45 s) · Troisième étage (`tour_celeste_3`, 1 groupe, dont 1 réapparition 30–45 s) · Quatrième étage (`tour_celeste_4`, 1 groupe, dont 1 réapparition 30–45 s) · Sommet, salle de l'Archange (`tour_celeste_5`, 1 groupe, dont 1 réapparition 60 s)
 
 | Niv. | PV | Init. | XP |
@@ -1242,7 +1254,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Niveau** : 18 (fixe) ; **6 PA, 5 PM** ; IA corps_a_corps
 - **Résistances** : aucune
 - **Sorts** : Bénédiction de Raphaël, Exorcisme
-- **Butin** : aucun ; **brumes** 40–80
+- **Butin** : Tunique déchirée de Raphaël 55 %, Aile de Raphaël 10 %, Sacré cœur de Raphaël 0 % ; **brumes** 40–80
 - **Où le trouver** : Sommet, salle de l'Archange (`tour_celeste_5`, 1 groupe, dont 1 réapparition 60 s)
 
 | Niv. | PV | Init. | XP |

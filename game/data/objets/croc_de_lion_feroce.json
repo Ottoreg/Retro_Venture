@@ -1,0 +1,11 @@
+{
+  "id": "croc_de_lion_feroce",
+  "nom": "Croc de lion féroce",
+  "type": "ressource",
+  "rarete": "rare",
+  "niveau": 15,
+  "description": "Il ne mordait que les pécheurs. Enfin, surtout.",
+  "caracteristique": "dommages_sacre",
+  "valeur": 9,
+  "boutique": false
+}

@@ -28,8 +28,11 @@ const FIXED_STATS := ["pa", "pm", "portee"]
 ## en découle, 12 % de résistance pour 8 points par %).
 const STAT_WEIGHTS := {"force": 1.0, "intelligence": 1.0, "perception": 1.0, "agilite": 1.0, "vitalite": 4.0,
 	"initiative": 10.0, "prospection": 0.34, "dommages": 0.34, "critique": 0.1,
-	"dommages_acier": 0.5, "dommages_flamme": 0.5, "dommages_givre": 0.5, "dommages_tempete": 0.5,
-	"resistance_acier": 0.125, "resistance_flamme": 0.125, "resistance_givre": 0.125, "resistance_tempete": 0.125}
+	"soins": 0.34, "degats_devastateurs": 0.1,
+	"dommages_acier": 0.5, "dommages_flamme": 0.5, "dommages_givre": 0.5, "dommages_tempete": 0.5, "dommages_sacre": 0.5, "dommages_impie": 0.5,
+	"soins_acier": 0.5, "soins_flamme": 0.5, "soins_givre": 0.5, "soins_tempete": 0.5, "soins_sacre": 0.5, "soins_impie": 0.5,
+	"resistance_acier": 0.125, "resistance_flamme": 0.125, "resistance_givre": 0.125, "resistance_tempete": 0.125,
+	"resistance_sacre": 0.125, "resistance_impie": 0.125}
 ## Multiplicateur de la valeur des ressources rares, quel que soit leur palier (sauf PA, PM et Portée).
 const RARE_FACTOR := 3
 const MATERIALS := ["cuir", "tissu", "minerai", "bois"]
@@ -72,6 +75,14 @@ const WORDS := {
 	"resistance_flamme": [["ignifugé", "ignifugée"], ["incombustible", "incombustible"]],
 	"resistance_givre": [["fourré", "fourrée"], ["douillet", "douillette"]],
 	"resistance_tempete": [["abrité", "abritée"], ["isolant", "isolante"]],
+	"soins": [["guérisseur", "guérisseuse"], ["apaisant", "apaisante"]],
+	"degats_devastateurs": [["dévastateur", "dévastatrice"], ["ravageur", "ravageuse"]],
+	"dommages_sacre": [["béni", "bénie"], ["vengeur", "vengeresse"]],
+	"dommages_impie": [["maudit", "maudite"], ["impie", "impie"]],
+	"soins_acier": [["ferrugineux", "ferrugineuse"]], "soins_flamme": [["réchauffant", "réchauffante"]],
+	"soins_givre": [["rafraîchissant", "rafraîchissante"]], "soins_tempete": [["vivifiant", "vivifiante"]],
+	"soins_sacre": [["miraculeux", "miraculeuse"], ["angélique", "angélique"]], "soins_impie": [["ténébreux", "ténébreuse"]],
+	"resistance_sacre": [["sceptique", "sceptique"]], "resistance_impie": [["consacré", "consacrée"], ["exorcisé", "exorcisée"]],
 }
 const MAX_ADJECTIVES := 2
 
@@ -134,7 +145,7 @@ static func preview(type: String, resources: Dictionary, items: Dictionary, char
 			result["cachees"] += quantity
 			continue
 		for stat: String in stats_of(item):
-			totals[stat] = int(totals.get(stat, 0)) + quantity * value(stat, tier, item.get("rarete") == "rare")
+			totals[stat] = int(totals.get(stat, 0)) + quantity * int(item.get("valeur", value(stat, tier, item.get("rarete") == "rare")))
 	for material: String in TYPES[type]["matieres"]:
 		if material not in materials:
 			result["manquantes"].append(material)

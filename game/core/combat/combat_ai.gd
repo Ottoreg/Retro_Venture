@@ -141,7 +141,7 @@ static func _effect_value(combat: Combat, caster: Fighter, target: Fighter, effe
 				damage += 10.0  # Achever un combattant compte double.
 			return -damage * FRIENDLY_FIRE_WEIGHT if ally else damage
 		Spell.EFFECT_HEAL:
-			var heal := minf(average * (100 + caster.power(element)) / 100.0, target.max_hp - target.hp)
+			var heal := minf(average * (100 + caster.power(element)) / 100.0 + caster.total_heal_bonus(element), target.max_hp - target.hp)
 			return heal if ally else -heal
 		Spell.EFFECT_SHIELD:
 			var shield := average * (100 + caster.power(element)) / 100.0 * 0.5

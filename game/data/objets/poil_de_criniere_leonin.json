@@ -1,0 +1,11 @@
+{
+  "id": "poil_de_criniere_leonin",
+  "nom": "Poil de crinière léonin",
+  "type": "ressource",
+  "rarete": "commun",
+  "niveau": 15,
+  "description": "Doré, soyeux, et plein de puces bénites.",
+  "caracteristique": "dommages_sacre",
+  "valeur": 3,
+  "boutique": false
+}

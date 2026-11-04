@@ -1,0 +1,14 @@
+{
+  "id": "sacre_coeur",
+  "nom": "Sacré cœur",
+  "type": "ressource",
+  "rarete": "legendaire",
+  "niveau": 9,
+  "description": "Il bat encore, et il juge.",
+  "caracteristique": [
+    "force",
+    "intelligence"
+  ],
+  "valeur": 30,
+  "boutique": false
+}

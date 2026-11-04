@@ -27,6 +27,90 @@
         22,
         22
       ]
+    },
+    "objet_plume_de_colombe": {
+      "fichier": "objets/plume_de_colombe.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_bec_de_colombe": {
+      "fichier": "objets/bec_de_colombe.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_squelette_de_colombe": {
+      "fichier": "objets/squelette_de_colombe.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_plume_d_ange": {
+      "fichier": "objets/plume_d_ange.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_glaive_brise_d_ange": {
+      "fichier": "objets/glaive_brise_d_ange.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_sacre_coeur": {
+      "fichier": "objets/sacre_coeur.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_poil_de_criniere_leonin": {
+      "fichier": "objets/poil_de_criniere_leonin.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_croc_de_lion_feroce": {
+      "fichier": "objets/croc_de_lion_feroce.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_cortex_feral": {
+      "fichier": "objets/cortex_feral.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_tunique_dechiree_de_raphael": {
+      "fichier": "objets/tunique_dechiree_de_raphael.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_aile_de_raphael": {
+      "fichier": "objets/aile_de_raphael.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_sacre_coeur_de_raphael": {
+      "fichier": "objets/sacre_coeur_de_raphael.svgt",
+      "ancre": [
+        22,
+        22
+      ]
     }
   },
   "personnages": {

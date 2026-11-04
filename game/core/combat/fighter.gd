@@ -41,6 +41,10 @@ var prospection: int = 100
 var dommages: int = 0
 ## Dommages par élément de base (équipement) : ajoutés aux dégâts de cet élément.
 var element_dommages: Dictionary = {}
+## Soins en plus de chaque soin (équipement), et par élément ; % de dégâts dévastateurs (GDD § 4.4).
+var soins: int = 0
+var element_soins: Dictionary = {}
+var devastating: int = 0
 ## Bouclier : points de dégâts absorbés avant les PV, jusqu'au début de son prochain tour.
 var shield: int = 0
 ## Qui a posé le bouclier, pour la pratique (`Combat.practice`) : { lanceur: id, pa } ; vide sans
@@ -143,10 +147,20 @@ func total_dommages() -> int:
 	return maxi(0, dommages + modifier("dommages"))
 
 
-## Dommages d'un élément (équipement) ; pour un élément composé, la moyenne de ses deux éléments.
+## Dommages d'un élément (équipement) ; pour un élément composé, la moyenne de ses deux éléments plus les siens.
 func element_damage(element: String) -> int:
-	var bases: Array = Spell.COMPOSITE_ELEMENTS.get(element, [element, element])
-	return roundi((int(element_dommages.get(bases[0], 0)) + int(element_dommages.get(bases[1], 0))) / 2.0)
+	return _element_bonus(element_dommages, element)
+
+
+## Soins d'un élément (équipement), même règle que les dommages, plus les soins neutres.
+func total_heal_bonus(element: String) -> int:
+	return soins + _element_bonus(element_soins, element)
+
+
+static func _element_bonus(values: Dictionary, element: String) -> int:
+	var bases: Array = Spell.COMPOSITE_ELEMENTS.get(element, [])
+	return int(values.get(element, 0)) if bases.is_empty() else \
+		roundi((int(values.get(bases[0], 0)) + int(values.get(bases[1], 0))) / 2.0) + int(values.get(element, 0))
 
 
 ## Chance de coup critique en plus : équipement et états.
@@ -283,7 +297,8 @@ func profile() -> Dictionary:
 	return {"voie": kind, "nom": display_name, "race": race, "niveau": level, "caracs": stats.duplicate(),
 		"pv_max": max_hp, "pa": max_pa, "pm": max_pm, "initiative": initiative, "portee": range_bonus,
 		"prospection": prospection, "dommages": dommages, "critique": crit_bonus, "resistances": resistances.duplicate(),
-		"dommages_elements": element_dommages.duplicate(), "sorts": spell_ids, "maitrises": masteries.duplicate(), "arme": weapon, "palier_arme": weapon_tier, "bonus_arme": weapon_bonus.duplicate(true)}
+		"dommages_elements": element_dommages.duplicate(), "soins": soins, "soins_elements": element_soins.duplicate(),
+		"devastateurs": devastating, "sorts": spell_ids, "maitrises": masteries.duplicate(), "arme": weapon, "palier_arme": weapon_tier, "bonus_arme": weapon_bonus.duplicate(true)}
 
 
 ## État complet du combattant pour la copie d'un client (voir `Combat.snapshot`) : ce qui change

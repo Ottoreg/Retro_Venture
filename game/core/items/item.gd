@@ -31,17 +31,22 @@ const RESOURCE_PRICES := {
 const PRICE_TIER_STEP := 3.0
 ## Part du prix d'achat que le marchand paie quand on lui revend un objet.
 const RESALE_RATE := 0.25
-## Bonus que peut donner un équipement, en plus des 6 caractéristiques ; dommages et résistances (%) par
-## élément de base : « dommages_flamme », « resistance_givre »…
-const EXTRA_STATS := ["prospection", "initiative", "portee", "pa", "pm", "dommages", "critique",
-	"dommages_acier", "dommages_flamme", "dommages_givre", "dommages_tempete",
-	"resistance_acier", "resistance_flamme", "resistance_givre", "resistance_tempete"]
+## Bonus que peut donner un équipement, en plus des 6 caractéristiques ; dommages, soins et résistances (%)
+## par élément : « dommages_flamme », « soins_sacre », « resistance_givre »… ; % de dégâts dévastateurs.
+const EXTRA_STATS := ["prospection", "initiative", "portee", "pa", "pm", "dommages", "soins", "critique", "degats_devastateurs",
+	"dommages_acier", "dommages_flamme", "dommages_givre", "dommages_tempete", "dommages_sacre", "dommages_impie",
+	"soins_acier", "soins_flamme", "soins_givre", "soins_tempete", "soins_sacre", "soins_impie",
+	"resistance_acier", "resistance_flamme", "resistance_givre", "resistance_tempete", "resistance_sacre", "resistance_impie"]
 const EXTRA_STAT_NAMES := {
 	"prospection": "Prospection", "initiative": "Initiative", "portee": "Portée", "pa": "PA", "pm": "PM",
-	"dommages": "Dommages", "critique": "% Critique",
+	"dommages": "Dommages", "soins": "Soins", "critique": "% Critique", "degats_devastateurs": "% Dégâts dévastateurs",
 	"dommages_acier": "Dommages Acier", "dommages_flamme": "Dommages Flamme", "dommages_givre": "Dommages Givre",
-	"dommages_tempete": "Dommages Tempête", "resistance_acier": "% Résistance Acier", "resistance_flamme": "% Résistance Flamme",
+	"dommages_tempete": "Dommages Tempête", "dommages_sacre": "Dommages Sacré", "dommages_impie": "Dommages Impie",
+	"soins_acier": "Soins Acier", "soins_flamme": "Soins Flamme", "soins_givre": "Soins Givre",
+	"soins_tempete": "Soins Tempête", "soins_sacre": "Soins Sacré", "soins_impie": "Soins Impie",
+	"resistance_acier": "% Résistance Acier", "resistance_flamme": "% Résistance Flamme",
 	"resistance_givre": "% Résistance Givre", "resistance_tempete": "% Résistance Tempête",
+	"resistance_sacre": "% Résistance Sacré", "resistance_impie": "% Résistance Impie",
 }
 
 
@@ -100,8 +105,8 @@ static func validate(data: Dictionary) -> PackedStringArray:
 		errors.append_array(Forge.validate_recipe(data.get("recette")))
 	var stats: Array = Forge.stats_of(data) if data.has("caracteristique") else ["force"]
 	if stats.is_empty() or stats.any(func(s: Variant) -> bool: return s not in Forge.STAT_WEIGHTS.keys() + Forge.FIXED_STATS) \
-			or data.get("matiere", "cuir") not in Forge.MATERIALS:
-		errors.append("« caracteristique » doit valoir %s et « matiere » %s" % [str(Forge.STAT_WEIGHTS.keys() + Forge.FIXED_STATS), str(Forge.MATERIALS)])
+			or data.get("matiere", "cuir") not in Forge.MATERIALS or (data.has("valeur") and not Spell._is_int_at_least(data["valeur"], 1)):
+		errors.append("« caracteristique » doit valoir %s, « matiere » %s et « valeur » un entier ≥ 1" % [str(Forge.STAT_WEIGHTS.keys() + Forge.FIXED_STATS), str(Forge.MATERIALS)])
 	if data.get("rarete") not in RARITIES:
 		errors.append("« rarete » doit valoir %s" % str(RARITIES))
 	if not Spell._is_int_at_least(data.get("niveau", 1), 1):

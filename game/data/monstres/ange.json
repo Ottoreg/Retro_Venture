@@ -1,4 +1,18 @@
 {
+  "butin": [
+    {
+      "objet": "plume_d_ange",
+      "taux": 0.35
+    },
+    {
+      "objet": "glaive_brise_d_ange",
+      "taux": 0.12
+    },
+    {
+      "objet": "sacre_coeur",
+      "taux": 0.005
+    }
+  ],
   "id": "ange",
   "nom": "Ange",
   "description": "Il a fait vœu de paix. Il a aussi un glaive.",

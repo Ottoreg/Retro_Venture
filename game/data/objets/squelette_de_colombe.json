@@ -1,0 +1,11 @@
+{
+  "id": "squelette_de_colombe",
+  "nom": "Squelette de colombe",
+  "type": "ressource",
+  "rarete": "legendaire",
+  "niveau": 6,
+  "description": "Léger, si léger qu'il vole encore un peu.",
+  "caracteristique": "pm",
+  "valeur": 1,
+  "boutique": false
+}

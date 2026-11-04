@@ -665,8 +665,11 @@ func create_character_fighter(character: Character, fighter_id: String) -> Fight
 	fighter.prospection = character.prospection(self)
 	fighter.dommages = character.extra("dommages", self)
 	fighter.crit_bonus = character.extra("critique", self)
-	for element: String in Fighter.ELEMENT_STATS:
+	fighter.soins = character.extra("soins", self)
+	fighter.devastating = character.extra("degats_devastateurs", self)
+	for element: String in Spell.ELEMENTS:
 		fighter.element_dommages[element] = character.extra("dommages_" + element, self)
+		fighter.element_soins[element] = character.extra("soins_" + element, self)
 		fighter.resistances[element] = mini(Fighter.MAX_RESISTANCE, int(fighter.resistances.get(element, 0)) + character.extra("resistance_" + element, self))
 	var weapon := character.inventory.equipped_entry("arme")
 	if not weapon.is_empty() and items.has(weapon["objet"]):
@@ -699,6 +702,9 @@ func create_profile_fighter(profile: Dictionary, fighter_id: String) -> Fighter:
 	fighter.crit_bonus = int(profile["critique"])
 	fighter.resistances = (profile["resistances"] as Dictionary).duplicate()
 	fighter.element_dommages = (profile.get("dommages_elements", {}) as Dictionary).duplicate()
+	fighter.soins = int(profile.get("soins", 0))
+	fighter.element_soins = (profile.get("soins_elements", {}) as Dictionary).duplicate()
+	fighter.devastating = int(profile.get("devastateurs", 0))
 	fighter.spells.clear()
 	var ranks: Dictionary = profile.get("maitrises", {})
 	for spell_id: String in profile["sorts"]:

@@ -1,0 +1,14 @@
+{
+  "id": "plume_d_ange",
+  "nom": "Plume d'ange",
+  "type": "ressource",
+  "rarete": "commun",
+  "niveau": 9,
+  "description": "Tombée pendant une prière un peu trop agitée.",
+  "caracteristique": [
+    "force",
+    "intelligence"
+  ],
+  "valeur": 3,
+  "boutique": false
+}

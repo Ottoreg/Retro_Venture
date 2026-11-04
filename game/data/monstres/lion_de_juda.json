@@ -1,4 +1,18 @@
 {
+  "butin": [
+    {
+      "objet": "poil_de_criniere_leonin",
+      "taux": 0.25
+    },
+    {
+      "objet": "croc_de_lion_feroce",
+      "taux": 0.05
+    },
+    {
+      "objet": "cortex_feral",
+      "taux": 0.005
+    }
+  ],
   "id": "lion_de_juda",
   "nom": "Lion de Juda",
   "description": "Il ne mange que les pécheurs. Les plus faibles d'abord.",

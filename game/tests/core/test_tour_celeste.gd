@@ -146,3 +146,39 @@ func test_l_archange_exorcise_d_abord_puis_soigne_ou_juge() -> void:
 	assert_eq(cast["sort"], "archange_jugement", "Jugement dernier autour de lui")
 	combat._apply_action(archange, cast)
 	assert_false(combat.get_fighter("p2").is_alive(), "qui achève la cible exorcisée")
+
+
+func test_ressources_de_la_tour_a_la_forge() -> void:
+	var items := _data.items
+	var bonus: Dictionary = Forge.preview("cape", {"plume_de_colombe": 2, "sacre_coeur": 1, "bec_de_colombe": 1, "squelette_de_colombe": 1,
+		"tunique_dechiree_de_raphael": 1, "aile_de_raphael": 1, "sacre_coeur_de_raphael": 1}, items, null, false)["bonus"]
+	assert_eq(bonus["force"][1], 32, "Sacré : Force et Intelligence, valeurs fixées (2 × 1 + 30)")
+	assert_eq(bonus["intelligence"][1], 32)
+	assert_eq(bonus["dommages_sacre"][1], 3, "pas de × 3 pour une valeur fixée")
+	assert_eq(bonus["pm"][1], 1)
+	assert_eq([bonus["resistance_impie"][1], bonus["soins_sacre"][1], bonus["soins"][1]], [3, 10, 30])
+	assert_eq(Forge.preview("cape", {"cortex_feral": 2}, items, null, false)["bonus"]["degats_devastateurs"][1], 10, "10 % au plus par objet")
+
+
+func test_soins_dommages_composes_et_degats_devastateurs() -> void:
+	var combat := _fight([["joueur", C], ["ange", C + Vector2i(1, 0)]])
+	var player := combat.get_fighter("p0")
+	var ange := combat.get_fighter("m1")
+	player.soins = 30
+	player.element_soins = {"sacre": 10, "acier": 4}
+	assert_eq(player.total_heal_bonus("sacre"), 42, "neutres + Sacré + moitié de l'Acier")
+	assert_eq(player.total_heal_bonus("givre"), 30)
+	player.element_dommages = {"sacre": 3}
+	assert_eq(player.element_damage("sacre"), 3, "Dommages Sacré propres")
+	player.hp = 10
+	var events: Array[Dictionary] = []
+	combat._apply_effect(player, player, {"type": Spell.EFFECT_HEAL, "element": "givre", "min": 5, "max": 5}, events)
+	assert_eq(player.hp, 10 + Combat.boosted_value(player, "givre", 5) + 30, "les soins s'ajoutent au soin")
+	player.devastating = 10
+	combat._apply_effect(player, ange, {"type": Spell.EFFECT_DAMAGE, "element": "acier", "min": 20, "max": 20}, events)
+	assert_eq(ange.max_hp, 50 - roundi((50 - ange.hp) * 0.1), "10 % des PV perdus en moins sur les PV max")
+	player.devastating = 100
+	for i in 6:
+		ange.hp = ange.max_hp
+		combat._apply_effect(player, ange, {"type": Spell.EFFECT_DAMAGE, "element": "acier", "min": 15, "max": 15}, events)
+	assert_eq(ange.max_hp, 20, "jamais sous 40 % des PV max du début")

@@ -1,0 +1,11 @@
+{
+  "id": "aile_de_raphael",
+  "nom": "Aile de Raphaël",
+  "type": "ressource",
+  "rarete": "rare",
+  "niveau": 18,
+  "description": "Elle guérit tout, sauf l'orgueil.",
+  "caracteristique": "soins_sacre",
+  "valeur": 10,
+  "boutique": false
+}
