@@ -38,8 +38,9 @@ func test_valeur_selon_le_palier() -> void:
 	assert_eq(Forge.value("dommages_flamme", 1, true), 3, "ressource rare : × 3, même au palier 1")
 	assert_eq(Forge.value("portee", 3, true), 1, "PA, PM et Portée restent à 1")
 	assert_eq(Forge.line_cap("resistance_givre"), 12, "8 points de score par % : 12 % par ligne")
-	var preview := Forge.preview("anneau", {"cuivre_vert_de_gris": 2, "minerai_de_cuivre": 1}, _world.data.items, null, false)
-	assert_eq(preview["bonus"]["dommages_flamme"][1], 6, "2 cuivres vert-de-gris : 2 × 3 Dommages Flamme")
+	var items := _world.data.items.duplicate()
+	items["vert_de_gris"] = {"id": "vert_de_gris", "type": "ressource", "rarete": "rare", "matiere": "minerai", "caracteristique": "dommages_flamme"}
+	assert_eq(Forge.preview("anneau", {"vert_de_gris": 2}, items, null, false)["bonus"], {"dommages_flamme": [5, 6]}, "2 rares : 2 × 3")
 
 
 func test_caracteristiques_cachees_sans_reputation_d_artisan() -> void:
