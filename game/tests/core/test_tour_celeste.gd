@@ -101,7 +101,7 @@ func test_raphael_donne_le_calice_une_fois_par_visite() -> void:
 	world.character.inventory.add(_data.items["cle_celeste"])
 	world.execute({"type": Protocol.CMD_TALK, "entite": World.PLAYER_ID, "pnj": "saint_pierrot"})
 	assert_eq(world.map.id, "tour_celeste_1")
-	assert_true(_data.items["calice_toujours_ruisselant"]["description"].contains("trente deniers"), "l'indice sur la suite")
+	assert_true(_data.items["calice_toujours_ruisselant"]["description"].contains("trente brumes"), "l'indice sur la suite")
 
 
 func test_le_groupe_revient_pendant_le_combat() -> void:
@@ -146,6 +146,16 @@ func test_l_ange_va_au_contact_pour_frapper_deux_fois() -> void:
 		assert_eq(cast["sort"], "ange_glaive", "coup %d au glaive" % (i + 1))
 		combat._apply_action(ange, cast)
 	assert_true(CombatAI.next_action(combat, ange, true).is_empty(), "6 PA : deux coups")
+
+
+func test_cupidon_tire_de_loin_et_reste_sur_place() -> void:
+	var combat := _fight([["cupidon", C], ["joueur", C + Vector2i(8, 0)]])
+	var cupidon := combat.get_fighter("m0")
+	var move := CombatAI.next_action(combat, cupidon, false)
+	assert_eq(IsoGrid.distance(move["cible"], C + Vector2i(8, 0)), 5, "à sa portée maximale")
+	cupidon.cell = move["cible"]
+	combat._apply_action(cupidon, CombatAI.next_action(combat, cupidon, true))
+	assert_true(CombatAI.next_action(combat, cupidon, true).is_empty(), "il a tiré : il ne fuit pas")
 
 
 func test_le_lion_vise_le_plus_faible_et_bondit() -> void:

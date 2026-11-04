@@ -17,7 +17,9 @@ const RANGED := "distance"
 const SUPPORT := "soutien"
 const MELEE := "corps_a_corps"
 const HUNTER := "chasseur"
-const BEHAVIOURS := [BASIC, RANGED, SUPPORT, MELEE, HUNTER]
+## Comme « distance » (tire de sa portée maximale), mais ne recule jamais : il reste où il a tiré (Cupidon).
+const SNIPER := "tireur"
+const BEHAVIOURS := [BASIC, RANGED, SUPPORT, MELEE, HUNTER, SNIPER]
 ## Valeur d'un point de PA ou de PM donné ou retiré, en « PV équivalents ».
 const PA_PM_VALUE := 5.0
 ## Valeur d'un point d'autre caractéristique (bonus, malus).
@@ -39,7 +41,7 @@ static func next_action(combat: Combat, fighter: Fighter, has_moved: bool) -> Di
 		return cast
 	if fighter.pm <= 0:
 		return {}
-	var keeps_distance := fighter.ai in [RANGED, SUPPORT]
+	var keeps_distance := fighter.ai in [RANGED, SUPPORT, SNIPER]
 	var reachable := combat.reachable_cells(fighter)
 	if not has_moved and _can_still_cast(fighter):
 		# Case d'où un sort vaut quelque chose : la plus proche (basique), ou la plus éloignée des
@@ -64,7 +66,7 @@ static func next_action(combat: Combat, fighter: Fighter, has_moved: bool) -> Di
 		var approach := _approach(combat, fighter, reachable)
 		if not approach.is_empty():
 			return approach
-	if keeps_distance:
+	if keeps_distance and fighter.ai != SNIPER:
 		return _retreat(combat, fighter, reachable)
 	return {}
 
