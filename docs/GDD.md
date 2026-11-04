@@ -1110,7 +1110,8 @@ Les sorts restent **propres à leur classe** (pas d'apprentissage croisé, § 5.
    parmi les autres. Après le combat, il reprend l'exploration là où
    il a engagé. `game/tools/placement.py` propose un calque (joueurs à gauche, monstres à droite,
    cases non voisines), à retoucher à la main si le décor s'y prête mal.
-3. **Tours :** ordre fixé par l'**Initiative**, visible dans une frise (timeline). À son tour, chaque
+3. **Tours :** ordre fixé par l'**Initiative**, les camps alternant comme dans Dofus (le camp du plus rapide
+   commence, le surplus d'un camp joue à la fin ; 04/11/2026), visible dans une frise (timeline). À son tour, chaque
    combattant dépense ses **PA** (sorts, armes) et ses **PM** (déplacement case par case), dans
    n'importe quel ordre.
 4. **Fin :** victoire quand tous les ennemis sont vaincus ; défaite si tous les alliés le sont, ou en

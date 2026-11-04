@@ -395,10 +395,18 @@ func _everyone_ready() -> bool:
 func _start_fighting() -> Array[Dictionary]:
 	state = State.FIGHTING
 	# Ordre de jeu : initiative décroissante ; à égalité, les joueurs d'abord, puis l'ordre d'arrivée.
+	# Comme Dofus, les camps alternent (celui du plus rapide commence), le surplus d'un camp à la fin.
 	_arrival.clear()
 	for i in fighters.size():
 		_arrival[fighters[i]] = i
 	fighters.sort_custom(_plays_before)
+	var camps := [fighters.filter(func(f: Fighter) -> bool: return f.team == fighters[0].team),
+		fighters.filter(func(f: Fighter) -> bool: return f.team != fighters[0].team)]
+	fighters.clear()
+	for i in maxi(camps[0].size(), camps[1].size()):
+		for camp: Array in camps:
+			if i < camp.size():
+				fighters.append(camp[i])
 	var order: Array[String] = []
 	for f in fighters:
 		order.append(f.id)
