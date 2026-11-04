@@ -922,6 +922,32 @@ compétences de métier, récolte ouverte, gains selon la difficulté du palier 
 - L'ancienne cible de l'alpha 2 (1 → 30 en ≈ 15 h, rendement décroissant des caractéristiques) est
   remplacée par la refonte ci-dessus.
 
+### 4.6 Mode héros (demande de l'auteur, 04/11/2026)
+
+Un joueur contrôle **plusieurs personnages à la fois** (comme un groupe joué seul). Solo d'abord,
+pour tester la mécanique ; en ligne à terme.
+
+- **4 héros au plus**, de toutes les races et de tous les camps. « Nouveau héros » (bande droite, sous
+  le résumé) ouvre la création ; le héros arrive sur la case du héros contrôlé.
+- **Un seul héros contrôlé** à la fois ; les autres sont **invisibles** et partagent toujours sa carte
+  et sa case (pas de suivi à l'écran). Un clic sur un nom de la liste « Héros » change de héros hors
+  combat : il apparaît là où était le précédent.
+- **Tout est propre à chaque héros** (classe, réputation, sac, brumes, coffre, quêtes, métiers), pour
+  pouvoir le jouer seul. Une quête proposée peut être acceptée **« Pour l'équipe »** : aussi pour
+  les héros qui peuvent la prendre.
+- **Combat** : toute l'équipe entre en combat avec le héros contrôlé ; « Prêt » vaut pour tous, un clic
+  sur un héros pendant le placement le choisit pour le placer. Le joueur joue **chaque héros à son
+  tour** (toujours lui, jamais l'IA) : la barre passe d'elle-même au héros dont c'est le tour.
+- **Gains comme en groupe** (§ 16.5, M2) : brumes partagées, butin tiré pour chacun selon sa
+  prospection, réputation au facteur de difficulté du groupe ; les monstres ne sont pas renforcés.
+- **Objectifs de quête** : un combat (vaincre) ou un dialogue (parler) compte pour tous les héros qui
+  ont l'objectif ; une récolte ou un butin reste à chacun (« apporter » : les objets de son propre sac).
+- Sauvegarde : l'équipe entière, dans l'ordre, avec le héros contrôlé (`heros`, `heros_controle`).
+- Code : `PlayerState.heroes` / `hidden`, `World.add_hero`, commande `changer_heros`, événement
+  `heros_change` (protocole v13), `MapInstance.add_player(..., listed)`, `MapView.control_hero`.
+- **Plus tard, en ligne** : un client par compte qui commande plusieurs personnages (serveur : un pair
+  pour plusieurs personnages, personnages multiples par compte dans Supabase, temps de tour de chacun).
+
 ---
 
 ## 5. Système des Voies

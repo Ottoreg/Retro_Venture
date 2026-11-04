@@ -54,6 +54,8 @@ var _depleted: Dictionary = {}
 var _fights: Dictionary = {}
 ## Groupe de joueurs : { chef, membres: [{ id, nom, niveau, race, voie, absent }] } (voir `World._party_view`).
 var party: Dictionary = {"chef": "", "membres": []}
+## Mode héros (GDD § 4.6) : l'équipe, [{ id, nom, race, voie, controle }] (vide hors de ce mode).
+var heroes: Array = []
 ## Amis et ignorés (en ligne, jalon M3) : { amis: Array[{ nom, en_ligne, carte, combat }],
 ## ignores: Array[String] }.
 var relations: Dictionary = {"amis": [], "ignores": []}
@@ -92,6 +94,7 @@ func load_snapshot(snapshot: Dictionary) -> void:
 	for fight: Dictionary in snapshot.get("combats", []):
 		_fights[fight["groupe"]] = fight
 	party = snapshot.get("groupe_joueurs", {"chef": "", "membres": []})
+	heroes = snapshot.get("heros", [])
 	relations = snapshot.get("relations", {"amis": [], "ignores": []})
 	combat = null
 	spectating = snapshot.get("spectateur", false)

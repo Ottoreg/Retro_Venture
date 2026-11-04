@@ -30,6 +30,8 @@ const MENUS := [["personnage", "icone_personnage", "Personnage (C)"], ["inventai
 signal menu_pressed(menu: String)
 ## Bouton « Amis » de la bande droite (en ligne).
 signal friends_pressed
+## « Nouveau héros » (mode héros, solo) : créer un autre personnage de l'équipe.
+signal new_hero_pressed
 
 
 ## Jauge dessinée : PV dans un cœur qui se vide par le haut, PA dans une étoile, PM dans une case.
@@ -399,6 +401,8 @@ var _summary_name: Label
 var _summary_level: Label
 var _summary_xp: ProgressBar
 var _summary_money: Label
+## Mode héros : l'équipe et « Nouveau héros », sous le résumé (solo).
+var _heroes_box: VBoxContainer
 ## Groupe de joueurs (multijoueur), sous le résumé : ses membres et « Quitter le groupe ».
 var _party_box: VBoxContainer
 ## « Amis (F) » sous le résumé du personnage, en ligne seulement (jalon M3).
@@ -1517,6 +1521,10 @@ func _build_bands() -> void:
 	leave.pressed.connect(func() -> void: map_view.send_command({"type": Protocol.CMD_PARTY_LEAVE, "entite": map_view.world.player_id}))
 	_party_box.add_child(leave)
 	_party_box.visible = false
+	# Mode héros (GDD § 4.6, solo) : l'équipe, un clic pour contrôler un autre héros, et « Nouveau héros ».
+	_heroes_box = VBoxContainer.new()
+	_heroes_box.add_theme_constant_override("separation", 0)
+	_summary.add_child(_heroes_box)
 	_order_label = _label(15, UiTheme.GOLD)
 	_order_label.text = "Placement"
 	_order_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -1571,6 +1579,7 @@ func bands() -> Array[Control]:
 func _refresh_party() -> void:
 	if map_view == null or map_view.world == null:
 		return
+	_refresh_heroes()
 	var members: Array = map_view.world.party.get("membres", [])
 	_party_box.visible = not members.is_empty()
 	for line in _party_lines.get_children():
@@ -1596,6 +1605,35 @@ func _refresh_party() -> void:
 		if followed:
 			line.add_theme_color_override("font_color", UiTheme.GOLD)
 		_party_lines.add_child(line)
+
+
+func _refresh_heroes() -> void:
+	for line in _heroes_box.get_children():
+		_heroes_box.remove_child(line)
+		line.queue_free()
+	_heroes_box.visible = map_view.connection is LocalConnection
+	_heroes_box.add_child(HSeparator.new())
+	var title := _label(14, UiTheme.GOLD)
+	title.text = "Héros"
+	_heroes_box.add_child(title)
+	for hero: Dictionary in map_view.world.heroes:
+		var line := Button.new()
+		line.flat = true
+		line.alignment = HORIZONTAL_ALIGNMENT_LEFT
+		line.focus_mode = Control.FOCUS_NONE
+		line.add_theme_font_size_override("font_size", 12)
+		line.text = "%s, %s" % [hero["nom"], map_view.world.data.voies.get(hero["voie"], {}).get("nom", hero["voie"])]
+		line.disabled = hero["id"] == map_view.world.player_id
+		line.add_theme_color_override("font_disabled_color", UiTheme.GOLD)
+		line.tooltip_text = "Cliquer pour jouer ce héros"
+		line.pressed.connect(map_view.control_hero.bind(hero["id"]))
+		_heroes_box.add_child(line)
+	var add := Button.new()
+	add.text = "Nouveau héros"
+	add.focus_mode = Control.FOCUS_NONE
+	add.disabled = map_view.world.heroes.size() >= World.HEROES_MAX
+	add.pressed.connect(func() -> void: new_hero_pressed.emit())
+	_heroes_box.add_child(add)
 
 
 func _show_summary(sheet: Dictionary) -> void:

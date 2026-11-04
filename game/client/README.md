@@ -13,7 +13,9 @@ Scènes, rendu isométrique, interface, audio et entrées du joueur. Le client l
   lectures que `World` (personnage, carte, groupes, combat recréé, quêtes), rechargée d'après les
   instantanés du monde. Jamais de lecture ni d'écriture directe du `World` dans le client ; seuls
   les tests et les outils y touchent (`MapView.server`, puis `MapView.refresh_state()`).
-- L'id du joueur est `world.player_id` (pas `World.PLAYER_ID`, qui n'existe qu'en solo).
+- L'id du joueur est `world.player_id` (pas `World.PLAYER_ID`, qui n'existe qu'en solo). Mode héros :
+  `GameConnection.control(id)` fait de la copie celle d'un autre héros (`MapView.control_hero`, et au
+  début du tour de chaque héros) ; liste « Héros » dans `CombatHud._refresh_heroes`.
 - En ligne (jalon M1), `net/remote_connection.gd` parle au serveur par WebSocket : la connexion est
   **asynchrone** (`asynchronous`) ; `send` ne renvoie rien et la réponse arrive plus tard par
   `take_replies`, avec l'instantané qui la suit. `MapView._request` envoie une commande et dit quoi

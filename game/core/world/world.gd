@@ -46,6 +46,8 @@ const MAX_TRADE_QUANTITY := 100
 const ALL_PASSAGES_KNOWN := true
 ## Groupes de joueurs (GDD § 13) : 8 joueurs au plus.
 const PARTY_MAX := 8
+## Mode héros (GDD § 4.6) : 4 héros au plus contrôlés par un même joueur.
+const HEROES_MAX := 4
 ## Placement en ligne (s), quand le temps des tours est limité (`turn_seconds`).
 const PLACEMENT_SECONDS := 45.0
 
@@ -177,6 +179,79 @@ func add_player(p_character: Character, id: String, map_id := "", cell := GameMa
 	_init_travel(p)
 	_set_map(p, target, cell if target.is_walkable(cell) else target.spawn)
 	return p
+
+
+## Mode héros (GDD § 4.6) : ajoute un héros caché à l'équipe du joueur `leader_id`, sur sa case.
+## Renvoie son état, ou `null` si l'équipe est complète (HEROES_MAX).
+func add_hero(p_character: Character, leader_id := player_id) -> PlayerState:
+	var leader: PlayerState = players.get(leader_id)
+	if leader == null or leader.heroes.size() >= HEROES_MAX:
+		return null
+	if leader.heroes.is_empty():
+		leader.heroes.append(leader.id)
+	var number := 2
+	while players.has("heros_%d" % number):
+		number += 1
+	var hero := add_player(p_character, "heros_%d" % number, leader.map.id, leader.cell)
+	hero.hidden = true
+	hero.instance.add_player(hero.id, hero.cell, false)
+	hero.heroes = leader.heroes
+	leader.heroes.append(hero.id)
+	return hero
+
+
+## Autres héros de l'équipe de `p` (mode héros).
+func _other_heroes(p: PlayerState) -> Array[PlayerState]:
+	var others: Array[PlayerState] = []
+	for hero_id in p.heroes:
+		if hero_id != p.id:
+			others.append(players[hero_id])
+	return others
+
+
+## Le joueur contrôle un autre héros de son équipe, qui apparaît sur sa case ; lui devient caché.
+func _switch_hero(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
+	var hero: PlayerState = players.get(command.get("heros", ""))
+	if hero == null or hero == p or not p.heroes.has(hero.id) or not p.harvesting.is_empty():
+		return _refused(command, Protocol.REASON_INVALID_COMMAND)
+	p.hidden = true
+	p.sitting = false
+	p.instance.add_player(p.id, p.cell, false)
+	hero.hidden = false
+	hero.instance.add_player(hero.id, hero.cell)
+	if player_id == p.id:
+		player_id = hero.id  # Façade solo : le héros contrôlé.
+	var events: Array[Dictionary] = [{"type": Protocol.EVT_HERO_CHANGED, "heros": hero.id, Protocol.FIELD_FOR: p.id}]
+	return events
+
+
+## Hors combat, les héros cachés suivent la carte et la case du héros contrôlé (mode héros).
+func _sync_heroes() -> void:
+	for p: PlayerState in players.values():
+		if p.hidden or p.in_combat():
+			continue
+		for hero in _other_heroes(p):
+			if hero.in_combat():
+				continue
+			if hero.instance != p.instance:
+				_set_map(hero, p.map, p.cell)
+				if data != null:
+					hero.quest_book.refresh([] as Array[Dictionary])  # Objectifs « aller sur la carte ».
+			hero.cell = p.cell
+
+
+## Événements d'un héros caché : adressés à lui seul (son journal, son sac), pas au héros contrôlé.
+static func _hero_events(hero: PlayerState, hero_events: Array[Dictionary], events: Array[Dictionary]) -> void:
+	for event in hero_events:
+		if Protocol.scope_of(event) != Protocol.SCOPE_MAP:
+			event[Protocol.FIELD_FOR] = hero.id
+	events.append_array(hero_events)
+
+
+## Équipe de héros : une ligne par héros { id, nom, race, voie, controle }, dans l'ordre de l'équipe.
+func _heroes_view(p: PlayerState) -> Array:
+	return p.heroes.map(func(id: String) -> Dictionary: return {"id": id, "nom": players[id].character.display_name,
+		"race": players[id].character.race_id, "voie": players[id].character.voie_id, "controle": not players[id].hidden})
 
 
 ## Déconnecte un joueur : il quitte sa carte et son combat, abandonné (le personnage reste tel
@@ -336,6 +411,7 @@ func in_combat() -> bool:
 func execute(command: Dictionary) -> Array[Dictionary]:
 	Protocol.check_round_trip(command)
 	var events := _execute(command)
+	_sync_heroes()
 	for event in events:
 		Protocol.check_round_trip(event)
 	return events
@@ -343,7 +419,7 @@ func execute(command: Dictionary) -> Array[Dictionary]:
 
 func _execute(command: Dictionary) -> Array[Dictionary]:
 	var p := _player_of(command)
-	if p == null:
+	if p == null or p.hidden and not p.in_combat():
 		return _refused(command, Protocol.REASON_UNKNOWN_ENTITY)
 	if command.get("type") == Protocol.CMD_PARTY_PIN:
 		return _party_pin(p, command)
@@ -361,6 +437,10 @@ func _execute(command: Dictionary) -> Array[Dictionary]:
 		if command.get("type") == Protocol.CMD_COMBAT_LOCK:
 			return _combat_lock(p, command)
 		var events := p.combat.execute(command)
+		if command.get("type") == Protocol.CMD_READY:
+			for hero in _other_heroes(p):  # Mode héros : « Prêt » pour toute l'équipe.
+				if hero.combat == p.combat and p.combat.state == Combat.State.PLACEMENT:
+					events.append_array(p.combat.execute({"type": Protocol.CMD_READY, "entite": hero.id}))
 		if p.combat.state == Combat.State.FINISHED:
 			_end_combat(p, events)
 			p.quest_book.observe(events)
@@ -409,6 +489,7 @@ func snapshot(id := player_id) -> Dictionary:
 		"joueurs": others,
 		"combats": fights,
 		"groupe_joueurs": _party_view(p.party_leader),
+		"heros": _heroes_view(p),
 		"relations": relations_view(p),
 		"epuisees": p.instance.depleted.keys(),
 		"pierres_toutes_connues": all_passages_known,
@@ -478,6 +559,8 @@ func _execute_exploration(p: PlayerState, command: Dictionary) -> Array[Dictiona
 			return _move(p, command)
 		if type == Protocol.CMD_ENGAGE:
 			return _engage(p, command)
+		if type == Protocol.CMD_SWITCH_HERO:
+			return _switch_hero(p, command)
 		if type == Protocol.CMD_JOIN_COMBAT:
 			return _join_combat(p, command)
 		if type == Protocol.CMD_WATCH_COMBAT:
@@ -535,6 +618,11 @@ func _quest_command(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
 	var reason := ""
 	if command["type"] == Protocol.CMD_QUEST_ACCEPT:
 		reason = p.quest_book.accept(quest_id, events)
+		for hero in _other_heroes(p):  # Mode héros : « pour toute l'équipe ».
+			if reason.is_empty() and command.get("equipe", false) and hero.quest_book.is_available(quest_id):
+				var hero_events: Array[Dictionary] = []
+				hero.quest_book.accept(quest_id, hero_events)
+				_hero_events(hero, hero_events, events)
 	elif command["type"] == Protocol.CMD_QUEST_DECLINE:
 		p.quest_book.decline(quest_id)
 	else:
@@ -645,7 +733,14 @@ func _talk(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
 		events.append(_moved_event(p, from, [] as Array[Vector2i]))
 		p.cell = from
 		_remember_walk(p, from, [] as Array[Vector2i])
-	if data != null and p.quest_book.talk(npc, events):
+	var spoke := data != null and p.quest_book.talk(npc, events)
+	for hero in _other_heroes(p):
+		# Mode héros : les objectifs « parler » (et « apporter », chacun ses objets) de toute l'équipe.
+		if data != null and hero.quest_book.marker(npc_id) == "?":
+			var hero_events: Array[Dictionary] = []
+			hero.quest_book.talk(npc, hero_events)
+			_hero_events(hero, hero_events, events)
+	if spoke:
 		return events
 	var gate: Dictionary = npc.get("entree", {})
 	var next_map: GameMap = _load_map(gate["carte"]) if not gate.is_empty() else null
@@ -721,7 +816,7 @@ func _set_map(p: PlayerState, next_map: GameMap, player_cell: Vector2i, events: 
 	if not p.instance.has_players():
 		p.instance.wander_times.clear()  # Une carte qui se réveille : pas de promenade tout de suite.
 	var others := p.instance.player_ids()
-	p.instance.add_player(p.id, player_cell)
+	p.instance.add_player(p.id, player_cell, not p.hidden)
 	p.character.visit_map(next_map.id)
 	p.last_walk.clear()
 	p.gifts.clear()
@@ -841,6 +936,9 @@ func _engage(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
 	var start_events := p.combat.start()
 	start_events[0]["groupe"] = group_id
 	events.append_array(start_events)
+	for hero in _other_heroes(p):  # Mode héros : toute l'équipe combat.
+		if data.voies.has(hero.character.voie_id) and not hero.character.inventory.is_overloaded():
+			events.append_array(_enter_combat(hero, p))
 	return events
 
 
@@ -868,6 +966,13 @@ func _join_combat(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
 		return _refused(command, Protocol.REASON_WRONG_PHASE)
 	if p.character.inventory.is_overloaded():
 		return _refused(command, Protocol.REASON_INVENTORY_OVERLOADED)
+	return _enter_combat(p, starter)
+
+
+## Le joueur entre dans le combat de `starter`, sur une case de placement libre.
+func _enter_combat(p: PlayerState, starter: PlayerState) -> Array[Dictionary]:
+	var combat := starter.combat
+	var team := _team_of(combat)
 	var joined := combat.add_player_fighter(data.create_character_fighter(p.character, p.id))
 	if joined[0]["type"] == Protocol.EVT_REFUSED:
 		joined[0]["commande"] = Protocol.CMD_JOIN_COMBAT
@@ -888,7 +993,8 @@ func _join_combat(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
 		mates.append(member.id)
 	for member in team:
 		member.fight_mates.assign(mates)
-	events.append({"type": Protocol.EVT_GROUP_ENGAGED, "carte": p.map.id, "groupe": p.combat_group, "entite": p.id, "case": p.cell})
+	if not p.hidden:
+		events.append({"type": Protocol.EVT_GROUP_ENGAGED, "carte": p.map.id, "groupe": p.combat_group, "entite": p.id, "case": p.cell})
 	var start := combat.start()[0]
 	start["groupe"] = p.combat_group
 	start["prets"] = combat.ready.keys()
@@ -1525,7 +1631,8 @@ func _create_combat(p: PlayerState, group: Dictionary) -> Combat:
 	shuffle.seed = seed_value
 	var monster_cells: Array[Vector2i] = p.map.placement_monsters.duplicate()
 	var placement: Array[Vector2i] = p.map.placement_players.duplicate()
-	if shuffle.randi_range(0, 1) == 1 and placement.size() >= maxi(GameMap.MIN_PLACEMENT, group["monstres"].size()):
+	if shuffle.randi_range(0, 1) == 1 and placement.size() >= maxi(GameMap.MIN_PLACEMENT, group["monstres"].size()) \
+			and monster_cells.size() >= p.heroes.size():
 		var swap_sides := monster_cells
 		monster_cells = placement
 		placement = swap_sides
@@ -1676,7 +1783,7 @@ func _end_combat(p: PlayerState, events: Array[Dictionary]) -> void:
 	# Les joueurs du combat réapparaissent pour les autres joueurs de la carte, et ses épées disparaissent.
 	if combat_instance.player_ids().size() > 1:
 		for member in team:
-			if member.instance == combat_instance:
+			if member.instance == combat_instance and not member.hidden:
 				map_events.append(_player_joined_event(member))
 		map_events.append({"type": Protocol.EVT_FIGHT_OVER, "carte": combat_map, "groupe": group_id})
 	events.append_array(map_events)
@@ -1961,6 +2068,7 @@ func update(delta: float) -> Array[Dictionary]:
 				instance.depleted.erase(cell)
 				if instance.has_players():
 					events.append({"type": Protocol.EVT_RESOURCE_RESPAWNED, "carte": map_id, "case": cell})
+	_sync_heroes()
 	for event in events:
 		Protocol.check_round_trip(event)
 	return events
@@ -2713,6 +2821,8 @@ func save_data() -> Dictionary:
 		"repousses": _saved_timers(depleted),
 		"elites": attempts,
 		"boss_vaincus": defeated_bosses.keys(),
+		"heros": p.heroes.map(func(id: String) -> Dictionary: return players[id].character.to_dict()),
+		"heros_controle": p.heroes.find(p.id),
 	}
 
 
@@ -2847,6 +2957,17 @@ static func from_save(save: Dictionary, p_data: GameData, p_map_loader: Callable
 	if start_map == null:
 		return null
 	var world := World.new(start_map, p_data, p_map_loader, saved_character)
+	# Mode héros : les autres héros, cachés, puis le héros contrôlé remis à sa place dans l'équipe.
+	var team: Variant = save.get("heros", [])
+	var controlled := int(save.get("heros_controle", 0))
+	if typeof(team) == TYPE_ARRAY and controlled >= 0 and controlled < team.size():
+		for i in team.size():
+			var hero := Character.from_dict(team[i], p_data.items if p_data != null else {}) if typeof(team[i]) == TYPE_DICTIONARY else null
+			if i != controlled and hero != null:
+				world.add_hero(hero)
+		var heroes := world._solo().heroes
+		heroes.erase(world.player_id)
+		heroes.insert(mini(controlled, heroes.size()), world.player_id)
 	var bosses: Variant = save.get("boss_vaincus", [])
 	if typeof(bosses) == TYPE_ARRAY:
 		for boss_id: Variant in bosses:

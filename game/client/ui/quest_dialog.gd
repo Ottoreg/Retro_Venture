@@ -20,6 +20,8 @@ var _text: RichTextLabel
 var _objectives: RichTextLabel
 var _rewards: Label
 var _accept: Button
+## Mode héros : accepter aussi pour les autres héros de l'équipe.
+var _accept_team: Button
 
 
 func _ready() -> void:
@@ -45,6 +47,7 @@ func open(event: Dictionary) -> void:
 	_objectives.text = QuestLinks.linkify("\n".join(lines), map_view.world)
 	_rewards.text = QuestsWindow.rewards_text(event["recompenses"])
 	_set_visible(true)
+	_accept_team.visible = map_view.world.heroes.size() > 1
 
 
 func close() -> void:
@@ -59,9 +62,9 @@ func quest_id() -> String:
 	return _quest_id
 
 
-func accept() -> void:
+func accept(team := false) -> void:
 	close()
-	map_view.send_command({"type": Protocol.CMD_QUEST_ACCEPT, "entite": map_view.world.player_id, "quete": _quest_id})
+	map_view.send_command({"type": Protocol.CMD_QUEST_ACCEPT, "entite": map_view.world.player_id, "quete": _quest_id, "equipe": team})
 
 
 func later() -> void:
@@ -115,12 +118,17 @@ func _build() -> void:
 	column.add_child(buttons)
 	_accept = Button.new()
 	_accept.text = "Accepter"
-	_accept.custom_minimum_size = Vector2(150, 38)
+	_accept.custom_minimum_size = Vector2(130, 38)
 	_accept.pressed.connect(accept)
 	buttons.add_child(_accept)
+	_accept_team = Button.new()
+	_accept_team.text = "Pour l'équipe"
+	_accept_team.custom_minimum_size = Vector2(130, 38)
+	_accept_team.pressed.connect(accept.bind(true))
+	buttons.add_child(_accept_team)
 	var later_button := Button.new()
 	later_button.text = "Plus tard"
-	later_button.custom_minimum_size = Vector2(150, 38)
+	later_button.custom_minimum_size = Vector2(130, 38)
 	later_button.pressed.connect(later)
 	buttons.add_child(later_button)
 

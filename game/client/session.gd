@@ -4,6 +4,8 @@ extends RefCounted
 
 ## Personnage tout juste créé, ou `null`.
 static var new_character: Character = null
+## Mode héros : l'écran de création ajoute un héros à la partie sauvegardée (`new_character`).
+static var adding_hero := false
 ## Vrai pour reprendre la partie sauvegardée.
 static var continue_game := false
 ## Carte de départ imposée (outils de capture d'écran), ou "" pour celle de la race.
