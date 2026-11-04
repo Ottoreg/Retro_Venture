@@ -111,6 +111,13 @@
         22,
         22
       ]
+    },
+    "objet_calice_toujours_ruisselant": {
+      "fichier": "objets/calice_toujours_ruisselant.svgt",
+      "ancre": [
+        22,
+        22
+      ]
     }
   },
   "personnages": {
@@ -236,6 +243,37 @@
       },
       "accessoires": [
         "barbe",
+        "aureole"
+      ]
+    },
+    "raphael_sommet": {
+      "rig": "archange",
+      "couleurs": {
+        "tunique": "f6e6a8",
+        "manches": "e6e2d2",
+        "pantalon": "d8d2bc",
+        "bottes": "c9a04e",
+        "ceinture": "c9a04e",
+        "cheveux": "c08a3a"
+      },
+      "arme": "sceptre",
+      "accessoires": [
+        "ailes",
+        "aureole"
+      ]
+    },
+    "gardien_celeste": {
+      "rig": "humain",
+      "couleurs": {
+        "tunique": "f2f0e6",
+        "manches": "e6e2d2",
+        "pantalon": "d8d2bc",
+        "bottes": "c9a04e",
+        "ceinture": "c9a04e",
+        "cheveux": "8a6a3a"
+      },
+      "accessoires": [
+        "ailes",
         "aureole"
       ]
     }

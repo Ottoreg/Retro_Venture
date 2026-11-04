@@ -307,6 +307,9 @@ le **lit** de votre maison les rend tous d'un coup.
   - La **Tour céleste** (gratuite par les Pierres) : battez **Cupidon** sur le parvis pour sa clé,
     donnez-la à **Saint Pierrot**, puis gravissez 5 étages (chaque victoire fait monter) jusqu'à
     l'**Archange Raphaël**. Attention à son *Exorcisme* : les prochains dégâts Sacré vous achèvent.
+    Cupidon donne une clé à chaque membre du groupe. À chaque étage, le **Gardien des marches** vous
+    ramène au parvis (il faudra une nouvelle clé). Vaincu, Raphaël vous attend au sommet avec un
+    cadeau dont le texte annonce la suite.
 - **50 monstres** : une famille par palier, chacune avec son **élite** (plus grande, halo doré, bien
   plus forte, meilleur butin ; elle apparaît toutes les 5 à 6 minutes sur une carte de sa famille, et
   son butin s'améliore tant qu'elle reste en vie : losanges puis couronne dans sa bulle). Les

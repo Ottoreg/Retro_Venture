@@ -41,6 +41,10 @@ sort("archange_exorcisme", "Exorcisme", "La cible sera achevée par les prochain
 
 ecrire("objets", {"id": "cle_celeste", "nom": "Clé céleste", "type": "quete", "rarete": "rare", "niveau": 1,
                   "description": "Saint Pierrot la réclame pour ouvrir la Tour céleste. Cupidon en a toujours une sur lui."})
+ecrire("objets", {"id": "calice_toujours_ruisselant", "nom": "Calice toujours ruisselant", "type": "ressource", "rarete": "rare",
+                  "niveau": 18, "boutique": False,
+                  "description": "Remis par l'Archange Raphaël au sommet de la tour. Gravé sous le pied : « Un disciple aux "
+                                 "trente deniers garde une coupe vide pour les visiteurs. Il sait déjà ce qu'il y versera. »"})
 ecrire("passages", {"id": "tour_celeste", "nom": "Tour céleste", "carte": "celeste_0_0", "prix": 0, "toujours_connue": True})
 
 
@@ -82,7 +86,7 @@ def monstre(id, nom, description, niveau, pv, pa, pm, initiative, sorts, ia, xp,
 
 monstre("cupidon", "Cupidon", "Un angelot à l'arc rouge. Il garde la clé de la tour et ne vise jamais le cœur.",
         3, 25, 4, 3, 90, ["cupidon_fleche_cupide"], "distance", 30, [2, 6], donjon=True,
-        butin=[{"objet": "cle_celeste", "taux": 1.0}])
+        butin=[{"objet": "cle_celeste", "taux": 1.0, "par_joueur": True}])
 monstre("ange", "Ange", "Il a fait vœu de paix. Il a aussi un glaive.", 9, 50, 6, 4, 100,
         ["ange_trait_de_lumiere", "ange_glaive"], "corps_a_corps", 110, [8, 18], donjon=True)
 monstre("colombe_baptiste", "Colombe baptiste", "Elle bénit d'un coup de bec, puis s'enfuit à tire-d'aile.", 6, 30, 4, 10, 140,
@@ -136,8 +140,16 @@ SALLES = [
     ("Quatrième étage", ["ange", "ange", "ange", "lion_de_juda"]),
     ("Sommet, salle de l'Archange", ["archange_raphael", "ange", "lion_de_juda", "colombe_baptiste"]),
 ]
+SORTIE = {"marqueur": "s", "id": "gardien_celeste", "nom": "Gardien des marches",  # Un par salle : on sort sans rien garder de l'avancée.
+          "repliques": ["Trop de lumière ? Je vous raccompagne au parvis. Il faudra une autre clé pour remonter."],
+          "entree": {"carte": "celeste_0_0"}}
+piliers = {(12, 5): "M", (12, 13): "M", (20, 5): "M", (20, 13): "M"}
 for n, (nom, monstres) in enumerate(SALLES, 1):
-    piliers = {(12, 5): "M", (12, 13): "M", (20, 5): "M", (20, 13): "M"}
-    carte(f"tour_celeste_{n}", f"Tour céleste — {nom}", plan(15.5, True, {**piliers, (15, 9): "1", (27, 9): "@"}),
-          groupes=[{"monstres": monstres, "reapparition": [60, 60] if n == 5 else [30, 45]}],
-          etage_suivant=f"tour_celeste_{n + 1}" if n < 5 else "celeste_0_0")
+    # Groupe de nouveau là 5 à 10 s après le début du combat : les salles restent partagées.
+    carte(f"tour_celeste_{n}", f"Tour céleste — {nom}", plan(15.5, True, {**piliers, (15, 9): "1", (27, 9): "@", (27, 11): "s"}),
+          groupes=[{"monstres": monstres, "reapparition": [5, 10], "reapparition_au_combat": True}], pnj=[SORTIE],
+          etage_suivant=f"tour_celeste_{n + 1}" if n < 5 else "tour_celeste_sommet")
+carte("tour_celeste_sommet", "Tour céleste — Chœur de Raphaël", plan(15.5, True, {**piliers, (13, 9): "r", (27, 9): "@", (27, 11): "s"}),
+      pnj=[SORTIE, {"marqueur": "r", "id": "raphael_sommet", "nom": "Archange Raphaël", "don": "calice_toujours_ruisselant",
+                    "repliques": ["Bien combattu. Prenez ce calice : il ne se vide jamais, c'est bien là le problème.",
+                                  "Plus haut, quelqu'un vous attend avec une coupe. Méfiez-vous de ceux qui comptent leurs pièces."]}])

@@ -347,6 +347,8 @@ static func validate_monster(data: Dictionary, known_spells: Dictionary, known_i
 			if typeof(amount) != TYPE_ARRAY or amount.size() != 2 or not Spell._is_int_at_least(amount[0], 1) \
 					or not Spell._is_int_at_least(amount[1], 1) or int(amount[0]) > int(amount[1]):
 				errors.append("butin « %s » : « quantite » doit être [min, max]" % drop["objet"])
+			if typeof(drop.get("par_joueur", false)) != TYPE_BOOL:
+				errors.append("butin « %s » : « par_joueur » doit valoir true ou false" % drop["objet"])
 	var coins: Variant = data.get("ecus", [0, 0])
 	if typeof(coins) != TYPE_ARRAY or coins.size() != 2 or not Spell._is_int_at_least(coins[0], 0) \
 			or not Spell._is_int_at_least(coins[1], 0) or int(coins[0]) > int(coins[1]):

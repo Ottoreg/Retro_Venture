@@ -2,7 +2,8 @@
   "butin": [
     {
       "objet": "cle_celeste",
-      "taux": 1.0
+      "taux": 1.0,
+      "par_joueur": true
     }
   ],
   "id": "cupidon",

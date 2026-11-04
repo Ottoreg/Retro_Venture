@@ -6,7 +6,8 @@ extends RefCounted
 ## (au hasard entre égaux) : chance = taux × prospection / 100 × (1 + bonus), au plus 100 %.
 ## Limite par monstre : la quantité maximale de la ligne. Ce qu'un joueur obtient est retiré de ce
 ## qui reste pour les suivants (un loup à « croc [1, 2] » qui a donné 1 croc au premier joueur ne
-## peut plus en donner qu'un seul aux autres). Pas de seuil de prospection.
+## peut plus en donner qu'un seul aux autres), sauf pour une ligne `par_joueur` (la clé de Cupidon,
+## que chaque joueur du groupe tire pour lui). Pas de seuil de prospection.
 
 
 ## Butin de chaque joueur. `monsters` : définitions des monstres vaincus (un élément par monstre,
@@ -29,7 +30,8 @@ static func roll(monsters: Array, prospections: Dictionary, rng: RandomNumberGen
 				if rng.randf() >= chance:
 					continue
 				var quantity := mini(remaining, rng.randi_range(int(amount[0]), int(amount[1])))
-				remaining -= quantity
+				if not drop.get("par_joueur", false):
+					remaining -= quantity
 				result[player_id].append({"objet": drop["objet"], "quantite": quantity})
 	return result
 

@@ -109,7 +109,9 @@ salles de la Tour céleste ; il faut alors autant de cases `m` dans le calque `p
 ```
 
 Un groupe vaincu réapparaît à sa place au bout d'un délai tiré dans `reapparition` (en secondes,
-2 à 3 minutes par défaut), mais jamais sous les pieds du joueur ni sur un autre groupe.
+2 à 3 minutes par défaut), mais jamais sous les pieds du joueur ni sur un autre groupe. Avec
+`"reapparition_au_combat": true` (salles de la Tour céleste), le délai part du **début** du combat :
+le groupe combattu se détache de la carte et un nouveau revient à sa place pendant la bataille.
 
 Un groupe `"apres_boss": "<id d'un boss>"` n'apparaît qu'une fois ce boss vaincu (au moins une fois,
 c'est sauvegardé) : tout de suite sur les cartes déjà visitées, à la première visite sur les autres.
@@ -164,7 +166,11 @@ revente rapporte un quart du prix d'achat (`Item.RESALE_RATE`), au moins 1 brume
 
 `entree` (facultatif, `{"carte": id, "cle": id d'objet}`) : un **portier**. Le joueur qui a la clé la
 lui donne et entre sur cette carte (à son `@`) ; sans clé, le PNJ dit ses répliques (Saint Pierrot,
-Tour céleste).
+Tour céleste). Sans `cle`, le PNJ fait passer tout le monde (le Gardien des marches de chaque étage
+ramène au parvis).
+
+`don` (facultatif, id d'objet) : le PNJ donne cet objet une fois par visite de sa carte, puis dit ses
+répliques (Raphaël et le Calice toujours ruisselant, au sommet de la Tour céleste).
 
 `explication` (facultatif, liste de textes) : à la dernière réplique, la bulle propose « Oui,
 expliquez-moi » et montre ces textes si le joueur accepte (un clic ailleurs refuse). Les forgerons
@@ -194,7 +200,7 @@ ramène d'où l'on vient (les tests vérifient que chaque porte a sa réciproque
   `hautepierre`, `cendree`, `cendre` ; voir `game/art/art.json` et `game/art/manifestes/`). Crasse-Roc est volontairement terne et sombre.
 - `sol` : `herbe` (par défaut) ou `parquet` pour un intérieur.
 - `etage_suivant` : id d'une carte. Les vainqueurs d'un combat sur cette carte y montent aussitôt
-  (étages de la Tour céleste ; le dernier ramène au parvis).
+  (étages de la Tour céleste ; le dernier mène au Chœur de Raphaël).
 - `instance` : `""` (par défaut, carte partagée) ou `joueur` pour une carte personnelle, comme la
   maison : en multijoueur, chaque joueur aura sa propre copie (et son coffre).
 - Chaque zone de départ a sa maison (`maison_joueur` à Brumerive, `maison_crasse_roc`,
@@ -588,7 +594,8 @@ de victoire.
 **Limite par monstre** : chaque ligne donne au plus `quantite[1]` unités par monstre vaincu, tous
 joueurs confondus. Chaque joueur tire la ligne à son tour, le plus prospecteur d'abord ; ce qu'il
 obtient est retiré de ce qui reste (croc `[1, 2]` : si le premier joueur a eu 1 croc de ce loup, le
-suivant ne peut plus en avoir qu'un). Deux loups ont chacun leur propre limite.
+suivant ne peut plus en avoir qu'un). Deux loups ont chacun leur propre limite. Une ligne
+`"par_joueur": true` n'a pas de limite partagée : chaque joueur la tire pour lui (la clé de Cupidon).
 
 Une Voie n'a plus d'`equipement_depart` (refusé par la validation) : on commence sans équipement,
 avec 20 brumes (`GameData.STARTING_ECUS`).

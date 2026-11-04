@@ -644,9 +644,11 @@ classes (option écartée et compromis gardés en piste, GDD § 5.2).
 - [ ] Donjons de Relique (boss = Héraut Cendré)
 - [x] Tour céleste réduite (04/11/2026) : parvis avec Cupidon (clé à 100 %) et Saint Pierrot, 5 étages
   enchaînés, Archange Raphaël au sommet ; vol de vie, état « exorcisme », IA `corps_a_corps`,
-  `chasseur` et bond ; 12 ressources de forge (Soins, Sacré, Impie, dégâts dévastateurs) ; Archange seul : Jugement dernier à la place du soin (GDD § 12.8, « Version réduite »)
+  `chasseur` et bond ; 12 ressources de forge (Soins, Sacré, Impie, dégâts dévastateurs) ; Archange seul : Jugement dernier à la place du soin ; groupes de retour 5 à 10 s après le début du combat, clé pour chaque membre du groupe, Gardien des marches pour sortir à chaque étage, Chœur de Raphaël et Calice toujours ruisselant au sommet (GDD § 12.8, « Version réduite »)
 - [ ] Tour céleste réduite : niveaux, PV, XP, brumes et butin des monstres à valider par l'auteur
-  pendant les tests (valeurs provisoires) ; une clé par Cupidon, même vaincu en groupe
+  pendant les tests (valeurs provisoires) ; simulation (`docs/design/tour_celeste/simulation.md`) : étages 2, 4 et 5
+  durs pour un trio guerrier + rôdeur + théologue à leur niveau ; Cupidon fuit trop bien pour un guerrier seul joué par l'IA
+- [ ] Tour céleste : salles en instance de groupe et sauvegarde de l'avancée (pour l'instant salles partagées, sortie sans sauvegarde)
 - [ ] Compagnons PNJ pour aider en solo
 
 ### Quêtes et scénario

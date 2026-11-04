@@ -54,7 +54,7 @@ xvfb-run -a godot --path . -s res://tools/screenshot.gd -- sortie.png [carte] [s
 
 `tools/screenshot.gd` fait des captures en jeu (actions : glyphe, survol, infobulle, objet, boutique_panoplie, phase, reveil, carte, sermon,
 cible, tactique, pause, options, fiche, assis, joueurs, groupe, chat, amis, echange, forge…) ; `tools/art_sheet.gd` fait une planche des dessins ; `tools/simulation.gd` simule des
-combats sur chaque groupe des cartes (`-- [combats] [rapport.md] [préfixes de cartes] [detail]`,
+combats sur chaque groupe des cartes (`-- [combats] [rapport.md] [préfixes de cartes] [detail] [+niveaux] [trio]`, trio = guerrier + rôdeur + théologue ensemble,
 ~7 min pour tout à 10 combats).
 Multijoueur : `godot --headless --path . -s res://server/server_main.gd` (serveur de développement, port
 8080) et `-s res://tools/bot.gd -- ws://localhost:8080 Robotin` (un joueur automatique) ; Docker :
@@ -187,7 +187,9 @@ Plus tard : maîtres par catégorie (armurier, tailleur, cordonnier) qui donnent
 `entree` des PNJ), étages `tour_celeste_1` à `_5` (champ `etage_suivant` : les vainqueurs montent),
 monstres `donjon` sans élite, groupes de 4 (`GameMap.MAX_GROUP_SIZE`), vol de vie (`"vol"` sur un
 effet de dégâts), état `exorcisme`, IA `corps_a_corps` et `chasseur`, sorts remplacés quand un monstre reste seul (champ `seul`), bond des monstres à sort de
-téléportation ; 12 ressources à `valeur` fixe à la forge, lignes Soins (`Fighter.soins`, `element_soins`),
+téléportation ; groupes revenus 5 à 10 s après le début du combat (`reapparition_au_combat`), clé `par_joueur`,
+Gardien des marches (`entree` sans clé) à chaque étage, Chœur de Raphaël (PNJ `don` : Calice toujours ruisselant) ;
+12 ressources à `valeur` fixe à la forge, lignes Soins (`Fighter.soins`, `element_soins`),
 Dommages/Résistance Sacré et Impie, `degats_devastateurs` (`Combat._devastate`) ; données par `docs/design/tour_celeste/produire.py`. Valeurs provisoires.
 
 Dernière session (retours de la passe de l'auteur) :

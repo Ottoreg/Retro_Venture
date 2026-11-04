@@ -46,6 +46,8 @@ var watching: Combat = null
 var last_combat: Combat = null
 ## Repère posé sur la carte du monde, montré aux membres de son groupe ({} sans).
 var pin: Dictionary = {}
+## PNJ qui ont déjà fait leur cadeau pendant cette visite de la carte (champ `don`).
+var gifts: Array[String] = []
 ## Invitations reçues dans un groupe : id de qui a invité → true.
 var invitations: Dictionary = {}
 ## Amis et joueurs ignorés (jalon M3), par pseudo, gardés dans sa sauvegarde (`World.player_save`).

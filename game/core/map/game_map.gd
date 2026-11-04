@@ -80,7 +80,8 @@ var resource_nodes: Dictionary = {}
 var groups: Array[Dictionary] = []
 ## PNJ : { id: String, nom: String, case: Vector2i, repliques: Array (textes), marchand: bool, explication: Array
 ## (textes proposés à la fin du dialogue, comme la forge expliquée par les forgerons), entree: { carte, cle }
-## (portier : contre une clé, fait entrer sur cette carte ; vide pour les autres) }.
+## (portier : contre la clé s'il en faut une, fait entrer sur cette carte ; vide pour les autres),
+## don: id d'un objet donné une fois par visite de la carte (vide pour les autres) }.
 var npcs: Array[Dictionary] = []
 ## Cartes voisines : direction (« haut », « bas », « gauche », « droite ») → id de carte.
 var exits: Dictionary = {}
@@ -176,6 +177,8 @@ static func validate(data: Dictionary) -> PackedStringArray:
 			if typeof(delay) != TYPE_ARRAY or delay.size() != 2 or not Spell._is_int_at_least(delay[0], 1) \
 					or not Spell._is_int_at_least(delay[1], 1) or int(delay[0]) > int(delay[1]):
 				errors.append("groupe %d : « reapparition » doit être [min, max] en secondes" % (k + 1))
+			if typeof(group.get("reapparition_au_combat", false)) != TYPE_BOOL:
+				errors.append("groupe %d : « reapparition_au_combat » doit valoir true ou false" % (k + 1))
 			if group.has("apres_boss") and (typeof(group["apres_boss"]) != TYPE_STRING or str(group["apres_boss"]).is_empty()):
 				errors.append("groupe %d : « apres_boss » doit être l'id d'un boss" % (k + 1))
 	var doors_data: Variant = data.get("portes", [])
@@ -224,8 +227,11 @@ static func validate(data: Dictionary) -> PackedStringArray:
 			if typeof(npc.get("marchand", false)) != TYPE_BOOL:
 				errors.append("PNJ %s : « marchand » doit valoir true ou false" % str(marker))
 			var gate: Variant = npc.get("entree", {})
-			if typeof(gate) != TYPE_DICTIONARY or (not gate.is_empty() and (typeof(gate.get("carte")) != TYPE_STRING or typeof(gate.get("cle")) != TYPE_STRING)):
-				errors.append("PNJ %s : « entree » doit être { carte, cle }" % str(marker))
+			if typeof(gate) != TYPE_DICTIONARY or (not gate.is_empty() and (typeof(gate.get("carte")) != TYPE_STRING or typeof(gate.get("cle", "")) != TYPE_STRING)):
+				errors.append("PNJ %s : « entree » doit être { carte, cle (facultative) }" % str(marker))
+			var gift: Variant = npc.get("don", "")
+			if typeof(gift) != TYPE_STRING:
+				errors.append("PNJ %s : « don » doit être l'id d'un objet" % str(marker))
 			var lines: Variant = npc.get("repliques")
 			if typeof(lines) != TYPE_ARRAY or lines.is_empty():
 				errors.append("PNJ %s : « repliques » doit être une liste de textes non vide" % str(marker))
@@ -374,12 +380,14 @@ static func from_dict(data: Dictionary) -> GameMap:
 					group["nombre"] = group_data.get("nombre", [1, MAX_GROUP_SIZE]).duplicate()
 				if group_data.has("apres_boss"):
 					group["apres_boss"] = group_data["apres_boss"]
+				if group_data.get("reapparition_au_combat", false):
+					group["reapparition_au_combat"] = true
 				map.groups.append(group)
 			elif _is_npc_char(character):
 				var npc: Dictionary = npcs_by_marker[character]
 				map.npcs.append({"id": npc["id"], "nom": npc["nom"], "case": cell, "repliques": npc["repliques"].duplicate(),
 					"marchand": npc.get("marchand", false), "explication": npc.get("explication", []).duplicate(),
-					"entree": npc.get("entree", {}).duplicate()})
+					"entree": npc.get("entree", {}).duplicate(), "don": npc.get("don", "")})
 			elif Profession.is_node_char(character):
 				map.resource_nodes[cell] = character
 				map.obstacles[cell] = LEGEND["E"] if character in FISHING_CHARS else RESOURCE_OBSTACLE

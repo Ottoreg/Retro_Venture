@@ -744,8 +744,13 @@ func _talk(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
 		return events
 	var gate: Dictionary = npc.get("entree", {})
 	var next_map: GameMap = _load_map(gate["carte"]) if not gate.is_empty() else null
-	if next_map != null and p.character.inventory.remove(gate["cle"]):
-		# Portier : la clé contre l'entrée (Tour céleste).
+	if not str(npc.get("don", "")).is_empty() and not p.gifts.has(npc["id"]) and data != null and data.items.has(npc["don"]):
+		# Un cadeau par visite de la carte (le Calice de Raphaël au sommet de la Tour céleste).
+		p.gifts.append(npc["id"])
+		p.character.inventory.add(data.items[npc["don"]])
+		events.append_array(_inventory_events(p))
+	if next_map != null and (str(gate.get("cle", "")).is_empty() or p.character.inventory.remove(gate["cle"])):
+		# Portier : la clé (s'il en faut une) contre l'entrée ; les gardiens des étages font sortir de la tour.
 		var others: Array[Dictionary] = []
 		_set_map(p, next_map, next_map.spawn, others)
 		_append_map_change(events, others, {"type": Protocol.EVT_MAP_CHANGED, "carte": p.map.id, "nom": p.map.display_name, "position": p.cell})
@@ -804,6 +809,7 @@ func _set_map(p: PlayerState, next_map: GameMap, player_cell: Vector2i, events: 
 	p.instance.add_player(p.id, player_cell, not p.hidden)
 	p.character.visit_map(next_map.id)
 	p.last_walk.clear()
+	p.gifts.clear()
 	if not others.is_empty():
 		events.append(_player_joined_event(p))
 	events.append_array(_party_events(p.party_leader))  # Les membres voient où il est.
@@ -812,7 +818,10 @@ func _set_map(p: PlayerState, next_map: GameMap, player_cell: Vector2i, events: 
 ## Un groupe qui n'est plus combattu (joueur vaincu ou parti) redevient visible pour les autres
 ## joueurs de la carte.
 func _release_group(instance: MapInstance, group_id: String, events: Array[Dictionary]) -> void:
-	if instance.groups.has(group_id) and instance.player_ids().size() > 1:
+	if instance.groups.get(group_id, {}).get("detache", false):
+		instance.groups.erase(group_id)  # Un groupe détaché disparaît : un autre a déjà repris sa place.
+		instance.positions.erase(group_id)
+	elif instance.groups.has(group_id) and instance.player_ids().size() > 1:
 		events.append({"type": Protocol.EVT_GROUP_RELEASED, "carte": instance.map.id, "groupe": group_view(instance.groups[group_id])})
 
 
@@ -893,6 +902,17 @@ func _engage(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
 		events.append(_moved_event(p, from, path))
 	p.cell = target
 	p.last_walk.clear()
+	var replaced: String = group_id
+	if group.get("reapparition_au_combat", false):
+		# Tour céleste : le groupe combattu se détache, un nouveau reviendra à sa place pendant le combat.
+		_schedule_respawn(p.map.id, group)
+		group_id = "%s_combat_%d" % [replaced, _combat_count]
+		group = group.duplicate(true)
+		group.merge({"id": group_id, "detache": true}, true)
+		p.instance.groups.erase(replaced)
+		p.instance.positions.erase(replaced)
+		p.instance.groups[group_id] = group
+		p.instance.positions[group_id] = target
 	p.combat = _create_combat(p, group)
 	p.last_combat = p.combat
 	p.combat_group = group_id
@@ -901,7 +921,8 @@ func _engage(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
 	if p.instance.player_ids().size() > 1:
 		# Le groupe et le joueur disparaissent pour les autres joueurs de la carte, qui voient les
 		# épées du combat (GDD § 16.5, M2).
-		events.append({"type": Protocol.EVT_GROUP_ENGAGED, "carte": p.map.id, "groupe": group_id, "entite": p.id, "case": target})
+		events.append({"type": Protocol.EVT_GROUP_ENGAGED, "carte": p.map.id, "groupe": group_id, "entite": p.id, "case": target,
+			"remplace": replaced})
 	var start_events := p.combat.start()
 	start_events[0]["groupe"] = group_id
 	events.append_array(start_events)
@@ -1653,7 +1674,7 @@ func _end_combat(p: PlayerState, events: Array[Dictionary]) -> void:
 		for monster_id: String in defeated["monstres"]:
 			if data != null and data.monsters.get(monster_id, {}).get("boss", false):
 				_boss_defeated(monster_id)
-		if not group_id.begins_with(ELITE_GROUP_PREFIX):
+		if not group_id.begins_with(ELITE_GROUP_PREFIX) and not defeated.get("detache", false):
 			_schedule_respawn(combat_map, defeated)
 		combat_instance.groups.erase(group_id)
 		combat_instance.positions.erase(group_id)
@@ -2333,7 +2354,10 @@ func _respawn_groups(events: Array[Dictionary]) -> void:
 				if group["id"] == group_id:
 					original = group
 			var here := instance.has_players()
-			if here and not original.is_empty() and original["case"] in instance.positions.values():
+			var taken := instance.positions.keys().filter(func(id: String) -> bool:  # Sans les combattants ni les groupes détachés.
+				return not instance.groups.get(id, {}).get("detache", false) and (player(id) == null or player(id).combat == null)) \
+				.map(func(id: String) -> Vector2i: return instance.positions[id])
+			if here and not original.is_empty() and original["case"] in taken:
 				waiting[group_id] = clock + RESPAWN_RETRY  # Un joueur (ou un groupe) est dessus : un peu plus tard.
 				continue
 			waiting.erase(group_id)

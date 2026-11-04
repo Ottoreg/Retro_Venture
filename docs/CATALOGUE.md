@@ -27,7 +27,7 @@ Prix de boutique : selon la rareté (revente à 25 %).
 - [Sorts de race](#sorts-de-race)
 - [Sorts des monstres](#sorts-des-monstres)
 
-**291 objets** (18 armes, 20 coiffes, 20 capes, 20 amulettes, 20 anneaux, 20 ceintures, 20 bottes, 110 ressources, 36 plans de forge, 7 objets de quête), **55 monstres** et **133 sorts**.
+**292 objets** (18 armes, 20 coiffes, 20 capes, 20 amulettes, 20 anneaux, 20 ceintures, 20 bottes, 111 ressources, 36 plans de forge, 7 objets de quête), **55 monstres** et **133 sorts**.
 
 ## Armes
 
@@ -296,6 +296,7 @@ Prix de boutique : selon la rareté (revente à 25 %).
 | **Dent de troll** | 16 | Commun | +3 Intelligence | boutique 4 brumes<br>butin : Troll gastronome 88 %, Troll des ponts 55 %<br>« La recette du troll » : sur Troll des ponts, Troll gastronome (50 %) | Grosse comme un poing, jaune comme un vieux fromage. Le troll en a d'autres. |
 | **Recette de troll** | 16 | Peu commun | +3 Perception | boutique 12 brumes<br>butin : Troll gastronome 48 %, Troll des ponts 12 %<br>« Droit de passage » : sur Troll des ponts, Troll gastronome (40 %)<br>« La recette du troll » : sur Troll des ponts, Troll gastronome (35 %) | « Aventurier rôti, trois façons. » Il manque la troisième, heureusement. |
 | **Aile de Raphaël** | 18 | Rare | +10 Soins Sacré | butin : Archange Raphaël 10 % | Elle guérit tout, sauf l'orgueil. |
+| **Calice toujours ruisselant** | 18 | Rare | — | **aucune** | Remis par l'Archange Raphaël au sommet de la tour. Gravé sous le pied : « Un disciple aux trente deniers garde une coupe vide pour les visiteurs. Il sait déjà ce qu'il y versera. » |
 | **Sacré cœur de Raphaël** | 18 | Légendaire | +30 Soins | butin : Archange Raphaël 0 % | Un cœur qui soigne tout ce qu'il touche. |
 | **Tunique déchirée de Raphaël** | 18 | Commun | +3 % Résistance Impie | butin : Archange Raphaël 55 % | L'Archange en a d'autres, il les fait laver au ciel. |
 | **Message intercepté** | 19 | Peu commun | +3 Agilité | boutique 12 brumes<br>butin : Corbac chef espion 48 %, Corbac espion 12 %<br>« Messages interceptés » : sur Corbac espion, Corbac chef espion (40 %) | « Rapport n° 412 : RAS. Rapport n° 413 : toujours RAS. Rapport n° 414 : j'ai faim. » |
@@ -1213,7 +1214,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Résistances** : aucune
 - **Sorts** : Baptême express
 - **Butin** : Plume de colombe 50 %, Bec de colombe 10 %, Squelette de colombe 0 % ; **brumes** 5–12
-- **Où le trouver** : Premier étage (`tour_celeste_1`, 1 groupe, dont 1 réapparition 30–45 s) · Deuxième étage (`tour_celeste_2`, 1 groupe, dont 1 réapparition 30–45 s) · Troisième étage (`tour_celeste_3`, 1 groupe, dont 1 réapparition 30–45 s) · Sommet, salle de l'Archange (`tour_celeste_5`, 1 groupe, dont 1 réapparition 60 s)
+- **Où le trouver** : Premier étage (`tour_celeste_1`, 1 groupe, dont 1 réapparition 5–10 s) · Deuxième étage (`tour_celeste_2`, 1 groupe, dont 1 réapparition 5–10 s) · Troisième étage (`tour_celeste_3`, 1 groupe, dont 1 réapparition 5–10 s) · Sommet, salle de l'Archange (`tour_celeste_5`, 1 groupe, dont 1 réapparition 5–10 s)
 
 | Niv. | PV | Init. | XP |
 |---|---|---|---|
@@ -1227,7 +1228,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Résistances** : aucune
 - **Sorts** : Trait de lumière, Glaive
 - **Butin** : Plume d'ange 35 %, Glaive brisé d'ange 12 %, Sacré cœur 0 % ; **brumes** 8–18
-- **Où le trouver** : Premier étage (`tour_celeste_1`, 1 groupe, dont 1 réapparition 30–45 s) · Deuxième étage (`tour_celeste_2`, 1 groupe, dont 1 réapparition 30–45 s) · Quatrième étage (`tour_celeste_4`, 1 groupe, dont 1 réapparition 30–45 s) · Sommet, salle de l'Archange (`tour_celeste_5`, 1 groupe, dont 1 réapparition 60 s)
+- **Où le trouver** : Premier étage (`tour_celeste_1`, 1 groupe, dont 1 réapparition 5–10 s) · Deuxième étage (`tour_celeste_2`, 1 groupe, dont 1 réapparition 5–10 s) · Quatrième étage (`tour_celeste_4`, 1 groupe, dont 1 réapparition 5–10 s) · Sommet, salle de l'Archange (`tour_celeste_5`, 1 groupe, dont 1 réapparition 5–10 s)
 
 | Niv. | PV | Init. | XP |
 |---|---|---|---|
@@ -1241,7 +1242,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Résistances** : aucune
 - **Sorts** : Griffe de Juda, Bond
 - **Butin** : Poil de crinière léonin 25 %, Croc de lion féroce 5 %, Cortex féral 0 % ; **brumes** 15–35
-- **Où le trouver** : Deuxième étage (`tour_celeste_2`, 1 groupe, dont 1 réapparition 30–45 s) · Troisième étage (`tour_celeste_3`, 1 groupe, dont 1 réapparition 30–45 s) · Quatrième étage (`tour_celeste_4`, 1 groupe, dont 1 réapparition 30–45 s) · Sommet, salle de l'Archange (`tour_celeste_5`, 1 groupe, dont 1 réapparition 60 s)
+- **Où le trouver** : Deuxième étage (`tour_celeste_2`, 1 groupe, dont 1 réapparition 5–10 s) · Troisième étage (`tour_celeste_3`, 1 groupe, dont 1 réapparition 5–10 s) · Quatrième étage (`tour_celeste_4`, 1 groupe, dont 1 réapparition 5–10 s) · Sommet, salle de l'Archange (`tour_celeste_5`, 1 groupe, dont 1 réapparition 5–10 s)
 
 | Niv. | PV | Init. | XP |
 |---|---|---|---|
@@ -1255,7 +1256,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Résistances** : aucune
 - **Sorts** : Bénédiction de Raphaël, Exorcisme
 - **Butin** : Tunique déchirée de Raphaël 55 %, Aile de Raphaël 10 %, Sacré cœur de Raphaël 0 % ; **brumes** 40–80
-- **Où le trouver** : Sommet, salle de l'Archange (`tour_celeste_5`, 1 groupe, dont 1 réapparition 60 s)
+- **Où le trouver** : Sommet, salle de l'Archange (`tour_celeste_5`, 1 groupe, dont 1 réapparition 5–10 s)
 
 | Niv. | PV | Init. | XP |
 |---|---|---|---|
