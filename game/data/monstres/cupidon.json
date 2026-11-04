@@ -1,0 +1,28 @@
+{
+  "id": "cupidon",
+  "nom": "Cupidon",
+  "description": "Un angelot à l'arc rouge. Il garde la clé de la tour et ne vise jamais le cœur.",
+  "donjon": true,
+  "butin": [
+    {
+      "objet": "cle_celeste",
+      "taux": 1.0
+    }
+  ],
+  "niveau": 3,
+  "caracteristiques": {
+    "pv": 25,
+    "pa": 4,
+    "pm": 3,
+    "initiative": 90
+  },
+  "sorts": [
+    "cupidon_fleche_cupide"
+  ],
+  "ia": "distance",
+  "xp": 30,
+  "ecus": [
+    2,
+    6
+  ]
+}

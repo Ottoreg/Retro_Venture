@@ -182,6 +182,13 @@ Fenêtre refaite le 03/11/2026 : sac en icônes à gauche, clic ou glisser vers 
 `resistance_<élément>` ; matières récoltées orientées (`docs/design/forge/matieres.py`).
 Plus tard : maîtres par catégorie (armurier, tailleur, cordonnier) qui donnent des plans par quêtes.
 
+**Tour céleste réduite (04/11/2026, sur `dev`, GDD § 12.8 « Version réduite »)** : parvis `celeste_0_0`
+(Pierre de Passage `tour_celeste`, Cupidon qui lâche la `cle_celeste`, portier Saint Pierrot : champ
+`entree` des PNJ), étages `tour_celeste_1` à `_5` (champ `etage_suivant` : les vainqueurs montent),
+monstres `donjon` sans élite, groupes de 4 (`GameMap.MAX_GROUP_SIZE`), vol de vie (`"vol"` sur un
+effet de dégâts), état `exorcisme`, IA `corps_a_corps` et `chasseur`, bond des monstres à sort de
+téléportation ; données par `docs/design/tour_celeste/produire.py`. Valeurs provisoires.
+
 Dernière session (retours de la passe de l'auteur) :
 
 - Retours de test : bulle de dialogue sous le bandeau, suivi de quête repliable, ligne de vue sur

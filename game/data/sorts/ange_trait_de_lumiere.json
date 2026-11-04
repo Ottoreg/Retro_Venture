@@ -1,0 +1,23 @@
+{
+  "id": "ange_trait_de_lumiere",
+  "nom": "Trait de lumière",
+  "description": "Un rayon sacré, tiré de loin par prudence.",
+  "cout_pa": 4,
+  "portee": {
+    "min": 2,
+    "max": 7
+  },
+  "ligne_de_vue": true,
+  "relance": {
+    "par_tour": 1,
+    "delai": 0
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "sacre",
+      "min": 25,
+      "max": 25
+    }
+  ]
+}

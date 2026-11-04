@@ -1,0 +1,22 @@
+{
+  "id": "colombe_baptiste",
+  "nom": "Colombe baptiste",
+  "description": "Elle bénit d'un coup de bec, puis s'enfuit à tire-d'aile.",
+  "donjon": true,
+  "niveau": 6,
+  "caracteristiques": {
+    "pv": 30,
+    "pa": 4,
+    "pm": 10,
+    "initiative": 140
+  },
+  "sorts": [
+    "colombe_bapteme"
+  ],
+  "ia": "distance",
+  "xp": 70,
+  "ecus": [
+    5,
+    12
+  ]
+}

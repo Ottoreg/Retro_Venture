@@ -2361,6 +2361,25 @@ une tour inversée qui s'enfonce dans le sous-sol. Pour commencer, **une de chaq
   réputation, en brumes et en ressources rares, **à chaque fin** (pas seulement la première). À
   tester : qu'une équipe qui farme une tour ne gagne pas trop.
 
+**Version réduite jouable (04/11/2026, demande de l'auteur)** : la Tour céleste en **5 étages**, sur
+des cartes à part, par la Pierre de Passage « Tour céleste » (comme le Trône de Cendre). Au **parvis**
+(`celeste_0_0`), **Cupidon** (25 PV, 4 PA, 3 PM, *Flèche cupide* : vole 10 PV en Flamme à 5 PO,
+4 PA) lâche la **clé céleste** à 100 % ; **Saint Pierrot** fait entrer contre une clé. Chaque victoire
+fait monter d'un étage (`etage_suivant` de la carte) ; au sommet, retour au parvis. Monstres de la
+tour (`donjon` : sans élite) :
+
+| Monstre | PV / PA / PM | Sorts | IA |
+|---|---|---|---|
+| Ange | 50 / 6 / 4 | *Trait de lumière* 25 Sacré, 2 à 7 PO, 4 PA ; *Glaive* 20 Acier au contact, 3 PA, 2 par tour | `corps_a_corps` : va au contact pour frapper deux fois |
+| Colombe baptiste | 30 / 4 / 10 | *Baptême express* 10 Sacré, 1 à 2 PO, 4 PA | `distance` : frappe puis fuit au maximum, sinon court vers l'ennemi |
+| Lion de Juda | 150 / 5 / 3 | *Griffe de Juda* 1 à 50 Sacré au contact, 5 PA ; *Bond* 1 à 3 PO, 4 PA, un tour sur deux | `chasseur` : frappe l'ennemi le plus faible qu'il peut atteindre, bondit s'il ne peut frapper personne |
+| Archange Raphaël (mini-boss) | 120 / 6 / 5 | *Bénédiction de Raphaël* soin 20 Sacré aux alliés en croix (comme le *Sermon*), 3 PA, 1 par tour ; *Exorcisme* au contact, 3 PA, 1 par tour : état « exorcisme » (2 tours), les prochains dégâts Sacré achèvent la cible | `corps_a_corps` ; ne soigne que les blessés |
+
+Étages : 1) 3 colombes et 1 ange ; 2) 1 lion, 2 anges, 1 colombe ; 3) 3 lions, 1 colombe ; 4) 3 anges,
+1 lion ; 5) l'Archange, 1 ange, 1 lion, 1 colombe. Les groupes de la tour ont 4 monstres (un groupe en
+a désormais 4 au plus, `GameMap.MAX_GROUP_SIZE`). Données produites par
+`docs/design/tour_celeste/produire.py`.
+
 ### 12.9 Décisions (validées par l'auteur le 03/11/2026)
 
 Les règles des § 12.7 et 12.8 sont aussi validées (vagues, défaites, paliers, clés, pas de guilde,

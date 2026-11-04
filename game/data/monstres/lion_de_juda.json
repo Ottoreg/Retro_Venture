@@ -1,0 +1,23 @@
+{
+  "id": "lion_de_juda",
+  "nom": "Lion de Juda",
+  "description": "Il ne mange que les pécheurs. Les plus faibles d'abord.",
+  "donjon": true,
+  "niveau": 15,
+  "caracteristiques": {
+    "pv": 150,
+    "pa": 5,
+    "pm": 3,
+    "initiative": 70
+  },
+  "sorts": [
+    "lion_griffe_de_juda",
+    "lion_bond"
+  ],
+  "ia": "chasseur",
+  "xp": 200,
+  "ecus": [
+    15,
+    35
+  ]
+}

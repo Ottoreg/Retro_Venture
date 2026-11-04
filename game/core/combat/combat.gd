@@ -630,7 +630,12 @@ func _apply_effect(caster: Fighter, target: Fighter, effect: Dictionary, events:
 			target.pm_malus += amount
 			events.append({"type": Protocol.EVT_STATUS, "entite": target.id, "effet": Spell.EFFECT_REMOVE_PM, "valeur": amount, "pa": target.pa, "pm": target.pm})
 		Spell.EFFECT_DAMAGE:
+			var hp_before := target.hp
 			_hurt(target, damage_value(caster, target, effect["element"], amount), effect["element"], events)
+			var stolen := mini(hp_before - target.hp, caster.max_hp - caster.hp)
+			if effect.get("vol", false) and caster.is_alive() and stolen > 0 and not caster.has_state(Spell.STATE_UNHEALABLE):
+				caster.hp += stolen  # Vol de vie : le lanceur reprend les PV qu'il a fait perdre.
+				events.append({"type": Protocol.EVT_HEAL, "entite": caster.id, "valeur": stolen, "element": effect["element"], "pv": caster.hp})
 		Spell.EFFECT_SHIELD:
 			amount = roundi(amount * (100 + caster.power(effect["element"])) / 100.0)
 			target.shield += amount
@@ -756,6 +761,11 @@ func spell_preview(fighter: Fighter, spell: Spell, target: Vector2i) -> Dictiona
 ## Pratique : des PV perdus par un ennemi comptent pour le sort en cours, des dégâts absorbés pour
 ## celui qui a posé le bouclier, et un joueur note les PV qu'il perd (Vitalité).
 func _hurt(target: Fighter, amount: int, element: String, events: Array[Dictionary], source := "") -> void:
+	if element == "sacre" and target.has_state(Spell.STATE_EXORCISM):
+		# Exorcisme : les premiers dégâts Sacré achèvent la cible, bouclier compris.
+		amount = target.hp + target.shield
+		target.states.assign(target.states.filter(func(state: Dictionary) -> bool: return state.get("etat") != Spell.STATE_EXORCISM))
+		events.append(_states_event(target))
 	var absorbed := mini(target.shield, amount)
 	target.shield -= absorbed
 	amount -= absorbed
