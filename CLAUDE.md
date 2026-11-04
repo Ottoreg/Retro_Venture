@@ -188,7 +188,7 @@ Plus tard : maîtres par catégorie (armurier, tailleur, cordonnier) qui donnent
 monstres `donjon` sans élite, groupes de 4 (`GameMap.MAX_GROUP_SIZE`), vol de vie (`"vol"` sur un
 effet de dégâts), état `exorcisme`, IA `corps_a_corps` et `chasseur`, sorts remplacés quand un monstre reste seul (champ `seul`), bond des monstres à sort de
 téléportation ; groupes revenus 5 à 10 s après le début du combat (`reapparition_au_combat`), clé `par_joueur`,
-Gardien des marches (`entree` sans clé) à chaque étage, Chœur de Raphaël (PNJ `don` : Calice toujours ruisselant) ;
+Gardien des marches (`entree` sans clé) à chaque étage, Chœur de Raphaël (PNJ `don` : Calice toujours ruisselant) ; easter egg `secret` de Saint Pierrot (4 légendaires contre 1 million de brumes, à retirer avant la sortie) ;
 12 ressources à `valeur` fixe à la forge, lignes Soins (`Fighter.soins`, `element_soins`),
 Dommages/Résistance Sacré et Impie, `degats_devastateurs` (`Combat._devastate`) ; données par `docs/design/tour_celeste/produire.py`. Valeurs provisoires.
 

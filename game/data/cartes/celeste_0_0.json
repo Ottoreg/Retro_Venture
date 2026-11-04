@@ -60,6 +60,19 @@
       "entree": {
         "carte": "tour_celeste_1",
         "cle": "cle_celeste"
+      },
+      "secret": {
+        "objets": [
+          "squelette_de_colombe",
+          "sacre_coeur",
+          "cortex_feral",
+          "sacre_coeur_de_raphael"
+        ],
+        "ecus": 1000000,
+        "repliques": [
+          "… Psst. Approchez. C'est bien ce que je crois ? Les quatre trésors de la tour ?",
+          "Ne dites rien à l'Archange. Je vous les prends, et voici un million de brumes. Le paradis a des fonds secrets, vous savez."
+        ]
       }
     }
   ],

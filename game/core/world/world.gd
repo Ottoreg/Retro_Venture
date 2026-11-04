@@ -744,6 +744,16 @@ func _talk(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
 		return events
 	var gate: Dictionary = npc.get("entree", {})
 	var next_map: GameMap = _load_map(gate["carte"]) if not gate.is_empty() else null
+	var secret: Dictionary = npc.get("secret", {})
+	if not secret.is_empty() and secret["objets"].all(func(id: String) -> bool: return p.character.inventory.quantity_of(id) > 0):
+		# Easter egg de l'alpha et de la bêta (à retirer avant la sortie) : les objets contre des brumes.
+		for id: String in secret["objets"]:
+			p.character.inventory.remove(id)
+		p.character.inventory.ecus += int(secret["ecus"])
+		events.append({"type": Protocol.EVT_DIALOGUE, "pnj": npc["id"], "nom": npc["nom"], "case": npc_cell,
+			"repliques": secret["repliques"].duplicate(), "explication": []})
+		events.append_array(_inventory_events(p))
+		return events
 	if not str(npc.get("don", "")).is_empty() and not p.gifts.has(npc["id"]) and data != null and data.items.has(npc["don"]):
 		# Un cadeau par visite de la carte (le Calice de Raphaël au sommet de la Tour céleste).
 		p.gifts.append(npc["id"])

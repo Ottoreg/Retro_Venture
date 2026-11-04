@@ -85,6 +85,22 @@ func test_cupidon_donne_une_cle_a_chaque_joueur() -> void:
 		assert_eq(loot[player_id].filter(func(drop: Dictionary) -> bool: return drop["objet"] == "cle_celeste").size(), 1, player_id)
 
 
+func test_le_secret_de_saint_pierrot() -> void:
+	var world := _world("celeste_0_0")
+	var talk := {"type": Protocol.CMD_TALK, "entite": World.PLAYER_ID, "pnj": "saint_pierrot"}
+	var legendary := ["squelette_de_colombe", "sacre_coeur", "cortex_feral", "sacre_coeur_de_raphael"]
+	for id: String in legendary.slice(1):
+		world.character.inventory.add(_data.items[id])
+	var ecus := world.character.inventory.ecus
+	world.execute(talk)
+	assert_eq(world.character.inventory.ecus, ecus, "il en manque une : rien")
+	world.character.inventory.add(_data.items[legendary[0]], 2)
+	var events := world.execute(talk)
+	assert_true(Fixtures.of_type(events, Protocol.EVT_DIALOGUE)[0]["repliques"][1].contains("million"), "le dialogue secret")
+	assert_eq(world.character.inventory.ecus, ecus + 1000000, "un million de brumes")
+	assert_eq(legendary.map(func(id: String) -> int: return world.character.inventory.quantity_of(id)), [1, 0, 0, 0], "une de chaque reprise")
+
+
 func test_le_gardien_fait_sortir_sans_cle() -> void:
 	var world := _world("tour_celeste_3")
 	var events := world.execute({"type": Protocol.CMD_TALK, "entite": World.PLAYER_ID, "pnj": "gardien_celeste"})

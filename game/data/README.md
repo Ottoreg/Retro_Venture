@@ -172,6 +172,10 @@ ramène au parvis).
 `don` (facultatif, id d'objet) : le PNJ donne cet objet une fois par visite de sa carte, puis dit ses
 répliques (Raphaël et le Calice toujours ruisselant, au sommet de la Tour céleste).
 
+`secret` (facultatif, `{"objets": [ids], "ecus": n, "repliques": [textes]}`) : si le joueur a au moins un
+exemplaire de chacun de ces objets, le PNJ les lui reprend, lui donne `ecus` brumes et dit ces répliques
+(easter egg de l'alpha et de la bêta sur Saint Pierrot, **à retirer avant la sortie**).
+
 `explication` (facultatif, liste de textes) : à la dernière réplique, la bulle propose « Oui,
 expliquez-moi » et montre ces textes si le joueur accepte (un clic ailleurs refuse). Les forgerons
 indiquent ainsi l'enclume de la maison et expliquent la forge.
