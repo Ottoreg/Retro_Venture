@@ -296,7 +296,7 @@ Prix de boutique : selon la rareté (revente à 25 %).
 | **Dent de troll** | 16 | Commun | +3 Intelligence | boutique 4 brumes<br>butin : Troll gastronome 88 %, Troll des ponts 55 %<br>« La recette du troll » : sur Troll des ponts, Troll gastronome (50 %) | Grosse comme un poing, jaune comme un vieux fromage. Le troll en a d'autres. |
 | **Recette de troll** | 16 | Peu commun | +3 Perception | boutique 12 brumes<br>butin : Troll gastronome 48 %, Troll des ponts 12 %<br>« Droit de passage » : sur Troll des ponts, Troll gastronome (40 %)<br>« La recette du troll » : sur Troll des ponts, Troll gastronome (35 %) | « Aventurier rôti, trois façons. » Il manque la troisième, heureusement. |
 | **Aile de Raphaël** | 18 | Rare | +10 Soins Sacré | butin : Archange Raphaël 10 % | Elle guérit tout, sauf l'orgueil. |
-| **Calice toujours ruisselant** | 18 | Rare | — | **aucune** | Remis par l'Archange Raphaël au sommet de la tour. Gravé sous le pied : « Un disciple aux trente deniers garde une coupe vide pour les visiteurs. Il sait déjà ce qu'il y versera. » |
+| **Calice toujours ruisselant** | 18 | Rare | — | **aucune** | Remis par l'Archange Raphaël au sommet de la tour. Gravé sous le pied : « Un disciple aux trente brumes garde une coupe vide pour les visiteurs. Il sait déjà ce qu'il y versera. » |
 | **Sacré cœur de Raphaël** | 18 | Légendaire | +30 Soins | butin : Archange Raphaël 0 % | Un cœur qui soigne tout ce qu'il touche. |
 | **Tunique déchirée de Raphaël** | 18 | Commun | +3 % Résistance Impie | butin : Archange Raphaël 55 % | L'Archange en a d'autres, il les fait laver au ciel. |
 | **Message intercepté** | 19 | Peu commun | +3 Agilité | boutique 12 brumes<br>butin : Corbac chef espion 48 %, Corbac espion 12 %<br>« Messages interceptés » : sur Corbac espion, Corbac chef espion (40 %) | « Rapport n° 412 : RAS. Rapport n° 413 : toujours RAS. Rapport n° 414 : j'ai faim. » |
@@ -1196,7 +1196,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 
 *Un angelot à l'arc rouge. Il garde la clé de la tour et ne vise jamais le cœur.*
 
-- **Niveau** : 3 (fixe) ; **4 PA, 3 PM** ; IA distance
+- **Niveau** : 3 (fixe) ; **4 PA, 3 PM** ; IA tireur
 - **Résistances** : aucune
 - **Sorts** : Flèche cupide
 - **Butin** : Clé céleste 100 % ; **brumes** 2–6

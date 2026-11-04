@@ -2363,14 +2363,15 @@ une tour inversée qui s'enfonce dans le sous-sol. Pour commencer, **une de chaq
 
 **Version réduite jouable (04/11/2026, demande de l'auteur)** : la Tour céleste en **5 étages**, sur
 des cartes à part, par la Pierre de Passage « Tour céleste » (comme le Trône de Cendre). Au **parvis**
-(`celeste_0_0`), **Cupidon** (25 PV, 4 PA, 3 PM, *Flèche cupide* : vole 10 PV en Flamme à 5 PO,
+(`celeste_0_0`), **Cupidon** (25 PV, 4 PA, 3 PM, IA `tireur` : tire de sa portée maximale et reste sur place,
+*Flèche cupide* : vole 10 PV en Flamme à 5 PO,
 4 PA) lâche la **clé céleste** à 100 %, une à chaque membre du groupe (`par_joueur`) ; **Saint Pierrot**
 fait entrer contre une clé. Chaque victoire fait monter d'un étage (`etage_suivant` de la carte). Salles
 partagées pour l'instant : le groupe d'une salle revient 5 à 10 s après le **début** du combat
 (`reapparition_au_combat`). À chaque étage, le **Gardien des marches** ramène au parvis (aucune avancée
 gardée). Après l'Archange, le **Chœur de Raphaël** (`tour_celeste_sommet`) : Raphaël, devenu PNJ, remet
 le **Calice toujours ruisselant** (ressource sans effet, une fois par visite, champ `don` des PNJ), dont
-le texte annonce l'étage suivant : « Gravé sous le pied : un disciple aux trente deniers garde une coupe
+le texte annonce l'étage suivant : « Gravé sous le pied : un disciple aux trente brumes garde une coupe
 vide pour les visiteurs. Il sait déjà ce qu'il y versera. » Monstres de la tour (`donjon` : sans élite) :
 
 | Monstre | PV / PA / PM | Sorts | IA |

@@ -44,7 +44,7 @@ ecrire("objets", {"id": "cle_celeste", "nom": "Clé céleste", "type": "quete", 
 ecrire("objets", {"id": "calice_toujours_ruisselant", "nom": "Calice toujours ruisselant", "type": "ressource", "rarete": "rare",
                   "niveau": 18, "boutique": False,
                   "description": "Remis par l'Archange Raphaël au sommet de la tour. Gravé sous le pied : « Un disciple aux "
-                                 "trente deniers garde une coupe vide pour les visiteurs. Il sait déjà ce qu'il y versera. »"})
+                                 "trente brumes garde une coupe vide pour les visiteurs. Il sait déjà ce qu'il y versera. »"})
 ecrire("passages", {"id": "tour_celeste", "nom": "Tour céleste", "carte": "celeste_0_0", "prix": 0, "toujours_connue": True})
 
 
@@ -85,7 +85,7 @@ def monstre(id, nom, description, niveau, pv, pa, pm, initiative, sorts, ia, xp,
 
 
 monstre("cupidon", "Cupidon", "Un angelot à l'arc rouge. Il garde la clé de la tour et ne vise jamais le cœur.",
-        3, 25, 4, 3, 90, ["cupidon_fleche_cupide"], "distance", 30, [2, 6], donjon=True,
+        3, 25, 4, 3, 90, ["cupidon_fleche_cupide"], "tireur", 30, [2, 6], donjon=True,
         butin=[{"objet": "cle_celeste", "taux": 1.0, "par_joueur": True}])
 monstre("ange", "Ange", "Il a fait vœu de paix. Il a aussi un glaive.", 9, 50, 6, 4, 100,
         ["ange_trait_de_lumiere", "ange_glaive"], "corps_a_corps", 110, [8, 18], donjon=True)
