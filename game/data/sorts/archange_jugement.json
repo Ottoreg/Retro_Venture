@@ -1,0 +1,29 @@
+{
+  "id": "archange_jugement",
+  "nom": "Jugement dernier",
+  "description": "Seul, l'Archange frappe tout ce qui l'entoure.",
+  "cout_pa": 3,
+  "portee": {
+    "min": 0,
+    "max": 0
+  },
+  "ligne_de_vue": true,
+  "relance": {
+    "par_tour": 1,
+    "delai": 0
+  },
+  "zone": {
+    "type": "cercle",
+    "taille": 1
+  },
+  "lanceur_exclu": true,
+  "effets": [
+    {
+      "type": "degats",
+      "element": "sacre",
+      "min": 25,
+      "max": 25,
+      "cibles": "ennemis"
+    }
+  ]
+}

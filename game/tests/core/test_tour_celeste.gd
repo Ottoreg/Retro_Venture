@@ -127,11 +127,22 @@ func test_le_lion_vise_le_plus_faible_et_bondit() -> void:
 	assert_true(lion.cast_blocker(lion.get_spell("lion_bond")).is_empty(), "un tour sur deux")
 
 
-func test_l_archange_soigne_seulement_les_blesses() -> void:
+func test_l_archange_exorcise_d_abord_puis_soigne_ou_juge() -> void:
 	var combat := _fight([["archange_raphael", C], ["ange", C + Vector2i(0, 3)], ["joueur", C + Vector2i(1, 0)]])
 	var archange := combat.get_fighter("m0")
+	var ange := combat.get_fighter("m1")
+	ange.hp = 20
 	var cast := CombatAI.best_cast(combat, archange, C)
-	assert_eq(cast["sort"], "archange_exorcisme", "tout le monde a ses PV : pas de soin")
+	assert_eq(cast["sort"], "archange_exorcisme", "l'Exorcisme avant le soin")
 	combat._apply_action(archange, cast)
-	combat.get_fighter("m1").hp = 20
 	assert_eq(CombatAI.best_cast(combat, archange, C)["sort"], "archange_benediction", "puis il soigne l'ange blessé")
+	ange.hp = ange.max_hp
+	assert_true(CombatAI.best_cast(combat, archange, C).is_empty(), "pas de soin si tout le monde a ses PV")
+	var events: Array[Dictionary] = []
+	combat._hurt(ange, 999, "acier", events)
+	assert_eq(Fixtures.of_type(events, Protocol.EVT_PHASE).size(), 1, "seul, il change de sort")
+	assert_true(archange.get_spell("archange_benediction") == null)
+	cast = CombatAI.best_cast(combat, archange, C)
+	assert_eq(cast["sort"], "archange_jugement", "Jugement dernier autour de lui")
+	combat._apply_action(archange, cast)
+	assert_false(combat.get_fighter("p2").is_alive(), "qui achève la cible exorcisée")

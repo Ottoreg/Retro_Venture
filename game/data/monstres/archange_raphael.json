@@ -3,6 +3,12 @@
   "nom": "Archange Raphaël",
   "description": "Le chef de chœur de la tour : il soigne les siens et exorcise les autres.",
   "boss": true,
+  "seul": {
+    "message": "« Plus personne à bénir ? Alors, jugement ! »",
+    "remplace": {
+      "archange_benediction": "archange_jugement"
+    }
+  },
   "niveau": 18,
   "caracteristiques": {
     "pv": 120,

@@ -794,9 +794,22 @@ func _hurt(target: Fighter, amount: int, element: String, events: Array[Dictiona
 	events.append(event)
 	if not target.is_alive():
 		events.append({"type": Protocol.EVT_DIED, "entite": target.id})
+		_check_alone(target.team, events)
 		_remove_ground_of(target, events)
 	else:
 		_check_phases(target, events)
+
+
+## Dernier en vie de son camp : un monstre à sorts « seul » les échange (Archange Raphaël), une fois.
+func _check_alone(team: int, events: Array[Dictionary]) -> void:
+	var alive := fighters.filter(func(fighter: Fighter) -> bool: return fighter.team == team and fighter.is_alive())
+	if alive.size() != 1 or (alive[0] as Fighter).alone_spells.is_empty():
+		return
+	var last: Fighter = alive[0]
+	for i in last.spells.size():
+		last.spells[i] = last.alone_spells.get(last.spells[i].id, last.spells[i])
+	last.alone_spells = {}
+	events.append({"type": Protocol.EVT_PHASE, "entite": last.id, "message": last.alone_message})
 
 
 ## Phases d'un monstre (voir `Fighter.phases`) : chaque seuil de PV atteint ou franchi (en % des PV
