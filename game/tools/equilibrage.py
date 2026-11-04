@@ -116,6 +116,7 @@ def metiers_md():
     forge = "items/forge.gd"
     max_res, jet_bas, rep_palier = (constante(forge, n) for n in ("MAX_SLOTS", "ROLL_LOW", "REPUTATION_PER_TIER"))
     fixes, poids, types = constante(forge, "FIXED_STATS"), constante(forge, "STAT_WEIGHTS"), constante(forge, "TYPES")
+    facteur_rare = constante(forge, "RARE_FACTOR")
     score_ligne, max_lignes = constante(forge, "MAX_LINE_SCORE"), constante(forge, "MAX_LINES")
 
     def temps(palier, rang=0):  # Profession.harvest_time
@@ -124,8 +125,8 @@ def metiers_md():
     def gain(base, palier, niveau):  # Profession.reputation_gain (sans bonus de race)
         return round(base * 2 * difficulte(palier, niveau))
 
-    def valeur(carac, palier):  # Forge.value
-        return 1 if carac in fixes else max(1, int((1 + palier / 8) * poids[carac] + 0.5))
+    def valeur(carac, palier, rare=False):  # Forge.value
+        return 1 if carac in fixes else max(1, int((1 + palier / 8) * poids[carac] + 0.5)) * (facteur_rare if rare else 1)
 
     def plafond(carac):  # Forge.line_cap
         return 1 if carac in fixes else int(score_ligne * poids[carac])
@@ -208,7 +209,7 @@ def metiers_md():
                "`core/items/forge.gd` (GDD § 10.4). À l'enclume de la maison, on choisit un type d'objet et on y",
                "pose **%d ressources différentes au plus** (les cases de la recette, quantité libre), matières obligatoires comprises. Chaque ressource de monstre donne" % max_res,
                "une caractéristique (plusieurs pour certaines ressources de haut palier, chacune à sa valeur pleine)",
-               "selon son palier. Une ligne vaut au plus **%d points de score** (en points de Force, `Forge.line_cap`)" % score_ligne,
+               "selon son palier. Une ligne vaut au plus **%d points de score** (`Forge.line_cap`)" % score_ligne,
                "et un objet a au plus **%d lignes**. Le palier de l'objet est la moyenne des paliers (pondérée" % max_lignes,
                "par les quantités) ; les jets sont tirés entre %d %% et 100 %% du total (plus avec Précision)." % round(jet_bas * 100),
                "%s : 1 par ressource quel que soit le palier, 1 au plus par objet. La caractéristique d'une ressource" % ", ".join(
@@ -216,8 +217,8 @@ def metiers_md():
                "n'est lisible qu'après un premier objet forgé, et seulement si le niveau équivalent de la réputation",
                "de forgeron atteint son palier (`Forge.reveals`). Réputation : %d × palier de l'objet en base." % rep_palier, "",
                "### Valeur d'une ressource", "",
-               "`Forge.value` : max(1, arrondi((1 + palier / 8) × poids)) ; poids = points de la caractéristique",
-               "pour un point de Force.", ""]
+               "`Forge.value` : max(1, arrondi((1 + palier / 8) × poids)), **× %d pour une ressource rare** ; poids = points de" % facteur_rare,
+               "la caractéristique pour un point de score (le tableau donne la valeur d'une ressource non rare).", ""]
     paliers_res = sorted({o["niveau"] for o in objets.values() if o.get("caracteristique")} | {1})
     lignes += table(["Caractéristique", "Poids", "Plafond d'une ligne"] + ["P%d" % p for p in paliers_res],
                     [[CARACS[c], nombre(float(w)), plafond(c)] + [valeur(c, p) for p in paliers_res] for c, w in poids.items()]
@@ -250,7 +251,7 @@ def metiers_md():
             "%s %d %%%s" % (nom_monstre(m), round(t * 100), " ×%s" % plage(*q) if q != [1, 1] else "")
             for t, m, q in sorted(butins.get(o["id"], []), key=lambda x: -x[0])]
         rangs.append(["**%s**" % o["nom"], o["niveau"], o["rarete"], ", ".join(CARACS[c] for c in cs) or "—",
-                      ", ".join("+%d" % valeur(c, o["niveau"]) for c in cs) or "—", o.get("matiere", "—"), "<br>".join(sources) or "**aucune**"])
+                      ", ".join("+%d" % valeur(c, o["niveau"], o["rarete"] == "rare") for c in cs) or "—", o.get("matiere", "—"), "<br>".join(sources) or "**aucune**"])
     lignes += table(["Ressource", "Palier", "Rareté", "Caractéristique", "Valeur", "Matière", "Obtention"], rangs)
     total = {}
     for o in ressources:
@@ -269,7 +270,7 @@ def metiers_md():
             res = objets.get(i, {})
             somme, nb = somme + n * res.get("niveau", 1), nb + n
             for c in caracs(res):
-                bonus[c] = bonus.get(c, 0) + n * valeur(c, res.get("niveau", 1))
+                bonus[c] = bonus.get(c, 0) + n * valeur(c, res.get("niveau", 1), res.get("rarete") == "rare")
         bonus = {c: min(plafond(c), v) for c, v in bonus.items()}
         jets = ", ".join("%s %s" % (CARACS[c], "1" if c in fixes else plage(max(1, int(v * jet_bas + 0.5)), v)) for c, v in bonus.items())
         if len(bonus) > max_lignes:

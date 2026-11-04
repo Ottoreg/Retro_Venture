@@ -1969,7 +1969,9 @@ compris) et les recettes du forgeron sont supprimés, tout le reste se forge.
   et **une caractéristique**, répartie par tourniquet pondéré : élémentaires à égalité (7 chacune),
   Vitalité 5, Initiative 4, Prospection 2, Dommages 2, Critique 1 ; **PA** (corne du Balourd,
   fragment de cendre), **PM** (soie de la Mère-Toile), **Portée** (éclat de cendre) : toujours 1,
-  une ligne au plus par objet. Valeur : max(1, arrondi((1 + palier / 8) × poids)), poids 1 pour les
+  une ligne au plus par objet. Valeur : max(1, arrondi((1 + palier / 8) × poids)), **× 3 pour une ressource rare** quel que soit son
+  palier (sauf PA, PM et Portée ; demande de l'auteur du 04/11/2026), poids (points de la caractéristique
+  pour un point de score) 1 pour les
   élémentaires, 4 Vitalité, 10 Initiative, 0,34 Prospection et Dommages, 0,1 Critique (d'après le
   score plus bas). **Matières récoltées orientées** (demandes de l'auteur du 03/11/2026,
   `docs/design/forge/matieres.py`) : minerais et bois communs donnent une caractéristique élémentaire
@@ -1979,14 +1981,15 @@ compris) et les recettes du forgeron sont supprimés, tout le reste se forge.
   l'Initiative, le **lin** la Prospection, leurs rares **+1 Portée** ; les tissus de monstres sont
   élémentaires (fil de brume : Perception), la soie de la Mère-Toile garde ses PM. Nouvelles lignes
   d'équipement : **Dommages Acier, Flamme, Givre, Tempête** (ajoutés aux dégâts de l'élément ; Sacré et
-  Impie : la moyenne de leurs deux éléments ; 0,5 point par point de Force, 50 par ligne) et **%
-  Résistance** aux mêmes éléments (0,2, 20 % par ligne ; à passer à 8 points par %, soit 12 % au plus, décision du 03/11/2026). Quelques ressources de monstres ont une matière (peaux, cuir et ailes : cuir) ;
+  Impie : la moyenne de leurs deux éléments ; 0,5 point par point de score, 50 par ligne) et **%
+  Résistance** aux mêmes éléments (8 points de score par %, poids 0,125, donc 12 % au plus par ligne). Quelques ressources de monstres ont une matière (peaux, cuir et ailes : cuir) ;
   le **tissu** ne vient que de la récolte (lin, chanvre) : poils, paille, fils, soie et plumes gardent leur
   caractéristique de forge mais ne sont plus du tissu (les plans de coiffe et de cape prennent un lin ou un
   chanvre). **Résistance d'équipement des joueurs plafonnée à 60 %** par élément (`Fighter.MAX_RESISTANCE`) ;
   les monstres et les effets de combat n'ont pas ce plafond.
-- **Limites** (demande de l'auteur, 02/11/2026) : **100 points de score par ligne** au plus (100 Force,
-  400 Vitalité, 1 000 Initiative, 34 Prospection ou Dommages, 10 Critique ; 1 PA, PM ou Portée) et
+- **Limites** (demande de l'auteur, 02/11/2026) : **100 points de score par ligne** au plus, plafond qui découle du poids (100 Force,
+  400 Vitalité, 1 000 Initiative, 34 Prospection ou Dommages, 10 Critique, 12 % de résistance ; 1 PA, PM ou Portée ; les ressources en trop sont perdues, sans refus :
+  les joueurs apprennent de leurs erreurs, demande de l'auteur du 04/11/2026) et
   **8 lignes par objet** au plus (forge refusée au-delà, `trop_de_lignes`). Seules les **essences**
   (§ 9.2, à venir) pourront dépasser le plafond d'une ligne. Une ressource de haut palier peut donner
   **plusieurs caractéristiques** (`caracteristique` en liste, chacune à sa valeur pleine ; par exemple
