@@ -63,6 +63,14 @@ func test_ordre_par_initiative() -> void:
 	assert_eq(combat.round_number, 1)
 
 
+## Comme Dofus : les camps alternent, le surplus d'un camp joue à la fin.
+func test_ordre_alterne_les_camps() -> void:
+	var combat := Fixtures.combat(Fixtures.map(), C, [["rapide", C + Vector2i(3, 0)], ["rapide", C + Vector2i(0, 3)],
+		["mannequin", C + Vector2i(-3, 0)]])
+	combat.start()
+	assert_eq(combat.execute(Fixtures.cmd(Protocol.CMD_READY))[0]["ordre"], ["m0", Fixtures.PLAYER, "m1", "m2"] as Array[String])
+
+
 # --- Déplacements ---
 
 func test_deplacement_et_pm() -> void:

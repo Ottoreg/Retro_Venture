@@ -195,6 +195,8 @@ Les sorts se consultent dans leur fenêtre (S).
 
 ### Combat (au tour par tour)
 
+- **Ordre de jeu** : par initiative, en alternant les camps comme dans Dofus (un personnage, un monstre…) ;
+  le camp le plus nombreux finit le tour avec ses combattants en trop.
 1. **Placement** : comme dans Dofus, chaque carte a ses cases de départ, toujours les mêmes, où que
    vous ayez engagé le groupe : deux côtés, un par camp, et le côté de chacun est **tiré au sort** à
    chaque combat (les vôtres en cercles bleus). Cliquez sur un cercle bleu pour choisir votre case, puis **Prêt**. Après le combat, vous
