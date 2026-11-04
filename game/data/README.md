@@ -462,6 +462,10 @@ Tout monstre peut avoir des `phases`, déclenchées quand ses PV tombent à un s
 | `sorts` | Facultatif. Sorts qu'il apprend pour le reste du combat |
 | `effets` | Facultatif. Effets qu'il s'applique (il en est le lanceur) : mêmes formats que les effets des sorts (`bonus`, `malus`, `bouclier`, `gain_pa`, `poison`…), sans glyphe, piège, téléportation, poussée ni attirance, et **sans soin** |
 
+`seul` (facultatif) : `{"message": texte, "remplace": {"sort du monstre": "autre sort"}}`. Quand le
+monstre reste le dernier en vie de son camp, ces sorts sont remplacés (une fois) et le message
+s'affiche comme celui d'une phase (l'Archange Raphaël troque sa Bénédiction pour le Jugement dernier).
+
 Pas de soin à un changement de phase, ni dans `effets` ni dans les `sorts` appris (même dans une
 glyphe ou un piège) : refusé à la validation, car un monstre qui remonte ses PV à chaque seuil peut
 rendre un combat sans fin. Un mini-boss (`boss`) réapparaît vite pendant l'alpha : `reapparition`

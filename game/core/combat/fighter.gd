@@ -62,6 +62,9 @@ var weapon_bonus: Dictionary = {}
 ## Phases pas encore déclenchées (monstres), dans l'ordre : { pv: int (% des PV max), message: String,
 ## sorts: Array[Spell], effets: Array[Dictionary] } (voir `Combat._check_phases`).
 var phases: Array[Dictionary] = []
+## Sorts remplacés quand il n'a plus d'allié en vie (monstres, champ « seul ») : id → Spell, et le message.
+var alone_spells: Dictionary = {}
+var alone_message := ""
 
 ## États élémentaires (Arcaniste) : éléments dans l'ordre où ils ont été pris, `ELEMENT_STATE_MAX` au
 ## plus (le plus ancien part quand un nouveau arrive). Permanents pour le combat, jamais retirés.

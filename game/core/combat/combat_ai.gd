@@ -134,6 +134,8 @@ static func _effect_value(combat: Combat, caster: Fighter, target: Fighter, effe
 	match effect["type"]:
 		Spell.EFFECT_DAMAGE:
 			var damage := average * (100 + caster.power(element)) / 100.0 * (100 - target.resistance(element)) / 100.0 + caster.total_dommages() + caster.element_damage(element)
+			if element == "sacre" and target.has_state(Spell.STATE_EXORCISM):
+				damage = target.hp + target.shield  # Exorcisé : achevé.
 			damage = minf(maxf(0.0, damage), target.hp + target.shield)
 			if damage >= target.hp + target.shield:
 				damage += 10.0  # Achever un combattant compte double.
@@ -166,9 +168,9 @@ static func _effect_value(combat: Combat, caster: Fighter, target: Fighter, effe
 		Spell.EFFECT_CLOCK_SHIFT:
 			return 3.0 if not ally and not combat.clock_of(target).is_empty() else 0.0
 		Spell.EFFECT_STATE:
-			# Une cible exorcisée sera achevée par les prochains dégâts Sacré : la moitié de ses PV.
+			# Une cible exorcisée sera achevée par les prochains dégâts Sacré : avant tout soin ou attaque.
 			var exorcism: bool = effect["etat"] == Spell.STATE_EXORCISM and not target.has_state(Spell.STATE_EXORCISM)
-			return target.hp * 0.5 * (-1.0 if ally else 1.0) if exorcism else 0.0
+			return (target.hp + 100.0) * (-1.0 if ally else 1.0) if exorcism else 0.0
 	return 0.0
 
 

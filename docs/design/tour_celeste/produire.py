@@ -34,6 +34,8 @@ sort("lion_bond", "Bond", "Le lion saute sur sa proie (un tour sur deux).", 4, (
 sort("archange_benediction", "Bénédiction de Raphaël", "Une croix de lumière qui soigne les alliés.", 3, (1, 5),
      [{"type": "soin", "element": "sacre", "min": 20, "max": 20, "cibles": "allies"}],
      lancer_en_ligne=True, zone={"type": "croix_latine"})
+sort("archange_jugement", "Jugement dernier", "Seul, l'Archange frappe tout ce qui l'entoure.", 3, (0, 0),
+     [degats("sacre", 25, cibles="ennemis")], zone={"type": "cercle", "taille": 1}, lanceur_exclu=True)
 sort("archange_exorcisme", "Exorcisme", "La cible sera achevée par les prochains dégâts Sacré.", 3, (1, 1),
      [{"type": "etat", "etat": "exorcisme", "duree": 2, "cibles": "ennemis"}])
 
@@ -58,7 +60,8 @@ monstre("colombe_baptiste", "Colombe baptiste", "Elle bénit d'un coup de bec, p
 monstre("lion_de_juda", "Lion de Juda", "Il ne mange que les pécheurs. Les plus faibles d'abord.", 15, 150, 5, 3, 70,
         ["lion_griffe_de_juda", "lion_bond"], "chasseur", 200, [15, 35], donjon=True)
 monstre("archange_raphael", "Archange Raphaël", "Le chef de chœur de la tour : il soigne les siens et exorcise les autres.",
-        18, 120, 6, 5, 110, ["archange_benediction", "archange_exorcisme"], "corps_a_corps", 400, [40, 80], boss=True)
+        18, 120, 6, 5, 110, ["archange_benediction", "archange_exorcisme"], "corps_a_corps", 400, [40, 80], boss=True,
+        seul={"message": "« Plus personne à bénir ? Alors, jugement ! »", "remplace": {"archange_benediction": "archange_jugement"}})
 
 
 def plan(rang, bord, poser):

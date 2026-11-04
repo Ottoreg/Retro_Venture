@@ -327,6 +327,11 @@ static func validate_monster(data: Dictionary, known_spells: Dictionary, known_i
 		errors.append("un boss est un monstre unique : ni « elite » ni « famille »")
 	errors.append_array(_validate_levels(data))
 	errors.append_array(_validate_phases(data.get("phases", []), known_spells))
+	var alone: Variant = data.get("seul", {})
+	if typeof(alone) != TYPE_DICTIONARY or (not alone.is_empty() and (typeof(alone.get("message")) != TYPE_STRING
+			or typeof(alone.get("remplace")) != TYPE_DICTIONARY or alone["remplace"].keys().any(func(old: Variant) -> bool:
+				return old not in data.get("sorts", []) or not known_spells.has(alone["remplace"][old])))):
+		errors.append("« seul » doit être { message, remplace: { sort du monstre: sort connu } }")
 	var loot: Variant = data.get("butin", [])
 	if typeof(loot) != TYPE_ARRAY:
 		errors.append("« butin » doit être une liste")
@@ -599,6 +604,10 @@ func create_monster(monster_id: String, fighter_id: String, level := -1) -> Figh
 	var extra_resistances: Dictionary = per_level.get("resistances", {})
 	for element: String in extra_resistances:
 		fighter.resistances[element] = int(fighter.resistances.get(element, 0)) + steps * int(extra_resistances[element])
+	var alone: Dictionary = data.get("seul", {})
+	for old: String in alone.get("remplace", {}):
+		fighter.alone_spells[old] = spells[alone["remplace"][old]]
+	fighter.alone_message = str(alone.get("message", ""))
 	for phase: Dictionary in data.get("phases", []):
 		var gained: Array[Spell] = []
 		for spell_id: String in phase.get("sorts", []):
