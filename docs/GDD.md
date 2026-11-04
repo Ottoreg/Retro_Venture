@@ -700,7 +700,7 @@ reçus, elles renvoient seulement un montant. Chaque épine existe en **fixe** (
 - **Pas d'épine sur épine** : un renvoi ne déclenche jamais les épines de l'attaquant. Le renvoi peut
   tuer l'attaquant et compte pour sa progression comme dégâts subis.
 
-**Réduction de dégâts fixe** (nouvelle statistique, score et plafond à fixer) : retire un montant fixe à
+**Réduction de dégâts fixe** (nouvelle statistique, 12 points par point, +8 au plus par objet) : retire un montant fixe à
 chaque coup reçu ; c'est la seule défense contre l'épine brute.
 
 **Dégâts spectraux** (fixe et %) : contre les épines. Ils n'augmentent pas les dégâts : ils rendent
@@ -2064,7 +2064,8 @@ rareté et sa puissance (§ 4.4) :
 | Dommages | 3 |
 | Soins | 3 |
 | Coups critiques % | 10 |
-| Résistance % (un élément) | 6 |
+| Résistance % (un élément) | 8 (+12 % au plus par objet) |
+| Réduction de dégâts fixe | 12 (+8 au plus par objet) |
 | Invocations max | 30 |
 | Épine brute fixe / % | 14 / 20 |
 | Épine élémentaire fixe / % | 11 / 16 |
