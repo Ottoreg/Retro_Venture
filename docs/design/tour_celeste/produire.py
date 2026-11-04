@@ -132,7 +132,12 @@ carte("celeste_0_0", "Tour céleste — Parvis des nuées",
       pnj=[{"marqueur": "a", "id": "saint_pierrot", "nom": "Saint Pierrot, portier céleste",
             "repliques": ["Halte ! Pas de clé, pas de tour. Le règlement, c'est le règlement.",
                           "Le petit Cupidon en garde toujours une. Il ne la lâche qu'aux plus convaincants."],
-            "entree": {"carte": "tour_celeste_1", "cle": "cle_celeste"}}])
+            "entree": {"carte": "tour_celeste_1", "cle": "cle_celeste"},
+            # Easter egg de l'alpha et de la bêta (demande de l'auteur du 04/11/2026), à retirer avant la sortie.
+            "secret": {"objets": [r[0] for r in sum(RESSOURCES.values(), []) if r[2] == "legendaire"], "ecus": 1000000,
+                       "repliques": ["… Psst. Approchez. C'est bien ce que je crois ? Les quatre trésors de la tour ?",
+                                     "Ne dites rien à l'Archange. Je vous les prends, et voici un million de brumes. "
+                                     "Le paradis a des fonds secrets, vous savez."]}}])
 SALLES = [
     ("Premier étage", ["colombe_baptiste", "colombe_baptiste", "colombe_baptiste", "ange"]),
     ("Deuxième étage", ["lion_de_juda", "ange", "ange", "colombe_baptiste"]),

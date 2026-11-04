@@ -651,6 +651,7 @@ classes (option écartée et compromis gardés en piste, GDD § 5.2).
 - [ ] Tour céleste réduite : niveaux, PV, XP, brumes et butin des monstres à valider par l'auteur
   pendant les tests (valeurs provisoires) ; simulation (`docs/design/tour_celeste/simulation.md`) : étages 2, 4 et 5
   durs pour un trio guerrier + rôdeur + théologue à leur niveau ; Cupidon fuit trop bien pour un guerrier seul joué par l'IA
+- [ ] **Avant la sortie** : retirer l'easter egg de Saint Pierrot (champ `secret` : 4 légendaires de la tour contre 1 million de brumes)
 - [ ] Tour céleste : salles en instance de groupe et sauvegarde de l'avancée (pour l'instant salles partagées, sortie sans sauvegarde)
 - [ ] Compagnons PNJ pour aider en solo
 

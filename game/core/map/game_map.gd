@@ -81,7 +81,8 @@ var groups: Array[Dictionary] = []
 ## PNJ : { id: String, nom: String, case: Vector2i, repliques: Array (textes), marchand: bool, explication: Array
 ## (textes proposés à la fin du dialogue, comme la forge expliquée par les forgerons), entree: { carte, cle }
 ## (portier : contre la clé s'il en faut une, fait entrer sur cette carte ; vide pour les autres),
-## don: id d'un objet donné une fois par visite de la carte (vide pour les autres) }.
+## don: id d'un objet donné une fois par visite de la carte (vide pour les autres), secret: { objets, ecus,
+## repliques } (contre un exemplaire de chacun de ces objets, donne ces brumes : easter egg de test) }.
 var npcs: Array[Dictionary] = []
 ## Cartes voisines : direction (« haut », « bas », « gauche », « droite ») → id de carte.
 var exits: Dictionary = {}
@@ -229,6 +230,10 @@ static func validate(data: Dictionary) -> PackedStringArray:
 			var gate: Variant = npc.get("entree", {})
 			if typeof(gate) != TYPE_DICTIONARY or (not gate.is_empty() and (typeof(gate.get("carte")) != TYPE_STRING or typeof(gate.get("cle", "")) != TYPE_STRING)):
 				errors.append("PNJ %s : « entree » doit être { carte, cle (facultative) }" % str(marker))
+			var secret: Variant = npc.get("secret", {})
+			if typeof(secret) != TYPE_DICTIONARY or (not secret.is_empty() and (typeof(secret.get("objets")) != TYPE_ARRAY
+					or not Spell._is_int_at_least(secret.get("ecus"), 1) or typeof(secret.get("repliques")) != TYPE_ARRAY)):
+				errors.append("PNJ %s : « secret » doit être { objets, ecus, repliques }" % str(marker))
 			var gift: Variant = npc.get("don", "")
 			if typeof(gift) != TYPE_STRING:
 				errors.append("PNJ %s : « don » doit être l'id d'un objet" % str(marker))
@@ -387,7 +392,7 @@ static func from_dict(data: Dictionary) -> GameMap:
 				var npc: Dictionary = npcs_by_marker[character]
 				map.npcs.append({"id": npc["id"], "nom": npc["nom"], "case": cell, "repliques": npc["repliques"].duplicate(),
 					"marchand": npc.get("marchand", false), "explication": npc.get("explication", []).duplicate(),
-					"entree": npc.get("entree", {}).duplicate(), "don": npc.get("don", "")})
+					"entree": npc.get("entree", {}).duplicate(), "don": npc.get("don", ""), "secret": npc.get("secret", {}).duplicate(true)})
 			elif Profession.is_node_char(character):
 				map.resource_nodes[cell] = character
 				map.obstacles[cell] = LEGEND["E"] if character in FISHING_CHARS else RESOURCE_OBSTACLE
