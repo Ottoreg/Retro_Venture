@@ -101,6 +101,13 @@ func test_le_secret_de_saint_pierrot() -> void:
 	assert_eq(legendary.map(func(id: String) -> int: return world.character.inventory.quantity_of(id)), [1, 0, 0, 0], "une de chaque reprise")
 
 
+func test_les_vaincus_se_reveillent_au_parvis() -> void:
+	var world := _world("tour_celeste_2")
+	var events: Array[Dictionary] = []
+	assert_eq(world._wake_up(world._solo(), events)["carte"], "celeste_0_0", "au pied de la tour, pas au point de résurrection")
+	assert_eq(world.position_of(World.PLAYER_ID), world.map.beside(world.map.travel_stone()))
+
+
 func test_le_gardien_fait_sortir_sans_cle() -> void:
 	var world := _world("tour_celeste_3")
 	var events := world.execute({"type": Protocol.CMD_TALK, "entite": World.PLAYER_ID, "pnj": "gardien_celeste"})

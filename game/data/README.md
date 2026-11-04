@@ -205,6 +205,8 @@ ramène d'où l'on vient (les tests vérifient que chaque porte a sa réciproque
 - `sol` : `herbe` (par défaut) ou `parquet` pour un intérieur.
 - `etage_suivant` : id d'une carte. Les vainqueurs d'un combat sur cette carte y montent aussitôt
   (étages de la Tour céleste ; le dernier mène au Chœur de Raphaël).
+- `reveil` : id d'une carte. Les vaincus d'un combat sur cette carte s'y réveillent, à côté de sa
+  Pierre de Passage, au lieu de leur point de résurrection (étages de la Tour céleste : le parvis).
 - `instance` : `""` (par défaut, carte partagée) ou `joueur` pour une carte personnelle, comme la
   maison : en multijoueur, chaque joueur aura sa propre copie (et son coffre).
 - Chaque zone de départ a sa maison (`maison_joueur` à Brumerive, `maison_crasse_roc`,

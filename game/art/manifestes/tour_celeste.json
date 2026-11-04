@@ -118,6 +118,34 @@
         22,
         22
       ]
+    },
+    "colonne_celeste": {
+      "fichier": "decor/colonne_celeste.svgt",
+      "ancre": [
+        22,
+        106
+      ]
+    },
+    "cierges": {
+      "fichier": "decor/cierges.svgt",
+      "ancre": [
+        22,
+        47
+      ]
+    },
+    "escalier_celeste": {
+      "fichier": "decor/escalier_celeste.svgt",
+      "ancre": [
+        40,
+        72
+      ]
+    },
+    "autel_celeste": {
+      "fichier": "decor/autel_celeste.svgt",
+      "ancre": [
+        40,
+        58
+      ]
     }
   },
   "personnages": {
