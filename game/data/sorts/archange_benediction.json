@@ -1,0 +1,28 @@
+{
+  "id": "archange_benediction",
+  "nom": "Bénédiction de Raphaël",
+  "description": "Une croix de lumière qui soigne les alliés.",
+  "cout_pa": 3,
+  "portee": {
+    "min": 1,
+    "max": 5
+  },
+  "ligne_de_vue": true,
+  "relance": {
+    "par_tour": 1,
+    "delai": 0
+  },
+  "lancer_en_ligne": true,
+  "zone": {
+    "type": "croix_latine"
+  },
+  "effets": [
+    {
+      "type": "soin",
+      "element": "sacre",
+      "min": 20,
+      "max": 20,
+      "cibles": "allies"
+    }
+  ]
+}

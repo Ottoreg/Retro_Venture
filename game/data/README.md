@@ -95,7 +95,8 @@ de lignes, mêmes longueurs, espace en tête des lignes décalées) :
 
 Les chiffres `1` à `9` dans le plan placent les groupes décrits dans la liste `groupes` (le chiffre
 `1` correspond au premier groupe). Chaque groupe apparaît une seule fois et compte 1 à 3 monstres,
-d'une ou de plusieurs espèces, tous dessinés sur la carte. Un groupe est soit une liste fixe
+d'une ou de plusieurs espèces, tous dessinés sur la carte (4 au plus pour une liste fixe, comme les
+salles de la Tour céleste ; il faut alors autant de cases `m` dans le calque `placement`). Un groupe est soit une liste fixe
 (`monstres`), soit tiré au sort à chaque apparition (`parmi` : les espèces possibles, `nombre` :
 [min, max], 3 au plus) ; on ne peut pas mettre les deux.
 
@@ -161,6 +162,10 @@ revente rapporte un quart du prix d'achat (`Item.RESALE_RATE`), au moins 1 brume
 | Légendaire | 2 500 | 250 |
 | Relique | 6 000 | 600 |
 
+`entree` (facultatif, `{"carte": id, "cle": id d'objet}`) : un **portier**. Le joueur qui a la clé la
+lui donne et entre sur cette carte (à son `@`) ; sans clé, le PNJ dit ses répliques (Saint Pierrot,
+Tour céleste).
+
 `explication` (facultatif, liste de textes) : à la dernière réplique, la bulle propose « Oui,
 expliquez-moi » et montre ces textes si le joueur accepte (un clic ailleurs refuse). Les forgerons
 indiquent ainsi l'enclume de la maison et expliquent la forge.
@@ -188,6 +193,8 @@ ramène d'où l'on vient (les tests vérifient que chaque porte a sa réciproque
 - `palette` : couleurs de la zone (`brumerive`, `crasse_roc`, `sylvebrume`, `forges` (lave),
   `hautepierre`, `cendree`, `cendre` ; voir `game/art/art.json` et `game/art/manifestes/`). Crasse-Roc est volontairement terne et sombre.
 - `sol` : `herbe` (par défaut) ou `parquet` pour un intérieur.
+- `etage_suivant` : id d'une carte. Les vainqueurs d'un combat sur cette carte y montent aussitôt
+  (étages de la Tour céleste ; le dernier ramène au parvis).
 - `instance` : `""` (par défaut, carte partagée) ou `joueur` pour une carte personnelle, comme la
   maison : en multijoueur, chaque joueur aura sa propre copie (et son coffre).
 - Chaque zone de départ a sa maison (`maison_joueur` à Brumerive, `maison_crasse_roc`,
@@ -347,7 +354,9 @@ Chronomancien (Voie Impie) :
   Une heure hors de la carte ou sur un obstacle est sautée (heure suivante dans le sens du
   décalage) ; un combattant sur la case d'arrivée échange sa place avec la cible. Sans horloge,
   rien ne bouge (les autres effets du sort restent). Placé après les dégâts du sort.
-- `etat` : état nommé pendant `duree` tours : `insoignable` (aucun soin ne lui rend de PV).
+- `etat` : état nommé pendant `duree` tours : `insoignable` (aucun soin ne lui rend de PV) ou
+  `exorcisme` (les prochains dégâts Sacré l'achèvent, bouclier compris ; l'état tombe alors).
+- `"vol": true` sur un effet `degats` : vol de vie, le lanceur reprend les PV qu'il a fait perdre.
 - `portee_fixe` (sort, `true`) : portée non modifiable, les bonus de portée ne s'y ajoutent pas.
 - Caractéristique `degats_infliges` (bonus ou malus) : % de tous les dégâts infligés, poisons compris.
 - `horloge` et `decalage_horaire` n'ont ni `min` ni `max` et sont interdits dans une glyphe, un piège,
@@ -379,14 +388,18 @@ résistances à l'Acier et à la Flamme, plus la résistance au Sacré (`sacre`,
 `impie`. De même, le bonus de dégâts Sacré est
 Force + Intelligence, et l'Impie Agilité + Perception. `ia` : `basique` (se rapproche par
 le plus court chemin pour frapper), `distance` (tire depuis la case la plus éloignée des ennemis, puis
-recule) ou `soutien` (comme `distance`, pour les soigneurs). Dans tous les cas, l'IA note chaque sort
+recule), `soutien` (comme `distance`, pour les soigneurs), `corps_a_corps` (va d'abord au contact d'un
+ennemi s'il peut l'y frapper, puis comme `basique`) ou `chasseur` (va frapper l'ennemi qui a le moins
+de PV parmi ceux qu'il peut atteindre ce tour). Un monstre qui ne peut frapper personne bondit vers
+l'ennemi le plus proche s'il a un sort de `teleportation`, puis marche. Dans tous les cas, l'IA note chaque sort
 sur chaque cible utile et lance le meilleur tant qu'il vaut quelque chose.
 
 Un monstre **élite** a `"elite": true` et sa `famille` (l'id du monstre normal dont il est la version
 forte, par exemple `"famille": "loup_des_collines"` pour le Loup alpha). Il est plus haut niveau,
 a au moins deux fois plus de PV, un sort d'attaque en plus, et lâche plus souvent les objets rares
 de sa famille. Il est dessiné plus grand, avec un halo doré, et « (élite) » suit son nom au survol.
-Chaque famille de monstres a son élite, sauf les boss.
+Chaque famille de monstres a son élite, sauf les boss et les monstres de donjon (`"donjon": true`,
+ceux de la Tour céleste).
 
 Les élites ne se placent pas dans les `groupes` des cartes : le monde les fait apparaître lui-même
 (voir `World` : toutes les 5 à 6 minutes de jeu, sur une carte au hasard où vit leur famille, une

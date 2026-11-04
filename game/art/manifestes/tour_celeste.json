@@ -1,0 +1,177 @@
+{
+  "images": {
+    "ailes": {
+      "fichier": "perso/ailes.svgt",
+      "ancre": [
+        17,
+        6
+      ]
+    },
+    "aureole": {
+      "fichier": "perso/aureole.svgt",
+      "ancre": [
+        9,
+        5
+      ]
+    },
+    "arc_cupidon": {
+      "fichier": "perso/arc_cupidon.svgt",
+      "ancre": [
+        5,
+        20
+      ]
+    },
+    "objet_cle_celeste": {
+      "fichier": "objets/cle_celeste.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    }
+  },
+  "personnages": {
+    "cupidon": {
+      "base": "humain",
+      "echelle": 0.7
+    },
+    "archange": {
+      "base": "humain",
+      "echelle": 1.2
+    }
+  },
+  "armes": {
+    "arc_cupidon": {
+      "attache": [
+        6,
+        28
+      ],
+      "angle": 0.1
+    }
+  },
+  "accessoires": {
+    "ailes": {
+      "parent": "torse",
+      "attache": [
+        13,
+        6
+      ],
+      "vues": [
+        "face",
+        "dos"
+      ],
+      "derriere": true
+    },
+    "aureole": {
+      "parent": "tete",
+      "attache": [
+        10.8,
+        -1
+      ],
+      "vues": [
+        "face",
+        "dos"
+      ]
+    }
+  },
+  "monstres": {
+    "cupidon": {
+      "rig": "cupidon",
+      "couleurs": {
+        "peau": "f2c8a8",
+        "cheveux": "e8c050",
+        "tunique": "f6e8ea",
+        "manches": "f2c8a8",
+        "pantalon": "f6e8ea",
+        "ceinture": "d8283a"
+      },
+      "arme": "arc_cupidon",
+      "accessoires": [
+        "ailes",
+        "aureole"
+      ]
+    },
+    "ange": {
+      "rig": "humain",
+      "couleurs": {
+        "tunique": "f2f0e6",
+        "manches": "e6e2d2",
+        "pantalon": "d8d2bc",
+        "bottes": "c9a04e",
+        "ceinture": "c9a04e",
+        "cheveux": "e8c050"
+      },
+      "arme": "epee",
+      "accessoires": [
+        "ailes",
+        "aureole"
+      ]
+    },
+    "archange_raphael": {
+      "rig": "archange",
+      "couleurs": {
+        "tunique": "f6e6a8",
+        "manches": "e6e2d2",
+        "pantalon": "d8d2bc",
+        "bottes": "c9a04e",
+        "ceinture": "c9a04e",
+        "cheveux": "c08a3a"
+      },
+      "arme": "sceptre",
+      "accessoires": [
+        "ailes",
+        "aureole"
+      ]
+    },
+    "colombe_baptiste": {
+      "image": "corbac",
+      "echelle": 0.75,
+      "couleurs": {
+        "pelage": "f4f4f0",
+        "pelage_ombre": "c8ccd4"
+      }
+    },
+    "lion_de_juda": {
+      "image": "loup",
+      "echelle": 1.05,
+      "couleurs": {
+        "pelage": "d8a040",
+        "pelage_ombre": "a8702a",
+        "ventre": "f0d090"
+      }
+    }
+  },
+  "pnj": {
+    "saint_pierrot": {
+      "rig": "humain",
+      "couleurs": {
+        "tunique": "e8e4d8",
+        "manches": "d8d2c2",
+        "pantalon": "c8c0aa",
+        "cheveux": "f0f0f0",
+        "ceinture": "c9a04e"
+      },
+      "accessoires": [
+        "barbe",
+        "aureole"
+      ]
+    }
+  },
+  "palettes": {
+    "celeste": {
+      "couleurs": {
+        "herbe": "e8eef8",
+        "herbe_sombre": "cfd8e8",
+        "herbe_claire": "ffffff",
+        "herbe_tige": "b8c4d8",
+        "terre": "f0e6c8",
+        "terre_bord": "d0c49c",
+        "eau": "8fc0ec",
+        "rive": "dfe8f4",
+        "rive_bord": "a8b8d0",
+        "reflet": "ffffff",
+        "pierre": "e4e0d4",
+        "tronc": "c8b88a"
+      }
+    }
+  }
+}

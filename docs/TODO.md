@@ -642,6 +642,11 @@ classes (option écartée et compromis gardés en piste, GDD § 5.2).
 - [ ] Scripts de boss (phases, invocations, zones dangereuses)
 - [ ] Un donjon par région (panoplie et ressources exclusives)
 - [ ] Donjons de Relique (boss = Héraut Cendré)
+- [x] Tour céleste réduite (04/11/2026) : parvis avec Cupidon (clé à 100 %) et Saint Pierrot, 5 étages
+  enchaînés, Archange Raphaël au sommet ; vol de vie, état « exorcisme », IA `corps_a_corps`,
+  `chasseur` et bond (GDD § 12.8, « Version réduite »)
+- [ ] Tour céleste réduite : niveaux, PV, XP, brumes et butin des monstres à valider par l'auteur
+  pendant les tests (valeurs provisoires) ; une clé par Cupidon, même vaincu en groupe
 - [ ] Compagnons PNJ pour aider en solo
 
 ### Quêtes et scénario

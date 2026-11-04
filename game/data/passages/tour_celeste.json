@@ -1,0 +1,7 @@
+{
+  "id": "tour_celeste",
+  "nom": "Tour céleste",
+  "carte": "celeste_0_0",
+  "prix": 0,
+  "toujours_connue": true
+}

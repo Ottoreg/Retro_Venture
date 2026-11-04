@@ -36,8 +36,10 @@ const FLOORS := ["herbe", "parquet"]
 const INSTANCES := ["", "joueur"]
 ## Délai de réapparition par défaut d'un groupe de monstres vaincu, en secondes : [min, max].
 const DEFAULT_RESPAWN := [120, 180]
-## Nombre maximal de monstres dans un groupe.
-const MAX_GROUP_SIZE := 3
+## Nombre maximal de monstres dans un groupe (4 : salles de la Tour céleste ; 3 au plus ailleurs).
+const MAX_GROUP_SIZE := 4
+## Cases de placement minimales d'un camp (plus si un groupe de la carte est plus grand).
+const MIN_PLACEMENT := 3
 const SPAWN_CHAR := "@"
 ## Type d'obstacle des ressources récoltables (lettres majuscules hors légende, voir `Profession`).
 const RESOURCE_OBSTACLE := "ressource"
@@ -77,7 +79,8 @@ var resource_nodes: Dictionary = {}
 ## Dans le monde, un groupe a aussi son `foyer` (sa case d'origine) et peut s'en éloigner un peu.
 var groups: Array[Dictionary] = []
 ## PNJ : { id: String, nom: String, case: Vector2i, repliques: Array (textes), marchand: bool, explication: Array
-## (textes proposés à la fin du dialogue, comme la forge expliquée par les forgerons) }.
+## (textes proposés à la fin du dialogue, comme la forge expliquée par les forgerons), entree: { carte, cle }
+## (portier : contre une clé, fait entrer sur cette carte ; vide pour les autres) }.
 var npcs: Array[Dictionary] = []
 ## Cartes voisines : direction (« haut », « bas », « gauche », « droite ») → id de carte.
 var exits: Dictionary = {}
@@ -91,6 +94,8 @@ var decors: Array[Dictionary] = []
 var floor_kind := "herbe"
 ## "" pour une carte partagée, "joueur" pour une carte personnelle (instanciée par joueur en multi).
 var instance := ""
+## Étage d'une tour : carte où vont les vainqueurs d'un combat sur celle-ci ("" : on reste).
+var next_floor := ""
 ## Palette de couleurs de la zone (voir « palettes » dans art/art.json), "" pour celle de base.
 var palette := ""
 ## Cases de départ en combat (voir `PLACEMENT_PLAYER`, `PLACEMENT_MONSTER`), dans l'ordre du calque.
@@ -139,6 +144,7 @@ static func validate(data: Dictionary) -> PackedStringArray:
 
 	var groups_data: Variant = data.get("groupes", [])
 	var group_count := 0
+	var biggest := MIN_PLACEMENT
 	if typeof(groups_data) != TYPE_ARRAY:
 		errors.append("« groupes » doit être une liste")
 	else:
@@ -158,10 +164,14 @@ static func validate(data: Dictionary) -> PackedStringArray:
 					errors.append("groupe %d : « nombre » doit être [min, max], de 1 à %d" % [k + 1, MAX_GROUP_SIZE])
 				if group.has("monstres"):
 					errors.append("groupe %d : « monstres » ou « parmi », pas les deux" % (k + 1))
+				elif typeof(count) == TYPE_ARRAY and count.size() == 2:
+					biggest = maxi(biggest, int(count[1]))
 			else:
 				var monsters: Variant = group.get("monstres")
 				if typeof(monsters) != TYPE_ARRAY or monsters.is_empty() or monsters.size() > MAX_GROUP_SIZE or not _all_strings(monsters):
 					errors.append("groupe %d : « monstres » doit lister de 1 à %d identifiants de monstres" % [k + 1, MAX_GROUP_SIZE])
+				elif typeof(monsters) == TYPE_ARRAY:
+					biggest = maxi(biggest, monsters.size())
 			var delay: Variant = group.get("reapparition", DEFAULT_RESPAWN) if typeof(group) == TYPE_DICTIONARY else null
 			if typeof(delay) != TYPE_ARRAY or delay.size() != 2 or not Spell._is_int_at_least(delay[0], 1) \
 					or not Spell._is_int_at_least(delay[1], 1) or int(delay[0]) > int(delay[1]):
@@ -189,6 +199,8 @@ static func validate(data: Dictionary) -> PackedStringArray:
 		errors.append("« sol » doit valoir %s" % str(FLOORS))
 	if typeof(data.get("palette", "")) != TYPE_STRING:
 		errors.append("« palette » doit être un nom de palette")
+	if typeof(data.get("etage_suivant", "")) != TYPE_STRING:
+		errors.append("« etage_suivant » doit être un id de carte")
 	if data.get("instance", "") not in INSTANCES:
 		errors.append("« instance » doit valoir %s" % str(INSTANCES))
 	var npc_markers := {}
@@ -211,6 +223,9 @@ static func validate(data: Dictionary) -> PackedStringArray:
 				errors.append("PNJ %s : « explication » doit être une liste de textes" % str(marker))
 			if typeof(npc.get("marchand", false)) != TYPE_BOOL:
 				errors.append("PNJ %s : « marchand » doit valoir true ou false" % str(marker))
+			var gate: Variant = npc.get("entree", {})
+			if typeof(gate) != TYPE_DICTIONARY or (not gate.is_empty() and (typeof(gate.get("carte")) != TYPE_STRING or typeof(gate.get("cle")) != TYPE_STRING)):
+				errors.append("PNJ %s : « entree » doit être { carte, cle }" % str(marker))
 			var lines: Variant = npc.get("repliques")
 			if typeof(lines) != TYPE_ARRAY or lines.is_empty():
 				errors.append("PNJ %s : « repliques » doit être une liste de textes non vide" % str(marker))
@@ -269,13 +284,13 @@ static func validate(data: Dictionary) -> PackedStringArray:
 	for marker: String in npc_markers:
 		if npc_markers[marker] != 1:
 			errors.append("le PNJ « %s » doit apparaître exactement une fois dans le plan (%d trouvé(s))" % [marker, npc_markers[marker]])
-	errors.append_array(_validate_placement(data.get("placement"), plan, width, group_count))
+	errors.append_array(_validate_placement(data.get("placement"), plan, width, group_count, biggest))
 	return errors
 
 
 ## Calque « placement » : même taille que le plan, `j` et `m` sur des cases praticables ; au moins
-## une case de joueur et `MAX_GROUP_SIZE` cases de monstres si la carte a des groupes.
-static func _validate_placement(layer: Variant, plan: Array, width: int, group_count: int) -> PackedStringArray:
+## une case de joueur et `biggest` cases de monstres (taille du plus grand groupe, 3 au moins) si la carte a des groupes.
+static func _validate_placement(layer: Variant, plan: Array, width: int, group_count: int, biggest: int) -> PackedStringArray:
 	var errors: PackedStringArray = []
 	if layer == null:
 		if group_count > 0:
@@ -305,8 +320,8 @@ static func _validate_placement(layer: Variant, plan: Array, width: int, group_c
 			counts[mark] += 1
 	if counts[PLACEMENT_PLAYER] < 1:
 		errors.append("« placement » : au moins une case de joueur « j »")
-	if group_count > 0 and counts[PLACEMENT_MONSTER] < MAX_GROUP_SIZE:
-		errors.append("« placement » : au moins %d cases de monstres « m » (%d trouvée(s))" % [MAX_GROUP_SIZE, counts[PLACEMENT_MONSTER]])
+	if group_count > 0 and counts[PLACEMENT_MONSTER] < biggest:
+		errors.append("« placement » : au moins %d cases de monstres « m » (%d trouvée(s))" % [biggest, counts[PLACEMENT_MONSTER]])
 	return errors
 
 
@@ -323,6 +338,7 @@ static func from_dict(data: Dictionary) -> GameMap:
 	map.floor_kind = str(data.get("sol", "herbe"))
 	map.instance = str(data.get("instance", ""))
 	map.palette = str(data.get("palette", ""))
+	map.next_floor = str(data.get("etage_suivant", ""))
 	for decor: Dictionary in data.get("decors", []):
 		map.decors.append({"image": decor["image"], "case": plan_cell(int(decor["case"][0]), int(decor["case"][1]))})
 	var door_targets: Array = data.get("portes", [])
@@ -362,7 +378,8 @@ static func from_dict(data: Dictionary) -> GameMap:
 			elif _is_npc_char(character):
 				var npc: Dictionary = npcs_by_marker[character]
 				map.npcs.append({"id": npc["id"], "nom": npc["nom"], "case": cell, "repliques": npc["repliques"].duplicate(),
-					"marchand": npc.get("marchand", false), "explication": npc.get("explication", []).duplicate()})
+					"marchand": npc.get("marchand", false), "explication": npc.get("explication", []).duplicate(),
+					"entree": npc.get("entree", {}).duplicate()})
 			elif Profession.is_node_char(character):
 				map.resource_nodes[cell] = character
 				map.obstacles[cell] = LEGEND["E"] if character in FISHING_CHARS else RESOURCE_OBSTACLE

@@ -1,0 +1,23 @@
+{
+  "id": "ange",
+  "nom": "Ange",
+  "description": "Il a fait vœu de paix. Il a aussi un glaive.",
+  "donjon": true,
+  "niveau": 9,
+  "caracteristiques": {
+    "pv": 50,
+    "pa": 6,
+    "pm": 4,
+    "initiative": 100
+  },
+  "sorts": [
+    "ange_trait_de_lumiere",
+    "ange_glaive"
+  ],
+  "ia": "corps_a_corps",
+  "xp": 110,
+  "ecus": [
+    8,
+    18
+  ]
+}

@@ -1315,7 +1315,7 @@ func test_minicarte_dans_une_maison_et_au_trone_de_cendre() -> void:
 	assert_eq(center["case"], Vector2i(2, 2))
 	assert_true(minimap._grid.case_tooltip(center).ends_with("Vous êtes dans une maison de cette carte."))
 	scene.free()
-	# Trône de Cendre : une carte isolée, seule au milieu de la minicarte.
+	# Trône de Cendre : une carte isolée, au milieu de la minicarte.
 	Session.start_map = "cendre_0_0"
 	scene = load("res://client/world/world.tscn").instantiate()
 	tree.root.add_child(scene)
@@ -1323,7 +1323,7 @@ func test_minicarte_dans_une_maison_et_au_trone_de_cendre() -> void:
 	minimap = scene.get_node("Minimap")
 	assert_eq(minimap.center_map(), "cendre_0_0")
 	assert_eq(minimap._zone_name.text, "Trône de Cendre")
-	assert_eq(minimap.shown_layout()["cases"].size(), 1)
+	assert_eq(minimap.shown_layout()["cases"].size(), 2, "seule de sa zone, la Tour céleste à deux cases")
 	scene.free()
 	# Couleurs de base pour les tests suivants.
 	Art.palette = ""

@@ -123,7 +123,7 @@ const CARAC_NAMES := {"force": "Force", "intelligence": "Intelligence", "percept
 	"pa": "PA", "pm": "PM", "portee": "Portée", "dommages": "Dommages", "critique": "% Critique", "resistance": "Rés.",
 	"degats_infliges": "% dégâts infligés"}
 ## Noms des états nommés (`Spell.NAMED_STATES`).
-const STATE_NAMES := {"insoignable": "Insoignable", "manipulation_temps": "Manipulation du temps"}
+const STATE_NAMES := {"insoignable": "Insoignable", "manipulation_temps": "Manipulation du temps", "exorcisme": "Exorcisme"}
 
 const NO_CELL := Vector2i(-99999, -99999)
 ## Marge en haut de l'écran (pixels) : une bulle de dialogue ne monte pas plus haut.
@@ -144,6 +144,7 @@ const GROUP_SPOTS := [
 	[Vector2(0, 0)],
 	[Vector2(12, 5), Vector2(-16, -5)],
 	[Vector2(0, 8), Vector2(-26, -5), Vector2(24, -6)],
+	[Vector2(-14, 9), Vector2(16, 8), Vector2(-28, -5), Vector2(26, -6)],
 ]
 
 ## Messages affichés pour les refus du noyau.

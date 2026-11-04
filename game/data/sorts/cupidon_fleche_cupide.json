@@ -1,0 +1,24 @@
+{
+  "id": "cupidon_fleche_cupide",
+  "nom": "Flèche cupide",
+  "description": "Elle ne rend personne amoureux, mais elle vole quelques PV.",
+  "cout_pa": 4,
+  "portee": {
+    "min": 1,
+    "max": 5
+  },
+  "ligne_de_vue": true,
+  "relance": {
+    "par_tour": 1,
+    "delai": 0
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "flamme",
+      "min": 10,
+      "max": 10,
+      "vol": true
+    }
+  ]
+}

@@ -81,10 +81,11 @@ const VALUELESS_EFFECTS := [EFFECT_TELEPORT, EFFECT_ELEMENT_STATE, EFFECT_COMPOS
 const CASTER_EFFECTS := [EFFECT_TELEPORT, EFFECT_ELEMENT_STATE, EFFECT_COMPOSE_STATES, EFFECT_CREATE_SPELL, EFFECT_CHARGE,
 	EFFECT_CLOCK, EFFECT_CLOCK_SHIFT]
 ## États nommés : « insoignable » (aucun soin ne lui rend de PV) ; « manipulation_temps » (posé par
-## une horloge).
+## une horloge) ; « exorcisme » (les prochains dégâts Sacré l'achèvent, l'état tombe alors).
 const STATE_UNHEALABLE := "insoignable"
 const STATE_TIME_MANIPULATION := "manipulation_temps"
-const NAMED_STATES := [STATE_UNHEALABLE, STATE_TIME_MANIPULATION]
+const STATE_EXORCISM := "exorcisme"
+const NAMED_STATES := [STATE_UNHEALABLE, STATE_TIME_MANIPULATION, STATE_EXORCISM]
 ## Éléments d'un état élémentaire, et états qu'un retrait peut enlever.
 const STATE_ELEMENTS := ["flamme", "givre", "tempete"]
 const REMOVABLE_STATE_TYPES := [EFFECT_BONUS, EFFECT_MALUS, EFFECT_POISON]
@@ -292,6 +293,8 @@ static func _validate_effects(effects_data: Array, top_level: bool) -> PackedStr
 			var kinds: Variant = effect.get("etats")
 			if typeof(kinds) != TYPE_ARRAY or kinds.is_empty() or kinds.any(func(kind: Variant) -> bool: return kind not in REMOVABLE_STATE_TYPES):
 				errors.append("effet « retrait_etats » : « etats » doit être une liste non vide parmi %s" % str(REMOVABLE_STATE_TYPES))
+		if effect.has("vol") and (type != EFFECT_DAMAGE or typeof(effect["vol"]) != TYPE_BOOL):
+			errors.append("« vol » (vrai ou faux) n'existe que sur un effet « degats »")
 		if type in VALUELESS_EFFECTS:
 			continue
 		if type in ELEMENT_EFFECTS and effect.get("element") not in ELEMENTS:

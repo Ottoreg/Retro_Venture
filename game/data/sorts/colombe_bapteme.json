@@ -1,0 +1,23 @@
+{
+  "id": "colombe_bapteme",
+  "nom": "Baptême express",
+  "description": "Un coup de bec bénit, puis elle s'envole.",
+  "cout_pa": 4,
+  "portee": {
+    "min": 1,
+    "max": 2
+  },
+  "ligne_de_vue": true,
+  "relance": {
+    "par_tour": 1,
+    "delai": 0
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "sacre",
+      "min": 10,
+      "max": 10
+    }
+  ]
+}

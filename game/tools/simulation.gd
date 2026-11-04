@@ -151,7 +151,7 @@ func _fight(map: GameMap, group: Dictionary, voie: String) -> Dictionary:
 	var fighters: Array[Fighter] = []
 	var cells: Array[Vector2i] = map.placement_monsters.duplicate()
 	var placement: Array[Vector2i] = map.placement_players.duplicate()
-	if rng.randi_range(0, 1) == 1 and placement.size() >= GameMap.MAX_GROUP_SIZE:
+	if rng.randi_range(0, 1) == 1 and placement.size() >= GameMap.MIN_PLACEMENT:
 		# Côtés tirés au sort, comme en jeu (`World._create_combat`).
 		var swap_sides := cells
 		cells = placement

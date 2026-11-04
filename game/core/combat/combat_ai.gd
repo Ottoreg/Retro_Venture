@@ -6,12 +6,18 @@ extends RefCounted
 ## changent que la façon de se déplacer (`Fighter.ai`) :
 ## - « basique » : se rapproche par le plus court chemin pour frapper ;
 ## - « distance » : frappe depuis la case la plus éloignée des ennemis, puis recule avec ses PM ;
-## - « soutien » : comme « distance », pour les soigneurs et les poseurs de glyphes.
+## - « soutien » : comme « distance », pour les soigneurs et les poseurs de glyphes ;
+## - « corps_a_corps » : va d'abord au contact d'un ennemi s'il peut l'y frapper (puis comme « basique ») ;
+## - « chasseur » : va frapper l'ennemi qui a le moins de PV parmi ceux qu'il peut atteindre ce tour.
+## Un monstre qui ne peut frapper personne bondit vers l'ennemi le plus proche s'il a un sort de
+## téléportation, puis marche.
 
 const BASIC := "basique"
 const RANGED := "distance"
 const SUPPORT := "soutien"
-const BEHAVIOURS := [BASIC, RANGED, SUPPORT]
+const MELEE := "corps_a_corps"
+const HUNTER := "chasseur"
+const BEHAVIOURS := [BASIC, RANGED, SUPPORT, MELEE, HUNTER]
 ## Valeur d'un point de PA ou de PM donné ou retiré, en « PV équivalents ».
 const PA_PM_VALUE := 5.0
 ## Valeur d'un point d'autre caractéristique (bonus, malus).
@@ -24,6 +30,10 @@ const FRIENDLY_FIRE_WEIGHT := 1.5
 ## L'IA se déplace une fois pour attaquer (`has_moved`) ; les IA « distance » et « soutien »
 ## reculent ensuite avec les PM qui restent.
 static func next_action(combat: Combat, fighter: Fighter, has_moved: bool) -> Dictionary:
+	if not has_moved and fighter.ai in [MELEE, HUNTER] and fighter.pm > 0:
+		var strike_cell := _strike_cell(combat, fighter)
+		if strike_cell != fighter.cell:
+			return _move_to(fighter, strike_cell)
 	var cast := best_cast(combat, fighter, fighter.cell)
 	if not cast.is_empty():
 		return cast
@@ -48,6 +58,9 @@ static func next_action(combat: Combat, fighter: Fighter, has_moved: bool) -> Di
 				best_key = key
 		if best_cell != fighter.cell:
 			return _move_to(fighter, best_cell)
+		var leap := _leap(combat, fighter)
+		if not leap.is_empty():
+			return leap
 		var approach := _approach(combat, fighter, reachable)
 		if not approach.is_empty():
 			return approach
@@ -67,6 +80,9 @@ static func best_cast(combat: Combat, fighter: Fighter, origin: Vector2i) -> Dic
 			if not combat.targeting_blocker(fighter, spell, cell, origin).is_empty():
 				continue
 			var value := evaluate(combat, fighter, spell, cell, origin)
+			var aimed := _fighter_at(combat, fighter, origin, cell)
+			if fighter.ai == HUNTER and value > 0.0 and aimed != null and aimed.team != fighter.team:
+				value = 1000.0 - aimed.hp  # Le chasseur vise le plus faible.
 			if value > best_value:
 				best_value = value
 				best = {"type": Protocol.CMD_CAST, "entite": fighter.id, "sort": spell.id, "cible": cell, "valeur": value}
@@ -149,6 +165,10 @@ static func _effect_value(combat: Combat, caster: Fighter, target: Fighter, effe
 			return 6.0 if not ally and combat.clock_of(target).is_empty() else 0.0
 		Spell.EFFECT_CLOCK_SHIFT:
 			return 3.0 if not ally and not combat.clock_of(target).is_empty() else 0.0
+		Spell.EFFECT_STATE:
+			# Une cible exorcisée sera achevée par les prochains dégâts Sacré : la moitié de ses PV.
+			var exorcism: bool = effect["etat"] == Spell.STATE_EXORCISM and not target.has_state(Spell.STATE_EXORCISM)
+			return target.hp * 0.5 * (-1.0 if ally else 1.0) if exorcism else 0.0
 	return 0.0
 
 
@@ -213,6 +233,43 @@ static func _nearest_enemy_distance(combat: Combat, fighter: Fighter, cell: Vect
 	for enemy in combat.enemies_of(fighter):
 		nearest = mini(nearest, IsoGrid.distance(cell, enemy.cell))
 	return nearest
+
+
+## Case d'où frapper (« corps_a_corps » : la plus proche au contact d'un ennemi ; « chasseur » : celle
+## du meilleur coup, donc sur l'ennemi le plus faible à portée), ou la case du combattant.
+static func _strike_cell(combat: Combat, fighter: Fighter) -> Vector2i:
+	var reachable := combat.reachable_cells(fighter)
+	var best_cell := fighter.cell
+	var best_key := [-INF, -INF]
+	for cell: Vector2i in reachable:
+		var option := best_cast(combat, fighter, cell)
+		if option.is_empty() or (fighter.ai == MELEE and _nearest_enemy_distance(combat, fighter, cell) != 1):
+			continue
+		var steps := float(reachable[cell].size())
+		var key := [-steps, 0.0] if fighter.ai == MELEE else [float(option["valeur"]), -steps]
+		if key[0] > best_key[0] or (key[0] == best_key[0] and key[1] > best_key[1]):
+			best_cell = cell
+			best_key = key
+	return best_cell
+
+
+## Bond (sort de téléportation) sur la case libre la plus proche des ennemis, s'il rapproche.
+static func _leap(combat: Combat, fighter: Fighter) -> Dictionary:
+	var enemy_cells: Array[Vector2i] = []
+	for enemy in combat.enemies_of(fighter):
+		enemy_cells.append(enemy.cell)
+	var distances := combat.distances_from(enemy_cells, fighter)
+	var best := {}
+	var best_distance: int = distances.get(fighter.cell, 1 << 30)
+	for spell in fighter.spells:
+		if not spell.teleports() or not fighter.cast_blocker(spell).is_empty():
+			continue
+		for cell in Spell.circle_cells(fighter.cell, combat.max_range(fighter, spell)):
+			var distance: int = distances.get(cell, 1 << 30)
+			if distance < best_distance and combat.targeting_blocker(fighter, spell, cell).is_empty():
+				best_distance = distance
+				best = {"type": Protocol.CMD_CAST, "entite": fighter.id, "sort": spell.id, "cible": cell}
+	return best
 
 
 ## Se rapprocher autant que possible de l'ennemi le plus proche.

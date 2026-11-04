@@ -742,6 +742,15 @@ func _talk(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
 			_hero_events(hero, hero_events, events)
 	if spoke:
 		return events
+	var gate: Dictionary = npc.get("entree", {})
+	var next_map: GameMap = _load_map(gate["carte"]) if not gate.is_empty() else null
+	if next_map != null and p.character.inventory.remove(gate["cle"]):
+		# Portier : la clé contre l'entrée (Tour céleste).
+		var others: Array[Dictionary] = []
+		_set_map(p, next_map, next_map.spawn, others)
+		_append_map_change(events, others, {"type": Protocol.EVT_MAP_CHANGED, "carte": p.map.id, "nom": p.map.display_name, "position": p.cell})
+		events.append_array(_inventory_events(p))
+		return events
 	if npc.get("marchand", false) and data != null:
 		events.append({
 			"type": Protocol.EVT_SHOP,
@@ -1591,7 +1600,8 @@ func _create_combat(p: PlayerState, group: Dictionary) -> Combat:
 	shuffle.seed = seed_value
 	var monster_cells: Array[Vector2i] = p.map.placement_monsters.duplicate()
 	var placement: Array[Vector2i] = p.map.placement_players.duplicate()
-	if shuffle.randi_range(0, 1) == 1 and placement.size() >= GameMap.MAX_GROUP_SIZE and monster_cells.size() >= p.heroes.size():
+	if shuffle.randi_range(0, 1) == 1 and placement.size() >= maxi(GameMap.MIN_PLACEMENT, group["monstres"].size()) \
+			and monster_cells.size() >= p.heroes.size():
 		var swap_sides := monster_cells
 		monster_cells = placement
 		placement = swap_sides
@@ -1697,6 +1707,10 @@ func _end_combat(p: PlayerState, events: Array[Dictionary]) -> void:
 		var wake_up := {}
 		if won:
 			member.character.set_hp(maxi(1, fighter.hp) if fighter != null else 1, data)
+			var floor_id := combat_instance.map.next_floor
+			var next_floor := _load_map(floor_id) if not floor_id.is_empty() and member.instance == combat_instance else null
+			if next_floor != null:
+				_set_map(member, next_floor, next_floor.spawn, moved)  # Étage d'une tour : on monte.
 		else:
 			member.character.set_hp(1, data)  # Vaincu : on se relève avec 1 PV.
 			wake_up = _wake_up(member, moved)

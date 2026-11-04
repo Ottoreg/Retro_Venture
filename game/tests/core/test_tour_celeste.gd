@@ -1,0 +1,137 @@
+extends "res://tests/test_case.gd"
+## Tour céleste réduite (demande de l'auteur, 04/11/2026) : parvis avec Cupidon et le portier, cinq
+## étages enchaînés, vol de vie, Exorcisme, et IA des anges (corps à corps, chasseur, bond).
+
+const Fixtures := preload("res://tests/helpers/fixtures.gd")
+
+var C := GameMap.plan_cell(15, 9)
+var _data := GameData.load_all()
+## Grande carte ouverte (19 × 31) : le Lion a la place de bondir.
+var _open := GameMap.from_dict({"id": "ouverte", "plan": range(31).map(func(i: int) -> String:
+	return ("@" if i == 0 else (" " if i % 2 == 1 else ".")) + ".".repeat(18))})
+
+
+## Combat sur une carte ouverte : [[id de monstre ou « joueur », case], …] (le joueur : « p0 », « p1 »…).
+func _fight(fighters_at: Array) -> Combat:
+	var fighters: Array[Fighter] = []
+	for i in fighters_at.size():
+		var kind: String = fighters_at[i][0]
+		var fighter := _data.create_player("guerrier", "p%d" % i, "Testeur") if kind == "joueur" else _data.create_monster(kind, "m%d" % i)
+		fighter.cell = fighters_at[i][1]
+		fighters.append(fighter)
+	return Combat.new(_open, fighters, [] as Array[Vector2i], 1)
+
+
+func _world(map_id: String) -> World:
+	var loader := func(id: String) -> GameMap: return DataLoader.load_map(DataLoader.map_path(id))
+	return World.new(loader.call(map_id), _data, loader)
+
+
+func test_la_tour_et_ses_etages() -> void:
+	assert_eq(_data.passages["tour_celeste"]["carte"], "celeste_0_0", "Pierre de Passage du parvis")
+	assert_true(_data.passage_always_known("tour_celeste"))
+	var parvis := DataLoader.load_map(DataLoader.map_path("celeste_0_0"))
+	assert_eq(parvis.groups[0]["monstres"], ["cupidon"], "Cupidon seul sur le parvis")
+	assert_eq(_data.monsters["cupidon"]["butin"], [{"objet": "cle_celeste", "taux": 1.0}], "la clé à 100 %")
+	assert_eq(parvis.npcs[0]["entree"], {"carte": "tour_celeste_1", "cle": "cle_celeste"})
+	var rooms := [["ange", "colombe_baptiste", "colombe_baptiste", "colombe_baptiste"],
+		["ange", "ange", "colombe_baptiste", "lion_de_juda"], ["colombe_baptiste", "lion_de_juda", "lion_de_juda", "lion_de_juda"],
+		["ange", "ange", "ange", "lion_de_juda"], ["ange", "archange_raphael", "colombe_baptiste", "lion_de_juda"]]
+	for n in 5:
+		var room := DataLoader.load_map(DataLoader.map_path("tour_celeste_%d" % (n + 1)))
+		var monsters: Array = room.groups[0]["monstres"].duplicate()
+		monsters.sort()
+		assert_eq(monsters, rooms[n], "étage %d" % (n + 1))
+		assert_eq(room.next_floor, "tour_celeste_%d" % (n + 2) if n < 4 else "celeste_0_0", "puis l'étage suivant, le parvis au sommet")
+	assert_true(_data.monsters["archange_raphael"].get("boss", false), "l'Archange est le mini-boss")
+
+
+func test_portier_contre_une_cle() -> void:
+	var world := _world("celeste_0_0")
+	var talk := {"type": Protocol.CMD_TALK, "entite": World.PLAYER_ID, "pnj": "saint_pierrot"}
+	assert_eq(Fixtures.of_type(world.execute(talk), Protocol.EVT_DIALOGUE).size(), 1, "sans clé : il parle")
+	assert_eq(world.map.id, "celeste_0_0")
+	world.character.inventory.add(_data.items["cle_celeste"])
+	var events := world.execute(talk)
+	assert_eq(Fixtures.of_type(events, Protocol.EVT_MAP_CHANGED)[0]["carte"], "tour_celeste_1", "avec : il fait entrer")
+	assert_eq(world.position_of(World.PLAYER_ID), world.map.spawn)
+	assert_eq(world.character.inventory.quantity_of("cle_celeste"), 0, "la clé est prise")
+
+
+func test_une_victoire_fait_monter_d_un_etage() -> void:
+	for floor_id: String in ["tour_celeste_4", "tour_celeste_5"]:
+		var world := _world(floor_id)
+		world.execute({"type": Protocol.CMD_ENGAGE, "entite": World.PLAYER_ID, "groupe": "groupe_1"})
+		var player := world.combat.get_fighter(World.PLAYER_ID)
+		var last: Fighter = null
+		for fighter in world.combat.fighters:
+			if fighter.team != Fighter.TEAM_PLAYERS:
+				fighter.hp = 0
+				last = fighter
+		last.hp = 1
+		world.execute({"type": Protocol.CMD_READY, "entite": World.PLAYER_ID})
+		player.cell = IsoGrid.neighbors_4(last.cell).filter(func(cell: Vector2i) -> bool: return world.combat.is_free(cell))[0]
+		var events := world.execute({"type": Protocol.CMD_CAST, "entite": World.PLAYER_ID, "sort": "guerrier_frappe", "cible": last.cell})
+		assert_false(world.in_combat())
+		assert_eq(world.map.id, "tour_celeste_5" if floor_id == "tour_celeste_4" else "celeste_0_0", "%s : on monte" % floor_id)
+		assert_eq(Fixtures.of_type(events, Protocol.EVT_MAP_CHANGED).size(), 1)
+
+
+func test_vol_de_vie_et_exorcisme() -> void:
+	var combat := _fight([["cupidon", C], ["joueur", C + Vector2i(3, 0)], ["archange_raphael", C + Vector2i(4, 0)]])
+	var cupidon := combat.get_fighter("m0")
+	var player := combat.get_fighter("p1")
+	cupidon.hp = 10
+	var events: Array[Dictionary] = []
+	combat._apply_effect(cupidon, player, cupidon.get_spell("cupidon_fleche_cupide").effects[0], events)
+	assert_eq(player.max_hp - player.hp, 10, "Flèche cupide : 10 dégâts")
+	assert_eq(cupidon.hp, 20, "qu'il reprend")
+	var archange := combat.get_fighter("m2")
+	combat._apply_effect(archange, player, archange.get_spell("archange_exorcisme").effects[0], events)
+	assert_true(player.has_state(Spell.STATE_EXORCISM))
+	combat._hurt(player, 1, "acier", events)
+	assert_true(player.is_alive(), "d'autres dégâts ne l'achèvent pas")
+	combat._hurt(player, 1, "sacre", events)
+	assert_false(player.is_alive(), "les premiers dégâts Sacré l'achèvent")
+
+
+func test_l_ange_va_au_contact_pour_frapper_deux_fois() -> void:
+	var combat := _fight([["ange", C], ["joueur", C + Vector2i(4, 0)]])
+	var ange := combat.get_fighter("m0")
+	var move := CombatAI.next_action(combat, ange, false)
+	assert_eq(move["type"], Protocol.CMD_MOVE, "plutôt que tirer de loin")
+	assert_eq(IsoGrid.distance(move["cible"], C + Vector2i(4, 0)), 1)
+	ange.cell = move["cible"]
+	for i in 2:
+		var cast := CombatAI.next_action(combat, ange, true)
+		assert_eq(cast["sort"], "ange_glaive", "coup %d au glaive" % (i + 1))
+		combat._apply_action(ange, cast)
+	assert_true(CombatAI.next_action(combat, ange, true).is_empty(), "6 PA : deux coups")
+
+
+func test_le_lion_vise_le_plus_faible_et_bondit() -> void:
+	var combat := _fight([["lion_de_juda", C], ["joueur", C + Vector2i(1, 0)], ["joueur", C + Vector2i(0, 3)]])
+	combat.get_fighter("p2").hp = 10
+	var move := CombatAI.next_action(combat, combat.get_fighter("m0"), false)
+	assert_eq(move["type"], Protocol.CMD_MOVE, "il quitte le plus fort pour le plus faible")
+	assert_eq(IsoGrid.distance(move["cible"], C + Vector2i(0, 3)), 1)
+	combat = _fight([["lion_de_juda", C], ["joueur", C + Vector2i(6, 0)]])
+	var lion := combat.get_fighter("m0")
+	var leap := CombatAI.next_action(combat, lion, false)
+	assert_eq(leap.get("sort"), "lion_bond", "trop loin : il bondit")
+	combat._apply_action(lion, leap)
+	assert_eq(lion.cell, C + Vector2i(3, 0))
+	lion.start_turn()
+	assert_false(lion.cast_blocker(lion.get_spell("lion_bond")).is_empty(), "pas au tour suivant")
+	lion.start_turn()
+	assert_true(lion.cast_blocker(lion.get_spell("lion_bond")).is_empty(), "un tour sur deux")
+
+
+func test_l_archange_soigne_seulement_les_blesses() -> void:
+	var combat := _fight([["archange_raphael", C], ["ange", C + Vector2i(0, 3)], ["joueur", C + Vector2i(1, 0)]])
+	var archange := combat.get_fighter("m0")
+	var cast := CombatAI.best_cast(combat, archange, C)
+	assert_eq(cast["sort"], "archange_exorcisme", "tout le monde a ses PV : pas de soin")
+	combat._apply_action(archange, cast)
+	combat.get_fighter("m1").hp = 20
+	assert_eq(CombatAI.best_cast(combat, archange, C)["sort"], "archange_benediction", "puis il soigne l'ange blessé")

@@ -27,7 +27,7 @@ Prix de boutique : selon la rareté (revente à 25 %).
 - [Sorts de race](#sorts-de-race)
 - [Sorts des monstres](#sorts-des-monstres)
 
-**278 objets** (18 armes, 20 coiffes, 20 capes, 20 amulettes, 20 anneaux, 20 ceintures, 20 bottes, 98 ressources, 36 plans de forge, 6 objets de quête), **50 monstres** et **124 sorts**.
+**279 objets** (18 armes, 20 coiffes, 20 capes, 20 amulettes, 20 anneaux, 20 ceintures, 20 bottes, 98 ressources, 36 plans de forge, 7 objets de quête), **55 monstres** et **132 sorts**.
 
 ## Armes
 
@@ -350,6 +350,7 @@ Prix de boutique : selon la rareté (revente à 25 %).
 
 | Nom | Niv. | Rareté | Forge | Obtention | Description |
 |---|---|---|---|---|---|
+| **Clé céleste** | 1 | Rare | — | butin : Cupidon 100 % | Saint Pierrot la réclame pour ouvrir la Tour céleste. Cupidon en a toujours une sur lui. |
 | **Panier de pommes** | 6 | Commun | — | « Le verger de Mère Pomponne » : sur Gobelin pillard, Pillard émérite (40 %) | Les pommes de Mère Pomponne, reprises une à une aux pillards. Il en manque une : la plus belle. |
 | **Laissez-passer de Hautepierre** | 12 | Rare | — | récompense de « La palissade de Krasbouk » | Signé du bourgmestre Pansu, contresigné par personne. À présenter au bureau des laissez-passer, qui exige un laissez-passer pour y entrer. |
 | **Caisse de minerai** | 14 | Commun | — | « Le convoi de Brokk » : sur Loup cendreux, Détrousseur des grands chemins, Chef de bande (40 %) | Du minerai pour les forges du Souverain. Sur le couvercle : « colliers, modèle gobelin, taille unique ». |
@@ -395,7 +396,10 @@ ni 35 % du jeu entier, pour qu'aucune résistance unique ne suffise.
 | Sylvebrume (elfes) | 12 | Givre 43 %, Acier 34 %, Tempête 21 %, Flamme 2 % |
 | Hautepierre | 16 | Acier 30 %, Flamme 27 %, Givre 18 %, Tempête 15 %, Impie 9 % |
 | La Cendre | 1 | Flamme 100 % |
-| **Jeu entier** | 50 | Acier 33 %, Tempête 23 %, Flamme 21 %, Givre 16 %, Impie 5 %, Sacré 2 % |
+| Ailleurs | 5 | Sacré 64 %, Flamme 25 %, Acier 11 % |
+| **Jeu entier** | 55 | Acier 31 %, Tempête 22 %, Flamme 21 %, Givre 15 %, Sacré 7 %, Impie 5 % |
+
+**Alerte** : Ailleurs : sacre au-dessus de 60 %
 
 ## Monstres
 
@@ -1173,6 +1177,78 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 |---|---|---|---|
 | 50 | 900 | 300 | 3000 |
 
+### Ailleurs
+
+#### Cupidon *(famille)*
+
+*Un angelot à l'arc rouge. Il garde la clé de la tour et ne vise jamais le cœur.*
+
+- **Niveau** : 3 (fixe) ; **4 PA, 3 PM** ; IA distance
+- **Résistances** : aucune
+- **Sorts** : Flèche cupide
+- **Butin** : Clé céleste 100 % ; **brumes** 2–6
+- **Où le trouver** : Parvis des nuées (`celeste_0_0`, 1 groupe, dont 1 réapparition 20–30 s)
+
+| Niv. | PV | Init. | XP |
+|---|---|---|---|
+| 3 | 25 | 90 | 30 |
+
+#### Colombe baptiste *(famille)*
+
+*Elle bénit d'un coup de bec, puis s'enfuit à tire-d'aile.*
+
+- **Niveau** : 6 (fixe) ; **4 PA, 10 PM** ; IA distance
+- **Résistances** : aucune
+- **Sorts** : Baptême express
+- **Butin** : aucun ; **brumes** 5–12
+- **Où le trouver** : Premier étage (`tour_celeste_1`, 1 groupe, dont 1 réapparition 30–45 s) · Deuxième étage (`tour_celeste_2`, 1 groupe, dont 1 réapparition 30–45 s) · Troisième étage (`tour_celeste_3`, 1 groupe, dont 1 réapparition 30–45 s) · Sommet, salle de l'Archange (`tour_celeste_5`, 1 groupe, dont 1 réapparition 60 s)
+
+| Niv. | PV | Init. | XP |
+|---|---|---|---|
+| 6 | 30 | 140 | 70 |
+
+#### Ange *(famille)*
+
+*Il a fait vœu de paix. Il a aussi un glaive.*
+
+- **Niveau** : 9 (fixe) ; **6 PA, 4 PM** ; IA corps_a_corps
+- **Résistances** : aucune
+- **Sorts** : Trait de lumière, Glaive
+- **Butin** : aucun ; **brumes** 8–18
+- **Où le trouver** : Premier étage (`tour_celeste_1`, 1 groupe, dont 1 réapparition 30–45 s) · Deuxième étage (`tour_celeste_2`, 1 groupe, dont 1 réapparition 30–45 s) · Quatrième étage (`tour_celeste_4`, 1 groupe, dont 1 réapparition 30–45 s) · Sommet, salle de l'Archange (`tour_celeste_5`, 1 groupe, dont 1 réapparition 60 s)
+
+| Niv. | PV | Init. | XP |
+|---|---|---|---|
+| 9 | 50 | 100 | 110 |
+
+#### Lion de Juda *(famille)*
+
+*Il ne mange que les pécheurs. Les plus faibles d'abord.*
+
+- **Niveau** : 15 (fixe) ; **5 PA, 3 PM** ; IA chasseur
+- **Résistances** : aucune
+- **Sorts** : Griffe de Juda, Bond
+- **Butin** : aucun ; **brumes** 15–35
+- **Où le trouver** : Deuxième étage (`tour_celeste_2`, 1 groupe, dont 1 réapparition 30–45 s) · Troisième étage (`tour_celeste_3`, 1 groupe, dont 1 réapparition 30–45 s) · Quatrième étage (`tour_celeste_4`, 1 groupe, dont 1 réapparition 30–45 s) · Sommet, salle de l'Archange (`tour_celeste_5`, 1 groupe, dont 1 réapparition 60 s)
+
+| Niv. | PV | Init. | XP |
+|---|---|---|---|
+| 15 | 150 | 70 | 200 |
+
+#### Archange Raphaël *(boss)*
+
+*Le chef de chœur de la tour : il soigne les siens et exorcise les autres.*
+
+- **Niveau** : 18 (fixe) ; **6 PA, 5 PM** ; IA corps_a_corps
+- **Résistances** : aucune
+- **Sorts** : Bénédiction de Raphaël, Exorcisme
+- **Butin** : aucun ; **brumes** 40–80
+- **Où le trouver** : Sommet, salle de l'Archange (`tour_celeste_5`, 1 groupe, dont 1 réapparition 60 s)
+
+| Niv. | PV | Init. | XP |
+|---|---|---|---|
+| 18 | 120 | 110 | 400 |
+
 ## Sorts des Voies
 
 ### Arcaniste
@@ -1256,11 +1332,14 @@ Soigneur sacré. Bénit les alliés, sermonne les ennemis, et cite des textes qu
 |---|---|---|---|---|
 | **Attention, ça tombe !** | 4 PA, portée 2–4, croix latine, en ligne, 1/tour, relance 1 t. | 5–7 Acier | Abatteur en chef (élite) niv. 12, Bûcheron de Brumerive niv. 7–9 | Il crie toujours avant. Personne n'écoute jamais. |
 | **Bal de minuit** | 3 PA, portée 0–3, 1/tour, relance 1 t. | soin 7–10 (Flamme) aux alliés | Cendrillon niv. 25–27, Marraine Cendrée (élite) niv. 30 | Une valse de cendre qui referme les plaies d'un fidèle. |
+| **Baptême express** | 4 PA, portée 1–2, 1/tour | 10 Sacré | Colombe baptiste niv. 6 | Un coup de bec bénit, puis elle s'envole. |
 | **Barrissement** | 3 PA, portée soi, cercle de rayon 2 (sans le lanceur), sans ligne de vue, 1/tour, relance 1 t. | 3–5 Tempête aux ennemis ; −1 PM (1 t.) aux ennemis | Olifant de guerre niv. 28–30, Olifant-tour (élite) niv. 33 | Le cor d'origine. Les oreilles saignent, les jambes flanchent. |
+| **Bond** | 4 PA, portée 1–3, 1/tour, relance 2 t. | téléportation sur la case | Lion de Juda niv. 15 | Le lion saute sur sa proie (un tour sur deux). |
 | **Bouclier levé** | 2 PA, portée soi, sans ligne de vue, 1/tour, relance 2 t. | bouclier 8–12 (Acier) | Milicien de Hautepierre niv. 7–9, Sergent de la milice (élite) niv. 12 | Position de garde numéro 3. Il ne connaît que celle-là, mais il la connaît bien. |
 | **Bouderie** | 2 PA, portée soi, sans ligne de vue, 1/tour, relance 2 t. | bouclier 4–6 (Givre) | Morille grincheuse niv. 1–3, Vieille Morille rancunière (élite) niv. 6 | Elle boude. C'est étonnamment efficace. |
 | **Brasier** | 4 PA, portée 2–7, 1/tour | 12–18 Flamme | Le Souverain Cendré (mini-boss) niv. 50 | Le sol s'embrase sous vos pieds. |
 | **Bélier humain** | 4 PA, portée 1–3, croix latine, en ligne, 1/tour | 5–8 Acier | Défonceur de portes (élite) niv. 15 | Il fonce tête baissée. Il n'a jamais compris pourquoi ça fait mal aux autres et pas à lui. |
+| **Bénédiction de Raphaël** | 3 PA, portée 1–5, croix latine, en ligne, 1/tour | soin 20 (Sacré) aux alliés | Archange Raphaël (mini-boss) niv. 18 | Une croix de lumière qui soigne les alliés. |
 | **Cendres ardentes** | 4 PA, portée 2–5, 1/tour | 6–9 Flamme | Cendrillon niv. 25–27, Marraine Cendrée (élite) niv. 30 | Une poignée de cendre du Souverain, jetée au visage. Ça ne part pas. |
 | **Cercle de sève** | 3 PA, portée soi, cercle de rayon 2, sans ligne de vue, 1/tour, relance 3 t. | glyphe (2 t.) : [soin 8–12 (Tempête) aux alliés ; −2 PM (1 t.) aux ennemis] | Arbre millénaire (élite) niv. 10 | L'arbre plonge ses racines tout autour de lui. Ce qui pousse là le soigne ; ce qui marche là s'enlise. |
 | **Champ maudit** | 3 PA, portée 1–4, cercle de rayon 1, sans ligne de vue, 1/tour, relance 2 t. | glyphe (2 t.) : [3–5 Tempête aux ennemis ; −1 PM (1 t.) aux ennemis] | Grand Épouvantail (élite) niv. 12 | La terre se couvre d'épis noirs qui piquent les chevilles. |
@@ -1289,9 +1368,13 @@ Soigneur sacré. Bénit les alliés, sermonne les ennemis, et cite des textes qu
 | **Croc sanglant** | 4 PA, portée 1, 1/tour | 9–13 Tempête | Loup alpha (élite) niv. 7 | Le chef de meute ne mord pas : il signe. |
 | **Embuscade** | 3 PA, portée 1–4, sans ligne de vue, 1/tour, relance 2 t. | piège invisible : [9–13 Impie aux ennemis ; −2 PM (1 t.) aux ennemis] | Chef de bande (élite) niv. 18 | Ils étaient cachés dans le fossé. Ils y sont toujours, d'ailleurs. |
 | **Estocade de pillard** | 3 PA, portée 1, 2/tour | 5–7 Acier | Gobelin pillard niv. 7–9, Pillard émérite (élite) niv. 12 | Un coup rapide, avant que la victime ne compte ses poules. |
+| **Exorcisme** | 3 PA, portée 1, 1/tour | exorcisme (2 t.) aux ennemis | Archange Raphaël (mini-boss) niv. 18 | La cible sera achevée par les prochains dégâts Sacré. |
+| **Flèche cupide** | 4 PA, portée 1–5, 1/tour | 10 Flamme | Cupidon niv. 3 | Elle ne rend personne amoureux, mais elle vole quelques PV. |
 | **Fouet de flammes** | 4 PA, portée 1–3, 1/tour | 6–9 Flamme ; attire de 1 case(s) | Le Balourd des Abîmes (mini-boss) niv. 12 | Il vous ramène vers lui, poliment, par le cou. |
 | **Gargouillis** | 3 PA, portée 2–4, 1/tour | 5–7 Givre | Gargouille niv. 22–24, Gargouille de la Grande Porte (élite) niv. 27 | Elle crache l'eau de pluie de la semaine. Glacée. |
+| **Glaive** | 3 PA, portée 1, 2/tour | 20 Acier | Ange niv. 9 | Deux coups de glaive valent mieux qu'un sermon. |
 | **Gnôle de raid** | 2 PA, portée soi, sans ligne de vue, 1/tour, relance 3 t. | soin 6–9 (Acier) | Défonceur de portes (élite) niv. 15, Gobelin briseur niv. 10–12 | Une gorgée de gnôle. Ça soigne, d'après l'étiquette. |
+| **Griffe de Juda** | 5 PA, portée 1, 1/tour | 1–50 Sacré | Lion de Juda niv. 15 | Un coup de patte imprévisible. |
 | **Griffes de pierre** | 4 PA, portée 1, 1/tour | 7–10 Givre | Gargouille niv. 22–24, Gargouille de la Grande Porte (élite) niv. 27 | Trois siècles à garder une gouttière gelée, ça aiguise les griffes. |
 | **Grignotage** | 2 PA, portée 1, 1/tour | 1–2 Acier ; −1 PM au prochain tour | Rat des galeries niv. 1–3, Rat-roi (élite) niv. 5 | Le rat s'attaque aux lacets. On avance moins vite. |
 | **Hachette de jet** | 3 PA, portée 2–5, 1/tour | 4–6 Acier | Krasbouk, Chef de Raid (syndiqué) (mini-boss) niv. 12 | Il en a toujours une de rechange, glissée dans la botte. |
@@ -1333,6 +1416,7 @@ Soigneur sacré. Bénit les alliés, sermonne les ennemis, et cite des textes qu
 | **Toile collante** | 3 PA, portée 2–5, 1/tour | 2–4 Tempête ; −2 PM (1 t.) | Grande Tisseuse (élite) niv. 15, La Mère-Toile (mini-boss) niv. 12, Tisseuse de brume niv. 10–12 | Une toile de brume que le vent rabat sur vous. |
 | **Toile géante** | 4 PA, portée 2–5, cercle de rayon 2, sans ligne de vue, 1/tour, relance 3 t. | glyphe (2 t.) : [2–4 Givre aux ennemis ; −2 PM (1 t.) aux ennemis] | La Mère-Toile (mini-boss) niv. 12, phase 1 (65 % PV) | Toute la clairière devient un piège. |
 | **Tourbillon syndical** | 4 PA, portée soi, cercle de rayon 1 (sans le lanceur), sans ligne de vue, 1/tour | 7–10 Acier | Krasbouk, Chef de Raid (syndiqué) (mini-boss) niv. 12, phase 2 (30 % PV) | Il fait le tour de la question. Et de tous ceux qui l'entourent. |
+| **Trait de lumière** | 4 PA, portée 2–7, 1/tour | 25 Sacré | Ange niv. 9 | Un rayon sacré, tiré de loin par prudence. |
 | **Ultrason** | 3 PA, portée 1–4, 1/tour | 3–5 Tempête ; −1 Portée (1 t.) | Vampipistrelle niv. 4–6, Vampipistrelle comtesse (élite) niv. 9 | Un cri si aigu qu'on ne vise plus droit. |
 | **Venin ancestral** | 4 PA, portée 1, 1/tour | 7–10 Givre ; poison 3–4 Givre par tour (3 t.) | La Mère-Toile (mini-boss) niv. 12 | Une seule morsure, et l'hiver s'installe dans vos veines. |
 | **Vol à l'arraché** | 2 PA, portée 1, 1/tour | 2–4 Flamme ; −2 Dommages (2 t.) | Gobelin pillard niv. 7–9, Pillard émérite (élite) niv. 12 | Il vous prend quelque chose et met le feu à ce qu'il laisse. Vous frappez moins fort, par dépit. |

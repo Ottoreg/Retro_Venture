@@ -304,6 +304,9 @@ le **lit** de votre maison les rend tous d'un coup.
     olifants de guerre, et à la Brèche le **boss Grondin**.
   - Le **Trône de Cendre** (carte d'élite de test, gratuit par les Pierres) : le Souverain Cendré,
     le monstre le plus puissant du jeu, pour les curieux.
+  - La **Tour céleste** (gratuite par les Pierres) : battez **Cupidon** sur le parvis pour sa clé,
+    donnez-la à **Saint Pierrot**, puis gravissez 5 étages (chaque victoire fait monter) jusqu'à
+    l'**Archange Raphaël**. Attention à son *Exorcisme* : les prochains dégâts Sacré vous achèvent.
 - **50 monstres** : une famille par palier, chacune avec son **élite** (plus grande, halo doré, bien
   plus forte, meilleur butin ; elle apparaît toutes les 5 à 6 minutes sur une carte de sa famille, et
   son butin s'améliore tant qu'elle reste en vie : losanges puis couronne dans sa bulle). Les

@@ -1,0 +1,23 @@
+{
+  "id": "archange_raphael",
+  "nom": "Archange Raphaël",
+  "description": "Le chef de chœur de la tour : il soigne les siens et exorcise les autres.",
+  "boss": true,
+  "niveau": 18,
+  "caracteristiques": {
+    "pv": 120,
+    "pa": 6,
+    "pm": 5,
+    "initiative": 110
+  },
+  "sorts": [
+    "archange_benediction",
+    "archange_exorcisme"
+  ],
+  "ia": "corps_a_corps",
+  "xp": 400,
+  "ecus": [
+    40,
+    80
+  ]
+}

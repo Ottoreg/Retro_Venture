@@ -323,8 +323,8 @@ func test_un_elite_par_famille_de_monstres() -> void:
 				"%s : « base » doit être une famille existante" % monster_id)
 			assert_false(elite_of.has(monster_id), "%s : pas d'élite pour une variante" % monster_id)
 			continue
-		# Un boss est unique : ni famille, ni élite.
-		if not monster.get("elite", false) and not monster.get("boss", false):
+		# Un boss est unique : ni famille, ni élite ; un monstre de donjon (Tour céleste) n'en a pas non plus.
+		if not monster.get("elite", false) and not monster.get("boss", false) and not monster.get("donjon", false):
 			assert_true(elite_of.has(monster_id), "famille « %s » : il lui faut un élite" % monster_id)
 
 
