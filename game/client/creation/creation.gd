@@ -123,7 +123,7 @@ func _on_start_pressed() -> void:
 		get_tree().change_scene_to_file(OnlineScreen.SCENE)
 		return
 	Session.new_character = build_character()
-	Session.continue_game = false
+	Session.continue_game = Session.adding_hero
 	get_tree().change_scene_to_file(WORLD_SCENE)
 
 
@@ -132,6 +132,10 @@ func _on_back_pressed() -> void:
 		Session.online_connection.close()
 		Session.online_connection = null
 		get_tree().change_scene_to_file(OnlineScreen.SCENE)
+		return
+	if Session.adding_hero:
+		Session.adding_hero = false  # Mode héros : retour à la partie, sans nouveau héros.
+		get_tree().change_scene_to_file(WORLD_SCENE)
 		return
 	get_tree().change_scene_to_file(MENU_SCENE)
 
@@ -205,7 +209,7 @@ func _build() -> void:
 	_error = _label("", 16, Color(1, 0.45, 0.4))
 	_error.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	var save_summary := SaveGame.summary()
-	if not save_summary.is_empty():
+	if not save_summary.is_empty() and not Session.adding_hero:
 		var warning := _label("Attention : la partie en cours (%s) sera remplacée." % save_summary, 14, Color(0.85, 0.7, 0.5))
 		column.add_child(warning)
 		column.move_child(warning, column.get_child_count() - 2)

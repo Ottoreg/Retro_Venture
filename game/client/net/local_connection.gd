@@ -37,6 +37,11 @@ func save_data() -> Dictionary:
 	return world.save_data()
 
 
+func control(hero_id: String) -> void:
+	player_id = hero_id
+	refresh()
+
+
 ## Recharge la copie de l'état d'après le monde.
 func refresh() -> void:
 	state.map_ids = world.map_ids

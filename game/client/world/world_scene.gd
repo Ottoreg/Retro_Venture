@@ -100,6 +100,7 @@ func _ready() -> void:
 	_world_map.icons_changed.connect(_minimap.refresh)
 	_minimap.flag_requested.connect(_on_flag_requested)
 	_combat_hud.menu_pressed.connect(_on_menu_pressed)
+	_combat_hud.new_hero_pressed.connect(_on_new_hero_pressed)
 	_map_view.notice.connect(_combat_hud.show_message)
 	_map_view.hovered_cell_changed.connect(_on_hovered_cell_changed)
 	_map_view.combat_started.connect(_on_combat_started)
@@ -121,6 +122,11 @@ func _create_world() -> World:
 	var load_map := func(map_id: String) -> GameMap: return DataLoader.load_map(DataLoader.map_path(map_id))
 	if Session.continue_game and SaveGame.exists():
 		var restored := World.from_save(SaveGame.read(), game_data, load_map)
+		if restored != null and Session.adding_hero and Session.new_character != null:
+			game_data.give_starting_kit(Session.new_character)
+			restored.add_hero(Session.new_character)  # Mode héros : caché, sur la case du héros contrôlé.
+		Session.adding_hero = false
+		Session.new_character = null
 		if restored != null:
 			return restored
 	var character: Character = Session.new_character
@@ -220,6 +226,16 @@ func _unhandled_input(event: InputEvent) -> void:
 		quests_window.toggle()
 		return
 	pause_menu.open()
+
+
+## Mode héros : la partie est sauvegardée, l'écran de création ajoute le héros puis la reprend.
+func _on_new_hero_pressed() -> void:
+	if _map_view.mode != MapView.Mode.EXPLORATION:
+		return
+	_save()
+	Session.adding_hero = true
+	Session.continue_game = true
+	get_tree().change_scene_to_file("res://client/creation/creation.tscn")
 
 
 func _back_to_menu() -> void:

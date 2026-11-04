@@ -1945,3 +1945,38 @@ func test_caracteristiques_detaillees() -> void:
 	sheet.toggle()
 	assert_false(sheet._details.visible, "se ferme avec la fiche")
 	scene.free()
+
+
+## Mode héros (GDD § 4.6) : la liste de l'équipe, le changement de héros, et en combat la main passe
+## à chaque héros à son tour.
+func test_mode_heros_dans_la_scene() -> void:
+	var tree := Engine.get_main_loop() as SceneTree
+	var scene: Node = load("res://client/world/world.tscn").instantiate()
+	tree.root.add_child(scene)
+	var view: MapView = scene.get_node("MapView")
+	var hud: CombatHud = scene.get_node("CombatHud")
+	var sam := view.server.add_hero(Character.create("Sam", "humain", "rodeur"))
+	view.refresh_state()
+	hud._refresh_exploration()
+	assert_eq(view.world.heroes.size(), 2)
+	assert_eq(hud._heroes_box.get_child_count(), 5, "titre, deux héros et « Nouveau héros »")
+	assert_false(view._actors.has(sam.id), "le héros caché n'est pas dessiné")
+	view.control_hero(sam.id)
+	_run_until_idle(view)
+	assert_eq(view.world.player_id, sam.id, "Sam est contrôlé")
+	assert_eq(view.world.player_name, "Sam")
+	assert_true(view._actors.has(sam.id) and not view._actors.has(World.PLAYER_ID))
+	view._on_click(view.server.groups()[0]["case"])
+	_run_until_idle(view)
+	assert_eq(view.server.combat.player_fighters().size(), 2, "toute l'équipe combat")
+	view.request_start_fight()
+	_run_until_idle(view)
+	var played: Array = []
+	for i in 6:
+		if view.is_player_turn() and view.world.player_id not in played:
+			played.append(view.world.player_id)
+			view.request_end_turn()
+		_run_until_idle(view)
+	played.sort()
+	assert_eq(played, [sam.id, World.PLAYER_ID], "le joueur joue chacun de ses héros")
+	scene.free()

@@ -31,6 +31,11 @@ func update(_delta: float) -> Array[Dictionary]:
 	return [] as Array[Dictionary]
 
 
+## Mode héros : la copie de l'état et les événements reçus sont désormais ceux de ce héros.
+func control(_hero_id: String) -> void:
+	pass
+
+
 ## Partie à sauvegarder sur ce poste ({} quand la partie vit sur un serveur).
 func save_data() -> Dictionary:
 	return {}

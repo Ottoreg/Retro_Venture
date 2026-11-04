@@ -60,6 +60,12 @@ var reports: Dictionary = {}
 var exchange: Exchange = null
 ## Joueur à qui il a proposé un échange, sans réponse encore (id), ou "".
 var exchange_asked := ""
+## Mode héros (GDD § 4.6) : ids des héros que contrôle le même joueur, lui compris (tableau partagé
+## par toute l'équipe), vide hors de ce mode.
+var heroes: Array[String] = []
+## Héros non contrôlé : absent de la liste des joueurs de la carte (invisible), toujours sur la case
+## du héros contrôlé, avec qui il combat.
+var hidden := false
 ## Quêtes : propositions, avancement, récompenses (l'état est dans `character.quests`).
 var quest_book: QuestBook
 

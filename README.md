@@ -29,6 +29,7 @@ a été ajouté depuis, avant de retravailler le fond des mécaniques, des class
   (Voie Impie et son horloge) ; trois races : Humains, Elfes, Gobelins.
 - **Progression sans niveaux** : réputation (qui débloque) et points de maîtrise à répartir, par classe et par
   métier ; caractéristiques gagnées par la pratique et plafonnées ; une classe active, changée hors combat.
+- **Mode héros (solo)** : jusqu'à 4 personnages joués ensemble, un seul visible, toute l'équipe en combat.
 - **Équipement et métiers** : forge personnalisée à l'enclume (l'équipement prédéfini se limite aux
   panoplies), récolte avec temps selon le palier, agriculteur, herboriste et pêcheur.
 - **Quêtes** : tutoriels, actes I et II, quêtes secondaires, journal et suivi avec repères sur la carte.

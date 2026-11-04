@@ -329,3 +329,29 @@ func test_cartes_des_objectifs() -> void:
 	_command(Protocol.CMD_QUEST_ACCEPT, {"quete": "tuto"})
 	var tracked: Dictionary = book.sheet()["en_cours"][0]
 	assert_eq(tracked["objectifs"][0]["cartes"], [], "équiper : nulle part en particulier")
+
+
+## Mode héros (GDD § 4.6) : quête acceptée pour toute l'équipe ; combats et dialogues comptent pour
+## chaque héros.
+func test_mode_heros_quete_pour_toute_l_equipe() -> void:
+	var visit := {"id": "visite", "nom": "Visite", "categorie": "secondaire", "niveau": 1, "pnj": "berger",
+		"etapes": [{"objectifs": [{"type": "vaincre", "monstre": "mannequin", "nombre": 1}]}, {"objectifs": [{"type": "parler", "pnj": "berger"}]}]}
+	_world = World.new(_maps["a"], _data(_quest_list() + [visit]), _loader, Fixtures.character())
+	var hero := _world.add_hero(Fixtures.character())
+	_talk("berger")
+	_command(Protocol.CMD_QUEST_ACCEPT, {"quete": "visite"})
+	assert_false(hero.character.quests.is_active("visite"), "sans « pour toute l'équipe »")
+	_command(Protocol.CMD_QUEST_ACCEPT, {"quete": "tuto", "equipe": true})
+	assert_true(hero.character.quests.is_active("tuto"), "acceptée aussi pour l'autre héros")
+	assert_eq(hero.character.inventory.quantity_of("bague"), 1, "chacun reçoit ses objets")
+	_world = World.new(_maps["a"], _data(_quest_list() + [visit]), _loader, Fixtures.character())
+	hero = _world.add_hero(Fixtures.character())
+	_talk("berger")
+	var events := _command(Protocol.CMD_QUEST_ACCEPT, {"quete": "visite", "equipe": true})
+	assert_true(events.filter(func(e: Dictionary) -> bool: return e.get(Protocol.FIELD_FOR) == hero.id).size() > 0,
+		"les événements de l'autre héros lui sont adressés")
+	_win_against("groupe_1")
+	assert_eq(hero.character.quests.step("visite"), 1, "le combat compte pour chaque héros")
+	_talk("berger")
+	assert_true(_world.character.quests.is_done("visite"))
+	assert_true(hero.character.quests.is_done("visite"), "le dialogue compte pour toute l'équipe")

@@ -23,6 +23,10 @@ Règles :
   combat), désignés par l'id de leur personnage (champ `entite` des commandes).
 - En solo, un seul joueur (`World.PLAYER_ID`) : `World.character`, `map`, `combat`… gardent
   l'interface d'avant (façade solo). `add_player` et `remove_player` connectent d'autres joueurs.
+- **Mode héros** (GDD § 4.6) : `add_hero` ajoute un héros caché (`PlayerState.hidden`, hors de
+  `MapInstance.player_ids`) à l'équipe (`PlayerState.heroes`) ; les cachés suivent la case du héros
+  contrôlé (`_sync_heroes`, après chaque commande et `update`), entrent dans son combat
+  (`_enter_combat`) ; `changer_heros` change de héros contrôlé.
 - Chaque événement a une **portée** (`Protocol.scope_of` : personnel, carte, combat) ;
   `World.recipients(événement, expéditeur)` dit à qui l'envoyer. Un événement de carte a toujours
   son champ `carte`.

@@ -36,8 +36,11 @@ func set_groups(p_groups: Dictionary) -> void:
 		positions[group_id] = groups[group_id]["case"]
 
 
-func add_player(player_id: String, cell: Vector2i) -> void:
-	if player_id not in _players:
+## `listed` faux : un héros caché (mode héros), qui a sa case mais n'est pas dans `player_ids`.
+func add_player(player_id: String, cell: Vector2i, listed := true) -> void:
+	if not listed:
+		_players.erase(player_id)
+	elif player_id not in _players:
 		_players.append(player_id)
 	positions[player_id] = cell
 

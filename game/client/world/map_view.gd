@@ -405,6 +405,28 @@ func toggle_sit() -> void:
 		send_command({"type": Protocol.CMD_SIT, "entite": world.player_id, "assis": not world.sitting})
 
 
+## Mode héros (GDD § 4.6) : contrôler ce héros de l'équipe, en exploration (le monde le fait
+## apparaître) ou pendant le placement (pour le placer).
+func control_hero(hero_id: String) -> void:
+	if mode == Mode.EXPLORATION:
+		send_command({"type": Protocol.CMD_SWITCH_HERO, "entite": world.player_id, "heros": hero_id})
+	elif is_placement() and hero_id != world.player_id:
+		_take_control(hero_id)
+
+
+func is_hero(actor_id: String) -> bool:
+	return world.heroes.any(func(hero: Dictionary) -> bool: return hero["id"] == actor_id)
+
+
+func _take_control(hero_id: String) -> void:
+	connection.control(hero_id)
+	if mode == Mode.EXPLORATION:
+		_load_exploration_actors()
+	character_changed.emit()
+	combat_state_changed.emit()
+	queue_redraw()
+
+
 func request_start_fight() -> void:
 	if is_placement() and not _playing and not world.spectating:
 		_send({"type": Protocol.CMD_READY, "entite": world.player_id})
@@ -546,7 +568,11 @@ func _on_click(cell: Vector2i) -> void:
 			_plan({"type": Protocol.CMD_MOVE, "entite": world.player_id, "cible": cell})
 		return
 	if is_placement():
-		_send({"type": Protocol.CMD_PLACE, "entite": world.player_id, "cible": cell})
+		var fighter := world.combat.fighter_at(cell) if world.combat != null else null
+		if fighter != null and is_hero(fighter.id):
+			control_hero(fighter.id)  # Mode héros : choisir le héros à placer.
+		else:
+			_send({"type": Protocol.CMD_PLACE, "entite": world.player_id, "cible": cell})
 	elif is_player_turn():
 		if selected_spell != "":
 			var spell_id := selected_spell
@@ -1382,6 +1408,9 @@ func _apply(event: Dictionary) -> float:
 	if type == Protocol.EVT_DIALOGUE:
 		_open_dialogue(event)
 		return 0.0
+	if type == Protocol.EVT_HERO_CHANGED:
+		_take_control(event["heros"])
+		return 0.0
 	if type == Protocol.EVT_SHOP:
 		shop_opened.emit(event)
 		return 0.0
@@ -1603,6 +1632,8 @@ func _apply(event: Dictionary) -> float:
 		return 0.4
 	if type == Protocol.EVT_TURN_STARTED:
 		current_turn = event["entite"]
+		if current_turn != world.player_id and is_hero(current_turn):
+			_take_control(current_turn)  # Mode héros : le joueur joue chacun de ses héros à son tour.
 		turn_time_left = float(event.get("duree", 0.0))
 		if current_turn != world.player_id:
 			_planned.clear()  # Mort pendant son tour : rien ne part au tour suivant.
@@ -1731,6 +1762,10 @@ func _apply(event: Dictionary) -> float:
 		return 0.0
 	if type == Protocol.EVT_EXPLORATION:
 		mode = Mode.EXPLORATION
+		for hero: Dictionary in world.heroes:
+			if hero["controle"] and hero["id"] != world.player_id:
+				connection.control(hero["id"])  # Mode héros : retour au héros contrôlé hors combat.
+				character_changed.emit()
 		selected_spell = ""
 		turn_order.clear()
 		_load_exploration_actors()

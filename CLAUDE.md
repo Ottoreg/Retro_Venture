@@ -214,6 +214,9 @@ Dernière session (retours de la passe de l'auteur) :
   (GDD § 4.3) ; autres idées d'identité des classes (TODO, « Identité des classes ») ; Cape en peau d'ananas (forte résistance Flamme ; demande des
   bonus de résistance sur l'équipement, GDD § 9.2) ; PNJ qui appellent le joueur par son pseudo
   (balise `{joueur}` dans les dialogues, refusé pour l'instant).
+- **Mode héros en solo** (04/11/2026, GDD § 4.6, sur `dev`) : 4 héros au plus, un contrôlé, les autres
+  cachés sur sa case, toute l'équipe en combat (joué tour à tour), quête « Pour l'équipe », protocole v13.
+  En ligne plus tard.
 - Le pseudo choisi est déjà utilisé partout ; « Aventurier » (`World.DEFAULT_NAME`) n'apparaît
   que dans les tests et les captures, sans écran de création.
 

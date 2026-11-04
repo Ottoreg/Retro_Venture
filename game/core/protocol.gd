@@ -9,7 +9,7 @@ extends RefCounted
 
 ## Version du protocole, vérifiée à la connexion : à augmenter à chaque changement incompatible
 ## d'une commande ou d'un événement.
-const VERSION := 12
+const VERSION := 13
 
 # --- Commandes (client → noyau) ---
 
@@ -64,13 +64,16 @@ const CMD_WITHDRAW := "reprendre"
 ## « toujours_connue »), en payant son prix en brumes. Arriver par un voyage ne découvre pas la pierre.
 ## { type, entite: String, case: Vector2i (la pierre), destination: String (id de la pierre d'arrivée) }
 const CMD_TRAVEL := "voyager"
-## Exploration, à côté du PNJ qui la propose : accepter une quête. { type, entite: String, quete: String }
+## Exploration, à côté du PNJ qui la propose : accepter une quête. { type, entite: String, quete: String },
+## et `equipe` (optionnel, booléen, mode héros) : aussi pour les autres héros qui peuvent la prendre.
 const CMD_QUEST_ACCEPT := "accepter_quete"
 ## Remettre une quête proposée à plus tard (le marchand ou l'artisan ouvre alors sa boutique ou son
 ## atelier au prochain dialogue). { type, entite: String, quete: String }
 const CMD_QUEST_DECLINE := "refuser_quete"
 ## Suivre une quête en cours (sous la minicarte), ou aucune avec "". { type, entite: String, quete: String }
 const CMD_QUEST_TRACK := "suivre_quete"
+## Exploration, mode héros (GDD § 4.6) : contrôler un autre héros de son équipe. { type, entite: String, heros: String }
+const CMD_SWITCH_HERO := "changer_heros"
 ## Exploration : attaquer un groupe de monstres. { type, entite: String, groupe: String }
 const CMD_ENGAGE := "engager"
 ## Combat, phase de placement : { type, entite: String, cible: Vector2i }
@@ -138,6 +141,8 @@ const EVT_QUEST_OFFER := "quete_proposee"
 const EVT_QUEST_PROGRESS := "quete_avance"
 ## Une quête est terminée et ses récompenses données. { type, quete, nom, xp, ecus, objets }
 const EVT_QUEST_DONE := "quete_terminee"
+## Mode héros : le joueur contrôle désormais ce héros. { type, heros: String }
+const EVT_HERO_CHANGED := "heros_change"
 ## Journal des quêtes, après chaque changement. { type, journal: { en_cours, terminees, suivie } }
 const EVT_QUESTS := "quetes"
 ## Boutique d'un marchand, à la place du dialogue quand on lui parle. { type, pnj: String, nom: String,
