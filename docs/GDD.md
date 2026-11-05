@@ -1411,7 +1411,9 @@ tour ») : la difficulté vient uniquement des **monstres renforcés**.
 - **Long terme :** forgemagie (modification des jets avec des runes), objets légendaires à effets
   uniques liés au butin rare et aux quêtes, objets liés au compte.
 - **Essences** (idée de l'auteur du 01/11/2026, le **puits d'équipement** du § 10.4 et du § 13.6 ;
-  rien n'est codé, chiffres à équilibrer) :
+  rien n'est codé, chiffres à équilibrer). **Le 05/11/2026, l'auteur remplace pour le moment la
+  destruction et les cicatrices ci-dessous par l'infusion de ressources** (§ 10.4, « Infusion
+  d'essences ») ; le texte reste en trace :
   - **destruction** : détruire un objet donne une **essence** d'une de ses statistiques, **tirée au
     hasard** parmi ses lignes (« essence de Force », « essence de PA »…). L'objet disparaît : c'est
     ce qui renouvelle la demande auprès des artisans ;
@@ -1441,8 +1443,6 @@ tour ») : la difficulté vient uniquement des **monstres renforcés**.
     réussite ; la maîtrise de l'artisan (§ 10.2) augmente la chance de réussite ; en multijoueur,
     les essences s'échangent et se vendent ;
   - les essences **remplacent les runes** de la forgemagie : un seul système d'amélioration ;
-  - **seconde source** (05/11/2026) : l'**infusion** de ressources (§ 10.4, « Infusion d'essences »),
-    qui ajoute une ligne exotique ;
   - *questions ouvertes* : le tirage est-il pondéré (une ligne forte plus probable) ? les panoplies
     et objets prédéfinis peuvent-ils être détruits et améliorés ? métier dédié ou compétence de
     chaque artisan sur ses propres emplacements ?
@@ -2019,8 +2019,8 @@ compris) et les recettes du forgeron sont supprimés, tout le reste se forge.
 - **Limites** (demande de l'auteur, 02/11/2026) : **100 points de score par ligne** au plus, plafond qui découle du poids (100 Force,
   400 Vitalité, 1 000 Initiative, 34 Prospection ou Dommages, 10 Critique, 12 % de résistance ; 1 PA, PM ou Portée ; les ressources en trop sont perdues, sans refus :
   les joueurs apprennent de leurs erreurs, demande de l'auteur du 04/11/2026) et
-  **8 lignes par objet** au plus (forge refusée au-delà, `trop_de_lignes`). Seules les **essences**
-  (§ 9.2, à venir) pourront dépasser le plafond d'une ligne. Une ressource de haut palier peut donner
+  **8 lignes par objet** au plus (forge refusée au-delà, `trop_de_lignes`). Les **essences** (infusion, plus bas) ajoutent des
+  lignes exotiques, elles aussi plafonnées à 100 points de score. Une ressource de haut palier peut donner
   **plusieurs caractéristiques** (`caracteristique` en liste, chacune à sa valeur pleine ; par exemple
   Intelligence et Force pour une ressource liée au Sacré) : prévu dans le code, aucune ressource n'en a
   encore.
@@ -2053,31 +2053,29 @@ compris) et les recettes du forgeron sont supprimés, tout le reste se forge.
   ceintures)…
 
 **Infusion d'essences** (nom provisoire, à la place de « forgemagie » ; idée de l'auteur du
-05/11/2026, **rien n'est codé**, points en suspens plus bas) : une **seconde source d'essences**
-(§ 9.2), tirée des ressources au lieu de la destruction d'objets.
+05/11/2026, règles validées le même jour, **rien n'est codé**) : **seule source d'essences pour le
+moment** ; elle remplace la destruction d'objets et les cicatrices du § 9.2.
 
-- **Infuser** : un artisan fait « infuser » des ressources identiques et obtient une **essence** qui
-  porte la **valeur de forge** de cette ressource (§ 10.4, rares × 3 compris). Exemple : la ressource A,
-  commune, donne +1 Agilité à la forge ; 20 ressources A donnent une essence « +1 Agilité ».
-- **Quantité selon la rareté** : **20** ressources communes, **10** rares, **2** légendaires (rareté
-  qui n'existe pas encore sur les ressources).
+- **Infuser** : l'artisan d'une catégorie infuse pour sa catégorie (l'artisan des coiffes pour les
+  coiffes, etc.). Des ressources identiques donnent une **essence** qui porte la **valeur de forge** de
+  cette ressource (§ 10.4, rares × 3 compris). Exemple : la ressource A, commune, donne +1 Agilité à la
+  forge ; 20 ressources A donnent une essence « +1 Agilité ».
+- **Rareté des ressources** (harmonisée, demande de l'auteur) : **commune** si son taux de butin
+  dépasse 20 %, **rare** au-dessus de 1 %, **légendaire** à 1 % ou moins.
+- **Quantité selon la rareté** : **20** ressources communes, **10** rares, **2** légendaires.
 - **Essence parfaite** : **5 fois plus** de ressources (100 communes, 50 rares, 10 légendaires) ; son
   usage **ne peut pas échouer**.
-- **Usage** : appliquée à un objet, l'essence lui **ajoute sa statistique en ligne exotique** (« exo »),
-  avec une **chance de réussite**, seulement si la statistique **n'est pas déjà** sur le jet de l'objet.
-  Échec : l'essence est perdue, jamais l'objet (§ 10.2, § 9.2).
-- **Plafond exotique** : **200 points de score** d'exo au plus par objet (lecture de Claude : total de
-  toutes les lignes exo, en points de score, donc 200 Agilité, 800 Vitalité ou un mélange).
+- **Usage** : appliquée à un objet, l'essence lui **ajoute sa statistique en ligne exotique** (« exo »)
+  si la statistique **n'est pas déjà** sur le jet de l'objet. Plusieurs essences de la même statistique
+  **s'additionnent** sur la même ligne exo. **Chance de réussite selon le poids de la statistique**
+  (une statistique chère en points de score, comme PA, PM ou Portée, réussit moins souvent ; barème à
+  chiffrer). Échec : l'essence est perdue, jamais l'objet (§ 10.2).
+- **Plafonds** : **200 points de score d'exo au total** par objet, toutes lignes exo comprises ; une
+  ligne exo reste plafonnée à **100 points de score**, comme une ligne forgée.
 - *Noms proposés* (à choisir par l'auteur) : **Sublimation** (l'objet est « sublimé »),
   **Brumagie** (la magie des brumes, lieu de frappe de la monnaie), **Quintessence** (l'objet reçoit
   la quintessence d'une ressource), **Distillation** (l'alambic de l'artisan ; parodie possible :
   distillerie gobeline syndiquée).
-- *En suspens* (à valider par l'auteur) : chance de réussite (fixe, par rareté, par statistique, avec
-  la maîtrise ?) ; sens exact du plafond de 200 (total des exos ou par ligne, une seule ligne exo
-  ou plusieurs, une exo peut-elle dépasser les 100 points d'une ligne ?) ; plusieurs essences de la même
-  statistique s'additionnent-elles sur la même ligne exo ? quel artisan infuse (tout artisan, ou
-  selon la matière) ; lien avec l'essence de destruction du § 9.2 (qui remplace une ligne meilleure,
-  et ses trois cicatrices) : deux sources du même objet, ou deux systèmes distincts.
 
 **Refonte du 29/10/2026 (alpha 2, § 4.5 et § 10.2) : à redéfinir avec la maîtrise** (demande de
 l'auteur ; proposition, non validée) :

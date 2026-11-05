@@ -687,13 +687,15 @@ classes (option écartée et compromis gardés en piste, GDD § 5.2).
   pouvoirs uniques, une par Héraut Cendré (GDD § 3.3, § 9.1)
 - [ ] Objets légendaires à effets uniques (butin très rare et quêtes)
 - [ ] Archimonstres (variantes rares nommées)
-- [ ] Essences (GDD § 9.2) : détruire un objet donne l'essence d'une de ses statistiques au hasard,
+- [ ] ~~Essences (GDD § 9.2)~~ remplacées pour le moment par l'infusion (plus bas) : détruire un objet donne l'essence d'une de ses statistiques au hasard,
   qui sert à essayer d'améliorer un autre objet (puits d'équipement ; remplace les runes de forgemagie)
   ; greffe de la valeur exacte en un essai, chance affichée, trois cicatrices par objet, historique
   des greffes sur la fiche (sans objet de provenance ni artisan), essence utilisable aussi en fabrication
-- [ ] Infusion d'essences (nom provisoire, GDD § 10.4) : 20 communes / 10 rares / 2 légendaires
-  → essence à la valeur de forge, ajoutée en exo si la ligne manque (200 points de score d'exo au plus) ;
-  essence parfaite (× 5 ressources) sans échec ; points en suspens à valider par l'auteur
+- [ ] Infusion d'essences (nom provisoire, GDD § 10.4, remplace pour le moment la destruction et les
+  cicatrices) : l'artisan de chaque catégorie infuse 20 communes / 10 rares / 2 légendaires → essence à
+  la valeur de forge, ajoutée en exo si la ligne manque (cumulable, chance selon le poids de la stat,
+  200 points de score d'exo par objet, 100 par ligne) ; essence parfaite (× 5 ressources) sans échec
+- [ ] Harmoniser la rareté des ressources : commune (butin > 20 %), rare (> 1 %), légendaire (≤ 1 %)
 
 ### Métiers
 - [x] Conception des onze métiers (GDD § 10.3) : récolte (mineur, bûcheron, agriculteur, herboriste,
