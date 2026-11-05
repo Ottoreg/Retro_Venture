@@ -691,6 +691,9 @@ classes (option écartée et compromis gardés en piste, GDD § 5.2).
   qui sert à essayer d'améliorer un autre objet (puits d'équipement ; remplace les runes de forgemagie)
   ; greffe de la valeur exacte en un essai, chance affichée, trois cicatrices par objet, historique
   des greffes sur la fiche (sans objet de provenance ni artisan), essence utilisable aussi en fabrication
+- [ ] Infusion d'essences (nom provisoire, GDD § 10.4) : 20 communes / 10 rares / 2 légendaires
+  → essence à la valeur de forge, ajoutée en exo si la ligne manque (200 points de score d'exo au plus) ;
+  essence parfaite (× 5 ressources) sans échec ; points en suspens à valider par l'auteur
 
 ### Métiers
 - [x] Conception des onze métiers (GDD § 10.3) : récolte (mineur, bûcheron, agriculteur, herboriste,
