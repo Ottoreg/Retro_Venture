@@ -2437,8 +2437,8 @@ l'étage suivant ; un autel derrière Raphaël dans le Chœur. Monstres de la to
 |---|---|---|---|
 | Ange | 50 / 6 / 4 | *Trait de lumière* 25 Sacré, 2 à 7 PO, 4 PA ; *Glaive* 20 Acier au contact, 3 PA, 2 par tour | `corps_a_corps` : va au contact pour frapper deux fois |
 | Colombe baptiste | 30 / 4 / 10 | *Baptême express* 10 Sacré, 1 à 2 PO, 4 PA | `distance` : frappe puis fuit au maximum, sinon court vers l'ennemi |
-| Lion de Juda | 150 / 5 / 3 | *Griffe de Juda* 1 à 50 Sacré au contact, 5 PA ; *Bond* 1 à 3 PO, 4 PA, un tour sur deux | `chasseur` : frappe l'ennemi le plus faible qu'il peut atteindre, bondit s'il ne peut frapper personne |
-| Archange Raphaël (mini-boss) | 120 / 6 / 5 | *Bénédiction de Raphaël* soin 20 Sacré aux alliés en croix (comme le *Sermon*), 3 PA, 1 par tour ; *Exorcisme* au contact, 3 PA, 1 par tour : état « exorcisme » (2 tours), les prochains dégâts Sacré achèvent la cible ; seul (plus d'allié en vie), *Jugement dernier* remplace la *Bénédiction* : 25 Sacré sur les 4 cases à son contact, 3 PA, 1 par tour | `corps_a_corps` ; l'Exorcisme avant tout soin ou attaque, ne soigne que les blessés |
+| Lion de Juda | 150 / 5 / 3 | *Griffe de Juda* 25 à 50 Sacré au contact, 5 PA ; *Bond* 1 à 3 PO, 4 PA, un tour sur deux | `chasseur` : frappe l'ennemi le plus faible qu'il peut atteindre, bondit s'il ne peut frapper personne |
+| Archange Raphaël (mini-boss) | 250 / 6 / 5 | *Bénédiction de Raphaël* soin 20 Sacré aux alliés en croix (comme le *Sermon*), 3 PA, 1 par tour ; *Exorcisme* au contact, 3 PA, 1 par tour : état « exorcisme » (2 tours), les prochains dégâts Sacré achèvent la cible ; seul (plus d'allié en vie), *Jugement dernier* remplace la *Bénédiction* : 25 Sacré sur les 4 cases à son contact, 3 PA, 1 par tour | `corps_a_corps` ; l'Exorcisme avant tout soin ou attaque, ne soigne que les blessés |
 
 **Ressources de la tour (04/11/2026, demande de l'auteur)** : valeurs fixes à la forge (champ `valeur`).
 
@@ -2460,6 +2460,94 @@ les PV max ; le plancher de 40 %).
 a désormais 4 au plus, `GameMap.MAX_GROUP_SIZE`). Données produites par
 `docs/design/tour_celeste/produire.py`. Combats simulés (guerrier + rôdeur + théologue) :
 `docs/design/tour_celeste/simulation.md`.
+
+Retouches du 06/11/2026 (demande de l'auteur, pas encore reportées dans les données) : Raphaël passe à
+**250 PV** et la *Griffe de Juda* des Lions à **25 à 50** Sacré ; le reste est gardé tel quel.
+
+#### Les paliers de la Tour céleste (conception de l'auteur du 06/11/2026, pas encore codé)
+
+Les mini-boss gardent les étages **10, 20, 30, 40** et le boss l'étage **50** : la Tour céleste a
+**5 paliers de 10 étages** (au lieu d'un mini-boss tous les 5 étages, règle générale ci-dessus).
+L'Archange Raphaël garde le **palier 1 (étage 10)** : la version réduite est adaptée pour en faire les
+10 premiers étages. Les cinq étages de la version réduite deviennent les étages 6 à 10, précédés de
+cinq étages plus faciles (proposition, à valider) : 1) 2 colombes ; 2) 3 colombes ; 3) 1 ange et
+1 colombe ; 4) 2 anges ; 5) 1 lion. De nouvelles familles de monstres arrivent à partir de l'étage 30.
+
+**Palier 2 (étage 20) : Judas**, accompagné de **4 Lions de Juda**. 400 PV, 6 PA, 5 PM.
+
+- *Calice ruisselant* (passif) : dès qu'un joueur subit des dégâts, Judas lui applique un **poison
+  Impie de 15 pendant 2 tours**. Les poisons ne déclenchent pas le passif et ne se cumulent pas : des
+  dégâts subis avec un poison déjà en cours remettent son temps restant à 2 tours.
+- *Crucifixion* : au contact, 4 PA, relance 3 tours. Retire tous les PM de la cible et la rend
+  **indéplaçable** ; donne +1 PM à tous les alliés de Judas (pas à lui).
+- *Pour trente brumes* : seulement sous **30 % de ses PV** ; 3 PA, sur un de ses alliés, sans limite de
+  portée ni ligne de vue. Tue la cible et rend à Judas tous ses points de vie, sous forme de **soin**
+  (donc bloqué par l'anti-soin, état `insoignable`).
+- *Dague mortelle* : 1 à 2 PO en ligne, 3 PA, **20 Impie spectraux et dévastateurs** (§ 4.4).
+- Comportement : *Pour trente brumes* avant tout dès que le seuil est atteint ; sinon il va au contact
+  pour lancer *Crucifixion*, sinon *Dague mortelle*.
+
+**Palier 3 (étage 30) : le Saint-Esprit**, une grande colombe nimbée de flammes ; ses compagnons
+viendront des nouvelles familles (à concevoir). 650 PV, 8 PA, 0 PM : il ne se déplace pas, aide ses
+alliés et attaque ses adversaires. Ses sorts n'ont **ni ligne de vue ni limite de portée**.
+
+- *Inspiration* (passif) : chaque allié reçoit au début de son tour un bonus : soin de 30 Sacré s'il
+  est sous 50 % de ses PV ; sinon +1 PM s'il n'a aucun adversaire à moins de 5 cases ; sinon
+  +10 Dommages Sacré.
+- *Consolation* : 4 PA, soigne un allié de 20 % de ses PV max.
+- *Flammes salvatrices* : embrase un adversaire, **poison Sacré de 40 pendant 2 tours**, une fois par
+  tour sur chaque joueur.
+- *Miracle* (déclenché à sa mort, 4 PA, une fois par combat) : ses alliés morts reviennent à la vie à
+  leur position de départ ; les vivants sont entièrement soignés et restent où ils sont.
+- Comportement : attaque ses adversaires et soigne ses alliés sous 60 % de leurs PV.
+
+**Palier 4 (étage 40) : le Fils**, accompagné d'**apôtres** (nouvelle famille, à concevoir). 1 000 PV,
+7 PA, 4 PM.
+
+- *Faiseur de miracles* (passif) : à chaque tour, la première instance de dégâts ou d'effet néfaste
+  (perte de PV, PA, PM, PO…) sur un de ses alliés est annulée.
+- *Pardon* : 4 PA, 5 PO, relance 3 tours. Pendant 1 tour, la cible ne peut plus infliger de dégâts et
+  ses PM max sont limités à 1.
+- *Rédemption* : 3 PA, 4 PO ; sur un allié, soin de 50 Sacré ; sur un adversaire, 50 Sacré.
+- *Humilité* : 4 PA, 5 PO, sur un adversaire, pendant 2 tours : au-delà de 4 PA et PM dépensés en
+  tout, chaque PA ou PM de plus lui inflige **100 Sacré**. La cible devient **humble** jusqu'à la fin
+  du combat (ne peut plus recevoir ce sort).
+- *Résurrection* (déclenché, 5 PA) : quand il subit des dégâts mortels, le Fils pose une glyphe d'une
+  case au sol ; 3 tours plus tard, il revient à la vie dessus. Si elle est occupée, le retour se fait
+  au tour suivant.
+- Comportement : *Pardon* dès que possible, sinon *Humilité* ; attaque les adversaires en priorité et
+  ne soigne ses alliés que s'il ne peut rien faire d'autre.
+
+**Palier 5 (étage 50, boss) : le Père**, accompagné du Fils et du Saint-Esprit.
+
+- **Ni PV, ni PA, ni PM** : il a **3 points de Trinité**. Il en perd un quand le Fils ou le
+  Saint-Esprit meurt. À 1 point, les joueurs doivent **survivre 3 tours d'affilée** pour lui faire
+  perdre le dernier.
+- *Omnipotent, Omniscient, Omniprésent* (passif) : il lance tous ses sorts sans dépenser de PA (seules
+  les relances l'en empêchent) ; ses dégâts ne sont pas réduits par les résistances et sont spectraux à
+  100 % ; ni ligne de vue ni limite de portée ; sans PM, il se déplace instantanément partout sur la
+  carte.
+- *Création* : invoque un monstre de la tour (hors boss) qui commence avec ses PA et PM doublés,
+  relance 3 tours.
+- *Miséricorde* : l'adversaire qui a infligé le plus de dégâts au tour précédent devient **pacifié**
+  pendant 1 tour et subit 50 % de ses PV en dégâts Sacré ; à égalité, tous les ex æquo ; si aucun
+  adversaire n'a infligé de dégâts, tous.
+- *Justice* : égalise (moyenne en %) les PV de tous les monstres dans un cercle de 3 cases autour de
+  la cible ; ce n'est ni un soin ni des dégâts.
+- *Déluge* : pose pour 2 tours une glyphe sur toutes les cases de la carte, sauf un cercle de 2 cases
+  autour de chaque adversaire ; un adversaire qui commence son tour dans la glyphe perd 80 % de ses PV
+  max. Relance 3 tours, première fois au 5e tour.
+- *Compassion* : un adversaire sous 20 % de ses PV est soigné de 50 % de ses PV et devient pacifié
+  pendant 1 tour.
+- Comportement : lance chaque sort dès qu'il est disponible. Il va toujours au contact (ou au plus
+  près) de sa cible ; s'il en a plusieurs, il se démultiplie puis se rassemble en un seul corps. Il
+  finit son tour à 5 cases de sa dernière cible si possible, sinon sur la case libre la plus proche.
+
+Mécaniques nouvelles à coder pour ces paliers : états *indéplaçable*, *pacifié* (n'inflige plus de
+dégâts), *humble*, sorts passifs et déclenchés (à la mort, aux dégâts subis), invocations, retour à
+la vie (glyphe, *Miracle*), poisons qui ne se cumulent pas, boss sans PV (points de Trinité).
+
+Points à trancher par l'auteur : voir la TODO, « Paliers de la Tour céleste ».
 
 ### 12.9 Décisions (validées par l'auteur le 03/11/2026)
 
