@@ -403,7 +403,7 @@ le plus court chemin pour frapper), `distance` (tire depuis la case la plus élo
 recule), `soutien` (comme `distance`, pour les soigneurs), `corps_a_corps` (va d'abord au contact d'un
 ennemi s'il peut l'y frapper, puis comme `basique`) `chasseur` (va frapper l'ennemi qui a le moins
 de PV parmi ceux qu'il peut atteindre ce tour) ou `tireur` (comme `distance`, mais reste où il a tiré, sans reculer : Cupidon). Un monstre qui ne peut frapper personne bondit vers
-l'ennemi le plus proche s'il a un sort de `teleportation`, puis marche. Dans tous les cas, l'IA note chaque sort
+l'ennemi le plus proche s'il a un sort de `teleportation`, puis se rapproche avec ses PM (demande de l'auteur du 06/11/2026). Dans tous les cas, l'IA note chaque sort
 sur chaque cible utile et lance le meilleur tant qu'il vaut quelque chose.
 
 Un monstre **élite** a `"elite": true` et sa `famille` (l'id du monstre normal dont il est la version
