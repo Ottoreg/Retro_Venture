@@ -2503,7 +2503,7 @@ alliés et attaque ses adversaires. Ses sorts n'ont **ni ligne de vue ni limite 
 - *Miracle* (déclenché à sa mort, 4 PA, une fois par combat) : ses alliés morts reviennent à la vie à
   leur position de départ ; les vivants sont entièrement soignés et restent où ils sont. Lui ne
   revient pas : il reste mort.
-- Comportement : attaque ses adversaires et soigne ses alliés sous 60 % de leurs PV.
+- Comportement : attaque d'abord ses adversaires, puis soigne ses alliés sous 60 % de leurs PV.
 
 **Palier 4 (étage 40) : le Fils**, accompagné d'**apôtres** (nouvelle famille, à concevoir). 1 000 PV,
 7 PA, 4 PM.

@@ -660,7 +660,6 @@ classes (option écartée et compromis gardés en piste, GDD § 5.2).
 - [ ] Tour céleste : reporter dans les données Raphaël à 250 PV et la *Griffe de Juda* à 25-50, et passer la
   version réduite à 10 étages (étages 1 à 5 plus faciles, proposés au GDD § 12.8, « Les paliers ») : sur demande de l'auteur
 - [ ] **Paliers de la Tour céleste** (Judas, Saint-Esprit, le Fils, le Père ; GDD § 12.8) : à coder plus tard. Points à trancher par l'auteur :
-  - Saint-Esprit : ordre entre attaque et soin à son tour (lu pour l'instant : attaque d'abord, puis soigne les alliés sous 60 %)
   - niveaux, XP, brumes, butin et ressources des quatre boss ; familles d'apôtres et des étages 21 à 40
 
 ### Quêtes et scénario
