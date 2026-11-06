@@ -2476,15 +2476,17 @@ cinq étages plus faciles (proposition, à valider) : 1) 2 colombes ; 2) 3 colom
 
 **Palier 2 (étage 20) : Judas**, accompagné de **4 Lions de Juda**. 400 PV, 6 PA, 5 PM.
 
-- *Calice ruisselant* (passif) : dès qu'un joueur subit des dégâts, Judas lui applique un **poison
+- *Calice ruisselant* (passif) : dès qu'un joueur subit des dégâts (même de ses alliés), Judas lui applique un **poison
   Impie de 15 pendant 2 tours**. Les poisons ne déclenchent pas le passif et ne se cumulent pas : des
   dégâts subis avec un poison déjà en cours remettent son temps restant à 2 tours.
 - *Crucifixion* : au contact, 4 PA, relance 3 tours. Retire tous les PM de la cible et la rend
-  **indéplaçable** ; donne +1 PM à tous les alliés de Judas (pas à lui).
+  **indéplaçable** ; donne +1 PM pendant 1 tour à tous les alliés de Judas (pas à lui).
 - *Pour trente brumes* : seulement sous **30 % de ses PV** ; 3 PA, sur un de ses alliés, sans limite de
   portée ni ligne de vue. Tue la cible et soigne Judas à **100 % de ses PV**, quels que soient les PV
-  de l'allié tué ; c'est un **soin** (donc bloqué par l'anti-soin, état `insoignable`).
-- *Dague mortelle* : 1 à 2 PO en ligne, 3 PA, **20 Impie spectraux et dévastateurs** (§ 4.4).
+  de l'allié tué ; c'est un **soin** (donc bloqué par l'anti-soin, état `insoignable`). Ni relance ni limite par tour :
+  revenu à 100 %, il ne peut le relancer dans le même tour que s'il repasse sous le seuil (par un
+  piège par exemple).
+- *Dague mortelle* : 1 à 2 PO en ligne, 3 PA, **20 Impie**, spectraux à 100 % et dévastateurs à 50 % (§ 4.4).
 - Comportement : *Pour trente brumes* avant tout dès que le seuil est atteint ; sinon il va au contact
   pour lancer *Crucifixion*, sinon *Dague mortelle*.
 
@@ -2494,55 +2496,65 @@ alliés et attaque ses adversaires. Ses sorts n'ont **ni ligne de vue ni limite 
 
 - *Inspiration* (passif) : chaque allié reçoit au début de son tour un bonus : soin de 30 Sacré s'il
   est sous 50 % de ses PV ; sinon +1 PM s'il n'a aucun adversaire à moins de 5 cases ; sinon
-  +10 Dommages Sacré.
+  +10 Dommages Sacré. Les bonus de PM et de Dommages ne durent que ce tour.
 - *Consolation* : 4 PA, soigne un allié de 20 % de ses PV max.
-- *Flammes salvatrices* : embrase un adversaire, **poison Sacré de 40 pendant 2 tours**, une fois par
-  tour sur chaque joueur.
+- *Flammes salvatrices* : 4 PA, embrase un adversaire, **poison Sacré de 40 par tour pendant 2 tours**,
+  une fois par tour sur chaque joueur.
 - *Miracle* (déclenché à sa mort, 4 PA, une fois par combat) : ses alliés morts reviennent à la vie à
-  leur position de départ ; les vivants sont entièrement soignés et restent où ils sont.
+  leur position de départ ; les vivants sont entièrement soignés et restent où ils sont. Lui ne
+  revient pas : il reste mort.
 - Comportement : attaque ses adversaires et soigne ses alliés sous 60 % de leurs PV.
 
 **Palier 4 (étage 40) : le Fils**, accompagné d'**apôtres** (nouvelle famille, à concevoir). 1 000 PV,
 7 PA, 4 PM.
 
-- *Faiseur de miracles* (passif) : à chaque tour, la première instance de dégâts ou d'effet néfaste
-  (perte de PV, PA, PM, PO…) sur un de ses alliés est annulée.
+- *Faiseur de miracles* (passif) : à chaque tour de joueur, la première instance de dégâts et la
+  première de retrait (PA, PM, PO…) sur chacun de ses alliés, lui compris, sont annulées : il faut
+  d'abord toucher une fois pour rien, puis frapper à nouveau. La pose d'un effet (poison…) n'est pas
+  annulable.
 - *Pardon* : 4 PA, 5 PO, relance 3 tours. Pendant 1 tour, la cible ne peut plus infliger de dégâts et
   ses PM max sont limités à 1.
-- *Rédemption* : 3 PA, 4 PO ; sur un allié, soin de 50 Sacré ; sur un adversaire, 50 Sacré.
+- *Rédemption* : 3 PA, 4 PO ; sur un allié, soin de 50 Sacré ; sur un adversaire, 50 Sacré (valeurs fixes).
 - *Humilité* : 4 PA, 5 PO, sur un adversaire, pendant 2 tours : au-delà de 4 PA et PM dépensés en
-  tout, chaque PA ou PM de plus lui inflige **100 Sacré**. La cible devient **humble** jusqu'à la fin
+  tout dans un même tour (le compte repart à chaque tour), chaque PA ou PM de plus lui inflige **100 Sacré**. La cible devient **humble** jusqu'à la fin
   du combat (ne peut plus recevoir ce sort).
 - *Résurrection* (déclenché, 5 PA) : quand il subit des dégâts mortels, le Fils pose une glyphe d'une
-  case au sol ; 3 tours plus tard, il revient à la vie dessus. Si elle est occupée, le retour se fait
-  au tour suivant.
+  case là où il meurt ; 3 tours plus tard, il revient à la vie dessus avec tous ses PV. Si elle est
+  occupée, le retour se fait au tour suivant. Autant de fois que nécessaire par combat ; s'il est le
+  dernier monstre à mourir, le combat se termine et rien ne se déclenche.
 - Comportement : *Pardon* dès que possible, sinon *Humilité* ; attaque les adversaires en priorité et
   ne soigne ses alliés que s'il ne peut rien faire d'autre.
 
 **Palier 5 (étage 50, boss) : le Père**, accompagné du Fils et du Saint-Esprit.
 
 - **Ni PV, ni PA, ni PM** : il a **3 points de Trinité**. Il en perd un quand le Fils ou le
-  Saint-Esprit meurt. À 1 point, les joueurs doivent **survivre 3 tours d'affilée** pour lui faire
+  Saint-Esprit meurt, et le regagne quand le Fils revient (*Résurrection*) : il faut tuer d'abord le
+  Saint-Esprit (pour éviter *Miracle*), puis le Fils, et bloquer sa glyphe jusqu'à la fin. À 1 point, les joueurs doivent **survivre 3 tours d'affilée** pour lui faire
   perdre le dernier ; la mort d'un joueur remet ce compte à zéro.
 - *Omnipotent, Omniscient, Omniprésent* (passif) : il lance tous ses sorts sans dépenser de PA (seules
   les relances l'en empêchent) ; ses dégâts ne sont pas réduits par les résistances et sont spectraux à
   100 % ; ni ligne de vue ni limite de portée ; sans PM, il se déplace instantanément partout sur la
   carte.
-- *Création* : invoque un monstre de la tour (hors boss) qui commence avec ses PA et PM doublés,
+- *Création* : invoque un monstre de la Tour céleste tiré au hasard (hors boss) qui commence avec ses PA et PM doublés,
   relance 3 tours.
 - *Miséricorde* : l'adversaire qui a infligé le plus de dégâts au tour précédent devient **pacifié**
-  pendant 1 tour et subit 50 % de ses PV en dégâts Sacré ; à égalité, tous les ex æquo ; si aucun
+  pendant 1 tour et subit 50 % de ses PV max en dégâts Sacré ; à égalité, tous les ex æquo ; si aucun
   adversaire n'a infligé de dégâts, tous.
-- *Justice* : égalise (moyenne en %) les PV de tous les monstres dans un cercle de 3 cases autour de
-  la cible ; ce n'est ni un soin ni des dégâts.
+- *Justice* : vise n'importe quel combattant entouré d'au moins un autre dans la zone, et égalise
+  (moyenne en %) les PV de tous les combattants, joueurs et monstres, dans un cercle de 3 cases autour
+  de la cible ; ce n'est ni un soin ni des dégâts.
 - *Déluge* : pose pour 2 tours une glyphe sur toutes les cases de la carte, sauf un cercle de 2 cases
   autour de chaque adversaire ; un adversaire qui commence son tour dans la glyphe perd 80 % de ses PV
   max. Relance 3 tours, première fois au 5e tour.
 - *Compassion* : un adversaire sous 20 % de ses PV est soigné de 50 % de ses PV et devient pacifié
   pendant 1 tour.
+- *Miséricorde*, *Justice* et *Compassion* n'ont pas de relance : disponibles à chaque tour.
 - Comportement : lance chaque sort dès qu'il est disponible. Il va toujours au contact (ou au plus
   près) de sa cible ; s'il en a plusieurs, il se démultiplie puis se rassemble en un seul corps. Il
   finit son tour à 5 cases de sa dernière cible si possible, sinon sur la case libre la plus proche.
+
+**Effets de début de tour** (poisons, bonus…) : ils se déclenchent au début du tour, dans l'ordre où
+ils ont été appliqués (premier appliqué, premier déclenché).
 
 **Sorts déclenchés** (*Miracle*, *Résurrection*) : leur coût en PA est payé au déclenchement ; si on a
 retiré des PA au lanceur et qu'il ne lui en reste pas assez à ce moment, le sort n'est pas lancé.

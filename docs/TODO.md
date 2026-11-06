@@ -660,10 +660,7 @@ classes (option écartée et compromis gardés en piste, GDD § 5.2).
 - [ ] Tour céleste : reporter dans les données Raphaël à 250 PV et la *Griffe de Juda* à 25-50, et passer la
   version réduite à 10 étages (étages 1 à 5 plus faciles, proposés au GDD § 12.8, « Les paliers ») : sur demande de l'auteur
 - [ ] **Paliers de la Tour céleste** (Judas, Saint-Esprit, le Fils, le Père ; GDD § 12.8) : à coder plus tard. Points à trancher par l'auteur :
-  - Judas : *Pour trente brumes* : relance ou une fois par tour ? durée du +1 PM de *Crucifixion* ; parts spectrale et dévastatrice de la *Dague mortelle* (100 % ?) ; le *Calice* compte-t-il les dégâts des alliés du joueur ?
-  - Saint-Esprit : coût en PA des *Flammes salvatrices* ; 40 de poison par tour ou en tout ? reste-t-il mort après *Miracle* ? ordre entre attaque et soin ; durée du +10 Dommages d'*Inspiration*
-  - le Fils : *Faiseur de miracles* une fois par tour pour chaque allié ou pour tous, lui compris ? *Rédemption* : 50 fixes ou 50 % ? *Humilité* : 4 PA et PM par tour ou sur les 2 tours ? *Résurrection* : sur sa case de mort ? avec combien de PV ? une fois par combat ?
-  - le Père : le Fils ressuscité ou relevé par *Miracle* rend-il un point de Trinité ? *Miséricorde* : 50 % des PV actuels ou max ? relances de *Miséricorde*, *Justice* et *Compassion* ; *Justice* : quelle cible, et compte-t-elle aussi les joueurs ? *Création* : monstre tiré au hasard ?
+  - Saint-Esprit : ordre entre attaque et soin à son tour (lu pour l'instant : attaque d'abord, puis soigne les alliés sous 60 %)
   - niveaux, XP, brumes, butin et ressources des quatre boss ; familles d'apôtres et des étages 21 à 40
 
 ### Quêtes et scénario
