@@ -1946,7 +1946,9 @@ compris) et les recettes du forgeron sont supprimés, tout le reste se forge.
   et **une caractéristique**, répartie par tourniquet pondéré : élémentaires à égalité (7 chacune),
   Vitalité 5, Initiative 4, Prospection 2, Dommages 2, Critique 1 ; **PA** (corne du Balourd,
   fragment de cendre), **PM** (soie de la Mère-Toile), **Portée** (éclat de cendre) : toujours 1,
-  une ligne au plus par objet. Valeur : max(1, arrondi((1 + palier / 8) × poids)), poids 1 pour les
+  une ligne au plus par objet. Valeur : max(1, arrondi((1 + palier / 8) × poids)), **× 3 pour une ressource rare** quel que soit son
+  palier (sauf PA, PM et Portée ; demande de l'auteur du 04/11/2026), poids (points de la caractéristique
+  pour un point de score) 1 pour les
   élémentaires, 4 Vitalité, 10 Initiative, 0,34 Prospection et Dommages, 0,1 Critique (d'après le
   score plus bas). **Matières récoltées orientées** (demandes de l'auteur du 03/11/2026,
   `docs/design/forge/matieres.py`) : minerais et bois communs donnent une caractéristique élémentaire
@@ -1956,14 +1958,15 @@ compris) et les recettes du forgeron sont supprimés, tout le reste se forge.
   l'Initiative, le **lin** la Prospection, leurs rares **+1 Portée** ; les tissus de monstres sont
   élémentaires (fil de brume : Perception), la soie de la Mère-Toile garde ses PM. Nouvelles lignes
   d'équipement : **Dommages Acier, Flamme, Givre, Tempête** (ajoutés aux dégâts de l'élément ; Sacré et
-  Impie : la moyenne de leurs deux éléments ; 0,5 point par point de Force, 50 par ligne) et **%
-  Résistance** aux mêmes éléments (0,2, 20 % par ligne). Quelques ressources de monstres ont une matière (peaux, cuir et ailes : cuir) ;
+  Impie : la moyenne de leurs deux éléments ; 0,5 point par point de score, 50 par ligne) et **%
+  Résistance** aux mêmes éléments (8 points de score par %, poids 0,125, donc 12 % au plus par ligne). Quelques ressources de monstres ont une matière (peaux, cuir et ailes : cuir) ;
   le **tissu** ne vient que de la récolte (lin, chanvre) : poils, paille, fils, soie et plumes gardent leur
   caractéristique de forge mais ne sont plus du tissu (les plans de coiffe et de cape prennent un lin ou un
   chanvre). **Résistance d'équipement des joueurs plafonnée à 60 %** par élément (`Fighter.MAX_RESISTANCE`) ;
   les monstres et les effets de combat n'ont pas ce plafond.
-- **Limites** (demande de l'auteur, 02/11/2026) : **100 points de score par ligne** au plus (100 Force,
-  400 Vitalité, 1 000 Initiative, 34 Prospection ou Dommages, 10 Critique ; 1 PA, PM ou Portée) et
+- **Limites** (demande de l'auteur, 02/11/2026) : **100 points de score par ligne** au plus, plafond qui découle du poids (100 Force,
+  400 Vitalité, 1 000 Initiative, 34 Prospection ou Dommages, 10 Critique, 12 % de résistance ; 1 PA, PM ou Portée ; les ressources en trop sont perdues, sans refus :
+  les joueurs apprennent de leurs erreurs, demande de l'auteur du 04/11/2026) et
   **8 lignes par objet** au plus (forge refusée au-delà, `trop_de_lignes`). Seules les **essences**
   (§ 9.2, à venir) pourront dépasser le plafond d'une ligne. Une ressource de haut palier peut donner
   **plusieurs caractéristiques** (`caracteristique` en liste, chacune à sa valeur pleine ; par exemple
@@ -2232,6 +2235,53 @@ décrits au § 13.6.
 - **Solo :** les donjons sont faisables seul (avec équilibrage dédié), ou avec des **compagnons PNJ**
   (long terme) ; en multi, conçus pour 4 à 8 joueurs.
 - **Donjons de Relique :** un par Relique, boss = un Héraut Cendré.
+
+**Tour céleste, version réduite jouable (04/11/2026, demande de l'auteur)** : la Tour céleste en **5 étages**, sur
+des cartes à part, par la Pierre de Passage « Tour céleste » (comme le Trône de Cendre). Au **parvis**
+(`celeste_0_0`), **Cupidon** (25 PV, 4 PA, 3 PM, IA `tireur` : tire de sa portée maximale et reste sur place,
+*Flèche cupide* : vole 10 PV en Flamme à 5 PO,
+4 PA) lâche la **clé céleste** à 100 %, une à chaque membre du groupe (`par_joueur`) ; **Saint Pierrot**
+fait entrer contre une clé. Chaque victoire fait monter d'un étage (`etage_suivant` de la carte). Salles
+partagées pour l'instant : le groupe d'une salle revient 5 à 10 s après le **début** du combat
+(`reapparition_au_combat`). À chaque étage, le **Gardien des marches** ramène au parvis (aucune avancée
+gardée). Après l'Archange, le **Chœur de Raphaël** (`tour_celeste_sommet`) : Raphaël, devenu PNJ, remet
+le **Calice toujours ruisselant** (ressource sans effet, une fois par visite, champ `don` des PNJ), dont
+le texte annonce l'étage suivant : « Gravé sous le pied : un disciple aux trente brumes garde une coupe
+vide pour les visiteurs. Il sait déjà ce qu'il y versera. » **Easter egg de l'alpha et de la bêta, à
+retirer avant la sortie** : Saint Pierrot reprend une ressource légendaire de chaque monstre de la tour
+(les quatre) contre un million de brumes (champ `secret`, dialogue caché). Un vaincu se réveille au pied
+de la tour (champ `reveil` des étages). Décor : la tour blanche au fond du parvis, et dans chaque salle
+des colonnes et des cierges disposés autrement, un tapis de l'entrée au centre et l'escalier vers
+l'étage suivant ; un autel derrière Raphaël dans le Chœur. Monstres de la tour (`donjon` : sans élite) :
+
+| Monstre | PV / PA / PM | Sorts | IA |
+|---|---|---|---|
+| Ange | 50 / 6 / 4 | *Trait de lumière* 25 Sacré, 2 à 7 PO, 4 PA ; *Glaive* 20 Acier au contact, 3 PA, 2 par tour | `corps_a_corps` : va au contact pour frapper deux fois |
+| Colombe baptiste | 30 / 4 / 10 | *Baptême express* 10 Sacré, 1 à 2 PO, 4 PA | `distance` : frappe puis fuit au maximum, sinon court vers l'ennemi |
+| Lion de Juda | 150 / 5 / 3 | *Griffe de Juda* 1 à 50 Sacré au contact, 5 PA ; *Bond* 1 à 3 PO, 4 PA, un tour sur deux | `chasseur` : frappe l'ennemi le plus faible qu'il peut atteindre, bondit s'il ne peut frapper personne |
+| Archange Raphaël (mini-boss) | 120 / 6 / 5 | *Bénédiction de Raphaël* soin 20 Sacré aux alliés en croix (comme le *Sermon*), 3 PA, 1 par tour ; *Exorcisme* au contact, 3 PA, 1 par tour : état « exorcisme » (2 tours), les prochains dégâts Sacré achèvent la cible ; seul (plus d'allié en vie), *Jugement dernier* remplace la *Bénédiction* : 25 Sacré sur les 4 cases à son contact, 3 PA, 1 par tour | `corps_a_corps` ; l'Exorcisme avant tout soin ou attaque, ne soigne que les blessés |
+
+**Ressources de la tour (04/11/2026, demande de l'auteur)** : valeurs fixes à la forge (champ `valeur`).
+
+| Monstre | Commune | Rare | Légendaire (0,5 %) |
+|---|---|---|---|
+| Colombe baptiste | Plume de colombe, 50 % : 1 Sacré (1 Force + 1 Intelligence) | Bec de colombe, 10 % : 3 Dommages Sacré | Squelette de colombe : 1 PM |
+| Ange | Plume d'ange, 35 % : 3 Sacré | Glaive brisé d'ange, 12 % : 3 Dommages Acier | Sacré cœur : 30 Sacré |
+| Lion de Juda | Poil de crinière léonin, 25 % : 3 Dommages Sacré | Croc de lion féroce, 5 % : 9 Dommages Sacré | Cortex féral : 10 % Dégâts dévastateurs |
+| Archange Raphaël | Tunique déchirée de Raphaël, 55 % : 3 % Résistance Impie | Aile de Raphaël, 10 % : 10 Soins Sacré | Sacré cœur de Raphaël : 30 Soins |
+
+Nouvelles lignes de forge : **Soins** (neutres, 3 points de score par point comme les Dommages) et **Soins
+d'un élément** (2 points, comme les Dommages d'un élément ; Sacré et Impie : moyenne de leurs deux
+éléments plus les leurs), Dommages et Résistance Sacré et Impie, % de **dégâts dévastateurs** (10 points
+par %, +10 % au plus par objet), dont l'effet de combat est codé (ci-dessus, § 4.4 : la part qui baisse
+les PV max ; le plancher de 40 %).
+
+Étages : 1) 3 colombes et 1 ange ; 2) 1 lion, 2 anges, 1 colombe ; 3) 3 lions, 1 colombe ; 4) 3 anges,
+1 lion ; 5) l'Archange, 1 ange, 1 lion, 1 colombe. Les groupes de la tour ont 4 monstres (un groupe en
+a désormais 4 au plus, `GameMap.MAX_GROUP_SIZE`). Données produites par
+`docs/design/tour_celeste/produire.py`. Combats simulés (guerrier + rôdeur + théologue) :
+`docs/design/tour_celeste/simulation.md`.
+
 
 ---
 
