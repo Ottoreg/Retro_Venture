@@ -1959,7 +1959,7 @@ func test_mode_heros_dans_la_scene() -> void:
 	view.refresh_state()
 	hud._refresh_exploration()
 	assert_eq(view.world.heroes.size(), 2)
-	assert_eq(hud._heroes_box.get_child_count(), 5, "titre, deux héros et « Nouveau héros »")
+	assert_eq(hud._heroes_box.get_child_count(), 6, "titre, deux héros, le receveur du butin et « Nouveau héros »")
 	assert_false(view._actors.has(sam.id), "le héros caché n'est pas dessiné")
 	view.control_hero(sam.id)
 	_run_until_idle(view)

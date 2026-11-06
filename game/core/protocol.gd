@@ -74,6 +74,9 @@ const CMD_QUEST_DECLINE := "refuser_quete"
 const CMD_QUEST_TRACK := "suivre_quete"
 ## Exploration, mode héros (GDD § 4.6) : contrôler un autre héros de son équipe. { type, entite: String, heros: String }
 const CMD_SWITCH_HERO := "changer_heros"
+## Exploration, mode héros : le héros qui reçoit tout le butin et toutes les brumes des combats de
+## l'équipe, ou "" pour partager comme en groupe. { type, entite: String, heros: String }
+const CMD_HERO_RECEIVER := "receveur_heros"
 ## Exploration : attaquer un groupe de monstres. { type, entite: String, groupe: String }
 const CMD_ENGAGE := "engager"
 ## Combat, phase de placement : { type, entite: String, cible: Vector2i }

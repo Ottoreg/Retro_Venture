@@ -168,7 +168,8 @@ Tout le contenu et les systèmes MVP de l'alpha 1 sont faits (chantiers 1, 3, 4 
   sorti de l'alpha 1, qui teste les mécaniques et pas la progression
 - [ ] ~~Restat (objet ou PNJ)~~ (plus de remise à zéro avec la refonte, GDD § 4.5)
 - [x] **Mode héros en solo** (GDD § 4.6, 04/11/2026) : jusqu'à 4 héros, un contrôlé, les autres
-  invisibles sur sa case ; combat de toute l'équipe joué tour à tour ; quête « Pour l'équipe »
+  invisibles sur sa case ; combat de toute l'équipe joué tour à tour ; quête « Pour l'équipe » ;
+  « Donner » entre héros et receveur du butin (06/11/2026)
 - [ ] Mode héros en ligne : plusieurs personnages par compte et par client (serveur, Supabase)
 
 ### Refonte de la progression (alpha 2, GDD § 4.5, décisions du 29/10/2026)

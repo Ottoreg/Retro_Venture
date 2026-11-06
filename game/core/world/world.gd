@@ -195,6 +195,7 @@ func add_hero(p_character: Character, leader_id := player_id) -> PlayerState:
 	var hero := add_player(p_character, "heros_%d" % number, leader.map.id, leader.cell)
 	hero.hidden = true
 	hero.instance.add_player(hero.id, hero.cell, false)
+	hero.hero_receiver = leader.hero_receiver
 	hero.heroes = leader.heroes
 	leader.heroes.append(hero.id)
 	return hero
@@ -248,10 +249,11 @@ static func _hero_events(hero: PlayerState, hero_events: Array[Dictionary], even
 	events.append_array(hero_events)
 
 
-## Équipe de héros : une ligne par héros { id, nom, race, voie, controle }, dans l'ordre de l'équipe.
+## Équipe de héros : une ligne par héros { id, nom, race, voie, controle, receveur }, dans l'ordre de l'équipe.
 func _heroes_view(p: PlayerState) -> Array:
 	return p.heroes.map(func(id: String) -> Dictionary: return {"id": id, "nom": players[id].character.display_name,
-		"race": players[id].character.race_id, "voie": players[id].character.voie_id, "controle": not players[id].hidden})
+		"race": players[id].character.race_id, "voie": players[id].character.voie_id, "controle": not players[id].hidden,
+		"receveur": id == p.hero_receiver})
 
 
 ## Déconnecte un joueur : il quitte sa carte et son combat, abandonné (le personnage reste tel
@@ -561,6 +563,13 @@ func _execute_exploration(p: PlayerState, command: Dictionary) -> Array[Dictiona
 			return _engage(p, command)
 		if type == Protocol.CMD_SWITCH_HERO:
 			return _switch_hero(p, command)
+		if type == Protocol.CMD_HERO_RECEIVER:
+			var receiver: Variant = command.get("heros", "")
+			if receiver != "" and not p.heroes.has(receiver):
+				return _refused(command, Protocol.REASON_INVALID_COMMAND)
+			for hero_id in p.heroes:
+				players[hero_id].hero_receiver = receiver
+			return [] as Array[Dictionary]
 		if type == Protocol.CMD_JOIN_COMBAT:
 			return _join_combat(p, command)
 		if type == Protocol.CMD_WATCH_COMBAT:
@@ -1388,6 +1397,11 @@ func _exchange_propose(p: PlayerState, command: Dictionary) -> Array[Dictionary]
 		return _refused(command, Protocol.REASON_IN_EXCHANGE if p.exchange != null else Protocol.REASON_WRONG_PHASE)
 	if not _exchange_free(target):
 		return _refused(command, Protocol.REASON_PLAYER_BUSY)
+	if p.heroes.has(target.id):
+		# Mode héros : l'échange s'ouvre tout de suite avec un autre héros (le même joueur valide pour lui).
+		p.exchange = Exchange.new(p.id, target.id, clock)
+		target.exchange = p.exchange
+		return _exchange_views(p.exchange)
 	var events: Array[Dictionary] = []
 	_withdraw_request(p, events)
 	p.exchange_asked = target.id
@@ -1446,6 +1460,8 @@ func _exchange_validate(p: PlayerState, command: Dictionary) -> Array[Dictionary
 	if exchange.wait_time(clock) > 0.0:
 		return _refused(command, Protocol.REASON_TOO_SOON)
 	exchange.validated[p.id] = true
+	if p.heroes.has(exchange.other(p.id)):
+		exchange.validated[exchange.other(p.id)] = true  # Mode héros : l'autre héros est joué par le même joueur.
 	if not exchange.both_validated():
 		return _exchange_views(exchange)
 	var pair: Array[PlayerState] = [players[exchange.players[0]], players[exchange.players[1]]]
@@ -1725,6 +1741,8 @@ func _end_combat(p: PlayerState, events: Array[Dictionary]) -> void:
 	for member in team:
 		strengths.append(Progression.equivalent_level(member.character.reputation()))
 	var factor := Progression.difficulty(monster_levels, strengths)
+	# Mode héros : un héros choisi peut recevoir tout le butin et toutes les brumes.
+	var receiver := p.hero_receiver if team.any(func(member: PlayerState) -> bool: return member.id == p.hero_receiver) else ""
 	var kill_share := float(ended.get("xp", 0)) * Progression.KILL_SHARE * factor / maxi(1, team.size())
 	var ends: Array[Dictionary] = []
 	for i in team.size():
@@ -1751,7 +1769,11 @@ func _end_combat(p: PlayerState, events: Array[Dictionary]) -> void:
 		if won:
 			# Brumes partagées à parts égales (le reste au premier), puis le passif de race de chacun.
 			var part := coins / team.size() + (coins % team.size() if i == 0 else 0)
-			_loot(member, own, drops.get(member.id, []), part, combat.rng, block)
+			var found: Array = drops.get(member.id, [])
+			if not receiver.is_empty():
+				part = coins if member.id == receiver else 0
+				found = drops.values().reduce(func(all: Array, own_drops: Array) -> Array: return all + own_drops, []) if member.id == receiver else []
+			_loot(member, own, found, part, combat.rng, block)
 			member.quest_book.combat_won(kinds, combat.rng, own, block)
 		var back := {"type": Protocol.EVT_EXPLORATION, "position": member.cell, "groupe_vaincu": defeated_group}
 		if not wake_up.is_empty():
@@ -2823,6 +2845,7 @@ func save_data() -> Dictionary:
 		"boss_vaincus": defeated_bosses.keys(),
 		"heros": p.heroes.map(func(id: String) -> Dictionary: return players[id].character.to_dict()),
 		"heros_controle": p.heroes.find(p.id),
+		"heros_receveur": p.heroes.find(p.hero_receiver),
 	}
 
 
@@ -2968,6 +2991,9 @@ static func from_save(save: Dictionary, p_data: GameData, p_map_loader: Callable
 		var heroes := world._solo().heroes
 		heroes.erase(world.player_id)
 		heroes.insert(mini(controlled, heroes.size()), world.player_id)
+		var receiver := int(save.get("heros_receveur", -1))
+		for hero_id in heroes if receiver >= 0 and receiver < heroes.size() else [] as Array[String]:
+			world.players[hero_id].hero_receiver = heroes[receiver]
 	var bosses: Variant = save.get("boss_vaincus", [])
 	if typeof(bosses) == TYPE_ARRAY:
 		for boss_id: Variant in bosses:
