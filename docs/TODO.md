@@ -696,6 +696,8 @@ classes (option écartée et compromis gardés en piste, GDD § 5.2).
   la valeur de forge, ajoutée en exo si la ligne manque (cumulable, chance selon le poids de la stat,
   200 points de score d'exo par objet, 100 par ligne) ; essence parfaite (× 5 ressources) sans échec
 - [ ] Harmoniser la rareté des ressources : commune (butin > 20 %), rare (> 1 %), légendaire (≤ 1 %)
+- [ ] **Phase de design manuelle de l'auteur** (demande du 06/11/2026) : revoir le butin de toutes les familles
+  de monstres existantes, à faire par l'auteur lui-même (raretés harmonisées ci-dessus, ressources des essences)
 
 ### Métiers
 - [x] Conception des onze métiers (GDD § 10.3) : récolte (mineur, bûcheron, agriculteur, herboriste,
