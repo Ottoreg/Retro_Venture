@@ -2258,7 +2258,7 @@ l'étage suivant ; un autel derrière Raphaël dans le Chœur. Monstres de la to
 |---|---|---|---|
 | Ange | 50 / 6 / 4 | *Trait de lumière* 25 Sacré, 2 à 7 PO, 4 PA ; *Glaive* 20 Acier au contact, 3 PA, 2 par tour | `corps_a_corps` : va au contact pour frapper deux fois |
 | Colombe baptiste | 30 / 4 / 10 | *Baptême express* 10 Sacré, 1 à 2 PO, 4 PA | `distance` : frappe puis fuit au maximum, sinon court vers l'ennemi |
-| Lion de Juda | 150 / 5 / 3 | *Griffe de Juda* 1 à 50 Sacré au contact, 5 PA ; *Bond* 1 à 3 PO, 4 PA, un tour sur deux | `chasseur` : frappe l'ennemi le plus faible qu'il peut atteindre, bondit s'il ne peut frapper personne |
+| Lion de Juda | 150 / 5 / 3 | *Griffe de Juda* 1 à 50 Sacré au contact, 5 PA ; *Bond* 1 à 3 PO, 4 PA, un tour sur deux | `chasseur` : frappe l'ennemi le plus faible qu'il peut atteindre, bondit s'il ne peut frapper personne, puis se rapproche avec ses PM |
 | Archange Raphaël (mini-boss) | 120 / 6 / 5 | *Bénédiction de Raphaël* soin 20 Sacré aux alliés en croix (comme le *Sermon*), 3 PA, 1 par tour ; *Exorcisme* au contact, 3 PA, 1 par tour : état « exorcisme » (2 tours), les prochains dégâts Sacré achèvent la cible ; seul (plus d'allié en vie), *Jugement dernier* remplace la *Bénédiction* : 25 Sacré sur les 4 cases à son contact, 3 PA, 1 par tour | `corps_a_corps` ; l'Exorcisme avant tout soin ou attaque, ne soigne que les blessés |
 
 **Ressources de la tour (04/11/2026, demande de l'auteur)** : valeurs fixes à la forge (champ `valeur`).

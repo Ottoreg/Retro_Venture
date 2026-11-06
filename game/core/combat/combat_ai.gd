@@ -10,7 +10,7 @@ extends RefCounted
 ## - « corps_a_corps » : va d'abord au contact d'un ennemi s'il peut l'y frapper (puis comme « basique ») ;
 ## - « chasseur » : va frapper l'ennemi qui a le moins de PV parmi ceux qu'il peut atteindre ce tour.
 ## Un monstre qui ne peut frapper personne bondit vers l'ennemi le plus proche s'il a un sort de
-## téléportation, puis marche.
+## téléportation, puis se rapproche avec ses PM.
 
 const BASIC := "basique"
 const RANGED := "distance"
@@ -66,6 +66,8 @@ static func next_action(combat: Combat, fighter: Fighter, has_moved: bool) -> Di
 		var approach := _approach(combat, fighter, reachable)
 		if not approach.is_empty():
 			return approach
+	if not has_moved and fighter.spells.any(func(spell: Spell) -> bool: return spell.teleports() and fighter.cast_count(spell) > 0):
+		return _approach(combat, fighter, reachable)  # Après un bond, les PM servent encore à se rapprocher.
 	if keeps_distance and fighter.ai != SNIPER:
 		return _retreat(combat, fighter, reachable)
 	return {}

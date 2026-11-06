@@ -245,10 +245,15 @@ func states_snapshot() -> Array:
 
 
 ## Raison pour laquelle le sort ne peut pas être lancé maintenant (vide si possible).
+## Nombre de fois que le sort a été lancé ce tour.
+func cast_count(spell: Spell) -> int:
+	return int(_casts_this_turn.get(spell.id, 0))
+
+
 func cast_blocker(spell: Spell) -> String:
 	if spell.pa_cost > pa:
 		return Protocol.REASON_NOT_ENOUGH_PA
-	if spell.casts_per_turn > 0 and int(_casts_this_turn.get(spell.id, 0)) >= spell.casts_per_turn:
+	if spell.casts_per_turn > 0 and cast_count(spell) >= spell.casts_per_turn:
 		return Protocol.REASON_SPELL_LIMIT
 	if _cooldowns.has(spell.id):
 		return Protocol.REASON_SPELL_COOLDOWN
