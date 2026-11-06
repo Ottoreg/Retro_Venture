@@ -111,7 +111,9 @@ temps : chaque camp a sa propre histoire.
   autres personnages, de n'importe quelle race. Un seul est visible ; cliquez sur un nom de la liste
   « Héros » pour en changer. En combat, toute l'équipe se bat et vous jouez chaque héros à son tour ;
   pendant le placement, cliquez sur un héros pour le placer. Chacun garde son sac, ses brumes et ses
-  quêtes ; « Pour l'équipe » accepte une quête pour tous.
+  quêtes ; « Pour l'équipe » accepte une quête pour tous. « Donner » ouvre l'échange avec un autre
+  héros (une validation suffit) ; « Butin : … » choisit le héros qui reçoit tout le butin et toutes
+  les brumes des combats, ou le partage.
 
 ## Commandes
 

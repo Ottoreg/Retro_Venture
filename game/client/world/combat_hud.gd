@@ -1622,12 +1622,40 @@ func _refresh_heroes() -> void:
 		line.alignment = HORIZONTAL_ALIGNMENT_LEFT
 		line.focus_mode = Control.FOCUS_NONE
 		line.add_theme_font_size_override("font_size", 12)
-		line.text = "%s, %s" % [hero["nom"], map_view.world.data.voies.get(hero["voie"], {}).get("nom", hero["voie"])]
+		line.text = hero["nom"]
 		line.disabled = hero["id"] == map_view.world.player_id
 		line.add_theme_color_override("font_disabled_color", UiTheme.GOLD)
-		line.tooltip_text = "Cliquer pour jouer ce héros"
+		line.tooltip_text = "%s\nCliquer pour jouer ce héros" % map_view.world.data.voies.get(hero["voie"], {}).get("nom", hero["voie"])
 		line.pressed.connect(map_view.control_hero.bind(hero["id"]))
-		_heroes_box.add_child(line)
+		line.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		line.clip_text = true
+		var row := HBoxContainer.new()
+		row.add_child(line)
+		_heroes_box.add_child(row)
+		if not line.disabled:
+			var give := Button.new()  # Lui donner des objets et des brumes : la fenêtre d'échange.
+			give.text = "Donner"
+			give.focus_mode = Control.FOCUS_NONE
+			give.add_theme_font_size_override("font_size", 12)
+			give.tooltip_text = "Lui donner des objets et des brumes"
+			give.pressed.connect(func() -> void: map_view.send_command({"type": Protocol.CMD_EXCHANGE,
+				"entite": map_view.world.player_id, "action": Exchange.PROPOSE, "joueur": hero["id"]}))
+			row.add_child(give)
+	# Héros qui reçoit tout le butin et les brumes des combats, ou partage comme en groupe.
+	var receiver := OptionButton.new()
+	receiver.focus_mode = Control.FOCUS_NONE
+	receiver.add_theme_font_size_override("font_size", 12)
+	receiver.tooltip_text = "Qui reçoit le butin et les brumes des combats"
+	receiver.add_item("Butin : partagé")
+	for hero: Dictionary in map_view.world.heroes:
+		receiver.add_item("Butin : " + hero["nom"])
+		if hero.get("receveur", false):
+			receiver.select(receiver.item_count - 1)
+	receiver.item_selected.connect(func(index: int) -> void:
+		map_view.send_command({"type": Protocol.CMD_HERO_RECEIVER, "entite": map_view.world.player_id,
+			"heros": map_view.world.heroes[index - 1]["id"] if index > 0 else ""}))
+	receiver.visible = map_view.world.heroes.size() > 1
+	_heroes_box.add_child(receiver)
 	var add := Button.new()
 	add.text = "Nouveau héros"
 	add.focus_mode = Control.FOCUS_NONE

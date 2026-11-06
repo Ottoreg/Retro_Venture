@@ -942,7 +942,12 @@ pour tester la mécanique ; en ligne à terme.
   prospection, réputation au facteur de difficulté du groupe ; les monstres ne sont pas renforcés.
 - **Objectifs de quête** : un combat (vaincre) ou un dialogue (parler) compte pour tous les héros qui
   ont l'objectif ; une récolte ou un butin reste à chacun (« apporter » : les objets de son propre sac).
-- Sauvegarde : l'équipe entière, dans l'ordre, avec le héros contrôlé (`heros`, `heros_controle`).
+- **Donner** (06/11/2026) : à côté de chaque autre héros, ouvre la fenêtre d'échange tout de suite (pas de
+  proposition à accepter) ; une seule validation suffit, le joueur jouant les deux héros.
+- **Receveur du butin** (06/11/2026) : « Butin : partagé » ou un héros, qui reçoit alors tout le butin
+  et toutes les brumes des combats de l'équipe (la réputation reste à chacun) ; commande `receveur_heros`.
+- Sauvegarde : l'équipe entière, dans l'ordre, avec le héros contrôlé et le receveur (`heros`,
+  `heros_controle`, `heros_receveur`).
 - Code : `PlayerState.heroes` / `hidden`, `World.add_hero`, commande `changer_heros`, événement
   `heros_change` (protocole v13), `MapInstance.add_player(..., listed)`, `MapView.control_hero`.
 - **Plus tard, en ligne** : un client par compte qui commande plusieurs personnages (serveur : un pair

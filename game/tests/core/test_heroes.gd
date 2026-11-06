@@ -100,3 +100,42 @@ func test_sauvegarde_de_l_equipe() -> void:
 		"dans l'ordre de l'équipe")
 	assert_eq(World.from_save(World.new(_maps["a"], Fixtures.data(), _loader).save_data(), _world.data, _loader)._solo().heroes,
 		[] as Array[String], "sans héros : pas d'équipe")
+
+
+func test_echange_entre_heros_sans_demande() -> void:
+	var sam := _world.add_hero(_character("Sam"))
+	_world.character.inventory.ecus = 50
+	var opened := _as(World.PLAYER_ID, Protocol.CMD_EXCHANGE, {"action": Exchange.PROPOSE, "joueur": sam.id})
+	assert_eq(opened[0]["type"], Protocol.EVT_EXCHANGE, "ouvert tout de suite, sans proposition à accepter")
+	_as(World.PLAYER_ID, Protocol.CMD_EXCHANGE, {"action": Exchange.ECUS, "brumes": 30})
+	_world.update(Exchange.VALIDATE_DELAY)
+	_as(World.PLAYER_ID, Protocol.CMD_EXCHANGE, {"action": Exchange.VALIDATE})
+	assert_eq(sam.character.inventory.ecus, 30, "une seule validation : le joueur joue les deux héros")
+	assert_eq(_world.character.inventory.ecus, 20)
+	assert_eq(sam.exchange, null)
+
+
+func test_un_heros_recoit_tout_le_butin() -> void:
+	var sam := _world.add_hero(_character("Sam"))
+	assert_eq(_as(World.PLAYER_ID, Protocol.CMD_HERO_RECEIVER, {"heros": "inconnu"})[0]["type"], Protocol.EVT_REFUSED)
+	_as(World.PLAYER_ID, Protocol.CMD_HERO_RECEIVER, {"heros": sam.id})
+	assert_eq(_world.player(World.PLAYER_ID).hero_receiver, sam.id, "pour toute l'équipe")
+	assert_eq(World.from_save(_world.save_data(), _world.data, _loader).player("heros_2").hero_receiver, "heros_2", "sauvegardé")
+	var ecus := sam.character.inventory.ecus
+	_as(World.PLAYER_ID, Protocol.CMD_ENGAGE, {"groupe": "groupe_1"})
+	var combat := _world.combat
+	_as(World.PLAYER_ID, Protocol.CMD_READY)
+	while combat.current_fighter().team != Fighter.TEAM_PLAYERS:
+		_world.update(1.0)
+	var player := combat.current_fighter()
+	var monster := combat.get_fighter("groupe_1_1")
+	for neighbor in IsoGrid.neighbors_4(monster.cell):
+		if combat.is_free(neighbor):
+			player.cell = neighbor
+			break
+	monster.hp = 1
+	var ended := Fixtures.of_type(_as(player.id, Protocol.CMD_CAST, {"sort": "frappe", "cible": monster.cell}), Protocol.EVT_COMBAT_ENDED)
+	var gains: Dictionary = ended[0]["gains"]
+	assert_eq(gains[World.PLAYER_ID]["ecus"], 0, "rien pour les autres")
+	assert_eq(gains[World.PLAYER_ID]["butin"], [])
+	assert_eq(sam.character.inventory.ecus - ecus, gains[sam.id]["ecus"], "tout pour Sam")
