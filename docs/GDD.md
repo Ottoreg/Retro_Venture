@@ -2402,8 +2402,9 @@ enchaîne beaucoup de salles. La **Tour Céleste** monte vers le ciel ; l'**Infr
 une tour inversée qui s'enfonce dans le sous-sol. Pour commencer, **une de chaque**.
 
 - **50 étages**, un combat par étage (une carte, un groupe de monstres), de plus en plus difficiles.
-- **Paliers tous les 5 étages** : un **mini-boss** garde chaque 5e étage, avant le palier ; le
-  vaincre fait atteindre le palier.
+- **Paliers tous les 10 étages** (précisé par l'auteur le 06/11/2026, au lieu de 5) : un **mini-boss**
+  garde chaque 10e étage, avant le palier ; le vaincre fait atteindre le palier. 50 étages, donc
+  5 paliers et 5 boss (le dernier à l'étage 50), dans les deux tours.
 - **Pauses** : les joueurs peuvent sortir et **reprendre au palier le plus élevé atteint**. Le
   palier est retenu par joueur ; un groupe reprend au plus haut palier atteint par **tous** ses
   membres.
@@ -2467,7 +2468,7 @@ Retouches du 06/11/2026 (demande de l'auteur, pas encore reportées dans les don
 #### Les paliers de la Tour céleste (conception de l'auteur du 06/11/2026, pas encore codé)
 
 Les mini-boss gardent les étages **10, 20, 30, 40** et le boss l'étage **50** : la Tour céleste a
-**5 paliers de 10 étages** (au lieu d'un mini-boss tous les 5 étages, règle générale ci-dessus).
+**5 paliers de 10 étages**, comme l'Infratour (règle ci-dessus).
 L'Archange Raphaël garde le **palier 1 (étage 10)** : la version réduite est adaptée pour en faire les
 10 premiers étages. Les cinq étages de la version réduite deviennent les étages 6 à 10, précédés de
 cinq étages plus faciles (proposition, à valider) : 1) 2 colombes ; 2) 3 colombes ; 3) 1 ange et
@@ -2481,8 +2482,8 @@ cinq étages plus faciles (proposition, à valider) : 1) 2 colombes ; 2) 3 colom
 - *Crucifixion* : au contact, 4 PA, relance 3 tours. Retire tous les PM de la cible et la rend
   **indéplaçable** ; donne +1 PM à tous les alliés de Judas (pas à lui).
 - *Pour trente brumes* : seulement sous **30 % de ses PV** ; 3 PA, sur un de ses alliés, sans limite de
-  portée ni ligne de vue. Tue la cible et rend à Judas tous ses points de vie, sous forme de **soin**
-  (donc bloqué par l'anti-soin, état `insoignable`).
+  portée ni ligne de vue. Tue la cible et soigne Judas à **100 % de ses PV**, quels que soient les PV
+  de l'allié tué ; c'est un **soin** (donc bloqué par l'anti-soin, état `insoignable`).
 - *Dague mortelle* : 1 à 2 PO en ligne, 3 PA, **20 Impie spectraux et dévastateurs** (§ 4.4).
 - Comportement : *Pour trente brumes* avant tout dès que le seuil est atteint ; sinon il va au contact
   pour lancer *Crucifixion*, sinon *Dague mortelle*.
@@ -2522,7 +2523,7 @@ alliés et attaque ses adversaires. Ses sorts n'ont **ni ligne de vue ni limite 
 
 - **Ni PV, ni PA, ni PM** : il a **3 points de Trinité**. Il en perd un quand le Fils ou le
   Saint-Esprit meurt. À 1 point, les joueurs doivent **survivre 3 tours d'affilée** pour lui faire
-  perdre le dernier.
+  perdre le dernier ; la mort d'un joueur remet ce compte à zéro.
 - *Omnipotent, Omniscient, Omniprésent* (passif) : il lance tous ses sorts sans dépenser de PA (seules
   les relances l'en empêchent) ; ses dégâts ne sont pas réduits par les résistances et sont spectraux à
   100 % ; ni ligne de vue ni limite de portée ; sans PM, il se déplace instantanément partout sur la
@@ -2542,6 +2543,9 @@ alliés et attaque ses adversaires. Ses sorts n'ont **ni ligne de vue ni limite 
 - Comportement : lance chaque sort dès qu'il est disponible. Il va toujours au contact (ou au plus
   près) de sa cible ; s'il en a plusieurs, il se démultiplie puis se rassemble en un seul corps. Il
   finit son tour à 5 cases de sa dernière cible si possible, sinon sur la case libre la plus proche.
+
+**Sorts déclenchés** (*Miracle*, *Résurrection*) : leur coût en PA est payé au déclenchement ; si on a
+retiré des PA au lanceur et qu'il ne lui en reste pas assez à ce moment, le sort n'est pas lancé.
 
 Mécaniques nouvelles à coder pour ces paliers : états *indéplaçable*, *pacifié* (n'inflige plus de
 dégâts), *humble*, sorts passifs et déclenchés (à la mort, aux dégâts subis), invocations, retour à

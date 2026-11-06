@@ -646,7 +646,7 @@ classes (option écartée et compromis gardés en piste, GDD § 5.2).
 - [ ] Un donjon par région (panoplie et ressources exclusives)
 - [ ] Donjons de l'Aube (Reliques) : salle unique, combat en 4 à 5 vagues (sbires, puis boss et
   généraux), clé par personne, pas d'instance de guilde (GDD § 12.7)
-- [ ] Tour Céleste et Infratour Infernale : 50 étages, mini-boss et palier tous les 5, reprise au
+- [ ] Tour Céleste et Infratour Infernale : 50 étages, mini-boss et palier tous les 10, reprise au
   palier, boss à l'étage 50, pas d'instance de guilde, récompenses à surveiller en farm (GDD § 12.8)
 - [x] Tour céleste réduite (04/11/2026) : parvis avec Cupidon (clé à 100 %) et Saint Pierrot, 5 étages
   enchaînés, Archange Raphaël au sommet ; vol de vie, état « exorcisme », IA `corps_a_corps`,
@@ -660,11 +660,10 @@ classes (option écartée et compromis gardés en piste, GDD § 5.2).
 - [ ] Tour céleste : reporter dans les données Raphaël à 250 PV et la *Griffe de Juda* à 25-50, et passer la
   version réduite à 10 étages (étages 1 à 5 plus faciles, proposés au GDD § 12.8, « Les paliers ») : sur demande de l'auteur
 - [ ] **Paliers de la Tour céleste** (Judas, Saint-Esprit, le Fils, le Père ; GDD § 12.8) : à coder plus tard. Points à trancher par l'auteur :
-  - paliers tous les 10 étages pour la Tour céleste : la règle générale (tous les 5) change-t-elle aussi pour l'Infratour ? Que gardent les étages 5, 15, 25… ?
-  - Judas : *Pour trente brumes* rend-il les PV actuels de l'allié tué ? relance ou une fois par tour ? durée du +1 PM de *Crucifixion* ; parts spectrale et dévastatrice de la *Dague mortelle* (100 % ?) ; le *Calice* compte-t-il les dégâts des alliés du joueur ?
-  - Saint-Esprit : coût en PA des *Flammes salvatrices* ; 40 de poison par tour ou en tout ? reste-t-il mort après *Miracle* (et que veut dire le coût de 4 PA d'un sort lancé à sa mort) ? ordre entre attaque et soin ; durée du +10 Dommages d'*Inspiration*
-  - le Fils : *Faiseur de miracles* une fois par tour pour chaque allié ou pour tous, lui compris ? *Rédemption* : 50 fixes ou 50 % ? *Humilité* : 4 PA et PM par tour ou sur les 2 tours ? *Résurrection* : sur sa case de mort ? avec combien de PV ? une fois par combat ? coût de 5 PA d'un sort déclenché
-  - le Père : le Fils ressuscité ou relevé par *Miracle* rend-il un point de Trinité ? qu'est-ce qui remet à zéro les 3 tours à survivre (un joueur mort ?) ; *Miséricorde* : 50 % des PV actuels ou max ? relances de *Miséricorde*, *Justice* et *Compassion* ; *Justice* : quelle cible, et compte-t-elle aussi les joueurs ? *Création* : monstre tiré au hasard ?
+  - Judas : *Pour trente brumes* : relance ou une fois par tour ? durée du +1 PM de *Crucifixion* ; parts spectrale et dévastatrice de la *Dague mortelle* (100 % ?) ; le *Calice* compte-t-il les dégâts des alliés du joueur ?
+  - Saint-Esprit : coût en PA des *Flammes salvatrices* ; 40 de poison par tour ou en tout ? reste-t-il mort après *Miracle* ? ordre entre attaque et soin ; durée du +10 Dommages d'*Inspiration*
+  - le Fils : *Faiseur de miracles* une fois par tour pour chaque allié ou pour tous, lui compris ? *Rédemption* : 50 fixes ou 50 % ? *Humilité* : 4 PA et PM par tour ou sur les 2 tours ? *Résurrection* : sur sa case de mort ? avec combien de PV ? une fois par combat ?
+  - le Père : le Fils ressuscité ou relevé par *Miracle* rend-il un point de Trinité ? *Miséricorde* : 50 % des PV actuels ou max ? relances de *Miséricorde*, *Justice* et *Compassion* ; *Justice* : quelle cible, et compte-t-elle aussi les joueurs ? *Création* : monstre tiré au hasard ?
   - niveaux, XP, brumes, butin et ressources des quatre boss ; familles d'apôtres et des étages 21 à 40
 
 ### Quêtes et scénario
