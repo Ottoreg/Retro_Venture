@@ -2022,7 +2022,12 @@ compris) et les recettes du forgeron sont supprimés, tout le reste se forge.
   chanvre). **Résistance d'équipement des joueurs plafonnée à 60 %** par élément (`Fighter.MAX_RESISTANCE`) ;
   les monstres et les effets de combat n'ont pas ce plafond.
 - **Limites** (demande de l'auteur, 02/11/2026) : **100 points de score par ligne** au plus, plafond qui découle du poids (100 Force,
-  400 Vitalité, 1 000 Initiative, 34 Prospection ou Dommages, 10 Critique, 12 % de résistance ; 1 PA, PM ou Portée ; les ressources en trop sont perdues, sans refus :
+  400 Vitalité, 1 000 Initiative, 34 Prospection ou Dommages, 10 Critique, 12 % de résistance ; 1 PA, PM ou Portée ;
+  **selon le palier de forge** (demande de l'auteur du 07/11/2026, `Forge.tier` : palier de réputation de forgeron,
+  Apprenti 1 à Légende 5, Inconnu compté 1) : **20 points de score par ligne et 160 par objet par palier** (palier 1 : 160 et 20,
+  2 : 320 et 40, 3 : 480 et 60, 4 : 640 et 80, 5 : 800 et 100 ; le total découle des 8 lignes). Une caractéristique dont un
+  point coûte plus que le plafond d'une ligne est **perdue** avant son palier : **PA** (100 points de score) au palier 5,
+  **PM** (80) au palier 4, **Portée** (60) au palier 3 (`Forge.FIXED_STATS`, aperçu : « Perdu, palier de forge trop bas ») ; les ressources en trop sont perdues, sans refus :
   les joueurs apprennent de leurs erreurs, demande de l'auteur du 04/11/2026) et
   **8 lignes par objet** au plus (forge refusée au-delà, `trop_de_lignes`). Les **essences** (infusion, plus bas) ajoutent des
   lignes exotiques, elles aussi plafonnées à 100 points de score. Une ressource de haut palier peut donner

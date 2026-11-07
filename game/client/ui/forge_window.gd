@@ -142,6 +142,8 @@ func _show_preview() -> void:
 	lines.append_array(InventoryWindow.bonus_range_lines(preview["bonus"]))
 	lines.append_array(InventoryWindow.attack_lines(Item.entry_template({"objet": Forge.template_id(_type),
 		"forge": {"nom": "", "artisan": "", "palier": preview["palier"], "bonus": full}}, data.items)))
+	if not preview["indisponibles"].is_empty():
+		lines.append("Perdu, palier de forge trop bas : %s" % ", ".join(PackedStringArray(preview["indisponibles"].map(Item.stat_name))))
 	if preview["cachees"] > 0:
 		lines.append("+ %d ressource(s) à la caractéristique inconnue" % preview["cachees"])
 	lines.append("")

@@ -180,6 +180,8 @@ Fenêtre refaite le 03/11/2026 : sac en icônes à gauche, clic ou glisser vers 
 (`Forge.MAX_SLOTS` ressources différentes, quantité libre), jet obtenu à droite ; 9e case : feuille de papier → patron
 (`Forge.PAPER`, `Forge.PATTERN`) ; élément d'attaque des armes selon leurs lignes ; lignes `dommages_<élément>` et
 `resistance_<élément>` ; matières récoltées orientées (`docs/design/forge/matieres.py`).
+Plafonds selon le palier de réputation de forgeron (07/11/2026, sur `dev`, `Forge.tier`) : 20 points de score par ligne
+et par palier (160 à 800 par objet) ; PA, PM et Portée (`Forge.FIXED_STATS` : 100, 80, 60 points) perdus avant leur palier.
 Plus tard : maîtres par catégorie (armurier, tailleur, cordonnier) qui donnent des plans par quêtes.
 
 **Tour céleste réduite (04/11/2026, sur `dev`, reportée sur `main` le 06/11/2026 à la demande de l'auteur, GDD § 12.8 « Version réduite »)** : parvis `celeste_0_0`

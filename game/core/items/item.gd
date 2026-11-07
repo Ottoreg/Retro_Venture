@@ -104,9 +104,9 @@ static func validate(data: Dictionary) -> PackedStringArray:
 	if type == Forge.TYPE_RECIPE:
 		errors.append_array(Forge.validate_recipe(data.get("recette")))
 	var stats: Array = Forge.stats_of(data) if data.has("caracteristique") else ["force"]
-	if stats.is_empty() or stats.any(func(s: Variant) -> bool: return s not in Forge.STAT_WEIGHTS.keys() + Forge.FIXED_STATS) \
+	if stats.is_empty() or stats.any(func(s: Variant) -> bool: return s not in Forge.STAT_WEIGHTS.keys() + Forge.FIXED_STATS.keys()) \
 			or data.get("matiere", "cuir") not in Forge.MATERIALS or (data.has("valeur") and not Spell._is_int_at_least(data["valeur"], 1)):
-		errors.append("« caracteristique » doit valoir %s, « matiere » %s et « valeur » un entier ≥ 1" % [str(Forge.STAT_WEIGHTS.keys() + Forge.FIXED_STATS), str(Forge.MATERIALS)])
+		errors.append("« caracteristique » doit valoir %s, « matiere » %s et « valeur » un entier ≥ 1" % [str(Forge.STAT_WEIGHTS.keys() + Forge.FIXED_STATS.keys()), str(Forge.MATERIALS)])
 	if data.get("rarete") not in RARITIES:
 		errors.append("« rarete » doit valoir %s" % str(RARITIES))
 	if not Spell._is_int_at_least(data.get("niveau", 1), 1):
