@@ -126,11 +126,12 @@ static func reveals(character: Character, tier: int) -> bool:
 
 ## Aperçu de l'objet : { erreur (raison du protocole, "" si on peut forger), palier, bonus: { stat:
 ## [min, max] }, cachees (ressources à caractéristique cachée pour `character`), manquantes (matières),
-## indisponibles (lignes perdues, hors de portée du palier de forge de `character`) }.
+## perdues (ressources dont une caractéristique dépasse le palier de forge de `character`, même cachée : id →
+## { stat: palier requis }) }.
 ## Le plancher des jets suit la Précision de `character` ; `hide` : cacher ce qu'il ne sait pas lire
 ## (faux pour le serveur et pour un plan, qui montre tout).
 static func preview(type: String, resources: Dictionary, items: Dictionary, character: Character = null, hide := true) -> Dictionary:
-	var result := {"erreur": "", "palier": 1, "bonus": {}, "cachees": 0, "manquantes": [], "indisponibles": []}
+	var result := {"erreur": "", "palier": 1, "bonus": {}, "cachees": 0, "manquantes": [], "perdues": {}}
 	if not TYPES.has(type) or not items.has(template_id(type)):
 		result["erreur"] = Protocol.REASON_INVALID_COMMAND
 		return result
@@ -141,6 +142,7 @@ static func preview(type: String, resources: Dictionary, items: Dictionary, char
 	var tiers := 0
 	var totals := {}
 	var materials: Array = []
+	var forge_tier := tier(character)
 	for item_id: Variant in resources:
 		var item: Dictionary = items.get(item_id, {})
 		if item.get("type") != Item.TYPE_RESOURCE or typeof(resources[item_id]) not in [TYPE_INT, TYPE_FLOAT] or int(resources[item_id]) < 1:
@@ -151,19 +153,16 @@ static func preview(type: String, resources: Dictionary, items: Dictionary, char
 		count += quantity
 		tiers += quantity * tier
 		materials.append(item.get("matiere", ""))
+		for stat: String in stats_of(item).filter(func(stat: String) -> bool: return line_cap(stat, forge_tier) == 0):
+			result["perdues"][item_id] = result["perdues"].get(item_id, {}).merged({stat: ceili(float(FIXED_STATS[stat]) / LINE_SCORE_PER_TIER)})
 		if character != null and hide and item.has("caracteristique") and not reveals(character, tier):
 			result["cachees"] += quantity
 			continue
-		for stat: String in stats_of(item):
+		for stat: String in stats_of(item).filter(func(stat: String) -> bool: return line_cap(stat, forge_tier) > 0):
 			totals[stat] = int(totals.get(stat, 0)) + quantity * int(item.get("valeur", value(stat, tier, item.get("rarete") == "rare")))
 	for material: String in TYPES[type]["matieres"]:
 		if material not in materials:
 			result["manquantes"].append(material)
-	var forge_tier := tier(character)
-	for stat: String in totals.keys():
-		if line_cap(stat, forge_tier) == 0:
-			result["indisponibles"].append(stat)
-			totals.erase(stat)
 	if totals.size() > MAX_LINES:
 		result["erreur"] = Protocol.REASON_TOO_MANY_LINES
 	elif not result["manquantes"].is_empty():

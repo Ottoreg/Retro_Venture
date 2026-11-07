@@ -2027,7 +2027,8 @@ compris) et les recettes du forgeron sont supprimés, tout le reste se forge.
   Apprenti 1 à Légende 5, Inconnu compté 1) : **20 points de score par ligne et 160 par objet par palier** (palier 1 : 160 et 20,
   2 : 320 et 40, 3 : 480 et 60, 4 : 640 et 80, 5 : 800 et 100 ; le total découle des 8 lignes). Une caractéristique dont un
   point coûte plus que le plafond d'une ligne est **perdue** avant son palier : **PA** (100 points de score) au palier 5,
-  **PM** (80) au palier 4, **Portée** (60) au palier 3 (`Forge.FIXED_STATS`, aperçu : « Perdu, palier de forge trop bas ») ; les ressources en trop sont perdues, sans refus :
+  **PM** (80) au palier 4, **Portée** (60) au palier 3 (`Forge.FIXED_STATS`) : l'enclume l'annonce en rouge, case comprise (« ⚠ Perdu si vous forgez : Corne du Balourd ×1
+  ne donnera rien… », même pour une caractéristique encore cachée, sans la nommer ; demande de l'auteur du 07/11/2026) ; les ressources en trop sont perdues, sans refus :
   les joueurs apprennent de leurs erreurs, demande de l'auteur du 04/11/2026) et
   **8 lignes par objet** au plus (forge refusée au-delà, `trop_de_lignes`). Les **essences** (infusion, plus bas) ajoutent des
   lignes exotiques, elles aussi plafonnées à 100 points de score. Une ressource de haut palier peut donner

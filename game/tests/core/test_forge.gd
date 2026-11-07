@@ -220,7 +220,7 @@ func test_plafonds_selon_le_palier_de_forge() -> void:
 	var preview := Forge.preview("bottes", {"peau": 1, "croc": 60, "corne": 2}, items, character, false)
 	assert_eq(preview["bonus"]["force"][1], 20, "20 points de score par ligne au palier 1")
 	assert_false(preview["bonus"].has("pa"), "PA perdu avant le palier 5")
-	assert_eq(preview["indisponibles"], ["pa"])
+	assert_eq(preview["perdues"], {"corne": {"pa": 5}}, "ressource perdue et palier requis, même cachée")
 	character.add_job_reputation("forgeron", 100000)
 	assert_eq(Forge.tier(character), 5, "Légende : palier 5")
 	assert_eq(Forge.preview("bottes", {"peau": 1, "croc": 60, "corne": 2}, items, character, false)["bonus"]["pa"], [1, 1])
