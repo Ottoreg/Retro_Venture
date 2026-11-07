@@ -169,7 +169,7 @@ func _warn_lost(lost: Dictionary, hidden: bool) -> void:
 	for item_id: String in lost:
 		var known: bool = not hidden or Forge.reveals(map_view.world.character, int(items[item_id].get("niveau", 1)))
 		for stat: String in lost[item_id]:
-			lines.append("⚠ Perdu si vous forgez : %s ×%d ne donnera rien, %s demande le palier de forge %d (vous êtes au palier %d)." % [
+			lines.append("ATTENTION, perdu si vous forgez : %s ×%d ne donnera rien, %s demande le palier de forge %d (vous êtes au palier %d)." % [
 				items[item_id]["nom"], _chosen.get(item_id, 0), Item.stat_name(stat) if known else "sa caractéristique",
 				lost[item_id][stat], Forge.tier(map_view.world.character)])
 	_warning.text = "\n".join(lines)
