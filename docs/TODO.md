@@ -830,7 +830,8 @@ Plan validé par l'auteur le 26/10/2026 : GDD § 16.5, jalons M0 (préparer le n
   raid, ressources seulement en craft), registre d'utilisation, paiement des frais de guilde (loyers,
   métier de guilde, terrains) (GDD § 13.7)
 - [ ] Investissement de guilde : brumes investies par les membres, 10 % par semaine en brumes de
-  guilde pour les achats de la guilde, sans intérêts composés ; questions ouvertes (GDD § 13.7)
+  guilde pour les achats de la guilde, sans intérêts composés, mise bloquée mais retirable à tout moment et rendue au départ ; questions
+  ouvertes (GDD § 13.7)
 - [ ] Comptoirs de guilde : galeries marchandes instanciées, loyer et taxe réduite, registre commun
   des commerces, avis d'achats vérifiés sans texte libre (GDD § 13.7)
 - [ ] Économie des artisans : taxe de vente comptée dans le Trésor de chaque ville (chantiers, bonus

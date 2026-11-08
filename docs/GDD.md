@@ -2787,11 +2787,14 @@ zones de chasse, instances de récolte (instances d'exploitants, § 10.3), etc. 
 composés** : seules les brumes investies rapportent, jamais les brumes de guilde gagnées. Exemple :
 10 000 brumes investies rapportent 1 000 brumes de guilde chaque semaine.
 
-Questions ouvertes (à trancher par l'auteur) : retrait de l'investissement (possible, délai, et si
-le membre quitte la guilde) ; plafond par membre ou par guilde ; brumes investies bloquées ou
-détruites ; brumes de guilde distinctes de l'argent du coffre (cotisation) ou même réserve, et
-utilisables ou non pour les frais (loyers, cotisations) ; brumes de guilde créées chaque semaine à
-suivre dans la surveillance économique (§ 13.6).
+Réponses de l'auteur (08/11/2026) : un membre peut **retirer** son investissement **sans délai** ;
+les intérêts sont calculés **une fois par semaine**. S'il **quitte** la guilde ou en est
+**expulsé**, il **récupère sa mise**. Les brumes investies sont **bloquées** (pas détruites).
+**Pas de plafond** pour l'instant (à décider plus tard).
+
+Questions encore ouvertes : brumes de guilde distinctes de l'argent du coffre (cotisation) ou même
+réserve, et utilisables ou non pour les frais (loyers, cotisations) ; brumes de guilde créées
+chaque semaine à suivre dans la surveillance économique (§ 13.6).
 
 Autres pistes, non retenues pour l'instant : caravaniers (transport entre villes, escortes),
 écuries (location de montures), chasseurs de primes (tableau de contrats), cartographes (chasses aux
