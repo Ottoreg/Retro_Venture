@@ -2104,7 +2104,7 @@ moment** ; elle remplace la destruction d'objets et les cicatrices du § 9.2.
     - **Retrait PA ↔ Retrait PM** : chacune **augmente la chance d'infliger** ce retrait et **réduit
       la chance de le subir**, en même temps (une seule ligne, pas d'esquive à part) ;
     - **Dommages de mêlée** (miroir de la **Portée**) : **% de dégâts finaux** au corps à corps, faible
-      (1 à 2 % par objet), pour rester proche de la Portée en points de score. *Proposition* : 30 points
+      (1 à 2 % par objet), pour rester proche de la Portée en points de score. **Validé le 09/11/2026** : 30 points
       de score par % (+1 Portée = 60 points ↔ +2 %), soit 3 % au plus par ligne (plafond de 100).
     - **Initiative** : miroir **à revoir plus tard** (le Retard est écarté).
 - **Statistiques de métier** (décisions de l'auteur du 09/11/2026, rien n'est codé) : elles n'existent
