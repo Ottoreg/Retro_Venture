@@ -2091,13 +2091,25 @@ moment** ; elle remplace la destruction d'objets et les cicatrices du § 9.2.
   - *Paires élémentaires* (déduites des exemples de l'auteur) : **Flamme ↔ Givre**, **Acier ↔
     Tempête**, **Sacré ↔ Impie**, valables pour les caractéristiques (Intelligence ↔ Perception, Force ↔
     Agilité) et les lignes Dommages, Soins et Résistance de chaque élément.
-  - *Statistiques abstraites* (décisions de l'auteur du 09/11/2026) : **pas de miroir pour PA, PM et
-    Portée** ; **Dégâts dévastateurs ↔ Dégâts spectraux** (§ 4.4) ; **Dommages ↔ Soins**, neutres et
+  - *Statistiques abstraites* (décisions de l'auteur du 09/11/2026) : **pas de miroir pour PA et
+    PM** ; **Dégâts dévastateurs ↔ Dégâts spectraux** (§ 4.4) ; **Dommages ↔ Soins**, neutres et
     élémentaires : une ligne élémentaire de Dommages ou de Soins a **deux miroirs**, et le joueur
     **choisit** en infusant s'il change l'élément (Dommages Flamme → Dommages Givre) ou le type de
     ligne (Dommages Flamme → Soins Flamme) ; **pas de miroir pour l'Initiative et la Prospection**
-    pour l'instant (la Prospection, plus attrayante, aurait été toujours choisie) ; Critique et
-    Vitalité : **à définir plus tard**.
+    pour l'instant (la Prospection, plus attrayante, aurait été toujours choisie) ; **Vitalité ↔
+    Épines** (§ 4.4) ; **Critique ↔ Résistance aux critiques**.
+  - *Statistiques à venir* (09/11/2026, rien n'est codé ; leur miroir est déjà fixé) :
+    - **Tacle ↔ Fuite** (tacle et fuite de la TODO) ;
+    - **Retrait PA ↔ Retrait PM** : chacune **augmente la chance d'infliger** ce retrait et **réduit
+      la chance de le subir**, en même temps (une seule ligne, pas d'esquive à part) ;
+    - **Abondance** (miroir de la **Prospection**) : plus de ressources à la récolte ; première
+      statistique **de métier**, sans effet en combat. *À faire* : trouver d'autres statistiques qui
+      concernent directement les récolteurs et les artisans, pour des objets spéciaux sans
+      statistique de combat ;
+    - **Dommages de mêlée** (miroir de la **Portée**) : **% de dégâts finaux** au corps à corps, faible
+      (1 à 2 % par objet), pour rester proche de la Portée en points de score. *Proposition* : 30 points
+      de score par % (+1 Portée = 60 points ↔ +2 %), soit 3 % au plus par ligne (plafond de 100).
+    - **Initiative** : miroir **à revoir plus tard** (le Retard est écarté).
 - *Noms proposés* (à choisir par l'auteur) : **Sublimation** (l'objet est « sublimé »),
   **Brumagie** (la magie des brumes, lieu de frappe de la monnaie), **Quintessence** (l'objet reçoit
   la quintessence d'une ressource), **Distillation** (l'alambic de l'artisan ; parodie possible :

@@ -702,8 +702,11 @@ classes (option écartée et compromis gardés en piste, GDD § 5.2).
   200 points de score d'exo par objet, 100 par ligne) ; essence parfaite (× 5 ressources) sans échec
 - [ ] Infusion miroir (GDD § 10.4, 09/11/2026) : à un palier de maîtrise élevé, essence de la statistique
   opposée, palier Maître (Flamme ↔ Givre, Acier ↔ Tempête, Sacré ↔ Impie, Dévastateurs ↔ Spectraux,
-  Dommages ↔ Soins au choix du joueur ; rien pour PA, PM, Portée, Initiative, Prospection) ; Critique
-  et Vitalité plus tard
+  Dommages ↔ Soins au choix du joueur, Vitalité ↔ Épines, Critique ↔ Résistance aux critiques ; rien
+  pour PA, PM ; Initiative à revoir)
+- [ ] Statistiques à venir (GDD § 10.4, miroir fixé) : Tacle ↔ Fuite, Retrait PA ↔ Retrait PM (inflige
+  et protège à la fois), Abondance ↔ Prospection (récolte), Dommages de mêlée (% finaux) ↔ Portée
+- [ ] Trouver d'autres statistiques de récolteurs et d'artisans (objets spéciaux sans stat de combat)
 - [ ] Harmoniser la rareté des ressources : commune (butin > 20 %), rare (> 1 %), légendaire (≤ 1 %)
 - [ ] **Phase de design manuelle de l'auteur** (demande du 06/11/2026) : revoir le butin de toutes les familles
   de monstres existantes, à faire par l'auteur lui-même (raretés harmonisées ci-dessus, ressources des essences)
