@@ -2207,10 +2207,10 @@ panoplie, de **2 à 7 pièces** comme les panoplies prédéfinies (§ 9.3), l'**
   12 élémentaires (6 éléments × offensive et défensive) et 19 neutres (Vitalité, Initiative, Prospection,
   Dommages, Critique, PA, PM, Portée, Soins, Dégâts dévastateurs, Épine brute, Réduction de dégâts,
   Dégâts spectraux, Résistance aux critiques, Tacle, Fuite, Retrait PA, Retrait PM, Dommages de mêlée ;
-  fixe et % d'une même statistique comptent ensemble). S'y ajoutent **34 de familles** (21 familles,
+  fixe et % d'une même statistique comptent ensemble, validé le 09/11/2026). S'y ajoutent **34 de familles** (21 familles,
   3 variantes corrompues qui deviennent des familles, 6 boss, 4 monstres de la tour céleste) et
-  **5 de zones** (Brumerive, Crasse-Roc, Sylvebrume, Hautepierre, tour céleste). *(À trancher : les
-  épines élémentaires, rangées ici dans la panoplie défensive de leur élément.)*
+  **5 de zones** (Brumerive, Crasse-Roc, Sylvebrume, Hautepierre, tour céleste). Les **épines
+  élémentaires** vont dans la panoplie défensive de leur élément (validé le 09/11/2026).
 - **Reste à définir** : barème des bonus (par nombre de pièces et par palier), tendance de chaque zone,
   ressources partagées à séparer, bonus des adjectifs de statistique, mots proposés pour chaque famille
   et zone (accordés en genre et en nombre comme les adjectifs).
