@@ -1095,6 +1095,106 @@ Les sorts restent **propres à leur classe** (pas d'apprentissage croisé, § 5.
 - **Monstres** : un groupe vaincu réapparaît à sa place au bout de 2 à 3 minutes (réglable par groupe).
 - **Cycle jour/nuit** : optionnel, long terme (certains monstres ou ressources seulement la nuit).
 
+### 6.1 Événements de zone (demande de l'auteur, 09/11/2026)
+
+Conception de l'auteur du 09/11/2026, rien n'est codé ; tout est validé par l'auteur le même jour.
+
+- **Principe** : chaque **semaine**, une zone (par exemple les *environs de Hautepierre*) propose un
+  **événement de zone**, qui dure la semaine. Tous les joueurs peuvent **choisir d'y participer**
+  (rien n'est imposé, la zone reste jouable normalement) pour gagner de la **réputation de zone**
+  (§ 6.2).
+- **Tirage et roulement** : le type est tiré au hasard, avec un **roulement** pour ne pas enchaîner
+  les mêmes événements : les quatre types passent dans une zone avant qu'un d'eux
+  revienne, et jamais deux fois le même d'affilée. L'événement en cours est signalé par une icône sur
+  la minicarte et la carte du monde (`MapIcons`) et annoncé dans le chat ; un lien cliquable pose un
+  repère, comme les liens de quête.
+- **Participation** : un bouton « Participer » dans l'annonce (ou auprès du PNJ de l'événement)
+  inscrit le joueur ; seuls les inscrits comptent pour l'événement. En groupe, chaque membre
+  inscrit compte pour lui-même.
+- **Plafond** (validé) : **1 000** de réputation de zone au plus par événement et par joueur,
+  **+50 %** si l'objectif collectif est atteint.
+- **Pas de brumes** (décision de l'auteur) : les événements ne créent pas de brumes, en dehors de
+  celles que donnent normalement les combats.
+- **Monde extérieur seulement** (décision de l'auteur) : les événements ont lieu sur les cartes
+  normales de la zone, jamais dans les donjons (§ 12), les instances de métier (§ 10.3) ni les zones
+  de chasse instanciées (§ 6.3).
+- **Solo et multijoueur** (décision de l'auteur) : en ligne, l'objectif collectif se règle sur le
+  nombre d'inscrits ; en solo, il est à l'échelle d'un joueur.
+
+**Les quatre types :**
+
+1. **Invasion** (validée) : le nombre de **groupes de monstres** d'une ou plusieurs **familles de
+   la zone** augmente : **+50 %** de groupes des familles choisies, qui réapparaissent **2 fois plus
+   vite**. Les joueurs doivent **vaincre le plus de groupes possible** pour arrêter l'invasion : une
+   **jauge d'invasion** (nombre de groupes à vaincre) ; jauge vidée, l'invasion s'arrête avant la
+   fin de la semaine et le bonus de réussite s'applique ; sinon, les groupes en trop disparaissent à
+   la fin, sans pénalité. Chaque joueur gagne de la réputation selon son **taux de participation**
+   (sa part des groupes vaincus). Butin normal (§ 8.2). Parodie : les gobelins envahisseurs sont en
+   « mouvement social », pancartes à la main.
+2. **Raid** : les **PNJ de la zone** demandent de l'aide pour aller combattre et rapporter des
+   **ressources de diverses familles de monstres**. Un PNJ (tableau de commandes) affiche **5
+   ressources** de familles différentes de la zone à livrer ; chaque livraison rapporte de la
+   réputation de zone et fait avancer l'**objectif collectif**. Les ressources livrées sont
+   consommées (puits de ressources) ; rien d'autre que la réputation.
+3. **Fête** (validée) : un **village ou une ville** de la zone organise une fête ; chaque joueur
+   vient y prendre **un bonus par jour** auprès d'un PNJ festif, au choix parmi trois (par exemple
+   +10 % de prospection, +10 % de quantité récoltée, +20 % de régénération hors combat), valable dans
+   la zone pour la journée ; prendre son bonus rapporte **100** de réputation de zone. Lien avec le
+   **Trésor des villes** (§ 13.6) : une fête peut être un des bonus qu'il débloque. Parodie : banquet
+   du syndicat gobelin, bal elfe où l'on juge les tenues, foire humaine qui célèbre « le héros du
+   village » (n'importe quel joueur qui passe).
+4. **Récolte et artisanat** : les **récoltes sont boostées** sur les cartes de la zone et les
+   **artisans ont aussi des bonus**, plus faibles puisque l'événement dure la semaine :
+   **+10 %** de quantité récoltée, temps de récolte **−10 %**, **+10 %** de
+   réputation de métier pour la récolte et la fabrication dans la zone (ateliers et enclumes de la
+   zone) ; chaque récolte ou fabrication rapporte de la réputation de zone. Pas dans les instances de
+   métier (§ 10.3), qui ont leurs propres bonus.
+
+### 6.2 Réputation de zone (demande de l'auteur, 09/11/2026)
+
+- **Une réputation par zone** (Brumerive, Crasse-Roc, Sylvebrume, environs de Hautepierre…), propre
+  au personnage, cumulée, qui ne baisse jamais (comme la réputation d'une activité, § 4.5), mais
+  **sans points de maîtrise** : elle n'est pas une activité.
+- **Gains** : **les événements de zone seulement** (§ 6.1 ; décision de l'auteur : les quêtes sont
+  appelées à disparaître si possible).
+- **Récompenses** (validées) : des **récompenses de palier** (une fois, en atteignant le palier) et
+  des **bonus permanents** de **farm**, de **récolte** et d'**artisanat**, valables **dans la zone
+  seulement** (même règle que les bonus du Trésor, § 13.6). Ils s'ajoutent aux compétences de métier
+  et aux bonus d'événement. **Pas de plan de forge** en récompense (décision de l'auteur).
+
+| Palier | Réputation | Récompense de palier | Bonus permanent dans la zone |
+|---|---|---|---|
+| Inconnu | 0 | — | — |
+| Connu | 2 000 | titre de zone, Pierres de Passage de la zone −25 % | +3 % de prospection |
+| Apprécié | 8 000 | décor de maison aux couleurs de la zone | +5 % de prospection, +5 % de quantité récoltée |
+| Honoré | 20 000 | apparence (cape ou monture aux couleurs de la zone) | +5 % de réputation de métier en récolte et fabrication dans la zone |
+| Héros local | 50 000 | titre « Héros de … », nom gravé sur la statue de la ville | +10 % de prospection et de quantité récoltée |
+
+La **statue** : un monument dans la ville principale de la zone, où sont gravés les
+noms des joueurs devenus « Héros local » (prestige seulement). Noms des paliers à décliner par camp
+(« Camarade d'honneur » chez les gobelins). Parodie : les humains donnent le titre de « Héros
+local » à tout le monde, les elfes ne le donnent qu'après trois siècles de délibération.
+
+### 6.3 Zones de chasse instanciées (demande de l'auteur, 09/11/2026)
+
+- **Principe** : **toutes les zones** peuvent être chassées dans une **instance**. Une zone de
+  chasse, c'est **plusieurs cartes remplies de groupes de monstres** de la zone et **une carte avec
+  un boss de zone**. Les groupes vaincus **ne réapparaissent pas** : une fois tout vaincu, la zone
+  est finie et l'instance peut être fermée. Le prix vaut pour **une session** (une ouverture).
+- **Ouverture** : auprès d'un **PNJ chasseur** dans chaque ville ou village, ou au **hall de
+  guilde**.
+- **Instance de guilde** : **2 000 brumes de guilde** (§ 13.7), toutes zones confondues ; **tous les
+  membres** de la guilde peuvent la rejoindre, **personne d'autre**. Aucun lien avec la réputation
+  de zone de la guilde.
+- **Instance de joueurs** : pour un joueur seul ou son groupe, **500 brumes par participant**,
+  toutes zones confondues (un groupe de 4 paie 2 000 brumes en tout), comme la clé que chaque joueur
+  paie en donjon (§ 12.2).
+- **Récompenses** : **seulement la maîtrise de classe et le butin des monstres** (décision de
+  l'auteur) : pas de réputation de zone, pas d'événement de zone ; les brumes des combats restent
+  celles d'un combat normal.
+- **Tous les joueurs ensemble** : les actes I et II (séparation des mondes, § 13.2) sont appelés à
+  disparaître (décision de l'auteur), donc pas de restriction d'accès par l'avancement.
+
 ---
 
 ## 7. Combat tactique
@@ -1416,7 +1516,9 @@ tour ») : la difficulté vient uniquement des **monstres renforcés**.
 - **Long terme :** forgemagie (modification des jets avec des runes), objets légendaires à effets
   uniques liés au butin rare et aux quêtes, objets liés au compte.
 - **Essences** (idée de l'auteur du 01/11/2026, le **puits d'équipement** du § 10.4 et du § 13.6 ;
-  rien n'est codé, chiffres à équilibrer) :
+  rien n'est codé, chiffres à équilibrer). **Le 05/11/2026, l'auteur remplace pour le moment la
+  destruction et les cicatrices ci-dessous par l'infusion de ressources** (§ 10.4, « Infusion
+  d'essences ») ; le texte reste en trace :
   - **destruction** : détruire un objet donne une **essence** d'une de ses statistiques, **tirée au
     hasard** parmi ses lignes (« essence de Force », « essence de PA »…). L'objet disparaît : c'est
     ce qui renouvelle la demande auprès des artisans ;
@@ -1630,8 +1732,8 @@ Cordonnier, le **Maître des potions** l'Alchimiste, le **Boulanger** le Cuisini
   venir (§ 3.5). Chaque ressource a sa **version rare** (1 %, à la place de la récolte, § 10.2).
 - **Outils** : chaque métier de récolte a son outil (pioche, hache, faucille, serpe, canne à pêche),
   porté dans un emplacement d'outil hors combat (pas une arme). Fabriqués par le **Forgeron** (le
-  manche par le bûcheron, la lame par le mineur) : un outil meilleur raccourcit la récolte et ajoute
-  une chance de ressource en plus. Sans outil, on récolte quand même, plus lentement (pas de mur
+  manche par le bûcheron, la lame par le mineur) : un outil porte les **statistiques de métier**
+  (§ 10.4, 09/11/2026) : il raccourcit la récolte, ajoute une chance de ressource en plus, etc. Sans outil, on récolte quand même, plus lentement (pas de mur
   pour un nouveau joueur).
 - **Produits intermédiaires** fabriqués à l'atelier du métier qui les utilise, sans recette à
   apprendre : **lingots** (Forgeron, 5 minerais → 1 lingot, à partir du palier 30), **farines**
@@ -1642,9 +1744,8 @@ Cordonnier, le **Maître des potions** l'Alchimiste, le **Boulanger** le Cuisini
   atelier elfe « collection Automne Éternel »). Les villes secondaires n'en ont que deux ou trois.
 - **Recettes classiques** données par le jeu (toutes ouvertes à l'alpha 2), puis **Chef-d'œuvre**
   (§ 10.4) débloqué par la réputation de métier pour tous les métiers d'artisanat, Éleveur compris (sous une forme propre, plus bas).
-- **Récolte sauvage et terrains instanciés** : les ressources de la carte restent la source normale
-  (et la seule pour les semences de haut niveau) ; les terrains achetés (plus bas) servent à
-  produire régulièrement ce qu'on a déjà trouvé.
+- **Récolte sauvage et instances de métier** : les ressources de la carte restent la source normale ;
+  les instances de métier (plus bas), débloquées par la réputation, servent à produire régulièrement.
 
 #### Mineur
 
@@ -1657,7 +1758,7 @@ pacotille** (40, « brille, mais pas trop »), **cristal de brume** (55), **adam
   **gemmes brutes** à partir de l'argent (5 % par récolte, en plus) : une gemme par élément
   (hématite Acier, rubis Flamme, saphir Givre, émeraude Tempête, opale Sacré, onyx Impie), pour le
   Joaillier.
-- **Mine instanciée** : voir plus bas ; on n'y plante rien.
+- **Mine** : instance de métier (plus bas), où l'on choisit le minerai de chaque filon.
 
 #### Bûcheron
 
@@ -1667,7 +1768,7 @@ potions), **érable** (40), **séquoia** (55), **barbe-souche** (70, un vieil ar
 très lentement et proteste à la coupe), **ébène de Cendre** (85), **bois de l'Aube** (100).
 
 - **Sous-produits** : **écorce** et **sève** (10 %, Maître des potions, Costumier pour les teintures),
-  **glands et pousses** (semences, voir terrains).
+  **glands et pousses** (supprimés avec les semences, voir instances de métier).
 
 **En place (02/11/2026, demande de l'auteur)** : agriculteur, herboriste et pêcheur jouables, chacun
 avec les cinq premiers paliers de son tableau (1, 3, 8, 15, 22) et une ressource rare par ressource
@@ -1729,49 +1830,101 @@ galeries** (22, Crasse-Roc), puis **silure** (30), **poisson-lanterne** (40, eau
 bocal** (70), **léviathan nain** (85), **saumon de l'Aube** (100).
 
 - **Sous-produits** : **coquillages** et **perles** (2 %, Joaillier), **alevins** (petits poissons
-  « trop petits, relâchés » : semences de l'étang instancié).
+  « trop petits, relâchés » : supprimés avec les semences, voir instances de métier).
 - **Usages** : tourtes et pâtés du Boulanger (regain de vie plus fort), huiles du Maître des potions
   (résistances), nourriture des montures carnivores (loups).
 
-#### Terrains instanciés (idée de l'auteur)
+#### Instances de métier (demande de l'auteur, 03/11/2026)
 
-Les joueurs **achètent des cartes instanciées** (personnelles, comme la maison du joueur, § 6) pour
-y planter puis récolter les ressources des métiers de récolte. Une carte par métier :
+Conception de l'auteur du 03/11/2026, rien n'est codé ; elle **remplace les terrains achetés** de la
+conception du 23/10/2026 (achat en brumes et agrandissements). Décisions validées par l'auteur le même
+jour (en fin de section).
 
-| Terrain | Métier | On y met | Contenu de départ |
-|---|---|---|---|
-| **Champ** | Agriculteur | graines | 12 sillons |
-| **Jardin** | Herboriste | boutures | 12 plates-bandes |
-| **Bosquet** | Bûcheron | glands et pousses | 6 emplacements d'arbre |
-| **Étang** | Pêcheur | alevins | 4 coins de pêche |
-| **Mine** | Mineur | rien : les filons repoussent seuls | 1 galerie (6 filons) |
+- **Accès par la réputation** : la réputation d'un métier de récolte débloque l'**instance
+  personnelle** de ce métier à **2 500** de réputation. Rien ne s'achète, il n'y a
+  pas de loyer.
+- **Une instance par métier de récolte** : **champ** (agriculteur), **jardin**
+  (herboriste), **étang** (pêcheur), **bosquet** (bûcheron), **mine** (mineur). Les métiers
+  d'artisanat n'en ont pas (ils ont l'atelier et l'enclume) ; l'**enclos** de l'éleveur suivra le
+  même modèle plus tard.
+- **Carte des instances** : dans le monde, une **carte dédiée** d'où l'on entre dans ses instances,
+  avec un **panneau par métier** (porte du champ, ponton de l'étang, entrée de la mine…). Parodie :
+  le **Cadastre**, tenu par un notaire humain qui tamponne tout deux fois. Une seule carte pour
+  commencer, près de Hautepierre, puis une par capitale de camp. Sortir de l'instance
+  ramène sur cette carte.
+- **Sauvegarde** : l'état de l'instance (disposition, pousse de chaque emplacement, ressources mûres)
+  est **sauvegardé avec le personnage** entre deux entrées.
+- **Temps simulé** : le temps passé dehors (connecté ou non) est **simulé à l'entrée** : chaque
+  emplacement avance de la durée écoulée depuis la dernière sortie. Une ressource **mûre attend**
+  qu'on la récolte, elle ne pourrit pas et ne se cumule pas : le plafond hors ligne est
+  d'**une récolte par emplacement**, sans corvée ni punition de l'absence.
+- **Pousse** : une fois récoltée, une ressource **repousse d'elle-même** sur son emplacement, sans
+  semence. Durée de pousse (piste) : **10 minutes** au palier 1, **+5 minutes par palier**
+  (1 h 55 au palier 22), raccourcie par les bonus d'instance. La récolte elle-même suit les règles de
+  la carte (temps de récolte, compétences Abondance, Œil exercé et Célérité, ressource rare).
+- **Interface de disposition** : une **vue d'ensemble de l'instance** (la carte vue de haut) et la
+  **liste des ressources disponibles** ; le joueur pose chaque ressource sur un emplacement libre
+  (une céréale par sillon pour l'agriculteur, un filon par paroi pour le mineur, un banc de poissons
+  par coin de l'étang), dans la limite du **nombre d'emplacements** que sa réputation lui donne et
+  des **ressources débloquées**.
+- **Ressources débloquées par la maîtrise** : chaque ressource se débloque pour l'instance en y
+  investissant des **points de maîtrise du métier** (§ 10.2), **sans condition de palier** : 1 point
+  par ressource, davantage pour les ressources des paliers élevés (1 point jusqu'au palier 8,
+  2 jusqu'au palier 22, 3 au-delà). Ces points sont pris sur ceux des compétences (Abondance, Œil
+  exercé, Célérité) : choisir entre récolter mieux partout et cultiver plus varié chez soi. Elle s'ouvre au panneau du Cadastre (prévisualiser avant d'entrer) et
+  dans l'instance. Changer la ressource d'un emplacement remet sa pousse à zéro.
+- **Taille de la carte** : une carte de taille normale, avec une **zone exploitable** fixe
+  (sillons, plates-bandes, berges, parois) plus grande que le nombre d'emplacements du maître : le
+  joueur choisit **où** il plante, pas seulement **quoi**. Pas de monstres dans l'instance.
+- **Ce que donne la réputation** (chiffres validés, à équilibrer pendant les tests) :
 
-- **Achat** en brumes, auprès d'un PNJ du cadastre dans chaque capitale (parodie : un notaire
-  humain, le Syndicat gobelin des Terrassiers, le Conservatoire elfique des Sylves qui vous loue
-  « la permission d'exister près d'un arbre »). Accès par une porte ou un panneau, comme la maison.
-  Pistes de prix : **2 000 brumes** le terrain, puis des **agrandissements** (5 000, 15 000,
-  40 000) qui ajoutent des emplacements ; pas de loyer (ne pas punir l'absence).
-- **Planter** : on pose une semence sur un emplacement libre ; elle **pousse en temps réel**, même
-  déconnecté (piste : 10 min pour une ressource de niveau 1, jusqu'à 4 h au niveau 100), puis on la
-  récolte comme une ressource de la carte (même XP, même chance de rare). Il faut le **niveau de
-  métier** de la ressource pour la planter.
-- **Rendement** : une plante cultivée donne le **double** d'une récolte sauvage, et rend sa semence
-  avec **80 %** de chance : le stock de semences s'use lentement, il faut revenir en récolter dans
-  la nature. Les **semences** viennent de la récolte sauvage (10 % par récolte) ; celles des cinq
-  premiers paliers s'achètent aussi chez les marchands.
-- **Engrais** (lien avec l'Éleveur) : le fumier des montures, posé sur un emplacement, raccourcit la
-  pousse de moitié ou ajoute une récolte. Aucun arrosage ni corvée : on plante, on revient, on récolte.
-- **Mine** : on n'y plante rien (demande de l'auteur) : on achète la mine, et ses filons repoussent
-  seuls, plus lentement que sur la carte. Chaque **galerie** achetée en plus (agrandissement) ouvre
-  un étage plus profond, aux minerais d'une tranche de paliers (étage 1 : cuivre à étain ; étage 2 :
-  argent à charbon ; etc.), à condition d'avoir le niveau de mineur. Le minerai de chaque filon est
-  tiré dans la tranche de l'étage à chaque repousse. Piste parodique : de temps en temps, un **rat
-  des galeries squatte** la mine (petit combat facultatif, il emporte un filon tant qu'il est là).
-- **Multijoueur** : un terrain appartient à un personnage (question ouverte : au compte) ; on peut
-  y **inviter** des amis, qui récoltent pour le propriétaire (la ressource va dans son coffre ou au
-  récoltant, à trancher). Les terrains sont hors du havre de paix des actes I et II (§ 13.2) : ils
-  ne vident pas les ressources communes, ce qui est le but.
-- **Solo** : même fonctionnement ; la carte instanciée suit le modèle de la maison du joueur.
+| Réputation | Emplacements | Bonus d'instance |
+|---|---|---|
+| Ouverture (2 500) | 10 | aucun |
+| Vétéran (15 000) | 15 | +10 % de quantité récoltée |
+| Maître (40 000) | 25 | +25 % de quantité, pousse −15 %, récolte −10 % de temps |
+| Légende (100 000) | 40 | +50 % de quantité, pousse −30 %, récolte −20 % de temps, +0,5 % de rare |
+
+- **Bonus d'instance** : ils ne valent **que dans l'instance** et s'ajoutent aux compétences du
+  métier ; la récolte sauvage reste la source normale des ressources, et celle de la carte reste
+  ouverte à tous dès le départ (§ 10.2) : l'instance est un confort de production régulière, pas un
+  passage obligé.
+- **Progression** : récolter dans l'instance rapporte **la moitié** de la réputation et de la
+  pratique d'une récolte sauvage, pour que la progression vienne surtout du monde.
+- **Engrais** (lien avec l'éleveur, plus tard) : le fumier posé sur un emplacement raccourcit sa
+  pousse de moitié.
+- **Pas de visiteurs** : l'instance personnelle reste privée, personne d'autre n'y entre (l'instance
+  partagée, c'est celle des exploitants de guilde). En solo, l'instance suit le modèle de
+  la maison du joueur ; en ligne, c'est une `MapInstance` propre au personnage, hors du havre de paix
+  des actes I et II (§ 13.2).
+- **Exploitants de guilde** (§ 13.7) : la guilde d'exploitants a des **instances de guilde** sur le
+  même modèle, une par métier de récolte, dont les emplacements et les bonus suivent la **réputation
+  d'exploitants** de la guilde (plus grandes et plus généreuses que les instances personnelles) ; les
+  officiers disposent les ressources et **choisissent qui peut y récolter** ; chacun récolte pour
+  lui-même, moins la **part de la guilde** : **5 %** des ressources, prélevées par cumul (chaque fois
+  qu'un joueur a récolté **20** d'une même ressource dans l'instance de guilde, **1** lui est retirée
+  et va au **coffre de la guilde**). Les **ressources rares** sont exemptées et restent au joueur.
+
+**Décisions (validées par l'auteur le 03/11/2026)** :
+
+1. **Métiers qui ont une instance** : les cinq métiers de récolte ; pas l'artisanat ; l'enclos de
+   l'éleveur plus tard sur le même modèle.
+2. **Ouverture** : à 2 500 de réputation du métier, avec 10 emplacements ; chaque ressource se
+   débloque par des points de maîtrise du métier, sans condition de palier.
+3. **Croissance et temps simulé** : 10 min au palier 1, +5 min par palier ; une ressource mûre attend
+   sans cumul (au plus une récolte par emplacement en revenant).
+4. **Semences** : aucune, la ressource repousse seule ; les sous-produits « semences » (glands et
+   pousses, alevins) disparaissent.
+5. **Changer la disposition** : libre hors combat, l'emplacement changé repart de zéro.
+6. **Carte des instances** : le Cadastre près de Hautepierre, puis une par capitale ; un panneau par
+   métier.
+7. **Taille de la carte** : carte normale, zone exploitable plus grande que le maximum d'emplacements.
+8. **Emplacements et bonus** : le tableau ci-dessus (à équilibrer pendant les tests).
+9. **Gains dans l'instance** : la moitié de ceux d'une récolte sauvage.
+10. **Visiteurs** : aucun dans l'instance personnelle.
+11. **Propriété** : par personnage.
+12. **Exploitants de guilde** : instances de guilde sur le même modèle ; les officiers choisissent
+    qui récolte ; 5 % des ressources au coffre (1 sur 20 par ressource, rares exemptées).
 
 #### Forgeron
 
@@ -1888,7 +2041,7 @@ une monture de départ, dans sa zone.
   avec le niveau d'éleveur et baisse avec le niveau du monstre ; en cas de succès, le monstre quitte
   le combat (victoire, sans butin de ce monstre) et devient une **monture sauvage** envoyée à
   l'enclos. Les élites et mini-boss ne s'apprivoisent pas (sauf le grand cerf, plus haut).
-- **Enclos** : un **terrain instancié** de plus (même achat que les terrains), avec des **objets
+- **Enclos** : une **instance de métier** de plus (même modèle que le champ), avec des **objets
   d'élevage** fabriqués par les métiers : mangeoire (céréales ou poissons selon l'espèce), abreuvoir,
   brosse, et un épouvantail « motivant » qui fait progresser la docilité. Une monture sauvage doit
   être **dressée** à l'enclos (temps réel, comme les plantes) avant d'être montée.
@@ -1902,7 +2055,7 @@ une monture de départ, dans sa zone.
 - **Reproduction** : deux montures adultes de la même espèce (mâle et femelle) à l'enclos donnent
   un petit, qui hérite de la robe et d'une partie des bonus de ses parents ; nombre de portées
   limité par monture. C'est la principale source d'XP du métier avec l'apprivoisement et le dressage.
-- **Fumier** : les montures à l'enclos en produisent ; c'est l'**engrais** des terrains (lien avec
+- **Fumier** : les montures à l'enclos en produisent ; c'est l'**engrais** des instances de métier (lien avec
   les métiers de récolte, et ressort parodique assumé).
 - **Chef-d'œuvre de l'éleveur** (niveau 100) : une **lignée de maître** : pour un petit à naître,
   l'éleveur choisit ses bonus dans un budget de score (barème de § 10.4), au lieu du tirage ; le
@@ -1914,12 +2067,11 @@ une monture de départ, dans sa zone.
 2. **Herboriste et Maître des potions** : potions de bonus et utilitaires (rappel, oubli).
 3. **Costumier et Joaillier** : reprennent les recettes de bijoux, ceintures et bottes du Forgeron.
 4. **Pêcheur** : coins de pêche, tourtes et huiles.
-5. **Terrains instanciés** : champ, jardin, bosquet, étang, mine (modèle de la maison du joueur).
+5. **Instances de métier** : champ, jardin, bosquet, étang, mine, débloqués par la réputation.
 6. **Éleveur et montures** : apprivoisement, enclos, emplacement monture.
 7. **Chef-d'œuvre** pour tous les métiers d'artisanat (§ 10.4).
 
-**Questions ouvertes** : terrains par personnage ou par
-compte ; potions utilisables en combat ; noms des maîtres d'atelier ; part des recettes du Forgeron
+**Questions ouvertes** : potions utilisables en combat ; noms des maîtres d'atelier ; part des recettes du Forgeron
 qui passe au Costumier et au Joaillier ; montures échangeables entre joueurs (multi).
 
 ### 10.4 Objets personnalisés (long terme, idée de l'auteur)
@@ -1970,10 +2122,16 @@ compris) et les recettes du forgeron sont supprimés, tout le reste se forge.
   chanvre). **Résistance d'équipement des joueurs plafonnée à 60 %** par élément (`Fighter.MAX_RESISTANCE`) ;
   les monstres et les effets de combat n'ont pas ce plafond.
 - **Limites** (demande de l'auteur, 02/11/2026) : **100 points de score par ligne** au plus, plafond qui découle du poids (100 Force,
-  400 Vitalité, 1 000 Initiative, 34 Prospection ou Dommages, 10 Critique, 12 % de résistance ; 1 PA, PM ou Portée ; les ressources en trop sont perdues, sans refus :
+  400 Vitalité, 1 000 Initiative, 34 Prospection ou Dommages, 10 Critique, 12 % de résistance ; 1 PA, PM ou Portée ;
+  **selon le palier de forge** (demande de l'auteur du 07/11/2026, `Forge.tier` : palier de réputation de forgeron,
+  Apprenti 1 à Légende 5, Inconnu compté 1) : **20 points de score par ligne et 160 par objet par palier** (palier 1 : 160 et 20,
+  2 : 320 et 40, 3 : 480 et 60, 4 : 640 et 80, 5 : 800 et 100 ; le total découle des 8 lignes). Une caractéristique dont un
+  point coûte plus que le plafond d'une ligne est **perdue** avant son palier : **PA** (100 points de score) au palier 5,
+  **PM** (80) au palier 4, **Portée** (60) au palier 3 (`Forge.FIXED_STATS`) : l'enclume l'annonce en rouge, case comprise (« ATTENTION, perdu si vous forgez : Corne du Balourd ×1
+  ne donnera rien… », même pour une caractéristique encore cachée, sans la nommer ; demande de l'auteur du 07/11/2026) ; les ressources en trop sont perdues, sans refus :
   les joueurs apprennent de leurs erreurs, demande de l'auteur du 04/11/2026) et
-  **8 lignes par objet** au plus (forge refusée au-delà, `trop_de_lignes`). Seules les **essences**
-  (§ 9.2, à venir) pourront dépasser le plafond d'une ligne. Une ressource de haut palier peut donner
+  **8 lignes par objet** au plus (forge refusée au-delà, `trop_de_lignes`). Les **essences** (infusion, plus bas) ajoutent des
+  lignes exotiques, elles aussi plafonnées à 100 points de score. Une ressource de haut palier peut donner
   **plusieurs caractéristiques** (`caracteristique` en liste, chacune à sa valeur pleine ; par exemple
   Intelligence et Force pour une ressource liée au Sacré) : prévu dans le code, aucune ressource n'en a
   encore.
@@ -2004,6 +2162,126 @@ compris) et les recettes du forgeron sont supprimés, tout le reste se forge.
 - **Plus tard** : un **maître par catégorie d'équipement** qui donne des plans par des quêtes :
   armurier (armes et armures), tailleur (tissus : capes, coiffes), cordonnier (cuirs : bottes,
   ceintures)…
+
+**Panoplies d'objets forgés** (conception de l'auteur du 09/11/2026, rien de codé, chiffres à
+définir) : les mots du nom d'un objet forgé deviennent des **mots clés** qui donnent des bonus de
+panoplie, de **2 à 7 pièces** comme les panoplies prédéfinies (§ 9.3), l'**arme comprise**.
+
+- **Deux sortes de mots tirés des monstres** (simplifié par l'auteur le 09/11/2026 : plus de
+  sous-type ni d'espèce) :
+  - **famille** (le monstre et son élite) : un mot et un bonus par famille, « de Loup » pour le loup des
+    collines. Deux monstres qui doivent avoir des bonus différents sont deux familles, même s'ils se
+    ressemblent : le loup cendreux devient la famille « Loup des cendres » (Flamme et Résistance Flamme
+    par exemple), à côté de « Loup » (Perception et Initiative par exemple) ;
+  - **zone** où vit la famille : « de Brumerive ».
+  - Les **donjons** comptent comme une zone et leurs **boss** comme une famille ; les monstres
+    exclusifs d'une **zone de chasse** de guilde (§ 13.7) ont aussi leurs mots et leur bonus.
+- **Une ressource n'appartient qu'à une famille** : les ressources lâchées par plusieurs familles sont
+  identifiées et séparées (« croc de loup » → « croc de loup » et « croc de loup des cendres »), pour
+  qu'aucune n'ait deux familles ou deux zones.
+- **Ressources obligatoires** (tissu, cuir, minerai, bois) : elles ne comptent **que pour la statistique
+  qu'elles donnent**, jamais pour un mot de famille ou de zone (elles seront récoltables partout, et
+  aussi dans les instances de récolte, § 10.3).
+- **Mot proposé à la majorité** : un mot de famille ou de zone n'est proposé que si **au moins la moitié
+  des ressources** de la recette en relèvent ; par exemple, pour un objet à 4 cases, au moins 2
+  ressources de Brumerive ou de loup. La majorité se compte en **cases** de la recette, pas en
+  quantités (validé le 09/11/2026). Les obligatoires ne comptent pas parmi ces ressources.
+- **Jusqu'à 3 mots clés par objet**, donc jusqu'à 3 bonus de panoplie : le type d'objet (« Coiffe »)
+  n'est pas un mot clé ; les adjectifs de statistique et les mots de famille ou de zone le sont. Le nom
+  passe donc de deux adjectifs au plus (forge actuelle) à trois mots au plus (validé le 09/11/2026).
+- **Seul le mot choisi compte** : « Manteau flamboyant de Brumerive » et « Coiffe flamboyante de Loup »
+  ne réunissent que *flamboyant* ; « Coiffe fulgurante de Loup » et « Cape flamboyante de Loup »
+  réunissent 2 pièces *Loup*. Une famille ne compte pas pour sa zone : l'artisan choisit en nommant l'objet.
+- **Adjectifs de statistique, regroupés** (09/11/2026) : chaque élément a **deux panoplies**,
+  **offensive** (sa caractéristique et ses Dommages : *flamboyant*, *torride*, *brûlant*, *ardent*…
+  pour la Flamme) et **défensive** (ses Soins et sa Résistance : *réchauffant*, *ignifugé*,
+  *incombustible*… pour la Flamme). Les statistiques neutres (Vitalité, PA, Critique…) gardent chacune
+  leur panoplie. Les bonus des adjectifs **seront discutés plus tard**.
+- **Calcul des bonus** :
+  - **famille** : d'après les statistiques que donnent les ressources de la famille ;
+  - **zone** : une **tendance** choisie pour chaque zone, au cas par cas ;
+  - la force du bonus dépend du **palier du monstre**, de sa famille et de la zone (un set de zone de
+    palier 1 vaut moins qu'un set de palier 5).
+- **Nombre de panoplies à concevoir** (compte du 09/11/2026, avec les statistiques prévues mais pas
+  encore codées) : environ **70**, de 6 paliers chacune (2 à 7 pièces). Ce sont **31 de statistiques** :
+  12 élémentaires (6 éléments × offensive et défensive) et 19 neutres (Vitalité, Initiative, Prospection,
+  Dommages, Critique, PA, PM, Portée, Soins, Dégâts dévastateurs, Épine brute, Réduction de dégâts,
+  Dégâts spectraux, Résistance aux critiques, Tacle, Fuite, Retrait PA, Retrait PM, Dommages de mêlée ;
+  fixe et % d'une même statistique comptent ensemble, validé le 09/11/2026). S'y ajoutent **34 de familles** (21 familles,
+  3 variantes corrompues qui deviennent des familles, 6 boss, 4 monstres de la tour céleste) et
+  **5 de zones** (Brumerive, Crasse-Roc, Sylvebrume, Hautepierre, tour céleste). Les **épines
+  élémentaires** vont dans la panoplie défensive de leur élément (validé le 09/11/2026).
+- **Reste à définir** : barème des bonus (par nombre de pièces et par palier), tendance de chaque zone,
+  ressources partagées à séparer, bonus des adjectifs de statistique, mots proposés pour chaque famille
+  et zone (accordés en genre et en nombre comme les adjectifs).
+
+**Infusion d'essences** (nom provisoire, à la place de « forgemagie » ; idée de l'auteur du
+05/11/2026, règles validées le même jour, **rien n'est codé**) : **seule source d'essences pour le
+moment** ; elle remplace la destruction d'objets et les cicatrices du § 9.2.
+
+- **Infuser** : l'artisan d'une catégorie infuse pour sa catégorie (l'artisan des coiffes pour les
+  coiffes, etc.). Des ressources identiques donnent une **essence** qui porte la **valeur de forge** de
+  cette ressource (§ 10.4, rares × 3 compris). Exemple : la ressource A, commune, donne +1 Agilité à la
+  forge ; 20 ressources A donnent une essence « +1 Agilité ».
+- **Rareté des ressources** (harmonisée, demande de l'auteur) : **commune** si son taux de butin
+  dépasse 20 %, **rare** au-dessus de 1 %, **légendaire** à 1 % ou moins.
+- **Quantité selon la rareté** : **20** ressources communes, **10** rares, **2** légendaires.
+- **Essence parfaite** : **5 fois plus** de ressources (100 communes, 50 rares, 10 légendaires) ; son
+  usage **ne peut pas échouer**.
+- **Usage** : appliquée à un objet, l'essence lui **ajoute sa statistique en ligne exotique** (« exo »)
+  si la statistique **n'est pas déjà** sur le jet de l'objet. Plusieurs essences de la même statistique
+  **s'additionnent** sur la même ligne exo. **Chance de réussite selon le poids de la statistique**
+  (une statistique chère en points de score, comme PA, PM ou Portée, réussit moins souvent ; barème à
+  chiffrer). Échec : l'essence est perdue, jamais l'objet (§ 10.2).
+- **Plafonds** : **200 points de score d'exo au total** par objet, toutes lignes exo comprises ; une
+  ligne exo reste plafonnée à **100 points de score**, comme une ligne forgée.
+- **Infusion miroir** (idée de l'auteur du 09/11/2026) : à un **palier de maîtrise élevé** (palier
+  **Maître** de réputation du métier, comme la Voie Miroir du § 5.3 ; validé le 09/11/2026), l'artisan peut
+  infuser une ressource « en miroir » : l'essence porte la statistique **opposée**, à la même valeur.
+  Exemples : une ressource à +1 Dommages Flamme donne une essence +1 Dommages Givre ; +1 Force donne
+  +1 Agilité (l'élément Tempête) ; +1 % Résistance Impie donne +1 % Résistance Sacré.
+  - *Paires élémentaires* (déduites des exemples de l'auteur) : **Flamme ↔ Givre**, **Acier ↔
+    Tempête**, **Sacré ↔ Impie**, valables pour les caractéristiques (Intelligence ↔ Perception, Force ↔
+    Agilité) et les lignes Dommages, Soins et Résistance de chaque élément.
+  - *Statistiques abstraites* (décisions de l'auteur du 09/11/2026) : **pas de miroir pour PA et
+    PM** ; **Dégâts dévastateurs ↔ Dégâts spectraux** (§ 4.4) ; **Dommages ↔ Soins**, neutres et
+    élémentaires : une ligne élémentaire de Dommages ou de Soins a **deux miroirs**, et le joueur
+    **choisit** en infusant s'il change l'élément (Dommages Flamme → Dommages Givre) ou le type de
+    ligne (Dommages Flamme → Soins Flamme) ; **pas de miroir pour l'Initiative et la Prospection**
+    pour l'instant (la Prospection, plus attrayante, aurait été toujours choisie ; le miroir Abondance
+    envisagé est retiré le 09/11/2026) ; **Vitalité ↔
+    Épines** (§ 4.4) ; **Critique ↔ Résistance aux critiques**.
+  - *Statistiques à venir* (09/11/2026, rien n'est codé ; leur miroir est déjà fixé) :
+    - **Tacle ↔ Fuite** (tacle et fuite de la TODO) ;
+    - **Retrait PA ↔ Retrait PM** : chacune **augmente la chance d'infliger** ce retrait et **réduit
+      la chance de le subir**, en même temps (une seule ligne, pas d'esquive à part) ;
+    - **Dommages de mêlée** (miroir de la **Portée**) : **% de dégâts finaux** au corps à corps, faible
+      (1 à 2 % par objet), pour rester proche de la Portée en points de score. **Validé le 09/11/2026** : 30 points
+      de score par % (+1 Portée = 60 points ↔ +2 %), soit 3 % au plus par ligne (plafond de 100).
+    - **Initiative** : miroir **à revoir plus tard** (le Retard est écarté).
+- **Statistiques de métier** (décisions de l'auteur du 09/11/2026, rien n'est codé) : elles n'existent
+  **que sur les outils** (emplacement d'outil hors combat, § 10.3), jamais sur l'équipement de combat,
+  et n'ont aucun effet en combat. **Une ressource donne sa statistique de combat** sur un équipement
+  classique **et une statistique de métier** quand elle sert à forger un outil. Les outils ont, comme
+  les objets de combat, un **plafond de points de score par ligne et par objet** (valeurs à fixer).
+  Les **miroirs** se feront plus tard, **entre statistiques de métier** seulement. Liste de travail
+  (proposée le 09/11/2026, noms et effets à confirmer) :
+  - *Récolte* : **Abondance** (plus de ressources par récolte) ; **Flair** (chance de ressource rare
+    × Flair / 100, comme la Prospection) ; **Dextérité** (temps de récolte −%, plancher d'1 s comme la
+    Célérité) ; **Main verte** (pousse plus rapide, dans l'instance de métier seulement) ;
+  - *Artisanat* : **Minutie** (jets de forge tirés plus haut, comme la Précision) ; **Épargne** (chance
+    de ne pas consommer une ressource) ; **Distillation** (réussite de l'infusion ou essence de plus) ;
+    **Fournée** (chance d'un exemplaire de plus : boulanger, maître des potions) ;
+  - *Tous les métiers* : **Sagacité** (+% de réputation et de maîtrise du métier, à plafonner bas).
+  - *Stat de métier d'une ressource* (validé le 09/11/2026) : tirée de sa stat de combat, sans donnée
+    propre à chaque ressource : Force → Abondance ; Agilité, Initiative → Dextérité ; Intelligence →
+    Minutie ; Perception, Prospection → Flair ; Vitalité → Main verte ; Dommages → Épargne ; Soins →
+    Fournée ; Résistances → Distillation ; PA, PM, Portée → Sagacité. Une ressource dont la stat de combat
+    n'est pas dans cette liste (Tacle par exemple) n'en a pas forcément : à voir au cas par cas.
+- *Noms proposés* (à choisir par l'auteur) : **Sublimation** (l'objet est « sublimé »),
+  **Brumagie** (la magie des brumes, lieu de frappe de la monnaie), **Quintessence** (l'objet reçoit
+  la quintessence d'une ressource), **Distillation** (l'alambic de l'artisan ; parodie possible :
+  distillerie gobeline syndiquée).
 
 **Refonte du 29/10/2026 (alpha 2, § 4.5 et § 10.2) : à redéfinir avec la maîtrise** (demande de
 l'auteur ; proposition, non validée) :
@@ -2231,17 +2509,120 @@ décrits au § 13.6.
 
 ## 12. Donjons
 
-- **Entrée :** une **clé** (fabriquée ou lootée) consommée à l'entrée ; condition de niveau ou de quête.
-- **Structure :** une suite de salles (3 à 6), chacune un combat imposé ; on ne peut pas sortir sans
-  abandonner la progression.
-- **Salle finale :** boss avec mécaniques propres (phases, invocations, zones dangereuses).
-- **Récompenses :** butin exclusif au donjon (ressources de boss → panoplie du donjon), XP bonus,
-  progression de quête.
-- **Solo :** les donjons sont faisables seul (avec équilibrage dédié), ou avec des **compagnons PNJ**
-  (long terme) ; en multi, conçus pour 4 à 8 joueurs.
-- **Donjons de Relique :** un par Relique, boss = un Héraut Cendré.
+Conception de l'auteur du 03/11/2026, rien n'est codé. Décisions validées par l'auteur le même jour
+(§ 12.9).
 
-**Tour céleste, version réduite jouable (04/11/2026, demande de l'auteur)** : la Tour céleste en **5 étages**, sur
+### 12.1 Principes
+
+- **Instance** : un donjon est une **instance privée**, liée à un **joueur seul ou à un groupe**
+  (jusqu'à 8 joueurs, la taille d'un groupe, § 13.3). Les autres joueurs ne la voient pas et ne
+  peuvent pas y entrer. En solo, l'instance suit le modèle de la maison du joueur.
+- **Instance de guilde** (sauf donjons de l'Aube et tours, § 12.7 et 12.8) : une guilde dont la **réputation de raid** (métier de guilde, § 13.7)
+  atteint un palier obtient une **instance de guilde** : une copie du donjon commune à la guilde,
+  où **tous les membres** entrent et sortent librement, ensemble ou chacun à son heure (§ 12.4).
+- **Structure** : un donjon est un **ensemble de cartes** (salles) accessible par une **entrée**
+  dans le monde extérieur (porte, grotte, escalier : un passage vers la carte d'entrée de l'instance).
+- **Toutes les salles ouvertes dès l'entrée** (contrairement à Dofus) : aucune salle n'est
+  verrouillée par la précédente. Le joueur ou le groupe choisit : aller **droit au boss** et repartir,
+  ou **nettoyer toutes les salles** avant de quitter le donjon. Les groupes de monstres sont visibles
+  sur les cartes comme dehors, et on les attaque à son gré.
+- **Entrée par une clé** fabriquée par un métier d'artisanat (§ 12.2).
+- **Monstres exclusifs** : chaque donjon a son **boss** et **au moins un monstre exclusif** (qu'on
+  ne rencontre nulle part ailleurs), qui donnent des **ressources introuvables hors du donjon**. C'est
+  la raison d'y revenir et de nettoyer les salles plutôt que de seulement tuer le boss.
+
+### 12.2 La clé
+
+- **Fabrication** : par le **Joaillier** (orfèvrerie et serrurerie ; piste de parodie : la clé est
+  « certifiée inviolable », la serrure beaucoup moins), sur **plan** (`type: recette`, § 10.4) ; le
+  plan s'obtient auprès d'un PNJ près de l'entrée ou en butin des monstres de la zone.
+- **Ingrédients** : des ressources des **monstres et de la récolte de la zone** autour de l'entrée,
+  pour que la clé suive la progression de la région ; jamais de ressource du donjon lui-même (pas de
+  cercle vicieux pour la première entrée).
+- **Consommation** : une clé est **consommée à l'entrée** de l'instance par **chaque joueur** qui y
+  entre (comme Dofus : la clé fait vivre les artisans). Elle se donne et s'échange entre joueurs.
+- **Ressortir** : sortir par la porte ferme l'instance pour soi ; y revenir demande une nouvelle clé.
+- **Instance de guilde** : **une clé par groupe** qui y entre (pas une par joueur), fournie par le
+  coffre de guilde ou un membre (§ 12.4).
+
+### 12.3 Déroulement
+
+- **Carte d'entrée** (vestibule) : sans monstre, avec la sortie vers le monde extérieur et les
+  passages vers les salles. Chaque salle mène aux autres comme des cartes voisines, et le boss est
+  à quelques cartes au plus du vestibule.
+- **Combats** : les règles normales (§ 7), avec les cases de placement de chaque carte (calque
+  `placement`). Le boss suit les règles des mini-boss (phases de profils différents, jamais de soin
+  au changement de phase, § 8.1) en plus difficile.
+- **Pas de réapparition** : un groupe vaincu dans l'instance ne revient pas tant qu'elle existe.
+- **Défaite** : les joueurs reviennent au **vestibule** (pas au point de résurrection), avec les PV
+  d'une défaite normale ; l'instance reste ouverte et le groupe de monstres reste en place, à pleine
+  vie.
+- **Déconnexion** : l'instance reste ouverte tant qu'un membre y est, et **15 minutes** après le
+  départ du dernier ; un joueur qui revient dans ce délai y retrouve sa place (dans le combat en
+  cours si celui-ci dure encore, comme en § 16.5, M2).
+- **Fin** : l'instance se ferme quand tous ses joueurs en sont sortis (ou au bout du délai). Le boss
+  vaincu ouvre une sortie directe au fond de sa salle.
+
+### 12.4 Instance de guilde
+
+- **Accès** : débloquée par un palier de réputation de raid de la guilde (§ 13.7, valeur à fixer),
+  par donjon (on débloque donjon par donjon, en commençant par ceux qu'on a terminés).
+- **Durée** : l'instance de guilde reste ouverte **jusqu'à la mort du boss, ou 24 heures** ; les
+  salles nettoyées par un membre le restent pour tous. Chaque combat garde la taille d'un groupe
+  normal (8 joueurs au plus).
+- **Butin** : chacun garde le butin de ses combats ; rien n'est versé d'office au coffre.
+
+### 12.5 Récompenses
+
+- **Butin exclusif** : ressources du boss et des monstres exclusifs (panoplie du donjon, lignes PA,
+  PM et Portée des chefs-d'œuvre, § 13.7), avancement de quête.
+- **Progression** (§ 4.5) : réputation et pratique comme pour tout combat, selon la difficulté.
+- **Raid** : chaque donjon terminé (boss vaincu) compte pour la réputation de raid de la guilde du
+  joueur (§ 13.7).
+
+### 12.6 Solo et contenu
+
+- Les donjons sont faisables seul (avec équilibrage dédié), ou avec des **compagnons PNJ** (long
+  terme) ; en multi, conçus pour 4 à 8 joueurs.
+- **Donjons de l'Aube** (Reliques) et **tours** : règles propres (§ 12.7 et 12.8).
+- **Un donjon par région** au début (panoplie et ressources exclusives).
+
+### 12.7 Donjons de l'Aube (Reliques)
+
+Demande de l'auteur du 03/11/2026 : un donjon par Relique de l'Aube (§ 3.3), au boss correspondant
+(un Héraut Cendré). Ils dérogent aux règles générales sur ces points :
+
+- **Salle unique** : une seule carte, celle du boss, sans vestibule ni autres salles.
+- **Combat à vagues** : un seul combat en **4 à 5 vagues** (nombre à valider pendant les tests) :
+  d'abord des **sbires** du boss, puis, pour la **vague finale**, le **boss accompagné de ses
+  généraux**. Une vague arrive sur les cases de placement des monstres quand la précédente est
+  vaincue ; les joueurs gardent leurs PV, leurs effets et leurs relances (pas de nouveau placement).
+- **Clé** : toujours **une par personne**. **Pas d'instance de guilde** : un donjon de l'Aube ne se
+  privatise pas pour une guilde.
+- **Défaite** : sortie du donjon (pas de vestibule), clé perdue.
+
+### 12.8 Tour Céleste et Infratour Infernale
+
+Demande de l'auteur du 03/11/2026 : des donjons spéciaux à la structure plus classique, où l'on
+enchaîne beaucoup de salles. La **Tour Céleste** monte vers le ciel ; l'**Infratour Infernale** est
+une tour inversée qui s'enfonce dans le sous-sol. Pour commencer, **une de chaque**.
+
+- **50 étages**, un combat par étage (une carte, un groupe de monstres), de plus en plus difficiles.
+- **Paliers tous les 10 étages** (précisé par l'auteur le 06/11/2026, au lieu de 5) : un **mini-boss**
+  garde chaque 10e étage, avant le palier ; le vaincre fait atteindre le palier. 50 étages, donc
+  5 paliers et 5 boss (le dernier à l'étage 50), dans les deux tours.
+- **Pauses** : les joueurs peuvent sortir et **reprendre au palier le plus élevé atteint**. Le
+  palier est retenu par joueur ; un groupe reprend au plus haut palier atteint par **tous** ses
+  membres.
+- **Étage 50** : le **boss** de la Tour ou de l'Infratour.
+- **Défaite** : retour au dernier palier atteint ; il faut une nouvelle entrée pour reprendre.
+- **Clé** : une par joueur à chaque entrée, comme les autres donjons (§ 12.2). **Pas d'instance de
+  guilde** pour les tours, comme pour l'Aube.
+- **Récompenses** : terminer (vaincre le boss de l'étage 50) rapporte de **grosses récompenses** en
+  réputation, en brumes et en ressources rares, **à chaque fin** (pas seulement la première). À
+  tester : qu'une équipe qui farme une tour ne gagne pas trop.
+
+**Version réduite jouable (04/11/2026, demande de l'auteur)** : la Tour céleste en **5 étages**, sur
 des cartes à part, par la Pierre de Passage « Tour céleste » (comme le Trône de Cendre). Au **parvis**
 (`celeste_0_0`), **Cupidon** (25 PV, 4 PA, 3 PM, IA `tireur` : tire de sa portée maximale et reste sur place,
 *Flèche cupide* : vole 10 PV en Flamme à 5 PO,
@@ -2263,8 +2644,8 @@ l'étage suivant ; un autel derrière Raphaël dans le Chœur. Monstres de la to
 |---|---|---|---|
 | Ange | 50 / 6 / 4 | *Trait de lumière* 25 Sacré, 2 à 7 PO, 4 PA ; *Glaive* 20 Acier au contact, 3 PA, 2 par tour | `corps_a_corps` : va au contact pour frapper deux fois |
 | Colombe baptiste | 30 / 4 / 10 | *Baptême express* 10 Sacré, 1 à 2 PO, 4 PA | `distance` : frappe puis fuit au maximum, sinon court vers l'ennemi |
-| Lion de Juda | 150 / 5 / 3 | *Griffe de Juda* 1 à 50 Sacré au contact, 5 PA ; *Bond* 1 à 3 PO, 4 PA, un tour sur deux | `chasseur` : frappe l'ennemi le plus faible qu'il peut atteindre, bondit s'il ne peut frapper personne, puis se rapproche avec ses PM |
-| Archange Raphaël (mini-boss) | 120 / 6 / 5 | *Bénédiction de Raphaël* soin 20 Sacré aux alliés en croix (comme le *Sermon*), 3 PA, 1 par tour ; *Exorcisme* au contact, 3 PA, 1 par tour : état « exorcisme » (2 tours), les prochains dégâts Sacré achèvent la cible ; seul (plus d'allié en vie), *Jugement dernier* remplace la *Bénédiction* : 25 Sacré sur les 4 cases à son contact, 3 PA, 1 par tour | `corps_a_corps` ; l'Exorcisme avant tout soin ou attaque, ne soigne que les blessés |
+| Lion de Juda | 150 / 5 / 3 | *Griffe de Juda* 25 à 50 Sacré au contact, 5 PA ; *Bond* 1 à 3 PO, 4 PA, un tour sur deux | `chasseur` : frappe l'ennemi le plus faible qu'il peut atteindre, bondit s'il ne peut frapper personne, puis se rapproche avec ses PM |
+| Archange Raphaël (mini-boss) | 250 / 6 / 5 | *Bénédiction de Raphaël* soin 20 Sacré aux alliés en croix (comme le *Sermon*), 3 PA, 1 par tour ; *Exorcisme* au contact, 3 PA, 1 par tour : état « exorcisme » (2 tours), les prochains dégâts Sacré achèvent la cible ; seul (plus d'allié en vie), *Jugement dernier* remplace la *Bénédiction* : 25 Sacré sur les 4 cases à son contact, 3 PA, 1 par tour | `corps_a_corps` ; l'Exorcisme avant tout soin ou attaque, ne soigne que les blessés |
 
 **Ressources de la tour (04/11/2026, demande de l'auteur)** : valeurs fixes à la forge (champ `valeur`).
 
@@ -2287,6 +2668,123 @@ a désormais 4 au plus, `GameMap.MAX_GROUP_SIZE`). Données produites par
 `docs/design/tour_celeste/produire.py`. Combats simulés (guerrier + rôdeur + théologue) :
 `docs/design/tour_celeste/simulation.md`.
 
+Retouches du 06/11/2026 (demande de l'auteur, pas encore reportées dans les données) : Raphaël passe à
+**250 PV** et la *Griffe de Juda* des Lions à **25 à 50** Sacré ; le reste est gardé tel quel.
+
+#### Les paliers de la Tour céleste (conception de l'auteur du 06/11/2026, pas encore codé)
+
+Les mini-boss gardent les étages **10, 20, 30, 40** et le boss l'étage **50** : la Tour céleste a
+**5 paliers de 10 étages**, comme l'Infratour (règle ci-dessus).
+L'Archange Raphaël garde le **palier 1 (étage 10)** : la version réduite est adaptée pour en faire les
+10 premiers étages. Les cinq étages de la version réduite deviennent les étages 6 à 10, précédés de
+cinq étages plus faciles (proposition, à valider) : 1) 2 colombes ; 2) 3 colombes ; 3) 1 ange et
+1 colombe ; 4) 2 anges ; 5) 1 lion. De nouvelles familles de monstres arrivent à partir de l'étage 30.
+
+**Palier 2 (étage 20) : Judas**, accompagné de **4 Lions de Juda**. 400 PV, 6 PA, 5 PM.
+
+- *Calice ruisselant* (passif) : dès qu'un joueur subit des dégâts (même de ses alliés), Judas lui applique un **poison
+  Impie de 15 pendant 2 tours**. Les poisons ne déclenchent pas le passif et ne se cumulent pas : des
+  dégâts subis avec un poison déjà en cours remettent son temps restant à 2 tours.
+- *Crucifixion* : au contact, 4 PA, relance 3 tours. Retire tous les PM de la cible et la rend
+  **indéplaçable** ; donne +1 PM pendant 1 tour à tous les alliés de Judas (pas à lui).
+- *Pour trente brumes* : seulement sous **30 % de ses PV** ; 3 PA, sur un de ses alliés, sans limite de
+  portée ni ligne de vue. Tue la cible et soigne Judas à **100 % de ses PV**, quels que soient les PV
+  de l'allié tué ; c'est un **soin** (donc bloqué par l'anti-soin, état `insoignable`). Ni relance ni limite par tour :
+  revenu à 100 %, il ne peut le relancer dans le même tour que s'il repasse sous le seuil (par un
+  piège par exemple).
+- *Dague mortelle* : 1 à 2 PO en ligne, 3 PA, **20 Impie**, spectraux à 100 % et dévastateurs à 50 % (§ 4.4).
+- Comportement : *Pour trente brumes* avant tout dès que le seuil est atteint ; sinon il va au contact
+  pour lancer *Crucifixion*, sinon *Dague mortelle*.
+
+**Palier 3 (étage 30) : le Saint-Esprit**, une grande colombe nimbée de flammes ; ses compagnons
+viendront des nouvelles familles (à concevoir). 650 PV, 8 PA, 0 PM : il ne se déplace pas, aide ses
+alliés et attaque ses adversaires. Ses sorts n'ont **ni ligne de vue ni limite de portée**.
+
+- *Inspiration* (passif) : chaque allié reçoit au début de son tour un bonus : soin de 30 Sacré s'il
+  est sous 50 % de ses PV ; sinon +1 PM s'il n'a aucun adversaire à moins de 5 cases ; sinon
+  +10 Dommages Sacré. Les bonus de PM et de Dommages ne durent que ce tour.
+- *Consolation* : 4 PA, soigne un allié de 20 % de ses PV max.
+- *Flammes salvatrices* : 4 PA, embrase un adversaire, **poison Sacré de 40 par tour pendant 2 tours**,
+  une fois par tour sur chaque joueur.
+- *Miracle* (déclenché à sa mort, 4 PA, une fois par combat) : ses alliés morts reviennent à la vie à
+  leur position de départ ; les vivants sont entièrement soignés et restent où ils sont. Lui ne
+  revient pas : il reste mort.
+- Comportement : attaque d'abord ses adversaires, puis soigne ses alliés sous 60 % de leurs PV.
+
+**Palier 4 (étage 40) : le Fils**, accompagné d'**apôtres** (nouvelle famille, à concevoir). 1 000 PV,
+7 PA, 4 PM.
+
+- *Faiseur de miracles* (passif) : à chaque tour de joueur, la première instance de dégâts et la
+  première de retrait (PA, PM, PO…) sur chacun de ses alliés, lui compris, sont annulées : il faut
+  d'abord toucher une fois pour rien, puis frapper à nouveau. La pose d'un effet (poison…) n'est pas
+  annulable.
+- *Pardon* : 4 PA, 5 PO, relance 3 tours. Pendant 1 tour, la cible ne peut plus infliger de dégâts et
+  ses PM max sont limités à 1.
+- *Rédemption* : 3 PA, 4 PO ; sur un allié, soin de 50 Sacré ; sur un adversaire, 50 Sacré (valeurs fixes).
+- *Humilité* : 4 PA, 5 PO, sur un adversaire, pendant 2 tours : au-delà de 4 PA et PM dépensés en
+  tout dans un même tour (le compte repart à chaque tour), chaque PA ou PM de plus lui inflige **100 Sacré**. La cible devient **humble** jusqu'à la fin
+  du combat (ne peut plus recevoir ce sort).
+- *Résurrection* (déclenché, 5 PA) : quand il subit des dégâts mortels, le Fils pose une glyphe d'une
+  case là où il meurt ; 3 tours plus tard, il revient à la vie dessus avec tous ses PV. Si elle est
+  occupée, le retour se fait au tour suivant. Autant de fois que nécessaire par combat ; s'il est le
+  dernier monstre à mourir, le combat se termine et rien ne se déclenche.
+- Comportement : *Pardon* dès que possible, sinon *Humilité* ; attaque les adversaires en priorité et
+  ne soigne ses alliés que s'il ne peut rien faire d'autre.
+
+**Palier 5 (étage 50, boss) : le Père**, accompagné du Fils et du Saint-Esprit.
+
+- **Ni PV, ni PA, ni PM** : il a **3 points de Trinité**. Il en perd un quand le Fils ou le
+  Saint-Esprit meurt, et le regagne quand le Fils revient (*Résurrection*) : il faut tuer d'abord le
+  Saint-Esprit (pour éviter *Miracle*), puis le Fils, et bloquer sa glyphe jusqu'à la fin. À 1 point, les joueurs doivent **survivre 3 tours d'affilée** pour lui faire
+  perdre le dernier ; la mort d'un joueur remet ce compte à zéro.
+- *Omnipotent, Omniscient, Omniprésent* (passif) : il lance tous ses sorts sans dépenser de PA (seules
+  les relances l'en empêchent) ; ses dégâts ne sont pas réduits par les résistances et sont spectraux à
+  100 % ; ni ligne de vue ni limite de portée ; sans PM, il se déplace instantanément partout sur la
+  carte.
+- *Création* : invoque un monstre de la Tour céleste tiré au hasard (hors boss) qui commence avec ses PA et PM doublés,
+  relance 3 tours.
+- *Miséricorde* : l'adversaire qui a infligé le plus de dégâts au tour précédent devient **pacifié**
+  pendant 1 tour et subit 50 % de ses PV max en dégâts Sacré ; à égalité, tous les ex æquo ; si aucun
+  adversaire n'a infligé de dégâts, tous.
+- *Justice* : vise n'importe quel combattant entouré d'au moins un autre dans la zone, et égalise
+  (moyenne en %) les PV de tous les combattants, joueurs et monstres, dans un cercle de 3 cases autour
+  de la cible ; ce n'est ni un soin ni des dégâts.
+- *Déluge* : pose pour 2 tours une glyphe sur toutes les cases de la carte, sauf un cercle de 2 cases
+  autour de chaque adversaire ; un adversaire qui commence son tour dans la glyphe perd 80 % de ses PV
+  max. Relance 3 tours, première fois au 5e tour.
+- *Compassion* : un adversaire sous 20 % de ses PV est soigné de 50 % de ses PV et devient pacifié
+  pendant 1 tour.
+- *Miséricorde*, *Justice* et *Compassion* n'ont pas de relance : disponibles à chaque tour.
+- Comportement : lance chaque sort dès qu'il est disponible. Il va toujours au contact (ou au plus
+  près) de sa cible ; s'il en a plusieurs, il se démultiplie puis se rassemble en un seul corps. Il
+  finit son tour à 5 cases de sa dernière cible si possible, sinon sur la case libre la plus proche.
+
+**Effets de début de tour** (poisons, bonus…) : ils se déclenchent au début du tour, dans l'ordre où
+ils ont été appliqués (premier appliqué, premier déclenché).
+
+**Sorts déclenchés** (*Miracle*, *Résurrection*) : leur coût en PA est payé au déclenchement ; si on a
+retiré des PA au lanceur et qu'il ne lui en reste pas assez à ce moment, le sort n'est pas lancé.
+
+Mécaniques nouvelles à coder pour ces paliers : états *indéplaçable*, *pacifié* (n'inflige plus de
+dégâts), *humble*, sorts passifs et déclenchés (à la mort, aux dégâts subis), invocations, retour à
+la vie (glyphe, *Miracle*), poisons qui ne se cumulent pas, boss sans PV (points de Trinité).
+
+Points à trancher par l'auteur : voir la TODO, « Paliers de la Tour céleste ».
+
+### 12.9 Décisions (validées par l'auteur le 03/11/2026)
+
+Les règles des § 12.7 et 12.8 sont aussi validées (vagues, défaites, paliers, clés, pas de guilde,
+récompenses à chaque fin). Donjons classiques :
+
+1. **Métier qui fabrique la clé** : le Joaillier.
+2. **Consommation de la clé** : une clé par joueur à chaque entrée.
+3. **Réapparition des monstres** : aucune dans l'instance.
+4. **Sortie et reconnexion** : sortir ferme l'instance pour soi ; déconnexion tolérée 15 minutes.
+5. **Défaite** : retour au vestibule, instance gardée.
+6. **Taille de groupe** : 1 à 8 joueurs, avec la même instance pour tout le groupe.
+7. **Instance de guilde** : copie commune, ouverte jusqu'au boss ou 24 heures, une clé pour tout un
+   groupe qui y entre.
+8. **Plan du donjon** : vestibule qui mène aux salles voisines.
 
 ---
 
@@ -2310,9 +2808,11 @@ a désormais 4 au plus, `GameMap.MAX_GROUP_SIZE`). Données produites par
   reste de la place (dépassement léger toléré pour les membres d'un groupe).
 - **Groupe :** les membres d'un groupe sont toujours placés dans la même instance.
 - **Fusion :** les instances sous-peuplées sont fusionnées progressivement.
-- **Donjons :** instance privée par groupe.
+- **Donjons :** instance privée par joueur ou par groupe, instance de guilde pour les guildes de raid (§ 12).
+- **Zones de chasse :** instance d'une zone (cartes de groupes et boss de zone), ouverte par un
+  joueur (500 brumes par joueur) ou une guilde (2 000 brumes de guilde, tous les membres) (§ 6.3).
 
-**Séparation par avancement dans la quête principale.** Les instances sont réparties en deux
+**Séparation par avancement dans la quête principale.** *Appelée à disparaître : l'auteur veut retirer les actes à terme (09/11/2026), tous les joueurs joueront ensemble.* Les instances sont réparties en deux
 « mondes » selon l'avancement de chaque joueur :
 
 - **Pendant les actes I et II** (quêtes de camp, voir § 3.4) : le joueur ne peut rejoindre que des
@@ -2343,7 +2843,7 @@ a désormais 4 au plus, `GameMap.MAX_GROUP_SIZE`). Données produites par
 | **Social** | Chat (local, groupe, commerce, recrutement, privé), liste d'amis, ignorés, émotes |
 | **Groupe** | Jusqu'à 8 joueurs, partage de la réputation des monstres vaincus, des brumes et du butin, suivi d'un membre, marqueurs de quête partagés |
 | **Combat** | Rejoindre le combat d'un ami, combats de groupe, mode spectateur, verrouillage du combat |
-| **Quêtes** | Objectifs partagés en groupe (« vaincre X » compte pour tous), événements de monde |
+| **Quêtes** | Objectifs partagés en groupe (« vaincre X » compte pour tous), événements de zone et réputation de zone (§ 6.1, 6.2) |
 | **Métiers** | Échange sécurisé entre joueurs, artisanat assisté, commandes, hôtel des ventes, Trésor des villes (§ 13.6) |
 | **Guildes** | Création, rangs, banque, métier de guilde (§ 13.7) |
 | **Camps** | Opposition en PvE uniquement. **À décider avant la Phase 5 :** deux joueurs de camps opposés peuvent-ils grouper avant l'acte III ? (Pistes : interdit jusqu'à l'acte III ; ou autorisé, mais quêtes de camp non partagées.) |
@@ -2443,14 +2943,15 @@ guildes). Métiers retenus par l'auteur :
     affichées, notes anciennes moins lourdes ; vagues suspectes mises de côté par le serveur.
 - **Raid** : progresse par accomplissements en donjon (donjons terminés, puis exploits : premier du
   serveur, sans mort, en temps limité, à peu de joueurs). Bonus : titres, trophées de boss dans la
-  maison de guilde, classement, accès direct aux entrées de donjon, réparations moins chères ; un
+  maison de guilde, **instance de guilde** des donjons à un palier de réputation (§ 12.4),
+  classement, accès direct aux entrées de donjon, réparations moins chères ; un
   éventuel bonus de combat reste petit, plafonné et limité aux donjons. Les butins de boss servent
   aux lignes PA, PM et Portée des chefs-d'œuvre : **contrats** de livraison avec les guildes
   commerçantes. Le passage de donjon peut être proposé comme service dans le registre des commerces.
   Parodie : une « Compagnie des Héros Autoproclamés » aux trophées « légèrement exagérés ».
 - **Académie** : parrainage des nouveaux joueurs, bonus quand un filleul progresse ou termine un
   donjon (lien avec le mode mentor, § 13.2). Diplômes remis par des elfes snobs.
-- **Exploitants** : terrains instanciés communs (champs, jardins, mines du § 10.3), rendement accru,
+- **Exploitants** : instances de métier de guilde (champs, jardins, mines du § 10.3), rendement accru,
   contrats de livraison de ressources. « Coopérative agricole », réunion de bureau obligatoire avant
   chaque récolte.
 
@@ -2460,8 +2961,8 @@ automatique en brumes**, un pourcentage des brumes gagnées par chaque membre, f
 principe que les taxes de guilde d'Albion et d'EVE ou le don d'XP de Dofus). Le coffre a des
 **limites de retrait par rang et par jour** et un **journal** visible de tous les membres, contre le
 vol par un officier. Usages selon le métier de guilde : loyer du comptoir (commerçant), réparations
-et rééquipement après les donjons (raid), kits de départ des filleuls (académie), semences et
-engrais des terrains (exploitants). Parodie : le journal est tenu par un gobelin trésorier syndiqué.
+et rééquipement après les donjons (raid), kits de départ des filleuls (académie), engrais des
+instances (exploitants). Parodie : le journal est tenu par un gobelin trésorier syndiqué.
 
 **Utilisation de l'argent de guilde** (demande de l'auteur) :
 
@@ -2473,8 +2974,27 @@ engrais des terrains (exploitants). Parodie : le journal est tenu par un gobelin
 - **Registre d'utilisation** : le coffre note **qui utilise quoi et quand** (achat, retrait,
   consommation en raid, ressource employée dans un craft), consultable par tous les membres.
 - **Frais de guilde** : l'argent de guilde paie la **cotisation du métier de guilde**, le **loyer**
-  du comptoir et la **location des terrains d'exploitation** (§ 10.3). Si le coffre ne suffit pas à
+  du comptoir et la **cotisation des instances d'exploitants** (§ 10.3). Si le coffre ne suffit pas à
   l'échéance, le service est suspendu jusqu'au paiement.
+
+**Investissement de guilde** (demande de l'auteur, 08/11/2026, pas encore codé) : un membre peut
+**investir des brumes** dans sa guilde. Chaque semaine, la guilde reçoit **10 %** des brumes
+investies en **brumes de guilde**, qui servent aux **achats pour la guilde** : maison de guilde,
+zones de chasse, instances de récolte (instances d'exploitants, § 10.3), etc. **Pas d'intérêts
+composés** : seules les brumes investies rapportent, jamais les brumes de guilde gagnées. Exemple :
+10 000 brumes investies rapportent 1 000 brumes de guilde chaque semaine.
+
+Réponses de l'auteur (08/11/2026) : un membre peut **retirer** son investissement **sans délai** ;
+les intérêts sont calculés **une fois par semaine**. S'il **quitte** la guilde ou en est
+**expulsé**, il **récupère sa mise**. Les brumes investies sont **bloquées et récupérables**.
+**Pas de plafond** pour l'instant (à décider plus tard). Les brumes de guilde sont une **monnaie
+propre aux guildes**, hors du système des brumes normales (distinctes de l'argent du coffre, donc
+hors de la surveillance des brumes créées, § 13.6) ; elles peuvent payer **loyers et cotisations**,
+mais seulement ceux **liés aux activités de la guilde**.
+
+**Zones de chasse de guilde** (demande de l'auteur, 09/11/2026, pas encore codé) : les **brumes de
+guilde** ouvrent une **instance de zone de chasse** propre à la guilde (2 000 brumes de guilde la
+session), que tous les membres peuvent rejoindre ; règles au § 6.3.
 
 Autres pistes, non retenues pour l'instant : caravaniers (transport entre villes, escortes),
 écuries (location de montures), chasseurs de primes (tableau de contrats), cartographes (chasses aux

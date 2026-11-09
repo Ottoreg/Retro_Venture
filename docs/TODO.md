@@ -368,6 +368,11 @@ Lots 0 (conception dans le GDD), 1 (personnage, poussé sur `main` à la demande
 - [ ] **Plus tard (après la forge, demande de l'auteur)** : un **maître par catégorie d'équipement**,
   qui donne des plans par des quêtes : armurier (toutes les armes et les armures), tailleur (tous
   les tissus : capes, coiffes), cordonnier (tous les cuirs : bottes, ceintures)… (GDD § 10.4)
+- [ ] **Panoplies d'objets forgés** (conception de l'auteur du 09/11/2026, GDD § 10.4) : jusqu'à 3 mots clés
+  par nom (adjectifs de statistique regroupés par élément offensif / défensif, famille, zone), mot de famille ou de
+  zone proposé si la moitié des cases en relèvent, bonus de 2 à 7 pièces (arme comprise) pour les pièces au
+  même mot, environ 70 panoplies ; à faire d'abord : loup cendreux en famille « Loup des cendres », séparer les
+  ressources partagées (croc de loup…), barème selon le palier, tendance de chaque zone, bonus des adjectifs
 - [ ] Équilibrer la forge après les retours de test (valeurs par palier, 8 ressources différentes, part du jet,
   dégâts des armes) ; dessins des objets forgés par type et par matière
 - [x] Passif humain : +10 % d'XP de métier
@@ -639,10 +644,16 @@ classes (option écartée et compromis gardés en piste, GDD § 5.2).
   (sacré ↔ impie, givre ↔ flamme, acier ↔ tempête), débloquée par une quête de Voie (GDD § 5.3)
 
 ### Donjons
-- [ ] Système de donjon : clé, suite de salles, sortie / abandon
+- [ ] Système de donjon (conçu le 03/11/2026, GDD § 12) : instance par joueur ou groupe, toutes les
+  salles ouvertes dès l'entrée, clé du Joaillier consommée par joueur, vestibule, défaite et reconnexion
+- [ ] Au moins un monstre exclusif par donjon en plus du boss (ressources introuvables ailleurs)
+- [ ] Instance de guilde des donjons (palier de réputation de raid, GDD § 12.4)
 - [ ] Scripts de boss (phases, invocations, zones dangereuses)
 - [ ] Un donjon par région (panoplie et ressources exclusives)
-- [ ] Donjons de Relique (boss = Héraut Cendré)
+- [ ] Donjons de l'Aube (Reliques) : salle unique, combat en 4 à 5 vagues (sbires, puis boss et
+  généraux), clé par personne, pas d'instance de guilde (GDD § 12.7)
+- [ ] Tour Céleste et Infratour Infernale : 50 étages, mini-boss et palier tous les 10, reprise au
+  palier, boss à l'étage 50, pas d'instance de guilde, récompenses à surveiller en farm (GDD § 12.8)
 - [x] Tour céleste réduite (04/11/2026) : parvis avec Cupidon (clé à 100 %) et Saint Pierrot, 5 étages
   enchaînés, Archange Raphaël au sommet ; vol de vie, état « exorcisme », IA `corps_a_corps`,
   `chasseur` et bond ; 12 ressources de forge (Soins, Sacré, Impie, dégâts dévastateurs) ; Archange seul : Jugement dernier à la place du soin ; groupes de retour 5 à 10 s après le début du combat, clé pour chaque membre du groupe, Gardien des marches pour sortir à chaque étage, Chœur de Raphaël et Calice toujours ruisselant au sommet ; réveil au parvis après une défaite ; décors (colonnes, cierges, escalier, autel) (GDD § 12.8, « Version réduite »)
@@ -652,6 +663,10 @@ classes (option écartée et compromis gardés en piste, GDD § 5.2).
 - [ ] **Avant la sortie** : retirer l'easter egg de Saint Pierrot (champ `secret` : 4 légendaires de la tour contre 1 million de brumes)
 - [ ] Tour céleste : salles en instance de groupe et sauvegarde de l'avancée (pour l'instant salles partagées, sortie sans sauvegarde)
 - [ ] Compagnons PNJ pour aider en solo
+- [ ] Tour céleste : reporter dans les données Raphaël à 250 PV et la *Griffe de Juda* à 25-50, et passer la
+  version réduite à 10 étages (étages 1 à 5 plus faciles, proposés au GDD § 12.8, « Les paliers ») : sur demande de l'auteur
+- [ ] **Paliers de la Tour céleste** (Judas, Saint-Esprit, le Fils, le Père ; GDD § 12.8) : à coder plus tard. Points à trancher par l'auteur :
+  - niveaux, XP, brumes, butin et ressources des quatre boss ; familles d'apôtres et des étages 21 à 40
 
 ### Quêtes et scénario
 - [ ] Dialogues ramifiés avec conditions
@@ -682,15 +697,32 @@ classes (option écartée et compromis gardés en piste, GDD § 5.2).
   pouvoirs uniques, une par Héraut Cendré (GDD § 3.3, § 9.1)
 - [ ] Objets légendaires à effets uniques (butin très rare et quêtes)
 - [ ] Archimonstres (variantes rares nommées)
-- [ ] Essences (GDD § 9.2) : détruire un objet donne l'essence d'une de ses statistiques au hasard,
+- [ ] ~~Essences (GDD § 9.2)~~ remplacées pour le moment par l'infusion (plus bas) : détruire un objet donne l'essence d'une de ses statistiques au hasard,
   qui sert à essayer d'améliorer un autre objet (puits d'équipement ; remplace les runes de forgemagie)
   ; greffe de la valeur exacte en un essai, chance affichée, trois cicatrices par objet, historique
   des greffes sur la fiche (sans objet de provenance ni artisan), essence utilisable aussi en fabrication
+- [ ] Infusion d'essences (nom provisoire, GDD § 10.4, remplace pour le moment la destruction et les
+  cicatrices) : l'artisan de chaque catégorie infuse 20 communes / 10 rares / 2 légendaires → essence à
+  la valeur de forge, ajoutée en exo si la ligne manque (cumulable, chance selon le poids de la stat,
+  200 points de score d'exo par objet, 100 par ligne) ; essence parfaite (× 5 ressources) sans échec
+- [ ] Infusion miroir (GDD § 10.4, 09/11/2026) : à un palier de maîtrise élevé, essence de la statistique
+  opposée, palier Maître (Flamme ↔ Givre, Acier ↔ Tempête, Sacré ↔ Impie, Dévastateurs ↔ Spectraux,
+  Dommages ↔ Soins au choix du joueur, Vitalité ↔ Épines, Critique ↔ Résistance aux critiques ; rien
+  pour PA, PM ; Initiative à revoir)
+- [ ] Statistiques à venir (GDD § 10.4, miroir fixé) : Tacle ↔ Fuite, Retrait PA ↔ Retrait PM (inflige
+  et protège à la fois), Dommages de mêlée (% finaux) ↔ Portée
+- [ ] Statistiques de métier (GDD § 10.4, 09/11/2026) : seulement sur les outils, une ressource donne une stat
+  de combat (équipement) et une stat de métier (outil) ; plafonds par ligne et par outil à fixer ; liste de
+  travail Abondance, Flair, Dextérité, Main verte, Minutie, Épargne, Distillation, Fournée, Sagacité ;
+  stat de métier tirée de la stat de combat (table validée) ; miroirs entre stats de métier plus tard
+- [ ] Harmoniser la rareté des ressources : commune (butin > 20 %), rare (> 1 %), légendaire (≤ 1 %)
+- [ ] **Phase de design manuelle de l'auteur** (demande du 06/11/2026) : revoir le butin de toutes les familles
+  de monstres existantes, à faire par l'auteur lui-même (raretés harmonisées ci-dessus, ressources des essences)
 
 ### Métiers
 - [x] Conception des onze métiers (GDD § 10.3) : récolte (mineur, bûcheron, agriculteur, herboriste,
   pêcheur), artisanat (forgeron, costumier, joaillier, boulanger, maître des potions), éleveur de
-  montures ; terrains instanciés achetables ; ordre de production proposé. Questions ouvertes au § 10.3
+  montures ; instances de métier ; ordre de production proposé. Questions ouvertes au § 10.3
 - [ ] Agriculteur et Boulanger (céréales, farines, pains : regain de vie et bonus pour N combats)
 - [ ] Herboriste et Maître des potions (plantes, élixirs, potions de rappel et d'oubli)
 - [ ] Pièces d'armure du Forgeron (heaumes, plastrons, ceinturons, solerets, dans les emplacements
@@ -699,7 +731,9 @@ classes (option écartée et compromis gardés en piste, GDD § 5.2).
   reprennent les recettes correspondantes du Forgeron
 - [ ] Pêcheur (coins de pêche, alevins, perles)
 - [ ] Outils de récolte (Forgeron) et produits intermédiaires (lingots, farines, toiles, gemmes taillées)
-- [ ] Terrains instanciés achetables : champ, jardin, bosquet, étang, mine (galeries) ; engrais
+- [ ] Instances de métier (GDD § 10.3, conçu et validé le 03/11/2026) : débloquées à
+  2 500 de réputation, ressources par points de maîtrise, carte du Cadastre, état sauvegardé, temps simulé à l'entrée, interface de disposition,
+  emplacements, paliers et bonus d'instance selon la réputation ; engrais
 - [ ] Éleveur et montures : apprivoisement (licol, sort *Apprivoiser*), enclos, dressage, énergie,
   robes, reproduction, emplacement monture
 - [ ] Objets personnalisés des artisans de haut niveau (GDD § 10.4) : choisir le nom de la
@@ -789,7 +823,7 @@ Plan validé par l'auteur le 26/10/2026 : GDD § 16.5, jalons M0 (préparer le n
 - [ ] Passer les actes I et II pour commencer à l'acte III (choix définitif, confirmation qui
   rappelle la perte des récompenses de quêtes : XP, objets, brumes) (GDD § 13.2)
 - [ ] Rejoindre l'instance d'un ami
-- [ ] Instances privées de donjon par groupe
+- [ ] Instances privées de donjon par joueur ou par groupe, instance de guilde (GDD § 12)
 - [ ] Maisons de joueurs instanciées : chaque joueur entre dans sa propre copie de `maison_joueur` (et des maisons de Crasse-Roc et Sylvebrume)
   (cartes marquées `"instance": "joueur"`), avec son coffre
 
@@ -810,6 +844,16 @@ Plan validé par l'auteur le 26/10/2026 : GDD § 16.5, jalons M0 (préparer le n
   par rang et par jour, journal visible ; achats de guilde (consommables utilisables seulement en
   raid, ressources seulement en craft), registre d'utilisation, paiement des frais de guilde (loyers,
   métier de guilde, terrains) (GDD § 13.7)
+- [ ] Investissement de guilde : brumes investies par les membres, 10 % par semaine en brumes de
+  guilde pour les achats de la guilde, sans intérêts composés, mise bloquée mais retirable à tout moment et rendue au départ, monnaie à part
+  (loyers et cotisations des activités de guilde) ; plafond à décider (GDD § 13.7)
+- [ ] Zones de chasse instanciées : cartes de groupes sans réapparition et boss de zone, ouvertes au
+  PNJ chasseur ou au hall de guilde, 500 brumes par joueur ou 2 000 brumes de guilde (tous les
+  membres), maîtrise de classe et butin seulement (conçu le 09/11/2026, GDD § 6.3)
+- [ ] Événements de zone hebdomadaires (solo et en ligne) : invasion, raid, fête, récolte et artisanat,
+  tirage avec roulement, inscription libre, plafond de réputation, pas de brumes (conçu le 09/11/2026, GDD § 6.1)
+- [ ] Réputation de zone : paliers, récompenses de palier, bonus permanents de farm, récolte et
+  artisanat valables dans la zone, gagnée par les événements seulement (conçu le 09/11/2026, GDD § 6.2)
 - [ ] Comptoirs de guilde : galeries marchandes instanciées, loyer et taxe réduite, registre commun
   des commerces, avis d'achats vérifiés sans texte libre (GDD § 13.7)
 - [ ] Économie des artisans : taxe de vente comptée dans le Trésor de chaque ville (chantiers, bonus
@@ -850,6 +894,18 @@ Plan validé par l'auteur le 26/10/2026 : GDD § 16.5, jalons M0 (préparer le n
 - Succès / hauts faits
 - Bestiaire et encyclopédie du monde en jeu
 - Éditeur de cartes et de quêtes intégré pour accélérer la production de contenu
+
+### Lumière et Ténèbres (idée de l'auteur du 04/11/2026, rien de conçu)
+
+- [ ] Deux nouveaux doubles éléments pour concurrencer le Sacré et l'Impie : **Lumière** (Flamme +
+  Givre) et **Ténèbres** (Tempête + Acier).
+- [ ] Un lot de nouveaux monstres et de ressources liés à ces éléments, pour répondre à tous les
+  aspects du jeu.
+- [ ] Comme la Tour Céleste et l'Infratour Infernale (GDD § 12.8), deux donjons à thème : Lumière,
+  basé sur les lignes de vue (ombres projetées par des sources lumineuses), le positionnement et les
+  bonus liés au positionnement ; Ténèbres, basé aussi sur le positionnement mais orienté entrave,
+  avec des entités ténébreuses qui agrippent les alliés pour les restreindre (comme la manipulation
+  des ombres de Naruto).
 
 ### Identité des classes (à décider après les premiers retours de l'alpha 1)
 
