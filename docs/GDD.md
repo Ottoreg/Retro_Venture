@@ -2121,6 +2121,11 @@ moment** ; elle remplace la destruction d'objets et les cicatrices du § 9.2.
     de ne pas consommer une ressource) ; **Distillation** (réussite de l'infusion ou essence de plus) ;
     **Fournée** (chance d'un exemplaire de plus : boulanger, maître des potions) ;
   - *Tous les métiers* : **Sagacité** (+% de réputation et de maîtrise du métier, à plafonner bas).
+  - *Stat de métier d'une ressource* (validé le 09/11/2026) : tirée de sa stat de combat, sans donnée
+    propre à chaque ressource : Force → Abondance ; Agilité, Initiative → Dextérité ; Intelligence →
+    Minutie ; Perception, Prospection → Flair ; Vitalité → Main verte ; Dommages → Épargne ; Soins →
+    Fournée ; Résistances → Distillation ; PA, PM, Portée → Sagacité. Une ressource dont la stat de combat
+    n'est pas dans cette liste (Tacle par exemple) n'en a pas forcément : à voir au cas par cas.
 - *Noms proposés* (à choisir par l'auteur) : **Sublimation** (l'objet est « sublimé »),
   **Brumagie** (la magie des brumes, lieu de frappe de la monnaie), **Quintessence** (l'objet reçoit
   la quintessence d'une ressource), **Distillation** (l'alambic de l'artisan ; parodie possible :
