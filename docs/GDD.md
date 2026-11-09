@@ -2083,8 +2083,8 @@ moment** ; elle remplace la destruction d'objets et les cicatrices du § 9.2.
   chiffrer). Échec : l'essence est perdue, jamais l'objet (§ 10.2).
 - **Plafonds** : **200 points de score d'exo au total** par objet, toutes lignes exo comprises ; une
   ligne exo reste plafonnée à **100 points de score**, comme une ligne forgée.
-- **Infusion miroir** (idée de l'auteur du 09/11/2026) : à un **palier de maîtrise élevé** (proposé :
-  palier **Maître** de réputation du métier, comme la Voie Miroir du § 5.3 ; à valider), l'artisan peut
+- **Infusion miroir** (idée de l'auteur du 09/11/2026) : à un **palier de maîtrise élevé** (palier
+  **Maître** de réputation du métier, comme la Voie Miroir du § 5.3 ; validé le 09/11/2026), l'artisan peut
   infuser une ressource « en miroir » : l'essence porte la statistique **opposée**, à la même valeur.
   Exemples : une ressource à +1 Dommages Flamme donne une essence +1 Dommages Givre ; +1 Force donne
   +1 Agilité (l'élément Tempête) ; +1 % Résistance Impie donne +1 % Résistance Sacré.
@@ -2092,9 +2092,13 @@ moment** ; elle remplace la destruction d'objets et les cicatrices du § 9.2.
     Tempête**, **Sacré ↔ Impie**, valables pour les caractéristiques (Intelligence ↔ Perception, Force ↔
     Agilité) et les lignes Dommages, Soins et Résistance de chaque élément.
   - *Statistiques abstraites* (décisions de l'auteur du 09/11/2026) : **pas de miroir pour PA, PM et
-    Portée** ; **Dégâts dévastateurs ↔ Dégâts spectraux** (§ 4.4) ; Critique et Vitalité : **à définir
-    plus tard**. Propositions encore en attente : Dommages neutres ↔ Soins neutres, Initiative ↔
-    Prospection.
+    Portée** ; **Dégâts dévastateurs ↔ Dégâts spectraux** (§ 4.4) ; **Dommages neutres ↔ Soins neutres** ;
+    Critique et Vitalité : **à définir plus tard**. À trancher : Dommages ↔ Soins élémentaires
+    (accord de l'auteur, mais une ligne Dommages Flamme aurait alors deux miroirs, Dommages Givre et
+    Soins Flamme) ; Initiative ↔ Prospection (accord, avec la crainte que l'Initiative soit toujours
+    changée en Prospection, plus attrayante).
+  - *Proposition* : le miroir garde les **points de score** plutôt que la valeur brute (identique pour
+    les paires de même poids ; 10 Initiative = 1 point de score donnent environ 0,34 Prospection).
 - *Noms proposés* (à choisir par l'auteur) : **Sublimation** (l'objet est « sublimé »),
   **Brumagie** (la magie des brumes, lieu de frappe de la monnaie), **Quintessence** (l'objet reçoit
   la quintessence d'une ressource), **Distillation** (l'alambic de l'artisan ; parodie possible :
