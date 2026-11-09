@@ -2170,11 +2170,11 @@ panoplie, de **2 à 7 pièces** comme les panoplies prédéfinies (§ 9.3), l'**
   aussi dans les instances de récolte, § 10.3).
 - **Mot proposé à la majorité** : un mot de sous-type, de type ou de zone n'est proposé que si **au moins
   la moitié des ressources** de la recette (en cases) en relèvent ; par exemple, pour un objet à 4 cases,
-  au moins 2 ressources de Brumerive ou de loup. Les obligatoires ne comptent pas parmi ces ressources.
-  *(À préciser : moitié des cases ou des quantités ; lecture provisoire : des cases.)*
+  au moins 2 ressources de Brumerive ou de loup. La majorité se compte en **cases** de la recette, pas en
+  quantités (validé le 09/11/2026). Les obligatoires ne comptent pas parmi ces ressources.
 - **Jusqu'à 3 mots clés par objet**, donc jusqu'à 3 bonus de panoplie : le type d'objet (« Coiffe »)
   n'est pas un mot clé ; les adjectifs de statistique et les mots de monstre ou de zone le sont. Le nom
-  passe donc de deux adjectifs au plus (forge actuelle) à trois mots au plus.
+  passe donc de deux adjectifs au plus (forge actuelle) à trois mots au plus (validé le 09/11/2026).
 - **Seul le mot choisi compte**, au même niveau sur toutes les pièces : « Manteau flamboyant de
   Brumerive » et « Coiffe flamboyante du Loup des collines » ne réunissent que *flamboyant* ;
   « Coiffe fulgurante de Loup » et « Cape flamboyante de Loup » réunissent 2 pièces *Loup*. Un sous-type
