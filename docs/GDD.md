@@ -1097,15 +1097,14 @@ Les sorts restent **propres à leur classe** (pas d'apprentissage croisé, § 5.
 
 ### 6.1 Événements de zone (demande de l'auteur, 09/11/2026)
 
-Conception de l'auteur du 09/11/2026, rien n'est codé. Réponses de l'auteur du même jour intégrées ;
-les chiffres marqués *(proposition)* restent à valider.
+Conception de l'auteur du 09/11/2026, rien n'est codé ; tout est validé par l'auteur le même jour.
 
 - **Principe** : chaque **semaine**, une zone (par exemple les *environs de Hautepierre*) propose un
   **événement de zone**, qui dure la semaine. Tous les joueurs peuvent **choisir d'y participer**
   (rien n'est imposé, la zone reste jouable normalement) pour gagner de la **réputation de zone**
   (§ 6.2).
 - **Tirage et roulement** : le type est tiré au hasard, avec un **roulement** pour ne pas enchaîner
-  les mêmes événements : *(proposition)* les quatre types passent dans une zone avant qu'un d'eux
+  les mêmes événements : les quatre types passent dans une zone avant qu'un d'eux
   revienne, et jamais deux fois le même d'affilée. L'événement en cours est signalé par une icône sur
   la minicarte et la carte du monde (`MapIcons`) et annoncé dans le chat ; un lien cliquable pose un
   repère, comme les liens de quête.
@@ -1145,8 +1144,8 @@ les chiffres marqués *(proposition)* restent à valider.
    du syndicat gobelin, bal elfe où l'on juge les tenues, foire humaine qui célèbre « le héros du
    village » (n'importe quel joueur qui passe).
 4. **Récolte et artisanat** : les **récoltes sont boostées** sur les cartes de la zone et les
-   **artisans ont aussi des bonus**, plus faibles puisque l'événement dure la semaine
-   *(proposition)* : **+10 %** de quantité récoltée, temps de récolte **−10 %**, **+10 %** de
+   **artisans ont aussi des bonus**, plus faibles puisque l'événement dure la semaine :
+   **+10 %** de quantité récoltée, temps de récolte **−10 %**, **+10 %** de
    réputation de métier pour la récolte et la fabrication dans la zone (ateliers et enclumes de la
    zone) ; chaque récolte ou fabrication rapporte de la réputation de zone. Pas dans les instances de
    métier (§ 10.3), qui ont leurs propres bonus.
@@ -1167,11 +1166,11 @@ les chiffres marqués *(proposition)* restent à valider.
 |---|---|---|---|
 | Inconnu | 0 | — | — |
 | Connu | 2 000 | titre de zone, Pierres de Passage de la zone −25 % | +3 % de prospection |
-| Apprécié | 8 000 | *(proposition)* décor de maison aux couleurs de la zone | +5 % de prospection, +5 % de quantité récoltée |
+| Apprécié | 8 000 | décor de maison aux couleurs de la zone | +5 % de prospection, +5 % de quantité récoltée |
 | Honoré | 20 000 | apparence (cape ou monture aux couleurs de la zone) | +5 % de réputation de métier en récolte et fabrication dans la zone |
-| Héros local | 50 000 | titre « Héros de … », *(proposition)* nom gravé sur la statue de la ville | +10 % de prospection et de quantité récoltée |
+| Héros local | 50 000 | titre « Héros de … », nom gravé sur la statue de la ville | +10 % de prospection et de quantité récoltée |
 
-La **statue** *(proposition)* : un monument dans la ville principale de la zone, où sont gravés les
+La **statue** : un monument dans la ville principale de la zone, où sont gravés les
 noms des joueurs devenus « Héros local » (prestige seulement). Noms des paliers à décliner par camp
 (« Camarade d'honneur » chez les gobelins). Parodie : les humains donnent le titre de « Héros
 local » à tout le monde, les elfes ne le donnent qu'après trois siècles de délibération.
@@ -1187,11 +1186,12 @@ local » à tout le monde, les elfes ne le donnent qu'après trois siècles de d
 - **Instance de guilde** : **2 000 brumes de guilde** (§ 13.7), toutes zones confondues ; **tous les
   membres** de la guilde peuvent la rejoindre, **personne d'autre**. Aucun lien avec la réputation
   de zone de la guilde.
-- **Instance de joueurs** : **500 brumes par joueur** qui y entre, toutes zones confondues.
-  *(Proposition)* : pour un joueur seul ou son groupe, comme les donjons (§ 12.1).
+- **Instance de joueurs** : pour un joueur seul ou son groupe, **500 brumes par participant**,
+  toutes zones confondues (un groupe de 4 paie 2 000 brumes en tout), comme la clé que chaque joueur
+  paie en donjon (§ 12.2).
 - **Récompenses** : **seulement la maîtrise de classe et le butin des monstres** (décision de
-  l'auteur) : pas de réputation de zone, pas d'événement de zone. *(Proposition)* Les brumes des
-  combats restent celles d'un combat normal.
+  l'auteur) : pas de réputation de zone, pas d'événement de zone ; les brumes des combats restent
+  celles d'un combat normal.
 - **Tous les joueurs ensemble** : les actes I et II (séparation des mondes, § 13.2) sont appelés à
   disparaître (décision de l'auteur), donc pas de restriction d'accès par l'avancement.
 
