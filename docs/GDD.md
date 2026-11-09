@@ -1186,6 +1186,7 @@ local » à tout le monde, les elfes ne le donnent qu'après trois siècles de d
 - **Instance de guilde** : **2 000 brumes de guilde** (§ 13.7), toutes zones confondues ; **tous les
   membres** de la guilde peuvent la rejoindre, **personne d'autre**. Aucun lien avec la réputation
   de zone de la guilde.
+  Le butin des membres alimente les **compteurs de ressources de guilde** (§ 13.7).
 - **Instance de joueurs** : pour un joueur seul ou son groupe, **500 brumes par participant**,
   toutes zones confondues (un groupe de 4 paie 2 000 brumes en tout), comme la clé que chaque joueur
   paie en donjon (§ 12.2).
@@ -1900,10 +1901,9 @@ jour (en fin de section).
 - **Exploitants de guilde** (§ 13.7) : la guilde d'exploitants a des **instances de guilde** sur le
   même modèle, une par métier de récolte, dont les emplacements et les bonus suivent la **réputation
   d'exploitants** de la guilde (plus grandes et plus généreuses que les instances personnelles) ; les
-  officiers disposent les ressources et **choisissent qui peut y récolter** ; chacun récolte pour
-  lui-même, moins la **part de la guilde** : **5 %** des ressources, prélevées par cumul (chaque fois
-  qu'un joueur a récolté **20** d'une même ressource dans l'instance de guilde, **1** lui est retirée
-  et va au **coffre de la guilde**). Les **ressources rares** sont exemptées et restent au joueur.
+  officiers disposent les ressources et **choisissent qui peut y récolter** ; chacun garde **toute**
+  sa récolte, et la guilde gagne en plus des ressources par les **compteurs de ressources de
+  guilde** (§ 13.7).
 
 **Décisions (validées par l'auteur le 03/11/2026)** :
 
@@ -2995,6 +2995,15 @@ mais seulement ceux **liés aux activités de la guilde**.
 **Zones de chasse de guilde** (demande de l'auteur, 09/11/2026, pas encore codé) : les **brumes de
 guilde** ouvrent une **instance de zone de chasse** propre à la guilde (2 000 brumes de guilde la
 session), que tous les membres peuvent rejoindre ; règles au § 6.3.
+
+**Compteurs de ressources de guilde** (demande de l'auteur, 09/11/2026, pas encore codé) : dans les
+**zones de chasse de guilde** (§ 6.3) et les **instances de récolte de la guilde** (§ 10.3), les
+ressources obtenues par les membres alimentent un **compteur par type de ressource**, propre à la
+guilde, partagé entre tous ses membres et **conservé entre les sessions**. Chaque cumul de **100**
+ressources de monstre identiques, ou de **20** ressources de récolte identiques, ajoute
+automatiquement **1** ressource de ce type au **coffre de guilde**, **quelle que soit sa rareté**.
+Les joueurs gardent **tous** leurs gains : le but est d'encourager la coopération et de constituer un
+stock pour financer les activités de la guilde.
 
 Autres pistes, non retenues pour l'instant : caravaniers (transport entre villes, escortes),
 écuries (location de montures), chasseurs de primes (tableau de contrats), cartographes (chasses aux

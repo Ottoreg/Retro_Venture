@@ -850,6 +850,9 @@ Plan validé par l'auteur le 26/10/2026 : GDD § 16.5, jalons M0 (préparer le n
 - [ ] Zones de chasse instanciées : cartes de groupes sans réapparition et boss de zone, ouvertes au
   PNJ chasseur ou au hall de guilde, 500 brumes par joueur ou 2 000 brumes de guilde (tous les
   membres), maîtrise de classe et butin seulement (conçu le 09/11/2026, GDD § 6.3)
+- [ ] Compteurs de ressources de guilde : par type, partagés et conservés ; 1 ressource au coffre
+  tous les 100 butins de monstre ou 20 récoltes identiques dans les instances de la guilde, sans
+  rien retirer aux joueurs (conçu le 09/11/2026, GDD § 13.7)
 - [ ] Événements de zone hebdomadaires (solo et en ligne) : invasion, raid, fête, récolte et artisanat,
   tirage avec roulement, inscription libre, plafond de réputation, pas de brumes (conçu le 09/11/2026, GDD § 6.1)
 - [ ] Réputation de zone : paliers, récompenses de palier, bonus permanents de farm, récolte et
