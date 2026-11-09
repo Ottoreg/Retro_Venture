@@ -1116,8 +1116,8 @@ viennent pas de l'auteur et sont à valider.
   réputation de zone au plus par événement et par joueur, **+50 %** si l'objectif collectif est
   atteint.
 - **Multijoueur d'abord** : les événements vivent dans une instance de carte (§ 13.2) et se règlent
-  sur le nombre d'inscrits. *(Proposition)* En solo, ils existent aussi, à l'échelle d'un joueur
-  (objectifs divisés), pour que la réputation de zone ne soit pas réservée au multi.
+  sur le nombre d'inscrits. **En solo aussi** (décision de l'auteur, 09/11/2026), à l'échelle d'un
+  joueur (objectifs divisés), pour que la réputation de zone ne soit pas réservée au multi.
 
 **Les quatre types :**
 
@@ -1180,8 +1180,7 @@ Noms provisoires, à décliner par camp (« Camarade d'honneur » chez les gobel
 humains donnent le titre de « Héros local » à tout le monde, les elfes ne le donnent qu'après trois
 siècles de délibération.
 
-**Questions pour l'auteur** : rythme et durées des événements ; plafond par événement ; existence en
-solo ; paliers et bonus du tableau ; si la réputation de zone ne vient que des événements ou aussi
+**Questions pour l'auteur** : rythme et durées des événements ; plafond par événement ; paliers et bonus du tableau ; si la réputation de zone ne vient que des événements ou aussi
 des quêtes.
 
 ---
