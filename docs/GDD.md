@@ -1632,8 +1632,8 @@ Cordonnier, le **Maître des potions** l'Alchimiste, le **Boulanger** le Cuisini
   venir (§ 3.5). Chaque ressource a sa **version rare** (1 %, à la place de la récolte, § 10.2).
 - **Outils** : chaque métier de récolte a son outil (pioche, hache, faucille, serpe, canne à pêche),
   porté dans un emplacement d'outil hors combat (pas une arme). Fabriqués par le **Forgeron** (le
-  manche par le bûcheron, la lame par le mineur) : un outil meilleur raccourcit la récolte et ajoute
-  une chance de ressource en plus. Sans outil, on récolte quand même, plus lentement (pas de mur
+  manche par le bûcheron, la lame par le mineur) : un outil porte les **statistiques de métier**
+  (§ 10.4, 09/11/2026) : il raccourcit la récolte, ajoute une chance de ressource en plus, etc. Sans outil, on récolte quand même, plus lentement (pas de mur
   pour un nouveau joueur).
 - **Produits intermédiaires** fabriqués à l'atelier du métier qui les utilise, sans recette à
   apprendre : **lingots** (Forgeron, 5 minerais → 1 lingot, à partir du palier 30), **farines**
@@ -2096,20 +2096,31 @@ moment** ; elle remplace la destruction d'objets et les cicatrices du § 9.2.
     élémentaires : une ligne élémentaire de Dommages ou de Soins a **deux miroirs**, et le joueur
     **choisit** en infusant s'il change l'élément (Dommages Flamme → Dommages Givre) ou le type de
     ligne (Dommages Flamme → Soins Flamme) ; **pas de miroir pour l'Initiative et la Prospection**
-    pour l'instant (la Prospection, plus attrayante, aurait été toujours choisie) ; **Vitalité ↔
+    pour l'instant (la Prospection, plus attrayante, aurait été toujours choisie ; le miroir Abondance
+    envisagé est retiré le 09/11/2026) ; **Vitalité ↔
     Épines** (§ 4.4) ; **Critique ↔ Résistance aux critiques**.
   - *Statistiques à venir* (09/11/2026, rien n'est codé ; leur miroir est déjà fixé) :
     - **Tacle ↔ Fuite** (tacle et fuite de la TODO) ;
     - **Retrait PA ↔ Retrait PM** : chacune **augmente la chance d'infliger** ce retrait et **réduit
       la chance de le subir**, en même temps (une seule ligne, pas d'esquive à part) ;
-    - **Abondance** (miroir de la **Prospection**) : plus de ressources à la récolte ; première
-      statistique **de métier**, sans effet en combat. *À faire* : trouver d'autres statistiques qui
-      concernent directement les récolteurs et les artisans, pour des objets spéciaux sans
-      statistique de combat ;
     - **Dommages de mêlée** (miroir de la **Portée**) : **% de dégâts finaux** au corps à corps, faible
       (1 à 2 % par objet), pour rester proche de la Portée en points de score. *Proposition* : 30 points
       de score par % (+1 Portée = 60 points ↔ +2 %), soit 3 % au plus par ligne (plafond de 100).
     - **Initiative** : miroir **à revoir plus tard** (le Retard est écarté).
+- **Statistiques de métier** (décisions de l'auteur du 09/11/2026, rien n'est codé) : elles n'existent
+  **que sur les outils** (emplacement d'outil hors combat, § 10.3), jamais sur l'équipement de combat,
+  et n'ont aucun effet en combat. **Une ressource donne sa statistique de combat** sur un équipement
+  classique **et une statistique de métier** quand elle sert à forger un outil. Les outils ont, comme
+  les objets de combat, un **plafond de points de score par ligne et par objet** (valeurs à fixer).
+  Les **miroirs** se feront plus tard, **entre statistiques de métier** seulement. Liste de travail
+  (proposée le 09/11/2026, noms et effets à confirmer) :
+  - *Récolte* : **Abondance** (plus de ressources par récolte) ; **Flair** (chance de ressource rare
+    × Flair / 100, comme la Prospection) ; **Dextérité** (temps de récolte −%, plancher d'1 s comme la
+    Célérité) ; **Main verte** (pousse plus rapide, dans l'instance de métier seulement) ;
+  - *Artisanat* : **Minutie** (jets de forge tirés plus haut, comme la Précision) ; **Épargne** (chance
+    de ne pas consommer une ressource) ; **Distillation** (réussite de l'infusion ou essence de plus) ;
+    **Fournée** (chance d'un exemplaire de plus : boulanger, maître des potions) ;
+  - *Tous les métiers* : **Sagacité** (+% de réputation et de maîtrise du métier, à plafonner bas).
 - *Noms proposés* (à choisir par l'auteur) : **Sublimation** (l'objet est « sublimé »),
   **Brumagie** (la magie des brumes, lieu de frappe de la monnaie), **Quintessence** (l'objet reçoit
   la quintessence d'une ressource), **Distillation** (l'alambic de l'artisan ; parodie possible :

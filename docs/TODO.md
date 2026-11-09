@@ -705,8 +705,11 @@ classes (option écartée et compromis gardés en piste, GDD § 5.2).
   Dommages ↔ Soins au choix du joueur, Vitalité ↔ Épines, Critique ↔ Résistance aux critiques ; rien
   pour PA, PM ; Initiative à revoir)
 - [ ] Statistiques à venir (GDD § 10.4, miroir fixé) : Tacle ↔ Fuite, Retrait PA ↔ Retrait PM (inflige
-  et protège à la fois), Abondance ↔ Prospection (récolte), Dommages de mêlée (% finaux) ↔ Portée
-- [ ] Trouver d'autres statistiques de récolteurs et d'artisans (objets spéciaux sans stat de combat)
+  et protège à la fois), Dommages de mêlée (% finaux) ↔ Portée
+- [ ] Statistiques de métier (GDD § 10.4, 09/11/2026) : seulement sur les outils, une ressource donne une stat
+  de combat (équipement) et une stat de métier (outil) ; plafonds par ligne et par outil à fixer ; liste de
+  travail Abondance, Flair, Dextérité, Main verte, Minutie, Épargne, Distillation, Fournée, Sagacité ;
+  stat de métier de chaque ressource à choisir ; miroirs entre stats de métier plus tard
 - [ ] Harmoniser la rareté des ressources : commune (butin > 20 %), rare (> 1 %), légendaire (≤ 1 %)
 - [ ] **Phase de design manuelle de l'auteur** (demande du 06/11/2026) : revoir le butin de toutes les familles
   de monstres existantes, à faire par l'auteur lui-même (raretés harmonisées ci-dessus, ressources des essences)
