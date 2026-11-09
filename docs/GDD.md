@@ -2092,13 +2092,12 @@ moment** ; elle remplace la destruction d'objets et les cicatrices du § 9.2.
     Tempête**, **Sacré ↔ Impie**, valables pour les caractéristiques (Intelligence ↔ Perception, Force ↔
     Agilité) et les lignes Dommages, Soins et Résistance de chaque élément.
   - *Statistiques abstraites* (décisions de l'auteur du 09/11/2026) : **pas de miroir pour PA, PM et
-    Portée** ; **Dégâts dévastateurs ↔ Dégâts spectraux** (§ 4.4) ; **Dommages neutres ↔ Soins neutres** ;
-    Critique et Vitalité : **à définir plus tard**. À trancher : Dommages ↔ Soins élémentaires
-    (accord de l'auteur, mais une ligne Dommages Flamme aurait alors deux miroirs, Dommages Givre et
-    Soins Flamme) ; Initiative ↔ Prospection (accord, avec la crainte que l'Initiative soit toujours
-    changée en Prospection, plus attrayante).
-  - *Proposition* : le miroir garde les **points de score** plutôt que la valeur brute (identique pour
-    les paires de même poids ; 10 Initiative = 1 point de score donnent environ 0,34 Prospection).
+    Portée** ; **Dégâts dévastateurs ↔ Dégâts spectraux** (§ 4.4) ; **Dommages ↔ Soins**, neutres et
+    élémentaires : une ligne élémentaire de Dommages ou de Soins a **deux miroirs**, et le joueur
+    **choisit** en infusant s'il change l'élément (Dommages Flamme → Dommages Givre) ou le type de
+    ligne (Dommages Flamme → Soins Flamme) ; **pas de miroir pour l'Initiative et la Prospection**
+    pour l'instant (la Prospection, plus attrayante, aurait été toujours choisie) ; Critique et
+    Vitalité : **à définir plus tard**.
 - *Noms proposés* (à choisir par l'auteur) : **Sublimation** (l'objet est « sublimé »),
   **Brumagie** (la magie des brumes, lieu de frappe de la monnaie), **Quintessence** (l'objet reçoit
   la quintessence d'une ressource), **Distillation** (l'alambic de l'artisan ; parodie possible :
