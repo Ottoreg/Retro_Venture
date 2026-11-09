@@ -1097,91 +1097,103 @@ Les sorts restent **propres à leur classe** (pas d'apprentissage croisé, § 5.
 
 ### 6.1 Événements de zone (demande de l'auteur, 09/11/2026)
 
-Conception de l'auteur du 09/11/2026, rien n'est codé. Les chiffres marqués *(proposition)* ne
-viennent pas de l'auteur et sont à valider.
+Conception de l'auteur du 09/11/2026, rien n'est codé. Réponses de l'auteur du même jour intégrées ;
+les chiffres marqués *(proposition)* restent à valider.
 
-- **Principe** : à un **rythme régulier**, une zone (par exemple les *environs de Hautepierre*)
-  propose un **événement de zone**. Tous les joueurs présents dans la zone peuvent **choisir d'y
-  participer** (rien n'est imposé, la zone reste jouable normalement) pour gagner de la
-  **réputation de zone** (§ 6.2).
-- **Rythme** *(proposition)* : un événement par zone toutes les **3 heures**, décalé d'une zone à
-  l'autre pour qu'il y en ait toujours un quelque part ; type tiré au hasard parmi les quatre, jamais
-  deux fois le même d'affilée dans une zone. Annonce **10 minutes avant** dans le chat et par une
-  icône sur la minicarte et la carte du monde (`MapIcons`) ; un lien cliquable pose un repère, comme
-  les liens de quête.
+- **Principe** : chaque **semaine**, une zone (par exemple les *environs de Hautepierre*) propose un
+  **événement de zone**, qui dure la semaine. Tous les joueurs peuvent **choisir d'y participer**
+  (rien n'est imposé, la zone reste jouable normalement) pour gagner de la **réputation de zone**
+  (§ 6.2).
+- **Tirage et roulement** : le type est tiré au hasard, avec un **roulement** pour ne pas enchaîner
+  les mêmes événements : *(proposition)* les quatre types passent dans une zone avant qu'un d'eux
+  revienne, et jamais deux fois le même d'affilée. L'événement en cours est signalé par une icône sur
+  la minicarte et la carte du monde (`MapIcons`) et annoncé dans le chat ; un lien cliquable pose un
+  repère, comme les liens de quête.
 - **Participation** : un bouton « Participer » dans l'annonce (ou auprès du PNJ de l'événement)
   inscrit le joueur ; seuls les inscrits comptent pour l'événement. En groupe, chaque membre
   inscrit compte pour lui-même.
-- **Plafond de réputation par événement** (demande de l'auteur) : *(proposition)* **1 000** de
-  réputation de zone au plus par événement et par joueur, **+50 %** si l'objectif collectif est
-  atteint.
-- **Multijoueur d'abord** : les événements vivent dans une instance de carte (§ 13.2) et se règlent
-  sur le nombre d'inscrits. **En solo aussi** (décision de l'auteur, 09/11/2026), à l'échelle d'un
-  joueur (objectifs divisés), pour que la réputation de zone ne soit pas réservée au multi.
+- **Plafond** (validé) : **1 000** de réputation de zone au plus par événement et par joueur,
+  **+50 %** si l'objectif collectif est atteint.
+- **Pas de brumes** (décision de l'auteur) : les événements ne créent pas de brumes, en dehors de
+  celles que donnent normalement les combats.
+- **Monde extérieur seulement** (décision de l'auteur) : les événements ont lieu sur les cartes
+  normales de la zone, jamais dans les donjons (§ 12), les instances de métier (§ 10.3) ni les zones
+  de chasse instanciées (§ 6.3).
+- **Solo et multijoueur** (décision de l'auteur) : en ligne, l'objectif collectif se règle sur le
+  nombre d'inscrits ; en solo, il est à l'échelle d'un joueur.
 
 **Les quatre types :**
 
-1. **Invasion** : le nombre de **groupes de monstres** d'une ou plusieurs **familles de la zone**
-   augmente. Les joueurs doivent **vaincre le plus de groupes possible** pour arrêter l'invasion.
-   Chaque joueur gagne de la réputation selon son **taux de participation** (sa part des groupes
-   vaincus), dans la limite du plafond. *(Propositions)* : **+50 %** de groupes des familles
-   choisies, réapparition **2 fois plus rapide** pendant l'invasion ; une **jauge d'invasion**
-   (nombre de groupes à vaincre, selon le nombre d'inscrits) ; durée **30 minutes** ; jauge vidée :
-   l'invasion s'arrête et le bonus de réussite s'applique ; sinon les groupes en trop disparaissent
-   à la fin. Les monstres d'invasion donnent leur butin normal (§ 8.2). Parodie : les gobelins
-   envahisseurs sont en « mouvement social », pancartes à la main.
-2. **Raid** : les **PNJ de la zone** demandent de l'aide pour aller combattre dans les **zones de
-   chasse** et rapporter des **ressources de diverses familles de monstres**. Un PNJ (tableau de
-   commandes) affiche une liste de ressources à livrer ; chaque livraison rapporte de la réputation
-   de zone (plafond par événement) et fait avancer un **objectif collectif**. *(Propositions)* :
-   **5 ressources** de familles différentes de la zone, quantités selon le nombre d'inscrits ;
-   durée **1 heure** ; les ressources livrées sont consommées (puits de ressources) ; une petite
-   somme de brumes en plus de la réputation.
-3. **Fête** : un **village ou une ville** de la zone organise une fête ; les joueurs viennent y
-   chercher des **bonus quotidiens** qui **prennent effet dans la zone**. *(Propositions)* : durée
-   **24 heures** ; chaque joueur prend **un bonus par jour** auprès d'un PNJ festif, au choix parmi
-   trois (par exemple +10 % de prospection, +10 % de quantité récoltée, +20 % de régénération
-   hors combat), valable dans la zone jusqu'à la fin de la fête ; prendre son bonus rapporte un peu
-   de réputation de zone (**100**). Lien avec le **Trésor des villes** (§ 13.6) : une fête peut
-   être un des bonus qu'il débloque. Parodie : banquet du syndicat gobelin, bal elfe où l'on juge
-   les tenues, foire humaine qui célèbre « le héros du village » (n'importe quel joueur qui passe).
-4. **Récolte et artisanat** : les **récoltes sont boostées** dans la zone et les **artisans ont
-   aussi des bonus**. *(Propositions)* : durée **2 heures** ; **+25 %** de quantité récoltée et
-   temps de récolte **−20 %** sur les cartes de la zone ; **+25 %** de réputation de métier pour la
-   récolte et la fabrication dans la zone (ateliers et enclumes de la zone) ; chaque récolte ou
-   fabrication rapporte de la réputation de zone (plafond par événement). Les bonus valent sur la
-   carte (récolte sauvage, § 10.2), pas dans les instances de métier (§ 10.3), qui ont les leurs.
-
-**Où ont-ils lieu** : sur les cartes normales de la zone, jamais dans les donjons (§ 12), les
-instances de métier (§ 10.3) ni les zones de chasse de guilde (§ 13.7). Pendant les actes I et II,
-chaque monde (§ 13.2) a ses propres événements : les zones de départ restent des havres de paix.
+1. **Invasion** (validée) : le nombre de **groupes de monstres** d'une ou plusieurs **familles de
+   la zone** augmente : **+50 %** de groupes des familles choisies, qui réapparaissent **2 fois plus
+   vite**. Les joueurs doivent **vaincre le plus de groupes possible** pour arrêter l'invasion : une
+   **jauge d'invasion** (nombre de groupes à vaincre) ; jauge vidée, l'invasion s'arrête avant la
+   fin de la semaine et le bonus de réussite s'applique ; sinon, les groupes en trop disparaissent à
+   la fin, sans pénalité. Chaque joueur gagne de la réputation selon son **taux de participation**
+   (sa part des groupes vaincus). Butin normal (§ 8.2). Parodie : les gobelins envahisseurs sont en
+   « mouvement social », pancartes à la main.
+2. **Raid** : les **PNJ de la zone** demandent de l'aide pour aller combattre et rapporter des
+   **ressources de diverses familles de monstres**. Un PNJ (tableau de commandes) affiche **5
+   ressources** de familles différentes de la zone à livrer ; chaque livraison rapporte de la
+   réputation de zone et fait avancer l'**objectif collectif**. Les ressources livrées sont
+   consommées (puits de ressources) ; rien d'autre que la réputation.
+3. **Fête** (validée) : un **village ou une ville** de la zone organise une fête ; chaque joueur
+   vient y prendre **un bonus par jour** auprès d'un PNJ festif, au choix parmi trois (par exemple
+   +10 % de prospection, +10 % de quantité récoltée, +20 % de régénération hors combat), valable dans
+   la zone pour la journée ; prendre son bonus rapporte **100** de réputation de zone. Lien avec le
+   **Trésor des villes** (§ 13.6) : une fête peut être un des bonus qu'il débloque. Parodie : banquet
+   du syndicat gobelin, bal elfe où l'on juge les tenues, foire humaine qui célèbre « le héros du
+   village » (n'importe quel joueur qui passe).
+4. **Récolte et artisanat** : les **récoltes sont boostées** sur les cartes de la zone et les
+   **artisans ont aussi des bonus**, plus faibles puisque l'événement dure la semaine
+   *(proposition)* : **+10 %** de quantité récoltée, temps de récolte **−10 %**, **+10 %** de
+   réputation de métier pour la récolte et la fabrication dans la zone (ateliers et enclumes de la
+   zone) ; chaque récolte ou fabrication rapporte de la réputation de zone. Pas dans les instances de
+   métier (§ 10.3), qui ont leurs propres bonus.
 
 ### 6.2 Réputation de zone (demande de l'auteur, 09/11/2026)
 
 - **Une réputation par zone** (Brumerive, Crasse-Roc, Sylvebrume, environs de Hautepierre…), propre
   au personnage, cumulée, qui ne baisse jamais (comme la réputation d'une activité, § 4.5), mais
   **sans points de maîtrise** : elle n'est pas une activité.
-- **Gains** : les événements de zone (§ 6.1). *(Proposition)* Plus tard, les quêtes secondaires de
-  la zone peuvent en donner un peu.
-- **Récompenses** : des **récompenses de palier** (une fois, en atteignant le palier) et des
-  **bonus permanents** de **farm**, de **récolte** et d'**artisanat**, valables **dans la zone
-  seulement** (même règle que les bonus du Trésor, § 13.6 : pas de zone qui vaut pour tout le jeu).
-  Ils s'ajoutent aux compétences de métier et aux bonus d'événement.
+- **Gains** : **les événements de zone seulement** (§ 6.1 ; décision de l'auteur : les quêtes sont
+  appelées à disparaître si possible).
+- **Récompenses** (validées) : des **récompenses de palier** (une fois, en atteignant le palier) et
+  des **bonus permanents** de **farm**, de **récolte** et d'**artisanat**, valables **dans la zone
+  seulement** (même règle que les bonus du Trésor, § 13.6). Ils s'ajoutent aux compétences de métier
+  et aux bonus d'événement. **Pas de plan de forge** en récompense (décision de l'auteur).
 
-| Palier | Réputation *(proposition)* | Récompense de palier *(proposition)* | Bonus permanent dans la zone *(proposition)* |
+| Palier | Réputation | Récompense de palier | Bonus permanent dans la zone |
 |---|---|---|---|
 | Inconnu | 0 | — | — |
 | Connu | 2 000 | titre de zone, Pierres de Passage de la zone −25 % | +3 % de prospection |
-| Apprécié | 8 000 | un plan de forge de la zone (§ 10.4) | +5 % de prospection, +5 % de quantité récoltée |
+| Apprécié | 8 000 | *(proposition)* décor de maison aux couleurs de la zone | +5 % de prospection, +5 % de quantité récoltée |
 | Honoré | 20 000 | apparence (cape ou monture aux couleurs de la zone) | +5 % de réputation de métier en récolte et fabrication dans la zone |
-| Héros local | 50 000 | titre « Héros de … », statue dans la ville | +10 % de prospection et de quantité récoltée |
+| Héros local | 50 000 | titre « Héros de … », *(proposition)* nom gravé sur la statue de la ville | +10 % de prospection et de quantité récoltée |
 
-Noms provisoires, à décliner par camp (« Camarade d'honneur » chez les gobelins). Parodie : les
-humains donnent le titre de « Héros local » à tout le monde, les elfes ne le donnent qu'après trois
-siècles de délibération.
+La **statue** *(proposition)* : un monument dans la ville principale de la zone, où sont gravés les
+noms des joueurs devenus « Héros local » (prestige seulement). Noms des paliers à décliner par camp
+(« Camarade d'honneur » chez les gobelins). Parodie : les humains donnent le titre de « Héros
+local » à tout le monde, les elfes ne le donnent qu'après trois siècles de délibération.
 
-**Questions pour l'auteur** : rythme et durées des événements ; plafond par événement ; paliers et bonus du tableau ; si la réputation de zone ne vient que des événements ou aussi
-des quêtes.
+### 6.3 Zones de chasse instanciées (demande de l'auteur, 09/11/2026)
+
+- **Principe** : **toutes les zones** peuvent être chassées dans une **instance**. Une zone de
+  chasse, c'est **plusieurs cartes remplies de groupes de monstres** de la zone et **une carte avec
+  un boss de zone**. Les groupes vaincus **ne réapparaissent pas** : une fois tout vaincu, la zone
+  est finie et l'instance peut être fermée. Le prix vaut pour **une session** (une ouverture).
+- **Ouverture** : auprès d'un **PNJ chasseur** dans chaque ville ou village, ou au **hall de
+  guilde**.
+- **Instance de guilde** : **2 000 brumes de guilde** (§ 13.7), toutes zones confondues ; **tous les
+  membres** de la guilde peuvent la rejoindre, **personne d'autre**. Aucun lien avec la réputation
+  de zone de la guilde.
+- **Instance de joueurs** : **500 brumes par joueur** qui y entre, toutes zones confondues.
+  *(Proposition)* : pour un joueur seul ou son groupe, comme les donjons (§ 12.1).
+- **Récompenses** : **seulement la maîtrise de classe et le butin des monstres** (décision de
+  l'auteur) : pas de réputation de zone, pas d'événement de zone. *(Proposition)* Les brumes des
+  combats restent celles d'un combat normal.
+- **Tous les joueurs ensemble** : les actes I et II (séparation des mondes, § 13.2) sont appelés à
+  disparaître (décision de l'auteur), donc pas de restriction d'accès par l'avancement.
 
 ---
 
@@ -2785,10 +2797,10 @@ récompenses à chaque fin). Donjons classiques :
 - **Groupe :** les membres d'un groupe sont toujours placés dans la même instance.
 - **Fusion :** les instances sous-peuplées sont fusionnées progressivement.
 - **Donjons :** instance privée par joueur ou par groupe, instance de guilde pour les guildes de raid (§ 12).
-- **Zones de chasse de guilde :** instance d'une zone extérieure payée en brumes de guilde, ouverte
-  à tous les membres (§ 13.7).
+- **Zones de chasse :** instance d'une zone (cartes de groupes et boss de zone), ouverte par un
+  joueur (500 brumes par joueur) ou une guilde (2 000 brumes de guilde, tous les membres) (§ 6.3).
 
-**Séparation par avancement dans la quête principale.** Les instances sont réparties en deux
+**Séparation par avancement dans la quête principale.** *Appelée à disparaître : l'auteur veut retirer les actes à terme (09/11/2026), tous les joueurs joueront ensemble.* Les instances sont réparties en deux
 « mondes » selon l'avancement de chaque joueur :
 
 - **Pendant les actes I et II** (quêtes de camp, voir § 3.4) : le joueur ne peut rejoindre que des
@@ -2969,25 +2981,8 @@ hors de la surveillance des brumes créées, § 13.6) ; elles peuvent payer **lo
 mais seulement ceux **liés aux activités de la guilde**.
 
 **Zones de chasse de guilde** (demande de l'auteur, 09/11/2026, pas encore codé) : les **brumes de
-guilde** peuvent ouvrir une **instance de zone de chasse** propre à la guilde, que **tous les
-membres peuvent rejoindre**. Même modèle que l'instance de guilde des donjons (§ 12.4) et les
-instances de guilde des exploitants (§ 10.3), mais pour une zone extérieure ordinaire.
-*(Propositions, à valider)* :
-
-- **Contenu** : une copie des cartes d'une zone (par exemple les environs de Hautepierre), avec
-  ses groupes de monstres, leur réapparition normale (§ 6) et ses ressources ; pas de PNJ ni de
-  Pierre de Passage, une entrée et une sortie à la Pierre de Passage de la zone.
-- **Accès** : les membres seulement, ensemble ou chacun à son heure ; pas d'invités (comme les
-  instances de métier, § 10.3) ; les officiers choisissent la zone.
-- **Coût et durée** : un prix en brumes de guilde **par semaine** d'ouverture, croissant avec la
-  difficulté de la zone (par exemple 500 pour une zone de départ, 2 000 pour Hautepierre) ;
-  impayé, l'instance se ferme à la fin de la semaine.
-- **Butin et ressources** : chacun garde ce qu'il gagne ; pas d'événements de zone (§ 6.1) dans
-  l'instance ; réputation et pratique normales (§ 4.5), mais **pas de réputation de zone** (§ 6.2).
-
-Questions pour l'auteur : quelles zones (toutes, ou celles où la guilde a de la réputation de
-zone) ; prix et durée ; invités hors guilde ; un membre de l'acte III peut-il chasser dans l'instance
-d'une zone de départ (le havre de paix du § 13.2 n'est pas menacé, l'instance étant privée).
+guilde** ouvrent une **instance de zone de chasse** propre à la guilde (2 000 brumes de guilde la
+session), que tous les membres peuvent rejoindre ; règles au § 6.3.
 
 Autres pistes, non retenues pour l'instant : caravaniers (transport entre villes, escortes),
 écuries (location de montures), chasseurs de primes (tableau de contrats), cartographes (chasses aux

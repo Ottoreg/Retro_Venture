@@ -847,12 +847,13 @@ Plan validé par l'auteur le 26/10/2026 : GDD § 16.5, jalons M0 (préparer le n
 - [ ] Investissement de guilde : brumes investies par les membres, 10 % par semaine en brumes de
   guilde pour les achats de la guilde, sans intérêts composés, mise bloquée mais retirable à tout moment et rendue au départ, monnaie à part
   (loyers et cotisations des activités de guilde) ; plafond à décider (GDD § 13.7)
-- [ ] Zones de chasse de guilde : instance d'une zone extérieure payée en brumes de guilde, ouverte à
-  tous les membres (conçu le 09/11/2026, chiffres à valider, GDD § 13.7)
-- [ ] Événements de zone : invasion, raid, fête, récolte et artisanat, inscription libre, plafond de
-  réputation par événement (conçu le 09/11/2026, chiffres à valider, GDD § 6.1)
+- [ ] Zones de chasse instanciées : cartes de groupes sans réapparition et boss de zone, ouvertes au
+  PNJ chasseur ou au hall de guilde, 500 brumes par joueur ou 2 000 brumes de guilde (tous les
+  membres), maîtrise de classe et butin seulement (conçu le 09/11/2026, GDD § 6.3)
+- [ ] Événements de zone hebdomadaires (solo et en ligne) : invasion, raid, fête, récolte et artisanat,
+  tirage avec roulement, inscription libre, plafond de réputation, pas de brumes (conçu le 09/11/2026, GDD § 6.1)
 - [ ] Réputation de zone : paliers, récompenses de palier, bonus permanents de farm, récolte et
-  artisanat valables dans la zone (conçu le 09/11/2026, chiffres à valider, GDD § 6.2)
+  artisanat valables dans la zone, gagnée par les événements seulement (conçu le 09/11/2026, GDD § 6.2)
 - [ ] Comptoirs de guilde : galeries marchandes instanciées, loyer et taxe réduite, registre commun
   des commerces, avis d'achats vérifiés sans texte libre (GDD § 13.7)
 - [ ] Économie des artisans : taxe de vente comptée dans le Trésor de chaque ville (chantiers, bonus
