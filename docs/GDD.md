@@ -2167,41 +2167,53 @@ compris) et les recettes du forgeron sont supprimés, tout le reste se forge.
 définir) : les mots du nom d'un objet forgé deviennent des **mots clés** qui donnent des bonus de
 panoplie, de **2 à 7 pièces** comme les panoplies prédéfinies (§ 9.3), l'**arme comprise**.
 
-- **Trois niveaux de mots tirés des monstres** :
-  - **sous-type** = la famille du monstre (monstre et son élite) : « du Loup des collines » ;
-  - **type** = l'**espèce**, nouveau champ des monstres qui regroupe des familles : tous les loups du
-    jeu ont le type « loup » et chacun garde son sous-type : « de Loup » ;
-  - **super-type** = la **zone** où vit la famille : « de Brumerive ».
+- **Deux sortes de mots tirés des monstres** (simplifié par l'auteur le 09/11/2026 : plus de
+  sous-type ni d'espèce) :
+  - **famille** (le monstre et son élite) : un mot et un bonus par famille, « de Loup » pour le loup des
+    collines. Deux monstres qui doivent avoir des bonus différents sont deux familles, même s'ils se
+    ressemblent : le loup cendreux devient la famille « Loup des cendres » (Flamme et Résistance Flamme
+    par exemple), à côté de « Loup » (Perception et Initiative par exemple) ;
+  - **zone** où vit la famille : « de Brumerive ».
   - Les **donjons** comptent comme une zone et leurs **boss** comme une famille ; les monstres
     exclusifs d'une **zone de chasse** de guilde (§ 13.7) ont aussi leurs mots et leur bonus.
 - **Une ressource n'appartient qu'à une famille** : les ressources lâchées par plusieurs familles sont
-  identifiées et séparées (« croc de loup » → « croc de loup des collines » et « croc de loup cendreux »),
-  pour qu'aucune n'ait deux sous-types ou deux zones.
+  identifiées et séparées (« croc de loup » → « croc de loup » et « croc de loup des cendres »), pour
+  qu'aucune n'ait deux familles ou deux zones.
 - **Ressources obligatoires** (tissu, cuir, minerai, bois) : elles ne comptent **que pour la statistique
-  qu'elles donnent**, jamais pour un mot de monstre ou de zone (elles seront récoltables partout, et
+  qu'elles donnent**, jamais pour un mot de famille ou de zone (elles seront récoltables partout, et
   aussi dans les instances de récolte, § 10.3).
-- **Mot proposé à la majorité** : un mot de sous-type, de type ou de zone n'est proposé que si **au moins
-  la moitié des ressources** de la recette (en cases) en relèvent ; par exemple, pour un objet à 4 cases,
-  au moins 2 ressources de Brumerive ou de loup. La majorité se compte en **cases** de la recette, pas en
+- **Mot proposé à la majorité** : un mot de famille ou de zone n'est proposé que si **au moins la moitié
+  des ressources** de la recette en relèvent ; par exemple, pour un objet à 4 cases, au moins 2
+  ressources de Brumerive ou de loup. La majorité se compte en **cases** de la recette, pas en
   quantités (validé le 09/11/2026). Les obligatoires ne comptent pas parmi ces ressources.
 - **Jusqu'à 3 mots clés par objet**, donc jusqu'à 3 bonus de panoplie : le type d'objet (« Coiffe »)
-  n'est pas un mot clé ; les adjectifs de statistique et les mots de monstre ou de zone le sont. Le nom
+  n'est pas un mot clé ; les adjectifs de statistique et les mots de famille ou de zone le sont. Le nom
   passe donc de deux adjectifs au plus (forge actuelle) à trois mots au plus (validé le 09/11/2026).
-- **Seul le mot choisi compte**, au même niveau sur toutes les pièces : « Manteau flamboyant de
-  Brumerive » et « Coiffe flamboyante du Loup des collines » ne réunissent que *flamboyant* ;
-  « Coiffe fulgurante de Loup » et « Cape flamboyante de Loup » réunissent 2 pièces *Loup*. Un sous-type
-  ne compte pas pour son type ni pour sa zone : l'artisan choisit le niveau en nommant l'objet.
-- **Adjectifs de statistique** : tous les mots d'une même statistique comptent ensemble (*flamboyant*,
-  *torride*, *enflammé*… pour la Flamme) ; leurs bonus (Flamme, etc.) **seront discutés plus tard**.
+- **Seul le mot choisi compte** : « Manteau flamboyant de Brumerive » et « Coiffe flamboyante de Loup »
+  ne réunissent que *flamboyant* ; « Coiffe fulgurante de Loup » et « Cape flamboyante de Loup »
+  réunissent 2 pièces *Loup*. Une famille ne compte pas pour sa zone : l'artisan choisit en nommant l'objet.
+- **Adjectifs de statistique, regroupés** (09/11/2026) : chaque élément a **deux panoplies**,
+  **offensive** (sa caractéristique et ses Dommages : *flamboyant*, *torride*, *brûlant*, *ardent*…
+  pour la Flamme) et **défensive** (ses Soins et sa Résistance : *réchauffant*, *ignifugé*,
+  *incombustible*… pour la Flamme). Les statistiques neutres (Vitalité, PA, Critique…) gardent chacune
+  leur panoplie. Les bonus des adjectifs **seront discutés plus tard**.
 - **Calcul des bonus** :
-  - **sous-type** : d'après les statistiques que donnent les ressources de la famille ;
-  - **type** : bonus plus généraux, calculés sur toutes les ressources de l'espèce ;
+  - **famille** : d'après les statistiques que donnent les ressources de la famille ;
   - **zone** : une **tendance** choisie pour chaque zone, au cas par cas ;
   - la force du bonus dépend du **palier du monstre**, de sa famille et de la zone (un set de zone de
     palier 1 vaut moins qu'un set de palier 5).
+- **Nombre de panoplies à concevoir** (compte du 09/11/2026, avec les statistiques prévues mais pas
+  encore codées) : environ **70**, de 6 paliers chacune (2 à 7 pièces). Ce sont **31 de statistiques** :
+  12 élémentaires (6 éléments × offensive et défensive) et 19 neutres (Vitalité, Initiative, Prospection,
+  Dommages, Critique, PA, PM, Portée, Soins, Dégâts dévastateurs, Épine brute, Réduction de dégâts,
+  Dégâts spectraux, Résistance aux critiques, Tacle, Fuite, Retrait PA, Retrait PM, Dommages de mêlée ;
+  fixe et % d'une même statistique comptent ensemble). S'y ajoutent **34 de familles** (21 familles,
+  3 variantes corrompues qui deviennent des familles, 6 boss, 4 monstres de la tour céleste) et
+  **5 de zones** (Brumerive, Crasse-Roc, Sylvebrume, Hautepierre, tour céleste). *(À trancher : les
+  épines élémentaires, rangées ici dans la panoplie défensive de leur élément.)*
 - **Reste à définir** : barème des bonus (par nombre de pièces et par palier), tendance de chaque zone,
-  liste des espèces, ressources partagées à séparer, bonus des adjectifs de statistique, mots proposés
-  pour chaque famille, espèce et zone (accordés en genre et en nombre comme les adjectifs).
+  ressources partagées à séparer, bonus des adjectifs de statistique, mots proposés pour chaque famille
+  et zone (accordés en genre et en nombre comme les adjectifs).
 
 **Infusion d'essences** (nom provisoire, à la place de « forgemagie » ; idée de l'auteur du
 05/11/2026, règles validées le même jour, **rien n'est codé**) : **seule source d'essences pour le
