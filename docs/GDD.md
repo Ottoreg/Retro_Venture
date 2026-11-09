@@ -2152,6 +2152,46 @@ compris) et les recettes du forgeron sont supprimés, tout le reste se forge.
   armurier (armes et armures), tailleur (tissus : capes, coiffes), cordonnier (cuirs : bottes,
   ceintures)…
 
+**Panoplies d'objets forgés** (conception de l'auteur du 09/11/2026, rien de codé, chiffres à
+définir) : les mots du nom d'un objet forgé deviennent des **mots clés** qui donnent des bonus de
+panoplie, de **2 à 7 pièces** comme les panoplies prédéfinies (§ 9.3), l'**arme comprise**.
+
+- **Trois niveaux de mots tirés des monstres** :
+  - **sous-type** = la famille du monstre (monstre et son élite) : « du Loup des collines » ;
+  - **type** = l'**espèce**, nouveau champ des monstres qui regroupe des familles : tous les loups du
+    jeu ont le type « loup » et chacun garde son sous-type : « de Loup » ;
+  - **super-type** = la **zone** où vit la famille : « de Brumerive ».
+  - Les **donjons** comptent comme une zone et leurs **boss** comme une famille ; les monstres
+    exclusifs d'une **zone de chasse** de guilde (§ 13.7) ont aussi leurs mots et leur bonus.
+- **Une ressource n'appartient qu'à une famille** : les ressources lâchées par plusieurs familles sont
+  identifiées et séparées (« croc de loup » → « croc de loup des collines » et « croc de loup cendreux »),
+  pour qu'aucune n'ait deux sous-types ou deux zones.
+- **Ressources obligatoires** (tissu, cuir, minerai, bois) : elles ne comptent **que pour la statistique
+  qu'elles donnent**, jamais pour un mot de monstre ou de zone (elles seront récoltables partout, et
+  aussi dans les instances de récolte, § 10.3).
+- **Mot proposé à la majorité** : un mot de sous-type, de type ou de zone n'est proposé que si **au moins
+  la moitié des ressources** de la recette (en cases) en relèvent ; par exemple, pour un objet à 4 cases,
+  au moins 2 ressources de Brumerive ou de loup. Les obligatoires ne comptent pas parmi ces ressources.
+  *(À préciser : moitié des cases ou des quantités ; lecture provisoire : des cases.)*
+- **Jusqu'à 3 mots clés par objet**, donc jusqu'à 3 bonus de panoplie : le type d'objet (« Coiffe »)
+  n'est pas un mot clé ; les adjectifs de statistique et les mots de monstre ou de zone le sont. Le nom
+  passe donc de deux adjectifs au plus (forge actuelle) à trois mots au plus.
+- **Seul le mot choisi compte**, au même niveau sur toutes les pièces : « Manteau flamboyant de
+  Brumerive » et « Coiffe flamboyante du Loup des collines » ne réunissent que *flamboyant* ;
+  « Coiffe fulgurante de Loup » et « Cape flamboyante de Loup » réunissent 2 pièces *Loup*. Un sous-type
+  ne compte pas pour son type ni pour sa zone : l'artisan choisit le niveau en nommant l'objet.
+- **Adjectifs de statistique** : tous les mots d'une même statistique comptent ensemble (*flamboyant*,
+  *torride*, *enflammé*… pour la Flamme) ; leurs bonus (Flamme, etc.) **seront discutés plus tard**.
+- **Calcul des bonus** :
+  - **sous-type** : d'après les statistiques que donnent les ressources de la famille ;
+  - **type** : bonus plus généraux, calculés sur toutes les ressources de l'espèce ;
+  - **zone** : une **tendance** choisie pour chaque zone, au cas par cas ;
+  - la force du bonus dépend du **palier du monstre**, de sa famille et de la zone (un set de zone de
+    palier 1 vaut moins qu'un set de palier 5).
+- **Reste à définir** : barème des bonus (par nombre de pièces et par palier), tendance de chaque zone,
+  liste des espèces, ressources partagées à séparer, bonus des adjectifs de statistique, mots proposés
+  pour chaque famille, espèce et zone (accordés en genre et en nombre comme les adjectifs).
+
 **Infusion d'essences** (nom provisoire, à la place de « forgemagie » ; idée de l'auteur du
 05/11/2026, règles validées le même jour, **rien n'est codé**) : **seule source d'essences pour le
 moment** ; elle remplace la destruction d'objets et les cicatrices du § 9.2.
