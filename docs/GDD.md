@@ -2091,9 +2091,10 @@ moment** ; elle remplace la destruction d'objets et les cicatrices du § 9.2.
   - *Paires élémentaires* (déduites des exemples de l'auteur) : **Flamme ↔ Givre**, **Acier ↔
     Tempête**, **Sacré ↔ Impie**, valables pour les caractéristiques (Intelligence ↔ Perception, Force ↔
     Agilité) et les lignes Dommages, Soins et Résistance de chaque élément.
-  - *Statistiques abstraites* : **miroir à confirmer par l'auteur** pour chacune (Vitalité,
-    Initiative, Prospection, Dommages et Soins neutres, Critique, Dégâts dévastateurs, PA, PM,
-    Portée) ; rien n'est tranché.
+  - *Statistiques abstraites* (décisions de l'auteur du 09/11/2026) : **pas de miroir pour PA, PM et
+    Portée** ; **Dégâts dévastateurs ↔ Dégâts spectraux** (§ 4.4) ; Critique et Vitalité : **à définir
+    plus tard**. Propositions encore en attente : Dommages neutres ↔ Soins neutres, Initiative ↔
+    Prospection.
 - *Noms proposés* (à choisir par l'auteur) : **Sublimation** (l'objet est « sublimé »),
   **Brumagie** (la magie des brumes, lieu de frappe de la monnaie), **Quintessence** (l'objet reçoit
   la quintessence d'une ressource), **Distillation** (l'alambic de l'artisan ; parodie possible :
