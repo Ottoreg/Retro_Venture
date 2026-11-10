@@ -704,7 +704,8 @@ classes (option écartée et compromis gardés en piste, GDD § 5.2).
 - [ ] Infusion d'essences (nom provisoire, GDD § 10.4, remplace pour le moment la destruction et les
   cicatrices) : l'artisan de chaque catégorie infuse 20 communes / 10 rares / 2 légendaires → essence à
   la valeur de forge, ajoutée en exo si la ligne manque (cumulable, chance selon le poids de la stat,
-  200 points de score d'exo par objet, 100 par ligne) ; essence parfaite (× 5 ressources) sans échec
+  200 points de score d'exo par objet, 100 par ligne) ; essence parfaite (× 5 ressources) sans échec ;
+  renforcement d'une ligne existante jusqu'à 100 points de score, hors limite d'exo
 - [ ] Infusion miroir (GDD § 10.4, 09/11/2026) : à un palier de maîtrise élevé, essence de la statistique
   opposée, palier Maître (Flamme ↔ Givre, Acier ↔ Tempête, Sacré ↔ Impie, Dévastateurs ↔ Spectraux,
   Dommages ↔ Soins au choix du joueur, Vitalité ↔ Épines, Critique ↔ Résistance aux critiques ; rien

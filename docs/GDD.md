@@ -2233,6 +2233,9 @@ moment** ; elle remplace la destruction d'objets et les cicatrices du § 9.2.
   **s'additionnent** sur la même ligne exo. **Chance de réussite selon le poids de la statistique**
   (une statistique chère en points de score, comme PA, PM ou Portée, réussit moins souvent ; barème à
   chiffrer). Échec : l'essence est perdue, jamais l'objet (§ 10.2).
+- **Renforcement** (validé par l'auteur le 10/11/2026) : appliquée à une ligne **déjà présente** sur
+  le jet, l'essence **s'y ajoute** jusqu'à **100 points de score** par ligne, avec la même chance de
+  réussite selon le poids ; ce renforcement **ne compte pas** dans les 200 points de score d'exo.
 - **Plafonds** : **200 points de score d'exo au total** par objet, toutes lignes exo comprises ; une
   ligne exo reste plafonnée à **100 points de score**, comme une ligne forgée.
 - **Infusion miroir** (idée de l'auteur du 09/11/2026) : à un **palier de maîtrise élevé** (palier
