@@ -10,7 +10,8 @@ const SLOTS := ["arme", "coiffe", "cape", "amulette", "anneau_1", "anneau_2", "c
 const RELIC_SLOT_COUNT := 8
 
 ## uid → { uid, objet (id du modèle), quantite, jets: { caractéristique: valeur } } ; un objet forgé a en
-## plus `forge` : { nom, artisan, palier, bonus } (voir `Item.entry_template`).
+## plus `forge` : { nom, artisan, palier, bonus } (voir `Item.entry_template`) ; une essence, `forge.essence` ;
+## un équipement infusé, `exo` : { caractéristique: valeur } (part des jets ajoutée en exo, `Infusion`).
 var entries: Dictionary = {}
 ## emplacement → uid
 var equipped: Dictionary = {}
@@ -139,6 +140,8 @@ static func from_dict(data: Dictionary, known_items: Dictionary) -> Inventory:
 			inventory.entries[entry["uid"]] = {"uid": entry["uid"], "objet": entry["objet"], "quantite": maxi(1, int(entry.get("quantite", 1))), "jets": jets}
 			if typeof(entry.get("forge")) == TYPE_DICTIONARY:
 				inventory.entries[entry["uid"]]["forge"] = entry["forge"].duplicate(true)
+			if typeof(entry.get("exo")) == TYPE_DICTIONARY:
+				inventory.entries[entry["uid"]]["exo"] = entry["exo"].duplicate(true)
 	var saved_equipment: Variant = data.get("equipement", {})
 	if typeof(saved_equipment) == TYPE_DICTIONARY:
 		for slot: Variant in saved_equipment:

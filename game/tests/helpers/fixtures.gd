@@ -183,6 +183,7 @@ static func forge_items() -> Array:
 			"attaque": {"cout_pa": 4, "portee": {"min": 1, "max": 1}, "critique": 0, "effets": [{"type": "degats", "element": "acier", "min": 10, "max": 10}]}},
 		{"id": "feuille_de_papier", "nom": "Feuille de papier", "type": "ressource", "rarete": "commun"},
 		{"id": "patron", "nom": "Patron", "type": "ressource", "rarete": "peu_commun", "boutique": false},
+		{"id": "essence", "nom": "Essence", "type": "ressource", "rarete": "rare", "boutique": false},
 		{"id": "minerai", "nom": "Minerai", "type": "ressource", "rarete": "commun", "matiere": "minerai"},
 		{"id": "bois", "nom": "Bois", "type": "ressource", "rarete": "commun", "matiere": "bois"},
 		{"id": "croc", "nom": "Croc", "type": "ressource", "rarete": "commun", "niveau": 8, "caracteristique": "force"},

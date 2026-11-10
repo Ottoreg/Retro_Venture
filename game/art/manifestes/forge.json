@@ -97,6 +97,13 @@
         22,
         22
       ]
+    },
+    "objet_essence": {
+      "fichier": "objets/essence.svgt",
+      "ancre": [
+        22,
+        22
+      ]
     }
   },
   "icones_armes": {

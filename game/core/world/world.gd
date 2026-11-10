@@ -606,6 +606,8 @@ func _execute_exploration(p: PlayerState, command: Dictionary) -> Array[Dictiona
 			return _harvest(p, command)
 		if type == Protocol.CMD_FORGE:
 			return _forge(p, command)
+		if type == Protocol.CMD_INFUSE:
+			return _infuse(p, command)
 		if type == Protocol.CMD_USE:
 			return _use(p, command)
 		if type == Protocol.CMD_DEPOSIT:
@@ -2553,6 +2555,50 @@ func _forge(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
 			"palier": preview["palier"], "bonus": {}, "patron": {"nom": item_name, "type": type, "palier": preview["palier"],
 			"ressources": resources.duplicate(), "jets": inventory.entries[uid]["jets"].duplicate(), "bonus": preview["bonus"].duplicate(true)}})
 	events.append(_job_event(p, Forge.JOB, Forge.REPUTATION_PER_TIER * int(preview["palier"]), int(preview["palier"])))
+	events.append_array(_inventory_events(p))
+	return events
+
+
+## Infusion (GDD § 10.4, `Infusion`) : `ressource` → une essence, ou `essence` appliquée à `objet` (uids).
+func _infuse(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
+	var reason := _furniture_refusal(p, command, "enclume")
+	if not reason.is_empty() or data == null:
+		return _refused(command, reason if data != null else Protocol.REASON_WRONG_PHASE)
+	var inventory := p.character.inventory
+	var events: Array[Dictionary] = []
+	if command.has("essence"):
+		var essence_entry: Dictionary = inventory.entries.get(command["essence"], {}) if typeof(command["essence"]) == TYPE_STRING else {}
+		var target: Dictionary = inventory.entries.get(command.get("objet"), {}) if typeof(command.get("objet")) == TYPE_STRING else {}
+		var essence_data: Dictionary = essence_entry.get("forge", {}).get("essence", {})
+		if essence_data.is_empty() or target.is_empty() or not Item.is_equipment(data.items[target["objet"]]):
+			return _refused(command, Protocol.REASON_INVALID_COMMAND)
+		reason = Infusion.apply_preview(target, essence_data)["erreur"]
+		if not reason.is_empty():
+			return _refused(command, reason)
+		inventory.remove(essence_entry["uid"])
+		var chance := Infusion.chance(essence_data)
+		var success := rng.randi_range(1, 100) <= chance
+		if success:
+			Infusion.apply(target, essence_data)
+		events.append({"type": Protocol.EVT_INFUSED, "objet": target["uid"], "nom": Item.entry_template(target, data.items)["nom"],
+			"essence": essence_data.duplicate(), "reussi": success, "chance": chance})
+	else:
+		var resource: Dictionary = data.items.get(command.get("ressource"), {}) if typeof(command.get("ressource")) == TYPE_STRING else {}
+		if resource.is_empty() or typeof(command.get("caracteristique")) != TYPE_STRING:
+			return _refused(command, Protocol.REASON_INVALID_COMMAND)
+		var mirror := Character.tier_index(p.character.job_reputation(Forge.JOB)) >= Infusion.MIRROR_TIER
+		var result := Infusion.essence(resource, command["caracteristique"], command.get("parfaite") == true, mirror)
+		if not result["erreur"].is_empty():
+			return _refused(command, result["erreur"])
+		if inventory.quantity_of(resource["id"]) < int(result["quantite"]):
+			return _refused(command, Protocol.REASON_MISSING_INGREDIENTS)
+		if inventory.is_full() and inventory.quantity_of(resource["id"]) > int(result["quantite"]):
+			return _refused(command, Protocol.REASON_INVENTORY_FULL)
+		inventory.remove(resource["id"], int(result["quantite"]))
+		var item_name := Infusion.essence_name(result["essence"])
+		inventory.add(data.items[Infusion.TEMPLATE], 1, {}, false, {"nom": item_name, "artisan": p.character.display_name,
+			"palier": int(resource.get("niveau", 1)), "bonus": {}, "essence": result["essence"]})
+		events.append({"type": Protocol.EVT_INFUSED, "essence": result["essence"], "nom": item_name})
 	events.append_array(_inventory_events(p))
 	return events
 

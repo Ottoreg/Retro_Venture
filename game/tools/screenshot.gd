@@ -96,6 +96,23 @@ func _process(_delta: float) -> bool:
 				"jets": {"initiative": 9, "perception": 2, "agilite": 1}, "bonus": {"initiative": [8, 11], "perception": [2, 2], "agilite": [1, 1]}})
 			for item_id: String in ["peau_de_loup", "croc_de_loup", "croc_de_loup", "dent_de_rat", "corne_du_balourd", "feuille_de_papier"]:
 				forge._change(item_id, 1)
+		elif _action == "infusion":
+			# Enclume en mode infusion, forgeron Maître : crocs de loup (miroir proposé), une essence et des bottes forgées choisies.
+			var world := view.server
+			var inventory := world.character.inventory
+			inventory.add(world.data.items["croc_de_loup"], 30)
+			var boots := inventory.add(world.data.items["forge_bottes"], 1, {"initiative": 9, "agilite": 2}, false,
+				{"nom": "Souliers pressés", "artisan": "Aventurier", "palier": 3, "bonus": {"initiative": [8, 11], "agilite": [1, 2]}})
+			var essence := inventory.add(world.data.items[Infusion.TEMPLATE], 1, {}, false, {"nom": "", "artisan": "", "palier": 3, "bonus": {},
+				"essence": {"caracteristique": "agilite", "valeur": 2, "parfaite": false}})
+			world.character.add_job_reputation("forgeron", 40000)
+			view.refresh_state()
+			var forge: ForgeWindow = _scene.get_node("ForgeWindow")
+			forge.open({"case": Vector2i.ZERO})
+			forge._source = "croc_de_loup"
+			forge._essence = essence
+			forge._target = boots
+			forge._set_mode(true)
 		elif _action == "objet":
 			# Bottes du Pressé portées ; d'autres bottes dans le sac, survolées : leur infobulle comparée.
 			var world := view.server

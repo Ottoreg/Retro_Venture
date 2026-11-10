@@ -1448,7 +1448,7 @@ func _apply(event: Dictionary) -> float:
 	if type == Protocol.EVT_ANVIL:
 		anvil_opened.emit(event)
 		return 0.0
-	if type == Protocol.EVT_CRAFTED:
+	if type in [Protocol.EVT_CRAFTED, Protocol.EVT_INFUSED]:
 		craft_result.emit(event)
 		return 0.0
 	if type == Protocol.EVT_HARVEST_STARTED:
@@ -1556,7 +1556,7 @@ func _apply(event: Dictionary) -> float:
 			_harvest_bar = {}
 		if event["commande"] == Protocol.CMD_BUY or event["commande"] == Protocol.CMD_SELL:
 			trade_result.emit(event)
-		if event["commande"] == Protocol.CMD_FORGE:
+		if event["commande"] in [Protocol.CMD_FORGE, Protocol.CMD_INFUSE]:
 			craft_result.emit(event)
 		if event["commande"] == Protocol.CMD_DEPOSIT or event["commande"] == Protocol.CMD_WITHDRAW:
 			chest_refused.emit(event)

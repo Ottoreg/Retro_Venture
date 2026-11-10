@@ -9,7 +9,7 @@ extends RefCounted
 
 ## Version du protocole, vérifiée à la connexion : à augmenter à chaque changement incompatible
 ## d'une commande ou d'un événement.
-const VERSION := 14
+const VERSION := 15
 
 # --- Commandes (client → noyau) ---
 
@@ -52,6 +52,9 @@ const CMD_HARVEST := "recolter"
 ## type_objet: String (`Forge.TYPES`), ressources: { id: quantité }, mots: Array[String] (nom choisi) } ;
 ## ou { type, entite, case, recette: String (id d'un plan du sac) }.
 const CMD_FORGE := "forger"
+## Infusion (GDD § 10.4) : { case (enclume), ressource, caracteristique, parfaite } → une essence ; { case, essence, objet }
+## (uids) → l'essence appliquée à l'équipement.
+const CMD_INFUSE := "infuser"
 ## Exploration, à côté d'un meuble (coffre, lit) : l'utiliser. { type, entite: String, case: Vector2i }
 const CMD_USE := "utiliser"
 ## Exploration, à côté du coffre : y déposer un objet non porté.
@@ -193,6 +196,8 @@ const EVT_RESPAWN_POINT := "point_de_resurrection"
 ## Le joueur utilise l'enclume de sa maison : la forge s'ouvre. { type, case: Vector2i }
 const EVT_ANVIL := "enclume"
 const EVT_CRAFTED := "fabrication"
+## Infusion : { essence (données), nom } à la création ; { objet (uid), nom, essence, reussi, chance } à l'application.
+const EVT_INFUSED := "infusion"
 ## Réputation de métier gagnée. { type, metier: String, nom: String, gain: int, reputation: int,
 ## points: int (de maîtrise à placer), paliers: Array[int] (paliers de réputation atteints) }
 const EVT_JOB := "metier"

@@ -1,0 +1,9 @@
+{
+  "id": "essence",
+  "nom": "Essence",
+  "type": "ressource",
+  "rarete": "rare",
+  "niveau": 1,
+  "boutique": false,
+  "description": "Essence infusée à l'enclume : appliquée à un équipement, elle y ajoute sa caractéristique (ou renforce la ligne)."
+}
