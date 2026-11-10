@@ -846,7 +846,8 @@ Plan validé par l'auteur le 26/10/2026 : GDD § 16.5, jalons M0 (préparer le n
   métier de guilde, terrains) (GDD § 13.7)
 - [ ] Investissement de guilde : brumes investies par les membres, 10 % par semaine en brumes de
   guilde pour les achats de la guilde, sans intérêts composés, mise bloquée mais retirable à tout moment et rendue au départ, monnaie à part
-  (loyers et cotisations des activités de guilde) ; plafond à décider (GDD § 13.7)
+  (loyers et cotisations des activités de guilde) ; sans plafond ; dépôts indivisibles à compteur de
+  7 jours chacun, retirés entiers (GDD § 13.7)
 - [ ] Zones de chasse instanciées : cartes de groupes sans réapparition et boss de zone, ouvertes au
   PNJ chasseur ou au hall de guilde, 500 brumes par joueur ou 2 000 brumes de guilde (tous les
   membres), maîtrise de classe et butin seulement (conçu le 09/11/2026, GDD § 6.3)

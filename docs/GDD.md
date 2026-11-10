@@ -2984,12 +2984,23 @@ zones de chasse, instances de récolte (instances d'exploitants, § 10.3), etc. 
 composés** : seules les brumes investies rapportent, jamais les brumes de guilde gagnées. Exemple :
 10 000 brumes investies rapportent 1 000 brumes de guilde chaque semaine.
 
-Réponses de l'auteur (08/11/2026) : un membre peut **retirer** son investissement **sans délai** ;
-les intérêts sont calculés **une fois par semaine**. S'il **quitte** la guilde ou en est
-**expulsé**, il **récupère sa mise**. Les brumes investies sont **bloquées et récupérables**.
-**Pas de plafond** pour l'instant (à décider plus tard). Les brumes de guilde sont une **monnaie
-propre aux guildes**, hors du système des brumes normales (distinctes de l'argent du coffre, donc
-hors de la surveillance des brumes créées, § 13.6) ; elles peuvent payer **loyers et cotisations**,
+Réponses de l'auteur (08/11/2026) : un membre peut **retirer** son investissement **sans délai**.
+S'il **quitte** la guilde ou en est **expulsé**, il **récupère sa mise**. Les brumes investies sont
+**bloquées et récupérables**.
+
+- **Pas de plafond** (10/11/2026) : on ne limite pas les joueurs ; les guildes fortunées ont des
+  achats **très chers** (maison, atelier ou instance de récolte de guilde à plusieurs centaines de
+  milliers, voire millions de brumes de guilde), donc des objectifs longs à atteindre ; les petites
+  guildes ont des dépenses moins onéreuses.
+- **Chaque dépôt est un investissement unique et indivisible**, avec son propre compteur de
+  **7 jours** : il rapporte ses 10 % une fois resté **une semaine entière** dans le coffre, puis le
+  compteur repart à 0. Le **retrait** est libre, mais d'un dépôt entier (pas de fraction) et sans
+  intérêts pour la semaine entamée. Exemple : 1 000 brumes déposées le lundi et 2 000 le mercredi
+  rapportent 100 le lundi suivant et 200 le mercredi suivant ; le joueur peut retirer 1 000, 2 000
+  ou 3 000, rien d'autre.
+
+Les brumes de guilde sont une **monnaie propre aux guildes**, hors du système des brumes normales
+(distinctes de l'argent du coffre, donc hors de la surveillance des brumes créées, § 13.6) ; elles peuvent payer **loyers et cotisations**,
 mais seulement ceux **liés aux activités de la guilde**.
 
 **Zones de chasse de guilde** (demande de l'auteur, 09/11/2026, pas encore codé) : les **brumes de
