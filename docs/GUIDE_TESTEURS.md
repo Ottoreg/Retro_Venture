@@ -346,6 +346,14 @@ le **lit** de votre maison les rend tous d'un coup.
   (résistance de l'équipement plafonnée à 60 %). Au début, les caractéristiques des ressources sont
   **cachées** : c'est en forgeant qu'on apprend à les lire. Les **plans** (récompenses de quêtes, ou
   vendus par les marchands) disent tout d'avance.
+- **Infusion** (bouton de l'enclume) : 20 ressources identiques (10 rares, 2 légendaires ; × 5 pour une
+  essence **parfaite**) donnent une **essence** d'une de leurs caractéristiques. Appliquée à un équipement,
+  elle **renforce** sa ligne si elle y est, sinon l'ajoute en **exo** (200 points de score d'exo par objet,
+  100 par ligne). Réussite affichée (moins sûre pour PA, PM, Portée) ; un échec perd l'essence, jamais
+  l'objet ; une essence parfaite réussit toujours. Forgeron **Maître** : essences **miroir** (Force ↔
+  Agilité, Flamme ↔ Givre, Dommages ↔ Soins…).
+- **Maîtres des Voies** (un par village de départ, un à Hautepierre) : ils expliquent la réputation, la
+  maîtrise, les caractéristiques et le changement de classe.
 - **Métiers** : bûcheron, mineur, agriculteur, herboriste et pêcheur (5 ressources chacun, de plus
   en plus rares ; champs et prés au nord-ouest et au sud-ouest de Hautepierre, coins de pêche sur
   chaque point d'eau), forgeron (la forge

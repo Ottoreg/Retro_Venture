@@ -52,7 +52,7 @@ QUETES = [
               "objectif": ["Le tampon ? Les détrousseurs l'ont volé avec la caisse de la Garde. Ils volent tout, sauf les laissez-passer.",
                            "Maintenant qu'ils ont le tampon, ils vont s'en faire. Des laissez-passer. Ça m'inquiète."]}},
           {"xp_cr": 5, "ecus": 180, "objets": [{"objet": "bottes_de_grand_chemin", "nombre": 1}]},
-          conditions={"camp": "allie", "niveau_min": 12, "quetes_terminees": ["brumerive_palissade"]}, acte=2,
+          conditions={"camp": "allie", "quetes_terminees": ["brumerive_palissade"]}, acte=2,
           description="À Hautepierre, rien ne se fait sans le tampon officiel. Et le tampon a disparu."),
     quete("hautepierre_messages_interceptes", "Messages interceptés", "principale", 20, "capitaine_aldebert",
           [[{"type": "vaincre", "monstre": "corbac_espion", "nombre": 5},
@@ -69,7 +69,7 @@ QUETES = [
               "objectif": ["Voyons… code corbac, assez simple : un croassement par lettre. « Les raids gobelins occupent les humains. Pendant ce temps, trouvez la Chevalière Sans-Rouille. »",
                            "Signé : un Héraut Cendré. Allez prévenir le Capitaine. Moi, je classe ça. À la lettre H."]}},
           {"xp_cr": 5, "ecus": 270, "objets": [{"objet": "heaume_d_argent", "nombre": 1}]},
-          conditions={"camp": "allie", "niveau_min": 18, "quetes_terminees": ["hautepierre_tampon_officiel"]}, acte=2,
+          conditions={"camp": "allie", "quetes_terminees": ["hautepierre_tampon_officiel"]}, acte=2,
           description="Des corbacs espionnent Hautepierre. Que transportent-ils ?"),
     quete("hautepierre_vieille_garde", "La vieille garde", "principale", 23, "archiviste_petronille",
           [[{"type": "aller", "carte": "hautepierre_3_1", "texte": "Aller aux Ruines de la Vieille Garde"},
@@ -86,7 +86,7 @@ QUETES = [
               "objectif": ["Garde, à vos postes ! … Ah, c'est vous. Oui, je l'ai vu. Un Héraut, en armure de cendre. Il cherchait la Chevalière.",
                            "Il a dit : « Après, les humains. » Et il a ri. Je n'aime pas qu'on rie dans mes ruines. Prenez mon insigne. Moi, je reste de garde."]}},
           {"xp_cr": 8, "ecus": 345, "objets": [{"objet": "insigne_de_la_vieille_garde", "nombre": 1}]},
-          conditions={"camp": "allie", "niveau_min": 21, "quetes_terminees": ["hautepierre_messages_interceptes"]}, acte=2,
+          conditions={"camp": "allie", "quetes_terminees": ["hautepierre_messages_interceptes"]}, acte=2,
           description="Un fantôme a vu passer le Héraut. Encore faut-il qu'il s'en souvienne."),
 
     # --- Acte II, gobelins : « Le préavis » ---
@@ -102,7 +102,7 @@ QUETES = [
               "fin": ["Regarde le couvercle : « colliers, modèle gobelin, taille unique ». On transporte le minerai de nos propres colliers.",
                       "Va voir Snagrod, notre délégué, à la Citadelle. Il attend dans l'antichambre depuis trois semaines. Il aura le temps de t'écouter."]}},
           {"xp_cr": 5, "ecus": 180, "objets": [{"objet": "cape_de_loup_cendreux", "nombre": 1}]},
-          conditions={"camp": "ennemi", "niveau_min": 12, "quetes_terminees": ["crasse_roc_balourd"]}, acte=2,
+          conditions={"camp": "ennemi", "quetes_terminees": ["crasse_roc_balourd"]}, acte=2,
           description="Le convoi de Brokk transporte du minerai pour le Souverain. Mais pour en faire quoi ?"),
     quete("hautepierre_droit_de_passage", "Droit de passage", "principale", 17, "snagrod_delegue",
           [[{"type": "vaincre", "monstre": "troll_des_ponts", "nombre": 4},
@@ -120,7 +120,7 @@ QUETES = [
               "objectif": ["Des recettes de troll ! Quelle délicatesse. Je les garde, merci. Le délégué gobelin ? Je ne reçois pas les gobelins le jeudi.",
                            "Ni les autres jours. Mais remerciez-le pour les recettes."]}},
           {"xp_cr": 5, "ecus": 230, "objets": [{"objet": "ceinture_de_troll", "nombre": 1}]},
-          conditions={"camp": "ennemi", "niveau_min": 15, "quetes_terminees": ["hautepierre_convoi_de_brokk"]}, acte=2,
+          conditions={"camp": "ennemi", "quetes_terminees": ["hautepierre_convoi_de_brokk"]}, acte=2,
           description="Snagrod veut une audience. L'Intendant veut des cadeaux. Les trolls ont des recettes."),
     quete("hautepierre_registre_des_sacrifies", "Le registre des sacrifiés", "principale", 23, "snagrod_delegue",
           [[{"type": "vaincre", "monstre": "gargouille", "nombre": 4},
@@ -133,7 +133,7 @@ QUETES = [
               "fin": ["« Gobelins (rubrique consommables) ». En premier. Avant les humains, avant les elfes. On ne sera pas les derniers, on sera les premiers. À mourir.",
                       "Je dépose un préavis de grève. Contre le Souverain lui-même. Tiens, porte ce brassard : à partir d'aujourd'hui, on ne se laisse plus faire."]}},
           {"xp_cr": 8, "ecus": 345, "objets": [{"objet": "brassard_du_delegue", "nombre": 1}]},
-          conditions={"camp": "ennemi", "niveau_min": 21, "quetes_terminees": ["hautepierre_droit_de_passage"]}, acte=2,
+          conditions={"camp": "ennemi", "quetes_terminees": ["hautepierre_droit_de_passage"]}, acte=2,
           description="Que prévoit le Héraut pour les gobelins ? La réponse est dans ses ordres. Et ses ordres sont chez les gargouilles."),
 
     # --- Acte II, elfes : « Ce n'est (finalement) pas pas notre guerre » ---
@@ -158,7 +158,7 @@ QUETES = [
            "frere_benitier": {
               "objectif": ["J'ai béni la masse, le bouclier, mon pouce, et la porte. Voulez-vous que je bénisse votre carnet ? Ça ne coûte qu'une brume. Deux pour un carnet elfe."]}},
           {"xp_cr": 5, "ecus": 180, "objets": [{"objet": "amulette_chantante", "nombre": 1}]},
-          conditions={"camp": "neutre", "niveau_min": 12, "quetes_terminees": ["sylvebrume_mere_toile"]}, acte=2,
+          conditions={"camp": "neutre", "quetes_terminees": ["sylvebrume_mere_toile"]}, acte=2,
           description="Ilyndra Tel'Hautaine rédige un rapport sur les humains. Elle a besoin d'yeux. Et de sa malle."),
     quete("hautepierre_arbres_qui_brulent", "Les arbres qui brûlent", "principale", 20, "ilyndra_tel_hautaine",
           [[{"type": "vaincre", "monstre": "arbre_calcine", "nombre": 4},
@@ -171,7 +171,7 @@ QUETES = [
               "fin": ["La même cendre. Celle du Souverain. Elle gagne les arbres, ici comme chez nous. La forêt ne sera pas épargnée.",
                       "Le conseil croit encore que ce n'est pas notre guerre. Le conseil va devoir délibérer plus vite. Beaucoup plus vite."]}},
           {"xp_cr": 5, "ecus": 270, "objets": [{"objet": "ceinture_d_ecorce_calcinee", "nombre": 1}]},
-          conditions={"camp": "neutre", "niveau_min": 18, "quetes_terminees": ["hautepierre_notes_d_observatrice"]}, acte=2,
+          conditions={"camp": "neutre", "quetes_terminees": ["hautepierre_notes_d_observatrice"]}, acte=2,
           description="Des arbres brûlent au nord de Hautepierre. La cendre gagne-t-elle aussi les forêts ?"),
     quete("hautepierre_bal_des_cendrillons", "Le bal des Cendrillons", "principale", 25, "ilyndra_tel_hautaine",
           [[{"type": "vaincre", "monstre": "cendrillon", "nombre": 3},
@@ -185,7 +185,7 @@ QUETES = [
                       "Ce n'est pas notre guerre ? Si. C'est la nôtre. Je demande un siège au Conseil des humains. Pour observer de plus près. Et pour frapper, s'il le faut.",
                       "Prends cette feuille d'argent. Elle est réservée aux observateurs qui ont fini par intervenir."]}},
           {"xp_cr": 8, "ecus": 375, "objets": [{"objet": "feuille_d_argent_de_l_ambassade", "nombre": 1}]},
-          conditions={"camp": "neutre", "niveau_min": 23, "quetes_terminees": ["hautepierre_arbres_qui_brulent"]}, acte=2,
+          conditions={"camp": "neutre", "quetes_terminees": ["hautepierre_arbres_qui_brulent"]}, acte=2,
           description="Les Cendrillons préparent un bal. Que fête-t-on, au service du Souverain ?"),
 
     # --- Acte III, commun : « L'alliance » (début) ---
@@ -206,7 +206,7 @@ QUETES = [
            "ilyndra_tel_hautaine": {
               "objectif": ["Un Conseil. Avec des gobelins et des humains. Le conseil de la Lisière va s'évanouir. J'accepte. Pour observer."]}},
           {"xp_cr": 5, "ecus": 390, "objets": [{"objet": "cape_en_cuir_d_olifant", "nombre": 1}]},
-          conditions={"niveau_min": 24, "une_quete_terminee": ["hautepierre_vieille_garde", "hautepierre_registre_des_sacrifies",
+          conditions={"une_quete_terminee": ["hautepierre_vieille_garde", "hautepierre_registre_des_sacrifies",
                                                                 "hautepierre_bal_des_cendrillons"]}, acte=3,
           description="Les trois camps ont compris. Reste à les asseoir à la même table."),
     quete("hautepierre_la_breche", "La Brèche", "principale", 30, "capitaine_aldebert",
@@ -221,7 +221,7 @@ QUETES = [
                       "La Chevalière Sans-Rouille a disparu de la Citadelle. Le Héraut l'a prise. La quête des Reliques de l'Aube commence. Pour de bon.",
                       "Gardez cet éclat tombé de la Brèche. Il brille comme une Relique. Un jour, peut-être, vous en porterez une vraie."]}},
           {"xp_cr": 8, "ecus": 450, "objets": [{"objet": "eclat_de_l_aube", "nombre": 1}]},
-          conditions={"niveau_min": 28, "quetes_terminees": ["hautepierre_conseil_des_peuples_libres"]}, acte=3,
+          conditions={"quetes_terminees": ["hautepierre_conseil_des_peuples_libres"]}, acte=3,
           description="Grondin frappe à la Brèche. Le Conseil des Peuples Libres livre sa première bataille."),
 ]
 

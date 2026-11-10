@@ -167,9 +167,8 @@ func test_conditions_et_marques_des_pnj() -> void:
 	_world.character.quests.finish("tuto")
 	assert_true(book.is_available("suite"))
 	assert_true(book.is_available("commerce"), "« une_quete_terminee » : une seule suffit")
-	var high: Dictionary = _world.data.quests["suite"]
-	high["conditions"]["niveau_min"] = 5
-	assert_true(book.is_available("suite"), "plus de niveau du personnage : « niveau_min » ignoré (GDD § 4.5)")
+	assert_true(" ".join(Quest.validate(_quest_list()[1].merged({"conditions": {"niveau_min": 5}}, true))).contains("niveau_min"),
+		"plus de condition de niveau (GDD § 4.5, lot 5)")
 
 
 func test_proposition_acceptation_et_tutoriel_complet() -> void:

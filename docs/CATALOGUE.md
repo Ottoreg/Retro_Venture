@@ -27,7 +27,7 @@ Prix de boutique : selon la rareté (revente à 25 %).
 - [Sorts de race](#sorts-de-race)
 - [Sorts des monstres](#sorts-des-monstres)
 
-**292 objets** (18 armes, 20 coiffes, 20 capes, 20 amulettes, 20 anneaux, 20 ceintures, 20 bottes, 111 ressources, 36 plans de forge, 7 objets de quête), **55 monstres** et **133 sorts**.
+**293 objets** (18 armes, 20 coiffes, 20 capes, 20 amulettes, 20 anneaux, 20 ceintures, 20 bottes, 112 ressources, 36 plans de forge, 7 objets de quête), **55 monstres** et **133 sorts**.
 
 ## Armes
 
@@ -214,6 +214,7 @@ Prix de boutique : selon la rareté (revente à 25 %).
 | **Cuivre vert-de-gris** | 1 | Rare | +1 Dommages Flamme, minerai | Mineur : Cuivre niv. 1, récolte rare | Un cuivre qui a pris l'air pendant un siècle. Il a de la patine, et de l'opinion. |
 | **Cœur de frêne** | 1 | Rare | +1 % Résistance Tempête, bois | Bûcheron : Frêne niv. 1, récolte rare | Le centre d'un frêne qui a tenu trois tempêtes. Il en garde la souplesse, et la rancune. |
 | **Dent de rat** | 1 | Commun | +1 Agilité | boutique 4 brumes<br>butin : Rat-roi 70 %, Rat des galeries 30 %<br>« Le dentier de Mamie Ratine » : sur Rat des galeries, Rat-roi (50 %) | Jaune, pointue, et encore un peu mordante. |
+| **Essence** | 1 | Rare | — | **aucune** | Essence infusée à l'enclume : appliquée à un équipement, elle y ajoute sa caractéristique (ou renforce la ligne). |
 | **Feuille de papier** | 1 | Commun | — | boutique 4 brumes | Posée sur l'enclume, elle reçoit le patron de l'objet forgé. En attendant que l'agriculteur en fasse, les marchands la vendent. |
 | **Glande acide** | 1 | Peu commun | +5 Vitalité | boutique 12 brumes<br>butin : Grouilleur ancestral 50 %, Grouilleur 15 % | À manipuler avec des gants. Et une pince. Et de loin. |
 | **Goujon** | 1 | Commun | — | boutique 4 brumes<br>Pêcheur : Remous (goujon) niv. 1 | Petit, gris, et persuadé d'être un brochet. |

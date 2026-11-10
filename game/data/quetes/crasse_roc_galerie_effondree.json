@@ -6,7 +6,6 @@
   "pnj": "zogrub_troc_tout",
   "description": "Zogrub avait un stock dans une galerie qui s'est effondrée. Un stock qui n'existe pas.",
   "conditions": {
-    "niveau_min": 4,
     "une_quete_terminee": [
       "brumerive_tutoriel",
       "crasse_roc_tutoriel",

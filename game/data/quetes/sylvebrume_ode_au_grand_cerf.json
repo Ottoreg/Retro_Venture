@@ -6,7 +6,6 @@
   "pnj": "poete_lyriandel",
   "description": "Le poète Lyriandel cherche l'inspiration. Dans le pelage des cerfs.",
   "conditions": {
-    "niveau_min": 4,
     "une_quete_terminee": [
       "brumerive_tutoriel",
       "crasse_roc_tutoriel",

@@ -6,7 +6,6 @@
   "pnj": "bernardin_tourneboule",
   "description": "Les frondeurs gobelins prennent les ailes du moulin pour cible.",
   "conditions": {
-    "niveau_min": 4,
     "une_quete_terminee": [
       "brumerive_tutoriel",
       "crasse_roc_tutoriel",

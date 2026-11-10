@@ -8,7 +8,6 @@
   "acte": 2,
   "conditions": {
     "camp": "ennemi",
-    "niveau_min": 21,
     "quetes_terminees": [
       "hautepierre_droit_de_passage"
     ]

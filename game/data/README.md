@@ -567,6 +567,11 @@ l'objet forgé, voir « Métiers »). Un **plan**
 Production des données : `docs/design/forge/produire.py` (déjà lancé ; répartition des
 caractéristiques par tourniquet pondéré, PA, PM et Portée sur des butins de mini-boss).
 
+**Infusion** (`core/items/infusion.gd`, GDD § 10.4) : le modèle `essence` (`boutique: false`) reçoit, comme un objet
+forgé, un champ `forge` avec `essence` : `{ caracteristique, valeur, parfaite }`. Ressources par essence selon la
+`rarete` (`Infusion.QUANTITIES` : 20, 10 ou 2, × 5 pour une parfaite). Un équipement infusé garde dans son entrée
+d'inventaire `exo` : `{ caractéristique: valeur }` (part de ses jets ajoutée en exo).
+
 ## Panoplies (`panoplies/`)
 
 ```json
@@ -715,7 +720,7 @@ Conception : `docs/design/chantier6_quetes.md` ; production : `docs/design/chant
   "niveau": 6,
   "pnj": "mere_pomponne",
   "description": "Texte du journal.",
-  "conditions": {"camp": "allie", "niveau_min": 5, "quetes_terminees": ["brumerive_aux_armes"]},
+  "conditions": {"camp": "allie", "quetes_terminees": ["brumerive_aux_armes"]},
   "donne": [{"objet": "bonnet_de_berger", "nombre": 1}],
   "etapes": [
     {"objectifs": [
@@ -735,7 +740,7 @@ Conception : `docs/design/chantier6_quetes.md` ; production : `docs/design/chant
 | `categorie` | `tutoriel`, `principale` (avec `acte`), `secondaire` |
 | `niveau` | Niveau de la quête (affiché, et base de l'XP) |
 | `pnj` | Le PNJ qui la propose (« ! » au-dessus de lui) |
-| `conditions` | `camp`, `race`, `voie`, `niveau_min` (plus vérifié : le personnage n'a plus de niveau ; à convertir en palier de réputation, lot 5), `quetes_terminees` (toutes), `une_quete_terminee` (une au moins) |
+| `conditions` | `camp`, `race`, `voie`, `quetes_terminees` (toutes), `une_quete_terminee` (une au moins) |
 | `donne` | Objets remis à l'acceptation |
 | `etapes` | Liste d'étapes ; les objectifs d'une étape se font dans n'importe quel ordre |
 | `dialogues` | Par PNJ : `proposition` et `en_cours` (donneur), `objectif` (son objectif rempli, la quête continue ; à défaut `fin`), `fin` (quête terminée en lui parlant) |

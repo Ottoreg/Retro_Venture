@@ -25,7 +25,7 @@ def secondaire(id, nom, niveau, pnj, etapes, dialogues, description, objets=None
     if objets:
         recompenses["objets"] = [{"objet": o, "nombre": 1} for o in objets]
     return quete(id, nom, "secondaire", niveau, pnj, etapes, dialogues, recompenses,
-                 conditions={"niveau_min": max(1, niveau - 1), "une_quete_terminee": TUTORIELS},
+                 conditions={"une_quete_terminee": TUTORIELS},
                  description=description)
 
 

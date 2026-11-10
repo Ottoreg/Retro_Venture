@@ -6,7 +6,6 @@
   "pnj": "gobillon_l_ermite",
   "description": "Gobillon réclame trois pièces prêtées au berger. Il y a longtemps. Peut-être.",
   "conditions": {
-    "niveau_min": 2,
     "une_quete_terminee": [
       "brumerive_tutoriel",
       "crasse_roc_tutoriel",

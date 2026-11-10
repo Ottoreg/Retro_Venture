@@ -99,7 +99,7 @@ Phase 2 (alpha solo), en deux tests :
   temps de récolte selon le palier (`Profession.harvest_time`, fini par `World.update`), protocole v12 ;
   agriculteur, herboriste, pêcheur (`docs/design/recolte/produire.py` : 3 cartes autour de Hautepierre, coins
   de pêche `GameMap.FISHING_CHARS` sur chaque point d'eau).
-  Prochain : lot 5 (quêtes et maîtres).
+  Lot 5 (quêtes et maîtres) fait le 10/11/2026 sur `dev`.
 
 État des chantiers :
 
@@ -183,6 +183,11 @@ Fenêtre refaite le 03/11/2026 : sac en icônes à gauche, clic ou glisser vers 
 Plafonds selon le palier de réputation de forgeron (07/11/2026, sur `dev`, `Forge.tier`) : 20 points de score par ligne
 et par palier (160 à 800 par objet) ; PA, PM et Portée (`Forge.FIXED_STATS` : 100, 80, 60 points) perdus avant leur palier.
 Plus tard : maîtres par catégorie (armurier, tailleur, cordonnier) qui donnent des plans par quêtes.
+**Infusion d'essences et infusion miroir** (10/11/2026, sur `dev`, GDD § 10.4) : `Infusion` (`core/items/infusion.gd`),
+commande `infuser` (protocole v15), mode Infusion de `ForgeWindow`, modèle `essence`, champ `exo` des entrées
+d'inventaire ; réussite 100 % − score ÷ 2 (10 à 95 %), miroir à score égal au palier Maître. Valeurs provisoires.
+**Lot 5 de la refonte** (10/11/2026, sur `dev`) : `niveau_min` des quêtes supprimé ; maîtres des Voies (PNJ à
+`explication`, un par village de départ et à Hautepierre, dessins `art/manifestes/maitres.json`).
 
 **Tour céleste réduite (04/11/2026, sur `dev`, reportée sur `main` le 06/11/2026 à la demande de l'auteur, GDD § 12.8 « Version réduite »)** : parvis `celeste_0_0`
 (Pierre de Passage `tour_celeste`, Cupidon qui lâche la `cle_celeste`, portier Saint Pierrot : champ

@@ -6,7 +6,6 @@
   "pnj": "lindore_feuille_d_argent",
   "description": "Lindorë coud une robe de saison. Il lui faut un fil qui dure.",
   "conditions": {
-    "niveau_min": 10,
     "une_quete_terminee": [
       "brumerive_tutoriel",
       "crasse_roc_tutoriel",

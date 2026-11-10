@@ -6,7 +6,6 @@
   "pnj": "mamie_ratine",
   "description": "Mamie Ratine a perdu son dentier. Les rats l'ont gagné aux courses.",
   "conditions": {
-    "niveau_min": 1,
     "une_quete_terminee": [
       "brumerive_tutoriel",
       "crasse_roc_tutoriel",

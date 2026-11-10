@@ -209,8 +209,10 @@ Lots 0 (conception dans le GDD), 1 (personnage, poussé sur `main` à la demande
   du palier ; protocole v11
 - [ ] Nouvelle activité par palier de réputation de métier (tous les métiers sont ouverts pour
   l'instant) : à trancher avec les maîtres de métier (lot 5)
-- [ ] **Lot 5. Quêtes et maîtres** : conditions et récompenses en réputation (scripts
-  `produire_lot*.py`) ; maîtres de classe et de métier ; changement de classe expliqué
+- [x] **Lot 5. Quêtes et maîtres** (10/11/2026, sur `dev`) : condition de niveau des quêtes supprimée (aussi des
+  scripts `produire_lot*.py`) ; un maître des Voies dans chaque village de départ et à Hautepierre (réputation,
+  maîtrise, caractéristiques, changement de classe) ; forgerons, maîtres de métier, qui expliquent aussi la
+  réputation de métier et l'infusion ; métiers tous ouverts (choix par défaut, à confirmer par l'auteur)
 - [ ] **Lot 6. Interface et documents** : fiche, grimoire (maîtrises), métiers, artisanat,
   infobulles, carte du monde ; catalogue, guide des testeurs, `game/data/README.md`
 - [ ] **À trancher** : presque aucun objet prédéfini, tout l'équipement créé par les joueurs à partir de
@@ -703,12 +705,13 @@ classes (option écartée et compromis gardés en piste, GDD § 5.2).
   qui sert à essayer d'améliorer un autre objet (puits d'équipement ; remplace les runes de forgemagie)
   ; greffe de la valeur exacte en un essai, chance affichée, trois cicatrices par objet, historique
   des greffes sur la fiche (sans objet de provenance ni artisan), essence utilisable aussi en fabrication
-- [ ] Infusion d'essences (nom provisoire, GDD § 10.4, remplace pour le moment la destruction et les
+- [x] Infusion d'essences (10/11/2026 sur `dev`, valeurs provisoires ; nom provisoire, GDD § 10.4, remplace pour le moment la destruction et les
   cicatrices) : l'artisan de chaque catégorie infuse 20 communes / 10 rares / 2 légendaires → essence à
   la valeur de forge, ajoutée en exo si la ligne manque (cumulable, chance selon le poids de la stat,
   200 points de score d'exo par objet, 100 par ligne) ; essence parfaite (× 5 ressources) sans échec ;
   renforcement d'une ligne existante jusqu'à 100 points de score, hors limite d'exo
-- [ ] Infusion miroir (GDD § 10.4, 09/11/2026) : à un palier de maîtrise élevé, essence de la statistique
+- [x] Infusion miroir (GDD § 10.4, 09/11/2026 ; 10/11/2026 sur `dev`, à score égal, sans Critique ↔ Résistance aux
+  critiques tant que celle-ci n'existe pas) : à un palier de maîtrise élevé, essence de la statistique
   opposée, palier Maître (Flamme ↔ Givre, Acier ↔ Tempête, Sacré ↔ Impie, Dévastateurs ↔ Spectraux,
   Dommages ↔ Soins au choix du joueur, Vitalité ↔ Épines, Critique ↔ Résistance aux critiques ; rien
   pour PA, PM ; Initiative à revoir)

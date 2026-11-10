@@ -7,7 +7,6 @@
   "description": "Les trois camps ont compris. Reste à les asseoir à la même table.",
   "acte": 3,
   "conditions": {
-    "niveau_min": 24,
     "une_quete_terminee": [
       "hautepierre_vieille_garde",
       "hautepierre_registre_des_sacrifies",

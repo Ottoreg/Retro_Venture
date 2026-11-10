@@ -39,10 +39,10 @@ a été ajouté depuis, avant de retravailler le fond des mécaniques, des class
 - **Graphismes** : sprites en pixel art pour les trois races et quelques monstres (loup, rat, morille).
 
 **Sur `dev`** : tacle et fuite, esquive des retraits de PA / PM, épines, réduction de dégâts fixe, dégâts
-spectraux et dommages de mêlée (statistiques et lignes de forge).
+spectraux et dommages de mêlée (statistiques et lignes de forge) ; infusion d'essences et infusion miroir à
+l'enclume ; maîtres des Voies ; quêtes sans condition de niveau.
 
-**Ensuite** : quêtes et maîtres de classe et de métier (fin de la refonte de la progression), hôtel des
-ventes, art et son.
+**Ensuite** : panoplies d'objets forgés, statistiques de métier sur les outils, hôtel des ventes, art et son.
 
 ## Documentation
 

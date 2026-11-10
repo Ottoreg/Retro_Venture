@@ -8,7 +8,6 @@
   "acte": 2,
   "conditions": {
     "camp": "ennemi",
-    "niveau_min": 12,
     "quetes_terminees": [
       "crasse_roc_balourd"
     ]

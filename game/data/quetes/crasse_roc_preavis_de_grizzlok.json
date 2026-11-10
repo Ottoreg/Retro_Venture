@@ -6,7 +6,6 @@
   "pnj": "grizzlok_le_pacifiste",
   "description": "Grizzlok veut faire grève, pacifiquement. Il lui faut un messager.",
   "conditions": {
-    "niveau_min": 7,
     "une_quete_terminee": [
       "brumerive_tutoriel",
       "crasse_roc_tutoriel",

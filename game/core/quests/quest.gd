@@ -22,7 +22,7 @@ const TALK_OBJECTIVES := [OBJ_TALK, OBJ_BRING]
 ## Textes d'un PNJ dans une quête : proposition et en cours (donneur), objectif (son objectif rempli,
 ## la quête continue ; à défaut, « fin »), fin (quête terminée en lui parlant).
 const DIALOGUE_KEYS := ["proposition", "en_cours", "objectif", "fin"]
-const CONDITION_KEYS := ["camp", "race", "voie", "niveau_min", "quetes_terminees", "une_quete_terminee"]
+const CONDITION_KEYS := ["camp", "race", "voie", "quetes_terminees", "une_quete_terminee"]
 
 
 ## XP d'un « combat de référence » au niveau `level` (2 monstres de ce niveau, voir
@@ -111,8 +111,6 @@ static func _validate_conditions(conditions: Variant) -> PackedStringArray:
 			errors.append("condition « %s » : texte attendu" % key)
 	if conditions.has("camp") and conditions["camp"] not in GameData.CAMPS:
 		errors.append("condition « camp » : %s" % str(GameData.CAMPS))
-	if conditions.has("niveau_min") and not Spell._is_int_at_least(conditions["niveau_min"], 1):
-		errors.append("condition « niveau_min » : entier ≥ 1")
 	for key in ["quetes_terminees", "une_quete_terminee"]:
 		var ids: Variant = conditions.get(key, [])
 		if typeof(ids) != TYPE_ARRAY or not ids.all(func(id: Variant) -> bool: return typeof(id) == TYPE_STRING):

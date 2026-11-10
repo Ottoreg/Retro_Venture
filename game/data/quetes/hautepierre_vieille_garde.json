@@ -8,7 +8,6 @@
   "acte": 2,
   "conditions": {
     "camp": "allie",
-    "niveau_min": 21,
     "quetes_terminees": [
       "hautepierre_messages_interceptes"
     ]

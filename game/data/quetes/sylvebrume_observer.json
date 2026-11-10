@@ -8,7 +8,6 @@
   "acte": 1,
   "conditions": {
     "camp": "neutre",
-    "niveau_min": 2,
     "quetes_terminees": [
       "sylvebrume_tutoriel"
     ]

@@ -6,7 +6,6 @@
   "pnj": "grizzik_le_deserteur",
   "description": "Grizzik, gobelin « en pause », a besoin de prouver qu'il travaille.",
   "conditions": {
-    "niveau_min": 5,
     "une_quete_terminee": [
       "brumerive_tutoriel",
       "crasse_roc_tutoriel",

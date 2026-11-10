@@ -6,7 +6,6 @@
   "pnj": "capitaine_perenne",
   "description": "Le Capitaine Pérenne, fantôme, monte la garde depuis trois cents ans. Il aimerait une relève.",
   "conditions": {
-    "niveau_min": 15,
     "une_quete_terminee": [
       "brumerive_tutoriel",
       "crasse_roc_tutoriel",

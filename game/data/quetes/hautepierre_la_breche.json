@@ -7,7 +7,6 @@
   "description": "Grondin frappe à la Brèche. Le Conseil des Peuples Libres livre sa première bataille.",
   "acte": 3,
   "conditions": {
-    "niveau_min": 28,
     "quetes_terminees": [
       "hautepierre_conseil_des_peuples_libres"
     ]

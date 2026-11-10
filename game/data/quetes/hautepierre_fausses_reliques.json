@@ -6,7 +6,6 @@
   "pnj": "fulbert_l_authentique",
   "description": "Fulbert l'Authentique prépare une nouvelle collection de Reliques. Il lui manque la matière première.",
   "conditions": {
-    "niveau_min": 23,
     "une_quete_terminee": [
       "brumerive_tutoriel",
       "crasse_roc_tutoriel",

@@ -21,7 +21,7 @@
     "AA....#...2..EEEAAA",
     " AA...##....F.EEAAA",
     "AAA..###..C....AAAA",
-    " AA...##.......ÂAAA",
+    " AA...##.d.....ÂAAA",
     "AA....#+..c....EAAA",
     " AAF....:.......AAA",
     "AAA.....:......:...",
@@ -99,9 +99,26 @@
       ],
       "explication": [
         "À l'enclume, on choisit d'abord le type d'objet : coiffe, bottes, épée… Chaque type demande sa matière : du tissu pour les coiffes et les capes, du cuir pour les bottes et les ceintures, du minerai pour les anneaux et les amulettes, du minerai et du bois pour les armes.",
-        "Ensuite on ajoute des ressources de monstres, six au plus. Chacune donne une caractéristique, d'autant plus forte que la bête était coriace. PA et PM : une ligne par objet, et c'est rare.",
+        "Ensuite on ajoute des ressources de monstres, huit sortes au plus. Chacune donne une caractéristique, d'autant plus forte que la bête était coriace. PA et PM : une ligne par objet, et c'est rare.",
         "Les débutants forgent à l'aveugle : c'est en forgeant qu'on apprend à lire les ressources, les plus faibles d'abord. Un plan, lui, dit tout d'avance.",
-        "L'enclume montre l'objet avant de le forger : ses lignes, ses jets possibles et un nom, que vous pouvez changer avec les mots proposés. Votre nom sera gravé dessus. Le jet, lui, c'est la surprise."
+        "L'enclume montre l'objet avant de le forger : ses lignes, ses jets possibles et un nom, que vous pouvez changer avec les mots proposés. Votre nom sera gravé dessus. Le jet, lui, c'est la surprise.",
+        "Comme les classes, chaque métier a sa réputation et ses points de maîtrise : forger, récolter, ça rapporte, surtout ce qui est à votre mesure. Les points se placent dans les compétences du métier (fenêtre des métiers) : de meilleurs jets, des récoltes plus riches, jamais d'échec.",
+        "Et quand vous aurez trop de ressources identiques, essayez le bouton Infusion de l'enclume : vingt ressources pareilles donnent une essence, qui ajoute sa ligne à un objet. Ça peut rater ; l'objet, lui, ne craint rien."
+      ]
+    },
+    {
+      "marqueur": "d",
+      "id": "aerendil_maitre_des_voies",
+      "nom": "Aerendil, maître des Voies",
+      "repliques": [
+        "Vous progressez ? Charmant. À votre rythme, bien sûr. Le nôtre se compte en siècles.",
+        "Je peux vous expliquer comment s'apprend une Voie. Lentement, pour que vous suiviez ?"
+      ],
+      "explication": [
+        "Chaque classe a sa réputation. Elle monte quand vos sorts font vraiment quelque chose (dégâts, soins, boucliers qui encaissent) contre des monstres à votre mesure ; taper des lapins ne rapporte presque rien. Elle ne baisse jamais et passe des paliers : Apprenti, Compagnon, Vétéran, Maître, Légende.",
+        "Tous les 500 de réputation, vous gagnez un point de maîtrise. Placez-le dans un sort, dans la fenêtre des sorts : chaque rang ajoute 10 % à ses valeurs, et certains rangs un petit plus. Les points placés restent acquis, même si vous changez de classe.",
+        "Vos caractéristiques montent en pratiquant : celle de l'élément de vos sorts quand ils portent, la Vitalité quand vous encaissez. 300 au plus chacune, et elles vous suivent d'une classe à l'autre.",
+        "Au palier Compagnon, vous pouvez commencer une autre classe, hors combat, depuis votre fiche (touche C). Elle repart de zéro en réputation et en maîtrise ; vos caractéristiques, elles, restent. Les métiers, eux, sont tous ouverts dès maintenant."
       ]
     }
   ],

@@ -6,7 +6,6 @@
   "pnj": "druide_feuillemorte",
   "description": "Feuillemorte veut une stèle pour Vieux-Branchu, l'arbre millénaire qu'on a coupé.",
   "conditions": {
-    "niveau_min": 7,
     "une_quete_terminee": [
       "brumerive_tutoriel",
       "crasse_roc_tutoriel",

@@ -1,0 +1,48 @@
+{
+  "pnj": {
+    "dame_prudence": {
+      "rig": "humain",
+      "couleurs": {
+        "tunique": "6a3e6e",
+        "manches": "e2d4b0",
+        "pantalon": "3a3028",
+        "cheveux": "a8a0a0",
+        "peau": "e8c4a0"
+      }
+    },
+    "grizzla_deleguee": {
+      "rig": "gobelin",
+      "couleurs": {
+        "peau": "7a9a46",
+        "tunique": "a8342c",
+        "manches": "5e4a32",
+        "pantalon": "3e3226",
+        "cheveux": "2a2018"
+      }
+    },
+    "aerendil_maitre_des_voies": {
+      "rig": "humain",
+      "couleurs": {
+        "tunique": "e8e2c8",
+        "manches": "c9a04e",
+        "pantalon": "5a6a4a",
+        "cheveux": "f0e8c8",
+        "peau": "f3dcc4"
+      },
+      "accessoires": [
+        "oreilles_elfe"
+      ]
+    },
+    "maitre_polyvalent": {
+      "rig": "humain",
+      "couleurs": {
+        "tunique": "2e4a6e",
+        "manches": "c9a04e",
+        "pantalon": "3a3028",
+        "cheveux": "5a3a22",
+        "peau": "e2b48c",
+        "barbe": "5a3a22"
+      }
+    }
+  }
+}

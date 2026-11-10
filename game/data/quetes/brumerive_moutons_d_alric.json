@@ -6,7 +6,6 @@
   "pnj": "alric_le_berger",
   "description": "Les loups des collines dévorent le troupeau d'Alric, mouton après mouton.",
   "conditions": {
-    "niveau_min": 1,
     "une_quete_terminee": [
       "brumerive_tutoriel",
       "crasse_roc_tutoriel",

@@ -919,6 +919,14 @@ pas la réputation des autres).
 **Lot 4 fait (02/11/2026, sur `main`)** : métiers sans niveau, réputation, points de maîtrise et
 compétences de métier, récolte ouverte, gains selon la difficulté du palier (détails en § 10.2).
 
+**Lot 5 fait (10/11/2026, sur `dev`)** : quêtes sans condition de niveau (`niveau_min` supprimé des données et
+de la validation) ; maîtres des Voies (Dame Prudence à Brumerive, Grizzla à Crasse-Roc, Aerendil à Sylvebrume,
+Maître Polyvalent à Hautepierre) qui expliquent réputation, maîtrise, caractéristiques et changement de classe
+(au palier Compagnon, `Character.NEW_CLASS_REPUTATION`) ; les forgerons, maîtres de métier, expliquent la
+réputation de métier et l'infusion. Les métiers restent tous ouverts (choix par défaut, à confirmer). Le lot 6
+(interface et documents) se fait au fil des lots : fiche, fenêtre des sorts et des métiers montrent déjà
+réputation et maîtrise.
+
 #### Ancien système (avant le 29/10/2026)
 
 - Niveau max 30 ; par niveau, 5 points de caractéristique à répartir et 1 point de sort ; PV max +5
@@ -2230,6 +2238,14 @@ panoplie, de **2 à 7 pièces** comme les panoplies prédéfinies (§ 9.3), l'**
   ressources partagées à séparer, bonus des adjectifs de statistique, mots proposés pour chaque famille
   et zone (accordés en genre et en nombre comme les adjectifs).
 
+**Codée le 10/11/2026 sur `dev`** (`core/items/infusion.gd`, commande `infuser`, bouton Infusion de l'enclume),
+avec des choix provisoires de Claude, à valider : réussite = 100 % − points de score de l'essence ÷ 2, entre 10 et
+95 % (PA 50 %, PM 60 %, Portée 70 %) ; commun et peu commun comptent comme communes, rare et épique comme rares,
+légendaire et relique comme légendaires ; une ressource à plusieurs caractéristiques : le joueur choisit ; miroir
+converti à **score égal** (Force ↔ Agilité à valeur égale, Portée +1 ↔ +2 % de mêlée ; refusé si la valeur tombe à 0,
+comme Vitalité ↔ Épines brutes en % pour une ressource commune) ; seul le forgeron infuse (seul artisan codé) ; pas
+encore de miroir Critique ↔ Résistance aux critiques (statistique absente).
+
 **Infusion d'essences** (nom provisoire, à la place de « forgemagie » ; idée de l'auteur du
 05/11/2026, règles validées le même jour, **rien n'est codé**) : **seule source d'essences pour le
 moment** ; elle remplace la destruction d'objets et les cicatrices du § 9.2.
@@ -2497,9 +2513,9 @@ décrits au § 13.6.
   de métier, au lot 4) ; les combats de référence restent l'unité.
 - **Journal de quêtes** consultable, objectif courant affiché, PNJ marqués d'une icône (`!` / `?`).
 - **Conditions d'accès :** quête précédente terminée, camp, race ou Voie (optionnel). Le niveau
-  minimal (`niveau_min`) n'est plus vérifié depuis la refonte ; au lot 5, il devient un palier de
-  réputation, ou disparaît quand la difficulté suffit ; nouvelles
-  quêtes et dialogues des **maîtres de classe et de métier**.
+  minimal (`niveau_min`) a été **supprimé** au lot 5 (10/11/2026, sur `dev`) : la difficulté suffit ;
+  **maîtres des Voies** dans chaque village de départ et à Hautepierre (explications sur la réputation, la
+  maîtrise, les caractéristiques et le changement de classe) ; les forgerons servent de maîtres de métier.
 - **Conditions de camp** : une quête peut être réservée à un camp (acte I), ou demander d'avoir
   atteint un acte de la quête principale.
 - Contenu cible de l'alpha : un tutoriel par camp, environ 15 quêtes secondaires (5 par zone de

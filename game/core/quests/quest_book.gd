@@ -44,8 +44,6 @@ func is_available(quest_id: String) -> bool:
 		return false
 	var character: Character = player.character
 	var conditions: Dictionary = _quests()[quest_id].get("conditions", {})
-	# « niveau_min » n'est plus vérifié : le personnage n'a plus de niveau (GDD § 4.5) ; il deviendra
-	# un palier de réputation, ou disparaîtra (refonte des quêtes, lot 5).
 	if conditions.has("camp") and world.data.races.get(character.race_id, {}).get("camp", "") != conditions["camp"]:
 		return false
 	if conditions.has("race") and character.race_id != conditions["race"]:

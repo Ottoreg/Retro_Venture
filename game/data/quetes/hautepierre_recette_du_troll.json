@@ -6,7 +6,6 @@
   "pnj": "maitre_ripaille",
   "description": "Maître Ripaille veut mettre la « spécialité du troll » à la carte du Heaume Fendu. Sans troll.",
   "conditions": {
-    "niveau_min": 17,
     "une_quete_terminee": [
       "brumerive_tutoriel",
       "crasse_roc_tutoriel",

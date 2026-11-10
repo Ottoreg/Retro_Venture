@@ -6,7 +6,6 @@
   "pnj": "zibeline_la_peagere",
   "description": "Sur la Route des Charrois, deux péages, c'est un de trop.",
   "conditions": {
-    "niveau_min": 10,
     "une_quete_terminee": [
       "brumerive_tutoriel",
       "crasse_roc_tutoriel",

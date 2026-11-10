@@ -135,7 +135,7 @@ QUETES = [
               "en_cours": ["Je coordonne toujours. C'est épuisant."],
               "fin": ["Des fiches de paie ? Ils sont PAYÉS ?! Nous, on nous paie en remerciements. Enfin, je vous remercie. Voilà."]}},
           {"xp_cr": 5, "ecus": 55, "objets": [{"objet": "bottes_de_marche", "nombre": 1}]},
-          conditions={"camp": "allie", "niveau_min": 2, "quetes_terminees": ["brumerive_tutoriel"]}, acte=1,
+          conditions={"camp": "allie", "quetes_terminees": ["brumerive_tutoriel"]}, acte=1,
           description="Le bourgmestre veut des preuves que les gobelins existent. Et qu'ils sont méchants, de préférence."),
     quete("brumerive_verger", "Le verger de Mère Pomponne", "principale", 6, "mere_pomponne",
           [[{"type": "vaincre", "monstre": "gobelin_pillard", "nombre": 4},
@@ -153,7 +153,7 @@ QUETES = [
               "objectif": ["Rentrer ? Ici on a une pause déjeuner de deux heures, une mutuelle et un comité d'entreprise.",
                            "Dites à ma femme que je suis prisonnier. Prisonnier volontaire, mais prisonnier."]}},
           {"xp_cr": 5, "ecus": 90, "objets": [{"objet": "ceinturon_rivete", "nombre": 1}]},
-          conditions={"camp": "allie", "niveau_min": 5, "quetes_terminees": ["brumerive_aux_armes"]}, acte=1,
+          conditions={"camp": "allie", "quetes_terminees": ["brumerive_aux_armes"]}, acte=1,
           description="Les pillards ont vidé le verger. Et emmené le Père Pomponne, qui n'a pas beaucoup résisté."),
     quete("brumerive_ordres_du_raid", "Les ordres du raid", "principale", 9, "sentinelle_hubert",
           [[{"type": "apporter", "objet": "ordre_de_raid", "nombre": 3, "pnj": "sentinelle_hubert",
@@ -171,7 +171,7 @@ QUETES = [
            "bourgmestre_pansu": {
               "fin": ["Un Héraut ? Un vrai Héraut, avec un grand H ? Alors c'est sérieux. Alors j'avais raison. J'ai toujours raison, mais là, c'est sérieux."]}},
           {"xp_cr": 5, "ecus": 125, "objets": [{"objet": "chevaliere_du_cogneur", "nombre": 1}]},
-          conditions={"camp": "allie", "niveau_min": 8, "quetes_terminees": ["brumerive_verger"]}, acte=1,
+          conditions={"camp": "allie", "quetes_terminees": ["brumerive_verger"]}, acte=1,
           description="Qui donne les ordres aux gobelins ? Hubert veut savoir. Il ne sait pas lire, mais il veut savoir."),
     quete("brumerive_palissade", "La palissade de Krasbouk", "principale", 12, "bourgmestre_pansu",
           [[{"type": "vaincre_groupe", "monstre": "krasbouk"}],
@@ -184,7 +184,7 @@ QUETES = [
                       "Vous n'en aurez pas besoin, vous êtes avec moi. Mais au cas où on vous demanderait qui vous envoie : c'est moi."]}},
           {"xp_cr": 8, "ecus": 165, "objets": [{"objet": "echarpe_du_heros_de_brumerive", "nombre": 1},
                                                {"objet": "laissez_passer_de_hautepierre", "nombre": 1}]},
-          conditions={"camp": "allie", "niveau_min": 11, "quetes_terminees": ["brumerive_ordres_du_raid"]}, acte=1,
+          conditions={"camp": "allie", "quetes_terminees": ["brumerive_ordres_du_raid"]}, acte=1,
           description="Le raid a un chef, le chef a une palissade, et Brumerive a vous."),
 
     # --- Acte I, gobelins : « Le grand raid » ---
@@ -198,7 +198,7 @@ QUETES = [
               "en_cours": ["Le quota, c'est le quota. Le quota, c'est sacré. Le quota, c'est moi qui l'ai inventé."],
               "fin": ["Cinq queues, quota atteint. La direction te félicite. Enfin, elle félicite le service. Enfin, elle me félicite."]}},
           {"xp_cr": 5, "ecus": 55, "objets": [{"objet": "bottes_feutrees", "nombre": 1}]},
-          conditions={"camp": "ennemi", "niveau_min": 2, "quetes_terminees": ["crasse_roc_tutoriel"]}, acte=1,
+          conditions={"camp": "ennemi", "quetes_terminees": ["crasse_roc_tutoriel"]}, acte=1,
           description="Les rats mangent le minerai. Le minerai, c'est pour le Souverain. Le Souverain n'aime pas partager."),
     quete("crasse_roc_heures_sup", "Heures supplémentaires (non payées)", "principale", 6, "contremaitre_grumm",
           [[{"type": "vaincre", "monstre": "vampipistrelle", "nombre": 4},
@@ -213,7 +213,7 @@ QUETES = [
            "gnark_guanoculteur": {
               "objectif": ["Du guano luisant ! De l'or qui sent mauvais ! Grumm en prend la moitié, la direction l'autre moitié, et moi je garde l'odeur."]}},
           {"xp_cr": 5, "ecus": 90, "objets": [{"objet": "cape_de_vampipistrelle", "nombre": 1}]},
-          conditions={"camp": "ennemi", "niveau_min": 5, "quetes_terminees": ["crasse_roc_productivite"]}, acte=1,
+          conditions={"camp": "ennemi", "quetes_terminees": ["crasse_roc_productivite"]}, acte=1,
           description="Des heures supplémentaires, c'est comme des heures, mais en plus."),
     quete("crasse_roc_inspection", "Inspection surprise", "principale", 9, "contremaitre_grumm",
           [[{"type": "vaincre", "monstre": "milicien_de_hautepierre", "nombre": 4},
@@ -229,7 +229,7 @@ QUETES = [
               "objectif": ["Des écussons… Pauvres gars. J'ai lu l'ordre de mission en entier, moi. Personne ne le lit en entier.",
                            "Le raid sur Brumerive est une diversion, ordonnée par un Héraut. Et personne n'a prévu de retour. Va dire ça à Grumm."]}},
           {"xp_cr": 5, "ecus": 125, "objets": [{"objet": "casque_cabosse", "nombre": 1}]},
-          conditions={"camp": "ennemi", "niveau_min": 8, "quetes_terminees": ["crasse_roc_heures_sup"]}, acte=1,
+          conditions={"camp": "ennemi", "quetes_terminees": ["crasse_roc_heures_sup"]}, acte=1,
           description="La milice humaine inspecte la carrière. Grumm déteste les inspections, sauf quand c'est lui qui inspecte."),
     quete("crasse_roc_balourd", "Le Balourd des Abîmes", "principale", 12, "contremaitre_grumm",
           [[{"type": "vaincre_groupe", "monstre": "balourd_des_abimes"}],
@@ -241,7 +241,7 @@ QUETES = [
               "fin": ["Tu es revenu ! Bon, alors tu es délégué provisoire. Voici ta carte du syndicat.",
                       "Première mission : porter notre préavis à Hautepierre. En main propre au Souverain, ou à quelqu'un de proche. Bon courage."]}},
           {"xp_cr": 8, "ecus": 165, "objets": [{"objet": "carte_du_syndicat", "nombre": 1}]},
-          conditions={"camp": "ennemi", "niveau_min": 11, "quetes_terminees": ["crasse_roc_inspection"]}, acte=1,
+          conditions={"camp": "ennemi", "quetes_terminees": ["crasse_roc_inspection"]}, acte=1,
           description="La grande galerie est bloquée par un Balourd. Un gros."),
 
     # --- Acte I, elfes : « Ce n'est pas notre guerre » ---
@@ -257,7 +257,7 @@ QUETES = [
               "fin": ["Tu as vu ? Ils ont coupé Vieux-Branchu. Mille ans. Il me devait de l'argent.",
                       "Elwyn dit que ce n'est pas notre guerre. La forêt, elle, n'a pas été consultée."]}},
           {"xp_cr": 5, "ecus": 55, "objets": [{"objet": "bottes_de_mousse", "nombre": 1}]},
-          conditions={"camp": "neutre", "niveau_min": 2, "quetes_terminees": ["sylvebrume_tutoriel"]}, acte=1,
+          conditions={"camp": "neutre", "quetes_terminees": ["sylvebrume_tutoriel"]}, acte=1,
           description="Elwyn veut savoir ce qui se passe dans la forêt, sans que personne ne fasse rien."),
     quete("sylvebrume_arbres_nerveux", "Les arbres sont nerveux", "principale", 6, "druide_feuillemorte",
           [[{"type": "vaincre", "monstre": "arbre_vivant", "nombre": 4},
@@ -269,7 +269,7 @@ QUETES = [
               "en_cours": ["Les arbres marchent toujours ? Calme-les. Ils ont le temps, eux. Pas nous."],
               "fin": ["Le baume prendra. Dans un siècle ou deux, une pousse. Vieux-Branchu serait fier. Il me devait toujours de l'argent, cela dit."]}},
           {"xp_cr": 5, "ecus": 90, "objets": [{"objet": "cape_d_ecorce", "nombre": 1}]},
-          conditions={"camp": "neutre", "niveau_min": 5, "quetes_terminees": ["sylvebrume_observer"]}, acte=1,
+          conditions={"camp": "neutre", "quetes_terminees": ["sylvebrume_observer"]}, acte=1,
           description="Les arbres de la forêt s'agitent depuis qu'on a coupé le plus vieux d'entre eux."),
     quete("sylvebrume_coupe_rase", "Coupe rase", "principale", 9, "druide_feuillemorte",
           [[{"type": "vaincre", "monstre": "bucheron_de_brumerive", "nombre": 5},
@@ -285,7 +285,7 @@ QUETES = [
            "gardienne_elwyn": {
               "fin": ["Un Héraut… Le conseil va devoir délibérer. Il délibère depuis trois siècles sur l'opportunité de délibérer. Ça va aller vite, pour une fois."]}},
           {"xp_cr": 5, "ecus": 125, "objets": [{"objet": "couronne_de_ramure", "nombre": 1}]},
-          conditions={"camp": "neutre", "niveau_min": 8, "quetes_terminees": ["sylvebrume_arbres_nerveux"]}, acte=1,
+          conditions={"camp": "neutre", "quetes_terminees": ["sylvebrume_arbres_nerveux"]}, acte=1,
           description="Qui signe les bons de coupe des bûcherons humains ?"),
     quete("sylvebrume_mere_toile", "La Mère-Toile", "principale", 12, "gardienne_elwyn",
           [[{"type": "vaincre_groupe", "monstre": "mere_toile"}],
@@ -297,7 +297,7 @@ QUETES = [
               "fin": ["La Mère-Toile est tombée. Le conseil a décidé, après trois siècles : il envoie une observatrice à Hautepierre. Toi.",
                       "Voici la Broche de la Lisière. On ne l'a remise qu'une fois. Ne la perds pas : il faudrait délibérer pour la remplacer."]}},
           {"xp_cr": 8, "ecus": 165, "objets": [{"objet": "broche_de_la_lisiere", "nombre": 1}]},
-          conditions={"camp": "neutre", "niveau_min": 11, "quetes_terminees": ["sylvebrume_coupe_rase"]}, acte=1,
+          conditions={"camp": "neutre", "quetes_terminees": ["sylvebrume_coupe_rase"]}, acte=1,
           description="La toile de la Mère-Toile devient grise. La cendre gagne la forêt."),
 ]
 

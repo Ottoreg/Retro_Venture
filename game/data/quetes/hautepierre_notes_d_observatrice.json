@@ -8,7 +8,6 @@
   "acte": 2,
   "conditions": {
     "camp": "neutre",
-    "niveau_min": 12,
     "quetes_terminees": [
       "sylvebrume_mere_toile"
     ]

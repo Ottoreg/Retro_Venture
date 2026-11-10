@@ -6,7 +6,6 @@
   "pnj": "tantine_champignolle",
   "description": "Les morilles grincheuses insultent Tantine Champignolle. Elle compte en faire une omelette.",
   "conditions": {
-    "niveau_min": 1,
     "une_quete_terminee": [
       "brumerive_tutoriel",
       "crasse_roc_tutoriel",

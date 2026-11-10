@@ -6,7 +6,6 @@
   "pnj": "eclaireuse_sylphine",
   "description": "L'éclaireuse Sylphine doit faire un rapport. Elle préférerait que quelqu'un d'autre regarde.",
   "conditions": {
-    "niveau_min": 9,
     "une_quete_terminee": [
       "brumerive_tutoriel",
       "crasse_roc_tutoriel",

@@ -8,7 +8,6 @@
   "acte": 2,
   "conditions": {
     "camp": "allie",
-    "niveau_min": 12,
     "quetes_terminees": [
       "brumerive_palissade"
     ]

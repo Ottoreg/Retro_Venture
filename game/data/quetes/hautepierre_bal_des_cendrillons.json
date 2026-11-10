@@ -8,7 +8,6 @@
   "acte": 2,
   "conditions": {
     "camp": "neutre",
-    "niveau_min": 23,
     "quetes_terminees": [
       "hautepierre_arbres_qui_brulent"
     ]

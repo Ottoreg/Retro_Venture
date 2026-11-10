@@ -6,7 +6,6 @@
   "pnj": "gnark_guanoculteur",
   "description": "Gnark veut une réserve de guano à lui, loin des griffes de Grumm.",
   "conditions": {
-    "niveau_min": 4,
     "une_quete_terminee": [
       "brumerive_tutoriel",
       "crasse_roc_tutoriel",
