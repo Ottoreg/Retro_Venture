@@ -3000,7 +3000,10 @@ S'il **quitte** la guilde ou en est **expulsé**, il **récupère sa mise**. Les
   compteur repart à 0. Le **retrait** est libre, mais d'un dépôt entier (pas de fraction) et sans
   intérêts pour la semaine entamée. Exemple : 1 000 brumes déposées le lundi et 2 000 le mercredi
   rapportent 100 le lundi suivant et 200 le mercredi suivant ; le joueur peut retirer 1 000, 2 000
-  ou 3 000, rien d'autre.
+  ou 3 000, rien d'autre. Au départ ou à l'expulsion, la semaine entamée de chaque dépôt ne
+  rapporte rien.
+- **Les intérêts vont à la guilde, jamais au joueur** : brumes de guilde utilisables seulement pour
+  les activités de guilde et **non échangeables** contre des brumes normales.
 
 Les brumes de guilde sont une **monnaie propre aux guildes**, hors du système des brumes normales
 (distinctes de l'argent du coffre, donc hors de la surveillance des brumes créées, § 13.6) ; elles peuvent payer **loyers et cotisations**,
