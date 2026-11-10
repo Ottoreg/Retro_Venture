@@ -250,10 +250,10 @@ func test_soins_dommages_composes_et_degats_devastateurs() -> void:
 	var events: Array[Dictionary] = []
 	combat._apply_effect(player, player, {"type": Spell.EFFECT_HEAL, "element": "givre", "min": 5, "max": 5}, events)
 	assert_eq(player.hp, 10 + Combat.boosted_value(player, "givre", 5) + 30, "les soins s'ajoutent au soin")
-	player.devastating = 10
+	player.combat_stats["degats_devastateurs"] = 10
 	combat._apply_effect(player, ange, {"type": Spell.EFFECT_DAMAGE, "element": "acier", "min": 20, "max": 20}, events)
 	assert_eq(ange.max_hp, 50 - roundi((50 - ange.hp) * 0.1), "10 % des PV perdus en moins sur les PV max")
-	player.devastating = 100
+	player.combat_stats["degats_devastateurs"] = 100
 	for i in 6:
 		ange.hp = ange.max_hp
 		combat._apply_effect(player, ange, {"type": Spell.EFFECT_DAMAGE, "element": "acier", "min": 15, "max": 15}, events)

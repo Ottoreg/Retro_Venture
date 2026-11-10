@@ -74,13 +74,13 @@ func test_ordre_alterne_les_camps() -> void:
 # --- Déplacements ---
 
 func test_deplacement_et_pm() -> void:
-	var combat := _fight([["mannequin", C + RIGHT]])
+	var combat := _fight([["mannequin", C + RIGHT * 2]])
 	var events := combat.execute(Fixtures.cmd(Protocol.CMD_MOVE, {"cible": C + Vector2i(-2, 0)}))
 	assert_eq(events[0]["type"], Protocol.EVT_MOVED)
 	assert_eq(events[0]["chemin"].size(), 2)
 	assert_eq(events[0]["pm"], 1)
 	_assert_refused(combat.execute(Fixtures.cmd(Protocol.CMD_MOVE, {"cible": C + Vector2i(-2, 3)})), Protocol.REASON_NOT_ENOUGH_PM)
-	_assert_refused(combat.execute(Fixtures.cmd(Protocol.CMD_MOVE, {"cible": C + RIGHT})), Protocol.REASON_OCCUPIED)
+	_assert_refused(combat.execute(Fixtures.cmd(Protocol.CMD_MOVE, {"cible": C + RIGHT * 2})), Protocol.REASON_OCCUPIED)
 	_assert_refused(combat.execute({"type": Protocol.CMD_MOVE, "entite": "m0", "cible": C}), Protocol.REASON_NOT_YOUR_TURN)
 
 

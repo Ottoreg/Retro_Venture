@@ -98,7 +98,8 @@ temps : chaque camp a sa propre histoire.
     et *Tac* (±1 h), *Avance rapide* et *Retour en arrière* (±3 h) et *Contretemps* (+6 h) blessent
     toujours, et font tourner la cible sur son cadran : chaque heure lui inflige son effet (−1 PA à
     12 h, −1 PM à 6 h, dégâts ou poison de Givre et de Tempête, insoignable à 10 h, plus de dégâts
-    Impie subis à 5 h, moins de dégâts infligés à 11 h ; 3 h, 4 h et 9 h n'ont pas encore d'effet).
+    Impie subis à 5 h, moins de dégâts infligés à 11 h, esquive des retraits de PA baissée à 3 h et de PM à 9 h,
+    inblocable à 4 h).
     Une case occupée : les deux combattants échangent leurs places ; un obstacle : heure suivante.
     Pas de nouvelle Horloge sur une cible qui en a déjà une ; poussée hors du cadran, elle garde sa
     dernière heure.

@@ -85,7 +85,9 @@ const CASTER_EFFECTS := [EFFECT_TELEPORT, EFFECT_ELEMENT_STATE, EFFECT_COMPOSE_S
 const STATE_UNHEALABLE := "insoignable"
 const STATE_TIME_MANIPULATION := "manipulation_temps"
 const STATE_EXORCISM := "exorcisme"
-const NAMED_STATES := [STATE_UNHEALABLE, STATE_TIME_MANIPULATION, STATE_EXORCISM]
+## Inblocable : ni taclé, ni tacleur (GDD § 7.2).
+const STATE_UNBLOCKABLE := "inblocable"
+const NAMED_STATES := [STATE_UNHEALABLE, STATE_TIME_MANIPULATION, STATE_EXORCISM, STATE_UNBLOCKABLE]
 ## Éléments d'un état élémentaire, et états qu'un retrait peut enlever.
 const STATE_ELEMENTS := ["flamme", "givre", "tempete"]
 const REMOVABLE_STATE_TYPES := [EFFECT_BONUS, EFFECT_MALUS, EFFECT_POISON]
@@ -97,7 +99,7 @@ const LASTING_EFFECTS := [EFFECT_BONUS, EFFECT_MALUS, EFFECT_POISON, EFFECT_GLYP
 ## Caractéristiques qu'un bonus ou un malus peut changer ; « resistance » demande un `element` ;
 ## « degats_infliges » : % de tous les dégâts infligés (poisons compris).
 const MODIFIABLE := ["force", "intelligence", "perception", "agilite", "pa", "pm", "portee", "dommages", "critique", "resistance",
-	"degats_infliges"]
+	"degats_infliges", "retrait_pa", "retrait_pm"]
 ## Effets chiffrés qui ont un élément : leur valeur monte avec la caractéristique de cet élément
 ## (un soin Sacré avec la Force et l'Intelligence, un bouclier de Tempête avec l'Agilité, un poison
 ## de Givre avec la Perception…).

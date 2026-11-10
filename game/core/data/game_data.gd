@@ -314,7 +314,7 @@ static func validate_monster(data: Dictionary, known_spells: Dictionary, known_i
 		errors.append("« niveau » doit être un entier ≥ 1")
 	var stats: Variant = data.get("caracteristiques")
 	if typeof(stats) == TYPE_DICTIONARY:
-		for stat_name: String in MONSTER_STATS:
+		for stat_name: String in MONSTER_STATS + Fighter.COMBAT_STATS:
 			if not Spell._is_int_at_least(stats.get(stat_name, 0), 0):
 				errors.append("« caracteristiques.%s » doit être un entier ≥ 0" % stat_name)
 	if typeof(data.get("elite", false)) != TYPE_BOOL:
@@ -588,6 +588,9 @@ func create_monster(monster_id: String, fighter_id: String, level := -1) -> Figh
 	fighter.xp = int(data.get("xp", 0))
 	for stat_name: String in MONSTER_STATS:
 		fighter.stats[stat_name] = int(data["caracteristiques"].get(stat_name, 0))
+	for stat_name: String in Fighter.COMBAT_STATS:
+		if data["caracteristiques"].has(stat_name):
+			fighter.combat_stats[stat_name] = int(data["caracteristiques"][stat_name])
 	for element: String in data.get("resistances", {}):
 		fighter.resistances[element] = int(data["resistances"][element])
 	# Ajouts pour chaque niveau au-dessus du niveau de base.
@@ -668,7 +671,8 @@ func create_character_fighter(character: Character, fighter_id: String) -> Fight
 	fighter.dommages = character.extra("dommages", self)
 	fighter.crit_bonus = character.extra("critique", self)
 	fighter.soins = character.extra("soins", self)
-	fighter.devastating = character.extra("degats_devastateurs", self)
+	for stat_name: String in Fighter.COMBAT_STATS:
+		fighter.combat_stats[stat_name] = character.extra(stat_name, self)
 	for element: String in Spell.ELEMENTS:
 		fighter.element_dommages[element] = character.extra("dommages_" + element, self)
 		fighter.element_soins[element] = character.extra("soins_" + element, self)
@@ -706,7 +710,7 @@ func create_profile_fighter(profile: Dictionary, fighter_id: String) -> Fighter:
 	fighter.element_dommages = (profile.get("dommages_elements", {}) as Dictionary).duplicate()
 	fighter.soins = int(profile.get("soins", 0))
 	fighter.element_soins = (profile.get("soins_elements", {}) as Dictionary).duplicate()
-	fighter.devastating = int(profile.get("devastateurs", 0))
+	fighter.combat_stats = (profile.get("stats_combat", {}) as Dictionary).duplicate()
 	fighter.spells.clear()
 	var ranks: Dictionary = profile.get("maitrises", {})
 	for spell_id: String in profile["sorts"]:

@@ -14,6 +14,13 @@ const MAX_AI_ACTIONS := 20
 const MAX_ROUNDS := 200
 ## Dégâts de choc par case de poussée non parcourue (obstacle, bord ou combattant sur le chemin).
 const PUSH_DAMAGE_PER_CELL := 4
+## Tacle et fuite (GDD § 7.2) : quitter une case au contact d'ennemis coûte des PM (réglage pour tester son intérêt).
+const TACKLE := true
+## Esquive des retraits de PA / PM au plus, en %.
+const MAX_DODGE := 90
+## Épines : renvoi au plus, en part des dégâts subis ; part spectrale et dévastatrice au plus des dégâts infligés.
+const MAX_THORNS := 0.6
+const MAX_SPECTRAL := 0.5
 ## Cadran d'une horloge (Chronomancien, GDD § 4.3) : les 12 cases à 2 pas de la cible, sans les coins
 ## du carré 5 × 5, par rapport au centre, rangées dans le sens des aiguilles d'une montre tel qu'on
 ## le voit à l'écran (isométrique). Le cadran s'oriente selon le lanceur : 12 h est la case à 2 pas du
@@ -257,7 +264,7 @@ func reachable_cells(fighter: Fighter, pm := -1) -> Dictionary:
 ## Cases qu'un combattant peut atteindre, affichées au survol (GDD § 14.3) : avec ses PM restants
 ## pendant son tour, sinon avec ceux qu'il aura au début du prochain.
 func movement_zone(fighter: Fighter) -> Array[Vector2i]:
-	var pm := fighter.pm if fighter == current_fighter() else fighter.next_turn_pm()
+	var pm := roundi((fighter.pm if fighter == current_fighter() else fighter.next_turn_pm()) * tackle_ratio(fighter, fighter.cell))
 	var cells: Array[Vector2i] = []
 	cells.assign(reachable_cells(fighter, pm).keys())
 	return cells
@@ -466,20 +473,56 @@ func _move(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 		if not trap.is_empty():
 			path = path.slice(0, i + 1)
 			break
+	# Tacle : chaque case quittée au contact d'ennemis garde seulement une part des PM (`tackle_ratio`).
+	var walked: Array[Vector2i] = []
+	var lost := 0
+	for next in path:
+		var kept := roundi(fighter.pm * tackle_ratio(fighter, walked[-1] if not walked.is_empty() else fighter.cell))
+		lost += fighter.pm - kept
+		fighter.pm = kept
+		if fighter.pm <= 0:
+			break
+		walked.append(next)
+		fighter.pm -= 1
+	if walked.size() < path.size():
+		trap = {}
+	var events: Array[Dictionary] = []
+	if lost > 0:
+		events.append({"type": Protocol.EVT_STATUS, "entite": fighter.id, "effet": "tacle", "valeur": lost, "pa": fighter.pa, "pm": fighter.pm})
+	if walked.is_empty():
+		return events
 	var from := fighter.cell
-	fighter.cell = path[-1]
-	fighter.pm -= path.size()
-	var events: Array[Dictionary] = [{
-		"type": Protocol.EVT_MOVED,
-		"entite": fighter.id,
-		"depuis": from,
-		"chemin": path,
-		"pm": fighter.pm,
-	}]
+	fighter.cell = walked[-1]
+	events.append({"type": Protocol.EVT_MOVED, "entite": fighter.id, "depuis": from, "chemin": walked, "pm": fighter.pm})
 	if not trap.is_empty():
 		_trigger_trap(trap, fighter, events)
 		_check_end(events)
 	return events
+
+
+## Part des PM gardés en quittant `cell` : (fuite + 2) / (2 × (tacle des ennemis au contact + 2)), au plus 1 ; 1 sans
+## ennemi au contact (les inblocables ne taclent pas et ne sont pas taclés).
+func tackle_ratio(fighter: Fighter, cell: Vector2i) -> float:
+	if not TACKLE or fighter.has_state(Spell.STATE_UNBLOCKABLE):
+		return 1.0
+	var tacklers := IsoGrid.neighbors_4(cell).map(fighter_at).filter(func(other: Fighter) -> bool:
+		return other != null and other.team != fighter.team and not other.has_state(Spell.STATE_UNBLOCKABLE))
+	if tacklers.is_empty():
+		return 1.0
+	return minf(1.0, (fighter.escape() + 2) / (2.0 * (tacklers.reduce(func(sum: int, other: Fighter) -> int: return sum + other.tackle(), 0) + 2)))
+
+
+## Points d'un retrait de PA ou de PM (`carac`) qui touchent `target` : un adversaire esquive chaque point à
+## (son retrait − celui du lanceur) % de chances, de 0 à `MAX_DODGE` (GDD § 10.4).
+func _landed_removal(caster: Fighter, target: Fighter, carac: String, amount: int, events: Array[Dictionary]) -> int:
+	var chance := 0 if caster.team == target.team else clampi(target.combat_stat("retrait_" + carac) - caster.combat_stat("retrait_" + carac), 0, MAX_DODGE)
+	var landed := amount
+	for i in (amount if chance > 0 else 0):
+		landed -= int(rng.randi_range(1, 100) <= chance)
+	if landed < amount:
+		events.append({"type": Protocol.EVT_STATUS, "entite": target.id, "effet": "esquive", "carac": carac, "valeur": amount - landed,
+			"pa": target.pa, "pm": target.pm})
+	return landed
 
 
 func _cast(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
@@ -637,12 +680,17 @@ func _apply_effect(caster: Fighter, target: Fighter, effect: Dictionary, events:
 			target.pa += amount
 			events.append({"type": Protocol.EVT_STATUS, "entite": target.id, "effet": Spell.EFFECT_GAIN_PA, "valeur": amount, "pa": target.pa, "pm": target.pm})
 		Spell.EFFECT_REMOVE_PM:
+			amount = _landed_removal(caster, target, "pm", amount, events)
+			if amount == 0:
+				return
 			target.pm_malus += amount
 			events.append({"type": Protocol.EVT_STATUS, "entite": target.id, "effet": Spell.EFFECT_REMOVE_PM, "valeur": amount, "pa": target.pa, "pm": target.pm})
 		Spell.EFFECT_DAMAGE:
 			var hp_before := target.hp
-			_hurt(target, damage_value(caster, target, effect["element"], amount), effect["element"], events)
-			_devastate(caster, target, hp_before - target.hp, events)
+			var dealt := damage_value(caster, target, effect["element"], amount)
+			var suffered := _hurt(target, dealt, effect["element"], events)
+			_devastate(caster, target, dealt, hp_before - target.hp, events)
+			_thorns(caster, target, dealt, suffered, events)
 			var stolen := mini(hp_before - target.hp, caster.max_hp - caster.hp)
 			if effect.get("vol", false) and caster.is_alive() and stolen > 0 and not caster.has_state(Spell.STATE_UNHEALABLE):
 				caster.hp += stolen  # Vol de vie : le lanceur reprend les PV qu'il a fait perdre.
@@ -664,6 +712,10 @@ func _apply_effect(caster: Fighter, target: Fighter, effect: Dictionary, events:
 			events.append({"type": Protocol.EVT_HEAL, "entite": target.id, "valeur": amount, "element": effect["element"],
 				"pv": target.hp})
 		Spell.EFFECT_BONUS, Spell.EFFECT_MALUS:
+			if effect["type"] == Spell.EFFECT_MALUS and effect["carac"] in ["pa", "pm"]:
+				amount = _landed_removal(caster, target, effect["carac"], amount, events)
+				if amount == 0:
+					return
 			_add_state(target, {"type": effect["type"], "carac": effect["carac"], "element": str(effect.get("element", "")),
 				"valeur": amount, "tours": effect["duree"], "sort": source, "lanceur": caster.id, "retirable": removable}, events)
 		Spell.EFFECT_POISON:
@@ -701,10 +753,14 @@ func _apply_effect(caster: Fighter, target: Fighter, effect: Dictionary, events:
 			_push(from, target, amount, true, events)
 
 
-## Dégâts d'un effet de valeur tirée `amount` (voir `_apply_effect`).
+## Dégâts d'un effet de valeur tirée `amount` (voir `_apply_effect`) : au contact, × (100 + dommages de mêlée) % ;
+## puis moins la réduction de dégâts fixe de la cible.
 static func damage_value(caster: Fighter, target: Fighter, element: String, amount: int) -> int:
 	var boosted := amount * (100 + caster.power(element)) / 100.0 * dealt_factor(caster)
-	return maxi(0, roundi(boosted * (100 - target.resistance(element)) / 100.0)) + caster.total_dommages() + caster.element_damage(element)
+	var dealt := maxi(0, roundi(boosted * (100 - target.resistance(element)) / 100.0)) + caster.total_dommages() + caster.element_damage(element)
+	if IsoGrid.distance(caster.cell, target.cell) == 1:
+		dealt = roundi(dealt * (100 + caster.combat_stat("dommages_melee")) / 100.0)
+	return maxi(0, dealt - target.combat_stat("reduction_degats"))
 
 
 ## Multiplicateur des dégâts infligés par `caster` (bonus et malus « degats_infliges », jamais négatif).
@@ -770,8 +826,9 @@ func spell_preview(fighter: Fighter, spell: Spell, target: Vector2i) -> Dictiona
 
 ## Retire des PV (le bouclier absorbe d'abord) ; `element` vide pour des dégâts sans élément (choc).
 ## Pratique : des PV perdus par un ennemi comptent pour le sort en cours, des dégâts absorbés pour
-## celui qui a posé le bouclier, et un joueur note les PV qu'il perd (Vitalité).
-func _hurt(target: Fighter, amount: int, element: String, events: Array[Dictionary], source := "") -> void:
+## celui qui a posé le bouclier, et un joueur note les PV qu'il perd (Vitalité). Renvoie les dégâts subis
+## (après le bouclier).
+func _hurt(target: Fighter, amount: int, element: String, events: Array[Dictionary], source := "") -> int:
 	if element == "sacre" and target.has_state(Spell.STATE_EXORCISM):
 		# Exorcisme : les premiers dégâts Sacré achèvent la cible, bouclier compris.
 		amount = target.hp + target.shield
@@ -801,17 +858,45 @@ func _hurt(target: Fighter, amount: int, element: String, events: Array[Dictiona
 		_remove_ground_of(target, events)
 	else:
 		_check_phases(target, events)
+	return amount
 
 
-## Dégâts dévastateurs (GDD § 4.4) : une part des PV perdus (au plus 50 %) baisse aussi les PV max de la
-## cible, sans la descendre sous 40 % de ses PV max du début du combat.
-func _devastate(caster: Fighter, target: Fighter, lost: int, events: Array[Dictionary]) -> void:
+## Dégâts dévastateurs (GDD § 4.4) : une part des dégâts infligés (fixe + %, au plus `MAX_SPECTRAL` d'entre eux et
+## des PV perdus) baisse aussi les PV max de la cible, sans la descendre sous 40 % de ses PV max du début du combat.
+func _devastate(caster: Fighter, target: Fighter, dealt: int, lost: int, events: Array[Dictionary]) -> void:
 	var start_max: int = _max_hp_at_start.get_or_add(target.id, target.max_hp)
-	var cut := mini(roundi(lost * mini(caster.devastating, 50) / 100.0), target.max_hp - ceili(start_max * 0.4))
+	var cut := mini(mini(_part(caster, "degats_devastateurs", dealt), lost), target.max_hp - ceili(start_max * 0.4))
 	if cut > 0 and target.is_alive():
 		target.max_hp -= cut
 		events.append({"type": Protocol.EVT_STATUS, "entite": target.id, "effet": "devastation", "valeur": cut, "pv_max": target.max_hp,
 			"pa": target.pa, "pm": target.pm})
+
+
+## Part fixe + % de `dealt` d'une statistique de `fighter` (dégâts spectraux, dévastateurs), au plus `MAX_SPECTRAL`.
+static func _part(fighter: Fighter, stat_name: String, dealt: int) -> int:
+	return mini(fighter.combat_stat(stat_name + "_fixes") + roundi(dealt * fighter.combat_stat(stat_name) / 100.0), floori(dealt * MAX_SPECTRAL))
+
+
+## Épines (GDD § 4.4) : `target` renvoie à son adversaire `attacker` une part des dégâts subis moins leur part
+## spectrale : un jet par sorte (fixe + %), au plus `MAX_THORNS` des dégâts comptés à eux tous (au prorata) ; l'épine
+## élémentaire est réduite par la résistance de l'attaquant, toutes par sa réduction fixe. Jamais d'épine sur épine.
+func _thorns(attacker: Fighter, target: Fighter, dealt: int, suffered: int, events: Array[Dictionary]) -> void:
+	if attacker == null or not attacker.is_alive() or attacker.team == target.team:
+		return
+	var counted := maxi(0, suffered - _part(attacker, "degats_spectraux", dealt))
+	var rolls := {}
+	for kind: String in Fighter.THORN_KINDS:
+		var value := target.combat_stat("epines_%s_fixes" % kind) + counted * target.combat_stat("epines_" + kind) / 100.0
+		if value > 0 and counted > 0:
+			rolls[kind] = value
+	var total: float = rolls.values().reduce(func(sum: float, value: float) -> float: return sum + value, 0.0)
+	for kind: String in rolls:
+		var value: float = rolls[kind] * minf(1.0, counted * MAX_THORNS / total)
+		if kind != "brutes":
+			value *= (100 - attacker.resistance(kind)) / 100.0
+		var returned := roundi(value) - attacker.combat_stat("reduction_degats")
+		if returned > 0 and attacker.is_alive():
+			_hurt(attacker, returned, "" if kind == "brutes" else kind, events, "epines")
 
 
 ## Dernier en vie de son camp : un monstre à sorts « seul » les échange (Archange Raphaël), une fois.
@@ -1109,7 +1194,8 @@ func _start_of_turn_effects(fighter: Fighter, events: Array[Dictionary]) -> void
 		var element: String = poison["element"]
 		var boosted := int(poison["valeur"]) * (100 + (caster.power(element) if caster != null else 0)) / 100.0 * dealt_factor(caster)
 		_open_credit(caster, float(poison.get("pa", 0.0)))
-		_hurt(fighter, maxi(0, roundi(boosted * (100 - fighter.resistance(element)) / 100.0)), element, events, "poison")
+		var dealt := maxi(0, roundi(boosted * (100 - fighter.resistance(element)) / 100.0) - fighter.combat_stat("reduction_degats"))
+		_thorns(caster, fighter, dealt, _hurt(fighter, dealt, element, events, "poison"), events)
 		_close_credit()
 	for glyph in glyphs_at(fighter.cell):
 		_open_credit(glyph["lanceur"], float(glyph.get("pa", 0.0)))

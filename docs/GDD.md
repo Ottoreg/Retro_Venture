@@ -370,12 +370,12 @@ atteinte applique son effet à la cible :
 | 12 h | −1 PA (1 tour) | 6 h | −1 PM (1 tour) |
 | 1 h | 10 dégâts Givre | 7 h | 10 dégâts Tempête |
 | 2 h | Poison Givre 5 (2 tours) | 8 h | Poison Tempête 5 (2 tours) |
-| 3 h | *(à venir : −10 % d'esquive des retraits de PA, 2 tours)* | 9 h | *(à venir : −10 % d'esquive des retraits de PM, 2 tours)* |
-| 4 h | *(à venir : inblocable 1 tour, ne tacle pas non plus)* | 10 h | Insoignable (1 tour) |
+| 3 h | −10 Retrait PA (2 tours) | 9 h | −10 Retrait PM (2 tours) |
+| 4 h | Inblocable (1 tour, ne tacle pas non plus) | 10 h | Insoignable (1 tour) |
 | 5 h | +10 % de dégâts Impie subis (1 tour) | 11 h | −10 % de dégâts infligés (1 tour) |
 
-3 h, 4 h et 9 h sont **sans effet** tant que l'esquive des retraits et le tacle / fuite n'existent
-pas (à coder dès que possible, TODO). Les sorts (valeurs de départ, à équilibrer d'après les
+3 h, 4 h et 9 h sont codées depuis le 10/11/2026 (sur `dev`) avec le tacle et l'esquive des retraits
+(§ 7.2) : −10 de Retrait vaut −10 % d'esquive. Les sorts (valeurs de départ, à équilibrer d'après les
 retours) :
 
 | Sort | PA | Portée | Effet |
@@ -678,7 +678,14 @@ ajoutent 5 dégâts à chaque ligne de dégâts de n'importe quel sort ou arme, 
   prospection).
 - Les races ne donnent plus de caractéristiques (29/10/2026) : seulement leur passif et leur sort.
 
-#### Épines, dégâts spectraux et dégâts dévastateurs (conception de l'auteur du 03/11/2026, pas encore codé)
+#### Épines, dégâts spectraux et dégâts dévastateurs (conception de l'auteur du 03/11/2026, codé le 10/11/2026 sur `dev`)
+
+**Codé** (`Combat._thorns`, `_part`, `damage_value`) : toutes les règles ci-dessous, avec les dommages de
+mêlée (§ 10.4, au contact : × (100 + %) sur les dégâts finaux, avant la réduction fixe), comme statistiques
+d'équipement (`epines_<sorte>` en %, `epines_<sorte>_fixes`, `reduction_degats`, `degats_spectraux(_fixes)`,
+`degats_devastateurs(_fixes)`, `dommages_melee`), lignes de forge aux plafonds ci-dessous et
+`caracteristiques` des monstres. **Reste** : choisir les monstres qui les introduisent et les ressources qui
+les portent (demande de l'auteur).
 
 **Épines** : renvoi à l'attaquant d'une partie des dégâts subis. Elles ne réduisent pas les dégâts
 reçus, elles renvoient seulement un montant. Chaque épine existe en **fixe** (par coup subi) et en **%**
@@ -1239,8 +1246,16 @@ local » à tout le monde, les elfes ne le donnent qu'après trois siècles de d
   téléportation, invocation, pièges et glyphes, états (*Enraciné*, *Invisible*, *Porté*…).
   Faits pour l'alpha (§ 7.4) : bonus/malus temporaires, poisons, poussée, attirance, glyphes et
   pièges ; à venir : invocations et états spéciaux.
-- **Tacle / fuite** (quitter une case adjacente à un ennemi coûte des PM selon l'Agilité) : prévu,
-  activable par réglage pour tester son intérêt.
+- **Tacle / fuite** (quitter une case adjacente à un ennemi coûte des PM selon l'Agilité ; **codé le
+  10/11/2026 sur `dev`**, réglage `Combat.TACKLE` pour tester son intérêt) : chaque case quittée au contact
+  d'ennemis ne garde que (fuite + 2) / (2 × (tacle des ennemis au contact + 2)) des PM (arrondi, au plus
+  tous), comme Dofus ; tacle et fuite valent 1 par 10 d'Agilité plus la statistique d'équipement. Un
+  combattant **inblocable** (4 h du Chronomancien) n'est pas taclé et ne tacle pas. La zone de
+  déplacement montrée au survol compte le tacle de la case de départ. Valeurs provisoires.
+- **Esquive des retraits de PA / PM** (codée le 10/11/2026 sur `dev`) : chaque point retiré par un
+  adversaire (effet `retrait_pm`, malus de PA ou de PM) est esquivé à (Retrait de la cible − Retrait du
+  lanceur) % de chances, de 0 à 90 % (statistiques Retrait PA et Retrait PM, § 10.4 : une ligne qui
+  inflige et protège à la fois). Sans ces statistiques, tout retrait passe, comme avant. Valeurs provisoires.
 - **Temps par tour :** illimité en solo (option), 30 s en multi.
 - **Mort :** le personnage vaincu retourne à son point de résurrection avec 1 PV ; pas de perte
   d'objets (à rediscuter pour d'éventuelles zones dangereuses à terme).
@@ -2254,7 +2269,9 @@ moment** ; elle remplace la destruction d'objets et les cicatrices du § 9.2.
     pour l'instant (la Prospection, plus attrayante, aurait été toujours choisie ; le miroir Abondance
     envisagé est retiré le 09/11/2026) ; **Vitalité ↔
     Épines** (§ 4.4) ; **Critique ↔ Résistance aux critiques**.
-  - *Statistiques à venir* (09/11/2026, rien n'est codé ; leur miroir est déjà fixé) :
+  - *Statistiques à venir* (09/11/2026 ; leur miroir est déjà fixé ; **codées le 10/11/2026 sur `dev`**
+    en combat et en forge, § 7.2, valeurs provisoires du tacle, de la fuite et des retraits : 10 points de score par point de
+    Tacle ou de Fuite, 5 par point de Retrait) :
     - **Tacle ↔ Fuite** (tacle et fuite de la TODO) ;
     - **Retrait PA ↔ Retrait PM** : chacune **augmente la chance d'infliger** ce retrait et **réduit
       la chance de le subir**, en même temps (une seule ligne, pas d'esquive à part) ;

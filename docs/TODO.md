@@ -200,7 +200,7 @@ Lots 0 (conception dans le GDD), 1 (personnage, poussé sur `main` à la demande
   Demandes de l'auteur ajoutées : plafond 300 par caractéristique, plus de bonus de caractéristiques
   de race ni d'équipement de départ ; Semi-homme et Lutin (Phase 3) : esquive des retraits PA/PM
   et fuite (+10 % finaux) à la place de la prospection
-- [ ] **Dès que possible** (demande de l'auteur, 29/10/2026) : esquive des retraits de PA/PM et tacle /
+- [x] **Dès que possible** (demande de l'auteur, 29/10/2026 ; fait le 10/11/2026 sur `dev`, valeurs provisoires) : esquive des retraits de PA/PM et tacle /
   fuite (GDD § 7) ; elles manquent aux heures 3 h, 4 h et 9 h de l'Horloge du Chronomancien (sans
   effet en attendant, GDD § 4.3) et au Semi-homme et au Lutin (Phase 3, passifs en +10 % finaux)
 - [x] Lot 4 : le passif des Humains (+10 % d'XP de métier) devient +10 % de réputation de métier
@@ -226,14 +226,16 @@ Lots 0 (conception dans le GDD), 1 (personnage, poussé sur `main` à la demande
   arme, sans élément ni résistance, pas sur les soins ; portée par les objets (Chevalière du
   Cogneur), affichée dans la fiche
 - [ ] Sorts de Voie sacrés et impies (avec les nouvelles Voies)
-- [ ] **Épines** (brutes et élémentaires, fixes et %), **réduction de dégâts fixe**, **dégâts spectraux** et
-  **dévastateurs** (conception validée le 03/11/2026, GDD § 4.4) : statistiques, lignes de forge, monstres
-  qui les introduisent et ressources qui les portent 
+- [x] **Épines** (brutes et élémentaires, fixes et %), **réduction de dégâts fixe**, **dégâts spectraux** et
+  **dévastateurs** (conception validée le 03/11/2026, GDD § 4.4) : statistiques et lignes de forge (10/11/2026, sur `dev`)
+- [ ] Monstres qui introduisent les épines, la réduction fixe, les dégâts spectraux et dévastateurs, le tacle et les
+  retraits, et ressources de forge qui les portent (au choix de l'auteur, avec sa revue du butin)
 - [x] **Chronomancien, Voie Impie**, jouable dans l'alpha 1 (29/10/2026, GDD § 4.3) : effets
   `horloge` (cadran de 12 heures vu à l'écran, état Manipulation du temps), `decalage_horaire`
   (échange de place, obstacle sauté), état `insoignable`, caractéristique `degats_infliges` ; 6 sorts,
   heures écrites sur la glyphe, aperçu de la case d'arrivée ; protocole v9
-- [ ] Chronomancien : effets de 3 h, 4 h et 9 h (avec l'esquive et le tacle), Voie Givre (positions
+- [x] Chronomancien : effets de 3 h, 4 h et 9 h (avec l'esquive et le tacle, 10/11/2026 sur `dev`)
+- [ ] Chronomancien : Voie Givre (positions
   passées, envoi dans le futur, pulsions), sorts de rang II, équilibrage d'après les retours
 - [x] **(MVP)** Effets : soin, bouclier, téléportation, bonus/malus temporaires (caractéristiques, PA,
   PM, portée, Dommages, % Critique, résistances), poisons, poussée (avec dégâts de choc) et attirance
@@ -255,7 +257,7 @@ Lots 0 (conception dans le GDD), 1 (personnage, poussé sur `main` à la demande
 - [ ] Groupes plus grands (jusqu'à 8) une fois l'équilibrage fait
 - [x] **(MVP)** IA : sorts notés sur chaque cible (dégâts, soins, bonus/malus, glyphes, pièges) ;
   comportements `distance` (frondeurs) et `soutien`
-- [ ] Tacle / fuite (activable pour tester)
+- [x] Tacle / fuite (réglage `Combat.TACKLE`, 10/11/2026 sur `dev`)
 - [ ] Monstres agressifs (engagent le combat à proximité)
 - [ ] Combats d'essai façon Kanojedo de Dofus (GDD § 7.5) : niveau, caractéristiques, sorts et
   équipement au choix, mannequins et monstres déjà rencontrés, aucune récompense, tableau des dégâts
@@ -710,7 +712,7 @@ classes (option écartée et compromis gardés en piste, GDD § 5.2).
   opposée, palier Maître (Flamme ↔ Givre, Acier ↔ Tempête, Sacré ↔ Impie, Dévastateurs ↔ Spectraux,
   Dommages ↔ Soins au choix du joueur, Vitalité ↔ Épines, Critique ↔ Résistance aux critiques ; rien
   pour PA, PM ; Initiative à revoir)
-- [ ] Statistiques à venir (GDD § 10.4, miroir fixé) : Tacle ↔ Fuite, Retrait PA ↔ Retrait PM (inflige
+- [x] Statistiques à venir (GDD § 10.4, miroir fixé ; codées le 10/11/2026 sur `dev`, en combat et en forge) : Tacle ↔ Fuite, Retrait PA ↔ Retrait PM (inflige
   et protège à la fois), Dommages de mêlée (% finaux) ↔ Portée
 - [ ] Statistiques de métier (GDD § 10.4, 09/11/2026) : seulement sur les outils, une ressource donne une stat
   de combat (équipement) et une stat de métier (outil) ; plafonds par ligne et par outil à fixer ; liste de

@@ -20,7 +20,7 @@ STATS = {
     "vitalite": "Vitalité", "force": "Force", "intelligence": "Intelligence",
     "perception": "Perception", "agilite": "Agilité", "prospection": "Prospection", "initiative": "Initiative",
     "portee": "Portée", "pa": "PA", "pm": "PM", "dommages": "Dommages", "critique": "% Critique",
-    "resistance": "Résistance",
+    "resistance": "Résistance", "retrait_pa": "Retrait PA", "retrait_pm": "Retrait PM",
 }
 ELEMENTS = {"acier": "Acier", "flamme": "Flamme", "givre": "Givre", "tempete": "Tempête",
             "sacre": "Sacré", "impie": "Impie"}
@@ -36,14 +36,23 @@ TYPES = [("arme", "Armes"), ("coiffe", "Coiffes"), ("cape", "Capes"), ("amulette
 CARACS = {"vitalite": "Vitalité", "force": "Force", "intelligence": "Intelligence", "perception": "Perception",
           "agilite": "Agilité", "prospection": "Prospection", "initiative": "Initiative", "portee": "Portée",
           "pa": "PA", "pm": "PM", "dommages": "Dommages", "soins": "Soins", "critique": "% Critique",
-          "degats_devastateurs": "% Dégâts dévastateurs",
+          "degats_devastateurs": "% Dégâts dévastateurs", "degats_devastateurs_fixes": "Dégâts dévastateurs",
+          "degats_spectraux": "% Dégâts spectraux", "degats_spectraux_fixes": "Dégâts spectraux",
+          "tacle": "Tacle", "fuite": "Fuite", "retrait_pa": "Retrait PA", "retrait_pm": "Retrait PM",
+          "reduction_degats": "Réduction de dégâts", "dommages_melee": "% Dommages de mêlée",
+          "epines_brutes": "% Épines brutes", "epines_brutes_fixes": "Épines brutes",
+          **{f"epines_{e}": f"% Épines {n}" for e, n in ELEMENTS.items()}, **{f"epines_{e}_fixes": f"Épines {n}" for e, n in ELEMENTS.items()},
           **{f"dommages_{e}": f"Dommages {n}" for e, n in ELEMENTS.items()}, **{f"soins_{e}": f"Soins {n}" for e, n in ELEMENTS.items()},
           **{f"resistance_{e}": f"% Résistance {n}" for e, n in ELEMENTS.items()}}
 POIDS_FORGE = {"force": 1, "intelligence": 1, "perception": 1, "agilite": 1, "vitalite": 4, "initiative": 10,
                "prospection": 0.34, "dommages": 0.34, "critique": 0.1,
                **{f"dommages_{e}": 0.5 for e in ("acier", "flamme", "givre", "tempete")},
                "soins": 0.34, "degats_devastateurs": 0.1, **{f"dommages_{e}": 0.5 for e in ("sacre", "impie")},
-               **{f"soins_{e}": 0.5 for e in ELEMENTS}, **{f"resistance_{e}": 0.125 for e in ELEMENTS}}  # comme Forge.STAT_WEIGHTS
+               **{f"soins_{e}": 0.5 for e in ELEMENTS}, **{f"resistance_{e}": 0.125 for e in ELEMENTS},
+               "degats_devastateurs_fixes": 0.05, "degats_spectraux": 0.1, "degats_spectraux_fixes": 0.05,
+               "reduction_degats": 0.0833, "dommages_melee": 0.0333, "tacle": 0.1, "fuite": 0.1, "retrait_pa": 0.2, "retrait_pm": 0.2,
+               "epines_brutes": 0.05, "epines_brutes_fixes": 0.0714, **{f"epines_{e}": 0.0625 for e in ELEMENTS},
+               **{f"epines_{e}_fixes": 0.0909 for e in ELEMENTS}}  # comme Forge.STAT_WEIGHTS
 
 
 def forge_objet(o, objets):

@@ -241,7 +241,7 @@ func _process(_delta: float) -> bool:
 			view.server.character.gain_stat("vitalite", 30)
 			var inventory := view.server.character.inventory
 			if _action == "fiche_details":
-				inventory.equip(inventory.add(view.server.data.items["forge_bottes"], 1, {"dommages_flamme": 6, "resistance_givre": 8}), "bottes")
+				inventory.equip(inventory.add(view.server.data.items["forge_bottes"], 1, {"dommages_flamme": 6, "resistance_givre": 8, "epines_brutes_fixes": 3}), "bottes")
 			view.refresh_state()
 			var sheet: CharacterSheet = _scene.get_node("CharacterSheet")
 			sheet.toggle()

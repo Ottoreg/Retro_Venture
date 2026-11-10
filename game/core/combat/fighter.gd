@@ -41,10 +41,11 @@ var prospection: int = 100
 var dommages: int = 0
 ## Dommages par élément de base (équipement) : ajoutés aux dégâts de cet élément.
 var element_dommages: Dictionary = {}
-## Soins en plus de chaque soin (équipement), et par élément ; % de dégâts dévastateurs (GDD § 4.4).
+## Soins en plus de chaque soin (équipement), et par élément.
 var soins: int = 0
 var element_soins: Dictionary = {}
-var devastating: int = 0
+## Statistiques de combat (`COMBAT_STATS`) : équipement d'un joueur, « caracteristiques » d'un monstre.
+var combat_stats: Dictionary = {}
 ## Bouclier : points de dégâts absorbés avant les PV, jusqu'au début de son prochain tour.
 var shield: int = 0
 ## Qui a posé le bouclier, pour la pratique (`Combat.practice`) : { lanceur: id, pa } ; vide sans
@@ -82,6 +83,16 @@ const ELEMENT_STATE_MAX := 3
 const CREATED_SPELL_SLOTS := 2
 ## Bonus de dégâts (en %) de chaque état élémentaire dans son élément.
 const ELEMENT_STATE_BONUS := 4
+
+## Statistiques de combat (GDD § 4.4, § 7.2, § 10.4) : tacle, fuite, retraits de PA / PM (infligés et esquivés),
+## réduction de dégâts fixe, % de dommages de mêlée (finaux), dégâts spectraux et dévastateurs (% et fixes),
+## épines brutes et de chaque élément (% et fixes).
+const THORN_KINDS := ["brutes", "acier", "flamme", "givre", "tempete", "sacre", "impie"]
+const COMBAT_STATS := ["tacle", "fuite", "retrait_pa", "retrait_pm", "reduction_degats", "dommages_melee",
+	"degats_spectraux", "degats_spectraux_fixes", "degats_devastateurs", "degats_devastateurs_fixes",
+	"epines_brutes", "epines_brutes_fixes", "epines_acier", "epines_acier_fixes", "epines_flamme", "epines_flamme_fixes",
+	"epines_givre", "epines_givre_fixes", "epines_tempete", "epines_tempete_fixes", "epines_sacre", "epines_sacre_fixes",
+	"epines_impie", "epines_impie_fixes"]
 
 ## Caractéristique qui augmente les dégâts de chaque élément.
 const ELEMENT_STATS := {"acier": "force", "flamme": "intelligence", "givre": "perception", "tempete": "agilite"}
@@ -127,6 +138,20 @@ func modifier(carac: String, element := "") -> int:
 		if state.get("carac") == carac and (carac != "resistance" or state.get("element") == element):
 			total += int(state["valeur"]) * (1 if state["type"] == Spell.EFFECT_BONUS else -1 if state["type"] == Spell.EFFECT_MALUS else 0)
 	return total
+
+
+## Statistique de combat (`COMBAT_STATS`) : base et états.
+func combat_stat(stat_name: String) -> int:
+	return int(combat_stats.get(stat_name, 0)) + modifier(stat_name)
+
+
+## Tacle et fuite : un point par 10 d'Agilité, plus la statistique (GDD § 7.2).
+func tackle() -> int:
+	return maxi(0, stat("agilite")) / 10 + combat_stat("tacle")
+
+
+func escape() -> int:
+	return maxi(0, stat("agilite")) / 10 + combat_stat("fuite")
 
 
 ## Porte-t-il l'état nommé `state_name` (voir `Spell.NAMED_STATES`) ?
@@ -303,7 +328,7 @@ func profile() -> Dictionary:
 		"pv_max": max_hp, "pa": max_pa, "pm": max_pm, "initiative": initiative, "portee": range_bonus,
 		"prospection": prospection, "dommages": dommages, "critique": crit_bonus, "resistances": resistances.duplicate(),
 		"dommages_elements": element_dommages.duplicate(), "soins": soins, "soins_elements": element_soins.duplicate(),
-		"devastateurs": devastating, "sorts": spell_ids, "maitrises": masteries.duplicate(), "arme": weapon, "palier_arme": weapon_tier, "bonus_arme": weapon_bonus.duplicate(true)}
+		"stats_combat": combat_stats.duplicate(), "sorts": spell_ids, "maitrises": masteries.duplicate(), "arme": weapon, "palier_arme": weapon_tier, "bonus_arme": weapon_bonus.duplicate(true)}
 
 
 ## État complet du combattant pour la copie d'un client (voir `Combat.snapshot`) : ce qui change

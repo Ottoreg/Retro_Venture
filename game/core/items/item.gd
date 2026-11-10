@@ -32,14 +32,26 @@ const PRICE_TIER_STEP := 3.0
 ## Part du prix d'achat que le marchand paie quand on lui revend un objet.
 const RESALE_RATE := 0.25
 ## Bonus que peut donner un équipement, en plus des 6 caractéristiques ; dommages, soins et résistances (%)
-## par élément : « dommages_flamme », « soins_sacre », « resistance_givre »… ; % de dégâts dévastateurs.
-const EXTRA_STATS := ["prospection", "initiative", "portee", "pa", "pm", "dommages", "soins", "critique", "degats_devastateurs",
+## par élément : « dommages_flamme », « soins_sacre », « resistance_givre »… ; statistiques de combat (`Fighter.COMBAT_STATS`).
+const EXTRA_STATS := ["prospection", "initiative", "portee", "pa", "pm", "dommages", "soins", "critique",
+	"tacle", "fuite", "retrait_pa", "retrait_pm", "reduction_degats", "dommages_melee",
+	"degats_spectraux", "degats_spectraux_fixes", "degats_devastateurs", "degats_devastateurs_fixes",
+	"epines_brutes", "epines_brutes_fixes", "epines_acier", "epines_acier_fixes", "epines_flamme", "epines_flamme_fixes",
+	"epines_givre", "epines_givre_fixes", "epines_tempete", "epines_tempete_fixes", "epines_sacre", "epines_sacre_fixes",
+	"epines_impie", "epines_impie_fixes",
 	"dommages_acier", "dommages_flamme", "dommages_givre", "dommages_tempete", "dommages_sacre", "dommages_impie",
 	"soins_acier", "soins_flamme", "soins_givre", "soins_tempete", "soins_sacre", "soins_impie",
 	"resistance_acier", "resistance_flamme", "resistance_givre", "resistance_tempete", "resistance_sacre", "resistance_impie"]
 const EXTRA_STAT_NAMES := {
 	"prospection": "Prospection", "initiative": "Initiative", "portee": "Portée", "pa": "PA", "pm": "PM",
-	"dommages": "Dommages", "soins": "Soins", "critique": "% Critique", "degats_devastateurs": "% Dégâts dévastateurs",
+	"dommages": "Dommages", "soins": "Soins", "critique": "% Critique",
+	"tacle": "Tacle", "fuite": "Fuite", "retrait_pa": "Retrait PA", "retrait_pm": "Retrait PM", "reduction_degats": "Réduction de dégâts",
+	"dommages_melee": "% Dommages de mêlée", "degats_spectraux": "% Dégâts spectraux", "degats_spectraux_fixes": "Dégâts spectraux",
+	"degats_devastateurs": "% Dégâts dévastateurs", "degats_devastateurs_fixes": "Dégâts dévastateurs",
+	"epines_brutes": "% Épines brutes", "epines_brutes_fixes": "Épines brutes", "epines_acier": "% Épines Acier", "epines_acier_fixes": "Épines Acier",
+	"epines_flamme": "% Épines Flamme", "epines_flamme_fixes": "Épines Flamme", "epines_givre": "% Épines Givre", "epines_givre_fixes": "Épines Givre",
+	"epines_tempete": "% Épines Tempête", "epines_tempete_fixes": "Épines Tempête", "epines_sacre": "% Épines Sacré", "epines_sacre_fixes": "Épines Sacré",
+	"epines_impie": "% Épines Impie", "epines_impie_fixes": "Épines Impie",
 	"dommages_acier": "Dommages Acier", "dommages_flamme": "Dommages Flamme", "dommages_givre": "Dommages Givre",
 	"dommages_tempete": "Dommages Tempête", "dommages_sacre": "Dommages Sacré", "dommages_impie": "Dommages Impie",
 	"soins_acier": "Soins Acier", "soins_flamme": "Soins Flamme", "soins_givre": "Soins Givre",

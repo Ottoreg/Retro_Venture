@@ -121,9 +121,9 @@ const COLOR_TRAP_FLASH := Color(1.0, 0.45, 0.1, 0.6)
 ## Noms affichés des caractéristiques modifiées par un bonus ou un malus.
 const CARAC_NAMES := {"force": "Force", "intelligence": "Intelligence", "perception": "Perception", "agilite": "Agilité",
 	"pa": "PA", "pm": "PM", "portee": "Portée", "dommages": "Dommages", "critique": "% Critique", "resistance": "Rés.",
-	"degats_infliges": "% dégâts infligés"}
+	"degats_infliges": "% dégâts infligés", "retrait_pa": "Retrait PA", "retrait_pm": "Retrait PM"}
 ## Noms des états nommés (`Spell.NAMED_STATES`).
-const STATE_NAMES := {"insoignable": "Insoignable", "manipulation_temps": "Manipulation du temps", "exorcisme": "Exorcisme"}
+const STATE_NAMES := {"insoignable": "Insoignable", "manipulation_temps": "Manipulation du temps", "exorcisme": "Exorcisme", "inblocable": "Inblocable"}
 
 const NO_CELL := Vector2i(-99999, -99999)
 ## Marge en haut de l'écran (pixels) : une bulle de dialogue ne monte pas plus haut.
@@ -966,6 +966,8 @@ func _log_line(event: Dictionary) -> String:
 				text += " — poison"
 			elif event.get("source", "") == "choc":
 				text += " — choc contre un obstacle"
+			elif event.get("source", "") == "epines":
+				text += " — épines"
 			return text
 		Protocol.EVT_HEAL:
 			return "%s récupère %s" % [who, _colored("%d PV" % event["valeur"], event.get("element", ""))]
@@ -976,6 +978,10 @@ func _log_line(event: Dictionary) -> String:
 				return "%s gagne [color=#%s]%d PA[/color]" % [who, LOG_BONUS, event["valeur"]]
 			if event["effet"] == "devastation":
 				return "%s perd [color=#%s]%d PV max[/color] (dégâts dévastateurs)" % [who, LOG_MALUS, event["valeur"]]
+			if event["effet"] == "tacle":
+				return "%s est taclé : [color=#%s]-%d PM[/color]" % [who, LOG_MALUS, event["valeur"]]
+			if event["effet"] == "esquive":
+				return "%s esquive [color=#%s]%d %s[/color]" % [who, LOG_BONUS, event["valeur"], str(event["carac"]).to_upper()]
 			return "%s perd [color=#%s]%d PM[/color] au prochain tour" % [who, LOG_MALUS, event["valeur"]]
 		Protocol.EVT_STATES:
 			if event.has("retires"):
@@ -1521,6 +1527,10 @@ func _apply(event: Dictionary) -> float:
 		elif event["effet"] == "devastation":
 			affected["max_hp"] = event["pv_max"]
 			label = "-%d PV max" % event["valeur"]
+		elif event["effet"] == "tacle":
+			label = "Taclé ! -%d PM" % event["valeur"]
+		elif event["effet"] == "esquive":
+			label = "Esquive %d %s" % [event["valeur"], str(event["carac"]).to_upper()]
 		_add_floating(label, color, affected["pos"])
 		combat_state_changed.emit()
 		return 0.25
@@ -1748,6 +1758,8 @@ func _apply(event: Dictionary) -> float:
 			text += " (poison)"
 		elif event.get("source", "") == "choc":
 			text += " (choc)"
+		elif event.get("source", "") == "epines":
+			text += " (épines)"
 		_add_floating(text, element_color(event.get("element", ""), Color(1, 0.35, 0.3)), target["pos"])
 		combat_state_changed.emit()
 		return 0.25

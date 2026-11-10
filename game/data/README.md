@@ -366,11 +366,15 @@ Chronomancien (Voie Impie) :
   Une heure hors de la carte ou sur un obstacle est sautée (heure suivante dans le sens du
   décalage) ; un combattant sur la case d'arrivée échange sa place avec la cible. Sans horloge,
   rien ne bouge (les autres effets du sort restent). Placé après les dégâts du sort.
-- `etat` : état nommé pendant `duree` tours : `insoignable` (aucun soin ne lui rend de PV) ou
-  `exorcisme` (les prochains dégâts Sacré l'achèvent, bouclier compris ; l'état tombe alors).
+- `etat` : état nommé pendant `duree` tours : `insoignable` (aucun soin ne lui rend de PV),
+  `exorcisme` (les prochains dégâts Sacré l'achèvent, bouclier compris ; l'état tombe alors) ou
+  `inblocable` (ni taclé, ni tacleur).
 - `"vol": true` sur un effet `degats` : vol de vie, le lanceur reprend les PV qu'il a fait perdre.
 - `portee_fixe` (sort, `true`) : portée non modifiable, les bonus de portée ne s'y ajoutent pas.
 - Caractéristique `degats_infliges` (bonus ou malus) : % de tous les dégâts infligés, poisons compris.
+- Caractéristiques `retrait_pa` et `retrait_pm` (bonus ou malus) : chance en % d'esquiver les retraits de PA / PM
+  d'un adversaire (moins la sienne) et de faire passer les siens ; un malus de PA ou de PM et l'effet `retrait_pm`
+  d'un adversaire sont esquivés point par point (90 % au plus).
 - `horloge` et `decalage_horaire` n'ont ni `min` ni `max` et sont interdits dans une glyphe, un piège,
   une heure d'horloge et une phase de monstre.
 - Les effets d'une glyphe ou d'un piège ne peuvent pas être une glyphe, un piège ou une téléportation.
@@ -390,9 +394,11 @@ Chronomancien (Voie Impie) :
 }
 ```
 
-`caracteristiques` : `pv`, `pa`, `pm`, `initiative`, et en option `force`, `intelligence`, `chance`,
+`caracteristiques` : `pv`, `pa`, `pm`, `initiative`, et en option `force`, `intelligence`, `perception`,
 `agilite` (entiers ≥ 0, 0 par défaut) : comme pour les joueurs, +1 % de dégâts de l'élément par point
-(Force pour l'Acier, Intelligence pour la Flamme, etc.).
+(Force pour l'Acier, Intelligence pour la Flamme, etc.). En option aussi, les statistiques de combat de
+l'équipement (`tacle`, `fuite`, `retrait_pa`, `retrait_pm`, `reduction_degats`, `dommages_melee`, épines,
+dégâts spectraux et dévastateurs : voir les `bonus` des objets), sans plafond.
 
 `resistances` en % par élément (négatif = faiblesse). La résistance au Sacré est la moyenne des
 résistances à l'Acier et à la Flamme, plus la résistance au Sacré (`sacre`, facultatif) : 10 % Flamme,
@@ -524,7 +530,7 @@ Vétéran 15 000).
 | `type` | `ressource` (s'empile), `quete` (objet de quête : s'empile, ni vendu, ni vendable, ni jetable), `recette` (plan de forge, ci-dessous) ou équipement : `arme`, `coiffe`, `cape`, `amulette`, `anneau`, `ceinture`, `bottes` |
 | `rarete` | `commun`, `peu_commun`, `rare`, `epique`, `legendaire`, `relique` (couleur dans l'interface) |
 | `niveau` | Palier de l'objet (puissance indicative, prix, catalogue) : plus une condition pour l'équiper (GDD § 4.5) |
-| `bonus` | Plages `[min, max]` tirées au hasard à l'obtention (« jets ») : les 5 caractéristiques, `prospection`, `initiative`, `portee`, `pa`, `pm`, `dommages` (dégâts bruts ajoutés à chaque ligne de dégâts, ni multipliés ni réduits par les résistances, pas sur les soins), `dommages_<élément>` (pareil, seulement pour les dégâts de cet élément : `acier`, `flamme`, `givre`, `tempete`, `sacre`, `impie` ; Sacré et Impie : la moyenne de leurs deux éléments plus les leurs), `soins` et `soins_<élément>` (soins ajoutés à chaque soin, même règle), `resistance_<élément>` (% de résistance, Sacré et Impie compris), `degats_devastateurs` (% des PV retirés qui baisse aussi les PV max de la cible, 50 % au plus, jamais sous 40 % de ses PV max du début du combat ; GDD § 4.4) |
+| `bonus` | Plages `[min, max]` tirées au hasard à l'obtention (« jets ») : les 5 caractéristiques, `prospection`, `initiative`, `portee`, `pa`, `pm`, `dommages` (dégâts bruts ajoutés à chaque ligne de dégâts, ni multipliés ni réduits par les résistances, pas sur les soins), `dommages_<élément>` (pareil, seulement pour les dégâts de cet élément : `acier`, `flamme`, `givre`, `tempete`, `sacre`, `impie` ; Sacré et Impie : la moyenne de leurs deux éléments plus les leurs), `soins` et `soins_<élément>` (soins ajoutés à chaque soin, même règle), `resistance_<élément>` (% de résistance, Sacré et Impie compris), `degats_devastateurs` et `degats_devastateurs_fixes` (% et fixe des dégâts infligés qui baisse aussi les PV max de la cible, 50 % des dégâts au plus, jamais sous 40 % de ses PV max du début du combat ; GDD § 4.4), `degats_spectraux` et `degats_spectraux_fixes` (part des dégâts infligés, 50 % au plus, qui ne compte pas pour les épines de la cible), `epines_<sorte>` (%) et `epines_<sorte>_fixes` (sorte : `brutes` ou un élément ; renvoi à l'adversaire d'une part des dégâts subis, 60 % au plus en tout ; l'épine élémentaire est réduite par la résistance de l'attaquant), `reduction_degats` (retirée de chaque coup reçu et de chaque épine), `dommages_melee` (% des dégâts finaux au contact), `tacle` et `fuite` (en plus d'un point par 10 d'Agilité : quitter le contact d'ennemis garde (fuite + 2) / (2 × (tacle + 2)) des PM), `retrait_pa` et `retrait_pm` (esquive des retraits, voir les sorts) |
 | `boutique` | `false` : les marchands ne le vendent pas (trophée de boss, objet de butin rare) ; défaut `true` |
 | `attaque` | Armes seulement : attaque utilisable en combat, décrite comme un sort |
 | `caracteristique` | Ressources de monstres et matières récoltées (minerais et bois élémentaires, leurs rares en `dommages_` / `resistance_` de l'élément ; chanvre, lin et rares en Portée) : ce qu'elles donnent à la forge (une des 12 statistiques ; la valeur dépend du `niveau`, voir « Forge ») |

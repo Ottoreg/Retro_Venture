@@ -220,8 +220,15 @@ Dernière session (retours de la passe de l'auteur) :
   de l'Arcaniste vient après l'alpha 1 (à laisser deviner aux testeurs).
 - **Chronomancien, Voie Impie** (29/10/2026, demande de l'auteur, GDD § 4.3) : 5e Voie de l'alpha 1,
   effets `horloge` / `decalage_horaire` (`Combat.CLOCK_OFFSETS`, `clock_destination`, échange de
-  place), état `insoignable`, carac `degats_infliges` ; heures 3 h, 4 h et 9 h sans effet en
-  attendant l'esquive des retraits et le tacle / fuite (à coder dès que possible, TODO) ; protocole v9.
+  place), état `insoignable`, carac `degats_infliges` ; protocole v9. Heures 3 h, 4 h et 9 h faites le
+  10/11/2026 (sur `dev`) avec le tacle et l'esquive des retraits.
+- **Statistiques de combat** (10/11/2026, sur `dev`, GDD § 4.4 et § 7.2, `Fighter.COMBAT_STATS`, `combat_stat`) :
+  tacle / fuite (`Combat.TACKLE`, `tackle_ratio` : (fuite + 2) / (2 × (tacle + 2)), un point par 10 d'Agilité),
+  retraits de PA / PM esquivés (`_landed_removal` : retrait de la cible − celui du lanceur, en %, 90 au plus),
+  état `inblocable`, épines brutes et élémentaires fixes et % (`_thorns`), réduction de dégâts fixe, dégâts
+  spectraux et dévastateurs fixes et % (`_part`), dommages de mêlée % (au contact) ; portés par l'équipement
+  et les `caracteristiques` des monstres, lignes de forge (`Forge.STAT_WEIGHTS`) ; protocole v14. Valeurs du tacle,
+  de la fuite et des retraits provisoires ; aucun monstre ni aucune ressource ne les porte encore.
 - Idées notées sans les faire : pistes des classes à venir et suite de la refonte de l'Arcaniste
   (GDD § 4.3) ; autres idées d'identité des classes (TODO, « Identité des classes ») ; Cape en peau d'ananas (forte résistance Flamme ; demande des
   bonus de résistance sur l'équipement, GDD § 9.2) ; PNJ qui appellent le joueur par son pseudo

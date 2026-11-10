@@ -279,8 +279,9 @@ func test_kit_du_chronomancien() -> void:
 	var clock: Dictionary = horloge.effects[1]
 	assert_eq(clock["type"], Spell.EFFECT_CLOCK)
 	assert_eq(clock["heures"].size(), 12, "les 12 heures")
-	for hour in ["3", "4", "9"]:
-		assert_true(clock["heures"][hour].is_empty(), "%s h : sans effet tant que tacle et esquive manquent" % hour)
+	assert_eq(clock["heures"]["3"][0]["carac"], "retrait_pa", "3 h : esquive des retraits de PA baissée")
+	assert_eq(clock["heures"]["4"][0]["etat"], Spell.STATE_UNBLOCKABLE, "4 h : inblocable")
+	assert_eq(clock["heures"]["9"][0]["carac"], "retrait_pm", "9 h : esquive des retraits de PM baissée")
 	var shifts := []
 	for spell_id: String in voie["sorts"]:
 		for effect: Dictionary in (data.spells[spell_id] as Spell).effects:

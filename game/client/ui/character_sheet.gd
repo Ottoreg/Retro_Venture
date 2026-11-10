@@ -106,7 +106,9 @@ func _refresh_details(world: Variant) -> void:
 			child.queue_free()
 	for row: Array in [["Points de vie", fighter.max_hp], ["PA", fighter.max_pa], ["PM", fighter.max_pm], ["Initiative", fighter.initiative],
 			["Prospection", fighter.prospection], ["Portée", "%+d" % fighter.range_bonus], ["Critique", "%d %%" % (Spell.DEFAULT_CRIT_CHANCE + fighter.crit_bonus)],
-			["Dommages", fighter.total_dommages()]]:
+			["Dommages", fighter.total_dommages()], ["Tacle", fighter.tackle()], ["Fuite", fighter.escape()]] \
+			+ Fighter.COMBAT_STATS.filter(func(stat: String) -> bool: return stat not in ["tacle", "fuite"] and fighter.combat_stat(stat) != 0) \
+				.map(func(stat: String) -> Array: return [Item.EXTRA_STAT_NAMES[stat], fighter.combat_stat(stat)]):
 		_cells(_general, row, Color.WHITE)
 	_cells(_elements, ["Élément", "Puissance", "Dommages", "Résistance"], GOLD)
 	for element: String in Spell.ELEMENTS:

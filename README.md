@@ -38,8 +38,11 @@ a été ajouté depuis, avant de retravailler le fond des mécaniques, des class
   groupe, spectateurs, chat par canaux, amis et ignorés, signalement, échange entre joueurs (jalons M0 à M4).
 - **Graphismes** : sprites en pixel art pour les trois races et quelques monstres (loup, rat, morille).
 
-**Ensuite** : quêtes et maîtres de classe et de métier (fin de la refonte de la progression), tacle et
-esquive, hôtel des ventes, art et son.
+**Sur `dev`** : tacle et fuite, esquive des retraits de PA / PM, épines, réduction de dégâts fixe, dégâts
+spectraux et dommages de mêlée (statistiques et lignes de forge).
+
+**Ensuite** : quêtes et maîtres de classe et de métier (fin de la refonte de la progression), hôtel des
+ventes, art et son.
 
 ## Documentation
 

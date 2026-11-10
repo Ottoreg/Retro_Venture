@@ -9,7 +9,7 @@ extends RefCounted
 
 ## Version du protocole, vérifiée à la connexion : à augmenter à chaque changement incompatible
 ## d'une commande ou d'un événement.
-const VERSION := 13
+const VERSION := 14
 
 # --- Commandes (client → noyau) ---
 
