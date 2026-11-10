@@ -138,7 +138,8 @@ ressource récoltée) ; nombre de nœuds par carte.
 `core/items/forge.gd` (GDD § 10.4). À l'enclume de la maison, on choisit un type d'objet et on y
 pose **8 ressources différentes au plus** (les cases de la recette, quantité libre), matières obligatoires comprises. Chaque ressource de monstre donne
 une caractéristique (plusieurs pour certaines ressources de haut palier, chacune à sa valeur pleine)
-selon son palier. Une ligne vaut au plus **100 points de score** (`Forge.line_cap`)
+selon son palier. Une ligne vaut au plus **20 points de score par palier de forge** (`Forge.line_cap`, palier de
+réputation de forgeron : Apprenti 1 à Légende 5, Inconnu compté 1 ; PA 100 points de score, PM 80 points de score, Portée 60 points de score : perdus avant leur palier)
 et un objet a au plus **8 lignes**. Le palier de l'objet est la moyenne des paliers (pondérée
 par les quantités) ; les jets sont tirés entre 75 % et 100 % du total (plus avec Précision).
 PA, PM, Portée : 1 par ressource quel que soit le palier, 1 au plus par objet. La caractéristique d'une ressource
@@ -150,40 +151,40 @@ de forgeron atteint son palier (`Forge.reveals`). Réputation : 5 × palier de l
 `Forge.value` : max(1, arrondi((1 + palier / 8) × poids)), **× 3 pour une ressource rare** ; poids = points de
 la caractéristique pour un point de score (le tableau donne la valeur d'une ressource non rare).
 
-| Caractéristique | Poids | Plafond d'une ligne | P1 | P3 | P4 | P6 | P7 | P8 | P9 | P10 | P12 | P13 | P15 | P16 | P18 | P19 | P22 | P25 | P28 | P50 |
+| Caractéristique | Poids | Plafond d'une ligne (paliers de forge 1 à 5) | P1 | P3 | P4 | P6 | P7 | P8 | P9 | P10 | P12 | P13 | P15 | P16 | P18 | P19 | P22 | P25 | P28 | P50 |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| Force | 1 | 100 | 1 | 1 | 2 | 2 | 2 | 2 | 2 | 2 | 3 | 3 | 3 | 3 | 3 | 3 | 4 | 4 | 5 | 7 |
-| Intelligence | 1 | 100 | 1 | 1 | 2 | 2 | 2 | 2 | 2 | 2 | 3 | 3 | 3 | 3 | 3 | 3 | 4 | 4 | 5 | 7 |
-| Perception | 1 | 100 | 1 | 1 | 2 | 2 | 2 | 2 | 2 | 2 | 3 | 3 | 3 | 3 | 3 | 3 | 4 | 4 | 5 | 7 |
-| Agilité | 1 | 100 | 1 | 1 | 2 | 2 | 2 | 2 | 2 | 2 | 3 | 3 | 3 | 3 | 3 | 3 | 4 | 4 | 5 | 7 |
-| Vitalité | 4 | 400 | 5 | 6 | 6 | 7 | 8 | 8 | 9 | 9 | 10 | 11 | 12 | 12 | 13 | 14 | 15 | 17 | 18 | 29 |
-| Initiative | 10 | 1000 | 11 | 14 | 15 | 18 | 19 | 20 | 21 | 23 | 25 | 26 | 29 | 30 | 33 | 34 | 38 | 41 | 45 | 73 |
-| Prospection | 0,34 | 34 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 2 | 2 |
-| Dommages | 0,34 | 34 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 2 | 2 |
-| % Critique | 0,1 | 10 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-| Soins | 0,34 | 34 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 2 | 2 |
-| % Dégâts dévastateurs | 0,1 | 10 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-| Dommages Acier | 0,5 | 50 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 2 | 2 | 2 | 2 | 2 | 2 | 4 |
-| Dommages Flamme | 0,5 | 50 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 2 | 2 | 2 | 2 | 2 | 2 | 4 |
-| Dommages Givre | 0,5 | 50 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 2 | 2 | 2 | 2 | 2 | 2 | 4 |
-| Dommages Tempête | 0,5 | 50 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 2 | 2 | 2 | 2 | 2 | 2 | 4 |
-| Dommages Sacré | 0,5 | 50 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 2 | 2 | 2 | 2 | 2 | 2 | 4 |
-| Dommages Impie | 0,5 | 50 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 2 | 2 | 2 | 2 | 2 | 2 | 4 |
-| Soins Acier | 0,5 | 50 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 2 | 2 | 2 | 2 | 2 | 2 | 4 |
-| Soins Flamme | 0,5 | 50 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 2 | 2 | 2 | 2 | 2 | 2 | 4 |
-| Soins Givre | 0,5 | 50 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 2 | 2 | 2 | 2 | 2 | 2 | 4 |
-| Soins Tempête | 0,5 | 50 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 2 | 2 | 2 | 2 | 2 | 2 | 4 |
-| Soins Sacré | 0,5 | 50 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 2 | 2 | 2 | 2 | 2 | 2 | 4 |
-| Soins Impie | 0,5 | 50 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 2 | 2 | 2 | 2 | 2 | 2 | 4 |
-| % Résistance Acier | 0,12 | 12 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-| % Résistance Flamme | 0,12 | 12 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-| % Résistance Givre | 0,12 | 12 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-| % Résistance Tempête | 0,12 | 12 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-| % Résistance Sacré | 0,12 | 12 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-| % Résistance Impie | 0,12 | 12 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-| PA | fixe | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-| PM | fixe | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-| Portée | fixe | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
+| Force | 1 | 20 / 40 / 60 / 80 / 100 | 1 | 1 | 2 | 2 | 2 | 2 | 2 | 2 | 3 | 3 | 3 | 3 | 3 | 3 | 4 | 4 | 5 | 7 |
+| Intelligence | 1 | 20 / 40 / 60 / 80 / 100 | 1 | 1 | 2 | 2 | 2 | 2 | 2 | 2 | 3 | 3 | 3 | 3 | 3 | 3 | 4 | 4 | 5 | 7 |
+| Perception | 1 | 20 / 40 / 60 / 80 / 100 | 1 | 1 | 2 | 2 | 2 | 2 | 2 | 2 | 3 | 3 | 3 | 3 | 3 | 3 | 4 | 4 | 5 | 7 |
+| Agilité | 1 | 20 / 40 / 60 / 80 / 100 | 1 | 1 | 2 | 2 | 2 | 2 | 2 | 2 | 3 | 3 | 3 | 3 | 3 | 3 | 4 | 4 | 5 | 7 |
+| Vitalité | 4 | 80 / 160 / 240 / 320 / 400 | 5 | 6 | 6 | 7 | 8 | 8 | 9 | 9 | 10 | 11 | 12 | 12 | 13 | 14 | 15 | 17 | 18 | 29 |
+| Initiative | 10 | 200 / 400 / 600 / 800 / 1000 | 11 | 14 | 15 | 18 | 19 | 20 | 21 | 23 | 25 | 26 | 29 | 30 | 33 | 34 | 38 | 41 | 45 | 73 |
+| Prospection | 0,34 | 6 / 13 / 20 / 27 / 34 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 2 | 2 |
+| Dommages | 0,34 | 6 / 13 / 20 / 27 / 34 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 2 | 2 |
+| % Critique | 0,1 | 2 / 4 / 6 / 8 / 10 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
+| Soins | 0,34 | 6 / 13 / 20 / 27 / 34 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 2 | 2 |
+| % Dégâts dévastateurs | 0,1 | 2 / 4 / 6 / 8 / 10 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
+| Dommages Acier | 0,5 | 10 / 20 / 30 / 40 / 50 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 2 | 2 | 2 | 2 | 2 | 2 | 4 |
+| Dommages Flamme | 0,5 | 10 / 20 / 30 / 40 / 50 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 2 | 2 | 2 | 2 | 2 | 2 | 4 |
+| Dommages Givre | 0,5 | 10 / 20 / 30 / 40 / 50 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 2 | 2 | 2 | 2 | 2 | 2 | 4 |
+| Dommages Tempête | 0,5 | 10 / 20 / 30 / 40 / 50 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 2 | 2 | 2 | 2 | 2 | 2 | 4 |
+| Dommages Sacré | 0,5 | 10 / 20 / 30 / 40 / 50 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 2 | 2 | 2 | 2 | 2 | 2 | 4 |
+| Dommages Impie | 0,5 | 10 / 20 / 30 / 40 / 50 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 2 | 2 | 2 | 2 | 2 | 2 | 4 |
+| Soins Acier | 0,5 | 10 / 20 / 30 / 40 / 50 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 2 | 2 | 2 | 2 | 2 | 2 | 4 |
+| Soins Flamme | 0,5 | 10 / 20 / 30 / 40 / 50 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 2 | 2 | 2 | 2 | 2 | 2 | 4 |
+| Soins Givre | 0,5 | 10 / 20 / 30 / 40 / 50 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 2 | 2 | 2 | 2 | 2 | 2 | 4 |
+| Soins Tempête | 0,5 | 10 / 20 / 30 / 40 / 50 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 2 | 2 | 2 | 2 | 2 | 2 | 4 |
+| Soins Sacré | 0,5 | 10 / 20 / 30 / 40 / 50 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 2 | 2 | 2 | 2 | 2 | 2 | 4 |
+| Soins Impie | 0,5 | 10 / 20 / 30 / 40 / 50 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 2 | 2 | 2 | 2 | 2 | 2 | 4 |
+| % Résistance Acier | 0,12 | 2 / 5 / 7 / 10 / 12 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
+| % Résistance Flamme | 0,12 | 2 / 5 / 7 / 10 / 12 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
+| % Résistance Givre | 0,12 | 2 / 5 / 7 / 10 / 12 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
+| % Résistance Tempête | 0,12 | 2 / 5 / 7 / 10 / 12 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
+| % Résistance Sacré | 0,12 | 2 / 5 / 7 / 10 / 12 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
+| % Résistance Impie | 0,12 | 2 / 5 / 7 / 10 / 12 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
+| PA | fixe | 0 / 0 / 0 / 0 / 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
+| PM | fixe | 0 / 0 / 0 / 1 / 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
+| Portée | fixe | 0 / 0 / 1 / 1 / 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
 
 ### Types d'objets
 
@@ -296,7 +297,7 @@ Ressources par caractéristique : Force 14, Intelligence 12, Agilité 9, Percept
 ### Plans
 
 Un plan (objet de type « recette ») donne d'avance le type, les ressources et le nom ; l'aperçu
-montre tout. Bonus calculés comme `Forge.preview` sans Précision (plage du jet).
+montre tout. Bonus calculés comme `Forge.preview` sans Précision (plage du jet), au palier de forge 5.
 
 | Plan | Type | Palier | Ressources | Jets | Obtention |
 |---|---|---|---|---|---|

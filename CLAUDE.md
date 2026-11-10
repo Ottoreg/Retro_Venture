@@ -14,7 +14,7 @@ Solo d'abord, multijoueur plus tard. Vision et règles : [docs/GDD.md](docs/GDD.
   publie le jeu sur GitHub Pages, le client natif et l'image de staging). Tout nouveau développement va
   sur `dev` (la CI n'y lance que les tests, sans rien publier). Seuls les correctifs de bugs trouvés
   pendant les tests vont sur `main`, puis sont reportés sur `dev`. Fusion de `dev` dans `main` à la fin
-  des tests, sur demande de l'auteur.
+  des tests, sur demande de l'auteur. Dernière fusion : 10/11/2026 (`main` = `dev`).
 - Développer sur la branche de session, la pousser, attendre la CI verte (onglet Actions ou API GitHub),
   puis pousser sur la branche cible (`dev`, ou `main` pour un correctif) après l'avoir récupérée
   (`git fetch`), rebasé dessus et relancé les tests.
@@ -180,9 +180,11 @@ Fenêtre refaite le 03/11/2026 : sac en icônes à gauche, clic ou glisser vers 
 (`Forge.MAX_SLOTS` ressources différentes, quantité libre), jet obtenu à droite ; 9e case : feuille de papier → patron
 (`Forge.PAPER`, `Forge.PATTERN`) ; élément d'attaque des armes selon leurs lignes ; lignes `dommages_<élément>` et
 `resistance_<élément>` ; matières récoltées orientées (`docs/design/forge/matieres.py`).
+Plafonds selon le palier de réputation de forgeron (07/11/2026, sur `dev`, `Forge.tier`) : 20 points de score par ligne
+et par palier (160 à 800 par objet) ; PA, PM et Portée (`Forge.FIXED_STATS` : 100, 80, 60 points) perdus avant leur palier.
 Plus tard : maîtres par catégorie (armurier, tailleur, cordonnier) qui donnent des plans par quêtes.
 
-**Tour céleste réduite (04/11/2026, sur `dev`, reportée sur `main` le 06/11/2026 à la demande de l'auteur, GDD § 12.8 « Version réduite » ; § 12 sur `main`)** : parvis `celeste_0_0`
+**Tour céleste réduite (04/11/2026, sur `dev`, reportée sur `main` le 06/11/2026 à la demande de l'auteur, GDD § 12.8 « Version réduite »)** : parvis `celeste_0_0`
 (Pierre de Passage `tour_celeste`, Cupidon qui lâche la `cle_celeste`, portier Saint Pierrot : champ
 `entree` des PNJ), étages `tour_celeste_1` à `_5` (champ `etage_suivant` : les vainqueurs montent),
 monstres `donjon` sans élite, groupes de 4 (`GameMap.MAX_GROUP_SIZE`), vol de vie (`"vol"` sur un

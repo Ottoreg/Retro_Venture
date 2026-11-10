@@ -208,3 +208,19 @@ func test_patron_sur_une_feuille_de_papier() -> void:
 	var boots: Dictionary = inventory.entries.values().filter(func(e: Dictionary) -> bool: return e["objet"] == "forge_bottes")[0]
 	assert_eq(template["patron"]["jets"], boots["jets"], "les jets de l'objet forgé")
 	assert_eq(Inventory.from_dict(inventory.to_dict(), _world.data.items).quantity_of(Forge.PATTERN), 2, "gardés à la sauvegarde")
+
+
+func test_plafonds_selon_le_palier_de_forge() -> void:
+	var character := _world.character
+	assert_eq(Forge.tier(character), 1, "Inconnu : palier 1")
+	assert_eq([Forge.line_cap("force", 1), Forge.line_cap("vitalite", 3), Forge.line_cap("resistance_givre", 4)], [20, 240, 10])
+	assert_eq([Forge.line_cap("portee", 2), Forge.line_cap("portee", 3), Forge.line_cap("pm", 3), Forge.line_cap("pm", 4),
+		Forge.line_cap("pa", 4), Forge.line_cap("pa", 5)], [0, 1, 0, 1, 0, 1], "Portée au palier 3, PM au 4, PA au 5")
+	var items := _world.data.items
+	var preview := Forge.preview("bottes", {"peau": 1, "croc": 60, "corne": 2}, items, character, false)
+	assert_eq(preview["bonus"]["force"][1], 20, "20 points de score par ligne au palier 1")
+	assert_false(preview["bonus"].has("pa"), "PA perdu avant le palier 5")
+	assert_eq(preview["perdues"], {"corne": {"pa": 5}}, "ressource perdue et palier requis, même cachée")
+	character.add_job_reputation("forgeron", 100000)
+	assert_eq(Forge.tier(character), 5, "Légende : palier 5")
+	assert_eq(Forge.preview("bottes", {"peau": 1, "croc": 60, "corne": 2}, items, character, false)["bonus"]["pa"], [1, 1])

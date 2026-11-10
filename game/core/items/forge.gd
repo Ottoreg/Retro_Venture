@@ -14,16 +14,19 @@ const PATTERN := "patron"
 ## Ressources différentes au plus par objet (cases de l'enclume), matières obligatoires comprises ; la
 ## quantité de chacune est libre, bornée par le plafond des lignes.
 const MAX_SLOTS := 8
-## Score d'une ligne au plus (points de score : `STAT_WEIGHTS`) et lignes au plus par objet. Les essences
-## (GDD § 9.2, à venir) pourront dépasser le score d'une ligne.
-const MAX_LINE_SCORE := 100
+## Score d'une ligne au plus (points de score : `STAT_WEIGHTS`) par palier de réputation de forgeron (Apprenti 1 à
+## Légende 5, Inconnu compté 1 : `tier`), donc 20 à 100 ; lignes au plus par objet : 160 à 800 points de score par
+## objet. Les essences (GDD § 9.2, à venir) pourront dépasser le score d'une ligne.
+const LINE_SCORE_PER_TIER := 20
+const MAX_TIER := 5
 const MAX_LINES := 8
 ## Une ligne de total T se tire entre T × ROLL_LOW et T (plus haut avec la compétence « precision »).
 const ROLL_LOW := 0.75
 ## Réputation de forgeron de base par palier de l'objet forgé (`Profession.reputation_gain`).
 const REPUTATION_PER_TIER := 5
-## Caractéristiques à 1 par ressource quel que soit le palier, et à 1 au plus par objet.
-const FIXED_STATS := ["pa", "pm", "portee"]
+## Caractéristiques à 1 par ressource quel que soit le palier, et à 1 au plus par objet : points de score de ce
+## point (indisponible tant que le plafond d'une ligne est plus bas).
+const FIXED_STATS := {"pa": 100, "pm": 80, "portee": 60}
 ## Points de la caractéristique pour un point de score (inverse du score du GDD § 10.4 : le plafond d'une ligne
 ## en découle, 12 % de résistance pour 8 points par %).
 const STAT_WEIGHTS := {"force": 1.0, "intelligence": 1.0, "perception": 1.0, "agilite": 1.0, "vitalite": 4.0,
@@ -98,9 +101,15 @@ static func stats_of(item: Dictionary) -> Array:
 	return stats if typeof(stats) == TYPE_ARRAY else [stats]
 
 
-## Valeur d'une ligne au plus : MAX_LINE_SCORE points de score (1 pour PA, PM et Portée).
-static func line_cap(stat: String) -> int:
-	return 1 if stat in FIXED_STATS else floori(MAX_LINE_SCORE * STAT_WEIGHTS[stat])
+## Palier de forge de `character` (`MAX_TIER` sans personnage : plan ou outil).
+static func tier(character: Character) -> int:
+	return MAX_TIER if character == null else clampi(Character.tier_index(character.job_reputation(JOB)), 1, MAX_TIER)
+
+
+## Valeur d'une ligne au plus au palier de forge `forge_tier` (PA, PM et Portée : 1, ou 0 avant leur palier).
+static func line_cap(stat: String, forge_tier := MAX_TIER) -> int:
+	var score := LINE_SCORE_PER_TIER * forge_tier
+	return int(FIXED_STATS[stat] <= score) if stat in FIXED_STATS else floori(score * STAT_WEIGHTS[stat])
 
 
 ## Caractéristique que donne une ressource de ce palier (× RARE_FACTOR si elle est rare).
@@ -116,11 +125,13 @@ static func reveals(character: Character, tier: int) -> bool:
 
 
 ## Aperçu de l'objet : { erreur (raison du protocole, "" si on peut forger), palier, bonus: { stat:
-## [min, max] }, cachees (ressources à caractéristique cachée pour `character`), manquantes (matières) }.
+## [min, max] }, cachees (ressources à caractéristique cachée pour `character`), manquantes (matières),
+## perdues (ressources dont une caractéristique dépasse le palier de forge de `character`, même cachée : id →
+## { stat: palier requis }) }.
 ## Le plancher des jets suit la Précision de `character` ; `hide` : cacher ce qu'il ne sait pas lire
 ## (faux pour le serveur et pour un plan, qui montre tout).
 static func preview(type: String, resources: Dictionary, items: Dictionary, character: Character = null, hide := true) -> Dictionary:
-	var result := {"erreur": "", "palier": 1, "bonus": {}, "cachees": 0, "manquantes": []}
+	var result := {"erreur": "", "palier": 1, "bonus": {}, "cachees": 0, "manquantes": [], "perdues": {}}
 	if not TYPES.has(type) or not items.has(template_id(type)):
 		result["erreur"] = Protocol.REASON_INVALID_COMMAND
 		return result
@@ -131,6 +142,7 @@ static func preview(type: String, resources: Dictionary, items: Dictionary, char
 	var tiers := 0
 	var totals := {}
 	var materials: Array = []
+	var forge_tier := tier(character)
 	for item_id: Variant in resources:
 		var item: Dictionary = items.get(item_id, {})
 		if item.get("type") != Item.TYPE_RESOURCE or typeof(resources[item_id]) not in [TYPE_INT, TYPE_FLOAT] or int(resources[item_id]) < 1:
@@ -141,10 +153,12 @@ static func preview(type: String, resources: Dictionary, items: Dictionary, char
 		count += quantity
 		tiers += quantity * tier
 		materials.append(item.get("matiere", ""))
+		for stat: String in stats_of(item).filter(func(stat: String) -> bool: return line_cap(stat, forge_tier) == 0):
+			result["perdues"][item_id] = result["perdues"].get(item_id, {}).merged({stat: ceili(float(FIXED_STATS[stat]) / LINE_SCORE_PER_TIER)})
 		if character != null and hide and item.has("caracteristique") and not reveals(character, tier):
 			result["cachees"] += quantity
 			continue
-		for stat: String in stats_of(item):
+		for stat: String in stats_of(item).filter(func(stat: String) -> bool: return line_cap(stat, forge_tier) > 0):
 			totals[stat] = int(totals.get(stat, 0)) + quantity * int(item.get("valeur", value(stat, tier, item.get("rarete") == "rare")))
 	for material: String in TYPES[type]["matieres"]:
 		if material not in materials:
@@ -156,7 +170,7 @@ static func preview(type: String, resources: Dictionary, items: Dictionary, char
 	result["palier"] = maxi(1, roundi(float(tiers) / maxi(1, count)))
 	var low := ROLL_LOW + (Profession.skill_value(Profession.TYPE_CRAFT, "precision", character.job_rank(JOB, "precision")) / 100.0 if character != null else 0.0)
 	for stat: String in totals:
-		var total: int = mini(line_cap(stat), totals[stat])
+		var total: int = mini(line_cap(stat, forge_tier), totals[stat])
 		result["bonus"][stat] = [total if stat in FIXED_STATS else maxi(1, roundi(total * minf(1.0, low))), total]
 	return result
 

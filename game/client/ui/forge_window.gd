@@ -34,6 +34,8 @@ var _preview: Label
 var _words: Array[OptionButton] = []
 var _forge_button: Button
 var _message: Label
+## Avertissement en rouge : ressources perdues si l'on forge (caractéristique hors de portée du palier de forge).
+var _warning: Label
 var _result_icon: TextureRect
 var _result: Label
 
@@ -153,7 +155,25 @@ func _show_preview() -> void:
 		lines.append(REFUSALS[Protocol.REASON_TOO_MANY_LINES])
 	lines.append("Nom : %s" % _name())
 	_preview.text = "\n".join(lines)
+	_warn_lost(preview["perdues"], plan.is_empty())
 	_forge_button.disabled = not preview["erreur"].is_empty() or not _owns_all()
+
+
+## Ressources posées dont une caractéristique dépasse le palier de forge : avertissement et cases en rouge (sans
+## nommer une caractéristique cachée).
+func _warn_lost(lost: Dictionary, hidden: bool) -> void:
+	var items := map_view.world.data.items
+	var lines: PackedStringArray = []
+	for slot: Button in _slots:
+		slot.modulate = Color(1.0, 0.45, 0.4) if lost.has(slot.get_meta("objet", "")) else Color.WHITE
+	for item_id: String in lost:
+		var known: bool = not hidden or Forge.reveals(map_view.world.character, int(items[item_id].get("niveau", 1)))
+		for stat: String in lost[item_id]:
+			lines.append("ATTENTION, perdu si vous forgez : %s ×%d ne donnera rien, %s demande le palier de forge %d (vous êtes au palier %d)." % [
+				items[item_id]["nom"], _chosen.get(item_id, 0), Item.stat_name(stat) if known else "sa caractéristique",
+				lost[item_id][stat], Forge.tier(map_view.world.character)])
+	_warning.text = "\n".join(lines)
+	_warning.visible = not lines.is_empty()
 
 
 ## Choix du nom : le nom du type puis deux adjectifs des lignes de l'objet (un plan impose son nom). Les mots
@@ -353,6 +373,9 @@ func _build() -> void:
 	_preview = _label(14, Color(0.92, 0.9, 0.85))
 	_preview.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	center.add_child(UiTheme.scroll_area(_preview))
+	_warning = _label(15, Color(1.0, 0.35, 0.3))
+	_warning.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	center.add_child(_warning)
 	var names := HBoxContainer.new()
 	for i in 1 + Forge.MAX_ADJECTIVES:
 		var option := OptionButton.new()

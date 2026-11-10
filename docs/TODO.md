@@ -704,7 +704,8 @@ classes (option écartée et compromis gardés en piste, GDD § 5.2).
 - [ ] Infusion d'essences (nom provisoire, GDD § 10.4, remplace pour le moment la destruction et les
   cicatrices) : l'artisan de chaque catégorie infuse 20 communes / 10 rares / 2 légendaires → essence à
   la valeur de forge, ajoutée en exo si la ligne manque (cumulable, chance selon le poids de la stat,
-  200 points de score d'exo par objet, 100 par ligne) ; essence parfaite (× 5 ressources) sans échec
+  200 points de score d'exo par objet, 100 par ligne) ; essence parfaite (× 5 ressources) sans échec ;
+  renforcement d'une ligne existante jusqu'à 100 points de score, hors limite d'exo
 - [ ] Infusion miroir (GDD § 10.4, 09/11/2026) : à un palier de maîtrise élevé, essence de la statistique
   opposée, palier Maître (Flamme ↔ Givre, Acier ↔ Tempête, Sacré ↔ Impie, Dévastateurs ↔ Spectraux,
   Dommages ↔ Soins au choix du joueur, Vitalité ↔ Épines, Critique ↔ Résistance aux critiques ; rien
@@ -846,10 +847,19 @@ Plan validé par l'auteur le 26/10/2026 : GDD § 16.5, jalons M0 (préparer le n
   métier de guilde, terrains) (GDD § 13.7)
 - [ ] Investissement de guilde : brumes investies par les membres, 10 % par semaine en brumes de
   guilde pour les achats de la guilde, sans intérêts composés, mise bloquée mais retirable à tout moment et rendue au départ, monnaie à part
-  (loyers et cotisations des activités de guilde) ; plafond à décider (GDD § 13.7)
+  (loyers et cotisations des activités de guilde) ; sans plafond ; dépôts indivisibles à compteur de
+  7 jours chacun, retirés entiers (GDD § 13.7)
 - [ ] Zones de chasse instanciées : cartes de groupes sans réapparition et boss de zone, ouvertes au
   PNJ chasseur ou au hall de guilde, 500 brumes par joueur ou 2 000 brumes de guilde (tous les
   membres), maîtrise de classe et butin seulement (conçu le 09/11/2026, GDD § 6.3)
+- [ ] Compteurs de ressources de guilde : par type, partagés et conservés ; 1 ressource au coffre
+  tous les 100 butins de monstre ou 20 récoltes identiques dans les instances de la guilde, sans
+  rien retirer aux joueurs (conçu le 09/11/2026, GDD § 13.7)
+- [ ] Armurerie de guilde : équipements fabriqués par les artisans avec les ressources du coffre
+  (consommées), propriété de la guilde, ni vendus ni échangés hors guilde ; réservation d'une à deux
+  semaines (choix des officiers) en temps réel, droit de fabriquer par rang, file d'attente sans
+  priorité, restitution automatique à l'échéance (stats gardées jusqu'à la fin du combat) ou au
+  départ, réservations illimitées, renouvellement à redemander (conçu le 10/11/2026, GDD § 13.7)
 - [ ] Événements de zone hebdomadaires (solo et en ligne) : invasion, raid, fête, récolte et artisanat,
   tirage avec roulement, inscription libre, plafond de réputation, pas de brumes (conçu le 09/11/2026, GDD § 6.1)
 - [ ] Réputation de zone : paliers, récompenses de palier, bonus permanents de farm, récolte et

@@ -1186,6 +1186,7 @@ local » à tout le monde, les elfes ne le donnent qu'après trois siècles de d
 - **Instance de guilde** : **2 000 brumes de guilde** (§ 13.7), toutes zones confondues ; **tous les
   membres** de la guilde peuvent la rejoindre, **personne d'autre**. Aucun lien avec la réputation
   de zone de la guilde.
+  Le butin des membres alimente les **compteurs de ressources de guilde** (§ 13.7).
 - **Instance de joueurs** : pour un joueur seul ou son groupe, **500 brumes par participant**,
   toutes zones confondues (un groupe de 4 paie 2 000 brumes en tout), comme la clé que chaque joueur
   paie en donjon (§ 12.2).
@@ -1900,10 +1901,9 @@ jour (en fin de section).
 - **Exploitants de guilde** (§ 13.7) : la guilde d'exploitants a des **instances de guilde** sur le
   même modèle, une par métier de récolte, dont les emplacements et les bonus suivent la **réputation
   d'exploitants** de la guilde (plus grandes et plus généreuses que les instances personnelles) ; les
-  officiers disposent les ressources et **choisissent qui peut y récolter** ; chacun récolte pour
-  lui-même, moins la **part de la guilde** : **5 %** des ressources, prélevées par cumul (chaque fois
-  qu'un joueur a récolté **20** d'une même ressource dans l'instance de guilde, **1** lui est retirée
-  et va au **coffre de la guilde**). Les **ressources rares** sont exemptées et restent au joueur.
+  officiers disposent les ressources et **choisissent qui peut y récolter** ; chacun garde **toute**
+  sa récolte, et la guilde gagne en plus des ressources par les **compteurs de ressources de
+  guilde** (§ 13.7).
 
 **Décisions (validées par l'auteur le 03/11/2026)** :
 
@@ -2233,6 +2233,9 @@ moment** ; elle remplace la destruction d'objets et les cicatrices du § 9.2.
   **s'additionnent** sur la même ligne exo. **Chance de réussite selon le poids de la statistique**
   (une statistique chère en points de score, comme PA, PM ou Portée, réussit moins souvent ; barème à
   chiffrer). Échec : l'essence est perdue, jamais l'objet (§ 10.2).
+- **Renforcement** (validé par l'auteur le 10/11/2026) : appliquée à une ligne **déjà présente** sur
+  le jet, l'essence **s'y ajoute** jusqu'à **100 points de score** par ligne, avec la même chance de
+  réussite selon le poids ; ce renforcement **ne compte pas** dans les 200 points de score d'exo.
 - **Plafonds** : **200 points de score d'exo au total** par objet, toutes lignes exo comprises ; une
   ligne exo reste plafonnée à **100 points de score**, comme une ligne forgée.
 - **Infusion miroir** (idée de l'auteur du 09/11/2026) : à un **palier de maîtrise élevé** (palier
@@ -2984,17 +2987,72 @@ zones de chasse, instances de récolte (instances d'exploitants, § 10.3), etc. 
 composés** : seules les brumes investies rapportent, jamais les brumes de guilde gagnées. Exemple :
 10 000 brumes investies rapportent 1 000 brumes de guilde chaque semaine.
 
-Réponses de l'auteur (08/11/2026) : un membre peut **retirer** son investissement **sans délai** ;
-les intérêts sont calculés **une fois par semaine**. S'il **quitte** la guilde ou en est
-**expulsé**, il **récupère sa mise**. Les brumes investies sont **bloquées et récupérables**.
-**Pas de plafond** pour l'instant (à décider plus tard). Les brumes de guilde sont une **monnaie
-propre aux guildes**, hors du système des brumes normales (distinctes de l'argent du coffre, donc
-hors de la surveillance des brumes créées, § 13.6) ; elles peuvent payer **loyers et cotisations**,
+Réponses de l'auteur (08/11/2026) : un membre peut **retirer** son investissement **sans délai**.
+S'il **quitte** la guilde ou en est **expulsé**, il **récupère sa mise**. Les brumes investies sont
+**bloquées et récupérables**.
+
+- **Pas de plafond** (10/11/2026) : on ne limite pas les joueurs ; les guildes fortunées ont des
+  achats **très chers** (maison, atelier ou instance de récolte de guilde à plusieurs centaines de
+  milliers, voire millions de brumes de guilde), donc des objectifs longs à atteindre ; les petites
+  guildes ont des dépenses moins onéreuses.
+- **Chaque dépôt est un investissement unique et indivisible**, avec son propre compteur de
+  **7 jours** : il rapporte ses 10 % une fois resté **une semaine entière** dans le coffre, puis le
+  compteur repart à 0. Le **retrait** est libre, mais d'un dépôt entier (pas de fraction) et sans
+  intérêts pour la semaine entamée. Exemple : 1 000 brumes déposées le lundi et 2 000 le mercredi
+  rapportent 100 le lundi suivant et 200 le mercredi suivant ; le joueur peut retirer 1 000, 2 000
+  ou 3 000, rien d'autre. Au départ ou à l'expulsion, la semaine entamée de chaque dépôt ne
+  rapporte rien.
+- **Les intérêts vont à la guilde, jamais au joueur** : brumes de guilde utilisables seulement pour
+  les activités de guilde et **non échangeables** contre des brumes normales.
+
+Les brumes de guilde sont une **monnaie propre aux guildes**, hors du système des brumes normales
+(distinctes de l'argent du coffre, donc hors de la surveillance des brumes créées, § 13.6) ; elles peuvent payer **loyers et cotisations**,
 mais seulement ceux **liés aux activités de la guilde**.
 
 **Zones de chasse de guilde** (demande de l'auteur, 09/11/2026, pas encore codé) : les **brumes de
 guilde** ouvrent une **instance de zone de chasse** propre à la guilde (2 000 brumes de guilde la
 session), que tous les membres peuvent rejoindre ; règles au § 6.3.
+
+**Compteurs de ressources de guilde** (demande de l'auteur, 09/11/2026, pas encore codé) : dans les
+**zones de chasse de guilde** (§ 6.3) et les **instances de récolte de la guilde** (§ 10.3), les
+ressources obtenues par les membres alimentent un **compteur par type de ressource**, propre à la
+guilde, partagé entre tous ses membres et **conservé entre les sessions**. Chaque cumul de **100**
+ressources de monstre identiques, ou de **20** ressources de récolte identiques, ajoute
+automatiquement **1** ressource de ce type au **coffre de guilde**, **quelle que soit sa rareté**.
+Les joueurs gardent **tous** leurs gains : le but est d'encourager la coopération et de constituer un
+stock pour financer les activités de la guilde.
+
+**Armurerie de guilde : fabrication et réservation** (demande de l'auteur, 10/11/2026, pas encore
+codé) : les **ressources du coffre de guilde** (achats de guilde, compteurs de ressources) servent
+aux **artisans de la guilde** à fabriquer des équipements **réservés aux membres**. La fabrication
+**consomme définitivement** les ressources du coffre. Les équipements obtenus rejoignent une
+**armurerie commune** et restent la **propriété de la guilde** : ni vendus, ni échangés avec des
+joueurs extérieurs.
+
+Réservation :
+
+- chaque membre peut réserver un équipement pour une **durée identique quel que soit
+  l'équipement** ; la durée de prêt est comprise entre **une et deux semaines** au plus par joueur ;
+- un joueur ne peut réserver à nouveau le même équipement **qu'à la fin de sa période de prêt** :
+  si **personne n'attend**, il peut le reprendre pour une nouvelle période ; s'il existe une **file
+  d'attente**, le membre suivant devient **prioritaire** ;
+- la durée s'écoule en **temps réel**, même si le joueur ne se connecte pas ;
+- le joueur **restitue** l'équipement à la fin de sa période ou quand il **quitte la guilde**.
+
+But : valoriser les ressources collectives, donner un rôle aux artisans et partager l'équipement
+entre les membres, **sans injecter ces objets dans l'économie marchande** du serveur.
+
+Réponses de l'auteur (10/11/2026) :
+
+- **durée** : la même pour tout l'équipement, quelle que soit sa rareté ; le meneur et les officiers
+  choisissent des prêts d'**une** ou de **deux semaines**, selon la demande de leurs joueurs ;
+- **fabrication** : tout artisan de la guilde peut fabriquer pour l'armurerie s'il en a le **droit**
+  dans ses **droits de membre** ; la **file d'attente** est gérée par le jeu, **sans priorité** entre
+  les joueurs (premier arrivé, premier servi) ;
+- **restitution automatique** à l'heure prévue ; si le joueur est **en combat**, l'objet quitte son
+  inventaire mais il en **garde les statistiques jusqu'à la fin du combat** ;
+- **pas de limite** de réservations simultanées pour l'instant (à équilibrer si besoin) ;
+- **pas de renouvellement automatique** : le joueur doit redemander l'équipement.
 
 Autres pistes, non retenues pour l'instant : caravaniers (transport entre villes, escortes),
 écuries (location de montures), chasseurs de primes (tableau de contrats), cartographes (chasses aux
