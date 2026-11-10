@@ -3005,6 +3005,32 @@ automatiquement **1** ressource de ce type au **coffre de guilde**, **quelle que
 Les joueurs gardent **tous** leurs gains : le but est d'encourager la coopération et de constituer un
 stock pour financer les activités de la guilde.
 
+**Armurerie de guilde : fabrication et réservation** (demande de l'auteur, 10/11/2026, pas encore
+codé) : les **ressources du coffre de guilde** (achats de guilde, compteurs de ressources) servent
+aux **artisans de la guilde** à fabriquer des équipements **réservés aux membres**. La fabrication
+**consomme définitivement** les ressources du coffre. Les équipements obtenus rejoignent une
+**armurerie commune** et restent la **propriété de la guilde** : ni vendus, ni échangés avec des
+joueurs extérieurs.
+
+Réservation :
+
+- chaque membre peut réserver un équipement pour une **durée identique quel que soit
+  l'équipement** ; la durée de prêt est comprise entre **une et deux semaines** au plus par joueur ;
+- un joueur ne peut réserver à nouveau le même équipement **qu'à la fin de sa période de prêt** :
+  si **personne n'attend**, il peut le reprendre pour une nouvelle période ; s'il existe une **file
+  d'attente**, le membre suivant devient **prioritaire** ;
+- la durée s'écoule en **temps réel**, même si le joueur ne se connecte pas ;
+- le joueur **restitue** l'équipement à la fin de sa période ou quand il **quitte la guilde**.
+
+But : valoriser les ressources collectives, donner un rôle aux artisans et partager l'équipement
+entre les membres, **sans injecter ces objets dans l'économie marchande** du serveur.
+
+Questions ouvertes (à trancher par l'auteur) : la durée est-elle fixée par la guilde entre 7 et 14
+jours, la même pour tout l'équipement ? Qui peut fabriquer pour l'armurerie et qui gère la file
+(rangs) ? La restitution est-elle automatique à l'échéance (et si le joueur est en combat) ? Un
+membre peut-il réserver plusieurs équipements à la fois ? Le renouvellement sans file d'attente
+est-il automatique ou à demander ?
+
 Autres pistes, non retenues pour l'instant : caravaniers (transport entre villes, escortes),
 écuries (location de montures), chasseurs de primes (tableau de contrats), cartographes (chasses aux
 trésors), bâtisseurs (chantiers du Trésor), taverniers (tournois, festins). On officialisera de
