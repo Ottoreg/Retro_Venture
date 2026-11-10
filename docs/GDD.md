@@ -3025,11 +3025,17 @@ Réservation :
 But : valoriser les ressources collectives, donner un rôle aux artisans et partager l'équipement
 entre les membres, **sans injecter ces objets dans l'économie marchande** du serveur.
 
-Questions ouvertes (à trancher par l'auteur) : la durée est-elle fixée par la guilde entre 7 et 14
-jours, la même pour tout l'équipement ? Qui peut fabriquer pour l'armurerie et qui gère la file
-(rangs) ? La restitution est-elle automatique à l'échéance (et si le joueur est en combat) ? Un
-membre peut-il réserver plusieurs équipements à la fois ? Le renouvellement sans file d'attente
-est-il automatique ou à demander ?
+Réponses de l'auteur (10/11/2026) :
+
+- **durée** : la même pour tout l'équipement, quelle que soit sa rareté ; le meneur et les officiers
+  choisissent des prêts d'**une** ou de **deux semaines**, selon la demande de leurs joueurs ;
+- **fabrication** : tout artisan de la guilde peut fabriquer pour l'armurerie s'il en a le **droit**
+  dans ses **droits de membre** ; la **file d'attente** est gérée par le jeu, **sans priorité** entre
+  les joueurs (premier arrivé, premier servi) ;
+- **restitution automatique** à l'heure prévue ; si le joueur est **en combat**, l'objet quitte son
+  inventaire mais il en **garde les statistiques jusqu'à la fin du combat** ;
+- **pas de limite** de réservations simultanées pour l'instant (à équilibrer si besoin) ;
+- **pas de renouvellement automatique** : le joueur doit redemander l'équipement.
 
 Autres pistes, non retenues pour l'instant : caravaniers (transport entre villes, escortes),
 écuries (location de montures), chasseurs de primes (tableau de contrats), cartographes (chasses aux

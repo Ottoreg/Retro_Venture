@@ -855,8 +855,9 @@ Plan validé par l'auteur le 26/10/2026 : GDD § 16.5, jalons M0 (préparer le n
   rien retirer aux joueurs (conçu le 09/11/2026, GDD § 13.7)
 - [ ] Armurerie de guilde : équipements fabriqués par les artisans avec les ressources du coffre
   (consommées), propriété de la guilde, ni vendus ni échangés hors guilde ; réservation d'une à deux
-  semaines en temps réel, file d'attente prioritaire, restitution à l'échéance ou au départ
-  (conçu le 10/11/2026, GDD § 13.7, questions ouvertes)
+  semaines (choix des officiers) en temps réel, droit de fabriquer par rang, file d'attente sans
+  priorité, restitution automatique à l'échéance (stats gardées jusqu'à la fin du combat) ou au
+  départ, réservations illimitées, renouvellement à redemander (conçu le 10/11/2026, GDD § 13.7)
 - [ ] Événements de zone hebdomadaires (solo et en ligne) : invasion, raid, fête, récolte et artisanat,
   tirage avec roulement, inscription libre, plafond de réputation, pas de brumes (conçu le 09/11/2026, GDD § 6.1)
 - [ ] Réputation de zone : paliers, récompenses de palier, bonus permanents de farm, récolte et
