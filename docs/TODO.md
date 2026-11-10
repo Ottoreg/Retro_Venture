@@ -207,8 +207,8 @@ Lots 0 (conception dans le GDD), 1 (personnage, poussé sur `main` à la demande
 - [x] **Lot 4. Métiers** (02/11/2026, GDD § 10.2) : récolte ouverte ; réputation et maîtrise de métier
   (compétences Abondance, Œil exercé, Célérité, Précision : qualité, jamais d'échec) ; gains selon la difficulté
   du palier ; protocole v11
-- [ ] Nouvelle activité par palier de réputation de métier (tous les métiers sont ouverts pour
-  l'instant) : à trancher avec les maîtres de métier (lot 5)
+- [x] Nouvelle activité par palier de réputation de métier : tranché le 10/11/2026 par l'auteur, les métiers
+  restent tous ouverts dès le début
 - [x] **Lot 5. Quêtes et maîtres** (10/11/2026, sur `dev`) : condition de niveau des quêtes supprimée (aussi des
   scripts `produire_lot*.py`) ; un maître des Voies dans chaque village de départ et à Hautepierre (réputation,
   maîtrise, caractéristiques, changement de classe) ; forgerons, maîtres de métier, qui expliquent aussi la

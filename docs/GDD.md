@@ -923,7 +923,7 @@ compétences de métier, récolte ouverte, gains selon la difficulté du palier 
 de la validation) ; maîtres des Voies (Dame Prudence à Brumerive, Grizzla à Crasse-Roc, Aerendil à Sylvebrume,
 Maître Polyvalent à Hautepierre) qui expliquent réputation, maîtrise, caractéristiques et changement de classe
 (au palier Compagnon, `Character.NEW_CLASS_REPUTATION`) ; les forgerons, maîtres de métier, expliquent la
-réputation de métier et l'infusion. Les métiers restent tous ouverts (choix par défaut, à confirmer). Le lot 6
+réputation de métier et l'infusion. Les métiers restent tous ouverts (confirmé par l'auteur le 10/11/2026). Le lot 6
 (interface et documents) se fait au fil des lots : fiche, fenêtre des sorts et des métiers montrent déjà
 réputation et maîtrise.
 
@@ -1683,7 +1683,7 @@ sa mesure, × 3 au plus, × 0,2 au moins) ; +10 % pour les Humains. Compétences
 de plus) et **Œil exercé** (+0,5 % par rang de chances de ressource rare) et **Célérité** (-10 % de temps de récolte par
 rang, 1 s au moins avec la maîtrise au maximum : demande de l'auteur) ; forge **Précision** (+5 %
 par rang au plancher des jets, 100 % au rang 5). Protocole v11. Pas encore de « nouvelle activité »
-par palier : tous les métiers sont ouverts, à revoir avec les maîtres de métier (lot 5).
+par palier : tous les métiers restent ouverts dès le début (tranché par l'auteur le 10/11/2026).
 **Temps de récolte** (demande de l'auteur, 02/11/2026) : une récolte dure 1,5 s + 0,25 s par palier de
 la ressource (`Profession.harvest_time` : 1,75 s au palier 1, 7 s au palier 22), avec une barre
 au-dessus du joueur ; marcher, changer de carte ou entrer en combat l'interrompt (rien n'est perdu).
