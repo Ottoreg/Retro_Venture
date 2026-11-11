@@ -4,7 +4,7 @@
   "description": "Il dirige un réseau de quatre cents corbeaux. Il connaît votre adresse, votre taille de chapeau et votre plat préféré.",
   "famille": "corbac_espion",
   "elite": true,
-  "niveau": 24,
+  "palier": 4,
   "caracteristiques": {
     "pv": 206,
     "pa": 7,

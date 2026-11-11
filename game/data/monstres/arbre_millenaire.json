@@ -4,7 +4,7 @@
   "description": "Il a vu naître Sylvebrume. Il compte bien la voir disparaître, sans se presser.",
   "famille": "arbre_vivant",
   "elite": true,
-  "niveau": 10,
+  "palier": 2,
   "caracteristiques": {
     "pv": 150,
     "pa": 8,

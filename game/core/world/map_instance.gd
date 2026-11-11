@@ -6,7 +6,7 @@ extends RefCounted
 ## (GDD § 16.5).
 
 var map: GameMap
-## Groupes de monstres présents : id → { id, case, monstres, niveaux… } (voir `GameMap.compose_group`).
+## Groupes de monstres présents : id → { id, case, monstres… } (voir `GameMap.compose_group`).
 var groups: Dictionary = {}
 ## Case occupée par chaque entité, par identifiant (joueurs présents et groupes de monstres).
 var positions: Dictionary = {}

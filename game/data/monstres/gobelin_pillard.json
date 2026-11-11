@@ -2,32 +2,15 @@
   "id": "gobelin_pillard",
   "nom": "Gobelin pillard",
   "description": "Il prend tout ce qui n'est pas cloué. Ce qui est cloué, il revient le chercher avec une pince.",
-  "niveau": 7,
-  "niveaux": {
-    "min": 7,
-    "max": 9,
-    "poids": [
-      1,
-      3,
-      6
-    ]
-  },
+  "palier": 2,
   "caracteristiques": {
-    "pv": 38,
+    "pv": 46,
     "pa": 6,
     "pm": 3,
-    "initiative": 95,
-    "force": 24,
-    "agilite": 12,
-    "intelligence": 12
-  },
-  "par_niveau": {
-    "pv": 4,
-    "initiative": 5,
-    "xp": 12,
-    "force": 4,
-    "agilite": 2,
-    "intelligence": 2
+    "initiative": 105,
+    "force": 32,
+    "agilite": 16,
+    "intelligence": 16
   },
   "resistances": {
     "acier": 10,
@@ -40,7 +23,7 @@
     "pillard_vol_a_l_arrache"
   ],
   "ia": "basique",
-  "xp": 62,
+  "xp": 86,
   "butin": [
     {
       "objet": "sac_de_rapine",

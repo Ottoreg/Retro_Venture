@@ -316,7 +316,7 @@ le **lit** de votre maison les rend tous d'un coup.
 - **50 monstres** : une famille par palier, chacune avec son **élite** (plus grande, halo doré, bien
   plus forte, meilleur butin ; elle apparaît toutes les 5 à 6 minutes sur une carte de sa famille, et
   son butin s'améliore tant qu'elle reste en vie : losanges puis couronne dans sa bulle). Les
-  monstres ont un **niveau variable** dans leur palier (affiché dans la bulle du groupe). Une fois un
+  monstres ont un **palier** de 1 à 5 (affiché dans la bulle du groupe, « P1 »). Une fois un
   mini-boss vaincu, sa **variante corrompue** (loup cendreux, grouilleur de braise, arbre calciné)
   apparaît dans son repaire.
 - **44 quêtes** : un tutoriel par camp, la quête principale de chaque camp (acte I dans la zone de

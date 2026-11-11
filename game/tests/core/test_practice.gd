@@ -48,15 +48,16 @@ func test_menace_en_mots() -> void:
 	var character := Fixtures.character()
 	assert_eq(MapView.threat_line([1, 1], character), "Menace : à votre mesure (gains × 1)")
 	character.add_reputation(5000)
-	assert_eq(MapView.threat_line([1, 1], character), "Menace : négligeable (gains × 0,1)", "un Compagnon contre deux monstres de niveau 1")
+	assert_eq(MapView.threat_line([1, 1], character), "Menace : faible (gains × 0,5)", "un Compagnon (palier 2) contre deux monstres de palier 1")
+	character.add_reputation(100000)
+	assert_eq(MapView.threat_line([1], character), "Menace : négligeable (gains × 0,1)", "une Légende contre un monstre de palier 1")
 
 
-func test_tranche_de_niveaux_d_une_carte() -> void:
+func test_paliers_d_une_carte() -> void:
 	var data := GameData.load_all()
 	var map := DataLoader.load_map(DataLoader.map_path("brumerive_0_0"))
-	var levels := data.map_level_range(map)
-	assert_true(levels.x >= 1 and levels.x <= levels.y and levels.y <= 3, "Brumerive (0, 0) : premier palier (%s)" % str(levels))
-	assert_eq(data.map_level_range(GameMap.new()), Vector2i.ZERO, "sans groupe")
+	assert_eq(data.map_tier_range(map), Vector2i(1, 1), "Brumerive (0, 0) : premier palier")
+	assert_eq(data.map_tier_range(GameMap.new()), Vector2i.ZERO, "sans groupe")
 
 
 func test_niveau_equivalent_tire_de_la_reputation() -> void:

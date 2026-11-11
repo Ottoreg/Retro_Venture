@@ -67,8 +67,8 @@ effets élémentaires (dégâts, soins, boucliers, poisons), plus les changement
 | MAX_HP_PER_COMBAT | 200 | PV perdus comptés au plus par combat |
 | MIN_STAT_PACE | 0,2 | rythme minimal près du plafond : × max(0,2, 1 − points / plafond) |
 
-Tout est multiplié par le facteur de difficulté (somme des niveaux des monstres / somme des
-niveaux équivalents des joueurs). Exemple : 60 PA à effet réel à facteur 1 = 120 de réputation et 1,8
+Tout est multiplié par le facteur de difficulté (somme des paliers des monstres / somme des
+paliers de réputation des joueurs, Inconnu compté 1). Exemple : 60 PA à effet réel à facteur 1 = 120 de réputation et 1,8
 point(s) de caractéristique (avant ralentissement).
 
 ## Races

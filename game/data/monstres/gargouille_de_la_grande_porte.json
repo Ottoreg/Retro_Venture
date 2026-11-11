@@ -4,7 +4,7 @@
   "description": "La plus vieille de la ville. Elle a vu passer trois rois, deux sièges et un nombre incalculable de pigeons.",
   "famille": "gargouille",
   "elite": true,
-  "niveau": 27,
+  "palier": 4,
   "caracteristiques": {
     "pv": 361,
     "pa": 7,

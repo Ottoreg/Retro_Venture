@@ -2,30 +2,14 @@
   "id": "gargouille",
   "nom": "Gargouille",
   "description": "Elle a gardé une gouttière de Hautepierre pendant trois siècles. Depuis que la Cendre tombe, elle garde rancune.",
-  "niveau": 22,
-  "niveaux": {
-    "min": 22,
-    "max": 24,
-    "poids": [
-      3,
-      4,
-      3
-    ]
-  },
+  "palier": 4,
   "caracteristiques": {
-    "pv": 142,
+    "pv": 150,
     "pa": 6,
     "pm": 3,
-    "initiative": 70,
-    "force": 42,
-    "perception": 42
-  },
-  "par_niveau": {
-    "pv": 8,
-    "initiative": 5,
-    "xp": 23,
-    "force": 2,
-    "perception": 2
+    "initiative": 75,
+    "force": 44,
+    "perception": 44
   },
   "resistances": {
     "acier": 10,
@@ -38,7 +22,7 @@
     "gargouille_gargouillis"
   ],
   "ia": "basique",
-  "xp": 342,
+  "xp": 365,
   "butin": [
     {
       "objet": "eclat_de_gargouille",

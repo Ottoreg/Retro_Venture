@@ -362,8 +362,8 @@ def classes_md():
         ["MAX_PA_PER_COMBAT", nombre(p["MAX_PA_PER_COMBAT"]), "PA comptés au plus par combat"],
         ["MAX_HP_PER_COMBAT", nombre(p["MAX_HP_PER_COMBAT"]), "PV perdus comptés au plus par combat"],
         ["MIN_STAT_PACE", nombre(p["MIN_STAT_PACE"]), "rythme minimal près du plafond : × max(%s, 1 − points / plafond)" % nombre(p["MIN_STAT_PACE"])]])
-    lignes += ["Tout est multiplié par le facteur de difficulté (somme des niveaux des monstres / somme des",
-               "niveaux équivalents des joueurs). Exemple : %d PA à effet réel à facteur 1 = %d de réputation et %s"
+    lignes += ["Tout est multiplié par le facteur de difficulté (somme des paliers des monstres / somme des",
+               "paliers de réputation des joueurs, Inconnu compté 1). Exemple : %d PA à effet réel à facteur 1 = %d de réputation et %s"
                % (p["MAX_PA_PER_COMBAT"], p["MAX_PA_PER_COMBAT"] * p["REPUTATION_PER_PA"], nombre(p["MAX_PA_PER_COMBAT"] * p["STAT_PER_PA"])),
                "point(s) de caractéristique (avant ralentissement).", ""]
 

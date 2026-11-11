@@ -105,7 +105,7 @@ Phase 2 (alpha solo), en deux tests :
 
 1. Fondations du combat — **fait** (crits, bonus/malus, poison, poussée/attirance, glyphes, pièges
    invisibles, IA distance et soutien). Le modèle de sorts voie/rang passe à l'alpha 2.
-3. Contenu du monde — **systèmes faits** (niveaux variables, mini-boss à phases, Pierres de Passage
+3. Contenu du monde — **systèmes faits** (paliers de monstres, mini-boss à phases, Pierres de Passage
    payantes — toutes connues dès le début pendant la phase de test, `World.ALL_PASSAGES_KNOWN` —,
    point de résurrection, carte du monde qui montre tout dès le début, minicarte façon Dofus Rétro :
    vignettes `MapThumbnail`, molette, glisser, icônes `MapIcons`, drapeaux au clic droit).
@@ -184,8 +184,12 @@ Plafonds selon le palier de réputation de forgeron (07/11/2026, sur `dev`, `For
 et par palier (160 à 800 par objet) ; PA, PM et Portée (`Forge.FIXED_STATS` : 100, 80, 60 points) perdus avant leur palier.
 Plus tard : maîtres par catégorie (armurier, tailleur, cordonnier) qui donnent des plans par quêtes.
 **Infusion d'essences et infusion miroir** (10/11/2026, sur `dev`, GDD § 10.4) : `Infusion` (`core/items/infusion.gd`),
-commande `infuser` (protocole v15), mode Infusion de `ForgeWindow`, modèle `essence`, champ `exo` des entrées
+commande `infuser` (protocole v15, v16 avec les paliers de monstres), mode Infusion de `ForgeWindow`, modèle `essence`, champ `exo` des entrées
 d'inventaire ; réussite 100 % − score ÷ 2 (10 à 95 %), miroir à score égal au palier Maître. Valeurs provisoires.
+**Paliers de monstres** (11/11/2026, sur `dev`, demande de l'auteur, GDD § 8.1) : plus de niveau de monstre ;
+`palier` 1 à 5 (1 = anciens niveaux 1–6, 2 = 7–12, 3 = 13–20, 4 = 21–30, 5 = 31+), stats figées au niveau moyen de
+l'ancienne tranche, `Fighter.tier`, `GameData.monster_tier` / `map_tier_range`, difficulté = paliers des monstres
+contre `Progression.player_tier` (palier de réputation, Inconnu = 1) ; protocole v16. Les ressources gardent leur `niveau`.
 **Lot 5 de la refonte** (10/11/2026, sur `dev`) : `niveau_min` des quêtes supprimé ; maîtres des Voies (PNJ à
 `explication`, un par village de départ et à Hautepierre, dessins `art/manifestes/maitres.json`).
 
@@ -246,9 +250,9 @@ Dernière session (retours de la passe de l'auteur) :
 
 ## Règles de design à respecter (détails dans le GDD)
 
-- Zones de départ : paliers 1–3 / 4–6 / 7–9 / 10–12, asymétriques entre zones (§ 3.5).
-- Niveau variable dans une famille, pondéré ; élites à niveau fixe, au-dessus de la famille.
-- Le niveau d'un monstre change ses stats, jamais son butin ; PA/PM fixes par famille sauf exception.
+- Zones de départ : monstres des paliers 1 et 2 (anciens niveaux 1–12), asymétriques entre zones (§ 3.5).
+- Monstres : un palier de 1 à 5 (comme la forge, plus de niveau depuis le 11/11/2026), stats fixes ;
+  élites au moins du palier de leur famille ; PA/PM fixes par famille sauf exception.
 - Butin : limite par monstre partagée entre joueurs, tirage du plus prospecteur au moins prospecteur.
 - Combat : cases de placement prédéfinies par carte, pour chaque camp (comme Dofus), calque
   `placement` obligatoire sur toute carte à groupes.

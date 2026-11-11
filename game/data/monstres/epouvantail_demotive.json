@@ -2,30 +2,14 @@
   "id": "epouvantail_demotive",
   "nom": "Épouvantail démotivé",
   "description": "Il ne fait plus peur à personne depuis des années. Alors il se venge, mollement mais souvent.",
-  "niveau": 7,
-  "niveaux": {
-    "min": 7,
-    "max": 9,
-    "poids": [
-      3,
-      4,
-      3
-    ]
-  },
+  "palier": 2,
   "caracteristiques": {
-    "pv": 38,
+    "pv": 42,
     "pa": 7,
     "pm": 2,
-    "initiative": 60,
-    "force": 12,
-    "agilite": 12
-  },
-  "par_niveau": {
-    "pv": 4,
-    "initiative": 5,
-    "xp": 12,
-    "force": 2,
-    "agilite": 2
+    "initiative": 65,
+    "force": 14,
+    "agilite": 14
   },
   "resistances": {
     "acier": 10,
@@ -38,7 +22,7 @@
     "epouvantail_nuee_de_corbeaux"
   ],
   "ia": "basique",
-  "xp": 62,
+  "xp": 74,
   "butin": [
     {
       "objet": "paille_ensorcelee",

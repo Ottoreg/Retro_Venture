@@ -195,6 +195,11 @@ l'histoire.
 
 #### Paliers de niveau des zones de départ
 
+**Depuis le 11/11/2026** (demande de l'auteur) : les monstres n'ont plus de niveau mais un **palier de
+1 à 5**, comme la forge (1 = anciens niveaux 1 à 6, 2 = 7 à 12, 3 = 13 à 20, 4 = 21 à 30, 5 = 31 et plus) et des caractéristiques fixes (§ 8.1). Les tranches 1–3 et 4–6
+des zones de départ forment le palier 1, 7–9 et 10–12 le palier 2 ; ce qui suit sur les niveaux de
+monstres décrit l'ancien système.
+
 **Alpha 2 (§ 4.5)** : le personnage n'a plus de niveau ; ces paliers deviennent des **paliers de
 difficulté**, mesurés par le niveau des monstres, qui reste leur menace. Ils guident le joueur
 (affichés sur la carte du monde et dans la bulle des groupes) et règlent les gains de progression.
@@ -738,8 +743,8 @@ lot 4).** Il n'y a plus de niveau de personnage, ni de niveau d'arme, ni de nive
 **maîtrises** et sa **réputation** dans chaque classe et chaque métier qu'il pratique, par ses
 caractéristiques et par son équipement. L'ancien système (niveaux 1 à 30) est décrit en fin de
 section ; partout où ce document parle encore du niveau du personnage, d'un niveau requis ou d'un
-niveau de métier, il décrit cet ancien système ; le **niveau des monstres** reste, comme mesure de
-leur menace (§ 8.1). Les chiffres ci-dessous sont des
+niveau de métier, il décrit cet ancien système ; les monstres ont un **palier** (1 à 5, § 8.1), mesure de
+leur menace. Les chiffres ci-dessous sont des
 **pistes à équilibrer** avec `tools/simulation.gd`, pas des règles fixées.
 
 #### Principes (décisions de l'auteur)
@@ -773,16 +778,17 @@ Toutes les montées (réputation, maîtrise, caractéristiques) passent par un *
 difficulté**, qui compare la menace des monstres à la force du joueur, pour qu'on ne progresse pas en
 écrasant des monstres faciles :
 
-- **Menace** du combat : niveaux des monstres (le niveau d'un monstre reste sa mesure de puissance) ;
+- **Menace** du combat : paliers des monstres (1 à 5, leur mesure de puissance depuis le 11/11/2026) ;
   en groupe, comparée à la force de tout le groupe.
 - **Force** du joueur : tirée de sa réputation et de ses maîtrises dans la classe active (un « niveau
   équivalent », interne au calcul, jamais affiché comme un niveau de personnage).
 - **Facteur** (piste) : monstre bien au-dessus de la force du joueur ×1,5 ; à sa mesure ×1 ; un peu
   en dessous ×0,5 ; très en dessous ×0,1 (presque rien). **Formule du lot 2** (`Progression`) : rapport
-  = somme des niveaux des monstres du combat / somme des niveaux équivalents des joueurs ; facteur
+  = somme des paliers des monstres du combat / somme des paliers de réputation des joueurs dans leur
+  classe active (Inconnu compté 1, `Progression.player_tier`, depuis le 11/11/2026) ; facteur
   interpolé entre les points (0,4 → ×0,1), (1 → ×0,5), (2 → ×1), (3 et plus → ×1,5). Le niveau
-  équivalent suit l'ancienne courbe d'XP sans le ×3,5 (Compagnon ≈ niveau 13, la fin des zones de
-  départ).
+  équivalent (ancienne courbe d'XP sans le ×3,5) ne sert plus qu'aux métiers (récolte, lecture des
+  ressources à la forge).
 
 #### Ce qui fait progresser en combat
 
@@ -910,8 +916,8 @@ validation). Les bonus des panoplies 15 et 30 sont gardés (à revoir avec les r
 personnage au plafond y gagne 300 + 200). **Menace affichée** : la bulle d'un groupe
 dit sa menace pour le personnage (« Menace : faible (gains × 0,5) » : négligeable sous ×0,2, faible
 sous ×0,75, à votre mesure sous ×1,25, redoutable au-delà ; `Progression.threat_name`,
-`MapView.threat_line`), et la carte du monde, au survol d'une carte visitée, la tranche de niveaux
-de ses monstres et la menace de deux monstres de niveau moyen (`GameData.map_level_range`). La
+`MapView.threat_line`), et la carte du monde, au survol d'une carte visitée, les paliers
+de ses monstres et la menace de deux monstres du palier moyen (`GameData.map_tier_range`). La
 Sagesse avait déjà quitté toutes les données au lot 1 (pas de race Squelette ni de monture dans le
 jeu pour l'instant). La menace ne compte que le personnage, pas son groupe (le client ne connaît
 pas la réputation des autres).
@@ -1407,30 +1413,18 @@ tour ») : la difficulté vient uniquement des **monstres renforcés**.
 
 ### 8.1 Monstres
 
-- Chaque monstre a : niveau (plage), caractéristiques, résistances, sorts, comportement IA, table de
+- Chaque monstre a : palier (1 à 5), caractéristiques fixes, résistances, sorts, comportement IA, table de
   butin, XP et monnaie de base.
-- **Depuis la refonte (§ 4.5)** : le niveau d'un monstre reste sa **mesure de menace** (ses stats en dépendent
-  toujours) ; il sert au facteur de difficulté des gains et à la menace affichée dans la bulle du
-  groupe. Son XP sert de base à la réputation qu'il rapporte une fois vaincu (un quart, partagé
-  entre les joueurs).
-- **Niveaux :** chaque zone de départ a des monstres à chaque palier de 3 niveaux (1–3, 4–6, 7–9,
-  10–12), en nombre libre selon la zone (voir § 3.5, *Paliers de niveau des zones de départ*).
-- **Niveau d'un membre de famille** (fait) : tiré à l'apparition dans la tranche du palier, selon les
-  poids de la famille (une famille faible tire surtout bas, une forte surtout haut ; élites et boss à
-  niveau fixe). Tiré à nouveau à chaque réapparition, gardé dans la sauvegarde, montré dans la bulle
-  du groupe (« Niv. 2 Rat des galeries ») et dans le cadre du combattant survolé.
-  - Le niveau change les **caractéristiques** (fait) : PV, initiative, Force, Intelligence, Perception,
-    Agilité, résistances et XP gagnée, d'une valeur fixe par niveau au-dessus du niveau de base
-    (`par_niveau` dans les données). Comme pour les joueurs, chaque point de Force, Intelligence,
-    Perception ou Agilité donne +1 % de dégâts de son élément.
-  - Le niveau **ne change pas le butin** : même table, mêmes taux, mêmes quantités et mêmes brumes pour
-    toute la famille, quel que soit le niveau.
-  - **PA et PM identiques dans toute la famille**, sauf exception pour une famille dont la mécanique
-    repose sur ces caractéristiques (par exemple, une espèce qui gagne des PM en vieillissant).
-  - Fait pour les deux familles de Crasse-Roc (rat des galeries 1–3 surtout bas, grouilleur 1–3
-    surtout haut) ; les autres familles suivront avec les paliers de leur zone.
+- **Palier** (11/11/2026, demande de l'auteur, remplace les niveaux) : chaque monstre a un palier de
+  1 à 5, comme la forge (1 = anciens niveaux 1 à 6, 2 = 7 à 12, 3 = 13 à 20, 4 = 21 à 30, 5 = 31 et plus) ; il mesure sa menace (facteur de difficulté
+  des gains, bulle du groupe « P1 Rat des galeries », cadre du combattant survolé, carte du monde).
+  Plus de niveau ni de tirage : les caractéristiques sont **fixes** (celles de l'ancien niveau moyen
+  de la famille ont été gardées), deux membres d'une famille sont identiques, les élites sont au
+  moins du palier de leur famille. Son XP sert de base à la réputation qu'il rapporte une fois vaincu
+  (un quart, partagé entre les joueurs). Chaque point de Force, Intelligence, Perception ou Agilité
+  donne +1 % de dégâts de son élément. Les ressources gardent leur niveau pour la forge (à revoir).
 - **Mini-boss à phases** (moteur fait, contenu à venir) : un monstre unique (`boss` : ni famille ni
-  élite, niveau fixe, comme le Souverain Cendré) ou n'importe quel monstre peut avoir des **phases**.
+  élite, comme le Souverain Cendré) ou n'importe quel monstre peut avoir des **phases**.
   Quand ses PV tombent sous un seuil (en % de ses PV max), après n'importe quels dégâts, la phase se
   déclenche une seule fois : il annonce la couleur (message de combat et texte flottant), apprend de
   nouveaux sorts et s'applique des effets (bonus, malus, bouclier…). Plusieurs seuils franchis d'un

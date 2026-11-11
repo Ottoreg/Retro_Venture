@@ -4,7 +4,7 @@
   "description": "Il se fait appeler « le Prince des voleurs ». Ses hommes l'appellent « le patron » ; sa mère, « Gérard ».",
   "famille": "detrousseur",
   "elite": true,
-  "niveau": 18,
+  "palier": 3,
   "caracteristiques": {
     "pv": 174,
     "pa": 7,

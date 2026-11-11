@@ -9,7 +9,7 @@ extends RefCounted
 
 ## Version du protocole, vérifiée à la connexion : à augmenter à chaque changement incompatible
 ## d'une commande ou d'un événement.
-const VERSION := 15
+const VERSION := 16
 
 # --- Commandes (client → noyau) ---
 
@@ -169,8 +169,7 @@ const EVT_HARVESTED := "recolte"
 ## { type, carte: String, case: Vector2i }
 const EVT_RESOURCE_RESPAWNED := "repousse"
 ## Un groupe de monstres vaincu de la carte actuelle est réapparu (renvoyé par `World.update`).
-## { type, carte: String, groupe: { id, case, monstres, niveaux } } — `niveaux` : le niveau tiré de
-## chaque monstre, dans l'ordre de `monstres`.
+## { type, carte: String, groupe: { id, case, monstres } }.
 const EVT_GROUP_RESPAWNED := "reapparition"
 ## Un groupe de monstres de la carte actuelle se promène (renvoyé par `World.update`).
 ## { type, groupe: String, chemin: Array[Vector2i] (sans la case de départ), case: Vector2i }
@@ -205,7 +204,7 @@ const EVT_JOB := "metier"
 ## voyage par une Pierre de Passage, aussi `prix` : brumes payées.
 const EVT_MAP_CHANGED := "changement_carte"
 ## { type, groupe: String, combattants: Array[Dictionary], placement: Array[Vector2i] } — chaque
-## combattant comme `Fighter.to_dict` (avec son `niveau` : celui tiré à l'apparition d'un monstre).
+## combattant comme `Fighter.to_dict` (avec son `palier` : 1 à 5 pour un monstre, 0 pour un joueur).
 const EVT_COMBAT_STARTED := "combat_debut"
 ## { type, entite: String, case: Vector2i }
 const EVT_PLACED := "place"
@@ -287,7 +286,7 @@ const EVT_CHARACTER := "personnage"
 ## Inventaire mis à jour. { type, inventaire: Dictionary (voir Character.inventory_sheet) }
 const EVT_INVENTORY := "inventaire"
 ## { type, vainqueur: int (équipe, -1 si aucune), xp: int, tours: int (durée en tours),
-## combattants: Array[{ id, nom, type, niveau, equipe, vivant }] (pour l'écran de fin) } ; après le passage du monde, aussi
+## combattants: Array[{ id, nom, type, palier, equipe, vivant }] (pour l'écran de fin) } ; après le passage du monde, aussi
 ## `butin`: Array[{ objet, nom, rarete, quantite }], `ecus`: int, `niveaux`: Array[int],
 ## `surcharge`: bool (le sac déborde : faire de la place avant le prochain combat) ; à plusieurs,
 ## `gains`: { id du joueur: { xp, ecus, butin, niveaux } } (le tableau de fin de chacun) ; après une
@@ -348,7 +347,7 @@ const EVT_EXCHANGE := "echange_etat"
 const EVT_EXCHANGE_CLOSED := "echange_fin"
 ## Un groupe n'est plus combattu sans avoir été vaincu (son joueur a perdu ou s'est déconnecté) : il
 ## réapparaît pour les autres joueurs de la carte (jamais en solo). { type, carte: String,
-## groupe: { id, case, monstres, niveaux… } (voir `World.group_view`) }
+## groupe: { id, case, monstres… } (voir `World.group_view`) }
 const EVT_GROUP_RELEASED := "groupe_libere"
 ## Instantané de ce que voit le joueur, pour la copie de l'état de son client : voir `World.snapshot`.
 ## En ligne, envoyé à l'entrée d'une carte et à la reconnexion.

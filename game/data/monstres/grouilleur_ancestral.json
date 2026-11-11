@@ -4,7 +4,7 @@
   "description": "Il a plus de pattes que d'années, et il a beaucoup d'années.",
   "famille": "grouilleur",
   "elite": true,
-  "niveau": 7,
+  "palier": 2,
   "caracteristiques": {
     "pv": 65,
     "pa": 7,

@@ -4,7 +4,7 @@
   "description": "Il n'a jamais ouvert une porte de sa vie. Il les a toutes défoncées, y compris celle de chez lui.",
   "famille": "gobelin_briseur",
   "elite": true,
-  "niveau": 15,
+  "palier": 3,
   "caracteristiques": {
     "pv": 187,
     "pa": 7,

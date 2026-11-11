@@ -184,4 +184,4 @@ func test_le_souverain_cendre_est_un_boss_sans_elite() -> void:
 	assert_false(boss.has("famille"))
 	for monster: Dictionary in data.monsters.values():
 		assert_ne(monster.get("famille", ""), "souverain_cendre", "personne n'est de sa famille")
-	assert_eq(data.monster_level_range("souverain_cendre"), Vector2i(50, 50), "niveau fixe")
+	assert_eq(data.monster_tier("souverain_cendre"), Forge.MAX_TIER, "dernier palier")

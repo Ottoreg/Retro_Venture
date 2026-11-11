@@ -8,7 +8,7 @@ modifiable sans recompiler et vérifié par les tests à chaque push
 Conventions : clés en français sans accents, une case = `[x, y]`, un fichier par élément, `id` égal au
 nom du fichier.
 
-Catalogue lisible de tous les objets, monstres (stats par niveau, lieux) et sorts : [`docs/CATALOGUE.md`](../../docs/CATALOGUE.md),
+Catalogue lisible de tous les objets, monstres (palier, stats, lieux) et sorts : [`docs/CATALOGUE.md`](../../docs/CATALOGUE.md),
 regénéré par `python3 game/tools/catalogue.py` (à relancer après un changement de contenu). Variables d'équilibrage
 des métiers et de la forge, des classes et des races : [`docs/METIERS.md`](../../docs/METIERS.md) et
 [`docs/CLASSES.md`](../../docs/CLASSES.md), regénérés par `python3 game/tools/equilibrage.py`.
@@ -124,12 +124,9 @@ C'est ainsi que les variantes corrompues arrivent dans les zones de départ apr�
 En exploration, les groupes se promènent : toutes les 8 à 20 secondes, quelques pas (3 au plus)
 sans s'éloigner de plus de 3 cases de leur place d'origine, ni aller sur le joueur, un autre groupe,
 une porte, un bord de sortie ou derrière un bâtiment. La sauvegarde garde la composition et la place
-de chaque groupe, et le niveau de chaque monstre (tiré à nouveau s'il ne peut plus l'avoir : hors de
-sa tranche ou de poids nul, après un changement des données).
+de chaque groupe.
 
-À chaque apparition (première visite, réapparition, arrivée d'une élite), chaque monstre du groupe
-reçoit son niveau, tiré dans la tranche de sa famille (voir `niveaux` dans *Monstres*) ; la bulle du
-groupe le montre devant son nom (« Niv. 2 Rat des galeries »).
+La bulle du groupe montre le palier de chaque monstre devant son nom (« P1 Rat des galeries »).
 
 ### PNJ
 
@@ -423,30 +420,17 @@ Les élites ne se placent pas dans les `groupes` des cartes : le monde les fait 
 (voir `World` : toutes les 5 à 6 minutes de jeu, sur une carte au hasard où vit leur famille, une
 seule en vie par espèce, avec un rang d'ancienneté qui augmente leur butin).
 
-### Niveaux d'une famille
+### Palier
 
-Les membres d'une famille (élites exceptées) apparaissent à n'importe quel niveau de la tranche de
-leur palier (1–3, 4–6, 7–9, 10–12 dans une zone de départ), tiré à chaque apparition selon les poids
-de la famille : une famille faible tire surtout bas, une forte surtout haut.
+Chaque monstre a un `palier` de 1 à 5 (1 par défaut), comme la forge, et des `caracteristiques`,
+`resistances` et `xp` fixes : plus de niveau depuis le 11/11/2026 (`niveau`, `niveaux` et `par_niveau`
+sont refusés). Le palier mesure sa menace (facteur de difficulté, bulle, carte du monde). Une élite est
+au moins du palier de sa famille.
 
 ```json
-"niveau": 1,
-"niveaux": {"min": 1, "max": 3, "poids": [6, 3, 1]},
+"palier": 1,
 "caracteristiques": {"pv": 14, "pa": 5, "pm": 4, "initiative": 60},
-"par_niveau": {"pv": 3, "initiative": 5, "xp": 4, "force": 5}
 ```
-
-| Clé | Rôle |
-|---|---|
-| `niveau` | Niveau de base : celui des `caracteristiques`, `resistances` et `xp` écrits dans le fichier |
-| `niveaux` | Facultatif. `min` (égal à `niveau`), `max` (≥ `min`) et `poids` : un entier ≥ 0 par niveau de `min` à `max`, de somme non nulle (un poids nul n'est jamais tiré). Sans `niveaux`, le niveau est fixe. Interdit sur une élite et un boss (niveau fixe) |
-| `par_niveau` | Facultatif. Ajouté pour chaque niveau au-dessus de `niveau` : `pv`, `initiative`, `xp`, `force`, `intelligence`, `perception`, `agilite` (entiers ≥ 0), `resistances` (`{élément: entier}`, ajouté aux résistances) et, par exception, `pa` et `pm` |
-
-Dans l'exemple, un rat de niveau 3 a 20 PV, 70 d'initiative, 20 XP et 10 de Force. Le niveau ne
-change **pas** le butin : même table, mêmes taux, mêmes quantités et mêmes brumes à tous les niveaux.
-PA et PM restent les mêmes dans toute la famille ; `pa` et `pm` dans `par_niveau` sont réservés à une
-famille dont la mécanique en dépend. Les élites restent au-dessus de toute la tranche de leur
-famille.
 
 ### Boss et phases
 
@@ -456,8 +440,8 @@ dans les zones de départ une fois leur mini-boss vaincu (groupes `apres_boss`) 
 n'est pas une famille, elle n'a donc pas d'élite (les tests le vérifient, et que sa `base` est une
 famille existante).
 
-Un **boss** (`"boss": true`) est un monstre unique : ni `famille` ni `elite`, pas d'élite à lui, et un
-niveau fixe (le Souverain Cendré).
+Un **boss** (`"boss": true`) est un monstre unique : ni `famille` ni `elite`, pas d'élite à lui (le
+Souverain Cendré, palier 5).
 
 Tout monstre peut avoir des `phases`, déclenchées quand ses PV tombent à un seuil :
 

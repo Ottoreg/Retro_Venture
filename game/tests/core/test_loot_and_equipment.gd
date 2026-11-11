@@ -86,7 +86,7 @@ func test_pas_de_butin_en_cas_de_defaite_mais_la_reputation_des_vaincus() -> voi
 	var ended := Fixtures.of_type(events, Protocol.EVT_COMBAT_ENDED)[0]
 	assert_eq(ended["vainqueur"], Fighter.TEAM_MONSTERS)
 	# La Frappe sur le mannequin et sa part du monstre vaincu comptent, même en cas de défaite.
-	var factor := Progression.difficulty([1, wolf.level], [1])
+	var factor := Progression.difficulty([1, wolf.tier], [1])
 	var expected: int = Progression.gains(combat.practice[World.PLAYER_ID], factor,
 		10 * Progression.KILL_SHARE * factor)["reputation"]
 	assert_true(expected > 0)

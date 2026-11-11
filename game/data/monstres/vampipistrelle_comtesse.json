@@ -4,7 +4,7 @@
   "description": "Elle exige qu'on l'appelle « Madame la Comtesse ». Elle mord ceux qui oublient.",
   "famille": "vampipistrelle",
   "elite": true,
-  "niveau": 9,
+  "palier": 2,
   "caracteristiques": {
     "pv": 74,
     "pa": 7,

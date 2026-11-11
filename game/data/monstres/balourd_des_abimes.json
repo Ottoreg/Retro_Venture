@@ -3,7 +3,7 @@
   "nom": "Le Balourd des Abîmes",
   "description": "Les gobelins ont creusé trop profond. Le contremaître dit que c'est la faute des ouvriers. Le Balourd dit que c'est la faute de tout le monde.",
   "boss": true,
-  "niveau": 12,
+  "palier": 2,
   "caracteristiques": {
     "pv": 300,
     "pa": 7,

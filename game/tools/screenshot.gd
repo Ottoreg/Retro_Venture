@@ -8,7 +8,7 @@ extends SceneTree
 ## fenêtre ; « inventaire » remplit d'abord le sac d'un exemplaire de chaque objet), « pierre » (va utiliser
 ## la Pierre de Passage), « glyphe » (combat contre l'Arbre millénaire, glyphe posée, héros ralenti et
 ## empoisonné, à lancer sur sylvebrume_0_0), « sortie » (sortie de droite survolée : bulle « Vers : … »), « survol » (le plus grand groupe de la carte survolé :
-## bulle avec le niveau tiré de chaque monstre), « phase » (comme « cible » ; le monstre survolé reçoit
+## bulle avec le palier de chaque monstre), « phase » (comme « cible » ; le monstre survolé reçoit
 ## une phase pour l'occasion et passe sous son seuil : message et texte flottant), « reveil » (combat
 ## perdu contre le premier groupe : réveil près de la Pierre de Passage du point de résurrection, à
 ## lancer par exemple sur brumerive_1_0), « carte » (ouvre la carte du monde ; « monde » : dézoomée au plus loin, la carte actuelle survolée ; la minicarte, elle,
@@ -172,10 +172,10 @@ func _process(_delta: float) -> bool:
 				var template: Dictionary = view.server.data.items[item_id]
 				drops.append({"objet": item_id, "nom": template["nom"], "rarete": template["rarete"],
 					"quantite": 3 if item_id == "croc_de_loup" else 1})
-			var roster: Array = [{"id": World.PLAYER_ID, "nom": view.server.player_name, "niveau": 0, "equipe": Fighter.TEAM_PLAYERS, "vivant": true}]
+			var roster: Array = [{"id": World.PLAYER_ID, "nom": view.server.player_name, "palier": 0, "equipe": Fighter.TEAM_PLAYERS, "vivant": true}]
 			for i in 3:
-				roster.append({"id": "loup%d" % i, "nom": "Loup", "niveau": 3 + i, "equipe": Fighter.TEAM_MONSTERS, "vivant": i > 0})
-			roster.append({"id": "chef", "nom": "Chef de meute", "niveau": 6, "equipe": Fighter.TEAM_MONSTERS, "vivant": true})
+				roster.append({"id": "loup%d" % i, "nom": "Loup", "palier": 1, "equipe": Fighter.TEAM_MONSTERS, "vivant": i > 0})
+			roster.append({"id": "chef", "nom": "Chef de meute", "palier": 2, "equipe": Fighter.TEAM_MONSTERS, "vivant": true})
 			if _action == "butin":
 				for entry: Dictionary in roster.slice(1):
 					entry["vivant"] = false

@@ -4,7 +4,7 @@
   "description": "Il a un bureau, un tampon et un sifflet en or. Il ne descend jamais dans les galeries, sauf pour licencier.",
   "famille": "contremaitre_zele",
   "elite": true,
-  "niveau": 15,
+  "palier": 3,
   "caracteristiques": {
     "pv": 130,
     "pa": 7,

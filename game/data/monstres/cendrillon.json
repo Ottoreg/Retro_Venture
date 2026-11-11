@@ -2,28 +2,13 @@
   "id": "cendrillon",
   "nom": "Cendrillon",
   "description": "Adepte du Souverain Cendré. Ils dansent dans la cendre et doivent rentrer avant minuit, sinon ils redeviennent des gens normaux.",
-  "niveau": 25,
-  "niveaux": {
-    "min": 25,
-    "max": 27,
-    "poids": [
-      3,
-      4,
-      3
-    ]
-  },
+  "palier": 4,
   "caracteristiques": {
-    "pv": 113,
+    "pv": 119,
     "pa": 6,
     "pm": 3,
-    "initiative": 110,
-    "intelligence": 96
-  },
-  "par_niveau": {
-    "pv": 6,
-    "initiative": 5,
-    "xp": 22,
-    "intelligence": 4
+    "initiative": 115,
+    "intelligence": 100
   },
   "resistances": {
     "flamme": 30,
@@ -37,7 +22,7 @@
     "cendrillon_bal_de_minuit"
   ],
   "ia": "soutien",
-  "xp": 361,
+  "xp": 383,
   "butin": [
     {
       "objet": "cendre_tiede",

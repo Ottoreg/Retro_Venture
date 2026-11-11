@@ -44,14 +44,21 @@ static func equivalent_level(reputation_value: int) -> int:
 	return level
 
 
-## Facteur de difficulté d'un combat : niveaux des monstres contre niveaux équivalents des joueurs.
-static func difficulty(monster_levels: Array, player_levels: Array) -> float:
+## Palier d'un joueur face aux paliers des monstres : celui de la réputation de sa classe active
+## (Inconnu compté 1, comme `Forge.tier`).
+static func player_tier(reputation_value: int) -> int:
+	return clampi(Character.tier_index(reputation_value), 1, Forge.MAX_TIER)
+
+
+## Facteur de difficulté : somme des forces d'en face (paliers des monstres, ou palier d'une
+## ressource récoltée) contre celle des joueurs (`player_tier`, ou niveau équivalent pour un métier).
+static func difficulty(monster_strengths: Array, player_strengths: Array) -> float:
 	var threat := 0.0
-	for level: Variant in monster_levels:
-		threat += maxf(1.0, float(level))
+	for value: Variant in monster_strengths:
+		threat += maxf(1.0, float(value))
 	var strength := 0.0
-	for level: Variant in player_levels:
-		strength += maxf(1.0, float(level))
+	for value: Variant in player_strengths:
+		strength += maxf(1.0, float(value))
 	if threat <= 0.0:
 		return 0.0
 	var ratio := threat / maxf(1.0, strength)

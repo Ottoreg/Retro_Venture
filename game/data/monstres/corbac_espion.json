@@ -2,28 +2,13 @@
   "id": "corbac_espion",
   "nom": "Corbac espion",
   "description": "Un corbeau au service de la Cendre, avec une longue-vue en bandoulière. Il note tout ce que vous faites, surtout les bêtises.",
-  "niveau": 19,
-  "niveaux": {
-    "min": 19,
-    "max": 21,
-    "poids": [
-      6,
-      3,
-      1
-    ]
-  },
+  "palier": 3,
   "caracteristiques": {
     "pv": 79,
     "pa": 6,
     "pm": 5,
     "initiative": 150,
     "agilite": 72
-  },
-  "par_niveau": {
-    "pv": 4,
-    "initiative": 5,
-    "xp": 17,
-    "agilite": 4
   },
   "resistances": {
     "tempete": 25,

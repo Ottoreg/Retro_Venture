@@ -17,7 +17,7 @@
   "nom": "Ange",
   "description": "Il a fait vœu de paix. Il a aussi un glaive.",
   "donjon": true,
-  "niveau": 9,
+  "palier": 2,
   "caracteristiques": {
     "pv": 50,
     "pa": 6,

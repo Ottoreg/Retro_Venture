@@ -10,7 +10,7 @@
   "nom": "Cupidon",
   "description": "Un angelot à l'arc rouge. Il garde la clé de la tour et ne vise jamais le cœur.",
   "donjon": true,
-  "niveau": 3,
+  "palier": 1,
   "caracteristiques": {
     "pv": 25,
     "pa": 4,

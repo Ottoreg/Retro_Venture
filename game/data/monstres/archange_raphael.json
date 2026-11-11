@@ -23,7 +23,7 @@
       "archange_benediction": "archange_jugement"
     }
   },
-  "niveau": 18,
+  "palier": 3,
   "caracteristiques": {
     "pv": 120,
     "pa": 6,

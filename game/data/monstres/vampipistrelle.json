@@ -2,30 +2,14 @@
   "id": "vampipistrelle",
   "nom": "Vampipistrelle",
   "description": "Une pipistrelle qui s'est prise pour un vampire. Personne n'a osé la contredire.",
-  "niveau": 4,
-  "niveaux": {
-    "min": 4,
-    "max": 6,
-    "poids": [
-      3,
-      4,
-      3
-    ]
-  },
+  "palier": 1,
   "caracteristiques": {
-    "pv": 22,
+    "pv": 25,
     "pa": 6,
     "pm": 5,
-    "initiative": 120,
-    "agilite": 6,
-    "perception": 6
-  },
-  "par_niveau": {
-    "pv": 3,
-    "initiative": 5,
-    "xp": 8,
-    "agilite": 2,
-    "perception": 2
+    "initiative": 125,
+    "agilite": 8,
+    "perception": 8
   },
   "resistances": {
     "tempete": 20,
@@ -38,7 +22,7 @@
     "vampipistrelle_ultrason"
   ],
   "ia": "basique",
-  "xp": 27,
+  "xp": 35,
   "butin": [
     {
       "objet": "aile_de_vampipistrelle",

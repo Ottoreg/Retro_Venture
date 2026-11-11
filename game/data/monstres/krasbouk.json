@@ -3,7 +3,7 @@
   "nom": "Krasbouk, Chef de Raid (syndiqué)",
   "description": "Il mène le raid sur Brumerive parce que son contrat le dit. Il a lu le contrat. Lui seul.",
   "boss": true,
-  "niveau": 12,
+  "palier": 2,
   "caracteristiques": {
     "pv": 300,
     "pa": 7,

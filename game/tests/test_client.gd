@@ -54,9 +54,7 @@ func test_scene_du_monde_jusqu_au_combat_et_retour() -> void:
 	view._set_hovered(enemy.cell)
 	assert_true(hud._target_box.visible and not hud._spells_box.visible, "infos de la cible à la place des sorts")
 	assert_eq(hud._target_name.text, enemy.display_name)
-	assert_eq(hud._target_level.text, "Niveau %d" % enemy.level)
-	var rank := int(enemy.id.trim_prefix(group["id"] + "_")) - 1  # Combattants « groupe_1_1 », « groupe_1_2 »…
-	assert_eq(enemy.level, int(group["niveaux"][rank]), "le niveau tiré à l'apparition")
+	assert_eq(hud._target_level.text, "Palier %d" % view.server.data.monster_tier(enemy.kind))
 	assert_true(hud._target_stats.text.contains("PV %d / %d" % [enemy.hp, enemy.max_hp]), hud._target_stats.text)
 	assert_eq(hud._target_resistances.size(), 6, "résistances aux 6 éléments")
 	assert_eq(hud._target_resistances["givre"].text, "Givre " + CombatHud.percent_text(enemy.resistance("givre")))
@@ -980,9 +978,9 @@ func test_tous_les_membres_d_un_groupe_sont_affiches() -> void:
 	var expected: PackedStringArray = []
 	for i in hovered["monstres"].size():
 		var monster_id: String = hovered["monstres"][i]
-		expected.append("Niv. %d %s" % [hovered["niveaux"][i], view.server.data.monsters[monster_id]["nom"]])
-	expected.append(MapView.threat_line(hovered["niveaux"], view.world.character))
-	assert_eq(scene._hover_label.text, "\n".join(expected), "un monstre par ligne, niveau devant, puis la menace")
+		expected.append("P%d %s" % [view.server.data.monster_tier(monster_id), view.server.data.monsters[monster_id]["nom"]])
+	expected.append(MapView.threat_line(hovered["monstres"].map(view.server.data.monster_tier), view.world.character))
+	assert_eq(scene._hover_label.text, "\n".join(expected), "un monstre par ligne, palier devant, puis la menace")
 	view._set_hovered(view.current_map().spawn)
 	assert_false(scene._hover_bubble.visible, "pas de bulle sur une case vide")
 
@@ -1053,7 +1051,7 @@ func test_couronne_d_anciennete_d_une_elite() -> void:
 	scene.free()
 
 
-func test_niveaux_tires_dans_la_bulle_et_en_combat() -> void:
+func test_paliers_dans_la_bulle_et_en_combat() -> void:
 	var tree := Engine.get_main_loop() as SceneTree
 	Session.continue_game = false
 	Session.new_character = Character.create("Essai", "gobelin", "guerrier")
@@ -1062,32 +1060,29 @@ func test_niveaux_tires_dans_la_bulle_et_en_combat() -> void:
 	var view: MapView = scene.get_node("MapView")
 	var hud: CombatHud = scene.get_node("CombatHud")
 	assert_eq(view.server.map.id, "crasse_roc_0_0")
-	# Les deux rats du premier groupe, à des niveaux choisis pour le test (tirés au sort d'habitude).
+	# Les deux rats du premier groupe, de palier 1.
 	var group: Dictionary = view.server.group("groupe_1")
 	assert_eq(str(group["monstres"]), str(["rat_des_galeries", "rat_des_galeries"]))
-	group["niveaux"] = [3, 1]
-	view.refresh_state()
-	view._load_exploration_actors()
 	view._set_hovered(group["case"])
-	assert_true(scene._hover_label.text.begins_with("Niv. 3 Rat des galeries\nNiv. 1 Rat des galeries\nMenace : "),
-		"le niveau tiré de chaque monstre")
-	# En combat : chaque rat à son niveau, affiché dans le cadre du combattant survolé.
+	assert_true(scene._hover_label.text.begins_with("P1 Rat des galeries\nP1 Rat des galeries\nMenace : "),
+		"le palier de chaque monstre")
+	# En combat : le palier, affiché dans le cadre du combattant survolé.
 	view._on_click(group["case"])
 	_run_until_idle(view)
 	view.request_start_fight()
 	_run_until_idle(view)
 	var strongest: Fighter = null
 	for fighter in view.server.combat.fighters:
-		if fighter.kind == "rat_des_galeries" and fighter.level == 3:
+		if fighter.kind == "rat_des_galeries":
 			strongest = fighter
-	assert_true(strongest != null, "un rat de niveau 3 en combat")
+	assert_true(strongest != null, "un rat en combat")
 	if strongest == null:
 		scene.free()
 		return
 	view._set_hovered(view.player_fighter().cell)
 	view._set_hovered(strongest.cell)
-	assert_eq(hud._target_level.text, "Niveau 3")
-	assert_eq(strongest.max_hp, 20, "14 PV au niveau 1, +3 par niveau")
+	assert_eq(hud._target_level.text, "Palier 1")
+	assert_eq(strongest.max_hp, int(view.server.data.monsters["rat_des_galeries"]["caracteristiques"]["pv"]), "PV fixes")
 	# Changement de phase : message de combat et texte flottant, qui reste plus longtemps qu'un autre
 	# (« -5 », ajouté en même temps) pour être lu.
 	view._add_floating("-5", Color(1, 0.35, 0.3), Vector2(strongest.cell))

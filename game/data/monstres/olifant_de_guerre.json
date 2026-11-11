@@ -2,28 +2,13 @@
   "id": "olifant_de_guerre",
   "nom": "Olifant de guerre",
   "description": "Trois tonnes, quatre défenses, et un caparaçon rouge brodé « Armée du Souverain ». Il ne sait pas lire, heureusement pour lui.",
-  "niveau": 28,
-  "niveaux": {
-    "min": 28,
-    "max": 30,
-    "poids": [
-      1,
-      3,
-      6
-    ]
-  },
+  "palier": 4,
   "caracteristiques": {
-    "pv": 246,
+    "pv": 268,
     "pa": 7,
     "pm": 3,
-    "initiative": 60,
-    "force": 108
-  },
-  "par_niveau": {
-    "pv": 11,
-    "initiative": 5,
-    "xp": 29,
-    "force": 4
+    "initiative": 70,
+    "force": 116
   },
   "resistances": {
     "acier": 30,
@@ -36,7 +21,7 @@
     "olifant_barrissement"
   ],
   "ia": "basique",
-  "xp": 530,
+  "xp": 588,
   "butin": [
     {
       "objet": "cuir_d_olifant",

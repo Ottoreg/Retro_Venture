@@ -38,9 +38,6 @@ const PASSIVE_EFFECTS := ["portee", "reputation_metier", "prospection", "ecus"]
 ## Caractéristiques d'un monstre (facultatives dans « caracteristiques », 0 par défaut) : comme
 ## celles des joueurs, +1 % de dégâts de leur élément par point.
 const MONSTER_STATS := ["force", "intelligence", "perception", "agilite"]
-## Ce que « par_niveau » ajoute pour chaque niveau au-dessus du niveau de base (« resistances » à
-## part ; « pa » et « pm » seulement par exception, pour une famille dont la mécanique en dépend).
-const PER_LEVEL_KEYS := ["pv", "initiative", "xp", "force", "intelligence", "perception", "agilite", "pa", "pm"]
 ## Effets qu'un monstre ne peut pas s'appliquer en changeant de phase (rien à viser au sol, nulle
 ## part où sauter, personne à pousser ni à attirer).
 const PHASE_FORBIDDEN_EFFECTS := [Spell.EFFECT_GLYPH, Spell.EFFECT_TRAP, Spell.EFFECT_TELEPORT, Spell.EFFECT_PUSH, Spell.EFFECT_PULL,
@@ -310,8 +307,11 @@ static func validate_race(data: Dictionary, known_spells: Dictionary) -> PackedS
 
 static func validate_monster(data: Dictionary, known_spells: Dictionary, known_items: Dictionary = {}) -> PackedStringArray:
 	var errors := _validate_common(data, known_spells)
-	if not Spell._is_int_at_least(data.get("niveau", 1), 1):
-		errors.append("« niveau » doit être un entier ≥ 1")
+	if not Spell._is_int_at_least(data.get("palier", 1), 1) or int(data.get("palier", 1)) > Forge.MAX_TIER:
+		errors.append("« palier » doit être un entier de 1 à %d" % Forge.MAX_TIER)
+	for old: String in ["niveau", "niveaux", "par_niveau"]:
+		if data.has(old):
+			errors.append("« %s » n'existe plus : un monstre a un « palier » et des caractéristiques fixes" % old)
 	var stats: Variant = data.get("caracteristiques")
 	if typeof(stats) == TYPE_DICTIONARY:
 		for stat_name: String in MONSTER_STATS + Fighter.COMBAT_STATS:
@@ -325,7 +325,6 @@ static func validate_monster(data: Dictionary, known_spells: Dictionary, known_i
 		errors.append("« boss » doit être vrai ou faux")
 	elif data.get("boss", false) == true and (data.get("elite", false) == true or data.has("famille")):
 		errors.append("un boss est un monstre unique : ni « elite » ni « famille »")
-	errors.append_array(_validate_levels(data))
 	errors.append_array(_validate_phases(data.get("phases", []), known_spells))
 	var alone: Variant = data.get("seul", {})
 	if typeof(alone) != TYPE_DICTIONARY or (not alone.is_empty() and (typeof(alone.get("message")) != TYPE_STRING
@@ -364,53 +363,6 @@ static func validate_monster(data: Dictionary, known_spells: Dictionary, known_i
 		for element: Variant in resistances:
 			if element not in Spell.ELEMENTS or typeof(resistances[element]) not in [TYPE_INT, TYPE_FLOAT]:
 				errors.append("résistance invalide : %s" % str(element))
-	return errors
-
-
-## « niveaux » (tranche et poids du tirage à l'apparition) et « par_niveau » (ajouts pour chaque
-## niveau au-dessus de « niveau »).
-static func _validate_levels(data: Dictionary) -> PackedStringArray:
-	var errors: PackedStringArray = []
-	if data.has("niveaux"):
-		var levels: Variant = data["niveaux"]
-		var base := int(data.get("niveau", 1)) if Spell._is_int_at_least(data.get("niveau", 1), 1) else 1
-		if data.get("elite", false) == true or data.get("boss", false) == true:
-			errors.append("« niveaux » : un élite ou un boss a un niveau fixe (« niveau » seulement)")
-		elif typeof(levels) != TYPE_DICTIONARY or not Spell._is_int_at_least(levels.get("min"), 1) \
-				or not Spell._is_int_at_least(levels.get("max"), 1) or int(levels["max"]) < int(levels["min"]):
-			errors.append("« niveaux » doit être { min, max, poids } avec 1 ≤ min ≤ max")
-		elif int(levels["min"]) != base:
-			errors.append("« niveaux.min » doit être égal à « niveau » (%d)" % base)
-		else:
-			var weights: Variant = levels.get("poids")
-			var count := int(levels["max"]) - int(levels["min"]) + 1
-			var valid: bool = typeof(weights) == TYPE_ARRAY and weights.size() == count
-			var total := 0
-			if valid:
-				for weight: Variant in weights:
-					if Spell._is_int_at_least(weight, 0):
-						total += int(weight)
-					else:
-						valid = false
-			if not valid or total <= 0:
-				errors.append("« niveaux.poids » : un entier ≥ 0 par niveau de %d à %d (%d en tout), de somme non nulle"
-					% [int(levels["min"]), int(levels["max"]), count])
-	var per_level: Variant = data.get("par_niveau", {})
-	if typeof(per_level) != TYPE_DICTIONARY:
-		errors.append("« par_niveau » doit être un objet { caractéristique: ajout par niveau }")
-		return errors
-	for key: Variant in per_level:
-		if key == "resistances":
-			var resistances: Variant = per_level[key]
-			if typeof(resistances) != TYPE_DICTIONARY:
-				errors.append("« par_niveau.resistances » doit être un objet { element: entier }")
-				continue
-			for element: Variant in resistances:
-				var value: Variant = resistances[element]
-				if element not in Spell.ELEMENTS or typeof(value) not in [TYPE_INT, TYPE_FLOAT] or float(value) != floorf(float(value)):
-					errors.append("par_niveau : résistance invalide : %s" % str(element))
-		elif key not in PER_LEVEL_KEYS or not Spell._is_int_at_least(per_level[key], 0):
-			errors.append("par_niveau : « %s » doit être l'un de %s (entier ≥ 0) ou « resistances »" % [str(key), str(PER_LEVEL_KEYS)])
 	return errors
 
 
@@ -512,78 +464,31 @@ func give_starting_kit(character: Character) -> void:
 	character.inventory.ecus += STARTING_ECUS
 
 
-## Tranche de niveaux des monstres des groupes d'une carte (`monstres` ou `parmi`, variantes
-## d'après boss comprises) : Vector2i(min, max), ou (0, 0) sans groupe.
-func map_level_range(map: GameMap) -> Vector2i:
+## Paliers des monstres des groupes d'une carte (`monstres` ou `parmi`, variantes d'après boss
+## comprises) : Vector2i(min, max), ou (0, 0) sans groupe.
+func map_tier_range(map: GameMap) -> Vector2i:
 	var result := Vector2i.ZERO
 	for group: Dictionary in map.groups:
 		for monster_id: Variant in group.get("monstres", group.get("parmi", [])):
-			if not monsters.has(monster_id):
-				continue
-			var levels := monster_level_range(monster_id)
-			result = levels if result == Vector2i.ZERO else Vector2i(mini(result.x, levels.x), maxi(result.y, levels.y))
+			if monsters.has(monster_id):
+				var tier := monster_tier(monster_id)
+				result = Vector2i(tier, tier) if result == Vector2i.ZERO else Vector2i(mini(result.x, tier), maxi(result.y, tier))
 	return result
 
 
-## Tranche de niveaux d'un monstre : Vector2i(min, max). Sans « niveaux » (élites, boss…), son
-## niveau fixe aux deux bouts.
-func monster_level_range(monster_id: String) -> Vector2i:
-	var data: Dictionary = monsters.get(monster_id, {})
-	var base := int(data.get("niveau", 1))
-	if not data.has("niveaux"):
-		return Vector2i(base, base)
-	return Vector2i(base, int(data["niveaux"]["max"]))
+## Palier d'un monstre (1 à `Forge.MAX_TIER`, 1 s'il est inconnu).
+func monster_tier(monster_id: String) -> int:
+	return int(monsters.get(monster_id, {}).get("palier", 1))
 
 
-## Niveau d'un monstre qui apparaît : tiré dans sa tranche selon les « poids » de sa famille (un
-## poids nul n'est jamais tiré) ; son niveau fixe, sans tirage, s'il n'en a pas.
-func roll_monster_level(monster_id: String, rng: RandomNumberGenerator) -> int:
-	var levels := monster_level_range(monster_id)
-	if levels.x == levels.y:
-		return levels.x
-	var weights: Array = monsters[monster_id]["niveaux"]["poids"]
-	var total := 0
-	for weight: Variant in weights:
-		total += int(weight)
-	var roll := rng.randi_range(1, total)
-	for i in weights.size():
-		roll -= int(weights[i])
-		if roll <= 0:
-			return levels.x + i
-	return levels.y
-
-
-## Niveaux tirés pour une liste de monstres, dans le même ordre (voir `roll_monster_level`).
-func roll_group_levels(monster_ids: Array, rng: RandomNumberGenerator) -> Array:
-	var levels: Array = []
-	for monster_id: String in monster_ids:
-		levels.append(roll_monster_level(monster_id, rng))
-	return levels
-
-
-## Vrai si le monstre peut avoir le niveau `level` : un entier de sa tranche, de poids non nul (un
-## poids nul n'est jamais tiré).
-func is_monster_level(monster_id: String, level: Variant) -> bool:
-	if not Spell._is_int_at_least(level, 1):
-		return false
-	var levels := monster_level_range(monster_id)
-	if int(level) < levels.x or int(level) > levels.y:
-		return false
-	var data: Dictionary = monsters.get(monster_id, {})
-	return not data.has("niveaux") or int(data["niveaux"]["poids"][int(level) - levels.x]) > 0
-
-
-## Monstre prêt à combattre au niveau `level` (-1 : son niveau de base ; ramené dans sa tranche),
-## ou `null` si l'id est inconnu. Chaque niveau au-dessus du niveau de base ajoute « par_niveau »
-## (PV, initiative, XP, caractéristiques, résistances, et par exception PA et PM). Le butin, lui,
-## ne dépend pas du niveau : il est lu dans les données du monstre (voir `World._loot`).
-func create_monster(monster_id: String, fighter_id: String, level := -1) -> Fighter:
+## Monstre prêt à combattre, ou `null` si l'id est inconnu. Ses caractéristiques sont fixes (plus de
+## niveau, demande de l'auteur du 11/11/2026) ; son palier mesure sa menace (`Progression.difficulty`).
+func create_monster(monster_id: String, fighter_id: String) -> Fighter:
 	if not monsters.has(monster_id):
 		return null
 	var data: Dictionary = monsters[monster_id]
-	var levels := monster_level_range(monster_id)
 	var fighter := _create_fighter(data, fighter_id, str(data["nom"]), Fighter.TEAM_MONSTERS)
-	fighter.level = levels.x if level < 0 else clampi(level, levels.x, levels.y)
+	fighter.tier = monster_tier(monster_id)
 	fighter.ai = str(data.get("ia", "basique"))
 	fighter.xp = int(data.get("xp", 0))
 	for stat_name: String in MONSTER_STATS:
@@ -593,22 +498,6 @@ func create_monster(monster_id: String, fighter_id: String, level := -1) -> Figh
 			fighter.combat_stats[stat_name] = int(data["caracteristiques"][stat_name])
 	for element: String in data.get("resistances", {}):
 		fighter.resistances[element] = int(data["resistances"][element])
-	# Ajouts pour chaque niveau au-dessus du niveau de base.
-	var steps := fighter.level - levels.x
-	var per_level: Dictionary = data.get("par_niveau", {})
-	fighter.max_hp += steps * int(per_level.get("pv", 0))
-	fighter.hp = fighter.max_hp
-	fighter.initiative += steps * int(per_level.get("initiative", 0))
-	fighter.xp += steps * int(per_level.get("xp", 0))
-	fighter.max_pa += steps * int(per_level.get("pa", 0))
-	fighter.pa = fighter.max_pa
-	fighter.max_pm += steps * int(per_level.get("pm", 0))
-	fighter.pm = fighter.max_pm
-	for stat_name: String in MONSTER_STATS:
-		fighter.stats[stat_name] += steps * int(per_level.get(stat_name, 0))
-	var extra_resistances: Dictionary = per_level.get("resistances", {})
-	for element: String in extra_resistances:
-		fighter.resistances[element] = int(fighter.resistances.get(element, 0)) + steps * int(extra_resistances[element])
 	var alone: Dictionary = data.get("seul", {})
 	for old: String in alone.get("remplace", {}):
 		fighter.alone_spells[old] = spells[alone["remplace"][old]]
@@ -638,7 +527,7 @@ func passive_value(race_id: String, effect_type: String) -> int:
 	return total
 
 
-## Combattant d'un personnage joueur : Voie, niveau, caractéristiques, sort et passif de race.
+## Combattant d'un personnage joueur : Voie, caractéristiques, sort et passif de race.
 func create_character_fighter(character: Character, fighter_id: String) -> Fighter:
 	if not voies.has(character.voie_id):
 		return null
@@ -650,7 +539,7 @@ func create_character_fighter(character: Character, fighter_id: String) -> Fight
 			fighter.masteries[spell_id] = character.spell_rank(spell_id)
 		fighter.spells.append(spells[spell_id].mastered(character.spell_rank(spell_id)))
 	fighter.race = character.race_id
-	fighter.level = 0  # Un joueur n'a pas de niveau (GDD § 4.5) ; celui des monstres reste leur menace.
+	fighter.tier = 0  # Un joueur n'a pas de palier de monstre (GDD § 4.5).
 	for stat_name in Character.STATS:
 		fighter.stats[stat_name] = character.stat(stat_name, self)
 	fighter.max_hp = character.max_hp(self)
@@ -693,7 +582,6 @@ func create_profile_fighter(profile: Dictionary, fighter_id: String) -> Fighter:
 		return null
 	var fighter := _create_fighter(voies[profile["voie"]], fighter_id, str(profile["nom"]), Fighter.TEAM_PLAYERS)
 	fighter.race = str(profile["race"])
-	fighter.level = int(profile["niveau"])
 	fighter.stats = (profile["caracs"] as Dictionary).duplicate()
 	fighter.max_hp = int(profile["pv_max"])
 	fighter.hp = fighter.max_hp

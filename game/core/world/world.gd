@@ -877,7 +877,7 @@ func _instance(map_id: String) -> MapInstance:
 		return null
 	var groups := {}
 	for group in available_groups(source):
-		groups[group["id"]] = GameMap.compose_group(group, rng, data)
+		groups[group["id"]] = GameMap.compose_group(group, rng)
 	var instance := MapInstance.new(source, groups)
 	instances[map_id] = instance
 	return instance
@@ -1659,12 +1659,9 @@ func _create_combat(p: PlayerState, group: Dictionary) -> Combat:
 		var swap := monster_cells[i]
 		monster_cells[i] = monster_cells[k]
 		monster_cells[k] = swap
-	var levels: Array = group.get("niveaux", [])
 	var index := 0
 	for i in group["monstres"].size():
-		# Chaque monstre à son niveau tiré à l'apparition (niveau de base s'il manque).
-		var level := int(levels[i]) if i < levels.size() else -1
-		var monster := data.create_monster(group["monstres"][i], "%s_%d" % [group["id"], index + 1], level)
+		var monster := data.create_monster(group["monstres"][i], "%s_%d" % [group["id"], index + 1])
 		if monster == null or index >= monster_cells.size():
 			continue
 		monster.cell = monster_cells[index]
@@ -1735,14 +1732,11 @@ func _end_combat(p: PlayerState, events: Array[Dictionary]) -> void:
 	var drops: Dictionary = Loot.roll(monsters, prospections, combat.rng, loot_bonus) if won else {}
 	# Progression (GDD § 4.5) : facteur de difficulté du combat (monstres contre force du groupe), et
 	# part de chacun de la réputation des monstres vaincus (même en cas de défaite).
-	var monster_levels: Array = []
+	var monster_tiers: Array = []
 	for fighter in combat.fighters:
 		if fighter.team != Fighter.TEAM_PLAYERS:
-			monster_levels.append(fighter.level)
-	var strengths: Array = []
-	for member in team:
-		strengths.append(Progression.equivalent_level(member.character.reputation()))
-	var factor := Progression.difficulty(monster_levels, strengths)
+			monster_tiers.append(fighter.tier)
+	var factor := Progression.difficulty(monster_tiers, team.map(func(member: PlayerState) -> int: return Progression.player_tier(member.character.reputation())))
 	# Mode héros : un héros choisi peut recevoir tout le butin et toutes les brumes.
 	var receiver := p.hero_receiver if team.any(func(member: PlayerState) -> bool: return member.id == p.hero_receiver) else ""
 	var kill_share := float(ended.get("xp", 0)) * Progression.KILL_SHARE * factor / maxi(1, team.size())
@@ -2257,7 +2251,7 @@ func spawn_elite(elite_id: String, events: Array[Dictionary] = []) -> bool:
 		if rng.randf() < 0.5:
 			monsters.append(family)  # Parfois avec un monstre de sa famille.
 		group = {"id": ELITE_GROUP_PREFIX + elite_id, "case": cell, "foyer": cell, "monstres": monsters,
-			"niveaux": data.roll_group_levels(monsters, rng), "reapparition": GameMap.DEFAULT_RESPAWN.duplicate()}
+			"reapparition": GameMap.DEFAULT_RESPAWN.duplicate()}
 		states[group["id"]] = group
 		instance.positions[group["id"]] = cell
 	else:
@@ -2276,8 +2270,6 @@ func spawn_elite(elite_id: String, events: Array[Dictionary] = []) -> bool:
 		group = choices[rng.randi_range(0, choices.size() - 1)]
 		var slot: int = group["monstres"].find(family)
 		group["monstres"][maxi(0, slot)] = elite_id
-		# Les autres gardent leur niveau ; l'élite prend son niveau fixe.
-		group["niveaux"] = _checked_levels(group["monstres"], group.get("niveaux"))
 	group["elite"] = elite_id
 	group["apparition"] = clock
 	_elites[elite_id] = {"carte": target_id, "groupe": group["id"]}
@@ -2401,7 +2393,7 @@ func _respawn_groups(events: Array[Dictionary]) -> void:
 			waiting.erase(group_id)
 			if original.is_empty():
 				continue
-			var composed := GameMap.compose_group(original, rng, data)
+			var composed := GameMap.compose_group(original, rng)
 			instance.groups[group_id] = composed
 			instance.positions[group_id] = original["case"]
 			instance.wander_times.erase(group_id)
@@ -2866,8 +2858,7 @@ func save_data() -> Dictionary:
 		var groups: Array = []
 		for group: Dictionary in instance.groups.values():
 			var cell: Vector2i = group["case"]
-			var saved_group := {"id": group["id"], "case": [cell.x, cell.y], "monstres": group["monstres"].duplicate(),
-				"niveaux": group.get("niveaux", []).duplicate()}
+			var saved_group := {"id": group["id"], "case": [cell.x, cell.y], "monstres": group["monstres"].duplicate()}
 			if group.has("elite"):
 				var home: Vector2i = group.get("foyer", cell)
 				saved_group["elite"] = group["elite"]
@@ -2909,10 +2900,10 @@ static func _merged_loot(found: Array) -> Array:
 	return merged
 
 
-## Groupe d'une carte tel qu'il a été sauvegardé (monstres, niveaux et case), si la sauvegarde est
+## Groupe d'une carte tel qu'il a été sauvegardé (monstres et case), si la sauvegarde est
 ## cohérente ; sinon tel qu'il apparaît d'habitude.
 func _restored_group(saved_map: GameMap, group: Dictionary, saved: Dictionary) -> Dictionary:
-	var restored := GameMap.compose_group(group, rng, data)
+	var restored := GameMap.compose_group(group, rng)
 	var monsters: Variant = saved.get("monstres")
 	if typeof(monsters) == TYPE_ARRAY and not monsters.is_empty() and monsters.size() <= GameMap.MAX_GROUP_SIZE:
 		var known := true
@@ -2920,7 +2911,6 @@ func _restored_group(saved_map: GameMap, group: Dictionary, saved: Dictionary) -
 			known = known and typeof(monster_id) == TYPE_STRING and (data == null or data.monsters.has(monster_id))
 		if known:
 			restored["monstres"] = monsters.duplicate()
-			restored["niveaux"] = _checked_levels(restored["monstres"], saved.get("niveaux"))
 	var cell: Variant = saved.get("case")
 	if typeof(cell) == TYPE_ARRAY and cell.size() == 2:
 		var saved_cell := Vector2i(int(cell[0]), int(cell[1]))
@@ -2945,28 +2935,12 @@ func _restored_elite_group(saved_map: GameMap, group_id: String, saved: Dictiona
 	if not saved_map.is_walkable(saved_cell):
 		return {}
 	var group := {"id": group_id, "case": saved_cell, "foyer": saved_cell, "monstres": monsters.duplicate(),
-		"niveaux": _checked_levels(monsters, saved.get("niveaux")), "reapparition": GameMap.DEFAULT_RESPAWN.duplicate()}
+		"reapparition": GameMap.DEFAULT_RESPAWN.duplicate()}
 	var home: Variant = saved.get("foyer")
 	if typeof(home) == TYPE_ARRAY and home.size() == 2 and saved_map.is_walkable(Vector2i(int(home[0]), int(home[1]))):
 		group["foyer"] = Vector2i(int(home[0]), int(home[1]))
 	_restore_elite_fields(group, saved)
 	return group if group.has("elite") else {}
-
-
-## Niveaux d'un groupe, un par monstre : ceux de `saved` quand chaque monstre peut encore les avoir
-## (dans sa tranche, de poids non nul : voir `GameData.is_monster_level`), sinon tirés à nouveau
-## (vieille sauvegarde sans niveaux, données changées depuis).
-func _checked_levels(monsters: Array, saved: Variant) -> Array:
-	var levels: Array = []
-	for i in monsters.size():
-		var level: Variant = saved[i] if typeof(saved) == TYPE_ARRAY and i < saved.size() else null
-		if data == null:
-			levels.append(int(level) if Spell._is_int_at_least(level, 1) else 1)
-		elif data.is_monster_level(monsters[i], level):
-			levels.append(int(level))
-		else:
-			levels.append(data.roll_monster_level(monsters[i], rng))
-	return levels
 
 
 ## Reprend l'élite d'un groupe sauvegardé (et son ancienneté) si elle est cohérente.

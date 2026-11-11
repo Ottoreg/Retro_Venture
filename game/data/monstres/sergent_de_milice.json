@@ -4,7 +4,7 @@
   "description": "Vingt ans de service, trois promotions, aucune bataille. Ça va changer, croit-il.",
   "famille": "milicien_de_hautepierre",
   "elite": true,
-  "niveau": 12,
+  "palier": 2,
   "caracteristiques": {
     "pv": 118,
     "pa": 7,

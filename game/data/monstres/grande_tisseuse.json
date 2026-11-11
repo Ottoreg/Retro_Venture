@@ -4,7 +4,7 @@
   "description": "Sa toile couvre trois clairières. Elle a oublié où elle a rangé la dernière proie.",
   "famille": "tisseuse_de_brume",
   "elite": true,
-  "niveau": 15,
+  "palier": 3,
   "caracteristiques": {
     "pv": 144,
     "pa": 7,

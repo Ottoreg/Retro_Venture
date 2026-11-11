@@ -10,8 +10,8 @@ var display_name: String
 var team: int
 ## Identifiant du monstre ou de la Voie, pour l'affichage.
 var kind: String
-## Niveau : celui du personnage pour un joueur, celui tiré à l'apparition pour un monstre.
-var level: int = 1
+## Palier d'un monstre (1 à 5, sa menace) ; 0 pour un joueur.
+var tier: int = 1
 var cell: Vector2i
 var max_hp: int
 var hp: int
@@ -304,7 +304,7 @@ func to_dict() -> Dictionary:
 		"nom": display_name,
 		"equipe": team,
 		"type": kind,
-		"niveau": level,
+		"palier": tier,
 		"race": race,
 		"case": cell,
 		"pv": hp,
@@ -324,7 +324,7 @@ func profile() -> Dictionary:
 		if (i == 0 and not weapon.is_empty()) or spells[i].id in created_spells:
 			continue
 		spell_ids.append(spells[i].id)
-	return {"voie": kind, "nom": display_name, "race": race, "niveau": level, "caracs": stats.duplicate(),
+	return {"voie": kind, "nom": display_name, "race": race, "caracs": stats.duplicate(),
 		"pv_max": max_hp, "pa": max_pa, "pm": max_pm, "initiative": initiative, "portee": range_bonus,
 		"prospection": prospection, "dommages": dommages, "critique": crit_bonus, "resistances": resistances.duplicate(),
 		"dommages_elements": element_dommages.duplicate(), "soins": soins, "soins_elements": element_soins.duplicate(),
@@ -338,7 +338,7 @@ func snapshot() -> Dictionary:
 		"id": id,
 		"type": kind,
 		"equipe": team,
-		"niveau": level,
+		"palier": tier,
 		"ia": is_ai(),
 		"case": cell,
 		"pv": hp,

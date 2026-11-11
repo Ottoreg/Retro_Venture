@@ -2,26 +2,12 @@
   "id": "cerf_enchante",
   "nom": "Cerf enchanté",
   "description": "Ses bois luisent au crépuscule. Il charge aussi, au crépuscule et le reste du temps.",
-  "niveau": 4,
-  "niveaux": {
-    "min": 4,
-    "max": 6,
-    "poids": [
-      3,
-      4,
-      3
-    ]
-  },
+  "palier": 1,
   "caracteristiques": {
-    "pv": 36,
+    "pv": 40,
     "pa": 7,
     "pm": 4,
-    "initiative": 110
-  },
-  "par_niveau": {
-    "pv": 4,
-    "initiative": 5,
-    "xp": 6,
+    "initiative": 115,
     "force": 2,
     "agilite": 2
   },
@@ -34,7 +20,7 @@
     "cerf_eclat_sylvestre"
   ],
   "ia": "basique",
-  "xp": 45,
+  "xp": 51,
   "butin": [
     {
       "objet": "poil_scintillant",

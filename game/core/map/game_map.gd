@@ -73,8 +73,7 @@ var obstacles: Dictionary = {}
 var resource_nodes: Dictionary = {}
 ## Groupes de monstres : { id: String, case: Vector2i, monstres: Array (ids de monstres),
 ## reapparition: [min, max] }. Un groupe tiré au sort a aussi `parmi` (ids possibles) et `nombre`
-## ([min, max]) : `monstres` est alors vide ici, le monde le compose (voir `compose_group`), avec le
-## niveau de chaque monstre (`niveaux`). Un groupe `apres_boss` (id d'un boss) n'apparaît qu'une
+## ([min, max]) : `monstres` est alors vide ici, le monde le compose (voir `compose_group`). Un groupe `apres_boss` (id d'un boss) n'apparaît qu'une
 ## fois ce boss vaincu (variantes corrompues d'une zone de départ, voir `World.defeated_bosses`).
 ## Dans le monde, un groupe a aussi son `foyer` (sa case d'origine) et peut s'en éloigner un peu.
 var groups: Array[Dictionary] = []
@@ -653,11 +652,9 @@ static func possible_monsters(group: Dictionary) -> Array:
 	return group["parmi"] if group.has("parmi") else group["monstres"]
 
 
-## Copie du groupe prête à paraître sur la carte : un groupe tiré au sort reçoit ses monstres, et
-## chaque monstre son niveau (`niveaux`, dans l'ordre de `monstres`, tirés dans sa tranche par
-## `GameData.roll_monster_level` ; 1 sans données). `foyer` : sa case d'origine, autour de laquelle
-## il se promène.
-static func compose_group(group: Dictionary, rng: RandomNumberGenerator, data: GameData = null) -> Dictionary:
+## Copie du groupe prête à paraître sur la carte : un groupe tiré au sort reçoit ses monstres.
+## `foyer` : sa case d'origine, autour de laquelle il se promène.
+static func compose_group(group: Dictionary, rng: RandomNumberGenerator) -> Dictionary:
 	var composed := group.duplicate(true)
 	composed["foyer"] = group["case"]
 	if group.has("parmi"):
@@ -667,13 +664,6 @@ static func compose_group(group: Dictionary, rng: RandomNumberGenerator, data: G
 		for i in rng.randi_range(int(count[0]), int(count[1])):
 			monsters.append(pool[rng.randi_range(0, pool.size() - 1)])
 		composed["monstres"] = monsters
-	if data != null:
-		composed["niveaux"] = data.roll_group_levels(composed["monstres"], rng)
-	else:
-		var levels: Array = []
-		levels.resize(composed["monstres"].size())
-		levels.fill(1)
-		composed["niveaux"] = levels
 	return composed
 
 

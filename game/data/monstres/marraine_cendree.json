@@ -4,7 +4,7 @@
   "description": "Elle exauce les vœux. Le vôtre était de rentrer chez vous ; elle l'a mal compris.",
   "famille": "cendrillon",
   "elite": true,
-  "niveau": 30,
+  "palier": 4,
   "caracteristiques": {
     "pv": 284,
     "pa": 7,

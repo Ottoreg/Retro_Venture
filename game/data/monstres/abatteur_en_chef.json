@@ -4,7 +4,7 @@
   "description": "Il a abattu Vieux-Branchu, mille ans d'âge, en une matinée. Il en a fait un banc. Personne ne s'assoit dessus.",
   "famille": "bucheron_de_brumerive",
   "elite": true,
-  "niveau": 12,
+  "palier": 2,
   "caracteristiques": {
     "pv": 153,
     "pa": 7,

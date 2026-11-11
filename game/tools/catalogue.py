@@ -202,12 +202,8 @@ def conditions_objet(o):
 
 
 def nom_monstre(m):
-    if "niveaux" in m:
-        niveau = plage(m["niveaux"]["min"], m["niveaux"]["max"])
-    else:
-        niveau = m.get("niveau", "?")
     etiquette = " (mini-boss)" if m.get("boss") else " (élite)" if m.get("elite") else ""
-    return "%s%s niv. %s" % (m["nom"], etiquette, niveau)
+    return "%s%s, palier %d" % (m["nom"], etiquette, m.get("palier", 1))
 
 
 ZONES = [("brumerive", "Brumerive (humains)"), ("crasse_roc", "Crasse-Roc (gobelins)"),
@@ -224,18 +220,12 @@ def zone_de_carte(carte_id):
     return ""
 
 
-def stats_au_niveau(m, niveau):
-    """Comme GameData.create_monster : la base, plus « par_niveau » pour chaque niveau au-dessus."""
-    pas = niveau - m["niveau"]
-    par_niveau = m.get("par_niveau", {})
+def stats_monstre(m):
+    """Comme GameData.create_monster : les caractéristiques fixes du fichier."""
     c = m["caracteristiques"]
-    stats = {k: int(c.get(k, 0)) + pas * int(par_niveau.get(k, 0))
-             for k in ("pv", "pa", "pm", "initiative", "force", "intelligence", "perception", "agilite")}
-    stats["xp"] = int(m.get("xp", 0)) + pas * int(par_niveau.get("xp", 0))
-    resistances = dict(m.get("resistances", {}))
-    for e, v in par_niveau.get("resistances", {}).items():
-        resistances[e] = resistances.get(e, 0) + pas * v
-    stats["resistances"] = resistances
+    stats = {k: int(c.get(k, 0)) for k in ("pv", "pa", "pm", "initiative", "force", "intelligence", "perception", "agilite")}
+    stats["xp"] = int(m.get("xp", 0))
+    stats["resistances"] = dict(m.get("resistances", {}))
     return stats
 
 
@@ -363,12 +353,11 @@ def section_monstres(monstres, objets, sorts, cartes):
     def ordre(m):
         famille = m.get("famille") if m.get("elite") else m["id"]
         base = monstres.get(famille, m)
-        return (zone(base), base["niveau"], base["nom"], 1 if m.get("elite") else 0)
+        return (zone(base), base.get("palier", 1), base["nom"], 1 if m.get("elite") else 0)
 
     lignes = ["## Monstres", "",
-              "Stats calculées comme dans le jeu : le niveau de base du fichier, plus « par niveau » pour",
-              "chaque niveau au-dessus. PA et PM sont les mêmes à tous les niveaux (sauf mention). Le",
-              "niveau ne change jamais le butin. Les élites apparaissent seules toutes les 5 à 6 minutes",
+              "Chaque monstre a un palier (1 à 5, sa menace) et des stats fixes (plus de niveau depuis le",
+              "11/11/2026). Les élites apparaissent seules toutes les 5 à 6 minutes",
               "sur une carte de leur famille (une à la fois, butin augmenté avec l'ancienneté).", ""]
     zone_courante = None
     for m in sorted(monstres.values(), key=ordre):
@@ -385,25 +374,11 @@ def section_monstres(monstres, objets, sorts, cartes):
         else:
             nature = "famille"
         lignes += ["#### %s *(%s)*" % (m["nom"], nature), "", "*%s*" % m.get("description", ""), ""]
-        if "niveaux" in m:
-            n = m["niveaux"]
-            niveaux = list(range(n["min"], n["max"] + 1))
-            total = sum(n["poids"])
-            texte_niveau = "%s (tirage : %s)" % (plage(n["min"], n["max"]), ", ".join(
-                "niv. %d %d %%" % (v, round(100 * p / total)) for v, p in zip(niveaux, n["poids"])))
-        else:
-            niveaux = [m["niveau"]]
-            texte_niveau = "%d (fixe)" % m["niveau"]
-        base = stats_au_niveau(m, niveaux[0])
-        haut = stats_au_niveau(m, niveaux[-1])
+        base = stats_monstre(m)
         pa_pm = "%d PA, %d PM" % (base["pa"], base["pm"])
-        if (haut["pa"], haut["pm"]) != (base["pa"], base["pm"]):
-            pa_pm += " (niv. %d : %d PA, %d PM)" % (niveaux[-1], haut["pa"], haut["pm"])
         resistances = texte_resistances(base["resistances"])
-        if haut["resistances"] != base["resistances"]:
-            resistances += " (niv. %d : %s)" % (niveaux[-1], texte_resistances(haut["resistances"]))
         noms_sorts = ", ".join(sorts[i]["nom"] if i in sorts else i for i in m.get("sorts", []))
-        lignes += ["- **Niveau** : %s ; **%s** ; IA %s" % (texte_niveau, pa_pm, m.get("ia", "basique")),
+        lignes += ["- **Palier** : %d ; **%s** ; IA %s" % (m.get("palier", 1), pa_pm, m.get("ia", "basique")),
                    "- **Résistances** : " + resistances,
                    "- **Sorts** : " + (noms_sorts or "aucun")]
         for k, phase in enumerate(m.get("phases", []), 1):
@@ -421,13 +396,9 @@ def section_monstres(monstres, objets, sorts, cartes):
         endroits = [texte for _, texte in lieux[m["id"]]]
         lignes.append("- **Où le trouver** : " + (" · ".join(endroits) if endroits else "nulle part sur les cartes"))
         lignes.append("")
-        colonnes = [(k, nom) for k, nom in STATS_MONSTRE
-                    if k in ("pv", "initiative", "xp") or base[k] or haut[k]]
-        lignes += ["| Niv. | " + " | ".join(nom for _, nom in colonnes) + " |",
-                   "|---|" + "---|" * len(colonnes)]
-        for v in niveaux:
-            s = stats_au_niveau(m, v)
-            lignes.append("| %d | " % v + " | ".join(str(s[k]) for k, _ in colonnes) + " |")
+        colonnes = [(k, nom) for k, nom in STATS_MONSTRE if k in ("pv", "initiative", "xp") or base[k]]
+        lignes += ["| " + " | ".join(nom for _, nom in colonnes) + " |", "|" + "---|" * len(colonnes),
+                   "| " + " | ".join(str(base[k]) for k, _ in colonnes) + " |"]
         lignes.append("")
     return lignes
 

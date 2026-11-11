@@ -225,7 +225,7 @@ var current_turn := ""
 var turn_time_left := 0.0
 
 ## Ce qui est affiché : id → { pos: Vector2 (grille), kind, team, name, hp, max_hp, pa, pm, alive, count }
-## (et pour un groupe en exploration, `members` et `levels` : ses monstres et leurs niveaux).
+## (et pour un groupe en exploration, `members` : ses monstres).
 var _actors: Dictionary = {}
 ## Apparence de chaque espèce de monstre (voir `_monster_look`).
 var _monster_looks: Dictionary = {}
@@ -879,8 +879,8 @@ func _describe(cell: Vector2i) -> String:
 				return "%s\n%s, %s %s\n%s" % [data["name"], data["palier"],
 					world.data.races.get(data["race"], {}).get("nom", data["race"]), world.data.voies.get(data["kind"], {}).get("nom", data["kind"]),
 					"Membre du groupe" if world.is_party_member(actor_id) else "Cliquer pour l'inviter dans le groupe"]
-			var text := group_lines(data.get("members", [data["kind"]]), world.data, data.get("levels", []))
-			text += "\n" + threat_line(_group_levels(data), world.character)
+			var members: Array = data.get("members", [data["kind"]])
+			var text := group_lines(members, world.data) + "\n" + threat_line(members.map(world.data.monster_tier), world.character)
 			var rank := world.elite_rank(world.group(actor_id))
 			if rank > 0:
 				text += "\nButin : +%d %%" % roundi(rank * World.ELITE_LOOT_BONUS_PER_RANK * 100.0)
@@ -1857,36 +1857,22 @@ func _add_group_actor(group: Dictionary) -> void:
 	var data := _new_actor(Vector2(group["case"]), monster_ids[0], 1, group_label(monster_ids, world.data), 1, 1)
 	data["count"] = monster_ids.size()
 	data["members"] = monster_ids.duplicate()
-	data["levels"] = group.get("niveaux", []).duplicate()
 	_actors[group["id"]] = data
 
 
-## Bulle d'un groupe : chaque monstre sur sa ligne, son niveau devant (« Niv. 3 Loup des collines »).
-## `levels` : le niveau tiré de chaque monstre (voir `GameMap.compose_group`) ; à défaut, le niveau
-## de base de ses données.
-static func group_lines(monster_ids: Array, data: GameData, levels: Array = []) -> String:
+## Bulle d'un groupe : chaque monstre sur sa ligne, son palier devant (« P1 Loup des collines »).
+static func group_lines(monster_ids: Array, data: GameData) -> String:
 	var lines: PackedStringArray = []
-	for i in monster_ids.size():
-		var monster_id: String = monster_ids[i]
+	for monster_id: String in monster_ids:
 		var monster: Dictionary = data.monsters.get(monster_id, {}) if data != null else {}
-		var level := int(levels[i]) if i < levels.size() else int(monster.get("niveau", 1))
-		lines.append("Niv. %d %s%s" % [level, monster.get("nom", monster_id), " (élite)" if monster.get("elite", false) else ""])
+		lines.append("P%d %s%s" % [int(monster.get("palier", 1)), monster.get("nom", monster_id), " (élite)" if monster.get("elite", false) else ""])
 	return "\n".join(lines)
 
 
-## Niveaux des monstres d'un groupe affiché (tirés, ou de base à défaut).
-func _group_levels(data: Dictionary) -> Array:
-	var levels: Array = data.get("levels", []).duplicate()
-	var members: Array = data.get("members", [data["kind"]])
-	for i in range(levels.size(), members.size()):
-		levels.append(int(world.data.monsters.get(members[i], {}).get("niveau", 1)))
-	return levels
-
-
-## Menace d'un combat contre ces niveaux de monstres pour le personnage (GDD § 4.5) : « Menace :
+## Menace d'un combat contre ces paliers de monstres pour le personnage (GDD § 4.5) : « Menace :
 ## faible (gains × 0,5) ».
-static func threat_line(monster_levels: Array, character: Character) -> String:
-	var factor := Progression.difficulty(monster_levels, [Progression.equivalent_level(character.reputation())])
+static func threat_line(monster_tiers: Array, character: Character) -> String:
+	var factor := Progression.difficulty(monster_tiers, [Progression.player_tier(character.reputation())])
 	return "Menace : %s (gains × %s)" % [Progression.threat_name(factor), CombatHud.difficulty_text(factor)]
 
 

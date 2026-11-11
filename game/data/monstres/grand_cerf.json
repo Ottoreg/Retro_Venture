@@ -4,7 +4,7 @@
   "description": "Les elfes le saluent, les humains le chassent, les poètes lui écrivent. Il n'aime aucun des trois.",
   "famille": "cerf_enchante",
   "elite": true,
-  "niveau": 9,
+  "palier": 2,
   "caracteristiques": {
     "pv": 90,
     "pa": 8,

@@ -4,7 +4,7 @@
   "description": "Trente ans de carrière, pas un seul jour de congé, et une cave pleine de chandeliers.",
   "famille": "gobelin_pillard",
   "elite": true,
-  "niveau": 12,
+  "palier": 2,
   "caracteristiques": {
     "pv": 118,
     "pa": 7,

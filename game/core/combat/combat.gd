@@ -1276,7 +1276,7 @@ func _finish(team: int, events: Array[Dictionary]) -> void:
 	# Tableau de l'écran de fin : chaque combattant, son camp et s'il est encore debout.
 	var roster: Array[Dictionary] = []
 	for fighter in fighters:
-		roster.append({"id": fighter.id, "nom": fighter.display_name, "type": fighter.kind, "niveau": fighter.level,
+		roster.append({"id": fighter.id, "nom": fighter.display_name, "type": fighter.kind, "palier": fighter.tier,
 			"equipe": fighter.team, "vivant": fighter.is_alive()})
 	events.append({"type": Protocol.EVT_COMBAT_ENDED, "vainqueur": team, "xp": xp, "tours": maxi(round_number, 1),
 		"combattants": roster})
@@ -1382,7 +1382,7 @@ static func from_snapshot(saved: Dictionary, p_map: GameMap, p_data: GameData, c
 		elif fighter_state.has("profil"):
 			fighter = p_data.create_profile_fighter(fighter_state["profil"], fighter_id)  # Un allié.
 		else:
-			fighter = p_data.create_monster(fighter_state["type"], fighter_id, int(fighter_state["niveau"]))
+			fighter = p_data.create_monster(fighter_state["type"], fighter_id)
 		if fighter == null:
 			return null
 		fighter.restore(fighter_state)

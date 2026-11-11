@@ -2,32 +2,15 @@
   "id": "contremaitre_zele",
   "nom": "Contremaître zélé",
   "description": "Il fait travailler les autres avec une énergie qu'il n'a jamais mise à travailler lui-même.",
-  "niveau": 10,
-  "niveaux": {
-    "min": 10,
-    "max": 12,
-    "poids": [
-      3,
-      4,
-      3
-    ]
-  },
+  "palier": 2,
   "caracteristiques": {
-    "pv": 45,
+    "pv": 49,
     "pa": 6,
     "pm": 3,
-    "initiative": 100,
-    "force": 18,
-    "agilite": 18,
-    "intelligence": 18
-  },
-  "par_niveau": {
-    "pv": 4,
-    "initiative": 5,
-    "xp": 14,
-    "force": 2,
-    "agilite": 2,
-    "intelligence": 2
+    "initiative": 105,
+    "force": 20,
+    "agilite": 20,
+    "intelligence": 20
   },
   "resistances": {
     "acier": 10,
@@ -41,7 +24,7 @@
     "contremaitre_retenue_sur_salaire"
   ],
   "ia": "soutien",
-  "xp": 102,
+  "xp": 116,
   "butin": [
     {
       "objet": "sifflet_de_contremaitre",

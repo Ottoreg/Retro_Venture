@@ -236,8 +236,7 @@ func test_monstres_des_zones_et_carte_d_elite() -> void:
 	assert_true(boss.get("boss", false), "le Cendré est un boss")
 	for monster_id: String in game_data.monsters:
 		if monster_id != "souverain_cendre":
-			var strongest := game_data.create_monster(monster_id, "m", game_data.monster_level_range(monster_id).y)
-			assert_true(strongest.max_hp < int(boss["caracteristiques"]["pv"]), "%s moins fort que le Cendré, même à son plus haut niveau" % monster_id)
+			assert_true(int(game_data.monsters[monster_id]["caracteristiques"]["pv"]) < int(boss["caracteristiques"]["pv"]), "%s moins fort que le Cendré" % monster_id)
 	var elite := DataLoader.load_map(DataLoader.map_path("cendre_0_0"))
 	assert_true(elite != null and elite.groups.size() == 1 and elite.groups[0]["monstres"] == ["souverain_cendre"], "le Cendré sur sa carte")
 	var reachable := false
@@ -301,8 +300,7 @@ func test_un_elite_par_famille_de_monstres() -> void:
 			continue
 		elite_of[family] = monster_id
 		var base: Dictionary = game_data.monsters[family]
-		assert_true(int(elite["niveau"]) > game_data.monster_level_range(family).y, "%s : niveau plus haut que toute la tranche de %s" % [monster_id, family])
-		assert_false(elite.has("niveaux"), "%s : niveau fixe" % monster_id)
+		assert_true(game_data.monster_tier(monster_id) >= game_data.monster_tier(family), "%s : palier au moins celui de %s" % [monster_id, family])
 		assert_true(int(elite["caracteristiques"]["pv"]) >= 2 * int(base["caracteristiques"]["pv"]), "%s : au moins deux fois plus de PV" % monster_id)
 		assert_true(float(art[monster_id].get("echelle", 1.0)) > float(art[family].get("echelle", 1.0)) or art[monster_id].has("rig"), "%s : plus grand" % monster_id)
 		var rates := {}

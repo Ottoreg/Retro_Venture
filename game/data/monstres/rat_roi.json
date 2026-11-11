@@ -4,7 +4,7 @@
   "description": "Douze rats noués par la queue, un seul trône, beaucoup d'opinions.",
   "famille": "rat_des_galeries",
   "elite": true,
-  "niveau": 5,
+  "palier": 1,
   "caracteristiques": {
     "pv": 40,
     "pa": 6,

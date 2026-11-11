@@ -4,7 +4,7 @@
   "description": "Le doyen des champs. Il a fait fuir trois générations de corbeaux, puis s'est lassé.",
   "famille": "epouvantail_demotive",
   "elite": true,
-  "niveau": 12,
+  "palier": 2,
   "caracteristiques": {
     "pv": 118,
     "pa": 8,

@@ -4,7 +4,7 @@
   "description": "Vingt ans de fronde au service du Souverain Cendré. Il attend toujours sa médaille.",
   "famille": "gobelin_frondeur",
   "elite": true,
-  "niveau": 9,
+  "palier": 2,
   "caracteristiques": {
     "pv": 60,
     "pa": 8,

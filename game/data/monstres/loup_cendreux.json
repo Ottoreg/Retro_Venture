@@ -4,31 +4,15 @@
   "description": "Un loup des collines qui a mangé quelque chose qu'il n'aurait pas dû, dans la cendre. Il a toujours faim, mais maintenant il fume.",
   "corrompu": true,
   "base": "loup_des_collines",
-  "niveau": 13,
-  "niveaux": {
-    "min": 13,
-    "max": 15,
-    "poids": [
-      3,
-      4,
-      3
-    ]
-  },
+  "palier": 3,
   "caracteristiques": {
-    "pv": 69,
+    "pv": 74,
     "pa": 6,
     "pm": 4,
-    "initiative": 130,
-    "force": 24,
-    "intelligence": 24,
+    "initiative": 135,
+    "force": 26,
+    "intelligence": 26,
     "agilite": 24
-  },
-  "par_niveau": {
-    "pv": 5,
-    "initiative": 5,
-    "xp": 16,
-    "force": 2,
-    "intelligence": 2
   },
   "resistances": {
     "flamme": 20,
@@ -43,7 +27,7 @@
     "cendreux_morsure_brulante"
   ],
   "ia": "basique",
-  "xp": 151,
+  "xp": 167,
   "butin": [
     {
       "objet": "croc_de_loup",

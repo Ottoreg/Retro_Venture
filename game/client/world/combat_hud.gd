@@ -784,8 +784,7 @@ func _show_target() -> void:
 	var shown := map_view.actor(fighter.id)  # Ce qu'affiche la carte (les animations peuvent être en retard).
 	_target_name.text = fighter.display_name
 	_target_name.add_theme_color_override("font_color", Color(0.6, 0.8, 1.0) if fighter.team == Fighter.TEAM_PLAYERS else Color(1.0, 0.62, 0.5))
-	# Pour un monstre, celui tiré à son apparition ; un joueur n'a pas de niveau.
-	_target_level.text = "Niveau %d" % fighter.level if fighter.level > 0 else ""
+	_target_level.text = "Palier %d" % fighter.tier if fighter.tier > 0 else ""  # Un joueur n'a pas de palier de monstre.
 	# PA et PM : ce qu'il lui reste pendant son tour, sinon ce qu'il aura au prochain (PM retirés compris).
 	var pa := fighter.next_turn_pa()
 	var pm := fighter.next_turn_pm()
@@ -856,7 +855,7 @@ func _on_combat_ended(result: Dictionary) -> void:
 	_result_rows.add_child(_result_header())
 	var roster: Array = result.get("combattants", [])
 	if roster.is_empty() and map_view != null:
-		roster = [{"id": map_view.world.player_id, "nom": map_view.world.player_name, "niveau": 0,
+		roster = [{"id": map_view.world.player_id, "nom": map_view.world.player_name, "palier": 0,
 			"equipe": Fighter.TEAM_PLAYERS, "vivant": victory}]
 	for winners: bool in [true, false]:
 		var rows := roster.filter(func(entry: Dictionary) -> bool: return (int(entry["equipe"]) == int(result["vainqueur"])) == winners)
@@ -909,10 +908,10 @@ func _result_row(entry: Dictionary, result: Dictionary, odd: bool) -> Control:
 	cells.append(name_label)
 	# Les gains des autres joueurs du combat (combat de groupe) : `gains` de la fin du combat.
 	var gains: Dictionary = result if is_player else result.get("gains", {}).get(entry["id"], {})
-	# Un monstre garde son niveau (sa menace) ; un joueur montre le palier de réputation atteint.
+	# Un monstre montre son palier (sa menace) ; un joueur le palier de réputation atteint.
 	var tiers: Array = gains.get("paliers", [])
 	var level_label := _label(15, UiTheme.GOLD if not tiers.is_empty() else text_color)
-	level_label.text = str(int(entry["niveau"])) if int(entry.get("niveau", 0)) > 0 else ""
+	level_label.text = "P%d" % int(entry["palier"]) if int(entry.get("palier", 0)) > 0 else ""
 	if not tiers.is_empty():
 		level_label.text = Character.tier_name(int(tiers[-1]))
 		level_label.tooltip_text = "Palier %s atteint !" % Character.tier_name(int(tiers[-1]))

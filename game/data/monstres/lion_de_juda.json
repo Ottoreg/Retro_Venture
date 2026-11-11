@@ -17,7 +17,7 @@
   "nom": "Lion de Juda",
   "description": "Il ne mange que les pécheurs. Les plus faibles d'abord.",
   "donjon": true,
-  "niveau": 15,
+  "palier": 3,
   "caracteristiques": {
     "pv": 150,
     "pa": 5,

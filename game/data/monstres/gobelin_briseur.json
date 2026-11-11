@@ -2,28 +2,13 @@
   "id": "gobelin_briseur",
   "nom": "Gobelin briseur",
   "description": "Spécialiste des portes, des palissades et des idées des autres.",
-  "niveau": 10,
-  "niveaux": {
-    "min": 10,
-    "max": 12,
-    "poids": [
-      1,
-      3,
-      6
-    ]
-  },
+  "palier": 2,
   "caracteristiques": {
-    "pv": 65,
+    "pv": 77,
     "pa": 6,
     "pm": 3,
-    "initiative": 85,
-    "force": 36
-  },
-  "par_niveau": {
-    "pv": 6,
-    "initiative": 5,
-    "xp": 16,
-    "force": 4
+    "initiative": 95,
+    "force": 44
   },
   "resistances": {
     "acier": 15,
@@ -37,7 +22,7 @@
     "briseur_gnole"
   ],
   "ia": "basique",
-  "xp": 116,
+  "xp": 148,
   "butin": [
     {
       "objet": "gnole_de_raid",

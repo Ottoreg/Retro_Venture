@@ -4,7 +4,7 @@
   "description": "Le chef de meute. Il ne chasse plus lui-même : il supervise, et il goûte.",
   "famille": "loup_des_collines",
   "elite": true,
-  "niveau": 7,
+  "palier": 2,
   "caracteristiques": {
     "pv": 70,
     "pa": 7,

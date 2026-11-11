@@ -17,7 +17,7 @@
   "nom": "Colombe baptiste",
   "description": "Elle bénit d'un coup de bec, puis s'enfuit à tire-d'aile.",
   "donjon": true,
-  "niveau": 6,
+  "palier": 1,
   "caracteristiques": {
     "pv": 30,
     "pa": 4,

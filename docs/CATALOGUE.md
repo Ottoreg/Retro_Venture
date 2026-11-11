@@ -417,168 +417,129 @@ ni 35 % du jeu entier, pour qu'aucune résistance unique ne suffise.
 
 ## Monstres
 
-Stats calculées comme dans le jeu : le niveau de base du fichier, plus « par niveau » pour
-chaque niveau au-dessus. PA et PM sont les mêmes à tous les niveaux (sauf mention). Le
-niveau ne change jamais le butin. Les élites apparaissent seules toutes les 5 à 6 minutes
+Chaque monstre a un palier (1 à 5, sa menace) et des stats fixes (plus de niveau depuis le
+11/11/2026). Les élites apparaissent seules toutes les 5 à 6 minutes
 sur une carte de leur famille (une à la fois, butin augmenté avec l'ancienneté).
 
 ### Brumerive (humains)
-
-#### Loup des collines *(famille)*
-
-*Affamé en permanence. Considère les aventuriers comme un en-cas.*
-
-- **Niveau** : 1–3 (tirage : niv. 1 30 %, niv. 2 40 %, niv. 3 30 %) ; **6 PA, 4 PM** ; IA basique
-- **Résistances** : Flamme -10 %, Givre +10 %
-- **Sorts** : Morsure
-- **Butin** : Croc de loup 50 % (×1–2), Peau de loup 30 %, Anneau du Mauvais Œil 2 %, Ceinture du Mauvais Œil 2 %, Bottes du Mauvais Œil 2 % ; **brumes** 2–6
-- **Où le trouver** : Place du village (`brumerive_0_0`, 3 groupes, dont 1 au hasard) · Rives de la Brume (`brumerive_0_1`, 3 groupes, dont 1 au hasard) · Champs de l'est (`brumerive_1_0`, 2 groupes, dont 1 au hasard) · Moulin de Tournevent (`brumerive_1_1`, 1 groupe) · Palissade de Krasbouk (`brumerive_3_2`, 1 groupe, dont 1 après Krasbouk, Chef de Raid (syndiqué))
-
-| Niv. | PV | Init. | XP | Force | Agi. |
-|---|---|---|---|---|---|
-| 1 | 18 | 100 | 16 | 0 | 0 |
-| 2 | 22 | 105 | 23 | 4 | 4 |
-| 3 | 26 | 110 | 30 | 8 | 8 |
-
-#### Loup alpha *(élite de la famille Loup des collines)*
-
-*Le chef de meute. Il ne chasse plus lui-même : il supervise, et il goûte.*
-
-- **Niveau** : 7 (fixe) ; **7 PA, 5 PM** ; IA basique
-- **Résistances** : Acier +5 %, Flamme -5 %, Givre +15 %, Tempête +10 %
-- **Sorts** : Morsure, Croc sanglant
-- **Butin** : Croc de loup 90 % (×2–4), Peau de loup 70 % (×1–2), Anneau du Mauvais Œil 6 %, Ceinture du Mauvais Œil 6 %, Bottes du Mauvais Œil 6 % ; **brumes** 10–25
-- **Où le trouver** : Place du village (`brumerive_0_0`, apparition spontanée) · Rives de la Brume (`brumerive_0_1`, apparition spontanée) · Champs de l'est (`brumerive_1_0`, apparition spontanée) · Moulin de Tournevent (`brumerive_1_1`, apparition spontanée) · Palissade de Krasbouk (`brumerive_3_2`, apparition spontanée)
-
-| Niv. | PV | Init. | XP | Force | Agi. |
-|---|---|---|---|---|---|
-| 7 | 70 | 150 | 110 | 20 | 20 |
 
 #### Gobelin frondeur *(famille)*
 
 *Éclaireur des raids gobelins. Ne s'approche jamais : ce n'est pas dans sa fiche de poste.*
 
-- **Niveau** : 4–6 (tirage : niv. 4 60 %, niv. 5 30 %, niv. 6 10 %) ; **6 PA, 3 PM** ; IA distance
+- **Palier** : 1 ; **6 PA, 3 PM** ; IA distance
 - **Résistances** : Acier -5 %, Tempête +5 %
 - **Sorts** : Coup de fronde
 - **Butin** : Caillou de fronde 60 % (×1–3), Fiche de paie gobeline 15 %, Anneau du Courant d'Air 2 %, Ceinture du Courant d'Air 2 %, Bottes du Courant d'Air 2 % ; **brumes** 5–12
 - **Où le trouver** : Champs de l'est (`brumerive_1_0`, 3 groupes, dont 1 au hasard) · Moulin de Tournevent (`brumerive_1_1`, 4 groupes, dont 1 au hasard) · Verger des Pommeaux (`brumerive_2_0`, 2 groupes, dont 1 au hasard) · Camp du raid (`brumerive_2_2`, 1 groupe) · Palissade de Krasbouk (`brumerive_3_2`, 1 groupe, dont 1 réapparition 45–60 s)
 
-| Niv. | PV | Init. | XP | Force | Agi. |
-|---|---|---|---|---|---|
-| 4 | 22 | 90 | 35 | 0 | 0 |
-| 5 | 25 | 95 | 41 | 4 | 4 |
-| 6 | 28 | 100 | 47 | 8 | 8 |
+| PV | Init. | XP |
+|---|---|---|
+| 22 | 90 | 35 |
 
 #### Frondeur vétéran *(élite de la famille Gobelin frondeur)*
 
 *Vingt ans de fronde au service du Souverain Cendré. Il attend toujours sa médaille.*
 
-- **Niveau** : 9 (fixe) ; **8 PA, 3 PM** ; IA distance
+- **Palier** : 2 ; **8 PA, 3 PM** ; IA distance
 - **Résistances** : Tempête +15 %
 - **Sorts** : Coup de fronde, Pluie de cailloux, Chausse-trape
 - **Butin** : Caillou de fronde 90 % (×2–5), Fiche de paie gobeline 50 %, Anneau du Courant d'Air 6 %, Ceinture du Courant d'Air 6 %, Bottes du Courant d'Air 6 % ; **brumes** 15–35
 - **Où le trouver** : Champs de l'est (`brumerive_1_0`, apparition spontanée) · Moulin de Tournevent (`brumerive_1_1`, apparition spontanée) · Verger des Pommeaux (`brumerive_2_0`, apparition spontanée) · Camp du raid (`brumerive_2_2`, apparition spontanée) · Palissade de Krasbouk (`brumerive_3_2`, apparition spontanée)
 
-| Niv. | PV | Init. | XP | Force | Agi. |
-|---|---|---|---|---|---|
-| 9 | 60 | 120 | 140 | 25 | 25 |
+| PV | Init. | XP | Force | Agi. |
+|---|---|---|---|---|
+| 60 | 120 | 140 | 25 | 25 |
 
-#### Gobelin pillard *(famille)*
+#### Loup des collines *(famille)*
 
-*Il prend tout ce qui n'est pas cloué. Ce qui est cloué, il revient le chercher avec une pince.*
+*Affamé en permanence. Considère les aventuriers comme un en-cas.*
 
-- **Niveau** : 7–9 (tirage : niv. 7 10 %, niv. 8 30 %, niv. 9 60 %) ; **6 PA, 3 PM** ; IA basique
-- **Résistances** : Acier +10 %, Tempête +5 %, Flamme -10 %
-- **Sorts** : Estocade de pillard, Vol à l'arraché
-- **Butin** : Sac de rapine 55 % (×1–2), Ordre de raid 12 %, Coiffe de l'Enfant de Chœur 3 %, Cape de l'Enfant de Chœur 3 %, Amulette de l'Enfant de Chœur 3 %, Anneau du Bedeau Zélé 3 %, Ceinture du Bedeau Zélé 3 %, Bottes du Bedeau Zélé 3 % ; **brumes** 7–16
-- **Où le trouver** : Les Grands Blés (`brumerive_1_2`, 1 groupe) · Verger des Pommeaux (`brumerive_2_0`, 4 groupes, dont 1 au hasard) · Lande aux épouvantails (`brumerive_2_1`, 1 groupe) · Camp du raid (`brumerive_2_2`, 1 groupe, dont 1 au hasard)
+- **Palier** : 1 ; **6 PA, 4 PM** ; IA basique
+- **Résistances** : Flamme -10 %, Givre +10 %
+- **Sorts** : Morsure
+- **Butin** : Croc de loup 50 % (×1–2), Peau de loup 30 %, Anneau du Mauvais Œil 2 %, Ceinture du Mauvais Œil 2 %, Bottes du Mauvais Œil 2 % ; **brumes** 2–6
+- **Où le trouver** : Place du village (`brumerive_0_0`, 3 groupes, dont 1 au hasard) · Rives de la Brume (`brumerive_0_1`, 3 groupes, dont 1 au hasard) · Champs de l'est (`brumerive_1_0`, 2 groupes, dont 1 au hasard) · Moulin de Tournevent (`brumerive_1_1`, 1 groupe) · Palissade de Krasbouk (`brumerive_3_2`, 1 groupe, dont 1 après Krasbouk, Chef de Raid (syndiqué))
 
-| Niv. | PV | Init. | XP | Force | Intel. | Agi. |
-|---|---|---|---|---|---|---|
-| 7 | 38 | 95 | 62 | 24 | 12 | 12 |
-| 8 | 42 | 100 | 74 | 28 | 14 | 14 |
-| 9 | 46 | 105 | 86 | 32 | 16 | 16 |
+| PV | Init. | XP | Force | Agi. |
+|---|---|---|---|---|
+| 22 | 105 | 23 | 4 | 4 |
 
-#### Pillard émérite *(élite de la famille Gobelin pillard)*
+#### Loup alpha *(élite de la famille Loup des collines)*
 
-*Trente ans de carrière, pas un seul jour de congé, et une cave pleine de chandeliers.*
+*Le chef de meute. Il ne chasse plus lui-même : il supervise, et il goûte.*
 
-- **Niveau** : 12 (fixe) ; **7 PA, 3 PM** ; IA basique
-- **Résistances** : Acier +20 %, Tempête +15 %, Flamme -5 %, Givre +10 %
-- **Sorts** : Estocade de pillard, Vol à l'arraché, Razzia
-- **Butin** : Sac de rapine 88 % (×2–4), Ordre de raid 48 %, Coiffe de l'Enfant de Chœur 13 %, Cape de l'Enfant de Chœur 13 %, Amulette de l'Enfant de Chœur 13 %, Anneau du Bedeau Zélé 13 %, Ceinture du Bedeau Zélé 13 %, Bottes du Bedeau Zélé 13 % ; **brumes** 18–40
-- **Où le trouver** : Les Grands Blés (`brumerive_1_2`, apparition spontanée) · Verger des Pommeaux (`brumerive_2_0`, apparition spontanée) · Lande aux épouvantails (`brumerive_2_1`, apparition spontanée) · Camp du raid (`brumerive_2_2`, apparition spontanée)
+- **Palier** : 2 ; **7 PA, 5 PM** ; IA basique
+- **Résistances** : Acier +5 %, Flamme -5 %, Givre +15 %, Tempête +10 %
+- **Sorts** : Morsure, Croc sanglant
+- **Butin** : Croc de loup 90 % (×2–4), Peau de loup 70 % (×1–2), Anneau du Mauvais Œil 6 %, Ceinture du Mauvais Œil 6 %, Bottes du Mauvais Œil 6 % ; **brumes** 10–25
+- **Où le trouver** : Place du village (`brumerive_0_0`, apparition spontanée) · Rives de la Brume (`brumerive_0_1`, apparition spontanée) · Champs de l'est (`brumerive_1_0`, apparition spontanée) · Moulin de Tournevent (`brumerive_1_1`, apparition spontanée) · Palissade de Krasbouk (`brumerive_3_2`, apparition spontanée)
 
-| Niv. | PV | Init. | XP | Force | Intel. | Agi. |
-|---|---|---|---|---|---|---|
-| 12 | 118 | 125 | 221 | 54 | 54 | 32 |
-
-#### Épouvantail démotivé *(famille)*
-
-*Il ne fait plus peur à personne depuis des années. Alors il se venge, mollement mais souvent.*
-
-- **Niveau** : 7–9 (tirage : niv. 7 30 %, niv. 8 40 %, niv. 9 30 %) ; **7 PA, 2 PM** ; IA basique
-- **Résistances** : Acier +10 %, Tempête +15 %, Givre +5 %, Flamme -30 %
-- **Sorts** : Coup de fourche, Nuée de corbeaux
-- **Butin** : Paille ensorcelée 60 % (×1–3), Citrouille grimaçante 12 %, Coiffe du Pyromane Repenti 3 %, Cape du Pyromane Repenti 3 %, Amulette du Pyromane Repenti 3 %, Anneau du Chat Noir 3 %, Ceinture du Chat Noir 3 %, Bottes du Chat Noir 3 % ; **brumes** 7–16
-- **Où le trouver** : Les Grands Blés (`brumerive_1_2`, 3 groupes) · Lande aux épouvantails (`brumerive_2_1`, 4 groupes, dont 1 au hasard)
-
-| Niv. | PV | Init. | XP | Force | Agi. |
-|---|---|---|---|---|---|
-| 7 | 38 | 60 | 62 | 12 | 12 |
-| 8 | 42 | 65 | 74 | 14 | 14 |
-| 9 | 46 | 70 | 86 | 16 | 16 |
-
-#### Grand Épouvantail *(élite de la famille Épouvantail démotivé)*
-
-*Le doyen des champs. Il a fait fuir trois générations de corbeaux, puis s'est lassé.*
-
-- **Niveau** : 12 (fixe) ; **8 PA, 2 PM** ; IA basique
-- **Résistances** : Acier +20 %, Tempête +25 %, Givre +15 %, Flamme -25 %
-- **Sorts** : Coup de fourche, Nuée de corbeaux, Champ maudit
-- **Butin** : Paille ensorcelée 90 % (×2–5), Citrouille grimaçante 48 %, Coiffe du Pyromane Repenti 13 %, Cape du Pyromane Repenti 13 %, Amulette du Pyromane Repenti 13 %, Anneau du Chat Noir 13 %, Ceinture du Chat Noir 13 %, Bottes du Chat Noir 13 % ; **brumes** 18–40
-- **Où le trouver** : Les Grands Blés (`brumerive_1_2`, apparition spontanée) · Lande aux épouvantails (`brumerive_2_1`, apparition spontanée)
-
-| Niv. | PV | Init. | XP | Force | Agi. |
-|---|---|---|---|---|---|
-| 12 | 118 | 90 | 221 | 32 | 32 |
+| PV | Init. | XP | Force | Agi. |
+|---|---|---|---|---|
+| 70 | 150 | 110 | 20 | 20 |
 
 #### Gobelin briseur *(famille)*
 
 *Spécialiste des portes, des palissades et des idées des autres.*
 
-- **Niveau** : 10–12 (tirage : niv. 10 10 %, niv. 11 30 %, niv. 12 60 %) ; **6 PA, 3 PM** ; IA basique
+- **Palier** : 2 ; **6 PA, 3 PM** ; IA basique
 - **Résistances** : Acier +15 %, Flamme +5 %, Tempête -10 %
 - **Sorts** : Coup de hache, Épaulée, Gnôle de raid
 - **Butin** : Gnôle de raid 55 % (×1–2), Médaille en chocolat 12 %, Ordre de raid 8 %, Coiffe de l'Enclume Rancunière 3 %, Cape de l'Enclume Rancunière 3 %, Amulette de l'Enclume Rancunière 3 %, Marteau de l'Enclume Rancunière 2 % ; **brumes** 11–25
 - **Où le trouver** : Camp du raid (`brumerive_2_2`, 4 groupes, dont 1 au hasard) · Gué de Brume-Haute (`brumerive_3_1`, 3 groupes, dont 1 au hasard) · Palissade de Krasbouk (`brumerive_3_2`, 1 groupe)
 
-| Niv. | PV | Init. | XP | Force |
-|---|---|---|---|---|
-| 10 | 65 | 85 | 116 | 36 |
-| 11 | 71 | 90 | 132 | 40 |
-| 12 | 77 | 95 | 148 | 44 |
+| PV | Init. | XP | Force |
+|---|---|---|---|
+| 77 | 95 | 148 | 44 |
 
 #### Défonceur de portes *(élite de la famille Gobelin briseur)*
 
 *Il n'a jamais ouvert une porte de sa vie. Il les a toutes défoncées, y compris celle de chez lui.*
 
-- **Niveau** : 15 (fixe) ; **7 PA, 3 PM** ; IA basique
+- **Palier** : 3 ; **7 PA, 3 PM** ; IA basique
 - **Résistances** : Acier +25 %, Flamme +15 %, Tempête -5 %, Givre +10 %
 - **Sorts** : Coup de hache, Épaulée, Gnôle de raid, Bélier humain
 - **Butin** : Gnôle de raid 88 % (×2–4), Médaille en chocolat 48 %, Ordre de raid 32 %, Coiffe de l'Enclume Rancunière 13 %, Cape de l'Enclume Rancunière 13 %, Amulette de l'Enclume Rancunière 13 %, Marteau de l'Enclume Rancunière 10 % ; **brumes** 28–62
 - **Où le trouver** : Camp du raid (`brumerive_2_2`, apparition spontanée) · Gué de Brume-Haute (`brumerive_3_1`, apparition spontanée) · Palissade de Krasbouk (`brumerive_3_2`, apparition spontanée)
 
-| Niv. | PV | Init. | XP | Force |
-|---|---|---|---|---|
-| 15 | 187 | 115 | 359 | 66 |
+| PV | Init. | XP | Force |
+|---|---|---|---|
+| 187 | 115 | 359 | 66 |
+
+#### Gobelin pillard *(famille)*
+
+*Il prend tout ce qui n'est pas cloué. Ce qui est cloué, il revient le chercher avec une pince.*
+
+- **Palier** : 2 ; **6 PA, 3 PM** ; IA basique
+- **Résistances** : Acier +10 %, Tempête +5 %, Flamme -10 %
+- **Sorts** : Estocade de pillard, Vol à l'arraché
+- **Butin** : Sac de rapine 55 % (×1–2), Ordre de raid 12 %, Coiffe de l'Enfant de Chœur 3 %, Cape de l'Enfant de Chœur 3 %, Amulette de l'Enfant de Chœur 3 %, Anneau du Bedeau Zélé 3 %, Ceinture du Bedeau Zélé 3 %, Bottes du Bedeau Zélé 3 % ; **brumes** 7–16
+- **Où le trouver** : Les Grands Blés (`brumerive_1_2`, 1 groupe) · Verger des Pommeaux (`brumerive_2_0`, 4 groupes, dont 1 au hasard) · Lande aux épouvantails (`brumerive_2_1`, 1 groupe) · Camp du raid (`brumerive_2_2`, 1 groupe, dont 1 au hasard)
+
+| PV | Init. | XP | Force | Intel. | Agi. |
+|---|---|---|---|---|---|
+| 46 | 105 | 86 | 32 | 16 | 16 |
+
+#### Pillard émérite *(élite de la famille Gobelin pillard)*
+
+*Trente ans de carrière, pas un seul jour de congé, et une cave pleine de chandeliers.*
+
+- **Palier** : 2 ; **7 PA, 3 PM** ; IA basique
+- **Résistances** : Acier +20 %, Tempête +15 %, Flamme -5 %, Givre +10 %
+- **Sorts** : Estocade de pillard, Vol à l'arraché, Razzia
+- **Butin** : Sac de rapine 88 % (×2–4), Ordre de raid 48 %, Coiffe de l'Enfant de Chœur 13 %, Cape de l'Enfant de Chœur 13 %, Amulette de l'Enfant de Chœur 13 %, Anneau du Bedeau Zélé 13 %, Ceinture du Bedeau Zélé 13 %, Bottes du Bedeau Zélé 13 % ; **brumes** 18–40
+- **Où le trouver** : Les Grands Blés (`brumerive_1_2`, apparition spontanée) · Verger des Pommeaux (`brumerive_2_0`, apparition spontanée) · Lande aux épouvantails (`brumerive_2_1`, apparition spontanée) · Camp du raid (`brumerive_2_2`, apparition spontanée)
+
+| PV | Init. | XP | Force | Intel. | Agi. |
+|---|---|---|---|---|---|
+| 118 | 125 | 221 | 54 | 54 | 32 |
 
 #### Krasbouk, Chef de Raid (syndiqué) *(boss)*
 
 *Il mène le raid sur Brumerive parce que son contrat le dit. Il a lu le contrat. Lui seul.*
 
-- **Niveau** : 12 (fixe) ; **7 PA, 3 PM** ; IA basique
+- **Palier** : 2 ; **7 PA, 3 PM** ; IA basique
 - **Résistances** : Acier +20 %, Flamme +10 %, Givre -10 %
 - **Sorts** : Hachoir réglementaire, Hachette de jet, Cri de raid
 - **Phase 1** (à 60 % PV) : +2 PM (3 t.) ; +2 Portée (3 t.). Message : « Article 7 : piquet de grève mobile ! » Krasbouk court d'un bout à l'autre de la palissade.
@@ -586,25 +547,51 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Butin** : Ordre de raid 100 %, Sac de rapine 90 % (×2–4) ; **brumes** 80–140
 - **Où le trouver** : Palissade de Krasbouk (`brumerive_3_2`, 1 groupe, dont 1 réapparition 45–60 s)
 
-| Niv. | PV | Init. | XP | Force |
+| PV | Init. | XP | Force |
+|---|---|---|---|
+| 300 | 120 | 700 | 30 |
+
+#### Épouvantail démotivé *(famille)*
+
+*Il ne fait plus peur à personne depuis des années. Alors il se venge, mollement mais souvent.*
+
+- **Palier** : 2 ; **7 PA, 2 PM** ; IA basique
+- **Résistances** : Acier +10 %, Tempête +15 %, Givre +5 %, Flamme -30 %
+- **Sorts** : Coup de fourche, Nuée de corbeaux
+- **Butin** : Paille ensorcelée 60 % (×1–3), Citrouille grimaçante 12 %, Coiffe du Pyromane Repenti 3 %, Cape du Pyromane Repenti 3 %, Amulette du Pyromane Repenti 3 %, Anneau du Chat Noir 3 %, Ceinture du Chat Noir 3 %, Bottes du Chat Noir 3 % ; **brumes** 7–16
+- **Où le trouver** : Les Grands Blés (`brumerive_1_2`, 3 groupes) · Lande aux épouvantails (`brumerive_2_1`, 4 groupes, dont 1 au hasard)
+
+| PV | Init. | XP | Force | Agi. |
 |---|---|---|---|---|
-| 12 | 300 | 120 | 700 | 30 |
+| 42 | 65 | 74 | 14 | 14 |
+
+#### Grand Épouvantail *(élite de la famille Épouvantail démotivé)*
+
+*Le doyen des champs. Il a fait fuir trois générations de corbeaux, puis s'est lassé.*
+
+- **Palier** : 2 ; **8 PA, 2 PM** ; IA basique
+- **Résistances** : Acier +20 %, Tempête +25 %, Givre +15 %, Flamme -25 %
+- **Sorts** : Coup de fourche, Nuée de corbeaux, Champ maudit
+- **Butin** : Paille ensorcelée 90 % (×2–5), Citrouille grimaçante 48 %, Coiffe du Pyromane Repenti 13 %, Cape du Pyromane Repenti 13 %, Amulette du Pyromane Repenti 13 %, Anneau du Chat Noir 13 %, Ceinture du Chat Noir 13 %, Bottes du Chat Noir 13 % ; **brumes** 18–40
+- **Où le trouver** : Les Grands Blés (`brumerive_1_2`, apparition spontanée) · Lande aux épouvantails (`brumerive_2_1`, apparition spontanée)
+
+| PV | Init. | XP | Force | Agi. |
+|---|---|---|---|---|
+| 118 | 90 | 221 | 32 | 32 |
 
 #### Loup cendreux *(variante corrompue de Loup des collines)*
 
 *Un loup des collines qui a mangé quelque chose qu'il n'aurait pas dû, dans la cendre. Il a toujours faim, mais maintenant il fume.*
 
-- **Niveau** : 13–15 (tirage : niv. 13 30 %, niv. 14 40 %, niv. 15 30 %) ; **6 PA, 4 PM** ; IA basique
+- **Palier** : 3 ; **6 PA, 4 PM** ; IA basique
 - **Résistances** : Flamme +20 %, Givre +10 %, Impie +15 %, Sacré -10 %
 - **Sorts** : Morsure, Morsure brûlante
 - **Butin** : Croc de loup 50 % (×1–2), Cendre tiède 50 % (×1–2), Éclat de cendre 3 %, Coiffe du Coup de Vent 4 %, Cape du Coup de Vent 4 %, Amulette du Coup de Vent 4 %, Arc du Coup de Vent 3 % ; **brumes** 12–29
 - **Où le trouver** : Palissade de Krasbouk (`brumerive_3_2`, 1 groupe, dont 1 après Krasbouk, Chef de Raid (syndiqué)) · Route de l'Est (`hautepierre_4_2`, 2 groupes, dont 1 au hasard)
 
-| Niv. | PV | Init. | XP | Force | Intel. | Agi. |
-|---|---|---|---|---|---|---|
-| 13 | 69 | 130 | 151 | 24 | 24 | 24 |
-| 14 | 74 | 135 | 167 | 26 | 26 | 24 |
-| 15 | 79 | 140 | 183 | 28 | 28 | 24 |
+| PV | Init. | XP | Force | Intel. | Agi. |
+|---|---|---|---|---|---|
+| 74 | 135 | 167 | 26 | 26 | 24 |
 
 ### Crasse-Roc (gobelins)
 
@@ -612,157 +599,119 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 
 *Un mille-pattes vert de la taille d'un chien, qui crache et qui ne compte pas ses pattes.*
 
-- **Niveau** : 1–3 (tirage : niv. 1 10 %, niv. 2 30 %, niv. 3 60 %) ; **6 PA, 3 PM** ; IA basique
-- **Résistances** : Givre +6 %, Flamme +6 %, Acier -5 % (niv. 3 : Givre +10 %, Flamme +10 %, Acier -5 %)
+- **Palier** : 1 ; **6 PA, 3 PM** ; IA basique
+- **Résistances** : Givre +10 %, Flamme +10 %, Acier -5 %
 - **Sorts** : Pinces, Crachat acide
 - **Butin** : Carapace de grouilleur 50 % (×1–2), Glande acide 15 %, Anneau du Pressé 2 %, Bottes du Pressé 2 %, Ceinture du Pressé 2 % ; **brumes** 3–8
 - **Où le trouver** : Entrée des galeries (`crasse_roc_0_0`, 1 groupe, dont 1 au hasard) · La Rataillerie (`crasse_roc_0_1`, 2 groupes) · Le Crassier (`crasse_roc_1_0`, 3 groupes, dont 1 au hasard) · Galerie effondrée (`crasse_roc_1_1`, 1 groupe, dont 1 au hasard) · L'Abîme du Balourd (`crasse_roc_1_3`, 1 groupe, dont 1 après Le Balourd des Abîmes)
 
-| Niv. | PV | Init. | XP | Force | Intel. |
-|---|---|---|---|---|---|
-| 1 | 18 | 60 | 16 | 0 | 0 |
-| 2 | 22 | 65 | 23 | 3 | 3 |
-| 3 | 26 | 70 | 30 | 6 | 6 |
+| PV | Init. | XP | Force | Intel. |
+|---|---|---|---|---|
+| 26 | 70 | 30 | 6 | 6 |
 
 #### Grouilleur ancestral *(élite de la famille Grouilleur)*
 
 *Il a plus de pattes que d'années, et il a beaucoup d'années.*
 
-- **Niveau** : 7 (fixe) ; **7 PA, 3 PM** ; IA basique
+- **Palier** : 2 ; **7 PA, 3 PM** ; IA basique
 - **Résistances** : Givre +20 %, Flamme +20 %
 - **Sorts** : Pinces, Crachat acide, Jet d'acide ancestral
 - **Butin** : Carapace de grouilleur 90 % (×2–4), Glande acide 50 % (×1–2), Anneau du Pressé 6 %, Bottes du Pressé 6 %, Ceinture du Pressé 6 % ; **brumes** 8–20
 - **Où le trouver** : Entrée des galeries (`crasse_roc_0_0`, apparition spontanée) · La Rataillerie (`crasse_roc_0_1`, apparition spontanée) · Le Crassier (`crasse_roc_1_0`, apparition spontanée) · Galerie effondrée (`crasse_roc_1_1`, apparition spontanée) · L'Abîme du Balourd (`crasse_roc_1_3`, apparition spontanée)
 
-| Niv. | PV | Init. | XP |
-|---|---|---|---|
-| 7 | 65 | 90 | 100 |
+| PV | Init. | XP |
+|---|---|---|
+| 65 | 90 | 100 |
 
 #### Rat des galeries *(famille)*
 
 *Il vivait là avant les gobelins. Il compte bien y vivre après.*
 
-- **Niveau** : 1–3 (tirage : niv. 1 60 %, niv. 2 30 %, niv. 3 10 %) ; **5 PA, 4 PM** ; IA basique
+- **Palier** : 1 ; **5 PA, 4 PM** ; IA basique
 - **Résistances** : Tempête -10 %
 - **Sorts** : Morsure de rat, Grignotage
 - **Butin** : Queue de rat 60 % (×1–2), Dent de rat 30 %, Coiffe du Fouineur 2 %, Amulette du Fouineur 2 %, Cape du Fouineur 2 % ; **brumes** 1–4
 - **Où le trouver** : Entrée des galeries (`crasse_roc_0_0`, 2 groupes, dont 1 au hasard) · La Rataillerie (`crasse_roc_0_1`, 3 groupes, dont 1 au hasard) · Le Crassier (`crasse_roc_1_0`, 3 groupes, dont 1 au hasard)
 
-| Niv. | PV | Init. | XP | Force |
-|---|---|---|---|---|
-| 1 | 14 | 60 | 12 | 0 |
-| 2 | 17 | 65 | 16 | 5 |
-| 3 | 20 | 70 | 20 | 10 |
+| PV | Init. | XP |
+|---|---|---|
+| 14 | 60 | 12 |
 
 #### Rat-roi *(élite de la famille Rat des galeries)*
 
 *Douze rats noués par la queue, un seul trône, beaucoup d'opinions.*
 
-- **Niveau** : 5 (fixe) ; **6 PA, 4 PM** ; IA basique
+- **Palier** : 1 ; **6 PA, 4 PM** ; IA basique
 - **Résistances** : Tempête -5 %, Acier +5 %
 - **Sorts** : Morsure de rat, Grignotage, Morsure royale
 - **Butin** : Queue de rat 90 % (×2–4), Dent de rat 70 % (×1–2), Coiffe du Fouineur 6 %, Amulette du Fouineur 6 %, Cape du Fouineur 6 % ; **brumes** 5–15
 - **Où le trouver** : Entrée des galeries (`crasse_roc_0_0`, apparition spontanée) · La Rataillerie (`crasse_roc_0_1`, apparition spontanée) · Le Crassier (`crasse_roc_1_0`, apparition spontanée)
 
-| Niv. | PV | Init. | XP |
-|---|---|---|---|
-| 5 | 40 | 90 | 60 |
+| PV | Init. | XP |
+|---|---|---|
+| 40 | 90 | 60 |
 
 #### Vampipistrelle *(famille)*
 
 *Une pipistrelle qui s'est prise pour un vampire. Personne n'a osé la contredire.*
 
-- **Niveau** : 4–6 (tirage : niv. 4 30 %, niv. 5 40 %, niv. 6 30 %) ; **6 PA, 5 PM** ; IA basique
+- **Palier** : 1 ; **6 PA, 5 PM** ; IA basique
 - **Résistances** : Tempête +20 %, Givre +5 %, Acier -10 %, Flamme -5 %
 - **Sorts** : Suçon, Ultrason
 - **Butin** : Aile de vampipistrelle 55 % (×1–2), Guano luisant 12 %, Anneau du Bonhomme de Neige 3 %, Ceinture du Bonhomme de Neige 3 %, Bottes du Bonhomme de Neige 3 % ; **brumes** 4–9
 - **Où le trouver** : Galerie effondrée (`crasse_roc_1_1`, 3 groupes, dont 1 au hasard) · Forges noires (`crasse_roc_1_2`, 1 groupe) · Puits des Vampipistrelles (`crasse_roc_2_0`, 3 groupes, dont 1 au hasard) · Poste avancé de la Milice (`crasse_roc_2_1`, 1 groupe)
 
-| Niv. | PV | Init. | XP | Percep. | Agi. |
-|---|---|---|---|---|---|
-| 4 | 22 | 120 | 27 | 6 | 6 |
-| 5 | 25 | 125 | 35 | 8 | 8 |
-| 6 | 28 | 130 | 43 | 10 | 10 |
+| PV | Init. | XP | Percep. | Agi. |
+|---|---|---|---|---|
+| 25 | 125 | 35 | 8 | 8 |
 
 #### Vampipistrelle comtesse *(élite de la famille Vampipistrelle)*
 
 *Elle exige qu'on l'appelle « Madame la Comtesse ». Elle mord ceux qui oublient.*
 
-- **Niveau** : 9 (fixe) ; **7 PA, 5 PM** ; IA basique
+- **Palier** : 2 ; **7 PA, 5 PM** ; IA basique
 - **Résistances** : Tempête +30 %, Givre +15 %, Acier -5 %
 - **Sorts** : Suçon, Ultrason, Nuée de la comtesse
 - **Butin** : Aile de vampipistrelle 88 % (×2–4), Guano luisant 48 %, Anneau du Bonhomme de Neige 13 %, Ceinture du Bonhomme de Neige 13 %, Bottes du Bonhomme de Neige 13 % ; **brumes** 10–22
 - **Où le trouver** : Galerie effondrée (`crasse_roc_1_1`, apparition spontanée) · Forges noires (`crasse_roc_1_2`, apparition spontanée) · Puits des Vampipistrelles (`crasse_roc_2_0`, apparition spontanée) · Poste avancé de la Milice (`crasse_roc_2_1`, apparition spontanée)
 
-| Niv. | PV | Init. | XP | Percep. | Agi. |
-|---|---|---|---|---|---|
-| 9 | 74 | 150 | 130 | 26 | 26 |
-
-#### Milicien de Hautepierre *(famille)*
-
-*Envoyé « sécuriser » les galeries. Il sécurise surtout les tonneaux de bière du poste.*
-
-- **Niveau** : 7–9 (tirage : niv. 7 10 %, niv. 8 30 %, niv. 9 60 %) ; **6 PA, 3 PM** ; IA basique
-- **Résistances** : Acier +20 %, Flamme +5 %, Givre -10 %, Sacré +5 %
-- **Sorts** : Coup d'épée réglementaire, Bouclier levé
-- **Butin** : Maillon de cotte 50 % (×1–3), Écusson de milice 12 %, Cape du Forgeron Hargneux 3 %, Ceinture du Forgeron Hargneux 3 %, Bottes du Forgeron Hargneux 3 % ; **brumes** 7–16
-- **Où le trouver** : Forges noires (`crasse_roc_1_2`, 1 groupe, dont 1 au hasard) · Poste avancé de la Milice (`crasse_roc_2_1`, 4 groupes, dont 1 au hasard) · Carrière aux Échos (`crasse_roc_2_2`, 3 groupes, dont 1 au hasard)
-
-| Niv. | PV | Init. | XP | Force |
+| PV | Init. | XP | Percep. | Agi. |
 |---|---|---|---|---|
-| 7 | 38 | 95 | 62 | 24 |
-| 8 | 42 | 100 | 74 | 28 |
-| 9 | 46 | 105 | 86 | 32 |
-
-#### Sergent de la milice *(élite de la famille Milicien de Hautepierre)*
-
-*Vingt ans de service, trois promotions, aucune bataille. Ça va changer, croit-il.*
-
-- **Niveau** : 12 (fixe) ; **7 PA, 3 PM** ; IA basique
-- **Résistances** : Acier +30 %, Flamme +15 %, Tempête +10 %, Givre -5 %, Sacré +15 %
-- **Sorts** : Coup d'épée réglementaire, Bouclier levé, Rappel à l'ordre
-- **Butin** : Maillon de cotte 80 % (×2–5), Écusson de milice 48 %, Cape du Forgeron Hargneux 13 %, Ceinture du Forgeron Hargneux 13 %, Bottes du Forgeron Hargneux 13 % ; **brumes** 18–40
-- **Où le trouver** : Forges noires (`crasse_roc_1_2`, apparition spontanée) · Poste avancé de la Milice (`crasse_roc_2_1`, apparition spontanée) · Carrière aux Échos (`crasse_roc_2_2`, apparition spontanée)
-
-| Niv. | PV | Init. | XP | Force |
-|---|---|---|---|---|
-| 12 | 118 | 125 | 221 | 54 |
+| 74 | 150 | 130 | 26 | 26 |
 
 #### Contremaître zélé *(famille)*
 
 *Il fait travailler les autres avec une énergie qu'il n'a jamais mise à travailler lui-même.*
 
-- **Niveau** : 10–12 (tirage : niv. 10 30 %, niv. 11 40 %, niv. 12 30 %) ; **6 PA, 3 PM** ; IA soutien
+- **Palier** : 2 ; **6 PA, 3 PM** ; IA soutien
 - **Résistances** : Acier +10 %, Tempête -10 %, Flamme +10 %, Givre -5 %
 - **Sorts** : Coup de bâton, Heures sup', Retenue sur salaire
 - **Butin** : Sifflet de contremaître 50 % (×1–2), Registre des heures 12 %, Anneau du Pyromane Repenti 3 %, Ceinture du Pyromane Repenti 3 %, Bottes du Pyromane Repenti 3 %, Coiffe du Pyromane Récidiviste 3 %, Cape du Pyromane Récidiviste 3 %, Amulette du Pyromane Récidiviste 3 %, Sceptre du Pyromane Récidiviste 2 % ; **brumes** 9–22
 - **Où le trouver** : Route des Charrois (`crasse_roc_0_2`, 3 groupes, dont 1 au hasard) · Forges noires (`crasse_roc_1_2`, 4 groupes, dont 1 au hasard) · L'Abîme du Balourd (`crasse_roc_1_3`, 1 groupe)
 
-| Niv. | PV | Init. | XP | Force | Intel. | Agi. |
-|---|---|---|---|---|---|---|
-| 10 | 45 | 100 | 102 | 18 | 18 | 18 |
-| 11 | 49 | 105 | 116 | 20 | 20 | 20 |
-| 12 | 53 | 110 | 130 | 22 | 22 | 22 |
+| PV | Init. | XP | Force | Intel. | Agi. |
+|---|---|---|---|---|---|
+| 49 | 105 | 116 | 20 | 20 | 20 |
 
 #### Contremaître en chef *(élite de la famille Contremaître zélé)*
 
 *Il a un bureau, un tampon et un sifflet en or. Il ne descend jamais dans les galeries, sauf pour licencier.*
 
-- **Niveau** : 15 (fixe) ; **7 PA, 3 PM** ; IA soutien
+- **Palier** : 3 ; **7 PA, 3 PM** ; IA soutien
 - **Résistances** : Acier +20 %, Tempête -5 %, Flamme +20 %
 - **Sorts** : Coup de bâton, Heures sup', Retenue sur salaire, Licenciement
 - **Butin** : Sifflet de contremaître 80 % (×2–4), Registre des heures 48 %, Anneau du Pyromane Repenti 13 %, Ceinture du Pyromane Repenti 13 %, Bottes du Pyromane Repenti 13 %, Coiffe du Pyromane Récidiviste 13 %, Cape du Pyromane Récidiviste 13 %, Amulette du Pyromane Récidiviste 13 %, Sceptre du Pyromane Récidiviste 10 % ; **brumes** 22–55
 - **Où le trouver** : Route des Charrois (`crasse_roc_0_2`, apparition spontanée) · Forges noires (`crasse_roc_1_2`, apparition spontanée) · L'Abîme du Balourd (`crasse_roc_1_3`, apparition spontanée)
 
-| Niv. | PV | Init. | XP | Force | Intel. | Agi. |
-|---|---|---|---|---|---|---|
-| 15 | 130 | 130 | 314 | 38 | 38 | 38 |
+| PV | Init. | XP | Force | Intel. | Agi. |
+|---|---|---|---|---|---|
+| 130 | 130 | 314 | 38 | 38 | 38 |
 
 #### Le Balourd des Abîmes *(boss)*
 
 *Les gobelins ont creusé trop profond. Le contremaître dit que c'est la faute des ouvriers. Le Balourd dit que c'est la faute de tout le monde.*
 
-- **Niveau** : 12 (fixe) ; **7 PA, 3 PM** ; IA basique
+- **Palier** : 2 ; **7 PA, 3 PM** ; IA basique
 - **Résistances** : Flamme +40 %, Acier +15 %, Givre -25 %
 - **Sorts** : Lame de braise, Fouet de flammes, Crachat de lave
 - **Phase 1** (à 70 % PV) : +25 Résistance Givre (3 t.) ; +15 Résistance Acier (3 t.). Message : « Qui a creusé ici ? Je veux le nom du contremaître ! » Sa peau de roche se referme, fissure par fissure.
@@ -771,183 +720,171 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Butin** : Corne du Balourd 100 %, Registre des heures 50 % (×1–2) ; **brumes** 90–150
 - **Où le trouver** : L'Abîme du Balourd (`crasse_roc_1_3`, 1 groupe, dont 1 réapparition 45–60 s)
 
-| Niv. | PV | Init. | XP | Intel. |
-|---|---|---|---|---|
-| 12 | 300 | 90 | 760 | 20 |
+| PV | Init. | XP | Intel. |
+|---|---|---|---|
+| 300 | 90 | 760 | 20 |
+
+#### Milicien de Hautepierre *(famille)*
+
+*Envoyé « sécuriser » les galeries. Il sécurise surtout les tonneaux de bière du poste.*
+
+- **Palier** : 2 ; **6 PA, 3 PM** ; IA basique
+- **Résistances** : Acier +20 %, Flamme +5 %, Givre -10 %, Sacré +5 %
+- **Sorts** : Coup d'épée réglementaire, Bouclier levé
+- **Butin** : Maillon de cotte 50 % (×1–3), Écusson de milice 12 %, Cape du Forgeron Hargneux 3 %, Ceinture du Forgeron Hargneux 3 %, Bottes du Forgeron Hargneux 3 % ; **brumes** 7–16
+- **Où le trouver** : Forges noires (`crasse_roc_1_2`, 1 groupe, dont 1 au hasard) · Poste avancé de la Milice (`crasse_roc_2_1`, 4 groupes, dont 1 au hasard) · Carrière aux Échos (`crasse_roc_2_2`, 3 groupes, dont 1 au hasard)
+
+| PV | Init. | XP | Force |
+|---|---|---|---|
+| 46 | 105 | 86 | 32 |
+
+#### Sergent de la milice *(élite de la famille Milicien de Hautepierre)*
+
+*Vingt ans de service, trois promotions, aucune bataille. Ça va changer, croit-il.*
+
+- **Palier** : 2 ; **7 PA, 3 PM** ; IA basique
+- **Résistances** : Acier +30 %, Flamme +15 %, Tempête +10 %, Givre -5 %, Sacré +15 %
+- **Sorts** : Coup d'épée réglementaire, Bouclier levé, Rappel à l'ordre
+- **Butin** : Maillon de cotte 80 % (×2–5), Écusson de milice 48 %, Cape du Forgeron Hargneux 13 %, Ceinture du Forgeron Hargneux 13 %, Bottes du Forgeron Hargneux 13 % ; **brumes** 18–40
+- **Où le trouver** : Forges noires (`crasse_roc_1_2`, apparition spontanée) · Poste avancé de la Milice (`crasse_roc_2_1`, apparition spontanée) · Carrière aux Échos (`crasse_roc_2_2`, apparition spontanée)
+
+| PV | Init. | XP | Force |
+|---|---|---|---|
+| 118 | 125 | 221 | 54 |
 
 #### Grouilleur de braise *(variante corrompue de Grouilleur)*
 
 *Un grouilleur descendu des mines dans les gorges cendrées. Son acide a pris feu ; ses pattes aussi, un peu.*
 
-- **Niveau** : 16–18 (tirage : niv. 16 10 %, niv. 17 30 %, niv. 18 60 %) ; **6 PA, 3 PM** ; IA basique
+- **Palier** : 3 ; **6 PA, 3 PM** ; IA basique
 - **Résistances** : Flamme +35 %, Impie +10 %, Givre -10 %, Sacré -10 %
 - **Sorts** : Pinces, Crachat de feu
 - **Butin** : Carapace de grouilleur 50 % (×1–2), Cendre tiède 50 % (×1–2), Éclat de cendre 3 %, Anneau du Pyromane Récidiviste 4 %, Ceinture du Pyromane Récidiviste 4 %, Bottes du Pyromane Récidiviste 4 % ; **brumes** 14–34
 - **Où le trouver** : L'Abîme du Balourd (`crasse_roc_1_3`, 1 groupe, dont 1 après Le Balourd des Abîmes) · Pont des Trolls (`hautepierre_2_3`, 1 groupe, dont 1 au hasard) · Gorges du Troll (`hautepierre_2_4`, 2 groupes, dont 1 au hasard)
 
-| Niv. | PV | Init. | XP | Force | Intel. |
-|---|---|---|---|---|---|
-| 16 | 85 | 90 | 199 | 30 | 30 |
-| 17 | 91 | 95 | 217 | 32 | 32 |
-| 18 | 97 | 100 | 235 | 34 | 34 |
+| PV | Init. | XP | Force | Intel. |
+|---|---|---|---|---|
+| 97 | 100 | 235 | 34 | 34 |
 
 ### Sylvebrume (elfes)
-
-#### Morille grincheuse *(famille)*
-
-*Elle pousse à l'ombre, elle râle à l'ombre, elle mord à l'ombre.*
-
-- **Niveau** : 1–3 (tirage : niv. 1 60 %, niv. 2 30 %, niv. 3 10 %) ; **5 PA, 2 PM** ; IA basique
-- **Résistances** : Givre +15 %, Tempête +10 %, Flamme -20 %
-- **Sorts** : Spores, Bouderie
-- **Butin** : Chapeau de morille 60 % (×1–2), Spores grincheuses 12 %, Coiffe du Mauvais Œil 2 %, Cape du Mauvais Œil 2 %, Amulette du Mauvais Œil 2 % ; **brumes** 3–5
-- **Où le trouver** : Clairière de la Lisière (`sylvebrume_0_0`, 2 groupes, dont 1 au hasard) · Sous-bois moussu (`sylvebrume_0_1`, 3 groupes, dont 1 au hasard)
-
-| Niv. | PV | Init. | XP | Percep. |
-|---|---|---|---|---|
-| 1 | 14 | 40 | 8 | 0 |
-| 2 | 17 | 45 | 13 | 4 |
-| 3 | 20 | 50 | 18 | 8 |
-
-#### Vieille Morille rancunière *(élite de la famille Morille grincheuse)*
-
-*Elle se souvient de chaque pied qui l'a écrasée depuis trois siècles. Elle a une liste.*
-
-- **Niveau** : 6 (fixe) ; **6 PA, 2 PM** ; IA basique
-- **Résistances** : Givre +25 %, Tempête +20 %, Acier +10 %, Flamme -15 %
-- **Sorts** : Spores, Bouderie, Nuage de rancune
-- **Butin** : Chapeau de morille 90 % (×2–4), Spores grincheuses 48 %, Coiffe du Mauvais Œil 12 %, Cape du Mauvais Œil 12 %, Amulette du Mauvais Œil 12 % ; **brumes** 8–12
-- **Où le trouver** : Clairière de la Lisière (`sylvebrume_0_0`, apparition spontanée) · Sous-bois moussu (`sylvebrume_0_1`, apparition spontanée)
-
-| Niv. | PV | Init. | XP | Percep. |
-|---|---|---|---|---|
-| 6 | 54 | 70 | 80 | 30 |
 
 #### Arbre vivant *(famille)*
 
 *Un vieux chêne qui en a assez qu'on lui coupe les branches.*
 
-- **Niveau** : 4–6 (tirage : niv. 4 10 %, niv. 5 30 %, niv. 6 60 %) ; **7 PA, 1 PM** ; IA basique
+- **Palier** : 1 ; **7 PA, 1 PM** ; IA basique
 - **Résistances** : Acier +25 %, Givre +15 %, Flamme -25 %
 - **Sorts** : Coup de branche, Racines
 - **Butin** : Écorce vivante 60 % (×1–3), Sève ancienne 10 % ; **brumes** 5–12
 - **Où le trouver** : Cœur de la Toile (`sylvebrume_0_2`, 1 groupe, dont 1 après La Mère-Toile) · Futaie ancienne (`sylvebrume_1_0`, 3 groupes, dont 1 au hasard) · Coupe rase (`sylvebrume_1_1`, 1 groupe, dont 1 au hasard) · Bosquet des Cerfs (`sylvebrume_2_0`, 2 groupes)
 
-| Niv. | PV | Init. | XP | Force | Percep. |
-|---|---|---|---|---|---|
-| 4 | 52 | 35 | 52 | 0 | 0 |
-| 5 | 60 | 40 | 60 | 3 | 3 |
-| 6 | 68 | 45 | 68 | 6 | 6 |
+| PV | Init. | XP | Force | Percep. |
+|---|---|---|---|---|
+| 68 | 45 | 68 | 6 | 6 |
 
 #### Arbre millénaire *(élite de la famille Arbre vivant)*
 
 *Il a vu naître Sylvebrume. Il compte bien la voir disparaître, sans se presser.*
 
-- **Niveau** : 10 (fixe) ; **8 PA, 1 PM** ; IA basique
+- **Palier** : 2 ; **8 PA, 1 PM** ; IA basique
 - **Résistances** : Acier +35 %, Givre +25 %, Flamme -20 %
 - **Sorts** : Coup de branche, Racines, Ronces millénaires, Cercle de sève
 - **Butin** : Écorce vivante 90 % (×2–5), Sève ancienne 40 % (×1–2) ; **brumes** 15–35
 - **Où le trouver** : Cœur de la Toile (`sylvebrume_0_2`, apparition spontanée) · Futaie ancienne (`sylvebrume_1_0`, apparition spontanée) · Coupe rase (`sylvebrume_1_1`, apparition spontanée) · Bosquet des Cerfs (`sylvebrume_2_0`, apparition spontanée)
 
-| Niv. | PV | Init. | XP | Force | Percep. |
-|---|---|---|---|---|---|
-| 10 | 150 | 50 | 180 | 25 | 25 |
+| PV | Init. | XP | Force | Percep. |
+|---|---|---|---|---|
+| 150 | 50 | 180 | 25 | 25 |
 
 #### Cerf enchanté *(famille)*
 
 *Ses bois luisent au crépuscule. Il charge aussi, au crépuscule et le reste du temps.*
 
-- **Niveau** : 4–6 (tirage : niv. 4 30 %, niv. 5 40 %, niv. 6 30 %) ; **7 PA, 4 PM** ; IA basique
+- **Palier** : 1 ; **7 PA, 4 PM** ; IA basique
 - **Résistances** : Tempête +20 %, Flamme -10 %
 - **Sorts** : Coup de ramure, Éclat sylvestre
 - **Butin** : Poil scintillant 50 % (×1–2), Bois de cerf enchanté 20 %, Coiffe du Courant d'Air 3 %, Cape du Courant d'Air 3 %, Amulette du Courant d'Air 3 % ; **brumes** 4–10
 - **Où le trouver** : Futaie ancienne (`sylvebrume_1_0`, 3 groupes, dont 1 au hasard) · Bosquet des Cerfs (`sylvebrume_2_0`, 3 groupes)
 
-| Niv. | PV | Init. | XP | Force | Agi. |
-|---|---|---|---|---|---|
-| 4 | 36 | 110 | 45 | 0 | 0 |
-| 5 | 40 | 115 | 51 | 2 | 2 |
-| 6 | 44 | 120 | 57 | 4 | 4 |
+| PV | Init. | XP | Force | Agi. |
+|---|---|---|---|---|
+| 40 | 115 | 51 | 2 | 2 |
 
 #### Grand cerf de la Lisière *(élite de la famille Cerf enchanté)*
 
 *Les elfes le saluent, les humains le chassent, les poètes lui écrivent. Il n'aime aucun des trois.*
 
-- **Niveau** : 9 (fixe) ; **8 PA, 5 PM** ; IA basique
+- **Palier** : 2 ; **8 PA, 5 PM** ; IA basique
 - **Résistances** : Tempête +30 %, Flamme -5 %, Acier +10 %
 - **Sorts** : Coup de ramure, Éclat sylvestre, Charge du grand cerf
 - **Butin** : Poil scintillant 90 % (×2–4), Bois de cerf enchanté 60 % (×1–2), Coiffe du Courant d'Air 8 %, Cape du Courant d'Air 8 %, Amulette du Courant d'Air 8 % ; **brumes** 12–30
 - **Où le trouver** : Futaie ancienne (`sylvebrume_1_0`, apparition spontanée) · Bosquet des Cerfs (`sylvebrume_2_0`, apparition spontanée)
 
-| Niv. | PV | Init. | XP | Force | Agi. |
-|---|---|---|---|---|---|
-| 9 | 90 | 150 | 150 | 20 | 20 |
+| PV | Init. | XP | Force | Agi. |
+|---|---|---|---|---|
+| 90 | 150 | 150 | 20 | 20 |
+
+#### Morille grincheuse *(famille)*
+
+*Elle pousse à l'ombre, elle râle à l'ombre, elle mord à l'ombre.*
+
+- **Palier** : 1 ; **5 PA, 2 PM** ; IA basique
+- **Résistances** : Givre +15 %, Tempête +10 %, Flamme -20 %
+- **Sorts** : Spores, Bouderie
+- **Butin** : Chapeau de morille 60 % (×1–2), Spores grincheuses 12 %, Coiffe du Mauvais Œil 2 %, Cape du Mauvais Œil 2 %, Amulette du Mauvais Œil 2 % ; **brumes** 3–5
+- **Où le trouver** : Clairière de la Lisière (`sylvebrume_0_0`, 2 groupes, dont 1 au hasard) · Sous-bois moussu (`sylvebrume_0_1`, 3 groupes, dont 1 au hasard)
+
+| PV | Init. | XP |
+|---|---|---|
+| 14 | 40 | 8 |
+
+#### Vieille Morille rancunière *(élite de la famille Morille grincheuse)*
+
+*Elle se souvient de chaque pied qui l'a écrasée depuis trois siècles. Elle a une liste.*
+
+- **Palier** : 1 ; **6 PA, 2 PM** ; IA basique
+- **Résistances** : Givre +25 %, Tempête +20 %, Acier +10 %, Flamme -15 %
+- **Sorts** : Spores, Bouderie, Nuage de rancune
+- **Butin** : Chapeau de morille 90 % (×2–4), Spores grincheuses 48 %, Coiffe du Mauvais Œil 12 %, Cape du Mauvais Œil 12 %, Amulette du Mauvais Œil 12 % ; **brumes** 8–12
+- **Où le trouver** : Clairière de la Lisière (`sylvebrume_0_0`, apparition spontanée) · Sous-bois moussu (`sylvebrume_0_1`, apparition spontanée)
+
+| PV | Init. | XP | Percep. |
+|---|---|---|---|
+| 54 | 70 | 80 | 30 |
 
 #### Bûcheron de Brumerive *(famille)*
 
 *Il a un bon de coupe signé à Hautepierre et une hache aiguisée. Les elfes ont des flèches. Le débat est ouvert.*
 
-- **Niveau** : 7–9 (tirage : niv. 7 10 %, niv. 8 30 %, niv. 9 60 %) ; **6 PA, 3 PM** ; IA basique
+- **Palier** : 2 ; **6 PA, 3 PM** ; IA basique
 - **Résistances** : Acier +10 %, Givre +5 %, Tempête -10 %
 - **Sorts** : Coup de cognée, Attention, ça tombe !
 - **Butin** : Copeaux de bois 55 % (×1–3), Bon de coupe 12 %, Anneau de l'Enfant de Chœur 3 %, Ceinture de l'Enfant de Chœur 3 %, Bottes de l'Enfant de Chœur 3 %, Coiffe du Bedeau Zélé 3 %, Cape du Bedeau Zélé 3 %, Amulette du Bedeau Zélé 3 %, Masse du Bedeau Zélé 2 % ; **brumes** 8–19
 - **Où le trouver** : Coupe rase (`sylvebrume_1_1`, 3 groupes, dont 1 au hasard) · Toiles grises (`sylvebrume_1_2`, 1 groupe) · Scierie de Brumerive (`sylvebrume_2_1`, 3 groupes, dont 1 au hasard)
 
-| Niv. | PV | Init. | XP | Force |
-|---|---|---|---|---|
-| 7 | 49 | 85 | 74 | 24 |
-| 8 | 54 | 90 | 88 | 28 |
-| 9 | 59 | 95 | 102 | 32 |
+| PV | Init. | XP | Force |
+|---|---|---|---|
+| 59 | 95 | 102 | 32 |
 
 #### Abatteur en chef *(élite de la famille Bûcheron de Brumerive)*
 
 *Il a abattu Vieux-Branchu, mille ans d'âge, en une matinée. Il en a fait un banc. Personne ne s'assoit dessus.*
 
-- **Niveau** : 12 (fixe) ; **7 PA, 3 PM** ; IA basique
+- **Palier** : 2 ; **7 PA, 3 PM** ; IA basique
 - **Résistances** : Acier +20 %, Givre +15 %, Flamme +10 %, Tempête -5 %
 - **Sorts** : Coup de cognée, Attention, ça tombe !, Souche piégée
 - **Butin** : Copeaux de bois 88 % (×2–5), Bon de coupe 48 %, Anneau de l'Enfant de Chœur 13 %, Ceinture de l'Enfant de Chœur 13 %, Bottes de l'Enfant de Chœur 13 %, Coiffe du Bedeau Zélé 13 %, Cape du Bedeau Zélé 13 %, Amulette du Bedeau Zélé 13 %, Masse du Bedeau Zélé 10 % ; **brumes** 20–48
 - **Où le trouver** : Coupe rase (`sylvebrume_1_1`, apparition spontanée) · Toiles grises (`sylvebrume_1_2`, apparition spontanée) · Scierie de Brumerive (`sylvebrume_2_1`, apparition spontanée)
 
-| Niv. | PV | Init. | XP | Force |
-|---|---|---|---|---|
-| 12 | 153 | 115 | 266 | 54 |
-
-#### Tisseuse de brume *(famille)*
-
-*Une araignée grosse comme un poney, qui tisse le brouillard de Sylvebrume. Les elfes disent que c'est poétique. De loin.*
-
-- **Niveau** : 10–12 (tirage : niv. 10 30 %, niv. 11 40 %, niv. 12 30 %) ; **6 PA, 4 PM** ; IA basique
-- **Résistances** : Givre +20 %, Impie +10 %, Flamme -15 %
-- **Sorts** : Morsure glacée, Toile collante
-- **Butin** : Fil de brume 55 % (×1–3), Crochet d'araignée 12 %, Coiffe du Bonhomme de Neige 3 %, Cape du Bonhomme de Neige 3 %, Amulette du Bonhomme de Neige 3 %, Coiffe du Yéti Frileux 3 %, Cape du Yéti Frileux 3 %, Amulette du Yéti Frileux 3 %, Bâton du Yéti Frileux 2 % ; **brumes** 9–21
-- **Où le trouver** : Cœur de la Toile (`sylvebrume_0_2`, 1 groupe) · Toiles grises (`sylvebrume_1_2`, 4 groupes, dont 1 au hasard) · Orée du Sud (`sylvebrume_2_2`, 3 groupes, dont 1 au hasard)
-
-| Niv. | PV | Init. | XP | Percep. | Agi. |
-|---|---|---|---|---|---|
-| 10 | 50 | 110 | 97 | 36 | 36 |
-| 11 | 54 | 115 | 110 | 40 | 40 |
-| 12 | 58 | 120 | 123 | 44 | 44 |
-
-#### Grande Tisseuse *(élite de la famille Tisseuse de brume)*
-
-*Sa toile couvre trois clairières. Elle a oublié où elle a rangé la dernière proie.*
-
-- **Niveau** : 15 (fixe) ; **7 PA, 4 PM** ; IA basique
-- **Résistances** : Givre +30 %, Impie +20 %, Acier +10 %, Flamme -10 %
-- **Sorts** : Morsure glacée, Toile collante, Cocon
-- **Butin** : Fil de brume 88 % (×2–5), Crochet d'araignée 48 %, Coiffe du Bonhomme de Neige 13 %, Cape du Bonhomme de Neige 13 %, Amulette du Bonhomme de Neige 13 %, Coiffe du Yéti Frileux 13 %, Cape du Yéti Frileux 13 %, Amulette du Yéti Frileux 13 %, Bâton du Yéti Frileux 10 % ; **brumes** 22–52
-- **Où le trouver** : Cœur de la Toile (`sylvebrume_0_2`, apparition spontanée) · Toiles grises (`sylvebrume_1_2`, apparition spontanée) · Orée du Sud (`sylvebrume_2_2`, apparition spontanée)
-
-| Niv. | PV | Init. | XP | Percep. | Agi. |
-|---|---|---|---|---|---|
-| 15 | 144 | 140 | 299 | 66 | 66 |
+| PV | Init. | XP | Force |
+|---|---|---|---|
+| 153 | 115 | 266 | 54 |
 
 #### La Mère-Toile *(boss)*
 
 *Elle tisse depuis l'Âge de l'Aube et n'a jamais fini un seul napperon. Depuis que la Cendre tombe, elle tisse plus vite, et plus noir.*
 
-- **Niveau** : 12 (fixe) ; **7 PA, 4 PM** ; IA basique
+- **Palier** : 2 ; **7 PA, 4 PM** ; IA basique
 - **Résistances** : Givre +30 %, Impie +15 %, Tempête +10 %, Acier +5 %, Flamme -20 %
 - **Sorts** : Venin ancestral, Morsure glacée, Toile collante
 - **Phase 1** (à 65 % PV) : apprend Toile géante ; +2 PM (3 t.). Message : La Mère-Toile court sur ses fils et tisse la clairière entière.
@@ -956,213 +893,199 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Butin** : Soie de la Mère-Toile 100 %, Fil de brume 90 % (×2–4) ; **brumes** 80–140
 - **Où le trouver** : Cœur de la Toile (`sylvebrume_0_2`, 1 groupe, dont 1 réapparition 45–60 s)
 
-| Niv. | PV | Init. | XP | Percep. | Agi. |
-|---|---|---|---|---|---|
-| 12 | 300 | 130 | 720 | 25 | 25 |
+| PV | Init. | XP | Percep. | Agi. |
+|---|---|---|---|---|
+| 300 | 130 | 720 | 25 | 25 |
+
+#### Tisseuse de brume *(famille)*
+
+*Une araignée grosse comme un poney, qui tisse le brouillard de Sylvebrume. Les elfes disent que c'est poétique. De loin.*
+
+- **Palier** : 2 ; **6 PA, 4 PM** ; IA basique
+- **Résistances** : Givre +20 %, Impie +10 %, Flamme -15 %
+- **Sorts** : Morsure glacée, Toile collante
+- **Butin** : Fil de brume 55 % (×1–3), Crochet d'araignée 12 %, Coiffe du Bonhomme de Neige 3 %, Cape du Bonhomme de Neige 3 %, Amulette du Bonhomme de Neige 3 %, Coiffe du Yéti Frileux 3 %, Cape du Yéti Frileux 3 %, Amulette du Yéti Frileux 3 %, Bâton du Yéti Frileux 2 % ; **brumes** 9–21
+- **Où le trouver** : Cœur de la Toile (`sylvebrume_0_2`, 1 groupe) · Toiles grises (`sylvebrume_1_2`, 4 groupes, dont 1 au hasard) · Orée du Sud (`sylvebrume_2_2`, 3 groupes, dont 1 au hasard)
+
+| PV | Init. | XP | Percep. | Agi. |
+|---|---|---|---|---|
+| 54 | 115 | 110 | 40 | 40 |
+
+#### Grande Tisseuse *(élite de la famille Tisseuse de brume)*
+
+*Sa toile couvre trois clairières. Elle a oublié où elle a rangé la dernière proie.*
+
+- **Palier** : 3 ; **7 PA, 4 PM** ; IA basique
+- **Résistances** : Givre +30 %, Impie +20 %, Acier +10 %, Flamme -10 %
+- **Sorts** : Morsure glacée, Toile collante, Cocon
+- **Butin** : Fil de brume 88 % (×2–5), Crochet d'araignée 48 %, Coiffe du Bonhomme de Neige 13 %, Cape du Bonhomme de Neige 13 %, Amulette du Bonhomme de Neige 13 %, Coiffe du Yéti Frileux 13 %, Cape du Yéti Frileux 13 %, Amulette du Yéti Frileux 13 %, Bâton du Yéti Frileux 10 % ; **brumes** 22–52
+- **Où le trouver** : Cœur de la Toile (`sylvebrume_0_2`, apparition spontanée) · Toiles grises (`sylvebrume_1_2`, apparition spontanée) · Orée du Sud (`sylvebrume_2_2`, apparition spontanée)
+
+| PV | Init. | XP | Percep. | Agi. |
+|---|---|---|---|---|
+| 144 | 140 | 299 | 66 | 66 |
 
 #### Arbre calciné *(variante corrompue de Arbre vivant)*
 
 *Un arbre vivant que la première pluie de cendre a brûlé debout. Il marche encore, il fume, et il est de très mauvaise humeur.*
 
-- **Niveau** : 19–21 (tirage : niv. 19 30 %, niv. 20 40 %, niv. 21 30 %) ; **7 PA, 1 PM** ; IA basique
+- **Palier** : 3 ; **7 PA, 1 PM** ; IA basique
 - **Résistances** : Acier +25 %, Flamme +30 %, Givre -20 %, Sacré -10 %
 - **Sorts** : Coup de branche, Racines, Pluie de cendres
 - **Butin** : Écorce vivante 50 % (×1–2), Cendre tiède 50 % (×1–2), Éclat de cendre 3 %, Anneau du Yéti Frileux 4 %, Ceinture du Yéti Frileux 4 %, Bottes du Yéti Frileux 4 % ; **brumes** 21–47
 - **Où le trouver** : Bois-Corbeau (`hautepierre_1_0`, 1 groupe) · Colline Pelée (`hautepierre_3_0`, 2 groupes, dont 1 au hasard) · Cœur de la Toile (`sylvebrume_0_2`, 1 groupe, dont 1 après La Mère-Toile)
 
-| Niv. | PV | Init. | XP | Force | Intel. | Percep. |
-|---|---|---|---|---|---|---|
-| 19 | 140 | 40 | 299 | 36 | 36 | 36 |
-| 20 | 148 | 45 | 322 | 38 | 38 | 38 |
-| 21 | 156 | 50 | 345 | 40 | 40 | 40 |
+| PV | Init. | XP | Force | Intel. | Percep. |
+|---|---|---|---|---|---|
+| 148 | 45 | 322 | 38 | 38 | 38 |
 
 ### Hautepierre
-
-#### Détrousseur des grands chemins *(famille)*
-
-*Il vole les riches pour donner aux pauvres. Il est pauvre. La boucle est bouclée.*
-
-- **Niveau** : 13–15 (tirage : niv. 13 30 %, niv. 14 40 %, niv. 15 30 %) ; **6 PA, 4 PM** ; IA basique
-- **Résistances** : Tempête +10 %, Givre +5 %, Sacré -10 %
-- **Sorts** : Coup de surin, La bourse ou la vie
-- **Butin** : Bourse vide 55 % (×1–2), Carte au trésor douteuse 12 %, Coiffe du Chat Noir 3 %, Cape du Chat Noir 3 %, Amulette du Chat Noir 3 %, Dague du Chat Noir 2 % ; **brumes** 11–26
-- **Où le trouver** : Route de l'Ouest (`hautepierre_0_2`, 3 groupes, dont 1 au hasard) · Rives du Fleuve Gris (`hautepierre_1_3`, 1 groupe) · Route du Nord (`hautepierre_2_0`, 3 groupes, dont 1 au hasard) · Route de l'Est (`hautepierre_4_2`, 3 groupes)
-
-| Niv. | PV | Init. | XP | Percep. | Agi. |
-|---|---|---|---|---|---|
-| 13 | 63 | 130 | 137 | 24 | 24 |
-| 14 | 67 | 135 | 151 | 26 | 26 |
-| 15 | 71 | 140 | 165 | 28 | 28 |
-
-#### Chef de bande *(élite de la famille Détrousseur des grands chemins)*
-
-*Il se fait appeler « le Prince des voleurs ». Ses hommes l'appellent « le patron » ; sa mère, « Gérard ».*
-
-- **Niveau** : 18 (fixe) ; **7 PA, 4 PM** ; IA basique
-- **Résistances** : Tempête +20 %, Givre +15 %, Acier +10 %, Flamme +10 %, Sacré -5 %
-- **Sorts** : Coup de surin, La bourse ou la vie, Embuscade
-- **Butin** : Bourse vide 88 % (×2–4), Carte au trésor douteuse 48 %, Coiffe du Chat Noir 13 %, Cape du Chat Noir 13 %, Amulette du Chat Noir 13 %, Dague du Chat Noir 10 %, Coiffe du Porte-Malheur 8 %, Cape du Porte-Malheur 8 %, Amulette du Porte-Malheur 8 %, Dague du Porte-Malheur 6 % ; **brumes** 28–65
-- **Où le trouver** : Route de l'Ouest (`hautepierre_0_2`, apparition spontanée) · Rives du Fleuve Gris (`hautepierre_1_3`, apparition spontanée) · Route du Nord (`hautepierre_2_0`, apparition spontanée) · Route de l'Est (`hautepierre_4_2`, apparition spontanée)
-
-| Niv. | PV | Init. | XP | Percep. | Agi. |
-|---|---|---|---|---|---|
-| 18 | 174 | 160 | 383 | 44 | 44 |
-
-#### Troll des ponts *(famille)*
-
-*Il garde un pont qui ne mène nulle part et réclame un péage que personne ne paie. Il a donc beaucoup de temps libre, et faim.*
-
-- **Niveau** : 16–18 (tirage : niv. 16 10 %, niv. 17 30 %, niv. 18 60 %) ; **6 PA, 2 PM** ; IA basique
-- **Résistances** : Acier +25 %, Givre +15 %, Flamme -20 %, Sacré -10 %
-- **Sorts** : Coup de massue, Lancer de rocher
-- **Butin** : Dent de troll 55 % (×1–2), Recette de troll 12 %, Anneau de l'Enclume Rancunière 3 %, Ceinture de l'Enclume Rancunière 3 %, Bottes de l'Enclume Rancunière 3 % ; **brumes** 17–40
-- **Où le trouver** : Vigie aux Corbacs (`hautepierre_1_1`, 1 groupe, dont 1 au hasard) · Rives du Fleuve Gris (`hautepierre_1_3`, 3 groupes) · Pont des Trolls (`hautepierre_2_3`, 4 groupes, dont 1 au hasard) · Gorges du Troll (`hautepierre_2_4`, 2 groupes)
-
-| Niv. | PV | Init. | XP | Force | Percep. |
-|---|---|---|---|---|---|
-| 16 | 131 | 50 | 235 | 60 | 60 |
-| 17 | 139 | 55 | 256 | 64 | 64 |
-| 18 | 147 | 60 | 277 | 68 | 68 |
-
-#### Troll gastronome *(élite de la famille Troll des ponts)*
-
-*Il a lu un livre de cuisine. Un seul. Il l'applique à tout le monde.*
-
-- **Niveau** : 21 (fixe) ; **7 PA, 2 PM** ; IA basique
-- **Résistances** : Acier +35 %, Givre +25 %, Tempête +10 %, Flamme -15 %, Sacré -5 %
-- **Sorts** : Coup de massue, Lancer de rocher, Marinade
-- **Butin** : Dent de troll 88 % (×2–4), Recette de troll 48 %, Anneau de l'Enclume Rancunière 13 %, Ceinture de l'Enclume Rancunière 13 %, Bottes de l'Enclume Rancunière 13 %, Anneau de l'Hiver Qui Vient 8 %, Ceinture de l'Hiver Qui Vient 8 %, Bottes de l'Hiver Qui Vient 8 % ; **brumes** 42–100
-- **Où le trouver** : Vigie aux Corbacs (`hautepierre_1_1`, apparition spontanée) · Rives du Fleuve Gris (`hautepierre_1_3`, apparition spontanée) · Pont des Trolls (`hautepierre_2_3`, apparition spontanée) · Gorges du Troll (`hautepierre_2_4`, apparition spontanée)
-
-| Niv. | PV | Init. | XP | Force | Percep. |
-|---|---|---|---|---|---|
-| 21 | 350 | 80 | 622 | 90 | 90 |
 
 #### Corbac espion *(famille)*
 
 *Un corbeau au service de la Cendre, avec une longue-vue en bandoulière. Il note tout ce que vous faites, surtout les bêtises.*
 
-- **Niveau** : 19–21 (tirage : niv. 19 60 %, niv. 20 30 %, niv. 21 10 %) ; **6 PA, 5 PM** ; IA distance
+- **Palier** : 3 ; **6 PA, 5 PM** ; IA distance
 - **Résistances** : Tempête +25 %, Flamme +5 %, Acier -10 %
 - **Sorts** : Coup de bec, Piqué
 - **Butin** : Plume de corbac 55 % (×1–3), Message intercepté 12 %, Anneau du Coup de Vent 3 %, Ceinture du Coup de Vent 3 %, Bottes du Coup de Vent 3 % ; **brumes** 15–34
 - **Où le trouver** : Bois-Corbeau (`hautepierre_1_0`, 4 groupes, dont 1 au hasard) · Vigie aux Corbacs (`hautepierre_1_1`, 3 groupes, dont 1 au hasard) · Colline Pelée (`hautepierre_3_0`, 2 groupes) · Ruines de la Vieille Garde (`hautepierre_3_1`, 1 groupe, dont 1 au hasard)
 
-| Niv. | PV | Init. | XP | Agi. |
-|---|---|---|---|---|
-| 19 | 79 | 150 | 218 | 72 |
-| 20 | 83 | 155 | 235 | 76 |
-| 21 | 87 | 160 | 252 | 80 |
+| PV | Init. | XP | Agi. |
+|---|---|---|---|
+| 79 | 150 | 218 | 72 |
 
 #### Corbac chef espion *(élite de la famille Corbac espion)*
 
 *Il dirige un réseau de quatre cents corbeaux. Il connaît votre adresse, votre taille de chapeau et votre plat préféré.*
 
-- **Niveau** : 24 (fixe) ; **7 PA, 5 PM** ; IA distance
+- **Palier** : 4 ; **7 PA, 5 PM** ; IA distance
 - **Résistances** : Tempête +35 %, Flamme +15 %, Givre +10 %, Acier -5 %
 - **Sorts** : Coup de bec, Piqué, Rapport détaillé
 - **Butin** : Plume de corbac 88 % (×2–5), Message intercepté 48 %, Anneau du Coup de Vent 13 %, Ceinture du Coup de Vent 13 %, Bottes du Coup de Vent 13 %, Anneau de la Tornade Mal Lunée 8 %, Ceinture de la Tornade Mal Lunée 8 %, Bottes de la Tornade Mal Lunée 8 % ; **brumes** 38–85
 - **Où le trouver** : Bois-Corbeau (`hautepierre_1_0`, apparition spontanée) · Vigie aux Corbacs (`hautepierre_1_1`, apparition spontanée) · Colline Pelée (`hautepierre_3_0`, apparition spontanée) · Ruines de la Vieille Garde (`hautepierre_3_1`, apparition spontanée)
 
-| Niv. | PV | Init. | XP | Agi. |
+| PV | Init. | XP | Agi. |
+|---|---|---|---|
+| 206 | 180 | 554 | 102 |
+
+#### Détrousseur des grands chemins *(famille)*
+
+*Il vole les riches pour donner aux pauvres. Il est pauvre. La boucle est bouclée.*
+
+- **Palier** : 3 ; **6 PA, 4 PM** ; IA basique
+- **Résistances** : Tempête +10 %, Givre +5 %, Sacré -10 %
+- **Sorts** : Coup de surin, La bourse ou la vie
+- **Butin** : Bourse vide 55 % (×1–2), Carte au trésor douteuse 12 %, Coiffe du Chat Noir 3 %, Cape du Chat Noir 3 %, Amulette du Chat Noir 3 %, Dague du Chat Noir 2 % ; **brumes** 11–26
+- **Où le trouver** : Route de l'Ouest (`hautepierre_0_2`, 3 groupes, dont 1 au hasard) · Rives du Fleuve Gris (`hautepierre_1_3`, 1 groupe) · Route du Nord (`hautepierre_2_0`, 3 groupes, dont 1 au hasard) · Route de l'Est (`hautepierre_4_2`, 3 groupes)
+
+| PV | Init. | XP | Percep. | Agi. |
 |---|---|---|---|---|
-| 24 | 206 | 180 | 554 | 102 |
+| 67 | 135 | 151 | 26 | 26 |
 
-#### Gargouille *(famille)*
+#### Chef de bande *(élite de la famille Détrousseur des grands chemins)*
 
-*Elle a gardé une gouttière de Hautepierre pendant trois siècles. Depuis que la Cendre tombe, elle garde rancune.*
+*Il se fait appeler « le Prince des voleurs ». Ses hommes l'appellent « le patron » ; sa mère, « Gérard ».*
 
-- **Niveau** : 22–24 (tirage : niv. 22 30 %, niv. 23 40 %, niv. 24 30 %) ; **6 PA, 3 PM** ; IA basique
-- **Résistances** : Acier +10 %, Flamme +20 %, Givre +30 %, Tempête -15 %
-- **Sorts** : Griffes de pierre, Gargouillis
-- **Butin** : Éclat de gargouille 55 % (×1–3), Cœur de pierre 12 %, Coiffe de l'Hiver Qui Vient 2 %, Cape de l'Hiver Qui Vient 2 %, Amulette de l'Hiver Qui Vient 2 %, Bâton de l'Hiver Qui Vient 2 %, Anneau du Porte-Malheur 2 %, Ceinture du Porte-Malheur 2 %, Bottes du Porte-Malheur 2 % ; **brumes** 22–49
-- **Où le trouver** : Ruines de la Vieille Garde (`hautepierre_3_1`, 3 groupes, dont 1 au hasard) · Camp des Cendrillons (`hautepierre_3_3`, 1 groupe, dont 1 au hasard) · Cimetière des Gargouilles (`hautepierre_4_1`, 3 groupes, dont 1 au hasard)
+- **Palier** : 3 ; **7 PA, 4 PM** ; IA basique
+- **Résistances** : Tempête +20 %, Givre +15 %, Acier +10 %, Flamme +10 %, Sacré -5 %
+- **Sorts** : Coup de surin, La bourse ou la vie, Embuscade
+- **Butin** : Bourse vide 88 % (×2–4), Carte au trésor douteuse 48 %, Coiffe du Chat Noir 13 %, Cape du Chat Noir 13 %, Amulette du Chat Noir 13 %, Dague du Chat Noir 10 %, Coiffe du Porte-Malheur 8 %, Cape du Porte-Malheur 8 %, Amulette du Porte-Malheur 8 %, Dague du Porte-Malheur 6 % ; **brumes** 28–65
+- **Où le trouver** : Route de l'Ouest (`hautepierre_0_2`, apparition spontanée) · Rives du Fleuve Gris (`hautepierre_1_3`, apparition spontanée) · Route du Nord (`hautepierre_2_0`, apparition spontanée) · Route de l'Est (`hautepierre_4_2`, apparition spontanée)
 
-| Niv. | PV | Init. | XP | Force | Percep. |
-|---|---|---|---|---|---|
-| 22 | 142 | 70 | 342 | 42 | 42 |
-| 23 | 150 | 75 | 365 | 44 | 44 |
-| 24 | 158 | 80 | 388 | 46 | 46 |
+| PV | Init. | XP | Percep. | Agi. |
+|---|---|---|---|---|
+| 174 | 160 | 383 | 44 | 44 |
 
-#### Gargouille de la Grande Porte *(élite de la famille Gargouille)*
+#### Troll des ponts *(famille)*
 
-*La plus vieille de la ville. Elle a vu passer trois rois, deux sièges et un nombre incalculable de pigeons.*
+*Il garde un pont qui ne mène nulle part et réclame un péage que personne ne paie. Il a donc beaucoup de temps libre, et faim.*
 
-- **Niveau** : 27 (fixe) ; **7 PA, 3 PM** ; IA basique
-- **Résistances** : Acier +20 %, Flamme +30 %, Givre +40 %, Tempête -10 %
-- **Sorts** : Griffes de pierre, Gargouillis, Regard de pierre
-- **Butin** : Éclat de gargouille 88 % (×2–5), Cœur de pierre 48 %, Coiffe de l'Hiver Qui Vient 10 %, Cape de l'Hiver Qui Vient 10 %, Amulette de l'Hiver Qui Vient 10 %, Bâton de l'Hiver Qui Vient 8 %, Anneau du Porte-Malheur 10 %, Ceinture du Porte-Malheur 10 %, Bottes du Porte-Malheur 10 % ; **brumes** 55–122
-- **Où le trouver** : Ruines de la Vieille Garde (`hautepierre_3_1`, apparition spontanée) · Camp des Cendrillons (`hautepierre_3_3`, apparition spontanée) · Cimetière des Gargouilles (`hautepierre_4_1`, apparition spontanée)
+- **Palier** : 3 ; **6 PA, 2 PM** ; IA basique
+- **Résistances** : Acier +25 %, Givre +15 %, Flamme -20 %, Sacré -10 %
+- **Sorts** : Coup de massue, Lancer de rocher
+- **Butin** : Dent de troll 55 % (×1–2), Recette de troll 12 %, Anneau de l'Enclume Rancunière 3 %, Ceinture de l'Enclume Rancunière 3 %, Bottes de l'Enclume Rancunière 3 % ; **brumes** 17–40
+- **Où le trouver** : Vigie aux Corbacs (`hautepierre_1_1`, 1 groupe, dont 1 au hasard) · Rives du Fleuve Gris (`hautepierre_1_3`, 3 groupes) · Pont des Trolls (`hautepierre_2_3`, 4 groupes, dont 1 au hasard) · Gorges du Troll (`hautepierre_2_4`, 2 groupes)
 
-| Niv. | PV | Init. | XP | Force | Percep. |
-|---|---|---|---|---|---|
-| 27 | 361 | 100 | 834 | 62 | 62 |
+| PV | Init. | XP | Force | Percep. |
+|---|---|---|---|---|
+| 147 | 60 | 277 | 68 | 68 |
+
+#### Troll gastronome *(élite de la famille Troll des ponts)*
+
+*Il a lu un livre de cuisine. Un seul. Il l'applique à tout le monde.*
+
+- **Palier** : 4 ; **7 PA, 2 PM** ; IA basique
+- **Résistances** : Acier +35 %, Givre +25 %, Tempête +10 %, Flamme -15 %, Sacré -5 %
+- **Sorts** : Coup de massue, Lancer de rocher, Marinade
+- **Butin** : Dent de troll 88 % (×2–4), Recette de troll 48 %, Anneau de l'Enclume Rancunière 13 %, Ceinture de l'Enclume Rancunière 13 %, Bottes de l'Enclume Rancunière 13 %, Anneau de l'Hiver Qui Vient 8 %, Ceinture de l'Hiver Qui Vient 8 %, Bottes de l'Hiver Qui Vient 8 % ; **brumes** 42–100
+- **Où le trouver** : Vigie aux Corbacs (`hautepierre_1_1`, apparition spontanée) · Rives du Fleuve Gris (`hautepierre_1_3`, apparition spontanée) · Pont des Trolls (`hautepierre_2_3`, apparition spontanée) · Gorges du Troll (`hautepierre_2_4`, apparition spontanée)
+
+| PV | Init. | XP | Force | Percep. |
+|---|---|---|---|---|
+| 350 | 80 | 622 | 90 | 90 |
 
 #### Cendrillon *(famille)*
 
 *Adepte du Souverain Cendré. Ils dansent dans la cendre et doivent rentrer avant minuit, sinon ils redeviennent des gens normaux.*
 
-- **Niveau** : 25–27 (tirage : niv. 25 30 %, niv. 26 40 %, niv. 27 30 %) ; **6 PA, 3 PM** ; IA soutien
+- **Palier** : 4 ; **6 PA, 3 PM** ; IA soutien
 - **Résistances** : Flamme +30 %, Impie +15 %, Givre -20 %, Sacré -15 %
 - **Sorts** : Cendres ardentes, Bal de minuit
 - **Butin** : Cendre tiède 55 % (×1–3), Invitation au bal 12 %, Coiffe du Dragon Retraité 2 %, Cape du Dragon Retraité 2 %, Amulette du Dragon Retraité 2 %, Sceptre du Dragon Retraité 2 % ; **brumes** 21–48
 - **Où le trouver** : Camp des Cendrillons (`hautepierre_3_3`, 4 groupes, dont 1 au hasard) · Champs du Pèle-Ennemi (`hautepierre_3_4`, 2 groupes, dont 1 au hasard) · Plaine Cendrée (`hautepierre_4_3`, 3 groupes, dont 1 au hasard) · La Brèche (`hautepierre_4_4`, 1 groupe)
 
-| Niv. | PV | Init. | XP | Intel. |
-|---|---|---|---|---|
-| 25 | 113 | 110 | 361 | 96 |
-| 26 | 119 | 115 | 383 | 100 |
-| 27 | 125 | 120 | 405 | 104 |
+| PV | Init. | XP | Intel. |
+|---|---|---|---|
+| 119 | 115 | 383 | 100 |
 
 #### Marraine Cendrée *(élite de la famille Cendrillon)*
 
 *Elle exauce les vœux. Le vôtre était de rentrer chez vous ; elle l'a mal compris.*
 
-- **Niveau** : 30 (fixe) ; **7 PA, 3 PM** ; IA soutien
+- **Palier** : 4 ; **7 PA, 3 PM** ; IA soutien
 - **Résistances** : Flamme +40 %, Impie +25 %, Acier +10 %, Givre -15 %, Sacré -10 %
 - **Sorts** : Cendres ardentes, Bal de minuit, Coup de baguette
 - **Butin** : Cendre tiède 88 % (×2–5), Invitation au bal 48 %, Coiffe du Dragon Retraité 10 %, Cape du Dragon Retraité 10 %, Amulette du Dragon Retraité 10 %, Sceptre du Dragon Retraité 8 % ; **brumes** 52–120
 - **Où le trouver** : Camp des Cendrillons (`hautepierre_3_3`, apparition spontanée) · Champs du Pèle-Ennemi (`hautepierre_3_4`, apparition spontanée) · Plaine Cendrée (`hautepierre_4_3`, apparition spontanée) · La Brèche (`hautepierre_4_4`, apparition spontanée)
 
-| Niv. | PV | Init. | XP | Intel. |
+| PV | Init. | XP | Intel. |
+|---|---|---|---|
+| 284 | 140 | 856 | 126 |
+
+#### Gargouille *(famille)*
+
+*Elle a gardé une gouttière de Hautepierre pendant trois siècles. Depuis que la Cendre tombe, elle garde rancune.*
+
+- **Palier** : 4 ; **6 PA, 3 PM** ; IA basique
+- **Résistances** : Acier +10 %, Flamme +20 %, Givre +30 %, Tempête -15 %
+- **Sorts** : Griffes de pierre, Gargouillis
+- **Butin** : Éclat de gargouille 55 % (×1–3), Cœur de pierre 12 %, Coiffe de l'Hiver Qui Vient 2 %, Cape de l'Hiver Qui Vient 2 %, Amulette de l'Hiver Qui Vient 2 %, Bâton de l'Hiver Qui Vient 2 %, Anneau du Porte-Malheur 2 %, Ceinture du Porte-Malheur 2 %, Bottes du Porte-Malheur 2 % ; **brumes** 22–49
+- **Où le trouver** : Ruines de la Vieille Garde (`hautepierre_3_1`, 3 groupes, dont 1 au hasard) · Camp des Cendrillons (`hautepierre_3_3`, 1 groupe, dont 1 au hasard) · Cimetière des Gargouilles (`hautepierre_4_1`, 3 groupes, dont 1 au hasard)
+
+| PV | Init. | XP | Force | Percep. |
 |---|---|---|---|---|
-| 30 | 284 | 140 | 856 | 126 |
+| 150 | 75 | 365 | 44 | 44 |
 
-#### Olifant de guerre *(famille)*
+#### Gargouille de la Grande Porte *(élite de la famille Gargouille)*
 
-*Trois tonnes, quatre défenses, et un caparaçon rouge brodé « Armée du Souverain ». Il ne sait pas lire, heureusement pour lui.*
+*La plus vieille de la ville. Elle a vu passer trois rois, deux sièges et un nombre incalculable de pigeons.*
 
-- **Niveau** : 28–30 (tirage : niv. 28 10 %, niv. 29 30 %, niv. 30 60 %) ; **7 PA, 3 PM** ; IA basique
-- **Résistances** : Acier +30 %, Tempête +20 %, Flamme +10 %, Givre -15 %
-- **Sorts** : Charge d'olifant, Barrissement
-- **Butin** : Cuir d'olifant 55 % (×1–2), Ivoire d'olifant 12 %, Anneau du Seigneur des Enclumes 2 %, Ceinture du Seigneur des Enclumes 2 %, Bottes du Seigneur des Enclumes 2 %, Coiffe de la Tornade Mal Lunée 2 %, Cape de la Tornade Mal Lunée 2 %, Amulette de la Tornade Mal Lunée 2 %, Arc de la Tornade Mal Lunée 2 % ; **brumes** 29–68
-- **Où le trouver** : Camp des Cendrillons (`hautepierre_3_3`, 1 groupe) · Champs du Pèle-Ennemi (`hautepierre_3_4`, 4 groupes, dont 1 au hasard) · La Brèche (`hautepierre_4_4`, 1 groupe)
+- **Palier** : 4 ; **7 PA, 3 PM** ; IA basique
+- **Résistances** : Acier +20 %, Flamme +30 %, Givre +40 %, Tempête -10 %
+- **Sorts** : Griffes de pierre, Gargouillis, Regard de pierre
+- **Butin** : Éclat de gargouille 88 % (×2–5), Cœur de pierre 48 %, Coiffe de l'Hiver Qui Vient 10 %, Cape de l'Hiver Qui Vient 10 %, Amulette de l'Hiver Qui Vient 10 %, Bâton de l'Hiver Qui Vient 8 %, Anneau du Porte-Malheur 10 %, Ceinture du Porte-Malheur 10 %, Bottes du Porte-Malheur 10 % ; **brumes** 55–122
+- **Où le trouver** : Ruines de la Vieille Garde (`hautepierre_3_1`, apparition spontanée) · Camp des Cendrillons (`hautepierre_3_3`, apparition spontanée) · Cimetière des Gargouilles (`hautepierre_4_1`, apparition spontanée)
 
-| Niv. | PV | Init. | XP | Force |
+| PV | Init. | XP | Force | Percep. |
 |---|---|---|---|---|
-| 28 | 246 | 60 | 530 | 108 |
-| 29 | 257 | 65 | 559 | 112 |
-| 30 | 268 | 70 | 588 | 116 |
-
-#### Olifant-tour *(élite de la famille Olifant de guerre)*
-
-*Un olifant qui porte une tour sur le dos. Dans la tour, personne. Il l'a gardée par habitude.*
-
-- **Niveau** : 33 (fixe) ; **8 PA, 3 PM** ; IA basique
-- **Résistances** : Acier +40 %, Tempête +30 %, Flamme +20 %, Givre -10 %
-- **Sorts** : Charge d'olifant, Barrissement, Piétinement
-- **Butin** : Cuir d'olifant 88 % (×2–4), Ivoire d'olifant 48 %, Anneau du Seigneur des Enclumes 10 %, Ceinture du Seigneur des Enclumes 10 %, Bottes du Seigneur des Enclumes 10 %, Coiffe de la Tornade Mal Lunée 10 %, Cape de la Tornade Mal Lunée 10 %, Amulette de la Tornade Mal Lunée 10 %, Arc de la Tornade Mal Lunée 8 % ; **brumes** 72–170
-- **Où le trouver** : Camp des Cendrillons (`hautepierre_3_3`, apparition spontanée) · Champs du Pèle-Ennemi (`hautepierre_3_4`, apparition spontanée) · La Brèche (`hautepierre_4_4`, apparition spontanée)
-
-| Niv. | PV | Init. | XP | Force |
-|---|---|---|---|---|
-| 33 | 605 | 90 | 1228 | 138 |
+| 361 | 100 | 834 | 62 | 62 |
 
 #### Grondin, Bélier de la Brèche *(boss)*
 
 *Un bélier de siège à tête de loup, forgé dans les Marches Cendrées. Il avance tout seul. Personne ne veut savoir comment.*
 
-- **Niveau** : 30 (fixe) ; **8 PA, 2 PM** ; IA basique
+- **Palier** : 4 ; **8 PA, 2 PM** ; IA basique
 - **Résistances** : Acier +35 %, Flamme +25 %, Tempête +10 %, Givre -20 %, Sacré -10 %
 - **Sorts** : Coup de bélier, Éclats de porte, Élan
 - **Phase 1** (à 75 % PV) : bouclier 80 (Acier) ; +20 Résistance Givre (3 t.). Message : Des mains invisibles clouent des planches neuves sur le toit du bélier. Personne ne veut savoir à qui elles sont.
@@ -1171,9 +1094,37 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Butin** : Éclat de cendre 100 % (×1–2), Coiffe du Seigneur des Enclumes 8 %, Cape du Seigneur des Enclumes 8 %, Amulette du Seigneur des Enclumes 8 %, Marteau du Seigneur des Enclumes 6 %, Anneau de l'Inquisiteur Bienveillant 8 %, Ceinture de l'Inquisiteur Bienveillant 8 %, Bottes de l'Inquisiteur Bienveillant 8 % ; **brumes** 300–500
 - **Où le trouver** : La Brèche (`hautepierre_4_4`, 1 groupe, dont 1 réapparition 45–60 s)
 
-| Niv. | PV | Init. | XP | Force |
-|---|---|---|---|---|
-| 30 | 600 | 80 | 3600 | 40 |
+| PV | Init. | XP | Force |
+|---|---|---|---|
+| 600 | 80 | 3600 | 40 |
+
+#### Olifant de guerre *(famille)*
+
+*Trois tonnes, quatre défenses, et un caparaçon rouge brodé « Armée du Souverain ». Il ne sait pas lire, heureusement pour lui.*
+
+- **Palier** : 4 ; **7 PA, 3 PM** ; IA basique
+- **Résistances** : Acier +30 %, Tempête +20 %, Flamme +10 %, Givre -15 %
+- **Sorts** : Charge d'olifant, Barrissement
+- **Butin** : Cuir d'olifant 55 % (×1–2), Ivoire d'olifant 12 %, Anneau du Seigneur des Enclumes 2 %, Ceinture du Seigneur des Enclumes 2 %, Bottes du Seigneur des Enclumes 2 %, Coiffe de la Tornade Mal Lunée 2 %, Cape de la Tornade Mal Lunée 2 %, Amulette de la Tornade Mal Lunée 2 %, Arc de la Tornade Mal Lunée 2 % ; **brumes** 29–68
+- **Où le trouver** : Camp des Cendrillons (`hautepierre_3_3`, 1 groupe) · Champs du Pèle-Ennemi (`hautepierre_3_4`, 4 groupes, dont 1 au hasard) · La Brèche (`hautepierre_4_4`, 1 groupe)
+
+| PV | Init. | XP | Force |
+|---|---|---|---|
+| 268 | 70 | 588 | 116 |
+
+#### Olifant-tour *(élite de la famille Olifant de guerre)*
+
+*Un olifant qui porte une tour sur le dos. Dans la tour, personne. Il l'a gardée par habitude.*
+
+- **Palier** : 5 ; **8 PA, 3 PM** ; IA basique
+- **Résistances** : Acier +40 %, Tempête +30 %, Flamme +20 %, Givre -10 %
+- **Sorts** : Charge d'olifant, Barrissement, Piétinement
+- **Butin** : Cuir d'olifant 88 % (×2–4), Ivoire d'olifant 48 %, Anneau du Seigneur des Enclumes 10 %, Ceinture du Seigneur des Enclumes 10 %, Bottes du Seigneur des Enclumes 10 %, Coiffe de la Tornade Mal Lunée 10 %, Cape de la Tornade Mal Lunée 10 %, Amulette de la Tornade Mal Lunée 10 %, Arc de la Tornade Mal Lunée 8 % ; **brumes** 72–170
+- **Où le trouver** : Camp des Cendrillons (`hautepierre_3_3`, apparition spontanée) · Champs du Pèle-Ennemi (`hautepierre_3_4`, apparition spontanée) · La Brèche (`hautepierre_4_4`, apparition spontanée)
+
+| PV | Init. | XP | Force |
+|---|---|---|---|
+| 605 | 90 | 1228 | 138 |
 
 ### La Cendre
 
@@ -1181,87 +1132,87 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 
 *Celui qui veut asservir le monde. Pour l'instant, il garde son trône et attend les imprudents.*
 
-- **Niveau** : 50 (fixe) ; **12 PA, 3 PM** ; IA basique
+- **Palier** : 5 ; **12 PA, 3 PM** ; IA basique
 - **Résistances** : Flamme +50 %, Acier +25 %, Tempête +25 %, Givre -10 %
 - **Sorts** : Lame de cendre, Souffle cendré, Brasier
 - **Butin** : Fragment de cendre 100 %, Anneau du Dragon Retraité 8 %, Ceinture du Dragon Retraité 8 %, Bottes du Dragon Retraité 8 %, Coiffe de l'Inquisiteur Bienveillant 8 %, Cape de l'Inquisiteur Bienveillant 8 %, Amulette de l'Inquisiteur Bienveillant 8 %, Masse de l'Inquisiteur Bienveillant 6 % ; **brumes** 500–800
 - **Où le trouver** : Trône de Cendre (élite) (`cendre_0_0`, 1 groupe, dont 1 réapparition 300 s)
 
-| Niv. | PV | Init. | XP |
-|---|---|---|---|
-| 50 | 900 | 300 | 3000 |
+| PV | Init. | XP |
+|---|---|---|
+| 900 | 300 | 3000 |
 
 ### Ailleurs
-
-#### Cupidon *(famille)*
-
-*Un angelot à l'arc rouge. Il garde la clé de la tour et ne vise jamais le cœur.*
-
-- **Niveau** : 3 (fixe) ; **4 PA, 3 PM** ; IA tireur
-- **Résistances** : aucune
-- **Sorts** : Flèche cupide
-- **Butin** : Clé céleste 100 % ; **brumes** 2–6
-- **Où le trouver** : Parvis des nuées (`celeste_0_0`, 1 groupe, dont 1 réapparition 20–30 s)
-
-| Niv. | PV | Init. | XP |
-|---|---|---|---|
-| 3 | 25 | 90 | 30 |
 
 #### Colombe baptiste *(famille)*
 
 *Elle bénit d'un coup de bec, puis s'enfuit à tire-d'aile.*
 
-- **Niveau** : 6 (fixe) ; **4 PA, 10 PM** ; IA distance
+- **Palier** : 1 ; **4 PA, 10 PM** ; IA distance
 - **Résistances** : aucune
 - **Sorts** : Baptême express
 - **Butin** : Plume de colombe 50 %, Bec de colombe 10 %, Squelette de colombe 0 % ; **brumes** 5–12
 - **Où le trouver** : Premier étage (`tour_celeste_1`, 1 groupe, dont 1 réapparition 5–10 s) · Deuxième étage (`tour_celeste_2`, 1 groupe, dont 1 réapparition 5–10 s) · Troisième étage (`tour_celeste_3`, 1 groupe, dont 1 réapparition 5–10 s) · Sommet, salle de l'Archange (`tour_celeste_5`, 1 groupe, dont 1 réapparition 5–10 s)
 
-| Niv. | PV | Init. | XP |
-|---|---|---|---|
-| 6 | 30 | 140 | 70 |
+| PV | Init. | XP |
+|---|---|---|
+| 30 | 140 | 70 |
+
+#### Cupidon *(famille)*
+
+*Un angelot à l'arc rouge. Il garde la clé de la tour et ne vise jamais le cœur.*
+
+- **Palier** : 1 ; **4 PA, 3 PM** ; IA tireur
+- **Résistances** : aucune
+- **Sorts** : Flèche cupide
+- **Butin** : Clé céleste 100 % ; **brumes** 2–6
+- **Où le trouver** : Parvis des nuées (`celeste_0_0`, 1 groupe, dont 1 réapparition 20–30 s)
+
+| PV | Init. | XP |
+|---|---|---|
+| 25 | 90 | 30 |
 
 #### Ange *(famille)*
 
 *Il a fait vœu de paix. Il a aussi un glaive.*
 
-- **Niveau** : 9 (fixe) ; **6 PA, 4 PM** ; IA corps_a_corps
+- **Palier** : 2 ; **6 PA, 4 PM** ; IA corps_a_corps
 - **Résistances** : aucune
 - **Sorts** : Trait de lumière, Glaive
 - **Butin** : Plume d'ange 35 %, Glaive brisé d'ange 12 %, Sacré cœur 0 % ; **brumes** 8–18
 - **Où le trouver** : Premier étage (`tour_celeste_1`, 1 groupe, dont 1 réapparition 5–10 s) · Deuxième étage (`tour_celeste_2`, 1 groupe, dont 1 réapparition 5–10 s) · Quatrième étage (`tour_celeste_4`, 1 groupe, dont 1 réapparition 5–10 s) · Sommet, salle de l'Archange (`tour_celeste_5`, 1 groupe, dont 1 réapparition 5–10 s)
 
-| Niv. | PV | Init. | XP |
-|---|---|---|---|
-| 9 | 50 | 100 | 110 |
-
-#### Lion de Juda *(famille)*
-
-*Il ne mange que les pécheurs. Les plus faibles d'abord.*
-
-- **Niveau** : 15 (fixe) ; **5 PA, 3 PM** ; IA chasseur
-- **Résistances** : aucune
-- **Sorts** : Griffe de Juda, Bond
-- **Butin** : Poil de crinière léonin 25 %, Croc de lion féroce 5 %, Cortex féral 0 % ; **brumes** 15–35
-- **Où le trouver** : Deuxième étage (`tour_celeste_2`, 1 groupe, dont 1 réapparition 5–10 s) · Troisième étage (`tour_celeste_3`, 1 groupe, dont 1 réapparition 5–10 s) · Quatrième étage (`tour_celeste_4`, 1 groupe, dont 1 réapparition 5–10 s) · Sommet, salle de l'Archange (`tour_celeste_5`, 1 groupe, dont 1 réapparition 5–10 s)
-
-| Niv. | PV | Init. | XP |
-|---|---|---|---|
-| 15 | 150 | 70 | 200 |
+| PV | Init. | XP |
+|---|---|---|
+| 50 | 100 | 110 |
 
 #### Archange Raphaël *(boss)*
 
 *Le chef de chœur de la tour : il soigne les siens et exorcise les autres.*
 
-- **Niveau** : 18 (fixe) ; **6 PA, 5 PM** ; IA corps_a_corps
+- **Palier** : 3 ; **6 PA, 5 PM** ; IA corps_a_corps
 - **Résistances** : aucune
 - **Sorts** : Bénédiction de Raphaël, Exorcisme
 - **Butin** : Tunique déchirée de Raphaël 55 %, Aile de Raphaël 10 %, Sacré cœur de Raphaël 0 % ; **brumes** 40–80
 - **Où le trouver** : Sommet, salle de l'Archange (`tour_celeste_5`, 1 groupe, dont 1 réapparition 5–10 s)
 
-| Niv. | PV | Init. | XP |
-|---|---|---|---|
-| 18 | 120 | 110 | 400 |
+| PV | Init. | XP |
+|---|---|---|
+| 120 | 110 | 400 |
+
+#### Lion de Juda *(famille)*
+
+*Il ne mange que les pécheurs. Les plus faibles d'abord.*
+
+- **Palier** : 3 ; **5 PA, 3 PM** ; IA chasseur
+- **Résistances** : aucune
+- **Sorts** : Griffe de Juda, Bond
+- **Butin** : Poil de crinière léonin 25 %, Croc de lion féroce 5 %, Cortex féral 0 % ; **brumes** 15–35
+- **Où le trouver** : Deuxième étage (`tour_celeste_2`, 1 groupe, dont 1 réapparition 5–10 s) · Troisième étage (`tour_celeste_3`, 1 groupe, dont 1 réapparition 5–10 s) · Quatrième étage (`tour_celeste_4`, 1 groupe, dont 1 réapparition 5–10 s) · Sommet, salle de l'Archange (`tour_celeste_5`, 1 groupe, dont 1 réapparition 5–10 s)
+
+| PV | Init. | XP |
+|---|---|---|
+| 150 | 70 | 200 |
 
 ## Sorts des Voies
 
@@ -1344,100 +1295,100 @@ Soigneur sacré. Bénit les alliés, sermonne les ennemis, et cite des textes qu
 
 | Sort | Caractéristiques | Effets | Lanceurs | Description |
 |---|---|---|---|---|
-| **Attention, ça tombe !** | 4 PA, portée 2–4, croix latine, en ligne, 1/tour, relance 1 t. | 5–7 Acier | Abatteur en chef (élite) niv. 12, Bûcheron de Brumerive niv. 7–9 | Il crie toujours avant. Personne n'écoute jamais. |
-| **Bal de minuit** | 3 PA, portée 0–3, 1/tour, relance 1 t. | soin 7–10 (Flamme) aux alliés | Cendrillon niv. 25–27, Marraine Cendrée (élite) niv. 30 | Une valse de cendre qui referme les plaies d'un fidèle. |
-| **Baptême express** | 4 PA, portée 1–2, 1/tour | 10 Sacré | Colombe baptiste niv. 6 | Un coup de bec bénit, puis elle s'envole. |
-| **Barrissement** | 3 PA, portée soi, cercle de rayon 2 (sans le lanceur), sans ligne de vue, 1/tour, relance 1 t. | 3–5 Tempête aux ennemis ; −1 PM (1 t.) aux ennemis | Olifant de guerre niv. 28–30, Olifant-tour (élite) niv. 33 | Le cor d'origine. Les oreilles saignent, les jambes flanchent. |
-| **Bond** | 4 PA, portée 1–3, 1/tour, relance 2 t. | téléportation sur la case | Lion de Juda niv. 15 | Le lion saute sur sa proie (un tour sur deux). |
-| **Bouclier levé** | 2 PA, portée soi, sans ligne de vue, 1/tour, relance 2 t. | bouclier 8–12 (Acier) | Milicien de Hautepierre niv. 7–9, Sergent de la milice (élite) niv. 12 | Position de garde numéro 3. Il ne connaît que celle-là, mais il la connaît bien. |
-| **Bouderie** | 2 PA, portée soi, sans ligne de vue, 1/tour, relance 2 t. | bouclier 4–6 (Givre) | Morille grincheuse niv. 1–3, Vieille Morille rancunière (élite) niv. 6 | Elle boude. C'est étonnamment efficace. |
-| **Brasier** | 4 PA, portée 2–7, 1/tour | 12–18 Flamme | Le Souverain Cendré (mini-boss) niv. 50 | Le sol s'embrase sous vos pieds. |
-| **Bélier humain** | 4 PA, portée 1–3, croix latine, en ligne, 1/tour | 5–8 Acier | Défonceur de portes (élite) niv. 15 | Il fonce tête baissée. Il n'a jamais compris pourquoi ça fait mal aux autres et pas à lui. |
-| **Bénédiction de Raphaël** | 3 PA, portée 1–5, croix latine, en ligne, 1/tour | soin 20 (Sacré) aux alliés | Archange Raphaël (mini-boss) niv. 18 | Une croix de lumière qui soigne les alliés. |
-| **Cendres ardentes** | 4 PA, portée 2–5, 1/tour | 6–9 Flamme | Cendrillon niv. 25–27, Marraine Cendrée (élite) niv. 30 | Une poignée de cendre du Souverain, jetée au visage. Ça ne part pas. |
-| **Cercle de sève** | 3 PA, portée soi, cercle de rayon 2, sans ligne de vue, 1/tour, relance 3 t. | glyphe (2 t.) : [soin 8–12 (Tempête) aux alliés ; −2 PM (1 t.) aux ennemis] | Arbre millénaire (élite) niv. 10 | L'arbre plonge ses racines tout autour de lui. Ce qui pousse là le soigne ; ce qui marche là s'enlise. |
-| **Champ maudit** | 3 PA, portée 1–4, cercle de rayon 1, sans ligne de vue, 1/tour, relance 2 t. | glyphe (2 t.) : [3–5 Tempête aux ennemis ; −1 PM (1 t.) aux ennemis] | Grand Épouvantail (élite) niv. 12 | La terre se couvre d'épis noirs qui piquent les chevilles. |
-| **Charge d'olifant** | 5 PA, portée 1, 1/tour | 9–13 Acier ; poussée de 2 case(s) | Olifant de guerre niv. 28–30, Olifant-tour (élite) niv. 33 | Trois tonnes de bonne humeur, lancées droit sur vous. |
-| **Charge de la Brèche** | 5 PA, portée 2–5, en ligne, 1/tour, relance 2 t. | 10–14 Acier ; poussée de 2 case(s) | Grondin, Bélier de la Brèche (mini-boss) niv. 30, phase 2 (50 % PV) | Les chaînes lâchent : le bélier dévale la pente. Ce qui est devant lui ne le reste pas. |
-| **Charge du grand cerf** | 5 PA, portée 1, 1/tour | 14–20 Tempête | Grand cerf de la Lisière (élite) niv. 9 | Majestueux. Puis très, très douloureux. |
-| **Chausse-trape** | 3 PA, portée 1–4, sans ligne de vue, 1/tour, relance 2 t. | piège invisible : [8–12 Tempête aux ennemis ; −2 PM (1 t.) aux ennemis] | Frondeur vétéran (élite) niv. 9 | Des cailloux pointus semés dans l'herbe. Vingt ans de métier : on ne les voit jamais avant de marcher dessus. |
-| **Cocon** | 4 PA, portée 1–4, 1/tour, relance 1 t. | 6–9 Givre ; −2 PA (1 t.) | Grande Tisseuse (élite) niv. 15 | Elle vous emballe pour plus tard. |
-| **Coup d'épée réglementaire** | 4 PA, portée 1, 1/tour | 7–10 Acier | Milicien de Hautepierre niv. 7–9, Sergent de la milice (élite) niv. 12 | Exécuté selon le manuel de la milice, page 12. |
-| **Coup de baguette** | 4 PA, portée 1–4, cercle de rayon 1, 1/tour | 6–8 Flamme ; −1 PA (1 t.) | Marraine Cendrée (élite) niv. 30 | Un geste gracieux, une citrouille qui explose. |
-| **Coup de bec** | 3 PA, portée 1, 1/tour | 5–7 Acier | Corbac chef espion (élite) niv. 24, Corbac espion niv. 19–21 | Toujours dans l'œil. Il vise bien, il a de l'entraînement. |
-| **Coup de branche** | 4 PA, portée 1, 1/tour | 10–15 Acier | Arbre calciné niv. 19–21, Arbre millénaire (élite) niv. 10, Arbre vivant niv. 4–6 | Lent à venir, long à oublier. |
-| **Coup de bâton** | 3 PA, portée 1–2, 2/tour | 5–7 Acier | Contremaître en chef (élite) niv. 15, Contremaître zélé niv. 10–12 | Motivation par l'exemple. Et par le bâton. |
-| **Coup de bélier** | 5 PA, portée 1, 1/tour | 12–16 Acier ; poussée de 2 case(s) | Grondin, Bélier de la Brèche (mini-boss) niv. 30 | Le coup qui a fait trembler la Grande Porte. Vous êtes moins solide qu'une porte. |
-| **Coup de cognée** | 4 PA, portée 1, 1/tour | 7–10 Acier | Abatteur en chef (élite) niv. 12, Bûcheron de Brumerive niv. 7–9 | Bien droit, comme pour un chêne. Vous n'êtes pas un chêne. |
-| **Coup de fourche** | 4 PA, portée 1–2, 1/tour | 6–9 Tempête | Grand Épouvantail (élite) niv. 12, Épouvantail démotivé niv. 7–9 | Trois dents, une seule intention. |
-| **Coup de fronde** | 3 PA, portée 2–5, 2/tour | 3–6 Tempête | Frondeur vétéran (élite) niv. 9, Gobelin frondeur niv. 4–6 | Un caillou bien ajusté. Le gobelin a été payé à la pièce. |
-| **Coup de hache** | 4 PA, portée 1, 1/tour | 7–10 Acier | Défonceur de portes (élite) niv. 15, Gobelin briseur niv. 10–12 | Il brise les portes. Les genoux, c'est en bonus. |
-| **Coup de massue** | 4 PA, portée 1, 1/tour | 8–11 Acier ; poussée de 1 case(s) | Troll des ponts niv. 16–18, Troll gastronome (élite) niv. 21 | Pas de technique, beaucoup de massue. |
-| **Coup de ramure** | 4 PA, portée 1, 1/tour | 8–12 Tempête | Cerf enchanté niv. 4–6, Grand cerf de la Lisière (élite) niv. 9 | Des bois enchantés, mais des bois quand même. Il charge comme le vent. |
-| **Coup de surin** | 3 PA, portée 1, 2/tour | 5–7 Impie | Chef de bande (élite) niv. 18, Détrousseur des grands chemins niv. 13–15 | Dans l'ombre, sans prévenir, sans facture. |
-| **Crachat acide** | 4 PA, portée 2–4, 1/tour | 5–8 Flamme | Grouilleur niv. 1–3, Grouilleur ancestral (élite) niv. 7 | Ça fume, ça pique, ça ne part pas au lavage. |
-| **Crachat de feu** | 4 PA, portée 2–4, cercle de rayon 1, 1/tour | 5–7 Flamme | Grouilleur de braise niv. 16–18 | L'acide a pris feu. Il en est très fier. |
-| **Crachat de lave** | 3 PA, portée 2–6, cercle de rayon 1, 1/tour | 4–6 Flamme | Le Balourd des Abîmes (mini-boss) niv. 12 | Il n'a pas de manières. Il a de la lave. |
-| **Cri de raid** | 2 PA, portée soi, sans ligne de vue, 1/tour, relance 3 t. | +25 Force (2 t.) aux alliés | Krasbouk, Chef de Raid (syndiqué) (mini-boss) niv. 12 | « Pour la prime ! » Ses muscles y croient. |
-| **Croc sanglant** | 4 PA, portée 1, 1/tour | 9–13 Tempête | Loup alpha (élite) niv. 7 | Le chef de meute ne mord pas : il signe. |
-| **Embuscade** | 3 PA, portée 1–4, sans ligne de vue, 1/tour, relance 2 t. | piège invisible : [9–13 Impie aux ennemis ; −2 PM (1 t.) aux ennemis] | Chef de bande (élite) niv. 18 | Ils étaient cachés dans le fossé. Ils y sont toujours, d'ailleurs. |
-| **Estocade de pillard** | 3 PA, portée 1, 2/tour | 5–7 Acier | Gobelin pillard niv. 7–9, Pillard émérite (élite) niv. 12 | Un coup rapide, avant que la victime ne compte ses poules. |
-| **Exorcisme** | 3 PA, portée 1, 1/tour | exorcisme (2 t.) aux ennemis | Archange Raphaël (mini-boss) niv. 18 | La cible sera achevée par les prochains dégâts Sacré. |
-| **Flèche cupide** | 4 PA, portée 1–5, 1/tour | 10 Flamme | Cupidon niv. 3 | Elle ne rend personne amoureux, mais elle vole quelques PV. |
-| **Fouet de flammes** | 4 PA, portée 1–3, 1/tour | 6–9 Flamme ; attire de 1 case(s) | Le Balourd des Abîmes (mini-boss) niv. 12 | Il vous ramène vers lui, poliment, par le cou. |
-| **Gargouillis** | 3 PA, portée 2–4, 1/tour | 5–7 Givre | Gargouille niv. 22–24, Gargouille de la Grande Porte (élite) niv. 27 | Elle crache l'eau de pluie de la semaine. Glacée. |
-| **Glaive** | 3 PA, portée 1, 2/tour | 20 Acier | Ange niv. 9 | Deux coups de glaive valent mieux qu'un sermon. |
-| **Gnôle de raid** | 2 PA, portée soi, sans ligne de vue, 1/tour, relance 3 t. | soin 6–9 (Acier) | Défonceur de portes (élite) niv. 15, Gobelin briseur niv. 10–12 | Une gorgée de gnôle. Ça soigne, d'après l'étiquette. |
-| **Griffe de Juda** | 5 PA, portée 1, 1/tour | 1–50 Sacré | Lion de Juda niv. 15 | Un coup de patte imprévisible. |
-| **Griffes de pierre** | 4 PA, portée 1, 1/tour | 7–10 Givre | Gargouille niv. 22–24, Gargouille de la Grande Porte (élite) niv. 27 | Trois siècles à garder une gouttière gelée, ça aiguise les griffes. |
-| **Grignotage** | 2 PA, portée 1, 1/tour | 1–2 Acier ; −1 PM au prochain tour | Rat des galeries niv. 1–3, Rat-roi (élite) niv. 5 | Le rat s'attaque aux lacets. On avance moins vite. |
-| **Hachette de jet** | 3 PA, portée 2–5, 1/tour | 4–6 Acier | Krasbouk, Chef de Raid (syndiqué) (mini-boss) niv. 12 | Il en a toujours une de rechange, glissée dans la botte. |
-| **Hachoir réglementaire** | 4 PA, portée 1, 1/tour | 7–10 Acier | Krasbouk, Chef de Raid (syndiqué) (mini-boss) niv. 12 | Coup porté selon l'article 3 du contrat de raid. |
-| **Heures sup'** | 2 PA, portée 1–4, 1/tour, relance 2 t. | +2 PA tout de suite aux alliés | Contremaître en chef (élite) niv. 15, Contremaître zélé niv. 10–12 | Un collègue gagne 2 PA tout de suite. Non payés, évidemment. |
-| **Jet d'acide ancestral** | 5 PA, portée 2–5, cercle de rayon 1, 1/tour | 7–11 Flamme | Grouilleur ancestral (élite) niv. 7 | Une recette transmise de grouilleur en grouilleur depuis mille générations. |
-| **La bourse ou la vie** | 3 PA, portée 1–2, 1/tour | 3–5 Tempête ; −15 Perception (2 t.) | Chef de bande (élite) niv. 18, Détrousseur des grands chemins niv. 13–15 | Vous choisissez la bourse. Il prend quand même un peu de la vie. |
-| **Lame de braise** | 4 PA, portée 1, 1/tour | 8–11 Flamme | Le Balourd des Abîmes (mini-boss) niv. 12 | Une épée faite de feu. Ou un feu en forme d'épée : il n'a jamais su. |
-| **Lame de cendre** | 4 PA, portée 1, 2/tour | 22–30 Flamme | Le Souverain Cendré (mini-boss) niv. 50 | Une épée noire qui laisse des braises dans la plaie. |
-| **Lancer de rocher** | 4 PA, portée 2–5, 1/tour | 5–8 Givre | Troll des ponts niv. 16–18, Troll gastronome (élite) niv. 21 | Il arrache un bloc de pont gelé par le Fleuve Gris et vous le rend. |
-| **Licenciement** | 4 PA, portée 1–2, 1/tour | 6–9 Flamme ; poussée de 3 case(s) | Contremaître en chef (élite) niv. 15 | « Vous êtes viré ! » Et pour être sûr que vous ne reveniez pas, il brûle votre badge. Sur vous. |
-| **Marinade** | 3 PA, portée 1–2, 1/tour | poison 4–6 Flamme par tour (3 t.) ; −10 Résistance Flamme (3 t.) | Troll gastronome (élite) niv. 21 | Il vous assaisonne avant cuisson. Le feu vous fera plus mal ensuite. |
-| **Morsure** | 3 PA, portée 1, 2/tour | 3–5 Tempête | Loup alpha (élite) niv. 7, Loup cendreux niv. 13–15, Loup des collines niv. 1–3 |  |
-| **Morsure brûlante** | 3 PA, portée 1, 1/tour | 4–6 Flamme ; poison 2–3 Flamme par tour (2 t.) | Loup cendreux niv. 13–15 | Ses crocs gardent la chaleur de la Cendre. |
-| **Morsure de rat** | 3 PA, portée 1, 2/tour | 3–5 Acier | Rat des galeries niv. 1–3, Rat-roi (élite) niv. 5 | Petite, mais elle revient souvent. |
-| **Morsure glacée** | 3 PA, portée 1, 1/tour | 4–6 Givre ; poison 2–3 Givre par tour (2 t.) | Grande Tisseuse (élite) niv. 15, La Mère-Toile (mini-boss) niv. 12, Tisseuse de brume niv. 10–12 | Le venin des tisseuses gèle le sang. Et l'humeur. |
-| **Morsure royale** | 4 PA, portée 1, 1/tour | 7–10 Sacré | Rat-roi (élite) niv. 5 | Une morsure par droit divin. |
-| **Nuage de rancune** | 4 PA, portée 1–5, cercle de rayon 1, 1/tour | poison 2–3 Givre par tour (3 t.) ; −1 Portée (1 t.) | Vieille Morille rancunière (élite) niv. 6 | Elle n'oublie rien. Vos poumons non plus. |
-| **Nuée de corbeaux** | 3 PA, portée 2–5, 1/tour | 4–6 Tempête | Grand Épouvantail (élite) niv. 12, Épouvantail démotivé niv. 7–9 | Il ne fait plus peur aux corbeaux, alors il travaille avec eux. |
-| **Nuée de la comtesse** | 5 PA, portée 1–4, cercle de rayon 1, 1/tour | 5–7 Impie | Vampipistrelle comtesse (élite) niv. 9 | Toute la famille vient dîner. Vous êtes le dîner. |
-| **Pinces** | 3 PA, portée 1, 2/tour | 4–7 Flamme | Grouilleur niv. 1–3, Grouilleur ancestral (élite) niv. 7, Grouilleur de braise niv. 16–18 | Des dizaines de pattes, et deux pinces chauffées à blanc. |
-| **Piqué** | 4 PA, portée 2–5, 1/tour | 6–9 Tempête | Corbac chef espion (élite) niv. 24, Corbac espion niv. 19–21 | Il tombe du ciel comme un mauvais présage, et c'en est un. |
-| **Piétinement** | 5 PA, portée soi, cercle de rayon 1 (sans le lanceur), sans ligne de vue, 1/tour | 10–13 Acier | Olifant-tour (élite) niv. 33 | Il danse. Personne n'a envie d'être son cavalier. |
-| **Pluie de braises** | 3 PA, portée 1–5, cercle de rayon 2, sans ligne de vue, 1/tour, relance 3 t. | glyphe (2 t.) : [3–5 Flamme aux ennemis] | Le Balourd des Abîmes (mini-boss) niv. 12, phase 2 (40 % PV) | Le plafond de la galerie s'embrase. Personne ne va aimer la suite. |
-| **Pluie de cailloux** | 5 PA, portée 2–6, cercle de rayon 1, 1/tour | 6–10 Tempête | Frondeur vétéran (élite) niv. 9 | Vingt ans de service, et toujours pas de prime. Il se venge sur tout le monde. |
-| **Pluie de cendres** | 3 PA, portée 1–6, cercle de rayon 1, sans ligne de vue, 1/tour, relance 2 t. | glyphe (2 t.) : [4–6 Flamme aux ennemis] | Arbre calciné niv. 19–21 | Il secoue ses branches mortes ; il en tombe des braises. |
-| **Racines** | 3 PA, portée 1–6, 1/tour | 4–6 Givre ; −2 PM au prochain tour | Arbre calciné niv. 19–21, Arbre millénaire (élite) niv. 10, Arbre vivant niv. 4–6 | Les racines gelées sortent de terre et vous retiennent. Elles ont pris froid, vous aussi. |
-| **Rappel à l'ordre** | 3 PA, portée 2–4, en ligne, 1/tour, relance 1 t. | attire de 2 case(s) ; 4–6 Sacré | Sergent de la milice (élite) niv. 12 | « Vous, là ! Approchez ! Au nom de la Loi ! » On approche, c'est plus fort que soi. |
-| **Rapport détaillé** | 3 PA, portée 1–6, 1/tour | −15 Résistance Tempête (2 t.) ; −1 Portée (1 t.) | Corbac chef espion (élite) niv. 24 | Il a tout noté. Vos faiblesses aussi. |
-| **Razzia** | 4 PA, portée soi, cercle de rayon 1 (sans le lanceur), sans ligne de vue, 1/tour | 6–9 Flamme | Pillard émérite (élite) niv. 12 | Il tourne sur lui-même, torche au poing, en hurlant le nom de son raid. Tout ce qui l'entoure prend feu. |
-| **Regard de pierre** | 3 PA, portée 1–3, 1/tour, relance 2 t. | 3–5 Givre ; −2 PM (1 t.) ; −1 PA (1 t.) | Gargouille de la Grande Porte (élite) niv. 27 | Un regard figé. Vos jambes suivent l'exemple. |
-| **Retenue sur salaire** | 3 PA, portée 2–5, 1/tour | 4–6 Flamme ; −3 Dommages (2 t.) | Contremaître en chef (élite) niv. 15, Contremaître zélé niv. 10–12 | Vos dégâts sont retenus à la source. La source est brûlante. |
-| **Ronces millénaires** | 4 PA, portée 1–6, cercle de rayon 1, 1/tour | 8–12 Acier ; −1 PM au prochain tour | Arbre millénaire (élite) niv. 10 | Le sol se hérisse d'épines plus vieilles que les royaumes. |
-| **Souche piégée** | 3 PA, portée 1–4, sans ligne de vue, 1/tour, relance 2 t. | piège invisible cercle de rayon 1 : [7–10 Acier aux ennemis ; −2 PM (1 t.) aux ennemis] | Abatteur en chef (élite) niv. 12 | Une souche, des pointes, et un abatteur qui sourit. |
-| **Souffle cendré** | 5 PA, portée 1–4, cercle de rayon 1, 1/tour | 15–22 Flamme | Le Souverain Cendré (mini-boss) niv. 50 | Une vague de cendre brûlante autour de la cible. |
-| **Souffle de forge** | 4 PA, portée 1–4, cercle de rayon 1, 1/tour | 8–11 Flamme | Grondin, Bélier de la Brèche (mini-boss) niv. 30, phase 3 (20 % PV) | La tête de loup crache le feu de la forge où on l'a coulée. |
-| **Spores** | 3 PA, portée 1–5, 1/tour | 2–4 Givre ; poison 1–2 Givre par tour (2 t.) | Morille grincheuse niv. 1–3, Vieille Morille rancunière (élite) niv. 6 | Un nuage de mauvaise humeur, très contagieux. |
-| **Suçon** | 3 PA, portée 1, 2/tour | 4–6 Impie | Vampipistrelle niv. 4–6, Vampipistrelle comtesse (élite) niv. 9 | Une petite morsure, très affectueuse, très impie. |
-| **Toile collante** | 3 PA, portée 2–5, 1/tour | 2–4 Tempête ; −2 PM (1 t.) | Grande Tisseuse (élite) niv. 15, La Mère-Toile (mini-boss) niv. 12, Tisseuse de brume niv. 10–12 | Une toile de brume que le vent rabat sur vous. |
-| **Toile géante** | 4 PA, portée 2–5, cercle de rayon 2, sans ligne de vue, 1/tour, relance 3 t. | glyphe (2 t.) : [2–4 Givre aux ennemis ; −2 PM (1 t.) aux ennemis] | La Mère-Toile (mini-boss) niv. 12, phase 1 (65 % PV) | Toute la clairière devient un piège. |
-| **Tourbillon syndical** | 4 PA, portée soi, cercle de rayon 1 (sans le lanceur), sans ligne de vue, 1/tour | 7–10 Acier | Krasbouk, Chef de Raid (syndiqué) (mini-boss) niv. 12, phase 2 (30 % PV) | Il fait le tour de la question. Et de tous ceux qui l'entourent. |
-| **Trait de lumière** | 4 PA, portée 2–7, 1/tour | 25 Sacré | Ange niv. 9 | Un rayon sacré, tiré de loin par prudence. |
-| **Ultrason** | 3 PA, portée 1–4, 1/tour | 3–5 Tempête ; −1 Portée (1 t.) | Vampipistrelle niv. 4–6, Vampipistrelle comtesse (élite) niv. 9 | Un cri si aigu qu'on ne vise plus droit. |
-| **Venin ancestral** | 4 PA, portée 1, 1/tour | 7–10 Givre ; poison 3–4 Givre par tour (3 t.) | La Mère-Toile (mini-boss) niv. 12 | Une seule morsure, et l'hiver s'installe dans vos veines. |
-| **Vol à l'arraché** | 2 PA, portée 1, 1/tour | 2–4 Flamme ; −2 Dommages (2 t.) | Gobelin pillard niv. 7–9, Pillard émérite (élite) niv. 12 | Il vous prend quelque chose et met le feu à ce qu'il laisse. Vous frappez moins fort, par dépit. |
-| **Éclat sylvestre** | 3 PA, portée 2–5, 2/tour | 5–8 Tempête | Cerf enchanté niv. 4–6, Grand cerf de la Lisière (élite) niv. 9 | Une lueur verte jaillit des bois du cerf. |
-| **Éclats de porte** | 3 PA, portée 2–5, cercle de rayon 1, 1/tour | 4–6 Acier | Grondin, Bélier de la Brèche (mini-boss) niv. 30 | Il crache les morceaux des portes qu'il a déjà enfoncées. |
-| **Élan** | 2 PA, portée soi, sans ligne de vue, 1/tour, relance 2 t. | +2 PM (1 t.) | Grondin, Bélier de la Brèche (mini-boss) niv. 30 | Les roues grincent, les chaînes claquent : il recule pour mieux frapper. |
-| **Épaulée** | 3 PA, portée 1, 1/tour | 3–5 Acier ; poussée de 2 case(s) | Défonceur de portes (élite) niv. 15, Gobelin briseur niv. 10–12 | Un coup d'épaule de professionnel : on recule, on réfléchit. |
+| **Attention, ça tombe !** | 4 PA, portée 2–4, croix latine, en ligne, 1/tour, relance 1 t. | 5–7 Acier | Abatteur en chef (élite), palier 2, Bûcheron de Brumerive, palier 2 | Il crie toujours avant. Personne n'écoute jamais. |
+| **Bal de minuit** | 3 PA, portée 0–3, 1/tour, relance 1 t. | soin 7–10 (Flamme) aux alliés | Cendrillon, palier 4, Marraine Cendrée (élite), palier 4 | Une valse de cendre qui referme les plaies d'un fidèle. |
+| **Baptême express** | 4 PA, portée 1–2, 1/tour | 10 Sacré | Colombe baptiste, palier 1 | Un coup de bec bénit, puis elle s'envole. |
+| **Barrissement** | 3 PA, portée soi, cercle de rayon 2 (sans le lanceur), sans ligne de vue, 1/tour, relance 1 t. | 3–5 Tempête aux ennemis ; −1 PM (1 t.) aux ennemis | Olifant de guerre, palier 4, Olifant-tour (élite), palier 5 | Le cor d'origine. Les oreilles saignent, les jambes flanchent. |
+| **Bond** | 4 PA, portée 1–3, 1/tour, relance 2 t. | téléportation sur la case | Lion de Juda, palier 3 | Le lion saute sur sa proie (un tour sur deux). |
+| **Bouclier levé** | 2 PA, portée soi, sans ligne de vue, 1/tour, relance 2 t. | bouclier 8–12 (Acier) | Milicien de Hautepierre, palier 2, Sergent de la milice (élite), palier 2 | Position de garde numéro 3. Il ne connaît que celle-là, mais il la connaît bien. |
+| **Bouderie** | 2 PA, portée soi, sans ligne de vue, 1/tour, relance 2 t. | bouclier 4–6 (Givre) | Morille grincheuse, palier 1, Vieille Morille rancunière (élite), palier 1 | Elle boude. C'est étonnamment efficace. |
+| **Brasier** | 4 PA, portée 2–7, 1/tour | 12–18 Flamme | Le Souverain Cendré (mini-boss), palier 5 | Le sol s'embrase sous vos pieds. |
+| **Bélier humain** | 4 PA, portée 1–3, croix latine, en ligne, 1/tour | 5–8 Acier | Défonceur de portes (élite), palier 3 | Il fonce tête baissée. Il n'a jamais compris pourquoi ça fait mal aux autres et pas à lui. |
+| **Bénédiction de Raphaël** | 3 PA, portée 1–5, croix latine, en ligne, 1/tour | soin 20 (Sacré) aux alliés | Archange Raphaël (mini-boss), palier 3 | Une croix de lumière qui soigne les alliés. |
+| **Cendres ardentes** | 4 PA, portée 2–5, 1/tour | 6–9 Flamme | Cendrillon, palier 4, Marraine Cendrée (élite), palier 4 | Une poignée de cendre du Souverain, jetée au visage. Ça ne part pas. |
+| **Cercle de sève** | 3 PA, portée soi, cercle de rayon 2, sans ligne de vue, 1/tour, relance 3 t. | glyphe (2 t.) : [soin 8–12 (Tempête) aux alliés ; −2 PM (1 t.) aux ennemis] | Arbre millénaire (élite), palier 2 | L'arbre plonge ses racines tout autour de lui. Ce qui pousse là le soigne ; ce qui marche là s'enlise. |
+| **Champ maudit** | 3 PA, portée 1–4, cercle de rayon 1, sans ligne de vue, 1/tour, relance 2 t. | glyphe (2 t.) : [3–5 Tempête aux ennemis ; −1 PM (1 t.) aux ennemis] | Grand Épouvantail (élite), palier 2 | La terre se couvre d'épis noirs qui piquent les chevilles. |
+| **Charge d'olifant** | 5 PA, portée 1, 1/tour | 9–13 Acier ; poussée de 2 case(s) | Olifant de guerre, palier 4, Olifant-tour (élite), palier 5 | Trois tonnes de bonne humeur, lancées droit sur vous. |
+| **Charge de la Brèche** | 5 PA, portée 2–5, en ligne, 1/tour, relance 2 t. | 10–14 Acier ; poussée de 2 case(s) | Grondin, Bélier de la Brèche (mini-boss), palier 4, phase 2 (50 % PV) | Les chaînes lâchent : le bélier dévale la pente. Ce qui est devant lui ne le reste pas. |
+| **Charge du grand cerf** | 5 PA, portée 1, 1/tour | 14–20 Tempête | Grand cerf de la Lisière (élite), palier 2 | Majestueux. Puis très, très douloureux. |
+| **Chausse-trape** | 3 PA, portée 1–4, sans ligne de vue, 1/tour, relance 2 t. | piège invisible : [8–12 Tempête aux ennemis ; −2 PM (1 t.) aux ennemis] | Frondeur vétéran (élite), palier 2 | Des cailloux pointus semés dans l'herbe. Vingt ans de métier : on ne les voit jamais avant de marcher dessus. |
+| **Cocon** | 4 PA, portée 1–4, 1/tour, relance 1 t. | 6–9 Givre ; −2 PA (1 t.) | Grande Tisseuse (élite), palier 3 | Elle vous emballe pour plus tard. |
+| **Coup d'épée réglementaire** | 4 PA, portée 1, 1/tour | 7–10 Acier | Milicien de Hautepierre, palier 2, Sergent de la milice (élite), palier 2 | Exécuté selon le manuel de la milice, page 12. |
+| **Coup de baguette** | 4 PA, portée 1–4, cercle de rayon 1, 1/tour | 6–8 Flamme ; −1 PA (1 t.) | Marraine Cendrée (élite), palier 4 | Un geste gracieux, une citrouille qui explose. |
+| **Coup de bec** | 3 PA, portée 1, 1/tour | 5–7 Acier | Corbac chef espion (élite), palier 4, Corbac espion, palier 3 | Toujours dans l'œil. Il vise bien, il a de l'entraînement. |
+| **Coup de branche** | 4 PA, portée 1, 1/tour | 10–15 Acier | Arbre calciné, palier 3, Arbre millénaire (élite), palier 2, Arbre vivant, palier 1 | Lent à venir, long à oublier. |
+| **Coup de bâton** | 3 PA, portée 1–2, 2/tour | 5–7 Acier | Contremaître en chef (élite), palier 3, Contremaître zélé, palier 2 | Motivation par l'exemple. Et par le bâton. |
+| **Coup de bélier** | 5 PA, portée 1, 1/tour | 12–16 Acier ; poussée de 2 case(s) | Grondin, Bélier de la Brèche (mini-boss), palier 4 | Le coup qui a fait trembler la Grande Porte. Vous êtes moins solide qu'une porte. |
+| **Coup de cognée** | 4 PA, portée 1, 1/tour | 7–10 Acier | Abatteur en chef (élite), palier 2, Bûcheron de Brumerive, palier 2 | Bien droit, comme pour un chêne. Vous n'êtes pas un chêne. |
+| **Coup de fourche** | 4 PA, portée 1–2, 1/tour | 6–9 Tempête | Grand Épouvantail (élite), palier 2, Épouvantail démotivé, palier 2 | Trois dents, une seule intention. |
+| **Coup de fronde** | 3 PA, portée 2–5, 2/tour | 3–6 Tempête | Frondeur vétéran (élite), palier 2, Gobelin frondeur, palier 1 | Un caillou bien ajusté. Le gobelin a été payé à la pièce. |
+| **Coup de hache** | 4 PA, portée 1, 1/tour | 7–10 Acier | Défonceur de portes (élite), palier 3, Gobelin briseur, palier 2 | Il brise les portes. Les genoux, c'est en bonus. |
+| **Coup de massue** | 4 PA, portée 1, 1/tour | 8–11 Acier ; poussée de 1 case(s) | Troll des ponts, palier 3, Troll gastronome (élite), palier 4 | Pas de technique, beaucoup de massue. |
+| **Coup de ramure** | 4 PA, portée 1, 1/tour | 8–12 Tempête | Cerf enchanté, palier 1, Grand cerf de la Lisière (élite), palier 2 | Des bois enchantés, mais des bois quand même. Il charge comme le vent. |
+| **Coup de surin** | 3 PA, portée 1, 2/tour | 5–7 Impie | Chef de bande (élite), palier 3, Détrousseur des grands chemins, palier 3 | Dans l'ombre, sans prévenir, sans facture. |
+| **Crachat acide** | 4 PA, portée 2–4, 1/tour | 5–8 Flamme | Grouilleur, palier 1, Grouilleur ancestral (élite), palier 2 | Ça fume, ça pique, ça ne part pas au lavage. |
+| **Crachat de feu** | 4 PA, portée 2–4, cercle de rayon 1, 1/tour | 5–7 Flamme | Grouilleur de braise, palier 3 | L'acide a pris feu. Il en est très fier. |
+| **Crachat de lave** | 3 PA, portée 2–6, cercle de rayon 1, 1/tour | 4–6 Flamme | Le Balourd des Abîmes (mini-boss), palier 2 | Il n'a pas de manières. Il a de la lave. |
+| **Cri de raid** | 2 PA, portée soi, sans ligne de vue, 1/tour, relance 3 t. | +25 Force (2 t.) aux alliés | Krasbouk, Chef de Raid (syndiqué) (mini-boss), palier 2 | « Pour la prime ! » Ses muscles y croient. |
+| **Croc sanglant** | 4 PA, portée 1, 1/tour | 9–13 Tempête | Loup alpha (élite), palier 2 | Le chef de meute ne mord pas : il signe. |
+| **Embuscade** | 3 PA, portée 1–4, sans ligne de vue, 1/tour, relance 2 t. | piège invisible : [9–13 Impie aux ennemis ; −2 PM (1 t.) aux ennemis] | Chef de bande (élite), palier 3 | Ils étaient cachés dans le fossé. Ils y sont toujours, d'ailleurs. |
+| **Estocade de pillard** | 3 PA, portée 1, 2/tour | 5–7 Acier | Gobelin pillard, palier 2, Pillard émérite (élite), palier 2 | Un coup rapide, avant que la victime ne compte ses poules. |
+| **Exorcisme** | 3 PA, portée 1, 1/tour | exorcisme (2 t.) aux ennemis | Archange Raphaël (mini-boss), palier 3 | La cible sera achevée par les prochains dégâts Sacré. |
+| **Flèche cupide** | 4 PA, portée 1–5, 1/tour | 10 Flamme | Cupidon, palier 1 | Elle ne rend personne amoureux, mais elle vole quelques PV. |
+| **Fouet de flammes** | 4 PA, portée 1–3, 1/tour | 6–9 Flamme ; attire de 1 case(s) | Le Balourd des Abîmes (mini-boss), palier 2 | Il vous ramène vers lui, poliment, par le cou. |
+| **Gargouillis** | 3 PA, portée 2–4, 1/tour | 5–7 Givre | Gargouille, palier 4, Gargouille de la Grande Porte (élite), palier 4 | Elle crache l'eau de pluie de la semaine. Glacée. |
+| **Glaive** | 3 PA, portée 1, 2/tour | 20 Acier | Ange, palier 2 | Deux coups de glaive valent mieux qu'un sermon. |
+| **Gnôle de raid** | 2 PA, portée soi, sans ligne de vue, 1/tour, relance 3 t. | soin 6–9 (Acier) | Défonceur de portes (élite), palier 3, Gobelin briseur, palier 2 | Une gorgée de gnôle. Ça soigne, d'après l'étiquette. |
+| **Griffe de Juda** | 5 PA, portée 1, 1/tour | 1–50 Sacré | Lion de Juda, palier 3 | Un coup de patte imprévisible. |
+| **Griffes de pierre** | 4 PA, portée 1, 1/tour | 7–10 Givre | Gargouille, palier 4, Gargouille de la Grande Porte (élite), palier 4 | Trois siècles à garder une gouttière gelée, ça aiguise les griffes. |
+| **Grignotage** | 2 PA, portée 1, 1/tour | 1–2 Acier ; −1 PM au prochain tour | Rat des galeries, palier 1, Rat-roi (élite), palier 1 | Le rat s'attaque aux lacets. On avance moins vite. |
+| **Hachette de jet** | 3 PA, portée 2–5, 1/tour | 4–6 Acier | Krasbouk, Chef de Raid (syndiqué) (mini-boss), palier 2 | Il en a toujours une de rechange, glissée dans la botte. |
+| **Hachoir réglementaire** | 4 PA, portée 1, 1/tour | 7–10 Acier | Krasbouk, Chef de Raid (syndiqué) (mini-boss), palier 2 | Coup porté selon l'article 3 du contrat de raid. |
+| **Heures sup'** | 2 PA, portée 1–4, 1/tour, relance 2 t. | +2 PA tout de suite aux alliés | Contremaître en chef (élite), palier 3, Contremaître zélé, palier 2 | Un collègue gagne 2 PA tout de suite. Non payés, évidemment. |
+| **Jet d'acide ancestral** | 5 PA, portée 2–5, cercle de rayon 1, 1/tour | 7–11 Flamme | Grouilleur ancestral (élite), palier 2 | Une recette transmise de grouilleur en grouilleur depuis mille générations. |
+| **La bourse ou la vie** | 3 PA, portée 1–2, 1/tour | 3–5 Tempête ; −15 Perception (2 t.) | Chef de bande (élite), palier 3, Détrousseur des grands chemins, palier 3 | Vous choisissez la bourse. Il prend quand même un peu de la vie. |
+| **Lame de braise** | 4 PA, portée 1, 1/tour | 8–11 Flamme | Le Balourd des Abîmes (mini-boss), palier 2 | Une épée faite de feu. Ou un feu en forme d'épée : il n'a jamais su. |
+| **Lame de cendre** | 4 PA, portée 1, 2/tour | 22–30 Flamme | Le Souverain Cendré (mini-boss), palier 5 | Une épée noire qui laisse des braises dans la plaie. |
+| **Lancer de rocher** | 4 PA, portée 2–5, 1/tour | 5–8 Givre | Troll des ponts, palier 3, Troll gastronome (élite), palier 4 | Il arrache un bloc de pont gelé par le Fleuve Gris et vous le rend. |
+| **Licenciement** | 4 PA, portée 1–2, 1/tour | 6–9 Flamme ; poussée de 3 case(s) | Contremaître en chef (élite), palier 3 | « Vous êtes viré ! » Et pour être sûr que vous ne reveniez pas, il brûle votre badge. Sur vous. |
+| **Marinade** | 3 PA, portée 1–2, 1/tour | poison 4–6 Flamme par tour (3 t.) ; −10 Résistance Flamme (3 t.) | Troll gastronome (élite), palier 4 | Il vous assaisonne avant cuisson. Le feu vous fera plus mal ensuite. |
+| **Morsure** | 3 PA, portée 1, 2/tour | 3–5 Tempête | Loup alpha (élite), palier 2, Loup cendreux, palier 3, Loup des collines, palier 1 |  |
+| **Morsure brûlante** | 3 PA, portée 1, 1/tour | 4–6 Flamme ; poison 2–3 Flamme par tour (2 t.) | Loup cendreux, palier 3 | Ses crocs gardent la chaleur de la Cendre. |
+| **Morsure de rat** | 3 PA, portée 1, 2/tour | 3–5 Acier | Rat des galeries, palier 1, Rat-roi (élite), palier 1 | Petite, mais elle revient souvent. |
+| **Morsure glacée** | 3 PA, portée 1, 1/tour | 4–6 Givre ; poison 2–3 Givre par tour (2 t.) | Grande Tisseuse (élite), palier 3, La Mère-Toile (mini-boss), palier 2, Tisseuse de brume, palier 2 | Le venin des tisseuses gèle le sang. Et l'humeur. |
+| **Morsure royale** | 4 PA, portée 1, 1/tour | 7–10 Sacré | Rat-roi (élite), palier 1 | Une morsure par droit divin. |
+| **Nuage de rancune** | 4 PA, portée 1–5, cercle de rayon 1, 1/tour | poison 2–3 Givre par tour (3 t.) ; −1 Portée (1 t.) | Vieille Morille rancunière (élite), palier 1 | Elle n'oublie rien. Vos poumons non plus. |
+| **Nuée de corbeaux** | 3 PA, portée 2–5, 1/tour | 4–6 Tempête | Grand Épouvantail (élite), palier 2, Épouvantail démotivé, palier 2 | Il ne fait plus peur aux corbeaux, alors il travaille avec eux. |
+| **Nuée de la comtesse** | 5 PA, portée 1–4, cercle de rayon 1, 1/tour | 5–7 Impie | Vampipistrelle comtesse (élite), palier 2 | Toute la famille vient dîner. Vous êtes le dîner. |
+| **Pinces** | 3 PA, portée 1, 2/tour | 4–7 Flamme | Grouilleur, palier 1, Grouilleur ancestral (élite), palier 2, Grouilleur de braise, palier 3 | Des dizaines de pattes, et deux pinces chauffées à blanc. |
+| **Piqué** | 4 PA, portée 2–5, 1/tour | 6–9 Tempête | Corbac chef espion (élite), palier 4, Corbac espion, palier 3 | Il tombe du ciel comme un mauvais présage, et c'en est un. |
+| **Piétinement** | 5 PA, portée soi, cercle de rayon 1 (sans le lanceur), sans ligne de vue, 1/tour | 10–13 Acier | Olifant-tour (élite), palier 5 | Il danse. Personne n'a envie d'être son cavalier. |
+| **Pluie de braises** | 3 PA, portée 1–5, cercle de rayon 2, sans ligne de vue, 1/tour, relance 3 t. | glyphe (2 t.) : [3–5 Flamme aux ennemis] | Le Balourd des Abîmes (mini-boss), palier 2, phase 2 (40 % PV) | Le plafond de la galerie s'embrase. Personne ne va aimer la suite. |
+| **Pluie de cailloux** | 5 PA, portée 2–6, cercle de rayon 1, 1/tour | 6–10 Tempête | Frondeur vétéran (élite), palier 2 | Vingt ans de service, et toujours pas de prime. Il se venge sur tout le monde. |
+| **Pluie de cendres** | 3 PA, portée 1–6, cercle de rayon 1, sans ligne de vue, 1/tour, relance 2 t. | glyphe (2 t.) : [4–6 Flamme aux ennemis] | Arbre calciné, palier 3 | Il secoue ses branches mortes ; il en tombe des braises. |
+| **Racines** | 3 PA, portée 1–6, 1/tour | 4–6 Givre ; −2 PM au prochain tour | Arbre calciné, palier 3, Arbre millénaire (élite), palier 2, Arbre vivant, palier 1 | Les racines gelées sortent de terre et vous retiennent. Elles ont pris froid, vous aussi. |
+| **Rappel à l'ordre** | 3 PA, portée 2–4, en ligne, 1/tour, relance 1 t. | attire de 2 case(s) ; 4–6 Sacré | Sergent de la milice (élite), palier 2 | « Vous, là ! Approchez ! Au nom de la Loi ! » On approche, c'est plus fort que soi. |
+| **Rapport détaillé** | 3 PA, portée 1–6, 1/tour | −15 Résistance Tempête (2 t.) ; −1 Portée (1 t.) | Corbac chef espion (élite), palier 4 | Il a tout noté. Vos faiblesses aussi. |
+| **Razzia** | 4 PA, portée soi, cercle de rayon 1 (sans le lanceur), sans ligne de vue, 1/tour | 6–9 Flamme | Pillard émérite (élite), palier 2 | Il tourne sur lui-même, torche au poing, en hurlant le nom de son raid. Tout ce qui l'entoure prend feu. |
+| **Regard de pierre** | 3 PA, portée 1–3, 1/tour, relance 2 t. | 3–5 Givre ; −2 PM (1 t.) ; −1 PA (1 t.) | Gargouille de la Grande Porte (élite), palier 4 | Un regard figé. Vos jambes suivent l'exemple. |
+| **Retenue sur salaire** | 3 PA, portée 2–5, 1/tour | 4–6 Flamme ; −3 Dommages (2 t.) | Contremaître en chef (élite), palier 3, Contremaître zélé, palier 2 | Vos dégâts sont retenus à la source. La source est brûlante. |
+| **Ronces millénaires** | 4 PA, portée 1–6, cercle de rayon 1, 1/tour | 8–12 Acier ; −1 PM au prochain tour | Arbre millénaire (élite), palier 2 | Le sol se hérisse d'épines plus vieilles que les royaumes. |
+| **Souche piégée** | 3 PA, portée 1–4, sans ligne de vue, 1/tour, relance 2 t. | piège invisible cercle de rayon 1 : [7–10 Acier aux ennemis ; −2 PM (1 t.) aux ennemis] | Abatteur en chef (élite), palier 2 | Une souche, des pointes, et un abatteur qui sourit. |
+| **Souffle cendré** | 5 PA, portée 1–4, cercle de rayon 1, 1/tour | 15–22 Flamme | Le Souverain Cendré (mini-boss), palier 5 | Une vague de cendre brûlante autour de la cible. |
+| **Souffle de forge** | 4 PA, portée 1–4, cercle de rayon 1, 1/tour | 8–11 Flamme | Grondin, Bélier de la Brèche (mini-boss), palier 4, phase 3 (20 % PV) | La tête de loup crache le feu de la forge où on l'a coulée. |
+| **Spores** | 3 PA, portée 1–5, 1/tour | 2–4 Givre ; poison 1–2 Givre par tour (2 t.) | Morille grincheuse, palier 1, Vieille Morille rancunière (élite), palier 1 | Un nuage de mauvaise humeur, très contagieux. |
+| **Suçon** | 3 PA, portée 1, 2/tour | 4–6 Impie | Vampipistrelle, palier 1, Vampipistrelle comtesse (élite), palier 2 | Une petite morsure, très affectueuse, très impie. |
+| **Toile collante** | 3 PA, portée 2–5, 1/tour | 2–4 Tempête ; −2 PM (1 t.) | Grande Tisseuse (élite), palier 3, La Mère-Toile (mini-boss), palier 2, Tisseuse de brume, palier 2 | Une toile de brume que le vent rabat sur vous. |
+| **Toile géante** | 4 PA, portée 2–5, cercle de rayon 2, sans ligne de vue, 1/tour, relance 3 t. | glyphe (2 t.) : [2–4 Givre aux ennemis ; −2 PM (1 t.) aux ennemis] | La Mère-Toile (mini-boss), palier 2, phase 1 (65 % PV) | Toute la clairière devient un piège. |
+| **Tourbillon syndical** | 4 PA, portée soi, cercle de rayon 1 (sans le lanceur), sans ligne de vue, 1/tour | 7–10 Acier | Krasbouk, Chef de Raid (syndiqué) (mini-boss), palier 2, phase 2 (30 % PV) | Il fait le tour de la question. Et de tous ceux qui l'entourent. |
+| **Trait de lumière** | 4 PA, portée 2–7, 1/tour | 25 Sacré | Ange, palier 2 | Un rayon sacré, tiré de loin par prudence. |
+| **Ultrason** | 3 PA, portée 1–4, 1/tour | 3–5 Tempête ; −1 Portée (1 t.) | Vampipistrelle, palier 1, Vampipistrelle comtesse (élite), palier 2 | Un cri si aigu qu'on ne vise plus droit. |
+| **Venin ancestral** | 4 PA, portée 1, 1/tour | 7–10 Givre ; poison 3–4 Givre par tour (3 t.) | La Mère-Toile (mini-boss), palier 2 | Une seule morsure, et l'hiver s'installe dans vos veines. |
+| **Vol à l'arraché** | 2 PA, portée 1, 1/tour | 2–4 Flamme ; −2 Dommages (2 t.) | Gobelin pillard, palier 2, Pillard émérite (élite), palier 2 | Il vous prend quelque chose et met le feu à ce qu'il laisse. Vous frappez moins fort, par dépit. |
+| **Éclat sylvestre** | 3 PA, portée 2–5, 2/tour | 5–8 Tempête | Cerf enchanté, palier 1, Grand cerf de la Lisière (élite), palier 2 | Une lueur verte jaillit des bois du cerf. |
+| **Éclats de porte** | 3 PA, portée 2–5, cercle de rayon 1, 1/tour | 4–6 Acier | Grondin, Bélier de la Brèche (mini-boss), palier 4 | Il crache les morceaux des portes qu'il a déjà enfoncées. |
+| **Élan** | 2 PA, portée soi, sans ligne de vue, 1/tour, relance 2 t. | +2 PM (1 t.) | Grondin, Bélier de la Brèche (mini-boss), palier 4 | Les roues grincent, les chaînes claquent : il recule pour mieux frapper. |
+| **Épaulée** | 3 PA, portée 1, 1/tour | 3–5 Acier ; poussée de 2 case(s) | Défonceur de portes (élite), palier 3, Gobelin briseur, palier 2 | Un coup d'épaule de professionnel : on recule, on réfléchit. |
 
 ## Sorts sans lanceur
 

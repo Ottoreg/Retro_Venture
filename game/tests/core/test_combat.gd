@@ -197,7 +197,7 @@ func test_victoire() -> void:
 	assert_eq(roster.size(), 2, "le joueur et le mannequin dans le tableau de fin")
 	for entry: Dictionary in roster:
 		assert_eq(entry["vivant"], entry["equipe"] == Fighter.TEAM_PLAYERS, "seul le joueur reste debout")
-		assert_true(entry.has("nom") and entry.has("niveau"))
+		assert_true(entry.has("nom") and entry.has("palier"))
 	assert_eq(combat.state, Combat.State.FINISHED)
 	_assert_refused(_end_turn(combat), Protocol.REASON_WRONG_PHASE)
 

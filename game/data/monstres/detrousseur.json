@@ -2,30 +2,14 @@
   "id": "detrousseur",
   "nom": "Détrousseur des grands chemins",
   "description": "Il vole les riches pour donner aux pauvres. Il est pauvre. La boucle est bouclée.",
-  "niveau": 13,
-  "niveaux": {
-    "min": 13,
-    "max": 15,
-    "poids": [
-      3,
-      4,
-      3
-    ]
-  },
+  "palier": 3,
   "caracteristiques": {
-    "pv": 63,
+    "pv": 67,
     "pa": 6,
     "pm": 4,
-    "initiative": 130,
-    "agilite": 24,
-    "perception": 24
-  },
-  "par_niveau": {
-    "pv": 4,
-    "initiative": 5,
-    "xp": 14,
-    "agilite": 2,
-    "perception": 2
+    "initiative": 135,
+    "agilite": 26,
+    "perception": 26
   },
   "resistances": {
     "tempete": 10,
@@ -39,7 +23,7 @@
     "detrousseur_la_bourse_ou_la_vie"
   ],
   "ia": "basique",
-  "xp": 137,
+  "xp": 151,
   "butin": [
     {
       "objet": "bourse_vide",

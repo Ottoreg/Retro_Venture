@@ -2,30 +2,14 @@
   "id": "tisseuse_de_brume",
   "nom": "Tisseuse de brume",
   "description": "Une araignée grosse comme un poney, qui tisse le brouillard de Sylvebrume. Les elfes disent que c'est poétique. De loin.",
-  "niveau": 10,
-  "niveaux": {
-    "min": 10,
-    "max": 12,
-    "poids": [
-      3,
-      4,
-      3
-    ]
-  },
+  "palier": 2,
   "caracteristiques": {
-    "pv": 50,
+    "pv": 54,
     "pa": 6,
     "pm": 4,
-    "initiative": 110,
-    "perception": 36,
-    "agilite": 36
-  },
-  "par_niveau": {
-    "pv": 4,
-    "initiative": 5,
-    "xp": 13,
-    "perception": 4,
-    "agilite": 4
+    "initiative": 115,
+    "perception": 40,
+    "agilite": 40
   },
   "resistances": {
     "givre": 20,
@@ -38,7 +22,7 @@
     "tisseuse_toile"
   ],
   "ia": "basique",
-  "xp": 97,
+  "xp": 110,
   "butin": [
     {
       "objet": "fil_de_brume",

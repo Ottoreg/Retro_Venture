@@ -42,7 +42,7 @@ var _map_loader: Callable
 var _clock := 0.0
 ## Case de chaque entité de la carte : le joueur, les autres joueurs, les groupes.
 var _positions: Dictionary = {}
-## Groupes de monstres de la carte : id → { id, case, monstres, niveaux, age (élite)… }, avec `vu` :
+## Groupes de monstres de la carte : id → { id, case, monstres, age (élite)… }, avec `vu` :
 ## l'instant (horloge de la copie) où on a reçu leur âge.
 var _groups: Dictionary = {}
 ## Autres joueurs de la carte : id → { id, nom, race, voie, niveau, case, assis }.

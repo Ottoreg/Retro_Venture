@@ -4,7 +4,7 @@
   "description": "Il a lu un livre de cuisine. Un seul. Il l'applique à tout le monde.",
   "famille": "troll_des_ponts",
   "elite": true,
-  "niveau": 21,
+  "palier": 4,
   "caracteristiques": {
     "pv": 350,
     "pa": 7,

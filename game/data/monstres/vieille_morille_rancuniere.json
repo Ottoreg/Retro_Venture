@@ -4,7 +4,7 @@
   "description": "Elle se souvient de chaque pied qui l'a écrasée depuis trois siècles. Elle a une liste.",
   "famille": "morille_grincheuse",
   "elite": true,
-  "niveau": 6,
+  "palier": 1,
   "caracteristiques": {
     "pv": 54,
     "pa": 6,

@@ -2,30 +2,14 @@
   "id": "troll_des_ponts",
   "nom": "Troll des ponts",
   "description": "Il garde un pont qui ne mène nulle part et réclame un péage que personne ne paie. Il a donc beaucoup de temps libre, et faim.",
-  "niveau": 16,
-  "niveaux": {
-    "min": 16,
-    "max": 18,
-    "poids": [
-      1,
-      3,
-      6
-    ]
-  },
+  "palier": 3,
   "caracteristiques": {
-    "pv": 131,
+    "pv": 147,
     "pa": 6,
     "pm": 2,
-    "initiative": 50,
-    "force": 60,
-    "perception": 60
-  },
-  "par_niveau": {
-    "pv": 8,
-    "initiative": 5,
-    "xp": 21,
-    "force": 4,
-    "perception": 4
+    "initiative": 60,
+    "force": 68,
+    "perception": 68
   },
   "resistances": {
     "acier": 25,
@@ -39,7 +23,7 @@
     "troll_rocher"
   ],
   "ia": "basique",
-  "xp": 235,
+  "xp": 277,
   "butin": [
     {
       "objet": "dent_de_troll",

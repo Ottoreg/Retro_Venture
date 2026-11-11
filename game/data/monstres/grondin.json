@@ -3,7 +3,7 @@
   "nom": "Grondin, Bélier de la Brèche",
   "description": "Un bélier de siège à tête de loup, forgé dans les Marches Cendrées. Il avance tout seul. Personne ne veut savoir comment.",
   "boss": true,
-  "niveau": 30,
+  "palier": 4,
   "caracteristiques": {
     "pv": 600,
     "pa": 8,

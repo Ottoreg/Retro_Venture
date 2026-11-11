@@ -2,8 +2,8 @@ extends SceneTree
 ## Combats simulés pour vérifier l'équilibrage, sans affichage :
 ##   godot --headless --path game -s res://tools/simulation.gd -- [combats] [sortie.md] [filtre] [detail] [+niveaux] [trio]
 ## Pour chaque groupe de chaque carte (`filtre` : début des ids de cartes, « brumerive,crasse_roc »),
-## chaque Voie affronte `combats` fois le groupe (10 par défaut), au niveau moyen des monstres tirés
-## (au niveau du boss s'il y en a un).
+## chaque Voie affronte `combats` fois le groupe (10 par défaut), avec un profil du niveau équivalent
+## au palier moyen des monstres tirés (`TIER_LEVELS`, celui du boss s'il y en a un).
 ## Le joueur est joué par l'IA des monstres (« basique » pour le guerrier, « distance » sinon), sa
 ## race est celle de la zone (humain ailleurs), ses points vont dans la caractéristique de sa Voie,
 ## et l'équipement est modélisé comme dans `balance.py` : +3 par niveau à cette caractéristique et
@@ -24,6 +24,8 @@ const ZONE_RACES := {"brumerive": "humain", "crasse_roc": "gobelin", "sylvebrume
 ## Niveau équivalent maximal des profils simulés, et points par niveau (ancien système).
 const MAX_LEVEL := 30
 const POINTS_PER_LEVEL := 5
+## Niveau équivalent du profil simulé contre chaque palier de monstre (moyenne des anciens niveaux du palier).
+const TIER_LEVELS := [1, 3, 10, 17, 26, 40]
 const MIN_WIN_RATE := 0.8
 const HP_RATIO_RANGE := [0.25, 1.8]
 
@@ -103,7 +105,7 @@ func _simulate_group(map: GameMap, group: Dictionary, fights: int) -> Dictionary
 	for team: Array in teams:
 		var won := 0
 		for i in fights:
-			var composed := GameMap.compose_group(group, rng, data)
+			var composed := GameMap.compose_group(group, rng)
 			var result := _fight(map, composed, team)
 			levels_total += result["niveau"]
 			factor_total += result["facteur"]
@@ -136,15 +138,12 @@ func _simulate_group(map: GameMap, group: Dictionary, fights: int) -> Dictionary
 ## Un combat du joueur (IA) contre le groupe : { victoire, tours, pv_perdus (fraction), niveau, facteur
 ## (de difficulté), reputation (gagnée par la pratique et les monstres vaincus) }.
 func _fight(map: GameMap, group: Dictionary, team: Array) -> Dictionary:
-	var levels: Array = group["niveaux"]
-	var level := 0.0
-	for value: Variant in levels:
-		level += float(value)
-	level = clampf(roundf(level / levels.size()), 1, MAX_LEVEL)
-	for i in levels.size():
+	var tiers: Array = group["monstres"].map(data.monster_tier)
+	var tier := roundi(tiers.reduce(func(sum: int, value: int) -> int: return sum + value, 0) / float(tiers.size()))
+	for i in tiers.size():
 		if data.monsters[group["monstres"][i]].get("boss", false):
-			level = float(levels[i])  # Contre un boss : le joueur est à son niveau.
-	level = clampf(level + level_bonus, 1, MAX_LEVEL)
+			tier = tiers[i]  # Contre un boss : le joueur est à son palier.
+	var level := clampf(TIER_LEVELS[tier] + level_bonus, 1, MAX_LEVEL)
 	var race: String = ZONE_RACES.get(map.id.rsplit("_", true, 2)[0], "humain")
 	# Profil équivalent à l'ancien niveau (plus de niveau depuis la refonte, GDD § 4.5) : 5 points de
 	# caractéristique et 5 PV par niveau au-dessus du 1er, répartis selon le build (les caractéristiques
@@ -163,7 +162,7 @@ func _fight(map: GameMap, group: Dictionary, team: Array) -> Dictionary:
 		cells[i] = cells[k]
 		cells[k] = swap
 	for i in group["monstres"].size():
-		var monster := data.create_monster(group["monstres"][i], "m%d" % i, int(levels[i]))
+		var monster := data.create_monster(group["monstres"][i], "m%d" % i)
 		monster.cell = cells[i]
 		fighters.append(monster)
 	var players: Array[Fighter] = []
@@ -207,13 +206,11 @@ func _fight(map: GameMap, group: Dictionary, team: Array) -> Dictionary:
 		print("%s %s niv. %d : %s en %d tours — %s" % [map.id, "+".join(team), level,
 			{Fighter.TEAM_PLAYERS: "victoire", -1: "nul"}.get(combat.winner_team, "défaite"), combat.round_number, ", ".join(states)])
 	# Progression d'un joueur à ce niveau équivalent (GDD § 4.5), comme `World._end_combat`.
-	var monster_levels: Array = []
 	var fallen_xp := 0
 	for fighter in fighters:
 		if fighter.team != Fighter.TEAM_PLAYERS:
-			monster_levels.append(fighter.level)
 			fallen_xp += fighter.xp if not fighter.is_alive() else 0
-	var factor := Progression.difficulty(monster_levels, players.map(func(_p: Fighter) -> float: return level))
+	var factor := Progression.difficulty(tiers, players.map(func(_p: Fighter) -> int: return tier))
 	var gains := Progression.gains(combat.practice.get("joueur0", {}), factor, fallen_xp * Progression.KILL_SHARE * factor / players.size())
 	return {
 		"facteur": factor,

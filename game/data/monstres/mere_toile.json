@@ -3,7 +3,7 @@
   "nom": "La Mère-Toile",
   "description": "Elle tisse depuis l'Âge de l'Aube et n'a jamais fini un seul napperon. Depuis que la Cendre tombe, elle tisse plus vite, et plus noir.",
   "boss": true,
-  "niveau": 12,
+  "palier": 2,
   "caracteristiques": {
     "pv": 300,
     "pa": 7,
