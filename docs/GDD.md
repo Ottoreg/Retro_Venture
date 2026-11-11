@@ -1883,8 +1883,9 @@ jour (en fin de section).
   qu'on la récolte, elle ne pourrit pas et ne se cumule pas : le plafond hors ligne est
   d'**une récolte par emplacement**, sans corvée ni punition de l'absence.
 - **Pousse** : une fois récoltée, une ressource **repousse d'elle-même** sur son emplacement, sans
-  semence. Durée de pousse (piste) : **10 minutes** au palier 1, **+5 minutes par palier**
-  (1 h 55 au palier 22), raccourcie par les bonus d'instance. La récolte elle-même suit les règles de
+  semence. Durée de pousse : **10 minutes** au palier 1, **+5 minutes par palier** de la ressource
+  (30 min au palier 5 ; palier 1 = niveaux 1–6, 2 = 7–12, 3 = 13–20, 4 = 21–30, 5 = 31+ ; corrigé le
+  11/11/2026, le code comptait par niveau), raccourcie par les bonus d'instance. La récolte elle-même suit les règles de
   la carte (temps de récolte, compétences Abondance, Œil exercé et Célérité, ressource rare).
 - **Interface de disposition** : une **vue d'ensemble de l'instance** (la carte vue de haut) et la
   **liste des ressources disponibles** ; le joueur pose chaque ressource sur un emplacement libre

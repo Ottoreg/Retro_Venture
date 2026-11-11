@@ -370,7 +370,7 @@ le **lit** de votre maison les rend tous d'un coup.
 - **Instances de métier** : à 2 500 de réputation d'un métier de récolte, le **Cadastre** (au nord des Champs de
   l'Ouest de Hautepierre) ouvre votre parcelle. Fenêtre des métiers (J) : double-clic sur une ressource pour la
   débloquer (points de maîtrise), bouton **Instance** pour poser vos ressources sur les emplacements. Elles repoussent
-  seules, même quand vous êtes ailleurs ; la récolte y rapporte la moitié de la réputation.
+  seules (10 min + 5 min par palier), même quand vous êtes ailleurs ; la récolte y rapporte la moitié de la réputation.
 - **Infusion** (bouton de l'enclume) : 20 ressources identiques (10 rares, 2 légendaires ; × 5 pour une
   essence **parfaite**) donnent une **essence** d'une de leurs caractéristiques. Appliquée à un équipement,
   elle **renforce** sa ligne si elle y est, sinon l'ajoute en **exo** (200 points de score d'exo par objet,
