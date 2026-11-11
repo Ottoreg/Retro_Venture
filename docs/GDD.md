@@ -1068,7 +1068,7 @@ Les sorts restent **propres à leur classe** (pas d'apprentissage croisé, § 5.
     Toucher une pierre en fait toujours le point de résurrection. On repassera à la découverte quand
     les zones seront reliées (par Hautepierre).
   - **Mode admin** (tests, codé le 11/11/2026 sur `dev`, protocole v18) : dans les options en partie, bouton
-    « Mode admin » et mot de passe (`World.ADMIN_PASSWORD`, 1234 pendant les tests) ; on se donne n'importe quel
+    « Mode admin » (ou touche F2) et mot de passe (`World.ADMIN_PASSWORD`, 1234 pendant les tests) ; on se donne n'importe quel
     objet, des brumes, de la réputation et des points de maîtrise de métier et de classe (commande `admin`), et un
     double-clic sur une carte de la minicarte y téléporte. Valable pour la session, jamais sauvegardé ; à retirer
     (ou réserver aux comptes d'équipe) avant la sortie.

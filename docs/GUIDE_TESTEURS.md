@@ -175,7 +175,7 @@ faudra une autre clé.
 
 ### Mode admin (pour tester vite)
 
-En partie, **Échap → Options → Mode admin (tests) → Ouvrir…**, puis le mot de passe **1234**. La fenêtre permet de
+En partie, touche **F2** (ou **Échap → Options → Mode admin (tests) → Ouvrir…**), puis le mot de passe **1234**. La fenêtre permet de
 se donner n'importe quel objet (recherche par nom, double-clic ou « Donner », quantité au choix), des brumes, de la
 réputation ou des points de maîtrise dans un métier ou une classe. Tant que le mode est actif, un **double-clic sur
 une carte de la minicarte** vous y téléporte (hors combat). Le mode dure jusqu'à la fin de la partie.

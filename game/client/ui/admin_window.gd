@@ -2,7 +2,7 @@ class_name AdminWindow
 extends CanvasLayer
 ## Mode admin (tests, depuis les options) : mot de passe (`World.ADMIN_PASSWORD`), puis se donner objets, brumes,
 ## réputation et points de maîtrise de métier et de classe (`Protocol.CMD_ADMIN`). Une fois activé, un double-clic
-## sur une carte de la minicarte y téléporte.
+## sur une carte de la minicarte y téléporte. Touche F2 en partie.
 
 const SIZE := Vector2(560, 540)
 
@@ -60,8 +60,9 @@ func _process(_delta: float) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if is_open() and event.is_action_pressed("ui_cancel"):
-		close()
+	var key := event as InputEventKey
+	if is_open() and event.is_action_pressed("ui_cancel") or key != null and key.pressed and not key.echo and key.keycode == KEY_F2 and map_view != null:
+		close() if is_open() else open()  # F2 : ouvrir ou fermer, en partie.
 		get_viewport().set_input_as_handled()
 
 

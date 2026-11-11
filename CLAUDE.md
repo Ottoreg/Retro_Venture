@@ -200,7 +200,7 @@ commandes `debloquer` / `disposer`, événement `parcelles`, protocole v17 ; car
 `hautepierre_0_0` et cartes par `docs/design/instances/produire.py` ; disposition dans `JobsWindow` (bouton Instance).
 **Mode admin** (11/11/2026, sur `dev`, demande de l'auteur, GDD § 6) : commande `admin` (`World._admin`, mot de passe
 `World.ADMIN_PASSWORD` « 1234 », `PlayerState.admin` pour la session, instantané `admin`) : objets, brumes, réputation et
-points de métier et de classe, téléportation ; `AdminWindow` ouverte depuis les options en partie
+points de métier et de classe, téléportation ; `AdminWindow` ouverte depuis les options en partie ou par F2
 (`OptionsWindow.map_view`), double-clic sur la minicarte (`Minimap.teleport_to`) ; protocole v18.
 **Donjons** (11/11/2026, sur `dev`, GDD § 12) : champ `donjon` des cartes (vestibule), instance « carte#chef »
 (`World._dungeon_owner`, `_close_dungeon`, `DUNGEON_GRACE` 15 min, `PlayerState.dungeon`), pas de réapparition ni d'élite,

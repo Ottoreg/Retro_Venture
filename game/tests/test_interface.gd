@@ -84,8 +84,15 @@ func test_mode_admin() -> void:
 	tree.root.add_child(scene)
 	var options: OptionsWindow = scene.pause_menu.options
 	options.open()
-	(options.controls()["admin"] as Button).pressed.emit()
 	var admin := options.admin
+	var f2 := InputEventKey.new()
+	f2.keycode = KEY_F2
+	f2.pressed = true
+	admin._unhandled_input(f2)
+	assert_true(admin.is_open(), "F2 l'ouvre")
+	admin._unhandled_input(f2)
+	assert_false(admin.is_open(), "et la ferme")
+	(options.controls()["admin"] as Button).pressed.emit()
 	var world: ClientState = scene._map_view.world
 	var controls := admin.controls()
 	(controls["mot_de_passe"] as LineEdit).text_submitted.emit("0000")
