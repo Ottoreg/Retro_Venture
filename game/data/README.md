@@ -532,7 +532,7 @@ de la forge, `boutique: false`), à ne pas donner tels quels.
 `epee`, `arc`, `baton`, `dague`, `masse`, `sceptre`) et on pose au plus **8 ressources différentes** (quantité libre), dont les
 **matières obligatoires** du type : tissu (coiffe, cape), cuir (ceinture, bottes), minerai (anneau,
 amulette), minerai et bois (armes). Chaque ressource de monstre ajoute sa caractéristique :
-`max(1, arrondi((1 + palier / 8) × poids))`, poids 1 pour les élémentaires, 4 Vitalité,
+`max(1, arrondi(palier × poids))` (palier = `niveau` de la ressource, 1 à 5 depuis le 11/11/2026), poids 1 pour les élémentaires, 4 Vitalité,
 10 Initiative, 0,34 Prospection et Dommages, 0,5 Dommages d'un élément, 0,125 % Résistance, 0,1 Critique,
 **× 3 pour une ressource `rarete: rare`** (`Forge.RARE_FACTOR`) ; **PA, PM et Portée valent toujours 1**
 et une seule ligne de chacun par objet. Une ligne vaut au plus 20 points de score par palier de réputation de
@@ -540,13 +540,13 @@ forgeron (`Forge.tier`, Apprenti 1 à Légende 5, Inconnu compté 1 ; `Forge.lin
 PA 100, PM 80 et Portée 60 points de score, perdus avant leur palier) et un objet a au plus 8 lignes (`Forge.MAX_LINES`). `caracteristique` peut
 être une liste (ressource de haut palier à plusieurs caractéristiques). Chaque ligne se tire entre 75 % et 100 % de son total ; le
 palier de l'objet est la moyenne des paliers des ressources ; une arme forgée a les dégâts de son
-modèle × (1 + (palier − 1) / 20), dans l'élément de sa caractéristique élémentaire la plus forte
+modèle × (1 + 0,4 × (palier − 1)) (`Forge.WEAPON_BONUS_PER_TIER`), dans l'élément de sa caractéristique élémentaire la plus forte
 (Force Acier, Intelligence Flamme, Perception Givre, Agilité Tempête ; celui du modèle à égalité ou sans ;
 Sacré si Force et Intelligence, Impie si Agilité et Perception sont à 10 % au plus de la plus forte). Le nom se compose d'un nom du type et de deux adjectifs au plus,
 pris dans les lignes de l'objet (`Forge.TYPES`, `Forge.WORDS`), et l'objet est signé « Créé par
 <pseudo> ». Les caractéristiques des ressources sont **cachées** tant qu'on n'a jamais forgé, puis
-lues jusqu'au palier égal au niveau équivalent de la réputation de forgeron (5 de base par palier de
-l'objet forgé, voir « Métiers »). Un **plan**
+lues jusqu'au palier de réputation de forgeron (Inconnu compté 1 ; 25 de réputation de base par palier de
+l'objet forgé, facteur de difficulté palier contre palier, voir « Métiers »). Un **plan**
 (récompense de quête, ou vendu par les marchands) donne type, ressources et nom, et montre tout.
 Production des données : `docs/design/forge/produire.py` (déjà lancé ; répartition des
 caractéristiques par tourniquet pondéré, PA, PM et Portée sur des butins de mini-boss).

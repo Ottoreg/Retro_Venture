@@ -3,7 +3,7 @@
   "nom": "Ivoire d'olifant",
   "type": "ressource",
   "rarete": "peu_commun",
-  "niveau": 28,
+  "niveau": 4,
   "description": "Un morceau de défense. On en fait des cors ; l'olifant n'a pas été consulté.",
   "caracteristique": "initiative"
 }

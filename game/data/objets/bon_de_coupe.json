@@ -3,7 +3,7 @@
   "nom": "Bon de coupe",
   "type": "ressource",
   "rarete": "peu_commun",
-  "niveau": 7,
+  "niveau": 2,
   "description": "Autorisation de couper « quelques arbres ». Le mot « quelques » a été rayé.",
   "caracteristique": "perception"
 }

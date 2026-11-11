@@ -3,7 +3,7 @@
   "nom": "Cortex féral",
   "type": "ressource",
   "rarete": "legendaire",
-  "niveau": 15,
+  "niveau": 3,
   "description": "Une colère sainte, en conserve.",
   "caracteristique": "degats_devastateurs",
   "valeur": 10,

@@ -3,7 +3,7 @@
   "nom": "Sauge des Anciens",
   "type": "ressource",
   "rarete": "rare",
-  "niveau": 15,
+  "niveau": 3,
   "description": "Cueillie au pied d'une tour en ruine. Elle radote un peu.",
   "boutique": false
 }

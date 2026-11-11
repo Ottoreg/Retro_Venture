@@ -3,7 +3,7 @@
   "nom": "Gnôle de raid",
   "type": "ressource",
   "rarete": "commun",
-  "niveau": 10,
+  "niveau": 2,
   "description": "Désinfecte, dégraisse, décape. Se boit aussi, paraît-il.",
   "caracteristique": "force"
 }

@@ -3,7 +3,7 @@
   "nom": "Bois de malorme",
   "type": "ressource",
   "rarete": "rare",
-  "niveau": 22,
+  "niveau": 4,
   "description": "Un orme aux feuilles d'or. Les elfes jurent qu'ils l'ont vu en premier.",
   "matiere": "bois",
   "caracteristique": "intelligence"

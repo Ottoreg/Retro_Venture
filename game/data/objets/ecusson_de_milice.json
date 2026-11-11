@@ -3,7 +3,7 @@
   "nom": "Écusson de milice",
   "type": "ressource",
   "rarete": "peu_commun",
-  "niveau": 7,
+  "niveau": 2,
   "description": "Une tour blanche sur fond bleu. Les gobelins le collectionnent, les miliciens le regrettent.",
   "caracteristique": "force"
 }

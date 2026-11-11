@@ -3,7 +3,7 @@
   "nom": "Ordre de raid",
   "type": "ressource",
   "rarete": "peu_commun",
-  "niveau": 7,
+  "niveau": 2,
   "description": "Signé par un Héraut Cendré. L'orthographe est approximative, la menace très claire.",
   "caracteristique": "perception"
 }

@@ -30,10 +30,10 @@ func _give(item_id: String, quantity := 1) -> void:
 
 func test_valeur_selon_le_palier() -> void:
 	assert_eq(Forge.value("force", 1), 1)
-	assert_eq(Forge.value("force", 16), 3)
-	assert_eq(Forge.value("force", 30), 5)
-	assert_eq(Forge.value("vitalite", 8), 8, "Vitalité : 4 points pour un point de score")
-	assert_eq(Forge.value("pa", 50), 1, "PA et PM toujours à 1")
+	assert_eq(Forge.value("force", 3), 3, "palier × poids")
+	assert_eq(Forge.value("force", 5), 5)
+	assert_eq(Forge.value("vitalite", 2), 8, "Vitalité : 4 points pour un point de score")
+	assert_eq(Forge.value("pa", 5), 1, "PA et PM toujours à 1")
 	assert_eq(Forge.value("prospection", 1), 1, "au moins 1")
 	assert_eq(Forge.value("dommages_flamme", 1, true), 3, "ressource rare : × 3, même au palier 1")
 	assert_eq(Forge.value("portee", 3, true), 1, "PA, PM et Portée restent à 1")
@@ -49,9 +49,9 @@ func test_caracteristiques_cachees_sans_reputation_d_artisan() -> void:
 	var hidden := Forge.preview("anneau", {"minerai": 1, "croc": 2}, _world.data.items, character)
 	assert_eq(hidden["cachees"], 2)
 	assert_eq(hidden["bonus"], {})
-	character.add_job_reputation("forgeron", 1300)
-	assert_true(Forge.reveals(character, 8), "réputation de niveau équivalent 8 : palier 8 révélé")
-	assert_false(Forge.reveals(character, 9))
+	character.add_job_reputation("forgeron", 5000)
+	assert_true(Forge.reveals(character, 2), "forgeron Compagnon : palier 2 révélé")
+	assert_false(Forge.reveals(character, 3))
 	assert_eq(Forge.preview("anneau", {"minerai": 1, "croc": 2}, _world.data.items, character)["bonus"], {"force": [3, 4]})
 	character.jobs["forgeron"]["competences"]["precision"] = 5
 	assert_eq(Forge.preview("anneau", {"minerai": 1, "croc": 2}, _world.data.items, character)["bonus"], {"force": [4, 4]},
@@ -62,7 +62,7 @@ func test_apercu() -> void:
 	var items := _world.data.items
 	var preview := Forge.preview("bottes", {"peau": 1, "croc": 2, "corne": 2}, items)
 	assert_eq(preview["erreur"], "")
-	assert_eq(preview["palier"], 8, "moyenne des paliers : (1 + 16 + 24) / 5")
+	assert_eq(preview["palier"], 2, "moyenne des paliers : (1 + 4 + 4) / 5, arrondie")
 	assert_eq(preview["bonus"]["pa"], [1, 1], "une ligne de PA au plus, à 1")
 	assert_eq(preview["bonus"]["force"], [3, 4], "jet : 75 % à 100 % du total")
 	assert_eq(Forge.preview("bottes", {"croc": 1}, items)["manquantes"], ["cuir"], "les bottes demandent du cuir")
@@ -82,7 +82,7 @@ func test_plafond_par_ligne_et_lignes_par_objet() -> void:
 	assert_eq(Forge.line_cap("critique"), 10)
 	assert_eq(Forge.line_cap("pa"), 1)
 	var items := _world.data.items.duplicate(true)
-	items["croc"]["niveau"] = 500  # 64 de Force par croc : 128 pour deux, plafonnés à 100.
+	items["croc"]["niveau"] = 64  # 64 de Force par croc : 128 pour deux, plafonnés à 100.
 	assert_eq(Forge.preview("anneau", {"minerai": 1, "croc": 2}, items)["bonus"]["force"][1], 100)
 	# Une ressource de haut palier peut donner plusieurs caractéristiques (Sacré : Flamme et Acier).
 	var stats := ["force", "intelligence", "perception", "agilite", "vitalite", "initiative", "prospection", "dommages", "critique"]
@@ -119,12 +119,12 @@ func test_forger_a_l_enclume() -> void:
 	var entry: Dictionary = inventory.entries.values().filter(func(e: Dictionary) -> bool: return e["objet"] == "forge_bottes")[0]
 	assert_eq(entry["forge"]["artisan"], "Testeur")
 	assert_eq(events[0]["jets"], entry["jets"], "jets obtenus dans l'événement")
-	assert_true(int(entry["jets"]["force"]) in [3, 4] and int(entry["jets"]["vitalite"]) in [4, 5], "jets tirés dans leurs plages : %s" % entry["jets"])
+	assert_true(int(entry["jets"]["force"]) in [3, 4] and int(entry["jets"]["vitalite"]) in [3, 4], "jets tirés dans leurs plages : %s" % entry["jets"])
 	var template := Item.entry_template(entry, _world.data.items)
 	assert_eq(template["nom"], "Souliers costauds")
 	assert_eq(template["description"], "Créé par Testeur", "signature à la place du texte d'ambiance")
-	assert_eq(template["niveau"], 6, "palier : (1 + 8 × 2) / 3")
-	assert_eq(Fixtures.of_type(events, Protocol.EVT_JOB)[0]["gain"], Profession.reputation_gain(Forge.REPUTATION_PER_TIER * 6, 6, 0, 0))
+	assert_eq(template["niveau"], 2, "palier : (1 + 2 × 2) / 3, arrondi")
+	assert_eq(Fixtures.of_type(events, Protocol.EVT_JOB)[0]["gain"], Profession.reputation_gain(Forge.REPUTATION_PER_TIER * 2, 2, 0, 0, true))
 	# La sauvegarde garde l'objet forgé.
 	var copy := Character.from_dict(_world.character.to_dict(), _world.data.items)
 	assert_eq(copy.inventory.entries[entry["uid"]]["forge"], entry["forge"])
@@ -143,13 +143,13 @@ func test_forger_avec_un_plan_et_une_arme() -> void:
 	_give("croc", 4)
 	_forge({"type_objet": "epee", "ressources": {"minerai": 1, "bois": 1, "croc": 4}, "mots": ["Glaive"]})
 	var weapon: Dictionary = _world.character.inventory.entries.values().filter(func(e: Dictionary) -> bool: return e["objet"] == "forge_epee")[0]
-	assert_eq(weapon["forge"]["palier"], 6)
-	assert_eq(Item.entry_template(weapon, _world.data.items)["attaque"]["effets"][0]["min"], 13, "dégâts × (1 + 5 / 20)")
+	assert_eq(weapon["forge"]["palier"], 2)
+	assert_eq(Item.entry_template(weapon, _world.data.items)["attaque"]["effets"][0]["min"], 14, "dégâts × (1 + 1 × 0,4)")
 	_world.character.inventory.equip(weapon["uid"], "arme")
 	var fighter := _world.data.create_character_fighter(_world.character, "j")
-	assert_eq(fighter.weapon_tier, 6)
+	assert_eq(fighter.weapon_tier, 2)
 	var copy := _world.data.create_profile_fighter(fighter.profile(), "j")
-	assert_eq(copy.spells[0].effects[0]["min"], 13, "la copie du combat garde l'attaque forgée")
+	assert_eq(copy.spells[0].effects[0]["min"], 14, "la copie du combat garde l'attaque forgée")
 
 
 func test_element_d_attaque_selon_les_ressources() -> void:

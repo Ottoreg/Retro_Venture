@@ -3,7 +3,7 @@
   "nom": "Sacré cœur de Raphaël",
   "type": "ressource",
   "rarete": "legendaire",
-  "niveau": 18,
+  "niveau": 3,
   "description": "Un cœur qui soigne tout ce qu'il touche.",
   "caracteristique": "soins",
   "valeur": 30,

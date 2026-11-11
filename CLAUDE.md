@@ -189,7 +189,8 @@ d'inventaire ; réussite 100 % − score ÷ 2 (10 à 95 %), miroir à score éga
 **Paliers de monstres** (11/11/2026, sur `dev`, demande de l'auteur, GDD § 8.1) : plus de niveau de monstre ;
 `palier` 1 à 5 (1 = anciens niveaux 1–6, 2 = 7–12, 3 = 13–20, 4 = 21–30, 5 = 31+), stats figées au niveau moyen de
 l'ancienne tranche, `Fighter.tier`, `GameData.monster_tier` / `map_tier_range`, difficulté = paliers des monstres
-contre `Progression.player_tier` (palier de réputation, Inconnu = 1) ; protocole v16. Les ressources gardent leur `niveau`.
+contre `Progression.player_tier` (palier de réputation, Inconnu = 1) ; protocole v16. Ressources aussi en paliers (11/11/2026) : leur `niveau` vaut 1 à 5 (même table), `Forge.value` = palier × poids,
+`Forge.reveals` et la réputation de forge comparent au palier de forgeron, arme forgée × (1 + 0,4 × (palier − 1)).
 **Lot 5 de la refonte** (10/11/2026, sur `dev`) : `niveau_min` des quêtes supprimé ; maîtres des Voies (PNJ à
 `explication`, un par village de départ et à Hautepierre, dessins `art/manifestes/maitres.json`).
 

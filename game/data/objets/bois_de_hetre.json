@@ -3,7 +3,7 @@
   "nom": "Bois de hêtre",
   "type": "ressource",
   "rarete": "peu_commun",
-  "niveau": 15,
+  "niveau": 3,
   "description": "Blond, dur, régulier. On en fait des manches, des tables et des excuses.",
   "matiere": "bois",
   "caracteristique": "force"

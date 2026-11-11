@@ -126,7 +126,7 @@ def metiers_md():
         return round(base * 2 * difficulte(palier, niveau))
 
     def valeur(carac, palier, rare=False):  # Forge.value
-        return 1 if carac in fixes else max(1, int((1 + palier / 8) * poids[carac] + 0.5)) * (facteur_rare if rare else 1)
+        return 1 if carac in fixes else max(1, int(palier * poids[carac] + 0.5)) * (facteur_rare if rare else 1)
 
     def plafond(carac, palier):  # Forge.line_cap
         return int(fixes[carac] <= score_palier * palier) if carac in fixes else int(score_palier * palier * poids[carac])
@@ -216,10 +216,10 @@ def metiers_md():
                "par les quantités) ; les jets sont tirés entre %d %% et 100 %% du total (plus avec Précision)." % round(jet_bas * 100),
                "%s : 1 par ressource quel que soit le palier, 1 au plus par objet. La caractéristique d'une ressource" % ", ".join(
                    CARACS[c] for c in fixes),
-               "n'est lisible qu'après un premier objet forgé, et seulement si le niveau équivalent de la réputation",
+               "n'est lisible qu'après un premier objet forgé, et seulement si le palier de réputation",
                "de forgeron atteint son palier (`Forge.reveals`). Réputation : %d × palier de l'objet en base." % rep_palier, "",
                "### Valeur d'une ressource", "",
-               "`Forge.value` : max(1, arrondi((1 + palier / 8) × poids)), **× %d pour une ressource rare** ; poids = points de" % facteur_rare,
+               "`Forge.value` : max(1, arrondi(palier × poids)) (palier 1 à 5), **× %d pour une ressource rare** ; poids = points de" % facteur_rare,
                "la caractéristique pour un point de score (le tableau donne la valeur d'une ressource non rare).", ""]
     paliers_res = sorted({o["niveau"] for o in objets.values() if o.get("caracteristique")} | {1})
     plafonds = lambda c: " / ".join(str(plafond(c, p)) for p in range(1, palier_max + 1))

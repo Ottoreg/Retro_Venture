@@ -285,8 +285,9 @@ Lots 0 (conception dans le GDD), 1 (personnage, poussé sur `main` à la demande
   exception déclarée dans ses données
 - [x] Niveaux variables pour les familles de toutes les zones (avec leurs paliers)
 - [x] Paliers de monstres (11/11/2026, demande de l'auteur, GDD § 8.1) : plus de niveau de monstre, `palier` 1 à 5
-  comme la forge, stats fixes (niveau moyen de l'ancienne tranche), difficulté en paliers ; les ressources gardent
-  leur `niveau` (forge, prix) : à harmoniser plus tard si l'auteur le veut
+  comme la forge, stats fixes (niveau moyen de l'ancienne tranche), difficulté en paliers ; ressources passées
+  aussi en paliers le même jour (forge : valeur = palier × poids, révélation et réputation par palier) ; objets,
+  plans, récolte et quêtes gardent leur niveau
 - [x] Deux types de monstres par zone de départ, avec deux attaques et un butin propre chacun
 - [x] **(MVP)** Tables de butin, prospection (sans seuil), raretés (couleurs), brumes
 - [x] Limite de butin par monstre partagée entre les joueurs (quantité max de la ligne), tirage du

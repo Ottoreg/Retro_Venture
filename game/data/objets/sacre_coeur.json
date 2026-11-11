@@ -3,7 +3,7 @@
   "nom": "Sacré cœur",
   "type": "ressource",
   "rarete": "legendaire",
-  "niveau": 9,
+  "niveau": 2,
   "description": "Il bat encore, et il juge.",
   "caracteristique": [
     "force",

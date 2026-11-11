@@ -2546,7 +2546,7 @@ func _forge(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
 		inventory.add(data.items[Forge.PATTERN], 1, {}, false, {"nom": "Patron de " + item_name, "artisan": p.character.display_name,
 			"palier": preview["palier"], "bonus": {}, "patron": {"nom": item_name, "type": type, "palier": preview["palier"],
 			"ressources": resources.duplicate(), "jets": inventory.entries[uid]["jets"].duplicate(), "bonus": preview["bonus"].duplicate(true)}})
-	events.append(_job_event(p, Forge.JOB, Forge.REPUTATION_PER_TIER * int(preview["palier"]), int(preview["palier"])))
+	events.append(_job_event(p, Forge.JOB, Forge.REPUTATION_PER_TIER * int(preview["palier"]), int(preview["palier"]), true))
 	events.append_array(_inventory_events(p))
 	return events
 
@@ -2780,8 +2780,8 @@ func _chest_event(p: PlayerState, cell: Vector2i) -> Dictionary:
 
 ## Ajoute de la réputation de métier (`Profession.reputation_gain`, bonus de race compris) pour une
 ## action de ce palier, et décrit le résultat.
-func _job_event(p: PlayerState, job_id: String, base_gain: int, tier: int) -> Dictionary:
-	var gain := Profession.reputation_gain(base_gain, tier, p.character.job_reputation(job_id), p.character.job_reputation_bonus(data))
+func _job_event(p: PlayerState, job_id: String, base_gain: int, tier: int, tiered := false) -> Dictionary:
+	var gain := Profession.reputation_gain(base_gain, tier, p.character.job_reputation(job_id), p.character.job_reputation_bonus(data), tiered)
 	var reached := p.character.add_job_reputation(job_id, gain)
 	return {"type": Protocol.EVT_JOB, "metier": job_id, "nom": data.jobs[job_id]["nom"], "gain": gain,
 		"reputation": p.character.job_reputation(job_id), "points": p.character.job_points(job_id), "paliers": reached}

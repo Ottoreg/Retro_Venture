@@ -3,7 +3,7 @@
   "nom": "Truite saumonée",
   "type": "ressource",
   "rarete": "rare",
-  "niveau": 8,
+  "niveau": 2,
   "description": "Elle se prend pour un saumon. On n'ose pas la contrarier.",
   "boutique": false
 }

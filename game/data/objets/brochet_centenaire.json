@@ -3,7 +3,7 @@
   "nom": "Brochet centenaire",
   "type": "ressource",
   "rarete": "rare",
-  "niveau": 15,
+  "niveau": 3,
   "description": "Il a mangé trois cannes à pêche et un pêcheur distrait.",
   "boutique": false
 }

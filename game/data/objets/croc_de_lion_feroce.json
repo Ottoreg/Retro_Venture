@@ -3,7 +3,7 @@
   "nom": "Croc de lion féroce",
   "type": "ressource",
   "rarete": "rare",
-  "niveau": 15,
+  "niveau": 3,
   "description": "Il ne mordait que les pécheurs. Enfin, surtout.",
   "caracteristique": "dommages_sacre",
   "valeur": 9,

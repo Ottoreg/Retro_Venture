@@ -22,8 +22,8 @@ const MAX_TIER := 5
 const MAX_LINES := 8
 ## Une ligne de total T se tire entre T × ROLL_LOW et T (plus haut avec la compétence « precision »).
 const ROLL_LOW := 0.75
-## Réputation de forgeron de base par palier de l'objet forgé (`Profession.reputation_gain`).
-const REPUTATION_PER_TIER := 5
+## Réputation de forgeron de base par palier de l'objet forgé (1 à 5, `Profession.reputation_gain`).
+const REPUTATION_PER_TIER := 25
 ## Caractéristiques à 1 par ressource quel que soit le palier, et à 1 au plus par objet : points de score de ce
 ## point (indisponible tant que le plafond d'une ligne est plus bas).
 const FIXED_STATS := {"pa": 100, "pm": 80, "portee": 60}
@@ -43,6 +43,8 @@ const STAT_WEIGHTS := {"force": 1.0, "intelligence": 1.0, "perception": 1.0, "ag
 	"resistance_sacre": 0.125, "resistance_impie": 0.125}
 ## Multiplicateur de la valeur des ressources rares, quel que soit leur palier (sauf PA, PM et Portée).
 const RARE_FACTOR := 3
+## Dégâts d'une arme forgée en plus par palier au-dessus du 1er (+160 % au palier 5).
+const WEAPON_BONUS_PER_TIER := 0.4
 const MATERIALS := ["cuir", "tissu", "minerai", "bois"]
 ## Type d'objet à l'enclume (modèle `forge_<type>`) → matières obligatoires et noms proposés [nom, genre].
 const TYPES := {
@@ -129,16 +131,15 @@ static func line_cap(stat: String, forge_tier := MAX_TIER) -> int:
 	return int(FIXED_STATS[stat] <= score) if stat in FIXED_STATS else floori(score * STAT_WEIGHTS[stat])
 
 
-## Caractéristique que donne une ressource de ce palier (× RARE_FACTOR si elle est rare).
+## Caractéristique que donne une ressource de ce palier (1 à 5 : palier × poids, × RARE_FACTOR si elle est rare).
 static func value(stat: String, tier: int, rare := false) -> int:
-	return 1 if stat in FIXED_STATS else maxi(1, roundi((1.0 + tier / 8.0) * STAT_WEIGHTS[stat])) * (RARE_FACTOR if rare else 1)
+	return 1 if stat in FIXED_STATS else maxi(1, roundi(tier * STAT_WEIGHTS[stat])) * (RARE_FACTOR if rare else 1)
 
 
-## Vrai si l'artisan voit la caractéristique des ressources de ce palier : il a déjà forgé, et le niveau
-## équivalent de sa réputation de forgeron (`Progression.equivalent_level`) atteint le palier.
+## Vrai si l'artisan voit la caractéristique des ressources de ce palier : il a déjà forgé, et son palier
+## de forgeron (`tier`, Inconnu compté 1) atteint le palier de la ressource.
 static func reveals(character: Character, tier: int) -> bool:
-	var reputation_value := character.job_reputation(JOB)
-	return reputation_value > 0 and tier <= Progression.equivalent_level(reputation_value)
+	return character.job_reputation(JOB) > 0 and tier <= Forge.tier(character)
 
 
 ## Aperçu de l'objet : { erreur (raison du protocole, "" si on peut forger), palier, bonus: { stat:
@@ -243,7 +244,7 @@ static func roll(bonus: Dictionary, rng: RandomNumberGenerator) -> Dictionary:
 	return rolled
 
 
-## Attaque d'une arme forgée : dégâts de base × (1 + (palier − 1) / 20), dans l'élément de la caractéristique
+## Attaque d'une arme forgée : dégâts de base × (1 + (palier − 1) × `WEAPON_BONUS_PER_TIER`), dans l'élément de la caractéristique
 ## élémentaire la plus forte de ses lignes (`bonus`, au maximum de leur plage ; celui de l'arme à égalité ou sans).
 ## Si les deux caractéristiques d'un élément composé (Sacré : Force et Intelligence, Impie : Agilité et Perception)
 ## sont à 10 % au plus de la plus forte, l'arme frappe dans cet élément composé.
@@ -256,7 +257,7 @@ static func scaled_attack(attack: Dictionary, tier: int, bonus := {}) -> Diction
 	for effect: Dictionary in scaled.get("effets", []):
 		if effect.get("type") == Spell.EFFECT_DAMAGE:
 			for key in ["min", "max"]:
-				effect[key] = roundi(effect[key] * (1.0 + (tier - 1) / 20.0))
+				effect[key] = roundi(effect[key] * (1.0 + (tier - 1) * WEAPON_BONUS_PER_TIER))
 			if top > 0 and scores.get(effect["element"], 0) < top:
 				effect["element"] = scores.find_key(top)
 			for composite: String in Spell.COMPOSITE_ELEMENTS:

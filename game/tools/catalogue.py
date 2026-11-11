@@ -63,7 +63,7 @@ def forge_objet(o, objets):
     parts = []
     if "caracteristique" in o:
         for c in o["caracteristique"] if isinstance(o["caracteristique"], list) else [o["caracteristique"]]:
-            v = o.get("valeur", 1 if c not in POIDS_FORGE else max(1, int((1 + o["niveau"] / 8) * POIDS_FORGE[c] + 0.5)))
+            v = o.get("valeur", 1 if c not in POIDS_FORGE else max(1, int(o["niveau"] * POIDS_FORGE[c] + 0.5)))
             parts.append("+%d %s" % (v, CARACS[c]))
     if "matiere" in o:
         parts.append(o["matiere"])

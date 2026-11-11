@@ -3,7 +3,7 @@
   "nom": "Étain chantant",
   "type": "ressource",
   "rarete": "rare",
-  "niveau": 8,
+  "niveau": 2,
   "description": "Il crie quand on le plie. Les forgerons trouvent ça touchant ; les voisins, non.",
   "boutique": false,
   "matiere": "minerai",

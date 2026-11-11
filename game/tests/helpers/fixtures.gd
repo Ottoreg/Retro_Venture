@@ -186,9 +186,9 @@ static func forge_items() -> Array:
 		{"id": "essence", "nom": "Essence", "type": "ressource", "rarete": "rare", "boutique": false},
 		{"id": "minerai", "nom": "Minerai", "type": "ressource", "rarete": "commun", "matiere": "minerai"},
 		{"id": "bois", "nom": "Bois", "type": "ressource", "rarete": "commun", "matiere": "bois"},
-		{"id": "croc", "nom": "Croc", "type": "ressource", "rarete": "commun", "niveau": 8, "caracteristique": "force"},
+		{"id": "croc", "nom": "Croc", "type": "ressource", "rarete": "commun", "niveau": 2, "caracteristique": "force"},
 		{"id": "peau", "nom": "Peau", "type": "ressource", "rarete": "commun", "matiere": "cuir", "caracteristique": "vitalite"},
-		{"id": "corne", "nom": "Corne", "type": "ressource", "rarete": "rare", "niveau": 12, "caracteristique": "pa"},
+		{"id": "corne", "nom": "Corne", "type": "ressource", "rarete": "rare", "niveau": 2, "caracteristique": "pa"},
 		{"id": "plan_bague", "nom": "Plan : Bague du test", "type": "recette", "rarete": "rare",
 			"recette": {"nom": "Bague du test", "type": "anneau", "ressources": {"minerai": 1, "croc": 2}}},
 	]

@@ -3,7 +3,7 @@
   "nom": "Bois de cerf enchanté",
   "type": "ressource",
   "rarete": "peu_commun",
-  "niveau": 4,
+  "niveau": 1,
   "description": "Une ramure qui murmure quand le vent passe.",
   "caracteristique": "intelligence"
 }

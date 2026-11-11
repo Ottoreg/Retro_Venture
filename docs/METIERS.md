@@ -39,7 +39,7 @@ interpolé entre les points 0,4 → 0,1, 1 → 0,5, 2 → 1, 3 → 1,5 (rapport 
 ### Réputation gagnée
 
 `Profession.reputation_gain` : base × 2 × facteur de difficulté (palier contre niveau équivalent)
-× (100 + bonus de race) / 100. Base : le champ `xp` du nœud pour une récolte, **5 × palier de
+× (100 + bonus de race) / 100. Base : le champ `xp` du nœud pour une récolte, **25 × palier de
 l'objet** pour une forge. Passif humain : +10 % (« reputation_metier »). Pour une base de 10 :
 
 | Palier \ niveau équivalent | 1 | 3 | 5 | 10 | 15 | 20 |
@@ -143,71 +143,71 @@ réputation de forgeron : Apprenti 1 à Légende 5, Inconnu compté 1 ; PA 100 p
 et un objet a au plus **8 lignes**. Le palier de l'objet est la moyenne des paliers (pondérée
 par les quantités) ; les jets sont tirés entre 75 % et 100 % du total (plus avec Précision).
 PA, PM, Portée : 1 par ressource quel que soit le palier, 1 au plus par objet. La caractéristique d'une ressource
-n'est lisible qu'après un premier objet forgé, et seulement si le niveau équivalent de la réputation
-de forgeron atteint son palier (`Forge.reveals`). Réputation : 5 × palier de l'objet en base.
+n'est lisible qu'après un premier objet forgé, et seulement si le palier de réputation
+de forgeron atteint son palier (`Forge.reveals`). Réputation : 25 × palier de l'objet en base.
 
 ### Valeur d'une ressource
 
-`Forge.value` : max(1, arrondi((1 + palier / 8) × poids)), **× 3 pour une ressource rare** ; poids = points de
+`Forge.value` : max(1, arrondi(palier × poids)) (palier 1 à 5), **× 3 pour une ressource rare** ; poids = points de
 la caractéristique pour un point de score (le tableau donne la valeur d'une ressource non rare).
 
-| Caractéristique | Poids | Plafond d'une ligne (paliers de forge 1 à 5) | P1 | P3 | P4 | P6 | P7 | P8 | P9 | P10 | P12 | P13 | P15 | P16 | P18 | P19 | P22 | P25 | P28 | P50 |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| Force | 1 | 20 / 40 / 60 / 80 / 100 | 1 | 1 | 2 | 2 | 2 | 2 | 2 | 2 | 3 | 3 | 3 | 3 | 3 | 3 | 4 | 4 | 5 | 7 |
-| Intelligence | 1 | 20 / 40 / 60 / 80 / 100 | 1 | 1 | 2 | 2 | 2 | 2 | 2 | 2 | 3 | 3 | 3 | 3 | 3 | 3 | 4 | 4 | 5 | 7 |
-| Perception | 1 | 20 / 40 / 60 / 80 / 100 | 1 | 1 | 2 | 2 | 2 | 2 | 2 | 2 | 3 | 3 | 3 | 3 | 3 | 3 | 4 | 4 | 5 | 7 |
-| Agilité | 1 | 20 / 40 / 60 / 80 / 100 | 1 | 1 | 2 | 2 | 2 | 2 | 2 | 2 | 3 | 3 | 3 | 3 | 3 | 3 | 4 | 4 | 5 | 7 |
-| Vitalité | 4 | 80 / 160 / 240 / 320 / 400 | 5 | 6 | 6 | 7 | 8 | 8 | 9 | 9 | 10 | 11 | 12 | 12 | 13 | 14 | 15 | 17 | 18 | 29 |
-| Initiative | 10 | 200 / 400 / 600 / 800 / 1000 | 11 | 14 | 15 | 18 | 19 | 20 | 21 | 23 | 25 | 26 | 29 | 30 | 33 | 34 | 38 | 41 | 45 | 73 |
-| Prospection | 0,34 | 6 / 13 / 20 / 27 / 34 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 2 | 2 |
-| Dommages | 0,34 | 6 / 13 / 20 / 27 / 34 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 2 | 2 |
-| % Critique | 0,1 | 2 / 4 / 6 / 8 / 10 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-| Soins | 0,34 | 6 / 13 / 20 / 27 / 34 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 2 | 2 |
-| % Dégâts dévastateurs | 0,1 | 2 / 4 / 6 / 8 / 10 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-| Dégâts dévastateurs | 0,05 | 1 / 2 / 3 / 4 / 5 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-| % Dégâts spectraux | 0,1 | 2 / 4 / 6 / 8 / 10 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-| Dégâts spectraux | 0,05 | 1 / 2 / 3 / 4 / 5 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-| Réduction de dégâts | 0,08 | 1 / 3 / 4 / 6 / 8 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-| % Dommages de mêlée | 0,03 | 0 / 1 / 1 / 2 / 3 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-| Tacle | 0,1 | 2 / 4 / 6 / 8 / 10 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-| Fuite | 0,1 | 2 / 4 / 6 / 8 / 10 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-| Retrait PA | 0,2 | 4 / 8 / 12 / 16 / 20 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-| Retrait PM | 0,2 | 4 / 8 / 12 / 16 / 20 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-| % Épines brutes | 0,05 | 1 / 2 / 3 / 4 / 5 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-| Épines brutes | 0,07 | 1 / 2 / 4 / 5 / 7 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-| % Épines Acier | 0,06 | 1 / 2 / 3 / 5 / 6 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-| % Épines Flamme | 0,06 | 1 / 2 / 3 / 5 / 6 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-| % Épines Givre | 0,06 | 1 / 2 / 3 / 5 / 6 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-| % Épines Tempête | 0,06 | 1 / 2 / 3 / 5 / 6 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-| % Épines Sacré | 0,06 | 1 / 2 / 3 / 5 / 6 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-| % Épines Impie | 0,06 | 1 / 2 / 3 / 5 / 6 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-| Épines Acier | 0,09 | 1 / 3 / 5 / 7 / 9 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-| Épines Flamme | 0,09 | 1 / 3 / 5 / 7 / 9 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-| Épines Givre | 0,09 | 1 / 3 / 5 / 7 / 9 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-| Épines Tempête | 0,09 | 1 / 3 / 5 / 7 / 9 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-| Épines Sacré | 0,09 | 1 / 3 / 5 / 7 / 9 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-| Épines Impie | 0,09 | 1 / 3 / 5 / 7 / 9 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-| Dommages Acier | 0,5 | 10 / 20 / 30 / 40 / 50 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 2 | 2 | 2 | 2 | 2 | 2 | 4 |
-| Dommages Flamme | 0,5 | 10 / 20 / 30 / 40 / 50 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 2 | 2 | 2 | 2 | 2 | 2 | 4 |
-| Dommages Givre | 0,5 | 10 / 20 / 30 / 40 / 50 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 2 | 2 | 2 | 2 | 2 | 2 | 4 |
-| Dommages Tempête | 0,5 | 10 / 20 / 30 / 40 / 50 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 2 | 2 | 2 | 2 | 2 | 2 | 4 |
-| Dommages Sacré | 0,5 | 10 / 20 / 30 / 40 / 50 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 2 | 2 | 2 | 2 | 2 | 2 | 4 |
-| Dommages Impie | 0,5 | 10 / 20 / 30 / 40 / 50 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 2 | 2 | 2 | 2 | 2 | 2 | 4 |
-| Soins Acier | 0,5 | 10 / 20 / 30 / 40 / 50 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 2 | 2 | 2 | 2 | 2 | 2 | 4 |
-| Soins Flamme | 0,5 | 10 / 20 / 30 / 40 / 50 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 2 | 2 | 2 | 2 | 2 | 2 | 4 |
-| Soins Givre | 0,5 | 10 / 20 / 30 / 40 / 50 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 2 | 2 | 2 | 2 | 2 | 2 | 4 |
-| Soins Tempête | 0,5 | 10 / 20 / 30 / 40 / 50 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 2 | 2 | 2 | 2 | 2 | 2 | 4 |
-| Soins Sacré | 0,5 | 10 / 20 / 30 / 40 / 50 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 2 | 2 | 2 | 2 | 2 | 2 | 4 |
-| Soins Impie | 0,5 | 10 / 20 / 30 / 40 / 50 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 2 | 2 | 2 | 2 | 2 | 2 | 4 |
-| % Résistance Acier | 0,12 | 2 / 5 / 7 / 10 / 12 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-| % Résistance Flamme | 0,12 | 2 / 5 / 7 / 10 / 12 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-| % Résistance Givre | 0,12 | 2 / 5 / 7 / 10 / 12 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-| % Résistance Tempête | 0,12 | 2 / 5 / 7 / 10 / 12 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-| % Résistance Sacré | 0,12 | 2 / 5 / 7 / 10 / 12 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-| % Résistance Impie | 0,12 | 2 / 5 / 7 / 10 / 12 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-| PA | fixe | 0 / 0 / 0 / 0 / 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-| PM | fixe | 0 / 0 / 0 / 1 / 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-| Portée | fixe | 0 / 0 / 1 / 1 / 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
+| Caractéristique | Poids | Plafond d'une ligne (paliers de forge 1 à 5) | P1 | P2 | P3 | P4 | P5 |
+|---|---|---|---|---|---|---|---|
+| Force | 1 | 20 / 40 / 60 / 80 / 100 | 1 | 2 | 3 | 4 | 5 |
+| Intelligence | 1 | 20 / 40 / 60 / 80 / 100 | 1 | 2 | 3 | 4 | 5 |
+| Perception | 1 | 20 / 40 / 60 / 80 / 100 | 1 | 2 | 3 | 4 | 5 |
+| Agilité | 1 | 20 / 40 / 60 / 80 / 100 | 1 | 2 | 3 | 4 | 5 |
+| Vitalité | 4 | 80 / 160 / 240 / 320 / 400 | 4 | 8 | 12 | 16 | 20 |
+| Initiative | 10 | 200 / 400 / 600 / 800 / 1000 | 10 | 20 | 30 | 40 | 50 |
+| Prospection | 0,34 | 6 / 13 / 20 / 27 / 34 | 1 | 1 | 1 | 1 | 2 |
+| Dommages | 0,34 | 6 / 13 / 20 / 27 / 34 | 1 | 1 | 1 | 1 | 2 |
+| % Critique | 0,1 | 2 / 4 / 6 / 8 / 10 | 1 | 1 | 1 | 1 | 1 |
+| Soins | 0,34 | 6 / 13 / 20 / 27 / 34 | 1 | 1 | 1 | 1 | 2 |
+| % Dégâts dévastateurs | 0,1 | 2 / 4 / 6 / 8 / 10 | 1 | 1 | 1 | 1 | 1 |
+| Dégâts dévastateurs | 0,05 | 1 / 2 / 3 / 4 / 5 | 1 | 1 | 1 | 1 | 1 |
+| % Dégâts spectraux | 0,1 | 2 / 4 / 6 / 8 / 10 | 1 | 1 | 1 | 1 | 1 |
+| Dégâts spectraux | 0,05 | 1 / 2 / 3 / 4 / 5 | 1 | 1 | 1 | 1 | 1 |
+| Réduction de dégâts | 0,08 | 1 / 3 / 4 / 6 / 8 | 1 | 1 | 1 | 1 | 1 |
+| % Dommages de mêlée | 0,03 | 0 / 1 / 1 / 2 / 3 | 1 | 1 | 1 | 1 | 1 |
+| Tacle | 0,1 | 2 / 4 / 6 / 8 / 10 | 1 | 1 | 1 | 1 | 1 |
+| Fuite | 0,1 | 2 / 4 / 6 / 8 / 10 | 1 | 1 | 1 | 1 | 1 |
+| Retrait PA | 0,2 | 4 / 8 / 12 / 16 / 20 | 1 | 1 | 1 | 1 | 1 |
+| Retrait PM | 0,2 | 4 / 8 / 12 / 16 / 20 | 1 | 1 | 1 | 1 | 1 |
+| % Épines brutes | 0,05 | 1 / 2 / 3 / 4 / 5 | 1 | 1 | 1 | 1 | 1 |
+| Épines brutes | 0,07 | 1 / 2 / 4 / 5 / 7 | 1 | 1 | 1 | 1 | 1 |
+| % Épines Acier | 0,06 | 1 / 2 / 3 / 5 / 6 | 1 | 1 | 1 | 1 | 1 |
+| % Épines Flamme | 0,06 | 1 / 2 / 3 / 5 / 6 | 1 | 1 | 1 | 1 | 1 |
+| % Épines Givre | 0,06 | 1 / 2 / 3 / 5 / 6 | 1 | 1 | 1 | 1 | 1 |
+| % Épines Tempête | 0,06 | 1 / 2 / 3 / 5 / 6 | 1 | 1 | 1 | 1 | 1 |
+| % Épines Sacré | 0,06 | 1 / 2 / 3 / 5 / 6 | 1 | 1 | 1 | 1 | 1 |
+| % Épines Impie | 0,06 | 1 / 2 / 3 / 5 / 6 | 1 | 1 | 1 | 1 | 1 |
+| Épines Acier | 0,09 | 1 / 3 / 5 / 7 / 9 | 1 | 1 | 1 | 1 | 1 |
+| Épines Flamme | 0,09 | 1 / 3 / 5 / 7 / 9 | 1 | 1 | 1 | 1 | 1 |
+| Épines Givre | 0,09 | 1 / 3 / 5 / 7 / 9 | 1 | 1 | 1 | 1 | 1 |
+| Épines Tempête | 0,09 | 1 / 3 / 5 / 7 / 9 | 1 | 1 | 1 | 1 | 1 |
+| Épines Sacré | 0,09 | 1 / 3 / 5 / 7 / 9 | 1 | 1 | 1 | 1 | 1 |
+| Épines Impie | 0,09 | 1 / 3 / 5 / 7 / 9 | 1 | 1 | 1 | 1 | 1 |
+| Dommages Acier | 0,5 | 10 / 20 / 30 / 40 / 50 | 1 | 1 | 2 | 2 | 3 |
+| Dommages Flamme | 0,5 | 10 / 20 / 30 / 40 / 50 | 1 | 1 | 2 | 2 | 3 |
+| Dommages Givre | 0,5 | 10 / 20 / 30 / 40 / 50 | 1 | 1 | 2 | 2 | 3 |
+| Dommages Tempête | 0,5 | 10 / 20 / 30 / 40 / 50 | 1 | 1 | 2 | 2 | 3 |
+| Dommages Sacré | 0,5 | 10 / 20 / 30 / 40 / 50 | 1 | 1 | 2 | 2 | 3 |
+| Dommages Impie | 0,5 | 10 / 20 / 30 / 40 / 50 | 1 | 1 | 2 | 2 | 3 |
+| Soins Acier | 0,5 | 10 / 20 / 30 / 40 / 50 | 1 | 1 | 2 | 2 | 3 |
+| Soins Flamme | 0,5 | 10 / 20 / 30 / 40 / 50 | 1 | 1 | 2 | 2 | 3 |
+| Soins Givre | 0,5 | 10 / 20 / 30 / 40 / 50 | 1 | 1 | 2 | 2 | 3 |
+| Soins Tempête | 0,5 | 10 / 20 / 30 / 40 / 50 | 1 | 1 | 2 | 2 | 3 |
+| Soins Sacré | 0,5 | 10 / 20 / 30 / 40 / 50 | 1 | 1 | 2 | 2 | 3 |
+| Soins Impie | 0,5 | 10 / 20 / 30 / 40 / 50 | 1 | 1 | 2 | 2 | 3 |
+| % Résistance Acier | 0,12 | 2 / 5 / 7 / 10 / 12 | 1 | 1 | 1 | 1 | 1 |
+| % Résistance Flamme | 0,12 | 2 / 5 / 7 / 10 / 12 | 1 | 1 | 1 | 1 | 1 |
+| % Résistance Givre | 0,12 | 2 / 5 / 7 / 10 / 12 | 1 | 1 | 1 | 1 | 1 |
+| % Résistance Tempête | 0,12 | 2 / 5 / 7 / 10 / 12 | 1 | 1 | 1 | 1 | 1 |
+| % Résistance Sacré | 0,12 | 2 / 5 / 7 / 10 / 12 | 1 | 1 | 1 | 1 | 1 |
+| % Résistance Impie | 0,12 | 2 / 5 / 7 / 10 / 12 | 1 | 1 | 1 | 1 | 1 |
+| PA | fixe | 0 / 0 / 0 / 0 / 1 | 1 | 1 | 1 | 1 | 1 |
+| PM | fixe | 0 / 0 / 0 / 1 / 1 | 1 | 1 | 1 | 1 | 1 |
+| Portée | fixe | 0 / 0 / 1 / 1 / 1 | 1 | 1 | 1 | 1 | 1 |
 
 ### Types d'objets
 
@@ -232,90 +232,90 @@ Toutes les ressources qui servent à la forge (caractéristique ou matière), pa
 
 | Ressource | Palier | Rareté | Caractéristique | Valeur | Matière | Obtention |
 |---|---|---|---|---|---|---|
+| **Aile de vampipistrelle** | 1 | commun | Force | +1 | cuir | Vampipistrelle comtesse (élite), palier 2 88 % ×2–4<br>Vampipistrelle, palier 1 55 % ×1–2 |
+| **Bec de colombe** | 1 | rare | Dommages Sacré | +3 | — | Colombe baptiste, palier 1 10 % |
+| **Bois de cerf enchanté** | 1 | peu_commun | Intelligence | +1 | — | Grand cerf de la Lisière (élite), palier 2 60 % ×1–2<br>Cerf enchanté, palier 1 20 % |
+| **Bois de chêne** | 1 | peu_commun | Force | +1 | bois | Bûcheron (Chêne) |
 | **Bois de frêne** | 1 | commun | Agilité | +1 | bois | Bûcheron (Frêne) |
+| **Caillou de fronde** | 1 | commun | Perception | +1 | — | Frondeur vétéran (élite), palier 2 90 % ×2–5<br>Gobelin frondeur, palier 1 60 % ×1–3 |
 | **Carapace de grouilleur** | 1 | commun | Force | +1 | — | Grouilleur ancestral (élite), palier 2 90 % ×2–4<br>Grouilleur, palier 1 50 % ×1–2<br>Grouilleur de braise, palier 3 50 % ×1–2 |
 | **Chapeau de morille** | 1 | commun | Intelligence | +1 | — | Vieille Morille rancunière (élite), palier 1 90 % ×2–4<br>Morille grincheuse, palier 1 60 % ×1–2 |
+| **Chêne des Anciens** | 1 | rare | % Résistance Acier | +3 | bois | Bûcheron (Chêne, rare) |
 | **Croc de loup** | 1 | commun | Perception | +1 | — | Loup alpha (élite), palier 2 90 % ×2–4<br>Loup cendreux, palier 3 50 % ×1–2<br>Loup des collines, palier 1 50 % ×1–2 |
 | **Cuivre vert-de-gris** | 1 | rare | Dommages Flamme | +3 | minerai | Mineur (Cuivre, rare) |
 | **Cœur de frêne** | 1 | rare | % Résistance Tempête | +3 | bois | Bûcheron (Frêne, rare) |
 | **Dent de rat** | 1 | commun | Agilité | +1 | — | Rat-roi (élite), palier 1 70 % ×1–2<br>Rat des galeries, palier 1 30 % |
-| **Glande acide** | 1 | peu_commun | Vitalité | +5 | — | Grouilleur ancestral (élite), palier 2 50 % ×1–2<br>Grouilleur, palier 1 15 % |
+| **Fer météorique** | 1 | rare | Dommages Acier | +3 | minerai | Mineur (Fer, rare) |
+| **Fiche de paie gobeline** | 1 | peu_commun | Vitalité | +4 | — | Frondeur vétéran (élite), palier 2 50 %<br>Gobelin frondeur, palier 1 15 % |
+| **Glande acide** | 1 | peu_commun | Vitalité | +4 | — | Grouilleur ancestral (élite), palier 2 50 % ×1–2<br>Grouilleur, palier 1 15 % |
+| **Guano luisant** | 1 | peu_commun | % Critique | +1 | — | Vampipistrelle comtesse (élite), palier 2 48 %<br>Vampipistrelle, palier 1 12 % |
+| **Lin** | 1 | commun | Prospection | +1 | tissu | Agriculteur (Lin) |
+| **Lin des fées** | 1 | rare | Portée | +1 | tissu | Agriculteur (Lin, rare) |
 | **Minerai de cuivre** | 1 | commun | Intelligence | +1 | minerai | Mineur (Cuivre) |
-| **Peau de loup** | 1 | commun | Initiative | +11 | cuir | Loup alpha (élite), palier 2 70 % ×1–2<br>Loup des collines, palier 1 30 % |
+| **Minerai de fer** | 1 | peu_commun | Force | +1 | minerai | Mineur (Fer) |
+| **Peau de loup** | 1 | commun | Initiative | +10 | cuir | Loup alpha (élite), palier 2 70 % ×1–2<br>Loup des collines, palier 1 30 % |
+| **Plume de colombe** | 1 | commun | Force, Intelligence | +1, +1 | — | Colombe baptiste, palier 1 50 % |
+| **Poil scintillant** | 1 | commun | Force | +1 | — | Grand cerf de la Lisière (élite), palier 2 90 % ×2–4<br>Cerf enchanté, palier 1 50 % ×1–2 |
 | **Queue de rat** | 1 | commun | Prospection | +1 | cuir | Rat-roi (élite), palier 1 90 % ×2–4<br>Rat des galeries, palier 1 60 % ×1–2 |
 | **Spores grincheuses** | 1 | peu_commun | Dommages | +1 | — | Vieille Morille rancunière (élite), palier 1 48 %<br>Morille grincheuse, palier 1 12 % |
-| **Bois de chêne** | 3 | peu_commun | Force | +1 | bois | Bûcheron (Chêne) |
-| **Chêne des Anciens** | 3 | rare | % Résistance Acier | +3 | bois | Bûcheron (Chêne, rare) |
-| **Fer météorique** | 3 | rare | Dommages Acier | +3 | minerai | Mineur (Fer, rare) |
-| **Lin** | 3 | commun | Prospection | +1 | tissu | Agriculteur (Lin) |
-| **Lin des fées** | 3 | rare | Portée | +1 | tissu | Agriculteur (Lin, rare) |
-| **Minerai de fer** | 3 | peu_commun | Force | +1 | minerai | Mineur (Fer) |
-| **Aile de vampipistrelle** | 4 | commun | Force | +2 | cuir | Vampipistrelle comtesse (élite), palier 2 88 % ×2–4<br>Vampipistrelle, palier 1 55 % ×1–2 |
-| **Bois de cerf enchanté** | 4 | peu_commun | Intelligence | +2 | — | Grand cerf de la Lisière (élite), palier 2 60 % ×1–2<br>Cerf enchanté, palier 1 20 % |
-| **Caillou de fronde** | 4 | commun | Perception | +2 | — | Frondeur vétéran (élite), palier 2 90 % ×2–5<br>Gobelin frondeur, palier 1 60 % ×1–3 |
-| **Fiche de paie gobeline** | 4 | peu_commun | Vitalité | +6 | — | Frondeur vétéran (élite), palier 2 50 %<br>Gobelin frondeur, palier 1 15 % |
-| **Guano luisant** | 4 | peu_commun | % Critique | +1 | — | Vampipistrelle comtesse (élite), palier 2 48 %<br>Vampipistrelle, palier 1 12 % |
-| **Poil scintillant** | 4 | commun | Force | +2 | — | Grand cerf de la Lisière (élite), palier 2 90 % ×2–4<br>Cerf enchanté, palier 1 50 % ×1–2 |
-| **Sève ancienne** | 4 | rare | Intelligence | +6 | — | Arbre millénaire (élite), palier 2 40 % ×1–2<br>Arbre vivant, palier 1 10 % |
-| **Écorce vivante** | 4 | commun | Agilité | +2 | — | Arbre millénaire (élite), palier 2 90 % ×2–5<br>Arbre vivant, palier 1 60 % ×1–3<br>Arbre calciné, palier 3 50 % ×1–2 |
-| **Bec de colombe** | 6 | rare | Dommages Sacré | +3 | — | Colombe baptiste, palier 1 10 % |
-| **Plume de colombe** | 6 | commun | Force, Intelligence | +2, +2 | — | Colombe baptiste, palier 1 50 % |
-| **Squelette de colombe** | 6 | legendaire | PM | +1 | — | Colombe baptiste, palier 1 0 % |
-| **Bon de coupe** | 7 | peu_commun | Perception | +2 | — | Abatteur en chef (élite), palier 2 48 %<br>Bûcheron de Brumerive, palier 2 12 % |
-| **Citrouille grimaçante** | 7 | peu_commun | Agilité | +2 | — | Grand Épouvantail (élite), palier 2 48 %<br>Épouvantail démotivé, palier 2 12 % |
-| **Copeaux de bois** | 7 | commun | Initiative | +19 | — | Abatteur en chef (élite), palier 2 88 % ×2–5<br>Bûcheron de Brumerive, palier 2 55 % ×1–3 |
-| **Maillon de cotte** | 7 | commun | Intelligence | +2 | — | Sergent de la milice (élite), palier 2 80 % ×2–5<br>Milicien de Hautepierre, palier 2 50 % ×1–3 |
-| **Ordre de raid** | 7 | peu_commun | Perception | +2 | — | Krasbouk, Chef de Raid (syndiqué) (mini-boss), palier 2 100 %<br>Pillard émérite (élite), palier 2 48 %<br>Défonceur de portes (élite), palier 3 32 %<br>Gobelin pillard, palier 2 12 %<br>Gobelin briseur, palier 2 8 % |
-| **Paille ensorcelée** | 7 | commun | Agilité | +2 | — | Grand Épouvantail (élite), palier 2 90 % ×2–5<br>Épouvantail démotivé, palier 2 60 % ×1–3 |
-| **Sac de rapine** | 7 | commun | Vitalité | +8 | — | Krasbouk, Chef de Raid (syndiqué) (mini-boss), palier 2 90 % ×2–4<br>Pillard émérite (élite), palier 2 88 % ×2–4<br>Gobelin pillard, palier 2 55 % ×1–2 |
-| **Écusson de milice** | 7 | peu_commun | Force | +2 | — | Sergent de la milice (élite), palier 2 48 %<br>Milicien de Hautepierre, palier 2 12 % |
-| **Bois d'if** | 8 | peu_commun | Perception | +2 | bois | Bûcheron (If) |
-| **If funèbre** | 8 | rare | % Résistance Givre | +3 | bois | Bûcheron (If, rare) |
-| **Minerai d'étain** | 8 | commun | Agilité | +2 | minerai | Mineur (Étain) |
-| **Étain chantant** | 8 | rare | Dommages Tempête | +3 | minerai | Mineur (Étain, rare) |
-| **Glaive brisé d'ange** | 9 | rare | Dommages Acier | +3 | — | Ange, palier 2 12 % |
-| **Plume d'ange** | 9 | commun | Force, Intelligence | +2, +2 | — | Ange, palier 2 35 % |
-| **Sacré cœur** | 9 | legendaire | Force, Intelligence | +2, +2 | — | Ange, palier 2 0 % |
-| **Crochet d'araignée** | 10 | peu_commun | Prospection | +1 | — | Grande Tisseuse (élite), palier 3 48 %<br>Tisseuse de brume, palier 2 12 % |
-| **Fil de brume** | 10 | commun | Perception | +2 | — | La Mère-Toile (mini-boss), palier 2 90 % ×2–4<br>Grande Tisseuse (élite), palier 3 88 % ×2–5<br>Tisseuse de brume, palier 2 55 % ×1–3 |
-| **Gnôle de raid** | 10 | commun | Force | +2 | — | Défonceur de portes (élite), palier 3 88 % ×2–4<br>Gobelin briseur, palier 2 55 % ×1–2 |
-| **Médaille en chocolat** | 10 | peu_commun | Intelligence | +2 | — | Défonceur de portes (élite), palier 3 48 %<br>Gobelin briseur, palier 2 12 % |
-| **Registre des heures** | 10 | peu_commun | Dommages | +1 | — | Le Balourd des Abîmes (mini-boss), palier 2 50 % ×1–2<br>Contremaître en chef (élite), palier 3 48 %<br>Contremaître zélé, palier 2 12 % |
-| **Sifflet de contremaître** | 10 | commun | Agilité | +2 | — | Contremaître en chef (élite), palier 3 80 % ×2–4<br>Contremaître zélé, palier 2 50 % ×1–2 |
-| **Corne du Balourd** | 12 | rare | PA | +1 | — | Le Balourd des Abîmes (mini-boss), palier 2 100 % |
-| **Soie de la Mère-Toile** | 12 | rare | PM | +1 | — | La Mère-Toile (mini-boss), palier 2 100 % |
-| **Bourse vide** | 13 | commun | Initiative | +26 | — | Chef de bande (élite), palier 3 88 % ×2–4<br>Détrousseur des grands chemins, palier 3 55 % ×1–2 |
-| **Carte au trésor douteuse** | 13 | peu_commun | Vitalité | +11 | — | Chef de bande (élite), palier 3 48 %<br>Détrousseur des grands chemins, palier 3 12 % |
-| **Cendre tiède** | 13 | commun | Force | +3 | — | Marraine Cendrée (élite), palier 4 88 % ×2–5<br>Cendrillon, palier 4 55 % ×1–3<br>Arbre calciné, palier 3 50 % ×1–2<br>Grouilleur de braise, palier 3 50 % ×1–2<br>Loup cendreux, palier 3 50 % ×1–2 |
-| **Éclat de cendre** | 13 | rare | Portée | +1 | — | Grondin, Bélier de la Brèche (mini-boss), palier 4 100 % ×1–2<br>Arbre calciné, palier 3 3 %<br>Grouilleur de braise, palier 3 3 %<br>Loup cendreux, palier 3 3 % |
-| **Argent lunaire** | 15 | rare | Dommages Givre | +3 | minerai | Mineur (Argent, rare) |
-| **Bois de hêtre** | 15 | peu_commun | Force | +3 | bois | Bûcheron (Hêtre) |
-| **Cortex féral** | 15 | legendaire | % Dégâts dévastateurs | +1 | — | Lion de Juda, palier 3 0 % |
-| **Croc de lion féroce** | 15 | rare | Dommages Sacré | +3 | — | Lion de Juda, palier 3 5 % |
-| **Hêtre centenaire** | 15 | rare | % Résistance Acier | +3 | bois | Bûcheron (Hêtre, rare) |
-| **Minerai d'argent** | 15 | peu_commun | Perception | +3 | minerai | Mineur (Argent) |
-| **Poil de crinière léonin** | 15 | commun | Dommages Sacré | +1 | — | Lion de Juda, palier 3 25 % |
-| **Dent de troll** | 16 | commun | Intelligence | +3 | — | Troll gastronome (élite), palier 4 88 % ×2–4<br>Troll des ponts, palier 3 55 % ×1–2 |
-| **Recette de troll** | 16 | peu_commun | Perception | +3 | — | Troll gastronome (élite), palier 4 48 %<br>Troll des ponts, palier 3 12 % |
-| **Aile de Raphaël** | 18 | rare | Soins Sacré | +6 | — | Archange Raphaël (mini-boss), palier 3 10 % |
-| **Sacré cœur de Raphaël** | 18 | legendaire | Soins | +1 | — | Archange Raphaël (mini-boss), palier 3 0 % |
-| **Tunique déchirée de Raphaël** | 18 | commun | % Résistance Impie | +1 | — | Archange Raphaël (mini-boss), palier 3 55 % |
-| **Message intercepté** | 19 | peu_commun | Agilité | +3 | — | Corbac chef espion (élite), palier 4 48 %<br>Corbac espion, palier 3 12 % |
-| **Plume de corbac** | 19 | commun | Force | +3 | — | Corbac chef espion (élite), palier 4 88 % ×2–5<br>Corbac espion, palier 3 55 % ×1–3 |
-| **Bois de malorme** | 22 | rare | Intelligence | +12 | bois | Bûcheron (Malorme) |
-| **Chanvre** | 22 | commun | Initiative | +38 | tissu | Agriculteur (Chanvre) |
-| **Chanvre d'acier** | 22 | rare | Portée | +1 | tissu | Agriculteur (Chanvre, rare) |
-| **Cœur de pierre** | 22 | peu_commun | Intelligence | +4 | — | Gargouille de la Grande Porte (élite), palier 4 48 %<br>Gargouille, palier 4 12 % |
-| **Malorme ensorcelée** | 22 | rare | % Résistance Flamme | +3 | bois | Bûcheron (Malorme, rare) |
-| **Obsidienne** | 22 | rare | Force | +12 | minerai | Mineur (Obsidienne) |
-| **Obsidienne sanglante** | 22 | rare | Dommages Acier | +6 | minerai | Mineur (Obsidienne, rare) |
-| **Éclat de gargouille** | 22 | commun | Perception | +4 | — | Gargouille de la Grande Porte (élite), palier 4 88 % ×2–5<br>Gargouille, palier 4 55 % ×1–3 |
-| **Invitation au bal** | 25 | peu_commun | Agilité | +4 | — | Marraine Cendrée (élite), palier 4 48 %<br>Cendrillon, palier 4 12 % |
-| **Cuir d'olifant** | 28 | commun | Vitalité | +18 | cuir | Olifant-tour (élite), palier 5 88 % ×2–4<br>Olifant de guerre, palier 4 55 % ×1–2 |
-| **Ivoire d'olifant** | 28 | peu_commun | Initiative | +45 | — | Olifant-tour (élite), palier 5 48 %<br>Olifant de guerre, palier 4 12 % |
-| **Fragment de cendre** | 50 | legendaire | PA | +1 | — | Le Souverain Cendré (mini-boss), palier 5 100 % |
+| **Squelette de colombe** | 1 | legendaire | PM | +1 | — | Colombe baptiste, palier 1 0 % |
+| **Sève ancienne** | 1 | rare | Intelligence | +3 | — | Arbre millénaire (élite), palier 2 40 % ×1–2<br>Arbre vivant, palier 1 10 % |
+| **Écorce vivante** | 1 | commun | Agilité | +1 | — | Arbre millénaire (élite), palier 2 90 % ×2–5<br>Arbre vivant, palier 1 60 % ×1–3<br>Arbre calciné, palier 3 50 % ×1–2 |
+| **Bois d'if** | 2 | peu_commun | Perception | +2 | bois | Bûcheron (If) |
+| **Bon de coupe** | 2 | peu_commun | Perception | +2 | — | Abatteur en chef (élite), palier 2 48 %<br>Bûcheron de Brumerive, palier 2 12 % |
+| **Citrouille grimaçante** | 2 | peu_commun | Agilité | +2 | — | Grand Épouvantail (élite), palier 2 48 %<br>Épouvantail démotivé, palier 2 12 % |
+| **Copeaux de bois** | 2 | commun | Initiative | +20 | — | Abatteur en chef (élite), palier 2 88 % ×2–5<br>Bûcheron de Brumerive, palier 2 55 % ×1–3 |
+| **Corne du Balourd** | 2 | rare | PA | +1 | — | Le Balourd des Abîmes (mini-boss), palier 2 100 % |
+| **Crochet d'araignée** | 2 | peu_commun | Prospection | +1 | — | Grande Tisseuse (élite), palier 3 48 %<br>Tisseuse de brume, palier 2 12 % |
+| **Fil de brume** | 2 | commun | Perception | +2 | — | La Mère-Toile (mini-boss), palier 2 90 % ×2–4<br>Grande Tisseuse (élite), palier 3 88 % ×2–5<br>Tisseuse de brume, palier 2 55 % ×1–3 |
+| **Glaive brisé d'ange** | 2 | rare | Dommages Acier | +3 | — | Ange, palier 2 12 % |
+| **Gnôle de raid** | 2 | commun | Force | +2 | — | Défonceur de portes (élite), palier 3 88 % ×2–4<br>Gobelin briseur, palier 2 55 % ×1–2 |
+| **If funèbre** | 2 | rare | % Résistance Givre | +3 | bois | Bûcheron (If, rare) |
+| **Maillon de cotte** | 2 | commun | Intelligence | +2 | — | Sergent de la milice (élite), palier 2 80 % ×2–5<br>Milicien de Hautepierre, palier 2 50 % ×1–3 |
+| **Minerai d'étain** | 2 | commun | Agilité | +2 | minerai | Mineur (Étain) |
+| **Médaille en chocolat** | 2 | peu_commun | Intelligence | +2 | — | Défonceur de portes (élite), palier 3 48 %<br>Gobelin briseur, palier 2 12 % |
+| **Ordre de raid** | 2 | peu_commun | Perception | +2 | — | Krasbouk, Chef de Raid (syndiqué) (mini-boss), palier 2 100 %<br>Pillard émérite (élite), palier 2 48 %<br>Défonceur de portes (élite), palier 3 32 %<br>Gobelin pillard, palier 2 12 %<br>Gobelin briseur, palier 2 8 % |
+| **Paille ensorcelée** | 2 | commun | Agilité | +2 | — | Grand Épouvantail (élite), palier 2 90 % ×2–5<br>Épouvantail démotivé, palier 2 60 % ×1–3 |
+| **Plume d'ange** | 2 | commun | Force, Intelligence | +2, +2 | — | Ange, palier 2 35 % |
+| **Registre des heures** | 2 | peu_commun | Dommages | +1 | — | Le Balourd des Abîmes (mini-boss), palier 2 50 % ×1–2<br>Contremaître en chef (élite), palier 3 48 %<br>Contremaître zélé, palier 2 12 % |
+| **Sac de rapine** | 2 | commun | Vitalité | +8 | — | Krasbouk, Chef de Raid (syndiqué) (mini-boss), palier 2 90 % ×2–4<br>Pillard émérite (élite), palier 2 88 % ×2–4<br>Gobelin pillard, palier 2 55 % ×1–2 |
+| **Sacré cœur** | 2 | legendaire | Force, Intelligence | +2, +2 | — | Ange, palier 2 0 % |
+| **Sifflet de contremaître** | 2 | commun | Agilité | +2 | — | Contremaître en chef (élite), palier 3 80 % ×2–4<br>Contremaître zélé, palier 2 50 % ×1–2 |
+| **Soie de la Mère-Toile** | 2 | rare | PM | +1 | — | La Mère-Toile (mini-boss), palier 2 100 % |
+| **Écusson de milice** | 2 | peu_commun | Force | +2 | — | Sergent de la milice (élite), palier 2 48 %<br>Milicien de Hautepierre, palier 2 12 % |
+| **Étain chantant** | 2 | rare | Dommages Tempête | +3 | minerai | Mineur (Étain, rare) |
+| **Aile de Raphaël** | 3 | rare | Soins Sacré | +6 | — | Archange Raphaël (mini-boss), palier 3 10 % |
+| **Argent lunaire** | 3 | rare | Dommages Givre | +6 | minerai | Mineur (Argent, rare) |
+| **Bois de hêtre** | 3 | peu_commun | Force | +3 | bois | Bûcheron (Hêtre) |
+| **Bourse vide** | 3 | commun | Initiative | +30 | — | Chef de bande (élite), palier 3 88 % ×2–4<br>Détrousseur des grands chemins, palier 3 55 % ×1–2 |
+| **Carte au trésor douteuse** | 3 | peu_commun | Vitalité | +12 | — | Chef de bande (élite), palier 3 48 %<br>Détrousseur des grands chemins, palier 3 12 % |
+| **Cendre tiède** | 3 | commun | Force | +3 | — | Marraine Cendrée (élite), palier 4 88 % ×2–5<br>Cendrillon, palier 4 55 % ×1–3<br>Arbre calciné, palier 3 50 % ×1–2<br>Grouilleur de braise, palier 3 50 % ×1–2<br>Loup cendreux, palier 3 50 % ×1–2 |
+| **Cortex féral** | 3 | legendaire | % Dégâts dévastateurs | +1 | — | Lion de Juda, palier 3 0 % |
+| **Croc de lion féroce** | 3 | rare | Dommages Sacré | +6 | — | Lion de Juda, palier 3 5 % |
+| **Dent de troll** | 3 | commun | Intelligence | +3 | — | Troll gastronome (élite), palier 4 88 % ×2–4<br>Troll des ponts, palier 3 55 % ×1–2 |
+| **Hêtre centenaire** | 3 | rare | % Résistance Acier | +3 | bois | Bûcheron (Hêtre, rare) |
+| **Message intercepté** | 3 | peu_commun | Agilité | +3 | — | Corbac chef espion (élite), palier 4 48 %<br>Corbac espion, palier 3 12 % |
+| **Minerai d'argent** | 3 | peu_commun | Perception | +3 | minerai | Mineur (Argent) |
+| **Plume de corbac** | 3 | commun | Force | +3 | — | Corbac chef espion (élite), palier 4 88 % ×2–5<br>Corbac espion, palier 3 55 % ×1–3 |
+| **Poil de crinière léonin** | 3 | commun | Dommages Sacré | +2 | — | Lion de Juda, palier 3 25 % |
+| **Recette de troll** | 3 | peu_commun | Perception | +3 | — | Troll gastronome (élite), palier 4 48 %<br>Troll des ponts, palier 3 12 % |
+| **Sacré cœur de Raphaël** | 3 | legendaire | Soins | +1 | — | Archange Raphaël (mini-boss), palier 3 0 % |
+| **Tunique déchirée de Raphaël** | 3 | commun | % Résistance Impie | +1 | — | Archange Raphaël (mini-boss), palier 3 55 % |
+| **Éclat de cendre** | 3 | rare | Portée | +1 | — | Grondin, Bélier de la Brèche (mini-boss), palier 4 100 % ×1–2<br>Arbre calciné, palier 3 3 %<br>Grouilleur de braise, palier 3 3 %<br>Loup cendreux, palier 3 3 % |
+| **Bois de malorme** | 4 | rare | Intelligence | +12 | bois | Bûcheron (Malorme) |
+| **Chanvre** | 4 | commun | Initiative | +40 | tissu | Agriculteur (Chanvre) |
+| **Chanvre d'acier** | 4 | rare | Portée | +1 | tissu | Agriculteur (Chanvre, rare) |
+| **Cuir d'olifant** | 4 | commun | Vitalité | +16 | cuir | Olifant-tour (élite), palier 5 88 % ×2–4<br>Olifant de guerre, palier 4 55 % ×1–2 |
+| **Cœur de pierre** | 4 | peu_commun | Intelligence | +4 | — | Gargouille de la Grande Porte (élite), palier 4 48 %<br>Gargouille, palier 4 12 % |
+| **Invitation au bal** | 4 | peu_commun | Agilité | +4 | — | Marraine Cendrée (élite), palier 4 48 %<br>Cendrillon, palier 4 12 % |
+| **Ivoire d'olifant** | 4 | peu_commun | Initiative | +40 | — | Olifant-tour (élite), palier 5 48 %<br>Olifant de guerre, palier 4 12 % |
+| **Malorme ensorcelée** | 4 | rare | % Résistance Flamme | +3 | bois | Bûcheron (Malorme, rare) |
+| **Obsidienne** | 4 | rare | Force | +12 | minerai | Mineur (Obsidienne) |
+| **Obsidienne sanglante** | 4 | rare | Dommages Acier | +6 | minerai | Mineur (Obsidienne, rare) |
+| **Éclat de gargouille** | 4 | commun | Perception | +4 | — | Gargouille de la Grande Porte (élite), palier 4 88 % ×2–5<br>Gargouille, palier 4 55 % ×1–3 |
+| **Fragment de cendre** | 5 | legendaire | PA | +1 | — | Le Souverain Cendré (mini-boss), palier 5 100 % |
 
-Ressources par caractéristique : Force 14, Intelligence 12, Agilité 9, Perception 9, Vitalité 5, Initiative 5, Prospection 3, Dommages Acier 3, Portée 3, Dommages Sacré 3, Dommages 2, % Résistance Acier 2, PM 2, PA 2, Dommages Flamme 1, % Résistance Tempête 1, % Critique 1, % Résistance Givre 1, Dommages Tempête 1, Dommages Givre 1, % Dégâts dévastateurs 1, Soins Sacré 1, Soins 1, % Résistance Impie 1, % Résistance Flamme 1.
+Ressources par caractéristique : Force 14, Intelligence 12, Agilité 9, Perception 9, Vitalité 5, Initiative 5, Dommages Sacré 3, Dommages Acier 3, Prospection 3, Portée 3, % Résistance Acier 2, Dommages 2, PM 2, PA 2, Dommages Flamme 1, % Résistance Tempête 1, % Critique 1, % Résistance Givre 1, Dommages Tempête 1, Soins Sacré 1, Dommages Givre 1, % Dégâts dévastateurs 1, Soins 1, % Résistance Impie 1, % Résistance Flamme 1.
 
 ### Plans
 
@@ -327,36 +327,36 @@ montre tout. Bonus calculés comme `Forge.preview` sans Précision (plage du jet
 | **Anneau de cuivre** | anneau | 1 | 1 Minerai de cuivre, 3 Chapeau de morille, 2 Croc de loup | Intelligence 3–4, Perception 2 | boutique |
 | **Arc de frêne** | arc | 1 | 1 Minerai de cuivre, 1 Bois de frêne, 4 Dent de rat | Intelligence 1, Agilité 4–5 | boutique |
 | **Bâton de novice** | baton | 1 | 1 Minerai de cuivre, 1 Bois de frêne, 4 Chapeau de morille | Intelligence 4–5, Agilité 1 | boutique |
-| **Ceinture de corde** | ceinture | 1 | 1 Peau de loup, 5 Glande acide | Initiative 8–11, Vitalité 19–25 | boutique |
+| **Ceinture de corde** | ceinture | 1 | 1 Peau de loup, 5 Glande acide | Initiative 8–10, Vitalité 15–20 | boutique |
 | **Sceptre de novice** | sceptre | 1 | 1 Minerai de cuivre, 1 Bois de frêne, 2 Chapeau de morille, 2 Carapace de grouilleur | Intelligence 2–3, Agilité 1, Force 2 | boutique |
 | **Épée de fer** | epee | 1 | 1 Minerai de cuivre, 1 Bois de frêne, 4 Carapace de grouilleur | Intelligence 1, Agilité 1, Force 3–4 | boutique |
 | **Amulette-croc** | amulette | 1 | 1 Minerai de cuivre, 3 Carapace de grouilleur, 2 Croc de loup | Intelligence 1, Force 2–3, Perception 2 | boutique |
-| **Bottes de marche** | bottes | 1 | 3 Peau de loup, 3 Dent de rat | Initiative 25–33, Agilité 2–3 | « Aux armes, citoyens (surtout vous) » |
-| **Bottes de mousse** | bottes | 1 | 1 Peau de loup, 3 Croc de loup, 2 Glande acide | Initiative 8–11, Perception 2–3, Vitalité 8–10 | « Observer sans intervenir » |
-| **Bottes feutrées** | bottes | 1 | 1 Peau de loup, 3 Dent de rat, 2 Queue de rat | Initiative 8–11, Agilité 2–3, Prospection 2 | « Objectifs de productivité » |
-| **Cape en peau de loup** | cape | 2 | 1 Poil scintillant, 2 Dent de rat, 2 Glande acide, 1 Peau de loup, 1 Lin | Force 2, Agilité 2, Vitalité 8–10, Initiative 8–11, Prospection 1 | boutique |
-| **Ceinturon riveté** | ceinture | 1 | 1 Peau de loup, 3 Glande acide, 2 Carapace de grouilleur | Initiative 8–11, Vitalité 11–15, Force 2 | « Le verger de Mère Pomponne » |
-| **Casque cabossé** | coiffe | 4 | 1 Poil scintillant, 3 Fiche de paie gobeline, 2 Aile de vampipistrelle, 1 Lin | Force 5–6, Vitalité 14–18, Prospection 1 | boutique, « Inspection surprise » |
-| **Couronne de ramure** | coiffe | 3 | 1 Poil scintillant, 3 Queue de rat, 2 Bois de cerf enchanté, 1 Lin | Force 2, Prospection 3–4, Intelligence 3–4 | « Coupe rase » |
-| **Dague du Mauvais Œil** | dague | 4 | 1 Minerai de fer, 1 Bois de chêne, 2 Écorce vivante, 2 Caillou de fronde | Force 2, Agilité 3–4, Perception 3–4 | boutique |
-| **Masse cerclée** | masse | 4 | 1 Minerai de fer, 1 Bois de chêne, 2 Aile de vampipistrelle, 2 Fiche de paie gobeline | Force 5–6, Vitalité 9–12 | boutique |
-| **Cape d'écorce** | cape | 4 | 1 Poil scintillant, 3 Fiche de paie gobeline, 2 Caillou de fronde, 1 Lin | Force 2, Vitalité 14–18, Perception 3–4, Prospection 1 | « Les arbres sont nerveux » |
-| **Cape de vampipistrelle** | cape | 3 | 1 Poil scintillant, 2 Écorce vivante, 2 Caillou de fronde, 1 Peau de loup, 1 Lin | Force 2, Agilité 3–4, Perception 3–4, Initiative 8–11, Prospection 1 | « Heures supplémentaires (non payées) » |
-| **Chevalière du Cogneur** | anneau | 2 | 1 Minerai de fer, 3 Spores grincheuses, 2 Aile de vampipistrelle | Force 4–5, Dommages 2–3 | « Les ordres du raid » |
-| **Chapeau d'épouvantail** | coiffe | 6 | 1 Paille ensorcelée, 2 Citrouille grimaçante, 2 Sac de rapine, 1 Queue de rat, 1 Lin | Agilité 5–6, Vitalité 12–16, Prospection 2 | « La grève des épouvantails » |
-| **Amulette-sifflet** | amulette | 9 | 1 Minerai d'étain, 2 Copeaux de bois, 2 Sifflet de contremaître, 1 Crochet d'araignée | Agilité 5–6, Initiative 29–38, Prospection 1 | « Le péage de Zibeline » |
-| **Cape de soie grise** | cape | 9 | 1 Fil de brume, 2 Registre des heures, 2 Crochet d'araignée, 1 Sac de rapine, 1 Lin | Perception 2, Dommages 2, Prospection 2–3, Vitalité 6–8 | « Du fil de brume » |
-| **Broche de la Lisière** | amulette | 10 | 1 Minerai d'étain, 2 Médaille en chocolat, 2 Sifflet de contremaître, 1 Crochet d'araignée | Agilité 5–6, Intelligence 3–4, Prospection 1 | « La Mère-Toile » |
-| **Carte du syndicat** | amulette | 10 | 1 Minerai d'étain, 2 Sifflet de contremaître, 2 Registre des heures, 1 Crochet d'araignée | Agilité 5–6, Dommages 2, Prospection 1 | « Le Balourd des Abîmes » |
-| **Écharpe du Héros de Brumerive** | cape | 8 | 1 Soie de la Mère-Toile, 2 Sac de rapine, 2 Gnôle de raid, 1 Médaille en chocolat, 1 Lin | PM 1, Vitalité 12–16, Force 3–4, Intelligence 2, Prospection 1 | « La palissade de Krasbouk » |
-| **Amulette chantante** | amulette | 10 | 1 Minerai d'étain, 2 Médaille en chocolat, 2 Crochet d'araignée, 1 Carte au trésor douteuse | Agilité 2, Intelligence 3–4, Prospection 2, Vitalité 8–11 | « Notes d'observatrice » |
-| **Bottes de grand chemin** | bottes | 11 | 1 Aile de vampipistrelle, 2 Sifflet de contremaître, 2 Carte au trésor douteuse, 1 Bourse vide | Force 2, Agilité 3–4, Vitalité 17–22, Initiative 20–26 | « Le tampon officiel » |
-| **Cape de loup cendreux** | cape | 11 | 1 Soie de la Mère-Toile, 2 Sifflet de contremaître, 2 Carte au trésor douteuse, 1 Bourse vide, 1 Lin | PM 1, Agilité 3–4, Vitalité 17–22, Initiative 20–26, Prospection 1 | « Le convoi de Brokk » |
-| **Ceinture de troll** | ceinture | 12 | 1 Aile de vampipistrelle, 3 Carte au trésor douteuse, 2 Cendre tiède | Force 6–8, Vitalité 25–33 | « Droit de passage » |
-| **Heaume d'argent** | coiffe | 14 | 3 Plume de corbac, 2 Carte au trésor douteuse, 1 Crochet d'araignée, 1 Lin | Force 7–9, Vitalité 17–22, Prospection 2 | « Messages interceptés » |
-| **Ceinture d'écorce calcinée** | ceinture | 14 | 1 Aile de vampipistrelle, 2 Carte au trésor douteuse, 2 Plume de corbac, 1 Dent de troll | Force 6–8, Vitalité 17–22, Intelligence 2–3 | « Les arbres qui brûlent » |
-| **Brassard du délégué** | amulette | 19 | 1 Obsidienne, 2 Message intercepté, 2 Éclat de gargouille, 1 Crochet d'araignée | Force 9–12, Agilité 5–6, Perception 6–8, Prospection 1 | « Le registre des sacrifiés » |
-| **Insigne de la Vieille Garde** | amulette | 16 | 1 Obsidienne, 2 Plume de corbac, 2 Carte au trésor douteuse, 1 Crochet d'araignée | Force 14–18, Vitalité 17–22, Prospection 1 | « La vieille garde » |
-| **Feuille d'argent de l'ambassade** | anneau | 21 | 1 Obsidienne, 2 Cœur de pierre, 2 Invitation au bal, 1 Crochet d'araignée | Force 9–12, Intelligence 6–8, Agilité 6–8, Prospection 1 | « Le bal des Cendrillons » |
-| **Cape en cuir d'olifant** | cape | 21 | 3 Plume de corbac, 2 Cuir d'olifant, 1 Crochet d'araignée, 1 Chanvre | Force 7–9, Vitalité 27–36, Prospection 1, Initiative 29–38 | « Le Conseil des Peuples Libres » |
-| **Éclat de l'Aube** | anneau | 23 | 1 Obsidienne, 1 Cuir d'olifant, 1 Plume de corbac, 1 Cœur de pierre, 1 Éclat de gargouille, 1 Invitation au bal | Force 11–15, Vitalité 14–18, Intelligence 3–4, Perception 3–4, Agilité 3–4 | « La Brèche » |
+| **Bottes de marche** | bottes | 1 | 3 Peau de loup, 3 Dent de rat | Initiative 23–30, Agilité 2–3 | « Aux armes, citoyens (surtout vous) » |
+| **Bottes de mousse** | bottes | 1 | 1 Peau de loup, 3 Croc de loup, 2 Glande acide | Initiative 8–10, Perception 2–3, Vitalité 6–8 | « Observer sans intervenir » |
+| **Bottes feutrées** | bottes | 1 | 1 Peau de loup, 3 Dent de rat, 2 Queue de rat | Initiative 8–10, Agilité 2–3, Prospection 2 | « Objectifs de productivité » |
+| **Cape en peau de loup** | cape | 1 | 1 Poil scintillant, 2 Dent de rat, 2 Glande acide, 1 Peau de loup, 1 Lin | Force 1, Agilité 2, Vitalité 6–8, Initiative 8–10, Prospection 1 | boutique |
+| **Ceinturon riveté** | ceinture | 1 | 1 Peau de loup, 3 Glande acide, 2 Carapace de grouilleur | Initiative 8–10, Vitalité 9–12, Force 2 | « Le verger de Mère Pomponne » |
+| **Casque cabossé** | coiffe | 1 | 1 Poil scintillant, 3 Fiche de paie gobeline, 2 Aile de vampipistrelle, 1 Lin | Force 2–3, Vitalité 9–12, Prospection 1 | boutique, « Inspection surprise » |
+| **Couronne de ramure** | coiffe | 1 | 1 Poil scintillant, 3 Queue de rat, 2 Bois de cerf enchanté, 1 Lin | Force 1, Prospection 3–4, Intelligence 2 | « Coupe rase » |
+| **Dague du Mauvais Œil** | dague | 1 | 1 Minerai de fer, 1 Bois de chêne, 2 Écorce vivante, 2 Caillou de fronde | Force 2, Agilité 2, Perception 2 | boutique |
+| **Masse cerclée** | masse | 1 | 1 Minerai de fer, 1 Bois de chêne, 2 Aile de vampipistrelle, 2 Fiche de paie gobeline | Force 3–4, Vitalité 6–8 | boutique |
+| **Cape d'écorce** | cape | 1 | 1 Poil scintillant, 3 Fiche de paie gobeline, 2 Caillou de fronde, 1 Lin | Force 1, Vitalité 9–12, Perception 2, Prospection 1 | « Les arbres sont nerveux » |
+| **Cape de vampipistrelle** | cape | 1 | 1 Poil scintillant, 2 Écorce vivante, 2 Caillou de fronde, 1 Peau de loup, 1 Lin | Force 1, Agilité 2, Perception 2, Initiative 8–10, Prospection 1 | « Heures supplémentaires (non payées) » |
+| **Chevalière du Cogneur** | anneau | 1 | 1 Minerai de fer, 3 Spores grincheuses, 2 Aile de vampipistrelle | Force 2–3, Dommages 2–3 | « Les ordres du raid » |
+| **Chapeau d'épouvantail** | coiffe | 2 | 1 Paille ensorcelée, 2 Citrouille grimaçante, 2 Sac de rapine, 1 Queue de rat, 1 Lin | Agilité 5–6, Vitalité 12–16, Prospection 2 | « La grève des épouvantails » |
+| **Amulette-sifflet** | amulette | 2 | 1 Minerai d'étain, 2 Copeaux de bois, 2 Sifflet de contremaître, 1 Crochet d'araignée | Agilité 5–6, Initiative 30–40, Prospection 1 | « Le péage de Zibeline » |
+| **Cape de soie grise** | cape | 2 | 1 Fil de brume, 2 Registre des heures, 2 Crochet d'araignée, 1 Sac de rapine, 1 Lin | Perception 2, Dommages 2, Prospection 2–3, Vitalité 6–8 | « Du fil de brume » |
+| **Broche de la Lisière** | amulette | 2 | 1 Minerai d'étain, 2 Médaille en chocolat, 2 Sifflet de contremaître, 1 Crochet d'araignée | Agilité 5–6, Intelligence 3–4, Prospection 1 | « La Mère-Toile » |
+| **Carte du syndicat** | amulette | 2 | 1 Minerai d'étain, 2 Sifflet de contremaître, 2 Registre des heures, 1 Crochet d'araignée | Agilité 5–6, Dommages 2, Prospection 1 | « Le Balourd des Abîmes » |
+| **Écharpe du Héros de Brumerive** | cape | 2 | 1 Soie de la Mère-Toile, 2 Sac de rapine, 2 Gnôle de raid, 1 Médaille en chocolat, 1 Lin | PM 1, Vitalité 12–16, Force 3–4, Intelligence 2, Prospection 1 | « La palissade de Krasbouk » |
+| **Amulette chantante** | amulette | 2 | 1 Minerai d'étain, 2 Médaille en chocolat, 2 Crochet d'araignée, 1 Carte au trésor douteuse | Agilité 2, Intelligence 3–4, Prospection 2, Vitalité 9–12 | « Notes d'observatrice » |
+| **Bottes de grand chemin** | bottes | 2 | 1 Aile de vampipistrelle, 2 Sifflet de contremaître, 2 Carte au trésor douteuse, 1 Bourse vide | Force 1, Agilité 3–4, Vitalité 18–24, Initiative 23–30 | « Le tampon officiel » |
+| **Cape de loup cendreux** | cape | 2 | 1 Soie de la Mère-Toile, 2 Sifflet de contremaître, 2 Carte au trésor douteuse, 1 Bourse vide, 1 Lin | PM 1, Agilité 3–4, Vitalité 18–24, Initiative 23–30, Prospection 1 | « Le convoi de Brokk » |
+| **Ceinture de troll** | ceinture | 3 | 1 Aile de vampipistrelle, 3 Carte au trésor douteuse, 2 Cendre tiède | Force 5–7, Vitalité 27–36 | « Droit de passage » |
+| **Heaume d'argent** | coiffe | 3 | 3 Plume de corbac, 2 Carte au trésor douteuse, 1 Crochet d'araignée, 1 Lin | Force 7–9, Vitalité 18–24, Prospection 2 | « Messages interceptés » |
+| **Ceinture d'écorce calcinée** | ceinture | 3 | 1 Aile de vampipistrelle, 2 Carte au trésor douteuse, 2 Plume de corbac, 1 Dent de troll | Force 5–7, Vitalité 18–24, Intelligence 2–3 | « Les arbres qui brûlent » |
+| **Brassard du délégué** | amulette | 3 | 1 Obsidienne, 2 Message intercepté, 2 Éclat de gargouille, 1 Crochet d'araignée | Force 9–12, Agilité 5–6, Perception 6–8, Prospection 1 | « Le registre des sacrifiés » |
+| **Insigne de la Vieille Garde** | amulette | 3 | 1 Obsidienne, 2 Plume de corbac, 2 Carte au trésor douteuse, 1 Crochet d'araignée | Force 14–18, Vitalité 18–24, Prospection 1 | « La vieille garde » |
+| **Feuille d'argent de l'ambassade** | anneau | 4 | 1 Obsidienne, 2 Cœur de pierre, 2 Invitation au bal, 1 Crochet d'araignée | Force 9–12, Intelligence 6–8, Agilité 6–8, Prospection 1 | « Le bal des Cendrillons » |
+| **Cape en cuir d'olifant** | cape | 3 | 3 Plume de corbac, 2 Cuir d'olifant, 1 Crochet d'araignée, 1 Chanvre | Force 7–9, Vitalité 24–32, Prospection 1, Initiative 30–40 | « Le Conseil des Peuples Libres » |
+| **Éclat de l'Aube** | anneau | 4 | 1 Obsidienne, 1 Cuir d'olifant, 1 Plume de corbac, 1 Cœur de pierre, 1 Éclat de gargouille, 1 Invitation au bal | Force 11–15, Vitalité 12–16, Intelligence 3–4, Perception 3–4, Agilité 3–4 | « La Brèche » |

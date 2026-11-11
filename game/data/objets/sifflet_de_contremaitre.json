@@ -3,7 +3,7 @@
   "nom": "Sifflet de contremaître",
   "type": "ressource",
   "rarete": "commun",
-  "niveau": 10,
+  "niveau": 2,
   "description": "Trois coups : au travail. Deux coups : plus vite. Un coup : vous êtes viré.",
   "caracteristique": "agilite"
 }

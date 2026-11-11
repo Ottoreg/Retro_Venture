@@ -3,7 +3,7 @@
   "nom": "Minerai d'étain",
   "type": "ressource",
   "rarete": "commun",
-  "niveau": 8,
+  "niveau": 2,
   "description": "Il crie quand on le tord. Si, si : écoutez bien.",
   "matiere": "minerai",
   "caracteristique": "agilite"

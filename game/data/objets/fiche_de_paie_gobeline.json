@@ -3,7 +3,7 @@
   "nom": "Fiche de paie gobeline",
   "type": "ressource",
   "rarete": "peu_commun",
-  "niveau": 4,
+  "niveau": 1,
   "description": "« Salaire : 0. Primes : 0. Retenue pour usure de cailloux : 3. » Document historique.",
   "caracteristique": "vitalite"
 }

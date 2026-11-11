@@ -3,7 +3,7 @@
   "nom": "Anguille électrique",
   "type": "ressource",
   "rarete": "rare",
-  "niveau": 22,
+  "niveau": 4,
   "description": "Elle pique comme une ortie royale, mais en plus vexée.",
   "boutique": false
 }

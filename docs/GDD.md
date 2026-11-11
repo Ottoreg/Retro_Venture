@@ -1422,7 +1422,7 @@ tour ») : la difficulté vient uniquement des **monstres renforcés**.
   de la famille ont été gardées), deux membres d'une famille sont identiques, les élites sont au
   moins du palier de leur famille. Son XP sert de base à la réputation qu'il rapporte une fois vaincu
   (un quart, partagé entre les joueurs). Chaque point de Force, Intelligence, Perception ou Agilité
-  donne +1 % de dégâts de son élément. Les ressources gardent leur niveau pour la forge (à revoir).
+  donne +1 % de dégâts de son élément. Les ressources passent aussi en paliers (même table, valeur de forge = palier × poids, § 10.4).
 - **Mini-boss à phases** (moteur fait, contenu à venir) : un monstre unique (`boss` : ni famille ni
   élite, comme le Souverain Cendré) ou n'importe quel monstre peut avoir des **phases**.
   Quand ses PV tombent sous un seuil (en % de ses PV max), après n'importe quels dégâts, la phase se
@@ -2107,7 +2107,7 @@ compris) et les recettes du forgeron sont supprimés, tout le reste se forge.
   de Hautepierre) disent où elle est et, si le joueur accepte, expliquent la forge.
 - **Type d'objet** d'abord : coiffe, cape, amulette, anneau, ceinture, bottes, et six formes
   d'armes (épée Acier, arc Tempête, bâton Givre, dague Impie, masse Sacré, sceptre Flamme ; dégâts
-  de base × (1 + (palier − 1) / 20) ; **élément d'attaque** : celui de la caractéristique
+  de base × (1 + 0,4 × (palier − 1)), palier 1 à 5 (11/11/2026) ; **élément d'attaque** : celui de la caractéristique
   élémentaire la plus forte de l'arme, Force Acier, Intelligence Flamme, Perception Givre, Agilité
   Tempête, celui de la forme à égalité ou sans ligne élémentaire ; **Sacré** si Force et Intelligence,
   **Impie** si Agilité et Perception sont toutes deux à 10 % au plus de la plus forte ; demande de
@@ -2116,11 +2116,11 @@ compris) et les recettes du forgeron sont supprimés, tout le reste se forge.
   (ceinture, bottes), minerai (anneau, amulette), minerai et bois (armes). **8 ressources différentes
   au plus** (les 8 cases de la recette, demande de l'auteur du 03/11/2026 ; quantité de chacune libre,
   bornée par le plafond des lignes).
-- **Ressources de monstres** : chacune a un **palier** (niveau du plus faible monstre qui la lâche)
+- **Ressources de monstres** : chacune a un **palier** de 1 à 5 (celui du plus faible monstre qui la lâche ; depuis le 11/11/2026, matières récoltées comprises, ancien niveau converti par la table des monstres, § 8.1)
   et **une caractéristique**, répartie par tourniquet pondéré : élémentaires à égalité (7 chacune),
   Vitalité 5, Initiative 4, Prospection 2, Dommages 2, Critique 1 ; **PA** (corne du Balourd,
   fragment de cendre), **PM** (soie de la Mère-Toile), **Portée** (éclat de cendre) : toujours 1,
-  une ligne au plus par objet. Valeur : max(1, arrondi((1 + palier / 8) × poids)), **× 3 pour une ressource rare** quel que soit son
+  une ligne au plus par objet. Valeur : max(1, arrondi(palier × poids)) (11/11/2026, avant : (1 + niveau / 8) × poids), **× 3 pour une ressource rare** quel que soit son
   palier (sauf PA, PM et Portée ; demande de l'auteur du 04/11/2026), poids (points de la caractéristique
   pour un point de score) 1 pour les
   élémentaires, 4 Vitalité, 10 Initiative, 0,34 Prospection et Dommages, 0,1 Critique (d'après le

@@ -3,7 +3,7 @@
   "nom": "Cœur de pierre",
   "type": "ressource",
   "rarete": "peu_commun",
-  "niveau": 22,
+  "niveau": 4,
   "description": "Il bat une fois par heure. On ne sait pas pour qui.",
   "caracteristique": "intelligence"
 }

@@ -3,7 +3,7 @@
   "nom": "Avoine du Champion",
   "type": "ressource",
   "rarete": "rare",
-  "niveau": 8,
+  "niveau": 2,
   "description": "Un cheval en a mangé une fois. Il a gagné une course qu'il ne courait pas.",
   "boutique": false
 }

@@ -3,7 +3,7 @@
   "nom": "Fragment de cendre",
   "type": "ressource",
   "rarete": "legendaire",
-  "niveau": 50,
+  "niveau": 5,
   "description": "Un éclat tiède de la couronne du Souverain Cendré. Il ne refroidit jamais.",
   "caracteristique": "pa"
 }

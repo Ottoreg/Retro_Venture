@@ -3,7 +3,7 @@
   "nom": "Plume d'ange",
   "type": "ressource",
   "rarete": "commun",
-  "niveau": 9,
+  "niveau": 2,
   "description": "Tombée pendant une prière un peu trop agitée.",
   "caracteristique": [
     "force",

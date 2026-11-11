@@ -3,7 +3,7 @@
   "nom": "Minerai d'argent",
   "type": "ressource",
   "rarete": "peu_commun",
-  "niveau": 15,
+  "niveau": 3,
   "description": "Brillant, précieux, et mortel pour les choses qui ne devraient pas exister.",
   "matiere": "minerai",
   "caracteristique": "perception"

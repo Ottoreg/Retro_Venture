@@ -3,7 +3,7 @@
   "nom": "Glaive brisé d'ange",
   "type": "ressource",
   "rarete": "rare",
-  "niveau": 9,
+  "niveau": 2,
   "description": "La paix, oui, mais armée.",
   "caracteristique": "dommages_acier",
   "valeur": 3,

@@ -3,7 +3,7 @@
   "nom": "Obsidienne",
   "type": "ressource",
   "rarete": "rare",
-  "niveau": 22,
+  "niveau": 4,
   "description": "Verre de volcan. Elle coupe mieux que l'acier et se casse mieux que le verre.",
   "matiere": "minerai",
   "caracteristique": "force"

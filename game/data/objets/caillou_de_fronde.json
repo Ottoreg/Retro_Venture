@@ -3,7 +3,7 @@
   "nom": "Caillou de fronde",
   "type": "ressource",
   "rarete": "commun",
-  "niveau": 4,
+  "niveau": 1,
   "description": "Un caillou. Rond. Réglementaire, d'après le gobelin qui le tenait.",
   "caracteristique": "perception"
 }

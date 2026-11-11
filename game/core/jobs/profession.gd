@@ -50,8 +50,10 @@ static func skill_value(type: String, skill_id: String, rank: int) -> float:
 
 ## Réputation de métier gagnée : `base` (celle du nœud, ou de la forge) × 2 × le facteur de difficulté
 ## du palier contre la réputation de l'artisan (le même qu'en combat : × 1 à sa mesure) + bonus en %.
-static func reputation_gain(base: int, tier: int, reputation_value: int, bonus_percent: int) -> int:
-	var factor := Progression.difficulty([tier], [Progression.equivalent_level(reputation_value)])
+## `tiered` : palier de 1 à 5 (forge) contre le palier de réputation, sinon palier du nœud contre le niveau équivalent.
+static func reputation_gain(base: int, tier: int, reputation_value: int, bonus_percent: int, tiered := false) -> int:
+	var strength := Progression.player_tier(reputation_value) if tiered else Progression.equivalent_level(reputation_value)
+	var factor := Progression.difficulty([tier], [strength])
 	return roundi(base * 2.0 * factor * (100 + bonus_percent) / 100.0)
 
 
