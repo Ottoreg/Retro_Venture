@@ -97,7 +97,7 @@ func _process(_delta: float) -> bool:
 			for item_id: String in ["peau_de_loup", "croc_de_loup", "croc_de_loup", "dent_de_rat", "corne_du_balourd", "feuille_de_papier"]:
 				forge._change(item_id, 1)
 		elif _action == "infusion":
-			# Enclume en mode infusion, forgeron Maître : crocs de loup (miroir proposé), une essence et des bottes forgées choisies.
+			# Enclume, onglet Infusion, forgeron Maître : crocs de loup (miroir proposé), une essence et des bottes forgées choisies.
 			var world := view.server
 			var inventory := world.character.inventory
 			inventory.add(world.data.items["croc_de_loup"], 30)
@@ -112,7 +112,7 @@ func _process(_delta: float) -> bool:
 			forge._source = "croc_de_loup"
 			forge._essence = essence
 			forge._target = boots
-			forge._set_mode(true)
+			forge._set_mode("infusion")
 		elif _action == "objet":
 			# Bottes du Pressé portées ; d'autres bottes dans le sac, survolées : leur infobulle comparée.
 			var world := view.server

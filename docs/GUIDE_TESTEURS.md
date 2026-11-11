@@ -371,8 +371,8 @@ le **lit** de votre maison les rend tous d'un coup.
   l'Ouest de Hautepierre) ouvre votre parcelle. Fenêtre des métiers (J) : double-clic sur une ressource pour la
   débloquer (points de maîtrise), bouton **Instance** pour poser vos ressources sur les emplacements. Elles repoussent
   seules (10 min + 5 min par palier), même quand vous êtes ailleurs ; la récolte y rapporte la moitié de la réputation.
-- **Infusion** (bouton de l'enclume) : 20 ressources identiques (10 rares, 2 légendaires ; × 5 pour une
-  essence **parfaite**) donnent une **essence** d'une de leurs caractéristiques. Appliquée à un équipement,
+- **Essences et Infusion** (onglets de l'enclume) : onglet **Essences**, 20 ressources identiques (10 rares, 2 légendaires ; × 5 pour une
+  essence **parfaite**) donnent une **essence** d'une de leurs caractéristiques. Onglet **Infusion** : appliquée à un équipement (sa fiche à droite, exo en bleu, historique des essais),
   elle **renforce** sa ligne si elle y est, sinon l'ajoute en **exo** (200 points de score d'exo par objet,
   100 par ligne). Réussite affichée (moins sûre pour PA, PM, Portée) ; un échec perd l'essence, jamais
   l'objet ; une essence parfaite réussit toujours. Forgeron **Maître** : essences **miroir** (Force ↔

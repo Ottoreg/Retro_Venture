@@ -686,6 +686,46 @@ func test_forge_a_l_enclume() -> void:
 	scene.free()
 
 
+## Onglets Essences et Infusion séparés (sur le modèle de l'atelier d'objets HTML) : fiche de l'objet et historique.
+func test_onglets_essences_et_infusion() -> void:
+	var tree := Engine.get_main_loop() as SceneTree
+	var scene: Node = load("res://client/world/world.tscn").instantiate()
+	tree.root.add_child(scene)
+	var view: MapView = scene.get_node("MapView")
+	var forge: ForgeWindow = scene.get_node("ForgeWindow")
+	var anvil: Vector2i = view.server.position_of(World.PLAYER_ID) + Vector2i(1, 0)
+	view.server.map.obstacles[anvil] = "enclume"
+	var inventory := view.server.character.inventory
+	inventory.add(view.server.data.items["croc_de_loup"], 20)
+	var boots := inventory.add(view.server.data.items["forge_bottes"], 1, {"initiative": 9}, false,
+		{"nom": "Souliers", "artisan": "Aventurier", "palier": 1, "bonus": {"initiative": [8, 11]}})
+	view.refresh_state()
+	view.anvil_opened.emit({"type": Protocol.EVT_ANVIL, "case": anvil})
+	var bag_objects := func() -> Array:
+		return range(forge._bag.item_count).map(func(i: int) -> String: return inventory.entries[forge._bag.get_item_metadata(i)]["objet"])
+	forge._set_mode("essence")
+	assert_true(forge._essence_box.visible and not forge._infusion_box.visible and not forge._card.visible)
+	assert_false("forge_bottes" in bag_objects.call(), "Essences : seulement les ressources de forge")
+	forge._source = "croc_de_loup"
+	forge.refresh()
+	assert_true(forge._essence_text.text.contains("Essence obtenue"), forge._essence_text.text)
+	forge._send_infusion(false)
+	_run_until_idle(view)
+	assert_eq(inventory.quantity_of(Infusion.TEMPLATE), 1, "essence créée")
+	forge._set_mode("infusion")
+	assert_eq(bag_objects.call().filter(func(id: String) -> bool: return id == "croc_de_loup"), [], "Infusion : essences et équipements")
+	forge._essence = inventory.entries.keys().filter(func(uid: String) -> bool: return inventory.entries[uid]["objet"] == Infusion.TEMPLATE)[0]
+	forge._target = boots
+	forge.refresh()
+	assert_true(forge._card.text.contains("+9 Initiative (8 à 11)") and forge._card.text.contains("Exo : 0 / 200"), forge._card.text)
+	forge._send_infusion(true)
+	_run_until_idle(view)
+	assert_eq(forge._journal.size(), 1, "l'essai dans l'historique")
+	assert_true(forge._card.text.contains("(exo)") == view.server.character.inventory.entries[boots].has("exo"), forge._card.text)
+	forge.close()
+	scene.free()
+
+
 func test_maison_lit_et_coffre() -> void:
 	var tree := Engine.get_main_loop() as SceneTree
 	var scene: Node = load("res://client/world/world.tscn").instantiate()

@@ -184,7 +184,7 @@ Plafonds selon le palier de réputation de forgeron (07/11/2026, sur `dev`, `For
 et par palier (160 à 800 par objet) ; PA, PM et Portée (`Forge.FIXED_STATS` : 100, 80, 60 points) perdus avant leur palier.
 Plus tard : maîtres par catégorie (armurier, tailleur, cordonnier) qui donnent des plans par quêtes.
 **Infusion d'essences et infusion miroir** (10/11/2026, sur `dev`, GDD § 10.4) : `Infusion` (`core/items/infusion.gd`),
-commande `infuser` (protocole v15, v16 avec les paliers de monstres), mode Infusion de `ForgeWindow`, modèle `essence`, champ `exo` des entrées
+commande `infuser` (protocole v15, v16 avec les paliers de monstres), onglets Essences et Infusion de `ForgeWindow` (11/11/2026, modèle : atelier d'objets HTML), modèle `essence`, champ `exo` des entrées
 d'inventaire ; réussite 100 % − score ÷ 2 (10 à 95 %), miroir à score égal au palier Maître. Valeurs provisoires.
 **Panoplies d'objets forgés** (11/11/2026, sur `dev`, GDD § 10.4) : jusqu'à 3 mots clés par nom (`Forge.MAX_KEYWORDS`,
 `Forge.keywords` : adjectifs regroupés par panoplie, mots de famille `mot` des monstres et de zone `Forge.ZONES` à la

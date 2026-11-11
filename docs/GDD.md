@@ -2271,7 +2271,8 @@ panoplie, de **2 à 7 pièces** comme les panoplies prédéfinies (§ 9.3), l'**
   - fenêtre de l'enclume : trois listes de mots clés (adjectifs, puis mots de famille et de zone permis), ligne
     « Panoplies » de l'aperçu ; infobulle d'un objet forgé : chaque panoplie, pièces portées et bonus actuel.
 
-**Codée le 10/11/2026 sur `dev`** (`core/items/infusion.gd`, commande `infuser`, bouton Infusion de l'enclume),
+**Codée le 10/11/2026 sur `dev`** (`core/items/infusion.gd`, commande `infuser` ; onglets Essences et Infusion séparés de l'enclume
+depuis le 11/11/2026, sur le modèle de l'atelier d'objets HTML : fiche de l'objet avec ses lignes d'exo et historique des essais),
 avec des choix provisoires de Claude, à valider : réussite = 100 % − points de score de l'essence ÷ 2, entre 10 et
 95 % (PA 50 %, PM 60 %, Portée 70 %) ; commun et peu commun comptent comme communes, rare et épique comme rares,
 légendaire et relique comme légendaires ; une ressource à plusieurs caractéristiques : le joueur choisit ; miroir

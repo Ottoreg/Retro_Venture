@@ -2,8 +2,9 @@ class_name ForgeWindow
 extends CanvasLayer
 ## Forge à l'enclume de la maison (`Forge`) : à gauche le sac (ressources de forge et plans, en icônes),
 ## qu'on clique ou glisse vers les 8 cases de la recette en bas au centre ; au centre le type d'objet,
-## l'aperçu (lignes, jets possibles, palier) et le nom fait de mots proposés ; à droite le jet obtenu. Le bouton
-## « Infusion » change le centre : infuser une ressource en essence, appliquer une essence à un équipement (`Infusion`).
+## l'aperçu (lignes, jets possibles, palier) et le nom fait de mots proposés ; à droite le jet obtenu. Trois onglets
+## (`Infusion`, sur le modèle de l'atelier d'objets HTML) : Forge ; Essences (ressources identiques → une essence) ;
+## Infusion (une essence sur un équipement, sa fiche à droite avec ses lignes d'exo, et l'historique des essais).
 
 const GOLD := Color(0.95, 0.76, 0.3)
 const REFUSALS := {
@@ -39,17 +40,25 @@ var _message: Label
 var _warning: Label
 var _result_icon: TextureRect
 var _result: Label
-## Infusion : mode, ressource choisie (id), essence et équipement choisis (uids), contrôles.
-var _infusing := false
+## Onglet (`MODES`), ressource choisie (id), essence et équipement choisis (uids), contrôles, essais d'infusion.
+const MODES := {"forge": "Forge", "essence": "Essences", "infusion": "Infusion"}
+var _mode := "forge"
 var _source := ""
 var _essence := ""
 var _target := ""
 var _forge_parts: Array[Control] = []
-var _infusion: VBoxContainer
+var _mode_buttons := {}
+var _essence_box: VBoxContainer
+var _essence_text: Label
+var _infusion_box: VBoxContainer
 var _infusion_text: Label
+var _journal: PackedStringArray = []
+var _journal_label: RichTextLabel
+var _card: RichTextLabel
+var _right_title: Label
+var _result_scroll: Control
 var _stat_choice: OptionButton
 var _perfect: CheckBox
-var _mode_button: Button
 
 
 ## Lignes de forge d'un modèle pour ses infobulles : caractéristique et matière d'une ressource
@@ -112,8 +121,9 @@ func open(event: Dictionary) -> void:
 	_source = ""
 	_essence = ""
 	_target = ""
+	_journal = []
 	_set_visible(true)
-	refresh()
+	_set_mode("forge")
 
 
 func close() -> void:
@@ -136,8 +146,8 @@ func refresh() -> void:
 	for entry: Dictionary in character.inventory_sheet(world.data)["objets"]:
 		var template := Item.entry_template(character.inventory.entries.get(entry["uid"], entry), world.data.items)
 		var left := int(entry["quantite"]) - ((1 if _paper else 0) if entry["objet"] == Forge.PAPER else int(_chosen.get(entry["objet"], 0)))
-		if _infusing:
-			if template.has("caracteristique") or entry["objet"] == Infusion.TEMPLATE or Item.is_equipment(template):
+		if _mode != "forge":
+			if template.has("caracteristique") if _mode == "essence" else entry["objet"] == Infusion.TEMPLATE or Item.is_equipment(template):
 				InventoryWindow.add_bag_item(_bag, entry, "\n".join([entry["nom"]] + Array(forge_lines(template, world.data, character))))
 		elif template.has("recette") or template.has("patron") or (left > 0 and (entry["objet"] == Forge.PAPER or template.get("type") == Item.TYPE_RESOURCE and (template.has("caracteristique") or template.has("matiere")))):
 			InventoryWindow.add_bag_item(_bag, entry.merged({"quantite": left}, true),
@@ -150,12 +160,11 @@ func refresh() -> void:
 		_slots[i].text = "×%d" % _chosen[item_id] if not item_id.is_empty() else ""
 		_slots[i].tooltip_text = "%s ×%d (clic : en retirer un, Ctrl + clic : tout retirer)" % [world.data.items[item_id]["nom"], _chosen[item_id]] if not item_id.is_empty() else ""
 	_paper_slot.icon = InventoryWindow.item_icon(Forge.PAPER) if _paper else null
-	_show_infusion() if _infusing else _show_preview()
+	_show_essence() if _mode == "essence" else _show_infusion() if _mode == "infusion" else _show_preview()
 
 
-## Centre en mode infusion : ressource choisie et caractéristiques possibles (miroirs au palier Maître), essence et
-## équipement choisis avec la chance de réussite.
-func _show_infusion() -> void:
+## Onglet Essences : ressource choisie et caractéristiques possibles (miroirs au palier Maître), essence obtenue.
+func _show_essence() -> void:
 	var world := map_view.world
 	var inventory := world.character.inventory
 	var resource: Dictionary = world.data.items.get(_source, {})
@@ -168,20 +177,51 @@ func _show_infusion() -> void:
 			_stat_choice.set_item_metadata(_stat_choice.item_count - 1, option)
 			if option == chosen:
 				_stat_choice.select(_stat_choice.item_count - 1)
-	var lines: PackedStringArray = ["Ressource : cliquez une ressource du sac."]
+	_essence_text.text = "Cliquez une ressource du sac."
 	if not resource.is_empty() and _stat_choice.item_count > 0:
 		var result := Infusion.essence(resource, _stat_choice.get_item_metadata(_stat_choice.selected), _perfect.button_pressed, mirror)
-		lines[0] = "%s : %d / %d : %s" % [resource["nom"], inventory.quantity_of(_source), result.get("quantite", 0),
-			Infusion.essence_name(result["essence"]) if result["erreur"].is_empty() else "impossible (valeur nulle)"]
+		_essence_text.text = "%s : %d en stock, %d par essence\n\n%s" % [resource["nom"], inventory.quantity_of(_source), result.get("quantite", 0),
+			"Essence obtenue : %s\nRéussite à l'infusion : %d %%" % [Infusion.essence_name(result["essence"]), _chance(result["essence"])] if result["erreur"].is_empty() else "Impossible : valeur nulle."]
+
+
+## Onglet Infusion : essence et équipement choisis, ce que ferait l'essence et sa chance ; fiche de l'objet à droite.
+func _show_infusion() -> void:
+	var world := map_view.world
+	var inventory := world.character.inventory
 	var essence: Dictionary = inventory.entries.get(_essence, {}).get("forge", {}).get("essence", {})
 	var target: Dictionary = inventory.entries.get(_target, {})
-	lines.append_array(["", "Essence : %s" % (Infusion.essence_name(essence) if not essence.is_empty() else "cliquez une essence du sac."),
-		"Équipement : %s" % (Item.entry_template(target, world.data.items)["nom"] if not target.is_empty() else "cliquez un équipement du sac.")])
+	var lines: PackedStringArray = ["Essence : %s" % (Infusion.essence_name(essence) if not essence.is_empty() else "cliquez une essence du sac."),
+		"Équipement : %s" % (Item.entry_template(target, world.data.items)["nom"] if not target.is_empty() else "cliquez un équipement du sac.")]
 	if not essence.is_empty() and not target.is_empty():
 		var preview := Infusion.apply_preview(target, essence)
-		lines.append("Ligne au plafond, ou plus de %d points de score d'exo." % Infusion.MAX_EXO_SCORE if not preview["erreur"].is_empty() else
-			"%s : %s %d, réussite %d %%" % ["Renfort" if preview["renfort"] else "Exo", Item.stat_name(essence["caracteristique"]), preview["valeur"], Infusion.chance(essence, world.character.tool_stat(Forge.JOB, "distillation"))])
+		lines.append("\n" + ("Refusée : ligne au plafond, ou plus de %d points de score d'exo." % Infusion.MAX_EXO_SCORE if not preview["erreur"].is_empty() else
+			"%s : %s passe à %d\nRéussite : %d %% (un échec perd l'essence, jamais l'objet)" % ["Renfort d'une ligne du jet" if preview["renfort"] else "Ligne en exo",
+				Item.stat_name(essence["caracteristique"]), preview["valeur"], _chance(essence)]))
 	_infusion_text.text = "\n".join(lines)
+	_card.text = card_text(target, world.data) if not target.is_empty() else "[color=#999]Cliquez un équipement du sac.[/color]"
+	_journal_label.text = "\n".join(_journal)
+
+
+func _chance(essence: Dictionary) -> int:
+	return Infusion.chance(essence, map_view.world.character.tool_stat(Forge.JOB, "distillation"))
+
+
+## Fiche d'un équipement : nom, palier, jets avec leur plage, lignes d'exo en bleu et score d'exo (BBCode).
+static func card_text(entry: Dictionary, data: GameData) -> String:
+	var exo: Dictionary = entry.get("exo", {})
+	var forge: Dictionary = entry.get("forge", {})
+	var jets := {}
+	for stat: String in entry.get("jets", {}):
+		if not exo.has(stat):
+			jets[stat] = entry["jets"][stat]
+	var lines: PackedStringArray = ["[b]%s[/b]" % Item.entry_template(entry, data.items)["nom"]] + (["Palier %d" % forge["palier"]] if forge.has("palier") else [])
+	lines.append_array(roll_lines(jets, forge.get("bonus", {})))
+	var score := 0.0
+	for stat: String in exo:
+		lines.append("[color=#7fd3e8]+%d %s (exo)[/color]" % [exo[stat], Item.stat_name(stat)])
+		score += Infusion.score(stat, exo[stat])
+	lines.append("[color=#999]Exo : %d / %d points de score[/color]" % [roundi(score), Infusion.MAX_EXO_SCORE])
+	return "\n".join(lines)
 
 
 func _send_infusion(apply: bool) -> void:
@@ -191,14 +231,21 @@ func _send_infusion(apply: bool) -> void:
 	map_view.send_command(command)
 
 
-func _set_mode(infusing: bool) -> void:
-	_infusing = infusing
-	_mode_button.text = "Forge" if infusing else "Infusion"
+func _set_mode(mode: String) -> void:
+	_mode = mode
+	for key: String in _mode_buttons:
+		_mode_buttons[key].button_pressed = key == mode
 	for part in _forge_parts:
-		part.visible = not infusing
-	_infusion.visible = infusing
-	(_bag.get_parent().get_child(0) as Label).text = "Sac : ressources, essences et équipements (clic pour choisir)" if infusing \
-		else "Sac : ressources, plans, patrons et papier (clic, Ctrl + clic : tout, ou glisser vers la recette)"
+		part.visible = mode == "forge"
+	_essence_box.visible = mode == "essence"
+	_infusion_box.visible = mode == "infusion"
+	_card.visible = mode == "infusion"
+	_result_icon.visible = mode == "forge"
+	_result_scroll.visible = mode == "forge"
+	_right_title.text = "Équipement choisi" if mode == "infusion" else "Objet forgé"
+	_right_title.get_parent().visible = mode != "essence"
+	(_bag.get_parent().get_child(0) as Label).text = {"forge": "Sac : ressources, plans, patrons et papier (clic, Ctrl + clic : tout, ou glisser vers la recette)",
+		"essence": "Sac : ressources de forge (clic pour choisir)", "infusion": "Sac : essences et équipements (clic pour choisir)"}[mode]
 	_message.text = ""
 	refresh()
 
@@ -359,10 +406,13 @@ func _on_forge_pressed() -> void:
 func _on_result(event: Dictionary) -> void:
 	var refused: bool = event["type"] == Protocol.EVT_REFUSED
 	if event["type"] == Protocol.EVT_INFUSED or refused and event["commande"] == Protocol.CMD_INFUSE:
-		_message.text = REFUSALS.get(event.get("raison"), "Impossible.") if refused else "Essence créée : " + event["nom"] if not event.has("objet") \
-			else "%s : %s (%d %%)" % [event["nom"], "réussi !" if event["reussi"] else "échec, l'essence est perdue", event["chance"]]
-		_message.add_theme_color_override("font_color", Color(1.0, 0.5, 0.4) if refused or not event.get("reussi", true) else Color(0.55, 0.9, 0.5))
-		_essence = "" if event.has("objet") else _essence
+		_message.text = REFUSALS.get(event.get("raison"), "Impossible.") if refused else "Essence créée : " + event["nom"] if not event.has("objet") else ""
+		_message.add_theme_color_override("font_color", Color(1.0, 0.5, 0.4) if refused else Color(0.55, 0.9, 0.5))
+		if event.has("objet"):  # Essai d'infusion : en tête de l'historique.
+			_journal.insert(0, "[color=%s]%s sur %s : %s (%d %%)[/color]" % ["#8fce7a" if event["reussi"] else "#e2726a", Infusion.essence_name(event["essence"]),
+				event["nom"], "réussite" if event["reussi"] else "échec, l'essence est perdue", event["chance"]])
+			_journal = _journal.slice(0, 30)
+			_essence = ""
 		refresh()
 		return
 	_message.text = REFUSALS.get(event.get("raison"), "Impossible.") if refused else "Forgé : %s%s%s" % [event["nom"], ", et son patron" if event.get("patron", false) else "",
@@ -414,12 +464,16 @@ func _build() -> void:
 	header.add_child(title)
 	_job_label = _label(15, GOLD)
 	header.add_child(_job_label)
-	_mode_button = Button.new()
-	_mode_button.text = "Infusion"
-	_mode_button.focus_mode = Control.FOCUS_NONE
-	_mode_button.tooltip_text = "Infuser des ressources identiques en essence, ou appliquer une essence à un équipement"
-	_mode_button.pressed.connect(func() -> void: _set_mode(not _infusing))
-	header.add_child(_mode_button)
+	for mode: String in MODES:
+		var tab := Button.new()
+		tab.text = MODES[mode]
+		tab.toggle_mode = true
+		tab.focus_mode = Control.FOCUS_NONE
+		tab.tooltip_text = {"forge": "Forger un équipement", "essence": "Infuser des ressources identiques en une essence",
+			"infusion": "Appliquer une essence à un équipement"}[mode]
+		tab.pressed.connect(_set_mode.bind(mode))
+		header.add_child(tab)
+		_mode_buttons[mode] = tab
 	var close_button := Button.new()
 	close_button.text = "×"
 	close_button.focus_mode = Control.FOCUS_NONE
@@ -442,8 +496,8 @@ func _build() -> void:
 		if index >= 0:  # Ctrl + clic : toute la quantité d'un coup.
 			var entry: Dictionary = map_view.world.character.inventory.entries[_bag.get_item_metadata(index)]
 			var template := Item.entry_template(entry, map_view.world.data.items)
-			if _infusing:
-				if template.has("caracteristique"):
+			if _mode != "forge":
+				if _mode == "essence":
 					_source = entry["objet"]
 				elif entry["objet"] == Infusion.TEMPLATE:
 					_essence = entry["uid"]
@@ -531,40 +585,48 @@ func _build() -> void:
 	_message.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_forge_parts.assign(center.get_children())
 	center.add_child(_message)
-	# Mode infusion : à la place du type, de l'aperçu, du nom et de la recette.
-	_infusion = VBoxContainer.new()
-	_infusion.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	_infusion.visible = false
-	center.add_child(_infusion)
-	center.move_child(_infusion, 0)
+	# Onglets Essences et Infusion : à la place du type, de l'aperçu, du nom et de la recette.
+	_essence_box = VBoxContainer.new()
+	_infusion_box = VBoxContainer.new()
+	for box: VBoxContainer in [_essence_box, _infusion_box]:
+		box.size_flags_vertical = Control.SIZE_EXPAND_FILL
+		box.visible = false
+		center.add_child(box)
+		center.move_child(box, 0)
 	_stat_choice = OptionButton.new()
 	_stat_choice.item_selected.connect(func(_index: int) -> void: refresh())
-	_infusion.add_child(_titled("Caractéristique de l'essence", _stat_choice))
+	_essence_box.add_child(_titled("Caractéristique de l'essence", _stat_choice))
 	_perfect = CheckBox.new()
 	_perfect.text = "Essence parfaite (× %d ressources, réussite assurée)" % Infusion.PERFECT_FACTOR
 	_perfect.toggled.connect(func(_on: bool) -> void: refresh())
-	_infusion.add_child(_perfect)
+	_essence_box.add_child(_perfect)
+	_essence_text = _label(14, Color(0.92, 0.9, 0.85))
 	_infusion_text = _label(14, Color(0.92, 0.9, 0.85))
-	_infusion_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_infusion_text.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	_infusion.add_child(_infusion_text)
-	var buttons := HBoxContainer.new()
-	for apply in [false, true]:
+	for pair: Array in [[_essence_box, _essence_text, "Créer l'essence", false], [_infusion_box, _infusion_text, "Infuser l'essence", true]]:
+		pair[1].autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		pair[0].add_child(pair[1])
 		var button := Button.new()
-		button.text = "Appliquer l'essence" if apply else "Infuser"
+		button.text = pair[2]
 		button.focus_mode = Control.FOCUS_NONE
-		button.pressed.connect(_send_infusion.bind(apply))
-		buttons.add_child(button)
-	_infusion.add_child(buttons)
+		button.pressed.connect(_send_infusion.bind(pair[3]))
+		pair[0].add_child(button)
+	_journal_label = RichTextLabel.new()
+	_journal_label.bbcode_enabled = true
+	_journal_label.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_infusion_box.add_child(_titled("Historique des essais", _journal_label))
+	_journal_label.get_parent().size_flags_vertical = Control.SIZE_EXPAND_FILL
 
 	# Droite : l'objet forgé et ses jets.
 	var right := VBoxContainer.new()
 	right.custom_minimum_size = Vector2(220, 0)
 	row.add_child(right)
-	_forge_parts.append(right)
-	var result_title := _label(15, GOLD)
-	result_title.text = "Objet forgé"
-	right.add_child(result_title)
+	_right_title = _label(15, GOLD)
+	_right_title.text = "Objet forgé"
+	right.add_child(_right_title)
+	_card = RichTextLabel.new()
+	_card.bbcode_enabled = true
+	_card.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	right.add_child(_card)
 	_result_icon = TextureRect.new()
 	_result_icon.custom_minimum_size = Vector2(64, 64)
 	_result_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
@@ -572,7 +634,8 @@ func _build() -> void:
 	right.add_child(_result_icon)
 	_result = _label(14, Color(0.92, 0.9, 0.85))
 	_result.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	right.add_child(UiTheme.scroll_area(_result))
+	_result_scroll = UiTheme.scroll_area(_result)
+	right.add_child(_result_scroll)
 	var hint := _label(12, Color(0.6, 0.58, 0.52))
 	hint.text = "Les jets sont tirés au hasard dans les plages affichées ; votre nom est gravé sur l'objet · Échap : fermer"
 	hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
