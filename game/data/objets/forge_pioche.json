@@ -1,0 +1,10 @@
+{
+  "id": "forge_pioche",
+  "nom": "Pioche",
+  "type": "outil",
+  "metier": "mineur",
+  "rarete": "commun",
+  "niveau": 1,
+  "boutique": false,
+  "description": "Outil forgé à l'enclume : ses statistiques de métier ne servent qu'au métier de mineur."
+}

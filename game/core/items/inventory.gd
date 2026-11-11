@@ -4,7 +4,7 @@ extends RefCounted
 ## ses jets), emplacements d'équipement et brumes.
 
 const MAX_ENTRIES := 60
-const SLOTS := ["arme", "coiffe", "cape", "amulette", "anneau_1", "anneau_2", "ceinture", "bottes"]
+const SLOTS := ["arme", "coiffe", "cape", "amulette", "anneau_1", "anneau_2", "ceinture", "bottes", "outil"]
 ## Emplacements des Reliques de l'Aube (huit bagues, équipables toutes en même temps en plus des deux
 ## anneaux). Visibles dans l'inventaire ; pas encore équipables (aucune Relique dans le jeu).
 const RELIC_SLOT_COUNT := 8

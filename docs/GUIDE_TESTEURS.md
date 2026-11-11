@@ -348,7 +348,9 @@ le **lit** de votre maison les rend tous d'un coup.
   vendus par les marchands) disent tout d'avance. **Panoplies d'objets forgés** : le nom prend jusqu'à
   trois **mots clés** (adjectifs, ou « de Loup », « de Brumerive »… quand au moins la moitié des ressources
   viennent de cette famille ou de cette zone) ; portez 2 à 7 objets au même mot pour un bonus de panoplie
-  (infobulle de l'objet). Valeurs provisoires.
+  (infobulle de l'objet). **Outils** : l'enclume forge aussi pioche, hache, faucille, serpe, canne à pêche et marteau de
+  forgeron (minerai et bois) ; portés dans l'emplacement Outil, ils donnent des statistiques de métier (Profusion,
+  Flair, Dextérité, Minutie, Épargne, Distillation, Sagacité) à leur seul métier. Valeurs provisoires.
 - **Infusion** (bouton de l'enclume) : 20 ressources identiques (10 rares, 2 légendaires ; × 5 pour une
   essence **parfaite**) donnent une **essence** d'une de leurs caractéristiques. Appliquée à un équipement,
   elle **renforce** sa ligne si elle y est, sinon l'ajoute en **exo** (200 points de score d'exo par objet,

@@ -120,6 +120,12 @@ func extra(stat_name: String, data: GameData = null) -> int:
 	return inventory.bonus(stat_name) + set_bonus(stat_name, data)
 
 
+## Statistique de métier de l'outil porté s'il sert au métier `job_id` (GDD § 10.4), sinon 0.
+func tool_stat(job_id: String, stat_name: String) -> int:
+	var entry: Dictionary = inventory.entries.get(inventory.equipped.get("outil", ""), {})
+	return int(entry.get("jets", {}).get(stat_name, 0)) if Forge.TYPES.get(str(entry.get("objet", "")).trim_prefix("forge_"), {}).get("metier") == job_id else 0
+
+
 ## Bonus de panoplie actif pour cette stat (0 sans données).
 func set_bonus(stat_name: String, data: GameData) -> int:
 	if data == null or data.sets.is_empty():

@@ -33,8 +33,9 @@ const SKILLS := {
 }
 
 
-static func harvest_time(tier: int, speed_rank := 0) -> float:
-	var reduction := skill_value(TYPE_HARVEST, "celerite", speed_rank) / 100.0
+## `bonus_percent` : Dextérité de l'outil, ajoutée à la Célérité.
+static func harvest_time(tier: int, speed_rank := 0, bonus_percent := 0) -> float:
+	var reduction := (skill_value(TYPE_HARVEST, "celerite", speed_rank) + bonus_percent) / 100.0
 	return maxf(HARVEST_MIN_TIME, (HARVEST_BASE_TIME + HARVEST_TIME_PER_TIER * tier) * (1.0 - reduction))
 
 

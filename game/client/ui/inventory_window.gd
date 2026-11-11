@@ -452,7 +452,7 @@ func _build() -> void:
 		var name_label := _label(14, Color(0.8, 0.78, 0.7))
 		name_label.text = Item.SLOT_NAMES[slot]
 		var button := Button.new()
-		button.custom_minimum_size = Vector2(170, 36)
+		button.custom_minimum_size = Vector2(170, 32)
 		button.focus_mode = Control.FOCUS_NONE
 		button.clip_text = true
 		button.alignment = HORIZONTAL_ALIGNMENT_LEFT

@@ -40,7 +40,19 @@ const STAT_WEIGHTS := {"force": 1.0, "intelligence": 1.0, "perception": 1.0, "ag
 	"dommages_acier": 0.5, "dommages_flamme": 0.5, "dommages_givre": 0.5, "dommages_tempete": 0.5, "dommages_sacre": 0.5, "dommages_impie": 0.5,
 	"soins_acier": 0.5, "soins_flamme": 0.5, "soins_givre": 0.5, "soins_tempete": 0.5, "soins_sacre": 0.5, "soins_impie": 0.5,
 	"resistance_acier": 0.125, "resistance_flamme": 0.125, "resistance_givre": 0.125, "resistance_tempete": 0.125,
-	"resistance_sacre": 0.125, "resistance_impie": 0.125}
+	"resistance_sacre": 0.125, "resistance_impie": 0.125,
+	"profusion": 0.3, "flair": 0.5, "dexterite": 0.15, "minutie": 0.1, "epargne": 0.1, "distillation": 0.1, "sagacite": 0.05}
+## Statistiques de métier (GDD § 10.4) : seulement sur les outils, tirées de la statistique de combat des ressources
+## (préfixe « dommages_ » : toutes les lignes qui commencent ainsi), à score égal (`Infusion.score`) ; les autres sont perdues.
+const JOB_STATS := {"force": "profusion", "agilite": "dexterite", "initiative": "dexterite", "intelligence": "minutie",
+	"critique": "minutie", "perception": "flair", "prospection": "flair", "vitalite": "main_verte", "dommages": "epargne",
+	"dommages_": "epargne", "degats_devastateurs": "epargne", "degats_devastateurs_fixes": "epargne", "dommages_melee": "",
+	"soins": "fournee", "soins_": "fournee", "resistance_": "distillation", "pa": "sagacite", "pm": "sagacite", "portee": "sagacite"}
+## Statistiques de métier utiles par outil (Main verte et Fournée attendent les instances de métier et la boulangerie).
+const TOOL_STATS := {Profession.TYPE_HARVEST: ["profusion", "flair", "dexterite", "sagacite"],
+	Profession.TYPE_CRAFT: ["minutie", "epargne", "distillation", "sagacite"]}
+## Points de score au plus par outil et par palier de forgeron (300 au palier Légende).
+const TOOL_SCORE_PER_TIER := 60
 ## Multiplicateur de la valeur des ressources rares, quel que soit leur palier (sauf PA, PM et Portée).
 const RARE_FACTOR := 3
 ## Dégâts d'une arme forgée en plus par palier au-dessus du 1er (+160 % au palier 5).
@@ -60,9 +72,16 @@ const TYPES := {
 	"dague": {"matieres": ["minerai", "bois"], "noms": [["Dague", "f"], ["Couteau", "m"], ["Surin", "m"]]},
 	"masse": {"matieres": ["minerai", "bois"], "noms": [["Masse", "f"], ["Marteau", "m"], ["Gourdin", "m"]]},
 	"sceptre": {"matieres": ["minerai", "bois"], "noms": [["Sceptre", "m"], ["Baguette", "f"]]},
+	"pioche": {"matieres": ["minerai", "bois"], "noms": [["Pioche", "f"], ["Pic", "m"]], "metier": "mineur"},
+	"hache": {"matieres": ["minerai", "bois"], "noms": [["Hache", "f"], ["Cognée", "f"]], "metier": "bucheron"},
+	"faucille": {"matieres": ["minerai", "bois"], "noms": [["Faucille", "f"], ["Serpette", "f"]], "metier": "agriculteur"},
+	"serpe": {"matieres": ["minerai", "bois"], "noms": [["Serpe", "f"], ["Sécateur", "m"]], "metier": "herboriste"},
+	"canne_a_peche": {"matieres": ["minerai", "bois"], "noms": [["Canne à pêche", "f"], ["Gaule", "f"]], "metier": "pecheur"},
+	"marteau_de_forgeron": {"matieres": ["minerai", "bois"], "noms": [["Marteau de forgeron", "m"], ["Maillet", "m"]], "metier": "forgeron"},
 }
 const TYPE_NAMES := {"coiffe": "Coiffe", "cape": "Cape", "amulette": "Amulette", "anneau": "Anneau", "ceinture": "Ceinture",
-	"bottes": "Bottes", "epee": "Épée", "arc": "Arc", "baton": "Bâton", "dague": "Dague", "masse": "Masse", "sceptre": "Sceptre"}
+	"bottes": "Bottes", "epee": "Épée", "arc": "Arc", "baton": "Bâton", "dague": "Dague", "masse": "Masse", "sceptre": "Sceptre",
+	"pioche": "Pioche", "hache": "Hache", "faucille": "Faucille", "serpe": "Serpe", "canne_a_peche": "Canne à pêche", "marteau_de_forgeron": "Marteau de forgeron"}
 ## Adjectifs proposés par caractéristique : [masculin, féminin] (pluriel : + « s », sauf après s ou x).
 const WORDS := {
 	"force": [["costaud", "costaude"], ["massif", "massive"], ["rancunier", "rancunière"]],
@@ -104,6 +123,9 @@ const WORDS := {
 	"soins_acier": [["ferrugineux", "ferrugineuse"]], "soins_flamme": [["réchauffant", "réchauffante"]],
 	"soins_givre": [["rafraîchissant", "rafraîchissante"]], "soins_tempete": [["vivifiant", "vivifiante"]],
 	"soins_sacre": [["miraculeux", "miraculeuse"], ["angélique", "angélique"]], "soins_impie": [["ténébreux", "ténébreuse"]],
+	"profusion": [["généreux", "généreuse"]], "flair": [["fureteur", "fureteuse"]], "dexterite": [["preste", "preste"]],
+	"minutie": [["minutieux", "minutieuse"]], "epargne": [["économe", "économe"]], "distillation": [["alchimique", "alchimique"]],
+	"sagacite": [["savant", "savante"]],
 	"resistance_sacre": [["sceptique", "sceptique"]], "resistance_impie": [["consacré", "consacrée"], ["exorcisé", "exorcisée"]],
 }
 ## Mots clés au plus dans un nom après le nom du type : adjectifs, mots de famille ou de zone (GDD § 10.4).
@@ -178,6 +200,8 @@ static func preview(type: String, resources: Dictionary, items: Dictionary, char
 	var materials: Array = []
 	var places := {}
 	var forge_tier := tier(character)
+	var tool: bool = TYPES[type].has("metier")
+	var budget := TOOL_SCORE_PER_TIER * forge_tier  # Outil : points de score au plus, les lignes en trop sont rognées.
 	for item_id: Variant in resources:
 		var item: Dictionary = items.get(item_id, {})
 		if item.get("type") != Item.TYPE_RESOURCE or typeof(resources[item_id]) not in [TYPE_INT, TYPE_FLOAT] or int(resources[item_id]) < 1:
@@ -191,13 +215,21 @@ static func preview(type: String, resources: Dictionary, items: Dictionary, char
 		for key: String in ["famille", "zone"]:
 			if item.has(key):
 				places[key + ":" + item[key]] = places.get(key + ":" + item[key], 0) + 1
-		for stat: String in stats_of(item).filter(func(stat: String) -> bool: return line_cap(stat, forge_tier) == 0):
-			result["perdues"][item_id] = result["perdues"].get(item_id, {}).merged({stat: ceili(float(FIXED_STATS[stat]) / LINE_SCORE_PER_TIER)})
+		var lines := {}
+		for stat: String in stats_of(item):
+			var base := int(item.get("valeur", value(stat, tier, item.get("rarete") == "rare")))
+			var line := job_stat(stat) if tool else stat
+			if tool and line not in TOOL_STATS[tool_type(type)]:
+				result["perdues"][item_id] = result["perdues"].get(item_id, {}).merged({stat: 0})
+			elif line_cap(line, forge_tier) == 0:
+				result["perdues"][item_id] = result["perdues"].get(item_id, {}).merged({stat: ceili(float(FIXED_STATS[stat]) / LINE_SCORE_PER_TIER)})
+			else:
+				lines[line] = maxi(1, Infusion.value_of(line, Infusion.score(stat, base))) if tool else base
 		if character != null and hide and item.has("caracteristique") and not reveals(character, tier):
 			result["cachees"] += quantity
 			continue
-		for stat: String in stats_of(item).filter(func(stat: String) -> bool: return line_cap(stat, forge_tier) > 0):
-			totals[stat] = int(totals.get(stat, 0)) + quantity * int(item.get("valeur", value(stat, tier, item.get("rarete") == "rare")))
+		for line: String in lines:
+			totals[line] = int(totals.get(line, 0)) + quantity * lines[line]
 	for material: String in TYPES[type]["matieres"]:
 		if material not in materials:
 			result["manquantes"].append(material)
@@ -208,11 +240,27 @@ static func preview(type: String, resources: Dictionary, items: Dictionary, char
 	result["palier"] = maxi(1, roundi(float(tiers) / maxi(1, count)))
 	var described := resources.keys().filter(func(id: Variant) -> bool: return items[id].has("famille")).size()
 	result["lieux"] = places.keys().filter(func(key: String) -> bool: return 2 * places[key] >= described)
-	var low := ROLL_LOW + (Profession.skill_value(Profession.TYPE_CRAFT, "precision", character.job_rank(JOB, "precision")) / 100.0 if character != null else 0.0)
+	var low := ROLL_LOW + ((Profession.skill_value(Profession.TYPE_CRAFT, "precision", character.job_rank(JOB, "precision"))
+		+ character.tool_stat(JOB, "minutie")) / 100.0 if character != null else 0.0)
 	for stat: String in totals:
 		var total: int = mini(line_cap(stat, forge_tier), totals[stat])
+		if tool:
+			total = mini(total, floori(budget * STAT_WEIGHTS[stat]))
+			budget -= ceili(Infusion.score(stat, total))
+			if total <= 0:
+				continue
 		result["bonus"][stat] = [total if stat in FIXED_STATS else maxi(1, roundi(total * minf(1.0, low))), total]
 	return result
+
+
+## Statistique de métier que donne une statistique de combat sur un outil ("" : aucune).
+static func job_stat(stat: String) -> String:
+	return JOB_STATS.get(stat, JOB_STATS.get(stat.get_slice("_", 0) + "_", ""))
+
+
+## Type de métier d'un outil (récolte ou artisanat).
+static func tool_type(type: String) -> String:
+	return Profession.TYPE_CRAFT if TYPES[type]["metier"] == JOB else Profession.TYPE_HARVEST
 
 
 ## Nom par défaut : le premier nom du type et l'adjectif de la ligne la plus forte (en points de score ;

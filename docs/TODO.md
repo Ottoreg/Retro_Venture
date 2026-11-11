@@ -722,10 +722,12 @@ classes (option écartée et compromis gardés en piste, GDD § 5.2).
   pour PA, PM ; Initiative à revoir)
 - [x] Statistiques à venir (GDD § 10.4, miroir fixé ; codées le 10/11/2026 sur `dev`, en combat et en forge) : Tacle ↔ Fuite, Retrait PA ↔ Retrait PM (inflige
   et protège à la fois), Dommages de mêlée (% finaux) ↔ Portée
-- [ ] Statistiques de métier (GDD § 10.4, 09/11/2026) : seulement sur les outils, une ressource donne une stat
-  de combat (équipement) et une stat de métier (outil) ; plafonds par ligne et par outil à fixer ; liste de
-  travail Abondance, Flair, Dextérité, Main verte, Minutie, Épargne, Distillation, Fournée, Sagacité ;
-  stat de métier tirée de la stat de combat (table validée) ; miroirs entre stats de métier plus tard
+- [x] Statistiques de métier (GDD § 10.4, 09/11/2026, codées le 11/11/2026 sur `dev`) : emplacement Outil, 6 outils
+  forgés à l'enclume (`docs/design/forge/outils.py`), Profusion, Flair, Dextérité, Minutie, Épargne, Distillation,
+  Sagacité (`Forge.JOB_STATS`, `Character.tool_stat`), 60 points de score par palier et par outil
+- [ ] Statistiques de métier : valider les choix provisoires (poids, effets, Critique → Minutie, Dévastateurs → Épargne,
+  noms des outils), Main verte (instances de métier) et Fournée (boulanger, maître des potions) ; dessins des outils ;
+  miroirs entre stats de métier plus tard
 - [ ] Prix des marchands à rééquilibrer avec la demande dynamique des PNJ selon les ressources des joueurs
   (demande de l'auteur du 11/11/2026 ; objets forgés provisoirement × 1, 2, 4, 7, 10 par palier)
 - [ ] Harmoniser la rareté des ressources : commune (butin > 20 %), rare (> 1 %), légendaire (≤ 1 %)

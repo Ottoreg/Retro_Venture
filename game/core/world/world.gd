@@ -2453,7 +2453,7 @@ func _harvest(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
 		return _refused(command, Protocol.REASON_TOO_FAR)
 	var node := _resource_node(p.instance, cell)
 	p.harvesting = {"case": cell, "fin": clock + Profession.harvest_time(int(node.get("niveau", 1)),
-		p.character.job_rank(node["metier"], "celerite"))}
+		p.character.job_rank(node["metier"], "celerite"), p.character.tool_stat(node["metier"], "dexterite"))}
 	var events: Array[Dictionary] = [{"type": Protocol.EVT_HARVEST_STARTED, "entite": p.id, "case": cell,
 		"duree": p.harvesting["fin"] - clock}]
 	return events
@@ -2478,11 +2478,12 @@ func _harvested(p: PlayerState, cell: Vector2i) -> Array[Dictionary]:
 	var template: Dictionary = data.items[node["objet"]]
 	var amount: Array = node.get("quantite", [1, 1])
 	var job_id: String = node["metier"]
-	var abundance := Profession.skill_value(Profession.TYPE_HARVEST, "abondance", p.character.job_rank(job_id, "abondance")) / 100.0
+	var abundance := (Profession.skill_value(Profession.TYPE_HARVEST, "abondance", p.character.job_rank(job_id, "abondance"))
+		+ p.character.tool_stat(job_id, "profusion")) / 100.0
 	var quantity := rng.randi_range(int(amount[0]), int(amount[1])) + (1 if rng.randf() < abundance else 0)
 	# Parfois, une ressource rare à la place de la récolte normale : un seul exemplaire.
 	var eye := Profession.skill_value(Profession.TYPE_HARVEST, "oeil", p.character.job_rank(job_id, "oeil")) / 100.0
-	var rare: bool = node.has("rare") and data.items.has(node["rare"]) and rng.randf() < rare_harvest_chance + eye
+	var rare: bool = node.has("rare") and data.items.has(node["rare"]) and rng.randf() < (rare_harvest_chance + eye) * (1 + p.character.tool_stat(job_id, "flair") / 100.0)
 	if rare:
 		template = data.items[node["rare"]]
 		quantity = 1
@@ -2531,20 +2532,24 @@ func _forge(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
 	if paper and inventory.quantity_of(Forge.PAPER) < 1:
 		return _refused(command, Protocol.REASON_MISSING_INGREDIENTS)
 	var freed := 1 if paper and inventory.quantity_of(Forge.PAPER) == 1 else 0
+	var spared := {}  # Épargne de l'outil : chaque ressource a une chance de ne pas être consommée.
 	for item_id: String in resources:
 		if inventory.quantity_of(item_id) < int(resources[item_id]):
 			return _refused(command, Protocol.REASON_MISSING_INGREDIENTS)
-		freed += 1 if inventory.quantity_of(item_id) == int(resources[item_id]) else 0
+		for i in int(resources[item_id]):
+			if rng.randf() * 100 < p.character.tool_stat(Forge.JOB, "epargne"):
+				spared[item_id] = spared.get(item_id, 0) + 1
+		freed += 1 if inventory.quantity_of(item_id) == int(resources[item_id]) - spared.get(item_id, 0) else 0
 	if inventory.entries.size() - freed + (2 if paper else 1) > inventory.capacity:
 		return _refused(command, Protocol.REASON_INVENTORY_FULL)
 	for item_id: String in resources:
-		inventory.remove(item_id, int(resources[item_id]))
+		inventory.remove(item_id, int(resources[item_id]) - spared.get(item_id, 0))
 	var template: Dictionary = data.items[Forge.template_id(type)]
 	var uid := inventory.add(template, 1, Forge.roll(preview["bonus"], rng), false,
 		{"nom": item_name, "artisan": p.character.display_name, "palier": preview["palier"], "bonus": preview["bonus"],
-		"mots_cles": [] if plan else Forge.keywords(command["mots"], type, preview["bonus"].keys(), places)})
+		"mots_cles": [] if plan or Forge.TYPES[type].has("metier") else Forge.keywords(command["mots"], type, preview["bonus"].keys(), places)})
 	var events: Array[Dictionary] = [{"type": Protocol.EVT_CRAFTED, "objet": template["id"], "nom": item_name, "quantite": 1, "metier": Forge.JOB,
-		"palier": preview["palier"], "jets": inventory.entries[uid]["jets"], "bonus": preview["bonus"], "patron": paper}]
+		"palier": preview["palier"], "jets": inventory.entries[uid]["jets"], "bonus": preview["bonus"], "patron": paper, "epargne": spared}]
 	if paper:  # Le patron note les ressources, les jets et les plages de l'objet forgé.
 		inventory.remove(Forge.PAPER)
 		inventory.add(data.items[Forge.PATTERN], 1, {}, false, {"nom": "Patron de " + item_name, "artisan": p.character.display_name,
@@ -2572,7 +2577,7 @@ func _infuse(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
 		if not reason.is_empty():
 			return _refused(command, reason)
 		inventory.remove(essence_entry["uid"])
-		var chance := Infusion.chance(essence_data)
+		var chance := Infusion.chance(essence_data, p.character.tool_stat(Forge.JOB, "distillation"))
 		var success := rng.randi_range(1, 100) <= chance
 		if success:
 			Infusion.apply(target, essence_data)
@@ -2785,7 +2790,8 @@ func _chest_event(p: PlayerState, cell: Vector2i) -> Dictionary:
 ## Ajoute de la réputation de métier (`Profession.reputation_gain`, bonus de race compris) pour une
 ## action de ce palier, et décrit le résultat.
 func _job_event(p: PlayerState, job_id: String, base_gain: int, tier: int, tiered := false) -> Dictionary:
-	var gain := Profession.reputation_gain(base_gain, tier, p.character.job_reputation(job_id), p.character.job_reputation_bonus(data), tiered)
+	var gain := Profession.reputation_gain(base_gain, tier, p.character.job_reputation(job_id),
+		p.character.job_reputation_bonus(data) + p.character.tool_stat(job_id, "sagacite"), tiered)
 	var reached := p.character.add_job_reputation(job_id, gain)
 	return {"type": Protocol.EVT_JOB, "metier": job_id, "nom": data.jobs[job_id]["nom"], "gain": gain,
 		"reputation": p.character.job_reputation(job_id), "points": p.character.job_points(job_id), "paliers": reached}

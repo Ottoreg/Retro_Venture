@@ -43,7 +43,9 @@ CARACS = {"vitalite": "Vitalité", "force": "Force", "intelligence": "Intelligen
           "epines_brutes": "% Épines brutes", "epines_brutes_fixes": "Épines brutes",
           **{f"epines_{e}": f"% Épines {n}" for e, n in ELEMENTS.items()}, **{f"epines_{e}_fixes": f"Épines {n}" for e, n in ELEMENTS.items()},
           **{f"dommages_{e}": f"Dommages {n}" for e, n in ELEMENTS.items()}, **{f"soins_{e}": f"Soins {n}" for e, n in ELEMENTS.items()},
-          **{f"resistance_{e}": f"% Résistance {n}" for e, n in ELEMENTS.items()}}
+          **{f"resistance_{e}": f"% Résistance {n}" for e, n in ELEMENTS.items()},
+          "profusion": "% Profusion (outil)", "flair": "Flair (outil)", "dexterite": "% Dextérité (outil)", "minutie": "Minutie (outil)",
+          "epargne": "% Épargne (outil)", "distillation": "Distillation (outil)", "sagacite": "% Sagacité (outil)"}
 POIDS_FORGE = {"force": 1, "intelligence": 1, "perception": 1, "agilite": 1, "vitalite": 4, "initiative": 10,
                "prospection": 0.34, "dommages": 0.34, "critique": 0.1,
                **{f"dommages_{e}": 0.5 for e in ("acier", "flamme", "givre", "tempete")},

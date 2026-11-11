@@ -1,0 +1,10 @@
+{
+  "id": "forge_serpe",
+  "nom": "Serpe",
+  "type": "outil",
+  "metier": "herboriste",
+  "rarete": "commun",
+  "niveau": 1,
+  "boutique": false,
+  "description": "Outil forgé à l'enclume : ses statistiques de métier ne servent qu'au métier de herboriste."
+}

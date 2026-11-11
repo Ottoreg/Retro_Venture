@@ -1,0 +1,46 @@
+{
+  "images": {
+    "objet_forge_pioche": {
+      "fichier": "objets/forge_masse.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_forge_hache": {
+      "fichier": "objets/forge_dague.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_forge_faucille": {
+      "fichier": "objets/forge_dague.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_forge_serpe": {
+      "fichier": "objets/forge_dague.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_forge_canne_a_peche": {
+      "fichier": "objets/forge_baton.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_forge_marteau_de_forgeron": {
+      "fichier": "objets/marteau_enclume_rancuniere.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    }
+  }
+}

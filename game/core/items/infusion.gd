@@ -62,9 +62,9 @@ static func essence(resource: Dictionary, stat: String, perfect: bool, mirror_al
 		"essence": {"caracteristique": stat, "valeur": value, "parfaite": perfect}}
 
 
-## Chance de réussite d'une essence, en %.
-static func chance(essence_data: Dictionary) -> int:
-	return 100 if essence_data["parfaite"] else clampi(roundi(100 - score(essence_data["caracteristique"], essence_data["valeur"]) / 2.0), MIN_CHANCE, MAX_CHANCE)
+## Chance de réussite d'une essence, en % (`bonus` : Distillation de l'outil).
+static func chance(essence_data: Dictionary, bonus := 0) -> int:
+	return 100 if essence_data["parfaite"] else clampi(roundi(100 - score(essence_data["caracteristique"], essence_data["valeur"]) / 2.0) + bonus, MIN_CHANCE, MAX_CHANCE)
 
 
 ## Ce que ferait l'essence sur l'entrée d'inventaire `entry` : { erreur, renfort (vrai si la ligne est sur le jet),

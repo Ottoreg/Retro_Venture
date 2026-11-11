@@ -9,11 +9,11 @@ const TYPE_QUEST := "quete"
 ## Type d'objet → emplacements d'équipement possibles.
 const SLOTS_BY_TYPE := {
 	"arme": ["arme"], "coiffe": ["coiffe"], "cape": ["cape"], "amulette": ["amulette"],
-	"anneau": ["anneau_1", "anneau_2"], "ceinture": ["ceinture"], "bottes": ["bottes"],
+	"anneau": ["anneau_1", "anneau_2"], "ceinture": ["ceinture"], "bottes": ["bottes"], "outil": ["outil"],
 }
 const SLOT_NAMES := {
 	"arme": "Arme", "coiffe": "Coiffe", "cape": "Cape", "amulette": "Amulette",
-	"anneau_1": "Anneau", "anneau_2": "Anneau", "ceinture": "Ceinture", "bottes": "Bottes",
+	"anneau_1": "Anneau", "anneau_2": "Anneau", "ceinture": "Ceinture", "bottes": "Bottes", "outil": "Outil",
 }
 const RARITIES := ["commun", "peu_commun", "rare", "epique", "legendaire", "relique"]
 const RARITY_NAMES := {
@@ -45,6 +45,8 @@ const EXTRA_STATS := ["prospection", "initiative", "portee", "pa", "pm", "dommag
 	"soins_acier", "soins_flamme", "soins_givre", "soins_tempete", "soins_sacre", "soins_impie",
 	"resistance_acier", "resistance_flamme", "resistance_givre", "resistance_tempete", "resistance_sacre", "resistance_impie"]
 const EXTRA_STAT_NAMES := {
+	"profusion": "% Profusion", "flair": "Flair", "dexterite": "% Dextérité", "minutie": "Minutie", "epargne": "% Épargne",
+	"distillation": "Distillation", "sagacite": "% Sagacité",
 	"prospection": "Prospection", "initiative": "Initiative", "portee": "Portée", "pa": "PA", "pm": "PM",
 	"dommages": "Dommages", "soins": "Soins", "critique": "% Critique",
 	"tacle": "Tacle", "fuite": "Fuite", "retrait_pa": "Retrait PA", "retrait_pm": "Retrait PM", "reduction_degats": "Réduction de dégâts",

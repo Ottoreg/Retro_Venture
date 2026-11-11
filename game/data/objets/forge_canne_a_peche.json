@@ -1,0 +1,10 @@
+{
+  "id": "forge_canne_a_peche",
+  "nom": "Canne à pêche",
+  "type": "outil",
+  "metier": "pecheur",
+  "rarete": "commun",
+  "niveau": 1,
+  "boutique": false,
+  "description": "Outil forgé à l'enclume : ses statistiques de métier ne servent qu'au métier de pecheur."
+}

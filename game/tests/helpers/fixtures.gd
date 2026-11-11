@@ -181,6 +181,8 @@ static func forge_items() -> Array:
 		{"id": "forge_bottes", "nom": "Bottes", "type": "bottes", "rarete": "commun", "boutique": false},
 		{"id": "forge_epee", "nom": "Épée", "type": "arme", "rarete": "commun", "boutique": false,
 			"attaque": {"cout_pa": 4, "portee": {"min": 1, "max": 1}, "critique": 0, "effets": [{"type": "degats", "element": "acier", "min": 10, "max": 10}]}},
+		{"id": "forge_pioche", "nom": "Pioche", "type": "outil", "metier": "mineur", "rarete": "commun", "boutique": false},
+		{"id": "forge_marteau_de_forgeron", "nom": "Marteau de forgeron", "type": "outil", "metier": "forgeron", "rarete": "commun", "boutique": false},
 		{"id": "feuille_de_papier", "nom": "Feuille de papier", "type": "ressource", "rarete": "commun"},
 		{"id": "patron", "nom": "Patron", "type": "ressource", "rarete": "peu_commun", "boutique": false},
 		{"id": "essence", "nom": "Essence", "type": "ressource", "rarete": "rare", "boutique": false},

@@ -27,7 +27,7 @@ Prix de boutique : selon la rareté (revente à 25 %).
 - [Sorts de race](#sorts-de-race)
 - [Sorts des monstres](#sorts-des-monstres)
 
-**304 objets** (18 armes, 20 coiffes, 20 capes, 20 amulettes, 20 anneaux, 20 ceintures, 20 bottes, 123 ressources, 36 plans de forge, 7 objets de quête), **55 monstres** et **133 sorts**.
+**310 objets** (18 armes, 20 coiffes, 20 capes, 20 amulettes, 20 anneaux, 20 ceintures, 20 bottes, 123 ressources, 36 plans de forge, 7 objets de quête), **55 monstres** et **133 sorts**.
 
 ## Armes
 

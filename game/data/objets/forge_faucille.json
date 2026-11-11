@@ -1,0 +1,10 @@
+{
+  "id": "forge_faucille",
+  "nom": "Faucille",
+  "type": "outil",
+  "metier": "agriculteur",
+  "rarete": "commun",
+  "niveau": 1,
+  "boutique": false,
+  "description": "Outil forgé à l'enclume : ses statistiques de métier ne servent qu'au métier de agriculteur."
+}

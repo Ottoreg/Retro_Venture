@@ -524,7 +524,10 @@ Vétéran 15 000).
 
 **Équipement** (02/11/2026, demande de l'auteur) : seules les **panoplies** restent des objets
 prédéfinis ; tout le reste se forge. `forge_<type>` sont les modèles des objets forgés (un par type
-de la forge, `boutique: false`), à ne pas donner tels quels.
+de la forge, `boutique: false`), à ne pas donner tels quels. Les **outils** (type `outil`, emplacement `outil`, champ
+`metier` : le métier qu'ils servent ; `docs/design/forge/outils.py`) portent des statistiques de métier (`profusion`,
+`flair`, `dexterite`, `minutie`, `epargne`, `distillation`, `sagacite`) : à la forge, chaque ressource y donne la
+statistique de métier de sa caractéristique à score égal (`Forge.job_stat`), 60 points de score par palier et par outil.
 
 ### Forge (`core/items/forge.gd`, GDD § 10.4)
 

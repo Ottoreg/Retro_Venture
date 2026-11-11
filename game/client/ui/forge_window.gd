@@ -178,7 +178,7 @@ func _show_infusion() -> void:
 	if not essence.is_empty() and not target.is_empty():
 		var preview := Infusion.apply_preview(target, essence)
 		lines.append("Ligne au plafond, ou plus de %d points de score d'exo." % Infusion.MAX_EXO_SCORE if not preview["erreur"].is_empty() else
-			"%s : %s %d, réussite %d %%" % ["Renfort" if preview["renfort"] else "Exo", Item.stat_name(essence["caracteristique"]), preview["valeur"], Infusion.chance(essence)])
+			"%s : %s %d, réussite %d %%" % ["Renfort" if preview["renfort"] else "Exo", Item.stat_name(essence["caracteristique"]), preview["valeur"], Infusion.chance(essence, world.character.tool_stat(Forge.JOB, "distillation"))])
 	_infusion_text.text = "\n".join(lines)
 
 
@@ -244,9 +244,10 @@ func _warn_lost(lost: Dictionary, hidden: bool) -> void:
 	for item_id: String in lost:
 		var known: bool = not hidden or Forge.reveals(map_view.world.character, int(items[item_id].get("niveau", 1)))
 		for stat: String in lost[item_id]:
-			lines.append("ATTENTION, perdu si vous forgez : %s ×%d ne donnera rien, %s demande le palier de forge %d (vous êtes au palier %d)." % [
-				items[item_id]["nom"], _chosen.get(item_id, 0), Item.stat_name(stat) if known else "sa caractéristique",
-				lost[item_id][stat], Forge.tier(map_view.world.character)])
+			var what: String = Item.stat_name(stat) if known else "sa caractéristique"
+			lines.append("ATTENTION, perdu si vous forgez : %s ×%d ne donnera rien, %s %s." % [items[item_id]["nom"], _chosen.get(item_id, 0), what,
+				"ne sert pas à cet outil" if lost[item_id][stat] == 0 else "demande le palier de forge %d (vous êtes au palier %d)" % [
+				lost[item_id][stat], Forge.tier(map_view.world.character)]])
 	_warning.text = "\n".join(lines)
 	_warning.visible = not lines.is_empty()
 
@@ -356,7 +357,8 @@ func _on_result(event: Dictionary) -> void:
 		_essence = "" if event.has("objet") else _essence
 		refresh()
 		return
-	_message.text = REFUSALS.get(event.get("raison"), "Impossible.") if refused else "Forgé : %s%s" % [event["nom"], ", et son patron" if event.get("patron", false) else ""]
+	_message.text = REFUSALS.get(event.get("raison"), "Impossible.") if refused else "Forgé : %s%s%s" % [event["nom"], ", et son patron" if event.get("patron", false) else "",
+		" (épargnées : %d ressources)" % event["epargne"].values().reduce(func(a: int, b: int) -> int: return a + b, 0) if not event.get("epargne", {}).is_empty() else ""]
 	_message.add_theme_color_override("font_color", Color(1.0, 0.5, 0.4) if refused else Color(0.55, 0.9, 0.5))
 	if not refused:
 		_chosen = {}

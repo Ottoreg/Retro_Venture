@@ -205,6 +205,13 @@ la caractéristique pour un point de score (le tableau donne la valeur d'une res
 | % Résistance Tempête | 0,12 | 2 / 5 / 7 / 10 / 12 | 1 | 1 | 1 | 1 | 1 |
 | % Résistance Sacré | 0,12 | 2 / 5 / 7 / 10 / 12 | 1 | 1 | 1 | 1 | 1 |
 | % Résistance Impie | 0,12 | 2 / 5 / 7 / 10 / 12 | 1 | 1 | 1 | 1 | 1 |
+| % Profusion (outil) | 0,3 | 6 / 12 / 18 / 24 / 30 | 1 | 1 | 1 | 1 | 2 |
+| Flair (outil) | 0,5 | 10 / 20 / 30 / 40 / 50 | 1 | 1 | 2 | 2 | 3 |
+| % Dextérité (outil) | 0,15 | 3 / 6 / 9 / 12 / 15 | 1 | 1 | 1 | 1 | 1 |
+| Minutie (outil) | 0,1 | 2 / 4 / 6 / 8 / 10 | 1 | 1 | 1 | 1 | 1 |
+| % Épargne (outil) | 0,1 | 2 / 4 / 6 / 8 / 10 | 1 | 1 | 1 | 1 | 1 |
+| Distillation (outil) | 0,1 | 2 / 4 / 6 / 8 / 10 | 1 | 1 | 1 | 1 | 1 |
+| % Sagacité (outil) | 0,05 | 1 / 2 / 3 / 4 / 5 | 1 | 1 | 1 | 1 | 1 |
 | PA | fixe | 0 / 0 / 0 / 0 / 1 | 1 | 1 | 1 | 1 | 1 |
 | PM | fixe | 0 / 0 / 0 / 1 / 1 | 1 | 1 | 1 | 1 | 1 |
 | Portée | fixe | 0 / 0 / 1 / 1 / 1 | 1 | 1 | 1 | 1 | 1 |
@@ -225,6 +232,12 @@ la caractéristique pour un point de score (le tableau donne la valeur d'une res
 | dague | minerai, bois | Dague, Couteau, Surin | 3 PA, portée 1, 2/tour ; P1 : 5–8 Impie / P5 : 6–10 Impie / P10 : 7–12 Impie / P20 : 10–16 Impie / P30 : 12–20 Impie |
 | masse | minerai, bois | Masse, Marteau, Gourdin | 4 PA, portée 1, 1/tour ; P1 : 7–11 Sacré / P5 : 8–13 Sacré / P10 : 10–16 Sacré / P20 : 14–21 Sacré / P30 : 17–27 Sacré |
 | sceptre | minerai, bois | Sceptre, Baguette | 4 PA, portée 2–5, 1/tour ; P1 : 5–8 Flamme / P5 : 6–10 Flamme / P10 : 7–12 Flamme / P20 : 10–16 Flamme / P30 : 12–20 Flamme |
+| pioche | minerai, bois | Pioche, Pic | — |
+| hache | minerai, bois | Hache, Cognée | — |
+| faucille | minerai, bois | Faucille, Serpette | — |
+| serpe | minerai, bois | Serpe, Sécateur | — |
+| canne_a_peche | minerai, bois | Canne à pêche, Gaule | — |
+| marteau_de_forgeron | minerai, bois | Marteau de forgeron, Maillet | — |
 
 ### Ressources
 

@@ -1750,8 +1750,8 @@ Cordonnier, le **Maître des potions** l'Alchimiste, le **Boulanger** le Cuisini
   récolte. Les cinq premières se trouvent dans les zones de départ, les suivantes dans les régions à
   venir (§ 3.5). Chaque ressource a sa **version rare** (1 %, à la place de la récolte, § 10.2).
 - **Outils** : chaque métier de récolte a son outil (pioche, hache, faucille, serpe, canne à pêche),
-  porté dans un emplacement d'outil hors combat (pas une arme). Fabriqués par le **Forgeron** (le
-  manche par le bûcheron, la lame par le mineur) : un outil porte les **statistiques de métier**
+  porté dans un emplacement d'outil hors combat (pas une arme). Fabriqués par le **Forgeron** (fait le
+  11/11/2026 : forgés à l'enclume avec du minerai et du bois, § 10.4 ; le manche par le bûcheron, la lame par le mineur) : un outil porte les **statistiques de métier**
   (§ 10.4, 09/11/2026) : il raccourcit la récolte, ajoute une chance de ressource en plus, etc. Sans outil, on récolte quand même, plus lentement (pas de mur
   pour un nouveau joueur).
 - **Produits intermédiaires** fabriqués à l'atelier du métier qui les utilise, sans recette à
@@ -2312,7 +2312,7 @@ moment** ; elle remplace la destruction d'objets et les cicatrices du § 9.2.
       (1 à 2 % par objet), pour rester proche de la Portée en points de score. **Validé le 09/11/2026** : 30 points
       de score par % (+1 Portée = 60 points ↔ +2 %), soit 3 % au plus par ligne (plafond de 100).
     - **Initiative** : miroir **à revoir plus tard** (le Retard est écarté).
-- **Statistiques de métier** (décisions de l'auteur du 09/11/2026, rien n'est codé) : elles n'existent
+- **Statistiques de métier** (décisions de l'auteur du 09/11/2026, **codées le 11/11/2026 sur `dev`**, détails après la liste) : elles n'existent
   **que sur les outils** (emplacement d'outil hors combat, § 10.3), jamais sur l'équipement de combat,
   et n'ont aucun effet en combat. **Une ressource donne sa statistique de combat** sur un équipement
   classique **et une statistique de métier** quand elle sert à forger un outil. Les outils ont, comme
@@ -2331,6 +2331,20 @@ moment** ; elle remplace la destruction d'objets et les cicatrices du § 9.2.
     Minutie ; Perception, Prospection → Flair ; Vitalité → Main verte ; Dommages → Épargne ; Soins →
     Fournée ; Résistances → Distillation ; PA, PM, Portée → Sagacité. Une ressource dont la stat de combat
     n'est pas dans cette liste (Tacle par exemple) n'en a pas forcément : à voir au cas par cas.
+  - **Codé le 11/11/2026 sur `dev`** (proposition de Claude du 10/11/2026, choix provisoires à valider) : emplacement
+    **Outil** unique, changé hors combat ; six outils forgés à l'enclume (matières minerai et bois) : pioche (mineur),
+    hache (bûcheron), faucille (agriculteur), serpe (herboriste), canne à pêche (pêcheur), marteau de forgeron ; un outil
+    ne sert qu'à son métier (`Character.tool_stat`). Chaque ressource y donne sa statistique de métier **à score égal**
+    (1 au moins par ressource) ; Critique → Minutie, Dégâts dévastateurs → Épargne ; une statistique qui ne sert pas à
+    l'outil est perdue (avertissement rouge). Plafond de ligne comme les objets de combat (20 points de score par palier
+    de forgeron), **60 points de score par palier et par outil** (les lignes en trop sont rognées). Abondance devient
+    **Profusion** sur l'outil (la compétence garde son nom). Poids et effet d'une ligne pleine (100 points de score) :
+    Profusion 0,3 (+30 % de chance d'une ressource de plus), Flair 0,5 (chance de rare × 1,5), Dextérité 0,15 (−15 % de
+    temps de récolte, avec la Célérité, 1 s au moins), Minutie 0,1 (+10 points au plancher des jets, avec la Précision),
+    Épargne 0,1 (10 % de chance par ressource de ne pas la consommer), Distillation 0,1 (+10 points de réussite
+    d'infusion, 95 % au plus), Sagacité 0,05 (+5 % de réputation du métier). **Main verte** et **Fournée** attendent les
+    instances de métier et le boulanger : perdues sur les outils actuels. Les outils ne comptent pas dans les panoplies
+    d'objets forgés.
 - *Noms proposés* (à choisir par l'auteur) : **Sublimation** (l'objet est « sublimé »),
   **Brumagie** (la magie des brumes, lieu de frappe de la monnaie), **Quintessence** (l'objet reçoit
   la quintessence d'une ressource), **Distillation** (l'alambic de l'artisan ; parodie possible :

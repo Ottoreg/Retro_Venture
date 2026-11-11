@@ -1,0 +1,10 @@
+{
+  "id": "forge_marteau_de_forgeron",
+  "nom": "Marteau de forgeron",
+  "type": "outil",
+  "metier": "forgeron",
+  "rarete": "commun",
+  "niveau": 1,
+  "boutique": false,
+  "description": "Outil forgé à l'enclume : ses statistiques de métier ne servent qu'au métier de forgeron."
+}
