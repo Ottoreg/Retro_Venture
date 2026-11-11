@@ -7,5 +7,7 @@
   "description": "Un cœur qui soigne tout ce qu'il touche.",
   "caracteristique": "soins",
   "valeur": 30,
-  "boutique": false
+  "boutique": false,
+  "famille": "archange_raphael",
+  "zone": "tour_celeste"
 }

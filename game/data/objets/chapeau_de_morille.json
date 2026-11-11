@@ -5,5 +5,7 @@
   "rarete": "commun",
   "niveau": 1,
   "description": "Alvéolé, parfumé, vexé. Il continue de bouder même détaché.",
-  "caracteristique": "intelligence"
+  "caracteristique": "intelligence",
+  "famille": "morille_grincheuse",
+  "zone": "sylvebrume"
 }

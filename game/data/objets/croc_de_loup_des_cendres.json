@@ -1,0 +1,11 @@
+{
+  "id": "croc_de_loup_des_cendres",
+  "nom": "Croc de loup des cendres",
+  "type": "ressource",
+  "rarete": "commun",
+  "niveau": 3,
+  "description": "Encore chaud. Il mord même arraché.",
+  "caracteristique": "intelligence",
+  "famille": "loup_cendreux",
+  "zone": "hautepierre"
+}

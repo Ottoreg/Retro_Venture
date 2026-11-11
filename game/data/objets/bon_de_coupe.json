@@ -5,5 +5,7 @@
   "rarete": "peu_commun",
   "niveau": 2,
   "description": "Autorisation de couper « quelques arbres ». Le mot « quelques » a été rayé.",
-  "caracteristique": "perception"
+  "caracteristique": "perception",
+  "famille": "bucheron_de_brumerive",
+  "zone": "sylvebrume"
 }

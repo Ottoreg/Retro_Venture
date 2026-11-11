@@ -5,5 +5,7 @@
   "rarete": "peu_commun",
   "niveau": 1,
   "description": "« Salaire : 0. Primes : 0. Retenue pour usure de cailloux : 3. » Document historique.",
-  "caracteristique": "vitalite"
+  "caracteristique": "vitalite",
+  "famille": "gobelin_frondeur",
+  "zone": "brumerive"
 }

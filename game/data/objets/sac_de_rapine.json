@@ -5,5 +5,7 @@
   "rarete": "commun",
   "niveau": 2,
   "description": "Dedans : une poule, un chandelier et un seul soulier.",
-  "caracteristique": "vitalite"
+  "caracteristique": "vitalite",
+  "famille": "gobelin_pillard",
+  "zone": "brumerive"
 }

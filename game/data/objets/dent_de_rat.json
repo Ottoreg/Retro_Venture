@@ -5,5 +5,7 @@
   "rarete": "commun",
   "niveau": 1,
   "description": "Jaune, pointue, et encore un peu mordante.",
-  "caracteristique": "agilite"
+  "caracteristique": "agilite",
+  "famille": "rat_des_galeries",
+  "zone": "crasse_roc"
 }

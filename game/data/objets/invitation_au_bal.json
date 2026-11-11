@@ -5,5 +5,7 @@
   "rarete": "peu_commun",
   "niveau": 4,
   "description": "« Bal du Souverain, minuit. Tenue cendrée exigée. Les citrouilles ne sont pas admises. »",
-  "caracteristique": "agilite"
+  "caracteristique": "agilite",
+  "famille": "cendrillon",
+  "zone": "hautepierre"
 }

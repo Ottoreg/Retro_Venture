@@ -1,0 +1,11 @@
+{
+  "id": "croc_ardent",
+  "nom": "Croc ardent",
+  "type": "ressource",
+  "rarete": "rare",
+  "niveau": 3,
+  "description": "Le loup l'a perdu en mordant une braise. La braise a perdu aussi.",
+  "caracteristique": "dommages_flamme",
+  "famille": "loup_cendreux",
+  "zone": "hautepierre"
+}

@@ -5,5 +5,7 @@
   "rarete": "peu_commun",
   "niveau": 2,
   "description": "Toutes les heures supplémentaires y sont notées. Aucune n'a été payée.",
-  "caracteristique": "dommages"
+  "caracteristique": "dommages",
+  "famille": "contremaitre_zele",
+  "zone": "crasse_roc"
 }

@@ -186,6 +186,10 @@ Plus tard : maîtres par catégorie (armurier, tailleur, cordonnier) qui donnent
 **Infusion d'essences et infusion miroir** (10/11/2026, sur `dev`, GDD § 10.4) : `Infusion` (`core/items/infusion.gd`),
 commande `infuser` (protocole v15, v16 avec les paliers de monstres), mode Infusion de `ForgeWindow`, modèle `essence`, champ `exo` des entrées
 d'inventaire ; réussite 100 % − score ÷ 2 (10 à 95 %), miroir à score égal au palier Maître. Valeurs provisoires.
+**Panoplies d'objets forgés** (11/11/2026, sur `dev`, GDD § 10.4) : jusqu'à 3 mots clés par nom (`Forge.MAX_KEYWORDS`,
+`Forge.keywords` : adjectifs regroupés par panoplie, mots de famille `mot` des monstres et de zone `Forge.ZONES` à la
+majorité des ressources, `famille`/`zone` des ressources), `mots_cles` du champ `forge`, bonus `Forge.set_bonus` (barème
+validé, choix provisoires) ajoutés par `GameData.set_bonuses` ; données par `docs/design/forge/panoplies.py`.
 **Paliers de monstres** (11/11/2026, sur `dev`, demande de l'auteur, GDD § 8.1) : plus de niveau de monstre ;
 `palier` 1 à 5 (1 = anciens niveaux 1–6, 2 = 7–12, 3 = 13–20, 4 = 21–30, 5 = 31+), stats figées au niveau moyen de
 l'ancienne tranche, `Fighter.tier`, `GameData.monster_tier` / `map_tier_range`, difficulté = paliers des monstres

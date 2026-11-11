@@ -206,8 +206,12 @@ func _show_preview() -> void:
 	var plan: Dictionary = data.items.get(_plan, {}).get("recette", {})
 	var preview := Forge.preview(_type, _chosen, data.items, map_view.world.character, plan.is_empty())
 	# Adjectifs et élément d'attaque d'après toutes les lignes, même cachées : ils laissent deviner l'objet.
-	var full: Dictionary = Forge.preview(_type, _chosen, data.items, map_view.world.character, false)["bonus"]
-	_update_words(full, plan)
+	var complete := Forge.preview(_type, _chosen, data.items, map_view.world.character, false)
+	var full: Dictionary = complete["bonus"]
+	var places := {}
+	for key: String in complete["lieux"]:
+		places[key] = Forge.place_word(key, data)
+	_update_words(full, places, plan)
 	var lines: PackedStringArray = ["%s, palier %d" % [Forge.TYPE_NAMES[_type], preview["palier"]]]
 	lines.append_array(InventoryWindow.bonus_range_lines(preview["bonus"]))
 	lines.append_array(InventoryWindow.attack_lines(Item.entry_template({"objet": Forge.template_id(_type),
@@ -222,6 +226,9 @@ func _show_preview() -> void:
 	if preview["erreur"] == Protocol.REASON_TOO_MANY_LINES:
 		lines.append(REFUSALS[Protocol.REASON_TOO_MANY_LINES])
 	lines.append("Nom : %s" % _name())
+	if plan.is_empty() and not _name().is_empty():
+		var keys: Array = Forge.keywords(_words_chosen(), _type, full.keys(), places)
+		lines.append("Panoplies : %s" % (", ".join(keys.map(func(key: String) -> String: return Forge.set_title(key, data))) if not keys.is_empty() else "aucune"))
 	_preview.text = "\n".join(lines)
 	_warn_lost(preview["perdues"], plan.is_empty())
 	_forge_button.disabled = not preview["erreur"].is_empty() or not _owns_all()
@@ -244,9 +251,10 @@ func _warn_lost(lost: Dictionary, hidden: bool) -> void:
 	_warning.visible = not lines.is_empty()
 
 
-## Choix du nom : le nom du type puis deux adjectifs des lignes de l'objet (un plan impose son nom). Les mots
-## proposés ne s'appliquent que tant que le joueur n'a pas touché au nom ; un adjectif choisi suit le genre du nom.
-func _update_words(bonus: Dictionary, plan: Dictionary) -> void:
+## Choix du nom : le nom du type puis trois mots clés, adjectifs des lignes de l'objet ou mots de famille et de zone
+## permis (`places`, mot clé → mot ; un plan impose son nom). Les mots proposés ne s'appliquent que tant que le joueur
+## n'a pas touché au nom ; un adjectif choisi suit le genre du nom.
+func _update_words(bonus: Dictionary, places: Dictionary, plan: Dictionary) -> void:
 	var noun: String = _words[0].get_item_text(_words[0].selected) if _words[0].selected >= 0 else ""
 	var wanted := Forge.default_words(_type, bonus)
 	if Forge.gender(_type, noun).is_empty():
@@ -267,8 +275,13 @@ func _update_words(bonus: Dictionary, plan: Dictionary) -> void:
 			for k in Forge.WORDS[stat].size():
 				option.add_item(Forge.adjective(Forge.WORDS[stat][k], Forge.gender(_type, noun)))
 				option.set_item_metadata(option.item_count - 1, [stat, k])
-				if previous[i - 1] == [stat, k] or (not _named and i < wanted.size() and Forge.adjective(Forge.WORDS[stat][k], Forge.gender(_type, wanted[0])) == wanted[i]):
+				if typeof(previous[i - 1]) == TYPE_ARRAY and previous[i - 1] == [stat, k] or (not _named and i < wanted.size() and Forge.adjective(Forge.WORDS[stat][k], Forge.gender(_type, wanted[0])) == wanted[i]):
 					option.select(option.item_count - 1)
+		for key: String in places:
+			option.add_item(places[key])
+			option.set_item_metadata(option.item_count - 1, key)
+			if typeof(previous[i - 1]) == TYPE_STRING and previous[i - 1] == key:
+				option.select(option.item_count - 1)
 	for option in _words:
 		option.disabled = not plan.is_empty()
 
@@ -466,10 +479,11 @@ func _build() -> void:
 	_warning.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	center.add_child(_warning)
 	var names := HBoxContainer.new()
-	for i in 1 + Forge.MAX_ADJECTIVES:
+	for i in 1 + Forge.MAX_KEYWORDS:
 		var option := OptionButton.new()
 		option.fit_to_longest_item = false
-		option.custom_minimum_size = Vector2(130, 0)
+		option.custom_minimum_size = Vector2(110, 0)
+		option.clip_text = true
 		option.item_selected.connect(func(_index: int) -> void:
 			_named = true
 			_show_preview())

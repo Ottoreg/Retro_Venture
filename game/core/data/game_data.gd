@@ -200,6 +200,16 @@ func set_tier(set_id: String, worn: int) -> Dictionary:
 	return best
 
 
+## Statistiques des ressources d'une famille de monstres (champ `famille` des ressources), sans doublon.
+func family_stats(family: String) -> Array:
+	var stats: Array = []
+	for item: Dictionary in items.values():
+		for stat: String in Forge.stats_of(item) if item.get("famille") == family else []:
+			if stat not in stats:
+				stats.append(stat)
+	return stats
+
+
 ## Pièces portées par panoplie : id de panoplie → nombre.
 func worn_sets(inventory: Inventory) -> Dictionary:
 	var counts := {}
@@ -212,9 +222,9 @@ func worn_sets(inventory: Inventory) -> Dictionary:
 	return counts
 
 
-## Total des bonus de panoplie actifs d'un inventaire : stat → valeur.
+## Total des bonus de panoplie actifs d'un inventaire (panoplies prédéfinies et d'objets forgés) : stat → valeur.
 func set_bonuses(inventory: Inventory) -> Dictionary:
-	var totals := {}
+	var totals := Forge.set_bonuses(inventory.equipped.values().map(func(uid: String) -> Dictionary: return inventory.entries[uid]), self)
 	var counts := worn_sets(inventory)
 	for set_id: String in counts:
 		var tier := set_tier(set_id, counts[set_id])

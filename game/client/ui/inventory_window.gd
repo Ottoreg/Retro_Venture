@@ -116,9 +116,17 @@ static func roll_lines(entry: Dictionary, template: Dictionary, show_ranges: boo
 
 
 ## Panoplie d'un objet : son nom, les pièces portées, et chaque palier de bonus (« (actif) » pour
-## celui qui s'applique). Vide si l'objet n'est d'aucune panoplie.
-static func set_lines(item_id: String, data: GameData, inventory: Inventory) -> PackedStringArray:
+## celui qui s'applique) ; pour un objet forgé, ses panoplies de mots clés (pièces portées, bonus actuel). Vide si l'objet
+## n'est d'aucune panoplie.
+static func set_lines(entry: Dictionary, data: GameData, inventory: Inventory) -> PackedStringArray:
 	var lines: PackedStringArray = []
+	var item_id: String = entry.get("objet", "")
+	for key: String in entry.get("forge", {}).get("mots_cles", []) if data != null else []:
+		var tiers: Array = inventory.equipped.values().map(func(uid: String) -> Dictionary: return inventory.entries[uid].get("forge", {})) \
+			.filter(func(forged: Dictionary) -> bool: return key in forged.get("mots_cles", [])).map(func(forged: Dictionary) -> int: return int(forged["palier"]))
+		var bonus := Forge.set_bonus(key, tiers, data) if tiers.size() >= 2 else {}
+		lines.append_array(["", "Panoplie %s — %d / %d : %s" % [Forge.set_title(key, data), tiers.size(), Forge.SET_SHARES.size() - 1,
+			", ".join(bonus.keys().map(func(stat: String) -> String: return "+%d %s" % [bonus[stat], Item.stat_name(stat)])) if not bonus.is_empty() else "aucun bonus"]])
 	if data == null or not data.item_sets.has(item_id):
 		return lines
 	var set_id: String = data.item_sets[item_id]
@@ -364,7 +372,7 @@ func _show_details(entry: Dictionary) -> void:
 	lines.append_array(roll_lines(entry, template, _show_ranges))
 	lines.append_array(attack_lines(template))
 	lines.append_array(ForgeWindow.forge_lines(template, map_view.world.data, map_view.world.character))
-	lines.append_array(set_lines(entry["objet"], map_view.world.data, map_view.world.character.inventory))
+	lines.append_array(set_lines(entry, map_view.world.data, map_view.world.character.inventory))
 	if not str(entry["description"]).is_empty():
 		lines.append("")
 		lines.append(entry["description"])

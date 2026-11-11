@@ -345,7 +345,10 @@ le **lit** de votre maison les rend tous d'un coup.
   **Détails** de la fiche du personnage montre toutes vos caractéristiques, élément par élément
   (résistance de l'équipement plafonnée à 60 %). Au début, les caractéristiques des ressources sont
   **cachées** : c'est en forgeant qu'on apprend à les lire. Les **plans** (récompenses de quêtes, ou
-  vendus par les marchands) disent tout d'avance.
+  vendus par les marchands) disent tout d'avance. **Panoplies d'objets forgés** : le nom prend jusqu'à
+  trois **mots clés** (adjectifs, ou « de Loup », « de Brumerive »… quand au moins la moitié des ressources
+  viennent de cette famille ou de cette zone) ; portez 2 à 7 objets au même mot pour un bonus de panoplie
+  (infobulle de l'objet). Valeurs provisoires.
 - **Infusion** (bouton de l'enclume) : 20 ressources identiques (10 rares, 2 légendaires ; × 5 pour une
   essence **parfaite**) donnent une **essence** d'une de leurs caractéristiques. Appliquée à un équipement,
   elle **renforce** sa ligne si elle y est, sinon l'ajoute en **exo** (200 points de score d'exo par objet,

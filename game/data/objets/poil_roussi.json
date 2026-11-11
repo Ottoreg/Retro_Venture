@@ -1,0 +1,11 @@
+{
+  "id": "poil_roussi",
+  "nom": "Poil roussi",
+  "type": "ressource",
+  "rarete": "commun",
+  "niveau": 3,
+  "description": "Sent le chien mouillé tombé dans un feu de camp.",
+  "caracteristique": "force",
+  "famille": "loup_cendreux",
+  "zone": "hautepierre"
+}

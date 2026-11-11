@@ -2521,7 +2521,10 @@ func _forge(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
 	if typeof(type) != TYPE_STRING or typeof(resources) != TYPE_DICTIONARY:
 		return _refused(command, Protocol.REASON_INVALID_COMMAND)
 	var preview := Forge.preview(type, resources, data.items, p.character, false)
-	var item_name: String = plan.get("nom", Forge.name_of(command.get("mots"), type, preview["bonus"].keys()))
+	var places := {}
+	for key: String in preview["lieux"]:
+		places[key] = Forge.place_word(key, data)
+	var item_name: String = plan.get("nom", Forge.name_of(command.get("mots"), type, preview["bonus"].keys(), places))
 	if not preview["erreur"].is_empty() or item_name.is_empty():
 		return _refused(command, preview["erreur"] if not preview["erreur"].is_empty() else Protocol.REASON_INVALID_COMMAND)
 	var paper: bool = command.get("papier") == true
@@ -2538,7 +2541,8 @@ func _forge(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
 		inventory.remove(item_id, int(resources[item_id]))
 	var template: Dictionary = data.items[Forge.template_id(type)]
 	var uid := inventory.add(template, 1, Forge.roll(preview["bonus"], rng), false,
-		{"nom": item_name, "artisan": p.character.display_name, "palier": preview["palier"], "bonus": preview["bonus"]})
+		{"nom": item_name, "artisan": p.character.display_name, "palier": preview["palier"], "bonus": preview["bonus"],
+		"mots_cles": [] if plan else Forge.keywords(command["mots"], type, preview["bonus"].keys(), places)})
 	var events: Array[Dictionary] = [{"type": Protocol.EVT_CRAFTED, "objet": template["id"], "nom": item_name, "quantite": 1, "metier": Forge.JOB,
 		"palier": preview["palier"], "jets": inventory.entries[uid]["jets"], "bonus": preview["bonus"], "patron": paper}]
 	if paper:  # Le patron note les ressources, les jets et les plages de l'objet forgé.

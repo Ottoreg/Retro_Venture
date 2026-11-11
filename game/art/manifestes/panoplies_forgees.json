@@ -1,0 +1,81 @@
+{
+  "images": {
+    "objet_croc_de_loup_des_cendres": {
+      "fichier": "objets/croc_de_loup.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_poil_roussi": {
+      "fichier": "objets/cendre_tiede.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_croc_ardent": {
+      "fichier": "objets/eclat_de_cendre.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_ecorce_calcinee": {
+      "fichier": "objets/ecorce_vivante.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_seve_brulante": {
+      "fichier": "objets/cendre_tiede.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_noeud_de_braise": {
+      "fichier": "objets/eclat_de_cendre.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_braise_de_grouilleur": {
+      "fichier": "objets/cendre_tiede.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_carapace_fumante": {
+      "fichier": "objets/carapace_de_grouilleur.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_glande_incandescente": {
+      "fichier": "objets/eclat_de_cendre.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_plan_de_casse": {
+      "fichier": "objets/ordre_de_raid.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_louche_de_krasbouk": {
+      "fichier": "objets/sac_de_rapine.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    }
+  }
+}

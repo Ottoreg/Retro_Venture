@@ -7,5 +7,7 @@
   "description": "L'Archange en a d'autres, il les fait laver au ciel.",
   "caracteristique": "resistance_impie",
   "valeur": 3,
-  "boutique": false
+  "boutique": false,
+  "famille": "archange_raphael",
+  "zone": "tour_celeste"
 }

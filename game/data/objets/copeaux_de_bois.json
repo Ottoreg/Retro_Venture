@@ -5,5 +5,7 @@
   "rarete": "commun",
   "niveau": 2,
   "description": "Ce qui reste d'un arbre quand un bûcheron est passé. Les elfes les ramassent en pleurant.",
-  "caracteristique": "initiative"
+  "caracteristique": "initiative",
+  "famille": "bucheron_de_brumerive",
+  "zone": "sylvebrume"
 }

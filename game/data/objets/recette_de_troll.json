@@ -5,5 +5,7 @@
   "rarete": "peu_commun",
   "niveau": 3,
   "description": "« Aventurier rôti, trois façons. » Il manque la troisième, heureusement.",
-  "caracteristique": "perception"
+  "caracteristique": "perception",
+  "famille": "troll_des_ponts",
+  "zone": "hautepierre"
 }

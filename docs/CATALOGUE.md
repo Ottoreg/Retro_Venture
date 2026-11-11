@@ -27,7 +27,7 @@ Prix de boutique : selon la rareté (revente à 25 %).
 - [Sorts de race](#sorts-de-race)
 - [Sorts des monstres](#sorts-des-monstres)
 
-**293 objets** (18 armes, 20 coiffes, 20 capes, 20 amulettes, 20 anneaux, 20 ceintures, 20 bottes, 112 ressources, 36 plans de forge, 7 objets de quête), **55 monstres** et **133 sorts**.
+**304 objets** (18 armes, 20 coiffes, 20 capes, 20 amulettes, 20 anneaux, 20 ceintures, 20 bottes, 123 ressources, 36 plans de forge, 7 objets de quête), **55 monstres** et **133 sorts**.
 
 ## Armes
 
@@ -213,10 +213,10 @@ Prix de boutique : selon la rareté (revente à 25 %).
 | **Bois de chêne** | 1 | Peu commun | +1 Force, bois | boutique 12 brumes<br>Bûcheron : Chêne niv. 3 | Dur comme une tête de nain, et presque aussi vieux. |
 | **Bois de frêne** | 1 | Commun | +1 Agilité, bois | boutique 4 brumes<br>Bûcheron : Frêne niv. 1 | Souple et droit. Les elfes en font des arcs, les humains des manches de pioche. |
 | **Caillou de fronde** | 1 | Commun | +1 Perception | boutique 4 brumes<br>butin : Frondeur vétéran 90 %, Gobelin frondeur 60 % | Un caillou. Rond. Réglementaire, d'après le gobelin qui le tenait. |
-| **Carapace de grouilleur** | 1 | Commun | +1 Force | boutique 4 brumes<br>butin : Grouilleur ancestral 90 %, Grouilleur 50 %, Grouilleur de braise 50 % | Un anneau de carapace verte. Il en manque une centaine pour faire le tour. |
+| **Carapace de grouilleur** | 1 | Commun | +1 Force | boutique 4 brumes<br>butin : Grouilleur ancestral 90 %, Grouilleur 50 % | Un anneau de carapace verte. Il en manque une centaine pour faire le tour. |
 | **Chapeau de morille** | 1 | Commun | +1 Intelligence | boutique 4 brumes<br>butin : Vieille Morille rancunière 90 %, Morille grincheuse 60 %<br>« Des champignons qui insultent » : sur Morille grincheuse, Vieille Morille rancunière (50 %) | Alvéolé, parfumé, vexé. Il continue de bouder même détaché. |
 | **Chêne des Anciens** | 1 | Rare | +1 % Résistance Acier, bois | Bûcheron : Chêne niv. 3, récolte rare | Une bûche si vieille qu'elle se souvient de l'Âge de l'Aube. Elle refuse d'en parler. |
-| **Croc de loup** | 1 | Commun | +1 Perception | boutique 4 brumes<br>butin : Loup alpha 90 %, Loup cendreux 50 %, Loup des collines 50 % | Pointu, un peu baveux. Les forgerons en raffolent pour une raison qu'ils gardent pour eux. |
+| **Croc de loup** | 1 | Commun | +1 Perception | boutique 4 brumes<br>butin : Loup alpha 90 %, Loup des collines 50 % | Pointu, un peu baveux. Les forgerons en raffolent pour une raison qu'ils gardent pour eux. |
 | **Cuivre vert-de-gris** | 1 | Rare | +1 Dommages Flamme, minerai | Mineur : Cuivre niv. 1, récolte rare | Un cuivre qui a pris l'air pendant un siècle. Il a de la patine, et de l'opinion. |
 | **Cœur de frêne** | 1 | Rare | +1 % Résistance Tempête, bois | Bûcheron : Frêne niv. 1, récolte rare | Le centre d'un frêne qui a tenu trois tempêtes. Il en garde la souplesse, et la rancune. |
 | **Dent de rat** | 1 | Commun | +1 Agilité | boutique 4 brumes<br>butin : Rat-roi 70 %, Rat des galeries 30 %<br>« Le dentier de Mamie Ratine » : sur Rat des galeries, Rat-roi (50 %) | Jaune, pointue, et encore un peu mordante. |
@@ -246,7 +246,7 @@ Prix de boutique : selon la rareté (revente à 25 %).
 | **Sève ancienne** | 1 | Rare | +1 Intelligence | boutique 35 brumes<br>butin : Arbre millénaire 40 %, Arbre vivant 10 %<br>« Les arbres sont nerveux » : sur Arbre vivant, Arbre millénaire (50 %) | Ambrée, épaisse, plus vieille que Brumerive. |
 | **Trèfle** | 1 | Commun | — | boutique 4 brumes<br>Herboriste : Trèfle niv. 3 | Trois feuilles. Toujours trois. On a compté. |
 | **Trèfle à quatre feuilles** | 1 | Rare | — | Herboriste : Trèfle niv. 3, récolte rare | La chance en personne. Elle a pourtant mis du temps à se montrer. |
-| **Écorce vivante** | 1 | Commun | +1 Agilité | boutique 4 brumes<br>butin : Arbre millénaire 90 %, Arbre vivant 60 %, Arbre calciné 50 % | Elle bouge encore un peu. C'est normal, paraît-il. |
+| **Écorce vivante** | 1 | Commun | +1 Agilité | boutique 4 brumes<br>butin : Arbre millénaire 90 %, Arbre vivant 60 % | Elle bouge encore un peu. C'est normal, paraît-il. |
 | **Épi doré** | 1 | Rare | — | Agriculteur : Blé niv. 1, récolte rare | Un épi qui brille au soleil. Personne ne sait s'il se mange ou s'il se porte. |
 | **Avoine** | 2 | Commun | — | boutique 4 brumes<br>Agriculteur : Avoine niv. 8 | Les chevaux en raffolent, les aventuriers s'en contentent. |
 | **Avoine du Champion** | 2 | Rare | — | Agriculteur : Avoine niv. 8, récolte rare | Un cheval en a mangé une fois. Il a gagné une course qu'il ne courait pas. |
@@ -256,20 +256,22 @@ Prix de boutique : selon la rareté (revente à 25 %).
 | **Copeaux de bois** | 2 | Commun | +20 Initiative | boutique 4 brumes<br>butin : Abatteur en chef 88 %, Bûcheron de Brumerive 55 %<br>« La dette de Vieux-Branchu » : sur Bûcheron de Brumerive, Abatteur en chef (50 %) | Ce qui reste d'un arbre quand un bûcheron est passé. Les elfes les ramassent en pleurant. |
 | **Corne du Balourd** | 2 | Rare | +1 PA | boutique 35 brumes<br>butin : Le Balourd des Abîmes 100 % | Encore tiède. Si on la porte à l'oreille, on entend les galeries s'effondrer. |
 | **Crochet d'araignée** | 2 | Peu commun | +1 Prospection | boutique 12 brumes<br>butin : Grande Tisseuse 48 %, Tisseuse de brume 12 % | Encore une goutte de venin au bout. Ne pas s'en servir comme cure-dent. |
-| **Fil de brume** | 2 | Commun | +2 Perception | boutique 4 brumes<br>butin : La Mère-Toile 90 %, Grande Tisseuse 88 %, Tisseuse de brume 55 %<br>« Du fil de brume » : sur Tisseuse de brume, Grande Tisseuse (50 %) | Un fil d'araignée si fin qu'on le voit seulement quand il fait humide. Il fait toujours humide. |
+| **Fil de brume** | 2 | Commun | +2 Perception | boutique 4 brumes<br>butin : Grande Tisseuse 88 %, Tisseuse de brume 55 %<br>« Du fil de brume » : sur Tisseuse de brume, Grande Tisseuse (50 %) | Un fil d'araignée si fin qu'on le voit seulement quand il fait humide. Il fait toujours humide. |
 | **Glaive brisé d'ange** | 2 | Rare | +3 Dommages Acier | butin : Ange 12 % | La paix, oui, mais armée. |
 | **Gnôle de raid** | 2 | Commun | +2 Force | boutique 4 brumes<br>butin : Défonceur de portes 88 %, Gobelin briseur 55 % | Désinfecte, dégraisse, décape. Se boit aussi, paraît-il. |
 | **If funèbre** | 2 | Rare | +1 % Résistance Givre, bois | Bûcheron : If niv. 8, récolte rare | Il pousse près des tombes. Les archers l'adorent ; les fossoyeurs, moins. |
+| **Louche de Krasbouk** | 2 | Rare | +8 Vitalité | boutique 35 brumes<br>butin : Krasbouk, Chef de Raid (syndiqué) 90 % | Elle a servi la soupe et assommé des héros. Parfois les deux. |
 | **Maillon de cotte** | 2 | Commun | +2 Intelligence | boutique 4 brumes<br>butin : Sergent de la milice 80 %, Milicien de Hautepierre 50 % | Un anneau de cotte de mailles. Il en faut beaucoup pour faire une cotte, et un milicien pour la remplir. |
 | **Menthe glaciale** | 2 | Rare | — | Herboriste : Menthe niv. 8, récolte rare | Une feuille et l'haleine gèle. Les dragons la détestent. |
 | **Menthe poivrée** | 2 | Commun | — | boutique 4 brumes<br>Herboriste : Menthe niv. 8 | Fraîche au nez, brûlante au palais. Indécise, comme un elfe au marché. |
 | **Minerai d'étain** | 2 | Commun | +2 Agilité, minerai | boutique 4 brumes<br>Mineur : Étain niv. 8 | Il crie quand on le tord. Si, si : écoutez bien. |
 | **Médaille en chocolat** | 2 | Peu commun | +2 Intelligence | boutique 12 brumes<br>butin : Défonceur de portes 48 %, Gobelin briseur 12 % | Décernée au briseur du mois. Il en a mangé la moitié pendant la cérémonie. |
-| **Ordre de raid** | 2 | Peu commun | +2 Perception | boutique 12 brumes<br>butin : Krasbouk, Chef de Raid (syndiqué) 100 %, Pillard émérite 48 %, Défonceur de portes 32 %, Gobelin pillard 12 %, Gobelin briseur 8 %<br>« Les ordres du raid » : sur Gobelin briseur, Gobelin pillard, Défonceur de portes, Pillard émérite (35 %) | Signé par un Héraut Cendré. L'orthographe est approximative, la menace très claire. |
+| **Ordre de raid** | 2 | Peu commun | +2 Perception | boutique 12 brumes<br>butin : Pillard émérite 48 %, Gobelin pillard 12 %<br>« Les ordres du raid » : sur Gobelin briseur, Gobelin pillard, Défonceur de portes, Pillard émérite (35 %) | Signé par un Héraut Cendré. L'orthographe est approximative, la menace très claire. |
 | **Paille ensorcelée** | 2 | Commun | +2 Agilité | boutique 4 brumes<br>butin : Grand Épouvantail 90 %, Épouvantail démotivé 60 %<br>« La grève des épouvantails » : sur Épouvantail démotivé, Grand Épouvantail (50 %) | Elle frissonne quand on parle de feu. On la comprend. |
+| **Plan de casse** | 2 | Peu commun | +2 Perception | boutique 12 brumes<br>butin : Défonceur de portes 32 %, Gobelin briseur 8 % | Tout y est : la porte, la masse, l'heure de la pause. |
 | **Plume d'ange** | 2 | Commun | +3 Force, +3 Intelligence | butin : Ange 35 % | Tombée pendant une prière un peu trop agitée. |
-| **Registre des heures** | 2 | Peu commun | +1 Dommages | boutique 12 brumes<br>butin : Le Balourd des Abîmes 50 %, Contremaître en chef 48 %, Contremaître zélé 12 % | Toutes les heures supplémentaires y sont notées. Aucune n'a été payée. |
-| **Sac de rapine** | 2 | Commun | +8 Vitalité | boutique 4 brumes<br>butin : Krasbouk, Chef de Raid (syndiqué) 90 %, Pillard émérite 88 %, Gobelin pillard 55 % | Dedans : une poule, un chandelier et un seul soulier. |
+| **Registre des heures** | 2 | Peu commun | +1 Dommages | boutique 12 brumes<br>butin : Contremaître en chef 48 %, Contremaître zélé 12 % | Toutes les heures supplémentaires y sont notées. Aucune n'a été payée. |
+| **Sac de rapine** | 2 | Commun | +8 Vitalité | boutique 4 brumes<br>butin : Pillard émérite 88 %, Gobelin pillard 55 % | Dedans : une poule, un chandelier et un seul soulier. |
 | **Sacré cœur** | 2 | Légendaire | +30 Force, +30 Intelligence | butin : Ange 0 % | Il bat encore, et il juge. |
 | **Sifflet de contremaître** | 2 | Commun | +2 Agilité | boutique 4 brumes<br>butin : Contremaître en chef 80 %, Contremaître zélé 50 %<br>« Le péage de Zibeline » : sur Contremaître zélé, Contremaître en chef (50 %) | Trois coups : au travail. Deux coups : plus vite. Un coup : vous êtes viré. |
 | **Soie de la Mère-Toile** | 2 | Rare | +1 PM | boutique 35 brumes<br>butin : La Mère-Toile 100 % | Un écheveau tissé depuis l'Âge de l'Aube. Elle n'a jamais fini un seul napperon. |
@@ -281,27 +283,36 @@ Prix de boutique : selon la rareté (revente à 25 %).
 | **Argent lunaire** | 3 | Rare | +2 Dommages Givre, minerai | Mineur : Argent niv. 15, récolte rare | Il brille même la nuit, surtout la nuit. Les loups le regardent bizarrement. |
 | **Bois de hêtre** | 3 | Peu commun | +3 Force, bois | boutique 12 brumes<br>Bûcheron : Hêtre niv. 15 | Blond, dur, régulier. On en fait des manches, des tables et des excuses. |
 | **Bourse vide** | 3 | Commun | +30 Initiative | boutique 4 brumes<br>butin : Chef de bande 88 %, Détrousseur des grands chemins 55 % | Vide. Comme toutes celles qu'il a volées, apparemment. Il ne comprend pas non plus. |
+| **Braise de grouilleur** | 3 | Commun | +30 Initiative | boutique 4 brumes<br>butin : Grouilleur de braise 50 % | Il en crachait ; vous la ramassez. Chacun son métier. |
 | **Brochet** | 3 | Commun | — | boutique 4 brumes<br>Pêcheur : Remous (brochet) niv. 15 | Des dents partout. Il mord l'hameçon, puis le pêcheur. |
 | **Brochet centenaire** | 3 | Rare | — | Pêcheur : Remous (brochet) niv. 15, récolte rare | Il a mangé trois cannes à pêche et un pêcheur distrait. |
 | **Calice toujours ruisselant** | 3 | Rare | — | **aucune** | Remis par l'Archange Raphaël au sommet de la tour. Gravé sous le pied : « Un disciple aux trente brumes garde une coupe vide pour les visiteurs. Il sait déjà ce qu'il y versera. » |
+| **Carapace fumante** | 3 | Commun | +12 Vitalité | boutique 4 brumes<br>butin : Grouilleur de braise 50 % | Elle fume encore, comme son ancien propriétaire. |
 | **Carte au trésor douteuse** | 3 | Peu commun | +12 Vitalité | boutique 12 brumes<br>butin : Chef de bande 48 %, Détrousseur des grands chemins 12 % | Une croix rouge, une flèche, et la mention « à peu près par là ». |
-| **Cendre tiède** | 3 | Commun | +3 Force | boutique 4 brumes<br>butin : Marraine Cendrée 88 %, Cendrillon 55 %, Arbre calciné 50 %, Grouilleur de braise 50 %, Loup cendreux 50 %<br>« Les arbres qui brûlent » : sur Arbre calciné (50 %)<br>« Authentiques fausses reliques » : sur Cendrillon, Loup cendreux, Grouilleur de braise, Arbre calciné (50 %) | Elle tombe de l'est depuis quelques mois. Elle ne refroidit jamais tout à fait. |
+| **Cendre tiède** | 3 | Commun | +3 Force | boutique 4 brumes<br>butin : Marraine Cendrée 88 %, Cendrillon 55 %<br>« Les arbres qui brûlent » : sur Arbre calciné (50 %)<br>« Authentiques fausses reliques » : sur Cendrillon, Loup cendreux, Grouilleur de braise, Arbre calciné (50 %) | Elle tombe de l'est depuis quelques mois. Elle ne refroidit jamais tout à fait. |
 | **Cortex féral** | 3 | Légendaire | +10 % Dégâts dévastateurs | butin : Lion de Juda 0 % | Une colère sainte, en conserve. |
+| **Croc ardent** | 3 | Rare | +2 Dommages Flamme | boutique 35 brumes<br>butin : Loup cendreux 3 % | Le loup l'a perdu en mordant une braise. La braise a perdu aussi. |
 | **Croc de lion féroce** | 3 | Rare | +9 Dommages Sacré | butin : Lion de Juda 5 % | Il ne mordait que les pécheurs. Enfin, surtout. |
+| **Croc de loup des cendres** | 3 | Commun | +3 Intelligence | boutique 4 brumes<br>butin : Loup cendreux 50 % | Encore chaud. Il mord même arraché. |
 | **Dent de troll** | 3 | Commun | +3 Intelligence | boutique 4 brumes<br>butin : Troll gastronome 88 %, Troll des ponts 55 %<br>« La recette du troll » : sur Troll des ponts, Troll gastronome (50 %) | Grosse comme un poing, jaune comme un vieux fromage. Le troll en a d'autres. |
+| **Glande incandescente** | 3 | Rare | +2 Dommages Flamme | boutique 35 brumes<br>butin : Grouilleur de braise 3 % | À ne pas presser à mains nues. |
 | **Hêtre centenaire** | 3 | Rare | +1 % Résistance Acier, bois | Bûcheron : Hêtre niv. 15, récolte rare | Cent ans de patience dans chaque cerne. Il se fend quand il l'a décidé. |
 | **Message intercepté** | 3 | Peu commun | +3 Agilité | boutique 12 brumes<br>butin : Corbac chef espion 48 %, Corbac espion 12 %<br>« Messages interceptés » : sur Corbac espion, Corbac chef espion (40 %) | « Rapport n° 412 : RAS. Rapport n° 413 : toujours RAS. Rapport n° 414 : j'ai faim. » |
 | **Minerai d'argent** | 3 | Peu commun | +3 Perception, minerai | boutique 12 brumes<br>Mineur : Argent niv. 15 | Brillant, précieux, et mortel pour les choses qui ne devraient pas exister. |
+| **Nœud de braise** | 3 | Rare | +2 Dommages Flamme | boutique 35 brumes<br>butin : Arbre calciné 3 % | Le cœur de l'arbre n'a pas fini de brûler. |
 | **Plume de corbac** | 3 | Commun | +3 Force | boutique 4 brumes<br>butin : Corbac chef espion 88 %, Corbac espion 55 % | Noire, luisante, et elle a l'air de vous écouter. |
 | **Poil de crinière léonin** | 3 | Commun | +3 Dommages Sacré | butin : Lion de Juda 25 % | Doré, soyeux, et plein de puces bénites. |
+| **Poil roussi** | 3 | Commun | +3 Force | boutique 4 brumes<br>butin : Loup cendreux 50 % | Sent le chien mouillé tombé dans un feu de camp. |
 | **Recette de troll** | 3 | Peu commun | +3 Perception | boutique 12 brumes<br>butin : Troll gastronome 48 %, Troll des ponts 12 %<br>« Droit de passage » : sur Troll des ponts, Troll gastronome (40 %)<br>« La recette du troll » : sur Troll des ponts, Troll gastronome (35 %) | « Aventurier rôti, trois façons. » Il manque la troisième, heureusement. |
 | **Sacré cœur de Raphaël** | 3 | Légendaire | +30 Soins | butin : Archange Raphaël 0 % | Un cœur qui soigne tout ce qu'il touche. |
 | **Sauge** | 3 | Commun | — | boutique 4 brumes<br>Herboriste : Sauge niv. 15 | La plante des sages. Elle ne rend pas sage, mais elle sent bon. |
 | **Sauge des Anciens** | 3 | Rare | — | Herboriste : Sauge niv. 15, récolte rare | Cueillie au pied d'une tour en ruine. Elle radote un peu. |
 | **Seigle** | 3 | Commun | — | boutique 4 brumes<br>Agriculteur : Seigle niv. 15 | Un grain sombre qui tient au corps et à la mâchoire. |
 | **Seigle ergoté** | 3 | Rare | — | Agriculteur : Seigle niv. 15, récolte rare | Taché de noir. À ne pas manger, à moins d'aimer les visions de troll dansant. |
+| **Sève brûlante** | 3 | Commun | +3 Agilité | boutique 4 brumes<br>butin : Arbre calciné 50 % | Coule vite, colle fort, brûle un peu. |
 | **Tunique déchirée de Raphaël** | 3 | Commun | +3 % Résistance Impie | butin : Archange Raphaël 55 % | L'Archange en a d'autres, il les fait laver au ciel. |
-| **Éclat de cendre** | 3 | Rare | +1 Portée | boutique 35 brumes<br>butin : Grondin, Bélier de la Brèche 100 %, Arbre calciné 3 %, Grouilleur de braise 3 %, Loup cendreux 3 %<br>« Authentiques fausses reliques » : sur Loup cendreux, Grouilleur de braise, Arbre calciné (30 %) | Un fragment noir qui brûle sans flamme. Les Corrompus en ont plein le corps. |
+| **Éclat de cendre** | 3 | Rare | +1 Portée | boutique 35 brumes<br>butin : Grondin, Bélier de la Brèche 100 %<br>« Authentiques fausses reliques » : sur Loup cendreux, Grouilleur de braise, Arbre calciné (30 %) | Un fragment noir qui brûle sans flamme. Les Corrompus en ont plein le corps. |
+| **Écorce calcinée** | 3 | Commun | +1 % Résistance Flamme | boutique 4 brumes<br>butin : Arbre calciné 50 % | Elle s'effrite en reproches. |
 | **Anguille des galeries** | 4 | Commun | — | boutique 4 brumes<br>Pêcheur : Remous (anguille des galeries) niv. 22 | Elle glisse entre les doigts et entre les lois du Syndicat. |
 | **Anguille électrique** | 4 | Rare | — | Pêcheur : Remous (anguille des galeries) niv. 22, récolte rare | Elle pique comme une ortie royale, mais en plus vexée. |
 | **Bois de malorme** | 4 | Rare | +4 Intelligence, bois | boutique 35 brumes<br>Bûcheron : Malorme niv. 22 | Un orme aux feuilles d'or. Les elfes jurent qu'ils l'ont vu en premier. |
@@ -486,7 +497,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Palier** : 2 ; **6 PA, 3 PM** ; IA basique
 - **Résistances** : Acier +15 %, Flamme +5 %, Tempête -10 %
 - **Sorts** : Coup de hache, Épaulée, Gnôle de raid
-- **Butin** : Gnôle de raid 55 % (×1–2), Médaille en chocolat 12 %, Ordre de raid 8 %, Coiffe de l'Enclume Rancunière 3 %, Cape de l'Enclume Rancunière 3 %, Amulette de l'Enclume Rancunière 3 %, Marteau de l'Enclume Rancunière 2 % ; **brumes** 11–25
+- **Butin** : Gnôle de raid 55 % (×1–2), Médaille en chocolat 12 %, Plan de casse 8 %, Coiffe de l'Enclume Rancunière 3 %, Cape de l'Enclume Rancunière 3 %, Amulette de l'Enclume Rancunière 3 %, Marteau de l'Enclume Rancunière 2 % ; **brumes** 11–25
 - **Où le trouver** : Camp du raid (`brumerive_2_2`, 4 groupes, dont 1 au hasard) · Gué de Brume-Haute (`brumerive_3_1`, 3 groupes, dont 1 au hasard) · Palissade de Krasbouk (`brumerive_3_2`, 1 groupe)
 
 | PV | Init. | XP | Force |
@@ -500,7 +511,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Palier** : 3 ; **7 PA, 3 PM** ; IA basique
 - **Résistances** : Acier +25 %, Flamme +15 %, Tempête -5 %, Givre +10 %
 - **Sorts** : Coup de hache, Épaulée, Gnôle de raid, Bélier humain
-- **Butin** : Gnôle de raid 88 % (×2–4), Médaille en chocolat 48 %, Ordre de raid 32 %, Coiffe de l'Enclume Rancunière 13 %, Cape de l'Enclume Rancunière 13 %, Amulette de l'Enclume Rancunière 13 %, Marteau de l'Enclume Rancunière 10 % ; **brumes** 28–62
+- **Butin** : Gnôle de raid 88 % (×2–4), Médaille en chocolat 48 %, Plan de casse 32 %, Coiffe de l'Enclume Rancunière 13 %, Cape de l'Enclume Rancunière 13 %, Amulette de l'Enclume Rancunière 13 %, Marteau de l'Enclume Rancunière 10 % ; **brumes** 28–62
 - **Où le trouver** : Camp du raid (`brumerive_2_2`, apparition spontanée) · Gué de Brume-Haute (`brumerive_3_1`, apparition spontanée) · Palissade de Krasbouk (`brumerive_3_2`, apparition spontanée)
 
 | PV | Init. | XP | Force |
@@ -544,7 +555,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Sorts** : Hachoir réglementaire, Hachette de jet, Cri de raid
 - **Phase 1** (à 60 % PV) : +2 PM (3 t.) ; +2 Portée (3 t.). Message : « Article 7 : piquet de grève mobile ! » Krasbouk court d'un bout à l'autre de la palissade.
 - **Phase 2** (à 30 % PV) : apprend Tourbillon syndical ; +25 % Critique (3 t.) ; +4 Dommages (3 t.) ; −20 Résistance Acier (3 t.). Message : « Prime de risque ! PRIME DE RISQUE ! » Krasbouk jette son casque et entre en grève… contre vous.
-- **Butin** : Ordre de raid 100 %, Sac de rapine 90 % (×2–4) ; **brumes** 80–140
+- **Butin** : Louche de Krasbouk 90 % (×2–4) ; **brumes** 80–140
 - **Où le trouver** : Palissade de Krasbouk (`brumerive_3_2`, 1 groupe, dont 1 réapparition 45–60 s)
 
 | PV | Init. | XP | Force |
@@ -586,7 +597,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Palier** : 3 ; **6 PA, 4 PM** ; IA basique
 - **Résistances** : Flamme +20 %, Givre +10 %, Impie +15 %, Sacré -10 %
 - **Sorts** : Morsure, Morsure brûlante
-- **Butin** : Croc de loup 50 % (×1–2), Cendre tiède 50 % (×1–2), Éclat de cendre 3 %, Coiffe du Coup de Vent 4 %, Cape du Coup de Vent 4 %, Amulette du Coup de Vent 4 %, Arc du Coup de Vent 3 % ; **brumes** 12–29
+- **Butin** : Croc de loup des cendres 50 % (×1–2), Poil roussi 50 % (×1–2), Croc ardent 3 %, Coiffe du Coup de Vent 4 %, Cape du Coup de Vent 4 %, Amulette du Coup de Vent 4 %, Arc du Coup de Vent 3 % ; **brumes** 12–29
 - **Où le trouver** : Palissade de Krasbouk (`brumerive_3_2`, 1 groupe, dont 1 après Krasbouk, Chef de Raid (syndiqué)) · Route de l'Est (`hautepierre_4_2`, 2 groupes, dont 1 au hasard)
 
 | PV | Init. | XP | Force | Intel. | Agi. |
@@ -717,7 +728,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Phase 1** (à 70 % PV) : +25 Résistance Givre (3 t.) ; +15 Résistance Acier (3 t.). Message : « Qui a creusé ici ? Je veux le nom du contremaître ! » Sa peau de roche se referme, fissure par fissure.
 - **Phase 2** (à 40 % PV) : apprend Pluie de braises ; +30 Intelligence (3 t.). Message : Le Balourd s'embrase et le plafond de la galerie prend feu.
 - **Phase 3** (à 15 % PV) : +3 PM (3 t.) ; +2 Portée (3 t.). Message : « Bon. On peut peut-être négocier ? » Il ne négocie pas : il déploie ses ailes de fumée.
-- **Butin** : Corne du Balourd 100 %, Registre des heures 50 % (×1–2) ; **brumes** 90–150
+- **Butin** : Corne du Balourd 100 % ; **brumes** 90–150
 - **Où le trouver** : L'Abîme du Balourd (`crasse_roc_1_3`, 1 groupe, dont 1 réapparition 45–60 s)
 
 | PV | Init. | XP | Intel. |
@@ -759,7 +770,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Palier** : 3 ; **6 PA, 3 PM** ; IA basique
 - **Résistances** : Flamme +35 %, Impie +10 %, Givre -10 %, Sacré -10 %
 - **Sorts** : Pinces, Crachat de feu
-- **Butin** : Carapace de grouilleur 50 % (×1–2), Cendre tiède 50 % (×1–2), Éclat de cendre 3 %, Anneau du Pyromane Récidiviste 4 %, Ceinture du Pyromane Récidiviste 4 %, Bottes du Pyromane Récidiviste 4 % ; **brumes** 14–34
+- **Butin** : Carapace fumante 50 % (×1–2), Braise de grouilleur 50 % (×1–2), Glande incandescente 3 %, Anneau du Pyromane Récidiviste 4 %, Ceinture du Pyromane Récidiviste 4 %, Bottes du Pyromane Récidiviste 4 % ; **brumes** 14–34
 - **Où le trouver** : L'Abîme du Balourd (`crasse_roc_1_3`, 1 groupe, dont 1 après Le Balourd des Abîmes) · Pont des Trolls (`hautepierre_2_3`, 1 groupe, dont 1 au hasard) · Gorges du Troll (`hautepierre_2_4`, 2 groupes, dont 1 au hasard)
 
 | PV | Init. | XP | Force | Intel. |
@@ -890,7 +901,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Phase 1** (à 65 % PV) : apprend Toile géante ; +2 PM (3 t.). Message : La Mère-Toile court sur ses fils et tisse la clairière entière.
 - **Phase 2** (à 35 % PV) : +30 Résistance Flamme (3 t.) ; +20 Résistance Acier (3 t.). Message : « Mes petites ! … Ah, non : elles sont toutes à la Lisière, à embêter les elfes. » Elle s'emmaillote dans sa soie.
 - **Phase 3** (à 10 % PV) : +40 Perception (3 t.) ; +20 % Critique (3 t.). Message : Elle file un dernier fil… et décide qu'elle a assez tissé pour aujourd'hui.
-- **Butin** : Soie de la Mère-Toile 100 %, Fil de brume 90 % (×2–4) ; **brumes** 80–140
+- **Butin** : Soie de la Mère-Toile 100 % ; **brumes** 80–140
 - **Où le trouver** : Cœur de la Toile (`sylvebrume_0_2`, 1 groupe, dont 1 réapparition 45–60 s)
 
 | PV | Init. | XP | Percep. | Agi. |
@@ -932,7 +943,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Palier** : 3 ; **7 PA, 1 PM** ; IA basique
 - **Résistances** : Acier +25 %, Flamme +30 %, Givre -20 %, Sacré -10 %
 - **Sorts** : Coup de branche, Racines, Pluie de cendres
-- **Butin** : Écorce vivante 50 % (×1–2), Cendre tiède 50 % (×1–2), Éclat de cendre 3 %, Anneau du Yéti Frileux 4 %, Ceinture du Yéti Frileux 4 %, Bottes du Yéti Frileux 4 % ; **brumes** 21–47
+- **Butin** : Écorce calcinée 50 % (×1–2), Sève brûlante 50 % (×1–2), Nœud de braise 3 %, Anneau du Yéti Frileux 4 %, Ceinture du Yéti Frileux 4 %, Bottes du Yéti Frileux 4 % ; **brumes** 21–47
 - **Où le trouver** : Bois-Corbeau (`hautepierre_1_0`, 1 groupe) · Colline Pelée (`hautepierre_3_0`, 2 groupes, dont 1 au hasard) · Cœur de la Toile (`sylvebrume_0_2`, 1 groupe, dont 1 après La Mère-Toile)
 
 | PV | Init. | XP | Force | Intel. | Percep. |

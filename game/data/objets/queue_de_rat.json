@@ -6,5 +6,7 @@
   "niveau": 1,
   "description": "Ne demandez pas à quoi ça sert. Les gobelins, eux, savent.",
   "caracteristique": "prospection",
-  "matiere": "cuir"
+  "matiere": "cuir",
+  "famille": "rat_des_galeries",
+  "zone": "crasse_roc"
 }

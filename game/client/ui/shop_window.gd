@@ -164,7 +164,7 @@ func _show_details(entry: Dictionary) -> void:
 	var template := Item.entry_template(entry, map_view.world.data.items)
 	lines.append_array(InventoryWindow.attack_lines(template))
 	lines.append_array(ForgeWindow.forge_lines(template, map_view.world.data, map_view.world.character))
-	lines.append_array(InventoryWindow.set_lines(entry["objet"], map_view.world.data, map_view.world.character.inventory))
+	lines.append_array(InventoryWindow.set_lines(entry, map_view.world.data, map_view.world.character.inventory))
 	if not str(entry["description"]).is_empty():
 		lines.append("")
 		lines.append(entry["description"])

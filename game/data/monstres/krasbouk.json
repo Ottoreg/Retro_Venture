@@ -79,11 +79,7 @@
   ],
   "butin": [
     {
-      "objet": "ordre_de_raid",
-      "taux": 1.0
-    },
-    {
-      "objet": "sac_de_rapine",
+      "objet": "louche_de_krasbouk",
       "taux": 0.9,
       "quantite": [
         2,
@@ -94,5 +90,6 @@
   "ecus": [
     80,
     140
-  ]
+  ],
+  "mot": "de Krasbouk"
 }

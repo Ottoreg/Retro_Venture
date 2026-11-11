@@ -10,5 +10,7 @@
     "intelligence"
   ],
   "valeur": 1,
-  "boutique": false
+  "boutique": false,
+  "famille": "colombe_baptiste",
+  "zone": "tour_celeste"
 }

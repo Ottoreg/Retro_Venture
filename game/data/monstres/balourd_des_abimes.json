@@ -88,18 +88,11 @@
     {
       "objet": "corne_du_balourd",
       "taux": 1.0
-    },
-    {
-      "objet": "registre_des_heures",
-      "taux": 0.5,
-      "quantite": [
-        1,
-        2
-      ]
     }
   ],
   "ecus": [
     90,
     150
-  ]
+  ],
+  "mot": "du Balourd"
 }

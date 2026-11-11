@@ -5,5 +5,7 @@
   "rarete": "legendaire",
   "niveau": 5,
   "description": "Un éclat tiède de la couronne du Souverain Cendré. Il ne refroidit jamais.",
-  "caracteristique": "pa"
+  "caracteristique": "pa",
+  "famille": "souverain_cendre",
+  "zone": "hautepierre"
 }

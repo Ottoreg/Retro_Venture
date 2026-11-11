@@ -5,5 +5,7 @@
   "rarete": "peu_commun",
   "niveau": 3,
   "description": "« Rapport n° 412 : RAS. Rapport n° 413 : toujours RAS. Rapport n° 414 : j'ai faim. »",
-  "caracteristique": "agilite"
+  "caracteristique": "agilite",
+  "famille": "corbac_espion",
+  "zone": "hautepierre"
 }

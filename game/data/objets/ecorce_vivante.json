@@ -5,5 +5,7 @@
   "rarete": "commun",
   "niveau": 1,
   "description": "Elle bouge encore un peu. C'est normal, paraît-il.",
-  "caracteristique": "agilite"
+  "caracteristique": "agilite",
+  "famille": "arbre_vivant",
+  "zone": "sylvebrume"
 }

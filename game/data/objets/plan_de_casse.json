@@ -1,0 +1,11 @@
+{
+  "id": "plan_de_casse",
+  "nom": "Plan de casse",
+  "type": "ressource",
+  "rarete": "peu_commun",
+  "niveau": 2,
+  "description": "Tout y est : la porte, la masse, l'heure de la pause.",
+  "caracteristique": "perception",
+  "famille": "gobelin_briseur",
+  "zone": "brumerive"
+}

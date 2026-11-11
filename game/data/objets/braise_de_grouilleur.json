@@ -1,0 +1,11 @@
+{
+  "id": "braise_de_grouilleur",
+  "nom": "Braise de grouilleur",
+  "type": "ressource",
+  "rarete": "commun",
+  "niveau": 3,
+  "description": "Il en crachait ; vous la ramassez. Chacun son métier.",
+  "caracteristique": "initiative",
+  "famille": "grouilleur_de_braise",
+  "zone": "hautepierre"
+}

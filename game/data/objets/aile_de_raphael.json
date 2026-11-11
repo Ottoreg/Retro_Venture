@@ -7,5 +7,7 @@
   "description": "Elle guérit tout, sauf l'orgueil.",
   "caracteristique": "soins_sacre",
   "valeur": 10,
-  "boutique": false
+  "boutique": false,
+  "famille": "archange_raphael",
+  "zone": "tour_celeste"
 }

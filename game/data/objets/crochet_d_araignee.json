@@ -5,5 +5,7 @@
   "rarete": "peu_commun",
   "niveau": 2,
   "description": "Encore une goutte de venin au bout. Ne pas s'en servir comme cure-dent.",
-  "caracteristique": "prospection"
+  "caracteristique": "prospection",
+  "famille": "tisseuse_de_brume",
+  "zone": "sylvebrume"
 }

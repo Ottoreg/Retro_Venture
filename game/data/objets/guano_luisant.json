@@ -5,5 +5,7 @@
   "rarete": "peu_commun",
   "niveau": 1,
   "description": "De l'or, d'après Gnark. De l'or qui sent mauvais, mais de l'or.",
-  "caracteristique": "critique"
+  "caracteristique": "critique",
+  "famille": "vampipistrelle",
+  "zone": "crasse_roc"
 }

@@ -1,0 +1,11 @@
+{
+  "id": "noeud_de_braise",
+  "nom": "Nœud de braise",
+  "type": "ressource",
+  "rarete": "rare",
+  "niveau": 3,
+  "description": "Le cœur de l'arbre n'a pas fini de brûler.",
+  "caracteristique": "dommages_flamme",
+  "famille": "arbre_calcine",
+  "zone": "hautepierre"
+}

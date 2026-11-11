@@ -5,5 +5,7 @@
   "rarete": "commun",
   "niveau": 3,
   "description": "Elle tombe de l'est depuis quelques mois. Elle ne refroidit jamais tout à fait.",
-  "caracteristique": "force"
+  "caracteristique": "force",
+  "famille": "cendrillon",
+  "zone": "hautepierre"
 }

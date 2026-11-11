@@ -5,5 +5,7 @@
   "rarete": "rare",
   "niveau": 1,
   "description": "Ambrée, épaisse, plus vieille que Brumerive.",
-  "caracteristique": "intelligence"
+  "caracteristique": "intelligence",
+  "famille": "arbre_vivant",
+  "zone": "sylvebrume"
 }

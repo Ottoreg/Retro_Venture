@@ -6,5 +6,7 @@
   "niveau": 1,
   "description": "Fine comme du papier, solide comme du cuir, et elle sent la cave.",
   "caracteristique": "force",
-  "matiere": "cuir"
+  "matiere": "cuir",
+  "famille": "vampipistrelle",
+  "zone": "crasse_roc"
 }

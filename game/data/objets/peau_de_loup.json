@@ -6,5 +6,7 @@
   "niveau": 1,
   "description": "Chaude, souple, et presque pas trouée.",
   "caracteristique": "initiative",
-  "matiere": "cuir"
+  "matiere": "cuir",
+  "famille": "loup_des_collines",
+  "zone": "brumerive"
 }

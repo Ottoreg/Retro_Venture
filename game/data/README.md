@@ -542,13 +542,17 @@ PA 100, PM 80 et Portée 60 points de score, perdus avant leur palier) et un obj
 palier de l'objet est la moyenne des paliers des ressources ; une arme forgée a les dégâts de son
 modèle × (1 + 0,4 × (palier − 1)) (`Forge.WEAPON_BONUS_PER_TIER`), dans l'élément de sa caractéristique élémentaire la plus forte
 (Force Acier, Intelligence Flamme, Perception Givre, Agilité Tempête ; celui du modèle à égalité ou sans ;
-Sacré si Force et Intelligence, Impie si Agilité et Perception sont à 10 % au plus de la plus forte). Le nom se compose d'un nom du type et de deux adjectifs au plus,
-pris dans les lignes de l'objet (`Forge.TYPES`, `Forge.WORDS`), et l'objet est signé « Créé par
-<pseudo> ». Les caractéristiques des ressources sont **cachées** tant qu'on n'a jamais forgé, puis
+Sacré si Force et Intelligence, Impie si Agilité et Perception sont à 10 % au plus de la plus forte). Le nom se compose d'un nom du type et de trois mots clés au plus
+(`Forge.MAX_KEYWORDS`) : adjectifs pris dans les lignes de l'objet (`Forge.TYPES`, `Forge.WORDS`), ou mots de famille
+(champ `mot` du monstre) et de zone (`Forge.ZONES`) quand au moins la moitié des ressources différentes à caractéristique
+en relèvent (champs `famille` et `zone` des ressources de monstres, une famille par ressource). Les mots clés
+(`mots_cles` du champ `forge` de l'entrée d'inventaire) forment des **panoplies d'objets forgés** de 2 à 7 pièces
+(`Forge.set_bonus`, GDD § 10.4). L'objet est signé « Créé par <pseudo> ». Les caractéristiques des ressources sont **cachées** tant qu'on n'a jamais forgé, puis
 lues jusqu'au palier de réputation de forgeron (Inconnu compté 1 ; 25 de réputation de base par palier de
 l'objet forgé, facteur de difficulté palier contre palier, voir « Métiers »). Un **plan**
 (récompense de quête, ou vendu par les marchands) donne type, ressources et nom, et montre tout.
-Production des données : `docs/design/forge/produire.py` (déjà lancé ; répartition des
+Production des données : `docs/design/forge/panoplies.py` (mots, familles, zones, ressources séparées) et
+`docs/design/forge/produire.py` (déjà lancé ; répartition des
 caractéristiques par tourniquet pondéré, PA, PM et Portée sur des butins de mini-boss).
 
 **Infusion** (`core/items/infusion.gd`, GDD § 10.4) : le modèle `essence` (`boutique: false`) reçoit, comme un objet

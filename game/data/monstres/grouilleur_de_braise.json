@@ -28,7 +28,7 @@
   "xp": 235,
   "butin": [
     {
-      "objet": "carapace_de_grouilleur",
+      "objet": "carapace_fumante",
       "taux": 0.5,
       "quantite": [
         1,
@@ -36,7 +36,7 @@
       ]
     },
     {
-      "objet": "cendre_tiede",
+      "objet": "braise_de_grouilleur",
       "taux": 0.5,
       "quantite": [
         1,
@@ -44,7 +44,7 @@
       ]
     },
     {
-      "objet": "eclat_de_cendre",
+      "objet": "glande_incandescente",
       "taux": 0.03
     },
     {
@@ -63,5 +63,6 @@
   "ecus": [
     14,
     34
-  ]
+  ],
+  "mot": "de Grouilleur de braise"
 }

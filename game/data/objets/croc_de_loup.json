@@ -5,5 +5,7 @@
   "rarete": "commun",
   "niveau": 1,
   "description": "Pointu, un peu baveux. Les forgerons en raffolent pour une raison qu'ils gardent pour eux.",
-  "caracteristique": "perception"
+  "caracteristique": "perception",
+  "famille": "loup_des_collines",
+  "zone": "brumerive"
 }

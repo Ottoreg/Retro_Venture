@@ -5,5 +5,7 @@
   "rarete": "rare",
   "niveau": 3,
   "description": "Un fragment noir qui brûle sans flamme. Les Corrompus en ont plein le corps.",
-  "caracteristique": "portee"
+  "caracteristique": "portee",
+  "famille": "grondin",
+  "zone": "hautepierre"
 }

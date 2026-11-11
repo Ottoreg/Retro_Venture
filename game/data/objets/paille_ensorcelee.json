@@ -5,5 +5,7 @@
   "rarete": "commun",
   "niveau": 2,
   "description": "Elle frissonne quand on parle de feu. On la comprend.",
-  "caracteristique": "agilite"
+  "caracteristique": "agilite",
+  "famille": "epouvantail_demotive",
+  "zone": "brumerive"
 }

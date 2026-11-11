@@ -7,5 +7,7 @@
   "description": "Il ne mordait que les pécheurs. Enfin, surtout.",
   "caracteristique": "dommages_sacre",
   "valeur": 9,
-  "boutique": false
+  "boutique": false,
+  "famille": "lion_de_juda",
+  "zone": "tour_celeste"
 }

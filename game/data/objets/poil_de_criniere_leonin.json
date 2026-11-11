@@ -7,5 +7,7 @@
   "description": "Doré, soyeux, et plein de puces bénites.",
   "caracteristique": "dommages_sacre",
   "valeur": 3,
-  "boutique": false
+  "boutique": false,
+  "famille": "lion_de_juda",
+  "zone": "tour_celeste"
 }

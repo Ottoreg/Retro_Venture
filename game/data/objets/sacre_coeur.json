@@ -10,5 +10,7 @@
     "intelligence"
   ],
   "valeur": 30,
-  "boutique": false
+  "boutique": false,
+  "famille": "ange",
+  "zone": "tour_celeste"
 }

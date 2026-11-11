@@ -545,3 +545,16 @@ func test_forge_ressources_et_enclumes() -> void:
 		assert_true(game_data.items.has(Forge.template_id(type)), "modèle de forge %s" % type)
 	for map_id in ["maison_joueur", "maison_crasse_roc", "maison_sylvebrume"]:
 		assert_true("enclume" in DataLoader.load_map(DataLoader.map_path(map_id)).obstacles.values(), "%s : une enclume" % map_id)
+
+
+## Panoplies d'objets forgés (GDD § 10.4) : chaque ressource de monstre à caractéristique a une famille (monstre au mot
+## de famille) et une zone (mot de zone), et n'est le butin que de sa famille (et de son élite).
+func test_familles_et_zones_des_ressources() -> void:
+	var game_data := GameData.load_all()
+	for monster: Dictionary in game_data.monsters.values():
+		for drop: Dictionary in monster.get("butin", []):
+			var item: Dictionary = game_data.items[drop["objet"]]
+			if item.get("type") == Item.TYPE_RESOURCE and item.has("caracteristique") and not item.has("matiere"):
+				assert_eq(item.get("famille"), monster.get("famille", monster["id"]), "%s : butin de sa famille" % item["id"])
+				assert_false(str(game_data.monsters.get(item.get("famille", ""), {}).get("mot", "")).is_empty(), "%s : famille à mot" % item["id"])
+				assert_true(Forge.ZONES.has(item.get("zone", "")), "%s : zone" % item["id"])

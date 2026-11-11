@@ -106,7 +106,22 @@ const WORDS := {
 	"soins_sacre": [["miraculeux", "miraculeuse"], ["angélique", "angélique"]], "soins_impie": [["ténébreux", "ténébreuse"]],
 	"resistance_sacre": [["sceptique", "sceptique"]], "resistance_impie": [["consacré", "consacrée"], ["exorcisé", "exorcisée"]],
 }
-const MAX_ADJECTIVES := 2
+## Mots clés au plus dans un nom après le nom du type : adjectifs, mots de famille ou de zone (GDD § 10.4).
+const MAX_KEYWORDS := 3
+## Panoplies d'objets forgés (barème validé le 11/11/2026, GDD § 10.4) : points de score d'une panoplie complète par
+## palier (le plus bas des pièces portées), × `BOSS_SET_FACTOR` pour un boss ; part du total selon les pièces (2 à 7).
+const SET_SCORE_PER_TIER := 30
+const ADJECTIVE_SET_SCORE_PER_TIER := 25
+const BOSS_SET_FACTOR := 1.5
+const SET_SHARES := [0.0, 0.0, 0.08, 0.18, 0.32, 0.5, 0.72, 1.0]
+## Zones : mot et tendance de leur panoplie (statistique → part en %, proposition provisoire du 10/11/2026).
+const ZONES := {
+	"brumerive": ["de Brumerive", {"agilite": 50, "dommages_tempete": 30, "fuite": 20}],
+	"crasse_roc": ["de Crasse-Roc", {"intelligence": 50, "dommages_flamme": 30, "reduction_degats": 20}],
+	"sylvebrume": ["de Sylvebrume", {"perception": 50, "resistance_givre": 30, "prospection": 20}],
+	"hautepierre": ["de Hautepierre", {"vitalite": 50, "tacle": 30, "dommages": 20}],
+	"tour_celeste": ["de la Tour céleste", {"soins": 50, "dommages_sacre": 30, "resistance_impie": 20}],
+}
 
 
 static func template_id(type: String) -> String:
@@ -145,11 +160,12 @@ static func reveals(character: Character, tier: int) -> bool:
 ## Aperçu de l'objet : { erreur (raison du protocole, "" si on peut forger), palier, bonus: { stat:
 ## [min, max] }, cachees (ressources à caractéristique cachée pour `character`), manquantes (matières),
 ## perdues (ressources dont une caractéristique dépasse le palier de forge de `character`, même cachée : id →
-## { stat: palier requis }) }.
+## { stat: palier requis }), lieux (mots clés « famille:<id> » et « zone:<id> » permis : ceux d'au moins la moitié des
+## ressources différentes à caractéristique) }.
 ## Le plancher des jets suit la Précision de `character` ; `hide` : cacher ce qu'il ne sait pas lire
 ## (faux pour le serveur et pour un plan, qui montre tout).
 static func preview(type: String, resources: Dictionary, items: Dictionary, character: Character = null, hide := true) -> Dictionary:
-	var result := {"erreur": "", "palier": 1, "bonus": {}, "cachees": 0, "manquantes": [], "perdues": {}}
+	var result := {"erreur": "", "palier": 1, "bonus": {}, "cachees": 0, "manquantes": [], "perdues": {}, "lieux": []}
 	if not TYPES.has(type) or not items.has(template_id(type)):
 		result["erreur"] = Protocol.REASON_INVALID_COMMAND
 		return result
@@ -160,6 +176,7 @@ static func preview(type: String, resources: Dictionary, items: Dictionary, char
 	var tiers := 0
 	var totals := {}
 	var materials: Array = []
+	var places := {}
 	var forge_tier := tier(character)
 	for item_id: Variant in resources:
 		var item: Dictionary = items.get(item_id, {})
@@ -171,6 +188,9 @@ static func preview(type: String, resources: Dictionary, items: Dictionary, char
 		count += quantity
 		tiers += quantity * tier
 		materials.append(item.get("matiere", ""))
+		for key: String in ["famille", "zone"]:
+			if item.has(key):
+				places[key + ":" + item[key]] = places.get(key + ":" + item[key], 0) + 1
 		for stat: String in stats_of(item).filter(func(stat: String) -> bool: return line_cap(stat, forge_tier) == 0):
 			result["perdues"][item_id] = result["perdues"].get(item_id, {}).merged({stat: ceili(float(FIXED_STATS[stat]) / LINE_SCORE_PER_TIER)})
 		if character != null and hide and item.has("caracteristique") and not reveals(character, tier):
@@ -186,6 +206,8 @@ static func preview(type: String, resources: Dictionary, items: Dictionary, char
 	elif not result["manquantes"].is_empty():
 		result["erreur"] = Protocol.REASON_MISSING_INGREDIENTS
 	result["palier"] = maxi(1, roundi(float(tiers) / maxi(1, count)))
+	var described := resources.keys().filter(func(id: Variant) -> bool: return items[id].has("famille")).size()
+	result["lieux"] = places.keys().filter(func(key: String) -> bool: return 2 * places[key] >= described)
 	var low := ROLL_LOW + (Profession.skill_value(Profession.TYPE_CRAFT, "precision", character.job_rank(JOB, "precision")) / 100.0 if character != null else 0.0)
 	for stat: String in totals:
 		var total: int = mini(line_cap(stat, forge_tier), totals[stat])
@@ -220,20 +242,118 @@ static func adjective(forms: Array, noun_gender: String) -> String:
 	return word + "s" if noun_gender.ends_with("p") and not word.ends_with("s") and not word.ends_with("x") else word
 
 
-## Nom formé de `words` (nom du type puis adjectifs des lignes `stats`, accordés, deux d'une même ligne permis mais jamais
-## deux fois le même mot), ou "" si ces mots ne sont pas permis.
-static func name_of(words: Variant, type: String, stats: Array) -> String:
-	if typeof(words) != TYPE_ARRAY or words.is_empty() or words.size() > MAX_ADJECTIVES + 1 or typeof(words[0]) != TYPE_STRING:
+## Nom formé de `words` (nom du type puis mots clés : adjectifs des lignes `stats`, accordés, deux d'une même ligne permis,
+## ou mots de famille et de zone de `places` (mot clé → mot), jamais deux fois le même mot), ou "" s'ils ne sont pas permis.
+static func name_of(words: Variant, type: String, stats: Array, places := {}) -> String:
+	if typeof(words) != TYPE_ARRAY or words.is_empty() or words.size() > MAX_KEYWORDS + 1 or typeof(words[0]) != TYPE_STRING:
 		return ""
 	var noun_gender := gender(type, words[0])
 	if noun_gender.is_empty():
 		return ""
-	var adjectives: Array = words.slice(1)
-	for word: Variant in adjectives:
-		if adjectives.count(word) > 1 or not stats.any(func(stat: String) -> bool:
-				return WORDS.get(stat, []).any(func(forms: Array) -> bool: return adjective(forms, noun_gender) == word)):
+	for word: Variant in words.slice(1):
+		if words.count(word) > 1 or keyword(word, noun_gender, stats, places).is_empty():
 			return ""
 	return " ".join(words)
+
+
+## Mots clés d'un nom permis (voir `name_of`), sans doublon : deux adjectifs d'une même panoplie n'en font qu'un.
+static func keywords(words: Array, type: String, stats: Array, places := {}) -> Array:
+	var keys: Array = []
+	for word: Variant in words.slice(1):
+		var key := keyword(word, gender(type, words[0]), stats, places)
+		if key not in keys:
+			keys.append(key)
+	return keys
+
+
+## Mot clé d'un mot : « stat:<panoplie d'adjectif> », « famille:<id> » ou « zone:<id> », "" s'il n'est pas permis.
+static func keyword(word: Variant, noun_gender: String, stats: Array, places: Dictionary) -> String:
+	if places.values().has(word):
+		return str(places.find_key(word))
+	for stat: String in stats:
+		if WORDS.get(stat, []).any(func(forms: Array) -> bool: return adjective(forms, noun_gender) == word):
+			return "stat:" + adjective_set(stat)
+	return ""
+
+
+## Panoplie d'un adjectif de `stat` : offensive d'un élément (sa caractéristique et ses Dommages), défensive (Résistance,
+## Soins, Épines de l'élément), sinon la statistique elle-même (fixe et % ensemble).
+static func adjective_set(stat: String) -> String:
+	for element: String in Spell.ELEMENTS:
+		if stat == "dommages_" + element or stat == Fighter.ELEMENT_STATS.get(element, "-"):
+			return element + "_offensive"
+		if stat in ["resistance_" + element, "soins_" + element, "epines_" + element, "epines_%s_fixes" % element]:
+			return element + "_defensive"
+	return stat.trim_suffix("_fixes")
+
+
+## Mot d'une famille ou d'une zone (« de Loup », « de Brumerive »).
+static func place_word(key: String, data: GameData) -> String:
+	var id := key.get_slice(":", 1)
+	return str(ZONES.get(id, [""])[0]) if key.begins_with("zone:") else str(data.monsters.get(id, {}).get("mot", ""))
+
+
+## Statistiques d'une panoplie de mot clé et leur part en % : tendance d'une zone, statistiques des ressources d'une
+## famille à parts égales, adjectif offensif (caractéristique 60, Dommages 40) ou défensif (Résistance 60, Soins 40).
+static func set_stats(key: String, data: GameData) -> Dictionary:
+	var id := key.get_slice(":", 1)
+	if key.begins_with("zone:"):
+		return ZONES.get(id, ["", {}])[1]
+	if key.begins_with("famille:"):
+		var stats := data.family_stats(id)
+		var shares := {}
+		for stat: String in stats:
+			shares[stat] = 100.0 / stats.size()
+		return shares
+	var element := id.get_slice("_", 0)
+	if id.ends_with("_offensive"):
+		return {Fighter.ELEMENT_STATS[element]: 60, "dommages_" + element: 40} if Fighter.ELEMENT_STATS.has(element) else {"dommages_" + element: 100}
+	return {"resistance_" + element: 60, "soins_" + element: 40} if id.ends_with("_defensive") else {id: 100}
+
+
+## Bonus des panoplies d'objets forgés des entrées `entries` (portées) : stat → valeur.
+static func set_bonuses(entries: Array, data: GameData) -> Dictionary:
+	var tiers := {}
+	for entry: Dictionary in entries:
+		for key: String in entry.get("forge", {}).get("mots_cles", []):
+			tiers[key] = tiers.get(key, []) + [int(entry["forge"].get("palier", 1))]
+	var totals := {}
+	for key: String in tiers:
+		var bonus := set_bonus(key, tiers[key], data)
+		for stat: String in bonus:
+			totals[stat] = int(totals.get(stat, 0)) + bonus[stat]
+	return totals
+
+
+## Bonus d'une panoplie de mot clé portée en pièces de paliers `tiers` : elle prend le plus bas ; PA, PM et Portée
+## seulement à 7 pièces et si leur part vaut au moins le double de leur score (sinon, et pour le reste, des Dommages).
+static func set_bonus(key: String, tiers: Array, data: GameData) -> Dictionary:
+	var count := mini(tiers.size(), SET_SHARES.size() - 1)
+	var boss: bool = key.begins_with("famille:") and data.monsters.get(key.get_slice(":", 1), {}).get("boss", false)
+	var score: float = (ADJECTIVE_SET_SCORE_PER_TIER if key.begins_with("stat:") else SET_SCORE_PER_TIER) * tiers.min() \
+		* (BOSS_SET_FACTOR if boss else 1.0) * SET_SHARES[count]
+	var stats := set_stats(key, data)
+	var totals := {}
+	for stat: String in stats:
+		var points: float = score * stats[stat] / 100.0
+		var line := stat
+		if stat in FIXED_STATS:
+			if count == SET_SHARES.size() - 1 and points >= 2 * FIXED_STATS[stat]:
+				totals[stat] = int(totals.get(stat, 0)) + 1
+				points -= FIXED_STATS[stat]
+			line = "dommages"
+		var value := Infusion.value_of(line, points)
+		if value > 0:
+			totals[line] = int(totals.get(line, 0)) + value
+	return totals
+
+
+## Nom d'une panoplie de mot clé : mot de la famille ou de la zone, ou statistique (« Flamme offensive », « Tacle »).
+static func set_title(key: String, data: GameData) -> String:
+	var id := key.get_slice(":", 1)
+	if not key.begins_with("stat:"):
+		return place_word(key, data)
+	return id.get_slice("_", 0).capitalize() + " " + id.get_slice("_", 1) if id.ends_with("_offensive") or id.ends_with("_defensive") else Item.stat_name(id)
 
 
 ## Jets de l'objet forgé, tirés dans les plages de l'aperçu.

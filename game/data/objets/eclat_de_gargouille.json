@@ -5,5 +5,7 @@
   "rarete": "commun",
   "niveau": 4,
   "description": "Un morceau de gargouille. Il grimace encore.",
-  "caracteristique": "perception"
+  "caracteristique": "perception",
+  "famille": "gargouille",
+  "zone": "hautepierre"
 }

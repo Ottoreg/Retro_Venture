@@ -238,10 +238,10 @@ Toutes les ressources qui servent à la forge (caractéristique ou matière), pa
 | **Bois de chêne** | 1 | peu_commun | Force | +1 | bois | Bûcheron (Chêne) |
 | **Bois de frêne** | 1 | commun | Agilité | +1 | bois | Bûcheron (Frêne) |
 | **Caillou de fronde** | 1 | commun | Perception | +1 | — | Frondeur vétéran (élite), palier 2 90 % ×2–5<br>Gobelin frondeur, palier 1 60 % ×1–3 |
-| **Carapace de grouilleur** | 1 | commun | Force | +1 | — | Grouilleur ancestral (élite), palier 2 90 % ×2–4<br>Grouilleur, palier 1 50 % ×1–2<br>Grouilleur de braise, palier 3 50 % ×1–2 |
+| **Carapace de grouilleur** | 1 | commun | Force | +1 | — | Grouilleur ancestral (élite), palier 2 90 % ×2–4<br>Grouilleur, palier 1 50 % ×1–2 |
 | **Chapeau de morille** | 1 | commun | Intelligence | +1 | — | Vieille Morille rancunière (élite), palier 1 90 % ×2–4<br>Morille grincheuse, palier 1 60 % ×1–2 |
 | **Chêne des Anciens** | 1 | rare | % Résistance Acier | +3 | bois | Bûcheron (Chêne, rare) |
-| **Croc de loup** | 1 | commun | Perception | +1 | — | Loup alpha (élite), palier 2 90 % ×2–4<br>Loup cendreux, palier 3 50 % ×1–2<br>Loup des collines, palier 1 50 % ×1–2 |
+| **Croc de loup** | 1 | commun | Perception | +1 | — | Loup alpha (élite), palier 2 90 % ×2–4<br>Loup des collines, palier 1 50 % ×1–2 |
 | **Cuivre vert-de-gris** | 1 | rare | Dommages Flamme | +3 | minerai | Mineur (Cuivre, rare) |
 | **Cœur de frêne** | 1 | rare | % Résistance Tempête | +3 | bois | Bûcheron (Frêne, rare) |
 | **Dent de rat** | 1 | commun | Agilité | +1 | — | Rat-roi (élite), palier 1 70 % ×1–2<br>Rat des galeries, palier 1 30 % |
@@ -260,25 +260,27 @@ Toutes les ressources qui servent à la forge (caractéristique ou matière), pa
 | **Spores grincheuses** | 1 | peu_commun | Dommages | +1 | — | Vieille Morille rancunière (élite), palier 1 48 %<br>Morille grincheuse, palier 1 12 % |
 | **Squelette de colombe** | 1 | legendaire | PM | +1 | — | Colombe baptiste, palier 1 0 % |
 | **Sève ancienne** | 1 | rare | Intelligence | +3 | — | Arbre millénaire (élite), palier 2 40 % ×1–2<br>Arbre vivant, palier 1 10 % |
-| **Écorce vivante** | 1 | commun | Agilité | +1 | — | Arbre millénaire (élite), palier 2 90 % ×2–5<br>Arbre vivant, palier 1 60 % ×1–3<br>Arbre calciné, palier 3 50 % ×1–2 |
+| **Écorce vivante** | 1 | commun | Agilité | +1 | — | Arbre millénaire (élite), palier 2 90 % ×2–5<br>Arbre vivant, palier 1 60 % ×1–3 |
 | **Bois d'if** | 2 | peu_commun | Perception | +2 | bois | Bûcheron (If) |
 | **Bon de coupe** | 2 | peu_commun | Perception | +2 | — | Abatteur en chef (élite), palier 2 48 %<br>Bûcheron de Brumerive, palier 2 12 % |
 | **Citrouille grimaçante** | 2 | peu_commun | Agilité | +2 | — | Grand Épouvantail (élite), palier 2 48 %<br>Épouvantail démotivé, palier 2 12 % |
 | **Copeaux de bois** | 2 | commun | Initiative | +20 | — | Abatteur en chef (élite), palier 2 88 % ×2–5<br>Bûcheron de Brumerive, palier 2 55 % ×1–3 |
 | **Corne du Balourd** | 2 | rare | PA | +1 | — | Le Balourd des Abîmes (mini-boss), palier 2 100 % |
 | **Crochet d'araignée** | 2 | peu_commun | Prospection | +1 | — | Grande Tisseuse (élite), palier 3 48 %<br>Tisseuse de brume, palier 2 12 % |
-| **Fil de brume** | 2 | commun | Perception | +2 | — | La Mère-Toile (mini-boss), palier 2 90 % ×2–4<br>Grande Tisseuse (élite), palier 3 88 % ×2–5<br>Tisseuse de brume, palier 2 55 % ×1–3 |
+| **Fil de brume** | 2 | commun | Perception | +2 | — | Grande Tisseuse (élite), palier 3 88 % ×2–5<br>Tisseuse de brume, palier 2 55 % ×1–3 |
 | **Glaive brisé d'ange** | 2 | rare | Dommages Acier | +3 | — | Ange, palier 2 12 % |
 | **Gnôle de raid** | 2 | commun | Force | +2 | — | Défonceur de portes (élite), palier 3 88 % ×2–4<br>Gobelin briseur, palier 2 55 % ×1–2 |
 | **If funèbre** | 2 | rare | % Résistance Givre | +3 | bois | Bûcheron (If, rare) |
+| **Louche de Krasbouk** | 2 | rare | Vitalité | +24 | — | Krasbouk, Chef de Raid (syndiqué) (mini-boss), palier 2 90 % ×2–4 |
 | **Maillon de cotte** | 2 | commun | Intelligence | +2 | — | Sergent de la milice (élite), palier 2 80 % ×2–5<br>Milicien de Hautepierre, palier 2 50 % ×1–3 |
 | **Minerai d'étain** | 2 | commun | Agilité | +2 | minerai | Mineur (Étain) |
 | **Médaille en chocolat** | 2 | peu_commun | Intelligence | +2 | — | Défonceur de portes (élite), palier 3 48 %<br>Gobelin briseur, palier 2 12 % |
-| **Ordre de raid** | 2 | peu_commun | Perception | +2 | — | Krasbouk, Chef de Raid (syndiqué) (mini-boss), palier 2 100 %<br>Pillard émérite (élite), palier 2 48 %<br>Défonceur de portes (élite), palier 3 32 %<br>Gobelin pillard, palier 2 12 %<br>Gobelin briseur, palier 2 8 % |
+| **Ordre de raid** | 2 | peu_commun | Perception | +2 | — | Pillard émérite (élite), palier 2 48 %<br>Gobelin pillard, palier 2 12 % |
 | **Paille ensorcelée** | 2 | commun | Agilité | +2 | — | Grand Épouvantail (élite), palier 2 90 % ×2–5<br>Épouvantail démotivé, palier 2 60 % ×1–3 |
+| **Plan de casse** | 2 | peu_commun | Perception | +2 | — | Défonceur de portes (élite), palier 3 32 %<br>Gobelin briseur, palier 2 8 % |
 | **Plume d'ange** | 2 | commun | Force, Intelligence | +2, +2 | — | Ange, palier 2 35 % |
-| **Registre des heures** | 2 | peu_commun | Dommages | +1 | — | Le Balourd des Abîmes (mini-boss), palier 2 50 % ×1–2<br>Contremaître en chef (élite), palier 3 48 %<br>Contremaître zélé, palier 2 12 % |
-| **Sac de rapine** | 2 | commun | Vitalité | +8 | — | Krasbouk, Chef de Raid (syndiqué) (mini-boss), palier 2 90 % ×2–4<br>Pillard émérite (élite), palier 2 88 % ×2–4<br>Gobelin pillard, palier 2 55 % ×1–2 |
+| **Registre des heures** | 2 | peu_commun | Dommages | +1 | — | Contremaître en chef (élite), palier 3 48 %<br>Contremaître zélé, palier 2 12 % |
+| **Sac de rapine** | 2 | commun | Vitalité | +8 | — | Pillard émérite (élite), palier 2 88 % ×2–4<br>Gobelin pillard, palier 2 55 % ×1–2 |
 | **Sacré cœur** | 2 | legendaire | Force, Intelligence | +2, +2 | — | Ange, palier 2 0 % |
 | **Sifflet de contremaître** | 2 | commun | Agilité | +2 | — | Contremaître en chef (élite), palier 3 80 % ×2–4<br>Contremaître zélé, palier 2 50 % ×1–2 |
 | **Soie de la Mère-Toile** | 2 | rare | PM | +1 | — | La Mère-Toile (mini-boss), palier 2 100 % |
@@ -288,20 +290,29 @@ Toutes les ressources qui servent à la forge (caractéristique ou matière), pa
 | **Argent lunaire** | 3 | rare | Dommages Givre | +6 | minerai | Mineur (Argent, rare) |
 | **Bois de hêtre** | 3 | peu_commun | Force | +3 | bois | Bûcheron (Hêtre) |
 | **Bourse vide** | 3 | commun | Initiative | +30 | — | Chef de bande (élite), palier 3 88 % ×2–4<br>Détrousseur des grands chemins, palier 3 55 % ×1–2 |
+| **Braise de grouilleur** | 3 | commun | Initiative | +30 | — | Grouilleur de braise, palier 3 50 % ×1–2 |
+| **Carapace fumante** | 3 | commun | Vitalité | +12 | — | Grouilleur de braise, palier 3 50 % ×1–2 |
 | **Carte au trésor douteuse** | 3 | peu_commun | Vitalité | +12 | — | Chef de bande (élite), palier 3 48 %<br>Détrousseur des grands chemins, palier 3 12 % |
-| **Cendre tiède** | 3 | commun | Force | +3 | — | Marraine Cendrée (élite), palier 4 88 % ×2–5<br>Cendrillon, palier 4 55 % ×1–3<br>Arbre calciné, palier 3 50 % ×1–2<br>Grouilleur de braise, palier 3 50 % ×1–2<br>Loup cendreux, palier 3 50 % ×1–2 |
+| **Cendre tiède** | 3 | commun | Force | +3 | — | Marraine Cendrée (élite), palier 4 88 % ×2–5<br>Cendrillon, palier 4 55 % ×1–3 |
 | **Cortex féral** | 3 | legendaire | % Dégâts dévastateurs | +1 | — | Lion de Juda, palier 3 0 % |
+| **Croc ardent** | 3 | rare | Dommages Flamme | +6 | — | Loup cendreux, palier 3 3 % |
 | **Croc de lion féroce** | 3 | rare | Dommages Sacré | +6 | — | Lion de Juda, palier 3 5 % |
+| **Croc de loup des cendres** | 3 | commun | Intelligence | +3 | — | Loup cendreux, palier 3 50 % ×1–2 |
 | **Dent de troll** | 3 | commun | Intelligence | +3 | — | Troll gastronome (élite), palier 4 88 % ×2–4<br>Troll des ponts, palier 3 55 % ×1–2 |
+| **Glande incandescente** | 3 | rare | Dommages Flamme | +6 | — | Grouilleur de braise, palier 3 3 % |
 | **Hêtre centenaire** | 3 | rare | % Résistance Acier | +3 | bois | Bûcheron (Hêtre, rare) |
 | **Message intercepté** | 3 | peu_commun | Agilité | +3 | — | Corbac chef espion (élite), palier 4 48 %<br>Corbac espion, palier 3 12 % |
 | **Minerai d'argent** | 3 | peu_commun | Perception | +3 | minerai | Mineur (Argent) |
+| **Nœud de braise** | 3 | rare | Dommages Flamme | +6 | — | Arbre calciné, palier 3 3 % |
 | **Plume de corbac** | 3 | commun | Force | +3 | — | Corbac chef espion (élite), palier 4 88 % ×2–5<br>Corbac espion, palier 3 55 % ×1–3 |
 | **Poil de crinière léonin** | 3 | commun | Dommages Sacré | +2 | — | Lion de Juda, palier 3 25 % |
+| **Poil roussi** | 3 | commun | Force | +3 | — | Loup cendreux, palier 3 50 % ×1–2 |
 | **Recette de troll** | 3 | peu_commun | Perception | +3 | — | Troll gastronome (élite), palier 4 48 %<br>Troll des ponts, palier 3 12 % |
 | **Sacré cœur de Raphaël** | 3 | legendaire | Soins | +1 | — | Archange Raphaël (mini-boss), palier 3 0 % |
+| **Sève brûlante** | 3 | commun | Agilité | +3 | — | Arbre calciné, palier 3 50 % ×1–2 |
 | **Tunique déchirée de Raphaël** | 3 | commun | % Résistance Impie | +1 | — | Archange Raphaël (mini-boss), palier 3 55 % |
-| **Éclat de cendre** | 3 | rare | Portée | +1 | — | Grondin, Bélier de la Brèche (mini-boss), palier 4 100 % ×1–2<br>Arbre calciné, palier 3 3 %<br>Grouilleur de braise, palier 3 3 %<br>Loup cendreux, palier 3 3 % |
+| **Éclat de cendre** | 3 | rare | Portée | +1 | — | Grondin, Bélier de la Brèche (mini-boss), palier 4 100 % ×1–2 |
+| **Écorce calcinée** | 3 | commun | % Résistance Flamme | +1 | — | Arbre calciné, palier 3 50 % ×1–2 |
 | **Bois de malorme** | 4 | rare | Intelligence | +12 | bois | Bûcheron (Malorme) |
 | **Chanvre** | 4 | commun | Initiative | +40 | tissu | Agriculteur (Chanvre) |
 | **Chanvre d'acier** | 4 | rare | Portée | +1 | tissu | Agriculteur (Chanvre, rare) |
@@ -315,7 +326,7 @@ Toutes les ressources qui servent à la forge (caractéristique ou matière), pa
 | **Éclat de gargouille** | 4 | commun | Perception | +4 | — | Gargouille de la Grande Porte (élite), palier 4 88 % ×2–5<br>Gargouille, palier 4 55 % ×1–3 |
 | **Fragment de cendre** | 5 | legendaire | PA | +1 | — | Le Souverain Cendré (mini-boss), palier 5 100 % |
 
-Ressources par caractéristique : Force 14, Intelligence 12, Agilité 9, Perception 9, Vitalité 5, Initiative 5, Dommages Sacré 3, Dommages Acier 3, Prospection 3, Portée 3, % Résistance Acier 2, Dommages 2, PM 2, PA 2, Dommages Flamme 1, % Résistance Tempête 1, % Critique 1, % Résistance Givre 1, Dommages Tempête 1, Soins Sacré 1, Dommages Givre 1, % Dégâts dévastateurs 1, Soins 1, % Résistance Impie 1, % Résistance Flamme 1.
+Ressources par caractéristique : Force 15, Intelligence 13, Agilité 10, Perception 10, Vitalité 7, Initiative 6, Dommages Flamme 4, Dommages Sacré 3, Dommages Acier 3, Prospection 3, Portée 3, % Résistance Acier 2, Dommages 2, PM 2, PA 2, % Résistance Flamme 2, % Résistance Tempête 1, % Critique 1, % Résistance Givre 1, Dommages Tempête 1, Soins Sacré 1, Dommages Givre 1, % Dégâts dévastateurs 1, Soins 1, % Résistance Impie 1.
 
 ### Plans
 

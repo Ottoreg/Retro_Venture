@@ -1,0 +1,11 @@
+{
+  "id": "glande_incandescente",
+  "nom": "Glande incandescente",
+  "type": "ressource",
+  "rarete": "rare",
+  "niveau": 3,
+  "description": "À ne pas presser à mains nues.",
+  "caracteristique": "dommages_flamme",
+  "famille": "grouilleur_de_braise",
+  "zone": "hautepierre"
+}

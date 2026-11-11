@@ -2155,7 +2155,8 @@ compris) et les recettes du forgeron sont supprimés, tout le reste se forge.
   encore.
 - **Aperçu** avant de forger : lignes et **jets possibles** (75 % à 100 % du total), palier (moyenne
   des paliers des ressources), **nom proposé** que le joueur change avec des listes de mots (nom du
-  type, puis deux adjectifs au plus tirés des lignes, accordés en genre et en nombre). L'objet sort
+  type, puis trois mots clés au plus : adjectifs tirés des lignes, accordés en genre et en nombre, ou mots de famille
+  et de zone, voir les panoplies plus bas). L'objet sort
   avec ses jets tirés au hasard, son nom, et **« Créé par <pseudo> »** à la place du texte d'ambiance.
 - **Réputation d'artisan** : sans avoir jamais forgé, les caractéristiques des ressources sont
   **cachées** ; ensuite elles se lisent jusqu'au palier égal au niveau équivalent de la réputation de
@@ -2181,8 +2182,7 @@ compris) et les recettes du forgeron sont supprimés, tout le reste se forge.
   armurier (armes et armures), tailleur (tissus : capes, coiffes), cordonnier (cuirs : bottes,
   ceintures)…
 
-**Panoplies d'objets forgés** (conception de l'auteur du 09/11/2026, rien de codé, chiffres à
-définir) : les mots du nom d'un objet forgé deviennent des **mots clés** qui donnent des bonus de
+**Panoplies d'objets forgés** (conception de l'auteur du 09/11/2026, **codée le 11/11/2026 sur `dev`**) : les mots du nom d'un objet forgé deviennent des **mots clés** qui donnent des bonus de
 panoplie, de **2 à 7 pièces** comme les panoplies prédéfinies (§ 9.3), l'**arme comprise**.
 
 - **Deux sortes de mots tirés des monstres** (simplifié par l'auteur le 09/11/2026 : plus de
@@ -2235,9 +2235,25 @@ panoplie, de **2 à 7 pièces** comme les panoplies prédéfinies (§ 9.3), l'**
   8, 18, 32, 50, 72 et 100 % ; la panoplie prend le palier de sa pièce la plus faible ; total partagé à parts
   égales entre ses statistiques ; PA, PM et Portée seulement à 7 pièces et si le total vaut au moins le double
   de leur score (sinon leur miroir ou Dommages) ; hors plafonds des lignes et des objets.
-- **Reste à définir** : tendance de chaque zone,
-  ressources partagées à séparer, bonus des adjectifs de statistique, mots proposés pour chaque famille
-  et zone (accordés en genre et en nombre comme les adjectifs).
+- **Codé le 11/11/2026 sur `dev`** (`Forge.keywords`, `Forge.set_bonus`, `GameData.set_bonuses`, données par
+  `docs/design/forge/panoplies.py`), avec des **choix provisoires de Claude, à valider** :
+  - **mots de famille** (champ `mot` des 34 familles : « de Loup », « de Loup des cendres », « de la Mère-Toile »…) ;
+    **mots de zone** « de Brumerive », « de Crasse-Roc », « de Sylvebrume », « de Hautepierre », « de la Tour céleste » ;
+    zone d'une famille = celle où elle a le plus de cartes (champs `famille` et `zone` des ressources) ;
+  - **tendances des zones** (`Forge.ZONES`, part du total) : Brumerive Agilité 50 %, Dommages Tempête 30 %, Fuite
+    20 % ; Crasse-Roc Intelligence 50 %, Dommages Flamme 30 %, Réduction de dégâts 20 % ; Sylvebrume Perception 50 %,
+    Résistance Givre 30 %, Prospection 20 % ; Hautepierre Vitalité 50 %, Tacle 30 %, Dommages 20 % ; Tour céleste
+    Soins 50 %, Dommages Sacré 30 %, Résistance Impie 20 % ;
+  - **adjectifs** : offensive = caractéristique de l'élément 60 %, Dommages 40 % ; défensive = Résistance 60 %, Soins
+    40 % ; neutre = la statistique (fixe et % ensemble) ; deux adjectifs d'une même panoplie ne font qu'un mot clé ;
+  - **palier** d'une panoplie = le plus bas des **objets** portés (palier de l'objet forgé, pour les familles, les
+    zones et les adjectifs) ; PA, PM et Portée trop faibles deviennent des Dommages (pas de miroir) ;
+  - **ressources partagées séparées** : 11 nouvelles ressources (croc de loup des cendres, poil roussi, croc ardent ;
+    écorce calcinée, sève brûlante, nœud de braise ; braise de grouilleur, carapace fumante, glande incandescente ;
+    plan de casse du gobelin briseur ; louche de Krasbouk), l'ordre de raid retiré de Krasbouk, le fil de brume de la
+    Mère-Toile, le registre des heures du Balourd ; les objets de quête gardent leur propre butin ;
+  - fenêtre de l'enclume : trois listes de mots clés (adjectifs, puis mots de famille et de zone permis), ligne
+    « Panoplies » de l'aperçu ; infobulle d'un objet forgé : chaque panoplie, pièces portées et bonus actuel.
 
 **Codée le 10/11/2026 sur `dev`** (`core/items/infusion.gd`, commande `infuser`, bouton Infusion de l'enclume),
 avec des choix provisoires de Claude, à valider : réussite = 100 % − points de score de l'essence ÷ 2, entre 10 et

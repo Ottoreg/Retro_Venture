@@ -5,5 +5,7 @@
   "rarete": "commun",
   "niveau": 2,
   "description": "Trois coups : au travail. Deux coups : plus vite. Un coup : vous êtes viré.",
-  "caracteristique": "agilite"
+  "caracteristique": "agilite",
+  "famille": "contremaitre_zele",
+  "zone": "crasse_roc"
 }

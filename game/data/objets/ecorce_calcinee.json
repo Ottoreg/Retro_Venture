@@ -1,0 +1,11 @@
+{
+  "id": "ecorce_calcinee",
+  "nom": "Écorce calcinée",
+  "type": "ressource",
+  "rarete": "commun",
+  "niveau": 3,
+  "description": "Elle s'effrite en reproches.",
+  "caracteristique": "resistance_flamme",
+  "famille": "arbre_calcine",
+  "zone": "hautepierre"
+}

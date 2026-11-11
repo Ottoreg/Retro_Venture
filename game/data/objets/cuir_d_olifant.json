@@ -6,5 +6,7 @@
   "niveau": 4,
   "description": "Épais comme un mur de Hautepierre, et presque aussi gris.",
   "caracteristique": "vitalite",
-  "matiere": "cuir"
+  "matiere": "cuir",
+  "famille": "olifant_de_guerre",
+  "zone": "hautepierre"
 }

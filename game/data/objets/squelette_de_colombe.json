@@ -7,5 +7,7 @@
   "description": "Léger, si léger qu'il vole encore un peu.",
   "caracteristique": "pm",
   "valeur": 1,
-  "boutique": false
+  "boutique": false,
+  "famille": "colombe_baptiste",
+  "zone": "tour_celeste"
 }

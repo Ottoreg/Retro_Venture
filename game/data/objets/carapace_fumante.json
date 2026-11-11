@@ -1,0 +1,11 @@
+{
+  "id": "carapace_fumante",
+  "nom": "Carapace fumante",
+  "type": "ressource",
+  "rarete": "commun",
+  "niveau": 3,
+  "description": "Elle fume encore, comme son ancien propriétaire.",
+  "caracteristique": "vitalite",
+  "famille": "grouilleur_de_braise",
+  "zone": "hautepierre"
+}

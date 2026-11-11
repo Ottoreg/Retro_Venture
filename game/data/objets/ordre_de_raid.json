@@ -5,5 +5,7 @@
   "rarete": "peu_commun",
   "niveau": 2,
   "description": "Signé par un Héraut Cendré. L'orthographe est approximative, la menace très claire.",
-  "caracteristique": "perception"
+  "caracteristique": "perception",
+  "famille": "gobelin_pillard",
+  "zone": "brumerive"
 }

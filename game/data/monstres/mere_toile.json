@@ -90,18 +90,11 @@
     {
       "objet": "soie_de_la_mere_toile",
       "taux": 1.0
-    },
-    {
-      "objet": "fil_de_brume",
-      "taux": 0.9,
-      "quantite": [
-        2,
-        4
-      ]
     }
   ],
   "ecus": [
     80,
     140
-  ]
+  ],
+  "mot": "de la Mère-Toile"
 }

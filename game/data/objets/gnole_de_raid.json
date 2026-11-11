@@ -5,5 +5,7 @@
   "rarete": "commun",
   "niveau": 2,
   "description": "Désinfecte, dégraisse, décape. Se boit aussi, paraît-il.",
-  "caracteristique": "force"
+  "caracteristique": "force",
+  "famille": "gobelin_briseur",
+  "zone": "brumerive"
 }

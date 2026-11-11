@@ -5,5 +5,7 @@
   "rarete": "peu_commun",
   "niveau": 4,
   "description": "Il bat une fois par heure. On ne sait pas pour qui.",
-  "caracteristique": "intelligence"
+  "caracteristique": "intelligence",
+  "famille": "gargouille",
+  "zone": "hautepierre"
 }

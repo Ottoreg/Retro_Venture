@@ -5,5 +5,7 @@
   "rarete": "peu_commun",
   "niveau": 2,
   "description": "Décernée au briseur du mois. Il en a mangé la moitié pendant la cérémonie.",
-  "caracteristique": "intelligence"
+  "caracteristique": "intelligence",
+  "famille": "gobelin_briseur",
+  "zone": "brumerive"
 }

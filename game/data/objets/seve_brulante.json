@@ -1,0 +1,11 @@
+{
+  "id": "seve_brulante",
+  "nom": "Sève brûlante",
+  "type": "ressource",
+  "rarete": "commun",
+  "niveau": 3,
+  "description": "Coule vite, colle fort, brûle un peu.",
+  "caracteristique": "agilite",
+  "famille": "arbre_calcine",
+  "zone": "hautepierre"
+}

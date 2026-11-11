@@ -5,5 +5,7 @@
   "rarete": "commun",
   "niveau": 2,
   "description": "Un anneau de cotte de mailles. Il en faut beaucoup pour faire une cotte, et un milicien pour la remplir.",
-  "caracteristique": "intelligence"
+  "caracteristique": "intelligence",
+  "famille": "milicien_de_hautepierre",
+  "zone": "crasse_roc"
 }

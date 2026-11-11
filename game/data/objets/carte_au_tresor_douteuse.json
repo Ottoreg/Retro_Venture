@@ -5,5 +5,7 @@
   "rarete": "peu_commun",
   "niveau": 3,
   "description": "Une croix rouge, une flèche, et la mention « à peu près par là ».",
-  "caracteristique": "vitalite"
+  "caracteristique": "vitalite",
+  "famille": "detrousseur",
+  "zone": "hautepierre"
 }

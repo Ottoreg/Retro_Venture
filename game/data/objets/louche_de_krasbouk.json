@@ -1,0 +1,11 @@
+{
+  "id": "louche_de_krasbouk",
+  "nom": "Louche de Krasbouk",
+  "type": "ressource",
+  "rarete": "rare",
+  "niveau": 2,
+  "description": "Elle a servi la soupe et assommé des héros. Parfois les deux.",
+  "caracteristique": "vitalite",
+  "famille": "krasbouk",
+  "zone": "brumerive"
+}

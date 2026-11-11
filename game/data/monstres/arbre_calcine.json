@@ -30,7 +30,7 @@
   "xp": 322,
   "butin": [
     {
-      "objet": "ecorce_vivante",
+      "objet": "ecorce_calcinee",
       "taux": 0.5,
       "quantite": [
         1,
@@ -38,7 +38,7 @@
       ]
     },
     {
-      "objet": "cendre_tiede",
+      "objet": "seve_brulante",
       "taux": 0.5,
       "quantite": [
         1,
@@ -46,7 +46,7 @@
       ]
     },
     {
-      "objet": "eclat_de_cendre",
+      "objet": "noeud_de_braise",
       "taux": 0.03
     },
     {
@@ -65,5 +65,6 @@
   "ecus": [
     21,
     47
-  ]
+  ],
+  "mot": "d'Arbre calciné"
 }

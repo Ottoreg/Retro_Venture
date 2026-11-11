@@ -5,5 +5,7 @@
   "rarete": "peu_commun",
   "niveau": 2,
   "description": "Elle a été sculptée par personne. C'est bien ce qui inquiète.",
-  "caracteristique": "agilite"
+  "caracteristique": "agilite",
+  "famille": "epouvantail_demotive",
+  "zone": "brumerive"
 }

@@ -5,5 +5,7 @@
   "rarete": "peu_commun",
   "niveau": 2,
   "description": "Une tour blanche sur fond bleu. Les gobelins le collectionnent, les miliciens le regrettent.",
-  "caracteristique": "force"
+  "caracteristique": "force",
+  "famille": "milicien_de_hautepierre",
+  "zone": "crasse_roc"
 }
