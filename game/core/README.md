@@ -27,6 +27,8 @@ Règles :
   `MapInstance.player_ids`) à l'équipe (`PlayerState.heroes`) ; les cachés suivent la case du héros
   contrôlé (`_sync_heroes`, après chaque commande et `update`), entrent dans son combat
   (`_enter_combat`) ; `changer_heros` change de héros contrôlé.
+- **Mode admin** (tests) : commande `admin` (`World._admin`), activée par `World.ADMIN_PASSWORD` pour la session
+  (`PlayerState.admin`) : objets, brumes, réputation et points de métier et de classe, téléportation.
 - Chaque événement a une **portée** (`Protocol.scope_of` : personnel, carte, combat) ;
   `World.recipients(événement, expéditeur)` dit à qui l'envoyer. Un événement de carte a toujours
   son champ `carte`.

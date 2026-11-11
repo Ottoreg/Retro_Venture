@@ -440,9 +440,12 @@ func _process(_delta: float) -> bool:
 				_scene._on_pin_requested({"carte": "brumerive_1_1", "nom": "Moulin de Tournevent"})
 		elif _action == "pause":
 			_scene.pause_menu.open()
-		elif _action == "options":
+		elif _action in ["options", "admin"]:
 			_scene.pause_menu.open()
 			_scene.pause_menu._on_options_pressed()
+			if _action == "admin":
+				_scene.pause_menu.options.controls()["admin"].pressed.emit()
+				_scene.pause_menu.options.admin._send("activer", {"mdp": World.ADMIN_PASSWORD})
 		else:
 			var target: Vector2i = view.server.groups()[0]["case"] if _action in ["combat", "cible", "sermon", "prevision", "phase", "tactique", "historique", "arcaniste", "composition", "infobulle", "horloge"] else view.current_map().travel_stone()
 			if _action == "phase":

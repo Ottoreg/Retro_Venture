@@ -9,7 +9,7 @@ extends RefCounted
 
 ## Version du protocole, vérifiée à la connexion : à augmenter à chaque changement incompatible
 ## d'une commande ou d'un événement.
-const VERSION := 17
+const VERSION := 18
 
 # --- Commandes (client → noyau) ---
 
@@ -62,6 +62,10 @@ const CMD_PLOT := "disposer"
 const CMD_UNLOCK_PLOT := "debloquer"
 ## Exploration, à côté d'un meuble (coffre, lit) : l'utiliser. { type, entite: String, case: Vector2i }
 const CMD_USE := "utiliser"
+## Mode admin (tests), hors combat. { type, entite, action, ... } : « activer » (mdp : `World.ADMIN_PASSWORD`), puis
+## « objet » (objet, quantite), « brumes » (quantite), « reputation_metier » / « points_metier » (metier, quantite),
+## « reputation_classe » / « points_classe » (voie, quantite), « teleporter » (carte).
+const CMD_ADMIN := "admin"
 ## Exploration, à côté du coffre : y déposer un objet non porté.
 ## { type, entite: String, case: Vector2i (coffre), objet: String (uid dans l'inventaire), quantite: int (optionnel) }
 const CMD_DEPOSIT := "deposer"
@@ -490,6 +494,8 @@ const REASON_MISSING_INGREDIENTS := "ingredients_manquants"
 ## Forge : plus de `Forge.MAX_LINES` lignes de caractéristiques.
 const REASON_TOO_MANY_LINES := "trop_de_lignes"
 const REASON_NO_FREE_PLOT := "emplacements_pleins"
+## Mode admin : pas activé, ou mauvais mot de passe.
+const REASON_NOT_ADMIN := "pas_admin"
 const REASON_WRONG_PHASE := "mauvaise_phase"
 ## Groupe de monstres déjà en combat contre un autre joueur.
 const REASON_GROUP_IN_COMBAT := "groupe_en_combat"

@@ -18,6 +18,8 @@ signal pressed
 signal flag_requested(pin: Dictionary, shared: bool)
 
 const NO_POINT := Vector2(-1, -1)
+## Mode admin : attente d'un second clic (double-clic : téléportation) avant d'ouvrir la carte du monde.
+const DOUBLE_CLICK_DELAY := 0.35
 
 var map_view: MapView
 
@@ -32,6 +34,7 @@ var _center_map := ""
 ## Décalage de la fenêtre (glisser), en cartes ; remis à zéro à chaque changement de carte.
 var _offset := Vector2i.ZERO
 var _drag_from := NO_POINT
+var _click_count := 0
 var _drag_offset := Vector2i.ZERO
 var _dragged := false
 ## Ligne du repère, sous la grille : flèche vers sa carte, nom et distance.
@@ -170,7 +173,7 @@ func zoom(step: int) -> void:
 
 
 ## Molette : zoom ; glisser : déplace la fenêtre ; clic : recentre si on a glissé, sinon ouvre la
-## carte du monde ; clic droit : drapeau sur la carte visée (Maj : montré au groupe).
+## carte du monde (mode admin : double-clic, téléportation) ; clic droit : drapeau sur la carte visée (Maj : montré au groupe).
 func _on_frame_input(event: InputEvent) -> void:
 	var button := event as InputEventMouseButton
 	if button != null:
@@ -178,7 +181,13 @@ func _on_frame_input(event: InputEvent) -> void:
 			zoom(-1 if button.button_index == MOUSE_BUTTON_WHEEL_UP else 1)
 			_frame.accept_event()
 		elif button.button_index == MOUSE_BUTTON_LEFT:
-			if button.pressed:
+			if button.pressed and button.double_click and map_view.world.admin:
+				_click_count += 1  # Annule l'ouverture de la carte du monde du premier clic.
+				_drag_from = NO_POINT
+				var case := _grid.case_at(_grid.get_local_mouse_position())
+				if not case.is_empty():
+					teleport_to(case["id"])
+			elif button.pressed:
 				_drag_from = button.position
 				_drag_offset = _offset
 				_dragged = false
@@ -188,8 +197,14 @@ func _on_frame_input(event: InputEvent) -> void:
 					return
 				if _offset != Vector2i.ZERO:
 					recenter()
-				elif map_view.mode == MapView.Mode.EXPLORATION:
+				elif map_view.mode == MapView.Mode.EXPLORATION and not map_view.world.admin:
 					pressed.emit()
+				elif map_view.mode == MapView.Mode.EXPLORATION:  # Mode admin : attendre un éventuel double-clic.
+					_click_count += 1
+					var click := _click_count
+					get_tree().create_timer(DOUBLE_CLICK_DELAY).timeout.connect(func() -> void:
+						if click == _click_count:
+							pressed.emit())
 		elif button.button_index == MOUSE_BUTTON_RIGHT and button.pressed:
 			flag_at(_grid.get_local_mouse_position(), button.shift_pressed)
 		return
@@ -210,6 +225,12 @@ func drag_to(point: Vector2) -> void:
 	if shift != _offset:
 		_offset = shift
 		refresh()
+
+
+## Mode admin : téléportation sur cette carte.
+func teleport_to(map_id: String) -> void:
+	if map_view.mode == MapView.Mode.EXPLORATION:
+		map_view.send_command({"type": Protocol.CMD_ADMIN, "entite": map_view.world.player_id, "action": "teleporter", "carte": map_id})
 
 
 ## Drapeau sur la carte sous ce point de la grille (rien hors des cartes).

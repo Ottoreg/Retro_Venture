@@ -15,6 +15,10 @@ var _size: OptionButton
 var _tactical: Button
 var _pawns: Button
 var _server: LineEdit
+## Carte en jeu (posée par la scène du monde) : le mode admin n'est proposé qu'en partie.
+var map_view: MapView
+var admin: AdminWindow
+var _admin_row: Array[Control] = []
 
 
 func _ready() -> void:
@@ -34,6 +38,8 @@ func open() -> void:
 	_set_switch(_tactical, Options.tactical)
 	_set_switch(_pawns, Options.tactical_pawns)
 	_server.text = Options.server_address
+	for control in _admin_row:
+		control.visible = map_view != null
 	_set_visible(true)
 
 
@@ -53,7 +59,7 @@ func is_open() -> bool:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if is_open() and event.is_action_pressed("ui_cancel"):
+	if is_open() and not admin.is_open() and event.is_action_pressed("ui_cancel"):
 		close()
 		get_viewport().set_input_as_handled()
 
@@ -179,6 +185,19 @@ func _build() -> void:
 	_server.text_changed.connect(_on_server_changed)
 	grid.add_child(_server)
 
+	_admin_row = [_caption("Mode admin (tests)"), Button.new()]
+	_admin_row[1].text = "Ouvrir…"
+	_admin_row[1].custom_minimum_size = Vector2(130, 34)
+	_admin_row[1].size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	_admin_row[1].tooltip_text = "Se donner objets, brumes, réputation et maîtrise ; double-clic sur la minicarte pour s'y téléporter."
+	_admin_row[1].pressed.connect(func() -> void:
+		admin.map_view = map_view
+		admin.open())
+	for control in _admin_row:
+		grid.add_child(control)
+	admin = AdminWindow.new()
+	add_child(admin)
+
 	var close_button := Button.new()
 	close_button.text = "Fermer"
 	close_button.custom_minimum_size = Vector2(160, 38)
@@ -207,4 +226,4 @@ func _caption(text: String) -> Label:
 
 ## Commandes de la fenêtre (pour les tests).
 func controls() -> Dictionary:
-	return {"volume": _volume, "plein_ecran": _fullscreen, "taille": _size, "tactique": _tactical, "pions": _pawns, "serveur": _server}
+	return {"volume": _volume, "plein_ecran": _fullscreen, "taille": _size, "tactique": _tactical, "pions": _pawns, "serveur": _server, "admin": _admin_row[1]}

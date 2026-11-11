@@ -164,6 +164,13 @@ aux bandes ; sur un écran plus large, les bandes s'élargissent.
 - **Bande droite** : les messages en haut (« À vous de jouer »…) ; dessous, hors combat, votre nom, palier, réputation et brumes ; en combat, l'ordre de jeu.
 Les sorts se consultent dans leur fenêtre (S).
 
+### Mode admin (pour tester vite)
+
+En partie, **Échap → Options → Mode admin (tests) → Ouvrir…**, puis le mot de passe **1234**. La fenêtre permet de
+se donner n'importe quel objet (recherche par nom, double-clic ou « Donner », quantité au choix), des brumes, de la
+réputation ou des points de maîtrise dans un métier ou une classe. Tant que le mode est actif, un **double-clic sur
+une carte de la minicarte** vous y téléporte (hors combat). Le mode dure jusqu'à la fin de la partie.
+
 ### Minicarte et carte du monde
 
 - **Minicarte** (en haut de la bande gauche), comme dans Dofus Rétro : la carte du

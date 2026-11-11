@@ -493,6 +493,10 @@ Lots 0 (conception dans le GDD), 1 (personnage, poussé sur `main` à la demande
 - [x] Phase de test : toutes les Pierres de Passage connues dès le début (`World.ALL_PASSAGES_KNOWN`),
   tant que les zones ne sont pas reliées à pied
 - [ ] Remettre la découverte des pierres (`ALL_PASSAGES_KNOWN` à false) quand les zones seront reliées
+- [x] Mode admin pour tester vite (11/11/2026, sur `dev`) : options → « Mode admin », mot de passe 1234 ; objets,
+  brumes, réputation et points de métier et de classe (commande `admin`, `AdminWindow`), téléportation par double-clic
+  sur la minicarte
+- [ ] Retirer le mode admin (ou le réserver aux comptes d'équipe, mot de passe hors du code) avant la sortie
 - [ ] Pierres de Passage dans d'autres zones (Hautepierre…), prix selon la distance
 - [x] Carte du monde et minicarte : touche M (ou bouton du bandeau, ou clic sur la minicarte), un
   onglet par zone, cartes en grille d'après leurs coordonnées (`<zone>_<x>_<y>`), **tout le monde

@@ -44,6 +44,8 @@ const MAX_TRADE_QUANTITY := 100
 ## pierre pour la découvrir (celle de la zone de départ de la race, et les `toujours_connue`, restent
 ## connues).
 const ALL_PASSAGES_KNOWN := true
+## Mot de passe du mode admin (tests : se donner objets, brumes, réputation, maîtrise, se téléporter).
+const ADMIN_PASSWORD := "1234"
 ## Groupes de joueurs (GDD § 13) : 8 joueurs au plus.
 const PARTY_MAX := 8
 ## Mode héros (GDD § 4.6) : 4 héros au plus contrôlés par un même joueur.
@@ -497,6 +499,7 @@ func snapshot(id := player_id) -> Dictionary:
 		"relations": relations_view(p),
 		"epuisees": p.instance.depleted.keys(),
 		"parcelles": plots_view(p),
+		"admin": p.admin,
 		"pierres_toutes_connues": all_passages_known,
 		"combat": shown.snapshot(fighter.team if fighter != null else Fighter.TEAM_PLAYERS) if shown != null else null,
 		"spectateur": p.watching != null,
@@ -621,6 +624,8 @@ func _execute_exploration(p: PlayerState, command: Dictionary) -> Array[Dictiona
 			return _transfer(p, command, p.character.chest, p.character.inventory)
 		if type == Protocol.CMD_TRAVEL:
 			return _travel(p, command)
+		if type == Protocol.CMD_ADMIN:
+			return _admin(p, command)
 		if type in [Protocol.CMD_QUEST_ACCEPT, Protocol.CMD_QUEST_DECLINE, Protocol.CMD_QUEST_TRACK]:
 			return _quest_command(p, command)
 	return _refused(command, Protocol.REASON_UNKNOWN_COMMAND)
@@ -2873,6 +2878,53 @@ func _travel(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
 	return events
 
 
+## Mode admin (tests) : voir `Protocol.CMD_ADMIN`.
+func _admin(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
+	var action: Variant = command.get("action")
+	var amount := int(command.get("quantite", 0)) if typeof(command.get("quantite", 0)) in [TYPE_INT, TYPE_FLOAT] else 0
+	var target: Variant = command.get({"objet": "objet", "reputation_metier": "metier", "points_metier": "metier",
+		"reputation_classe": "voie", "points_classe": "voie", "teleporter": "carte"}.get(action, "objet"), "")
+	if not _is_player_command(p, command) or data == null or typeof(target) != TYPE_STRING:
+		return _refused(command, Protocol.REASON_INVALID_COMMAND)
+	if action == "activer":
+		p.admin = command.get("mdp") == ADMIN_PASSWORD
+		return [_character_event(p)] as Array[Dictionary] if p.admin else _refused(command, Protocol.REASON_NOT_ADMIN)
+	if not p.admin:
+		return _refused(command, Protocol.REASON_NOT_ADMIN)
+	var character := p.character
+	match action:
+		"objet" when data.items.has(target) and amount > 0:
+			var template: Dictionary = data.items[target]
+			for i in amount if Item.is_equipment(template) else 1:
+				character.inventory.add(template, 1 if Item.is_equipment(template) else amount, Item.roll_bonuses(template, rng), true)
+			return _inventory_events(p)
+		"brumes" when amount != 0:
+			character.inventory.ecus = maxi(0, character.inventory.ecus + amount)
+			return _inventory_events(p)
+		"reputation_metier", "points_metier" when data.jobs.has(target) and amount > 0:
+			if action == "points_metier":
+				character._job(target)["points"] += amount
+			var gain := 0 if action == "points_metier" else amount
+			return [_job_view(p, target, gain, character.add_job_reputation(target, gain)), _character_event(p)] as Array[Dictionary]
+		"reputation_classe", "points_classe" when data.voies.has(target) and amount > 0:
+			character._start_class(target)
+			if action == "points_classe":
+				character.classes[target]["points"] += amount
+			else:
+				Character._add_reputation_to(character.classes[target], amount)
+			return [_character_event(p)] as Array[Dictionary]
+		"teleporter":
+			var next_map := _load_map(target)
+			if next_map == null or p.map.id == target:
+				return _refused(command, Protocol.REASON_UNKNOWN_MAP if next_map == null else Protocol.REASON_ALREADY_THERE)
+			var others: Array[Dictionary] = []
+			_set_map(p, next_map, next_map.nearest_walkable(next_map.spawn), others)
+			var events: Array[Dictionary] = []
+			_append_map_change(events, others, {"type": Protocol.EVT_MAP_CHANGED, "carte": p.map.id, "nom": p.map.display_name, "position": p.cell})
+			return events
+	return _refused(command, Protocol.REASON_INVALID_COMMAND)
+
+
 func _chest_event(p: PlayerState, cell: Vector2i) -> Dictionary:
 	return {"type": Protocol.EVT_CHEST, "case": cell, "coffre": p.character.chest_sheet(data)}
 
@@ -2882,7 +2934,10 @@ func _chest_event(p: PlayerState, cell: Vector2i) -> Dictionary:
 func _job_event(p: PlayerState, job_id: String, base_gain: int, tier: int, tiered := false) -> Dictionary:
 	var gain := Profession.reputation_gain(base_gain, tier, p.character.job_reputation(job_id),
 		p.character.job_reputation_bonus(data) + p.character.tool_stat(job_id, "sagacite"), tiered)
-	var reached := p.character.add_job_reputation(job_id, gain)
+	return _job_view(p, job_id, gain, p.character.add_job_reputation(job_id, gain))
+
+
+func _job_view(p: PlayerState, job_id: String, gain: int, reached: Array[int]) -> Dictionary:
 	return {"type": Protocol.EVT_JOB, "metier": job_id, "nom": data.jobs[job_id]["nom"], "gain": gain,
 		"reputation": p.character.job_reputation(job_id), "points": p.character.job_points(job_id), "paliers": reached}
 

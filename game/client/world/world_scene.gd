@@ -79,6 +79,7 @@ func _ready() -> void:
 	_travel.setup(_map_view)
 	_spells.setup(_map_view)
 	_minimap.setup(_map_view, _combat_hud)
+	pause_menu.options.map_view = _map_view
 	_world_map.setup(_map_view)
 	_minimap.pressed.connect(_world_map.open)
 	quest_dialog.setup(_map_view)

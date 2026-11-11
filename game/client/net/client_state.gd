@@ -56,6 +56,8 @@ var _fights: Dictionary = {}
 var party: Dictionary = {"chef": "", "membres": []}
 ## Mode héros (GDD § 4.6) : l'équipe, [{ id, nom, race, voie, controle }] (vide hors de ce mode).
 var heroes: Array = []
+## Mode admin activé (commande `Protocol.CMD_ADMIN`).
+var admin := false
 ## Amis et ignorés (en ligne, jalon M3) : { amis: Array[{ nom, en_ligne, carte, combat }],
 ## ignores: Array[String] }.
 var relations: Dictionary = {"amis": [], "ignores": []}
@@ -74,6 +76,7 @@ func load_snapshot(snapshot: Dictionary) -> void:
 	character = Character.from_dict(snapshot["personnage"], data.items if data != null else {})
 	character.inventory.capacity = snapshot["places"]
 	sitting = snapshot["assis"]
+	admin = snapshot.get("admin", false)
 	all_passages_known = snapshot["pierres_toutes_connues"]
 	if map == null or map.id != snapshot["carte"]:
 		map = map_by_id(snapshot["carte"])

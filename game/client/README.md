@@ -22,3 +22,6 @@ Scènes, rendu isométrique, interface, audio et entrées du joueur. Le client l
   faire de sa réponse (tout de suite en local, à son arrivée en ligne). Les événements des autres
   joueurs arrivent par `update` (`MapView._apply_other_player`). Écran de connexion :
   `online/online_screen.gd` ; projet Supabase : `net/online_config.gd`.
+- **Mode admin** (tests) : `ui/admin_window.gd` (`AdminWindow`), ouverte depuis les options en partie
+  (`OptionsWindow.map_view`, posé par la scène du monde) ; `ClientState.admin` vient de l'instantané ; en mode admin,
+  un double-clic sur la minicarte téléporte (`Minimap.teleport_to`, le simple clic attend `DOUBLE_CLICK_DELAY`).

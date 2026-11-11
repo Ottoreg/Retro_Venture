@@ -1562,6 +1562,8 @@ func _apply(event: Dictionary) -> float:
 			chest_refused.emit(event)
 		if event["commande"] == Protocol.CMD_USE:
 			notice.emit("Impossible d'utiliser ce meuble d'ici.")
+		if event["commande"] == Protocol.CMD_ADMIN:
+			notice.emit("Mot de passe incorrect." if event["raison"] == Protocol.REASON_NOT_ADMIN else "Commande admin impossible.")
 		if event["commande"] == Protocol.CMD_EQUIP and _equip_refusals.has(event["raison"]):
 			notice.emit(_equip_refusals[event["raison"]])
 		if event["commande"] == Protocol.CMD_TRAVEL:

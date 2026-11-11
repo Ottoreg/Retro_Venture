@@ -72,8 +72,48 @@ func test_fenetre_des_options() -> void:
 	assert_true(Options.tactical_pawns)
 	window.close()
 	assert_false(window.is_open())
+	assert_false((controls["admin"] as Button).visible, "mode admin seulement en partie")
 	window.free()
 	Options.reset()
+
+
+## Mode admin : mot de passe, dons depuis la fenêtre, téléportation par la minicarte.
+func test_mode_admin() -> void:
+	var tree := Engine.get_main_loop() as SceneTree
+	var scene: Node = load("res://client/world/world.tscn").instantiate()
+	tree.root.add_child(scene)
+	var options: OptionsWindow = scene.pause_menu.options
+	options.open()
+	(options.controls()["admin"] as Button).pressed.emit()
+	var admin := options.admin
+	var world: ClientState = scene._map_view.world
+	var controls := admin.controls()
+	(controls["mot_de_passe"] as LineEdit).text_submitted.emit("0000")
+	assert_false(world.admin)
+	assert_eq(admin._status.text, "Mot de passe incorrect.")
+	(controls["mot_de_passe"] as LineEdit).text_submitted.emit(World.ADMIN_PASSWORD)
+	assert_true(world.admin)
+	var ecus := world.character.inventory.ecus
+	(controls["brumes"] as SpinBox).value = 777
+	admin._send("brumes", {"quantite": int((controls["brumes"] as SpinBox).value)})
+	assert_eq(world.character.inventory.ecus, ecus + 777)
+	(controls["recherche"] as LineEdit).text_changed.emit("bois")
+	var items := controls["objets"] as ItemList
+	assert_true(items.item_count > 0, "recherche d'objets")
+	items.select(0)
+	admin._give_item()
+	assert_eq(world.character.inventory.quantity_of(items.get_item_metadata(0)), 10)
+	options.close()
+	var minimap: Minimap = scene._minimap
+	var start := world.map.id
+	for case: Dictionary in minimap.shown_layout().get("cases", []):
+		if case["id"] != start:
+			minimap.teleport_to(case["id"])
+			assert_eq(world.map.id, case["id"], "téléporté")
+			break
+	assert_ne(world.map.id, start)
+	tree.root.remove_child(scene)
+	scene.free()
 
 
 func test_menu_pause() -> void:
@@ -398,6 +438,8 @@ func test_fenetres_a_taille_fixe() -> void:
 	windows["ExchangeWindow"] = [[], ["_title", "_status", "_message"]]
 	nodes["QuestsWindow"] = scene.quests_window
 	windows["QuestsWindow"] = [["_details", "_objectives", "_rewards"], ["_title"]]
+	nodes["AdminWindow"] = scene.pause_menu.options.admin
+	windows["AdminWindow"] = [[], ["_status"]]
 	nodes["QuestDialog"] = scene.quest_dialog
 	windows["QuestDialog"] = [["_text", "_objectives", "_rewards"], ["_npc", "_title"]]
 	var travel: TravelWindow = nodes["TravelWindow"]

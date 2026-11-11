@@ -68,6 +68,8 @@ var heroes: Array[String] = []
 ## Héros non contrôlé : absent de la liste des joueurs de la carte (invisible), toujours sur la case
 ## du héros contrôlé, avec qui il combat.
 var hidden := false
+## Mode admin activé pour cette session (`World.ADMIN_PASSWORD`, jamais sauvegardé).
+var admin := false
 ## Héros de l'équipe qui reçoit tout le butin et les brumes des combats (id), ou "" : partage.
 var hero_receiver := ""
 ## Quêtes : propositions, avancement, récompenses (l'état est dans `character.quests`).

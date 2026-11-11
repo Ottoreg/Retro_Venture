@@ -53,7 +53,7 @@ xvfb-run -a godot --path . -s res://tools/screenshot.gd -- sortie.png [carte] [s
 ```
 
 `tools/screenshot.gd` fait des captures en jeu (actions : glyphe, survol, infobulle, objet, boutique_panoplie, phase, reveil, carte, sermon,
-cible, tactique, pause, options, fiche, assis, joueurs, groupe, chat, amis, echange, forge…) ; `tools/art_sheet.gd` fait une planche des dessins ; `tools/simulation.gd` simule des
+cible, tactique, pause, options, admin, fiche, assis, joueurs, groupe, chat, amis, echange, forge…) ; `tools/art_sheet.gd` fait une planche des dessins ; `tools/simulation.gd` simule des
 combats sur chaque groupe des cartes (`-- [combats] [rapport.md] [préfixes de cartes] [detail] [+niveaux] [trio]`, trio = guerrier + rôdeur + théologue ensemble,
 ~7 min pour tout à 10 combats).
 Multijoueur : `godot --headless --path . -s res://server/server_main.gd` (serveur de développement, port
@@ -198,6 +198,10 @@ personnage (`instance` : `debloquees`, `parcelles` « x,y » → [marqueur, mûr
 commandes `debloquer` / `disposer`, événement `parcelles`, protocole v17 ; cartes à champ `metier` et `emplacements`
 (`GameMap.plot_cells`, `apply_plots`), copie privée par joueur (`World._plot_instance`, clé `carte@joueur`) ; Cadastre
 `hautepierre_0_0` et cartes par `docs/design/instances/produire.py` ; disposition dans `JobsWindow` (bouton Instance).
+**Mode admin** (11/11/2026, sur `dev`, demande de l'auteur, GDD § 6) : commande `admin` (`World._admin`, mot de passe
+`World.ADMIN_PASSWORD` « 1234 », `PlayerState.admin` pour la session, instantané `admin`) : objets, brumes, réputation et
+points de métier et de classe, téléportation ; `AdminWindow` ouverte depuis les options en partie
+(`OptionsWindow.map_view`), double-clic sur la minicarte (`Minimap.teleport_to`) ; protocole v18.
 **Paliers de monstres** (11/11/2026, sur `dev`, demande de l'auteur, GDD § 8.1) : plus de niveau de monstre ;
 `palier` 1 à 5 (1 = anciens niveaux 1–6, 2 = 7–12, 3 = 13–20, 4 = 21–30, 5 = 31+), stats figées au niveau moyen de
 l'ancienne tranche, `Fighter.tier`, `GameData.monster_tier` / `map_tier_range`, difficulté = paliers des monstres
