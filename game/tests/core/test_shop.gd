@@ -55,6 +55,7 @@ func test_prix_selon_le_palier() -> void:
 	assert_eq(Item.buy_price({"type": "coiffe", "rarete": "rare", "niveau": 3}), base, "jusqu'au palier 3 : la rareté seule")
 	assert_eq(Item.buy_price({"type": "coiffe", "rarete": "rare", "niveau": 15}), base * 5)
 	assert_eq(Item.buy_price({"type": "coiffe", "rarete": "rare", "niveau": 30}), base * 10)
+	assert_eq(Item.buy_price({"id": "forge_coiffe", "type": "coiffe", "rarete": "rare", "niveau": 4}), base * 7, "objet forgé de palier 4")
 	assert_eq(Item.buy_price({"type": "ressource", "rarete": "rare", "niveau": 30}),
 		Item.buy_price({"type": "ressource", "rarete": "rare"}), "les ressources ne dépendent pas du palier")
 

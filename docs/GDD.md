@@ -1516,7 +1516,8 @@ tour ») : la difficulté vient uniquement des **monstres renforcés**.
   champ `conditions` dans les objets (refusé par la validation) ; le prix d'achat d'un équipement
   est multiplié par palier / 3 au-delà du palier 3 (`Item.tier_price_factor` : palier 15 × 5, palier
   30 × 10, soit 3 500 brumes une pièce rare de palier 30) pour que les marchands ne vendent plus les
-  panoplies 15 et 30 pour presque rien ; les ressources gardent leur prix.
+  panoplies 15 et 30 pour presque rien ; les ressources gardent leur prix. Objets forgés (paliers 1 à 5,
+  11/11/2026) : × 1, 2, 4, 7, 10 (`Item.FORGED_PRICE_FACTORS`), à revoir avec la demande dynamique des PNJ.
 - *Avant la refonte* : chaque objet avait un **niveau requis**, éventuellement des **conditions**
   (caractéristique minimale, Voie, quête accomplie).
 - **Jets aléatoires :** les objets fabriqués ou ramassés ont des statistiques tirées dans une plage

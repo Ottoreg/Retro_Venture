@@ -29,6 +29,8 @@ const RESOURCE_PRICES := {
 }
 ## Palier d'équipement jusqu'auquel le prix ne dépend que de la rareté (voir `tier_price_factor`).
 const PRICE_TIER_STEP := 3.0
+## Multiplicateur du prix d'un objet forgé par palier (1 à 5, 11/11/2026, à revoir avec la demande dynamique des PNJ).
+const FORGED_PRICE_FACTORS := [1, 2, 4, 7, 10]
 ## Part du prix d'achat que le marchand paie quand on lui revend un objet.
 const RESALE_RATE := 0.25
 ## Bonus que peut donner un équipement, en plus des 6 caractéristiques ; dommages, soins et résistances (%)
@@ -80,14 +82,15 @@ static func buy_price(template: Dictionary) -> int:
 	var price := int(prices.get(template.get("rarete", "commun"), prices["commun"]))
 	if is_equipment(template):
 		# Sans condition pour l'équiper, le palier d'un équipement le rend plus cher (GDD § 9.2).
-		price = roundi(price * tier_price_factor(int(template.get("niveau", 1))))
+		price = roundi(price * tier_price_factor(int(template.get("niveau", 1)), str(template.get("id", "")).begins_with("forge_")))
 	return price
 
 
-## Multiplicateur du prix d'un équipement selon son palier (`niveau`) : × 1 jusqu'au palier
-## `PRICE_TIER_STEP`, puis palier / `PRICE_TIER_STEP` (palier 15 : × 5, palier 30 : × 10).
-static func tier_price_factor(tier: int) -> float:
-	return maxf(1.0, float(tier) / PRICE_TIER_STEP)
+## Multiplicateur du prix d'un équipement selon son palier (`niveau`) : objet forgé (palier 1 à 5),
+## `FORGED_PRICE_FACTORS` ; sinon × 1 jusqu'au palier `PRICE_TIER_STEP`, puis palier / `PRICE_TIER_STEP`
+## (palier 15 : × 5, palier 30 : × 10).
+static func tier_price_factor(tier: int, forged := false) -> float:
+	return float(FORGED_PRICE_FACTORS[clampi(tier, 1, FORGED_PRICE_FACTORS.size()) - 1]) if forged else maxf(1.0, float(tier) / PRICE_TIER_STEP)
 
 
 ## Prix de revente d'un objet à un marchand : une part du prix d'achat, au moins 1 brume.
