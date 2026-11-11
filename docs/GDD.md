@@ -2228,7 +2228,13 @@ panoplie, de **2 à 7 pièces** comme les panoplies prédéfinies (§ 9.3), l'**
   3 variantes corrompues qui deviennent des familles, 6 boss, 4 monstres de la tour céleste) et
   **5 de zones** (Brumerive, Crasse-Roc, Sylvebrume, Hautepierre, tour céleste). Les **épines
   élémentaires** vont dans la panoplie défensive de leur élément (validé le 09/11/2026).
-- **Reste à définir** : barème des bonus (par nombre de pièces et par palier), tendance de chaque zone,
+- **Barème validé** (11/11/2026, proposition de Claude) : une panoplie complète (7 pièces) vaut **30 points de
+  score par palier** des monstres (1 à 5), × 1,5 pour un boss ; zones comme les familles ; adjectifs **25 par
+  palier** (palier du monstre qui lâche la ressource de l'adjectif) ; part du total à 2, 3, 4, 5, 6 et 7 pièces :
+  8, 18, 32, 50, 72 et 100 % ; la panoplie prend le palier de sa pièce la plus faible ; total partagé à parts
+  égales entre ses statistiques ; PA, PM et Portée seulement à 7 pièces et si le total vaut au moins le double
+  de leur score (sinon leur miroir ou Dommages) ; hors plafonds des lignes et des objets.
+- **Reste à définir** : tendance de chaque zone,
   ressources partagées à séparer, bonus des adjectifs de statistique, mots proposés pour chaque famille
   et zone (accordés en genre et en nombre comme les adjectifs).
 

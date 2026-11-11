@@ -380,7 +380,8 @@ Lots 0 (conception dans le GDD), 1 (personnage, poussé sur `main` à la demande
   par nom (adjectifs de statistique regroupés par élément offensif / défensif, famille, zone), mot de famille ou de
   zone proposé si la moitié des cases en relèvent, bonus de 2 à 7 pièces (arme comprise) pour les pièces au
   même mot, environ 70 panoplies ; à faire d'abord : loup cendreux en famille « Loup des cendres », séparer les
-  ressources partagées (croc de loup…), barème selon le palier, tendance de chaque zone, bonus des adjectifs
+  ressources partagées (croc de loup…), tendance de chaque zone, statistiques des adjectifs (barème validé le
+  11/11/2026, GDD § 10.4 : 30 points de score par palier, adjectifs 25)
 - [ ] Équilibrer la forge après les retours de test (valeurs par palier, 8 ressources différentes, part du jet,
   dégâts des armes) ; dessins des objets forgés par type et par matière
 - [x] Passif humain : +10 % d'XP de métier
