@@ -61,7 +61,7 @@ def forge_objet(o, objets):
     """Colonne « Forge » : caractéristique et matière d'une ressource, contenu d'un plan."""
     if "recette" in o:
         r = o["recette"]
-        return "%s « %s » : %s" % (r["type"], r["nom"], ", ".join("%d %s" % (n, objets[k]["nom"]) for k, n in r["ressources"].items()))
+        return "%s « %s » : %s" % (r.get("type", "objet"), r["nom"], ", ".join("%d %s" % (n, objets[k]["nom"]) for k, n in r["ressources"].items()))
     parts = []
     if "caracteristique" in o:
         for c in o["caracteristique"] if isinstance(o["caracteristique"], list) else [o["caracteristique"]]:

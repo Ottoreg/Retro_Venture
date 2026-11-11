@@ -2591,8 +2591,19 @@ décrits au § 13.6.
 
 ## 12. Donjons
 
-Conception de l'auteur du 03/11/2026, rien n'est codé. Décisions validées par l'auteur le même jour
-(§ 12.9).
+Conception de l'auteur du 03/11/2026. Décisions validées par l'auteur le même jour (§ 12.9).
+
+**Codé le 11/11/2026 sur `dev`** (système et premier donjon, contenu provisoire) : champ `donjon` des cartes (id du
+vestibule), instance privée du joueur ou de son groupe (copie par chef de groupe), salles reliées au vestibule par des
+sorties, aucune réapparition, réveil au vestibule après une défaite, instance fermée quand plus personne n'y est
+(15 minutes après une déconnexion), sortie du boss par un PNJ `entree` à `salle_videe`, pas d'élite en donjon. La clé
+est **forgée à l'enclume sur un plan** (plan d'objet tout fait, `recette.objet`) en attendant le Joaillier (choix de
+l'auteur du 11/11/2026). **Grange du Père Fauchard** (Brumerive, palier 2, `docs/design/donjons/produire.py`) : gardien
+Bouzin sur la ferme (`brumerive_1_2`), vestibule, grenier, étable et bureau du boss ; monstre exclusif *Épouvantail en
+arrêt maladie*, boss *Père Fauchard* à deux phases (Grande moisson à 30 %) ; 5 ressources exclusives ; clé :
+3 Paille ensorcelée, 3 Caillous de fronde, 2 Crocs de loup (plan chez les marchands). Restent : instance de guilde,
+reprise d'un combat en cours après reconnexion, raid de guilde, panoplie du donjon, un donjon par région ; noms,
+chiffres, dessins et icônes provisoires.
 
 ### 12.1 Principes
 

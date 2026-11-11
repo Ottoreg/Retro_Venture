@@ -46,6 +46,8 @@ const MAX_TRADE_QUANTITY := 100
 const ALL_PASSAGES_KNOWN := true
 ## Mot de passe du mode admin (tests : se donner objets, brumes, réputation, maîtrise, se téléporter).
 const ADMIN_PASSWORD := "1234"
+## Donjon (GDD § 12.3) : secondes pendant lesquelles l'instance attend un joueur déconnecté.
+const DUNGEON_GRACE := 900.0
 ## Groupes de joueurs (GDD § 13) : 8 joueurs au plus.
 const PARTY_MAX := 8
 ## Mode héros (GDD § 4.6) : 4 héros au plus contrôlés par un même joueur.
@@ -81,6 +83,8 @@ var instances: Dictionary = {}
 ## Chargement d'une carte par son id : Callable(id: String) -> GameMap (ou null).
 var _map_loader: Callable
 var _loaded_maps: Dictionary = {}
+## Instances de donjon dont plus personne n'est connecté : propriétaire → instant de fermeture.
+var _dungeon_closing: Dictionary = {}
 ## Tirages au hasard hors combat : jets des objets achetés ou fabriqués, récoltes, repousse.
 var rng := RandomNumberGenerator.new()
 ## Temps de jeu écoulé, en secondes (avancé par `update`).
@@ -296,6 +300,8 @@ func remove_player(id: String) -> Array[Dictionary]:
 	_leave_party(p, events)
 	_leave_instance(p, events)
 	players.erase(id)
+	if not p.dungeon.is_empty():
+		_dungeon_closing[p.dungeon] = clock + DUNGEON_GRACE
 	_departed.erase(id)
 	if not p.away:  # Absent, il a déjà été annoncé parti (`disconnect_player`).
 		events.append_array(presence_events(p, false))
@@ -780,8 +786,9 @@ func _talk(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
 		p.gifts.append(npc["id"])
 		p.character.inventory.add(data.items[npc["don"]])
 		events.append_array(_inventory_events(p))
-	if next_map != null and Plots.level(p.character.job_reputation(next_map.job)).is_empty() != next_map.job.is_empty():
-		next_map = null  # Instance de métier pas encore ouverte : le panneau du Cadastre le dit.
+	if next_map != null and (Plots.level(p.character.job_reputation(next_map.job)).is_empty() != next_map.job.is_empty()
+			or gate.get("salle_videe", false) and not p.instance.groups.is_empty()):
+		next_map = null  # Instance de métier pas encore ouverte, ou salle du boss pas encore vidée : le PNJ le dit.
 	if next_map != null and (str(gate.get("cle", "")).is_empty() or p.character.inventory.remove(gate["cle"])):
 		# Portier : la clé (s'il en faut une) contre l'entrée ; les gardiens des étages font sortir de la tour.
 		var others: Array[Dictionary] = []
@@ -835,7 +842,13 @@ func _set_map(p: PlayerState, next_map: GameMap, player_cell: Vector2i, events: 
 	_end_exchange(p, Exchange.CLOSED_LEFT, events)
 	_leave_instance(p, events)
 	_loaded_maps[next_map.id] = next_map
-	p.instance = _instance(next_map.id) if next_map.job.is_empty() else _plot_instance(p, next_map)
+	var owner := p.dungeon
+	p.dungeon = "" if next_map.dungeon.is_empty() else owner if not owner.is_empty() else _dungeon_owner(p)
+	_dungeon_closing.erase(p.dungeon)
+	p.instance = _plot_instance(p, next_map) if not next_map.job.is_empty() else _instance(next_map.id, next_map.id + "#" + p.dungeon) \
+		if not p.dungeon.is_empty() else _instance(next_map.id)
+	if not owner.is_empty() and owner != p.dungeon:
+		_close_dungeon(owner)
 	if not p.instance.has_players():
 		p.instance.wander_times.clear()  # Une carte qui se réveille : pas de promenade tout de suite.
 	var others := p.instance.player_ids()
@@ -868,6 +881,18 @@ func _leave_instance(p: PlayerState, events: Array[Dictionary]) -> void:
 	p.instance = null
 
 
+## Donjon (GDD § 12.1) : l'instance appartient au chef du groupe (ou au premier héros de l'équipe, ou au joueur seul).
+func _dungeon_owner(p: PlayerState) -> String:
+	return p.party_leader if not p.party_leader.is_empty() else p.heroes[0] if not p.heroes.is_empty() else p.id
+
+
+## Ferme les salles d'un donjon (clés « carte#propriétaire ») quand plus aucun joueur n'y est.
+func _close_dungeon(owner: String) -> void:
+	if players.values().all(func(other: PlayerState) -> bool: return other.dungeon != owner):
+		for key: String in instances.keys().filter(func(key: String) -> bool: return key.ends_with("#" + owner)):
+			instances.erase(key)
+
+
 ## Instance de métier du joueur (GDD § 10.3) : sa copie de la carte, avec ses ressources posées et leur pousse en cours
 ## (horloge réelle : le temps passé dehors compte).
 func _plot_instance(p: PlayerState, source: GameMap) -> MapInstance:
@@ -896,9 +921,9 @@ func player_view(p: PlayerState) -> Dictionary:
 
 ## Carte vivante d'une carte, créée (avec ses groupes, comme à une première visite) au besoin ;
 ## `null` si la carte est introuvable.
-func _instance(map_id: String) -> MapInstance:
-	if instances.has(map_id):
-		return instances[map_id]
+func _instance(map_id: String, key := map_id) -> MapInstance:
+	if instances.has(key):
+		return instances[key]
 	var source := _load_map(map_id)
 	if source == null:
 		return null
@@ -906,7 +931,7 @@ func _instance(map_id: String) -> MapInstance:
 	for group in available_groups(source):
 		groups[group["id"]] = GameMap.compose_group(group, rng)
 	var instance := MapInstance.new(source, groups)
-	instances[map_id] = instance
+	instances[key] = instance
 	return instance
 
 
@@ -1726,8 +1751,8 @@ func _end_combat(p: PlayerState, events: Array[Dictionary]) -> void:
 		for monster_id: String in defeated["monstres"]:
 			if data != null and data.monsters.get(monster_id, {}).get("boss", false):
 				_boss_defeated(monster_id)
-		if not group_id.begins_with(ELITE_GROUP_PREFIX) and not defeated.get("detache", false):
-			_schedule_respawn(combat_map, defeated)
+		if not group_id.begins_with(ELITE_GROUP_PREFIX) and not defeated.get("detache", false) and combat_instance.map.dungeon.is_empty():
+			_schedule_respawn(combat_map, defeated)  # Pas de réapparition en donjon.
 		combat_instance.groups.erase(group_id)
 		combat_instance.positions.erase(group_id)
 	else:
@@ -1839,6 +1864,10 @@ func _end_combat(p: PlayerState, events: Array[Dictionary]) -> void:
 ## introuvable), au départ de la carte du combat. Une carte à `reveil` (étages de la Tour céleste)
 ## renvoie à la Pierre de cette carte-là. Renvoie où : { passage, nom, carte }.
 func _wake_up(p: PlayerState, events: Array[Dictionary]) -> Dictionary:
+	var hall := _load_map(p.map.dungeon) if not p.map.dungeon.is_empty() else null
+	if hall != null:  # Donjon : réveil au vestibule, l'instance reste ouverte.
+		_set_map(p, hall, hall.spawn, events)
+		return {"passage": "", "nom": hall.display_name, "carte": hall.id}
 	var passage: Dictionary = data.passages.get(p.character.respawn_passage, {}) if data != null else {}
 	if not p.map.revive_map.is_empty() and data != null:
 		for other: Dictionary in data.passages.values():
@@ -2103,6 +2132,9 @@ func update(delta: float) -> Array[Dictionary]:
 		elif not p.harvesting.is_empty() and p.harvesting["fin"] <= clock:
 			_finish_harvest(p, events)
 	_respawn_groups(events)
+	for owner: String in _dungeon_closing.keys().filter(func(owner: String) -> bool: return _dungeon_closing[owner] <= clock):
+		_dungeon_closing.erase(owner)
+		_close_dungeon(owner)
 	_update_elites(events)
 	_wander_groups(events)
 	_advance_combats(delta, events)
@@ -2256,7 +2288,7 @@ func spawn_elite(elite_id: String, events: Array[Dictionary] = []) -> bool:
 				ids.append(p.map.id)  # Liste des cartes inconnue : au moins celles des joueurs.
 	for map_id in ids:
 		var candidate := _load_map(map_id)
-		if candidate == null:
+		if candidate == null or not candidate.dungeon.is_empty():  # Pas d'élite en donjon.
 			continue
 		for group in candidate.groups:
 			if family in GameMap.possible_monsters(group):
@@ -2612,6 +2644,17 @@ func _forge(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
 	var plan: Dictionary = data.items.get(command.get("recette", ""), {}).get("recette", {}) if typeof(command.get("recette", "")) == TYPE_STRING else {}
 	if command.has("recette") and (plan.is_empty() or inventory.quantity_of(command["recette"]) == 0):
 		return _refused(command, Protocol.REASON_UNKNOWN_ITEM)
+	if plan.has("objet"):  # Plan d'un objet tout fait (clé de donjon) : ses ressources contre l'objet.
+		var template: Dictionary = data.items[plan["objet"]]
+		var tier := int(template.get("niveau", 1))
+		if plan["ressources"].keys().any(func(id: String) -> bool: return inventory.quantity_of(id) < int(plan["ressources"][id])):
+			return _refused(command, Protocol.REASON_MISSING_INGREDIENTS)
+		for item_id: String in plan["ressources"]:
+			inventory.remove(item_id, int(plan["ressources"][item_id]))
+		inventory.add(template, 1, {}, true)
+		return [{"type": Protocol.EVT_CRAFTED, "objet": template["id"], "nom": template["nom"], "quantite": 1, "metier": Forge.JOB, "palier": tier,
+			"jets": {}, "bonus": {}, "patron": false, "epargne": {}}, _job_event(p, Forge.JOB, Forge.REPUTATION_PER_TIER * tier, tier, true)] \
+			as Array[Dictionary] + _inventory_events(p)
 	var type: Variant = plan.get("type", command.get("type_objet"))
 	var resources: Variant = plan.get("ressources", command.get("ressources"))
 	if typeof(type) != TYPE_STRING or typeof(resources) != TYPE_DICTIONARY:
@@ -3006,8 +3049,8 @@ func save_data() -> Dictionary:
 	var remaining := {}
 	var respawns := {}
 	var depleted := {}
-	for map_id: String in instances:
-		var instance: MapInstance = instances[map_id]
+	for map_id: String in instances.keys().filter(func(key: String) -> bool: return not ("#" in key or "@" in key)):
+		var instance: MapInstance = instances[map_id]  # Instances privées (donjon, métier) : jamais gardées.
 		respawns[map_id] = instance.respawns
 		depleted[map_id] = instance.depleted
 		var groups: Array = []

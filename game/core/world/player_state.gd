@@ -70,6 +70,8 @@ var heroes: Array[String] = []
 var hidden := false
 ## Mode admin activé pour cette session (`World.ADMIN_PASSWORD`, jamais sauvegardé).
 var admin := false
+## Donjon où il se trouve (GDD § 12) : propriétaire de l'instance (chef du groupe, ou lui-même) ; "" dehors.
+var dungeon := ""
 ## Héros de l'équipe qui reçoit tout le butin et les brumes des combats (id), ou "" : partage.
 var hero_receiver := ""
 ## Quêtes : propositions, avancement, récompenses (l'état est dans `character.quests`).

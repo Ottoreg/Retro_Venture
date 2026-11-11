@@ -42,7 +42,8 @@ a été ajouté depuis, avant de retravailler le fond des mécaniques, des class
 spectraux et dommages de mêlée (statistiques et lignes de forge) ; infusion d'essences et infusion miroir à
 l'enclume ; maîtres des Voies ; quêtes sans condition de niveau ; panoplies d'objets forgés ; outils forgés et
 statistiques de métier ; instances de métier (le Cadastre de Hautepierre) ; mode admin pour les tests (options,
-mot de passe : objets, brumes, réputation et maîtrise, téléportation par la minicarte).
+mot de passe : objets, brumes, réputation et maîtrise, téléportation par la minicarte) ; donjons en instance et le
+premier d'entre eux, la Grange du Père Fauchard à Brumerive.
 
 **Ensuite** : hôtel des ventes, art et son.
 

@@ -27,7 +27,7 @@ Prix de boutique : selon la rareté (revente à 25 %).
 - [Sorts de race](#sorts-de-race)
 - [Sorts des monstres](#sorts-des-monstres)
 
-**310 objets** (18 armes, 20 coiffes, 20 capes, 20 amulettes, 20 anneaux, 20 ceintures, 20 bottes, 123 ressources, 36 plans de forge, 7 objets de quête), **55 monstres** et **133 sorts**.
+**317 objets** (18 armes, 20 coiffes, 20 capes, 20 amulettes, 20 anneaux, 20 ceintures, 20 bottes, 129 ressources, 37 plans de forge, 7 objets de quête), **57 monstres** et **137 sorts**.
 
 ## Armes
 
@@ -252,14 +252,19 @@ Prix de boutique : selon la rareté (revente à 25 %).
 | **Avoine du Champion** | 2 | Rare | — | Agriculteur : Avoine niv. 8, récolte rare | Un cheval en a mangé une fois. Il a gagné une course qu'il ne courait pas. |
 | **Bois d'if** | 2 | Peu commun | +2 Perception, bois | boutique 12 brumes<br>Bûcheron : If niv. 8 | Sombre, souple, toxique. Les rôdeurs l'adorent, les chèvres beaucoup moins. |
 | **Bon de coupe** | 2 | Peu commun | +2 Perception | boutique 12 brumes<br>butin : Abatteur en chef 48 %, Bûcheron de Brumerive 12 %<br>« Coupe rase » : sur Bûcheron de Brumerive, Abatteur en chef (50 %) | Autorisation de couper « quelques arbres ». Le mot « quelques » a été rayé. |
+| **Certificat médical de paille** | 2 | Rare | +1 % Résistance Tempête | butin : Épouvantail en arrêt maladie 10 % | Signé par un médecin introuvable. Valable trois semaines, renouvelable. |
+| **Chapeau du Père Fauchard** | 2 | Commun | +20 Initiative | butin : Père Fauchard, Épouvantail en chef 60 % | Troué par quarante ans d'orages et de corbeaux. |
 | **Citrouille grimaçante** | 2 | Peu commun | +2 Agilité | boutique 12 brumes<br>butin : Grand Épouvantail 48 %, Épouvantail démotivé 12 % | Elle a été sculptée par personne. C'est bien ce qui inquiète. |
+| **Clé de la grange** | 2 | Commun | — | boutique 4 brumes | Certifiée inviolable par son forgeron. La serrure de la grange, elle, n'a rien certifié du tout. |
 | **Copeaux de bois** | 2 | Commun | +20 Initiative | boutique 4 brumes<br>butin : Abatteur en chef 88 %, Bûcheron de Brumerive 55 %<br>« La dette de Vieux-Branchu » : sur Bûcheron de Brumerive, Abatteur en chef (50 %) | Ce qui reste d'un arbre quand un bûcheron est passé. Les elfes les ramassent en pleurant. |
 | **Corne du Balourd** | 2 | Rare | +1 PA | boutique 35 brumes<br>butin : Le Balourd des Abîmes 100 % | Encore tiède. Si on la porte à l'oreille, on entend les galeries s'effondrer. |
 | **Crochet d'araignée** | 2 | Peu commun | +1 Prospection | boutique 12 brumes<br>butin : Grande Tisseuse 48 %, Tisseuse de brume 12 % | Encore une goutte de venin au bout. Ne pas s'en servir comme cure-dent. |
+| **Cœur de paille** | 2 | Légendaire | +8 Vitalité | butin : Père Fauchard, Épouvantail en chef 1 % | Il bat à peine, mais il ne s'arrête jamais. |
 | **Fil de brume** | 2 | Commun | +2 Perception | boutique 4 brumes<br>butin : Grande Tisseuse 88 %, Tisseuse de brume 55 %<br>« Du fil de brume » : sur Tisseuse de brume, Grande Tisseuse (50 %) | Un fil d'araignée si fin qu'on le voit seulement quand il fait humide. Il fait toujours humide. |
 | **Glaive brisé d'ange** | 2 | Rare | +3 Dommages Acier | butin : Ange 12 % | La paix, oui, mais armée. |
 | **Gnôle de raid** | 2 | Commun | +2 Force | boutique 4 brumes<br>butin : Défonceur de portes 88 %, Gobelin briseur 55 % | Désinfecte, dégraisse, décape. Se boit aussi, paraît-il. |
 | **If funèbre** | 2 | Rare | +1 % Résistance Givre, bois | Bûcheron : If niv. 8, récolte rare | Il pousse près des tombes. Les archers l'adorent ; les fossoyeurs, moins. |
+| **Lame de la faux du Père Fauchard** | 2 | Rare | +1 Dommages Tempête | butin : Père Fauchard, Épouvantail en chef 15 % | Aiguisée tous les dimanches, par principe. |
 | **Louche de Krasbouk** | 2 | Rare | +8 Vitalité | boutique 35 brumes<br>butin : Krasbouk, Chef de Raid (syndiqué) 90 % | Elle a servi la soupe et assommé des héros. Parfois les deux. |
 | **Maillon de cotte** | 2 | Commun | +2 Intelligence | boutique 4 brumes<br>butin : Sergent de la milice 80 %, Milicien de Hautepierre 50 % | Un anneau de cotte de mailles. Il en faut beaucoup pour faire une cotte, et un milicien pour la remplir. |
 | **Menthe glaciale** | 2 | Rare | — | Herboriste : Menthe niv. 8, récolte rare | Une feuille et l'haleine gèle. Les dragons la détestent. |
@@ -267,6 +272,7 @@ Prix de boutique : selon la rareté (revente à 25 %).
 | **Minerai d'étain** | 2 | Commun | +2 Agilité, minerai | boutique 4 brumes<br>Mineur : Étain niv. 8 | Il crie quand on le tord. Si, si : écoutez bien. |
 | **Médaille en chocolat** | 2 | Peu commun | +2 Intelligence | boutique 12 brumes<br>butin : Défonceur de portes 48 %, Gobelin briseur 12 % | Décernée au briseur du mois. Il en a mangé la moitié pendant la cérémonie. |
 | **Ordre de raid** | 2 | Peu commun | +2 Perception | boutique 12 brumes<br>butin : Pillard émérite 48 %, Gobelin pillard 12 %<br>« Les ordres du raid » : sur Gobelin briseur, Gobelin pillard, Défonceur de portes, Pillard émérite (35 %) | Signé par un Héraut Cendré. L'orthographe est approximative, la menace très claire. |
+| **Paille d'arrêt maladie** | 2 | Commun | +2 Agilité | butin : Épouvantail en arrêt maladie 50 % | Elle tousse encore un peu. |
 | **Paille ensorcelée** | 2 | Commun | +2 Agilité | boutique 4 brumes<br>butin : Grand Épouvantail 90 %, Épouvantail démotivé 60 %<br>« La grève des épouvantails » : sur Épouvantail démotivé, Grand Épouvantail (50 %) | Elle frissonne quand on parle de feu. On la comprend. |
 | **Plan de casse** | 2 | Peu commun | +2 Perception | boutique 12 brumes<br>butin : Défonceur de portes 32 %, Gobelin briseur 8 % | Tout y est : la porte, la masse, l'heure de la pause. |
 | **Plume d'ange** | 2 | Commun | +3 Force, +3 Intelligence | butin : Ange 35 % | Tombée pendant une prière un peu trop agitée. |
@@ -344,6 +350,7 @@ Prix de boutique : selon la rareté (revente à 25 %).
 | **Plan : Bottes de marche** | 2 | Peu commun | bottes « Bottes de marche » : 3 Peau de loup, 3 Dent de rat | récompense de « Aux armes, citoyens (surtout vous) » | Plan de forge : Bottes de marche. Usées par mille chemins, dont une bonne moitié de raccourcis ratés. |
 | **Plan : Bottes de mousse** | 2 | Peu commun | bottes « Bottes de mousse » : 1 Peau de loup, 3 Croc de loup, 2 Glande acide | récompense de « Observer sans intervenir » | Plan de forge : Bottes de mousse. Douces, silencieuses, un peu humides. Les champignons poussent dessus si on ne marche pas assez. |
 | **Plan : Bottes feutrées** | 2 | Peu commun | bottes « Bottes feutrées » : 1 Peau de loup, 3 Dent de rat, 2 Queue de rat | récompense de « Objectifs de productivité » | Plan de forge : Bottes feutrées. Doublées de fourrure de rat. On marche sans bruit, et sans trop se poser de questions. |
+| **Plan : Clé de la grange** | 2 | Commun | objet « Clé de la grange » : 3 Paille ensorcelée, 3 Caillou de fronde, 2 Croc de loup | boutique 4 brumes | Plan de forge : la clé de la Grange du Père Fauchard. Une clé par personne, le Père Fauchard tient à ses courants d'air. |
 | **Plan : Cape en peau de loup** | 3 | Rare | cape « Cape en peau de loup » : 1 Poil scintillant, 2 Dent de rat, 2 Glande acide, 1 Peau de loup, 1 Lin | boutique 35 brumes | Plan de forge : Cape en peau de loup. Le loup n'en a plus besoin. |
 | **Plan : Ceinturon riveté** | 3 | Peu commun | ceinture « Ceinturon riveté » : 1 Peau de loup, 3 Glande acide, 2 Carapace de grouilleur | récompense de « Le verger de Mère Pomponne » | Plan de forge : Ceinturon riveté. Une ceinture de cuir clouté. Tient le pantalon et le moral. |
 | **Plan : Casque cabossé** | 4 | Rare | coiffe « Casque cabossé » : 1 Poil scintillant, 3 Fiche de paie gobeline, 2 Aile de vampipistrelle, 1 Lin | boutique 35 brumes<br>récompense de « Inspection surprise » | Plan de forge : Casque cabossé. A appartenu à un garde de Hautepierre. Les bosses aussi. |
@@ -421,10 +428,8 @@ ni 35 % du jeu entier, pour qu'aucune résistance unique ne suffise.
 | Sylvebrume (elfes) | 12 | Givre 43 %, Acier 34 %, Tempête 21 %, Flamme 2 % |
 | Hautepierre | 16 | Acier 30 %, Flamme 27 %, Givre 18 %, Tempête 15 %, Impie 9 % |
 | La Cendre | 1 | Flamme 100 % |
-| Ailleurs | 5 | Sacré 64 %, Flamme 25 %, Acier 11 % |
-| **Jeu entier** | 55 | Acier 31 %, Tempête 22 %, Flamme 21 %, Givre 15 %, Sacré 7 %, Impie 5 % |
-
-**Alerte** : Ailleurs : sacre au-dessus de 60 %
+| Ailleurs | 11 | Tempête 60 %, Sacré 26 %, Flamme 10 %, Acier 4 % |
+| **Jeu entier** | 57 | Acier 30 %, Tempête 25 %, Flamme 20 %, Givre 14 %, Sacré 6 %, Impie 5 % |
 
 ## Monstres
 
@@ -470,7 +475,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Résistances** : Flamme -10 %, Givre +10 %
 - **Sorts** : Morsure
 - **Butin** : Croc de loup 50 % (×1–2), Peau de loup 30 %, Anneau du Mauvais Œil 2 %, Ceinture du Mauvais Œil 2 %, Bottes du Mauvais Œil 2 % ; **brumes** 2–6
-- **Où le trouver** : Place du village (`brumerive_0_0`, 3 groupes, dont 1 au hasard) · Rives de la Brume (`brumerive_0_1`, 3 groupes, dont 1 au hasard) · Champs de l'est (`brumerive_1_0`, 2 groupes, dont 1 au hasard) · Moulin de Tournevent (`brumerive_1_1`, 1 groupe) · Palissade de Krasbouk (`brumerive_3_2`, 1 groupe, dont 1 après Krasbouk, Chef de Raid (syndiqué))
+- **Où le trouver** : Place du village (`brumerive_0_0`, 3 groupes, dont 1 au hasard) · Rives de la Brume (`brumerive_0_1`, 3 groupes, dont 1 au hasard) · Champs de l'est (`brumerive_1_0`, 2 groupes, dont 1 au hasard) · Moulin de Tournevent (`brumerive_1_1`, 1 groupe) · Palissade de Krasbouk (`brumerive_3_2`, 1 groupe, dont 1 après Krasbouk, Chef de Raid (syndiqué)) · Grenier (`grange_grenier`, 1 groupe)
 
 | PV | Init. | XP | Force | Agi. |
 |---|---|---|---|---|
@@ -484,7 +489,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Résistances** : Acier +5 %, Flamme -5 %, Givre +15 %, Tempête +10 %
 - **Sorts** : Morsure, Croc sanglant
 - **Butin** : Croc de loup 90 % (×2–4), Peau de loup 70 % (×1–2), Anneau du Mauvais Œil 6 %, Ceinture du Mauvais Œil 6 %, Bottes du Mauvais Œil 6 % ; **brumes** 10–25
-- **Où le trouver** : Place du village (`brumerive_0_0`, apparition spontanée) · Rives de la Brume (`brumerive_0_1`, apparition spontanée) · Champs de l'est (`brumerive_1_0`, apparition spontanée) · Moulin de Tournevent (`brumerive_1_1`, apparition spontanée) · Palissade de Krasbouk (`brumerive_3_2`, apparition spontanée)
+- **Où le trouver** : Place du village (`brumerive_0_0`, apparition spontanée) · Rives de la Brume (`brumerive_0_1`, apparition spontanée) · Champs de l'est (`brumerive_1_0`, apparition spontanée) · Moulin de Tournevent (`brumerive_1_1`, apparition spontanée) · Palissade de Krasbouk (`brumerive_3_2`, apparition spontanée) · Grenier (`grange_grenier`, apparition spontanée)
 
 | PV | Init. | XP | Force | Agi. |
 |---|---|---|---|---|
@@ -570,7 +575,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Résistances** : Acier +10 %, Tempête +15 %, Givre +5 %, Flamme -30 %
 - **Sorts** : Coup de fourche, Nuée de corbeaux
 - **Butin** : Paille ensorcelée 60 % (×1–3), Citrouille grimaçante 12 %, Coiffe du Pyromane Repenti 3 %, Cape du Pyromane Repenti 3 %, Amulette du Pyromane Repenti 3 %, Anneau du Chat Noir 3 %, Ceinture du Chat Noir 3 %, Bottes du Chat Noir 3 % ; **brumes** 7–16
-- **Où le trouver** : Les Grands Blés (`brumerive_1_2`, 3 groupes) · Lande aux épouvantails (`brumerive_2_1`, 4 groupes, dont 1 au hasard)
+- **Où le trouver** : Les Grands Blés (`brumerive_1_2`, 3 groupes) · Lande aux épouvantails (`brumerive_2_1`, 4 groupes, dont 1 au hasard) · Bureau du Père Fauchard (`grange_bureau`, 1 groupe) · Étable (`grange_etable`, 1 groupe) · Grenier (`grange_grenier`, 1 groupe)
 
 | PV | Init. | XP | Force | Agi. |
 |---|---|---|---|---|
@@ -584,7 +589,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Résistances** : Acier +20 %, Tempête +25 %, Givre +15 %, Flamme -25 %
 - **Sorts** : Coup de fourche, Nuée de corbeaux, Champ maudit
 - **Butin** : Paille ensorcelée 90 % (×2–5), Citrouille grimaçante 48 %, Coiffe du Pyromane Repenti 13 %, Cape du Pyromane Repenti 13 %, Amulette du Pyromane Repenti 13 %, Anneau du Chat Noir 13 %, Ceinture du Chat Noir 13 %, Bottes du Chat Noir 13 % ; **brumes** 18–40
-- **Où le trouver** : Les Grands Blés (`brumerive_1_2`, apparition spontanée) · Lande aux épouvantails (`brumerive_2_1`, apparition spontanée)
+- **Où le trouver** : Les Grands Blés (`brumerive_1_2`, apparition spontanée) · Lande aux épouvantails (`brumerive_2_1`, apparition spontanée) · Bureau du Père Fauchard (`grange_bureau`, apparition spontanée) · Étable (`grange_etable`, apparition spontanée) · Grenier (`grange_grenier`, apparition spontanée)
 
 | PV | Init. | XP | Force | Agi. |
 |---|---|---|---|---|
@@ -1197,6 +1202,36 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 |---|---|---|
 | 50 | 100 | 110 |
 
+#### Père Fauchard, Épouvantail en chef *(boss)*
+
+*Il garde la grange depuis quarante ans. Personne ne lui a dit que la ferme avait changé de propriétaire.*
+
+- **Palier** : 2 ; **7 PA, 3 PM** ; IA basique
+- **Résistances** : Acier +10 %, Tempête +15 %, Givre +5 %, Flamme -30 %
+- **Sorts** : Coup de faux, Bourrasque de grange
+- **Phase 1** (à 60 % PV) : +1 PM (3 t.) ; +3 Dommages (3 t.). Message : « On ne touche pas à ma récolte ! » Le Père Fauchard redresse sa faux.
+- **Phase 2** (à 30 % PV) : apprend Grande moisson ; +20 % Critique (3 t.). Message : « Grande moisson ! » Il fait tourner sa faux comme aux plus beaux jours.
+- **Butin** : Chapeau du Père Fauchard 60 %, Lame de la faux du Père Fauchard 15 %, Cœur de paille 1 % ; **brumes** 60–110
+- **Où le trouver** : Bureau du Père Fauchard (`grange_bureau`, 1 groupe)
+
+| PV | Init. | XP | Force | Agi. |
+|---|---|---|---|---|
+| 360 | 110 | 900 | 30 | 20 |
+
+#### Épouvantail en arrêt maladie *(famille)*
+
+*Il ne fait plus peur à personne depuis trois saisons. Il a un certificat. Il éternue sur ceux qui le contestent.*
+
+- **Palier** : 2 ; **6 PA, 3 PM** ; IA basique
+- **Résistances** : Acier +10 %, Tempête +15 %, Givre +5 %, Flamme -30 %
+- **Sorts** : Éternuement, Coup de fourche
+- **Butin** : Paille d'arrêt maladie 50 %, Certificat médical de paille 10 % ; **brumes** 8–18
+- **Où le trouver** : Bureau du Père Fauchard (`grange_bureau`, 1 groupe) · Étable (`grange_etable`, 2 groupes) · Grenier (`grange_grenier`, 2 groupes)
+
+| PV | Init. | XP | Force | Agi. |
+|---|---|---|---|---|
+| 48 | 70 | 90 | 12 | 16 |
+
 #### Archange Raphaël *(boss)*
 
 *Le chef de chœur de la tour : il soigne les siens et exorcise les autres.*
@@ -1313,6 +1348,7 @@ Soigneur sacré. Bénit les alliés, sermonne les ennemis, et cite des textes qu
 | **Bond** | 4 PA, portée 1–3, 1/tour, relance 2 t. | téléportation sur la case | Lion de Juda, palier 3 | Le lion saute sur sa proie (un tour sur deux). |
 | **Bouclier levé** | 2 PA, portée soi, sans ligne de vue, 1/tour, relance 2 t. | bouclier 8–12 (Acier) | Milicien de Hautepierre, palier 2, Sergent de la milice (élite), palier 2 | Position de garde numéro 3. Il ne connaît que celle-là, mais il la connaît bien. |
 | **Bouderie** | 2 PA, portée soi, sans ligne de vue, 1/tour, relance 2 t. | bouclier 4–6 (Givre) | Morille grincheuse, palier 1, Vieille Morille rancunière (élite), palier 1 | Elle boude. C'est étonnamment efficace. |
+| **Bourrasque de grange** | 3 PA, portée 2–5, 1/tour | 8–12 Tempête ; poussée de 2 case(s) | Père Fauchard, Épouvantail en chef (mini-boss), palier 2 | Il ouvre les portes de la grange : le courant d'air fait le reste. |
 | **Brasier** | 4 PA, portée 2–7, 1/tour | 12–18 Flamme | Le Souverain Cendré (mini-boss), palier 5 | Le sol s'embrase sous vos pieds. |
 | **Bélier humain** | 4 PA, portée 1–3, croix latine, en ligne, 1/tour | 5–8 Acier | Défonceur de portes (élite), palier 3 | Il fonce tête baissée. Il n'a jamais compris pourquoi ça fait mal aux autres et pas à lui. |
 | **Bénédiction de Raphaël** | 3 PA, portée 1–5, croix latine, en ligne, 1/tour | soin 20 (Sacré) aux alliés | Archange Raphaël (mini-boss), palier 3 | Une croix de lumière qui soigne les alliés. |
@@ -1331,7 +1367,8 @@ Soigneur sacré. Bénit les alliés, sermonne les ennemis, et cite des textes qu
 | **Coup de bâton** | 3 PA, portée 1–2, 2/tour | 5–7 Acier | Contremaître en chef (élite), palier 3, Contremaître zélé, palier 2 | Motivation par l'exemple. Et par le bâton. |
 | **Coup de bélier** | 5 PA, portée 1, 1/tour | 12–16 Acier ; poussée de 2 case(s) | Grondin, Bélier de la Brèche (mini-boss), palier 4 | Le coup qui a fait trembler la Grande Porte. Vous êtes moins solide qu'une porte. |
 | **Coup de cognée** | 4 PA, portée 1, 1/tour | 7–10 Acier | Abatteur en chef (élite), palier 2, Bûcheron de Brumerive, palier 2 | Bien droit, comme pour un chêne. Vous n'êtes pas un chêne. |
-| **Coup de fourche** | 4 PA, portée 1–2, 1/tour | 6–9 Tempête | Grand Épouvantail (élite), palier 2, Épouvantail démotivé, palier 2 | Trois dents, une seule intention. |
+| **Coup de faux** | 4 PA, portée 1, 2/tour | 14–20 Tempête | Père Fauchard, Épouvantail en chef (mini-boss), palier 2 | Le Père Fauchard fauche tout ce qui dépasse. Vous dépassez. |
+| **Coup de fourche** | 4 PA, portée 1–2, 1/tour | 6–9 Tempête | Grand Épouvantail (élite), palier 2, Épouvantail démotivé, palier 2, Épouvantail en arrêt maladie, palier 2 | Trois dents, une seule intention. |
 | **Coup de fronde** | 3 PA, portée 2–5, 2/tour | 3–6 Tempête | Frondeur vétéran (élite), palier 2, Gobelin frondeur, palier 1 | Un caillou bien ajusté. Le gobelin a été payé à la pièce. |
 | **Coup de hache** | 4 PA, portée 1, 1/tour | 7–10 Acier | Défonceur de portes (élite), palier 3, Gobelin briseur, palier 2 | Il brise les portes. Les genoux, c'est en bonus. |
 | **Coup de massue** | 4 PA, portée 1, 1/tour | 8–11 Acier ; poussée de 1 case(s) | Troll des ponts, palier 3, Troll gastronome (élite), palier 4 | Pas de technique, beaucoup de massue. |
@@ -1350,6 +1387,7 @@ Soigneur sacré. Bénit les alliés, sermonne les ennemis, et cite des textes qu
 | **Gargouillis** | 3 PA, portée 2–4, 1/tour | 5–7 Givre | Gargouille, palier 4, Gargouille de la Grande Porte (élite), palier 4 | Elle crache l'eau de pluie de la semaine. Glacée. |
 | **Glaive** | 3 PA, portée 1, 2/tour | 20 Acier | Ange, palier 2 | Deux coups de glaive valent mieux qu'un sermon. |
 | **Gnôle de raid** | 2 PA, portée soi, sans ligne de vue, 1/tour, relance 3 t. | soin 6–9 (Acier) | Défonceur de portes (élite), palier 3, Gobelin briseur, palier 2 | Une gorgée de gnôle. Ça soigne, d'après l'étiquette. |
+| **Grande moisson** | 4 PA, portée soi, cercle de rayon 1 (sans le lanceur), 1/tour | 15–22 Tempête aux ennemis | Père Fauchard, Épouvantail en chef (mini-boss), palier 2, phase 2 (30 % PV) | Un moulinet de faux autour de lui. Rien ne repousse, surtout pas vous. |
 | **Griffe de Juda** | 5 PA, portée 1, 1/tour | 1–50 Sacré | Lion de Juda, palier 3 | Un coup de patte imprévisible. |
 | **Griffes de pierre** | 4 PA, portée 1, 1/tour | 7–10 Givre | Gargouille, palier 4, Gargouille de la Grande Porte (élite), palier 4 | Trois siècles à garder une gouttière gelée, ça aiguise les griffes. |
 | **Grignotage** | 2 PA, portée 1, 1/tour | 1–2 Acier ; −1 PM au prochain tour | Rat des galeries, palier 1, Rat-roi (élite), palier 1 | Le rat s'attaque aux lacets. On avance moins vite. |
@@ -1400,6 +1438,7 @@ Soigneur sacré. Bénit les alliés, sermonne les ennemis, et cite des textes qu
 | **Éclats de porte** | 3 PA, portée 2–5, cercle de rayon 1, 1/tour | 4–6 Acier | Grondin, Bélier de la Brèche (mini-boss), palier 4 | Il crache les morceaux des portes qu'il a déjà enfoncées. |
 | **Élan** | 2 PA, portée soi, sans ligne de vue, 1/tour, relance 2 t. | +2 PM (1 t.) | Grondin, Bélier de la Brèche (mini-boss), palier 4 | Les roues grincent, les chaînes claquent : il recule pour mieux frapper. |
 | **Épaulée** | 3 PA, portée 1, 1/tour | 3–5 Acier ; poussée de 2 case(s) | Défonceur de portes (élite), palier 3, Gobelin briseur, palier 2 | Un coup d'épaule de professionnel : on recule, on réfléchit. |
+| **Éternuement** | 3 PA, portée 1–3, 1/tour | 6–9 Tempête ; −1 PM au prochain tour | Épouvantail en arrêt maladie, palier 2 | Un éternuement de paille humide : on en reste collé sur place. |
 
 ## Sorts sans lanceur
 

@@ -27,6 +27,9 @@ Règles :
   `MapInstance.player_ids`) à l'équipe (`PlayerState.heroes`) ; les cachés suivent la case du héros
   contrôlé (`_sync_heroes`, après chaque commande et `update`), entrent dans son combat
   (`_enter_combat`) ; `changer_heros` change de héros contrôlé.
+- **Donjons** (GDD § 12) : une carte à `donjon` vit dans une instance privée « carte#propriétaire » (chef du groupe ou
+  joueur seul, `PlayerState.dungeon`), fermée quand plus personne n'y est (`_close_dungeon`, 15 minutes après une
+  déconnexion), sans réapparition ; les vaincus se réveillent au vestibule.
 - **Mode admin** (tests) : commande `admin` (`World._admin`), activée par `World.ADMIN_PASSWORD` pour la session
   (`PlayerState.admin`) : objets, brumes, réputation et points de métier et de classe, téléportation.
 - Chaque événement a une **portée** (`Protocol.scope_of` : personnel, carte, combat) ;

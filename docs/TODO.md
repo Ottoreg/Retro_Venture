@@ -657,8 +657,13 @@ classes (option écartée et compromis gardés en piste, GDD § 5.2).
   (sacré ↔ impie, givre ↔ flamme, acier ↔ tempête), débloquée par une quête de Voie (GDD § 5.3)
 
 ### Donjons
-- [ ] Système de donjon (conçu le 03/11/2026, GDD § 12) : instance par joueur ou groupe, toutes les
-  salles ouvertes dès l'entrée, clé du Joaillier consommée par joueur, vestibule, défaite et reconnexion
+- [x] Système de donjon (conçu le 03/11/2026, codé le 11/11/2026 sur `dev`, GDD § 12) : instance par joueur ou groupe,
+  toutes les salles ouvertes dès l'entrée, clé consommée par joueur (forgée sur plan en attendant le Joaillier),
+  vestibule, défaite au vestibule, fermeture 15 minutes après une déconnexion, sortie du boss
+- [x] Premier donjon : Grange du Père Fauchard (Brumerive), monstre exclusif et boss à phases, ressources exclusives
+  (contenu provisoire, `docs/design/donjons/produire.py`)
+- [ ] Donjons : reprendre un combat en cours après une reconnexion, panoplie du donjon, dessins et icônes propres,
+  clé au Joaillier quand il arrivera
 - [ ] Au moins un monstre exclusif par donjon en plus du boss (ressources introuvables ailleurs)
 - [ ] Instance de guilde des donjons (palier de réputation de raid, GDD § 12.4)
 - [ ] Scripts de boss (phases, invocations, zones dangereuses)

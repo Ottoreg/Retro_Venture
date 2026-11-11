@@ -1,0 +1,12 @@
+{
+  "id": "certificat_medical_de_paille",
+  "nom": "Certificat médical de paille",
+  "type": "ressource",
+  "rarete": "rare",
+  "niveau": 2,
+  "description": "Signé par un médecin introuvable. Valable trois semaines, renouvelable.",
+  "caracteristique": "resistance_tempete",
+  "famille": "epouvantail_en_arret_maladie",
+  "zone": "brumerive",
+  "boutique": false
+}

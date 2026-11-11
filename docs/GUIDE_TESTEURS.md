@@ -164,6 +164,15 @@ aux bandes ; sur un écran plus large, les bandes s'élargissent.
 - **Bande droite** : les messages en haut (« À vous de jouer »…) ; dessous, hors combat, votre nom, palier, réputation et brumes ; en combat, l'ordre de jeu.
 Les sorts se consultent dans leur fenêtre (S).
 
+### Donjon : la Grange du Père Fauchard
+
+À la ferme de Brumerive (au sud, carte du fermier Gaudin), Bouzin garde la grange : il faut une **Clé de la grange**,
+une par personne, forgée à l'enclume avec son plan (vendu chez les marchands) et 3 Paille ensorcelée, 3 Caillous de
+fronde et 2 Crocs de loup. Le donjon est à vous (ou à votre groupe) : le vestibule mène au grenier, à l'étable et au
+bureau du Père Fauchard, dans l'ordre que vous voulez. Les monstres ne reviennent pas ; vaincu, vous vous réveillez au
+vestibule. Une fois le Père Fauchard battu, la porte de derrière vous ramène à la ferme. Sortir ferme le donjon : il
+faudra une autre clé.
+
 ### Mode admin (pour tester vite)
 
 En partie, **Échap → Options → Mode admin (tests) → Ouvrir…**, puis le mot de passe **1234**. La fenêtre permet de

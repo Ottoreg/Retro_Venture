@@ -1,0 +1,12 @@
+{
+  "id": "paille_d_arret_maladie",
+  "nom": "Paille d'arrêt maladie",
+  "type": "ressource",
+  "rarete": "commun",
+  "niveau": 2,
+  "description": "Elle tousse encore un peu.",
+  "caracteristique": "agilite",
+  "famille": "epouvantail_en_arret_maladie",
+  "zone": "brumerive",
+  "boutique": false
+}

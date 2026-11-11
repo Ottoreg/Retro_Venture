@@ -279,7 +279,7 @@ def metiers_md():
         if len(bonus) > max_lignes:
             jets += " (**trop de lignes**)"
         obtention = (["boutique"] if o.get("boutique", True) else []) + ["« %s »" % q for q in recompenses.get(o["id"], [])]
-        rangs.append(["**%s**" % r["nom"], r["type"], max(1, int(somme / max(1, nb) + 0.5)), ", ".join(
+        rangs.append(["**%s**" % r["nom"], r.get("type", "objet : " + objets.get(r.get("objet"), {}).get("nom", "?")), max(1, int(somme / max(1, nb) + 0.5)), ", ".join(
             "%d %s" % (n, objets.get(i, {"nom": i})["nom"]) for i, n in r["ressources"].items()), jets or "—",
                       ", ".join(obtention) or "**aucune**"])
     lignes += table(["Plan", "Type", "Palier", "Ressources", "Jets", "Obtention"], rangs)

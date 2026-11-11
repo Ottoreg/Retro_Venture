@@ -78,8 +78,9 @@ var resource_nodes: Dictionary = {}
 ## Dans le monde, un groupe a aussi son `foyer` (sa case d'origine) et peut s'en éloigner un peu.
 var groups: Array[Dictionary] = []
 ## PNJ : { id: String, nom: String, case: Vector2i, repliques: Array (textes), marchand: bool, explication: Array
-## (textes proposés à la fin du dialogue, comme la forge expliquée par les forgerons), entree: { carte, cle }
-## (portier : contre la clé s'il en faut une, fait entrer sur cette carte ; vide pour les autres),
+## (textes proposés à la fin du dialogue, comme la forge expliquée par les forgerons), entree: { carte, cle,
+## salle_videe } (portier : contre la clé s'il en faut une, fait entrer sur cette carte, une fois tous les groupes de la
+## carte vaincus avec `salle_videe` : la sortie du boss d'un donjon ; vide pour les autres),
 ## don: id d'un objet donné une fois par visite de la carte (vide pour les autres), secret: { objets, ecus,
 ## repliques } (contre un exemplaire de chacun de ces objets, donne ces brumes : easter egg de test) }.
 var npcs: Array[Dictionary] = []
@@ -100,6 +101,9 @@ var next_floor := ""
 ## Carte où se réveillent les vaincus d'un combat sur cette carte, à côté de sa Pierre de Passage
 ## (le parvis pour les étages de la Tour céleste) ; vide : le point de résurrection du joueur.
 var revive_map := ""
+## Donjon (GDD § 12) : id de son vestibule, le même pour toutes ses salles ("" hors donjon). Instance privée du joueur
+## ou de son groupe, sans réapparition ; les vaincus se réveillent au vestibule.
+var dungeon := ""
 ## Palette de couleurs de la zone (voir « palettes » dans art/art.json), "" pour celle de base.
 var palette := ""
 ## Cases de départ en combat (voir `PLACEMENT_PLAYER`, `PLACEMENT_MONSTER`), dans l'ordre du calque.
@@ -211,6 +215,8 @@ static func validate(data: Dictionary) -> PackedStringArray:
 		errors.append("« palette » doit être un nom de palette")
 	if typeof(data.get("reveil", "")) != TYPE_STRING:
 		errors.append("« reveil » doit être un id de carte")
+	if typeof(data.get("donjon", "")) != TYPE_STRING:
+		errors.append("« donjon » doit être l'id du vestibule")
 	if typeof(data.get("etage_suivant", "")) != TYPE_STRING:
 		errors.append("« etage_suivant » doit être un id de carte")
 	if data.get("instance", "") not in INSTANCES:
@@ -240,8 +246,9 @@ static func validate(data: Dictionary) -> PackedStringArray:
 			if typeof(npc.get("marchand", false)) != TYPE_BOOL:
 				errors.append("PNJ %s : « marchand » doit valoir true ou false" % str(marker))
 			var gate: Variant = npc.get("entree", {})
-			if typeof(gate) != TYPE_DICTIONARY or (not gate.is_empty() and (typeof(gate.get("carte")) != TYPE_STRING or typeof(gate.get("cle", "")) != TYPE_STRING)):
-				errors.append("PNJ %s : « entree » doit être { carte, cle (facultative) }" % str(marker))
+			if typeof(gate) != TYPE_DICTIONARY or (not gate.is_empty() and (typeof(gate.get("carte")) != TYPE_STRING or typeof(gate.get("cle", "")) != TYPE_STRING
+					or typeof(gate.get("salle_videe", false)) != TYPE_BOOL)):
+				errors.append("PNJ %s : « entree » doit être { carte, cle et salle_videe (facultatives) }" % str(marker))
 			var secret: Variant = npc.get("secret", {})
 			if typeof(secret) != TYPE_DICTIONARY or (not secret.is_empty() and (typeof(secret.get("objets")) != TYPE_ARRAY
 					or not Spell._is_int_at_least(secret.get("ecus"), 1) or typeof(secret.get("repliques")) != TYPE_ARRAY)):
@@ -364,6 +371,7 @@ static func from_dict(data: Dictionary) -> GameMap:
 	map.next_floor = str(data.get("etage_suivant", ""))
 	map.revive_map = str(data.get("reveil", ""))
 	map.job = str(data.get("metier", ""))
+	map.dungeon = str(data.get("donjon", ""))
 	for decor: Dictionary in data.get("decors", []):
 		map.decors.append({"image": decor["image"], "case": plan_cell(int(decor["case"][0]), int(decor["case"][1]))})
 	var door_targets: Array = data.get("portes", [])

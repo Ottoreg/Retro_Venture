@@ -164,7 +164,8 @@ revente rapporte un quart du prix d'achat (`Item.RESALE_RATE`), au moins 1 brume
 `entree` (facultatif, `{"carte": id, "cle": id d'objet}`) : un **portier**. Le joueur qui a la clé la
 lui donne et entre sur cette carte (à son `@`) ; sans clé, le PNJ dit ses répliques (Saint Pierrot,
 Tour céleste). Sans `cle`, le PNJ fait passer tout le monde (le Gardien des marches de chaque étage
-ramène au parvis).
+ramène au parvis). Avec `"salle_videe": true`, il ne fait passer qu'une fois tous les groupes de la carte vaincus
+(la sortie du boss d'un donjon).
 
 `don` (facultatif, id d'objet) : le PNJ donne cet objet une fois par visite de sa carte, puis dit ses
 répliques (Raphaël et le Calice toujours ruisselant, au sommet de la Tour céleste).
@@ -204,6 +205,11 @@ ramène d'où l'on vient (les tests vérifient que chaque porte a sa réciproque
   (étages de la Tour céleste ; le dernier mène au Chœur de Raphaël).
 - `reveil` : id d'une carte. Les vaincus d'un combat sur cette carte s'y réveillent, à côté de sa
   Pierre de Passage, au lieu de leur point de résurrection (étages de la Tour céleste : le parvis).
+- `donjon` : id du vestibule du donjon (GDD § 12), le même sur toutes ses salles. Instance privée du joueur ou de
+  son groupe (copie « carte#chef du groupe »), sans réapparition des groupes ; les vaincus se réveillent au vestibule ;
+  elle se ferme quand plus personne n'y est (15 minutes après une déconnexion). On y entre par un portier à `cle`
+  (une par joueur), les salles sont reliées par des `sorties` ; pas d'élite en donjon (`donjon: true` des monstres
+  exclusifs). Premier donjon : la Grange du Père Fauchard (`docs/design/donjons/produire.py`).
 - `instance` : `""` (par défaut, carte partagée) ou `joueur` pour une carte personnelle, comme la
   maison : en multijoueur, chaque joueur aura sa propre copie (et son coffre).
 - `metier` et `emplacements` : instance de métier (GDD § 10.3, `Plots`) : id du métier de récolte, et cases
@@ -524,7 +530,7 @@ Vétéran 15 000).
 | `caracteristique` | Ressources de monstres et matières récoltées (minerais et bois élémentaires, leurs rares en `dommages_` / `resistance_` de l'élément ; chanvre, lin et rares en Portée) : ce qu'elles donnent à la forge (une des 12 statistiques ; la valeur dépend du `niveau`, voir « Forge ») |
 | `valeur` | Facultatif : valeur fixe de chaque caractéristique de la ressource à la forge, à la place du calcul par palier (sans × 3 des rares) ; ressources de la Tour céleste |
 | `matiere` | `cuir`, `tissu`, `minerai` ou `bois` : matière obligatoire de certains types d'objets forgés |
-| `recette` | Plans seulement : `{ "nom": nom de l'objet, "type": type de forge, "ressources": { id: quantité } }` |
+| `recette` | Plans seulement : `{ "nom": nom de l'objet, "type": type de forge, "ressources": { id: quantité } }`, ou `objet` (id) à la place de `type` : l'objet tout fait que donnent ces ressources (clé de donjon) |
 
 **Équipement** (02/11/2026, demande de l'auteur) : seules les **panoplies** restent des objets
 prédéfinis ; tout le reste se forge. `forge_<type>` sont les modèles des objets forgés (un par type

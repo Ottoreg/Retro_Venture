@@ -1,0 +1,28 @@
+{
+  "id": "fauchard_moisson",
+  "nom": "Grande moisson",
+  "description": "Un moulinet de faux autour de lui. Rien ne repousse, surtout pas vous.",
+  "cout_pa": 4,
+  "portee": {
+    "min": 0,
+    "max": 0
+  },
+  "ligne_de_vue": true,
+  "relance": {
+    "par_tour": 1
+  },
+  "zone": {
+    "type": "cercle",
+    "taille": 1
+  },
+  "lanceur_exclu": true,
+  "effets": [
+    {
+      "type": "degats",
+      "element": "tempete",
+      "min": 15,
+      "max": 22,
+      "cibles": "ennemis"
+    }
+  ]
+}

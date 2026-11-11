@@ -1,0 +1,115 @@
+{
+  "images": {
+    "objet_paille_d_arret_maladie": {
+      "fichier": "objets/paille_ensorcelee.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_certificat_medical_de_paille": {
+      "fichier": "objets/fiche_de_paie_gobeline.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_chapeau_du_pere_fauchard": {
+      "fichier": "objets/chapeau_de_morille.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_faux_du_pere_fauchard": {
+      "fichier": "objets/coeur_de_pierre.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_coeur_de_paille": {
+      "fichier": "objets/coeur_de_frene.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_cle_de_la_grange": {
+      "fichier": "objets/cle_celeste.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    }
+  },
+  "monstres": {
+    "epouvantail_en_arret_maladie": {
+      "rig": "humain",
+      "couleurs": {
+        "peau": "c9b27a",
+        "cheveux": "e0c060",
+        "manches": "a08a5a",
+        "bottes": "5a4632",
+        "ceinture": "8a6a3a",
+        "chapeau": "c8a85a",
+        "tunique": "8aa0b0",
+        "pantalon": "e8e8e0"
+      },
+      "arme": "fourche",
+      "accessoires": [
+        "chapeau_paille"
+      ]
+    },
+    "pere_fauchard": {
+      "rig": "humain_grand",
+      "couleurs": {
+        "peau": "c9b27a",
+        "cheveux": "f0e8c0",
+        "manches": "a08a5a",
+        "bottes": "5a4632",
+        "ceinture": "8a6a3a",
+        "chapeau": "c8a85a",
+        "tunique": "6a4a2a",
+        "pantalon": "3a4a6a"
+      },
+      "arme": "fourche",
+      "accessoires": [
+        "chapeau_paille",
+        "barbe"
+      ]
+    }
+  },
+  "pnj": {
+    "gardien_de_la_grange": {
+      "rig": "humain",
+      "couleurs": {
+        "tunique": "7a5a3a",
+        "manches": "e8e0c8",
+        "pantalon": "4a5a3a",
+        "cheveux": "5a3a1a"
+      },
+      "accessoires": [
+        "chapeau_paille"
+      ]
+    },
+    "garcon_de_ferme": {
+      "rig": "humain",
+      "couleurs": {
+        "tunique": "9a6a3a",
+        "manches": "e8e0c8",
+        "pantalon": "3a3028",
+        "cheveux": "c08a3a"
+      }
+    },
+    "porte_de_derriere": {
+      "rig": "humain",
+      "couleurs": {
+        "tunique": "5a4632",
+        "manches": "5a4632",
+        "pantalon": "5a4632",
+        "cheveux": "5a4632"
+      }
+    }
+  }
+}

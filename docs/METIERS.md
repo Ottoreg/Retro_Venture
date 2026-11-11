@@ -277,19 +277,24 @@ Toutes les ressources qui servent à la forge (caractéristique ou matière), pa
 | **Écorce vivante** | 1 | commun | Agilité | +1 | — | Arbre millénaire (élite), palier 2 90 % ×2–5<br>Arbre vivant, palier 1 60 % ×1–3 |
 | **Bois d'if** | 2 | peu_commun | Perception | +2 | bois | Bûcheron (If) |
 | **Bon de coupe** | 2 | peu_commun | Perception | +2 | — | Abatteur en chef (élite), palier 2 48 %<br>Bûcheron de Brumerive, palier 2 12 % |
+| **Certificat médical de paille** | 2 | rare | % Résistance Tempête | +3 | — | Épouvantail en arrêt maladie, palier 2 10 % |
+| **Chapeau du Père Fauchard** | 2 | commun | Initiative | +20 | — | Père Fauchard, Épouvantail en chef (mini-boss), palier 2 60 % |
 | **Citrouille grimaçante** | 2 | peu_commun | Agilité | +2 | — | Grand Épouvantail (élite), palier 2 48 %<br>Épouvantail démotivé, palier 2 12 % |
 | **Copeaux de bois** | 2 | commun | Initiative | +20 | — | Abatteur en chef (élite), palier 2 88 % ×2–5<br>Bûcheron de Brumerive, palier 2 55 % ×1–3 |
 | **Corne du Balourd** | 2 | rare | PA | +1 | — | Le Balourd des Abîmes (mini-boss), palier 2 100 % |
 | **Crochet d'araignée** | 2 | peu_commun | Prospection | +1 | — | Grande Tisseuse (élite), palier 3 48 %<br>Tisseuse de brume, palier 2 12 % |
+| **Cœur de paille** | 2 | legendaire | Vitalité | +8 | — | Père Fauchard, Épouvantail en chef (mini-boss), palier 2 1 % |
 | **Fil de brume** | 2 | commun | Perception | +2 | — | Grande Tisseuse (élite), palier 3 88 % ×2–5<br>Tisseuse de brume, palier 2 55 % ×1–3 |
 | **Glaive brisé d'ange** | 2 | rare | Dommages Acier | +3 | — | Ange, palier 2 12 % |
 | **Gnôle de raid** | 2 | commun | Force | +2 | — | Défonceur de portes (élite), palier 3 88 % ×2–4<br>Gobelin briseur, palier 2 55 % ×1–2 |
 | **If funèbre** | 2 | rare | % Résistance Givre | +3 | bois | Bûcheron (If, rare) |
+| **Lame de la faux du Père Fauchard** | 2 | rare | Dommages Tempête | +3 | — | Père Fauchard, Épouvantail en chef (mini-boss), palier 2 15 % |
 | **Louche de Krasbouk** | 2 | rare | Vitalité | +24 | — | Krasbouk, Chef de Raid (syndiqué) (mini-boss), palier 2 90 % ×2–4 |
 | **Maillon de cotte** | 2 | commun | Intelligence | +2 | — | Sergent de la milice (élite), palier 2 80 % ×2–5<br>Milicien de Hautepierre, palier 2 50 % ×1–3 |
 | **Minerai d'étain** | 2 | commun | Agilité | +2 | minerai | Mineur (Étain) |
 | **Médaille en chocolat** | 2 | peu_commun | Intelligence | +2 | — | Défonceur de portes (élite), palier 3 48 %<br>Gobelin briseur, palier 2 12 % |
 | **Ordre de raid** | 2 | peu_commun | Perception | +2 | — | Pillard émérite (élite), palier 2 48 %<br>Gobelin pillard, palier 2 12 % |
+| **Paille d'arrêt maladie** | 2 | commun | Agilité | +2 | — | Épouvantail en arrêt maladie, palier 2 50 % |
 | **Paille ensorcelée** | 2 | commun | Agilité | +2 | — | Grand Épouvantail (élite), palier 2 90 % ×2–5<br>Épouvantail démotivé, palier 2 60 % ×1–3 |
 | **Plan de casse** | 2 | peu_commun | Perception | +2 | — | Défonceur de portes (élite), palier 3 32 %<br>Gobelin briseur, palier 2 8 % |
 | **Plume d'ange** | 2 | commun | Force, Intelligence | +2, +2 | — | Ange, palier 2 35 % |
@@ -340,7 +345,7 @@ Toutes les ressources qui servent à la forge (caractéristique ou matière), pa
 | **Éclat de gargouille** | 4 | commun | Perception | +4 | — | Gargouille de la Grande Porte (élite), palier 4 88 % ×2–5<br>Gargouille, palier 4 55 % ×1–3 |
 | **Fragment de cendre** | 5 | legendaire | PA | +1 | — | Le Souverain Cendré (mini-boss), palier 5 100 % |
 
-Ressources par caractéristique : Force 15, Intelligence 13, Agilité 10, Perception 10, Vitalité 7, Initiative 6, Dommages Flamme 4, Dommages Sacré 3, Dommages Acier 3, Prospection 3, Portée 3, % Résistance Acier 2, Dommages 2, PM 2, PA 2, % Résistance Flamme 2, % Résistance Tempête 1, % Critique 1, % Résistance Givre 1, Dommages Tempête 1, Soins Sacré 1, Dommages Givre 1, % Dégâts dévastateurs 1, Soins 1, % Résistance Impie 1.
+Ressources par caractéristique : Force 15, Intelligence 13, Agilité 11, Perception 10, Vitalité 8, Initiative 7, Dommages Flamme 4, Dommages Sacré 3, Dommages Acier 3, Prospection 3, Portée 3, % Résistance Acier 2, % Résistance Tempête 2, Dommages 2, PM 2, PA 2, Dommages Tempête 2, % Résistance Flamme 2, % Critique 1, % Résistance Givre 1, Soins Sacré 1, Dommages Givre 1, % Dégâts dévastateurs 1, Soins 1, % Résistance Impie 1.
 
 ### Plans
 
@@ -359,6 +364,7 @@ montre tout. Bonus calculés comme `Forge.preview` sans Précision (plage du jet
 | **Bottes de marche** | bottes | 1 | 3 Peau de loup, 3 Dent de rat | Initiative 23–30, Agilité 2–3 | « Aux armes, citoyens (surtout vous) » |
 | **Bottes de mousse** | bottes | 1 | 1 Peau de loup, 3 Croc de loup, 2 Glande acide | Initiative 8–10, Perception 2–3, Vitalité 6–8 | « Observer sans intervenir » |
 | **Bottes feutrées** | bottes | 1 | 1 Peau de loup, 3 Dent de rat, 2 Queue de rat | Initiative 8–10, Agilité 2–3, Prospection 2 | « Objectifs de productivité » |
+| **Clé de la grange** | objet : Clé de la grange | 1 | 3 Paille ensorcelée, 3 Caillou de fronde, 2 Croc de loup | Agilité 5–6, Perception 4–5 | boutique |
 | **Cape en peau de loup** | cape | 1 | 1 Poil scintillant, 2 Dent de rat, 2 Glande acide, 1 Peau de loup, 1 Lin | Force 1, Agilité 2, Vitalité 6–8, Initiative 8–10, Prospection 1 | boutique |
 | **Ceinturon riveté** | ceinture | 1 | 1 Peau de loup, 3 Glande acide, 2 Carapace de grouilleur | Initiative 8–10, Vitalité 9–12, Force 2 | « Le verger de Mère Pomponne » |
 | **Casque cabossé** | coiffe | 1 | 1 Poil scintillant, 3 Fiche de paie gobeline, 2 Aile de vampipistrelle, 1 Lin | Force 2–3, Vitalité 9–12, Prospection 1 | boutique, « Inspection surprise » |

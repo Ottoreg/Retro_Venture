@@ -202,6 +202,10 @@ commandes `debloquer` / `disposer`, événement `parcelles`, protocole v17 ; car
 `World.ADMIN_PASSWORD` « 1234 », `PlayerState.admin` pour la session, instantané `admin`) : objets, brumes, réputation et
 points de métier et de classe, téléportation ; `AdminWindow` ouverte depuis les options en partie
 (`OptionsWindow.map_view`), double-clic sur la minicarte (`Minimap.teleport_to`) ; protocole v18.
+**Donjons** (11/11/2026, sur `dev`, GDD § 12) : champ `donjon` des cartes (vestibule), instance « carte#chef »
+(`World._dungeon_owner`, `_close_dungeon`, `DUNGEON_GRACE` 15 min, `PlayerState.dungeon`), pas de réapparition ni d'élite,
+réveil au vestibule, PNJ `entree` à `salle_videe` ; plan d'objet tout fait (`recette.objet`) pour la clé forgée ;
+Grange du Père Fauchard par `docs/design/donjons/produire.py` (gardien sur `brumerive_1_2`).
 **Paliers de monstres** (11/11/2026, sur `dev`, demande de l'auteur, GDD § 8.1) : plus de niveau de monstre ;
 `palier` 1 à 5 (1 = anciens niveaux 1–6, 2 = 7–12, 3 = 13–20, 4 = 21–30, 5 = 31+), stats figées au niveau moyen de
 l'ancienne tranche, `Fighter.tier`, `GameData.monster_tier` / `map_tier_range`, difficulté = paliers des monstres

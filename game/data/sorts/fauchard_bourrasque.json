@@ -1,0 +1,27 @@
+{
+  "id": "fauchard_bourrasque",
+  "nom": "Bourrasque de grange",
+  "description": "Il ouvre les portes de la grange : le courant d'air fait le reste.",
+  "cout_pa": 3,
+  "portee": {
+    "min": 2,
+    "max": 5
+  },
+  "ligne_de_vue": true,
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "tempete",
+      "min": 8,
+      "max": 12
+    },
+    {
+      "type": "poussee",
+      "min": 2,
+      "max": 2
+    }
+  ]
+}

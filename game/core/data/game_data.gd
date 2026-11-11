@@ -65,6 +65,11 @@ static func from_dicts(spell_list: Array, monster_list: Array, voie_list: Array,
 		if _report("objet", raw, errors):
 			data.items[raw["id"]] = raw
 	for item_id: String in data.items.keys():
+		var made: Variant = data.items[item_id].get("recette", {}).get("objet")
+		if made != null and not data.items.has(made):
+			_report("objet", data.items[item_id], PackedStringArray(["plan : objet « %s » inconnu" % made]))
+			data.items.erase(item_id)
+			continue
 		for resource_id: Variant in data.items[item_id].get("recette", {}).get("ressources", {}):
 			if data.items.get(resource_id, {}).get("type") != Item.TYPE_RESOURCE:
 				_report("objet", data.items[item_id], PackedStringArray(["plan : « %s » n'est pas une ressource" % resource_id]))

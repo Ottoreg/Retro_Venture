@@ -1,0 +1,12 @@
+{
+  "id": "chapeau_du_pere_fauchard",
+  "nom": "Chapeau du Père Fauchard",
+  "type": "ressource",
+  "rarete": "commun",
+  "niveau": 2,
+  "description": "Troué par quarante ans d'orages et de corbeaux.",
+  "caracteristique": "initiative",
+  "famille": "pere_fauchard",
+  "zone": "brumerive",
+  "boutique": false
+}

@@ -64,9 +64,11 @@ static func forge_lines(template: Dictionary, data: GameData, character: Charact
 		lines.append("Matière : %s" % template["matiere"])
 	var plan: Dictionary = template.get("recette", template.get("patron", {}))
 	if not plan.is_empty() and data != null:
-		lines.append("%s : %s" % [Forge.TYPE_NAMES[plan["type"]], plan["nom"]])
+		lines.append("%s : %s" % [Forge.TYPE_NAMES.get(plan.get("type"), "Objet"), plan["nom"]])
 		for item_id: String in plan["ressources"]:
 			lines.append("  • %d %s" % [plan["ressources"][item_id], data.items.get(item_id, {}).get("nom", item_id)])
+		if plan.has("objet"):
+			return lines
 		var details := roll_lines(plan["jets"], plan["bonus"]) + InventoryWindow.attack_lines(Item.entry_template({"objet": Forge.template_id(plan["type"]),
 			"forge": {"nom": "", "artisan": "", "palier": plan["palier"], "bonus": plan["bonus"]}}, data.items)) if plan.has("jets") \
 			else InventoryWindow.bonus_range_lines(Forge.preview(plan["type"], plan["ressources"], data.items, character, false)["bonus"])
@@ -204,6 +206,12 @@ func _set_mode(infusing: bool) -> void:
 func _show_preview() -> void:
 	var data := map_view.world.data
 	var plan: Dictionary = data.items.get(_plan, {}).get("recette", {})
+	if plan.has("objet"):  # Objet tout fait (clé de donjon) : ses ressources, rien à tirer.
+		_update_words({}, {}, plan)
+		_preview.text = "\n".join(PackedStringArray(["Objet : %s" % plan["nom"], "", "Nom : %s" % _name()]))
+		_warn_lost({}, false)
+		_forge_button.disabled = not _owns_all()
+		return
 	var preview := Forge.preview(_type, _chosen, data.items, map_view.world.character, plan.is_empty())
 	# Adjectifs et élément d'attaque d'après toutes les lignes, même cachées : ils laissent deviner l'objet.
 	var complete := Forge.preview(_type, _chosen, data.items, map_view.world.character, false)
@@ -336,7 +344,7 @@ func _drop_on_recipe(at: Vector2, dragged: Variant) -> void:
 ## Suit un plan (`plan_id` : son nom est imposé) ou un patron (le nom reste à choisir) : type et ressources.
 func _follow(recipe: Dictionary, plan_id: String) -> void:
 	_plan = plan_id
-	_type = recipe["type"]
+	_type = recipe.get("type", _type)
 	_chosen = recipe["ressources"].duplicate()
 	refresh()
 

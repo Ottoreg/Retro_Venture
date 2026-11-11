@@ -1,0 +1,12 @@
+{
+  "id": "faux_du_pere_fauchard",
+  "nom": "Lame de la faux du Père Fauchard",
+  "type": "ressource",
+  "rarete": "rare",
+  "niveau": 2,
+  "description": "Aiguisée tous les dimanches, par principe.",
+  "caracteristique": "dommages_tempete",
+  "famille": "pere_fauchard",
+  "zone": "brumerive",
+  "boutique": false
+}

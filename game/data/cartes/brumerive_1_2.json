@@ -36,7 +36,7 @@
     " AAA#.............A",
     "ARRRR..RTRRR..RRRRA",
     " A....a...........A",
-    "A.................A",
+    "A.......b.........A",
     " A................A",
     "AAAAAAAAAAAAAAAAAAA"
   ],
@@ -68,6 +68,19 @@
         "Les épouvantails se sont mis en grève. Ils disent qu'on ne les paie pas.",
         "On ne les a jamais payés : ce sont des épouvantails ! … C'est ce qu'ils disent aussi, remarquez.",
         "Depuis, ce sont les corbeaux qui gardent les champs. Contre nous."
+      ]
+    },
+    {
+      "marqueur": "b",
+      "id": "gardien_de_la_grange",
+      "nom": "Bouzin, gardien de la grange",
+      "entree": {
+        "carte": "grange_vestibule",
+        "cle": "cle_de_la_grange"
+      },
+      "repliques": [
+        "La grange du Père Fauchard ? Entrée sur clé, une par personne. C'est le règlement de la ferme.",
+        "La clé se forge à l'enclume : le plan se vend chez les marchands, la paille et les cailloux se trouvent dans le coin."
       ]
     }
   ],

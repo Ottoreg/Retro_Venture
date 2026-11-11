@@ -1,0 +1,42 @@
+{
+  "id": "epouvantail_en_arret_maladie",
+  "nom": "Épouvantail en arrêt maladie",
+  "description": "Il ne fait plus peur à personne depuis trois saisons. Il a un certificat. Il éternue sur ceux qui le contestent.",
+  "donjon": true,
+  "palier": 2,
+  "caracteristiques": {
+    "pv": 48,
+    "pa": 6,
+    "pm": 3,
+    "initiative": 70,
+    "force": 12,
+    "agilite": 16
+  },
+  "resistances": {
+    "acier": 10,
+    "tempete": 15,
+    "givre": 5,
+    "flamme": -30
+  },
+  "sorts": [
+    "malade_eternuement",
+    "epouvantail_fourche"
+  ],
+  "ia": "basique",
+  "xp": 90,
+  "butin": [
+    {
+      "objet": "paille_d_arret_maladie",
+      "taux": 0.5
+    },
+    {
+      "objet": "certificat_medical_de_paille",
+      "taux": 0.1
+    }
+  ],
+  "ecus": [
+    8,
+    18
+  ],
+  "mot": "du Malade"
+}

@@ -434,10 +434,11 @@ static func scaled_attack(attack: Dictionary, tier: int, bonus := {}) -> Diction
 	return scaled
 
 
-## Erreurs d'un plan (`recette` d'un objet de type « recette »).
+## Erreurs d'un plan (`recette` d'un objet de type « recette ») : un type d'objet forgé, ou un objet tout fait (`objet` :
+## la clé d'un donjon, GDD § 12.2, en attendant le Joaillier).
 static func validate_recipe(recipe: Variant) -> PackedStringArray:
 	var errors: PackedStringArray = []
-	if typeof(recipe) != TYPE_DICTIONARY or typeof(recipe.get("nom")) != TYPE_STRING or not TYPES.has(recipe.get("type")) \
-			or typeof(recipe.get("ressources")) != TYPE_DICTIONARY or recipe["ressources"].is_empty():
-		errors.append("« recette » doit être { nom, type (%s), ressources: { id: quantité } }" % str(TYPES.keys()))
+	if typeof(recipe) != TYPE_DICTIONARY or typeof(recipe.get("nom")) != TYPE_STRING or not (TYPES.has(recipe.get("type"))
+			or typeof(recipe.get("objet")) == TYPE_STRING) or typeof(recipe.get("ressources")) != TYPE_DICTIONARY or recipe["ressources"].is_empty():
+		errors.append("« recette » doit être { nom, type (%s) ou objet, ressources: { id: quantité } }" % str(TYPES.keys()))
 	return errors

@@ -1,0 +1,12 @@
+{
+  "id": "coeur_de_paille",
+  "nom": "Cœur de paille",
+  "type": "ressource",
+  "rarete": "legendaire",
+  "niveau": 2,
+  "description": "Il bat à peine, mais il ne s'arrête jamais.",
+  "caracteristique": "vitalite",
+  "famille": "pere_fauchard",
+  "zone": "brumerive",
+  "boutique": false
+}

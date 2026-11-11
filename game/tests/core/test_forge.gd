@@ -10,7 +10,9 @@ var _anvil := GameMap.plan_cell(6, 6)
 
 func before_each() -> void:
 	var voies := [{"id": "test", "nom": "Test", "caracteristiques": {"pv": 50, "pa": 6, "pm": 3, "initiative": 100}, "sorts": ["frappe"]}]
-	var data := GameData.from_dicts(Fixtures.spells(), [], voies, [], Fixtures.items() + Fixtures.forge_items(),
+	var key := [{"id": "cle", "nom": "Clé", "type": "ressource", "rarete": "commun", "niveau": 2},
+		{"id": "plan_cle", "nom": "Plan : Clé", "type": "recette", "rarete": "commun", "recette": {"nom": "Clé", "objet": "cle", "ressources": {"croc": 2}}}]
+	var data := GameData.from_dicts(Fixtures.spells(), [], voies, [], Fixtures.items() + Fixtures.forge_items() + key,
 		[{"id": "forgeron", "nom": "Forgeron", "type": "artisanat"}])
 	_world = World.new(Fixtures.map({_anvil: "&"}), data, Callable(), Fixtures.character())
 	var path := _world.map.approach_path(_world.position_of(World.PLAYER_ID), _anvil)
@@ -150,6 +152,18 @@ func test_forger_avec_un_plan_et_une_arme() -> void:
 	assert_eq(fighter.weapon_tier, 2)
 	var copy := _world.data.create_profile_fighter(fighter.profile(), "j")
 	assert_eq(copy.spells[0].effects[0]["min"], 14, "la copie du combat garde l'attaque forgée")
+
+
+## Plan d'un objet tout fait (clé de donjon, GDD § 12.2) : ses ressources contre l'objet, de la réputation de forgeron.
+func test_plan_d_un_objet_tout_fait() -> void:
+	_give("plan_cle")
+	assert_eq(_forge({"recette": "plan_cle"})[0]["raison"], Protocol.REASON_MISSING_INGREDIENTS)
+	_give("croc", 3)
+	var events := _forge({"recette": "plan_cle"})
+	assert_eq([events[0]["type"], events[0]["objet"]], [Protocol.EVT_CRAFTED, "cle"])
+	assert_eq([_world.character.inventory.quantity_of("cle"), _world.character.inventory.quantity_of("croc")], [1, 1])
+	assert_true(_world.character.job_reputation("forgeron") > 0)
+	assert_false(Forge.validate_recipe({"nom": "X", "ressources": {"croc": 1}}).is_empty(), "un type ou un objet")
 
 
 func test_element_d_attaque_selon_les_ressources() -> void:
