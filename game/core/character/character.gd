@@ -269,6 +269,11 @@ func job_reputation(job_id: String) -> int:
 	return int(jobs.get(job_id, {}).get("reputation", 0))
 
 
+## Instance de métier (`Plots.state_of`) : ressources débloquées et posées.
+func plot_state(job_id: String) -> Dictionary:
+	return Plots.state_of(_job(job_id))
+
+
 func job_points(job_id: String) -> int:
 	return int(jobs.get(job_id, {}).get("points", 0))
 
@@ -518,6 +523,13 @@ static func from_dict(data: Dictionary, known_items: Dictionary = {}) -> Charact
 				character.add_job_reputation(str(job_id), int(saved_job))
 			elif typeof(saved_job) == TYPE_DICTIONARY:
 				character.jobs[str(job_id)] = _class_entry(saved_job, "competences")
+				if typeof(saved_job.get("instance")) == TYPE_DICTIONARY:  # Instance de métier (`Plots`).
+					var plots := Plots.state_of(character.jobs[str(job_id)])
+					plots["debloquees"] = _string_list(saved_job["instance"].get("debloquees", []))
+					for cell_key: Variant in saved_job["instance"].get("parcelles", {}):
+						var plot: Variant = saved_job["instance"]["parcelles"][cell_key]
+						if typeof(plot) == TYPE_ARRAY and plot.size() == 2 and typeof(plot[0]) == TYPE_STRING and typeof(plot[1]) in [TYPE_INT, TYPE_FLOAT]:
+							plots["parcelles"][str(cell_key)] = [plot[0], float(plot[1])]
 	if typeof(data.get("inventaire")) == TYPE_DICTIONARY:
 		character.inventory = Inventory.from_dict(data["inventaire"], known_items)
 	character.known_passages = _string_list(data.get("pierres_connues", []))

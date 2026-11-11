@@ -77,6 +77,11 @@ func load_snapshot(snapshot: Dictionary) -> void:
 	all_passages_known = snapshot["pierres_toutes_connues"]
 	if map == null or map.id != snapshot["carte"]:
 		map = map_by_id(snapshot["carte"])
+	if map != null and not map.job.is_empty():  # Instance de métier : les ressources posées par le joueur.
+		var plots := {}
+		for plot: Dictionary in snapshot.get("parcelles", []):
+			plots[plot["case"]] = plot["marqueur"]
+		map.apply_plots(plots)
 	_positions = {player_id: snapshot["position"]}
 	_groups = {}
 	for group_state: Dictionary in snapshot["groupes"]:

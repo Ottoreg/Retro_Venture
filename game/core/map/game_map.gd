@@ -105,6 +105,10 @@ var palette := ""
 ## Cases de départ en combat (voir `PLACEMENT_PLAYER`, `PLACEMENT_MONSTER`), dans l'ordre du calque.
 var placement_players: Array[Vector2i] = []
 var placement_monsters: Array[Vector2i] = []
+## Instance de métier (GDD § 10.3, `Plots`) : métier de récolte de la carte ("" pour les autres) et cases où le joueur
+## pose ses ressources (champ `emplacements` : [ligne, colonne] du plan, sol ou eau), avec leur obstacle d'origine.
+var job := ""
+var plot_cells: Dictionary = {}
 
 ## Cases jouables (Vector2i → true).
 var _cells: Dictionary = {}
@@ -211,6 +215,10 @@ static func validate(data: Dictionary) -> PackedStringArray:
 		errors.append("« etage_suivant » doit être un id de carte")
 	if data.get("instance", "") not in INSTANCES:
 		errors.append("« instance » doit valoir %s" % str(INSTANCES))
+	for spot: Variant in data.get("emplacements", []):
+		if typeof(spot) != TYPE_ARRAY or spot.size() != 2 or not Spell._is_int_at_least(spot[0], 0) or not Spell._is_int_at_least(spot[1], 0) \
+				or int(spot[0]) >= plan.size() or str(plan[int(spot[0])]).substr(int(spot[1]), 1) not in [".", "E"]:
+			errors.append("emplacement invalide : [ligne, colonne] d'une case de sol ou d'eau attendu (%s)" % str(spot))
 	var npc_markers := {}
 	var npcs_data: Variant = data.get("pnj", [])
 	if typeof(npcs_data) != TYPE_ARRAY:
@@ -355,6 +363,7 @@ static func from_dict(data: Dictionary) -> GameMap:
 	map.palette = str(data.get("palette", ""))
 	map.next_floor = str(data.get("etage_suivant", ""))
 	map.revive_map = str(data.get("reveil", ""))
+	map.job = str(data.get("metier", ""))
 	for decor: Dictionary in data.get("decors", []):
 		map.decors.append({"image": decor["image"], "case": plan_cell(int(decor["case"][0]), int(decor["case"][1]))})
 	var door_targets: Array = data.get("portes", [])
@@ -419,8 +428,23 @@ static func from_dict(data: Dictionary) -> GameMap:
 				map.placement_players.append(plan_cell(i, j))
 			elif line[j] == PLACEMENT_MONSTER:
 				map.placement_monsters.append(plan_cell(i, j))
+	for spot: Array in data.get("emplacements", []):
+		map.plot_cells[plan_cell(int(spot[0]), int(spot[1]))] = map.obstacles.get(plan_cell(int(spot[0]), int(spot[1])), "")
 	map._setup_pathfinding()
 	return map
+
+
+## Pose les ressources d'une instance de métier (case → marqueur de nœud) sur ses emplacements, les autres redevenant libres.
+func apply_plots(plots: Dictionary) -> void:
+	for cell: Vector2i in plot_cells:
+		resource_nodes.erase(cell)
+		obstacles.erase(cell)
+		if not str(plot_cells[cell]).is_empty():
+			obstacles[cell] = plot_cells[cell]
+		if plots.has(cell):
+			resource_nodes[cell] = plots[cell]
+			obstacles[cell] = LEGEND["E"] if plots[cell] in FISHING_CHARS else RESOURCE_OBSTACLE
+	_setup_pathfinding()
 
 
 static func _is_group_char(character: String) -> bool:

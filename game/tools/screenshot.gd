@@ -384,6 +384,22 @@ func _process(_delta: float) -> bool:
 					shop._on_item_selected(i)
 		elif _action == "metiers":
 			_scene.get_node("JobsWindow").toggle()
+		elif _action == "instance":
+			# Instance de métier (GDD § 10.3) : bûcheron à 2 500 de réputation, deux ressources débloquées et posées.
+			var world := view.server
+			world.character.add_job_reputation("bucheron", Plots.OPEN_REPUTATION)
+			for marker: String in ["F", "C"]:
+				world.execute({"type": Protocol.CMD_UNLOCK_PLOT, "entite": World.PLAYER_ID, "metier": "bucheron", "marqueur": marker})
+			var plot_map: GameMap = world._load_map(Plots.MAPS["bucheron"])
+			for i in 6:
+				world.execute({"type": Protocol.CMD_PLOT, "entite": World.PLAYER_ID, "metier": "bucheron", "case": plot_map.plot_cells.keys()[i],
+					"marqueur": "F" if i < 4 else "C"})
+			view.refresh_state()
+			if world.map.job.is_empty():  # Dans l'instance (carte instance_bosquet) : la carte seule.
+				var jobs: JobsWindow = _scene.get_node("JobsWindow")
+				jobs.toggle()
+				jobs.select_job("bucheron")
+				jobs._instance_button.button_pressed = true
 		elif _action == "sorts":
 			_scene.get_node("SpellsWindow").toggle()
 		elif _action in ["carte", "monde"]:

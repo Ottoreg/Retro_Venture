@@ -1,0 +1,85 @@
+{
+  "pnj": {
+    "notaire_du_cadastre": {
+      "rig": "humain",
+      "couleurs": {
+        "tunique": "2e2e3a",
+        "manches": "e8e0c8",
+        "pantalon": "2a2a30",
+        "cheveux": "b8b0a0"
+      },
+      "accessoires": [
+        "barbe"
+      ]
+    },
+    "huissier_du_cadastre": {
+      "rig": "humain",
+      "couleurs": {
+        "tunique": "4a3a2a",
+        "manches": "e8e0c8",
+        "pantalon": "2a2a30",
+        "cheveux": "3a2a1a"
+      }
+    },
+    "commis_instance_champ": {
+      "rig": "humain",
+      "couleurs": {
+        "tunique": "6a8a3a",
+        "manches": "e8e0c8",
+        "pantalon": "3a3028",
+        "cheveux": "6a4a2a"
+      },
+      "accessoires": [
+        "chapeau_paille"
+      ]
+    },
+    "commis_instance_jardin": {
+      "rig": "humain",
+      "couleurs": {
+        "tunique": "8a5a9a",
+        "manches": "e8e0c8",
+        "pantalon": "3a3028",
+        "cheveux": "6a4a2a"
+      },
+      "accessoires": [
+        "chapeau_paille"
+      ]
+    },
+    "commis_instance_etang": {
+      "rig": "humain",
+      "couleurs": {
+        "tunique": "3a6a9a",
+        "manches": "e8e0c8",
+        "pantalon": "3a3028",
+        "cheveux": "6a4a2a"
+      },
+      "accessoires": [
+        "chapeau_paille"
+      ]
+    },
+    "commis_instance_bosquet": {
+      "rig": "humain",
+      "couleurs": {
+        "tunique": "5a4632",
+        "manches": "e8e0c8",
+        "pantalon": "3a3028",
+        "cheveux": "6a4a2a"
+      },
+      "accessoires": [
+        "chapeau_paille"
+      ]
+    },
+    "commis_instance_mine": {
+      "rig": "humain",
+      "couleurs": {
+        "tunique": "6a6a72",
+        "manches": "e8e0c8",
+        "pantalon": "3a3028",
+        "cheveux": "6a4a2a"
+      },
+      "accessoires": [
+        "chapeau_paille"
+      ]
+    }
+  }
+}

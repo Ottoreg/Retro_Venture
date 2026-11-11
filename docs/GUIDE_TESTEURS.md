@@ -350,7 +350,11 @@ le **lit** de votre maison les rend tous d'un coup.
   viennent de cette famille ou de cette zone) ; portez 2 à 7 objets au même mot pour un bonus de panoplie
   (infobulle de l'objet). **Outils** : l'enclume forge aussi pioche, hache, faucille, serpe, canne à pêche et marteau de
   forgeron (minerai et bois) ; portés dans l'emplacement Outil, ils donnent des statistiques de métier (Profusion,
-  Flair, Dextérité, Minutie, Épargne, Distillation, Sagacité) à leur seul métier. Valeurs provisoires.
+  Flair, Dextérité, Minutie, Épargne, Distillation, Sagacité, Main verte) à leur seul métier. Valeurs provisoires.
+- **Instances de métier** : à 2 500 de réputation d'un métier de récolte, le **Cadastre** (au nord des Champs de
+  l'Ouest de Hautepierre) ouvre votre parcelle. Fenêtre des métiers (J) : double-clic sur une ressource pour la
+  débloquer (points de maîtrise), bouton **Instance** pour poser vos ressources sur les emplacements. Elles repoussent
+  seules, même quand vous êtes ailleurs ; la récolte y rapporte la moitié de la réputation.
 - **Infusion** (bouton de l'enclume) : 20 ressources identiques (10 rares, 2 légendaires ; × 5 pour une
   essence **parfaite**) donnent une **essence** d'une de leurs caractéristiques. Appliquée à un équipement,
   elle **renforce** sa ligne si elle y est, sinon l'ajoute en **exo** (200 points de score d'exo par objet,

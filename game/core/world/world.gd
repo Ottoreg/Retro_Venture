@@ -83,6 +83,8 @@ var _loaded_maps: Dictionary = {}
 var rng := RandomNumberGenerator.new()
 ## Temps de jeu écoulé, en secondes (avancé par `update`).
 var clock := 0.0
+## Horloge réelle (secondes Unix) des instances de métier, dont la pousse continue hors ligne (`Plots`) ; les tests la remplacent.
+var wall_clock := func() -> float: return Time.get_unix_time_from_system()
 var _combat_count := 0
 ## Toutes les cartes du jeu (où les élites peuvent apparaître) ; rempli par le client.
 var map_ids: Array[String] = []
@@ -494,6 +496,7 @@ func snapshot(id := player_id) -> Dictionary:
 		"heros": _heroes_view(p),
 		"relations": relations_view(p),
 		"epuisees": p.instance.depleted.keys(),
+		"parcelles": plots_view(p),
 		"pierres_toutes_connues": all_passages_known,
 		"combat": shown.snapshot(fighter.team if fighter != null else Fighter.TEAM_PLAYERS) if shown != null else null,
 		"spectateur": p.watching != null,
@@ -608,6 +611,8 @@ func _execute_exploration(p: PlayerState, command: Dictionary) -> Array[Dictiona
 			return _forge(p, command)
 		if type == Protocol.CMD_INFUSE:
 			return _infuse(p, command)
+		if type in [Protocol.CMD_PLOT, Protocol.CMD_UNLOCK_PLOT]:
+			return _plot_command(p, command)
 		if type == Protocol.CMD_USE:
 			return _use(p, command)
 		if type == Protocol.CMD_DEPOSIT:
@@ -770,6 +775,8 @@ func _talk(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
 		p.gifts.append(npc["id"])
 		p.character.inventory.add(data.items[npc["don"]])
 		events.append_array(_inventory_events(p))
+	if next_map != null and Plots.level(p.character.job_reputation(next_map.job)).is_empty() != next_map.job.is_empty():
+		next_map = null  # Instance de métier pas encore ouverte : le panneau du Cadastre le dit.
 	if next_map != null and (str(gate.get("cle", "")).is_empty() or p.character.inventory.remove(gate["cle"])):
 		# Portier : la clé (s'il en faut une) contre l'entrée ; les gardiens des étages font sortir de la tour.
 		var others: Array[Dictionary] = []
@@ -823,7 +830,7 @@ func _set_map(p: PlayerState, next_map: GameMap, player_cell: Vector2i, events: 
 	_end_exchange(p, Exchange.CLOSED_LEFT, events)
 	_leave_instance(p, events)
 	_loaded_maps[next_map.id] = next_map
-	p.instance = _instance(next_map.id)
+	p.instance = _instance(next_map.id) if next_map.job.is_empty() else _plot_instance(p, next_map)
 	if not p.instance.has_players():
 		p.instance.wander_times.clear()  # Une carte qui se réveille : pas de promenade tout de suite.
 	var others := p.instance.player_ids()
@@ -852,7 +859,22 @@ func _leave_instance(p: PlayerState, events: Array[Dictionary]) -> void:
 	p.instance.remove_player(p.id)
 	if p.instance.has_players():
 		events.append({"type": Protocol.EVT_PLAYER_LEFT, "carte": p.map.id, "entite": p.id})
+	instances.erase(p.map.id + "@" + p.id)  # Instance de métier : refaite à la prochaine entrée.
 	p.instance = null
+
+
+## Instance de métier du joueur (GDD § 10.3) : sa copie de la carte, avec ses ressources posées et leur pousse en cours
+## (horloge réelle : le temps passé dehors compte).
+func _plot_instance(p: PlayerState, source: GameMap) -> MapInstance:
+	var private_map: GameMap = _map_loader.call(source.id) if _map_loader.is_valid() else source
+	var state := p.character.plot_state(source.job)
+	private_map.apply_plots(Plots.markers(state))
+	var instance := MapInstance.new(private_map)
+	for cell_key: String in state["parcelles"]:
+		if float(state["parcelles"][cell_key][1]) > wall_clock.call():
+			instance.depleted[Plots.cell_of(cell_key)] = clock + float(state["parcelles"][cell_key][1]) - wall_clock.call()
+	instances[source.id + "@" + p.id] = instance
+	return instance
 
 
 ## Un joueur arrive sur une carte où il y a déjà du monde : ce que les autres en voient.
@@ -2406,6 +2428,69 @@ func resource_node(cell: Vector2i) -> Dictionary:
 	return _resource_node(_solo().instance, cell)
 
 
+## Instance de métier (GDD § 10.3) : débloquer une ressource (points de maîtrise du métier) ou en poser une sur un
+## emplacement (de la carte de l'instance, dans la limite du palier de réputation), où elle commence à pousser.
+func _plot_command(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
+	var job: Variant = command.get("metier")
+	var marker: Variant = command.get("marqueur")
+	var node: Dictionary = data.nodes.get(marker, {}) if data != null and typeof(marker) == TYPE_STRING else {}
+	if not Plots.MAPS.has(job) or typeof(marker) != TYPE_STRING or node.get("metier", job) != job or (marker != "" and node.is_empty()):
+		return _refused(command, Protocol.REASON_INVALID_COMMAND)
+	var level := Plots.level(p.character.job_reputation(job))
+	if level.is_empty():
+		return _refused(command, Protocol.REASON_REPUTATION_TOO_LOW)
+	var state := p.character.plot_state(job)
+	var events: Array[Dictionary] = []
+	if command["type"] == Protocol.CMD_UNLOCK_PLOT:
+		var cost := Plots.unlock_cost(int(node.get("niveau", 1)))
+		if marker.is_empty() or marker in state["debloquees"]:
+			return _refused(command, Protocol.REASON_INVALID_COMMAND)
+		if p.character.job_points(job) < cost:
+			return _refused(command, Protocol.REASON_NOT_ENOUGH_POINTS)
+		p.character.jobs[job]["points"] -= cost
+		state["debloquees"].append(marker)
+	else:
+		var cell: Variant = command.get("case")
+		var plot_map := _load_map(Plots.MAPS[job])
+		if plot_map == null or typeof(cell) != TYPE_VECTOR2I or not plot_map.plot_cells.has(cell) or (marker != "" and marker not in state["debloquees"]):
+			return _refused(command, Protocol.REASON_INVALID_COMMAND)
+		if marker != "" and not state["parcelles"].has(Plots.key(cell)) and state["parcelles"].size() >= int(level[1]):
+			return _refused(command, Protocol.REASON_NO_FREE_PLOT)
+		state["parcelles"].erase(Plots.key(cell))
+		if marker != "":
+			state["parcelles"][Plots.key(cell)] = [marker, wall_clock.call() + _grow_delay(p, node)]
+		if p.map.job == job:  # Dans l'instance : la carte change sous ses yeux.
+			p.map.apply_plots(Plots.markers(state))
+			p.instance.depleted.erase(cell)
+			if marker != "":
+				p.instance.depleted[cell] = clock + _grow_delay(p, node)
+			events.append({"type": Protocol.EVT_PLOTS, "parcelles": plots_view(p), "epuisees": p.instance.depleted.keys()})
+	events.append(_character_event(p))
+	return events
+
+
+## Ressources posées dans l'instance de métier où se trouve le joueur : [{ case, marqueur }] (vide ailleurs).
+func plots_view(p: PlayerState) -> Array:
+	return p.map.plot_cells.keys().filter(func(cell: Vector2i) -> bool: return p.map.resource_nodes.has(cell)) \
+		.map(func(cell: Vector2i) -> Dictionary: return {"case": cell, "marqueur": p.map.resource_nodes[cell]})
+
+
+## Pousse d'une ressource de l'instance de métier : selon son niveau, moins le bonus d'instance et la Main verte de l'outil.
+func _grow_delay(p: PlayerState, node: Dictionary) -> float:
+	var line := Plots.level(p.character.job_reputation(node["metier"]))
+	return Plots.grow_time(int(node.get("niveau", 1)), (float(line[3]) if not line.is_empty() else 0.0) + p.character.tool_stat(node["metier"], "main_verte"))
+
+
+## Bonus de l'instance de métier où se trouve le joueur (colonne `column` de `Plots.LEVELS`), 0 ailleurs.
+func _plot_bonus(p: PlayerState, column: int) -> float:
+	var line := Plots.level(p.character.job_reputation(p.map.job)) if not p.map.job.is_empty() else []
+	return float(line[column]) if not line.is_empty() else 0.0
+
+
+func node_marker(p: PlayerState, cell: Vector2i) -> String:
+	return p.instance.map.resource_nodes.get(cell, "")
+
+
 func _resource_node(instance: MapInstance, cell: Vector2i) -> Dictionary:
 	if data == null or not instance.map.resource_nodes.has(cell):
 		return {}
@@ -2453,7 +2538,7 @@ func _harvest(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
 		return _refused(command, Protocol.REASON_TOO_FAR)
 	var node := _resource_node(p.instance, cell)
 	p.harvesting = {"case": cell, "fin": clock + Profession.harvest_time(int(node.get("niveau", 1)),
-		p.character.job_rank(node["metier"], "celerite"), p.character.tool_stat(node["metier"], "dexterite"))}
+		p.character.job_rank(node["metier"], "celerite"), p.character.tool_stat(node["metier"], "dexterite") + _plot_bonus(p, 4))}
 	var events: Array[Dictionary] = [{"type": Protocol.EVT_HARVEST_STARTED, "entite": p.id, "case": cell,
 		"duree": p.harvesting["fin"] - clock}]
 	return events
@@ -2481,15 +2566,20 @@ func _harvested(p: PlayerState, cell: Vector2i) -> Array[Dictionary]:
 	var abundance := (Profession.skill_value(Profession.TYPE_HARVEST, "abondance", p.character.job_rank(job_id, "abondance"))
 		+ p.character.tool_stat(job_id, "profusion")) / 100.0
 	var quantity := rng.randi_range(int(amount[0]), int(amount[1])) + (1 if rng.randf() < abundance else 0)
+	quantity = roundi(quantity * (1 + _plot_bonus(p, 2) / 100.0))
 	# Parfois, une ressource rare à la place de la récolte normale : un seul exemplaire.
 	var eye := Profession.skill_value(Profession.TYPE_HARVEST, "oeil", p.character.job_rank(job_id, "oeil")) / 100.0
-	var rare: bool = node.has("rare") and data.items.has(node["rare"]) and rng.randf() < (rare_harvest_chance + eye) * (1 + p.character.tool_stat(job_id, "flair") / 100.0)
+	var rare: bool = node.has("rare") and data.items.has(node["rare"]) and rng.randf() < (rare_harvest_chance + eye + _plot_bonus(p, 5) / 100.0) * (1 + p.character.tool_stat(job_id, "flair") / 100.0)
 	if rare:
 		template = data.items[node["rare"]]
 		quantity = 1
 	p.character.inventory.add(template, quantity)
 	var regrowth: Array = node["repousse"]
-	p.instance.depleted[cell] = clock + rng.randf_range(float(regrowth[0]), float(regrowth[1]))
+	var delay := rng.randf_range(float(regrowth[0]), float(regrowth[1]))
+	if not p.map.job.is_empty():  # Instance de métier : pousse selon le niveau, gardée à l'horloge réelle.
+		delay = _grow_delay(p, node)
+		p.character.plot_state(job_id)["parcelles"][Plots.key(cell)] = [node_marker(p, cell), wall_clock.call() + delay]
+	p.instance.depleted[cell] = clock + delay
 	var events: Array[Dictionary] = [{
 		"type": Protocol.EVT_HARVESTED,
 		"carte": p.map.id,
@@ -2502,7 +2592,7 @@ func _harvested(p: PlayerState, cell: Vector2i) -> Array[Dictionary]:
 		"metier": node["metier"],
 		"rare": rare,
 	}]
-	events.append(_job_event(p, job_id, int(node.get("xp", 0)), int(node.get("niveau", 1))))
+	events.append(_job_event(p, job_id, int(node.get("xp", 0)) / (2 if not p.map.job.is_empty() else 1), int(node.get("niveau", 1))))
 	events.append_array(_inventory_events(p))
 	return events
 

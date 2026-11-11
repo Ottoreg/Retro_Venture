@@ -193,6 +193,11 @@ validé, choix provisoires) ajoutés par `GameData.set_bonuses` ; données par `
 **Outils et statistiques de métier** (11/11/2026, sur `dev`, GDD § 10.4) : emplacement `outil`, 6 types d'outils dans
 `Forge.TYPES` (champ `metier`, modèles par `docs/design/forge/outils.py`), stat de métier à score égal (`Forge.job_stat`,
 `TOOL_STATS`, `TOOL_SCORE_PER_TIER` 60), effets par `Character.tool_stat` (récolte, forge, infusion, réputation).
+**Instances de métier** (11/11/2026, sur `dev`, GDD § 10.3) : `Plots` (`core/jobs/plots.gd`), état dans le métier du
+personnage (`instance` : `debloquees`, `parcelles` « x,y » → [marqueur, mûre à l'horloge réelle `World.wall_clock`]),
+commandes `debloquer` / `disposer`, événement `parcelles`, protocole v17 ; cartes à champ `metier` et `emplacements`
+(`GameMap.plot_cells`, `apply_plots`), copie privée par joueur (`World._plot_instance`, clé `carte@joueur`) ; Cadastre
+`hautepierre_0_0` et cartes par `docs/design/instances/produire.py` ; disposition dans `JobsWindow` (bouton Instance).
 **Paliers de monstres** (11/11/2026, sur `dev`, demande de l'auteur, GDD § 8.1) : plus de niveau de monstre ;
 `palier` 1 à 5 (1 = anciens niveaux 1–6, 2 = 7–12, 3 = 13–20, 4 = 21–30, 5 = 31+), stats figées au niveau moyen de
 l'ancienne tranche, `Fighter.tier`, `GameData.monster_tier` / `map_tier_range`, difficulté = paliers des monstres

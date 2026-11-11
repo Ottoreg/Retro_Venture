@@ -41,7 +41,7 @@ a été ajouté depuis, avant de retravailler le fond des mécaniques, des class
 **Sur `dev`** : tacle et fuite, esquive des retraits de PA / PM, épines, réduction de dégâts fixe, dégâts
 spectraux et dommages de mêlée (statistiques et lignes de forge) ; infusion d'essences et infusion miroir à
 l'enclume ; maîtres des Voies ; quêtes sans condition de niveau ; panoplies d'objets forgés ; outils forgés et
-statistiques de métier.
+statistiques de métier ; instances de métier (le Cadastre de Hautepierre).
 
 **Ensuite** : hôtel des ventes, art et son.
 

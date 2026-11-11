@@ -9,7 +9,7 @@ extends RefCounted
 
 ## Version du protocole, vérifiée à la connexion : à augmenter à chaque changement incompatible
 ## d'une commande ou d'un événement.
-const VERSION := 16
+const VERSION := 17
 
 # --- Commandes (client → noyau) ---
 
@@ -55,6 +55,11 @@ const CMD_FORGE := "forger"
 ## Infusion (GDD § 10.4) : { case (enclume), ressource, caracteristique, parfaite } → une essence ; { case, essence, objet }
 ## (uids) → l'essence appliquée à l'équipement.
 const CMD_INFUSE := "infuser"
+## Instance de métier (GDD § 10.3, `Plots`), hors combat : poser une ressource débloquée sur un emplacement (marqueur "" :
+## le libérer ; la pousse repart de zéro). { type, entite, metier: String, case: Vector2i, marqueur: String }
+const CMD_PLOT := "disposer"
+## Débloquer une ressource du métier pour son instance, contre des points de maîtrise. { type, entite, metier, marqueur }
+const CMD_UNLOCK_PLOT := "debloquer"
 ## Exploration, à côté d'un meuble (coffre, lit) : l'utiliser. { type, entite: String, case: Vector2i }
 const CMD_USE := "utiliser"
 ## Exploration, à côté du coffre : y déposer un objet non porté.
@@ -197,6 +202,8 @@ const EVT_ANVIL := "enclume"
 const EVT_CRAFTED := "fabrication"
 ## Infusion : { essence (données), nom } à la création ; { objet (uid), nom, essence, reussi, chance } à l'application.
 const EVT_INFUSED := "infusion"
+## Disposition de l'instance de métier où se trouve le joueur, changée. { type, parcelles: [{ case, marqueur }], epuisees: [cases] }
+const EVT_PLOTS := "parcelles"
 ## Réputation de métier gagnée. { type, metier: String, nom: String, gain: int, reputation: int,
 ## points: int (de maîtrise à placer), paliers: Array[int] (paliers de réputation atteints) }
 const EVT_JOB := "metier"
@@ -482,6 +489,7 @@ const REASON_HARVEST_TAKEN := "ressource_occupee"
 const REASON_MISSING_INGREDIENTS := "ingredients_manquants"
 ## Forge : plus de `Forge.MAX_LINES` lignes de caractéristiques.
 const REASON_TOO_MANY_LINES := "trop_de_lignes"
+const REASON_NO_FREE_PLOT := "emplacements_pleins"
 const REASON_WRONG_PHASE := "mauvaise_phase"
 ## Groupe de monstres déjà en combat contre un autre joueur.
 const REASON_GROUP_IN_COMBAT := "groupe_en_combat"

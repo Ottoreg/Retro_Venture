@@ -25,8 +25,7 @@ func test_statistique_de_metier_des_ressources() -> void:
 	assert_eq(Forge.job_stat("resistance_givre"), "distillation")
 	assert_eq(Forge.job_stat("dommages_melee"), "", "pas d'équivalent")
 	var preview := Forge.preview("pioche", {"minerai": 1, "bois": 1, "croc": 10, "peau": 1}, _items())
-	assert_eq(preview["bonus"], {"profusion": [8, 10]}, "Force → Profusion à score égal, 1 au moins par ressource")
-	assert_eq(preview["perdues"], {"peau": {"vitalite": 0}}, "Main verte ne sert pas encore : perdue")
+	assert_eq(preview["bonus"], {"profusion": [8, 10], "main_verte": [1, 1]}, "Force → Profusion, Vitalité → Main verte, à score égal, 1 au moins")
 	assert_eq(Forge.preview("marteau_de_forgeron", {"minerai": 1, "bois": 1, "croc": 1}, _items())["perdues"], {"croc": {"force": 0}},
 		"Profusion ne sert pas au forgeron")
 

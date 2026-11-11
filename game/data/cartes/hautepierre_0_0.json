@@ -1,0 +1,117 @@
+{
+  "id": "hautepierre_0_0",
+  "nom": "Hautepierre — Le Cadastre",
+  "sorties": {
+    "bas": "hautepierre_0_1"
+  },
+  "palette": "hautepierre",
+  "plan": [
+    "AAAAAAAAAAAAAAAAAAA",
+    " A................A",
+    "A.................A",
+    " A.........A......A",
+    "A.................A",
+    " A.......A.....A..A",
+    "A.................A",
+    " A................A",
+    "A..b..c..d..e..f..A",
+    " A................A",
+    "A.................A",
+    " A................A",
+    "A.............A...A",
+    " A................A",
+    "A........a...AA...A",
+    " A................A",
+    "A......A..........A",
+    " A.A.....::.......A",
+    "A........:........A",
+    " A.......::.......A",
+    "A........:.A......A",
+    " A.......::......AA",
+    "A........:........A",
+    " A.......::....A..A",
+    "A..A.....:........A",
+    " A.......::.......A",
+    "A........:........A",
+    " A.......::.......A",
+    "A........:........A",
+    " A.......::.......A",
+    "A.......@:........A",
+    " A.......::.......A",
+    "AAAAAAAA.:.AAAAAAAA"
+  ],
+  "pnj": [
+    {
+      "marqueur": "a",
+      "id": "notaire_du_cadastre",
+      "nom": "Maître Tamponnet, notaire du Cadastre",
+      "repliques": [
+        "Bienvenue au Cadastre. Ici, chaque brin d'herbe a son acte de propriété, tamponné deux fois.",
+        "Un métier de récolte à 2 500 de réputation ? Le panneau de votre métier vous ouvre votre parcelle."
+      ],
+      "explication": [
+        "Instances de métier : à 2 500 de réputation d'un métier de récolte, son panneau ouvre votre parcelle personnelle. Débloquez-y des ressources avec vos points de maîtrise du métier, posez-les sur les emplacements : elles repoussent seules, même quand vous êtes ailleurs."
+      ]
+    },
+    {
+      "marqueur": "b",
+      "id": "commis_instance_champ",
+      "nom": "Commis du Cadastre (Champ)",
+      "repliques": [
+        "Champ : propriété privée. Accès réservé aux titulaires de 2 500 de réputation (agriculteur).",
+        "Revenez avec la réputation. Et le formulaire. Tamponné. Deux fois."
+      ],
+      "entree": {
+        "carte": "instance_champ"
+      }
+    },
+    {
+      "marqueur": "c",
+      "id": "commis_instance_jardin",
+      "nom": "Commis du Cadastre (Jardin)",
+      "repliques": [
+        "Jardin : propriété privée. Accès réservé aux titulaires de 2 500 de réputation (herboriste).",
+        "Revenez avec la réputation. Et le formulaire. Tamponné. Deux fois."
+      ],
+      "entree": {
+        "carte": "instance_jardin"
+      }
+    },
+    {
+      "marqueur": "d",
+      "id": "commis_instance_etang",
+      "nom": "Commis du Cadastre (Étang)",
+      "repliques": [
+        "Étang : propriété privée. Accès réservé aux titulaires de 2 500 de réputation (pecheur).",
+        "Revenez avec la réputation. Et le formulaire. Tamponné. Deux fois."
+      ],
+      "entree": {
+        "carte": "instance_etang"
+      }
+    },
+    {
+      "marqueur": "e",
+      "id": "commis_instance_bosquet",
+      "nom": "Commis du Cadastre (Bosquet)",
+      "repliques": [
+        "Bosquet : propriété privée. Accès réservé aux titulaires de 2 500 de réputation (bucheron).",
+        "Revenez avec la réputation. Et le formulaire. Tamponné. Deux fois."
+      ],
+      "entree": {
+        "carte": "instance_bosquet"
+      }
+    },
+    {
+      "marqueur": "f",
+      "id": "commis_instance_mine",
+      "nom": "Commis du Cadastre (Mine)",
+      "repliques": [
+        "Mine : propriété privée. Accès réservé aux titulaires de 2 500 de réputation (mineur).",
+        "Revenez avec la réputation. Et le formulaire. Tamponné. Deux fois."
+      ],
+      "entree": {
+        "carte": "instance_mine"
+      }
+    }
+  ]
+}

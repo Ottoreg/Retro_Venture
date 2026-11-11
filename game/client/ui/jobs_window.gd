@@ -2,7 +2,8 @@ class_name JobsWindow
 extends CanvasLayer
 ## Fenêtre des métiers (touche J) : un onglet par métier, avec sa réputation et son palier, ses
 ## compétences où placer les points de maîtrise, et la liste de ses ressources (récolte) ou ce qu'il
-## sait lire des ressources à forger (artisanat).
+## sait lire des ressources à forger (artisanat). Instance de métier (GDD § 10.3, `Plots`) : double-clic sur une ressource
+## pour la débloquer, bouton « Instance » pour la disposition (emplacements vus de haut, clic : poser la ressource choisie).
 
 const GOLD := Color(0.95, 0.76, 0.3)
 
@@ -19,6 +20,12 @@ var _skills: VBoxContainer
 var _list_title: Label
 var _list: ItemList
 var _job_ids: Array[String] = []
+var _list_markers: Array = []
+var _instance_button: Button
+var _plot_box: VBoxContainer
+var _plot_info: Label
+var _plot_choice: OptionButton
+var _plot_view: Control
 
 
 func _ready() -> void:
@@ -85,14 +92,28 @@ func refresh() -> void:
 	for skill_id: String in Profession.skills(job["type"]):
 		_add_skill(job_id, job["type"], skill_id, character)
 	_list.clear()
+	_list_markers.clear()
+	var opened := harvest and not Plots.level(reputation_value).is_empty()
+	_instance_button.visible = harvest
+	_instance_button.disabled = not opened
+	_instance_button.tooltip_text = "" if opened else "Instance de métier : à %d de réputation, au Cadastre de Hautepierre." % Plots.OPEN_REPUTATION
+	_plot_box.visible = opened and _instance_button.button_pressed
+	_list.visible = not _plot_box.visible
+	_skills.visible = not _plot_box.visible
+	_list_title.visible = not _plot_box.visible
+	if _plot_box.visible:
+		_refresh_plots(job_id, character)
 	if harvest:
-		_list_title.text = "Ressources (récolter en cliquant dessus sur la carte)"
+		_list_title.text = "Ressources (récolter en cliquant dessus sur la carte%s)" % (" ; double-clic : débloquer pour l'instance" if opened else "")
+		var unlocked: Array = character.plot_state(job_id)["debloquees"]
 		for node: Dictionary in job["ressources"]:
 			var item: Dictionary = world.data.items.get(node["objet"], {})
 			var amount: Array = node.get("quantite", [1, 1])
 			var regrowth: Array = node["repousse"]
-			_add_line("Palier %d — %s : %s ×%d à %d, repousse en %d à %d s" % [node.get("niveau", 1), node["nom"],
-				item.get("nom", node["objet"]), amount[0], amount[1], regrowth[0], regrowth[1]],
+			_list_markers.append(node["marqueur"])
+			_add_line("Palier %d — %s : %s ×%d à %d, repousse en %d à %d s%s" % [node.get("niveau", 1), node["nom"],
+				item.get("nom", node["objet"]), amount[0], amount[1], regrowth[0], regrowth[1], "" if not opened else " · instance : %s" % (
+				"débloquée" if node["marqueur"] in unlocked else "%d pt" % Plots.unlock_cost(int(node.get("niveau", 1))))],
 				str(item.get("rarete", "commun")), node["objet"])
 	else:
 		_list_title.text = "Forge (à l'enclume de votre maison)"
@@ -124,7 +145,44 @@ func _add_skill(job_id: String, type: String, skill_id: String, character: Chara
 func _add_line(text: String, rarity: String, item_id: String) -> void:
 	var index := _list.add_item(text, InventoryWindow.item_icon(item_id))
 	_list.set_item_custom_fg_color(index, InventoryWindow.rarity_color(rarity))
-	_list.set_item_selectable(index, false)
+
+
+## Disposition de l'instance : ressource à poser (ou « Retirer »), emplacements de la carte vus de haut.
+func _refresh_plots(job_id: String, character: Character) -> void:
+	var world := map_view.world
+	var state := character.plot_state(job_id)
+	var chosen: Variant = _plot_choice.get_item_metadata(_plot_choice.selected) if _plot_choice.selected >= 0 else null
+	_plot_choice.clear()
+	_plot_choice.add_item("Retirer")
+	_plot_choice.set_item_metadata(0, "")
+	for marker: String in state["debloquees"]:
+		_plot_choice.add_item(world.data.nodes[marker]["nom"])
+		_plot_choice.set_item_metadata(_plot_choice.item_count - 1, marker)
+		if marker == chosen or chosen == null:
+			_plot_choice.select(_plot_choice.item_count - 1)
+	_plot_info.text = "Emplacements : %d / %d. Choisissez une ressource débloquée, puis cliquez un emplacement." % [
+		state["parcelles"].size(), Plots.level(character.job_reputation(job_id))[1]]
+	for child in _plot_view.get_children():
+		child.queue_free()
+	var plot_map := world.map_by_id(Plots.MAPS[job_id])
+	var cells: Array = plot_map.plot_cells.keys() if plot_map != null else []
+	var top_left := Vector2(INF, INF)
+	for cell: Vector2i in cells:
+		top_left = top_left.min(IsoGrid.cell_to_screen(cell))
+	for cell: Vector2i in cells:
+		var plot: Array = state["parcelles"].get(Plots.key(cell), [])
+		var button := Button.new()
+		button.focus_mode = Control.FOCUS_NONE
+		button.size = Vector2(30, 18)
+		button.position = (IsoGrid.cell_to_screen(cell) - top_left) * 0.45 + Vector2(40, 4)
+		button.add_theme_font_size_override("font_size", 10)
+		var node: Dictionary = world.data.nodes.get(plot[0], {}) if not plot.is_empty() else {}
+		var left := ceili((float(plot[1]) - Time.get_unix_time_from_system()) / 60.0) if not plot.is_empty() else 0
+		button.text = str(node.get("nom", "")).left(3)
+		button.tooltip_text = "Emplacement libre" if node.is_empty() else "%s : %s" % [node["nom"], "mûre" if left <= 0 else "mûre dans %d min" % left]
+		button.pressed.connect(func() -> void: map_view.send_command({"type": Protocol.CMD_PLOT, "entite": world.player_id, "metier": job_id,
+			"case": cell, "marqueur": _plot_choice.get_item_metadata(_plot_choice.selected)}))
+		_plot_view.add_child(button)
 
 
 ## Un onglet par métier des données, dans leur ordre.
@@ -182,6 +240,12 @@ func _build() -> void:
 	window_title.text = "Métiers"
 	window_title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	header.add_child(window_title)
+	_instance_button = Button.new()
+	_instance_button.text = "Instance"
+	_instance_button.toggle_mode = true
+	_instance_button.focus_mode = Control.FOCUS_NONE
+	_instance_button.toggled.connect(func(_on: bool) -> void: refresh())
+	header.add_child(_instance_button)
 	var close := Button.new()
 	close.text = "×"
 	close.focus_mode = Control.FOCUS_NONE
@@ -214,7 +278,25 @@ func _build() -> void:
 	_list = ItemList.new()
 	_list.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	_list.fixed_icon_size = Vector2i(28, 28)
+	_list.item_activated.connect(func(index: int) -> void: map_view.send_command({"type": Protocol.CMD_UNLOCK_PLOT,
+		"entite": map_view.world.player_id, "metier": current_job(), "marqueur": _list_markers[index]}) if index < _list_markers.size() else null)
 	column.add_child(_list)
+	_plot_box = VBoxContainer.new()
+	_plot_box.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	column.add_child(_plot_box)
+	var plot_header := HBoxContainer.new()
+	_plot_box.add_child(plot_header)
+	_plot_info = _label(13, Color(0.85, 0.82, 0.72))
+	_plot_info.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_plot_info.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	plot_header.add_child(_plot_info)
+	_plot_choice = OptionButton.new()
+	_plot_choice.focus_mode = Control.FOCUS_NONE
+	plot_header.add_child(_plot_choice)
+	_plot_view = Control.new()
+	_plot_view.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_plot_view.clip_contents = true
+	_plot_box.add_child(_plot_view)
 	var hint := _label(12, Color(0.6, 0.58, 0.52))
 	hint.text = "Touche J : ouvrir / fermer"
 	column.add_child(hint)

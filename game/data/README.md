@@ -206,6 +206,10 @@ ramène d'où l'on vient (les tests vérifient que chaque porte a sa réciproque
   Pierre de Passage, au lieu de leur point de résurrection (étages de la Tour céleste : le parvis).
 - `instance` : `""` (par défaut, carte partagée) ou `joueur` pour une carte personnelle, comme la
   maison : en multijoueur, chaque joueur aura sa propre copie (et son coffre).
+- `metier` et `emplacements` : instance de métier (GDD § 10.3, `Plots`) : id du métier de récolte, et cases
+  `[ligne, colonne]` du plan (sol ou eau) où le joueur pose ses ressources. Chaque joueur a sa propre copie, refaite à
+  chaque entrée d'après l'état gardé dans son métier ; on y entre par un PNJ `entree` (commis du Cadastre), ouvert à
+  2 500 de réputation du métier.
 - Chaque zone de départ a sa maison (`maison_joueur` à Brumerive, `maison_crasse_roc`,
   `maison_sylvebrume`) ; le coffre est le même partout (il appartient au personnage).
 - La maison contient un coffre `$` (on y range des objets non portés), un lit `=` (dormir rend tous

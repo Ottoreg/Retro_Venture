@@ -2,11 +2,12 @@
   "id": "hautepierre_0_1",
   "nom": "Hautepierre — Champs de l'Ouest",
   "sorties": {
-    "bas": "hautepierre_0_2"
+    "bas": "hautepierre_0_2",
+    "haut": "hautepierre_0_0"
   },
   "palette": "hautepierre",
   "plan": [
-    "AAAAAAAAAAAAAAAAAAA",
+    "AAAAAAAA...AAAAAAAA",
     " A.......::.......A",
     "A........:........A",
     " A.......::S......A",

@@ -1855,7 +1855,7 @@ bocal** (70), **léviathan nain** (85), **saumon de l'Aube** (100).
 
 #### Instances de métier (demande de l'auteur, 03/11/2026)
 
-Conception de l'auteur du 03/11/2026, rien n'est codé ; elle **remplace les terrains achetés** de la
+Conception de l'auteur du 03/11/2026, **codée le 11/11/2026 sur `dev`** (détails en fin de section) ; elle **remplace les terrains achetés** de la
 conception du 23/10/2026 (achat en brumes et agrandissements). Décisions validées par l'auteur le même
 jour (en fin de section).
 
@@ -1943,6 +1943,16 @@ jour (en fin de section).
 11. **Propriété** : par personnage.
 12. **Exploitants de guilde** : instances de guilde sur le même modèle ; les officiers choisissent
     qui récolte ; 5 % des ressources au coffre (1 sur 20 par ressource, rares exemptées).
+
+**Codé le 11/11/2026 sur `dev`** (`core/jobs/plots.gd`, commandes `debloquer` et `disposer`, protocole v17) : le
+**Cadastre** (`hautepierre_0_0`, au nord des Champs de l'Ouest) avec Maître Tamponnet, notaire, et un commis par
+métier qui fait entrer à 2 500 de réputation ; cinq cartes d'instance (`instance_champ`, `_jardin`, `_etang`,
+`_bosquet`, `_mine`, 42 à 48 emplacements chacune, champ `emplacements`), un huissier pour sortir ; carte personnelle
+par joueur, refaite à chaque entrée d'après l'état gardé dans le métier du personnage (pousse comptée à l'horloge
+réelle). Fenêtre des métiers (J) : double-clic sur une ressource pour la débloquer, bouton **Instance** pour la
+disposition (emplacements vus de haut, clic pour poser la ressource choisie, ou « Retirer »). La **Main verte** des
+outils raccourcit la pousse (−20 % pour une ligne pleine, avec le bonus d'instance, 90 % au plus). Restent l'engrais,
+les instances de guilde et un Cadastre par capitale ; dessins et cartes provisoires.
 
 #### Forgeron
 
@@ -2342,8 +2352,8 @@ moment** ; elle remplace la destruction d'objets et les cicatrices du § 9.2.
     Profusion 0,3 (+30 % de chance d'une ressource de plus), Flair 0,5 (chance de rare × 1,5), Dextérité 0,15 (−15 % de
     temps de récolte, avec la Célérité, 1 s au moins), Minutie 0,1 (+10 points au plancher des jets, avec la Précision),
     Épargne 0,1 (10 % de chance par ressource de ne pas la consommer), Distillation 0,1 (+10 points de réussite
-    d'infusion, 95 % au plus), Sagacité 0,05 (+5 % de réputation du métier). **Main verte** et **Fournée** attendent les
-    instances de métier et le boulanger : perdues sur les outils actuels. Les outils ne comptent pas dans les panoplies
+    d'infusion, 95 % au plus), Sagacité 0,05 (+5 % de réputation du métier), Main verte 0,2 (−20 % de pousse dans
+    l'instance de métier, ajoutée le 11/11/2026). **Fournée** attend le boulanger : perdue sur les outils actuels. Les outils ne comptent pas dans les panoplies
     d'objets forgés.
 - *Noms proposés* (à choisir par l'auteur) : **Sublimation** (l'objet est « sublimé »),
   **Brumagie** (la magie des brumes, lieu de frappe de la monnaie), **Quintessence** (l'objet reçoit

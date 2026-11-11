@@ -41,15 +41,15 @@ const STAT_WEIGHTS := {"force": 1.0, "intelligence": 1.0, "perception": 1.0, "ag
 	"soins_acier": 0.5, "soins_flamme": 0.5, "soins_givre": 0.5, "soins_tempete": 0.5, "soins_sacre": 0.5, "soins_impie": 0.5,
 	"resistance_acier": 0.125, "resistance_flamme": 0.125, "resistance_givre": 0.125, "resistance_tempete": 0.125,
 	"resistance_sacre": 0.125, "resistance_impie": 0.125,
-	"profusion": 0.3, "flair": 0.5, "dexterite": 0.15, "minutie": 0.1, "epargne": 0.1, "distillation": 0.1, "sagacite": 0.05}
+	"profusion": 0.3, "flair": 0.5, "dexterite": 0.15, "minutie": 0.1, "epargne": 0.1, "distillation": 0.1, "sagacite": 0.05, "main_verte": 0.2}
 ## Statistiques de métier (GDD § 10.4) : seulement sur les outils, tirées de la statistique de combat des ressources
 ## (préfixe « dommages_ » : toutes les lignes qui commencent ainsi), à score égal (`Infusion.score`) ; les autres sont perdues.
 const JOB_STATS := {"force": "profusion", "agilite": "dexterite", "initiative": "dexterite", "intelligence": "minutie",
 	"critique": "minutie", "perception": "flair", "prospection": "flair", "vitalite": "main_verte", "dommages": "epargne",
 	"dommages_": "epargne", "degats_devastateurs": "epargne", "degats_devastateurs_fixes": "epargne", "dommages_melee": "",
 	"soins": "fournee", "soins_": "fournee", "resistance_": "distillation", "pa": "sagacite", "pm": "sagacite", "portee": "sagacite"}
-## Statistiques de métier utiles par outil (Main verte et Fournée attendent les instances de métier et la boulangerie).
-const TOOL_STATS := {Profession.TYPE_HARVEST: ["profusion", "flair", "dexterite", "sagacite"],
+## Statistiques de métier utiles par outil (Fournée attend la boulangerie ; Main verte ne sert qu'en instance de métier).
+const TOOL_STATS := {Profession.TYPE_HARVEST: ["profusion", "flair", "dexterite", "main_verte", "sagacite"],
 	Profession.TYPE_CRAFT: ["minutie", "epargne", "distillation", "sagacite"]}
 ## Points de score au plus par outil et par palier de forgeron (300 au palier Légende).
 const TOOL_SCORE_PER_TIER := 60
@@ -125,7 +125,7 @@ const WORDS := {
 	"soins_sacre": [["miraculeux", "miraculeuse"], ["angélique", "angélique"]], "soins_impie": [["ténébreux", "ténébreuse"]],
 	"profusion": [["généreux", "généreuse"]], "flair": [["fureteur", "fureteuse"]], "dexterite": [["preste", "preste"]],
 	"minutie": [["minutieux", "minutieuse"]], "epargne": [["économe", "économe"]], "distillation": [["alchimique", "alchimique"]],
-	"sagacite": [["savant", "savante"]],
+	"sagacite": [["savant", "savante"]], "main_verte": [["fertile", "fertile"]],
 	"resistance_sacre": [["sceptique", "sceptique"]], "resistance_impie": [["consacré", "consacrée"], ["exorcisé", "exorcisée"]],
 }
 ## Mots clés au plus dans un nom après le nom du type : adjectifs, mots de famille ou de zone (GDD § 10.4).

@@ -46,7 +46,7 @@ const EXTRA_STATS := ["prospection", "initiative", "portee", "pa", "pm", "dommag
 	"resistance_acier", "resistance_flamme", "resistance_givre", "resistance_tempete", "resistance_sacre", "resistance_impie"]
 const EXTRA_STAT_NAMES := {
 	"profusion": "% Profusion", "flair": "Flair", "dexterite": "% Dextérité", "minutie": "Minutie", "epargne": "% Épargne",
-	"distillation": "Distillation", "sagacite": "% Sagacité",
+	"distillation": "Distillation", "sagacite": "% Sagacité", "main_verte": "% Main verte",
 	"prospection": "Prospection", "initiative": "Initiative", "portee": "Portée", "pa": "PA", "pm": "PM",
 	"dommages": "Dommages", "soins": "Soins", "critique": "% Critique",
 	"tacle": "Tacle", "fuite": "Fuite", "retrait_pa": "Retrait PA", "retrait_pm": "Retrait PM", "reduction_degats": "Réduction de dégâts",

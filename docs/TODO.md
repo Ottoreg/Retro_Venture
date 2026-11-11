@@ -726,7 +726,7 @@ classes (option écartée et compromis gardés en piste, GDD § 5.2).
   forgés à l'enclume (`docs/design/forge/outils.py`), Profusion, Flair, Dextérité, Minutie, Épargne, Distillation,
   Sagacité (`Forge.JOB_STATS`, `Character.tool_stat`), 60 points de score par palier et par outil
 - [ ] Statistiques de métier : valider les choix provisoires (poids, effets, Critique → Minutie, Dévastateurs → Épargne,
-  noms des outils), Main verte (instances de métier) et Fournée (boulanger, maître des potions) ; dessins des outils ;
+  noms des outils), Fournée (boulanger, maître des potions) ; dessins des outils ;
   miroirs entre stats de métier plus tard
 - [ ] Prix des marchands à rééquilibrer avec la demande dynamique des PNJ selon les ressources des joueurs
   (demande de l'auteur du 11/11/2026 ; objets forgés provisoirement × 1, 2, 4, 7, 10 par palier)
@@ -746,9 +746,12 @@ classes (option écartée et compromis gardés en piste, GDD § 5.2).
   reprennent les recettes correspondantes du Forgeron
 - [ ] Pêcheur (coins de pêche, alevins, perles)
 - [ ] Outils de récolte (Forgeron) et produits intermédiaires (lingots, farines, toiles, gemmes taillées)
-- [ ] Instances de métier (GDD § 10.3, conçu et validé le 03/11/2026) : débloquées à
+- [x] Instances de métier (GDD § 10.3, conçu et validé le 03/11/2026, codé le 11/11/2026 sur `dev`) : débloquées à
   2 500 de réputation, ressources par points de maîtrise, carte du Cadastre, état sauvegardé, temps simulé à l'entrée, interface de disposition,
-  emplacements, paliers et bonus d'instance selon la réputation ; engrais
+  emplacements, paliers et bonus d'instance selon la réputation (`Plots`, commandes `disposer` et `debloquer`, protocole v17,
+  cartes par `docs/design/instances/produire.py`) ; Main verte des outils
+- [ ] Instances de métier : engrais (éleveur), un Cadastre par capitale de camp, instances de guilde des exploitants,
+  dessins des commis et des cartes (provisoires)
 - [ ] Éleveur et montures : apprivoisement (licol, sort *Apprivoiser*), enclos, dressage, énergie,
   robes, reproduction, emplacement monture
 - [ ] Objets personnalisés des artisans de haut niveau (GDD § 10.4) : choisir le nom de la

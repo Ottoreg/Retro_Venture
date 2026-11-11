@@ -212,6 +212,7 @@ la caractéristique pour un point de score (le tableau donne la valeur d'une res
 | % Épargne (outil) | 0,1 | 2 / 4 / 6 / 8 / 10 | 1 | 1 | 1 | 1 | 1 |
 | Distillation (outil) | 0,1 | 2 / 4 / 6 / 8 / 10 | 1 | 1 | 1 | 1 | 1 |
 | % Sagacité (outil) | 0,05 | 1 / 2 / 3 / 4 / 5 | 1 | 1 | 1 | 1 | 1 |
+| % Main verte (outil) | 0,2 | 4 / 8 / 12 / 16 / 20 | 1 | 1 | 1 | 1 | 1 |
 | PA | fixe | 0 / 0 / 0 / 0 / 1 | 1 | 1 | 1 | 1 | 1 |
 | PM | fixe | 0 / 0 / 0 / 1 / 1 | 1 | 1 | 1 | 1 | 1 |
 | Portée | fixe | 0 / 0 / 1 / 1 / 1 | 1 | 1 | 1 | 1 | 1 |
