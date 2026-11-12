@@ -14,7 +14,7 @@ Solo d'abord, multijoueur plus tard. Vision et règles : [docs/GDD.md](docs/GDD.
   publie le jeu sur GitHub Pages, le client natif et l'image de staging). Tout nouveau développement va
   sur `dev` (la CI n'y lance que les tests, sans rien publier). Seuls les correctifs de bugs trouvés
   pendant les tests vont sur `main`, puis sont reportés sur `dev`. Fusion de `dev` dans `main` à la fin
-  des tests, sur demande de l'auteur. Dernière fusion : 11/11/2026 (`main` = `dev`).
+  des tests, sur demande de l'auteur. Dernière fusion : 12/11/2026 (`main` = `dev`).
 - Développer sur la branche de session, la pousser, attendre la CI verte (onglet Actions ou API GitHub),
   puis pousser sur la branche cible (`dev`, ou `main` pour un correctif) après l'avoir récupérée
   (`git fetch`), rebasé dessus et relancé les tests.
