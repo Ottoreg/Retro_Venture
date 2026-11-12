@@ -403,38 +403,10 @@ func _on_drop_pressed() -> void:
 # --- Construction des contrôles ----------------------------------------------------------------
 
 func _build() -> void:
-	_panel = PanelContainer.new()
-	_panel.anchor_left = 0.5
-	_panel.anchor_right = 0.5
-	_panel.offset_left = -455
-	_panel.offset_right = 455
-	_panel.offset_top = 66
-	_panel.offset_bottom = 612
-	var style := StyleBoxFlat.new()
-	style.bg_color = Color(0.13, 0.1, 0.07, 0.96)
-	style.border_color = Color(0.55, 0.42, 0.22)
-	style.set_border_width_all(2)
-	style.set_corner_radius_all(6)
-	style.set_content_margin_all(14)
-	_panel.add_theme_stylebox_override("panel", style)
-	add_child(_panel)
-
-	var column := VBoxContainer.new()
-	column.add_theme_constant_override("separation", 8)
-	_panel.add_child(column)
-	var header := HBoxContainer.new()
-	column.add_child(header)
-	var title := _label(22, GOLD)
-	title.text = "Inventaire"
-	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	header.add_child(title)
-	_coins = _label(15, GOLD)
-	header.add_child(_coins)
-	var close := Button.new()
-	close.text = "×"
-	close.focus_mode = Control.FOCUS_NONE
-	close.pressed.connect(toggle)
-	header.add_child(close)
+	var frame := UiTheme.window_frame(self, "Inventaire", toggle, false)
+	_panel = frame.panel
+	var column: VBoxContainer = frame.column
+	_coins = UiTheme.header_add(frame, _label(15, GOLD))
 
 	var row := HBoxContainer.new()
 	row.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -484,12 +456,7 @@ func _build() -> void:
 	var bag := VBoxContainer.new()
 	bag.add_theme_constant_override("separation", 4)
 	row.add_child(bag)
-	_bag_tabs = TabBar.new()
-	_bag_tabs.focus_mode = Control.FOCUS_NONE
-	_bag_tabs.clip_tabs = false
-	for tab_name: String in BAG_TAB_NAMES:
-		_bag_tabs.add_tab(tab_name)
-	_bag_tabs.tab_changed.connect(func(_tab: int) -> void: refresh())
+	_bag_tabs = UiTheme.tabs(BAG_TAB_NAMES, func(_tab: int) -> void: refresh())
 	bag.add_child(_bag_tabs)
 	_list = ItemTooltipList.new()
 	_list.custom_minimum_size = Vector2(340, 0)

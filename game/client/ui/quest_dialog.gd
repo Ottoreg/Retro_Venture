@@ -7,9 +7,6 @@ extends CanvasLayer
 ## Clic sur un nom du texte : repère { carte, nom } à poser.
 signal pin_requested(pin: Dictionary)
 
-## Taille fixe de la fenêtre : un long texte défile dedans.
-const SIZE := Vector2(480, 440)
-
 var map_view: MapView
 var _quest_id := ""
 var _backdrop: ColorRect
@@ -83,19 +80,10 @@ func _build() -> void:
 	_backdrop.set_anchors_preset(Control.PRESET_FULL_RECT)
 	_backdrop.mouse_filter = Control.MOUSE_FILTER_STOP
 	add_child(_backdrop)
-	_panel = PanelContainer.new()
-	_panel.set_anchors_preset(Control.PRESET_CENTER)
-	_panel.grow_horizontal = Control.GROW_DIRECTION_BOTH
-	_panel.grow_vertical = Control.GROW_DIRECTION_BOTH
-	_panel.add_theme_stylebox_override("panel", UiTheme.window_style())
-	_panel.custom_minimum_size = SIZE
-	add_child(_panel)
-	var column := VBoxContainer.new()
-	column.add_theme_constant_override("separation", 8)
-	_panel.add_child(column)
-	_npc = _label(14, UiTheme.TEXT_DIM)
-	_npc.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-	column.add_child(_npc)
+	var frame := UiTheme.window_frame(self, "", later, false)
+	_panel = frame.panel
+	var column: VBoxContainer = frame.column
+	_npc = frame.title
 	_title = _label(20, UiTheme.GOLD)
 	_title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	column.add_child(_title)

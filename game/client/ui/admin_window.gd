@@ -4,8 +4,6 @@ extends CanvasLayer
 ## réputation et points de maîtrise de métier et de classe (`Protocol.CMD_ADMIN`). Une fois activé, un double-clic
 ## sur une carte de la minicarte y téléporte. Touche F2 en partie.
 
-const SIZE := Vector2(560, 540)
-
 var map_view: MapView
 var _panel: PanelContainer
 var _password: LineEdit
@@ -107,23 +105,9 @@ func _give_item() -> void:
 
 
 func _build() -> void:
-	_panel = PanelContainer.new()
-	_panel.add_theme_stylebox_override("panel", UiTheme.window_style())
-	_panel.set_anchors_preset(Control.PRESET_CENTER)
-	_panel.offset_left = -SIZE.x / 2
-	_panel.offset_right = SIZE.x / 2
-	_panel.offset_top = -SIZE.y / 2
-	_panel.offset_bottom = SIZE.y / 2
-	add_child(_panel)
-	var column := VBoxContainer.new()
-	column.add_theme_constant_override("separation", 8)
-	_panel.add_child(column)
-	var title := Label.new()
-	title.text = "Mode admin"
-	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	title.add_theme_font_size_override("font_size", 22)
-	title.add_theme_color_override("font_color", UiTheme.GOLD)
-	column.add_child(title)
+	var frame := UiTheme.window_frame(self, "Mode admin", close, false)
+	_panel = frame.panel
+	var column: VBoxContainer = frame.column
 
 	_login = HBoxContainer.new()
 	column.add_child(_login)
@@ -189,9 +173,6 @@ func _build() -> void:
 	_status.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_status.custom_minimum_size = Vector2(0, 40)
 	column.add_child(_status)
-	var close_button := _button("Fermer", close)
-	close_button.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
-	column.add_child(close_button)
 
 
 func _label(text: String) -> Label:

@@ -177,43 +177,22 @@ func _on_class_selected(index: int) -> void:
 # --- Construction des contrôles ----------------------------------------------------------------
 
 func _build() -> void:
-	_panel = PanelContainer.new()
-	_panel.anchor_left = 1.0
-	_panel.anchor_right = 1.0
-	_panel.offset_left = -330
-	_panel.offset_right = -16
-	_panel.offset_top = 70
-	_panel.offset_bottom = 530
-	var style := StyleBoxFlat.new()
-	style.bg_color = Color(0.13, 0.1, 0.07, 0.95)
-	style.border_color = Color(0.55, 0.42, 0.22)
-	style.set_border_width_all(2)
-	style.set_corner_radius_all(6)
-	style.set_content_margin_all(14)
-	_panel.add_theme_stylebox_override("panel", style)
-	add_child(_panel)
-
-	var box := VBoxContainer.new()
-	box.add_theme_constant_override("separation", 6)
-	_panel.add_child(UiTheme.scroll_area(box))  # Taille fixe : ce qui ne tient pas défile.
-	var header := HBoxContainer.new()
-	box.add_child(header)
-	_title = _label(22, GOLD)
-	_title.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-	_title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	header.add_child(_title)
-	var details_button := Button.new()
+	var frame := UiTheme.window_frame(self, "", toggle, false)
+	_panel = frame.panel
+	_title = frame.title
+	var details_button: Button = UiTheme.header_add(frame, Button.new())
 	details_button.text = "Détails"
 	details_button.focus_mode = Control.FOCUS_NONE
 	details_button.pressed.connect(func() -> void:
 		_details.visible = not _details.visible
 		refresh())
-	header.add_child(details_button)
-	var close := Button.new()
-	close.text = "×"
-	close.focus_mode = Control.FOCUS_NONE
-	close.pressed.connect(toggle)
-	header.add_child(close)
+	var row := HBoxContainer.new()
+	row.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	row.add_theme_constant_override("separation", 14)
+	frame.column.add_child(row)
+	var box := VBoxContainer.new()
+	box.add_theme_constant_override("separation", 6)
+	row.add_child(UiTheme.scroll_area(box))  # Taille fixe : ce qui ne tient pas défile.
 	_subtitle = _label(15, Color(0.85, 0.82, 0.75))
 	_subtitle.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	box.add_child(_subtitle)
@@ -282,18 +261,11 @@ func _build() -> void:
 	hint.text = "Touche C : ouvrir / fermer"
 	box.add_child(hint)
 
-	# Caractéristiques détaillées, à gauche de la fiche.
+	# Caractéristiques détaillées, à droite de la fiche.
 	_details = PanelContainer.new()
-	_details.anchor_left = 1.0
-	_details.anchor_right = 1.0
-	_details.offset_left = -680
-	_details.offset_right = -340
-	_details.offset_top = 70
-	_details.offset_bottom = 530
-	_details.add_theme_stylebox_override("panel", UiTheme.window_style())
+	_details.custom_minimum_size = Vector2(500, 0)
 	_details.visible = false
-	_panel.visibility_changed.connect(func() -> void: _details.visible = _details.visible and _panel.visible)
-	add_child(_details)
+	row.add_child(_details)
 	var details_box := VBoxContainer.new()
 	details_box.add_theme_constant_override("separation", 8)
 	_details.add_child(UiTheme.scroll_area(details_box))

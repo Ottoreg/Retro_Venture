@@ -22,8 +22,7 @@ var _coins: Label
 ## Ctrl enfoncé : jets possibles des objets à vendre plutôt que les leurs.
 var _show_ranges := false
 var _greeting: Label
-var _buy_tab: Button
-var _sell_tab: Button
+var _tabs: TabBar
 var _search: LineEdit
 var _list: ItemList
 var _details: Label
@@ -75,8 +74,7 @@ func is_open() -> bool:
 func refresh() -> void:
 	if map_view == null or not is_open():
 		return
-	_buy_tab.button_pressed = _mode == BUY
-	_sell_tab.button_pressed = _mode == SELL
+	_tabs.set_current_tab(0 if _mode == BUY else 1)
 	_coins.text = "%d brumes" % map_view.world.character.inventory.ecus
 	_list.clear()
 	var found := false
@@ -246,12 +244,6 @@ func _on_trade_result(event: Dictionary) -> void:
 	refresh()
 
 
-func _on_backdrop_input(event: InputEvent) -> void:
-	var button := event as InputEventMouseButton
-	if button != null and button.pressed:
-		close()
-
-
 func _set_visible(shown: bool) -> void:
 	_panel.visible = shown
 	_backdrop.visible = shown
@@ -266,58 +258,21 @@ func _input(event: InputEvent) -> void:
 # --- Construction des contrôles ----------------------------------------------------------------
 
 func _build() -> void:
-	# Fond assombri : un clic à côté de la fenêtre la ferme (et ne fait pas marcher le personnage).
-	_backdrop = ColorRect.new()
-	_backdrop.color = Color(0, 0, 0, 0.35)
-	_backdrop.set_anchors_preset(Control.PRESET_FULL_RECT)
-	_backdrop.mouse_filter = Control.MOUSE_FILTER_STOP
-	_backdrop.gui_input.connect(_on_backdrop_input)
-	add_child(_backdrop)
-
-	_panel = PanelContainer.new()
-	_panel.anchor_left = 0.5
-	_panel.anchor_right = 0.5
-	_panel.offset_left = -420
-	_panel.offset_right = 420
-	_panel.offset_top = 60
-	_panel.offset_bottom = 590
-	var style := StyleBoxFlat.new()
-	style.bg_color = Color(0.13, 0.1, 0.07, 0.97)
-	style.border_color = Color(0.55, 0.42, 0.22)
-	style.set_border_width_all(2)
-	style.set_corner_radius_all(6)
-	style.set_content_margin_all(14)
-	_panel.add_theme_stylebox_override("panel", style)
-	add_child(_panel)
-
-	var column := VBoxContainer.new()
-	column.add_theme_constant_override("separation", 8)
-	_panel.add_child(column)
-	var header := HBoxContainer.new()
-	column.add_child(header)
-	_title = _label(22, GOLD)
-	_title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	_title.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-	header.add_child(_title)
-	_coins = _label(16, GOLD)
-	header.add_child(_coins)
-	var close_button := Button.new()
-	close_button.text = "×"
-	close_button.focus_mode = Control.FOCUS_NONE
-	close_button.pressed.connect(close)
-	header.add_child(close_button)
+	var frame := UiTheme.window_frame(self, "", close)
+	_backdrop = frame.backdrop
+	_panel = frame.panel
+	var column: VBoxContainer = frame.column
+	_title = frame.title
+	_coins = UiTheme.header_add(frame, _label(16, GOLD))
 
 	_greeting = _label(14, Color(0.85, 0.82, 0.72))
 	_greeting.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	column.add_child(UiTheme.scroll_area(_greeting, 46))
 
-	var tabs := HBoxContainer.new()
-	column.add_child(tabs)
-	var group := ButtonGroup.new()
-	_buy_tab = _tab_button("Acheter", BUY, group)
-	_sell_tab = _tab_button("Vendre", SELL, group)
-	tabs.add_child(_buy_tab)
-	tabs.add_child(_sell_tab)
+	_tabs = UiTheme.tabs(["Acheter", "Vendre"], func(tab: int) -> void:
+		if [BUY, SELL][tab] != _mode:
+			_on_tab_pressed([BUY, SELL][tab]))
+	column.add_child(_tabs)
 
 	_search = LineEdit.new()
 	_search.placeholder_text = "Rechercher un objet (nom ou type)…"
@@ -366,17 +321,6 @@ func _build() -> void:
 	var hint := _label(12, Color(0.6, 0.58, 0.52))
 	hint.text = "Revente : %d %% du prix d'achat · Les objets portés ne se vendent pas · Ctrl : jets possibles · Échap : fermer" % roundi(Item.RESALE_RATE * 100.0)
 	column.add_child(hint)
-
-
-func _tab_button(text: String, mode: String, group: ButtonGroup) -> Button:
-	var button := Button.new()
-	button.text = text
-	button.toggle_mode = true
-	button.button_group = group
-	button.focus_mode = Control.FOCUS_NONE
-	button.custom_minimum_size = Vector2(120, 0)
-	button.pressed.connect(_on_tab_pressed.bind(mode))
-	return button
 
 
 func _label(font_size: int, color: Color) -> Label:

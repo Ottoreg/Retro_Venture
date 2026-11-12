@@ -47,7 +47,7 @@ var _source := ""
 var _essence := ""
 var _target := ""
 var _forge_parts: Array[Control] = []
-var _mode_buttons := {}
+var _tabs: TabBar
 var _essence_box: VBoxContainer
 var _essence_text: Label
 var _infusion_box: VBoxContainer
@@ -233,8 +233,7 @@ func _send_infusion(apply: bool) -> void:
 
 func _set_mode(mode: String) -> void:
 	_mode = mode
-	for key: String in _mode_buttons:
-		_mode_buttons[key].button_pressed = key == mode
+	_tabs.current_tab = MODES.keys().find(mode)
 	for part in _forge_parts:
 		part.visible = mode == "forge"
 	_essence_box.visible = mode == "essence"
@@ -436,49 +435,17 @@ func _set_visible(shown: bool) -> void:
 # --- Construction des contrôles ----------------------------------------------------------------
 
 func _build() -> void:
-	# Fond assombri : un clic à côté de la fenêtre la ferme (et ne fait pas marcher le personnage).
-	_backdrop = ColorRect.new()
-	_backdrop.color = Color(0, 0, 0, 0.35)
-	_backdrop.set_anchors_preset(Control.PRESET_FULL_RECT)
-	_backdrop.gui_input.connect(func(event: InputEvent) -> void:
-		if event is InputEventMouseButton and event.pressed:
-			close())
-	add_child(_backdrop)
-	_panel = PanelContainer.new()
-	_panel.anchor_left = 0.5
-	_panel.anchor_right = 0.5
-	_panel.offset_left = -560
-	_panel.offset_right = 560
-	_panel.offset_top = 40
-	_panel.offset_bottom = 650
-	_panel.add_theme_stylebox_override("panel", UiTheme.window_style())
-	add_child(_panel)
-	var column := VBoxContainer.new()
-	column.add_theme_constant_override("separation", 8)
-	_panel.add_child(column)
-	var header := HBoxContainer.new()
-	column.add_child(header)
-	var title := _label(22, GOLD)
-	title.text = "Enclume"
-	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	header.add_child(title)
-	_job_label = _label(15, GOLD)
-	header.add_child(_job_label)
-	for mode: String in MODES:
-		var tab := Button.new()
-		tab.text = MODES[mode]
-		tab.toggle_mode = true
-		tab.focus_mode = Control.FOCUS_NONE
-		tab.tooltip_text = {"forge": "Forger un équipement", "essence": "Infuser des ressources identiques en une essence",
-			"infusion": "Appliquer une essence à un équipement"}[mode]
-		tab.pressed.connect(_set_mode.bind(mode))
-		header.add_child(tab)
-		_mode_buttons[mode] = tab
-	var close_button := Button.new()
-	close_button.text = "×"
-	close_button.focus_mode = Control.FOCUS_NONE
-	close_button.pressed.connect(close)
-	header.add_child(close_button)
+	var frame := UiTheme.window_frame(self, "Enclume", close)
+	_backdrop = frame.backdrop
+	_panel = frame.panel
+	var column: VBoxContainer = frame.column
+	_job_label = UiTheme.header_add(frame, _label(15, GOLD))
+	_tabs = UiTheme.tabs(MODES.values(), func(tab: int) -> void:
+		if MODES.keys()[tab] != _mode:
+			_set_mode(MODES.keys()[tab]))
+	for tab in MODES.size():
+		_tabs.set_tab_tooltip(tab, ["Forger un équipement", "Infuser des ressources identiques en une essence", "Appliquer une essence à un équipement"][tab])
+	column.add_child(_tabs)
 
 	var row := HBoxContainer.new()
 	row.size_flags_vertical = Control.SIZE_EXPAND_FILL

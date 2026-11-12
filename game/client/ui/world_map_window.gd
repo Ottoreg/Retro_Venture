@@ -44,8 +44,6 @@ const GAP_RATIO := 0.08
 ## Coupure des noms dans les cases : aux mots seulement ; un mot trop long pour la case finit par
 ## des points de suspension (voir `_centered_text`).
 const NAME_BREAKS := TextServer.BREAK_MANDATORY | TextServer.BREAK_WORD_BOUND
-## Distance entre le bas de la fenêtre et le bas de l'écran.
-const BOTTOM_MARGIN := 110.0
 
 
 ## Drapeau posé d'un clic droit sur une case de la grille : { carte, nom } (comme un repère de quête).
@@ -457,8 +455,7 @@ var map_view: MapView
 var _backdrop: ColorRect
 var _panel: PanelContainer
 ## Boutons des zones (id → Button) : un clic y amène la vue.
-var _zone_buttons := {}
-var _zone_row: HFlowContainer
+var _zone_tabs: TabBar
 var _zone_title: Label
 var _zone_info: Label
 var _grid: ZoneGrid
@@ -600,8 +597,8 @@ func refresh() -> void:
 
 ## En haut : nom de la zone nommée (`_focus_zone`) et ses cartes visitées.
 func _refresh_zone_title() -> void:
-	for zone_id: String in _zone_buttons:
-		_zone_buttons[zone_id].set_pressed_no_signal(zone_id == _focus_zone)
+	if _focus_zone in _zone_ids:
+		_zone_tabs.current_tab = _zone_ids.find(_focus_zone)
 	if _grid.layout.get("cases", []).is_empty():
 		_zone_title.text = "Aucune carte extérieure visitée"
 		_zone_info.text = ""
@@ -694,7 +691,7 @@ static func world_grid_layout(world: ClientState, here := "") -> Dictionary:
 		world.data.passages, known_passages(world))
 
 
-## Un bouton par zone du jeu, celles visitées d'abord.
+## Un onglet par zone du jeu, celles visitées d'abord.
 func _update_zones() -> void:
 	var world := map_view.world
 	var zones := WorldMapLayout.visited_zones(shown_maps(world))
@@ -702,18 +699,9 @@ func _update_zones() -> void:
 		return
 	_zone_ids = zones
 	var infos := map_infos(world, zones)
-	for button in _zone_buttons.values():
-		button.queue_free()
-	_zone_buttons.clear()
+	_zone_tabs.clear_tabs()
 	for zone_id in _zone_ids:
-		var button := Button.new()
-		button.text = WorldMapLayout.zone_name(zone_id, infos, world.data.passages)
-		button.toggle_mode = true
-		button.focus_mode = Control.FOCUS_NONE
-		button.add_theme_font_size_override("font_size", 13)
-		button.pressed.connect(select_zone.bind(zone_id))
-		_zone_row.add_child(button)
-		_zone_buttons[zone_id] = button
+		_zone_tabs.add_tab(WorldMapLayout.zone_name(zone_id, infos, world.data.passages))
 
 
 func _unhandled_key_input(event: InputEvent) -> void:
@@ -721,12 +709,6 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	if key != null and key.pressed and not key.echo and key.keycode == KEY_M:
 		toggle()
 		get_viewport().set_input_as_handled()
-
-
-func _on_backdrop_input(event: InputEvent) -> void:
-	var button := event as InputEventMouseButton
-	if button != null and button.pressed:
-		close()
 
 
 func _set_visible(shown: bool) -> void:
@@ -737,49 +719,14 @@ func _set_visible(shown: bool) -> void:
 # --- Construction des contrôles ----------------------------------------------------------------
 
 func _build() -> void:
-	_backdrop = ColorRect.new()
-	_backdrop.color = Color(0, 0, 0, 0.35)
-	_backdrop.set_anchors_preset(Control.PRESET_FULL_RECT)
-	_backdrop.mouse_filter = Control.MOUSE_FILTER_STOP
-	_backdrop.gui_input.connect(_on_backdrop_input)
-	add_child(_backdrop)
-	_panel = PanelContainer.new()
-	_panel.anchor_left = 0.5
-	_panel.anchor_right = 0.5
-	_panel.anchor_bottom = 1.0
-	# Assez étroite pour laisser voir la minicarte (bande gauche) ; fenêtre au premier plan, elle
-	# peut couvrir le haut de la barre du bas.
-	_panel.offset_left = -410
-	_panel.offset_right = 410
-	_panel.offset_top = 76
-	_panel.offset_bottom = -BOTTOM_MARGIN
-	var style := StyleBoxFlat.new()
-	style.bg_color = Color(0.13, 0.1, 0.07, 0.97)
-	style.border_color = Color(0.55, 0.42, 0.22)
-	style.set_border_width_all(2)
-	style.set_corner_radius_all(6)
-	style.set_content_margin_all(14)
-	_panel.add_theme_stylebox_override("panel", style)
-	add_child(_panel)
-
-	var column := VBoxContainer.new()
-	column.add_theme_constant_override("separation", 8)
-	_panel.add_child(column)
-	var header := HBoxContainer.new()
-	column.add_child(header)
-	var window_title := _label(22, GOLD)
-	window_title.text = "Carte du monde"
-	window_title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	header.add_child(window_title)
-	var close_button := Button.new()
-	close_button.text = "×"
-	close_button.focus_mode = Control.FOCUS_NONE
-	close_button.pressed.connect(close)
-	header.add_child(close_button)
-
-	_zone_row = HFlowContainer.new()
-	_zone_row.add_theme_constant_override("h_separation", 6)
-	column.add_child(_zone_row)
+	var frame := UiTheme.window_frame(self, "Carte du monde", close)
+	_backdrop = frame.backdrop
+	_panel = frame.panel
+	var column: VBoxContainer = frame.column
+	_zone_tabs = UiTheme.tabs([], func(tab: int) -> void:
+		if _zone_ids[tab] != _focus_zone:
+			select_zone(_zone_ids[tab]))
+	column.add_child(_zone_tabs)
 
 	var zone_row := HBoxContainer.new()
 	column.add_child(zone_row)
@@ -794,16 +741,16 @@ func _build() -> void:
 	_zone_info.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	zone_row.add_child(_zone_info)
 
-	var frame := PanelContainer.new()
-	frame.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	var grid_box := PanelContainer.new()
+	grid_box.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	var frame_style := StyleBoxFlat.new()
 	frame_style.bg_color = Color(0.09, 0.07, 0.05)
 	frame_style.border_color = Color("5a4630")
 	frame_style.set_border_width_all(1)
 	frame_style.set_corner_radius_all(4)
 	frame_style.set_content_margin_all(4)
-	frame.add_theme_stylebox_override("panel", frame_style)
-	column.add_child(frame)
+	grid_box.add_theme_stylebox_override("panel", frame_style)
+	column.add_child(grid_box)
 	_grid = ZoneGrid.new()
 	_grid.cell_fixed = zoom_cell()
 	_grid.mouse_filter = Control.MOUSE_FILTER_PASS
@@ -811,7 +758,7 @@ func _build() -> void:
 	_grid.resized.connect(_grid.queue_redraw)
 	_grid.gui_input.connect(_on_grid_input)
 	_grid.mouse_exited.connect(hover.bind(Vector2(-1e6, -1e6)))
-	frame.add_child(_grid)
+	grid_box.add_child(_grid)
 
 	# Légende : une case par sorte d'icône, pour l'afficher ou la masquer (minicarte comprise).
 	var filters := HFlowContainer.new()

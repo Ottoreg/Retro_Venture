@@ -157,35 +157,15 @@ func _unhandled_key_input(event: InputEvent) -> void:
 
 
 func _build() -> void:
-	_panel = PanelContainer.new()
-	_panel.set_anchors_preset(Control.PRESET_CENTER)
-	_panel.grow_horizontal = Control.GROW_DIRECTION_BOTH
-	_panel.grow_vertical = Control.GROW_DIRECTION_BOTH
-	_panel.add_theme_stylebox_override("panel", UiTheme.window_style())
-	_panel.custom_minimum_size = Vector2(760, 440)
-	add_child(_panel)
-	var column := VBoxContainer.new()
-	column.add_theme_constant_override("separation", 8)
-	_panel.add_child(column)
-	var header := HBoxContainer.new()
-	column.add_child(header)
-	var heading := Label.new()
-	heading.text = "Journal des quêtes"
-	heading.add_theme_font_size_override("font_size", 22)
-	heading.add_theme_color_override("font_color", UiTheme.GOLD)
-	heading.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	header.add_child(heading)
-	var close_button := Button.new()
-	close_button.text = "×"
-	close_button.focus_mode = Control.FOCUS_NONE
-	close_button.pressed.connect(toggle)
-	header.add_child(close_button)
+	var frame := UiTheme.window_frame(self, "Journal des quêtes", toggle, false)
+	_panel = frame.panel
+	var column: VBoxContainer = frame.column
 	var row := HBoxContainer.new()
 	row.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	row.add_theme_constant_override("separation", 14)
 	column.add_child(row)
 	_list = ItemList.new()
-	_list.custom_minimum_size = Vector2(270, 360)
+	_list.custom_minimum_size = Vector2(320, 0)
 	_list.focus_mode = Control.FOCUS_NONE
 	_list.item_selected.connect(_on_item_selected)
 	row.add_child(_list)

@@ -10,7 +10,6 @@ extends CanvasLayer
 ## Clic droit sur un pseudo : le menu du joueur (`PartyUi.on_author_clicked`).
 signal player_menu_requested(player_name: String)
 
-const WIDTH := 560.0
 const PORTRAIT_SIZE := Vector2(40, 48)
 
 
@@ -156,25 +155,9 @@ func _add_from(field: LineEdit, action: String) -> void:
 
 
 func _build() -> void:
-	_panel = PanelContainer.new()
-	_panel.set_anchors_preset(Control.PRESET_CENTER)
-	_panel.grow_horizontal = Control.GROW_DIRECTION_BOTH
-	_panel.grow_vertical = Control.GROW_DIRECTION_BOTH
-	_panel.add_theme_stylebox_override("panel", UiTheme.window_style())
-	_panel.custom_minimum_size = Vector2(WIDTH, 460)
-	add_child(_panel)
-	var column := VBoxContainer.new()
-	column.add_theme_constant_override("separation", 6)
-	_panel.add_child(column)
-	var header := HBoxContainer.new()
-	column.add_child(header)
-	var title := Label.new()
-	title.text = "Amis"
-	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	title.add_theme_font_size_override("font_size", 20)
-	title.add_theme_color_override("font_color", UiTheme.GOLD)
-	header.add_child(title)
-	header.add_child(_small("Fermer", close))
+	var frame := UiTheme.window_frame(self, "Amis", close, false)
+	_panel = frame.panel
+	var column: VBoxContainer = frame.column
 	column.add_child(_dim("On voit un ami en ligne s'il vous compte aussi parmi ses amis. Clic droit sur un pseudo : son menu."))
 	var scroll := ScrollContainer.new()
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED

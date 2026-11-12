@@ -215,46 +215,15 @@ func _on_tab_changed(_index: int) -> void:
 # --- Construction des contrôles ----------------------------------------------------------------
 
 func _build() -> void:
-	_panel = PanelContainer.new()
-	_panel.anchor_left = 0.5
-	_panel.anchor_right = 0.5
-	_panel.offset_left = -380
-	_panel.offset_right = 380
-	_panel.offset_top = 70
-	_panel.offset_bottom = 540
-	var style := StyleBoxFlat.new()
-	style.bg_color = Color(0.13, 0.1, 0.07, 0.96)
-	style.border_color = Color(0.55, 0.42, 0.22)
-	style.set_border_width_all(2)
-	style.set_corner_radius_all(6)
-	style.set_content_margin_all(14)
-	_panel.add_theme_stylebox_override("panel", style)
-	add_child(_panel)
-
-	var column := VBoxContainer.new()
-	column.add_theme_constant_override("separation", 8)
-	_panel.add_child(column)
-	var header := HBoxContainer.new()
-	column.add_child(header)
-	var window_title := _label(22, GOLD)
-	window_title.text = "Métiers"
-	window_title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	header.add_child(window_title)
-	_instance_button = Button.new()
+	var frame := UiTheme.window_frame(self, "Métiers", toggle, false)
+	_panel = frame.panel
+	var column: VBoxContainer = frame.column
+	_instance_button = UiTheme.header_add(frame, Button.new())
 	_instance_button.text = "Instance"
 	_instance_button.toggle_mode = true
 	_instance_button.focus_mode = Control.FOCUS_NONE
 	_instance_button.toggled.connect(func(_on: bool) -> void: refresh())
-	header.add_child(_instance_button)
-	var close := Button.new()
-	close.text = "×"
-	close.focus_mode = Control.FOCUS_NONE
-	close.pressed.connect(toggle)
-	header.add_child(close)
-
-	_tabs = TabBar.new()
-	_tabs.focus_mode = Control.FOCUS_NONE
-	_tabs.tab_changed.connect(_on_tab_changed)
+	_tabs = UiTheme.tabs([], _on_tab_changed)
 	column.add_child(_tabs)
 
 	_title = _label(20, Color(0.95, 0.92, 0.85))

@@ -18,15 +18,18 @@ const TOOLTIP_EDGE := Color(0.55, 0.42, 0.22)
 ## menu pause à 50, options à 60). Les infobulles natives de Godot sont déjà au premier plan et
 ## recalées dans l'écran.
 const TOOLTIP_LAYER := 100
+## Taille fixe de toutes les fenêtres qui s'ouvrent (décision de l'auteur, 12/11/2026), pour un écran de 1280 × 720.
+const WINDOW_SIZE := Vector2(1120, 610)
 
 
-## Applique le thème à la fenêtre, une seule fois. Les infobulles prennent aussi leur style dans le
-## thème par défaut : celui de la fenêtre ne leur parvient pas toujours (barres posées dans un
-## CanvasLayer), et elles restaient sinon grises et transparentes.
-static func apply(tree: SceneTree) -> void:
-	if tree != null and tree.root.theme == null:
-		tree.root.theme = build()
-	_tooltips(ThemeDB.get_default_theme())
+## Applique le thème, une seule fois, au thème par défaut : celui de la fenêtre racine ne parvient pas
+## aux fenêtres, bandes et barres posées dans un CanvasLayer (boutons, onglets et infobulles y
+## restaient gris, au style de Godot).
+static func apply(_tree: SceneTree = null) -> void:
+	var default := ThemeDB.get_default_theme()
+	if not default.has_meta("retro_venture"):
+		default.merge_with(build())
+		default.set_meta("retro_venture", true)
 
 
 static func build() -> Theme:
@@ -104,6 +107,69 @@ static func scroll_area(content: Control, height := 0.0) -> ScrollContainer:
 	content.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	scroll.add_child(content)
 	return scroll
+
+
+## Cadre commun des fenêtres qui s'ouvrent : une seule grande taille fixe (celle de l'Enclume), centrée,
+## qui peut couvrir la carte, les bandes et la barre du bas ; fond assombri qui ferme la fenêtre au clic
+## (`backdrop`) ; en-tête avec le titre et le bouton ×. Les infos et onglets de l'en-tête s'ajoutent par
+## `header_add`, avant le ×. Rend {backdrop, panel, column, header, title}.
+static func window_frame(owner: Node, title: String, close: Callable, backdrop := true) -> Dictionary:
+	var frame := {"backdrop": null}
+	if backdrop:
+		frame.backdrop = ColorRect.new()
+		frame.backdrop.color = Color(0, 0, 0, 0.35)
+		frame.backdrop.set_anchors_preset(Control.PRESET_FULL_RECT)
+		frame.backdrop.gui_input.connect(func(event: InputEvent) -> void:
+			if event is InputEventMouseButton and event.pressed:
+				close.call())
+		owner.add_child(frame.backdrop)
+	frame.panel = PanelContainer.new()
+	frame.panel.set_anchors_preset(Control.PRESET_CENTER)
+	frame.panel.offset_left = -WINDOW_SIZE.x / 2
+	frame.panel.offset_right = WINDOW_SIZE.x / 2
+	frame.panel.offset_top = -WINDOW_SIZE.y / 2
+	frame.panel.offset_bottom = WINDOW_SIZE.y / 2
+	frame.panel.add_theme_stylebox_override("panel", window_style())
+	owner.add_child(frame.panel)
+	frame.column = VBoxContainer.new()
+	frame.column.add_theme_constant_override("separation", 8)
+	frame.panel.add_child(frame.column)
+	frame.header = HBoxContainer.new()
+	frame.header.add_theme_constant_override("separation", 10)
+	frame.column.add_child(frame.header)
+	frame.title = Label.new()
+	frame.title.text = title
+	frame.title.add_theme_font_size_override("font_size", 22)
+	frame.title.add_theme_color_override("font_color", GOLD)
+	frame.title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	frame.title.clip_text = true
+	frame.header.add_child(frame.title)
+	var close_button := Button.new()
+	close_button.text = "×"
+	close_button.tooltip_text = "Fermer (Échap)"
+	close_button.focus_mode = Control.FOCUS_NONE
+	close_button.custom_minimum_size = Vector2(32, 32)
+	close_button.pressed.connect(close)
+	frame.header.add_child(close_button)
+	return frame
+
+
+## Ajoute un contrôle à l'en-tête d'une fenêtre, avant le bouton ×.
+static func header_add(frame: Dictionary, control: Control) -> Control:
+	frame.header.add_child(control)
+	frame.header.move_child(control, frame.header.get_child_count() - 2)
+	return control
+
+
+## Onglets communs des fenêtres (style du thème) : `names` dans l'ordre, `selected` appelé avec l'indice.
+static func tabs(names: Array, selected: Callable) -> TabBar:
+	var bar := TabBar.new()
+	bar.focus_mode = Control.FOCUS_NONE
+	bar.clip_tabs = false
+	for tab_name: String in names:
+		bar.add_tab(tab_name)
+	bar.tab_changed.connect(selected)
+	return bar
 
 
 ## Fond des fenêtres posées au milieu de l'écran (options, pause…).

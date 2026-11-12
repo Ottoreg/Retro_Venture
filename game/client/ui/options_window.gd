@@ -112,22 +112,10 @@ func _build() -> void:
 	_backdrop.set_anchors_preset(Control.PRESET_FULL_RECT)
 	_backdrop.mouse_filter = Control.MOUSE_FILTER_STOP
 	add_child(_backdrop)
-	_panel = PanelContainer.new()
-	_panel.set_anchors_preset(Control.PRESET_CENTER)
-	_panel.grow_horizontal = Control.GROW_DIRECTION_BOTH
-	_panel.grow_vertical = Control.GROW_DIRECTION_BOTH
-	_panel.add_theme_stylebox_override("panel", UiTheme.window_style())
-	_panel.custom_minimum_size = Vector2(420, 0)
-	add_child(_panel)
-	var column := VBoxContainer.new()
+	var frame := UiTheme.window_frame(self, "Options", close, false)
+	_panel = frame.panel
+	var column: VBoxContainer = frame.column
 	column.add_theme_constant_override("separation", 12)
-	_panel.add_child(column)
-	var title := Label.new()
-	title.text = "Options"
-	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	title.add_theme_font_size_override("font_size", 22)
-	title.add_theme_color_override("font_color", UiTheme.GOLD)
-	column.add_child(title)
 
 	var grid := GridContainer.new()
 	grid.columns = 2
@@ -197,13 +185,6 @@ func _build() -> void:
 		grid.add_child(control)
 	admin = AdminWindow.new()
 	add_child(admin)
-
-	var close_button := Button.new()
-	close_button.text = "Fermer"
-	close_button.custom_minimum_size = Vector2(160, 38)
-	close_button.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
-	close_button.pressed.connect(close)
-	column.add_child(close_button)
 
 
 ## Interrupteur : bouton à bascule qui affiche son état.

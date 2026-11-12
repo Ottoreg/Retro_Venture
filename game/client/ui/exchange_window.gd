@@ -252,26 +252,10 @@ func _unhandled_key_input(event: InputEvent) -> void:
 # --- Construction des contrôles ----------------------------------------------------------------
 
 func _build() -> void:
-	_panel = PanelContainer.new()
-	_panel.anchor_left = 0.5
-	_panel.anchor_right = 0.5
-	_panel.offset_left = -420
-	_panel.offset_right = 420
-	_panel.offset_top = 40
-	_panel.offset_bottom = 530
-	_panel.add_theme_stylebox_override("panel", UiTheme.window_style())
-	add_child(_panel)
-
-	var column := VBoxContainer.new()
-	column.add_theme_constant_override("separation", 8)
-	_panel.add_child(column)
-	var header := HBoxContainer.new()
-	column.add_child(header)
-	_title = _label(22, GOLD)
-	_title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	_title.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-	header.add_child(_title)
-	header.add_child(_button("×", cancel, "Annuler l'échange"))
+	var frame := UiTheme.window_frame(self, "", cancel, false)
+	_panel = frame.panel
+	var column: VBoxContainer = frame.column
+	_title = frame.title
 
 	var row := HBoxContainer.new()
 	row.size_flags_vertical = Control.SIZE_EXPAND_FILL

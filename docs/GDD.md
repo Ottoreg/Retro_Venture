@@ -3191,7 +3191,12 @@ préférence ce que les joueurs feront déjà d'eux-mêmes.
 - **Fenêtres à taille fixe** : une fenêtre garde toujours sa taille ; ce qui ne tient pas (fiche
   d'objet et sa panoplie, texte de quête, réplique d'un PNJ, liste des Pierres de Passage) défile
   dedans, et un titre trop long est coupé par « … ». *Fait* pour toutes les fenêtres
-  (`UiTheme.scroll_area`, test `test_fenetres_a_taille_fixe`).
+  (`UiTheme.scroll_area`, test `test_fenetres_a_taille_fixe`). **Socle commun (12/11/2026, décision
+  de l'auteur)** : toutes les fenêtres qui s'ouvrent ont la même grande taille (celle de l'Enclume,
+  `UiTheme.WINDOW_SIZE` 1120 × 610), centrée ; elles peuvent couvrir la carte, les bandes et la barre du
+  bas (« rien ne recouvre la carte » ne vaut que pour l'interface permanente) ; même cadre, même en-tête
+  (titre, infos, ×) et mêmes onglets (`UiTheme.window_frame`, `header_add`, `tabs`) ; le thème bois et
+  or s'applique enfin aussi aux fenêtres et barres posées dans un CanvasLayer (boutons encadrés).
 - **Menu pause** (Échap quand aucune fenêtre n'est ouverte) : le jeu s'arrête ; reprendre, options,
   retour au menu principal (sauvegardé, pas pendant un combat), quitter. **Options** (menu principal
   ou pause) : volume, plein écran, taille de la fenêtre, mode tactique, pions en mode tactique ; gardées hors sauvegarde.
