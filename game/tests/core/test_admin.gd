@@ -44,7 +44,7 @@ func test_dons() -> void:
 	var points := character.mastery_points()
 	_admin("reputation_classe", {"voie": character.voie_id, "quantite": 1000})
 	_admin("points_classe", {"voie": character.voie_id, "quantite": 4})
-	assert_eq(character.mastery_points(), points + 2 + 4)
+	assert_eq(character.mastery_points(), points + 20 + 4)
 
 
 func test_teleportation() -> void:

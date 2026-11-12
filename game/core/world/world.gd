@@ -1791,7 +1791,7 @@ func _end_combat(p: PlayerState, events: Array[Dictionary]) -> void:
 	var factor := Progression.difficulty(monster_tiers, team.map(func(member: PlayerState) -> int: return Progression.player_tier(member.character.reputation())))
 	# Mode héros : un héros choisi peut recevoir tout le butin et toutes les brumes.
 	var receiver := p.hero_receiver if team.any(func(member: PlayerState) -> bool: return member.id == p.hero_receiver) else ""
-	var kill_share := float(ended.get("xp", 0)) * Progression.KILL_SHARE * factor / maxi(1, team.size())
+	var kill_share := Progression.kill_reputation(combat.fighters, factor, team.size())
 	var ends: Array[Dictionary] = []
 	for i in team.size():
 		var member := team[i]

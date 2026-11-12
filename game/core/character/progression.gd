@@ -9,8 +9,9 @@ extends RefCounted
 ## absorbe) ; un sort utilitaire qui touche quelqu'un en rapporte `UTILITY_SHARE`.
 const REPUTATION_PER_PA := 2.0
 const UTILITY_SHARE := 0.5
-## Réputation d'un monstre vaincu : cette part de son XP, partagée entre les joueurs du combat.
-const KILL_SHARE := 0.25
+## Réputation d'un monstre vaincu : ce nombre par palier, au facteur de difficulté, partagée entre
+## les joueurs du combat (GDD § 4.5).
+const KILL_REPUTATION_PER_TIER := 10.0
 ## Caractéristique de l'élément d'un sort à effet réel, par PA (avant le ralentissement).
 const STAT_PER_PA := 0.03
 ## Vitalité par PV réellement perdu.
@@ -84,6 +85,14 @@ static func threat_name(factor: float) -> String:
 	if factor < 1.25:
 		return "à votre mesure"
 	return "redoutable"
+
+
+## Part de chaque joueur de la réputation des monstres vaincus (même en cas de défaite).
+static func kill_reputation(fighters: Array, factor: float, players: int) -> float:
+	var tiers := 0
+	for fighter: Fighter in fighters:
+		tiers += maxi(1, fighter.tier) if fighter.team != Fighter.TEAM_PLAYERS and not fighter.is_alive() else 0
+	return tiers * KILL_REPUTATION_PER_TIER * factor / maxi(1, players)
 
 
 ## Caractéristiques d'un élément, avec leur part : Acier → Force, Flamme → Intelligence, Givre →

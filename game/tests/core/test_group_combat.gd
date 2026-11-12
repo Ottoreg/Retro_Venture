@@ -142,7 +142,7 @@ func test_trois_joueurs_finissent_un_combat_et_ont_chacun_leur_part() -> void:
 		var factor := Progression.difficulty([1], [1, 1, 1])
 		assert_eq(end["difficulte"], snappedf(factor, 0.01), "le facteur du groupe")
 		assert_eq(end["reputation"], Progression.gains(combat.practice.get(owner, {}), factor,
-			10 * Progression.KILL_SHARE * factor / 3.0)["reputation"], "sa part de la réputation")
+			Progression.KILL_REPUTATION_PER_TIER * factor / 3.0)["reputation"], "sa part de la réputation")
 		coins += int(end["ecus"])
 		for drop: Dictionary in end["butin"]:
 			if drop["objet"] == "dent":

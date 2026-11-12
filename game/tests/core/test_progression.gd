@@ -41,9 +41,9 @@ func test_reputation_apres_victoire() -> void:
 	var gains := Fixtures.of_type(events, Protocol.EVT_REPUTATION)
 	assert_eq(gains.size(), 1)
 	# Niveau 1 contre un monstre de niveau 1 : facteur 0,5 ; une Frappe à 3 PA (2 de réputation par PA)
-	# et un quart des 10 XP du mannequin.
+	# et 10 de réputation par palier du mannequin vaincu.
 	assert_eq(Fixtures.of_type(events, Protocol.EVT_COMBAT_ENDED)[0]["difficulte"], 0.5)
-	assert_eq(gains[0]["gain"], roundi(3 * Progression.REPUTATION_PER_PA * 0.5 + 10 * Progression.KILL_SHARE * 0.5))
+	assert_eq(gains[0]["gain"], roundi(3 * Progression.REPUTATION_PER_PA * 0.5 + Progression.KILL_REPUTATION_PER_TIER * 0.5))
 	assert_eq(gains[0]["voie"], "test", "réputation de la classe active")
 	assert_eq(Fixtures.of_type(events, Protocol.EVT_COMBAT_ENDED)[0]["reputation"], gains[0]["gain"], "affichée en fin de combat")
 	assert_eq(world.character.reputation(), gains[0]["gain"])
@@ -52,7 +52,7 @@ func test_reputation_apres_victoire() -> void:
 	var tiers := Fixtures.of_type(more, Protocol.EVT_REPUTATION_TIER)
 	assert_eq(tiers.size(), 1, "1 000 de réputation : palier Apprenti")
 	assert_eq(tiers[0]["nom"], "Apprenti")
-	assert_eq(tiers[0]["points"], 2, "points de maîtrise à placer")
+	assert_eq(tiers[0]["points"], 20, "points de maîtrise à placer")
 	assert_eq(Fixtures.of_type(more, Protocol.EVT_CHARACTER)[0]["personnage"]["palier_nom"], "Apprenti")
 
 
@@ -60,7 +60,7 @@ func test_maitriser_un_sort() -> void:
 	var world := _world()
 	var refused := world.execute({"type": Protocol.CMD_RAISE_SPELL, "entite": World.PLAYER_ID, "sort": "frappe"})
 	assert_eq(refused[0]["raison"], Protocol.REASON_NOT_ENOUGH_POINTS)
-	world.character.add_reputation(Character.REPUTATION_PER_MASTERY_POINT)
+	world.character.add_reputation(50)
 	var events := world.execute({"type": Protocol.CMD_RAISE_SPELL, "entite": World.PLAYER_ID, "sort": "frappe"})
 	assert_eq(events[0]["type"], Protocol.EVT_CHARACTER)
 	assert_eq(events[0]["personnage"]["maitrises"], {"frappe": 1})

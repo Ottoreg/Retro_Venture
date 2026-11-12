@@ -22,8 +22,10 @@ const REPUTATION_TIERS := [[0, "Inconnu"], [1000, "Apprenti"], [5000, "Compagnon
 	[40000, "Maître"], [100000, "Légende"]]
 ## Réputation qu'il faut dans une classe (la meilleure) pour en commencer une autre.
 const NEW_CLASS_REPUTATION := 5000
-## Un point de maîtrise à répartir par tranche de cette réputation, dans la classe qui la gagne.
+## Métiers : un point de maîtrise à répartir par tranche de cette réputation.
 const REPUTATION_PER_MASTERY_POINT := 500
+## Classes : ce nombre de points dans chaque palier (100 à Légende, GDD § 4.5), puis au rythme du dernier palier.
+const CLASS_POINTS_PER_TIER := 20
 ## Rang de maîtrise maximal d'un sort ; monter au rang n coûte n points.
 const SPELL_MAX_RANK := 5
 ## Bonus hors caractéristiques dont la fiche donne aussi la provenance (équipement, panoplie).
@@ -175,19 +177,33 @@ func spell_rank(spell_id: String) -> int:
 	return int(classes.get(voie_id, {}).get("sorts", {}).get(spell_id, 0))
 
 
-## Ajoute de la réputation à la classe active, avec ses points de maîtrise (un par tranche de
-## `REPUTATION_PER_MASTERY_POINT`) ; renvoie les paliers atteints (index, vide si aucun).
+## Ajoute de la réputation à la classe active, avec ses points de maîtrise (`earned_points`) ;
+## renvoie les paliers atteints (index, vide si aucun).
 func add_reputation(amount: int) -> Array[int]:
 	_start_class(voie_id)
 	return _add_reputation_to(classes[voie_id], amount)
 
 
+## Points de maîtrise gagnés en tout pour une réputation : métier, un par `REPUTATION_PER_MASTERY_POINT` ;
+## classe, `CLASS_POINTS_PER_TIER` par palier (50, 200, 500, 1 250 puis 3 000 de réputation le point).
 @warning_ignore("integer_division")
-static func _add_reputation_to(entry: Dictionary, amount: int) -> Array[int]:
+static func earned_points(reputation_value: int, job := false) -> int:
+	if job:
+		return reputation_value / REPUTATION_PER_MASTERY_POINT
+	var points := 0
+	var step := 1
+	for i in range(1, REPUTATION_TIERS.size()):
+		var low: int = REPUTATION_TIERS[i - 1][0]
+		step = (int(REPUTATION_TIERS[i][0]) - low) / CLASS_POINTS_PER_TIER
+		points += clampi(reputation_value - low, 0, step * CLASS_POINTS_PER_TIER) / step
+	return points + maxi(0, reputation_value - int(REPUTATION_TIERS[-1][0])) / step
+
+
+static func _add_reputation_to(entry: Dictionary, amount: int, job := false) -> Array[int]:
 	var before := int(entry["reputation"])
 	var after := before + maxi(0, amount)
 	entry["reputation"] = after
-	entry["points"] = int(entry["points"]) + after / REPUTATION_PER_MASTERY_POINT - before / REPUTATION_PER_MASTERY_POINT
+	entry["points"] = int(entry["points"]) + earned_points(after, job) - earned_points(before, job)
 	var reached: Array[int] = []
 	for index in range(tier_index(before) + 1, tier_index(after) + 1):
 		reached.append(index)
@@ -290,7 +306,7 @@ func job_reputation_bonus(data: GameData) -> int:
 
 ## Ajoute de la réputation de métier, avec ses points de maîtrise ; renvoie les paliers atteints.
 func add_job_reputation(job_id: String, amount: int) -> Array[int]:
-	return _add_reputation_to(_job(job_id), amount)
+	return _add_reputation_to(_job(job_id), amount, true)
 
 
 ## Place des points de maîtrise dans une compétence du métier (`skill_ids` : ses compétences).

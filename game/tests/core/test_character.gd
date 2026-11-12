@@ -16,29 +16,32 @@ func test_paliers_de_reputation() -> void:
 func test_reputation_et_points_de_maitrise() -> void:
 	var hero := _bare()
 	assert_eq(hero.reputation(), 0, "une classe commence à zéro")
-	assert_eq(hero.add_reputation(400).size(), 0)
-	assert_eq(hero.mastery_points(), 0)
-	assert_eq(hero.add_reputation(700), [1] as Array[int], "palier Apprenti à 1 000")
-	assert_eq(hero.mastery_points(), 2, "un point par tranche de %d" % Character.REPUTATION_PER_MASTERY_POINT)
+	assert_eq(hero.add_reputation(40).size(), 0)
+	assert_eq(hero.mastery_points(), 0, "un point par 50 de réputation avant Apprenti")
+	assert_eq(hero.add_reputation(1060), [1] as Array[int], "palier Apprenti à 1 000")
+	assert_eq(hero.mastery_points(), 20, "20 points par palier, puis un par 200 jusqu'à Compagnon")
 	var reached := hero.add_reputation(20000)
 	assert_eq(reached, [2, 3] as Array[int], "plusieurs paliers d'un coup")
 	assert_eq(hero.reputation(), 21100)
 	assert_eq(hero.add_reputation(-50).size(), 0, "jamais de baisse")
 	assert_eq(hero.reputation(), 21100)
+	assert_eq([Character.earned_points(5000), Character.earned_points(100000), Character.earned_points(106000)], [40, 100, 102],
+		"100 points à Légende, puis un par 3 000 sans plafond")
+	assert_eq(Character.earned_points(1000, true), 2, "métier : un point par %d" % Character.REPUTATION_PER_MASTERY_POINT)
 
 
 func test_maitrise_des_sorts() -> void:
 	var hero := _bare()
 	var spells := ["frappe", "tir"]
 	assert_eq(hero.raise_spell("frappe", spells), Protocol.REASON_NOT_ENOUGH_POINTS)
-	hero.add_reputation(3 * Character.REPUTATION_PER_MASTERY_POINT)
+	hero.add_reputation(150)
 	assert_eq(hero.raise_spell("frappe", spells), "", "rang 1 : 1 point")
 	assert_eq(hero.raise_spell("frappe", spells), "", "rang 2 : 2 points")
 	assert_eq(hero.spell_rank("frappe"), 2)
 	assert_eq(hero.mastery_points(), 0)
 	assert_eq(hero.raise_spell("frappe", spells), Protocol.REASON_NOT_ENOUGH_POINTS)
 	assert_eq(hero.raise_spell("boule", spells), Protocol.REASON_INVALID_COMMAND, "pas un sort de la classe")
-	hero.add_reputation(100 * Character.REPUTATION_PER_MASTERY_POINT)
+	hero.add_reputation(5000)
 	for i in 3:
 		hero.raise_spell("frappe", spells)
 	assert_eq(hero.spell_rank("frappe"), Character.SPELL_MAX_RANK)
@@ -102,7 +105,7 @@ func test_fiche_et_pv() -> void:
 	assert_eq(sheet["palier_nom"], "Apprenti")
 	assert_eq(sheet["reputation"], 1500)
 	assert_eq(sheet["reputation_suivante"], 5000)
-	assert_eq(sheet["points_maitrise"], 3)
+	assert_eq(sheet["points_maitrise"], 22)
 	assert_eq(sheet["voie_nom"], "Test")
 	assert_eq(sheet["race_nom"], "Testeur")
 	assert_eq(sheet["caracteristiques"]["vitalite"], 20, "pas de bonus de race")
@@ -127,7 +130,7 @@ func test_sauvegarde_d_avant_la_refonte() -> void:
 		"caracteristiques": {"force": 12, "chance": 3, "sagesse": 4}}
 	var hero := Character.from_dict(old)
 	assert_eq(hero.reputation(), 1000, "XP sans le ×3,5")
-	assert_eq(hero.mastery_points(), 2)
+	assert_eq(hero.mastery_points(), 20)
 	assert_eq(hero.stat("force"), 12)
 	assert_eq(hero.stat("perception"), 3, "la Chance devient la Perception")
 	assert_false(hero.earned.has("sagesse"), "la Sagesse disparaît")

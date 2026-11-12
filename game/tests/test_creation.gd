@@ -56,7 +56,7 @@ func test_le_personnage_cree_arrive_dans_le_monde() -> void:
 	assert_true(tooltip.contains("Gagnés par la pratique : 1"), tooltip)
 	assert_true(tooltip.contains("Arc du Coup de Vent"), "l'arc dans la provenance : " + tooltip)
 	assert_eq(sheet._stat_caps["agilite"].text, "1 / %d" % Character.STAT_CAP)
-	assert_eq(sheet._points_label.text, "Points de maîtrise : 2")
+	assert_eq(sheet._points_label.text, "Points de maîtrise : 21")
 	assert_true(sheet._subtitle.text.begins_with("Apprenti"), sheet._subtitle.text)
 	assert_eq(sheet._class_choice.get_item_text(sheet._class_choice.selected).get_slice(" (", 0), "Rôdeur", "classe active choisie")
 	# Une commande qui change la fiche (un rang de maîtrise) déclenche la sauvegarde.

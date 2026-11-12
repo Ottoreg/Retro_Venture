@@ -206,12 +206,8 @@ func _fight(map: GameMap, group: Dictionary, team: Array) -> Dictionary:
 		print("%s %s niv. %d : %s en %d tours — %s" % [map.id, "+".join(team), level,
 			{Fighter.TEAM_PLAYERS: "victoire", -1: "nul"}.get(combat.winner_team, "défaite"), combat.round_number, ", ".join(states)])
 	# Progression d'un joueur à ce niveau équivalent (GDD § 4.5), comme `World._end_combat`.
-	var fallen_xp := 0
-	for fighter in fighters:
-		if fighter.team != Fighter.TEAM_PLAYERS:
-			fallen_xp += fighter.xp if not fighter.is_alive() else 0
 	var factor := Progression.difficulty(tiers, players.map(func(_p: Fighter) -> int: return tier))
-	var gains := Progression.gains(combat.practice.get("joueur0", {}), factor, fallen_xp * Progression.KILL_SHARE * factor / players.size())
+	var gains := Progression.gains(combat.practice.get("joueur0", {}), factor, Progression.kill_reputation(fighters, factor, players.size()))
 	return {
 		"facteur": factor,
 		"reputation": float(gains["reputation"]),

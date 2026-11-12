@@ -88,7 +88,7 @@ func test_pas_de_butin_en_cas_de_defaite_mais_la_reputation_des_vaincus() -> voi
 	# La Frappe sur le mannequin et sa part du monstre vaincu comptent, même en cas de défaite.
 	var factor := Progression.difficulty([1, wolf.tier], [1])
 	var expected: int = Progression.gains(combat.practice[World.PLAYER_ID], factor,
-		10 * Progression.KILL_SHARE * factor)["reputation"]
+		maxi(1, dummy.tier) * Progression.KILL_REPUTATION_PER_TIER * factor)["reputation"]
 	assert_true(expected > 0)
 	assert_eq(ended["reputation"], expected, "la pratique et le mannequin vaincu, en réputation")
 	assert_eq(world.character.reputation(), expected)

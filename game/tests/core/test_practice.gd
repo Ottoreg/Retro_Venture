@@ -173,7 +173,7 @@ func test_rangs_de_maitrise_d_un_sort() -> void:
 func test_le_combattant_a_les_rangs_de_sa_classe() -> void:
 	var data := Fixtures.data()
 	var character := Fixtures.character()
-	character.add_reputation(3 * Character.REPUTATION_PER_MASTERY_POINT)
+	character.add_reputation(150)
 	assert_eq(character.raise_spell("frappe", data.class_spells("test", character.reputation())), "")
 	assert_eq(character.raise_spell("frappe", data.class_spells("test", character.reputation())), "")
 	var fighter := data.create_character_fighter(character, Fixtures.PLAYER)
