@@ -325,7 +325,7 @@ sexes × équipements × animations) impose de s'en tenir à ces 9.
 |---|---|---|---|
 | **Guerrier** | Mêlée, encaisse | Acier (Force) | Charges, coups de zone en mêlée, réduction de dégâts |
 | **Rôdeur** | Distance, mobilité | Acier / Tempête (Force / Agilité) | Arc, pièges, poussée, gestion de distance |
-| **Arcaniste** | Dégâts magiques, contrôle | Flamme / Givre (Intelligence / Perception) | États élémentaires et sorts créés selon leur combinaison : zones, ralentissements, bouclier |
+| **Arcaniste** | Dégâts magiques, contrôle, mobilité | Flamme / Givre / Tempête (Intelligence / Perception / Agilité, à parts égales) | États élémentaires et sorts créés selon leur combinaison : zones, ralentissements, bouclier, foudre, téléportation |
 | **Théologue** | Soigneur sacré | Sacré (Force + Intelligence) | Soins, boucliers, dégâts sacrés modestes |
 | **Chronomancien** | Contrôle, mi-distance | Impie (Agilité + Perception) | Horloge : la cible tourne sur un cadran, chaque heure a son effet (détails plus bas) |
 
@@ -393,8 +393,9 @@ retours) :
 En combat : les heures sont écrites sur la glyphe, et le survol d'une cible avec un sort de
 décalage montre sa case d'arrivée et l'heure (« vers 3 h »).
 
-**Arcaniste de l'alpha 1** : les états élémentaires Flamme et Givre seulement (ses caractéristiques
-et son équipement ne changent pas). Ses anciens sorts (*Boule de feu*, *Éclat de givre*,
+**Arcaniste de l'alpha 1** : les états élémentaires Flamme, Givre et Tempête (Tempête ajoutée le 12/11/2026,
+demande de l'auteur ; l'Agilité devient une caractéristique principale de l'Arcaniste, autant que
+l'Intelligence et la Perception). Ses anciens sorts (*Boule de feu*, *Éclat de givre*,
 *Étincelle*, *Soin mineur*) ne lui sont plus reliés : leurs fichiers restent dans `data/sorts/`
 comme trace de l'ancienne version. Son kit : *Composition* (1 PA rendu aussitôt, sans limite par
 tour) ouvre une **grille flottante** des combinaisons de 3 états (Flamme ×3, Flamme ×2 + Givre,
@@ -417,9 +418,17 @@ créés** au bout des sorts, marquées « ? » tant qu'elles sont vides.
 | Flamme ×2 + Givre | *Choc thermique* | 4 PA, 1 à 5 cases : 7 à 10 Flamme, 4 à 6 Givre, −10 % de résistance Flamme 2 tours |
 | Givre ×2 + Flamme | *Armure de givre* | 4 PA, 0 à 3 cases, relance 1 tour : bouclier Givre 14 à 20 et +20 Intelligence 2 tours à un allié |
 | Givre ×3 | *Blizzard* | 4 PA, 1 à 5 cases, cercle de 1 : 6 à 9 Givre et −2 PM au prochain tour aux ennemis |
+| Tempête ×3 | *Foudre en chaîne* | 4 PA, 1 à 6 cases : 9 à 12 Tempête, puis l'éclair saute sur l'ennemi le plus proche à 2 cases au plus (6 à 8), puis sur un troisième (3 à 5), jamais deux fois le même (effet `rebond`) |
+| Tempête ×2 + Flamme | *Fulgurance* | 4 PA, 2 à 4 cases, case libre, relance 1 tour : téléportation, puis 7 à 10 Tempête et 3 à 5 Flamme aux ennemis à 1 case |
+| Tempête ×2 + Givre | *Vent arrière* | 4 PA, 0 à 4 cases, relance 1 tour : +2 PM 1 tour, +20 Agilité 2 tours et état *inblocable* 1 tour à un allié |
+| Flamme ×2 + Tempête | *Feu de brousse* | 4 PA, 2 à 6 cases, cercle de 1 : 7 à 10 Flamme, 3 à 4 Tempête et brûlure (poison Flamme 3 à 4, 2 tours) aux ennemis |
+| Givre ×2 + Tempête | *Bourrasque glacée* | 4 PA, 1 à 5 cases en ligne : 6 à 9 Givre, 2 à 3 Tempête, poussée de 3 cases et −1 PM |
+| Flamme + Givre + Tempête | *Cataclysme* | 4 PA, 2 à 5 cases, cercle de 1, relance 2 tours : 5 à 7 Flamme, 5 à 7 Givre, 5 à 7 Tempête, −1 PM et poussée d'1 case aux ennemis |
 
-La **Tempête** viendra après l'alpha 1 (6 combinaisons de plus) : la description de *Fusion
-arcanique* et le guide des testeurs la laissent deviner. Les effets des phases des boss ne peuvent
+La **Tempête** (12/11/2026, propositions validées par l'auteur) : les 10 combinaisons sont ouvertes
+dès le départ pendant l'alpha (le déblocage par paliers, plus bas, attend la suite de la refonte) ;
+la grille de Composition en montre 10 (touches 1 à 0), l'orbe Tempête est verte (couleur de
+l'élément). Elle penche vers la vitesse, le déplacement et la foudre. Les effets des phases des boss ne peuvent
 pas être retirés par *Absolution*. L'IA ne sait pas encore composer les états : dans
 `tools/simulation.gd`, l'Arcaniste joue sans ses sorts créés.
 
@@ -433,7 +442,7 @@ pas être retirés par *Absolution*. L'IA ne sait pas encore composer les états
 | **Mixte** | **Rôdeur** | Distance et mobilité | Acier / Flamme (Force / Intelligence) ; Acier / Tempête dans l'alpha | *(voir plus haut)* ; à terme, Voie Flamme tournée vers les pièges et les explosifs |
 | | **Ombre** | Assassin | Tempête / Acier (Agilité / Force) | Voie Tempête : mobilité, frappe et repli, clones de foudre qui explosent. Voie Acier : invisibilité, cumul de bonus et de malus, armes d'obscurité à retardement. Les deux : entrer dans l'ombre d'un combattant |
 | | **Chronomancien** | Maître du temps : contrôle, mi-distance | Impie / Givre pur (Agilité + Perception / Perception) | Voie Impie : glyphe Horloge, cible téléportée sur le cadran, un effet par heure. Voie Givre : retour à une position passée, envoi dans le futur, pulsions temporelles |
-| **Distance** | **Arcaniste** | Dégâts magiques, contrôle | Flamme / Givre (Intelligence / Perception) ; après la refonte, Flamme / Tempête / Givre (+ Agilité) | *(voir plus haut)* ; après la refonte : états élémentaires cumulés et sort créé selon leur combinaison |
+| **Distance** | **Arcaniste** | Dégâts magiques, contrôle | Flamme / Givre / Tempête (Intelligence / Perception / Agilité) | *(voir plus haut)* ; après la refonte : états élémentaires cumulés et sort créé selon leur combinaison |
 | | **Théologue** *(dès l'alpha)* | Soigneur sacré | Sacré (Force + Intelligence) | Soins, boucliers, retrait des états, résurrection (multi), dégâts sacrés modestes |
 | | **Démoniste** | Dégâts impies ou ardents | Impie / Flamme (Agilité + Perception / Intelligence) | Voie Impie : armée de serviteurs invoqués (offensif, tank, soutien). Voie de Flamme : embrasement du terrain (niveaux 1 à 3 puis calciné), sorts qui varient selon l'embrasement |
 
@@ -459,7 +468,7 @@ Par caractéristique (le Sacré compte pour la Force et l'Intelligence, l'Impie 
 Perception) : Force 6 classes, Intelligence 5, Perception 5, Agilité 5. L'Acier a une classe de plus, en
 accord avec ses 33 % chez les monstres (§ 8.1).
 
-Dans l'alpha 1 (5 classes) : Acier 2 (Guerrier, Rôdeur), Tempête 1 (la Flèche du Rôdeur), Flamme 1
+Dans l'alpha 1 (5 classes) : Acier 2 (Guerrier, Rôdeur), Tempête 2 (la Flèche du Rôdeur, l'Arcaniste depuis le 12/11/2026), Flamme 1
 et Givre 1 (Arcaniste), Sacré 1 (Théologue), Impie 1 (Chronomancien, depuis le 29/10/2026 ; avant, Impie 0). Points à suivre : aucune classe de l'alpha 1 ne
 joue l'Impie (la Panoplie du Mauvais Œil ne sert encore à personne) ; quand le Rôdeur passera de la
 Tempête à la Flamme, la Tempête n'aura plus de classe de départ en attendant l'Arcaniste refondu, le

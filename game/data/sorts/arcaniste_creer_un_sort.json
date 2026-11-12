@@ -1,7 +1,7 @@
 {
   "id": "arcaniste_creer_un_sort",
   "nom": "Fusion arcanique",
-  "description": "Trois états, une formule, un sort. Les savants de la Tour murmurent qu'un troisième élément, la Tempête, compléterait la formule… mais personne n'a encore osé l'écrire.",
+  "description": "Trois états, une formule, un sort. Les savants de la Tour ont longtemps hésité à ajouter la Tempête à la formule ; l'Arcaniste, lui, n'a pas hésité.",
   "cout_pa": 2,
   "portee": {
     "min": 0,
@@ -20,7 +20,13 @@
         "flamme+flamme+flamme": "arcaniste_fournaise",
         "flamme+flamme+givre": "arcaniste_choc_thermique",
         "flamme+givre+givre": "arcaniste_armure_de_givre",
-        "givre+givre+givre": "arcaniste_blizzard"
+        "givre+givre+givre": "arcaniste_blizzard",
+        "tempete+tempete+tempete": "arcaniste_foudre_en_chaine",
+        "flamme+tempete+tempete": "arcaniste_fulgurance",
+        "givre+tempete+tempete": "arcaniste_vent_arriere",
+        "flamme+flamme+tempete": "arcaniste_feu_de_brousse",
+        "givre+givre+tempete": "arcaniste_bourrasque_glacee",
+        "flamme+givre+tempete": "arcaniste_cataclysme"
       }
     }
   ]

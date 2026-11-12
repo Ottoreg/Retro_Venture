@@ -240,14 +240,15 @@ Dernière session (retours de la passe de l'auteur) :
   dégâts, soins, boucliers et poisons à la couleur de leur élément (historique et chiffres
   flottants), survol des glyphes et des pièges alliés (sort, lanceur, tours restants).
 - **Identité des Voies pour l'alpha 1** (GDD § 4.3, `tests/core/test_class_kits.gd`) : Arcaniste
-  Flamme / Givre, kit entièrement remplacé (effets `composition_etats` et `creer_sort` :
+  Flamme / Givre / Tempête, kit entièrement remplacé (effets `composition_etats` et `creer_sort` :
   *Composition*, qui ouvre une grille des combinaisons, `CombatHud.open_composition`, à la place de
-  *Braise* et *Frimas* ; *Fusion arcanique* à 2 PA, 4 sorts créés à 4 PA, 2 places, le plus ancien part ;
+  *Braise* et *Frimas* ; *Fusion arcanique* à 2 PA, 10 sorts créés à 4 PA, 2 places, le plus ancien part ;
   `Fighter.element_states`, `created_spells` ; anciens sorts gardés en trace dans `data/sorts/` ;
   barre : orbes `CombatHud.ElementOrbs` et places vides « ? »), *Charge* du Guerrier (effet `charge`,
   `Combat.charge_path`), *Collet* du Rôdeur (piège), *Absolution* du Théologue (`retrait_etats` ;
-  les effets des phases ont `retirable: false`). L'IA ignore les sorts de composition. La Tempête
-  de l'Arcaniste vient après l'alpha 1 (à laisser deviner aux testeurs).
+  les effets des phases ont `retirable: false`). L'IA ignore les sorts de composition. Tempête de
+  l'Arcaniste ajoutée le 12/11/2026 sur `dev` (6 fusions de plus, effet `rebond`, Agilité principale
+  autant que l'Intelligence et la Perception, GDD § 4.3).
 - **Chronomancien, Voie Impie** (29/10/2026, demande de l'auteur, GDD § 4.3) : 5e Voie de l'alpha 1,
   effets `horloge` / `decalage_horaire` (`Combat.CLOCK_OFFSETS`, `clock_destination`, échange de
   place), état `insoignable`, carac `degats_infliges` ; protocole v9. Heures 3 h, 4 h et 9 h faites le

@@ -138,6 +138,8 @@ def effet(e):
         texte = "crée le sort de la combinaison des 3 états : " + " ; ".join(
             "%s → %s" % (" + ".join(ELEMENTS.get(x, x) for x in cle.split("+")), NOMS_SORTS.get(sort, sort))
             for cle, sort in e["combinaisons"].items())
+    elif t == "rebond":
+        texte = "rebond %s %s sur l'ennemi le plus proche (%s case(s) au plus)" % (valeur, element(e), e["distance"])
     elif t == "charge":
         texte = "charge en ligne jusqu'au contact (effets suivants au contact seulement)"
     elif t == "retrait_etats":

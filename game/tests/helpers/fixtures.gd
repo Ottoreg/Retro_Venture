@@ -138,6 +138,10 @@ static func _spells() -> Array:
 			"effets": [{"type": "degats", "element": "givre", "min": 10, "max": 10}]},
 		{"id": "charge", "nom": "Charge", "cout_pa": 3, "portee": {"min": 2, "max": 4}, "lancer_en_ligne": true,
 			"ligne_de_vue": false, "effets": [{"type": "charge"}, {"type": "degats", "element": "acier", "min": 10, "max": 10}]},
+		{"id": "foudre", "nom": "Foudre", "cout_pa": 1, "portee": {"min": 1, "max": 6}, "ligne_de_vue": false, "effets": [
+			{"type": "degats", "element": "tempete", "min": 10, "max": 10},
+			{"type": "rebond", "element": "tempete", "min": 6, "max": 6, "distance": 2},
+			{"type": "rebond", "element": "tempete", "min": 3, "max": 3, "distance": 2}]},
 		{"id": "absolution", "nom": "Absolution", "cout_pa": 1, "portee": {"min": 0, "max": 4}, "ligne_de_vue": false,
 			"effets": [{"type": "retrait_etats", "etats": ["bonus"], "cibles": "ennemis"},
 				{"type": "retrait_etats", "etats": ["malus", "poison"], "cibles": "allies"}]},
@@ -213,7 +217,7 @@ static func data(passages := []) -> GameData:
 		"id": "test", "nom": "Test",
 		"caracteristiques": {"pv": 50, "pa": 6, "pm": 3, "initiative": 100},
 		"sorts": ["frappe", "piqure", "tir", "zone", "soin", "elan", "entrave", "sermon", "fatal", "rage", "boulet",
-			"venin", "repousse", "grappin", "cercle", "chausse_trape", "braise", "frimas", "composer", "creer", "charge", "absolution"],
+			"venin", "repousse", "grappin", "cercle", "chausse_trape", "braise", "frimas", "composer", "creer", "charge", "absolution", "foudre"],
 	}]
 	var races := [{
 		"id": "testeur", "nom": "Testeur", "camp": "allie", "carte_depart": "test",

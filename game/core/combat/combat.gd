@@ -610,14 +610,32 @@ func _cast(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 		if hit != null and not (spell.excludes_caster and hit == fighter):
 			targets.append(hit)
 	for hit in targets:
+		var chain: Array[Fighter] = [hit]
 		for effect in spell.effects:
-			if hit.is_alive() and effect["type"] not in [Spell.EFFECT_TELEPORT, Spell.EFFECT_GLYPH, Spell.EFFECT_TRAP,
+			if effect["type"] == Spell.EFFECT_BOUNCE:
+				_bounce(fighter, chain, effect, events, critical, spell.display_name)
+			elif hit.is_alive() and effect["type"] not in [Spell.EFFECT_TELEPORT, Spell.EFFECT_GLYPH, Spell.EFFECT_TRAP,
 					Spell.EFFECT_CHARGE, Spell.EFFECT_CREATE_SPELL, Spell.EFFECT_COMPOSE_STATES] \
 					and Spell.affects(effect, fighter, hit):
 				_apply_effect(fighter, hit, effect, events, critical, origin, spell.display_name)
 	_close_credit()
 	_check_end(events)
 	return events
+
+
+## Rebond (voir `Spell.EFFECT_BOUNCE`) : `chain` liste ceux déjà touchés, le dernier en tête de saut.
+func _bounce(caster: Fighter, chain: Array[Fighter], effect: Dictionary, events: Array[Dictionary], critical: bool, source: String) -> void:
+	var from := chain[-1].cell
+	var next: Fighter = null
+	for other in fighters:
+		var distance := IsoGrid.distance(from, other.cell)
+		if other.is_alive() and other.team != caster.team and other not in chain and distance <= int(effect["distance"]) \
+				and (next == null or distance < IsoGrid.distance(from, next.cell)):
+			next = other
+	if next != null:
+		chain.append(next)
+		_apply_effect(caster, next, {"type": Spell.EFFECT_DAMAGE, "element": effect["element"], "min": effect["min"], "max": effect["max"]},
+			events, critical, Vector2i(-99999, -99999), source)
 
 
 # --- Pratique (progression des joueurs, GDD § 4.5) ---------------------------------------------

@@ -1,0 +1,16 @@
+{
+  "id": "arcaniste_bourrasque_glacee",
+  "nom": "Bourrasque glacée",
+  "description": "Givre, Givre, Tempête. Un coup de vent glacial qui renvoie la cible d'où elle vient, les jambes engourdies.",
+  "cout_pa": 4,
+  "portee": {"min": 1, "max": 5},
+  "ligne_de_vue": true,
+  "lancer_en_ligne": true,
+  "relance": {"par_tour": 1},
+  "effets": [
+    {"type": "degats", "element": "givre", "min": 6, "max": 9},
+    {"type": "degats", "element": "tempete", "min": 2, "max": 3},
+    {"type": "poussee", "min": 3, "max": 3},
+    {"type": "retrait_pm", "min": 1, "max": 1}
+  ]
+}

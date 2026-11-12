@@ -84,9 +84,9 @@ temps : chaque camp a sa propre histoire.
     bonus aux ennemis, leurs malus et leurs poisons aux alliés ;
   - **Arcaniste** (kit entièrement nouveau) : *Composition* ouvre une petite grille (au-dessus du
     sort, ou de la souris avec le raccourci) où l'on choisit ses **3 états élémentaires** d'un coup
-    (Flamme ou Givre, +4 % de dégâts chacun ; le PA est rendu aussitôt). Avec 3 états,
-    *Fusion arcanique* (2 PA) donne un sort selon la combinaison : Flamme ×3 *Fournaise*, Flamme ×2 +
-    Givre *Choc thermique*, Givre ×2 + Flamme *Armure de givre*, Givre ×3 *Blizzard* (4 PA chacun).
+    (Flamme, Givre ou Tempête, +4 % de dégâts chacun ; le PA est rendu aussitôt). Avec 3 états,
+    *Fusion arcanique* (2 PA) donne l'un des 10 sorts de la combinaison (4 PA chacun), par exemple
+    Flamme ×3 *Fournaise*, Givre ×3 *Blizzard*, Tempête ×3 *Foudre en chaîne*, un de chaque *Cataclysme*.
     Il prend l'une des **deux places** au bout de la barre de sorts (marquées « ? » tant qu'elles
     sont vides) ; un troisième chasse le plus ancien. Les **3 orbes** à côté des PM prennent la
     couleur de vos états (orange : Flamme, bleu : Givre) ; ils s'affichent aussi au survol de

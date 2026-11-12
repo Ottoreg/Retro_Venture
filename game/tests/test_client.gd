@@ -1681,9 +1681,9 @@ func test_arcaniste_compose_et_cree_un_sort() -> void:
 	assert_true(hud._spell_buttons.has(CombatHud.EMPTY_SLOT_PREFIX + "0") and hud._spell_buttons.has(CombatHud.EMPTY_SLOT_PREFIX + "1"),
 		"deux places de sorts créés, vides")
 	assert_false(hud._spell_buttons.has("arcaniste_braise"), "plus de Braise ni de Frimas : un seul sort de composition")
-	# Clic sur Composition : la grille des 4 combinaisons s'ouvre au-dessus du sort.
+	# Clic sur Composition : la grille des 10 combinaisons s'ouvre au-dessus du sort.
 	hud._on_spell_pressed("arcaniste_composition")
-	assert_eq(hud.composition_choices().size(), 4, "Flamme ×3, Flamme ×2 + Givre, Flamme + Givre ×2, Givre ×3")
+	assert_eq(hud.composition_choices().size(), 10, "toutes les combinaisons de Flamme, Givre et Tempête")
 	var slot_rect: Rect2 = hud._spell_buttons["arcaniste_composition"].get_global_rect()
 	var grid_rect := hud.composition_rect()
 	assert_true(grid_rect.end.y <= slot_rect.position.y, "grille au-dessus du sort : %s / %s" % [grid_rect, slot_rect])
@@ -1697,7 +1697,7 @@ func test_arcaniste_compose_et_cree_un_sort() -> void:
 	key.keycode = CombatHud.SPELL_KEYS[index]
 	key.pressed = true
 	hud._unhandled_key_input(key)
-	assert_eq(hud.composition_choices().size(), 4, "raccourci : grille ouverte")
+	assert_eq(hud.composition_choices().size(), 10, "raccourci : grille ouverte")
 	var mouse := hud.get_viewport().get_mouse_position()
 	assert_true(hud.composition_rect().end.y <= mouse.y + 1.0 or hud.composition_rect().position.y <= 4.0, "au-dessus de la souris")
 	var choice := InputEventKey.new()

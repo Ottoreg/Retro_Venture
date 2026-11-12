@@ -69,17 +69,20 @@ const EFFECT_CLOCK := "horloge"
 const EFFECT_CLOCK_SHIFT := "decalage_horaire"
 ## État nommé (`etat`, voir NAMED_STATES) pendant `duree` tours de la cible.
 const EFFECT_STATE := "etat"
+## Rebond : après les effets précédents, des dégâts (`element`, `min`–`max`) sautent du dernier touché vers
+## l'ennemi vivant le plus proche, à `distance` cases au plus, jamais deux fois sur le même. Voir `Combat._bounce`.
+const EFFECT_BOUNCE := "rebond"
 const EFFECT_TYPES := [EFFECT_DAMAGE, EFFECT_HEAL, EFFECT_TELEPORT, EFFECT_GAIN_PA, EFFECT_REMOVE_PM, EFFECT_SHIELD,
 	EFFECT_BONUS, EFFECT_MALUS, EFFECT_POISON, EFFECT_PUSH, EFFECT_PULL, EFFECT_GLYPH, EFFECT_TRAP,
 	EFFECT_ELEMENT_STATE, EFFECT_COMPOSE_STATES, EFFECT_CREATE_SPELL, EFFECT_CHARGE, EFFECT_REMOVE_STATES,
-	EFFECT_CLOCK, EFFECT_CLOCK_SHIFT, EFFECT_STATE]
+	EFFECT_CLOCK, EFFECT_CLOCK_SHIFT, EFFECT_STATE, EFFECT_BOUNCE]
 ## Effets sans valeur chiffrée (ni `min` ni `max`).
 const VALUELESS_EFFECTS := [EFFECT_TELEPORT, EFFECT_ELEMENT_STATE, EFFECT_COMPOSE_STATES, EFFECT_CREATE_SPELL, EFFECT_CHARGE,
 	EFFECT_REMOVE_STATES, EFFECT_CLOCK, EFFECT_CLOCK_SHIFT, EFFECT_STATE]
 ## Effets qui ne concernent que le lanceur ou son déplacement, ou le cadran d'une horloge : jamais
 ## dans une glyphe, un piège ou une heure d'horloge.
 const CASTER_EFFECTS := [EFFECT_TELEPORT, EFFECT_ELEMENT_STATE, EFFECT_COMPOSE_STATES, EFFECT_CREATE_SPELL, EFFECT_CHARGE,
-	EFFECT_CLOCK, EFFECT_CLOCK_SHIFT]
+	EFFECT_CLOCK, EFFECT_CLOCK_SHIFT, EFFECT_BOUNCE]
 ## États nommés : « insoignable » (aucun soin ne lui rend de PV) ; « manipulation_temps » (posé par
 ## une horloge) ; « exorcisme » (les prochains dégâts Sacré l'achèvent, l'état tombe alors).
 const STATE_UNHEALABLE := "insoignable"
@@ -299,7 +302,9 @@ static func _validate_effects(effects_data: Array, top_level: bool) -> PackedStr
 			errors.append("« vol » (vrai ou faux) n'existe que sur un effet « degats »")
 		if type in VALUELESS_EFFECTS:
 			continue
-		if type in ELEMENT_EFFECTS and effect.get("element") not in ELEMENTS:
+		if type == EFFECT_BOUNCE and not _is_int_at_least(effect.get("distance"), 1):
+			errors.append("effet « rebond » : « distance » doit être un entier ≥ 1")
+		if (type in ELEMENT_EFFECTS or type == EFFECT_BOUNCE) and effect.get("element") not in ELEMENTS:
 			errors.append("effet « %s » : « element » doit être l'un de %s" % [type, str(ELEMENTS)])
 		if type in [EFFECT_BONUS, EFFECT_MALUS]:
 			if effect.get("carac") not in MODIFIABLE:

@@ -90,6 +90,48 @@
         22,
         22
       ]
+    },
+    "sort_arcaniste_foudre_en_chaine": {
+      "fichier": "sorts/arcaniste_foudre_en_chaine.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_arcaniste_fulgurance": {
+      "fichier": "sorts/arcaniste_fulgurance.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_arcaniste_vent_arriere": {
+      "fichier": "sorts/arcaniste_vent_arriere.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_arcaniste_feu_de_brousse": {
+      "fichier": "sorts/arcaniste_feu_de_brousse.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_arcaniste_bourrasque_glacee": {
+      "fichier": "sorts/arcaniste_bourrasque_glacee.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_arcaniste_cataclysme": {
+      "fichier": "sorts/arcaniste_cataclysme.svgt",
+      "ancre": [
+        22,
+        22
+      ]
     }
   }
 }

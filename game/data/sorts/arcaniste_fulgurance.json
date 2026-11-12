@@ -1,0 +1,15 @@
+{
+  "id": "arcaniste_fulgurance",
+  "nom": "Fulgurance",
+  "description": "Tempête, Tempête, Flamme. Un éclair, et l'Arcaniste est déjà ailleurs : à l'arrivée, tout ce qui l'entoure grésille.",
+  "cout_pa": 4,
+  "portee": {"min": 2, "max": 4},
+  "ligne_de_vue": true,
+  "zone": {"type": "cercle", "taille": 1},
+  "relance": {"par_tour": 1, "delai": 1},
+  "effets": [
+    {"type": "teleportation"},
+    {"type": "degats", "element": "tempete", "min": 7, "max": 10, "cibles": "ennemis"},
+    {"type": "degats", "element": "flamme", "min": 3, "max": 5, "cibles": "ennemis"}
+  ]
+}

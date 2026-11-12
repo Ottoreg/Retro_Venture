@@ -1,0 +1,15 @@
+{
+  "id": "arcaniste_feu_de_brousse",
+  "nom": "Feu de brousse",
+  "description": "Flamme, Flamme, Tempête. Le vent attise le feu et le colle aux ennemis : ça brûle encore longtemps après.",
+  "cout_pa": 4,
+  "portee": {"min": 2, "max": 6},
+  "ligne_de_vue": true,
+  "zone": {"type": "cercle", "taille": 1},
+  "relance": {"par_tour": 1},
+  "effets": [
+    {"type": "degats", "element": "flamme", "min": 7, "max": 10, "cibles": "ennemis"},
+    {"type": "degats", "element": "tempete", "min": 3, "max": 4, "cibles": "ennemis"},
+    {"type": "poison", "element": "flamme", "min": 3, "max": 4, "duree": 2, "cibles": "ennemis"}
+  ]
+}

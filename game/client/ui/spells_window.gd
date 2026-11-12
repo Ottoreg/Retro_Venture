@@ -95,6 +95,8 @@ static func effect_lines(effects: Array, indent := "") -> PackedStringArray:
 				line = "%s %s : %s (%s)" % ["Bonus" if type == Spell.EFFECT_BONUS else "Malus", carac, _range_text(effect), duration]
 			Spell.EFFECT_POISON:
 				line = "Poison %s : %s par tour (%s)" % [element, _range_text(effect), duration]
+			Spell.EFFECT_BOUNCE:
+				line = "Rebond %s : %s à l'ennemi le plus proche (%d case(s) au plus) pas encore touché" % [element, _range_text(effect), effect["distance"]]
 			Spell.EFFECT_PUSH:
 				line = "Pousse de %s case(s)" % _range_text(effect)
 			Spell.EFFECT_PULL:

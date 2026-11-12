@@ -101,6 +101,13 @@ func test_creer_un_sort() -> void:
 	assert_eq(_cast(combat, "creer", C)[0]["raison"], Protocol.REASON_NO_COMBINATION)
 
 
+func test_rebond_vers_l_ennemi_le_plus_proche_jamais_deux_fois() -> void:
+	var combat := _fight([["mannequin", C + Vector2i(3, 0)], ["mannequin", C + Vector2i(5, 0)], ["mannequin", C + Vector2i(3, 4)]])
+	var damage := Fixtures.of_type(_cast(combat, "foudre", C + Vector2i(3, 0)), Protocol.EVT_DAMAGE)
+	assert_eq(damage.map(func(event: Dictionary) -> Array: return [event["entite"], event["valeur"]]), [["m0", 10], ["m1", 6]],
+		"saut vers m1 à 2 cases ; m2 trop loin, m0 déjà touché")
+
+
 func test_charge_jusqu_au_contact() -> void:
 	var target := C + Vector2i(4, 0)
 	var combat := _fight([["mannequin", target]])
@@ -207,14 +214,14 @@ func test_kit_de_l_arcaniste_dans_les_donnees() -> void:
 	var data := GameData.load_all()
 	var create: Spell = data.spells["arcaniste_creer_un_sort"]
 	var linked: Dictionary = create.create_effect()["sorts"]
-	assert_eq(linked.size(), 4, "Flamme ×3, Givre ×3, Flamme ×2 + Givre, Givre ×2 + Flamme")
+	assert_eq(linked.size(), 10, "toutes les combinaisons de Flamme, Givre et Tempête")
 	for voie_id in ["arcaniste", "guerrier", "rodeur", "theologue"]:
 		assert_eq(data.voies[voie_id]["sorts"].size(), 2 if voie_id == "arcaniste" else 5, voie_id)
 	assert_eq(data.spells["arcaniste_creer_un_sort"].pa_cost, 2)
 	assert_eq(data.voies["arcaniste"]["sorts"], ["arcaniste_composition", "arcaniste_creer_un_sort"],
 		"un seul sort de composition à la place de Braise et Frimas")
 	var choices: PackedStringArray = (data.spells["arcaniste_composition"] as Spell).state_choices()
-	assert_eq(choices.size(), 4)
+	assert_eq(choices.size(), 10)
 	for key in choices:
 		assert_true(linked.has(key), "chaque combinaison proposée donne un sort : " + key)
 	for created: Spell in linked.values():

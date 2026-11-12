@@ -1,7 +1,7 @@
 {
   "id": "arcaniste",
   "nom": "Arcaniste",
-  "description": "Maître du feu et du givre. Lit beaucoup, court peu, explose parfois des choses par accident.",
+  "description": "Maître du feu, du givre et de la foudre. Lit beaucoup, court peu, explose parfois des choses par accident.",
   "caracteristiques": {
     "pv": 46,
     "pa": 6,

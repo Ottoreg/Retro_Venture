@@ -1,7 +1,7 @@
 {
   "id": "arcaniste_composition",
   "nom": "Composition",
-  "description": "L'Arcaniste jongle avec ses braises et ses frimas jusqu'à trouver le bon mélange, puis le garde au creux de la main. Coûte 1 PA, rendu aussitôt.",
+  "description": "L'Arcaniste jongle avec ses braises, ses frimas et ses éclairs jusqu'à trouver le bon mélange, puis le garde au creux de la main. Coûte 1 PA, rendu aussitôt.",
   "cout_pa": 1,
   "portee": {
     "min": 0,
@@ -18,7 +18,8 @@
       "type": "composition_etats",
       "elements": [
         "flamme",
-        "givre"
+        "givre",
+        "tempete"
       ]
     },
     {

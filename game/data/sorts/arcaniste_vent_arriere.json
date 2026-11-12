@@ -1,0 +1,14 @@
+{
+  "id": "arcaniste_vent_arriere",
+  "nom": "Vent arrière",
+  "description": "Tempête, Tempête, Givre. Un souffle frais dans le dos : l'allié file entre les ennemis sans que personne ne le retienne.",
+  "cout_pa": 4,
+  "portee": {"min": 0, "max": 4},
+  "ligne_de_vue": true,
+  "relance": {"par_tour": 1, "delai": 1},
+  "effets": [
+    {"type": "bonus", "carac": "pm", "min": 2, "max": 2, "duree": 1, "cibles": "allies"},
+    {"type": "bonus", "carac": "agilite", "min": 20, "max": 20, "duree": 2, "cibles": "allies"},
+    {"type": "etat", "etat": "inblocable", "duree": 1, "cibles": "allies"}
+  ]
+}

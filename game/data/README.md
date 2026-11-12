@@ -325,7 +325,13 @@ Mécaniques des Voies :
 {"type": "creer_sort", "combinaisons": {"flamme+flamme+givre": "arcaniste_choc_thermique"}}
 {"type": "charge"}
 {"type": "retrait_etats", "etats": ["malus", "poison"], "cibles": "allies"}
+{"type": "rebond", "element": "tempete", "min": 6, "max": 8, "distance": 2}
 ```
+
+- `rebond` (`element`, `min`, `max`, `distance` ≥ 1) : après les effets qui le précèdent, des dégâts
+  sautent du dernier touché vers l'ennemi vivant le plus proche, à `distance` cases au plus, jamais
+  deux fois sur le même ; plusieurs `rebond` à la suite font une chaîne (*Foudre en chaîne*). Interdit
+  dans une glyphe, un piège ou une heure d'horloge.
 
 - `etat_elementaire` (`flamme`, `givre` ou `tempete`) : le lanceur garde l'état tout le combat,
   3 au plus (le 4e remplace le plus ancien), +4 % de dégâts dans son élément ; il ne peut pas être
