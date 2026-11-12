@@ -1,6 +1,6 @@
 class_name UiTheme
 extends RefCounted
-## Thème de l'interface : fonds sombres et liserés (bois et or par défaut, autres thèmes dans `THEMES`),
+## Thème de l'interface : fonds sombres et liserés (pierre et argent par défaut, autres thèmes dans `THEMES`),
 ## accordé aux images du jeu. Appliqué à toute la fenêtre (menus, fenêtres, barre de combat) par `apply`.
 
 ## Thèmes de couleurs (choix dans les options, `Options.ui_theme`) : fonds, bordures, boutons, listes ;
@@ -8,15 +8,17 @@ extends RefCounted
 ## liseré ; bois / bois_clair / survol : boutons ; encre : listes et champs ; bronze : liserés des boutons ;
 ## lisere : liserés discrets ; choix : ligne choisie ; decor : fond des menus.
 const THEMES := {
+	"pierre": {"nom": "Pierre et argent", "bois": "2a2a2c", "bois_clair": "47474b", "survol": "5a5a60", "encre": "1c1c1e",
+		"bronze": "8f8a7e", "fond": "222224", "bord": "9a9384", "lisere": "4e4c48", "choix": "5d5a50", "decor": "262628"},
 	"bois": {"nom": "Bois et or", "bois": "2a1f15", "bois_clair": "4a3622", "survol": "5e4429", "encre": "1e160f",
 		"bronze": "8d6b38", "fond": "211a12", "bord": "8c6b38", "lisere": "5a4630", "choix": "6b4a26", "decor": "2b2118"},
 	"ardoise": {"nom": "Ardoise et acier", "bois": "1d2430", "bois_clair": "34405a", "survol": "45536f", "encre": "141a24",
 		"bronze": "6f87a8", "fond": "18202b", "bord": "7d93b2", "lisere": "3c4a60", "choix": "3e5276", "decor": "1c2330"},
 	"foret": {"nom": "Forêt et mousse", "bois": "1e2a1d", "bois_clair": "34482f", "survol": "44603d", "encre": "141d14",
 		"bronze": "7f9a52", "fond": "18231a", "bord": "8aa35a", "lisere": "3f5536", "choix": "4a6a34", "decor": "1d281c"},
-	"pierre": {"nom": "Pierre et argent", "bois": "2a2a2c", "bois_clair": "47474b", "survol": "5a5a60", "encre": "1c1c1e",
-		"bronze": "8f8a7e", "fond": "222224", "bord": "9a9384", "lisere": "4e4c48", "choix": "5d5a50", "decor": "262628"},
 }
+## Thème par défaut (choix de l'auteur, 12/11/2026).
+const DEFAULT_THEME := "pierre"
 const GOLD := Color("c9a04e")
 const TEXT := Color("f0e6cc")
 const TEXT_DIM := Color("8a7c66")
@@ -55,7 +57,7 @@ static func apply(_tree: SceneTree = null) -> void:
 
 ## Passe au thème `id` (de THEMES), en direct : thème par défaut, styles des fenêtres, puis tout se redessine.
 static func set_theme(id: String) -> void:
-	var colors: Dictionary = THEMES.get(id, THEMES["bois"])
+	var colors: Dictionary = THEMES.get(id, THEMES[DEFAULT_THEME])
 	WOOD = Color(colors["bois"])
 	WOOD_LIGHT = Color(colors["bois_clair"])
 	WOOD_HOVER = Color(colors["survol"])

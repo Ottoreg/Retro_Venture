@@ -3197,8 +3197,8 @@ préférence ce que les joueurs feront déjà d'eux-mêmes.
   bas (« rien ne recouvre la carte » ne vaut que pour l'interface permanente) ; même cadre, même en-tête
   (titre, infos, ×) et mêmes onglets (`UiTheme.window_frame`, `header_add`, `tabs`) ; le thème bois et
   or s'applique enfin aussi aux fenêtres et barres posées dans un CanvasLayer (boutons encadrés).
-- **Thèmes de couleurs** (12/11/2026, demande de l'auteur) : Bois et or (défaut), Ardoise et acier, Forêt
-  et mousse, Pierre et argent (`UiTheme.THEMES` : fonds, liserés, boutons, listes ; l'or des titres et les
+- **Thèmes de couleurs** (12/11/2026, demande de l'auteur) : Pierre et argent (défaut, choix de l'auteur),
+  Bois et or, Ardoise et acier, Forêt et mousse (`UiTheme.THEMES` : fonds, liserés, boutons, listes ; l'or des titres et les
   textes restent communs). Choix dans les options, appliqué en direct (`UiTheme.set_theme`, styles des
   fenêtres recolorés par `UiTheme.themed`) et gardé (`Options.ui_theme`). Options réorganisées en
   sections : Affichage (thème, plein écran, taille), Son, Combat, En ligne et tests.

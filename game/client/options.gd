@@ -20,7 +20,7 @@ static var tactical := false
 ## personnages.
 static var tactical_pawns := false
 ## Thème de couleurs de l'interface (clé de `UiTheme.THEMES`).
-static var ui_theme := "bois"
+static var ui_theme := UiTheme.DEFAULT_THEME
 ## Adresse du serveur de jeu (ws:// ou wss://) pour le développement ; vide : celle que publie le
 ## serveur de test dans Supabase (GDD § 16.5).
 static var server_address := ""
@@ -48,7 +48,7 @@ static func load_options(force := false) -> void:
 	tactical_pawns = bool(file.get_value("combat", "pions", tactical_pawns))
 	ui_theme = str(file.get_value("affichage", "theme", ui_theme))
 	if not UiTheme.THEMES.has(ui_theme):
-		ui_theme = "bois"
+		ui_theme = UiTheme.DEFAULT_THEME
 	server_address = str(file.get_value("en_ligne", "serveur", server_address))
 	minimap_radius = clampi(int(file.get_value("carte", "minicarte", minimap_radius)), 1, 4)
 	world_map_zoom = clampi(int(file.get_value("carte", "zoom_monde", world_map_zoom)), 0, WorldMapWindow.ZOOM_WIDTHS.size() - 1)
@@ -78,7 +78,7 @@ static func reset() -> void:
 	window_size = 0
 	tactical = false
 	tactical_pawns = false
-	ui_theme = "bois"
+	ui_theme = UiTheme.DEFAULT_THEME
 	server_address = ""
 	minimap_radius = 2
 	world_map_zoom = WorldMapWindow.DEFAULT_ZOOM
