@@ -42,6 +42,10 @@ var _result_icon: TextureRect
 var _result: Label
 ## Onglet (`MODES`), ressource choisie (id), essence et équipement choisis (uids), contrôles, essais d'infusion.
 const MODES := {"forge": "Forge", "essence": "Essences", "infusion": "Infusion"}
+## Aide du bas de la fenêtre, selon l'onglet.
+const HINTS := {"forge": "Les jets sont tirés au hasard dans les plages affichées ; votre nom est gravé sur l'objet",
+	"essence": "Une essence garde une caractéristique d'une ressource, à infuser ensuite dans un équipement (onglet Infusion)",
+	"infusion": "Une essence renforce une ligne du jet ou ajoute une ligne d'exo ; un échec perd l'essence, jamais l'objet"}
 var _mode := "forge"
 var _source := ""
 var _essence := ""
@@ -50,6 +54,7 @@ var _forge_parts: Array[Control] = []
 var _tabs: TabBar
 var _essence_box: VBoxContainer
 var _essence_text: Label
+var _hint: Label
 var _infusion_box: VBoxContainer
 var _infusion_text: Label
 var _journal: PackedStringArray = []
@@ -245,6 +250,7 @@ func _set_mode(mode: String) -> void:
 	_right_title.get_parent().visible = mode != "essence"
 	(_bag.get_parent().get_child(0) as Label).text = {"forge": "Sac : ressources, plans, patrons et papier (clic, Ctrl + clic : tout, ou glisser vers la recette)",
 		"essence": "Sac : ressources de forge (clic pour choisir)", "infusion": "Sac : essences et équipements (clic pour choisir)"}[mode]
+	_hint.text = HINTS[mode] + " · Échap : fermer"
 	_message.text = ""
 	refresh()
 
@@ -604,6 +610,15 @@ func _build() -> void:
 		button.focus_mode = Control.FOCUS_NONE
 		button.pressed.connect(_send_infusion.bind(pair[3]))
 		pair[0].add_child(button)
+	var guide := _label(13, UiTheme.TEXT_DIM)
+	guide.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	guide.text = ("Comment ça marche\n\n1. Cliquez une ressource du sac, puis choisissez la caractéristique à garder.\n"
+		+ "2. « Créer l'essence » consomme les ressources indiquées et donne une essence.\n"
+		+ "3. Dans l'onglet Infusion, posez-la sur un équipement : elle renforce une ligne de son jet ou ajoute une ligne "
+		+ "d'exo (%d points de score d'exo au plus par objet).\n\nUne essence parfaite coûte %d fois plus de ressources "
+		+ "mais réussit toujours. Au palier Maître, les caractéristiques miroirs s'ajoutent à la liste.") % [Infusion.MAX_EXO_SCORE, Infusion.PERFECT_FACTOR]
+	_essence_box.add_child(HSeparator.new())
+	_essence_box.add_child(guide)
 	_journal_label = RichTextLabel.new()
 	_journal_label.bbcode_enabled = true
 	_journal_label.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -630,10 +645,10 @@ func _build() -> void:
 	_result.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_result_scroll = UiTheme.scroll_area(_result)
 	right.add_child(_result_scroll)
-	var hint := _label(12, Color(0.6, 0.58, 0.52))
-	hint.text = "Les jets sont tirés au hasard dans les plages affichées ; votre nom est gravé sur l'objet · Échap : fermer"
-	hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	column.add_child(hint)
+	_hint = _label(12, Color(0.6, 0.58, 0.52))
+	_hint.text = HINTS["forge"] + " · Échap : fermer"
+	_hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	column.add_child(_hint)
 
 
 func _titled(text: String, content: Control) -> VBoxContainer:

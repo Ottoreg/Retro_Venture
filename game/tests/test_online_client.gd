@@ -515,7 +515,7 @@ func test_amis_et_signalement_entre_deux_clients() -> void:
 	var right_click := InputEventMouseButton.new()
 	right_click.button_index = MOUSE_BUTTON_RIGHT
 	right_click.pressed = true
-	(row.get_child(1) as Label).gui_input.emit(right_click)
+	(row.get_child(1).get_child(0) as Label).gui_input.emit(right_click)
 	assert_eq(asked, [sam], "clic droit sur le pseudo : son menu")
 	party_ui.on_author_clicked(sam)
 	var trade := party_ui._menu.get_item_index(6)

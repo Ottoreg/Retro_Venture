@@ -199,7 +199,10 @@ func refresh() -> void:
 	_sheet = world.character.inventory_sheet(world.data)
 	_coins.text = "%d brumes   ·   %d / %d places" % [_sheet["ecus"], _sheet["objets"].size(), _sheet["places"]]
 	var overloaded: bool = _sheet["objets"].size() > int(_sheet["places"])
-	_coins.add_theme_color_override("font_color", Color(1.0, 0.45, 0.35) if overloaded else GOLD)
+	var full: bool = _sheet["objets"].size() >= int(_sheet["places"])
+	# Plein : orange (le butin et les achats ne rentrent plus) ; surchargé : rouge, avec l'alerte du bas.
+	_coins.add_theme_color_override("font_color", Color(1.0, 0.45, 0.35) if overloaded else Color(1.0, 0.65, 0.3) if full else GOLD)
+	_coins.tooltip_text = "Sac plein : jetez, vendez ou rangez au coffre pour faire de la place." if full and not overloaded else ""
 	_overload.visible = overloaded
 	var by_uid := {}
 	for entry: Dictionary in _sheet["objets"]:
@@ -223,7 +226,7 @@ func refresh() -> void:
 	for entry: Dictionary in _sheet["objets"]:
 		counts[bag_tab(entry["type"])] += 1
 	for tab in BAG_TAB_NAMES.size():
-		_bag_tabs.set_tab_title(tab, "%s (%d)" % [BAG_TAB_NAMES[tab], counts[tab]] if counts[tab] > 0 else BAG_TAB_NAMES[tab])
+		_bag_tabs.set_tab_title(tab, "%s (%d)" % [BAG_TAB_NAMES[tab], counts[tab]])
 	for entry: Dictionary in _sheet["objets"]:
 		if bag_tab(entry["type"]) != _bag_tabs.current_tab:
 			continue
@@ -363,7 +366,7 @@ func _show_details(entry: Dictionary) -> void:
 		UiTheme.lock(button, "Choisissez d'abord un objet.")
 	_icon.texture = null if entry.is_empty() else item_icon(entry["objet"])
 	if entry.is_empty():
-		_details.text = "Choisissez un objet."
+		_details.text = "Choisissez un objet du sac ou un emplacement : sa fiche s'affiche ici.\n\nDouble-clic ou glisser vers un emplacement : équiper ; vers le sac : retirer.\nCtrl enfoncé : les jets possibles de chaque ligne."
 		return
 	var template := Item.entry_template(entry, map_view.world.data.items)
 	var lines: PackedStringArray = [
@@ -409,6 +412,7 @@ func _build() -> void:
 	_panel = frame.panel
 	var column: VBoxContainer = frame.column
 	_coins = UiTheme.header_add(frame, _label(15, GOLD))
+	_coins.mouse_filter = Control.MOUSE_FILTER_PASS  # Bulle « sac plein ».
 
 	var row := HBoxContainer.new()
 	row.size_flags_vertical = Control.SIZE_EXPAND_FILL

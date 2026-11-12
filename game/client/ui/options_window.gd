@@ -6,6 +6,10 @@ extends CanvasLayer
 
 signal closed
 
+## Aide-mémoire de la section « Raccourcis clavier » : touche, action.
+const SHORTCUTS := [["I · C · S · J", "Inventaire, fiche, sorts, métiers"], ["Q · M · F", "Quêtes, carte du monde, amis"],
+	["Entrée · H", "Écrire dans le chat, replier l'historique"], ["A", "S'asseoir (hors combat)"],
+	["1 à 0 · T", "Sorts, mode tactique (en combat)"], ["Échap", "Fermer une fenêtre, menu pause"]]
 var _backdrop: ColorRect
 var _panel: PanelContainer
 var _volume: HSlider
@@ -164,6 +168,15 @@ func _build() -> void:
 	_volume_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	volume_row.add_child(_volume_label)
 	grid.add_child(volume_row)
+
+	# Aide-mémoire des touches, sous le son (lecture seule).
+	grid = _grid(_section(left, "Raccourcis clavier"))
+	grid.add_theme_constant_override("v_separation", 4)
+	for pair: Array in SHORTCUTS:
+		grid.add_child(_caption(pair[0]))
+		var action := _caption(pair[1])
+		action.add_theme_color_override("font_color", UiTheme.TEXT_DIM)
+		grid.add_child(action)
 
 	var right := _section(columns, "Combat")
 	grid = _grid(right)
