@@ -949,6 +949,8 @@ Plan validé par l'auteur le 26/10/2026 : GDD § 16.5, jalons M0 (préparer le n
   bonus liés au positionnement ; Ténèbres, basé aussi sur le positionnement mais orienté entrave,
   avec des entités ténébreuses qui agrippent les alliés pour les restreindre (comme la manipulation
   des ombres de Naruto).
+- [ ] Une troisième Voie Lumière ou Ténèbres par classe (12/11/2026) : propositions dans le GDD § 4.3,
+  « Troisième Voie Lumière ou Ténèbres ».
 
 ### Identité des classes (à décider après les premiers retours de l'alpha 1)
 

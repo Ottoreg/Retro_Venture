@@ -609,6 +609,25 @@ retirés (ni par un sort de retrait des états, comme ceux du Théologue, ni par
 futur du Chronomancien Givre), entre autres les états élémentaires de l'Arcaniste et l'état
 Manipulation du temps. Chaque effet ou état dira s'il peut être retiré.
 
+**Troisième Voie Lumière ou Ténèbres** (idée de l'auteur du 12/11/2026, propositions de Claude non
+validées ; éléments notés dans la TODO, « Lumière et Ténèbres ») : chaque classe pourrait gagner une Voie
+d'un double élément, **Lumière** (Flamme + Givre) ou **Ténèbres** (Tempête + Acier), *complémentaire*
+(il contient un élément déjà joué par la classe) ou *miroir* (il n'en contient aucun).
+
+| Classe | Voies principales | Proposition | Idée de jeu |
+|---|---|---|---|
+| Guerrier | Acier | Ténèbres (complémentaire) | Chevalier noir : lames d'ombre, entrave au contact |
+| Rôdeur | Acier / Tempête (Flamme à terme) | Ténèbres (complémentaire) | Chasseur nocturne : tir depuis l'obscurité, pièges d'ombre qui immobilisent |
+| Arcaniste | Flamme / Givre / Tempête | Lumière (complémentaire) | Prismes et rayons ; recoupe les fusions Flamme + Givre de *Composition* |
+| Théologue | Sacré | Lumière (complémentaire du thème) | Auréoles et rayons qui soignent selon la ligne de vue |
+| Chronomancien | Impie / Givre | Lumière (complémentaire) | « Lumière d'étoiles mortes » : voir et rejouer le passé, reflets décalés dans le temps |
+| Paladin | Sacré / Tempête | Ténèbres (complémentaire) | Paladin déchu, parodie du héros sacré : auras qui affaiblissent au lieu de bénir |
+| Myrmidon | Acier / Givre | Lumière (complémentaire) | Bouclier-miroir qui renvoie les sorts et éblouit |
+| Ombre | Tempête / Acier | Lumière (miroir) ou Ténèbres (fusion de ses deux Voies) | Ombres projetées depuis une source de lumière, ou entrave par les ombres (façon Naruto) |
+| Démoniste | Impie / Flamme | Ténèbres (complémentaire) | Démons d'ombre qui agrippent, serviteurs tapis dans l'obscurité |
+
+Avec la Lumière pour l'Ombre : 5 classes Lumière, 4 Ténèbres.
+
 Mécaniques que ces pistes demandent : glyphes qui suivent leur lanceur (aura), balises et arcs
 entre deux cases (dégâts à la traversée, renfort des projectiles), état du terrain cumulable
 (embrasement, calciné), clones qui explosent, armes à dégâts différés, entrée dans l'ombre d'un
