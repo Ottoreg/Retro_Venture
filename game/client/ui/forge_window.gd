@@ -447,15 +447,28 @@ func _build() -> void:
 		_tabs.set_tab_tooltip(tab, ["Forger un équipement", "Infuser des ressources identiques en une essence", "Appliquer une essence à un équipement"][tab])
 	column.add_child(_tabs)
 
+	# Variante B (choix de l'auteur) : la recette et le bouton Forger en bandeau en haut, le sac dessous à
+	# gauche, l'aperçu au centre, la fiche de l'objet à droite sur toute la hauteur.
 	var row := HBoxContainer.new()
 	row.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	row.add_theme_constant_override("separation", 14)
 	column.add_child(row)
+	var main := VBoxContainer.new()
+	main.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	main.add_theme_constant_override("separation", 10)
+	row.add_child(main)
+	var band := HBoxContainer.new()
+	band.add_theme_constant_override("separation", 14)
+	main.add_child(band)
+	var lower := HBoxContainer.new()
+	lower.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	lower.add_theme_constant_override("separation", 14)
+	main.add_child(lower)
 	# Gauche : le sac en icônes. Un clic gauche relâché ajoute une ressource (ou suit un plan), sans la
 	# molette ; on peut aussi glisser une ressource vers les cases de la recette.
 	_bag = ItemList.new()
 	InventoryWindow.make_bag_grid(_bag)
-	_bag.custom_minimum_size = Vector2(360, 0)
+	_bag.custom_minimum_size = Vector2(300, 0)
 	_bag.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	_bag.gui_input.connect(func(event: InputEvent) -> void:
 		var click := event as InputEventMouseButton
@@ -488,12 +501,12 @@ func _build() -> void:
 	var left := _titled("Sac : ressources, plans, patrons et papier (clic, Ctrl + clic : tout, ou glisser vers la recette)", _bag)
 	left.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	(left.get_child(0) as Label).autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	row.add_child(left)
+	lower.add_child(left)
 
-	# Centre : type, aperçu, nom, puis la recette (8 cases) et le bouton.
+	# Centre : type, nom, aperçu.
 	var center := VBoxContainer.new()
 	center.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	row.add_child(center)
+	lower.add_child(center)
 	_types = OptionButton.new()
 	for type: String in Forge.TYPES:
 		_types.add_item(Forge.TYPE_NAMES[type])
@@ -521,8 +534,8 @@ func _build() -> void:
 		names.add_child(option)
 		_words.append(option)
 	center.add_child(_titled("Nom de l'objet", names))
+	center.move_child(center.get_child(-1), 1)  # Sous le type, au-dessus de l'aperçu.
 	var slots := HBoxContainer.new()
-	slots.alignment = BoxContainer.ALIGNMENT_CENTER
 	for i in Forge.MAX_SLOTS + 1:  # 8 cases de ressources, puis celle de la feuille de papier.
 		var slot := Button.new()
 		slot.custom_minimum_size = Vector2(48, 62)
@@ -542,15 +555,19 @@ func _build() -> void:
 	_paper_slot.text = "patron"
 	_paper_slot.tooltip_text = "Feuille de papier (vendue par les marchands) : elle reçoit le patron de l'objet forgé"
 	_paper_slot.modulate = Color(1.0, 0.9, 0.7)
-	center.add_child(_titled("Recette (cliquer une case pour en retirer)", slots))
+	band.add_child(_titled("Recette (cliquer une case pour en retirer)", slots))
 	_forge_button = Button.new()
 	_forge_button.text = "Forger"
 	_forge_button.focus_mode = Control.FOCUS_NONE
+	_forge_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_forge_button.size_flags_vertical = Control.SIZE_SHRINK_END
+	_forge_button.custom_minimum_size = Vector2(0, 62)
+	_forge_button.add_theme_font_size_override("font_size", 20)
 	_forge_button.pressed.connect(_on_forge_pressed)
-	center.add_child(_forge_button)
+	band.add_child(_forge_button)
 	_message = _label(14, Color(0.55, 0.9, 0.5))
 	_message.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_forge_parts.assign(center.get_children())
+	_forge_parts.assign(center.get_children() + [band])
 	center.add_child(_message)
 	# Onglets Essences et Infusion : à la place du type, de l'aperçu, du nom et de la recette.
 	_essence_box = VBoxContainer.new()
