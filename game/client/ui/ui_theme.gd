@@ -124,6 +124,7 @@ static func build() -> Theme:
 	theme.set_color("font_color", "ItemList", TEXT)
 	theme.set_stylebox("normal", "LineEdit", _box(INK, BRONZE, 1, 4, 6))
 	theme.set_stylebox("focus", "LineEdit", _box(INK, GOLD, 1, 4, 6))
+	theme.set_stylebox("read_only", "LineEdit", _box(INK, SEAM, 1, 4, 6))
 	theme.set_color("font_color", "LineEdit", TEXT)
 	theme.set_color("font_placeholder_color", "LineEdit", TEXT_DIM)
 	theme.set_color("caret_color", "LineEdit", GOLD)

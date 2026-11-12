@@ -1010,9 +1010,9 @@ func test_tous_les_membres_d_un_groupe_sont_affiches() -> void:
 
 	# En haut de la bande gauche, seulement le nom de la carte ; ce qu'on survole va dans une bulle.
 	var info: Label = scene.get_node("CombatHud").map_title
-	assert_eq(info.text, view.current_map().display_name, "le nom de la carte, rien d'autre")
+	assert_eq(info.text, view.current_map().display_name.get_slice(" — ", 1), "le nom de la carte (la zone est sur la minicarte), rien d'autre")
 	view._set_hovered(view.server.groups()[0]["case"])
-	assert_eq(info.text, view.current_map().display_name)
+	assert_eq(info.text, view.current_map().display_name.get_slice(" — ", 1))
 	assert_true(scene._hover_bubble.visible, "bulle au survol d'un groupe")
 	var hovered: Dictionary = view.server.groups()[0]
 	var expected: PackedStringArray = []

@@ -79,17 +79,19 @@ func refresh() -> void:
 	for entry: Dictionary in _journal["en_cours"]:
 		var mark := "» " if entry["id"] == _journal["suivie"] else "   "
 		_add(entry, mark + entry["nom"], UiTheme.TEXT)
-	if not _journal["terminees"].is_empty():
-		_section("Terminées (%d)" % _journal["terminees"].size())
-		for entry: Dictionary in _journal["terminees"]:
-			_add(entry, "   " + entry["nom"], DONE_COLOR)
+	_section("")  # Ligne vide entre les deux sections.
+	_section("Terminées (%d)" % _journal["terminees"].size())
+	if _journal["terminees"].is_empty():
+		_section("   Aucune pour l'instant", UiTheme.TEXT_DIM)
+	for entry: Dictionary in _journal["terminees"]:
+		_add(entry, "   " + entry["nom"], DONE_COLOR)
 	_show_details()
 
 
-func _section(text: String) -> void:
+func _section(text: String, color := UiTheme.GOLD) -> void:
 	var index := _list.add_item(text)
 	_list.set_item_selectable(index, false)
-	_list.set_item_custom_fg_color(index, UiTheme.GOLD)
+	_list.set_item_custom_fg_color(index, color)
 	_ids.append("")
 
 
@@ -173,11 +175,15 @@ func _build() -> void:
 	details.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	details.add_theme_constant_override("separation", 10)
 	row.add_child(details)
+	# Titre de la quête, et à sa droite le bouton Suivre / Ne plus suivre.
+	var head := HBoxContainer.new()
+	details.add_child(head)
 	_title = Label.new()
 	_title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_title.add_theme_font_size_override("font_size", 20)
 	_title.add_theme_color_override("font_color", UiTheme.GOLD)
-	details.add_child(_title)
+	head.add_child(_title)
 	_details = QuestLinks.make_label(14, UiTheme.TEXT, pin_requested.emit)
 	_objectives = QuestLinks.make_label(14, UiTheme.TEXT, pin_requested.emit)
 	_rewards = Label.new()
@@ -192,7 +198,8 @@ func _build() -> void:
 	details.add_child(UiTheme.scroll_area(text_box))
 	_track = Button.new()
 	_track.custom_minimum_size = Vector2(160, 34)
-	_track.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	_track.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
 	_track.focus_mode = Control.FOCUS_NONE
+	_track.tooltip_text = "La quête suivie s'affiche sous la minicarte, avec une épingle sur son objectif."
 	_track.pressed.connect(_on_track_pressed)
-	details.add_child(_track)
+	head.add_child(_track)

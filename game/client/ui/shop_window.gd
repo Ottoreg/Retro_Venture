@@ -26,7 +26,7 @@ var _tabs: TabBar
 var _search: LineEdit
 var _list: ItemList
 var _prices: PackedStringArray = []
-var _details: Label
+var _details: RichTextLabel
 var _quantity_box: HBoxContainer
 var _quantity: SpinBox
 var _action_button: Button
@@ -153,7 +153,7 @@ func _show_details(entry: Dictionary) -> void:
 		_action_button.text = "Acheter" if _mode == BUY else "Vendre"
 		return
 	var lines: PackedStringArray = [
-		"%s — %s" % [entry["nom"], Item.RARITY_NAMES.get(entry["rarete"], "")],
+		"[b][color=#%s]%s[/color][/b] — %s" % [InventoryWindow.rarity_color(entry["rarete"]).to_html(false), entry["nom"], Item.RARITY_NAMES.get(entry["rarete"], "")],
 		"%s, palier %d" % [InventoryWindow.TYPE_NAMES.get(entry["type"], entry["type"]), Item.tier(Item.entry_template(entry, map_view.world.data.items))],
 	]
 	if _mode == BUY:
@@ -164,6 +164,8 @@ func _show_details(entry: Dictionary) -> void:
 	lines.append_array(InventoryWindow.attack_lines(template))
 	lines.append_array(ForgeWindow.forge_lines(template, map_view.world.data, map_view.world.character))
 	lines.append_array(InventoryWindow.set_lines(entry, map_view.world.data, map_view.world.character.inventory))
+	# Comparé à l'équipement porté, comme l'infobulle de l'inventaire (en vente : « Porté » pour un objet porté).
+	lines.append_array(ItemTooltipList.comparison_lines(entry, map_view.world.data, map_view.world.character.inventory))
 	if not str(entry["description"]).is_empty():
 		lines.append("")
 		lines.append(entry["description"])
@@ -315,7 +317,7 @@ func _build() -> void:
 	var detail_box := VBoxContainer.new()
 	detail_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	row.add_child(detail_box)
-	_details = _label(14, Color(0.92, 0.9, 0.85))
+	_details = ItemTooltipList.make_label("")
 	_details.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_details.custom_minimum_size = Vector2(260, 0)
 	detail_box.add_child(UiTheme.scroll_area(_details))

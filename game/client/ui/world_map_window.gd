@@ -13,6 +13,8 @@ extends CanvasLayer
 signal pin_cleared
 ## Clic droit sur une carte : un drapeau (repère) ; `shared` avec Maj (montré au groupe).
 signal flag_requested(pin: Dictionary, shared: bool)
+## Ordre des onglets de zones.
+const TAB_ORDER := ["brumerive", "crasse_roc", "sylvebrume", "hautepierre"]
 ## Une sorte d'icône montrée ou masquée (la minicarte se redessine).
 signal icons_changed
 
@@ -227,10 +229,11 @@ class ZoneGrid extends Control:
 		var font := get_theme_default_font()
 		var name_size := font_size()
 		if compact:
-			# Emplacements vides de la fenêtre, à peine marqués : on lit la grille du monde.
+			# Emplacements vides de la fenêtre (bord du monde) : cases claires et cernées, plutôt qu'un trou noir.
 			for row in int(layout.get("lignes", 0)):
 				for col in int(layout.get("colonnes", 0)):
-					draw_rect(cell_rect(Vector2i(col, row)), Color(1, 1, 1, 0.035))
+					draw_rect(cell_rect(Vector2i(col, row)), Color(1, 1, 1, 0.06))
+					draw_rect(cell_rect(Vector2i(col, row)), Color(1, 1, 1, 0.1), false, 1.0)
 		# Les liens d'abord : un chemin entre deux cartes voisines (inutile entre des cases jointives).
 		var link_width := clampf(minf(cell_px.x, cell_px.y) * 0.08, 1.5, 4.0)
 		if not (compact and world != null):
@@ -310,8 +313,9 @@ class ZoneGrid extends Control:
 			_draw_zone_outline(hover_zone)
 		if not compact and cell_px.x < ZONE_NAMES_BELOW:
 			_draw_zone_names()
-		_draw_pin(objective, COLOR_OBJECTIVE, true)
-		_draw_pin(pin, COLOR_PIN, false)
+		# Épingles dans le coin haut gauche, côte à côte : le nom, centré, et les icônes, en bas, restent lisibles.
+		_draw_pin(objective, COLOR_OBJECTIVE)
+		_draw_pin(pin, COLOR_PIN, 1)
 		_draw_party()
 
 	## Grille du monde : le contour des cartes d'une zone (celle de la carte survolée), à mi-écart
@@ -340,14 +344,17 @@ class ZoneGrid extends Control:
 			var area: Rect2i = zone["cases"]
 			var box := cell_rect(area.position).merge(cell_rect(area.end - Vector2i.ONE))
 			var text_size := clampi(int(box.size.y * 0.22), 12, 22)
-			# Une petite zone (une seule carte) : son nom déborde sur les côtés plutôt que d'être coupé.
-			box = box.grow_individual(maxf(0.0, (160.0 - box.size.x) / 2.0), 0, maxf(0.0, (160.0 - box.size.x) / 2.0), 0)
+			# Une petite zone (une seule carte) : son nom déborde sur les côtés, d'une demi-case au plus (sans
+			# toucher celui de sa voisine), sur deux lignes s'il le faut.
+			var spill := minf(maxf(0.0, (160.0 - box.size.x) / 2.0), (cell_rect(Vector2i.RIGHT).position.x - cell_rect(Vector2i.ZERO).position.x) / 2.0 - 4.0)
+			var tall := maxf(0.0, font.get_height(text_size) * 2.0 - box.size.y) / 2.0 if spill > 0.0 else 0.0
+			box = box.grow_individual(spill, tall, spill, tall)
 			_centered_text(font, box, str(zone["nom"]), text_size, GOLD, 2, true)
 
 	## Membres du groupe : un point vert dans leur case (en bas à droite), leurs repères en épingle verte.
 	func _draw_party() -> void:
 		for member: Dictionary in party:
-			_draw_pin(member["repere"], COLOR_PARTY, false, 1)
+			_draw_pin(member["repere"], COLOR_PARTY, 2)
 			var at := {"carte": member["carte"]}
 			if pin_in_grid(at):
 				var rect := cell_rect(pin_cell(at))
@@ -356,9 +363,9 @@ class ZoneGrid extends Control:
 				draw_circle(center, radius, COLOR_PARTY)
 				draw_arc(center, radius, 0, TAU, 16, Color.WHITE, 1.0)
 
-	## Un repère : une épingle dans le coin haut gauche de sa case (bas gauche pour l'objectif suivi) ;
+	## Un repère : une épingle dans le coin haut gauche de sa case (décalée de `shift` épingles) ;
 	## sur la minicarte, une flèche au bord quand sa case est hors de la fenêtre (même zone).
-	func _draw_pin(marker: Dictionary, color: Color, low: bool, shift := 0) -> void:
+	func _draw_pin(marker: Dictionary, color: Color, shift := 0) -> void:
 		var cell: Variant = pin_cell(marker)
 		if cell == null:
 			return
@@ -366,8 +373,6 @@ class ZoneGrid extends Control:
 		if pin_in_grid(marker):
 			var radius := clampf(minf(rect.size.x, rect.size.y) * 0.12, 3.0, 7.0)
 			var head := rect.position + Vector2(radius + 3 + shift * radius * 2.2, radius + 3)
-			if low:
-				head.y = rect.end.y - radius * 3.2 - 3
 			var tip := head + Vector2(0, radius * 2.2)
 			draw_colored_polygon(PackedVector2Array([head + Vector2(-radius * 0.7, radius * 0.5), head + Vector2(radius * 0.7, radius * 0.5), tip]), color)
 			draw_circle(head, radius, color)
@@ -691,10 +696,14 @@ static func world_grid_layout(world: ClientState, here := "") -> Dictionary:
 		world.data.passages, known_passages(world))
 
 
-## Un onglet par zone du jeu, celles visitées d'abord.
+## Un onglet par zone du jeu : les zones de départ, Hautepierre, puis les autres (`TAB_ORDER`, puis par id).
 func _update_zones() -> void:
 	var world := map_view.world
 	var zones := WorldMapLayout.visited_zones(shown_maps(world))
+	zones.sort_custom(func(a: String, b: String) -> bool:
+		var rank_a := TAB_ORDER.find(a) if a in TAB_ORDER else TAB_ORDER.size()
+		var rank_b := TAB_ORDER.find(b) if b in TAB_ORDER else TAB_ORDER.size()
+		return rank_a < rank_b or rank_a == rank_b and a < b)
 	if zones == _zone_ids:
 		return
 	_zone_ids = zones

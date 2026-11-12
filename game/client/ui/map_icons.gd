@@ -19,7 +19,7 @@ const COLORS := {
 	"pierre": Color("7fd0f0"),
 	"atelier": Color("d08a3a"),
 	"marchand": Color("e8c95a"),
-	"coffre": Color("a07850"),
+	"coffre": Color("d2a679"),
 	"boss": Color("d8483a"),
 	"quete": Color("ffd23f"),
 }

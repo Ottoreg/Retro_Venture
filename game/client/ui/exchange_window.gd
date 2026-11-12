@@ -24,12 +24,13 @@ var _bag_title: Label
 var _bag_list: ItemList
 var _mine_list: ItemList
 var _theirs_title: Label
+var _mine_title: Label
 var _theirs_list: ItemList
 var _quantity: SpinBox
 var _offer_button: Button
 var _remove_button: Button
 var _ecus: SpinBox
-var _theirs_ecus: Label
+var _theirs_ecus: LineEdit
 var _status: Label
 var _validate_button: Button
 var _message: Label
@@ -130,7 +131,8 @@ func refresh() -> void:
 	_fill(_theirs_list, _sheet(_state["sien"]["objets"]), null)
 	if not found:
 		_selected = ""
-	_theirs_title.text = "Offre de %s" % other_name
+	_mine_title.text = "Votre offre" + (" · validée" if _state["valide_moi"] else "")
+	_theirs_title.text = "Offre de %s" % other_name + (" · validée" if _state["valide_lui"] else "")
 	_theirs_ecus.text = "%d brumes" % int(_state["sien"]["brumes"])
 	if not _ecus.get_line_edit().has_focus():
 		_ecus.max_value = maxi(world.character.inventory.ecus, int(_state["mien"]["brumes"]))
@@ -291,26 +293,25 @@ func _build() -> void:
 	var offers := VBoxContainer.new()
 	offers.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	row.add_child(offers)
-	var mine_title := _label(15, Color(0.85, 0.82, 0.72))
-	mine_title.text = "Votre offre"
-	offers.add_child(mine_title)
+	offers.add_theme_constant_override("separation", 6)
+	# Les deux offres l'une sous l'autre, de même forme : titre (« validée » quand c'est fait), objets, brumes.
+	_mine_title = _label(15, GOLD)
+	offers.add_child(_mine_title)
 	_mine_list = _list(offers)
 	UiTheme.list_helpers(_mine_list, "Choisissez un objet de l'inventaire, puis « Proposer ».")
 	_mine_list.item_selected.connect(func(index: int) -> void: _select(_mine_list.get_item_metadata(index), true))
-	var ecus_row := HBoxContainer.new()
-	offers.add_child(ecus_row)
 	_ecus = SpinBox.new()
 	_ecus.min_value = 0
 	_ecus.suffix = "brumes"
-	_ecus.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_ecus.value_changed.connect(_on_ecus_changed)
-	ecus_row.add_child(_ecus)
-	offers.add_child(HSeparator.new())
-	_theirs_title = _label(15, Color(0.85, 0.82, 0.72))
+	offers.add_child(_ecus)
+	_theirs_title = _label(15, GOLD)
 	offers.add_child(_theirs_title)
 	_theirs_list = _list(offers)
 	UiTheme.list_helpers(_theirs_list, "Aucun objet proposé pour l'instant.")
-	_theirs_ecus = _label(15, GOLD)
+	_theirs_ecus = LineEdit.new()  # Lecture seule, à la place du champ de nos brumes.
+	_theirs_ecus.editable = false
+	_theirs_ecus.add_theme_color_override("font_uneditable_color", UiTheme.TEXT)
 	offers.add_child(_theirs_ecus)
 
 	_status = _label(15, Color(0.85, 0.82, 0.72))

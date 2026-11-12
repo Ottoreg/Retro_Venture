@@ -3209,6 +3209,18 @@ préférence ce que les joueurs feront déjà d'eux-mêmes.
   emplacements d'équipement, du repère de la minicarte et de l'ordre de jeu ; historique des infusions vide
   expliqué. Le vert est gardé aux gains et réussites (et à la rareté « peu commun ») : messages de la boutique
   en texte normal, état de l'échange doré quand l'autre joueur attend votre validation.
+- **Fenêtres une à une** (12/11/2026, fin de l'audit) : Amis en deux colonnes (amis, ignorés), statut sous le
+  pseudo, retrait confirmé par un second clic ; proposition de quête avec le PNJ en pied ; aide-mémoire des
+  touches dans les options ; inventaire : sac plein signalé (orange), compteur de chaque onglet, consigne du
+  détail vide ; Enclume : aide du bas selon l'onglet, mode d'emploi des essences ; boutique : fiche comparée
+  à l'équipement porté ; échange : les deux offres de même forme (« validée » dans leur titre) ; sorts : maîtrise
+  encadrée avec ce que donne le rang suivant ; quêtes : section Terminées toujours là, « Suivre » près du titre ;
+  carte du monde : onglets dans l'ordre des zones (départ, Hautepierre, puis les autres), noms des petites
+  zones sans chevauchement, épingles en haut à gauche des cases ; minicarte : cases vides du bord du monde
+  marquées ; nom de la carte seul en haut de la bande gauche (la zone est sur la minicarte) ; chat : onglets en
+  toutes lettres, bouton Replier / Déplier, canal écrit en tête des messages dans Tout ; textes flottants
+  d'une même case empilés ; dernier message de la bande droite gardé, estompé ; fenêtres créées par le code
+  au-dessus de l'interface permanente.
 - **Menu pause** (Échap quand aucune fenêtre n'est ouverte) : le jeu s'arrête ; reprendre, options,
   retour au menu principal (sauvegardé, pas pendant un combat), quitter. **Options** (menu principal
   ou pause) : thème de couleurs, volume, plein écran, taille de la fenêtre, mode tactique, pions en mode tactique ; gardées hors sauvegarde.

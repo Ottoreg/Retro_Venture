@@ -478,7 +478,8 @@ func _process(delta: float) -> void:
 		_timer_label.text = "%s : %d s" % ["Placement" if map_view.is_placement() else "Tour", left]
 	if _message_time > 0.0:
 		_message_time -= delta
-		_message_label.modulate.a = clampf(_message_time / 0.5, 0.0, 1.0)
+		# Le dernier message reste, estompé, jusqu'au suivant : le haut de la bande n'est pas vide.
+		_message_label.modulate.a = clampf(_message_time / 0.5, 0.45, 1.0)
 	# Hors combat, les PV remontent tout seuls : la jauge suit.
 	_refresh_time += delta
 	if _refresh_time >= 0.5:
