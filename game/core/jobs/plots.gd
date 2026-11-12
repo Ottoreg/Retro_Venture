@@ -10,7 +10,7 @@ const MAPS := {"agriculteur": "instance_champ", "herboriste": "instance_jardin",
 	"bucheron": "instance_bosquet", "mineur": "instance_mine"}
 ## Selon la réputation : [seuil, emplacements, % de quantité, % de pousse en moins, % de temps de récolte en moins,
 ## points de % de rare en plus].
-const LEVELS := [[2500, 10, 0, 0, 0, 0.0], [15000, 15, 10, 0, 0, 0.0], [40000, 25, 25, 15, 10, 0.0], [100000, 40, 50, 30, 20, 0.5]]
+const LEVELS := [[2500, 10, 0, 0, 0, 0.0], [13000, 15, 10, 0, 0, 0.0], [29000, 25, 25, 15, 10, 0.0], [61000, 40, 50, 30, 20, 0.5]]
 ## Pousse : 10 min au palier 1 de la ressource, + 5 min par palier (niveaux 1–6, 7–12, 13–20, 21–30, 31+).
 const GROW_BASE := 600.0
 const GROW_PER_TIER := 300.0

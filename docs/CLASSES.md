@@ -36,9 +36,9 @@ Monter au rang *n* coûte *n* points : rang 5 = **15 points** par sort ou compé
 | Inconnu | 0 | 0 | 1 |
 | Apprenti | 1000 | 20 | 7 |
 | Compagnon | 5000 | 40 | 12 |
-| Vétéran | 15000 | 60 | 19 |
-| Maître | 40000 | 80 | 26 |
-| Légende | 100000 | 100 | 36 |
+| Vétéran | 13000 | 60 | 18 |
+| Maître | 29000 | 80 | 23 |
+| Légende | 61000 | 100 | 30 |
 
 **Niveau équivalent** (`Progression.equivalent_level`, jamais affiché) : la force tirée de la
 réputation, l'ancienne courbe d'XP divisée par 3,5 (passer de *n* à *n*+1 coûte (60·*n* + 20·*n*²) / 3,5).
@@ -137,7 +137,7 @@ horloge, glyphe et piège) ; *Moy./PA* ; *Rang 5* = moyenne avec +50 % de maîtr
 | **Second souffle** | I | 2 PA, portée soi, sans ligne de vue, 1/tour, relance 3 t. | soin 12–18 (Acier) | 15 soin | 7,5 soin | 22,5 soin | rang 3 : relance 2 t.<br>rang 5 : ajoute bouclier 9–14 (Acier) |
 | **Charge** | I | 3 PA, portée 2–4, en ligne, 1/tour, relance 2 t. | charge en ligne jusqu'au contact (effets suivants au contact seulement) ; 6–9 Acier | 7,5 dégâts | 2,5 dégâts | 11,25 dégâts | rang 3 : +1 portée<br>rang 5 : relance 1 t. |
 | **Cri de guerre** | II (5000 rép.) | 3 PA, portée soi, cercle de rayon 2, sans ligne de vue, 1/tour, relance 4 t. | +4–6 Dommages (2 t.) aux alliés | — | — | — | rang 3 : relance 3 t.<br>rang 5 : zone de taille 3 |
-| **Fendoir** | II (15000 rép.) | 5 PA, portée 1, 1/tour | 16–22 Acier | 19 dégâts | 3,8 dégâts | 28,5 dégâts | rang 3 : +5 % critique<br>rang 5 : coût 4 PA |
+| **Fendoir** | II (13000 rép.) | 5 PA, portée 1, 1/tour | 16–22 Acier | 19 dégâts | 3,8 dégâts | 28,5 dégâts | rang 3 : +5 % critique<br>rang 5 : coût 4 PA |
 
 ### Rôdeur
 

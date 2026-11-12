@@ -25,8 +25,8 @@ func test_reputation_et_points_de_maitrise() -> void:
 	assert_eq(hero.reputation(), 21100)
 	assert_eq(hero.add_reputation(-50).size(), 0, "jamais de baisse")
 	assert_eq(hero.reputation(), 21100)
-	assert_eq([Character.earned_points(5000), Character.earned_points(100000), Character.earned_points(106000)], [40, 100, 102],
-		"100 points à Légende, puis un par 3 000 sans plafond")
+	assert_eq([Character.earned_points(5000), Character.earned_points(61000), Character.earned_points(64200)], [40, 100, 102],
+		"100 points à Légende, puis un par 1 600 sans plafond")
 	assert_eq(Character.earned_points(1000, true), 2, "métier : un point par %d" % Character.REPUTATION_PER_MASTERY_POINT)
 
 

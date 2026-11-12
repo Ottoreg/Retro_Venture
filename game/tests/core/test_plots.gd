@@ -35,7 +35,7 @@ func _enter() -> bool:
 
 func test_regles() -> void:
 	assert_eq(Plots.level(2499), [])
-	assert_eq(Plots.level(40000)[1], 25, "25 emplacements au palier Maître")
+	assert_eq(Plots.level(29000)[1], 25, "25 emplacements au palier Maître")
 	assert_eq([Plots.unlock_cost(8), Plots.unlock_cost(15), Plots.unlock_cost(30)], [1, 2, 3])
 	assert_eq([Plots.grow_time(3), Plots.grow_time(8), Plots.grow_time(22), Plots.grow_time(40)], [600.0, 900.0, 1500.0, 1800.0], "10 min + 5 min par palier")
 	assert_eq(Plots.grow_time(1, 30), 420.0, "bonus de pousse")

@@ -827,9 +827,9 @@ difficulté**, qui compare la menace des monstres à la force du joueur, pour qu
 | Inconnu | 0 | sorts de rang I (le kit actuel) |
 | Apprenti | 1 000 | premières compétences passives |
 | Compagnon | 5 000 | sorts de rang II ; droit de commencer une autre activité |
-| Vétéran | 15 000 | derniers sorts de rang II |
-| Maître | 40 000 | quête de Voie : rang III, Voie Miroir (§ 5.3) |
-| Légende | 100 000 | titre, apparence (prestige, pas de puissance) |
+| Vétéran | 13 000 | derniers sorts de rang II |
+| Maître | 29 000 | quête de Voie : rang III, Voie Miroir (§ 5.3) |
+| Légende | 61 000 | titre, apparence (prestige, pas de puissance) |
 
 Noms provisoires ; chaque camp pourra avoir les siens (« Délégué syndical » chez les gobelins). Le
 palier Compagnon vise la fin des zones de départ (≈ 4 à 5 h de jeu).
@@ -859,14 +859,22 @@ avec 1 point par 500 de réputation et la réputation des monstres vaincus tiré
   |---|---|---|---|
   | Apprenti | 1 000 | 50 | 20 |
   | Compagnon | 5 000 | 200 | 40 |
-  | Vétéran | 15 000 | 500 | 60 |
-  | Maître | 40 000 | 1 250 | 80 |
-  | Légende | 100 000 | 3 000 | 100 |
+  | Vétéran | 13 000 | 400 | 60 |
+  | Maître | 29 000 | 800 | 80 |
+  | Légende | 61 000 | 1 600 | 100 |
 
-  Au-delà de Légende, la réputation continue de donner des points (rythme à fixer, voir plus bas).
+  Au-delà de Légende, la réputation continue de donner des points, un par 1 600 pour l'instant (rythme
+  à fixer, voir plus bas).
 - **Réputation d'un monstre vaincu selon son palier** (plus son ancienne XP) : 10 × palier ×
   facteur de difficulté, partagée par le groupe.
-- **Paliers de réputation inchangés** : ne pas allonger artificiellement la progression d'une classe.
+- **Écart entre deux paliers ×2 à partir de Compagnon** (validé le 12/11/2026 après la simulation,
+  paliers à 1 000, 5 000, 13 000, 29 000 et 61 000 ; avant : 15 000, 40 000 et 100 000) : ne pas allonger
+  artificiellement la progression d'une classe. La table est commune aux classes et aux métiers.
+  Simulation (`tools/simulation.gd`, 6 combats par Voie et par groupe, combats contre son palier,
+  ~20 s par tour + 30 s de déplacement) : 64, 88, 134 et 159 de réputation par combat gagné contre les
+  paliers 1 à 4 (6,5 / 10 / 11 / 26 tours), soit ~1 400, ~1 350, ~1 900 et ~1 050 par heure. Temps cumulé :
+  Apprenti 0 h 45, Compagnon 3 h 30, Vétéran 9 h 20, Maître 18 h, **Légende ~49 h** (82 h avec les
+  anciens paliers).
 - **À réfléchir : réputation reposée** (×2 sur les premiers gains de la journée), qui inciterait aussi
   à se connecter chaque jour.
 - **Plus tard**, une fois tous les aspects des classes conçus : nombre total de points pour tout
@@ -1933,9 +1941,9 @@ jour (en fin de section).
 | Réputation | Emplacements | Bonus d'instance |
 |---|---|---|
 | Ouverture (2 500) | 10 | aucun |
-| Vétéran (15 000) | 15 | +10 % de quantité récoltée |
-| Maître (40 000) | 25 | +25 % de quantité, pousse −15 %, récolte −10 % de temps |
-| Légende (100 000) | 40 | +50 % de quantité, pousse −30 %, récolte −20 % de temps, +0,5 % de rare |
+| Vétéran (13 000) | 15 | +10 % de quantité récoltée |
+| Maître (29 000) | 25 | +25 % de quantité, pousse −15 %, récolte −10 % de temps |
+| Légende (61 000) | 40 | +50 % de quantité, pousse −30 %, récolte −20 % de temps, +0,5 % de rare |
 
 - **Bonus d'instance** : ils ne valent **que dans l'instance** et s'ajoutent aux compétences du
   métier ; la récolte sauvage reste la source normale des ressources, et celle de la carte reste

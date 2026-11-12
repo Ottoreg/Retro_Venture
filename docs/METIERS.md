@@ -23,9 +23,9 @@ Monter au rang *n* coûte *n* points : rang 5 = **15 points** par sort ou compé
 | Inconnu | 0 | 0 | 1 |
 | Apprenti | 1000 | 2 | 7 |
 | Compagnon | 5000 | 10 | 12 |
-| Vétéran | 15000 | 30 | 19 |
-| Maître | 40000 | 80 | 26 |
-| Légende | 100000 | 200 | 36 |
+| Vétéran | 13000 | 26 | 18 |
+| Maître | 29000 | 58 | 23 |
+| Légende | 61000 | 122 | 30 |
 
 **Niveau équivalent** (`Progression.equivalent_level`, jamais affiché) : la force tirée de la
 réputation, l'ancienne courbe d'XP divisée par 3,5 (passer de *n* à *n*+1 coûte (60·*n* + 20·*n*²) / 3,5).

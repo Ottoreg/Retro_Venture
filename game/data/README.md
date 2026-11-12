@@ -496,13 +496,13 @@ phase.
   "nom": "Guerrier",
   "caracteristiques": {"pv": 60, "pa": 6, "pm": 3, "initiative": 100},
   "sorts": ["guerrier_frappe", "guerrier_hache", "guerrier_tourbillon", "guerrier_second_souffle"],
-  "sorts_rang_2": {"guerrier_cri_de_guerre": 5000, "guerrier_fendoir": 15000}
+  "sorts_rang_2": {"guerrier_cri_de_guerre": 5000, "guerrier_fendoir": 13000}
 }
 ```
 
 `sorts` : les sorts de rang I, connus dès qu'on commence la Voie. `sorts_rang_2` (facultatif) : les
 sorts de rang II et la réputation de la classe qui les débloque (GDD § 5.1 ; Compagnon 5 000,
-Vétéran 15 000).
+Vétéran 13 000).
 
 ## Objets (`objets/`)
 

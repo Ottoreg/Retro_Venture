@@ -18,8 +18,8 @@ const INITIATIVE_STATS := ["force", "intelligence", "perception", "agilite"]
 const STAT_CAP := 300
 const VITALITY_CAP := 300
 ## Paliers de réputation d'une classe : [réputation minimale, nom] (pistes, GDD § 4.5).
-const REPUTATION_TIERS := [[0, "Inconnu"], [1000, "Apprenti"], [5000, "Compagnon"], [15000, "Vétéran"],
-	[40000, "Maître"], [100000, "Légende"]]
+const REPUTATION_TIERS := [[0, "Inconnu"], [1000, "Apprenti"], [5000, "Compagnon"], [13000, "Vétéran"],
+	[29000, "Maître"], [61000, "Légende"]]
 ## Réputation qu'il faut dans une classe (la meilleure) pour en commencer une autre.
 const NEW_CLASS_REPUTATION := 5000
 ## Métiers : un point de maîtrise à répartir par tranche de cette réputation.

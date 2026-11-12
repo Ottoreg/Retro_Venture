@@ -178,10 +178,10 @@ Lots 0 (conception dans le GDD), 1 (personnage, poussé sur `main` à la demande
 (combat) faits le 29/10/2026 (détail GDD § 4.5, « Où en est la refonte »). Restent ouverts : valeur des plafonds de caractéristiques, autre source de prospection.
 
 - [x] **Rythme des points de maîtrise de classe** (GDD § 4.5, décidé et codé le 12/11/2026) : 20 points par
-  palier, 100 à Légende puis un par 3 000 sans plafond (`Character.earned_points`, `CLASS_POINTS_PER_TIER` ;
+  palier, 100 à Légende puis un par 1 600 sans plafond ; paliers à 1 000, 5 000, 13 000, 29 000, 61 000 (écart ×2, validé le 12/11/2026) (`Character.earned_points`, `CLASS_POINTS_PER_TIER` ;
   métiers inchangés, un par 500) ; réputation d'un monstre vaincu = 10 × palier × facteur
   (`Progression.kill_reputation`, `KILL_REPUTATION_PER_TIER`).
-- [ ] Mesurer les vitesses réelles avec `tools/simulation.gd` (à la demande de l'auteur).
+- [x] Vitesses mesurées avec `tools/simulation.gd` (12/11/2026, GDD § 4.5) : Légende en ~49 h.
 - [ ] À réfléchir : réputation reposée. Plus tard : total pour tout maxer, rythme après Légende, points en trop.
 
 - [x] **Lot 1. Personnage** : réputations, maîtrises et caractéristiques par activité dans

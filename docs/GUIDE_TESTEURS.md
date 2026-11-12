@@ -18,7 +18,7 @@ nous faire vos retours. Le jeu n'affiche volontairement presque aucune aide à l
   il rapporte : des monstres trop faibles ne rapportent presque rien. Les quêtes donnent aussi de la
   réputation. Tous les 500 de réputation, un **point de maîtrise** à placer dans un sort (fenêtre
   des sorts, touche S) : chaque rang ajoute 10 % au sort, et le Guerrier a des effets en plus aux
-  rangs 3 et 5. Le Guerrier gagne deux sorts de rang II à 5 000 et 15 000 de réputation. Tout objet
+  rangs 3 et 5. Le Guerrier gagne deux sorts de rang II à 5 000 et 13 000 de réputation. Tout objet
   s'équipe sans condition.
 - **Pas encore là** : sons et musiques, dessins définitifs (certains personnages et effets sont
   provisoires), multijoueur. L'équilibrage sera revu d'après vos retours.
