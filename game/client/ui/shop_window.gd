@@ -25,6 +25,7 @@ var _greeting: Label
 var _tabs: TabBar
 var _search: LineEdit
 var _list: ItemList
+var _prices: PackedStringArray = []
 var _details: Label
 var _quantity_box: HBoxContainer
 var _quantity: SpinBox
@@ -77,16 +78,16 @@ func refresh() -> void:
 	_tabs.set_current_tab(0 if _mode == BUY else 1)
 	_coins.text = "%d brumes" % map_view.world.character.inventory.ecus
 	_list.clear()
+	_prices.clear()
 	var found := false
 	for entry in _entries():
 		if not matches_search(entry, _search.text):
 			continue
 		var key: String = entry["objet"] if _mode == BUY else entry["uid"]
-		var label := "%s — %d brumes" % [entry["nom"], _unit_price(entry)]
-		if _mode == SELL:
-			label = "%s%s — %d brumes%s" % [entry["nom"], " ×%d" % entry["quantite"] if int(entry["quantite"]) > 1 else "",
-				_unit_price(entry), "   (porté)" if _is_worn(entry) else ""]
+		var label: String = entry["nom"] if _mode == BUY else "%s%s%s" % [entry["nom"],
+			" ×%d" % entry["quantite"] if int(entry["quantite"]) > 1 else "", "   (porté)" if _is_worn(entry) else ""]
 		var index := _list.add_item(label, InventoryWindow.item_icon(entry["objet"]))
+		_prices.append("%d brumes" % _unit_price(entry))
 		_list.set_item_custom_fg_color(index, Color(0.5, 0.5, 0.5) if _is_worn(entry) else InventoryWindow.rarity_color(entry["rarete"]))
 		_list.set_item_metadata(index, key)
 		_list.set_item_tooltip(index, ItemTooltipList.tooltip_text_for(entry, map_view.world.data, map_view.world.character, _show_ranges))
@@ -206,6 +207,20 @@ func _on_tab_pressed(mode: String) -> void:
 	refresh()
 
 
+## Colonne des prix : à droite de chaque ligne, alignés, en or (variante A de la boutique).
+func _draw_prices() -> void:
+	var font := _list.get_theme_font("font")
+	var font_size := _list.get_theme_font_size("font_size")
+	var scroll := _list.get_v_scroll_bar()
+	var right := _list.size.x - 12.0 - (scroll.size.x if scroll.visible else 0.0)
+	for index in mini(_prices.size(), _list.item_count):
+		var rect := _list.get_item_rect(index)
+		var y := rect.position.y - scroll.value + _list.get_theme_stylebox("panel").get_margin(SIDE_TOP) + (rect.size.y - _list.get_theme_constant("v_separation") + font.get_ascent(font_size) - font.get_descent(font_size)) / 2.0
+		if y > 0.0 and y < _list.size.y:
+			_list.draw_string(font, Vector2(right - font.get_string_size(_prices[index], HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x, y), _prices[index],
+				HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, UiTheme.GOLD)
+
+
 func _on_item_selected(index: int) -> void:
 	_selected = _list.get_item_metadata(index)
 	_quantity.value = 1
@@ -287,10 +302,12 @@ func _build() -> void:
 	row.add_theme_constant_override("separation", 14)
 	column.add_child(row)
 	_list = ItemTooltipList.new()
-	_list.custom_minimum_size = Vector2(380, 0)
 	_list.fixed_icon_size = Vector2i(28, 28)
 	_list.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_list.custom_minimum_size = Vector2(560, 0)
+	_list.add_theme_constant_override("h_separation", 10)
 	_list.item_selected.connect(_on_item_selected)
+	_list.draw.connect(_draw_prices)
 	row.add_child(_list)
 
 	var detail_box := VBoxContainer.new()
