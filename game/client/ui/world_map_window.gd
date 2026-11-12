@@ -740,6 +740,15 @@ func _build() -> void:
 	_zone_info = _label(14, Color(0.78, 0.75, 0.66))
 	_zone_info.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	zone_row.add_child(_zone_info)
+	# Variante A (choix de l'auteur) : la carte prend la place, la légende et l'aide se lisent au survol de « ? ».
+	var legend := Button.new()
+	legend.text = "?"
+	legend.focus_mode = Control.FOCUS_NONE
+	legend.custom_minimum_size = Vector2(32, 32)
+	legend.tooltip_text = "Cadre doré : vous êtes ici.\nÉpingle rouge : repère ou drapeau.\nÉpingle jaune : objectif de la quête suivie.\n" \
+		+ "Vert : membres du groupe et leurs repères.\nIcônes : A atelier, M marchand, C coffre, B mini-boss, ! quête.\n\n" \
+		+ "M : ouvrir / fermer.  Molette : zoom.  Glisser : se déplacer.\nClic droit : drapeau (Maj : montré au groupe)."
+	zone_row.add_child(legend)
 
 	var grid_box := PanelContainer.new()
 	grid_box.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -776,15 +785,6 @@ func _build() -> void:
 		toggle.toggled.connect(_on_icon_toggled.bind(kind))
 		filters.add_child(toggle)
 		_icon_toggles[kind] = toggle
-	var legend := _label(13, Color(0.7, 0.67, 0.6))
-	legend.text = "Cadre doré : vous êtes ici.  Épingle rouge : repère ou drapeau.  Épingle jaune : objectif de la " \
-		+ "quête suivie.  Vert : membres du groupe et leurs repères.  Icônes : A atelier, M marchand, C coffre, B mini-boss, ! quête."
-	legend.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	column.add_child(legend)
-	var hint := _label(12, Color(0.6, 0.58, 0.52))
-	hint.text = "M : ouvrir / fermer.  Molette : zoom.  Glisser : se déplacer.  Clic droit : drapeau (Maj : montré au groupe)."
-	hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	column.add_child(hint)
 
 
 func _on_icon_toggled(shown: bool, kind: String) -> void:

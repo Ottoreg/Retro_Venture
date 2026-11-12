@@ -1403,7 +1403,7 @@ func test_carte_du_monde_grandes_zones() -> void:
 			container.notification(Container.NOTIFICATION_SORT_CHILDREN)
 	var grid := world_map._grid
 	assert_eq(panel.get_global_rect().size, UiTheme.WINDOW_SIZE, "grande taille fixe commune")
-	assert_true(grid.size.x >= 700.0 and grid.size.y >= 250.0 and grid.size.y <= 400.0,
+	assert_true(grid.size.x >= 1000.0 and grid.size.y >= 380.0 and grid.size.y <= 460.0,
 		"taille réelle de la grille : %s" % grid.size)
 	var area := Rect2(Vector2.ZERO, grid.size)
 	assert_true(grid.clip_contents, "rien n'est dessiné hors de la grille")
