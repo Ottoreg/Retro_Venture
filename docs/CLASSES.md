@@ -136,8 +136,8 @@ horloge, glyphe et piège) ; *Moy./PA* ; *Rang 5* = moyenne avec +50 % de maîtr
 | **Tourbillon** | I | 4 PA, portée soi, cercle de rayon 1 (sans le lanceur), sans ligne de vue, 1/tour | 7–10 Acier | 8,5 dégâts | 2,12 dégâts | 12,75 dégâts | rang 3 : ajoute poussée de 1 case(s)<br>rang 5 : zone de taille 2 |
 | **Second souffle** | I | 2 PA, portée soi, sans ligne de vue, 1/tour, relance 3 t. | soin 12–18 (Acier) | 15 soin | 7,5 soin | 22,5 soin | rang 3 : relance 2 t.<br>rang 5 : ajoute bouclier 9–14 (Acier) |
 | **Charge** | I | 3 PA, portée 2–4, en ligne, 1/tour, relance 2 t. | charge en ligne jusqu'au contact (effets suivants au contact seulement) ; 6–9 Acier | 7,5 dégâts | 2,5 dégâts | 11,25 dégâts | rang 3 : +1 portée<br>rang 5 : relance 1 t. |
-| **Cri de guerre** | II (5000 rép.) | 3 PA, portée soi, cercle de rayon 2, sans ligne de vue, 1/tour, relance 4 t. | +4–6 Dommages (2 t.) aux alliés | — | — | — | rang 3 : relance 3 t.<br>rang 5 : zone de taille 3 |
-| **Fendoir** | II (13000 rép.) | 5 PA, portée 1, 1/tour | 16–22 Acier | 19 dégâts | 3,8 dégâts | 28,5 dégâts | rang 3 : +5 % critique<br>rang 5 : coût 4 PA |
+| **Cri de guerre** | II (0 rép.) | 3 PA, portée soi, cercle de rayon 2, sans ligne de vue, 1/tour, relance 4 t. | +4–6 Dommages (2 t.) aux alliés | — | — | — | rang 3 : relance 3 t.<br>rang 5 : zone de taille 3 |
+| **Fendoir** | II (0 rép.) | 5 PA, portée 1, 1/tour | 16–22 Acier | 19 dégâts | 3,8 dégâts | 28,5 dégâts | rang 3 : +5 % critique<br>rang 5 : coût 4 PA |
 
 ### Rôdeur
 

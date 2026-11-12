@@ -206,6 +206,6 @@ func test_guerrier_voie_pilote() -> void:
 	var data := GameData.load_all()
 	for spell_id: String in data.voies["guerrier"]["sorts"] + data.voies["guerrier"]["sorts_rang_2"].keys():
 		assert_false(data.spells[spell_id].mastery.is_empty(), "%s a ses rangs de maîtrise" % spell_id)
-	assert_eq(data.voies["guerrier"]["sorts_rang_2"]["guerrier_cri_de_guerre"], 5000, "Compagnon")
+	assert_eq(data.voies["guerrier"]["sorts_rang_2"].values(), [0.0, 0.0], "tous les sorts disponibles dès le début (demande de l'auteur)")
 	assert_eq(data.spells["guerrier_hache"].mastered(5).pa_cost, 3, "Lancer de hache à 3 PA au rang 5")
 	assert_eq(data.spells["guerrier_tourbillon"].mastered(5).zone_size, 2)

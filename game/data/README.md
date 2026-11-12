@@ -502,7 +502,7 @@ phase.
 
 `sorts` : les sorts de rang I, connus dès qu'on commence la Voie. `sorts_rang_2` (facultatif) : les
 sorts de rang II et la réputation de la classe qui les débloque (GDD § 5.1 ; Compagnon 5 000,
-Vétéran 13 000).
+Vétéran 13 000 ; 0 : disponible dès le début, le cas de tous les sorts pour l'instant, demande de l'auteur du 12/11/2026).
 
 ## Objets (`objets/`)
 

@@ -831,6 +831,9 @@ difficulté**, qui compare la menace des monstres à la force du joueur, pour qu
 | Maître | 29 000 | quête de Voie : rang III, Voie Miroir (§ 5.3) |
 | Légende | 61 000 | titre, apparence (prestige, pas de puissance) |
 
+Pour l'instant (demande de l'auteur du 12/11/2026), **aucun sort ne se débloque par palier** : tous
+les sorts de la Voie, rang II compris, sont disponibles dès le début (`sorts_rang_2` à 0).
+
 Noms provisoires ; chaque camp pourra avoir les siens (« Délégué syndical » chez les gobelins). Le
 palier Compagnon vise la fin des zones de départ (≈ 4 à 5 h de jeu).
 

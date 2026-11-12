@@ -76,6 +76,20 @@
         22,
         22
       ]
+    },
+    "sort_guerrier_cri_de_guerre": {
+      "fichier": "sorts/guerrier_cri_de_guerre.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_guerrier_fendoir": {
+      "fichier": "sorts/guerrier_fendoir.svgt",
+      "ancre": [
+        22,
+        22
+      ]
     }
   }
 }

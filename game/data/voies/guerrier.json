@@ -16,7 +16,7 @@
     "guerrier_charge"
   ],
   "sorts_rang_2": {
-    "guerrier_cri_de_guerre": 5000,
-    "guerrier_fendoir": 13000
+    "guerrier_cri_de_guerre": 0,
+    "guerrier_fendoir": 0
   }
 }

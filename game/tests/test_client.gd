@@ -40,7 +40,7 @@ func test_scene_du_monde_jusqu_au_combat_et_retour() -> void:
 	_run_until_idle(view)
 	assert_eq(view.mode, MapView.Mode.COMBAT, "mode combat")
 	assert_true(view.is_placement(), "phase de placement")
-	assert_eq(hud._spell_buttons.size(), 6, "5 sorts du Guerrier et le sort racial (plus d'arme de départ)")
+	assert_eq(hud._spell_buttons.size(), 8, "7 sorts du Guerrier (rangs I et II) et le sort racial (plus d'arme de départ)")
 
 	view.request_start_fight()
 	_run_until_idle(view)
@@ -967,7 +967,7 @@ func test_barre_d_action_et_fenetre_des_sorts() -> void:
 	assert_eq(spells._title.text, world.data.spells[first].display_name)
 	var voie: Dictionary = world.data.voies[world.character.voie_id]
 	assert_eq(spells._list.item_count, SpellsWindow.CLASS_SPELL_SLOTS, "20 cases pour la Voie")
-	assert_eq(spells._list.get_item_text(voie["sorts"].size()), "Sort à venir", "les sorts de la Voie, puis des cases vides")
+	assert_eq(spells._list.get_item_text(voie["sorts"].size() + voie.get("sorts_rang_2", {}).size()), "Sort à venir", "les sorts de la Voie, puis des cases vides")
 
 	# Onglet de la race, puis fermeture par le bouton de menu de la barre.
 	spells._tabs.current_tab = 1
@@ -982,7 +982,7 @@ func test_barre_d_action_et_fenetre_des_sorts() -> void:
 	view._on_click(world.groups()[0]["case"])
 	_run_until_idle(view)
 	assert_true(hud._spells_box.visible and not hud._items_box.visible, "barre de sorts en combat")
-	assert_eq(hud._spell_buttons.size(), 6, "sorts du personnage dans la barre")
+	assert_eq(hud._spell_buttons.size(), 8, "sorts du personnage dans la barre")
 	for spell_id: String in hud._spell_buttons:
 		var slot: CombatHud.SpellSlot = hud._spell_buttons[spell_id]
 		assert_true(slot.icon != null, "icône du sort %s" % spell_id)
