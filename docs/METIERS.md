@@ -15,8 +15,8 @@ améliorent la qualité, sans jamais faire échouer. Métiers codés : Agriculte
 ## Réputation et maîtrise
 
 Même modèle pour chaque métier (`core/character/character.gd`) : la réputation est un total cumulé
-qui débloque ; chaque tranche de **500** de réputation donne **1 point de maîtrise** à répartir. Monter
-au rang *n* coûte *n* points : rang 5 = **15 points** (7500 de réputation) par sort ou compétence.
+qui débloque et donne des **points de maîtrise** à répartir : un par tranche de **500** de réputation.
+Monter au rang *n* coûte *n* points : rang 5 = **15 points** par sort ou compétence.
 
 | Palier | Réputation | Points de maîtrise gagnés | Niveau équivalent |
 |---|---|---|---|

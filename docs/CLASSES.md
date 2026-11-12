@@ -28,17 +28,17 @@ d'équipement de départ : une race donne un passif et un sort.
 ## Réputation et maîtrise
 
 Même modèle pour chaque classe (`core/character/character.gd`) : la réputation est un total cumulé
-qui débloque ; chaque tranche de **500** de réputation donne **1 point de maîtrise** à répartir. Monter
-au rang *n* coûte *n* points : rang 5 = **15 points** (7500 de réputation) par sort ou compétence.
+qui débloque et donne des **points de maîtrise** à répartir : **20** par palier (`CLASS_POINTS_PER_TIER`), puis au rythme du dernier palier, sans plafond.
+Monter au rang *n* coûte *n* points : rang 5 = **15 points** par sort ou compétence.
 
 | Palier | Réputation | Points de maîtrise gagnés | Niveau équivalent |
 |---|---|---|---|
 | Inconnu | 0 | 0 | 1 |
-| Apprenti | 1000 | 2 | 7 |
-| Compagnon | 5000 | 10 | 12 |
-| Vétéran | 15000 | 30 | 19 |
+| Apprenti | 1000 | 20 | 7 |
+| Compagnon | 5000 | 40 | 12 |
+| Vétéran | 15000 | 60 | 19 |
 | Maître | 40000 | 80 | 26 |
-| Légende | 100000 | 200 | 36 |
+| Légende | 100000 | 100 | 36 |
 
 **Niveau équivalent** (`Progression.equivalent_level`, jamais affiché) : la force tirée de la
 réputation, l'ancienne courbe d'XP divisée par 3,5 (passer de *n* à *n*+1 coûte (60·*n* + 20·*n*²) / 3,5).
@@ -60,7 +60,7 @@ effets élémentaires (dégâts, soins, boucliers, poisons), plus les changement
 |---|---|---|
 | REPUTATION_PER_PA | 2 | réputation par PA d'un sort à effet réel (dégâts, soin de PV perdus, bouclier qui absorbe) |
 | UTILITY_SHARE | 0,5 | part pour un sort utilitaire qui touche quelqu'un |
-| KILL_SHARE | 0,25 | part de l'XP d'un monstre vaincu en réputation, partagée entre les joueurs |
+| KILL_REPUTATION_PER_TIER | 10 | réputation par palier d'un monstre vaincu, au facteur de difficulté, partagée entre les joueurs |
 | STAT_PER_PA | 0,03 | points de la caractéristique de l'élément par PA à effet réel |
 | VITALITY_PER_HP | 0,02 | Vitalité par PV réellement perdu |
 | MAX_PA_PER_COMBAT | 60 | PA comptés au plus par combat |

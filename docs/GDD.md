@@ -846,7 +846,7 @@ palier Compagnon vise la fin des zones de départ (≈ 4 à 5 h de jeu).
   pouvoir maxer sa classe, mais pas trop vite). La fenêtre des sorts montre 20 cases par Voie (sorts
   à venir compris) : 20 sorts au rang 5 = 300 points.
 
-#### Rythme des points de maîtrise (décidé le 12/11/2026, à coder)
+#### Rythme des points de maîtrise (décidé et codé le 12/11/2026)
 
 Constat (calcul sur `Progression`, 3 monstres de son palier, ~24 PA utiles et ~2 min par combat) :
 avec 1 point par 500 de réputation et la réputation des monstres vaincus tirée de leur ancienne XP
@@ -864,7 +864,7 @@ avec 1 point par 500 de réputation et la réputation des monstres vaincus tiré
   | Légende | 100 000 | 3 000 | 100 |
 
   Au-delà de Légende, la réputation continue de donner des points (rythme à fixer, voir plus bas).
-- **Réputation d'un monstre vaincu selon son palier** (plus son ancienne XP) : piste 10 × palier ×
+- **Réputation d'un monstre vaincu selon son palier** (plus son ancienne XP) : 10 × palier ×
   facteur de difficulté, partagée par le groupe.
 - **Paliers de réputation inchangés** : ne pas allonger artificiellement la progression d'une classe.
 - **À réfléchir : réputation reposée** (×2 sur les premiers gains de la journée), qui inciterait aussi
@@ -898,7 +898,7 @@ difficulté venant de la rareté des ressources.
 **Lot 1 fait, sur `main` (décision de l'auteur)** : plus de niveau, d'XP ni de points à répartir ;
 `Character.classes` (réputation, points de maîtrise et rangs des sorts par classe), `earned`
 (caractéristiques gagnées, plafonds 100 et 300 pour la Vitalité), paliers et points de maîtrise
-(un par 500 de réputation, `Character.REPUTATION_PER_MASTERY_POINT`) ; commandes `changer_voie`
+(un par 500 de réputation à l'époque ; 20 par palier depuis le 12/11/2026, `Character.earned_points`) ; commandes `changer_voie`
 (hors combat ; elle donnait aussi l'équipement de départ de la nouvelle classe, supprimé au lot 3)
 et `maitriser` (rang de
 maîtrise d'un sort, sans effet en combat avant le lot 2) ; protocole v8. Chance renommée Perception

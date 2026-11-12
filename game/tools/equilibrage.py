@@ -52,6 +52,18 @@ POINTS_DIFFICULTE = constante("character/progression.gd", "DIFFICULTY_POINTS")
 PALIERS_REPUTATION = constante("character/character.gd", "REPUTATION_TIERS")
 REPUTATION_PAR_POINT = constante("character/character.gd", "REPUTATION_PER_MASTERY_POINT")
 RANG_MAX = constante("character/character.gd", "SPELL_MAX_RANK")
+POINTS_PAR_PALIER = constante("character/character.gd", "CLASS_POINTS_PER_TIER")
+
+
+def points_gagnes(reputation, metier):
+    """`Character.earned_points` : un point par tranche pour un métier, 20 par palier pour une classe."""
+    if metier:
+        return reputation // REPUTATION_PAR_POINT
+    points, pas = 0, 1
+    for (bas, _), (haut, _) in zip(PALIERS_REPUTATION, PALIERS_REPUTATION[1:]):
+        pas = (haut - bas) // POINTS_PAR_PALIER
+        points += min(max(0, reputation - bas), pas * POINTS_PAR_PALIER) // pas
+    return points + max(0, reputation - PALIERS_REPUTATION[-1][0]) // pas
 
 
 def seuils_niveaux():
@@ -86,12 +98,12 @@ def section_reputation(quoi):
     cout_total = RANG_MAX * (RANG_MAX + 1) // 2
     lignes = ["## Réputation et maîtrise", "",
               "Même modèle pour chaque %s (`core/character/character.gd`) : la réputation est un total cumulé" % quoi,
-              "qui débloque ; chaque tranche de **%d** de réputation donne **1 point de maîtrise** à répartir. Monter"
-              % REPUTATION_PAR_POINT,
-              "au rang *n* coûte *n* points : rang %d = **%d points** (%d de réputation) par sort ou compétence." % (
-                  RANG_MAX, cout_total, cout_total * REPUTATION_PAR_POINT), ""]
+              "qui débloque et donne des **points de maîtrise** à répartir : " + (
+                  "**%d** par palier (`CLASS_POINTS_PER_TIER`), puis au rythme du dernier palier, sans plafond."
+                  % POINTS_PAR_PALIER if quoi == "classe" else "un par tranche de **%d** de réputation." % REPUTATION_PAR_POINT),
+              "Monter au rang *n* coûte *n* points : rang %d = **%d points** par sort ou compétence." % (RANG_MAX, cout_total), ""]
     lignes += table(["Palier", "Réputation", "Points de maîtrise gagnés", "Niveau équivalent"],
-                    [[n, r, r // REPUTATION_PAR_POINT, niveau_equivalent(r)] for r, n in PALIERS_REPUTATION])
+                    [[n, r, points_gagnes(r, quoi != "classe"), niveau_equivalent(r)] for r, n in PALIERS_REPUTATION])
     lignes += ["**Niveau équivalent** (`Progression.equivalent_level`, jamais affiché) : la force tirée de la",
                "réputation, l'ancienne courbe d'XP divisée par %s (passer de *n* à *n*+1 coûte (60·*n* + 20·*n*²) / %s)."
                % (nombre(TAUX_ANCIEN), nombre(TAUX_ANCIEN)),
@@ -321,7 +333,7 @@ def classes_md():
     composes = constante(sort, "COMPOSITE_ELEMENTS")
     crit, crit_mult = constante(sort, "DEFAULT_CRIT_CHANCE"), constante(sort, "CRIT_MULTIPLIER")
     etat_max, etat_bonus = constante("combat/fighter.gd", "ELEMENT_STATE_MAX"), constante("combat/fighter.gd", "ELEMENT_STATE_BONUS")
-    p = {n: constante(prog, n) for n in ("REPUTATION_PER_PA", "UTILITY_SHARE", "KILL_SHARE", "STAT_PER_PA", "VITALITY_PER_HP",
+    p = {n: constante(prog, n) for n in ("REPUTATION_PER_PA", "UTILITY_SHARE", "KILL_REPUTATION_PER_TIER", "STAT_PER_PA", "VITALITY_PER_HP",
                                          "MAX_PA_PER_COMBAT", "MAX_HP_PER_COMBAT", "MIN_STAT_PACE")}
 
     lignes = ["# Classes et races : toutes les variables", "",
@@ -356,7 +368,7 @@ def classes_md():
     lignes += table(["Variable", "Valeur", "Rôle"], [
         ["REPUTATION_PER_PA", nombre(p["REPUTATION_PER_PA"]), "réputation par PA d'un sort à effet réel (dégâts, soin de PV perdus, bouclier qui absorbe)"],
         ["UTILITY_SHARE", nombre(p["UTILITY_SHARE"]), "part pour un sort utilitaire qui touche quelqu'un"],
-        ["KILL_SHARE", nombre(p["KILL_SHARE"]), "part de l'XP d'un monstre vaincu en réputation, partagée entre les joueurs"],
+        ["KILL_REPUTATION_PER_TIER", nombre(p["KILL_REPUTATION_PER_TIER"]), "réputation par palier d'un monstre vaincu, au facteur de difficulté, partagée entre les joueurs"],
         ["STAT_PER_PA", nombre(p["STAT_PER_PA"]), "points de la caractéristique de l'élément par PA à effet réel"],
         ["VITALITY_PER_HP", nombre(p["VITALITY_PER_HP"]), "Vitalité par PV réellement perdu"],
         ["MAX_PA_PER_COMBAT", nombre(p["MAX_PA_PER_COMBAT"]), "PA comptés au plus par combat"],
