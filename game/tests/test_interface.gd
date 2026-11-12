@@ -490,3 +490,13 @@ func test_themes_de_couleurs() -> void:
 	assert_eq(Options.ui_theme, "foret", "thème retenu")
 	Options.reset()
 	UiTheme.set_theme(Options.ui_theme)
+
+
+func test_bouton_grise_avec_sa_raison() -> void:
+	var button := Button.new()
+	UiTheme.lock(button, "Il vous manque 5 brumes.")
+	assert_true(button.disabled, "grisé")
+	assert_eq(button.tooltip_text, "Il vous manque 5 brumes.", "raison en bulle")
+	UiTheme.lock(button, "")
+	assert_true(not button.disabled and button.tooltip_text.is_empty(), "actif, sans bulle")
+	button.free()

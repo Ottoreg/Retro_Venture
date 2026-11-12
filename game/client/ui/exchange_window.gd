@@ -8,7 +8,6 @@ extends CanvasLayer
 ## ne fait que montrer son dernier état (EVT_EXCHANGE).
 
 const GOLD := Color(0.95, 0.76, 0.3)
-const OK_COLOR := Color(0.45, 0.85, 0.4)
 
 var map_view: MapView
 
@@ -141,13 +140,15 @@ func refresh() -> void:
 	_quantity.max_value = maxi(1, max_quantity)
 	_quantity.editable = max_quantity > 1
 	var worn := not str(entry.get("emplacement", "")).is_empty()
-	_offer_button.disabled = entry.is_empty() or _from_offer or worn
-	_remove_button.disabled = entry.is_empty() or not _from_offer
+	UiTheme.lock(_offer_button, "Choisissez d'abord un objet de l'inventaire." if entry.is_empty() or _from_offer
+		else "Objet porté : retirez-le d'abord dans l'inventaire." if worn else "")
+	UiTheme.lock(_remove_button, "Choisissez d'abord un objet de votre offre." if entry.is_empty() or not _from_offer else "")
 	var lines: PackedStringArray = []
 	lines.append("Vous avez validé." if _state["valide_moi"] else "Vous n'avez pas validé.")
 	lines.append(("%s a validé." if _state["valide_lui"] else "%s n'a pas validé.") % other_name)
 	_status.text = "  ·  ".join(lines)
-	_status.add_theme_color_override("font_color", OK_COLOR if _state["valide_lui"] else Color(0.85, 0.82, 0.72))
+	# Doré quand l'autre attend votre validation ; le vert reste aux gains et aux réussites.
+	_status.add_theme_color_override("font_color", GOLD if _state["valide_lui"] and not _state["valide_moi"] else UiTheme.TEXT)
 	_update_validate()
 
 
@@ -158,7 +159,8 @@ func status_text() -> String:
 
 func _update_validate() -> void:
 	var done: bool = _state.get("valide_moi", false)
-	_validate_button.disabled = done or _wait > 0.0
+	UiTheme.lock(_validate_button, "Déjà validé : un changement d'offre retire les validations." if done
+		else "L'offre vient de changer : patientez avant de valider." if _wait > 0.0 else "")
 	_validate_button.text = "Validé" if done else ("Valider (%d)" % ceili(_wait) if _wait > 0.0 else "Valider")
 
 
@@ -267,6 +269,7 @@ func _build() -> void:
 	_bag_title = _label(15, Color(0.85, 0.82, 0.72))
 	bag_box.add_child(_bag_title)
 	_bag_list = _list(bag_box)
+	UiTheme.list_helpers(_bag_list, "Aucun objet à proposer.")
 	_bag_list.item_selected.connect(func(index: int) -> void: _select(_bag_list.get_item_metadata(index), false))
 
 	var actions := VBoxContainer.new()
@@ -292,6 +295,7 @@ func _build() -> void:
 	mine_title.text = "Votre offre"
 	offers.add_child(mine_title)
 	_mine_list = _list(offers)
+	UiTheme.list_helpers(_mine_list, "Choisissez un objet de l'inventaire, puis « Proposer ».")
 	_mine_list.item_selected.connect(func(index: int) -> void: _select(_mine_list.get_item_metadata(index), true))
 	var ecus_row := HBoxContainer.new()
 	offers.add_child(ecus_row)
@@ -305,6 +309,7 @@ func _build() -> void:
 	_theirs_title = _label(15, Color(0.85, 0.82, 0.72))
 	offers.add_child(_theirs_title)
 	_theirs_list = _list(offers)
+	UiTheme.list_helpers(_theirs_list, "Aucun objet proposé pour l'instant.")
 	_theirs_ecus = _label(15, GOLD)
 	offers.add_child(_theirs_ecus)
 

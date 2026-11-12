@@ -79,8 +79,9 @@ func refresh() -> void:
 	_quantity.max_value = maxi(1, max_quantity)
 	_quantity.editable = max_quantity > 1
 	var worn := not str(entry.get("emplacement", "")).is_empty()
-	_deposit_button.disabled = entry.is_empty() or _from_chest or worn
-	_withdraw_button.disabled = entry.is_empty() or not _from_chest
+	UiTheme.lock(_deposit_button, "Choisissez d'abord un objet de l'inventaire." if entry.is_empty() or _from_chest
+		else "Objet porté : retirez-le d'abord dans l'inventaire." if worn else "")
+	UiTheme.lock(_withdraw_button, "Choisissez d'abord un objet du coffre." if entry.is_empty() or not _from_chest else "")
 
 
 func _fill(list: ItemList, entries: Array, chest_side: bool) -> bool:

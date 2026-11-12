@@ -149,7 +149,7 @@ func _show_details(entry: Dictionary) -> void:
 	if entry.is_empty():
 		_details.text = "Choisissez un objet à acheter." if _mode == BUY else "Choisissez un objet à vendre."
 		_quantity_box.visible = false
-		_action_button.disabled = true
+		UiTheme.lock(_action_button, "Choisissez d'abord un objet dans la liste.")
 		_action_button.text = "Acheter" if _mode == BUY else "Vendre"
 		return
 	var lines: PackedStringArray = [
@@ -193,10 +193,11 @@ func _update_action_button() -> void:
 	var total := _unit_price(entry) * quantity
 	if _mode == BUY:
 		_action_button.text = "Acheter — %d brumes" % total
-		_action_button.disabled = total > map_view.world.character.inventory.ecus
+		var missing := total - map_view.world.character.inventory.ecus
+		UiTheme.lock(_action_button, "Il vous manque %d brumes." % missing if missing > 0 else "")
 	else:
 		_action_button.text = "Vendre — %d brumes" % total
-		_action_button.disabled = _is_worn(entry)
+		UiTheme.lock(_action_button, "Objet porté : retirez-le d'abord dans l'inventaire." if _is_worn(entry) else "")
 
 
 func _on_tab_pressed(mode: String) -> void:
@@ -254,7 +255,7 @@ func _on_trade_result(event: Dictionary) -> void:
 		_message.text = "Acheté : %s%s (−%d brumes)" % [event["nom"], amount, event["prix"]]
 	else:
 		_message.text = "Vendu : %s%s (+%d brumes)" % [event["nom"], amount, event["prix"]]
-	_message.add_theme_color_override("font_color", Color(0.55, 0.9, 0.5))
+	_message.add_theme_color_override("font_color", UiTheme.TEXT)
 	_quantity.value = 1
 	refresh()
 
@@ -309,6 +310,7 @@ func _build() -> void:
 	_list.item_selected.connect(_on_item_selected)
 	_list.draw.connect(_draw_prices)
 	row.add_child(_list)
+	UiTheme.list_helpers(_list, "Aucun objet à afficher.")
 
 	var detail_box := VBoxContainer.new()
 	detail_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -331,7 +333,7 @@ func _build() -> void:
 	_action_button.focus_mode = Control.FOCUS_NONE
 	_action_button.pressed.connect(_on_action_pressed)
 	detail_box.add_child(_action_button)
-	_message = _label(14, Color(0.55, 0.9, 0.5))
+	_message = _label(14, UiTheme.TEXT)
 	_message.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	detail_box.add_child(_message)
 

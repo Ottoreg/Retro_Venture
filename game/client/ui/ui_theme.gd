@@ -238,6 +238,35 @@ static func tabs(names: Array, selected: Callable) -> TabBar:
 	return bar
 
 
+## Bouton désactivé avec sa raison en bulle ; `reason` vide : bouton actif, sans bulle.
+static func lock(button: BaseButton, reason: String) -> void:
+	button.disabled = not reason.is_empty()
+	button.tooltip_text = reason
+
+
+## Liste : consigne grisée quand elle est vide, et hauteur réduite à des lignes entières (la dernière n'est
+## jamais coupée à mi-hauteur) : la liste, déjà dans son conteneur, est raccourcie juste après la mise en page de celui-ci.
+static func list_helpers(list: ItemList, hint := "") -> void:
+	list.draw.connect(func() -> void:
+		if list.item_count == 0:
+			list.draw_multiline_string(list.get_theme_default_font(), Vector2(16, list.size.y / 2.0), hint, HORIZONTAL_ALIGNMENT_CENTER,
+				list.size.x - 32, 14, -1, TEXT_DIM)
+			return
+		var first := list.get_item_rect(0)
+		var step := first.size.y
+		for index in list.item_count:
+			if list.get_item_rect(index).position.y > first.position.y:
+				step = list.get_item_rect(index).position.y - first.position.y
+				break
+		if list.get_meta("row_step", 0.0) != step:
+			list.set_meta("row_step", step)
+			list.get_parent().queue_sort())
+	(list.get_parent() as Container).sort_children.connect(func() -> void:
+		var step: float = list.get_meta("row_step", 0.0)
+		if step > 0.0:
+			list.size.y -= fmod(list.size.y - list.get_theme_stylebox("panel").get_minimum_size().y, step))
+
+
 ## Fond des fenêtres posées au milieu de l'écran (options, pause…).
 static func window_style() -> StyleBoxFlat:
 	var style := themed(_box(TOOLTIP_FILL, TOOLTIP_EDGE, 2, 6, 14), "fond", "bord", TOOLTIP_FILL.a)

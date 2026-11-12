@@ -199,7 +199,7 @@ func _show_infusion() -> void:
 				Item.stat_name(essence["caracteristique"]), preview["valeur"], _chance(essence)]))
 	_infusion_text.text = "\n".join(lines)
 	_card.text = card_text(target, world.data) if not target.is_empty() else "[color=#999]Cliquez un équipement du sac.[/color]"
-	_journal_label.text = "\n".join(_journal)
+	_journal_label.text = "\n".join(_journal) if not _journal.is_empty() else "[color=#8a7c66]Aucun essai pour l'instant : vos infusions réussies et ratées s'afficheront ici.[/color]"
 
 
 func _chance(essence: Dictionary) -> int:
@@ -256,7 +256,7 @@ func _show_preview() -> void:
 		_update_words({}, {}, plan)
 		_preview.text = "\n".join(PackedStringArray(["Objet : %s" % plan["nom"], "", "Nom : %s" % _name()]))
 		_warn_lost({}, false)
-		_forge_button.disabled = not _owns_all()
+		UiTheme.lock(_forge_button, _forge_refusal(""))
 		return
 	var preview := Forge.preview(_type, _chosen, data.items, map_view.world.character, plan.is_empty())
 	# Adjectifs et élément d'attaque d'après toutes les lignes, même cachées : ils laissent deviner l'objet.
@@ -285,7 +285,16 @@ func _show_preview() -> void:
 		lines.append("Panoplies : %s" % (", ".join(keys.map(func(key: String) -> String: return Forge.set_title(key, data))) if not keys.is_empty() else "aucune"))
 	_preview.text = "\n".join(lines)
 	_warn_lost(preview["perdues"], plan.is_empty())
-	_forge_button.disabled = not preview["erreur"].is_empty() or not _owns_all()
+	UiTheme.lock(_forge_button, _forge_refusal(preview["erreur"]))
+
+
+## Pourquoi « Forger » est grisé ("" : il ne l'est pas).
+func _forge_refusal(error: String) -> String:
+	if _chosen.is_empty():
+		return "Posez des ressources sur les cases de la recette."
+	if not _owns_all():
+		return REFUSALS[Protocol.REASON_MISSING_INGREDIENTS]
+	return "" if error.is_empty() else REFUSALS.get(error, "Recette impossible.")
 
 
 ## Ressources posées dont une caractéristique dépasse le palier de forge : avertissement et cases en rouge (sans
@@ -501,6 +510,7 @@ func _build() -> void:
 	var left := _titled("Sac : ressources, plans, patrons et papier (clic, Ctrl + clic : tout, ou glisser vers la recette)", _bag)
 	left.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	(left.get_child(0) as Label).autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	UiTheme.list_helpers(_bag, "Rien dans le sac pour cet onglet.")
 	lower.add_child(left)
 
 	# Centre : type, nom, aperçu.

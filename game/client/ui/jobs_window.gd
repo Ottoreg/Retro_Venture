@@ -135,7 +135,9 @@ func _add_skill(job_id: String, type: String, skill_id: String, character: Chara
 	button.focus_mode = Control.FOCUS_NONE
 	var maxed := rank >= Character.SPELL_MAX_RANK
 	button.text = "Rang maximal" if maxed else "Rang %d (%d pt%s)" % [rank + 1, rank + 1, "s" if rank > 0 else ""]
-	button.disabled = maxed or character.job_points(job_id) < rank + 1
+	var missing := rank + 1 - character.job_points(job_id)
+	UiTheme.lock(button, "" if maxed or missing <= 0 else "Il vous manque %d point%s de métier." % [missing, "s" if missing > 1 else ""])
+	button.disabled = button.disabled or maxed
 	button.pressed.connect(func() -> void: map_view.send_command({"type": Protocol.CMD_RAISE_SPELL,
 		"entite": map_view.world.player_id, "metier": job_id, "competence": skill_id}))
 	row.add_child(button)

@@ -8,3 +8,5 @@ un dossier par sujet. Copie du dossier partagé du projet « RV interface ».
   (`variantes/` : Boutique A, Enclume B, Carte du monde A), 12/11/2026.
 - `themes/` : les 4 thèmes de couleurs (`bois`, `ardoise`, `foret`, `pierre`) sur 5 vues, planches
   `comparaison_<vue>.png` (les 4 thèmes côte à côte), menu des options avant sa réorganisation (`avant/`), Pierre et argent devenu le thème par défaut (`defaut-pierre/`), 12/11/2026.
+- `finitions-fenetres/` : boutons grisés expliqués, listes à lignes entières, consignes des zones vides,
+  vert réservé aux gains (`avant/`, `apres/`), 12/11/2026.

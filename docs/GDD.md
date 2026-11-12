@@ -3202,6 +3202,13 @@ préférence ce que les joueurs feront déjà d'eux-mêmes.
   textes restent communs). Choix dans les options, appliqué en direct (`UiTheme.set_theme`, styles des
   fenêtres recolorés par `UiTheme.themed`) et gardé (`Options.ui_theme`). Options réorganisées en
   sections : Affichage (thème, plein écran, taille), Son, Combat, En ligne et tests.
+- **Finitions des fenêtres** (12/11/2026, suite de l'audit) : un bouton grisé dit pourquoi dans sa bulle
+  (`UiTheme.lock` : « Il vous manque 103 brumes. », « Objet porté : retirez-le d'abord… », « Impossible pendant
+  un combat. ») ; les listes n'affichent que des lignes entières et une consigne grisée quand elles sont vides
+  (`UiTheme.list_helpers` : inventaire, boutique, échange, sac de l'Enclume) ; bulle avec le nom entier des
+  emplacements d'équipement, du repère de la minicarte et de l'ordre de jeu ; historique des infusions vide
+  expliqué. Le vert est gardé aux gains et réussites (et à la rareté « peu commun ») : messages de la boutique
+  en texte normal, état de l'échange doré quand l'autre joueur attend votre validation.
 - **Menu pause** (Échap quand aucune fenêtre n'est ouverte) : le jeu s'arrête ; reprendre, options,
   retour au menu principal (sauvegardé, pas pendant un combat), quitter. **Options** (menu principal
   ou pause) : thème de couleurs, volume, plein écran, taille de la fenêtre, mode tactique, pions en mode tactique ; gardées hors sauvegarde.

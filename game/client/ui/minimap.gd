@@ -21,6 +21,8 @@ const NO_POINT := Vector2(-1, -1)
 ## Mode admin : attente d'un second clic (double-clic : téléportation) avant d'ouvrir la carte du monde.
 const DOUBLE_CLICK_DELAY := 0.35
 
+## Bulle du cadre (avec le nom entier du repère quand il y en a un).
+const CONTROLS := "Clic : carte du monde (M). Molette : zoom. Glisser : se déplacer. Clic droit : drapeau (Maj : pour le groupe)."
 var map_view: MapView
 
 var _frame: PanelContainer
@@ -142,6 +144,7 @@ func refresh() -> void:
 func _refresh_flag(here: Dictionary) -> void:
 	var pin: Dictionary = Session.quest_pin
 	_flag_row.visible = not pin.is_empty()
+	_frame.tooltip_text = CONTROLS
 	if pin.is_empty():
 		return
 	var target: Variant = _grid.map_cell(pin.get("carte", ""))
@@ -153,6 +156,7 @@ func _refresh_flag(here: Dictionary) -> void:
 		_flag_label.text = "%s : ici" % pin["nom"] if steps == 0 else "%s : %d carte%s" % [pin["nom"], steps, "s" if steps > 1 else ""]
 	else:
 		_flag_label.text = "%s (ailleurs)" % pin["nom"]
+	_frame.tooltip_text = CONTROLS + "\nRepère : " + _flag_label.text  # Le nom entier, même coupé sous la minicarte.
 	_flag_arrow.direction = Vector2(shift).normalized()
 	_flag_arrow.queue_redraw()
 
@@ -277,7 +281,7 @@ func _build() -> void:
 	_coordinates.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	caption.add_child(_coordinates)
 	# Le voisinage laisse passer le clic au cadre (carte du monde), mais garde la bulle de survol.
-	_frame.tooltip_text = "Clic : carte du monde (M). Molette : zoom. Glisser : se déplacer. Clic droit : drapeau (Maj : pour le groupe)."
+	_frame.tooltip_text = CONTROLS
 	_grid = WorldMapWindow.ZoneGrid.new()
 	_grid.compact = true
 	_grid.size_flags_vertical = Control.SIZE_EXPAND_FILL

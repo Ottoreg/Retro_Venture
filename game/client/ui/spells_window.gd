@@ -293,8 +293,9 @@ func _show_mastery(spell: Spell) -> void:
 	_mastery_button.text = "Rang maximal" if maxed else "Rang %d (%d point%s)" % [rank + 1, rank + 1, "s" if rank > 0 else ""]
 	_mastery_button.disabled = maxed or points < rank + 1
 	var next: Dictionary = spell.mastery.get(rank + 1, {})
-	_mastery_button.tooltip_text = "" if maxed else "+%d %% aux valeurs de base%s" % [Spell.MASTERY_BONUS_PER_RANK,
-		" et un effet propre au sort" if not next.is_empty() else ""]
+	_mastery_button.tooltip_text = "" if maxed else "+%d %% aux valeurs de base%s%s" % [Spell.MASTERY_BONUS_PER_RANK,
+		" et un effet propre au sort" if not next.is_empty() else "",
+		"\nIl vous manque %d point%s de maîtrise." % [rank + 1 - points, "s" if rank - points > 0 else ""] if points < rank + 1 else ""]
 
 
 func _on_mastery_pressed() -> void:

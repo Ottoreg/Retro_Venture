@@ -290,6 +290,8 @@ class OrderRow extends HBoxContainer:
 		_name.text = data["name"]
 		_name.add_theme_color_override("font_color", UiTheme.GOLD if is_current else UiTheme.TEXT)
 		_hp.text = "PV %d / %d" % [data["hp"], data["max_hp"]]
+		portrait.tooltip_text = "%s\n%s" % [_name.text, _hp.text]  # Nom entier, même coupé dans la bande.
+		tooltip_text = portrait.tooltip_text
 
 
 ## Une case de la grille de composition : 3 orbes à la couleur des états, le nom du sort que

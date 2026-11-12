@@ -209,10 +209,12 @@ func refresh() -> void:
 		var uid: String = _sheet["equipement"].get(slot, "")
 		if by_uid.has(uid):
 			button.text = by_uid[uid]["nom"]
+			button.tooltip_text = by_uid[uid]["nom"]
 			button.icon = item_icon(by_uid[uid]["objet"])
 			button.add_theme_color_override("font_color", rarity_color(by_uid[uid]["rarete"]))
 		else:
 			button.text = "—"
+			button.tooltip_text = "%s : vide" % Item.SLOT_NAMES[slot]
 			button.icon = null
 			button.add_theme_color_override("font_color", Color(0.5, 0.5, 0.5))
 		button.set_meta("uid", uid)
@@ -357,9 +359,8 @@ func _on_slot_pressed(slot: String) -> void:
 
 
 func _show_details(entry: Dictionary) -> void:
-	_equip_button.disabled = true
-	_unequip_button.disabled = true
-	_drop_button.disabled = entry.is_empty()
+	for button: Button in [_equip_button, _unequip_button, _drop_button]:
+		UiTheme.lock(button, "Choisissez d'abord un objet.")
 	_icon.texture = null if entry.is_empty() else item_icon(entry["objet"])
 	if entry.is_empty():
 		_details.text = "Choisissez un objet."
@@ -378,9 +379,10 @@ func _show_details(entry: Dictionary) -> void:
 		lines.append(entry["description"])
 	_details.text = "\n".join(lines)
 	var worn := not str(entry["emplacement"]).is_empty()
-	_equip_button.disabled = worn or not Item.SLOTS_BY_TYPE.has(entry["type"]) or is_read_only()
-	_unequip_button.disabled = not worn or is_read_only()
-	_drop_button.disabled = is_read_only()
+	var fight := "Impossible pendant un combat." if is_read_only() else ""
+	UiTheme.lock(_equip_button, "Objet déjà porté." if worn else "Cet objet ne se porte pas." if not Item.SLOTS_BY_TYPE.has(entry["type"]) else fight)
+	UiTheme.lock(_unequip_button, "Cet objet n'est pas porté." if not worn else fight)
+	UiTheme.lock(_drop_button, fight)
 
 
 func _on_equip_pressed() -> void:
@@ -466,6 +468,7 @@ func _build() -> void:
 	_list.item_activated.connect(_on_item_activated)
 	_list.set_drag_forwarding(_bag_drag_data, _can_drop_on_bag, _drop_on_bag)
 	bag.add_child(_list)
+	UiTheme.list_helpers(_list, "Aucun objet dans cet onglet.")
 
 	var detail_box := VBoxContainer.new()
 	detail_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL

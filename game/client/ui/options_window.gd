@@ -35,7 +35,7 @@ func open() -> void:
 	_volume_label.text = "%d %%" % Options.volume
 	_set_switch(_fullscreen, Options.fullscreen)
 	_size.select(Options.window_size)
-	_size.disabled = not Options.can_resize() or Options.fullscreen
+	_lock_size()
 	_set_switch(_tactical, Options.tactical)
 	_set_switch(_pawns, Options.tactical_pawns)
 	_server.text = Options.server_address
@@ -75,8 +75,12 @@ func _on_volume_changed(value: float) -> void:
 
 func _on_fullscreen_toggled(on: bool) -> void:
 	Options.fullscreen = on
-	_size.disabled = not Options.can_resize() or on
+	_lock_size()
 	_changed()
+
+
+func _lock_size() -> void:
+	UiTheme.lock(_size, "Taille fixée par le navigateur." if not Options.can_resize() else "Sans effet en plein écran." if Options.fullscreen else "")
 
 
 func _on_size_selected(index: int) -> void:
