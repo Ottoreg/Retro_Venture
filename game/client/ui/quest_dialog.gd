@@ -39,7 +39,7 @@ func setup(p_map_view: MapView) -> void:
 func open(event: Dictionary) -> void:
 	_quest_id = event["quete"]
 	_npc.text = event["nom"]
-	_title.text = "%s  (niveau %d)" % [event["titre"], event["niveau"]]
+	_title.text = event["titre"]
 	_text.text = QuestLinks.linkify("\n\n".join(PackedStringArray(event["repliques"])), map_view.world)
 	var lines: PackedStringArray = []
 	for objective: Dictionary in event["objectifs"]:

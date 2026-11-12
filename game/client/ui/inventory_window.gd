@@ -364,11 +364,11 @@ func _show_details(entry: Dictionary) -> void:
 	if entry.is_empty():
 		_details.text = "Choisissez un objet."
 		return
+	var template := Item.entry_template(entry, map_view.world.data.items)
 	var lines: PackedStringArray = [
 		"%s — %s" % [entry["nom"], Item.RARITY_NAMES.get(entry["rarete"], "")],
-		"%s, palier %d" % [TYPE_NAMES.get(entry["type"], entry["type"]), entry["niveau"]],
+		"%s, palier %d" % [TYPE_NAMES.get(entry["type"], entry["type"]), Item.tier(template)],
 	]
-	var template := Item.entry_template(entry, map_view.world.data.items)
 	lines.append_array(roll_lines(entry, template, _show_ranges))
 	lines.append_array(attack_lines(template))
 	lines.append_array(ForgeWindow.forge_lines(template, map_view.world.data, map_view.world.character))

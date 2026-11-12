@@ -14,7 +14,6 @@ const LEVELS := [[2500, 10, 0, 0, 0, 0.0], [15000, 15, 10, 0, 0, 0.0], [40000, 2
 ## Pousse : 10 min au palier 1 de la ressource, + 5 min par palier (niveaux 1–6, 7–12, 13–20, 21–30, 31+).
 const GROW_BASE := 600.0
 const GROW_PER_TIER := 300.0
-const TIER_LEVELS := [6, 12, 20, 30]
 
 
 ## Ligne de `LEVELS` de cette réputation ([] avant l'ouverture).
@@ -33,7 +32,7 @@ static func unlock_cost(node_level: int) -> int:
 
 ## Durée de pousse en secondes, moins `bonus_percent` % (bonus d'instance et Main verte de l'outil, 90 % au plus).
 static func grow_time(node_level: int, bonus_percent := 0.0) -> float:
-	return (GROW_BASE + GROW_PER_TIER * TIER_LEVELS.filter(func(top: int) -> bool: return node_level > top).size()) * (1.0 - minf(bonus_percent, 90.0) / 100.0)
+	return (GROW_BASE + GROW_PER_TIER * Item.TIER_LEVELS.filter(func(top: int) -> bool: return node_level > top).size()) * (1.0 - minf(bonus_percent, 90.0) / 100.0)
 
 
 ## État de l'instance d'un métier : { debloquees: [marqueurs], parcelles: { "x,y": [marqueur, mûre à (horloge réelle)] } }.

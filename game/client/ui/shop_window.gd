@@ -155,7 +155,7 @@ func _show_details(entry: Dictionary) -> void:
 		return
 	var lines: PackedStringArray = [
 		"%s — %s" % [entry["nom"], Item.RARITY_NAMES.get(entry["rarete"], "")],
-		"%s, palier %d" % [InventoryWindow.TYPE_NAMES.get(entry["type"], entry["type"]), entry["niveau"]],
+		"%s, palier %d" % [InventoryWindow.TYPE_NAMES.get(entry["type"], entry["type"]), Item.tier(Item.entry_template(entry, map_view.world.data.items))],
 	]
 	if _mode == BUY:
 		lines.append_array(InventoryWindow.bonus_range_lines(entry["bonus"]))

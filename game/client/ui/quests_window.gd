@@ -122,7 +122,7 @@ func _show_details() -> void:
 	var category: String = CATEGORY_NAMES.get(entry["categorie"], "")
 	if int(entry["acte"]) > 0:
 		category += ", acte %d" % entry["acte"]
-	var lines: PackedStringArray = ["%s — niveau %d — donnée par %s" % [category, entry["niveau"], entry["donneur"]]]
+	var lines: PackedStringArray = ["%s — donnée par %s" % [category, entry["donneur"]]]
 	if not str(entry["description"]).is_empty():
 		lines.append(entry["description"])
 	_details.text = QuestLinks.linkify("\n\n".join(lines), map_view.world)

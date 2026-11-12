@@ -36,7 +36,7 @@ static func tooltip_text_for(entry: Dictionary, data: GameData, character: Chara
 	var lines: PackedStringArray = [
 		_colored(_escape(str(entry["nom"])) + (" ×%d" % int(entry["quantite"]) if int(entry.get("quantite", 1)) > 1 else ""),
 			InventoryWindow.rarity_color(entry["rarete"])),
-		_colored("%s, palier %d" % [InventoryWindow.TYPE_NAMES.get(entry["type"], entry["type"]), entry["niveau"]], DIM),
+		_colored("%s, palier %d" % [InventoryWindow.TYPE_NAMES.get(entry["type"], entry["type"]), Item.tier(template)], DIM),
 	]
 	var bonus_lines := InventoryWindow.roll_lines(entry, template, show_ranges) if entry.has("jets") \
 		else InventoryWindow.bonus_range_lines(entry.get("bonus", {}))

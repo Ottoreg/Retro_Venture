@@ -60,6 +60,14 @@ func test_prix_selon_le_palier() -> void:
 		Item.buy_price({"type": "ressource", "rarete": "rare"}), "les ressources ne dépendent pas du palier")
 
 
+func test_palier_affiche() -> void:
+	# Niveau des panoplies et plans converti (1–6, 7–12, 13–20, 21–30, 31+) ; ressources et objets forgés : déjà un palier.
+	for case: Array in [[3, 1], [7, 2], [15, 3], [30, 4], [31, 5]]:
+		assert_eq(Item.tier({"type": "coiffe", "niveau": case[0]}), case[1], "niveau %d" % case[0])
+	assert_eq(Item.tier({"type": "ressource", "niveau": 4}), 4)
+	assert_eq(Item.tier({"id": "forge_coiffe", "type": "coiffe", "niveau": 5}), 5)
+
+
 func test_plus_de_conditions_sur_les_objets() -> void:
 	var item := {"id": "x", "nom": "X", "type": "cape", "rarete": "commun", "conditions": {"force": 10}}
 	assert_eq(Item.validate(item).size(), 1, "« conditions » refusé")

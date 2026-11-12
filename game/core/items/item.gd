@@ -29,6 +29,8 @@ const RESOURCE_PRICES := {
 }
 ## Palier d'équipement jusqu'auquel le prix ne dépend que de la rareté (voir `tier_price_factor`).
 const PRICE_TIER_STEP := 3.0
+## Plus haut niveau de chaque palier des anciens niveaux (1–6, 7–12, 13–20, 21–30, 31+ : paliers 1 à 5).
+const TIER_LEVELS := [6, 12, 20, 30]
 ## Multiplicateur du prix d'un objet forgé par palier (1 à 5, 11/11/2026, à revoir avec la demande dynamique des PNJ).
 const FORGED_PRICE_FACTORS := [1, 2, 4, 7, 10]
 ## Part du prix d'achat que le marchand paie quand on lui revend un objet.
@@ -159,6 +161,15 @@ static func weapon_spell_data(template: Dictionary) -> Dictionary:
 	if not spell.has("description"):
 		spell["description"] = "Attaque avec %s." % str(template.get("nom", "l'arme"))
 	return spell
+
+
+## Palier affiché d'un objet (1 à 5) : le `niveau` des ressources et des objets forgés en est déjà un ;
+## celui des autres (panoplies, plans, objets de quête) est converti par la table des monstres (`TIER_LEVELS`).
+static func tier(template: Dictionary) -> int:
+	var level := int(template.get("niveau", 1))
+	if template.get("type") == TYPE_RESOURCE or str(template.get("id", "")).begins_with("forge_"):
+		return level
+	return 1 + TIER_LEVELS.filter(func(top: int) -> bool: return level > top).size()
 
 
 ## Modèle d'un objet de l'inventaire (`entry`) : celui de `items`, ou, pour un objet forgé (`forge` :
