@@ -842,8 +842,35 @@ palier Compagnon vise la fin des zones de départ (≈ 4 à 5 h de jeu).
   rang 5) ; les rangs **3 et 5** ajoutent un effet propre au sort (portée, relance, coût, effet en
   plus). Voie pilote : le Guerrier (ci-dessous) ; les autres Voies suivront une fois le modèle
   validé en jeu.
-- Nombre total de points d'une classe : non plafonné, mais assez lent pour qu'un personnage reste
-  longtemps spécialisé (à régler).
+- Nombre total de points d'une classe : **non plafonné** (décision de l'auteur du 12/11/2026 : on doit
+  pouvoir maxer sa classe, mais pas trop vite). La fenêtre des sorts montre 20 cases par Voie (sorts
+  à venir compris) : 20 sorts au rang 5 = 300 points.
+
+#### Rythme des points de maîtrise (décidé le 12/11/2026, à coder)
+
+Constat (calcul sur `Progression`, 3 monstres de son palier, ~24 PA utiles et ~2 min par combat) :
+avec 1 point par 500 de réputation et la réputation des monstres vaincus tirée de leur ancienne XP
+(×23 entre un palier 1 et un palier 4), Apprenti en ~10 combats, Compagnon en ~50, Légende en ~200
+(~7 h, 200 points) : trop lent au tout début, beaucoup trop rapide ensuite. Décisions :
+
+- **Points par palier, rapides au début** : 20 points dans chaque palier, **100 points à Légende**.
+
+  | Palier atteint | Réputation | Réputation par point | Points cumulés |
+  |---|---|---|---|
+  | Apprenti | 1 000 | 50 | 20 |
+  | Compagnon | 5 000 | 200 | 40 |
+  | Vétéran | 15 000 | 500 | 60 |
+  | Maître | 40 000 | 1 250 | 80 |
+  | Légende | 100 000 | 3 000 | 100 |
+
+  Au-delà de Légende, la réputation continue de donner des points (rythme à fixer, voir plus bas).
+- **Réputation d'un monstre vaincu selon son palier** (plus son ancienne XP) : piste 10 × palier ×
+  facteur de difficulté, partagée par le groupe.
+- **Paliers de réputation inchangés** : ne pas allonger artificiellement la progression d'une classe.
+- **À réfléchir : réputation reposée** (×2 sur les premiers gains de la journée), qui inciterait aussi
+  à se connecter chaque jour.
+- **Plus tard**, une fois tous les aspects des classes conçus : nombre total de points pour tout
+  maxer, rythme après Légende, et usage des points en trop (piste : compétences passives de classe).
 
 | Sort du Guerrier | Base | Rang 3 | Rang 5 |
 |---|---|---|---|

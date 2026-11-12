@@ -177,6 +177,11 @@ Tout le contenu et les systèmes MVP de l'alpha 1 sont faits (chantiers 1, 3, 4 
 Lots 0 (conception dans le GDD), 1 (personnage, poussé sur `main` à la demande de l'auteur) et 2
 (combat) faits le 29/10/2026 (détail GDD § 4.5, « Où en est la refonte »). Restent ouverts : valeur des plafonds de caractéristiques, autre source de prospection.
 
+- [ ] **Rythme des points de maîtrise de classe** (GDD § 4.5, décidé le 12/11/2026) : 20 points par palier
+  (100 à Légende, `Character.REPUTATION_PER_MASTERY_POINT` remplacé par une table) ; réputation d'un
+  monstre vaincu = 10 × palier × facteur (fin de `Progression.KILL_SHARE`) ; mesurer avec `tools/simulation.gd`.
+  À réfléchir : réputation reposée. Plus tard : total pour tout maxer, rythme après Légende, points en trop.
+
 - [x] **Lot 1. Personnage** : réputations, maîtrises et caractéristiques par activité dans
   `Character` (fin de `level`, `xp`, `XP_RATE`, points à répartir, PV par niveau) ; Chance renommée
   Perception (script, sans toucher aux « chances » de butin) ; Sagesse supprimée ; prospection sans
