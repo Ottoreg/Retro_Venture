@@ -472,3 +472,31 @@ func test_fenetres_a_taille_fixe() -> void:
 		assert_true(needed.x <= fixed.x + 0.5 and needed.y <= fixed.y + 0.5,
 			"%s : %s demandés pour %s fixés" % [window_name, needed, fixed])
 	scene.queue_free()
+
+
+## Thèmes de couleurs : le choix des options s'applique en direct (thème par défaut et styles des fenêtres)
+## et se garde dans les options.
+func test_themes_de_couleurs() -> void:
+	var window_style := UiTheme.window_style()
+	for id: String in UiTheme.THEMES:
+		UiTheme.set_theme(id)
+		var colors: Dictionary = UiTheme.THEMES[id]
+		assert_eq(window_style.bg_color, Color(colors["fond"], 0.97), "%s : fond des fenêtres déjà ouvertes" % id)
+		assert_eq((ThemeDB.get_default_theme().get_stylebox("normal", "Button") as StyleBoxFlat).bg_color, Color(colors["bois_clair"]), "%s : boutons" % id)
+	Options.ui_theme = "foret"
+	Options.save_options()
+	Options.reset()
+	Options.load_options(true)
+	assert_eq(Options.ui_theme, "foret", "thème retenu")
+	Options.reset()
+	UiTheme.set_theme(Options.ui_theme)
+
+
+func test_bouton_grise_avec_sa_raison() -> void:
+	var button := Button.new()
+	UiTheme.lock(button, "Il vous manque 5 brumes.")
+	assert_true(button.disabled, "grisé")
+	assert_eq(button.tooltip_text, "Il vous manque 5 brumes.", "raison en bulle")
+	UiTheme.lock(button, "")
+	assert_true(not button.disabled and button.tooltip_text.is_empty(), "actif, sans bulle")
+	button.free()

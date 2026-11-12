@@ -8,7 +8,6 @@ extends CanvasLayer
 ## ne fait que montrer son dernier état (EVT_EXCHANGE).
 
 const GOLD := Color(0.95, 0.76, 0.3)
-const OK_COLOR := Color(0.45, 0.85, 0.4)
 
 var map_view: MapView
 
@@ -25,12 +24,13 @@ var _bag_title: Label
 var _bag_list: ItemList
 var _mine_list: ItemList
 var _theirs_title: Label
+var _mine_title: Label
 var _theirs_list: ItemList
 var _quantity: SpinBox
 var _offer_button: Button
 var _remove_button: Button
 var _ecus: SpinBox
-var _theirs_ecus: Label
+var _theirs_ecus: LineEdit
 var _status: Label
 var _validate_button: Button
 var _message: Label
@@ -131,7 +131,8 @@ func refresh() -> void:
 	_fill(_theirs_list, _sheet(_state["sien"]["objets"]), null)
 	if not found:
 		_selected = ""
-	_theirs_title.text = "Offre de %s" % other_name
+	_mine_title.text = "Votre offre" + (" · validée" if _state["valide_moi"] else "")
+	_theirs_title.text = "Offre de %s" % other_name + (" · validée" if _state["valide_lui"] else "")
 	_theirs_ecus.text = "%d brumes" % int(_state["sien"]["brumes"])
 	if not _ecus.get_line_edit().has_focus():
 		_ecus.max_value = maxi(world.character.inventory.ecus, int(_state["mien"]["brumes"]))
@@ -141,13 +142,15 @@ func refresh() -> void:
 	_quantity.max_value = maxi(1, max_quantity)
 	_quantity.editable = max_quantity > 1
 	var worn := not str(entry.get("emplacement", "")).is_empty()
-	_offer_button.disabled = entry.is_empty() or _from_offer or worn
-	_remove_button.disabled = entry.is_empty() or not _from_offer
+	UiTheme.lock(_offer_button, "Choisissez d'abord un objet de l'inventaire." if entry.is_empty() or _from_offer
+		else "Objet porté : retirez-le d'abord dans l'inventaire." if worn else "")
+	UiTheme.lock(_remove_button, "Choisissez d'abord un objet de votre offre." if entry.is_empty() or not _from_offer else "")
 	var lines: PackedStringArray = []
 	lines.append("Vous avez validé." if _state["valide_moi"] else "Vous n'avez pas validé.")
 	lines.append(("%s a validé." if _state["valide_lui"] else "%s n'a pas validé.") % other_name)
 	_status.text = "  ·  ".join(lines)
-	_status.add_theme_color_override("font_color", OK_COLOR if _state["valide_lui"] else Color(0.85, 0.82, 0.72))
+	# Doré quand l'autre attend votre validation ; le vert reste aux gains et aux réussites.
+	_status.add_theme_color_override("font_color", GOLD if _state["valide_lui"] and not _state["valide_moi"] else UiTheme.TEXT)
 	_update_validate()
 
 
@@ -158,7 +161,8 @@ func status_text() -> String:
 
 func _update_validate() -> void:
 	var done: bool = _state.get("valide_moi", false)
-	_validate_button.disabled = done or _wait > 0.0
+	UiTheme.lock(_validate_button, "Déjà validé : un changement d'offre retire les validations." if done
+		else "L'offre vient de changer : patientez avant de valider." if _wait > 0.0 else "")
 	_validate_button.text = "Validé" if done else ("Valider (%d)" % ceili(_wait) if _wait > 0.0 else "Valider")
 
 
@@ -252,26 +256,10 @@ func _unhandled_key_input(event: InputEvent) -> void:
 # --- Construction des contrôles ----------------------------------------------------------------
 
 func _build() -> void:
-	_panel = PanelContainer.new()
-	_panel.anchor_left = 0.5
-	_panel.anchor_right = 0.5
-	_panel.offset_left = -420
-	_panel.offset_right = 420
-	_panel.offset_top = 40
-	_panel.offset_bottom = 530
-	_panel.add_theme_stylebox_override("panel", UiTheme.window_style())
-	add_child(_panel)
-
-	var column := VBoxContainer.new()
-	column.add_theme_constant_override("separation", 8)
-	_panel.add_child(column)
-	var header := HBoxContainer.new()
-	column.add_child(header)
-	_title = _label(22, GOLD)
-	_title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	_title.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-	header.add_child(_title)
-	header.add_child(_button("×", cancel, "Annuler l'échange"))
+	var frame := UiTheme.window_frame(self, "", cancel, false)
+	_panel = frame.panel
+	var column: VBoxContainer = frame.column
+	_title = frame.title
 
 	var row := HBoxContainer.new()
 	row.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -283,6 +271,7 @@ func _build() -> void:
 	_bag_title = _label(15, Color(0.85, 0.82, 0.72))
 	bag_box.add_child(_bag_title)
 	_bag_list = _list(bag_box)
+	UiTheme.list_helpers(_bag_list, "Aucun objet à proposer.")
 	_bag_list.item_selected.connect(func(index: int) -> void: _select(_bag_list.get_item_metadata(index), false))
 
 	var actions := VBoxContainer.new()
@@ -304,24 +293,25 @@ func _build() -> void:
 	var offers := VBoxContainer.new()
 	offers.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	row.add_child(offers)
-	var mine_title := _label(15, Color(0.85, 0.82, 0.72))
-	mine_title.text = "Votre offre"
-	offers.add_child(mine_title)
+	offers.add_theme_constant_override("separation", 6)
+	# Les deux offres l'une sous l'autre, de même forme : titre (« validée » quand c'est fait), objets, brumes.
+	_mine_title = _label(15, GOLD)
+	offers.add_child(_mine_title)
 	_mine_list = _list(offers)
+	UiTheme.list_helpers(_mine_list, "Choisissez un objet de l'inventaire, puis « Proposer ».")
 	_mine_list.item_selected.connect(func(index: int) -> void: _select(_mine_list.get_item_metadata(index), true))
-	var ecus_row := HBoxContainer.new()
-	offers.add_child(ecus_row)
 	_ecus = SpinBox.new()
 	_ecus.min_value = 0
 	_ecus.suffix = "brumes"
-	_ecus.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_ecus.value_changed.connect(_on_ecus_changed)
-	ecus_row.add_child(_ecus)
-	offers.add_child(HSeparator.new())
-	_theirs_title = _label(15, Color(0.85, 0.82, 0.72))
+	offers.add_child(_ecus)
+	_theirs_title = _label(15, GOLD)
 	offers.add_child(_theirs_title)
 	_theirs_list = _list(offers)
-	_theirs_ecus = _label(15, GOLD)
+	UiTheme.list_helpers(_theirs_list, "Aucun objet proposé pour l'instant.")
+	_theirs_ecus = LineEdit.new()  # Lecture seule, à la place du champ de nos brumes.
+	_theirs_ecus.editable = false
+	_theirs_ecus.add_theme_color_override("font_uneditable_color", UiTheme.TEXT)
 	offers.add_child(_theirs_ecus)
 
 	_status = _label(15, Color(0.85, 0.82, 0.72))

@@ -13,6 +13,8 @@ extends CanvasLayer
 signal pin_cleared
 ## Clic droit sur une carte : un drapeau (repère) ; `shared` avec Maj (montré au groupe).
 signal flag_requested(pin: Dictionary, shared: bool)
+## Ordre des onglets de zones.
+const TAB_ORDER := ["brumerive", "crasse_roc", "sylvebrume", "hautepierre"]
 ## Une sorte d'icône montrée ou masquée (la minicarte se redessine).
 signal icons_changed
 
@@ -44,8 +46,6 @@ const GAP_RATIO := 0.08
 ## Coupure des noms dans les cases : aux mots seulement ; un mot trop long pour la case finit par
 ## des points de suspension (voir `_centered_text`).
 const NAME_BREAKS := TextServer.BREAK_MANDATORY | TextServer.BREAK_WORD_BOUND
-## Distance entre le bas de la fenêtre et le bas de l'écran.
-const BOTTOM_MARGIN := 110.0
 
 
 ## Drapeau posé d'un clic droit sur une case de la grille : { carte, nom } (comme un repère de quête).
@@ -229,10 +229,11 @@ class ZoneGrid extends Control:
 		var font := get_theme_default_font()
 		var name_size := font_size()
 		if compact:
-			# Emplacements vides de la fenêtre, à peine marqués : on lit la grille du monde.
+			# Emplacements vides de la fenêtre (bord du monde) : cases claires et cernées, plutôt qu'un trou noir.
 			for row in int(layout.get("lignes", 0)):
 				for col in int(layout.get("colonnes", 0)):
-					draw_rect(cell_rect(Vector2i(col, row)), Color(1, 1, 1, 0.035))
+					draw_rect(cell_rect(Vector2i(col, row)), Color(1, 1, 1, 0.06))
+					draw_rect(cell_rect(Vector2i(col, row)), Color(1, 1, 1, 0.1), false, 1.0)
 		# Les liens d'abord : un chemin entre deux cartes voisines (inutile entre des cases jointives).
 		var link_width := clampf(minf(cell_px.x, cell_px.y) * 0.08, 1.5, 4.0)
 		if not (compact and world != null):
@@ -266,14 +267,14 @@ class ZoneGrid extends Control:
 			box.set_corner_radius_all(mini(5, int(minf(cell_px.x, cell_px.y) * 0.15)))
 			box.set_border_width_all(3 if case["actuelle"] else 1)
 			if case["actuelle"]:
-				box.bg_color = Color("6b4a26")
+				box.bg_color = UiTheme.SELECTED
 				box.border_color = GOLD
 			elif visited:
 				box.bg_color = UiTheme.WOOD_LIGHT
 				box.border_color = UiTheme.BRONZE
 			else:
 				box.bg_color = UiTheme.INK
-				box.border_color = Color("5a4630")
+				box.border_color = UiTheme.SEAM
 			draw_style_box(box, rect)
 			if not visited:
 				var mark_size := clampi(int(minf(cell_px.x, cell_px.y) * 0.45), 9, 34)
@@ -312,8 +313,9 @@ class ZoneGrid extends Control:
 			_draw_zone_outline(hover_zone)
 		if not compact and cell_px.x < ZONE_NAMES_BELOW:
 			_draw_zone_names()
-		_draw_pin(objective, COLOR_OBJECTIVE, true)
-		_draw_pin(pin, COLOR_PIN, false)
+		# Épingles dans le coin haut gauche, côte à côte : le nom, centré, et les icônes, en bas, restent lisibles.
+		_draw_pin(objective, COLOR_OBJECTIVE)
+		_draw_pin(pin, COLOR_PIN, 1)
 		_draw_party()
 
 	## Grille du monde : le contour des cartes d'une zone (celle de la carte survolée), à mi-écart
@@ -342,14 +344,17 @@ class ZoneGrid extends Control:
 			var area: Rect2i = zone["cases"]
 			var box := cell_rect(area.position).merge(cell_rect(area.end - Vector2i.ONE))
 			var text_size := clampi(int(box.size.y * 0.22), 12, 22)
-			# Une petite zone (une seule carte) : son nom déborde sur les côtés plutôt que d'être coupé.
-			box = box.grow_individual(maxf(0.0, (160.0 - box.size.x) / 2.0), 0, maxf(0.0, (160.0 - box.size.x) / 2.0), 0)
+			# Une petite zone (une seule carte) : son nom déborde sur les côtés, d'une demi-case au plus (sans
+			# toucher celui de sa voisine), sur deux lignes s'il le faut.
+			var spill := minf(maxf(0.0, (160.0 - box.size.x) / 2.0), (cell_rect(Vector2i.RIGHT).position.x - cell_rect(Vector2i.ZERO).position.x) / 2.0 - 4.0)
+			var tall := maxf(0.0, font.get_height(text_size) * 2.0 - box.size.y) / 2.0 if spill > 0.0 else 0.0
+			box = box.grow_individual(spill, tall, spill, tall)
 			_centered_text(font, box, str(zone["nom"]), text_size, GOLD, 2, true)
 
 	## Membres du groupe : un point vert dans leur case (en bas à droite), leurs repères en épingle verte.
 	func _draw_party() -> void:
 		for member: Dictionary in party:
-			_draw_pin(member["repere"], COLOR_PARTY, false, 1)
+			_draw_pin(member["repere"], COLOR_PARTY, 2)
 			var at := {"carte": member["carte"]}
 			if pin_in_grid(at):
 				var rect := cell_rect(pin_cell(at))
@@ -358,9 +363,9 @@ class ZoneGrid extends Control:
 				draw_circle(center, radius, COLOR_PARTY)
 				draw_arc(center, radius, 0, TAU, 16, Color.WHITE, 1.0)
 
-	## Un repère : une épingle dans le coin haut gauche de sa case (bas gauche pour l'objectif suivi) ;
+	## Un repère : une épingle dans le coin haut gauche de sa case (décalée de `shift` épingles) ;
 	## sur la minicarte, une flèche au bord quand sa case est hors de la fenêtre (même zone).
-	func _draw_pin(marker: Dictionary, color: Color, low: bool, shift := 0) -> void:
+	func _draw_pin(marker: Dictionary, color: Color, shift := 0) -> void:
 		var cell: Variant = pin_cell(marker)
 		if cell == null:
 			return
@@ -368,8 +373,6 @@ class ZoneGrid extends Control:
 		if pin_in_grid(marker):
 			var radius := clampf(minf(rect.size.x, rect.size.y) * 0.12, 3.0, 7.0)
 			var head := rect.position + Vector2(radius + 3 + shift * radius * 2.2, radius + 3)
-			if low:
-				head.y = rect.end.y - radius * 3.2 - 3
 			var tip := head + Vector2(0, radius * 2.2)
 			draw_colored_polygon(PackedVector2Array([head + Vector2(-radius * 0.7, radius * 0.5), head + Vector2(radius * 0.7, radius * 0.5), tip]), color)
 			draw_circle(head, radius, color)
@@ -457,8 +460,7 @@ var map_view: MapView
 var _backdrop: ColorRect
 var _panel: PanelContainer
 ## Boutons des zones (id → Button) : un clic y amène la vue.
-var _zone_buttons := {}
-var _zone_row: HFlowContainer
+var _zone_tabs: TabBar
 var _zone_title: Label
 var _zone_info: Label
 var _grid: ZoneGrid
@@ -600,8 +602,8 @@ func refresh() -> void:
 
 ## En haut : nom de la zone nommée (`_focus_zone`) et ses cartes visitées.
 func _refresh_zone_title() -> void:
-	for zone_id: String in _zone_buttons:
-		_zone_buttons[zone_id].set_pressed_no_signal(zone_id == _focus_zone)
+	if _focus_zone in _zone_ids:
+		_zone_tabs.current_tab = _zone_ids.find(_focus_zone)
 	if _grid.layout.get("cases", []).is_empty():
 		_zone_title.text = "Aucune carte extérieure visitée"
 		_zone_info.text = ""
@@ -694,26 +696,21 @@ static func world_grid_layout(world: ClientState, here := "") -> Dictionary:
 		world.data.passages, known_passages(world))
 
 
-## Un bouton par zone du jeu, celles visitées d'abord.
+## Un onglet par zone du jeu : les zones de départ, Hautepierre, puis les autres (`TAB_ORDER`, puis par id).
 func _update_zones() -> void:
 	var world := map_view.world
 	var zones := WorldMapLayout.visited_zones(shown_maps(world))
+	zones.sort_custom(func(a: String, b: String) -> bool:
+		var rank_a := TAB_ORDER.find(a) if a in TAB_ORDER else TAB_ORDER.size()
+		var rank_b := TAB_ORDER.find(b) if b in TAB_ORDER else TAB_ORDER.size()
+		return rank_a < rank_b or rank_a == rank_b and a < b)
 	if zones == _zone_ids:
 		return
 	_zone_ids = zones
 	var infos := map_infos(world, zones)
-	for button in _zone_buttons.values():
-		button.queue_free()
-	_zone_buttons.clear()
+	_zone_tabs.clear_tabs()
 	for zone_id in _zone_ids:
-		var button := Button.new()
-		button.text = WorldMapLayout.zone_name(zone_id, infos, world.data.passages)
-		button.toggle_mode = true
-		button.focus_mode = Control.FOCUS_NONE
-		button.add_theme_font_size_override("font_size", 13)
-		button.pressed.connect(select_zone.bind(zone_id))
-		_zone_row.add_child(button)
-		_zone_buttons[zone_id] = button
+		_zone_tabs.add_tab(WorldMapLayout.zone_name(zone_id, infos, world.data.passages))
 
 
 func _unhandled_key_input(event: InputEvent) -> void:
@@ -721,12 +718,6 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	if key != null and key.pressed and not key.echo and key.keycode == KEY_M:
 		toggle()
 		get_viewport().set_input_as_handled()
-
-
-func _on_backdrop_input(event: InputEvent) -> void:
-	var button := event as InputEventMouseButton
-	if button != null and button.pressed:
-		close()
 
 
 func _set_visible(shown: bool) -> void:
@@ -737,49 +728,14 @@ func _set_visible(shown: bool) -> void:
 # --- Construction des contrôles ----------------------------------------------------------------
 
 func _build() -> void:
-	_backdrop = ColorRect.new()
-	_backdrop.color = Color(0, 0, 0, 0.35)
-	_backdrop.set_anchors_preset(Control.PRESET_FULL_RECT)
-	_backdrop.mouse_filter = Control.MOUSE_FILTER_STOP
-	_backdrop.gui_input.connect(_on_backdrop_input)
-	add_child(_backdrop)
-	_panel = PanelContainer.new()
-	_panel.anchor_left = 0.5
-	_panel.anchor_right = 0.5
-	_panel.anchor_bottom = 1.0
-	# Assez étroite pour laisser voir la minicarte (bande gauche) ; fenêtre au premier plan, elle
-	# peut couvrir le haut de la barre du bas.
-	_panel.offset_left = -410
-	_panel.offset_right = 410
-	_panel.offset_top = 76
-	_panel.offset_bottom = -BOTTOM_MARGIN
-	var style := StyleBoxFlat.new()
-	style.bg_color = Color(0.13, 0.1, 0.07, 0.97)
-	style.border_color = Color(0.55, 0.42, 0.22)
-	style.set_border_width_all(2)
-	style.set_corner_radius_all(6)
-	style.set_content_margin_all(14)
-	_panel.add_theme_stylebox_override("panel", style)
-	add_child(_panel)
-
-	var column := VBoxContainer.new()
-	column.add_theme_constant_override("separation", 8)
-	_panel.add_child(column)
-	var header := HBoxContainer.new()
-	column.add_child(header)
-	var window_title := _label(22, GOLD)
-	window_title.text = "Carte du monde"
-	window_title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	header.add_child(window_title)
-	var close_button := Button.new()
-	close_button.text = "×"
-	close_button.focus_mode = Control.FOCUS_NONE
-	close_button.pressed.connect(close)
-	header.add_child(close_button)
-
-	_zone_row = HFlowContainer.new()
-	_zone_row.add_theme_constant_override("h_separation", 6)
-	column.add_child(_zone_row)
+	var frame := UiTheme.window_frame(self, "Carte du monde", close)
+	_backdrop = frame.backdrop
+	_panel = frame.panel
+	var column: VBoxContainer = frame.column
+	_zone_tabs = UiTheme.tabs([], func(tab: int) -> void:
+		if _zone_ids[tab] != _focus_zone:
+			select_zone(_zone_ids[tab]))
+	column.add_child(_zone_tabs)
 
 	var zone_row := HBoxContainer.new()
 	column.add_child(zone_row)
@@ -793,17 +749,25 @@ func _build() -> void:
 	_zone_info = _label(14, Color(0.78, 0.75, 0.66))
 	_zone_info.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	zone_row.add_child(_zone_info)
+	# Variante A (choix de l'auteur) : la carte prend la place, la légende et l'aide se lisent au survol de « ? ».
+	var legend := Button.new()
+	legend.text = "?"
+	legend.focus_mode = Control.FOCUS_NONE
+	legend.custom_minimum_size = Vector2(32, 32)
+	legend.tooltip_text = "Cadre doré : vous êtes ici.\nÉpingle rouge : repère ou drapeau.\nÉpingle jaune : objectif de la quête suivie.\n" \
+		+ "Vert : membres du groupe et leurs repères.\nIcônes : A atelier, M marchand, C coffre, B mini-boss, ! quête.\n\n" \
+		+ "M : ouvrir / fermer.  Molette : zoom.  Glisser : se déplacer.\nClic droit : drapeau (Maj : montré au groupe)."
+	zone_row.add_child(legend)
 
-	var frame := PanelContainer.new()
-	frame.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	var grid_box := PanelContainer.new()
+	grid_box.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	var frame_style := StyleBoxFlat.new()
-	frame_style.bg_color = Color(0.09, 0.07, 0.05)
-	frame_style.border_color = Color("5a4630")
+	UiTheme.themed(frame_style, "encre", "lisere")
 	frame_style.set_border_width_all(1)
 	frame_style.set_corner_radius_all(4)
 	frame_style.set_content_margin_all(4)
-	frame.add_theme_stylebox_override("panel", frame_style)
-	column.add_child(frame)
+	grid_box.add_theme_stylebox_override("panel", frame_style)
+	column.add_child(grid_box)
 	_grid = ZoneGrid.new()
 	_grid.cell_fixed = zoom_cell()
 	_grid.mouse_filter = Control.MOUSE_FILTER_PASS
@@ -811,7 +775,7 @@ func _build() -> void:
 	_grid.resized.connect(_grid.queue_redraw)
 	_grid.gui_input.connect(_on_grid_input)
 	_grid.mouse_exited.connect(hover.bind(Vector2(-1e6, -1e6)))
-	frame.add_child(_grid)
+	grid_box.add_child(_grid)
 
 	# Légende : une case par sorte d'icône, pour l'afficher ou la masquer (minicarte comprise).
 	var filters := HFlowContainer.new()
@@ -829,15 +793,6 @@ func _build() -> void:
 		toggle.toggled.connect(_on_icon_toggled.bind(kind))
 		filters.add_child(toggle)
 		_icon_toggles[kind] = toggle
-	var legend := _label(13, Color(0.7, 0.67, 0.6))
-	legend.text = "Cadre doré : vous êtes ici.  Épingle rouge : repère ou drapeau.  Épingle jaune : objectif de la " \
-		+ "quête suivie.  Vert : membres du groupe et leurs repères.  Icônes : A atelier, M marchand, C coffre, B mini-boss, ! quête."
-	legend.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	column.add_child(legend)
-	var hint := _label(12, Color(0.6, 0.58, 0.52))
-	hint.text = "M : ouvrir / fermer.  Molette : zoom.  Glisser : se déplacer.  Clic droit : drapeau (Maj : montré au groupe)."
-	hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	column.add_child(hint)
 
 
 func _on_icon_toggled(shown: bool, kind: String) -> void:

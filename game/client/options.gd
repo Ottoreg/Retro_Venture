@@ -1,7 +1,7 @@
 class_name Options
 extends RefCounted
 ## Réglages du joueur, gardés d'une partie à l'autre dans `user://options.cfg` (hors sauvegarde) :
-## volume, plein écran, taille de la fenêtre (hors navigateur), mode tactique en combat, adresse
+## volume, plein écran, taille de la fenêtre (hors navigateur), thème de couleurs, mode tactique en combat, adresse
 ## du serveur de jeu (développement), zoom de la minicarte et icônes masquées.
 
 ## Tailles de fenêtre proposées (sur ordinateur ; le navigateur garde la taille de sa page).
@@ -19,6 +19,8 @@ static var tactical := false
 ## En mode tactique, combattants en pions (cercle de la couleur du camp, initiale) plutôt qu'en
 ## personnages.
 static var tactical_pawns := false
+## Thème de couleurs de l'interface (clé de `UiTheme.THEMES`).
+static var ui_theme := UiTheme.DEFAULT_THEME
 ## Adresse du serveur de jeu (ws:// ou wss://) pour le développement ; vide : celle que publie le
 ## serveur de test dans Supabase (GDD § 16.5).
 static var server_address := ""
@@ -44,6 +46,9 @@ static func load_options(force := false) -> void:
 	window_size = clampi(int(file.get_value("affichage", "taille", window_size)), 0, WINDOW_SIZES.size() - 1)
 	tactical = bool(file.get_value("combat", "tactique", tactical))
 	tactical_pawns = bool(file.get_value("combat", "pions", tactical_pawns))
+	ui_theme = str(file.get_value("affichage", "theme", ui_theme))
+	if not UiTheme.THEMES.has(ui_theme):
+		ui_theme = UiTheme.DEFAULT_THEME
 	server_address = str(file.get_value("en_ligne", "serveur", server_address))
 	minimap_radius = clampi(int(file.get_value("carte", "minicarte", minimap_radius)), 1, 4)
 	world_map_zoom = clampi(int(file.get_value("carte", "zoom_monde", world_map_zoom)), 0, WorldMapWindow.ZOOM_WIDTHS.size() - 1)
@@ -58,6 +63,7 @@ static func save_options() -> void:
 	file.set_value("affichage", "taille", window_size)
 	file.set_value("combat", "tactique", tactical)
 	file.set_value("combat", "pions", tactical_pawns)
+	file.set_value("affichage", "theme", ui_theme)
 	file.set_value("en_ligne", "serveur", server_address)
 	file.set_value("carte", "minicarte", minimap_radius)
 	file.set_value("carte", "zoom_monde", world_map_zoom)
@@ -72,6 +78,7 @@ static func reset() -> void:
 	window_size = 0
 	tactical = false
 	tactical_pawns = false
+	ui_theme = UiTheme.DEFAULT_THEME
 	server_address = ""
 	minimap_radius = 2
 	world_map_zoom = WorldMapWindow.DEFAULT_ZOOM

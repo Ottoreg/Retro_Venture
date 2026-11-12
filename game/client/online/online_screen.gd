@@ -180,7 +180,7 @@ func _on_back_pressed() -> void:
 
 func _build() -> void:
 	var background := ColorRect.new()
-	background.color = Color(0.168627, 0.129412, 0.0941176)
+	background.color = UiTheme.BACKDROP
 	background.set_anchors_preset(Control.PRESET_FULL_RECT)
 	add_child(background)
 	var center := CenterContainer.new()

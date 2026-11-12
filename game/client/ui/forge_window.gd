@@ -42,14 +42,19 @@ var _result_icon: TextureRect
 var _result: Label
 ## Onglet (`MODES`), ressource choisie (id), essence et équipement choisis (uids), contrôles, essais d'infusion.
 const MODES := {"forge": "Forge", "essence": "Essences", "infusion": "Infusion"}
+## Aide du bas de la fenêtre, selon l'onglet.
+const HINTS := {"forge": "Les jets sont tirés au hasard dans les plages affichées ; votre nom est gravé sur l'objet",
+	"essence": "Une essence garde une caractéristique d'une ressource, à infuser ensuite dans un équipement (onglet Infusion)",
+	"infusion": "Une essence renforce une ligne du jet ou ajoute une ligne d'exo ; un échec perd l'essence, jamais l'objet"}
 var _mode := "forge"
 var _source := ""
 var _essence := ""
 var _target := ""
 var _forge_parts: Array[Control] = []
-var _mode_buttons := {}
+var _tabs: TabBar
 var _essence_box: VBoxContainer
 var _essence_text: Label
+var _hint: Label
 var _infusion_box: VBoxContainer
 var _infusion_text: Label
 var _journal: PackedStringArray = []
@@ -199,7 +204,7 @@ func _show_infusion() -> void:
 				Item.stat_name(essence["caracteristique"]), preview["valeur"], _chance(essence)]))
 	_infusion_text.text = "\n".join(lines)
 	_card.text = card_text(target, world.data) if not target.is_empty() else "[color=#999]Cliquez un équipement du sac.[/color]"
-	_journal_label.text = "\n".join(_journal)
+	_journal_label.text = "\n".join(_journal) if not _journal.is_empty() else "[color=#8a7c66]Aucun essai pour l'instant : vos infusions réussies et ratées s'afficheront ici.[/color]"
 
 
 func _chance(essence: Dictionary) -> int:
@@ -233,8 +238,7 @@ func _send_infusion(apply: bool) -> void:
 
 func _set_mode(mode: String) -> void:
 	_mode = mode
-	for key: String in _mode_buttons:
-		_mode_buttons[key].button_pressed = key == mode
+	_tabs.current_tab = MODES.keys().find(mode)
 	for part in _forge_parts:
 		part.visible = mode == "forge"
 	_essence_box.visible = mode == "essence"
@@ -246,6 +250,7 @@ func _set_mode(mode: String) -> void:
 	_right_title.get_parent().visible = mode != "essence"
 	(_bag.get_parent().get_child(0) as Label).text = {"forge": "Sac : ressources, plans, patrons et papier (clic, Ctrl + clic : tout, ou glisser vers la recette)",
 		"essence": "Sac : ressources de forge (clic pour choisir)", "infusion": "Sac : essences et équipements (clic pour choisir)"}[mode]
+	_hint.text = HINTS[mode] + " · Échap : fermer"
 	_message.text = ""
 	refresh()
 
@@ -257,7 +262,7 @@ func _show_preview() -> void:
 		_update_words({}, {}, plan)
 		_preview.text = "\n".join(PackedStringArray(["Objet : %s" % plan["nom"], "", "Nom : %s" % _name()]))
 		_warn_lost({}, false)
-		_forge_button.disabled = not _owns_all()
+		UiTheme.lock(_forge_button, _forge_refusal(""))
 		return
 	var preview := Forge.preview(_type, _chosen, data.items, map_view.world.character, plan.is_empty())
 	# Adjectifs et élément d'attaque d'après toutes les lignes, même cachées : ils laissent deviner l'objet.
@@ -286,7 +291,16 @@ func _show_preview() -> void:
 		lines.append("Panoplies : %s" % (", ".join(keys.map(func(key: String) -> String: return Forge.set_title(key, data))) if not keys.is_empty() else "aucune"))
 	_preview.text = "\n".join(lines)
 	_warn_lost(preview["perdues"], plan.is_empty())
-	_forge_button.disabled = not preview["erreur"].is_empty() or not _owns_all()
+	UiTheme.lock(_forge_button, _forge_refusal(preview["erreur"]))
+
+
+## Pourquoi « Forger » est grisé ("" : il ne l'est pas).
+func _forge_refusal(error: String) -> String:
+	if _chosen.is_empty():
+		return "Posez des ressources sur les cases de la recette."
+	if not _owns_all():
+		return REFUSALS[Protocol.REASON_MISSING_INGREDIENTS]
+	return "" if error.is_empty() else REFUSALS.get(error, "Recette impossible.")
 
 
 ## Ressources posées dont une caractéristique dépasse le palier de forge : avertissement et cases en rouge (sans
@@ -436,59 +450,40 @@ func _set_visible(shown: bool) -> void:
 # --- Construction des contrôles ----------------------------------------------------------------
 
 func _build() -> void:
-	# Fond assombri : un clic à côté de la fenêtre la ferme (et ne fait pas marcher le personnage).
-	_backdrop = ColorRect.new()
-	_backdrop.color = Color(0, 0, 0, 0.35)
-	_backdrop.set_anchors_preset(Control.PRESET_FULL_RECT)
-	_backdrop.gui_input.connect(func(event: InputEvent) -> void:
-		if event is InputEventMouseButton and event.pressed:
-			close())
-	add_child(_backdrop)
-	_panel = PanelContainer.new()
-	_panel.anchor_left = 0.5
-	_panel.anchor_right = 0.5
-	_panel.offset_left = -560
-	_panel.offset_right = 560
-	_panel.offset_top = 40
-	_panel.offset_bottom = 650
-	_panel.add_theme_stylebox_override("panel", UiTheme.window_style())
-	add_child(_panel)
-	var column := VBoxContainer.new()
-	column.add_theme_constant_override("separation", 8)
-	_panel.add_child(column)
-	var header := HBoxContainer.new()
-	column.add_child(header)
-	var title := _label(22, GOLD)
-	title.text = "Enclume"
-	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	header.add_child(title)
-	_job_label = _label(15, GOLD)
-	header.add_child(_job_label)
-	for mode: String in MODES:
-		var tab := Button.new()
-		tab.text = MODES[mode]
-		tab.toggle_mode = true
-		tab.focus_mode = Control.FOCUS_NONE
-		tab.tooltip_text = {"forge": "Forger un équipement", "essence": "Infuser des ressources identiques en une essence",
-			"infusion": "Appliquer une essence à un équipement"}[mode]
-		tab.pressed.connect(_set_mode.bind(mode))
-		header.add_child(tab)
-		_mode_buttons[mode] = tab
-	var close_button := Button.new()
-	close_button.text = "×"
-	close_button.focus_mode = Control.FOCUS_NONE
-	close_button.pressed.connect(close)
-	header.add_child(close_button)
+	var frame := UiTheme.window_frame(self, "Enclume", close)
+	_backdrop = frame.backdrop
+	_panel = frame.panel
+	var column: VBoxContainer = frame.column
+	_job_label = UiTheme.header_add(frame, _label(15, GOLD))
+	_tabs = UiTheme.tabs(MODES.values(), func(tab: int) -> void:
+		if MODES.keys()[tab] != _mode:
+			_set_mode(MODES.keys()[tab]))
+	for tab in MODES.size():
+		_tabs.set_tab_tooltip(tab, ["Forger un équipement", "Infuser des ressources identiques en une essence", "Appliquer une essence à un équipement"][tab])
+	column.add_child(_tabs)
 
+	# Variante B (choix de l'auteur) : la recette et le bouton Forger en bandeau en haut, le sac dessous à
+	# gauche, l'aperçu au centre, la fiche de l'objet à droite sur toute la hauteur.
 	var row := HBoxContainer.new()
 	row.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	row.add_theme_constant_override("separation", 14)
 	column.add_child(row)
+	var main := VBoxContainer.new()
+	main.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	main.add_theme_constant_override("separation", 10)
+	row.add_child(main)
+	var band := HBoxContainer.new()
+	band.add_theme_constant_override("separation", 14)
+	main.add_child(band)
+	var lower := HBoxContainer.new()
+	lower.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	lower.add_theme_constant_override("separation", 14)
+	main.add_child(lower)
 	# Gauche : le sac en icônes. Un clic gauche relâché ajoute une ressource (ou suit un plan), sans la
 	# molette ; on peut aussi glisser une ressource vers les cases de la recette.
 	_bag = ItemList.new()
 	InventoryWindow.make_bag_grid(_bag)
-	_bag.custom_minimum_size = Vector2(360, 0)
+	_bag.custom_minimum_size = Vector2(300, 0)
 	_bag.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	_bag.gui_input.connect(func(event: InputEvent) -> void:
 		var click := event as InputEventMouseButton
@@ -521,12 +516,13 @@ func _build() -> void:
 	var left := _titled("Sac : ressources, plans, patrons et papier (clic, Ctrl + clic : tout, ou glisser vers la recette)", _bag)
 	left.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	(left.get_child(0) as Label).autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	row.add_child(left)
+	UiTheme.list_helpers(_bag, "Rien dans le sac pour cet onglet.")
+	lower.add_child(left)
 
-	# Centre : type, aperçu, nom, puis la recette (8 cases) et le bouton.
+	# Centre : type, nom, aperçu.
 	var center := VBoxContainer.new()
 	center.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	row.add_child(center)
+	lower.add_child(center)
 	_types = OptionButton.new()
 	for type: String in Forge.TYPES:
 		_types.add_item(Forge.TYPE_NAMES[type])
@@ -554,8 +550,8 @@ func _build() -> void:
 		names.add_child(option)
 		_words.append(option)
 	center.add_child(_titled("Nom de l'objet", names))
+	center.move_child(center.get_child(-1), 1)  # Sous le type, au-dessus de l'aperçu.
 	var slots := HBoxContainer.new()
-	slots.alignment = BoxContainer.ALIGNMENT_CENTER
 	for i in Forge.MAX_SLOTS + 1:  # 8 cases de ressources, puis celle de la feuille de papier.
 		var slot := Button.new()
 		slot.custom_minimum_size = Vector2(48, 62)
@@ -575,15 +571,19 @@ func _build() -> void:
 	_paper_slot.text = "patron"
 	_paper_slot.tooltip_text = "Feuille de papier (vendue par les marchands) : elle reçoit le patron de l'objet forgé"
 	_paper_slot.modulate = Color(1.0, 0.9, 0.7)
-	center.add_child(_titled("Recette (cliquer une case pour en retirer)", slots))
+	band.add_child(_titled("Recette (cliquer une case pour en retirer)", slots))
 	_forge_button = Button.new()
 	_forge_button.text = "Forger"
 	_forge_button.focus_mode = Control.FOCUS_NONE
+	_forge_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_forge_button.size_flags_vertical = Control.SIZE_SHRINK_END
+	_forge_button.custom_minimum_size = Vector2(0, 62)
+	_forge_button.add_theme_font_size_override("font_size", 20)
 	_forge_button.pressed.connect(_on_forge_pressed)
-	center.add_child(_forge_button)
+	band.add_child(_forge_button)
 	_message = _label(14, Color(0.55, 0.9, 0.5))
 	_message.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_forge_parts.assign(center.get_children())
+	_forge_parts.assign(center.get_children() + [band])
 	center.add_child(_message)
 	# Onglets Essences et Infusion : à la place du type, de l'aperçu, du nom et de la recette.
 	_essence_box = VBoxContainer.new()
@@ -610,6 +610,15 @@ func _build() -> void:
 		button.focus_mode = Control.FOCUS_NONE
 		button.pressed.connect(_send_infusion.bind(pair[3]))
 		pair[0].add_child(button)
+	var guide := _label(13, UiTheme.TEXT_DIM)
+	guide.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	guide.text = ("Comment ça marche\n\n1. Cliquez une ressource du sac, puis choisissez la caractéristique à garder.\n"
+		+ "2. « Créer l'essence » consomme les ressources indiquées et donne une essence.\n"
+		+ "3. Dans l'onglet Infusion, posez-la sur un équipement : elle renforce une ligne de son jet ou ajoute une ligne "
+		+ "d'exo (%d points de score d'exo au plus par objet).\n\nUne essence parfaite coûte %d fois plus de ressources "
+		+ "mais réussit toujours. Au palier Maître, les caractéristiques miroirs s'ajoutent à la liste.") % [Infusion.MAX_EXO_SCORE, Infusion.PERFECT_FACTOR]
+	_essence_box.add_child(HSeparator.new())
+	_essence_box.add_child(guide)
 	_journal_label = RichTextLabel.new()
 	_journal_label.bbcode_enabled = true
 	_journal_label.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -636,10 +645,10 @@ func _build() -> void:
 	_result.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_result_scroll = UiTheme.scroll_area(_result)
 	right.add_child(_result_scroll)
-	var hint := _label(12, Color(0.6, 0.58, 0.52))
-	hint.text = "Les jets sont tirés au hasard dans les plages affichées ; votre nom est gravé sur l'objet · Échap : fermer"
-	hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	column.add_child(hint)
+	_hint = _label(12, Color(0.6, 0.58, 0.52))
+	_hint.text = HINTS["forge"] + " · Échap : fermer"
+	_hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	column.add_child(_hint)
 
 
 func _titled(text: String, content: Control) -> VBoxContainer:

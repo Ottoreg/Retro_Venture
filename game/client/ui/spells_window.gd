@@ -1,9 +1,11 @@
 class_name SpellsWindow
 extends CanvasLayer
 ## Fenêtre des sorts (touche S) : un onglet par famille (Voie, race, arme), la liste des sorts avec
-## leurs icônes et la fiche du sort choisi.
+## leurs icônes et la fiche du sort choisi. L'onglet de la Voie a toujours 20 cases : ses sorts, puis des
+## cases vides pour les sorts pas encore conçus.
 
 const GOLD := Color(0.95, 0.76, 0.3)
+const CLASS_SPELL_SLOTS := 20
 const TARGET_NAMES := {"ennemis": "ennemis", "allies": "alliés"}
 const ELEMENT_NAMES := {"acier": "Acier (Force)", "flamme": "Flamme (Intelligence)", "givre": "Givre (Perception)", "tempete": "Tempête (Agilité)",
 	"sacre": "Sacré (Force et Intelligence)", "impie": "Impie (Agilité et Perception)"}
@@ -21,7 +23,7 @@ var _icon: TextureRect
 var _title: Label
 var _details: Label
 ## Maîtrise du sort choisi (sorts de la Voie) : rang, points à placer, bouton pour monter d'un rang.
-var _mastery_row: HBoxContainer
+var _mastery_row: PanelContainer
 var _mastery_label: Label
 var _mastery_button: Button
 ## Onglets : { nom, sorts: Array[Spell] }.
@@ -204,6 +206,8 @@ func refresh() -> void:
 		if spell.id == _selected:
 			_list.select(index)
 			shown = spell
+	for i in CLASS_SPELL_SLOTS - family["sorts"].size() if _tabs.current_tab == 0 else 0:
+		_list.set_item_disabled(_list.add_item("Sort à venir", ImageTexture.create_from_image(Image.create(40, 40, false, Image.FORMAT_RGBA8))), true)
 	if shown == null and not family["sorts"].is_empty():
 		shown = family["sorts"][0]
 		_selected = shown.id
@@ -287,14 +291,14 @@ func _show_mastery(spell: Spell) -> void:
 		return
 	var rank := character.spell_rank(spell.id)
 	var points := character.mastery_points()
-	_mastery_label.text = "Maîtrise : rang %d / %d   ·   %d point%s à placer" % [rank, Spell.MASTERY_MAX_RANK, points,
-		"s" if points > 1 else ""]
 	var maxed := rank >= Spell.MASTERY_MAX_RANK
-	_mastery_button.text = "Rang maximal" if maxed else "Rang %d (%d point%s)" % [rank + 1, rank + 1, "s" if rank > 0 else ""]
-	_mastery_button.disabled = maxed or points < rank + 1
 	var next: Dictionary = spell.mastery.get(rank + 1, {})
-	_mastery_button.tooltip_text = "" if maxed else "+%d %% aux valeurs de base%s" % [Spell.MASTERY_BONUS_PER_RANK,
-		" et un effet propre au sort" if not next.is_empty() else ""]
+	# Rang, points à placer, et ce que donne le rang suivant.
+	_mastery_label.text = "Maîtrise : rang %d / %d   ·   %d point%s à placer\n%s" % [rank, Spell.MASTERY_MAX_RANK, points, "s" if points > 1 else "", "Rang maximal atteint." if maxed else "Rang suivant : +%d %% aux valeurs de base%s." % [
+		Spell.MASTERY_BONUS_PER_RANK, " et un effet propre au sort" if not next.is_empty() else ""]]
+	_mastery_button.text = "Rang maximal" if maxed else "Monter au rang %d\n(%d point%s)" % [rank + 1, rank + 1, "s" if rank > 0 else ""]
+	UiTheme.lock(_mastery_button, "" if maxed or points >= rank + 1 else "Il vous manque %d point%s de maîtrise." % [rank + 1 - points, "s" if rank - points > 0 else ""])
+	_mastery_button.disabled = _mastery_button.disabled or maxed
 
 
 func _on_mastery_pressed() -> void:
@@ -323,38 +327,10 @@ func _unhandled_key_input(event: InputEvent) -> void:
 # --- Construction des contrôles ----------------------------------------------------------------
 
 func _build() -> void:
-	_panel = PanelContainer.new()
-	_panel.anchor_left = 0.5
-	_panel.anchor_right = 0.5
-	_panel.offset_left = -400
-	_panel.offset_right = 400
-	_panel.offset_top = 70
-	_panel.offset_bottom = 520
-	var style := StyleBoxFlat.new()
-	style.bg_color = Color(0.13, 0.1, 0.07, 0.96)
-	style.border_color = Color(0.55, 0.42, 0.22)
-	style.set_border_width_all(2)
-	style.set_corner_radius_all(6)
-	style.set_content_margin_all(14)
-	_panel.add_theme_stylebox_override("panel", style)
-	add_child(_panel)
-	var column := VBoxContainer.new()
-	column.add_theme_constant_override("separation", 8)
-	_panel.add_child(column)
-	var header := HBoxContainer.new()
-	column.add_child(header)
-	var window_title := _label(22, GOLD)
-	window_title.text = "Sorts"
-	window_title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	header.add_child(window_title)
-	var close := Button.new()
-	close.text = "×"
-	close.focus_mode = Control.FOCUS_NONE
-	close.pressed.connect(toggle)
-	header.add_child(close)
-	_tabs = TabBar.new()
-	_tabs.focus_mode = Control.FOCUS_NONE
-	_tabs.tab_changed.connect(_on_tab_changed)
+	var frame := UiTheme.window_frame(self, "Sorts", toggle, false)
+	_panel = frame.panel
+	var column: VBoxContainer = frame.column
+	_tabs = UiTheme.tabs([], _on_tab_changed)
 	column.add_child(_tabs)
 
 	var row := HBoxContainer.new()
@@ -388,17 +364,20 @@ func _build() -> void:
 	_details = _label(15, Color(0.92, 0.9, 0.85))
 	_details.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	detail.add_child(UiTheme.scroll_area(_details))
-	_mastery_row = HBoxContainer.new()
-	_mastery_row.add_theme_constant_override("separation", 10)
+	_mastery_row = PanelContainer.new()  # Encadré : la maîtrise se lit comme un bloc à part, avec son bouton.
 	detail.add_child(_mastery_row)
+	var mastery_line := HBoxContainer.new()
+	mastery_line.add_theme_constant_override("separation", 10)
+	_mastery_row.add_child(mastery_line)
 	_mastery_label = _label(14, GOLD)
 	_mastery_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_mastery_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_mastery_row.add_child(_mastery_label)
+	mastery_line.add_child(_mastery_label)
 	_mastery_button = Button.new()
 	_mastery_button.focus_mode = Control.FOCUS_NONE
 	_mastery_button.pressed.connect(_on_mastery_pressed)
-	_mastery_row.add_child(_mastery_button)
+	_mastery_button.custom_minimum_size = Vector2(190, 52)
+	mastery_line.add_child(_mastery_button)
 	var hint := _label(12, Color(0.6, 0.58, 0.52))
 	hint.text = "Touche S : ouvrir / fermer · En combat, les touches 1 à 0 choisissent les sorts de la barre"
 	column.add_child(hint)

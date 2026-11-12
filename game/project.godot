@@ -26,6 +26,6 @@ window/stretch/aspect="expand"
 
 [rendering]
 
-environment/defaults/default_clear_color=Color(0.168627, 0.129412, 0.0941176, 1)
+environment/defaults/default_clear_color=Color(0.14902, 0.14902, 0.156863, 1)
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"

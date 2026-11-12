@@ -52,7 +52,7 @@ godot --headless --path . -s res://tests/run_tests.gd        # tous les tests (R
 xvfb-run -a godot --path . -s res://tools/screenshot.gd -- sortie.png [carte] [secondes] [action]
 ```
 
-`tools/screenshot.gd` fait des captures en jeu (actions : glyphe, survol, infobulle, objet, boutique_panoplie, phase, reveil, carte, sermon,
+Captures avant/après des changements d'interface : `docs/captures/<sujet>/` (et le dossier partagé du projet). `tools/screenshot.gd` fait des captures en jeu (actions : glyphe, survol, infobulle, objet, boutique_panoplie, phase, reveil, carte, sermon,
 cible, tactique, pause, options, admin, fiche, assis, joueurs, groupe, chat, amis, echange, forge…) ; `tools/art_sheet.gd` fait une planche des dessins ; `tools/simulation.gd` simule des
 combats sur chaque groupe des cartes (`-- [combats] [rapport.md] [préfixes de cartes] [detail] [+niveaux] [trio]`, trio = guerrier + rôdeur + théologue ensemble,
 ~7 min pour tout à 10 combats).
@@ -121,7 +121,7 @@ Phase 2 (alpha solo), en deux tests :
    ajustements d'équilibrage reportés après l'alpha test 1, d'après les retours des joueurs (TODO).
 4. Interface et confort : **mode tactique en combat** (GDD § 14.3), menu pause et options
    (`client/options.gd`, `user://options.cfg`) **faits** ; **bandes latérales façon Dofus 2**
-   (`client/world/screen_layout.gd` : carte à l'échelle, rien sur la zone de jeu) **faites** ; reste la fenêtre des quêtes (avec le
+   (`client/world/screen_layout.gd` : carte à l'échelle, rien sur la zone de jeu) **faites** ; socle commun des fenêtres (12/11/2026 : une grande taille fixe, cadre, × et onglets communs, `UiTheme.window_frame`, GDD § « Fenêtres à taille fixe ») **fait** ; 4 thèmes de couleurs au choix dans les options, Pierre et argent par défaut (`UiTheme.THEMES`, `set_theme`, `themed` pour les styles créés par les fenêtres, `Options.ui_theme`) **faits** ; finitions (boutons grisés expliqués par `UiTheme.lock`, listes à lignes entières et consignes des listes vides par `UiTheme.list_helpers`) **faites**, et problèmes propres à chaque fenêtre (GDD § « Fenêtres une à une ») **faits** ; reste la fenêtre des quêtes (avec le
    chantier 6, faite) et les petits conforts (raccourcis ; infobulles d'objets comparées à l'équipement porté : faites,
    `client/ui/item_tooltip_list.gd`).
 6. Quêtes : conception validée (`docs/design/chantier6_quetes.md`). **Lots 1 (système :

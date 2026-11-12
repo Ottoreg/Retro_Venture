@@ -113,61 +113,20 @@ func _on_destination_pressed(destination: String) -> void:
 	map_view.send_command({"type": Protocol.CMD_TRAVEL, "entite": map_view.world.player_id, "case": _stone, "destination": destination})
 
 
-func _on_backdrop_input(event: InputEvent) -> void:
-	var button := event as InputEventMouseButton
-	if button != null and button.pressed:
-		close()
-
-
 func _set_visible(shown: bool) -> void:
 	_panel.visible = shown
 	_backdrop.visible = shown
 
 
 func _build() -> void:
-	_backdrop = ColorRect.new()
-	_backdrop.color = Color(0, 0, 0, 0.35)
-	_backdrop.set_anchors_preset(Control.PRESET_FULL_RECT)
-	_backdrop.mouse_filter = Control.MOUSE_FILTER_STOP
-	_backdrop.gui_input.connect(_on_backdrop_input)
-	add_child(_backdrop)
-	_panel = PanelContainer.new()
-	_panel.anchor_left = 0.5
-	_panel.anchor_right = 0.5
-	_panel.offset_left = -230
-	_panel.offset_right = 230
-	_panel.offset_top = 110
-	_panel.offset_bottom = 560
-	var style := StyleBoxFlat.new()
-	style.bg_color = Color(0.13, 0.1, 0.07, 0.97)
-	style.border_color = Color(0.55, 0.42, 0.22)
-	style.set_border_width_all(2)
-	style.set_corner_radius_all(6)
-	style.set_content_margin_all(14)
-	_panel.add_theme_stylebox_override("panel", style)
-	add_child(_panel)
-	var column := VBoxContainer.new()
-	column.add_theme_constant_override("separation", 10)
-	_panel.add_child(column)
-	var header := HBoxContainer.new()
-	header.add_theme_constant_override("separation", 12)
-	column.add_child(header)
-	var title := Label.new()
-	title.text = "Pierre de Passage"
-	title.add_theme_font_size_override("font_size", 22)
-	title.add_theme_color_override("font_color", GOLD)
-	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	header.add_child(title)
-	_coins = Label.new()
+	var frame := UiTheme.window_frame(self, "Pierre de Passage", close)
+	_backdrop = frame.backdrop
+	_panel = frame.panel
+	var column: VBoxContainer = frame.column
+	_coins = UiTheme.header_add(frame, Label.new())
 	_coins.add_theme_color_override("font_color", GOLD)
 	_coins.tooltip_text = "Votre bourse"
 	_coins.mouse_filter = Control.MOUSE_FILTER_PASS
-	header.add_child(_coins)
-	var close_button := Button.new()
-	close_button.text = "×"
-	close_button.focus_mode = Control.FOCUS_NONE
-	close_button.pressed.connect(close)
-	header.add_child(close_button)
 	var hint := Label.new()
 	hint.text = "Posez la main sur les runes et choisissez où aller :"
 	hint.add_theme_color_override("font_color", Color(0.85, 0.82, 0.72))

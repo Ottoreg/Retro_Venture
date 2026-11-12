@@ -22,6 +22,7 @@ extends SceneTree
 ## créé, une place vide), « composition » (la même, grille de Composition ouverte au-dessus du sort),
 ## « infobulle » (la même, souris sur le sort Composition : son infobulle, compter ~120 images),
 ## « objet » (inventaire, bottes portées, souris sur d'autres bottes du sac : infobulle comparée).
+## « theme_<thème>_<action> » (« theme_foret_inventaire ») : la même capture dans un autre thème de couleurs.
 ## Si « carte » commence par res://, c'est cette scène qui est capturée (menu, création…).
 
 var _output := "capture.png"
@@ -58,6 +59,10 @@ func _initialize() -> void:
 		_action = "combat" if _action.ends_with("_combat") else ""
 	# Réglages par défaut (ceux du joueur ne comptent pas), mode tactique si demandé.
 	Options.reset()
+	if _action.begins_with("theme_"):  # « theme_<thème>[_<action>] » : la capture dans un autre thème de couleurs.
+		var words := _action.split("_", true, 2)
+		Options.ui_theme = words[1]
+		_action = words[2] if words.size() > 2 else ""
 	if _action == "pions":
 		_action = "tactique"
 		Options.tactical_pawns = true
@@ -96,7 +101,7 @@ func _process(_delta: float) -> bool:
 				"jets": {"initiative": 9, "perception": 2, "agilite": 1}, "bonus": {"initiative": [8, 11], "perception": [2, 2], "agilite": [1, 1]}})
 			for item_id: String in ["peau_de_loup", "croc_de_loup", "croc_de_loup", "dent_de_rat", "corne_du_balourd", "feuille_de_papier"]:
 				forge._change(item_id, 1)
-		elif _action == "infusion":
+		elif _action in ["infusion", "essences"]:
 			# Enclume, onglet Infusion, forgeron Maître : crocs de loup (miroir proposé), une essence et des bottes forgées choisies.
 			var world := view.server
 			var inventory := world.character.inventory
@@ -112,7 +117,7 @@ func _process(_delta: float) -> bool:
 			forge._source = "croc_de_loup"
 			forge._essence = essence
 			forge._target = boots
-			forge._set_mode("infusion")
+			forge._set_mode("infusion" if _action == "infusion" else "essence")
 		elif _action == "objet":
 			# Bottes du Pressé portées ; d'autres bottes dans le sac, survolées : leur infobulle comparée.
 			var world := view.server

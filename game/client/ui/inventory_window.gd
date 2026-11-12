@@ -199,7 +199,10 @@ func refresh() -> void:
 	_sheet = world.character.inventory_sheet(world.data)
 	_coins.text = "%d brumes   ·   %d / %d places" % [_sheet["ecus"], _sheet["objets"].size(), _sheet["places"]]
 	var overloaded: bool = _sheet["objets"].size() > int(_sheet["places"])
-	_coins.add_theme_color_override("font_color", Color(1.0, 0.45, 0.35) if overloaded else GOLD)
+	var full: bool = _sheet["objets"].size() >= int(_sheet["places"])
+	# Plein : orange (le butin et les achats ne rentrent plus) ; surchargé : rouge, avec l'alerte du bas.
+	_coins.add_theme_color_override("font_color", Color(1.0, 0.45, 0.35) if overloaded else Color(1.0, 0.65, 0.3) if full else GOLD)
+	_coins.tooltip_text = "Sac plein : jetez, vendez ou rangez au coffre pour faire de la place." if full and not overloaded else ""
 	_overload.visible = overloaded
 	var by_uid := {}
 	for entry: Dictionary in _sheet["objets"]:
@@ -209,10 +212,12 @@ func refresh() -> void:
 		var uid: String = _sheet["equipement"].get(slot, "")
 		if by_uid.has(uid):
 			button.text = by_uid[uid]["nom"]
+			button.tooltip_text = by_uid[uid]["nom"]
 			button.icon = item_icon(by_uid[uid]["objet"])
 			button.add_theme_color_override("font_color", rarity_color(by_uid[uid]["rarete"]))
 		else:
 			button.text = "—"
+			button.tooltip_text = "%s : vide" % Item.SLOT_NAMES[slot]
 			button.icon = null
 			button.add_theme_color_override("font_color", Color(0.5, 0.5, 0.5))
 		button.set_meta("uid", uid)
@@ -221,7 +226,7 @@ func refresh() -> void:
 	for entry: Dictionary in _sheet["objets"]:
 		counts[bag_tab(entry["type"])] += 1
 	for tab in BAG_TAB_NAMES.size():
-		_bag_tabs.set_tab_title(tab, "%s (%d)" % [BAG_TAB_NAMES[tab], counts[tab]] if counts[tab] > 0 else BAG_TAB_NAMES[tab])
+		_bag_tabs.set_tab_title(tab, "%s (%d)" % [BAG_TAB_NAMES[tab], counts[tab]])
 	for entry: Dictionary in _sheet["objets"]:
 		if bag_tab(entry["type"]) != _bag_tabs.current_tab:
 			continue
@@ -357,12 +362,11 @@ func _on_slot_pressed(slot: String) -> void:
 
 
 func _show_details(entry: Dictionary) -> void:
-	_equip_button.disabled = true
-	_unequip_button.disabled = true
-	_drop_button.disabled = entry.is_empty()
+	for button: Button in [_equip_button, _unequip_button, _drop_button]:
+		UiTheme.lock(button, "Choisissez d'abord un objet.")
 	_icon.texture = null if entry.is_empty() else item_icon(entry["objet"])
 	if entry.is_empty():
-		_details.text = "Choisissez un objet."
+		_details.text = "Choisissez un objet du sac ou un emplacement : sa fiche s'affiche ici.\n\nDouble-clic ou glisser vers un emplacement : équiper ; vers le sac : retirer.\nCtrl enfoncé : les jets possibles de chaque ligne."
 		return
 	var template := Item.entry_template(entry, map_view.world.data.items)
 	var lines: PackedStringArray = [
@@ -378,9 +382,10 @@ func _show_details(entry: Dictionary) -> void:
 		lines.append(entry["description"])
 	_details.text = "\n".join(lines)
 	var worn := not str(entry["emplacement"]).is_empty()
-	_equip_button.disabled = worn or not Item.SLOTS_BY_TYPE.has(entry["type"]) or is_read_only()
-	_unequip_button.disabled = not worn or is_read_only()
-	_drop_button.disabled = is_read_only()
+	var fight := "Impossible pendant un combat." if is_read_only() else ""
+	UiTheme.lock(_equip_button, "Objet déjà porté." if worn else "Cet objet ne se porte pas." if not Item.SLOTS_BY_TYPE.has(entry["type"]) else fight)
+	UiTheme.lock(_unequip_button, "Cet objet n'est pas porté." if not worn else fight)
+	UiTheme.lock(_drop_button, fight)
 
 
 func _on_equip_pressed() -> void:
@@ -403,38 +408,11 @@ func _on_drop_pressed() -> void:
 # --- Construction des contrôles ----------------------------------------------------------------
 
 func _build() -> void:
-	_panel = PanelContainer.new()
-	_panel.anchor_left = 0.5
-	_panel.anchor_right = 0.5
-	_panel.offset_left = -455
-	_panel.offset_right = 455
-	_panel.offset_top = 66
-	_panel.offset_bottom = 612
-	var style := StyleBoxFlat.new()
-	style.bg_color = Color(0.13, 0.1, 0.07, 0.96)
-	style.border_color = Color(0.55, 0.42, 0.22)
-	style.set_border_width_all(2)
-	style.set_corner_radius_all(6)
-	style.set_content_margin_all(14)
-	_panel.add_theme_stylebox_override("panel", style)
-	add_child(_panel)
-
-	var column := VBoxContainer.new()
-	column.add_theme_constant_override("separation", 8)
-	_panel.add_child(column)
-	var header := HBoxContainer.new()
-	column.add_child(header)
-	var title := _label(22, GOLD)
-	title.text = "Inventaire"
-	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	header.add_child(title)
-	_coins = _label(15, GOLD)
-	header.add_child(_coins)
-	var close := Button.new()
-	close.text = "×"
-	close.focus_mode = Control.FOCUS_NONE
-	close.pressed.connect(toggle)
-	header.add_child(close)
+	var frame := UiTheme.window_frame(self, "Inventaire", toggle, false)
+	_panel = frame.panel
+	var column: VBoxContainer = frame.column
+	_coins = UiTheme.header_add(frame, _label(15, GOLD))
+	_coins.mouse_filter = Control.MOUSE_FILTER_PASS  # Bulle « sac plein ».
 
 	var row := HBoxContainer.new()
 	row.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -484,12 +462,7 @@ func _build() -> void:
 	var bag := VBoxContainer.new()
 	bag.add_theme_constant_override("separation", 4)
 	row.add_child(bag)
-	_bag_tabs = TabBar.new()
-	_bag_tabs.focus_mode = Control.FOCUS_NONE
-	_bag_tabs.clip_tabs = false
-	for tab_name: String in BAG_TAB_NAMES:
-		_bag_tabs.add_tab(tab_name)
-	_bag_tabs.tab_changed.connect(func(_tab: int) -> void: refresh())
+	_bag_tabs = UiTheme.tabs(BAG_TAB_NAMES, func(_tab: int) -> void: refresh())
 	bag.add_child(_bag_tabs)
 	_list = ItemTooltipList.new()
 	_list.custom_minimum_size = Vector2(340, 0)
@@ -499,6 +472,7 @@ func _build() -> void:
 	_list.item_activated.connect(_on_item_activated)
 	_list.set_drag_forwarding(_bag_drag_data, _can_drop_on_bag, _drop_on_bag)
 	bag.add_child(_list)
+	UiTheme.list_helpers(_list, "Aucun objet dans cet onglet.")
 
 	var detail_box := VBoxContainer.new()
 	detail_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL

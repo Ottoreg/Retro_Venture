@@ -22,11 +22,11 @@ var _coins: Label
 ## Ctrl enfoncé : jets possibles des objets à vendre plutôt que les leurs.
 var _show_ranges := false
 var _greeting: Label
-var _buy_tab: Button
-var _sell_tab: Button
+var _tabs: TabBar
 var _search: LineEdit
 var _list: ItemList
-var _details: Label
+var _prices: PackedStringArray = []
+var _details: RichTextLabel
 var _quantity_box: HBoxContainer
 var _quantity: SpinBox
 var _action_button: Button
@@ -75,20 +75,19 @@ func is_open() -> bool:
 func refresh() -> void:
 	if map_view == null or not is_open():
 		return
-	_buy_tab.button_pressed = _mode == BUY
-	_sell_tab.button_pressed = _mode == SELL
+	_tabs.set_current_tab(0 if _mode == BUY else 1)
 	_coins.text = "%d brumes" % map_view.world.character.inventory.ecus
 	_list.clear()
+	_prices.clear()
 	var found := false
 	for entry in _entries():
 		if not matches_search(entry, _search.text):
 			continue
 		var key: String = entry["objet"] if _mode == BUY else entry["uid"]
-		var label := "%s — %d brumes" % [entry["nom"], _unit_price(entry)]
-		if _mode == SELL:
-			label = "%s%s — %d brumes%s" % [entry["nom"], " ×%d" % entry["quantite"] if int(entry["quantite"]) > 1 else "",
-				_unit_price(entry), "   (porté)" if _is_worn(entry) else ""]
+		var label: String = entry["nom"] if _mode == BUY else "%s%s%s" % [entry["nom"],
+			" ×%d" % entry["quantite"] if int(entry["quantite"]) > 1 else "", "   (porté)" if _is_worn(entry) else ""]
 		var index := _list.add_item(label, InventoryWindow.item_icon(entry["objet"]))
+		_prices.append("%d brumes" % _unit_price(entry))
 		_list.set_item_custom_fg_color(index, Color(0.5, 0.5, 0.5) if _is_worn(entry) else InventoryWindow.rarity_color(entry["rarete"]))
 		_list.set_item_metadata(index, key)
 		_list.set_item_tooltip(index, ItemTooltipList.tooltip_text_for(entry, map_view.world.data, map_view.world.character, _show_ranges))
@@ -150,11 +149,11 @@ func _show_details(entry: Dictionary) -> void:
 	if entry.is_empty():
 		_details.text = "Choisissez un objet à acheter." if _mode == BUY else "Choisissez un objet à vendre."
 		_quantity_box.visible = false
-		_action_button.disabled = true
+		UiTheme.lock(_action_button, "Choisissez d'abord un objet dans la liste.")
 		_action_button.text = "Acheter" if _mode == BUY else "Vendre"
 		return
 	var lines: PackedStringArray = [
-		"%s — %s" % [entry["nom"], Item.RARITY_NAMES.get(entry["rarete"], "")],
+		"[b][color=#%s]%s[/color][/b] — %s" % [InventoryWindow.rarity_color(entry["rarete"]).to_html(false), entry["nom"], Item.RARITY_NAMES.get(entry["rarete"], "")],
 		"%s, palier %d" % [InventoryWindow.TYPE_NAMES.get(entry["type"], entry["type"]), Item.tier(Item.entry_template(entry, map_view.world.data.items))],
 	]
 	if _mode == BUY:
@@ -165,6 +164,8 @@ func _show_details(entry: Dictionary) -> void:
 	lines.append_array(InventoryWindow.attack_lines(template))
 	lines.append_array(ForgeWindow.forge_lines(template, map_view.world.data, map_view.world.character))
 	lines.append_array(InventoryWindow.set_lines(entry, map_view.world.data, map_view.world.character.inventory))
+	# Comparé à l'équipement porté, comme l'infobulle de l'inventaire (en vente : « Porté » pour un objet porté).
+	lines.append_array(ItemTooltipList.comparison_lines(entry, map_view.world.data, map_view.world.character.inventory))
 	if not str(entry["description"]).is_empty():
 		lines.append("")
 		lines.append(entry["description"])
@@ -194,10 +195,11 @@ func _update_action_button() -> void:
 	var total := _unit_price(entry) * quantity
 	if _mode == BUY:
 		_action_button.text = "Acheter — %d brumes" % total
-		_action_button.disabled = total > map_view.world.character.inventory.ecus
+		var missing := total - map_view.world.character.inventory.ecus
+		UiTheme.lock(_action_button, "Il vous manque %d brumes." % missing if missing > 0 else "")
 	else:
 		_action_button.text = "Vendre — %d brumes" % total
-		_action_button.disabled = _is_worn(entry)
+		UiTheme.lock(_action_button, "Objet porté : retirez-le d'abord dans l'inventaire." if _is_worn(entry) else "")
 
 
 func _on_tab_pressed(mode: String) -> void:
@@ -206,6 +208,20 @@ func _on_tab_pressed(mode: String) -> void:
 		_selected = ""
 		_quantity.value = 1
 	refresh()
+
+
+## Colonne des prix : à droite de chaque ligne, alignés, en or (variante A de la boutique).
+func _draw_prices() -> void:
+	var font := _list.get_theme_font("font")
+	var font_size := _list.get_theme_font_size("font_size")
+	var scroll := _list.get_v_scroll_bar()
+	var right := _list.size.x - 12.0 - (scroll.size.x if scroll.visible else 0.0)
+	for index in mini(_prices.size(), _list.item_count):
+		var rect := _list.get_item_rect(index)
+		var y := rect.position.y - scroll.value + _list.get_theme_stylebox("panel").get_margin(SIDE_TOP) + (rect.size.y - _list.get_theme_constant("v_separation") + font.get_ascent(font_size) - font.get_descent(font_size)) / 2.0
+		if y > 0.0 and y < _list.size.y:
+			_list.draw_string(font, Vector2(right - font.get_string_size(_prices[index], HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x, y), _prices[index],
+				HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, UiTheme.GOLD)
 
 
 func _on_item_selected(index: int) -> void:
@@ -241,15 +257,9 @@ func _on_trade_result(event: Dictionary) -> void:
 		_message.text = "Acheté : %s%s (−%d brumes)" % [event["nom"], amount, event["prix"]]
 	else:
 		_message.text = "Vendu : %s%s (+%d brumes)" % [event["nom"], amount, event["prix"]]
-	_message.add_theme_color_override("font_color", Color(0.55, 0.9, 0.5))
+	_message.add_theme_color_override("font_color", UiTheme.TEXT)
 	_quantity.value = 1
 	refresh()
-
-
-func _on_backdrop_input(event: InputEvent) -> void:
-	var button := event as InputEventMouseButton
-	if button != null and button.pressed:
-		close()
 
 
 func _set_visible(shown: bool) -> void:
@@ -266,58 +276,21 @@ func _input(event: InputEvent) -> void:
 # --- Construction des contrôles ----------------------------------------------------------------
 
 func _build() -> void:
-	# Fond assombri : un clic à côté de la fenêtre la ferme (et ne fait pas marcher le personnage).
-	_backdrop = ColorRect.new()
-	_backdrop.color = Color(0, 0, 0, 0.35)
-	_backdrop.set_anchors_preset(Control.PRESET_FULL_RECT)
-	_backdrop.mouse_filter = Control.MOUSE_FILTER_STOP
-	_backdrop.gui_input.connect(_on_backdrop_input)
-	add_child(_backdrop)
-
-	_panel = PanelContainer.new()
-	_panel.anchor_left = 0.5
-	_panel.anchor_right = 0.5
-	_panel.offset_left = -420
-	_panel.offset_right = 420
-	_panel.offset_top = 60
-	_panel.offset_bottom = 590
-	var style := StyleBoxFlat.new()
-	style.bg_color = Color(0.13, 0.1, 0.07, 0.97)
-	style.border_color = Color(0.55, 0.42, 0.22)
-	style.set_border_width_all(2)
-	style.set_corner_radius_all(6)
-	style.set_content_margin_all(14)
-	_panel.add_theme_stylebox_override("panel", style)
-	add_child(_panel)
-
-	var column := VBoxContainer.new()
-	column.add_theme_constant_override("separation", 8)
-	_panel.add_child(column)
-	var header := HBoxContainer.new()
-	column.add_child(header)
-	_title = _label(22, GOLD)
-	_title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	_title.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-	header.add_child(_title)
-	_coins = _label(16, GOLD)
-	header.add_child(_coins)
-	var close_button := Button.new()
-	close_button.text = "×"
-	close_button.focus_mode = Control.FOCUS_NONE
-	close_button.pressed.connect(close)
-	header.add_child(close_button)
+	var frame := UiTheme.window_frame(self, "", close)
+	_backdrop = frame.backdrop
+	_panel = frame.panel
+	var column: VBoxContainer = frame.column
+	_title = frame.title
+	_coins = UiTheme.header_add(frame, _label(16, GOLD))
 
 	_greeting = _label(14, Color(0.85, 0.82, 0.72))
 	_greeting.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	column.add_child(UiTheme.scroll_area(_greeting, 46))
 
-	var tabs := HBoxContainer.new()
-	column.add_child(tabs)
-	var group := ButtonGroup.new()
-	_buy_tab = _tab_button("Acheter", BUY, group)
-	_sell_tab = _tab_button("Vendre", SELL, group)
-	tabs.add_child(_buy_tab)
-	tabs.add_child(_sell_tab)
+	_tabs = UiTheme.tabs(["Acheter", "Vendre"], func(tab: int) -> void:
+		if [BUY, SELL][tab] != _mode:
+			_on_tab_pressed([BUY, SELL][tab]))
+	column.add_child(_tabs)
 
 	_search = LineEdit.new()
 	_search.placeholder_text = "Rechercher un objet (nom ou type)…"
@@ -332,16 +305,19 @@ func _build() -> void:
 	row.add_theme_constant_override("separation", 14)
 	column.add_child(row)
 	_list = ItemTooltipList.new()
-	_list.custom_minimum_size = Vector2(380, 0)
 	_list.fixed_icon_size = Vector2i(28, 28)
 	_list.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_list.custom_minimum_size = Vector2(560, 0)
+	_list.add_theme_constant_override("h_separation", 10)
 	_list.item_selected.connect(_on_item_selected)
+	_list.draw.connect(_draw_prices)
 	row.add_child(_list)
+	UiTheme.list_helpers(_list, "Aucun objet à afficher.")
 
 	var detail_box := VBoxContainer.new()
 	detail_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	row.add_child(detail_box)
-	_details = _label(14, Color(0.92, 0.9, 0.85))
+	_details = ItemTooltipList.make_label("")
 	_details.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_details.custom_minimum_size = Vector2(260, 0)
 	detail_box.add_child(UiTheme.scroll_area(_details))
@@ -359,24 +335,13 @@ func _build() -> void:
 	_action_button.focus_mode = Control.FOCUS_NONE
 	_action_button.pressed.connect(_on_action_pressed)
 	detail_box.add_child(_action_button)
-	_message = _label(14, Color(0.55, 0.9, 0.5))
+	_message = _label(14, UiTheme.TEXT)
 	_message.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	detail_box.add_child(_message)
 
 	var hint := _label(12, Color(0.6, 0.58, 0.52))
 	hint.text = "Revente : %d %% du prix d'achat · Les objets portés ne se vendent pas · Ctrl : jets possibles · Échap : fermer" % roundi(Item.RESALE_RATE * 100.0)
 	column.add_child(hint)
-
-
-func _tab_button(text: String, mode: String, group: ButtonGroup) -> Button:
-	var button := Button.new()
-	button.text = text
-	button.toggle_mode = true
-	button.button_group = group
-	button.focus_mode = Control.FOCUS_NONE
-	button.custom_minimum_size = Vector2(120, 0)
-	button.pressed.connect(_on_tab_pressed.bind(mode))
-	return button
 
 
 func _label(font_size: int, color: Color) -> Label:

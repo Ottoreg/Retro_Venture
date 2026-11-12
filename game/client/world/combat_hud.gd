@@ -290,6 +290,8 @@ class OrderRow extends HBoxContainer:
 		_name.text = data["name"]
 		_name.add_theme_color_override("font_color", UiTheme.GOLD if is_current else UiTheme.TEXT)
 		_hp.text = "PV %d / %d" % [data["hp"], data["max_hp"]]
+		portrait.tooltip_text = "%s\n%s" % [_name.text, _hp.text]  # Nom entier, même coupé dans la bande.
+		tooltip_text = portrait.tooltip_text
 
 
 ## Une case de la grille de composition : 3 orbes à la couleur des états, le nom du sort que
@@ -476,7 +478,8 @@ func _process(delta: float) -> void:
 		_timer_label.text = "%s : %d s" % ["Placement" if map_view.is_placement() else "Tour", left]
 	if _message_time > 0.0:
 		_message_time -= delta
-		_message_label.modulate.a = clampf(_message_time / 0.5, 0.0, 1.0)
+		# Le dernier message reste, estompé, jusqu'au suivant : le haut de la bande n'est pas vide.
+		_message_label.modulate.a = clampf(_message_time / 0.5, 0.45, 1.0)
 	# Hors combat, les PV remontent tout seuls : la jauge suit.
 	_refresh_time += delta
 	if _refresh_time >= 0.5:
@@ -666,7 +669,7 @@ func open_composition(spell: Spell, anchor: Rect2, slot: Control = null) -> void
 	add_child(veil)
 	_composition = veil
 	var panel := PanelContainer.new()
-	panel.add_theme_stylebox_override("panel", _panel_style(Color(0.13, 0.1, 0.16, 0.97)))
+	panel.add_theme_stylebox_override("panel", _panel_style())
 	veil.add_child(panel)
 	var box := VBoxContainer.new()
 	panel.add_child(box)
@@ -1252,7 +1255,7 @@ func _build() -> void:
 	_bar.anchor_top = 1.0
 	_bar.anchor_bottom = 1.0
 	_bar.offset_top = -BAR_HEIGHT
-	_bar.add_theme_stylebox_override("panel", _panel_style(Color(0.13, 0.1, 0.07, 0.97)))
+	_bar.add_theme_stylebox_override("panel", _panel_style())
 	add_child(_bar)
 
 	# Barre du bas : l'historique à gauche (comme le chat de Dofus), au milieu les jauges et les
@@ -1542,7 +1545,7 @@ func _build_bands() -> void:
 
 func _band() -> PanelContainer:
 	var band := PanelContainer.new()
-	var style := _panel_style(Color(0.13, 0.1, 0.07, 1.0))
+	var style := _panel_style(1.0)
 	style.set_content_margin_all(6)
 	band.add_theme_stylebox_override("panel", style)
 	band.anchor_top = 0.0
@@ -1691,10 +1694,12 @@ func _label(font_size: int, color: Color) -> Label:
 	return label
 
 
-func _panel_style(color: Color) -> StyleBoxFlat:
-	var style := StyleBoxFlat.new()
-	style.bg_color = color
-	style.border_color = Color(0.55, 0.42, 0.22)
+## Fond et liseré du thème (nombre : opacité du fond ; couleur : fond fixe, butin selon sa rareté).
+func _panel_style(fill: Variant = 0.97) -> StyleBoxFlat:
+	var style := UiTheme.themed(StyleBoxFlat.new(), "fond", "bord", fill) if fill is float else StyleBoxFlat.new()
+	if fill is Color:
+		style.bg_color = fill
+		style.border_color = UiTheme.TOOLTIP_EDGE
 	style.set_border_width_all(2)
 	style.set_corner_radius_all(6)
 	style.set_content_margin_all(10)

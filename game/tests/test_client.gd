@@ -966,7 +966,8 @@ func test_barre_d_action_et_fenetre_des_sorts() -> void:
 	assert_eq(spells._tabs.tab_count, 2, "Voie, race (pas d'arme portée)")
 	assert_eq(spells._title.text, world.data.spells[first].display_name)
 	var voie: Dictionary = world.data.voies[world.character.voie_id]
-	assert_eq(spells._list.item_count, voie["sorts"].size(), "tous les sorts de la Voie")
+	assert_eq(spells._list.item_count, SpellsWindow.CLASS_SPELL_SLOTS, "20 cases pour la Voie")
+	assert_eq(spells._list.get_item_text(voie["sorts"].size()), "Sort à venir", "les sorts de la Voie, puis des cases vides")
 
 	# Onglet de la race, puis fermeture par le bouton de menu de la barre.
 	spells._tabs.current_tab = 1
@@ -1010,9 +1011,9 @@ func test_tous_les_membres_d_un_groupe_sont_affiches() -> void:
 
 	# En haut de la bande gauche, seulement le nom de la carte ; ce qu'on survole va dans une bulle.
 	var info: Label = scene.get_node("CombatHud").map_title
-	assert_eq(info.text, view.current_map().display_name, "le nom de la carte, rien d'autre")
+	assert_eq(info.text, view.current_map().display_name.get_slice(" — ", 1), "le nom de la carte (la zone est sur la minicarte), rien d'autre")
 	view._set_hovered(view.server.groups()[0]["case"])
-	assert_eq(info.text, view.current_map().display_name)
+	assert_eq(info.text, view.current_map().display_name.get_slice(" — ", 1))
 	assert_true(scene._hover_bubble.visible, "bulle au survol d'un groupe")
 	var hovered: Dictionary = view.server.groups()[0]
 	var expected: PackedStringArray = []
@@ -1197,9 +1198,9 @@ func test_carte_du_monde_et_minicarte() -> void:
 	# place, un bouton par zone pour y aller, la zone de départ en premier.
 	var zone_count := WorldMapLayout.visited_zones(WorldMapWindow.shown_maps(view.world)).size()
 	assert_true(zone_count >= 5, "Brumerive, Crasse-Roc, Sylvebrume, Hautepierre et le Trône de Cendre")
-	assert_eq(world_map._zone_buttons.size(), zone_count, "un bouton par zone du jeu")
-	assert_eq(world_map._zone_buttons[world_map._zone_ids[0]].text, "Brumerive", "le nom de sa Pierre de Passage")
-	assert_true(world_map._zone_buttons["brumerive"].button_pressed, "la zone actuelle")
+	assert_eq(world_map._zone_tabs.tab_count, zone_count, "un onglet par zone du jeu")
+	assert_eq(world_map._zone_tabs.get_tab_title(0), "Brumerive", "le nom de sa Pierre de Passage")
+	assert_eq(world_map._zone_ids[world_map._zone_tabs.current_tab], "brumerive", "la zone actuelle")
 	var cases := _world_map_cases(world_map)
 	assert_eq(world_map.shown_layout()["zones"].size(), zone_count, "toutes les zones ensemble")
 	assert_true(cases["brumerive_0_0"]["actuelle"])
@@ -1314,7 +1315,7 @@ func test_carte_du_monde_et_minicarte() -> void:
 	view.server.character.visit_map("crasse_roc_0_0")
 	view.refresh_state()
 	world_map.open()
-	assert_eq(world_map._zone_buttons.size(), zone_count, "toujours un bouton par zone")
+	assert_eq(world_map._zone_tabs.tab_count, zone_count, "toujours un onglet par zone")
 	assert_eq(world_map._zone_ids[1], "crasse_roc", "les zones visitées d'abord")
 	assert_eq(world_map.current_zone(), "brumerive", "toujours dans les champs de l'est")
 	world_map.select_zone("crasse_roc")
@@ -1402,8 +1403,8 @@ func test_carte_du_monde_grandes_zones() -> void:
 		for container in panel.find_children("*", "Container", true, false):
 			container.notification(Container.NOTIFICATION_SORT_CHILDREN)
 	var grid := world_map._grid
-	assert_true(panel.get_global_rect().end.y <= 720.0 - WorldMapWindow.BOTTOM_MARGIN, "fenêtre au-dessus des menus de la barre")
-	assert_true(grid.size.x >= 700.0 and grid.size.y >= 250.0 and grid.size.y <= 400.0,
+	assert_eq(panel.get_global_rect().size, UiTheme.WINDOW_SIZE, "grande taille fixe commune")
+	assert_true(grid.size.x >= 1000.0 and grid.size.y >= 380.0 and grid.size.y <= 460.0,
 		"taille réelle de la grille : %s" % grid.size)
 	var area := Rect2(Vector2.ZERO, grid.size)
 	assert_true(grid.clip_contents, "rien n'est dessiné hors de la grille")
@@ -1978,7 +1979,7 @@ func test_caracteristiques_detaillees() -> void:
 	var givre: int = (1 + Spell.ELEMENTS.find("givre")) * 4
 	assert_eq((sheet._elements.get_child(givre + 3) as Label).text, "8 %", "résistance Givre de l'équipement")
 	sheet.toggle()
-	assert_false(sheet._details.visible, "se ferme avec la fiche")
+	assert_false(sheet._details.is_visible_in_tree(), "se ferme avec la fiche")
 	scene.free()
 
 

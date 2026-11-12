@@ -60,6 +60,9 @@ func _ready() -> void:
 	add_child(friends_window)
 	exchange_window = ExchangeWindow.new()
 	add_child(exchange_window)
+	# Fenêtres créées ici : au-dessus de l'interface permanente (suivi de quête, minicarte), comme celles de la scène.
+	for window: CanvasLayer in [quest_dialog, quests_window, friends_window, exchange_window]:
+		window.layer = 3
 	if Session.online_connection != null and Session.online_connection.is_open():
 		_map_view.setup(Session.online_connection)  # En ligne : le monde tourne sur le serveur.
 	else:
@@ -356,7 +359,9 @@ func _on_hovered_cell_changed(_cell: Vector2i, description: String) -> void:
 ## En haut de l'écran : seulement le nom de la carte. Ce qu'on survole s'affiche près du curseur
 ## (sauf une simple case du sol).
 func _update_info() -> void:
-	_combat_hud.map_title.text = _map_view.current_map().display_name
+	# La zone est déjà nommée au-dessus de la minicarte : ici le nom de la carte seul, sur une ligne.
+	var full_name := _map_view.current_map().display_name
+	_combat_hud.map_title.text = full_name.get_slice(" — ", 1) if full_name.contains(" — ") else full_name
 	if _hover_bubble == null:
 		_build_hover_bubble()
 	_hover_label.text = _hover_text

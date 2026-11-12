@@ -1827,11 +1827,16 @@ static func state_text(state: Dictionary) -> String:
 ## Un texte au même endroit qu'un autre tout juste apparu attend son tour (âge négatif), pour ne pas
 ## s'y superposer : les sorts enchaînés affichent tout à la fois.
 func _add_floating(text: String, color: Color, grid_pos: Vector2, life := FLOATING_LIFE) -> void:
+	# Plusieurs textes sur une même case : décalés dans le temps, et chacun une ligne plus haut (3 au plus)
+	# que ceux encore affichés, pour ne pas se superposer.
 	var delay := 0.0
+	var row := 0
 	for other in _floating:
-		if other["age"] < FLOATING_STAGGER and (other["pos"] as Vector2).distance_to(grid_pos) < 0.3:
-			delay = maxf(delay, FLOATING_STAGGER - other["age"])
-	_floating.append({"text": text, "color": color, "pos": grid_pos, "age": -delay, "life": life})
+		if (other["pos"] as Vector2).distance_to(grid_pos) < 0.3 and other["age"] < other["life"]:
+			row = mini(maxi(row, other["row"] + 1), 3)
+			if other["age"] < FLOATING_STAGGER:
+				delay = maxf(delay, FLOATING_STAGGER - other["age"])
+	_floating.append({"text": text, "color": color, "pos": grid_pos, "age": -delay, "life": life, "row": row})
 
 
 func _load_exploration_actors() -> void:
@@ -2054,7 +2059,7 @@ func _draw_floating_texts() -> void:
 		# Centré au-dessus de la case, assez large pour un long message (changement de phase).
 		var width := maxf(200.0, font.get_string_size(text["text"], HORIZONTAL_ALIGNMENT_LEFT, -1, 16).x + 8.0)
 		# Monte pendant une seconde, puis reste en place (texte qui dure plus longtemps).
-		var text_pos := IsoGrid.grid_to_screen(text["pos"]) + Vector2(-width / 2.0, -60 - 30 * minf(text["age"], FLOATING_LIFE))
+		var text_pos := IsoGrid.grid_to_screen(text["pos"]) + Vector2(-width / 2.0, -60 - 22 * text["row"] - 30 * minf(text["age"], FLOATING_LIFE))
 		# Recalé pour rester entier entre les bandes (combattant au bord de la carte).
 		var text_width := font.get_string_size(text["text"], HORIZONTAL_ALIGNMENT_LEFT, -1, 16).x + 8.0
 		var text_box := Rect2(text_pos + Vector2((width - text_width) / 2.0, -16.0), Vector2(text_width, 22.0))

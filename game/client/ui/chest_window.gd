@@ -79,8 +79,9 @@ func refresh() -> void:
 	_quantity.max_value = maxi(1, max_quantity)
 	_quantity.editable = max_quantity > 1
 	var worn := not str(entry.get("emplacement", "")).is_empty()
-	_deposit_button.disabled = entry.is_empty() or _from_chest or worn
-	_withdraw_button.disabled = entry.is_empty() or not _from_chest
+	UiTheme.lock(_deposit_button, "Choisissez d'abord un objet de l'inventaire." if entry.is_empty() or _from_chest
+		else "Objet porté : retirez-le d'abord dans l'inventaire." if worn else "")
+	UiTheme.lock(_withdraw_button, "Choisissez d'abord un objet du coffre." if entry.is_empty() or not _from_chest else "")
 
 
 func _fill(list: ItemList, entries: Array, chest_side: bool) -> bool:
@@ -150,12 +151,6 @@ func _on_refused(event: Dictionary) -> void:
 	_message.text = _refusal_texts.get(event["raison"], "Impossible.")
 
 
-func _on_backdrop_input(event: InputEvent) -> void:
-	var button := event as InputEventMouseButton
-	if button != null and button.pressed:
-		close()
-
-
 func _set_visible(shown: bool) -> void:
 	_panel.visible = shown
 	_backdrop.visible = shown
@@ -164,44 +159,10 @@ func _set_visible(shown: bool) -> void:
 # --- Construction des contrôles ----------------------------------------------------------------
 
 func _build() -> void:
-	# Fond assombri : un clic à côté de la fenêtre la ferme (et ne fait pas marcher le personnage).
-	_backdrop = ColorRect.new()
-	_backdrop.color = Color(0, 0, 0, 0.35)
-	_backdrop.set_anchors_preset(Control.PRESET_FULL_RECT)
-	_backdrop.mouse_filter = Control.MOUSE_FILTER_STOP
-	_backdrop.gui_input.connect(_on_backdrop_input)
-	add_child(_backdrop)
-
-	_panel = PanelContainer.new()
-	_panel.anchor_left = 0.5
-	_panel.anchor_right = 0.5
-	_panel.offset_left = -400
-	_panel.offset_right = 400
-	_panel.offset_top = 70
-	_panel.offset_bottom = 560
-	var style := StyleBoxFlat.new()
-	style.bg_color = Color(0.13, 0.1, 0.07, 0.97)
-	style.border_color = Color(0.55, 0.42, 0.22)
-	style.set_border_width_all(2)
-	style.set_corner_radius_all(6)
-	style.set_content_margin_all(14)
-	_panel.add_theme_stylebox_override("panel", style)
-	add_child(_panel)
-
-	var column := VBoxContainer.new()
-	column.add_theme_constant_override("separation", 8)
-	_panel.add_child(column)
-	var header := HBoxContainer.new()
-	column.add_child(header)
-	var title := _label(22, GOLD)
-	title.text = "Coffre de la maison"
-	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	header.add_child(title)
-	var close_button := Button.new()
-	close_button.text = "×"
-	close_button.focus_mode = Control.FOCUS_NONE
-	close_button.pressed.connect(close)
-	header.add_child(close_button)
+	var frame := UiTheme.window_frame(self, "Coffre de la maison", close)
+	_backdrop = frame.backdrop
+	_panel = frame.panel
+	var column: VBoxContainer = frame.column
 
 	var row := HBoxContainer.new()
 	row.size_flags_vertical = Control.SIZE_EXPAND_FILL

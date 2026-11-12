@@ -25,7 +25,7 @@ const CHANNELS := {
 	Chat.LOCAL: "Local",
 	Chat.PARTY: "Groupe",
 	CHANNEL_TRADE: "Commerce",
-	Chat.RECRUIT: "Recrut.",
+	Chat.RECRUIT: "Recrutement",
 	Chat.PRIVATE: "Privé",
 }
 ## Couleur des messages de chaque canal du chat (le reste garde la couleur du texte).
@@ -295,7 +295,10 @@ func _format(entry: Dictionary) -> String:
 		return entry["texte"]
 	# Chat : le nom de l'auteur ouvre son menu (message privé, invitation…).
 	if entry["canal"] in Chat.CHANNELS:
-		return "[url=%s%s][b]%s[/b][/url] : %s" % [AUTHOR_META, author.uri_encode(), escape(author), entry["texte"]]
+		# Onglet Tout : le canal en tête (sauf Local), pour ne pas le deviner à sa seule couleur.
+		var tag := "[color=%s]%s ·[/color] " % [CHANNEL_COLORS[entry["canal"]], CHANNELS[entry["canal"]]] \
+			if Session.message_log_channel == CHANNEL_ALL and entry["canal"] != Chat.LOCAL else ""
+		return "%s[url=%s%s][b]%s[/b][/url] : %s" % [tag, AUTHOR_META, author.uri_encode(), escape(author), entry["texte"]]
 	return "[b]%s[/b] : %s" % [escape(author), entry["texte"]]
 
 
@@ -316,15 +319,14 @@ func _apply_fold() -> void:
 	_text.visible = not folded
 	if _input != null and folded:
 		_input.release_focus()
-	_fold.text = "+" if folded else "–"
+	_fold.text = "Déplier" if folded else "Replier"
 	_fold.tooltip_text = "Déplier l'historique (H)" if folded else "Replier l'historique (H)"
 	custom_minimum_size = Vector2(WIDTH, 0)
 
 
 func _build() -> void:
 	var style := StyleBoxFlat.new()
-	style.bg_color = UiTheme.INK
-	style.border_color = UiTheme.TOOLTIP_EDGE
+	UiTheme.themed(style, "encre", "bord")
 	style.set_border_width_all(1)
 	style.set_corner_radius_all(4)
 	style.set_content_margin_all(5)
@@ -336,21 +338,17 @@ func _build() -> void:
 	var header := HBoxContainer.new()
 	header.add_theme_constant_override("separation", 2)
 	column.add_child(header)
-	var title := Label.new()
-	title.text = "Historique"
-	title.add_theme_font_size_override("font_size", 12)
-	title.add_theme_color_override("font_color", UiTheme.GOLD)
-	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	header.add_child(title)
+	# Les onglets nomment l'historique : pas de titre, pour laisser leur nom entier aux onglets.
 	var group := ButtonGroup.new()
 	_add_tab(header, group, CHANNEL_ALL, "Tout")
 	for key: String in CHANNELS:
 		_add_tab(header, group, key, CHANNELS[key])
+	var spacer := Control.new()
+	spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	header.add_child(spacer)
 	_fold = Button.new()
-	_fold.flat = true
 	_fold.focus_mode = Control.FOCUS_NONE
-	_fold.custom_minimum_size = Vector2(18, 16)
-	_fold.add_theme_font_size_override("font_size", 12)
+	_fold.add_theme_font_size_override("font_size", 11)
 	_fold.pressed.connect(toggle_fold)
 	header.add_child(_fold)
 	_text = RichTextLabel.new()

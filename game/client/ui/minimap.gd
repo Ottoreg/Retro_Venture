@@ -21,6 +21,8 @@ const NO_POINT := Vector2(-1, -1)
 ## Mode admin : attente d'un second clic (double-clic : téléportation) avant d'ouvrir la carte du monde.
 const DOUBLE_CLICK_DELAY := 0.35
 
+## Bulle du cadre (avec le nom entier du repère quand il y en a un).
+const CONTROLS := "Clic : carte du monde (M). Molette : zoom. Glisser : se déplacer. Clic droit : drapeau (Maj : pour le groupe)."
 var map_view: MapView
 
 var _frame: PanelContainer
@@ -142,6 +144,7 @@ func refresh() -> void:
 func _refresh_flag(here: Dictionary) -> void:
 	var pin: Dictionary = Session.quest_pin
 	_flag_row.visible = not pin.is_empty()
+	_frame.tooltip_text = CONTROLS
 	if pin.is_empty():
 		return
 	var target: Variant = _grid.map_cell(pin.get("carte", ""))
@@ -153,6 +156,7 @@ func _refresh_flag(here: Dictionary) -> void:
 		_flag_label.text = "%s : ici" % pin["nom"] if steps == 0 else "%s : %d carte%s" % [pin["nom"], steps, "s" if steps > 1 else ""]
 	else:
 		_flag_label.text = "%s (ailleurs)" % pin["nom"]
+	_frame.tooltip_text = CONTROLS + "\nRepère : " + _flag_label.text  # Le nom entier, même coupé sous la minicarte.
 	_flag_arrow.direction = Vector2(shift).normalized()
 	_flag_arrow.queue_redraw()
 
@@ -245,8 +249,7 @@ func flag_at(point: Vector2, shared: bool) -> void:
 func _build() -> void:
 	_frame = PanelContainer.new()
 	var style := StyleBoxFlat.new()
-	style.bg_color = Color(0.13, 0.1, 0.07, 0.97)
-	style.border_color = Color(0.55, 0.42, 0.22)
+	UiTheme.themed(style, "fond", "bord", 0.97)
 	style.set_border_width_all(1)
 	style.set_corner_radius_all(4)
 	style.set_content_margin_all(3)
@@ -278,7 +281,7 @@ func _build() -> void:
 	_coordinates.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	caption.add_child(_coordinates)
 	# Le voisinage laisse passer le clic au cadre (carte du monde), mais garde la bulle de survol.
-	_frame.tooltip_text = "Clic : carte du monde (M). Molette : zoom. Glisser : se déplacer. Clic droit : drapeau (Maj : pour le groupe)."
+	_frame.tooltip_text = CONTROLS
 	_grid = WorldMapWindow.ZoneGrid.new()
 	_grid.compact = true
 	_grid.size_flags_vertical = Control.SIZE_EXPAND_FILL

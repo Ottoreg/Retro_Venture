@@ -10,7 +10,6 @@ extends CanvasLayer
 ## Clic droit sur un pseudo : le menu du joueur (`PartyUi.on_author_clicked`).
 signal player_menu_requested(player_name: String)
 
-const WIDTH := 560.0
 const PORTRAIT_SIZE := Vector2(40, 48)
 
 
@@ -114,13 +113,20 @@ func refresh() -> void:
 		if not str(friend.get("race", "")).is_empty():
 			portrait.look = Rig.player_look(friend["race"], friend["voie"], map_view.world.data)
 		row.add_child(portrait)
-		var status := "hors ligne"
-		if online:
-			status = "en combat" if friend.get("combat", false) else "en ligne"
-			var place := map_view.world.map_name(str(friend.get("carte", "")))
-			if not place.is_empty():
-				status += ", " + place
-		row.add_child(_name_label("%s (%s)" % [friend["nom"], status], friend["nom"], UiTheme.TEXT if online else UiTheme.TEXT_DIM))
+		var fighting: bool = online and friend.get("combat", false)
+		var status := "en combat" if fighting else "en ligne" if online else "hors ligne"
+		var place := map_view.world.map_name(str(friend.get("carte", ""))) if online else ""
+		row.set_meta("line", "%s (%s%s)" % [friend["nom"], status, ", " + place if not place.is_empty() else ""])
+		# Pseudo, et dessous le statut : pastille dorée en ligne, orange en combat, grise hors ligne.
+		var names := VBoxContainer.new()
+		names.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		names.alignment = BoxContainer.ALIGNMENT_CENTER
+		names.add_theme_constant_override("separation", 0)
+		names.add_child(_name_label(friend["nom"], friend["nom"], UiTheme.TEXT if online else UiTheme.TEXT_DIM))
+		var state := _dim("•  %s%s" % [status.left(1).to_upper() + status.substr(1), "  ·  " + place if not place.is_empty() else ""])
+		state.add_theme_color_override("font_color", Color(1.0, 0.6, 0.3) if fighting else UiTheme.GOLD if online else UiTheme.TEXT_DIM)
+		names.add_child(state)
+		row.add_child(names)
 		row.add_child(_cross("Retirer %s de mes amis" % friend["nom"], _send.bind(Relations.REMOVE, friend["nom"])))
 		_friends.add_child(row)
 	var ignored: Array = map_view.world.relations.get("ignores", [])
@@ -137,8 +143,8 @@ func refresh() -> void:
 func friend_lines() -> PackedStringArray:
 	var lines: PackedStringArray = []
 	for row in _friends.get_children():
-		if row is HBoxContainer and not row.is_queued_for_deletion():
-			lines.append((row.get_child(1) as Label).text)
+		if row.has_meta("line") and not row.is_queued_for_deletion():
+			lines.append(row.get_meta("line"))
 	return lines
 
 
@@ -156,45 +162,36 @@ func _add_from(field: LineEdit, action: String) -> void:
 
 
 func _build() -> void:
-	_panel = PanelContainer.new()
-	_panel.set_anchors_preset(Control.PRESET_CENTER)
-	_panel.grow_horizontal = Control.GROW_DIRECTION_BOTH
-	_panel.grow_vertical = Control.GROW_DIRECTION_BOTH
-	_panel.add_theme_stylebox_override("panel", UiTheme.window_style())
-	_panel.custom_minimum_size = Vector2(WIDTH, 460)
-	add_child(_panel)
-	var column := VBoxContainer.new()
-	column.add_theme_constant_override("separation", 6)
-	_panel.add_child(column)
-	var header := HBoxContainer.new()
-	column.add_child(header)
-	var title := Label.new()
-	title.text = "Amis"
-	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	title.add_theme_font_size_override("font_size", 20)
-	title.add_theme_color_override("font_color", UiTheme.GOLD)
-	header.add_child(title)
-	header.add_child(_small("Fermer", close))
+	var frame := UiTheme.window_frame(self, "Amis", close, false)
+	_panel = frame.panel
+	var column: VBoxContainer = frame.column
 	column.add_child(_dim("On voit un ami en ligne s'il vous compte aussi parmi ses amis. Clic droit sur un pseudo : son menu."))
-	var scroll := ScrollContainer.new()
-	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	column.add_child(scroll)
-	_friends = VBoxContainer.new()
-	_friends.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	scroll.add_child(_friends)
-	_friend_field = _field(column, "Pseudo d'un ami", "Ajouter", Relations.ADD)
-	column.add_child(HSeparator.new())
-	var ignored_title := Label.new()
-	ignored_title.text = "Ignorés (ni messages ni invitations)"
-	ignored_title.add_theme_color_override("font_color", UiTheme.GOLD)
-	column.add_child(ignored_title)
-	_ignored = VBoxContainer.new()
-	column.add_child(_ignored)
-	_ignore_field = _field(column, "Pseudo à ignorer", "Ignorer", Relations.IGNORE)
+	# Deux colonnes : les amis à gauche, les ignorés à droite, chacune avec son champ d'ajout en bas.
+	var row := _row()
+	row.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	row.add_theme_constant_override("separation", 24)
+	column.add_child(row)
+	var lists: Array[VBoxContainer] = []
+	for title: String in ["Amis", "Ignorés (ni messages ni invitations)"]:
+		var side := VBoxContainer.new()
+		side.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		side.size_flags_stretch_ratio = 1.6 if title == "Amis" else 1.0
+		row.add_child(side)
+		var label := Label.new()
+		label.text = title
+		label.add_theme_color_override("font_color", UiTheme.GOLD)
+		side.add_child(label)
+		var list := VBoxContainer.new()
+		list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		side.add_child(UiTheme.scroll_area(list))
+		lists.append(list)
+	_friends = lists[0]
+	_ignored = lists[1]
+	_friend_field = _field(_friends.get_parent().get_parent(), "Pseudo d'un ami", "Ajouter", Relations.ADD)
+	_ignore_field = _field(_ignored.get_parent().get_parent(), "Pseudo à ignorer", "Ignorer", Relations.IGNORE)
 
 
-func _field(column: VBoxContainer, hint: String, label: String, action: String) -> LineEdit:
+func _field(column: Container, hint: String, label: String, action: String) -> LineEdit:
 	var row := _row()
 	column.add_child(row)
 	var field := LineEdit.new()
@@ -224,12 +221,19 @@ func _name_label(text: String, player_name: String, color: Color) -> Label:
 	return label
 
 
-## Croix pour retirer une ligne.
+## Croix pour retirer une ligne : un premier clic demande confirmation (« Retirer ? »), le second agit ;
+## la croix revient si la souris s'en va.
 func _cross(tooltip: String, action: Callable) -> Button:
-	var button := _small("×", action)
-	button.flat = true
+	var button := _small("×", func() -> void: pass)
 	button.tooltip_text = tooltip
-	button.custom_minimum_size = Vector2(26, 26)
+	button.custom_minimum_size = Vector2(32, 32)
+	button.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	button.pressed.connect(func() -> void:
+		if button.text == "×":
+			button.text = "Retirer ?"
+		else:
+			action.call())
+	button.mouse_exited.connect(func() -> void: button.text = "×")
 	return button
 
 

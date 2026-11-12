@@ -3191,10 +3191,39 @@ préférence ce que les joueurs feront déjà d'eux-mêmes.
 - **Fenêtres à taille fixe** : une fenêtre garde toujours sa taille ; ce qui ne tient pas (fiche
   d'objet et sa panoplie, texte de quête, réplique d'un PNJ, liste des Pierres de Passage) défile
   dedans, et un titre trop long est coupé par « … ». *Fait* pour toutes les fenêtres
-  (`UiTheme.scroll_area`, test `test_fenetres_a_taille_fixe`).
+  (`UiTheme.scroll_area`, test `test_fenetres_a_taille_fixe`). **Socle commun (12/11/2026, décision
+  de l'auteur)** : toutes les fenêtres qui s'ouvrent ont la même grande taille (celle de l'Enclume,
+  `UiTheme.WINDOW_SIZE` 1120 × 610), centrée ; elles peuvent couvrir la carte, les bandes et la barre du
+  bas (« rien ne recouvre la carte » ne vaut que pour l'interface permanente) ; même cadre, même en-tête
+  (titre, infos, ×) et mêmes onglets (`UiTheme.window_frame`, `header_add`, `tabs`) ; le thème bois et
+  or s'applique enfin aussi aux fenêtres et barres posées dans un CanvasLayer (boutons encadrés).
+- **Thèmes de couleurs** (12/11/2026, demande de l'auteur) : Pierre et argent (défaut, choix de l'auteur),
+  Bois et or, Ardoise et acier, Forêt et mousse (`UiTheme.THEMES` : fonds, liserés, boutons, listes ; l'or des titres et les
+  textes restent communs). Choix dans les options, appliqué en direct (`UiTheme.set_theme`, styles des
+  fenêtres recolorés par `UiTheme.themed`) et gardé (`Options.ui_theme`). Options réorganisées en
+  sections : Affichage (thème, plein écran, taille), Son, Combat, En ligne et tests.
+- **Finitions des fenêtres** (12/11/2026, suite de l'audit) : un bouton grisé dit pourquoi dans sa bulle
+  (`UiTheme.lock` : « Il vous manque 103 brumes. », « Objet porté : retirez-le d'abord… », « Impossible pendant
+  un combat. ») ; les listes n'affichent que des lignes entières et une consigne grisée quand elles sont vides
+  (`UiTheme.list_helpers` : inventaire, boutique, échange, sac de l'Enclume) ; bulle avec le nom entier des
+  emplacements d'équipement, du repère de la minicarte et de l'ordre de jeu ; historique des infusions vide
+  expliqué. Le vert est gardé aux gains et réussites (et à la rareté « peu commun ») : messages de la boutique
+  en texte normal, état de l'échange doré quand l'autre joueur attend votre validation.
+- **Fenêtres une à une** (12/11/2026, fin de l'audit) : Amis en deux colonnes (amis, ignorés), statut sous le
+  pseudo, retrait confirmé par un second clic ; proposition de quête avec le PNJ en pied ; aide-mémoire des
+  touches dans les options ; inventaire : sac plein signalé (orange), compteur de chaque onglet, consigne du
+  détail vide ; Enclume : aide du bas selon l'onglet, mode d'emploi des essences ; boutique : fiche comparée
+  à l'équipement porté ; échange : les deux offres de même forme (« validée » dans leur titre) ; sorts : maîtrise
+  encadrée avec ce que donne le rang suivant ; quêtes : section Terminées toujours là, « Suivre » près du titre ;
+  carte du monde : onglets dans l'ordre des zones (départ, Hautepierre, puis les autres), noms des petites
+  zones sans chevauchement, épingles en haut à gauche des cases ; minicarte : cases vides du bord du monde
+  marquées ; nom de la carte seul en haut de la bande gauche (la zone est sur la minicarte) ; chat : onglets en
+  toutes lettres, bouton Replier / Déplier, canal écrit en tête des messages dans Tout ; textes flottants
+  d'une même case empilés ; dernier message de la bande droite gardé, estompé ; fenêtres créées par le code
+  au-dessus de l'interface permanente.
 - **Menu pause** (Échap quand aucune fenêtre n'est ouverte) : le jeu s'arrête ; reprendre, options,
   retour au menu principal (sauvegardé, pas pendant un combat), quitter. **Options** (menu principal
-  ou pause) : volume, plein écran, taille de la fenêtre, mode tactique, pions en mode tactique ; gardées hors sauvegarde.
+  ou pause) : thème de couleurs, volume, plein écran, taille de la fenêtre, mode tactique, pions en mode tactique ; gardées hors sauvegarde.
 
 - **Bandeau bas** (180 px) **:** historique (futur chat) à gauche, PV dans un cœur rouge qui se vide, PA dans une étoile bleue, PM
   dans une case verte, barre de sorts en combat (icônes avec raccourci et coût en PA), **barre

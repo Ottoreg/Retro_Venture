@@ -7,14 +7,12 @@ extends CanvasLayer
 ## Clic sur un nom du texte : repère { carte, nom } à poser.
 signal pin_requested(pin: Dictionary)
 
-## Taille fixe de la fenêtre : un long texte défile dedans.
-const SIZE := Vector2(480, 440)
-
 var map_view: MapView
 var _quest_id := ""
 var _backdrop: ColorRect
 var _panel: PanelContainer
 var _npc: Label
+var _portrait: FriendsWindow.FriendPortrait
 var _title: Label
 var _text: RichTextLabel
 var _objectives: RichTextLabel
@@ -39,6 +37,9 @@ func setup(p_map_view: MapView) -> void:
 func open(event: Dictionary) -> void:
 	_quest_id = event["quete"]
 	_npc.text = event["nom"]
+	var spec: Dictionary = Art.manifest().get("pnj", {}).get(event.get("pnj", ""), {})
+	_portrait.look = Rig.look(spec["rig"], spec.get("couleurs", {}), spec.get("arme", ""), spec.get("accessoires", [])) if spec.has("rig") else {}
+	_portrait.queue_redraw()
 	_title.text = event["titre"]
 	_text.text = QuestLinks.linkify("\n\n".join(PackedStringArray(event["repliques"])), map_view.world)
 	var lines: PackedStringArray = []
@@ -83,26 +84,30 @@ func _build() -> void:
 	_backdrop.set_anchors_preset(Control.PRESET_FULL_RECT)
 	_backdrop.mouse_filter = Control.MOUSE_FILTER_STOP
 	add_child(_backdrop)
-	_panel = PanelContainer.new()
-	_panel.set_anchors_preset(Control.PRESET_CENTER)
-	_panel.grow_horizontal = Control.GROW_DIRECTION_BOTH
-	_panel.grow_vertical = Control.GROW_DIRECTION_BOTH
-	_panel.add_theme_stylebox_override("panel", UiTheme.window_style())
-	_panel.custom_minimum_size = SIZE
-	add_child(_panel)
-	var column := VBoxContainer.new()
-	column.add_theme_constant_override("separation", 8)
-	_panel.add_child(column)
-	_npc = _label(14, UiTheme.TEXT_DIM)
-	_npc.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-	column.add_child(_npc)
+	var frame := UiTheme.window_frame(self, "", later, false)
+	_panel = frame.panel
+	var column: VBoxContainer = frame.column
+	_npc = frame.title
+	# Le PNJ en pied à gauche ; à droite le titre, puis le texte, les objectifs et les récompenses qui
+	# défilent : la fenêtre garde sa taille, les boutons restent visibles.
+	var row := HBoxContainer.new()
+	row.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	row.add_theme_constant_override("separation", 20)
+	column.add_child(row)
+	_portrait = FriendsWindow.FriendPortrait.new()
+	_portrait.online = true
+	_portrait.custom_minimum_size = Vector2(220, 300)
+	_portrait.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+	row.add_child(_portrait)
+	var right := VBoxContainer.new()
+	right.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	row.add_child(right)
 	_title = _label(20, UiTheme.GOLD)
 	_title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	column.add_child(_title)
-	# Texte, objectifs et récompenses défilent : la fenêtre garde sa taille, les boutons restent visibles.
+	right.add_child(_title)
 	var text_box := VBoxContainer.new()
 	text_box.add_theme_constant_override("separation", 8)
-	column.add_child(UiTheme.scroll_area(text_box))
+	right.add_child(UiTheme.scroll_area(text_box))
 	_text = QuestLinks.make_label(15, UiTheme.TEXT, pin_requested.emit)
 	text_box.add_child(_text)
 	text_box.add_child(_label(15, UiTheme.GOLD, "Objectifs"))
@@ -113,7 +118,7 @@ func _build() -> void:
 	_rewards.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	text_box.add_child(_rewards)
 	var buttons := HBoxContainer.new()
-	buttons.alignment = BoxContainer.ALIGNMENT_CENTER
+	buttons.alignment = BoxContainer.ALIGNMENT_END
 	buttons.add_theme_constant_override("separation", 12)
 	column.add_child(buttons)
 	_accept = Button.new()

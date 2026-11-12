@@ -117,8 +117,7 @@ func _on_input(event: InputEvent) -> void:
 func _build() -> void:
 	_frame = PanelContainer.new()
 	var style := StyleBoxFlat.new()
-	style.bg_color = UiTheme.TOOLTIP_FILL
-	style.border_color = UiTheme.TOOLTIP_EDGE
+	UiTheme.themed(style, "fond", "bord", UiTheme.TOOLTIP_FILL.a)
 	style.set_border_width_all(1)
 	style.set_corner_radius_all(4)
 	style.set_content_margin_all(5)
