@@ -1,0 +1,23 @@
+# Une requête par jour à la base Supabase, pour que le projet gratuit ne soit pas mis en pause
+# pour inactivité. Même lecture que le client (vue `serveur_en_ligne`), avec la clé publique de
+# `game/client/net/online_config.gd`. Les tâches planifiées ne tournent que depuis `main`.
+name: Supabase éveillé
+
+on:
+  schedule:
+    - cron: "17 6 * * *"
+  workflow_dispatch:
+
+jobs:
+  requete:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: game/client/net/online_config.gd
+          sparse-checkout-cone-mode: false
+      - run: |
+          lire() { grep -oP "const $1 := \"\K[^\"]+" game/client/net/online_config.gd; }
+          cle=$(lire PUBLISHABLE_KEY)
+          curl -fsS --retry 3 "$(lire SUPABASE_URL)/rest/v1/serveur_en_ligne?select=vu" -H "apikey: $cle" -H "Authorization: Bearer $cle"

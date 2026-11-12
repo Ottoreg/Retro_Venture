@@ -97,6 +97,9 @@ docker compose down               # arrête tout
 Pour essayer un serveur construit depuis son clone (changements pas encore sur `main`) :
 `docker compose -f docker-compose.yml -f docker-compose.local.yml up --build -d`.
 
+Le projet Supabase gratuit est mis en pause après une semaine sans activité : le workflow
+`.github/workflows/supabase_eveil.yml` le lit une fois par jour (depuis `main`, clé publique du client).
+
 ## Réglages (variables d'environnement)
 
 | Variable | Rôle |
