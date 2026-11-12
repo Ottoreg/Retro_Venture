@@ -52,7 +52,7 @@ godot --headless --path . -s res://tests/run_tests.gd        # tous les tests (R
 xvfb-run -a godot --path . -s res://tools/screenshot.gd -- sortie.png [carte] [secondes] [action]
 ```
 
-`tools/screenshot.gd` fait des captures en jeu (actions : glyphe, survol, infobulle, objet, boutique_panoplie, phase, reveil, carte, sermon,
+Captures avant/après des changements d'interface : `docs/captures/<sujet>/` (et le dossier partagé du projet). `tools/screenshot.gd` fait des captures en jeu (actions : glyphe, survol, infobulle, objet, boutique_panoplie, phase, reveil, carte, sermon,
 cible, tactique, pause, options, admin, fiche, assis, joueurs, groupe, chat, amis, echange, forge…) ; `tools/art_sheet.gd` fait une planche des dessins ; `tools/simulation.gd` simule des
 combats sur chaque groupe des cartes (`-- [combats] [rapport.md] [préfixes de cartes] [detail] [+niveaux] [trio]`, trio = guerrier + rôdeur + théologue ensemble,
 ~7 min pour tout à 10 combats).
