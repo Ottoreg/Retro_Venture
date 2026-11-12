@@ -245,8 +245,7 @@ func flag_at(point: Vector2, shared: bool) -> void:
 func _build() -> void:
 	_frame = PanelContainer.new()
 	var style := StyleBoxFlat.new()
-	style.bg_color = Color(0.13, 0.1, 0.07, 0.97)
-	style.border_color = Color(0.55, 0.42, 0.22)
+	UiTheme.themed(style, "fond", "bord", 0.97)
 	style.set_border_width_all(1)
 	style.set_corner_radius_all(4)
 	style.set_content_margin_all(3)

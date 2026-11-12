@@ -323,8 +323,7 @@ func _apply_fold() -> void:
 
 func _build() -> void:
 	var style := StyleBoxFlat.new()
-	style.bg_color = UiTheme.INK
-	style.border_color = UiTheme.TOOLTIP_EDGE
+	UiTheme.themed(style, "encre", "bord")
 	style.set_border_width_all(1)
 	style.set_corner_radius_all(4)
 	style.set_content_margin_all(5)

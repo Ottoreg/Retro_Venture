@@ -22,6 +22,7 @@ extends SceneTree
 ## créé, une place vide), « composition » (la même, grille de Composition ouverte au-dessus du sort),
 ## « infobulle » (la même, souris sur le sort Composition : son infobulle, compter ~120 images),
 ## « objet » (inventaire, bottes portées, souris sur d'autres bottes du sac : infobulle comparée).
+## « theme_<thème>_<action> » (« theme_foret_inventaire ») : la même capture dans un autre thème de couleurs.
 ## Si « carte » commence par res://, c'est cette scène qui est capturée (menu, création…).
 
 var _output := "capture.png"
@@ -58,6 +59,10 @@ func _initialize() -> void:
 		_action = "combat" if _action.ends_with("_combat") else ""
 	# Réglages par défaut (ceux du joueur ne comptent pas), mode tactique si demandé.
 	Options.reset()
+	if _action.begins_with("theme_"):  # « theme_<thème>[_<action>] » : la capture dans un autre thème de couleurs.
+		var words := _action.split("_", true, 2)
+		Options.ui_theme = words[1]
+		_action = words[2] if words.size() > 2 else ""
 	if _action == "pions":
 		_action = "tactique"
 		Options.tactical_pawns = true

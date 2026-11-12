@@ -151,7 +151,7 @@ func _process(_delta: float) -> void:
 func _build() -> void:
 	set_anchors_preset(Control.PRESET_FULL_RECT)
 	var background := ColorRect.new()
-	background.color = Color(0.168627, 0.129412, 0.0941176)
+	background.color = UiTheme.BACKDROP
 	background.set_anchors_preset(Control.PRESET_FULL_RECT)
 	add_child(background)
 

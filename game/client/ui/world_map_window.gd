@@ -264,14 +264,14 @@ class ZoneGrid extends Control:
 			box.set_corner_radius_all(mini(5, int(minf(cell_px.x, cell_px.y) * 0.15)))
 			box.set_border_width_all(3 if case["actuelle"] else 1)
 			if case["actuelle"]:
-				box.bg_color = Color("6b4a26")
+				box.bg_color = UiTheme.SELECTED
 				box.border_color = GOLD
 			elif visited:
 				box.bg_color = UiTheme.WOOD_LIGHT
 				box.border_color = UiTheme.BRONZE
 			else:
 				box.bg_color = UiTheme.INK
-				box.border_color = Color("5a4630")
+				box.border_color = UiTheme.SEAM
 			draw_style_box(box, rect)
 			if not visited:
 				var mark_size := clampi(int(minf(cell_px.x, cell_px.y) * 0.45), 9, 34)
@@ -753,8 +753,7 @@ func _build() -> void:
 	var grid_box := PanelContainer.new()
 	grid_box.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	var frame_style := StyleBoxFlat.new()
-	frame_style.bg_color = Color(0.09, 0.07, 0.05)
-	frame_style.border_color = Color("5a4630")
+	UiTheme.themed(frame_style, "encre", "lisere")
 	frame_style.set_border_width_all(1)
 	frame_style.set_corner_radius_all(4)
 	frame_style.set_content_margin_all(4)

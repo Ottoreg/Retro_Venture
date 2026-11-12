@@ -54,6 +54,6 @@ func _draw() -> void:
 		else:
 			Art.draw(self, item[1], item[0])
 	# Fondu vers le fond, en haut.
-	var fade := Color(0.168627, 0.129412, 0.0941176)
+	var fade := UiTheme.BACKDROP
 	draw_polygon(PackedVector2Array([Vector2(0, 0), Vector2(size.x, 0), Vector2(size.x, size.y * 0.62), Vector2(0, size.y * 0.62)]),
 		PackedColorArray([fade, fade, Color(fade, 0.0), Color(fade, 0.0)]))

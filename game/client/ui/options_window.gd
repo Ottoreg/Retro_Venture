@@ -15,6 +15,7 @@ var _size: OptionButton
 var _tactical: Button
 var _pawns: Button
 var _server: LineEdit
+var _themes: HBoxContainer
 ## Carte en jeu (posée par la scène du monde) : le mode admin n'est proposé qu'en partie.
 var map_view: MapView
 var admin: AdminWindow
@@ -38,6 +39,8 @@ func open() -> void:
 	_set_switch(_tactical, Options.tactical)
 	_set_switch(_pawns, Options.tactical_pawns)
 	_server.text = Options.server_address
+	for button: Button in _themes.get_children():
+		button.set_pressed_no_signal(button.get_meta("theme") == Options.ui_theme)
 	for control in _admin_row:
 		control.visible = map_view != null
 	_set_visible(true)
@@ -115,13 +118,32 @@ func _build() -> void:
 	var frame := UiTheme.window_frame(self, "Options", close, false)
 	_panel = frame.panel
 	var column: VBoxContainer = frame.column
-	column.add_theme_constant_override("separation", 12)
-
-	var grid := GridContainer.new()
-	grid.columns = 2
-	grid.add_theme_constant_override("h_separation", 16)
-	grid.add_theme_constant_override("v_separation", 10)
-	column.add_child(grid)
+	# Deux colonnes de sections : Affichage et Son à gauche, Combat et En ligne à droite.
+	var columns := HBoxContainer.new()
+	columns.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	columns.add_theme_constant_override("separation", 40)
+	column.add_child(columns)
+	var left := _section(columns, "Affichage")
+	left.add_child(_caption("Thème de couleurs"))
+	_themes = HBoxContainer.new()
+	_themes.add_theme_constant_override("separation", 8)
+	left.add_child(_themes)
+	var group := ButtonGroup.new()
+	for id: String in UiTheme.THEMES:
+		_themes.add_child(_theme_button(id, group))
+	var grid := _grid(left)
+	grid.add_child(_caption("Plein écran"))
+	_fullscreen = _switch()
+	_fullscreen.toggled.connect(_on_fullscreen_toggled)
+	grid.add_child(_fullscreen)
+	grid.add_child(_caption("Taille de la fenêtre"))
+	_size = OptionButton.new()
+	for window_size in Options.WINDOW_SIZES:
+		_size.add_item("%d × %d" % [window_size.x, window_size.y])
+	_size.tooltip_text = "Sur ordinateur ; dans un navigateur, le jeu prend la taille de la page."
+	_size.item_selected.connect(_on_size_selected)
+	grid.add_child(_size)
+	grid = _grid(_section(left, "Son"))
 	grid.add_child(_caption("Volume"))
 	var volume_row := HBoxContainer.new()
 	volume_row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -129,7 +151,6 @@ func _build() -> void:
 	_volume.min_value = 0
 	_volume.max_value = 100
 	_volume.step = 5
-	_volume.custom_minimum_size = Vector2(180, 0)
 	_volume.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_volume.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	_volume.value_changed.connect(_on_volume_changed)
@@ -140,35 +161,24 @@ func _build() -> void:
 	volume_row.add_child(_volume_label)
 	grid.add_child(volume_row)
 
-	grid.add_child(_caption("Plein écran"))
-	_fullscreen = _switch()
-	_fullscreen.toggled.connect(_on_fullscreen_toggled)
-	grid.add_child(_fullscreen)
-
-	grid.add_child(_caption("Taille de la fenêtre"))
-	_size = OptionButton.new()
-	for window_size in Options.WINDOW_SIZES:
-		_size.add_item("%d × %d" % [window_size.x, window_size.y])
-	_size.tooltip_text = "Sur ordinateur ; dans un navigateur, le jeu prend la taille de la page."
-	_size.item_selected.connect(_on_size_selected)
-	grid.add_child(_size)
-
-	grid.add_child(_caption("Mode tactique en combat"))
+	var right := _section(columns, "Combat")
+	grid = _grid(right)
+	grid.add_child(_caption("Mode tactique"))
 	_tactical = _switch()
 	_tactical.tooltip_text = "Vue simplifiée de la grille : cases à plat, obstacles en blocs, décor masqué (touche T en combat)."
 	_tactical.toggled.connect(_on_tactical_toggled)
 	grid.add_child(_tactical)
-
 	grid.add_child(_caption("Pions en mode tactique"))
 	_pawns = _switch()
 	_pawns.tooltip_text = "En mode tactique, remplace les personnages par des pions : cercle de la couleur du camp et initiale."
 	_pawns.toggled.connect(_on_pawns_toggled)
 	grid.add_child(_pawns)
-
+	grid = _grid(_section(right, "En ligne et tests"))
 	grid.add_child(_caption("Adresse du serveur"))
 	_server = LineEdit.new()
 	_server.placeholder_text = "automatique"
 	_server.custom_minimum_size = Vector2(220, 34)
+	_server.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_server.tooltip_text = "Jeu en ligne : laisser vide pour le serveur de test. Développement : ws://localhost:8080 par exemple."
 	_server.text_changed.connect(_on_server_changed)
 	grid.add_child(_server)
@@ -198,6 +208,58 @@ func _switch() -> Button:
 	return button
 
 
+## Section titrée en or ; `parent` : la rangée des colonnes (nouvelle colonne) ou une colonne (section dessous).
+func _section(parent: Container, title: String) -> VBoxContainer:
+	var box := VBoxContainer.new()
+	box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	box.add_theme_constant_override("separation", 10)
+	if parent is VBoxContainer:
+		box.add_child(HSeparator.new())
+	parent.add_child(box)
+	var label := Label.new()
+	label.text = title
+	label.add_theme_font_size_override("font_size", 18)
+	label.add_theme_color_override("font_color", UiTheme.GOLD)
+	box.add_child(label)
+	return box
+
+
+func _grid(section: VBoxContainer) -> GridContainer:
+	var grid := GridContainer.new()
+	grid.columns = 2
+	grid.add_theme_constant_override("h_separation", 16)
+	grid.add_theme_constant_override("v_separation", 10)
+	section.add_child(grid)
+	return grid
+
+
+## Bouton d'un thème, dessiné à ses propres couleurs : un clic l'applique aussitôt à tout le jeu.
+func _theme_button(id: String, group: ButtonGroup) -> Button:
+	var colors: Dictionary = UiTheme.THEMES[id]
+	var button := Button.new()
+	button.text = colors["nom"]
+	button.toggle_mode = true
+	button.button_group = group
+	button.focus_mode = Control.FOCUS_NONE
+	button.custom_minimum_size = Vector2(120, 64)
+	button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	button.set_meta("theme", id)
+	for state: String in ["normal", "hover", "pressed", "hover_pressed"]:
+		var style := StyleBoxFlat.new()
+		style.bg_color = Color(colors["survol"] if state.begins_with("hover") else colors["bois_clair"] if state == "normal" else colors["fond"])
+		style.border_color = UiTheme.GOLD if state.ends_with("pressed") else Color(colors["bord"])
+		style.set_border_width_all(3 if state.ends_with("pressed") else 2)
+		style.set_corner_radius_all(6)
+		style.set_content_margin_all(6)
+		button.add_theme_stylebox_override(state, style)
+	button.pressed.connect(func() -> void:
+		Options.ui_theme = id
+		UiTheme.set_theme(id)
+		Options.save_options())
+	return button
+
+
 func _caption(text: String) -> Label:
 	var label := Label.new()
 	label.text = text
@@ -207,4 +269,4 @@ func _caption(text: String) -> Label:
 
 ## Commandes de la fenêtre (pour les tests).
 func controls() -> Dictionary:
-	return {"volume": _volume, "plein_ecran": _fullscreen, "taille": _size, "tactique": _tactical, "pions": _pawns, "serveur": _server, "admin": _admin_row[1]}
+	return {"themes": _themes, "volume": _volume, "plein_ecran": _fullscreen, "taille": _size, "tactique": _tactical, "pions": _pawns, "serveur": _server, "admin": _admin_row[1]}
