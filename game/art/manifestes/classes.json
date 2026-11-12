@@ -1,19 +1,5 @@
 {
   "images": {
-    "sort_arcaniste_braise": {
-      "fichier": "sorts/arcaniste_braise.svgt",
-      "ancre": [
-        22,
-        22
-      ]
-    },
-    "sort_arcaniste_frimas": {
-      "fichier": "sorts/arcaniste_frimas.svgt",
-      "ancre": [
-        22,
-        22
-      ]
-    },
     "sort_arcaniste_composition": {
       "fichier": "sorts/arcaniste_composition.svgt",
       "ancre": [

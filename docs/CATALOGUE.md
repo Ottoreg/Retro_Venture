@@ -27,7 +27,7 @@ Prix de boutique : selon la rareté (revente à 25 %).
 - [Sorts de race](#sorts-de-race)
 - [Sorts des monstres](#sorts-des-monstres)
 
-**317 objets** (18 armes, 20 coiffes, 20 capes, 20 amulettes, 20 anneaux, 20 ceintures, 20 bottes, 129 ressources, 37 plans de forge, 7 objets de quête), **57 monstres** et **143 sorts**.
+**317 objets** (18 armes, 20 coiffes, 20 capes, 20 amulettes, 20 anneaux, 20 ceintures, 20 bottes, 129 ressources, 37 plans de forge, 7 objets de quête), **57 monstres** et **137 sorts**.
 
 ## Armes
 
@@ -1453,12 +1453,6 @@ gardés comme trace de sa première version).
 
 | Sort | Caractéristiques | Effets | Description |
 |---|---|---|---|
-| **Boule de feu** | 4 PA, portée 2–6, cercle de rayon 1, 1/tour | 5–8 Flamme | Le grand classique. Brûle la cible et tout ce qui l'entoure, amis compris : visez bien. |
-| **Braise** | 1 PA, portée soi, sans ligne de vue, critique 0 % | état élémentaire Flamme (permanent, 3 au plus) ; +1 PA tout de suite | Une braise s'allume dans la paume de l'Arcaniste et y reste. Ça chauffe un peu, ça sert beaucoup. Coûte 1 PA, rendu aussitôt. |
-| **Éclat de givre** | 3 PA, portée 1–5, 2/tour | 4–6 Givre ; −1 PM au prochain tour | Un éclat de glace qui engourdit les jambes : la cible aura un PM de moins au prochain tour. |
-| **Étincelle** | 2 PA, portée 1–4, 3/tour | 2–4 Flamme | Petit sort, petit coût, petits dégâts. Mais trois fois par tour. |
-| **Frimas** | 1 PA, portée soi, sans ligne de vue, critique 0 % | état élémentaire Givre (permanent, 3 au plus) ; +1 PA tout de suite | Un flocon tourne autour de l'Arcaniste et refuse de fondre. Coûte 1 PA, rendu aussitôt. |
-| **Soin mineur** | 3 PA, portée 0–3, 1/tour, relance 2 t. | soin 8–12 (Flamme) | Referme les petites plaies. Pour les grandes, prévoir une potion. Ou un autre arcaniste. |
 | **Jugement dernier** | 3 PA, portée soi, cercle de rayon 1 (sans le lanceur), 1/tour | 25 Sacré aux ennemis | Seul, l'Archange frappe tout ce qui l'entoure. |
 | **Cri de guerre** | 3 PA, portée soi, cercle de rayon 2, sans ligne de vue, 1/tour, relance 4 t. | +4–6 Dommages (2 t.) aux alliés | Un hurlement qui galvanise les alliés proches et réveille tout le voisinage. Sort de rang II. |
 | **Fendoir** | 5 PA, portée 1, 1/tour | 16–22 Acier | Le grand coup qu'on garde pour la fin. Ou pour le début, ça dépend de l'humeur. Sort de rang II. |

@@ -335,8 +335,8 @@ Mécaniques des Voies :
 
 - `etat_elementaire` (`flamme`, `givre` ou `tempete`) : le lanceur garde l'état tout le combat,
   3 au plus (le 4e remplace le plus ancien), +4 % de dégâts dans son élément ; il ne peut pas être
-  retiré. Avec `gain_pa` 1 dans un sort à 1 PA, le PA est rendu aussitôt. (Plus utilisé par
-  l'Arcaniste : *Braise* et *Frimas* restent en trace.)
+  retiré. Avec `gain_pa` 1 dans un sort à 1 PA, le PA est rendu aussitôt. (Plus utilisé
+  par l'Arcaniste.)
 - `composition_etats` (`elements` : liste sans doublon parmi `flamme`, `givre`, `tempete`) : le
   lanceur choisit d'un coup ses 3 états parmi toutes les combinaisons des `elements` (2 éléments :
   4 combinaisons, 3 : 10). La commande de lancer porte la combinaison dans `etats` (clé triée, comme

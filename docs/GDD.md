@@ -396,15 +396,13 @@ décalage montre sa case d'arrivée et l'heure (« vers 3 h »).
 **Arcaniste de l'alpha 1** : les états élémentaires Flamme, Givre et Tempête (Tempête ajoutée le 12/11/2026,
 demande de l'auteur ; l'Agilité devient une caractéristique principale de l'Arcaniste, autant que
 l'Intelligence et la Perception). Ses anciens sorts (*Boule de feu*, *Éclat de givre*,
-*Étincelle*, *Soin mineur*) ne lui sont plus reliés : leurs fichiers restent dans `data/sorts/`
-comme trace de l'ancienne version. Son kit : *Composition* (1 PA rendu aussitôt, sans limite par
-tour) ouvre une **grille flottante** des combinaisons de 3 états (Flamme ×3, Flamme ×2 + Givre,
-Flamme + Givre ×2, Givre ×3, chacune avec le nom du sort qu'elle donnera ; celle en cours encadrée) :
+*Étincelle*, *Soin mineur*) ont été supprimés le 12/11/2026 (demande de l'auteur). Son kit : *Composition* (1 PA rendu aussitôt, sans limite par
+tour) ouvre une **grille flottante** des combinaisons de 3 états (les 10 combinaisons de Flamme, Givre et Tempête, chacune avec le nom du sort qu'elle donnera ; celle en cours encadrée) :
 au-dessus du sort quand on le clique, au-dessus de la souris quand on le lance par raccourci ; un
-clic sur une case, ou sa touche (1 à 4), la choisit, Échap ou un clic ailleurs referme la grille.
+clic sur une case, ou sa touche (1 à 0), la choisit, Échap ou un clic ailleurs referme la grille.
 Le choix remplace d'un coup les 3 états, permanents (+4 % de dégâts dans leur élément chacun, ne
 peuvent pas être retirés). Elle remplace *Braise* et *Frimas* (un état par lancer, 3 lancers pour
-une combinaison), jugés fastidieux par les testeurs ; leurs fichiers restent dans `data/sorts/`. Avec 3 états, *Fusion arcanique* (2 PA, 1 fois par tour) donne le sort de la
+une combinaison), jugés fastidieux par les testeurs (supprimés le 12/11/2026). Avec 3 états, *Fusion arcanique* (2 PA, 1 fois par tour) donne le sort de la
 combinaison, qui prend l'une des **2 places** de sorts créés de la barre ; quand les deux sont
 prises, le nouveau chasse le plus ancien (chaque sort créé garde ses propres relances). Tous les
 sorts créés coûtent **4 PA** pendant l'alpha 1 (équilibrage ensuite). Dès le premier tour : 3 états

@@ -508,34 +508,6 @@
         12
       ]
     },
-    "sort_arcaniste_boule_de_feu": {
-      "fichier": "sorts/arcaniste_boule_de_feu.svgt",
-      "ancre": [
-        22,
-        22
-      ]
-    },
-    "sort_arcaniste_eclat_de_givre": {
-      "fichier": "sorts/arcaniste_eclat_de_givre.svgt",
-      "ancre": [
-        22,
-        22
-      ]
-    },
-    "sort_arcaniste_etincelle": {
-      "fichier": "sorts/arcaniste_etincelle.svgt",
-      "ancre": [
-        22,
-        22
-      ]
-    },
-    "sort_arcaniste_soin_mineur": {
-      "fichier": "sorts/arcaniste_soin_mineur.svgt",
-      "ancre": [
-        22,
-        22
-      ]
-    },
     "sort_elfe_pas_leger": {
       "fichier": "sorts/elfe_pas_leger.svgt",
       "ancre": [

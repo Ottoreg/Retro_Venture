@@ -243,7 +243,7 @@ Dernière session (retours de la passe de l'auteur) :
   Flamme / Givre / Tempête, kit entièrement remplacé (effets `composition_etats` et `creer_sort` :
   *Composition*, qui ouvre une grille des combinaisons, `CombatHud.open_composition`, à la place de
   *Braise* et *Frimas* ; *Fusion arcanique* à 2 PA, 10 sorts créés à 4 PA, 2 places, le plus ancien part ;
-  `Fighter.element_states`, `created_spells` ; anciens sorts gardés en trace dans `data/sorts/` ;
+  `Fighter.element_states`, `created_spells` ; anciens sorts supprimés le 12/11/2026 ;
   barre : orbes `CombatHud.ElementOrbs` et places vides « ? »), *Charge* du Guerrier (effet `charge`,
   `Combat.charge_path`), *Collet* du Rôdeur (piège), *Absolution* du Théologue (`retrait_etats` ;
   les effets des phases ont `retirable: false`). L'IA ignore les sorts de composition. Tempête de
