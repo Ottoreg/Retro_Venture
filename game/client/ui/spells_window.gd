@@ -1,9 +1,11 @@
 class_name SpellsWindow
 extends CanvasLayer
 ## Fenêtre des sorts (touche S) : un onglet par famille (Voie, race, arme), la liste des sorts avec
-## leurs icônes et la fiche du sort choisi.
+## leurs icônes et la fiche du sort choisi. L'onglet de la Voie a toujours 20 cases : ses sorts, puis des
+## cases vides pour les sorts pas encore conçus.
 
 const GOLD := Color(0.95, 0.76, 0.3)
+const CLASS_SPELL_SLOTS := 20
 const TARGET_NAMES := {"ennemis": "ennemis", "allies": "alliés"}
 const ELEMENT_NAMES := {"acier": "Acier (Force)", "flamme": "Flamme (Intelligence)", "givre": "Givre (Perception)", "tempete": "Tempête (Agilité)",
 	"sacre": "Sacré (Force et Intelligence)", "impie": "Impie (Agilité et Perception)"}
@@ -204,6 +206,8 @@ func refresh() -> void:
 		if spell.id == _selected:
 			_list.select(index)
 			shown = spell
+	for i in CLASS_SPELL_SLOTS - family["sorts"].size() if _tabs.current_tab == 0 else 0:
+		_list.set_item_disabled(_list.add_item("Sort à venir", ImageTexture.create_from_image(Image.create(40, 40, false, Image.FORMAT_RGBA8))), true)
 	if shown == null and not family["sorts"].is_empty():
 		shown = family["sorts"][0]
 		_selected = shown.id

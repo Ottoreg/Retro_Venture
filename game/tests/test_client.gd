@@ -966,7 +966,8 @@ func test_barre_d_action_et_fenetre_des_sorts() -> void:
 	assert_eq(spells._tabs.tab_count, 2, "Voie, race (pas d'arme portée)")
 	assert_eq(spells._title.text, world.data.spells[first].display_name)
 	var voie: Dictionary = world.data.voies[world.character.voie_id]
-	assert_eq(spells._list.item_count, voie["sorts"].size(), "tous les sorts de la Voie")
+	assert_eq(spells._list.item_count, SpellsWindow.CLASS_SPELL_SLOTS, "20 cases pour la Voie")
+	assert_eq(spells._list.get_item_text(voie["sorts"].size()), "Sort à venir", "les sorts de la Voie, puis des cases vides")
 
 	# Onglet de la race, puis fermeture par le bouton de menu de la barre.
 	spells._tabs.current_tab = 1
