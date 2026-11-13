@@ -2693,7 +2693,7 @@ func _forge(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
 		inventory.add(data.items[Forge.PATTERN], 1, {}, false, {"nom": "Patron de " + item_name, "artisan": p.character.display_name,
 			"palier": preview["palier"], "bonus": {}, "patron": {"nom": item_name, "type": type, "palier": preview["palier"],
 			"ressources": resources.duplicate(), "jets": inventory.entries[uid]["jets"].duplicate(), "bonus": preview["bonus"].duplicate(true)}})
-	events.append(_job_event(p, Forge.JOB, Forge.REPUTATION_PER_TIER * int(preview["palier"]), int(preview["palier"]), true))
+	events.append(_job_event(p, Forge.JOB, preview["reputation"], int(preview["palier"]), true))
 	events.append_array(_inventory_events(p))
 	return events
 

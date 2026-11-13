@@ -126,10 +126,18 @@ func test_forger_a_l_enclume() -> void:
 	assert_eq(template["nom"], "Souliers costauds")
 	assert_eq(template["description"], "Créé par Testeur", "signature à la place du texte d'ambiance")
 	assert_eq(template["niveau"], 2, "palier : (1 + 2 × 2) / 3, arrondi")
-	assert_eq(Fixtures.of_type(events, Protocol.EVT_JOB)[0]["gain"], Profession.reputation_gain(Forge.REPUTATION_PER_TIER * 2, 2, 0, 0, true))
+	assert_eq(Fixtures.of_type(events, Protocol.EVT_JOB)[0]["gain"], 25, "au moins 25 × palier 2, × 0,5 au-dessus du palier de forge 1")
 	# La sauvegarde garde l'objet forgé.
 	var copy := Character.from_dict(_world.character.to_dict(), _world.data.items)
 	assert_eq(copy.inventory.entries[entry["uid"]]["forge"], entry["forge"])
+
+
+func test_reputation_de_forgeron() -> void:
+	assert_eq([Forge.reputation_factor(1, 3), Forge.reputation_factor(3, 3), Forge.reputation_factor(4, 3)], [1.0, 1.5, 0.5],
+		"en dessous × 1, à son palier × 1,5, au-dessus × 0,5")
+	assert_eq(Forge.preview("bottes", {"peau": 1, "croc": 2}, _world.data.items)["reputation"], 50, "au moins 25 × palier")
+	assert_eq(Forge.preview("bottes", {"peau": 30, "croc": 30}, _world.data.items)["reputation"], 180, "2 par palier de ressource : 2 × (30 + 60)")
+	assert_eq(Profession.reputation_gain(180, 2, 1000, 10, true), 99, "palier 2 pour un Apprenti : × 0,5, +10 %")
 
 
 func test_forger_avec_un_plan_et_une_arme() -> void:

@@ -126,7 +126,8 @@ def metiers_md():
     rare = constante(prof, "RARE_CHANCE")
     t_base, t_palier, t_min = (constante(prof, n) for n in ("HARVEST_BASE_TIME", "HARVEST_TIME_PER_TIER", "HARVEST_MIN_TIME"))
     forge = "items/forge.gd"
-    max_res, jet_bas, rep_palier = (constante(forge, n) for n in ("MAX_SLOTS", "ROLL_LOW", "REPUTATION_PER_TIER"))
+    max_res, jet_bas, rep_palier, rep_ressource = (constante(forge, n) for n in ("MAX_SLOTS", "ROLL_LOW", "REPUTATION_PER_TIER", "REPUTATION_PER_RESOURCE_TIER"))
+    rep_facteurs = constante(forge, "REPUTATION_FACTORS")
     fixes, poids, types = constante(forge, "FIXED_STATS"), constante(forge, "STAT_WEIGHTS"), constante(forge, "TYPES")
     facteur_rare = constante(forge, "RARE_FACTOR")
     score_palier, palier_max, max_lignes = (constante(forge, n) for n in ("LINE_SCORE_PER_TIER", "MAX_TIER", "MAX_LINES"))
@@ -178,8 +179,10 @@ def metiers_md():
     lignes += section_reputation("métier")
     lignes += ["### Réputation gagnée", "",
                "`Profession.reputation_gain` : base × 2 × facteur de difficulté (palier contre niveau équivalent)",
-               "× (100 + bonus de race) / 100. Base : le champ `xp` du nœud pour une récolte, **%d × palier de" % rep_palier,
-               "l'objet** pour une forge. Passif humain : +10 % (« reputation_metier »). Pour une base de 10 :", ""]
+               "× (100 + bonus de race) / 100, base = le champ `xp` du nœud pour une récolte. Forge : **%s par palier de" % nombre(rep_ressource),
+               "chaque ressource utilisée, au moins %d × palier de l'objet**, × %s (objet sous le palier de forgeron, au palier," % (rep_palier,
+                   " / ".join(nombre(f) for f in rep_facteurs)),
+               "au-dessus). Passif humain : +10 % (« reputation_metier »). Récolte, pour une base de 10 :", ""]
     paliers = [1, 3, 5, 10, 15, 20]
     lignes += table(["Palier \\ niveau équivalent"] + [str(n) for n in paliers],
                     [[p] + [gain(10, p, n) for n in paliers] for p in paliers])
@@ -229,7 +232,7 @@ def metiers_md():
                "%s : 1 par ressource quel que soit le palier, 1 au plus par objet. La caractéristique d'une ressource" % ", ".join(
                    CARACS[c] for c in fixes),
                "n'est lisible qu'après un premier objet forgé, et seulement si le palier de réputation",
-               "de forgeron atteint son palier (`Forge.reveals`). Réputation : %d × palier de l'objet en base." % rep_palier, "",
+               "de forgeron atteint son palier (`Forge.reveals`). Réputation : voir « Réputation gagnée ».", "",
                "### Valeur d'une ressource", "",
                "`Forge.value` : max(1, arrondi(palier × poids)) (palier 1 à 5), **× %d pour une ressource rare** ; poids = points de" % facteur_rare,
                "la caractéristique pour un point de score (le tableau donne la valeur d'une ressource non rare).", ""]

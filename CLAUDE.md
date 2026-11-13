@@ -182,6 +182,8 @@ Fenêtre refaite le 03/11/2026 : sac en icônes à gauche, clic ou glisser vers 
 `resistance_<élément>` ; matières récoltées orientées (`docs/design/forge/matieres.py`).
 Plafonds selon le palier de réputation de forgeron (07/11/2026, sur `dev`, `Forge.tier`) : 20 points de score par ligne
 et par palier (160 à 800 par objet) ; PA, PM et Portée (`Forge.FIXED_STATS` : 100, 80, 60 points) perdus avant leur palier.
+Réputation de forgeron (13/11/2026, sur `dev`) : 2 par palier de ressource utilisée (au moins 25 × palier de l'objet),
+× 1 sous son palier de forgeron, × 1,5 à son palier, × 0,5 au-dessus (`Forge.reputation_factor`).
 Plus tard : maîtres par catégorie (armurier, tailleur, cordonnier) qui donnent des plans par quêtes.
 **Infusion d'essences et infusion miroir** (10/11/2026, sur `dev`, GDD § 10.4) : `Infusion` (`core/items/infusion.gd`),
 commande `infuser` (protocole v15, v16 avec les paliers de monstres), onglets Essences et Infusion de `ForgeWindow` (11/11/2026, modèle : atelier d'objets HTML), modèle `essence`, champ `exo` des entrées

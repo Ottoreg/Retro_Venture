@@ -1739,7 +1739,7 @@ niveaux, les **bottes de niveau 30 donnent 1 PM**.
 **Lot 4 fait (02/11/2026, sur `main`)** : `Character.jobs` garde, par métier, réputation, points
 de maîtrise (un par 500) et rangs des compétences, comme les classes (paliers Inconnu à Légende ; les
 vieilles sauvegardes : XP de métier → réputation). Toutes les ressources se récoltent dès le début.
-Gain : la base (`xp` du nœud, ou 5 par palier de l'objet forgé) × 2 × le facteur de difficulté du
+Gain : la base (`xp` du nœud) × 2 × le facteur de difficulté du
 palier contre le niveau équivalent de la réputation du métier (`Profession.reputation_gain` : × 1 à
 sa mesure, × 3 au plus, × 0,2 au moins) ; +10 % pour les Humains. Compétences
 (`Profession.SKILLS`, rang n : n points, rang 5 au plus, commande `maitriser` avec `metier` et
@@ -2241,7 +2241,11 @@ compris) et les recettes du forgeron sont supprimés, tout le reste se forge.
 - **Réputation d'artisan** : sans avoir jamais forgé, les caractéristiques des ressources sont
   **cachées** ; ensuite elles se lisent jusqu'au palier égal au niveau équivalent de la réputation de
   forgeron (`Progression.equivalent_level`, 1 280 de réputation pour le palier 8). La compétence
-  **Précision** relève le plancher des jets (§ 10.2).
+  **Précision** relève le plancher des jets (§ 10.2). **Réputation de forgeron** (13/11/2026, demande de l'auteur) :
+  2 par palier de chaque ressource utilisée, au moins 25 × palier de l'objet, × 1 sous son palier de forgeron, × 1,5 à
+  son palier et × 0,5 au-dessus (caractéristiques cachées) : forger ce qu'on maîtrise rapporte le plus
+  (`Forge.reputation_factor`, aperçu `reputation`). Une amulette de 60 ressources de palier 1 rapporte 180 à un forgeron
+  de palier 1 (198 pour un Humain).
 - **Fenêtre de l'enclume** (03/11/2026, demande de l'auteur) : à gauche le sac en icônes (ressources de
   forge et plans) ; un clic gauche ou un glisser pose une ressource dans les **8 cases de la recette**,
   en bas au centre (la molette ne fait rien) ; au centre le type, l'aperçu et le nom ; à droite

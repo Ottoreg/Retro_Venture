@@ -22,8 +22,12 @@ const MAX_TIER := 5
 const MAX_LINES := 8
 ## Une ligne de total T se tire entre T × ROLL_LOW et T (plus haut avec la compétence « precision »).
 const ROLL_LOW := 0.75
-## Réputation de forgeron de base par palier de l'objet forgé (1 à 5, `Profession.reputation_gain`).
+## Réputation de forgeron (GDD § 10.4, `Profession.reputation_gain`) : 2 par palier de chaque ressource utilisée, au moins 25
+## par palier de l'objet, × le multiplicateur du palier de l'objet contre le palier de forge : en dessous, égal, au-dessus
+## (caractéristiques cachées). Forger à son palier rapporte le plus.
 const REPUTATION_PER_TIER := 25
+const REPUTATION_PER_RESOURCE_TIER := 2
+const REPUTATION_FACTORS := [1.0, 1.5, 0.5]
 ## Caractéristiques à 1 par ressource quel que soit le palier, et à 1 au plus par objet : points de score de ce
 ## point (indisponible tant que le plafond d'une ligne est plus bas).
 const FIXED_STATS := {"pa": 100, "pm": 80, "portee": 60}
@@ -162,6 +166,11 @@ static func tier(character: Character) -> int:
 	return MAX_TIER if character == null else clampi(Character.tier_index(character.job_reputation(JOB)), 1, MAX_TIER)
 
 
+## Multiplicateur de réputation d'un objet de palier `item_tier` au palier de forge `forge_tier`.
+static func reputation_factor(item_tier: int, forge_tier: int) -> float:
+	return REPUTATION_FACTORS[signi(item_tier - forge_tier) + 1]
+
+
 ## Valeur d'une ligne au plus au palier de forge `forge_tier` (PA, PM et Portée : 1, ou 0 avant leur palier).
 static func line_cap(stat: String, forge_tier := MAX_TIER) -> int:
 	var score := LINE_SCORE_PER_TIER * forge_tier
@@ -238,6 +247,7 @@ static func preview(type: String, resources: Dictionary, items: Dictionary, char
 	elif not result["manquantes"].is_empty():
 		result["erreur"] = Protocol.REASON_MISSING_INGREDIENTS
 	result["palier"] = maxi(1, roundi(float(tiers) / maxi(1, count)))
+	result["reputation"] = maxi(REPUTATION_PER_TIER * result["palier"], REPUTATION_PER_RESOURCE_TIER * tiers)
 	var described := resources.keys().filter(func(id: Variant) -> bool: return items[id].has("famille")).size()
 	result["lieux"] = places.keys().filter(func(key: String) -> bool: return 2 * places[key] >= described)
 	var low := ROLL_LOW + ((Profession.skill_value(Profession.TYPE_CRAFT, "precision", character.job_rank(JOB, "precision"))

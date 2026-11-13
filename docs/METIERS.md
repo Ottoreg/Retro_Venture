@@ -39,8 +39,9 @@ interpolé entre les points 0,4 → 0,1, 1 → 0,5, 2 → 1, 3 → 1,5 (rapport 
 ### Réputation gagnée
 
 `Profession.reputation_gain` : base × 2 × facteur de difficulté (palier contre niveau équivalent)
-× (100 + bonus de race) / 100. Base : le champ `xp` du nœud pour une récolte, **25 × palier de
-l'objet** pour une forge. Passif humain : +10 % (« reputation_metier »). Pour une base de 10 :
+× (100 + bonus de race) / 100, base = le champ `xp` du nœud pour une récolte. Forge : **2 par palier de
+chaque ressource utilisée, au moins 25 × palier de l'objet**, × 1 / 1,5 / 0,5 (objet sous le palier de forgeron, au palier,
+au-dessus). Passif humain : +10 % (« reputation_metier »). Récolte, pour une base de 10 :
 
 | Palier \ niveau équivalent | 1 | 3 | 5 | 10 | 15 | 20 |
 |---|---|---|---|---|---|---|
@@ -144,7 +145,7 @@ et un objet a au plus **8 lignes**. Le palier de l'objet est la moyenne des pali
 par les quantités) ; les jets sont tirés entre 75 % et 100 % du total (plus avec Précision).
 PA, PM, Portée : 1 par ressource quel que soit le palier, 1 au plus par objet. La caractéristique d'une ressource
 n'est lisible qu'après un premier objet forgé, et seulement si le palier de réputation
-de forgeron atteint son palier (`Forge.reveals`). Réputation : 25 × palier de l'objet en base.
+de forgeron atteint son palier (`Forge.reveals`). Réputation : voir « Réputation gagnée ».
 
 ### Valeur d'une ressource
 
