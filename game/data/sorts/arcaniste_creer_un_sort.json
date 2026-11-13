@@ -29,5 +29,13 @@
         "flamme+givre+tempete": "arcaniste_cataclysme"
       }
     }
-  ]
+  ],
+  "maitrise": {
+    "3": {
+      "cout_pa": 1
+    },
+    "5": {
+      "places_crees": 1
+    }
+  }
 }

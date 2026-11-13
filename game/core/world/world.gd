@@ -3022,7 +3022,7 @@ func _raise_spell(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
 	var skill_id: Variant = command.get("competence")
 	if not _is_player_command(p, command) or data == null or typeof(spell_id if job.is_empty() else skill_id) != TYPE_STRING:
 		return _refused(command, Protocol.REASON_INVALID_COMMAND)
-	var reason := p.character.raise_spell(spell_id, data.class_spells(p.character.voie_id, p.character.reputation())) if job.is_empty() \
+	var reason := p.character.raise_spell(spell_id, data.masterable_spells(p.character.voie_id, p.character.reputation())) if job.is_empty() \
 		else p.character.raise_skill(job["id"], skill_id, Profession.skills(job["type"]))
 	if not reason.is_empty():
 		return _refused(command, reason)

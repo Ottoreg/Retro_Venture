@@ -272,7 +272,7 @@ voisines de la même zone dans la grille (droite : x + 1, bas : y + 1) ; c'est v
 | `relance.delai` | Tours à attendre avant de relancer |
 | `critique` | Chance de coup critique en % (défaut : 5 ; `0` = jamais). Critique : dégâts, soins, boucliers et poisons × 1,5 |
 | `effets` | `degats`, `soin` ou `bouclier`, avec `min`, `max` et `element` (`acier`, `flamme`, `givre`, `tempete`, ou les éléments composés `sacre` et `impie`) |
-| `maitrise` | Rangs de maîtrise (sorts des Voies, GDD § 4.5), facultatif : `{ "3": {…}, "5": {…} }` (rangs 1 à 5). Chaque rang donne déjà +10 % aux valeurs de base des effets élémentaires ; un rang listé ajoute ses changements : `critique` et `portee_max` (ajoutés), `cout_pa`, `delai` et `zone_taille` (nouvelles valeurs), `effets` (effets en plus, sans glyphe, piège ni effet du lanceur) |
+| `maitrise` | Rangs de maîtrise (sorts des Voies, GDD § 4.5), facultatif : `{ "3": {…}, "5": {…} }` (rangs 1 à 5). Chaque rang donne déjà +10 % aux valeurs de base des effets élémentaires ; un rang listé ajoute ses changements : `critique`, `portee_max`, `bonus_etats` (% de chaque état élémentaire du lanceur) et `places_crees` (places de sorts créés) (ajoutés), `cout_pa`, `delai` et `zone_taille` (nouvelles valeurs), `effets` (effets en plus, sans glyphe, piège ni effet du lanceur ; `"premier_lancer": true` : seulement au premier lancer du tour). Les sorts créés par `creer_sort` reçoivent aussi des points de maîtrise |
 
 Chaque effet chiffré grandit avec la caractéristique de son élément : un soin `sacre` avec la Force
 et l'Intelligence, un bouclier `tempete` avec l'Agilité, etc. `bouclier` donne à la cible des points

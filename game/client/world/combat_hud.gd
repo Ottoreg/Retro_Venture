@@ -78,6 +78,8 @@ class Gauge extends Control:
 ## en haut au plus récent en bas), grises quand la place est libre.
 class ElementOrbs extends Control:
 	var states: Array = []
+	## % de chaque état (base et rangs de maîtrise de Composition), donné par `_show_spells`.
+	var bonus := Fighter.ELEMENT_STATE_BONUS
 
 	func _init() -> void:
 		custom_minimum_size = Vector2(22, 72)
@@ -90,7 +92,7 @@ class ElementOrbs extends Control:
 			for i in Fighter.ELEMENT_STATE_MAX:
 				names.append(SpellsWindow.ELEMENT_LABELS.get(states[i], states[i]) if i < states.size() else "libre")
 			tooltip_text = "États élémentaires (Composition) : %s\n+%d %% de dégâts dans leur élément chacun" % [
-				" · ".join(names), Fighter.ELEMENT_STATE_BONUS]
+				" · ".join(names), bonus]
 			queue_redraw()
 
 	func _draw() -> void:
@@ -571,7 +573,12 @@ func _show_spells(spells: Array[Spell]) -> void:
 	var ids: Array[String] = []
 	for spell in spells:
 		ids.append(spell.id)
-	var empty_slots := maxi(0, Fighter.CREATED_SPELL_SLOTS - created_count) if creates else 0
+	var slots := Fighter.CREATED_SPELL_SLOTS
+	_orbs.bonus = Fighter.ELEMENT_STATE_BONUS
+	for spell in spells:
+		slots += spell.created_slots
+		_orbs.bonus += spell.state_bonus
+	var empty_slots := maxi(0, slots - created_count) if creates else 0
 	for i in empty_slots:
 		ids.append(EMPTY_SLOT_PREFIX + str(i))
 	_orbs.visible = creates
@@ -606,7 +613,7 @@ func _show_spells(spells: Array[Spell]) -> void:
 ## Le sort est-il un sort créé (une combinaison d'un sort « creer_sort » de la liste) ?
 static func _is_created(spell: Spell, spells: Array[Spell]) -> bool:
 	for other in spells:
-		if spell in other.create_effect().get("sorts", {}).values():
+		if spell.id in other.create_effect().get("combinaisons", {}).values():
 			return true
 	return false
 
@@ -656,6 +663,8 @@ func open_composition(spell: Spell, anchor: Rect2, slot: Control = null) -> void
 	var created := {}
 	for other in fighter.spells:
 		created.merge(other.create_effect().get("sorts", {}))
+	for key: String in created:  # Au rang de maîtrise du joueur.
+		created[key] = created[key].mastered(int(fighter.masteries.get(created[key].id, 0)))
 	var current := Spell.combination_key(fighter.element_states) if fighter.element_states.size() == Fighter.ELEMENT_STATE_MAX else ""
 	_composition_spell = spell.id
 	_composition_choices = spell.state_choices()

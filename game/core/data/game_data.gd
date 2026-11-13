@@ -460,6 +460,17 @@ static func validate_voie(data: Dictionary, known_spells: Dictionary, known_item
 	return errors
 
 
+## Sorts d'une classe qui reçoivent des points de maîtrise : `class_spells`, puis ceux qu'ils créent
+## (« creer_sort », Arcaniste).
+func masterable_spells(class_id: String, reputation_value: int) -> Array[String]:
+	var ids := class_spells(class_id, reputation_value)
+	for spell_id in ids.duplicate():
+		for created: Spell in spells[spell_id].create_effect().get("sorts", {}).values() if spells.has(spell_id) else []:
+			if created.id not in ids:
+				ids.append(created.id)
+	return ids
+
+
 ## Sorts qu'une classe donne avec `reputation_value` de réputation (GDD § 5.1) : ceux de rang I, puis
 ## ceux de rang II débloqués (`sorts_rang_2` : id → réputation), dans l'ordre des données.
 func class_spells(class_id: String, reputation_value: int) -> Array[String]:
@@ -549,10 +560,12 @@ func create_character_fighter(character: Character, fighter_id: String) -> Fight
 	var fighter := _create_fighter(voies[character.voie_id], fighter_id, character.display_name, Fighter.TEAM_PLAYERS)
 	# Sorts de la classe active : rang II débloqués par la réputation, rangs de maîtrise (GDD § 4.5).
 	fighter.spells.clear()
-	for spell_id in class_spells(character.voie_id, character.reputation()):
+	var class_ids := class_spells(character.voie_id, character.reputation())
+	for spell_id in masterable_spells(character.voie_id, character.reputation()):
 		if character.spell_rank(spell_id) > 0:
 			fighter.masteries[spell_id] = character.spell_rank(spell_id)
-		fighter.spells.append(spells[spell_id].mastered(character.spell_rank(spell_id)))
+		if spell_id in class_ids:
+			fighter.spells.append(spells[spell_id].mastered(character.spell_rank(spell_id)))
 	fighter.race = character.race_id
 	fighter.tier = 0  # Un joueur n'a pas de palier de monstre (GDD § 4.5).
 	for stat_name in Character.STATS:

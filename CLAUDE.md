@@ -250,7 +250,9 @@ Dernière session (retours de la passe de l'auteur) :
   `Combat.charge_path`), *Collet* du Rôdeur (piège), *Absolution* du Théologue (`retrait_etats` ;
   les effets des phases ont `retirable: false`). L'IA ignore les sorts de composition. Tempête de
   l'Arcaniste ajoutée le 12/11/2026 sur `dev` (6 fusions de plus, effet `rebond`, Agilité principale
-  autant que l'Intelligence et la Perception, GDD § 4.3).
+  autant que l'Intelligence et la Perception, GDD § 4.3). Rangs de maîtrise de l'Arcaniste (14/11/2026, sur `dev`) : sorts créés
+  maîtrisables (`GameData.masterable_spells`), `bonus_etats` et `places_crees` de `maitrise`
+  (`Fighter.state_bonus`, `created_slots`), effets à `premier_lancer`.
 - **Chronomancien, Voie Impie** (29/10/2026, demande de l'auteur, GDD § 4.3) : 5e Voie de l'alpha 1,
   effets `horloge` / `decalage_horaire` (`Combat.CLOCK_OFFSETS`, `clock_destination`, échange de
   place), état `insoignable`, carac `degats_infliges` ; protocole v9. Heures 3 h, 4 h et 9 h faites le
