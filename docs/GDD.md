@@ -1572,7 +1572,7 @@ tour ») : la difficulté vient uniquement des **monstres renforcés**.
 | Coiffe | ✅ | ✅ |
 | Cape | ✅ | ✅ |
 | Amulette | ✅ | ✅ |
-| Anneau ×2 | ✅ | ✅ |
+| Anneau ×2 (deux identiques permis, sauf anneaux de panoplie et, plus tard, reliques) | ✅ | ✅ |
 | Ceinture | ✅ | ✅ |
 | Bottes | ✅ | ✅ |
 | Bouclier / main gauche | — | ✅ |
