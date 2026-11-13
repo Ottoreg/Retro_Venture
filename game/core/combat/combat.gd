@@ -620,7 +620,7 @@ func _cast(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 				_bounce(fighter, chain, effect, events, critical, spell.display_name)
 			elif hit.is_alive() and effect["type"] not in [Spell.EFFECT_TELEPORT, Spell.EFFECT_GLYPH, Spell.EFFECT_TRAP,
 					Spell.EFFECT_CHARGE, Spell.EFFECT_CREATE_SPELL, Spell.EFFECT_COMPOSE_STATES] \
-					and Spell.affects(effect, fighter, hit):
+					and Spell.affects(effect, fighter, hit) and not (effect.get("premier_lancer", false) and fighter.cast_count(spell) > 1):
 				_apply_effect(fighter, hit, effect, events, critical, origin, spell.display_name)
 	_close_credit()
 	_check_end(events)

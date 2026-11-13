@@ -126,7 +126,7 @@ def effet(e):
     elif t == "retrait_pm":
         texte = "−%s PM au prochain tour" % valeur
     elif t == "gain_pa":
-        texte = "+%s PA tout de suite" % valeur
+        texte = "+%s PA tout de suite%s" % (valeur, " (premier lancer du tour)" if e.get("premier_lancer") else "")
     elif t == "teleportation":
         texte = "téléportation sur la case"
     elif t == "etat_elementaire":

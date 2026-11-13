@@ -430,6 +430,13 @@ l'élément). Elle penche vers la vitesse, le déplacement et la foudre. Les eff
 pas être retirés par *Absolution*. L'IA ne sait pas encore composer les états : dans
 `tools/simulation.gd`, l'Arcaniste joue sans ses sorts créés.
 
+**Rangs de maîtrise de l'Arcaniste** (demande de l'auteur, 14/11/2026, sur `dev`) : tous ses sorts
+reçoivent des points de maîtrise, **les 10 sorts créés compris** (ils arrivent dans la barre à leur
+rang). *Composition* : chaque rang ajoute **+1 %** au bonus de chaque état élémentaire (4 % → 9 % au
+rang 5, valeur provisoire) ; au **rang 3**, le premier lancer du tour rend **2 PA** au lieu d'1, au
+**rang 5**, **3 PA** (les lancers suivants en rendent toujours 1). *Fusion arcanique* : **1 PA** au
+rang 3, **3e place** de sort créé au rang 5.
+
 **Long terme (9 Voies)** : trois familles de trois classes, selon la distance de combat.
 
 | Famille | Classe | Rôle | Éléments principaux | Style |

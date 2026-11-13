@@ -49,7 +49,7 @@ static func describe(spell: Spell) -> PackedStringArray:
 	if spell.fixed_range:
 		notes.append("portée non modifiable")
 	lines.append("Coût : %d PA — Portée : %s%s" % [spell.pa_cost, reach, "" if notes.is_empty() else " (%s)" % ", ".join(notes)])
-	lines.append_array(effect_lines(spell.effects))
+	lines.append_array(effect_lines(spell.effects, "", Fighter.ELEMENT_STATE_BONUS + spell.state_bonus))
 	if spell.zone_type == Spell.ZONE_CIRCLE:
 		lines.append("Zone : cercle de %d case%s" % [spell.zone_size, "s" if spell.zone_size > 1 else ""])
 	elif spell.zone_type == Spell.ZONE_LATIN_CROSS:
@@ -67,7 +67,8 @@ static func describe(spell: Spell) -> PackedStringArray:
 
 
 ## Une ligne par effet (avec les effets d'une glyphe ou d'un piège, en retrait).
-static func effect_lines(effects: Array, indent := "") -> PackedStringArray:
+## `state_bonus` : % de chaque état élémentaire (base et rangs de maîtrise de Composition).
+static func effect_lines(effects: Array, indent := "", state_bonus := Fighter.ELEMENT_STATE_BONUS) -> PackedStringArray:
 	var lines: PackedStringArray = []
 	for effect: Dictionary in effects:
 		var type: String = effect["type"]
@@ -85,7 +86,7 @@ static func effect_lines(effects: Array, indent := "") -> PackedStringArray:
 			Spell.EFFECT_REMOVE_PM:
 				line = "Retire %d PM au prochain tour" % effect["min"]
 			Spell.EFFECT_GAIN_PA:
-				line = "Donne %d PA" % effect["min"]
+				line = "Donne %d PA%s" % [effect["min"], " (premier lancer du tour)" if effect.get("premier_lancer", false) else ""]
 			Spell.EFFECT_TELEPORT:
 				line = "Téléporte sur la case visée"
 			Spell.EFFECT_BONUS, Spell.EFFECT_MALUS:
@@ -105,11 +106,11 @@ static func effect_lines(effects: Array, indent := "") -> PackedStringArray:
 				line = "Glyphe sur la zone (%s du lanceur), au début du tour de qui s'y trouve :" % duration
 			Spell.EFFECT_ELEMENT_STATE:
 				line = "État élémentaire %s : +%d %% de dégâts de %s, permanent, 3 au plus (le plus ancien part), ne peut pas être retiré" % [
-					ELEMENT_LABELS.get(effect["element"], effect["element"]), Fighter.ELEMENT_STATE_BONUS,
+					ELEMENT_LABELS.get(effect["element"], effect["element"]), state_bonus,
 					ELEMENT_LABELS.get(effect["element"], effect["element"])]
 			Spell.EFFECT_COMPOSE_STATES:
 				line = "Choisit d'un coup 3 états élémentaires (+%d %% de dégâts de leur élément chacun, permanents, ne peuvent pas être retirés) :" % \
-					Fighter.ELEMENT_STATE_BONUS
+					state_bonus
 				for key in Spell.combinations_of(effect["elements"]):
 					line += "\n    · %s" % MapView.element_states_text(Array(key.split("+")))
 			Spell.EFFECT_CREATE_SPELL:
@@ -226,14 +227,10 @@ func _update_families() -> void:
 	var voie_spells: Array[Spell] = []
 	# Sorts de rang I et de rang II débloqués, au rang de maîtrise du personnage (GDD § 4.5).
 	var character := world.character
-	for spell_id in data.class_spells(character.voie_id, character.reputation()):
+	# Sorts que la Voie peut créer (Arcaniste) compris, maîtrisables eux aussi.
+	for spell_id in data.masterable_spells(character.voie_id, character.reputation()):
 		if data.spells.has(spell_id):
 			voie_spells.append(data.spells[spell_id].mastered(character.spell_rank(spell_id)))
-	# Les sorts que la Voie peut créer (Arcaniste) se consultent avec les autres.
-	for spell in voie_spells.duplicate():
-		for created: Spell in spell.create_effect().get("sorts", {}).values():
-			if created not in voie_spells:
-				voie_spells.append(created)
 	families.append({"nom": "Voie : %s" % voie.get("nom", "?"), "sorts": voie_spells})
 	var race: Dictionary = data.races.get(world.character.race_id, {})
 	var race_spells: Array[Spell] = []
@@ -288,7 +285,7 @@ func _show(spell: Spell) -> void:
 func _show_mastery(spell: Spell) -> void:
 	var character := map_view.world.character
 	var data := map_view.world.data
-	_mastery_row.visible = spell.id in data.class_spells(character.voie_id, character.reputation())
+	_mastery_row.visible = spell.id in data.masterable_spells(character.voie_id, character.reputation())
 	if not _mastery_row.visible:
 		return
 	var rank := character.spell_rank(spell.id)

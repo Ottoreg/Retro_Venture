@@ -121,8 +121,10 @@ const ELEMENTS := ["acier", "flamme", "givre", "tempete", "sacre", "impie"]
 const MASTERY_BONUS_PER_RANK := 10
 const MASTERY_MAX_RANK := 5
 ## Changements qu'un rang de maîtrise peut apporter (« maitrise » : { "3": {…}, "5": {…} }) : ajouts
-## (critique, portee_max), nouvelles valeurs (cout_pa, delai, zone_taille) et effets en plus (effets).
-const MASTERY_ADDS := ["critique", "portee_max"]
+## (critique, portee_max, bonus_etats : % de chaque état élémentaire, places_crees : places de sorts créés),
+## nouvelles valeurs (cout_pa, delai, zone_taille) et effets en plus (effets ; « premier_lancer » : true, seulement
+## au premier lancer du tour).
+const MASTERY_ADDS := ["critique", "portee_max", "bonus_etats", "places_crees"]
 const MASTERY_SETS := ["cout_pa", "delai", "zone_taille"]
 
 var id: String
@@ -154,6 +156,9 @@ var effects: Array[Dictionary] = []
 var mastery: Dictionary = {}
 ## Rang de maîtrise de cet exemplaire du sort (0 : celui des données).
 var rank := 0
+## Apports des rangs de maîtrise au lanceur : % de chaque état élémentaire, places de sorts créés.
+var state_bonus := 0
+var created_slots := 0
 
 
 ## Liste des erreurs de `data` (vide si le sort est valide).
@@ -366,6 +371,8 @@ func mastered(level: int) -> Spell:
 		var changes: Dictionary = mastery[rank_reached]
 		copy.crit_chance += int(changes.get("critique", 0))
 		copy.range_max += int(changes.get("portee_max", 0))
+		copy.state_bonus += int(changes.get("bonus_etats", 0))
+		copy.created_slots += int(changes.get("places_crees", 0))
 		copy.pa_cost = int(changes.get("cout_pa", copy.pa_cost))
 		copy.cooldown = int(changes.get("delai", copy.cooldown))
 		copy.zone_size = int(changes.get("zone_taille", copy.zone_size))

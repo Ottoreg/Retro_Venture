@@ -74,8 +74,8 @@ var alone_message := ""
 ## États élémentaires (Arcaniste) : éléments dans l'ordre où ils ont été pris, `ELEMENT_STATE_MAX` au
 ## plus (le plus ancien part quand un nouveau arrive). Permanents pour le combat, jamais retirés.
 var element_states: Array[String] = []
-## Sorts créés par « creer_sort » (ids, du plus ancien au plus récent), `CREATED_SPELL_SLOTS` au
-## plus : ils sont dans `spells` ; un nouveau sort créé chasse le plus ancien.
+## Sorts créés par « creer_sort » (ids, du plus ancien au plus récent), `created_slots()` au plus, à
+## leur rang de maîtrise : ils sont dans `spells` ; un nouveau sort créé chasse le plus ancien.
 var created_spells: Array[String] = []
 
 const ELEMENT_STATE_MAX := 3
@@ -208,7 +208,23 @@ func power(element: String) -> int:
 	if Spell.COMPOSITE_ELEMENTS.has(element):
 		var bases: Array = Spell.COMPOSITE_ELEMENTS[element]
 		return power(bases[0]) + power(bases[1])
-	return stat(ELEMENT_STATS.get(element, "")) + ELEMENT_STATE_BONUS * element_states.count(element)
+	return stat(ELEMENT_STATS.get(element, "")) + state_bonus() * element_states.count(element)
+
+
+## Bonus en % de chaque état élémentaire : `ELEMENT_STATE_BONUS`, plus les rangs de maîtrise des sorts.
+func state_bonus() -> int:
+	var total := ELEMENT_STATE_BONUS
+	for spell in spells:
+		total += spell.state_bonus
+	return total
+
+
+## Places de sorts créés : `CREATED_SPELL_SLOTS`, plus les rangs de maîtrise des sorts.
+func created_slots() -> int:
+	var total := CREATED_SPELL_SLOTS
+	for spell in spells:
+		total += spell.created_slots
+	return total
 
 
 ## Prend un état élémentaire (le plus ancien part au-delà de `ELEMENT_STATE_MAX`).
@@ -221,12 +237,13 @@ func add_element_state(element: String) -> void:
 ## Ajoute `spell` aux sorts créés ; renvoie l'id du sort chassé pour lui faire de la place ("" si
 ## aucun). Un sort déjà créé redevient simplement le plus récent.
 func add_created_spell(spell: Spell) -> String:
+	spell = spell.mastered(int(masteries.get(spell.id, 0)))
 	if spell.id in created_spells:
 		created_spells.erase(spell.id)
 		created_spells.append(spell.id)
 		return ""
 	var removed := ""
-	if created_spells.size() >= CREATED_SPELL_SLOTS:
+	if created_spells.size() >= created_slots():
 		removed = created_spells.pop_front()
 		spells.erase(get_spell(removed))
 	created_spells.append(spell.id)

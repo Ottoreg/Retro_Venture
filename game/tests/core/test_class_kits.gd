@@ -226,3 +226,38 @@ func test_kit_de_l_arcaniste_dans_les_donnees() -> void:
 		assert_true(linked.has(key), "chaque combinaison proposée donne un sort : " + key)
 	for created: Spell in linked.values():
 		assert_eq(created.pa_cost, 4, "tous les sorts créés à 4 PA pendant l'alpha 1 (%s)" % created.id)
+
+
+func test_rangs_de_maitrise_de_l_arcaniste() -> void:
+	var data := GameData.load_all()
+	var character := Character.create("Merlinpinpin", "humain", "arcaniste")
+	var masterable := data.masterable_spells("arcaniste", 0)
+	assert_eq(masterable.size(), 12, "Composition, Fusion arcanique et les 10 sorts créés")
+	var entry: Dictionary = character.classes["arcaniste"]
+	entry["sorts"] = {"arcaniste_composition": 5, "arcaniste_creer_un_sort": 5, "arcaniste_fournaise": 2}
+	var fighter := data.create_character_fighter(character, "joueur")
+	assert_true(fighter.get_spell("arcaniste_fournaise") == null, "les sorts créés n'entrent dans la barre que par la Fusion")
+	assert_eq(fighter.state_bonus(), Fighter.ELEMENT_STATE_BONUS + 5, "+1 % par état et par rang de Composition")
+	assert_eq(fighter.created_slots(), Fighter.CREATED_SPELL_SLOTS + 1, "3e place au rang 5 de Fusion")
+	assert_eq(fighter.get_spell("arcaniste_creer_un_sort").pa_cost, 1, "Fusion à 1 PA dès le rang 3")
+	var fournaise: Spell = data.spells["arcaniste_fournaise"]
+	fighter.add_created_spell(fournaise)
+	assert_eq(fighter.get_spell("arcaniste_fournaise").rank, 2, "le sort créé arrive à son rang de maîtrise")
+	assert_eq(character.raise_spell("arcaniste_fournaise", masterable), Protocol.REASON_NOT_ENOUGH_POINTS, "maîtrisable")
+
+
+func test_composition_rend_plus_de_pa_au_premier_lancer() -> void:
+	var data := GameData.load_all()
+	var combat := _fight([["mannequin", C + Vector2i(3, 0)]])
+	var player := _player(combat)
+	for rank_pa in [[3, 7], [5, 8]]:
+		player.spells.append((data.spells["arcaniste_composition"] as Spell).mastered(rank_pa[0]))
+		var compose := func() -> void:
+			combat.execute(Fixtures.cmd(Protocol.CMD_CAST, {"sort": "arcaniste_composition", "cible": C, "etats": "flamme+flamme+flamme"}))
+		player.pa = 6
+		compose.call()
+		assert_eq(player.pa, rank_pa[1], "rang %d : 1 PA dépensé, %d rendus au premier lancer" % [rank_pa[0], rank_pa[1] - 5])
+		compose.call()
+		assert_eq(player.pa, rank_pa[1], "puis 1 seul rendu")
+		player.spells.erase(player.get_spell("arcaniste_composition"))
+		player._casts_this_turn.clear()  # Comme à un nouveau tour.

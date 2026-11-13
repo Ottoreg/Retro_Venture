@@ -319,7 +319,8 @@ def texte_maitrise(s):
         detail = []
         for k, v in ch.items():
             detail.append({"critique": "+%s %% critique", "portee_max": "+%s portée", "cout_pa": "coût %s PA",
-                           "delai": "relance %s t.", "zone_taille": "zone de taille %s"}.get(k, k + " %s") % v
+                           "delai": "relance %s t.", "zone_taille": "zone de taille %s",
+                           "bonus_etats": "+%s %% par état élémentaire", "places_crees": "+%s place de sort créé"}.get(k, k + " %s") % v
                           if k != "effets" else "ajoute " + effets(v))
         morceaux.append("rang %s : %s" % (rang, ", ".join(detail)))
     return "<br>".join(morceaux) or "—"
