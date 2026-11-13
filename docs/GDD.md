@@ -820,7 +820,7 @@ difficulté**, qui compare la menace des monstres à la force du joueur, pour qu
 
 | Action | Réputation de classe | Points de maîtrise | Caractéristiques |
 |---|---|---|---|
-| Sort qui a un **effet réel** : dégâts infligés à un ennemi, soins de PV réellement perdus, bouclier qui absorbe | principale source | oui (une part de la réputation) | la caractéristique de l'élément du sort (Sacré : Force et Intelligence par moitié ; Impie : Agilité et Perception par moitié) |
+| Sort qui a un **effet réel** : dégâts infligés à un ennemi, soins de PV réellement perdus, bouclier qui absorbe | principale source | oui (une part de la réputation) | la caractéristique de l'élément du sort, ou de chacun de ses éléments à égalité (Sacré : Force et Intelligence par moitié ; Impie : Agilité et Perception par moitié) |
 | Sort utilitaire qui touche une cible (déplacement, bonus, malus) | oui, moins | oui | aucune (pas d'élément) |
 | Monstre vaincu | un peu (partagé par le groupe) | oui | aucune |
 | **Coups reçus** (PV réellement perdus) | non | non | **Vitalité** (endurance) |
@@ -948,7 +948,9 @@ Les niveaux de métier sont restés jusqu'au lot 4, `niveau_min` des quêtes n'e
 **Lot 2 fait (29/10/2026, sur `main`)** : gains par action (`core/character/progression.gd`). Le
 combat note la pratique de chaque joueur (`Combat.practice`) : PA d'un sort à effet réel par
 élément (dégâts qui retirent des PV à un ennemi, soin de PV perdus, bouclier posé sur un allié quand
-il absorbe, une fois), PA d'un sort utilitaire qui touche quelqu'un, PV réellement perdus. Un poison
+il absorbe, une fois ; un sort à plusieurs éléments qui a un effet réel partage ses PA à égalité
+entre tous ses éléments de dégâts, soins et poisons, même si la cible meurt à la première instance :
+13/11/2026, demande de l'auteur), PA d'un sort utilitaire qui touche quelqu'un, PV réellement perdus. Un poison
 et une glyphe comptent les PA de leur sort répartis sur leurs tours, à chaque tour qui blesse ; un
 piège, à son déclenchement. À la fin du combat (victoire ou défaite), au facteur de difficulté du
 groupe : **2 de réputation par PA** à effet réel, la moitié pour un sort utilitaire, plus un quart de

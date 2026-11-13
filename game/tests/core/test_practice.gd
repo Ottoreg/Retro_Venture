@@ -110,6 +110,16 @@ func test_le_combat_note_les_sorts_a_effet_reel() -> void:
 	assert_eq(combat.practice[Fixtures.PLAYER]["utile"], 1.0, "un sort utilitaire qui touche")
 
 
+func test_tous_les_elements_d_un_sort_qui_touche_progressent_a_egalite() -> void:
+	for flame_damage in [5, 50]:  # Le mannequin survit, puis meurt dès la première instance.
+		var combat := _hero_fight([["mannequin", C + RIGHT]])
+		combat.get_fighter(Fixtures.PLAYER).spells.append(Spell.from_dict({"id": "duo", "nom": "Duo", "cout_pa": 3,
+			"portee": {"min": 1, "max": 1}, "effets": [{"type": "degats", "element": "flamme", "min": flame_damage, "max": flame_damage},
+			{"type": "degats", "element": "givre", "min": 5, "max": 5}, {"type": "degats", "element": "givre", "min": 5, "max": 5}]}))
+		_cast(combat, "duo", C + RIGHT)
+		assert_eq(combat.practice[Fixtures.PLAYER]["effet"], {"flamme": 1.5, "givre": 1.5}, "dégâts %d" % flame_damage)
+
+
 func test_soin_seulement_sur_des_pv_perdus() -> void:
 	var combat := _hero_fight([["mannequin", C + Vector2i(4, 0)]])
 	_cast(combat, "soin", C)

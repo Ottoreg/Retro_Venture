@@ -603,7 +603,11 @@ func _cast(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 			_place_glyph(fighter, spell, effect, spell.zone_cells(target, origin), events)
 		elif effect["type"] == Spell.EFFECT_TRAP:
 			_place_trap(fighter, spell, effect, target, events)
-	_open_credit(fighter, spell.pa_cost)
+	var elements := {}
+	for effect in spell.effects:
+		if effect["type"] in [Spell.EFFECT_DAMAGE, Spell.EFFECT_HEAL, Spell.EFFECT_POISON, Spell.EFFECT_BOUNCE]:
+			elements[effect["element"]] = true
+	_open_credit(fighter, spell.pa_cost, elements.keys())
 	var targets: Array[Fighter] = []
 	for cell in spell.zone_cells(target, origin) if reached else []:
 		var hit := fighter_at(cell)
@@ -640,20 +644,24 @@ func _bounce(caster: Fighter, chain: Array[Fighter], effect: Dictionary, events:
 
 # --- Pratique (progression des joueurs, GDD § 4.5) ---------------------------------------------
 
-## Commence à noter ce que fait un sort de `caster` (s'il est de l'équipe des joueurs) qui a coûté `pa`.
-func _open_credit(caster: Fighter, pa: float) -> void:
+## Commence à noter ce que fait un sort de `caster` (s'il est de l'équipe des joueurs) qui a coûté `pa` ;
+## `elements` : ceux de ses dégâts, soins et poisons, qui se partagent ses PA s'il a un effet réel.
+func _open_credit(caster: Fighter, pa: float, elements := []) -> void:
 	_credit = {}
 	if caster != null and caster.team == Fighter.TEAM_PLAYERS and pa > 0.0:
-		_credit = {"lanceur": caster, "pa": pa, "element": "", "utile": false}
+		_credit = {"lanceur": caster, "pa": pa, "element": "", "elements": elements, "utile": false}
 
 
-## Inscrit le sort noté dans la pratique de son lanceur : effet réel (par élément) ou utilitaire.
+## Inscrit le sort noté dans la pratique de son lanceur : effet réel (PA partagés à égalité entre les
+## éléments du sort, ou l'élément qui a touché s'il n'en est pas) ou utilitaire.
 func _close_credit() -> void:
 	if _credit.is_empty():
 		return
 	var caster: Fighter = _credit["lanceur"]
 	if not str(_credit["element"]).is_empty():
-		_add_practice(caster.id, "effet", float(_credit["pa"]), _credit["element"])
+		var elements: Array = _credit["elements"] if _credit["element"] in _credit["elements"] else [_credit["element"]]
+		for element: String in elements:
+			_add_practice(caster.id, "effet", float(_credit["pa"]) / elements.size(), element)
 	elif _credit["utile"]:
 		_add_practice(caster.id, "utile", float(_credit["pa"]))
 	_credit = {}
@@ -669,7 +677,7 @@ func _add_practice(fighter_id: String, kind: String, amount: float, element := "
 		entry[kind] = float(entry[kind]) + amount
 
 
-## Note l'effet réel du sort en cours (le premier élément compte) ; `element` vide : seulement utile.
+## Note l'effet réel du sort en cours (le premier élément qui touche) ; `element` vide : seulement utile.
 func _credit_effect(caster: Fighter, element: String) -> void:
 	if _credit.is_empty() or _credit["lanceur"] != caster:
 		return
