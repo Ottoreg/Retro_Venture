@@ -1,11 +1,12 @@
-# Une requête par jour à la base Supabase, pour que le projet gratuit ne soit pas mis en pause
+# Une requête toutes les 6 h à la base Supabase, pour que le projet gratuit ne soit pas mis en pause
 # pour inactivité. Même lecture que le client (vue `serveur_en_ligne`), avec la clé publique de
-# `game/client/net/online_config.gd`. Les tâches planifiées ne tournent que depuis `main`.
+# `game/client/net/online_config.gd`. Les tâches planifiées ne tournent que depuis `main`,
+# et GitHub en saute parfois une (celle du 13/11/2026 n'a pas tourné) : d'où plusieurs essais par jour.
 name: Supabase éveillé
 
 on:
   schedule:
-    - cron: "17 6 * * *"
+    - cron: "17 */6 * * *"
   workflow_dispatch:
 
 jobs:
