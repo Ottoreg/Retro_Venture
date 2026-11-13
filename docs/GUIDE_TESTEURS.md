@@ -357,8 +357,8 @@ le **lit** de votre maison les rend tous d'un coup.
   montre l'objet avant de le forger (lignes, jets possibles, palier) ; choisissez son nom parmi les
   mots proposés, il sort signé de votre pseudo, et ses jets s'affichent à droite. Une **feuille de papier** (vendue par les marchands) dans la 9e case
   vous donne aussi le **patron** de l'objet : ressources, jets et effets ; cliquez-le à l'enclume pour
-  remplir la recette. **Ctrl + clic** pose ou retire toute la quantité d'une ressource. Le bouton
-  **Détails** de la fiche du personnage montre toutes vos caractéristiques, élément par élément
+  remplir la recette. **Ctrl + clic** pose ou retire toute la quantité d'une ressource. La fiche du
+  personnage montre aussi, à droite, toutes vos caractéristiques, élément par élément
   (résistance de l'équipement plafonnée à 60 %). Au début, les caractéristiques des ressources sont
   **cachées** : c'est en forgeant qu'on apprend à les lire. Les **plans** (récompenses de quêtes, ou
   vendus par les marchands) disent tout d'avance. **Panoplies d'objets forgés** : le nom prend jusqu'à

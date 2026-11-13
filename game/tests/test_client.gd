@@ -1973,8 +1973,7 @@ func test_caracteristiques_detaillees() -> void:
 	view.refresh_state()
 	var sheet: CharacterSheet = scene.get_node("CharacterSheet")
 	sheet.toggle()
-	sheet._details.visible = true
-	sheet.refresh()
+	assert_true(sheet._details.is_visible_in_tree(), "détail toujours affiché")
 	assert_eq(sheet._elements.get_child_count(), 4 * (1 + Spell.ELEMENTS.size()), "une ligne par élément")
 	var givre: int = (1 + Spell.ELEMENTS.find("givre")) * 4
 	assert_eq((sheet._elements.get_child(givre + 3) as Label).text, "8 %", "résistance Givre de l'équipement")

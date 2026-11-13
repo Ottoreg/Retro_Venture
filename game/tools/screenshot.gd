@@ -267,7 +267,6 @@ func _process(_delta: float) -> bool:
 			view.refresh_state()
 			var sheet: CharacterSheet = _scene.get_node("CharacterSheet")
 			sheet.toggle()
-			sheet._details.visible = _action == "fiche_details"
 			sheet.refresh()
 		elif _action == "joueurs":
 			# Multijoueur (M1) : deux autres joueurs sur la carte, dont un assis.

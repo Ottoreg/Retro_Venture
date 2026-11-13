@@ -2,8 +2,8 @@ class_name CharacterSheet
 extends CanvasLayer
 ## Fiche du personnage (touche C) : réputation de la classe active (palier, points de maîtrise), PV,
 ## caractéristiques (points gagnés par la pratique et leur plafond, GDD § 4.5) et choix de la classe
-## active. Survoler une valeur montre sa provenance (points gagnés, race, équipement, panoplie). Le bouton
-## « Détails » ouvre à côté les caractéristiques détaillées (façon Dofus Rétro) : valeurs de combat, et par
+## active. Survoler une valeur montre sa provenance (points gagnés, race, équipement, panoplie). À côté, toujours
+## affichées (demande de l'auteur), les caractéristiques détaillées (façon Dofus Rétro) : valeurs de combat, et par
 ## élément la puissance (% de dégâts), les dommages et la résistance.
 
 const GOLD := Color(0.95, 0.76, 0.3)
@@ -97,8 +97,6 @@ func refresh() -> void:
 
 ## Caractéristiques détaillées, lues sur le combattant que deviendrait le personnage (équipement compris).
 func _refresh_details(world: Variant) -> void:
-	if not _details.visible:
-		return
 	var fighter: Fighter = world.data.create_character_fighter(world.character, "fiche")
 	for grid in [_general, _elements]:
 		for child in grid.get_children():
@@ -180,12 +178,6 @@ func _build() -> void:
 	var frame := UiTheme.window_frame(self, "", toggle, false)
 	_panel = frame.panel
 	_title = frame.title
-	var details_button: Button = UiTheme.header_add(frame, Button.new())
-	details_button.text = "Détails"
-	details_button.focus_mode = Control.FOCUS_NONE
-	details_button.pressed.connect(func() -> void:
-		_details.visible = not _details.visible
-		refresh())
 	var row := HBoxContainer.new()
 	row.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	row.add_theme_constant_override("separation", 14)
@@ -264,7 +256,6 @@ func _build() -> void:
 	# Caractéristiques détaillées, à droite de la fiche.
 	_details = PanelContainer.new()
 	_details.custom_minimum_size = Vector2(500, 0)
-	_details.visible = false
 	row.add_child(_details)
 	var details_box := VBoxContainer.new()
 	details_box.add_theme_constant_override("separation", 8)

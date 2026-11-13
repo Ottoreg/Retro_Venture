@@ -2252,7 +2252,7 @@ compris) et les recettes du forgeron sont supprimés, tout le reste se forge.
   **« Patron de <nom> »**, qui note les ressources, les jets obtenus (et leurs plages) et les effets
   (attaque d'une arme). Cliquer un patron à l'enclume remplit la recette (le nom reste à choisir).
   **Ctrl + clic** : toute la quantité d'une ressource dans la recette, ou toute celle d'une case retirée.
-- **Caractéristiques détaillées** (bouton « Détails » de la fiche du personnage, façon Dofus Rétro) : PV,
+- **Caractéristiques détaillées** (à droite de la fiche du personnage, toujours affichées depuis le 13/11/2026, façon Dofus Rétro) : PV,
   PA, PM, Initiative, Prospection, Portée, Critique, Dommages, et par élément la puissance (% de dégâts),
   les dommages et la résistance.
 - **Plans** (objets de type « recette », gardés dans le sac) : type, ressources et nom d'avance, tout
