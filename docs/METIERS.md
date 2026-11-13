@@ -40,7 +40,7 @@ interpolé entre les points 0,4 → 0,1, 1 → 0,5, 2 → 1, 3 → 1,5 (rapport 
 
 `Profession.reputation_gain` : base × 2 × facteur de difficulté (palier contre niveau équivalent)
 × (100 + bonus de race) / 100, base = le champ `xp` du nœud pour une récolte. Forge : **2 par palier de
-chaque ressource utilisée, au moins 25 × palier de l'objet**, × 1 / 1,5 / 0,5 (objet sous le palier de forgeron, au palier,
+chaque ressource utilisée, au moins 25 × palier de l'objet**, × 0,5 / 0,75 / 0,25 (objet sous le palier de forgeron, au palier,
 au-dessus). Passif humain : +10 % (« reputation_metier »). Récolte, pour une base de 10 :
 
 | Palier \ niveau équivalent | 1 | 3 | 5 | 10 | 15 | 20 |

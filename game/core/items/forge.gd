@@ -24,10 +24,10 @@ const MAX_LINES := 8
 const ROLL_LOW := 0.75
 ## Réputation de forgeron (GDD § 10.4, `Profession.reputation_gain`) : 2 par palier de chaque ressource utilisée, au moins 25
 ## par palier de l'objet, × le multiplicateur du palier de l'objet contre le palier de forge : en dessous, égal, au-dessus
-## (caractéristiques cachées). Forger à son palier rapporte le plus.
+## (caractéristiques cachées). Forger à son palier rapporte le plus. Multiplicateurs divisés par 2 pour les tests (13/11/2026).
 const REPUTATION_PER_TIER := 25
 const REPUTATION_PER_RESOURCE_TIER := 2
-const REPUTATION_FACTORS := [1.0, 1.5, 0.5]
+const REPUTATION_FACTORS := [0.5, 0.75, 0.25]
 ## Caractéristiques à 1 par ressource quel que soit le palier, et à 1 au plus par objet : points de score de ce
 ## point (indisponible tant que le plafond d'une ligne est plus bas).
 const FIXED_STATS := {"pa": 100, "pm": 80, "portee": 60}

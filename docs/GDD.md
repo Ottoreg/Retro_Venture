@@ -2242,10 +2242,10 @@ compris) et les recettes du forgeron sont supprimés, tout le reste se forge.
   **cachées** ; ensuite elles se lisent jusqu'au palier égal au niveau équivalent de la réputation de
   forgeron (`Progression.equivalent_level`, 1 280 de réputation pour le palier 8). La compétence
   **Précision** relève le plancher des jets (§ 10.2). **Réputation de forgeron** (13/11/2026, demande de l'auteur) :
-  2 par palier de chaque ressource utilisée, au moins 25 × palier de l'objet, × 1 sous son palier de forgeron, × 1,5 à
-  son palier et × 0,5 au-dessus (caractéristiques cachées) : forger ce qu'on maîtrise rapporte le plus
-  (`Forge.reputation_factor`, aperçu `reputation`). Une amulette de 60 ressources de palier 1 rapporte 180 à un forgeron
-  de palier 1 (198 pour un Humain).
+  2 par palier de chaque ressource utilisée, au moins 25 × palier de l'objet, × 0,5 sous son palier de forgeron, × 0,75 à
+  son palier et × 0,25 au-dessus (caractéristiques cachées ; gain divisé par 2 pour les tests, à équilibrer ensuite) : forger ce qu'on maîtrise rapporte le plus
+  (`Forge.reputation_factor`, aperçu `reputation`). Une amulette de 60 ressources de palier 1 rapporte 90 à un forgeron
+  de palier 1 (99 pour un Humain).
 - **Fenêtre de l'enclume** (03/11/2026, demande de l'auteur) : à gauche le sac en icônes (ressources de
   forge et plans) ; un clic gauche ou un glisser pose une ressource dans les **8 cases de la recette**,
   en bas au centre (la molette ne fait rien) ; au centre le type, l'aperçu et le nom ; à droite
