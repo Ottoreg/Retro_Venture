@@ -1943,27 +1943,23 @@ func _equip(p: PlayerState, command: Dictionary) -> Array[Dictionary]:
 	if not Item.is_equipment(template):
 		return _refused(command, Protocol.REASON_NOT_EQUIPPABLE)
 	var slots: Array = Item.SLOTS_BY_TYPE[template["type"]]
-	var slot: String = wanted_slot
-	if slot.is_empty():
-		# Un exemplaire identique déjà porté est remplacé ; sinon le premier emplacement libre.
-		slot = slots[0]
-		for candidate: String in slots:
-			if not inventory.equipped.has(candidate):
-				slot = candidate
-				break
+	# Deux exemplaires d'un objet de panoplie (deux anneaux de panoplie…) ne se portent pas ensemble :
+	# le double-clic remplace celui qui est porté. Les autres (anneaux forgés, même identiques) se cumulent.
+	var twin := ""
+	if data.item_sets.has(template["id"]):
 		for candidate: String in slots:
 			var worn := inventory.equipped_entry(candidate)
 			if not worn.is_empty() and worn["uid"] != uid and worn["objet"] == template["id"]:
-				slot = candidate
-				break
+				twin = candidate
+	var slot: String = wanted_slot
+	if slot.is_empty():
+		var free := slots.filter(func(candidate: String) -> bool: return not inventory.equipped.has(candidate))
+		slot = twin if twin else (free[0] if free else slots[0])
 	if slot not in slots:
 		return _refused(command, Protocol.REASON_NOT_EQUIPPABLE)
 	# Aucune condition pour équiper un objet (GDD § 4.5) : ni niveau, ni caractéristique.
-	# Deux exemplaires du même objet (deux anneaux identiques…) ne se portent pas ensemble.
-	for other_slot: String in slots:
-		var other := inventory.equipped_entry(other_slot)
-		if other_slot != slot and not other.is_empty() and other["uid"] != uid and other["objet"] == template["id"]:
-			return _refused(command, Protocol.REASON_ALREADY_WORN)
+	if twin and twin != slot:
+		return _refused(command, Protocol.REASON_ALREADY_WORN)
 	inventory.equip(uid, slot)
 	return _inventory_events(p)
 

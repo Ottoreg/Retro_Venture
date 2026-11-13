@@ -125,22 +125,26 @@ func test_aucune_condition_d_equipement() -> void:
 	assert_eq(_command(world, Protocol.CMD_EQUIP, {"objet": "o999"})[0]["raison"], Protocol.REASON_UNKNOWN_ITEM)
 
 
-func test_deux_anneaux_identiques_interdits() -> void:
+func test_deux_anneaux_identiques_hors_panoplie() -> void:
+	# Deux anneaux d'un même modèle (anneaux forgés : `forge_anneau`) se portent ensemble, sur les deux emplacements.
 	var world := _world()
-	var data := world.data
-	var first := world.character.inventory.add(data.items["bague"], 1, {"force": 5})
-	var second := world.character.inventory.add(data.items["bague"], 1, {"force": 5})
+	var inventory := world.character.inventory
+	var first := inventory.add(world.data.items["bague"], 1, {"force": 3})
+	var second := inventory.add(world.data.items["bague"], 1, {"force": 5})
+	_command(world, Protocol.CMD_EQUIP, {"objet": first})
+	assert_eq(_command(world, Protocol.CMD_EQUIP, {"objet": second})[0]["type"], Protocol.EVT_INVENTORY)
+	assert_eq([inventory.slot_of(first), inventory.slot_of(second)], ["anneau_1", "anneau_2"], "le second prend l'emplacement libre")
+
+
+func test_deux_anneaux_de_panoplie_identiques_interdits() -> void:
+	var world := _world()
+	world.data.item_sets["bague"] = "panoplie_test"
+	var inventory := world.character.inventory
+	var first := inventory.add(world.data.items["bague"], 1, {"force": 3})
+	var second := inventory.add(world.data.items["bague"], 1, {"force": 5})
 	_command(world, Protocol.CMD_EQUIP, {"objet": first})
 	assert_eq(_command(world, Protocol.CMD_EQUIP, {"objet": second, "emplacement": "anneau_2"})[0]["raison"], Protocol.REASON_ALREADY_WORN)
-
-
-func test_double_clic_remplace_l_exemplaire_identique_porte() -> void:
-	var world := _world()
-	var data := world.data
-	var inventory := world.character.inventory
-	var first := inventory.add(data.items["bague"], 1, {"force": 3})
-	var second := inventory.add(data.items["bague"], 1, {"force": 5})
-	_command(world, Protocol.CMD_EQUIP, {"objet": first})
+	# Le double-clic remplace l'exemplaire porté.
 	var slot := inventory.slot_of(first)
 	assert_eq(_command(world, Protocol.CMD_EQUIP, {"objet": second})[0]["type"], Protocol.EVT_INVENTORY)
 	assert_eq(inventory.slot_of(second), slot, "le nouvel exemplaire prend la place de l'ancien")
