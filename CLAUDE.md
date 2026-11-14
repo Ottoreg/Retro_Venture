@@ -169,7 +169,7 @@ faits** (protocole v6) ; reste l'essai à plusieurs chez l'auteur.
 ou rien et sauvegarde des deux personnages en une écriture (`CharacterStore.save_characters`,
 personnages liés tant qu'elle n'a pas réussi, sauvegardes une à une) ; protocole v7. Hôtel des
 ventes et journal des transactions plus tard. La CI publie aussi, à chaque push sur `main`, le client natif
-(release « client-natif ») et l'image du serveur de staging (`ghcr.io/ottoreg/retro-venture-serveur:staging`).
+(release « client-natif » ; le menu principal signale une nouvelle version, `Session.BUILD_COMMIT`) et l'image du serveur de staging (`ghcr.io/ottoreg/retro-venture-serveur:staging`).
 
 **Forge personnalisée (02/11/2026, GDD § 10.4)** : équipement prédéfini réduit aux panoplies (91 objets
 et les recettes du forgeron supprimés) ; enclume `&` dans les maisons, `Forge` (`core/items/forge.gd`),

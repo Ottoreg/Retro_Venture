@@ -830,6 +830,8 @@ Plan validé par l'auteur le 26/10/2026 : GDD § 16.5, jalons M0 (préparer le n
   mot de passe (jeton de renouvellement Supabase) — 26/10/2026
 - [x] M1 : préréglages d'export Windows et Linux et archives sur GitHub Releases depuis la CI
   (release « client-natif », à chaque push sur main) — 26/10/2026
+- [x] Client natif : bouton « Nouvelle version disponible » dans le menu principal quand la release
+  « client-natif » porte un autre commit (`Session.BUILD_COMMIT`, écrit par la CI) — 14/11/2026
 
 - [x] Choisir la pile serveur et le transport (Godot sans affichage et WebSocket, GDD § 16.5)
 - [x] Définir le protocole (messages JSON, cases en `[x, y]`, numéro de version : M0 ; poignée de

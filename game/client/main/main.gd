@@ -46,6 +46,8 @@ func _ready() -> void:
 	feedback.pressed.connect(func() -> void: OS.shell_open(Session.FEEDBACK_URL))
 	box.add_child(feedback)
 	box.move_child(feedback, online.get_index() + 1)
+	if not web and Session.BUILD_COMMIT != "":
+		_check_update(box)
 	var version: String = ProjectSettings.get_setting("application/config/version", "?")
 	%Version.text = "Version %s — Alpha test 1" % version
 	%NewGame.pressed.connect(_on_new_game_pressed)
@@ -57,6 +59,28 @@ func _ready() -> void:
 		%NewGame.grab_focus()
 	else:
 		%Continue.grab_focus()
+
+
+## Client natif : demande à GitHub le commit de la dernière release ; s'il diffère du sien, ajoute
+## un bouton « Nouvelle version disponible » qui ouvre la page de téléchargement.
+func _check_update(box: VBoxContainer) -> void:
+	var http := HTTPRequest.new()
+	add_child(http)
+	http.request_completed.connect(func(result: int, code: int, _headers: PackedStringArray, body: PackedByteArray) -> void:
+		http.queue_free()
+		var data: Variant = JSON.parse_string(body.get_string_from_utf8()) if result == HTTPRequest.RESULT_SUCCESS and code == 200 else null
+		var latest: String = data.get("object", {}).get("sha", "") if data is Dictionary else ""
+		if latest.is_empty() or latest == Session.BUILD_COMMIT:
+			return
+		var update := _menu_button("Nouvelle version disponible", 240)
+		update.name = "Update"
+		update.tooltip_text = "Ouvre la page de téléchargement : dézipper et remplacer l'ancien dossier (les sauvegardes sont gardées)."
+		update.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+		update.add_theme_color_override("font_color", Color.GOLD)
+		update.pressed.connect(func() -> void: OS.shell_open(Session.RELEASE_URL))
+		box.add_child(update)
+		box.move_child(update, 0))
+	http.request(Session.RELEASE_TAG_API)
 
 
 func _menu_button(text: String, width: int) -> Button:

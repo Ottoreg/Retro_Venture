@@ -31,5 +31,10 @@ static var online_login: Dictionary = {}
 ## Vrai quand la connexion vient d'être coupée : l'écran de connexion la rouvre tout seul.
 static var online_resume := false
 
+## Commit du client natif, écrit par la CI à l'export (vide ailleurs : pas de vérification de mise à jour).
+const BUILD_COMMIT := ""
+## Release « client-natif » (page de téléchargement) et son étiquette, qui pointe sur le dernier commit publié.
+const RELEASE_URL := "https://github.com/Ottoreg/Retro_Venture/releases/tag/client-natif"
+const RELEASE_TAG_API := "https://api.github.com/repos/Ottoreg/Retro_Venture/git/ref/tags/client-natif"
 ## Questionnaire des testeurs (menu principal et menu pause : « Donner son avis »).
 const FEEDBACK_URL := "https://docs.google.com/forms/d/e/1FAIpQLSdwoJr5-OnRuVcVNbvRGnjtO4MqxJTUe7SIIbgfeKJlRuYcxQ/viewform"

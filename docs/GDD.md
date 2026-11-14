@@ -3761,7 +3761,9 @@ travail côté client : remplacer les lectures directes de `world` par la copie 
 - **Outils et tests** : `tools/bot.gd` (un joueur automatique qui se promène, pour essayer seul) ;
   tests du serveur sans réseau, de bout en bout sur de vrais WebSocket, et du client asynchrone.
 - **Client natif et staging** : la CI publie à chaque push sur `main` le client Windows et Linux
-  (release « client-natif », archives zip, préréglages d'export « Linux » et « Windows ») et
+  (release « client-natif », archives zip, préréglages d'export « Linux » et « Windows » ; commit gravé dans
+  `Session.BUILD_COMMIT`, comparé par le menu principal à l'étiquette de la release : bouton « Nouvelle version
+  disponible » vers la page de téléchargement, 14/11/2026) et
   l'image Docker du serveur (`ghcr.io/ottoreg/retro-venture-serveur:staging`, essayée par la CI
   avant d'être publiée) ; `docker compose up -d` reprend la dernière image. Le staging suit donc
   toujours `main`, comme le jeu web : client et serveur parlent le même protocole.
