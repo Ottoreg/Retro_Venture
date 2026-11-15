@@ -2178,19 +2178,21 @@ tableau plus haut), **fioles** (achetées aux marchands : un des puits à brumes
 #### Éleveur de montures (nouveau)
 
 On **apprivoise des monstres du jeu** qui peuvent porter un cavalier, et on les élève. Ils vont dans
-l'emplacement **Familier / monture** (§ 9.1).
+l'emplacement **Familier / monture** (§ 9.1). Texte mis à jour le 15/11/2026 pour la refonte sans niveaux
+(§ 4.5) : paliers de réputation de l'éleveur (Inconnu à Légende, table commune), paliers 1 à 5 des
+monstres, plus de Sagesse.
 
 **Espèces** (pas tous les monstres : seulement ceux qui peuvent porter, demande de l'auteur) :
 
-| Monstre (famille) | Zone | Niveau d'éleveur | Bonus de la monture (piste) |
+| Monstre (famille) | Zone | Palier d'éleveur | Bonus de la monture (piste) |
 |---|---|---|---|
-| Loup des collines | Brumerive | 1 | Agilité, Force |
-| Cerf enchanté | Sylvebrume | 1 | Perception, Sagesse |
-| Grouilleur (mille-pattes) | Crasse-Roc | 1 | Vitalité, Intelligence (« on n'arrête pas de lui acheter des bottes ») |
-| Loup cendreux | Brumerive, Hautepierre | 20 | Agilité, résistance Flamme |
-| Grand cerf de la Lisière | Sylvebrume (élite) | 30 | Perception, PM hors combat |
-| Olifant de guerre | Hautepierre | 60 | Vitalité, Force (énorme, lent à monter) |
-| Gargouille | Hautepierre | 80 | Intelligence, Initiative (piste : vol décoratif) |
+| Loup des collines | Brumerive | Inconnu | Agilité, Force |
+| Cerf enchanté | Sylvebrume | Inconnu | Perception (2e bonus à choisir, la Sagesse est supprimée) |
+| Grouilleur (mille-pattes) | Crasse-Roc | Inconnu | Vitalité, Intelligence (« on n'arrête pas de lui acheter des bottes ») |
+| Loup cendreux | Brumerive, Hautepierre | Apprenti | Agilité, résistance Flamme |
+| Grand cerf de la Lisière | Sylvebrume (élite) | Compagnon | Perception, PM hors combat |
+| Olifant de guerre | Hautepierre | Vétéran | Vitalité, Force (énorme, lent à monter) |
+| Gargouille | Hautepierre | Maître | Intelligence, Initiative (piste : vol décoratif) |
 
 **Ampas** (demande de l'auteur, 15/11/2026) : créatures **bipèdes ailées** (allure d'autruche),
 aux **plumes colorées** et à la **tête proche de celle d'un aigle**. Elles vivent dans les **Grandes
@@ -2218,15 +2220,16 @@ une monture de départ, dans sa zone.
 - **Apprivoisement** : il faut un **licol** (Costumier, ou l'atelier de l'éleveur) dans
   l'inventaire. En combat contre un monstre de l'espèce, quand il est le **dernier ennemi** et sous
   **25 % de ses PV**, le sort *Apprivoiser* (3 PA, au contact) le capture avec une chance qui monte
-  avec le niveau d'éleveur et baisse avec le niveau du monstre ; en cas de succès, le monstre quitte
+  avec le palier de réputation d'éleveur (et sa maîtrise d'apprivoisement) et baisse avec le palier du
+  monstre ; en cas de succès, le monstre quitte
   le combat (victoire, sans butin de ce monstre) et devient une **monture sauvage** envoyée à
   l'enclos. Les élites et mini-boss ne s'apprivoisent pas (sauf le grand cerf, plus haut).
 - **Enclos** : une **instance de métier** de plus (même modèle que le champ), avec des **objets
   d'élevage** fabriqués par les métiers : mangeoire (céréales ou poissons selon l'espèce), abreuvoir,
   brosse, et un épouvantail « motivant » qui fait progresser la docilité. Une monture sauvage doit
   être **dressée** à l'enclos (temps réel, comme les plantes) avant d'être montée.
-- **Monture** : elle a un **niveau** (1 à 100, XP prise sur une part de l'XP de combat du cavalier,
-  au choix de 0 à 50 %) qui fait monter ses bonus, et de l'**énergie** qui baisse à chaque combat et
+- **Monture** : pas de niveau ; elle a sa **réputation** (paliers Inconnu à Légende, prise sur une part
+  de la réputation de combat du cavalier, au choix de 0 à 50 %) qui fait monter ses bonus, et de l'**énergie** qui baisse à chaque combat et
   se recharge à la mangeoire : à 0, elle ne donne plus de bonus (elle boude). Hors combat, monté, on
   se déplace plus vite (course × 1,8 au lieu de × 1,4) ; en combat, le cavalier reste un seul
   combattant (la monture ne joue pas).
@@ -2234,10 +2237,10 @@ une monture de départ, dans sa zone.
   `.svgt`, sans dessin de plus) ; certaines robes sont rares.
 - **Reproduction** : deux montures adultes de la même espèce (mâle et femelle) à l'enclos donnent
   un petit, qui hérite de la robe et d'une partie des bonus de ses parents ; nombre de portées
-  limité par monture. C'est la principale source d'XP du métier avec l'apprivoisement et le dressage.
+  limité par monture. C'est la principale source de réputation du métier avec l'apprivoisement et le dressage.
 - **Fumier** : les montures à l'enclos en produisent ; c'est l'**engrais** des instances de métier (lien avec
   les métiers de récolte, et ressort parodique assumé).
-- **Chef-d'œuvre de l'éleveur** (niveau 100) : une **lignée de maître** : pour un petit à naître,
+- **Chef-d'œuvre de l'éleveur** (compétence débloquée au palier Maître, comme les autres chefs-d'œuvre, § 10.4) : une **lignée de maître** : pour un petit à naître,
   l'éleveur choisit ses bonus dans un budget de score (barème de § 10.4), au lieu du tirage ; le
   petit porte le nom de l'élevage (« de l'élevage de [pseudo] »).
 
