@@ -2182,17 +2182,15 @@ l'emplacement **Familier / monture** (§ 9.1). Texte mis à jour le 15/11/2026 p
 (§ 4.5) : paliers de réputation de l'éleveur (Inconnu à Légende, table commune), paliers 1 à 5 des
 monstres, plus de Sagesse.
 
-**Espèces** (pas tous les monstres : seulement ceux qui peuvent porter, demande de l'auteur) :
+**Espèces** (pas tous les monstres : seulement ceux qui peuvent porter, demande de l'auteur ; liste
+réduite le 15/11/2026 à quatre monstres, chacun lié à **un élément unique**, élément à choisir) :
 
-| Monstre (famille) | Zone | Palier d'éleveur | Bonus de la monture (piste) |
+| Monstre (famille) | Zone | Palier d'éleveur | Élément de la monture |
 |---|---|---|---|
-| Loup des collines | Brumerive | Inconnu | Agilité, Force |
-| Cerf enchanté | Sylvebrume | Inconnu | Perception (2e bonus à choisir, la Sagesse est supprimée) |
-| Grouilleur (mille-pattes) | Crasse-Roc | Inconnu | Vitalité, Intelligence (« on n'arrête pas de lui acheter des bottes ») |
-| Loup cendreux | Brumerive, Hautepierre | Apprenti | Agilité, résistance Flamme |
-| Grand cerf de la Lisière | Sylvebrume (élite) | Compagnon | Perception, PM hors combat |
-| Olifant de guerre | Hautepierre | Vétéran | Vitalité, Force (énorme, lent à monter) |
-| Gargouille | Hautepierre | Maître | Intelligence, Initiative (piste : vol décoratif) |
+| Loup des collines | Brumerive | Inconnu | à choisir |
+| Cerf enchanté | Sylvebrume | Inconnu | à choisir |
+| Grouilleur (mille-pattes) | Crasse-Roc | Inconnu | à choisir (« on n'arrête pas de lui acheter des bottes ») |
+| Olifant de guerre | Hautepierre | Vétéran | à choisir (énorme, lent à monter) |
 
 **Ampas** (demande de l'auteur, 15/11/2026) : créatures **bipèdes ailées** (allure d'autruche),
 aux **plumes colorées** et à la **tête proche de celle d'un aigle**. Elles vivent dans les **Grandes
@@ -2223,7 +2221,7 @@ une monture de départ, dans sa zone.
   avec le palier de réputation d'éleveur (et sa maîtrise d'apprivoisement) et baisse avec le palier du
   monstre ; en cas de succès, le monstre quitte
   le combat (victoire, sans butin de ce monstre) et devient une **monture sauvage** envoyée à
-  l'enclos. Les élites et mini-boss ne s'apprivoisent pas (sauf le grand cerf, plus haut).
+  l'enclos. Les élites et mini-boss ne s'apprivoisent pas.
 - **Enclos** : une **instance de métier** de plus (même modèle que le champ), avec des **objets
   d'élevage** fabriqués par les métiers : mangeoire (céréales ou poissons selon l'espèce), abreuvoir,
   brosse, et un épouvantail « motivant » qui fait progresser la docilité. Une monture sauvage doit
