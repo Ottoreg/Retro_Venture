@@ -186,6 +186,7 @@ l'histoire.
 | Lisière de Sylvebrume | Avant-poste elfe en bordure de forêt, départ du camp neutre | 1–12 | Alpha |
 | Zones de départ de Phase 3 *(à nommer)* | Une par race : Nains et Géants (allié), Orcs et Squelettes (ennemi), Semi-hommes et Lutins (neutre) | 1–12 | Long terme |
 | Hautepierre et ses environs | Cité humaine fortifiée ; terrain d'affrontement (acte II) puis de l'alliance (acte III) | 12–30 | Alpha |
+| Grandes Plaines *(demande de l'auteur, 15/11/2026)* | Zone commune à toutes les races, comme Hautepierre : steppes où vivent les ampas, montures du jeu (§ 10.3, Éleveur) | à définir | À venir |
 | Sylvebrume (cœur de la forêt) | Forêt elfique ancienne et brumeuse | 25–40 | Long terme |
 | Forges de Durhal | Montagnes et cités naines souterraines | 25–45 | Long terme |
 | Montagnes des Géants *(à nommer)* | Cimes, forteresses taillées à la mesure des Géants | 30–50 | Long terme |
@@ -2170,6 +2171,25 @@ l'emplacement **Familier / monture** (§ 9.1).
 | Grand cerf de la Lisière | Sylvebrume (élite) | 30 | Perception, PM hors combat |
 | Olifant de guerre | Hautepierre | 60 | Vitalité, Force (énorme, lent à monter) |
 | Gargouille | Hautepierre | 80 | Intelligence, Initiative (piste : vol décoratif) |
+
+**Ampas** (demande de l'auteur, 15/11/2026) : créatures **bipèdes ailées** (allure d'autruche),
+aux **plumes colorées** et à la **tête proche de celle d'un aigle**. Elles vivent dans les **Grandes
+Plaines**, zone commune à toutes les races comme Hautepierre (§ 3.5). **8 ampas** servent de monture,
+chacune aux plumes de la couleur de son nom ; la couleur fixe le bonus donné au cavalier :
+
+| Ampa | Plumes | Bonus au cavalier |
+|---|---|---|
+| Brun | brunes | Flamme + Tempête |
+| Ocre | ocre | Flamme + Force |
+| Roux | rousses | Flamme + Givre |
+| Cramoisi | cramoisies | Force + Givre |
+| Stratos | bleues | Force + Tempête |
+| Empire | vertes | Tempête + Givre |
+| Onyx | noires | PM (bonus spécial) |
+| Cristal | cristallines | PA (bonus spécial) |
+
+Valeurs des bonus, palier d'éleveur requis, apprivoisement (monstre des Grandes Plaines ou
+reproduction entre couleurs) et rareté d'Onyx et Cristal : **à définir**.
 
 Exclus : les créatures qui parlent ou se croient des personnes (trolls, gobelins, épouvantails,
 arbres vivants, morilles), et celles trop petites (rats, vampipistrelles, corbacs). Chaque camp a
