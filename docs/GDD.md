@@ -272,6 +272,12 @@ Une race apporte un passif racial et un sort racial (plus de bonus de caractéri
 29/10/2026, plus bas). Elle ne bloque aucune classe. L'impact doit rester modéré (environ 5 à 10 % de puissance) pour ne pas imposer de
 combinaisons « optimales ».
 
+**Trois passifs par race** (règle de l'auteur du 15/11/2026, pour toutes les races) : le 1er est
+débloqué dès la création, le 2e quand une première classe du personnage atteint le palier Compagnon
+(2/5), le 3e quand une première classe atteint le palier Maître (4/5). **Un seul passif actif à la
+fois**, choisi par le joueur. Le passif du tableau ci-dessous est le 1er ; les 2e et 3e sont à
+concevoir (propositions en attente de validation).
+
 **Les 9 races du jeu** (validées) : trois par camp (voir § 3.4). Une par camp dès l'alpha, les six
 autres (Nains, Orcs, Semi-hommes, Géants, Squelettes, Lutins) en Phase 3.
 
