@@ -2183,14 +2183,14 @@ l'emplacement **Familier / monture** (§ 9.1). Texte mis à jour le 15/11/2026 p
 monstres, plus de Sagesse.
 
 **Espèces** (pas tous les monstres : seulement ceux qui peuvent porter, demande de l'auteur ; liste
-réduite le 15/11/2026 à quatre monstres, chacun lié à **un élément unique**, élément à choisir) :
+réduite le 15/11/2026 à quatre monstres, chacun lié à **un élément unique**, celui qui domine dans sa zone, validé le 15/11/2026) :
 
 | Monstre (famille) | Zone | Palier d'éleveur | Élément de la monture |
 |---|---|---|---|
-| Loup des collines | Brumerive | Inconnu | à choisir |
-| Cerf enchanté | Sylvebrume | Inconnu | à choisir |
-| Grouilleur (mille-pattes) | Crasse-Roc | Inconnu | à choisir (« on n'arrête pas de lui acheter des bottes ») |
-| Olifant de guerre | Hautepierre | Vétéran | à choisir (énorme, lent à monter) |
+| Loup des collines | Brumerive | Inconnu | Tempête |
+| Cerf enchanté | Sylvebrume | Inconnu | Givre |
+| Grouilleur (mille-pattes) | Crasse-Roc | Inconnu | Flamme (« on n'arrête pas de lui acheter des bottes ») |
+| Olifant de guerre | Hautepierre | Vétéran | Acier (Hautepierre est mélangée ; énorme, lent à monter) |
 
 **Ampas** (demande de l'auteur, 15/11/2026) : créatures **bipèdes ailées** (allure d'autruche),
 aux **plumes colorées** et à la **tête proche de celle d'un aigle**. Elles vivent dans les **Grandes
