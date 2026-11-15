@@ -264,6 +264,9 @@ Dernière session (retours de la passe de l'auteur) :
   spectraux et dévastateurs fixes et % (`_part`), dommages de mêlée % (au contact) ; portés par l'équipement
   et les `caracteristiques` des monstres, lignes de forge (`Forge.STAT_WEIGHTS`) ; protocole v14. Valeurs du tacle,
   de la fuite et des retraits provisoires ; aucun monstre ni aucune ressource ne les porte encore.
+- **Gabarit des classes** (15/11/2026, GDD § 4.3) : 2 Voies de 10 sorts jouables ensemble (Arcaniste : 12 + 8 utilitaires),
+  passif de classe à 5 rangs à Apprenti, 2es Voies Guerrier Impie, Théologue Flamme, Rôdeur Flamme ; rythme de 30 points
+  par palier décidé, pas encore codé ; fiches par classe dans `docs/design/classes/`.
 - Idées notées sans les faire : pistes des classes à venir et suite de la refonte de l'Arcaniste
   (GDD § 4.3) ; autres idées d'identité des classes (TODO, « Identité des classes ») ; Cape en peau d'ananas (forte résistance Flamme ; demande des
   bonus de résistance sur l'équipement, GDD § 9.2) ; PNJ qui appellent le joueur par son pseudo

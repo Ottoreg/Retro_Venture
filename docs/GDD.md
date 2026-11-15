@@ -437,18 +437,46 @@ rang 5, valeur provisoire) ; au **rang 3**, le premier lancer du tour rend **2 P
 **rang 5**, **3 PA** (les lancers suivants en rendent toujours 1). *Fusion arcanique* : **1 PA** au
 rang 3, **3e place** de sort créé au rang 5.
 
+**Gabarit commun des classes** (validé par l'auteur le 15/11/2026, fil « Concevoir les classes du jeu » ;
+fiches de travail par classe dans `docs/design/classes/`) :
+
+- **20 sorts de base par classe**, sans compter le passif : **deux Voies de 10 sorts**, jouables **en même
+  temps** (tous les sorts des deux Voies dans la barre, la spécialisation vient des points de maîtrise et
+  des caractéristiques). **Arcaniste** à part : une seule Voie multi-élément, ses 12 sorts (Composition,
+  Fusion arcanique, 10 sorts créés) + **8 sorts utilitaires** (2 mobilité, 2 contrôle, 2 défense,
+  1 soutien, 1 lié aux états). Une 3e Voie Lumière ou Ténèbres, si elle est validée : 10 sorts de plus.
+- **Composition d'une Voie** : 1 sort signature (la mécanique de la Voie), 4 sorts de dégâts (un de base
+  pas cher, un à distance ou en zone, un gros coup cher, un qui se combine avec la signature), 2 de
+  contrôle (placement ou entrave), 1 de mobilité, 1 de défense ou de soin (modestes hors Théologue),
+  1 de soutien utile en solo. Écart possible de 1 ou 2 sorts si la mécanique le demande.
+- **Rangs** : 5 rangs, 15 points par sort (§ 4.5) ; sorts à valeurs +10 % par rang et un effet propre aux
+  rangs 3 et 5, à écrire pour **tous** les sorts ; sorts utilitaires : leur chiffre principal (durée,
+  cases, PM, bonus) monte à chaque rang, sinon un effet propre aux rangs 1, 3 et 5.
+- **Passif de classe** : un seul par classe (hors des 20 sorts), qui sert les deux Voies, débloqué au
+  palier **Apprenti**, **5 rangs** comme un sort (15 points).
+- **Points** : une classe complète = 20 × 15 + 15 = **315 points** (465 avec une 3e Voie) ; rythme
+  décidé en § 4.5 (30 points par palier).
+- **Déblocage** : tout reste ouvert pendant les tests ; à terme, piste de 4 sorts par Voie au départ puis
+  2 de plus par palier (à trancher après les tests).
+- **Deuxièmes Voies décidées le 15/11/2026** : Guerrier **Acier + Impie** (chevalier maudit), Théologue
+  **Sacré + Flamme** (inquisiteur, bûchers), Rôdeur **Acier + Flamme** (la Tempête de sa Flèche
+  disparaîtra).
+- **Fiche de conception** de chaque classe : rôle et fantaisie, passif, pour chaque Voie l'élément, la
+  signature et les 10 sorts (PA, portée, effet, relance, rangs 3 et 5), mécaniques à coder, IA,
+  contrôles (jouable en solo, Voies différentes, répartition des éléments).
+
 **Long terme (9 Voies)** : trois familles de trois classes, selon la distance de combat.
 
 | Famille | Classe | Rôle | Éléments principaux | Style |
 |---|---|---|---|---|
-| **Corps à corps** | **Guerrier** | Mêlée polyvalente | Acier (Force) | *(voir plus haut)* |
+| **Corps à corps** | **Guerrier** | Mêlée polyvalente | Acier / Impie (Force / Agilité + Perception) | *(voir plus haut)* ; Voie Impie : chevalier maudit (décidée le 15/11/2026, à concevoir) |
 | | **Paladin** | Guerrier sacré ou électrique : mêlée, soutien, distance | Sacré / Tempête (Force + Intelligence / Agilité) | Voie Sacrée : coups bénis, glyphes en aura qui le suivent et renforcent les alliés. Voie Tempête : sorts électrisants à distance, balises reliées par des arcs électriques |
 | | **Myrmidon** | Guerrier tank | Acier / Givre, chacun pur (Force / Perception), Vitalité | Bouclier, provocation (attire les coups), réduction de dégâts, poussée, garde un allié |
 | **Mixte** | **Rôdeur** | Distance et mobilité | Acier / Flamme (Force / Intelligence) ; Acier / Tempête dans l'alpha | *(voir plus haut)* ; à terme, Voie Flamme tournée vers les pièges et les explosifs |
 | | **Ombre** | Assassin | Tempête / Acier (Agilité / Force) | Voie Tempête : mobilité, frappe et repli, clones de foudre qui explosent. Voie Acier : invisibilité, cumul de bonus et de malus, armes d'obscurité à retardement. Les deux : entrer dans l'ombre d'un combattant |
 | | **Chronomancien** | Maître du temps : contrôle, mi-distance | Impie / Givre pur (Agilité + Perception / Perception) | Voie Impie : glyphe Horloge, cible téléportée sur le cadran, un effet par heure. Voie Givre : retour à une position passée, envoi dans le futur, pulsions temporelles |
 | **Distance** | **Arcaniste** | Dégâts magiques, contrôle | Flamme / Givre / Tempête (Intelligence / Perception / Agilité) | *(voir plus haut)* ; après la refonte : états élémentaires cumulés et sort créé selon leur combinaison |
-| | **Théologue** *(dès l'alpha)* | Soigneur sacré | Sacré (Force + Intelligence) | Soins, boucliers, retrait des états, résurrection (multi), dégâts sacrés modestes |
+| | **Théologue** *(dès l'alpha)* | Soigneur sacré | Sacré / Flamme (Force + Intelligence / Intelligence) | Soins, boucliers, retrait des états, résurrection (multi), dégâts sacrés modestes ; Voie Flamme : inquisiteur, bûchers (décidée le 15/11/2026, à concevoir) |
 | | **Démoniste** | Dégâts impies ou ardents | Impie / Flamme (Agilité + Perception / Intelligence) | Voie Impie : armée de serviteurs invoqués (offensif, tank, soutien). Voie de Flamme : embrasement du terrain (niveaux 1 à 3 puis calciné), sorts qui varient selon l'embrasement |
 
 Le Sacré et l'Impie sont des éléments à part entière (voir § 4.4) : le Sacré s'appuie sur l'Acier et
@@ -458,20 +486,21 @@ la Flamme, l'Impie sur la Tempête et le Givre.
 
 | Classe | Acier | Tempête | Flamme | Givre | Sacré | Impie |
 |---|:-:|:-:|:-:|:-:|:-:|:-:|
-| Guerrier | ● | | | | | |
+| Guerrier | ● | | | | | ● |
 | Paladin | | ● | | | ● | |
 | Myrmidon | ● | | | ● | | |
 | Rôdeur | ● | | ● | | | |
 | Ombre | ● | ● | | | | |
 | Chronomancien | | | | ● | | ● |
 | Arcaniste | | ● | ● | ● | | |
-| Théologue | | | | | ● | |
+| Théologue | | | ● | | ● | |
 | Démoniste | | | ● | | | ● |
-| **Total** | **4** | **3** | **3** | **3** | **2** | **2** |
+| **Total** | **4** | **3** | **4** | **3** | **2** | **3** |
 
 Par caractéristique (le Sacré compte pour la Force et l'Intelligence, l'Impie pour l'Agilité et la
-Perception) : Force 6 classes, Intelligence 5, Perception 5, Agilité 5. L'Acier a une classe de plus, en
-accord avec ses 33 % chez les monstres (§ 8.1).
+Perception) : Force 6 classes, Intelligence 6, Perception 6, Agilité 6 depuis les 2es Voies du Guerrier
+(Impie) et du Théologue (Flamme), choisies le 15/11/2026 pour cet équilibre. L'Acier garde une classe de
+plus que les autres éléments simples, en accord avec ses 33 % chez les monstres (§ 8.1).
 
 Dans l'alpha 1 (5 classes) : Acier 2 (Guerrier, Rôdeur), Tempête 2 (la Flèche du Rôdeur, l'Arcaniste depuis le 12/11/2026), Flamme 1
 et Givre 1 (Arcaniste), Sacré 1 (Théologue), Impie 1 (Chronomancien, depuis le 29/10/2026 ; avant, Impie 0). Points à suivre : aucune classe de l'alpha 1 ne
@@ -858,7 +887,7 @@ difficulté**, qui compare la menace des monstres à la force du joueur, pour qu
 | Palier | Réputation | Débloque |
 |---|---|---|
 | Inconnu | 0 | sorts de rang I (le kit actuel) |
-| Apprenti | 1 000 | premières compétences passives |
+| Apprenti | 1 000 | passif de classe (5 rangs, gabarit du 15/11/2026, § 4.3) |
 | Compagnon | 5 000 | sorts de rang II ; droit de commencer une autre activité |
 | Vétéran | 13 000 | derniers sorts de rang II |
 | Maître | 29 000 | quête de Voie : rang III, Voie Miroir (§ 5.3) |
@@ -880,7 +909,7 @@ palier Compagnon vise la fin des zones de départ (≈ 4 à 5 h de jeu).
   validé en jeu.
 - Nombre total de points d'une classe : **non plafonné** (décision de l'auteur du 12/11/2026 : on doit
   pouvoir maxer sa classe, mais pas trop vite). La fenêtre des sorts montre 20 cases par Voie (sorts
-  à venir compris) : 20 sorts au rang 5 = 300 points.
+  à venir compris) : 20 sorts au rang 5 = 300 points, 315 avec le passif de classe (gabarit du 15/11/2026, § 4.3).
 
 #### Rythme des points de maîtrise (décidé et codé le 12/11/2026)
 
@@ -913,8 +942,12 @@ avec 1 point par 500 de réputation et la réputation des monstres vaincus tiré
   anciens paliers).
 - **À réfléchir : réputation reposée** (×2 sur les premiers gains de la journée), qui inciterait aussi
   à se connecter chaque jour.
-- **Plus tard**, une fois tous les aspects des classes conçus : nombre total de points pour tout
-  maxer, rythme après Légende, et usage des points en trop (piste : compétences passives de classe).
+- **Décidé le 15/11/2026 (gabarit des classes, § 4.3), pas encore codé** : une classe complète vaut
+  **315 points** (20 sorts et le passif au rang 5). **30 points par palier**, **150 à Légende** (une Voie
+  complète, ou deux à moitié), puis **1 point par 800** de réputation : la classe complète demande
+  ~193 000 de réputation, **~140 h** à ~1 400 par heure (Légende ~49 h, puis ~90 h). Réputation par point :
+  33, 133, 267, 533 puis 1 067 selon le palier. À coder : `Character.CLASS_POINTS_PER_TIER` (20 → 30) et le
+  rythme après Légende. Les métiers gardent 1 point par 500.
 
 | Sort du Guerrier | Base | Rang 3 | Rang 5 |
 |---|---|---|---|

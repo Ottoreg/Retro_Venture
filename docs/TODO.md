@@ -655,6 +655,11 @@ Lots 0 (conception dans le GDD), 1 (personnage, poussé sur `main` à la demande
 ### Système des Voies
 Décision (25/10/2026) : un personnage = une seule classe, pas d'apprentissage des sorts des autres
 classes (option écartée et compromis gardés en piste, GDD § 5.2).
+- [x] Gabarit commun des classes (15/11/2026, GDD § 4.3) : 2 Voies de 10 sorts jouables ensemble, passif
+  à 5 rangs à Apprenti, Arcaniste 12 + 8 utilitaires ; 2es Voies Guerrier Impie, Théologue Flamme, Rôdeur Flamme
+- [ ] Coder le rythme des points décidé le 15/11/2026 : 30 par palier (150 à Légende), puis 1 par 800 (GDD § 4.5)
+- [ ] Concevoir les classes dans l'ordre : Guerrier, Rôdeur, Théologue, Chronomancien, Arcaniste, Myrmidon,
+  Paladin, Ombre, Démoniste (fiches de travail : `docs/design/classes/`) ; 145 sorts et 9 passifs à concevoir
 - [ ] Rangs I / II / III des sorts de sa Voie
 - [ ] Barre de sorts limitée et préréglages de barres
 - [ ] Quêtes de Voie (déblocage du rang III)
