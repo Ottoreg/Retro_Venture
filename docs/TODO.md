@@ -37,7 +37,8 @@
   - [x] Liste des 9 races (trois par camp) et ton parodique (§ 3.6, § 4.2)
   - [x] Races de l'alpha (Humain, Gobelin, Elfe) et structure en trois camps (§ 3.4)
   - [ ] Choisir les noms de peuple des 9 races (§ 4.2)
-  - [ ] Concevoir les 2e et 3e passifs de chaque race (règle : 3 passifs, débloqués à la création, au 1er Compagnon et au 1er Maître, un seul actif ; § 4.2)
+  - [x] Concevoir les 2e et 3e passifs de chaque race (règle : 3 passifs, débloqués à la création, au 1er Compagnon et au 1er Maître, un seul actif, changé hors combat ; § 4.2)
+  - [ ] Coder les passifs de race (choix du passif actif hors combat) et passe d'équilibrage de leur puissance
   - [x] Nom des spécialisations opposées : **Voie Miroir** (§ 5.3)
   - [ ] Revoir les noms du monde, des Reliques et du méchant dans le ton parodique (§ 3)
   - [x] Reliques : huit bagues tenues par les Hérauts Cendrés, une par peuple ou presque (§ 3.3)

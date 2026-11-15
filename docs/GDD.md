@@ -275,8 +275,22 @@ combinaisons « optimales ».
 **Trois passifs par race** (règle de l'auteur du 15/11/2026, pour toutes les races) : le 1er est
 débloqué dès la création, le 2e quand une première classe du personnage atteint le palier Compagnon
 (2/5), le 3e quand une première classe atteint le palier Maître (4/5). **Un seul passif actif à la
-fois**, choisi par le joueur. Le passif du tableau ci-dessous est le 1er ; les 2e et 3e sont à
-concevoir (propositions en attente de validation).
+fois**, choisi par le joueur et changé **seulement hors combat**, comme le kit de sorts. Le passif du
+tableau des races ci-dessous est le 1er ; les 2e et 3e (validés le 15/11/2026) suivent, un de combat et un hors
+combat par race, tous du même ordre de puissance (5 à 10 %) : le choix reste une question de style.
+Valeurs provisoires, passe d'équilibrage plus tard (demande de l'auteur).
+
+| Race | 2e passif (Compagnon) | 3e passif (Maître) |
+|---|---|---|
+| Humain | *Héros autoproclamé* : +5 % de réputation de classe | *Le dernier espoir* : +10 % de dégâts quand il est le dernier allié debout |
+| Gobelin | *Syndiqué* : −10 % sur les prix des marchands (convention collective) | *Droit de retrait* : +1 PM au début de son tour s'il est au contact d'un ennemi |
+| Elfe | *Lignée ancienne* : +10 % de réputation dans les métiers de récolte | *De haut* : +5 % de dégâts sur les cibles à 5 cases ou plus |
+| Nain | *Naindustriel* : +10 % de réputation de forgeron | *Barbe protectrice* : −10 % de dégâts critiques reçus |
+| Orc | *Rancunier* : +5 % de dégâts sur le dernier ennemi qui l'a frappé | *Brute* : +10 % de tacle finaux (le pendant du Lutin) |
+| Semi-homme | *Main verte* : +10 % de quantité récoltée en agriculture | *Second goûter* : +10 % d'effet des consommables |
+| Géant | *Grandes enjambées* : +20 % de vitesse de marche hors combat | *Inébranlable* : ne peut être ni poussé ni attiré |
+| Squelette | *Pas d'estomac* : −50 % de dégâts de poison | *Sans muscles à fatiguer* : −10 % de temps de récolte |
+| Lutin | *Feu follet* : +1 PM au premier tour de chaque combat | *Malicieux* : 10 % de chances de récolter une ressource de plus |
 
 **Les 9 races du jeu** (validées) : trois par camp (voir § 3.4). Une par camp dès l'alpha, les six
 autres (Nains, Orcs, Semi-hommes, Géants, Squelettes, Lutins) en Phase 3.
