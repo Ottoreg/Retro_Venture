@@ -19,7 +19,8 @@ et avec sa propre base, pour que les essais ne cassent pas les parties des joueu
 
 **Client natif** (Windows, Linux) : release « client-natif » du dépôt
 (https://github.com/Ottoreg/Retro_Venture/releases/tag/client-natif), mise à jour à chaque push sur
-`main`. Windows avertit (pas de certificat de signature) : « Informations complémentaires » puis
+`main` ; le menu principal affiche « Nouvelle version disponible » quand le client n'est plus le dernier
+(retélécharger, dézipper et remplacer l'ancien dossier : les sauvegardes sont ailleurs). Windows avertit (pas de certificat de signature) : « Informations complémentaires » puis
 « Exécuter quand même ».
 
 ## Développement, sur son poste

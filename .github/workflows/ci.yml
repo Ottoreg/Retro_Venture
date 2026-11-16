@@ -114,6 +114,9 @@ jobs:
 
       - name: Exporter
         run: |
+          # Commit gravé dans le client : le menu principal le compare à la release (« Nouvelle version disponible »).
+          sed -i "s/^const BUILD_COMMIT := \"\"/const BUILD_COMMIT := \"$GITHUB_SHA\"/" game/client/session.gd
+          grep -q "BUILD_COMMIT := \"$GITHUB_SHA\"" game/client/session.gd
           mkdir -p build/linux build/windows
           godot --headless --path game --export-release "Linux" "$GITHUB_WORKSPACE/build/linux/RetroVenture.x86_64"
           godot --headless --path game --export-release "Windows" "$GITHUB_WORKSPACE/build/windows/RetroVenture.exe"

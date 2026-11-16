@@ -186,6 +186,7 @@ l'histoire.
 | Lisière de Sylvebrume | Avant-poste elfe en bordure de forêt, départ du camp neutre | 1–12 | Alpha |
 | Zones de départ de Phase 3 *(à nommer)* | Une par race : Nains et Géants (allié), Orcs et Squelettes (ennemi), Semi-hommes et Lutins (neutre) | 1–12 | Long terme |
 | Hautepierre et ses environs | Cité humaine fortifiée ; terrain d'affrontement (acte II) puis de l'alliance (acte III) | 12–30 | Alpha |
+| Grandes Plaines *(demande de l'auteur, 15/11/2026)* | Zone commune à toutes les races, comme Hautepierre : steppes où vivent les ampas, montures du jeu (§ 10.3, Éleveur) | à définir | À venir |
 | Sylvebrume (cœur de la forêt) | Forêt elfique ancienne et brumeuse | 25–40 | Long terme |
 | Forges de Durhal | Montagnes et cités naines souterraines | 25–45 | Long terme |
 | Montagnes des Géants *(à nommer)* | Cimes, forteresses taillées à la mesure des Géants | 30–50 | Long terme |
@@ -270,6 +271,26 @@ s'ouvre à un palier de réputation (refonte du 29/10/2026, § 4.5 et § 5). On 
 Une race apporte un passif racial et un sort racial (plus de bonus de caractéristiques depuis le
 29/10/2026, plus bas). Elle ne bloque aucune classe. L'impact doit rester modéré (environ 5 à 10 % de puissance) pour ne pas imposer de
 combinaisons « optimales ».
+
+**Trois passifs par race** (règle de l'auteur du 15/11/2026, pour toutes les races) : le 1er est
+débloqué dès la création, le 2e quand une première classe du personnage atteint le palier Compagnon
+(2/5), le 3e quand une première classe atteint le palier Maître (4/5). **Un seul passif actif à la
+fois**, choisi par le joueur et changé **seulement hors combat**, comme le kit de sorts. Le passif du
+tableau des races ci-dessous est le 1er ; les 2e et 3e (validés le 15/11/2026) suivent, un de combat et un hors
+combat par race, tous du même ordre de puissance (5 à 10 %) : le choix reste une question de style.
+Valeurs provisoires, passe d'équilibrage plus tard (demande de l'auteur).
+
+| Race | 2e passif (Compagnon) | 3e passif (Maître) |
+|---|---|---|
+| Humain | *Héros autoproclamé* : +5 % de réputation de classe | *Le dernier espoir* : +10 % de dégâts quand il est le dernier allié debout |
+| Gobelin | *Syndiqué* : −10 % sur les prix des marchands (convention collective) | *Droit de retrait* : +1 PM au début de son tour s'il est au contact d'un ennemi |
+| Elfe | *Lignée ancienne* : +10 % de réputation dans les métiers de récolte | *De haut* : +5 % de dégâts sur les cibles à 5 cases ou plus |
+| Nain | *Naindustriel* : +10 % de réputation de forgeron | *Barbe protectrice* : −10 % de dégâts critiques reçus |
+| Orc | *Rancunier* : +5 % de dégâts sur le dernier ennemi qui l'a frappé | *Brute* : +10 % de tacle finaux (le pendant du Lutin) |
+| Semi-homme | *Main verte* : +10 % de quantité récoltée en agriculture | *Second goûter* : +10 % d'effet des consommables |
+| Géant | *Grandes enjambées* : +20 % de vitesse de marche hors combat | *Inébranlable* : ne peut être ni poussé ni attiré |
+| Squelette | *Pas d'estomac* : −50 % de dégâts de poison | *Sans muscles à fatiguer* : −10 % de temps de récolte |
+| Lutin | *Feu follet* : +1 PM au premier tour de chaque combat | *Malicieux* : 10 % de chances de récolter une ressource de plus |
 
 **Les 9 races du jeu** (validées) : trois par camp (voir § 3.4). Une par camp dès l'alpha, les six
 autres (Nains, Orcs, Semi-hommes, Géants, Squelettes, Lutins) en Phase 3.
@@ -856,7 +877,7 @@ difficulté**, qui compare la menace des monstres à la force du joueur, pour qu
 
 | Action | Réputation de classe | Points de maîtrise | Caractéristiques |
 |---|---|---|---|
-| Sort qui a un **effet réel** : dégâts infligés à un ennemi, soins de PV réellement perdus, bouclier qui absorbe | principale source | oui (une part de la réputation) | la caractéristique de l'élément du sort (Sacré : Force et Intelligence par moitié ; Impie : Agilité et Perception par moitié) |
+| Sort qui a un **effet réel** : dégâts infligés à un ennemi, soins de PV réellement perdus, bouclier qui absorbe | principale source | oui (une part de la réputation) | la caractéristique de l'élément du sort, ou de chacun de ses éléments à égalité (Sacré : Force et Intelligence par moitié ; Impie : Agilité et Perception par moitié) |
 | Sort utilitaire qui touche une cible (déplacement, bonus, malus) | oui, moins | oui | aucune (pas d'élément) |
 | Monstre vaincu | un peu (partagé par le groupe) | oui | aucune |
 | **Coups reçus** (PV réellement perdus) | non | non | **Vitalité** (endurance) |
@@ -988,7 +1009,9 @@ Les niveaux de métier sont restés jusqu'au lot 4, `niveau_min` des quêtes n'e
 **Lot 2 fait (29/10/2026, sur `main`)** : gains par action (`core/character/progression.gd`). Le
 combat note la pratique de chaque joueur (`Combat.practice`) : PA d'un sort à effet réel par
 élément (dégâts qui retirent des PV à un ennemi, soin de PV perdus, bouclier posé sur un allié quand
-il absorbe, une fois), PA d'un sort utilitaire qui touche quelqu'un, PV réellement perdus. Un poison
+il absorbe, une fois ; un sort à plusieurs éléments qui a un effet réel partage ses PA à égalité
+entre tous ses éléments de dégâts, soins et poisons, même si la cible meurt à la première instance :
+13/11/2026, demande de l'auteur), PA d'un sort utilitaire qui touche quelqu'un, PV réellement perdus. Un poison
 et une glyphe comptent les PA de leur sort répartis sur leurs tours, à chaque tour qui blesse ; un
 piège, à son déclenchement. À la fin du combat (victoire ou défaite), au facteur de difficulté du
 groupe : **2 de réputation par PA** à effet réel, la moitié pour un sort utilitaire, plus un quart de
@@ -2155,19 +2178,41 @@ tableau plus haut), **fioles** (achetées aux marchands : un des puits à brumes
 #### Éleveur de montures (nouveau)
 
 On **apprivoise des monstres du jeu** qui peuvent porter un cavalier, et on les élève. Ils vont dans
-l'emplacement **Familier / monture** (§ 9.1).
+l'emplacement **Familier / monture** (§ 9.1). Texte mis à jour le 15/11/2026 pour la refonte sans niveaux
+(§ 4.5) : paliers de réputation de l'éleveur (Inconnu à Légende, table commune), paliers 1 à 5 des
+monstres, plus de Sagesse.
 
-**Espèces** (pas tous les monstres : seulement ceux qui peuvent porter, demande de l'auteur) :
+**Espèces** (pas tous les monstres : seulement ceux qui peuvent porter, demande de l'auteur ; liste
+réduite le 15/11/2026 à quatre monstres, chacun lié à **un élément unique**, celui qui domine dans sa zone, validé le 15/11/2026) :
 
-| Monstre (famille) | Zone | Niveau d'éleveur | Bonus de la monture (piste) |
+| Monstre (famille) | Zone | Palier d'éleveur | Élément de la monture |
 |---|---|---|---|
-| Loup des collines | Brumerive | 1 | Agilité, Force |
-| Cerf enchanté | Sylvebrume | 1 | Perception, Sagesse |
-| Grouilleur (mille-pattes) | Crasse-Roc | 1 | Vitalité, Intelligence (« on n'arrête pas de lui acheter des bottes ») |
-| Loup cendreux | Brumerive, Hautepierre | 20 | Agilité, résistance Flamme |
-| Grand cerf de la Lisière | Sylvebrume (élite) | 30 | Perception, PM hors combat |
-| Olifant de guerre | Hautepierre | 60 | Vitalité, Force (énorme, lent à monter) |
-| Gargouille | Hautepierre | 80 | Intelligence, Initiative (piste : vol décoratif) |
+| Loup des collines | Brumerive | Inconnu | Tempête |
+| Cerf enchanté | Sylvebrume | Inconnu | Givre |
+| Grouilleur (mille-pattes) | Crasse-Roc | Inconnu | Flamme (« on n'arrête pas de lui acheter des bottes ») |
+| Olifant de guerre | Hautepierre | Vétéran | Acier (Hautepierre est mélangée ; énorme, lent à monter) |
+
+**Ampas** (demande de l'auteur, 15/11/2026) : créatures **bipèdes ailées** (allure d'autruche),
+aux **plumes colorées** et à la **tête proche de celle d'un aigle**. Elles vivent dans les **Grandes
+Plaines**, zone commune à toutes les races comme Hautepierre (§ 3.5). **8 ampas** servent de monture,
+chacune aux plumes de la couleur de son nom ; la couleur fixe le bonus donné au cavalier, offensif ou
+défensif selon la **nature** de la monture (voir « Monture » plus bas ; « Force » corrigé en « Acier » le
+16/11/2026) :
+
+| Ampa | Plumes | Éléments | Nature offensive | Nature défensive |
+|---|---|---|---|---|
+| Brun | brunes | Flamme + Tempête | Intelligence + Agilité | Résistances Flamme + Tempête |
+| Ocre | ocre | Flamme + Acier | Intelligence + Force | Résistances Flamme + Acier |
+| Roux | rousses | Flamme + Givre | Intelligence + Perception | Résistances Flamme + Givre |
+| Cramoisi | cramoisies | Acier + Givre | Force + Perception | Résistances Acier + Givre |
+| Stratos | bleues | Acier + Tempête | Force + Agilité | Résistances Acier + Tempête |
+| Empire | vertes | Tempête + Givre | Agilité + Perception | Résistances Tempête + Givre |
+| Onyx | noires | PM (gardé dans les deux natures) | + Dommages spectraux % | + Réduction de dommages % |
+| Cristal | cristallines | PA (gardé dans les deux natures) | + Dommages dévastateurs % | + Épines % |
+
+**Onyx et Cristal** (précisé le 16/11/2026) sont deux types d'ampas à part entière, eux aussi des
+Grandes Plaines, mais **plus difficiles à trouver** : moins nombreux et plus longs à réapparaître que
+les autres. Valeurs des bonus, palier d'éleveur requis et apprivoisement : **à définir**.
 
 Exclus : les créatures qui parlent ou se croient des personnes (trolls, gobelins, épouvantails,
 arbres vivants, morilles), et celles trop petites (rats, vampipistrelles, corbacs). Chaque camp a
@@ -2176,26 +2221,37 @@ une monture de départ, dans sa zone.
 - **Apprivoisement** : il faut un **licol** (Costumier, ou l'atelier de l'éleveur) dans
   l'inventaire. En combat contre un monstre de l'espèce, quand il est le **dernier ennemi** et sous
   **25 % de ses PV**, le sort *Apprivoiser* (3 PA, au contact) le capture avec une chance qui monte
-  avec le niveau d'éleveur et baisse avec le niveau du monstre ; en cas de succès, le monstre quitte
+  avec le palier de réputation d'éleveur (et sa maîtrise d'apprivoisement) et baisse avec le palier du
+  monstre ; en cas de succès, le monstre quitte
   le combat (victoire, sans butin de ce monstre) et devient une **monture sauvage** envoyée à
-  l'enclos. Les élites et mini-boss ne s'apprivoisent pas (sauf le grand cerf, plus haut).
+  l'enclos. Les élites et mini-boss ne s'apprivoisent pas.
 - **Enclos** : une **instance de métier** de plus (même modèle que le champ), avec des **objets
   d'élevage** fabriqués par les métiers : mangeoire (céréales ou poissons selon l'espèce), abreuvoir,
   brosse, et un épouvantail « motivant » qui fait progresser la docilité. Une monture sauvage doit
   être **dressée** à l'enclos (temps réel, comme les plantes) avant d'être montée.
-- **Monture** : elle a un **niveau** (1 à 100, XP prise sur une part de l'XP de combat du cavalier,
-  au choix de 0 à 50 %) qui fait monter ses bonus, et de l'**énergie** qui baisse à chaque combat et
-  se recharge à la mangeoire : à 0, elle ne donne plus de bonus (elle boude). Hors combat, monté, on
-  se déplace plus vite (course × 1,8 au lieu de × 1,4) ; en combat, le cavalier reste un seul
-  combattant (la monture ne joue pas).
+- **Monture** : c'est un **équipement**, équipé depuis l'inventaire (emplacement Familier / monture).
+  Une **interface de monture** dédiée montre la monture équipée et permet de la gérer (précisé le 16/11/2026) :
+  - **Nature** : tant que la monture est au **palier 0** (avant tout point de maîtrise), le joueur choisit
+    sa nature, **offensive** (caractéristiques, ou dommages % pour Onyx et Cristal) ou **défensive**
+    (résistances, ou réduction / épines % pour Onyx et Cristal) ; un seul choix par monture, irréversible.
+  - **Maîtrise** : ni niveau ni réputation ; la monture gagne ses **propres points de maîtrise** (rien
+    n'est pris au cavalier), **seulement quand elle est chevauchée en combat**, selon le nombre de
+    monstres combattus et leur palier (barème à définir). Ces points se cumulent comme de
+    l'expérience : ils ne se répartissent pas, à la différence des points de maîtrise des classes.
+  - **Paliers** : 5 paliers de maîtrise, qui débloquent 20, 40, 60, 80 puis 100 % du bonus total ;
+    au palier 5, la monture ne gagne plus de points. Valeurs du bonus total et seuils : à définir.
+  - **Énergie** : elle baisse à chaque combat et se recharge à la mangeoire ; à 0, la monture ne donne
+    plus de bonus (elle boude).
+  - Hors combat, monté, on se déplace plus vite (course × 1,8 au lieu de × 1,4) ; en combat, le cavalier
+    reste un seul combattant (la monture ne joue pas).
 - **Robes** : chaque monture a une couleur tirée parmi celles de l'espèce (recoloration des dessins
   `.svgt`, sans dessin de plus) ; certaines robes sont rares.
 - **Reproduction** : deux montures adultes de la même espèce (mâle et femelle) à l'enclos donnent
   un petit, qui hérite de la robe et d'une partie des bonus de ses parents ; nombre de portées
-  limité par monture. C'est la principale source d'XP du métier avec l'apprivoisement et le dressage.
+  limité par monture. C'est la principale source de réputation du métier avec l'apprivoisement et le dressage.
 - **Fumier** : les montures à l'enclos en produisent ; c'est l'**engrais** des instances de métier (lien avec
   les métiers de récolte, et ressort parodique assumé).
-- **Chef-d'œuvre de l'éleveur** (niveau 100) : une **lignée de maître** : pour un petit à naître,
+- **Chef-d'œuvre de l'éleveur** (compétence débloquée au palier Maître, comme les autres chefs-d'œuvre, § 10.4) : une **lignée de maître** : pour un petit à naître,
   l'éleveur choisit ses bonus dans un budget de score (barème de § 10.4), au lieu du tirage ; le
   petit porte le nom de l'élevage (« de l'élevage de [pseudo] »).
 
@@ -3792,7 +3848,9 @@ travail côté client : remplacer les lectures directes de `world` par la copie 
 - **Outils et tests** : `tools/bot.gd` (un joueur automatique qui se promène, pour essayer seul) ;
   tests du serveur sans réseau, de bout en bout sur de vrais WebSocket, et du client asynchrone.
 - **Client natif et staging** : la CI publie à chaque push sur `main` le client Windows et Linux
-  (release « client-natif », archives zip, préréglages d'export « Linux » et « Windows ») et
+  (release « client-natif », archives zip, préréglages d'export « Linux » et « Windows » ; commit gravé dans
+  `Session.BUILD_COMMIT`, comparé par le menu principal à l'étiquette de la release : bouton « Nouvelle version
+  disponible » vers la page de téléchargement, 14/11/2026) et
   l'image Docker du serveur (`ghcr.io/ottoreg/retro-venture-serveur:staging`, essayée par la CI
   avant d'être publiée) ; `docker compose up -d` reprend la dernière image. Le staging suit donc
   toujours `main`, comme le jeu web : client et serveur parlent le même protocole.
