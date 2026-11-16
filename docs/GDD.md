@@ -2195,18 +2195,20 @@ réduite le 15/11/2026 à quatre monstres, chacun lié à **un élément unique*
 **Ampas** (demande de l'auteur, 15/11/2026) : créatures **bipèdes ailées** (allure d'autruche),
 aux **plumes colorées** et à la **tête proche de celle d'un aigle**. Elles vivent dans les **Grandes
 Plaines**, zone commune à toutes les races comme Hautepierre (§ 3.5). **8 ampas** servent de monture,
-chacune aux plumes de la couleur de son nom ; la couleur fixe le bonus donné au cavalier :
+chacune aux plumes de la couleur de son nom ; la couleur fixe le bonus donné au cavalier, offensif ou
+défensif selon la **nature** de la monture (voir « Monture » plus bas ; « Force » corrigé en « Acier » le
+16/11/2026) :
 
-| Ampa | Plumes | Bonus au cavalier |
-|---|---|---|
-| Brun | brunes | Flamme + Tempête |
-| Ocre | ocre | Flamme + Force |
-| Roux | rousses | Flamme + Givre |
-| Cramoisi | cramoisies | Force + Givre |
-| Stratos | bleues | Force + Tempête |
-| Empire | vertes | Tempête + Givre |
-| Onyx | noires | PM (bonus spécial) |
-| Cristal | cristallines | PA (bonus spécial) |
+| Ampa | Plumes | Éléments | Nature offensive | Nature défensive |
+|---|---|---|---|---|
+| Brun | brunes | Flamme + Tempête | Intelligence + Agilité | Résistances Flamme + Tempête |
+| Ocre | ocre | Flamme + Acier | Intelligence + Force | Résistances Flamme + Acier |
+| Roux | rousses | Flamme + Givre | Intelligence + Perception | Résistances Flamme + Givre |
+| Cramoisi | cramoisies | Acier + Givre | Force + Perception | Résistances Acier + Givre |
+| Stratos | bleues | Acier + Tempête | Force + Agilité | Résistances Acier + Tempête |
+| Empire | vertes | Tempête + Givre | Agilité + Perception | Résistances Tempête + Givre |
+| Onyx | noires | PM (gardé dans les deux natures) | + Dommages spectraux % | + Réduction de dommages % |
+| Cristal | cristallines | PA (gardé dans les deux natures) | + Dommages dévastateurs % | + Épines % |
 
 **Onyx et Cristal** (précisé le 16/11/2026) sont deux types d'ampas à part entière, eux aussi des
 Grandes Plaines, mais **plus difficiles à trouver** : moins nombreux et plus longs à réapparaître que
@@ -2227,12 +2229,21 @@ une monture de départ, dans sa zone.
   d'élevage** fabriqués par les métiers : mangeoire (céréales ou poissons selon l'espèce), abreuvoir,
   brosse, et un épouvantail « motivant » qui fait progresser la docilité. Une monture sauvage doit
   être **dressée** à l'enclos (temps réel, comme les plantes) avant d'être montée.
-- **Monture** : ni niveau ni réputation ; elle gagne ses **propres points de maîtrise** (rien n'est
-  pris au cavalier), **seulement quand elle est chevauchée en combat**, selon le nombre de monstres
-  combattus et leur palier (barème à définir), qui font monter ses bonus, et de l'**énergie** qui baisse à chaque combat et
-  se recharge à la mangeoire : à 0, elle ne donne plus de bonus (elle boude). Hors combat, monté, on
-  se déplace plus vite (course × 1,8 au lieu de × 1,4) ; en combat, le cavalier reste un seul
-  combattant (la monture ne joue pas).
+- **Monture** : c'est un **équipement**, équipé depuis l'inventaire (emplacement Familier / monture).
+  Une **interface de monture** dédiée montre la monture équipée et permet de la gérer (précisé le 16/11/2026) :
+  - **Nature** : tant que la monture est au **palier 0** (avant tout point de maîtrise), le joueur choisit
+    sa nature, **offensive** (caractéristiques, ou dommages % pour Onyx et Cristal) ou **défensive**
+    (résistances, ou réduction / épines % pour Onyx et Cristal) ; un seul choix par monture, irréversible.
+  - **Maîtrise** : ni niveau ni réputation ; la monture gagne ses **propres points de maîtrise** (rien
+    n'est pris au cavalier), **seulement quand elle est chevauchée en combat**, selon le nombre de
+    monstres combattus et leur palier (barème à définir). Ces points se cumulent comme de
+    l'expérience : ils ne se répartissent pas, à la différence des points de maîtrise des classes.
+  - **Paliers** : 5 paliers de maîtrise, qui débloquent 20, 40, 60, 80 puis 100 % du bonus total ;
+    au palier 5, la monture ne gagne plus de points. Valeurs du bonus total et seuils : à définir.
+  - **Énergie** : elle baisse à chaque combat et se recharge à la mangeoire ; à 0, la monture ne donne
+    plus de bonus (elle boude).
+  - Hors combat, monté, on se déplace plus vite (course × 1,8 au lieu de × 1,4) ; en combat, le cavalier
+    reste un seul combattant (la monture ne joue pas).
 - **Robes** : chaque monture a une couleur tirée parmi celles de l'espèce (recoloration des dessins
   `.svgt`, sans dessin de plus) ; certaines robes sont rares.
 - **Reproduction** : deux montures adultes de la même espèce (mâle et femelle) à l'enclos donnent
