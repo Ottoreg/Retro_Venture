@@ -2208,8 +2208,9 @@ chacune aux plumes de la couleur de son nom ; la couleur fixe le bonus donné au
 | Onyx | noires | PM (bonus spécial) |
 | Cristal | cristallines | PA (bonus spécial) |
 
-Valeurs des bonus, palier d'éleveur requis, apprivoisement (monstre des Grandes Plaines ou
-reproduction entre couleurs) et rareté d'Onyx et Cristal : **à définir**.
+**Onyx et Cristal** (précisé le 16/11/2026) sont deux types d'ampas à part entière, eux aussi des
+Grandes Plaines, mais **plus difficiles à trouver** : moins nombreux et plus longs à réapparaître que
+les autres. Valeurs des bonus, palier d'éleveur requis et apprivoisement : **à définir**.
 
 Exclus : les créatures qui parlent ou se croient des personnes (trolls, gobelins, épouvantails,
 arbres vivants, morilles), et celles trop petites (rats, vampipistrelles, corbacs). Chaque camp a
@@ -2227,7 +2228,8 @@ une monture de départ, dans sa zone.
   brosse, et un épouvantail « motivant » qui fait progresser la docilité. Une monture sauvage doit
   être **dressée** à l'enclos (temps réel, comme les plantes) avant d'être montée.
 - **Monture** : ni niveau ni réputation ; elle gagne ses **propres points de maîtrise** (rien n'est
-  pris au cavalier ; source et rythme à définir), qui font monter ses bonus, et de l'**énergie** qui baisse à chaque combat et
+  pris au cavalier), **seulement quand elle est chevauchée en combat**, selon le nombre de monstres
+  combattus et leur palier (barème à définir), qui font monter ses bonus, et de l'**énergie** qui baisse à chaque combat et
   se recharge à la mangeoire : à 0, elle ne donne plus de bonus (elle boude). Hors combat, monté, on
   se déplace plus vite (course × 1,8 au lieu de × 1,4) ; en combat, le cavalier reste un seul
   combattant (la monture ne joue pas).
