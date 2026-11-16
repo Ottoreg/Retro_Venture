@@ -46,6 +46,9 @@ calcinée, il ne dure pas mais fait plus de dégâts dans sa zone).
 - [ ] Défense
 - [ ] Soutien utile en solo
 
+idée de sort : 
+- *Feu de brousse* allume un feu sur une case qui s'éteint au bout d'un tour et allume les cases adjacentes et une fois supplémentaire avant de s'arrêter complètement. (comme une glyphe qui s'étend en anneau de rayon 0,1 et 2). Lancé sur une case calciné le feu ne s'étend pas mais calcine toutes les case dans un cercle de rayon 2 en infligeant des dégâts sur cette zone.
+
 ## 3e Voie (si validée)
 
 Proposition : Ténèbres (démons d'ombre qui agrippent) ; contre-proposition : Lumière (Lucifer, flammes froides,
