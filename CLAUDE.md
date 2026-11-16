@@ -10,13 +10,10 @@ Solo d'abord, multijoueur plus tard. Vision et règles : [docs/GDD.md](docs/GDD.
 
 ## Méthode de travail
 
-- **Branches (depuis le 03/11/2026)** : `main` est gelée pour les tests de l'auteur (chaque push sur `main`
-  publie le jeu sur GitHub Pages, le client natif et l'image de staging). Tout nouveau développement va
-  sur `dev` (la CI n'y lance que les tests, sans rien publier). Seuls les correctifs de bugs trouvés
-  pendant les tests vont sur `main`, puis sont reportés sur `dev`. Fusion de `dev` dans `main` à la fin
-  des tests, sur demande de l'auteur. Dernière fusion : 13/11/2026 (`main` = `dev`).
-- Développer sur la branche de session, la pousser, attendre la CI verte (onglet Actions ou API GitHub),
-  puis pousser sur la branche cible (`dev`, ou `main` pour un correctif) après l'avoir récupérée
+- **Branches (depuis le 16/11/2026, demande de l'auteur)** : tout le développement se fait directement sur
+  `main` (chaque push publie le jeu sur GitHub Pages, le client natif et l'image de staging). `dev` n'est plus
+  utilisée (dernière fusion dans `main` le 16/11/2026).
+- Développer sur la branche de session, la pousser, puis pousser sur `main` après l'avoir récupérée
   (`git fetch`), rebasé dessus et relancé les tests.
 - Pas de pull request sauf demande explicite.
 - Garder les tests verts et en ajouter pour chaque règle du noyau.
