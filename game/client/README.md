@@ -4,6 +4,11 @@ Scènes, rendu isométrique, interface, audio et entrées du joueur. Le client l
 [noyau](../core/README.md), lui envoie des commandes et réagit à ses événements. Il ne contient
 **aucune règle de jeu**.
 
+## Sauvegarde solo
+
+`save_game.gd` (`SaveGame`) : `user://sauvegarde.json` ; `to_png` / `from_png` l'exportent et l'importent en
+image PNG chiffrée (AES, 3 octets par pixel, GDD § 13.4), depuis les boutons Exporter / Importer de `main/main.gd`.
+
 ## Connexion et copie de l'état (GDD § 16.5)
 
 - Le client parle au jeu par une **connexion** (`net/game_connection.gd`) : `send(commande)` renvoie

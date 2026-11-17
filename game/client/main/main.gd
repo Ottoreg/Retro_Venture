@@ -1,12 +1,14 @@
 extends Control
-## Écran d'accueil : nouvelle partie ou reprise de la partie sauvegardée, jeu en ligne (prototype),
-## options, quitter.
+## Écran d'accueil : nouvelle partie ou reprise de la partie sauvegardée, export et import de la
+## sauvegarde (image PNG chiffrée, `SaveGame.to_png`), jeu en ligne (prototype), options, quitter.
 
 const WORLD_SCENE := "res://client/world/world.tscn"
 const CREATION_SCENE := "res://client/creation/creation.tscn"
 
 
 var options_window: OptionsWindow
+var export_button: Button
+var _web_import_callback: JavaScriptObject  # Gardé : le navigateur rappelle Godot après le choix du fichier.
 
 
 func _ready() -> void:
@@ -32,13 +34,26 @@ func _ready() -> void:
 		quit_button.name = "Quit"
 		quit_button.pressed.connect(get_tree().quit)
 		row.add_child(quit_button)
+	var save_row := HBoxContainer.new()
+	save_row.alignment = BoxContainer.ALIGNMENT_CENTER
+	save_row.add_theme_constant_override("separation", 8)
+	box.add_child(save_row)
+	box.move_child(save_row, row.get_index() + 1)
+	export_button = _menu_button("Exporter", 116)
+	export_button.tooltip_text = "Enregistre la sauvegarde dans une image PNG chiffrée (à garder ou à copier sur un autre appareil)."
+	export_button.pressed.connect(_export_save)
+	var import_button := _menu_button("Importer", 116)
+	import_button.tooltip_text = "Reprend une sauvegarde exportée en image PNG (remplace la partie en cours)."
+	import_button.pressed.connect(_ask_import)
+	save_row.add_child(export_button)
+	save_row.add_child(import_button)
 	var online := _menu_button("Jouer en ligne (prototype)", 240)
 	online.name = "Online"
 	online.tooltip_text = "Prototype du multijoueur : un compte, un personnage gardé sur le serveur de test."
 	online.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	online.pressed.connect(func() -> void: get_tree().change_scene_to_file(OnlineScreen.SCENE))
 	box.add_child(online)
-	box.move_child(online, row.get_index() + 1)
+	box.move_child(online, save_row.get_index() + 1)
 	var feedback := _menu_button("Donner son avis", 240)
 	feedback.name = "Feedback"
 	feedback.tooltip_text = "Le questionnaire des testeurs (s'ouvre dans le navigateur)"
@@ -52,13 +67,71 @@ func _ready() -> void:
 	%Version.text = "Version %s — Alpha test 1" % version
 	%NewGame.pressed.connect(_on_new_game_pressed)
 	%Continue.pressed.connect(_on_continue_pressed)
+	_show_save()
+	(%NewGame if %Continue.disabled else %Continue).grab_focus()
+
+
+func _show_save(message := "") -> void:
 	var summary := SaveGame.summary()
 	%Continue.disabled = summary.is_empty()
-	%SaveInfo.text = "Partie en cours : %s" % summary if not summary.is_empty() else ""
-	if summary.is_empty():
-		%NewGame.grab_focus()
-	else:
-		%Continue.grab_focus()
+	export_button.disabled = summary.is_empty()
+	%SaveInfo.text = message if not message.is_empty() else "Partie en cours : %s" % summary if not summary.is_empty() else ""
+
+
+func _export_save() -> void:
+	var png := SaveGame.to_png()
+	if OS.has_feature("web"):
+		JavaScriptBridge.download_buffer(png, SaveGame.EXPORT_NAME, "image/png")
+		return
+	_file_dialog(FileDialog.FILE_MODE_SAVE_FILE, func(path: String) -> void:
+		var file := FileAccess.open(path, FileAccess.WRITE)
+		if file != null:
+			file.store_buffer(png)
+		_show_save("Sauvegarde exportée." if file != null else "Export impossible : %s" % error_string(FileAccess.get_open_error())))
+
+
+## Demande confirmation avant de remplacer une partie en cours, puis ouvre le choix du fichier.
+func _ask_import() -> void:
+	if not SaveGame.exists():
+		_import_save()
+		return
+	var confirm := ConfirmationDialog.new()
+	confirm.dialog_text = "Importer une sauvegarde remplace la partie en cours (%s). Continuer ?" % SaveGame.summary()
+	confirm.confirmed.connect(_import_save)
+	confirm.visibility_changed.connect(func() -> void: if not confirm.visible: confirm.queue_free())
+	add_child(confirm)
+	confirm.popup_centered()
+
+
+func _import_save() -> void:
+	if not OS.has_feature("web"):
+		_file_dialog(FileDialog.FILE_MODE_OPEN_FILE, func(path: String) -> void: import_png(FileAccess.get_file_as_bytes(path)))
+		return
+	_web_import_callback = JavaScriptBridge.create_callback(func(args: Array) -> void: import_png(Marshalls.base64_to_raw(str(args[0]))))
+	JavaScriptBridge.get_interface("window").rvImportSave = _web_import_callback
+	JavaScriptBridge.eval("""(() => { const input = document.createElement('input');
+		input.type = 'file'; input.accept = 'image/png';
+		input.onchange = () => { const reader = new FileReader();
+			reader.onload = () => window.rvImportSave(reader.result.split(',')[1]);
+			reader.readAsDataURL(input.files[0]); };
+		input.click(); })()""")
+
+
+func import_png(png: PackedByteArray) -> void:
+	_show_save("Sauvegarde importée." if SaveGame.from_png(png) else "Cette image ne contient pas de sauvegarde de Retro Venture.")
+
+
+func _file_dialog(mode: FileDialog.FileMode, on_selected: Callable) -> void:
+	var dialog := FileDialog.new()
+	dialog.file_mode = mode
+	dialog.access = FileDialog.ACCESS_FILESYSTEM
+	dialog.use_native_dialog = true
+	dialog.filters = ["*.png ; Image PNG"]
+	dialog.current_file = SaveGame.EXPORT_NAME
+	dialog.file_selected.connect(on_selected)
+	dialog.visibility_changed.connect(func() -> void: if not dialog.visible: dialog.queue_free())
+	add_child(dialog)
+	dialog.popup_centered_ratio(0.6)
 
 
 ## Client natif : demande à GitHub le commit de la dernière release ; s'il diffère du sien, ajoute

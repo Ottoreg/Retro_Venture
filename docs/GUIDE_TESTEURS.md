@@ -34,6 +34,9 @@ nous faire vos retours. Le jeu n'affiche volontairement presque aucune aide à l
   combat, retour au menu…). « Continuer » au menu reprend la dernière partie. Vider les données du
   site efface la sauvegarde. Si vous aviez joué à une version précédente, commencez une **nouvelle
   partie**.
+- **Exporter / Importer** (menu principal) : la sauvegarde devient une image PNG chiffrée (un brouillard
+  de couleurs) à garder de côté ou à reprendre dans un autre navigateur ou sur le client natif.
+  Importer remplace la partie en cours (le jeu demande confirmation).
 - Résolution prévue : 1280 × 720 ou plus. Plein écran dans les options.
 - Le bouton **« Jouer en ligne (prototype) »** du menu sert aux essais du multijoueur avec
   l'auteur : il ne marche que pendant ses sessions de test annoncées. L'alpha test 1 se joue en solo.

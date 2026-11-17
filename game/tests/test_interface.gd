@@ -203,6 +203,34 @@ func test_menu_principal() -> void:
 	menu.free()
 
 
+## Export en image PNG chiffrée (3 octets par pixel), import qui rend la même sauvegarde.
+func test_export_import_de_la_sauvegarde() -> void:
+	var before := FileAccess.get_file_as_bytes(SaveGame.PATH) if SaveGame.exists() else PackedByteArray()
+	var save := {"personnage": {"nom": "Grik", "voie": "guerrier", "brumes": 42}}
+	SaveGame.write(save)
+	var png := SaveGame.to_png()
+	var image := Image.new()
+	assert_eq(image.load_png_from_buffer(png), OK, "une vraie image PNG")
+	assert_eq(image.get_format(), Image.FORMAT_RGB8, "un octet par canal rouge, vert, bleu")
+	assert_false(image.get_data().get_string_from_ascii().contains("Grik"), "données chiffrées")
+	assert_true(png != SaveGame.to_png(), "brouillard différent à chaque export")
+	SaveGame.write({"personnage": {"nom": "Autre"}})
+	var menu: Node = load("res://client/main/main.tscn").instantiate()
+	(Engine.get_main_loop() as SceneTree).root.add_child(menu)
+	menu.import_png(png)
+	assert_eq(SaveGame.read(), JSON.parse_string(JSON.stringify(save)), "sauvegarde retrouvée")
+	assert_true(menu.find_child("SaveInfo", true, false).text.contains("importée"))
+	image.set_pixel(0, 0, Color.BLACK)
+	assert_false(SaveGame.from_png(image.save_png_to_buffer()), "image quelconque refusée")
+	assert_false(SaveGame.from_png(PackedByteArray([1, 2, 3])), "fichier qui n'est pas une image refusé")
+	assert_eq(SaveGame.read()["personnage"]["nom"], "Grik", "un import refusé ne touche pas à la sauvegarde")
+	menu.free()
+	if before.is_empty():
+		DirAccess.remove_absolute(SaveGame.PATH)
+	else:
+		FileAccess.open(SaveGame.PATH, FileAccess.WRITE).store_buffer(before)
+
+
 func test_historique_a_canaux() -> void:
 	Session.message_log_folded = false
 	Session.message_log_channel = MessageLog.CHANNEL_ALL

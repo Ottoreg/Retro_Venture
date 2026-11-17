@@ -271,6 +271,8 @@ Dernière session (retours de la passe de l'auteur) :
 - **Mode héros en solo** (04/11/2026, GDD § 4.6, sur `dev`) : 4 héros au plus, un contrôlé, les autres
   cachés sur sa case, toute l'équipe en combat (joué tour à tour), quête « Pour l'équipe », protocole v13.
   En ligne plus tard.
+- **Export / import de la sauvegarde solo** (17/11/2026, GDD § 13.4) : menu principal, image PNG chiffrée
+  (`SaveGame.to_png` / `from_png`, AES-256-CBC, clé tirée de `SaveGame.SECRET`, 3 octets par pixel).
 - Le pseudo choisi est déjà utilisé partout ; « Aventurier » (`World.DEFAULT_NAME`) n'apparaît
   que dans les tests et les captures, sans écran de création.
 

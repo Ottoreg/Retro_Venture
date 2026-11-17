@@ -3143,6 +3143,13 @@ récompenses à chaque fin). Donjons classiques :
 - Compte avec plusieurs personnages ; sauvegarde serveur (base de données).
 - Le mode solo utilise **le même format de sauvegarde** (fichier local), ce qui permet d'envisager la
   migration d'un personnage solo vers le serveur (décidé : pas de migration, § 16.5).
+- **Export / import de la sauvegarde solo** (17/11/2026, demande de l'auteur) : boutons du menu
+  principal. Le JSON est compressé (gzip), chiffré en AES-256-CBC (clé = SHA-256 de `SaveGame.SECRET`,
+  vecteur d'initialisation tiré au hasard) puis écrit dans une image PNG carrée dont chaque pixel porte
+  3 octets (rouge, vert, bleu) : un brouillard coloré. En-tête `RVS1`, vecteur, taille ; pixels
+  restants aléatoires. Le secret est dans le code du client : il empêche de lire ou retoucher la
+  sauvegarde à la main, pas un joueur déterminé. Navigateur : téléchargement et choix de fichier par
+  `JavaScriptBridge` ; client natif : fenêtre de fichiers du système.
 - Plan technique (serveur, protocole, comptes, base, hébergement, jalons) : § 16.5.
 
 ### 13.5 Sécurité et modération

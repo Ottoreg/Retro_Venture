@@ -495,6 +495,8 @@ Lots 0 (conception dans le GDD), 1 (personnage, poussé sur `main` à la demande
 - [ ] Villes hostiles aux autres camps avant l'acte III (gardes PNJ agressifs)
 - [x] **(MVP)** Sauvegarde / chargement automatique (personnage, carte, position, groupes restants avec
   leur composition et leur place, groupes vaincus) dans `user://`
+- [x] Export / import de la sauvegarde solo depuis le menu principal (17/11/2026, demande de l'auteur) :
+  image PNG chiffrée, 3 octets par pixel (`SaveGame.to_png`, `from_png`)
 - [x] Pierres de Passage : une sur la 1re carte de chaque zone, voyage de l'une à l'autre
   (les zones ne sont pas reliées autrement pour l'instant)
 - [x] Pierres de Passage à découvrir (en touchant la pierre), voyage payant (10 brumes vers une zone de
