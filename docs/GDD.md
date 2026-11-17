@@ -590,6 +590,31 @@ pourrait le faire un Paladin.
 - *Les deux Voies* : l'Ombre peut **entrer dans l'ombre d'un allié ou d'un ennemi** et en ressortir
   au moment de son choix.
 
+**Monde des ombres** (nom provisoire, sort de classe de l'Ombre, validé par l'auteur le 17/11/2026, rien de codé) :
+
+- Le sort cible le **lanceur, un allié ou un ennemi**. Lancé hors de la dimension, il **envoie** la cible dans le
+  monde des ombres ; lancé dedans, il l'en **fait sortir**.
+- Le monde des ombres reprend **exactement la carte du combat** ; seules les entités d'une **même dimension**
+  interagissent entre elles. Il n'y a **qu'une dimension**, partagée par toutes les Ombres du combat.
+- Une entité envoyée y reste **2 tours** ; une Ombre peut écourter ce séjour avec son sort (sur elle ou une autre
+  entité). S'il n'y a **aucune Ombre** dans la dimension, tous en sortent au bout d'**un seul tour**.
+- **Visibilité** : depuis dehors, des **ombres** marquent sous les cases celles occupées dans la dimension (sans
+  qu'on distingue le camp) ; depuis dedans, des **lueurs** marquent les cases occupées dehors.
+- Les **armes d'ombre à retardement** (accrochées aux entités) sont placées et **visibles dans le monde des
+  ombres** : elles servent à « marquer » une cible pour la suivre.
+- **Sortie sur une case occupée** : la sortante **échange de place** avec l'entité de cette case hors de la
+  dimension, alliée ou ennemie (échange forcé, utilisable pour faire entrer un ennemi en se plaçant sur sa case).
+  Un seul échange par case et par entité et par tour ; l'entité entrée par échange ne peut pas ressortir tout de
+  suite par effet de sort. Si l'entité de la case a le **buff anti-retour**, pas d'échange : la sortante va sur la
+  case libre la plus proche et l'autre reste dehors.
+- **Buff anti-retour** à la sortie : **2 tours** (1 tour pour les Ombres).
+- Les **effets durables** d'un personnage sont conservés d'une dimension à l'autre.
+- **Fin du combat** seulement quand tous les personnages d'un camp sont morts, **ceux des ombres compris** (les
+  tuer dedans ou attendre qu'ils sortent).
+- Les **boss** sont envoyables, sauf certains, à définir au cas par cas.
+- Difficulté de programmation estimée **moyenne** : un filtre de dimension partout (ciblage, zones, cases
+  partagées, ligne de vue, tacle, IA, affichage, et masquage côté serveur en multijoueur).
+
 **Rôdeur — Voie Flamme : pièges et explosifs**
 
 La Voie Flamme s'articule autour de **pièges explosifs** qui se déclenchent au passage. Le Rôdeur

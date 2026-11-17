@@ -1,6 +1,6 @@
 # Ombre — Tempête / Acier
 
-**État** : pistes de l'auteur seulement (GDD § 4.3) ; rien de conçu ni de codé.
+**État** : pistes de l'auteur (GDD § 4.3) et sort « Monde des ombres » conçu ; rien de codé.
 
 ## Identité
 
@@ -10,6 +10,8 @@
 - Base (PV, PA, PM, initiative) : à fixer.
 - Commun aux deux Voies : entrer dans l'ombre d'un allié ou d'un ennemi et en ressortir quand elle veut
   (candidat pour le passif ou un sort partagé).
+- **Monde des ombres** (sort de classe, conçu et validé le 17/11/2026, GDD § 4.3) : envoie dans une dimension
+  parallèle (même carte, 2 tours) ou en fait sortir, échange de place à la sortie sur une case occupée.
 
 ## Passif de classe — à concevoir
 
@@ -55,7 +57,7 @@ entrave par les ombres façon Naruto).
 
 ## Mécaniques à coder
 
-Invisibilité, clones qui explosent, armes à dégâts différés, entrée dans l'ombre d'un combattant.
+Invisibilité, clones qui explosent, armes à dégâts différés, entrée dans l'ombre d'un combattant, monde des ombres.
 
 ## À faire
 
