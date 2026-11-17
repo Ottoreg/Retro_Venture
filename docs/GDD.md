@@ -608,6 +608,9 @@ pourrait le faire un Paladin.
   Un seul échange par case et par entité et par tour ; l'entité entrée par échange ne peut pas ressortir tout de
   suite par effet de sort. Si l'entité de la case a le **buff anti-retour**, pas d'échange : la sortante va sur la
   case libre la plus proche et l'autre reste dehors.
+- **Ambiance** (à faire) : un **filtre d'ambiance** posé sur la carte pour la dimension des ombres, qui l'assombrit
+  et la passe presque en noir et blanc (aperçu du 17/11/2026 sur `brumerive_1_0`, en exploration et en combat : gris
+  à 12 % de couleur, luminosité à 62 %, légère teinte bleue ; à poser sous les marques de combat et l'interface).
 - **Buff anti-retour** à la sortie : **2 tours** (1 tour pour les Ombres).
 - Les **effets durables** d'un personnage sont conservés d'une dimension à l'autre.
 - **Fin du combat** seulement quand tous les personnages d'un camp sont morts, **ceux des ombres compris** (les
