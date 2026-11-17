@@ -11,7 +11,8 @@
 - Commun aux deux Voies : entrer dans l'ombre d'un allié ou d'un ennemi et en ressortir quand elle veut
   (candidat pour le passif ou un sort partagé).
 - **Monde des ombres** (sort de classe, conçu et validé le 17/11/2026, GDD § 4.3) : envoie dans une dimension
-  parallèle (même carte, 2 tours) ou en fait sortir, échange de place à la sortie sur une case occupée.
+  parallèle (même carte, 2 tours) ou en fait sortir, échange de place à la sortie sur une case occupée ; vue de dehors, l'ombre d'une entité
+  n'apparaît que quand elle lance un sort, vue de dedans, des lueurs permanentes et anonymes.
 
 ## Passif de classe — à concevoir
 

@@ -598,8 +598,9 @@ pourrait le faire un Paladin.
   interagissent entre elles. Il n'y a **qu'une dimension**, partagée par toutes les Ombres du combat.
 - Une entité envoyée y reste **2 tours** ; une Ombre peut écourter ce séjour avec son sort (sur elle ou une autre
   entité). S'il n'y a **aucune Ombre** dans la dimension, tous en sortent au bout d'**un seul tour**.
-- **Visibilité** : depuis dehors, des **ombres** marquent sous les cases celles occupées dans la dimension (sans
-  qu'on distingue le camp) ; depuis dedans, des **lueurs** marquent les cases occupées dehors.
+- **Visibilité** (révisée le 17/11/2026) : depuis dehors, rien ne se voit en permanence ; quand une entité de la
+  dimension **lance un sort**, son **ombre est projetée** dans le monde extérieur, sur sa case. Depuis dedans, des
+  **lueurs** marquent **en permanence** les cases occupées dehors, sans qu'on puisse savoir qui est qui.
 - Les **armes d'ombre à retardement** (accrochées aux entités) sont placées et **visibles dans le monde des
   ombres** : elles servent à « marquer » une cible pour la suivre.
 - **Sortie sur une case occupée** : la sortante **échange de place** avec l'entité de cette case hors de la
