@@ -1,0 +1,9 @@
+Milicien de Hautepierre — palier 2, mêlée (coup d'épée, bouclier levé). Zone : Crasse-Roc.
+« Envoyé « sécuriser » les galeries. Il sécurise surtout les tonneaux de bière du poste. »
+Toile 64 × 64 (gabarit moyen), 8 directions, low top-down. Référence : ref_humain_sud.png.
+
+PROMPT
+human town militiaman, tired unshaven face, brown hair, open-faced iron helmet, faded blue tabard over chainmail, gold belt, dark trousers and boots, short sword in one hand, round wooden shield in the other, small beer mug hanging at the belt, full body standing, dark muted fantasy palette, gritty detailed pixel art, near-black 1px outline, soft light from top left, transparent background
+
+NÉGATIF (si le champ existe)
+bright saturated colors, cute chibi proportions, blurry, anti-aliasing, ground shadow, text

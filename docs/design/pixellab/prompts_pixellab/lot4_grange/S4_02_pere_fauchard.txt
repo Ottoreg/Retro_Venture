@@ -1,0 +1,9 @@
+Père Fauchard, Épouvantail en chef — MINI-BOSS de la Grange, palier 2 (faux, bourrasque). Zone : Grange du Père Fauchard.
+« Il garde la grange depuis quarante ans. Personne ne lui a dit que la ferme avait changé de propriétaire. »
+Toile 96 × 96 (grand gabarit), corps d'environ 78 px, grand et maigre, 8 directions, low top-down. Référence : ref_humain_sud.png et l'Épouvantail démotivé.
+
+PROMPT
+tall gaunt old scarecrow chief, burlap sack head with stern stitched face and a long straw-white beard, huge battered straw hat, faded brown farmer's coat over a patched shirt, blue-grey trousers, straw bursting from cuffs, large rusty scythe held in both hands, a few crows circling the hat, full body standing, dark muted fantasy palette, gritty detailed pixel art, near-black 1px outline, soft light from top left, transparent background
+
+NÉGATIF (si le champ existe)
+bright saturated colors, cute chibi proportions, blurry, anti-aliasing, ground shadow, text

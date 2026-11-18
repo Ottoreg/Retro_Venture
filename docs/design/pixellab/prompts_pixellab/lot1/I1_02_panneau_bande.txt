@@ -1,0 +1,5 @@
+Panneau des bandes latérales (nine-patch) — fond des bandes gauche, droite et bas.
+Image 48 × 48 : coins 16 × 16, bords de 16 px répétables, centre uni opaque. Version plus sobre que la fenêtre.
+
+PROMPT
+square side panel frame for a fantasy RPG interface, simple sober border of smooth dark grey stone with a thin iron inner trim, no ornaments, plain flat very dark grey opaque center, border pattern repeating evenly so it can be tiled, flat front view UI element, dark muted fantasy palette, neutral grey stone and iron, gritty detailed pixel art, near-black 1px outline, soft light from top left, no text, transparent outside the frame

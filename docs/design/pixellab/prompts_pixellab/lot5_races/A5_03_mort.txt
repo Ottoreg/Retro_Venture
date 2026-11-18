@@ -1,0 +1,9 @@
+Mort — combat.
+Pour les 9 races : humain, gobelin, elfe (planches existantes) et les 6 R5_*.txt une fois validés.
+Outil PixelLab « Animate » (animation par texte) sur le personnage validé ; 4 directions diagonales, 5 images, sans boucle (la dernière image reste affichée).
+
+PROMPT
+death: staggers, knees buckle, collapses and falls backward to lie flat on the ground, last frame lying still
+
+NÉGATIF (si le champ existe)
+camera movement, changing outfit, changing proportions, weapon appearing, extra limbs, blurry, anti-aliasing, ground shadow, text

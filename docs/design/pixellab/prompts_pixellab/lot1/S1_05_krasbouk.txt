@@ -1,0 +1,10 @@
+Krasbouk, Chef de Raid (syndiqué) — mini-boss de Brumerive, palier 2, mêlée (hachoir, hachette, cri de raid).
+« Il mène le raid sur Brumerive parce que son contrat le dit. Il a lu le contrat. Lui seul. »
+Toile 96 × 96 (gabarit grand : mini-boss), corps d'environ 72 px, 8 directions, low top-down.
+Référence : ref_gobelin_sud.png (même race, en plus massif).
+
+PROMPT
+large burly goblin warlord, dark olive green skin, long pointed ears, heavy jaw with tusks, self-important frown, horned iron helmet, dark red tunic under grey iron armor plates, gold belt, ash-grey tattered cape, heavy cleaver in one hand and a hatchet in the other, a rolled parchment contract tucked in the belt, full body standing, dark muted fantasy palette, gritty detailed pixel art, near-black 1px outline, soft light from top left, transparent background
+
+NÉGATIF (si le champ existe)
+bright saturated colors, cute chibi proportions, blurry, anti-aliasing, ground shadow, text

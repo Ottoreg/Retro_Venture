@@ -1,0 +1,9 @@
+Nain (homme) — race joueur, camp allié (Phase 3). Forges de Durhal.
+« Bourrus, barbus, et convaincus que tout problème se règle à coups de marteau ou de paperasse syndicale. »
+Toile 64 × 64, 8 directions, low top-down, image fixe (les animations : A5_*.txt). Référence : ref_humain_sud.png (plus petit et plus large).
+
+PROMPT
+stocky male dwarf, short and very broad, grumpy frowning face, huge braided dark red beard tucked into the belt, bushy eyebrows, bald head with a few scars, plain undyed grey-beige wool tunic over chainmail, thick brown leather belt with brass buckle, heavy brown boots, sturdy limbs, no weapon, empty hands, full body standing, dark muted fantasy palette, gritty detailed pixel art, near-black 1px outline, soft light from top left, transparent background
+
+NÉGATIF (si le champ existe)
+bright saturated colors, cute chibi proportions, weapon, blurry, anti-aliasing, ground shadow, text, helmet, tall

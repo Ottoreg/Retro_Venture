@@ -1,0 +1,9 @@
+Semi-homme (femme) — race joueur, camp neutre (Phase 3). Collines de Brumerive.
+« Petit peuple discret qui pense surtout à son second petit-déjeuner. »
+Toile 64 × 64, 8 directions, low top-down, image fixe (les animations : A5_*.txt). Référence : ref_humain_sud.png (moitié moins haute, ronde).
+
+PROMPT
+short halfling woman, half human height, plump round build, rosy cheeks, cheerful content expression, curly chestnut hair in a bun, large bare hairy feet, plain undyed grey-beige wool dress with brown leather vest and apron, small food pouch at the belt, no weapon, empty hands, full body standing, dark muted fantasy palette, gritty detailed pixel art, near-black 1px outline, soft light from top left, transparent background
+
+NÉGATIF (si le champ existe)
+bright saturated colors, cute chibi proportions, weapon, blurry, anti-aliasing, ground shadow, text, tall, revealing clothes

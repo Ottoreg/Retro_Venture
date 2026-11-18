@@ -1,0 +1,9 @@
+Orc (homme) — race joueur, camp ennemi (Phase 3). Fosses de Crasse-Roc.
+« Braillards, rancuniers, et sincèrement vexés qu'on les prenne pour des gobelins en plus grand. »
+Toile 64 × 64, 8 directions, low top-down, image fixe (les animations : A5_*.txt). Référence : ref_gobelin_sud.png (même univers, mais taille humaine et massif).
+
+PROMPT
+big muscular male orc, dull grey-green skin, protruding lower tusks, heavy brow, small angry eyes, black topknot, crude plain undyed grey-beige cloth tunic and rough leather straps, spiked iron shoulder pad on one side, bracers, hide boots, broad hunched shoulders, no weapon, empty hands, full body standing, dark muted fantasy palette, gritty detailed pixel art, near-black 1px outline, soft light from top left, transparent background
+
+NÉGATIF (si le champ existe)
+bright saturated colors, cute chibi proportions, weapon, blurry, anti-aliasing, ground shadow, text, cute face

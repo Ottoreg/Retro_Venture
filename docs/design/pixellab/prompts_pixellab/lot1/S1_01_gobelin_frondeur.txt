@@ -1,0 +1,9 @@
+Gobelin frondeur — palier 1, attaque à distance (fronde). Zone : Brumerive.
+« Éclaireur des raids gobelins. Ne s'approche jamais : ce n'est pas dans sa fiche de poste. »
+Toile 64 × 64, 8 directions, low top-down. Référence : ref_gobelin_sud.png.
+
+PROMPT
+small scrawny goblin skirmisher, olive green skin, long pointed ears, sly bored expression, ragged brown leather tunic and dark trousers, bare feet, leather sling held in one hand, small pouch of stones at the belt, full body standing, dark muted fantasy palette, gritty detailed pixel art, near-black 1px outline, soft light from top left, transparent background
+
+NÉGATIF (si le champ existe)
+bright saturated colors, cute chibi proportions, blurry, anti-aliasing, ground shadow, text

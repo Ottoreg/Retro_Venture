@@ -1,0 +1,6 @@
+LOT S2 — Crasse-Roc (mines gobelines et gorges cendrées ; élément dominant : Flamme) — prompts PixelLab (fiche de style v2, ton sombre)
+Réglages communs, vérifications et marche d'import : voir ../lot1/00_LISEZMOI.txt (identiques).
+Références : ../lot1/references/ (ref_gobelin_sud.png, ref_humain_sud.png, ref_loup_sud.png, palette_v2_bande.png).
+8 directions, vue low top-down, contour noir, images fixes seulement (pas de course).
+Dépôt des résultats : dans le fil, ou dans le dossier du projet sous pixellab/lot2_crasse_roc/<nom_du_fichier_prompt>/.
+Les élites et chefs de ces familles reprennent le dessin de leur famille (agrandi × 1,2), sans prompt à part.

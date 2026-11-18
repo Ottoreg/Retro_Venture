@@ -1,0 +1,9 @@
+Récolte — hors combat (tous les métiers : cueillir, couper, pêcher… le geste reste générique).
+Pour les 9 races : humain, gobelin, elfe (planches existantes) et les 6 R5_*.txt une fois validés.
+Outil PixelLab « Animate » (animation par texte) sur le personnage validé ; 8 directions, 4 images, en boucle.
+
+PROMPT
+harvesting: crouch down, reach forward with both hands and pull something from the ground, stand back up slightly, repeat
+
+NÉGATIF (si le champ existe)
+camera movement, changing outfit, changing proportions, weapon appearing, extra limbs, blurry, anti-aliasing, ground shadow, text

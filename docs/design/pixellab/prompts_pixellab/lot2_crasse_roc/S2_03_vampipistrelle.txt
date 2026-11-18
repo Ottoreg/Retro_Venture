@@ -1,0 +1,9 @@
+Vampipistrelle — palier 1, morsure (suçon) et ultrason. Zone : Crasse-Roc.
+« Une pipistrelle qui s'est prise pour un vampire. Personne n'a osé la contredire. »
+Toile 48 × 48 (petit gabarit), corps d'environ 26 px, en vol stationnaire, 8 directions, low top-down. Référence : ref_loup_sud.png.
+
+PROMPT
+small bat pretending to be a vampire, dark brown fur, wings spread hovering in the air, tiny high-collared red-lined black cape, oversized fangs, haughty red eyes, slicked fur on the head, full body standing, dark muted fantasy palette, gritty detailed pixel art, near-black 1px outline, soft light from top left, transparent background
+
+NÉGATIF (si le champ existe)
+bright saturated colors, cute chibi proportions, blurry, anti-aliasing, ground shadow, text

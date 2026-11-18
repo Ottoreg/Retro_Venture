@@ -1,0 +1,9 @@
+Squelette (homme) — race joueur, camp ennemi (Phase 3), mort-vivant. Marais Gris.
+« Soldats de la Première Ombre relevés par le Souverain Cendré. Ils ne savent plus très bien pourquoi ils se battent, mais ils sont là. »
+Toile 64 × 64, 8 directions, low top-down, image fixe (les animations : A5_*.txt). Référence : ref_humain_sud.png (taille humaine, os à la place de la peau).
+
+PROMPT
+undead male skeleton soldier, yellowed bones, empty eye sockets with faint pale blue glow, slightly crooked jaw, torn plain undyed grey-beige cloth tunic, rusted iron breastplate and one rusted pauldron, frayed belt, bony feet, slightly slouched tired posture, no weapon, empty hands, full body standing, dark muted fantasy palette, gritty detailed pixel art, near-black 1px outline, soft light from top left, transparent background
+
+NÉGATIF (si le champ existe)
+bright saturated colors, cute chibi proportions, weapon, blurry, anti-aliasing, ground shadow, text, horror gore, blood, flesh, skin

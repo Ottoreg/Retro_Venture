@@ -1,0 +1,7 @@
+Onglet (nine-patch), 2 états : onglet_actif.png et onglet_inactif.png.
+Chaque image 24 × 24 : coins 8 × 8, bords de 8 px répétables ; bas ouvert (l'onglet se colle au cadre).
+
+PROMPT (actif)
+small tab for a fantasy RPG window, dark grey stone tab with thin iron rim and a tiny gold line along the top edge, rounded top corners, open flat bottom edge, plain center, border repeating evenly so it can be tiled, flat front view UI element, dark muted fantasy palette, neutral grey stone and iron, gritty detailed pixel art, near-black 1px outline, soft light from top left, no text, transparent outside the frame
+
+PROMPT (inactif) : même texte, en remplaçant « a tiny gold line along the top edge » par « no gold line, darker and slightly faded »

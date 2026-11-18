@@ -1,0 +1,9 @@
+Lutin (femme) — race joueur, camp neutre (Phase 3). Bois des Lutins.
+« Petit peuple farceur des bois et des collines, qui joue des tours à tout le monde, y compris à ses alliés. »
+Toile 48 × 48 (dessinée environ 0,8 × l'humain ; si PixelLab refuse, 64 × 64 et je réduis), 8 directions, low top-down, image fixe (les animations : A5_*.txt). Référence : ref_humain_sud.png (bien plus petite).
+
+PROMPT
+tiny female sprite folk trickster, small slender build, long thin pointed ears, mischievous grin, wild messy moss-green hair with a leaf, pale greyish skin, plain undyed grey-beige pointed-hood tunic, mossy brown leggings, curled pointed shoes, no weapon, empty hands, full body standing, dark muted fantasy palette, gritty detailed pixel art, near-black 1px outline, soft light from top left, transparent background
+
+NÉGATIF (si le champ existe)
+bright saturated colors, cute chibi proportions, weapon, blurry, anti-aliasing, ground shadow, text, fairy wings, elf, revealing clothes

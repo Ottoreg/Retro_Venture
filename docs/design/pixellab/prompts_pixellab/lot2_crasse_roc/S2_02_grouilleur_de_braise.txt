@@ -1,0 +1,9 @@
+Grouilleur de braise — palier 3, mêlée et crachat de feu (FACULTATIF : sinon le jeu recolore le Grouilleur avec sa teinte actuelle ff9a60). Zone : Crasse-Roc.
+« Un grouilleur descendu des mines dans les gorges cendrées. Son acide a pris feu ; ses pattes aussi, un peu. »
+Toile 48 × 48 (petit gabarit), un peu plus grand que le Grouilleur, 8 directions, low top-down. Référence : ref_loup_sud.png.
+
+PROMPT
+dog-sized giant centipede, segmented charred black carapace with glowing orange ember cracks, many thin legs with smouldering tips, big pincer mandibles, small flames dripping from the mouth, low crawling posture, full body standing, dark muted fantasy palette, gritty detailed pixel art, near-black 1px outline, soft light from top left, transparent background
+
+NÉGATIF (si le champ existe)
+bright saturated colors, cute chibi proportions, blurry, anti-aliasing, ground shadow, text

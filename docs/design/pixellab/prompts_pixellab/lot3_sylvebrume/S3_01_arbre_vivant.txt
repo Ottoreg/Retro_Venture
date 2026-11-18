@@ -1,0 +1,9 @@
+Arbre vivant — palier 1, mêlée (branche, racines). Zone : Sylvebrume.
+« Un vieux chêne qui en a assez qu'on lui coupe les branches. »
+Toile 64 × 64 (gabarit moyen), 8 directions, low top-down. Référence : ref_humain_sud.png (pour la taille).
+
+PROMPT
+small walking oak tree creature, gnarled dark bark body, grumpy old face carved in the trunk, two thick branch arms, walking on twisted root legs, sparse dark green leaf crown, a few sawn-off branch stumps, full body standing, dark muted fantasy palette, gritty detailed pixel art, near-black 1px outline, soft light from top left, transparent background
+
+NÉGATIF (si le champ existe)
+bright saturated colors, cute chibi proportions, blurry, anti-aliasing, ground shadow, text

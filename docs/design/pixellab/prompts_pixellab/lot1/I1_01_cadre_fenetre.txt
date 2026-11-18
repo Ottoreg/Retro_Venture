@@ -1,0 +1,5 @@
+Cadre de fenêtre (nine-patch) — toutes les fenêtres à taille fixe.
+Image 48 × 48 : coins 16 × 16, bords de 16 px à motif répétable, centre uni opaque. Marge de contenu 12 px.
+
+PROMPT
+square window frame for a fantasy RPG interface, thick border of carved dark grey stone blocks with riveted iron corner brackets, small gold rivet in each corner, plain flat dark grey opaque center, border pattern repeating evenly so it can be tiled, flat front view UI element, dark muted fantasy palette, neutral grey stone and iron, gritty detailed pixel art, near-black 1px outline, soft light from top left, no text, transparent outside the frame

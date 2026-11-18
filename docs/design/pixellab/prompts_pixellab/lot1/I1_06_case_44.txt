@@ -1,0 +1,5 @@
+Case d'inventaire et de sort — fixe, pas de nine-patch.
+Image 44 × 44 : cadre de 3 px, intérieur creux de 38 × 38 où se pose l'icône.
+
+PROMPT
+square inventory slot for a fantasy RPG interface, recessed dark socket framed by a 3 pixel wide grey iron border with tiny corner rivets, inner shadow on the top-left inside edge, empty very dark grey opaque inside, flat front view UI element, dark muted fantasy palette, neutral grey stone and iron, gritty detailed pixel art, near-black 1px outline, soft light from top left, no text, transparent outside the frame

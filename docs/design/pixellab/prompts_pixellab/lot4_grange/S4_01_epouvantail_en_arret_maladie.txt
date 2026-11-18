@@ -1,0 +1,9 @@
+Épouvantail en arrêt maladie — palier 2, mêlée (fourche, éternuement). Zone : Grange du Père Fauchard.
+« Il ne fait plus peur à personne depuis trois saisons. Il a un certificat. Il éternue sur ceux qui le contestent. »
+Toile 64 × 64 (gabarit moyen), même gabarit que l'Épouvantail démotivé du lot 1, 8 directions, low top-down. Référence : ref_humain_sud.png et, une fois fait, l'Épouvantail démotivé.
+
+PROMPT
+sick walking scarecrow, burlap sack head with stitched miserable face and a red runny nose, wool scarf around the neck, straw sticking out, battered straw hat, pale blue-grey shirt and off-white pyjama trousers, hunched shivering posture, old pitchfork in one hand, crumpled handkerchief in the other, full body standing, dark muted fantasy palette, gritty detailed pixel art, near-black 1px outline, soft light from top left, transparent background
+
+NÉGATIF (si le champ existe)
+bright saturated colors, cute chibi proportions, blurry, anti-aliasing, ground shadow, text

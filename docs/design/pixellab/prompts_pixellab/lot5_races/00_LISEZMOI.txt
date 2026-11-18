@@ -1,0 +1,30 @@
+LOT 5 — Races joueur — prompts PixelLab (fiche de style v2, ton sombre)
+Réglages communs, vérifications et marche d'import : voir ../lot1/00_LISEZMOI.txt (identiques), sauf ce qui suit.
+Références : ../lot1/references/ (ref_humain_sud.png, ref_gobelin_sud.png, palette_v2_bande.png).
+
+DÉCISIONS DE L'AUTEUR (18/11/2026)
+  - Un seul sexe et une seule apparence par race (un vrai graphiste reprendra races, sexes et classes plus tard).
+    Humain, Gobelin, Elfe : planches existantes gardées telles quelles.
+    Nain, Orc, Squelette : hommes. Semi-homme, Lutin, Géant : femmes.
+  - Pas de prompt par Voie : la tenue est recolorée aux couleurs de chaque Voie (tools/couleurs_sprites.py).
+    Pour ça, chaque nouvelle race porte une tunique « plain undyed grey-beige » : garder une tunique
+    nettement distincte de la peau et des cheveux, sinon la recoloration attrape aussi le corps.
+  - Animations : course (4 images, comme aujourd'hui), plus attaque de corps à corps, subir des dégâts,
+    mort et récolte, pour les 9 races.
+
+CONTENU
+  R5_01_nain.txt  R5_02_orc.txt  R5_03_squelette.txt  R5_04_geant.txt  R5_05_semi_homme.txt  R5_06_lutin.txt
+      → le personnage (image fixe, 8 directions). Puis sa course : « Animate » walk/run, 4 images, 8 directions.
+  A5_01_attaque_corps_a_corps.txt  A5_02_subir_degats.txt  A5_03_mort.txt  A5_04_recolte.txt
+      → animations par texte, à lancer sur chacune des 9 races.
+
+TAILLES
+  64 × 64 pour tous, sauf Géant 96 × 96 (environ 1,25 ×) et Lutin 48 × 48 (environ 0,8 ×) : GDD § 4.2.
+
+DÉPÔT DES RÉSULTATS
+  Dans le fil, ou dans le dossier du projet sous pixellab/lot5_races/<race>/<animation>/
+  (fixe, course, attaque, degats, mort, recolte), avec les PNG tels que PixelLab les donne.
+
+À SAVOIR POUR LE JEU
+  La planche actuelle n'a que l'image fixe et la course (5 colonnes). Intégrer attaque, dégâts, mort et
+  récolte demandera d'agrandir la planche et de modifier client/art/sprites.gd : je te le proposerai à part.

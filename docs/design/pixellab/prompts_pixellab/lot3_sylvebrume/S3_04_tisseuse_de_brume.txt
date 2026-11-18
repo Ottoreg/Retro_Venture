@@ -1,0 +1,9 @@
+Tisseuse de brume — palier 2, morsure et toile. Zone : Sylvebrume.
+« Une araignée grosse comme un poney, qui tisse le brouillard de Sylvebrume. Les elfes disent que c'est poétique. De loin. »
+Toile 64 × 64 (gabarit moyen), corps large et bas, 8 directions, low top-down. Référence : ref_loup_sud.png.
+
+PROMPT
+pony-sized giant spider, dark grey-violet hairy body, eight long jointed legs, cluster of pale glowing eyes, wisps of white mist threads trailing from the abdomen, low crouched stance, full body standing, dark muted fantasy palette, gritty detailed pixel art, near-black 1px outline, soft light from top left, transparent background
+
+NÉGATIF (si le champ existe)
+bright saturated colors, cute chibi proportions, blurry, anti-aliasing, ground shadow, text

@@ -1,0 +1,9 @@
+Cerf enchanté — palier 1, charge (ramure, éclat sylvestre). Zone : Sylvebrume.
+« Ses bois luisent au crépuscule. Il charge aussi, au crépuscule et le reste du temps. »
+Toile 64 × 64 (gabarit moyen), 8 directions, low top-down. Référence : ref_loup_sud.png (quadrupède).
+
+PROMPT
+proud enchanted stag, dark brown coat with pale spots, large antlers glowing faintly pale blue at the tips, head lowered ready to charge, stamping hoof, standing on four legs, full body standing, dark muted fantasy palette, gritty detailed pixel art, near-black 1px outline, soft light from top left, transparent background
+
+NÉGATIF (si le champ existe)
+bright saturated colors, cute chibi proportions, blurry, anti-aliasing, ground shadow, text

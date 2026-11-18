@@ -1,0 +1,9 @@
+Géante (femme) — race joueur, camp allié (Phase 3). Montagnes des Géants.
+« Anciens gardiens des montagnes, alliés historiques des humains. Lents à se décider, et pas toujours très fins. »
+Toile 96 × 96 (dessinée environ 1,25 × plus grand que l'humain), 8 directions, low top-down, image fixe (les animations : A5_*.txt). Référence : ref_humain_sud.png (beaucoup plus grande).
+
+PROMPT
+huge female giant, towering strong heavy body, small head on wide shoulders, slow kind dim expression, long shaggy grey-brown hair in a thick braid, weathered tan skin, plain undyed grey-beige wool tunic belted with rope, fur mantle on the shoulders, large wrapped leather feet, enormous hands, no weapon, empty hands, full body standing, dark muted fantasy palette, gritty detailed pixel art, near-black 1px outline, soft light from top left, transparent background
+
+NÉGATIF (si le champ existe)
+bright saturated colors, cute chibi proportions, weapon, blurry, anti-aliasing, ground shadow, text, fat, monster

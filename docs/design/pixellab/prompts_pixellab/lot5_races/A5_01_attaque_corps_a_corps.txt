@@ -1,0 +1,9 @@
+Attaque de corps à corps — combat.
+Pour les 9 races : humain, gobelin, elfe (planches existantes) et les 6 R5_*.txt une fois validés.
+Outil PixelLab « Animate » (animation par texte) sur le personnage validé ; 4 directions diagonales (sud-est, nord-est, nord-ouest, sud-ouest : le combat n'utilise qu'elles), 4 images, sans boucle.
+
+PROMPT
+quick unarmed melee strike: lean forward and throw a hard punch with the right arm, then pull back to standing pose, feet stay in place
+
+NÉGATIF (si le champ existe)
+camera movement, changing outfit, changing proportions, weapon appearing, extra limbs, blurry, anti-aliasing, ground shadow, text

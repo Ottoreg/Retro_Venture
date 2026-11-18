@@ -1,0 +1,10 @@
+Bouton (nine-patch), 4 états à générer séparément, même gabarit.
+Chaque image 24 × 24 : coins 8 × 8, bords de 8 px répétables, centre uni.
+Fichiers attendus : bouton_normal.png, bouton_survol.png, bouton_appuye.png, bouton_grise.png.
+
+PROMPT (normal)
+small rectangular button for a fantasy RPG interface, beveled dark grey stone face with thin iron rim, raised look with light top-left edge and darker bottom-right edge, plain center, border repeating evenly so it can be tiled, flat front view UI element, dark muted fantasy palette, neutral grey stone and iron, gritty detailed pixel art, near-black 1px outline, soft light from top left, no text, transparent outside the frame
+
+PROMPT (survol) : même texte, en remplaçant « beveled dark grey stone face » par « slightly lighter beveled grey stone face with a faint gold glow on the rim »
+PROMPT (appuyé) : même texte, en remplaçant « raised look with light top-left edge and darker bottom-right edge » par « pressed in look with dark top-left edge and light bottom-right edge »
+PROMPT (grisé)  : même texte que normal, en ajoutant « desaturated, faded, low contrast, inactive »

@@ -1,0 +1,9 @@
+La Mère-Toile — MINI-BOSS de Sylvebrume, palier 2 (venin, morsure, toile). Zone : Sylvebrume.
+« Elle tisse depuis l'Âge de l'Aube et n'a jamais fini un seul napperon. Depuis que la Cendre tombe, elle tisse plus vite, et plus noir. »
+Toile 96 × 96 (grand gabarit), corps large et bas, 8 directions, low top-down. Référence : ref_loup_sud.png (pour le niveau de détail).
+
+PROMPT
+enormous ancient matriarch spider, pale lavender-grey hairy body streaked with black ash, eight long jointed legs, crown of many pale glowing eyes, dripping green venom fangs, unfinished lace doily web hanging from the front legs, low crouched stance, full body standing, dark muted fantasy palette, gritty detailed pixel art, near-black 1px outline, soft light from top left, transparent background
+
+NÉGATIF (si le champ existe)
+bright saturated colors, cute chibi proportions, blurry, anti-aliasing, ground shadow, text

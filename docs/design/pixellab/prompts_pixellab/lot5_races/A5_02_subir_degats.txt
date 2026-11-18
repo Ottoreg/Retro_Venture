@@ -1,0 +1,9 @@
+Subir des dégâts — combat.
+Pour les 9 races : humain, gobelin, elfe (planches existantes) et les 6 R5_*.txt une fois validés.
+Outil PixelLab « Animate » (animation par texte) sur le personnage validé ; 4 directions diagonales, 3 images, sans boucle.
+
+PROMPT
+taking a hit: body jolts backward, head snaps back, arms flinch up, then recover to standing pose, feet stay in place
+
+NÉGATIF (si le champ existe)
+camera movement, changing outfit, changing proportions, weapon appearing, extra limbs, blurry, anti-aliasing, ground shadow, text

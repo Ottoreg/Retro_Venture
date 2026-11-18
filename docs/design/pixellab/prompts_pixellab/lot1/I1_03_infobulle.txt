@@ -1,0 +1,5 @@
+Infobulle (nine-patch) — bulles de survol, opaques.
+Image 24 × 24 : coins 8 × 8, bords de 8 px répétables, centre uni opaque.
+
+PROMPT
+small tooltip box frame for a fantasy RPG interface, thin dark iron border with tiny corner studs, plain flat near-black opaque center, border repeating evenly so it can be tiled, flat front view UI element, dark muted fantasy palette, neutral grey stone and iron, gritty detailed pixel art, near-black 1px outline, soft light from top left, no text, transparent outside the frame

@@ -1,0 +1,9 @@
+Arbre calciné — palier 3, mêlée et cendres (FACULTATIF : sinon le jeu recolore l'Arbre vivant avec sa teinte actuelle 6a5a50). Zone : Sylvebrume.
+« Un arbre vivant que la première pluie de cendre a brûlé debout. Il marche encore, il fume, et il est de très mauvaise humeur. »
+Toile 64 × 64 (gabarit moyen), un peu plus grand que l'Arbre vivant, 8 directions, low top-down. Référence : ref_humain_sud.png.
+
+PROMPT
+small walking burnt tree creature, charred black cracked bark with faint glowing embers, furious face carved in the trunk, two thick charred branch arms, walking on twisted root legs, no leaves, wisps of grey smoke rising from the top, full body standing, dark muted fantasy palette, gritty detailed pixel art, near-black 1px outline, soft light from top left, transparent background
+
+NÉGATIF (si le champ existe)
+bright saturated colors, cute chibi proportions, blurry, anti-aliasing, ground shadow, text

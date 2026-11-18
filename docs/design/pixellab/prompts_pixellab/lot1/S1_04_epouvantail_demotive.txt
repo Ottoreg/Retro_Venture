@@ -1,0 +1,9 @@
+Épouvantail démotivé — palier 2, mêlée (fourche, nuée de corbeaux). Zone : Brumerive, Grange.
+« Il ne fait plus peur à personne depuis des années. Alors il se venge, mollement mais souvent. »
+Toile 64 × 64, 8 directions, low top-down. Référence : ref_humain_sud.png (taille humaine).
+
+PROMPT
+tired walking scarecrow, burlap sack head with stitched droopy bored face, straw sticking out of neck, sleeves and trouser cuffs, battered wide straw hat, faded patched brown shirt and blue-grey trousers, slouched posture, old pitchfork held in one hand, a single crow perched on the shoulder, full body standing, dark muted fantasy palette, gritty detailed pixel art, near-black 1px outline, soft light from top left, transparent background
+
+NÉGATIF (si le champ existe)
+bright saturated colors, cute chibi proportions, horror gore, blurry, anti-aliasing, ground shadow, text

@@ -1,0 +1,9 @@
+Le Balourd des Abîmes — MINI-BOSS de Crasse-Roc, palier 2 (lame de braise, fouet, crachat de lave). Zone : Crasse-Roc.
+« Les gobelins ont creusé trop profond. Le contremaître dit que c'est la faute des ouvriers. Le Balourd dit que c'est la faute de tout le monde. »
+Toile 96 × 96 (grand gabarit), corps d'environ 80 px, 8 directions, low top-down. Référence : ref_gobelin_sud.png (pour le niveau de détail ; créature bien plus massive).
+
+PROMPT
+huge hulking deep-earth demon brute, cracked black basalt skin with glowing lava seams, small horned head sunk between massive shoulders, grumpy dim-witted expression, burning ember blade in one hand, fiery whip in the other, smoke rising from the shoulders, full body standing, dark muted fantasy palette, gritty detailed pixel art, near-black 1px outline, soft light from top left, transparent background
+
+NÉGATIF (si le champ existe)
+bright saturated colors, cute chibi proportions, blurry, anti-aliasing, ground shadow, text

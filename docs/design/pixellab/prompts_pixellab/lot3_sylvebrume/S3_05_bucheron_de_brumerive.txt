@@ -1,0 +1,9 @@
+Bûcheron de Brumerive — palier 2, mêlée (cognée, « ça tombe ! »). Zone : Sylvebrume.
+« Il a un bon de coupe signé à Hautepierre et une hache aiguisée. Les elfes ont des flèches. Le débat est ouvert. »
+Toile 64 × 64 (gabarit moyen), 8 directions, low top-down. Référence : ref_humain_sud.png.
+
+PROMPT
+burly human lumberjack, thick brown beard, determined stubborn face, red wool shirt with rolled sleeves, dark blue trousers, leather boots, big felling axe resting on the shoulder, folded official logging permit tucked in the belt, full body standing, dark muted fantasy palette, gritty detailed pixel art, near-black 1px outline, soft light from top left, transparent background
+
+NÉGATIF (si le champ existe)
+bright saturated colors, cute chibi proportions, blurry, anti-aliasing, ground shadow, text

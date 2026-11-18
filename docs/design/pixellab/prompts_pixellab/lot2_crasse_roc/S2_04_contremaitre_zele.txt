@@ -1,0 +1,9 @@
+Contremaître zélé — palier 2, soutien (coup de bâton, heures sup, retenue sur salaire). Zone : Crasse-Roc.
+« Il fait travailler les autres avec une énergie qu'il n'a jamais mise à travailler lui-même. »
+Toile 64 × 64 (gabarit moyen), 8 directions, low top-down. Référence : ref_gobelin_sud.png.
+
+PROMPT
+pot-bellied goblin foreman, olive green skin, long pointed ears, smug bossy expression, dented iron miner's helmet with a candle stub, brown work shirt under a dark leather apron, gold belt buckle, wooden baton in one hand, clipboard with a time sheet in the other, full body standing, dark muted fantasy palette, gritty detailed pixel art, near-black 1px outline, soft light from top left, transparent background
+
+NÉGATIF (si le champ existe)
+bright saturated colors, cute chibi proportions, blurry, anti-aliasing, ground shadow, text

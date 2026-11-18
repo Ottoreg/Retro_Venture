@@ -1,0 +1,45 @@
+LOT 1 — Retro Venture — prompts PixelLab (fiche de style v2, ton sombre, validée le 14/11/2026)
+Fiche : https://claude.ai/artifact/4eGrjhwAvoC3W1TkhpdjSZ
+
+CONTENU
+  S1_*.txt : 5 monstres de Brumerive (sprites)
+  I1_*.txt : kit de base de l'interface (nine-patch et case)
+  references/ : ref_gobelin_sud.png, ref_humain_sud.png, ref_loup_sud.png (style à imiter),
+                palette_v2_bande.png (96 couleurs, 1 px chacune), palette_v2_sombre.png (lisible)
+
+RÉGLAGES COMMUNS (sprites, outil « Create character » de PixelLab)
+  - Toile : indiquée dans chaque fichier (64 × 64 pour les gobelins et l'épouvantail, 96 × 96 pour Krasbouk).
+  - Directions : 8 (l'outil d'assemblage du jeu attend les 8 fichiers ; le combat n'utilise que les diagonales).
+  - Vue : low top-down.
+  - Contour : single color black outline (contour noir de 1 px).
+  - Ombrage : medium shading ; détail : high detail.
+  - Si l'option existe : style / reference image = references/ref_gobelin_sud.png (ou ref_humain_sud.png
+    pour l'épouvantail) ; palette / color image = references/palette_v2_bande.png.
+  - Pas d'animation de course pour les monstres (comme loup, rat, morille) : images fixes seulement.
+  - Coller le texte « PROMPT » tel quel (en anglais : PixelLab le comprend mieux).
+
+À VÉRIFIER AVANT DE GARDER UN RÉSULTAT
+  - Même famille visuelle que les références : sombre, sourd, très détaillé, contour presque noir.
+  - Pieds en bas au centre de la toile, personnage entier (rien de coupé), fond transparent.
+  - Mêmes proportions et mêmes vêtements dans les 8 directions.
+  - Pas de pixels semi-transparents, pas de texte ni de sol dessiné.
+
+IMPORT (ce que tu fais / ce que je fais)
+  1. Toi : télécharger le ZIP PixelLab de chaque monstre (8 PNG nommés south.png, south-east.png…),
+     le déposer dans le fil, ou dans le dossier du projet sous pixellab/lot1/<nom_du_fichier_prompt>/.
+     Pour l'interface : déposer les PNG sous pixellab/lot1/interface/.
+  2. Moi : vérifier chaque image (taille, transparence, cadrage, cohérence des 8 directions),
+     la ramener dans la palette v2, assembler la planche avec tools/planche_sprites.py
+     (game/art/sprites/<monstre>.png), l'inscrire dans art.json (« planche », échelle 1,0),
+     faire des captures en jeu sur Brumerive et en combat, lancer les tests.
+  3. Moi : branche de session puis dev après fetch, rebase et tests verts. Jamais main.
+  Je te montre les captures avant de pousser sur dev.
+
+RÉGLAGES COMMUNS (interface, outil « Create image » de PixelLab)
+  - Taille exacte indiquée dans chaque fichier, sans agrandissement (1 pixel = 1 pixel à l'écran).
+    Si PixelLab refuse une taille sous 32 px, générer en 32 × 32 : j'ajusterai les marges du découpage.
+  - Vue : aucune (élément à plat, de face). Contour noir de 1 px ; palette = palette_v2_bande.png.
+  - Couleurs : pierre et métal GRIS NEUTRES (le jeu les teinte selon les 4 thèmes) ; seul l'or reste or.
+  - Fond transparent autour du cadre ; centre plein et opaque (fenêtres et infobulles sont opaques).
+  - Découpage en 9 parties : les coins restent fixes, les bords se répètent, le centre s'étire.
+    Les bords doivent donc avoir un motif qui se répète sans couture.

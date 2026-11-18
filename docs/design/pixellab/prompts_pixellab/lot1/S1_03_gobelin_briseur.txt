@@ -1,0 +1,9 @@
+Gobelin briseur — palier 2, mêlée lourde (coup de hache, épaulée, gnôle). Zone : Brumerive.
+« Spécialiste des portes, des palissades et des idées des autres. »
+Toile 64 × 64, 8 directions, low top-down. Référence : ref_gobelin_sud.png.
+
+PROMPT
+stocky veteran goblin brute, dark olive green skin, long pointed ears, scarred face, dented iron helmet, grey padded jerkin with steel pauldron on one shoulder, heavy boots, big wood-chopping axe held in both hands, small flask of moonshine at the belt, full body standing, dark muted fantasy palette, gritty detailed pixel art, near-black 1px outline, soft light from top left, transparent background
+
+NÉGATIF (si le champ existe)
+bright saturated colors, cute chibi proportions, blurry, anti-aliasing, ground shadow, text

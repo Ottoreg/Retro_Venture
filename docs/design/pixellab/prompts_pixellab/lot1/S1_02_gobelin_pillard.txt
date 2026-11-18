@@ -1,0 +1,9 @@
+Gobelin pillard — palier 2, mêlée (estocade, vol à l'arraché). Zone : Brumerive.
+« Il prend tout ce qui n'est pas cloué. Ce qui est cloué, il revient le chercher avec une pince. »
+Toile 64 × 64, 8 directions, low top-down. Référence : ref_gobelin_sud.png.
+
+PROMPT
+greedy goblin looter, olive green skin, long pointed ears, sneaky grin, worn straw hat, dark red tunic with patched sleeves, gold belt buckle, short rusty sword in one hand, overstuffed loot sack over the shoulder with a stolen candlestick sticking out, full body standing, dark muted fantasy palette, gritty detailed pixel art, near-black 1px outline, soft light from top left, transparent background
+
+NÉGATIF (si le champ existe)
+bright saturated colors, cute chibi proportions, blurry, anti-aliasing, ground shadow, text
