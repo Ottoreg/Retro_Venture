@@ -72,8 +72,8 @@ func test_icones_des_sorts_des_armes_et_des_objets() -> void:
 			var create: Dictionary = data.spells[spell_id].create_effect()
 			for created: Spell in create.get("sorts", {}).values():
 				assert_true(Art.has_image("sort_" + created.id), "icône du sort créé %s" % created.id)
-	for race_id: String in data.races:
-		assert_true(Art.has_image("sort_" + str(data.races[race_id]["sort"])), "icône du sort racial de %s" % race_id)
+	for race: Dictionary in data.races.values():
+		assert_true(not race.has("sort") or Art.has_image("sort_" + str(race["sort"])), "icône du sort racial de %s" % race["id"])
 	var weapon_icons: Dictionary = Art.manifest()["icones_armes"]
 	for item_id: String in data.items:
 		if data.items[item_id]["type"] == "arme":
@@ -142,7 +142,7 @@ func test_directions_des_sprites() -> void:
 		var ratio := float(Art.manifest()["monstres"][monster_id]["echelle"]) / float(Art.manifest()["monstres"][family]["echelle"])
 		assert_true(absf(ratio - 1.2) < 0.01, "%s : 1,2 fois %s" % [monster_id, family])
 	# Une planche aux couleurs de chaque Voie.
-	for race_id: String in ["gobelin", "humain", "elfe"]:
+	for race_id: String in ["gobelin", "humain", "elfe", "orc", "squelette"]:
 		for voie_id: String in Art.manifest()["tenues"]:
 			var look := Rig.player_look(race_id, voie_id, null)
 			assert_eq(look["planche"], "sprites/%s_%s.png" % [race_id, voie_id], "%s %s : couleurs de la Voie" % [race_id, voie_id])

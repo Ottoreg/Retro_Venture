@@ -78,6 +78,8 @@ point(s) de caractéristique (avant ralentissement).
 | **Elfe** | neutre | sylvebrume_0_0 | Œil perçant | portee +1 | Pas léger |
 | **Gobelin** | ennemi | crasse_roc_0_0 | Chapardeur | prospection +20, ecus +20 | Coup bas |
 | **Humain** | allie | brumerive_0_0 | Polyvalence | reputation_metier +10 | Ralliement |
+| **Orc** | ennemi | crasse_roc_0_0 | Peau épaisse |  | — |
+| **Squelette** | ennemi | crasse_roc_0_0 | Déjà mort |  | — |
 
 | Sort de race | Caractéristiques | Effets | Maîtrise |
 |---|---|---|---|

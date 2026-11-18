@@ -274,6 +274,9 @@ Dernière session (retours de la passe de l'auteur) :
   En ligne plus tard.
 - **Export / import de la sauvegarde solo** (17/11/2026, GDD § 13.4) : menu principal, image PNG chiffrée
   (`SaveGame.to_png` / `from_png`, AES-256-CBC, clé tirée de `SaveGame.SECRET`, 3 octets par pixel).
+- **Orc et Squelette jouables** (18/11/2026) : planches `sprites/orc.png` et `squelette.png` tirées des dossiers PixelLab
+  de `assets/` (`planche_sprites.py` lit `walking/` et `running/`), recoloriées par Voie ; départ à Crasse-Roc ; passifs
+  affichés sans effet et pas de sort racial, en attendant les valeurs de l'auteur.
 - Le pseudo choisi est déjà utilisé partout ; « Aventurier » (`World.DEFAULT_NAME`) n'apparaît
   que dans les tests et les captures, sans écran de création.
 

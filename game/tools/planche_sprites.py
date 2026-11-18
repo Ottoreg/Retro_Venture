@@ -3,7 +3,9 @@
 Entrée : un dossier avec, pour chaque direction (south, south-east, east, north-east, north,
 north-west, west, south-west), une image fixe `<direction>.png` et une course en GIF dont le nom
 finit par `_<direction>.gif` (4 images). Sans course (monstres fournis en images fixes seulement),
-l'image fixe remplit aussi les 4 cases de la course.
+l'image fixe remplit aussi les 4 cases de la course. Export PixelLab en dossiers d'images
+(`walking/<direction>/frame_000.png`, `running/<direction>/frame_00N.png`, 92 × 92 px) : la 1re image
+de la marche sert d'image fixe et une image sur deux de la course (8) en donne 4.
 Sortie : une planche PNG de 8 lignes (une par direction, dans cet ordre) et 5 colonnes de
 96 × 96 px : l'image fixe, puis les 4 images de la course. Les pieds sont en (48, 80) de chaque case.
 
@@ -35,7 +37,15 @@ def find(folder: str, suffix: str, required: bool = True) -> str:
 
 def main(folder: str, output: str) -> None:
     sheet = Image.new("RGBA", (CELL * (1 + RUN_FRAMES), CELL * len(DIRECTIONS)), (0, 0, 0, 0))
+    frames_dir = os.path.join(folder, "running")
     for row, direction in enumerate(DIRECTIONS):
+        if os.path.isdir(frames_dir):
+            # Images de 92 px, pieds en (46, 78) : décalées de 2 px pour tomber sur `FEET`.
+            paths = [os.path.join(folder, "walking", direction, "frame_000.png")] + \
+                sorted(glob.glob(os.path.join(frames_dir, direction, "frame_*.png")))[::2]
+            for col, path in enumerate(paths[:1 + RUN_FRAMES]):
+                sheet.alpha_composite(Image.open(path).convert("RGBA"), (col * CELL + 2, row * CELL + 2))
+            continue
         still = Image.open(find(folder, direction + ".png")).convert("RGBA")
         # Image fixe en 64 × 64, pieds en bas au centre (32, 62) : recentrée sur les pieds de la course.
         spot = (FEET[0] - still.width // 2, row * CELL + FEET[1] - (still.height - 2))

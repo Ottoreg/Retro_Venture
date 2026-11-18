@@ -1,0 +1,9 @@
+{
+  "id": "squelette",
+  "nom": "Squelette",
+  "camp": "ennemi",
+  "description": "Soldats de la Première Ombre relevés par le Souverain Cendré. Ils servent par habitude plus que par conviction, et réclament en vain leur retraite.",
+  "passif": {"nom": "Déjà mort", "description": "Une fois par combat, survit à un coup fatal avec 1 PV (à venir).", "effets": []},
+  "carte_depart": "crasse_roc_0_0",
+  "apparence": {"peau": "d5c39b"}
+}

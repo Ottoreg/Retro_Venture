@@ -27,7 +27,7 @@ a été ajouté depuis, avant de retravailler le fond des mécaniques, des class
 - **Combat tactique** : cases de placement, coups critiques, poison, glyphes et pièges, poussée, mode tactique,
   historique de combat, IA à distance et de soutien.
 - **Cinq Voies** : Guerrier, Rôdeur, Arcaniste (composition Flamme / Givre / Tempête), Théologue et Chronomancien
-  (Voie Impie et son horloge) ; trois races : Humains, Elfes, Gobelins.
+  (Voie Impie et son horloge) ; races : Humains, Elfes, Gobelins, Orcs et Squelettes (ces deux derniers sans passif ni sort racial pour l'instant).
 - **Progression sans niveaux** : réputation (qui débloque) et points de maîtrise à répartir, par classe et par
   métier ; caractéristiques gagnées par la pratique et plafonnées ; une classe active, changée hors combat.
 - **Sauvegarde solo** automatique, exportable et importable en image PNG chiffrée (menu principal).
@@ -37,7 +37,7 @@ a été ajouté depuis, avant de retravailler le fond des mécaniques, des class
 - **Quêtes** : tutoriels, actes I et II, quêtes secondaires, journal et suivi avec repères sur la carte.
 - **Multijoueur (prototype)** : serveur Godot qui fait autorité, comptes Supabase, groupes et combats de
   groupe, spectateurs, chat par canaux, amis et ignorés, signalement, échange entre joueurs (jalons M0 à M4).
-- **Graphismes** : sprites en pixel art pour les trois races et quelques monstres (loup, rat, morille).
+- **Graphismes** : sprites en pixel art pour les cinq races et quelques monstres (loup, rat, morille).
 
 **Sur `dev`** : tacle et fuite, esquive des retraits de PA / PM, épines, réduction de dégâts fixe, dégâts
 spectraux et dommages de mêlée (statistiques et lignes de forge) ; infusion d'essences et infusion miroir à

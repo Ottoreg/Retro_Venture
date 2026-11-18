@@ -1556,6 +1556,18 @@
       "couleurs": {
         "cheveux": "3a2a1a"
       }
+    },
+    "orc": {
+      "rig": "humain",
+      "planche": "sprites/orc.png",
+      "echelle": 1.15,
+      "recoloration": {"teinte": [20, 50], "saturation": [0.1, 0.3], "valeur": [0.3, 0.75], "force": 0.85}
+    },
+    "squelette": {
+      "rig": "humain",
+      "planche": "sprites/squelette.png",
+      "echelle": 1.05,
+      "recoloration": {"teinte": [30, 70], "saturation": [0.08, 0.25], "valeur": [0.3, 0.6], "force": 0.85}
     }
   },
   "pnj": {

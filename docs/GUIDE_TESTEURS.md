@@ -53,7 +53,7 @@ nous faire vos retours. Le jeu n'affiche volontairement presque aucune aide à l
 
 ## Par où commencer
 
-1. **Créez votre personnage** : une race (Humain, Gobelin ou Elfe : elle fixe votre zone de départ
+1. **Créez votre personnage** : une race (Humain, Gobelin, Elfe, Orc ou Squelette : elle fixe votre zone de départ
    et votre camp), une Voie (Guerrier, Rôdeur, Arcaniste, Théologue ou Chronomancien) et un nom.
 2. **Parlez au personnage marqué d'un « ! »** près de votre point d'arrivée : Alric (humains), Grumm
    (gobelins) ou Elwyn (elfes). Son **tutoriel** vous apprend à vous équiper (touche **I**), à
@@ -73,13 +73,15 @@ temps : chaque camp a sa propre histoire.
 
 - On commence sans équipement, avec 20 brumes : armes et armures viennent du butin, des marchands
   et des artisans. Une race ne donne pas de caractéristiques, seulement un passif et un sort.
-- Trois races, chacune avec sa zone de départ et son sort racial :
+- Cinq races, chacune avec sa zone de départ et son sort racial :
   - **Humain** (camp allié) : départ à **Brumerive** ; sort *Ralliement* ; passif +10 % de réputation
     de métier.
   - **Gobelin** (camp ennemi) : départ à **Crasse-Roc** ; sort *Coup bas* ; passif *Chapardeur* :
     +20 prospection et +20 % de brumes en fin de combat.
   - **Elfe** (camp neutre) : départ à **Sylvebrume** ; sort *Pas léger* ; passif +1 portée sur les
     sorts à distance.
+  - **Orc** et **Squelette** (camp ennemi, à l'essai) : départ à **Crasse-Roc**, avec leur apparence
+    seulement pour l'instant (passif et sort racial à venir).
 - Cinq Voies (classes), chacune avec sa mécanique :
   - **Guerrier** : *Charge* (en ligne droite, jusqu'au contact, puis un coup d'épée) ;
   - **Rôdeur** : *Collet*, un piège invisible qui blesse et ralentit le premier ennemi qui y entre ;
