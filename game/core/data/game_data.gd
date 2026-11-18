@@ -33,8 +33,9 @@ const STARTING_ECUS := 20
 
 const CAMPS := ["allie", "ennemi", "neutre"]
 ## Effets de passif de race gérés : portée des sorts, % d'XP de métier en plus, prospection en
-## plus, % de brumes de fin de combat en plus.
-const PASSIVE_EFFECTS := ["portee", "reputation_metier", "prospection", "ecus"]
+## plus, % de brumes de fin de combat en plus ; en combat (`Fighter.passives`), % de dégâts de mêlée reçus en moins
+## et survie à un coup fatal une fois par combat.
+const PASSIVE_EFFECTS := ["portee", "reputation_metier", "prospection", "ecus", "reduction_melee", "deja_mort"]
 ## Caractéristiques d'un monstre (facultatives dans « caracteristiques », 0 par défaut) : comme
 ## celles des joueurs, +1 % de dégâts de leur élément par point.
 const MONSTER_STATS := ["force", "intelligence", "perception", "agilite"]
@@ -578,6 +579,8 @@ func create_character_fighter(character: Character, fighter_id: String) -> Fight
 	if race.has("sort") and spells.has(race["sort"]):
 		fighter.spells.append(spells[race["sort"]])
 	fighter.range_bonus = passive_value(character.race_id, "portee")
+	for effect_type in ["reduction_melee", "deja_mort"]:
+		fighter.passives[effect_type] = passive_value(character.race_id, effect_type)
 	# Équipement : bonus hors caractéristiques et attaque de l'arme.
 	fighter.max_pa += character.extra("pa", self)
 	fighter.pa = fighter.max_pa

@@ -729,7 +729,7 @@ func _apply_effect(caster: Fighter, target: Fighter, effect: Dictionary, events:
 			events.append({"type": Protocol.EVT_STATUS, "entite": target.id, "effet": Spell.EFFECT_SHIELD, "valeur": amount,
 				"element": effect["element"], "bouclier": target.shield, "pa": target.pa, "pm": target.pm})
 		Spell.EFFECT_HEAL:
-			amount = mini(boosted_value(caster, effect["element"], amount) + caster.total_heal_bonus(effect["element"]), target.max_hp - target.hp)
+			amount = mini(heal_value(caster, target, effect, amount), target.max_hp - target.hp)
 			if target.has_state(Spell.STATE_UNHEALABLE):
 				amount = 0
 			target.hp += amount
@@ -779,13 +779,13 @@ func _apply_effect(caster: Fighter, target: Fighter, effect: Dictionary, events:
 			_push(from, target, amount, true, events)
 
 
-## Dégâts d'un effet de valeur tirée `amount` (voir `_apply_effect`) : au contact, × (100 + dommages de mêlée) % ;
-## puis moins la réduction de dégâts fixe de la cible.
+## Dégâts d'un effet de valeur tirée `amount` (voir `_apply_effect`) : au contact, × (100 + dommages de mêlée
+## du lanceur − réduction de mêlée de la cible) % ; puis moins la réduction de dégâts fixe de la cible.
 static func damage_value(caster: Fighter, target: Fighter, element: String, amount: int) -> int:
 	var boosted := amount * (100 + caster.power(element)) / 100.0 * dealt_factor(caster)
 	var dealt := maxi(0, roundi(boosted * (100 - target.resistance(element)) / 100.0)) + caster.total_dommages() + caster.element_damage(element)
 	if IsoGrid.distance(caster.cell, target.cell) == 1:
-		dealt = roundi(dealt * (100 + caster.combat_stat("dommages_melee")) / 100.0)
+		dealt = roundi(dealt * (100 + caster.combat_stat("dommages_melee") - int(target.passives.get("reduction_melee", 0))) / 100.0)
 	return maxi(0, dealt - target.combat_stat("reduction_degats"))
 
 
@@ -797,6 +797,14 @@ static func dealt_factor(caster: Fighter) -> float:
 ## Valeur d'un soin, d'un bouclier ou d'un poison, augmentée par la caractéristique de son élément.
 static func boosted_value(caster: Fighter, element: String, amount: int) -> int:
 	return roundi(amount * (100 + caster.power(element)) / 100.0)
+
+
+## Soin de valeur tirée `amount` : en % des PV max de la cible si l'effet a `pourcent_pv`, sinon augmenté par la
+## caractéristique de son élément et les soins du lanceur.
+static func heal_value(caster: Fighter, target: Fighter, effect: Dictionary, amount: int) -> int:
+	if effect.get("pourcent_pv", false):
+		return roundi(target.max_hp * amount / 100.0)
+	return boosted_value(caster, effect["element"], amount) + caster.total_heal_bonus(effect["element"])
 
 
 ## Prévisualisation d'un sort de `fighter` sur `target` (sans coup critique ni hasard) : pour chaque
@@ -833,8 +841,8 @@ func spell_preview(fighter: Fighter, spell: Spell, target: Vector2i) -> Dictiona
 			else:
 				key = "soin"
 				var missing := hit.max_hp - hit.hp
-				low = mini(boosted_value(fighter, effect["element"], effect["min"]) + fighter.total_heal_bonus(effect["element"]), missing)
-				high = mini(boosted_value(fighter, effect["element"], effect["max"]) + fighter.total_heal_bonus(effect["element"]), missing)
+				low = mini(heal_value(fighter, hit, effect, effect["min"]), missing)
+				high = mini(heal_value(fighter, hit, effect, effect["max"]), missing)
 			var total: Array = entry.get(key, [0, 0])
 			entry[key] = [int(total[0]) + low, int(total[1]) + high]
 			if not entry.has("element"):
@@ -863,6 +871,9 @@ func _hurt(target: Fighter, amount: int, element: String, events: Array[Dictiona
 	var absorbed := mini(target.shield, amount)
 	target.shield -= absorbed
 	amount -= absorbed
+	if amount >= target.hp and target.passives.get("deja_mort", 0) > 0:
+		target.passives.erase("deja_mort")  # Déjà mort : survit au coup fatal à 1 PV, une fois par combat.
+		amount = target.hp - 1
 	var lost := mini(amount, target.hp)
 	target.hp = maxi(0, target.hp - amount)
 	if lost > 0 and not _credit.is_empty() and (_credit["lanceur"] as Fighter).team != target.team:

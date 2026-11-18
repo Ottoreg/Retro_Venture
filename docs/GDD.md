@@ -133,7 +133,9 @@ comprennent qu'ils veulent la même chose : abattre le Souverain Cendré.
 | **Neutre** | Elfes | Semi-hommes, Lutins | « Ce n'est pas notre guerre. » Se tiennent à l'écart, observent, et ne s'en mêlent que si leur forêt est menacée. |
 
 Trois races par camp : une dès l'alpha, deux en Phase 3. Orcs et Squelettes sont déjà jouables pour les tests
-(18/11/2026 : sprites, départ à Crasse-Roc ; passifs et sorts raciaux pas encore codés). Les Nains, Orcs et Semi-hommes jouent leur
+(18/11/2026 : sprites, départ à Crasse-Roc, 1er passif et sort racial ; valeurs validées par l'auteur :
+Peau épaisse −10 % de dégâts de mêlée reçus ; Cri de guerre 3 PA, +10 % de dégâts aux alliés à 2 cases
+pendant 2 tours, relance 4 ; Remonter les os 2 PA, relance 3). Les Nains, Orcs et Semi-hommes jouent leur
 cliché attendu (bourrus, brutaux, gourmands) ; les trois autres peuples de Phase 3 :
 
 - **Géants (allié)** : anciens gardiens des montagnes, alliés historiques des humains. Lents à se

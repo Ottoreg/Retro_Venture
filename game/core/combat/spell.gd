@@ -305,6 +305,8 @@ static func _validate_effects(effects_data: Array, top_level: bool) -> PackedStr
 				errors.append("effet « retrait_etats » : « etats » doit être une liste non vide parmi %s" % str(REMOVABLE_STATE_TYPES))
 		if effect.has("vol") and (type != EFFECT_DAMAGE or typeof(effect["vol"]) != TYPE_BOOL):
 			errors.append("« vol » (vrai ou faux) n'existe que sur un effet « degats »")
+		if effect.has("pourcent_pv") and (type != EFFECT_HEAL or typeof(effect["pourcent_pv"]) != TYPE_BOOL):
+			errors.append("« pourcent_pv » (vrai ou faux) n'existe que sur un effet « soin »")
 		if type in VALUELESS_EFFECTS:
 			continue
 		if type == EFFECT_BOUNCE and not _is_int_at_least(effect.get("distance"), 1):

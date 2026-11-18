@@ -276,7 +276,8 @@ Dernière session (retours de la passe de l'auteur) :
   (`SaveGame.to_png` / `from_png`, AES-256-CBC, clé tirée de `SaveGame.SECRET`, 3 octets par pixel).
 - **Orc et Squelette jouables** (18/11/2026) : planches `sprites/orc.png` et `squelette.png` tirées des dossiers PixelLab
   de `assets/` (`planche_sprites.py` lit `walking/` et `running/`), recoloriées par Voie ; départ à Crasse-Roc ; passifs
-  affichés sans effet et pas de sort racial, en attendant les valeurs de l'auteur.
+  `reduction_melee` et `deja_mort` (`Fighter.passives`), sorts `orc_cri_de_guerre` et `squelette_remonter_les_os`
+  (soin `pourcent_pv`, `Combat.heal_value`) ; 2e et 3e passifs pas encore codés (aucune race).
 - Le pseudo choisi est déjà utilisé partout ; « Aventurier » (`World.DEFAULT_NAME`) n'apparaît
   que dans les tests et les captures, sans écran de création.
 

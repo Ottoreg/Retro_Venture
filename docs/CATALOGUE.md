@@ -27,7 +27,7 @@ Prix de boutique : selon la rareté (revente à 25 %).
 - [Sorts de race](#sorts-de-race)
 - [Sorts des monstres](#sorts-des-monstres)
 
-**317 objets** (18 armes, 20 coiffes, 20 capes, 20 amulettes, 20 anneaux, 20 ceintures, 20 bottes, 129 ressources, 37 plans de forge, 7 objets de quête), **57 monstres** et **137 sorts**.
+**317 objets** (18 armes, 20 coiffes, 20 capes, 20 amulettes, 20 anneaux, 20 ceintures, 20 bottes, 129 ressources, 37 plans de forge, 7 objets de quête), **57 monstres** et **139 sorts**.
 
 ## Armes
 
@@ -1340,8 +1340,10 @@ Soigneur sacré. Bénit les alliés, sermonne les ennemis, et cite des textes qu
 | Sort | Caractéristiques | Effets | Lanceurs | Description |
 |---|---|---|---|---|
 | **Coup bas** | 3 PA, portée 1, 1/tour | 4–7 Tempête ; −1 PM au prochain tour | Gobelin | Un coup dans le genou. Pas glorieux, mais la cible marchera moins vite au prochain tour. |
+| **Cri de guerre** | 3 PA, portée soi, cercle de rayon 2, sans ligne de vue, 1/tour, relance 4 t. | +10 % dégâts infligés (2 t.) aux alliés | Orc | « WAAAH ! » Personne ne sait ce que ça veut dire, mais tout le monde autour cogne plus fort. |
 | **Pas léger** | 2 PA, portée 1–3, sans ligne de vue, 1/tour, relance 3 t. | téléportation sur la case | Elfe | Un bond gracieux vers une case libre. L'herbe n'en garde même pas la trace. |
 | **Ralliement** | 1 PA, portée soi, sans ligne de vue, 1/tour, relance 4 t. | +2 PA tout de suite | Humain | Un cri d'encouragement. À soi-même, faute d'alliés pour l'instant. |
+| **Remonter les os** | 2 PA, portée soi, sans ligne de vue, 1/tour, relance 3 t. | soin 15 (Impie) | Squelette | Le tibia ici, la rotule là… Il en reste une, mais ça tiendra. Soigne 15 % de ses PV max. |
 
 ## Sorts des monstres
 

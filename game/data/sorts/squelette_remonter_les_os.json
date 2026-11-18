@@ -1,0 +1,10 @@
+{
+  "id": "squelette_remonter_les_os",
+  "nom": "Remonter les os",
+  "description": "Le tibia ici, la rotule là… Il en reste une, mais ça tiendra. Soigne 15 % de ses PV max.",
+  "cout_pa": 2,
+  "portee": {"min": 0, "max": 0},
+  "ligne_de_vue": false,
+  "relance": {"par_tour": 1, "delai": 3},
+  "effets": [{"type": "soin", "element": "impie", "min": 15, "max": 15, "pourcent_pv": true}]
+}

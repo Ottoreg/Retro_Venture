@@ -383,6 +383,7 @@ Chronomancien (Voie Impie) :
   `exorcisme` (les prochains dégâts Sacré l'achèvent, bouclier compris ; l'état tombe alors) ou
   `inblocable` (ni taclé, ni tacleur).
 - `"vol": true` sur un effet `degats` : vol de vie, le lanceur reprend les PV qu'il a fait perdre.
+- `"pourcent_pv": true` sur un effet `soin` : `min`/`max` en % des PV max de la cible, sans bonus de caractéristique.
 - `portee_fixe` (sort, `true`) : portée non modifiable, les bonus de portée ne s'y ajoutent pas.
 - Caractéristique `degats_infliges` (bonus ou malus) : % de tous les dégâts infligés, poisons compris.
 - Caractéristiques `retrait_pa` et `retrait_pm` (bonus ou malus) : chance en % d'esquiver les retraits de PA / PM
@@ -642,7 +643,8 @@ avec 20 brumes (`GameData.STARTING_ECUS`).
 `camp` : `allie`, `ennemi` ou `neutre`. Une race ne donne plus de caractéristiques (`bonus` refusé
 par la validation depuis le 29/10/2026) : seulement son passif et son sort. `passif.effets` est optionnel (liste de
 `{type, valeur}`) ; types gérés : `portee` (portée des sorts à distance), `reputation_metier` (% de réputation de
-métier), `prospection` (points de prospection) et `ecus` (% de brumes de fin de combat). `sort` : sort racial, ajouté aux sorts de la Voie.
+métier), `prospection` (points de prospection), `ecus` (% de brumes de fin de combat), `reduction_melee` (% de dégâts reçus
+au contact en moins) et `deja_mort` (une fois par combat, survit à un coup fatal avec 1 PV). `sort` : sort racial, ajouté aux sorts de la Voie.
 
 Les tests vérifient tous ces fichiers (format, `id` égal au nom du fichier, sorts et monstres
 référencés existants).

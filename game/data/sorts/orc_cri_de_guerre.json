@@ -1,0 +1,11 @@
+{
+  "id": "orc_cri_de_guerre",
+  "nom": "Cri de guerre",
+  "description": "« WAAAH ! » Personne ne sait ce que ça veut dire, mais tout le monde autour cogne plus fort.",
+  "cout_pa": 3,
+  "portee": {"min": 0, "max": 0},
+  "ligne_de_vue": false,
+  "zone": {"type": "cercle", "taille": 2},
+  "relance": {"par_tour": 1, "delai": 4},
+  "effets": [{"type": "bonus", "carac": "degats_infliges", "min": 10, "max": 10, "duree": 2, "cibles": "allies"}]
+}

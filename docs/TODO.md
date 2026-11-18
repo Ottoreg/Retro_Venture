@@ -153,9 +153,10 @@ Tout le contenu et les systèmes MVP de l'alpha 1 sont faits (chantiers 1, 3, 4 
 - [x] **(MVP)** 3 races jouables, une par camp : Humain (allié), Gobelin (ennemi), Elfe (neutre) — bonus, passif, sort racial (passifs : Polyvalence +10 % d'XP de métier, Œil perçant +1 portée, Chapardeur +20 prospection et +20 % de brumes)
 - [x] **(MVP)** Camp porté par la race dans les données ; carte de départ par race (`carte_depart`)
 - [x] Faire partir Gobelins et Elfes de leurs propres zones (Crasse-Roc et Sylvebrume)
-- [x] Orc et Squelette jouables (18/11/2026) : sprites PixelLab recoloriés par Voie, départ à Crasse-Roc ; passifs
-  *Peau épaisse* et *Déjà mort* affichés sans effet, pas encore de sort racial
-- [ ] Orc et Squelette : coder passifs (3 par race) et sorts raciaux (*Cri de guerre*, *Remonter les os*), valeurs à fixer par l'auteur
+- [x] Orc et Squelette jouables (18/11/2026) : sprites PixelLab recoloriés par Voie, départ à Crasse-Roc ; 1er passif
+  et sort racial codés (valeurs validées par l'auteur) : *Peau épaisse* −10 % de dégâts de mêlée reçus, *Déjà mort*,
+  *Cri de guerre* (3 PA, +10 % de dégâts aux alliés à 2 cases, 2 tours, relance 4), *Remonter les os* (2 PA, 15 % des
+  PV max, relance 3) ; icônes reprises du Guerrier
 - [x] 3 classes jouables : Guerrier, Rôdeur, Arcaniste (4 sorts chacune)
 - [x] **(MVP)** 4e classe : **Théologue** (soigneur sacré), 4 sorts de départ (Châtiment, Imposition
   des mains, Rempart de foi, Sermon), tenue, icônes de sorts, équipement de départ (GDD § 4.3)

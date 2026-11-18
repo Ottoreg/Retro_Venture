@@ -80,8 +80,10 @@ temps : chaque camp a sa propre histoire.
     +20 prospection et +20 % de brumes en fin de combat.
   - **Elfe** (camp neutre) : départ à **Sylvebrume** ; sort *Pas léger* ; passif +1 portée sur les
     sorts à distance.
-  - **Orc** et **Squelette** (camp ennemi, à l'essai) : départ à **Crasse-Roc**, avec leur apparence
-    seulement pour l'instant (passif et sort racial à venir).
+  - **Orc** (camp ennemi, à l'essai) : départ à **Crasse-Roc** ; sort *Cri de guerre* (+10 % de dégâts
+    autour de lui) ; passif *Peau épaisse* : −10 % de dégâts de mêlée reçus.
+  - **Squelette** (camp ennemi, à l'essai) : départ à **Crasse-Roc** ; sort *Remonter les os* (soigne 15 %
+    de ses PV) ; passif *Déjà mort* : une fois par combat, survit à un coup fatal avec 1 PV.
 - Cinq Voies (classes), chacune avec sa mécanique :
   - **Guerrier** : *Charge* (en ligne droite, jusqu'au contact, puis un coup d'épée) ;
   - **Rôdeur** : *Collet*, un piège invisible qui blesse et ralentit le premier ennemi qui y entre ;

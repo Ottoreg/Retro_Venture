@@ -3,7 +3,8 @@
   "nom": "Orc",
   "camp": "ennemi",
   "description": "Bourrus et brutaux, exactement comme on les imagine. Le Souverain Cendré leur promet de la bagarre, et pour une fois il tient parole.",
-  "passif": {"nom": "Peau épaisse", "description": "Réduction des dégâts de mêlée (à venir).", "effets": []},
+  "passif": {"nom": "Peau épaisse", "description": "−10 % de dégâts de mêlée reçus.", "effets": [{"type": "reduction_melee", "valeur": 10}]},
+  "sort": "orc_cri_de_guerre",
   "carte_depart": "crasse_roc_0_0",
   "apparence": {"peau": "9d7b5e"}
 }

@@ -1,0 +1,6 @@
+{
+  "images": {
+    "sort_orc_cri_de_guerre": {"fichier": "sorts/guerrier_cri_de_guerre.svgt", "ancre": [22, 22]},
+    "sort_squelette_remonter_les_os": {"fichier": "sorts/guerrier_second_souffle.svgt", "ancre": [22, 22]}
+  }
+}

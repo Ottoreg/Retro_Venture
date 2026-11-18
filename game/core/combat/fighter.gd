@@ -33,6 +33,8 @@ var race: String = ""
 var stats: Dictionary = {}
 ## Portée supplémentaire des sorts à distance (passif de race, équipement…).
 var range_bonus: int = 0
+## Passif de race en combat : « reduction_melee » (% de dégâts reçus au contact), « deja_mort » (survit une fois à 1 PV).
+var passives: Dictionary = {}
 ## PM retirés pour le prochain tour (effet « retrait_pm »).
 var pm_malus: int = 0
 ## Prospection (joueurs) : augmente les chances de butin.
