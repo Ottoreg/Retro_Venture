@@ -70,6 +70,7 @@ après tout changement de métier, de forge, de sort, de Voie, de race ou de con
 - `game/client/` : rendu isométrique, interface, fenêtres.
 - `game/data/` : contenu en JSON (cartes, monstres, sorts, objets, panoplies, passages, races, voies,
   métiers, quêtes), format décrit dans `game/data/README.md`. Quêtes : `core/quests/`.
+- Assets bruts de l'auteur (sprites PixelLab…) : `assets/` à la racine, hors de `game/` ; planches du jeu tirées vers `game/art/sprites/`.
 - Dessins : SVG `.svgt` paramétrés, manifeste `art.json` + fragments `art/manifestes/*.json`
   fusionnés par `Art.manifest()` (un fragment par lot de production, pour éviter les conflits).
 

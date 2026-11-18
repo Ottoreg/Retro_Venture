@@ -41,7 +41,7 @@ Une race peut avoir une **planche** de pixel art (`"planche": "sprites/gobelin.p
 (attaque, assis, portraits, écran de création). La planche a une ligne par direction (sud, sud-est,
 est, nord-est, nord, nord-ouest, ouest, sud-ouest) et 5 cases de 96 × 96 (image fixe puis 4 images
 de course), pieds en (48, 80). Elle est assemblée à partir des PNG fixes et des GIF de course par
-`python3 tools/planche_sprites.py dossier/ art/sprites/<nom>.png`. À l'essai pour l'instant : les
+`python3 tools/planche_sprites.py dossier/ art/sprites/<nom>.png` (fichiers bruts de l'auteur : `assets/` à la racine du dépôt). À l'essai pour l'instant : les
 races gobelin, humaine et elfe (sprites fournis par l'auteur). Chaque race a aussi une planche
 par Voie, `sprites/<race>_<voie>.png`, où le vêtement prend la couleur de tunique de la Voie : la
 `recoloration` de la race choisit ses pixels (teinte en degrés, saturation et valeur de 0 à 1,
