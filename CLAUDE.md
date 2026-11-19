@@ -278,6 +278,10 @@ Dernière session (retours de la passe de l'auteur) :
   de `assets/` (`planche_sprites.py` lit `Idle_rotations_8dir.gif`, `walking/` et `running/`), recoloriées par Voie ; départ à Crasse-Roc ; passifs
   `reduction_melee` et `deja_mort` (`Fighter.passives`), sorts `orc_cri_de_guerre` et `squelette_remonter_les_os`
   (soin `pourcent_pv`, `Combat.heal_value`) ; 2e et 3e passifs pas encore codés (aucune race).
+- **Géant et Arkhé jouables** (19/11/2026) : `sprites/geant.png` (cases de 144 px : `planche_sprites.py` agrandit la case
+  quand l'idle fait 96 px, `Sprites.cell` / `Sprites.feet` la lisent dans la planche) et `arkhe.png` (Arkhé Flamme) ;
+  départ à Brumerive et Sylvebrume ; passifs sans effet, pas de sort racial. Création : carrousel des races façon
+  Dofus Rétro (`creation.gd`, `_carousel`, `_race_beside`). Prompt des Arkhés : `assets/arkhes/PROMPT.md`.
 - Le pseudo choisi est déjà utilisé partout ; « Aventurier » (`World.DEFAULT_NAME`) n'apparaît
   que dans les tests et les captures, sans écran de création.
 

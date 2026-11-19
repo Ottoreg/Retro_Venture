@@ -7,7 +7,11 @@ func test_ecran_de_creation() -> void:
 	var scene = load("res://client/creation/creation.tscn").instantiate()
 	tree.root.add_child(scene)
 	assert_eq(scene.race_id, "humain", "première race sélectionnée")
-	assert_eq(scene._race_buttons.size(), 5, "Humain, Gobelin, Elfe, Orc, Squelette")
+	assert_eq(scene._race_beside(-1), "arkhe", "carrousel en boucle : l'Arkhé avant l'Humain")
+	assert_eq(scene._race_beside(1), "gobelin", "race suivante sur le côté droit")
+	scene._side_previews[1].gui_input.emit(_click())
+	assert_eq(scene.race_id, "gobelin", "clic sur la race de droite")
+	assert_eq(scene._side_previews[0].look["planche"], "sprites/humain_guerrier.png", "race précédente affichée à gauche")
 	assert_eq(scene._voie_buttons.size(), 5, "Guerrier, Rôdeur, Arcaniste, Théologue, Chronomancien")
 	scene._name_edit.text = "A"
 	assert_true(scene.validation_error() != "", "nom trop court refusé")
@@ -170,3 +174,10 @@ func _bag_count(window: InventoryWindow) -> int:
 		count += window._list.item_count
 	window.show_bag_tab(InventoryWindow.BagTab.EQUIPMENT)
 	return count
+
+
+func _click() -> InputEventMouseButton:
+	var event := InputEventMouseButton.new()
+	event.button_index = MOUSE_BUTTON_LEFT
+	event.pressed = true
+	return event

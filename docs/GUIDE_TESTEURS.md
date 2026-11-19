@@ -53,7 +53,7 @@ nous faire vos retours. Le jeu n'affiche volontairement presque aucune aide à l
 
 ## Par où commencer
 
-1. **Créez votre personnage** : une race (Humain, Gobelin, Elfe, Orc ou Squelette : elle fixe votre zone de départ
+1. **Créez votre personnage** : une race (Humain, Gobelin, Elfe, Orc, Squelette, Géant ou Arkhé, à faire défiler avec les flèches : elle fixe votre zone de départ
    et votre camp), une Voie (Guerrier, Rôdeur, Arcaniste, Théologue ou Chronomancien) et un nom.
 2. **Parlez au personnage marqué d'un « ! »** près de votre point d'arrivée : Alric (humains), Grumm
    (gobelins) ou Elwyn (elfes). Son **tutoriel** vous apprend à vous équiper (touche **I**), à
@@ -73,7 +73,7 @@ temps : chaque camp a sa propre histoire.
 
 - On commence sans équipement, avec 20 brumes : armes et armures viennent du butin, des marchands
   et des artisans. Une race ne donne pas de caractéristiques, seulement un passif et un sort.
-- Cinq races, chacune avec sa zone de départ et son sort racial :
+- Sept races, chacune avec sa zone de départ et son sort racial :
   - **Humain** (camp allié) : départ à **Brumerive** ; sort *Ralliement* ; passif +10 % de réputation
     de métier.
   - **Gobelin** (camp ennemi) : départ à **Crasse-Roc** ; sort *Coup bas* ; passif *Chapardeur* :
@@ -84,6 +84,10 @@ temps : chaque camp a sa propre histoire.
     autour de lui) ; passif *Peau épaisse* : −10 % de dégâts de mêlée reçus.
   - **Squelette** (camp ennemi, à l'essai) : départ à **Crasse-Roc** ; sort *Remonter les os* (soigne 15 %
     de ses PV) ; passif *Déjà mort* : une fois par combat, survit à un coup fatal avec 1 PV.
+  - **Géant** (camp allié, à l'essai) : départ à **Brumerive** ; apparence seulement pour l'instant (passif
+    *Carrure* et sort racial à venir).
+  - **Arkhé** (élémentaire de feu, camp neutre, à l'essai) : départ à **Sylvebrume** ; apparence seulement pour
+    l'instant (passif et sort racial à venir).
 - Cinq Voies (classes), chacune avec sa mécanique :
   - **Guerrier** : *Charge* (en ligne droite, jusqu'au contact, puis un coup d'épée) ;
   - **Rôdeur** : *Collet*, un piège invisible qui blesse et ralentit le premier ennemi qui y entre ;

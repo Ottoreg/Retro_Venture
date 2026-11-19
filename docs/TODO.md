@@ -157,6 +157,11 @@ Tout le contenu et les systèmes MVP de l'alpha 1 sont faits (chantiers 1, 3, 4 
   et sort racial codés (valeurs validées par l'auteur) : *Peau épaisse* −10 % de dégâts de mêlée reçus, *Déjà mort*,
   *Cri de guerre* (3 PA, +10 % de dégâts aux alliés à 2 cases, 2 tours, relance 4), *Remonter les os* (2 PA, 15 % des
   PV max, relance 3) ; icônes reprises du Guerrier
+- [x] Géant et Arkhé (Flamme) jouables (19/11/2026) : sprites PixelLab recoloriés par Voie (la géante a des cases de
+  144 px, ses cheveux prennent aussi la couleur de la Voie), départ à Brumerive et Sylvebrume ; passif *Carrure* affiché
+  sans effet, passif de l'Arkhé à définir, pas de sort racial ; création : carrousel des races façon Dofus Rétro
+- [ ] Géant et Arkhé : passifs et sorts raciaux (*Carrure*, *Coup de semelle* ; Arkhé à concevoir) ; variantes Acier,
+  Tempête et Givre de l'Arkhé à la place du choix mâle / femelle (sprites à générer, `assets/arkhes/PROMPT.md`)
 - [x] 3 classes jouables : Guerrier, Rôdeur, Arcaniste (4 sorts chacune)
 - [x] **(MVP)** 4e classe : **Théologue** (soigneur sacré), 4 sorts de départ (Châtiment, Imposition
   des mains, Rempart de foi, Sermon), tenue, icônes de sorts, équipement de départ (GDD § 4.3)

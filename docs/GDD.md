@@ -135,7 +135,9 @@ comprennent qu'ils veulent la même chose : abattre le Souverain Cendré.
 Trois races par camp : une dès l'alpha, deux en Phase 3. Orcs et Squelettes sont déjà jouables pour les tests
 (18/11/2026 : sprites, départ à Crasse-Roc, 1er passif et sort racial ; valeurs validées par l'auteur :
 Peau épaisse −10 % de dégâts de mêlée reçus ; Cri de guerre 3 PA, +10 % de dégâts aux alliés à 2 cases
-pendant 2 tours, relance 4 ; Remonter les os 2 PA, relance 3). Les Nains, Orcs et Semi-hommes jouent leur
+pendant 2 tours, relance 4 ; Remonter les os 2 PA, relance 3). Géants et Arkhés (Flamme) aussi, depuis le
+19/11/2026 (sprites, départ à Brumerive et Sylvebrume, passifs et sorts à venir) ; l'Arkhé, élémentaire, est une piste
+pour remplacer le Semi-homme. Les Nains, Orcs et Semi-hommes jouent leur
 cliché attendu (bourrus, brutaux, gourmands) ; les trois autres peuples de Phase 3 :
 
 - **Géants (allié)** : anciens gardiens des montagnes, alliés historiques des humains. Lents à se

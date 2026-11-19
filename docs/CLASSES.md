@@ -75,7 +75,9 @@ point(s) de caractéristique (avant ralentissement).
 
 | Race | Camp | Départ | Passif | Effets du passif | Sort de race |
 |---|---|---|---|---|---|
+| **Arkhé** | neutre | sylvebrume_0_0 | À définir |  | — |
 | **Elfe** | neutre | sylvebrume_0_0 | Œil perçant | portee +1 | Pas léger |
+| **Géant** | allie | brumerive_0_0 | Carrure |  | — |
 | **Gobelin** | ennemi | crasse_roc_0_0 | Chapardeur | prospection +20, ecus +20 | Coup bas |
 | **Humain** | allie | brumerive_0_0 | Polyvalence | reputation_metier +10 | Ralliement |
 | **Orc** | ennemi | crasse_roc_0_0 | Peau épaisse | reduction_melee +10 | Cri de guerre |

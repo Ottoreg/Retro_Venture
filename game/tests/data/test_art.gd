@@ -34,7 +34,7 @@ func test_personnages_et_accessoires() -> void:
 				var sheet := Sprites.texture(spec["planche"])
 				assert_true(sheet != null, "%s « %s » : planche de sprites" % [group, entry_name])
 				if sheet != null:
-					assert_eq(sheet.get_size(), Vector2(Sprites.CELL * (1 + Sprites.RUN_FRAMES), Sprites.CELL * Sprites.DIRECTIONS.size()) * Art.SCALE,
+					assert_eq(sheet.get_size(), Vector2(1 + Sprites.RUN_FRAMES, Sprites.DIRECTIONS.size()) * Sprites.cell(spec["planche"]) * Art.SCALE,
 						"%s « %s » : 8 directions, image fixe et course" % [group, entry_name])
 			if not str(spec.get("arme", "")).is_empty():
 				assert_true(manifest["armes"].has(spec["arme"]), "%s « %s » : arme" % [group, entry_name])
@@ -142,7 +142,7 @@ func test_directions_des_sprites() -> void:
 		var ratio := float(Art.manifest()["monstres"][monster_id]["echelle"]) / float(Art.manifest()["monstres"][family]["echelle"])
 		assert_true(absf(ratio - 1.2) < 0.01, "%s : 1,2 fois %s" % [monster_id, family])
 	# Une planche aux couleurs de chaque Voie.
-	for race_id: String in ["gobelin", "humain", "elfe", "orc", "squelette"]:
+	for race_id: String in ["gobelin", "humain", "elfe", "orc", "squelette", "geant", "arkhe"]:
 		for voie_id: String in Art.manifest()["tenues"]:
 			var look := Rig.player_look(race_id, voie_id, null)
 			assert_eq(look["planche"], "sprites/%s_%s.png" % [race_id, voie_id], "%s %s : couleurs de la Voie" % [race_id, voie_id])

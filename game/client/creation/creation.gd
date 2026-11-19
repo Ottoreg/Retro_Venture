@@ -1,17 +1,21 @@
 extends Control
-## Écran de création du personnage : nom, race (un camp chacune), Voie, aperçu et récapitulatif.
+## Écran de création du personnage : nom, race (un camp chacune) dans un carrousel façon Dofus Rétro
+## (la race choisie en grand, la précédente et la suivante en petit sur les côtés), Voie et récapitulatif.
 
 const WORLD_SCENE := "res://client/world/world.tscn"
 const MENU_SCENE := "res://client/main/main.tscn"
-const RACE_ORDER := ["humain", "gobelin", "elfe", "orc", "squelette"]
+const RACE_ORDER := ["humain", "gobelin", "elfe", "orc", "squelette", "geant", "arkhe"]
 const VOIE_ORDER := ["guerrier", "rodeur", "arcaniste", "theologue", "chronomancien"]
 const CAMP_NAMES := {"allie": "Allié", "ennemi": "Ennemi", "neutre": "Neutre"}
 const GOLD := Color(0.95, 0.76, 0.3)
 
-## Aperçu du personnage : le personnage articulé du jeu, en grand, qui respire.
+## Aperçu d'un personnage du jeu qui respire : en grand au centre du carrousel, en petit et assombri
+## sur les côtés (un clic y choisit la race).
 class Preview extends Control:
 	var look: Dictionary = {}
 	var time := 0.0
+	var zoom := 2.2
+	var tint := Color.WHITE
 
 	func _process(delta: float) -> void:
 		time += delta
@@ -20,7 +24,7 @@ class Preview extends Control:
 	func _draw() -> void:
 		if look.is_empty():
 			return
-		Rig.draw(self, look, Vector2(size.x / 2.0, size.y - 20.0), {"facing": 1.0, "cap": 0, "temps": time, "zoom": 2.6})
+		Rig.draw(self, look, Vector2(size.x / 2.0, size.y - 20.0), {"facing": 1.0, "cap": 0, "temps": time, "zoom": zoom}, tint)
 
 
 var data: GameData
@@ -28,13 +32,14 @@ var race_id := "humain"
 var voie_id := "guerrier"
 
 var _name_edit: LineEdit
-var _race_buttons := {}
+var _race_name: Label
 var _voie_buttons := {}
 var _race_text: Label
 var _voie_text: Label
 var _summary: Label
 var _error: Label
 var _preview: Preview
+var _side_previews: Array[Preview] = []
 
 
 func _ready() -> void:
@@ -58,9 +63,8 @@ func validation_error() -> String:
 
 func _select_race(id: String) -> void:
 	race_id = id
-	for key: String in _race_buttons:
-		_race_buttons[key].button_pressed = key == id
 	var race: Dictionary = data.races.get(id, {})
+	_race_name.text = "%s (%s)" % [race.get("nom", id), CAMP_NAMES.get(race.get("camp", ""), "?")]
 	var lines: PackedStringArray = [
 		str(race.get("description", "")),
 		"Camp : %s" % CAMP_NAMES.get(race.get("camp", ""), "?"),
@@ -88,7 +92,8 @@ func _refresh() -> void:
 	if _preview == null:
 		return
 	_preview.look = Rig.player_look(race_id, voie_id, data)
-	_preview.queue_redraw()
+	for i in _side_previews.size():
+		_side_previews[i].look = Rig.player_look(_race_beside(1 if i else -1), voie_id, data)
 	var fighter := data.create_character_fighter(build_character(), "apercu")
 	if fighter == null:
 		_summary.text = ""
@@ -109,6 +114,11 @@ func _refresh() -> void:
 		lines.append("• %s (%d PA, portée %s)" % [spell.display_name, spell.pa_cost, reach])
 	_summary.text = "\n".join(lines)
 	_error.text = ""
+
+
+## Race voisine de la race choisie dans le carrousel (`step` −1 : précédente, 1 : suivante), en boucle.
+func _race_beside(step: int) -> String:
+	return RACE_ORDER[posmod(RACE_ORDER.find(race_id) + step, RACE_ORDER.size())]
 
 
 func _on_start_pressed() -> void:
@@ -184,12 +194,12 @@ func _build() -> void:
 	left.add_child(_name_edit)
 
 	left.add_child(_label("Race", 18, GOLD))
-	left.add_child(_choice_row(RACE_ORDER, data.races, _race_buttons, _select_race, true))
+	left.add_child(_carousel())
 	_race_text = _wrapped_label()
 	left.add_child(_race_text)
 
 	left.add_child(_label("Classe (Voie)", 18, GOLD))
-	left.add_child(_choice_row(VOIE_ORDER, data.voies, _voie_buttons, _select_voie, false))
+	left.add_child(_choice_row(VOIE_ORDER, data.voies, _voie_buttons, _select_voie))
 	_voie_text = _wrapped_label()
 	left.add_child(_voie_text)
 
@@ -197,9 +207,6 @@ func _build() -> void:
 	right.custom_minimum_size = Vector2(380, 0)
 	right.add_theme_constant_override("separation", 8)
 	row.add_child(right)
-	_preview = Preview.new()
-	_preview.custom_minimum_size = Vector2(380, 210)
-	right.add_child(_preview)
 	_summary = _wrapped_label()
 	right.add_child(_summary)
 
@@ -226,7 +233,42 @@ func _build() -> void:
 	footer.add_child(start)
 
 
-func _choice_row(order: Array, entries: Dictionary, buttons: Dictionary, on_select: Callable, show_camp: bool) -> HBoxContainer:
+## Carrousel des races : flèches, race précédente, race choisie en grand avec son nom, race suivante.
+func _carousel() -> HBoxContainer:
+	var row := HBoxContainer.new()
+	row.alignment = BoxContainer.ALIGNMENT_CENTER
+	row.add_theme_constant_override("separation", 6)
+	var center := VBoxContainer.new()
+	_preview = Preview.new()
+	_preview.custom_minimum_size = Vector2(240, 180)
+	center.add_child(_preview)
+	_race_name = _label("", 20, GOLD)
+	_race_name.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	center.add_child(_race_name)
+	for step in [-1, 1]:
+		var arrow := Button.new()
+		arrow.text = "‹" if step < 0 else "›"
+		arrow.custom_minimum_size = Vector2(40, 80)
+		arrow.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		arrow.pressed.connect(func() -> void: _select_race(_race_beside(step)))
+		var side := Preview.new()
+		side.zoom = 1.3
+		side.tint = Color(0.55, 0.55, 0.6, 0.7)
+		side.custom_minimum_size = Vector2(110, 150)
+		side.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+		side.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+		side.gui_input.connect(func(event: InputEvent) -> void:
+			if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+				_select_race(_race_beside(step)))
+		_side_previews.append(side)
+		for node: Control in ([arrow, side] if step < 0 else [side, arrow]):
+			row.add_child(node)
+		if step < 0:
+			row.add_child(center)
+	return row
+
+
+func _choice_row(order: Array, entries: Dictionary, buttons: Dictionary, on_select: Callable) -> HBoxContainer:
 	var row := HBoxContainer.new()
 	row.add_theme_constant_override("separation", 8)
 	for id: String in order:
@@ -237,8 +279,6 @@ func _choice_row(order: Array, entries: Dictionary, buttons: Dictionary, on_sele
 		button.toggle_mode = true
 		button.custom_minimum_size = Vector2(150, 46)
 		button.text = str(entry.get("nom", id))
-		if show_camp:
-			button.text += "\n(%s)" % CAMP_NAMES.get(entry.get("camp", ""), "?")
 		button.pressed.connect(on_select.bind(id))
 		row.add_child(button)
 		buttons[id] = button

@@ -5,8 +5,9 @@ extends RefCounted
 ## d'`art.json`. Sur la carte, debout ou en course, elle remplace l'assemblage (`Rig.draw`) ou le
 ## dessin d'un bloc du monstre.
 ##
-## La planche a une ligne par direction (`DIRECTIONS`) et 5 cases de 96 × 96 : l'image fixe puis
-## les 4 images de la course. Les pieds sont en `FEET` de chaque case. Elle est agrandie au
+## La planche a une ligne par direction (`DIRECTIONS`) et 5 cases de 96 × 96 (plus grandes pour un
+## grand personnage, voir `cell`) : l'image fixe puis les 4 images de la course. Les pieds sont aux 5/6
+## de chaque case (`FEET` pour 96). Elle est agrandie au
 ## chargement en `Art.SCALE` × sans lissage, puis dessinée à sa taille : les pixels restent nets
 ## même si l'écran met la carte à l'échelle.
 
@@ -50,6 +51,16 @@ static func texture(sheet: String) -> Texture2D:
 	return result
 
 
+## Côté des cases d'une planche, à l'échelle 1 (96, ou 144 pour la géante).
+static func cell(sheet: String) -> int:
+	var tex := texture(sheet)
+	return CELL if tex == null else int(tex.get_height() / Art.SCALE / DIRECTIONS.size())
+
+
+static func feet(sheet: String) -> Vector2:
+	return Vector2(cell(sheet) / 2.0, cell(sheet) * 5.0 / 6.0)
+
+
 ## Direction (indice dans `DIRECTIONS`) d'un déplacement à l'écran. La carte est isométrique (case
 ## deux fois plus large que haute) : on raisonne au sol, où un pas le long d'un axe de la grille
 ## est une diagonale.
@@ -81,8 +92,9 @@ static func draw(canvas: CanvasItem, sheet: String, base: Vector2, direction: in
 	var tex := texture(sheet)
 	if tex == null:
 		return
-	var source := Rect2(Vector2(frame, direction) * CELL * Art.SCALE, Vector2.ONE * CELL * Art.SCALE)
-	var target := Rect2(base - FEET * size_factor, Vector2.ONE * CELL * size_factor)
+	var size := cell(sheet)
+	var source := Rect2(Vector2(frame, direction) * size * Art.SCALE, Vector2.ONE * size * Art.SCALE)
+	var target := Rect2(base - feet(sheet) * size_factor, Vector2.ONE * size * size_factor)
 	canvas.draw_texture_rect_region(tex, target, source, modulate)
 
 
@@ -91,20 +103,20 @@ static func _used_rect(sheet: String, direction: int) -> Rect2i:
 	var key := "%s:%d" % [sheet, direction]
 	if not _used_rects.has(key):
 		var tex := texture(sheet)
-		var cell := Rect2i(Vector2i(0, direction) * CELL * int(Art.SCALE), Vector2i.ONE * CELL * int(Art.SCALE))
-		_used_rects[key] = tex.get_image().get_region(cell).get_used_rect() if tex != null else Rect2i()
+		var area := Rect2i(Vector2i(0, direction) * cell(sheet) * int(Art.SCALE), Vector2i.ONE * cell(sheet) * int(Art.SCALE))
+		_used_rects[key] = tex.get_image().get_region(area).get_used_rect() if tex != null else Rect2i()
 	return _used_rects[key]
 
 
 ## Hauteur au-dessus des pieds de l'image fixe la plus haute, à l'échelle 1 (pour placer la barre de
 ## vie juste au-dessus du sprite).
 static func height(sheet: String) -> float:
-	var top := FEET.y
+	var top := feet(sheet).y
 	for direction in DIRECTIONS.size():
 		var used := _used_rect(sheet, direction)
 		if used.size.y > 0:
 			top = minf(top, used.position.y / Art.SCALE)
-	return FEET.y - top
+	return feet(sheet).y - top
 
 
 ## Dessine l'image fixe d'une direction, rognée à ce qu'elle montre et agrandie pour tenir dans
@@ -113,11 +125,10 @@ static func draw_still_fit(canvas: CanvasItem, sheet: String, rect: Rect2, direc
 	var tex := texture(sheet)
 	if tex == null:
 		return
-	var cell := Rect2i(Vector2i(0, direction) * CELL * int(Art.SCALE), Vector2i.ONE * CELL * int(Art.SCALE))
 	var used := _used_rect(sheet, direction)
 	if used.size.x <= 0 or used.size.y <= 0:
 		return
-	var source := Rect2(Vector2(cell.position + used.position), Vector2(used.size))
+	var source := Rect2(Vector2(Vector2i(0, direction) * cell(sheet) * int(Art.SCALE) + used.position), Vector2(used.size))
 	var zoom := minf(rect.size.x / source.size.x, rect.size.y / source.size.y)
 	var drawn := source.size * zoom
 	var target := Rect2(rect.position + Vector2((rect.size.x - drawn.x) / 2.0, rect.size.y - drawn.y), drawn)
