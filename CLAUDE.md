@@ -285,7 +285,8 @@ Dernière session (retours de la passe de l'auteur) :
   Dofus Rétro (`creation.gd`, `_carousel`, `_race_beside`). Prompt des Arkhés : `assets/arkhes/PROMPT.md`.
   Attaque en pixel art (19/11/2026) : 6 colonnes `strike` de plus dans la planche (`Sprites.STRIKE_FRAMES`, `has_strike`),
   pour toutes les attaques et les sorts ; orc, squelette, géant, arkhé (humain, gobelin, elfe à générer) ; prompts des
-  autres animations : `assets/PROMPTS_ANIMATIONS.md`.
+  autres animations : `assets/PROMPTS_ANIMATIONS.md` ; directions ouest absentes faites en miroir de l'est
+  (`planche_sprites.py`, `MIRRORS`).
 - Le pseudo choisi est déjà utilisé partout ; « Aventurier » (`World.DEFAULT_NAME`) n'apparaît
   que dans les tests et les captures, sans écran de création.
 

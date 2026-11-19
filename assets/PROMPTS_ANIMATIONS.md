@@ -18,4 +18,7 @@ Notes :
   métal ou pétrir ; l'outil pourra être ajouté plus tard en calque. La pêche demandera peut-être sa propre animation.
 - **Attente** : 4 images suffisent (une respiration lente en boucle, ~0,25 s par image). En 8 directions parce que les
   joueurs s'arrêtent dans toutes les directions sur la carte ; en combat, seules les 4 diagonales servent.
+- **Côté ouest facultatif** : pour une animation symétrique, ne fournir que l'est (east, south-east, north-east) ;
+  `planche_sprites.py` fait west, south-west et north-west en miroir. Fournir l'ouest seulement si un détail est
+  asymétrique (sacoche, tresse, arme d'un côté).
 - Garder les pieds au même endroit d'une image à l'autre (le jeu les cale en bas au centre de la case).

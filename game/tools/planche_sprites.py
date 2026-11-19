@@ -7,6 +7,7 @@ l'image fixe remplit aussi les 4 cases de la course. Export PixelLab en dossiers
 (`walking/<direction>/frame_000.png`, `running/<direction>/frame_00N.png`, 84 à 136 px, centrées dans la case) : l'image fixe vient
 de `Idle_rotations_8dir.gif` (8 images de 64 px, une par direction dans l'ordre ci-dessus), sinon de la 1re image
 de la marche ; une image sur deux de la course (8) en donne 4.
+Une direction ouest absente (west, south-west, north-west) est faite en miroir de l'est (`MIRRORS`).
 Avec un dossier `strike/` (attaque, 4 diagonales), 6 colonnes de plus : l'attaque, l'image fixe pour les
 4 autres directions.
 Sortie : une planche PNG de 8 lignes (une par direction, dans cet ordre) et 5 colonnes de
@@ -40,6 +41,18 @@ def find(folder: str, suffix: str, required: bool = True) -> str:
     return ""
 
 
+## Direction ouest absente de l'export : l'est retourné en miroir (animations symétriques).
+MIRRORS = {"west": "east", "south-west": "south-east", "north-west": "north-east"}
+
+
+def animation_frames(folder: str, animation: str, direction: str) -> list:
+    """Images d'une animation dans une direction ; à défaut, celles de la direction miroir, retournées."""
+    paths = sorted(glob.glob(os.path.join(folder, animation, direction, "frame_*.png")))
+    if paths or direction not in MIRRORS:
+        return [Image.open(path).convert("RGBA") for path in paths]
+    return [image.transpose(Image.Transpose.FLIP_LEFT_RIGHT) for image in animation_frames(folder, animation, MIRRORS[direction])]
+
+
 def main(folder: str, output: str) -> None:
     frames_dir = os.path.join(folder, "running")
     idle_path = os.path.join(folder, "Idle_rotations_8dir.gif")
@@ -53,19 +66,17 @@ def main(folder: str, output: str) -> None:
     for row, direction in enumerate(DIRECTIONS):
         if os.path.isdir(frames_dir):
             # Images de la course centrées dans la case ; idle, pieds en bas au centre.
-            paths = ([] if idle else [os.path.join(folder, "walking", direction, "frame_000.png")]) + \
-                sorted(glob.glob(os.path.join(frames_dir, direction, "frame_*.png")))[::2]
+            images = ([] if idle else animation_frames(folder, "walking", direction)[:1]) + animation_frames(folder, "running", direction)[::2]
             if idle:
                 sheet.alpha_composite(idle[row], (feet[0] - idle[row].width // 2, row * cell + feet[1] - idle[row].height + 1))
-            for col, path in enumerate(paths[:RUN_FRAMES + (0 if idle else 1)], 1 if idle else 0):
-                frame = Image.open(path).convert("RGBA")
+            for col, frame in enumerate(images[:RUN_FRAMES + (0 if idle else 1)], 1 if idle else 0):
                 sheet.alpha_composite(frame, (col * cell + (cell - frame.width) // 2, row * cell + (cell - frame.height) // 2))
             # Attaque (4 diagonales seulement) : 6 images réparties sur l'animation ; ailleurs, l'image fixe.
-            strikes = sorted(glob.glob(os.path.join(strike_dir, direction, "frame_*.png")))
+            strikes = animation_frames(folder, "strike", direction)
             for col in range(columns - 1 - RUN_FRAMES):
                 spot = ((1 + RUN_FRAMES + col) * cell, row * cell)
                 if strikes:
-                    frame = Image.open(strikes[round(col * (len(strikes) - 1) / (STRIKE_FRAMES - 1))]).convert("RGBA")
+                    frame = strikes[round(col * (len(strikes) - 1) / (STRIKE_FRAMES - 1))]
                     sheet.alpha_composite(frame, (spot[0] + (cell - frame.width) // 2, spot[1] + (cell - frame.height) // 2))
                 else:
                     sheet.alpha_composite(sheet.crop((0, row * cell, cell, (row + 1) * cell)), spot)
