@@ -1567,7 +1567,7 @@
       "rig": "humain",
       "planche": "sprites/squelette.png",
       "echelle": 1.05,
-      "recoloration": {"teinte": [30, 70], "saturation": [0.08, 0.25], "valeur": [0.3, 0.6], "force": 0.85}
+      "recoloration": {"teinte": [15, 70], "saturation": [0.05, 0.25], "valeur": [0.25, 0.6], "force": 0.85}
     }
   },
   "pnj": {
