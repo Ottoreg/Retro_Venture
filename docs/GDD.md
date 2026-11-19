@@ -222,6 +222,17 @@ thématique** (son village ou campement, son décor, ses monstres et PNJ à son 
 - La chaîne de quêtes de l'acte I reste **par camp** ; chaque sous-zone peut ajouter ses quêtes de race.
 - Chaque sous-zone respecte les règles des zones de départ (paliers 1 et 2, aucun palier vide), et les
   joueurs d'un même camp se croisent dès le début.
+- Gabarit d'une sous-zone : environ 6 cartes, paliers 1 et 2, 2 ou 3 familles de monstres, une élite,
+  un mini-boss, 2 ou 3 quêtes de race qui mènent à la chaîne commune du camp.
+
+**Crasse-Roc agrandie** (validée par l'auteur le 19/11/2026, rien de produit) :
+
+- **Orcs, à l'est** (depuis le Puits des Vampipistrelles ou le Poste avancé de la Milice) : *la Fosse aux
+  Braillards*, camp de guerre sur des coulées de scories ; arène où l'on se bat pour savoir qui crie le plus
+  fort, fours à ferraille, chef de guerre qui tient des réunions… de hurlements. Flamme dominante.
+- **Squelettes, à l'ouest** (depuis l'Entrée des galeries ou la Rataillerie) : *l'Ossuaire de la Première
+  Ombre*, vieux champ de bataille et catacombes ; « Caisse de retraite des Trépassés » qui ne verse jamais
+  rien, gradés morts qui font encore l'appel. Un peu de Givre ou d'Impie.
 
 #### Paliers de niveau des zones de départ
 
