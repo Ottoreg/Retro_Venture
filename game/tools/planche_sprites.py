@@ -7,6 +7,8 @@ l'image fixe remplit aussi les 4 cases de la course. Export PixelLab en dossiers
 (`walking/<direction>/frame_000.png`, `running/<direction>/frame_00N.png`, 84 à 136 px, centrées dans la case) : l'image fixe vient
 de `Idle_rotations_8dir.gif` (8 images de 64 px, une par direction dans l'ordre ci-dessus), sinon de la 1re image
 de la marche ; une image sur deux de la course (8) en donne 4.
+Avec un dossier `strike/` (attaque, 4 diagonales), 6 colonnes de plus : l'attaque, l'image fixe pour les
+4 autres directions.
 Sortie : une planche PNG de 8 lignes (une par direction, dans cet ordre) et 5 colonnes de
 96 × 96 px (144 si l'idle fait 96 px) : l'image fixe, puis les 4 images de la course. Les pieds sont en (48, 80) de
 chaque case (aux 5/6 de sa hauteur).
@@ -24,6 +26,7 @@ DIRECTIONS = ["south", "south-east", "east", "north-east", "north", "north-west"
 CELL = 96
 FEET = (48, 80)
 RUN_FRAMES = 4
+STRIKE_FRAMES = 6
 
 
 def find(folder: str, suffix: str, required: bool = True) -> str:
@@ -44,7 +47,9 @@ def main(folder: str, output: str) -> None:
     # Personnage plus grand (idle de 96 px au lieu de 64, géante) : cases agrandies d'autant, pieds aux 5/6 de la case.
     cell = CELL * idle[0].width // 64 if idle else CELL
     feet = (cell // 2, cell * 5 // 6)
-    sheet = Image.new("RGBA", (cell * (1 + RUN_FRAMES), cell * len(DIRECTIONS)), (0, 0, 0, 0))
+    strike_dir = os.path.join(folder, "strike")
+    columns = 1 + RUN_FRAMES + (STRIKE_FRAMES if os.path.isdir(strike_dir) else 0)
+    sheet = Image.new("RGBA", (cell * columns, cell * len(DIRECTIONS)), (0, 0, 0, 0))
     for row, direction in enumerate(DIRECTIONS):
         if os.path.isdir(frames_dir):
             # Images de la course centrées dans la case ; idle, pieds en bas au centre.
@@ -55,6 +60,15 @@ def main(folder: str, output: str) -> None:
             for col, path in enumerate(paths[:RUN_FRAMES + (0 if idle else 1)], 1 if idle else 0):
                 frame = Image.open(path).convert("RGBA")
                 sheet.alpha_composite(frame, (col * cell + (cell - frame.width) // 2, row * cell + (cell - frame.height) // 2))
+            # Attaque (4 diagonales seulement) : 6 images réparties sur l'animation ; ailleurs, l'image fixe.
+            strikes = sorted(glob.glob(os.path.join(strike_dir, direction, "frame_*.png")))
+            for col in range(columns - 1 - RUN_FRAMES):
+                spot = ((1 + RUN_FRAMES + col) * cell, row * cell)
+                if strikes:
+                    frame = Image.open(strikes[round(col * (len(strikes) - 1) / (STRIKE_FRAMES - 1))]).convert("RGBA")
+                    sheet.alpha_composite(frame, (spot[0] + (cell - frame.width) // 2, spot[1] + (cell - frame.height) // 2))
+                else:
+                    sheet.alpha_composite(sheet.crop((0, row * cell, cell, (row + 1) * cell)), spot)
             continue
         still = Image.open(find(folder, direction + ".png")).convert("RGBA")
         # Image fixe en 64 × 64, pieds en bas au centre (32, 62) : recentrée sur les pieds de la course.

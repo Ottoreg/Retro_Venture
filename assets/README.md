@@ -12,5 +12,7 @@ Pas encore utilisée par le jeu.
 `arkhes/PROMPT.md` : prompts PixelLab des 4 variantes des Arkhés (Flamme, Acier, Tempête, Givre), race d'élémentaires
 à l'étude ; les sprites sont rangés dans `arkhes/<variante>/` comme ceux de l'orc (`arkhes/flamme/` déposé le 19/11/2026).
 
+`PROMPTS_ANIMATIONS.md` : prompts PixelLab des animations des races (touché, mort, assis, travailler, attente).
+
 `geante/` : géante (race Géants, Phase 3), déposée le 19/11/2026 ; images fixes de 96 px et animations de 136 px,
 plus grandes que l'orc (planche à cases plus grandes à prévoir). Chaque dossier PixelLab garde son `metadata.json` (prompt utilisé).

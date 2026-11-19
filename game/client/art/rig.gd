@@ -70,10 +70,11 @@ static func scale_of(rig_name: String) -> float:
 ## phase (marche), temps (respiration), attaque (0 à 1, ou négatif), zoom (agrandissement),
 ## assis (bool), cap (direction parmi les 8 de `Sprites`, -1 si inconnue) }.
 ## Un personnage qui a une planche de pixel art (`Sprites`) est dessiné avec elle quand la pose a un
-## `cap` (carte, création, menu principal), debout ou en course ; l'assemblage reste pour le reste
-## (attaque, assis, portraits…), faute d'images pour l'instant.
+## `cap` (carte, création, menu principal), debout, en course ou en attaque si sa planche en a une
+## (`Sprites.has_strike`) ; l'assemblage reste pour le reste (assis, portraits…), faute d'images pour l'instant.
 static func draw(canvas: CanvasItem, appearance: Dictionary, base: Vector2, pose: Dictionary, modulate := Color.WHITE) -> void:
-	if appearance.has("planche") and pose.has("cap") and float(pose.get("attaque", -1.0)) < 0.0 \
+	if appearance.has("planche") and pose.has("cap") \
+			and (float(pose.get("attaque", -1.0)) < 0.0 or Sprites.has_strike(appearance["planche"])) \
 			and not (pose.get("assis", false) and not pose.get("marche", false)):
 		Sprites.draw_pose(canvas, appearance, base, pose, modulate)
 		return

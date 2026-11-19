@@ -34,7 +34,8 @@ func test_personnages_et_accessoires() -> void:
 				var sheet := Sprites.texture(spec["planche"])
 				assert_true(sheet != null, "%s « %s » : planche de sprites" % [group, entry_name])
 				if sheet != null:
-					assert_eq(sheet.get_size(), Vector2(1 + Sprites.RUN_FRAMES, Sprites.DIRECTIONS.size()) * Sprites.cell(spec["planche"]) * Art.SCALE,
+					var columns := 1 + Sprites.RUN_FRAMES + (Sprites.STRIKE_FRAMES if Sprites.has_strike(spec["planche"]) else 0)
+					assert_eq(sheet.get_size(), Vector2(columns, Sprites.DIRECTIONS.size()) * Sprites.cell(spec["planche"]) * Art.SCALE,
 						"%s « %s » : 8 directions, image fixe et course" % [group, entry_name])
 			if not str(spec.get("arme", "")).is_empty():
 				assert_true(manifest["armes"].has(spec["arme"]), "%s « %s » : arme" % [group, entry_name])
@@ -141,6 +142,10 @@ func test_directions_des_sprites() -> void:
 		var family: String = data.monsters[monster_id]["famille"]
 		var ratio := float(Art.manifest()["monstres"][monster_id]["echelle"]) / float(Art.manifest()["monstres"][family]["echelle"])
 		assert_true(absf(ratio - 1.2) < 0.01, "%s : 1,2 fois %s" % [monster_id, family])
+	# Attaque en pixel art pour les races dont l'export PixelLab a un dossier « strike ».
+	for race_id: String in ["orc", "squelette", "geant", "arkhe"]:
+		assert_true(Sprites.has_strike(Art.manifest()["races"][race_id]["planche"]), "%s : attaque" % race_id)
+	assert_false(Sprites.has_strike(Art.manifest()["races"]["humain"]["planche"]), "humain : pas encore d'attaque")
 	# Une planche aux couleurs de chaque Voie.
 	for race_id: String in ["gobelin", "humain", "elfe", "orc", "squelette", "geant", "arkhe"]:
 		for voie_id: String in Art.manifest()["tenues"]:

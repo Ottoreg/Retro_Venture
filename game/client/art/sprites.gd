@@ -17,6 +17,8 @@ const DIRECTIONS := ["sud", "sud-est", "est", "nord-est", "nord", "nord-ouest", 
 const CELL := 96
 const FEET := Vector2(48, 80)
 const RUN_FRAMES := 4
+## Images de l'attaque (colonnes 6 à 11, si la planche les a), pour le corps à corps comme pour les sorts.
+const STRIKE_FRAMES := 6
 
 static var _textures: Dictionary = {}
 ## Partie visible de chaque image fixe, par « planche:direction » (voir `draw_still_fit`).
@@ -55,6 +57,11 @@ static func texture(sheet: String) -> Texture2D:
 static func cell(sheet: String) -> int:
 	var tex := texture(sheet)
 	return CELL if tex == null else int(tex.get_height() / Art.SCALE / DIRECTIONS.size())
+
+
+static func has_strike(sheet: String) -> bool:
+	var tex := texture(sheet)
+	return tex != null and tex.get_width() > (1 + RUN_FRAMES) * cell(sheet) * Art.SCALE
 
 
 static func feet(sheet: String) -> Vector2:
@@ -147,6 +154,9 @@ static func draw_pose(canvas: CanvasItem, appearance: Dictionary, base: Vector2,
 		direction = mirrored(direction)
 	var walking: bool = pose.get("marche", false)
 	var frame := 1 + posmod(int(float(pose.get("phase", 0.0)) * RUN_FRAMES / TAU), RUN_FRAMES) if walking else 0
+	var attack := float(pose.get("attaque", -1.0))
+	if attack >= 0.0:
+		frame = 1 + RUN_FRAMES + mini(STRIKE_FRAMES - 1, int(attack * STRIKE_FRAMES))
 	var size := float(appearance.get("echelle", 1.0)) * float(pose.get("zoom", 1.0))
 	Art.draw(canvas, "ombre", base, {}, false, Color(1, 1, 1, modulate.a), size * 0.75)
 	draw(canvas, appearance["planche"], base, direction, frame, size, modulate)
