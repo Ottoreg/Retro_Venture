@@ -84,8 +84,8 @@ temps : chaque camp a sa propre histoire.
     autour de lui) ; passif *Peau épaisse* : −10 % de dégâts de mêlée reçus.
   - **Squelette** (camp ennemi, à l'essai) : départ à **Crasse-Roc** ; sort *Remonter les os* (soigne 15 %
     de ses PV) ; passif *Déjà mort* : une fois par combat, survit à un coup fatal avec 1 PV.
-  - **Géant** (camp allié, à l'essai) : départ à **Brumerive** ; apparence seulement pour l'instant (passif
-    *Carrure* et sort racial à venir).
+  - **Géant** (camp allié, à l'essai) : départ à **Brumerive** ; sort *Coup de semelle* (dégâts Acier au contact,
+    repousse de 2 cases) ; passif *Carrure* : +10 % de PV max.
   - **Arkhé** (élémentaire de feu, camp neutre, à l'essai) : départ à **Sylvebrume** ; apparence seulement pour
     l'instant (passif et sort racial à venir).
 - Cinq Voies (classes), chacune avec sa mécanique :

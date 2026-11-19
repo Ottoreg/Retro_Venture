@@ -3,7 +3,8 @@
   "nom": "Géant",
   "camp": "allie",
   "description": "Anciens gardiens des montagnes, alliés historiques des humains. Lents à se décider, impossibles à arrêter une fois lancés ; ils cognent les plafonds des maisons humaines.",
-  "passif": {"nom": "Carrure", "description": "+10 % de PV max (à venir).", "effets": []},
+  "passif": {"nom": "Carrure", "description": "+10 % de PV max.", "effets": [{"type": "pv_max", "valeur": 10}]},
+  "sort": "geant_coup_de_semelle",
   "carte_depart": "brumerive_0_0",
   "apparence": {"peau": "c49a74"}
 }

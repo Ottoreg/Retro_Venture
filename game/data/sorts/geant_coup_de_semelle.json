@@ -1,0 +1,12 @@
+{
+  "id": "geant_coup_de_semelle",
+  "nom": "Coup de semelle",
+  "description": "Le Géant ne frappe pas vraiment : il avance le pied. Pour la cible, la différence est difficile à faire.",
+  "cout_pa": 3,
+  "portee": {"min": 1, "max": 1},
+  "relance": {"par_tour": 1, "delai": 2},
+  "effets": [
+    {"type": "degats", "element": "acier", "min": 5, "max": 8},
+    {"type": "poussee", "min": 2, "max": 2}
+  ]
+}

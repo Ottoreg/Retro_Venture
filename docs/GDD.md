@@ -136,7 +136,8 @@ Trois races par camp : une dès l'alpha, deux en Phase 3. Orcs et Squelettes son
 (18/11/2026 : sprites, départ à Crasse-Roc, 1er passif et sort racial ; valeurs validées par l'auteur :
 Peau épaisse −10 % de dégâts de mêlée reçus ; Cri de guerre 3 PA, +10 % de dégâts aux alliés à 2 cases
 pendant 2 tours, relance 4 ; Remonter les os 2 PA, relance 3). Géants et Arkhés (Flamme) aussi, depuis le
-19/11/2026 (sprites, départ à Brumerive et Sylvebrume, passifs et sorts à venir) ; l'Arkhé, élémentaire, est une piste
+19/11/2026 (sprites, départ à Brumerive et Sylvebrume ; Géant : Carrure et Coup de semelle codés, 3 PA, Acier 5-8,
+poussée 2, relance 2 ; Arkhé : passif et sort à venir) ; l'Arkhé, élémentaire, est une piste
 pour remplacer le Semi-homme. Les Nains, Orcs et Semi-hommes jouent leur
 cliché attendu (bourrus, brutaux, gourmands) ; les trois autres peuples de Phase 3 :
 

@@ -77,7 +77,7 @@ point(s) de caractéristique (avant ralentissement).
 |---|---|---|---|---|---|
 | **Arkhé** | neutre | sylvebrume_0_0 | À définir |  | — |
 | **Elfe** | neutre | sylvebrume_0_0 | Œil perçant | portee +1 | Pas léger |
-| **Géant** | allie | brumerive_0_0 | Carrure |  | — |
+| **Géant** | allie | brumerive_0_0 | Carrure | pv_max +10 | Coup de semelle |
 | **Gobelin** | ennemi | crasse_roc_0_0 | Chapardeur | prospection +20, ecus +20 | Coup bas |
 | **Humain** | allie | brumerive_0_0 | Polyvalence | reputation_metier +10 | Ralliement |
 | **Orc** | ennemi | crasse_roc_0_0 | Peau épaisse | reduction_melee +10 | Cri de guerre |
@@ -86,6 +86,7 @@ point(s) de caractéristique (avant ralentissement).
 | Sort de race | Caractéristiques | Effets | Maîtrise |
 |---|---|---|---|
 | **Pas léger** | 2 PA, portée 1–3, sans ligne de vue, 1/tour, relance 3 t. | téléportation sur la case | — |
+| **Coup de semelle** | 3 PA, portée 1, 1/tour, relance 2 t. | 5–8 Acier ; poussée de 2 case(s) | — |
 | **Coup bas** | 3 PA, portée 1, 1/tour | 4–7 Tempête ; −1 PM au prochain tour | — |
 | **Ralliement** | 1 PA, portée soi, sans ligne de vue, 1/tour, relance 4 t. | +2 PA tout de suite | — |
 | **Cri de guerre** | 3 PA, portée soi, cercle de rayon 2, sans ligne de vue, 1/tour, relance 4 t. | +10 % dégâts infligés (2 t.) aux alliés | — |

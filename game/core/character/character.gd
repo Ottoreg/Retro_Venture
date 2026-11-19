@@ -471,8 +471,9 @@ func set_hp(value: int, data: GameData) -> void:
 func max_hp(data: GameData) -> int:
 	if data == null or not data.voies.has(voie_id):
 		return 0
-	var base := int(data.voies[voie_id]["caracteristiques"]["pv"])
-	return base + stat("vitalite", data)
+	# Passif « pv_max » (Carrure du Géant) : % de PV max en plus.
+	var base := int(data.voies[voie_id]["caracteristiques"]["pv"]) + stat("vitalite", data)
+	return base * (100 + data.passive_value(race_id, "pv_max")) / 100
 
 
 func to_dict() -> Dictionary:

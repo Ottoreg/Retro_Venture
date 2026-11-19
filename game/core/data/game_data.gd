@@ -34,8 +34,8 @@ const STARTING_ECUS := 20
 const CAMPS := ["allie", "ennemi", "neutre"]
 ## Effets de passif de race gérés : portée des sorts, % d'XP de métier en plus, prospection en
 ## plus, % de brumes de fin de combat en plus ; en combat (`Fighter.passives`), % de dégâts de mêlée reçus en moins
-## et survie à un coup fatal une fois par combat.
-const PASSIVE_EFFECTS := ["portee", "reputation_metier", "prospection", "ecus", "reduction_melee", "deja_mort"]
+## et survie à un coup fatal une fois par combat ; % de PV max en plus (`Character.max_hp`).
+const PASSIVE_EFFECTS := ["portee", "reputation_metier", "prospection", "ecus", "reduction_melee", "deja_mort", "pv_max"]
 ## Caractéristiques d'un monstre (facultatives dans « caracteristiques », 0 par défaut) : comme
 ## celles des joueurs, +1 % de dégâts de leur élément par point.
 const MONSTER_STATS := ["force", "intelligence", "perception", "agilite"]
