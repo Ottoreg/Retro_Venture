@@ -10,4 +10,7 @@ pas et qu'ils ne soient pas publiés avec le jeu. Les planches utilisées par le
 Pas encore utilisée par le jeu.
 
 `arkhes/PROMPT.md` : prompts PixelLab des 4 variantes des Arkhés (Flamme, Acier, Tempête, Givre), race d'élémentaires
-à l'étude ; les sprites seront rangés dans `arkhes/<variante>/` comme ceux de l'orc.
+à l'étude ; les sprites sont rangés dans `arkhes/<variante>/` comme ceux de l'orc (`arkhes/flamme/` déposé le 19/11/2026).
+
+`geante/` : géante (race Géants, Phase 3), déposée le 19/11/2026 ; images fixes de 96 px et animations de 136 px,
+plus grandes que l'orc (planche à cases plus grandes à prévoir). Chaque dossier PixelLab garde son `metadata.json` (prompt utilisé).
