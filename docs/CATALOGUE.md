@@ -27,7 +27,7 @@ Prix de boutique : selon la rareté (revente à 25 %).
 - [Sorts de race](#sorts-de-race)
 - [Sorts des monstres](#sorts-des-monstres)
 
-**317 objets** (18 armes, 20 coiffes, 20 capes, 20 amulettes, 20 anneaux, 20 ceintures, 20 bottes, 129 ressources, 37 plans de forge, 7 objets de quête), **57 monstres** et **140 sorts**.
+**317 objets** (18 armes, 20 coiffes, 20 capes, 20 amulettes, 20 anneaux, 20 ceintures, 20 bottes, 129 ressources, 37 plans de forge, 7 objets de quête), **57 monstres** et **141 sorts**.
 
 ## Armes
 
@@ -1345,6 +1345,7 @@ Soigneur sacré. Bénit les alliés, sermonne les ennemis, et cite des textes qu
 | **Pas léger** | 2 PA, portée 1–3, sans ligne de vue, 1/tour, relance 3 t. | téléportation sur la case | Elfe | Un bond gracieux vers une case libre. L'herbe n'en garde même pas la trace. |
 | **Ralliement** | 1 PA, portée soi, sans ligne de vue, 1/tour, relance 4 t. | +2 PA tout de suite | Humain | Un cri d'encouragement. À soi-même, faute d'alliés pour l'instant. |
 | **Remonter les os** | 2 PA, portée soi, sans ligne de vue, 1/tour, relance 3 t. | soin 15 (Impie) | Squelette | Le tibia ici, la rotule là… Il en reste une, mais ça tiendra. Soigne 15 % de ses PV max. |
+| **Éruption** | 3 PA, portée soi, cercle de rayon 1, sans ligne de vue, 1/tour, relance 3 t. | 4–7 Flamme aux ennemis | Arkhé | L'Arkhé laisse déborder ce qu'il a dedans. Ceux qui se tenaient trop près s'en souviendront. |
 
 ## Sorts des monstres
 

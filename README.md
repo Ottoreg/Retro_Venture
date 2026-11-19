@@ -27,7 +27,7 @@ a été ajouté depuis, avant de retravailler le fond des mécaniques, des class
 - **Combat tactique** : cases de placement, coups critiques, poison, glyphes et pièges, poussée, mode tactique,
   historique de combat, IA à distance et de soutien.
 - **Cinq Voies** : Guerrier, Rôdeur, Arcaniste (composition Flamme / Givre / Tempête), Théologue et Chronomancien
-  (Voie Impie et son horloge) ; races : Humains, Elfes, Gobelins, Orcs, Squelettes, Géants et Arkhés (l'Arkhé sans passif ni sort racial pour l'instant), choisies dans un carrousel à la création.
+  (Voie Impie et son horloge) ; races : Humains, Elfes, Gobelins, Orcs, Squelettes, Géants et Arkhés, choisies dans un carrousel à la création.
 - **Progression sans niveaux** : réputation (qui débloque) et points de maîtrise à répartir, par classe et par
   métier ; caractéristiques gagnées par la pratique et plafonnées ; une classe active, changée hors combat.
 - **Sauvegarde solo** automatique, exportable et importable en image PNG chiffrée (menu principal).

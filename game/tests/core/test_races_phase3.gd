@@ -1,5 +1,5 @@
 extends "res://tests/test_case.gd"
-## Orc, Squelette et Géant (GDD § 4.2) : Peau épaisse, Déjà mort, Carrure, Cri de guerre et Remonter les os.
+## Orc, Squelette et Géant (GDD § 4.2) : Peau épaisse, Déjà mort, Carrure, Cœur élémentaire, Cri de guerre et Remonter les os.
 
 const Fixtures := preload("res://tests/helpers/fixtures.gd")
 const RIGHT := Vector2i(1, 0)
@@ -14,6 +14,9 @@ func test_passifs_et_sorts() -> void:
 	assert_eq([orc.passives["reduction_melee"], bones.passives["deja_mort"]], [10, 1])
 	var giant := Character.create("Gudrun", "geant", "guerrier")
 	assert_true(data.create_character_fighter(giant, "g").spells.any(func(s: Spell) -> bool: return s.id == "geant_coup_de_semelle"), "sort racial du géant")
+	var arkhe := data.create_character_fighter(Character.create("Ignis", "arkhe", "guerrier"), "a")
+	assert_eq([arkhe.power("flamme"), arkhe.resistance("flamme"), arkhe.power("givre")], [5, 5.0, 0], "Cœur élémentaire : +5 % Flamme")
+	assert_true(arkhe.spells.any(func(s: Spell) -> bool: return s.id == "arkhe_eruption"), "sort racial de l'Arkhé")
 	assert_eq(giant.max_hp(data), Character.create("Hugo", "humain", "guerrier").max_hp(data) * 110 / 100, "Carrure : +10 % de PV max")
 	assert_true(orc.spells.any(func(s: Spell) -> bool: return s.id == "orc_cri_de_guerre"), "sort racial de l'orc")
 	assert_true(bones.spells.any(func(s: Spell) -> bool: return s.id == "squelette_remonter_les_os"), "sort racial du squelette")

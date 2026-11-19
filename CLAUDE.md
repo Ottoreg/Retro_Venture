@@ -281,7 +281,7 @@ Dernière session (retours de la passe de l'auteur) :
 - **Géant et Arkhé jouables** (19/11/2026) : `sprites/geant.png` (cases de 144 px : `planche_sprites.py` agrandit la case
   quand l'idle fait 96 px, `Sprites.cell` / `Sprites.feet` la lisent dans la planche) et `arkhe.png` (Arkhé Flamme) ;
   départ à Brumerive et Sylvebrume ; Géant : *Carrure* (`pv_max`, `Character.max_hp`) et `geant_coup_de_semelle` ;
-  Arkhé sans passif ni sort pour l'instant. Création : carrousel des races façon
+  Arkhé : *Cœur élémentaire* (`coeur_elementaire`, `Fighter.power` et résistance) et `arkhe_eruption`, en Flamme. Création : carrousel des races façon
   Dofus Rétro (`creation.gd`, `_carousel`, `_race_beside`). Prompt des Arkhés : `assets/arkhes/PROMPT.md`.
 - Le pseudo choisi est déjà utilisé partout ; « Aventurier » (`World.DEFAULT_NAME`) n'apparaît
   que dans les tests et les captures, sans écran de création.

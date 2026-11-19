@@ -210,7 +210,7 @@ func power(element: String) -> int:
 	if Spell.COMPOSITE_ELEMENTS.has(element):
 		var bases: Array = Spell.COMPOSITE_ELEMENTS[element]
 		return power(bases[0]) + power(bases[1])
-	return stat(ELEMENT_STATS.get(element, "")) + state_bonus() * element_states.count(element)
+	return stat(ELEMENT_STATS.get(element, "")) + state_bonus() * element_states.count(element) + int(passives.get("coeur_" + element, 0))
 
 
 ## Bonus en % de chaque état élémentaire : `ELEMENT_STATE_BONUS`, plus les rangs de maîtrise des sorts.

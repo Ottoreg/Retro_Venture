@@ -34,8 +34,9 @@ const STARTING_ECUS := 20
 const CAMPS := ["allie", "ennemi", "neutre"]
 ## Effets de passif de race gérés : portée des sorts, % d'XP de métier en plus, prospection en
 ## plus, % de brumes de fin de combat en plus ; en combat (`Fighter.passives`), % de dégâts de mêlée reçus en moins
-## et survie à un coup fatal une fois par combat ; % de PV max en plus (`Character.max_hp`).
-const PASSIVE_EFFECTS := ["portee", "reputation_metier", "prospection", "ecus", "reduction_melee", "deja_mort", "pv_max"]
+## et survie à un coup fatal une fois par combat ; % de PV max en plus (`Character.max_hp`) ; % de puissance et de
+## résistance dans un élément (`coeur_elementaire`, champ « element » : Cœur élémentaire de l'Arkhé).
+const PASSIVE_EFFECTS := ["portee", "reputation_metier", "prospection", "ecus", "reduction_melee", "deja_mort", "pv_max", "coeur_elementaire"]
 ## Caractéristiques d'un monstre (facultatives dans « caracteristiques », 0 par défaut) : comme
 ## celles des joueurs, +1 % de dégâts de leur élément par point.
 const MONSTER_STATS := ["force", "intelligence", "perception", "agilite"]
@@ -311,7 +312,8 @@ static func validate_race(data: Dictionary, known_spells: Dictionary) -> PackedS
 		if valid:
 			for effect: Variant in effects:
 				valid = valid and typeof(effect) == TYPE_DICTIONARY and str(effect.get("type")) in PASSIVE_EFFECTS \
-					and Spell._is_int_at_least(effect.get("valeur"), 1)
+					and Spell._is_int_at_least(effect.get("valeur"), 1) \
+					and (effect.get("type") != "coeur_elementaire" or effect.get("element") in Spell.ELEMENTS)
 		if not valid:
 			errors.append("« passif.effets » : liste de { type, valeur } attendue, types gérés : %s" % str(PASSIVE_EFFECTS))
 	if data.has("sort") and not known_spells.has(data["sort"]):
@@ -597,6 +599,10 @@ func create_character_fighter(character: Character, fighter_id: String) -> Fight
 		fighter.element_dommages[element] = character.extra("dommages_" + element, self)
 		fighter.element_soins[element] = character.extra("soins_" + element, self)
 		fighter.resistances[element] = mini(Fighter.MAX_RESISTANCE, int(fighter.resistances.get(element, 0)) + character.extra("resistance_" + element, self))
+	for effect: Dictionary in race.get("passif", {}).get("effets", []):
+		if effect["type"] == "coeur_elementaire":  # Cœur élémentaire : % de dégâts (`Fighter.power`) et de résistance.
+			fighter.passives["coeur_" + effect["element"]] = int(effect["valeur"])
+			fighter.resistances[effect["element"]] = mini(Fighter.MAX_RESISTANCE, int(fighter.resistances.get(effect["element"], 0)) + int(effect["valeur"]))
 	var weapon := character.inventory.equipped_entry("arme")
 	if not weapon.is_empty() and items.has(weapon["objet"]):
 		fighter.weapon = weapon["objet"]

@@ -644,7 +644,7 @@ avec 20 brumes (`GameData.STARTING_ECUS`).
 par la validation depuis le 29/10/2026) : seulement son passif et son sort. `passif.effets` est optionnel (liste de
 `{type, valeur}`) ; types gérés : `portee` (portée des sorts à distance), `reputation_metier` (% de réputation de
 métier), `prospection` (points de prospection), `ecus` (% de brumes de fin de combat), `reduction_melee` (% de dégâts reçus
-au contact en moins) `deja_mort` (une fois par combat, survit à un coup fatal avec 1 PV) et `pv_max` (% de PV max en plus). `sort` : sort racial, ajouté aux sorts de la Voie.
+au contact en moins) `deja_mort` (une fois par combat, survit à un coup fatal avec 1 PV) `pv_max` (% de PV max en plus) et `coeur_elementaire` (avec un champ `element` : % de dégâts et de résistance dans cet élément). `sort` : sort racial, ajouté aux sorts de la Voie.
 
 Les tests vérifient tous ces fichiers (format, `id` égal au nom du fichier, sorts et monstres
 référencés existants).
