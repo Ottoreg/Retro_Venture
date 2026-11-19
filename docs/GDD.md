@@ -78,7 +78,7 @@ des siècles, seules armes capables de vaincre le **Souverain Cendré** avant qu
 ### 3.1 Le monde : les Terres de Varn
 
 Un continent ancien, marqué par une guerre oubliée. Les peuples libres (Humains, Elfes, Nains,
-Géants, Semi-hommes, Lutins et d'autres) vivent séparés, méfiants les uns envers les autres. À l'est, au-delà des montagnes, s'étendent
+Géants, Arkhés, Lutins et d'autres) vivent séparés, méfiants les uns envers les autres. À l'est, au-delà des montagnes, s'étendent
 les **Marches Cendrées**, une terre morte où quelque chose se réveille.
 
 ### 3.2 Histoire
@@ -108,7 +108,7 @@ montrent au joueur ce qui reste à conquérir.
 
 | # | Relique (bague) | Région | Peuple lié | Pouvoir envisagé |
 |---|---|---|---|---|
-| 1 | L'Anneau-Lanterne | Collines de Brumerive | Semi-hommes | Révèle les invisibles, bonus de prospection |
+| 1 | L'Anneau-Lanterne | Collines de Brumerive | *à réattribuer (liée aux Semi-hommes, remplacés par les Arkhés)* | Révèle les invisibles, bonus de prospection |
 | 2 | La Chevalière Sans-Rouille | Hautepierre | Humains | Dégâts sacrés, brise les boucliers |
 | 3 | L'Anneau de la Feuille d'Argent | Sylvebrume | Elfes | Soins de zone, résistance impie |
 | 4 | L'Anneau-Enclume | Forges de Durhal | Nains | Améliore les objets, armure |
@@ -130,7 +130,7 @@ comprennent qu'ils veulent la même chose : abattre le Souverain Cendré.
 |---|---|---|---|
 | **Allié** | Humains | Nains, Géants | Défendent leurs terres contre les raids gobelins et pensent que les gobelins sont *le* problème. |
 | **Ennemi** | Gobelins | Orcs, Squelettes (morts-vivants) | Main-d'œuvre corvéable du Souverain Cendré : raids et pillages sur ordre, contremaîtres tyranniques, aucune reconnaissance. |
-| **Neutre** | Elfes | Semi-hommes, Lutins | « Ce n'est pas notre guerre. » Se tiennent à l'écart, observent, et ne s'en mêlent que si leur forêt est menacée. |
+| **Neutre** | Elfes | Arkhés, Lutins | « Ce n'est pas notre guerre. » Se tiennent à l'écart, observent, et ne s'en mêlent que si leur forêt est menacée. |
 
 Trois races par camp : une dès l'alpha, deux en Phase 3. Orcs et Squelettes sont déjà jouables pour les tests
 (18/11/2026 : sprites, départ à Crasse-Roc, 1er passif et sort racial ; valeurs validées par l'auteur :
@@ -138,15 +138,18 @@ Peau épaisse −10 % de dégâts de mêlée reçus ; Cri de guerre 3 PA, +10 % 
 pendant 2 tours, relance 4 ; Remonter les os 2 PA, relance 3). Géants et Arkhés (Flamme) aussi, depuis le
 19/11/2026 (sprites, départ à Brumerive et Sylvebrume ; Géant : Carrure et Coup de semelle codés, 3 PA, Acier 5-8,
 poussée 2, relance 2 ; Arkhé : Cœur élémentaire, +5 % de dégâts et de résistance dans l'élément de sa variante, et Éruption, 3 PA, dégâts
-de son élément 4-7 aux ennemis à 1 case, relance 3 ; Flamme tant que seule cette variante existe) ; l'Arkhé, élémentaire, est une piste
-pour remplacer le Semi-homme. Les Nains, Orcs et Semi-hommes jouent leur
-cliché attendu (bourrus, brutaux, gourmands) ; les trois autres peuples de Phase 3 :
+de son élément 4-7 aux ennemis à 1 case, relance 3 ; Flamme tant que seule cette variante existe). **L'Arkhé remplace le Semi-homme** (décision de l'auteur
+du 19/11/2026, le Semi-homme faisant trop « humanoïde classique »). Les Nains et les Orcs jouent leur
+cliché attendu (bourrus, brutaux) ; les quatre autres peuples de Phase 3 :
 
 - **Géants (allié)** : anciens gardiens des montagnes, alliés historiques des humains. Lents à se
   décider, impossibles à arrêter une fois lancés ; ils cognent les plafonds des maisons humaines.
 - **Squelettes (ennemi)** : soldats de la Première Ombre relevés par le Souverain Cendré. Ils servent
   par habitude plus que par conviction, réclament en vain leur retraite et découvrent à l'acte II
   qu'on ne leur a jamais demandé leur avis… même pas pour mourir.
+- **Arkhés (neutre)** : élémentaires nés des forces du monde, quatre variantes à la place du choix
+  mâle / femelle, une par élément du jeu (métal / Acier, feu / Flamme, orage / Tempête, glace / Givre) ;
+  le personnage commence en feu, seule variante dessinée pour l'instant.
 - **Lutins (neutre)** : petit peuple farceur des bois et des collines, qui joue des tours à tout le
   monde sans distinction de camp. Ne prennent rien au sérieux, sauf qu'on leur vole une blague.
 
@@ -212,7 +215,7 @@ thématique** (son village ou campement, son décor, ses monstres et PNJ à son 
 |---|---|---|
 | Allié | Collines de Brumerive | Humains (zone actuelle), Nains, Géants |
 | Ennemi | Galeries de Crasse-Roc | Gobelins (zone actuelle), Orcs, Squelettes |
-| Neutre | Lisière de Sylvebrume | Elfes (zone actuelle), Lutins, 3e race neutre (Semi-homme ou son remplaçant, l'Arkhé étant à l'étude) |
+| Neutre | Lisière de Sylvebrume | Elfes (zone actuelle), Lutins, Arkhés |
 
 - Chaque race démarre sur la première carte de sa sous-zone (`carte_depart`) ; la zone garde une
   seule Pierre de Passage, au cœur commun du camp, et les sous-zones sont reliées à pied entre elles.
@@ -266,7 +269,7 @@ difficulté**, mesurés par le niveau des monstres, qui reste leur menace. Ils g
 
 **Parodique, mais un minimum sérieux.** Le jeu détourne les codes du *Seigneur des Anneaux*
 (la quête interminable, les prophéties, les elfes hautains, les nains bourrus, les géants pas très
-fins, les semi-hommes qui pensent surtout à manger, les lutins farceurs, les orcs braillards, les morts-vivants qui ne savent plus pourquoi ils se battent, les méchants très méchants), à la manière dont Dofus joue sur les mots et
+fins, les lutins farceurs, les orcs braillards, les morts-vivants qui ne savent plus pourquoi ils se battent, les méchants très méchants), à la manière dont Dofus joue sur les mots et
 les références.
 
 - **L'humour** passe par les noms (jeux de mots, détournements, comme les classes de Dofus), les
@@ -313,13 +316,13 @@ Valeurs provisoires, passe d'équilibrage plus tard (demande de l'auteur).
 | Elfe | *Lignée ancienne* : +10 % de réputation dans les métiers de récolte | *De haut* : +5 % de dégâts sur les cibles à 5 cases ou plus |
 | Nain | *Naindustriel* : +10 % de réputation de forgeron | *Barbe protectrice* : −10 % de dégâts critiques reçus |
 | Orc | *Rancunier* : +5 % de dégâts sur le dernier ennemi qui l'a frappé | *Brute* : +10 % de tacle finaux (le pendant du Lutin) |
-| Semi-homme | *Main verte* : +10 % de quantité récoltée en agriculture | *Second goûter* : +10 % d'effet des consommables |
+| Arkhé | *à définir* | *à définir* |
 | Géant | *Grandes enjambées* : +20 % de vitesse de marche hors combat | *Inébranlable* : ne peut être ni poussé ni attiré |
 | Squelette | *Pas d'estomac* : −50 % de dégâts de poison | *Sans muscles à fatiguer* : −10 % de temps de récolte |
 | Lutin | *Feu follet* : +1 PM au premier tour de chaque combat | *Malicieux* : 10 % de chances de récolter une ressource de plus |
 
 **Les 9 races du jeu** (validées) : trois par camp (voir § 3.4). Une par camp dès l'alpha, les six
-autres (Nains, Orcs, Semi-hommes, Géants, Squelettes, Lutins) en Phase 3.
+autres (Nains, Orcs, Arkhés, Géants, Squelettes, Lutins) en Phase 3.
 
 | Race | Camp | Passif | Sort racial | Phase |
 |---|---|---|---|---|
@@ -328,7 +331,7 @@ autres (Nains, Orcs, Semi-hommes, Géants, Squelettes, Lutins) en Phase 3.
 | **Elfe** | Neutre | *Œil perçant* : +1 portée sur les sorts à distance | *Pas léger* : téléportation jusqu'à 3 cases | Alpha |
 | **Nain** | Allié | *Peau de pierre* : +5 % de résistances | *Fureur des profondeurs* : bonus de dégâts quand PV < 50 % | Phase 3 |
 | **Orc** | Ennemi | *Peau épaisse* : réduction des dégâts de mêlée | *Cri de guerre* : bonus de dégâts aux alliés proches | Phase 3 |
-| **Semi-homme** | Neutre | *Petit mais discret* : +10 % d'esquive aux retraits de PA et de PM, **finaux** (appliqués après tous les effets de sorts, d'équipement…) | *Second petit-déjeuner* : se soigne, une fois par combat | Phase 3 |
+| **Arkhé** (élémentaire) | Neutre | *Cœur élémentaire* : +5 % de dégâts et de résistance dans l'élément de sa variante | *Éruption* : dégâts de son élément 4-7 aux ennemis à 1 case (3 PA, relance 3) | Phase 3 (jouable pour les tests) |
 | **Géant** | Allié | *Carrure* : +10 % de PV max | *Coup de semelle* : dégâts Acier au contact, repousse la cible de 2 cases | Phase 3 |
 | **Squelette** (mort-vivant) | Ennemi | *Déjà mort* : une fois par combat, survit à un coup fatal avec 1 PV | *Remonter les os* : se soigne de 15 % de ses PV (relance tous les 3 tours) | Phase 3 |
 | **Lutin** | Neutre | *Farceur* : +10 % de **fuite** finaux (pour quitter le contact d'un monstre sans se faire tacler) | *Tour de passe-passe* : échange sa place avec une créature à 4 cases au plus | Phase 3 |
@@ -336,9 +339,8 @@ autres (Nains, Orcs, Semi-hommes, Géants, Squelettes, Lutins) en Phase 3.
 **Plus de bonus de caractéristiques ni d'équipement de départ** (décision de l'auteur du 29/10/2026) :
 une race se distingue par son passif, qui touche l'expérience de jeu (butin, métiers, portée,
 esquive…) sans toucher aux caractéristiques de base, et par son sort racial ; on commence sans
-équipement, avec 20 brumes. Le Semi-homme et le Lutin n'ont plus de prospection (redondant avec le
-Gobelin) mais chacun une esquive : retraits de PA/PM pour le Semi-homme, fuite pour le Lutin. Ces
-deux esquives demandent les mécaniques de retrait esquivable et de tacle / fuite (§ 7, à venir).
+équipement, avec 20 brumes. Le Lutin n'a plus de prospection (redondant avec le Gobelin) mais une
+esquive : la fuite (le Semi-homme, remplacé par l'Arkhé le 19/11/2026, avait l'esquive des retraits de PA/PM).
 Les passifs et sorts restants sont des propositions, à équilibrer (Nain et Orc se ressemblent
 encore). Trois races par camp.
 
@@ -353,7 +355,7 @@ le nom de race générique sert dans les règles et le nom de peuple dans le jeu
 |---|---|
 | Humain | **Lambdas** (les « gens normaux »), **Moyen-Terriens**, **Bonhommes** |
 | Nain | **Barbichus**, **Naindustriels**, **Trapus** |
-| Semi-homme | **Grignotins**, **Bedonnets**, **Deux-Déjeuners** |
+| Arkhé | **Arkhés** (nom validé le 19/11/2026) |
 | Géant | **Grandiloques** (grand + grandiloquent), **Colossaux**, **Hauts-Perchés** |
 | Lutin | **Farfadingues**, **Lutineurs**, **Malicieux** |
 | Elfe | **Elfiers** (elfe + fier), **Éternelfes**, **Pointus** |
@@ -4220,7 +4222,7 @@ farm, en faisant autorité.
 | **0. Pré-production** | Choix techniques, GDD validé, prototypes papier | Moteur choisi, structure du dépôt en place |
 | **1. Prototype** | Une carte, déplacement, un combat 1 contre 1 | Un combat jouable de bout en bout |
 | **2. Alpha solo** (court terme) | 3 races (une par camp), 5 classes (avec le Théologue et le Chronomancien Impie), combat + butin, quêtes simples, 3 métiers, équipement, 3 zones de départ + Hautepierre | **Alpha test 1** (mécaniques) : tout le contenu, l'interface et les quêtes, 4 à 5 h pour tout finir (XP ×3,5 jusqu'au 29/10/2026). **Alpha test 2** (progression) : refonte sans niveaux, réputation et maîtrises (§ 4.5 ; lots 0 à 3 déjà sur `main`), sorts par Voie et rang, art et son |
-| **3. Solo étendu** (long terme) | 6 races de plus (Nains, Orcs, Semi-hommes, Géants, Squelettes, Lutins ; 9 au total), chacune avec sa sous-zone dans la zone de départ de son camp, 4 classes de plus (Paladin, Myrmidon, Ombre, Démoniste ; 9 au total) et la Voie Givre du Chronomancien, Voies, donjons, quêtes complexes, légendaires, scénario complet | Quête des Reliques jouable jusqu'au boss final |
+| **3. Solo étendu** (long terme) | 6 races de plus (Nains, Orcs, Arkhés, Géants, Squelettes, Lutins ; 9 au total), chacune avec sa sous-zone dans la zone de départ de son camp, 4 classes de plus (Paladin, Myrmidon, Ombre, Démoniste ; 9 au total) et la Voie Givre du Chronomancien, Voies, donjons, quêtes complexes, légendaires, scénario complet | Quête des Reliques jouable jusqu'au boss final |
 | **4. Fondations réseau** | Serveur autoritaire, comptes, une instance, synchronisation | Deux joueurs se voient et combattent ensemble |
 | **5. Multi** | Instances, groupe, amis, chat, échanges, hôtel des ventes, guildes | Bêta fermée |
 

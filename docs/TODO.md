@@ -660,11 +660,11 @@ Lots 0 (conception dans le GDD), 1 (personnage, poussé sur `main` à la demande
 ### Races et classes
 - [ ] Race **Nain** (allié) : passif *Peau de pierre*, sort *Fureur des profondeurs*, zone de départ et chaîne d'acte I
 - [ ] Race **Orc** (ennemi) : passif *Peau épaisse*, sort *Cri de guerre*, zone de départ et chaîne d'acte I
-- [ ] Race **Semi-homme** (neutre) : passif *Petit mais discret*, sort *Second petit-déjeuner*, zone de départ et chaîne d'acte I
+- [ ] Race **Arkhé** (neutre, remplace le Semi-homme depuis le 19/11/2026) : *Cœur élémentaire* et *Éruption* faits (variante Flamme) ; 2e et 3e passifs à définir, variantes Acier, Tempête et Givre, sous-zone et quêtes de race
 - [ ] Race **Géant** (allié) : bonus, passif *Carrure*, sort *Coup de semelle*, assemblage agrandi (≈ 1,25×), zone de départ et chaîne d'acte I
 - [ ] Race **Squelette** (ennemi, mort-vivant) : passif *Déjà mort*, sort *Remonter les os*, assemblage squelette, zone de départ et chaîne d'acte I
 - [ ] Race **Lutin** (neutre) : passif *Farceur*, sort *Tour de passe-passe*, assemblage réduit (≈ 0,8×), zone de départ et chaîne d'acte I
-- [ ] Différencier les races proches (Nain / Orc, Semi-homme / Lutin) et valider leurs noms de peuple (GDD § 4.2)
+- [ ] Différencier les races proches (Nain / Orc) et valider leurs noms de peuple (GDD § 4.2)
 - [ ] Voies de corps à corps : **Paladin** (guerrier sacré) et **Myrmidon** (guerrier tank)
 - [ ] Voies mixtes : **Ombre** (assassin invisible) et **Chronomancien** (maître du temps, remplace le Venomancien)
 - [ ] Voie à distance : **Démoniste** (dégâts impies) ; le Théologue est avancé dans l'alpha

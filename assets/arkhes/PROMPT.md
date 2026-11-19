@@ -1,6 +1,6 @@
 # Arkhés : prompts PixelLab
 
-Race d'élémentaires à l'étude pour remplacer le semi-homme (rien de tranché). Le personnage commence en **feu** ;
+Race d'élémentaires qui remplace le semi-homme (décision de l'auteur du 19/11/2026). Le personnage commence en **feu** ;
 les 4 variantes remplacent le choix mâle / femelle et suivent les éléments du jeu : **feu (Flamme)**,
 **métal (Acier)**, **orage (Tempête)**, **glace (Givre)**.
 
