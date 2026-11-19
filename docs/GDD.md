@@ -170,7 +170,8 @@ l'histoire.
 
 **Conséquences de gameplay :**
 
-- Chaque race porte un `camp` dans ses données ; la zone de départ et la chaîne de quêtes en dépendent.
+- Chaque race porte un `camp` dans ses données ; la zone de départ et la chaîne de quêtes en dépendent
+  (une zone par camp, une sous-zone par race, § 3.5).
 - Avant l'acte III, les villes des autres camps sont hostiles (gardes PNJ agressifs) ; ensuite, libre
   accès.
 - Réputation par camp : envisagée dès que les quêtes de l'acte I le demandent, sinon en Phase 3.
@@ -191,7 +192,7 @@ l'histoire.
 | Collines de Brumerive | Campagne humaine, village de départ du camp allié | 1–12 | Alpha |
 | Galeries de Crasse-Roc *(nom provisoire)* | Campement et mines gobelins au pied des montagnes, départ du camp ennemi | 1–12 | Alpha |
 | Lisière de Sylvebrume | Avant-poste elfe en bordure de forêt, départ du camp neutre | 1–12 | Alpha |
-| Zones de départ de Phase 3 *(à nommer)* | Une par race : Nains et Géants (allié), Orcs et Squelettes (ennemi), Semi-hommes et Lutins (neutre) | 1–12 | Long terme |
+| Sous-zones de race *(à nommer)* | Ajoutées aux trois zones de départ, une par race (voir ci-dessous) | 1–12 | Long terme |
 | Hautepierre et ses environs | Cité humaine fortifiée ; terrain d'affrontement (acte II) puis de l'alliance (acte III) | 12–30 | Alpha |
 | Grandes Plaines *(demande de l'auteur, 15/11/2026)* | Zone commune à toutes les races, comme Hautepierre : steppes où vivent les ampas, montures du jeu (§ 10.3, Éleveur) | à définir | À venir |
 | Sylvebrume (cœur de la forêt) | Forêt elfique ancienne et brumeuse | 25–40 | Long terme |
@@ -200,6 +201,24 @@ l'histoire.
 | Plaines d'Orvent | Steppes de cavaliers | 35–55 | Long terme |
 | Marais Gris | Marécages hantés, ruines | 50–70 | Long terme |
 | Marches Cendrées / Nocthrône | Terre désolée, citadelle | 70–100 | Long terme |
+
+#### Une zone de départ par camp (décision de l'auteur du 19/11/2026)
+
+Il n'y a plus une zone de départ par race (9 prévues) mais **une par camp** : toutes les races d'un
+camp commencent dans la même zone, **agrandie** pour que chaque race y ait sa **propre sous-zone
+thématique** (son village ou campement, son décor, ses monstres et PNJ à son image).
+
+| Camp | Zone de départ | Sous-zones de race |
+|---|---|---|
+| Allié | Collines de Brumerive | Humains (zone actuelle), Nains, Géants |
+| Ennemi | Galeries de Crasse-Roc | Gobelins (zone actuelle), Orcs, Squelettes |
+| Neutre | Lisière de Sylvebrume | Elfes (zone actuelle), Lutins, 3e race neutre (Semi-homme ou son remplaçant, l'Arkhé étant à l'étude) |
+
+- Chaque race démarre sur la première carte de sa sous-zone (`carte_depart`) ; la zone garde une
+  seule Pierre de Passage, au cœur commun du camp, et les sous-zones sont reliées à pied entre elles.
+- La chaîne de quêtes de l'acte I reste **par camp** ; chaque sous-zone peut ajouter ses quêtes de race.
+- Chaque sous-zone respecte les règles des zones de départ (paliers 1 et 2, aucun palier vide), et les
+  joueurs d'un même camp se croisent dès le début.
 
 #### Paliers de niveau des zones de départ
 
@@ -1224,7 +1243,7 @@ Les sorts restent **propres à leur classe** (pas d'apprentissage croisé, § 5.
   - *Fait :* une pierre se **découvre** en la touchant (clic dessus, à pied ; arriver par un voyage
     ne compte pas). On ne voyage que vers une pierre découverte, et le voyage se **paie** en brumes,
     au prix de la pierre d'arrivée (10 brumes vers une zone de départ). La pierre de la zone de départ
-    de la race est connue dès la création ; la carte d'élite de test (Trône de Cendre) est gratuite
+    du camp de la race est connue dès la création ; la carte d'élite de test (Trône de Cendre) est gratuite
     et connue de tous (`toujours_connue`). La fenêtre de voyage montre le prix de chaque
     destination et grise les pierres pas encore découvertes.
   - **Phase de test** (en place) : tant que les zones ne sont pas reliées à pied, **toutes les
@@ -4201,7 +4220,7 @@ farm, en faisant autorité.
 | **0. Pré-production** | Choix techniques, GDD validé, prototypes papier | Moteur choisi, structure du dépôt en place |
 | **1. Prototype** | Une carte, déplacement, un combat 1 contre 1 | Un combat jouable de bout en bout |
 | **2. Alpha solo** (court terme) | 3 races (une par camp), 5 classes (avec le Théologue et le Chronomancien Impie), combat + butin, quêtes simples, 3 métiers, équipement, 3 zones de départ + Hautepierre | **Alpha test 1** (mécaniques) : tout le contenu, l'interface et les quêtes, 4 à 5 h pour tout finir (XP ×3,5 jusqu'au 29/10/2026). **Alpha test 2** (progression) : refonte sans niveaux, réputation et maîtrises (§ 4.5 ; lots 0 à 3 déjà sur `main`), sorts par Voie et rang, art et son |
-| **3. Solo étendu** (long terme) | 6 races de plus (Nains, Orcs, Semi-hommes, Géants, Squelettes, Lutins ; 9 au total), 4 classes de plus (Paladin, Myrmidon, Ombre, Démoniste ; 9 au total) et la Voie Givre du Chronomancien, Voies, donjons, quêtes complexes, légendaires, scénario complet | Quête des Reliques jouable jusqu'au boss final |
+| **3. Solo étendu** (long terme) | 6 races de plus (Nains, Orcs, Semi-hommes, Géants, Squelettes, Lutins ; 9 au total), chacune avec sa sous-zone dans la zone de départ de son camp, 4 classes de plus (Paladin, Myrmidon, Ombre, Démoniste ; 9 au total) et la Voie Givre du Chronomancien, Voies, donjons, quêtes complexes, légendaires, scénario complet | Quête des Reliques jouable jusqu'au boss final |
 | **4. Fondations réseau** | Serveur autoritaire, comptes, une instance, synchronisation | Deux joueurs se voient et combattent ensemble |
 | **5. Multi** | Instances, groupe, amis, chat, échanges, hôtel des ventes, guildes | Bêta fermée |
 
