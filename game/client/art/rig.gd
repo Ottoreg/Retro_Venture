@@ -41,6 +41,20 @@ static func player_look(race_id: String, voie_id: String, data: GameData) -> Dic
 	return result
 
 
+## Apparence d'un PNJ d'`art.json` (« pnj ») : son assemblage, et la planche de sa race en tunique de PNJ
+## (`<race>_pnj.png`, `tools/couleurs_sprites.py`) si elle existe. Race : champ « race », sinon gobelin
+## (assemblage gobelin), elfe (oreilles d'elfe) ou humain (assemblage humain).
+static func npc_look(spec: Dictionary) -> Dictionary:
+	var result := look(spec["rig"], spec.get("couleurs", {}), spec.get("arme", ""), spec.get("accessoires", []))
+	var race: String = spec.get("race", "elfe" if "oreilles_elfe" in spec.get("accessoires", []) else spec["rig"])
+	var race_spec: Dictionary = Art.manifest().get("races", {}).get(race, {})
+	var sheet := str(race_spec.get("planche", "")).get_basename() + "_pnj.png"
+	if race_spec.has("planche") and Sprites.exists(sheet):
+		result["planche"] = sheet
+		result["echelle"] = float(race_spec.get("echelle", 1.0))
+	return result
+
+
 ## Vrai si l'assemblage existe.
 static func exists(rig_name: String) -> bool:
 	return Art.manifest().get("personnages", {}).has(rig_name)

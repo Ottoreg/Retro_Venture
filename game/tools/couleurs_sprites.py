@@ -1,7 +1,8 @@
 """Recolore les planches de pixel art des races aux couleurs de chaque Voie.
 
 Pour chaque race d'`art/art.json` qui a une « planche » et une « recoloration », écrit une planche
-par Voie (`tenues`) : `art/sprites/<race>_<voie>.png`. Les pixels du vêtement (choisis par leur
+par Voie (`tenues`) : `art/sprites/<race>_<voie>.png`, et une pour les PNJ, `<race>_pnj.png`, en tunique
+brune de laine écrue (`PNJ`, couleur réservée aux PNJ : aucune Voie ne la prendra). Les pixels du vêtement (choisis par leur
 teinte, saturation et valeur, voir « recoloration ») prennent la couleur de tunique de la Voie,
 en gardant leurs ombres et lumières ; `force` mélange avec la couleur d'origine (1 : tout recolorer).
 
@@ -13,6 +14,7 @@ import os
 
 from PIL import Image
 
+PNJ = "7b5b3a"
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "art")
 
 
@@ -63,9 +65,10 @@ def main() -> None:
             continue
         sheet = Image.open(os.path.join(ROOT, spec["planche"])).convert("RGBA")
         stem = os.path.splitext(spec["planche"])[0]
-        for voie, outfit in manifest["tenues"].items():
-            path = os.path.join(ROOT, "%s_%s.png" % (stem, voie))
-            recolor(sheet, spec["recoloration"], outfit["couleurs"]["tunique"]).save(path, optimize=True)
+        tunics = {voie: outfit["couleurs"]["tunique"] for voie, outfit in manifest["tenues"].items()} | {"pnj": PNJ}
+        for name, tunic in tunics.items():
+            path = os.path.join(ROOT, "%s_%s.png" % (stem, name))
+            recolor(sheet, spec["recoloration"], tunic).save(path, optimize=True)
             print(os.path.relpath(path, ROOT))
 
 

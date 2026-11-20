@@ -50,7 +50,10 @@ une direction ouest absente est faite en miroir de l'est ; un dossier `strike/` 
 par Voie, `sprites/<race>_<voie>.png`, où le vêtement prend la couleur de tunique de la Voie : la
 `recoloration` de la race choisit ses pixels (teinte en degrés, saturation et valeur de 0 à 1,
 `force` du mélange) et `python3 tools/couleurs_sprites.py` regénère ces planches, à relancer après
-tout changement de planche, de recoloration ou de tenue.
+tout changement de planche, de recoloration ou de tenue. Elle écrit aussi `sprites/<race>_pnj.png`, tunique brune
+`7b5b3a` réservée aux PNJ (aucune Voie ne doit la prendre) : chaque PNJ de la section `pnj` est dessiné sur la carte
+avec la planche de sa race (`Rig.npc_look` : champ `race`, sinon gobelin pour l'assemblage gobelin, elfe s'il a les
+`oreilles_elfe`, humain pour l'assemblage humain ; l'archange garde son assemblage), et regarde le joueur.
 
 Un monstre dessiné d'un bloc peut aussi avoir une `planche` dans `monstres` (à côté de son `image`,
 gardée en secours) : sur la carte il est dessiné en 8 directions, à son `echelle` et sous sa

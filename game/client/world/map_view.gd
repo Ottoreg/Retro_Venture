@@ -2458,11 +2458,9 @@ func _draw_npc(npc: Dictionary) -> void:
 	if spec.has("rig"):
 		# Le PNJ regarde le joueur.
 		var player: Dictionary = _actors.get(world.player_id, {})
-		var facing := -1.0
-		if not player.is_empty():
-			facing = 1.0 if IsoGrid.grid_to_screen(player["pos"]).x > base.x else -1.0
-		var look := Rig.look(spec["rig"], spec.get("couleurs", {}), spec.get("arme", ""), spec.get("accessoires", []))
-		Rig.draw(self, look, base, {"facing": facing, "temps": _time + float(posmod(hash(npc_id), 100)) * 0.1})
+		var delta: Vector2 = Vector2(-1, 1) if player.is_empty() else IsoGrid.grid_to_screen(player["pos"]) - base
+		Rig.draw(self, Rig.npc_look(spec), base, {"facing": signf(delta.x) if delta.x != 0.0 else -1.0,
+			"cap": Sprites.direction_of(delta), "temps": _time + float(posmod(hash(npc_id), 100)) * 0.1})
 	elif npc_id.contains("gobelin"):
 		Figures.goblin(self, base, base, -1.0, 0.0)
 	else:

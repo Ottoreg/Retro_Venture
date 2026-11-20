@@ -282,6 +282,7 @@ Dernière session (retours de la passe de l'auteur) :
   quand l'idle fait 96 px, `Sprites.cell` / `Sprites.feet` la lisent dans la planche) et `arkhe.png` (Arkhé Flamme) ;
   départ à Brumerive et Sylvebrume ; Géant : *Carrure* (`pv_max`, `Character.max_hp`) et `geant_coup_de_semelle` ;
   Arkhé : *Cœur élémentaire* (`coeur_elementaire`, `Fighter.power` et résistance) et `arkhe_eruption`, en Flamme.
+  PNJ en pixel art (20/11/2026) : planche de leur race en tunique brune réservée aux PNJ (`<race>_pnj.png`, `Rig.npc_look`).
   Variantes (20/11/2026) : une race par variante (`arkhe_acier`, `arkhe_givre`, `arkhe_tempete`, champ `variante_de`,
   boutons sous le carrousel, `_variants`), sort `arkhe_eruption_<élément>` ; Nain (`nain`, passif sans effet, pas de sort). Création : carrousel des races façon
   Dofus Rétro (`creation.gd`, `_carousel`, `_race_beside`). Prompt des Arkhés : `assets/arkhes/PROMPT.md`.
