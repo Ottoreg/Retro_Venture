@@ -21,7 +21,7 @@ const SPELL_CHARS := "&é\"'(-è_çà"
 ## tient avec le bouton « S'asseoir » et la minicarte).
 const ITEM_SLOTS := 8
 const ITEM_SLOT_SIZE := 44.0
-## Cases de la barre de sorts : 2 lignes d'au moins `SPELL_COLUMNS`, l'arme à part à gauche, sur les deux lignes.
+## Cases de la barre de sorts : 2 lignes d'au moins `SPELL_COLUMNS`, l'arme et le sort de race à part à gauche, sur les deux lignes.
 const SPELL_SLOT_SIZE := 36.0
 const SPELL_COLUMNS := 10
 const EMPTY_SLOT_PREFIX := "_place_vide_"
@@ -598,9 +598,12 @@ func _show_spells(spells: Array[Spell]) -> void:
 				box.remove_child(child)  # Hors de la boîte tout de suite : les nouveaux prennent leur place.
 				child.queue_free()
 	_spell_buttons.clear()
-	_spells_grid.columns = maxi(SPELL_COLUMNS, ceili((ids.size() - int(ids.has("arme"))) / 2.0))
+	var player := map_view.player_fighter() if map_view != null else null
+	var races: Dictionary = map_view.world.data.races if player != null and map_view.world != null else {}
+	var apart: Array[String] = ["arme", str(races.get(player.race, {}).get("sort", "")) if player != null else ""]
+	_spells_grid.columns = maxi(SPELL_COLUMNS, ceili(ids.filter(func(id: String) -> bool: return id not in apart).size() / 2.0))
 	for i in ids.size():
-		var weapon := i < spells.size() and spells[i].id == "arme"
+		var weapon := ids[i] in apart  # L'arme et le sort de race : grandes cases à gauche.
 		var slot := SpellSlot.new(2 * SPELL_SLOT_SIZE + 4 if weapon else SPELL_SLOT_SIZE)
 		slot.key_label = str((i + 1) % 10) if i < SPELL_KEYS.size() else ""
 		if i < spells.size():
@@ -619,7 +622,7 @@ func _show_spells(spells: Array[Spell]) -> void:
 			slot.tooltip_text = "Place pour un sort créé (vide)\nChoisissez 3 états élémentaires avec Composition, puis lancez Fusion arcanique."
 		if weapon:
 			_spells_box.add_child(slot)
-			_spells_box.move_child(slot, 0)
+			_spells_box.move_child(slot, _spells_grid.get_index())
 		else:
 			_spells_grid.add_child(slot)
 		_spell_buttons[ids[i]] = slot
