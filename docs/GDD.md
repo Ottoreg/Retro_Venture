@@ -660,6 +660,37 @@ pourrait le faire un Paladin.
 - Difficulté de programmation estimée **moyenne** : un filtre de dimension partout (ciblage, zones, cases
   partagées, ligne de vue, tacle, IA, affichage, et masquage côté serveur en multijoueur).
 
+**Ombre : conception finale, codée le 20/11/2026** (fil « Ajouter la classe Ombre au jeu », réponses de l'auteur ;
+valeurs provisoires ; fiche `docs/design/classes/ombre.md`) :
+
+- *Identité* : « Assassin à la pige de la Confrérie des Ombres (cotisation non remboursable). Frappe dans le dos et
+  repart avant l'addition. » Tenue noire à liseré argent. Toutes les races. Base commune à toutes les classes depuis
+  ce jour (demande de l'auteur) : **50 PV, 100 d'initiative**, 6 PA, 3 PM ; seule l'évolution des statistiques les
+  distingue ensuite.
+- *Passif* **Coup en traître** (Apprenti, 5 rangs) : +6 % de dégâts (+1 % par rang) invisible ou pendant le tour où
+  elle sort de l'invisibilité ou du Monde des ombres ; rang 3 : son premier sort de ce tour coûte 1 PA de moins ;
+  rang 5 : +1 PM à la sortie.
+- *Voie Tempête* (images rémanentes) : *Survoltage* crée une image d'elle-même sur sa case (une fois par tour, comme
+  une glyphe en 3D) et chaque sort de mobilité de la Voie en laisse une à son point de départ ; 3 images au plus (la
+  4e fait exploser la plus ancienne), **empilables** sur une case ; une image occupe sa case sans rien bloquer ; un
+  ennemi qui arrive à son contact ou dessus la fait exploser (un allié la traverse), sinon elle explose au début du
+  tour suivant de l'Ombre ; explosion : dégâts propres (8 à 11 Tempête) en croix d'une case, ennemis seulement.
+  Sorts : Survoltage, Lame-éclair, Shuriken d'orage (rebond), Coup de tonnerre, Court-circuit (fait exploser ses images
+  d'une case, +25 %), Rafale (poussée), **Foudroiement** (en ligne : traverse jusqu'à la case visée, dégâts à tous les
+  ennemis traversés, image au départ), Pas de l'éclair, Corps électrique, Vent porteur.
+- *Voie Acier* (invisibilité) : invisible, l'Ombre n'est ni vue ni visée directement par l'adversaire (une zone la
+  touche), ni taclée ni tacleuse ; un sort de dégâts non discret la révèle ; l'IA l'ignore et, s'il ne reste qu'elle,
+  la cherche à sa dernière position connue. Pas de nouveau compteur : bonus et malus cumulables. Sorts : Fondu au noir,
+  Surin (+25 % invisible), Lame de jet, Exécution (+5 % par malus de la cible), Arme d'obscurité (discrète, frappe au
+  début du prochain tour de la cible, 2 par cible), Coupe-jarret, Entaille (−10 % de résistance Acier, 3 fois), **Dans
+  le dos** (derrière la cible ; portée 7 sur un ennemi marqué d'une arme d'obscurité), **Monde des ombres** (sort de
+  la Voie Acier, à la place de Feinte : 2 PA, portée 0 à 4, relance 2 tours après un ennemi), Affûtage (+20 Force, 3 fois).
+- *Monde des ombres*, réglages : IA limitée à sa dimension (sans cible : vers les lueurs ou la dernière ombre
+  projetée) ; glyphes, pièges et images n'agissent que dans la dimension de leur lanceur ; l'arme d'obscurité suit
+  sa cible ; en solo, la vue suit la dimension du personnage joué ; l'entrée sur une case occupée de l'autre
+  dimension suit la même règle d'échange que la sortie. Le serveur ne cache pas encore aux adversaires ce qu'ils ne
+  voient pas (multijoueur, plus tard). Animations propres (PixelLab) plus tard : les sorts jouent l'attaque de la race.
+
 **Rôdeur — Voie Flamme : pièges et explosifs**
 
 La Voie Flamme s'articule autour de **pièges explosifs** qui se déclenchent au passage. Le Rôdeur

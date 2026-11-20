@@ -27,7 +27,7 @@ Prix de boutique : selon la rareté (revente à 25 %).
 - [Sorts de race](#sorts-de-race)
 - [Sorts des monstres](#sorts-des-monstres)
 
-**317 objets** (18 armes, 20 coiffes, 20 capes, 20 amulettes, 20 anneaux, 20 ceintures, 20 bottes, 129 ressources, 37 plans de forge, 7 objets de quête), **57 monstres** et **144 sorts**.
+**317 objets** (18 armes, 20 coiffes, 20 capes, 20 amulettes, 20 anneaux, 20 ceintures, 20 bottes, 129 ressources, 37 plans de forge, 7 objets de quête), **57 monstres** et **164 sorts**.
 
 ## Armes
 
@@ -1264,7 +1264,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 
 ### Arcaniste
 
-Maître du feu, du givre et de la foudre. Lit beaucoup, court peu, explose parfois des choses par accident. PV 46, PA 6, PM 3, initiative 90. Départ : .
+Maître du feu, du givre et de la foudre. Lit beaucoup, court peu, explose parfois des choses par accident. PV 50, PA 6, PM 3, initiative 100. Départ : .
 
 | Sort | Caractéristiques | Effets | Description |
 |---|---|---|---|
@@ -1288,7 +1288,7 @@ Sorts créés (*Fusion arcanique*, selon la combinaison des 3 états élémentai
 
 ### Chronomancien
 
-Dérègle le temps avec des pouvoirs impies. Toujours en avance, ou en retard, mais jamais à l'heure. PV 50, PA 6, PM 3, initiative 95. Départ : .
+Dérègle le temps avec des pouvoirs impies. Toujours en avance, ou en retard, mais jamais à l'heure. PV 50, PA 6, PM 3, initiative 100. Départ : .
 
 | Sort | Caractéristiques | Effets | Description |
 |---|---|---|---|
@@ -1301,7 +1301,7 @@ Dérègle le temps avec des pouvoirs impies. Toujours en avance, ou en retard, m
 
 ### Guerrier
 
-Au contact, il encaisse et rend les coups. Réfléchit après, de préférence. PV 60, PA 6, PM 3, initiative 100. Départ : .
+Au contact, il encaisse et rend les coups. Réfléchit après, de préférence. PV 50, PA 6, PM 3, initiative 100. Départ : .
 
 | Sort | Caractéristiques | Effets | Description |
 |---|---|---|---|
@@ -1311,9 +1311,36 @@ Au contact, il encaisse et rend les coups. Réfléchit après, de préférence. 
 | **Second souffle** | 2 PA, portée soi, sans ligne de vue, 1/tour, relance 3 t. | soin 12–18 (Acier) | Une grande inspiration, une gorgée de gourde, et ça repart. |
 | **Charge** | 3 PA, portée 2–4, en ligne, 1/tour, relance 2 t. | charge en ligne jusqu'au contact (effets suivants au contact seulement) ; 6–9 Acier | Il fonce droit devant, épée en avant, jusqu'au contact. Le freinage est en option, la réflexion aussi. |
 
+### Ombre
+
+Assassin à la pige de la Confrérie des Ombres (cotisation non remboursable). Frappe dans le dos et repart avant l'addition. PV 50, PA 6, PM 3, initiative 100. Départ : .
+
+| Sort | Caractéristiques | Effets | Description |
+|---|---|---|---|
+| **Survoltage** | 2 PA, portée soi, 1/tour | image | Se dédouble en un éclair : une image d'elle-même, faite de foudre, reste sur sa case et explose au contact d'un ennemi (ou au bout d'un tour). |
+| **Lame-éclair** | 3 PA, portée 1, 2/tour | 9–12 Tempête | Un coup de lame si rapide que la victime entend le tonnerre après. |
+| **Shuriken d'orage** | 3 PA, portée 2–6, 2/tour | 7–9 Tempête ; rebond 7–9 Tempête sur l'ennemi le plus proche (2 case(s) au plus) | Une étoile chargée d'électricité qui ricoche sur un deuxième ennemi. |
+| **Coup de tonnerre** | 5 PA, portée 1, 1/tour | 18–24 Tempête | Toute la foudre accumulée, d'un seul coup. Bruyant, mais efficace. |
+| **Court-circuit** | 2 PA, portée 1–8, sans ligne de vue, 2/tour | court_circuit | Fait exploser tout de suite ses images sur la case visée, plus fort que d'habitude. |
+| **Rafale** | 3 PA, portée 1–3, 1/tour | 5–7 Tempête ; poussée de 2 case(s) | Un coup de vent électrique qui renvoie l'ennemi d'où il vient. |
+| **Foudroiement** | 3 PA, portée 2–5, en ligne, 1/tour, relance 1 t. | téléportation sur la case ; 6–8 Tempête aux ennemis ; image | Traverse la ligne comme un éclair, en blessant tous les ennemis sur son passage, et laisse une image à son point de départ. |
+| **Pas de l'éclair** | 2 PA, portée 1–4, 1/tour, relance 1 t. | téléportation sur la case ; image | Disparaît dans un flash et réapparaît un peu plus loin ; une image reste à sa place. |
+| **Corps électrique** | 2 PA, portée soi, 1/tour, relance 2 t. | bouclier 10–14 (Tempête) | Une peau crépitante qui absorbe les coups. |
+| **Vent porteur** | 2 PA, portée 0–4, 1/tour, relance 3 t. | +1 PM (2 t.) ; +20 Agilité (2 t.) | Un vent dans le dos pour elle ou un allié : plus vite, plus agile. |
+| **Fondu au noir** | 2 PA, portée soi, 1/tour, relance 2 t. | invisible (2 t.) | Elle disparaît. Personne ne sait où elle est, pas même son percepteur. |
+| **Surin** | 3 PA, portée 1, 2/tour | 8–11 Acier | Le petit couteau de tous les jours. Bien plus douloureux quand on ne l'a pas vu venir. |
+| **Lame de jet** | 3 PA, portée 2–5, 2/tour | 7–10 Acier | Une lame lancée de loin, pour ceux qui n'aiment pas les mains sales. |
+| **Exécution** | 5 PA, portée 1, 1/tour | 16–20 Acier | Le coup de grâce : d'autant plus fort que la cible est affaiblie. |
+| **Arme d'obscurité** | 3 PA, portée 1–5, 1/tour | arme_ombre aux ennemis | Cache une lame d'ombre dans l'ombre d'un ennemi : elle le suit et frappe au début de son prochain tour. Ne révèle pas l'Ombre. |
+| **Coupe-jarret** | 2 PA, portée 1, 1/tour | −2 PM (1 t.) aux ennemis | Un coup bas derrière le genou : l'ennemi ira moins loin. |
+| **Entaille** | 3 PA, portée 1, 2/tour | 5–7 Acier ; −10 Résistance Acier (2 t.) | Une entaille dans l'armure : chaque nouvelle entaille la fragilise un peu plus (3 fois au plus). |
+| **Dans le dos** | 2 PA, portée 1–4, 1/tour, relance 2 t. | dans_le_dos | Se glisse derrière l'ennemi visé. Portée 7 sur un ennemi marqué par une arme d'obscurité. |
+| **Monde des ombres** | 2 PA, portée 0–4, 1/tour | monde_des_ombres | Envoie la cible (elle-même, un allié ou un ennemi) dans le Monde des ombres pour 2 tours, ou l'en fait sortir. Sur un ennemi : relance dans 2 tours. |
+| **Affûtage** | 1 PA, portée soi, 1/tour | +20 Force (3 t.) | Elle aiguise ses lames : +20 Force, cumulable 3 fois. |
+
 ### Rôdeur
 
-Tire de loin, file entre les arbres et prétend toujours connaître un raccourci. PV 52, PA 6, PM 3, initiative 120. Départ : .
+Tire de loin, file entre les arbres et prétend toujours connaître un raccourci. PV 50, PA 6, PM 3, initiative 100. Départ : .
 
 | Sort | Caractéristiques | Effets | Description |
 |---|---|---|---|
@@ -1325,7 +1352,7 @@ Tire de loin, file entre les arbres et prétend toujours connaître un raccourci
 
 ### Théologue
 
-Soigneur sacré. Bénit les alliés, sermonne les ennemis, et cite des textes que personne n'a lus. PV 48, PA 6, PM 3, initiative 85. Départ : .
+Soigneur sacré. Bénit les alliés, sermonne les ennemis, et cite des textes que personne n'a lus. PV 50, PA 6, PM 3, initiative 100. Départ : .
 
 | Sort | Caractéristiques | Effets | Description |
 |---|---|---|---|

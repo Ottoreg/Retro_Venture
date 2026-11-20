@@ -47,6 +47,8 @@ func _initialize() -> void:
 		Session.new_character = Character.create("Frère Tuck", "humain", "theologue")
 	if _action in ["arcaniste", "composition", "infobulle"]:
 		Session.new_character = Character.create("Mirabelle", "humain", "arcaniste")
+	if _action.begins_with("ombre_"):
+		Session.new_character = Character.create("Nyx", "humain", "ombre")
 	if _action == "horloge" or _action == "sorts_chronomancien":
 		Session.new_character = Character.create("Pendulette", "elfe", "chronomancien")
 		if _action == "sorts_chronomancien":
@@ -451,7 +453,7 @@ func _process(_delta: float) -> bool:
 				_scene.pause_menu.options.controls()["admin"].pressed.emit()
 				_scene.pause_menu.options.admin._send("activer", {"mdp": World.ADMIN_PASSWORD})
 		else:
-			var target: Vector2i = view.server.groups()[0]["case"] if _action in ["combat", "cible", "sermon", "prevision", "phase", "tactique", "historique", "arcaniste", "composition", "infobulle", "horloge"] else view.current_map().travel_stone()
+			var target: Vector2i = view.server.groups()[0]["case"] if _action in ["combat", "cible", "sermon", "prevision", "phase", "tactique", "historique", "arcaniste", "composition", "infobulle", "horloge"] or _action.begins_with("ombre_") else view.current_map().travel_stone()
 			if _action == "phase":
 				# Aucun monstre n'a encore de phases dans les données : le premier du groupe en reçoit une.
 				var monster: Dictionary = view.server.data.monsters[view.server.groups()[0]["monstres"][0]]
@@ -463,7 +465,7 @@ func _process(_delta: float) -> bool:
 					break
 				view.advance(0.3)
 			if _action in ["cible", "sermon", "prevision", "phase", "tactique", "historique", "arcaniste", "composition", "infobulle",
-					"horloge"] and view.server.combat != null:
+					"horloge"] or _action.begins_with("ombre_") and view.server.combat != null:
 				# Placement validé, puis survol du premier monstre.
 				view.request_start_fight()
 				for i in 200:
@@ -517,6 +519,23 @@ func _process(_delta: float) -> bool:
 					view.select_spell("chronomancien_tic")
 					view._refresh_overlays()
 					view._set_hovered(foe.cell)
+				if _action.begins_with("ombre_"):
+					# Ombre : « ombre_images » (Survoltage, Pas de l'éclair, arme d'obscurité sur un monstre amené à 3 cases),
+					# « ombre_invisible » (Fondu au noir), « ombre_ombres » (Monde des ombres sur elle-même).
+					var hero := view.server.combat.get_fighter(World.PLAYER_ID)
+					var foe := view.server.combat.enemies_of(hero)[0]
+					foe.cell = hero.cell + Spell.direction(hero.cell, foe.cell) * 3
+					hero.pa = 20
+					view.refresh_state()
+					view._actors[foe.id]["pos"] = Vector2(foe.cell)
+					var side := Vector2i(-Spell.direction(hero.cell, foe.cell).y, Spell.direction(hero.cell, foe.cell).x)
+					var casts := {"ombre_images": [["ombre_survoltage", hero.cell], ["ombre_pas_de_l_eclair", hero.cell + side * 2],
+						["ombre_arme_d_obscurite", foe.cell]], "ombre_invisible": [["ombre_fondu_au_noir", hero.cell]],
+						"ombre_ombres": [["ombre_monde_des_ombres", hero.cell]]}
+					for cast: Array in casts.get(_action, []):
+						view.select_spell(cast[0])
+						view._on_click(cast[1])
+						_wait_for(view)
 				if _action in ["sermon", "prevision"]:
 					# Sermon choisi, case visée à 2 cases devant le Théologue, vers les monstres ;
 					# « prevision » : un monstre amené dans la zone (dégâts prévus au-dessus de lui).

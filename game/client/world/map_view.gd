@@ -2113,11 +2113,15 @@ func _update_shadow_filter() -> void:
 	if _shadow_filter == null:
 		_shadow_filter = ColorRect.new()
 		_shadow_filter.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		var shader := Shader.new()
+		shader.code = SHADOW_SHADER
 		_shadow_filter.material = ShaderMaterial.new()
-		(_shadow_filter.material as ShaderMaterial).shader = Shader.new()
-		(_shadow_filter.material as ShaderMaterial).shader.code = SHADOW_SHADER
+		(_shadow_filter.material as ShaderMaterial).shader = shader
 		_shadow_filter.position = Vector2(-4000, -4000)
 		_shadow_filter.size = Vector2(8000, 8000)
+		var copy := BackBufferCopy.new()
+		copy.copy_mode = BackBufferCopy.COPY_MODE_VIEWPORT
+		add_child(copy)
 		add_child(_shadow_filter)
 	_shadow_filter.visible = viewer_in_shadow()
 
@@ -2295,7 +2299,7 @@ func _draw_ground_marks() -> void:
 	if viewer_in_shadow():  # Lueurs des cases occupées dehors, sans savoir qui est qui.
 		for actor: Dictionary in _actors.values():
 			if actor["alive"] and not actor.get("ombres", false):
-				draw_colored_polygon(_ellipse(IsoGrid.grid_to_screen(actor["pos"]), 20, 10), Color(0.85, 0.9, 1.0, 0.25 + 0.1 * sin(_time * 2.0)))
+				draw_colored_polygon(_ellipse(IsoGrid.grid_to_screen(actor["pos"]), 24, 12), Color(1.0, 1.0, 1.0, 0.55 + 0.15 * sin(_time * 2.0)))
 	for projection in _projections:
 		draw_colored_polygon(_ellipse(IsoGrid.grid_to_screen(projection["pos"]), 16, 8), Color(0, 0, 0, 0.6 * (1.0 - projection["age"] / 1.5)))
 	for glyph: Dictionary in _glyphs.values():

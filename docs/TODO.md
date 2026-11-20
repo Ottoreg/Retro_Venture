@@ -671,7 +671,11 @@ Lots 0 (conception dans le GDD), 1 (personnage, poussé sur `main` à la demande
 - [ ] Race **Lutin** (neutre) : passif *Farceur*, sort *Tour de passe-passe*, assemblage réduit (≈ 0,8×), zone de départ et chaîne d'acte I
 - [ ] Différencier les races proches (Nain / Orc) et valider leurs noms de peuple (GDD § 4.2)
 - [ ] Voies de corps à corps : **Paladin** (guerrier sacré) et **Myrmidon** (guerrier tank)
-- [ ] Voies mixtes : **Ombre** (assassin invisible) et **Chronomancien** (maître du temps, remplace le Venomancien)
+- [x] Voie mixte **Ombre** (20/11/2026, GDD § 4.3) : 2 Voies de 10 sorts, passif Coup en traître, images rémanentes,
+  invisibilité, armes d'obscurité, Monde des ombres ; valeurs provisoires
+- [ ] Ombre : cacher côté serveur aux adversaires l'invisible, le Monde des ombres et les armes d'obscurité (multijoueur) ;
+  boss non envoyables dans les ombres (au cas par cas) ; animations PixelLab propres à ses sorts
+- [ ] Voie mixte **Chronomancien** (maître du temps, remplace le Venomancien) : Voie Givre
 - [ ] Voie à distance : **Démoniste** (dégâts impies) ; le Théologue est avancé dans l'alpha
 - [ ] Mécaniques de ces Voies : invisibilité, poisons et dégâts sur la durée, provocation, auras,
   invocations, sacrifice de PV, résurrection (multi)

@@ -333,6 +333,34 @@ Mécaniques des Voies :
   deux fois sur le même ; plusieurs `rebond` à la suite font une chaîne (*Foudre en chaîne*). Interdit
   dans une glyphe, un piège ou une heure d'horloge.
 
+Mécaniques de l'Ombre (GDD § 4.3) :
+
+```json
+{"type": "image", "effets": [{"type": "degats", "element": "tempete", "min": 8, "max": 11}]}
+{"type": "court_circuit", "bonus": 25}
+{"type": "arme_ombre", "element": "acier", "min": 14, "max": 18}
+{"type": "monde_des_ombres"}
+{"type": "dans_le_dos"}
+```
+
+- `image` : pose une image rémanente du lanceur sur sa case (3 au plus, la 4e fait exploser la plus ancienne,
+  empilables) ; ses `effets` frappent en croix d'une case, ennemis seulement, quand un ennemi arrive à son contact
+  ou au début du tour suivant du lanceur. Un sort de mobilité à `image` en laisse une à son point de départ.
+- `court_circuit` (`bonus` en %) : fait exploser les images du lanceur sur la case visée et autour (refusé sans
+  image : `sans_image`).
+- `arme_ombre` : marque la cible (2 au plus) ; les dégâts tombent au début de son prochain tour, puis l'arme disparaît.
+- `monde_des_ombres` : envoie la cible dans la dimension des ombres (2 tours) ou l'en fait sortir ; sortie ou entrée
+  sur une case occupée de l'autre dimension = échange de place (l'autre reçoit `aspire`) ; à la sortie, état
+  `retour_ombres` (2 tours, 1 pour une Ombre) ; refus : `sans_cible`, `retour_impossible`, `aspire`.
+- `dans_le_dos` : téléporte le lanceur sur la case derrière la cible (refusé si elle est prise : `sans_cible`).
+- Zone `ligne` (avec `lancer_en_ligne`) : toutes les cases entre le lanceur et la case visée ; les combattants ne
+  coupent pas la ligne de vue.
+- Champs de sort : `discret` (un sort de dégâts discret ne révèle pas l'invisible), `relance.delai_ennemi` (délai de
+  relance quand la cible est un ennemi), `portee_marque` (portée sur un ennemi marqué d'une arme d'obscurité).
+- Champs d'effet de dégâts : `si_invisible` (% de plus si le lanceur est invisible), `par_malus` (% par malus de la
+  cible) ; champ d'effet d'état : `cumul` (nombre de cumuls au plus).
+- États nommés : `invisible`, `ombres`, `retour_ombres`, `aspire`.
+
 - `etat_elementaire` (`flamme`, `givre` ou `tempete`) : le lanceur garde l'état tout le combat,
   3 au plus (le 4e remplace le plus ancien), +4 % de dégâts dans son élément ; il ne peut pas être
   retiré. Avec `gain_pa` 1 dans un sort à 1 PA, le PA est rendu aussitôt. (Plus utilisé
@@ -510,6 +538,10 @@ phase.
 `sorts` : les sorts de rang I, connus dès qu'on commence la Voie. `sorts_rang_2` (facultatif) : les
 sorts de rang II et la réputation de la classe qui les débloque (GDD § 5.1 ; Compagnon 5 000,
 Vétéran 13 000 ; 0 : disponible dès le début, le cas de tous les sorts pour l'instant, demande de l'auteur du 12/11/2026).
+
+Toutes les Voies ont `pv` 50 et `initiative` 100 (demande de l'auteur du 20/11/2026). `passif` (facultatif) : le
+passif de classe, débloqué au palier Apprenti, `{"id", "nom", "effet": "coup_en_traitre", "description"}`
+(effets connus : `GameData.CLASS_PASSIVES`) ; son rang vient de sa maîtrise.
 
 ## Objets (`objets/`)
 

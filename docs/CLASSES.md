@@ -104,11 +104,12 @@ point(s) de caractéristique (avant ralentissement).
 
 | Voie | PV | PA | PM | Initiative | Sorts de rang I | Sorts de rang II |
 |---|---|---|---|---|---|---|
-| **Arcaniste** | 46 | 6 | 3 | 90 | 2 | 0 |
-| **Chronomancien** | 50 | 6 | 3 | 95 | 6 | 0 |
-| **Guerrier** | 60 | 6 | 3 | 100 | 5 | 2 |
-| **Rôdeur** | 52 | 6 | 3 | 120 | 5 | 0 |
-| **Théologue** | 48 | 6 | 3 | 85 | 5 | 0 |
+| **Arcaniste** | 50 | 6 | 3 | 100 | 2 | 0 |
+| **Chronomancien** | 50 | 6 | 3 | 100 | 6 | 0 |
+| **Guerrier** | 50 | 6 | 3 | 100 | 5 | 2 |
+| **Ombre** | 50 | 6 | 3 | 100 | 20 | 0 |
+| **Rôdeur** | 50 | 6 | 3 | 100 | 5 | 0 |
+| **Théologue** | 50 | 6 | 3 | 100 | 5 | 0 |
 
 Colonnes des sorts : *Moy.* = valeurs moyennes de base des dégâts, soins et boucliers directs (hors
 horloge, glyphe et piège) ; *Moy./PA* ; *Rang 5* = moyenne avec +50 % de maîtrise. À multiplier par
@@ -159,6 +160,33 @@ horloge, glyphe et piège) ; *Moy./PA* ; *Rang 5* = moyenne avec +50 % de maîtr
 | **Charge** | I | 3 PA, portée 2–4, en ligne, 1/tour, relance 2 t. | charge en ligne jusqu'au contact (effets suivants au contact seulement) ; 6–9 Acier | 7,5 dégâts | 2,5 dégâts | 11,25 dégâts | rang 3 : +1 portée<br>rang 5 : relance 1 t. |
 | **Cri de guerre** | II (0 rép.) | 3 PA, portée soi, cercle de rayon 2, sans ligne de vue, 1/tour, relance 4 t. | +4–6 Dommages (2 t.) aux alliés | — | — | — | rang 3 : relance 3 t.<br>rang 5 : zone de taille 3 |
 | **Fendoir** | II (0 rép.) | 5 PA, portée 1, 1/tour | 16–22 Acier | 19 dégâts | 3,8 dégâts | 28,5 dégâts | rang 3 : +5 % critique<br>rang 5 : coût 4 PA |
+
+### Ombre
+
+*Assassin à la pige de la Confrérie des Ombres (cotisation non remboursable). Frappe dans le dos et repart avant l'addition.*
+
+| Sort | Rang | Caractéristiques | Effets | Moy. | Moy./PA | Rang 5 | Maîtrise |
+|---|---|---|---|---|---|---|---|
+| **Survoltage** | I | 2 PA, portée soi, 1/tour | image | — | — | — | rang 3 : coût 1 PA<br>rang 5 : ajoute +1 PM (1 t.) |
+| **Lame-éclair** | I | 3 PA, portée 1, 2/tour | 9–12 Tempête | 10,5 dégâts | 3,5 dégâts | 15,75 dégâts | rang 3 : +5 % critique<br>rang 5 : ajoute poussée de 1 case(s) |
+| **Shuriken d'orage** | I | 3 PA, portée 2–6, 2/tour | 7–9 Tempête ; rebond 7–9 Tempête sur l'ennemi le plus proche (2 case(s) au plus) | 8 dégâts | 2,67 dégâts | 12 dégâts | rang 3 : +1 portée<br>rang 5 : +10 % critique |
+| **Coup de tonnerre** | I | 5 PA, portée 1, 1/tour | 18–24 Tempête | 21 dégâts | 4,2 dégâts | 31,5 dégâts | rang 3 : +5 % critique<br>rang 5 : ajoute −1 PM (1 t.) |
+| **Court-circuit** | I | 2 PA, portée 1–8, sans ligne de vue, 2/tour | court_circuit | — | — | — | rang 3 : +2 portée<br>rang 5 : coût 1 PA |
+| **Rafale** | I | 3 PA, portée 1–3, 1/tour | 5–7 Tempête ; poussée de 2 case(s) | 6 dégâts | 2 dégâts | 9 dégâts | rang 3 : +1 portée<br>rang 5 : ajoute −1 PM (1 t.) |
+| **Foudroiement** | I | 3 PA, portée 2–5, en ligne, 1/tour, relance 1 t. | téléportation sur la case ; 6–8 Tempête aux ennemis ; image | 7 dégâts | 2,33 dégâts | 10,5 dégâts | rang 3 : relance 0 t.<br>rang 5 : +1 portée |
+| **Pas de l'éclair** | I | 2 PA, portée 1–4, 1/tour, relance 1 t. | téléportation sur la case ; image | — | — | — | rang 3 : +1 portée<br>rang 5 : relance 0 t. |
+| **Corps électrique** | I | 2 PA, portée soi, 1/tour, relance 2 t. | bouclier 10–14 (Tempête) | 12 bouclier | 6 bouclier | 18 bouclier | rang 3 : relance 1 t.<br>rang 5 : ajoute +20 Agilité (1 t.) |
+| **Vent porteur** | I | 2 PA, portée 0–4, 1/tour, relance 3 t. | +1 PM (2 t.) ; +20 Agilité (2 t.) | — | — | — | rang 3 : relance 2 t.<br>rang 5 : ajoute +1 PM (2 t.) |
+| **Fondu au noir** | I | 2 PA, portée soi, 1/tour, relance 2 t. | invisible (2 t.) | — | — | — | rang 3 : coût 1 PA<br>rang 5 : relance 1 t. |
+| **Surin** | I | 3 PA, portée 1, 2/tour | 8–11 Acier | 9,5 dégâts | 3,17 dégâts | 14,25 dégâts | rang 3 : +5 % critique<br>rang 5 : ajoute poison 2–3 Acier par tour (2 t.) |
+| **Lame de jet** | I | 3 PA, portée 2–5, 2/tour | 7–10 Acier | 8,5 dégâts | 2,83 dégâts | 12,75 dégâts | rang 3 : +1 portée<br>rang 5 : +10 % critique |
+| **Exécution** | I | 5 PA, portée 1, 1/tour | 16–20 Acier | 18 dégâts | 3,6 dégâts | 27 dégâts | rang 3 : +5 % critique<br>rang 5 : coût 4 PA |
+| **Arme d'obscurité** | I | 3 PA, portée 1–5, 1/tour | arme_ombre aux ennemis | — | — | — | rang 3 : +1 portée<br>rang 5 : coût 2 PA |
+| **Coupe-jarret** | I | 2 PA, portée 1, 1/tour | −2 PM (1 t.) aux ennemis | — | — | — | rang 3 : ajoute −1 PA (1 t.) aux ennemis<br>rang 5 : coût 1 PA |
+| **Entaille** | I | 3 PA, portée 1, 2/tour | 5–7 Acier ; −10 Résistance Acier (2 t.) | 6 dégâts | 2 dégâts | 9 dégâts | rang 3 : +5 % critique<br>rang 5 : ajoute −1 PM (1 t.) |
+| **Dans le dos** | I | 2 PA, portée 1–4, 1/tour, relance 2 t. | dans_le_dos | — | — | — | rang 3 : relance 1 t.<br>rang 5 : coût 1 PA |
+| **Monde des ombres** | I | 2 PA, portée 0–4, 1/tour | monde_des_ombres | — | — | — | rang 3 : +1 portée<br>rang 5 : coût 1 PA |
+| **Affûtage** | I | 1 PA, portée soi, 1/tour | +20 Force (3 t.) | — | — | — | rang 3 : ajoute +3 % Critique (3 t.)<br>rang 5 : ajoute +3 Dommages (3 t.) |
 
 ### Rôdeur
 

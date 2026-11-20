@@ -55,7 +55,7 @@ nous faire vos retours. Le jeu n'affiche volontairement presque aucune aide à l
 
 1. **Créez votre personnage** : une race (Humain, Nain, Géant, Gobelin, Orc, Squelette, Elfe ou Arkhé, à faire défiler avec les flèches ; l'Arkhé a
    4 variantes, Flamme, Acier, Givre et Tempête : elle fixe votre zone de départ
-   et votre camp), une Voie (Guerrier, Rôdeur, Arcaniste, Théologue ou Chronomancien) et un nom.
+   et votre camp), une Voie (Guerrier, Rôdeur, Arcaniste, Théologue, Chronomancien ou Ombre) et un nom.
 2. **Parlez au personnage marqué d'un « ! »** près de votre point d'arrivée : Alric (humains), Grumm
    (gobelins) ou Elwyn (elfes). Son **tutoriel** vous apprend à vous équiper (touche **I**), à
    combattre, à récolter et à forger.
@@ -106,6 +106,12 @@ temps : chaque camp a sa propre histoire.
     couleur de vos états (orange : Flamme, bleu : Givre) ; ils s'affichent aussi au survol de
     votre personnage et dans l'historique. On dit
     qu'un troisième élément compléterait la formule…
+  - **Ombre** (nouvelle, Tempête : Agilité, et Acier : Force) : *Survoltage* et les sorts de mobilité (*Pas de
+    l'éclair*, *Foudroiement*) laissent des **images** de foudre qui explosent au contact d'un ennemi (ou au tour
+    suivant) ; *Court-circuit* les fait sauter tout de suite. *Fondu au noir* la rend **invisible** (les monstres ne la
+    visent plus ; un sort de dégâts la révèle, sauf l'*Arme d'obscurité*, qui frappe la cible à son prochain tour).
+    *Monde des ombres* envoie une cible (ou elle-même) dans une autre dimension pour 2 tours : la carte devient grise,
+    seuls ceux de la même dimension se battent entre eux, des lueurs montrent les cases occupées dehors.
   - **Chronomancien** (nouveau, dégâts Impie : Agilité et Perception) : *Horloge* vise un ennemi à
     exactement 3 cases en ligne, dessine un **cadran** de 12 cases autour de lui (12 h dans la
     direction où vous lancez, heures écrites au sol) et l'envoie aussitôt sur 12 h. *Tic*

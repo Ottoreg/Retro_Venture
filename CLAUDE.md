@@ -251,6 +251,12 @@ Dernière session (retours de la passe de l'auteur) :
   autant que l'Intelligence et la Perception, GDD § 4.3). Rangs de maîtrise de l'Arcaniste (14/11/2026, sur `dev`) : sorts créés
   maîtrisables (`GameData.masterable_spells`), `bonus_etats` et `places_crees` de `maitrise`
   (`Fighter.state_bonus`, `created_slots`), effets à `premier_lancer`.
+- **Ombre, Tempête / Acier** (20/11/2026, GDD § 4.3, `tests/core/test_ombre.gd`) : 6e classe, 20 sorts `ombre_*`, passif
+  de classe *Coup en traître* (champ `passif` des Voies, débloqué à Apprenti, `GameData.class_passive`, `Fighter.passives`) ;
+  images rémanentes (`Combat.images`, effets `image` / `court_circuit`, zone `ligne`), invisibilité (`Fighter.is_invisible`,
+  `last_seen`, `Combat.hunt_cells` pour l'IA), armes d'obscurité (`arme_ombre`, `marked_by`), *Dans le dos*, Monde des ombres
+  (`Fighter.shadow`, `Combat.dimension`, `_cross`, filtre `MapView._update_shadow_filter`) ; protocole v19. Toutes les
+  classes à 50 PV et 100 d'initiative (demande de l'auteur). Valeurs des rangs provisoires ; captures `docs/captures/ombre/`.
 - **Chronomancien, Voie Impie** (29/10/2026, demande de l'auteur, GDD § 4.3) : 5e Voie de l'alpha 1,
   effets `horloge` / `decalage_horaire` (`Combat.CLOCK_OFFSETS`, `clock_destination`, échange de
   place), état `insoignable`, carac `degats_infliges` ; protocole v9. Heures 3 h, 4 h et 9 h faites le
