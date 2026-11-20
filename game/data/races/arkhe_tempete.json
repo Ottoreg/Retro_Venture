@@ -1,0 +1,24 @@
+{
+  "id": "arkhe_tempete",
+  "nom": "Arkhé",
+  "camp": "neutre",
+  "variante": "Tempête",
+  "variante_de": "arkhe",
+  "description": "Élémentaires de feu, d'acier, d'orage ou de glace. Ils se disent les briques premières du monde et trouvent la guerre des autres peuples un peu petite.",
+  "passif": {
+    "nom": "Cœur élémentaire",
+    "description": "+5 % de dégâts et +5 % de résistance Tempête.",
+    "effets": [
+      {
+        "type": "coeur_elementaire",
+        "element": "tempete",
+        "valeur": 5
+      }
+    ]
+  },
+  "sort": "arkhe_eruption_tempete",
+  "carte_depart": "sylvebrume_0_0",
+  "apparence": {
+    "peau": "6a5aa8"
+  }
+}

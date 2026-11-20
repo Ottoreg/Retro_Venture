@@ -1,0 +1,15 @@
+{
+  "id": "nain",
+  "nom": "Nain",
+  "camp": "allie",
+  "description": "Bourrus, barbus et fiers de l'être. Ils creusent depuis si longtemps qu'ils ne savent plus très bien ce qu'ils cherchaient, mais ils sont sûrs que c'est en dessous.",
+  "passif": {
+    "nom": "Peau de pierre",
+    "description": "+5 % de résistances (à venir).",
+    "effets": []
+  },
+  "carte_depart": "brumerive_0_0",
+  "apparence": {
+    "peau": "d8a07a"
+  }
+}

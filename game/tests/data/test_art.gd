@@ -143,11 +143,11 @@ func test_directions_des_sprites() -> void:
 		var ratio := float(Art.manifest()["monstres"][monster_id]["echelle"]) / float(Art.manifest()["monstres"][family]["echelle"])
 		assert_true(absf(ratio - 1.2) < 0.01, "%s : 1,2 fois %s" % [monster_id, family])
 	# Attaque en pixel art pour les races dont l'export PixelLab a un dossier « strike ».
-	for race_id: String in ["orc", "squelette", "geant", "arkhe"]:
+	for race_id: String in ["orc", "squelette", "geant", "arkhe", "arkhe_acier", "arkhe_givre", "arkhe_tempete", "nain"]:
 		assert_true(Sprites.has_strike(Art.manifest()["races"][race_id]["planche"]), "%s : attaque" % race_id)
 	assert_false(Sprites.has_strike(Art.manifest()["races"]["humain"]["planche"]), "humain : pas encore d'attaque")
 	# Une planche aux couleurs de chaque Voie.
-	for race_id: String in ["gobelin", "humain", "elfe", "orc", "squelette", "geant", "arkhe"]:
+	for race_id: String in ["gobelin", "humain", "elfe", "orc", "squelette", "geant", "arkhe", "arkhe_acier", "arkhe_givre", "arkhe_tempete", "nain"]:
 		for voie_id: String in Art.manifest()["tenues"]:
 			var look := Rig.player_look(race_id, voie_id, null)
 			assert_eq(look["planche"], "sprites/%s_%s.png" % [race_id, voie_id], "%s %s : couleurs de la Voie" % [race_id, voie_id])

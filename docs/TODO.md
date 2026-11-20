@@ -162,6 +162,10 @@ Tout le contenu et les systèmes MVP de l'alpha 1 sont faits (chantiers 1, 3, 4 
   sans effet, passif de l'Arkhé à définir, pas de sort racial ; création : carrousel des races façon Dofus Rétro
 - [x] Géant : *Carrure* (+10 % de PV max, effet `pv_max`) et *Coup de semelle* (3 PA, contact, Acier 5-8, poussée 2,
   relance 2 ; valeurs provisoires, icône reprise de *Charge*) (19/11/2026)
+- [x] Nain jouable et variantes Acier, Givre, Tempête de l'Arkhé (20/11/2026) : une race par variante (`arkhe_<élément>`,
+  champ `variante_de`), choisie sous le carrousel ; Cœur élémentaire et Éruption dans l'élément de la variante ; Nain :
+  *Peau de pierre* affiché sans effet, pas de sort racial
+- [ ] Nain : coder *Peau de pierre* et *Fureur des profondeurs* (valeurs à fixer)
 - [x] Attaque en pixel art (animation `strike`, pour le corps à corps et les sorts) : orc, squelette, géant, arkhé (19/11/2026)
 - [ ] Animations à générer par l'auteur (`assets/PROMPTS_ANIMATIONS.md`) : attaque de l'humain, du gobelin et de l'elfe ;
   touché, mort, assis, travailler, attente pour toutes les races ; puis les brancher

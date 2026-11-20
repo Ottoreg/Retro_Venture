@@ -8,9 +8,16 @@ func test_ecran_de_creation() -> void:
 	tree.root.add_child(scene)
 	assert_eq(scene.race_id, "humain", "première race sélectionnée")
 	assert_eq(scene._race_beside(-1), "arkhe", "carrousel en boucle : l'Arkhé avant l'Humain")
-	assert_eq(scene._race_beside(1), "gobelin", "race suivante sur le côté droit")
+	assert_eq(scene._race_beside(1), "nain", "race suivante sur le côté droit")
 	scene._side_previews[1].gui_input.emit(_click())
-	assert_eq(scene.race_id, "gobelin", "clic sur la race de droite")
+	assert_eq(scene.race_id, "nain", "clic sur la race de droite")
+	scene._select_race("arkhe")
+	assert_eq(scene._variant_row.get_child_count(), 4, "Arkhé : 4 variantes (Flamme, Acier, Givre, Tempête)")
+	scene._variant_row.get_child(2).pressed.emit()
+	assert_eq(scene.race_id, "arkhe_givre", "variante choisie")
+	assert_eq(scene._race_beside(1), "humain", "le carrousel part de la race de base")
+	assert_true(scene._race_text.text.contains("Givre"), "passif de la variante")
+	scene._select_race("nain")
 	assert_eq(scene._side_previews[0].look["planche"], "sprites/humain_guerrier.png", "race précédente affichée à gauche")
 	assert_eq(scene._voie_buttons.size(), 5, "Guerrier, Rôdeur, Arcaniste, Théologue, Chronomancien")
 	scene._name_edit.text = "A"
@@ -24,7 +31,7 @@ func test_ecran_de_creation() -> void:
 	assert_eq(hero.race_id, "elfe")
 	assert_eq(hero.voie_id, "arcaniste")
 	assert_true(scene._summary.text.contains("Pas léger"), "sort racial dans le récapitulatif")
-	assert_true(scene._race_text.text.contains("Neutre"), "camp affiché")
+	assert_true(scene._race_name.text.contains("Neutre"), "camp affiché")
 	scene.free()
 
 

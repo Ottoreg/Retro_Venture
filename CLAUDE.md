@@ -281,7 +281,9 @@ Dernière session (retours de la passe de l'auteur) :
 - **Géant et Arkhé jouables** (19/11/2026) : `sprites/geant.png` (cases de 144 px : `planche_sprites.py` agrandit la case
   quand l'idle fait 96 px, `Sprites.cell` / `Sprites.feet` la lisent dans la planche) et `arkhe.png` (Arkhé Flamme) ;
   départ à Brumerive et Sylvebrume ; Géant : *Carrure* (`pv_max`, `Character.max_hp`) et `geant_coup_de_semelle` ;
-  Arkhé : *Cœur élémentaire* (`coeur_elementaire`, `Fighter.power` et résistance) et `arkhe_eruption`, en Flamme. Création : carrousel des races façon
+  Arkhé : *Cœur élémentaire* (`coeur_elementaire`, `Fighter.power` et résistance) et `arkhe_eruption`, en Flamme.
+  Variantes (20/11/2026) : une race par variante (`arkhe_acier`, `arkhe_givre`, `arkhe_tempete`, champ `variante_de`,
+  boutons sous le carrousel, `_variants`), sort `arkhe_eruption_<élément>` ; Nain (`nain`, passif sans effet, pas de sort). Création : carrousel des races façon
   Dofus Rétro (`creation.gd`, `_carousel`, `_race_beside`). Prompt des Arkhés : `assets/arkhes/PROMPT.md`.
   Attaque en pixel art (19/11/2026) : 6 colonnes `strike` de plus dans la planche (`Sprites.STRIKE_FRAMES`, `has_strike`),
   pour toutes les attaques et les sorts ; orc, squelette, géant, arkhé (humain, gobelin, elfe à générer) ; prompts des

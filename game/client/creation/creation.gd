@@ -4,7 +4,8 @@ extends Control
 
 const WORLD_SCENE := "res://client/world/world.tscn"
 const MENU_SCENE := "res://client/main/main.tscn"
-const RACE_ORDER := ["humain", "gobelin", "elfe", "orc", "squelette", "geant", "arkhe"]
+## Races du carrousel, par camp ; les variantes (`variante_de`, Arkhés) se choisissent sous le nom.
+const RACE_ORDER := ["humain", "nain", "geant", "gobelin", "orc", "squelette", "elfe", "arkhe"]
 const VOIE_ORDER := ["guerrier", "rodeur", "arcaniste", "theologue", "chronomancien"]
 const CAMP_NAMES := {"allie": "Allié", "ennemi": "Ennemi", "neutre": "Neutre"}
 const GOLD := Color(0.95, 0.76, 0.3)
@@ -33,6 +34,7 @@ var voie_id := "guerrier"
 
 var _name_edit: LineEdit
 var _race_name: Label
+var _variant_row: HBoxContainer
 var _voie_buttons := {}
 var _race_text: Label
 var _voie_text: Label
@@ -64,11 +66,20 @@ func validation_error() -> String:
 func _select_race(id: String) -> void:
 	race_id = id
 	var race: Dictionary = data.races.get(id, {})
-	_race_name.text = "%s (%s)" % [race.get("nom", id), CAMP_NAMES.get(race.get("camp", ""), "?")]
-	var lines: PackedStringArray = [
-		str(race.get("description", "")),
-		"Camp : %s" % CAMP_NAMES.get(race.get("camp", ""), "?"),
-	]
+	_race_name.text = "%s %s(%s)" % [race.get("nom", id), race.get("variante", "") + " " if race.has("variante") else "", CAMP_NAMES.get(race.get("camp", ""), "?")]
+	for child in _variant_row.get_children():
+		_variant_row.remove_child(child)
+		child.queue_free()
+	var variants := _variants(_base_race(id))
+	for variant: String in variants if variants.size() > 1 else []:
+		var button := Button.new()
+		button.toggle_mode = true
+		button.button_pressed = variant == id
+		button.text = str(data.races[variant].get("variante", variant))
+		button.custom_minimum_size = Vector2(90, 32)
+		button.pressed.connect(_select_race.bind(variant))
+		_variant_row.add_child(button)
+	var lines: PackedStringArray = [str(race.get("description", ""))]
 	var passive: Dictionary = race.get("passif", {})
 	if not passive.is_empty():
 		lines.append("Passif — %s : %s" % [passive.get("nom", ""), passive.get("description", "")])
@@ -118,7 +129,19 @@ func _refresh() -> void:
 
 ## Race voisine de la race choisie dans le carrousel (`step` −1 : précédente, 1 : suivante), en boucle.
 func _race_beside(step: int) -> String:
-	return RACE_ORDER[posmod(RACE_ORDER.find(race_id) + step, RACE_ORDER.size())]
+	return RACE_ORDER[posmod(RACE_ORDER.find(_base_race(race_id)) + step, RACE_ORDER.size())]
+
+
+## Race de base d'une variante (l'Arkhé Givre → l'Arkhé), elle-même sinon.
+func _base_race(id: String) -> String:
+	return data.races.get(id, {}).get("variante_de", id)
+
+
+## Variantes d'une race de base, elle comprise en premier (remplacent le choix mâle / femelle).
+func _variants(base: String) -> Array:
+	var others := data.races.keys().filter(func(id: String) -> bool: return data.races[id].get("variante_de") == base)
+	others.sort()
+	return [base] + others
 
 
 func _on_start_pressed() -> void:
@@ -195,8 +218,6 @@ func _build() -> void:
 
 	left.add_child(_label("Race", 18, GOLD))
 	left.add_child(_carousel())
-	_race_text = _wrapped_label()
-	left.add_child(_race_text)
 
 	left.add_child(_label("Classe (Voie)", 18, GOLD))
 	left.add_child(_choice_row(VOIE_ORDER, data.voies, _voie_buttons, _select_voie))
@@ -207,6 +228,8 @@ func _build() -> void:
 	right.custom_minimum_size = Vector2(380, 0)
 	right.add_theme_constant_override("separation", 8)
 	row.add_child(right)
+	_race_text = _wrapped_label()
+	right.add_child(_race_text)
 	_summary = _wrapped_label()
 	right.add_child(_summary)
 
@@ -240,11 +263,14 @@ func _carousel() -> HBoxContainer:
 	row.add_theme_constant_override("separation", 6)
 	var center := VBoxContainer.new()
 	_preview = Preview.new()
-	_preview.custom_minimum_size = Vector2(240, 180)
+	_preview.custom_minimum_size = Vector2(240, 165)
 	center.add_child(_preview)
 	_race_name = _label("", 20, GOLD)
 	_race_name.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	center.add_child(_race_name)
+	_variant_row = HBoxContainer.new()
+	_variant_row.alignment = BoxContainer.ALIGNMENT_CENTER
+	center.add_child(_variant_row)
 	for step in [-1, 1]:
 		var arrow := Button.new()
 		arrow.text = "‹" if step < 0 else "›"

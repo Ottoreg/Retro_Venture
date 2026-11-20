@@ -1,0 +1,24 @@
+{
+  "id": "arkhe_acier",
+  "nom": "Arkhé",
+  "camp": "neutre",
+  "variante": "Acier",
+  "variante_de": "arkhe",
+  "description": "Élémentaires de feu, d'acier, d'orage ou de glace. Ils se disent les briques premières du monde et trouvent la guerre des autres peuples un peu petite.",
+  "passif": {
+    "nom": "Cœur élémentaire",
+    "description": "+5 % de dégâts et +5 % de résistance Acier.",
+    "effets": [
+      {
+        "type": "coeur_elementaire",
+        "element": "acier",
+        "valeur": 5
+      }
+    ]
+  },
+  "sort": "arkhe_eruption_acier",
+  "carte_depart": "sylvebrume_0_0",
+  "apparence": {
+    "peau": "b0b4b8"
+  }
+}

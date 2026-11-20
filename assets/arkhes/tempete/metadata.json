@@ -1,0 +1,307 @@
+{
+  "group_id": "452a088f-02d7-4b18-8174-c5646ffb554f",
+  "states": [
+    {
+      "character": {
+        "id": "33a8cb0a-1d4b-4133-8633-da2db6f4ae44",
+        "name": "Idle",
+        "prompt": "A humanoid elemental, adult, slightly slender body made of living element, with a calm but slightly smug expression and glowing eyes. Wears a simple dull moss-green linen tunic, a brown leather belt and plain wrist wraps. Two solid legs with clearly visible feet standing on the ground, no floating lower body. No weapon, empty hands. Body of dark violet storm cloud held in a humanoid shape, crackling with small electric-yellow lightning arcs, hair of swirling wind wisps, bright white-yellow eyes. Palette: deep violet, slate blue, electric yellow.",
+        "size": {
+          "width": 64,
+          "height": 64
+        },
+        "template_id": "mannequin",
+        "directions": 8,
+        "view": "low top-down",
+        "created_at": "2026-11-19T08:17:36.871920+00:00"
+      },
+      "folder": "Idle",
+      "frames": {
+        "rotations": {
+          "south": "Idle/rotations/south.png",
+          "south-east": "Idle/rotations/south-east.png",
+          "east": "Idle/rotations/east.png",
+          "north-east": "Idle/rotations/north-east.png",
+          "north": "Idle/rotations/north.png",
+          "north-west": "Idle/rotations/north-west.png",
+          "west": "Idle/rotations/west.png",
+          "south-west": "Idle/rotations/south-west.png"
+        },
+        "animations": {
+          "Lean_the_upper_body_forward_while_drawing_the_righ": {
+            "north-east": [
+              "Idle/animations/Lean_the_upper_body_forward_while_drawing_the_righ/north-east/frame_000.png",
+              "Idle/animations/Lean_the_upper_body_forward_while_drawing_the_righ/north-east/frame_001.png",
+              "Idle/animations/Lean_the_upper_body_forward_while_drawing_the_righ/north-east/frame_002.png",
+              "Idle/animations/Lean_the_upper_body_forward_while_drawing_the_righ/north-east/frame_003.png",
+              "Idle/animations/Lean_the_upper_body_forward_while_drawing_the_righ/north-east/frame_004.png",
+              "Idle/animations/Lean_the_upper_body_forward_while_drawing_the_righ/north-east/frame_005.png",
+              "Idle/animations/Lean_the_upper_body_forward_while_drawing_the_righ/north-east/frame_006.png",
+              "Idle/animations/Lean_the_upper_body_forward_while_drawing_the_righ/north-east/frame_007.png",
+              "Idle/animations/Lean_the_upper_body_forward_while_drawing_the_righ/north-east/frame_008.png"
+            ],
+            "south-east": [
+              "Idle/animations/Lean_the_upper_body_forward_while_drawing_the_righ/south-east/frame_000.png",
+              "Idle/animations/Lean_the_upper_body_forward_while_drawing_the_righ/south-east/frame_001.png",
+              "Idle/animations/Lean_the_upper_body_forward_while_drawing_the_righ/south-east/frame_002.png",
+              "Idle/animations/Lean_the_upper_body_forward_while_drawing_the_righ/south-east/frame_003.png",
+              "Idle/animations/Lean_the_upper_body_forward_while_drawing_the_righ/south-east/frame_004.png",
+              "Idle/animations/Lean_the_upper_body_forward_while_drawing_the_righ/south-east/frame_005.png",
+              "Idle/animations/Lean_the_upper_body_forward_while_drawing_the_righ/south-east/frame_006.png",
+              "Idle/animations/Lean_the_upper_body_forward_while_drawing_the_righ/south-east/frame_007.png",
+              "Idle/animations/Lean_the_upper_body_forward_while_drawing_the_righ/south-east/frame_008.png"
+            ],
+            "north-west": [
+              "Idle/animations/Lean_the_upper_body_forward_while_drawing_the_righ/north-west/frame_000.png",
+              "Idle/animations/Lean_the_upper_body_forward_while_drawing_the_righ/north-west/frame_001.png",
+              "Idle/animations/Lean_the_upper_body_forward_while_drawing_the_righ/north-west/frame_002.png",
+              "Idle/animations/Lean_the_upper_body_forward_while_drawing_the_righ/north-west/frame_003.png",
+              "Idle/animations/Lean_the_upper_body_forward_while_drawing_the_righ/north-west/frame_004.png",
+              "Idle/animations/Lean_the_upper_body_forward_while_drawing_the_righ/north-west/frame_005.png",
+              "Idle/animations/Lean_the_upper_body_forward_while_drawing_the_righ/north-west/frame_006.png",
+              "Idle/animations/Lean_the_upper_body_forward_while_drawing_the_righ/north-west/frame_007.png",
+              "Idle/animations/Lean_the_upper_body_forward_while_drawing_the_righ/north-west/frame_008.png"
+            ],
+            "south-west": [
+              "Idle/animations/Lean_the_upper_body_forward_while_drawing_the_righ/south-west/frame_000.png",
+              "Idle/animations/Lean_the_upper_body_forward_while_drawing_the_righ/south-west/frame_001.png",
+              "Idle/animations/Lean_the_upper_body_forward_while_drawing_the_righ/south-west/frame_002.png",
+              "Idle/animations/Lean_the_upper_body_forward_while_drawing_the_righ/south-west/frame_003.png",
+              "Idle/animations/Lean_the_upper_body_forward_while_drawing_the_righ/south-west/frame_004.png",
+              "Idle/animations/Lean_the_upper_body_forward_while_drawing_the_righ/south-west/frame_005.png",
+              "Idle/animations/Lean_the_upper_body_forward_while_drawing_the_righ/south-west/frame_006.png",
+              "Idle/animations/Lean_the_upper_body_forward_while_drawing_the_righ/south-west/frame_007.png",
+              "Idle/animations/Lean_the_upper_body_forward_while_drawing_the_righ/south-west/frame_008.png"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "character": {
+        "id": "41ec46aa-6d21-47e0-bb74-17290801bc43",
+        "name": "walking",
+        "prompt": "A humanoid elemental, adult, slightly slender body made of living element, with a calm but slightly smug expression and glowing eyes. Wears a simple dull moss-green linen tunic, a brown leather belt and plain wrist wraps. Two solid legs with clearly visible feet standing on the ground, no floating lower body. No weapon, empty hands. Body of dark violet storm cloud held in a humanoid shape, crackling with small electric-yellow lightning arcs, hair of swirling wind wisps, bright white-yellow eyes. Palette: deep violet, slate blue, electric yellow.",
+        "size": {
+          "width": 64,
+          "height": 64
+        },
+        "template_id": "mannequin",
+        "directions": 8,
+        "view": "low top-down",
+        "created_at": "2026-11-19T09:21:49.952870+00:00"
+      },
+      "folder": "walking",
+      "frames": {
+        "rotations": {
+          "south": "walking/rotations/south.png",
+          "south-east": "walking/rotations/south-east.png",
+          "east": "walking/rotations/east.png",
+          "north-east": "walking/rotations/north-east.png",
+          "north": "walking/rotations/north.png",
+          "north-west": "walking/rotations/north-west.png",
+          "west": "walking/rotations/west.png",
+          "south-west": "walking/rotations/south-west.png"
+        },
+        "animations": {
+          "Walking": {
+            "north-east": [
+              "walking/animations/Walking/north-east/frame_000.png",
+              "walking/animations/Walking/north-east/frame_001.png",
+              "walking/animations/Walking/north-east/frame_002.png",
+              "walking/animations/Walking/north-east/frame_003.png",
+              "walking/animations/Walking/north-east/frame_004.png",
+              "walking/animations/Walking/north-east/frame_005.png",
+              "walking/animations/Walking/north-east/frame_006.png",
+              "walking/animations/Walking/north-east/frame_007.png"
+            ],
+            "north-west": [
+              "walking/animations/Walking/north-west/frame_000.png",
+              "walking/animations/Walking/north-west/frame_001.png",
+              "walking/animations/Walking/north-west/frame_002.png",
+              "walking/animations/Walking/north-west/frame_003.png",
+              "walking/animations/Walking/north-west/frame_004.png",
+              "walking/animations/Walking/north-west/frame_005.png",
+              "walking/animations/Walking/north-west/frame_006.png",
+              "walking/animations/Walking/north-west/frame_007.png"
+            ],
+            "east": [
+              "walking/animations/Walking/east/frame_000.png",
+              "walking/animations/Walking/east/frame_001.png",
+              "walking/animations/Walking/east/frame_002.png",
+              "walking/animations/Walking/east/frame_003.png",
+              "walking/animations/Walking/east/frame_004.png",
+              "walking/animations/Walking/east/frame_005.png",
+              "walking/animations/Walking/east/frame_006.png",
+              "walking/animations/Walking/east/frame_007.png"
+            ],
+            "south": [
+              "walking/animations/Walking/south/frame_000.png",
+              "walking/animations/Walking/south/frame_001.png",
+              "walking/animations/Walking/south/frame_002.png",
+              "walking/animations/Walking/south/frame_003.png",
+              "walking/animations/Walking/south/frame_004.png",
+              "walking/animations/Walking/south/frame_005.png",
+              "walking/animations/Walking/south/frame_006.png",
+              "walking/animations/Walking/south/frame_007.png"
+            ],
+            "west": [
+              "walking/animations/Walking/west/frame_000.png",
+              "walking/animations/Walking/west/frame_001.png",
+              "walking/animations/Walking/west/frame_002.png",
+              "walking/animations/Walking/west/frame_003.png",
+              "walking/animations/Walking/west/frame_004.png",
+              "walking/animations/Walking/west/frame_005.png",
+              "walking/animations/Walking/west/frame_006.png",
+              "walking/animations/Walking/west/frame_007.png"
+            ],
+            "south-east": [
+              "walking/animations/Walking/south-east/frame_000.png",
+              "walking/animations/Walking/south-east/frame_001.png",
+              "walking/animations/Walking/south-east/frame_002.png",
+              "walking/animations/Walking/south-east/frame_003.png",
+              "walking/animations/Walking/south-east/frame_004.png",
+              "walking/animations/Walking/south-east/frame_005.png",
+              "walking/animations/Walking/south-east/frame_006.png",
+              "walking/animations/Walking/south-east/frame_007.png"
+            ],
+            "north": [
+              "walking/animations/Walking/north/frame_000.png",
+              "walking/animations/Walking/north/frame_001.png",
+              "walking/animations/Walking/north/frame_002.png",
+              "walking/animations/Walking/north/frame_003.png",
+              "walking/animations/Walking/north/frame_004.png",
+              "walking/animations/Walking/north/frame_005.png",
+              "walking/animations/Walking/north/frame_006.png",
+              "walking/animations/Walking/north/frame_007.png"
+            ],
+            "south-west": [
+              "walking/animations/Walking/south-west/frame_000.png",
+              "walking/animations/Walking/south-west/frame_001.png",
+              "walking/animations/Walking/south-west/frame_002.png",
+              "walking/animations/Walking/south-west/frame_003.png",
+              "walking/animations/Walking/south-west/frame_004.png",
+              "walking/animations/Walking/south-west/frame_005.png",
+              "walking/animations/Walking/south-west/frame_006.png",
+              "walking/animations/Walking/south-west/frame_007.png"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "character": {
+        "id": "b061fe54-aff9-4bff-8ad7-6513358219aa",
+        "name": "running",
+        "prompt": "A humanoid elemental, adult, slightly slender body made of living element, with a calm but slightly smug expression and glowing eyes. Wears a simple dull moss-green linen tunic, a brown leather belt and plain wrist wraps. Two solid legs with clearly visible feet standing on the ground, no floating lower body. No weapon, empty hands. Body of dark violet storm cloud held in a humanoid shape, crackling with small electric-yellow lightning arcs, hair of swirling wind wisps, bright white-yellow eyes. Palette: deep violet, slate blue, electric yellow.",
+        "size": {
+          "width": 64,
+          "height": 64
+        },
+        "template_id": "mannequin",
+        "directions": 8,
+        "view": "low top-down",
+        "created_at": "2026-11-19T09:21:58.972728+00:00"
+      },
+      "folder": "running",
+      "frames": {
+        "rotations": {
+          "south": "running/rotations/south.png",
+          "south-east": "running/rotations/south-east.png",
+          "east": "running/rotations/east.png",
+          "north-east": "running/rotations/north-east.png",
+          "north": "running/rotations/north.png",
+          "north-west": "running/rotations/north-west.png",
+          "west": "running/rotations/west.png",
+          "south-west": "running/rotations/south-west.png"
+        },
+        "animations": {
+          "Running": {
+            "south-west": [
+              "running/animations/Running/south-west/frame_000.png",
+              "running/animations/Running/south-west/frame_001.png",
+              "running/animations/Running/south-west/frame_002.png",
+              "running/animations/Running/south-west/frame_003.png",
+              "running/animations/Running/south-west/frame_004.png",
+              "running/animations/Running/south-west/frame_005.png",
+              "running/animations/Running/south-west/frame_006.png",
+              "running/animations/Running/south-west/frame_007.png"
+            ],
+            "south-east": [
+              "running/animations/Running/south-east/frame_000.png",
+              "running/animations/Running/south-east/frame_001.png",
+              "running/animations/Running/south-east/frame_002.png",
+              "running/animations/Running/south-east/frame_003.png",
+              "running/animations/Running/south-east/frame_004.png",
+              "running/animations/Running/south-east/frame_005.png",
+              "running/animations/Running/south-east/frame_006.png",
+              "running/animations/Running/south-east/frame_007.png"
+            ],
+            "north-west": [
+              "running/animations/Running/north-west/frame_000.png",
+              "running/animations/Running/north-west/frame_001.png",
+              "running/animations/Running/north-west/frame_002.png",
+              "running/animations/Running/north-west/frame_003.png",
+              "running/animations/Running/north-west/frame_004.png",
+              "running/animations/Running/north-west/frame_005.png",
+              "running/animations/Running/north-west/frame_006.png",
+              "running/animations/Running/north-west/frame_007.png"
+            ],
+            "east": [
+              "running/animations/Running/east/frame_000.png",
+              "running/animations/Running/east/frame_001.png",
+              "running/animations/Running/east/frame_002.png",
+              "running/animations/Running/east/frame_003.png",
+              "running/animations/Running/east/frame_004.png",
+              "running/animations/Running/east/frame_005.png",
+              "running/animations/Running/east/frame_006.png",
+              "running/animations/Running/east/frame_007.png"
+            ],
+            "south": [
+              "running/animations/Running/south/frame_000.png",
+              "running/animations/Running/south/frame_001.png",
+              "running/animations/Running/south/frame_002.png",
+              "running/animations/Running/south/frame_003.png",
+              "running/animations/Running/south/frame_004.png",
+              "running/animations/Running/south/frame_005.png",
+              "running/animations/Running/south/frame_006.png",
+              "running/animations/Running/south/frame_007.png"
+            ],
+            "north-east": [
+              "running/animations/Running/north-east/frame_000.png",
+              "running/animations/Running/north-east/frame_001.png",
+              "running/animations/Running/north-east/frame_002.png",
+              "running/animations/Running/north-east/frame_003.png",
+              "running/animations/Running/north-east/frame_004.png",
+              "running/animations/Running/north-east/frame_005.png",
+              "running/animations/Running/north-east/frame_006.png",
+              "running/animations/Running/north-east/frame_007.png"
+            ],
+            "west": [
+              "running/animations/Running/west/frame_000.png",
+              "running/animations/Running/west/frame_001.png",
+              "running/animations/Running/west/frame_002.png",
+              "running/animations/Running/west/frame_003.png",
+              "running/animations/Running/west/frame_004.png",
+              "running/animations/Running/west/frame_005.png",
+              "running/animations/Running/west/frame_006.png",
+              "running/animations/Running/west/frame_007.png"
+            ],
+            "north": [
+              "running/animations/Running/north/frame_000.png",
+              "running/animations/Running/north/frame_001.png",
+              "running/animations/Running/north/frame_002.png",
+              "running/animations/Running/north/frame_003.png",
+              "running/animations/Running/north/frame_004.png",
+              "running/animations/Running/north/frame_005.png",
+              "running/animations/Running/north/frame_006.png",
+              "running/animations/Running/north/frame_007.png"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-11-19T21:36:52.114130"
+}

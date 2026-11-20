@@ -3,6 +3,9 @@
     "sort_orc_cri_de_guerre": {"fichier": "sorts/guerrier_cri_de_guerre.svgt", "ancre": [22, 22]},
     "sort_squelette_remonter_les_os": {"fichier": "sorts/guerrier_second_souffle.svgt", "ancre": [22, 22]},
     "sort_geant_coup_de_semelle": {"fichier": "sorts/guerrier_charge.svgt", "ancre": [22, 22]},
-    "sort_arkhe_eruption": {"fichier": "sorts/arcaniste_feu_de_brousse.svgt", "ancre": [22, 22]}
+    "sort_arkhe_eruption": {"fichier": "sorts/arcaniste_feu_de_brousse.svgt", "ancre": [22, 22]},
+    "sort_arkhe_eruption_tempete": {"fichier": "sorts/arcaniste_foudre_en_chaine.svgt", "ancre": [22, 22]},
+    "sort_arkhe_eruption_givre": {"fichier": "sorts/arcaniste_bourrasque_glacee.svgt", "ancre": [22, 22]},
+    "sort_arkhe_eruption_acier": {"fichier": "sorts/guerrier_tourbillon.svgt", "ancre": [22, 22]}
   }
 }

@@ -138,7 +138,8 @@ Peau épaisse −10 % de dégâts de mêlée reçus ; Cri de guerre 3 PA, +10 % 
 pendant 2 tours, relance 4 ; Remonter les os 2 PA, relance 3). Géants et Arkhés (Flamme) aussi, depuis le
 19/11/2026 (sprites, départ à Brumerive et Sylvebrume ; Géant : Carrure et Coup de semelle codés, 3 PA, Acier 5-8,
 poussée 2, relance 2 ; Arkhé : Cœur élémentaire, +5 % de dégâts et de résistance dans l'élément de sa variante, et Éruption, 3 PA, dégâts
-de son élément 4-7 aux ennemis à 1 case, relance 3 ; Flamme tant que seule cette variante existe). **L'Arkhé remplace le Semi-homme** (décision de l'auteur
+de son élément 4-7 aux ennemis à 1 case, relance 3). Depuis le 20/11/2026 : les 4 variantes de l'Arkhé (Flamme,
+Acier, Givre, Tempête, choisies sous le carrousel) et le Nain (départ à Brumerive, passif affiché sans effet, pas de sort). **L'Arkhé remplace le Semi-homme** (décision de l'auteur
 du 19/11/2026, le Semi-homme faisant trop « humanoïde classique »). Les Nains et les Orcs jouent leur
 cliché attendu (bourrus, brutaux) ; les quatre autres peuples de Phase 3 :
 
@@ -149,7 +150,7 @@ cliché attendu (bourrus, brutaux) ; les quatre autres peuples de Phase 3 :
   qu'on ne leur a jamais demandé leur avis… même pas pour mourir.
 - **Arkhés (neutre)** : élémentaires nés des forces du monde, quatre variantes à la place du choix
   mâle / femelle, une par élément du jeu (métal / Acier, feu / Flamme, orage / Tempête, glace / Givre) ;
-  le personnage commence en feu, seule variante dessinée pour l'instant.
+  les quatre sont dessinées et jouables (20/11/2026).
 - **Lutins (neutre)** : petit peuple farceur des bois et des collines, qui joue des tours à tout le
   monde sans distinction de camp. Ne prennent rien au sérieux, sauf qu'on leur vole une blague.
 

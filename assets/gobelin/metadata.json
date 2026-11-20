@@ -1,0 +1,156 @@
+{
+  "group_id": "d5f0a605-0ec3-4561-b533-ffe718aa15c0",
+  "states": [
+    {
+      "character": {
+        "id": "113e70d9-a50c-4bad-9fba-da36dadae778",
+        "name": "Idle",
+        "prompt": "dofus retro like goblin inspired by lord of the rings",
+        "size": {
+          "width": 64,
+          "height": 64
+        },
+        "template_id": "mannequin",
+        "directions": 8,
+        "view": "low top-down",
+        "created_at": "2026-10-28T07:38:53.907491+00:00"
+      },
+      "folder": "Idle",
+      "frames": {
+        "rotations": {
+          "south": "Idle/rotations/south.png",
+          "south-east": "Idle/rotations/south-east.png",
+          "east": "Idle/rotations/east.png",
+          "north-east": "Idle/rotations/north-east.png",
+          "north": "Idle/rotations/north.png",
+          "north-west": "Idle/rotations/north-west.png",
+          "west": "Idle/rotations/west.png",
+          "south-west": "Idle/rotations/south-west.png"
+        },
+        "animations": {}
+      }
+    },
+    {
+      "character": {
+        "id": "9377fb42-8316-4db9-bf23-69067639a0c0",
+        "name": "running",
+        "prompt": "dofus retro like goblin inspired by lord of the rings",
+        "size": {
+          "width": 64,
+          "height": 64
+        },
+        "template_id": "mannequin",
+        "directions": 8,
+        "view": "low top-down",
+        "created_at": "2026-10-28T07:42:43.103650+00:00"
+      },
+      "folder": "running",
+      "frames": {
+        "rotations": {
+          "south": "running/rotations/south.png",
+          "south-east": "running/rotations/south-east.png",
+          "east": "running/rotations/east.png",
+          "north-east": "running/rotations/north-east.png",
+          "north": "running/rotations/north.png",
+          "north-west": "running/rotations/north-west.png",
+          "west": "running/rotations/west.png",
+          "south-west": "running/rotations/south-west.png"
+        },
+        "animations": {
+          "Running": {
+            "south": [
+              "running/animations/Running/south/frame_000.png",
+              "running/animations/Running/south/frame_001.png",
+              "running/animations/Running/south/frame_002.png",
+              "running/animations/Running/south/frame_003.png"
+            ],
+            "north": [
+              "running/animations/Running/north/frame_000.png",
+              "running/animations/Running/north/frame_001.png",
+              "running/animations/Running/north/frame_002.png",
+              "running/animations/Running/north/frame_003.png"
+            ],
+            "north-west": [
+              "running/animations/Running/north-west/frame_000.png",
+              "running/animations/Running/north-west/frame_001.png",
+              "running/animations/Running/north-west/frame_002.png",
+              "running/animations/Running/north-west/frame_003.png"
+            ],
+            "south-west": [
+              "running/animations/Running/south-west/frame_000.png",
+              "running/animations/Running/south-west/frame_001.png",
+              "running/animations/Running/south-west/frame_002.png",
+              "running/animations/Running/south-west/frame_003.png"
+            ],
+            "south-east": [
+              "running/animations/Running/south-east/frame_000.png",
+              "running/animations/Running/south-east/frame_001.png",
+              "running/animations/Running/south-east/frame_002.png",
+              "running/animations/Running/south-east/frame_003.png"
+            ],
+            "north-east": [
+              "running/animations/Running/north-east/frame_000.png",
+              "running/animations/Running/north-east/frame_001.png",
+              "running/animations/Running/north-east/frame_002.png",
+              "running/animations/Running/north-east/frame_003.png"
+            ],
+            "east": [
+              "running/animations/Running/east/frame_000.png",
+              "running/animations/Running/east/frame_001.png",
+              "running/animations/Running/east/frame_002.png",
+              "running/animations/Running/east/frame_003.png"
+            ],
+            "west": [
+              "running/animations/Running/west/frame_000.png",
+              "running/animations/Running/west/frame_001.png",
+              "running/animations/Running/west/frame_002.png",
+              "running/animations/Running/west/frame_003.png"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "character": {
+        "id": "bb4f837b-f3d5-4904-b099-bb4169a4f163",
+        "name": "fighting",
+        "prompt": "dofus retro like goblin inspired by lord of the rings",
+        "size": {
+          "width": 64,
+          "height": 64
+        },
+        "template_id": "mannequin",
+        "directions": 8,
+        "view": "low top-down",
+        "created_at": "2026-10-28T07:48:34.507962+00:00"
+      },
+      "folder": "fighting",
+      "frames": {
+        "rotations": {
+          "south": "fighting/rotations/south.png",
+          "south-east": "fighting/rotations/south-east.png",
+          "east": "fighting/rotations/east.png",
+          "north-east": "fighting/rotations/north-east.png",
+          "north": "fighting/rotations/north.png",
+          "north-west": "fighting/rotations/north-west.png",
+          "west": "fighting/rotations/west.png",
+          "south-west": "fighting/rotations/south-west.png"
+        },
+        "animations": {
+          "Cross_Punch": {
+            "south": [
+              "fighting/animations/Cross_Punch/south/frame_000.png",
+              "fighting/animations/Cross_Punch/south/frame_001.png",
+              "fighting/animations/Cross_Punch/south/frame_002.png",
+              "fighting/animations/Cross_Punch/south/frame_003.png",
+              "fighting/animations/Cross_Punch/south/frame_004.png",
+              "fighting/animations/Cross_Punch/south/frame_005.png"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-11-19T21:37:42.449831"
+}
