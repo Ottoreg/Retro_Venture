@@ -12,6 +12,7 @@ Pas encore utilisée par le jeu.
 `arkhes/PROMPT.md` : prompts PixelLab des 4 variantes des Arkhés (Flamme, Acier, Tempête, Givre), race d'élémentaires
 à l'étude ; les sprites sont rangés dans `arkhes/<variante>/` comme ceux de l'orc (`arkhes/flamme/` déposé le 19/11/2026).
 
+`PROMPTS_RACES.md` : prompts PixelLab pour regénérer l'humain et le gobelin.
 `PROMPTS_ANIMATIONS.md` : prompts PixelLab des animations des races (touché, mort, assis, travailler, attente).
 
 `elfe/strike/` : coup de poing de l'elfe (20/11/2026), ajouté à la planche existante de l'elfe (mêmes proportions).
