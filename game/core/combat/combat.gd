@@ -1114,7 +1114,7 @@ func _place_glyph(caster: Fighter, spell: Spell, effect: Dictionary, cells: Arra
 	for glyph_effect: Dictionary in effect["effets"]:
 		if element.is_empty() and glyph_effect["type"] in Spell.ELEMENT_EFFECTS:
 			element = glyph_effect["element"]
-	events.append({"type": Protocol.EVT_GLYPH, "id": glyph["id"], "lanceur": caster.id, "equipe": caster.team,
+	events.append({"type": Protocol.EVT_GLYPH, "id": glyph["id"], "lanceur": caster.id, "equipe": caster.team, "ombres": caster.shadow,
 		"cases": inside, "tours": glyph["tours"], "sort": glyph["sort"], "element": element})
 
 
@@ -1128,7 +1128,7 @@ func _place_trap(caster: Fighter, spell: Spell, effect: Dictionary, cell: Vector
 		"effets": effect["effets"], "sort": spell.display_name, "pa": spell.pa_cost}
 	_next_ground_id += 1
 	traps.append(trap)
-	events.append({"type": Protocol.EVT_TRAP, "id": trap["id"], "lanceur": caster.id, "equipe": caster.team,
+	events.append({"type": Protocol.EVT_TRAP, "id": trap["id"], "lanceur": caster.id, "equipe": caster.team, "ombres": caster.shadow,
 		"case": cell, "cases": cells, "sort": trap["sort"]})
 
 

@@ -1,0 +1,151 @@
+{
+  "images": {
+    "sort_ombre_survoltage": {
+      "fichier": "sorts/ombre_survoltage.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_ombre_lame_eclair": {
+      "fichier": "sorts/ombre_lame_eclair.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_ombre_shuriken_d_orage": {
+      "fichier": "sorts/ombre_shuriken_d_orage.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_ombre_coup_de_tonnerre": {
+      "fichier": "sorts/ombre_coup_de_tonnerre.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_ombre_court_circuit": {
+      "fichier": "sorts/ombre_court_circuit.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_ombre_rafale": {
+      "fichier": "sorts/ombre_rafale.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_ombre_foudroiement": {
+      "fichier": "sorts/ombre_foudroiement.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_ombre_pas_de_l_eclair": {
+      "fichier": "sorts/ombre_pas_de_l_eclair.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_ombre_corps_electrique": {
+      "fichier": "sorts/ombre_corps_electrique.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_ombre_vent_porteur": {
+      "fichier": "sorts/ombre_vent_porteur.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_ombre_fondu_au_noir": {
+      "fichier": "sorts/ombre_fondu_au_noir.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_ombre_surin": {
+      "fichier": "sorts/ombre_surin.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_ombre_lame_de_jet": {
+      "fichier": "sorts/ombre_lame_de_jet.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_ombre_execution": {
+      "fichier": "sorts/ombre_execution.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_ombre_arme_d_obscurite": {
+      "fichier": "sorts/ombre_arme_d_obscurite.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_ombre_coupe_jarret": {
+      "fichier": "sorts/ombre_coupe_jarret.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_ombre_entaille": {
+      "fichier": "sorts/ombre_entaille.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_ombre_dans_le_dos": {
+      "fichier": "sorts/ombre_dans_le_dos.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_ombre_monde_des_ombres": {
+      "fichier": "sorts/ombre_monde_des_ombres.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_ombre_affutage": {
+      "fichier": "sorts/ombre_affutage.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_ombre_coup_en_traitre": {
+      "fichier": "sorts/ombre_coup_en_traitre.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    }
+  }
+}

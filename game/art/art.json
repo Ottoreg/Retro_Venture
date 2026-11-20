@@ -1485,6 +1485,16 @@
         "ceinture": "b8a46a"
       },
       "arme": "baton"
+    },
+    "ombre": {
+      "couleurs": {
+        "tunique": "1e1e24",
+        "manches": "2a2a32",
+        "pantalon": "16161b",
+        "bottes": "101013",
+        "ceinture": "c9ccd6"
+      },
+      "arme": "epee"
     }
   },
   "races": {

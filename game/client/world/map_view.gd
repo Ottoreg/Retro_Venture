@@ -123,7 +123,19 @@ const CARAC_NAMES := {"force": "Force", "intelligence": "Intelligence", "percept
 	"pa": "PA", "pm": "PM", "portee": "Portée", "dommages": "Dommages", "critique": "% Critique", "resistance": "Rés.",
 	"degats_infliges": "% dégâts infligés", "retrait_pa": "Retrait PA", "retrait_pm": "Retrait PM"}
 ## Noms des états nommés (`Spell.NAMED_STATES`).
-const STATE_NAMES := {"insoignable": "Insoignable", "manipulation_temps": "Manipulation du temps", "exorcisme": "Exorcisme", "inblocable": "Inblocable"}
+const STATE_NAMES := {"insoignable": "Insoignable", "manipulation_temps": "Manipulation du temps", "exorcisme": "Exorcisme", "inblocable": "Inblocable",
+	"invisible": "Invisible", "ombres": "Monde des ombres", "retour_ombres": "Retour impossible", "aspire": "Aspiré"}
+## Ombre : teinte d'une image rémanente, opacité d'un invisible vu par son camp, filtre du Monde des ombres (GDD § 4.3 :
+## 12 % de couleur, luminosité 62 %, légère teinte bleue) pour qui s'y trouve.
+const IMAGE_TINT := Color(0.55, 0.8, 1.0, 0.6)
+const INVISIBLE_TINT := Color(1, 1, 1, 0.35)
+const SHADOW_SHADER := """shader_type canvas_item;
+uniform sampler2D screen : hint_screen_texture, filter_linear;
+void fragment() {
+	vec3 c = texture(screen, SCREEN_UV).rgb;
+	c = mix(vec3(dot(c, vec3(0.299, 0.587, 0.114))), c, 0.12) * 0.62 * vec3(0.9, 0.95, 1.12);
+	COLOR = vec4(c, 1.0);
+}"""
 
 const NO_CELL := Vector2i(-99999, -99999)
 ## Marge en haut de l'écran (pixels) : une bulle de dialogue ne monte pas plus haut.
@@ -276,6 +288,11 @@ var _glyphs: Dictionary = {}
 var _traps: Dictionary = {}
 ## Explosion d'un piège en cours d'affichage : { cases, age }, ou {}.
 var _trap_flash: Dictionary = {}
+## Ombre : images rémanentes (id → { case, lanceur, ombres }), ombres projetées dehors par un sort lancé depuis le
+## Monde des ombres ({ pos, age }), et filtre posé sur la carte pour qui est dans les ombres.
+var _images: Dictionary = {}
+var _projections: Array[Dictionary] = []
+var _shadow_filter: ColorRect
 ## Pierre de Passage tout juste découverte (id), pour annoncer en une fois qu'elle devient aussi le
 ## point de résurrection.
 var _discovered_passage := ""
@@ -1146,6 +1163,11 @@ func advance(delta: float) -> void:
 		if text["age"] < text["life"]:
 			kept.append(text)
 	_floating = kept
+	for projection in _projections.duplicate():
+		projection["age"] += delta
+		if projection["age"] > 1.5:
+			_projections.erase(projection)
+	_update_shadow_filter()
 	if not _trap_flash.is_empty():
 		_trap_flash["age"] += delta
 		if _trap_flash["age"] > 0.6:
@@ -1213,6 +1235,10 @@ func _load_combat_from_state() -> void:
 	_load_combat_actors(start)
 	for fighter in world.combat.fighters:
 		_actors[fighter.id]["alive"] = fighter.is_alive()
+		_actors[fighter.id]["ombres"] = fighter.shadow
+		_actors[fighter.id]["etats"] = fighter.states_snapshot()
+	for image in world.combat.images:
+		_images[image["id"]] = {"case": image["case"], "lanceur": (image["lanceur"] as Fighter).id, "ombres": image["ombres"]}
 	if world.combat.state == Combat.State.FIGHTING:
 		for fighter in world.combat.fighters:
 			turn_order.append(fighter.id)
@@ -1514,6 +1540,20 @@ func _apply(event: Dictionary) -> float:
 	if type == Protocol.EVT_TELEPORTED:
 		_actors[event["entite"]]["pos"] = Vector2(event["case"])
 		return 0.25
+	if type == Protocol.EVT_DIMENSION:
+		_actors[event["entite"]]["ombres"] = event["ombres"]
+		_actors[event["entite"]]["pos"] = Vector2(event["case"])
+		_add_floating("Monde des ombres" if event["ombres"] else "Sort des ombres", Color(0.75, 0.78, 0.9), Vector2(event["case"]))
+		combat_state_changed.emit()
+		return 0.35
+	if type == Protocol.EVT_IMAGE:
+		_images[event["id"]] = {"case": event["case"], "lanceur": event["lanceur"], "ombres": event["ombres"]}
+		return 0.2
+	if type == Protocol.EVT_IMAGE_ENDED:
+		_images.erase(event["id"])
+		if event["explose"]:
+			_trap_flash = {"cases": event["cases"], "age": 0.0}
+		return 0.3 if event["explose"] else 0.0
 	if type == Protocol.EVT_STATUS:
 		var affected: Dictionary = _actors[event["entite"]]
 		affected["pa"] = event["pa"]
@@ -1597,6 +1637,7 @@ func _apply(event: Dictionary) -> float:
 		_planned.clear()
 		_glyphs.clear()
 		_traps.clear()
+		_images.clear()
 		_trap_flash = {}
 		_load_combat_actors(event)
 		turn_time_left = world.combat.time_left() if world.combat != null else 0.0
@@ -1669,6 +1710,9 @@ func _apply(event: Dictionary) -> float:
 		caster["pa"] = event["pa"]
 		combat_state_changed.emit()
 		caster["attaque"] = ATTACK_TIME
+		if bool(event.get("ombres", false)) != viewer_in_shadow():
+			_projections.append({"pos": caster["pos"], "age": 0.0})  # Vu de l'autre dimension : son ombre projetée.
+			return 0.35
 		# La case d'un piège ennemi reste secrète.
 		if not event.get("cache", false) or caster["team"] == Fighter.TEAM_PLAYERS:
 			_face_toward(caster, Vector2(event["cible"]))
@@ -1721,7 +1765,7 @@ func _apply(event: Dictionary) -> float:
 		return 0.3
 	if type == Protocol.EVT_GLYPH:
 		_glyphs[event["id"]] = {"cases": event["cases"], "equipe": event["equipe"], "sort": event["sort"],
-			"lanceur": event["lanceur"], "element": event.get("element", "")}
+			"lanceur": event["lanceur"], "element": event.get("element", ""), "ombres": event.get("ombres", false)}
 		if event.has("centre"):
 			# Horloge : les heures se dessinent dessus.
 			_glyphs[event["id"]]["centre"] = event["centre"]
@@ -1732,7 +1776,7 @@ func _apply(event: Dictionary) -> float:
 		return 0.0
 	if type == Protocol.EVT_TRAP:
 		if event["equipe"] == Fighter.TEAM_PLAYERS:
-			_traps[event["id"]] = {"case": event["case"], "sort": event["sort"], "lanceur": event["lanceur"]}
+			_traps[event["id"]] = {"case": event["case"], "sort": event["sort"], "lanceur": event["lanceur"], "ombres": event.get("ombres", false)}
 		return 0.0
 	if type == Protocol.EVT_TRAP_ENDED:
 		_traps.erase(event["id"])
@@ -1818,6 +1862,8 @@ static func state_text(state: Dictionary) -> String:
 		return "Poison %d %s (%s)" % [state["valeur"], SpellsWindow.ELEMENT_LABELS.get(state["element"], state["element"]), duration]
 	if state["type"] == Spell.EFFECT_STATE:
 		return "%s (%s)" % [STATE_NAMES.get(state.get("etat", ""), state.get("etat", "")), duration]
+	if state["type"] == Spell.EFFECT_SHADOW_WEAPON:
+		return "Arme d'obscurité %d %s (à son prochain tour)" % [state["valeur"], SpellsWindow.ELEMENT_LABELS.get(state["element"], state["element"])]
 	var carac: String = CARAC_NAMES.get(state["carac"], state["carac"])
 	if state["carac"] == "resistance":
 		carac = "Rés. %s %%" % SpellsWindow.ELEMENT_LABELS.get(state["element"], state["element"])
@@ -2009,8 +2055,11 @@ func _draw() -> void:
 			drawables.append([IsoGrid.depth(Vector2(cell)), "obstacle", cell])
 	for actor_id: String in _actors:
 		var data: Dictionary = _actors[actor_id]
-		if data["alive"]:
+		if data["alive"] and (mode != Mode.COMBAT or is_seen(data)):
 			drawables.append([IsoGrid.depth(data["pos"]) + 0.01, "acteur", actor_id])
+	for image: Dictionary in _images.values() if mode == Mode.COMBAT else []:
+		if image["ombres"] == viewer_in_shadow() and _actors.has(image["lanceur"]):
+			drawables.append([IsoGrid.depth(Vector2(image["case"])) + 0.005, "image", image])
 	if mode == Mode.EXPLORATION:
 		for npc in map.npcs:
 			drawables.append([IsoGrid.depth(Vector2(npc["case"])) + 0.01, "pnj", npc])
@@ -2022,6 +2071,10 @@ func _draw() -> void:
 	for drawable: Array in drawables:
 		if drawable[1] == "acteur":
 			_draw_actor(drawable[2])
+		elif drawable[1] == "image":
+			var caster: Dictionary = _actors[drawable[2]["lanceur"]]
+			_draw_figure(drawable[2]["lanceur"], _look_of(drawable[2]["lanceur"], caster), caster["kind"], IsoGrid.cell_to_screen(drawable[2]["case"]),
+				caster["facing"], false, 0.0, {}, IMAGE_TINT)
 		elif drawable[1] == "pnj":
 			_draw_npc(drawable[2])
 		elif drawable[1] == "decor":
@@ -2040,6 +2093,35 @@ func _draw() -> void:
 
 
 ## Barre de la récolte en cours, au-dessus du joueur, tant qu'il n'a pas bougé.
+## Ombre : le joueur (le héros qu'il joue) est-il dans le Monde des ombres ? Le combat se voit depuis sa dimension.
+func viewer_in_shadow() -> bool:
+	return mode == Mode.COMBAT and bool(_actors.get(world.player_id, {}).get("ombres", false))
+
+
+## Un combattant se voit-il depuis la dimension du joueur ? Un invisible de l'autre camp ne se voit pas.
+func is_seen(actor: Dictionary) -> bool:
+	return actor.get("ombres", false) == viewer_in_shadow() and not (_has_named_state(actor, Spell.STATE_INVISIBLE)
+		and actor["team"] != _actors.get(world.player_id, {}).get("team", Fighter.TEAM_PLAYERS))
+
+
+static func _has_named_state(actor: Dictionary, state_name: String) -> bool:
+	return actor.get("etats", []).any(func(state: Dictionary) -> bool: return state.get("etat") == state_name)
+
+
+## Filtre du Monde des ombres, sur la carte, pour qui y est (voir `SHADOW_SHADER`).
+func _update_shadow_filter() -> void:
+	if _shadow_filter == null:
+		_shadow_filter = ColorRect.new()
+		_shadow_filter.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		_shadow_filter.material = ShaderMaterial.new()
+		(_shadow_filter.material as ShaderMaterial).shader = Shader.new()
+		(_shadow_filter.material as ShaderMaterial).shader.code = SHADOW_SHADER
+		_shadow_filter.position = Vector2(-4000, -4000)
+		_shadow_filter.size = Vector2(8000, 8000)
+		add_child(_shadow_filter)
+	_shadow_filter.visible = viewer_in_shadow()
+
+
 func _draw_harvest_bar() -> void:
 	var player: Dictionary = _actors.get(world.player_id, {})
 	if _harvest_bar.is_empty() or mode != Mode.EXPLORATION or player.get("pos") != _harvest_bar["pos"] or _time >= _harvest_bar["fin"]:
@@ -2210,7 +2292,15 @@ static func glyph_colors(glyph: Dictionary) -> Array[Color]:
 
 ## Glyphes (cases teintées et liserés), pièges de l'équipe du joueur, explosion d'un piège.
 func _draw_ground_marks() -> void:
+	if viewer_in_shadow():  # Lueurs des cases occupées dehors, sans savoir qui est qui.
+		for actor: Dictionary in _actors.values():
+			if actor["alive"] and not actor.get("ombres", false):
+				draw_colored_polygon(_ellipse(IsoGrid.grid_to_screen(actor["pos"]), 20, 10), Color(0.85, 0.9, 1.0, 0.25 + 0.1 * sin(_time * 2.0)))
+	for projection in _projections:
+		draw_colored_polygon(_ellipse(IsoGrid.grid_to_screen(projection["pos"]), 16, 8), Color(0, 0, 0, 0.6 * (1.0 - projection["age"] / 1.5)))
 	for glyph: Dictionary in _glyphs.values():
+		if glyph.get("ombres", false) != viewer_in_shadow():
+			continue
 		var colors := glyph_colors(glyph)
 		for cell: Vector2i in glyph["cases"]:
 			var diamond := _scaled_diamond(IsoGrid.cell_to_screen(cell), 0.92)
@@ -2220,6 +2310,8 @@ func _draw_ground_marks() -> void:
 		if glyph.has("centre"):
 			_draw_clock_hours(glyph["centre"], glyph["midi"], glyph["cases"])
 	for trap: Dictionary in _traps.values():
+		if trap.get("ombres", false) != viewer_in_shadow():
+			continue
 		var center := IsoGrid.cell_to_screen(trap["case"])
 		for i in 5:
 			var angle := TAU * i / 5.0
@@ -2384,7 +2476,14 @@ func _draw_actor(actor_id: String) -> void:
 			var member_facing := facing if i == 0 or walking else (1.0 if posmod(hash(member_id), 2) == 0 else -1.0)
 			_draw_figure(member_id, _monster_look(members[i]), members[i], base + spots[i], member_facing, walking, phase + i * 1.3, data)
 	else:
-		_draw_figure(actor_id, _look_of(actor_id, data), data["kind"], base, facing, walking, phase, data)
+		_draw_figure(actor_id, _look_of(actor_id, data), data["kind"], base, facing, walking, phase, data,
+			INVISIBLE_TINT if _has_named_state(data, Spell.STATE_INVISIBLE) else Color.WHITE)
+	if mode == Mode.COMBAT and data.get("etats", []).any(func(state: Dictionary) -> bool: return state["type"] == Spell.EFFECT_SHADOW_WEAPON):
+		# Arme d'obscurité accrochée à son ombre : une lame noire au-dessus de sa tête.
+		draw_colored_polygon(PackedVector2Array([base + Vector2(0, -112), base + Vector2(5, -98), base + Vector2(0, -92), base + Vector2(-5, -98)]),
+			Color(0.08, 0.08, 0.12))
+		draw_polyline(PackedVector2Array([base + Vector2(0, -112), base + Vector2(5, -98), base + Vector2(0, -92), base + Vector2(-5, -98),
+			base + Vector2(0, -112)]), Color(0.79, 0.8, 0.84), 1.2)
 	if mode == Mode.COMBAT:
 		var ratio := clampf(float(data["hp"]) / maxf(1.0, data["max_hp"]), 0.0, 1.0)
 		# Au-dessus de la tête : juste au-dessus du sprite d'un monstre en pixel art.
@@ -2398,22 +2497,23 @@ func _draw_actor(actor_id: String) -> void:
 
 
 ## Dessine un personnage ou un monstre, les pieds en `base`.
-func _draw_figure(seed_id: String, look: Dictionary, kind: String, base: Vector2, facing: float, walking: bool, phase: float, data: Dictionary) -> void:
+func _draw_figure(seed_id: String, look: Dictionary, kind: String, base: Vector2, facing: float, walking: bool, phase: float, data: Dictionary,
+		tint := Color.WHITE) -> void:
 	var offset := float(posmod(hash(seed_id), 100))
 	if look.get("elite", false):
 		_draw_elite_aura(base, offset)
 	if look.has("rig"):
 		var progress := 1.0 - float(data.get("attaque", 0.0)) / ATTACK_TIME if data.get("attaque", 0.0) > 0.0 else -1.0
 		Rig.draw(self, look, base, {"facing": facing, "dos": data.get("dos", false), "cap": data.get("cap", -1), "marche": walking, "phase": phase,
-			"temps": _time + offset * 0.1, "attaque": progress, "assis": data.get("assis", false)})
+			"temps": _time + offset * 0.1, "attaque": progress, "assis": data.get("assis", false)}, tint)
 	elif look.has("planche"):
 		# Images fixes seulement (pas de course) : le petit saut du déplacement suffit.
 		var hop := -absf(sin(phase)) * 2.0 if walking else sin(_time * 2.0 + offset) * 0.4
 		Sprites.draw_pose(self, look, base + Vector2(0, hop), {"facing": facing, "dos": data.get("dos", false), "cap": data.get("cap", -1)},
-			look.get("teinte", Color.WHITE))
+			look.get("teinte", Color.WHITE) * tint)
 	elif look.has("image"):
 		var hop := -absf(sin(phase)) * 2.0 if walking else sin(_time * 2.0 + offset) * 0.4
-		Art.draw(self, look["image"], base + Vector2(0, hop), look.get("couleurs", {}), facing < 0.0, look.get("teinte", Color.WHITE), look["echelle"])
+		Art.draw(self, look["image"], base + Vector2(0, hop), look.get("couleurs", {}), facing < 0.0, look.get("teinte", Color.WHITE) * tint, look["echelle"])
 	else:
 		# Pas de dessin pour ce personnage : l'ancienne silhouette.
 		var swing := sin(phase) * 3.0 if walking else 0.0

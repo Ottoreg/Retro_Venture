@@ -203,7 +203,8 @@ func refresh() -> void:
 	var family: Dictionary = _families[clampi(_tabs.current_tab, 0, _families.size() - 1)]
 	var shown: Spell = null
 	for spell: Spell in family["sorts"]:
-		var index := _list.add_item("%s   (%d PA)" % [spell.display_name, spell.pa_cost], CombatHud.spell_icon(spell.id, map_view.world))
+		var index := _list.add_item(spell.display_name if spell.effects.is_empty() else "%s   (%d PA)" % [spell.display_name, spell.pa_cost],
+			CombatHud.spell_icon(spell.id, map_view.world))
 		_list.set_item_custom_fg_color(index, Color(0.92, 0.9, 0.85))
 		_list.set_item_metadata(index, spell.id)
 		if spell.id == _selected:
@@ -231,6 +232,13 @@ func _update_families() -> void:
 	for spell_id in data.masterable_spells(character.voie_id, character.reputation()):
 		if data.spells.has(spell_id):
 			voie_spells.append(data.spells[spell_id].mastered(character.spell_rank(spell_id)))
+	var passive := data.class_passive(character.voie_id, character.reputation())
+	if not passive.is_empty():  # Passif de classe (débloqué à Apprenti) : maîtrisable comme un sort, jamais lancé.
+		var shown := Spell.new()
+		shown.id = passive["id"]
+		shown.display_name = "%s (passif)" % passive["nom"]
+		shown.description = passive.get("description", "")
+		voie_spells.append(shown)
 	families.append({"nom": "Voie : %s" % voie.get("nom", "?"), "sorts": voie_spells})
 	var race: Dictionary = data.races.get(world.character.race_id, {})
 	var race_spells: Array[Spell] = []
@@ -276,7 +284,7 @@ func _show(spell: Spell) -> void:
 	_title.add_theme_color_override("font_color", color)
 	var lines := describe(spell)
 	lines.remove_at(0)
-	_details.text = "\n".join(lines)
+	_details.text = spell.description if spell.effects.is_empty() else "\n".join(lines)
 	_show_mastery(spell)
 
 

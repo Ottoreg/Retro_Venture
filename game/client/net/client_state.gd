@@ -111,6 +111,8 @@ func load_snapshot(snapshot: Dictionary) -> void:
 		var combat_map := map_by_id(snapshot["combat"]["carte"])
 		if combat_map != null:
 			combat = Combat.from_snapshot(snapshot["combat"], combat_map, data, {player_id: character})
+			if combat != null and combat.get_fighter(player_id) != null:
+				combat.dimension = combat.get_fighter(player_id).shadow  # Les règles vues depuis sa dimension (Ombre).
 
 
 ## Applique un événement fréquent sans instantané (régénération, promenades, réapparitions,
