@@ -57,7 +57,7 @@ Dimension parallèle sur la même carte : seules les entités d'une même dimens
 sans Ombre dedans, tout le monde sort au bout d'un tour. Entrée ou sortie sur une case occupée : échange de place
 (l'autre est aspiré) ; à la sortie, retour impossible 2 tours (1 pour une Ombre). Vu de dehors, une ombre projetée
 quand une entité de la dimension lance un sort ; vu de dedans, lueurs anonymes sur les cases occupées dehors,
-filtre sombre sur l'écran. Glyphes, pièges et images restent dans la dimension de leur lanceur ; l'arme d'obscurité
+filtre sombre sur la carte seulement (sol et décor, pas les combattants ni les sorts). Glyphes, pièges et images restent dans la dimension de leur lanceur ; l'arme d'obscurité
 suit sa cible. Le combat ne finit que quand tout un camp est mort, ombres comprises.
 
 ## Plus tard

@@ -255,7 +255,7 @@ Dernière session (retours de la passe de l'auteur) :
   de classe *Coup en traître* (champ `passif` des Voies, débloqué à Apprenti, `GameData.class_passive`, `Fighter.passives`) ;
   images rémanentes (`Combat.images`, effets `image` / `court_circuit`, zone `ligne`), invisibilité (`Fighter.is_invisible`,
   `last_seen`, `Combat.hunt_cells` pour l'IA), armes d'obscurité (`arme_ombre`, `marked_by`), *Dans le dos*, Monde des ombres
-  (`Fighter.shadow`, `Combat.dimension`, `_cross`, filtre `MapView._update_shadow_filter`) ; protocole v19. Toutes les
+  (`Fighter.shadow`, `Combat.dimension`, `_cross`, filtre `MapView._scenery_tint` sur la carte seulement) ; protocole v19. Toutes les
   classes à 50 PV et 100 d'initiative (demande de l'auteur). Valeurs des rangs provisoires ; captures `docs/captures/ombre/`.
 - **Chronomancien, Voie Impie** (29/10/2026, demande de l'auteur, GDD § 4.3) : 5e Voie de l'alpha 1,
   effets `horloge` / `decalage_horaire` (`Combat.CLOCK_OFFSETS`, `clock_destination`, échange de

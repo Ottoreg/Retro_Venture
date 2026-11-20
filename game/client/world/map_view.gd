@@ -125,18 +125,12 @@ const CARAC_NAMES := {"force": "Force", "intelligence": "Intelligence", "percept
 ## Noms des états nommés (`Spell.NAMED_STATES`).
 const STATE_NAMES := {"insoignable": "Insoignable", "manipulation_temps": "Manipulation du temps", "exorcisme": "Exorcisme", "inblocable": "Inblocable",
 	"invisible": "Invisible", "ombres": "Monde des ombres", "retour_ombres": "Retour impossible", "aspire": "Aspiré"}
-## Ombre : teinte d'une image rémanente, opacité d'un invisible vu par son camp, filtre du Monde des ombres (GDD § 4.3 :
-## 12 % de couleur, luminosité 62 %, légère teinte bleue) pour qui s'y trouve.
+## Ombre : teinte d'une image rémanente, opacité d'un invisible vu par son camp ; filtre du Monde des ombres pour qui
+## s'y trouve, sur la carte seulement (sol assombri, décor teinté), pas sur les combattants ni les sorts.
 const IMAGE_TINT := Color(0.55, 0.8, 1.0, 0.6)
 const INVISIBLE_TINT := Color(1, 1, 1, 0.35)
-const SHADOW_SHADER := """shader_type canvas_item;
-uniform sampler2D screen : hint_screen_texture, filter_linear;
-void fragment() {
-	vec3 c = texture(screen, SCREEN_UV).rgb;
-	c = mix(vec3(dot(c, vec3(0.299, 0.587, 0.114))), c, 0.12) * 0.62 * vec3(0.9, 0.95, 1.12);
-	COLOR = vec4(c, 1.0);
-}"""
-
+const SHADOW_GROUND := Color(0.03, 0.03, 0.1, 0.5)
+const SHADOW_SCENERY := Color(0.5, 0.52, 0.66)
 const NO_CELL := Vector2i(-99999, -99999)
 ## Marge en haut de l'écran (pixels) : une bulle de dialogue ne monte pas plus haut.
 const DIALOGUE_TOP := 6.0
@@ -292,7 +286,6 @@ var _trap_flash: Dictionary = {}
 ## Monde des ombres ({ pos, age }), et filtre posé sur la carte pour qui est dans les ombres.
 var _images: Dictionary = {}
 var _projections: Array[Dictionary] = []
-var _shadow_filter: ColorRect
 ## Pierre de Passage tout juste découverte (id), pour annoncer en une fois qu'elle devient aussi le
 ## point de résurrection.
 var _discovered_passage := ""
@@ -1167,7 +1160,6 @@ func advance(delta: float) -> void:
 		projection["age"] += delta
 		if projection["age"] > 1.5:
 			_projections.erase(projection)
-	_update_shadow_filter()
 	if not _trap_flash.is_empty():
 		_trap_flash["age"] += delta
 		if _trap_flash["age"] > 0.6:
@@ -2008,6 +2000,8 @@ func _draw() -> void:
 		_draw_tactical_ground(map)
 	else:
 		_draw_ground(map)
+	if viewer_in_shadow():
+		draw_rect(map.screen_rect(), SHADOW_GROUND)
 
 	if mode == Mode.COMBAT:
 		_draw_ground_marks()
@@ -2078,7 +2072,7 @@ func _draw() -> void:
 		elif drawable[1] == "pnj":
 			_draw_npc(drawable[2])
 		elif drawable[1] == "decor":
-			Art.draw(self, drawable[2]["image"], IsoGrid.cell_to_screen(drawable[2]["case"]))
+			Art.draw(self, drawable[2]["image"], IsoGrid.cell_to_screen(drawable[2]["case"]), {}, false, _scenery_tint())
 		else:
 			_draw_obstacle(drawable[2], map.obstacles[drawable[2]])
 	if mode == Mode.EXPLORATION:
@@ -2106,24 +2100,6 @@ func is_seen(actor: Dictionary) -> bool:
 
 static func _has_named_state(actor: Dictionary, state_name: String) -> bool:
 	return actor.get("etats", []).any(func(state: Dictionary) -> bool: return state.get("etat") == state_name)
-
-
-## Filtre du Monde des ombres, sur la carte, pour qui y est (voir `SHADOW_SHADER`).
-func _update_shadow_filter() -> void:
-	if _shadow_filter == null:
-		_shadow_filter = ColorRect.new()
-		_shadow_filter.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		var shader := Shader.new()
-		shader.code = SHADOW_SHADER
-		_shadow_filter.material = ShaderMaterial.new()
-		(_shadow_filter.material as ShaderMaterial).shader = shader
-		_shadow_filter.position = Vector2(-4000, -4000)
-		_shadow_filter.size = Vector2(8000, 8000)
-		var copy := BackBufferCopy.new()
-		copy.copy_mode = BackBufferCopy.COPY_MODE_VIEWPORT
-		add_child(copy)
-		add_child(_shadow_filter)
-	_shadow_filter.visible = viewer_in_shadow()
 
 
 func _draw_harvest_bar() -> void:
@@ -2410,10 +2386,10 @@ func _draw_obstacle(cell: Vector2i, kind: String) -> void:
 	if kind == "mur" and _map.floor_kind == "parquet":
 		# Dans une maison, les murs du devant sont bas, pour voir l'intérieur.
 		var front := not _map.is_walkable(cell + Vector2i(1, 0)) and not _map.is_walkable(cell + Vector2i(0, 1))
-		Art.draw(self, "mur_maison_bas" if front else "mur_maison", base)
+		Art.draw(self, "mur_maison_bas" if front else "mur_maison", base, {}, false, _scenery_tint())
 		return
 	if Art.has_image(kind):
-		Art.draw(self, kind, base)
+		Art.draw(self, kind, base, {}, false, _scenery_tint())
 		return
 	var variants: Array = Art.manifest().get("decor", {}).get(kind, [])
 	if not variants.is_empty():
@@ -2442,8 +2418,13 @@ func _fade_if_hiding(cell: Vector2i) -> Color:
 		var feet := IsoGrid.grid_to_screen(data["pos"])
 		var reach := 36.0 if data.get("members", []).size() < 2 else 62.0  # Un groupe s'étale sur sa case.
 		if IsoGrid.depth(data["pos"]) < IsoGrid.depth(Vector2(cell)) and absf(feet.x - base.x) < reach and feet.y > base.y - 100.0:
-			return Color(1, 1, 1, 0.45)
-	return Color.WHITE
+			return _scenery_tint() * Color(1, 1, 1, 0.45)
+	return _scenery_tint()
+
+
+## Teinte du décor : assombri dans le Monde des ombres.
+func _scenery_tint() -> Color:
+	return SHADOW_SCENERY if viewer_in_shadow() else Color.WHITE
 
 
 ## Bloc isométrique de hauteur `height` posé sur la case : faces gauche, droite et dessus.
