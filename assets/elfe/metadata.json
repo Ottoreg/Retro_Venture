@@ -1,0 +1,79 @@
+{
+  "group_id": "70de005b-0cbd-46b6-b13a-5b98c785fd1d",
+  "states": [
+    {
+      "character": {
+        "id": "fe8a9651-af8b-463f-bdae-89c83c185f0a",
+        "name": "fighting, no weapon",
+        "prompt": "dofus retro like elven female inspired by lord of the ring",
+        "size": {
+          "width": 64,
+          "height": 64
+        },
+        "template_id": "mannequin",
+        "directions": 8,
+        "view": "low top-down",
+        "created_at": "2026-11-17T11:52:48.993864+00:00"
+      },
+      "folder": "fighting_no_weapon",
+      "frames": {
+        "rotations": {
+          "south": "fighting_no_weapon/rotations/south.png",
+          "south-east": "fighting_no_weapon/rotations/south-east.png",
+          "east": "fighting_no_weapon/rotations/east.png",
+          "north-east": "fighting_no_weapon/rotations/north-east.png",
+          "north": "fighting_no_weapon/rotations/north.png",
+          "north-west": "fighting_no_weapon/rotations/north-west.png",
+          "west": "fighting_no_weapon/rotations/west.png",
+          "south-west": "fighting_no_weapon/rotations/south-west.png"
+        },
+        "animations": {
+          "Right_Punch": {
+            "south-west": [
+              "fighting_no_weapon/animations/Right_Punch/south-west/frame_000.png",
+              "fighting_no_weapon/animations/Right_Punch/south-west/frame_001.png",
+              "fighting_no_weapon/animations/Right_Punch/south-west/frame_002.png",
+              "fighting_no_weapon/animations/Right_Punch/south-west/frame_003.png",
+              "fighting_no_weapon/animations/Right_Punch/south-west/frame_004.png",
+              "fighting_no_weapon/animations/Right_Punch/south-west/frame_005.png",
+              "fighting_no_weapon/animations/Right_Punch/south-west/frame_006.png",
+              "fighting_no_weapon/animations/Right_Punch/south-west/frame_007.png"
+            ],
+            "north-east": [
+              "fighting_no_weapon/animations/Right_Punch/north-east/frame_000.png",
+              "fighting_no_weapon/animations/Right_Punch/north-east/frame_001.png",
+              "fighting_no_weapon/animations/Right_Punch/north-east/frame_002.png",
+              "fighting_no_weapon/animations/Right_Punch/north-east/frame_003.png",
+              "fighting_no_weapon/animations/Right_Punch/north-east/frame_004.png",
+              "fighting_no_weapon/animations/Right_Punch/north-east/frame_005.png",
+              "fighting_no_weapon/animations/Right_Punch/north-east/frame_006.png",
+              "fighting_no_weapon/animations/Right_Punch/north-east/frame_007.png"
+            ],
+            "south-east": [
+              "fighting_no_weapon/animations/Right_Punch/south-east/frame_000.png",
+              "fighting_no_weapon/animations/Right_Punch/south-east/frame_001.png",
+              "fighting_no_weapon/animations/Right_Punch/south-east/frame_002.png",
+              "fighting_no_weapon/animations/Right_Punch/south-east/frame_003.png",
+              "fighting_no_weapon/animations/Right_Punch/south-east/frame_004.png",
+              "fighting_no_weapon/animations/Right_Punch/south-east/frame_005.png",
+              "fighting_no_weapon/animations/Right_Punch/south-east/frame_006.png",
+              "fighting_no_weapon/animations/Right_Punch/south-east/frame_007.png"
+            ],
+            "north-west": [
+              "fighting_no_weapon/animations/Right_Punch/north-west/frame_000.png",
+              "fighting_no_weapon/animations/Right_Punch/north-west/frame_001.png",
+              "fighting_no_weapon/animations/Right_Punch/north-west/frame_002.png",
+              "fighting_no_weapon/animations/Right_Punch/north-west/frame_003.png",
+              "fighting_no_weapon/animations/Right_Punch/north-west/frame_004.png",
+              "fighting_no_weapon/animations/Right_Punch/north-west/frame_005.png",
+              "fighting_no_weapon/animations/Right_Punch/north-west/frame_006.png",
+              "fighting_no_weapon/animations/Right_Punch/north-west/frame_007.png"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-11-20T08:36:47.646469"
+}
