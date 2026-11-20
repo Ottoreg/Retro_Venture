@@ -224,10 +224,14 @@ func _build() -> void:
 	_voie_text = _wrapped_label()
 	left.add_child(_voie_text)
 
+	var scroll := ScrollContainer.new()  # Race, classe et sorts : tout se lit en faisant défiler.
+	scroll.custom_minimum_size = Vector2(340, 0)
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	row.add_child(scroll)
 	var right := VBoxContainer.new()
-	right.custom_minimum_size = Vector2(380, 0)
+	right.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	right.add_theme_constant_override("separation", 8)
-	row.add_child(right)
+	scroll.add_child(right)
 	_race_text = _wrapped_label()
 	right.add_child(_race_text)
 	_summary = _wrapped_label()
@@ -303,7 +307,7 @@ func _choice_row(order: Array, entries: Dictionary, buttons: Dictionary, on_sele
 		var entry: Dictionary = entries[id]
 		var button := Button.new()
 		button.toggle_mode = true
-		button.custom_minimum_size = Vector2(150, 46)
+		button.custom_minimum_size = Vector2(128, 46)
 		button.text = str(entry.get("nom", id))
 		button.pressed.connect(on_select.bind(id))
 		row.add_child(button)
