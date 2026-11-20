@@ -127,7 +127,8 @@ const STATE_NAMES := {"insoignable": "Insoignable", "manipulation_temps": "Manip
 	"invisible": "Invisible", "ombres": "Monde des ombres", "retour_ombres": "Retour impossible", "aspire": "Aspiré"}
 ## Ombre : teinte d'une image rémanente, opacité d'un invisible vu par son camp ; filtre du Monde des ombres pour qui
 ## s'y trouve, sur la carte seulement (sol assombri, décor teinté), pas sur les combattants ni les sorts.
-const IMAGE_TINT := Color(0.55, 0.8, 1.0, 0.6)
+const IMAGE_TINT := Color(0.75, 0.95, 1.4, 0.7)
+const IMAGE_GLOW := Color(0.45, 0.85, 1.0)
 const INVISIBLE_TINT := Color(1, 1, 1, 0.35)
 const SHADOW_GROUND := Color(0.03, 0.03, 0.1, 0.5)
 const SHADOW_SCENERY := Color(0.5, 0.52, 0.66)
@@ -2276,6 +2277,19 @@ func _draw_ground_marks() -> void:
 		for actor: Dictionary in _actors.values():
 			if actor["alive"] and not actor.get("ombres", false):
 				draw_colored_polygon(_ellipse(IsoGrid.grid_to_screen(actor["pos"]), 24, 12), Color(1.0, 1.0, 1.0, 0.55 + 0.15 * sin(_time * 2.0)))
+	var stacks := {}  # Images rémanentes : case électrique qui pulse, nombre d'images empilées.
+	for image: Dictionary in _images.values():
+		if image["ombres"] == viewer_in_shadow():
+			stacks[image["case"]] = stacks.get(image["case"], 0) + 1
+	for cell: Vector2i in stacks:
+		var diamond := _scaled_diamond(IsoGrid.cell_to_screen(cell), 0.85)
+		draw_colored_polygon(diamond, Color(IMAGE_GLOW, 0.3 + 0.12 * sin(_time * 5.0)))
+		diamond.append(diamond[0])
+		draw_polyline(diamond, IMAGE_GLOW, 2.0, true)
+		if stacks[cell] > 1:
+			var spot := IsoGrid.cell_to_screen(cell) + Vector2(14, 12)
+			draw_string_outline(ThemeDB.fallback_font, spot, "×%d" % stacks[cell], HORIZONTAL_ALIGNMENT_LEFT, -1, 14, 4, Color.BLACK)
+			draw_string(ThemeDB.fallback_font, spot, "×%d" % stacks[cell], HORIZONTAL_ALIGNMENT_LEFT, -1, 14, IMAGE_GLOW)
 	for projection in _projections:
 		draw_colored_polygon(_ellipse(IsoGrid.grid_to_screen(projection["pos"]), 16, 8), Color(0, 0, 0, 0.6 * (1.0 - projection["age"] / 1.5)))
 	for glyph: Dictionary in _glyphs.values():
