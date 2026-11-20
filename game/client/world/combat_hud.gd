@@ -21,6 +21,9 @@ const SPELL_CHARS := "&é\"'(-è_çà"
 ## tient avec le bouton « S'asseoir » et la minicarte).
 const ITEM_SLOTS := 8
 const ITEM_SLOT_SIZE := 44.0
+## Cases de la barre de sorts : 2 lignes d'au moins `SPELL_COLUMNS`, l'arme à part à gauche, sur les deux lignes.
+const SPELL_SLOT_SIZE := 36.0
+const SPELL_COLUMNS := 10
 const EMPTY_SLOT_PREFIX := "_place_vide_"
 const MENUS := [["personnage", "icone_personnage", "Personnage (C)"], ["inventaire", "icone_inventaire", "Inventaire (I)"],
 	["sorts", "icone_sorts", "Sorts (S)"], ["metiers", "icone_metiers", "Métiers (J)"], ["carte", "icone_carte", "Carte du monde (M)"],
@@ -118,8 +121,9 @@ class SpellSlot extends Control:
 	var usable := true
 	var empty := false
 
-	func _init() -> void:
-		custom_minimum_size = Vector2(50, 50)
+	## `side` : côté de la case en pixels (dessin prévu pour 50, mis à l'échelle).
+	func _init(side := SPELL_SLOT_SIZE) -> void:
+		custom_minimum_size = Vector2(side, side)
 		mouse_filter = Control.MOUSE_FILTER_STOP
 
 	func _gui_input(event: InputEvent) -> void:
@@ -134,6 +138,7 @@ class SpellSlot extends Control:
 			self_cast.emit()
 
 	func _draw() -> void:
+		draw_set_transform(Vector2.ZERO, 0.0, size / 50.0)
 		var frame := Rect2(Vector2(1, 1), Vector2(48, 48))
 		if empty:
 			draw_texture_rect(Art.texture("case_sort"), frame, false, Color(0.5, 0.5, 0.5, 0.7))
@@ -343,6 +348,8 @@ var _hp_gauge: Gauge
 var _pa_gauge: Gauge
 var _pm_gauge: Gauge
 var _spells_box: HBoxContainer
+## Les sorts hors arme, dans `_spells_box`.
+var _spells_grid: GridContainer
 ## Hors combat : barre d'objets (ITEM_SLOTS emplacements) à la place des sorts.
 var _items_box: HBoxContainer
 ## Orbes des états élémentaires (Voies qui composent : Arcaniste).
@@ -585,12 +592,16 @@ func _show_spells(spells: Array[Spell]) -> void:
 	if ids == _shown_spells and _spell_buttons.size() == ids.size():
 		return
 	_shown_spells = ids
-	for child in _spells_box.get_children():
-		_spells_box.remove_child(child)  # Hors de la boîte tout de suite : les nouveaux prennent leur place.
-		child.queue_free()
+	for box: Control in [_spells_box, _spells_grid]:
+		for child in box.get_children():
+			if child != _spells_grid:
+				box.remove_child(child)  # Hors de la boîte tout de suite : les nouveaux prennent leur place.
+				child.queue_free()
 	_spell_buttons.clear()
+	_spells_grid.columns = maxi(SPELL_COLUMNS, ceili((ids.size() - int(ids.has("arme"))) / 2.0))
 	for i in ids.size():
-		var slot := SpellSlot.new()
+		var weapon := i < spells.size() and spells[i].id == "arme"
+		var slot := SpellSlot.new(2 * SPELL_SLOT_SIZE + 4 if weapon else SPELL_SLOT_SIZE)
 		slot.key_label = str((i + 1) % 10) if i < SPELL_KEYS.size() else ""
 		if i < spells.size():
 			var spell := spells[i]
@@ -606,7 +617,11 @@ func _show_spells(spells: Array[Spell]) -> void:
 			slot.empty = true
 			slot.usable = false
 			slot.tooltip_text = "Place pour un sort créé (vide)\nChoisissez 3 états élémentaires avec Composition, puis lancez Fusion arcanique."
-		_spells_box.add_child(slot)
+		if weapon:
+			_spells_box.add_child(slot)
+			_spells_box.move_child(slot, 0)
+		else:
+			_spells_grid.add_child(slot)
 		_spell_buttons[ids[i]] = slot
 
 
@@ -1278,13 +1293,12 @@ func _build() -> void:
 	var middle := VBoxContainer.new()
 	middle.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	middle.alignment = BoxContainer.ALIGNMENT_CENTER
-	middle.add_theme_constant_override("separation", 10)
+	middle.add_theme_constant_override("separation", 4)
 	row.add_child(middle)
 	var top_row := HBoxContainer.new()
 	top_row.add_theme_constant_override("separation", 14)
 	middle.add_child(top_row)
 	var bottom_row := HBoxContainer.new()
-	bottom_row.custom_minimum_size = Vector2(0, 56)
 	middle.add_child(bottom_row)
 
 	_hp_gauge = _gauge("pv", Vector2(70, 72), "Points de vie")
@@ -1304,8 +1318,13 @@ func _build() -> void:
 	_spells_box = HBoxContainer.new()
 	_spells_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_spells_box.alignment = BoxContainer.ALIGNMENT_CENTER
-	_spells_box.add_theme_constant_override("separation", 4)
+	_spells_box.add_theme_constant_override("separation", 8)
 	bottom_row.add_child(_spells_box)
+	_spells_grid = GridContainer.new()
+	_spells_grid.columns = SPELL_COLUMNS
+	_spells_grid.add_theme_constant_override("h_separation", 4)
+	_spells_grid.add_theme_constant_override("v_separation", 4)
+	_spells_box.add_child(_spells_grid)
 	_items_box = HBoxContainer.new()
 	_items_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_items_box.alignment = BoxContainer.ALIGNMENT_CENTER

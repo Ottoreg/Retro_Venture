@@ -3498,7 +3498,7 @@ préférence ce que les joueurs feront déjà d'eux-mêmes.
   ou pause) : thème de couleurs, volume, plein écran, taille de la fenêtre, mode tactique, pions en mode tactique ; gardées hors sauvegarde.
 
 - **Bandeau bas** (180 px) **:** historique (futur chat) à gauche, PV dans un cœur rouge qui se vide, PA dans une étoile bleue, PM
-  dans une case verte, barre de sorts en combat (icônes avec raccourci et coût en PA), **barre
+  dans une case verte, barre de sorts en combat (icônes avec raccourci et coût en PA ; depuis le 20/11/2026, deux lignes d'au moins 10 sorts et l'arme dans une grande case à part à gauche), **barre
   d'objets hors combat** (8 emplacements, pour les consommables : seulement montrée tant qu'il n'y
   en a pas ; ni objet ni équipement utilisable en combat), boutons de menus (inventaire,
   caractéristiques, sorts, quêtes, métiers, carte, amis, guilde). Le bandeau reste affiché en

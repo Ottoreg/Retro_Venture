@@ -454,6 +454,10 @@ func _process(_delta: float) -> bool:
 				_scene.pause_menu.options.admin._send("activer", {"mdp": World.ADMIN_PASSWORD})
 		else:
 			var target: Vector2i = view.server.groups()[0]["case"] if _action in ["combat", "cible", "sermon", "prevision", "phase", "tactique", "historique", "arcaniste", "composition", "infobulle", "horloge"] or _action.begins_with("ombre_") else view.current_map().travel_stone()
+			if _action.begins_with("ombre_"):  # Une dague, pour sa case à part dans la barre de sorts.
+				var inventory := view.server.character.inventory
+				inventory.equip(inventory.add(view.server.data.items["forge_dague"], 1, {}), "arme")
+				view.refresh_state()
 			if _action == "phase":
 				# Aucun monstre n'a encore de phases dans les données : le premier du groupe en reçoit une.
 				var monster: Dictionary = view.server.data.monsters[view.server.groups()[0]["monstres"][0]]
