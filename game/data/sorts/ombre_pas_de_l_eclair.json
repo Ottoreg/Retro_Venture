@@ -1,0 +1,39 @@
+{
+  "id": "ombre_pas_de_l_eclair",
+  "nom": "Pas de l'éclair",
+  "description": "Disparaît dans un flash et réapparaît un peu plus loin ; une image reste à sa place.",
+  "cout_pa": 2,
+  "portee": {
+    "min": 1,
+    "max": 4
+  },
+  "relance": {
+    "par_tour": 1,
+    "delai": 1
+  },
+  "effets": [
+    {
+      "type": "teleportation"
+    },
+    {
+      "type": "image",
+      "effets": [
+        {
+          "type": "degats",
+          "element": "tempete",
+          "min": 8,
+          "max": 11,
+          "cibles": "ennemis"
+        }
+      ]
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "portee_max": 1
+    },
+    "5": {
+      "delai": 0
+    }
+  }
+}

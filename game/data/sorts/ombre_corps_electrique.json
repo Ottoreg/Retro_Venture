@@ -1,0 +1,38 @@
+{
+  "id": "ombre_corps_electrique",
+  "nom": "Corps électrique",
+  "description": "Une peau crépitante qui absorbe les coups.",
+  "cout_pa": 2,
+  "portee": {
+    "min": 0,
+    "max": 0
+  },
+  "relance": {
+    "par_tour": 1,
+    "delai": 2
+  },
+  "effets": [
+    {
+      "type": "bouclier",
+      "element": "tempete",
+      "min": 10,
+      "max": 14
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "delai": 1
+    },
+    "5": {
+      "effets": [
+        {
+          "type": "bonus",
+          "carac": "agilite",
+          "min": 20,
+          "max": 20,
+          "duree": 1
+        }
+      ]
+    }
+  }
+}

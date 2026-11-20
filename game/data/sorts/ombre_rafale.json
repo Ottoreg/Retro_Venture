@@ -1,0 +1,42 @@
+{
+  "id": "ombre_rafale",
+  "nom": "Rafale",
+  "description": "Un coup de vent électrique qui renvoie l'ennemi d'où il vient.",
+  "cout_pa": 3,
+  "portee": {
+    "min": 1,
+    "max": 3
+  },
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "tempete",
+      "min": 5,
+      "max": 7
+    },
+    {
+      "type": "poussee",
+      "min": 2,
+      "max": 2
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "portee_max": 1
+    },
+    "5": {
+      "effets": [
+        {
+          "type": "malus",
+          "carac": "pm",
+          "min": 1,
+          "max": 1,
+          "duree": 1
+        }
+      ]
+    }
+  }
+}

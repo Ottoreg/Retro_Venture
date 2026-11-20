@@ -1,0 +1,39 @@
+{
+  "id": "ombre",
+  "nom": "Ombre",
+  "description": "Assassin à la pige de la Confrérie des Ombres (cotisation non remboursable). Frappe dans le dos et repart avant l'addition.",
+  "caracteristiques": {
+    "pv": 50,
+    "pa": 6,
+    "pm": 3,
+    "initiative": 100
+  },
+  "sorts": [
+    "ombre_survoltage",
+    "ombre_lame_eclair",
+    "ombre_shuriken_d_orage",
+    "ombre_coup_de_tonnerre",
+    "ombre_court_circuit",
+    "ombre_rafale",
+    "ombre_foudroiement",
+    "ombre_pas_de_l_eclair",
+    "ombre_corps_electrique",
+    "ombre_vent_porteur",
+    "ombre_fondu_au_noir",
+    "ombre_surin",
+    "ombre_lame_de_jet",
+    "ombre_execution",
+    "ombre_arme_d_obscurite",
+    "ombre_coupe_jarret",
+    "ombre_entaille",
+    "ombre_dans_le_dos",
+    "ombre_monde_des_ombres",
+    "ombre_affutage"
+  ],
+  "passif": {
+    "id": "ombre_coup_en_traitre",
+    "nom": "Coup en traître",
+    "effet": "coup_en_traitre",
+    "description": "Débloqué au palier Apprenti. +6 % de dégâts (+1 % par rang) quand elle est invisible, ou pendant le tour où elle sort de l'invisibilité ou du Monde des ombres. Rang 3 : son premier sort de ce tour coûte 1 PA de moins. Rang 5 : +1 PM à sa sortie."
+  }
+}

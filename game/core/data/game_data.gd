@@ -460,13 +460,29 @@ static func validate_voie(data: Dictionary, known_spells: Dictionary, known_item
 				errors.append("sort de rang II %s : la réputation doit être un entier positif ou nul" % str(spell_id))
 			elif spell_id in data.get("sorts", []):
 				errors.append("sort de rang II %s : déjà dans les sorts de rang I" % str(spell_id))
+	var passive: Variant = data.get("passif", {})
+	if typeof(passive) != TYPE_DICTIONARY or (not passive.is_empty() and (typeof(passive.get("id")) != TYPE_STRING
+			or typeof(passive.get("nom")) != TYPE_STRING or passive.get("effet") not in CLASS_PASSIVES)):
+		errors.append("« passif » doit être { id, nom, description, effet } avec un effet parmi %s" % str(CLASS_PASSIVES))
 	return errors
+
+
+## Effets de passif de classe gérés par le combat (GDD § 4.3 : un par classe, 5 rangs, débloqué à Apprenti).
+const CLASS_PASSIVES := ["coup_en_traitre"]
+
+
+## Passif de la classe s'il est débloqué (palier Apprenti) avec `reputation_value`, sinon vide.
+func class_passive(class_id: String, reputation_value: int) -> Dictionary:
+	var passive: Dictionary = voies.get(class_id, {}).get("passif", {})
+	return passive if reputation_value >= int(Character.REPUTATION_TIERS[1][0]) else {}
 
 
 ## Sorts d'une classe qui reçoivent des points de maîtrise : `class_spells`, puis ceux qu'ils créent
 ## (« creer_sort », Arcaniste).
 func masterable_spells(class_id: String, reputation_value: int) -> Array[String]:
 	var ids := class_spells(class_id, reputation_value)
+	if not class_passive(class_id, reputation_value).is_empty():
+		ids.append(class_passive(class_id, reputation_value)["id"])
 	for spell_id in ids.duplicate():
 		for created: Spell in spells[spell_id].create_effect().get("sorts", {}).values() if spells.has(spell_id) else []:
 			if created.id not in ids:
@@ -583,6 +599,9 @@ func create_character_fighter(character: Character, fighter_id: String) -> Fight
 	fighter.range_bonus = passive_value(character.race_id, "portee")
 	for effect_type in ["reduction_melee", "deja_mort"]:
 		fighter.passives[effect_type] = passive_value(character.race_id, effect_type)
+	var passive := class_passive(character.voie_id, character.reputation())
+	if not passive.is_empty():
+		fighter.passives[passive["effet"]] = character.spell_rank(passive["id"]) + 1  # Rang + 1 (0 : pas de passif).
 	# Équipement : bonus hors caractéristiques et attaque de l'arme.
 	fighter.max_pa += character.extra("pa", self)
 	fighter.pa = fighter.max_pa
@@ -636,6 +655,7 @@ func create_profile_fighter(profile: Dictionary, fighter_id: String) -> Fighter:
 	fighter.soins = int(profile.get("soins", 0))
 	fighter.element_soins = (profile.get("soins_elements", {}) as Dictionary).duplicate()
 	fighter.combat_stats = (profile.get("stats_combat", {}) as Dictionary).duplicate()
+	fighter.passives = (profile.get("passifs", {}) as Dictionary).duplicate()
 	fighter.spells.clear()
 	var ranks: Dictionary = profile.get("maitrises", {})
 	for spell_id: String in profile["sorts"]:

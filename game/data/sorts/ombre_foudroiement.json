@@ -1,0 +1,50 @@
+{
+  "id": "ombre_foudroiement",
+  "nom": "Foudroiement",
+  "description": "Traverse la ligne comme un éclair, en blessant tous les ennemis sur son passage, et laisse une image à son point de départ.",
+  "cout_pa": 3,
+  "portee": {
+    "min": 2,
+    "max": 5
+  },
+  "lancer_en_ligne": true,
+  "zone": {
+    "type": "ligne"
+  },
+  "relance": {
+    "par_tour": 1,
+    "delai": 1
+  },
+  "effets": [
+    {
+      "type": "teleportation"
+    },
+    {
+      "type": "degats",
+      "element": "tempete",
+      "min": 6,
+      "max": 8,
+      "cibles": "ennemis"
+    },
+    {
+      "type": "image",
+      "effets": [
+        {
+          "type": "degats",
+          "element": "tempete",
+          "min": 8,
+          "max": 11,
+          "cibles": "ennemis"
+        }
+      ]
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "delai": 0
+    },
+    "5": {
+      "portee_max": 1
+    }
+  }
+}

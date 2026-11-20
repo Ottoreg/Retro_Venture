@@ -1,0 +1,37 @@
+{
+  "id": "ombre_coup_de_tonnerre",
+  "nom": "Coup de tonnerre",
+  "description": "Toute la foudre accumulée, d'un seul coup. Bruyant, mais efficace.",
+  "cout_pa": 5,
+  "portee": {
+    "min": 1,
+    "max": 1
+  },
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "tempete",
+      "min": 18,
+      "max": 24
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "critique": 5
+    },
+    "5": {
+      "effets": [
+        {
+          "type": "malus",
+          "carac": "pm",
+          "min": 1,
+          "max": 1,
+          "duree": 1
+        }
+      ]
+    }
+  }
+}

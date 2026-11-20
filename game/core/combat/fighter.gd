@@ -80,6 +80,15 @@ var element_states: Array[String] = []
 ## leur rang de maîtrise : ils sont dans `spells` ; un nouveau sort créé chasse le plus ancien.
 var created_spells: Array[String] = []
 
+## Ombre (GDD § 4.3) : dans le Monde des ombres ; dernière case où l'adversaire l'a vu (invisible ou dans les
+## ombres, l'IA la cherche là) ; tours de « coup en traître » après une sortie d'invisibilité ou des ombres
+## (passif de classe `coup_en_traitre` : rang + 1) et 1 PA de moins à son prochain sort pendant ce temps (rang 3).
+var shadow := false
+var last_seen := NO_CELL
+var ambush := 0
+var ambush_discount := false
+
+const NO_CELL := Vector2i(-99999, -99999)
 const ELEMENT_STATE_MAX := 3
 ## Emplacements de sorts créés dans la barre.
 const CREATED_SPELL_SLOTS := 2
@@ -294,8 +303,17 @@ func cast_count(spell: Spell) -> int:
 	return int(_casts_this_turn.get(spell.id, 0))
 
 
+## Coût en PA du sort, moins le PA du coup en traître (rang 3 du passif de l'Ombre).
+func spell_cost(spell: Spell) -> int:
+	return maxi(0, spell.pa_cost - int(ambush_discount))
+
+
+func is_invisible() -> bool:
+	return has_state(Spell.STATE_INVISIBLE)
+
+
 func cast_blocker(spell: Spell) -> String:
-	if spell.pa_cost > pa:
+	if spell_cost(spell) > pa:
 		return Protocol.REASON_NOT_ENOUGH_PA
 	if spell.casts_per_turn > 0 and cast_count(spell) >= spell.casts_per_turn:
 		return Protocol.REASON_SPELL_LIMIT
@@ -305,7 +323,8 @@ func cast_blocker(spell: Spell) -> String:
 
 
 func register_cast(spell: Spell) -> void:
-	pa -= spell.pa_cost
+	pa -= spell_cost(spell)
+	ambush_discount = false
 	_casts_this_turn[spell.id] = int(_casts_this_turn.get(spell.id, 0)) + 1
 	if spell.cooldown > 0:
 		_cooldowns[spell.id] = spell.cooldown
@@ -347,7 +366,7 @@ func profile() -> Dictionary:
 		"pv_max": max_hp, "pa": max_pa, "pm": max_pm, "initiative": initiative, "portee": range_bonus,
 		"prospection": prospection, "dommages": dommages, "critique": crit_bonus, "resistances": resistances.duplicate(),
 		"dommages_elements": element_dommages.duplicate(), "soins": soins, "soins_elements": element_soins.duplicate(),
-		"stats_combat": combat_stats.duplicate(), "sorts": spell_ids, "maitrises": masteries.duplicate(), "arme": weapon, "palier_arme": weapon_tier, "bonus_arme": weapon_bonus.duplicate(true)}
+		"stats_combat": combat_stats.duplicate(), "passifs": passives.duplicate(), "sorts": spell_ids, "maitrises": masteries.duplicate(), "arme": weapon, "palier_arme": weapon_tier, "bonus_arme": weapon_bonus.duplicate(true)}
 
 
 ## État complet du combattant pour la copie d'un client (voir `Combat.snapshot`) : ce qui change
@@ -371,6 +390,9 @@ func snapshot() -> Dictionary:
 		"sorts_crees": created_spells.duplicate(),
 		"recharges": _cooldowns.duplicate(),
 		"lances": _casts_this_turn.duplicate(),
+		"ombres": shadow,
+		"vu": [last_seen.x, last_seen.y],
+		"traitre": [ambush, ambush_discount],
 	}
 
 
@@ -397,5 +419,10 @@ func restore(saved: Dictionary) -> void:
 					created = candidate
 			if created != null and spell_id not in created_spells:
 				add_created_spell(created)
+	shadow = bool(saved.get("ombres", false))
+	var seen: Array = saved.get("vu", [NO_CELL.x, NO_CELL.y])
+	last_seen = Vector2i(int(seen[0]), int(seen[1]))
+	ambush = int(saved.get("traitre", [0, false])[0])
+	ambush_discount = bool(saved.get("traitre", [0, false])[1])
 	_cooldowns = saved["recharges"].duplicate()
 	_casts_this_turn = saved["lances"].duplicate()

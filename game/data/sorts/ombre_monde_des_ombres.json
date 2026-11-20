@@ -1,0 +1,28 @@
+{
+  "id": "ombre_monde_des_ombres",
+  "nom": "Monde des ombres",
+  "description": "Envoie la cible (elle-même, un allié ou un ennemi) dans le Monde des ombres pour 2 tours, ou l'en fait sortir. Sur un ennemi : relance dans 2 tours.",
+  "cout_pa": 2,
+  "portee": {
+    "min": 0,
+    "max": 4
+  },
+  "discret": true,
+  "relance": {
+    "par_tour": 1,
+    "delai_ennemi": 2
+  },
+  "effets": [
+    {
+      "type": "monde_des_ombres"
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "portee_max": 1
+    },
+    "5": {
+      "cout_pa": 1
+    }
+  }
+}

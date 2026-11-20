@@ -3,10 +3,10 @@
   "nom": "Arcaniste",
   "description": "Maître du feu, du givre et de la foudre. Lit beaucoup, court peu, explose parfois des choses par accident.",
   "caracteristiques": {
-    "pv": 46,
+    "pv": 50,
     "pa": 6,
     "pm": 3,
-    "initiative": 90
+    "initiative": 100
   },
   "sorts": [
     "arcaniste_composition",

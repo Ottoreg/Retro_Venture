@@ -1,0 +1,28 @@
+{
+  "id": "ombre_court_circuit",
+  "nom": "Court-circuit",
+  "description": "Fait exploser tout de suite ses images sur la case visée, plus fort que d'habitude.",
+  "cout_pa": 2,
+  "portee": {
+    "min": 1,
+    "max": 8
+  },
+  "ligne_de_vue": false,
+  "relance": {
+    "par_tour": 2
+  },
+  "effets": [
+    {
+      "type": "court_circuit",
+      "bonus": 25
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "portee_max": 2
+    },
+    "5": {
+      "cout_pa": 1
+    }
+  }
+}

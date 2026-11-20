@@ -8,7 +8,10 @@ const ZONE_CIRCLE := "cercle"
 ## au-delà (la tête, au loin) et deux en deçà (le pied, vers le lanceur, sans jamais atteindre sa
 ## case). Demande un lancer en ligne.
 const ZONE_LATIN_CROSS := "croix_latine"
-const ZONES := [ZONE_CELL, ZONE_CIRCLE, ZONE_LATIN_CROSS]
+## Ligne : les cases de la ligne droite du lanceur jusqu'à la case visée comprise (demande `lancer_en_ligne`) ;
+## seuls les obstacles y bloquent la vue, pas les combattants (Foudroiement de l'Ombre).
+const ZONE_LINE := "ligne"
+const ZONES := [ZONE_CELL, ZONE_CIRCLE, ZONE_LATIN_CROSS, ZONE_LINE]
 ## Qui un effet touche dans la zone (défaut : tout le monde).
 const TARGETS_ALL := "tous"
 const TARGETS_ENEMIES := "ennemis"
@@ -72,17 +75,29 @@ const EFFECT_STATE := "etat"
 ## Rebond : après les effets précédents, des dégâts (`element`, `min`–`max`) sautent du dernier touché vers
 ## l'ennemi vivant le plus proche, à `distance` cases au plus, jamais deux fois sur le même. Voir `Combat._bounce`.
 const EFFECT_BOUNCE := "rebond"
+## Ombre (GDD § 4.3) : image rémanente laissée sur la case de départ du lanceur (3 au plus, empilables) ; ses
+## `effets` touchent la croix d'une case autour d'elle quand elle explose (voir `Combat._place_image`).
+const EFFECT_IMAGE := "image"
+## Fait exploser tout de suite les images du lanceur sur la case visée, avec `bonus` % de dégâts en plus.
+const EFFECT_DETONATE := "court_circuit"
+## Arme d'obscurité : dégâts (`element`, `min`, `max`) au début du prochain tour de la cible, qui ne la voit pas.
+const EFFECT_SHADOW_WEAPON := "arme_ombre"
+## Envoie la cible dans le Monde des ombres, ou l'en fait sortir si elle y est (voir `Combat._cross`).
+const EFFECT_SHADOW_WORLD := "monde_des_ombres"
+## Le lanceur se téléporte sur la case derrière la cible (à l'opposé de lui), qui doit être libre.
+const EFFECT_BEHIND := "dans_le_dos"
 const EFFECT_TYPES := [EFFECT_DAMAGE, EFFECT_HEAL, EFFECT_TELEPORT, EFFECT_GAIN_PA, EFFECT_REMOVE_PM, EFFECT_SHIELD,
 	EFFECT_BONUS, EFFECT_MALUS, EFFECT_POISON, EFFECT_PUSH, EFFECT_PULL, EFFECT_GLYPH, EFFECT_TRAP,
 	EFFECT_ELEMENT_STATE, EFFECT_COMPOSE_STATES, EFFECT_CREATE_SPELL, EFFECT_CHARGE, EFFECT_REMOVE_STATES,
-	EFFECT_CLOCK, EFFECT_CLOCK_SHIFT, EFFECT_STATE, EFFECT_BOUNCE]
+	EFFECT_CLOCK, EFFECT_CLOCK_SHIFT, EFFECT_STATE, EFFECT_BOUNCE, EFFECT_IMAGE, EFFECT_DETONATE, EFFECT_SHADOW_WEAPON,
+	EFFECT_SHADOW_WORLD, EFFECT_BEHIND]
 ## Effets sans valeur chiffrée (ni `min` ni `max`).
 const VALUELESS_EFFECTS := [EFFECT_TELEPORT, EFFECT_ELEMENT_STATE, EFFECT_COMPOSE_STATES, EFFECT_CREATE_SPELL, EFFECT_CHARGE,
-	EFFECT_REMOVE_STATES, EFFECT_CLOCK, EFFECT_CLOCK_SHIFT, EFFECT_STATE]
+	EFFECT_REMOVE_STATES, EFFECT_CLOCK, EFFECT_CLOCK_SHIFT, EFFECT_STATE, EFFECT_DETONATE, EFFECT_SHADOW_WORLD, EFFECT_BEHIND]
 ## Effets qui ne concernent que le lanceur ou son déplacement, ou le cadran d'une horloge : jamais
 ## dans une glyphe, un piège ou une heure d'horloge.
 const CASTER_EFFECTS := [EFFECT_TELEPORT, EFFECT_ELEMENT_STATE, EFFECT_COMPOSE_STATES, EFFECT_CREATE_SPELL, EFFECT_CHARGE,
-	EFFECT_CLOCK, EFFECT_CLOCK_SHIFT, EFFECT_BOUNCE]
+	EFFECT_CLOCK, EFFECT_CLOCK_SHIFT, EFFECT_BOUNCE, EFFECT_DETONATE, EFFECT_SHADOW_WORLD, EFFECT_BEHIND]
 ## États nommés : « insoignable » (aucun soin ne lui rend de PV) ; « manipulation_temps » (posé par
 ## une horloge) ; « exorcisme » (les prochains dégâts Sacré l'achèvent, l'état tombe alors).
 const STATE_UNHEALABLE := "insoignable"
@@ -90,13 +105,20 @@ const STATE_TIME_MANIPULATION := "manipulation_temps"
 const STATE_EXORCISM := "exorcisme"
 ## Inblocable : ni taclé, ni tacleur (GDD § 7.2).
 const STATE_UNBLOCKABLE := "inblocable"
-const NAMED_STATES := [STATE_UNHEALABLE, STATE_TIME_MANIPULATION, STATE_EXORCISM, STATE_UNBLOCKABLE]
+## Ombre : invisible (ni vue ni visée par l'adversaire, ni taclée ni tacleuse), dans le Monde des ombres, retour
+## impossible (vient d'en sortir : n'y rentre pas), aspiré (entré par échange : n'en ressort pas par un sort).
+const STATE_INVISIBLE := "invisible"
+const STATE_SHADOW := "ombres"
+const STATE_NO_RETURN := "retour_ombres"
+const STATE_DRAWN := "aspire"
+const NAMED_STATES := [STATE_UNHEALABLE, STATE_TIME_MANIPULATION, STATE_EXORCISM, STATE_UNBLOCKABLE, STATE_INVISIBLE,
+	STATE_SHADOW, STATE_NO_RETURN, STATE_DRAWN]
 ## Éléments d'un état élémentaire, et états qu'un retrait peut enlever.
 const STATE_ELEMENTS := ["flamme", "givre", "tempete"]
 const REMOVABLE_STATE_TYPES := [EFFECT_BONUS, EFFECT_MALUS, EFFECT_POISON]
 ## Effets qui posent quelque chose au sol, avec leurs propres `effets` (sans glyphe, piège ni
 ## téléportation à l'intérieur).
-const GROUND_EFFECTS := [EFFECT_GLYPH, EFFECT_TRAP]
+const GROUND_EFFECTS := [EFFECT_GLYPH, EFFECT_TRAP, EFFECT_IMAGE]
 ## Effets qui durent plusieurs tours (`duree` obligatoire).
 const LASTING_EFFECTS := [EFFECT_BONUS, EFFECT_MALUS, EFFECT_POISON, EFFECT_GLYPH, EFFECT_CLOCK, EFFECT_STATE]
 ## Caractéristiques qu'un bonus ou un malus peut changer ; « resistance » demande un `element` ;
@@ -106,7 +128,7 @@ const MODIFIABLE := ["force", "intelligence", "perception", "agilite", "pa", "pm
 ## Effets chiffrés qui ont un élément : leur valeur monte avec la caractéristique de cet élément
 ## (un soin Sacré avec la Force et l'Intelligence, un bouclier de Tempête avec l'Agilité, un poison
 ## de Givre avec la Perception…).
-const ELEMENT_EFFECTS := [EFFECT_DAMAGE, EFFECT_HEAL, EFFECT_SHIELD, EFFECT_POISON]
+const ELEMENT_EFFECTS := [EFFECT_DAMAGE, EFFECT_HEAL, EFFECT_SHIELD, EFFECT_POISON, EFFECT_SHADOW_WEAPON]
 ## Chance de coup critique d'un sort sans « critique » (en %).
 const DEFAULT_CRIT_CHANCE := 5
 ## Un coup critique multiplie la valeur tirée des dégâts, soins, boucliers et poisons.
@@ -159,6 +181,11 @@ var rank := 0
 ## Apports des rangs de maîtrise au lanceur : % de chaque état élémentaire, places de sorts créés.
 var state_bonus := 0
 var created_slots := 0
+## Ombre : un sort « discret » ne révèle pas son lanceur invisible ; délai de relance après un lancer sur un ennemi
+## (« relance.delai_ennemi ») ; portée maximale sur un ennemi marqué par une arme d'obscurité du lanceur (« portee_marque »).
+var discreet := false
+var enemy_cooldown := 0
+var marked_range := 0
 
 
 ## Liste des erreurs de `data` (vide si le sort est valide).
@@ -179,8 +206,8 @@ static func validate(data: Dictionary) -> PackedStringArray:
 		errors.append("« zone.type » doit valoir %s" % str(ZONES))
 	elif zone["type"] == ZONE_CIRCLE and not _is_int_at_least(zone.get("taille"), 1):
 		errors.append("une zone en cercle demande une « taille » d'au moins 1")
-	elif zone["type"] == ZONE_LATIN_CROSS and not data.get("lancer_en_ligne", false):
-		errors.append("une zone en croix latine demande « lancer_en_ligne »")
+	elif zone["type"] in [ZONE_LATIN_CROSS, ZONE_LINE] and not data.get("lancer_en_ligne", false):
+		errors.append("une zone en %s demande « lancer_en_ligne »" % zone["type"])
 	elif zone["type"] == ZONE_LATIN_CROSS and int(data["portee"]["min"]) < 1:
 		errors.append("une zone en croix latine demande une portée minimale d'au moins 1 (pour avoir un sens)")
 	var recast: Variant = data.get("relance", {})
@@ -345,6 +372,9 @@ static func from_dict(data: Dictionary) -> Spell:
 	spell.cooldown = int(recast.get("delai", 0))
 	spell.crit_chance = int(data.get("critique", DEFAULT_CRIT_CHANCE))
 	spell.effects = normalized_effects(data["effets"])
+	spell.discreet = bool(data.get("discret", false))
+	spell.enemy_cooldown = int(recast.get("delai_ennemi", 0))
+	spell.marked_range = int(data.get("portee_marque", 0))
 	var mastery_data: Dictionary = data.get("maitrise", {})
 	for key: String in mastery_data:
 		spell.mastery[int(key)] = mastery_data[key].duplicate(true)
@@ -360,7 +390,7 @@ func mastered(level: int) -> Spell:
 		return self
 	var copy := Spell.new()
 	for property in ["id", "display_name", "description", "pa_cost", "range_min", "range_max", "needs_line_of_sight",
-			"cast_in_line", "fixed_range", "zone_type", "zone_size", "excludes_caster", "casts_per_turn", "cooldown", "crit_chance"]:
+			"cast_in_line", "fixed_range", "zone_type", "zone_size", "excludes_caster", "casts_per_turn", "cooldown", "crit_chance", "discreet", "enemy_cooldown", "marked_range"]:
 		copy.set(property, get(property))
 	copy.mastery = mastery
 	copy.rank = level
@@ -441,6 +471,10 @@ func zone_cells(target: Vector2i, origin := target) -> Array[Vector2i]:
 			cells.append(target - forward * i)
 	if zone_type == ZONE_CIRCLE:
 		cells = circle_cells(target, zone_size)
+	if zone_type == ZONE_LINE:
+		cells.clear()
+		for i in range(1, IsoGrid.distance(origin, target) + 1):
+			cells.append(origin + direction(origin, target) * i)
 	return cells
 
 
@@ -547,6 +581,14 @@ func places_clock() -> bool:
 		if effect["type"] == EFFECT_CLOCK:
 			return true
 	return false
+
+
+## Effet du sort de ce type (vide s'il n'en a pas).
+func effect_of(type: String) -> Dictionary:
+	for effect in effects:
+		if effect["type"] == type:
+			return effect
+	return {}
 
 
 func teleports() -> bool:

@@ -9,7 +9,7 @@ extends RefCounted
 
 ## Version du protocole, vérifiée à la connexion : à augmenter à chaque changement incompatible
 ## d'une commande ou d'un événement.
-const VERSION := 18
+const VERSION := 19
 
 # --- Commandes (client → noyau) ---
 
@@ -280,6 +280,14 @@ const EVT_TRAP := "piege"
 const EVT_TRAP_TRIGGERED := "piege_declenche"
 ## Piège retiré sans être déclenché (lanceur vaincu). { type, id: int }
 const EVT_TRAP_ENDED := "piege_fin"
+## Ombre (GDD § 4.3) : image rémanente posée. { type, id: int, lanceur: String, equipe: int, case: Vector2i, ombres: bool }
+const EVT_IMAGE := "image"
+## Image rémanente qui explose (`explose` : ses effets suivent) ou disparaît (lanceur vaincu). { type, id: int, explose: bool,
+## cases: Array[Vector2i] }
+const EVT_IMAGE_ENDED := "image_fin"
+## Un combattant entre dans le Monde des ombres ou en sort. { type, entite: String, ombres: bool, case: Vector2i,
+## echange: bool (entré ou sorti par échange de place) }
+const EVT_DIMENSION := "dimension"
 ## Un monstre change de phase : ses PV sont passés sous un seuil de ses « phases » (une seule fois
 ## par phase). { type, entite: String, message: String } ; ses nouveaux sorts sont déjà appris, les
 ## effets de la phase (sur lui-même) suivent.
@@ -399,7 +407,8 @@ const MAP_EVENTS := [EVT_MOVED, EVT_SAT, EVT_HARVESTED, EVT_RESOURCE_RESPAWNED, 
 const COMBAT_EVENTS := [EVT_COMBAT_STARTED, EVT_PLACED, EVT_FIGHT_BEGINS, EVT_TURN_STARTED, EVT_TURN_ENDED,
 	EVT_SPELL_CAST, EVT_DAMAGE, EVT_HEAL, EVT_DIED, EVT_TELEPORTED, EVT_STATUS, EVT_STATES, EVT_ELEMENT_STATES,
 	EVT_SPELL_CREATED, EVT_CHARGED, EVT_PUSHED, EVT_GLYPH, EVT_GLYPH_ENDED, EVT_TRAP, EVT_TRAP_TRIGGERED,
-	EVT_TRAP_ENDED, EVT_PHASE, EVT_COMBAT_ENDED, EVT_FIGHTER_JOINED, EVT_READY, EVT_FIGHTER_AWAY]
+	EVT_TRAP_ENDED, EVT_PHASE, EVT_COMBAT_ENDED, EVT_FIGHTER_JOINED, EVT_READY, EVT_FIGHTER_AWAY, EVT_IMAGE, EVT_IMAGE_ENDED,
+	EVT_DIMENSION]
 
 
 ## Portée d'un événement : SCOPE_MAP, SCOPE_COMBAT ou SCOPE_PERSONAL (tout le reste, et tout
@@ -541,6 +550,12 @@ const REASON_SPELL_COOLDOWN := "sort_en_recharge"
 const REASON_NO_COMBINATION := "combinaison_inconnue"
 ## Horloge sur une cible déjà dans l'état Manipulation du temps.
 const REASON_ALREADY_MANIPULATED := "deja_manipule"
+## Ombre : pas de combattant à viser, pas d'image du lanceur sur la case, retour dans les ombres impossible (vient
+## d'en sortir), sortie impossible (entré par échange).
+const REASON_NO_TARGET := "aucune_cible"
+const REASON_NO_IMAGE := "aucune_image"
+const REASON_NO_RETURN := "retour_impossible"
+const REASON_DRAWN := "aspire"
 ## Sort de composition des états sans combinaison (`etats`) qu'il propose.
 const REASON_INVALID_COMPOSITION := "composition_invalide"
 const REASON_OUT_OF_RANGE := "hors_portee"

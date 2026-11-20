@@ -1,0 +1,29 @@
+{
+  "id": "ombre_fondu_au_noir",
+  "nom": "Fondu au noir",
+  "description": "Elle disparaît. Personne ne sait où elle est, pas même son percepteur.",
+  "cout_pa": 2,
+  "portee": {
+    "min": 0,
+    "max": 0
+  },
+  "relance": {
+    "par_tour": 1,
+    "delai": 2
+  },
+  "effets": [
+    {
+      "type": "etat",
+      "etat": "invisible",
+      "duree": 2
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "cout_pa": 1
+    },
+    "5": {
+      "delai": 1
+    }
+  }
+}

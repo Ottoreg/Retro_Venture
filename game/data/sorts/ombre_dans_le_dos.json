@@ -1,0 +1,29 @@
+{
+  "id": "ombre_dans_le_dos",
+  "nom": "Dans le dos",
+  "description": "Se glisse derrière l'ennemi visé. Portée 7 sur un ennemi marqué par une arme d'obscurité.",
+  "cout_pa": 2,
+  "portee": {
+    "min": 1,
+    "max": 4
+  },
+  "discret": true,
+  "portee_marque": 7,
+  "relance": {
+    "par_tour": 1,
+    "delai": 2
+  },
+  "effets": [
+    {
+      "type": "dans_le_dos"
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "delai": 1
+    },
+    "5": {
+      "cout_pa": 1
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "id": "ombre_affutage",
+  "nom": "Affûtage",
+  "description": "Elle aiguise ses lames : +20 Force, cumulable 3 fois.",
+  "cout_pa": 1,
+  "portee": {
+    "min": 0,
+    "max": 0
+  },
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "bonus",
+      "carac": "force",
+      "min": 20,
+      "max": 20,
+      "duree": 3,
+      "cumul": 3
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "effets": [
+        {
+          "type": "bonus",
+          "carac": "critique",
+          "min": 3,
+          "max": 3,
+          "duree": 3,
+          "cumul": 3
+        }
+      ]
+    },
+    "5": {
+      "effets": [
+        {
+          "type": "bonus",
+          "carac": "dommages",
+          "min": 3,
+          "max": 3,
+          "duree": 3,
+          "cumul": 3
+        }
+      ]
+    }
+  }
+}

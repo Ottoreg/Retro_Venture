@@ -1,0 +1,35 @@
+{
+  "id": "ombre_lame_eclair",
+  "nom": "Lame-éclair",
+  "description": "Un coup de lame si rapide que la victime entend le tonnerre après.",
+  "cout_pa": 3,
+  "portee": {
+    "min": 1,
+    "max": 1
+  },
+  "relance": {
+    "par_tour": 2
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "tempete",
+      "min": 9,
+      "max": 12
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "critique": 5
+    },
+    "5": {
+      "effets": [
+        {
+          "type": "poussee",
+          "min": 1,
+          "max": 1
+        }
+      ]
+    }
+  }
+}

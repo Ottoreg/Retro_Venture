@@ -45,6 +45,19 @@ var rng := RandomNumberGenerator.new()
 var glyphs: Array[Dictionary] = []
 ## Pièges posés : { id, lanceur: Fighter, equipe, case, cases (zone d'explosion), effets, sort }.
 var traps: Array[Dictionary] = []
+## Ombre (GDD § 4.3) : images rémanentes { id, lanceur: Fighter, equipe, case, ombres, manche, effets, sort }, et
+## dimension où se jouent les règles en ce moment (vrai : le Monde des ombres) : celle du combattant qui agit, ou de qui
+## regarde le combat chez un client. Seuls les combattants, glyphes, pièges et images de cette dimension comptent.
+var images: Array[Dictionary] = []
+var dimension := false
+## Échanges de place à la sortie des ombres (case ou id → manche) : un seul par case et par combattant et par manche.
+var _swaps := {}
+## Images d'un lanceur au plus ; tours dans les ombres ; tours sans retour après en être sorti (une Ombre : 1).
+const MAX_IMAGES := 3
+const SHADOW_TURNS := 2
+const NO_RETURN_TURNS := 2
+## Classe qui garde les autres dans les ombres : sans elle dans la dimension, on en sort au bout d'un tour.
+const SHADOW_CLASS := "ombre"
 
 ## Temps limité (en ligne, GDD § 7.2) : secondes d'un tour de joueur, et du placement ; 0 : illimité
 ## (solo). Le temps passe par `advance`.
@@ -177,7 +190,7 @@ func get_fighter(fighter_id: String) -> Fighter:
 ## Combattant vivant sur la case, ou `null`.
 func fighter_at(cell: Vector2i) -> Fighter:
 	for fighter in fighters:
-		if fighter.is_alive() and fighter.cell == cell:
+		if fighter.is_alive() and fighter.cell == cell and fighter.shadow == dimension:
 			return fighter
 	return null
 
@@ -199,14 +212,14 @@ func trap_at(cell: Vector2i) -> Dictionary:
 ## Piège d'une autre équipe que `fighter` sur la case : c'est celui qu'il déclenche en y entrant.
 func enemy_trap_at(cell: Vector2i, fighter: Fighter) -> Dictionary:
 	var trap := trap_at(cell)
-	return trap if not trap.is_empty() and trap["equipe"] != fighter.team else {}
+	return trap if not trap.is_empty() and trap["equipe"] != fighter.team and trap.get("ombres", false) == fighter.shadow else {}
 
 
 ## Glyphes qui couvrent la case.
 func glyphs_at(cell: Vector2i) -> Array[Dictionary]:
 	var result: Array[Dictionary] = []
 	for glyph in glyphs:
-		if cell in glyph["cases"]:
+		if cell in glyph["cases"] and glyph.get("ombres", false) == dimension:
 			result.append(glyph)
 	return result
 
@@ -214,9 +227,22 @@ func glyphs_at(cell: Vector2i) -> Array[Dictionary]:
 func enemies_of(fighter: Fighter) -> Array[Fighter]:
 	var result: Array[Fighter] = []
 	for other in fighters:
-		if other.is_alive() and other.team != fighter.team:
+		if other.is_alive() and other.team != fighter.team and other.shadow == fighter.shadow and not other.is_invisible():
 			result.append(other)
 	return result
+
+
+## Où chercher les ennemis que `fighter` ne voit pas (IA) : leur dernière case vue (invisibles, ou dans l'autre
+## dimension), et, depuis les ombres, les lueurs de tous ceux qui sont dehors.
+func hunt_cells(fighter: Fighter) -> Array[Vector2i]:
+	var cells: Array[Vector2i] = []
+	for other in fighters:
+		if other.is_alive() and other.team != fighter.team and other.last_seen != Fighter.NO_CELL \
+				and (other.shadow != fighter.shadow or other.is_invisible()):
+			cells.append(other.last_seen)
+		if other.is_alive() and fighter.shadow and not other.shadow:
+			cells.append(other.cell)
+	return cells
 
 
 func execute(command: Dictionary) -> Array[Dictionary]:
@@ -302,9 +328,11 @@ func targeting_blocker(fighter: Fighter, spell: Spell, target: Vector2i, origin 
 	if spell.cast_in_line and from.x != target.x and from.y != target.y:
 		return Protocol.REASON_NOT_IN_LINE
 	var distance := IsoGrid.distance(from, target)
-	if distance < spell.range_min or distance > max_range(fighter, spell):
+	var aimed := fighter_at(target)
+	var reach := maxi(max_range(fighter, spell), spell.marked_range if aimed != null and marked_by(aimed, fighter) else 0)
+	if distance < spell.range_min or distance > reach:
 		return Protocol.REASON_OUT_OF_RANGE
-	if spell.needs_line_of_sight and not LineOfSight.is_clear(from, target, _sight_blocker(fighter)):
+	if spell.needs_line_of_sight and not LineOfSight.is_clear(from, target, _blocks_sight.bind(fighter, spell.zone_type != Spell.ZONE_LINE)):
 		return Protocol.REASON_NO_LINE_OF_SIGHT
 	return ""
 
@@ -346,7 +374,7 @@ func max_range(fighter: Fighter, spell: Spell) -> int:
 ## Cases à portée du sort, avec et sans ligne de vue (pour l'affichage).
 func spell_range(fighter: Fighter, spell: Spell) -> Dictionary:
 	var result := {"visibles": [] as Array[Vector2i], "masquees": [] as Array[Vector2i]}
-	var reach := max_range(fighter, spell)
+	var reach := maxi(max_range(fighter, spell), spell.marked_range)
 	for dy in range(-reach, reach + 1):
 		for dx in range(-reach, reach + 1):
 			var cell := fighter.cell + Vector2i(dx, dy)
@@ -442,6 +470,7 @@ func _player_action(command: Dictionary) -> Array[Dictionary]:
 ## Applique une action (déplacement, sort ou fin de tour) du combattant dont c'est le tour.
 func _apply_action(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 	var type: String = command["type"]
+	dimension = fighter.shadow
 	if type == Protocol.CMD_MOVE:
 		return _move(fighter, command)
 	if type == Protocol.CMD_CAST:
@@ -470,7 +499,7 @@ func _move(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 	var trap := {}
 	for i in path.size():
 		trap = enemy_trap_at(path[i], fighter)
-		if not trap.is_empty():
+		if not trap.is_empty() or not _images_near(path[i], fighter).is_empty():  # Un piège ou une image arrête la marche.
 			path = path.slice(0, i + 1)
 			break
 	# Tacle : chaque case quittée au contact d'ennemis garde seulement une part des PM (`tackle_ratio`).
@@ -494,19 +523,21 @@ func _move(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 	var from := fighter.cell
 	fighter.cell = walked[-1]
 	events.append({"type": Protocol.EVT_MOVED, "entite": fighter.id, "depuis": from, "chemin": walked, "pm": fighter.pm})
+	_seen(fighter)
 	if not trap.is_empty():
 		_trigger_trap(trap, fighter, events)
-		_check_end(events)
+	_check_images(fighter, events)
+	_check_end(events)
 	return events
 
 
 ## Part des PM gardés en quittant `cell` : (fuite + 2) / (2 × (tacle des ennemis au contact + 2)), au plus 1 ; 1 sans
 ## ennemi au contact (les inblocables ne taclent pas et ne sont pas taclés).
 func tackle_ratio(fighter: Fighter, cell: Vector2i) -> float:
-	if not TACKLE or fighter.has_state(Spell.STATE_UNBLOCKABLE):
+	if not TACKLE or fighter.has_state(Spell.STATE_UNBLOCKABLE) or fighter.is_invisible():
 		return 1.0
 	var tacklers := IsoGrid.neighbors_4(cell).map(fighter_at).filter(func(other: Fighter) -> bool:
-		return other != null and other.team != fighter.team and not other.has_state(Spell.STATE_UNBLOCKABLE))
+		return other != null and other.team != fighter.team and not other.has_state(Spell.STATE_UNBLOCKABLE) and not other.is_invisible())
 	if tacklers.is_empty():
 		return 1.0
 	return minf(1.0, (fighter.escape() + 2) / (2.0 * (tacklers.reduce(func(sum: int, other: Fighter) -> int: return sum + other.tackle(), 0) + 2)))
@@ -544,6 +575,16 @@ func _cast(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 	if blocker.is_empty() and spell.places_clock() and fighter_at(target) != null \
 			and fighter_at(target).has_state(Spell.STATE_TIME_MANIPULATION):
 		blocker = Protocol.REASON_ALREADY_MANIPULATED
+	var aimed := fighter_at(target)
+	var behind: Vector2i = target + Spell.direction(fighter.cell, target)
+	if blocker.is_empty() and not spell.effect_of(Spell.EFFECT_BEHIND).is_empty():
+		blocker = Protocol.REASON_NO_TARGET if aimed == null else "" if is_free(behind) else Protocol.REASON_BLOCKED
+	if blocker.is_empty() and not spell.effect_of(Spell.EFFECT_SHADOW_WORLD).is_empty():
+		blocker = Protocol.REASON_NO_TARGET if aimed == null else Protocol.REASON_NO_RETURN if not aimed.shadow \
+			and aimed.has_state(Spell.STATE_NO_RETURN) else Protocol.REASON_DRAWN if aimed.shadow and aimed.has_state(Spell.STATE_DRAWN) else ""
+	if blocker.is_empty() and not spell.effect_of(Spell.EFFECT_DETONATE).is_empty() \
+			and not images.any(func(image: Dictionary) -> bool: return image["lanceur"] == fighter and image["case"] == target):
+		blocker = Protocol.REASON_NO_IMAGE
 	if blocker.is_empty() and not spell.create_effect().is_empty() and created_spell_for(fighter, spell) == null:
 		blocker = Protocol.REASON_NO_COMBINATION
 	var choices := spell.state_choices()
@@ -553,6 +594,8 @@ func _cast(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 		return _refused(command, blocker)
 
 	fighter.register_cast(spell)
+	if spell.enemy_cooldown > 0 and aimed != null and aimed.team != fighter.team:
+		fighter._cooldowns[spell.id] = spell.enemy_cooldown
 	var crit_chance := spell.crit_chance + fighter.total_crit_bonus()
 	var critical := crit_chance > 0 and rng.randf() * 100.0 < crit_chance
 	var events: Array[Dictionary] = [{
@@ -562,7 +605,9 @@ func _cast(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 		"cible": target,
 		"pa": fighter.pa,
 		"critique": critical,
+		"ombres": fighter.shadow,
 	}]
+	_seen(fighter)  # Dans les ombres, son ombre est projetée dehors, sur sa case.
 	if not trap_effect.is_empty():
 		events[0]["cache"] = true
 	var origin := fighter.cell
@@ -573,6 +618,10 @@ func _cast(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 		var trap := enemy_trap_at(target, fighter)
 		if not trap.is_empty():
 			_trigger_trap(trap, fighter, events)
+	if not spell.effect_of(Spell.EFFECT_BEHIND).is_empty():
+		fighter.cell = behind
+		events.append({"type": Protocol.EVT_TELEPORTED, "entite": fighter.id, "depuis": origin, "case": behind})
+		_seen(fighter)
 	# Charge : les effets ne touchent la cible que si le lanceur arrive à son contact.
 	var reached := true
 	if spell.charges():
@@ -603,6 +652,8 @@ func _cast(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 			_place_glyph(fighter, spell, effect, spell.zone_cells(target, origin), events)
 		elif effect["type"] == Spell.EFFECT_TRAP:
 			_place_trap(fighter, spell, effect, target, events)
+		elif effect["type"] == Spell.EFFECT_IMAGE:
+			_place_image(fighter, spell, effect, origin, events)
 	var elements := {}
 	for effect in spell.effects:
 		if effect["type"] in [Spell.EFFECT_DAMAGE, Spell.EFFECT_HEAL, Spell.EFFECT_POISON, Spell.EFFECT_BOUNCE]:
@@ -611,7 +662,9 @@ func _cast(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 	var targets: Array[Fighter] = []
 	for cell in spell.zone_cells(target, origin) if reached else []:
 		var hit := fighter_at(cell)
-		if hit != null and not (spell.excludes_caster and hit == fighter):
+		# Un invisible n'est pas visé directement par l'adversaire : seule une zone le touche.
+		if hit != null and not (spell.excludes_caster and hit == fighter) \
+				and not (hit.is_invisible() and hit.team != fighter.team and spell.zone_type == Spell.ZONE_CELL):
 			targets.append(hit)
 	for hit in targets:
 		var chain: Array[Fighter] = [hit]
@@ -619,10 +672,21 @@ func _cast(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 			if effect["type"] == Spell.EFFECT_BOUNCE:
 				_bounce(fighter, chain, effect, events, critical, spell.display_name)
 			elif hit.is_alive() and effect["type"] not in [Spell.EFFECT_TELEPORT, Spell.EFFECT_GLYPH, Spell.EFFECT_TRAP,
-					Spell.EFFECT_CHARGE, Spell.EFFECT_CREATE_SPELL, Spell.EFFECT_COMPOSE_STATES] \
+					Spell.EFFECT_CHARGE, Spell.EFFECT_CREATE_SPELL, Spell.EFFECT_COMPOSE_STATES, Spell.EFFECT_IMAGE,
+					Spell.EFFECT_DETONATE, Spell.EFFECT_BEHIND] \
 					and Spell.affects(effect, fighter, hit) and not (effect.get("premier_lancer", false) and fighter.cast_count(spell) > 1):
 				_apply_effect(fighter, hit, effect, events, critical, origin, spell.display_name)
+	var detonate := spell.effect_of(Spell.EFFECT_DETONATE)
+	for image in images.duplicate() if not detonate.is_empty() else []:
+		if image["lanceur"] == fighter and image["case"] == target:
+			_explode(image, int(detonate.get("bonus", 0)), events)
 	_close_credit()
+	# Invisible : un sort de dégâts non discret la révèle.
+	if fighter.is_invisible() and not spell.discreet and spell.effects.any(func(effect: Dictionary) -> bool: return effect["type"] == Spell.EFFECT_DAMAGE):
+		fighter.states.assign(fighter.states.filter(func(state: Dictionary) -> bool: return state.get("etat") != Spell.STATE_INVISIBLE))
+		events.append(_states_event(fighter))
+		_out_of_hiding(fighter, events)
+	_check_images(fighter, events)
 	_check_end(events)
 	return events
 
@@ -633,7 +697,7 @@ func _bounce(caster: Fighter, chain: Array[Fighter], effect: Dictionary, events:
 	var next: Fighter = null
 	for other in fighters:
 		var distance := IsoGrid.distance(from, other.cell)
-		if other.is_alive() and other.team != caster.team and other not in chain and distance <= int(effect["distance"]) \
+		if other.is_alive() and other.team != caster.team and other.shadow == caster.shadow and other not in chain and distance <= int(effect["distance"]) \
 				and (next == null or distance < IsoGrid.distance(from, next.cell)):
 			next = other
 	if next != null:
@@ -713,7 +777,7 @@ func _apply_effect(caster: Fighter, target: Fighter, effect: Dictionary, events:
 			events.append({"type": Protocol.EVT_STATUS, "entite": target.id, "effet": Spell.EFFECT_REMOVE_PM, "valeur": amount, "pa": target.pa, "pm": target.pm})
 		Spell.EFFECT_DAMAGE:
 			var hp_before := target.hp
-			var dealt := damage_value(caster, target, effect["element"], amount)
+			var dealt := damage_value(caster, target, effect["element"], roundi(amount * (100 + damage_bonus(caster, target, effect)) / 100.0))
 			var suffered := _hurt(target, dealt, effect["element"], events)
 			_devastate(caster, target, dealt, hp_before - target.hp, events)
 			_thorns(caster, target, dealt, suffered, events)
@@ -743,7 +807,14 @@ func _apply_effect(caster: Fighter, target: Fighter, effect: Dictionary, events:
 				if amount == 0:
 					return
 			_add_state(target, {"type": effect["type"], "carac": effect["carac"], "element": str(effect.get("element", "")),
-				"valeur": amount, "tours": effect["duree"], "sort": source, "lanceur": caster.id, "retirable": removable}, events)
+				"valeur": amount, "tours": effect["duree"], "sort": source, "lanceur": caster.id, "retirable": removable,
+				"cumul": int(effect.get("cumul", 0))}, events)
+		Spell.EFFECT_SHADOW_WEAPON:
+			if target.states.filter(func(state: Dictionary) -> bool: return state["type"] == Spell.EFFECT_SHADOW_WEAPON).size() < 2:
+				_add_state(target, {"type": Spell.EFFECT_SHADOW_WEAPON, "element": effect["element"], "valeur": amount, "tours": 99,
+					"sort": source, "lanceur": caster.id, "retirable": false}, events)
+		Spell.EFFECT_SHADOW_WORLD:
+			_cross(target, events)
 		Spell.EFFECT_POISON:
 			var poison := {"type": Spell.EFFECT_POISON, "element": effect["element"], "valeur": amount,
 				"tours": effect["duree"], "sort": source, "lanceur": caster.id, "retirable": removable}
@@ -777,6 +848,15 @@ func _apply_effect(caster: Fighter, target: Fighter, effect: Dictionary, events:
 			_push(from, target, amount, false, events)
 		Spell.EFFECT_PULL:
 			_push(from, target, amount, true, events)
+
+
+## % de dégâts en plus d'un effet de dégâts de l'Ombre : « si_invisible » (lanceur invisible), « par_malus » (par malus
+## de la cible) et passif « Coup en traître » (5 + rang + 1 %, invisible ou juste sorti des ombres ou de l'invisibilité).
+static func damage_bonus(caster: Fighter, target: Fighter, effect: Dictionary) -> int:
+	var hidden := caster.is_invisible() or caster.ambush > 0
+	return (int(effect.get("si_invisible", 0)) if caster.is_invisible() else 0) \
+		+ int(effect.get("par_malus", 0)) * target.states.filter(func(state: Dictionary) -> bool: return state["type"] == Spell.EFFECT_MALUS).size() \
+		+ (5 + int(caster.passives.get("coup_en_traitre", 0)) if hidden and int(caster.passives.get("coup_en_traitre", 0)) > 0 else 0)
 
 
 ## Dégâts d'un effet de valeur tirée `amount` (voir `_apply_effect`) : au contact, × (100 + dommages de mêlée
@@ -834,8 +914,9 @@ func spell_preview(fighter: Fighter, spell: Spell, target: Vector2i) -> Dictiona
 			var high: int
 			var key := "degats"
 			if effect["type"] == Spell.EFFECT_DAMAGE:
-				low = damage_value(fighter, hit, effect["element"], effect["min"])
-				high = damage_value(fighter, hit, effect["element"], effect["max"])
+				var bonus := 100 + damage_bonus(fighter, hit, effect)
+				low = damage_value(fighter, hit, effect["element"], roundi(effect["min"] * bonus / 100.0))
+				high = damage_value(fighter, hit, effect["element"], roundi(effect["max"] * bonus / 100.0))
 			elif hit.hp >= hit.max_hp or hit.has_state(Spell.STATE_UNHEALABLE):
 				continue  # PV pleins ou insoignable : pas de « +0 ».
 			else:
@@ -970,6 +1051,10 @@ func _check_phases(fighter: Fighter, events: Array[Dictionary]) -> void:
 
 ## Pose un état (bonus, malus, poison). Un bonus ou malus de PA ou de PM compte tout de suite.
 func _add_state(target: Fighter, new_state: Dictionary, events: Array[Dictionary]) -> void:
+	var cap := int(new_state.get("cumul", 0))
+	var same := target.states.filter(func(state: Dictionary) -> bool: return state.get("sort") == new_state["sort"] and state.get("carac") == new_state.get("carac"))
+	for i in (same.size() - cap + 1) if cap > 0 else 0:
+		target.states.erase(same[i])  # Cumulable `cumul` fois : le plus ancien part.
 	target.states.append(new_state)
 	var signed := int(new_state["valeur"]) * (1 if new_state["type"] == Spell.EFFECT_BONUS else -1)
 	if new_state.get("carac") == "pa":
@@ -1007,6 +1092,7 @@ func _push(from: Vector2i, target: Fighter, distance: int, pull: bool, events: A
 			break
 	if moved > 0:
 		events.append({"type": Protocol.EVT_PUSHED, "entite": target.id, "depuis": start, "case": target.cell})
+		_check_images(target, events)
 	if not trap.is_empty():
 		_trigger_trap(trap, target, events)
 	elif not pull and moved < distance:
@@ -1020,7 +1106,7 @@ func _place_glyph(caster: Fighter, spell: Spell, effect: Dictionary, cells: Arra
 	for cell in cells:
 		if map.is_inside(cell) and map.is_walkable_in_combat(cell):
 			inside.append(cell)
-	var glyph := {"id": _next_ground_id, "lanceur": caster, "equipe": caster.team, "cases": inside, "effets": effect["effets"],
+	var glyph := {"id": _next_ground_id, "lanceur": caster, "equipe": caster.team, "ombres": caster.shadow, "cases": inside, "effets": effect["effets"],
 		"tours": int(effect["duree"]), "sort": spell.display_name, "pa": float(spell.pa_cost) / maxi(1, int(effect["duree"]))}
 	_next_ground_id += 1
 	glyphs.append(glyph)
@@ -1038,7 +1124,7 @@ func _place_trap(caster: Fighter, spell: Spell, effect: Dictionary, cell: Vector
 	for zone_cell in Spell.circle_cells(cell, int(zone.get("taille", 0)) if zone["type"] == Spell.ZONE_CIRCLE else 0):
 		if map.is_inside(zone_cell):
 			cells.append(zone_cell)
-	var trap := {"id": _next_ground_id, "lanceur": caster, "equipe": caster.team, "case": cell, "cases": cells,
+	var trap := {"id": _next_ground_id, "lanceur": caster, "equipe": caster.team, "ombres": caster.shadow, "case": cell, "cases": cells,
 		"effets": effect["effets"], "sort": spell.display_name, "pa": spell.pa_cost}
 	_next_ground_id += 1
 	traps.append(trap)
@@ -1214,6 +1300,10 @@ func _remove_ground_of(fighter: Fighter, events: Array[Dictionary]) -> void:
 		if trap["lanceur"] == fighter:
 			traps.erase(trap)
 			events.append({"type": Protocol.EVT_TRAP_ENDED, "id": trap["id"]})
+	for image in images.duplicate():
+		if image["lanceur"] == fighter:
+			images.erase(image)
+			events.append({"type": Protocol.EVT_IMAGE_ENDED, "id": image["id"], "explose": false, "cases": []})
 
 
 ## Début du tour de `fighter` : ses glyphes perdent un tour, puis ses poisons et les glyphes sous
@@ -1224,15 +1314,21 @@ func _start_of_turn_effects(fighter: Fighter, events: Array[Dictionary]) -> void
 			glyph["tours"] = int(glyph["tours"]) - 1
 			if int(glyph["tours"]) <= 0:
 				_end_glyph(glyph, events)
+	for image in images.duplicate():
+		if image["lanceur"] == fighter and int(image["manche"]) < round_number and image in images:
+			_explode(image, 0, events)  # Restée un tour complet.
 	for poison in fighter.states.duplicate():
-		if poison["type"] != Spell.EFFECT_POISON or not fighter.is_alive():
+		if poison["type"] not in [Spell.EFFECT_POISON, Spell.EFFECT_SHADOW_WEAPON] or not fighter.is_alive():
 			continue
+		if poison["type"] == Spell.EFFECT_SHADOW_WEAPON:  # Arme d'obscurité : frappe une fois, puis disparaît.
+			fighter.states.erase(poison)
+			events.append(_states_event(fighter))
 		var caster := get_fighter(poison["lanceur"])
 		var element: String = poison["element"]
 		var boosted := int(poison["valeur"]) * (100 + (caster.power(element) if caster != null else 0)) / 100.0 * dealt_factor(caster)
 		_open_credit(caster, float(poison.get("pa", 0.0)))
 		var dealt := maxi(0, roundi(boosted * (100 - fighter.resistance(element)) / 100.0) - fighter.combat_stat("reduction_degats"))
-		_thorns(caster, fighter, dealt, _hurt(fighter, dealt, element, events, "poison"), events)
+		_thorns(caster, fighter, dealt, _hurt(fighter, dealt, element, events, "poison" if poison["type"] == Spell.EFFECT_POISON else poison["sort"]), events)
 		_close_credit()
 	for glyph in glyphs_at(fighter.cell):
 		_open_credit(glyph["lanceur"], float(glyph.get("pa", 0.0)))
@@ -1247,8 +1343,8 @@ func _start_of_turn_effects(fighter: Fighter, events: Array[Dictionary]) -> void
 ## Passe la main au combattant suivant ; joue les tours des monstres jusqu'au prochain joueur.
 func _next_turn(events: Array[Dictionary]) -> void:
 	while state == State.FIGHTING:
-		if _turn_index >= 0 and fighters[_turn_index].end_turn():
-			events.append(_states_event(fighters[_turn_index]))
+		if _turn_index >= 0:
+			_end_of_turn(fighters[_turn_index], events)
 		_turn_index += 1
 		if _turn_index >= fighters.size():
 			_turn_index = 0
@@ -1260,6 +1356,7 @@ func _next_turn(events: Array[Dictionary]) -> void:
 		var fighter := fighters[_turn_index]
 		if not fighter.is_alive():
 			continue
+		dimension = fighter.shadow
 		fighter.start_turn()
 		events.append({"type": Protocol.EVT_TURN_STARTED, "entite": fighter.id, "tour": round_number, "pa": fighter.pa, "pm": fighter.pm})
 		if turn_limit > 0.0 and not fighter.is_ai():
@@ -1276,6 +1373,149 @@ func _next_turn(events: Array[Dictionary]) -> void:
 		if state == State.FIGHTING:
 			events.append({"type": Protocol.EVT_TURN_ENDED, "entite": fighter.id} if fighter.is_ai()
 				else {"type": Protocol.EVT_TURN_ENDED, "entite": fighter.id, "absent": true})
+
+
+## Fin du tour de `fighter` : ses états perdent un tour ; l'invisibilité tombée le montre ; il sort des ombres
+## quand son séjour est fini, ou tout de suite sans Ombre dans la dimension.
+func _end_of_turn(fighter: Fighter, events: Array[Dictionary]) -> void:
+	var was_invisible := fighter.is_invisible()
+	fighter.ambush = maxi(0, fighter.ambush - 1)
+	fighter.ambush_discount = fighter.ambush_discount and fighter.ambush > 0
+	if fighter.end_turn():
+		events.append(_states_event(fighter))
+	if was_invisible and not fighter.is_invisible() and fighter.is_alive():
+		_out_of_hiding(fighter, events)
+	if fighter.shadow and fighter.is_alive() and (not fighter.has_state(Spell.STATE_SHADOW) or not fighters.any(func(other: Fighter) -> bool:
+			return other.is_alive() and other.shadow and other.kind == SHADOW_CLASS)):
+		dimension = true
+		_cross(fighter, events)
+
+
+# --- Ombre : images rémanentes et Monde des ombres (GDD § 4.3) -----------------------------------
+
+## Le combattant est vu par l'adversaire (ni invisible, ou dans les ombres où son ombre se projette) : l'IA s'en souvient.
+func _seen(fighter: Fighter) -> void:
+	if not fighter.is_invisible():
+		fighter.last_seen = fighter.cell
+
+
+## Sortie de l'invisibilité ou des ombres : coup en traître pendant son tour (ou le suivant), avec les rangs 3
+## (1 PA de moins à son prochain sort) et 5 (+1 PM) du passif.
+func _out_of_hiding(fighter: Fighter, events: Array[Dictionary]) -> void:
+	_seen(fighter)
+	var rank := int(fighter.passives.get("coup_en_traitre", 0)) - 1
+	if rank < 0:
+		return
+	fighter.ambush = 1
+	fighter.ambush_discount = rank >= 3
+	if rank >= 5:
+		_add_state(fighter, {"type": Spell.EFFECT_BONUS, "carac": "pm", "valeur": 1, "tours": 1, "sort": "Coup en traître",
+			"lanceur": fighter.id, "retirable": false}, events)
+
+
+## Images ennemies de `fighter` (de sa dimension) à son contact ou sous lui en `cell`.
+func _images_near(cell: Vector2i, fighter: Fighter) -> Array[Dictionary]:
+	var near: Array[Dictionary] = []
+	for image in images:
+		if image["equipe"] != fighter.team and image["ombres"] == fighter.shadow and IsoGrid.distance(image["case"], cell) <= 1:
+			near.append(image)
+	return near
+
+
+## Un ennemi arrivé au contact d'images (ou dessus) les fait exploser.
+func _check_images(fighter: Fighter, events: Array[Dictionary]) -> void:
+	for image in _images_near(fighter.cell, fighter) if fighter.is_alive() else []:
+		if image in images:
+			_explode(image, 0, events)
+
+
+func _place_image(caster: Fighter, spell: Spell, effect: Dictionary, cell: Vector2i, events: Array[Dictionary]) -> void:
+	var own := images.filter(func(image: Dictionary) -> bool: return image["lanceur"] == caster)
+	if own.size() >= MAX_IMAGES:
+		_explode(own[0], 0, events)  # La plus ancienne explose.
+	var image := {"id": _next_ground_id, "lanceur": caster, "equipe": caster.team, "case": cell, "ombres": caster.shadow,
+		"manche": round_number, "effets": effect["effets"], "sort": spell.display_name, "pa": float(spell.pa_cost)}
+	_next_ground_id += 1
+	images.append(image)
+	events.append({"type": Protocol.EVT_IMAGE, "id": image["id"], "lanceur": caster.id, "equipe": caster.team, "case": cell,
+		"ombres": caster.shadow})
+	for enemy in fighters:
+		if enemy.is_alive() and enemy.team != caster.team and enemy.shadow == caster.shadow and IsoGrid.distance(enemy.cell, cell) <= 1 and image in images:
+			_explode(image, 0, events)
+
+
+## Une image explose : ses effets (+`bonus` % aux valeurs) touchent la croix d'une case autour d'elle, dans sa dimension.
+func _explode(image: Dictionary, bonus: int, events: Array[Dictionary]) -> void:
+	images.erase(image)
+	var cells := Spell.circle_cells(image["case"], 1)
+	events.append({"type": Protocol.EVT_IMAGE_ENDED, "id": image["id"], "explose": true, "cases": cells})
+	var outer := [dimension, _credit]
+	dimension = image["ombres"]
+	var caster: Fighter = image["lanceur"]
+	var hits: Array[Fighter] = []
+	hits.assign(cells.map(fighter_at).filter(func(hit: Fighter) -> bool: return hit != null))
+	_open_credit(caster, float(image["pa"]))
+	var effects: Array[Dictionary] = []
+	effects.assign(image["effets"])
+	for effect: Dictionary in Spell._scaled_effects(effects, 100 + bonus):
+		for hit in hits:
+			if hit.is_alive() and Spell.affects(effect, caster, hit):
+				_apply_effect(caster, hit, effect, events, false, image["case"], image["sort"])
+	_close_credit()
+	dimension = outer[0]
+	_credit = outer[1]
+
+
+## `fighter` passe dans l'autre dimension sur sa case. Un combattant de l'autre dimension sur cette case échange avec
+## lui (une fois par case et par combattant et par manche) s'il peut passer : pas « retour impossible » pour entrer, pas
+## « aspiré » pour sortir ; sinon `fighter` arrive sur la case libre la plus proche.
+func _cross(fighter: Fighter, events: Array[Dictionary]) -> void:
+	var outer := dimension
+	dimension = not fighter.shadow
+	var cell := fighter.cell
+	var other := fighter_at(cell)
+	var swap := other != null and not other.has_state(Spell.STATE_NO_RETURN if dimension == false else Spell.STATE_DRAWN) \
+		and [cell, other.id, fighter.id].all(func(key: Variant) -> bool: return _swaps.get(key, -1) != round_number)
+	if other != null and not swap:
+		fighter.cell = _nearest_free(cell)
+	fighter.shadow = dimension
+	_on_cross(fighter, swap, events)
+	if swap:
+		for key: Variant in [cell, other.id, fighter.id]:
+			_swaps[key] = round_number
+		other.shadow = not dimension
+		_on_cross(other, true, events)
+		if other.shadow:  # Entré par échange : il n'en ressort pas tout de suite par un sort.
+			_add_state(other, {"type": Spell.EFFECT_STATE, "etat": Spell.STATE_DRAWN, "valeur": 0, "tours": 1, "sort": "Monde des ombres",
+				"lanceur": fighter.id, "retirable": false}, events)
+	dimension = outer
+	_check_images(fighter, events)
+
+
+## Entrée (séjour de `SHADOW_TURNS` tours) ou sortie (retour impossible, coup en traître) des ombres.
+func _on_cross(fighter: Fighter, swapped: bool, events: Array[Dictionary]) -> void:
+	fighter.states.assign(fighter.states.filter(func(state: Dictionary) -> bool:
+		return state.get("etat") not in [Spell.STATE_SHADOW, Spell.STATE_NO_RETURN, Spell.STATE_DRAWN]))
+	events.append({"type": Protocol.EVT_DIMENSION, "entite": fighter.id, "ombres": fighter.shadow, "case": fighter.cell, "echange": swapped})
+	_add_state(fighter, {"type": Spell.EFFECT_STATE, "etat": Spell.STATE_SHADOW if fighter.shadow else Spell.STATE_NO_RETURN, "valeur": 0,
+		"tours": SHADOW_TURNS if fighter.shadow else 1 if fighter.kind == SHADOW_CLASS else NO_RETURN_TURNS, "sort": "Monde des ombres",
+		"lanceur": fighter.id, "retirable": false}, events)
+	if not fighter.shadow:
+		_out_of_hiding(fighter, events)
+
+
+## Case libre la plus proche de `cell` dans la dimension en cours (`cell` si aucune).
+func _nearest_free(cell: Vector2i) -> Vector2i:
+	for size in range(1, map.width + map.height):
+		for candidate in Spell.circle_cells(cell, size):
+			if IsoGrid.distance(cell, candidate) == size and map.is_inside(candidate) and is_free(candidate):
+				return candidate
+	return cell
+
+
+## `target` porte-t-il une arme d'obscurité de `caster` ?
+func marked_by(target: Fighter, caster: Fighter) -> bool:
+	return target.states.any(func(state: Dictionary) -> bool: return state["type"] == Spell.EFFECT_SHADOW_WEAPON and state.get("lanceur") == caster.id)
 
 
 func _play_ai_turn(fighter: Fighter, events: Array[Dictionary]) -> void:
@@ -1338,13 +1578,13 @@ func _plays_before(a: Fighter, b: Fighter) -> bool:
 
 ## Fonction « cette case bloque-t-elle la vue ? » pour un tir de `shooter`.
 func _sight_blocker(shooter: Fighter) -> Callable:
-	return _blocks_sight.bind(shooter)
+	return _blocks_sight.bind(shooter, true)
 
 
-func _blocks_sight(cell: Vector2i, shooter: Fighter) -> bool:
+func _blocks_sight(cell: Vector2i, shooter: Fighter, fighters_block: bool) -> bool:
 	if map.obstacles.has(cell) and map.obstacles[cell] not in SEE_THROUGH_OBSTACLES:
 		return true
-	var occupant := fighter_at(cell)
+	var occupant := fighter_at(cell) if fighters_block else null
 	return occupant != null and occupant != shooter
 
 
@@ -1374,6 +1614,9 @@ func snapshot(team := Fighter.TEAM_PLAYERS) -> Dictionary:
 	var ground: Array = []
 	for glyph in glyphs:
 		ground.append(_ground_snapshot(glyph))
+	var own_images: Array = []
+	for image in images:
+		own_images.append(_ground_snapshot(image))
 	var own_traps: Array = []
 	for trap in traps:
 		if trap["equipe"] == team:
@@ -1389,6 +1632,7 @@ func snapshot(team := Fighter.TEAM_PLAYERS) -> Dictionary:
 		"arrivee": arrival,
 		"glyphes": ground,
 		"pieges": own_traps,
+		"images": own_images,
 		"prochain_sol": _next_ground_id,
 		"prets": ready.keys(),
 		"absents": absent.keys(),
@@ -1445,14 +1689,11 @@ static func from_snapshot(saved: Dictionary, p_map: GameMap, p_data: GameData, c
 		var fighter := combat.get_fighter(pair[0])
 		if fighter != null:
 			combat._arrival[fighter] = int(pair[1])
-	for kind: String in ["glyphes", "pieges"]:
-		for ground: Dictionary in saved[kind]:
+	for kind: String in ["glyphes", "pieges", "images"]:
+		for ground: Dictionary in saved.get(kind, []):
 			var copy := ground.duplicate(true)
 			copy["lanceur"] = combat.get_fighter(ground["lanceur"])
 			if copy["lanceur"] == null:
 				continue
-			if kind == "glyphes":
-				combat.glyphs.append(copy)
-			else:
-				combat.traps.append(copy)
+			(combat.glyphs if kind == "glyphes" else combat.traps if kind == "pieges" else combat.images).append(copy)
 	return combat

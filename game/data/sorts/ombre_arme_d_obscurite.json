@@ -1,0 +1,31 @@
+{
+  "id": "ombre_arme_d_obscurite",
+  "nom": "Arme d'obscurité",
+  "description": "Cache une lame d'ombre dans l'ombre d'un ennemi : elle le suit et frappe au début de son prochain tour. Ne révèle pas l'Ombre.",
+  "cout_pa": 3,
+  "portee": {
+    "min": 1,
+    "max": 5
+  },
+  "discret": true,
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "arme_ombre",
+      "element": "acier",
+      "min": 14,
+      "max": 18,
+      "cibles": "ennemis"
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "portee_max": 1
+    },
+    "5": {
+      "cout_pa": 2
+    }
+  }
+}

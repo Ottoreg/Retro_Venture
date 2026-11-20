@@ -1,0 +1,36 @@
+{
+  "id": "ombre_shuriken_d_orage",
+  "nom": "Shuriken d'orage",
+  "description": "Une étoile chargée d'électricité qui ricoche sur un deuxième ennemi.",
+  "cout_pa": 3,
+  "portee": {
+    "min": 2,
+    "max": 6
+  },
+  "relance": {
+    "par_tour": 2
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "tempete",
+      "min": 7,
+      "max": 9
+    },
+    {
+      "type": "rebond",
+      "element": "tempete",
+      "min": 7,
+      "max": 9,
+      "distance": 2
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "portee_max": 1
+    },
+    "5": {
+      "critique": 10
+    }
+  }
+}

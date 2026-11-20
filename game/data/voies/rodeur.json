@@ -3,10 +3,10 @@
   "nom": "Rôdeur",
   "description": "Tire de loin, file entre les arbres et prétend toujours connaître un raccourci.",
   "caracteristiques": {
-    "pv": 52,
+    "pv": 50,
     "pa": 6,
     "pm": 3,
-    "initiative": 120
+    "initiative": 100
   },
   "sorts": [
     "rodeur_fleche",

@@ -224,7 +224,7 @@ static func _fighter_at(combat: Combat, fighter: Fighter, origin: Vector2i, cell
 	if cell == origin:
 		return fighter
 	var occupant := combat.fighter_at(cell)
-	return null if occupant == fighter else occupant
+	return null if occupant == fighter or (occupant != null and occupant.is_invisible() and occupant.team != fighter.team) else occupant
 
 
 static func _can_still_cast(fighter: Fighter) -> bool:
@@ -279,10 +279,13 @@ static func _leap(combat: Combat, fighter: Fighter) -> Dictionary:
 
 
 ## Se rapprocher autant que possible de l'ennemi le plus proche.
+## Sans ennemi en vue (invisibles, Monde des ombres), il va vers leurs dernières positions connues (`Combat.hunt_cells`).
 static func _approach(combat: Combat, fighter: Fighter, reachable: Dictionary) -> Dictionary:
 	var enemy_cells: Array[Vector2i] = []
 	for enemy in combat.enemies_of(fighter):
 		enemy_cells.append(enemy.cell)
+	if enemy_cells.is_empty():
+		enemy_cells = combat.hunt_cells(fighter)
 	var distances := combat.distances_from(enemy_cells, fighter)
 	var best_cell := fighter.cell
 	var best_distance: int = distances.get(fighter.cell, 1 << 30)

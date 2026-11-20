@@ -1,0 +1,30 @@
+{
+  "id": "ombre_execution",
+  "nom": "Exécution",
+  "description": "Le coup de grâce : d'autant plus fort que la cible est affaiblie.",
+  "cout_pa": 5,
+  "portee": {
+    "min": 1,
+    "max": 1
+  },
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "acier",
+      "min": 16,
+      "max": 20,
+      "par_malus": 5
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "critique": 5
+    },
+    "5": {
+      "cout_pa": 4
+    }
+  }
+}

@@ -3,7 +3,7 @@
   "nom": "Guerrier",
   "description": "Au contact, il encaisse et rend les coups. Réfléchit après, de préférence.",
   "caracteristiques": {
-    "pv": 60,
+    "pv": 50,
     "pa": 6,
     "pm": 3,
     "initiative": 100

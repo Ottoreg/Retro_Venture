@@ -1,0 +1,41 @@
+{
+  "id": "ombre_coupe_jarret",
+  "nom": "Coupe-jarret",
+  "description": "Un coup bas derrière le genou : l'ennemi ira moins loin.",
+  "cout_pa": 2,
+  "portee": {
+    "min": 1,
+    "max": 1
+  },
+  "discret": true,
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "malus",
+      "carac": "pm",
+      "min": 2,
+      "max": 2,
+      "duree": 1,
+      "cibles": "ennemis"
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "effets": [
+        {
+          "type": "malus",
+          "carac": "pa",
+          "min": 1,
+          "max": 1,
+          "duree": 1,
+          "cibles": "ennemis"
+        }
+      ]
+    },
+    "5": {
+      "cout_pa": 1
+    }
+  }
+}
