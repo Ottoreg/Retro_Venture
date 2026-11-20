@@ -1,0 +1,307 @@
+{
+  "group_id": "b39384e6-e1a0-4098-8334-1c8d56bef142",
+  "states": [
+    {
+      "character": {
+        "id": "916f8403-ab9c-47ec-a64d-3716144661a3",
+        "name": "Idle",
+        "prompt": "average adult male human, medium build, confident slightly self-important expression, short tousled dark brown hair, light stubble, fair skin, plain undyed grey-beige wool tunic, thick brown leather belt with brass buckle, brown leather bracers, brown trousers, sturdy brown boots, no weapon, empty hands, full body standing, dark muted fantasy palette, gritty detailed pixel art, near-black 1px outline, soft light from top left, transparent background",
+        "size": {
+          "width": 64,
+          "height": 64
+        },
+        "template_id": "mannequin",
+        "directions": 8,
+        "view": "low top-down",
+        "created_at": "2026-11-20T08:49:05.305999+00:00"
+      },
+      "folder": "Idle",
+      "frames": {
+        "rotations": {
+          "south": "Idle/rotations/south.png",
+          "south-east": "Idle/rotations/south-east.png",
+          "east": "Idle/rotations/east.png",
+          "north-east": "Idle/rotations/north-east.png",
+          "north": "Idle/rotations/north.png",
+          "north-west": "Idle/rotations/north-west.png",
+          "west": "Idle/rotations/west.png",
+          "south-west": "Idle/rotations/south-west.png"
+        },
+        "animations": {
+          "Shift_weight_forward_and_thrust_the_right_fist_out": {
+            "north-east": [
+              "Idle/animations/Shift_weight_forward_and_thrust_the_right_fist_out/north-east/frame_000.png",
+              "Idle/animations/Shift_weight_forward_and_thrust_the_right_fist_out/north-east/frame_001.png",
+              "Idle/animations/Shift_weight_forward_and_thrust_the_right_fist_out/north-east/frame_002.png",
+              "Idle/animations/Shift_weight_forward_and_thrust_the_right_fist_out/north-east/frame_003.png",
+              "Idle/animations/Shift_weight_forward_and_thrust_the_right_fist_out/north-east/frame_004.png",
+              "Idle/animations/Shift_weight_forward_and_thrust_the_right_fist_out/north-east/frame_005.png",
+              "Idle/animations/Shift_weight_forward_and_thrust_the_right_fist_out/north-east/frame_006.png",
+              "Idle/animations/Shift_weight_forward_and_thrust_the_right_fist_out/north-east/frame_007.png",
+              "Idle/animations/Shift_weight_forward_and_thrust_the_right_fist_out/north-east/frame_008.png"
+            ],
+            "south-west": [
+              "Idle/animations/Shift_weight_forward_and_thrust_the_right_fist_out/south-west/frame_000.png",
+              "Idle/animations/Shift_weight_forward_and_thrust_the_right_fist_out/south-west/frame_001.png",
+              "Idle/animations/Shift_weight_forward_and_thrust_the_right_fist_out/south-west/frame_002.png",
+              "Idle/animations/Shift_weight_forward_and_thrust_the_right_fist_out/south-west/frame_003.png",
+              "Idle/animations/Shift_weight_forward_and_thrust_the_right_fist_out/south-west/frame_004.png",
+              "Idle/animations/Shift_weight_forward_and_thrust_the_right_fist_out/south-west/frame_005.png",
+              "Idle/animations/Shift_weight_forward_and_thrust_the_right_fist_out/south-west/frame_006.png",
+              "Idle/animations/Shift_weight_forward_and_thrust_the_right_fist_out/south-west/frame_007.png",
+              "Idle/animations/Shift_weight_forward_and_thrust_the_right_fist_out/south-west/frame_008.png"
+            ],
+            "south-east": [
+              "Idle/animations/Shift_weight_forward_and_thrust_the_right_fist_out/south-east/frame_000.png",
+              "Idle/animations/Shift_weight_forward_and_thrust_the_right_fist_out/south-east/frame_001.png",
+              "Idle/animations/Shift_weight_forward_and_thrust_the_right_fist_out/south-east/frame_002.png",
+              "Idle/animations/Shift_weight_forward_and_thrust_the_right_fist_out/south-east/frame_003.png",
+              "Idle/animations/Shift_weight_forward_and_thrust_the_right_fist_out/south-east/frame_004.png",
+              "Idle/animations/Shift_weight_forward_and_thrust_the_right_fist_out/south-east/frame_005.png",
+              "Idle/animations/Shift_weight_forward_and_thrust_the_right_fist_out/south-east/frame_006.png",
+              "Idle/animations/Shift_weight_forward_and_thrust_the_right_fist_out/south-east/frame_007.png",
+              "Idle/animations/Shift_weight_forward_and_thrust_the_right_fist_out/south-east/frame_008.png"
+            ],
+            "north-west": [
+              "Idle/animations/Shift_weight_forward_and_thrust_the_right_fist_out/north-west/frame_000.png",
+              "Idle/animations/Shift_weight_forward_and_thrust_the_right_fist_out/north-west/frame_001.png",
+              "Idle/animations/Shift_weight_forward_and_thrust_the_right_fist_out/north-west/frame_002.png",
+              "Idle/animations/Shift_weight_forward_and_thrust_the_right_fist_out/north-west/frame_003.png",
+              "Idle/animations/Shift_weight_forward_and_thrust_the_right_fist_out/north-west/frame_004.png",
+              "Idle/animations/Shift_weight_forward_and_thrust_the_right_fist_out/north-west/frame_005.png",
+              "Idle/animations/Shift_weight_forward_and_thrust_the_right_fist_out/north-west/frame_006.png",
+              "Idle/animations/Shift_weight_forward_and_thrust_the_right_fist_out/north-west/frame_007.png",
+              "Idle/animations/Shift_weight_forward_and_thrust_the_right_fist_out/north-west/frame_008.png"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "character": {
+        "id": "22032648-ba57-4b05-b122-70909e427036",
+        "name": "walking",
+        "prompt": "average adult male human, medium build, confident slightly self-important expression, short tousled dark brown hair, light stubble, fair skin, plain undyed grey-beige wool tunic, thick brown leather belt with brass buckle, brown leather bracers, brown trousers, sturdy brown boots, no weapon, empty hands, full body standing, dark muted fantasy palette, gritty detailed pixel art, near-black 1px outline, soft light from top left, transparent background",
+        "size": {
+          "width": 64,
+          "height": 64
+        },
+        "template_id": "mannequin",
+        "directions": 8,
+        "view": "low top-down",
+        "created_at": "2026-11-20T09:02:05.511089+00:00"
+      },
+      "folder": "walking",
+      "frames": {
+        "rotations": {
+          "south": "walking/rotations/south.png",
+          "south-east": "walking/rotations/south-east.png",
+          "east": "walking/rotations/east.png",
+          "north-east": "walking/rotations/north-east.png",
+          "north": "walking/rotations/north.png",
+          "north-west": "walking/rotations/north-west.png",
+          "west": "walking/rotations/west.png",
+          "south-west": "walking/rotations/south-west.png"
+        },
+        "animations": {
+          "Walking": {
+            "south": [
+              "walking/animations/Walking/south/frame_000.png",
+              "walking/animations/Walking/south/frame_001.png",
+              "walking/animations/Walking/south/frame_002.png",
+              "walking/animations/Walking/south/frame_003.png",
+              "walking/animations/Walking/south/frame_004.png",
+              "walking/animations/Walking/south/frame_005.png",
+              "walking/animations/Walking/south/frame_006.png",
+              "walking/animations/Walking/south/frame_007.png"
+            ],
+            "west": [
+              "walking/animations/Walking/west/frame_000.png",
+              "walking/animations/Walking/west/frame_001.png",
+              "walking/animations/Walking/west/frame_002.png",
+              "walking/animations/Walking/west/frame_003.png",
+              "walking/animations/Walking/west/frame_004.png",
+              "walking/animations/Walking/west/frame_005.png",
+              "walking/animations/Walking/west/frame_006.png",
+              "walking/animations/Walking/west/frame_007.png"
+            ],
+            "north-east": [
+              "walking/animations/Walking/north-east/frame_000.png",
+              "walking/animations/Walking/north-east/frame_001.png",
+              "walking/animations/Walking/north-east/frame_002.png",
+              "walking/animations/Walking/north-east/frame_003.png",
+              "walking/animations/Walking/north-east/frame_004.png",
+              "walking/animations/Walking/north-east/frame_005.png",
+              "walking/animations/Walking/north-east/frame_006.png",
+              "walking/animations/Walking/north-east/frame_007.png"
+            ],
+            "south-west": [
+              "walking/animations/Walking/south-west/frame_000.png",
+              "walking/animations/Walking/south-west/frame_001.png",
+              "walking/animations/Walking/south-west/frame_002.png",
+              "walking/animations/Walking/south-west/frame_003.png",
+              "walking/animations/Walking/south-west/frame_004.png",
+              "walking/animations/Walking/south-west/frame_005.png",
+              "walking/animations/Walking/south-west/frame_006.png",
+              "walking/animations/Walking/south-west/frame_007.png"
+            ],
+            "south-east": [
+              "walking/animations/Walking/south-east/frame_000.png",
+              "walking/animations/Walking/south-east/frame_001.png",
+              "walking/animations/Walking/south-east/frame_002.png",
+              "walking/animations/Walking/south-east/frame_003.png",
+              "walking/animations/Walking/south-east/frame_004.png",
+              "walking/animations/Walking/south-east/frame_005.png",
+              "walking/animations/Walking/south-east/frame_006.png",
+              "walking/animations/Walking/south-east/frame_007.png"
+            ],
+            "east": [
+              "walking/animations/Walking/east/frame_000.png",
+              "walking/animations/Walking/east/frame_001.png",
+              "walking/animations/Walking/east/frame_002.png",
+              "walking/animations/Walking/east/frame_003.png",
+              "walking/animations/Walking/east/frame_004.png",
+              "walking/animations/Walking/east/frame_005.png",
+              "walking/animations/Walking/east/frame_006.png",
+              "walking/animations/Walking/east/frame_007.png"
+            ],
+            "north": [
+              "walking/animations/Walking/north/frame_000.png",
+              "walking/animations/Walking/north/frame_001.png",
+              "walking/animations/Walking/north/frame_002.png",
+              "walking/animations/Walking/north/frame_003.png",
+              "walking/animations/Walking/north/frame_004.png",
+              "walking/animations/Walking/north/frame_005.png",
+              "walking/animations/Walking/north/frame_006.png",
+              "walking/animations/Walking/north/frame_007.png"
+            ],
+            "north-west": [
+              "walking/animations/Walking/north-west/frame_000.png",
+              "walking/animations/Walking/north-west/frame_001.png",
+              "walking/animations/Walking/north-west/frame_002.png",
+              "walking/animations/Walking/north-west/frame_003.png",
+              "walking/animations/Walking/north-west/frame_004.png",
+              "walking/animations/Walking/north-west/frame_005.png",
+              "walking/animations/Walking/north-west/frame_006.png",
+              "walking/animations/Walking/north-west/frame_007.png"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "character": {
+        "id": "374b21c4-7e2f-4826-b446-3564908588fa",
+        "name": "running",
+        "prompt": "average adult male human, medium build, confident slightly self-important expression, short tousled dark brown hair, light stubble, fair skin, plain undyed grey-beige wool tunic, thick brown leather belt with brass buckle, brown leather bracers, brown trousers, sturdy brown boots, no weapon, empty hands, full body standing, dark muted fantasy palette, gritty detailed pixel art, near-black 1px outline, soft light from top left, transparent background",
+        "size": {
+          "width": 64,
+          "height": 64
+        },
+        "template_id": "mannequin",
+        "directions": 8,
+        "view": "low top-down",
+        "created_at": "2026-11-20T09:02:11.847423+00:00"
+      },
+      "folder": "running",
+      "frames": {
+        "rotations": {
+          "south": "running/rotations/south.png",
+          "south-east": "running/rotations/south-east.png",
+          "east": "running/rotations/east.png",
+          "north-east": "running/rotations/north-east.png",
+          "north": "running/rotations/north.png",
+          "north-west": "running/rotations/north-west.png",
+          "west": "running/rotations/west.png",
+          "south-west": "running/rotations/south-west.png"
+        },
+        "animations": {
+          "Running": {
+            "east": [
+              "running/animations/Running/east/frame_000.png",
+              "running/animations/Running/east/frame_001.png",
+              "running/animations/Running/east/frame_002.png",
+              "running/animations/Running/east/frame_003.png",
+              "running/animations/Running/east/frame_004.png",
+              "running/animations/Running/east/frame_005.png",
+              "running/animations/Running/east/frame_006.png",
+              "running/animations/Running/east/frame_007.png"
+            ],
+            "south-east": [
+              "running/animations/Running/south-east/frame_000.png",
+              "running/animations/Running/south-east/frame_001.png",
+              "running/animations/Running/south-east/frame_002.png",
+              "running/animations/Running/south-east/frame_003.png",
+              "running/animations/Running/south-east/frame_004.png",
+              "running/animations/Running/south-east/frame_005.png",
+              "running/animations/Running/south-east/frame_006.png",
+              "running/animations/Running/south-east/frame_007.png"
+            ],
+            "south": [
+              "running/animations/Running/south/frame_000.png",
+              "running/animations/Running/south/frame_001.png",
+              "running/animations/Running/south/frame_002.png",
+              "running/animations/Running/south/frame_003.png",
+              "running/animations/Running/south/frame_004.png",
+              "running/animations/Running/south/frame_005.png",
+              "running/animations/Running/south/frame_006.png",
+              "running/animations/Running/south/frame_007.png"
+            ],
+            "south-west": [
+              "running/animations/Running/south-west/frame_000.png",
+              "running/animations/Running/south-west/frame_001.png",
+              "running/animations/Running/south-west/frame_002.png",
+              "running/animations/Running/south-west/frame_003.png",
+              "running/animations/Running/south-west/frame_004.png",
+              "running/animations/Running/south-west/frame_005.png",
+              "running/animations/Running/south-west/frame_006.png",
+              "running/animations/Running/south-west/frame_007.png"
+            ],
+            "west": [
+              "running/animations/Running/west/frame_000.png",
+              "running/animations/Running/west/frame_001.png",
+              "running/animations/Running/west/frame_002.png",
+              "running/animations/Running/west/frame_003.png",
+              "running/animations/Running/west/frame_004.png",
+              "running/animations/Running/west/frame_005.png",
+              "running/animations/Running/west/frame_006.png",
+              "running/animations/Running/west/frame_007.png"
+            ],
+            "north": [
+              "running/animations/Running/north/frame_000.png",
+              "running/animations/Running/north/frame_001.png",
+              "running/animations/Running/north/frame_002.png",
+              "running/animations/Running/north/frame_003.png",
+              "running/animations/Running/north/frame_004.png",
+              "running/animations/Running/north/frame_005.png",
+              "running/animations/Running/north/frame_006.png",
+              "running/animations/Running/north/frame_007.png"
+            ],
+            "north-west": [
+              "running/animations/Running/north-west/frame_000.png",
+              "running/animations/Running/north-west/frame_001.png",
+              "running/animations/Running/north-west/frame_002.png",
+              "running/animations/Running/north-west/frame_003.png",
+              "running/animations/Running/north-west/frame_004.png",
+              "running/animations/Running/north-west/frame_005.png",
+              "running/animations/Running/north-west/frame_006.png",
+              "running/animations/Running/north-west/frame_007.png"
+            ],
+            "north-east": [
+              "running/animations/Running/north-east/frame_000.png",
+              "running/animations/Running/north-east/frame_001.png",
+              "running/animations/Running/north-east/frame_002.png",
+              "running/animations/Running/north-east/frame_003.png",
+              "running/animations/Running/north-east/frame_004.png",
+              "running/animations/Running/north-east/frame_005.png",
+              "running/animations/Running/north-east/frame_006.png",
+              "running/animations/Running/north-east/frame_007.png"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-11-20T10:32:34.192552"
+}

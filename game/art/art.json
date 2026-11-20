@@ -1492,21 +1492,7 @@
       "rig": "humain",
       "planche": "sprites/humain.png",
       "echelle": 1.1,
-      "recoloration": {
-        "teinte": [
-          100,
-          300
-        ],
-        "saturation": [
-          0,
-          0.4
-        ],
-        "valeur": [
-          0.12,
-          0.8
-        ],
-        "force": 0.75
-      }
+      "recoloration": {"teinte": [20, 60], "saturation": [0.05, 0.3], "valeur": [0.35, 0.8], "force": 0.85}
     },
     "elfe": {
       "rig": "humain",
@@ -1538,21 +1524,7 @@
       "rig": "gobelin",
       "planche": "sprites/gobelin.png",
       "echelle": 0.95,
-      "recoloration": {
-        "teinte": [
-          355,
-          30
-        ],
-        "saturation": [
-          0.3,
-          0.75
-        ],
-        "valeur": [
-          0.12,
-          0.62
-        ],
-        "force": 0.85
-      },
+      "recoloration": {"teinte": [100, 230], "saturation": [0.04, 0.22], "valeur": [0.3, 0.75], "force": 0.85},
       "couleurs": {
         "cheveux": "3a2a1a"
       }
