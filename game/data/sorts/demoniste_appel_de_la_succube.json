@@ -1,0 +1,33 @@
+{
+  "id": "demoniste_appel_de_la_succube",
+  "nom": "Appel de la Succube",
+  "description": "Invoque la Succube des ressources humaines : elle soigne et motive. Vos plaintes seront traitées sous 666 jours. Rang 3 : il arrive avec 1 PM de plus. Rang 5 : il connaît un sort de plus.",
+  "cout_pa": 3,
+  "portee": {
+    "min": 1,
+    "max": 2
+  },
+  "relance": {
+    "delai": 2
+  },
+  "effets": [
+    {
+      "type": "invocation",
+      "serviteur": {
+        "id": "succube",
+        "nom": "Succube des RH",
+        "pv": 40,
+        "pa": 4,
+        "pm": 3,
+        "sorts": [
+          "succube_soin_rh",
+          "succube_prime_de_motivation"
+        ],
+        "sorts_rang_5": [
+          "succube_pause_cafe"
+        ]
+      }
+    }
+  ],
+  "maitrise": {}
+}

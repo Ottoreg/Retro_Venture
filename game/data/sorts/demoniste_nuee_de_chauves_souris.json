@@ -1,0 +1,43 @@
+{
+  "id": "demoniste_nuee_de_chauves_souris",
+  "nom": "Nuée de chauves-souris",
+  "description": "Une nuée qui mord tout ce qui passe, sauf les alliés (elles ont signé une charte).",
+  "cout_pa": 4,
+  "portee": {
+    "min": 2,
+    "max": 6
+  },
+  "zone": {
+    "type": "cercle",
+    "taille": 1
+  },
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "impie",
+      "min": 6,
+      "max": 8,
+      "cibles": "ennemis"
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "cout_pa": 3
+    },
+    "5": {
+      "effets": [
+        {
+          "type": "malus",
+          "carac": "portee",
+          "min": 1,
+          "max": 1,
+          "duree": 1,
+          "cibles": "ennemis"
+        }
+      ]
+    }
+  }
+}

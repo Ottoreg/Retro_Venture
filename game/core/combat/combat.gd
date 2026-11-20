@@ -58,6 +58,15 @@ const SHADOW_TURNS := 2
 const NO_RETURN_TURNS := 2
 ## Classe qui garde les autres dans les ombres : sans elle dans la dimension, on en sort au bout d'un tour.
 const SHADOW_CLASS := "ombre"
+## Démoniste (GDD § 4.3) : embrasement des cases, une table par dimension ([normal, ombres]) : case → { niveau : 1 à 3, puis
+## `CALCINED` (calcinée), equipe et lanceur : du dernier qui l'a embrasée }. Variantes : +`EMBER_BONUS` % aux valeurs d'un sort
+## de la Voie Flamme par niveau de la case visée ; un ennemi qui commence son tour sur une case embrasée (pas calcinée) perd
+## `EMBER_BURN` × niveau PV (Flamme). Serviteurs : `MAX_SERVANTS` en même temps (un de plus au rang 5 du passif).
+var embers: Array[Dictionary] = [{}, {}]
+const CALCINED := 4
+const EMBER_BONUS := 10
+const EMBER_BURN := 2
+const MAX_SERVANTS := 2
 
 ## Temps limité (en ligne, GDD § 7.2) : secondes d'un tour de joueur, et du placement ; 0 : illimité
 ## (solo). Le temps passe par `advance`.
@@ -130,7 +139,7 @@ func add_player_fighter(fighter: Fighter) -> Array[Dictionary]:
 func player_fighters() -> Array[Fighter]:
 	var result: Array[Fighter] = []
 	for fighter in fighters:
-		if not fighter.is_ai():
+		if not fighter.is_ai() and fighter.master.is_empty():
 			result.append(fighter)
 	return result
 
@@ -149,8 +158,8 @@ func set_absent(fighter_id: String, away: bool) -> Array[Dictionary]:
 	events.append({"type": Protocol.EVT_FIGHTER_AWAY, "entite": fighter_id, "absent": away})
 	if away and state == State.PLACEMENT and _everyone_ready():
 		events.append_array(_start_fighting())
-	elif away and current_fighter() == fighter:
-		events.append({"type": Protocol.EVT_TURN_ENDED, "entite": fighter_id, "absent": true})
+	elif away and current_fighter() != null and current_fighter().controller() == fighter_id:
+		events.append({"type": Protocol.EVT_TURN_ENDED, "entite": current_fighter().id, "absent": true})
 		_next_turn(events)
 	return events
 
@@ -329,7 +338,8 @@ func targeting_blocker(fighter: Fighter, spell: Spell, target: Vector2i, origin 
 		return Protocol.REASON_NOT_IN_LINE
 	var distance := IsoGrid.distance(from, target)
 	var aimed := fighter_at(target)
-	var reach := maxi(max_range(fighter, spell), spell.marked_range if aimed != null and marked_by(aimed, fighter) else 0)
+	var reach := maxi(max_range(fighter, spell), maxi(spell.marked_range if aimed != null and marked_by(aimed, fighter) else 0,
+		spell.ember_range if ember_level(target) > 0 else 0))
 	if distance < spell.range_min or distance > reach:
 		return Protocol.REASON_OUT_OF_RANGE
 	if spell.needs_line_of_sight and not LineOfSight.is_clear(from, target, _blocks_sight.bind(fighter, spell.zone_type != Spell.ZONE_LINE)):
@@ -374,7 +384,7 @@ func max_range(fighter: Fighter, spell: Spell) -> int:
 ## Cases à portée du sort, avec et sans ligne de vue (pour l'affichage).
 func spell_range(fighter: Fighter, spell: Spell) -> Dictionary:
 	var result := {"visibles": [] as Array[Vector2i], "masquees": [] as Array[Vector2i]}
-	var reach := maxi(max_range(fighter, spell), spell.marked_range)
+	var reach := maxi(max_range(fighter, spell), maxi(spell.marked_range, spell.ember_range))
 	for dy in range(-reach, reach + 1):
 		for dx in range(-reach, reach + 1):
 			var cell := fighter.cell + Vector2i(dx, dy)
@@ -585,6 +595,14 @@ func _cast(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 	if blocker.is_empty() and not spell.effect_of(Spell.EFFECT_DETONATE).is_empty() \
 			and not images.any(func(image: Dictionary) -> bool: return image["lanceur"] == fighter and image["case"] == target):
 		blocker = Protocol.REASON_NO_IMAGE
+	if blocker.is_empty() and not spell.effect_of(Spell.EFFECT_SUMMON).is_empty():
+		blocker = Protocol.REASON_TOO_MANY_SERVANTS if servants_of(fighter).size() >= max_servants(fighter) else "" if is_free(target) \
+			else Protocol.REASON_OCCUPIED if aimed != null else Protocol.REASON_BLOCKED
+	if blocker.is_empty() and spell.effects.any(func(effect: Dictionary) -> bool: return effect["type"] in [Spell.EFFECT_SWAP, Spell.EFFECT_SACRIFICE]) \
+			and (aimed == null or aimed.master != fighter.id):
+		blocker = Protocol.REASON_NOT_SERVANT
+	if blocker.is_empty() and not spell.effect_of(Spell.EFFECT_ASHES).is_empty() and _heat_of(spell.zone_cells(target, fighter.cell)) == 0:
+		blocker = Protocol.REASON_NO_EMBERS
 	if blocker.is_empty() and not spell.create_effect().is_empty() and created_spell_for(fighter, spell) == null:
 		blocker = Protocol.REASON_NO_COMBINATION
 	var choices := spell.state_choices()
@@ -608,6 +626,8 @@ func _cast(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 		"ombres": fighter.shadow,
 	}]
 	_seen(fighter)  # Dans les ombres, son ombre est projetée dehors, sur sa case.
+	var zone := spell.zone_cells(target, fighter.cell)
+	var cast_effects := _ember_variant(spell, target, zone)
 	if not trap_effect.is_empty():
 		events[0]["cache"] = true
 	var origin := fighter.cell
@@ -647,16 +667,18 @@ func _cast(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 	if created != null:
 		var removed := fighter.add_created_spell(created)
 		events.append({"type": Protocol.EVT_SPELL_CREATED, "entite": fighter.id, "sort": created.id, "ancien": removed})
-	for effect in spell.effects:
+	for effect in cast_effects:
 		if effect["type"] == Spell.EFFECT_GLYPH:
 			_place_glyph(fighter, spell, effect, spell.zone_cells(target, origin), events)
+		elif effect["type"] == Spell.EFFECT_SUMMON:
+			_summon(fighter, spell, effect, target, events)
 		elif effect["type"] == Spell.EFFECT_TRAP:
 			_place_trap(fighter, spell, effect, target, events)
 		elif effect["type"] == Spell.EFFECT_IMAGE:
 			_place_image(fighter, spell, effect, origin, events)
 	var elements := {}
-	for effect in spell.effects:
-		if effect["type"] in [Spell.EFFECT_DAMAGE, Spell.EFFECT_HEAL, Spell.EFFECT_POISON, Spell.EFFECT_BOUNCE]:
+	for effect in cast_effects:
+		if effect["type"] in [Spell.EFFECT_DAMAGE, Spell.EFFECT_HEAL, Spell.EFFECT_POISON, Spell.EFFECT_BOUNCE, Spell.EFFECT_SACRIFICE]:
 			elements[effect["element"]] = true
 	_open_credit(fighter, spell.pa_cost, elements.keys())
 	var targets: Array[Fighter] = []
@@ -666,14 +688,16 @@ func _cast(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 		if hit != null and not (spell.excludes_caster and hit == fighter) \
 				and not (hit.is_invisible() and hit.team != fighter.team and spell.zone_type == Spell.ZONE_CELL):
 			targets.append(hit)
+	for effect in cast_effects.filter(func(effect: Dictionary) -> bool: return effect.get("sur_lanceur", false)):
+		_apply_effect(fighter, fighter, effect, events, critical, origin, spell.display_name)
 	for hit in targets:
 		var chain: Array[Fighter] = [hit]
-		for effect in spell.effects:
+		for effect in cast_effects:
 			if effect["type"] == Spell.EFFECT_BOUNCE:
 				_bounce(fighter, chain, effect, events, critical, spell.display_name)
 			elif hit.is_alive() and effect["type"] not in [Spell.EFFECT_TELEPORT, Spell.EFFECT_GLYPH, Spell.EFFECT_TRAP,
 					Spell.EFFECT_CHARGE, Spell.EFFECT_CREATE_SPELL, Spell.EFFECT_COMPOSE_STATES, Spell.EFFECT_IMAGE,
-					Spell.EFFECT_DETONATE, Spell.EFFECT_BEHIND] \
+					Spell.EFFECT_DETONATE, Spell.EFFECT_BEHIND, Spell.EFFECT_SUMMON] and not effect.get("sur_lanceur", false) \
 					and Spell.affects(effect, fighter, hit) and not (effect.get("premier_lancer", false) and fighter.cast_count(spell) > 1):
 				_apply_effect(fighter, hit, effect, events, critical, origin, spell.display_name)
 	var detonate := spell.effect_of(Spell.EFFECT_DETONATE)
@@ -681,6 +705,8 @@ func _cast(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 		if image["lanceur"] == fighter and image["case"] == target:
 			_explode(image, int(detonate.get("bonus", 0)), events)
 	_close_credit()
+	_ignite(fighter, zone, -CALCINED if not spell.effect_of(Spell.EFFECT_ASHES).is_empty() else int(spell.calcined.get("embrase", spell.ignites))
+		if ember_level(target) == CALCINED else spell.ignites, events)
 	# Invisible : un sort de dégâts non discret la révèle.
 	if fighter.is_invisible() and not spell.discreet and spell.effects.any(func(effect: Dictionary) -> bool: return effect["type"] == Spell.EFFECT_DAMAGE):
 		fighter.states.assign(fighter.states.filter(func(state: Dictionary) -> bool: return state.get("etat") != Spell.STATE_INVISIBLE))
@@ -732,6 +758,8 @@ func _close_credit() -> void:
 
 
 func _add_practice(fighter_id: String, kind: String, amount: float, element := "") -> void:
+	var fighter := get_fighter(fighter_id)
+	fighter_id = fighter.controller() if fighter != null else fighter_id  # Un serviteur fait progresser son maître.
 	if not practice.has(fighter_id):
 		practice[fighter_id] = {"effet": {}, "utile": 0.0, "pv_recus": 0.0}
 	var entry: Dictionary = practice[fighter_id]
@@ -815,6 +843,21 @@ func _apply_effect(caster: Fighter, target: Fighter, effect: Dictionary, events:
 					"sort": source, "lanceur": caster.id, "retirable": false}, events)
 		Spell.EFFECT_SHADOW_WORLD:
 			_cross(target, events)
+		Spell.EFFECT_SWAP:
+			var from_cell := caster.cell
+			caster.cell = target.cell
+			target.cell = from_cell
+			for moved: Fighter in [caster, target]:
+				events.append({"type": Protocol.EVT_TELEPORTED, "entite": moved.id, "depuis": target.cell if moved == caster else caster.cell,
+					"case": moved.cell, "echange": true})
+		Spell.EFFECT_SACRIFICE:  # Le serviteur explose : dégâts autour de lui, plus une part de ses PV restants.
+			var extra := roundi(target.hp * int(effect.get("part_pv", 0)) / 100.0)
+			_kill(target, events)
+			for cell in Spell.circle_cells(target.cell, 1):
+				var hit := fighter_at(cell)
+				if hit != null and hit.team != caster.team:
+					_apply_effect(caster, hit, {"type": Spell.EFFECT_DAMAGE, "element": effect["element"], "min": int(effect["min"]) + extra,
+						"max": int(effect["max"]) + extra}, events, critical, target.cell, source)
 		Spell.EFFECT_POISON:
 			var poison := {"type": Spell.EFFECT_POISON, "element": effect["element"], "valeur": amount,
 				"tours": effect["duree"], "sort": source, "lanceur": caster.id, "retirable": removable}
@@ -851,10 +894,15 @@ func _apply_effect(caster: Fighter, target: Fighter, effect: Dictionary, events:
 
 
 ## % de dégâts en plus d'un effet de dégâts de l'Ombre : « si_invisible » (lanceur invisible), « par_malus » (par malus
-## de la cible) et passif « Coup en traître » (5 + rang + 1 %, invisible ou juste sorti des ombres ou de l'invisibilité).
-static func damage_bonus(caster: Fighter, target: Fighter, effect: Dictionary) -> int:
+## de la cible) et passif « Coup en traître » (5 + rang + 1 %, invisible ou juste sorti des ombres ou de l'invisibilité) ;
+## du Démoniste : « par_serviteur » (par serviteur vivant) et passif « Pacte de feu » (5 + rang + 1 %, lui et ses serviteurs,
+## contre une cible sur une case embrasée ou calcinée).
+func damage_bonus(caster: Fighter, target: Fighter, effect: Dictionary) -> int:
 	var hidden := caster.is_invisible() or caster.ambush > 0
+	var pact := int(caster.passives.get("pacte_de_feu", 0))
 	return (int(effect.get("si_invisible", 0)) if caster.is_invisible() else 0) \
+		+ int(effect.get("par_serviteur", 0)) * servants_of(caster).size() \
+		+ (5 + pact if pact > 0 and ember_level(target.cell, target.shadow) > 0 else 0) \
 		+ int(effect.get("par_malus", 0)) * target.states.filter(func(state: Dictionary) -> bool: return state["type"] == Spell.EFFECT_MALUS).size() \
 		+ (5 + int(caster.passives.get("coup_en_traitre", 0)) if hidden and int(caster.passives.get("coup_en_traitre", 0)) > 0 else 0)
 
@@ -963,7 +1011,7 @@ func _hurt(target: Fighter, amount: int, element: String, events: Array[Dictiona
 		var shield_credit := target.shield_credit
 		target.shield_credit = {}
 		_add_practice(shield_credit["lanceur"], "effet", float(shield_credit["pa"]), shield_credit["element"])
-	if lost > 0 and target.team == Fighter.TEAM_PLAYERS:
+	if lost > 0 and target.team == Fighter.TEAM_PLAYERS and target.master.is_empty():
 		_add_practice(target.id, "pv_recus", float(lost))
 	var event := {"type": Protocol.EVT_DAMAGE, "entite": target.id, "valeur": amount, "element": element, "pv": target.hp,
 		"absorbe": absorbed, "bouclier": target.shield}
@@ -974,6 +1022,8 @@ func _hurt(target: Fighter, amount: int, element: String, events: Array[Dictiona
 		events.append({"type": Protocol.EVT_DIED, "entite": target.id})
 		_check_alone(target.team, events)
 		_remove_ground_of(target, events)
+		for servant in servants_of(target):  # Ses serviteurs disparaissent avec lui.
+			_kill(servant, events)
 	else:
 		_check_phases(target, events)
 	return amount
@@ -1330,6 +1380,9 @@ func _start_of_turn_effects(fighter: Fighter, events: Array[Dictionary]) -> void
 		var dealt := maxi(0, roundi(boosted * (100 - fighter.resistance(element)) / 100.0) - fighter.combat_stat("reduction_degats"))
 		_thorns(caster, fighter, dealt, _hurt(fighter, dealt, element, events, "poison" if poison["type"] == Spell.EFFECT_POISON else poison["sort"]), events)
 		_close_credit()
+	var ember: Dictionary = embers[int(fighter.shadow)].get(fighter.cell, {})
+	if fighter.is_alive() and int(ember.get("niveau", CALCINED)) < CALCINED and ember["equipe"] != fighter.team:
+		_hurt(fighter, maxi(0, roundi(EMBER_BURN * int(ember["niveau"]) * (100 - fighter.resistance("flamme")) / 100.0)), "flamme", events, "Embrasement")
 	for glyph in glyphs_at(fighter.cell):
 		_open_credit(glyph["lanceur"], float(glyph.get("pa", 0.0)))
 		for effect: Dictionary in glyph["effets"]:
@@ -1365,7 +1418,7 @@ func _next_turn(events: Array[Dictionary]) -> void:
 		if not fighter.is_alive():
 			_check_end(events)
 			continue
-		if not fighter.is_ai() and not absent.has(fighter.id):
+		if not fighter.is_ai() and not absent.has(fighter.controller()):
 			_elapsed = 0.0
 			return
 		if fighter.is_ai():
@@ -1513,6 +1566,108 @@ func _nearest_free(cell: Vector2i) -> Vector2i:
 	return cell
 
 
+# --- Démoniste : serviteurs et embrasement (GDD § 4.3) ---------------------------------------------
+
+## Serviteurs vivants de `fighter`.
+func servants_of(fighter: Fighter) -> Array[Fighter]:
+	return fighters.filter(func(other: Fighter) -> bool: return other.master == fighter.id and other.is_alive())
+
+
+## Serviteurs que `fighter` peut avoir en même temps : un de plus au rang 5 du passif « Pacte de feu ».
+func max_servants(fighter: Fighter) -> int:
+	return MAX_SERVANTS + int(int(fighter.passives.get("pacte_de_feu", 0)) > 5)
+
+
+## Niveau d'embrasement d'une case (0 à `CALCINED`) dans la dimension `shadow` (celle en cours par défaut).
+func ember_level(cell: Vector2i, shadow := dimension) -> int:
+	return int(embers[int(shadow)].get(cell, {}).get("niveau", 0))
+
+
+## Somme des niveaux d'embrasement des cases (une calcinée compte `CALCINED`).
+func _heat_of(cells: Array[Vector2i]) -> int:
+	return cells.reduce(func(total: int, cell: Vector2i) -> int: return total + ember_level(cell), 0)
+
+
+## Effets d'un sort lancé sur `target` selon l'embrasement de la case : sur une case calcinée, ceux de « calcinee » en plus
+## (ou à la place, avec « seuls ») ; valeurs +`EMBER_BONUS` % par niveau (et le « bonus » d'une case calcinée) ; durée
+## d'une glyphe à « duree_embrasement » + 1 tour par niveau ; « cendres » : dégâts × somme des niveaux de la zone.
+func _ember_variant(spell: Spell, target: Vector2i, zone: Array[Vector2i]) -> Array[Dictionary]:
+	if spell.ignites < 0:
+		return spell.effects
+	var level := ember_level(target)
+	var calcined: Dictionary = spell.calcined if level == CALCINED else {}
+	var effects: Array[Dictionary] = []
+	effects.assign(([] if calcined.get("seuls", false) else spell.effects) + calcined.get("effets", []))
+	effects = Spell._scaled_effects(effects, 100 + EMBER_BONUS * level + int(calcined.get("bonus", 0)))
+	for effect in effects:
+		if effect.get("duree_embrasement", false):
+			effect["duree"] = int(effect["duree"]) + level
+		if effect["type"] == Spell.EFFECT_ASHES:
+			var heat := _heat_of(zone)
+			effect.merge({"type": Spell.EFFECT_DAMAGE, "min": int(effect["min"]) * heat, "max": int(effect["max"]) * heat}, true)
+	return effects
+
+
+## Ajoute `amount` niveaux d'embrasement (négatif : retire) aux cases praticables de la zone, dans la dimension de `caster`.
+func _ignite(caster: Fighter, cells: Array[Vector2i], amount: int, events: Array[Dictionary]) -> void:
+	var changed: Array = []
+	for cell in cells if amount != 0 else []:
+		if map.is_inside(cell) and map.is_walkable_in_combat(cell):
+			var level := clampi(ember_level(cell, caster.shadow) + amount, 0, CALCINED)
+			if level == 0:
+				embers[int(caster.shadow)].erase(cell)
+			else:
+				embers[int(caster.shadow)][cell] = {"niveau": level, "equipe": caster.team, "lanceur": caster.id}
+			changed.append({"case": cell, "niveau": level})
+	if not changed.is_empty():
+		events.append({"type": Protocol.EVT_EMBERS, "ombres": caster.shadow, "braises": changed})
+
+
+## Invoque le serviteur de l'effet sur `cell` : PV en % de ceux du lanceur (+20 % sur une case embrasée au rang 3 du passif), ses
+## caractéristiques, ses sorts au rang du sort d'invocation (+1 PM au rang 3, des sorts en plus au rang 5). Il joue juste après
+## son maître (et ses autres serviteurs), contrôlé par le même joueur.
+func _summon(caster: Fighter, spell: Spell, effect: Dictionary, cell: Vector2i, events: Array[Dictionary]) -> void:
+	var spec: Dictionary = effect["serviteur"]
+	var servant := Fighter.new()
+	servant.id = "%s~%d" % [caster.id, _next_ground_id]
+	_next_ground_id += 1
+	servant.display_name = spec["nom"]
+	servant.kind = spec["id"]
+	servant.team = caster.team
+	servant.tier = 0
+	servant.master = caster.id
+	servant.cell = cell
+	servant.shadow = caster.shadow
+	var pact := int(caster.passives.get("pacte_de_feu", 0))
+	servant.max_hp = maxi(1, roundi(caster.max_hp * int(spec["pv"]) / 100.0 * (1.2 if pact > 3 and ember_level(cell) > 0 else 1.0)))
+	servant.hp = servant.max_hp
+	servant.max_pa = int(spec["pa"])
+	servant.max_pm = int(spec["pm"]) + int(spell.rank >= 3)
+	servant.stats = caster.stats.duplicate()
+	servant.combat_stats = spec.get("stats_combat", {}).duplicate()
+	if pact > 0:
+		servant.passives["pacte_de_feu"] = pact
+	for linked: Spell in spec["liens"] + (spec["liens_rang_5"] if spell.rank >= 5 else []):
+		servant.spells.append(linked.mastered(spell.rank))
+		if spell.rank > 0:
+			servant.masteries[linked.id] = spell.rank
+	var index := fighters.find(caster) + 1
+	while index < fighters.size() and fighters[index].master == caster.id:
+		index += 1
+	fighters.insert(index, servant)
+	_turn_index += int(index <= _turn_index)
+	_arrival[servant] = _arrival.size()
+	var shown := servant.to_dict()
+	events.append({"type": Protocol.EVT_SUMMONED, "combattant": shown, "ordre": fighters.map(func(f: Fighter) -> String: return f.id)})
+
+
+## `target` tombe tout de suite (serviteur sacrifié, maître vaincu).
+func _kill(target: Fighter, events: Array[Dictionary]) -> void:
+	target.hp = 0
+	events.append({"type": Protocol.EVT_DIED, "entite": target.id})
+	_remove_ground_of(target, events)
+
+
 ## `target` porte-t-il une arme d'obscurité de `caster` ?
 func marked_by(target: Fighter, caster: Fighter) -> bool:
 	return target.states.any(func(state: Dictionary) -> bool: return state["type"] == Spell.EFFECT_SHADOW_WEAPON and state.get("lanceur") == caster.id)
@@ -1534,7 +1689,7 @@ func _play_ai_turn(fighter: Fighter, events: Array[Dictionary]) -> void:
 func _check_end(events: Array[Dictionary]) -> void:
 	var alive_teams := {}
 	for fighter in fighters:
-		if fighter.is_alive():
+		if fighter.is_alive() and fighter.master.is_empty():  # Il ne reste que des serviteurs : le camp a perdu.
 			alive_teams[fighter.team] = true
 	if alive_teams.size() == 1:
 		_finish(alive_teams.keys()[0], events)
@@ -1552,7 +1707,7 @@ func _finish(team: int, events: Array[Dictionary]) -> void:
 			xp += fighter.xp
 	# Tableau de l'écran de fin : chaque combattant, son camp et s'il est encore debout.
 	var roster: Array[Dictionary] = []
-	for fighter in fighters:
+	for fighter in fighters.filter(func(f: Fighter) -> bool: return f.master.is_empty()):
 		roster.append({"id": fighter.id, "nom": fighter.display_name, "type": fighter.kind, "palier": fighter.tier,
 			"equipe": fighter.team, "vivant": fighter.is_alive()})
 	events.append({"type": Protocol.EVT_COMBAT_ENDED, "vainqueur": team, "xp": xp, "tours": maxi(round_number, 1),
@@ -1565,6 +1720,10 @@ func _command_fighter(command: Dictionary) -> Fighter:
 	var fighter_id: Variant = command.get("entite")
 	if typeof(fighter_id) != TYPE_STRING:
 		return null
+	var servant: Variant = command.get("serviteur")  # Démoniste : le joueur fait agir un de ses serviteurs.
+	if typeof(servant) == TYPE_STRING:
+		var owned := get_fighter(servant)
+		return owned if owned != null and owned.master == fighter_id else null
 	return get_fighter(fighter_id)
 
 
@@ -1633,6 +1792,8 @@ func snapshot(team := Fighter.TEAM_PLAYERS) -> Dictionary:
 		"glyphes": ground,
 		"pieges": own_traps,
 		"images": own_images,
+		"braises": [0, 1].map(func(side: int) -> Array: return embers[side].keys().map(func(cell: Vector2i) -> Dictionary:
+			return embers[side][cell].merged({"case": cell}))),
 		"prochain_sol": _next_ground_id,
 		"prets": ready.keys(),
 		"absents": absent.keys(),
@@ -1689,6 +1850,9 @@ static func from_snapshot(saved: Dictionary, p_map: GameMap, p_data: GameData, c
 		var fighter := combat.get_fighter(pair[0])
 		if fighter != null:
 			combat._arrival[fighter] = int(pair[1])
+	for side in 2:
+		for ember: Dictionary in saved.get("braises", [[], []])[side]:
+			combat.embers[side][ember["case"]] = ember
 	for kind: String in ["glyphes", "pieges", "images"]:
 		for ground: Dictionary in saved.get(kind, []):
 			var copy := ground.duplicate(true)

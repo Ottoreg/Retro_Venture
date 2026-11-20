@@ -27,7 +27,7 @@ Prix de boutique : selon la rareté (revente à 25 %).
 - [Sorts de race](#sorts-de-race)
 - [Sorts des monstres](#sorts-des-monstres)
 
-**317 objets** (18 armes, 20 coiffes, 20 capes, 20 amulettes, 20 anneaux, 20 ceintures, 20 bottes, 129 ressources, 37 plans de forge, 7 objets de quête), **57 monstres** et **164 sorts**.
+**317 objets** (18 armes, 20 coiffes, 20 capes, 20 amulettes, 20 anneaux, 20 ceintures, 20 bottes, 129 ressources, 37 plans de forge, 7 objets de quête), **57 monstres** et **191 sorts**.
 
 ## Armes
 
@@ -1299,6 +1299,33 @@ Dérègle le temps avec des pouvoirs impies. Toujours en avance, ou en retard, m
 | **Retour en arrière** | 4 PA, portée 1–6, 1/tour | 9–12 Impie ; -3 h sur l'horloge | « Recommençons depuis le début. » Sur une horloge, la cible recule de trois heures. |
 | **Contretemps** | 3 PA, portée 1–6, 1/tour, relance 2 t. | 6–8 Impie ; +6 h sur l'horloge | Un rendez-vous manqué de six heures pile. Sur une horloge, la cible passe de l'autre côté du cadran. |
 
+### Démoniste
+
+Démoniste agréé, ancien sous-traitant du Mordor. Ses démons pointent à l'heure (pas une minute de plus, la convention collective des Enfers est formelle) ; lui brûle tout ce qui refuse de signer. PV 50, PA 6, PM 3, initiative 100. Départ : .
+
+| Sort | Caractéristiques | Effets | Description |
+|---|---|---|---|
+| **Appel du Diablotin** | 3 PA, portée 1–2, relance 1 t. | invocation | Invoque un Diablotin stagiaire, payé en expérience : il pique à la fourche et crache du soufre. Rang 3 : il arrive avec 1 PM de plus. Rang 5 : il connaît un sort de plus. |
+| **Trait impie** | 3 PA, portée 1–6, 2/tour | 7–9 Impie aux ennemis | Un trait de malédiction, signé en bas à droite. |
+| **Nuée de chauves-souris** | 4 PA, portée 2–6, cercle de rayon 1, 1/tour | 6–8 Impie aux ennemis | Une nuée qui mord tout ce qui passe, sauf les alliés (elles ont signé une charte). |
+| **Main du Malin** | 5 PA, portée 1–3, 1/tour | 14–18 Impie aux ennemis | Une main griffue sort du sol : +20 % de dégâts par serviteur vivant du Démoniste. |
+| **Sacrifice** | 2 PA, portée 1–6, sans ligne de vue, 1/tour | sacrifice | Fait exploser un de ses serviteurs : dégâts autour de lui, plus la moitié de ses PV restants. Rupture de contrat sans préavis. |
+| **Chaînes infernales** | 3 PA, portée 1–5 | −2 PM au prochain tour aux ennemis | Des chaînes brûlantes aux chevilles : l'ennemi ira moins loin. |
+| **Effroi** | 3 PA, portée 1–4, 1/tour | poussée de 2 case(s) aux ennemis ; −1 PA (1 t.) aux ennemis | Une vision des Enfers (avec la musique d'ascenseur) : l'ennemi recule et perd ses moyens. |
+| **Permutation** | 1 PA, portée 1–8, sans ligne de vue, 1/tour | permutation | Échange sa place avec un de ses serviteurs : c'est dans le contrat, page 66. |
+| **Appel du Molosse** | 4 PA, portée 1–2, relance 2 t. | invocation | Invoque un Molosse de garde, en CDI : beaucoup de PV, ne lâche rien (surtout pas ses congés). Rang 3 : il arrive avec 1 PM de plus. Rang 5 : il connaît un sort de plus. |
+| **Appel de la Succube** | 3 PA, portée 1–2, relance 2 t. | invocation | Invoque la Succube des ressources humaines : elle soigne et motive. Vos plaintes seront traitées sous 666 jours. Rang 3 : il arrive avec 1 PM de plus. Rang 5 : il connaît un sort de plus. |
+| **Mise à feu** | 2 PA, portée 1–6, cercle de rayon 1, 1/tour | 3–4 Flamme aux ennemis | Allume tout autour : embrase les cases de 2 niveaux d'un coup. Sur une case calcinée, les cendres s'envolent : −1 PM aux ennemis. |
+| **Escarbille** | 2 PA, portée 1–7, 3/tour | 5–6 Flamme aux ennemis | Une petite boule de feu qui saute partout. Sur une case calcinée, elle rend 1 PA. |
+| **Pluie de soufre** | 4 PA, portée 3–8, cercle de rayon 1, 1/tour | 7–9 Flamme aux ennemis | Il pleut du soufre, et pas qu'un peu. Sur une case calcinée, ça brûle encore 2 tours. |
+| **Fournaise** | 5 PA, portée 1–4, cercle de rayon 1, 1/tour | 13–16 Flamme aux ennemis | La porte du four s'ouvre en grand. Sur une case calcinée : +50 % de dégâts. |
+| **Explosion de cendres** | 3 PA, portée 1–6, cercle de rayon 2, 1/tour | cendres aux ennemis | Souffle sur les braises de la zone : dégâts pour chaque niveau d'embrasement (une case calcinée compte 4), puis tout s'éteint. |
+| **Mur de flammes** | 3 PA, portée 2–5, 1/tour | glyphe (1 t.) : [6–8 Flamme aux ennemis] | Un mur de feu en travers : il brûle ceux qui y commencent leur tour, un tour de plus par niveau d'embrasement. Sur une case calcinée, il ne tient pas mais brûle bien plus fort tout de suite. |
+| **Fumées âcres** | 3 PA, portée 1–5, 1/tour | −2 PM au prochain tour aux ennemis | Une fumée qui pique les yeux et coupe les jambes. Sur une case calcinée, on n'y voit plus rien : −2 de portée. |
+| **Pas de braise** | 2 PA, portée 1–3, sans ligne de vue, 1/tour | téléportation sur la case | Disparaît dans une gerbe d'étincelles. Portée 6 vers une case embrasée ; sur une case calcinée, +1 PM. |
+| **Peau de cendre** | 2 PA, portée soi, 1/tour | bouclier 8–10 (Flamme) | Une croûte de cendre chaude qui absorbe les coups (+10 % par niveau de sa case). Sur une case calcinée, elle brûle qui la frappe. |
+| **Feu de camp** | 3 PA, portée 0–4, cercle de rayon 1, 1/tour | soin 5–7 (Flamme) aux alliés | On se réchauffe ensemble (serviteurs compris, ils ont insisté). Sur une case calcinée : soins doublés, sans rallumer. |
+
 ### Guerrier
 
 Au contact, il encaisse et rend les coups. Réfléchit après, de préférence. PV 50, PA 6, PM 3, initiative 100. Départ : .
@@ -1488,5 +1515,12 @@ gardés comme trace de sa première version).
 | Sort | Caractéristiques | Effets | Description |
 |---|---|---|---|
 | **Jugement dernier** | 3 PA, portée soi, cercle de rayon 1 (sans le lanceur), 1/tour | 25 Sacré aux ennemis | Seul, l'Archange frappe tout ce qui l'entoure. |
+| **Crachat de soufre** | 2 PA, portée 2–4, cercle de rayon 1, 1/tour | 4–5 Impie aux ennemis | Un crachat qui éclabousse les voisins. |
+| **Coup de fourche** | 2 PA, portée 1–4, 2/tour | 5–7 Impie aux ennemis | Un petit coup de fourche, pas bien méchant mais très insistant. |
 | **Cri de guerre** | 3 PA, portée soi, cercle de rayon 2, sans ligne de vue, 1/tour, relance 4 t. | +4–6 Dommages (2 t.) aux alliés | Un hurlement qui galvanise les alliés proches et réveille tout le voisinage. Sort de rang II. |
 | **Fendoir** | 5 PA, portée 1, 1/tour | 16–22 Acier | Le grand coup qu'on garde pour la fin. Ou pour le début, ça dépend de l'humeur. Sort de rang II. |
+| **Grognement** | 1 PA, portée 2–4, 1/tour | attire de 2 case(s) aux ennemis | Un grognement qui fait venir l'ennemi à lui. |
+| **Morsure** | 3 PA, portée 1, 1/tour | 7–9 Impie aux ennemis | Il mord, et ne lâche pas avant la pause. |
+| **Pause café** | 3 PA, portée 0–3, cercle de rayon 1, 1/tour | soin 4–6 (Impie) aux alliés | Tout le monde autour souffle un peu. |
+| **Prime de motivation** | 2 PA, portée 0–4, 1/tour | +5 Dommages (2 t.) aux alliés | +5 Dommages pendant 2 tours. Non reconductible. |
+| **Soin des RH** | 2 PA, portée 1–4, 1/tour | soin 6–8 (Impie) aux alliés | Un soin réglementaire, formulaire rempli en trois exemplaires. |

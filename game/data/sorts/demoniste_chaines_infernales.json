@@ -1,0 +1,35 @@
+{
+  "id": "demoniste_chaines_infernales",
+  "nom": "Chaînes infernales",
+  "description": "Des chaînes brûlantes aux chevilles : l'ennemi ira moins loin.",
+  "cout_pa": 3,
+  "portee": {
+    "min": 1,
+    "max": 5
+  },
+  "effets": [
+    {
+      "type": "retrait_pm",
+      "min": 2,
+      "max": 2,
+      "cibles": "ennemis"
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "portee_max": 1
+    },
+    "5": {
+      "effets": [
+        {
+          "type": "malus",
+          "carac": "pa",
+          "min": 1,
+          "max": 1,
+          "duree": 1,
+          "cibles": "ennemis"
+        }
+      ]
+    }
+  }
+}

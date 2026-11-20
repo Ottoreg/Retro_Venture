@@ -26,8 +26,8 @@ a été ajouté depuis, avant de retravailler le fond des mécaniques, des class
   une Tour céleste réduite (5 étages, clé de Cupidon, Archange Raphaël au sommet, son Calice en récompense).
 - **Combat tactique** : cases de placement, coups critiques, poison, glyphes et pièges, poussée, mode tactique,
   historique de combat, IA à distance et de soutien.
-- **Six Voies** : Guerrier, Rôdeur, Arcaniste (composition Flamme / Givre / Tempête), Théologue, Chronomancien et
-  Ombre (images rémanentes, invisibilité, Monde des ombres)
+- **Sept Voies** : Guerrier, Rôdeur, Arcaniste (composition Flamme / Givre / Tempête), Théologue, Chronomancien,
+  Ombre (images rémanentes, invisibilité, Monde des ombres) et Démoniste (serviteurs joués par le joueur, cases embrasées)
   (Voie Impie et son horloge) ; races : Humains, Elfes, Gobelins, Orcs, Squelettes, Géants, Nains et Arkhés (4 variantes élémentaires), choisies dans un carrousel à la création.
 - **Progression sans niveaux** : réputation (qui débloque) et points de maîtrise à répartir, par classe et par
   métier ; caractéristiques gagnées par la pratique et plafonnées ; une classe active, changée hors combat.

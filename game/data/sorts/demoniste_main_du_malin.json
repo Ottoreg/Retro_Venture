@@ -1,0 +1,31 @@
+{
+  "id": "demoniste_main_du_malin",
+  "nom": "Main du Malin",
+  "description": "Une main griffue sort du sol : +20 % de dégâts par serviteur vivant du Démoniste.",
+  "cout_pa": 5,
+  "portee": {
+    "min": 1,
+    "max": 3
+  },
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "impie",
+      "min": 14,
+      "max": 18,
+      "cibles": "ennemis",
+      "par_serviteur": 20
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "portee_max": 1
+    },
+    "5": {
+      "critique": 15
+    }
+  }
+}

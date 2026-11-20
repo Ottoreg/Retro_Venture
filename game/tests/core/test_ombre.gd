@@ -98,7 +98,7 @@ func test_invisibilite() -> void:
 	assert_true(player.is_invisible())
 	assert_true(combat.enemies_of(dummy).is_empty(), "l'adversaire ne la voit plus")
 	assert_eq(combat.tackle_ratio(player, C), 1.0, "ni taclée ni tacleuse")
-	assert_eq(Combat.damage_bonus(player, dummy, {"si_invisible": 25}), 31, "Surin +25 %, Coup en traître +6 %")
+	assert_eq(combat.damage_bonus(player, dummy, {"si_invisible": 25}), 31, "Surin +25 %, Coup en traître +6 %")
 	_cast(combat, "ombre_arme_d_obscurite", C + RIGHT)
 	assert_true(player.is_invisible(), "l'arme d'obscurité ne la révèle pas")
 	_cast(combat, "ombre_surin", C + RIGHT)
@@ -148,7 +148,7 @@ func test_cumul_et_execution() -> void:
 		_cast(combat, "ombre_entaille", C + RIGHT)
 		combat.get_fighter(Fixtures.PLAYER)._casts_this_turn.clear()
 	assert_eq(dummy.modifier("resistance", "acier"), -30, "Entaille cumulable 3 fois")
-	assert_eq(Combat.damage_bonus(combat.get_fighter(Fixtures.PLAYER), dummy, {"par_malus": 5}), 15, "Exécution : +5 % par malus")
+	assert_eq(combat.damage_bonus(combat.get_fighter(Fixtures.PLAYER), dummy, {"par_malus": 5}), 15, "Exécution : +5 % par malus")
 
 
 func test_monde_des_ombres() -> void:

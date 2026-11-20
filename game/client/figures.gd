@@ -16,6 +16,7 @@ const VOIE_LOOKS := {
 	"theologue": {"cape": Color("e8dfc4"), "coiffe": Color("c9a04e"), "forme": "capuche"},
 	"chronomancien": {"cape": Color("5a3a78"), "coiffe": Color("463060"), "forme": "pointu"},
 	"ombre": {"cape": Color("1e1e24"), "coiffe": Color("c9ccd6"), "forme": "capuche"},
+	"demoniste": {"cape": Color("d8641c"), "coiffe": Color("1a1a1a"), "forme": "pointu"},
 }
 const DEFAULT_LOOK := {"cape": Color("2f5d8a"), "coiffe": Color("8a3b2f"), "forme": "pointu"}
 const RACE_SKINS := {"humain": Color("f0c8a0"), "elfe": Color("f3dcc4"), "gobelin": Color("6f9a3e")}

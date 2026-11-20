@@ -676,7 +676,10 @@ Lots 0 (conception dans le GDD), 1 (personnage, poussé sur `main` à la demande
 - [ ] Ombre : cacher côté serveur aux adversaires l'invisible, le Monde des ombres et les armes d'obscurité (multijoueur) ;
   boss non envoyables dans les ombres (au cas par cas) ; animations PixelLab propres à ses sorts
 - [ ] Voie mixte **Chronomancien** (maître du temps, remplace le Venomancien) : Voie Givre
-- [ ] Voie à distance : **Démoniste** (dégâts impies) ; le Théologue est avancé dans l'alpha
+- [x] Voie à distance **Démoniste** (20/11/2026, GDD § 4.3) : serviteurs joués par le joueur, embrasement des cases,
+  passif Pacte de feu ; valeurs provisoires
+- [ ] Démoniste : revoir le passif Pacte de feu (il ne convient pas complètement à l'auteur) ; planches PixelLab des
+  serviteurs (`assets/demoniste/PROMPTS.md`) et animations de ses sorts
 - [ ] Mécaniques de ces Voies : invisibilité, poisons et dégâts sur la durée, provocation, auras,
   invocations, sacrifice de PV, résurrection (multi)
 - [ ] Étendre la progression jusqu'au niveau 100

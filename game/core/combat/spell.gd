@@ -11,7 +11,9 @@ const ZONE_LATIN_CROSS := "croix_latine"
 ## Ligne : les cases de la ligne droite du lanceur jusqu'à la case visée comprise (demande `lancer_en_ligne`) ;
 ## seuls les obstacles y bloquent la vue, pas les combattants (Foudroiement de l'Ombre).
 const ZONE_LINE := "ligne"
-const ZONES := [ZONE_CELL, ZONE_CIRCLE, ZONE_LATIN_CROSS, ZONE_LINE]
+## Mur : la case visée et `taille` cases de chaque côté, en travers du lancer (Mur de flammes du Démoniste).
+const ZONE_WALL := "mur"
+const ZONES := [ZONE_CELL, ZONE_CIRCLE, ZONE_LATIN_CROSS, ZONE_LINE, ZONE_WALL]
 ## Qui un effet touche dans la zone (défaut : tout le monde).
 const TARGETS_ALL := "tous"
 const TARGETS_ENEMIES := "ennemis"
@@ -86,18 +88,27 @@ const EFFECT_SHADOW_WEAPON := "arme_ombre"
 const EFFECT_SHADOW_WORLD := "monde_des_ombres"
 ## Le lanceur se téléporte sur la case derrière la cible (à l'opposé de lui), qui doit être libre.
 const EFFECT_BEHIND := "dans_le_dos"
+## Démoniste (GDD § 4.3) : invoque un serviteur (`serviteur` : { id, nom, pv : % des PV max du lanceur, pa, pm, sorts,
+## sorts_rang_5, stats_combat }) sur la case visée, libre ; fait exploser un de ses serviteurs (dégâts autour de lui,
+## plus `part_pv` % de ses PV restants) ; échange de place avec un de ses serviteurs ; dégâts multipliés par la
+## somme des niveaux d'embrasement de la zone, qui retombe à 0.
+const EFFECT_SUMMON := "invocation"
+const EFFECT_SACRIFICE := "sacrifice"
+const EFFECT_SWAP := "permutation"
+const EFFECT_ASHES := "cendres"
 const EFFECT_TYPES := [EFFECT_DAMAGE, EFFECT_HEAL, EFFECT_TELEPORT, EFFECT_GAIN_PA, EFFECT_REMOVE_PM, EFFECT_SHIELD,
 	EFFECT_BONUS, EFFECT_MALUS, EFFECT_POISON, EFFECT_PUSH, EFFECT_PULL, EFFECT_GLYPH, EFFECT_TRAP,
 	EFFECT_ELEMENT_STATE, EFFECT_COMPOSE_STATES, EFFECT_CREATE_SPELL, EFFECT_CHARGE, EFFECT_REMOVE_STATES,
 	EFFECT_CLOCK, EFFECT_CLOCK_SHIFT, EFFECT_STATE, EFFECT_BOUNCE, EFFECT_IMAGE, EFFECT_DETONATE, EFFECT_SHADOW_WEAPON,
-	EFFECT_SHADOW_WORLD, EFFECT_BEHIND]
+	EFFECT_SHADOW_WORLD, EFFECT_BEHIND, EFFECT_SUMMON, EFFECT_SACRIFICE, EFFECT_SWAP, EFFECT_ASHES]
 ## Effets sans valeur chiffrée (ni `min` ni `max`).
 const VALUELESS_EFFECTS := [EFFECT_TELEPORT, EFFECT_ELEMENT_STATE, EFFECT_COMPOSE_STATES, EFFECT_CREATE_SPELL, EFFECT_CHARGE,
-	EFFECT_REMOVE_STATES, EFFECT_CLOCK, EFFECT_CLOCK_SHIFT, EFFECT_STATE, EFFECT_DETONATE, EFFECT_SHADOW_WORLD, EFFECT_BEHIND]
+	EFFECT_REMOVE_STATES, EFFECT_CLOCK, EFFECT_CLOCK_SHIFT, EFFECT_STATE, EFFECT_DETONATE, EFFECT_SHADOW_WORLD, EFFECT_BEHIND,
+	EFFECT_SUMMON, EFFECT_SWAP]
 ## Effets qui ne concernent que le lanceur ou son déplacement, ou le cadran d'une horloge : jamais
 ## dans une glyphe, un piège ou une heure d'horloge.
 const CASTER_EFFECTS := [EFFECT_TELEPORT, EFFECT_ELEMENT_STATE, EFFECT_COMPOSE_STATES, EFFECT_CREATE_SPELL, EFFECT_CHARGE,
-	EFFECT_CLOCK, EFFECT_CLOCK_SHIFT, EFFECT_BOUNCE, EFFECT_DETONATE, EFFECT_SHADOW_WORLD, EFFECT_BEHIND]
+	EFFECT_CLOCK, EFFECT_CLOCK_SHIFT, EFFECT_BOUNCE, EFFECT_DETONATE, EFFECT_SHADOW_WORLD, EFFECT_BEHIND, EFFECT_SUMMON, EFFECT_SACRIFICE, EFFECT_SWAP, EFFECT_ASHES]
 ## États nommés : « insoignable » (aucun soin ne lui rend de PV) ; « manipulation_temps » (posé par
 ## une horloge) ; « exorcisme » (les prochains dégâts Sacré l'achèvent, l'état tombe alors).
 const STATE_UNHEALABLE := "insoignable"
@@ -124,11 +135,11 @@ const LASTING_EFFECTS := [EFFECT_BONUS, EFFECT_MALUS, EFFECT_POISON, EFFECT_GLYP
 ## Caractéristiques qu'un bonus ou un malus peut changer ; « resistance » demande un `element` ;
 ## « degats_infliges » : % de tous les dégâts infligés (poisons compris).
 const MODIFIABLE := ["force", "intelligence", "perception", "agilite", "pa", "pm", "portee", "dommages", "critique", "resistance",
-	"degats_infliges", "retrait_pa", "retrait_pm"]
+	"degats_infliges", "retrait_pa", "retrait_pm", "epines_flamme"]
 ## Effets chiffrés qui ont un élément : leur valeur monte avec la caractéristique de cet élément
 ## (un soin Sacré avec la Force et l'Intelligence, un bouclier de Tempête avec l'Agilité, un poison
 ## de Givre avec la Perception…).
-const ELEMENT_EFFECTS := [EFFECT_DAMAGE, EFFECT_HEAL, EFFECT_SHIELD, EFFECT_POISON, EFFECT_SHADOW_WEAPON]
+const ELEMENT_EFFECTS := [EFFECT_DAMAGE, EFFECT_HEAL, EFFECT_SHIELD, EFFECT_POISON, EFFECT_SHADOW_WEAPON, EFFECT_SACRIFICE, EFFECT_ASHES]
 ## Chance de coup critique d'un sort sans « critique » (en %).
 const DEFAULT_CRIT_CHANCE := 5
 ## Un coup critique multiplie la valeur tirée des dégâts, soins, boucliers et poisons.
@@ -146,7 +157,7 @@ const MASTERY_MAX_RANK := 5
 ## (critique, portee_max, bonus_etats : % de chaque état élémentaire, places_crees : places de sorts créés),
 ## nouvelles valeurs (cout_pa, delai, zone_taille) et effets en plus (effets ; « premier_lancer » : true, seulement
 ## au premier lancer du tour).
-const MASTERY_ADDS := ["critique", "portee_max", "bonus_etats", "places_crees"]
+const MASTERY_ADDS := ["critique", "portee_max", "bonus_etats", "places_crees", "embrase"]
 const MASTERY_SETS := ["cout_pa", "delai", "zone_taille"]
 
 var id: String
@@ -186,6 +197,12 @@ var created_slots := 0
 var discreet := false
 var enemy_cooldown := 0
 var marked_range := 0
+## Démoniste, Voie Flamme (GDD § 4.3) : niveaux d'embrasement ajoutés aux cases de la zone (« embrase » ; -1 : sort hors de
+## l'embrasement, sans variantes) ; variante sur une case calcinée (« calcinee » : { effets, seuls : remplacent ceux du
+## sort, bonus : % des valeurs, embrase }) ; portée maximale vers une case embrasée (« portee_embrasee »).
+var ignites := -1
+var calcined: Dictionary = {}
+var ember_range := 0
 
 
 ## Liste des erreurs de `data` (vide si le sort est valide).
@@ -204,7 +221,7 @@ static func validate(data: Dictionary) -> PackedStringArray:
 	var zone: Variant = data.get("zone", {"type": ZONE_CELL})
 	if typeof(zone) != TYPE_DICTIONARY or zone.get("type") not in ZONES:
 		errors.append("« zone.type » doit valoir %s" % str(ZONES))
-	elif zone["type"] == ZONE_CIRCLE and not _is_int_at_least(zone.get("taille"), 1):
+	elif zone["type"] in [ZONE_CIRCLE, ZONE_WALL] and not _is_int_at_least(zone.get("taille"), 1):
 		errors.append("une zone en cercle demande une « taille » d'au moins 1")
 	elif zone["type"] in [ZONE_LATIN_CROSS, ZONE_LINE] and not data.get("lancer_en_ligne", false):
 		errors.append("une zone en %s demande « lancer_en_ligne »" % zone["type"])
@@ -223,6 +240,12 @@ static func validate(data: Dictionary) -> PackedStringArray:
 		return errors
 	errors.append_array(_validate_effects(effects_data, true))
 	errors.append_array(_validate_mastery(data.get("maitrise", {})))
+	var calcined_data: Variant = data.get("calcinee", {})
+	if typeof(calcined_data) != TYPE_DICTIONARY:
+		errors.append("« calcinee » doit être un objet { effets, seuls, bonus, embrase }")
+	elif calcined_data.has("effets"):
+		errors.append_array(_validate_effects(calcined_data["effets"], true) if typeof(calcined_data["effets"]) == TYPE_ARRAY
+			else PackedStringArray(["« calcinee.effets » doit être une liste"]))
 	var traps := 0
 	for effect: Variant in effects_data:
 		if typeof(effect) == TYPE_DICTIONARY and effect.get("type") == EFFECT_TRAP:
@@ -334,6 +357,9 @@ static func _validate_effects(effects_data: Array, top_level: bool) -> PackedStr
 			errors.append("« vol » (vrai ou faux) n'existe que sur un effet « degats »")
 		if effect.has("pourcent_pv") and (type != EFFECT_HEAL or typeof(effect["pourcent_pv"]) != TYPE_BOOL):
 			errors.append("« pourcent_pv » (vrai ou faux) n'existe que sur un effet « soin »")
+		if type == EFFECT_SUMMON and (typeof(effect.get("serviteur")) != TYPE_DICTIONARY or ["id", "nom", "pv", "pa", "pm", "sorts"].any(
+				func(key: String) -> bool: return not effect["serviteur"].has(key))):
+			errors.append("effet « invocation » : « serviteur » doit être { id, nom, pv, pa, pm, sorts }")
 		if type in VALUELESS_EFFECTS:
 			continue
 		if type == EFFECT_BOUNCE and not _is_int_at_least(effect.get("distance"), 1):
@@ -375,6 +401,11 @@ static func from_dict(data: Dictionary) -> Spell:
 	spell.discreet = bool(data.get("discret", false))
 	spell.enemy_cooldown = int(recast.get("delai_ennemi", 0))
 	spell.marked_range = int(data.get("portee_marque", 0))
+	spell.ignites = int(data.get("embrase", -1))
+	spell.calcined = data.get("calcinee", {}).duplicate(true)
+	if spell.calcined.has("effets"):
+		spell.calcined["effets"] = normalized_effects(spell.calcined["effets"])
+	spell.ember_range = int(data.get("portee_embrasee", 0))
 	var mastery_data: Dictionary = data.get("maitrise", {})
 	for key: String in mastery_data:
 		spell.mastery[int(key)] = mastery_data[key].duplicate(true)
@@ -390,7 +421,7 @@ func mastered(level: int) -> Spell:
 		return self
 	var copy := Spell.new()
 	for property in ["id", "display_name", "description", "pa_cost", "range_min", "range_max", "needs_line_of_sight",
-			"cast_in_line", "fixed_range", "zone_type", "zone_size", "excludes_caster", "casts_per_turn", "cooldown", "crit_chance", "discreet", "enemy_cooldown", "marked_range"]:
+			"cast_in_line", "fixed_range", "zone_type", "zone_size", "excludes_caster", "casts_per_turn", "cooldown", "crit_chance", "discreet", "enemy_cooldown", "marked_range", "ignites", "calcined", "ember_range"]:
 		copy.set(property, get(property))
 	copy.mastery = mastery
 	copy.rank = level
@@ -405,6 +436,7 @@ func mastered(level: int) -> Spell:
 		copy.range_max += int(changes.get("portee_max", 0))
 		copy.state_bonus += int(changes.get("bonus_etats", 0))
 		copy.created_slots += int(changes.get("places_crees", 0))
+		copy.ignites += int(changes.get("embrase", 0))
 		copy.pa_cost = int(changes.get("cout_pa", copy.pa_cost))
 		copy.cooldown = int(changes.get("delai", copy.cooldown))
 		copy.zone_size = int(changes.get("zone_taille", copy.zone_size))
@@ -471,6 +503,10 @@ func zone_cells(target: Vector2i, origin := target) -> Array[Vector2i]:
 			cells.append(target - forward * i)
 	if zone_type == ZONE_CIRCLE:
 		cells = circle_cells(target, zone_size)
+	if zone_type == ZONE_WALL:
+		var forward := direction(origin, target)
+		for i in range(1, zone_size + 1):
+			cells.append_array([target + Vector2i(-forward.y, forward.x) * i, target - Vector2i(-forward.y, forward.x) * i])
 	if zone_type == ZONE_LINE:
 		cells.clear()
 		for i in range(1, IsoGrid.distance(origin, target) + 1):

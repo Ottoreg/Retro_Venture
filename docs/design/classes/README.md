@@ -21,9 +21,9 @@ reportée dans le GDD § 4.3, puis codée sur demande.
 | 5 | [Arcaniste](arcaniste.md) | Flamme + Givre + Tempête (une Voie) | 12 | 8 + passif |
 | 6 | [Myrmidon](myrmidon.md) | Acier / Givre | 0 | 20 + passif |
 | 7 | [Paladin](paladin.md) | Sacré / Tempête | 0 | 20 + passif |
-| 8 | [Ombre](ombre.md) | Tempête / Acier | 0 | 20 + passif |
-| 9 | [Démoniste](demoniste.md) | Impie / Flamme | 0 | 20 + passif |
-| | **Total** | | **35** | **145 + 9 passifs** |
+| 8 | [Ombre](ombre.md) | Tempête / Acier | 20 + passif | — (codée) |
+| 9 | [Démoniste](demoniste.md) | Impie / Flamme | 20 + passif | — (codé, passif à revoir) |
+| | **Total** | | **75 + 2 passifs** | **105 + 7 passifs** |
 
 Rappel des éléments : Acier → Force, Flamme → Intelligence, Givre → Perception, Tempête → Agilité,
 Sacré → Force + Intelligence, Impie → Agilité + Perception. Répartition à terme : Acier 4 classes,

@@ -169,6 +169,9 @@ var _refusals := {
 	Protocol.REASON_NO_COMBINATION: "Il faut 3 états élémentaires (Composition) pour créer un sort",
 	Protocol.REASON_ALREADY_MANIPULATED: "Cette cible est déjà sous une horloge (Manipulation du temps)",
 	Protocol.REASON_INVALID_COMPOSITION: "Choisissez une combinaison d'états",
+	Protocol.REASON_TOO_MANY_SERVANTS: "Déjà tous vos serviteurs",
+	Protocol.REASON_NOT_SERVANT: "Visez un de vos serviteurs",
+	Protocol.REASON_NO_EMBERS: "Aucune case embrasée dans la zone",
 }
 ## Messages affichés pour les objets qu'on ne peut pas équiper.
 var _equip_refusals := {
@@ -286,6 +289,8 @@ var _trap_flash: Dictionary = {}
 ## Ombre : images rémanentes (id → { case, lanceur, ombres }), ombres projetées dehors par un sort lancé depuis le
 ## Monde des ombres ({ pos, age }), et filtre posé sur la carte pour qui est dans les ombres.
 var _images: Dictionary = {}
+## Démoniste : embrasement des cases par dimension ([normal, ombres] : case → niveau, 4 : calcinée).
+var _embers: Array[Dictionary] = [{}, {}]
 var _projections: Array[Dictionary] = []
 ## Pierre de Passage tout juste découverte (id), pour annoncer en une fois qu'elle devient aussi le
 ## point de résurrection.
@@ -343,13 +348,19 @@ func is_busy() -> bool:
 
 
 func is_player_turn() -> bool:
-	return mode == Mode.COMBAT and current_turn == world.player_id and not _playing
+	return can_plan() and not _playing
 
 
-## C'est le tour du joueur à l'écran : il peut choisir un sort et prévoir ses actions, même pendant
-## l'animation des précédentes (elles partiront dans l'ordre, voir `_plan`).
+## C'est le tour du joueur à l'écran (ou d'un de ses serviteurs) : il peut choisir un sort et prévoir ses actions, même
+## pendant l'animation des précédentes (elles partiront dans l'ordre, voir `_plan`).
 func can_plan() -> bool:
-	return mode == Mode.COMBAT and current_turn == world.player_id
+	return mode == Mode.COMBAT and current_turn == acting_id()
+
+
+## Combattant que le joueur fait agir : lui, ou son serviteur dont c'est le tour (Démoniste).
+func acting_id() -> String:
+	var playing := world.combat.get_fighter(current_turn) if world.combat != null else null
+	return current_turn if playing != null and playing.master == world.player_id else world.player_id
 
 
 ## Actions prévues (copie), pour l'interface et les tests.
@@ -370,7 +381,7 @@ func actor(actor_id: String) -> Dictionary:
 func player_fighter() -> Fighter:
 	if world.combat == null:
 		return null
-	return world.combat.get_fighter(world.player_id)
+	return world.combat.get_fighter(acting_id())
 
 
 # --- Actions demandées par l'interface ---------------------------------------------------------
@@ -598,6 +609,7 @@ func _on_click(cell: Vector2i) -> void:
 ## la juge à son envoi : un sort devenu impossible est refusé avec son message. Rien après une fin
 ## du tour.
 func _plan(command: Dictionary) -> void:
+	_for_servant(command)
 	if _planned.size() >= PLANNED_LIMIT:
 		combat_message.emit("Trop d'actions prévues")
 		return
@@ -810,6 +822,7 @@ func send_command(command: Dictionary) -> void:
 
 
 func _send(command: Dictionary) -> void:
+	_for_servant(command)
 	_preview.clear()
 	var was_playing := _playing
 	_playing = true
@@ -818,6 +831,12 @@ func _send(command: Dictionary) -> void:
 		var idle := _walk_actor == "" and _wait <= 0.0  # Rien en cours de lecture (réponse distante).
 		if not was_playing or connection.asynchronous and idle:
 			_play_next())
+
+
+## Une action de combat pendant le tour d'un serviteur du joueur le fait agir, lui.
+func _for_servant(command: Dictionary) -> void:
+	if command["type"] in [Protocol.CMD_MOVE, Protocol.CMD_CAST, Protocol.CMD_END_TURN] and mode == Mode.COMBAT and acting_id() != world.player_id:
+		command["serviteur"] = acting_id()
 
 
 ## Rang d'ancienneté de l'élite du groupe sur cette case (0 s'il n'y en a pas), en exploration.
@@ -929,6 +948,9 @@ func ground_description(cell: Vector2i) -> String:
 	for trap: Dictionary in _traps.values():
 		if trap["case"] == cell:
 			lines.append("Piège allié : %s, posé par %s" % [trap["sort"], _actor_name(trap["lanceur"])])
+	var level := int(_embers[int(viewer_in_shadow())].get(cell, 0))
+	if level > 0:
+		lines.append("Case calcinée" if level == Combat.CALCINED else "Case embrasée (niveau %d)" % level)
 	return "\n".join(lines)
 
 
@@ -961,6 +983,8 @@ func _log_line(event: Dictionary) -> String:
 			return "[b]Le combat commence ![/b]"
 		Protocol.EVT_TURN_STARTED:
 			return "[color=#%s]— Tour de %s —[/color]" % [LOG_GREY, who]
+		Protocol.EVT_SUMMONED:
+			return "%s invoque [color=#%s]%s[/color]" % [_actor_name(event["combattant"]["maitre"]), LOG_SPELL, event["combattant"]["nom"]]
 		Protocol.EVT_SPELL_CAST:
 			var spell: Spell = world.data.spells.get(event["sort"])
 			var spell_name: String = spell.display_name if spell != null else str(event["sort"])
@@ -1232,6 +1256,9 @@ func _load_combat_from_state() -> void:
 		_actors[fighter.id]["etats"] = fighter.states_snapshot()
 	for image in world.combat.images:
 		_images[image["id"]] = {"case": image["case"], "lanceur": (image["lanceur"] as Fighter).id, "ombres": image["ombres"]}
+	for side in 2:
+		for cell: Vector2i in world.combat.embers[side]:
+			_embers[side][cell] = world.combat.embers[side][cell]["niveau"]
 	if world.combat.state == Combat.State.FIGHTING:
 		for fighter in world.combat.fighters:
 			turn_order.append(fighter.id)
@@ -1539,6 +1566,18 @@ func _apply(event: Dictionary) -> float:
 		_add_floating("Monde des ombres" if event["ombres"] else "Sort des ombres", Color(0.75, 0.78, 0.9), Vector2(event["case"]))
 		combat_state_changed.emit()
 		return 0.35
+	if type == Protocol.EVT_SUMMONED:
+		_add_fighter_actor(event["combattant"])
+		turn_order.assign(event["ordre"])
+		combat_state_changed.emit()
+		return 0.35
+	if type == Protocol.EVT_EMBERS:
+		for ember: Dictionary in event["braises"]:
+			if int(ember["niveau"]) > 0:
+				_embers[int(event["ombres"])][ember["case"]] = int(ember["niveau"])
+			else:
+				_embers[int(event["ombres"])].erase(ember["case"])
+		return 0.0
 	if type == Protocol.EVT_IMAGE:
 		_images[event["id"]] = {"case": event["case"], "lanceur": event["lanceur"], "ombres": event["ombres"]}
 		return 0.2
@@ -1631,6 +1670,7 @@ func _apply(event: Dictionary) -> float:
 		_glyphs.clear()
 		_traps.clear()
 		_images.clear()
+		_embers = [{}, {}]
 		_trap_flash = {}
 		_load_combat_actors(event)
 		turn_time_left = world.combat.time_left() if world.combat != null else 0.0
@@ -1687,15 +1727,15 @@ func _apply(event: Dictionary) -> float:
 		if current_turn != world.player_id and is_hero(current_turn):
 			_take_control(current_turn)  # Mode héros : le joueur joue chacun de ses héros à son tour.
 		turn_time_left = float(event.get("duree", 0.0))
-		if current_turn != world.player_id:
+		if current_turn != acting_id():
 			_planned.clear()  # Mort pendant son tour : rien ne part au tour suivant.
 		var playing: Dictionary = _actors[current_turn]
 		playing["pa"] = event["pa"]
 		playing["pm"] = event["pm"]
 		playing["bouclier"] = 0  # Le bouclier tombe au début de son tour.
 		combat_state_changed.emit()
-		if current_turn == world.player_id:
-			combat_message.emit("À vous de jouer !")
+		if current_turn == acting_id():
+			combat_message.emit("À vous de jouer !" if current_turn == world.player_id else "À votre serviteur : %s" % _actor_name(current_turn))
 			return 0.0
 		return 0.35
 	if type == Protocol.EVT_SPELL_CAST:
@@ -2290,6 +2330,13 @@ func _draw_ground_marks() -> void:
 			var spot := IsoGrid.cell_to_screen(cell) + Vector2(14, 12)
 			draw_string_outline(ThemeDB.fallback_font, spot, "×%d" % stacks[cell], HORIZONTAL_ALIGNMENT_LEFT, -1, 14, 4, Color.BLACK)
 			draw_string(ThemeDB.fallback_font, spot, "×%d" % stacks[cell], HORIZONTAL_ALIGNMENT_LEFT, -1, 14, IMAGE_GLOW)
+	for cell: Vector2i in _embers[int(viewer_in_shadow())]:  # Embrasement : orange de plus en plus vif, puis gris fumant.
+		var level: int = _embers[int(viewer_in_shadow())][cell]
+		var diamond := _scaled_diamond(IsoGrid.cell_to_screen(cell), 0.9)
+		draw_colored_polygon(diamond, Color(0.1, 0.08, 0.08, 0.95) if level == Combat.CALCINED
+			else Color(1.0, 0.5 - 0.12 * level, 0.0, 0.5 + 0.15 * level + 0.05 * sin(_time * 4.0 + cell.x)))
+		diamond.append(diamond[0])
+		draw_polyline(diamond, Color(0.5, 0.45, 0.42) if level == Combat.CALCINED else Color(1.0, 0.85, 0.3, 0.8), 2.0)
 	for projection in _projections:
 		draw_colored_polygon(_ellipse(IsoGrid.grid_to_screen(projection["pos"]), 16, 8), Color(0, 0, 0, 0.6 * (1.0 - projection["age"] / 1.5)))
 	for glyph: Dictionary in _glyphs.values():

@@ -9,7 +9,7 @@ extends RefCounted
 
 ## Version du protocole, vérifiée à la connexion : à augmenter à chaque changement incompatible
 ## d'une commande ou d'un événement.
-const VERSION := 19
+const VERSION := 20
 
 # --- Commandes (client → noyau) ---
 
@@ -288,6 +288,12 @@ const EVT_IMAGE_ENDED := "image_fin"
 ## Un combattant entre dans le Monde des ombres ou en sort. { type, entite: String, ombres: bool, case: Vector2i,
 ## echange: bool (entré ou sorti par échange de place) }
 const EVT_DIMENSION := "dimension"
+## Démoniste (GDD § 4.3) : serviteur invoqué, contrôlé par le joueur de son maître. { type, combattant: Dictionary
+## (`Fighter.to_dict`, avec maitre), ordre: Array[String] (nouvel ordre de jeu) }
+const EVT_SUMMONED := "invocation"
+## Embrasement de cases changé. { type, ombres: bool (dimension), braises: Array (de { case: Vector2i, niveau: int }, 0 :
+## éteinte, 4 : calcinée) }
+const EVT_EMBERS := "embrasement"
 ## Un monstre change de phase : ses PV sont passés sous un seuil de ses « phases » (une seule fois
 ## par phase). { type, entite: String, message: String } ; ses nouveaux sorts sont déjà appris, les
 ## effets de la phase (sur lui-même) suivent.
@@ -408,7 +414,7 @@ const COMBAT_EVENTS := [EVT_COMBAT_STARTED, EVT_PLACED, EVT_FIGHT_BEGINS, EVT_TU
 	EVT_SPELL_CAST, EVT_DAMAGE, EVT_HEAL, EVT_DIED, EVT_TELEPORTED, EVT_STATUS, EVT_STATES, EVT_ELEMENT_STATES,
 	EVT_SPELL_CREATED, EVT_CHARGED, EVT_PUSHED, EVT_GLYPH, EVT_GLYPH_ENDED, EVT_TRAP, EVT_TRAP_TRIGGERED,
 	EVT_TRAP_ENDED, EVT_PHASE, EVT_COMBAT_ENDED, EVT_FIGHTER_JOINED, EVT_READY, EVT_FIGHTER_AWAY, EVT_IMAGE, EVT_IMAGE_ENDED,
-	EVT_DIMENSION]
+	EVT_DIMENSION, EVT_SUMMONED, EVT_EMBERS]
 
 
 ## Portée d'un événement : SCOPE_MAP, SCOPE_COMBAT ou SCOPE_PERSONAL (tout le reste, et tout
@@ -556,6 +562,10 @@ const REASON_NO_TARGET := "aucune_cible"
 const REASON_NO_IMAGE := "aucune_image"
 const REASON_NO_RETURN := "retour_impossible"
 const REASON_DRAWN := "aspire"
+## Démoniste : déjà tous ses serviteurs, pas un de ses serviteurs sur la case, aucune case embrasée dans la zone.
+const REASON_TOO_MANY_SERVANTS := "trop_de_serviteurs"
+const REASON_NOT_SERVANT := "pas_un_serviteur"
+const REASON_NO_EMBERS := "aucune_braise"
 ## Sort de composition des états sans combinaison (`etats`) qu'il propose.
 const REASON_INVALID_COMPOSITION := "composition_invalide"
 const REASON_OUT_OF_RANGE := "hors_portee"

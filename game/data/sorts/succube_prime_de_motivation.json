@@ -1,0 +1,24 @@
+{
+  "id": "succube_prime_de_motivation",
+  "nom": "Prime de motivation",
+  "description": "+5 Dommages pendant 2 tours. Non reconductible.",
+  "cout_pa": 2,
+  "portee": {
+    "min": 0,
+    "max": 4
+  },
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "bonus",
+      "carac": "dommages",
+      "min": 5,
+      "max": 5,
+      "duree": 2,
+      "cibles": "allies"
+    }
+  ],
+  "maitrise": {}
+}

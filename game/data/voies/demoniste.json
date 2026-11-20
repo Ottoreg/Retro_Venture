@@ -1,0 +1,39 @@
+{
+  "id": "demoniste",
+  "nom": "Démoniste",
+  "description": "Démoniste agréé, ancien sous-traitant du Mordor. Ses démons pointent à l'heure (pas une minute de plus, la convention collective des Enfers est formelle) ; lui brûle tout ce qui refuse de signer.",
+  "caracteristiques": {
+    "pv": 50,
+    "pa": 6,
+    "pm": 3,
+    "initiative": 100
+  },
+  "sorts": [
+    "demoniste_appel_du_diablotin",
+    "demoniste_trait_impie",
+    "demoniste_nuee_de_chauves_souris",
+    "demoniste_main_du_malin",
+    "demoniste_sacrifice",
+    "demoniste_chaines_infernales",
+    "demoniste_effroi",
+    "demoniste_permutation",
+    "demoniste_appel_du_molosse",
+    "demoniste_appel_de_la_succube",
+    "demoniste_mise_a_feu",
+    "demoniste_escarbille",
+    "demoniste_pluie_de_soufre",
+    "demoniste_fournaise",
+    "demoniste_explosion_de_cendres",
+    "demoniste_mur_de_flammes",
+    "demoniste_fumees_acres",
+    "demoniste_pas_de_braise",
+    "demoniste_peau_de_cendre",
+    "demoniste_feu_de_camp"
+  ],
+  "passif": {
+    "id": "demoniste_pacte_de_feu",
+    "nom": "Pacte de feu",
+    "effet": "pacte_de_feu",
+    "description": "Débloqué au palier Apprenti. +6 % de dégâts (+1 % par rang), pour lui et ses serviteurs, contre une cible sur une case embrasée ou calcinée. Rang 3 : un serviteur invoqué sur une case embrasée a +20 % de PV. Rang 5 : un 3e serviteur en même temps."
+  }
+}

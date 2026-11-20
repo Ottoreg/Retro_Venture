@@ -1,0 +1,23 @@
+{
+  "id": "succube_soin_rh",
+  "nom": "Soin des RH",
+  "description": "Un soin réglementaire, formulaire rempli en trois exemplaires.",
+  "cout_pa": 2,
+  "portee": {
+    "min": 1,
+    "max": 4
+  },
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "soin",
+      "element": "impie",
+      "min": 6,
+      "max": 8,
+      "cibles": "allies"
+    }
+  ],
+  "maitrise": {}
+}

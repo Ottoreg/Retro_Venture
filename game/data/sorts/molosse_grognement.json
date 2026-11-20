@@ -1,0 +1,22 @@
+{
+  "id": "molosse_grognement",
+  "nom": "Grognement",
+  "description": "Un grognement qui fait venir l'ennemi à lui.",
+  "cout_pa": 1,
+  "portee": {
+    "min": 2,
+    "max": 4
+  },
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "attirance",
+      "min": 2,
+      "max": 2,
+      "cibles": "ennemis"
+    }
+  ],
+  "maitrise": {}
+}

@@ -1,0 +1,32 @@
+{
+  "id": "demoniste_appel_du_diablotin",
+  "nom": "Appel du Diablotin",
+  "description": "Invoque un Diablotin stagiaire, payé en expérience : il pique à la fourche et crache du soufre. Rang 3 : il arrive avec 1 PM de plus. Rang 5 : il connaît un sort de plus.",
+  "cout_pa": 3,
+  "portee": {
+    "min": 1,
+    "max": 2
+  },
+  "relance": {
+    "delai": 1
+  },
+  "effets": [
+    {
+      "type": "invocation",
+      "serviteur": {
+        "id": "diablotin",
+        "nom": "Diablotin stagiaire",
+        "pv": 30,
+        "pa": 4,
+        "pm": 3,
+        "sorts": [
+          "diablotin_fourche"
+        ],
+        "sorts_rang_5": [
+          "diablotin_crachat_de_soufre"
+        ]
+      }
+    }
+  ],
+  "maitrise": {}
+}

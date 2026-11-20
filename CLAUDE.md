@@ -251,6 +251,10 @@ Dernière session (retours de la passe de l'auteur) :
   autant que l'Intelligence et la Perception, GDD § 4.3). Rangs de maîtrise de l'Arcaniste (14/11/2026, sur `dev`) : sorts créés
   maîtrisables (`GameData.masterable_spells`), `bonus_etats` et `places_crees` de `maitrise`
   (`Fighter.state_bonus`, `created_slots`), effets à `premier_lancer`.
+- **Démoniste, Impie / Flamme** (20/11/2026, GDD § 4.3, `tests/core/test_demoniste.gd`) : 7e classe, 20 sorts `demoniste_*` et 7
+  sorts de serviteurs, passif *Pacte de feu* (à revoir) ; serviteurs joués par le joueur (`Fighter.master`, `Combat._summon`,
+  champ `serviteur` des commandes, `MapView.acting_id`), embrasement par dimension (`Combat.embers`, `_ember_variant`, `_ignite`,
+  champs `embrase` / `calcinee`), protocole v20 ; données par `docs/design/demoniste/produire.py`, captures `docs/captures/demoniste/`.
 - **Ombre, Tempête / Acier** (20/11/2026, GDD § 4.3, `tests/core/test_ombre.gd`) : 6e classe, 20 sorts `ombre_*`, passif
   de classe *Coup en traître* (champ `passif` des Voies, débloqué à Apprenti, `GameData.class_passive`, `Fighter.passives`) ;
   images rémanentes (`Combat.images`, effets `image` / `court_circuit`, zone `ligne`), invisibilité (`Fighter.is_invisible`,

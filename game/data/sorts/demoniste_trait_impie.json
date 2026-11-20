@@ -1,0 +1,30 @@
+{
+  "id": "demoniste_trait_impie",
+  "nom": "Trait impie",
+  "description": "Un trait de malédiction, signé en bas à droite.",
+  "cout_pa": 3,
+  "portee": {
+    "min": 1,
+    "max": 6
+  },
+  "relance": {
+    "par_tour": 2
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "impie",
+      "min": 7,
+      "max": 9,
+      "cibles": "ennemis"
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "portee_max": 1
+    },
+    "5": {
+      "critique": 10
+    }
+  }
+}

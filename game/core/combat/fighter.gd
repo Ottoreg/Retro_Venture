@@ -87,6 +87,8 @@ var shadow := false
 var last_seen := NO_CELL
 var ambush := 0
 var ambush_discount := false
+## Démoniste (GDD § 4.3) : id du maître d'un serviteur invoqué ("" sinon). Le joueur du maître le contrôle.
+var master := ""
 
 const NO_CELL := Vector2i(-99999, -99999)
 const ELEMENT_STATE_MAX := 3
@@ -118,6 +120,11 @@ func is_alive() -> bool:
 
 func is_ai() -> bool:
 	return not ai.is_empty()
+
+
+## Id du joueur qui le contrôle : son maître pour un serviteur.
+func controller() -> String:
+	return master if not master.is_empty() else id
 
 
 func get_spell(spell_id: String) -> Spell:
@@ -351,6 +358,7 @@ func to_dict() -> Dictionary:
 		"pm": max_pm,
 		"initiative": initiative,
 		"ia": is_ai(),
+		"maitre": master,
 	}
 
 
@@ -366,7 +374,7 @@ func profile() -> Dictionary:
 		"pv_max": max_hp, "pa": max_pa, "pm": max_pm, "initiative": initiative, "portee": range_bonus,
 		"prospection": prospection, "dommages": dommages, "critique": crit_bonus, "resistances": resistances.duplicate(),
 		"dommages_elements": element_dommages.duplicate(), "soins": soins, "soins_elements": element_soins.duplicate(),
-		"stats_combat": combat_stats.duplicate(), "passifs": passives.duplicate(), "sorts": spell_ids, "maitrises": masteries.duplicate(), "arme": weapon, "palier_arme": weapon_tier, "bonus_arme": weapon_bonus.duplicate(true)}
+		"stats_combat": combat_stats.duplicate(), "passifs": passives.duplicate(), "sorts": spell_ids, "maitrises": masteries.duplicate(), "arme": weapon, "palier_arme": weapon_tier, "bonus_arme": weapon_bonus.duplicate(true), "maitre": master}
 
 
 ## État complet du combattant pour la copie d'un client (voir `Combat.snapshot`) : ce qui change

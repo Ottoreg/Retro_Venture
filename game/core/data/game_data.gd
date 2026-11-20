@@ -83,7 +83,7 @@ static func from_dicts(spell_list: Array, monster_list: Array, voie_list: Array,
 			data.spells[raw["id"]] = Spell.from_dict(raw)
 	# « creer_sort » : chaque combinaison doit nommer un sort connu (qui ne crée rien lui-même).
 	for spell_id: String in data.spells.keys():
-		var link_errors := data._link_created_spells(data.spells[spell_id])
+		var link_errors := data._link_created_spells(data.spells[spell_id]) + data._link_servant_spells(data.spells[spell_id])
 		if not _report("sort", {"id": spell_id}, link_errors):
 			data.spells.erase(spell_id)
 	for raw: Variant in monster_list:
@@ -468,7 +468,7 @@ static func validate_voie(data: Dictionary, known_spells: Dictionary, known_item
 
 
 ## Effets de passif de classe gérés par le combat (GDD § 4.3 : un par classe, 5 rangs, débloqué à Apprenti).
-const CLASS_PASSIVES := ["coup_en_traitre"]
+const CLASS_PASSIVES := ["coup_en_traitre", "pacte_de_feu"]
 
 
 ## Passif de la classe s'il est débloqué (palier Apprenti) avec `reputation_value`, sinon vide.
@@ -634,9 +634,12 @@ func create_character_fighter(character: Character, fighter_id: String) -> Fight
 ## Un joueur recréé d'après son profil (`Fighter.profile`), chez les autres joueurs de son combat ;
 ## `null` si sa Voie est inconnue.
 func create_profile_fighter(profile: Dictionary, fighter_id: String) -> Fighter:
-	if not voies.has(profile.get("voie", "")):
+	var master := str(profile.get("maitre", ""))  # Un serviteur (Démoniste) n'a pas de Voie.
+	if not voies.has(profile.get("voie", "")) and master.is_empty():
 		return null
-	var fighter := _create_fighter(voies[profile["voie"]], fighter_id, str(profile["nom"]), Fighter.TEAM_PLAYERS)
+	var fighter := _create_fighter(voies.get(profile["voie"], {"id": profile["voie"], "caracteristiques": {"pv": 1, "pa": 0, "pm": 0},
+		"sorts": []}), fighter_id, str(profile["nom"]), Fighter.TEAM_PLAYERS)
+	fighter.master = master
 	fighter.race = str(profile["race"])
 	fighter.stats = (profile["caracs"] as Dictionary).duplicate()
 	fighter.max_hp = int(profile["pv_max"])
@@ -743,6 +746,21 @@ func _link_created_spells(spell: Spell) -> PackedStringArray:
 		else:
 			linked[key] = created
 	effect["sorts"] = linked
+	return errors
+
+
+## Relie les sorts d'un serviteur d'un effet « invocation » (`serviteur.liens`, et `liens_rang_5` : ceux du rang 5).
+func _link_servant_spells(spell: Spell) -> PackedStringArray:
+	var errors: PackedStringArray = []
+	var effect := spell.effect_of(Spell.EFFECT_SUMMON)
+	for key: String in ["sorts", "sorts_rang_5"] if not effect.is_empty() else []:
+		var linked: Array[Spell] = []
+		for spell_id: String in effect["serviteur"].get(key, []):
+			if spells.has(spell_id):
+				linked.append(spells[spell_id])
+			else:
+				errors.append("invocation : sort de serviteur inconnu : %s" % spell_id)
+		effect["serviteur"]["liens" if key == "sorts" else "liens_rang_5"] = linked
 	return errors
 
 

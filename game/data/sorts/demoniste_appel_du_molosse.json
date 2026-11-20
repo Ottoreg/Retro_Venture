@@ -1,0 +1,35 @@
+{
+  "id": "demoniste_appel_du_molosse",
+  "nom": "Appel du Molosse",
+  "description": "Invoque un Molosse de garde, en CDI : beaucoup de PV, ne lâche rien (surtout pas ses congés). Rang 3 : il arrive avec 1 PM de plus. Rang 5 : il connaît un sort de plus.",
+  "cout_pa": 4,
+  "portee": {
+    "min": 1,
+    "max": 2
+  },
+  "relance": {
+    "delai": 2
+  },
+  "effets": [
+    {
+      "type": "invocation",
+      "serviteur": {
+        "id": "molosse",
+        "nom": "Molosse de garde",
+        "pv": 80,
+        "pa": 4,
+        "pm": 3,
+        "sorts": [
+          "molosse_morsure"
+        ],
+        "sorts_rang_5": [
+          "molosse_grognement"
+        ],
+        "stats_combat": {
+          "tacle": 10
+        }
+      }
+    }
+  ],
+  "maitrise": {}
+}

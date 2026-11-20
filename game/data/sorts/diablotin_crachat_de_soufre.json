@@ -1,0 +1,27 @@
+{
+  "id": "diablotin_crachat_de_soufre",
+  "nom": "Crachat de soufre",
+  "description": "Un crachat qui éclabousse les voisins.",
+  "cout_pa": 2,
+  "portee": {
+    "min": 2,
+    "max": 4
+  },
+  "zone": {
+    "type": "cercle",
+    "taille": 1
+  },
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "impie",
+      "min": 4,
+      "max": 5,
+      "cibles": "ennemis"
+    }
+  ],
+  "maitrise": {}
+}

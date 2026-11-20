@@ -1,0 +1,54 @@
+{
+  "id": "demoniste_mur_de_flammes",
+  "nom": "Mur de flammes",
+  "description": "Un mur de feu en travers : il brûle ceux qui y commencent leur tour, un tour de plus par niveau d'embrasement. Sur une case calcinée, il ne tient pas mais brûle bien plus fort tout de suite.",
+  "cout_pa": 3,
+  "portee": {
+    "min": 2,
+    "max": 5
+  },
+  "zone": {
+    "type": "mur",
+    "taille": 1
+  },
+  "embrase": 1,
+  "calcinee": {
+    "seuls": true,
+    "effets": [
+      {
+        "type": "degats",
+        "element": "flamme",
+        "min": 12,
+        "max": 15,
+        "cibles": "ennemis"
+      }
+    ]
+  },
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "glyphe",
+      "duree": 1,
+      "duree_embrasement": true,
+      "effets": [
+        {
+          "type": "degats",
+          "element": "flamme",
+          "min": 6,
+          "max": 8,
+          "cibles": "ennemis"
+        }
+      ]
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "portee_max": 1
+    },
+    "5": {
+      "zone_taille": 2
+    }
+  }
+}

@@ -55,7 +55,7 @@ nous faire vos retours. Le jeu n'affiche volontairement presque aucune aide à l
 
 1. **Créez votre personnage** : une race (Humain, Nain, Géant, Gobelin, Orc, Squelette, Elfe ou Arkhé, à faire défiler avec les flèches ; l'Arkhé a
    4 variantes, Flamme, Acier, Givre et Tempête : elle fixe votre zone de départ
-   et votre camp), une Voie (Guerrier, Rôdeur, Arcaniste, Théologue, Chronomancien ou Ombre) et un nom.
+   et votre camp), une Voie (Guerrier, Rôdeur, Arcaniste, Théologue, Chronomancien, Ombre ou Démoniste) et un nom.
 2. **Parlez au personnage marqué d'un « ! »** près de votre point d'arrivée : Alric (humains), Grumm
    (gobelins) ou Elwyn (elfes). Son **tutoriel** vous apprend à vous équiper (touche **I**), à
    combattre, à récolter et à forger.
@@ -112,6 +112,12 @@ temps : chaque camp a sa propre histoire.
     visent plus ; un sort de dégâts la révèle, sauf l'*Arme d'obscurité*, qui frappe la cible à son prochain tour).
     *Monde des ombres* envoie une cible (ou elle-même) dans une autre dimension pour 2 tours : la carte devient grise,
     seuls ceux de la même dimension se battent entre eux, des lueurs montrent les cases occupées dehors.
+  - **Démoniste** (nouveau, Impie : Agilité et Perception, et Flamme : Intelligence) : il **invoque des serviteurs**
+    (Diablotin, Molosse, Succube, 2 à la fois) que **vous jouez vous-même**, juste après lui ; *Permutation* échange
+    sa place avec l'un d'eux, *Sacrifice* le fait exploser. Ses sorts de Flamme **embrasent les cases** (orange,
+    niveaux 1 à 3, puis calcinée, noire) : chaque niveau de la case visée donne +10 %, une case calcinée change
+    l'effet du sort (survolez une case pour voir son niveau), et un ennemi qui commence son tour sur une case
+    embrasée brûle. *Explosion de cendres* consomme tout l'embrasement de la zone.
   - **Chronomancien** (nouveau, dégâts Impie : Agilité et Perception) : *Horloge* vise un ennemi à
     exactement 3 cases en ligne, dessine un **cadran** de 12 cases autour de lui (12 h dans la
     direction où vous lancez, heures écrites au sol) et l'envoie aussitôt sur 12 h. *Tic*

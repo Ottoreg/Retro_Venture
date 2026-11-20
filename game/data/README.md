@@ -539,8 +539,31 @@ phase.
 sorts de rang II et la réputation de la classe qui les débloque (GDD § 5.1 ; Compagnon 5 000,
 Vétéran 13 000 ; 0 : disponible dès le début, le cas de tous les sorts pour l'instant, demande de l'auteur du 12/11/2026).
 
+Mécaniques du Démoniste (GDD § 4.3) :
+
+```json
+{"type": "invocation", "serviteur": {"id": "molosse", "nom": "Molosse de garde", "pv": 80, "pa": 4, "pm": 3,
+  "sorts": ["molosse_morsure"], "sorts_rang_5": ["molosse_grognement"], "stats_combat": {"tacle": 10}}}
+{"type": "sacrifice", "element": "impie", "min": 8, "max": 10, "part_pv": 50}
+{"type": "permutation"}
+{"type": "cendres", "element": "flamme", "min": 2, "max": 3, "cibles": "ennemis"}
+```
+
+- `invocation` : un serviteur sur la case visée (libre ; 2 par lanceur, `trop_de_serviteurs`), joué par le joueur du
+  lanceur juste après lui (commandes de combat avec `serviteur` : son id) ; `pv` en % des PV max du lanceur, ses
+  caractéristiques ; ses `sorts` au rang du sort d'invocation (rang 3 : +1 PM ; rang 5 : `sorts_rang_5` en plus).
+- `sacrifice` : fait exploser un serviteur du lanceur (`pas_un_serviteur` sinon) : dégâts aux ennemis en croix d'une
+  case autour de lui, plus `part_pv` % de ses PV restants. `permutation` : échange de place avec un de ses serviteurs.
+- `cendres` : dégâts × somme des niveaux d'embrasement de la zone (calcinée : 4), qui retombe à 0 (`aucune_braise`).
+- Champs de sort : `embrase` (niveaux ajoutés aux cases de la zone ; présent : sort de la Voie Flamme, +10 % par niveau
+  de la case visée), `calcinee` (`{effets, seuls, bonus, embrase}` : variante sur une case calcinée), `portee_embrasee`
+  (portée vers une case embrasée) ; rang de maîtrise `embrase` (niveaux en plus). Zone `mur` (`taille` cases de chaque
+  côté, en travers du lancer). Champs d'effet : `par_serviteur` (dégâts, % par serviteur vivant), `sur_lanceur`
+  (l'effet touche le lanceur, une fois), `duree_embrasement` (glyphe : +1 tour par niveau de la case visée).
+- Caractéristique modifiable `epines_flamme` (bonus et malus).
+
 Toutes les Voies ont `pv` 50 et `initiative` 100 (demande de l'auteur du 20/11/2026). `passif` (facultatif) : le
-passif de classe, débloqué au palier Apprenti, `{"id", "nom", "effet": "coup_en_traitre", "description"}`
+passif de classe, débloqué au palier Apprenti, `{"id", "nom", "effet": "coup_en_traitre" ou "pacte_de_feu", "description"}`
 (effets connus : `GameData.CLASS_PASSIVES`) ; son rang vient de sa maîtrise.
 
 ## Objets (`objets/`)

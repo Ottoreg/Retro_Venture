@@ -1,0 +1,23 @@
+{
+  "id": "diablotin_fourche",
+  "nom": "Coup de fourche",
+  "description": "Un petit coup de fourche, pas bien méchant mais très insistant.",
+  "cout_pa": 2,
+  "portee": {
+    "min": 1,
+    "max": 4
+  },
+  "relance": {
+    "par_tour": 2
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "impie",
+      "min": 5,
+      "max": 7,
+      "cibles": "ennemis"
+    }
+  ],
+  "maitrise": {}
+}

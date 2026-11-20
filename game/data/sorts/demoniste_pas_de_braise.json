@@ -1,0 +1,41 @@
+{
+  "id": "demoniste_pas_de_braise",
+  "nom": "Pas de braise",
+  "description": "Disparaît dans une gerbe d'étincelles. Portée 6 vers une case embrasée ; sur une case calcinée, +1 PM.",
+  "cout_pa": 2,
+  "portee": {
+    "min": 1,
+    "max": 3
+  },
+  "ligne_de_vue": false,
+  "embrase": 1,
+  "portee_embrasee": 6,
+  "calcinee": {
+    "effets": [
+      {
+        "type": "bonus",
+        "carac": "pm",
+        "min": 1,
+        "max": 1,
+        "duree": 1,
+        "sur_lanceur": true
+      }
+    ]
+  },
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "teleportation"
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "cout_pa": 1
+    },
+    "5": {
+      "portee_max": 1
+    }
+  }
+}

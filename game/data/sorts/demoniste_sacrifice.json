@@ -1,0 +1,40 @@
+{
+  "id": "demoniste_sacrifice",
+  "nom": "Sacrifice",
+  "description": "Fait exploser un de ses serviteurs : dégâts autour de lui, plus la moitié de ses PV restants. Rupture de contrat sans préavis.",
+  "cout_pa": 2,
+  "portee": {
+    "min": 1,
+    "max": 6
+  },
+  "ligne_de_vue": false,
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "sacrifice",
+      "element": "impie",
+      "min": 8,
+      "max": 10,
+      "part_pv": 50
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "cout_pa": 1
+    },
+    "5": {
+      "effets": [
+        {
+          "type": "soin",
+          "element": "impie",
+          "min": 10,
+          "max": 10,
+          "pourcent_pv": true,
+          "sur_lanceur": true
+        }
+      ]
+    }
+  }
+}

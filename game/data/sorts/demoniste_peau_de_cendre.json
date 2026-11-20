@@ -1,0 +1,50 @@
+{
+  "id": "demoniste_peau_de_cendre",
+  "nom": "Peau de cendre",
+  "description": "Une croûte de cendre chaude qui absorbe les coups (+10 % par niveau de sa case). Sur une case calcinée, elle brûle qui la frappe.",
+  "cout_pa": 2,
+  "portee": {
+    "min": 0,
+    "max": 0
+  },
+  "embrase": 1,
+  "calcinee": {
+    "effets": [
+      {
+        "type": "bonus",
+        "carac": "epines_flamme",
+        "min": 15,
+        "max": 15,
+        "duree": 1
+      }
+    ]
+  },
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "bouclier",
+      "element": "flamme",
+      "min": 8,
+      "max": 10
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "cout_pa": 1
+    },
+    "5": {
+      "effets": [
+        {
+          "type": "bonus",
+          "carac": "resistance",
+          "element": "flamme",
+          "min": 10,
+          "max": 10,
+          "duree": 1
+        }
+      ]
+    }
+  }
+}

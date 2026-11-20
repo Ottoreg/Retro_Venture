@@ -616,6 +616,42 @@ pourrait le faire un Paladin.
   Exemple : *Mur de flammes* dure un tour par niveau d'embrasement ; sur une case calcinée, il ne
   dure pas et inflige seulement des dégâts supplémentaires dans la zone du sort.
 
+**Démoniste : conception finale, codée le 20/11/2026** (fil « Ajouter la classe Démoniste au jeu », réponses de
+l'auteur ; valeurs provisoires ; fiche `docs/design/classes/demoniste.md`) :
+
+- *Identité* : « Démoniste agréé, ancien sous-traitant du Mordor. Ses démons pointent à l'heure (pas une minute de
+  plus, la convention collective des Enfers est formelle) ; lui brûle tout ce qui refuse de signer. » Famille
+  distance, il se cache derrière ses serviteurs et tient le terrain par le feu. Tenue orange à liseré noir. Toutes
+  les races. 50 PV, 6 PA, 3 PM, 100 d'initiative.
+- *Passif* **Pacte de feu** (Apprenti, 5 rangs ; **à revoir**, il ne convient pas complètement à l'auteur) : +6 % de
+  dégâts (+1 % par rang), pour lui et ses serviteurs, contre une cible sur une case embrasée ou calcinée ; rang 3 : un
+  serviteur invoqué sur une case embrasée a +20 % de PV ; rang 5 : un 3e serviteur en même temps.
+- *Serviteurs* (Voie Impie) : **joués par le joueur** (pas par l'IA), juste après leur Démoniste, sans initiative
+  propre, en solo, en mode héros comme en ligne ; 2 en même temps ; PV en % des PV max du Démoniste (Diablotin 30 %,
+  Molosse 80 %, Succube 40 %), PA et PM fixes par type, les caractéristiques du Démoniste, leurs sorts au rang du sort
+  qui les invoque (rang 3 : +1 PM, rang 5 : un sort de plus). Ils disparaissent à la mort du Démoniste et à la fin du
+  combat ; un camp où il ne reste que des serviteurs a perdu ; ils taclent, sont taclés, soignés et frappés comme tout
+  combattant ; leurs actions font progresser le Démoniste (pratique Impie, réputation), sans butin ni XP pour eux.
+  Les monstres n'invoquent pas (pour l'instant). Dessins : monstres existants recoloriés en attendant des planches
+  PixelLab (prompts dans `assets/demoniste/PROMPTS.md`).
+- *Voie Impie* : Appel du Diablotin (signature, offensif à distance), Trait impie, Nuée de chauves-souris (zone), Main
+  du Malin (+20 % par serviteur vivant), Sacrifice (fait exploser un de ses serviteurs : dégâts autour de lui, plus la
+  moitié de ses PV restants), Chaînes infernales (−2 PM), Effroi (repousse, −1 PA), Permutation (échange de place avec
+  un serviteur), Appel du Molosse (tank, tacle), Appel de la Succube (soins, bonus de dommages).
+- *Embrasement* (Voie Flamme) : chaque sort de la Voie Flamme du Démoniste embrase toutes les cases de sa zone, vides
+  ou non (+1 niveau ; niveaux 1 à 3, puis **calcinée** à la 4e fois), pour tout le combat ; seule *Explosion de
+  cendres* les remet à 0. Les sorts Flamme des autres classes n'embrasent pas. L'embrasement est **séparé entre le
+  monde normal et le Monde des ombres**. Chaque sort lit la case visée : **+10 % par niveau**, et un effet propre sur
+  une case calcinée. Un ennemi qui **commence son tour** sur une case embrasée (pas calcinée) perd 2 × niveau PV
+  (Flamme). Cases teintées d'orange de plus en plus vif, noires une fois calcinées ; l'infobulle de la case donne
+  son niveau.
+- *Voie Flamme* : Mise à feu (signature, +2 niveaux), Escarbille (calcinée : rend 1 PA), Pluie de soufre (calcinée :
+  brûlure 2 tours), Fournaise (calcinée : +50 %), Explosion de cendres (dégâts par niveau de la zone, puis tout
+  s'éteint), Mur de flammes (glyphe en travers, 1 tour + 1 par niveau ; calcinée : dégâts tout de suite, sans mur),
+  Fumées âcres (−2 PM ; calcinée : −2 de portée), Pas de braise (téléportation, portée 6 vers une case embrasée ;
+  calcinée : +1 PM), Peau de cendre (bouclier ; calcinée : épines Flamme), Feu de camp (soins ; calcinée : doublés,
+  sans rallumer).
+
 **Ombre — Tempête ou Acier**
 
 - *Ombre Tempête* : s'appuie sur l'Agilité et la vitesse de déplacement, le repositionnement,

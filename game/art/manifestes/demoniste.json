@@ -1,0 +1,232 @@
+{
+  "images": {
+    "sort_demoniste_appel_du_diablotin": {
+      "fichier": "sorts/demoniste_appel_du_diablotin.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_demoniste_trait_impie": {
+      "fichier": "sorts/demoniste_trait_impie.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_demoniste_nuee_de_chauves_souris": {
+      "fichier": "sorts/demoniste_nuee_de_chauves_souris.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_demoniste_main_du_malin": {
+      "fichier": "sorts/demoniste_main_du_malin.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_demoniste_sacrifice": {
+      "fichier": "sorts/demoniste_sacrifice.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_demoniste_chaines_infernales": {
+      "fichier": "sorts/demoniste_chaines_infernales.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_demoniste_effroi": {
+      "fichier": "sorts/demoniste_effroi.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_demoniste_permutation": {
+      "fichier": "sorts/demoniste_permutation.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_demoniste_appel_du_molosse": {
+      "fichier": "sorts/demoniste_appel_du_molosse.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_demoniste_appel_de_la_succube": {
+      "fichier": "sorts/demoniste_appel_de_la_succube.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_demoniste_mise_a_feu": {
+      "fichier": "sorts/demoniste_mise_a_feu.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_demoniste_escarbille": {
+      "fichier": "sorts/demoniste_escarbille.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_demoniste_pluie_de_soufre": {
+      "fichier": "sorts/demoniste_pluie_de_soufre.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_demoniste_fournaise": {
+      "fichier": "sorts/demoniste_fournaise.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_demoniste_explosion_de_cendres": {
+      "fichier": "sorts/demoniste_explosion_de_cendres.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_demoniste_mur_de_flammes": {
+      "fichier": "sorts/demoniste_mur_de_flammes.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_demoniste_fumees_acres": {
+      "fichier": "sorts/demoniste_fumees_acres.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_demoniste_pas_de_braise": {
+      "fichier": "sorts/demoniste_pas_de_braise.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_demoniste_peau_de_cendre": {
+      "fichier": "sorts/demoniste_peau_de_cendre.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_demoniste_feu_de_camp": {
+      "fichier": "sorts/demoniste_feu_de_camp.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_demoniste_pacte_de_feu": {
+      "fichier": "sorts/demoniste_pacte_de_feu.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_diablotin_fourche": {
+      "fichier": "sorts/demoniste_appel_du_diablotin.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_diablotin_crachat_de_soufre": {
+      "fichier": "sorts/demoniste_sacrifice.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_molosse_morsure": {
+      "fichier": "sorts/demoniste_appel_du_molosse.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_molosse_grognement": {
+      "fichier": "sorts/demoniste_effroi.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_succube_soin_rh": {
+      "fichier": "sorts/demoniste_appel_de_la_succube.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_succube_prime_de_motivation": {
+      "fichier": "sorts/demoniste_appel_de_la_succube.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_succube_pause_cafe": {
+      "fichier": "sorts/demoniste_appel_de_la_succube.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    }
+  },
+  "monstres": {
+    "diablotin": {
+      "image": "gargouille",
+      "echelle": 0.6,
+      "teinte": "ff6a4a"
+    },
+    "molosse": {
+      "image": "loup",
+      "echelle": 1.0,
+      "couleurs": {
+        "pelage": "6a1a12",
+        "pelage_ombre": "3a0c08",
+        "ventre": "ff8a2a"
+      }
+    },
+    "succube": {
+      "rig": "humain",
+      "couleurs": {
+        "peau": "e0a0b0",
+        "tunique": "a02a4a",
+        "manches": "7a1a34",
+        "pantalon": "4a1a2e",
+        "bottes": "2a0c18",
+        "ceinture": "c9a04e",
+        "cheveux": "1a0a12"
+      },
+      "arme": "sceptre",
+      "accessoires": [
+        "ailes"
+      ]
+    }
+  }
+}

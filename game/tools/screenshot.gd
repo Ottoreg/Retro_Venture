@@ -49,6 +49,8 @@ func _initialize() -> void:
 		Session.new_character = Character.create("Mirabelle", "humain", "arcaniste")
 	if _action.begins_with("ombre_"):
 		Session.new_character = Character.create("Nyx", "humain", "ombre")
+	if _action.begins_with("demoniste_"):
+		Session.new_character = Character.create("Belzébuth", "orc", "demoniste")
 	if _action == "horloge" or _action == "sorts_chronomancien":
 		Session.new_character = Character.create("Pendulette", "elfe", "chronomancien")
 		if _action == "sorts_chronomancien":
@@ -453,7 +455,7 @@ func _process(_delta: float) -> bool:
 				_scene.pause_menu.options.controls()["admin"].pressed.emit()
 				_scene.pause_menu.options.admin._send("activer", {"mdp": World.ADMIN_PASSWORD})
 		else:
-			var target: Vector2i = view.server.groups()[0]["case"] if _action in ["combat", "cible", "sermon", "prevision", "phase", "tactique", "historique", "arcaniste", "composition", "infobulle", "horloge"] or _action.begins_with("ombre_") else view.current_map().travel_stone()
+			var target: Vector2i = view.server.groups()[0]["case"] if _action in ["combat", "cible", "sermon", "prevision", "phase", "tactique", "historique", "arcaniste", "composition", "infobulle", "horloge"] or _action.begins_with("ombre_") or _action.begins_with("demoniste_") else view.current_map().travel_stone()
 			if _action.begins_with("ombre_"):  # Une dague, pour sa case à part dans la barre de sorts.
 				var inventory := view.server.character.inventory
 				inventory.equip(inventory.add(view.server.data.items["forge_dague"], 1, {}), "arme")
@@ -469,7 +471,7 @@ func _process(_delta: float) -> bool:
 					break
 				view.advance(0.3)
 			if _action in ["cible", "sermon", "prevision", "phase", "tactique", "historique", "arcaniste", "composition", "infobulle",
-					"horloge"] or _action.begins_with("ombre_") and view.server.combat != null:
+					"horloge"] or (_action.begins_with("ombre_") or _action.begins_with("demoniste_")) and view.server.combat != null:
 				# Placement validé, puis survol du premier monstre.
 				view.request_start_fight()
 				for i in 200:
@@ -540,6 +542,29 @@ func _process(_delta: float) -> bool:
 						view.select_spell(cast[0])
 						view._on_click(cast[1])
 						_wait_for(view)
+				if _action.begins_with("demoniste_"):
+					# Démoniste : « demoniste_braises » (Diablotin, Molosse, cases embrasées puis calcinée devant un monstre amené à
+					# 3 cases), « demoniste_serviteur » (la même chose, puis le tour du Diablotin, joué par le joueur).
+					var hero := view.server.combat.get_fighter(World.PLAYER_ID)
+					var foe := view.server.combat.enemies_of(hero)[0]
+					var ahead := Spell.direction(hero.cell, foe.cell)
+					var side := Vector2i(-ahead.y, ahead.x)
+					foe.cell = hero.cell + ahead * 3
+					hero.pa = 30
+					view.refresh_state()
+					view._actors[foe.id]["pos"] = Vector2(foe.cell)
+					for cast: Array in [["demoniste_appel_du_diablotin", hero.cell + side], ["demoniste_appel_du_molosse", hero.cell - side],
+							["demoniste_mise_a_feu", hero.cell + ahead * 2], ["demoniste_escarbille", hero.cell + ahead * 2],
+							["demoniste_escarbille", hero.cell + ahead * 2]]:
+						view.select_spell(cast[0])
+						view._on_click(cast[1])
+						_wait_for(view)
+					if _action == "demoniste_serviteur":
+						view.request_end_turn()
+						_wait_for(view)
+						view.select_spell("diablotin_fourche")
+						view._refresh_overlays()
+						view._set_hovered(foe.cell)
 				if _action in ["sermon", "prevision"]:
 					# Sermon choisi, case visée à 2 cases devant le Théologue, vers les monstres ;
 					# « prevision » : un monstre amené dans la zone (dégâts prévus au-dessus de lui).

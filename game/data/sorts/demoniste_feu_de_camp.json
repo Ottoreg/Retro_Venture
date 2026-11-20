@@ -1,0 +1,48 @@
+{
+  "id": "demoniste_feu_de_camp",
+  "nom": "Feu de camp",
+  "description": "On se réchauffe ensemble (serviteurs compris, ils ont insisté). Sur une case calcinée : soins doublés, sans rallumer.",
+  "cout_pa": 3,
+  "portee": {
+    "min": 0,
+    "max": 4
+  },
+  "zone": {
+    "type": "cercle",
+    "taille": 1
+  },
+  "embrase": 1,
+  "calcinee": {
+    "bonus": 100,
+    "embrase": 0
+  },
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "soin",
+      "element": "flamme",
+      "min": 5,
+      "max": 7,
+      "cibles": "allies"
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "portee_max": 1
+    },
+    "5": {
+      "effets": [
+        {
+          "type": "bonus",
+          "carac": "dommages",
+          "min": 5,
+          "max": 5,
+          "duree": 1,
+          "cibles": "allies"
+        }
+      ]
+    }
+  }
+}

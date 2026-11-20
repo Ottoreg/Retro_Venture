@@ -1143,7 +1143,7 @@ func _refresh() -> void:
 		return
 	if not _target_id.is_empty():
 		_show_target()
-	var player := map_view.actor(map_view.world.player_id)
+	var player := map_view.actor(map_view.acting_id())  # Ou son serviteur, pendant son tour (Démoniste).
 	if not player.is_empty():
 		_hp_gauge.show_values(int(player["hp"]), int(player["max_hp"]))
 		_pa_gauge.show_values(int(player["pa"]), int(player["pa"]))

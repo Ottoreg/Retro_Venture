@@ -1,0 +1,47 @@
+{
+  "id": "demoniste_pluie_de_soufre",
+  "nom": "Pluie de soufre",
+  "description": "Il pleut du soufre, et pas qu'un peu. Sur une case calcinée, ça brûle encore 2 tours.",
+  "cout_pa": 4,
+  "portee": {
+    "min": 3,
+    "max": 8
+  },
+  "zone": {
+    "type": "cercle",
+    "taille": 1
+  },
+  "embrase": 1,
+  "calcinee": {
+    "effets": [
+      {
+        "type": "poison",
+        "element": "flamme",
+        "min": 3,
+        "max": 4,
+        "duree": 2,
+        "cibles": "ennemis"
+      }
+    ]
+  },
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "flamme",
+      "min": 7,
+      "max": 9,
+      "cibles": "ennemis"
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "cout_pa": 3
+    },
+    "5": {
+      "critique": 10
+    }
+  }
+}

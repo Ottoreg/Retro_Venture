@@ -106,6 +106,7 @@ point(s) de caractéristique (avant ralentissement).
 |---|---|---|---|---|---|---|
 | **Arcaniste** | 50 | 6 | 3 | 100 | 2 | 0 |
 | **Chronomancien** | 50 | 6 | 3 | 100 | 6 | 0 |
+| **Démoniste** | 50 | 6 | 3 | 100 | 20 | 0 |
 | **Guerrier** | 50 | 6 | 3 | 100 | 5 | 2 |
 | **Ombre** | 50 | 6 | 3 | 100 | 20 | 0 |
 | **Rôdeur** | 50 | 6 | 3 | 100 | 5 | 0 |
@@ -146,6 +147,33 @@ horloge, glyphe et piège) ; *Moy./PA* ; *Rang 5* = moyenne avec +50 % de maîtr
 | **Avance rapide** | I | 4 PA, portée 1–6, 1/tour | 9–12 Impie ; +3 h sur l'horloge | 10,5 dégâts | 2,62 dégâts | 15,75 dégâts | rang 3 : +5 % critique<br>rang 5 : coût 3 PA |
 | **Retour en arrière** | I | 4 PA, portée 1–6, 1/tour | 9–12 Impie ; -3 h sur l'horloge | 10,5 dégâts | 2,62 dégâts | 15,75 dégâts | rang 3 : +5 % critique<br>rang 5 : coût 3 PA |
 | **Contretemps** | I | 3 PA, portée 1–6, 1/tour, relance 2 t. | 6–8 Impie ; +6 h sur l'horloge | 7 dégâts | 2,33 dégâts | 10,5 dégâts | rang 3 : +5 % critique<br>rang 5 : relance 1 t. |
+
+### Démoniste
+
+*Démoniste agréé, ancien sous-traitant du Mordor. Ses démons pointent à l'heure (pas une minute de plus, la convention collective des Enfers est formelle) ; lui brûle tout ce qui refuse de signer.*
+
+| Sort | Rang | Caractéristiques | Effets | Moy. | Moy./PA | Rang 5 | Maîtrise |
+|---|---|---|---|---|---|---|---|
+| **Appel du Diablotin** | I | 3 PA, portée 1–2, relance 1 t. | invocation | — | — | — | — |
+| **Trait impie** | I | 3 PA, portée 1–6, 2/tour | 7–9 Impie aux ennemis | 8 dégâts | 2,67 dégâts | 12 dégâts | rang 3 : +1 portée<br>rang 5 : +10 % critique |
+| **Nuée de chauves-souris** | I | 4 PA, portée 2–6, cercle de rayon 1, 1/tour | 6–8 Impie aux ennemis | 7 dégâts | 1,75 dégâts | 10,5 dégâts | rang 3 : coût 3 PA<br>rang 5 : ajoute −1 Portée (1 t.) aux ennemis |
+| **Main du Malin** | I | 5 PA, portée 1–3, 1/tour | 14–18 Impie aux ennemis | 16 dégâts | 3,2 dégâts | 24 dégâts | rang 3 : +1 portée<br>rang 5 : +15 % critique |
+| **Sacrifice** | I | 2 PA, portée 1–6, sans ligne de vue, 1/tour | sacrifice | — | — | — | rang 3 : coût 1 PA<br>rang 5 : ajoute soin 10 (Impie) |
+| **Chaînes infernales** | I | 3 PA, portée 1–5 | −2 PM au prochain tour aux ennemis | — | — | — | rang 3 : +1 portée<br>rang 5 : ajoute −1 PA (1 t.) aux ennemis |
+| **Effroi** | I | 3 PA, portée 1–4, 1/tour | poussée de 2 case(s) aux ennemis ; −1 PA (1 t.) aux ennemis | — | — | — | rang 3 : coût 2 PA<br>rang 5 : ajoute 5–7 Impie aux ennemis |
+| **Permutation** | I | 1 PA, portée 1–8, sans ligne de vue, 1/tour | permutation | — | — | — | rang 3 : +2 portée<br>rang 5 : ajoute +1 PM (1 t.) |
+| **Appel du Molosse** | I | 4 PA, portée 1–2, relance 2 t. | invocation | — | — | — | — |
+| **Appel de la Succube** | I | 3 PA, portée 1–2, relance 2 t. | invocation | — | — | — | — |
+| **Mise à feu** | I | 2 PA, portée 1–6, cercle de rayon 1, 1/tour | 3–4 Flamme aux ennemis | 3,5 dégâts | 1,75 dégâts | 5,25 dégâts | rang 3 : +1 portée<br>rang 5 : embrase 1 |
+| **Escarbille** | I | 2 PA, portée 1–7, 3/tour | 5–6 Flamme aux ennemis | 5,5 dégâts | 2,75 dégâts | 8,25 dégâts | rang 3 : +10 % critique<br>rang 5 : +1 portée |
+| **Pluie de soufre** | I | 4 PA, portée 3–8, cercle de rayon 1, 1/tour | 7–9 Flamme aux ennemis | 8 dégâts | 2 dégâts | 12 dégâts | rang 3 : coût 3 PA<br>rang 5 : +10 % critique |
+| **Fournaise** | I | 5 PA, portée 1–4, cercle de rayon 1, 1/tour | 13–16 Flamme aux ennemis | 14,5 dégâts | 2,9 dégâts | 21,75 dégâts | rang 3 : +1 portée<br>rang 5 : embrase 1 |
+| **Explosion de cendres** | I | 3 PA, portée 1–6, cercle de rayon 2, 1/tour | cendres aux ennemis | — | — | — | rang 3 : coût 2 PA<br>rang 5 : +10 % critique |
+| **Mur de flammes** | I | 3 PA, portée 2–5, 1/tour | glyphe (1 t.) : [6–8 Flamme aux ennemis] | — | — | — | rang 3 : +1 portée<br>rang 5 : zone de taille 2 |
+| **Fumées âcres** | I | 3 PA, portée 1–5, 1/tour | −2 PM au prochain tour aux ennemis | — | — | — | rang 3 : +1 portée<br>rang 5 : ajoute −1 PA (1 t.) aux ennemis |
+| **Pas de braise** | I | 2 PA, portée 1–3, sans ligne de vue, 1/tour | téléportation sur la case | — | — | — | rang 3 : coût 1 PA<br>rang 5 : +1 portée |
+| **Peau de cendre** | I | 2 PA, portée soi, 1/tour | bouclier 8–10 (Flamme) | 9 bouclier | 4,5 bouclier | 13,5 bouclier | rang 3 : coût 1 PA<br>rang 5 : ajoute +10 Résistance Flamme (1 t.) |
+| **Feu de camp** | I | 3 PA, portée 0–4, cercle de rayon 1, 1/tour | soin 5–7 (Flamme) aux alliés | 6 soin | 2 soin | 9 soin | rang 3 : +1 portée<br>rang 5 : ajoute +5 Dommages (1 t.) aux alliés |
 
 ### Guerrier
 

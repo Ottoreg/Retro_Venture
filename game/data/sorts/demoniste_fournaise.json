@@ -1,0 +1,38 @@
+{
+  "id": "demoniste_fournaise",
+  "nom": "Fournaise",
+  "description": "La porte du four s'ouvre en grand. Sur une case calcinée : +50 % de dégâts.",
+  "cout_pa": 5,
+  "portee": {
+    "min": 1,
+    "max": 4
+  },
+  "zone": {
+    "type": "cercle",
+    "taille": 1
+  },
+  "embrase": 1,
+  "calcinee": {
+    "bonus": 50
+  },
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "flamme",
+      "min": 13,
+      "max": 16,
+      "cibles": "ennemis"
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "portee_max": 1
+    },
+    "5": {
+      "embrase": 1
+    }
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "id": "demoniste_mise_a_feu",
+  "nom": "Mise à feu",
+  "description": "Allume tout autour : embrase les cases de 2 niveaux d'un coup. Sur une case calcinée, les cendres s'envolent : −1 PM aux ennemis.",
+  "cout_pa": 2,
+  "portee": {
+    "min": 1,
+    "max": 6
+  },
+  "zone": {
+    "type": "cercle",
+    "taille": 1
+  },
+  "embrase": 2,
+  "calcinee": {
+    "effets": [
+      {
+        "type": "retrait_pm",
+        "min": 1,
+        "max": 1,
+        "cibles": "ennemis"
+      }
+    ]
+  },
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "flamme",
+      "min": 3,
+      "max": 4,
+      "cibles": "ennemis"
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "portee_max": 1
+    },
+    "5": {
+      "embrase": 1
+    }
+  }
+}

@@ -1495,6 +1495,16 @@
         "ceinture": "c9ccd6"
       },
       "arme": "epee"
+    },
+    "demoniste": {
+      "couleurs": {
+        "tunique": "d8641c",
+        "manches": "2a1a14",
+        "pantalon": "1e1a18",
+        "bottes": "141010",
+        "ceinture": "1a1a1a"
+      },
+      "arme": "baton"
     }
   },
   "races": {
