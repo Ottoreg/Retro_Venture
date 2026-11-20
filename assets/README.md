@@ -16,9 +16,6 @@ Pas encore utilisée par le jeu.
 `PROMPTS_ANIMATIONS.md` : prompts PixelLab des animations des races (touché, mort, assis, travailler, attente).
 
 `elfe/strike/` : coup de poing de l'elfe (20/11/2026), ajouté à la planche existante de l'elfe (mêmes proportions).
-`humain/images_actuelles/` et `gobelin/images_actuelles/` : images actuelles du jeu tirées de leurs planches (image fixe et
-4 images de course par direction, 96 px, pieds en (48, 80)), pour s'en servir de base dans PixelLab.
-`gobelin.zip` : nouveau gobelin avec coup de poing, plus petit que celui du jeu, pas encore utilisé.
 
 `geante/` : géante (race Géants, Phase 3), déposée le 19/11/2026 ; images fixes de 96 px et animations de 136 px,
 plus grandes que l'orc (planche à cases plus grandes à prévoir). Chaque dossier PixelLab garde son `metadata.json` (prompt utilisé).
