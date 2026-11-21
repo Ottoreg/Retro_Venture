@@ -108,6 +108,7 @@ point(s) de caractéristique (avant ralentissement).
 | **Chronomancien** | 50 | 6 | 3 | 100 | 6 | 0 |
 | **Démoniste** | 50 | 6 | 3 | 100 | 20 | 0 |
 | **Guerrier** | 50 | 6 | 3 | 100 | 5 | 2 |
+| **Myrmidon** | 50 | 6 | 3 | 100 | 20 | 0 |
 | **Ombre** | 50 | 6 | 3 | 100 | 20 | 0 |
 | **Paladin** | 50 | 6 | 3 | 100 | 20 | 0 |
 | **Rôdeur** | 50 | 6 | 3 | 100 | 5 | 0 |
@@ -189,6 +190,33 @@ horloge, glyphe et piège) ; *Moy./PA* ; *Rang 5* = moyenne avec +50 % de maîtr
 | **Charge** | I | 3 PA, portée 2–4, en ligne, 1/tour, relance 2 t. | charge en ligne jusqu'au contact (effets suivants au contact seulement) ; 6–9 Acier | 7,5 dégâts | 2,5 dégâts | 11,25 dégâts | rang 3 : +1 portée<br>rang 5 : relance 1 t. |
 | **Cri de guerre** | II (0 rép.) | 3 PA, portée soi, cercle de rayon 2, sans ligne de vue, 1/tour, relance 4 t. | +4–6 Dommages (2 t.) aux alliés | — | — | — | rang 3 : relance 3 t.<br>rang 5 : zone de taille 3 |
 | **Fendoir** | II (0 rép.) | 5 PA, portée 1, 1/tour | 16–22 Acier | 19 dégâts | 3,8 dégâts | 28,5 dégâts | rang 3 : +5 % critique<br>rang 5 : coût 4 PA |
+
+### Myrmidon
+
+*Myrmidon de la Légion des Boucliers Réglementaires. A juré de ne jamais reculer, surtout parce qu'on ne lui a jamais appris la marche arrière.*
+
+| Sort | Rang | Caractéristiques | Effets | Moy. | Moy./PA | Rang 5 | Maîtrise |
+|---|---|---|---|---|---|---|---|
+| **Serrer les rangs** | I | 1 PA, portée soi, 1/tour | blindage | — | — | — | rang 3 : ajoute blindage<br>rang 5 : ajoute +3 reduction_degats (2 t.) |
+| **Coup de bouclier** | I | 3 PA, portée 1, 2/tour | 8–11 Acier aux ennemis ; blindage | 9,5 dégâts | 3,17 dégâts | 14,25 dégâts | rang 3 : +5 % critique<br>rang 5 : ajoute −1 PM (1 t.) aux ennemis |
+| **Bouclier lancé** | I | 4 PA, portée 2–5, 1/tour | 6–9 Acier aux ennemis ; rebond 4–6 Acier sur l'ennemi le plus proche (2 case(s) au plus) ; blindage | 7,5 dégâts | 1,88 dégâts | 11,25 dégâts | rang 3 : +1 portée<br>rang 5 : coût 3 PA |
+| **Écrasement** | I | 5 PA, portée 1, 1/tour | 16–21 Acier aux ennemis ; blindage | 18,5 dégâts | 3,7 dégâts | 27,75 dégâts | rang 3 : +5 % critique<br>rang 5 : coût 4 PA |
+| **Retour à l'envoyeur** | I | 4 PA, portée 1, 1/tour | 10–13 Acier aux ennemis | 11,5 dégâts | 2,88 dégâts | 17,25 dégâts | rang 3 : +5 % critique<br>rang 5 : +1 portée |
+| **Coup d'épaule** | I | 2 PA, portée 1, 1/tour | 3–5 Acier aux ennemis ; poussée de 2 case(s) aux ennemis ; blindage | 4 dégâts | 2 dégâts | 6 dégâts | rang 3 : ajoute −1 PM (1 t.) aux ennemis<br>rang 5 : coût 1 PA |
+| **Démolition** | I | 3 PA, portée 1–2, cercle de rayon 1, 1/tour, relance 1 t. | demolition ; 7–9 Acier aux ennemis ; blindage | 8 dégâts | 2,67 dégâts | 12 dégâts | rang 3 : +1 portée<br>rang 5 : zone de taille 2 |
+| **Bélier** | I | 3 PA, portée 2–5, sans ligne de vue, en ligne, 1/tour, relance 2 t. | charge en ligne jusqu'au contact (effets suivants au contact seulement) ; 5–7 Acier aux ennemis ; blindage | 6 dégâts | 2 dégâts | 9 dégâts | rang 3 : +1 portée<br>rang 5 : relance 1 t. |
+| **Peau de fer** | I | 2 PA, portée soi, 1/tour, relance 3 t. | +5 reduction_degats (2 t.) | — | — | — | rang 3 : relance 2 t.<br>rang 5 : ajoute blindage |
+| **Garde** | I | 2 PA, portée 1–3, sans ligne de vue, 1/tour, relance 2 t. | garde (2 t.) aux alliés | — | — | — | rang 3 : +1 portée<br>rang 5 : ajoute bouclier 6–8 (Acier) aux alliés |
+| **Morsure du froid** | I | 2 PA, portée 1–2, 2/tour | 4–6 Givre aux ennemis ; gelure aux ennemis | 5 dégâts | 2,5 dégâts | 7,5 dégâts | rang 3 : +1 portée<br>rang 5 : ajoute gelure aux ennemis |
+| **Coup glacé** | I | 3 PA, portée 1, 2/tour | 8–11 Givre aux ennemis ; gelure aux ennemis | 9,5 dégâts | 3,17 dégâts | 14,25 dégâts | rang 3 : +5 % critique<br>rang 5 : ajoute −1 PM au prochain tour aux ennemis |
+| **Souffle hivernal** | I | 4 PA, portée 1–3, en ligne, 1/tour | 6–8 Givre aux ennemis ; gelure aux ennemis ; gel | 7 dégâts | 1,75 dégâts | 10,5 dégâts | rang 3 : +1 portée<br>rang 5 : coût 3 PA |
+| **Avalanche** | I | 5 PA, portée 1, cercle de rayon 1, 1/tour | 13–17 Givre aux ennemis ; gelure aux ennemis | 15 dégâts | 3 dégâts | 22,5 dégâts | rang 3 : +5 % critique<br>rang 5 : coût 4 PA |
+| **Bris de glace** | I | 4 PA, portée 1, 1/tour | 9–12 Givre aux ennemis | 10,5 dégâts | 2,62 dégâts | 15,75 dégâts | rang 3 : +5 % critique<br>rang 5 : +1 portée |
+| **Entrave** | I | 2 PA, portée 1–4, 1/tour | −2 PM au prochain tour aux ennemis ; gelure aux ennemis | — | — | — | rang 3 : +1 portée<br>rang 5 : ajoute −1 PA (1 t.) aux ennemis |
+| **Coup sur le casque** | I | 3 PA, portée 1, 1/tour, relance 5 t. | 3–5 Givre aux ennemis ; assomme (1 t.) aux ennemis | 4 dégâts | 1,33 dégâts | 6 dégâts | rang 3 : relance 4 t.<br>rang 5 : ajoute gelure aux ennemis |
+| **Glissade** | I | 3 PA, portée 2–5, en ligne, 1/tour, relance 2 t. | charge en ligne jusqu'au contact (effets suivants au contact seulement) | — | — | — | rang 3 : +1 portée<br>rang 5 : relance 1 t. |
+| **Carapace de glace** | I | 2 PA, portée soi, 1/tour, relance 1 t. | bouclier 8–10 (Givre) ; carapace_de_glace (2 t.) | 9 bouclier | 4,5 bouclier | 13,5 bouclier | rang 3 : coût 1 PA<br>rang 5 : ajoute +10 Résistance Givre (2 t.) |
+| **Défi** | I | 2 PA, portée 1–5, 1/tour, relance 2 t. | attire de 2 case(s) aux ennemis ; provoque (2 t.) aux ennemis | — | — | — | rang 3 : +1 portée<br>rang 5 : relance 1 t. |
 
 ### Ombre
 

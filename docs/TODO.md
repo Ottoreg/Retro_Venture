@@ -671,6 +671,9 @@ Lots 0 (conception dans le GDD), 1 (personnage, poussé sur `main` à la demande
 - [ ] Race **Lutin** (neutre) : passif *Farceur*, sort *Tour de passe-passe*, assemblage réduit (≈ 0,8×), zone de départ et chaîne d'acte I
 - [ ] Différencier les races proches (Nain / Orc) et valider leurs noms de peuple (GDD § 4.2)
 - [ ] Voies de corps à corps : **Paladin** (guerrier sacré) et **Myrmidon** (guerrier tank)
+- [x] Voie de corps à corps **Myrmidon** (21/11/2026, GDD § 4.3) : provocation et passif Point de mire, Blindage,
+  Gelures, assommer, arbres et rochers démolis, eau gelée, Garde ; valeurs provisoires (l'auteur ajustera après ses tests)
+- [ ] Myrmidon : geler les trous quand des cartes en auront ; animations PixelLab de ses sorts ; IA si un monstre joue la classe
 - [x] Voie mixte **Ombre** (20/11/2026, GDD § 4.3) : 2 Voies de 10 sorts, passif Coup en traître, images rémanentes,
   invisibilité, armes d'obscurité, Monde des ombres ; valeurs provisoires
 - [ ] Ombre : cacher côté serveur aux adversaires l'invisible, le Monde des ombres et les armes d'obscurité (multijoueur) ;
@@ -683,7 +686,7 @@ Lots 0 (conception dans le GDD), 1 (personnage, poussé sur `main` à la demande
 - [ ] Paladin : équilibrage après les tests de l'auteur ; planches et animations PixelLab ; IA qui casse exprès les balises
 - [ ] Démoniste : revoir le passif Pacte de feu (il ne convient pas complètement à l'auteur) ; planches PixelLab des
   serviteurs (`assets/demoniste/PROMPTS.md`) et animations de ses sorts
-- [ ] Mécaniques de ces Voies : invisibilité, poisons et dégâts sur la durée, provocation, auras,
+- [ ] Mécaniques de ces Voies : invisibilité, poisons et dégâts sur la durée, provocation (faite, Myrmidon), auras,
   invocations, sacrifice de PV, résurrection (multi)
 - [ ] Étendre la progression jusqu'au niveau 100
 

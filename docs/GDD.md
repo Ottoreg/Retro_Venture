@@ -606,6 +606,41 @@ pourrait le faire un Paladin.
   (avec un temps de relance important). Il peut **geler l'eau ou l'air d'un trou** de la carte pour
   y passer en marchant.
 
+**Myrmidon : conception finale, codée le 21/11/2026** (fil « Ajouter la classe Myrmidon au jeu », propositions validées
+telles quelles par l'auteur, à ajuster après ses tests ; valeurs provisoires ; fiche `docs/design/classes/myrmidon.md`) :
+
+- *Identité* : « Myrmidon de la Légion des Boucliers Réglementaires. A juré de ne jamais reculer, surtout parce qu'on ne
+  lui a jamais appris la marche arrière. » Tank, famille corps à corps ; tenue gris acier à liseré bleu glacier ; toutes
+  les races ; 50 PV, 6 PA, 3 PM, 100 d'initiative. Force (Acier pur) et Perception (Givre pur), aucun sort multi-élément ;
+  rien de spécial pour la Vitalité (il en gagne plus parce qu'il encaisse plus). Beaucoup de moyens d'arriver au
+  contact (Bélier, Glissade, Défi qui attire), aucun pour s'éloigner ; pas de partage de résistances.
+- *Provocation* : état **Provoqué** (`provoque`). L'IA d'un monstre provoqué vise le Myrmidon s'il peut le frapper, sinon
+  marche vers lui ; tout provoqué (joueur compris, qui reste libre de ses clics) fait −20 % de dégâts à tout autre que
+  le Myrmidon. Un boss ou mini-boss est provocable mais le malus est divisé par 2 et son IA reste libre.
+- *Passif* **Point de mire** (Apprenti, 5 rangs) : aura de 2 cases ; un ennemi qui y commence son tour est provoqué pendant
+  ce tour ; malus −20 % (+2 % par rang). Rang 3 : aura de 3 cases. Rang 5 : un provoqué qui le frappe au contact subit
+  un contrecoup de 10 % des dégâts.
+- *Assommer* (Voie Givre, *Coup sur le casque*) : la cible passe son prochain tour (ses effets de début de tour
+  s'appliquent), relance 5 tours, une fois par cible et par combat ; un boss perd 3 PA à la place.
+- *Terrain* : démolir les arbres et les rochers d'une case (jamais murs, blocs de bâtiments, coffres, ressources, eau)
+  pour le reste du combat, ligne de vue comprise ; la carte d'exploration ne change pas. Geler l'eau (pas les coins de
+  pêche) : praticable 3 tours du lanceur, pour tout le monde ; au dégel, qui est dessus va sur la case libre la plus
+  proche. Les « trous » viendront avec les cartes qui en auront.
+- *Voie Acier — Blindage* : chaque sort de dégâts Acier donne 1 cran de Blindage (5 au plus, 3 tours, rafraîchis) : +4 %
+  de résistance à tous les éléments par cran. *Serrer les rangs* (signature, 1 PA, +2 crans), *Coup de bouclier*,
+  *Bouclier lancé* (rebond), *Écrasement*, *Retour à l'envoyeur* (+20 % par cran, tous dépensés), *Coup d'épaule*
+  (poussée de 2), *Démolition* (contrôle : un arbre ou rocher, débris autour), *Bélier* (charge qui renverse le premier
+  obstacle démolissable), *Peau de fer* (réduction de dégâts fixe), *Garde* (soutien : 2 tours, la moitié des dégâts de
+  sort de l'allié va au Myrmidon, avec ses résistances ; seulement en groupe ou en mode héros).
+- *Voie Givre — Gelures* : chaque sort Givre pose 1 Gelure (3 au plus, 3 tours) ; au début de son tour la cible perd 1 PM
+  par Gelure (esquive comprise) ; à 3 Gelures elle est gelée (0 PM ce tour) et elles retombent à 0. *Morsure du froid*
+  (signature), *Coup glacé*, *Souffle hivernal* (ligne, gèle l'eau), *Avalanche*, *Bris de glace* (+25 % par Gelure,
+  qui tombent), *Entrave* (−2 PM), *Coup sur le casque* (assomme), *Glissade* (glisse jusqu'au contact en gelant l'eau),
+  *Carapace de glace* (bouclier ; qui le frappe au contact prend une Gelure), *Défi* (soutien : attire de 2 et provoque
+  2 tours).
+- *Plus tard* : aucun monstre ne joue la classe (pas d'IA propre) ; sorts joués avec l'attaque de la race (planches
+  recoloriées) ; 3e Voie Lumière ou Ténèbres à trancher.
+
 **Démoniste — Impie ou Flamme**
 
 - *Démoniste Impie* : il **invoque des serviteurs** qui l'aident à se battre, de plusieurs types

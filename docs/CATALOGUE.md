@@ -27,7 +27,7 @@ Prix de boutique : selon la rareté (revente à 25 %).
 - [Sorts de race](#sorts-de-race)
 - [Sorts des monstres](#sorts-des-monstres)
 
-**317 objets** (18 armes, 20 coiffes, 20 capes, 20 amulettes, 20 anneaux, 20 ceintures, 20 bottes, 129 ressources, 37 plans de forge, 7 objets de quête), **57 monstres** et **211 sorts**.
+**317 objets** (18 armes, 20 coiffes, 20 capes, 20 amulettes, 20 anneaux, 20 ceintures, 20 bottes, 129 ressources, 37 plans de forge, 7 objets de quête), **57 monstres** et **231 sorts**.
 
 ## Armes
 
@@ -1337,6 +1337,33 @@ Au contact, il encaisse et rend les coups. Réfléchit après, de préférence. 
 | **Tourbillon** | 4 PA, portée soi, cercle de rayon 1 (sans le lanceur), sans ligne de vue, 1/tour | 7–10 Acier | Tourne sur lui-même lame tendue. Frappe tout ce qui est au contact, amis compris. |
 | **Second souffle** | 2 PA, portée soi, sans ligne de vue, 1/tour, relance 3 t. | soin 12–18 (Acier) | Une grande inspiration, une gorgée de gourde, et ça repart. |
 | **Charge** | 3 PA, portée 2–4, en ligne, 1/tour, relance 2 t. | charge en ligne jusqu'au contact (effets suivants au contact seulement) ; 6–9 Acier | Il fonce droit devant, épée en avant, jusqu'au contact. Le freinage est en option, la réflexion aussi. |
+
+### Myrmidon
+
+Myrmidon de la Légion des Boucliers Réglementaires. A juré de ne jamais reculer, surtout parce qu'on ne lui a jamais appris la marche arrière. PV 50, PA 6, PM 3, initiative 100. Départ : .
+
+| Sort | Caractéristiques | Effets | Description |
+|---|---|---|---|
+| **Serrer les rangs** | 1 PA, portée soi, 1/tour | blindage | Il serre les dents, le bouclier et les rangs (seul, c'est plus facile) : +2 crans de Blindage, +4 % de résistance à tout par cran. |
+| **Coup de bouclier** | 3 PA, portée 1, 2/tour | 8–11 Acier aux ennemis ; blindage | Le bouclier sert aussi à ça, le règlement est formel. +1 cran de Blindage. |
+| **Bouclier lancé** | 4 PA, portée 2–5, 1/tour | 6–9 Acier aux ennemis ; rebond 4–6 Acier sur l'ennemi le plus proche (2 case(s) au plus) ; blindage | Il lance son bouclier, qui rebondit sur un deuxième ennemi et revient (en général). +1 cran de Blindage. |
+| **Écrasement** | 5 PA, portée 1, 1/tour | 16–21 Acier aux ennemis ; blindage | Tout son poids, réglementaire, sur un seul ennemi. +1 cran de Blindage. |
+| **Retour à l'envoyeur** | 4 PA, portée 1, 1/tour | 10–13 Acier aux ennemis | Rend tous les coups encaissés d'un seul : +20 % de dégâts par cran de Blindage, qui sont tous dépensés. |
+| **Coup d'épaule** | 2 PA, portée 1, 1/tour | 3–5 Acier aux ennemis ; poussée de 2 case(s) aux ennemis ; blindage | Un coup d'épaule qui envoie l'ennemi deux cases plus loin, sans s'excuser. +1 cran de Blindage. |
+| **Démolition** | 3 PA, portée 1–2, cercle de rayon 1, 1/tour, relance 1 t. | demolition ; 7–9 Acier aux ennemis ; blindage | Démolit un arbre ou un rocher pour le reste du combat ; les débris blessent les ennemis autour. +1 cran de Blindage. |
+| **Bélier** | 3 PA, portée 2–5, sans ligne de vue, en ligne, 1/tour, relance 2 t. | charge en ligne jusqu'au contact (effets suivants au contact seulement) ; 5–7 Acier aux ennemis ; blindage | Il charge en ligne jusqu'au contact, en renversant le premier arbre ou rocher du chemin. +1 cran de Blindage. |
+| **Peau de fer** | 2 PA, portée soi, 1/tour, relance 3 t. | +5 reduction_degats (2 t.) | Une peau si dure que les coups rebondissent : 5 de réduction de dégâts pendant 2 tours. |
+| **Garde** | 2 PA, portée 1–3, sans ligne de vue, 1/tour, relance 2 t. | garde (2 t.) aux alliés | Il se met devant un allié : pendant 2 tours, la moitié des dégâts de sort qu'il subit est prise par le Myrmidon, avec ses propres résistances. |
+| **Morsure du froid** | 2 PA, portée 1–2, 2/tour | 4–6 Givre aux ennemis ; gelure aux ennemis | Un froid qui mord les orteils : +1 Gelure (−1 PM au début de chacun de ses tours ; à 3 Gelures, gelé sur place un tour). |
+| **Coup glacé** | 3 PA, portée 1, 2/tour | 8–11 Givre aux ennemis ; gelure aux ennemis | Un coup de lame givrée. +1 Gelure. |
+| **Souffle hivernal** | 4 PA, portée 1–3, en ligne, 1/tour | 6–8 Givre aux ennemis ; gelure aux ennemis ; gel | Un souffle glacé qui traverse la ligne, blesse les ennemis et gèle l'eau sur son passage. +1 Gelure. |
+| **Avalanche** | 5 PA, portée 1, cercle de rayon 1, 1/tour | 13–17 Givre aux ennemis ; gelure aux ennemis | Toute la neige de la montagne, sur la cible et ses voisins. +1 Gelure. |
+| **Bris de glace** | 4 PA, portée 1, 1/tour | 9–12 Givre aux ennemis | Fait voler la glace en éclats : +25 % de dégâts par Gelure de la cible, qui tombent toutes. |
+| **Entrave** | 2 PA, portée 1–4, 1/tour | −2 PM au prochain tour aux ennemis ; gelure aux ennemis | Des fers de glace aux chevilles : −2 PM et +1 Gelure. |
+| **Coup sur le casque** | 3 PA, portée 1, 1/tour, relance 5 t. | 3–5 Givre aux ennemis ; assomme (1 t.) aux ennemis | Bong. L'ennemi passe son prochain tour à compter les étoiles (une fois par ennemi et par combat ; un boss perd 3 PA à la place). |
+| **Glissade** | 3 PA, portée 2–5, en ligne, 1/tour, relance 2 t. | charge en ligne jusqu'au contact (effets suivants au contact seulement) | Il glisse en ligne jusqu'au contact, en gelant l'eau sur son chemin (3 tours ; qui est dessus au dégel est mis au sec). |
+| **Carapace de glace** | 2 PA, portée soi, 1/tour, relance 1 t. | bouclier 8–10 (Givre) ; carapace_de_glace (2 t.) | Une carapace de glace qui absorbe les coups ; qui le frappe au contact y gagne une Gelure. |
+| **Défi** | 2 PA, portée 1–5, 1/tour, relance 2 t. | attire de 2 case(s) aux ennemis ; provoque (2 t.) aux ennemis | « C'est à moi qu'il faut parler ! » Attire l'ennemi de 2 cases et le provoque 2 tours (son IA le vise ; −20 % de dégâts contre tout autre que le Myrmidon). |
 
 ### Ombre
 

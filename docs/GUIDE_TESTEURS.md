@@ -55,7 +55,7 @@ nous faire vos retours. Le jeu n'affiche volontairement presque aucune aide à l
 
 1. **Créez votre personnage** : une race (Humain, Nain, Géant, Gobelin, Orc, Squelette, Elfe ou Arkhé, à faire défiler avec les flèches ; l'Arkhé a
    4 variantes, Flamme, Acier, Givre et Tempête : elle fixe votre zone de départ
-   et votre camp), une Voie (Guerrier, Rôdeur, Arcaniste, Théologue, Chronomancien, Ombre, Démoniste ou Paladin) et un nom.
+   et votre camp), une Voie (Guerrier, Rôdeur, Arcaniste, Théologue, Chronomancien, Ombre, Démoniste, Paladin ou Myrmidon) et un nom.
 2. **Parlez au personnage marqué d'un « ! »** près de votre point d'arrivée : Alric (humains), Grumm
    (gobelins) ou Elwyn (elfes). Son **tutoriel** vous apprend à vous équiper (touche **I**), à
    combattre, à récolter et à forger.
@@ -112,6 +112,12 @@ temps : chaque camp a sa propre histoire.
     visent plus ; un sort de dégâts la révèle, sauf l'*Arme d'obscurité*, qui frappe la cible à son prochain tour).
     *Monde des ombres* envoie une cible (ou elle-même) dans une autre dimension pour 2 tours : la carte devient grise,
     seuls ceux de la même dimension se battent entre eux, des lueurs montrent les cases occupées dehors.
+  - **Myrmidon** (nouveau, Acier : Force, et Givre : Perception) : un **tank**. Les monstres qui commencent leur tour
+    près de lui sont **provoqués** (ils le visent, et font moins mal aux autres) ; *Défi* attire et provoque de loin.
+    En Acier, ses coups lui donnent des crans de **Blindage** (résistances) que *Retour à l'envoyeur* dépense d'un coup ;
+    *Démolition* et *Bélier* **renversent les arbres et les rochers** pour le combat. En Givre, ses coups posent des
+    **Gelures** (−1 PM par tour ; à 3, l'ennemi est gelé sur place) ; *Coup sur le casque* **assomme** (tour passé,
+    une fois par ennemi) ; *Glissade* et *Souffle hivernal* **gèlent l'eau** (on marche dessus 3 tours).
   - **Démoniste** (nouveau, Impie : Agilité et Perception, et Flamme : Intelligence) : il **invoque des serviteurs**
     (Diablotin, Molosse, Succube, 2 à la fois) que **vous jouez vous-même**, juste après lui ; *Permutation* échange
     sa place avec l'un d'eux, *Sacrifice* le fait exploser. Ses sorts de Flamme **embrasent les cases** (orange,

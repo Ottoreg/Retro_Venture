@@ -583,8 +583,31 @@ Mécaniques du Paladin (GDD § 4.3) :
   1 case sans aura) ; rang de maîtrise `duree_aura` (tours d'aura en plus). Champ d'effet `sur_arc` (seulement sur une
   cible debout sur un arc du lanceur). Caractéristique modifiable `epines_tempete_fixes`.
 
+Mécaniques du Myrmidon (GDD § 4.3) :
+
+```json
+{"type": "blindage", "min": 1, "max": 1, "sur_lanceur": true}
+{"type": "gelure", "min": 1, "max": 1, "cibles": "ennemis"}
+{"type": "demolition"}
+{"type": "gel"}
+{"type": "charge", "demolit": true}
+{"type": "etat", "etat": "provoque", "duree": 2, "cibles": "ennemis"}
+```
+
+- `blindage` : crans de Blindage de la cible (5 au plus, 3 tours rafraîchis) : +4 % de résistance à chaque élément par cran.
+  `gelure` : Gelures de la cible (3 au plus, 3 tours) : −1 PM par Gelure au début de son tour (esquive comprise) ; à 3,
+  0 PM ce tour et elles tombent. Champs d'effet de dégâts `par_blindage` (% par cran du lanceur, tous dépensés) et
+  `par_gelure` (% par Gelure de la cible, qui tombent).
+- `demolition` : l'arbre ou le rocher de la case visée disparaît pour le combat (`rien_a_demolir` sinon) ; `gel` : l'eau
+  des cases de la zone (sauf les coins de pêche) devient praticable 3 tours du lanceur. Charge `demolit` (passe le
+  premier arbre ou rocher du chemin) et `gele` (passe sur l'eau en la gelant).
+- États nommés `provoque` (malus de dégâts contre tout autre que le lanceur, que l'IA vise ; moitié contre un boss, qui
+  reste libre), `assomme` (prochain tour passé, une fois par cible et par combat ; un boss perd 3 PA), `garde` (la moitié
+  des dégâts de sort subis va au lanceur, avec ses résistances), `carapace_de_glace` (qui frappe au contact prend une
+  Gelure). Caractéristique modifiable `reduction_degats`. Passif `point_de_mire`.
+
 Toutes les Voies ont `pv` 50 et `initiative` 100 (demande de l'auteur du 20/11/2026). `passif` (facultatif) : le
-passif de classe, débloqué au palier Apprenti, `{"id", "nom", "effet": "coup_en_traitre", "pacte_de_feu" ou "saint_paratonnerre", "description"}`
+passif de classe, débloqué au palier Apprenti, `{"id", "nom", "effet": "coup_en_traitre", "pacte_de_feu", "saint_paratonnerre" ou "point_de_mire", "description"}`
 (effets connus : `GameData.CLASS_PASSIVES`) ; son rang vient de sa maîtrise.
 
 ## Objets (`objets/`)

@@ -260,6 +260,12 @@ Dernière session (retours de la passe de l'auteur) :
   balises et arcs (`Combat.beacons`, `arcs()`, `link_beacons` partagé avec `MapView._draw_paladin_marks`, coups d'arc une
   fois par arc et par tour, `_enter_cells`), projectiles renforcés (`arcs_crossed`), les monstres évitent les arcs
   (`reachable_cells`) ; protocole v21 ; données par `docs/design/paladin/produire.py`, captures `docs/captures/paladin/`.
+- **Myrmidon, Acier / Givre** (21/11/2026, GDD § 4.3, `tests/core/test_myrmidon.gd`) : 9e classe, 20 sorts `myrmidon_*`, passif *Point de
+  mire* (aura de provocation) ; états `provoque` (malus `valeur` %, `Combat.provoker_for_ai` pour l'IA), `assomme` (tour passé,
+  une fois par cible, `Fighter.boss` : −3 PA), `garde`, `carapace_de_glace` ; crans `blindage` et `gelure` (`Fighter.stacks`,
+  `Combat._stack`, champs `par_blindage` / `par_gelure`) ; terrain du combat (`Combat.terrain`, `walkable`, effets `demolition`
+  et `gel`, charge `demolit` / `gele`, événement `terrain`) ; protocole v22 ; données par `docs/design/myrmidon/produire.py`,
+  capture `docs/captures/myrmidon/`. Valeurs provisoires (propositions validées telles quelles, l'auteur ajustera).
 - **Ombre, Tempête / Acier** (20/11/2026, GDD § 4.3, `tests/core/test_ombre.gd`) : 6e classe, 20 sorts `ombre_*`, passif
   de classe *Coup en traître* (champ `passif` des Voies, débloqué à Apprenti, `GameData.class_passive`, `Fighter.passives`) ;
   images rémanentes (`Combat.images`, effets `image` / `court_circuit`, zone `ligne`), invisibilité (`Fighter.is_invisible`,
