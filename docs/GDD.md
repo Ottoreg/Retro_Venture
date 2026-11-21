@@ -652,6 +652,40 @@ l'auteur ; valeurs provisoires ; fiche `docs/design/classes/demoniste.md`) :
   calcinée : +1 PM), Peau de cendre (bouclier ; calcinée : épines Flamme), Feu de camp (soins ; calcinée : doublés,
   sans rallumer).
 
+**Paladin : conception finale, codée le 21/11/2026** (fil « Ajouter la classe Paladin au jeu », propositions validées
+telles quelles par l'auteur, à ajuster après ses tests ; fiche `docs/design/classes/paladin.md`) :
+
+- *Identité* : « Paladin breveté de l'Ordre du Saint Paratonnerre. Béni par les dieux, foudroyé par eux aussi (souvent).
+  Persuadé d'être l'Élu, comme les 214 autres Élus de sa promotion. » Famille corps à corps : la Voie Sacrée (Force +
+  Intelligence) se joue en mêlée et en soutien autour de lui, la Voie Tempête (Agilité) à mi-distance (portées 2 à 6) en
+  piégeant le terrain. Aucun soin (rôle du Théologue). Tenue blanche et or à liseré bleu électrique. Toutes les races.
+  50 PV, 6 PA, 3 PM, 100 d'initiative.
+- *Passif* **Saint Paratonnerre** (Apprenti, 5 rangs) : +6 % de dégâts (+1 % par rang) pour lui et ses alliés dans son
+  aura ou debout sur un de ses arcs ; rang 3 : rayon de l'aura +1 ; rang 5 : une 4e balise en même temps.
+- *Auras* (Voie Sacrée) : un cercle de rayon 2 centré sur le Paladin, glyphe dorée qui le **suit** (marche, poussée,
+  téléportation) ; **une seule aura** par Paladin (une nouvelle remplace l'ancienne, pas de relance) ; 3 tours (4 au
+  rang 5) ; effet **continu** tant qu'un allié est dedans, Paladin compris, perdu en sortant ; deux Paladins : une même
+  aura ne se cumule pas, la plus forte compte. Deux auras : Bravoure (+15 % de dégâts) et Protection (+10 % de
+  résistance à tous les éléments).
+- *Voie Sacrée* : Aura de bravoure (signature), Coup béni, Marteau lancé, Jugement, Onde sacrée (frappe chaque ennemi
+  dans son aura, 1 case sans aura), Coup de bouclier (repousse de 2), Sceau de pénitence (−2 PM), Ruée sainte (fonce en
+  ligne sans frapper, l'aura suit), Aura de protection, Bénédiction (+30 Force et Intelligence, 2 tours).
+- *Balises et arcs* (Voie Tempête) : *Balise* en pose une sur une case libre ; 3 par Paladin (4 au rang 5 du passif),
+  pour tout le combat, la plus ancienne part ; *Saut d'éclair* les déplace. Deux balises d'un même Paladin **alignées**
+  (ligne ou colonne) à 6 cases au plus, sans obstacle entre elles, forment un **arc** (les combattants ne le coupent
+  pas). Un ennemi qui **entre** sur une case d'arc (marche, poussée, attirance, téléportation), qui **y commence son
+  tour** ou qui s'y trouve quand l'arc se forme subit 6 à 9 Tempête, **une fois par arc et par tour** ; l'arc n'arrête
+  pas la marche et ne touche jamais les alliés. Les sorts **projectiles** (Étincelle, Foudre céleste) gagnent **+25 % par
+  arc** que traverse leur ligne (2 au plus). Un ennemi **casse** une balise (et ses arcs) en entrant sur sa case ou en
+  frappant sa case ; visible de tous, elle ne bloque pas la case. Les monstres **évitent** les cases d'arc quand un autre
+  chemin existe. Aura et balises restent dans leur dimension (Monde des ombres) ; l'aura suit le Paladin.
+- *Voie Tempête* : Balise (signature), Étincelle, Chaîne d'éclairs (rebond à 2 cases), Foudre céleste, Surtension (les
+  arcs de la balise visée et ses voisins × 1,5), Aimantation (attire de 3, à travers les arcs), Électrocution (−2 PM,
+  −1 PA de plus sur un arc), Saut d'éclair (échange avec une de ses balises), Bouclier statique (bouclier et épines),
+  Paratonnerre vivant (la cible sert de balise 2 tours, +1 PM).
+- Rangs 3 et 5 des sorts proposés par Claude, provisoires. 3e Voie (Lumière ou Ténèbres) : plus tard. Dessins : planches
+  des races recoloriées ; aura dorée, balise en piquet bleu, arc en trait bleu qui crépite. Prompts PixelLab plus tard.
+
 **Ombre — Tempête ou Acier**
 
 - *Ombre Tempête* : s'appuie sur l'Agilité et la vitesse de déplacement, le repositionnement,

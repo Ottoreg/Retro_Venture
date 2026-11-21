@@ -255,6 +255,11 @@ Dernière session (retours de la passe de l'auteur) :
   sorts de serviteurs, passif *Pacte de feu* (à revoir) ; serviteurs joués par le joueur (`Fighter.master`, `Combat._summon`,
   champ `serviteur` des commandes, `MapView.acting_id`), embrasement par dimension (`Combat.embers`, `_ember_variant`, `_ignite`,
   champs `embrase` / `calcinee`), protocole v20 ; données par `docs/design/demoniste/produire.py`, captures `docs/captures/demoniste/`.
+- **Paladin, Sacré / Tempête** (21/11/2026, GDD § 4.3, `tests/core/test_paladin.gd`) : 8e classe, 20 sorts `paladin_*`,
+  passif *Saint Paratonnerre* ; auras qui suivent leur lanceur (`Combat.auras`, `_refresh_auras` : bonus continus),
+  balises et arcs (`Combat.beacons`, `arcs()`, `link_beacons` partagé avec `MapView._draw_paladin_marks`, coups d'arc une
+  fois par arc et par tour, `_enter_cells`), projectiles renforcés (`arcs_crossed`), les monstres évitent les arcs
+  (`reachable_cells`) ; protocole v21 ; données par `docs/design/paladin/produire.py`, captures `docs/captures/paladin/`.
 - **Ombre, Tempête / Acier** (20/11/2026, GDD § 4.3, `tests/core/test_ombre.gd`) : 6e classe, 20 sorts `ombre_*`, passif
   de classe *Coup en traître* (champ `passif` des Voies, débloqué à Apprenti, `GameData.class_passive`, `Fighter.passives`) ;
   images rémanentes (`Combat.images`, effets `image` / `court_circuit`, zone `ligne`), invisibilité (`Fighter.is_invisible`,

@@ -55,7 +55,7 @@ nous faire vos retours. Le jeu n'affiche volontairement presque aucune aide à l
 
 1. **Créez votre personnage** : une race (Humain, Nain, Géant, Gobelin, Orc, Squelette, Elfe ou Arkhé, à faire défiler avec les flèches ; l'Arkhé a
    4 variantes, Flamme, Acier, Givre et Tempête : elle fixe votre zone de départ
-   et votre camp), une Voie (Guerrier, Rôdeur, Arcaniste, Théologue, Chronomancien, Ombre ou Démoniste) et un nom.
+   et votre camp), une Voie (Guerrier, Rôdeur, Arcaniste, Théologue, Chronomancien, Ombre, Démoniste ou Paladin) et un nom.
 2. **Parlez au personnage marqué d'un « ! »** près de votre point d'arrivée : Alric (humains), Grumm
    (gobelins) ou Elwyn (elfes). Son **tutoriel** vous apprend à vous équiper (touche **I**), à
    combattre, à récolter et à forger.
@@ -118,6 +118,12 @@ temps : chaque camp a sa propre histoire.
     niveaux 1 à 3, puis calcinée, noire) : chaque niveau de la case visée donne +10 %, une case calcinée change
     l'effet du sort (survolez une case pour voir son niveau), et un ennemi qui commence son tour sur une case
     embrasée brûle. *Explosion de cendres* consomme tout l'embrasement de la zone.
+  - **Paladin** (nouveau, Sacré : Force et Intelligence, et Tempête : Agilité) : ses **auras** (Bravoure : +15 % de
+    dégâts, Protection : +10 % de résistances) dessinent un cercle doré de 2 cases qui le **suit** et renforce les alliés
+    dedans, lui compris (une seule à la fois). *Balise* plante un piquet bleu (3 au plus) ; deux balises alignées à 6 cases
+    au plus se relient par un **arc électrique** qui frappe les ennemis qui y entrent ou y commencent leur tour. Tirez
+    *Étincelle* ou *Foudre céleste* **à travers un arc** : +25 % par arc. Un ennemi casse une balise en marchant dessus
+    ou en la frappant. *Surtension* fait claquer les arcs d'une balise, *Saut d'éclair* échange sa place avec une balise.
   - **Chronomancien** (nouveau, dégâts Impie : Agilité et Perception) : *Horloge* vise un ennemi à
     exactement 3 cases en ligne, dessine un **cadran** de 12 cases autour de lui (12 h dans la
     direction où vous lancez, heures écrites au sol) et l'envoie aussitôt sur 12 h. *Tic*

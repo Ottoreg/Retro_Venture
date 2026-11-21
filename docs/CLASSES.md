@@ -109,6 +109,7 @@ point(s) de caractéristique (avant ralentissement).
 | **Démoniste** | 50 | 6 | 3 | 100 | 20 | 0 |
 | **Guerrier** | 50 | 6 | 3 | 100 | 5 | 2 |
 | **Ombre** | 50 | 6 | 3 | 100 | 20 | 0 |
+| **Paladin** | 50 | 6 | 3 | 100 | 20 | 0 |
 | **Rôdeur** | 50 | 6 | 3 | 100 | 5 | 0 |
 | **Théologue** | 50 | 6 | 3 | 100 | 5 | 0 |
 
@@ -215,6 +216,33 @@ horloge, glyphe et piège) ; *Moy./PA* ; *Rang 5* = moyenne avec +50 % de maîtr
 | **Dans le dos** | I | 2 PA, portée 1–4, 1/tour, relance 2 t. | dans_le_dos | — | — | — | rang 3 : relance 1 t.<br>rang 5 : coût 1 PA |
 | **Monde des ombres** | I | 2 PA, portée 0–4, 1/tour | monde_des_ombres | — | — | — | rang 3 : +1 portée<br>rang 5 : coût 1 PA |
 | **Affûtage** | I | 1 PA, portée soi, 1/tour | +20 Force (3 t.) | — | — | — | rang 3 : ajoute +3 % Critique (3 t.)<br>rang 5 : ajoute +3 Dommages (3 t.) |
+
+### Paladin
+
+*Paladin breveté de l'Ordre du Saint Paratonnerre. Béni par les dieux, foudroyé par eux aussi (souvent). Persuadé d'être l'Élu, comme les 214 autres Élus de sa promotion.*
+
+| Sort | Rang | Caractéristiques | Effets | Moy. | Moy./PA | Rang 5 | Maîtrise |
+|---|---|---|---|---|---|---|---|
+| **Aura de bravoure** | I | 2 PA, portée soi | aura | — | — | — | rang 3 : coût 1 PA<br>rang 5 : duree_aura 1 |
+| **Coup béni** | I | 3 PA, portée 1, 2/tour | 9–12 Sacré aux ennemis | 10,5 dégâts | 3,5 dégâts | 15,75 dégâts | rang 3 : +10 % critique<br>rang 5 : ajoute +1 PM (1 t.) |
+| **Marteau lancé** | I | 3 PA, portée 2–5, 2/tour | 7–10 Sacré aux ennemis | 8,5 dégâts | 2,83 dégâts | 12,75 dégâts | rang 3 : +1 portée<br>rang 5 : +10 % critique |
+| **Jugement** | I | 5 PA, portée 1, 1/tour | 20–26 Sacré aux ennemis | 23 dégâts | 4,6 dégâts | 34,5 dégâts | rang 3 : +10 % critique<br>rang 5 : coût 4 PA |
+| **Onde sacrée** | I | 4 PA, portée soi, 1/tour | 8–11 Sacré aux ennemis | 9,5 dégâts | 2,38 dégâts | 14,25 dégâts | rang 3 : coût 3 PA<br>rang 5 : +10 % critique |
+| **Coup de bouclier** | I | 3 PA, portée 1, 1/tour | 5–7 Sacré aux ennemis ; poussée de 2 case(s) aux ennemis | 6 dégâts | 2 dégâts | 9 dégâts | rang 3 : coût 2 PA<br>rang 5 : ajoute −1 PM (1 t.) aux ennemis |
+| **Sceau de pénitence** | I | 3 PA, portée 1–4, relance 2 t. | −2 PM au prochain tour aux ennemis | — | — | — | rang 3 : +1 portée<br>rang 5 : ajoute −1 PA (1 t.) aux ennemis |
+| **Ruée sainte** | I | 2 PA, portée 2–5, en ligne, relance 2 t. | charge en ligne jusqu'au contact (effets suivants au contact seulement) | — | — | — | rang 3 : +1 portée<br>rang 5 : ajoute +1 PM (1 t.) |
+| **Aura de protection** | I | 2 PA, portée soi | aura | — | — | — | rang 3 : coût 1 PA<br>rang 5 : duree_aura 1 |
+| **Bénédiction** | I | 2 PA, portée 0–3, relance 3 t. | +30 Force (2 t.) aux alliés ; +30 Intelligence (2 t.) aux alliés | — | — | — | rang 3 : +1 portée<br>rang 5 : relance 2 t. |
+| **Balise** | I | 2 PA, portée 1–5 | balise | — | — | — | rang 3 : +1 portée<br>rang 5 : coût 1 PA |
+| **Étincelle** | I | 3 PA, portée 2–6, 2/tour | 7–10 Tempête aux ennemis | 8,5 dégâts | 2,83 dégâts | 12,75 dégâts | rang 3 : +1 portée<br>rang 5 : +10 % critique |
+| **Chaîne d'éclairs** | I | 4 PA, portée 2–5, 1/tour | 7–10 Tempête aux ennemis ; rebond 7–10 Tempête sur l'ennemi le plus proche (2 case(s) au plus) | 8,5 dégâts | 2,12 dégâts | 12,75 dégâts | rang 3 : coût 3 PA<br>rang 5 : +10 % critique |
+| **Foudre céleste** | I | 5 PA, portée 3–6, 1/tour | 18–24 Tempête aux ennemis | 21 dégâts | 4,2 dégâts | 31,5 dégâts | rang 3 : +10 % critique<br>rang 5 : +1 portée |
+| **Surtension** | I | 3 PA, portée 1–8, sans ligne de vue, 1/tour | surtension | — | — | — | rang 3 : coût 2 PA<br>rang 5 : +2 portée |
+| **Aimantation** | I | 3 PA, portée 2–5, 1/tour | attire de 3 case(s) aux ennemis | — | — | — | rang 3 : +1 portée<br>rang 5 : ajoute −1 PM au prochain tour aux ennemis |
+| **Électrocution** | I | 3 PA, portée 1–5, 1/tour | 4–6 Tempête aux ennemis ; −2 PM au prochain tour aux ennemis ; −1 PA (1 t.) aux ennemis | 5 dégâts | 1,67 dégâts | 7,5 dégâts | rang 3 : +1 portée<br>rang 5 : +10 % critique |
+| **Saut d'éclair** | I | 2 PA, portée 1–8, sans ligne de vue, relance 2 t. | saut_balise | — | — | — | rang 3 : coût 1 PA<br>rang 5 : relance 1 t. |
+| **Bouclier statique** | I | 2 PA, portée soi, 1/tour | bouclier 12–16 (Tempête) ; +3 epines_tempete_fixes (1 t.) | 14 bouclier | 7 bouclier | 21 bouclier | rang 3 : coût 1 PA<br>rang 5 : ajoute +10 Résistance Tempête (1 t.) |
+| **Paratonnerre vivant** | I | 2 PA, portée 0–4, relance 3 t. | paratonnerre aux alliés ; +1 PM (1 t.) aux alliés | — | — | — | rang 3 : +1 portée<br>rang 5 : relance 2 t. |
 
 ### Rôdeur
 

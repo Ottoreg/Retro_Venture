@@ -1801,10 +1801,10 @@ func _refresh_auras(events: Array[Dictionary]) -> void:
 				var key := "%s|%s|%s" % [aura["sort"], effect["carac"], effect.get("element", "")]
 				if int(wanted.get(key, {}).get("valeur", -1)) < int(effect["min"]):
 					wanted[key] = {"type": effect["type"], "carac": effect["carac"], "element": str(effect.get("element", "")), "valeur": int(effect["min"]),
-						"tours": 99, "sort": aura["sort"], "lanceur": (aura["lanceur"] as Fighter).id, "retirable": false, "aura": true}
+						"tours": int(aura["tours"]), "sort": aura["sort"], "lanceur": (aura["lanceur"] as Fighter).id, "retirable": false, "aura": true}
 		var worn := fighter.states.filter(func(state: Dictionary) -> bool: return state.get("aura", false))
 		var signature := func(states: Array) -> Array:
-			var keys := states.map(func(state: Dictionary) -> String: return "%s|%s|%s|%d" % [state["sort"], state["carac"], state["element"], state["valeur"]])
+			var keys := states.map(func(state: Dictionary) -> String: return "%s|%s|%s|%d|%d" % [state["sort"], state["carac"], state["element"], state["valeur"], state["tours"]])
 			keys.sort()
 			return keys
 		if signature.call(worn) != signature.call(wanted.values()):

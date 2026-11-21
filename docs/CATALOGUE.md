@@ -27,7 +27,7 @@ Prix de boutique : selon la rareté (revente à 25 %).
 - [Sorts de race](#sorts-de-race)
 - [Sorts des monstres](#sorts-des-monstres)
 
-**317 objets** (18 armes, 20 coiffes, 20 capes, 20 amulettes, 20 anneaux, 20 ceintures, 20 bottes, 129 ressources, 37 plans de forge, 7 objets de quête), **57 monstres** et **191 sorts**.
+**317 objets** (18 armes, 20 coiffes, 20 capes, 20 amulettes, 20 anneaux, 20 ceintures, 20 bottes, 129 ressources, 37 plans de forge, 7 objets de quête), **57 monstres** et **211 sorts**.
 
 ## Armes
 
@@ -1364,6 +1364,33 @@ Assassin à la pige de la Confrérie des Ombres (cotisation non remboursable). F
 | **Dans le dos** | 2 PA, portée 1–4, 1/tour, relance 2 t. | dans_le_dos | Se glisse derrière l'ennemi visé. Portée 7 sur un ennemi marqué par une arme d'obscurité. |
 | **Monde des ombres** | 2 PA, portée 0–4, 1/tour | monde_des_ombres | Envoie la cible (elle-même, un allié ou un ennemi) dans le Monde des ombres pour 2 tours, ou l'en fait sortir. Sur un ennemi : relance dans 2 tours. |
 | **Affûtage** | 1 PA, portée soi, 1/tour | +20 Force (3 t.) | Elle aiguise ses lames : +20 Force, cumulable 3 fois. |
+
+### Paladin
+
+Paladin breveté de l'Ordre du Saint Paratonnerre. Béni par les dieux, foudroyé par eux aussi (souvent). Persuadé d'être l'Élu, comme les 214 autres Élus de sa promotion. PV 50, PA 6, PM 3, initiative 100. Départ : .
+
+| Sort | Caractéristiques | Effets | Description |
+|---|---|---|---|
+| **Aura de bravoure** | 2 PA, portée soi | aura | Une aura dorée de 2 cases qui le suit pendant 3 tours : ses alliés dedans (lui compris) font +15 % de dégâts. Persuadés d'être des héros, ils frappent comme tels. Une seule aura à la fois : la nouvelle remplace l'ancienne. Rang 5 : un tour de plus. |
+| **Coup béni** | 3 PA, portée 1, 2/tour | 9–12 Sacré aux ennemis | Un coup d'épée béni en série : le prêtre a signé la lame à la chaîne. |
+| **Marteau lancé** | 3 PA, portée 2–5, 2/tour | 7–10 Sacré aux ennemis | Il lance son marteau béni. Il revient toujours (un écuyer court le chercher). |
+| **Jugement** | 5 PA, portée 1, 1/tour | 20–26 Sacré aux ennemis | Le jugement divin tombe d'un seul coup, sans appel ni avocat. |
+| **Onde sacrée** | 4 PA, portée soi, 1/tour | 8–11 Sacré aux ennemis | Une onde de lumière part de lui et frappe chaque ennemi dans son aura (à 1 case sans aura). |
+| **Coup de bouclier** | 3 PA, portée 1, 1/tour | 5–7 Sacré aux ennemis ; poussée de 2 case(s) aux ennemis | Un grand coup de bouclier, blason en avant : l'ennemi recule de 2 cases. |
+| **Sceau de pénitence** | 3 PA, portée 1–4, relance 2 t. | −2 PM au prochain tour aux ennemis | Un sceau de pénitence sur le front de l'ennemi : −2 PM à son prochain tour, le temps de réfléchir à ses fautes. |
+| **Ruée sainte** | 2 PA, portée 2–5, en ligne, relance 2 t. | charge en ligne jusqu'au contact (effets suivants au contact seulement) | Il fonce en ligne droite jusqu'à la case visée ou au contact du premier combattant, sans frapper ; son aura le suit. |
+| **Aura de protection** | 2 PA, portée soi | aura | Une aura argentée de 2 cases qui le suit pendant 3 tours : ses alliés dedans (lui compris) ont +10 % de résistance à tous les éléments. Une seule aura à la fois : la nouvelle remplace l'ancienne. Rang 5 : un tour de plus. |
+| **Bénédiction** | 2 PA, portée 0–3, relance 3 t. | +30 Force (2 t.) aux alliés ; +30 Intelligence (2 t.) aux alliés | Une bénédiction en bonne et due forme : +30 Force et +30 Intelligence pendant 2 tours. |
+| **Balise** | 2 PA, portée 1–5 | balise | Plante une balise sur une case libre (3 au plus, la plus ancienne part). Deux balises alignées à 6 cases au plus se relient par un arc qui frappe les ennemis qui y entrent ou y commencent leur tour. Un ennemi la casse en marchant dessus ou en la frappant. |
+| **Étincelle** | 3 PA, portée 2–6, 2/tour | 7–10 Tempête aux ennemis | Une étincelle tirée au loin. Projectile : +25 % par arc traversé (2 au plus). |
+| **Chaîne d'éclairs** | 4 PA, portée 2–5, 1/tour | 7–10 Tempête aux ennemis ; rebond 7–10 Tempête sur l'ennemi le plus proche (2 case(s) au plus) | Un éclair qui saute sur l'ennemi le plus proche (2 cases). La foudre ne tombe jamais deux fois au même endroit ; elle va à côté. |
+| **Foudre céleste** | 5 PA, portée 3–6, 1/tour | 18–24 Tempête aux ennemis | Il lève l'épée au ciel et le ciel répond. Projectile : +25 % par arc traversé (2 au plus). |
+| **Surtension** | 3 PA, portée 1–8, sans ligne de vue, 1/tour | surtension | Surcharge une de ses balises : chaque ennemi sur un de ses arcs ou à son contact subit les dégâts de l'arc × 1,5. |
+| **Aimantation** | 3 PA, portée 2–5, 1/tour | attire de 3 case(s) aux ennemis | Un champ magnétique attire l'ennemi de 3 cases vers lui, à travers ses arcs s'il le faut. |
+| **Électrocution** | 3 PA, portée 1–5, 1/tour | 4–6 Tempête aux ennemis ; −2 PM au prochain tour aux ennemis ; −1 PA (1 t.) aux ennemis | Une décharge qui raidit les jambes : −2 PM, et −1 PA de plus si l'ennemi est sur un arc. |
+| **Saut d'éclair** | 2 PA, portée 1–8, sans ligne de vue, relance 2 t. | saut_balise | Il échange sa place avec une de ses balises, dans un éclair (et une odeur de brûlé). |
+| **Bouclier statique** | 2 PA, portée soi, 1/tour | bouclier 12–16 (Tempête) ; +3 epines_tempete_fixes (1 t.) | Un bouclier qui crépite : il absorbe les coups et pique qui frappe au contact (3 épines Tempête). |
+| **Paratonnerre vivant** | 2 PA, portée 0–4, relance 3 t. | paratonnerre aux alliés ; +1 PM (1 t.) aux alliés | La cible (lui ou un allié) sert de balise pendant 2 tours, avec ses arcs, et gagne 1 PM. Elle a signé une décharge. |
 
 ### Rôdeur
 

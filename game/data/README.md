@@ -562,8 +562,29 @@ Mécaniques du Démoniste (GDD § 4.3) :
   (l'effet touche le lanceur, une fois), `duree_embrasement` (glyphe : +1 tour par niveau de la case visée).
 - Caractéristique modifiable `epines_flamme` (bonus et malus).
 
+Mécaniques du Paladin (GDD § 4.3) :
+
+```json
+{"type": "aura", "taille": 2, "duree": 3, "effets": [{"type": "bonus", "carac": "degats_infliges", "min": 15, "max": 15, "duree": 1, "cibles": "allies"}]}
+{"type": "balise", "effets": [{"type": "degats", "element": "tempete", "min": 6, "max": 9, "cibles": "ennemis"}]}
+{"type": "surtension", "multiplicateur": 150}
+{"type": "saut_balise"}
+{"type": "paratonnerre", "duree": 2, "cibles": "allies", "effets": [{"type": "degats", "element": "tempete", "min": 6, "max": 9, "cibles": "ennemis"}]}
+```
+
+- `aura` : cercle de `taille` cases autour du lanceur, qui le suit, pendant `duree` tours ; ses `effets` (bonus) valent
+  tant qu'un allié est dedans (une seule aura par Paladin ; la même aura de deux Paladins compte une fois, la plus forte).
+- `balise` : balise sur la case visée, libre (3 par lanceur) ; deux balises alignées à 6 cases au plus, sans obstacle,
+  forment un arc dont les `effets` touchent les ennemis qui y entrent ou y commencent leur tour (une fois par arc et
+  par tour) ; un ennemi qui entre sur sa case ou la frappe la casse. `surtension` : effets des arcs de la balise visée
+  et sur ses voisins × `multiplicateur` % (`aucune_balise` si ce n'est pas une des siennes). `saut_balise` : échange de
+  place avec une de ses balises. `paratonnerre` : la cible sert de balise `duree` tours (une par lanceur).
+- Champs de sort : `projectile` (+25 % par arc du lanceur traversé, 2 au plus), `zone_aura` (zone = l'aura du lanceur,
+  1 case sans aura) ; rang de maîtrise `duree_aura` (tours d'aura en plus). Champ d'effet `sur_arc` (seulement sur une
+  cible debout sur un arc du lanceur). Caractéristique modifiable `epines_tempete_fixes`.
+
 Toutes les Voies ont `pv` 50 et `initiative` 100 (demande de l'auteur du 20/11/2026). `passif` (facultatif) : le
-passif de classe, débloqué au palier Apprenti, `{"id", "nom", "effet": "coup_en_traitre" ou "pacte_de_feu", "description"}`
+passif de classe, débloqué au palier Apprenti, `{"id", "nom", "effet": "coup_en_traitre", "pacte_de_feu" ou "saint_paratonnerre", "description"}`
 (effets connus : `GameData.CLASS_PASSIVES`) ; son rang vient de sa maîtrise.
 
 ## Objets (`objets/`)

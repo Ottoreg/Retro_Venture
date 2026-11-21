@@ -2401,9 +2401,9 @@ func _draw_paladin_marks() -> void:
 			continue
 		for cell in Spell.circle_cells(Vector2i(owner["pos"].round()), int(aura["taille"])):
 			var diamond := _scaled_diamond(IsoGrid.cell_to_screen(cell), 0.9)
-			draw_colored_polygon(diamond, Color(AURA_COLOR, 0.12 + 0.04 * sin(_time * 2.0)))
+			draw_colored_polygon(diamond, Color(AURA_COLOR, 0.3 + 0.06 * sin(_time * 2.0)))
 			diamond.append(diamond[0])
-			draw_polyline(diamond, Color(AURA_COLOR, 0.45), 1.5)
+			draw_polyline(diamond, Color(AURA_COLOR, 0.9), 2.0)
 	var points: Array = []
 	for beacon_id: int in _beacons:
 		var beacon: Dictionary = _beacons[beacon_id]

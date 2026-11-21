@@ -678,6 +678,9 @@ Lots 0 (conception dans le GDD), 1 (personnage, poussé sur `main` à la demande
 - [ ] Voie mixte **Chronomancien** (maître du temps, remplace le Venomancien) : Voie Givre
 - [x] Voie à distance **Démoniste** (20/11/2026, GDD § 4.3) : serviteurs joués par le joueur, embrasement des cases,
   passif Pacte de feu ; valeurs provisoires
+- [x] Voie corps à corps **Paladin** (21/11/2026, GDD § 4.3) : auras qui suivent le lanceur, balises et arcs électriques,
+  projectiles renforcés, passif Saint Paratonnerre ; valeurs provisoires
+- [ ] Paladin : équilibrage après les tests de l'auteur ; planches et animations PixelLab ; IA qui casse exprès les balises
 - [ ] Démoniste : revoir le passif Pacte de feu (il ne convient pas complètement à l'auteur) ; planches PixelLab des
   serviteurs (`assets/demoniste/PROMPTS.md`) et animations de ses sorts
 - [ ] Mécaniques de ces Voies : invisibilité, poisons et dégâts sur la durée, provocation, auras,
