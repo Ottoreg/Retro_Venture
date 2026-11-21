@@ -1,0 +1,37 @@
+{
+  "id": "paladin_chaine_d_eclairs",
+  "nom": "Chaîne d'éclairs",
+  "description": "Un éclair qui saute sur l'ennemi le plus proche (2 cases). La foudre ne tombe jamais deux fois au même endroit ; elle va à côté.",
+  "cout_pa": 4,
+  "portee": {
+    "min": 2,
+    "max": 5
+  },
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "tempete",
+      "min": 7,
+      "max": 10,
+      "cibles": "ennemis"
+    },
+    {
+      "type": "rebond",
+      "element": "tempete",
+      "min": 7,
+      "max": 10,
+      "distance": 2
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "cout_pa": 3
+    },
+    "5": {
+      "critique": 10
+    }
+  }
+}

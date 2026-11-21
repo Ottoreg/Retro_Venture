@@ -1,0 +1,39 @@
+{
+  "id": "paladin",
+  "nom": "Paladin",
+  "description": "Paladin breveté de l'Ordre du Saint Paratonnerre. Béni par les dieux, foudroyé par eux aussi (souvent). Persuadé d'être l'Élu, comme les 214 autres Élus de sa promotion.",
+  "caracteristiques": {
+    "pv": 50,
+    "pa": 6,
+    "pm": 3,
+    "initiative": 100
+  },
+  "sorts": [
+    "paladin_aura_de_bravoure",
+    "paladin_coup_beni",
+    "paladin_marteau_lance",
+    "paladin_jugement",
+    "paladin_onde_sacree",
+    "paladin_coup_de_bouclier",
+    "paladin_sceau_de_penitence",
+    "paladin_ruee_sainte",
+    "paladin_aura_de_protection",
+    "paladin_benediction",
+    "paladin_balise",
+    "paladin_etincelle",
+    "paladin_chaine_d_eclairs",
+    "paladin_foudre_celeste",
+    "paladin_surtension",
+    "paladin_aimantation",
+    "paladin_electrocution",
+    "paladin_saut_d_eclair",
+    "paladin_bouclier_statique",
+    "paladin_paratonnerre_vivant"
+  ],
+  "passif": {
+    "id": "paladin_saint_paratonnerre",
+    "nom": "Saint Paratonnerre",
+    "effet": "saint_paratonnerre",
+    "description": "Débloqué au palier Apprenti. +6 % de dégâts (+1 % par rang) pour lui et ses alliés dans son aura ou debout sur un de ses arcs. Rang 3 : rayon de l'aura +1. Rang 5 : une 4e balise en même temps."
+  }
+}

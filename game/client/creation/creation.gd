@@ -6,7 +6,7 @@ const WORLD_SCENE := "res://client/world/world.tscn"
 const MENU_SCENE := "res://client/main/main.tscn"
 ## Races du carrousel, par camp ; les variantes (`variante_de`, Arkhés) se choisissent sous le nom.
 const RACE_ORDER := ["humain", "nain", "geant", "gobelin", "orc", "squelette", "elfe", "arkhe"]
-const VOIE_ORDER := ["guerrier", "rodeur", "arcaniste", "theologue", "chronomancien", "ombre", "demoniste"]
+const VOIE_ORDER := ["guerrier", "rodeur", "arcaniste", "theologue", "chronomancien", "ombre", "demoniste", "paladin"]
 const CAMP_NAMES := {"allie": "Allié", "ennemi": "Ennemi", "neutre": "Neutre"}
 const GOLD := Color(0.95, 0.76, 0.3)
 

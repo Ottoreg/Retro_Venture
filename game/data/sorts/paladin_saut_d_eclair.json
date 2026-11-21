@@ -1,0 +1,27 @@
+{
+  "id": "paladin_saut_d_eclair",
+  "nom": "Saut d'éclair",
+  "description": "Il échange sa place avec une de ses balises, dans un éclair (et une odeur de brûlé).",
+  "cout_pa": 2,
+  "portee": {
+    "min": 1,
+    "max": 8
+  },
+  "ligne_de_vue": false,
+  "relance": {
+    "delai": 2
+  },
+  "effets": [
+    {
+      "type": "saut_balise"
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "cout_pa": 1
+    },
+    "5": {
+      "delai": 1
+    }
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "id": "paladin_benediction",
+  "nom": "Bénédiction",
+  "description": "Une bénédiction en bonne et due forme : +30 Force et +30 Intelligence pendant 2 tours.",
+  "cout_pa": 2,
+  "portee": {
+    "min": 0,
+    "max": 3
+  },
+  "relance": {
+    "delai": 3
+  },
+  "effets": [
+    {
+      "type": "bonus",
+      "carac": "force",
+      "min": 30,
+      "max": 30,
+      "duree": 2,
+      "cibles": "allies"
+    },
+    {
+      "type": "bonus",
+      "carac": "intelligence",
+      "min": 30,
+      "max": 30,
+      "duree": 2,
+      "cibles": "allies"
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "portee_max": 1
+    },
+    "5": {
+      "delai": 2
+    }
+  }
+}

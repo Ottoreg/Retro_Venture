@@ -1,0 +1,36 @@
+{
+  "id": "paladin_ruee_sainte",
+  "nom": "Ruée sainte",
+  "description": "Il fonce en ligne droite jusqu'à la case visée ou au contact du premier combattant, sans frapper ; son aura le suit.",
+  "cout_pa": 2,
+  "portee": {
+    "min": 2,
+    "max": 5
+  },
+  "lancer_en_ligne": true,
+  "relance": {
+    "delai": 2
+  },
+  "effets": [
+    {
+      "type": "charge"
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "portee_max": 1
+    },
+    "5": {
+      "effets": [
+        {
+          "type": "bonus",
+          "carac": "pm",
+          "min": 1,
+          "max": 1,
+          "duree": 1,
+          "sur_lanceur": true
+        }
+      ]
+    }
+  }
+}

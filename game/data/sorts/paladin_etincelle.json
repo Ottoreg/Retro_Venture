@@ -1,0 +1,31 @@
+{
+  "id": "paladin_etincelle",
+  "nom": "Étincelle",
+  "description": "Une étincelle tirée au loin. Projectile : +25 % par arc traversé (2 au plus).",
+  "cout_pa": 3,
+  "portee": {
+    "min": 2,
+    "max": 6
+  },
+  "projectile": true,
+  "relance": {
+    "par_tour": 2
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "tempete",
+      "min": 7,
+      "max": 10,
+      "cibles": "ennemis"
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "portee_max": 1
+    },
+    "5": {
+      "critique": 10
+    }
+  }
+}

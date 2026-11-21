@@ -1,0 +1,45 @@
+{
+  "id": "paladin_bouclier_statique",
+  "nom": "Bouclier statique",
+  "description": "Un bouclier qui crépite : il absorbe les coups et pique qui frappe au contact (3 épines Tempête).",
+  "cout_pa": 2,
+  "portee": {
+    "min": 0,
+    "max": 0
+  },
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "bouclier",
+      "element": "tempete",
+      "min": 12,
+      "max": 16
+    },
+    {
+      "type": "bonus",
+      "carac": "epines_tempete_fixes",
+      "min": 3,
+      "max": 3,
+      "duree": 1
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "cout_pa": 1
+    },
+    "5": {
+      "effets": [
+        {
+          "type": "bonus",
+          "carac": "resistance",
+          "min": 10,
+          "max": 10,
+          "duree": 1,
+          "element": "tempete"
+        }
+      ]
+    }
+  }
+}

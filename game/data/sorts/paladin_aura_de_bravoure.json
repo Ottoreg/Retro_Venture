@@ -1,0 +1,35 @@
+{
+  "id": "paladin_aura_de_bravoure",
+  "nom": "Aura de bravoure",
+  "description": "Une aura dorée de 2 cases qui le suit pendant 3 tours : ses alliés dedans (lui compris) font +15 % de dégâts. Persuadés d'être des héros, ils frappent comme tels. Une seule aura à la fois : la nouvelle remplace l'ancienne. Rang 5 : un tour de plus.",
+  "cout_pa": 2,
+  "portee": {
+    "min": 0,
+    "max": 0
+  },
+  "effets": [
+    {
+      "type": "aura",
+      "taille": 2,
+      "duree": 3,
+      "effets": [
+        {
+          "type": "bonus",
+          "carac": "degats_infliges",
+          "min": 15,
+          "max": 15,
+          "duree": 1,
+          "cibles": "allies"
+        }
+      ]
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "cout_pa": 1
+    },
+    "5": {
+      "duree_aura": 1
+    }
+  }
+}

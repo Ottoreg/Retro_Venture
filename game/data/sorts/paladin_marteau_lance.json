@@ -1,0 +1,30 @@
+{
+  "id": "paladin_marteau_lance",
+  "nom": "Marteau lancé",
+  "description": "Il lance son marteau béni. Il revient toujours (un écuyer court le chercher).",
+  "cout_pa": 3,
+  "portee": {
+    "min": 2,
+    "max": 5
+  },
+  "relance": {
+    "par_tour": 2
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "sacre",
+      "min": 7,
+      "max": 10,
+      "cibles": "ennemis"
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "portee_max": 1
+    },
+    "5": {
+      "critique": 10
+    }
+  }
+}

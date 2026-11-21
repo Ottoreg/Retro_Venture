@@ -1,0 +1,31 @@
+{
+  "id": "paladin_foudre_celeste",
+  "nom": "Foudre céleste",
+  "description": "Il lève l'épée au ciel et le ciel répond. Projectile : +25 % par arc traversé (2 au plus).",
+  "cout_pa": 5,
+  "portee": {
+    "min": 3,
+    "max": 6
+  },
+  "projectile": true,
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "tempete",
+      "min": 18,
+      "max": 24,
+      "cibles": "ennemis"
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "critique": 10
+    },
+    "5": {
+      "portee_max": 1
+    }
+  }
+}

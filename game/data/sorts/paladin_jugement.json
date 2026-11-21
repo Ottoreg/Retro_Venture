@@ -1,0 +1,30 @@
+{
+  "id": "paladin_jugement",
+  "nom": "Jugement",
+  "description": "Le jugement divin tombe d'un seul coup, sans appel ni avocat.",
+  "cout_pa": 5,
+  "portee": {
+    "min": 1,
+    "max": 1
+  },
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "sacre",
+      "min": 20,
+      "max": 26,
+      "cibles": "ennemis"
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "critique": 10
+    },
+    "5": {
+      "cout_pa": 4
+    }
+  }
+}

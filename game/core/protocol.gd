@@ -9,7 +9,7 @@ extends RefCounted
 
 ## Version du protocole, vérifiée à la connexion : à augmenter à chaque changement incompatible
 ## d'une commande ou d'un événement.
-const VERSION := 20
+const VERSION := 21
 
 # --- Commandes (client → noyau) ---
 
@@ -294,6 +294,14 @@ const EVT_SUMMONED := "invocation"
 ## Embrasement de cases changé. { type, ombres: bool (dimension), braises: Array (de { case: Vector2i, niveau: int }, 0 :
 ## éteinte, 4 : calcinée) }
 const EVT_EMBERS := "embrasement"
+## Paladin (GDD § 4.3) : aura posée autour de son lanceur, qu'elle suit. { type, id: int, lanceur: String, taille: int (rayon),
+## sort: String } ; aura finie. { type, id: int }
+const EVT_AURA := "aura"
+const EVT_AURA_ENDED := "aura_fin"
+## Balise posée ou déplacée (même id). { type, id: int, lanceur: String, equipe: int, ombres: bool, case: Vector2i, porteur: String
+## (combattant qui sert de balise, "" sinon) } ; balise cassée ou partie. { type, id: int }
+const EVT_BEACON := "balise"
+const EVT_BEACON_ENDED := "balise_fin"
 ## Un monstre change de phase : ses PV sont passés sous un seuil de ses « phases » (une seule fois
 ## par phase). { type, entite: String, message: String } ; ses nouveaux sorts sont déjà appris, les
 ## effets de la phase (sur lui-même) suivent.
@@ -414,7 +422,7 @@ const COMBAT_EVENTS := [EVT_COMBAT_STARTED, EVT_PLACED, EVT_FIGHT_BEGINS, EVT_TU
 	EVT_SPELL_CAST, EVT_DAMAGE, EVT_HEAL, EVT_DIED, EVT_TELEPORTED, EVT_STATUS, EVT_STATES, EVT_ELEMENT_STATES,
 	EVT_SPELL_CREATED, EVT_CHARGED, EVT_PUSHED, EVT_GLYPH, EVT_GLYPH_ENDED, EVT_TRAP, EVT_TRAP_TRIGGERED,
 	EVT_TRAP_ENDED, EVT_PHASE, EVT_COMBAT_ENDED, EVT_FIGHTER_JOINED, EVT_READY, EVT_FIGHTER_AWAY, EVT_IMAGE, EVT_IMAGE_ENDED,
-	EVT_DIMENSION, EVT_SUMMONED, EVT_EMBERS]
+	EVT_DIMENSION, EVT_SUMMONED, EVT_EMBERS, EVT_AURA, EVT_AURA_ENDED, EVT_BEACON, EVT_BEACON_ENDED]
 
 
 ## Portée d'un événement : SCOPE_MAP, SCOPE_COMBAT ou SCOPE_PERSONAL (tout le reste, et tout
@@ -566,6 +574,8 @@ const REASON_DRAWN := "aspire"
 const REASON_TOO_MANY_SERVANTS := "trop_de_serviteurs"
 const REASON_NOT_SERVANT := "pas_un_serviteur"
 const REASON_NO_EMBERS := "aucune_braise"
+## Paladin : la case visée n'est pas une de ses balises (ou, pour un échange, elle est occupée).
+const REASON_NO_BEACON := "aucune_balise"
 ## Sort de composition des états sans combinaison (`etats`) qu'il propose.
 const REASON_INVALID_COMPOSITION := "composition_invalide"
 const REASON_OUT_OF_RANGE := "hors_portee"

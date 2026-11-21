@@ -1,0 +1,39 @@
+{
+  "id": "paladin_coup_beni",
+  "nom": "Coup béni",
+  "description": "Un coup d'épée béni en série : le prêtre a signé la lame à la chaîne.",
+  "cout_pa": 3,
+  "portee": {
+    "min": 1,
+    "max": 1
+  },
+  "relance": {
+    "par_tour": 2
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "sacre",
+      "min": 9,
+      "max": 12,
+      "cibles": "ennemis"
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "critique": 10
+    },
+    "5": {
+      "effets": [
+        {
+          "type": "bonus",
+          "carac": "pm",
+          "min": 1,
+          "max": 1,
+          "duree": 1,
+          "sur_lanceur": true
+        }
+      ]
+    }
+  }
+}

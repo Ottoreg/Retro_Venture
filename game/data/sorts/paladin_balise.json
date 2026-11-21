@@ -1,0 +1,32 @@
+{
+  "id": "paladin_balise",
+  "nom": "Balise",
+  "description": "Plante une balise sur une case libre (3 au plus, la plus ancienne part). Deux balises alignées à 6 cases au plus se relient par un arc qui frappe les ennemis qui y entrent ou y commencent leur tour. Un ennemi la casse en marchant dessus ou en la frappant.",
+  "cout_pa": 2,
+  "portee": {
+    "min": 1,
+    "max": 5
+  },
+  "effets": [
+    {
+      "type": "balise",
+      "effets": [
+        {
+          "type": "degats",
+          "element": "tempete",
+          "min": 6,
+          "max": 9,
+          "cibles": "ennemis"
+        }
+      ]
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "portee_max": 1
+    },
+    "5": {
+      "cout_pa": 1
+    }
+  }
+}

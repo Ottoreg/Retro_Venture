@@ -129,6 +129,9 @@ const STATE_NAMES := {"insoignable": "Insoignable", "manipulation_temps": "Manip
 ## s'y trouve, sur la carte seulement (sol assombri, décor teinté), pas sur les combattants ni les sorts.
 const IMAGE_TINT := Color(0.75, 0.95, 1.4, 0.7)
 const IMAGE_GLOW := Color(0.45, 0.85, 1.0)
+## Paladin : aura dorée, balises et arcs électriques.
+const AURA_COLOR := Color(1.0, 0.85, 0.35)
+const ARC_COLOR := Color(0.55, 0.85, 1.0)
 const INVISIBLE_TINT := Color(1, 1, 1, 0.35)
 const SHADOW_GROUND := Color(0.03, 0.03, 0.1, 0.5)
 const SHADOW_SCENERY := Color(0.5, 0.52, 0.66)
@@ -172,6 +175,7 @@ var _refusals := {
 	Protocol.REASON_TOO_MANY_SERVANTS: "Déjà tous vos serviteurs",
 	Protocol.REASON_NOT_SERVANT: "Visez un de vos serviteurs",
 	Protocol.REASON_NO_EMBERS: "Aucune case embrasée dans la zone",
+	Protocol.REASON_NO_BEACON: "Visez une de vos balises (libre pour un échange)",
 }
 ## Messages affichés pour les objets qu'on ne peut pas équiper.
 var _equip_refusals := {
@@ -291,6 +295,9 @@ var _trap_flash: Dictionary = {}
 var _images: Dictionary = {}
 ## Démoniste : embrasement des cases par dimension ([normal, ombres] : case → niveau, 4 : calcinée).
 var _embers: Array[Dictionary] = [{}, {}]
+## Paladin : auras (id → { lanceur, taille }), qui suivent leur lanceur, et balises (id → { case, lanceur, equipe, ombres, porteur }).
+var _auras: Dictionary = {}
+var _beacons: Dictionary = {}
 var _projections: Array[Dictionary] = []
 ## Pierre de Passage tout juste découverte (id), pour annoncer en une fois qu'elle devient aussi le
 ## point de résurrection.
@@ -1256,6 +1263,11 @@ func _load_combat_from_state() -> void:
 		_actors[fighter.id]["etats"] = fighter.states_snapshot()
 	for image in world.combat.images:
 		_images[image["id"]] = {"case": image["case"], "lanceur": (image["lanceur"] as Fighter).id, "ombres": image["ombres"]}
+	for aura in world.combat.auras:
+		_auras[aura["id"]] = {"lanceur": (aura["lanceur"] as Fighter).id, "taille": world.combat.aura_radius(aura)}
+	for beacon in world.combat.beacons:
+		_beacons[beacon["id"]] = {"case": beacon["case"], "lanceur": (beacon["lanceur"] as Fighter).id, "equipe": beacon["equipe"],
+			"ombres": beacon["ombres"], "porteur": beacon["porteur"]}
 	for side in 2:
 		for cell: Vector2i in world.combat.embers[side]:
 			_embers[side][cell] = world.combat.embers[side][cell]["niveau"]
@@ -1578,6 +1590,17 @@ func _apply(event: Dictionary) -> float:
 			else:
 				_embers[int(event["ombres"])].erase(ember["case"])
 		return 0.0
+	if type == Protocol.EVT_AURA:
+		_auras[event["id"]] = {"lanceur": event["lanceur"], "taille": event["taille"]}
+		return 0.2
+	if type == Protocol.EVT_BEACON:
+		_beacons[event["id"]] = {"case": event["case"], "lanceur": event["lanceur"], "equipe": event["equipe"], "ombres": event["ombres"],
+			"porteur": event["porteur"]}
+		return 0.2
+	if type in [Protocol.EVT_AURA_ENDED, Protocol.EVT_BEACON_ENDED]:
+		_auras.erase(event["id"])
+		_beacons.erase(event["id"])
+		return 0.0
 	if type == Protocol.EVT_IMAGE:
 		_images[event["id"]] = {"case": event["case"], "lanceur": event["lanceur"], "ombres": event["ombres"]}
 		return 0.2
@@ -1671,6 +1694,8 @@ func _apply(event: Dictionary) -> float:
 		_traps.clear()
 		_images.clear()
 		_embers = [{}, {}]
+		_auras.clear()
+		_beacons.clear()
 		_trap_flash = {}
 		_load_combat_actors(event)
 		turn_time_left = world.combat.time_left() if world.combat != null else 0.0
@@ -1749,6 +1774,8 @@ func _apply(event: Dictionary) -> float:
 		# La case d'un piège ennemi reste secrète.
 		if not event.get("cache", false) or caster["team"] == Fighter.TEAM_PLAYERS:
 			_face_toward(caster, Vector2(event["cible"]))
+		if int(event.get("arcs", 0)) > 0:
+			_add_floating("Renforcé par %d arc%s" % [event["arcs"], "s" if int(event["arcs"]) > 1 else ""], ARC_COLOR, caster["pos"] + Vector2(0, -0.5))
 		var spell: Spell = world.data.spells.get(event["sort"])
 		if spell != null:
 			_add_floating(spell.display_name, Color(1, 0.95, 0.7), caster["pos"])
@@ -2059,7 +2086,7 @@ func _draw() -> void:
 		if selected_spell != "" and _hovered in _range_visible and fighter != null:
 			var spell: Spell = fighter.get_spell(selected_spell)
 			if spell != null:
-				_draw_cells(spell.zone_cells(_hovered, fighter.cell).filter(func(c: Vector2i) -> bool: return map.is_inside(c)), COLOR_ZONE)
+				_draw_cells(world.combat.spell_zone(fighter, spell, _hovered).filter(func(c: Vector2i) -> bool: return map.is_inside(c)), COLOR_ZONE)
 				for entry: Dictionary in _spell_preview.values():
 					if entry.has("arrivee"):
 						var arrival := _scaled_diamond(IsoGrid.cell_to_screen(entry["arrivee"]), 0.8)
@@ -2337,6 +2364,7 @@ func _draw_ground_marks() -> void:
 			else Color(1.0, 0.5 - 0.12 * level, 0.0, 0.5 + 0.15 * level + 0.05 * sin(_time * 4.0 + cell.x)))
 		diamond.append(diamond[0])
 		draw_polyline(diamond, Color(0.5, 0.45, 0.42) if level == Combat.CALCINED else Color(1.0, 0.85, 0.3, 0.8), 2.0)
+	_draw_paladin_marks()
 	for projection in _projections:
 		draw_colored_polygon(_ellipse(IsoGrid.grid_to_screen(projection["pos"]), 16, 8), Color(0, 0, 0, 0.6 * (1.0 - projection["age"] / 1.5)))
 	for glyph: Dictionary in _glyphs.values():
@@ -2363,6 +2391,47 @@ func _draw_ground_marks() -> void:
 		var flash := COLOR_TRAP_FLASH
 		flash.a *= 1.0 - _trap_flash["age"] / 0.6
 		_draw_cells(_trap_flash["cases"], flash)
+
+
+## Paladin : liseré doré des auras autour de leur lanceur (qu'elles suivent), balises et arcs qui crépitent entre elles.
+func _draw_paladin_marks() -> void:
+	for aura: Dictionary in _auras.values():
+		var owner: Dictionary = _actors.get(aura["lanceur"], {})
+		if owner.is_empty() or not owner["alive"] or owner.get("ombres", false) != viewer_in_shadow():
+			continue
+		for cell in Spell.circle_cells(Vector2i(owner["pos"].round()), int(aura["taille"])):
+			var diamond := _scaled_diamond(IsoGrid.cell_to_screen(cell), 0.9)
+			draw_colored_polygon(diamond, Color(AURA_COLOR, 0.12 + 0.04 * sin(_time * 2.0)))
+			diamond.append(diamond[0])
+			draw_polyline(diamond, Color(AURA_COLOR, 0.45), 1.5)
+	var points: Array = []
+	for beacon_id: int in _beacons:
+		var beacon: Dictionary = _beacons[beacon_id]
+		var carrier: Dictionary = _actors.get(beacon["porteur"], {})
+		var cell: Vector2i = Vector2i(carrier["pos"].round()) if not carrier.is_empty() else beacon["case"]
+		points.append(beacon.merged({"id": beacon_id, "case": cell, "ombres": carrier.get("ombres", false) if not carrier.is_empty() else beacon["ombres"]}, true))
+	for point: Dictionary in points:
+		if point["ombres"] != viewer_in_shadow():
+			continue
+		var foot := IsoGrid.cell_to_screen(point["case"])
+		if point["porteur"] == "":  # Balise : un piquet bleu.
+			draw_line(foot, foot + Vector2(0, -26), Color(0.85, 0.88, 0.95), 3.0)
+			draw_circle(foot + Vector2(0, -27), 4.5, ARC_COLOR)
+			draw_colored_polygon(_ellipse(foot, 8, 4), Color(0.2, 0.25, 0.35, 0.7))
+		else:
+			draw_arc(foot + Vector2(0, -60), 7.0, 0.0, TAU, 16, ARC_COLOR, 2.0)
+	for arc: Dictionary in Combat.link_beacons(points, current_map()):
+		if arc["ombres"] != viewer_in_shadow():
+			continue
+		var from := IsoGrid.cell_to_screen(arc["a"]["case"]) + Vector2(0, -27)
+		var to := IsoGrid.cell_to_screen(arc["b"]["case"]) + Vector2(0, -27)
+		var zigzag: PackedVector2Array = [from]
+		for i in range(1, 8):
+			var normal := (to - from).orthogonal().normalized() * 5.0 * sin(_time * 18.0 + i * 2.1)
+			zigzag.append(from.lerp(to, i / 8.0) + normal)
+		zigzag.append(to)
+		draw_polyline(zigzag, Color(ARC_COLOR, 0.35), 6.0)
+		draw_polyline(zigzag, Color(1, 1, 1, 0.9), 2.0)
 
 
 ## Heures d'une horloge (Chronomancien), écrites droites sur chaque case du cadran.

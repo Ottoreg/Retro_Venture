@@ -1,0 +1,63 @@
+{
+  "id": "paladin_aura_de_protection",
+  "nom": "Aura de protection",
+  "description": "Une aura argentée de 2 cases qui le suit pendant 3 tours : ses alliés dedans (lui compris) ont +10 % de résistance à tous les éléments. Une seule aura à la fois : la nouvelle remplace l'ancienne. Rang 5 : un tour de plus.",
+  "cout_pa": 2,
+  "portee": {
+    "min": 0,
+    "max": 0
+  },
+  "effets": [
+    {
+      "type": "aura",
+      "taille": 2,
+      "duree": 3,
+      "effets": [
+        {
+          "type": "bonus",
+          "carac": "resistance",
+          "min": 10,
+          "max": 10,
+          "duree": 1,
+          "element": "acier",
+          "cibles": "allies"
+        },
+        {
+          "type": "bonus",
+          "carac": "resistance",
+          "min": 10,
+          "max": 10,
+          "duree": 1,
+          "element": "flamme",
+          "cibles": "allies"
+        },
+        {
+          "type": "bonus",
+          "carac": "resistance",
+          "min": 10,
+          "max": 10,
+          "duree": 1,
+          "element": "givre",
+          "cibles": "allies"
+        },
+        {
+          "type": "bonus",
+          "carac": "resistance",
+          "min": 10,
+          "max": 10,
+          "duree": 1,
+          "element": "tempete",
+          "cibles": "allies"
+        }
+      ]
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "cout_pa": 1
+    },
+    "5": {
+      "duree_aura": 1
+    }
+  }
+}

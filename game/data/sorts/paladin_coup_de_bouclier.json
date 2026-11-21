@@ -1,0 +1,45 @@
+{
+  "id": "paladin_coup_de_bouclier",
+  "nom": "Coup de bouclier",
+  "description": "Un grand coup de bouclier, blason en avant : l'ennemi recule de 2 cases.",
+  "cout_pa": 3,
+  "portee": {
+    "min": 1,
+    "max": 1
+  },
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "sacre",
+      "min": 5,
+      "max": 7,
+      "cibles": "ennemis"
+    },
+    {
+      "type": "poussee",
+      "min": 2,
+      "max": 2,
+      "cibles": "ennemis"
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "cout_pa": 2
+    },
+    "5": {
+      "effets": [
+        {
+          "type": "malus",
+          "carac": "pm",
+          "min": 1,
+          "max": 1,
+          "duree": 1,
+          "cibles": "ennemis"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,151 @@
+{
+  "images": {
+    "sort_paladin_aura_de_bravoure": {
+      "fichier": "sorts/paladin_aura_de_bravoure.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_paladin_coup_beni": {
+      "fichier": "sorts/paladin_coup_beni.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_paladin_marteau_lance": {
+      "fichier": "sorts/paladin_marteau_lance.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_paladin_jugement": {
+      "fichier": "sorts/paladin_jugement.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_paladin_onde_sacree": {
+      "fichier": "sorts/paladin_onde_sacree.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_paladin_coup_de_bouclier": {
+      "fichier": "sorts/paladin_coup_de_bouclier.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_paladin_sceau_de_penitence": {
+      "fichier": "sorts/paladin_sceau_de_penitence.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_paladin_ruee_sainte": {
+      "fichier": "sorts/paladin_ruee_sainte.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_paladin_aura_de_protection": {
+      "fichier": "sorts/paladin_aura_de_protection.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_paladin_benediction": {
+      "fichier": "sorts/paladin_benediction.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_paladin_balise": {
+      "fichier": "sorts/paladin_balise.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_paladin_etincelle": {
+      "fichier": "sorts/paladin_etincelle.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_paladin_chaine_d_eclairs": {
+      "fichier": "sorts/paladin_chaine_d_eclairs.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_paladin_foudre_celeste": {
+      "fichier": "sorts/paladin_foudre_celeste.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_paladin_surtension": {
+      "fichier": "sorts/paladin_surtension.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_paladin_aimantation": {
+      "fichier": "sorts/paladin_aimantation.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_paladin_electrocution": {
+      "fichier": "sorts/paladin_electrocution.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_paladin_saut_d_eclair": {
+      "fichier": "sorts/paladin_saut_d_eclair.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_paladin_bouclier_statique": {
+      "fichier": "sorts/paladin_bouclier_statique.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_paladin_paratonnerre_vivant": {
+      "fichier": "sorts/paladin_paratonnerre_vivant.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_paladin_saint_paratonnerre": {
+      "fichier": "sorts/paladin_saint_paratonnerre.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    }
+  }
+}

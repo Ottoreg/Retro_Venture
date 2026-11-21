@@ -1,0 +1,28 @@
+{
+  "id": "paladin_surtension",
+  "nom": "Surtension",
+  "description": "Surcharge une de ses balises : chaque ennemi sur un de ses arcs ou à son contact subit les dégâts de l'arc × 1,5.",
+  "cout_pa": 3,
+  "portee": {
+    "min": 1,
+    "max": 8
+  },
+  "ligne_de_vue": false,
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "surtension",
+      "multiplicateur": 150
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "cout_pa": 2
+    },
+    "5": {
+      "portee_max": 2
+    }
+  }
+}

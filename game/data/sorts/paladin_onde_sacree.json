@@ -1,0 +1,32 @@
+{
+  "id": "paladin_onde_sacree",
+  "nom": "Onde sacrée",
+  "description": "Une onde de lumière part de lui et frappe chaque ennemi dans son aura (à 1 case sans aura).",
+  "cout_pa": 4,
+  "portee": {
+    "min": 0,
+    "max": 0
+  },
+  "zone_aura": true,
+  "lanceur_exclu": true,
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "sacre",
+      "min": 8,
+      "max": 11,
+      "cibles": "ennemis"
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "cout_pa": 3
+    },
+    "5": {
+      "critique": 10
+    }
+  }
+}

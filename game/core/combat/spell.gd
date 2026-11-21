@@ -96,19 +96,30 @@ const EFFECT_SUMMON := "invocation"
 const EFFECT_SACRIFICE := "sacrifice"
 const EFFECT_SWAP := "permutation"
 const EFFECT_ASHES := "cendres"
+## Paladin (GDD § 4.3) : aura de `taille` cases autour du lanceur, qui le suit, pendant `duree` tours (ses `effets`,
+## bonus, valent tant qu'un allié est dedans ; une seule par Paladin) ; balise posée sur la case visée, libre (les
+## `effets` de ses arcs touchent les ennemis qui y entrent) ; surtension (les arcs de la balise visée et ses voisins,
+## × `multiplicateur` %) ; échange de place avec une de ses balises ; la cible sert de balise pendant `duree` tours.
+const EFFECT_AURA := "aura"
+const EFFECT_BEACON := "balise"
+const EFFECT_SURGE := "surtension"
+const EFFECT_BEACON_SWAP := "saut_balise"
+const EFFECT_LIVING_BEACON := "paratonnerre"
 const EFFECT_TYPES := [EFFECT_DAMAGE, EFFECT_HEAL, EFFECT_TELEPORT, EFFECT_GAIN_PA, EFFECT_REMOVE_PM, EFFECT_SHIELD,
 	EFFECT_BONUS, EFFECT_MALUS, EFFECT_POISON, EFFECT_PUSH, EFFECT_PULL, EFFECT_GLYPH, EFFECT_TRAP,
 	EFFECT_ELEMENT_STATE, EFFECT_COMPOSE_STATES, EFFECT_CREATE_SPELL, EFFECT_CHARGE, EFFECT_REMOVE_STATES,
 	EFFECT_CLOCK, EFFECT_CLOCK_SHIFT, EFFECT_STATE, EFFECT_BOUNCE, EFFECT_IMAGE, EFFECT_DETONATE, EFFECT_SHADOW_WEAPON,
-	EFFECT_SHADOW_WORLD, EFFECT_BEHIND, EFFECT_SUMMON, EFFECT_SACRIFICE, EFFECT_SWAP, EFFECT_ASHES]
+	EFFECT_SHADOW_WORLD, EFFECT_BEHIND, EFFECT_SUMMON, EFFECT_SACRIFICE, EFFECT_SWAP, EFFECT_ASHES, EFFECT_AURA, EFFECT_BEACON, EFFECT_SURGE, EFFECT_BEACON_SWAP,
+	EFFECT_LIVING_BEACON]
 ## Effets sans valeur chiffrée (ni `min` ni `max`).
 const VALUELESS_EFFECTS := [EFFECT_TELEPORT, EFFECT_ELEMENT_STATE, EFFECT_COMPOSE_STATES, EFFECT_CREATE_SPELL, EFFECT_CHARGE,
 	EFFECT_REMOVE_STATES, EFFECT_CLOCK, EFFECT_CLOCK_SHIFT, EFFECT_STATE, EFFECT_DETONATE, EFFECT_SHADOW_WORLD, EFFECT_BEHIND,
-	EFFECT_SUMMON, EFFECT_SWAP]
+	EFFECT_SUMMON, EFFECT_SWAP, EFFECT_SURGE, EFFECT_BEACON_SWAP, EFFECT_LIVING_BEACON]
 ## Effets qui ne concernent que le lanceur ou son déplacement, ou le cadran d'une horloge : jamais
 ## dans une glyphe, un piège ou une heure d'horloge.
 const CASTER_EFFECTS := [EFFECT_TELEPORT, EFFECT_ELEMENT_STATE, EFFECT_COMPOSE_STATES, EFFECT_CREATE_SPELL, EFFECT_CHARGE,
-	EFFECT_CLOCK, EFFECT_CLOCK_SHIFT, EFFECT_BOUNCE, EFFECT_DETONATE, EFFECT_SHADOW_WORLD, EFFECT_BEHIND, EFFECT_SUMMON, EFFECT_SACRIFICE, EFFECT_SWAP, EFFECT_ASHES]
+	EFFECT_CLOCK, EFFECT_CLOCK_SHIFT, EFFECT_BOUNCE, EFFECT_DETONATE, EFFECT_SHADOW_WORLD, EFFECT_BEHIND, EFFECT_SUMMON, EFFECT_SACRIFICE, EFFECT_SWAP, EFFECT_ASHES,
+	EFFECT_AURA, EFFECT_BEACON, EFFECT_SURGE, EFFECT_BEACON_SWAP]
 ## États nommés : « insoignable » (aucun soin ne lui rend de PV) ; « manipulation_temps » (posé par
 ## une horloge) ; « exorcisme » (les prochains dégâts Sacré l'achèvent, l'état tombe alors).
 const STATE_UNHEALABLE := "insoignable"
@@ -129,13 +140,13 @@ const STATE_ELEMENTS := ["flamme", "givre", "tempete"]
 const REMOVABLE_STATE_TYPES := [EFFECT_BONUS, EFFECT_MALUS, EFFECT_POISON]
 ## Effets qui posent quelque chose au sol, avec leurs propres `effets` (sans glyphe, piège ni
 ## téléportation à l'intérieur).
-const GROUND_EFFECTS := [EFFECT_GLYPH, EFFECT_TRAP, EFFECT_IMAGE]
+const GROUND_EFFECTS := [EFFECT_GLYPH, EFFECT_TRAP, EFFECT_IMAGE, EFFECT_AURA, EFFECT_BEACON]
 ## Effets qui durent plusieurs tours (`duree` obligatoire).
-const LASTING_EFFECTS := [EFFECT_BONUS, EFFECT_MALUS, EFFECT_POISON, EFFECT_GLYPH, EFFECT_CLOCK, EFFECT_STATE]
+const LASTING_EFFECTS := [EFFECT_BONUS, EFFECT_MALUS, EFFECT_POISON, EFFECT_GLYPH, EFFECT_CLOCK, EFFECT_STATE, EFFECT_AURA, EFFECT_LIVING_BEACON]
 ## Caractéristiques qu'un bonus ou un malus peut changer ; « resistance » demande un `element` ;
 ## « degats_infliges » : % de tous les dégâts infligés (poisons compris).
 const MODIFIABLE := ["force", "intelligence", "perception", "agilite", "pa", "pm", "portee", "dommages", "critique", "resistance",
-	"degats_infliges", "retrait_pa", "retrait_pm", "epines_flamme"]
+	"degats_infliges", "retrait_pa", "retrait_pm", "epines_flamme", "epines_tempete_fixes"]
 ## Effets chiffrés qui ont un élément : leur valeur monte avec la caractéristique de cet élément
 ## (un soin Sacré avec la Force et l'Intelligence, un bouclier de Tempête avec l'Agilité, un poison
 ## de Givre avec la Perception…).
@@ -157,7 +168,7 @@ const MASTERY_MAX_RANK := 5
 ## (critique, portee_max, bonus_etats : % de chaque état élémentaire, places_crees : places de sorts créés),
 ## nouvelles valeurs (cout_pa, delai, zone_taille) et effets en plus (effets ; « premier_lancer » : true, seulement
 ## au premier lancer du tour).
-const MASTERY_ADDS := ["critique", "portee_max", "bonus_etats", "places_crees", "embrase"]
+const MASTERY_ADDS := ["critique", "portee_max", "bonus_etats", "places_crees", "embrase", "duree_aura"]
 const MASTERY_SETS := ["cout_pa", "delai", "zone_taille"]
 
 var id: String
@@ -203,6 +214,11 @@ var marked_range := 0
 var ignites := -1
 var calcined: Dictionary = {}
 var ember_range := 0
+## Paladin : projectile (+`Combat.ARC_BONUS` % par arc de ses balises traversé), zone = son aura (rayon 1 sans aura),
+## tours d'aura en plus (rang de maîtrise « duree_aura »).
+var projectile := false
+var aura_zone := false
+var aura_turns := 0
 
 
 ## Liste des erreurs de `data` (vide si le sort est valide).
@@ -311,6 +327,8 @@ static func _validate_effects(effects_data: Array, top_level: bool) -> PackedStr
 				if typeof(zone) != TYPE_DICTIONARY or zone.get("type") not in [ZONE_CELL, ZONE_CIRCLE] \
 						or (zone["type"] == ZONE_CIRCLE and not _is_int_at_least(zone.get("taille"), 1)):
 					errors.append("piège : « zone » doit être { type: case } ou { type: cercle, taille ≥ 1 }")
+			if type == EFFECT_AURA and not _is_int_at_least(effect.get("taille"), 1):
+				errors.append("effet « aura » : « taille » (rayon) doit être un entier ≥ 1")
 			continue
 		if type == EFFECT_ELEMENT_STATE and effect.get("element") not in STATE_ELEMENTS:
 			errors.append("effet « %s » : « element » doit être l'un de %s" % [type, str(STATE_ELEMENTS)])
@@ -406,6 +424,8 @@ static func from_dict(data: Dictionary) -> Spell:
 	if spell.calcined.has("effets"):
 		spell.calcined["effets"] = normalized_effects(spell.calcined["effets"])
 	spell.ember_range = int(data.get("portee_embrasee", 0))
+	spell.projectile = bool(data.get("projectile", false))
+	spell.aura_zone = bool(data.get("zone_aura", false))
 	var mastery_data: Dictionary = data.get("maitrise", {})
 	for key: String in mastery_data:
 		spell.mastery[int(key)] = mastery_data[key].duplicate(true)
@@ -421,7 +441,7 @@ func mastered(level: int) -> Spell:
 		return self
 	var copy := Spell.new()
 	for property in ["id", "display_name", "description", "pa_cost", "range_min", "range_max", "needs_line_of_sight",
-			"cast_in_line", "fixed_range", "zone_type", "zone_size", "excludes_caster", "casts_per_turn", "cooldown", "crit_chance", "discreet", "enemy_cooldown", "marked_range", "ignites", "calcined", "ember_range"]:
+			"cast_in_line", "fixed_range", "zone_type", "zone_size", "excludes_caster", "casts_per_turn", "cooldown", "crit_chance", "discreet", "enemy_cooldown", "marked_range", "ignites", "calcined", "ember_range", "projectile", "aura_zone", "aura_turns"]:
 		copy.set(property, get(property))
 	copy.mastery = mastery
 	copy.rank = level
@@ -437,6 +457,7 @@ func mastered(level: int) -> Spell:
 		copy.state_bonus += int(changes.get("bonus_etats", 0))
 		copy.created_slots += int(changes.get("places_crees", 0))
 		copy.ignites += int(changes.get("embrase", 0))
+		copy.aura_turns += int(changes.get("duree_aura", 0))
 		copy.pa_cost = int(changes.get("cout_pa", copy.pa_cost))
 		copy.cooldown = int(changes.get("delai", copy.cooldown))
 		copy.zone_size = int(changes.get("zone_taille", copy.zone_size))

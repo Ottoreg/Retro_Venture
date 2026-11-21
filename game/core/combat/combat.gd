@@ -67,6 +67,17 @@ const CALCINED := 4
 const EMBER_BONUS := 10
 const EMBER_BURN := 2
 const MAX_SERVANTS := 2
+## Paladin (GDD § 4.3) : auras qui suivent leur lanceur (une par Paladin ; { id, lanceur, equipe, taille, tours, effets,
+## sort }), balises ({ id, lanceur, equipe, ombres, case, porteur : id d'un combattant qui sert de balise, tours, effets,
+## sort }) reliées par des arcs ; coups d'arc déjà reçus ce tour (« arc:combattant »).
+var auras: Array[Dictionary] = []
+var beacons: Array[Dictionary] = []
+var _arc_hits := {}
+const PALADIN_PASSIVE := "saint_paratonnerre"
+const MAX_BEACONS := 3
+const ARC_LENGTH := 6
+const ARC_BONUS := 25
+const MAX_ARCS_CROSSED := 2
 
 ## Temps limité (en ligne, GDD § 7.2) : secondes d'un tour de joueur, et du placement ; 0 : illimité
 ## (solo). Le temps passe par `advance`.
@@ -278,14 +289,21 @@ func is_free(cell: Vector2i) -> bool:
 
 ## Cases atteignables avec les PM du combattant (ou `pm` s'il est donné), et le chemin pour chacune
 ## (4 directions).
+## Un monstre évite les arcs ennemis quand un autre chemin existe.
 func reachable_cells(fighter: Fighter, pm := -1) -> Dictionary:
+	var avoided := arc_cells(fighter) if fighter.is_ai() else {}
+	var paths := _paths(fighter, pm, avoided)
+	return paths if avoided.is_empty() else _paths(fighter, pm, {}).merged(paths, true)
+
+
+func _paths(fighter: Fighter, pm: int, avoided: Dictionary) -> Dictionary:
 	var paths := {fighter.cell: [] as Array[Vector2i]}
 	var frontier: Array[Vector2i] = [fighter.cell]
 	for step in (fighter.pm if pm < 0 else pm):
 		var next_frontier: Array[Vector2i] = []
 		for cell in frontier:
 			for neighbor in IsoGrid.neighbors_4(cell):
-				if paths.has(neighbor) or not is_free(neighbor):
+				if paths.has(neighbor) or not is_free(neighbor) or avoided.has(neighbor):
 					continue
 				var path: Array[Vector2i] = paths[cell].duplicate()
 				path.append(neighbor)
@@ -481,11 +499,10 @@ func _player_action(command: Dictionary) -> Array[Dictionary]:
 func _apply_action(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 	var type: String = command["type"]
 	dimension = fighter.shadow
-	if type == Protocol.CMD_MOVE:
-		return _move(fighter, command)
-	if type == Protocol.CMD_CAST:
-		return _cast(fighter, command)
 	var events: Array[Dictionary] = [{"type": Protocol.EVT_TURN_ENDED, "entite": fighter.id}]
+	if type in [Protocol.CMD_MOVE, Protocol.CMD_CAST]:
+		events = _move(fighter, command) if type == Protocol.CMD_MOVE else _cast(fighter, command)
+	_refresh_auras(events)
 	return events
 
 
@@ -534,7 +551,8 @@ func _move(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 	fighter.cell = walked[-1]
 	events.append({"type": Protocol.EVT_MOVED, "entite": fighter.id, "depuis": from, "chemin": walked, "pm": fighter.pm})
 	_seen(fighter)
-	if not trap.is_empty():
+	_enter_cells(fighter, walked, events)
+	if not trap.is_empty() and fighter.is_alive():
 		_trigger_trap(trap, fighter, events)
 	_check_images(fighter, events)
 	_check_end(events)
@@ -605,6 +623,12 @@ func _cast(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 		blocker = Protocol.REASON_NO_EMBERS
 	if blocker.is_empty() and not spell.create_effect().is_empty() and created_spell_for(fighter, spell) == null:
 		blocker = Protocol.REASON_NO_COMBINATION
+	if blocker.is_empty() and not spell.effect_of(Spell.EFFECT_BEACON).is_empty() and (not is_free(target) or not beacon_at(target).is_empty()):
+		blocker = Protocol.REASON_OCCUPIED if map.is_walkable_in_combat(target) else Protocol.REASON_BLOCKED
+	if blocker.is_empty() and spell.effects.any(func(effect: Dictionary) -> bool: return effect["type"] in [Spell.EFFECT_SURGE, Spell.EFFECT_BEACON_SWAP]):
+		var aimed_beacon := beacon_at(target)
+		blocker = Protocol.REASON_NO_BEACON if aimed_beacon.is_empty() or aimed_beacon["lanceur"] != fighter \
+			or (not spell.effect_of(Spell.EFFECT_BEACON_SWAP).is_empty() and (aimed_beacon["porteur"] != "" or aimed != null)) else ""
 	var choices := spell.state_choices()
 	if blocker.is_empty() and not choices.is_empty() and str(command.get("etats", "")) not in choices:
 		blocker = Protocol.REASON_INVALID_COMPOSITION
@@ -626,8 +650,13 @@ func _cast(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 		"ombres": fighter.shadow,
 	}]
 	_seen(fighter)  # Dans les ombres, son ombre est projetée dehors, sur sa case.
-	var zone := spell.zone_cells(target, fighter.cell)
+	var zone := spell_zone(fighter, spell, target)
 	var cast_effects := _ember_variant(spell, target, zone)
+	var crossed := arcs_crossed(fighter, spell, target)
+	if crossed > 0:  # Projectile renforcé par les arcs traversés.
+		events[0]["arcs"] = crossed
+		cast_effects.assign(cast_effects.map(func(effect: Dictionary) -> Dictionary:
+			return effect.merged({"bonus_arcs": ARC_BONUS * crossed}) if effect["type"] == Spell.EFFECT_DAMAGE else effect))
 	if not trap_effect.is_empty():
 		events[0]["cache"] = true
 	var origin := fighter.cell
@@ -635,6 +664,7 @@ func _cast(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 		var from := fighter.cell
 		fighter.cell = target
 		events.append({"type": Protocol.EVT_TELEPORTED, "entite": fighter.id, "depuis": from, "case": target})
+		_enter_cells(fighter, [target], events)
 		var trap := enemy_trap_at(target, fighter)
 		if not trap.is_empty():
 			_trigger_trap(trap, fighter, events)
@@ -652,6 +682,7 @@ func _cast(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 		reached = fighter_at(target) != null and IsoGrid.distance(fighter.cell, target) == 1
 		events.append({"type": Protocol.EVT_CHARGED, "entite": fighter.id, "depuis": from, "chemin": path,
 			"case": fighter.cell, "contact": reached})
+		_enter_cells(fighter, path, events)
 		if not path.is_empty():
 			var trap := enemy_trap_at(fighter.cell, fighter)
 			if not trap.is_empty():
@@ -676,13 +707,19 @@ func _cast(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 			_place_trap(fighter, spell, effect, target, events)
 		elif effect["type"] == Spell.EFFECT_IMAGE:
 			_place_image(fighter, spell, effect, origin, events)
+		elif effect["type"] == Spell.EFFECT_AURA:
+			_place_aura(fighter, spell, effect, events)
+		elif effect["type"] == Spell.EFFECT_BEACON:
+			_place_beacon(fighter, spell.display_name, effect, target, "", events)
+		elif effect["type"] == Spell.EFFECT_BEACON_SWAP:
+			_swap_with_beacon(fighter, beacon_at(target), events)
 	var elements := {}
 	for effect in cast_effects:
 		if effect["type"] in [Spell.EFFECT_DAMAGE, Spell.EFFECT_HEAL, Spell.EFFECT_POISON, Spell.EFFECT_BOUNCE, Spell.EFFECT_SACRIFICE]:
 			elements[effect["element"]] = true
 	_open_credit(fighter, spell.pa_cost, elements.keys())
 	var targets: Array[Fighter] = []
-	for cell in spell.zone_cells(target, origin) if reached else []:
+	for cell in zone if reached else []:
 		var hit := fighter_at(cell)
 		# Un invisible n'est pas visé directement par l'adversaire : seule une zone le touche.
 		if hit != null and not (spell.excludes_caster and hit == fighter) \
@@ -697,13 +734,23 @@ func _cast(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 				_bounce(fighter, chain, effect, events, critical, spell.display_name)
 			elif hit.is_alive() and effect["type"] not in [Spell.EFFECT_TELEPORT, Spell.EFFECT_GLYPH, Spell.EFFECT_TRAP,
 					Spell.EFFECT_CHARGE, Spell.EFFECT_CREATE_SPELL, Spell.EFFECT_COMPOSE_STATES, Spell.EFFECT_IMAGE,
-					Spell.EFFECT_DETONATE, Spell.EFFECT_BEHIND, Spell.EFFECT_SUMMON] and not effect.get("sur_lanceur", false) \
-					and Spell.affects(effect, fighter, hit) and not (effect.get("premier_lancer", false) and fighter.cast_count(spell) > 1):
+					Spell.EFFECT_DETONATE, Spell.EFFECT_BEHIND, Spell.EFFECT_SUMMON, Spell.EFFECT_AURA, Spell.EFFECT_BEACON, Spell.EFFECT_SURGE,
+					Spell.EFFECT_BEACON_SWAP] and not effect.get("sur_lanceur", false) \
+					and Spell.affects(effect, fighter, hit) and not (effect.get("premier_lancer", false) and fighter.cast_count(spell) > 1) \
+					and not (effect.get("sur_arc", false) and not arc_cells(hit).has(hit.cell)):
 				_apply_effect(fighter, hit, effect, events, critical, origin, spell.display_name)
 	var detonate := spell.effect_of(Spell.EFFECT_DETONATE)
 	for image in images.duplicate() if not detonate.is_empty() else []:
 		if image["lanceur"] == fighter and image["case"] == target:
 			_explode(image, int(detonate.get("bonus", 0)), events)
+	var surge := spell.effect_of(Spell.EFFECT_SURGE)
+	if not surge.is_empty():
+		_surge(fighter, beacon_at(target), int(surge.get("multiplicateur", 100)), events)
+	if spell.effects.any(func(effect: Dictionary) -> bool: return effect["type"] == Spell.EFFECT_DAMAGE):
+		for cell in zone:  # Un coup ennemi sur sa case casse une balise.
+			var hit_beacon := beacon_at(cell)
+			if not hit_beacon.is_empty() and hit_beacon["equipe"] != fighter.team and hit_beacon["porteur"] == "":
+				_break_beacon(hit_beacon, events)
 	_close_credit()
 	_ignite(fighter, zone, -CALCINED if not spell.effect_of(Spell.EFFECT_ASHES).is_empty() else int(spell.calcined.get("embrase", spell.ignites))
 		if ember_level(target) == CALCINED else spell.ignites, events)
@@ -843,6 +890,8 @@ func _apply_effect(caster: Fighter, target: Fighter, effect: Dictionary, events:
 					"sort": source, "lanceur": caster.id, "retirable": false}, events)
 		Spell.EFFECT_SHADOW_WORLD:
 			_cross(target, events)
+		Spell.EFFECT_LIVING_BEACON:
+			_place_beacon(caster, source, effect, target.cell, target.id, events)
 		Spell.EFFECT_SWAP:
 			var from_cell := caster.cell
 			caster.cell = target.cell
@@ -904,7 +953,8 @@ func damage_bonus(caster: Fighter, target: Fighter, effect: Dictionary) -> int:
 		+ int(effect.get("par_serviteur", 0)) * servants_of(caster).size() \
 		+ (5 + pact if pact > 0 and ember_level(target.cell, target.shadow) > 0 else 0) \
 		+ int(effect.get("par_malus", 0)) * target.states.filter(func(state: Dictionary) -> bool: return state["type"] == Spell.EFFECT_MALUS).size() \
-		+ (5 + int(caster.passives.get("coup_en_traitre", 0)) if hidden and int(caster.passives.get("coup_en_traitre", 0)) > 0 else 0)
+		+ (5 + int(caster.passives.get("coup_en_traitre", 0)) if hidden and int(caster.passives.get("coup_en_traitre", 0)) > 0 else 0) \
+		+ int(effect.get("bonus_arcs", 0)) + paladin_bonus(caster)
 
 
 ## Dégâts d'un effet de valeur tirée `amount` (voir `_apply_effect`) : au contact, × (100 + dommages de mêlée
@@ -950,7 +1000,8 @@ func spell_preview(fighter: Fighter, spell: Spell, target: Vector2i) -> Dictiona
 		var stop := path[-1] if not path.is_empty() else fighter.cell
 		if fighter_at(target) == null or IsoGrid.distance(stop, target) != 1:
 			return preview
-	for cell in spell.zone_cells(target, fighter.cell):
+	var crossed := ARC_BONUS * arcs_crossed(fighter, spell, target)
+	for cell in spell_zone(fighter, spell, target):
 		var hit := fighter_at(cell)
 		if hit == null or not hit.is_alive() or (spell.excludes_caster and hit == fighter):
 			continue
@@ -962,7 +1013,7 @@ func spell_preview(fighter: Fighter, spell: Spell, target: Vector2i) -> Dictiona
 			var high: int
 			var key := "degats"
 			if effect["type"] == Spell.EFFECT_DAMAGE:
-				var bonus := 100 + damage_bonus(fighter, hit, effect)
+				var bonus := 100 + damage_bonus(fighter, hit, effect) + crossed
 				low = damage_value(fighter, hit, effect["element"], roundi(effect["min"] * bonus / 100.0))
 				high = damage_value(fighter, hit, effect["element"], roundi(effect["max"] * bonus / 100.0))
 			elif hit.hp >= hit.max_hp or hit.has_state(Spell.STATE_UNHEALABLE):
@@ -1131,11 +1182,13 @@ func _push(from: Vector2i, target: Fighter, distance: int, pull: bool, events: A
 	var start := target.cell
 	var moved := 0
 	var trap := {}
+	var passed: Array[Vector2i] = []
 	while moved < distance:
 		var next := target.cell + step
 		if not is_free(next):
 			break
 		target.cell = next
+		passed.append(next)
 		moved += 1
 		trap = enemy_trap_at(next, target)
 		if not trap.is_empty():
@@ -1143,6 +1196,9 @@ func _push(from: Vector2i, target: Fighter, distance: int, pull: bool, events: A
 	if moved > 0:
 		events.append({"type": Protocol.EVT_PUSHED, "entite": target.id, "depuis": start, "case": target.cell})
 		_check_images(target, events)
+		_enter_cells(target, passed, events)
+	if not target.is_alive():
+		return
 	if not trap.is_empty():
 		_trigger_trap(trap, target, events)
 	elif not pull and moved < distance:
@@ -1354,6 +1410,12 @@ func _remove_ground_of(fighter: Fighter, events: Array[Dictionary]) -> void:
 		if image["lanceur"] == fighter:
 			images.erase(image)
 			events.append({"type": Protocol.EVT_IMAGE_ENDED, "id": image["id"], "explose": false, "cases": []})
+	for aura in auras.duplicate():
+		if aura["lanceur"] == fighter:
+			_end_aura(aura, events)
+	for beacon in beacons.duplicate():
+		if beacon["lanceur"] == fighter or beacon["porteur"] == fighter.id:
+			_break_beacon(beacon, events)
 
 
 ## Début du tour de `fighter` : ses glyphes perdent un tour, puis ses poisons et les glyphes sous
@@ -1364,6 +1426,18 @@ func _start_of_turn_effects(fighter: Fighter, events: Array[Dictionary]) -> void
 			glyph["tours"] = int(glyph["tours"]) - 1
 			if int(glyph["tours"]) <= 0:
 				_end_glyph(glyph, events)
+	var lasting: Array[Dictionary] = auras.duplicate()
+	lasting.append_array(beacons.filter(func(beacon: Dictionary) -> bool: return beacon["porteur"] != ""))
+	for ground in lasting:  # Auras et balises vivantes perdent un tour.
+		if ground["lanceur"] == fighter:
+			ground["tours"] = int(ground["tours"]) - 1
+			if int(ground["tours"]) <= 0 and ground in auras:
+				_end_aura(ground, events)
+			elif int(ground["tours"]) <= 0:
+				_break_beacon(ground, events)
+	for arc in arcs():  # Commence son tour sur un arc ennemi.
+		if fighter.is_alive() and arc["equipe"] != fighter.team and arc["ombres"] == fighter.shadow and fighter.cell in arc["cases"]:
+			_shock(arc["a"], fighter, 100, events, arc["id"])
 	for image in images.duplicate():
 		if image["lanceur"] == fighter and int(image["manche"]) < round_number and image in images:
 			_explode(image, 0, events)  # Restée un tour complet.
@@ -1410,11 +1484,13 @@ func _next_turn(events: Array[Dictionary]) -> void:
 		if not fighter.is_alive():
 			continue
 		dimension = fighter.shadow
+		_arc_hits.clear()
 		fighter.start_turn()
 		events.append({"type": Protocol.EVT_TURN_STARTED, "entite": fighter.id, "tour": round_number, "pa": fighter.pa, "pm": fighter.pm})
 		if turn_limit > 0.0 and not fighter.is_ai():
 			events[-1]["duree"] = turn_limit
 		_start_of_turn_effects(fighter, events)
+		_refresh_auras(events)
 		if not fighter.is_alive():
 			_check_end(events)
 			continue
@@ -1673,6 +1749,235 @@ func marked_by(target: Fighter, caster: Fighter) -> bool:
 	return target.states.any(func(state: Dictionary) -> bool: return state["type"] == Spell.EFFECT_SHADOW_WEAPON and state.get("lanceur") == caster.id)
 
 
+# --- Paladin : auras, balises et arcs (GDD § 4.3) -------------------------------------------------
+
+## Zone d'un sort : celle de ses données, ou l'aura du lanceur (« zone_aura » ; rayon 1 sans aura).
+func spell_zone(fighter: Fighter, spell: Spell, target: Vector2i) -> Array[Vector2i]:
+	var aura := aura_of(fighter)
+	return Spell.circle_cells(fighter.cell, aura_radius(aura) if not aura.is_empty() else 1) if spell.aura_zone else spell.zone_cells(target, fighter.cell)
+
+
+func aura_of(fighter: Fighter) -> Dictionary:
+	for aura in auras:
+		if aura["lanceur"] == fighter:
+			return aura
+	return {}
+
+
+## Rayon d'une aura : sa taille, +1 au rang 3 du passif.
+func aura_radius(aura: Dictionary) -> int:
+	return int(aura["taille"]) + int(int((aura["lanceur"] as Fighter).passives.get(PALADIN_PASSIVE, 0)) >= 4)
+
+
+func in_aura(aura: Dictionary, fighter: Fighter) -> bool:
+	var caster: Fighter = aura["lanceur"]
+	return caster.is_alive() and fighter.team == aura["equipe"] and fighter.shadow == caster.shadow \
+		and IsoGrid.distance(caster.cell, fighter.cell) <= aura_radius(aura)
+
+
+## Une nouvelle aura remplace celle du même Paladin.
+func _place_aura(caster: Fighter, spell: Spell, effect: Dictionary, events: Array[Dictionary]) -> void:
+	if not aura_of(caster).is_empty():
+		_end_aura(aura_of(caster), events)
+	var aura := {"id": _next_ground_id, "lanceur": caster, "equipe": caster.team, "taille": int(effect["taille"]),
+		"tours": int(effect["duree"]) + spell.aura_turns, "effets": effect["effets"], "sort": spell.display_name}
+	_next_ground_id += 1
+	auras.append(aura)
+	events.append({"type": Protocol.EVT_AURA, "id": aura["id"], "lanceur": caster.id, "taille": aura_radius(aura), "sort": aura["sort"]})
+
+
+func _end_aura(aura: Dictionary, events: Array[Dictionary]) -> void:
+	auras.erase(aura)
+	events.append({"type": Protocol.EVT_AURA_ENDED, "id": aura["id"]})
+
+
+## Bonus des auras : chaque allié dedans porte leurs effets (une même aura de deux Paladins ne compte qu'une fois, la plus
+## forte), qu'il perd en sortant.
+func _refresh_auras(events: Array[Dictionary]) -> void:
+	for fighter in fighters:
+		var wanted := {}
+		for aura in auras if fighter.is_alive() else []:
+			for effect: Dictionary in aura["effets"] if in_aura(aura, fighter) else []:
+				var key := "%s|%s|%s" % [aura["sort"], effect["carac"], effect.get("element", "")]
+				if int(wanted.get(key, {}).get("valeur", -1)) < int(effect["min"]):
+					wanted[key] = {"type": effect["type"], "carac": effect["carac"], "element": str(effect.get("element", "")), "valeur": int(effect["min"]),
+						"tours": 99, "sort": aura["sort"], "lanceur": (aura["lanceur"] as Fighter).id, "retirable": false, "aura": true}
+		var worn := fighter.states.filter(func(state: Dictionary) -> bool: return state.get("aura", false))
+		var signature := func(states: Array) -> Array:
+			var keys := states.map(func(state: Dictionary) -> String: return "%s|%s|%s|%d" % [state["sort"], state["carac"], state["element"], state["valeur"]])
+			keys.sort()
+			return keys
+		if signature.call(worn) != signature.call(wanted.values()):
+			for state in worn:
+				fighter.states.erase(state)
+			fighter.states.append_array(wanted.values())
+			events.append(_states_event(fighter))
+
+
+## % de dégâts du passif « Saint Paratonnerre » (5 + rang + 1) pour qui est dans l'aura ou sur un arc d'un Paladin allié.
+func paladin_bonus(fighter: Fighter) -> int:
+	var best := 0
+	for paladin in fighters:
+		var rank := int(paladin.passives.get(PALADIN_PASSIVE, 0))
+		if rank <= 0 or paladin.team != fighter.team or not paladin.is_alive():
+			continue
+		var aura := aura_of(paladin)
+		if (not aura.is_empty() and in_aura(aura, fighter)) or arcs(paladin).any(func(arc: Dictionary) -> bool:
+				return fighter.cell in arc["cases"] and arc["ombres"] == fighter.shadow):
+			best = maxi(best, 5 + rank)
+	return best
+
+
+## Balise (de la dimension en cours) sur `cell` ; vide s'il n'y en a pas.
+func beacon_at(cell: Vector2i) -> Dictionary:
+	for beacon in beacons:
+		if beacon_cell(beacon) == cell and beacon["ombres"] == dimension:
+			return beacon
+	return {}
+
+
+func beacon_cell(beacon: Dictionary) -> Vector2i:
+	return get_fighter(beacon["porteur"]).cell if beacon["porteur"] != "" else beacon["case"]
+
+
+func max_beacons(fighter: Fighter) -> int:
+	return MAX_BEACONS + int(int(fighter.passives.get(PALADIN_PASSIVE, 0)) >= 6)
+
+
+## Pose une balise (ou fait d'un combattant `carrier` une balise vivante, une seule par Paladin, hors du compte) ; au-delà
+## du nombre permis, la plus ancienne part. Les arcs formés frappent aussitôt.
+func _place_beacon(caster: Fighter, source: String, effect: Dictionary, cell: Vector2i, carrier: String, events: Array[Dictionary]) -> void:
+	var own := beacons.filter(func(beacon: Dictionary) -> bool: return beacon["lanceur"] == caster and (beacon["porteur"] != "") == (carrier != ""))
+	if own.size() >= (1 if carrier != "" else max_beacons(caster)):
+		_break_beacon(own[0], events)
+	var beacon := {"id": _next_ground_id, "lanceur": caster, "equipe": caster.team, "ombres": caster.shadow, "case": cell, "porteur": carrier,
+		"tours": int(effect["duree"]), "effets": effect["effets"], "sort": source}
+	_next_ground_id += 1
+	beacons.append(beacon)
+	events.append({"type": Protocol.EVT_BEACON, "id": beacon["id"], "lanceur": caster.id, "equipe": caster.team, "ombres": caster.shadow, "case": cell,
+		"porteur": carrier})
+	_shock_arcs(caster, events)
+
+
+func _break_beacon(beacon: Dictionary, events: Array[Dictionary]) -> void:
+	beacons.erase(beacon)
+	events.append({"type": Protocol.EVT_BEACON_ENDED, "id": beacon["id"]})
+
+
+## Saut d'éclair : le Paladin et sa balise échangent leurs cases.
+func _swap_with_beacon(fighter: Fighter, beacon: Dictionary, events: Array[Dictionary]) -> void:
+	var from := fighter.cell
+	fighter.cell = beacon["case"]
+	beacon["case"] = from
+	events.append({"type": Protocol.EVT_TELEPORTED, "entite": fighter.id, "depuis": from, "case": fighter.cell})
+	events.append({"type": Protocol.EVT_BEACON, "id": beacon["id"], "lanceur": fighter.id, "equipe": fighter.team, "ombres": beacon["ombres"],
+		"case": from, "porteur": ""})
+	_shock_arcs(fighter, events)
+
+
+## Arcs entre deux balises d'un même Paladin (de `caster` seulement s'il est donné), dans la même dimension, alignées sur une
+## ligne ou une colonne, à `ARC_LENGTH` cases au plus, sans obstacle entre elles : { id, a, b, equipe, ombres, cases (entre
+## les deux) }.
+func arcs(caster: Fighter = null) -> Array[Dictionary]:
+	var points: Array = beacons.filter(func(beacon: Dictionary) -> bool: return caster == null or beacon["lanceur"] == caster).map(
+		func(beacon: Dictionary) -> Dictionary: return beacon.merged({"case": beacon_cell(beacon), "ombres": beacon["ombres"] if beacon["porteur"] == ""
+			else get_fighter(beacon["porteur"]).shadow}, true))
+	var result: Array[Dictionary] = []
+	for link: Dictionary in link_beacons(points, map):
+		result.append(link)
+	return result
+
+
+## Arcs entre des balises { id, lanceur, case, ombres } (partagé avec l'affichage du client).
+static func link_beacons(points: Array, p_map: GameMap) -> Array:
+	var result: Array = []
+	for i in points.size():
+		for j in range(i + 1, points.size()):
+			var a: Dictionary = points[i]
+			var b: Dictionary = points[j]
+			var gap: int = IsoGrid.distance(a["case"], b["case"])
+			if a["lanceur"] != b["lanceur"] or a["ombres"] != b["ombres"] or (a["case"].x != b["case"].x and a["case"].y != b["case"].y) \
+					or gap < 2 or gap > ARC_LENGTH:
+				continue
+			var cells: Array[Vector2i] = []
+			for k in range(1, gap):
+				cells.append(a["case"] + Spell.direction(a["case"], b["case"]) * k)
+			if cells.all(p_map.is_walkable_in_combat):
+				result.append({"id": "%d-%d" % [a["id"], b["id"]], "a": a, "b": b, "equipe": a.get("equipe", 0), "ombres": a["ombres"], "cases": cells})
+	return result
+
+
+## Cases des arcs ennemis de `fighter` (dans sa dimension), case → true.
+func arc_cells(fighter: Fighter) -> Dictionary:
+	var cells := {}
+	for arc in arcs() if not beacons.is_empty() else []:
+		if arc["equipe"] != fighter.team and arc["ombres"] == fighter.shadow:
+			for cell: Vector2i in arc["cases"]:
+				cells[cell] = true
+	return cells
+
+
+## Arcs de `fighter` que traverse la ligne d'un sort « projectile » vers `target` (`MAX_ARCS_CROSSED` au plus).
+func arcs_crossed(fighter: Fighter, spell: Spell, target: Vector2i) -> int:
+	if not spell.projectile or beacons.is_empty():
+		return 0
+	var line: Array[Vector2i] = []
+	LineOfSight.is_clear(fighter.cell, target, func(cell: Vector2i) -> bool:
+		line.append(cell)
+		return false)
+	return mini(MAX_ARCS_CROSSED, arcs(fighter).filter(func(arc: Dictionary) -> bool:
+		return arc["ombres"] == fighter.shadow and line.any(func(cell: Vector2i) -> bool: return cell in arc["cases"])).size())
+
+
+## `fighter` passe par `cells` : il casse les balises ennemies où il entre et prend les coups des arcs ennemis.
+func _enter_cells(fighter: Fighter, cells: Array[Vector2i], events: Array[Dictionary]) -> void:
+	for cell in cells if not beacons.is_empty() else []:
+		var beacon := beacon_at(cell)
+		if not beacon.is_empty() and beacon["equipe"] != fighter.team and beacon["porteur"] == "" and beacon["ombres"] == fighter.shadow:
+			_break_beacon(beacon, events)
+		for arc in arcs():
+			if fighter.is_alive() and arc["equipe"] != fighter.team and arc["ombres"] == fighter.shadow and cell in arc["cases"]:
+				_shock(arc["a"], fighter, 100, events, arc["id"])
+
+
+## Les arcs de `caster` frappent les ennemis qui s'y trouvent (une fois par arc et par tour).
+func _shock_arcs(caster: Fighter, events: Array[Dictionary]) -> void:
+	for arc in arcs(caster):
+		for enemy in fighters:
+			if enemy.is_alive() and enemy.team != caster.team and enemy.shadow == arc["ombres"] and enemy.cell in arc["cases"]:
+				_shock(arc["a"], enemy, 100, events, arc["id"])
+
+
+## Surtension : les ennemis sur un arc de la balise ou à son contact subissent ses effets × `percent` %.
+func _surge(caster: Fighter, beacon: Dictionary, percent: int, events: Array[Dictionary]) -> void:
+	var cell := beacon_cell(beacon)
+	var cells := Spell.circle_cells(cell, 1)
+	for arc in arcs(caster):
+		if arc["a"]["id"] == beacon["id"] or arc["b"]["id"] == beacon["id"]:
+			cells.append_array(arc["cases"])
+	for enemy in fighters.duplicate():
+		if enemy.is_alive() and enemy.team != caster.team and enemy.shadow == beacon["ombres"] and enemy.cell in cells:
+			_shock(beacon, enemy, percent, events)
+
+
+## Effets d'une balise sur `victim` (× `percent` %) ; `arc_id` : une seule fois par arc et par tour.
+func _shock(beacon: Dictionary, victim: Fighter, percent: int, events: Array[Dictionary], arc_id := "") -> void:
+	var key := "%s:%s" % [arc_id, victim.id]
+	if not arc_id.is_empty() and _arc_hits.has(key):
+		return
+	_arc_hits[key] = true
+	var caster: Fighter = beacon["lanceur"]
+	var outer := _credit
+	_open_credit(caster, 1.0)
+	var effects: Array[Dictionary] = []
+	effects.assign(beacon["effets"])
+	for effect in Spell._scaled_effects(effects, percent):
+		if victim.is_alive() and Spell.affects(effect, caster, victim):
+			_apply_effect(caster, victim, effect, events, false, victim.cell, beacon["sort"])
+	_close_credit()
+	_credit = outer
+
+
 func _play_ai_turn(fighter: Fighter, events: Array[Dictionary]) -> void:
 	var has_moved := false
 	for i in MAX_AI_ACTIONS:
@@ -1792,6 +2097,8 @@ func snapshot(team := Fighter.TEAM_PLAYERS) -> Dictionary:
 		"glyphes": ground,
 		"pieges": own_traps,
 		"images": own_images,
+		"auras": auras.map(func(aura: Dictionary) -> Dictionary: return _ground_snapshot(aura)),
+		"balises": beacons.map(func(beacon: Dictionary) -> Dictionary: return _ground_snapshot(beacon)),
 		"braises": [0, 1].map(func(side: int) -> Array: return embers[side].keys().map(func(cell: Vector2i) -> Dictionary:
 			return embers[side][cell].merged({"case": cell}))),
 		"prochain_sol": _next_ground_id,
@@ -1853,11 +2160,11 @@ static func from_snapshot(saved: Dictionary, p_map: GameMap, p_data: GameData, c
 	for side in 2:
 		for ember: Dictionary in saved.get("braises", [[], []])[side]:
 			combat.embers[side][ember["case"]] = ember
-	for kind: String in ["glyphes", "pieges", "images"]:
+	var grounds := {"glyphes": combat.glyphs, "pieges": combat.traps, "images": combat.images, "auras": combat.auras, "balises": combat.beacons}
+	for kind: String in grounds:
 		for ground: Dictionary in saved.get(kind, []):
 			var copy := ground.duplicate(true)
 			copy["lanceur"] = combat.get_fighter(ground["lanceur"])
-			if copy["lanceur"] == null:
-				continue
-			(combat.glyphs if kind == "glyphes" else combat.traps if kind == "pieges" else combat.images).append(copy)
+			if copy["lanceur"] != null:
+				grounds[kind].append(copy)
 	return combat

@@ -1505,6 +1505,16 @@
         "ceinture": "1a1a1a"
       },
       "arme": "baton"
+    },
+    "paladin": {
+      "couleurs": {
+        "tunique": "eef1f6",
+        "manches": "3a6ad4",
+        "pantalon": "c9a04e",
+        "bottes": "5a4a3a",
+        "ceinture": "d4af37"
+      },
+      "arme": "epee"
     }
   },
   "races": {
