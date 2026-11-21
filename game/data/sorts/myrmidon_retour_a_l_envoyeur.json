@@ -1,0 +1,31 @@
+{
+  "id": "myrmidon_retour_a_l_envoyeur",
+  "nom": "Retour à l'envoyeur",
+  "description": "Rend tous les coups encaissés d'un seul : +20 % de dégâts par cran de Blindage, qui sont tous dépensés.",
+  "cout_pa": 4,
+  "portee": {
+    "min": 1,
+    "max": 1
+  },
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "acier",
+      "min": 10,
+      "max": 13,
+      "cibles": "ennemis",
+      "par_blindage": 20
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "critique": 5
+    },
+    "5": {
+      "portee_max": 1
+    }
+  }
+}

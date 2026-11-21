@@ -1515,6 +1515,16 @@
         "ceinture": "d4af37"
       },
       "arme": "epee"
+    },
+    "myrmidon": {
+      "couleurs": {
+        "tunique": "7d8794",
+        "manches": "3a4a5a",
+        "pantalon": "2a2e36",
+        "bottes": "1e2228",
+        "ceinture": "8fd0ec"
+      },
+      "arme": "epee"
     }
   },
   "races": {

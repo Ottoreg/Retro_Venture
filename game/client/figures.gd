@@ -18,6 +18,7 @@ const VOIE_LOOKS := {
 	"ombre": {"cape": Color("1e1e24"), "coiffe": Color("c9ccd6"), "forme": "capuche"},
 	"demoniste": {"cape": Color("d8641c"), "coiffe": Color("1a1a1a"), "forme": "pointu"},
 	"paladin": {"cape": Color("eef1f6"), "coiffe": Color("d4af37"), "forme": "capuche"},
+	"myrmidon": {"cape": Color("7d8794"), "coiffe": Color("8fd0ec"), "forme": "pointu"},
 }
 const DEFAULT_LOOK := {"cape": Color("2f5d8a"), "coiffe": Color("8a3b2f"), "forme": "pointu"}
 const RACE_SKINS := {"humain": Color("f0c8a0"), "elfe": Color("f3dcc4"), "gobelin": Color("6f9a3e")}

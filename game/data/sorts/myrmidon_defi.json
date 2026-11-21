@@ -1,0 +1,36 @@
+{
+  "id": "myrmidon_defi",
+  "nom": "Défi",
+  "description": "« C'est à moi qu'il faut parler ! » Attire l'ennemi de 2 cases et le provoque 2 tours (son IA le vise ; −20 % de dégâts contre tout autre que le Myrmidon).",
+  "cout_pa": 2,
+  "portee": {
+    "min": 1,
+    "max": 5
+  },
+  "relance": {
+    "par_tour": 1,
+    "delai": 2
+  },
+  "effets": [
+    {
+      "type": "attirance",
+      "min": 2,
+      "max": 2,
+      "cibles": "ennemis"
+    },
+    {
+      "type": "etat",
+      "etat": "provoque",
+      "duree": 2,
+      "cibles": "ennemis"
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "portee_max": 1
+    },
+    "5": {
+      "delai": 1
+    }
+  }
+}

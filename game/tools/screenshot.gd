@@ -53,6 +53,8 @@ func _initialize() -> void:
 		Session.new_character = Character.create("Belzébuth", "orc", "demoniste")
 	if _action.begins_with("paladin_"):
 		Session.new_character = Character.create("Lancelune", "humain", "paladin")
+	if _action.begins_with("myrmidon_"):
+		Session.new_character = Character.create("Achille", "nain", "myrmidon")
 	if _action == "horloge" or _action == "sorts_chronomancien":
 		Session.new_character = Character.create("Pendulette", "elfe", "chronomancien")
 		if _action == "sorts_chronomancien":
@@ -457,7 +459,7 @@ func _process(_delta: float) -> bool:
 				_scene.pause_menu.options.controls()["admin"].pressed.emit()
 				_scene.pause_menu.options.admin._send("activer", {"mdp": World.ADMIN_PASSWORD})
 		else:
-			var target: Vector2i = view.server.groups()[0]["case"] if _action in ["combat", "cible", "sermon", "prevision", "phase", "tactique", "historique", "arcaniste", "composition", "infobulle", "horloge"] or _action.begins_with("ombre_") or _action.begins_with("demoniste_") or _action.begins_with("paladin_") else view.current_map().travel_stone()
+			var target: Vector2i = view.server.groups()[0]["case"] if _action in ["combat", "cible", "sermon", "prevision", "phase", "tactique", "historique", "arcaniste", "composition", "infobulle", "horloge"] or _action.begins_with("ombre_") or _action.begins_with("demoniste_") or _action.begins_with("paladin_") or _action.begins_with("myrmidon_") else view.current_map().travel_stone()
 			if _action.begins_with("ombre_"):  # Une dague, pour sa case à part dans la barre de sorts.
 				var inventory := view.server.character.inventory
 				inventory.equip(inventory.add(view.server.data.items["forge_dague"], 1, {}), "arme")
@@ -473,7 +475,7 @@ func _process(_delta: float) -> bool:
 					break
 				view.advance(0.3)
 			if _action in ["cible", "sermon", "prevision", "phase", "tactique", "historique", "arcaniste", "composition", "infobulle",
-					"horloge"] or (_action.begins_with("ombre_") or _action.begins_with("demoniste_") or _action.begins_with("paladin_")) and view.server.combat != null:
+					"horloge"] or (_action.begins_with("ombre_") or _action.begins_with("demoniste_") or _action.begins_with("paladin_") or _action.begins_with("myrmidon_")) and view.server.combat != null:
 				# Placement validé, puis survol du premier monstre.
 				view.request_start_fight()
 				for i in 200:
@@ -580,6 +582,24 @@ func _process(_delta: float) -> bool:
 					view._actors[foe.id]["pos"] = Vector2(foe.cell)
 					var casts: Array = [["paladin_aura_de_bravoure", hero.cell]] if _action == "paladin_aura" else \
 						[["paladin_balise", hero.cell + ahead * 2 + side * 2], ["paladin_balise", hero.cell + ahead * 2 - side * 2]]
+				if _action.begins_with("myrmidon_"):
+					# Myrmidon : « myrmidon_combat » (Serrer les rangs, Gelures et Défi sur un monstre amené à 4 cases, puis un arbre ou
+					# un rocher démoli et de l'eau gelée près de lui s'il y en a), le monstre survolé.
+					var combat: Combat = view.server.combat
+					var hero := combat.get_fighter(World.PLAYER_ID)
+					var foe := combat.enemies_of(hero)[0]
+					foe.cell = hero.cell + Spell.direction(hero.cell, foe.cell) * 4
+					hero.pa = 30
+					view.refresh_state()
+					view._actors[foe.id]["pos"] = Vector2(foe.cell)
+					var casts := [["myrmidon_serrer_les_rangs", hero.cell], ["myrmidon_morsure_du_froid", foe.cell], ["myrmidon_entrave", foe.cell],
+						["myrmidon_defi", foe.cell]]
+					var changes: Array[Dictionary] = []
+					for cell in Spell.circle_cells(hero.cell, 20):  # Pour l'image : l'eau gelée et les rochers proches démolis.
+						if combat.freezable(cell) or (combat.demolishable(cell) and IsoGrid.distance(hero.cell, cell) <= 4):
+							combat._change_terrain(hero, cell, changes)
+					for change in changes:
+						view._terrain[change["case"]] = change["etat"]
 					for cast: Array in casts:
 						view.select_spell(cast[0])
 						view._on_click(cast[1])
@@ -588,6 +608,10 @@ func _process(_delta: float) -> bool:
 						view.select_spell("paladin_etincelle")
 						view._refresh_overlays()
 						view._set_hovered(foe.cell)
+					view.refresh_state()
+					for change in changes:
+						view._terrain[change["case"]] = change["etat"]
+					view._set_hovered(foe.cell)
 				if _action in ["sermon", "prevision"]:
 					# Sermon choisi, case visée à 2 cases devant le Théologue, vers les monstres ;
 					# « prevision » : un monstre amené dans la zone (dégâts prévus au-dessus de lui).

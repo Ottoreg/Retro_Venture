@@ -19,7 +19,7 @@ func test_ecran_de_creation() -> void:
 	assert_true(scene._race_text.text.contains("Givre"), "passif de la variante")
 	scene._select_race("nain")
 	assert_eq(scene._side_previews[0].look["planche"], "sprites/humain_guerrier.png", "race précédente affichée à gauche")
-	assert_eq(scene._voie_buttons.size(), 8, "Guerrier, Rôdeur, Arcaniste, Théologue, Chronomancien, Ombre, Démoniste, Paladin")
+	assert_eq(scene._voie_buttons.size(), 9, "Guerrier, Rôdeur, Arcaniste, Théologue, Chronomancien, Ombre, Démoniste, Paladin, Myrmidon")
 	scene._name_edit.text = "A"
 	assert_true(scene.validation_error() != "", "nom trop court refusé")
 	scene._name_edit.text = "Elara"

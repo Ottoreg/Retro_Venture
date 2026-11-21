@@ -1,0 +1,151 @@
+{
+  "images": {
+    "sort_myrmidon_serrer_les_rangs": {
+      "fichier": "sorts/myrmidon_serrer_les_rangs.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_myrmidon_coup_de_bouclier": {
+      "fichier": "sorts/myrmidon_coup_de_bouclier.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_myrmidon_bouclier_lance": {
+      "fichier": "sorts/myrmidon_bouclier_lance.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_myrmidon_ecrasement": {
+      "fichier": "sorts/myrmidon_ecrasement.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_myrmidon_retour_a_l_envoyeur": {
+      "fichier": "sorts/myrmidon_retour_a_l_envoyeur.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_myrmidon_coup_d_epaule": {
+      "fichier": "sorts/myrmidon_coup_d_epaule.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_myrmidon_demolition": {
+      "fichier": "sorts/myrmidon_demolition.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_myrmidon_belier": {
+      "fichier": "sorts/myrmidon_belier.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_myrmidon_peau_de_fer": {
+      "fichier": "sorts/myrmidon_peau_de_fer.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_myrmidon_garde": {
+      "fichier": "sorts/myrmidon_garde.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_myrmidon_morsure_du_froid": {
+      "fichier": "sorts/myrmidon_morsure_du_froid.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_myrmidon_coup_glace": {
+      "fichier": "sorts/myrmidon_coup_glace.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_myrmidon_souffle_hivernal": {
+      "fichier": "sorts/myrmidon_souffle_hivernal.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_myrmidon_avalanche": {
+      "fichier": "sorts/myrmidon_avalanche.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_myrmidon_bris_de_glace": {
+      "fichier": "sorts/myrmidon_bris_de_glace.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_myrmidon_entrave": {
+      "fichier": "sorts/myrmidon_entrave.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_myrmidon_coup_sur_le_casque": {
+      "fichier": "sorts/myrmidon_coup_sur_le_casque.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_myrmidon_glissade": {
+      "fichier": "sorts/myrmidon_glissade.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_myrmidon_carapace_de_glace": {
+      "fichier": "sorts/myrmidon_carapace_de_glace.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_myrmidon_defi": {
+      "fichier": "sorts/myrmidon_defi.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_myrmidon_point_de_mire": {
+      "fichier": "sorts/myrmidon_point_de_mire.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    }
+  }
+}

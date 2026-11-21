@@ -1,0 +1,31 @@
+{
+  "id": "myrmidon_bris_de_glace",
+  "nom": "Bris de glace",
+  "description": "Fait voler la glace en éclats : +25 % de dégâts par Gelure de la cible, qui tombent toutes.",
+  "cout_pa": 4,
+  "portee": {
+    "min": 1,
+    "max": 1
+  },
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "givre",
+      "min": 9,
+      "max": 12,
+      "cibles": "ennemis",
+      "par_gelure": 25
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "critique": 5
+    },
+    "5": {
+      "portee_max": 1
+    }
+  }
+}

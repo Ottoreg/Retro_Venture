@@ -100,7 +100,7 @@ static func evaluate(combat: Combat, fighter: Fighter, spell: Spell, target: Vec
 		return _trap_value(combat, fighter, trap, target, origin)
 	if spell.charges():
 		# Une charge ne vaut que si elle arrive au contact de la cible.
-		var path := combat.charge_path(fighter, target, origin)
+		var path := combat.charge_path(fighter, target, origin, spell.effect_of(Spell.EFFECT_CHARGE))
 		var landing: Vector2i = path[-1] if not path.is_empty() else origin
 		if _fighter_at(combat, fighter, origin, target) == null or IsoGrid.distance(landing, target) != 1:
 			return 0.0
@@ -120,13 +120,14 @@ static func evaluate(combat: Combat, fighter: Fighter, spell: Spell, target: Vec
 					for inner: Dictionary in effect["effets"]:
 						if Spell.affects(inner, fighter, inside):
 							value += _effect_value(combat, fighter, inside, inner) * (1.0 + 0.25 * mini(int(effect["duree"]) - 1, 2))
+	var provoker := combat.provoker_for_ai(fighter)  # Provoqué : il vise le Myrmidon, les autres ne valent presque rien.
 	for cell in spell.zone_cells(target, origin):
 		var hit := _fighter_at(combat, fighter, origin, cell)
 		if hit == null or (spell.excludes_caster and hit == fighter):
 			continue
 		for effect in spell.effects:
 			if effect["type"] not in Spell.GROUND_EFFECTS and Spell.affects(effect, fighter, hit):
-				value += _effect_value(combat, fighter, hit, effect)
+				value += _effect_value(combat, fighter, hit, effect) * (0.1 if provoker != null and hit.team != fighter.team and hit != provoker else 1.0)
 	return value
 
 
@@ -284,6 +285,8 @@ static func _approach(combat: Combat, fighter: Fighter, reachable: Dictionary) -
 	var enemy_cells: Array[Vector2i] = []
 	for enemy in combat.enemies_of(fighter):
 		enemy_cells.append(enemy.cell)
+	if combat.provoker_for_ai(fighter) != null:
+		enemy_cells = [combat.provoker_for_ai(fighter).cell]  # Provoqué : il marche vers le Myrmidon.
 	if enemy_cells.is_empty():
 		enemy_cells = combat.hunt_cells(fighter)
 	var distances := combat.distances_from(enemy_cells, fighter)

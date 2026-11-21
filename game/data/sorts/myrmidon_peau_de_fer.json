@@ -1,0 +1,38 @@
+{
+  "id": "myrmidon_peau_de_fer",
+  "nom": "Peau de fer",
+  "description": "Une peau si dure que les coups rebondissent : 5 de réduction de dégâts pendant 2 tours.",
+  "cout_pa": 2,
+  "portee": {
+    "min": 0,
+    "max": 0
+  },
+  "relance": {
+    "par_tour": 1,
+    "delai": 3
+  },
+  "effets": [
+    {
+      "type": "bonus",
+      "carac": "reduction_degats",
+      "min": 5,
+      "max": 5,
+      "duree": 2
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "delai": 2
+    },
+    "5": {
+      "effets": [
+        {
+          "type": "blindage",
+          "min": 1,
+          "max": 1,
+          "sur_lanceur": true
+        }
+      ]
+    }
+  }
+}

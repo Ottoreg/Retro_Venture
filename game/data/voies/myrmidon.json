@@ -1,0 +1,39 @@
+{
+  "id": "myrmidon",
+  "nom": "Myrmidon",
+  "description": "Myrmidon de la Légion des Boucliers Réglementaires. A juré de ne jamais reculer, surtout parce qu'on ne lui a jamais appris la marche arrière.",
+  "caracteristiques": {
+    "pv": 50,
+    "pa": 6,
+    "pm": 3,
+    "initiative": 100
+  },
+  "sorts": [
+    "myrmidon_serrer_les_rangs",
+    "myrmidon_coup_de_bouclier",
+    "myrmidon_bouclier_lance",
+    "myrmidon_ecrasement",
+    "myrmidon_retour_a_l_envoyeur",
+    "myrmidon_coup_d_epaule",
+    "myrmidon_demolition",
+    "myrmidon_belier",
+    "myrmidon_peau_de_fer",
+    "myrmidon_garde",
+    "myrmidon_morsure_du_froid",
+    "myrmidon_coup_glace",
+    "myrmidon_souffle_hivernal",
+    "myrmidon_avalanche",
+    "myrmidon_bris_de_glace",
+    "myrmidon_entrave",
+    "myrmidon_coup_sur_le_casque",
+    "myrmidon_glissade",
+    "myrmidon_carapace_de_glace",
+    "myrmidon_defi"
+  ],
+  "passif": {
+    "id": "myrmidon_point_de_mire",
+    "nom": "Point de mire",
+    "effet": "point_de_mire",
+    "description": "Débloqué au palier Apprenti. Aura de 2 cases : un ennemi qui y commence son tour est provoqué pendant ce tour (son IA vise le Myrmidon ; −20 % de dégâts, +2 % par rang, contre tout autre que lui ; moitié moins pour un boss, qui reste libre). Rang 3 : aura de 3 cases. Rang 5 : un ennemi provoqué qui le frappe au contact subit un contrecoup de 10 % des dégâts."
+  }
+}

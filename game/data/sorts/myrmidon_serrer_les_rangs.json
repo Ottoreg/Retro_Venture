@@ -1,0 +1,44 @@
+{
+  "id": "myrmidon_serrer_les_rangs",
+  "nom": "Serrer les rangs",
+  "description": "Il serre les dents, le bouclier et les rangs (seul, c'est plus facile) : +2 crans de Blindage, +4 % de résistance à tout par cran.",
+  "cout_pa": 1,
+  "portee": {
+    "min": 0,
+    "max": 0
+  },
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "blindage",
+      "min": 2,
+      "max": 2,
+      "sur_lanceur": true
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "effets": [
+        {
+          "type": "blindage",
+          "min": 1,
+          "max": 1,
+          "sur_lanceur": true
+        }
+      ]
+    },
+    "5": {
+      "effets": [
+        {
+          "type": "bonus",
+          "carac": "reduction_degats",
+          "min": 3,
+          "max": 3,
+          "duree": 2
+        }
+      ]
+    }
+  }
+}

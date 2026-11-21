@@ -468,7 +468,7 @@ static func validate_voie(data: Dictionary, known_spells: Dictionary, known_item
 
 
 ## Effets de passif de classe gérés par le combat (GDD § 4.3 : un par classe, 5 rangs, débloqué à Apprenti).
-const CLASS_PASSIVES := ["coup_en_traitre", "pacte_de_feu", "saint_paratonnerre"]
+const CLASS_PASSIVES := ["coup_en_traitre", "pacte_de_feu", "saint_paratonnerre", "point_de_mire"]
 
 
 ## Passif de la classe s'il est débloqué (palier Apprenti) avec `reputation_value`, sinon vide.
@@ -547,6 +547,7 @@ func create_monster(monster_id: String, fighter_id: String) -> Fighter:
 	for old: String in alone.get("remplace", {}):
 		fighter.alone_spells[old] = spells[alone["remplace"][old]]
 	fighter.alone_message = str(alone.get("message", ""))
+	fighter.boss = bool(data.get("boss", false)) or not data.get("phases", []).is_empty()
 	for phase: Dictionary in data.get("phases", []):
 		var gained: Array[Spell] = []
 		for spell_id: String in phase.get("sorts", []):

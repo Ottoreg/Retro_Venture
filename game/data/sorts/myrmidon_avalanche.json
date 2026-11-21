@@ -1,0 +1,40 @@
+{
+  "id": "myrmidon_avalanche",
+  "nom": "Avalanche",
+  "description": "Toute la neige de la montagne, sur la cible et ses voisins. +1 Gelure.",
+  "cout_pa": 5,
+  "portee": {
+    "min": 1,
+    "max": 1
+  },
+  "zone": {
+    "type": "cercle",
+    "taille": 1
+  },
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "givre",
+      "min": 13,
+      "max": 17,
+      "cibles": "ennemis"
+    },
+    {
+      "type": "gelure",
+      "min": 1,
+      "max": 1,
+      "cibles": "ennemis"
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "critique": 5
+    },
+    "5": {
+      "cout_pa": 4
+    }
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "id": "myrmidon_coup_d_epaule",
+  "nom": "Coup d'épaule",
+  "description": "Un coup d'épaule qui envoie l'ennemi deux cases plus loin, sans s'excuser. +1 cran de Blindage.",
+  "cout_pa": 2,
+  "portee": {
+    "min": 1,
+    "max": 1
+  },
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "acier",
+      "min": 3,
+      "max": 5,
+      "cibles": "ennemis"
+    },
+    {
+      "type": "poussee",
+      "min": 2,
+      "max": 2,
+      "cibles": "ennemis"
+    },
+    {
+      "type": "blindage",
+      "min": 1,
+      "max": 1,
+      "sur_lanceur": true
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "effets": [
+        {
+          "type": "malus",
+          "carac": "pm",
+          "min": 1,
+          "max": 1,
+          "duree": 1,
+          "cibles": "ennemis"
+        }
+      ]
+    },
+    "5": {
+      "cout_pa": 1
+    }
+  }
+}

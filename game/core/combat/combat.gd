@@ -78,6 +78,17 @@ const MAX_BEACONS := 3
 const ARC_LENGTH := 6
 const ARC_BONUS := 25
 const MAX_ARCS_CROSSED := 2
+## Myrmidon (GDD § 4.3) : terrain changé pendant le combat (case → { etat : « demoli » ou « gel », tours, lanceur }) ; obstacles
+## qu'on démolit ; tours (du lanceur) de l'eau gelée ; Gelures qui gèlent ; tours des crans ; malus de la provocation (%) ;
+## contrecoup du rang 5 de « Point de mire » (% des dégâts subis) ; ennemis déjà assommés (une fois par combat).
+var terrain := {}
+const DEMOLISHABLE := ["arbre", "rocher"]
+const FREEZE_TURNS := 3
+const FROST_MAX := 3
+const STACK_TURNS := 3
+const PROVOKE_MALUS := 20
+const COUNTER_BLOW := 10
+var _stunned := {}
 
 ## Temps limité (en ligne, GDD § 7.2) : secondes d'un tour de joueur, et du placement ; 0 : illimité
 ## (solo). Le temps passe par `advance`.
@@ -283,8 +294,22 @@ func execute(command: Dictionary) -> Array[Dictionary]:
 
 # --- Règles consultables par le client et l'IA -----------------------------------------------
 
+## Case praticable en combat : sans obstacle, ou démolie, ou d'eau gelée.
+func walkable(cell: Vector2i) -> bool:
+	return map.is_inside(cell) and (not map.obstacles.has(cell) or terrain.has(cell))
+
+
+## Arbre ou rocher pas encore démoli (Myrmidon) ; eau qu'on peut geler (pas un coin de pêche).
+func demolishable(cell: Vector2i) -> bool:
+	return map.obstacles.get(cell, "") in DEMOLISHABLE and not terrain.has(cell)
+
+
+func freezable(cell: Vector2i) -> bool:
+	return map.obstacles.get(cell, "") == "eau" and not map.resource_nodes.has(cell) and not terrain.has(cell)
+
+
 func is_free(cell: Vector2i) -> bool:
-	return map.is_walkable_in_combat(cell) and fighter_at(cell) == null
+	return walkable(cell) and fighter_at(cell) == null
 
 
 ## Cases atteignables avec les PM du combattant (ou `pm` s'il est donné), et le chemin pour chacune
@@ -335,7 +360,7 @@ func distances_from(sources: Array[Vector2i], ignored: Fighter = null) -> Dictio
 		var next_frontier: Array[Vector2i] = []
 		for cell in frontier:
 			for neighbor in IsoGrid.neighbors_4(cell):
-				if distances.has(neighbor) or not map.is_walkable_in_combat(neighbor):
+				if distances.has(neighbor) or not walkable(neighbor):
 					continue
 				var occupant := fighter_at(neighbor)
 				if occupant != null and occupant != ignored:
@@ -377,14 +402,18 @@ func created_spell_for(fighter: Fighter, spell: Spell) -> Spell:
 ## Cases parcourues par une charge de `fighter` vers `target` depuis `origin` : en ligne droite, tant
 ## que la case suivante est libre, jusqu'au contact d'un combattant sur la case visée (ou jusqu'à la
 ## case visée si elle est libre). Un piège ennemi arrête la charge sur sa case.
-func charge_path(fighter: Fighter, target: Vector2i, origin := Vector2i(-99999, -99999)) -> Array[Vector2i]:
+## Bélier (« demolit ») : passe le premier arbre ou rocher du chemin ; Glissade (« gele ») : passe sur l'eau.
+func charge_path(fighter: Fighter, target: Vector2i, origin := Vector2i(-99999, -99999), charge := {}) -> Array[Vector2i]:
 	var cell := fighter.cell if origin == Vector2i(-99999, -99999) else origin
 	var step := Spell.direction(cell, target)
 	var path: Array[Vector2i] = []
+	var broke := false
 	while cell != target:
 		var next := cell + step
 		var occupant := fighter_at(next)
-		if not map.is_inside(next) or not map.is_walkable_in_combat(next) or (occupant != null and occupant != fighter):
+		var breaks: bool = not broke and charge.get("demolit", false) and demolishable(next)
+		broke = broke or breaks
+		if not (walkable(next) or breaks or (charge.get("gele", false) and freezable(next))) or (occupant != null and occupant != fighter):
 			break
 		cell = next
 		path.append(cell)
@@ -512,7 +541,7 @@ func _move(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 		return _refused(command, Protocol.REASON_INVALID_COMMAND)
 	if not map.is_inside(target):
 		return _refused(command, Protocol.REASON_OUT_OF_MAP)
-	if not map.is_walkable_in_combat(target):
+	if not walkable(target):
 		return _refused(command, Protocol.REASON_BLOCKED)
 	if target == fighter.cell:
 		return _refused(command, Protocol.REASON_ALREADY_THERE)
@@ -599,7 +628,7 @@ func _cast(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 		blocker = Protocol.REASON_OCCUPIED if fighter_at(target) != null else Protocol.REASON_BLOCKED
 	var trap_effect := spell.trap_effect()
 	if blocker.is_empty() and not trap_effect.is_empty() and (not is_free(target) or not trap_at(target).is_empty()):
-		blocker = Protocol.REASON_BLOCKED if not map.is_walkable_in_combat(target) else Protocol.REASON_OCCUPIED
+		blocker = Protocol.REASON_BLOCKED if not walkable(target) else Protocol.REASON_OCCUPIED
 	if blocker.is_empty() and spell.places_clock() and fighter_at(target) != null \
 			and fighter_at(target).has_state(Spell.STATE_TIME_MANIPULATION):
 		blocker = Protocol.REASON_ALREADY_MANIPULATED
@@ -621,6 +650,8 @@ func _cast(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 		blocker = Protocol.REASON_NOT_SERVANT
 	if blocker.is_empty() and not spell.effect_of(Spell.EFFECT_ASHES).is_empty() and _heat_of(spell.zone_cells(target, fighter.cell)) == 0:
 		blocker = Protocol.REASON_NO_EMBERS
+	if blocker.is_empty() and not spell.effect_of(Spell.EFFECT_DEMOLISH).is_empty() and not demolishable(target):
+		blocker = Protocol.REASON_NOT_DEMOLISHABLE
 	if blocker.is_empty() and not spell.create_effect().is_empty() and created_spell_for(fighter, spell) == null:
 		blocker = Protocol.REASON_NO_COMBINATION
 	if blocker.is_empty() and not spell.effect_of(Spell.EFFECT_BEACON).is_empty() and (not is_free(target) or not beacon_at(target).is_empty()):
@@ -675,8 +706,11 @@ func _cast(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 	# Charge : les effets ne touchent la cible que si le lanceur arrive à son contact.
 	var reached := true
 	if spell.charges():
-		var path := charge_path(fighter, target)
+		var path := charge_path(fighter, target, fighter.cell, spell.effect_of(Spell.EFFECT_CHARGE))
 		var from := fighter.cell
+		for cell in path:
+			if demolishable(cell) or freezable(cell):
+				_change_terrain(fighter, cell, events)
 		if not path.is_empty():
 			fighter.cell = path[-1]
 		reached = fighter_at(target) != null and IsoGrid.distance(fighter.cell, target) == 1
@@ -713,6 +747,11 @@ func _cast(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 			_place_beacon(fighter, spell.display_name, effect, target, "", events)
 		elif effect["type"] == Spell.EFFECT_BEACON_SWAP:
 			_swap_with_beacon(fighter, beacon_at(target), events)
+		elif effect["type"] == Spell.EFFECT_DEMOLISH:
+			_change_terrain(fighter, target, events)
+		elif effect["type"] == Spell.EFFECT_FREEZE:
+			for cell in zone.filter(freezable):
+				_change_terrain(fighter, cell, events)
 	var elements := {}
 	for effect in cast_effects:
 		if effect["type"] in [Spell.EFFECT_DAMAGE, Spell.EFFECT_HEAL, Spell.EFFECT_POISON, Spell.EFFECT_BOUNCE, Spell.EFFECT_SACRIFICE]:
@@ -735,7 +774,7 @@ func _cast(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 			elif hit.is_alive() and effect["type"] not in [Spell.EFFECT_TELEPORT, Spell.EFFECT_GLYPH, Spell.EFFECT_TRAP,
 					Spell.EFFECT_CHARGE, Spell.EFFECT_CREATE_SPELL, Spell.EFFECT_COMPOSE_STATES, Spell.EFFECT_IMAGE,
 					Spell.EFFECT_DETONATE, Spell.EFFECT_BEHIND, Spell.EFFECT_SUMMON, Spell.EFFECT_AURA, Spell.EFFECT_BEACON, Spell.EFFECT_SURGE,
-					Spell.EFFECT_BEACON_SWAP] and not effect.get("sur_lanceur", false) \
+					Spell.EFFECT_BEACON_SWAP, Spell.EFFECT_DEMOLISH, Spell.EFFECT_FREEZE] and not effect.get("sur_lanceur", false) \
 					and Spell.affects(effect, fighter, hit) and not (effect.get("premier_lancer", false) and fighter.cast_count(spell) > 1) \
 					and not (effect.get("sur_arc", false) and not arc_cells(hit).has(hit.cell)):
 				_apply_effect(fighter, hit, effect, events, critical, origin, spell.display_name)
@@ -751,6 +790,9 @@ func _cast(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 			var hit_beacon := beacon_at(cell)
 			if not hit_beacon.is_empty() and hit_beacon["equipe"] != fighter.team and hit_beacon["porteur"] == "":
 				_break_beacon(hit_beacon, events)
+	if cast_effects.any(func(effect: Dictionary) -> bool: return effect.has("par_blindage")) and fighter.stacks(Spell.EFFECT_ARMOR) > 0:
+		fighter.states.assign(fighter.states.filter(func(state: Dictionary) -> bool: return state["type"] != Spell.EFFECT_ARMOR))
+		events.append(_states_event(fighter))  # Retour à l'envoyeur : les crans de Blindage sont dépensés.
 	_close_credit()
 	_ignite(fighter, zone, -CALCINED if not spell.effect_of(Spell.EFFECT_ASHES).is_empty() else int(spell.calcined.get("embrase", spell.ignites))
 		if ember_level(target) == CALCINED else spell.ignites, events)
@@ -852,10 +894,23 @@ func _apply_effect(caster: Fighter, target: Fighter, effect: Dictionary, events:
 			events.append({"type": Protocol.EVT_STATUS, "entite": target.id, "effet": Spell.EFFECT_REMOVE_PM, "valeur": amount, "pa": target.pa, "pm": target.pm})
 		Spell.EFFECT_DAMAGE:
 			var hp_before := target.hp
-			var dealt := damage_value(caster, target, effect["element"], roundi(amount * (100 + damage_bonus(caster, target, effect)) / 100.0))
+			var base := roundi(amount * (100 + damage_bonus(caster, target, effect)) / 100.0)
+			var guardian := guardian_of(target)
+			if guardian != null:  # Garde : la moitié des dégâts va au Myrmidon, avec ses résistances.
+				_hurt(guardian, damage_value(caster, guardian, effect["element"], base / 2), effect["element"], events, "Garde")
+				base -= base / 2
+			var dealt := damage_value(caster, target, effect["element"], base)
 			var suffered := _hurt(target, dealt, effect["element"], events)
 			_devastate(caster, target, dealt, hp_before - target.hp, events)
 			_thorns(caster, target, dealt, suffered, events)
+			if effect.has("par_gelure") and target.stacks(Spell.EFFECT_FROSTBITE) > 0:  # Bris de glace : les Gelures partent.
+				target.states.assign(target.states.filter(func(state: Dictionary) -> bool: return state["type"] != Spell.EFFECT_FROSTBITE))
+				events.append(_states_event(target))
+			var melee := caster.is_alive() and caster.team != target.team and IsoGrid.distance(caster.cell, target.cell) == 1
+			if melee and target.has_state(Spell.STATE_ICE_SHELL):
+				_stack(target, caster, Spell.EFFECT_FROSTBITE, 1, FROST_MAX, target.named_state(Spell.STATE_ICE_SHELL)["sort"], events)
+			if melee and suffered > 0 and int(target.passives.get("point_de_mire", 0)) > 5 and provoker_id(caster) == target.id:
+				_hurt(caster, maxi(1, roundi(suffered * COUNTER_BLOW / 100.0)), "", events, "Contrecoup")
 			var stolen := mini(hp_before - target.hp, caster.max_hp - caster.hp)
 			if effect.get("vol", false) and caster.is_alive() and stolen > 0 and not caster.has_state(Spell.STATE_UNHEALABLE):
 				caster.hp += stolen  # Vol de vie : le lanceur reprend les PV qu'il a fait perdre.
@@ -914,6 +969,17 @@ func _apply_effect(caster: Fighter, target: Fighter, effect: Dictionary, events:
 				poison["pa"] = float(_credit["pa"]) / maxi(1, int(effect["duree"]))  # Pratique : à chaque tour qui blesse.
 				_credit["utile"] = true
 			_add_state(target, poison, events)
+		Spell.EFFECT_ARMOR, Spell.EFFECT_FROSTBITE:
+			_stack(caster, target, effect["type"], amount, Fighter.ARMOR_MAX if effect["type"] == Spell.EFFECT_ARMOR else FROST_MAX, source, events)
+		Spell.EFFECT_STATE when effect["etat"] == Spell.STATE_PROVOKED:
+			_provoke(caster, target, int(effect["duree"]), source, events)
+		Spell.EFFECT_STATE when effect["etat"] == Spell.STATE_STUNNED:
+			if _stunned.has(target.id):
+				return
+			_stunned[target.id] = true  # Une fois par cible et par combat ; un boss perd 3 PA à la place.
+			_add_state(target, {"type": Spell.EFFECT_MALUS, "carac": "pa", "valeur": 3, "tours": 1, "sort": source, "lanceur": caster.id,
+				"retirable": removable} if target.boss else {"type": Spell.EFFECT_STATE, "etat": Spell.STATE_STUNNED, "valeur": 0, "tours": 1,
+				"sort": source, "lanceur": caster.id, "retirable": removable}, events)
 		Spell.EFFECT_STATE:
 			_add_state(target, {"type": Spell.EFFECT_STATE, "etat": effect["etat"], "valeur": 0, "tours": effect["duree"],
 				"sort": source, "lanceur": caster.id, "retirable": removable}, events)
@@ -949,7 +1015,10 @@ func _apply_effect(caster: Fighter, target: Fighter, effect: Dictionary, events:
 func damage_bonus(caster: Fighter, target: Fighter, effect: Dictionary) -> int:
 	var hidden := caster.is_invisible() or caster.ambush > 0
 	var pact := int(caster.passives.get("pacte_de_feu", 0))
+	var provoked := caster.named_state(Spell.STATE_PROVOKED)
 	return (int(effect.get("si_invisible", 0)) if caster.is_invisible() else 0) \
+		+ int(effect.get("par_blindage", 0)) * caster.stacks(Spell.EFFECT_ARMOR) + int(effect.get("par_gelure", 0)) * target.stacks(Spell.EFFECT_FROSTBITE) \
+		- (int(provoked["valeur"]) if not provoker_id(caster).is_empty() and provoker_id(caster) != target.id else 0) \
 		+ int(effect.get("par_serviteur", 0)) * servants_of(caster).size() \
 		+ (5 + pact if pact > 0 and ember_level(target.cell, target.shadow) > 0 else 0) \
 		+ int(effect.get("par_malus", 0)) * target.states.filter(func(state: Dictionary) -> bool: return state["type"] == Spell.EFFECT_MALUS).size() \
@@ -996,7 +1065,7 @@ func spell_preview(fighter: Fighter, spell: Spell, target: Vector2i) -> Dictiona
 	if not targeting_blocker(fighter, spell, target).is_empty():
 		return preview
 	if spell.charges():
-		var path := charge_path(fighter, target)
+		var path := charge_path(fighter, target, fighter.cell, spell.effect_of(Spell.EFFECT_CHARGE))
 		var stop := path[-1] if not path.is_empty() else fighter.cell
 		if fighter_at(target) == null or IsoGrid.distance(stop, target) != 1:
 			return preview
@@ -1210,7 +1279,7 @@ func _push(from: Vector2i, target: Fighter, distance: int, pull: bool, events: A
 func _place_glyph(caster: Fighter, spell: Spell, effect: Dictionary, cells: Array[Vector2i], events: Array[Dictionary]) -> void:
 	var inside: Array[Vector2i] = []
 	for cell in cells:
-		if map.is_inside(cell) and map.is_walkable_in_combat(cell):
+		if map.is_inside(cell) and walkable(cell):
 			inside.append(cell)
 	var glyph := {"id": _next_ground_id, "lanceur": caster, "equipe": caster.team, "ombres": caster.shadow, "cases": inside, "effets": effect["effets"],
 		"tours": int(effect["duree"]), "sort": spell.display_name, "pa": float(spell.pa_cost) / maxi(1, int(effect["duree"]))}
@@ -1320,7 +1389,7 @@ func _place_clock(caster: Fighter, target: Fighter, effect: Dictionary, from: Ve
 	var noon := clock_noon(from, center)
 	var cells: Array[Vector2i] = []
 	for offset in CLOCK_RING:
-		if map.is_inside(center + offset) and map.is_walkable_in_combat(center + offset):
+		if map.is_inside(center + offset) and walkable(center + offset):
 			cells.append(center + offset)
 	var glyph := {"id": _next_ground_id, "lanceur": caster, "equipe": caster.team, "cases": cells, "effets": [],
 		"tours": int(effect["duree"]), "sort": source, "pa": 0.0,
@@ -1355,7 +1424,7 @@ func _clock_arrival(target: Fighter, clock: Dictionary, hour: int, step: int) ->
 		var cell := clock_cell(center, noon, hour)
 		if cell == target.cell:
 			break
-		if map.is_inside(cell) and map.is_walkable_in_combat(cell):
+		if map.is_inside(cell) and walkable(cell):
 			return {"case": cell, "heure": hour}
 		hour = posmod(hour - 1 + step, 12) + 1
 	return {"case": target.cell, "heure": 0}
@@ -1421,6 +1490,12 @@ func _remove_ground_of(fighter: Fighter, events: Array[Dictionary]) -> void:
 ## Début du tour de `fighter` : ses glyphes perdent un tour, puis ses poisons et les glyphes sous
 ## ses pieds agissent.
 func _start_of_turn_effects(fighter: Fighter, events: Array[Dictionary]) -> void:
+	for cell: Vector2i in terrain.keys():
+		if terrain[cell].get("lanceur") == fighter.id:
+			terrain[cell]["tours"] = int(terrain[cell]["tours"]) - 1
+			if int(terrain[cell]["tours"]) <= 0:
+				_thaw(cell, events)
+	_myrmidon_turn_start(fighter, events)
 	for glyph in glyphs.duplicate():
 		if glyph["lanceur"] == fighter:
 			glyph["tours"] = int(glyph["tours"]) - 1
@@ -1465,6 +1540,102 @@ func _start_of_turn_effects(fighter: Fighter, events: Array[Dictionary]) -> void
 		_close_credit()
 
 
+# --- Myrmidon : provocation, Blindage, Gelures, Garde, terrain (GDD § 4.3) --------------------------
+
+## Début du tour de `fighter` : provoqué par le Myrmidon à « Point de mire » le plus proche dont l'aura le touche (2 cases,
+## 3 au rang 3), et ses Gelures lui retirent 1 PM chacune (esquive comprise) ; à `FROST_MAX`, il est gelé (0 PM) et elles tombent.
+func _myrmidon_turn_start(fighter: Fighter, events: Array[Dictionary]) -> void:
+	var aura: Fighter = null
+	for other in fighters:
+		var rank := int(other.passives.get("point_de_mire", 0))
+		if other.is_alive() and rank > 0 and other.team != fighter.team and other.shadow == fighter.shadow and not other.is_invisible() \
+				and IsoGrid.distance(other.cell, fighter.cell) <= (3 if rank > 3 else 2) \
+				and (aura == null or IsoGrid.distance(other.cell, fighter.cell) < IsoGrid.distance(aura.cell, fighter.cell)):
+			aura = other
+	if aura != null and provoker_id(fighter).is_empty():
+		_provoke(aura, fighter, 1, "Point de mire", events)
+	var frost := fighter.stacks(Spell.EFFECT_FROSTBITE)
+	if frost <= 0 or not fighter.is_alive():
+		return
+	if frost >= FROST_MAX:
+		fighter.pm = 0
+		fighter.states.assign(fighter.states.filter(func(state: Dictionary) -> bool: return state["type"] != Spell.EFFECT_FROSTBITE))
+		events.append({"type": Protocol.EVT_STATUS, "entite": fighter.id, "effet": "gele", "valeur": 0, "pa": fighter.pa, "pm": 0})
+		events.append(_states_event(fighter))
+		return
+	var state: Dictionary = fighter.states.filter(func(entry: Dictionary) -> bool: return entry["type"] == Spell.EFFECT_FROSTBITE)[0]
+	var caster := get_fighter(state["lanceur"])
+	var lost := mini(fighter.pm, _landed_removal(caster if caster != null else fighter, fighter, "pm", frost, events))
+	if lost > 0:
+		fighter.pm -= lost
+		events.append({"type": Protocol.EVT_STATUS, "entite": fighter.id, "effet": Spell.EFFECT_REMOVE_PM, "valeur": lost, "pa": fighter.pa, "pm": fighter.pm})
+
+
+## Ajoute `amount` crans (Blindage, Gelures) à `target`, `cap` au plus ; l'état (non retirable) repart pour `STACK_TURNS` tours.
+func _stack(caster: Fighter, target: Fighter, type: String, amount: int, cap: int, source: String, events: Array[Dictionary]) -> void:
+	for state in target.states:
+		if state["type"] == type:
+			state["valeur"] = mini(cap, int(state["valeur"]) + amount)
+			state["tours"] = STACK_TURNS
+			state["lanceur"] = caster.id
+			events.append(_states_event(target))
+			return
+	_add_state(target, {"type": type, "valeur": mini(cap, amount), "tours": STACK_TURNS, "sort": source, "lanceur": caster.id, "retirable": false}, events)
+
+
+## Provoque `target` pendant `turns` tours (remplace une provocation en cours) : malus de `provoke_malus` %.
+func _provoke(provoker: Fighter, target: Fighter, turns: int, source: String, events: Array[Dictionary]) -> void:
+	if target.team == provoker.team:
+		return
+	target.states.assign(target.states.filter(func(state: Dictionary) -> bool: return state.get("etat") != Spell.STATE_PROVOKED))
+	_add_state(target, {"type": Spell.EFFECT_STATE, "etat": Spell.STATE_PROVOKED, "valeur": provoke_malus(provoker, target), "tours": turns,
+		"sort": source, "lanceur": provoker.id, "retirable": true}, events)
+
+
+## Malus de la provocation (%) : `PROVOKE_MALUS`, ou 20 + 2 par rang de « Point de mire » ; moitié moins contre un boss.
+static func provoke_malus(provoker: Fighter, target: Fighter) -> int:
+	var rank := int(provoker.passives.get("point_de_mire", 0))
+	var malus := 18 + 2 * rank if rank > 0 else PROVOKE_MALUS
+	return malus / 2 if target.boss else malus
+
+
+## Id du provocateur vivant de `fighter`, vide s'il n'est pas provoqué.
+func provoker_id(fighter: Fighter) -> String:
+	var state := fighter.named_state(Spell.STATE_PROVOKED)
+	var provoker := get_fighter(str(state.get("lanceur", ""))) if not state.is_empty() else null
+	return provoker.id if provoker != null and provoker.is_alive() else ""
+
+
+## Provocateur que l'IA de `fighter` doit viser (pas pour un boss, ni s'il est caché ou dans l'autre dimension), ou null.
+func provoker_for_ai(fighter: Fighter) -> Fighter:
+	var provoker := get_fighter(provoker_id(fighter))
+	return provoker if provoker != null and not fighter.boss and provoker.shadow == fighter.shadow and not provoker.is_invisible() else null
+
+
+## Myrmidon qui garde `target` (état « garde »), vivant, dans la même dimension, ou null.
+func guardian_of(target: Fighter) -> Fighter:
+	var state := target.named_state(Spell.STATE_GUARDED)
+	var guardian := get_fighter(str(state.get("lanceur", ""))) if not state.is_empty() else null
+	return guardian if guardian != null and guardian != target and guardian.is_alive() and guardian.shadow == target.shadow else null
+
+
+## Démolit l'arbre ou le rocher de `cell`, ou gèle son eau, pour le combat.
+func _change_terrain(caster: Fighter, cell: Vector2i, events: Array[Dictionary]) -> void:
+	var frozen := freezable(cell)
+	terrain[cell] = {"etat": "gel" if frozen else "demoli", "tours": FREEZE_TURNS if frozen else 0, "lanceur": caster.id if frozen else ""}
+	events.append({"type": Protocol.EVT_TERRAIN, "case": cell, "etat": terrain[cell]["etat"]})
+
+
+## L'eau dégèle : qui est dessus va sur la case libre la plus proche.
+func _thaw(cell: Vector2i, events: Array[Dictionary]) -> void:
+	terrain.erase(cell)
+	events.append({"type": Protocol.EVT_TERRAIN, "case": cell, "etat": ""})
+	var standing := fighter_at(cell)
+	if standing != null:
+		standing.cell = _nearest_free(cell)
+		events.append({"type": Protocol.EVT_TELEPORTED, "entite": standing.id, "depuis": cell, "case": standing.cell})
+
+
 # --- Enchaînement des tours ------------------------------------------------------------------
 
 ## Passe la main au combattant suivant ; joue les tours des monstres jusqu'au prochain joueur.
@@ -1493,6 +1664,11 @@ func _next_turn(events: Array[Dictionary]) -> void:
 		_refresh_auras(events)
 		if not fighter.is_alive():
 			_check_end(events)
+			continue
+		if fighter.has_state(Spell.STATE_STUNNED):  # Assommé : il passe ce tour.
+			fighter.states.erase(fighter.named_state(Spell.STATE_STUNNED))
+			events.append(_states_event(fighter))
+			events.append({"type": Protocol.EVT_TURN_ENDED, "entite": fighter.id, "assomme": true})
 			continue
 		if not fighter.is_ai() and not absent.has(fighter.controller()):
 			_elapsed = 0.0
@@ -1635,7 +1811,7 @@ func _on_cross(fighter: Fighter, swapped: bool, events: Array[Dictionary]) -> vo
 
 ## Case libre la plus proche de `cell` dans la dimension en cours (`cell` si aucune).
 func _nearest_free(cell: Vector2i) -> Vector2i:
-	for size in range(1, map.width + map.height):
+	for size in range(1, map.columns * 2 + map.rows):
 		for candidate in Spell.circle_cells(cell, size):
 			if IsoGrid.distance(cell, candidate) == size and map.is_inside(candidate) and is_free(candidate):
 				return candidate
@@ -1688,7 +1864,7 @@ func _ember_variant(spell: Spell, target: Vector2i, zone: Array[Vector2i]) -> Ar
 func _ignite(caster: Fighter, cells: Array[Vector2i], amount: int, events: Array[Dictionary]) -> void:
 	var changed: Array = []
 	for cell in cells if amount != 0 else []:
-		if map.is_inside(cell) and map.is_walkable_in_combat(cell):
+		if map.is_inside(cell) and walkable(cell):
 			var level := clampi(ember_level(cell, caster.shadow) + amount, 0, CALCINED)
 			if level == 0:
 				embers[int(caster.shadow)].erase(cell)
@@ -2046,7 +2222,7 @@ func _sight_blocker(shooter: Fighter) -> Callable:
 
 
 func _blocks_sight(cell: Vector2i, shooter: Fighter, fighters_block: bool) -> bool:
-	if map.obstacles.has(cell) and map.obstacles[cell] not in SEE_THROUGH_OBSTACLES:
+	if map.obstacles.has(cell) and map.obstacles[cell] not in SEE_THROUGH_OBSTACLES and not terrain.has(cell):
 		return true
 	var occupant := fighter_at(cell) if fighters_block else null
 	return occupant != null and occupant != shooter
@@ -2102,6 +2278,7 @@ func snapshot(team := Fighter.TEAM_PLAYERS) -> Dictionary:
 		"braises": [0, 1].map(func(side: int) -> Array: return embers[side].keys().map(func(cell: Vector2i) -> Dictionary:
 			return embers[side][cell].merged({"case": cell}))),
 		"prochain_sol": _next_ground_id,
+		"terrain": terrain.keys().map(func(cell: Vector2i) -> Dictionary: return terrain[cell].merged({"case": cell})),
 		"prets": ready.keys(),
 		"absents": absent.keys(),
 		"temps_restant": time_left(),
@@ -2157,6 +2334,8 @@ static func from_snapshot(saved: Dictionary, p_map: GameMap, p_data: GameData, c
 		var fighter := combat.get_fighter(pair[0])
 		if fighter != null:
 			combat._arrival[fighter] = int(pair[1])
+	for change: Dictionary in saved.get("terrain", []):
+		combat.terrain[change["case"]] = change
 	for side in 2:
 		for ember: Dictionary in saved.get("braises", [[], []])[side]:
 			combat.embers[side][ember["case"]] = ember

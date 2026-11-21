@@ -9,7 +9,7 @@ extends RefCounted
 
 ## Version du protocole, vérifiée à la connexion : à augmenter à chaque changement incompatible
 ## d'une commande ou d'un événement.
-const VERSION := 21
+const VERSION := 22
 
 # --- Commandes (client → noyau) ---
 
@@ -302,6 +302,9 @@ const EVT_AURA_ENDED := "aura_fin"
 ## (combattant qui sert de balise, "" sinon) } ; balise cassée ou partie. { type, id: int }
 const EVT_BEACON := "balise"
 const EVT_BEACON_ENDED := "balise_fin"
+## Myrmidon (GDD § 4.3) : terrain changé pour le combat. { type, case: Vector2i, etat: « demoli » (arbre ou rocher démoli),
+## « gel » (eau gelée, praticable) ou "" (l'eau dégèle) }
+const EVT_TERRAIN := "terrain"
 ## Un monstre change de phase : ses PV sont passés sous un seuil de ses « phases » (une seule fois
 ## par phase). { type, entite: String, message: String } ; ses nouveaux sorts sont déjà appris, les
 ## effets de la phase (sur lui-même) suivent.
@@ -422,7 +425,7 @@ const COMBAT_EVENTS := [EVT_COMBAT_STARTED, EVT_PLACED, EVT_FIGHT_BEGINS, EVT_TU
 	EVT_SPELL_CAST, EVT_DAMAGE, EVT_HEAL, EVT_DIED, EVT_TELEPORTED, EVT_STATUS, EVT_STATES, EVT_ELEMENT_STATES,
 	EVT_SPELL_CREATED, EVT_CHARGED, EVT_PUSHED, EVT_GLYPH, EVT_GLYPH_ENDED, EVT_TRAP, EVT_TRAP_TRIGGERED,
 	EVT_TRAP_ENDED, EVT_PHASE, EVT_COMBAT_ENDED, EVT_FIGHTER_JOINED, EVT_READY, EVT_FIGHTER_AWAY, EVT_IMAGE, EVT_IMAGE_ENDED,
-	EVT_DIMENSION, EVT_SUMMONED, EVT_EMBERS, EVT_AURA, EVT_AURA_ENDED, EVT_BEACON, EVT_BEACON_ENDED]
+	EVT_DIMENSION, EVT_SUMMONED, EVT_EMBERS, EVT_AURA, EVT_AURA_ENDED, EVT_BEACON, EVT_BEACON_ENDED, EVT_TERRAIN]
 
 
 ## Portée d'un événement : SCOPE_MAP, SCOPE_COMBAT ou SCOPE_PERSONAL (tout le reste, et tout
@@ -576,6 +579,8 @@ const REASON_NOT_SERVANT := "pas_un_serviteur"
 const REASON_NO_EMBERS := "aucune_braise"
 ## Paladin : la case visée n'est pas une de ses balises (ou, pour un échange, elle est occupée).
 const REASON_NO_BEACON := "aucune_balise"
+## Myrmidon : rien à démolir sur la case (seulement un arbre ou un rocher).
+const REASON_NOT_DEMOLISHABLE := "rien_a_demolir"
 ## Sort de composition des états sans combinaison (`etats`) qu'il propose.
 const REASON_INVALID_COMPOSITION := "composition_invalide"
 const REASON_OUT_OF_RANGE := "hors_portee"

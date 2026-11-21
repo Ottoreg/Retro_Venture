@@ -1,0 +1,44 @@
+{
+  "id": "myrmidon_carapace_de_glace",
+  "nom": "Carapace de glace",
+  "description": "Une carapace de glace qui absorbe les coups ; qui le frappe au contact y gagne une Gelure.",
+  "cout_pa": 2,
+  "portee": {
+    "min": 0,
+    "max": 0
+  },
+  "relance": {
+    "par_tour": 1,
+    "delai": 1
+  },
+  "effets": [
+    {
+      "type": "bouclier",
+      "element": "givre",
+      "min": 8,
+      "max": 10
+    },
+    {
+      "type": "etat",
+      "etat": "carapace_de_glace",
+      "duree": 2
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "cout_pa": 1
+    },
+    "5": {
+      "effets": [
+        {
+          "type": "bonus",
+          "carac": "resistance",
+          "element": "givre",
+          "min": 10,
+          "max": 10,
+          "duree": 2
+        }
+      ]
+    }
+  }
+}

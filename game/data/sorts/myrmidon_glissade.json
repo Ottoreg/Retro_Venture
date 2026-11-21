@@ -1,0 +1,29 @@
+{
+  "id": "myrmidon_glissade",
+  "nom": "Glissade",
+  "description": "Il glisse en ligne jusqu'au contact, en gelant l'eau sur son chemin (3 tours ; qui est dessus au dégel est mis au sec).",
+  "cout_pa": 3,
+  "portee": {
+    "min": 2,
+    "max": 5
+  },
+  "lancer_en_ligne": true,
+  "relance": {
+    "par_tour": 1,
+    "delai": 2
+  },
+  "effets": [
+    {
+      "type": "charge",
+      "gele": true
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "portee_max": 1
+    },
+    "5": {
+      "delai": 1
+    }
+  }
+}

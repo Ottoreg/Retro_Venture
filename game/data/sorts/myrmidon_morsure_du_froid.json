@@ -1,0 +1,43 @@
+{
+  "id": "myrmidon_morsure_du_froid",
+  "nom": "Morsure du froid",
+  "description": "Un froid qui mord les orteils : +1 Gelure (−1 PM au début de chacun de ses tours ; à 3 Gelures, gelé sur place un tour).",
+  "cout_pa": 2,
+  "portee": {
+    "min": 1,
+    "max": 2
+  },
+  "relance": {
+    "par_tour": 2
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "givre",
+      "min": 4,
+      "max": 6,
+      "cibles": "ennemis"
+    },
+    {
+      "type": "gelure",
+      "min": 1,
+      "max": 1,
+      "cibles": "ennemis"
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "portee_max": 1
+    },
+    "5": {
+      "effets": [
+        {
+          "type": "gelure",
+          "min": 1,
+          "max": 1,
+          "cibles": "ennemis"
+        }
+      ]
+    }
+  }
+}

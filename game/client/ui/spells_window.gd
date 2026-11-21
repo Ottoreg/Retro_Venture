@@ -78,7 +78,8 @@ static func effect_lines(effects: Array, indent := "", state_bonus := Fighter.EL
 		var line := ""
 		match type:
 			Spell.EFFECT_DAMAGE:
-				line = "Dégâts %s : %s" % [element, _range_text(effect)]
+				line = "Dégâts %s : %s%s" % [element, _range_text(effect), " (+%d %% par cran de Blindage, dépensés)" % effect["par_blindage"]
+					if effect.has("par_blindage") else " (+%d %% par Gelure de la cible, qui tombent)" % effect["par_gelure"] if effect.has("par_gelure") else ""]
 			Spell.EFFECT_HEAL:
 				line = "Soin %s : %s" % [element, _range_text(effect)]
 			Spell.EFFECT_SHIELD:
@@ -119,7 +120,17 @@ static func effect_lines(effects: Array, indent := "", state_bonus := Fighter.EL
 					var created: Spell = effect.get("sorts", {}).get(key)
 					line += "\n    · %s : %s" % [MapView.element_states_text(Array(key.split("+"))), created.display_name if created != null else "?"]
 			Spell.EFFECT_CHARGE:
-				line = "Charge en ligne droite jusqu'au contact de la cible (ou jusqu'à la case si elle est libre) ; les effets suivants ne touchent qu'au contact"
+				line = "Charge en ligne droite jusqu'au contact de la cible (ou jusqu'à la case si elle est libre) ; les effets suivants ne touchent qu'au contact" + (
+					" ; renverse le premier arbre ou rocher du chemin" if effect.get("demolit", false) else " ; passe sur l'eau en la gelant" if effect.get("gele", false) else "")
+			Spell.EFFECT_ARMOR:
+				line = "+%d cran(s) de Blindage : +%d %% de résistance à tout par cran (%d au plus, %d tours)" % [effect["min"], Fighter.ARMOR_RESISTANCE,
+					Fighter.ARMOR_MAX, Combat.STACK_TURNS]
+			Spell.EFFECT_FROSTBITE:
+				line = "+%d Gelure(s) : −1 PM par Gelure au début de chaque tour ; à %d, gelé un tour (%d tours)" % [effect["min"], Combat.FROST_MAX, Combat.STACK_TURNS]
+			Spell.EFFECT_DEMOLISH:
+				line = "Démolit l'arbre ou le rocher visé pour le reste du combat"
+			Spell.EFFECT_FREEZE:
+				line = "Gèle l'eau de la zone (praticable %d tours)" % Combat.FREEZE_TURNS
 			Spell.EFFECT_REMOVE_STATES:
 				var kinds: PackedStringArray = []
 				for kind: String in effect["etats"]:

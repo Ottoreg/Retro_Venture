@@ -105,21 +105,28 @@ const EFFECT_BEACON := "balise"
 const EFFECT_SURGE := "surtension"
 const EFFECT_BEACON_SWAP := "saut_balise"
 const EFFECT_LIVING_BEACON := "paratonnerre"
+## Myrmidon (GDD § 4.3) : crans de Blindage du lanceur (+`Fighter.ARMOR_RESISTANCE` % de résistance à tout par cran) ;
+## Gelures de la cible (−1 PM par Gelure au début de son tour, Gelée à `Combat.FROST_MAX`) ; démolit l'arbre ou le
+## rocher de la case visée pour le combat ; gèle l'eau des cases de la zone (`Combat.FREEZE_TURNS` tours du lanceur).
+const EFFECT_ARMOR := "blindage"
+const EFFECT_FROSTBITE := "gelure"
+const EFFECT_DEMOLISH := "demolition"
+const EFFECT_FREEZE := "gel"
 const EFFECT_TYPES := [EFFECT_DAMAGE, EFFECT_HEAL, EFFECT_TELEPORT, EFFECT_GAIN_PA, EFFECT_REMOVE_PM, EFFECT_SHIELD,
 	EFFECT_BONUS, EFFECT_MALUS, EFFECT_POISON, EFFECT_PUSH, EFFECT_PULL, EFFECT_GLYPH, EFFECT_TRAP,
 	EFFECT_ELEMENT_STATE, EFFECT_COMPOSE_STATES, EFFECT_CREATE_SPELL, EFFECT_CHARGE, EFFECT_REMOVE_STATES,
 	EFFECT_CLOCK, EFFECT_CLOCK_SHIFT, EFFECT_STATE, EFFECT_BOUNCE, EFFECT_IMAGE, EFFECT_DETONATE, EFFECT_SHADOW_WEAPON,
 	EFFECT_SHADOW_WORLD, EFFECT_BEHIND, EFFECT_SUMMON, EFFECT_SACRIFICE, EFFECT_SWAP, EFFECT_ASHES, EFFECT_AURA, EFFECT_BEACON, EFFECT_SURGE, EFFECT_BEACON_SWAP,
-	EFFECT_LIVING_BEACON]
+	EFFECT_LIVING_BEACON, EFFECT_ARMOR, EFFECT_FROSTBITE, EFFECT_DEMOLISH, EFFECT_FREEZE]
 ## Effets sans valeur chiffrée (ni `min` ni `max`).
 const VALUELESS_EFFECTS := [EFFECT_TELEPORT, EFFECT_ELEMENT_STATE, EFFECT_COMPOSE_STATES, EFFECT_CREATE_SPELL, EFFECT_CHARGE,
 	EFFECT_REMOVE_STATES, EFFECT_CLOCK, EFFECT_CLOCK_SHIFT, EFFECT_STATE, EFFECT_DETONATE, EFFECT_SHADOW_WORLD, EFFECT_BEHIND,
-	EFFECT_SUMMON, EFFECT_SWAP, EFFECT_SURGE, EFFECT_BEACON_SWAP, EFFECT_LIVING_BEACON]
+	EFFECT_SUMMON, EFFECT_SWAP, EFFECT_SURGE, EFFECT_BEACON_SWAP, EFFECT_LIVING_BEACON, EFFECT_DEMOLISH, EFFECT_FREEZE]
 ## Effets qui ne concernent que le lanceur ou son déplacement, ou le cadran d'une horloge : jamais
 ## dans une glyphe, un piège ou une heure d'horloge.
 const CASTER_EFFECTS := [EFFECT_TELEPORT, EFFECT_ELEMENT_STATE, EFFECT_COMPOSE_STATES, EFFECT_CREATE_SPELL, EFFECT_CHARGE,
 	EFFECT_CLOCK, EFFECT_CLOCK_SHIFT, EFFECT_BOUNCE, EFFECT_DETONATE, EFFECT_SHADOW_WORLD, EFFECT_BEHIND, EFFECT_SUMMON, EFFECT_SACRIFICE, EFFECT_SWAP, EFFECT_ASHES,
-	EFFECT_AURA, EFFECT_BEACON, EFFECT_SURGE, EFFECT_BEACON_SWAP]
+	EFFECT_AURA, EFFECT_BEACON, EFFECT_SURGE, EFFECT_BEACON_SWAP, EFFECT_DEMOLISH, EFFECT_FREEZE]
 ## États nommés : « insoignable » (aucun soin ne lui rend de PV) ; « manipulation_temps » (posé par
 ## une horloge) ; « exorcisme » (les prochains dégâts Sacré l'achèvent, l'état tombe alors).
 const STATE_UNHEALABLE := "insoignable"
@@ -133,8 +140,15 @@ const STATE_INVISIBLE := "invisible"
 const STATE_SHADOW := "ombres"
 const STATE_NO_RETURN := "retour_ombres"
 const STATE_DRAWN := "aspire"
+## Myrmidon : provoqué (malus de `valeur` % contre tout autre que son `lanceur`, que l'IA vise), assommé (passe son
+## prochain tour), gardé (la moitié des dégâts de sort va à son `lanceur`), carapace de glace (qui le frappe au contact
+## prend une Gelure).
+const STATE_PROVOKED := "provoque"
+const STATE_STUNNED := "assomme"
+const STATE_GUARDED := "garde"
+const STATE_ICE_SHELL := "carapace_de_glace"
 const NAMED_STATES := [STATE_UNHEALABLE, STATE_TIME_MANIPULATION, STATE_EXORCISM, STATE_UNBLOCKABLE, STATE_INVISIBLE,
-	STATE_SHADOW, STATE_NO_RETURN, STATE_DRAWN]
+	STATE_SHADOW, STATE_NO_RETURN, STATE_DRAWN, STATE_PROVOKED, STATE_STUNNED, STATE_GUARDED, STATE_ICE_SHELL]
 ## Éléments d'un état élémentaire, et états qu'un retrait peut enlever.
 const STATE_ELEMENTS := ["flamme", "givre", "tempete"]
 const REMOVABLE_STATE_TYPES := [EFFECT_BONUS, EFFECT_MALUS, EFFECT_POISON]
@@ -146,7 +160,7 @@ const LASTING_EFFECTS := [EFFECT_BONUS, EFFECT_MALUS, EFFECT_POISON, EFFECT_GLYP
 ## Caractéristiques qu'un bonus ou un malus peut changer ; « resistance » demande un `element` ;
 ## « degats_infliges » : % de tous les dégâts infligés (poisons compris).
 const MODIFIABLE := ["force", "intelligence", "perception", "agilite", "pa", "pm", "portee", "dommages", "critique", "resistance",
-	"degats_infliges", "retrait_pa", "retrait_pm", "epines_flamme", "epines_tempete_fixes"]
+	"degats_infliges", "retrait_pa", "retrait_pm", "epines_flamme", "epines_tempete_fixes", "reduction_degats"]
 ## Effets chiffrés qui ont un élément : leur valeur monte avec la caractéristique de cet élément
 ## (un soin Sacré avec la Force et l'Intelligence, un bouclier de Tempête avec l'Agilité, un poison
 ## de Givre avec la Perception…).

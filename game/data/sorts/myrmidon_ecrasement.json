@@ -1,0 +1,36 @@
+{
+  "id": "myrmidon_ecrasement",
+  "nom": "Écrasement",
+  "description": "Tout son poids, réglementaire, sur un seul ennemi. +1 cran de Blindage.",
+  "cout_pa": 5,
+  "portee": {
+    "min": 1,
+    "max": 1
+  },
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "acier",
+      "min": 16,
+      "max": 21,
+      "cibles": "ennemis"
+    },
+    {
+      "type": "blindage",
+      "min": 1,
+      "max": 1,
+      "sur_lanceur": true
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "critique": 5
+    },
+    "5": {
+      "cout_pa": 4
+    }
+  }
+}

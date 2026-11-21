@@ -115,16 +115,19 @@ const TACTICAL_BACKGROUND := Color("1d1914")
 const TACTICAL_CELLS := [Color("8f8a78"), Color("7f7a69")]
 const TACTICAL_BLOCK := Color("4a4038")
 const TACTICAL_HOLE := Color("0d0b09")
+## Myrmidon : eau gelée (glace praticable).
+const TACTICAL_ICE := Color(0.78, 0.92, 1.0, 0.85)
 const TACTICAL_HOLE_WALLS := [Color("5a4e42"), Color("463c32")]
 const TACTICAL_EDGE := Color(0, 0, 0, 0.35)
 const COLOR_TRAP_FLASH := Color(1.0, 0.45, 0.1, 0.6)
 ## Noms affichés des caractéristiques modifiées par un bonus ou un malus.
 const CARAC_NAMES := {"force": "Force", "intelligence": "Intelligence", "perception": "Perception", "agilite": "Agilité",
 	"pa": "PA", "pm": "PM", "portee": "Portée", "dommages": "Dommages", "critique": "% Critique", "resistance": "Rés.",
-	"degats_infliges": "% dégâts infligés", "retrait_pa": "Retrait PA", "retrait_pm": "Retrait PM"}
+	"degats_infliges": "% dégâts infligés", "retrait_pa": "Retrait PA", "retrait_pm": "Retrait PM", "reduction_degats": "Réduction de dégâts"}
 ## Noms des états nommés (`Spell.NAMED_STATES`).
 const STATE_NAMES := {"insoignable": "Insoignable", "manipulation_temps": "Manipulation du temps", "exorcisme": "Exorcisme", "inblocable": "Inblocable",
-	"invisible": "Invisible", "ombres": "Monde des ombres", "retour_ombres": "Retour impossible", "aspire": "Aspiré"}
+	"invisible": "Invisible", "ombres": "Monde des ombres", "retour_ombres": "Retour impossible", "aspire": "Aspiré",
+	"provoque": "Provoqué", "assomme": "Assommé", "garde": "Gardé", "carapace_de_glace": "Carapace de glace"}
 ## Ombre : teinte d'une image rémanente, opacité d'un invisible vu par son camp ; filtre du Monde des ombres pour qui
 ## s'y trouve, sur la carte seulement (sol assombri, décor teinté), pas sur les combattants ni les sorts.
 const IMAGE_TINT := Color(0.75, 0.95, 1.4, 0.7)
@@ -298,6 +301,8 @@ var _embers: Array[Dictionary] = [{}, {}]
 ## Paladin : auras (id → { lanceur, taille }), qui suivent leur lanceur, et balises (id → { case, lanceur, equipe, ombres, porteur }).
 var _auras: Dictionary = {}
 var _beacons: Dictionary = {}
+## Myrmidon : terrain changé pour le combat (case → « demoli » ou « gel »).
+var _terrain: Dictionary = {}
 var _projections: Array[Dictionary] = []
 ## Pierre de Passage tout juste découverte (id), pour annoncer en une fois qu'elle devient aussi le
 ## point de résurrection.
@@ -924,7 +929,7 @@ func _describe(cell: Vector2i) -> String:
 			return text
 	if ground != "":
 		return ground
-	var walkable := _map.is_walkable_in_combat(cell) if mode == Mode.COMBAT else _map.is_walkable(cell)
+	var walkable := (_map.is_walkable_in_combat(cell) or _terrain.has(cell)) if mode == Mode.COMBAT else _map.is_walkable(cell)
 	return "case (%d, %d)%s" % [cell.x, cell.y, "" if walkable else " — bloquée"]
 
 
@@ -1271,6 +1276,8 @@ func _load_combat_from_state() -> void:
 	for side in 2:
 		for cell: Vector2i in world.combat.embers[side]:
 			_embers[side][cell] = world.combat.embers[side][cell]["niveau"]
+	for cell: Vector2i in world.combat.terrain:
+		_terrain[cell] = world.combat.terrain[cell]["etat"]
 	if world.combat.state == Combat.State.FIGHTING:
 		for fighter in world.combat.fighters:
 			turn_order.append(fighter.id)
@@ -1583,6 +1590,12 @@ func _apply(event: Dictionary) -> float:
 		turn_order.assign(event["ordre"])
 		combat_state_changed.emit()
 		return 0.35
+	if type == Protocol.EVT_TERRAIN:
+		if str(event["etat"]).is_empty():
+			_terrain.erase(event["case"])
+		else:
+			_terrain[event["case"]] = event["etat"]
+		return 0.0
 	if type == Protocol.EVT_EMBERS:
 		for ember: Dictionary in event["braises"]:
 			if int(ember["niveau"]) > 0:
@@ -1696,6 +1709,7 @@ func _apply(event: Dictionary) -> float:
 		_embers = [{}, {}]
 		_auras.clear()
 		_beacons.clear()
+		_terrain = {}
 		_trap_flash = {}
 		_load_combat_actors(event)
 		turn_time_left = world.combat.time_left() if world.combat != null else 0.0
@@ -1922,6 +1936,10 @@ static func state_text(state: Dictionary) -> String:
 		return "Poison %d %s (%s)" % [state["valeur"], SpellsWindow.ELEMENT_LABELS.get(state["element"], state["element"]), duration]
 	if state["type"] == Spell.EFFECT_STATE:
 		return "%s (%s)" % [STATE_NAMES.get(state.get("etat", ""), state.get("etat", "")), duration]
+	if state["type"] in [Spell.EFFECT_ARMOR, Spell.EFFECT_FROSTBITE]:
+		return "%s ×%d (%s)" % ["Blindage" if state["type"] == Spell.EFFECT_ARMOR else "Gelures", state["valeur"], duration]
+	if state["type"] == Spell.EFFECT_STATE and state.get("etat") == Spell.STATE_PROVOKED:
+		return "Provoqué : −%d %% de dégâts contre les autres (%s)" % [state["valeur"], duration]
 	if state["type"] == Spell.EFFECT_SHADOW_WEAPON:
 		return "Arme d'obscurité %d %s (à son prochain tour)" % [state["valeur"], SpellsWindow.ELEMENT_LABELS.get(state["element"], state["element"])]
 	var carac: String = CARAC_NAMES.get(state["carac"], state["carac"])
@@ -2101,7 +2119,7 @@ func _draw() -> void:
 	for cell in _preview:
 		draw_colored_polygon(_scaled_diamond(IsoGrid.cell_to_screen(cell), 0.35), COLOR_PATH)
 	if map.is_inside(_hovered):
-		var walkable := map.is_walkable_in_combat(_hovered) if mode == Mode.COMBAT else map.is_walkable(_hovered)
+		var walkable := (map.is_walkable_in_combat(_hovered) or _terrain.has(_hovered)) if mode == Mode.COMBAT else map.is_walkable(_hovered)
 		var color := COLOR_HOVER_OK if walkable else COLOR_HOVER_KO
 		draw_colored_polygon(IsoGrid.diamond(IsoGrid.cell_to_screen(_hovered)), color)
 
@@ -2113,7 +2131,7 @@ func _draw() -> void:
 		_draw_floating_texts()
 		return
 	for cell: Vector2i in map.obstacles:
-		if map.obstacles[cell] not in GameMap.FLAT_OBSTACLES or map.resource_nodes.has(cell):  # Coin de pêche compris.
+		if (map.obstacles[cell] not in GameMap.FLAT_OBSTACLES or map.resource_nodes.has(cell)) and not _terrain.has(cell):  # Coin de pêche compris.
 			drawables.append([IsoGrid.depth(Vector2(cell)), "obstacle", cell])
 	for actor_id: String in _actors:
 		var data: Dictionary = _actors[actor_id]
@@ -2258,8 +2276,8 @@ func _draw_tactical_ground(map: GameMap) -> void:
 	for cell: Vector2i in map.cells():
 		var center := IsoGrid.cell_to_screen(cell)
 		var diamond := IsoGrid.diamond(center)
-		if not map.obstacles.has(cell):
-			draw_colored_polygon(diamond, TACTICAL_CELLS[posmod(cell.x + cell.y, 2)])
+		if not map.obstacles.has(cell) or _terrain.has(cell):
+			draw_colored_polygon(diamond, TACTICAL_ICE if _terrain.get(cell) == "gel" else TACTICAL_CELLS[posmod(cell.x + cell.y, 2)])
 		elif map.obstacles[cell] in Combat.SEE_THROUGH_OBSTACLES:
 			_draw_hole(map, cell, diamond)
 			continue  # Sans liseré : une rivière fait une seule tranchée.
@@ -2295,7 +2313,7 @@ func _is_hole(map: GameMap, cell: Vector2i) -> bool:
 func _draw_tactical_pieces(map: GameMap) -> void:
 	var drawables: Array = []
 	for cell: Vector2i in map.obstacles:
-		if map.obstacles[cell] not in Combat.SEE_THROUGH_OBSTACLES:
+		if map.obstacles[cell] not in Combat.SEE_THROUGH_OBSTACLES and not _terrain.has(cell):
 			drawables.append([IsoGrid.depth(Vector2(cell)), "", cell])
 	for actor_id: String in _actors:
 		if _actors[actor_id]["alive"]:
@@ -2357,6 +2375,16 @@ func _draw_ground_marks() -> void:
 			var spot := IsoGrid.cell_to_screen(cell) + Vector2(14, 12)
 			draw_string_outline(ThemeDB.fallback_font, spot, "×%d" % stacks[cell], HORIZONTAL_ALIGNMENT_LEFT, -1, 14, 4, Color.BLACK)
 			draw_string(ThemeDB.fallback_font, spot, "×%d" % stacks[cell], HORIZONTAL_ALIGNMENT_LEFT, -1, 14, IMAGE_GLOW)
+	for cell: Vector2i in _terrain:  # Myrmidon : eau gelée (glace claire) ; arbre ou rocher démoli (souche ou gravats).
+		var center := IsoGrid.cell_to_screen(cell)
+		if _terrain[cell] == "gel":
+			var ice := _scaled_diamond(center, 0.96)
+			draw_colored_polygon(ice, TACTICAL_ICE)
+			ice.append(ice[0])
+			draw_polyline(ice, Color(0.95, 1.0, 1.0, 0.9), 2.0)
+		else:
+			draw_colored_polygon(_ellipse(center, 14, 7), Color("5a3e26") if _map.obstacles.get(cell) == "arbre" else Color("7a7068"))
+			draw_colored_polygon(_ellipse(center + Vector2(0, -3), 10, 5), Color("8a6a44") if _map.obstacles.get(cell) == "arbre" else Color("9a928a"))
 	for cell: Vector2i in _embers[int(viewer_in_shadow())]:  # Embrasement : orange de plus en plus vif, puis gris fumant.
 		var level: int = _embers[int(viewer_in_shadow())][cell]
 		var diamond := _scaled_diamond(IsoGrid.cell_to_screen(cell), 0.9)

@@ -89,6 +89,8 @@ var ambush := 0
 var ambush_discount := false
 ## Démoniste (GDD § 4.3) : id du maître d'un serviteur invoqué ("" sinon). Le joueur du maître le contrôle.
 var master := ""
+## Boss ou mini-boss (monstre « boss » ou à phases) : à moitié provoqué, jamais assommé (perd des PA à la place).
+var boss := false
 
 const NO_CELL := Vector2i(-99999, -99999)
 const ELEMENT_STATE_MAX := 3
@@ -96,6 +98,9 @@ const ELEMENT_STATE_MAX := 3
 const CREATED_SPELL_SLOTS := 2
 ## Bonus de dégâts (en %) de chaque état élémentaire dans son élément.
 const ELEMENT_STATE_BONUS := 4
+## Myrmidon : % de résistance à chaque élément par cran de Blindage, crans au plus.
+const ARMOR_RESISTANCE := 4
+const ARMOR_MAX := 5
 
 ## Statistiques de combat (GDD § 4.4, § 7.2, § 10.4) : tacle, fuite, retraits de PA / PM (infligés et esquivés),
 ## réduction de dégâts fixe, % de dommages de mêlée (finaux), dégâts spectraux et dévastateurs (% et fixes),
@@ -140,8 +145,8 @@ const MAX_RESISTANCE := 60
 ## Résistance en % à un élément. Pour un élément composé (Sacré, Impie) : la moyenne des résistances
 ## aux deux éléments de base, plus sa résistance propre (10 % Flamme, 5 % Acier, 5 % Sacré : 12,5 %).
 func resistance(element: String) -> float:
-	var own := float(resistances.get(element, 0)) + modifier("resistance", element)
 	var bases: Array = Spell.COMPOSITE_ELEMENTS.get(element, [])
+	var own := float(resistances.get(element, 0)) + modifier("resistance", element) + (0 if not bases.is_empty() else ARMOR_RESISTANCE * stacks(Spell.EFFECT_ARMOR))
 	return own if bases.is_empty() else (resistance(bases[0]) + resistance(bases[1])) / 2.0 + own
 
 
@@ -170,6 +175,22 @@ func tackle() -> int:
 
 func escape() -> int:
 	return maxi(0, stat("agilite")) / 10 + combat_stat("fuite")
+
+
+## Crans d'un état cumulable (Blindage, Gelures : un seul état, sa `valeur`).
+func stacks(type: String) -> int:
+	for state in states:
+		if state["type"] == type:
+			return int(state["valeur"])
+	return 0
+
+
+## État nommé `state_name` (vide s'il ne le porte pas).
+func named_state(state_name: String) -> Dictionary:
+	for state in states:
+		if state["type"] == Spell.EFFECT_STATE and state.get("etat") == state_name:
+			return state
+	return {}
 
 
 ## Porte-t-il l'état nommé `state_name` (voir `Spell.NAMED_STATES`) ?
