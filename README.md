@@ -26,7 +26,7 @@ a été ajouté depuis, avant de retravailler le fond des mécaniques, des class
   une Tour céleste réduite (5 étages, clé de Cupidon, Archange Raphaël au sommet, son Calice en récompense).
 - **Combat tactique** : cases de placement, coups critiques, poison, glyphes et pièges, poussée, mode tactique,
   historique de combat, IA à distance et de soutien.
-- **Huit Voies** : Guerrier, Rôdeur, Arcaniste (composition Flamme / Givre / Tempête), Théologue, Chronomancien,
+- **Neuf Voies** : Guerrier, Rôdeur, Arcaniste (composition Flamme / Givre / Tempête), Théologue, Chronomancien,
   Ombre (images rémanentes, invisibilité, Monde des ombres), Démoniste (serviteurs joués par le joueur, cases embrasées),
   Paladin (auras qui le suivent, balises reliées par des arcs électriques) et Myrmidon (tank : provocation, Blindage,
   Gelures, arbres et rochers démolis, eau gelée)
