@@ -649,6 +649,7 @@ Lots 0 (conception dans le GDD), 1 (personnage, poussé sur `main` à la demande
   des armes, jauges du bandeau, tous les objets (inventaire en grille d'icônes, boutique, coffre,
   atelier, métiers, butin)
 - [x] Système de recoloration des personnages (modèles SVG à couleurs remplaçables)
+- [x] Musique de fond unique en boucle, volume et coupure dans les options (22/11/2026)
 - [ ] *(alpha 2)* Musiques : 2 thèmes de région, 1 thème de combat, 1 thème de boss, menu
 - [ ] *(alpha 2)* Bruitages : interface, pas, impacts, sorts
 

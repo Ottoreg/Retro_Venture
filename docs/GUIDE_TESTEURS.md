@@ -20,7 +20,8 @@ nous faire vos retours. Le jeu n'affiche volontairement presque aucune aide à l
   des sorts, touche S) : chaque rang ajoute 10 % au sort, et le Guerrier a des effets en plus aux
   rangs 3 et 5. Le Guerrier a aussi deux sorts de rang II (Cri de guerre, Fendoir), disponibles dès le début pour l'instant. Tout objet
   s'équipe sans condition.
-- **Pas encore là** : sons et musiques, dessins définitifs (certains personnages et effets sont
+- **Musique** : un thème de fond ; son volume se règle (ou se coupe) dans les **Options**.
+- **Pas encore là** : bruitages, autres musiques, dessins définitifs (certains personnages et effets sont
   provisoires), multijoueur. L'équilibrage sera revu d'après vos retours.
 - À la fin (ou quand vous voulez), **remplissez le questionnaire** : bouton **« Donner son avis »**
   du menu principal ou du menu pause (Échap), ou directement :

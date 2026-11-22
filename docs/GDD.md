@@ -3553,6 +3553,9 @@ préférence ce que les joueurs feront déjà d'eux-mêmes.
 
 - Musique orchestrale et folk (cordes, flûtes, cornemuses, chœurs pour les moments épiques), un thème
   par région, un thème de combat, un thème de boss.
+- **Fait le 22/11/2026** : une musique de fond pour tout le jeu (*Cobblestone Afternoon*,
+  `art/musique/`), en boucle depuis le menu principal (`Options.apply`) ; options : volume de la musique
+  (0 à 100 %) et interrupteur pour la couper, retenus dans `user://options.cfg`.
 - Bruitages courts et lisibles pour chaque type de sort et d'impact.
 
 ### 14.3 Interface (inspirée de Dofus Rétro)

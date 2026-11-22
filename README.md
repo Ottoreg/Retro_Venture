@@ -49,7 +49,7 @@ statistiques de métier ; instances de métier (le Cadastre de Hautepierre) ; mo
 mot de passe : objets, brumes, réputation et maîtrise, téléportation par la minicarte) ; donjons en instance et le
 premier d'entre eux, la Grange du Père Fauchard à Brumerive.
 
-**Ensuite** : hôtel des ventes, art et son.
+**Ensuite** : hôtel des ventes, art et son (une musique de fond déjà en place, réglable dans les options).
 
 ## Documentation
 

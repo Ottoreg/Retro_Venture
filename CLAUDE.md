@@ -311,6 +311,8 @@ Dernière session (retours de la passe de l'auteur) :
   pour toutes les attaques et les sorts ; toutes les races (humain et gobelin regénérés le 20/11/2026, `assets/PROMPTS_RACES.md`) ; prompts des
   autres animations : `assets/PROMPTS_ANIMATIONS.md` ; directions ouest absentes faites en miroir de l'est
   (`planche_sprites.py`, `MIRRORS`).
+- **Musique de fond** (22/11/2026, GDD § 14.2) : `art/musique/cobblestone_afternoon.mp3` en boucle (`Options.MUSIC`,
+  lancée par `Options.apply` depuis le menu principal), volume `Options.music_volume` et `music_on` dans les options.
 - Le pseudo choisi est déjà utilisé partout ; « Aventurier » (`World.DEFAULT_NAME`) n'apparaît
   que dans les tests et les captures, sans écran de création.
 

@@ -102,3 +102,7 @@ arc rouge de Cupidon, assemblages `cupidon` et `archange` à leur taille, décor
   "monstres": {"sanglier_des_landes": {"image": "sanglier", "echelle": 0.85}}
 }
 ```
+
+## Musique
+
+`musique/` : musique de fond du jeu (MP3, importée par Godot, jouée en boucle par `Options.apply`).

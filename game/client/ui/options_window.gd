@@ -1,6 +1,6 @@
 class_name OptionsWindow
 extends CanvasLayer
-## Fenêtre des options (depuis le menu principal ou le menu pause) : volume, plein écran, taille de
+## Fenêtre des options (depuis le menu principal ou le menu pause) : volume, musique, plein écran, taille de
 ## la fenêtre, mode tactique en combat, adresse du serveur (jeu en ligne). Chaque changement
 ## s'applique et s'enregistre aussitôt.
 
@@ -14,6 +14,9 @@ var _backdrop: ColorRect
 var _panel: PanelContainer
 var _volume: HSlider
 var _volume_label: Label
+var _music: HSlider
+var _music_label: Label
+var _music_on: Button
 var _fullscreen: Button
 var _size: OptionButton
 var _tactical: Button
@@ -37,6 +40,9 @@ func open() -> void:
 	Options.load_options()
 	_volume.set_value_no_signal(Options.volume)
 	_volume_label.text = "%d %%" % Options.volume
+	_music.set_value_no_signal(Options.music_volume)
+	_music_label.text = "%d %%" % Options.music_volume
+	_set_switch(_music_on, Options.music_on)
 	_set_switch(_fullscreen, Options.fullscreen)
 	_size.select(Options.window_size)
 	_lock_size()
@@ -74,6 +80,17 @@ func _unhandled_input(event: InputEvent) -> void:
 func _on_volume_changed(value: float) -> void:
 	Options.volume = roundi(value)
 	_volume_label.text = "%d %%" % Options.volume
+	_changed()
+
+
+func _on_music_changed(value: float) -> void:
+	Options.music_volume = roundi(value)
+	_music_label.text = "%d %%" % Options.music_volume
+	_changed()
+
+
+func _on_music_toggled(on: bool) -> void:
+	Options.music_on = on
 	_changed()
 
 
@@ -153,21 +170,20 @@ func _build() -> void:
 	grid.add_child(_size)
 	grid = _grid(_section(left, "Son"))
 	grid.add_child(_caption("Volume"))
-	var volume_row := HBoxContainer.new()
-	volume_row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	_volume = HSlider.new()
-	_volume.min_value = 0
-	_volume.max_value = 100
-	_volume.step = 5
-	_volume.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	_volume.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	_volume.value_changed.connect(_on_volume_changed)
-	volume_row.add_child(_volume)
-	_volume_label = Label.new()
-	_volume_label.custom_minimum_size = Vector2(52, 0)
-	_volume_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	volume_row.add_child(_volume_label)
-	grid.add_child(volume_row)
+	var volume := _slider(_on_volume_changed)
+	_volume = volume[0]
+	_volume_label = volume[1]
+	grid.add_child(volume[2])
+	grid.add_child(_caption("Musique"))
+	var music := _slider(_on_music_changed)
+	_music = music[0]
+	_music_label = music[1]
+	grid.add_child(music[2])
+	grid.add_child(_caption("Musique de fond"))
+	_music_on = _switch()
+	_music_on.tooltip_text = "Coupe ou remet la musique (le curseur règle son volume)."
+	_music_on.toggled.connect(_on_music_toggled)
+	grid.add_child(_music_on)
 
 	# Aide-mémoire des touches, sous le son (lecture seule).
 	grid = _grid(_section(left, "Raccourcis clavier"))
@@ -212,6 +228,24 @@ func _build() -> void:
 		grid.add_child(control)
 	admin = AdminWindow.new()
 	add_child(admin)
+
+
+## Curseur de 0 à 100 et son pourcentage : [curseur, étiquette, rangée].
+func _slider(changed: Callable) -> Array:
+	var row := HBoxContainer.new()
+	row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var slider := HSlider.new()
+	slider.max_value = 100
+	slider.step = 5
+	slider.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	slider.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	slider.value_changed.connect(changed)
+	row.add_child(slider)
+	var label := Label.new()
+	label.custom_minimum_size = Vector2(52, 0)
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	row.add_child(label)
+	return [slider, label, row]
 
 
 ## Interrupteur : bouton à bascule qui affiche son état.
@@ -286,4 +320,4 @@ func _caption(text: String) -> Label:
 
 ## Commandes de la fenêtre (pour les tests).
 func controls() -> Dictionary:
-	return {"themes": _themes, "volume": _volume, "plein_ecran": _fullscreen, "taille": _size, "tactique": _tactical, "pions": _pawns, "serveur": _server, "admin": _admin_row[1]}
+	return {"themes": _themes, "volume": _volume, "musique": _music, "musique_active": _music_on, "plein_ecran": _fullscreen, "taille": _size, "tactique": _tactical, "pions": _pawns, "serveur": _server, "admin": _admin_row[1]}

@@ -59,6 +59,11 @@ func test_fenetre_des_options() -> void:
 	var controls := window.controls()
 	(controls["volume"] as HSlider).value = 50
 	assert_eq(Options.volume, 50, "le volume change aussitôt")
+	(controls["musique"] as HSlider).value = 25
+	assert_true(Options._music.stream.loop, "musique en boucle")
+	assert_almost_eq(Options._music.volume_db, linear_to_db(0.25), 0.01)
+	(controls["musique_active"] as Button).button_pressed = false
+	assert_true(Options._music.volume_db < -100, "et coupée")
 	(controls["tactique"] as Button).button_pressed = true
 	assert_true(Options.tactical)
 	assert_eq((controls["tactique"] as Button).text, "Activé")
@@ -68,6 +73,8 @@ func test_fenetre_des_options() -> void:
 	Options.reset()
 	Options.load_options(true)
 	assert_eq(Options.volume, 50, "et il est enregistré")
+	assert_eq(Options.music_volume, 25, "la musique aussi")
+	assert_false(Options.music_on)
 	assert_true(Options.tactical)
 	assert_true(Options.tactical_pawns)
 	window.close()

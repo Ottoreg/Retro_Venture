@@ -1,7 +1,7 @@
 class_name Options
 extends RefCounted
 ## Réglages du joueur, gardés d'une partie à l'autre dans `user://options.cfg` (hors sauvegarde) :
-## volume, plein écran, taille de la fenêtre (hors navigateur), thème de couleurs, mode tactique en combat, adresse
+## volume général et de la musique, plein écran, taille de la fenêtre (hors navigateur), thème de couleurs, mode tactique en combat, adresse
 ## du serveur de jeu (développement), zoom de la minicarte et icônes masquées.
 
 ## Tailles de fenêtre proposées (sur ordinateur ; le navigateur garde la taille de sa page).
@@ -11,6 +11,11 @@ const WINDOW_SIZES: Array[Vector2i] = [Vector2i(1280, 720), Vector2i(1600, 900),
 static var path := "user://options.cfg"
 ## Volume général, de 0 à 100.
 static var volume := 80
+## Musique de fond (en boucle, `MUSIC`) : volume de 0 à 100, et coupée ou non.
+const MUSIC := "res://art/musique/cobblestone_afternoon.mp3"
+static var music_volume := 60
+static var music_on := true
+static var _music: AudioStreamPlayer
 static var fullscreen := false
 ## Indice dans WINDOW_SIZES.
 static var window_size := 0
@@ -42,6 +47,8 @@ static func load_options(force := false) -> void:
 	if file.load(path) != OK:
 		return
 	volume = clampi(int(file.get_value("son", "volume", volume)), 0, 100)
+	music_volume = clampi(int(file.get_value("son", "musique", music_volume)), 0, 100)
+	music_on = bool(file.get_value("son", "musique_active", music_on))
 	fullscreen = bool(file.get_value("affichage", "plein_ecran", fullscreen))
 	window_size = clampi(int(file.get_value("affichage", "taille", window_size)), 0, WINDOW_SIZES.size() - 1)
 	tactical = bool(file.get_value("combat", "tactique", tactical))
@@ -59,6 +66,8 @@ static func load_options(force := false) -> void:
 static func save_options() -> void:
 	var file := ConfigFile.new()
 	file.set_value("son", "volume", volume)
+	file.set_value("son", "musique", music_volume)
+	file.set_value("son", "musique_active", music_on)
 	file.set_value("affichage", "plein_ecran", fullscreen)
 	file.set_value("affichage", "taille", window_size)
 	file.set_value("combat", "tactique", tactical)
@@ -74,6 +83,8 @@ static func save_options() -> void:
 ## Remet les réglages par défaut (tests).
 static func reset() -> void:
 	volume = 80
+	music_volume = 60
+	music_on = true
 	fullscreen = false
 	window_size = 0
 	tactical = false
@@ -86,12 +97,20 @@ static func reset() -> void:
 	_loaded = true
 
 
-## Applique le volume et l'affichage (rien sur la fenêtre sans affichage, ni dans un navigateur
+## Applique le volume, la musique (lancée au premier appel, elle continue d'une scène à l'autre) et l'affichage (rien sur la fenêtre sans affichage, ni dans un navigateur
 ## pour la taille).
 static func apply() -> void:
 	var bus := AudioServer.get_bus_index("Master")
 	AudioServer.set_bus_volume_db(bus, linear_to_db(volume / 100.0))
 	AudioServer.set_bus_mute(bus, volume == 0)
+	if _music == null:
+		_music = AudioStreamPlayer.new()
+		_music.stream = load(MUSIC)
+		_music.stream.loop = true
+		_music.process_mode = Node.PROCESS_MODE_ALWAYS  # Elle continue pendant la pause.
+		(Engine.get_main_loop() as SceneTree).root.add_child.call_deferred(_music)
+		_music.play.call_deferred()
+	_music.volume_db = linear_to_db(music_volume / 100.0 if music_on else 0.0)
 	if DisplayServer.get_name() == "headless":
 		return
 	if fullscreen:
