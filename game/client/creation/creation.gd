@@ -224,14 +224,12 @@ func _build() -> void:
 	_voie_text = _wrapped_label()
 	left.add_child(_voie_text)
 
-	var scroll := ScrollContainer.new()  # Race, classe et sorts : tout se lit en faisant défiler.
-	scroll.custom_minimum_size = Vector2(340, 0)
-	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	row.add_child(scroll)
-	var right := VBoxContainer.new()
-	right.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var right := VBoxContainer.new()  # Race, classe et sorts : largeur fixe, tout se lit en faisant défiler.
 	right.add_theme_constant_override("separation", 8)
-	scroll.add_child(right)
+	var scroll := UiTheme.scroll_area(right)
+	scroll.size_flags_horizontal = Control.SIZE_FILL
+	scroll.custom_minimum_size = Vector2(400, 0)
+	row.add_child(scroll)
 	_race_text = _wrapped_label()
 	right.add_child(_race_text)
 	_summary = _wrapped_label()
@@ -267,9 +265,10 @@ func _carousel() -> HBoxContainer:
 	row.add_theme_constant_override("separation", 6)
 	var center := VBoxContainer.new()
 	_preview = Preview.new()
-	_preview.custom_minimum_size = Vector2(240, 165)
+	_preview.zoom = 1.7
+	_preview.custom_minimum_size = Vector2(170, 130)
 	center.add_child(_preview)
-	_race_name = _label("", 20, GOLD)
+	_race_name = _label("", 18, GOLD)
 	_race_name.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	center.add_child(_race_name)
 	_variant_row = HBoxContainer.new()
@@ -278,13 +277,13 @@ func _carousel() -> HBoxContainer:
 	for step in [-1, 1]:
 		var arrow := Button.new()
 		arrow.text = "‹" if step < 0 else "›"
-		arrow.custom_minimum_size = Vector2(40, 80)
+		arrow.custom_minimum_size = Vector2(32, 60)
 		arrow.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 		arrow.pressed.connect(func() -> void: _select_race(_race_beside(step)))
 		var side := Preview.new()
-		side.zoom = 1.3
+		side.zoom = 1.0
 		side.tint = Color(0.55, 0.55, 0.6, 0.7)
-		side.custom_minimum_size = Vector2(110, 150)
+		side.custom_minimum_size = Vector2(80, 115)
 		side.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
 		side.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 		side.gui_input.connect(func(event: InputEvent) -> void:
@@ -298,16 +297,18 @@ func _carousel() -> HBoxContainer:
 	return row
 
 
-func _choice_row(order: Array, entries: Dictionary, buttons: Dictionary, on_select: Callable) -> HBoxContainer:
-	var row := HBoxContainer.new()
-	row.add_theme_constant_override("separation", 8)
+## Boutons de choix qui passent à la ligne quand la place manque.
+func _choice_row(order: Array, entries: Dictionary, buttons: Dictionary, on_select: Callable) -> HFlowContainer:
+	var row := HFlowContainer.new()
+	for side in ["h_separation", "v_separation"]:
+		row.add_theme_constant_override(side, 8)
 	for id: String in order:
 		if not entries.has(id):
 			continue
 		var entry: Dictionary = entries[id]
 		var button := Button.new()
 		button.toggle_mode = true
-		button.custom_minimum_size = Vector2(128, 46)
+		button.custom_minimum_size = Vector2(128, 40)
 		button.text = str(entry.get("nom", id))
 		button.pressed.connect(on_select.bind(id))
 		row.add_child(button)
