@@ -108,6 +108,7 @@ static func apply() -> void:
 		_music.stream = load(MUSIC)
 		_music.stream.loop = true
 		_music.process_mode = Node.PROCESS_MODE_ALWAYS  # Elle continue pendant la pause.
+		_music.playback_type = AudioServer.PLAYBACK_TYPE_STREAM  # Dans le navigateur, le mode « échantillon » ignore la boucle.
 		(Engine.get_main_loop() as SceneTree).root.add_child.call_deferred(_music)
 		_music.play.call_deferred()
 	_music.volume_db = linear_to_db(music_volume / 100.0 if music_on else 0.0)
