@@ -26,6 +26,7 @@ const ZONE_ORIGINS := {
 	"brumerive": Vector2i(-4, 1),
 	"sylvebrume": Vector2i(0, -3),
 	"crasse_roc": Vector2i(5, 0),
+	"grandesplaines": Vector2i(0, 4),
 }
 
 static var _id_pattern: RegEx

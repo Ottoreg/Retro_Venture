@@ -264,7 +264,7 @@ func test_zones_du_jeu_collees_par_leurs_portes() -> void:
 				continue
 			crossings += 1
 			assert_eq(absi(from.x - to.x) + absi(from.y - to.y), 1, "%s %s → %s %s : voisines" % [map_id, from, target, to])
-	assert_eq(crossings, 6, "trois portes de Hautepierre, dans les deux sens")
+	assert_eq(crossings, 8, "quatre portes de Hautepierre, dans les deux sens")
 	var layout := WorldMapLayout.world_layout(maps, maps.keys(), "brumerive_0_0")
 	assert_eq(layout["cases"].size(), taken.size(), "toutes les cartes à coordonnées")
-	assert_eq(layout["zones"].size(), 6)
+	assert_eq(layout["zones"].size(), 7)

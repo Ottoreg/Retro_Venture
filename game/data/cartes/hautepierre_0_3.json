@@ -4,6 +4,9 @@
   "sorties": {
     "haut": "hautepierre_0_2"
   },
+  "portes": [
+    "grandesplaines_0_0"
+  ],
   "palette": "hautepierre",
   "plan": [
     "AAAAAAAA.:.AAAAAAAA",
@@ -29,7 +32,7 @@
     "AA...EÊE.:.ÎEEEÎ..A",
     " AQ......::EEEEEEEA",
     "A..OA....:....EÊE.A",
-    " A...O...::.......A",
+    " A...O....:.......A",
     "A......A.:........A",
     " A....Z..::.......A",
     "A.....Q..:........A",
@@ -38,6 +41,6 @@
     " A.A.O..A::.......A",
     "A........:........A",
     " A.......::.......A",
-    "AAAAAAAAAAAAAAAAAAA"
+    "AAAAAAAA:+:AAAAAAAA"
   ]
 }
