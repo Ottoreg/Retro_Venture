@@ -273,6 +273,7 @@ func _carousel() -> HBoxContainer:
 	center.add_child(_race_name)
 	_variant_row = HBoxContainer.new()
 	_variant_row.alignment = BoxContainer.ALIGNMENT_CENTER
+	_variant_row.custom_minimum_size = Vector2(0, 32)  # Hauteur réservée : les classes ne bougent pas avec ou sans variantes.
 	center.add_child(_variant_row)
 	for step in [-1, 1]:
 		var arrow := Button.new()
