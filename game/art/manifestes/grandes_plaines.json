@@ -1,0 +1,26 @@
+{
+  "images": {
+    "caravane": {
+      "fichier": "batiment/caravane.svgt",
+      "ancre": [
+        148,
+        132
+      ],
+      "emprise": [
+        4,
+        2
+      ]
+    },
+    "caravane_miroir": {
+      "fichier": "batiment/caravane_miroir.svgt",
+      "ancre": [
+        84,
+        132
+      ],
+      "emprise": [
+        2,
+        4
+      ]
+    }
+  }
+}
