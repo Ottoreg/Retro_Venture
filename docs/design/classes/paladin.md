@@ -8,7 +8,7 @@ fil « Ajouter la classe Paladin au jeu », `game/tests/core/test_paladin.gd`). 
 
 - Rôle : guerrier sacré ou électrique, famille corps à corps. Fantaisie : « Paladin breveté de l'Ordre du Saint Paratonnerre. Béni par les dieux, foudroyé par eux aussi (souvent). Persuadé d'être l'Élu, comme les 214 autres Élus de sa promotion. »
 - Voie Sacrée (Force + Intelligence) : mêlée et soutien autour de lui. Voie Tempête (Agilité) : mi-distance, pièges de terrain. Aucun soin.
-- Tenue blanche et or à liseré bleu électrique ; toutes les races. 50 PV, 6 PA, 3 PM, 100 d'initiative.
+- Tenue dorée (tunique `c9a227`, distincte du blanc cassé du Théologue, 22/11/2026) à manches bleu électrique ; toutes les races. 50 PV, 6 PA, 3 PM, 100 d'initiative.
 
 ## Passif de classe — Saint Paratonnerre (Apprenti, 5 rangs)
 

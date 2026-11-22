@@ -17,7 +17,7 @@ const VOIE_LOOKS := {
 	"chronomancien": {"cape": Color("5a3a78"), "coiffe": Color("463060"), "forme": "pointu"},
 	"ombre": {"cape": Color("1e1e24"), "coiffe": Color("c9ccd6"), "forme": "capuche"},
 	"demoniste": {"cape": Color("d8641c"), "coiffe": Color("1a1a1a"), "forme": "pointu"},
-	"paladin": {"cape": Color("eef1f6"), "coiffe": Color("d4af37"), "forme": "capuche"},
+	"paladin": {"cape": Color("c9a227"), "coiffe": Color("d4af37"), "forme": "capuche"},
 	"myrmidon": {"cape": Color("7d8794"), "coiffe": Color("8fd0ec"), "forme": "pointu"},
 }
 const DEFAULT_LOOK := {"cape": Color("2f5d8a"), "coiffe": Color("8a3b2f"), "forme": "pointu"}
