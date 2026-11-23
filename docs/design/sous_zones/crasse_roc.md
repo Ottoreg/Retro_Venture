@@ -9,8 +9,10 @@ palier 2 : environ 50 PV, mini-boss : 300 PV).
 
 - **Identifiants** : `braillards_x_y` et `ossuaire_x_y` (préfixe propre, comme une zone ; la région affichée,
   la carte du monde et la zone de forge restent Crasse-Roc).
-- **Pierre de Passage** : une seule, celle de l'Entrée des galeries (`crasse_roc_0_0`). La sous-zone est à une
-  ou deux cartes de la Pierre à pied.
+- **Pierre de Passage, maison et enclume** dans chaque carte de départ (décision de l'auteur du 23/11/2026) :
+  Pierres `braillards` et `ossuaire` (10 brumes, comme les autres zones de départ), connue dès la création pour sa race.
+- **Ressources de monstres** (forge) : une par famille, même procédé que les autres (`docs/design/forge/produire.py`),
+  en gardant l'équilibre général (paliers, éléments, matières).
 - **Départ** : `carte_depart` des orcs = `braillards_0_0`, des squelettes (petit et grand) = `ossuaire_0_0`.
   Les gobelins ne changent pas.
 - **Quêtes** : les trois quêtes de race portent la condition `race` (déjà gérée par `core/quests/`) ;
@@ -37,7 +39,7 @@ servent le Souverain Cendré « pour le bruit », sans trop savoir ce qu'on leur
 
 | Carte | Palier | Groupes | Récolte | PNJ |
 |---|---|---|---|---|
-| `braillards_0_0` Porte des Hurleurs (départ) | 1 | gorets seuls ou par 2 | bois | Instructeur Krouk, maître de la Voie (comme les autres villages), maison et enclume |
+| `braillards_0_0` Porte des Hurleurs (départ) | 1 | gorets seuls ou par 2 | bois | Pierre de Passage, maison, enclume ; Instructeur Krouk, maître de la Voie (comme les autres villages) |
 | `braillards_1_0` Fours à ferraille | 1 | gorets, apprentis | minerai | Mâchefer, forgeronne qui « répare » en tapant plus fort |
 | `braillards_0_1` Arène des Gueulards | 1-2 | apprentis par 2-3, un ferrailleur | — | Arbitre Gnarl (« le gagnant, c'est celui que j'entends ») |
 | `braillards_1_1` Coulée de scories | 2 | ferrailleurs, apprentis | minerai | — |
@@ -90,7 +92,7 @@ Souverain Cendré, attendent une retraite qu'on ne leur versera jamais. Les grad
 
 | Carte | Palier | Groupes | Récolte | PNJ |
 |---|---|---|---|---|
-| `ossuaire_0_0` Grille de l'Ossuaire (départ) | 1 | os errants seuls ou par 2 | bois (arbres morts) | Sergent-Chef Clavicule, maître de la Voie, maison et enclume |
+| `ossuaire_0_0` Grille de l'Ossuaire (départ) | 1 | os errants seuls ou par 2 | bois (arbres morts) | Pierre de Passage, maison, enclume ; Sergent-Chef Clavicule, maître de la Voie |
 | `ossuaire_1_0` Champ des Croix | 1 | os errants, pleureuses | bois | Fossoyeur Pelle-à-Vide, vivant, très gêné |
 | `ossuaire_0_1` Catacombes de l'Appel | 1-2 | pleureuses, un vétéran | minerai | — |
 | `ossuaire_1_1` Caisse de retraite des Trépassés | 2 | vétérans par 2-3 | minerai | Guichetière Vertèbre (« Revenez demain. Depuis trois siècles. ») |
@@ -126,10 +128,3 @@ Souverain Cendré, attendent une retraite qu'on ne leur versera jamais. Les grad
    l'Entrée des galeries, première quête de la chaîne du camp.
 
 Secondaire : **Démobilisation** (Pelle-à-Vide), vaincre le Colonel Ossature pour qu'il « prenne enfin sa retraite ».
-
-## Questions ouvertes
-
-1. Une maison et une enclume dans chaque sous-zone (proposé), ou seulement celles de l'Entrée des galeries ?
-2. Les orcs et les squelettes passent-ils toujours par la Pierre de l'Entrée des galeries, ou faut-il une petite
-   Pierre par sous-zone (le GDD dit une seule par zone) ?
-3. Ressources de monstres (forge) : une par famille, produites avec `docs/design/forge/produire.py`, comme les autres.

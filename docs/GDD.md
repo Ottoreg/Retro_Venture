@@ -224,8 +224,8 @@ thématique** (son village ou campement, son décor, ses monstres et PNJ à son 
 | Ennemi | Galeries de Crasse-Roc | Gobelins (zone actuelle), Orcs, Squelettes |
 | Neutre | Lisière de Sylvebrume | Elfes (zone actuelle), Mycéliens, Arkhés |
 
-- Chaque race démarre sur la première carte de sa sous-zone (`carte_depart`) ; la zone garde une
-  seule Pierre de Passage, au cœur commun du camp, et les sous-zones sont reliées à pied entre elles.
+- Chaque race démarre sur la première carte de sa sous-zone (`carte_depart`), qui a **sa propre Pierre de
+  Passage, sa maison et son enclume** (décision de l'auteur du 23/11/2026) ; les sous-zones sont reliées à pied.
 - La chaîne de quêtes de l'acte I reste **par camp** ; chaque sous-zone peut ajouter ses quêtes de race.
 - Chaque sous-zone respecte les règles des zones de départ (paliers 1 et 2, aucun palier vide), et les
   joueurs d'un même camp se croisent dès le début.
