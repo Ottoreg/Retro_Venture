@@ -79,6 +79,9 @@ var element_states: Array[String] = []
 ## Sorts créés par « creer_sort » (ids, du plus ancien au plus récent), `created_slots()` au plus, à
 ## leur rang de maîtrise : ils sont dans `spells` ; un nouveau sort créé chasse le plus ancien.
 var created_spells: Array[String] = []
+## Arcaniste : dernier sort créé lancé (passif « Virtuose ») ; PA de moins au 1er lancer de sorts créés (id → PA, Écho arcanique).
+var last_created := ""
+var created_discounts: Dictionary = {}
 
 ## Ombre (GDD § 4.3) : dans le Monde des ombres ; dernière case où l'adversaire l'a vu (invisible ou dans les
 ## ombres, l'IA la cherche là) ; tours de « coup en traître » après une sortie d'invisibilité ou des ombres
@@ -112,6 +115,12 @@ const RAGE := "rancune"
 const RAGE_PER_HP := 5
 const RAGE_BONUS := 3
 const RAGE_MAX := [5, 5, 6, 8, 9, 10]
+## Arcaniste : passif « Virtuose » (crans de Virtuosité, 3 au plus, % de dégâts par cran : 2 + rang + 1), Fusion arcanique
+## gratuite à 3 crans au rang 3.
+const VIRTUOSO := "virtuose"
+const VIRTUOSITY := "virtuosite"
+const VIRTUOSITY_MAX := 3
+const FUSION := "arcaniste_creer_un_sort"
 
 ## Statistiques de combat (GDD § 4.4, § 7.2, § 10.4) : tacle, fuite, retraits de PA / PM (infligés et esquivés),
 ## réduction de dégâts fixe, % de dommages de mêlée (finaux), dégâts spectraux et dévastateurs (% et fixes),
@@ -146,7 +155,7 @@ func controller() -> String:
 func get_spell(spell_id: String) -> Spell:
 	for spell in spells:
 		if spell.id == spell_id:
-			return spell
+			return spell.attuned(element_states)
 	return null
 
 
@@ -343,9 +352,12 @@ func cast_count(spell: Spell) -> int:
 	return int(_casts_this_turn.get(spell.id, 0))
 
 
-## Coût en PA du sort, moins le PA du coup en traître (rang 3 du passif de l'Ombre).
+## Coût en PA du sort, moins le PA du coup en traître (rang 3 du passif de l'Ombre) et la remise d'un sort créé par Écho
+## arcanique ; Fusion arcanique gratuite à 3 crans de Virtuosité (rang 3 du passif de l'Arcaniste).
 func spell_cost(spell: Spell) -> int:
-	return maxi(0, spell.pa_cost - int(ambush_discount))
+	if spell.id == FUSION and int(passives.get(VIRTUOSO, 0)) >= 4 and stacks(VIRTUOSITY) >= VIRTUOSITY_MAX:
+		return 0
+	return maxi(0, spell.pa_cost - int(ambush_discount) - int(created_discounts.get(spell.id, 0)))
 
 
 func is_invisible() -> bool:
@@ -372,6 +384,7 @@ func cast_blocker(spell: Spell) -> String:
 func register_cast(spell: Spell) -> void:
 	pa -= spell_cost(spell)
 	ambush_discount = false
+	created_discounts.erase(spell.id)
 	_casts_this_turn[spell.id] = int(_casts_this_turn.get(spell.id, 0)) + 1
 	if spell.cooldown > 0:
 		_cooldowns[spell.id] = spell.cooldown
@@ -442,6 +455,7 @@ func snapshot() -> Dictionary:
 		"vu": [last_seen.x, last_seen.y],
 		"traitre": [ambush, ambush_discount],
 		"rancune": [rage_hp, hp_paid, rage_crit],
+		"arcaniste": [last_created, created_discounts.duplicate()],
 	}
 
 
@@ -477,5 +491,7 @@ func restore(saved: Dictionary) -> void:
 	rage_hp = int(rage[0])
 	hp_paid = int(rage[1])
 	rage_crit = bool(rage[2])
+	last_created = str(saved.get("arcaniste", ["", {}])[0])
+	created_discounts = saved.get("arcaniste", ["", {}])[1].duplicate()
 	_cooldowns = saved["recharges"].duplicate()
 	_casts_this_turn = saved["lances"].duplicate()

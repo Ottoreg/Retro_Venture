@@ -1,0 +1,39 @@
+{
+  "id": "arcaniste_appel_d_air",
+  "nom": "Appel d'air",
+  "description": "Un courant d'air qui ramène l'ennemi de 3 cases vers lui. Affinité Tempête : 4 cases.",
+  "cout_pa": 3,
+  "portee": {
+    "min": 2,
+    "max": 6
+  },
+  "lancer_en_ligne": true,
+  "relance": {
+    "par_tour": 1,
+    "delai": 1
+  },
+  "affinite": {
+    "element": "tempete",
+    "effet": "attirance",
+    "valeur": 1
+  },
+  "effets": [
+    {
+      "type": "attirance",
+      "min": 3,
+      "max": 3,
+      "voisins": 0,
+      "cibles": "ennemis"
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "cout_pa": 2
+    },
+    "5": {
+      "valeurs": {
+        "voisins": 1
+      }
+    }
+  }
+}

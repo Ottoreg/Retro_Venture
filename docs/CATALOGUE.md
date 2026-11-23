@@ -27,7 +27,7 @@ Prix de boutique : selon la rareté (revente à 25 %).
 - [Sorts de race](#sorts-de-race)
 - [Sorts des monstres](#sorts-des-monstres)
 
-**317 objets** (18 armes, 20 coiffes, 20 capes, 20 amulettes, 20 anneaux, 20 ceintures, 20 bottes, 129 ressources, 37 plans de forge, 7 objets de quête), **57 monstres** et **244 sorts**.
+**317 objets** (18 armes, 20 coiffes, 20 capes, 20 amulettes, 20 anneaux, 20 ceintures, 20 bottes, 129 ressources, 37 plans de forge, 7 objets de quête), **57 monstres** et **252 sorts**.
 
 ## Armes
 
@@ -1270,6 +1270,14 @@ Maître du feu, du givre et de la foudre. Lit beaucoup, court peu, explose parfo
 |---|---|---|---|
 | **Composition** | 1 PA, portée soi, sans ligne de vue, critique 0 % | choisit d'un coup ses 3 états élémentaires parmi Flamme et Givre et Tempête (permanents) ; +1 PA tout de suite | L'Arcaniste jongle avec ses braises, ses frimas et ses éclairs jusqu'à trouver le bon mélange, puis le garde au creux de la main. Coûte 1 PA, rendu aussitôt. |
 | **Fusion arcanique** | 2 PA, portée soi, sans ligne de vue, 1/tour, critique 0 % | crée le sort de la combinaison des 3 états : Flamme + Flamme + Flamme → Fournaise ; Flamme + Flamme + Givre → Choc thermique ; Flamme + Givre + Givre → Armure de givre ; Givre + Givre + Givre → Blizzard ; Tempête + Tempête + Tempête → Foudre en chaîne ; Flamme + Tempête + Tempête → Fulgurance ; Givre + Tempête + Tempête → Vent arrière ; Flamme + Flamme + Tempête → Feu de brousse ; Givre + Givre + Tempête → Bourrasque glacée ; Flamme + Givre + Tempête → Cataclysme | Trois états, une formule, un sort. Les savants de la Tour ont longtemps hésité à ajouter la Tempête à la formule ; l'Arcaniste, lui, n'a pas hésité. |
+| **Clignement** | 2 PA, portée 1–3, 1/tour, relance 2 t. | téléportation sur la case | Un clignement d'yeux et il est ailleurs. Affinité Tempête : +1 portée. |
+| **Rétropropulsion** | 2 PA, portée 1, 1/tour, relance 2 t. | 3–5 Flamme aux ennemis ; recul aux ennemis | Une petite explosion sous le nez de l'ennemi, et l'Arcaniste recule de 3 cases. Affinité Flamme : recule de 4. |
+| **Pieds gelés** | 2 PA, portée 1–5, 2/tour | −2 PM au prochain tour aux ennemis | Les pieds pris dans la glace : −2 PM. Affinité Givre : −3 PM. |
+| **Appel d'air** | 3 PA, portée 2–6, en ligne, 1/tour, relance 1 t. | attire de 3 case(s) aux ennemis | Un courant d'air qui ramène l'ennemi de 3 cases vers lui. Affinité Tempête : 4 cases. |
+| **Mur de glace** | 3 PA, portée 1–4, 1/tour, relance 3 t. | mur_de_glace | Trois blocs de glace en travers : on ne passe pas, on ne voit pas à travers (2 tours). Affinité Givre : +1 tour. |
+| **Manteau de braises** | 2 PA, portée soi, 1/tour, relance 3 t. | +4 reduction_degats (2 t.) ; +3–5 epines_flamme_fixes (2 t.) | Un manteau de braises : −4 dégâts subis et 3 à 5 Flamme renvoyés à qui le frappe, 2 tours. Affinité Flamme : −6 dégâts subis. |
+| **Conduction** | 2 PA, portée 0–4, 1/tour, relance 3 t. | conduction aux alliés | Il prête ses éléments : +15 dans la caractéristique de chacun de ses états (Flamme : Intelligence, Givre : Perception, Tempête : Agilité), 2 tours. |
+| **Écho arcanique** | 2 PA, portée soi, sans ligne de vue, 1/tour, relance 3 t. | crée le sort de la combinaison des 3 états : Flamme + Flamme + Flamme → Fournaise ; Flamme + Flamme + Givre → Choc thermique ; Flamme + Givre + Givre → Armure de givre ; Givre + Givre + Givre → Blizzard ; Tempête + Tempête + Tempête → Foudre en chaîne ; Flamme + Tempête + Tempête → Fulgurance ; Givre + Tempête + Tempête → Vent arrière ; Flamme + Flamme + Tempête → Feu de brousse ; Givre + Givre + Tempête → Bourrasque glacée ; Flamme + Givre + Tempête → Cataclysme | La formule résonne encore : crée le sort de ses états actuels, comme Fusion arcanique, même si elle a déjà servi ce tour. |
 
 Sorts créés (*Fusion arcanique*, selon la combinaison des 3 états élémentaires) :
 

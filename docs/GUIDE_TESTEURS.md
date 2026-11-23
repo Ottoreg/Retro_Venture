@@ -107,6 +107,13 @@ temps : chaque camp a sa propre histoire.
     couleur de vos états (orange : Flamme, bleu : Givre) ; ils s'affichent aussi au survol de
     votre personnage et dans l'historique. On dit
     qu'un troisième élément compléterait la formule…
+    Huit **sorts utilitaires** se lancent directement : *Clignement* (téléportation), *Rétropropulsion* (recule
+    en brûlant l'ennemi au contact), *Pieds gelés* (−2 PM), *Appel d'air* (attire), *Mur de glace* (3 blocs de
+    glace qui bloquent passage et vue), *Manteau de braises* (moins de dégâts subis, brûle qui vous frappe),
+    *Conduction* (prête à un allié la caractéristique de vos états) et *Écho arcanique* (un 2e sort créé dans le
+    tour). Avec un état de leur élément, ils sont un peu plus forts (**affinité**). Au palier Apprenti, le passif
+    *Virtuose* récompense les combinaisons variées : chaque sort créé différent du précédent donne un cran de
+    dégâts en plus.
   - **Ombre** (nouvelle, Tempête : Agilité, et Acier : Force) : *Survoltage* et les sorts de mobilité (*Pas de
     l'éclair*, *Foudroiement*) laissent des **images** de foudre qui explosent au contact d'un ennemi (ou au tour
     suivant) ; *Court-circuit* les fait sauter tout de suite. *Fondu au noir* la rend **invisible** (les monstres ne la

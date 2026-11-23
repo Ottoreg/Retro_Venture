@@ -33,5 +33,22 @@
       "max": 10,
       "duree": 2
     }
-  ]
+  ],
+  "maitrise": {
+    "3": {
+      "effets": [
+        {
+          "type": "malus",
+          "carac": "resistance",
+          "element": "flamme",
+          "min": 5,
+          "max": 5,
+          "duree": 2
+        }
+      ]
+    },
+    "5": {
+      "critique": 10
+    }
+  }
 }

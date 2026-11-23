@@ -676,6 +676,11 @@ Lots 0 (conception dans le GDD), 1 (personnage, poussé sur `main` à la demande
 - [x] Voie de corps à corps **Myrmidon** (21/11/2026, GDD § 4.3) : provocation et passif Point de mire, Blindage,
   Gelures, assommer, arbres et rochers démolis, eau gelée, Garde ; valeurs provisoires (l'auteur ajustera après ses tests)
 - [ ] Myrmidon : geler les trous quand des cartes en auront ; animations PixelLab de ses sorts ; IA si un monstre joue la classe
+- [x] **Arcaniste complet** (23/11/2026, GDD § 4.3, propositions validées telles quelles) : 8 utilitaires à affinité
+  (Clignement, Rétropropulsion, Pieds gelés, Appel d'air, Mur de glace, Manteau de braises, Conduction, Écho arcanique),
+  passif Virtuose, rangs 3 et 5 des 10 sorts créés ; valeurs provisoires (l'auteur ajustera après ses tests)
+- [ ] Arcaniste : capture du mur de glace (l'action « arcaniste » de `tools/screenshot.gd` ne lance plus le combat) ;
+  IA qui compose les états (lot à part, sur demande) ; déblocage des fusions par paliers (après les tests)
 - [x] Voie mixte **Ombre** (20/11/2026, GDD § 4.3) : 2 Voies de 10 sorts, passif Coup en traître, images rémanentes,
   invisibilité, armes d'obscurité, Monde des ombres ; valeurs provisoires
 - [ ] Ombre : cacher côté serveur aux adversaires l'invisible, le Monde des ombres et les armes d'obscurité (multijoueur) ;

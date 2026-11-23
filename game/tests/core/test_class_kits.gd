@@ -216,10 +216,10 @@ func test_kit_de_l_arcaniste_dans_les_donnees() -> void:
 	var linked: Dictionary = create.create_effect()["sorts"]
 	assert_eq(linked.size(), 10, "toutes les combinaisons de Flamme, Givre et Tempête")
 	for voie_id in ["arcaniste", "guerrier", "rodeur", "theologue"]:
-		assert_eq(data.voies[voie_id]["sorts"].size(), {"arcaniste": 2, "guerrier": 20}.get(voie_id, 5), voie_id)
+		assert_eq(data.voies[voie_id]["sorts"].size(), {"arcaniste": 10, "guerrier": 20}.get(voie_id, 5), voie_id)
 	assert_eq(data.spells["arcaniste_creer_un_sort"].pa_cost, 2)
-	assert_eq(data.voies["arcaniste"]["sorts"], ["arcaniste_composition", "arcaniste_creer_un_sort"],
-		"un seul sort de composition à la place de Braise et Frimas")
+	assert_eq(data.voies["arcaniste"]["sorts"].slice(0, 2), ["arcaniste_composition", "arcaniste_creer_un_sort"],
+		"un seul sort de composition à la place de Braise et Frimas, puis les 8 utilitaires")
 	var choices: PackedStringArray = (data.spells["arcaniste_composition"] as Spell).state_choices()
 	assert_eq(choices.size(), 10)
 	for key in choices:
@@ -232,7 +232,7 @@ func test_rangs_de_maitrise_de_l_arcaniste() -> void:
 	var data := GameData.load_all()
 	var character := Character.create("Merlinpinpin", "humain", "arcaniste")
 	var masterable := data.masterable_spells("arcaniste", 0)
-	assert_eq(masterable.size(), 12, "Composition, Fusion arcanique et les 10 sorts créés")
+	assert_eq(masterable.size(), 20, "Composition, Fusion arcanique, les 8 utilitaires et les 10 sorts créés")
 	var entry: Dictionary = character.classes["arcaniste"]
 	entry["sorts"] = {"arcaniste_composition": 5, "arcaniste_creer_un_sort": 5, "arcaniste_fournaise": 2}
 	var fighter := data.create_character_fighter(character, "joueur")

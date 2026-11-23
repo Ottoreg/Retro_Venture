@@ -616,8 +616,29 @@ Mécaniques du Guerrier (GDD § 4.3) :
   bouclier `par_pv_payes` (au moins ce % des PV payés ce tour). Passif `rancune` : état `rancune` du lanceur (un cran
   par 5 PV perdus, +3 % de dégâts par cran, `Fighter.RAGE_MAX` selon le rang).
 
+Mécaniques de l'Arcaniste (GDD § 4.3) :
+
+```json
+{"type": "recul", "min": 3, "max": 3, "cibles": "ennemis"}
+{"type": "mur_de_glace", "duree": 2}
+{"type": "conduction", "min": 15, "max": 15, "duree": 2, "cibles": "allies"}
+"affinite": {"element": "givre", "effet": "retrait_pm", "valeur": 1}
+```
+
+- `recul` : le lanceur recule de `min`–`max` cases à l'opposé de la cible. `mur_de_glace` : les cases libres de la zone
+  deviennent des murs de glace `duree` tours du lanceur (obstacles qui bloquent la vue ; un Myrmidon peut les démolir ;
+  case visée libre). `conduction` : la cible gagne `min` dans la caractéristique de chaque état élémentaire du lanceur,
+  par état (Flamme : Intelligence, Givre : Perception, Tempête : Agilité).
+- Champ de sort `affinite` (utilitaires) : avec au moins un état élémentaire de `element`, +`portee_max` de portée, et
+  +`valeur` (min et max) et +`duree` aux effets de type `effet` (de caractéristique `carac` si elle est donnée).
+- Champs d'effet `autour_du_lanceur` (touche les ennemis au contact du lanceur à son départ, pas la cible) et `voisins`
+  d'une `attirance` (les ennemis au contact de la cible sont attirés d'autant). Rang de maîtrise `remise` (le sort créé
+  coûte autant de PA de moins à son 1er lancer). Les effets ajoutés par un rang peuvent être des rebonds.
+- État nommé `enracine` (ni poussé, ni attiré, ni déplacé sur une horloge). Caractéristique modifiable
+  `epines_flamme_fixes`. Passif `virtuose`.
+
 Toutes les Voies ont `pv` 50 et `initiative` 100 (demande de l'auteur du 20/11/2026). `passif` (facultatif) : le
-passif de classe, débloqué au palier Apprenti, `{"id", "nom", "effet": "coup_en_traitre", "pacte_de_feu", "saint_paratonnerre", "point_de_mire" ou "rancune", "description"}`
+passif de classe, débloqué au palier Apprenti, `{"id", "nom", "effet": "coup_en_traitre", "pacte_de_feu", "saint_paratonnerre", "point_de_mire", "rancune" ou "virtuose", "description"}`
 (effets connus : `GameData.CLASS_PASSIVES`) ; son rang vient de sa maîtrise.
 
 ## Objets (`objets/`)

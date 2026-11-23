@@ -302,7 +302,7 @@ var _embers: Array[Dictionary] = [{}, {}]
 ## Paladin : auras (id → { lanceur, taille }), qui suivent leur lanceur, et balises (id → { case, lanceur, equipe, ombres, porteur }).
 var _auras: Dictionary = {}
 var _beacons: Dictionary = {}
-## Myrmidon : terrain changé pour le combat (case → « demoli » ou « gel »).
+## Myrmidon : terrain changé pour le combat (case → « demoli » ou « gel » ; Arcaniste : `Combat.ICE_WALL`).
 var _terrain: Dictionary = {}
 var _projections: Array[Dictionary] = []
 ## Pierre de Passage tout juste découverte (id), pour annoncer en une fois qu'elle devient aussi le
@@ -930,7 +930,7 @@ func _describe(cell: Vector2i) -> String:
 			return text
 	if ground != "":
 		return ground
-	var walkable := (_map.is_walkable_in_combat(cell) or _terrain.has(cell)) if mode == Mode.COMBAT else _map.is_walkable(cell)
+	var walkable: bool = (_map.is_walkable_in_combat(cell) or _terrain.has(cell)) and _terrain.get(cell) != Combat.ICE_WALL if mode == Mode.COMBAT else _map.is_walkable(cell)
 	return "case (%d, %d)%s" % [cell.x, cell.y, "" if walkable else " — bloquée"]
 
 
@@ -2124,7 +2124,7 @@ func _draw() -> void:
 	for cell in _preview:
 		draw_colored_polygon(_scaled_diamond(IsoGrid.cell_to_screen(cell), 0.35), COLOR_PATH)
 	if map.is_inside(_hovered):
-		var walkable := (map.is_walkable_in_combat(_hovered) or _terrain.has(_hovered)) if mode == Mode.COMBAT else map.is_walkable(_hovered)
+		var walkable: bool = (map.is_walkable_in_combat(_hovered) or _terrain.has(_hovered)) and _terrain.get(_hovered) != Combat.ICE_WALL if mode == Mode.COMBAT else map.is_walkable(_hovered)
 		var color := COLOR_HOVER_OK if walkable else COLOR_HOVER_KO
 		draw_colored_polygon(IsoGrid.diamond(IsoGrid.cell_to_screen(_hovered)), color)
 
@@ -2282,7 +2282,7 @@ func _draw_tactical_ground(map: GameMap) -> void:
 		var center := IsoGrid.cell_to_screen(cell)
 		var diamond := IsoGrid.diamond(center)
 		if not map.obstacles.has(cell) or _terrain.has(cell):
-			draw_colored_polygon(diamond, TACTICAL_ICE if _terrain.get(cell) == "gel" else TACTICAL_CELLS[posmod(cell.x + cell.y, 2)])
+			draw_colored_polygon(diamond, TACTICAL_ICE if _terrain.get(cell) in ["gel", Combat.ICE_WALL] else TACTICAL_CELLS[posmod(cell.x + cell.y, 2)])
 		elif map.obstacles[cell] in Combat.SEE_THROUGH_OBSTACLES:
 			_draw_hole(map, cell, diamond)
 			continue  # Sans liseré : une rivière fait une seule tranchée.
@@ -2319,6 +2319,9 @@ func _draw_tactical_pieces(map: GameMap) -> void:
 	var drawables: Array = []
 	for cell: Vector2i in map.obstacles:
 		if map.obstacles[cell] not in Combat.SEE_THROUGH_OBSTACLES and not _terrain.has(cell):
+			drawables.append([IsoGrid.depth(Vector2(cell)), "", cell])
+	for cell: Vector2i in _terrain:  # Arcaniste : mur de glace en bloc bas.
+		if _terrain[cell] == Combat.ICE_WALL:
 			drawables.append([IsoGrid.depth(Vector2(cell)), "", cell])
 	for actor_id: String in _actors:
 		if _actors[actor_id]["alive"]:
@@ -2382,7 +2385,9 @@ func _draw_ground_marks() -> void:
 			draw_string(ThemeDB.fallback_font, spot, "×%d" % stacks[cell], HORIZONTAL_ALIGNMENT_LEFT, -1, 14, IMAGE_GLOW)
 	for cell: Vector2i in _terrain:  # Myrmidon : eau gelée (glace claire) ; arbre ou rocher démoli (souche ou gravats).
 		var center := IsoGrid.cell_to_screen(cell)
-		if _terrain[cell] == "gel":
+		if _terrain[cell] == Combat.ICE_WALL:  # Arcaniste : mur de glace, bloc de glace bleutée.
+			_draw_block(center, 26, Color(0.7, 0.88, 1.0, 0.85))
+		elif _terrain[cell] == "gel":
 			var ice := _scaled_diamond(center, 0.96)
 			draw_colored_polygon(ice, TACTICAL_ICE)
 			ice.append(ice[0])

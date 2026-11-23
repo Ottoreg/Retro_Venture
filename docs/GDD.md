@@ -502,6 +502,53 @@ rang 5, valeur provisoire) ; au **rang 3**, le premier lancer du tour rend **2 P
 **rang 5**, **3 PA** (les lancers suivants en rendent toujours 1). *Fusion arcanique* : **1 PA** au
 rang 3, **3e place** de sort créé au rang 5.
 
+**Arcaniste complet** (23/11/2026, fil « Compléter les sorts de l'Arcaniste », propositions validées telles quelles par
+l'auteur ; valeurs provisoires, à ajuster après ses tests ; fiche `docs/design/classes/arcaniste.md`, données par
+`docs/design/arcaniste/produire.py`, `game/tests/core/test_arcaniste.gd`). 20 sorts : *Composition*, *Fusion arcanique*,
+les 10 sorts créés et **8 sorts utilitaires** lancés directement (toujours dans la barre, sans place de sort créé). Chaque
+utilitaire a un élément ; avec au moins un état de cet élément, il gagne son **affinité** (champ `affinite`). Ils font peu
+ou pas de dégâts (les dégâts viennent des sorts créés).
+
+| Rôle | Sort | Élément | PA | Portée | Effet | Affinité | Rang 3 | Rang 5 |
+|---|---|---|---|---|---|---|---|---|
+| Mobilité | *Clignement* | Tempête | 2 | 1–3, case libre | Téléportation ; relance 2 tours | +1 portée | relance 1 | +1 portée |
+| Mobilité | *Rétropropulsion* | Flamme | 2 | 1 | 3 à 5 Flamme, il recule de 3 cases à l'opposé ; relance 2 tours | recule de 4 | 1 PA | ennemis à son contact au départ : 3 à 5 Flamme |
+| Contrôle | *Pieds gelés* | Givre | 2 | 1–5 | −2 PM (esquive comprise) ; 2 fois par tour | −3 PM | +1 portée | état *enraciné* 1 tour (ni poussé, ni attiré, ni déplacé sur une horloge) |
+| Contrôle | *Appel d'air* | Tempête | 3 | 2–6 en ligne | Attire de 3 cases ; relance 1 tour | attire de 4 | 2 PA | les ennemis au contact de la cible sont attirés d'1 case |
+| Défense | *Mur de glace* | Givre | 3 | 1–4, case libre | 3 cases de glace en travers, 2 tours : bloquent passage et vue ; relance 3 tours | +1 tour | 5 cases | relance 2 |
+| Défense | *Manteau de braises* | Flamme | 2 | soi | 2 tours : −4 dégâts subis, 3 à 5 épines Flamme fixes ; relance 3 tours | −6 dégâts | 1 PA | +1 tour |
+| Soutien | *Conduction* | selon ses états | 2 | 0–4, soi ou allié | 2 tours : +15 dans la caractéristique de chacun de ses états (Flamme ×2 + Givre : +30 Intelligence, +15 Perception) ; relance 3 tours | — | +1 portée | relance 2 |
+| Lié aux états | *Écho arcanique* | — | 2 | soi | Crée le sort de la combinaison actuelle, comme *Fusion arcanique*, même si elle a déjà servi ce tour ; relance 3 tours | — | relance 2 | le sort créé coûte 1 PA de moins à son 1er lancer |
+
+Le **mur de glace** est un état du terrain du combat (comme l'eau gelée du Myrmidon) : obstacle qui bloque la vue sur
+une case libre, jamais sur une case occupée ; un Myrmidon peut le démolir ; il fond au début du tour de l'Arcaniste
+quand ses tours sont écoulés. Les épines du *Manteau de braises* sont renvoyées à qui le blesse (comme toutes les épines).
+
+**Passif de classe *Virtuose*** (Apprenti, 5 rangs) : chaque sort créé lancé dont la combinaison diffère de celle du sort
+créé précédent donne **1 cran de Virtuosité** (3 au plus, jusqu'à la fin de son tour suivant) : **+3 % de dégâts par
+cran** (+1 % par rang, 8 % au rang 5). Rang 3 : à 3 crans, *Fusion arcanique* coûte 0 PA. Rang 5 : le 3e cran donne +1 PM
+pour le tour. Il pousse à jongler entre les combinaisons, sans doubler le bonus des états.
+
+**Rangs 3 et 5 des sorts créés** (en plus du +10 % par rang) :
+
+| Sort | Rang 3 | Rang 5 |
+|---|---|---|
+| *Fournaise* | glyphe brûlante 3 tours | +1 portée |
+| *Choc thermique* | −15 % de résistance Flamme | +10 % critique |
+| *Armure de givre* | +1 portée | +20 Perception aussi |
+| *Blizzard* | −3 PM | cercle de 2 |
+| *Foudre en chaîne* | rebonds jusqu'à 3 cases | 4e touché |
+| *Fulgurance* | +1 portée | sans relance |
+| *Vent arrière* | +3 PM | sans relance |
+| *Feu de brousse* | brûlure 3 tours | +1 portée |
+| *Bourrasque glacée* | poussée de 4 cases | −2 PM |
+| *Cataclysme* | relance 1 tour | −2 PM |
+
+Décisions du même jour : les points de maîtrise de l'Arcaniste vont dans ses **sorts**, comme les autres classes (le
+paragraphe « Points de maîtrise de l'Arcaniste » de la refonte, plus bas, n'est plus d'actualité) ; le déblocage des
+fusions par paliers reste reporté après les tests (tout est ouvert) ; l'IA qui compose les états sera un lot à part, plus
+tard, sur demande ; pas de 3e Voie pour l'instant. Planche et animations : celles de la race (comme les autres classes).
+
 **Gabarit commun des classes** (validé par l'auteur le 15/11/2026, fil « Concevoir les classes du jeu » ;
 fiches de travail par classe dans `docs/design/classes/`) :
 
@@ -903,7 +950,8 @@ voir plus haut ; la Tempête après)
   | Palier 4 | La fusion 1 + 1 + 1 : ABC | 10 |
 
   L'alpha 1 correspond au premier palier, avec Flamme et Givre imposés.
-- **Points de maîtrise** de l'Arcaniste (§ 4.5) : l'Arcaniste les place dans ses **éléments** (Flamme,
+- **Points de maîtrise** de l'Arcaniste (§ 4.5, *abandonné le 23/11/2026 : les points vont dans les sorts, voir
+  « Arcaniste complet »*) : l'Arcaniste les place dans ses **éléments** (Flamme,
   Tempête, Givre). Le niveau d'un élément renforce son passif (+4 % de dégâts par état au départ,
   davantage ensuite) et les sorts créés qui contiennent cet élément, comme les trois orbes de
   l'Invoker. Chaque niveau reste un choix, et les éléments de départ peuvent rester les plus forts.

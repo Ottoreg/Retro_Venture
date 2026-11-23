@@ -1,0 +1,46 @@
+{
+  "id": "arcaniste_manteau_de_braises",
+  "nom": "Manteau de braises",
+  "description": "Un manteau de braises : −4 dégâts subis et 3 à 5 Flamme renvoyés à qui le frappe, 2 tours. Affinité Flamme : −6 dégâts subis.",
+  "cout_pa": 2,
+  "portee": {
+    "min": 0,
+    "max": 0
+  },
+  "relance": {
+    "par_tour": 1,
+    "delai": 3
+  },
+  "affinite": {
+    "element": "flamme",
+    "effet": "bonus",
+    "carac": "reduction_degats",
+    "valeur": 2
+  },
+  "effets": [
+    {
+      "type": "bonus",
+      "carac": "reduction_degats",
+      "min": 4,
+      "max": 4,
+      "duree": 2
+    },
+    {
+      "type": "bonus",
+      "carac": "epines_flamme_fixes",
+      "min": 3,
+      "max": 5,
+      "duree": 2
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "cout_pa": 1
+    },
+    "5": {
+      "valeurs": {
+        "duree": 3
+      }
+    }
+  }
+}

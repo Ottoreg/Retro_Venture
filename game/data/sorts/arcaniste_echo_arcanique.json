@@ -1,0 +1,40 @@
+{
+  "id": "arcaniste_echo_arcanique",
+  "nom": "Écho arcanique",
+  "description": "La formule résonne encore : crée le sort de ses états actuels, comme Fusion arcanique, même si elle a déjà servi ce tour.",
+  "cout_pa": 2,
+  "portee": {
+    "min": 0,
+    "max": 0
+  },
+  "ligne_de_vue": false,
+  "relance": {
+    "par_tour": 1,
+    "delai": 3
+  },
+  "effets": [
+    {
+      "type": "creer_sort",
+      "combinaisons": {
+        "flamme+flamme+flamme": "arcaniste_fournaise",
+        "flamme+flamme+givre": "arcaniste_choc_thermique",
+        "flamme+givre+givre": "arcaniste_armure_de_givre",
+        "givre+givre+givre": "arcaniste_blizzard",
+        "tempete+tempete+tempete": "arcaniste_foudre_en_chaine",
+        "flamme+tempete+tempete": "arcaniste_fulgurance",
+        "givre+tempete+tempete": "arcaniste_vent_arriere",
+        "flamme+flamme+tempete": "arcaniste_feu_de_brousse",
+        "givre+givre+tempete": "arcaniste_bourrasque_glacee",
+        "flamme+givre+tempete": "arcaniste_cataclysme"
+      }
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "delai": 2
+    },
+    "5": {
+      "remise": 1
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "id": "arcaniste_clignement",
+  "nom": "Clignement",
+  "description": "Un clignement d'yeux et il est ailleurs. Affinité Tempête : +1 portée.",
+  "cout_pa": 2,
+  "portee": {
+    "min": 1,
+    "max": 3
+  },
+  "relance": {
+    "par_tour": 1,
+    "delai": 2
+  },
+  "affinite": {
+    "element": "tempete",
+    "portee_max": 1
+  },
+  "effets": [
+    {
+      "type": "teleportation"
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "delai": 1
+    },
+    "5": {
+      "portee_max": 1
+    }
+  }
+}

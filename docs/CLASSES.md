@@ -104,7 +104,7 @@ point(s) de caractéristique (avant ralentissement).
 
 | Voie | PV | PA | PM | Initiative | Sorts de rang I | Sorts de rang II |
 |---|---|---|---|---|---|---|
-| **Arcaniste** | 50 | 6 | 3 | 100 | 2 | 0 |
+| **Arcaniste** | 50 | 6 | 3 | 100 | 10 | 0 |
 | **Chronomancien** | 50 | 6 | 3 | 100 | 6 | 0 |
 | **Démoniste** | 50 | 6 | 3 | 100 | 20 | 0 |
 | **Guerrier** | 50 | 6 | 3 | 100 | 20 | 0 |
@@ -126,16 +126,24 @@ horloge, glyphe et piège) ; *Moy./PA* ; *Rang 5* = moyenne avec +50 % de maîtr
 |---|---|---|---|---|---|---|---|
 | **Composition** | I | 1 PA, portée soi, sans ligne de vue, critique 0 % | choisit d'un coup ses 3 états élémentaires parmi Flamme et Givre et Tempête (permanents) ; +1 PA tout de suite | — | — | — | rang 1 : +1 % par état élémentaire<br>rang 2 : +1 % par état élémentaire<br>rang 3 : +1 % par état élémentaire, ajoute +1 PA tout de suite (premier lancer du tour)<br>rang 4 : +1 % par état élémentaire<br>rang 5 : +1 % par état élémentaire, ajoute +1 PA tout de suite (premier lancer du tour) |
 | **Fusion arcanique** | I | 2 PA, portée soi, sans ligne de vue, 1/tour, critique 0 % | crée le sort de la combinaison des 3 états : Flamme + Flamme + Flamme → Fournaise ; Flamme + Flamme + Givre → Choc thermique ; Flamme + Givre + Givre → Armure de givre ; Givre + Givre + Givre → Blizzard ; Tempête + Tempête + Tempête → Foudre en chaîne ; Flamme + Tempête + Tempête → Fulgurance ; Givre + Tempête + Tempête → Vent arrière ; Flamme + Flamme + Tempête → Feu de brousse ; Givre + Givre + Tempête → Bourrasque glacée ; Flamme + Givre + Tempête → Cataclysme | — | — | — | rang 3 : coût 1 PA<br>rang 5 : +1 place de sort créé |
-| **Fournaise** | créé (Flamme+Flamme+Flamme) | 4 PA, portée 2–6, cercle de rayon 1, 1/tour | 9–13 Flamme aux ennemis ; glyphe (2 t.) : [3–5 Flamme aux ennemis] | 11 dégâts | 2,75 dégâts | 16,5 dégâts | — |
-| **Choc thermique** | créé (Flamme+Flamme+Givre) | 4 PA, portée 1–5, 1/tour | 7–10 Flamme ; 4–6 Givre ; −10 Résistance Flamme (2 t.) | 13,5 dégâts | 3,38 dégâts | 20,25 dégâts | — |
-| **Armure de givre** | créé (Flamme+Givre+Givre) | 4 PA, portée 0–3, 1/tour, relance 1 t. | bouclier 14–20 (Givre) aux alliés ; +20 Intelligence (2 t.) aux alliés | 17 bouclier | 4,25 bouclier | 25,5 bouclier | — |
-| **Blizzard** | créé (Givre+Givre+Givre) | 4 PA, portée 1–5, cercle de rayon 1, 1/tour | 6–9 Givre aux ennemis ; −2 PM au prochain tour aux ennemis | 7,5 dégâts | 1,88 dégâts | 11,25 dégâts | — |
-| **Foudre en chaîne** | créé (Tempête+Tempête+Tempête) | 4 PA, portée 1–6, 1/tour | 9–12 Tempête ; rebond 6–8 Tempête sur l'ennemi le plus proche (2 case(s) au plus) ; rebond 3–5 Tempête sur l'ennemi le plus proche (2 case(s) au plus) | 10,5 dégâts | 2,62 dégâts | 15,75 dégâts | — |
-| **Fulgurance** | créé (Flamme+Tempête+Tempête) | 4 PA, portée 2–4, cercle de rayon 1, 1/tour, relance 1 t. | téléportation sur la case ; 7–10 Tempête aux ennemis ; 3–5 Flamme aux ennemis | 12,5 dégâts | 3,12 dégâts | 18,75 dégâts | — |
-| **Vent arrière** | créé (Givre+Tempête+Tempête) | 4 PA, portée 0–4, 1/tour, relance 1 t. | +2 PM (1 t.) aux alliés ; +20 Agilité (2 t.) aux alliés ; inblocable (1 t.) aux alliés | — | — | — | — |
-| **Feu de brousse** | créé (Flamme+Flamme+Tempête) | 4 PA, portée 2–6, cercle de rayon 1, 1/tour | 7–10 Flamme aux ennemis ; 3–4 Tempête aux ennemis ; poison 3–4 Flamme par tour (2 t.) aux ennemis | 12 dégâts | 3 dégâts | 18 dégâts | — |
-| **Bourrasque glacée** | créé (Givre+Givre+Tempête) | 4 PA, portée 1–5, en ligne, 1/tour | 6–9 Givre ; 2–3 Tempête ; poussée de 3 case(s) ; −1 PM au prochain tour | 10 dégâts | 2,5 dégâts | 15 dégâts | — |
-| **Cataclysme** | créé (Flamme+Givre+Tempête) | 4 PA, portée 2–5, cercle de rayon 1, 1/tour, relance 2 t. | 5–7 Flamme aux ennemis ; 5–7 Givre aux ennemis ; 5–7 Tempête aux ennemis ; −1 PM au prochain tour aux ennemis ; poussée de 1 case(s) aux ennemis | 18 dégâts | 4,5 dégâts | 27 dégâts | — |
+| **Clignement** | I | 2 PA, portée 1–3, 1/tour, relance 2 t. | téléportation sur la case | — | — | — | rang 3 : relance 1 t.<br>rang 5 : +1 portée |
+| **Rétropropulsion** | I | 2 PA, portée 1, 1/tour, relance 2 t. | 3–5 Flamme aux ennemis ; recul aux ennemis | 4 dégâts | 2 dégâts | 6 dégâts | rang 3 : coût 1 PA<br>rang 5 : ajoute 3–5 Flamme aux ennemis |
+| **Pieds gelés** | I | 2 PA, portée 1–5, 2/tour | −2 PM au prochain tour aux ennemis | — | — | — | rang 3 : +1 portée<br>rang 5 : ajoute enracine (1 t.) aux ennemis |
+| **Appel d'air** | I | 3 PA, portée 2–6, en ligne, 1/tour, relance 1 t. | attire de 3 case(s) aux ennemis | — | — | — | rang 3 : coût 2 PA<br>rang 5 : valeurs {'voisins': 1} |
+| **Mur de glace** | I | 3 PA, portée 1–4, 1/tour, relance 3 t. | mur_de_glace | — | — | — | rang 3 : zone de taille 2<br>rang 5 : relance 2 t. |
+| **Manteau de braises** | I | 2 PA, portée soi, 1/tour, relance 3 t. | +4 reduction_degats (2 t.) ; +3–5 epines_flamme_fixes (2 t.) | — | — | — | rang 3 : coût 1 PA<br>rang 5 : valeurs {'duree': 3} |
+| **Conduction** | I | 2 PA, portée 0–4, 1/tour, relance 3 t. | conduction aux alliés | — | — | — | rang 3 : +1 portée<br>rang 5 : relance 2 t. |
+| **Écho arcanique** | I | 2 PA, portée soi, sans ligne de vue, 1/tour, relance 3 t. | crée le sort de la combinaison des 3 états : Flamme + Flamme + Flamme → Fournaise ; Flamme + Flamme + Givre → Choc thermique ; Flamme + Givre + Givre → Armure de givre ; Givre + Givre + Givre → Blizzard ; Tempête + Tempête + Tempête → Foudre en chaîne ; Flamme + Tempête + Tempête → Fulgurance ; Givre + Tempête + Tempête → Vent arrière ; Flamme + Flamme + Tempête → Feu de brousse ; Givre + Givre + Tempête → Bourrasque glacée ; Flamme + Givre + Tempête → Cataclysme | — | — | — | rang 3 : relance 2 t.<br>rang 5 : remise 1 |
+| **Fournaise** | créé (Flamme+Flamme+Flamme) | 4 PA, portée 2–6, cercle de rayon 1, 1/tour | 9–13 Flamme aux ennemis ; glyphe (2 t.) : [3–5 Flamme aux ennemis] | 11 dégâts | 2,75 dégâts | 16,5 dégâts | rang 3 : valeurs {'duree': 3}<br>rang 5 : +1 portée |
+| **Choc thermique** | créé (Flamme+Flamme+Givre) | 4 PA, portée 1–5, 1/tour | 7–10 Flamme ; 4–6 Givre ; −10 Résistance Flamme (2 t.) | 13,5 dégâts | 3,38 dégâts | 20,25 dégâts | rang 3 : ajoute −5 Résistance Flamme (2 t.)<br>rang 5 : +10 % critique |
+| **Armure de givre** | créé (Flamme+Givre+Givre) | 4 PA, portée 0–3, 1/tour, relance 1 t. | bouclier 14–20 (Givre) aux alliés ; +20 Intelligence (2 t.) aux alliés | 17 bouclier | 4,25 bouclier | 25,5 bouclier | rang 3 : +1 portée<br>rang 5 : ajoute +20 Perception (2 t.) aux alliés |
+| **Blizzard** | créé (Givre+Givre+Givre) | 4 PA, portée 1–5, cercle de rayon 1, 1/tour | 6–9 Givre aux ennemis ; −2 PM au prochain tour aux ennemis | 7,5 dégâts | 1,88 dégâts | 11,25 dégâts | rang 3 : ajoute −1 PM au prochain tour aux ennemis<br>rang 5 : zone de taille 2 |
+| **Foudre en chaîne** | créé (Tempête+Tempête+Tempête) | 4 PA, portée 1–6, 1/tour | 9–12 Tempête ; rebond 6–8 Tempête sur l'ennemi le plus proche (2 case(s) au plus) ; rebond 3–5 Tempête sur l'ennemi le plus proche (2 case(s) au plus) | 10,5 dégâts | 2,62 dégâts | 15,75 dégâts | rang 3 : valeurs {'distance': 3}<br>rang 5 : ajoute rebond 2–3 Tempête sur l'ennemi le plus proche (3 case(s) au plus) |
+| **Fulgurance** | créé (Flamme+Tempête+Tempête) | 4 PA, portée 2–4, cercle de rayon 1, 1/tour, relance 1 t. | téléportation sur la case ; 7–10 Tempête aux ennemis ; 3–5 Flamme aux ennemis | 12,5 dégâts | 3,12 dégâts | 18,75 dégâts | rang 3 : +1 portée<br>rang 5 : relance 0 t. |
+| **Vent arrière** | créé (Givre+Tempête+Tempête) | 4 PA, portée 0–4, 1/tour, relance 1 t. | +2 PM (1 t.) aux alliés ; +20 Agilité (2 t.) aux alliés ; inblocable (1 t.) aux alliés | — | — | — | rang 3 : ajoute +1 PM (1 t.) aux alliés<br>rang 5 : relance 0 t. |
+| **Feu de brousse** | créé (Flamme+Flamme+Tempête) | 4 PA, portée 2–6, cercle de rayon 1, 1/tour | 7–10 Flamme aux ennemis ; 3–4 Tempête aux ennemis ; poison 3–4 Flamme par tour (2 t.) aux ennemis | 12 dégâts | 3 dégâts | 18 dégâts | rang 3 : valeurs {'duree': 3}<br>rang 5 : +1 portée |
+| **Bourrasque glacée** | créé (Givre+Givre+Tempête) | 4 PA, portée 1–5, en ligne, 1/tour | 6–9 Givre ; 2–3 Tempête ; poussée de 3 case(s) ; −1 PM au prochain tour | 10 dégâts | 2,5 dégâts | 15 dégâts | rang 3 : ajoute poussée de 1 case(s)<br>rang 5 : ajoute −1 PM au prochain tour aux ennemis |
+| **Cataclysme** | créé (Flamme+Givre+Tempête) | 4 PA, portée 2–5, cercle de rayon 1, 1/tour, relance 2 t. | 5–7 Flamme aux ennemis ; 5–7 Givre aux ennemis ; 5–7 Tempête aux ennemis ; −1 PM au prochain tour aux ennemis ; poussée de 1 case(s) aux ennemis | 18 dégâts | 4,5 dégâts | 27 dégâts | rang 3 : relance 1 t.<br>rang 5 : ajoute −1 PM au prochain tour aux ennemis |
 
 ### Chronomancien
 

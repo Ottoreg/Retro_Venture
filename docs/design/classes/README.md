@@ -18,12 +18,12 @@ reportée dans le GDD § 4.3, puis codée sur demande.
 | 2 | [Rôdeur](rodeur.md) | Acier / Flamme | 5 | 15 + passif |
 | 3 | [Théologue](theologue.md) | Sacré / Flamme | 5 | 15 + passif |
 | 4 | [Chronomancien](chronomancien.md) | Impie / Givre | 6 | 14 + passif |
-| 5 | [Arcaniste](arcaniste.md) | Flamme + Givre + Tempête (une Voie) | 12 | 8 + passif |
+| 5 | [Arcaniste](arcaniste.md) | Flamme + Givre + Tempête (une Voie) | 20 + passif | — (codé) |
 | 6 | [Myrmidon](myrmidon.md) | Acier / Givre | 20 + passif | — (codé) |
 | 7 | [Paladin](paladin.md) | Sacré / Tempête | 20 + passif | — (codé) |
 | 8 | [Ombre](ombre.md) | Tempête / Acier | 20 + passif | — (codée) |
 | 9 | [Démoniste](demoniste.md) | Impie / Flamme | 20 + passif | — (codé, passif à revoir) |
-| | **Total** | | **108 + 4 passifs** | **72 + 5 passifs** |
+| | **Total** | | **116 + 5 passifs** | **64 + 4 passifs** |
 
 Rappel des éléments : Acier → Force, Flamme → Intelligence, Givre → Perception, Tempête → Agilité,
 Sacré → Force + Intelligence, Impie → Agilité + Perception. Répartition à terme : Acier 4 classes,

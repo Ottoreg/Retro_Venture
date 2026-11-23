@@ -112,21 +112,27 @@ const EFFECT_ARMOR := "blindage"
 const EFFECT_FROSTBITE := "gelure"
 const EFFECT_DEMOLISH := "demolition"
 const EFFECT_FREEZE := "gel"
+## Arcaniste (GDD § 4.3) : le lanceur recule de `min`–`max` cases à l'opposé de la cible ; murs de glace sur les cases libres
+## de la zone pendant `duree` tours du lanceur (obstacles, voir `Combat.ICE_WALL`) ; la cible gagne `min`–`max` dans la
+## caractéristique de chaque état élémentaire du lanceur (`Fighter.ELEMENT_STATS`), pendant `duree` tours.
+const EFFECT_RECOIL := "recul"
+const EFFECT_ICE_WALL := "mur_de_glace"
+const EFFECT_CONDUCTION := "conduction"
 const EFFECT_TYPES := [EFFECT_DAMAGE, EFFECT_HEAL, EFFECT_TELEPORT, EFFECT_GAIN_PA, EFFECT_REMOVE_PM, EFFECT_SHIELD,
 	EFFECT_BONUS, EFFECT_MALUS, EFFECT_POISON, EFFECT_PUSH, EFFECT_PULL, EFFECT_GLYPH, EFFECT_TRAP,
 	EFFECT_ELEMENT_STATE, EFFECT_COMPOSE_STATES, EFFECT_CREATE_SPELL, EFFECT_CHARGE, EFFECT_REMOVE_STATES,
 	EFFECT_CLOCK, EFFECT_CLOCK_SHIFT, EFFECT_STATE, EFFECT_BOUNCE, EFFECT_IMAGE, EFFECT_DETONATE, EFFECT_SHADOW_WEAPON,
 	EFFECT_SHADOW_WORLD, EFFECT_BEHIND, EFFECT_SUMMON, EFFECT_SACRIFICE, EFFECT_SWAP, EFFECT_ASHES, EFFECT_AURA, EFFECT_BEACON, EFFECT_SURGE, EFFECT_BEACON_SWAP,
-	EFFECT_LIVING_BEACON, EFFECT_ARMOR, EFFECT_FROSTBITE, EFFECT_DEMOLISH, EFFECT_FREEZE]
+	EFFECT_LIVING_BEACON, EFFECT_ARMOR, EFFECT_FROSTBITE, EFFECT_DEMOLISH, EFFECT_FREEZE, EFFECT_RECOIL, EFFECT_ICE_WALL, EFFECT_CONDUCTION]
 ## Effets sans valeur chiffrée (ni `min` ni `max`).
 const VALUELESS_EFFECTS := [EFFECT_TELEPORT, EFFECT_ELEMENT_STATE, EFFECT_COMPOSE_STATES, EFFECT_CREATE_SPELL, EFFECT_CHARGE,
 	EFFECT_REMOVE_STATES, EFFECT_CLOCK, EFFECT_CLOCK_SHIFT, EFFECT_STATE, EFFECT_DETONATE, EFFECT_SHADOW_WORLD, EFFECT_BEHIND,
-	EFFECT_SUMMON, EFFECT_SWAP, EFFECT_SURGE, EFFECT_BEACON_SWAP, EFFECT_LIVING_BEACON, EFFECT_DEMOLISH, EFFECT_FREEZE]
+	EFFECT_SUMMON, EFFECT_SWAP, EFFECT_SURGE, EFFECT_BEACON_SWAP, EFFECT_LIVING_BEACON, EFFECT_DEMOLISH, EFFECT_FREEZE, EFFECT_ICE_WALL]
 ## Effets qui ne concernent que le lanceur ou son déplacement, ou le cadran d'une horloge : jamais
 ## dans une glyphe, un piège ou une heure d'horloge.
 const CASTER_EFFECTS := [EFFECT_TELEPORT, EFFECT_ELEMENT_STATE, EFFECT_COMPOSE_STATES, EFFECT_CREATE_SPELL, EFFECT_CHARGE,
 	EFFECT_CLOCK, EFFECT_CLOCK_SHIFT, EFFECT_BOUNCE, EFFECT_DETONATE, EFFECT_SHADOW_WORLD, EFFECT_BEHIND, EFFECT_SUMMON, EFFECT_SACRIFICE, EFFECT_SWAP, EFFECT_ASHES,
-	EFFECT_AURA, EFFECT_BEACON, EFFECT_SURGE, EFFECT_BEACON_SWAP, EFFECT_DEMOLISH, EFFECT_FREEZE]
+	EFFECT_AURA, EFFECT_BEACON, EFFECT_SURGE, EFFECT_BEACON_SWAP, EFFECT_DEMOLISH, EFFECT_FREEZE, EFFECT_ICE_WALL]
 ## États nommés : « insoignable » (aucun soin ne lui rend de PV) ; « manipulation_temps » (posé par
 ## une horloge) ; « exorcisme » (les prochains dégâts Sacré l'achèvent, l'état tombe alors).
 const STATE_UNHEALABLE := "insoignable"
@@ -147,8 +153,10 @@ const STATE_PROVOKED := "provoque"
 const STATE_STUNNED := "assomme"
 const STATE_GUARDED := "garde"
 const STATE_ICE_SHELL := "carapace_de_glace"
+## Arcaniste : enraciné (ni poussé, ni attiré, ni déplacé sur une horloge).
+const STATE_ROOTED := "enracine"
 const NAMED_STATES := [STATE_UNHEALABLE, STATE_TIME_MANIPULATION, STATE_EXORCISM, STATE_UNBLOCKABLE, STATE_INVISIBLE,
-	STATE_SHADOW, STATE_NO_RETURN, STATE_DRAWN, STATE_PROVOKED, STATE_STUNNED, STATE_GUARDED, STATE_ICE_SHELL]
+	STATE_SHADOW, STATE_NO_RETURN, STATE_DRAWN, STATE_PROVOKED, STATE_STUNNED, STATE_GUARDED, STATE_ICE_SHELL, STATE_ROOTED]
 ## Éléments d'un état élémentaire, et états qu'un retrait peut enlever.
 const STATE_ELEMENTS := ["flamme", "givre", "tempete"]
 const REMOVABLE_STATE_TYPES := [EFFECT_BONUS, EFFECT_MALUS, EFFECT_POISON]
@@ -156,11 +164,12 @@ const REMOVABLE_STATE_TYPES := [EFFECT_BONUS, EFFECT_MALUS, EFFECT_POISON]
 ## téléportation à l'intérieur).
 const GROUND_EFFECTS := [EFFECT_GLYPH, EFFECT_TRAP, EFFECT_IMAGE, EFFECT_AURA, EFFECT_BEACON]
 ## Effets qui durent plusieurs tours (`duree` obligatoire).
-const LASTING_EFFECTS := [EFFECT_BONUS, EFFECT_MALUS, EFFECT_POISON, EFFECT_GLYPH, EFFECT_CLOCK, EFFECT_STATE, EFFECT_AURA, EFFECT_LIVING_BEACON]
+const LASTING_EFFECTS := [EFFECT_BONUS, EFFECT_MALUS, EFFECT_POISON, EFFECT_GLYPH, EFFECT_CLOCK, EFFECT_STATE, EFFECT_AURA, EFFECT_LIVING_BEACON,
+	EFFECT_ICE_WALL, EFFECT_CONDUCTION]
 ## Caractéristiques qu'un bonus ou un malus peut changer ; « resistance » demande un `element` ;
 ## « degats_infliges » : % de tous les dégâts infligés (poisons compris).
 const MODIFIABLE := ["force", "intelligence", "perception", "agilite", "pa", "pm", "portee", "dommages", "critique", "resistance",
-	"degats_infliges", "retrait_pa", "retrait_pm", "epines_flamme", "epines_tempete_fixes", "reduction_degats"]
+	"degats_infliges", "retrait_pa", "retrait_pm", "epines_flamme", "epines_flamme_fixes", "epines_tempete_fixes", "reduction_degats"]
 ## Effets chiffrés qui ont un élément : leur valeur monte avec la caractéristique de cet élément
 ## (un soin Sacré avec la Force et l'Intelligence, un bouclier de Tempête avec l'Agilité, un poison
 ## de Givre avec la Perception…).
@@ -181,8 +190,9 @@ const MASTERY_MAX_RANK := 5
 ## Changements qu'un rang de maîtrise peut apporter (« maitrise » : { "3": {…}, "5": {…} }) : ajouts
 ## (critique, portee_max, bonus_etats : % de chaque état élémentaire, places_crees : places de sorts créés),
 ## nouvelles valeurs (cout_pa, cout_pv, delai, zone_taille), champs des effets changés (valeurs : { champ : valeur }, sur
-## chaque effet qui a ce champ) et effets en plus (effets ; « premier_lancer » : true, seulement au premier lancer du tour).
-const MASTERY_ADDS := ["critique", "portee_max", "bonus_etats", "places_crees", "embrase", "duree_aura"]
+## chaque effet qui a ce champ), effets en plus (effets ; « premier_lancer » : true, seulement au premier lancer du tour) et
+## « remise » (PA de moins au 1er lancer du sort créé par ce sort).
+const MASTERY_ADDS := ["critique", "portee_max", "bonus_etats", "places_crees", "embrase", "duree_aura", "remise"]
 const MASTERY_SETS := ["cout_pa", "cout_pv", "delai", "zone_taille"]
 
 var id: String
@@ -235,6 +245,10 @@ var ember_range := 0
 var projectile := false
 var aura_zone := false
 var aura_turns := 0
+## Arcaniste : affinité d'un utilitaire (« affinite » : { element, portee_max, effet, carac, valeur, duree }, voir `attuned`) ;
+## PA de moins au 1er lancer du sort créé par ce sort (rang de maîtrise « remise »).
+var affinity: Dictionary = {}
+var created_discount := 0
 
 
 ## Liste des erreurs de `data` (vide si le sort est valide).
@@ -274,6 +288,9 @@ static func validate(data: Dictionary) -> PackedStringArray:
 		return errors
 	errors.append_array(_validate_effects(effects_data, true))
 	errors.append_array(_validate_mastery(data.get("maitrise", {})))
+	var affinity_data: Variant = data.get("affinite", {})
+	if typeof(affinity_data) != TYPE_DICTIONARY or (not affinity_data.is_empty() and affinity_data.get("element") not in STATE_ELEMENTS):
+		errors.append("« affinite » doit être { element (%s), portee_max, effet, carac, valeur, duree }" % str(STATE_ELEMENTS))
 	var calcined_data: Variant = data.get("calcinee", {})
 	if typeof(calcined_data) != TYPE_DICTIONARY:
 		errors.append("« calcinee » doit être un objet { effets, seuls, bonus, embrase }")
@@ -307,7 +324,7 @@ static func _validate_mastery(mastery_data: Variant) -> PackedStringArray:
 				if typeof(changes["effets"]) != TYPE_ARRAY or changes["effets"].is_empty():
 					errors.append("« maitrise.%s.effets » doit être une liste non vide" % str(key))
 				else:
-					errors.append_array(_validate_effects(changes["effets"], false))
+					errors.append_array(_validate_effects(changes["effets"], true))
 			elif change == "valeurs":
 				if typeof(changes["valeurs"]) != TYPE_DICTIONARY or changes["valeurs"].values().any(func(value: Variant) -> bool: return not _is_int_at_least(value, 0)):
 					errors.append("« maitrise.%s.valeurs » doit être un objet { champ d'effet : entier }" % str(key))
@@ -448,6 +465,7 @@ static func from_dict(data: Dictionary) -> Spell:
 	spell.ember_range = int(data.get("portee_embrasee", 0))
 	spell.projectile = bool(data.get("projectile", false))
 	spell.aura_zone = bool(data.get("zone_aura", false))
+	spell.affinity = data.get("affinite", {}).duplicate()
 	var mastery_data: Dictionary = data.get("maitrise", {})
 	for key: String in mastery_data:
 		spell.mastery[int(key)] = mastery_data[key].duplicate(true)
@@ -461,13 +479,8 @@ func mastered(level: int) -> Spell:
 	level = clampi(level, 0, MASTERY_MAX_RANK)
 	if level == 0:
 		return self
-	var copy := Spell.new()
-	for property in ["id", "display_name", "description", "pa_cost", "hp_cost", "range_min", "range_max", "needs_line_of_sight",
-			"cast_in_line", "fixed_range", "zone_type", "zone_size", "excludes_caster", "casts_per_turn", "cooldown", "crit_chance", "discreet", "enemy_cooldown", "marked_range", "ignites", "calcined", "ember_range", "projectile", "aura_zone", "aura_turns"]:
-		copy.set(property, get(property))
-	copy.mastery = mastery
+	var copy := _copy(100 + MASTERY_BONUS_PER_RANK * level)
 	copy.rank = level
-	copy.effects = _scaled_effects(effects, 100 + MASTERY_BONUS_PER_RANK * level)
 	var ranks := mastery.keys()
 	ranks.sort()
 	for rank_reached: int in ranks:
@@ -480,6 +493,7 @@ func mastered(level: int) -> Spell:
 		copy.created_slots += int(changes.get("places_crees", 0))
 		copy.ignites += int(changes.get("embrase", 0))
 		copy.aura_turns += int(changes.get("duree_aura", 0))
+		copy.created_discount += int(changes.get("remise", 0))
 		copy.pa_cost = int(changes.get("cout_pa", copy.pa_cost))
 		copy.hp_cost = int(changes.get("cout_pv", copy.hp_cost))
 		copy.cooldown = int(changes.get("delai", copy.cooldown))
@@ -489,6 +503,33 @@ func mastered(level: int) -> Spell:
 			for field: String in changes.get("valeurs", {}):
 				if effect.has(field):
 					effect[field] = int(changes["valeurs"][field])
+	return copy
+
+
+## Copie du sort, valeurs des effets élémentaires à `percent` %.
+func _copy(percent := 100) -> Spell:
+	var copy := Spell.new()
+	for property in ["id", "display_name", "description", "pa_cost", "hp_cost", "range_min", "range_max", "needs_line_of_sight",
+			"cast_in_line", "fixed_range", "zone_type", "zone_size", "excludes_caster", "casts_per_turn", "cooldown", "crit_chance", "discreet",
+			"enemy_cooldown", "marked_range", "ignites", "calcined", "ember_range", "projectile", "aura_zone", "aura_turns", "mastery", "rank",
+			"state_bonus", "created_slots", "affinity", "created_discount"]:
+		copy.set(property, get(property))
+	copy.effects = _scaled_effects(effects, percent)
+	return copy
+
+
+## Utilitaire de l'Arcaniste avec ses `states` élémentaires : avec au moins un état de l'élément de son affinité, +`portee_max`
+## de portée, et +`valeur` (min et max) et +`duree` aux effets de type `effet` (de caractéristique `carac` si elle est donnée).
+func attuned(states: Array) -> Spell:
+	if affinity.is_empty() or str(affinity["element"]) not in states:
+		return self
+	var copy := _copy()
+	copy.range_max += int(affinity.get("portee_max", 0))
+	for effect in copy.effects:
+		if effect["type"] == affinity.get("effet") and str(affinity.get("carac", effect.get("carac", ""))) == str(effect.get("carac", "")):
+			for key in ["min", "max"]:
+				effect[key] = int(effect[key]) + int(affinity.get("valeur", 0))
+			effect["duree"] = int(effect["duree"]) + int(affinity.get("duree", 0))
 	return copy
 
 
