@@ -155,9 +155,10 @@ cliché attendu (bourrus, brutaux) ; les quatre autres peuples de Phase 3 :
   les quatre sont dessinées et jouables (20/11/2026).
 - **Mycéliens (neutre)** : hommes-champignons, qui **remplacent les Lutins** (décision de l'auteur du
   23/11/2026). Trois formes à la place du choix mâle / femelle, comme les Arkhés : **cèpe**, **girolle** et
-  **amanite**. Piste de parodie (à valider) : reliés par leurs racines, ils forment le réseau de commérages
+  **amanite**. Parodie (validée le 23/11/2026) : reliés par leurs racines, ils forment le réseau de commérages
   de la forêt, savent tout ce qui se passe partout et n'en font jamais rien ; ils renient les morilles
-  grincheuses de Sylvebrume, cousines mal élevées.
+  grincheuses de Sylvebrume, cousines mal élevées. Neutres par paresse plus que par principe (« on n'était pas au courant »,
+  alors qu'ils l'étaient), ils colportent les ragots d'un camp à l'autre.
 
 **Arc narratif :**
 
