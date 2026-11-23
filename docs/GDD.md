@@ -388,7 +388,7 @@ sexes × équipements × animations) impose de s'en tenir à ces 9.
 | **Rôdeur** | Distance, mobilité | Acier / Tempête (Force / Agilité) | Arc, pièges, poussée, gestion de distance |
 | **Arcaniste** | Dégâts magiques, contrôle, mobilité | Flamme / Givre / Tempête (Intelligence / Perception / Agilité, à parts égales) | États élémentaires et sorts créés selon leur combinaison : zones, ralentissements, bouclier, foudre, téléportation |
 | **Théologue** | Soigneur sacré | Sacré (Force + Intelligence) | Soins, boucliers, dégâts sacrés modestes |
-| **Chronomancien** | Contrôle, mi-distance | Impie (Agilité + Perception) | Horloge : la cible tourne sur un cadran, chaque heure a son effet (détails plus bas) |
+| **Chronomancien** | Contrôle, mi-distance | Impie (Agilité + Perception) / Givre (Perception) | Horloge : la cible tourne sur un cadran, chaque heure a son effet ; pulsions différées, retours dans le passé, envoi dans le futur (20 sorts depuis le 23/11/2026, détails plus bas) |
 
 Le **Théologue** est jouable dans l'alpha (✅) : une classe de soin rend le solo plus confortable et
 permet de tester le Sacré dès maintenant. Son arme de départ prévue : le Sceptre de novice (Sacré,
@@ -835,6 +835,60 @@ pièges pour être efficace. Pièges principaux :
   passé. Exemple : une pulsion de Givre « passé » inflige des dégâts pour chaque manipulation
   temporelle que la cible a subie dans le passé.
 
+**Chronomancien : conception finale, codée le 23/11/2026** (document de 22 questions du 21/11/2026, propositions
+validées telles quelles par l'auteur le 23/11/2026, à ajuster après ses tests ; valeurs provisoires ; fiche
+`docs/design/classes/chronomancien.md`, données par `docs/design/chronomancien/produire.py`, tests
+`test_chronomancien.gd` et `test_chronomancien_temps.gd`) :
+
+- *Identité* : « Dérègle le temps avec des pouvoirs impies. Toujours en avance, ou en retard, mais jamais à l'heure. »
+  Contrôle à mi-distance ; 50 PV, 6 PA, 3 PM, 100 d'initiative (base commune). Voie Impie (Agilité + Perception) : le
+  contrôle par le cadran de l'Horloge, portée 6. Voie Givre (Perception) : le temps comme entrave, dégâts différés
+  (pulsions) et retours de position. Pas de vrai soin dans le kit.
+- *Manipulation temporelle* : chaque heure atteinte sur un cadran (la pose de l'Horloge à 12 h comprise), chaque pulsion
+  posée, chaque retour à une case passée et chaque envoi dans le futur. Compteur par cible pour tout le combat
+  (`Fighter.manipulations`), affiché dans le cadre de la cible (« Manipulé 4 fois ») ; l'explosion d'une pulsion, *Écho du
+  passé* et *Arrêt sur image* ne comptent pas.
+- *Passif* **Temps volé** (Apprenti, 5 rangs) : chaque manipulation infligée à un ennemi lui vole une seconde (5 au plus,
+  jusqu'à la fin de son prochain tour) ; +2 % de dommages par seconde (+1 % par rang, 6 % au rang 5). Rang 3 : à 5
+  secondes, il les dépense pour +1 PA au début de son prochain tour (une fois par tour). Rang 5 : 7 secondes au plus.
+- *Mémoire du temps* : le jeu retient la case et les PV de chaque combattant au début de ses 3 derniers tours
+  (`Fighter.past_cells`, `past_hp`). « Il y a 1 tour » = sa case au début de son dernier tour commencé (pour le lanceur
+  pendant son tour : le début de ce tour). Un retour sur une case occupée échange les places (comme l'Horloge) ; un
+  obstacle, une case devenue impraticable ou un occupant inamovible : la case libre la plus proche. Un retour ne change
+  pas l'heure du cadran et n'applique aucun effet d'heure.
+- *Pulsion temporelle* : charge posée sur la cible, qui explose une seule fois au début de son 2e tour après la pose
+  (dégâts Givre, avec la Perception du lanceur au moment de l'explosion) ; 3 au plus par cible ; ne peut pas être
+  retirée ; affichée « Pulsion 14 Givre (dans 2 tours) ».
+- *Envoi dans le futur* : la cible « saute » N tours sans perdre son tour : ses relances baissent de N, ses poisons
+  s'écoulent (les tours de poison infligés d'un coup), ses pulsions de ce délai explosent, ses malus (et ses bonus si elle
+  est ennemie) s'écoulent de N tours. Les états non retirables ne bougent pas. Un boss ou mini-boss n'écoule que ses
+  poisons et ses pulsions.
+- *Inamovible* (état `inamovible`, *Cristal du temps*) : ni poussé, ni attiré, ni échangé, ni déplacé sur un cadran.
+- *Voie Impie — l'Horloge* : *Horloge* (signature), *Tic* et *Tac* (±1 h), *Avance rapide* et *Retour en arrière* (±3 h),
+  *Contretemps* (+6 h, gros coup et contrôle), *Arrêt sur image* (contrôle : la dernière heure atteinte rejoue son effet,
+  sans bouger ; 2 PA, 1 à 6, relance 1), *Rendez-vous* (mobilité : échange de place avec un combattant, allié ou ennemi ;
+  2 PA, 1 à 5, relance 2), *Sursis* (défense : rend 50 % des PV perdus depuis le début de son tour précédent ; 3 PA,
+  relance 3), *Accélération* (soutien : +1 PM, +20 Agilité et +20 Perception pendant 2 tours ; 2 PA, 0 à 3, relance 3).
+- *Voie Givre — le temps comme entrave* : *Pulsion temporelle* (signature, 3 PA, 1 à 6, 12 à 16 Givre, 2 fois par tour),
+  *Seconde glacée* (2 PA, 4 à 6, 3 fois par tour), *Hiver éternel* (4 PA, 2 à 6, cercle de 1, 6 à 8), *Fin des temps*
+  (5 PA, 1 à 4, 18 à 24), *Écho du passé* (combiné à la signature : 3 à 4 Givre par manipulation déjà subie, 6 au plus),
+  *Déjà-vu* (contrôle : ramène à sa case d'il y a 1 tour et −1 PM ; relance 2), *Saut dans le futur* (contrôle : un
+  ennemi 2 tours dans le futur ; relance 3), *Point de départ* (mobilité : revient à sa case du début de ce tour, 1 PA,
+  relance 2), *Cristal du temps* (défense : bouclier Givre 12 à 16 et inamovible jusqu'à son prochain tour ; relance 2),
+  *Heure d'avance* (soutien utile en solo : lui ou un allié avance de 1 tour, relances −1, malus et poisons écoulés de
+  1 tour, bonus gardés ; relance 3).
+- *Rangs 3 et 5* (+10 % par rang aux valeurs) : Horloge cadran 4 tours / portée 3 ou 4 en ligne ; Tic et Tac 3 fois par
+  tour / une heure de plus en coup critique ; Avance rapide et Retour en arrière +10 % de critique / 3 PA ; Contretemps
+  relance 1 / 2 PA ; Arrêt sur image 1 PA / sans relance ; Rendez-vous +1 portée / relance 1 ; Sursis 2 PA / relance 2 ;
+  Accélération +1 portée / relance 2 ; Pulsion temporelle +10 % de critique / 2 PA ; Seconde glacée +10 % de critique /
+  +1 portée ; Hiver éternel 3 PA / −1 PM ; Fin des temps +1 portée / 4 PA ; Écho du passé +10 % de critique / 2 PA ;
+  Déjà-vu relance 1 / −1 PA ; Saut dans le futur +1 portée / relance 2 ; Point de départ relance 1 / +1 PM ; Cristal du
+  temps 1 PA / +10 % de résistance Givre ; Heure d'avance +1 portée / relance 2. Champs de maîtrise ajoutés pour cela :
+  `duree_horloge`, `par_tour`, effets `si_critique`.
+- *Monde des ombres* : un retour ne fait pas changer de dimension ; les pulsions suivent leur cible.
+- *Plus tard* : aucun monstre ne joue ces mécaniques (l'IA ignore le cadran et ne fuit pas les pulsions) ; planches des
+  races recoloriées (violet impie, bleu givre), prompts PixelLab à écrire ; 3e Voie Lumière ou Ténèbres à trancher.
+
 **Arcaniste — refonte : une seule Voie multi-élément** (version Flamme / Givre dans l'alpha 1,
 voir plus haut ; la Tempête après)
 (inspirée du kit de l'Invoker de Dota)
@@ -1186,10 +1240,8 @@ avec 1 point par 500 de réputation et la réputation des monstres vaincus tiré
 | Cri de guerre (rang II, Compagnon) | 3 PA, Dommages +4–6 aux alliés à 2 cases pendant 2 tours, délai 4 | délai 3 | zone de taille 3 |
 | Fendoir (rang II, Vétéran) | 5 PA, mêlée, 16–22 Acier | +5 % de critique | coûte 4 PA |
 
-**Chronomancien** (rangs de maîtrise proposés avec la classe le 29/10/2026, à équilibrer) : rang 3,
-+5 % de critique pour tous ses sorts ; rang 5, *Avance rapide* et *Retour en arrière* coûtent 3 PA,
-*Contretemps* passe à 1 tour de délai, les autres gagnent encore +5 % de critique. Pas encore de
-sorts de rang II. Arcaniste, Rôdeur et Théologue n'ont que le +10 % par rang (pas d'effet de rang 3
+**Chronomancien** : rangs 3 et 5 réécrits le 23/11/2026 (un effet propre par sort, voir « Chronomancien : conception
+finale » plus haut et `docs/CLASSES.md`). Arcaniste, Rôdeur et Théologue n'ont que le +10 % par rang (pas d'effet de rang 3
 ou 5).
 
 #### Métiers
@@ -4374,7 +4426,7 @@ farm, en faisant autorité.
 | **0. Pré-production** | Choix techniques, GDD validé, prototypes papier | Moteur choisi, structure du dépôt en place |
 | **1. Prototype** | Une carte, déplacement, un combat 1 contre 1 | Un combat jouable de bout en bout |
 | **2. Alpha solo** (court terme) | 3 races (une par camp), 5 classes (avec le Théologue et le Chronomancien Impie), combat + butin, quêtes simples, 3 métiers, équipement, 3 zones de départ + Hautepierre | **Alpha test 1** (mécaniques) : tout le contenu, l'interface et les quêtes, 4 à 5 h pour tout finir (XP ×3,5 jusqu'au 29/10/2026). **Alpha test 2** (progression) : refonte sans niveaux, réputation et maîtrises (§ 4.5 ; lots 0 à 3 déjà sur `main`), sorts par Voie et rang, art et son |
-| **3. Solo étendu** (long terme) | 6 races de plus (Nains, Orcs, Arkhés, Géants, Squelettes, Lutins ; 9 au total), chacune avec sa sous-zone dans la zone de départ de son camp, 4 classes de plus (Paladin, Myrmidon, Ombre, Démoniste ; 9 au total) et la Voie Givre du Chronomancien, Voies, donjons, quêtes complexes, légendaires, scénario complet | Quête des Reliques jouable jusqu'au boss final |
+| **3. Solo étendu** (long terme) | 6 races de plus (Nains, Orcs, Arkhés, Géants, Squelettes, Lutins ; 9 au total), chacune avec sa sous-zone dans la zone de départ de son camp, 4 classes de plus (Paladin, Myrmidon, Ombre, Démoniste ; 9 au total) et la Voie Givre du Chronomancien (faite le 23/11/2026), Voies, donjons, quêtes complexes, légendaires, scénario complet | Quête des Reliques jouable jusqu'au boss final |
 | **4. Fondations réseau** | Serveur autoritaire, comptes, une instance, synchronisation | Deux joueurs se voient et combattent ensemble |
 | **5. Multi** | Instances, groupe, amis, chat, échanges, hôtel des ventes, guildes | Bêta fermée |
 
