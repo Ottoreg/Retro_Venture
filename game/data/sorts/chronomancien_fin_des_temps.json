@@ -1,0 +1,29 @@
+{
+  "id": "chronomancien_fin_des_temps",
+  "nom": "Fin des temps",
+  "description": "La fin des temps, en avant-première, pour un seul spectateur.",
+  "cout_pa": 5,
+  "portee": {
+    "min": 1,
+    "max": 4
+  },
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "givre",
+      "min": 18,
+      "max": 24
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "portee_max": 1
+    },
+    "5": {
+      "cout_pa": 4
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "id": "chronomancien_arret_sur_image",
+  "nom": "Arrêt sur image",
+  "description": "« On la refait au ralenti ? » La cible subit de nouveau l'effet de la dernière heure atteinte sur son horloge, sans bouger.",
+  "cout_pa": 2,
+  "portee": {
+    "min": 1,
+    "max": 6
+  },
+  "relance": {
+    "par_tour": 1,
+    "delai": 1
+  },
+  "effets": [
+    {
+      "type": "arret_sur_image",
+      "cibles": "ennemis"
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "cout_pa": 1
+    },
+    "5": {
+      "delai": 0
+    }
+  }
+}

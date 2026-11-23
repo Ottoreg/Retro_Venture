@@ -105,7 +105,7 @@ point(s) de caractéristique (avant ralentissement).
 | Voie | PV | PA | PM | Initiative | Sorts de rang I | Sorts de rang II |
 |---|---|---|---|---|---|---|
 | **Arcaniste** | 50 | 6 | 3 | 100 | 2 | 0 |
-| **Chronomancien** | 50 | 6 | 3 | 100 | 6 | 0 |
+| **Chronomancien** | 50 | 6 | 3 | 100 | 20 | 0 |
 | **Démoniste** | 50 | 6 | 3 | 100 | 20 | 0 |
 | **Guerrier** | 50 | 6 | 3 | 100 | 5 | 2 |
 | **Myrmidon** | 50 | 6 | 3 | 100 | 20 | 0 |
@@ -143,12 +143,26 @@ horloge, glyphe et piège) ; *Moy./PA* ; *Rang 5* = moyenne avec +50 % de maîtr
 
 | Sort | Rang | Caractéristiques | Effets | Moy. | Moy./PA | Rang 5 | Maîtrise |
 |---|---|---|---|---|---|---|---|
-| **Horloge** | I | 3 PA, portée 3, en ligne, portée non modifiable, 1/tour | 3–5 Impie aux ennemis ; horloge (3 t.) : [1 h : 10 Givre ; 2 h : poison 5 Givre par tour (2 t.) ; 3 h : −10 Retrait PA (2 t.) ; 4 h : inblocable (1 t.) ; 5 h : −10 Résistance Impie (1 t.) ; 6 h : −1 PM (1 t.) ; 7 h : 10 Tempête ; 8 h : poison 5 Tempête par tour (2 t.) ; 9 h : −10 Retrait PM (2 t.) ; 10 h : insoignable (1 t.) ; 11 h : −10 % dégâts infligés (1 t.) ; 12 h : −1 PA (1 t.)] aux ennemis | 4 dégâts | 1,33 dégâts | 6 dégâts | rang 3 : +5 % critique<br>rang 5 : +5 % critique |
-| **Tic** | I | 2 PA, portée 1–6, 2/tour | 4–6 Impie ; +1 h sur l'horloge | 5 dégâts | 2,5 dégâts | 7,5 dégâts | rang 3 : +5 % critique<br>rang 5 : +5 % critique |
-| **Tac** | I | 2 PA, portée 1–6, 2/tour | 4–6 Impie ; -1 h sur l'horloge | 5 dégâts | 2,5 dégâts | 7,5 dégâts | rang 3 : +5 % critique<br>rang 5 : +5 % critique |
-| **Avance rapide** | I | 4 PA, portée 1–6, 1/tour | 9–12 Impie ; +3 h sur l'horloge | 10,5 dégâts | 2,62 dégâts | 15,75 dégâts | rang 3 : +5 % critique<br>rang 5 : coût 3 PA |
-| **Retour en arrière** | I | 4 PA, portée 1–6, 1/tour | 9–12 Impie ; -3 h sur l'horloge | 10,5 dégâts | 2,62 dégâts | 15,75 dégâts | rang 3 : +5 % critique<br>rang 5 : coût 3 PA |
-| **Contretemps** | I | 3 PA, portée 1–6, 1/tour, relance 2 t. | 6–8 Impie ; +6 h sur l'horloge | 7 dégâts | 2,33 dégâts | 10,5 dégâts | rang 3 : +5 % critique<br>rang 5 : relance 1 t. |
+| **Horloge** | I | 3 PA, portée 3, en ligne, portée non modifiable, 1/tour | 3–5 Impie aux ennemis ; horloge (3 t.) : [1 h : 10 Givre ; 2 h : poison 5 Givre par tour (2 t.) ; 3 h : −10 Retrait PA (2 t.) ; 4 h : inblocable (1 t.) ; 5 h : −10 Résistance Impie (1 t.) ; 6 h : −1 PM (1 t.) ; 7 h : 10 Tempête ; 8 h : poison 5 Tempête par tour (2 t.) ; 9 h : −10 Retrait PM (2 t.) ; 10 h : insoignable (1 t.) ; 11 h : −10 % dégâts infligés (1 t.) ; 12 h : −1 PA (1 t.)] aux ennemis | 4 dégâts | 1,33 dégâts | 6 dégâts | rang 3 : +1 tour de cadran<br>rang 5 : +1 portée |
+| **Tic** | I | 2 PA, portée 1–6, 2/tour | 4–6 Impie ; +1 h sur l'horloge | 5 dégâts | 2,5 dégâts | 7,5 dégâts | rang 3 : 3 fois par tour<br>rang 5 : ajoute +1 h sur l'horloge (en coup critique) |
+| **Tac** | I | 2 PA, portée 1–6, 2/tour | 4–6 Impie ; -1 h sur l'horloge | 5 dégâts | 2,5 dégâts | 7,5 dégâts | rang 3 : 3 fois par tour<br>rang 5 : ajoute -1 h sur l'horloge (en coup critique) |
+| **Avance rapide** | I | 4 PA, portée 1–6, 1/tour | 9–12 Impie ; +3 h sur l'horloge | 10,5 dégâts | 2,62 dégâts | 15,75 dégâts | rang 3 : +10 % critique<br>rang 5 : coût 3 PA |
+| **Retour en arrière** | I | 4 PA, portée 1–6, 1/tour | 9–12 Impie ; -3 h sur l'horloge | 10,5 dégâts | 2,62 dégâts | 15,75 dégâts | rang 3 : +10 % critique<br>rang 5 : coût 3 PA |
+| **Contretemps** | I | 3 PA, portée 1–6, 1/tour, relance 2 t. | 6–8 Impie ; +6 h sur l'horloge | 7 dégâts | 2,33 dégâts | 10,5 dégâts | rang 3 : relance 1 t.<br>rang 5 : coût 2 PA |
+| **Arrêt sur image** | I | 2 PA, portée 1–6, 1/tour, relance 1 t. | l'heure atteinte rejoue son effet aux ennemis | — | — | — | rang 3 : coût 1 PA<br>rang 5 : relance 0 t. |
+| **Rendez-vous** | I | 2 PA, portée 1–5, sans ligne de vue, 1/tour, relance 2 t. | échange de place | — | — | — | rang 3 : +1 portée<br>rang 5 : relance 1 t. |
+| **Sursis** | I | 3 PA, portée soi, 1/tour, relance 3 t. | rend 50 % des PV perdus depuis son tour précédent | — | — | — | rang 3 : coût 2 PA<br>rang 5 : relance 2 t. |
+| **Accélération** | I | 2 PA, portée 0–3, 1/tour, relance 3 t. | +1 PM (2 t.) aux alliés ; +20 Agilité (2 t.) aux alliés ; +20 Perception (2 t.) aux alliés | — | — | — | rang 3 : +1 portée<br>rang 5 : relance 2 t. |
+| **Pulsion temporelle** | I | 3 PA, portée 1–6, 2/tour | pulsion 12–16 Givre au début du 2e tour de la cible aux ennemis | — | — | — | rang 3 : +10 % critique<br>rang 5 : coût 2 PA |
+| **Seconde glacée** | I | 2 PA, portée 1–6, 3/tour | 4–6 Givre | 5 dégâts | 2,5 dégâts | 7,5 dégâts | rang 3 : +10 % critique<br>rang 5 : +1 portée |
+| **Hiver éternel** | I | 4 PA, portée 2–6, cercle de rayon 1, 1/tour | 6–8 Givre aux ennemis | 7 dégâts | 1,75 dégâts | 10,5 dégâts | rang 3 : coût 3 PA<br>rang 5 : ajoute −1 PM (1 t.) aux ennemis |
+| **Fin des temps** | I | 5 PA, portée 1–4, 1/tour | 18–24 Givre | 21 dégâts | 4,2 dégâts | 31,5 dégâts | rang 3 : +1 portée<br>rang 5 : coût 4 PA |
+| **Écho du passé** | I | 3 PA, portée 1–6, 1/tour | 3–4 Givre par manipulation subie (6 au plus) | 3,5 dégâts | 1,17 dégâts | 5,25 dégâts | rang 3 : +10 % critique<br>rang 5 : coût 2 PA |
+| **Déjà-vu** | I | 3 PA, portée 1–6, 1/tour, relance 2 t. | retour à sa case d'il y a 1 tour(s) aux ennemis ; −1 PM (1 t.) aux ennemis | — | — | — | rang 3 : relance 1 t.<br>rang 5 : ajoute −1 PA (1 t.) aux ennemis |
+| **Saut dans le futur** | I | 3 PA, portée 1–5, 1/tour, relance 3 t. | envoi 2 tour(s) dans le futur aux ennemis | — | — | — | rang 3 : +1 portée<br>rang 5 : relance 2 t. |
+| **Point de départ** | I | 1 PA, portée soi, 1/tour, relance 2 t. | retour à sa case d'il y a 1 tour(s) | — | — | — | rang 3 : relance 1 t.<br>rang 5 : ajoute +1 PM (1 t.) |
+| **Cristal du temps** | I | 2 PA, portée soi, 1/tour, relance 2 t. | bouclier 12–16 (Givre) ; inamovible (1 t.) | 14 bouclier | 7 bouclier | 21 bouclier | rang 3 : coût 1 PA<br>rang 5 : ajoute +10 Résistance Givre (1 t.) |
+| **Heure d'avance** | I | 2 PA, portée 0–4, 1/tour, relance 3 t. | envoi 1 tour(s) dans le futur aux alliés | — | — | — | rang 3 : +1 portée<br>rang 5 : relance 2 t. |
 
 ### Démoniste
 
@@ -163,7 +177,7 @@ horloge, glyphe et piège) ; *Moy./PA* ; *Rang 5* = moyenne avec +50 % de maîtr
 | **Sacrifice** | I | 2 PA, portée 1–6, sans ligne de vue, 1/tour | sacrifice | — | — | — | rang 3 : coût 1 PA<br>rang 5 : ajoute soin 10 (Impie) |
 | **Chaînes infernales** | I | 3 PA, portée 1–5 | −2 PM au prochain tour aux ennemis | — | — | — | rang 3 : +1 portée<br>rang 5 : ajoute −1 PA (1 t.) aux ennemis |
 | **Effroi** | I | 3 PA, portée 1–4, 1/tour | poussée de 2 case(s) aux ennemis ; −1 PA (1 t.) aux ennemis | — | — | — | rang 3 : coût 2 PA<br>rang 5 : ajoute 5–7 Impie aux ennemis |
-| **Permutation** | I | 1 PA, portée 1–8, sans ligne de vue, 1/tour | permutation | — | — | — | rang 3 : +2 portée<br>rang 5 : ajoute +1 PM (1 t.) |
+| **Permutation** | I | 1 PA, portée 1–8, sans ligne de vue, 1/tour | échange de place avec un serviteur | — | — | — | rang 3 : +2 portée<br>rang 5 : ajoute +1 PM (1 t.) |
 | **Appel du Molosse** | I | 4 PA, portée 1–2, relance 2 t. | invocation | — | — | — | — |
 | **Appel de la Succube** | I | 3 PA, portée 1–2, relance 2 t. | invocation | — | — | — | — |
 | **Mise à feu** | I | 2 PA, portée 1–6, cercle de rayon 1, 1/tour | 3–4 Flamme aux ennemis | 3,5 dégâts | 1,75 dégâts | 5,25 dégâts | rang 3 : +1 portée<br>rang 5 : embrase 1 |
@@ -251,7 +265,7 @@ horloge, glyphe et piège) ; *Moy./PA* ; *Rang 5* = moyenne avec +50 % de maîtr
 
 | Sort | Rang | Caractéristiques | Effets | Moy. | Moy./PA | Rang 5 | Maîtrise |
 |---|---|---|---|---|---|---|---|
-| **Aura de bravoure** | I | 2 PA, portée soi | aura | — | — | — | rang 3 : coût 1 PA<br>rang 5 : duree_aura 1 |
+| **Aura de bravoure** | I | 2 PA, portée soi | aura | — | — | — | rang 3 : coût 1 PA<br>rang 5 : +1 tour d'aura |
 | **Coup béni** | I | 3 PA, portée 1, 2/tour | 9–12 Sacré aux ennemis | 10,5 dégâts | 3,5 dégâts | 15,75 dégâts | rang 3 : +10 % critique<br>rang 5 : ajoute +1 PM (1 t.) |
 | **Marteau lancé** | I | 3 PA, portée 2–5, 2/tour | 7–10 Sacré aux ennemis | 8,5 dégâts | 2,83 dégâts | 12,75 dégâts | rang 3 : +1 portée<br>rang 5 : +10 % critique |
 | **Jugement** | I | 5 PA, portée 1, 1/tour | 20–26 Sacré aux ennemis | 23 dégâts | 4,6 dégâts | 34,5 dégâts | rang 3 : +10 % critique<br>rang 5 : coût 4 PA |
@@ -259,7 +273,7 @@ horloge, glyphe et piège) ; *Moy./PA* ; *Rang 5* = moyenne avec +50 % de maîtr
 | **Coup de bouclier** | I | 3 PA, portée 1, 1/tour | 5–7 Sacré aux ennemis ; poussée de 2 case(s) aux ennemis | 6 dégâts | 2 dégâts | 9 dégâts | rang 3 : coût 2 PA<br>rang 5 : ajoute −1 PM (1 t.) aux ennemis |
 | **Sceau de pénitence** | I | 3 PA, portée 1–4, relance 2 t. | −2 PM au prochain tour aux ennemis | — | — | — | rang 3 : +1 portée<br>rang 5 : ajoute −1 PA (1 t.) aux ennemis |
 | **Ruée sainte** | I | 2 PA, portée 2–5, en ligne, relance 2 t. | charge en ligne jusqu'au contact (effets suivants au contact seulement) | — | — | — | rang 3 : +1 portée<br>rang 5 : ajoute +1 PM (1 t.) |
-| **Aura de protection** | I | 2 PA, portée soi | aura | — | — | — | rang 3 : coût 1 PA<br>rang 5 : duree_aura 1 |
+| **Aura de protection** | I | 2 PA, portée soi | aura | — | — | — | rang 3 : coût 1 PA<br>rang 5 : +1 tour d'aura |
 | **Bénédiction** | I | 2 PA, portée 0–3, relance 3 t. | +30 Force (2 t.) aux alliés ; +30 Intelligence (2 t.) aux alliés | — | — | — | rang 3 : +1 portée<br>rang 5 : relance 2 t. |
 | **Balise** | I | 2 PA, portée 1–5 | balise | — | — | — | rang 3 : +1 portée<br>rang 5 : coût 1 PA |
 | **Étincelle** | I | 3 PA, portée 2–6, 2/tour | 7–10 Tempête aux ennemis | 8,5 dégâts | 2,83 dégâts | 12,75 dégâts | rang 3 : +1 portée<br>rang 5 : +10 % critique |

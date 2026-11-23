@@ -132,10 +132,10 @@
   ],
   "maitrise": {
     "3": {
-      "critique": 5
+      "duree_horloge": 1
     },
     "5": {
-      "critique": 5
+      "portee_max": 1
     }
   },
   "lancer_en_ligne": true,

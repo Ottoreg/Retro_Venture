@@ -1,0 +1,30 @@
+{
+  "id": "chronomancien_echo_du_passe",
+  "nom": "Écho du passé",
+  "description": "Le passé revient toujours : 3 à 4 Givre par manipulation temporelle déjà subie par la cible (6 au plus).",
+  "cout_pa": 3,
+  "portee": {
+    "min": 1,
+    "max": 6
+  },
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "givre",
+      "min": 3,
+      "max": 4,
+      "par_manipulation": 6
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "critique": 10
+    },
+    "5": {
+      "cout_pa": 2
+    }
+  }
+}

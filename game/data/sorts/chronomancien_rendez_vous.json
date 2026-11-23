@@ -1,0 +1,29 @@
+{
+  "id": "chronomancien_rendez_vous",
+  "nom": "Rendez-vous",
+  "description": "Il arrive toujours à l'heure du rendez-vous des autres : échange de place avec un combattant, allié ou ennemi.",
+  "cout_pa": 2,
+  "portee": {
+    "min": 1,
+    "max": 5
+  },
+  "ligne_de_vue": false,
+  "relance": {
+    "par_tour": 1,
+    "delai": 2
+  },
+  "effets": [
+    {
+      "type": "permutation",
+      "tous": true
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "portee_max": 1
+    },
+    "5": {
+      "delai": 1
+    }
+  }
+}

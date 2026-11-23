@@ -91,6 +91,13 @@ var ambush_discount := false
 var master := ""
 ## Boss ou mini-boss (monstre « boss » ou à phases) : à moitié provoqué, jamais assommé (perd des PA à la place).
 var boss := false
+## Chronomancien (GDD § 4.3) : cases et PV au début de ses `PAST_TURNS` derniers tours (le plus récent en tête),
+## manipulations temporelles subies dans le combat, PA en plus au début de son prochain tour (« Temps volé », rang 3).
+var past_cells: Array[Vector2i] = []
+var past_hp: Array[int] = []
+var manipulations := 0
+var pa_next := 0
+const PAST_TURNS := 3
 
 const NO_CELL := Vector2i(-99999, -99999)
 const ELEMENT_STATE_MAX := 3
@@ -293,7 +300,12 @@ func add_created_spell(spell: Spell) -> String:
 func start_turn() -> void:
 	shield = 0
 	shield_credit = {}
-	pa = next_turn_pa()
+	pa = next_turn_pa() + pa_next
+	pa_next = 0
+	past_cells.push_front(cell)
+	past_hp.push_front(hp)
+	past_cells.resize(mini(past_cells.size(), PAST_TURNS))
+	past_hp.resize(mini(past_hp.size(), PAST_TURNS))
 	pm = next_turn_pm()
 	pm_malus = 0
 	_casts_this_turn.clear()
@@ -321,7 +333,7 @@ func states_snapshot() -> Array:
 	for state in states:
 		result.append({"type": state["type"], "carac": state.get("carac", ""), "element": state.get("element", ""),
 			"valeur": state.get("valeur", 0), "min": state.get("min", 0), "max": state.get("max", 0),
-			"tours": state["tours"], "sort": state.get("sort", ""), "etat": state.get("etat", "")})
+			"tours": state["tours"], "sort": state.get("sort", ""), "etat": state.get("etat", ""), "delai": state.get("delai", 0)})
 	return result
 
 
@@ -422,6 +434,8 @@ func snapshot() -> Dictionary:
 		"ombres": shadow,
 		"vu": [last_seen.x, last_seen.y],
 		"traitre": [ambush, ambush_discount],
+		"temps": {"cases": past_cells.map(func(c: Vector2i) -> Array: return [c.x, c.y]), "pv": past_hp.duplicate(),
+			"manipulations": manipulations, "pa": pa_next},
 	}
 
 
@@ -453,5 +467,10 @@ func restore(saved: Dictionary) -> void:
 	last_seen = Vector2i(int(seen[0]), int(seen[1]))
 	ambush = int(saved.get("traitre", [0, false])[0])
 	ambush_discount = bool(saved.get("traitre", [0, false])[1])
+	var time: Dictionary = saved.get("temps", {})
+	past_cells.assign(time.get("cases", []).map(func(c: Variant) -> Vector2i: return Vector2i(int(c[0]), int(c[1]))))
+	past_hp.assign(time.get("pv", []).map(func(value: Variant) -> int: return int(value)))
+	manipulations = int(time.get("manipulations", 0))
+	pa_next = int(time.get("pa", 0))
 	_cooldowns = saved["recharges"].duplicate()
 	_casts_this_turn = saved["lances"].duplicate()

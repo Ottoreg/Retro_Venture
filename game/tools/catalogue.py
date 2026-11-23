@@ -105,7 +105,7 @@ def effet(e):
     valeur = plage(e.get("min"), e.get("max")) if "min" in e else ""
     cibles = CIBLES.get(e.get("cibles", ""), "")
     if t == "degats":
-        texte = "%s %s" % (valeur, element(e))
+        texte = "%s %s%s" % (valeur, element(e), " par manipulation subie (%s au plus)" % e["par_manipulation"] if "par_manipulation" in e else "")
     elif t == "soin":
         texte = "soin %s (%s)" % (valeur, element(e))
     elif t == "bouclier":
@@ -150,7 +150,19 @@ def effet(e):
         texte = "horloge%s : [%s]" % (tours(e), " ; ".join(
             "%s h : %s" % (h, effets(e["heures"].get(str(h), [])) or "sans effet") for h in range(1, 13)))
     elif t == "decalage_horaire":
-        texte = "%+d h sur l'horloge" % e["heures"]
+        texte = "%+d h sur l'horloge%s" % (e["heures"], " (en coup critique)" if e.get("si_critique") else "")
+    elif t == "pulsion":
+        texte = "pulsion %s %s au début du %se tour de la cible" % (valeur, element(e), e.get("delai", 2))
+    elif t == "retour":
+        texte = "retour à sa case d'il y a %s tour(s)" % e.get("tours", 1)
+    elif t == "futur":
+        texte = "envoi %s tour(s) dans le futur" % e.get("tours", 1)
+    elif t == "arret_sur_image":
+        texte = "l'heure atteinte rejoue son effet"
+    elif t == "sursis":
+        texte = "rend %s %% des PV perdus depuis son tour précédent" % e.get("pourcent", 50)
+    elif t == "permutation":
+        texte = "échange de place" + ("" if e.get("tous") else " avec un serviteur")
     elif t == "etat":
         texte = "%s%s" % (e["etat"], tours(e))
     elif t == "piege":

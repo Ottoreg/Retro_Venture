@@ -27,7 +27,7 @@ Prix de boutique : selon la rareté (revente à 25 %).
 - [Sorts de race](#sorts-de-race)
 - [Sorts des monstres](#sorts-des-monstres)
 
-**317 objets** (18 armes, 20 coiffes, 20 capes, 20 amulettes, 20 anneaux, 20 ceintures, 20 bottes, 129 ressources, 37 plans de forge, 7 objets de quête), **57 monstres** et **231 sorts**.
+**317 objets** (18 armes, 20 coiffes, 20 capes, 20 amulettes, 20 anneaux, 20 ceintures, 20 bottes, 129 ressources, 37 plans de forge, 7 objets de quête), **57 monstres** et **245 sorts**.
 
 ## Armes
 
@@ -1298,6 +1298,20 @@ Dérègle le temps avec des pouvoirs impies. Toujours en avance, ou en retard, m
 | **Avance rapide** | 4 PA, portée 1–6, 1/tour | 9–12 Impie ; +3 h sur l'horloge | Trois heures de vie en un claquement de doigts. Sur une horloge, la cible avance de trois heures. |
 | **Retour en arrière** | 4 PA, portée 1–6, 1/tour | 9–12 Impie ; -3 h sur l'horloge | « Recommençons depuis le début. » Sur une horloge, la cible recule de trois heures. |
 | **Contretemps** | 3 PA, portée 1–6, 1/tour, relance 2 t. | 6–8 Impie ; +6 h sur l'horloge | Un rendez-vous manqué de six heures pile. Sur une horloge, la cible passe de l'autre côté du cadran. |
+| **Arrêt sur image** | 2 PA, portée 1–6, 1/tour, relance 1 t. | l'heure atteinte rejoue son effet aux ennemis | « On la refait au ralenti ? » La cible subit de nouveau l'effet de la dernière heure atteinte sur son horloge, sans bouger. |
+| **Rendez-vous** | 2 PA, portée 1–5, sans ligne de vue, 1/tour, relance 2 t. | échange de place | Il arrive toujours à l'heure du rendez-vous des autres : échange de place avec un combattant, allié ou ennemi. |
+| **Sursis** | 3 PA, portée soi, 1/tour, relance 3 t. | rend 50 % des PV perdus depuis son tour précédent | Il rembobine un peu ses blessures : rend 50 % des PV perdus depuis le début de son tour précédent. |
+| **Accélération** | 2 PA, portée 0–3, 1/tour, relance 3 t. | +1 PM (2 t.) aux alliés ; +20 Agilité (2 t.) aux alliés ; +20 Perception (2 t.) aux alliés | Tout va plus vite, sauf les files d'attente : +1 PM, +20 Agilité et +20 Perception pendant 2 tours. |
+| **Pulsion temporelle** | 3 PA, portée 1–6, 2/tour | pulsion 12–16 Givre au début du 2e tour de la cible aux ennemis | Une pulsion de temps gelé qui attend son heure : elle explose au début du 2e tour de la cible (3 au plus, ne peut pas être retirée). |
+| **Seconde glacée** | 2 PA, portée 1–6, 3/tour | 4–6 Givre | Une seconde de froid absolu, pas une de plus (le reste est facturé). |
+| **Hiver éternel** | 4 PA, portée 2–6, cercle de rayon 1, 1/tour | 6–8 Givre aux ennemis | Un hiver qui ne finit jamais, sur la cible et ses voisins. |
+| **Fin des temps** | 5 PA, portée 1–4, 1/tour | 18–24 Givre | La fin des temps, en avant-première, pour un seul spectateur. |
+| **Écho du passé** | 3 PA, portée 1–6, 1/tour | 3–4 Givre par manipulation subie (6 au plus) | Le passé revient toujours : 3 à 4 Givre par manipulation temporelle déjà subie par la cible (6 au plus). |
+| **Déjà-vu** | 3 PA, portée 1–6, 1/tour, relance 2 t. | retour à sa case d'il y a 1 tour(s) aux ennemis ; −1 PM (1 t.) aux ennemis | « J'ai l'impression d'être déjà passé par là. » Ramène la cible à sa case d'il y a 1 tour et lui retire 1 PM. |
+| **Saut dans le futur** | 3 PA, portée 1–5, 1/tour, relance 3 t. | envoi 2 tour(s) dans le futur aux ennemis | Envoie un ennemi 2 tours dans le futur : ses effets en cours s'écoulent d'un coup (bonus et malus finis, poisons et pulsions infligés), mais ses sorts reviennent plus tôt. Un boss n'écoule que ses poisons et ses pulsions. |
+| **Point de départ** | 1 PA, portée soi, 1/tour, relance 2 t. | retour à sa case d'il y a 1 tour(s) | Il revient à sa case du début de ce tour, comme s'il n'était jamais parti (il l'était). |
+| **Cristal du temps** | 2 PA, portée soi, 1/tour, relance 2 t. | bouclier 12–16 (Givre) ; inamovible (1 t.) | Figé dans un cristal de temps : bouclier de Givre, et inamovible jusqu'à son prochain tour (ni poussé, ni attiré, ni échangé). |
+| **Heure d'avance** | 2 PA, portée 0–4, 1/tour, relance 3 t. | envoi 1 tour(s) dans le futur aux alliés | Une heure d'avance sur tout le monde : lui ou un allié avance de 1 tour (relances −1, malus et poisons écoulés de 1 tour). |
 
 ### Démoniste
 
@@ -1312,7 +1326,7 @@ Démoniste agréé, ancien sous-traitant du Mordor. Ses démons pointent à l'he
 | **Sacrifice** | 2 PA, portée 1–6, sans ligne de vue, 1/tour | sacrifice | Fait exploser un de ses serviteurs : dégâts autour de lui, plus la moitié de ses PV restants. Rupture de contrat sans préavis. |
 | **Chaînes infernales** | 3 PA, portée 1–5 | −2 PM au prochain tour aux ennemis | Des chaînes brûlantes aux chevilles : l'ennemi ira moins loin. |
 | **Effroi** | 3 PA, portée 1–4, 1/tour | poussée de 2 case(s) aux ennemis ; −1 PA (1 t.) aux ennemis | Une vision des Enfers (avec la musique d'ascenseur) : l'ennemi recule et perd ses moyens. |
-| **Permutation** | 1 PA, portée 1–8, sans ligne de vue, 1/tour | permutation | Échange sa place avec un de ses serviteurs : c'est dans le contrat, page 66. |
+| **Permutation** | 1 PA, portée 1–8, sans ligne de vue, 1/tour | échange de place avec un serviteur | Échange sa place avec un de ses serviteurs : c'est dans le contrat, page 66. |
 | **Appel du Molosse** | 4 PA, portée 1–2, relance 2 t. | invocation | Invoque un Molosse de garde, en CDI : beaucoup de PV, ne lâche rien (surtout pas ses congés). Rang 3 : il arrive avec 1 PM de plus. Rang 5 : il connaît un sort de plus. |
 | **Appel de la Succube** | 3 PA, portée 1–2, relance 2 t. | invocation | Invoque la Succube des ressources humaines : elle soigne et motive. Vos plaintes seront traitées sous 666 jours. Rang 3 : il arrive avec 1 PM de plus. Rang 5 : il connaît un sort de plus. |
 | **Mise à feu** | 2 PA, portée 1–6, cercle de rayon 1, 1/tour | 3–4 Flamme aux ennemis | Allume tout autour : embrase les cases de 2 niveaux d'un coup. Sur une case calcinée, les cendres s'envolent : −1 PM aux ennemis. |

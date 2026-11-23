@@ -9,7 +9,7 @@ extends RefCounted
 
 ## Version du protocole, vérifiée à la connexion : à augmenter à chaque changement incompatible
 ## d'une commande ou d'un événement.
-const VERSION := 22
+const VERSION := 23
 
 # --- Commandes (client → noyau) ---
 
@@ -581,6 +581,9 @@ const REASON_NO_EMBERS := "aucune_braise"
 const REASON_NO_BEACON := "aucune_balise"
 ## Myrmidon : rien à démolir sur la case (seulement un arbre ou un rocher).
 const REASON_NOT_DEMOLISHABLE := "rien_a_demolir"
+## Chronomancien : la cible n'a pas d'horloge (Arrêt sur image) ; la cible est inamovible (Rendez-vous).
+const REASON_NO_CLOCK := "aucune_horloge"
+const REASON_STEADY := "inamovible"
 ## Sort de composition des états sans combinaison (`etats`) qu'il propose.
 const REASON_INVALID_COMPOSITION := "composition_invalide"
 const REASON_OUT_OF_RANGE := "hors_portee"

@@ -821,6 +821,8 @@ func _show_target() -> void:
 	var states: PackedStringArray = []
 	for state: Dictionary in fighter.states_snapshot():
 		states.append(MapView.state_text(state))
+	if fighter.manipulations > 0:  # Chronomancien : manipulations temporelles subies (Écho du passé).
+		states.append("Manipulé %d fois" % fighter.manipulations)
 	if not states.is_empty():
 		_target_stats.text += "\n" + "   ·   ".join(states)
 	if not fighter.element_states.is_empty():

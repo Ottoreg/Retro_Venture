@@ -1,0 +1,29 @@
+{
+  "id": "chronomancien_heure_d_avance",
+  "nom": "Heure d'avance",
+  "description": "Une heure d'avance sur tout le monde : lui ou un allié avance de 1 tour (relances −1, malus et poisons écoulés de 1 tour).",
+  "cout_pa": 2,
+  "portee": {
+    "min": 0,
+    "max": 4
+  },
+  "relance": {
+    "par_tour": 1,
+    "delai": 3
+  },
+  "effets": [
+    {
+      "type": "futur",
+      "tours": 1,
+      "cibles": "allies"
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "portee_max": 1
+    },
+    "5": {
+      "delai": 2
+    }
+  }
+}

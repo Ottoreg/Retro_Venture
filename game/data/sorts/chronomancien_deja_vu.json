@@ -1,0 +1,46 @@
+{
+  "id": "chronomancien_deja_vu",
+  "nom": "Déjà-vu",
+  "description": "« J'ai l'impression d'être déjà passé par là. » Ramène la cible à sa case d'il y a 1 tour et lui retire 1 PM.",
+  "cout_pa": 3,
+  "portee": {
+    "min": 1,
+    "max": 6
+  },
+  "relance": {
+    "par_tour": 1,
+    "delai": 2
+  },
+  "effets": [
+    {
+      "type": "retour",
+      "tours": 1,
+      "cibles": "ennemis"
+    },
+    {
+      "type": "malus",
+      "carac": "pm",
+      "min": 1,
+      "max": 1,
+      "duree": 1,
+      "cibles": "ennemis"
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "delai": 1
+    },
+    "5": {
+      "effets": [
+        {
+          "type": "malus",
+          "carac": "pa",
+          "min": 1,
+          "max": 1,
+          "duree": 1,
+          "cibles": "ennemis"
+        }
+      ]
+    }
+  }
+}

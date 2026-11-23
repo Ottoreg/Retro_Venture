@@ -41,6 +41,111 @@
         22,
         22
       ]
+    },
+    "sort_chronomancien_arret_sur_image": {
+      "fichier": "sorts/chronomancien_arret_sur_image.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_chronomancien_rendez_vous": {
+      "fichier": "sorts/chronomancien_rendez_vous.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_chronomancien_sursis": {
+      "fichier": "sorts/chronomancien_sursis.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_chronomancien_acceleration": {
+      "fichier": "sorts/chronomancien_acceleration.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_chronomancien_pulsion_temporelle": {
+      "fichier": "sorts/chronomancien_pulsion_temporelle.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_chronomancien_seconde_glacee": {
+      "fichier": "sorts/chronomancien_seconde_glacee.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_chronomancien_hiver_eternel": {
+      "fichier": "sorts/chronomancien_hiver_eternel.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_chronomancien_fin_des_temps": {
+      "fichier": "sorts/chronomancien_fin_des_temps.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_chronomancien_echo_du_passe": {
+      "fichier": "sorts/chronomancien_echo_du_passe.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_chronomancien_deja_vu": {
+      "fichier": "sorts/chronomancien_deja_vu.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_chronomancien_saut_dans_le_futur": {
+      "fichier": "sorts/chronomancien_saut_dans_le_futur.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_chronomancien_point_de_depart": {
+      "fichier": "sorts/chronomancien_point_de_depart.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_chronomancien_cristal_du_temps": {
+      "fichier": "sorts/chronomancien_cristal_du_temps.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_chronomancien_heure_d_avance": {
+      "fichier": "sorts/chronomancien_heure_d_avance.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_chronomancien_temps_vole": {
+      "fichier": "sorts/chronomancien_temps_vole.svgt",
+      "ancre": [
+        22,
+        22
+      ]
     }
   }
 }

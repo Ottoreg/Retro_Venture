@@ -263,16 +263,17 @@ func test_validation() -> void:
 func test_kit_du_chronomancien() -> void:
 	var data := GameData.load_all()
 	var voie: Dictionary = data.voies["chronomancien"]
-	assert_eq(voie["sorts"].size(), 6)
-	for spell_id: String in voie["sorts"]:
-		assert_true(data.spells.has(spell_id), spell_id)
-		for effect: Dictionary in (data.spells[spell_id] as Spell).effects:
+	assert_eq(voie["sorts"].size(), 20, "10 sorts Impie puis 10 sorts Givre")
+	assert_eq(voie["passif"]["effet"], "temps_vole")
+	for i in voie["sorts"].size():
+		assert_true(data.spells.has(voie["sorts"][i]), voie["sorts"][i])
+		for effect: Dictionary in (data.spells[voie["sorts"][i]] as Spell).effects:
 			if effect.has("element"):
-				assert_eq(effect["element"], "impie", "Voie Impie : " + spell_id)
+				assert_eq(effect["element"], "impie" if i < 10 else "givre", voie["sorts"][i])
 	var horloge: Spell = data.spells["chronomancien_horloge"]
 	assert_eq([horloge.range_min, horloge.range_max], [3, 3], "la 3e case")
 	for spell_id: String in voie["sorts"]:
-		if spell_id != "chronomancien_horloge":
+		if not (data.spells[spell_id] as Spell).effect_of(Spell.EFFECT_CLOCK_SHIFT).is_empty():
 			assert_true((data.spells[spell_id] as Spell).range_max >= 6, "atteint 11 h et 1 h : " + spell_id)
 	assert_true(horloge.cast_in_line, "en ligne, sans diagonale")
 	assert_true(horloge.fixed_range, "portée non modifiable")

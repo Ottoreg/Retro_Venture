@@ -1,0 +1,31 @@
+{
+  "id": "chronomancien_pulsion_temporelle",
+  "nom": "Pulsion temporelle",
+  "description": "Une pulsion de temps gelé qui attend son heure : elle explose au début du 2e tour de la cible (3 au plus, ne peut pas être retirée).",
+  "cout_pa": 3,
+  "portee": {
+    "min": 1,
+    "max": 6
+  },
+  "relance": {
+    "par_tour": 2
+  },
+  "effets": [
+    {
+      "type": "pulsion",
+      "element": "givre",
+      "min": 12,
+      "max": 16,
+      "delai": 2,
+      "cibles": "ennemis"
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "critique": 10
+    },
+    "5": {
+      "cout_pa": 2
+    }
+  }
+}

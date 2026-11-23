@@ -25,10 +25,16 @@
   ],
   "maitrise": {
     "3": {
-      "critique": 5
+      "par_tour": 3
     },
     "5": {
-      "critique": 5
+      "effets": [
+        {
+          "type": "decalage_horaire",
+          "heures": -1,
+          "si_critique": true
+        }
+      ]
     }
   }
 }

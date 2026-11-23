@@ -14,6 +14,26 @@
     "chronomancien_tac",
     "chronomancien_avance_rapide",
     "chronomancien_retour_en_arriere",
-    "chronomancien_contretemps"
-  ]
+    "chronomancien_contretemps",
+    "chronomancien_arret_sur_image",
+    "chronomancien_rendez_vous",
+    "chronomancien_sursis",
+    "chronomancien_acceleration",
+    "chronomancien_pulsion_temporelle",
+    "chronomancien_seconde_glacee",
+    "chronomancien_hiver_eternel",
+    "chronomancien_fin_des_temps",
+    "chronomancien_echo_du_passe",
+    "chronomancien_deja_vu",
+    "chronomancien_saut_dans_le_futur",
+    "chronomancien_point_de_depart",
+    "chronomancien_cristal_du_temps",
+    "chronomancien_heure_d_avance"
+  ],
+  "passif": {
+    "id": "chronomancien_temps_vole",
+    "nom": "Temps volé",
+    "effet": "temps_vole",
+    "description": "Débloqué au palier Apprenti. Chaque manipulation temporelle infligée à un ennemi (heure atteinte, pulsion posée, retour, envoi dans le futur) lui vole une seconde (5 au plus, jusqu'à la fin de son prochain tour) : +2 % de dommages par seconde (+1 % par rang). Rang 3 : à 5 secondes, il les dépense pour +1 PA au début de son prochain tour (une fois par tour). Rang 5 : 7 secondes au plus."
+  }
 }

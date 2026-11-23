@@ -112,16 +112,27 @@ const EFFECT_ARMOR := "blindage"
 const EFFECT_FROSTBITE := "gelure"
 const EFFECT_DEMOLISH := "demolition"
 const EFFECT_FREEZE := "gel"
+## Chronomancien (GDD § 4.3) : pulsion temporelle (dégâts `element` au début du `delai`-ième tour de la cible, non
+## retirable, 3 au plus) ; retour de la cible à sa case du début de son `tours`-ième dernier tour ; envoi `tours` tours dans
+## le futur (relances, durées, poisons et pulsions écoulés d'un coup) ; arrêt sur image (l'heure atteinte rejoue son effet) ;
+## sursis (`pourcent` % des PV perdus depuis le début de son tour précédent, rendus au lanceur).
+const EFFECT_PULSE := "pulsion"
+const EFFECT_RETURN := "retour"
+const EFFECT_FUTURE := "futur"
+const EFFECT_REPLAY := "arret_sur_image"
+const EFFECT_RESPITE := "sursis"
 const EFFECT_TYPES := [EFFECT_DAMAGE, EFFECT_HEAL, EFFECT_TELEPORT, EFFECT_GAIN_PA, EFFECT_REMOVE_PM, EFFECT_SHIELD,
 	EFFECT_BONUS, EFFECT_MALUS, EFFECT_POISON, EFFECT_PUSH, EFFECT_PULL, EFFECT_GLYPH, EFFECT_TRAP,
 	EFFECT_ELEMENT_STATE, EFFECT_COMPOSE_STATES, EFFECT_CREATE_SPELL, EFFECT_CHARGE, EFFECT_REMOVE_STATES,
 	EFFECT_CLOCK, EFFECT_CLOCK_SHIFT, EFFECT_STATE, EFFECT_BOUNCE, EFFECT_IMAGE, EFFECT_DETONATE, EFFECT_SHADOW_WEAPON,
 	EFFECT_SHADOW_WORLD, EFFECT_BEHIND, EFFECT_SUMMON, EFFECT_SACRIFICE, EFFECT_SWAP, EFFECT_ASHES, EFFECT_AURA, EFFECT_BEACON, EFFECT_SURGE, EFFECT_BEACON_SWAP,
-	EFFECT_LIVING_BEACON, EFFECT_ARMOR, EFFECT_FROSTBITE, EFFECT_DEMOLISH, EFFECT_FREEZE]
+	EFFECT_LIVING_BEACON, EFFECT_ARMOR, EFFECT_FROSTBITE, EFFECT_DEMOLISH, EFFECT_FREEZE, EFFECT_PULSE, EFFECT_RETURN, EFFECT_FUTURE,
+	EFFECT_REPLAY, EFFECT_RESPITE]
 ## Effets sans valeur chiffrée (ni `min` ni `max`).
 const VALUELESS_EFFECTS := [EFFECT_TELEPORT, EFFECT_ELEMENT_STATE, EFFECT_COMPOSE_STATES, EFFECT_CREATE_SPELL, EFFECT_CHARGE,
 	EFFECT_REMOVE_STATES, EFFECT_CLOCK, EFFECT_CLOCK_SHIFT, EFFECT_STATE, EFFECT_DETONATE, EFFECT_SHADOW_WORLD, EFFECT_BEHIND,
-	EFFECT_SUMMON, EFFECT_SWAP, EFFECT_SURGE, EFFECT_BEACON_SWAP, EFFECT_LIVING_BEACON, EFFECT_DEMOLISH, EFFECT_FREEZE]
+	EFFECT_SUMMON, EFFECT_SWAP, EFFECT_SURGE, EFFECT_BEACON_SWAP, EFFECT_LIVING_BEACON, EFFECT_DEMOLISH, EFFECT_FREEZE,
+	EFFECT_RETURN, EFFECT_FUTURE, EFFECT_REPLAY, EFFECT_RESPITE]
 ## Effets qui ne concernent que le lanceur ou son déplacement, ou le cadran d'une horloge : jamais
 ## dans une glyphe, un piège ou une heure d'horloge.
 const CASTER_EFFECTS := [EFFECT_TELEPORT, EFFECT_ELEMENT_STATE, EFFECT_COMPOSE_STATES, EFFECT_CREATE_SPELL, EFFECT_CHARGE,
@@ -147,8 +158,10 @@ const STATE_PROVOKED := "provoque"
 const STATE_STUNNED := "assomme"
 const STATE_GUARDED := "garde"
 const STATE_ICE_SHELL := "carapace_de_glace"
+## Chronomancien : inamovible (ni poussé, ni attiré, ni échangé, ni déplacé sur un cadran).
+const STATE_STEADY := "inamovible"
 const NAMED_STATES := [STATE_UNHEALABLE, STATE_TIME_MANIPULATION, STATE_EXORCISM, STATE_UNBLOCKABLE, STATE_INVISIBLE,
-	STATE_SHADOW, STATE_NO_RETURN, STATE_DRAWN, STATE_PROVOKED, STATE_STUNNED, STATE_GUARDED, STATE_ICE_SHELL]
+	STATE_SHADOW, STATE_NO_RETURN, STATE_DRAWN, STATE_PROVOKED, STATE_STUNNED, STATE_GUARDED, STATE_ICE_SHELL, STATE_STEADY]
 ## Éléments d'un état élémentaire, et états qu'un retrait peut enlever.
 const STATE_ELEMENTS := ["flamme", "givre", "tempete"]
 const REMOVABLE_STATE_TYPES := [EFFECT_BONUS, EFFECT_MALUS, EFFECT_POISON]
@@ -164,7 +177,7 @@ const MODIFIABLE := ["force", "intelligence", "perception", "agilite", "pa", "pm
 ## Effets chiffrés qui ont un élément : leur valeur monte avec la caractéristique de cet élément
 ## (un soin Sacré avec la Force et l'Intelligence, un bouclier de Tempête avec l'Agilité, un poison
 ## de Givre avec la Perception…).
-const ELEMENT_EFFECTS := [EFFECT_DAMAGE, EFFECT_HEAL, EFFECT_SHIELD, EFFECT_POISON, EFFECT_SHADOW_WEAPON, EFFECT_SACRIFICE, EFFECT_ASHES]
+const ELEMENT_EFFECTS := [EFFECT_DAMAGE, EFFECT_HEAL, EFFECT_SHIELD, EFFECT_POISON, EFFECT_SHADOW_WEAPON, EFFECT_SACRIFICE, EFFECT_ASHES, EFFECT_PULSE]
 ## Chance de coup critique d'un sort sans « critique » (en %).
 const DEFAULT_CRIT_CHANCE := 5
 ## Un coup critique multiplie la valeur tirée des dégâts, soins, boucliers et poisons.
@@ -179,11 +192,11 @@ const ELEMENTS := ["acier", "flamme", "givre", "tempete", "sacre", "impie"]
 const MASTERY_BONUS_PER_RANK := 10
 const MASTERY_MAX_RANK := 5
 ## Changements qu'un rang de maîtrise peut apporter (« maitrise » : { "3": {…}, "5": {…} }) : ajouts
-## (critique, portee_max, bonus_etats : % de chaque état élémentaire, places_crees : places de sorts créés),
-## nouvelles valeurs (cout_pa, delai, zone_taille) et effets en plus (effets ; « premier_lancer » : true, seulement
-## au premier lancer du tour).
-const MASTERY_ADDS := ["critique", "portee_max", "bonus_etats", "places_crees", "embrase", "duree_aura"]
-const MASTERY_SETS := ["cout_pa", "delai", "zone_taille"]
+## (critique, portee_max, bonus_etats : % de chaque état élémentaire, places_crees : places de sorts créés, duree_horloge :
+## tours de cadran), nouvelles valeurs (cout_pa, delai, zone_taille, par_tour) et effets en plus (effets ; « premier_lancer » :
+## true, seulement au premier lancer du tour ; « si_critique » : true, seulement en coup critique).
+const MASTERY_ADDS := ["critique", "portee_max", "bonus_etats", "places_crees", "embrase", "duree_aura", "duree_horloge"]
+const MASTERY_SETS := ["cout_pa", "delai", "zone_taille", "par_tour"]
 
 var id: String
 var display_name: String
@@ -303,7 +316,7 @@ static func _validate_mastery(mastery_data: Variant) -> PackedStringArray:
 				if typeof(changes["effets"]) != TYPE_ARRAY or changes["effets"].is_empty():
 					errors.append("« maitrise.%s.effets » doit être une liste non vide" % str(key))
 				else:
-					errors.append_array(_validate_effects(changes["effets"], false))
+					errors.append_array(_validate_effects(changes["effets"], true))
 			elif change in MASTERY_ADDS:
 				if typeof(changes[change]) not in [TYPE_INT, TYPE_FLOAT] or changes[change] != floorf(changes[change]):
 					errors.append("« maitrise.%s.%s » doit être un entier" % [str(key), str(change)])
@@ -475,6 +488,9 @@ func mastered(level: int) -> Spell:
 		copy.pa_cost = int(changes.get("cout_pa", copy.pa_cost))
 		copy.cooldown = int(changes.get("delai", copy.cooldown))
 		copy.zone_size = int(changes.get("zone_taille", copy.zone_size))
+		copy.casts_per_turn = int(changes.get("par_tour", copy.casts_per_turn))
+		for effect in copy.effects.filter(func(effect: Dictionary) -> bool: return effect["type"] == EFFECT_CLOCK):
+			effect["duree"] = int(effect["duree"]) + int(changes.get("duree_horloge", 0))
 		copy.effects.append_array(normalized_effects(changes.get("effets", [])))
 	return copy
 

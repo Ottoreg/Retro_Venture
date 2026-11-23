@@ -26,10 +26,10 @@
   ],
   "maitrise": {
     "3": {
-      "critique": 5
+      "delai": 1
     },
     "5": {
-      "delai": 1
+      "cout_pa": 2
     }
   }
 }

@@ -89,6 +89,14 @@ const STACK_TURNS := 3
 const PROVOKE_MALUS := 20
 const COUNTER_BLOW := 10
 var _stunned := {}
+## Chronomancien (GDD § 4.3) : pulsions au plus par cible, secondes volées (passif « Temps volé ») au plus (`SECONDS_MAX_5` au
+## rang 5), dépensées par `SECONDS_FOR_PA` pour 1 PA au prochain tour (rang 3).
+const MAX_PULSES := 3
+const SECONDS_MAX := 5
+const SECONDS_MAX_5 := 7
+const SECONDS_FOR_PA := 5
+const TIME_PASSIVE := "temps_vole"
+const SECONDS := "seconde"
 
 ## Temps limité (en ligne, GDD § 7.2) : secondes d'un tour de joueur, et du placement ; 0 : illimité
 ## (solo). Le temps passe par `advance`.
@@ -645,9 +653,14 @@ func _cast(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 	if blocker.is_empty() and not spell.effect_of(Spell.EFFECT_SUMMON).is_empty():
 		blocker = Protocol.REASON_TOO_MANY_SERVANTS if servants_of(fighter).size() >= max_servants(fighter) else "" if is_free(target) \
 			else Protocol.REASON_OCCUPIED if aimed != null else Protocol.REASON_BLOCKED
-	if blocker.is_empty() and spell.effects.any(func(effect: Dictionary) -> bool: return effect["type"] in [Spell.EFFECT_SWAP, Spell.EFFECT_SACRIFICE]) \
+	var swap := spell.effect_of(Spell.EFFECT_SWAP)
+	if blocker.is_empty() and swap.get("tous", false):  # Rendez-vous : échange avec n'importe quel combattant.
+		blocker = Protocol.REASON_NO_TARGET if aimed == null or aimed == fighter else Protocol.REASON_STEADY if aimed.has_state(Spell.STATE_STEADY) else ""
+	elif blocker.is_empty() and spell.effects.any(func(effect: Dictionary) -> bool: return effect["type"] in [Spell.EFFECT_SWAP, Spell.EFFECT_SACRIFICE]) \
 			and (aimed == null or aimed.master != fighter.id):
 		blocker = Protocol.REASON_NOT_SERVANT
+	if blocker.is_empty() and not spell.effect_of(Spell.EFFECT_REPLAY).is_empty() and (aimed == null or clock_of(aimed).is_empty()):
+		blocker = Protocol.REASON_NO_CLOCK
 	if blocker.is_empty() and not spell.effect_of(Spell.EFFECT_ASHES).is_empty() and _heat_of(spell.zone_cells(target, fighter.cell)) == 0:
 		blocker = Protocol.REASON_NO_EMBERS
 	if blocker.is_empty() and not spell.effect_of(Spell.EFFECT_DEMOLISH).is_empty() and not demolishable(target):
@@ -754,7 +767,7 @@ func _cast(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 				_change_terrain(fighter, cell, events)
 	var elements := {}
 	for effect in cast_effects:
-		if effect["type"] in [Spell.EFFECT_DAMAGE, Spell.EFFECT_HEAL, Spell.EFFECT_POISON, Spell.EFFECT_BOUNCE, Spell.EFFECT_SACRIFICE]:
+		if effect["type"] in [Spell.EFFECT_DAMAGE, Spell.EFFECT_HEAL, Spell.EFFECT_POISON, Spell.EFFECT_BOUNCE, Spell.EFFECT_SACRIFICE, Spell.EFFECT_PULSE]:
 			elements[effect["element"]] = true
 	_open_credit(fighter, spell.pa_cost, elements.keys())
 	var targets: Array[Fighter] = []
@@ -776,6 +789,7 @@ func _cast(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 					Spell.EFFECT_DETONATE, Spell.EFFECT_BEHIND, Spell.EFFECT_SUMMON, Spell.EFFECT_AURA, Spell.EFFECT_BEACON, Spell.EFFECT_SURGE,
 					Spell.EFFECT_BEACON_SWAP, Spell.EFFECT_DEMOLISH, Spell.EFFECT_FREEZE] and not effect.get("sur_lanceur", false) \
 					and Spell.affects(effect, fighter, hit) and not (effect.get("premier_lancer", false) and fighter.cast_count(spell) > 1) \
+					and not (effect.get("si_critique", false) and not critical) \
 					and not (effect.get("sur_arc", false) and not arc_cells(hit).has(hit.cell)):
 				_apply_effect(fighter, hit, effect, events, critical, origin, spell.display_name)
 	var detonate := spell.effect_of(Spell.EFFECT_DETONATE)
@@ -877,8 +891,9 @@ func _credit_effect(caster: Fighter, element: String) -> void:
 func _apply_effect(caster: Fighter, target: Fighter, effect: Dictionary, events: Array[Dictionary], critical := false,
 		origin := Vector2i(-99999, -99999), source := "", removable := true) -> void:
 	var from := caster.cell if origin == Vector2i(-99999, -99999) else origin
-	var amount := rng.randi_range(effect["min"], effect["max"])
-	if effect["type"] not in [Spell.EFFECT_DAMAGE, Spell.EFFECT_HEAL, Spell.EFFECT_SHIELD, Spell.EFFECT_POISON]:
+	var amount := rng.randi_range(effect["min"], effect["max"]) * (mini(target.manipulations, int(effect["par_manipulation"]))
+		if effect.has("par_manipulation") else 1)  # Écho du passé : par manipulation temporelle subie.
+	if effect["type"] not in [Spell.EFFECT_DAMAGE, Spell.EFFECT_HEAL, Spell.EFFECT_SHIELD, Spell.EFFECT_POISON, Spell.EFFECT_PULSE]:
 		_credit_effect(caster, "")  # Effet utilitaire qui touche quelqu'un.
 	if critical and effect["type"] in Spell.ELEMENT_EFFECTS:
 		amount = roundi(amount * Spell.CRIT_MULTIPLIER)
@@ -962,13 +977,27 @@ func _apply_effect(caster: Fighter, target: Fighter, effect: Dictionary, events:
 				if hit != null and hit.team != caster.team:
 					_apply_effect(caster, hit, {"type": Spell.EFFECT_DAMAGE, "element": effect["element"], "min": int(effect["min"]) + extra,
 						"max": int(effect["max"]) + extra}, events, critical, target.cell, source)
-		Spell.EFFECT_POISON:
-			var poison := {"type": Spell.EFFECT_POISON, "element": effect["element"], "valeur": amount,
-				"tours": effect["duree"], "sort": source, "lanceur": caster.id, "retirable": removable}
+		Spell.EFFECT_POISON, Spell.EFFECT_PULSE:
+			var pulse: bool = effect["type"] == Spell.EFFECT_PULSE  # Pulsion : une seule fois, au début de son `delai`-ième tour.
+			var poison := {"type": effect["type"], "element": effect["element"], "valeur": amount, "tours": 99 if pulse else effect["duree"],
+				"sort": source, "lanceur": caster.id, "retirable": removable and not pulse, "delai": int(effect.get("delai", 2)), "cumul": MAX_PULSES if pulse else 0}
 			if not _credit.is_empty() and _credit["lanceur"] == caster and target.team != caster.team:
-				poison["pa"] = float(_credit["pa"]) / maxi(1, int(effect["duree"]))  # Pratique : à chaque tour qui blesse.
+				poison["pa"] = float(_credit["pa"]) / (1 if pulse else maxi(1, int(effect["duree"])))  # Pratique : à chaque tour qui blesse.
 				_credit["utile"] = true
 			_add_state(target, poison, events)
+			if pulse:
+				_manipulated(caster, target, events)
+		Spell.EFFECT_RETURN:
+			_return_to_past(caster, target, int(effect.get("tours", 1)), events)
+		Spell.EFFECT_FUTURE:
+			_send_to_future(caster, target, int(effect.get("tours", 1)), events)
+		Spell.EFFECT_REPLAY:
+			_hour_effects(target, clock_of(target), int(clock_of(target)["horloge"]["heure"]), events)
+		Spell.EFFECT_RESPITE:  # Sursis : une part des PV perdus depuis le début de son tour précédent.
+			var lost := target.past_hp[mini(1, target.past_hp.size() - 1)] - target.hp if not target.past_hp.is_empty() else 0
+			var healed := 0 if target.has_state(Spell.STATE_UNHEALABLE) else clampi(roundi(lost * int(effect.get("pourcent", 50)) / 100.0), 0, target.max_hp - target.hp)
+			target.hp += healed
+			events.append({"type": Protocol.EVT_HEAL, "entite": target.id, "valeur": healed, "element": "impie", "pv": target.hp})
 		Spell.EFFECT_ARMOR, Spell.EFFECT_FROSTBITE:
 			_stack(caster, target, effect["type"], amount, Fighter.ARMOR_MAX if effect["type"] == Spell.EFFECT_ARMOR else FROST_MAX, source, events)
 		Spell.EFFECT_STATE when effect["etat"] == Spell.STATE_PROVOKED:
@@ -1023,7 +1052,7 @@ func damage_bonus(caster: Fighter, target: Fighter, effect: Dictionary) -> int:
 		+ (5 + pact if pact > 0 and ember_level(target.cell, target.shadow) > 0 else 0) \
 		+ int(effect.get("par_malus", 0)) * target.states.filter(func(state: Dictionary) -> bool: return state["type"] == Spell.EFFECT_MALUS).size() \
 		+ (5 + int(caster.passives.get("coup_en_traitre", 0)) if hidden and int(caster.passives.get("coup_en_traitre", 0)) > 0 else 0) \
-		+ int(effect.get("bonus_arcs", 0)) + paladin_bonus(caster)
+		+ int(effect.get("bonus_arcs", 0)) + paladin_bonus(caster) + int(caster.passives.get(TIME_PASSIVE, 0)) * caster.stacks(SECONDS)
 
 
 ## Dégâts d'un effet de valeur tirée `amount` (voir `_apply_effect`) : au contact, × (100 + dommages de mêlée
@@ -1233,7 +1262,8 @@ func _add_state(target: Fighter, new_state: Dictionary, events: Array[Dictionary
 		target.pm = maxi(0, target.pm + signed)
 	var event := _states_event(target)
 	event["nouveau"] = {"type": new_state["type"], "carac": new_state.get("carac", ""), "element": new_state.get("element", ""),
-		"valeur": new_state["valeur"], "tours": new_state["tours"], "sort": new_state["sort"], "etat": new_state.get("etat", "")}
+		"valeur": new_state["valeur"], "tours": new_state["tours"], "sort": new_state["sort"], "etat": new_state.get("etat", ""),
+		"delai": new_state.get("delai", 0)}
 	events.append(event)
 
 
@@ -1245,7 +1275,7 @@ func _states_event(fighter: Fighter) -> Dictionary:
 ## bord ou un combattant l'arrête ; une poussée arrêtée fait des dégâts de choc par case manquée. Un
 ## piège ennemi arrête aussi le mouvement et se déclenche.
 func _push(from: Vector2i, target: Fighter, distance: int, pull: bool, events: Array[Dictionary]) -> void:
-	if target.cell == from or distance <= 0:
+	if target.cell == from or distance <= 0 or target.has_state(Spell.STATE_STEADY):
 		return
 	var step := Spell.direction(from, target.cell) * (-1 if pull else 1)
 	var start := target.cell
@@ -1409,7 +1439,7 @@ func _place_clock(caster: Fighter, target: Fighter, effect: Dictionary, from: Ve
 ## part de la dernière heure atteinte, même si la cible a été poussée hors du cadran depuis.
 func clock_destination(target: Fighter, hours: int) -> Dictionary:
 	var clock := clock_of(target)
-	if clock.is_empty() or hours == 0:
+	if clock.is_empty() or hours == 0 or target.has_state(Spell.STATE_STEADY):
 		return {"case": target.cell, "heure": 0}
 	var start := int(clock["horloge"]["heure"])
 	return _clock_arrival(target, clock, posmod(start + hours - 1, 12) + 1, signi(hours))
@@ -1424,7 +1454,7 @@ func _clock_arrival(target: Fighter, clock: Dictionary, hour: int, step: int) ->
 		var cell := clock_cell(center, noon, hour)
 		if cell == target.cell:
 			break
-		if map.is_inside(cell) and walkable(cell):
+		if map.is_inside(cell) and walkable(cell) and not (fighter_at(cell) != null and fighter_at(cell).has_state(Spell.STATE_STEADY)):
 			return {"case": cell, "heure": hour}
 		hour = posmod(hour - 1 + step, 12) + 1
 	return {"case": target.cell, "heure": 0}
@@ -1435,22 +1465,37 @@ func _shift_on_clock(target: Fighter, hours: int, events: Array[Dictionary]) -> 
 	_move_on_clock(target, clock_destination(target, hours), true, events)
 
 
-## Envoie `target` sur la case de `arrival` ({ case, heure }, rien si heure 0). Un combattant sur la
-## case d'arrivée échange sa place avec lui ; un piège ennemi sur une case d'arrivée se déclenche.
-## Avec `hour_effects`, les effets de l'heure atteinte s'appliquent ensuite à la cible, avec le poseur
-## de l'horloge pour lanceur.
+## Envoie `target` sur la case de `arrival` ({ case, heure }, rien si heure 0) ; l'heure atteinte compte comme une
+## manipulation temporelle. Avec `hour_effects`, les effets de l'heure atteinte s'appliquent ensuite à la cible, avec le
+## poseur de l'horloge pour lanceur.
 func _move_on_clock(target: Fighter, arrival: Dictionary, hour_effects: bool, events: Array[Dictionary]) -> void:
 	var hour: int = arrival["heure"]
 	if hour == 0:
 		return
 	var clock := clock_of(target)
-	var cell: Vector2i = arrival["case"]
+	clock["horloge"]["heure"] = hour  # Dernière heure atteinte : le prochain décalage en part.
+	_relocate(target, arrival["case"], events, {"heure": hour})
+	_manipulated(clock["lanceur"], target, events)
+	if hour_effects:
+		_hour_effects(target, clock, hour, events)
+
+
+## Effets de l'heure `hour` de l'horloge `clock` sur `target`, avec le poseur de l'horloge pour lanceur.
+func _hour_effects(target: Fighter, clock: Dictionary, hour: int, events: Array[Dictionary]) -> void:
+	var caster: Fighter = clock["lanceur"]
+	for effect: Dictionary in clock["horloge"]["heures"].get(str(hour), []):
+		if target.is_alive() and Spell.affects(effect, caster, target):
+			_apply_effect(caster, target, effect, events, false, target.cell, "%s (%d h)" % [clock["sort"], hour])
+
+
+## Téléporte `target` sur `cell` (`extra` : champs de plus de l'événement). Un combattant sur la case échange sa place
+## avec lui ; un piège ennemi sur une case d'arrivée se déclenche.
+func _relocate(target: Fighter, cell: Vector2i, events: Array[Dictionary], extra := {}) -> void:
 	var from := target.cell
 	var other := fighter_at(cell)
 	target.cell = cell
-	clock["horloge"]["heure"] = hour  # Dernière heure atteinte : le prochain décalage en part.
-	events.append({"type": Protocol.EVT_TELEPORTED, "entite": target.id, "depuis": from, "case": cell, "heure": hour})
-	if other != null:
+	events.append({"type": Protocol.EVT_TELEPORTED, "entite": target.id, "depuis": from, "case": cell}.merged(extra))
+	if other != null and other != target:
 		other.cell = from
 		events.append({"type": Protocol.EVT_TELEPORTED, "entite": other.id, "depuis": cell, "case": from, "echange": true})
 	for moved: Fighter in [target, other]:
@@ -1458,12 +1503,66 @@ func _move_on_clock(target: Fighter, arrival: Dictionary, hour_effects: bool, ev
 			var trap := enemy_trap_at(moved.cell, moved)
 			if not trap.is_empty():
 				_trigger_trap(trap, moved, events)
-	if not hour_effects:
+
+
+# --- Chronomancien : manipulations temporelles (GDD § 4.3) -----------------------------------------
+
+## `target` subit une manipulation temporelle de `caster` (heure atteinte, pulsion posée, retour, envoi dans le futur).
+## Passif « Temps volé » : une seconde volée contre un ennemi (2 tours ; +rang + 1 % de dégâts chacune) ; au rang 3,
+## `SECONDS_FOR_PA` secondes donnent 1 PA au début de son prochain tour, une fois par tour.
+func _manipulated(caster: Fighter, target: Fighter, events: Array[Dictionary]) -> void:
+	target.manipulations += 1
+	var passive := int(caster.passives.get(TIME_PASSIVE, 0)) if caster != null else 0
+	if passive == 0 or caster.team == target.team:
 		return
-	var caster: Fighter = clock["lanceur"]
-	for effect: Dictionary in clock["horloge"]["heures"].get(str(hour), []):
-		if target.is_alive() and Spell.affects(effect, caster, target):
-			_apply_effect(caster, target, effect, events, false, cell, "%s (%d h)" % [clock["sort"], hour])
+	_stack(caster, caster, SECONDS, 1, SECONDS_MAX_5 if passive > 5 else SECONDS_MAX, "Temps volé", events, 2)
+	var seconds: Dictionary = caster.states.filter(func(state: Dictionary) -> bool: return state["type"] == SECONDS)[0]
+	if passive > 3 and caster.pa_next == 0 and int(seconds["valeur"]) >= SECONDS_FOR_PA:
+		caster.pa_next = 1
+		seconds["valeur"] = int(seconds["valeur"]) - SECONDS_FOR_PA
+		if int(seconds["valeur"]) <= 0:
+			caster.states.erase(seconds)
+		events.append(_states_event(caster))
+
+
+## Ramène `target` à sa case du début de son `turns`-ième dernier tour : une case occupée échange les places, sauf
+## avec un inamovible ; une case devenue impraticable : la case libre la plus proche. L'heure du cadran ne change pas.
+func _return_to_past(caster: Fighter, target: Fighter, turns: int, events: Array[Dictionary]) -> void:
+	if target.past_cells.is_empty() or target.has_state(Spell.STATE_STEADY):
+		return
+	var cell := target.past_cells[mini(turns, target.past_cells.size()) - 1]
+	if cell == target.cell:
+		return
+	var other := fighter_at(cell)
+	if not walkable(cell) or (other != null and other.has_state(Spell.STATE_STEADY)):
+		cell = _nearest_free(cell)
+	_relocate(target, cell, events, {"retour": true})
+	_manipulated(caster, target, events)
+
+
+## Envoie `target` `turns` tours dans le futur : ses relances baissent d'autant, ses poisons s'écoulent (infligés d'un
+## coup), ses pulsions de ce délai explosent, ses malus (et ses bonus s'il est ennemi) s'écoulent. Un boss n'écoule que
+## ses poisons et ses pulsions. Les états non retirables ne bougent pas.
+func _send_to_future(caster: Fighter, target: Fighter, turns: int, events: Array[Dictionary]) -> void:
+	for spell_id: String in target._cooldowns.keys() if not target.boss else []:
+		target._cooldowns[spell_id] -= turns
+		if target._cooldowns[spell_id] <= 0:
+			target._cooldowns.erase(spell_id)
+	var elapsing := [Spell.EFFECT_POISON] if target.boss else [Spell.EFFECT_POISON, Spell.EFFECT_MALUS] + \
+		([] if target.team == caster.team else [Spell.EFFECT_BONUS])
+	for state in target.states.duplicate():
+		if state["type"] == Spell.EFFECT_PULSE:
+			state["delai"] = int(state["delai"]) - turns
+			if int(state["delai"]) <= 0:
+				_tick(target, state, events)
+		elif state["type"] in elapsing and state.get("retirable", true):
+			for i in mini(turns, int(state["tours"])) if state["type"] == Spell.EFFECT_POISON else 0:
+				_tick(target, state, events)
+			state["tours"] = int(state["tours"]) - turns
+			if int(state["tours"]) <= 0:
+				target.states.erase(state)
+	events.append(_states_event(target))
+	_manipulated(caster, target, events)
 
 
 ## Un combattant vaincu emporte ses glyphes et ses pièges.
@@ -1517,18 +1616,31 @@ func _start_of_turn_effects(fighter: Fighter, events: Array[Dictionary]) -> void
 		if image["lanceur"] == fighter and int(image["manche"]) < round_number and image in images:
 			_explode(image, 0, events)  # Restée un tour complet.
 	for poison in fighter.states.duplicate():
-		if poison["type"] not in [Spell.EFFECT_POISON, Spell.EFFECT_SHADOW_WEAPON] or not fighter.is_alive():
-			continue
-		if poison["type"] == Spell.EFFECT_SHADOW_WEAPON:  # Arme d'obscurité : frappe une fois, puis disparaît.
-			fighter.states.erase(poison)
-			events.append(_states_event(fighter))
-		var caster := get_fighter(poison["lanceur"])
-		var element: String = poison["element"]
-		var boosted := int(poison["valeur"]) * (100 + (caster.power(element) if caster != null else 0)) / 100.0 * dealt_factor(caster)
-		_open_credit(caster, float(poison.get("pa", 0.0)))
-		var dealt := maxi(0, roundi(boosted * (100 - fighter.resistance(element)) / 100.0) - fighter.combat_stat("reduction_degats"))
-		_thorns(caster, fighter, dealt, _hurt(fighter, dealt, element, events, "poison" if poison["type"] == Spell.EFFECT_POISON else poison["sort"]), events)
-		_close_credit()
+		if poison["type"] == Spell.EFFECT_PULSE:
+			poison["delai"] = int(poison["delai"]) - 1
+		if poison["type"] in [Spell.EFFECT_POISON, Spell.EFFECT_SHADOW_WEAPON] or (poison["type"] == Spell.EFFECT_PULSE and int(poison["delai"]) <= 0):
+			_tick(fighter, poison, events)
+	_ground_turn_effects(fighter, events)
+
+
+## Un poison blesse `fighter` ; une arme d'obscurité ou une pulsion arrivée à son heure le frappe une fois, puis disparaît.
+func _tick(fighter: Fighter, poison: Dictionary, events: Array[Dictionary]) -> void:
+	if not fighter.is_alive():
+		return
+	if poison["type"] != Spell.EFFECT_POISON:
+		fighter.states.erase(poison)
+		events.append(_states_event(fighter))
+	var caster := get_fighter(poison["lanceur"])
+	var element: String = poison["element"]
+	var boosted := int(poison["valeur"]) * (100 + (caster.power(element) if caster != null else 0)) / 100.0 * dealt_factor(caster)
+	_open_credit(caster, float(poison.get("pa", 0.0)))
+	var dealt := maxi(0, roundi(boosted * (100 - fighter.resistance(element)) / 100.0) - fighter.combat_stat("reduction_degats"))
+	_thorns(caster, fighter, dealt, _hurt(fighter, dealt, element, events, "poison" if poison["type"] == Spell.EFFECT_POISON else poison["sort"]), events)
+	_close_credit()
+
+
+## Braises et glyphes sous `fighter` au début de son tour.
+func _ground_turn_effects(fighter: Fighter, events: Array[Dictionary]) -> void:
 	var ember: Dictionary = embers[int(fighter.shadow)].get(fighter.cell, {})
 	if fighter.is_alive() and int(ember.get("niveau", CALCINED)) < CALCINED and ember["equipe"] != fighter.team:
 		_hurt(fighter, maxi(0, roundi(EMBER_BURN * int(ember["niveau"]) * (100 - fighter.resistance("flamme")) / 100.0)), "flamme", events, "Embrasement")
@@ -1572,15 +1684,15 @@ func _myrmidon_turn_start(fighter: Fighter, events: Array[Dictionary]) -> void:
 
 
 ## Ajoute `amount` crans (Blindage, Gelures) à `target`, `cap` au plus ; l'état (non retirable) repart pour `STACK_TURNS` tours.
-func _stack(caster: Fighter, target: Fighter, type: String, amount: int, cap: int, source: String, events: Array[Dictionary]) -> void:
+func _stack(caster: Fighter, target: Fighter, type: String, amount: int, cap: int, source: String, events: Array[Dictionary], turns := STACK_TURNS) -> void:
 	for state in target.states:
 		if state["type"] == type:
 			state["valeur"] = mini(cap, int(state["valeur"]) + amount)
-			state["tours"] = STACK_TURNS
+			state["tours"] = turns
 			state["lanceur"] = caster.id
 			events.append(_states_event(target))
 			return
-	_add_state(target, {"type": type, "valeur": mini(cap, amount), "tours": STACK_TURNS, "sort": source, "lanceur": caster.id, "retirable": false}, events)
+	_add_state(target, {"type": type, "valeur": mini(cap, amount), "tours": turns, "sort": source, "lanceur": caster.id, "retirable": false}, events)
 
 
 ## Provoque `target` pendant `turns` tours (remplace une provocation en cours) : malus de `provoke_malus` %.

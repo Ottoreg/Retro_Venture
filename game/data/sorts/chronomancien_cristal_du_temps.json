@@ -1,0 +1,44 @@
+{
+  "id": "chronomancien_cristal_du_temps",
+  "nom": "Cristal du temps",
+  "description": "Figé dans un cristal de temps : bouclier de Givre, et inamovible jusqu'à son prochain tour (ni poussé, ni attiré, ni échangé).",
+  "cout_pa": 2,
+  "portee": {
+    "min": 0,
+    "max": 0
+  },
+  "relance": {
+    "par_tour": 1,
+    "delai": 2
+  },
+  "effets": [
+    {
+      "type": "bouclier",
+      "element": "givre",
+      "min": 12,
+      "max": 16
+    },
+    {
+      "type": "etat",
+      "etat": "inamovible",
+      "duree": 1
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "cout_pa": 1
+    },
+    "5": {
+      "effets": [
+        {
+          "type": "bonus",
+          "carac": "resistance",
+          "min": 10,
+          "max": 10,
+          "duree": 1,
+          "element": "givre"
+        }
+      ]
+    }
+  }
+}

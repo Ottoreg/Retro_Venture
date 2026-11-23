@@ -55,7 +55,7 @@ func _initialize() -> void:
 		Session.new_character = Character.create("Lancelune", "humain", "paladin")
 	if _action.begins_with("myrmidon_"):
 		Session.new_character = Character.create("Achille", "nain", "myrmidon")
-	if _action == "horloge" or _action == "sorts_chronomancien":
+	if _action in ["horloge", "chronomancien_temps", "sorts_chronomancien"]:
 		Session.new_character = Character.create("Pendulette", "elfe", "chronomancien")
 		if _action == "sorts_chronomancien":
 			_action = "sorts"  # Fenêtre des sorts du Chronomancien (fiche longue de l'Horloge).
@@ -459,7 +459,7 @@ func _process(_delta: float) -> bool:
 				_scene.pause_menu.options.controls()["admin"].pressed.emit()
 				_scene.pause_menu.options.admin._send("activer", {"mdp": World.ADMIN_PASSWORD})
 		else:
-			var target: Vector2i = view.server.groups()[0]["case"] if _action in ["combat", "cible", "sermon", "prevision", "phase", "tactique", "historique", "arcaniste", "composition", "infobulle", "horloge"] or _action.begins_with("ombre_") or _action.begins_with("demoniste_") or _action.begins_with("paladin_") or _action.begins_with("myrmidon_") else view.current_map().travel_stone()
+			var target: Vector2i = view.server.groups()[0]["case"] if _action in ["combat", "cible", "sermon", "prevision", "phase", "tactique", "historique", "arcaniste", "composition", "infobulle", "horloge", "chronomancien_temps"] or _action.begins_with("ombre_") or _action.begins_with("demoniste_") or _action.begins_with("paladin_") or _action.begins_with("myrmidon_") else view.current_map().travel_stone()
 			if _action.begins_with("ombre_"):  # Une dague, pour sa case à part dans la barre de sorts.
 				var inventory := view.server.character.inventory
 				inventory.equip(inventory.add(view.server.data.items["forge_dague"], 1, {}), "arme")
@@ -475,7 +475,7 @@ func _process(_delta: float) -> bool:
 					break
 				view.advance(0.3)
 			if _action in ["cible", "sermon", "prevision", "phase", "tactique", "historique", "arcaniste", "composition", "infobulle",
-					"horloge"] or (_action.begins_with("ombre_") or _action.begins_with("demoniste_") or _action.begins_with("paladin_") or _action.begins_with("myrmidon_")) and view.server.combat != null:
+					"horloge", "chronomancien_temps"] or (_action.begins_with("ombre_") or _action.begins_with("demoniste_") or _action.begins_with("paladin_") or _action.begins_with("myrmidon_")) and view.server.combat != null:
 				# Placement validé, puis survol du premier monstre.
 				view.request_start_fight()
 				for i in 200:
@@ -515,18 +515,21 @@ func _process(_delta: float) -> bool:
 						if not view.is_busy():
 							break
 						view.advance(0.3)
-				if _action == "horloge":
-					# Chronomancien : Horloge posée sur un monstre amené à 3 cases, puis Tic survolé (case
-					# d'arrivée et heure prévues).
+				if _action in ["horloge", "chronomancien_temps"]:
+					# Chronomancien : Horloge posée sur un monstre amené à 3 cases, puis Tic survolé (case d'arrivée et heure
+					# prévues) ; « chronomancien_temps » : puis Tic, deux Pulsions temporelles et Cristal du temps, le monstre survolé.
 					var hero := view.server.combat.get_fighter(World.PLAYER_ID)
 					var foe := view.server.combat.enemies_of(hero)[0]
 					foe.cell = hero.cell + Spell.direction(hero.cell, foe.cell) * 3
+					hero.pa = 30
 					view.refresh_state()
 					view._actors[foe.id]["pos"] = Vector2(foe.cell)
-					view.select_spell("chronomancien_horloge")
-					view._on_click(foe.cell)
-					_wait_for(view)
-					view.select_spell("chronomancien_tic")
+					for spell_id: String in ["chronomancien_horloge"] + (["chronomancien_tic", "chronomancien_pulsion_temporelle",
+							"chronomancien_pulsion_temporelle", "chronomancien_cristal_du_temps"] if _action == "chronomancien_temps" else []):
+						view.selected_spell = spell_id
+						view._on_click(hero.cell if spell_id == "chronomancien_cristal_du_temps" else foe.cell)
+						_wait_for(view)
+					view.selected_spell = "" if _action == "chronomancien_temps" else "chronomancien_tic"
 					view._refresh_overlays()
 					view._set_hovered(foe.cell)
 				if _action.begins_with("ombre_"):

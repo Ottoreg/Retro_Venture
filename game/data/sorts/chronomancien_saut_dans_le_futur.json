@@ -1,0 +1,29 @@
+{
+  "id": "chronomancien_saut_dans_le_futur",
+  "nom": "Saut dans le futur",
+  "description": "Envoie un ennemi 2 tours dans le futur : ses effets en cours s'écoulent d'un coup (bonus et malus finis, poisons et pulsions infligés), mais ses sorts reviennent plus tôt. Un boss n'écoule que ses poisons et ses pulsions.",
+  "cout_pa": 3,
+  "portee": {
+    "min": 1,
+    "max": 5
+  },
+  "relance": {
+    "par_tour": 1,
+    "delai": 3
+  },
+  "effets": [
+    {
+      "type": "futur",
+      "tours": 2,
+      "cibles": "ennemis"
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "portee_max": 1
+    },
+    "5": {
+      "delai": 2
+    }
+  }
+}

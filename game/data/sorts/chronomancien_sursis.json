@@ -1,0 +1,28 @@
+{
+  "id": "chronomancien_sursis",
+  "nom": "Sursis",
+  "description": "Il rembobine un peu ses blessures : rend 50 % des PV perdus depuis le début de son tour précédent.",
+  "cout_pa": 3,
+  "portee": {
+    "min": 0,
+    "max": 0
+  },
+  "relance": {
+    "par_tour": 1,
+    "delai": 3
+  },
+  "effets": [
+    {
+      "type": "sursis",
+      "pourcent": 50
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "cout_pa": 2
+    },
+    "5": {
+      "delai": 2
+    }
+  }
+}

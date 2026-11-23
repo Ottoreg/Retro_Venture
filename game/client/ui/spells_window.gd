@@ -79,7 +79,8 @@ static func effect_lines(effects: Array, indent := "", state_bonus := Fighter.EL
 		match type:
 			Spell.EFFECT_DAMAGE:
 				line = "Dégâts %s : %s%s" % [element, _range_text(effect), " (+%d %% par cran de Blindage, dépensés)" % effect["par_blindage"]
-					if effect.has("par_blindage") else " (+%d %% par Gelure de la cible, qui tombent)" % effect["par_gelure"] if effect.has("par_gelure") else ""]
+					if effect.has("par_blindage") else " (+%d %% par Gelure de la cible, qui tombent)" % effect["par_gelure"] if effect.has("par_gelure")
+					else " par manipulation temporelle subie par la cible (%d au plus)" % effect["par_manipulation"] if effect.has("par_manipulation") else ""]
 			Spell.EFFECT_HEAL:
 				line = "Soin %s : %s" % [element, _range_text(effect)]
 			Spell.EFFECT_SHIELD:
@@ -147,6 +148,21 @@ static func effect_lines(effects: Array, indent := "", state_bonus := Fighter.EL
 				var hours := int(effect["heures"])
 				line = "Sur son horloge, la cible %s de %d heure%s (une case occupée : échange de place ; un obstacle : heure suivante)" % [
 					"avance" if hours > 0 else "recule", absi(hours), "s" if absi(hours) > 1 else ""]
+				line += " (en coup critique)" if effect.get("si_critique", false) else ""
+			Spell.EFFECT_PULSE:
+				line = "Pulsion %s : %s au début du %de tour de la cible (%d au plus, ne peut pas être retirée)" % [element, _range_text(effect),
+					int(effect.get("delai", 2)), Combat.MAX_PULSES]
+			Spell.EFFECT_RETURN:
+				line = "Ramène à sa case du début de son tour%s (case occupée : échange de place)" % (" d'il y a %d tours" % effect["tours"] if int(effect.get("tours", 1)) > 1 else "")
+			Spell.EFFECT_FUTURE:
+				line = "Envoie %d tour(s) dans le futur : relances, malus%s et poisons écoulés d'un coup, pulsions de ce délai explosées" % [
+					int(effect.get("tours", 1)), "" if effect.get("cibles") == Spell.TARGETS_ALLIES else ", bonus"]
+			Spell.EFFECT_REPLAY:
+				line = "La dernière heure atteinte sur son horloge rejoue son effet, sans bouger"
+			Spell.EFFECT_RESPITE:
+				line = "Rend %d %% des PV perdus depuis le début de son tour précédent" % int(effect.get("pourcent", 50))
+			Spell.EFFECT_SWAP when effect.get("tous", false):
+				line = "Échange de place avec la cible"
 			Spell.EFFECT_TRAP:
 				var zone: Dictionary = effect.get("zone", {})
 				line = "Piège invisible pour l'adversaire%s, au premier ennemi qui y entre :" % (

@@ -127,7 +127,7 @@ const CARAC_NAMES := {"force": "Force", "intelligence": "Intelligence", "percept
 ## Noms des états nommés (`Spell.NAMED_STATES`).
 const STATE_NAMES := {"insoignable": "Insoignable", "manipulation_temps": "Manipulation du temps", "exorcisme": "Exorcisme", "inblocable": "Inblocable",
 	"invisible": "Invisible", "ombres": "Monde des ombres", "retour_ombres": "Retour impossible", "aspire": "Aspiré",
-	"provoque": "Provoqué", "assomme": "Assommé", "garde": "Gardé", "carapace_de_glace": "Carapace de glace"}
+	"provoque": "Provoqué", "assomme": "Assommé", "garde": "Gardé", "carapace_de_glace": "Carapace de glace", "inamovible": "Inamovible"}
 ## Ombre : teinte d'une image rémanente, opacité d'un invisible vu par son camp ; filtre du Monde des ombres pour qui
 ## s'y trouve, sur la carte seulement (sol assombri, décor teinté), pas sur les combattants ni les sorts.
 const IMAGE_TINT := Color(0.75, 0.95, 1.4, 0.7)
@@ -1064,6 +1064,8 @@ func _log_line(event: Dictionary) -> String:
 		Protocol.EVT_TELEPORTED:
 			if event.has("heure"):
 				return "%s est envoyé à [color=#%s]%d h[/color]" % [who, _element_hex("impie"), event["heure"]]
+			if event.get("retour", false):
+				return "%s revient à une case de son passé" % who
 			if event.get("echange", false):
 				return "%s échange sa place" % who
 			return "%s se téléporte" % who
@@ -1938,6 +1940,11 @@ static func state_text(state: Dictionary) -> String:
 		return "Poison %d %s (%s)" % [state["valeur"], SpellsWindow.ELEMENT_LABELS.get(state["element"], state["element"]), duration]
 	if state["type"] == Spell.EFFECT_STATE:
 		return "%s (%s)" % [STATE_NAMES.get(state.get("etat", ""), state.get("etat", "")), duration]
+	if state["type"] == Spell.EFFECT_PULSE:
+		return "Pulsion %d %s (dans %d tour%s)" % [state["valeur"], SpellsWindow.ELEMENT_LABELS.get(state["element"], state["element"]), state.get("delai", 2),
+			"s" if int(state.get("delai", 2)) > 1 else ""]
+	if state["type"] == Combat.SECONDS:
+		return "Secondes volées ×%d (%s)" % [state["valeur"], duration]
 	if state["type"] in [Spell.EFFECT_ARMOR, Spell.EFFECT_FROSTBITE]:
 		return "%s ×%d (%s)" % ["Blindage" if state["type"] == Spell.EFFECT_ARMOR else "Gelures", state["valeur"], duration]
 	if state["type"] == Spell.EFFECT_STATE and state.get("etat") == Spell.STATE_PROVOKED:
