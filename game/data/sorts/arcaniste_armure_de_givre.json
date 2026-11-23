@@ -28,5 +28,22 @@
       "duree": 2,
       "cibles": "allies"
     }
-  ]
+  ],
+  "maitrise": {
+    "3": {
+      "portee_max": 1
+    },
+    "5": {
+      "effets": [
+        {
+          "type": "bonus",
+          "carac": "perception",
+          "min": 20,
+          "max": 20,
+          "duree": 2,
+          "cibles": "allies"
+        }
+      ]
+    }
+  }
 }

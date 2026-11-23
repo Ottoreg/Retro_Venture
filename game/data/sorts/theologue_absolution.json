@@ -29,5 +29,13 @@
       ],
       "cibles": "allies"
     }
-  ]
+  ],
+  "maitrise": {
+    "3": {
+      "portee_max": 1
+    },
+    "5": {
+      "delai": 1
+    }
+  }
 }

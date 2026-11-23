@@ -1,0 +1,45 @@
+{
+  "id": "theologue_la_question",
+  "nom": "La Question",
+  "description": "Juste quelques questions, posées avec des pinces : −2 PA pendant 1 tour et +1 cran d'Hérésie.",
+  "cout_pa": 3,
+  "portee": {
+    "min": 1,
+    "max": 3
+  },
+  "relance": {
+    "par_tour": 1,
+    "delai": 2
+  },
+  "effets": [
+    {
+      "type": "malus",
+      "carac": "pa",
+      "min": 2,
+      "max": 2,
+      "duree": 1,
+      "cibles": "ennemis"
+    },
+    {
+      "type": "heresie",
+      "min": 1,
+      "max": 1,
+      "cibles": "ennemis"
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "portee_max": 1
+    },
+    "5": {
+      "effets": [
+        {
+          "type": "heresie",
+          "min": 1,
+          "max": 1,
+          "cibles": "ennemis"
+        }
+      ]
+    }
+  }
+}

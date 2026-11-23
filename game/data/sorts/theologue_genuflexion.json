@@ -1,0 +1,40 @@
+{
+  "id": "theologue_genuflexion",
+  "nom": "Génuflexion",
+  "description": "« À genoux ! » L'ennemi obéit, surpris : −2 PM et −15 % de dégâts infligés pendant 1 tour.",
+  "cout_pa": 3,
+  "portee": {
+    "min": 1,
+    "max": 4
+  },
+  "relance": {
+    "par_tour": 1,
+    "delai": 2
+  },
+  "effets": [
+    {
+      "type": "malus",
+      "carac": "pm",
+      "min": 2,
+      "max": 2,
+      "duree": 1,
+      "cibles": "ennemis"
+    },
+    {
+      "type": "malus",
+      "carac": "degats_infliges",
+      "min": 15,
+      "max": 15,
+      "duree": 1,
+      "cibles": "ennemis"
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "portee_max": 1
+    },
+    "5": {
+      "delai": 1
+    }
+  }
+}

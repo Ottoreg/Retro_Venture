@@ -37,5 +37,15 @@
         }
       ]
     }
-  ]
+  ],
+  "maitrise": {
+    "3": {
+      "valeurs": {
+        "duree": 3
+      }
+    },
+    "5": {
+      "portee_max": 1
+    }
+  }
 }

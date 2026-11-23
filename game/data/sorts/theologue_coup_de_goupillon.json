@@ -1,0 +1,30 @@
+{
+  "id": "theologue_coup_de_goupillon",
+  "nom": "Coup de goupillon",
+  "description": "Un coup d'eau bénite, à température ambiante. Ça pique un peu.",
+  "cout_pa": 2,
+  "portee": {
+    "min": 1,
+    "max": 4
+  },
+  "relance": {
+    "par_tour": 3
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "sacre",
+      "min": 4,
+      "max": 6,
+      "cibles": "ennemis"
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "portee_max": 1
+    },
+    "5": {
+      "critique": 10
+    }
+  }
+}

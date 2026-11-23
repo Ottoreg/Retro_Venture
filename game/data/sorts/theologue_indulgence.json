@@ -1,0 +1,40 @@
+{
+  "id": "theologue_indulgence",
+  "nom": "Indulgence",
+  "description": "Une indulgence plénière, payée d'avance bien sûr : +1 PA et +1 PM pendant 2 tours.",
+  "cout_pa": 2,
+  "portee": {
+    "min": 0,
+    "max": 3
+  },
+  "relance": {
+    "par_tour": 1,
+    "delai": 4
+  },
+  "effets": [
+    {
+      "type": "bonus",
+      "carac": "pa",
+      "min": 1,
+      "max": 1,
+      "duree": 2,
+      "cibles": "allies"
+    },
+    {
+      "type": "bonus",
+      "carac": "pm",
+      "min": 1,
+      "max": 1,
+      "duree": 2,
+      "cibles": "allies"
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "portee_max": 1
+    },
+    "5": {
+      "delai": 3
+    }
+  }
+}

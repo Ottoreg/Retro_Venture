@@ -1,0 +1,116 @@
+{
+  "images": {
+    "sort_theologue_terre_consacree": {
+      "fichier": "sorts/theologue_terre_consacree.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_theologue_coup_de_goupillon": {
+      "fichier": "sorts/theologue_coup_de_goupillon.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_theologue_genuflexion": {
+      "fichier": "sorts/theologue_genuflexion.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_theologue_procession": {
+      "fichier": "sorts/theologue_procession.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_theologue_indulgence": {
+      "fichier": "sorts/theologue_indulgence.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_theologue_accusation": {
+      "fichier": "sorts/theologue_accusation.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_theologue_tison": {
+      "fichier": "sorts/theologue_tison.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_theologue_autodafe": {
+      "fichier": "sorts/theologue_autodafe.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_theologue_feu_purificateur": {
+      "fichier": "sorts/theologue_feu_purificateur.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_theologue_bucher": {
+      "fichier": "sorts/theologue_bucher.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_theologue_commandement": {
+      "fichier": "sorts/theologue_commandement.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_theologue_la_question": {
+      "fichier": "sorts/theologue_la_question.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_theologue_saut_des_flammes": {
+      "fichier": "sorts/theologue_saut_des_flammes.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_theologue_expiation": {
+      "fichier": "sorts/theologue_expiation.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_theologue_zele": {
+      "fichier": "sorts/theologue_zele.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_theologue_faire_la_quete": {
+      "fichier": "sorts/theologue_faire_la_quete.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    }
+  }
+}

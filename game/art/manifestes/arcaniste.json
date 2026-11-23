@@ -1,0 +1,67 @@
+{
+  "images": {
+    "sort_arcaniste_clignement": {
+      "fichier": "sorts/arcaniste_clignement.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_arcaniste_retropropulsion": {
+      "fichier": "sorts/arcaniste_retropropulsion.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_arcaniste_pieds_geles": {
+      "fichier": "sorts/arcaniste_pieds_geles.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_arcaniste_appel_d_air": {
+      "fichier": "sorts/arcaniste_appel_d_air.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_arcaniste_mur_de_glace": {
+      "fichier": "sorts/arcaniste_mur_de_glace.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_arcaniste_manteau_de_braises": {
+      "fichier": "sorts/arcaniste_manteau_de_braises.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_arcaniste_conduction": {
+      "fichier": "sorts/arcaniste_conduction.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_arcaniste_echo_arcanique": {
+      "fichier": "sorts/arcaniste_echo_arcanique.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_arcaniste_virtuose": {
+      "fichier": "sorts/arcaniste_virtuose.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    }
+  }
+}

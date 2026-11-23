@@ -1,0 +1,35 @@
+{
+  "id": "guerrier_onde_funebre",
+  "nom": "Onde funèbre",
+  "description": "Une onde de malheur autour de la cible. Les alliés aussi : c'est un chevalier maudit, pas un chevalier servant.",
+  "cout_pa": 4,
+  "portee": {
+    "min": 2,
+    "max": 4
+  },
+  "cout_pv": 5,
+  "zone": {
+    "type": "cercle",
+    "taille": 1
+  },
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "impie",
+      "min": 6,
+      "max": 9,
+      "cibles": "tous"
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "portee_max": 1
+    },
+    "5": {
+      "cout_pa": 3
+    }
+  }
+}

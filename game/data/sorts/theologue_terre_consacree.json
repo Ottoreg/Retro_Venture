@@ -1,0 +1,42 @@
+{
+  "id": "theologue_terre_consacree",
+  "nom": "Terre consacrée",
+  "description": "Il bénit le sol d'une croix de cinq cases pendant 3 tours : les alliés dessus reçoivent +20 % de soins et de boucliers, les ennemis qui y commencent leur tour se brûlent les pieds.",
+  "cout_pa": 3,
+  "portee": {
+    "min": 1,
+    "max": 5
+  },
+  "zone": {
+    "type": "cercle",
+    "taille": 1
+  },
+  "relance": {
+    "par_tour": 1,
+    "delai": 3
+  },
+  "effets": [
+    {
+      "type": "glyphe",
+      "duree": 3,
+      "consacree": true,
+      "effets": [
+        {
+          "type": "degats",
+          "element": "sacre",
+          "min": 5,
+          "max": 7,
+          "cibles": "ennemis"
+        }
+      ]
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "portee_max": 1
+    },
+    "5": {
+      "zone_taille": 2
+    }
+  }
+}

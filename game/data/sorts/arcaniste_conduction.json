@@ -1,0 +1,31 @@
+{
+  "id": "arcaniste_conduction",
+  "nom": "Conduction",
+  "description": "Il prête ses éléments : +15 dans la caractéristique de chacun de ses états (Flamme : Intelligence, Givre : Perception, Tempête : Agilité), 2 tours.",
+  "cout_pa": 2,
+  "portee": {
+    "min": 0,
+    "max": 4
+  },
+  "relance": {
+    "par_tour": 1,
+    "delai": 3
+  },
+  "effets": [
+    {
+      "type": "conduction",
+      "min": 15,
+      "max": 15,
+      "duree": 2,
+      "cibles": "allies"
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "portee_max": 1
+    },
+    "5": {
+      "delai": 2
+    }
+  }
+}

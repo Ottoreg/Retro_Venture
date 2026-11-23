@@ -95,8 +95,11 @@ temps : chaque camp a sa propre histoire.
 - Cinq Voies (classes), chacune avec sa mécanique :
   - **Guerrier** : *Charge* (en ligne droite, jusqu'au contact, puis un coup d'épée) ;
   - **Rôdeur** : *Collet*, un piège invisible qui blesse et ralentit le premier ennemi qui y entre ;
-  - **Théologue** (soigneur sacré : soin, bouclier, dégâts Sacrés) : *Absolution*, qui retire leurs
-    bonus aux ennemis, leurs malus et leurs poisons aux alliés ;
+  - **Théologue** (Sacré : Force et Intelligence, et Flamme : Intelligence) : le soigneur. *Terre consacrée* bénit une
+    croix de cases (+20 % de soins reçus dessus, les ennemis s'y brûlent) ; *Absolution* retire leurs bonus aux ennemis,
+    leurs malus et leurs poisons aux alliés. En inquisiteur (Flamme), ses sorts posent des crans d'**Hérésie** que le
+    *Bûcher* consume d'un coup ; *Commandement* (« Tu ne bougeras point ») fait payer chaque case marchée. Passif
+    *Faire la quête* (palier Apprenti) : ses coups lui donnent de la **Foi**, que son soin suivant dépense pour soigner plus ;
   - **Arcaniste** (kit entièrement nouveau) : *Composition* ouvre une petite grille (au-dessus du
     sort, ou de la souris avec le raccourci) où l'on choisit ses **3 états élémentaires** d'un coup
     (Flamme, Givre ou Tempête, +4 % de dégâts chacun ; le PA est rendu aussitôt). Avec 3 états,
@@ -107,12 +110,24 @@ temps : chaque camp a sa propre histoire.
     couleur de vos états (orange : Flamme, bleu : Givre) ; ils s'affichent aussi au survol de
     votre personnage et dans l'historique. On dit
     qu'un troisième élément compléterait la formule…
+    Huit **sorts utilitaires** se lancent directement : *Clignement* (téléportation), *Rétropropulsion* (recule
+    en brûlant l'ennemi au contact), *Pieds gelés* (−2 PM), *Appel d'air* (attire), *Mur de glace* (3 blocs de
+    glace qui bloquent passage et vue), *Manteau de braises* (moins de dégâts subis, brûle qui vous frappe),
+    *Conduction* (prête à un allié la caractéristique de vos états) et *Écho arcanique* (un 2e sort créé dans le
+    tour). Avec un état de leur élément, ils sont un peu plus forts (**affinité**). Au palier Apprenti, le passif
+    *Virtuose* récompense les combinaisons variées : chaque sort créé différent du précédent donne un cran de
+    dégâts en plus.
   - **Ombre** (nouvelle, Tempête : Agilité, et Acier : Force) : *Survoltage* et les sorts de mobilité (*Pas de
     l'éclair*, *Foudroiement*) laissent des **images** de foudre qui explosent au contact d'un ennemi (ou au tour
     suivant) ; *Court-circuit* les fait sauter tout de suite. *Fondu au noir* la rend **invisible** (les monstres ne la
     visent plus ; un sort de dégâts la révèle, sauf l'*Arme d'obscurité*, qui frappe la cible à son prochain tour).
     *Monde des ombres* envoie une cible (ou elle-même) dans une autre dimension pour 2 tours : la carte devient grise,
     seuls ceux de la même dimension se battent entre eux, des lueurs montrent les cases occupées dehors.
+  - **Guerrier** (complété : 20 sorts, Acier : Force, et Impie : Agilité et Perception) : sa **Rancune** (dès
+    Apprenti) donne +3 % de dégâts par tranche de 5 PV perdus ; *Fendoir* et *Rage du damné* la dépensent. Les sorts
+    Impie **coûtent des PV** (jamais mortels) : *Serment de sang* donne 2 PA, *Lame impie* et *Étreinte de la tombe*
+    volent de la vie, *Armure de sang* change les PV payés en bouclier. Nouveaux en Acier : *Croc-en-jambe*, *Crochet*
+    (attire au contact) et *Recul stratégique* (saut en arrière).
   - **Myrmidon** (nouveau, Acier : Force, et Givre : Perception) : un **tank**. Les monstres qui commencent leur tour
     près de lui sont **provoqués** (ils le visent, et font moins mal aux autres) ; *Défi* attire et provoque de loin.
     En Acier, ses coups lui donnent des crans de **Blindage** (résistances) que *Retour à l'envoyeur* dépense d'un coup ;

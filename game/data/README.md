@@ -410,7 +410,7 @@ Chronomancien (Voie Impie) :
 - `etat` : état nommé pendant `duree` tours : `insoignable` (aucun soin ne lui rend de PV),
   `exorcisme` (les prochains dégâts Sacré l'achèvent, bouclier compris ; l'état tombe alors) ou
   `inblocable` (ni taclé, ni tacleur).
-- `"vol": true` sur un effet `degats` : vol de vie, le lanceur reprend les PV qu'il a fait perdre.
+- `"vol": true` sur un effet `degats` : vol de vie, le lanceur reprend les PV qu'il a fait perdre (ou un %, ex. `"vol": 30`).
 - `"pourcent_pv": true` sur un effet `soin` : `min`/`max` en % des PV max de la cible, sans bonus de caractéristique.
 - `portee_fixe` (sort, `true`) : portée non modifiable, les bonus de portée ne s'y ajoutent pas.
 - Caractéristique `degats_infliges` (bonus ou malus) : % de tous les dégâts infligés, poisons compris.
@@ -606,6 +606,56 @@ Mécaniques du Myrmidon (GDD § 4.3) :
   des dégâts de sort subis va au lanceur, avec ses résistances), `carapace_de_glace` (qui frappe au contact prend une
   Gelure). Caractéristique modifiable `reduction_degats`. Passif `point_de_mire`.
 
+Mécaniques du Guerrier (GDD § 4.3) :
+
+- Champ de sort `cout_pv` (Prix du sang) : PV payés au lancer, en % des PV max (au moins 1) ; ni bouclier ni résistance,
+  jamais mortel (`pv_insuffisants`), compte pour la Rancune. Rangs de maîtrise `cout_pv` (nouveau coût) et `valeurs`
+  (`{ champ : entier }` remplacé sur chaque effet du sort qui a ce champ, ex. `{"vol": 40}`, `{"duree": 3}`).
+- Champs d'effet de dégâts `par_rancune` (% par cran de Rancune du lanceur, tous dépensés), `par_pv_manquant` (+1 % par %
+  de PV manquant du lanceur, cette valeur au plus), `execution` (% contre une cible sous 30 % de ses PV) ; champ de
+  bouclier `par_pv_payes` (au moins ce % des PV payés ce tour). Passif `rancune` : état `rancune` du lanceur (un cran
+  par 5 PV perdus, +3 % de dégâts par cran, `Fighter.RAGE_MAX` selon le rang).
+
+Mécaniques de l'Arcaniste (GDD § 4.3) :
+
+```json
+{"type": "recul", "min": 3, "max": 3, "cibles": "ennemis"}
+{"type": "mur_de_glace", "duree": 2}
+{"type": "conduction", "min": 15, "max": 15, "duree": 2, "cibles": "allies"}
+"affinite": {"element": "givre", "effet": "retrait_pm", "valeur": 1}
+```
+
+- `recul` : le lanceur recule de `min`–`max` cases à l'opposé de la cible. `mur_de_glace` : les cases libres de la zone
+  deviennent des murs de glace `duree` tours du lanceur (obstacles qui bloquent la vue ; un Myrmidon peut les démolir ;
+  case visée libre). `conduction` : la cible gagne `min` dans la caractéristique de chaque état élémentaire du lanceur,
+  par état (Flamme : Intelligence, Givre : Perception, Tempête : Agilité).
+- Champ de sort `affinite` (utilitaires) : avec au moins un état élémentaire de `element`, +`portee_max` de portée, et
+  +`valeur` (min et max) et +`duree` aux effets de type `effet` (de caractéristique `carac` si elle est donnée).
+- Champs d'effet `autour_du_lanceur` (touche les ennemis au contact du lanceur à son départ, pas la cible) et `voisins`
+  d'une `attirance` (les ennemis au contact de la cible sont attirés d'autant). Rang de maîtrise `remise` (le sort créé
+  coûte autant de PA de moins à son 1er lancer). Les effets ajoutés par un rang peuvent être des rebonds.
+- État nommé `enracine` (ni poussé, ni attiré, ni déplacé sur une horloge). Caractéristique modifiable
+  `epines_flamme_fixes`. Passif `virtuose`.
+
+Mécaniques du Théologue (GDD § 4.3) :
+
+```json
+{"type": "glyphe", "duree": 3, "consacree": true, "effets": [...]}
+{"type": "heresie", "min": 1, "max": 1, "cibles": "ennemis"}
+{"type": "degats", "element": "flamme", "min": 4, "max": 6, "cibles": "ennemis", "par_heresie": true}
+{"type": "soin", "element": "sacre", "min": 4, "max": 7, "cibles": "allies", "si_consacree": 50}
+{"type": "procession"}
+{"type": "etat", "etat": "commandement", "duree": 2, "cibles": "ennemis"}
+```
+
+- Glyphe `consacree` (Terre consacrée) : les alliés du lanceur dessus reçoivent +20 % de soins et de boucliers. Champ de
+  soin `si_consacree` : % de soin en plus quand la case visée est sur une Terre consacrée du lanceur (Sermon).
+- `heresie` : crans d'Hérésie de la cible (5 au plus, tout le combat, jamais retirés). Champ de dégâts `par_heresie` :
+  la valeur est multipliée par les crans de la cible, qui sont tous consommés (`aucune_heresie` sans cran).
+- `procession` : le lanceur se téléporte sur la case visée libre, ou échange de place avec l'allié qui s'y trouve.
+- État nommé `commandement` : chaque case que la cible marche lui coûte 3 Flamme du lanceur et un cran d'Hérésie.
+  Passif `faire_la_quete` (Foi : crans `foi` du Théologue, voir GDD § 4.3).
+
 Mécaniques du Chronomancien, Voie Givre et sorts du 23/11/2026 (GDD § 4.3) :
 
 ```json
@@ -634,7 +684,7 @@ Mécaniques du Chronomancien, Voie Givre et sorts du 23/11/2026 (GDD § 4.3) :
   maîtrise `duree_horloge` (tours de cadran en plus) et `par_tour` (lancers par tour).
 
 Toutes les Voies ont `pv` 50 et `initiative` 100 (demande de l'auteur du 20/11/2026). `passif` (facultatif) : le
-passif de classe, débloqué au palier Apprenti, `{"id", "nom", "effet": "coup_en_traitre", "pacte_de_feu", "saint_paratonnerre", "point_de_mire" ou "temps_vole", "description"}`
+passif de classe, débloqué au palier Apprenti, `{"id", "nom", "effet": "coup_en_traitre", "pacte_de_feu", "saint_paratonnerre", "point_de_mire", "rancune", "virtuose", "faire_la_quete" ou "temps_vole", "description"}`
 (effets connus : `GameData.CLASS_PASSIVES`) ; son rang vient de sa maîtrise.
 
 ## Objets (`objets/`)

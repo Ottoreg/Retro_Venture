@@ -266,6 +266,22 @@ Dernière session (retours de la passe de l'auteur) :
   `Combat._stack`, champs `par_blindage` / `par_gelure`) ; terrain du combat (`Combat.terrain`, `walkable`, effets `demolition`
   et `gel`, charge `demolit` / `gele`, événement `terrain`) ; protocole v22 ; données par `docs/design/myrmidon/produire.py`,
   capture `docs/captures/myrmidon/`. Valeurs provisoires (propositions validées telles quelles, l'auteur ajustera).
+- **Guerrier complet, Acier / Impie** (23/11/2026, GDD § 4.3, `tests/core/test_guerrier.gd`) : 20 sorts (3 Acier et 10 Impie
+  ajoutés, plus de `sorts_rang_2`), passif *Rancune* (état `rancune`, `Fighter.RAGE_MAX`, `Combat._gain_rage`, champ `par_rancune`) ;
+  Prix du sang (champ `cout_pv`, `Fighter.hp_cost`, raison `pv_insuffisants`), `vol` en %, champs `par_pv_manquant`,
+  `execution`, `par_pv_payes`, rangs de maîtrise `cout_pv` et `valeurs` ; protocole v23 ; données par
+  `docs/design/guerrier/produire.py`. Valeurs provisoires (propositions validées telles quelles).
+- **Arcaniste complet** (23/11/2026, GDD § 4.3 « Arcaniste complet », `tests/core/test_arcaniste.gd`) : 8 utilitaires à
+  `affinite` (`Spell.attuned`, appliquée par `Fighter.get_spell`), effets `recul`, `mur_de_glace` (`Combat.ICE_WALL` dans
+  `terrain`), `conduction`, état `enracine`, *Écho arcanique* (2e `creer_sort`, rang `remise`, `Fighter.created_discounts`),
+  passif *Virtuose* (`Combat._virtuoso`, crans `Fighter.VIRTUOSITY`), rangs 3 et 5 des sorts créés (rang `valeurs`,
+  champ `voisins`) ; données par `docs/design/arcaniste/produire.py`. Valeurs provisoires.
+- **Théologue complété, Sacré / Flamme** (23/11/2026, GDD § 4.3, `tests/core/test_theologue.gd`) : 20 sorts `theologue_*`
+  (5 d'origine compris), passif *Faire la quête* (Foi : crans `Combat.FAITH`, `_faith_after_cast`) ; Terre consacrée (glyphe
+  `consacree`, `Combat.consecrated`, `heal_boost`, soin `si_consacree`), crans `heresie` et dégâts `par_heresie` (Bûcher),
+  état `commandement` (`Combat._penance` dans `_move`), effet `procession` (`_teleport`, `_swap_places`) ; protocole v24 ;
+  données par `docs/design/theologue/produire.py`. Valeurs provisoires. `tools/screenshot.gd` ne lance plus de combat
+  (constaté le 23/11/2026, déjà le cas avant) : pas de capture.
 - **Ombre, Tempête / Acier** (20/11/2026, GDD § 4.3, `tests/core/test_ombre.gd`) : 6e classe, 20 sorts `ombre_*`, passif
   de classe *Coup en traître* (champ `passif` des Voies, débloqué à Apprenti, `GameData.class_passive`, `Fighter.passives`) ;
   images rémanentes (`Combat.images`, effets `image` / `court_circuit`, zone `ligne`), invisibilité (`Fighter.is_invisible`,

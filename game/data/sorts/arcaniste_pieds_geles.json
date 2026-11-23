@@ -1,0 +1,41 @@
+{
+  "id": "arcaniste_pieds_geles",
+  "nom": "Pieds gelés",
+  "description": "Les pieds pris dans la glace : −2 PM. Affinité Givre : −3 PM.",
+  "cout_pa": 2,
+  "portee": {
+    "min": 1,
+    "max": 5
+  },
+  "relance": {
+    "par_tour": 2
+  },
+  "affinite": {
+    "element": "givre",
+    "effet": "retrait_pm",
+    "valeur": 1
+  },
+  "effets": [
+    {
+      "type": "retrait_pm",
+      "min": 2,
+      "max": 2,
+      "cibles": "ennemis"
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "portee_max": 1
+    },
+    "5": {
+      "effets": [
+        {
+          "type": "etat",
+          "etat": "enracine",
+          "duree": 1,
+          "cibles": "ennemis"
+        }
+      ]
+    }
+  }
+}

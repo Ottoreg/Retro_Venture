@@ -1,0 +1,34 @@
+{
+  "id": "guerrier_lame_impie",
+  "nom": "Lame impie",
+  "description": "Une lame maudite qui boit pour deux. Vole 30 % des PV qu'elle ôte.",
+  "cout_pa": 3,
+  "portee": {
+    "min": 1,
+    "max": 1
+  },
+  "cout_pv": 3,
+  "relance": {
+    "par_tour": 2
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "impie",
+      "min": 7,
+      "max": 11,
+      "cibles": "ennemis",
+      "vol": 30
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "valeurs": {
+        "vol": 40
+      }
+    },
+    "5": {
+      "critique": 5
+    }
+  }
+}

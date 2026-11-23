@@ -1,0 +1,34 @@
+{
+  "id": "guerrier_armure_de_sang",
+  "nom": "Armure de sang",
+  "description": "Le sang versé fait une armure : un bouclier d'au moins deux fois les PV payés ce tour.",
+  "cout_pa": 2,
+  "portee": {
+    "min": 0,
+    "max": 0
+  },
+  "ligne_de_vue": false,
+  "relance": {
+    "par_tour": 1,
+    "delai": 3
+  },
+  "effets": [
+    {
+      "type": "bouclier",
+      "element": "impie",
+      "min": 8,
+      "max": 8,
+      "par_pv_payes": 200
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "valeurs": {
+        "par_pv_payes": 250
+      }
+    },
+    "5": {
+      "delai": 2
+    }
+  }
+}

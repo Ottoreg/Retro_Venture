@@ -42,7 +42,7 @@
   - [x] Nom des spécialisations opposées : **Voie Miroir** (§ 5.3)
   - [ ] Revoir les noms du monde, des Reliques et du méchant dans le ton parodique (§ 3)
   - [x] Reliques : huit bagues tenues par les Hérauts Cendrés, une par peuple ou presque (§ 3.3)
-  - [ ] Nommer les régions des Géants, des Lutins et des Fosses de Crasse-Roc (§ 3.3, § 3.5)
+  - [ ] Nommer les régions des Géants, des Lutins (relique à réattribuer) et des Fosses de Crasse-Roc (§ 3.3, § 3.5)
   - [ ] Écrire le synopsis des actes I à III pour chaque camp (`docs/lore/`)
 - [ ] Tableur d'équilibrage : courbe d'XP, formules de dégâts, PV par niveau (`docs/design/`)
 - [ ] Prototype « papier » du combat (grille + pions) pour tester PA/PM et 5 sorts par classe
@@ -672,12 +672,23 @@ Lots 0 (conception dans le GDD), 1 (personnage, poussé sur `main` à la demande
 - [ ] Race **Arkhé** (neutre, remplace le Semi-homme depuis le 19/11/2026) : *Cœur élémentaire* et *Éruption* faits (variante Flamme) ; 2e et 3e passifs à définir, variantes Acier, Tempête et Givre, sous-zone et quêtes de race
 - [ ] Race **Géant** (allié) : bonus, passif *Carrure*, sort *Coup de semelle*, assemblage agrandi (≈ 1,25×), zone de départ et chaîne d'acte I
 - [ ] Race **Squelette** (ennemi, mort-vivant) : passif *Déjà mort*, sort *Remonter les os*, assemblage squelette, zone de départ et chaîne d'acte I
-- [ ] Race **Lutin** (neutre) : passif *Farceur*, sort *Tour de passe-passe*, assemblage réduit (≈ 0,8×), zone de départ et chaîne d'acte I
+- [ ] Race **Mycélien** (neutre, remplace le Lutin depuis le 23/11/2026) : formes cèpe, girolle et amanite (à la place du choix mâle / femelle), passifs et sort à définir, sous-zone et quêtes de race
+- [ ] Squelette : variantes selon la race d'avant la mort (petit squelette de taille humaine, grand squelette de taille du Géant) à la place du choix mâle / femelle (23/11/2026)
 - [ ] Différencier les races proches (Nain / Orc) et valider leurs noms de peuple (GDD § 4.2)
 - [ ] Voies de corps à corps : **Paladin** (guerrier sacré) et **Myrmidon** (guerrier tank)
 - [x] Voie de corps à corps **Myrmidon** (21/11/2026, GDD § 4.3) : provocation et passif Point de mire, Blindage,
   Gelures, assommer, arbres et rochers démolis, eau gelée, Garde ; valeurs provisoires (l'auteur ajustera après ses tests)
 - [ ] Myrmidon : geler les trous quand des cartes en auront ; animations PixelLab de ses sorts ; IA si un monstre joue la classe
+- [x] **Arcaniste complet** (23/11/2026, GDD § 4.3, propositions validées telles quelles) : 8 utilitaires à affinité
+  (Clignement, Rétropropulsion, Pieds gelés, Appel d'air, Mur de glace, Manteau de braises, Conduction, Écho arcanique),
+  passif Virtuose, rangs 3 et 5 des 10 sorts créés ; valeurs provisoires (l'auteur ajustera après ses tests)
+- [ ] Arcaniste : capture du mur de glace (l'action « arcaniste » de `tools/screenshot.gd` ne lance plus le combat) ;
+  IA qui compose les états (lot à part, sur demande) ; déblocage des fusions par paliers (après les tests)
+- [x] **Théologue complet** (23/11/2026, GDD § 4.3) : Voie Sacrée (Terre consacrée, 5 sorts de plus, rangs 3 et 5 des 5
+  sorts d'origine) et Voie Flamme de l'inquisiteur (Hérésie, Bûcher, Commandement « Tu ne bougeras point »), passif Faire
+  la quête (Foi) ; valeurs provisoires (l'auteur ajustera après ses tests)
+- [ ] Théologue : résurrection (multijoueur ou mode héros) ; autres commandements dans une grille ; prompts PixelLab
+  (`assets/theologue/PROMPTS.md`) ; vérifier que les soins des autres classes restent sous Expiation (6 à 9)
 - [x] Voie mixte **Ombre** (20/11/2026, GDD § 4.3) : 2 Voies de 10 sorts, passif Coup en traître, images rémanentes,
   invisibilité, armes d'obscurité, Monde des ombres ; valeurs provisoires
 - [ ] Ombre : cacher côté serveur aux adversaires l'invisible, le Monde des ombres et les armes d'obscurité (multijoueur) ;
@@ -700,7 +711,8 @@ classes (option écartée et compromis gardés en piste, GDD § 5.2).
 - [x] Gabarit commun des classes (15/11/2026, GDD § 4.3) : 2 Voies de 10 sorts jouables ensemble, passif
   à 5 rangs à Apprenti, Arcaniste 12 + 8 utilitaires ; 2es Voies Guerrier Impie, Théologue Flamme, Rôdeur Flamme
 - [ ] Coder le rythme des points décidé le 15/11/2026 : 30 par palier (150 à Légende), puis 1 par 800 (GDD § 4.5)
-- [ ] Concevoir les classes dans l'ordre : Guerrier, Rôdeur, Théologue, Chronomancien, Arcaniste, Myrmidon,
+- [x] Guerrier complet (23/11/2026, GDD § 4.3) : 20 sorts, passif Rancune, Voie Impie « Prix du sang » ; valeurs provisoires
+- [ ] Concevoir les classes dans l'ordre : Guerrier (fait), Rôdeur, Théologue, Chronomancien, Arcaniste, Myrmidon,
   Paladin, Ombre, Démoniste (fiches de travail : `docs/design/classes/`) ; 145 sorts et 9 passifs à concevoir
 - [ ] Rangs I / II / III des sorts de sa Voie
 - [ ] Barre de sorts limitée et préréglages de barres

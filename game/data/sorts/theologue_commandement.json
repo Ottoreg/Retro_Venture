@@ -1,0 +1,30 @@
+{
+  "id": "theologue_commandement",
+  "nom": "Commandement",
+  "description": "« Tu ne bougeras point. » Pendant 2 tours, chaque case que l'ennemi marche lui coûte une Pénitence (3 Flamme et un cran d'Hérésie).",
+  "cout_pa": 3,
+  "portee": {
+    "min": 1,
+    "max": 5
+  },
+  "relance": {
+    "par_tour": 1,
+    "delai": 2
+  },
+  "effets": [
+    {
+      "type": "etat",
+      "etat": "commandement",
+      "duree": 2,
+      "cibles": "ennemis"
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "portee_max": 1
+    },
+    "5": {
+      "delai": 1
+    }
+  }
+}

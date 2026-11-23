@@ -9,7 +9,7 @@ extends RefCounted
 
 ## Version du protocole, vérifiée à la connexion : à augmenter à chaque changement incompatible
 ## d'une commande ou d'un événement.
-const VERSION := 23
+const VERSION := 25
 
 # --- Commandes (client → noyau) ---
 
@@ -560,6 +560,7 @@ const REASON_OCCUPIED := "case_occupee"
 const REASON_NOT_PLACEMENT_CELL := "case_de_placement_invalide"
 const REASON_NOT_ENOUGH_PM := "pm_insuffisants"
 const REASON_NOT_ENOUGH_PA := "pa_insuffisants"
+const REASON_NOT_ENOUGH_HP := "pv_insuffisants"
 const REASON_UNKNOWN_SPELL := "sort_inconnu"
 const REASON_SPELL_LIMIT := "sort_deja_lance"
 const REASON_SPELL_COOLDOWN := "sort_en_recharge"
@@ -581,6 +582,8 @@ const REASON_NO_EMBERS := "aucune_braise"
 const REASON_NO_BEACON := "aucune_balise"
 ## Myrmidon : rien à démolir sur la case (seulement un arbre ou un rocher).
 const REASON_NOT_DEMOLISHABLE := "rien_a_demolir"
+## Théologue : le Bûcher vise un ennemi sans Hérésie.
+const REASON_NO_HERESY := "aucune_heresie"
 ## Chronomancien : la cible n'a pas d'horloge (Arrêt sur image) ; la cible est inamovible (Rendez-vous).
 const REASON_NO_CLOCK := "aucune_horloge"
 const REASON_STEADY := "inamovible"

@@ -127,7 +127,7 @@ const CARAC_NAMES := {"force": "Force", "intelligence": "Intelligence", "percept
 ## Noms des états nommés (`Spell.NAMED_STATES`).
 const STATE_NAMES := {"insoignable": "Insoignable", "manipulation_temps": "Manipulation du temps", "exorcisme": "Exorcisme", "inblocable": "Inblocable",
 	"invisible": "Invisible", "ombres": "Monde des ombres", "retour_ombres": "Retour impossible", "aspire": "Aspiré",
-	"provoque": "Provoqué", "assomme": "Assommé", "garde": "Gardé", "carapace_de_glace": "Carapace de glace", "inamovible": "Inamovible"}
+	"provoque": "Provoqué", "assomme": "Assommé", "garde": "Gardé", "carapace_de_glace": "Carapace de glace", "commandement": "Tu ne bougeras point", "inamovible": "Inamovible"}
 ## Ombre : teinte d'une image rémanente, opacité d'un invisible vu par son camp ; filtre du Monde des ombres pour qui
 ## s'y trouve, sur la carte seulement (sol assombri, décor teinté), pas sur les combattants ni les sorts.
 const IMAGE_TINT := Color(0.75, 0.95, 1.4, 0.7)
@@ -163,6 +163,7 @@ const GROUP_SPOTS := [
 ## Messages affichés pour les refus du noyau.
 var _refusals := {
 	Protocol.REASON_NOT_ENOUGH_PA: "Pas assez de PA",
+	Protocol.REASON_NOT_ENOUGH_HP: "Pas assez de PV pour payer le prix du sang",
 	Protocol.REASON_NOT_ENOUGH_PM: "Pas assez de PM",
 	Protocol.REASON_OUT_OF_RANGE: "Hors de portée",
 	Protocol.REASON_NO_LINE_OF_SIGHT: "Pas de ligne de vue",
@@ -179,6 +180,7 @@ var _refusals := {
 	Protocol.REASON_NOT_SERVANT: "Visez un de vos serviteurs",
 	Protocol.REASON_NO_EMBERS: "Aucune case embrasée dans la zone",
 	Protocol.REASON_NO_BEACON: "Visez une de vos balises (libre pour un échange)",
+	Protocol.REASON_NO_HERESY: "Visez un ennemi qui a de l'Hérésie",
 }
 ## Messages affichés pour les objets qu'on ne peut pas équiper.
 var _equip_refusals := {
@@ -301,7 +303,7 @@ var _embers: Array[Dictionary] = [{}, {}]
 ## Paladin : auras (id → { lanceur, taille }), qui suivent leur lanceur, et balises (id → { case, lanceur, equipe, ombres, porteur }).
 var _auras: Dictionary = {}
 var _beacons: Dictionary = {}
-## Myrmidon : terrain changé pour le combat (case → « demoli » ou « gel »).
+## Myrmidon : terrain changé pour le combat (case → « demoli » ou « gel » ; Arcaniste : `Combat.ICE_WALL`).
 var _terrain: Dictionary = {}
 var _projections: Array[Dictionary] = []
 ## Pierre de Passage tout juste découverte (id), pour annoncer en une fois qu'elle devient aussi le
@@ -929,7 +931,7 @@ func _describe(cell: Vector2i) -> String:
 			return text
 	if ground != "":
 		return ground
-	var walkable := (_map.is_walkable_in_combat(cell) or _terrain.has(cell)) if mode == Mode.COMBAT else _map.is_walkable(cell)
+	var walkable: bool = (_map.is_walkable_in_combat(cell) or _terrain.has(cell)) and _terrain.get(cell) != Combat.ICE_WALL if mode == Mode.COMBAT else _map.is_walkable(cell)
 	return "case (%d, %d)%s" % [cell.x, cell.y, "" if walkable else " — bloquée"]
 
 
@@ -1945,8 +1947,12 @@ static func state_text(state: Dictionary) -> String:
 			"s" if int(state.get("delai", 2)) > 1 else ""]
 	if state["type"] == Combat.SECONDS:
 		return "Secondes volées ×%d (%s)" % [state["valeur"], duration]
+	if state["type"] == Fighter.RAGE:
+		return "Rancune ×%d (+%d %% de dégâts)" % [state["valeur"], Fighter.RAGE_BONUS * int(state["valeur"])]
 	if state["type"] in [Spell.EFFECT_ARMOR, Spell.EFFECT_FROSTBITE]:
 		return "%s ×%d (%s)" % ["Blindage" if state["type"] == Spell.EFFECT_ARMOR else "Gelures", state["valeur"], duration]
+	if state["type"] in [Spell.EFFECT_HERESY, Combat.FAITH]:
+		return "%s ×%d" % ["Hérésie" if state["type"] == Spell.EFFECT_HERESY else "Foi", state["valeur"]]
 	if state["type"] == Spell.EFFECT_STATE and state.get("etat") == Spell.STATE_PROVOKED:
 		return "Provoqué : −%d %% de dégâts contre les autres (%s)" % [state["valeur"], duration]
 	if state["type"] == Spell.EFFECT_SHADOW_WEAPON:
@@ -2128,7 +2134,7 @@ func _draw() -> void:
 	for cell in _preview:
 		draw_colored_polygon(_scaled_diamond(IsoGrid.cell_to_screen(cell), 0.35), COLOR_PATH)
 	if map.is_inside(_hovered):
-		var walkable := (map.is_walkable_in_combat(_hovered) or _terrain.has(_hovered)) if mode == Mode.COMBAT else map.is_walkable(_hovered)
+		var walkable: bool = (map.is_walkable_in_combat(_hovered) or _terrain.has(_hovered)) and _terrain.get(_hovered) != Combat.ICE_WALL if mode == Mode.COMBAT else map.is_walkable(_hovered)
 		var color := COLOR_HOVER_OK if walkable else COLOR_HOVER_KO
 		draw_colored_polygon(IsoGrid.diamond(IsoGrid.cell_to_screen(_hovered)), color)
 
@@ -2286,7 +2292,7 @@ func _draw_tactical_ground(map: GameMap) -> void:
 		var center := IsoGrid.cell_to_screen(cell)
 		var diamond := IsoGrid.diamond(center)
 		if not map.obstacles.has(cell) or _terrain.has(cell):
-			draw_colored_polygon(diamond, TACTICAL_ICE if _terrain.get(cell) == "gel" else TACTICAL_CELLS[posmod(cell.x + cell.y, 2)])
+			draw_colored_polygon(diamond, TACTICAL_ICE if _terrain.get(cell) in ["gel", Combat.ICE_WALL] else TACTICAL_CELLS[posmod(cell.x + cell.y, 2)])
 		elif map.obstacles[cell] in Combat.SEE_THROUGH_OBSTACLES:
 			_draw_hole(map, cell, diamond)
 			continue  # Sans liseré : une rivière fait une seule tranchée.
@@ -2323,6 +2329,9 @@ func _draw_tactical_pieces(map: GameMap) -> void:
 	var drawables: Array = []
 	for cell: Vector2i in map.obstacles:
 		if map.obstacles[cell] not in Combat.SEE_THROUGH_OBSTACLES and not _terrain.has(cell):
+			drawables.append([IsoGrid.depth(Vector2(cell)), "", cell])
+	for cell: Vector2i in _terrain:  # Arcaniste : mur de glace en bloc bas.
+		if _terrain[cell] == Combat.ICE_WALL:
 			drawables.append([IsoGrid.depth(Vector2(cell)), "", cell])
 	for actor_id: String in _actors:
 		if _actors[actor_id]["alive"]:
@@ -2386,7 +2395,9 @@ func _draw_ground_marks() -> void:
 			draw_string(ThemeDB.fallback_font, spot, "×%d" % stacks[cell], HORIZONTAL_ALIGNMENT_LEFT, -1, 14, IMAGE_GLOW)
 	for cell: Vector2i in _terrain:  # Myrmidon : eau gelée (glace claire) ; arbre ou rocher démoli (souche ou gravats).
 		var center := IsoGrid.cell_to_screen(cell)
-		if _terrain[cell] == "gel":
+		if _terrain[cell] == Combat.ICE_WALL:  # Arcaniste : mur de glace, bloc de glace bleutée.
+			_draw_block(center, 26, Color(0.7, 0.88, 1.0, 0.85))
+		elif _terrain[cell] == "gel":
 			var ice := _scaled_diamond(center, 0.96)
 			draw_colored_polygon(ice, TACTICAL_ICE)
 			ice.append(ice[0])

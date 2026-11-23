@@ -104,15 +104,15 @@ point(s) de caractéristique (avant ralentissement).
 
 | Voie | PV | PA | PM | Initiative | Sorts de rang I | Sorts de rang II |
 |---|---|---|---|---|---|---|
-| **Arcaniste** | 50 | 6 | 3 | 100 | 2 | 0 |
+| **Arcaniste** | 50 | 6 | 3 | 100 | 10 | 0 |
 | **Chronomancien** | 50 | 6 | 3 | 100 | 20 | 0 |
 | **Démoniste** | 50 | 6 | 3 | 100 | 20 | 0 |
-| **Guerrier** | 50 | 6 | 3 | 100 | 5 | 2 |
+| **Guerrier** | 50 | 6 | 3 | 100 | 20 | 0 |
 | **Myrmidon** | 50 | 6 | 3 | 100 | 20 | 0 |
 | **Ombre** | 50 | 6 | 3 | 100 | 20 | 0 |
 | **Paladin** | 50 | 6 | 3 | 100 | 20 | 0 |
 | **Rôdeur** | 50 | 6 | 3 | 100 | 5 | 0 |
-| **Théologue** | 50 | 6 | 3 | 100 | 5 | 0 |
+| **Théologue** | 50 | 6 | 3 | 100 | 20 | 0 |
 
 Colonnes des sorts : *Moy.* = valeurs moyennes de base des dégâts, soins et boucliers directs (hors
 horloge, glyphe et piège) ; *Moy./PA* ; *Rang 5* = moyenne avec +50 % de maîtrise. À multiplier par
@@ -126,16 +126,24 @@ horloge, glyphe et piège) ; *Moy./PA* ; *Rang 5* = moyenne avec +50 % de maîtr
 |---|---|---|---|---|---|---|---|
 | **Composition** | I | 1 PA, portée soi, sans ligne de vue, critique 0 % | choisit d'un coup ses 3 états élémentaires parmi Flamme et Givre et Tempête (permanents) ; +1 PA tout de suite | — | — | — | rang 1 : +1 % par état élémentaire<br>rang 2 : +1 % par état élémentaire<br>rang 3 : +1 % par état élémentaire, ajoute +1 PA tout de suite (premier lancer du tour)<br>rang 4 : +1 % par état élémentaire<br>rang 5 : +1 % par état élémentaire, ajoute +1 PA tout de suite (premier lancer du tour) |
 | **Fusion arcanique** | I | 2 PA, portée soi, sans ligne de vue, 1/tour, critique 0 % | crée le sort de la combinaison des 3 états : Flamme + Flamme + Flamme → Fournaise ; Flamme + Flamme + Givre → Choc thermique ; Flamme + Givre + Givre → Armure de givre ; Givre + Givre + Givre → Blizzard ; Tempête + Tempête + Tempête → Foudre en chaîne ; Flamme + Tempête + Tempête → Fulgurance ; Givre + Tempête + Tempête → Vent arrière ; Flamme + Flamme + Tempête → Feu de brousse ; Givre + Givre + Tempête → Bourrasque glacée ; Flamme + Givre + Tempête → Cataclysme | — | — | — | rang 3 : coût 1 PA<br>rang 5 : +1 place de sort créé |
-| **Fournaise** | créé (Flamme+Flamme+Flamme) | 4 PA, portée 2–6, cercle de rayon 1, 1/tour | 9–13 Flamme aux ennemis ; glyphe (2 t.) : [3–5 Flamme aux ennemis] | 11 dégâts | 2,75 dégâts | 16,5 dégâts | — |
-| **Choc thermique** | créé (Flamme+Flamme+Givre) | 4 PA, portée 1–5, 1/tour | 7–10 Flamme ; 4–6 Givre ; −10 Résistance Flamme (2 t.) | 13,5 dégâts | 3,38 dégâts | 20,25 dégâts | — |
-| **Armure de givre** | créé (Flamme+Givre+Givre) | 4 PA, portée 0–3, 1/tour, relance 1 t. | bouclier 14–20 (Givre) aux alliés ; +20 Intelligence (2 t.) aux alliés | 17 bouclier | 4,25 bouclier | 25,5 bouclier | — |
-| **Blizzard** | créé (Givre+Givre+Givre) | 4 PA, portée 1–5, cercle de rayon 1, 1/tour | 6–9 Givre aux ennemis ; −2 PM au prochain tour aux ennemis | 7,5 dégâts | 1,88 dégâts | 11,25 dégâts | — |
-| **Foudre en chaîne** | créé (Tempête+Tempête+Tempête) | 4 PA, portée 1–6, 1/tour | 9–12 Tempête ; rebond 6–8 Tempête sur l'ennemi le plus proche (2 case(s) au plus) ; rebond 3–5 Tempête sur l'ennemi le plus proche (2 case(s) au plus) | 10,5 dégâts | 2,62 dégâts | 15,75 dégâts | — |
-| **Fulgurance** | créé (Flamme+Tempête+Tempête) | 4 PA, portée 2–4, cercle de rayon 1, 1/tour, relance 1 t. | téléportation sur la case ; 7–10 Tempête aux ennemis ; 3–5 Flamme aux ennemis | 12,5 dégâts | 3,12 dégâts | 18,75 dégâts | — |
-| **Vent arrière** | créé (Givre+Tempête+Tempête) | 4 PA, portée 0–4, 1/tour, relance 1 t. | +2 PM (1 t.) aux alliés ; +20 Agilité (2 t.) aux alliés ; inblocable (1 t.) aux alliés | — | — | — | — |
-| **Feu de brousse** | créé (Flamme+Flamme+Tempête) | 4 PA, portée 2–6, cercle de rayon 1, 1/tour | 7–10 Flamme aux ennemis ; 3–4 Tempête aux ennemis ; poison 3–4 Flamme par tour (2 t.) aux ennemis | 12 dégâts | 3 dégâts | 18 dégâts | — |
-| **Bourrasque glacée** | créé (Givre+Givre+Tempête) | 4 PA, portée 1–5, en ligne, 1/tour | 6–9 Givre ; 2–3 Tempête ; poussée de 3 case(s) ; −1 PM au prochain tour | 10 dégâts | 2,5 dégâts | 15 dégâts | — |
-| **Cataclysme** | créé (Flamme+Givre+Tempête) | 4 PA, portée 2–5, cercle de rayon 1, 1/tour, relance 2 t. | 5–7 Flamme aux ennemis ; 5–7 Givre aux ennemis ; 5–7 Tempête aux ennemis ; −1 PM au prochain tour aux ennemis ; poussée de 1 case(s) aux ennemis | 18 dégâts | 4,5 dégâts | 27 dégâts | — |
+| **Clignement** | I | 2 PA, portée 1–3, 1/tour, relance 2 t. | téléportation sur la case | — | — | — | rang 3 : relance 1 t.<br>rang 5 : +1 portée |
+| **Rétropropulsion** | I | 2 PA, portée 1, 1/tour, relance 2 t. | 3–5 Flamme aux ennemis ; recul aux ennemis | 4 dégâts | 2 dégâts | 6 dégâts | rang 3 : coût 1 PA<br>rang 5 : ajoute 3–5 Flamme aux ennemis |
+| **Pieds gelés** | I | 2 PA, portée 1–5, 2/tour | −2 PM au prochain tour aux ennemis | — | — | — | rang 3 : +1 portée<br>rang 5 : ajoute enracine (1 t.) aux ennemis |
+| **Appel d'air** | I | 3 PA, portée 2–6, en ligne, 1/tour, relance 1 t. | attire de 3 case(s) aux ennemis | — | — | — | rang 3 : coût 2 PA<br>rang 5 : valeurs {'voisins': 1} |
+| **Mur de glace** | I | 3 PA, portée 1–4, 1/tour, relance 3 t. | mur_de_glace | — | — | — | rang 3 : zone de taille 2<br>rang 5 : relance 2 t. |
+| **Manteau de braises** | I | 2 PA, portée soi, 1/tour, relance 3 t. | +4 reduction_degats (2 t.) ; +3–5 epines_flamme_fixes (2 t.) | — | — | — | rang 3 : coût 1 PA<br>rang 5 : valeurs {'duree': 3} |
+| **Conduction** | I | 2 PA, portée 0–4, 1/tour, relance 3 t. | conduction aux alliés | — | — | — | rang 3 : +1 portée<br>rang 5 : relance 2 t. |
+| **Écho arcanique** | I | 2 PA, portée soi, sans ligne de vue, 1/tour, relance 3 t. | crée le sort de la combinaison des 3 états : Flamme + Flamme + Flamme → Fournaise ; Flamme + Flamme + Givre → Choc thermique ; Flamme + Givre + Givre → Armure de givre ; Givre + Givre + Givre → Blizzard ; Tempête + Tempête + Tempête → Foudre en chaîne ; Flamme + Tempête + Tempête → Fulgurance ; Givre + Tempête + Tempête → Vent arrière ; Flamme + Flamme + Tempête → Feu de brousse ; Givre + Givre + Tempête → Bourrasque glacée ; Flamme + Givre + Tempête → Cataclysme | — | — | — | rang 3 : relance 2 t.<br>rang 5 : remise 1 |
+| **Fournaise** | créé (Flamme+Flamme+Flamme) | 4 PA, portée 2–6, cercle de rayon 1, 1/tour | 9–13 Flamme aux ennemis ; glyphe (2 t.) : [3–5 Flamme aux ennemis] | 11 dégâts | 2,75 dégâts | 16,5 dégâts | rang 3 : valeurs {'duree': 3}<br>rang 5 : +1 portée |
+| **Choc thermique** | créé (Flamme+Flamme+Givre) | 4 PA, portée 1–5, 1/tour | 7–10 Flamme ; 4–6 Givre ; −10 Résistance Flamme (2 t.) | 13,5 dégâts | 3,38 dégâts | 20,25 dégâts | rang 3 : ajoute −5 Résistance Flamme (2 t.)<br>rang 5 : +10 % critique |
+| **Armure de givre** | créé (Flamme+Givre+Givre) | 4 PA, portée 0–3, 1/tour, relance 1 t. | bouclier 14–20 (Givre) aux alliés ; +20 Intelligence (2 t.) aux alliés | 17 bouclier | 4,25 bouclier | 25,5 bouclier | rang 3 : +1 portée<br>rang 5 : ajoute +20 Perception (2 t.) aux alliés |
+| **Blizzard** | créé (Givre+Givre+Givre) | 4 PA, portée 1–5, cercle de rayon 1, 1/tour | 6–9 Givre aux ennemis ; −2 PM au prochain tour aux ennemis | 7,5 dégâts | 1,88 dégâts | 11,25 dégâts | rang 3 : ajoute −1 PM au prochain tour aux ennemis<br>rang 5 : zone de taille 2 |
+| **Foudre en chaîne** | créé (Tempête+Tempête+Tempête) | 4 PA, portée 1–6, 1/tour | 9–12 Tempête ; rebond 6–8 Tempête sur l'ennemi le plus proche (2 case(s) au plus) ; rebond 3–5 Tempête sur l'ennemi le plus proche (2 case(s) au plus) | 10,5 dégâts | 2,62 dégâts | 15,75 dégâts | rang 3 : valeurs {'distance': 3}<br>rang 5 : ajoute rebond 2–3 Tempête sur l'ennemi le plus proche (3 case(s) au plus) |
+| **Fulgurance** | créé (Flamme+Tempête+Tempête) | 4 PA, portée 2–4, cercle de rayon 1, 1/tour, relance 1 t. | téléportation sur la case ; 7–10 Tempête aux ennemis ; 3–5 Flamme aux ennemis | 12,5 dégâts | 3,12 dégâts | 18,75 dégâts | rang 3 : +1 portée<br>rang 5 : relance 0 t. |
+| **Vent arrière** | créé (Givre+Tempête+Tempête) | 4 PA, portée 0–4, 1/tour, relance 1 t. | +2 PM (1 t.) aux alliés ; +20 Agilité (2 t.) aux alliés ; inblocable (1 t.) aux alliés | — | — | — | rang 3 : ajoute +1 PM (1 t.) aux alliés<br>rang 5 : relance 0 t. |
+| **Feu de brousse** | créé (Flamme+Flamme+Tempête) | 4 PA, portée 2–6, cercle de rayon 1, 1/tour | 7–10 Flamme aux ennemis ; 3–4 Tempête aux ennemis ; poison 3–4 Flamme par tour (2 t.) aux ennemis | 12 dégâts | 3 dégâts | 18 dégâts | rang 3 : valeurs {'duree': 3}<br>rang 5 : +1 portée |
+| **Bourrasque glacée** | créé (Givre+Givre+Tempête) | 4 PA, portée 1–5, en ligne, 1/tour | 6–9 Givre ; 2–3 Tempête ; poussée de 3 case(s) ; −1 PM au prochain tour | 10 dégâts | 2,5 dégâts | 15 dégâts | rang 3 : ajoute poussée de 1 case(s)<br>rang 5 : ajoute −1 PM au prochain tour aux ennemis |
+| **Cataclysme** | créé (Flamme+Givre+Tempête) | 4 PA, portée 2–5, cercle de rayon 1, 1/tour, relance 2 t. | 5–7 Flamme aux ennemis ; 5–7 Givre aux ennemis ; 5–7 Tempête aux ennemis ; −1 PM au prochain tour aux ennemis ; poussée de 1 case(s) aux ennemis | 18 dégâts | 4,5 dégâts | 27 dégâts | rang 3 : relance 1 t.<br>rang 5 : ajoute −1 PM au prochain tour aux ennemis |
 
 ### Chronomancien
 
@@ -193,7 +201,7 @@ horloge, glyphe et piège) ; *Moy./PA* ; *Rang 5* = moyenne avec +50 % de maîtr
 
 ### Guerrier
 
-*Au contact, il encaisse et rend les coups. Réfléchit après, de préférence.*
+*Au contact, il encaisse et rend les coups. Réfléchit après, de préférence. Voie Impie : chevalier d'un ordre dissous pour faute grave, il paie chaque coup de son propre sang, puis se rembourse sur l'adversaire.*
 
 | Sort | Rang | Caractéristiques | Effets | Moy. | Moy./PA | Rang 5 | Maîtrise |
 |---|---|---|---|---|---|---|---|
@@ -202,8 +210,21 @@ horloge, glyphe et piège) ; *Moy./PA* ; *Rang 5* = moyenne avec +50 % de maîtr
 | **Tourbillon** | I | 4 PA, portée soi, cercle de rayon 1 (sans le lanceur), sans ligne de vue, 1/tour | 7–10 Acier | 8,5 dégâts | 2,12 dégâts | 12,75 dégâts | rang 3 : ajoute poussée de 1 case(s)<br>rang 5 : zone de taille 2 |
 | **Second souffle** | I | 2 PA, portée soi, sans ligne de vue, 1/tour, relance 3 t. | soin 12–18 (Acier) | 15 soin | 7,5 soin | 22,5 soin | rang 3 : relance 2 t.<br>rang 5 : ajoute bouclier 9–14 (Acier) |
 | **Charge** | I | 3 PA, portée 2–4, en ligne, 1/tour, relance 2 t. | charge en ligne jusqu'au contact (effets suivants au contact seulement) ; 6–9 Acier | 7,5 dégâts | 2,5 dégâts | 11,25 dégâts | rang 3 : +1 portée<br>rang 5 : relance 1 t. |
-| **Cri de guerre** | II (0 rép.) | 3 PA, portée soi, cercle de rayon 2, sans ligne de vue, 1/tour, relance 4 t. | +4–6 Dommages (2 t.) aux alliés | — | — | — | rang 3 : relance 3 t.<br>rang 5 : zone de taille 3 |
-| **Fendoir** | II (0 rép.) | 5 PA, portée 1, 1/tour | 16–22 Acier | 19 dégâts | 3,8 dégâts | 28,5 dégâts | rang 3 : +5 % critique<br>rang 5 : coût 4 PA |
+| **Cri de guerre** | I | 3 PA, portée soi, cercle de rayon 2, sans ligne de vue, 1/tour, relance 4 t. | +4–6 Dommages (2 t.) aux alliés | — | — | — | rang 3 : relance 3 t.<br>rang 5 : zone de taille 3 |
+| **Fendoir** | I | 5 PA, portée 1, 1/tour | 16–22 Acier | 19 dégâts | 3,8 dégâts | 28,5 dégâts | rang 3 : +5 % critique<br>rang 5 : coût 4 PA |
+| **Croc-en-jambe** | I | 2 PA, portée 1, 1/tour, relance 2 t. | 3–5 Acier aux ennemis ; −2 PM au prochain tour aux ennemis | 4 dégâts | 2 dégâts | 6 dégâts | rang 3 : ajoute −1 PM au prochain tour aux ennemis<br>rang 5 : relance 1 t. |
+| **Crochet** | I | 3 PA, portée 2–4, en ligne, 1/tour, relance 2 t. | attire de 3 case(s) aux ennemis | — | — | — | rang 3 : +1 portée<br>rang 5 : ajoute 4–6 Acier aux ennemis |
+| **Recul stratégique** | I | 2 PA, portée 1–3, sans ligne de vue, 1/tour, relance 3 t. | téléportation sur la case | — | — | — | rang 3 : +1 portée<br>rang 5 : relance 2 t. |
+| **Serment de sang** | I | 1 PA, portée soi, sans ligne de vue, 1/tour, relance 2 t. | +2 PA tout de suite | — | — | — | rang 3 : cout_pv 12<br>rang 5 : relance 1 t. |
+| **Lame impie** | I | 3 PA, portée 1, 2/tour | 7–11 Impie aux ennemis | 9 dégâts | 3 dégâts | 13,5 dégâts | rang 3 : valeurs {'vol': 40}<br>rang 5 : +5 % critique |
+| **Onde funèbre** | I | 4 PA, portée 2–4, cercle de rayon 1, 1/tour | 6–9 Impie | 7,5 dégâts | 1,88 dégâts | 11,25 dégâts | rang 3 : +1 portée<br>rang 5 : coût 3 PA |
+| **Exécution** | I | 5 PA, portée 1, 1/tour | 15–21 Impie aux ennemis | 18 dégâts | 3,6 dégâts | 27 dégâts | rang 3 : +5 % critique<br>rang 5 : coût 4 PA |
+| **Rage du damné** | I | 4 PA, portée 1, 1/tour | 10–14 Impie aux ennemis | 12 dégâts | 3 dégâts | 18 dégâts | rang 3 : valeurs {'par_pv_manquant': 70}<br>rang 5 : coût 3 PA |
+| **Regard du damné** | I | 2 PA, portée 1–4, 1/tour, relance 2 t. | −2 PA (1 t.) aux ennemis | — | — | — | rang 3 : valeurs {'min': 3, 'max': 3}<br>rang 5 : relance 1 t. |
+| **Étreinte de la tombe** | I | 3 PA, portée 1–2, 1/tour, relance 3 t. | attire de 1 case(s) aux ennemis ; −3 PM au prochain tour aux ennemis ; 4–6 Impie aux ennemis | 5 dégâts | 1,67 dégâts | 7,5 dégâts | rang 3 : relance 2 t.<br>rang 5 : ajoute −1 PM au prochain tour aux ennemis |
+| **Pas du spectre** | I | 2 PA, portée 1–4, sans ligne de vue, 1/tour, relance 2 t. | téléportation sur la case | — | — | — | rang 3 : +1 portée<br>rang 5 : cout_pv 0 |
+| **Armure de sang** | I | 2 PA, portée soi, sans ligne de vue, 1/tour, relance 3 t. | bouclier 8 (Impie) | 8 bouclier | 4 bouclier | 12 bouclier | rang 3 : valeurs {'par_pv_payes': 250}<br>rang 5 : relance 2 t. |
+| **Malédiction** | I | 3 PA, portée 1–5, 1/tour, relance 3 t. | −15 Résistance Acier (2 t.) aux ennemis ; −15 Résistance Impie (2 t.) aux ennemis | — | — | — | rang 3 : valeurs {'min': 20, 'max': 20}<br>rang 5 : valeurs {'duree': 3} |
 
 ### Myrmidon
 
@@ -300,12 +321,27 @@ horloge, glyphe et piège) ; *Moy./PA* ; *Rang 5* = moyenne avec +50 % de maîtr
 
 ### Théologue
 
-*Soigneur sacré. Bénit les alliés, sermonne les ennemis, et cite des textes que personne n'a lus.*
+*Soigneur sacré. Bénit les alliés, sermonne les ennemis, et cite des textes que personne n'a lus. Le dimanche il soigne ; le reste de la semaine, il instruit des procès en hérésie.*
 
 | Sort | Rang | Caractéristiques | Effets | Moy. | Moy./PA | Rang 5 | Maîtrise |
 |---|---|---|---|---|---|---|---|
-| **Châtiment** | I | 4 PA, portée 2–5, 2/tour | 8–12 Sacré | 10 dégâts | 2,5 dégâts | 15 dégâts | — |
-| **Imposition des mains** | I | 3 PA, portée 0–3, 1/tour | soin 12–18 (Sacré) | 15 soin | 5 soin | 22,5 soin | — |
-| **Rempart de foi** | I | 2 PA, portée 0–3, 1/tour, relance 2 t. | bouclier 12–16 (Sacré) | 14 bouclier | 7 bouclier | 21 bouclier | — |
-| **Sermon** | I | 4 PA, portée 1–5, croix latine, en ligne, 1/tour | 4–7 Sacré aux ennemis ; soin 4–7 (Sacré) aux alliés | 5,5 dégâts, 5,5 soin | 1,38 dégâts, 1,38 soin | 8,25 dégâts, 8,25 soin | — |
-| **Absolution** | I | 3 PA, portée 0–5, 1/tour, relance 2 t., critique 0 % | retire les bonus aux ennemis ; retire les malus et les poisons aux alliés | — | — | — | — |
+| **Terre consacrée** | I | 3 PA, portée 1–5, cercle de rayon 1, 1/tour, relance 3 t. | glyphe (3 t.) : [5–7 Sacré aux ennemis] | — | — | — | rang 3 : +1 portée<br>rang 5 : zone de taille 2 |
+| **Châtiment** | I | 4 PA, portée 2–5, 2/tour | 8–12 Sacré | 10 dégâts | 2,5 dégâts | 15 dégâts | rang 3 : +1 portée<br>rang 5 : +10 % critique |
+| **Sermon** | I | 4 PA, portée 1–5, croix latine, en ligne, 1/tour | 4–7 Sacré aux ennemis ; soin 4–7 (Sacré) aux alliés | 5,5 dégâts, 5,5 soin | 1,38 dégâts, 1,38 soin | 8,25 dégâts, 8,25 soin | rang 3 : +1 portée<br>rang 5 : coût 3 PA |
+| **Coup de goupillon** | I | 2 PA, portée 1–4, 3/tour | 4–6 Sacré aux ennemis | 5 dégâts | 2,5 dégâts | 7,5 dégâts | rang 3 : +1 portée<br>rang 5 : +10 % critique |
+| **Imposition des mains** | I | 3 PA, portée 0–3, 1/tour | soin 12–18 (Sacré) | 15 soin | 5 soin | 22,5 soin | rang 3 : +1 portée<br>rang 5 : ajoute retire les poisons aux alliés |
+| **Rempart de foi** | I | 2 PA, portée 0–3, 1/tour, relance 2 t. | bouclier 12–16 (Sacré) | 14 bouclier | 7 bouclier | 21 bouclier | rang 3 : +1 portée<br>rang 5 : relance 1 t. |
+| **Absolution** | I | 3 PA, portée 0–5, 1/tour, relance 2 t., critique 0 % | retire les bonus aux ennemis ; retire les malus et les poisons aux alliés | — | — | — | rang 3 : +1 portée<br>rang 5 : relance 1 t. |
+| **Génuflexion** | I | 3 PA, portée 1–4, 1/tour, relance 2 t. | −2 PM (1 t.) aux ennemis ; −15 % dégâts infligés (1 t.) aux ennemis | — | — | — | rang 3 : +1 portée<br>rang 5 : relance 1 t. |
+| **Procession** | I | 2 PA, portée 1–4, sans ligne de vue, 1/tour, relance 2 t. | procession | — | — | — | rang 3 : +1 portée<br>rang 5 : relance 1 t. |
+| **Indulgence** | I | 2 PA, portée 0–3, 1/tour, relance 4 t. | +1 PA (2 t.) aux alliés ; +1 PM (2 t.) aux alliés | — | — | — | rang 3 : +1 portée<br>rang 5 : relance 3 t. |
+| **Accusation** | I | 2 PA, portée 1–6, 2/tour | heresie aux ennemis | — | — | — | rang 3 : +1 portée<br>rang 5 : ajoute heresie aux ennemis |
+| **Tison** | I | 3 PA, portée 1–5, 3/tour | 6–9 Flamme aux ennemis ; heresie aux ennemis | 7,5 dégâts | 2,5 dégâts | 11,25 dégâts | rang 3 : +10 % critique<br>rang 5 : +1 portée |
+| **Autodafé** | I | 4 PA, portée 2–5, cercle de rayon 1, 1/tour | 5–8 Flamme aux ennemis ; heresie aux ennemis | 6,5 dégâts | 1,62 dégâts | 9,75 dégâts | rang 3 : +1 portée<br>rang 5 : coût 3 PA |
+| **Feu purificateur** | I | 5 PA, portée 2–5, 1/tour | 18–24 Flamme aux ennemis ; heresie aux ennemis | 21 dégâts | 4,2 dégâts | 31,5 dégâts | rang 3 : +10 % critique<br>rang 5 : coût 4 PA |
+| **Bûcher** | I | 4 PA, portée 1–4, 1/tour | 4–6 Flamme aux ennemis | 5 dégâts | 1,25 dégâts | 7,5 dégâts | rang 3 : +1 portée<br>rang 5 : +10 % critique |
+| **Commandement** | I | 3 PA, portée 1–5, 1/tour, relance 2 t. | commandement (2 t.) aux ennemis | — | — | — | rang 3 : +1 portée<br>rang 5 : relance 1 t. |
+| **La Question** | I | 3 PA, portée 1–3, 1/tour, relance 2 t. | −2 PA (1 t.) aux ennemis ; heresie aux ennemis | — | — | — | rang 3 : +1 portée<br>rang 5 : ajoute heresie aux ennemis |
+| **Saut des flammes** | I | 2 PA, portée 1–3, sans ligne de vue, 1/tour, relance 2 t. | téléportation sur la case | — | — | — | rang 3 : +1 portée<br>rang 5 : relance 1 t. |
+| **Expiation** | I | 2 PA, portée 0–3, 1/tour, relance 2 t. | soin 6–9 (Flamme) aux alliés | 7,5 soin | 3,75 soin | 11,25 soin | rang 3 : +1 portée<br>rang 5 : relance 1 t. |
+| **Zèle** | I | 2 PA, portée 0–3, 1/tour, relance 3 t. | +40 Intelligence (2 t.) aux alliés | — | — | — | rang 3 : +1 portée<br>rang 5 : relance 2 t. |

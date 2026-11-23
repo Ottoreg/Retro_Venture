@@ -27,7 +27,7 @@ Prix de boutique : selon la rareté (revente à 25 %).
 - [Sorts de race](#sorts-de-race)
 - [Sorts des monstres](#sorts-des-monstres)
 
-**317 objets** (18 armes, 20 coiffes, 20 capes, 20 amulettes, 20 anneaux, 20 ceintures, 20 bottes, 129 ressources, 37 plans de forge, 7 objets de quête), **57 monstres** et **245 sorts**.
+**317 objets** (18 armes, 20 coiffes, 20 capes, 20 amulettes, 20 anneaux, 20 ceintures, 20 bottes, 129 ressources, 37 plans de forge, 7 objets de quête), **57 monstres** et **281 sorts**.
 
 ## Armes
 
@@ -1270,6 +1270,14 @@ Maître du feu, du givre et de la foudre. Lit beaucoup, court peu, explose parfo
 |---|---|---|---|
 | **Composition** | 1 PA, portée soi, sans ligne de vue, critique 0 % | choisit d'un coup ses 3 états élémentaires parmi Flamme et Givre et Tempête (permanents) ; +1 PA tout de suite | L'Arcaniste jongle avec ses braises, ses frimas et ses éclairs jusqu'à trouver le bon mélange, puis le garde au creux de la main. Coûte 1 PA, rendu aussitôt. |
 | **Fusion arcanique** | 2 PA, portée soi, sans ligne de vue, 1/tour, critique 0 % | crée le sort de la combinaison des 3 états : Flamme + Flamme + Flamme → Fournaise ; Flamme + Flamme + Givre → Choc thermique ; Flamme + Givre + Givre → Armure de givre ; Givre + Givre + Givre → Blizzard ; Tempête + Tempête + Tempête → Foudre en chaîne ; Flamme + Tempête + Tempête → Fulgurance ; Givre + Tempête + Tempête → Vent arrière ; Flamme + Flamme + Tempête → Feu de brousse ; Givre + Givre + Tempête → Bourrasque glacée ; Flamme + Givre + Tempête → Cataclysme | Trois états, une formule, un sort. Les savants de la Tour ont longtemps hésité à ajouter la Tempête à la formule ; l'Arcaniste, lui, n'a pas hésité. |
+| **Clignement** | 2 PA, portée 1–3, 1/tour, relance 2 t. | téléportation sur la case | Un clignement d'yeux et il est ailleurs. Affinité Tempête : +1 portée. |
+| **Rétropropulsion** | 2 PA, portée 1, 1/tour, relance 2 t. | 3–5 Flamme aux ennemis ; recul aux ennemis | Une petite explosion sous le nez de l'ennemi, et l'Arcaniste recule de 3 cases. Affinité Flamme : recule de 4. |
+| **Pieds gelés** | 2 PA, portée 1–5, 2/tour | −2 PM au prochain tour aux ennemis | Les pieds pris dans la glace : −2 PM. Affinité Givre : −3 PM. |
+| **Appel d'air** | 3 PA, portée 2–6, en ligne, 1/tour, relance 1 t. | attire de 3 case(s) aux ennemis | Un courant d'air qui ramène l'ennemi de 3 cases vers lui. Affinité Tempête : 4 cases. |
+| **Mur de glace** | 3 PA, portée 1–4, 1/tour, relance 3 t. | mur_de_glace | Trois blocs de glace en travers : on ne passe pas, on ne voit pas à travers (2 tours). Affinité Givre : +1 tour. |
+| **Manteau de braises** | 2 PA, portée soi, 1/tour, relance 3 t. | +4 reduction_degats (2 t.) ; +3–5 epines_flamme_fixes (2 t.) | Un manteau de braises : −4 dégâts subis et 3 à 5 Flamme renvoyés à qui le frappe, 2 tours. Affinité Flamme : −6 dégâts subis. |
+| **Conduction** | 2 PA, portée 0–4, 1/tour, relance 3 t. | conduction aux alliés | Il prête ses éléments : +15 dans la caractéristique de chacun de ses états (Flamme : Intelligence, Givre : Perception, Tempête : Agilité), 2 tours. |
+| **Écho arcanique** | 2 PA, portée soi, sans ligne de vue, 1/tour, relance 3 t. | crée le sort de la combinaison des 3 états : Flamme + Flamme + Flamme → Fournaise ; Flamme + Flamme + Givre → Choc thermique ; Flamme + Givre + Givre → Armure de givre ; Givre + Givre + Givre → Blizzard ; Tempête + Tempête + Tempête → Foudre en chaîne ; Flamme + Tempête + Tempête → Fulgurance ; Givre + Tempête + Tempête → Vent arrière ; Flamme + Flamme + Tempête → Feu de brousse ; Givre + Givre + Tempête → Bourrasque glacée ; Flamme + Givre + Tempête → Cataclysme | La formule résonne encore : crée le sort de ses états actuels, comme Fusion arcanique, même si elle a déjà servi ce tour. |
 
 Sorts créés (*Fusion arcanique*, selon la combinaison des 3 états élémentaires) :
 
@@ -1342,7 +1350,7 @@ Démoniste agréé, ancien sous-traitant du Mordor. Ses démons pointent à l'he
 
 ### Guerrier
 
-Au contact, il encaisse et rend les coups. Réfléchit après, de préférence. PV 50, PA 6, PM 3, initiative 100. Départ : .
+Au contact, il encaisse et rend les coups. Réfléchit après, de préférence. Voie Impie : chevalier d'un ordre dissous pour faute grave, il paie chaque coup de son propre sang, puis se rembourse sur l'adversaire. PV 50, PA 6, PM 3, initiative 100. Départ : .
 
 | Sort | Caractéristiques | Effets | Description |
 |---|---|---|---|
@@ -1351,6 +1359,21 @@ Au contact, il encaisse et rend les coups. Réfléchit après, de préférence. 
 | **Tourbillon** | 4 PA, portée soi, cercle de rayon 1 (sans le lanceur), sans ligne de vue, 1/tour | 7–10 Acier | Tourne sur lui-même lame tendue. Frappe tout ce qui est au contact, amis compris. |
 | **Second souffle** | 2 PA, portée soi, sans ligne de vue, 1/tour, relance 3 t. | soin 12–18 (Acier) | Une grande inspiration, une gorgée de gourde, et ça repart. |
 | **Charge** | 3 PA, portée 2–4, en ligne, 1/tour, relance 2 t. | charge en ligne jusqu'au contact (effets suivants au contact seulement) ; 6–9 Acier | Il fonce droit devant, épée en avant, jusqu'au contact. Le freinage est en option, la réflexion aussi. |
+| **Cri de guerre** | 3 PA, portée soi, cercle de rayon 2, sans ligne de vue, 1/tour, relance 4 t. | +4–6 Dommages (2 t.) aux alliés | Un hurlement qui galvanise les alliés proches et réveille tout le voisinage. |
+| **Fendoir** | 5 PA, portée 1, 1/tour | 16–22 Acier | Le grand coup qu'on garde pour la fin, avec toute sa rancune : +6 % de dégâts par cran de Rancune, qui sont dépensés. |
+| **Croc-en-jambe** | 2 PA, portée 1, 1/tour, relance 2 t. | 3–5 Acier aux ennemis ; −2 PM au prochain tour aux ennemis | Un pied qui traîne, comme par hasard. L'ennemi perd 2 PM à son prochain tour. |
+| **Crochet** | 3 PA, portée 2–4, en ligne, 1/tour, relance 2 t. | attire de 3 case(s) aux ennemis | Un crochet au bout d'une chaîne : l'ennemi vient au contact, qu'il le veuille ou non. |
+| **Recul stratégique** | 2 PA, portée 1–3, sans ligne de vue, 1/tour, relance 3 t. | téléportation sur la case | Ce n'est pas une fuite, c'est un repositionnement héroïque. Saute sur une case libre sans être taclé. |
+| **Serment de sang** | 1 PA, portée soi, sans ligne de vue, 1/tour, relance 2 t. | +2 PA tout de suite | Il signe de son sang un contrat qu'il n'a pas lu : 15 % de ses PV max contre 2 PA ce tour. |
+| **Lame impie** | 3 PA, portée 1, 2/tour | 7–11 Impie aux ennemis | Une lame maudite qui boit pour deux. Vole 30 % des PV qu'elle ôte. |
+| **Onde funèbre** | 4 PA, portée 2–4, cercle de rayon 1, 1/tour | 6–9 Impie | Une onde de malheur autour de la cible. Les alliés aussi : c'est un chevalier maudit, pas un chevalier servant. |
+| **Exécution** | 5 PA, portée 1, 1/tour | 15–21 Impie aux ennemis | La sentence tombe, sans appel : +30 % de dégâts contre une cible sous 30 % de ses PV. |
+| **Rage du damné** | 4 PA, portée 1, 1/tour | 10–14 Impie aux ennemis | Plus il saigne, plus il frappe : +1 % par % de PV manquant (60 % au plus), et dépense sa Rancune (+6 % par cran). |
+| **Regard du damné** | 2 PA, portée 1–4, 1/tour, relance 2 t. | −2 PA (1 t.) aux ennemis | Un regard qui glace le sang (le sien est déjà froid) : −2 PA à la cible pendant son prochain tour. |
+| **Étreinte de la tombe** | 3 PA, portée 1–2, 1/tour, relance 3 t. | attire de 1 case(s) aux ennemis ; −3 PM au prochain tour aux ennemis ; 4–6 Impie aux ennemis | Des mains d'outre-tombe l'attirent d'une case, lui retirent 3 PM et lui volent des PV. |
+| **Pas du spectre** | 2 PA, portée 1–4, sans ligne de vue, 1/tour, relance 2 t. | téléportation sur la case | Il traverse un bout de l'au-delà et ressort plus loin, sans ligne de vue ni tacle. |
+| **Armure de sang** | 2 PA, portée soi, sans ligne de vue, 1/tour, relance 3 t. | bouclier 8 (Impie) | Le sang versé fait une armure : un bouclier d'au moins deux fois les PV payés ce tour. |
+| **Malédiction** | 3 PA, portée 1–5, 1/tour, relance 3 t. | −15 Résistance Acier (2 t.) aux ennemis ; −15 Résistance Impie (2 t.) aux ennemis | Une malédiction de famille, transmissible : la cible perd 15 % de résistance Acier et Impie pendant 2 tours. |
 
 ### Myrmidon
 
@@ -1447,15 +1470,30 @@ Tire de loin, file entre les arbres et prétend toujours connaître un raccourci
 
 ### Théologue
 
-Soigneur sacré. Bénit les alliés, sermonne les ennemis, et cite des textes que personne n'a lus. PV 50, PA 6, PM 3, initiative 100. Départ : .
+Soigneur sacré. Bénit les alliés, sermonne les ennemis, et cite des textes que personne n'a lus. Le dimanche il soigne ; le reste de la semaine, il instruit des procès en hérésie. PV 50, PA 6, PM 3, initiative 100. Départ : .
 
 | Sort | Caractéristiques | Effets | Description |
 |---|---|---|---|
+| **Terre consacrée** | 3 PA, portée 1–5, cercle de rayon 1, 1/tour, relance 3 t. | glyphe (3 t.) : [5–7 Sacré aux ennemis] | Il bénit le sol d'une croix de cinq cases pendant 3 tours : les alliés dessus reçoivent +20 % de soins et de boucliers, les ennemis qui y commencent leur tour se brûlent les pieds. |
 | **Châtiment** | 4 PA, portée 2–5, 2/tour | 8–12 Sacré | Un rayon de lumière tombe sur la cible. Le ciel a l'air contrarié. |
+| **Sermon** | 4 PA, portée 1–5, croix latine, en ligne, 1/tour | 4–7 Sacré aux ennemis ; soin 4–7 (Sacré) aux alliés | Une croix de paroles saintes : les ennemis qui s'y trouvent souffrent, les alliés reprennent courage (et encore plus si le croisement est sur une Terre consacrée). |
+| **Coup de goupillon** | 2 PA, portée 1–4, 3/tour | 4–6 Sacré aux ennemis | Un coup d'eau bénite, à température ambiante. Ça pique un peu. |
 | **Imposition des mains** | 3 PA, portée 0–3, 1/tour | soin 12–18 (Sacré) | Une main sur l'épaule, une prière, et les plaies se referment. Les remerciements sont facultatifs mais conseillés. |
 | **Rempart de foi** | 2 PA, portée 0–3, 1/tour, relance 2 t. | bouclier 12–16 (Sacré) | Un halo doré qui encaisse les coups à votre place jusqu'à votre prochain tour. |
-| **Sermon** | 4 PA, portée 1–5, croix latine, en ligne, 1/tour | 4–7 Sacré aux ennemis ; soin 4–7 (Sacré) aux alliés | Une croix de paroles saintes : les ennemis qui s'y trouvent souffrent, les alliés reprennent courage. |
 | **Absolution** | 3 PA, portée 0–5, 1/tour, relance 2 t., critique 0 % | retire les bonus aux ennemis ; retire les malus et les poisons aux alliés | Pardonne aux alliés leurs malus et leurs poisons, retire aux ennemis leurs bonus. Le Théologue prélève une petite commission spirituelle au passage. |
+| **Génuflexion** | 3 PA, portée 1–4, 1/tour, relance 2 t. | −2 PM (1 t.) aux ennemis ; −15 % dégâts infligés (1 t.) aux ennemis | « À genoux ! » L'ennemi obéit, surpris : −2 PM et −15 % de dégâts infligés pendant 1 tour. |
+| **Procession** | 2 PA, portée 1–4, sans ligne de vue, 1/tour, relance 2 t. | procession | Il se rend en procession sur une case libre, ou prend la place d'un allié (qui prend la sienne, en chantant). |
+| **Indulgence** | 2 PA, portée 0–3, 1/tour, relance 4 t. | +1 PA (2 t.) aux alliés ; +1 PM (2 t.) aux alliés | Une indulgence plénière, payée d'avance bien sûr : +1 PA et +1 PM pendant 2 tours. |
+| **Accusation** | 2 PA, portée 1–6, 2/tour | heresie aux ennemis | Il pointe l'ennemi du doigt : +2 crans d'Hérésie. Il y a toujours un coupable. |
+| **Tison** | 3 PA, portée 1–5, 3/tour | 6–9 Flamme aux ennemis ; heresie aux ennemis | Un tison bien choisi dans le brasier du jour. +1 cran d'Hérésie. |
+| **Autodafé** | 4 PA, portée 2–5, cercle de rayon 1, 1/tour | 5–8 Flamme aux ennemis ; heresie aux ennemis | On brûle les mauvais livres, et leurs lecteurs avec. +1 cran d'Hérésie à chaque ennemi touché. |
+| **Feu purificateur** | 5 PA, portée 2–5, 1/tour | 18–24 Flamme aux ennemis ; heresie aux ennemis | Une colonne de feu qui purifie tout, l'ennemi compris. +1 cran d'Hérésie. |
+| **Bûcher** | 4 PA, portée 1–4, 1/tour | 4–6 Flamme aux ennemis | Le procès est terminé : 4 à 6 Flamme par cran d'Hérésie de la cible, qui sont tous consommés. |
+| **Commandement** | 3 PA, portée 1–5, 1/tour, relance 2 t. | commandement (2 t.) aux ennemis | « Tu ne bougeras point. » Pendant 2 tours, chaque case que l'ennemi marche lui coûte une Pénitence (3 Flamme et un cran d'Hérésie). |
+| **La Question** | 3 PA, portée 1–3, 1/tour, relance 2 t. | −2 PA (1 t.) aux ennemis ; heresie aux ennemis | Juste quelques questions, posées avec des pinces : −2 PA pendant 1 tour et +1 cran d'Hérésie. |
+| **Saut des flammes** | 2 PA, portée 1–3, sans ligne de vue, 1/tour, relance 2 t. | téléportation sur la case | Il traverse les flammes d'un bond, la soutane à peine roussie. |
+| **Expiation** | 2 PA, portée 0–3, 1/tour, relance 2 t. | soin 6–9 (Flamme) aux alliés | Le feu qui purifie soigne aussi, un peu, ceux qui ont déjà avoué. |
+| **Zèle** | 2 PA, portée 0–3, 1/tour, relance 3 t. | +40 Intelligence (2 t.) aux alliés | Un zèle brûlant pour la bonne cause : +40 Intelligence pendant 2 tours. |
 
 ## Sorts de race
 
@@ -1585,8 +1623,6 @@ gardés comme trace de sa première version).
 | **Jugement dernier** | 3 PA, portée soi, cercle de rayon 1 (sans le lanceur), 1/tour | 25 Sacré aux ennemis | Seul, l'Archange frappe tout ce qui l'entoure. |
 | **Crachat de soufre** | 2 PA, portée 2–4, cercle de rayon 1, 1/tour | 4–5 Impie aux ennemis | Un crachat qui éclabousse les voisins. |
 | **Coup de fourche** | 2 PA, portée 1–4, 2/tour | 5–7 Impie aux ennemis | Un petit coup de fourche, pas bien méchant mais très insistant. |
-| **Cri de guerre** | 3 PA, portée soi, cercle de rayon 2, sans ligne de vue, 1/tour, relance 4 t. | +4–6 Dommages (2 t.) aux alliés | Un hurlement qui galvanise les alliés proches et réveille tout le voisinage. Sort de rang II. |
-| **Fendoir** | 5 PA, portée 1, 1/tour | 16–22 Acier | Le grand coup qu'on garde pour la fin. Ou pour le début, ça dépend de l'humeur. Sort de rang II. |
 | **Grognement** | 1 PA, portée 2–4, 1/tour | attire de 2 case(s) aux ennemis | Un grognement qui fait venir l'ennemi à lui. |
 | **Morsure** | 3 PA, portée 1, 1/tour | 7–9 Impie aux ennemis | Il mord, et ne lâche pas avant la pause. |
 | **Pause café** | 3 PA, portée 0–3, cercle de rayon 1, 1/tour | soin 4–6 (Impie) aux alliés | Tout le monde autour souffle un peu. |

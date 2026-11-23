@@ -1,0 +1,36 @@
+{
+  "id": "guerrier_regard_du_damne",
+  "nom": "Regard du damné",
+  "description": "Un regard qui glace le sang (le sien est déjà froid) : −2 PA à la cible pendant son prochain tour.",
+  "cout_pa": 2,
+  "portee": {
+    "min": 1,
+    "max": 4
+  },
+  "cout_pv": 3,
+  "relance": {
+    "par_tour": 1,
+    "delai": 2
+  },
+  "effets": [
+    {
+      "type": "malus",
+      "carac": "pa",
+      "min": 2,
+      "max": 2,
+      "duree": 1,
+      "cibles": "ennemis"
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "valeurs": {
+        "min": 3,
+        "max": 3
+      }
+    },
+    "5": {
+      "delai": 1
+    }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "id": "theologue_accusation",
+  "nom": "Accusation",
+  "description": "Il pointe l'ennemi du doigt : +2 crans d'Hérésie. Il y a toujours un coupable.",
+  "cout_pa": 2,
+  "portee": {
+    "min": 1,
+    "max": 6
+  },
+  "relance": {
+    "par_tour": 2
+  },
+  "effets": [
+    {
+      "type": "heresie",
+      "min": 2,
+      "max": 2,
+      "cibles": "ennemis"
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "portee_max": 1
+    },
+    "5": {
+      "effets": [
+        {
+          "type": "heresie",
+          "min": 1,
+          "max": 1,
+          "cibles": "ennemis"
+        }
+      ]
+    }
+  }
+}

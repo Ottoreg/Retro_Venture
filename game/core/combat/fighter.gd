@@ -79,6 +79,9 @@ var element_states: Array[String] = []
 ## Sorts créés par « creer_sort » (ids, du plus ancien au plus récent), `created_slots()` au plus, à
 ## leur rang de maîtrise : ils sont dans `spells` ; un nouveau sort créé chasse le plus ancien.
 var created_spells: Array[String] = []
+## Arcaniste : dernier sort créé lancé (passif « Virtuose ») ; PA de moins au 1er lancer de sorts créés (id → PA, Écho arcanique).
+var last_created := ""
+var created_discounts: Dictionary = {}
 
 ## Ombre (GDD § 4.3) : dans le Monde des ombres ; dernière case où l'adversaire l'a vu (invisible ou dans les
 ## ombres, l'IA la cherche là) ; tours de « coup en traître » après une sortie d'invisibilité ou des ombres
@@ -89,6 +92,11 @@ var ambush := 0
 var ambush_discount := false
 ## Démoniste (GDD § 4.3) : id du maître d'un serviteur invoqué ("" sinon). Le joueur du maître le contrôle.
 var master := ""
+## Guerrier (GDD § 4.3) : PV perdus pas encore comptés en crans de Rancune, PV payés ce tour (« cout_pv »), et prochain coup
+## de mêlée critique (passif au rang 5, au dernier cran).
+var rage_hp := 0
+var hp_paid := 0
+var rage_crit := false
 ## Boss ou mini-boss (monstre « boss » ou à phases) : à moitié provoqué, jamais assommé (perd des PA à la place).
 var boss := false
 ## Chronomancien (GDD § 4.3) : cases et PV au début de ses `PAST_TURNS` derniers tours (le plus récent en tête),
@@ -108,6 +116,18 @@ const ELEMENT_STATE_BONUS := 4
 ## Myrmidon : % de résistance à chaque élément par cran de Blindage, crans au plus.
 const ARMOR_RESISTANCE := 4
 const ARMOR_MAX := 5
+## Guerrier : crans de Rancune (état « rancune », tout le combat) : un par `RAGE_PER_HP` PV perdus, +`RAGE_BONUS` % de
+## dégâts par cran ; crans au plus selon le rang du passif (0 à 5).
+const RAGE := "rancune"
+const RAGE_PER_HP := 5
+const RAGE_BONUS := 3
+const RAGE_MAX := [5, 5, 6, 8, 9, 10]
+## Arcaniste : passif « Virtuose » (crans de Virtuosité, 3 au plus, % de dégâts par cran : 2 + rang + 1), Fusion arcanique
+## gratuite à 3 crans au rang 3.
+const VIRTUOSO := "virtuose"
+const VIRTUOSITY := "virtuosite"
+const VIRTUOSITY_MAX := 3
+const FUSION := "arcaniste_creer_un_sort"
 
 ## Statistiques de combat (GDD § 4.4, § 7.2, § 10.4) : tacle, fuite, retraits de PA / PM (infligés et esquivés),
 ## réduction de dégâts fixe, % de dommages de mêlée (finaux), dégâts spectraux et dévastateurs (% et fixes),
@@ -142,7 +162,7 @@ func controller() -> String:
 func get_spell(spell_id: String) -> Spell:
 	for spell in spells:
 		if spell.id == spell_id:
-			return spell
+			return spell.attuned(element_states)
 	return null
 
 
@@ -308,6 +328,7 @@ func start_turn() -> void:
 	past_hp.resize(mini(past_hp.size(), PAST_TURNS))
 	pm = next_turn_pm()
 	pm_malus = 0
+	hp_paid = 0
 	_casts_this_turn.clear()
 	for spell_id: String in _cooldowns.keys():
 		_cooldowns[spell_id] -= 1
@@ -343,18 +364,28 @@ func cast_count(spell: Spell) -> int:
 	return int(_casts_this_turn.get(spell.id, 0))
 
 
-## Coût en PA du sort, moins le PA du coup en traître (rang 3 du passif de l'Ombre).
+## Coût en PA du sort, moins le PA du coup en traître (rang 3 du passif de l'Ombre) et la remise d'un sort créé par Écho
+## arcanique ; Fusion arcanique gratuite à 3 crans de Virtuosité (rang 3 du passif de l'Arcaniste).
 func spell_cost(spell: Spell) -> int:
-	return maxi(0, spell.pa_cost - int(ambush_discount))
+	if spell.id == FUSION and int(passives.get(VIRTUOSO, 0)) >= 4 and stacks(VIRTUOSITY) >= VIRTUOSITY_MAX:
+		return 0
+	return maxi(0, spell.pa_cost - int(ambush_discount) - int(created_discounts.get(spell.id, 0)))
 
 
 func is_invisible() -> bool:
 	return has_state(Spell.STATE_INVISIBLE)
 
 
+## PV payés pour lancer le sort (« cout_pv » : % des PV max, au moins 1).
+func hp_cost(spell: Spell) -> int:
+	return 0 if spell.hp_cost == 0 else maxi(1, roundi(max_hp * spell.hp_cost / 100.0))
+
+
 func cast_blocker(spell: Spell) -> String:
 	if spell_cost(spell) > pa:
 		return Protocol.REASON_NOT_ENOUGH_PA
+	if hp_cost(spell) >= hp and hp_cost(spell) > 0:
+		return Protocol.REASON_NOT_ENOUGH_HP
 	if spell.casts_per_turn > 0 and cast_count(spell) >= spell.casts_per_turn:
 		return Protocol.REASON_SPELL_LIMIT
 	if _cooldowns.has(spell.id):
@@ -365,6 +396,7 @@ func cast_blocker(spell: Spell) -> String:
 func register_cast(spell: Spell) -> void:
 	pa -= spell_cost(spell)
 	ambush_discount = false
+	created_discounts.erase(spell.id)
 	_casts_this_turn[spell.id] = int(_casts_this_turn.get(spell.id, 0)) + 1
 	if spell.cooldown > 0:
 		_cooldowns[spell.id] = spell.cooldown
@@ -434,6 +466,8 @@ func snapshot() -> Dictionary:
 		"ombres": shadow,
 		"vu": [last_seen.x, last_seen.y],
 		"traitre": [ambush, ambush_discount],
+		"rancune": [rage_hp, hp_paid, rage_crit],
+		"arcaniste": [last_created, created_discounts.duplicate()],
 		"temps": {"cases": past_cells.map(func(c: Vector2i) -> Array: return [c.x, c.y]), "pv": past_hp.duplicate(),
 			"manipulations": manipulations, "pa": pa_next},
 	}
@@ -467,6 +501,12 @@ func restore(saved: Dictionary) -> void:
 	last_seen = Vector2i(int(seen[0]), int(seen[1]))
 	ambush = int(saved.get("traitre", [0, false])[0])
 	ambush_discount = bool(saved.get("traitre", [0, false])[1])
+	var rage: Array = saved.get("rancune", [0, 0, false])
+	rage_hp = int(rage[0])
+	hp_paid = int(rage[1])
+	rage_crit = bool(rage[2])
+	last_created = str(saved.get("arcaniste", ["", {}])[0])
+	created_discounts = saved.get("arcaniste", ["", {}])[1].duplicate()
 	var time: Dictionary = saved.get("temps", {})
 	past_cells.assign(time.get("cases", []).map(func(c: Variant) -> Vector2i: return Vector2i(int(c[0]), int(c[1]))))
 	past_hp.assign(time.get("pv", []).map(func(value: Variant) -> int: return int(value)))

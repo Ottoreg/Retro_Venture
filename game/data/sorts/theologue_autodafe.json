@@ -1,0 +1,40 @@
+{
+  "id": "theologue_autodafe",
+  "nom": "Autodafé",
+  "description": "On brûle les mauvais livres, et leurs lecteurs avec. +1 cran d'Hérésie à chaque ennemi touché.",
+  "cout_pa": 4,
+  "portee": {
+    "min": 2,
+    "max": 5
+  },
+  "zone": {
+    "type": "cercle",
+    "taille": 1
+  },
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "flamme",
+      "min": 5,
+      "max": 8,
+      "cibles": "ennemis"
+    },
+    {
+      "type": "heresie",
+      "min": 1,
+      "max": 1,
+      "cibles": "ennemis"
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "portee_max": 1
+    },
+    "5": {
+      "cout_pa": 3
+    }
+  }
+}

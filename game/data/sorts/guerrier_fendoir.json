@@ -1,15 +1,34 @@
 {
   "id": "guerrier_fendoir",
   "nom": "Fendoir",
-  "description": "Le grand coup qu'on garde pour la fin. Ou pour le début, ça dépend de l'humeur. Sort de rang II.",
+  "description": "Le grand coup qu'on garde pour la fin, avec toute sa rancune : +6 % de dégâts par cran de Rancune, qui sont dépensés.",
   "cout_pa": 5,
-  "portee": {"min": 1, "max": 1},
+  "portee": {
+    "min": 1,
+    "max": 1
+  },
   "ligne_de_vue": true,
-  "zone": {"type": "case"},
-  "relance": {"par_tour": 1},
-  "effets": [{"type": "degats", "element": "acier", "min": 16, "max": 22}],
+  "zone": {
+    "type": "case"
+  },
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "acier",
+      "min": 16,
+      "max": 22,
+      "par_rancune": 6
+    }
+  ],
   "maitrise": {
-    "3": {"critique": 5},
-    "5": {"cout_pa": 4}
+    "3": {
+      "critique": 5
+    },
+    "5": {
+      "cout_pa": 4
+    }
   }
 }

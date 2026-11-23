@@ -10,6 +10,20 @@
   },
   "sorts": [
     "arcaniste_composition",
-    "arcaniste_creer_un_sort"
-  ]
+    "arcaniste_creer_un_sort",
+    "arcaniste_clignement",
+    "arcaniste_retropropulsion",
+    "arcaniste_pieds_geles",
+    "arcaniste_appel_d_air",
+    "arcaniste_mur_de_glace",
+    "arcaniste_manteau_de_braises",
+    "arcaniste_conduction",
+    "arcaniste_echo_arcanique"
+  ],
+  "passif": {
+    "id": "arcaniste_virtuose",
+    "nom": "Virtuose",
+    "effet": "virtuose",
+    "description": "Débloqué au palier Apprenti. Chaque sort créé lancé dont la combinaison diffère de celle du sort créé précédent donne 1 cran de Virtuosité (3 au plus, jusqu'à la fin de son tour suivant) : +3 % de dégâts par cran (+1 % par rang). Rang 3 : à 3 crans, Fusion arcanique coûte 0 PA. Rang 5 : le 3e cran donne +1 PM pour le tour."
+  }
 }

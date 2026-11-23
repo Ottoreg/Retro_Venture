@@ -18,5 +18,21 @@
       "min": 12,
       "max": 18
     }
-  ]
+  ],
+  "maitrise": {
+    "3": {
+      "portee_max": 1
+    },
+    "5": {
+      "effets": [
+        {
+          "type": "retrait_etats",
+          "etats": [
+            "poison"
+          ],
+          "cibles": "allies"
+        }
+      ]
+    }
+  }
 }

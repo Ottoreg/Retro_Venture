@@ -1,0 +1,39 @@
+{
+  "id": "guerrier_crochet",
+  "nom": "Crochet",
+  "description": "Un crochet au bout d'une chaîne : l'ennemi vient au contact, qu'il le veuille ou non.",
+  "cout_pa": 3,
+  "portee": {
+    "min": 2,
+    "max": 4
+  },
+  "lancer_en_ligne": true,
+  "relance": {
+    "par_tour": 1,
+    "delai": 2
+  },
+  "effets": [
+    {
+      "type": "attirance",
+      "min": 3,
+      "max": 3,
+      "cibles": "ennemis"
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "portee_max": 1
+    },
+    "5": {
+      "effets": [
+        {
+          "type": "degats",
+          "element": "acier",
+          "min": 4,
+          "max": 6,
+          "cibles": "ennemis"
+        }
+      ]
+    }
+  }
+}

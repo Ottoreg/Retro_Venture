@@ -78,7 +78,7 @@ des siècles, seules armes capables de vaincre le **Souverain Cendré** avant qu
 ### 3.1 Le monde : les Terres de Varn
 
 Un continent ancien, marqué par une guerre oubliée. Les peuples libres (Humains, Elfes, Nains,
-Géants, Arkhés, Lutins et d'autres) vivent séparés, méfiants les uns envers les autres. À l'est, au-delà des montagnes, s'étendent
+Géants, Arkhés, Mycéliens et d'autres) vivent séparés, méfiants les uns envers les autres. À l'est, au-delà des montagnes, s'étendent
 les **Marches Cendrées**, une terre morte où quelque chose se réveille.
 
 ### 3.2 Histoire
@@ -113,7 +113,7 @@ montrent au joueur ce qui reste à conquérir.
 | 3 | L'Anneau de la Feuille d'Argent | Sylvebrume | Elfes | Soins de zone, résistance impie |
 | 4 | L'Anneau-Enclume | Forges de Durhal | Nains | Améliore les objets, armure |
 | 5 | La Bague des Cimes | Montagnes des Géants *(région à nommer)* | Géants | +PM aux alliés, poussée renforcée |
-| 6 | Le Grelot Farfelu | Bois des Lutins *(région à nommer)* | Lutins | Échange de place, esquive |
+| 6 | Le Grelot Farfelu | Bois des Lutins *(région à nommer)* | *à réattribuer (liée aux Lutins, remplacés par les Mycéliens)* | Échange de place, esquive |
 | 7 | Le Sceau du Contremaître | Fosses de Crasse-Roc *(à définir)* | Gobelins et Orcs | +PA au premier tour, intimidation |
 | 8 | L'Anneau des Morts | Marais Gris | Squelettes | Domine les morts-vivants |
 
@@ -130,7 +130,7 @@ comprennent qu'ils veulent la même chose : abattre le Souverain Cendré.
 |---|---|---|---|
 | **Allié** | Humains | Nains, Géants | Défendent leurs terres contre les raids gobelins et pensent que les gobelins sont *le* problème. |
 | **Ennemi** | Gobelins | Orcs, Squelettes (morts-vivants) | Main-d'œuvre corvéable du Souverain Cendré : raids et pillages sur ordre, contremaîtres tyranniques, aucune reconnaissance. |
-| **Neutre** | Elfes | Arkhés, Lutins | « Ce n'est pas notre guerre. » Se tiennent à l'écart, observent, et ne s'en mêlent que si leur forêt est menacée. |
+| **Neutre** | Elfes | Arkhés, Mycéliens | « Ce n'est pas notre guerre. » Se tiennent à l'écart, observent, et ne s'en mêlent que si leur forêt est menacée. |
 
 Trois races par camp : une dès l'alpha, deux en Phase 3. Orcs et Squelettes sont déjà jouables pour les tests
 (18/11/2026 : sprites, départ à Crasse-Roc, 1er passif et sort racial ; valeurs validées par l'auteur :
@@ -147,12 +147,17 @@ cliché attendu (bourrus, brutaux) ; les quatre autres peuples de Phase 3 :
   décider, impossibles à arrêter une fois lancés ; ils cognent les plafonds des maisons humaines.
 - **Squelettes (ennemi)** : soldats de la Première Ombre relevés par le Souverain Cendré. Ils servent
   par habitude plus que par conviction, réclament en vain leur retraite et découvrent à l'acte II
-  qu'on ne leur a jamais demandé leur avis… même pas pour mourir.
+  qu'on ne leur a jamais demandé leur avis… même pas pour mourir. Pas de choix mâle / femelle mais une
+  **variante selon la race d'avant la mort** (décision de l'auteur du 23/11/2026) : deux variantes seulement,
+  le **petit squelette** (taille humaine) et le **grand squelette** (taille du Géant).
 - **Arkhés (neutre)** : élémentaires nés des forces du monde, quatre variantes à la place du choix
   mâle / femelle, une par élément du jeu (métal / Acier, feu / Flamme, orage / Tempête, glace / Givre) ;
   les quatre sont dessinées et jouables (20/11/2026).
-- **Lutins (neutre)** : petit peuple farceur des bois et des collines, qui joue des tours à tout le
-  monde sans distinction de camp. Ne prennent rien au sérieux, sauf qu'on leur vole une blague.
+- **Mycéliens (neutre)** : hommes-champignons, qui **remplacent les Lutins** (décision de l'auteur du
+  23/11/2026). Trois formes à la place du choix mâle / femelle, comme les Arkhés : **cèpe**, **girolle** et
+  **amanite**. Piste de parodie (à valider) : reliés par leurs racines, ils forment le réseau de commérages
+  de la forêt, savent tout ce qui se passe partout et n'en font jamais rien ; ils renient les morilles
+  grincheuses de Sylvebrume, cousines mal élevées.
 
 **Arc narratif :**
 
@@ -216,7 +221,7 @@ thématique** (son village ou campement, son décor, ses monstres et PNJ à son 
 |---|---|---|
 | Allié | Collines de Brumerive | Humains (zone actuelle), Nains, Géants |
 | Ennemi | Galeries de Crasse-Roc | Gobelins (zone actuelle), Orcs, Squelettes |
-| Neutre | Lisière de Sylvebrume | Elfes (zone actuelle), Lutins, Arkhés |
+| Neutre | Lisière de Sylvebrume | Elfes (zone actuelle), Mycéliens, Arkhés |
 
 - Chaque race démarre sur la première carte de sa sous-zone (`carte_depart`) ; la zone garde une
   seule Pierre de Passage, au cœur commun du camp, et les sous-zones sont reliées à pied entre elles.
@@ -281,7 +286,7 @@ difficulté**, mesurés par le niveau des monstres, qui reste leur menace. Ils g
 
 **Parodique, mais un minimum sérieux.** Le jeu détourne les codes du *Seigneur des Anneaux*
 (la quête interminable, les prophéties, les elfes hautains, les nains bourrus, les géants pas très
-fins, les lutins farceurs, les orcs braillards, les morts-vivants qui ne savent plus pourquoi ils se battent, les méchants très méchants), à la manière dont Dofus joue sur les mots et
+fins, les hommes-champignons qui savent tout et ne font rien, les orcs braillards, les morts-vivants qui ne savent plus pourquoi ils se battent, les méchants très méchants), à la manière dont Dofus joue sur les mots et
 les références.
 
 - **L'humour** passe par les noms (jeux de mots, détournements, comme les classes de Dofus), les
@@ -327,14 +332,14 @@ Valeurs provisoires, passe d'équilibrage plus tard (demande de l'auteur).
 | Gobelin | *Syndiqué* : −10 % sur les prix des marchands (convention collective) | *Droit de retrait* : +1 PM au début de son tour s'il est au contact d'un ennemi |
 | Elfe | *Lignée ancienne* : +10 % de réputation dans les métiers de récolte | *De haut* : +5 % de dégâts sur les cibles à 5 cases ou plus |
 | Nain | *Naindustriel* : +10 % de réputation de forgeron | *Barbe protectrice* : −10 % de dégâts critiques reçus |
-| Orc | *Rancunier* : +5 % de dégâts sur le dernier ennemi qui l'a frappé | *Brute* : +10 % de tacle finaux (le pendant du Lutin) |
+| Orc | *Rancunier* : +5 % de dégâts sur le dernier ennemi qui l'a frappé | *Brute* : +10 % de tacle finaux |
 | Arkhé | *à définir* | *à définir* |
 | Géant | *Grandes enjambées* : +20 % de vitesse de marche hors combat | *Inébranlable* : ne peut être ni poussé ni attiré |
 | Squelette | *Pas d'estomac* : −50 % de dégâts de poison | *Sans muscles à fatiguer* : −10 % de temps de récolte |
-| Lutin | *Feu follet* : +1 PM au premier tour de chaque combat | *Malicieux* : 10 % de chances de récolter une ressource de plus |
+| Mycélien | *à définir* | *à définir* |
 
 **Les 9 races du jeu** (validées) : trois par camp (voir § 3.4). Une par camp dès l'alpha, les six
-autres (Nains, Orcs, Arkhés, Géants, Squelettes, Lutins) en Phase 3.
+autres (Nains, Orcs, Arkhés, Géants, Squelettes, Mycéliens) en Phase 3.
 
 | Race | Camp | Passif | Sort racial | Phase |
 |---|---|---|---|---|
@@ -346,19 +351,18 @@ autres (Nains, Orcs, Arkhés, Géants, Squelettes, Lutins) en Phase 3.
 | **Arkhé** (élémentaire) | Neutre | *Cœur élémentaire* : +5 % de dégâts et de résistance dans l'élément de sa variante | *Éruption* : dégâts de son élément 4-7 aux ennemis à 1 case (3 PA, relance 3) | Phase 3 (jouable pour les tests) |
 | **Géant** | Allié | *Carrure* : +10 % de PV max | *Coup de semelle* : dégâts Acier au contact, repousse la cible de 2 cases | Phase 3 |
 | **Squelette** (mort-vivant) | Ennemi | *Déjà mort* : une fois par combat, survit à un coup fatal avec 1 PV | *Remonter les os* : se soigne de 15 % de ses PV (relance tous les 3 tours) | Phase 3 |
-| **Lutin** | Neutre | *Farceur* : +10 % de **fuite** finaux (pour quitter le contact d'un monstre sans se faire tacler) | *Tour de passe-passe* : échange sa place avec une créature à 4 cases au plus | Phase 3 |
+| **Mycélien** (homme-champignon) | Neutre | *à définir* | *à définir* | Phase 3 |
 
 **Plus de bonus de caractéristiques ni d'équipement de départ** (décision de l'auteur du 29/10/2026) :
 une race se distingue par son passif, qui touche l'expérience de jeu (butin, métiers, portée,
 esquive…) sans toucher aux caractéristiques de base, et par son sort racial ; on commence sans
-équipement, avec 20 brumes. Le Lutin n'a plus de prospection (redondant avec le Gobelin) mais une
-esquive : la fuite (le Semi-homme, remplacé par l'Arkhé le 19/11/2026, avait l'esquive des retraits de PA/PM).
+équipement, avec 20 brumes. Le Semi-homme et le Lutin, remplacés par l'Arkhé (19/11/2026) et le Mycélien
+(23/11/2026), avaient l'esquive des retraits de PA/PM et la fuite (*Farceur*, sort *Tour de passe-passe*).
 Les passifs et sorts restants sont des propositions, à équilibrer (Nain et Orc se ressemblent
 encore). Trois races par camp.
 
-Graphisme : les Géants sont dessinés plus grands (environ 1,25×) et les Lutins plus petits (environ
-0,8×), mais toutes les races occupent une seule case en combat. Les Squelettes ont leur propre
-assemblage (os, armure rouillée) plutôt qu'une couleur de peau.
+Graphisme : les Géants sont dessinés plus grands (environ 1,25×), mais toutes les races occupent une seule case en combat. Les Squelettes ont leur propre
+assemblage (os, armure rouillée) plutôt qu'une couleur de peau, et leur taille suit la race d'avant la mort.
 
 **Noms de peuple** — à la manière des classes de Dofus (jeux de mots, verlan, détournements),
 le nom de race générique sert dans les règles et le nom de peuple dans le jeu. Propositions, à choisir :
@@ -369,7 +373,7 @@ le nom de race générique sert dans les règles et le nom de peuple dans le jeu
 | Nain | **Barbichus**, **Naindustriels**, **Trapus** |
 | Arkhé | **Arkhés** (nom validé le 19/11/2026) |
 | Géant | **Grandiloques** (grand + grandiloquent), **Colossaux**, **Hauts-Perchés** |
-| Lutin | **Farfadingues**, **Lutineurs**, **Malicieux** |
+| Mycélien | **Mycéliens** |
 | Elfe | **Elfiers** (elfe + fier), **Éternelfes**, **Pointus** |
 | Orc | **Grognards**, **Orcharnés** (orc + acharnés), **Bourrus** |
 | Squelette | **Osseux**, **Squelettards**, **Désossés** |
@@ -387,20 +391,67 @@ sexes × équipements × animations) impose de s'en tenir à ces 9.
 | **Guerrier** | Mêlée, encaisse | Acier (Force) | Charges, coups de zone en mêlée, réduction de dégâts |
 | **Rôdeur** | Distance, mobilité | Acier / Tempête (Force / Agilité) | Arc, pièges, poussée, gestion de distance |
 | **Arcaniste** | Dégâts magiques, contrôle, mobilité | Flamme / Givre / Tempête (Intelligence / Perception / Agilité, à parts égales) | États élémentaires et sorts créés selon leur combinaison : zones, ralentissements, bouclier, foudre, téléportation |
-| **Théologue** | Soigneur sacré | Sacré (Force + Intelligence) | Soins, boucliers, dégâts sacrés modestes |
+| **Théologue** | Soigneur sacré | Sacré / Flamme (Force + Intelligence / Intelligence) | Soins, boucliers, Terre consacrée ; inquisiteur : Hérésie, Bûcher, Commandements |
 | **Chronomancien** | Contrôle, mi-distance | Impie (Agilité + Perception) / Givre (Perception) | Horloge : la cible tourne sur un cadran, chaque heure a son effet ; pulsions différées, retours dans le passé, envoi dans le futur (20 sorts depuis le 23/11/2026, détails plus bas) |
 
 Le **Théologue** est jouable dans l'alpha (✅) : une classe de soin rend le solo plus confortable et
-permet de tester le Sacré dès maintenant. Son arme de départ prévue : le Sceptre de novice (Sacré,
-4 à 7 ; plus d'équipement de départ depuis le 29/10/2026, il s'achète ou se trouve). Ses
-4 sorts sont tous Sacrés (ils grandissent avec la Force et l'Intelligence) :
+permet de tester le Sacré dès maintenant. Ses 5 sorts d'origine (*Châtiment*, *Imposition des mains*, *Rempart de foi*,
+*Sermon*, *Absolution*) font partie de sa Voie Sacrée, complétée avec la Voie Flamme ci-dessous.
 
-| Sort | PA | Portée | Effet |
-|---|---|---|---|
-| *Châtiment* | 4 | 2 à 5, ligne de vue | 8 à 12 dégâts Sacré (2 fois par tour) |
-| *Imposition des mains* | 3 | 0 à 3 | Soin Sacré de 12 à 18 (1 fois par tour) |
-| *Rempart de foi* | 2 | 0 à 3 | Bouclier Sacré de 12 à 16, jusqu'au prochain tour du porteur (tous les 2 tours) |
-| *Sermon* | 4 | 1 à 5, **en ligne** | Zone en croix latine centrée sur la case visée (le croisement, sous la souris) : une case de chaque côté, une au-delà (la tête) et deux en deçà vers le lanceur (le pied, qui s'arrête avant sa case). Ennemis : 4 à 7 dégâts Sacré ; alliés : soin Sacré de 4 à 7 (1 fois par tour) |
+**Théologue : conception finale, codée le 23/11/2026** (fil « Compléter les sorts du Théologue », 20 propositions validées
+telles quelles par l'auteur, à ajuster après ses tests ; valeurs provisoires ; fiche `docs/design/classes/theologue.md`,
+données par `docs/design/theologue/produire.py`, tests `game/tests/core/test_theologue.gd`) :
+
+- *Identité* : « Soigneur sacré. Bénit les alliés, sermonne les ennemis, et cite des textes que personne n'a lus. Le
+  dimanche il soigne ; le reste de la semaine, il instruit des procès en hérésie. » Le seul vrai soigneur du jeu, famille
+  distance ; toutes les races ; 50 PV, 6 PA, 3 PM, 100 d'initiative. Voie Sacrée (Force + Intelligence) : soin,
+  protection et soutien à distance ; Voie Flamme (Intelligence) : l'inquisiteur, offensif à distance (portées 1 à 6), un
+  seul petit soin. L'Intelligence sert les deux Voies (voulu).
+- *Écart au gabarit* (Voie Sacrée, accepté pour un soigneur) : 1 signature, 3 dégâts (pas de gros coup cher), 2 contrôles,
+  1 mobilité, 2 soins ou défenses, 1 soutien. La Voie Flamme suit le gabarit normal.
+- *Passif* **Faire la quête** (Apprenti, 5 rangs) : chaque sort qui blesse un ennemi donne 1 **Foi** (5 au plus, tout le
+  combat, affichée sur le Théologue) ; le soin ou le bouclier suivant la dépense toute : +6 % par Foi (+1 % par rang).
+  Rang 3 : un ennemi qui désobéit à un Commandement donne aussi 1 Foi. Rang 5 : un soin lancé à 5 Foi soigne aussi de
+  moitié les alliés au contact de ceux qu'il soigne. La Flamme remplit, le Sacré dépense.
+- *Voie Sacrée — Terre consacrée* (signature) : glyphe dorée en croix de 5 cases, 3 tours, relance 3 ; les alliés dessus
+  reçoivent **+20 % de soins et de boucliers** ; un ennemi qui y commence son tour perd 5 à 7 Sacré. Le *Sermon* est le
+  sort combiné : son soin est × 1,5 quand le croisement de la croix est sur une Terre consacrée.
+- *Voie Flamme — Hérésie* : crans sur un ennemi (5 au plus) posés par chaque sort Flamme qui le touche, qui durent tout le
+  combat, ne sont pas retirables (Absolution comprise) et ne font rien seuls : le *Bûcher* les consomme (4 à 6 Flamme par
+  cran, refusé sans Hérésie). La Flamme du Théologue vise des personnes, jamais le terrain : pas d'embrasement (réservé
+  au Démoniste).
+- *Commandement* « Tu ne bougeras point » (état de 2 tours) : chaque case que la cible **marche** lui coûte une
+  **Pénitence** (3 Flamme du Théologue et 1 cran d'Hérésie) ; poussées et téléportations ne comptent pas. Les monstres
+  l'ignorent (ils marchent et paient). Plus tard : d'autres commandements choisis dans une grille.
+
+| Voie | Sort | Rôle | PA | Portée | Effet | Rang 3 | Rang 5 |
+|---|---|---|---|---|---|---|---|
+| Sacrée | *Terre consacrée* | Signature | 3 | 1–5 | Glyphe 3 tours (ci-dessus), relance 3 | +1 portée | croix de rayon 2 |
+| Sacrée | *Châtiment* | Dégâts à distance | 4 | 2–5 | 8 à 12 Sacré, 2 par tour | +1 portée | +10 % critique |
+| Sacrée | *Sermon* | Zone + soin, combiné | 4 | 1–5 en ligne | Croix latine : 4 à 7 Sacré aux ennemis, soin 4 à 7 aux alliés (× 1,5 consacré) | +1 portée | 3 PA |
+| Sacrée | *Coup de goupillon* | Dégâts pas cher | 2 | 1–4 | 4 à 6 Sacré, 3 par tour | +1 portée | +10 % critique |
+| Sacrée | *Imposition des mains* | Soin | 3 | 0–3 | Soin 12 à 18 | +1 portée | retire aussi les poisons |
+| Sacrée | *Rempart de foi* | Défense | 2 | 0–3 | Bouclier 12 à 16, relance 2 | +1 portée | relance 1 |
+| Sacrée | *Absolution* | Contrôle | 3 | 0–5 | Retire les bonus ennemis, les malus et poisons alliés ; relance 2 | +1 portée | relance 1 |
+| Sacrée | *Génuflexion* | Contrôle | 3 | 1–4 | −2 PM et −15 % de dégâts infligés, 1 tour ; relance 2 | +1 portée | relance 1 |
+| Sacrée | *Procession* | Mobilité | 2 | 1–4 | Téléporte sur une case libre ou échange avec un allié ; relance 2 | +1 portée | relance 1 |
+| Sacrée | *Indulgence* | Soutien | 2 | 0–3 | Lui ou un allié : +1 PA et +1 PM, 2 tours ; relance 4 | +1 portée | relance 3 |
+| Flamme | *Accusation* | Signature | 2 | 1–6 | +2 crans d'Hérésie, 2 par tour | +1 portée | +1 cran |
+| Flamme | *Tison* | Dégâts pas cher | 3 | 1–5 | 6 à 9 Flamme, +1 cran, 3 par tour | +10 % critique | +1 portée |
+| Flamme | *Autodafé* | Dégâts en zone | 4 | 2–5 | Croix de rayon 1 : 5 à 8 Flamme, +1 cran à chaque ennemi | +1 portée | 3 PA |
+| Flamme | *Feu purificateur* | Gros coup | 5 | 2–5 | 18 à 24 Flamme, +1 cran | +10 % critique | 4 PA |
+| Flamme | *Bûcher* | Combiné | 4 | 1–4 | 4 à 6 Flamme par cran d'Hérésie, tous consommés | +1 portée | +10 % critique |
+| Flamme | *Commandement* | Contrôle | 3 | 1–5 | « Tu ne bougeras point », 2 tours ; relance 2 | +1 portée | relance 1 |
+| Flamme | *La Question* | Contrôle | 3 | 1–3 | −2 PA 1 tour, +1 cran ; relance 2 | +1 portée | +1 cran |
+| Flamme | *Saut des flammes* | Mobilité | 2 | 1–3 | Téléportation ; relance 2 | +1 portée | relance 1 |
+| Flamme | *Expiation* | Soin modeste | 2 | 0–3 | Soin Flamme 6 à 9 (alliés) ; relance 2 | +1 portée | relance 1 |
+| Flamme | *Zèle* | Soutien | 2 | 0–3 | Lui ou un allié : +40 Intelligence, 2 tours ; relance 3 | +1 portée | relance 2 |
+
+Rangs : +10 % des valeurs par rang en plus des effets de rangs 3 et 5 (provisoires). *Monde des ombres* : la Terre
+consacrée reste dans la dimension où elle a été posée (comme les glyphes) ; l'Hérésie et le Commandement suivent la
+cible. *Résurrection* : pas dans les 20 sorts, reprise quand le multijoueur ou le mode héros en aura besoin. *Plus tard* :
+sorts joués avec l'attaque de la race (planches recoloriées, robe blanche, étole pourpre et or) ; prompts PixelLab
+`assets/theologue/PROMPTS.md` à écrire ; 3e Voie Lumière ou Ténèbres à trancher ; aucun monstre ne joue la classe.
 
 Les soins des autres classes restent modestes (le Guerrier en a un petit, l'Arcaniste un bouclier)
 pour que le Théologue garde son rôle.
@@ -498,6 +549,53 @@ rang 5, valeur provisoire) ; au **rang 3**, le premier lancer du tour rend **2 P
 **rang 5**, **3 PA** (les lancers suivants en rendent toujours 1). *Fusion arcanique* : **1 PA** au
 rang 3, **3e place** de sort créé au rang 5.
 
+**Arcaniste complet** (23/11/2026, fil « Compléter les sorts de l'Arcaniste », propositions validées telles quelles par
+l'auteur ; valeurs provisoires, à ajuster après ses tests ; fiche `docs/design/classes/arcaniste.md`, données par
+`docs/design/arcaniste/produire.py`, `game/tests/core/test_arcaniste.gd`). 20 sorts : *Composition*, *Fusion arcanique*,
+les 10 sorts créés et **8 sorts utilitaires** lancés directement (toujours dans la barre, sans place de sort créé). Chaque
+utilitaire a un élément ; avec au moins un état de cet élément, il gagne son **affinité** (champ `affinite`). Ils font peu
+ou pas de dégâts (les dégâts viennent des sorts créés).
+
+| Rôle | Sort | Élément | PA | Portée | Effet | Affinité | Rang 3 | Rang 5 |
+|---|---|---|---|---|---|---|---|---|
+| Mobilité | *Clignement* | Tempête | 2 | 1–3, case libre | Téléportation ; relance 2 tours | +1 portée | relance 1 | +1 portée |
+| Mobilité | *Rétropropulsion* | Flamme | 2 | 1 | 3 à 5 Flamme, il recule de 3 cases à l'opposé ; relance 2 tours | recule de 4 | 1 PA | ennemis à son contact au départ : 3 à 5 Flamme |
+| Contrôle | *Pieds gelés* | Givre | 2 | 1–5 | −2 PM (esquive comprise) ; 2 fois par tour | −3 PM | +1 portée | état *enraciné* 1 tour (ni poussé, ni attiré, ni déplacé sur une horloge) |
+| Contrôle | *Appel d'air* | Tempête | 3 | 2–6 en ligne | Attire de 3 cases ; relance 1 tour | attire de 4 | 2 PA | les ennemis au contact de la cible sont attirés d'1 case |
+| Défense | *Mur de glace* | Givre | 3 | 1–4, case libre | 3 cases de glace en travers, 2 tours : bloquent passage et vue ; relance 3 tours | +1 tour | 5 cases | relance 2 |
+| Défense | *Manteau de braises* | Flamme | 2 | soi | 2 tours : −4 dégâts subis, 3 à 5 épines Flamme fixes ; relance 3 tours | −6 dégâts | 1 PA | +1 tour |
+| Soutien | *Conduction* | selon ses états | 2 | 0–4, soi ou allié | 2 tours : +15 dans la caractéristique de chacun de ses états (Flamme ×2 + Givre : +30 Intelligence, +15 Perception) ; relance 3 tours | — | +1 portée | relance 2 |
+| Lié aux états | *Écho arcanique* | — | 2 | soi | Crée le sort de la combinaison actuelle, comme *Fusion arcanique*, même si elle a déjà servi ce tour ; relance 3 tours | — | relance 2 | le sort créé coûte 1 PA de moins à son 1er lancer |
+
+Le **mur de glace** est un état du terrain du combat (comme l'eau gelée du Myrmidon) : obstacle qui bloque la vue sur
+une case libre, jamais sur une case occupée ; un Myrmidon peut le démolir ; il fond au début du tour de l'Arcaniste
+quand ses tours sont écoulés. Les épines du *Manteau de braises* sont renvoyées à qui le blesse (comme toutes les épines).
+
+**Passif de classe *Virtuose*** (Apprenti, 5 rangs) : chaque sort créé lancé dont la combinaison diffère de celle du sort
+créé précédent donne **1 cran de Virtuosité** (3 au plus, jusqu'à la fin de son tour suivant) : **+3 % de dégâts par
+cran** (+1 % par rang, 8 % au rang 5). Rang 3 : à 3 crans, *Fusion arcanique* coûte 0 PA. Rang 5 : le 3e cran donne +1 PM
+pour le tour. Il pousse à jongler entre les combinaisons, sans doubler le bonus des états.
+
+**Rangs 3 et 5 des sorts créés** (en plus du +10 % par rang) :
+
+| Sort | Rang 3 | Rang 5 |
+|---|---|---|
+| *Fournaise* | glyphe brûlante 3 tours | +1 portée |
+| *Choc thermique* | −15 % de résistance Flamme | +10 % critique |
+| *Armure de givre* | +1 portée | +20 Perception aussi |
+| *Blizzard* | −3 PM | cercle de 2 |
+| *Foudre en chaîne* | rebonds jusqu'à 3 cases | 4e touché |
+| *Fulgurance* | +1 portée | sans relance |
+| *Vent arrière* | +3 PM | sans relance |
+| *Feu de brousse* | brûlure 3 tours | +1 portée |
+| *Bourrasque glacée* | poussée de 4 cases | −2 PM |
+| *Cataclysme* | relance 1 tour | −2 PM |
+
+Décisions du même jour : les points de maîtrise de l'Arcaniste vont dans ses **sorts**, comme les autres classes (le
+paragraphe « Points de maîtrise de l'Arcaniste » de la refonte, plus bas, n'est plus d'actualité) ; le déblocage des
+fusions par paliers reste reporté après les tests (tout est ouvert) ; l'IA qui compose les états sera un lot à part, plus
+tard, sur demande ; pas de 3e Voie pour l'instant. Planche et animations : celles de la race (comme les autres classes).
+
 **Gabarit commun des classes** (validé par l'auteur le 15/11/2026, fil « Concevoir les classes du jeu » ;
 fiches de travail par classe dans `docs/design/classes/`) :
 
@@ -530,14 +628,14 @@ fiches de travail par classe dans `docs/design/classes/`) :
 
 | Famille | Classe | Rôle | Éléments principaux | Style |
 |---|---|---|---|---|
-| **Corps à corps** | **Guerrier** | Mêlée polyvalente | Acier / Impie (Force / Agilité + Perception) | *(voir plus haut)* ; Voie Impie : chevalier maudit (décidée le 15/11/2026, à concevoir) |
+| **Corps à corps** | **Guerrier** | Mêlée polyvalente | Acier / Impie (Force / Agilité + Perception) | *(voir plus haut)* ; Voie Impie : chevalier maudit, Prix du sang (codée le 23/11/2026, voir plus bas) |
 | | **Paladin** | Guerrier sacré ou électrique : mêlée, soutien, distance | Sacré / Tempête (Force + Intelligence / Agilité) | Voie Sacrée : coups bénis, glyphes en aura qui le suivent et renforcent les alliés. Voie Tempête : sorts électrisants à distance, balises reliées par des arcs électriques |
 | | **Myrmidon** | Guerrier tank | Acier / Givre, chacun pur (Force / Perception), Vitalité | Bouclier, provocation (attire les coups), réduction de dégâts, poussée, garde un allié |
 | **Mixte** | **Rôdeur** | Distance et mobilité | Acier / Flamme (Force / Intelligence) ; Acier / Tempête dans l'alpha | *(voir plus haut)* ; à terme, Voie Flamme tournée vers les pièges et les explosifs |
 | | **Ombre** | Assassin | Tempête / Acier (Agilité / Force) | Voie Tempête : mobilité, frappe et repli, clones de foudre qui explosent. Voie Acier : invisibilité, cumul de bonus et de malus, armes d'obscurité à retardement. Les deux : entrer dans l'ombre d'un combattant |
 | | **Chronomancien** | Maître du temps : contrôle, mi-distance | Impie / Givre pur (Agilité + Perception / Perception) | Voie Impie : glyphe Horloge, cible téléportée sur le cadran, un effet par heure. Voie Givre : retour à une position passée, envoi dans le futur, pulsions temporelles |
 | **Distance** | **Arcaniste** | Dégâts magiques, contrôle | Flamme / Givre / Tempête (Intelligence / Perception / Agilité) | *(voir plus haut)* ; après la refonte : états élémentaires cumulés et sort créé selon leur combinaison |
-| | **Théologue** *(dès l'alpha)* | Soigneur sacré | Sacré / Flamme (Force + Intelligence / Intelligence) | Soins, boucliers, retrait des états, résurrection (multi), dégâts sacrés modestes ; Voie Flamme : inquisiteur, bûchers (décidée le 15/11/2026, à concevoir) |
+| | **Théologue** *(dès l'alpha)* | Soigneur sacré | Sacré / Flamme (Force + Intelligence / Intelligence) | Soins, boucliers, retrait des états, Terre consacrée ; Voie Flamme : inquisiteur, Hérésie, Bûcher, Commandement (codée le 23/11/2026, voir plus haut) |
 | | **Démoniste** | Dégâts impies ou ardents | Impie / Flamme (Agilité + Perception / Intelligence) | Voie Impie : armée de serviteurs invoqués (offensif, tank, soutien). Voie de Flamme : embrasement du terrain (niveaux 1 à 3 puis calciné), sorts qui varient selon l'embrasement |
 
 Le Sacré et l'Impie sont des éléments à part entière (voir § 4.4) : le Sacré s'appuie sur l'Acier et
@@ -640,6 +738,43 @@ telles quelles par l'auteur, à ajuster après ses tests ; valeurs provisoires ;
   2 tours).
 - *Plus tard* : aucun monstre ne joue la classe (pas d'IA propre) ; sorts joués avec l'attaque de la race (planches
   recoloriées) ; 3e Voie Lumière ou Ténèbres à trancher.
+
+**Guerrier : conception finale, codée le 23/11/2026** (fil « Compléter les sorts du Guerrier », 25 propositions validées
+telles quelles par l'auteur le 23/11/2026, à ajuster après ses tests ; valeurs provisoires ; fiche
+`docs/design/classes/guerrier.md`, données `docs/design/guerrier/produire.py`, tests `tests/core/test_guerrier.gd`) :
+
+- *Identité* : mêlée polyvalente, famille corps à corps ; 50 PV, 6 PA, 3 PM, 100 d'initiative (la fiche disait 60 PV,
+  corrigée). Voie Acier : Force ; Voie Impie : Agilité et Perception (règle de l'Impie), chacune pure. Voie Impie :
+  « Chevalier d'un ordre dissous pour faute grave. Son épée est maudite, son assurance aussi : il paie chaque coup de son
+  propre sang, puis se rembourse sur l'adversaire. » Même planche, sorts joués avec l'attaque de la race.
+- *Passif* **Rancune** (Apprenti, 5 rangs, effet `rancune`) : chaque tranche de 5 PV perdus (coups reçus ou PV payés)
+  donne un cran (état `rancune`, gardé tout le combat, sans perte avec le temps) ; +3 % de dégâts par cran. Crans au
+  plus : 5 (rangs 0 et 1), 6, 8, 9, 10 (`Fighter.RAGE_MAX`). Rang 3 : les dégâts absorbés par un bouclier comptent aussi.
+  Rang 5 : au 10e cran, son prochain coup de mêlée est critique (une fois). *Fendoir* (Acier) et *Rage du damné* (Impie)
+  dépensent tous les crans pour +6 % de dégâts par cran (champ `par_rancune`).
+- *Prix du sang* (signature de la Voie Impie, champ `cout_pv` des sorts) : la plupart des sorts Impie coûtent 3 à 15 % des
+  PV max en plus des PA ; ce coût passe à travers boucliers et résistances, ne compte pas comme des dégâts reçus (ni
+  épines ni pratique de Vitalité) mais nourrit la Rancune ; un sort dont le coût atteint les PV restants est grisé
+  (« Pas assez de PV pour payer le prix du sang »). Vol de vie (champ `vol`, vrai ou %) sur *Lame impie* (30 %, 40 % au
+  rang 3) et *Étreinte de la tombe* (100 %).
+- *Voie Acier* (10) : *Charge* (signature), *Frappe*, *Lancer de hache*, *Tourbillon*, *Fendoir* (combo Rancune),
+  *Second souffle*, *Cri de guerre* (soutien), et depuis le 23/11/2026 *Croc-en-jambe* (contrôle : 2 PA, mêlée, 3–5,
+  −2 PM ; rang 3 −3 PM, rang 5 relance 1), *Crochet* (contrôle : 3 PA, 2–4 en ligne, attire de 3 jusqu'au contact,
+  combo de placement avec Tourbillon, Frappe et Fendoir ; rang 3 +1 portée, rang 5 4–6 Acier) et *Recul stratégique*
+  (mobilité vers l'arrière : 2 PA, 1–3, saut sans tacle ; rang 3 +1 portée, rang 5 relance 2). Cri de guerre et Fendoir
+  ne sont plus des sorts de rang II (tout est ouvert dès le début).
+- *Voie Impie* (10, « PV » = coût en % des PV max) : *Serment de sang* (signature : 1 PA, 15 %, +2 PA ce tour, 1 par tour,
+  relance 2 ; rang 3 12 %, rang 5 relance 1), *Lame impie* (3 PA, 3 %, mêlée, 7–11, vole 30 %, 2 par tour), *Onde
+  funèbre* (4 PA, 5 %, 2–4, cercle de 1, 6–9, alliés compris), *Exécution* (5 PA, 8 %, mêlée, 15–21, +30 % contre une
+  cible sous 30 % de ses PV, champ `execution`), *Rage du damné* (combo : 4 PA, sans PV, mêlée, 10–14, +1 % par % de PV
+  manquant, 60 % au plus, 70 % au rang 3, champ `par_pv_manquant`, et dépense la Rancune), *Regard du damné* (2 PA, 3 %,
+  1–4, −2 PA au prochain tour de la cible, −3 au rang 3), *Étreinte de la tombe* (3 PA, 5 %, 1–2, attire d'une case,
+  −3 PM, 4–6 volés), *Pas du spectre* (2 PA, 5 %, 1–4, téléportation sans ligne de vue ; rang 5 sans PV), *Armure de
+  sang* (défense : 2 PA, bouclier d'au moins 8 ou 2 × les PV payés ce tour, × 2,5 au rang 3, champ `par_pv_payes` ;
+  comme tous les boucliers il tient jusqu'au prochain tour de son porteur, et non 2 tours comme proposé), *Malédiction*
+  (soutien utile en solo : 3 PA, 5 %, 1–5, −15 % de résistance Acier et Impie 2 tours, 20 % au rang 3, 3 tours au rang 5).
+- *Maîtrise* : nouveau changement de rang `valeurs` (champ d'effet remplacé, ex. `{"vol": 40}`) et `cout_pv`.
+- *Plus tard* : aucun monstre ne joue la classe (pas d'IA propre) ; 3e Voie Lumière ou Ténèbres à trancher.
 
 **Démoniste — Impie ou Flamme**
 
@@ -916,7 +1051,8 @@ voir plus haut ; la Tempête après)
   | Palier 4 | La fusion 1 + 1 + 1 : ABC | 10 |
 
   L'alpha 1 correspond au premier palier, avec Flamme et Givre imposés.
-- **Points de maîtrise** de l'Arcaniste (§ 4.5) : l'Arcaniste les place dans ses **éléments** (Flamme,
+- **Points de maîtrise** de l'Arcaniste (§ 4.5, *abandonné le 23/11/2026 : les points vont dans les sorts, voir
+  « Arcaniste complet »*) : l'Arcaniste les place dans ses **éléments** (Flamme,
   Tempête, Givre). Le niveau d'un élément renforce son passif (+4 % de dégâts par état au départ,
   davantage ensuite) et les sorts créés qui contiennent cet élément, comme les trois orbes de
   l'Invoker. Chaque niveau reste un choix, et les éléments de départ peuvent rester les plus forts.
@@ -1237,12 +1373,12 @@ avec 1 point par 500 de réputation et la réputation des monstres vaincus tiré
 | Tourbillon | 4 PA, autour de soi, 7–10 Acier | repousse d'une case | zone de taille 2 |
 | Second souffle | 2 PA, soin Acier 12–18, délai 3 | délai 2 | bouclier Acier égal à la moitié du soin |
 | Charge | 3 PA, portée 2–4, 6–9 Acier, délai 2 | portée 2–5 | délai 1 |
-| Cri de guerre (rang II, Compagnon) | 3 PA, Dommages +4–6 aux alliés à 2 cases pendant 2 tours, délai 4 | délai 3 | zone de taille 3 |
-| Fendoir (rang II, Vétéran) | 5 PA, mêlée, 16–22 Acier | +5 % de critique | coûte 4 PA |
+| Cri de guerre (rang II jusqu'au 23/11/2026) | 3 PA, Dommages +4–6 aux alliés à 2 cases pendant 2 tours, délai 4 | délai 3 | zone de taille 3 |
+| Fendoir (rang II jusqu'au 23/11/2026) | 5 PA, mêlée, 16–22 Acier, +6 % par cran de Rancune (dépensés) | +5 % de critique | coûte 4 PA |
 
 **Chronomancien** : rangs 3 et 5 réécrits le 23/11/2026 (un effet propre par sort, voir « Chronomancien : conception
-finale » plus haut et `docs/CLASSES.md`). Arcaniste, Rôdeur et Théologue n'ont que le +10 % par rang (pas d'effet de rang 3
-ou 5).
+finale » plus haut et `docs/CLASSES.md`). Arcaniste et Rôdeur n'ont que le +10 % par rang (pas d'effet de rang 3
+ou 5) ; le Théologue a ses rangs 3 et 5 depuis le 23/11/2026 (§ 4.3).
 
 #### Métiers
 
@@ -4426,7 +4562,7 @@ farm, en faisant autorité.
 | **0. Pré-production** | Choix techniques, GDD validé, prototypes papier | Moteur choisi, structure du dépôt en place |
 | **1. Prototype** | Une carte, déplacement, un combat 1 contre 1 | Un combat jouable de bout en bout |
 | **2. Alpha solo** (court terme) | 3 races (une par camp), 5 classes (avec le Théologue et le Chronomancien Impie), combat + butin, quêtes simples, 3 métiers, équipement, 3 zones de départ + Hautepierre | **Alpha test 1** (mécaniques) : tout le contenu, l'interface et les quêtes, 4 à 5 h pour tout finir (XP ×3,5 jusqu'au 29/10/2026). **Alpha test 2** (progression) : refonte sans niveaux, réputation et maîtrises (§ 4.5 ; lots 0 à 3 déjà sur `main`), sorts par Voie et rang, art et son |
-| **3. Solo étendu** (long terme) | 6 races de plus (Nains, Orcs, Arkhés, Géants, Squelettes, Lutins ; 9 au total), chacune avec sa sous-zone dans la zone de départ de son camp, 4 classes de plus (Paladin, Myrmidon, Ombre, Démoniste ; 9 au total) et la Voie Givre du Chronomancien (faite le 23/11/2026), Voies, donjons, quêtes complexes, légendaires, scénario complet | Quête des Reliques jouable jusqu'au boss final |
+| **3. Solo étendu** (long terme) | 6 races de plus (Nains, Orcs, Arkhés, Géants, Squelettes, Mycéliens ; 9 au total), chacune avec sa sous-zone dans la zone de départ de son camp, 4 classes de plus (Paladin, Myrmidon, Ombre, Démoniste ; 9 au total) et la Voie Givre du Chronomancien (faite le 23/11/2026), Voies, donjons, quêtes complexes, légendaires, scénario complet | Quête des Reliques jouable jusqu'au boss final |
 | **4. Fondations réseau** | Serveur autoritaire, comptes, une instance, synchronisation | Deux joueurs se voient et combattent ensemble |
 | **5. Multi** | Instances, groupe, amis, chat, échanges, hôtel des ventes, guildes | Bêta fermée |
 

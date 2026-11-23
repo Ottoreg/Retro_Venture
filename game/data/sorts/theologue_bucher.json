@@ -1,0 +1,31 @@
+{
+  "id": "theologue_bucher",
+  "nom": "Bûcher",
+  "description": "Le procès est terminé : 4 à 6 Flamme par cran d'Hérésie de la cible, qui sont tous consommés.",
+  "cout_pa": 4,
+  "portee": {
+    "min": 1,
+    "max": 4
+  },
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "flamme",
+      "min": 4,
+      "max": 6,
+      "cibles": "ennemis",
+      "par_heresie": true
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "portee_max": 1
+    },
+    "5": {
+      "critique": 10
+    }
+  }
+}
