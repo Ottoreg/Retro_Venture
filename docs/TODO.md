@@ -842,7 +842,7 @@ classes (option écartée et compromis gardés en piste, GDD § 5.2).
   objets liés, forgemagie, niveau de métier requis)
 
 ### Monde
-- [ ] Zones de départ agrandies : une par camp, une sous-zone thématique par race (GDD § 3.5, décision du 19/11/2026) ; Crasse-Roc d'abord (gobelin, orc, squelette déjà jouables), conception à valider
+- [ ] Zones de départ agrandies : une par camp, une sous-zone thématique par race (GDD § 3.5, décision du 19/11/2026) ; sous-zones des trois zones validées (Crasse-Roc 19/11, Brumerive et Sylvebrume 23/11/2026) ; Crasse-Roc d'abord (gobelin, orc, squelette déjà jouables) ; détail des cartes, monstres et quêtes à concevoir
 - [ ] Régions : Sylvebrume, Forges de Durhal, Plaines d'Orvent, Marais Gris, Marches Cendrées / Nocthrône
 - [ ] Cycle jour/nuit (optionnel)
 - [ ] Familiers

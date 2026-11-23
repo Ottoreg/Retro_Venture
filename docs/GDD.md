@@ -241,6 +241,26 @@ thématique** (son village ou campement, son décor, ses monstres et PNJ à son 
   Ombre*, vieux champ de bataille et catacombes ; « Caisse de retraite des Trépassés » qui ne verse jamais
   rien, gradés morts qui font encore l'appel. Un peu de Givre ou d'Impie.
 
+**Brumerive agrandie** (validée par l'auteur le 23/11/2026, rien de produit) :
+
+- **Nains, au nord** (depuis les Champs de l'est ou le Verger des Pommeaux) : *le Comptoir de
+  Barbe-Fendue*, mine à ciel ouvert dans les collines ; colonie naine venue « faire affaire » avec les
+  humains, galeries, monte-charges, guilde des mineurs qui facture chaque coup de pioche, même ceux des
+  autres. Un peu d'Acier.
+- **Géants, à l'ouest** (depuis la Place du village ou les Rives de la Brume) : *les Hauts-Perchés*,
+  corniches et falaises ventées au-dessus de la Brume ; maisons humaines où les Géants se plient en
+  quatre, vieux gardien qui met trois jours à finir sa phrase, troupeaux de moutons géants. Tempête et Acier.
+
+**Sylvebrume agrandie** (validée par l'auteur le 23/11/2026, rien de produit) :
+
+- **Mycéliens, à l'est** (depuis le Bosquet des Cerfs ou la Scierie de Brumerive) : *le Bois-Farceur*
+  (nom proposé pour les Lutins, à revoir), sous-bois de ronds de champignons et de mycélium où circulent
+  les commérages de la forêt ; peut devenir le « Bois des Lutins » de la relique du Grelot Farfelu.
+- **Arkhés, au nord** (depuis la Clairière de la Lisière ou la Futaie ancienne) : *les Sources
+  primordiales*, clairière où jaillissent les quatre éléments, une source par variante (forge, brasier,
+  orage, glacier) ; monstres : élémentaires « mal éclos » qui se disputent sur le meilleur élément.
+  Éléments mélangés, exception à la dominante de la zone.
+
 #### Paliers de niveau des zones de départ
 
 **Depuis le 11/11/2026** (demande de l'auteur) : les monstres n'ont plus de niveau mais un **palier de
