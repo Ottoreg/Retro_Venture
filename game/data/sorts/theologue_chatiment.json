@@ -18,5 +18,13 @@
       "min": 8,
       "max": 12
     }
-  ]
+  ],
+  "maitrise": {
+    "3": {
+      "portee_max": 1
+    },
+    "5": {
+      "critique": 10
+    }
+  }
 }

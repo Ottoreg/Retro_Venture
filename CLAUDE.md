@@ -276,6 +276,12 @@ Dernière session (retours de la passe de l'auteur) :
   `terrain`), `conduction`, état `enracine`, *Écho arcanique* (2e `creer_sort`, rang `remise`, `Fighter.created_discounts`),
   passif *Virtuose* (`Combat._virtuoso`, crans `Fighter.VIRTUOSITY`), rangs 3 et 5 des sorts créés (rang `valeurs`,
   champ `voisins`) ; données par `docs/design/arcaniste/produire.py`. Valeurs provisoires.
+- **Théologue complété, Sacré / Flamme** (23/11/2026, GDD § 4.3, `tests/core/test_theologue.gd`) : 20 sorts `theologue_*`
+  (5 d'origine compris), passif *Faire la quête* (Foi : crans `Combat.FAITH`, `_faith_after_cast`) ; Terre consacrée (glyphe
+  `consacree`, `Combat.consecrated`, `heal_boost`, soin `si_consacree`), crans `heresie` et dégâts `par_heresie` (Bûcher),
+  état `commandement` (`Combat._penance` dans `_move`), effet `procession` (`_teleport`, `_swap_places`) ; protocole v24 ;
+  données par `docs/design/theologue/produire.py`. Valeurs provisoires. `tools/screenshot.gd` ne lance plus de combat
+  (constaté le 23/11/2026, déjà le cas avant) : pas de capture.
 - **Ombre, Tempête / Acier** (20/11/2026, GDD § 4.3, `tests/core/test_ombre.gd`) : 6e classe, 20 sorts `ombre_*`, passif
   de classe *Coup en traître* (champ `passif` des Voies, débloqué à Apprenti, `GameData.class_passive`, `Fighter.passives`) ;
   images rémanentes (`Combat.images`, effets `image` / `court_circuit`, zone `ligne`), invisibilité (`Fighter.is_invisible`,

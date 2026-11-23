@@ -1,0 +1,31 @@
+{
+  "id": "theologue_expiation",
+  "nom": "Expiation",
+  "description": "Le feu qui purifie soigne aussi, un peu, ceux qui ont déjà avoué.",
+  "cout_pa": 2,
+  "portee": {
+    "min": 0,
+    "max": 3
+  },
+  "relance": {
+    "par_tour": 1,
+    "delai": 2
+  },
+  "effets": [
+    {
+      "type": "soin",
+      "element": "flamme",
+      "min": 6,
+      "max": 9,
+      "cibles": "allies"
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "portee_max": 1
+    },
+    "5": {
+      "delai": 1
+    }
+  }
+}

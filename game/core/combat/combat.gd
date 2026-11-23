@@ -93,6 +93,17 @@ const COUNTER_BLOW := 10
 const ICE_WALL := "mur_glace"
 const VIRTUOSITY_TURNS := 2
 var _stunned := {}
+## Théologue (GDD § 4.3) : Foi du passif « Faire la quête » (crans du Théologue, gagnés par ses sorts de dégâts qui touchent,
+## dépensés par son soin ou bouclier suivant : +5 + rang + 1 % par Foi) ; Hérésie de ses cibles ; Pénitence d'un Commandement
+## (dégâts Flamme par case marchée) ; % de soins et de boucliers reçus en Terre consacrée ; crans qui durent tout le combat.
+const THEOLOGIAN_PASSIVE := "faire_la_quete"
+const FAITH := "foi"
+const FAITH_MAX := 5
+const HERESY_MAX := 5
+const PENANCE := 3
+const CONSECRATED_HEAL := 20
+const LASTING_TURNS := 99
+var _faith_hit := false
 
 ## Temps limité (en ligne, GDD § 7.2) : secondes d'un tour de joueur, et du placement ; 0 : illimité
 ## (solo). Le temps passe par `advance`.
@@ -589,6 +600,7 @@ func _move(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 	events.append({"type": Protocol.EVT_MOVED, "entite": fighter.id, "depuis": from, "chemin": walked, "pm": fighter.pm})
 	_seen(fighter)
 	_enter_cells(fighter, walked, events)
+	_penance(fighter, walked.size(), events)
 	if not trap.is_empty() and fighter.is_alive():
 		_trigger_trap(trap, fighter, events)
 	_check_images(fighter, events)
@@ -660,6 +672,12 @@ func _cast(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 		blocker = Protocol.REASON_NO_EMBERS
 	if blocker.is_empty() and not spell.effect_of(Spell.EFFECT_DEMOLISH).is_empty() and not demolishable(target):
 		blocker = Protocol.REASON_NOT_DEMOLISHABLE
+	if blocker.is_empty() and spell.effects.any(func(effect: Dictionary) -> bool: return effect.get("par_heresie", false)) \
+			and (aimed == null or aimed.stacks(Spell.EFFECT_HERESY) == 0):
+		blocker = Protocol.REASON_NO_HERESY
+	if blocker.is_empty() and not spell.effect_of(Spell.EFFECT_PROCESSION).is_empty() and not is_free(target) \
+			and (aimed == null or aimed == fighter or aimed.team != fighter.team):
+		blocker = Protocol.REASON_OCCUPIED if aimed != null else Protocol.REASON_BLOCKED
 	if blocker.is_empty() and not spell.create_effect().is_empty() and created_spell_for(fighter, spell) == null:
 		blocker = Protocol.REASON_NO_COMBINATION
 	if blocker.is_empty() and not spell.effect_of(Spell.EFFECT_BEACON).is_empty() and (not is_free(target) or not beacon_at(target).is_empty()):
@@ -703,6 +721,14 @@ func _cast(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 	events.append_array(virtuoso_events)
 	var zone := spell_zone(fighter, spell, target)
 	var cast_effects := _ember_variant(spell, target, zone)
+	# Théologue : la Foi renforce soins et boucliers (puis est dépensée), le Sermon soigne plus sur la Terre consacrée.
+	_faith_hit = false
+	var heals := cast_effects.any(func(effect: Dictionary) -> bool: return effect["type"] in [Spell.EFFECT_HEAL, Spell.EFFECT_SHIELD])
+	var faith := fighter.stacks(FAITH) if heals else 0
+	var holy := consecrated(target, fighter.team, fighter.shadow)
+	var faith_bonus := faith * (5 + int(fighter.passives.get(THEOLOGIAN_PASSIVE, 0)))
+	cast_effects.assign(cast_effects.map(func(effect: Dictionary) -> Dictionary: return effect.merged(
+		{"bonus_soin": faith_bonus + (int(effect.get("si_consacree", 0)) if holy else 0)}) if effect["type"] in [Spell.EFFECT_HEAL, Spell.EFFECT_SHIELD] else effect))
 	var crossed := arcs_crossed(fighter, spell, target)
 	if crossed > 0:  # Projectile renforcé par les arcs traversés.
 		events[0]["arcs"] = crossed
@@ -712,13 +738,7 @@ func _cast(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 		events[0]["cache"] = true
 	var origin := fighter.cell
 	if spell.teleports():
-		var from := fighter.cell
-		fighter.cell = target
-		events.append({"type": Protocol.EVT_TELEPORTED, "entite": fighter.id, "depuis": from, "case": target})
-		_enter_cells(fighter, [target], events)
-		var trap := enemy_trap_at(target, fighter)
-		if not trap.is_empty():
-			_trigger_trap(trap, fighter, events)
+		_teleport(fighter, target, events)
 	if not spell.effect_of(Spell.EFFECT_BEHIND).is_empty():
 		fighter.cell = behind
 		events.append({"type": Protocol.EVT_TELEPORTED, "entite": fighter.id, "depuis": origin, "case": behind})
@@ -778,6 +798,11 @@ func _cast(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 			for cell in zone.filter(func(cell: Vector2i) -> bool: return is_free(cell) and not map.obstacles.has(cell) and not terrain.has(cell)):
 				terrain[cell] = {"etat": ICE_WALL, "tours": int(effect["duree"]), "lanceur": fighter.id}
 				events.append({"type": Protocol.EVT_TERRAIN, "case": cell, "etat": ICE_WALL})
+		elif effect["type"] == Spell.EFFECT_PROCESSION:
+			if aimed != null:
+				_swap_places(fighter, aimed, events)
+			else:
+				_teleport(fighter, target, events)
 	var elements := {}
 	for effect in cast_effects:
 		if effect["type"] in [Spell.EFFECT_DAMAGE, Spell.EFFECT_HEAL, Spell.EFFECT_POISON, Spell.EFFECT_BOUNCE, Spell.EFFECT_SACRIFICE]:
@@ -804,7 +829,7 @@ func _cast(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 			elif hit.is_alive() and effect["type"] not in [Spell.EFFECT_TELEPORT, Spell.EFFECT_GLYPH, Spell.EFFECT_TRAP,
 					Spell.EFFECT_CHARGE, Spell.EFFECT_CREATE_SPELL, Spell.EFFECT_COMPOSE_STATES, Spell.EFFECT_IMAGE,
 					Spell.EFFECT_DETONATE, Spell.EFFECT_BEHIND, Spell.EFFECT_SUMMON, Spell.EFFECT_AURA, Spell.EFFECT_BEACON, Spell.EFFECT_SURGE,
-					Spell.EFFECT_BEACON_SWAP, Spell.EFFECT_DEMOLISH, Spell.EFFECT_FREEZE, Spell.EFFECT_ICE_WALL] \
+					Spell.EFFECT_BEACON_SWAP, Spell.EFFECT_DEMOLISH, Spell.EFFECT_FREEZE, Spell.EFFECT_ICE_WALL, Spell.EFFECT_PROCESSION] \
 					and not effect.get("sur_lanceur", false) and not effect.get("autour_du_lanceur", false) \
 					and Spell.affects(effect, fighter, hit) and not (effect.get("premier_lancer", false) and fighter.cast_count(spell) > 1) \
 					and not (effect.get("sur_arc", false) and not arc_cells(hit).has(hit.cell)):
@@ -826,6 +851,7 @@ func _cast(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 		if cast_effects.any(func(effect: Dictionary) -> bool: return effect.has(spent)) and fighter.stacks(kind) > 0:
 			fighter.states.assign(fighter.states.filter(func(state: Dictionary) -> bool: return state["type"] != kind))
 			events.append(_states_event(fighter))  # Retour à l'envoyeur, Fendoir, Rage du damné : les crans sont dépensés.
+	_faith_after_cast(fighter, targets, cast_effects, faith, events)
 	_close_credit()
 	_ignite(fighter, zone, -CALCINED if not spell.effect_of(Spell.EFFECT_ASHES).is_empty() else int(spell.calcined.get("embrase", spell.ignites))
 		if ember_level(target) == CALCINED else spell.ignites, events)
@@ -926,6 +952,12 @@ func _apply_effect(caster: Fighter, target: Fighter, effect: Dictionary, events:
 			target.pm_malus += amount
 			events.append({"type": Protocol.EVT_STATUS, "entite": target.id, "effet": Spell.EFFECT_REMOVE_PM, "valeur": amount, "pa": target.pa, "pm": target.pm})
 		Spell.EFFECT_DAMAGE:
+			var heresy := target.stacks(Spell.EFFECT_HERESY) if effect.get("par_heresie", false) else -1
+			if heresy >= 0:  # Bûcher : par cran d'Hérésie de la cible, qui sont tous consommés.
+				amount *= heresy
+				target.states.assign(target.states.filter(func(state: Dictionary) -> bool: return state["type"] != Spell.EFFECT_HERESY))
+				events.append(_states_event(target))
+			_faith_hit = _faith_hit or target.team != caster.team
 			var hp_before := target.hp
 			var base := roundi(amount * (100 + damage_bonus(caster, target, effect)) / 100.0)
 			var guardian := guardian_of(target)
@@ -950,14 +982,15 @@ func _apply_effect(caster: Fighter, target: Fighter, effect: Dictionary, events:
 				caster.hp += stolen  # Vol de vie : le lanceur reprend les PV qu'il a fait perdre.
 				events.append({"type": Protocol.EVT_HEAL, "entite": caster.id, "valeur": stolen, "element": effect["element"], "pv": caster.hp})
 		Spell.EFFECT_SHIELD:
-			amount = maxi(roundi(amount * (100 + caster.power(effect["element"])) / 100.0), roundi(caster.hp_paid * int(effect.get("par_pv_payes", 0)) / 100.0))
+			amount = maxi(roundi(amount * (100 + caster.power(effect["element"])) / 100.0 * (100 + heal_boost(target, effect)) / 100.0),
+				roundi(caster.hp_paid * int(effect.get("par_pv_payes", 0)) / 100.0))
 			target.shield += amount  # Armure de sang : au moins « par_pv_payes » % des PV payés ce tour.
 			if not _credit.is_empty() and _credit["lanceur"] == caster and target.team == caster.team:
 				target.shield_credit = {"lanceur": caster.id, "pa": float(_credit["pa"]), "element": effect["element"]}
 			events.append({"type": Protocol.EVT_STATUS, "entite": target.id, "effet": Spell.EFFECT_SHIELD, "valeur": amount,
 				"element": effect["element"], "bouclier": target.shield, "pa": target.pa, "pm": target.pm})
 		Spell.EFFECT_HEAL:
-			amount = mini(heal_value(caster, target, effect, amount), target.max_hp - target.hp)
+			amount = mini(roundi(heal_value(caster, target, effect, amount) * (100 + heal_boost(target, effect)) / 100.0), target.max_hp - target.hp)
 			if target.has_state(Spell.STATE_UNHEALABLE):
 				amount = 0
 			target.hp += amount
@@ -982,12 +1015,7 @@ func _apply_effect(caster: Fighter, target: Fighter, effect: Dictionary, events:
 		Spell.EFFECT_LIVING_BEACON:
 			_place_beacon(caster, source, effect, target.cell, target.id, events)
 		Spell.EFFECT_SWAP:
-			var from_cell := caster.cell
-			caster.cell = target.cell
-			target.cell = from_cell
-			for moved: Fighter in [caster, target]:
-				events.append({"type": Protocol.EVT_TELEPORTED, "entite": moved.id, "depuis": target.cell if moved == caster else caster.cell,
-					"case": moved.cell, "echange": true})
+			_swap_places(caster, target, events)
 		Spell.EFFECT_SACRIFICE:  # Le serviteur explose : dégâts autour de lui, plus une part de ses PV restants.
 			var extra := roundi(target.hp * int(effect.get("part_pv", 0)) / 100.0)
 			_kill(target, events)
@@ -1005,6 +1033,8 @@ func _apply_effect(caster: Fighter, target: Fighter, effect: Dictionary, events:
 			_add_state(target, poison, events)
 		Spell.EFFECT_ARMOR, Spell.EFFECT_FROSTBITE:
 			_stack(caster, target, effect["type"], amount, Fighter.ARMOR_MAX if effect["type"] == Spell.EFFECT_ARMOR else FROST_MAX, source, events)
+		Spell.EFFECT_HERESY:
+			_stack(caster, target, effect["type"], amount, HERESY_MAX, source, events, LASTING_TURNS)
 		Spell.EFFECT_STATE when effect["etat"] == Spell.STATE_PROVOKED:
 			_provoke(caster, target, int(effect["duree"]), source, events)
 		Spell.EFFECT_STATE when effect["etat"] == Spell.STATE_STUNNED:
@@ -1133,7 +1163,7 @@ func spell_preview(fighter: Fighter, spell: Spell, target: Vector2i) -> Dictiona
 			var high: int
 			var key := "degats"
 			if effect["type"] == Spell.EFFECT_DAMAGE:
-				var bonus := 100 + damage_bonus(fighter, hit, effect) + crossed
+				var bonus := (100 + damage_bonus(fighter, hit, effect) + crossed) * (hit.stacks(Spell.EFFECT_HERESY) if effect.get("par_heresie", false) else 1)
 				low = damage_value(fighter, hit, effect["element"], roundi(effect["min"] * bonus / 100.0))
 				high = damage_value(fighter, hit, effect["element"], roundi(effect["max"] * bonus / 100.0))
 			elif hit.hp >= hit.max_hp or hit.has_state(Spell.STATE_UNHEALABLE):
@@ -1141,8 +1171,9 @@ func spell_preview(fighter: Fighter, spell: Spell, target: Vector2i) -> Dictiona
 			else:
 				key = "soin"
 				var missing := hit.max_hp - hit.hp
-				low = mini(heal_value(fighter, hit, effect, effect["min"]), missing)
-				high = mini(heal_value(fighter, hit, effect, effect["max"]), missing)
+				var boost := 100 + heal_boost(hit, effect)
+				low = mini(roundi(heal_value(fighter, hit, effect, effect["min"]) * boost / 100.0), missing)
+				high = mini(roundi(heal_value(fighter, hit, effect, effect["max"]) * boost / 100.0), missing)
 			var total: Array = entry.get(key, [0, 0])
 			entry[key] = [int(total[0]) + low, int(total[1]) + high]
 			if not entry.has("element"):
@@ -1335,7 +1366,8 @@ func _place_glyph(caster: Fighter, spell: Spell, effect: Dictionary, cells: Arra
 		if map.is_inside(cell) and walkable(cell):
 			inside.append(cell)
 	var glyph := {"id": _next_ground_id, "lanceur": caster, "equipe": caster.team, "ombres": caster.shadow, "cases": inside, "effets": effect["effets"],
-		"tours": int(effect["duree"]), "sort": spell.display_name, "pa": float(spell.pa_cost) / maxi(1, int(effect["duree"]))}
+		"tours": int(effect["duree"]), "sort": spell.display_name, "pa": float(spell.pa_cost) / maxi(1, int(effect["duree"])),
+		"consacree": effect.get("consacree", false)}
 	_next_ground_id += 1
 	glyphs.append(glyph)
 	var element := ""
@@ -1728,6 +1760,75 @@ func _thaw(cell: Vector2i, events: Array[Dictionary]) -> void:
 	if standing != null:
 		standing.cell = _nearest_free(cell)
 		events.append({"type": Protocol.EVT_TELEPORTED, "entite": standing.id, "depuis": cell, "case": standing.cell})
+
+
+# --- Théologue : Foi, Terre consacrée, Hérésie, Commandement (GDD § 4.3) ---------------------------
+
+## Case d'une Terre consacrée (glyphe « consacree ») du camp `team` dans la dimension `shadow`.
+func consecrated(cell: Vector2i, team: int, shadow: bool) -> bool:
+	return glyphs.any(func(glyph: Dictionary) -> bool:
+		return glyph.get("consacree", false) and glyph["equipe"] == team and glyph["ombres"] == shadow and cell in glyph["cases"])
+
+
+## % de soin ou de bouclier en plus pour `target` : `bonus_soin` de l'effet (Foi, Sermon consacré) et Terre consacrée.
+func heal_boost(target: Fighter, effect: Dictionary) -> int:
+	return int(effect.get("bonus_soin", 0)) + (CONSECRATED_HEAL if consecrated(target.cell, target.team, target.shadow) else 0)
+
+
+## Après un sort du Théologue : sa Foi est dépensée par un soin ou un bouclier (au rang 5, à `FAITH_MAX` Foi, les alliés au
+## contact des soignés reçoivent la moitié du soin), puis un sort qui a blessé un ennemi lui donne 1 Foi.
+func _faith_after_cast(fighter: Fighter, targets: Array[Fighter], cast_effects: Array[Dictionary], faith: int, events: Array[Dictionary]) -> void:
+	var rank := int(fighter.passives.get(THEOLOGIAN_PASSIVE, 0))
+	if faith == FAITH_MAX and rank > 5:
+		var splashed: Array[Fighter] = []
+		for hit in targets:
+			for cell in Spell.circle_cells(hit.cell, 1):
+				var ally := fighter_at(cell)
+				if ally != null and ally.team == fighter.team and ally not in targets and ally not in splashed and ally.is_alive():
+					splashed.append(ally)
+					for effect in cast_effects.filter(func(entry: Dictionary) -> bool: return entry["type"] == Spell.EFFECT_HEAL):
+						_apply_effect(fighter, ally, effect.merged({"min": int(effect["min"]) / 2, "max": int(effect["max"]) / 2}, true), events)
+	if faith > 0:
+		fighter.states.assign(fighter.states.filter(func(state: Dictionary) -> bool: return state["type"] != FAITH))
+		events.append(_states_event(fighter))
+	if _faith_hit and rank > 0 and fighter.is_alive():
+		_stack(fighter, fighter, FAITH, 1, FAITH_MAX, "Faire la quête", events, LASTING_TURNS)
+
+
+## Commandement « Tu ne bougeras point » : chaque case que `fighter` marche lui coûte une Pénitence (`PENANCE` Flamme du
+## Théologue et un cran d'Hérésie) ; au rang 3 de « Faire la quête », sa désobéissance donne aussi 1 Foi au Théologue.
+func _penance(fighter: Fighter, cells: int, events: Array[Dictionary]) -> void:
+	var state := fighter.named_state(Spell.STATE_COMMANDMENT)
+	var judge := get_fighter(str(state.get("lanceur", ""))) if not state.is_empty() else null
+	if judge == null or not judge.is_alive() or cells <= 0:
+		return
+	for i in cells:
+		if fighter.is_alive():
+			_apply_effect(judge, fighter, {"type": Spell.EFFECT_DAMAGE, "element": "flamme", "min": PENANCE, "max": PENANCE}, events, false, judge.cell, "Pénitence")
+			_apply_effect(judge, fighter, {"type": Spell.EFFECT_HERESY, "min": 1, "max": 1}, events, false, judge.cell, "Pénitence")
+	if int(judge.passives.get(THEOLOGIAN_PASSIVE, 0)) > 3:
+		_stack(judge, judge, FAITH, 1, FAITH_MAX, "Faire la quête", events, LASTING_TURNS)
+	_check_end(events)
+
+
+## Téléporte `fighter` sur la case libre `cell` (arcs, piège ennemi).
+func _teleport(fighter: Fighter, cell: Vector2i, events: Array[Dictionary]) -> void:
+	var from := fighter.cell
+	fighter.cell = cell
+	events.append({"type": Protocol.EVT_TELEPORTED, "entite": fighter.id, "depuis": from, "case": cell})
+	_enter_cells(fighter, [cell], events)
+	var trap := enemy_trap_at(cell, fighter)
+	if not trap.is_empty():
+		_trigger_trap(trap, fighter, events)
+
+
+## `a` et `b` échangent leurs places.
+func _swap_places(a: Fighter, b: Fighter, events: Array[Dictionary]) -> void:
+	var from := a.cell
+	a.cell = b.cell
+	b.cell = from
+	events.append({"type": Protocol.EVT_TELEPORTED, "entite": a.id, "depuis": from, "case": a.cell, "echange": true})
+	events.append({"type": Protocol.EVT_TELEPORTED, "entite": b.id, "depuis": a.cell, "case": b.cell, "echange": true})
 
 
 # --- Enchaînement des tours ------------------------------------------------------------------

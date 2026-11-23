@@ -9,7 +9,7 @@ extends RefCounted
 
 ## Version du protocole, vérifiée à la connexion : à augmenter à chaque changement incompatible
 ## d'une commande ou d'un événement.
-const VERSION := 23
+const VERSION := 24
 
 # --- Commandes (client → noyau) ---
 
@@ -582,6 +582,8 @@ const REASON_NO_EMBERS := "aucune_braise"
 const REASON_NO_BEACON := "aucune_balise"
 ## Myrmidon : rien à démolir sur la case (seulement un arbre ou un rocher).
 const REASON_NOT_DEMOLISHABLE := "rien_a_demolir"
+## Théologue : le Bûcher vise un ennemi sans Hérésie.
+const REASON_NO_HERESY := "aucune_heresie"
 ## Sort de composition des états sans combinaison (`etats`) qu'il propose.
 const REASON_INVALID_COMPOSITION := "composition_invalide"
 const REASON_OUT_OF_RANGE := "hors_portee"

@@ -127,7 +127,7 @@ const CARAC_NAMES := {"force": "Force", "intelligence": "Intelligence", "percept
 ## Noms des états nommés (`Spell.NAMED_STATES`).
 const STATE_NAMES := {"insoignable": "Insoignable", "manipulation_temps": "Manipulation du temps", "exorcisme": "Exorcisme", "inblocable": "Inblocable",
 	"invisible": "Invisible", "ombres": "Monde des ombres", "retour_ombres": "Retour impossible", "aspire": "Aspiré",
-	"provoque": "Provoqué", "assomme": "Assommé", "garde": "Gardé", "carapace_de_glace": "Carapace de glace"}
+	"provoque": "Provoqué", "assomme": "Assommé", "garde": "Gardé", "carapace_de_glace": "Carapace de glace", "commandement": "Tu ne bougeras point"}
 ## Ombre : teinte d'une image rémanente, opacité d'un invisible vu par son camp ; filtre du Monde des ombres pour qui
 ## s'y trouve, sur la carte seulement (sol assombri, décor teinté), pas sur les combattants ni les sorts.
 const IMAGE_TINT := Color(0.75, 0.95, 1.4, 0.7)
@@ -180,6 +180,7 @@ var _refusals := {
 	Protocol.REASON_NOT_SERVANT: "Visez un de vos serviteurs",
 	Protocol.REASON_NO_EMBERS: "Aucune case embrasée dans la zone",
 	Protocol.REASON_NO_BEACON: "Visez une de vos balises (libre pour un échange)",
+	Protocol.REASON_NO_HERESY: "Visez un ennemi qui a de l'Hérésie",
 }
 ## Messages affichés pour les objets qu'on ne peut pas équiper.
 var _equip_refusals := {
@@ -1943,6 +1944,8 @@ static func state_text(state: Dictionary) -> String:
 		return "Rancune ×%d (+%d %% de dégâts)" % [state["valeur"], Fighter.RAGE_BONUS * int(state["valeur"])]
 	if state["type"] in [Spell.EFFECT_ARMOR, Spell.EFFECT_FROSTBITE]:
 		return "%s ×%d (%s)" % ["Blindage" if state["type"] == Spell.EFFECT_ARMOR else "Gelures", state["valeur"], duration]
+	if state["type"] in [Spell.EFFECT_HERESY, Combat.FAITH]:
+		return "%s ×%d" % ["Hérésie" if state["type"] == Spell.EFFECT_HERESY else "Foi", state["valeur"]]
 	if state["type"] == Spell.EFFECT_STATE and state.get("etat") == Spell.STATE_PROVOKED:
 		return "Provoqué : −%d %% de dégâts contre les autres (%s)" % [state["valeur"], duration]
 	if state["type"] == Spell.EFFECT_SHADOW_WEAPON:

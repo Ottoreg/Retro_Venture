@@ -637,8 +637,27 @@ Mécaniques de l'Arcaniste (GDD § 4.3) :
 - État nommé `enracine` (ni poussé, ni attiré, ni déplacé sur une horloge). Caractéristique modifiable
   `epines_flamme_fixes`. Passif `virtuose`.
 
+Mécaniques du Théologue (GDD § 4.3) :
+
+```json
+{"type": "glyphe", "duree": 3, "consacree": true, "effets": [...]}
+{"type": "heresie", "min": 1, "max": 1, "cibles": "ennemis"}
+{"type": "degats", "element": "flamme", "min": 4, "max": 6, "cibles": "ennemis", "par_heresie": true}
+{"type": "soin", "element": "sacre", "min": 4, "max": 7, "cibles": "allies", "si_consacree": 50}
+{"type": "procession"}
+{"type": "etat", "etat": "commandement", "duree": 2, "cibles": "ennemis"}
+```
+
+- Glyphe `consacree` (Terre consacrée) : les alliés du lanceur dessus reçoivent +20 % de soins et de boucliers. Champ de
+  soin `si_consacree` : % de soin en plus quand la case visée est sur une Terre consacrée du lanceur (Sermon).
+- `heresie` : crans d'Hérésie de la cible (5 au plus, tout le combat, jamais retirés). Champ de dégâts `par_heresie` :
+  la valeur est multipliée par les crans de la cible, qui sont tous consommés (`aucune_heresie` sans cran).
+- `procession` : le lanceur se téléporte sur la case visée libre, ou échange de place avec l'allié qui s'y trouve.
+- État nommé `commandement` : chaque case que la cible marche lui coûte 3 Flamme du lanceur et un cran d'Hérésie.
+  Passif `faire_la_quete` (Foi : crans `foi` du Théologue, voir GDD § 4.3).
+
 Toutes les Voies ont `pv` 50 et `initiative` 100 (demande de l'auteur du 20/11/2026). `passif` (facultatif) : le
-passif de classe, débloqué au palier Apprenti, `{"id", "nom", "effet": "coup_en_traitre", "pacte_de_feu", "saint_paratonnerre", "point_de_mire", "rancune" ou "virtuose", "description"}`
+passif de classe, débloqué au palier Apprenti, `{"id", "nom", "effet": "coup_en_traitre", "pacte_de_feu", "saint_paratonnerre", "point_de_mire", "rancune", "virtuose" ou "faire_la_quete", "description"}`
 (effets connus : `GameData.CLASS_PASSIVES`) ; son rang vient de sa maîtrise.
 
 ## Objets (`objets/`)

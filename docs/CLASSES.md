@@ -112,7 +112,7 @@ point(s) de caractéristique (avant ralentissement).
 | **Ombre** | 50 | 6 | 3 | 100 | 20 | 0 |
 | **Paladin** | 50 | 6 | 3 | 100 | 20 | 0 |
 | **Rôdeur** | 50 | 6 | 3 | 100 | 5 | 0 |
-| **Théologue** | 50 | 6 | 3 | 100 | 5 | 0 |
+| **Théologue** | 50 | 6 | 3 | 100 | 20 | 0 |
 
 Colonnes des sorts : *Moy.* = valeurs moyennes de base des dégâts, soins et boucliers directs (hors
 horloge, glyphe et piège) ; *Moy./PA* ; *Rang 5* = moyenne avec +50 % de maîtrise. À multiplier par
@@ -307,12 +307,27 @@ horloge, glyphe et piège) ; *Moy./PA* ; *Rang 5* = moyenne avec +50 % de maîtr
 
 ### Théologue
 
-*Soigneur sacré. Bénit les alliés, sermonne les ennemis, et cite des textes que personne n'a lus.*
+*Soigneur sacré. Bénit les alliés, sermonne les ennemis, et cite des textes que personne n'a lus. Le dimanche il soigne ; le reste de la semaine, il instruit des procès en hérésie.*
 
 | Sort | Rang | Caractéristiques | Effets | Moy. | Moy./PA | Rang 5 | Maîtrise |
 |---|---|---|---|---|---|---|---|
-| **Châtiment** | I | 4 PA, portée 2–5, 2/tour | 8–12 Sacré | 10 dégâts | 2,5 dégâts | 15 dégâts | — |
-| **Imposition des mains** | I | 3 PA, portée 0–3, 1/tour | soin 12–18 (Sacré) | 15 soin | 5 soin | 22,5 soin | — |
-| **Rempart de foi** | I | 2 PA, portée 0–3, 1/tour, relance 2 t. | bouclier 12–16 (Sacré) | 14 bouclier | 7 bouclier | 21 bouclier | — |
-| **Sermon** | I | 4 PA, portée 1–5, croix latine, en ligne, 1/tour | 4–7 Sacré aux ennemis ; soin 4–7 (Sacré) aux alliés | 5,5 dégâts, 5,5 soin | 1,38 dégâts, 1,38 soin | 8,25 dégâts, 8,25 soin | — |
-| **Absolution** | I | 3 PA, portée 0–5, 1/tour, relance 2 t., critique 0 % | retire les bonus aux ennemis ; retire les malus et les poisons aux alliés | — | — | — | — |
+| **Terre consacrée** | I | 3 PA, portée 1–5, cercle de rayon 1, 1/tour, relance 3 t. | glyphe (3 t.) : [5–7 Sacré aux ennemis] | — | — | — | rang 3 : +1 portée<br>rang 5 : zone de taille 2 |
+| **Châtiment** | I | 4 PA, portée 2–5, 2/tour | 8–12 Sacré | 10 dégâts | 2,5 dégâts | 15 dégâts | rang 3 : +1 portée<br>rang 5 : +10 % critique |
+| **Sermon** | I | 4 PA, portée 1–5, croix latine, en ligne, 1/tour | 4–7 Sacré aux ennemis ; soin 4–7 (Sacré) aux alliés | 5,5 dégâts, 5,5 soin | 1,38 dégâts, 1,38 soin | 8,25 dégâts, 8,25 soin | rang 3 : +1 portée<br>rang 5 : coût 3 PA |
+| **Coup de goupillon** | I | 2 PA, portée 1–4, 3/tour | 4–6 Sacré aux ennemis | 5 dégâts | 2,5 dégâts | 7,5 dégâts | rang 3 : +1 portée<br>rang 5 : +10 % critique |
+| **Imposition des mains** | I | 3 PA, portée 0–3, 1/tour | soin 12–18 (Sacré) | 15 soin | 5 soin | 22,5 soin | rang 3 : +1 portée<br>rang 5 : ajoute retire les poisons aux alliés |
+| **Rempart de foi** | I | 2 PA, portée 0–3, 1/tour, relance 2 t. | bouclier 12–16 (Sacré) | 14 bouclier | 7 bouclier | 21 bouclier | rang 3 : +1 portée<br>rang 5 : relance 1 t. |
+| **Absolution** | I | 3 PA, portée 0–5, 1/tour, relance 2 t., critique 0 % | retire les bonus aux ennemis ; retire les malus et les poisons aux alliés | — | — | — | rang 3 : +1 portée<br>rang 5 : relance 1 t. |
+| **Génuflexion** | I | 3 PA, portée 1–4, 1/tour, relance 2 t. | −2 PM (1 t.) aux ennemis ; −15 % dégâts infligés (1 t.) aux ennemis | — | — | — | rang 3 : +1 portée<br>rang 5 : relance 1 t. |
+| **Procession** | I | 2 PA, portée 1–4, sans ligne de vue, 1/tour, relance 2 t. | procession | — | — | — | rang 3 : +1 portée<br>rang 5 : relance 1 t. |
+| **Indulgence** | I | 2 PA, portée 0–3, 1/tour, relance 4 t. | +1 PA (2 t.) aux alliés ; +1 PM (2 t.) aux alliés | — | — | — | rang 3 : +1 portée<br>rang 5 : relance 3 t. |
+| **Accusation** | I | 2 PA, portée 1–6, 2/tour | heresie aux ennemis | — | — | — | rang 3 : +1 portée<br>rang 5 : ajoute heresie aux ennemis |
+| **Tison** | I | 3 PA, portée 1–5, 3/tour | 6–9 Flamme aux ennemis ; heresie aux ennemis | 7,5 dégâts | 2,5 dégâts | 11,25 dégâts | rang 3 : +10 % critique<br>rang 5 : +1 portée |
+| **Autodafé** | I | 4 PA, portée 2–5, cercle de rayon 1, 1/tour | 5–8 Flamme aux ennemis ; heresie aux ennemis | 6,5 dégâts | 1,62 dégâts | 9,75 dégâts | rang 3 : +1 portée<br>rang 5 : coût 3 PA |
+| **Feu purificateur** | I | 5 PA, portée 2–5, 1/tour | 18–24 Flamme aux ennemis ; heresie aux ennemis | 21 dégâts | 4,2 dégâts | 31,5 dégâts | rang 3 : +10 % critique<br>rang 5 : coût 4 PA |
+| **Bûcher** | I | 4 PA, portée 1–4, 1/tour | 4–6 Flamme aux ennemis | 5 dégâts | 1,25 dégâts | 7,5 dégâts | rang 3 : +1 portée<br>rang 5 : +10 % critique |
+| **Commandement** | I | 3 PA, portée 1–5, 1/tour, relance 2 t. | commandement (2 t.) aux ennemis | — | — | — | rang 3 : +1 portée<br>rang 5 : relance 1 t. |
+| **La Question** | I | 3 PA, portée 1–3, 1/tour, relance 2 t. | −2 PA (1 t.) aux ennemis ; heresie aux ennemis | — | — | — | rang 3 : +1 portée<br>rang 5 : ajoute heresie aux ennemis |
+| **Saut des flammes** | I | 2 PA, portée 1–3, sans ligne de vue, 1/tour, relance 2 t. | téléportation sur la case | — | — | — | rang 3 : +1 portée<br>rang 5 : relance 1 t. |
+| **Expiation** | I | 2 PA, portée 0–3, 1/tour, relance 2 t. | soin 6–9 (Flamme) aux alliés | 7,5 soin | 3,75 soin | 11,25 soin | rang 3 : +1 portée<br>rang 5 : relance 1 t. |
+| **Zèle** | I | 2 PA, portée 0–3, 1/tour, relance 3 t. | +40 Intelligence (2 t.) aux alliés | — | — | — | rang 3 : +1 portée<br>rang 5 : relance 2 t. |

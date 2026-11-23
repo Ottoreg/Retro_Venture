@@ -27,7 +27,7 @@ Prix de boutique : selon la rareté (revente à 25 %).
 - [Sorts de race](#sorts-de-race)
 - [Sorts des monstres](#sorts-des-monstres)
 
-**317 objets** (18 armes, 20 coiffes, 20 capes, 20 amulettes, 20 anneaux, 20 ceintures, 20 bottes, 129 ressources, 37 plans de forge, 7 objets de quête), **57 monstres** et **252 sorts**.
+**317 objets** (18 armes, 20 coiffes, 20 capes, 20 amulettes, 20 anneaux, 20 ceintures, 20 bottes, 129 ressources, 37 plans de forge, 7 objets de quête), **57 monstres** et **267 sorts**.
 
 ## Armes
 
@@ -1456,15 +1456,30 @@ Tire de loin, file entre les arbres et prétend toujours connaître un raccourci
 
 ### Théologue
 
-Soigneur sacré. Bénit les alliés, sermonne les ennemis, et cite des textes que personne n'a lus. PV 50, PA 6, PM 3, initiative 100. Départ : .
+Soigneur sacré. Bénit les alliés, sermonne les ennemis, et cite des textes que personne n'a lus. Le dimanche il soigne ; le reste de la semaine, il instruit des procès en hérésie. PV 50, PA 6, PM 3, initiative 100. Départ : .
 
 | Sort | Caractéristiques | Effets | Description |
 |---|---|---|---|
+| **Terre consacrée** | 3 PA, portée 1–5, cercle de rayon 1, 1/tour, relance 3 t. | glyphe (3 t.) : [5–7 Sacré aux ennemis] | Il bénit le sol d'une croix de cinq cases pendant 3 tours : les alliés dessus reçoivent +20 % de soins et de boucliers, les ennemis qui y commencent leur tour se brûlent les pieds. |
 | **Châtiment** | 4 PA, portée 2–5, 2/tour | 8–12 Sacré | Un rayon de lumière tombe sur la cible. Le ciel a l'air contrarié. |
+| **Sermon** | 4 PA, portée 1–5, croix latine, en ligne, 1/tour | 4–7 Sacré aux ennemis ; soin 4–7 (Sacré) aux alliés | Une croix de paroles saintes : les ennemis qui s'y trouvent souffrent, les alliés reprennent courage (et encore plus si le croisement est sur une Terre consacrée). |
+| **Coup de goupillon** | 2 PA, portée 1–4, 3/tour | 4–6 Sacré aux ennemis | Un coup d'eau bénite, à température ambiante. Ça pique un peu. |
 | **Imposition des mains** | 3 PA, portée 0–3, 1/tour | soin 12–18 (Sacré) | Une main sur l'épaule, une prière, et les plaies se referment. Les remerciements sont facultatifs mais conseillés. |
 | **Rempart de foi** | 2 PA, portée 0–3, 1/tour, relance 2 t. | bouclier 12–16 (Sacré) | Un halo doré qui encaisse les coups à votre place jusqu'à votre prochain tour. |
-| **Sermon** | 4 PA, portée 1–5, croix latine, en ligne, 1/tour | 4–7 Sacré aux ennemis ; soin 4–7 (Sacré) aux alliés | Une croix de paroles saintes : les ennemis qui s'y trouvent souffrent, les alliés reprennent courage. |
 | **Absolution** | 3 PA, portée 0–5, 1/tour, relance 2 t., critique 0 % | retire les bonus aux ennemis ; retire les malus et les poisons aux alliés | Pardonne aux alliés leurs malus et leurs poisons, retire aux ennemis leurs bonus. Le Théologue prélève une petite commission spirituelle au passage. |
+| **Génuflexion** | 3 PA, portée 1–4, 1/tour, relance 2 t. | −2 PM (1 t.) aux ennemis ; −15 % dégâts infligés (1 t.) aux ennemis | « À genoux ! » L'ennemi obéit, surpris : −2 PM et −15 % de dégâts infligés pendant 1 tour. |
+| **Procession** | 2 PA, portée 1–4, sans ligne de vue, 1/tour, relance 2 t. | procession | Il se rend en procession sur une case libre, ou prend la place d'un allié (qui prend la sienne, en chantant). |
+| **Indulgence** | 2 PA, portée 0–3, 1/tour, relance 4 t. | +1 PA (2 t.) aux alliés ; +1 PM (2 t.) aux alliés | Une indulgence plénière, payée d'avance bien sûr : +1 PA et +1 PM pendant 2 tours. |
+| **Accusation** | 2 PA, portée 1–6, 2/tour | heresie aux ennemis | Il pointe l'ennemi du doigt : +2 crans d'Hérésie. Il y a toujours un coupable. |
+| **Tison** | 3 PA, portée 1–5, 3/tour | 6–9 Flamme aux ennemis ; heresie aux ennemis | Un tison bien choisi dans le brasier du jour. +1 cran d'Hérésie. |
+| **Autodafé** | 4 PA, portée 2–5, cercle de rayon 1, 1/tour | 5–8 Flamme aux ennemis ; heresie aux ennemis | On brûle les mauvais livres, et leurs lecteurs avec. +1 cran d'Hérésie à chaque ennemi touché. |
+| **Feu purificateur** | 5 PA, portée 2–5, 1/tour | 18–24 Flamme aux ennemis ; heresie aux ennemis | Une colonne de feu qui purifie tout, l'ennemi compris. +1 cran d'Hérésie. |
+| **Bûcher** | 4 PA, portée 1–4, 1/tour | 4–6 Flamme aux ennemis | Le procès est terminé : 4 à 6 Flamme par cran d'Hérésie de la cible, qui sont tous consommés. |
+| **Commandement** | 3 PA, portée 1–5, 1/tour, relance 2 t. | commandement (2 t.) aux ennemis | « Tu ne bougeras point. » Pendant 2 tours, chaque case que l'ennemi marche lui coûte une Pénitence (3 Flamme et un cran d'Hérésie). |
+| **La Question** | 3 PA, portée 1–3, 1/tour, relance 2 t. | −2 PA (1 t.) aux ennemis ; heresie aux ennemis | Juste quelques questions, posées avec des pinces : −2 PA pendant 1 tour et +1 cran d'Hérésie. |
+| **Saut des flammes** | 2 PA, portée 1–3, sans ligne de vue, 1/tour, relance 2 t. | téléportation sur la case | Il traverse les flammes d'un bond, la soutane à peine roussie. |
+| **Expiation** | 2 PA, portée 0–3, 1/tour, relance 2 t. | soin 6–9 (Flamme) aux alliés | Le feu qui purifie soigne aussi, un peu, ceux qui ont déjà avoué. |
+| **Zèle** | 2 PA, portée 0–3, 1/tour, relance 3 t. | +40 Intelligence (2 t.) aux alliés | Un zèle brûlant pour la bonne cause : +40 Intelligence pendant 2 tours. |
 
 ## Sorts de race
 

@@ -681,6 +681,11 @@ Lots 0 (conception dans le GDD), 1 (personnage, poussé sur `main` à la demande
   passif Virtuose, rangs 3 et 5 des 10 sorts créés ; valeurs provisoires (l'auteur ajustera après ses tests)
 - [ ] Arcaniste : capture du mur de glace (l'action « arcaniste » de `tools/screenshot.gd` ne lance plus le combat) ;
   IA qui compose les états (lot à part, sur demande) ; déblocage des fusions par paliers (après les tests)
+- [x] **Théologue complet** (23/11/2026, GDD § 4.3) : Voie Sacrée (Terre consacrée, 5 sorts de plus, rangs 3 et 5 des 5
+  sorts d'origine) et Voie Flamme de l'inquisiteur (Hérésie, Bûcher, Commandement « Tu ne bougeras point »), passif Faire
+  la quête (Foi) ; valeurs provisoires (l'auteur ajustera après ses tests)
+- [ ] Théologue : résurrection (multijoueur ou mode héros) ; autres commandements dans une grille ; prompts PixelLab
+  (`assets/theologue/PROMPTS.md`) ; vérifier que les soins des autres classes restent sous Expiation (6 à 9)
 - [x] Voie mixte **Ombre** (20/11/2026, GDD § 4.3) : 2 Voies de 10 sorts, passif Coup en traître, images rémanentes,
   invisibilité, armes d'obscurité, Monde des ombres ; valeurs provisoires
 - [ ] Ombre : cacher côté serveur aux adversaires l'invisible, le Monde des ombres et les armes d'obscurité (multijoueur) ;

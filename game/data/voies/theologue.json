@@ -1,7 +1,7 @@
 {
   "id": "theologue",
   "nom": "Théologue",
-  "description": "Soigneur sacré. Bénit les alliés, sermonne les ennemis, et cite des textes que personne n'a lus.",
+  "description": "Soigneur sacré. Bénit les alliés, sermonne les ennemis, et cite des textes que personne n'a lus. Le dimanche il soigne ; le reste de la semaine, il instruit des procès en hérésie.",
   "caracteristiques": {
     "pv": 50,
     "pa": 6,
@@ -9,10 +9,31 @@
     "initiative": 100
   },
   "sorts": [
+    "theologue_terre_consacree",
     "theologue_chatiment",
+    "theologue_sermon",
+    "theologue_coup_de_goupillon",
     "theologue_imposition",
     "theologue_rempart",
-    "theologue_sermon",
-    "theologue_absolution"
-  ]
+    "theologue_absolution",
+    "theologue_genuflexion",
+    "theologue_procession",
+    "theologue_indulgence",
+    "theologue_accusation",
+    "theologue_tison",
+    "theologue_autodafe",
+    "theologue_feu_purificateur",
+    "theologue_bucher",
+    "theologue_commandement",
+    "theologue_la_question",
+    "theologue_saut_des_flammes",
+    "theologue_expiation",
+    "theologue_zele"
+  ],
+  "passif": {
+    "id": "theologue_faire_la_quete",
+    "nom": "Faire la quête",
+    "effet": "faire_la_quete",
+    "description": "Débloqué au palier Apprenti. Chaque sort qui blesse un ennemi donne 1 Foi (5 au plus, tout le combat). Le soin ou le bouclier suivant la dépense toute : +6 % par Foi (+1 % par rang). Rang 3 : un ennemi qui désobéit à un Commandement donne aussi 1 Foi. Rang 5 : un soin lancé à 5 Foi soigne aussi de moitié les alliés au contact de ceux qu'il soigne."
+  }
 }

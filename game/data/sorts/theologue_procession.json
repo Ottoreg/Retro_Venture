@@ -1,0 +1,28 @@
+{
+  "id": "theologue_procession",
+  "nom": "Procession",
+  "description": "Il se rend en procession sur une case libre, ou prend la place d'un allié (qui prend la sienne, en chantant).",
+  "cout_pa": 2,
+  "portee": {
+    "min": 1,
+    "max": 4
+  },
+  "ligne_de_vue": false,
+  "relance": {
+    "par_tour": 1,
+    "delai": 2
+  },
+  "effets": [
+    {
+      "type": "procession"
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "portee_max": 1
+    },
+    "5": {
+      "delai": 1
+    }
+  }
+}

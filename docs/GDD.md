@@ -391,20 +391,67 @@ sexes × équipements × animations) impose de s'en tenir à ces 9.
 | **Guerrier** | Mêlée, encaisse | Acier (Force) | Charges, coups de zone en mêlée, réduction de dégâts |
 | **Rôdeur** | Distance, mobilité | Acier / Tempête (Force / Agilité) | Arc, pièges, poussée, gestion de distance |
 | **Arcaniste** | Dégâts magiques, contrôle, mobilité | Flamme / Givre / Tempête (Intelligence / Perception / Agilité, à parts égales) | États élémentaires et sorts créés selon leur combinaison : zones, ralentissements, bouclier, foudre, téléportation |
-| **Théologue** | Soigneur sacré | Sacré (Force + Intelligence) | Soins, boucliers, dégâts sacrés modestes |
+| **Théologue** | Soigneur sacré | Sacré / Flamme (Force + Intelligence / Intelligence) | Soins, boucliers, Terre consacrée ; inquisiteur : Hérésie, Bûcher, Commandements |
 | **Chronomancien** | Contrôle, mi-distance | Impie (Agilité + Perception) | Horloge : la cible tourne sur un cadran, chaque heure a son effet (détails plus bas) |
 
 Le **Théologue** est jouable dans l'alpha (✅) : une classe de soin rend le solo plus confortable et
-permet de tester le Sacré dès maintenant. Son arme de départ prévue : le Sceptre de novice (Sacré,
-4 à 7 ; plus d'équipement de départ depuis le 29/10/2026, il s'achète ou se trouve). Ses
-4 sorts sont tous Sacrés (ils grandissent avec la Force et l'Intelligence) :
+permet de tester le Sacré dès maintenant. Ses 5 sorts d'origine (*Châtiment*, *Imposition des mains*, *Rempart de foi*,
+*Sermon*, *Absolution*) font partie de sa Voie Sacrée, complétée avec la Voie Flamme ci-dessous.
 
-| Sort | PA | Portée | Effet |
-|---|---|---|---|
-| *Châtiment* | 4 | 2 à 5, ligne de vue | 8 à 12 dégâts Sacré (2 fois par tour) |
-| *Imposition des mains* | 3 | 0 à 3 | Soin Sacré de 12 à 18 (1 fois par tour) |
-| *Rempart de foi* | 2 | 0 à 3 | Bouclier Sacré de 12 à 16, jusqu'au prochain tour du porteur (tous les 2 tours) |
-| *Sermon* | 4 | 1 à 5, **en ligne** | Zone en croix latine centrée sur la case visée (le croisement, sous la souris) : une case de chaque côté, une au-delà (la tête) et deux en deçà vers le lanceur (le pied, qui s'arrête avant sa case). Ennemis : 4 à 7 dégâts Sacré ; alliés : soin Sacré de 4 à 7 (1 fois par tour) |
+**Théologue : conception finale, codée le 23/11/2026** (fil « Compléter les sorts du Théologue », 20 propositions validées
+telles quelles par l'auteur, à ajuster après ses tests ; valeurs provisoires ; fiche `docs/design/classes/theologue.md`,
+données par `docs/design/theologue/produire.py`, tests `game/tests/core/test_theologue.gd`) :
+
+- *Identité* : « Soigneur sacré. Bénit les alliés, sermonne les ennemis, et cite des textes que personne n'a lus. Le
+  dimanche il soigne ; le reste de la semaine, il instruit des procès en hérésie. » Le seul vrai soigneur du jeu, famille
+  distance ; toutes les races ; 50 PV, 6 PA, 3 PM, 100 d'initiative. Voie Sacrée (Force + Intelligence) : soin,
+  protection et soutien à distance ; Voie Flamme (Intelligence) : l'inquisiteur, offensif à distance (portées 1 à 6), un
+  seul petit soin. L'Intelligence sert les deux Voies (voulu).
+- *Écart au gabarit* (Voie Sacrée, accepté pour un soigneur) : 1 signature, 3 dégâts (pas de gros coup cher), 2 contrôles,
+  1 mobilité, 2 soins ou défenses, 1 soutien. La Voie Flamme suit le gabarit normal.
+- *Passif* **Faire la quête** (Apprenti, 5 rangs) : chaque sort qui blesse un ennemi donne 1 **Foi** (5 au plus, tout le
+  combat, affichée sur le Théologue) ; le soin ou le bouclier suivant la dépense toute : +6 % par Foi (+1 % par rang).
+  Rang 3 : un ennemi qui désobéit à un Commandement donne aussi 1 Foi. Rang 5 : un soin lancé à 5 Foi soigne aussi de
+  moitié les alliés au contact de ceux qu'il soigne. La Flamme remplit, le Sacré dépense.
+- *Voie Sacrée — Terre consacrée* (signature) : glyphe dorée en croix de 5 cases, 3 tours, relance 3 ; les alliés dessus
+  reçoivent **+20 % de soins et de boucliers** ; un ennemi qui y commence son tour perd 5 à 7 Sacré. Le *Sermon* est le
+  sort combiné : son soin est × 1,5 quand le croisement de la croix est sur une Terre consacrée.
+- *Voie Flamme — Hérésie* : crans sur un ennemi (5 au plus) posés par chaque sort Flamme qui le touche, qui durent tout le
+  combat, ne sont pas retirables (Absolution comprise) et ne font rien seuls : le *Bûcher* les consomme (4 à 6 Flamme par
+  cran, refusé sans Hérésie). La Flamme du Théologue vise des personnes, jamais le terrain : pas d'embrasement (réservé
+  au Démoniste).
+- *Commandement* « Tu ne bougeras point » (état de 2 tours) : chaque case que la cible **marche** lui coûte une
+  **Pénitence** (3 Flamme du Théologue et 1 cran d'Hérésie) ; poussées et téléportations ne comptent pas. Les monstres
+  l'ignorent (ils marchent et paient). Plus tard : d'autres commandements choisis dans une grille.
+
+| Voie | Sort | Rôle | PA | Portée | Effet | Rang 3 | Rang 5 |
+|---|---|---|---|---|---|---|---|
+| Sacrée | *Terre consacrée* | Signature | 3 | 1–5 | Glyphe 3 tours (ci-dessus), relance 3 | +1 portée | croix de rayon 2 |
+| Sacrée | *Châtiment* | Dégâts à distance | 4 | 2–5 | 8 à 12 Sacré, 2 par tour | +1 portée | +10 % critique |
+| Sacrée | *Sermon* | Zone + soin, combiné | 4 | 1–5 en ligne | Croix latine : 4 à 7 Sacré aux ennemis, soin 4 à 7 aux alliés (× 1,5 consacré) | +1 portée | 3 PA |
+| Sacrée | *Coup de goupillon* | Dégâts pas cher | 2 | 1–4 | 4 à 6 Sacré, 3 par tour | +1 portée | +10 % critique |
+| Sacrée | *Imposition des mains* | Soin | 3 | 0–3 | Soin 12 à 18 | +1 portée | retire aussi les poisons |
+| Sacrée | *Rempart de foi* | Défense | 2 | 0–3 | Bouclier 12 à 16, relance 2 | +1 portée | relance 1 |
+| Sacrée | *Absolution* | Contrôle | 3 | 0–5 | Retire les bonus ennemis, les malus et poisons alliés ; relance 2 | +1 portée | relance 1 |
+| Sacrée | *Génuflexion* | Contrôle | 3 | 1–4 | −2 PM et −15 % de dégâts infligés, 1 tour ; relance 2 | +1 portée | relance 1 |
+| Sacrée | *Procession* | Mobilité | 2 | 1–4 | Téléporte sur une case libre ou échange avec un allié ; relance 2 | +1 portée | relance 1 |
+| Sacrée | *Indulgence* | Soutien | 2 | 0–3 | Lui ou un allié : +1 PA et +1 PM, 2 tours ; relance 4 | +1 portée | relance 3 |
+| Flamme | *Accusation* | Signature | 2 | 1–6 | +2 crans d'Hérésie, 2 par tour | +1 portée | +1 cran |
+| Flamme | *Tison* | Dégâts pas cher | 3 | 1–5 | 6 à 9 Flamme, +1 cran, 3 par tour | +10 % critique | +1 portée |
+| Flamme | *Autodafé* | Dégâts en zone | 4 | 2–5 | Croix de rayon 1 : 5 à 8 Flamme, +1 cran à chaque ennemi | +1 portée | 3 PA |
+| Flamme | *Feu purificateur* | Gros coup | 5 | 2–5 | 18 à 24 Flamme, +1 cran | +10 % critique | 4 PA |
+| Flamme | *Bûcher* | Combiné | 4 | 1–4 | 4 à 6 Flamme par cran d'Hérésie, tous consommés | +1 portée | +10 % critique |
+| Flamme | *Commandement* | Contrôle | 3 | 1–5 | « Tu ne bougeras point », 2 tours ; relance 2 | +1 portée | relance 1 |
+| Flamme | *La Question* | Contrôle | 3 | 1–3 | −2 PA 1 tour, +1 cran ; relance 2 | +1 portée | +1 cran |
+| Flamme | *Saut des flammes* | Mobilité | 2 | 1–3 | Téléportation ; relance 2 | +1 portée | relance 1 |
+| Flamme | *Expiation* | Soin modeste | 2 | 0–3 | Soin Flamme 6 à 9 (alliés) ; relance 2 | +1 portée | relance 1 |
+| Flamme | *Zèle* | Soutien | 2 | 0–3 | Lui ou un allié : +40 Intelligence, 2 tours ; relance 3 | +1 portée | relance 2 |
+
+Rangs : +10 % des valeurs par rang en plus des effets de rangs 3 et 5 (provisoires). *Monde des ombres* : la Terre
+consacrée reste dans la dimension où elle a été posée (comme les glyphes) ; l'Hérésie et le Commandement suivent la
+cible. *Résurrection* : pas dans les 20 sorts, reprise quand le multijoueur ou le mode héros en aura besoin. *Plus tard* :
+sorts joués avec l'attaque de la race (planches recoloriées, robe blanche, étole pourpre et or) ; prompts PixelLab
+`assets/theologue/PROMPTS.md` à écrire ; 3e Voie Lumière ou Ténèbres à trancher ; aucun monstre ne joue la classe.
 
 Les soins des autres classes restent modestes (le Guerrier en a un petit, l'Arcaniste un bouclier)
 pour que le Théologue garde son rôle.
@@ -588,7 +635,7 @@ fiches de travail par classe dans `docs/design/classes/`) :
 | | **Ombre** | Assassin | Tempête / Acier (Agilité / Force) | Voie Tempête : mobilité, frappe et repli, clones de foudre qui explosent. Voie Acier : invisibilité, cumul de bonus et de malus, armes d'obscurité à retardement. Les deux : entrer dans l'ombre d'un combattant |
 | | **Chronomancien** | Maître du temps : contrôle, mi-distance | Impie / Givre pur (Agilité + Perception / Perception) | Voie Impie : glyphe Horloge, cible téléportée sur le cadran, un effet par heure. Voie Givre : retour à une position passée, envoi dans le futur, pulsions temporelles |
 | **Distance** | **Arcaniste** | Dégâts magiques, contrôle | Flamme / Givre / Tempête (Intelligence / Perception / Agilité) | *(voir plus haut)* ; après la refonte : états élémentaires cumulés et sort créé selon leur combinaison |
-| | **Théologue** *(dès l'alpha)* | Soigneur sacré | Sacré / Flamme (Force + Intelligence / Intelligence) | Soins, boucliers, retrait des états, résurrection (multi), dégâts sacrés modestes ; Voie Flamme : inquisiteur, bûchers (décidée le 15/11/2026, à concevoir) |
+| | **Théologue** *(dès l'alpha)* | Soigneur sacré | Sacré / Flamme (Force + Intelligence / Intelligence) | Soins, boucliers, retrait des états, Terre consacrée ; Voie Flamme : inquisiteur, Hérésie, Bûcher, Commandement (codée le 23/11/2026, voir plus haut) |
 | | **Démoniste** | Dégâts impies ou ardents | Impie / Flamme (Agilité + Perception / Intelligence) | Voie Impie : armée de serviteurs invoqués (offensif, tank, soutien). Voie de Flamme : embrasement du terrain (niveaux 1 à 3 puis calciné), sorts qui varient selon l'embrasement |
 
 Le Sacré et l'Impie sont des éléments à part entière (voir § 4.4) : le Sacré s'appuie sur l'Acier et
@@ -1278,8 +1325,8 @@ avec 1 point par 500 de réputation et la réputation des monstres vaincus tiré
 **Chronomancien** (rangs de maîtrise proposés avec la classe le 29/10/2026, à équilibrer) : rang 3,
 +5 % de critique pour tous ses sorts ; rang 5, *Avance rapide* et *Retour en arrière* coûtent 3 PA,
 *Contretemps* passe à 1 tour de délai, les autres gagnent encore +5 % de critique. Pas encore de
-sorts de rang II. Arcaniste, Rôdeur et Théologue n'ont que le +10 % par rang (pas d'effet de rang 3
-ou 5).
+sorts de rang II. Arcaniste et Rôdeur n'ont que le +10 % par rang (pas d'effet de rang 3
+ou 5) ; le Théologue a ses rangs 3 et 5 depuis le 23/11/2026 (§ 4.3).
 
 #### Métiers
 

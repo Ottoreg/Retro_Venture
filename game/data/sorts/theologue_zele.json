@@ -1,0 +1,32 @@
+{
+  "id": "theologue_zele",
+  "nom": "Zèle",
+  "description": "Un zèle brûlant pour la bonne cause : +40 Intelligence pendant 2 tours.",
+  "cout_pa": 2,
+  "portee": {
+    "min": 0,
+    "max": 3
+  },
+  "relance": {
+    "par_tour": 1,
+    "delai": 3
+  },
+  "effets": [
+    {
+      "type": "bonus",
+      "carac": "intelligence",
+      "min": 40,
+      "max": 40,
+      "duree": 2,
+      "cibles": "allies"
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "portee_max": 1
+    },
+    "5": {
+      "delai": 2
+    }
+  }
+}

@@ -95,8 +95,11 @@ temps : chaque camp a sa propre histoire.
 - Cinq Voies (classes), chacune avec sa mécanique :
   - **Guerrier** : *Charge* (en ligne droite, jusqu'au contact, puis un coup d'épée) ;
   - **Rôdeur** : *Collet*, un piège invisible qui blesse et ralentit le premier ennemi qui y entre ;
-  - **Théologue** (soigneur sacré : soin, bouclier, dégâts Sacrés) : *Absolution*, qui retire leurs
-    bonus aux ennemis, leurs malus et leurs poisons aux alliés ;
+  - **Théologue** (Sacré : Force et Intelligence, et Flamme : Intelligence) : le soigneur. *Terre consacrée* bénit une
+    croix de cases (+20 % de soins reçus dessus, les ennemis s'y brûlent) ; *Absolution* retire leurs bonus aux ennemis,
+    leurs malus et leurs poisons aux alliés. En inquisiteur (Flamme), ses sorts posent des crans d'**Hérésie** que le
+    *Bûcher* consume d'un coup ; *Commandement* (« Tu ne bougeras point ») fait payer chaque case marchée. Passif
+    *Faire la quête* (palier Apprenti) : ses coups lui donnent de la **Foi**, que son soin suivant dépense pour soigner plus ;
   - **Arcaniste** (kit entièrement nouveau) : *Composition* ouvre une petite grille (au-dessus du
     sort, ou de la souris avec le raccourci) où l'on choisit ses **3 états élémentaires** d'un coup
     (Flamme, Givre ou Tempête, +4 % de dégâts chacun ; le PA est rendu aussitôt). Avec 3 états,
