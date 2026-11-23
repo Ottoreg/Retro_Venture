@@ -27,7 +27,7 @@ Prix de boutique : selon la rareté (revente à 25 %).
 - [Sorts de race](#sorts-de-race)
 - [Sorts des monstres](#sorts-des-monstres)
 
-**317 objets** (18 armes, 20 coiffes, 20 capes, 20 amulettes, 20 anneaux, 20 ceintures, 20 bottes, 129 ressources, 37 plans de forge, 7 objets de quête), **57 monstres** et **281 sorts**.
+**317 objets** (18 armes, 20 coiffes, 20 capes, 20 amulettes, 20 anneaux, 20 ceintures, 20 bottes, 129 ressources, 37 plans de forge, 7 objets de quête), **57 monstres** et **296 sorts**.
 
 ## Armes
 
@@ -1462,11 +1462,26 @@ Tire de loin, file entre les arbres et prétend toujours connaître un raccourci
 
 | Sort | Caractéristiques | Effets | Description |
 |---|---|---|---|
-| **Flèche** | 3 PA, portée 2–6, 2/tour | 5–8 Tempête | Une flèche bien droite. Enfin, à peu près. |
-| **Tir perçant** | 4 PA, portée 3–7, 1/tour | 8–11 Acier | Une flèche lourde à pointe d'acier. Traverse les armures, et parfois le chapeau d'un voisin. |
-| **Coup de dague** | 2 PA, portée 1, 2/tour | 3–5 Acier | Pour ceux qui s'approchent trop près. Ce qui arrive plus souvent qu'on ne le croit. |
-| **Roulade** | 2 PA, portée 1–2, sans ligne de vue, 1/tour, relance 2 t. | téléportation sur la case | Une roulade élégante vers une case libre, pour reprendre ses distances. |
+| **Pister** | 2 PA, portée 1–8, sans ligne de vue, 1/tour | trace aux ennemis | Il relève les traces, les brindilles cassées et les miettes de pain : +2 Traces sur la cible (3 au plus, 3 tours). |
+| **Flèche** | 3 PA, portée 2–6, 2/tour | 5–8 Acier aux ennemis ; trace aux ennemis | Une flèche bien droite. Enfin, à peu près. +1 Trace. |
+| **Tir perçant** | 4 PA, portée 3–7, 1/tour | 8–11 Acier aux ennemis ; trace aux ennemis | Une flèche lourde à pointe d'acier. Traverse les armures, et parfois le chapeau d'un voisin. +1 Trace. |
+| **Tir de grâce** | 5 PA, portée 3–7, 1/tour | 15–20 Acier aux ennemis | Il vise longtemps, retient son souffle et ne rate (presque) jamais. |
+| **Coup de dague** | 2 PA, portée 1, 2/tour | 3–5 Acier aux ennemis | Pour ceux qui s'approchent trop près, et pour ceux qu'il a pistés : +30 % par Trace de la cible, qui partent toutes. |
 | **Collet** | 3 PA, portée 1–4, sans ligne de vue, 1/tour, relance 2 t. | piège invisible : [7–10 Acier aux ennemis ; −2 PM au prochain tour aux ennemis] | Un nœud coulant caché dans l'herbe. Le premier ennemi qui passe y laisse un bout de cheville et la moitié de son élan. |
+| **Flèche de rabat** | 3 PA, portée 2–6, 1/tour | 3–5 Acier aux ennemis ; poussée de 2 case(s) aux ennemis ; trace aux ennemis | Une flèche qui pousse le gibier droit vers le piège. +1 Trace. |
+| **Roulade** | 2 PA, portée 1–2, sans ligne de vue, 1/tour, relance 2 t. | téléportation sur la case | Une roulade élégante vers une case libre, pour reprendre ses distances. |
+| **Couvert** | 2 PA, portée soi, cercle de rayon 0, 1/tour, relance 3 t. | +25 reduction_distance (2 t.) aux alliés | Derrière un buisson, un tronc ou un voisin : −25 % de dégâts reçus à distance (2 cases ou plus) pendant 2 tours. |
+| **Œil de faucon** | 2 PA, portée 0–5, 1/tour, relance 4 t. | +2 Portée (2 t.) aux alliés ; +10 % Critique (2 t.) aux alliés | Il plisse les yeux comme un faucon (ou comme un myope) : +2 de portée et +10 % de critique pendant 2 tours. |
+| **Mine** | 2 PA, portée 1–5, sans ligne de vue, 2/tour | piège invisible cercle de rayon 1 : [6–8 Flamme aux ennemis] | Un petit pot de poudre enterré : il saute (cercle de 1) au premier ennemi qui y entre, ou au Détonateur. 2 Mines à la fois. |
+| **Flèche enflammée** | 3 PA, portée 2–6, 2/tour | 5–8 Flamme aux ennemis | Une flèche trempée dans la poix. Il prétend que c'est pour y voir clair. |
+| **Bombe artisanale** | 4 PA, portée 2–5, cercle de rayon 1, sans ligne de vue, 1/tour | 7–10 Flamme aux ennemis | Une gourde de poudre et une mèche trop courte, lancée par-dessus les obstacles. |
+| **Flèche explosive** | 5 PA, portée 3–7, cercle de rayon 1, 1/tour | 7–9 Flamme aux ennemis ; 7–9 Flamme aux ennemis | Elle explose à l'arrivée : gros dégâts à la cible, moitié autour. |
+| **Détonateur** | 3 PA, portée soi, sans ligne de vue, 1/tour | detonateur | Il tire sur la ficelle : toutes ses Mines sautent d'un coup, +10 % par Mine qui saute. |
+| **Mâchoire de loup** | 3 PA, portée 1–4, sans ligne de vue, 1/tour, relance 2 t. | piège invisible : [6–9 Flamme aux ennemis ; enchaine (3 t.) aux ennemis] | Un piège à loup bien graissé : la victime y reste enchaînée, à 3 cases au plus du piège, pendant 3 tours. |
+| **Piège à fil** | 4 PA, portée 2–5, sans ligne de vue, 1/tour, relance 2 t. | piège invisible  : [8–11 Flamme aux ennemis] | Deux fils tendus en travers du chemin, un explosif à chaque bout : traverser un fil ou marcher sur un explosif fait tout sauter. |
+| **Saut à la poudre** | 3 PA, portée 2–4, sans ligne de vue, 1/tour, relance 2 t. | téléportation sur la case ; 4–6 Flamme aux ennemis | Une pincée de poudre sous les bottes, et le voilà plus loin, les sourcils en moins. |
+| **Écran de fumée** | 2 PA, portée soi, cercle de rayon 1, 1/tour, relance 3 t. | glyphe (2 t.) : [] | Un nuage de fumée autour de lui pendant 2 tours : personne ne voit au travers (lui non plus). |
+| **Fusée éclairante** | 2 PA, portée 1–7, cercle de rayon 3, sans ligne de vue, 1/tour, relance 2 t. | revelation ; −15 Résistance Flamme (2 t.) aux ennemis | Une fusée qui éclaire tout (cercle de 3) : pièges ennemis et invisibles révélés, ennemis +15 % de dégâts Flamme reçus pendant 2 tours. |
 
 ### Théologue
 

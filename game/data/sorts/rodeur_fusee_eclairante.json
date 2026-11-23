@@ -1,0 +1,51 @@
+{
+  "id": "rodeur_fusee_eclairante",
+  "nom": "Fusée éclairante",
+  "description": "Une fusée qui éclaire tout (cercle de 3) : pièges ennemis et invisibles révélés, ennemis +15 % de dégâts Flamme reçus pendant 2 tours.",
+  "cout_pa": 2,
+  "portee": {
+    "min": 1,
+    "max": 7
+  },
+  "ligne_de_vue": false,
+  "zone": {
+    "type": "cercle",
+    "taille": 3
+  },
+  "relance": {
+    "par_tour": 1,
+    "delai": 2
+  },
+  "effets": [
+    {
+      "type": "revelation"
+    },
+    {
+      "type": "malus",
+      "carac": "resistance",
+      "min": 15,
+      "max": 15,
+      "duree": 2,
+      "cibles": "ennemis",
+      "element": "flamme"
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "zone_taille": 4
+    },
+    "5": {
+      "effets": [
+        {
+          "type": "malus",
+          "carac": "resistance",
+          "min": 10,
+          "max": 10,
+          "duree": 2,
+          "cibles": "ennemis",
+          "element": "flamme"
+        }
+      ]
+    }
+  }
+}

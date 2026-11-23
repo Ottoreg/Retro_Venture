@@ -1,0 +1,43 @@
+{
+  "id": "rodeur_ecran_de_fumee",
+  "nom": "Écran de fumée",
+  "description": "Un nuage de fumée autour de lui pendant 2 tours : personne ne voit au travers (lui non plus).",
+  "cout_pa": 2,
+  "portee": {
+    "min": 0,
+    "max": 0
+  },
+  "zone": {
+    "type": "cercle",
+    "taille": 1
+  },
+  "relance": {
+    "par_tour": 1,
+    "delai": 3
+  },
+  "effets": [
+    {
+      "type": "glyphe",
+      "duree": 2,
+      "fumee": true,
+      "effets": []
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "duree": 1
+    },
+    "5": {
+      "effets_au_sol": [
+        {
+          "type": "malus",
+          "carac": "pm",
+          "min": 1,
+          "max": 1,
+          "duree": 1,
+          "cibles": "ennemis"
+        }
+      ]
+    }
+  }
+}

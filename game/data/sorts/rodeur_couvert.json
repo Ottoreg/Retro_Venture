@@ -1,0 +1,45 @@
+{
+  "id": "rodeur_couvert",
+  "nom": "Couvert",
+  "description": "Derrière un buisson, un tronc ou un voisin : −25 % de dégâts reçus à distance (2 cases ou plus) pendant 2 tours.",
+  "cout_pa": 2,
+  "portee": {
+    "min": 0,
+    "max": 0
+  },
+  "zone": {
+    "type": "cercle",
+    "taille": 0
+  },
+  "relance": {
+    "par_tour": 1,
+    "delai": 3
+  },
+  "effets": [
+    {
+      "type": "bonus",
+      "carac": "reduction_distance",
+      "min": 25,
+      "max": 25,
+      "duree": 2,
+      "cibles": "allies"
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "effets": [
+        {
+          "type": "bonus",
+          "carac": "reduction_distance",
+          "min": 10,
+          "max": 10,
+          "duree": 2,
+          "cibles": "allies"
+        }
+      ]
+    },
+    "5": {
+      "zone_taille": 1
+    }
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "id": "rodeur_machoire_de_loup",
+  "nom": "Mâchoire de loup",
+  "description": "Un piège à loup bien graissé : la victime y reste enchaînée, à 3 cases au plus du piège, pendant 3 tours.",
+  "cout_pa": 3,
+  "portee": {
+    "min": 1,
+    "max": 4
+  },
+  "ligne_de_vue": false,
+  "pieges_max": 1,
+  "relance": {
+    "par_tour": 1,
+    "delai": 2
+  },
+  "effets": [
+    {
+      "type": "piege",
+      "effets": [
+        {
+          "type": "degats",
+          "element": "flamme",
+          "min": 6,
+          "max": 9,
+          "cibles": "ennemis"
+        },
+        {
+          "type": "etat",
+          "etat": "enchaine",
+          "duree": 3,
+          "cibles": "ennemis"
+        }
+      ]
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "duree": 1
+    },
+    "5": {
+      "effets_au_sol": [
+        {
+          "type": "poison",
+          "element": "flamme",
+          "min": 3,
+          "max": 3,
+          "duree": 4,
+          "cibles": "ennemis"
+        }
+      ]
+    }
+  }
+}

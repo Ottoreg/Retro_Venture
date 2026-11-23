@@ -15,7 +15,7 @@ extends SceneTree
 const BUILDS := {
 	"guerrier": {"force": 1.0},
 	"arcaniste": {"intelligence": 1.0},
-	"rodeur": {"agilite": 0.5, "force": 0.5},
+	"rodeur": {"intelligence": 0.5, "force": 0.5},
 	"theologue": {"force": 0.5, "intelligence": 0.5},
 	"chronomancien": {"agilite": 0.5, "perception": 0.5},
 }

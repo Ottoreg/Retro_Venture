@@ -15,7 +15,7 @@ reportée dans le GDD § 4.3, puis codée sur demande.
 | Ordre | Classe | Voies | Sorts conçus | À concevoir |
 |:-:|---|---|:-:|:-:|
 | 1 | [Guerrier](guerrier.md) | Acier / Impie | 20 + passif | — (codé) |
-| 2 | [Rôdeur](rodeur.md) | Acier / Flamme | 5 | 15 + passif |
+| 2 | [Rôdeur](rodeur.md) | Acier / Flamme | 20 + passif | — (codé) |
 | 3 | [Théologue](theologue.md) | Sacré / Flamme | 20 + passif | — (codé) |
 | 4 | [Chronomancien](chronomancien.md) | Impie / Givre | 20 + passif | — (codé) |
 | 5 | [Arcaniste](arcaniste.md) | Flamme + Givre + Tempête (une Voie) | 20 + passif | — (codé) |
@@ -23,7 +23,7 @@ reportée dans le GDD § 4.3, puis codée sur demande.
 | 7 | [Paladin](paladin.md) | Sacré / Tempête | 20 + passif | — (codé) |
 | 8 | [Ombre](ombre.md) | Tempête / Acier | 20 + passif | — (codée) |
 | 9 | [Démoniste](demoniste.md) | Impie / Flamme | 20 + passif | — (codé, passif à revoir) |
-| | **Total** | | **165 + 8 passifs** | **15 + 1 passif** |
+| | **Total** | | **180 + 9 passifs** | — |
 
 Rappel des éléments : Acier → Force, Flamme → Intelligence, Givre → Perception, Tempête → Agilité,
 Sacré → Force + Intelligence, Impie → Agilité + Perception. Répartition à terme : Acier 4 classes,

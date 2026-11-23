@@ -123,6 +123,12 @@ temps : chaque camp a sa propre histoire.
     visent plus ; un sort de dégâts la révèle, sauf l'*Arme d'obscurité*, qui frappe la cible à son prochain tour).
     *Monde des ombres* envoie une cible (ou elle-même) dans une autre dimension pour 2 tours : la carte devient grise,
     seuls ceux de la même dimension se battent entre eux, des lueurs montrent les cases occupées dehors.
+  - **Rôdeur** (complété : 20 sorts, Acier : Force, et Flamme : Intelligence ; *Flèche* est désormais Acier) : en
+    Acier, *Pister* et les flèches posent des **Traces** (3 au plus) que *Coup de dague* consomme pour frapper fort ;
+    en Flamme, il pose des **Mines** (2 à la fois) que *Détonateur* fait sauter d'un coup, une *Mâchoire de loup* qui
+    **enchaîne** l'ennemi à 3 cases du piège, un *Piège à fil* (deux fils et deux explosifs en travers du chemin), un
+    *Écran de fumée* qui **coupe la vue** et une *Fusée éclairante* qui **révèle les pièges ennemis** et les invisibles.
+    Son passif *Rabatteur* (dès Apprenti) renforce un piège quand on y pousse un ennemi (*Flèche de rabat*).
   - **Guerrier** (complété : 20 sorts, Acier : Force, et Impie : Agilité et Perception) : sa **Rancune** (dès
     Apprenti) donne +3 % de dégâts par tranche de 5 PV perdus ; *Fendoir* et *Rage du damné* la dépensent. Les sorts
     Impie **coûtent des PV** (jamais mortels) : *Serment de sang* donne 2 PA, *Lame impie* et *Étreinte de la tombe*

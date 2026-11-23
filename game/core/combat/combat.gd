@@ -112,6 +112,15 @@ const SECONDS_MAX_5 := 7
 const SECONDS_FOR_PA := 5
 const TIME_PASSIVE := "temps_vole"
 const SECONDS := "seconde"
+## Rôdeur (GDD § 4.3) : Traces au plus ; passif « Rabatteur » : % de dégâts d'un piège où l'ennemi est poussé ou attiré
+## (`RABATTEUR_BASE` + `RABATTEUR_PER_RANK` par rang), manche du dernier PA rendu à chaque Rôdeur (rang 5, un par tour) ;
+## rayon de la chaîne d'Enchaîné (un boss : `CHAIN_BOSS`).
+const TRACE_MAX := 3
+const RABATTEUR_BASE := 20
+const RABATTEUR_PER_RANK := 4
+const CHAIN_RADIUS := 3
+const CHAIN_BOSS := 5
+var _rabatteur_round := {}
 
 ## Temps limité (en ligne, GDD § 7.2) : secondes d'un tour de joueur, et du placement ; 0 : illimité
 ## (solo). Le temps passe par `advance`.
@@ -258,7 +267,7 @@ func current_fighter() -> Fighter:
 ## Piège posé sur la case (vide s'il n'y en a pas).
 func trap_at(cell: Vector2i) -> Dictionary:
 	for trap in traps:
-		if trap["case"] == cell:
+		if cell in trap.get("declencheurs", [trap["case"]]):
 			return trap
 	return {}
 
@@ -339,6 +348,12 @@ func is_free(cell: Vector2i) -> bool:
 	return walkable(cell) and fighter_at(cell) == null
 
 
+## Enchaîné (Rôdeur) : `cell` est-elle au-delà de sa chaîne ?
+static func beyond_chain(fighter: Fighter, cell: Vector2i) -> bool:
+	var chain := fighter.named_state(Spell.STATE_CHAINED)
+	return not chain.is_empty() and IsoGrid.distance(chain.get("centre", cell), cell) > int(chain.get("rayon", CHAIN_RADIUS))
+
+
 ## Cases atteignables avec les PM du combattant (ou `pm` s'il est donné), et le chemin pour chacune
 ## (4 directions).
 ## Un monstre évite les arcs ennemis quand un autre chemin existe.
@@ -355,7 +370,7 @@ func _paths(fighter: Fighter, pm: int, avoided: Dictionary) -> Dictionary:
 		var next_frontier: Array[Vector2i] = []
 		for cell in frontier:
 			for neighbor in IsoGrid.neighbors_4(cell):
-				if paths.has(neighbor) or not is_free(neighbor) or avoided.has(neighbor):
+				if paths.has(neighbor) or not is_free(neighbor) or avoided.has(neighbor) or beyond_chain(fighter, neighbor):
 					continue
 				var path: Array[Vector2i] = paths[cell].duplicate()
 				path.append(neighbor)
@@ -440,7 +455,8 @@ func charge_path(fighter: Fighter, target: Vector2i, origin := Vector2i(-99999, 
 		var occupant := fighter_at(next)
 		var breaks: bool = not broke and charge.get("demolit", false) and demolishable(next)
 		broke = broke or breaks
-		if not (walkable(next) or breaks or (charge.get("gele", false) and freezable(next))) or (occupant != null and occupant != fighter):
+		if not (walkable(next) or breaks or (charge.get("gele", false) and freezable(next))) or (occupant != null and occupant != fighter) \
+				or beyond_chain(fighter, next):
 			break
 		cell = next
 		path.append(cell)
@@ -654,6 +670,11 @@ func _cast(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 		blocker = targeting_blocker(fighter, spell, target)
 	if blocker.is_empty() and (spell.teleports() or not spell.effect_of(Spell.EFFECT_ICE_WALL).is_empty()) and target != fighter.cell and not is_free(target):
 		blocker = Protocol.REASON_OCCUPIED if fighter_at(target) != null else Protocol.REASON_BLOCKED
+	if blocker.is_empty() and spell.teleports() and beyond_chain(fighter, target):
+		blocker = Protocol.REASON_CHAINED
+	var detonator := spell.effect_of(Spell.EFFECT_DETONATOR)
+	if blocker.is_empty() and not detonator.is_empty() and not detonator.has("rayon") and _traps_of(fighter, detonator).is_empty():
+		blocker = Protocol.REASON_NO_TRAP
 	var trap_effect := spell.trap_effect()
 	if blocker.is_empty() and not trap_effect.is_empty() and (not is_free(target) or not trap_at(target).is_empty()):
 		blocker = Protocol.REASON_BLOCKED if not walkable(target) else Protocol.REASON_OCCUPIED
@@ -793,7 +814,7 @@ func _cast(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 		elif effect["type"] == Spell.EFFECT_SUMMON:
 			_summon(fighter, spell, effect, target, events)
 		elif effect["type"] == Spell.EFFECT_TRAP:
-			_place_trap(fighter, spell, effect, target, events)
+			_place_trap(fighter, spell, effect, origin if effect.get("au_depart", false) else target, events, origin)
 		elif effect["type"] == Spell.EFFECT_IMAGE:
 			_place_image(fighter, spell, effect, origin, events)
 		elif effect["type"] == Spell.EFFECT_AURA:
@@ -821,6 +842,8 @@ func _cast(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 		if effect["type"] in [Spell.EFFECT_DAMAGE, Spell.EFFECT_HEAL, Spell.EFFECT_POISON, Spell.EFFECT_BOUNCE, Spell.EFFECT_SACRIFICE, Spell.EFFECT_PULSE]:
 			elements[effect["element"]] = true
 	_open_credit(fighter, spell.pa_cost, elements.keys())
+	for effect in cast_effects.filter(func(effect: Dictionary) -> bool: return effect["type"] == Spell.EFFECT_REVEAL):
+		_reveal(fighter, zone, events)
 	var targets: Array[Fighter] = []
 	for cell in zone if reached else []:
 		var hit := fighter_at(cell)
@@ -842,12 +865,15 @@ func _cast(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 			elif hit.is_alive() and effect["type"] not in [Spell.EFFECT_TELEPORT, Spell.EFFECT_GLYPH, Spell.EFFECT_TRAP,
 					Spell.EFFECT_CHARGE, Spell.EFFECT_CREATE_SPELL, Spell.EFFECT_COMPOSE_STATES, Spell.EFFECT_IMAGE,
 					Spell.EFFECT_DETONATE, Spell.EFFECT_BEHIND, Spell.EFFECT_SUMMON, Spell.EFFECT_AURA, Spell.EFFECT_BEACON, Spell.EFFECT_SURGE,
-					Spell.EFFECT_BEACON_SWAP, Spell.EFFECT_DEMOLISH, Spell.EFFECT_FREEZE, Spell.EFFECT_ICE_WALL, Spell.EFFECT_PROCESSION] \
-					and not effect.get("sur_lanceur", false) and not effect.get("autour_du_lanceur", false) \
+					Spell.EFFECT_BEACON_SWAP, Spell.EFFECT_DEMOLISH, Spell.EFFECT_FREEZE, Spell.EFFECT_ICE_WALL, Spell.EFFECT_PROCESSION,
+					Spell.EFFECT_DETONATOR, Spell.EFFECT_REVEAL] \
+					and not effect.get("sur_lanceur", false) and not effect.get("autour_du_lanceur", false) and not effect.get("au_depart", false) \
+					and not effect.get("derriere", false) and not (effect.get("centre_seul", false) and hit.cell != target) \
 					and Spell.affects(effect, fighter, hit) and not (effect.get("premier_lancer", false) and fighter.cast_count(spell) > 1) \
 					and not (effect.get("si_critique", false) and not critical) \
 					and not (effect.get("sur_arc", false) and not arc_cells(hit).has(hit.cell)):
-				_apply_effect(fighter, hit, effect, events, critical, origin, spell.display_name)
+				_apply_effect(fighter, hit, effect, events, critical, target if effect.get("depuis_centre", false) else origin, spell.display_name)
+	_rodeur_cast(fighter, spell, cast_effects, target, origin, targets, critical, events)
 	var detonate := spell.effect_of(Spell.EFFECT_DETONATE)
 	for image in images.duplicate() if not detonate.is_empty() else []:
 		if image["lanceur"] == fighter and image["case"] == target:
@@ -979,10 +1005,17 @@ func _apply_effect(caster: Fighter, target: Fighter, effect: Dictionary, events:
 			if guardian != null:  # Garde : la moitié des dégâts va au Myrmidon, avec ses résistances.
 				_hurt(guardian, damage_value(caster, guardian, effect["element"], base / 2), effect["element"], events, "Garde")
 				base -= base / 2
-			var dealt := damage_value(caster, target, effect["element"], base)
+			var dealt := damage_value(caster, target, effect["element"], base, int(effect.get("perce_resistance", 0)))
 			var suffered := _hurt(target, dealt, effect["element"], events)
 			_devastate(caster, target, dealt, hp_before - target.hp, events)
 			_thorns(caster, target, dealt, suffered, events)
+			var traces := target.stacks(Spell.EFFECT_TRACE) if effect.has("par_trace") else 0
+			if traces > 0:  # Coup de dague : les Traces partent (et retirent des PM au rang 5).
+				target.states.assign(target.states.filter(func(state: Dictionary) -> bool: return state["type"] != Spell.EFFECT_TRACE))
+				events.append(_states_event(target))
+				if int(effect.get("pm_par_trace", 0)) > 0 and target.is_alive():
+					_apply_effect(caster, target, {"type": Spell.EFFECT_REMOVE_PM, "min": traces * int(effect["pm_par_trace"]),
+						"max": traces * int(effect["pm_par_trace"])}, events, false, from, source)
 			if effect.has("par_gelure") and target.stacks(Spell.EFFECT_FROSTBITE) > 0:  # Bris de glace : les Gelures partent.
 				target.states.assign(target.states.filter(func(state: Dictionary) -> bool: return state["type"] != Spell.EFFECT_FROSTBITE))
 				events.append(_states_event(target))
@@ -1060,8 +1093,9 @@ func _apply_effect(caster: Fighter, target: Fighter, effect: Dictionary, events:
 			var healed := 0 if target.has_state(Spell.STATE_UNHEALABLE) else clampi(roundi(lost * int(effect.get("pourcent", 50)) / 100.0), 0, target.max_hp - target.hp)
 			target.hp += healed
 			events.append({"type": Protocol.EVT_HEAL, "entite": target.id, "valeur": healed, "element": "impie", "pv": target.hp})
-		Spell.EFFECT_ARMOR, Spell.EFFECT_FROSTBITE:
-			_stack(caster, target, effect["type"], amount, Fighter.ARMOR_MAX if effect["type"] == Spell.EFFECT_ARMOR else FROST_MAX, source, events)
+		Spell.EFFECT_ARMOR, Spell.EFFECT_FROSTBITE, Spell.EFFECT_TRACE:
+			_stack(caster, target, effect["type"], amount, {Spell.EFFECT_ARMOR: Fighter.ARMOR_MAX, Spell.EFFECT_FROSTBITE: FROST_MAX}.get(effect["type"], TRACE_MAX),
+				source, events)
 		Spell.EFFECT_HERESY:
 			_stack(caster, target, effect["type"], amount, HERESY_MAX, source, events, LASTING_TURNS)
 		Spell.EFFECT_STATE when effect["etat"] == Spell.STATE_PROVOKED:
@@ -1074,8 +1108,12 @@ func _apply_effect(caster: Fighter, target: Fighter, effect: Dictionary, events:
 				"retirable": removable} if target.boss else {"type": Spell.EFFECT_STATE, "etat": Spell.STATE_STUNNED, "valeur": 0, "tours": 1,
 				"sort": source, "lanceur": caster.id, "retirable": removable}, events)
 		Spell.EFFECT_STATE:
-			_add_state(target, {"type": Spell.EFFECT_STATE, "etat": effect["etat"], "valeur": 0, "tours": effect["duree"],
-				"sort": source, "lanceur": caster.id, "retirable": removable}, events)
+			var named := {"type": Spell.EFFECT_STATE, "etat": effect["etat"], "valeur": 0, "tours": effect["duree"],
+				"sort": source, "lanceur": caster.id, "retirable": removable}
+			if effect["etat"] == Spell.STATE_CHAINED:  # Mâchoire de loup : chaîne autour du piège.
+				target.states.erase(target.named_state(Spell.STATE_CHAINED))
+				named.merge({"centre": from, "rayon": CHAIN_BOSS if target.boss else CHAIN_RADIUS})
+			_add_state(target, named, events)
 		Spell.EFFECT_CLOCK:
 			_place_clock(caster, target, effect, from, source, events)
 		Spell.EFFECT_CLOCK_SHIFT:
@@ -1095,8 +1133,8 @@ func _apply_effect(caster: Fighter, target: Fighter, effect: Dictionary, events:
 				var event := _states_event(target)
 				event["retires"] = removed
 				events.append(event)
-		Spell.EFFECT_PUSH:
-			_push(from, target, amount, false, events)
+		Spell.EFFECT_PUSH:  # Flèche de rabat (rang 5) : attire une cible lointaine au lieu de la pousser.
+			_push(from, target, amount, effect.has("attire_au_dela") and IsoGrid.distance(from, target.cell) > int(effect["attire_au_dela"]), events)
 		Spell.EFFECT_PULL:
 			var start := target.cell
 			_push(from, target, amount, true, events)
@@ -1129,21 +1167,26 @@ func damage_bonus(caster: Fighter, target: Fighter, effect: Dictionary) -> int:
 		+ (5 + pact if pact > 0 and ember_level(target.cell, target.shadow) > 0 else 0) \
 		+ int(effect.get("par_malus", 0)) * target.states.filter(func(state: Dictionary) -> bool: return state["type"] == Spell.EFFECT_MALUS).size() \
 		+ (5 + int(caster.passives.get("coup_en_traitre", 0)) if hidden and int(caster.passives.get("coup_en_traitre", 0)) > 0 else 0) \
-		+ int(effect.get("bonus_arcs", 0)) + paladin_bonus(caster) \
+		+ int(effect.get("bonus_arcs", 0)) + paladin_bonus(caster) + int(effect.get("bonus_pct", 0)) \
 		+ (Fighter.RAGE_BONUS + int(effect.get("par_rancune", 0))) * caster.stacks(Fighter.RAGE) \
 		+ mini(int(effect.get("par_pv_manquant", 0)), (caster.max_hp - caster.hp) * 100 / maxi(1, caster.max_hp)) \
 		+ (int(effect.get("execution", 0)) if target.hp * 100 < 30 * target.max_hp else 0) \
 		+ (2 + int(caster.passives.get(Fighter.VIRTUOSO, 0))) * caster.stacks(Fighter.VIRTUOSITY) \
-		+ int(caster.passives.get(TIME_PASSIVE, 0)) * caster.stacks(SECONDS)
+		+ int(caster.passives.get(TIME_PASSIVE, 0)) * caster.stacks(SECONDS) \
+		+ int(effect.get("par_trace", 0)) * target.stacks(Spell.EFFECT_TRACE)
 
 
 ## Dégâts d'un effet de valeur tirée `amount` (voir `_apply_effect`) : au contact, × (100 + dommages de mêlée
-## du lanceur − réduction de mêlée de la cible) % ; puis moins la réduction de dégâts fixe de la cible.
-static func damage_value(caster: Fighter, target: Fighter, element: String, amount: int) -> int:
+## du lanceur − réduction de mêlée de la cible) % ; à distance, × (100 − réduction à distance de la cible) % ; puis moins la
+## réduction de dégâts fixe de la cible. `pierce` : % de la résistance de la cible ignorés (Tir perçant).
+static func damage_value(caster: Fighter, target: Fighter, element: String, amount: int, pierce := 0) -> int:
 	var boosted := amount * (100 + caster.power(element)) / 100.0 * dealt_factor(caster)
-	var dealt := maxi(0, roundi(boosted * (100 - target.resistance(element)) / 100.0)) + caster.total_dommages() + caster.element_damage(element)
+	var resisted := target.resistance(element) * (100 - pierce) / 100.0
+	var dealt := maxi(0, roundi(boosted * (100 - resisted) / 100.0)) + caster.total_dommages() + caster.element_damage(element)
 	if IsoGrid.distance(caster.cell, target.cell) == 1:
 		dealt = roundi(dealt * (100 + caster.combat_stat("dommages_melee") - int(target.passives.get("reduction_melee", 0))) / 100.0)
+	elif target.modifier("reduction_distance") > 0:
+		dealt = roundi(dealt * maxi(0, 100 - target.modifier("reduction_distance")) / 100.0)
 	return maxi(0, dealt - target.combat_stat("reduction_degats"))
 
 
@@ -1369,7 +1412,7 @@ func _push(from: Vector2i, target: Fighter, distance: int, pull: bool, events: A
 	var passed: Array[Vector2i] = []
 	while moved < distance:
 		var next := target.cell + step
-		if not is_free(next):
+		if not is_free(next) or beyond_chain(target, next):
 			break
 		target.cell = next
 		passed.append(next)
@@ -1384,7 +1427,7 @@ func _push(from: Vector2i, target: Fighter, distance: int, pull: bool, events: A
 	if not target.is_alive():
 		return
 	if not trap.is_empty():
-		_trigger_trap(trap, target, events)
+		_trigger_trap(trap, target, events, true)
 	elif not pull and moved < distance:
 		_hurt(target, (distance - moved) * PUSH_DAMAGE_PER_CELL, "", events, "choc")
 
@@ -1398,7 +1441,7 @@ func _place_glyph(caster: Fighter, spell: Spell, effect: Dictionary, cells: Arra
 			inside.append(cell)
 	var glyph := {"id": _next_ground_id, "lanceur": caster, "equipe": caster.team, "ombres": caster.shadow, "cases": inside, "effets": effect["effets"],
 		"tours": int(effect["duree"]), "sort": spell.display_name, "pa": float(spell.pa_cost) / maxi(1, int(effect["duree"])),
-		"consacree": effect.get("consacree", false)}
+		"consacree": effect.get("consacree", false), "fumee": effect.get("fumee", false)}
 	_next_ground_id += 1
 	glyphs.append(glyph)
 	var element := ""
@@ -1406,25 +1449,43 @@ func _place_glyph(caster: Fighter, spell: Spell, effect: Dictionary, cells: Arra
 		if element.is_empty() and glyph_effect["type"] in Spell.ELEMENT_EFFECTS:
 			element = glyph_effect["element"]
 	events.append({"type": Protocol.EVT_GLYPH, "id": glyph["id"], "lanceur": caster.id, "equipe": caster.team, "ombres": caster.shadow,
-		"cases": inside, "tours": glyph["tours"], "sort": glyph["sort"], "element": element})
+		"cases": inside, "tours": glyph["tours"], "sort": glyph["sort"], "element": element, "fumee": glyph["fumee"]})
 
 
-func _place_trap(caster: Fighter, spell: Spell, effect: Dictionary, cell: Vector2i, events: Array[Dictionary]) -> void:
+## Pose un piège : sa zone d'explosion (case, cercle, ou les deux bouts d'un Piège à fil, perpendiculaire au lanceur en
+## `origin`, qui se déclenche sur toutes ses cases) ; au-delà de `Spell.max_traps` pièges du même sort, le plus ancien part.
+func _place_trap(caster: Fighter, spell: Spell, effect: Dictionary, cell: Vector2i, events: Array[Dictionary], origin := cell) -> void:
 	var zone: Dictionary = effect["zone"]
+	var size := int(zone.get("taille", 0))
+	var triggers: Array[Vector2i] = [cell]
+	var centers: Array[Vector2i] = [cell]
+	if zone["type"] == Spell.ZONE_WIRE:
+		var forward := Spell.direction(origin, cell)
+		var first := 1 - (size + 2) / 2  # 4 cases : de −1 à 2 autour de la case visée.
+		triggers.assign(range(first, first + size + 2).map(func(i: int) -> Vector2i: return cell + Vector2i(-forward.y, forward.x) * i).filter(walkable))
+		centers.assign([triggers[0], triggers[-1]] if not triggers.is_empty() else centers)
 	var cells: Array[Vector2i] = []
-	for zone_cell in Spell.circle_cells(cell, int(zone.get("taille", 0)) if zone["type"] == Spell.ZONE_CIRCLE else 0):
-		if map.is_inside(zone_cell):
-			cells.append(zone_cell)
+	for center in centers:
+		for zone_cell in Spell.circle_cells(center, 1 if zone["type"] == Spell.ZONE_WIRE else size if zone["type"] == Spell.ZONE_CIRCLE else 0):
+			if map.is_inside(zone_cell) and zone_cell not in cells:
+				cells.append(zone_cell)
+	var spell_id: String = effect.get("sort_piege", spell.id)
+	var same := traps.filter(func(trap: Dictionary) -> bool: return trap["lanceur"] == caster and trap.get("sort_id") == spell_id)
+	for old in same.slice(0, maxi(0, same.size() - spell.max_traps + 1)) if spell.max_traps > 0 and not effect.has("sort_piege") else []:
+		traps.erase(old)
+		events.append({"type": Protocol.EVT_TRAP_ENDED, "id": old["id"]})
 	var trap := {"id": _next_ground_id, "lanceur": caster, "equipe": caster.team, "ombres": caster.shadow, "case": cell, "cases": cells,
-		"effets": effect["effets"], "sort": spell.display_name, "pa": spell.pa_cost}
+		"declencheurs": triggers, "effets": effect["effets"], "sort": spell.display_name if not effect.has("sort_piege") else "Mine", "sort_id": spell_id,
+		"pa": spell.pa_cost}
 	_next_ground_id += 1
 	traps.append(trap)
 	events.append({"type": Protocol.EVT_TRAP, "id": trap["id"], "lanceur": caster.id, "equipe": caster.team, "ombres": caster.shadow,
-		"case": cell, "cases": cells, "sort": trap["sort"]})
+		"case": cell, "cases": cells, "declencheurs": triggers, "sort": trap["sort"]})
 
 
-## Déclenche un piège : il disparaît, ses effets touchent sa zone (selon leurs `cibles`).
-func _trigger_trap(trap: Dictionary, victim: Fighter, events: Array[Dictionary]) -> void:
+## Déclenche un piège : il disparaît, ses effets touchent sa zone (selon leurs `cibles`), +`bonus` % aux dégâts ; un
+## ennemi `pushed` (poussé ou attiré) dedans subit le passif « Rabatteur » du poseur. Renvoie le nombre de touchés.
+func _trigger_trap(trap: Dictionary, victim: Fighter, events: Array[Dictionary], pushed := false, bonus := 0) -> int:
 	traps.erase(trap)
 	events.append({"type": Protocol.EVT_TRAP_TRIGGERED, "id": trap["id"], "entite": victim.id, "case": trap["case"],
 		"cases": trap["cases"], "sort": trap["sort"]})
@@ -1434,14 +1495,30 @@ func _trigger_trap(trap: Dictionary, victim: Fighter, events: Array[Dictionary])
 		var hit := fighter_at(cell)
 		if hit != null:
 			hits.append(hit)
+	var rank := int(caster.passives.get("rabatteur", 0)) if pushed and victim.team != caster.team else 0
+	if rank > 0:
+		bonus += RABATTEUR_BASE + RABATTEUR_PER_RANK * (rank - 1)
+		if rank > 3:  # Rang 3 : immobilisé à son prochain tour.
+			victim.pm_malus += victim.max_pm + 10
+			events.append({"type": Protocol.EVT_STATUS, "entite": victim.id, "effet": "immobilise", "valeur": 0, "pa": victim.pa, "pm": victim.pm})
+		if rank > 5 and _rabatteur_round.get(caster.id, -1) != round_number and caster.is_alive():  # Rang 5 : 1 PA, une fois par tour.
+			_rabatteur_round[caster.id] = round_number
+			caster.pa += 1
+			events.append({"type": Protocol.EVT_STATUS, "entite": caster.id, "effet": Spell.EFFECT_GAIN_PA, "valeur": 1, "pa": caster.pa, "pm": caster.pm})
 	var outer := _credit
 	_open_credit(caster, float(trap.get("pa", 0)))
+	var touched := 0
 	for hit in hits:
+		var affected := false
 		for effect: Dictionary in trap["effets"]:
 			if hit.is_alive() and Spell.affects(effect, caster, hit):
-				_apply_effect(caster, hit, effect, events, false, trap["case"], trap["sort"])
+				affected = true
+				_apply_effect(caster, hit, effect.merged({"bonus_pct": bonus}) if bonus != 0 and effect["type"] == Spell.EFFECT_DAMAGE else effect,
+					events, false, trap["case"], trap["sort"])
+		touched += int(affected)
 	_close_credit()
 	_credit = outer
+	return touched
 
 
 ## Retire une glyphe ; celle d'une horloge emporte l'état « manipulation_temps » de sa cible.
@@ -1755,6 +1832,58 @@ func _virtuoso(fighter: Fighter, spell: Spell) -> Array[Dictionary]:
 				"lanceur": fighter.id, "retirable": false}, events)
 	fighter.last_created = spell.id
 	return events
+
+
+# --- Rôdeur : Traces, Mines, Piège à fil, révélation (GDD § 4.3) ------------------------------------
+
+## Pièges de `fighter` que vise un effet « detonateur » (posés par son sort `piege`).
+func _traps_of(fighter: Fighter, detonator: Dictionary) -> Array[Dictionary]:
+	return traps.filter(func(trap: Dictionary) -> bool: return trap["lanceur"] == fighter and trap.get("sort_id") == detonator["piege"])
+
+
+## Après les effets d'un sort : coup qui traverse (« derriere » : sur l'ennemi juste derrière la cible), effets autour de
+## la case de départ (« au_depart », cercle de `taille`), pièges qu'on fait sauter (« detonateur »), sort relancé si la
+## cible meurt (« relance_si_tue »).
+func _rodeur_cast(fighter: Fighter, spell: Spell, cast_effects: Array[Dictionary], target: Vector2i, origin: Vector2i, targets: Array[Fighter],
+		critical: bool, events: Array[Dictionary]) -> void:
+	for effect in cast_effects:
+		var hits: Array[Fighter] = []
+		if effect.get("derriere", false):
+			hits.assign([fighter_at(target + Spell.direction(origin, target))])
+		elif effect.get("au_depart", false) and effect["type"] not in Spell.GROUND_EFFECTS:
+			hits.assign(Spell.circle_cells(origin, int(effect.get("taille", 1))).map(fighter_at))
+		for hit in hits:
+			if hit != null and hit.is_alive() and Spell.affects(effect, fighter, hit):
+				_apply_effect(fighter, hit, effect, events, critical, origin, spell.display_name)
+		if effect["type"] == Spell.EFFECT_DETONATOR:
+			var mines := _traps_of(fighter, effect).filter(func(trap: Dictionary) -> bool:
+				return not effect.has("rayon") or trap["declencheurs"].any(func(cell: Vector2i) -> bool: return IsoGrid.distance(cell, target) <= int(effect["rayon"])))
+			var gained := 0
+			for mine: Dictionary in mines:
+				if mine in traps:
+					gained += int(effect.get("pa_par_piege", 0)) * int(_trigger_trap(mine, fighter, events, false, int(effect.get("bonus", 0)) * mines.size()) > 0)
+			if gained > 0 and fighter.is_alive():
+				fighter.pa += gained
+				events.append({"type": Protocol.EVT_STATUS, "entite": fighter.id, "effet": Spell.EFFECT_GAIN_PA, "valeur": gained, "pa": fighter.pa, "pm": fighter.pm})
+	if cast_effects.any(func(effect: Dictionary) -> bool: return effect.get("relance_si_tue", false)) and targets.any(func(hit: Fighter) -> bool:
+			return hit.team != fighter.team and not hit.is_alive()):
+		fighter._casts_this_turn[spell.id] = int(fighter._casts_this_turn.get(spell.id, 1)) - 1  # Tir de grâce (rang 5).
+		fighter._cooldowns.erase(spell.id)
+
+
+## Fusée éclairante : les pièges ennemis de la zone sont montrés au camp de `fighter`, les ennemis invisibles redeviennent visibles.
+func _reveal(fighter: Fighter, zone: Array[Vector2i], events: Array[Dictionary]) -> void:
+	for trap in traps:
+		if trap["equipe"] != fighter.team and not trap.get("revele", false) and trap["declencheurs"].any(func(cell: Vector2i) -> bool: return cell in zone):
+			trap["revele"] = true
+			events.append({"type": Protocol.EVT_TRAP, "id": trap["id"], "lanceur": (trap["lanceur"] as Fighter).id, "equipe": trap["equipe"],
+				"ombres": trap["ombres"], "case": trap["case"], "cases": trap["cases"], "declencheurs": trap["declencheurs"], "sort": trap["sort"], "revele": true})
+	for cell in zone:
+		var hidden := fighter_at(cell)
+		if hidden != null and hidden.team != fighter.team and hidden.is_invisible():
+			hidden.states.assign(hidden.states.filter(func(state: Dictionary) -> bool: return state.get("etat") != Spell.STATE_INVISIBLE))
+			events.append(_states_event(hidden))
+			_out_of_hiding(hidden, events)
 
 
 # --- Myrmidon : provocation, Blindage, Gelures, Garde, terrain (GDD § 4.3) --------------------------
@@ -2532,6 +2661,8 @@ func _sight_blocker(shooter: Fighter) -> Callable:
 func _blocks_sight(cell: Vector2i, shooter: Fighter, fighters_block: bool) -> bool:
 	if (map.obstacles.has(cell) and map.obstacles[cell] not in SEE_THROUGH_OBSTACLES and not terrain.has(cell)) or iced(cell):
 		return true
+	if glyphs.any(func(glyph: Dictionary) -> bool: return glyph.get("fumee", false) and cell in glyph["cases"] and glyph["ombres"] == shooter.shadow):
+		return true  # Écran de fumée (Rôdeur).
 	var occupant := fighter_at(cell) if fighters_block else null
 	return occupant != null and occupant != shooter
 
@@ -2567,7 +2698,7 @@ func snapshot(team := Fighter.TEAM_PLAYERS) -> Dictionary:
 		own_images.append(_ground_snapshot(image))
 	var own_traps: Array = []
 	for trap in traps:
-		if trap["equipe"] == team:
+		if trap["equipe"] == team or trap.get("revele", false):
 			own_traps.append(_ground_snapshot(trap))
 	return {
 		"carte": map.id,

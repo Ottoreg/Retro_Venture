@@ -1,0 +1,35 @@
+{
+  "id": "rodeur_bombe_artisanale",
+  "nom": "Bombe artisanale",
+  "description": "Une gourde de poudre et une mèche trop courte, lancée par-dessus les obstacles.",
+  "cout_pa": 4,
+  "portee": {
+    "min": 2,
+    "max": 5
+  },
+  "ligne_de_vue": false,
+  "zone": {
+    "type": "cercle",
+    "taille": 1
+  },
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "flamme",
+      "min": 7,
+      "max": 10,
+      "cibles": "ennemis"
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "portee_max": 1
+    },
+    "5": {
+      "par_tour": 2
+    }
+  }
+}

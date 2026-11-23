@@ -9,10 +9,31 @@
     "initiative": 100
   },
   "sorts": [
+    "rodeur_pister",
     "rodeur_fleche",
     "rodeur_tir_percant",
+    "rodeur_tir_de_grace",
     "rodeur_dague",
+    "rodeur_collet",
+    "rodeur_fleche_de_rabat",
     "rodeur_roulade",
-    "rodeur_collet"
-  ]
+    "rodeur_couvert",
+    "rodeur_oeil_de_faucon",
+    "rodeur_mine",
+    "rodeur_fleche_enflammee",
+    "rodeur_bombe_artisanale",
+    "rodeur_fleche_explosive",
+    "rodeur_detonateur",
+    "rodeur_machoire_de_loup",
+    "rodeur_piege_a_fil",
+    "rodeur_saut_a_la_poudre",
+    "rodeur_ecran_de_fumee",
+    "rodeur_fusee_eclairante"
+  ],
+  "passif": {
+    "id": "rodeur_rabatteur",
+    "nom": "Rabatteur",
+    "effet": "rabatteur",
+    "description": "Débloqué au palier Apprenti. Un ennemi poussé ou attiré sur un piège du Rôdeur subit +20 % de dégâts du piège (+4 % par rang, 40 % au rang 5). Rang 3 : il est aussi immobilisé (0 PM) à son prochain tour. Rang 5 : le Rôdeur récupère 1 PA, une fois par tour."
+  }
 }

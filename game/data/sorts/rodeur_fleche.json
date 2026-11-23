@@ -1,10 +1,37 @@
 {
   "id": "rodeur_fleche",
   "nom": "Flèche",
-  "description": "Une flèche bien droite. Enfin, à peu près.",
+  "description": "Une flèche bien droite. Enfin, à peu près. +1 Trace.",
   "cout_pa": 3,
-  "portee": {"min": 2, "max": 6},
+  "portee": {
+    "min": 2,
+    "max": 6
+  },
   "ligne_de_vue": true,
-  "relance": {"par_tour": 2},
-  "effets": [{"type": "degats", "element": "tempete", "min": 5, "max": 8}]
+  "relance": {
+    "par_tour": 2
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "acier",
+      "min": 5,
+      "max": 8,
+      "cibles": "ennemis"
+    },
+    {
+      "type": "trace",
+      "min": 1,
+      "max": 1,
+      "cibles": "ennemis"
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "portee_max": 1
+    },
+    "5": {
+      "par_tour": 3
+    }
+  }
 }

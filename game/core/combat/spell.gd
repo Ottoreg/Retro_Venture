@@ -131,23 +131,30 @@ const EFFECT_CONDUCTION := "conduction"
 ## de dégâts à `par_heresie`) ; Procession : le lanceur se téléporte sur la case visée libre, ou échange de place avec l'allié visé.
 const EFFECT_HERESY := "heresie"
 const EFFECT_PROCESSION := "procession"
+## Rôdeur (GDD § 4.3) : Traces sur la cible (`Combat.TRACE_MAX` au plus, consommées par un effet de dégâts à `par_trace`) ;
+## fait exploser les pièges du lanceur posés par le sort `piege` (dans un rayon `rayon` de la cible s'il est donné ;
+## +`bonus` % par piège qui saute, `pa_par_piege` PA rendus par piège qui touche) ; révèle les pièges ennemis et les
+## invisibles de la zone.
+const EFFECT_TRACE := "trace"
+const EFFECT_DETONATOR := "detonateur"
+const EFFECT_REVEAL := "revelation"
 const EFFECT_TYPES := [EFFECT_DAMAGE, EFFECT_HEAL, EFFECT_TELEPORT, EFFECT_GAIN_PA, EFFECT_REMOVE_PM, EFFECT_SHIELD,
 	EFFECT_BONUS, EFFECT_MALUS, EFFECT_POISON, EFFECT_PUSH, EFFECT_PULL, EFFECT_GLYPH, EFFECT_TRAP,
 	EFFECT_ELEMENT_STATE, EFFECT_COMPOSE_STATES, EFFECT_CREATE_SPELL, EFFECT_CHARGE, EFFECT_REMOVE_STATES,
 	EFFECT_CLOCK, EFFECT_CLOCK_SHIFT, EFFECT_STATE, EFFECT_BOUNCE, EFFECT_IMAGE, EFFECT_DETONATE, EFFECT_SHADOW_WEAPON,
 	EFFECT_SHADOW_WORLD, EFFECT_BEHIND, EFFECT_SUMMON, EFFECT_SACRIFICE, EFFECT_SWAP, EFFECT_ASHES, EFFECT_AURA, EFFECT_BEACON, EFFECT_SURGE, EFFECT_BEACON_SWAP,
 	EFFECT_LIVING_BEACON, EFFECT_ARMOR, EFFECT_FROSTBITE, EFFECT_DEMOLISH, EFFECT_FREEZE, EFFECT_RECOIL, EFFECT_ICE_WALL, EFFECT_CONDUCTION, EFFECT_HERESY, EFFECT_PROCESSION,
-	EFFECT_PULSE, EFFECT_RETURN, EFFECT_FUTURE, EFFECT_REPLAY, EFFECT_RESPITE]
+	EFFECT_PULSE, EFFECT_RETURN, EFFECT_FUTURE, EFFECT_REPLAY, EFFECT_RESPITE, EFFECT_TRACE, EFFECT_DETONATOR, EFFECT_REVEAL]
 ## Effets sans valeur chiffrée (ni `min` ni `max`).
 const VALUELESS_EFFECTS := [EFFECT_TELEPORT, EFFECT_ELEMENT_STATE, EFFECT_COMPOSE_STATES, EFFECT_CREATE_SPELL, EFFECT_CHARGE,
 	EFFECT_REMOVE_STATES, EFFECT_CLOCK, EFFECT_CLOCK_SHIFT, EFFECT_STATE, EFFECT_DETONATE, EFFECT_SHADOW_WORLD, EFFECT_BEHIND,
 	EFFECT_SUMMON, EFFECT_SWAP, EFFECT_SURGE, EFFECT_BEACON_SWAP, EFFECT_LIVING_BEACON, EFFECT_DEMOLISH, EFFECT_FREEZE, EFFECT_ICE_WALL, EFFECT_PROCESSION,
-	EFFECT_RETURN, EFFECT_FUTURE, EFFECT_REPLAY, EFFECT_RESPITE]
+	EFFECT_RETURN, EFFECT_FUTURE, EFFECT_REPLAY, EFFECT_RESPITE, EFFECT_DETONATOR, EFFECT_REVEAL]
 ## Effets qui ne concernent que le lanceur ou son déplacement, ou le cadran d'une horloge : jamais
 ## dans une glyphe, un piège ou une heure d'horloge.
 const CASTER_EFFECTS := [EFFECT_TELEPORT, EFFECT_ELEMENT_STATE, EFFECT_COMPOSE_STATES, EFFECT_CREATE_SPELL, EFFECT_CHARGE,
 	EFFECT_CLOCK, EFFECT_CLOCK_SHIFT, EFFECT_BOUNCE, EFFECT_DETONATE, EFFECT_SHADOW_WORLD, EFFECT_BEHIND, EFFECT_SUMMON, EFFECT_SACRIFICE, EFFECT_SWAP, EFFECT_ASHES,
-	EFFECT_AURA, EFFECT_BEACON, EFFECT_SURGE, EFFECT_BEACON_SWAP, EFFECT_DEMOLISH, EFFECT_FREEZE, EFFECT_ICE_WALL, EFFECT_PROCESSION]
+	EFFECT_AURA, EFFECT_BEACON, EFFECT_SURGE, EFFECT_BEACON_SWAP, EFFECT_DEMOLISH, EFFECT_FREEZE, EFFECT_ICE_WALL, EFFECT_PROCESSION, EFFECT_DETONATOR, EFFECT_REVEAL]
 ## États nommés : « insoignable » (aucun soin ne lui rend de PV) ; « manipulation_temps » (posé par
 ## une horloge) ; « exorcisme » (les prochains dégâts Sacré l'achèvent, l'état tombe alors).
 const STATE_UNHEALABLE := "insoignable"
@@ -171,10 +178,15 @@ const STATE_ICE_SHELL := "carapace_de_glace"
 ## Théologue : « Tu ne bougeras point » (chaque case marchée coûte une Pénitence à la cible, voir `Combat._penance`).
 const STATE_COMMANDMENT := "commandement"
 ## Arcaniste : enraciné (ni poussé, ni attiré, ni déplacé sur une horloge) ; Chronomancien : inamovible (pareil, et ni échangé).
+## Rôdeur : enchaîné (ne finit aucun déplacement à plus de `rayon` cases de son `centre`, le piège qui l'a pris).
+const STATE_CHAINED := "enchaine"
 const STATE_ROOTED := "enracine"
 const STATE_STEADY := "inamovible"
 const NAMED_STATES := [STATE_UNHEALABLE, STATE_TIME_MANIPULATION, STATE_EXORCISM, STATE_UNBLOCKABLE, STATE_INVISIBLE,
-	STATE_SHADOW, STATE_NO_RETURN, STATE_DRAWN, STATE_PROVOKED, STATE_STUNNED, STATE_GUARDED, STATE_ICE_SHELL, STATE_ROOTED, STATE_COMMANDMENT, STATE_STEADY]
+	STATE_SHADOW, STATE_NO_RETURN, STATE_DRAWN, STATE_PROVOKED, STATE_STUNNED, STATE_GUARDED, STATE_ICE_SHELL, STATE_ROOTED, STATE_COMMANDMENT, STATE_STEADY,
+	STATE_CHAINED]
+## Piège à fil (Rôdeur) : `taille` fils en ligne perpendiculaire au lanceur, un explosif à chaque bout (cercle de 1).
+const ZONE_WIRE := "fil"
 ## Éléments d'un état élémentaire, et états qu'un retrait peut enlever.
 const STATE_ELEMENTS := ["flamme", "givre", "tempete"]
 const REMOVABLE_STATE_TYPES := [EFFECT_BONUS, EFFECT_MALUS, EFFECT_POISON]
@@ -187,7 +199,8 @@ const LASTING_EFFECTS := [EFFECT_BONUS, EFFECT_MALUS, EFFECT_POISON, EFFECT_GLYP
 ## Caractéristiques qu'un bonus ou un malus peut changer ; « resistance » demande un `element` ;
 ## « degats_infliges » : % de tous les dégâts infligés (poisons compris).
 const MODIFIABLE := ["force", "intelligence", "perception", "agilite", "pa", "pm", "portee", "dommages", "critique", "resistance",
-	"degats_infliges", "retrait_pa", "retrait_pm", "epines_flamme", "epines_flamme_fixes", "epines_tempete_fixes", "reduction_degats"]
+	"degats_infliges", "retrait_pa", "retrait_pm", "epines_flamme", "epines_flamme_fixes", "epines_tempete_fixes", "reduction_degats",
+	"reduction_distance"]
 ## Effets chiffrés qui ont un élément : leur valeur monte avec la caractéristique de cet élément
 ## (un soin Sacré avec la Force et l'Intelligence, un bouclier de Tempête avec l'Agilité, un poison
 ## de Givre avec la Perception…).
@@ -210,7 +223,11 @@ const MASTERY_MAX_RANK := 5
 ## tours de cadran), nouvelles valeurs (cout_pa, cout_pv, delai, zone_taille, par_tour), champs des effets changés (valeurs :
 ## { champ : valeur }, sur chaque effet qui a ce champ), effets en plus (effets ; « premier_lancer » : true, seulement au premier
 ## lancer du tour ; « si_critique » : true, seulement en coup critique) et « remise » (PA de moins au 1er lancer du sort créé).
-const MASTERY_ADDS := ["critique", "portee_max", "bonus_etats", "places_crees", "embrase", "duree_aura", "remise", "duree_horloge"]
+## Rôdeur : pièges posés en même temps (pieges_max), rayon ou fils de la zone d'un piège (zone_piege), tours des effets qui durent
+## (duree, au sol compris), effets en plus dans un piège ou une glyphe (effets_au_sol), clés changées dans les effets d'un type
+## (modifie : { type : { clé : valeur } }).
+const MASTERY_ADDS := ["critique", "portee_max", "bonus_etats", "places_crees", "embrase", "duree_aura", "remise", "duree_horloge", "pieges_max",
+	"zone_piege", "duree"]
 const MASTERY_SETS := ["cout_pa", "cout_pv", "delai", "zone_taille", "par_tour"]
 
 var id: String
@@ -267,6 +284,8 @@ var aura_turns := 0
 ## PA de moins au 1er lancer du sort créé par ce sort (rang de maîtrise « remise »).
 var affinity: Dictionary = {}
 var created_discount := 0
+## Rôdeur : pièges de ce sort posés en même temps (0 : sans limite ; un de plus chasse le plus ancien).
+var max_traps := 0
 
 
 ## Liste des erreurs de `data` (vide si le sort est valide).
@@ -287,7 +306,7 @@ static func validate(data: Dictionary) -> PackedStringArray:
 	var zone: Variant = data.get("zone", {"type": ZONE_CELL})
 	if typeof(zone) != TYPE_DICTIONARY or zone.get("type") not in ZONES:
 		errors.append("« zone.type » doit valoir %s" % str(ZONES))
-	elif zone["type"] in [ZONE_CIRCLE, ZONE_WALL] and not _is_int_at_least(zone.get("taille"), 1):
+	elif zone["type"] in [ZONE_CIRCLE, ZONE_WALL] and not _is_int_at_least(zone.get("taille"), 0 if zone["type"] == ZONE_CIRCLE else 1):
 		errors.append("une zone en cercle demande une « taille » d'au moins 1")
 	elif zone["type"] in [ZONE_LATIN_CROSS, ZONE_LINE] and not data.get("lancer_en_ligne", false):
 		errors.append("une zone en %s demande « lancer_en_ligne »" % zone["type"])
@@ -338,14 +357,17 @@ static func _validate_mastery(mastery_data: Variant) -> PackedStringArray:
 			errors.append("« maitrise » : « %s » doit être un rang de 1 à %d, vers un objet de changements" % [str(key), MASTERY_MAX_RANK])
 			continue
 		for change: Variant in changes:
-			if change == "effets":
-				if typeof(changes["effets"]) != TYPE_ARRAY or changes["effets"].is_empty():
-					errors.append("« maitrise.%s.effets » doit être une liste non vide" % str(key))
+			if change in ["effets", "effets_au_sol"]:
+				if typeof(changes[change]) != TYPE_ARRAY or changes[change].is_empty():
+					errors.append("« maitrise.%s.%s » doit être une liste non vide" % [str(key), str(change)])
 				else:
-					errors.append_array(_validate_effects(changes["effets"], true))
+					errors.append_array(_validate_effects(changes[change], change == "effets"))
 			elif change == "valeurs":
 				if typeof(changes["valeurs"]) != TYPE_DICTIONARY or changes["valeurs"].values().any(func(value: Variant) -> bool: return not _is_int_at_least(value, 0)):
 					errors.append("« maitrise.%s.valeurs » doit être un objet { champ d'effet : entier }" % str(key))
+			elif change == "modifie":
+				if typeof(changes[change]) != TYPE_DICTIONARY or changes[change].values().any(func(keys: Variant) -> bool: return typeof(keys) != TYPE_DICTIONARY):
+					errors.append("« maitrise.%s.modifie » doit être { type d'effet : { clé : valeur } }" % str(key))
 			elif change in MASTERY_ADDS:
 				if typeof(changes[change]) not in [TYPE_INT, TYPE_FLOAT] or changes[change] != floorf(changes[change]):
 					errors.append("« maitrise.%s.%s » doit être un entier" % [str(key), str(change)])
@@ -354,7 +376,7 @@ static func _validate_mastery(mastery_data: Variant) -> PackedStringArray:
 					errors.append("« maitrise.%s.%s » doit être un entier positif ou nul" % [str(key), str(change)])
 			else:
 				errors.append("« maitrise.%s » : changement inconnu « %s » (%s, effets)" % [str(key), str(change),
-					str(MASTERY_ADDS + MASTERY_SETS + ["valeurs"])])
+					str(MASTERY_ADDS + MASTERY_SETS + ["valeurs", "modifie"])])
 	return errors
 
 
@@ -365,7 +387,8 @@ static func _validate_effects(effects_data: Array, top_level: bool) -> PackedStr
 			errors.append("effet invalide : %s (types : %s)" % [str(effect), str(EFFECT_TYPES)])
 			continue
 		var type: String = effect["type"]
-		if not top_level and (type in GROUND_EFFECTS or type in CASTER_EFFECTS):
+		if not top_level and (type in GROUND_EFFECTS or type in CASTER_EFFECTS) and not effect.get("au_depart", false) \
+				and type != EFFECT_DETONATOR:  # Rôdeur, rangs de maîtrise : Mine posée au départ, Mines voisines qui sautent.
 			errors.append("effet « %s » interdit dans une glyphe ou un piège" % type)
 			continue
 		if effect.get("cibles", TARGETS_ALL) not in TARGETS:
@@ -374,15 +397,15 @@ static func _validate_effects(effects_data: Array, top_level: bool) -> PackedStr
 			errors.append("effet « %s » : « duree » (en tours) doit être un entier ≥ 1" % type)
 		if type in GROUND_EFFECTS:
 			var inner: Variant = effect.get("effets")
-			if typeof(inner) != TYPE_ARRAY or inner.is_empty():
+			if typeof(inner) != TYPE_ARRAY or (inner.is_empty() and not effect.get("fumee", false)):
 				errors.append("effet « %s » : « effets » doit être une liste non vide" % type)
 			else:
 				errors.append_array(_validate_effects(inner, false))
 			if type == EFFECT_TRAP:
 				var zone: Variant = effect.get("zone", {"type": ZONE_CELL})
-				if typeof(zone) != TYPE_DICTIONARY or zone.get("type") not in [ZONE_CELL, ZONE_CIRCLE] \
-						or (zone["type"] == ZONE_CIRCLE and not _is_int_at_least(zone.get("taille"), 1)):
-					errors.append("piège : « zone » doit être { type: case } ou { type: cercle, taille ≥ 1 }")
+				if typeof(zone) != TYPE_DICTIONARY or zone.get("type") not in [ZONE_CELL, ZONE_CIRCLE, ZONE_WIRE] \
+						or (zone["type"] != ZONE_CELL and not _is_int_at_least(zone.get("taille"), 1)):
+					errors.append("piège : « zone » doit être { type: case } ou { type: cercle ou fil, taille ≥ 1 }")
 			if type == EFFECT_AURA and not _is_int_at_least(effect.get("taille"), 1):
 				errors.append("effet « aura » : « taille » (rayon) doit être un entier ≥ 1")
 			continue
@@ -484,6 +507,7 @@ static func from_dict(data: Dictionary) -> Spell:
 	spell.projectile = bool(data.get("projectile", false))
 	spell.aura_zone = bool(data.get("zone_aura", false))
 	spell.affinity = data.get("affinite", {}).duplicate()
+	spell.max_traps = int(data.get("pieges_max", 0))
 	var mastery_data: Dictionary = data.get("maitrise", {})
 	for key: String in mastery_data:
 		spell.mastery[int(key)] = mastery_data[key].duplicate(true)
@@ -519,7 +543,9 @@ func mastered(level: int) -> Spell:
 		copy.casts_per_turn = int(changes.get("par_tour", copy.casts_per_turn))
 		for effect in copy.effects.filter(func(effect: Dictionary) -> bool: return effect["type"] == EFFECT_CLOCK):
 			effect["duree"] = int(effect["duree"]) + int(changes.get("duree_horloge", 0))
+		copy.max_traps += int(changes.get("pieges_max", 0))
 		copy.effects.append_array(normalized_effects(changes.get("effets", [])))
+		_change_effects(copy.effects, changes)
 		for effect in copy.effects:
 			for field: String in changes.get("valeurs", {}):
 				if effect.has(field):
@@ -533,7 +559,7 @@ func _copy(percent := 100) -> Spell:
 	for property in ["id", "display_name", "description", "pa_cost", "hp_cost", "range_min", "range_max", "needs_line_of_sight",
 			"cast_in_line", "fixed_range", "zone_type", "zone_size", "excludes_caster", "casts_per_turn", "cooldown", "crit_chance", "discreet",
 			"enemy_cooldown", "marked_range", "ignites", "calcined", "ember_range", "projectile", "aura_zone", "aura_turns", "mastery", "rank",
-			"state_bonus", "created_slots", "affinity", "created_discount"]:
+			"state_bonus", "created_slots", "affinity", "created_discount", "max_traps"]:
 		copy.set(property, get(property))
 	copy.effects = _scaled_effects(effects, percent)
 	return copy
@@ -552,6 +578,19 @@ func attuned(states: Array) -> Spell:
 				effect[key] = int(effect[key]) + int(affinity.get("valeur", 0))
 			effect["duree"] = int(effect["duree"]) + int(affinity.get("duree", 0))
 	return copy
+
+
+## Changements de rang du Rôdeur sur les effets (voir `MASTERY_ADDS`), pièges et glyphes compris.
+static func _change_effects(effects_list: Array, changes: Dictionary) -> void:
+	for effect: Dictionary in effects_list:
+		if int(effect.get("duree", 0)) > 0:
+			effect["duree"] = int(effect["duree"]) + int(changes.get("duree", 0))
+		effect.merge(changes.get("modifie", {}).get(effect["type"], {}), true)
+		if effect["type"] == EFFECT_TRAP and effect["zone"]["type"] != ZONE_CELL:
+			effect["zone"]["taille"] = int(effect["zone"]["taille"]) + int(changes.get("zone_piege", 0))
+		if effect["type"] in GROUND_EFFECTS:
+			effect["effets"].append_array(normalized_effects(changes.get("effets_au_sol", [])))
+			_change_effects(effect["effets"], changes.merged({"effets_au_sol": [], "zone_piege": 0}, true))
 
 
 ## Effets dont les valeurs élémentaires sont multipliées par `percent` %.
@@ -659,7 +698,7 @@ static func affects(effect: Dictionary, caster: Fighter, target: Fighter) -> boo
 ## Effet du sort qui pose un piège (vide s'il n'y en a pas).
 func trap_effect() -> Dictionary:
 	for effect in effects:
-		if effect["type"] == EFFECT_TRAP:
+		if effect["type"] == EFFECT_TRAP and not effect.get("au_depart", false):
 			return effect
 	return {}
 

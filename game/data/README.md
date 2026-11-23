@@ -315,7 +315,7 @@ Au sol :
   chiffré (dégâts, soin, bouclier, poison), sinon celle du camp de son lanceur.
 - `piege` : posé sur la case visée (libre, sans autre piège), invisible pour l'autre équipe ; le
   premier ennemi qui y entre s'arrête et le déclenche, ses `effets` touchent la `zone` du piège
-  (`case` par défaut, ou `cercle`). Un sort de piège n'a que cet effet et une zone `case`.
+  (`case` par défaut, `cercle`, ou `fil` : voir le Rôdeur). Un sort de piège n'a que cet effet et une zone `case`.
 
 Mécaniques des Voies :
 
@@ -683,8 +683,41 @@ Mécaniques du Chronomancien, Voie Givre et sorts du 23/11/2026 (GDD § 4.3) :
 - État nommé `inamovible` (ni poussé, ni attiré, ni échangé, ni déplacé sur un cadran). Passif `temps_vole`. Rangs de
   maîtrise `duree_horloge` (tours de cadran en plus) et `par_tour` (lancers par tour).
 
+Mécaniques du Rôdeur (GDD § 4.3) :
+
+```json
+{"type": "trace", "min": 2, "max": 2, "cibles": "ennemis"}
+{"type": "detonateur", "piege": "rodeur_mine", "bonus": 10}
+{"type": "revelation"}
+{"type": "piege", "zone": {"type": "fil", "taille": 2}, "effets": [...]}
+```
+
+- `trace` : crans de Trace sur la cible (`Combat.TRACE_MAX` 3 au plus, 3 tours) ; un effet de dégâts à `par_trace` (+% par
+  Trace) les consomme toutes, `pm_par_trace` en plus retire autant de PM par Trace.
+- `detonateur` : fait sauter les pièges du lanceur posés par le sort `piege` (`rayon` : seulement ceux à cette distance de
+  la case visée ; sinon tous, et le sort est refusé sans piège, raison `aucun_piege`) ; +`bonus` % par piège qui saute,
+  `pa_par_piege` PA rendus par piège qui touche quelqu'un.
+- `revelation` : dans la zone, les pièges ennemis sont montrés au camp du lanceur (`piege_pose` avec `revele`) et les
+  invisibles redeviennent visibles.
+- Champ de sort `pieges_max` (pièges de ce sort posés en même temps ; un de plus chasse le plus ancien). Champ de piège
+  `sort_piege` (le piège compte comme posé par ce sort, ex. la Mine de *Saut à la poudre*). Zone de piège `fil` :
+  `taille` fils sur une ligne perpendiculaire à la direction lanceur → case visée, centrée sur elle, un explosif à
+  chaque bout (cercle de 1) ; toutes ces cases déclenchent (champ `declencheurs` de l'événement `piege_pose`).
+- Champs d'effet : `au_depart` (autour de la case de départ du lanceur, cercle de `taille` ; un piège y est posé),
+  `derriere` (l'ennemi juste derrière la cible), `centre_seul` (la case visée seulement), `depuis_centre` (poussée depuis
+  la case visée), `bonus_pct` (+% de dégâts), `perce_resistance` (% de résistance ignorés), `relance_si_tue` (sort
+  relançable aussitôt si la cible meurt), `attire_au_dela` (une poussée attire plutôt une cible à plus de cette distance).
+  Champ de glyphe `fumee` (bloque la ligne de vue ; ses `effets` peuvent être vides).
+- État nommé `enchaine` (ne finit aucun déplacement à plus de 3 cases, 5 pour un boss, de son `centre`, le piège ; raison
+  de refus `enchaine`). Caractéristique modifiable `reduction_distance` (% de dégâts reçus en moins à 2 cases ou plus).
+  Passif `rabatteur` (un ennemi poussé ou attiré sur un piège du lanceur : +20 % +4 % par rang ; immobilisé au rang 3 ;
+  +1 PA au lanceur par tour au rang 5).
+- Rangs de maîtrise : `pieges_max`, `zone_piege` (rayon ou fils de la zone d'un piège), `duree` (tours des
+  effets qui durent, au sol compris), `effets_au_sol` (effets ajoutés dans un piège ou une glyphe) et `modifie`
+  (`{ type d'effet : { clé : valeur } }` fusionné dans chaque effet de ce type, au sol compris).
+
 Toutes les Voies ont `pv` 50 et `initiative` 100 (demande de l'auteur du 20/11/2026). `passif` (facultatif) : le
-passif de classe, débloqué au palier Apprenti, `{"id", "nom", "effet": "coup_en_traitre", "pacte_de_feu", "saint_paratonnerre", "point_de_mire", "rancune", "virtuose", "faire_la_quete" ou "temps_vole", "description"}`
+passif de classe, débloqué au palier Apprenti, `{"id", "nom", "effet": "coup_en_traitre", "pacte_de_feu", "saint_paratonnerre", "point_de_mire", "rancune", "virtuose", "faire_la_quete", "temps_vole" ou "rabatteur", "description"}`
 (effets connus : `GameData.CLASS_PASSIVES`) ; son rang vient de sa maîtrise.
 
 ## Objets (`objets/`)

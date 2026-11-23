@@ -1,0 +1,49 @@
+{
+  "id": "rodeur_oeil_de_faucon",
+  "nom": "Œil de faucon",
+  "description": "Il plisse les yeux comme un faucon (ou comme un myope) : +2 de portée et +10 % de critique pendant 2 tours.",
+  "cout_pa": 2,
+  "portee": {
+    "min": 0,
+    "max": 5
+  },
+  "relance": {
+    "par_tour": 1,
+    "delai": 4
+  },
+  "effets": [
+    {
+      "type": "bonus",
+      "carac": "portee",
+      "min": 2,
+      "max": 2,
+      "duree": 2,
+      "cibles": "allies"
+    },
+    {
+      "type": "bonus",
+      "carac": "critique",
+      "min": 10,
+      "max": 10,
+      "duree": 2,
+      "cibles": "allies"
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "duree": 1
+    },
+    "5": {
+      "effets": [
+        {
+          "type": "bonus",
+          "carac": "critique",
+          "min": 5,
+          "max": 5,
+          "duree": 3,
+          "cibles": "allies"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,116 @@
+{
+  "images": {
+    "sort_rodeur_pister": {
+      "fichier": "sorts/rodeur_pister.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_rodeur_tir_de_grace": {
+      "fichier": "sorts/rodeur_tir_de_grace.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_rodeur_fleche_de_rabat": {
+      "fichier": "sorts/rodeur_fleche_de_rabat.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_rodeur_couvert": {
+      "fichier": "sorts/rodeur_couvert.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_rodeur_oeil_de_faucon": {
+      "fichier": "sorts/rodeur_oeil_de_faucon.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_rodeur_mine": {
+      "fichier": "sorts/rodeur_mine.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_rodeur_fleche_enflammee": {
+      "fichier": "sorts/rodeur_fleche_enflammee.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_rodeur_bombe_artisanale": {
+      "fichier": "sorts/rodeur_bombe_artisanale.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_rodeur_fleche_explosive": {
+      "fichier": "sorts/rodeur_fleche_explosive.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_rodeur_detonateur": {
+      "fichier": "sorts/rodeur_detonateur.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_rodeur_machoire_de_loup": {
+      "fichier": "sorts/rodeur_machoire_de_loup.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_rodeur_piege_a_fil": {
+      "fichier": "sorts/rodeur_piege_a_fil.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_rodeur_saut_a_la_poudre": {
+      "fichier": "sorts/rodeur_saut_a_la_poudre.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_rodeur_ecran_de_fumee": {
+      "fichier": "sorts/rodeur_ecran_de_fumee.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_rodeur_fusee_eclairante": {
+      "fichier": "sorts/rodeur_fusee_eclairante.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_rodeur_rabatteur": {
+      "fichier": "sorts/rodeur_rabatteur.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    }
+  }
+}

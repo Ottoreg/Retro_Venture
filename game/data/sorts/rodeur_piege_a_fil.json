@@ -1,0 +1,49 @@
+{
+  "id": "rodeur_piege_a_fil",
+  "nom": "Piège à fil",
+  "description": "Deux fils tendus en travers du chemin, un explosif à chaque bout : traverser un fil ou marcher sur un explosif fait tout sauter.",
+  "cout_pa": 4,
+  "portee": {
+    "min": 2,
+    "max": 5
+  },
+  "ligne_de_vue": false,
+  "pieges_max": 1,
+  "relance": {
+    "par_tour": 1,
+    "delai": 2
+  },
+  "effets": [
+    {
+      "type": "piege",
+      "effets": [
+        {
+          "type": "degats",
+          "element": "flamme",
+          "min": 8,
+          "max": 11,
+          "cibles": "ennemis"
+        }
+      ],
+      "zone": {
+        "type": "fil",
+        "taille": 2
+      }
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "effets_au_sol": [
+        {
+          "type": "retrait_pm",
+          "min": 1,
+          "max": 1,
+          "cibles": "ennemis"
+        }
+      ]
+    },
+    "5": {
+      "zone_piege": 2
+    }
+  }
+}

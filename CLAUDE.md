@@ -282,6 +282,12 @@ Dernière session (retours de la passe de l'auteur) :
   état `commandement` (`Combat._penance` dans `_move`), effet `procession` (`_teleport`, `_swap_places`) ; protocole v24 ;
   données par `docs/design/theologue/produire.py`. Valeurs provisoires. `tools/screenshot.gd` ne lance plus de combat
   (constaté le 23/11/2026, déjà le cas avant) : pas de capture.
+- **Rôdeur complet, Acier / Flamme** (23/11/2026, GDD § 4.3, `tests/core/test_rodeur.gd`) : 20 sorts (Flèche en Acier, plus de
+  Tempête), passif *Rabatteur* (pièges renforcés quand on y pousse, `_trigger_trap` à `pushed`) ; Traces (effet `trace`,
+  `Combat.TRACE_MAX`, `par_trace`), Mines et `detonateur` (`pieges_max`, `_traps_of`, `_rodeur_cast`), zone de piège `fil`
+  (`declencheurs`), état `enchaine` (`Combat.beyond_chain`), glyphe `fumee` (`_blocks_sight`), `revelation` (`_reveal`),
+  caractéristique `reduction_distance` ; rangs `pieges_max`, `zone_piege`, `duree`, `effets_au_sol`, `modifie`
+  (`Spell._change_effects`) ; protocole v26 ; données par `docs/design/rodeur/produire.py`. Valeurs provisoires.
 - **Ombre, Tempête / Acier** (20/11/2026, GDD § 4.3, `tests/core/test_ombre.gd`) : 6e classe, 20 sorts `ombre_*`, passif
   de classe *Coup en traître* (champ `passif` des Voies, débloqué à Apprenti, `GameData.class_passive`, `Fighter.passives`) ;
   images rémanentes (`Combat.images`, effets `image` / `court_circuit`, zone `ligne`), invisibilité (`Fighter.is_invisible`,

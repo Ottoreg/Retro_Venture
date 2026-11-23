@@ -111,7 +111,7 @@ point(s) de caractéristique (avant ralentissement).
 | **Myrmidon** | 50 | 6 | 3 | 100 | 20 | 0 |
 | **Ombre** | 50 | 6 | 3 | 100 | 20 | 0 |
 | **Paladin** | 50 | 6 | 3 | 100 | 20 | 0 |
-| **Rôdeur** | 50 | 6 | 3 | 100 | 5 | 0 |
+| **Rôdeur** | 50 | 6 | 3 | 100 | 20 | 0 |
 | **Théologue** | 50 | 6 | 3 | 100 | 20 | 0 |
 
 Colonnes des sorts : *Moy.* = valeurs moyennes de base des dégâts, soins et boucliers directs (hors
@@ -313,11 +313,26 @@ horloge, glyphe et piège) ; *Moy./PA* ; *Rang 5* = moyenne avec +50 % de maîtr
 
 | Sort | Rang | Caractéristiques | Effets | Moy. | Moy./PA | Rang 5 | Maîtrise |
 |---|---|---|---|---|---|---|---|
-| **Flèche** | I | 3 PA, portée 2–6, 2/tour | 5–8 Tempête | 6,5 dégâts | 2,17 dégâts | 9,75 dégâts | — |
-| **Tir perçant** | I | 4 PA, portée 3–7, 1/tour | 8–11 Acier | 9,5 dégâts | 2,38 dégâts | 14,25 dégâts | — |
-| **Coup de dague** | I | 2 PA, portée 1, 2/tour | 3–5 Acier | 4 dégâts | 2 dégâts | 6 dégâts | — |
-| **Roulade** | I | 2 PA, portée 1–2, sans ligne de vue, 1/tour, relance 2 t. | téléportation sur la case | — | — | — | — |
-| **Collet** | I | 3 PA, portée 1–4, sans ligne de vue, 1/tour, relance 2 t. | piège invisible : [7–10 Acier aux ennemis ; −2 PM au prochain tour aux ennemis] | — | — | — | — |
+| **Pister** | I | 2 PA, portée 1–8, sans ligne de vue, 1/tour | trace aux ennemis | — | — | — | rang 3 : +2 portée<br>rang 5 : ajoute trace aux ennemis |
+| **Flèche** | I | 3 PA, portée 2–6, 2/tour | 5–8 Acier aux ennemis ; trace aux ennemis | 6,5 dégâts | 2,17 dégâts | 9,75 dégâts | rang 3 : +1 portée<br>rang 5 : 3 fois par tour |
+| **Tir perçant** | I | 4 PA, portée 3–7, 1/tour | 8–11 Acier aux ennemis ; trace aux ennemis | 9,5 dégâts | 2,38 dégâts | 14,25 dégâts | rang 3 : ajoute 10–14 Acier aux ennemis<br>rang 5 : modifie {'degats': {'perce_resistance': 20}} |
+| **Tir de grâce** | I | 5 PA, portée 3–7, 1/tour | 15–20 Acier aux ennemis | 17,5 dégâts | 3,5 dégâts | 26,25 dégâts | rang 3 : modifie {'degats': {'execution': 30}}<br>rang 5 : modifie {'degats': {'relance_si_tue': True}} |
+| **Coup de dague** | I | 2 PA, portée 1, 2/tour | 3–5 Acier aux ennemis | 4 dégâts | 2 dégâts | 6 dégâts | rang 3 : modifie {'degats': {'par_trace': 40}}<br>rang 5 : modifie {'degats': {'pm_par_trace': 1}} |
+| **Collet** | I | 3 PA, portée 1–4, sans ligne de vue, 1/tour, relance 2 t. | piège invisible : [7–10 Acier aux ennemis ; −2 PM au prochain tour aux ennemis] | — | — | — | rang 3 : effets_au_sol [{'type': 'retrait_pm', 'min': 1, 'max': 1, 'cibles': 'ennemis'}]<br>rang 5 : pieges_max 1 |
+| **Flèche de rabat** | I | 3 PA, portée 2–6, 1/tour | 3–5 Acier aux ennemis ; poussée de 2 case(s) aux ennemis ; trace aux ennemis | 4 dégâts | 1,33 dégâts | 6 dégâts | rang 3 : ajoute poussée de 1 case(s) aux ennemis<br>rang 5 : modifie {'poussee': {'attire_au_dela': 3}} |
+| **Roulade** | I | 2 PA, portée 1–2, sans ligne de vue, 1/tour, relance 2 t. | téléportation sur la case | — | — | — | rang 3 : +1 portée<br>rang 5 : relance 1 t. |
+| **Couvert** | I | 2 PA, portée soi, cercle de rayon 0, 1/tour, relance 3 t. | +25 reduction_distance (2 t.) aux alliés | — | — | — | rang 3 : ajoute +10 reduction_distance (2 t.) aux alliés<br>rang 5 : zone de taille 1 |
+| **Œil de faucon** | I | 2 PA, portée 0–5, 1/tour, relance 4 t. | +2 Portée (2 t.) aux alliés ; +10 % Critique (2 t.) aux alliés | — | — | — | rang 3 : duree 1<br>rang 5 : ajoute +5 % Critique (3 t.) aux alliés |
+| **Mine** | I | 2 PA, portée 1–5, sans ligne de vue, 2/tour | piège invisible cercle de rayon 1 : [6–8 Flamme aux ennemis] | — | — | — | rang 3 : pieges_max 1<br>rang 5 : zone_piege 1 |
+| **Flèche enflammée** | I | 3 PA, portée 2–6, 2/tour | 5–8 Flamme aux ennemis | 6,5 dégâts | 2,17 dégâts | 9,75 dégâts | rang 3 : +1 portée<br>rang 5 : ajoute detonateur |
+| **Bombe artisanale** | I | 4 PA, portée 2–5, cercle de rayon 1, sans ligne de vue, 1/tour | 7–10 Flamme aux ennemis | 8,5 dégâts | 2,12 dégâts | 12,75 dégâts | rang 3 : +1 portée<br>rang 5 : 2 fois par tour |
+| **Flèche explosive** | I | 5 PA, portée 3–7, cercle de rayon 1, 1/tour | 7–9 Flamme aux ennemis ; 7–9 Flamme aux ennemis | 16 dégâts | 3,2 dégâts | 24 dégâts | rang 3 : ajoute poussée de 1 case(s) aux ennemis<br>rang 5 : modifie {'degats': {'bonus_pct': 20}} |
+| **Détonateur** | I | 3 PA, portée soi, sans ligne de vue, 1/tour | detonateur | — | — | — | rang 3 : modifie {'detonateur': {'bonus': 15}}<br>rang 5 : modifie {'detonateur': {'pa_par_piege': 1}} |
+| **Mâchoire de loup** | I | 3 PA, portée 1–4, sans ligne de vue, 1/tour, relance 2 t. | piège invisible : [6–9 Flamme aux ennemis ; enchaine (3 t.) aux ennemis] | — | — | — | rang 3 : duree 1<br>rang 5 : effets_au_sol [{'type': 'poison', 'element': 'flamme', 'min': 3, 'max': 3, 'duree': 4, 'cibles': 'ennemis'}] |
+| **Piège à fil** | I | 4 PA, portée 2–5, sans ligne de vue, 1/tour, relance 2 t. | piège invisible  : [8–11 Flamme aux ennemis] | — | — | — | rang 3 : effets_au_sol [{'type': 'retrait_pm', 'min': 1, 'max': 1, 'cibles': 'ennemis'}]<br>rang 5 : zone_piege 2 |
+| **Saut à la poudre** | I | 3 PA, portée 2–4, sans ligne de vue, 1/tour, relance 2 t. | téléportation sur la case ; 4–6 Flamme aux ennemis | 5 dégâts | 1,67 dégâts | 7,5 dégâts | rang 3 : +1 portée<br>rang 5 : ajoute piège invisible cercle de rayon 1 : [6–8 Flamme aux ennemis] |
+| **Écran de fumée** | I | 2 PA, portée soi, cercle de rayon 1, 1/tour, relance 3 t. | glyphe (2 t.) : [] | — | — | — | rang 3 : duree 1<br>rang 5 : effets_au_sol [{'type': 'malus', 'carac': 'pm', 'min': 1, 'max': 1, 'duree': 1, 'cibles': 'ennemis'}] |
+| **Fusée éclairante** | I | 2 PA, portée 1–7, cercle de rayon 3, sans ligne de vue, 1/tour, relance 2 t. | revelation ; −15 Résistance Flamme (2 t.) aux ennemis | — | — | — | rang 3 : zone de taille 4<br>rang 5 : ajoute −10 Résistance Flamme (2 t.) aux ennemis |
 
 ### Théologue
 

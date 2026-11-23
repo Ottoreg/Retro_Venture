@@ -1,0 +1,55 @@
+{
+  "id": "rodeur_fleche_explosive",
+  "nom": "Flèche explosive",
+  "description": "Elle explose à l'arrivée : gros dégâts à la cible, moitié autour.",
+  "cout_pa": 5,
+  "portee": {
+    "min": 3,
+    "max": 7
+  },
+  "ligne_de_vue": true,
+  "zone": {
+    "type": "cercle",
+    "taille": 1
+  },
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "flamme",
+      "min": 7,
+      "max": 9,
+      "cibles": "ennemis"
+    },
+    {
+      "type": "degats",
+      "element": "flamme",
+      "min": 7,
+      "max": 9,
+      "cibles": "ennemis",
+      "centre_seul": true
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "effets": [
+        {
+          "type": "poussee",
+          "min": 1,
+          "max": 1,
+          "cibles": "ennemis",
+          "depuis_centre": true
+        }
+      ]
+    },
+    "5": {
+      "modifie": {
+        "degats": {
+          "bonus_pct": 20
+        }
+      }
+    }
+  }
+}

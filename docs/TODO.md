@@ -682,6 +682,10 @@ Lots 0 (conception dans le GDD), 1 (personnage, poussé sur `main` à la demande
 - [x] **Arcaniste complet** (23/11/2026, GDD § 4.3, propositions validées telles quelles) : 8 utilitaires à affinité
   (Clignement, Rétropropulsion, Pieds gelés, Appel d'air, Mur de glace, Manteau de braises, Conduction, Écho arcanique),
   passif Virtuose, rangs 3 et 5 des 10 sorts créés ; valeurs provisoires (l'auteur ajustera après ses tests)
+- [x] **Rôdeur complet** (23/11/2026, GDD § 4.3, propositions validées telles quelles) : Acier / Flamme (Flèche en Acier),
+  Traces, Mines et Détonateur, Mâchoire de loup, Piège à fil, Écran de fumée, Fusée éclairante, passif Rabatteur, rangs 3
+  et 5 des 20 sorts ; protocole v26 ; valeurs provisoires (l'auteur ajustera après ses tests)
+- [ ] Rôdeur : captures de ses pièges (fil, pièges ennemis révélés, fumée) ; animations PixelLab ; IA si un monstre joue la classe
 - [ ] Arcaniste : capture du mur de glace (l'action « arcaniste » de `tools/screenshot.gd` ne lance plus le combat) ;
   IA qui compose les états (lot à part, sur demande) ; déblocage des fusions par paliers (après les tests)
 - [x] **Théologue complet** (23/11/2026, GDD § 4.3) : Voie Sacrée (Terre consacrée, 5 sorts de plus, rangs 3 et 5 des 5
@@ -712,7 +716,7 @@ classes (option écartée et compromis gardés en piste, GDD § 5.2).
   à 5 rangs à Apprenti, Arcaniste 12 + 8 utilitaires ; 2es Voies Guerrier Impie, Théologue Flamme, Rôdeur Flamme
 - [ ] Coder le rythme des points décidé le 15/11/2026 : 30 par palier (150 à Légende), puis 1 par 800 (GDD § 4.5)
 - [x] Guerrier complet (23/11/2026, GDD § 4.3) : 20 sorts, passif Rancune, Voie Impie « Prix du sang » ; valeurs provisoires
-- [ ] Concevoir les classes dans l'ordre : Guerrier (fait), Rôdeur, Théologue, Chronomancien, Arcaniste, Myrmidon,
+- [ ] Concevoir les classes dans l'ordre : Guerrier (fait), Rôdeur (fait), Théologue, Chronomancien, Arcaniste, Myrmidon,
   Paladin, Ombre, Démoniste (fiches de travail : `docs/design/classes/`) ; 145 sorts et 9 passifs à concevoir
 - [ ] Rangs I / II / III des sorts de sa Voie
 - [ ] Barre de sorts limitée et préréglages de barres

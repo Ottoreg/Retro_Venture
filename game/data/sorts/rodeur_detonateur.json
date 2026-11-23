@@ -1,0 +1,37 @@
+{
+  "id": "rodeur_detonateur",
+  "nom": "Détonateur",
+  "description": "Il tire sur la ficelle : toutes ses Mines sautent d'un coup, +10 % par Mine qui saute.",
+  "cout_pa": 3,
+  "portee": {
+    "min": 0,
+    "max": 0
+  },
+  "ligne_de_vue": false,
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "detonateur",
+      "piege": "rodeur_mine",
+      "bonus": 10
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "modifie": {
+        "detonateur": {
+          "bonus": 15
+        }
+      }
+    },
+    "5": {
+      "modifie": {
+        "detonateur": {
+          "pa_par_piege": 1
+        }
+      }
+    }
+  }
+}

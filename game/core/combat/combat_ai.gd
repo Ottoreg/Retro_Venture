@@ -111,6 +111,11 @@ static func evaluate(combat: Combat, fighter: Fighter, spell: Spell, target: Vec
 			return 0.0
 	var value := 0.0
 	for effect in spell.effects:
+		for mine in combat._traps_of(fighter, effect) if effect["type"] == Spell.EFFECT_DETONATOR else []:
+			for cell: Vector2i in mine["cases"]:  # Détonateur : ce que ses Mines feraient aux ennemis déjà dedans.
+				var inside := _fighter_at(combat, fighter, origin, cell)
+				for inner: Dictionary in mine["effets"] if inside != null else []:
+					value += _effect_value(combat, fighter, inside, inner) if Spell.affects(inner, fighter, inside) else 0.0
 		if effect["type"] == Spell.EFFECT_GLYPH:
 			# Une glyphe vaut ce qu'elle ferait une fois à ceux qui sont déjà dedans, un peu plus si
 			# elle dure.

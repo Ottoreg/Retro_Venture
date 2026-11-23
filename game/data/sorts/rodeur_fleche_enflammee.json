@@ -1,0 +1,37 @@
+{
+  "id": "rodeur_fleche_enflammee",
+  "nom": "Flèche enflammée",
+  "description": "Une flèche trempée dans la poix. Il prétend que c'est pour y voir clair.",
+  "cout_pa": 3,
+  "portee": {
+    "min": 2,
+    "max": 6
+  },
+  "ligne_de_vue": true,
+  "relance": {
+    "par_tour": 2
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "flamme",
+      "min": 5,
+      "max": 8,
+      "cibles": "ennemis"
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "portee_max": 1
+    },
+    "5": {
+      "effets": [
+        {
+          "type": "detonateur",
+          "piege": "rodeur_mine",
+          "rayon": 1
+        }
+      ]
+    }
+  }
+}

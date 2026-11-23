@@ -3,8 +3,26 @@
   "nom": "Roulade",
   "description": "Une roulade élégante vers une case libre, pour reprendre ses distances.",
   "cout_pa": 2,
-  "portee": {"min": 1, "max": 2},
+  "portee": {
+    "min": 1,
+    "max": 2
+  },
   "ligne_de_vue": false,
-  "relance": {"par_tour": 1, "delai": 2},
-  "effets": [{"type": "teleportation"}]
+  "relance": {
+    "par_tour": 1,
+    "delai": 2
+  },
+  "effets": [
+    {
+      "type": "teleportation"
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "portee_max": 1
+    },
+    "5": {
+      "delai": 1
+    }
+  }
 }

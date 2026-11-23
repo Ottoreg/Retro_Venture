@@ -123,11 +123,13 @@ const COLOR_TRAP_FLASH := Color(1.0, 0.45, 0.1, 0.6)
 ## Noms affichés des caractéristiques modifiées par un bonus ou un malus.
 const CARAC_NAMES := {"force": "Force", "intelligence": "Intelligence", "perception": "Perception", "agilite": "Agilité",
 	"pa": "PA", "pm": "PM", "portee": "Portée", "dommages": "Dommages", "critique": "% Critique", "resistance": "Rés.",
-	"degats_infliges": "% dégâts infligés", "retrait_pa": "Retrait PA", "retrait_pm": "Retrait PM", "reduction_degats": "Réduction de dégâts"}
+	"degats_infliges": "% dégâts infligés", "retrait_pa": "Retrait PA", "retrait_pm": "Retrait PM", "reduction_degats": "Réduction de dégâts",
+	"reduction_distance": "% dégâts reçus à distance en moins"}
 ## Noms des états nommés (`Spell.NAMED_STATES`).
 const STATE_NAMES := {"insoignable": "Insoignable", "manipulation_temps": "Manipulation du temps", "exorcisme": "Exorcisme", "inblocable": "Inblocable",
 	"invisible": "Invisible", "ombres": "Monde des ombres", "retour_ombres": "Retour impossible", "aspire": "Aspiré",
-	"provoque": "Provoqué", "assomme": "Assommé", "garde": "Gardé", "carapace_de_glace": "Carapace de glace", "commandement": "Tu ne bougeras point", "inamovible": "Inamovible"}
+	"provoque": "Provoqué", "assomme": "Assommé", "garde": "Gardé", "carapace_de_glace": "Carapace de glace", "commandement": "Tu ne bougeras point", "inamovible": "Inamovible",
+	"enchaine": "Enchaîné"}
 ## Ombre : teinte d'une image rémanente, opacité d'un invisible vu par son camp ; filtre du Monde des ombres pour qui
 ## s'y trouve, sur la carte seulement (sol assombri, décor teinté), pas sur les combattants ni les sorts.
 const IMAGE_TINT := Color(0.75, 0.95, 1.4, 0.7)
@@ -181,6 +183,8 @@ var _refusals := {
 	Protocol.REASON_NO_EMBERS: "Aucune case embrasée dans la zone",
 	Protocol.REASON_NO_BEACON: "Visez une de vos balises (libre pour un échange)",
 	Protocol.REASON_NO_HERESY: "Visez un ennemi qui a de l'Hérésie",
+	Protocol.REASON_CHAINED: "Enchaîné : trop loin du piège",
+	Protocol.REASON_NO_TRAP: "Aucune Mine à faire sauter",
 }
 ## Messages affichés pour les objets qu'on ne peut pas équiper.
 var _equip_refusals := {
@@ -960,8 +964,8 @@ func ground_description(cell: Vector2i) -> String:
 			lines.append("Glyphe %s : %s, lancée par %s%s" % [_camp_word(int(glyph["equipe"]), true), glyph["sort"],
 				_actor_name(glyph["lanceur"]), turns])
 	for trap: Dictionary in _traps.values():
-		if trap["case"] == cell:
-			lines.append("Piège allié : %s, posé par %s" % [trap["sort"], _actor_name(trap["lanceur"])])
+		if cell in trap["declencheurs"]:
+			lines.append("Piège %s : %s, posé par %s" % [_camp_word(int(trap["equipe"])), trap["sort"], _actor_name(trap["lanceur"])])
 	var level := int(_embers[int(viewer_in_shadow())].get(cell, 0))
 	if level > 0:
 		lines.append("Case calcinée" if level == Combat.CALCINED else "Case embrasée (niveau %d)" % level)
@@ -1075,6 +1079,8 @@ func _log_line(event: Dictionary) -> String:
 			return "%s pose la glyphe [color=#%s]%s[/color] (%d tours)" % [_actor_name(event["lanceur"]), LOG_SPELL,
 				event["sort"], event["tours"]]
 		Protocol.EVT_TRAP:
+			if event.get("revele", false):
+				return "Piège ennemi révélé : [color=#%s]%s[/color]" % [LOG_SPELL, event["sort"]]
 			if event["equipe"] != Fighter.TEAM_PLAYERS:
 				return ""  # Un piège ennemi reste secret.
 			return "%s pose le piège [color=#%s]%s[/color]" % [_actor_name(event["lanceur"]), LOG_SPELL, event["sort"]]
@@ -1844,7 +1850,7 @@ func _apply(event: Dictionary) -> float:
 		return 0.3
 	if type == Protocol.EVT_GLYPH:
 		_glyphs[event["id"]] = {"cases": event["cases"], "equipe": event["equipe"], "sort": event["sort"],
-			"lanceur": event["lanceur"], "element": event.get("element", ""), "ombres": event.get("ombres", false)}
+			"lanceur": event["lanceur"], "element": event.get("element", ""), "ombres": event.get("ombres", false), "fumee": event.get("fumee", false)}
 		if event.has("centre"):
 			# Horloge : les heures se dessinent dessus.
 			_glyphs[event["id"]]["centre"] = event["centre"]
@@ -1854,8 +1860,9 @@ func _apply(event: Dictionary) -> float:
 		_glyphs.erase(event["id"])
 		return 0.0
 	if type == Protocol.EVT_TRAP:
-		if event["equipe"] == Fighter.TEAM_PLAYERS:
-			_traps[event["id"]] = {"case": event["case"], "sort": event["sort"], "lanceur": event["lanceur"], "ombres": event.get("ombres", false)}
+		if event["equipe"] == Fighter.TEAM_PLAYERS or event.get("revele", false):
+			_traps[event["id"]] = {"case": event["case"], "sort": event["sort"], "lanceur": event["lanceur"], "ombres": event.get("ombres", false),
+				"equipe": event["equipe"], "declencheurs": event.get("declencheurs", [event["case"]])}
 		return 0.0
 	if type == Protocol.EVT_TRAP_ENDED:
 		_traps.erase(event["id"])
@@ -2366,6 +2373,8 @@ func _draw_tactical_pieces(map: GameMap) -> void:
 ## Couleurs d'une glyphe (fond, liseré) : celles de l'élément de ses effets, sinon de l'équipe de
 ## son lanceur.
 static func glyph_colors(glyph: Dictionary) -> Array[Color]:
+	if glyph.get("fumee", false):  # Écran de fumée du Rôdeur.
+		return [Color(0.55, 0.55, 0.55, 0.55), Color(0.8, 0.8, 0.8, 0.8)]
 	var element: String = glyph.get("element", "")
 	if element.is_empty():
 		var team := clampi(int(glyph["equipe"]), 0, 1)
@@ -2429,12 +2438,13 @@ func _draw_ground_marks() -> void:
 	for trap: Dictionary in _traps.values():
 		if trap.get("ombres", false) != viewer_in_shadow():
 			continue
-		var center := IsoGrid.cell_to_screen(trap["case"])
-		for i in 5:
-			var angle := TAU * i / 5.0
-			var tip := center + Vector2(cos(angle) * 11.0, sin(angle) * 5.5)
-			draw_line(center, tip, COLOR_TRAP, 2.0)
-		draw_colored_polygon(_ellipse(center, 4, 2), COLOR_TRAP)
+		for trigger: Vector2i in trap["declencheurs"]:
+			var center := IsoGrid.cell_to_screen(trigger)
+			for i in 5:
+				var angle := TAU * i / 5.0
+				var tip := center + Vector2(cos(angle) * 11.0, sin(angle) * 5.5)
+				draw_line(center, tip, COLOR_TRAP if int(trap["equipe"]) == Fighter.TEAM_PLAYERS else COLOR_TRAP_FLASH, 2.0)
+			draw_colored_polygon(_ellipse(center, 4, 2), COLOR_TRAP)
 	if not _trap_flash.is_empty():
 		var flash := COLOR_TRAP_FLASH
 		flash.a *= 1.0 - _trap_flash["age"] / 0.6

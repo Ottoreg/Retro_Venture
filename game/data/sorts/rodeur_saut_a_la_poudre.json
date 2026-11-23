@@ -1,0 +1,56 @@
+{
+  "id": "rodeur_saut_a_la_poudre",
+  "nom": "Saut à la poudre",
+  "description": "Une pincée de poudre sous les bottes, et le voilà plus loin, les sourcils en moins.",
+  "cout_pa": 3,
+  "portee": {
+    "min": 2,
+    "max": 4
+  },
+  "ligne_de_vue": false,
+  "relance": {
+    "par_tour": 1,
+    "delai": 2
+  },
+  "effets": [
+    {
+      "type": "teleportation"
+    },
+    {
+      "type": "degats",
+      "element": "flamme",
+      "min": 4,
+      "max": 6,
+      "cibles": "ennemis",
+      "au_depart": true,
+      "taille": 1
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "portee_max": 1
+    },
+    "5": {
+      "effets": [
+        {
+          "type": "piege",
+          "effets": [
+            {
+              "type": "degats",
+              "element": "flamme",
+              "min": 6,
+              "max": 8,
+              "cibles": "ennemis"
+            }
+          ],
+          "zone": {
+            "type": "cercle",
+            "taille": 1
+          },
+          "au_depart": true,
+          "sort_piege": "rodeur_mine"
+        }
+      ]
+    }
+  }
+}

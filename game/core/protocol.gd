@@ -9,7 +9,7 @@ extends RefCounted
 
 ## Version du protocole, vérifiée à la connexion : à augmenter à chaque changement incompatible
 ## d'une commande ou d'un événement.
-const VERSION := 25
+const VERSION := 26
 
 # --- Commandes (client → noyau) ---
 
@@ -273,7 +273,8 @@ const EVT_GLYPH := "glyphe"
 const EVT_GLYPH_ENDED := "glyphe_fin"
 ## Piège posé. Invisible pour l'autre équipe : le client ne le montre qu'à l'équipe `equipe`.
 ## { type, id: int, lanceur: String, equipe: int, case: Vector2i, cases: Array[Vector2i] (zone),
-## sort: String (nom) }
+## sort: String (nom), declencheurs: Array[Vector2i] (cases qui le déclenchent) ; revele: bool (un piège ennemi montré
+## par une Fusée éclairante du Rôdeur) }
 const EVT_TRAP := "piege"
 ## Piège déclenché par un ennemi. { type, id: int, entite: String (qui l'a déclenché), case:
 ## Vector2i, cases: Array[Vector2i], sort: String (nom) } ; ses effets suivent.
@@ -587,6 +588,9 @@ const REASON_NO_HERESY := "aucune_heresie"
 ## Chronomancien : la cible n'a pas d'horloge (Arrêt sur image) ; la cible est inamovible (Rendez-vous).
 const REASON_NO_CLOCK := "aucune_horloge"
 const REASON_STEADY := "inamovible"
+## Rôdeur : la case est au-delà de la chaîne d'Enchaîné ; aucun piège à faire sauter.
+const REASON_CHAINED := "enchaine"
+const REASON_NO_TRAP := "aucun_piege"
 ## Sort de composition des états sans combinaison (`etats`) qu'il propose.
 const REASON_INVALID_COMPOSITION := "composition_invalide"
 const REASON_OUT_OF_RANGE := "hors_portee"
@@ -599,7 +603,7 @@ const REASON_NOT_IN_LINE := "pas_en_ligne"
 ## Champs qui contiennent une case (`Vector2i`, écrite [x, y]), où qu'ils soient dans le message.
 const CELL_FIELDS := ["case", "cible", "position", "depuis", "interrompre_a", "foyer", "centre", "midi"]
 ## Champs qui contiennent une liste de cases (`Array[Vector2i]`).
-const CELL_LIST_FIELDS := ["chemin", "cases", "placement", "epuisees"]
+const CELL_LIST_FIELDS := ["chemin", "cases", "placement", "epuisees", "declencheurs"]
 ## Vérification des allers-retours en JSON de toutes les commandes et de tous les événements du
 ## noyau (activée par les tests : voir `check_round_trip`) ; les écarts trouvés y sont notés.
 static var verify_json := false

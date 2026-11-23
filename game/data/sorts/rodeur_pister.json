@@ -1,0 +1,37 @@
+{
+  "id": "rodeur_pister",
+  "nom": "Pister",
+  "description": "Il relève les traces, les brindilles cassées et les miettes de pain : +2 Traces sur la cible (3 au plus, 3 tours).",
+  "cout_pa": 2,
+  "portee": {
+    "min": 1,
+    "max": 8
+  },
+  "ligne_de_vue": false,
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "trace",
+      "min": 2,
+      "max": 2,
+      "cibles": "ennemis"
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "portee_max": 2
+    },
+    "5": {
+      "effets": [
+        {
+          "type": "trace",
+          "min": 1,
+          "max": 1,
+          "cibles": "ennemis"
+        }
+      ]
+    }
+  }
+}

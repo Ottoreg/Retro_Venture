@@ -1,0 +1,41 @@
+{
+  "id": "rodeur_mine",
+  "nom": "Mine",
+  "description": "Un petit pot de poudre enterré : il saute (cercle de 1) au premier ennemi qui y entre, ou au Détonateur. 2 Mines à la fois.",
+  "cout_pa": 2,
+  "portee": {
+    "min": 1,
+    "max": 5
+  },
+  "ligne_de_vue": false,
+  "pieges_max": 2,
+  "relance": {
+    "par_tour": 2
+  },
+  "effets": [
+    {
+      "type": "piege",
+      "effets": [
+        {
+          "type": "degats",
+          "element": "flamme",
+          "min": 6,
+          "max": 8,
+          "cibles": "ennemis"
+        }
+      ],
+      "zone": {
+        "type": "cercle",
+        "taille": 1
+      }
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "pieges_max": 1
+    },
+    "5": {
+      "zone_piege": 1
+    }
+  }
+}
