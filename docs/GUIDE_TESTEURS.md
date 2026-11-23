@@ -143,6 +143,11 @@ temps : chaque camp a sa propre histoire.
     Pas de nouvelle Horloge sur une cible qui en a déjà une ; poussée hors du cadran, elle garde sa
     dernière heure.
     En visant, la case d'arrivée est entourée en violet, avec l'heure au-dessus de la cible.
+    Depuis le 23/11/2026, il a ses 20 sorts : *Arrêt sur image* (l'heure rejoue son effet), *Rendez-vous* (échange de
+    place), *Sursis*, *Accélération*, et la **Voie Givre** : *Pulsion temporelle* (explose au 2e tour de la cible),
+    *Écho du passé* (plus fort à chaque manipulation du temps subie), *Déjà-vu* (renvoie la cible à sa case d'il y a un
+    tour), *Saut dans le futur* (ses effets s'écoulent d'un coup), *Point de départ*, *Cristal du temps* (inamovible),
+    *Heure d'avance*… Passif *Temps volé* : chaque manipulation d'un ennemi lui vole une seconde, +2 % de dommages.
 - Les soins et boucliers grandissent avec la caractéristique de leur élément (soin Sacré : Force et
   Intelligence ; *Second souffle* du Guerrier : Force ; bouclier de l'*Armure de givre* de
   l'Arcaniste : Perception, l'ancienne Chance).

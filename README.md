@@ -29,8 +29,8 @@ a été ajouté depuis, avant de retravailler le fond des mécaniques, des class
 - **Neuf Voies** : Guerrier, Rôdeur, Arcaniste (composition Flamme / Givre / Tempête), Théologue, Chronomancien,
   Ombre (images rémanentes, invisibilité, Monde des ombres), Démoniste (serviteurs joués par le joueur, cases embrasées),
   Paladin (auras qui le suivent, balises reliées par des arcs électriques) et Myrmidon (tank : provocation, Blindage,
-  Gelures, arbres et rochers démolis, eau gelée)
-  (Voie Impie et son horloge) ; races : Humains, Elfes, Gobelins, Orcs, Squelettes, Géants, Nains et Arkhés (4 variantes élémentaires), choisies dans un carrousel à la création.
+  Gelures, arbres et rochers démolis, eau gelée) ; Chronomancien complet (horloge, pulsions temporelles, retours dans
+  le passé, envoi dans le futur) ; races : Humains, Elfes, Gobelins, Orcs, Squelettes, Géants, Nains et Arkhés (4 variantes élémentaires), choisies dans un carrousel à la création.
 - **Progression sans niveaux** : réputation (qui débloque) et points de maîtrise à répartir, par classe et par
   métier ; caractéristiques gagnées par la pratique et plafonnées ; une classe active, changée hors combat.
 - **Sauvegarde solo** automatique, exportable et importable en image PNG chiffrée (menu principal).

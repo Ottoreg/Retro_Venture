@@ -267,8 +267,11 @@ Lots 0 (conception dans le GDD), 1 (personnage, poussé sur `main` à la demande
   (échange de place, obstacle sauté), état `insoignable`, caractéristique `degats_infliges` ; 6 sorts,
   heures écrites sur la glyphe, aperçu de la case d'arrivée ; protocole v9
 - [x] Chronomancien : effets de 3 h, 4 h et 9 h (avec l'esquive et le tacle, 10/11/2026 sur `dev`)
-- [ ] Chronomancien : Voie Givre (positions
-  passées, envoi dans le futur, pulsions), sorts de rang II, équilibrage d'après les retours
+- [x] Chronomancien complet (23/11/2026, GDD § 4.3, 22 propositions validées telles quelles) : 4 sorts Impie de plus,
+  Voie Givre (pulsions, retours à une case passée, envoi dans le futur, Écho du passé, Cristal du temps), passif
+  Temps volé, rangs 3 et 5 réécrits ; protocole v23
+- [ ] Chronomancien : équilibrage après les tests de l'auteur ; planches PixelLab (violet impie, bleu givre) ; IA si un
+  monstre joue ces mécaniques
 - [x] **(MVP)** Effets : soin, bouclier, téléportation, bonus/malus temporaires (caractéristiques, PA,
   PM, portée, Dommages, % Critique, résistances), poisons, poussée (avec dégâts de choc) et attirance
   (GDD § 7.4)
@@ -679,7 +682,7 @@ Lots 0 (conception dans le GDD), 1 (personnage, poussé sur `main` à la demande
   invisibilité, armes d'obscurité, Monde des ombres ; valeurs provisoires
 - [ ] Ombre : cacher côté serveur aux adversaires l'invisible, le Monde des ombres et les armes d'obscurité (multijoueur) ;
   boss non envoyables dans les ombres (au cas par cas) ; animations PixelLab propres à ses sorts
-- [ ] Voie mixte **Chronomancien** (maître du temps, remplace le Venomancien) : Voie Givre
+- [x] Voie mixte **Chronomancien** (maître du temps, remplace le Venomancien) : Voie Givre (23/11/2026)
 - [x] Voie à distance **Démoniste** (20/11/2026, GDD § 4.3) : serviteurs joués par le joueur, embrasement des cases,
   passif Pacte de feu ; valeurs provisoires
 - [x] Voie corps à corps **Paladin** (21/11/2026, GDD § 4.3) : auras qui suivent le lanceur, balises et arcs électriques,

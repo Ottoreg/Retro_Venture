@@ -606,8 +606,35 @@ Mécaniques du Myrmidon (GDD § 4.3) :
   des dégâts de sort subis va au lanceur, avec ses résistances), `carapace_de_glace` (qui frappe au contact prend une
   Gelure). Caractéristique modifiable `reduction_degats`. Passif `point_de_mire`.
 
+Mécaniques du Chronomancien, Voie Givre et sorts du 23/11/2026 (GDD § 4.3) :
+
+```json
+{"type": "pulsion", "element": "givre", "min": 12, "max": 16, "delai": 2, "cibles": "ennemis"}
+{"type": "retour", "tours": 1, "cibles": "ennemis"}
+{"type": "futur", "tours": 2, "cibles": "ennemis"}
+{"type": "arret_sur_image", "cibles": "ennemis"}
+{"type": "sursis", "pourcent": 50}
+{"type": "permutation", "tous": true}
+{"type": "degats", "element": "givre", "min": 3, "max": 4, "par_manipulation": 6}
+```
+
+- `pulsion` : dégâts différés, au début du `delai`-ième tour de la cible (3 au plus, non retirables) ; poser une pulsion
+  est une manipulation temporelle (comme une heure atteinte, un retour, un envoi dans le futur : `Fighter.manipulations`).
+- `retour` : la cible revient à sa case du début de son `tours`-ième dernier tour (`Fighter.past_cells`, 3 retenues) ;
+  case occupée : échange ; obstacle ou occupant inamovible : case libre la plus proche.
+- `futur` : relances −`tours`, poisons infligés d'un coup, pulsions de ce délai explosées, malus (et bonus d'un ennemi)
+  écoulés ; un boss n'écoule que poisons et pulsions.
+- `arret_sur_image` : la dernière heure atteinte sur son horloge rejoue son effet (`aucune_horloge` sans horloge).
+- `sursis` : rend `pourcent` % des PV perdus depuis le début de son tour précédent (`Fighter.past_hp`).
+- `permutation` avec `tous` : échange de place avec n'importe quel combattant (sinon seulement ses serviteurs) ; refusé
+  sur un `inamovible`.
+- Champ d'effet de dégâts `par_manipulation` : valeur × manipulations subies par la cible (ce nombre au plus). Champ
+  `si_critique` (vrai) : l'effet ne joue qu'en coup critique.
+- État nommé `inamovible` (ni poussé, ni attiré, ni échangé, ni déplacé sur un cadran). Passif `temps_vole`. Rangs de
+  maîtrise `duree_horloge` (tours de cadran en plus) et `par_tour` (lancers par tour).
+
 Toutes les Voies ont `pv` 50 et `initiative` 100 (demande de l'auteur du 20/11/2026). `passif` (facultatif) : le
-passif de classe, débloqué au palier Apprenti, `{"id", "nom", "effet": "coup_en_traitre", "pacte_de_feu", "saint_paratonnerre" ou "point_de_mire", "description"}`
+passif de classe, débloqué au palier Apprenti, `{"id", "nom", "effet": "coup_en_traitre", "pacte_de_feu", "saint_paratonnerre", "point_de_mire" ou "temps_vole", "description"}`
 (effets connus : `GameData.CLASS_PASSIVES`) ; son rang vient de sa maîtrise.
 
 ## Objets (`objets/`)
