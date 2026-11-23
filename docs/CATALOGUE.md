@@ -27,7 +27,7 @@ Prix de boutique : selon la rareté (revente à 25 %).
 - [Sorts de race](#sorts-de-race)
 - [Sorts des monstres](#sorts-des-monstres)
 
-**317 objets** (18 armes, 20 coiffes, 20 capes, 20 amulettes, 20 anneaux, 20 ceintures, 20 bottes, 129 ressources, 37 plans de forge, 7 objets de quête), **57 monstres** et **231 sorts**.
+**317 objets** (18 armes, 20 coiffes, 20 capes, 20 amulettes, 20 anneaux, 20 ceintures, 20 bottes, 129 ressources, 37 plans de forge, 7 objets de quête), **57 monstres** et **244 sorts**.
 
 ## Armes
 
@@ -1328,7 +1328,7 @@ Démoniste agréé, ancien sous-traitant du Mordor. Ses démons pointent à l'he
 
 ### Guerrier
 
-Au contact, il encaisse et rend les coups. Réfléchit après, de préférence. PV 50, PA 6, PM 3, initiative 100. Départ : .
+Au contact, il encaisse et rend les coups. Réfléchit après, de préférence. Voie Impie : chevalier d'un ordre dissous pour faute grave, il paie chaque coup de son propre sang, puis se rembourse sur l'adversaire. PV 50, PA 6, PM 3, initiative 100. Départ : .
 
 | Sort | Caractéristiques | Effets | Description |
 |---|---|---|---|
@@ -1337,6 +1337,21 @@ Au contact, il encaisse et rend les coups. Réfléchit après, de préférence. 
 | **Tourbillon** | 4 PA, portée soi, cercle de rayon 1 (sans le lanceur), sans ligne de vue, 1/tour | 7–10 Acier | Tourne sur lui-même lame tendue. Frappe tout ce qui est au contact, amis compris. |
 | **Second souffle** | 2 PA, portée soi, sans ligne de vue, 1/tour, relance 3 t. | soin 12–18 (Acier) | Une grande inspiration, une gorgée de gourde, et ça repart. |
 | **Charge** | 3 PA, portée 2–4, en ligne, 1/tour, relance 2 t. | charge en ligne jusqu'au contact (effets suivants au contact seulement) ; 6–9 Acier | Il fonce droit devant, épée en avant, jusqu'au contact. Le freinage est en option, la réflexion aussi. |
+| **Cri de guerre** | 3 PA, portée soi, cercle de rayon 2, sans ligne de vue, 1/tour, relance 4 t. | +4–6 Dommages (2 t.) aux alliés | Un hurlement qui galvanise les alliés proches et réveille tout le voisinage. |
+| **Fendoir** | 5 PA, portée 1, 1/tour | 16–22 Acier | Le grand coup qu'on garde pour la fin, avec toute sa rancune : +6 % de dégâts par cran de Rancune, qui sont dépensés. |
+| **Croc-en-jambe** | 2 PA, portée 1, 1/tour, relance 2 t. | 3–5 Acier aux ennemis ; −2 PM au prochain tour aux ennemis | Un pied qui traîne, comme par hasard. L'ennemi perd 2 PM à son prochain tour. |
+| **Crochet** | 3 PA, portée 2–4, en ligne, 1/tour, relance 2 t. | attire de 3 case(s) aux ennemis | Un crochet au bout d'une chaîne : l'ennemi vient au contact, qu'il le veuille ou non. |
+| **Recul stratégique** | 2 PA, portée 1–3, sans ligne de vue, 1/tour, relance 3 t. | téléportation sur la case | Ce n'est pas une fuite, c'est un repositionnement héroïque. Saute sur une case libre sans être taclé. |
+| **Serment de sang** | 1 PA, portée soi, sans ligne de vue, 1/tour, relance 2 t. | +2 PA tout de suite | Il signe de son sang un contrat qu'il n'a pas lu : 15 % de ses PV max contre 2 PA ce tour. |
+| **Lame impie** | 3 PA, portée 1, 2/tour | 7–11 Impie aux ennemis | Une lame maudite qui boit pour deux. Vole 30 % des PV qu'elle ôte. |
+| **Onde funèbre** | 4 PA, portée 2–4, cercle de rayon 1, 1/tour | 6–9 Impie | Une onde de malheur autour de la cible. Les alliés aussi : c'est un chevalier maudit, pas un chevalier servant. |
+| **Exécution** | 5 PA, portée 1, 1/tour | 15–21 Impie aux ennemis | La sentence tombe, sans appel : +30 % de dégâts contre une cible sous 30 % de ses PV. |
+| **Rage du damné** | 4 PA, portée 1, 1/tour | 10–14 Impie aux ennemis | Plus il saigne, plus il frappe : +1 % par % de PV manquant (60 % au plus), et dépense sa Rancune (+6 % par cran). |
+| **Regard du damné** | 2 PA, portée 1–4, 1/tour, relance 2 t. | −2 PA (1 t.) aux ennemis | Un regard qui glace le sang (le sien est déjà froid) : −2 PA à la cible pendant son prochain tour. |
+| **Étreinte de la tombe** | 3 PA, portée 1–2, 1/tour, relance 3 t. | attire de 1 case(s) aux ennemis ; −3 PM au prochain tour aux ennemis ; 4–6 Impie aux ennemis | Des mains d'outre-tombe l'attirent d'une case, lui retirent 3 PM et lui volent des PV. |
+| **Pas du spectre** | 2 PA, portée 1–4, sans ligne de vue, 1/tour, relance 2 t. | téléportation sur la case | Il traverse un bout de l'au-delà et ressort plus loin, sans ligne de vue ni tacle. |
+| **Armure de sang** | 2 PA, portée soi, sans ligne de vue, 1/tour, relance 3 t. | bouclier 8 (Impie) | Le sang versé fait une armure : un bouclier d'au moins deux fois les PV payés ce tour. |
+| **Malédiction** | 3 PA, portée 1–5, 1/tour, relance 3 t. | −15 Résistance Acier (2 t.) aux ennemis ; −15 Résistance Impie (2 t.) aux ennemis | Une malédiction de famille, transmissible : la cible perd 15 % de résistance Acier et Impie pendant 2 tours. |
 
 ### Myrmidon
 
@@ -1571,8 +1586,6 @@ gardés comme trace de sa première version).
 | **Jugement dernier** | 3 PA, portée soi, cercle de rayon 1 (sans le lanceur), 1/tour | 25 Sacré aux ennemis | Seul, l'Archange frappe tout ce qui l'entoure. |
 | **Crachat de soufre** | 2 PA, portée 2–4, cercle de rayon 1, 1/tour | 4–5 Impie aux ennemis | Un crachat qui éclabousse les voisins. |
 | **Coup de fourche** | 2 PA, portée 1–4, 2/tour | 5–7 Impie aux ennemis | Un petit coup de fourche, pas bien méchant mais très insistant. |
-| **Cri de guerre** | 3 PA, portée soi, cercle de rayon 2, sans ligne de vue, 1/tour, relance 4 t. | +4–6 Dommages (2 t.) aux alliés | Un hurlement qui galvanise les alliés proches et réveille tout le voisinage. Sort de rang II. |
-| **Fendoir** | 5 PA, portée 1, 1/tour | 16–22 Acier | Le grand coup qu'on garde pour la fin. Ou pour le début, ça dépend de l'humeur. Sort de rang II. |
 | **Grognement** | 1 PA, portée 2–4, 1/tour | attire de 2 case(s) aux ennemis | Un grognement qui fait venir l'ennemi à lui. |
 | **Morsure** | 3 PA, portée 1, 1/tour | 7–9 Impie aux ennemis | Il mord, et ne lâche pas avant la pause. |
 | **Pause café** | 3 PA, portée 0–3, cercle de rayon 1, 1/tour | soin 4–6 (Impie) aux alliés | Tout le monde autour souffle un peu. |

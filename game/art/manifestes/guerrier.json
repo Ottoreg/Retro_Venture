@@ -1,0 +1,102 @@
+{
+  "images": {
+    "sort_guerrier_croc_en_jambe": {
+      "fichier": "sorts/guerrier_croc_en_jambe.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_guerrier_crochet": {
+      "fichier": "sorts/guerrier_crochet.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_guerrier_recul_strategique": {
+      "fichier": "sorts/guerrier_recul_strategique.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_guerrier_serment_de_sang": {
+      "fichier": "sorts/guerrier_serment_de_sang.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_guerrier_lame_impie": {
+      "fichier": "sorts/guerrier_lame_impie.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_guerrier_onde_funebre": {
+      "fichier": "sorts/guerrier_onde_funebre.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_guerrier_execution": {
+      "fichier": "sorts/guerrier_execution.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_guerrier_rage_du_damne": {
+      "fichier": "sorts/guerrier_rage_du_damne.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_guerrier_regard_du_damne": {
+      "fichier": "sorts/guerrier_regard_du_damne.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_guerrier_etreinte_de_la_tombe": {
+      "fichier": "sorts/guerrier_etreinte_de_la_tombe.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_guerrier_pas_du_spectre": {
+      "fichier": "sorts/guerrier_pas_du_spectre.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_guerrier_armure_de_sang": {
+      "fichier": "sorts/guerrier_armure_de_sang.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_guerrier_malediction": {
+      "fichier": "sorts/guerrier_malediction.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "sort_guerrier_rancune": {
+      "fichier": "sorts/guerrier_rancune.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    }
+  }
+}

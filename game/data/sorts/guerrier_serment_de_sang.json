@@ -1,0 +1,31 @@
+{
+  "id": "guerrier_serment_de_sang",
+  "nom": "Serment de sang",
+  "description": "Il signe de son sang un contrat qu'il n'a pas lu : 15 % de ses PV max contre 2 PA ce tour.",
+  "cout_pa": 1,
+  "portee": {
+    "min": 0,
+    "max": 0
+  },
+  "cout_pv": 15,
+  "ligne_de_vue": false,
+  "relance": {
+    "par_tour": 1,
+    "delai": 2
+  },
+  "effets": [
+    {
+      "type": "gain_pa",
+      "min": 2,
+      "max": 2
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "cout_pv": 12
+    },
+    "5": {
+      "delai": 1
+    }
+  }
+}

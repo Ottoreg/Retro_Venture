@@ -1,0 +1,29 @@
+{
+  "id": "guerrier_pas_du_spectre",
+  "nom": "Pas du spectre",
+  "description": "Il traverse un bout de l'au-delà et ressort plus loin, sans ligne de vue ni tacle.",
+  "cout_pa": 2,
+  "portee": {
+    "min": 1,
+    "max": 4
+  },
+  "cout_pv": 5,
+  "ligne_de_vue": false,
+  "relance": {
+    "par_tour": 1,
+    "delai": 2
+  },
+  "effets": [
+    {
+      "type": "teleportation"
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "portee_max": 1
+    },
+    "5": {
+      "cout_pv": 0
+    }
+  }
+}

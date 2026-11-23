@@ -1,0 +1,48 @@
+{
+  "id": "guerrier_malediction",
+  "nom": "Malédiction",
+  "description": "Une malédiction de famille, transmissible : la cible perd 15 % de résistance Acier et Impie pendant 2 tours.",
+  "cout_pa": 3,
+  "portee": {
+    "min": 1,
+    "max": 5
+  },
+  "cout_pv": 5,
+  "relance": {
+    "par_tour": 1,
+    "delai": 3
+  },
+  "effets": [
+    {
+      "type": "malus",
+      "carac": "resistance",
+      "min": 15,
+      "max": 15,
+      "duree": 2,
+      "cibles": "ennemis",
+      "element": "acier"
+    },
+    {
+      "type": "malus",
+      "carac": "resistance",
+      "min": 15,
+      "max": 15,
+      "duree": 2,
+      "cibles": "ennemis",
+      "element": "impie"
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "valeurs": {
+        "min": 20,
+        "max": 20
+      }
+    },
+    "5": {
+      "valeurs": {
+        "duree": 3
+      }
+    }
+  }
+}

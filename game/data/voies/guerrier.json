@@ -1,7 +1,7 @@
 {
   "id": "guerrier",
   "nom": "Guerrier",
-  "description": "Au contact, il encaisse et rend les coups. Réfléchit après, de préférence.",
+  "description": "Au contact, il encaisse et rend les coups. Réfléchit après, de préférence. Voie Impie : chevalier d'un ordre dissous pour faute grave, il paie chaque coup de son propre sang, puis se rembourse sur l'adversaire.",
   "caracteristiques": {
     "pv": 50,
     "pa": 6,
@@ -13,10 +13,27 @@
     "guerrier_hache",
     "guerrier_tourbillon",
     "guerrier_second_souffle",
-    "guerrier_charge"
+    "guerrier_charge",
+    "guerrier_cri_de_guerre",
+    "guerrier_fendoir",
+    "guerrier_croc_en_jambe",
+    "guerrier_crochet",
+    "guerrier_recul_strategique",
+    "guerrier_serment_de_sang",
+    "guerrier_lame_impie",
+    "guerrier_onde_funebre",
+    "guerrier_execution",
+    "guerrier_rage_du_damne",
+    "guerrier_regard_du_damne",
+    "guerrier_etreinte_de_la_tombe",
+    "guerrier_pas_du_spectre",
+    "guerrier_armure_de_sang",
+    "guerrier_malediction"
   ],
-  "sorts_rang_2": {
-    "guerrier_cri_de_guerre": 0,
-    "guerrier_fendoir": 0
+  "passif": {
+    "id": "guerrier_rancune",
+    "nom": "Rancune",
+    "effet": "rancune",
+    "description": "Débloqué au palier Apprenti. Chaque tranche de 5 PV perdus (coups reçus ou PV payés) donne un cran de Rancune, gardé tout le combat : +3 % de dégâts par cran. 5 crans au plus (6 au rang 2, 8 au rang 3, 9 au rang 4, 10 au rang 5). Rang 3 : les dégâts absorbés par un bouclier comptent aussi. Rang 5 : au 10e cran, son prochain coup de mêlée est critique. Fendoir et Rage du damné dépensent les crans."
   }
 }

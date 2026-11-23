@@ -113,6 +113,11 @@ temps : chaque camp a sa propre histoire.
     visent plus ; un sort de dégâts la révèle, sauf l'*Arme d'obscurité*, qui frappe la cible à son prochain tour).
     *Monde des ombres* envoie une cible (ou elle-même) dans une autre dimension pour 2 tours : la carte devient grise,
     seuls ceux de la même dimension se battent entre eux, des lueurs montrent les cases occupées dehors.
+  - **Guerrier** (complété : 20 sorts, Acier : Force, et Impie : Agilité et Perception) : sa **Rancune** (dès
+    Apprenti) donne +3 % de dégâts par tranche de 5 PV perdus ; *Fendoir* et *Rage du damné* la dépensent. Les sorts
+    Impie **coûtent des PV** (jamais mortels) : *Serment de sang* donne 2 PA, *Lame impie* et *Étreinte de la tombe*
+    volent de la vie, *Armure de sang* change les PV payés en bouclier. Nouveaux en Acier : *Croc-en-jambe*, *Crochet*
+    (attire au contact) et *Recul stratégique* (saut en arrière).
   - **Myrmidon** (nouveau, Acier : Force, et Givre : Perception) : un **tank**. Les monstres qui commencent leur tour
     près de lui sont **provoqués** (ils le visent, et font moins mal aux autres) ; *Défi* attire et provoque de loin.
     En Acier, ses coups lui donnent des crans de **Blindage** (résistances) que *Retour à l'envoyeur* dépense d'un coup ;

@@ -410,7 +410,7 @@ Chronomancien (Voie Impie) :
 - `etat` : état nommé pendant `duree` tours : `insoignable` (aucun soin ne lui rend de PV),
   `exorcisme` (les prochains dégâts Sacré l'achèvent, bouclier compris ; l'état tombe alors) ou
   `inblocable` (ni taclé, ni tacleur).
-- `"vol": true` sur un effet `degats` : vol de vie, le lanceur reprend les PV qu'il a fait perdre.
+- `"vol": true` sur un effet `degats` : vol de vie, le lanceur reprend les PV qu'il a fait perdre (ou un %, ex. `"vol": 30`).
 - `"pourcent_pv": true` sur un effet `soin` : `min`/`max` en % des PV max de la cible, sans bonus de caractéristique.
 - `portee_fixe` (sort, `true`) : portée non modifiable, les bonus de portée ne s'y ajoutent pas.
 - Caractéristique `degats_infliges` (bonus ou malus) : % de tous les dégâts infligés, poisons compris.
@@ -606,8 +606,18 @@ Mécaniques du Myrmidon (GDD § 4.3) :
   des dégâts de sort subis va au lanceur, avec ses résistances), `carapace_de_glace` (qui frappe au contact prend une
   Gelure). Caractéristique modifiable `reduction_degats`. Passif `point_de_mire`.
 
+Mécaniques du Guerrier (GDD § 4.3) :
+
+- Champ de sort `cout_pv` (Prix du sang) : PV payés au lancer, en % des PV max (au moins 1) ; ni bouclier ni résistance,
+  jamais mortel (`pv_insuffisants`), compte pour la Rancune. Rangs de maîtrise `cout_pv` (nouveau coût) et `valeurs`
+  (`{ champ : entier }` remplacé sur chaque effet du sort qui a ce champ, ex. `{"vol": 40}`, `{"duree": 3}`).
+- Champs d'effet de dégâts `par_rancune` (% par cran de Rancune du lanceur, tous dépensés), `par_pv_manquant` (+1 % par %
+  de PV manquant du lanceur, cette valeur au plus), `execution` (% contre une cible sous 30 % de ses PV) ; champ de
+  bouclier `par_pv_payes` (au moins ce % des PV payés ce tour). Passif `rancune` : état `rancune` du lanceur (un cran
+  par 5 PV perdus, +3 % de dégâts par cran, `Fighter.RAGE_MAX` selon le rang).
+
 Toutes les Voies ont `pv` 50 et `initiative` 100 (demande de l'auteur du 20/11/2026). `passif` (facultatif) : le
-passif de classe, débloqué au palier Apprenti, `{"id", "nom", "effet": "coup_en_traitre", "pacte_de_feu", "saint_paratonnerre" ou "point_de_mire", "description"}`
+passif de classe, débloqué au palier Apprenti, `{"id", "nom", "effet": "coup_en_traitre", "pacte_de_feu", "saint_paratonnerre", "point_de_mire" ou "rancune", "description"}`
 (effets connus : `GameData.CLASS_PASSIVES`) ; son rang vient de sa maîtrise.
 
 ## Objets (`objets/`)

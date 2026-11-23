@@ -9,7 +9,7 @@ extends RefCounted
 
 ## Version du protocole, vérifiée à la connexion : à augmenter à chaque changement incompatible
 ## d'une commande ou d'un événement.
-const VERSION := 22
+const VERSION := 23
 
 # --- Commandes (client → noyau) ---
 
@@ -560,6 +560,7 @@ const REASON_OCCUPIED := "case_occupee"
 const REASON_NOT_PLACEMENT_CELL := "case_de_placement_invalide"
 const REASON_NOT_ENOUGH_PM := "pm_insuffisants"
 const REASON_NOT_ENOUGH_PA := "pa_insuffisants"
+const REASON_NOT_ENOUGH_HP := "pv_insuffisants"
 const REASON_UNKNOWN_SPELL := "sort_inconnu"
 const REASON_SPELL_LIMIT := "sort_deja_lance"
 const REASON_SPELL_COOLDOWN := "sort_en_recharge"

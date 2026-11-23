@@ -180,15 +180,17 @@ const MASTERY_BONUS_PER_RANK := 10
 const MASTERY_MAX_RANK := 5
 ## Changements qu'un rang de maîtrise peut apporter (« maitrise » : { "3": {…}, "5": {…} }) : ajouts
 ## (critique, portee_max, bonus_etats : % de chaque état élémentaire, places_crees : places de sorts créés),
-## nouvelles valeurs (cout_pa, delai, zone_taille) et effets en plus (effets ; « premier_lancer » : true, seulement
-## au premier lancer du tour).
+## nouvelles valeurs (cout_pa, cout_pv, delai, zone_taille), champs des effets changés (valeurs : { champ : valeur }, sur
+## chaque effet qui a ce champ) et effets en plus (effets ; « premier_lancer » : true, seulement au premier lancer du tour).
 const MASTERY_ADDS := ["critique", "portee_max", "bonus_etats", "places_crees", "embrase", "duree_aura"]
-const MASTERY_SETS := ["cout_pa", "delai", "zone_taille"]
+const MASTERY_SETS := ["cout_pa", "cout_pv", "delai", "zone_taille"]
 
 var id: String
 var display_name: String
 var description: String
 var pa_cost: int
+## Guerrier, Voie Impie (GDD § 4.3, « Prix du sang ») : PV payés au lancer, en % des PV max du lanceur (« cout_pv »).
+var hp_cost := 0
 var range_min: int
 var range_max: int
 var needs_line_of_sight: bool
@@ -244,6 +246,8 @@ static func validate(data: Dictionary) -> PackedStringArray:
 		errors.append("« nom » doit être un texte")
 	if not _is_int_at_least(data.get("cout_pa"), 0):
 		errors.append("« cout_pa » doit être un entier positif ou nul")
+	if not _is_int_at_least(data.get("cout_pv", 0), 0) or int(data.get("cout_pv", 0)) > 99:
+		errors.append("« cout_pv » doit être un entier de 0 à 99 (% des PV max)")
 	var range_data: Variant = data.get("portee")
 	if typeof(range_data) != TYPE_DICTIONARY or not _is_int_at_least(range_data.get("min"), 0) \
 			or not _is_int_at_least(range_data.get("max"), 0) or int(range_data["min"]) > int(range_data["max"]):
@@ -304,6 +308,9 @@ static func _validate_mastery(mastery_data: Variant) -> PackedStringArray:
 					errors.append("« maitrise.%s.effets » doit être une liste non vide" % str(key))
 				else:
 					errors.append_array(_validate_effects(changes["effets"], false))
+			elif change == "valeurs":
+				if typeof(changes["valeurs"]) != TYPE_DICTIONARY or changes["valeurs"].values().any(func(value: Variant) -> bool: return not _is_int_at_least(value, 0)):
+					errors.append("« maitrise.%s.valeurs » doit être un objet { champ d'effet : entier }" % str(key))
 			elif change in MASTERY_ADDS:
 				if typeof(changes[change]) not in [TYPE_INT, TYPE_FLOAT] or changes[change] != floorf(changes[change]):
 					errors.append("« maitrise.%s.%s » doit être un entier" % [str(key), str(change)])
@@ -312,7 +319,7 @@ static func _validate_mastery(mastery_data: Variant) -> PackedStringArray:
 					errors.append("« maitrise.%s.%s » doit être un entier positif ou nul" % [str(key), str(change)])
 			else:
 				errors.append("« maitrise.%s » : changement inconnu « %s » (%s, effets)" % [str(key), str(change),
-					str(MASTERY_ADDS + MASTERY_SETS)])
+					str(MASTERY_ADDS + MASTERY_SETS + ["valeurs"])])
 	return errors
 
 
@@ -385,8 +392,8 @@ static func _validate_effects(effects_data: Array, top_level: bool) -> PackedStr
 			var kinds: Variant = effect.get("etats")
 			if typeof(kinds) != TYPE_ARRAY or kinds.is_empty() or kinds.any(func(kind: Variant) -> bool: return kind not in REMOVABLE_STATE_TYPES):
 				errors.append("effet « retrait_etats » : « etats » doit être une liste non vide parmi %s" % str(REMOVABLE_STATE_TYPES))
-		if effect.has("vol") and (type != EFFECT_DAMAGE or typeof(effect["vol"]) != TYPE_BOOL):
-			errors.append("« vol » (vrai ou faux) n'existe que sur un effet « degats »")
+		if effect.has("vol") and (type != EFFECT_DAMAGE or not (typeof(effect["vol"]) == TYPE_BOOL or _is_int_at_least(effect["vol"], 1))):
+			errors.append("« vol » (vrai ou % des PV ôtés) n'existe que sur un effet « degats »")
 		if effect.has("pourcent_pv") and (type != EFFECT_HEAL or typeof(effect["pourcent_pv"]) != TYPE_BOOL):
 			errors.append("« pourcent_pv » (vrai ou faux) n'existe que sur un effet « soin »")
 		if type == EFFECT_SUMMON and (typeof(effect.get("serviteur")) != TYPE_DICTIONARY or ["id", "nom", "pv", "pa", "pm", "sorts"].any(
@@ -416,6 +423,7 @@ static func from_dict(data: Dictionary) -> Spell:
 	spell.display_name = data["nom"]
 	spell.description = str(data.get("description", ""))
 	spell.pa_cost = int(data["cout_pa"])
+	spell.hp_cost = int(data.get("cout_pv", 0))
 	spell.range_min = int(data["portee"]["min"])
 	spell.range_max = int(data["portee"]["max"])
 	spell.needs_line_of_sight = bool(data.get("ligne_de_vue", true))
@@ -454,7 +462,7 @@ func mastered(level: int) -> Spell:
 	if level == 0:
 		return self
 	var copy := Spell.new()
-	for property in ["id", "display_name", "description", "pa_cost", "range_min", "range_max", "needs_line_of_sight",
+	for property in ["id", "display_name", "description", "pa_cost", "hp_cost", "range_min", "range_max", "needs_line_of_sight",
 			"cast_in_line", "fixed_range", "zone_type", "zone_size", "excludes_caster", "casts_per_turn", "cooldown", "crit_chance", "discreet", "enemy_cooldown", "marked_range", "ignites", "calcined", "ember_range", "projectile", "aura_zone", "aura_turns"]:
 		copy.set(property, get(property))
 	copy.mastery = mastery
@@ -473,9 +481,14 @@ func mastered(level: int) -> Spell:
 		copy.ignites += int(changes.get("embrase", 0))
 		copy.aura_turns += int(changes.get("duree_aura", 0))
 		copy.pa_cost = int(changes.get("cout_pa", copy.pa_cost))
+		copy.hp_cost = int(changes.get("cout_pv", copy.hp_cost))
 		copy.cooldown = int(changes.get("delai", copy.cooldown))
 		copy.zone_size = int(changes.get("zone_taille", copy.zone_size))
 		copy.effects.append_array(normalized_effects(changes.get("effets", [])))
+		for effect in copy.effects:
+			for field: String in changes.get("valeurs", {}):
+				if effect.has(field):
+					effect[field] = int(changes["valeurs"][field])
 	return copy
 
 

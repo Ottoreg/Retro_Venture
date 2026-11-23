@@ -163,6 +163,7 @@ const GROUP_SPOTS := [
 ## Messages affichés pour les refus du noyau.
 var _refusals := {
 	Protocol.REASON_NOT_ENOUGH_PA: "Pas assez de PA",
+	Protocol.REASON_NOT_ENOUGH_HP: "Pas assez de PV pour payer le prix du sang",
 	Protocol.REASON_NOT_ENOUGH_PM: "Pas assez de PM",
 	Protocol.REASON_OUT_OF_RANGE: "Hors de portée",
 	Protocol.REASON_NO_LINE_OF_SIGHT: "Pas de ligne de vue",
@@ -1938,6 +1939,8 @@ static func state_text(state: Dictionary) -> String:
 		return "Poison %d %s (%s)" % [state["valeur"], SpellsWindow.ELEMENT_LABELS.get(state["element"], state["element"]), duration]
 	if state["type"] == Spell.EFFECT_STATE:
 		return "%s (%s)" % [STATE_NAMES.get(state.get("etat", ""), state.get("etat", "")), duration]
+	if state["type"] == Fighter.RAGE:
+		return "Rancune ×%d (+%d %% de dégâts)" % [state["valeur"], Fighter.RAGE_BONUS * int(state["valeur"])]
 	if state["type"] in [Spell.EFFECT_ARMOR, Spell.EFFECT_FROSTBITE]:
 		return "%s ×%d (%s)" % ["Blindage" if state["type"] == Spell.EFFECT_ARMOR else "Gelures", state["valeur"], duration]
 	if state["type"] == Spell.EFFECT_STATE and state.get("etat") == Spell.STATE_PROVOKED:

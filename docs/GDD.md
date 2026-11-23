@@ -530,7 +530,7 @@ fiches de travail par classe dans `docs/design/classes/`) :
 
 | Famille | Classe | Rôle | Éléments principaux | Style |
 |---|---|---|---|---|
-| **Corps à corps** | **Guerrier** | Mêlée polyvalente | Acier / Impie (Force / Agilité + Perception) | *(voir plus haut)* ; Voie Impie : chevalier maudit (décidée le 15/11/2026, à concevoir) |
+| **Corps à corps** | **Guerrier** | Mêlée polyvalente | Acier / Impie (Force / Agilité + Perception) | *(voir plus haut)* ; Voie Impie : chevalier maudit, Prix du sang (codée le 23/11/2026, voir plus bas) |
 | | **Paladin** | Guerrier sacré ou électrique : mêlée, soutien, distance | Sacré / Tempête (Force + Intelligence / Agilité) | Voie Sacrée : coups bénis, glyphes en aura qui le suivent et renforcent les alliés. Voie Tempête : sorts électrisants à distance, balises reliées par des arcs électriques |
 | | **Myrmidon** | Guerrier tank | Acier / Givre, chacun pur (Force / Perception), Vitalité | Bouclier, provocation (attire les coups), réduction de dégâts, poussée, garde un allié |
 | **Mixte** | **Rôdeur** | Distance et mobilité | Acier / Flamme (Force / Intelligence) ; Acier / Tempête dans l'alpha | *(voir plus haut)* ; à terme, Voie Flamme tournée vers les pièges et les explosifs |
@@ -640,6 +640,43 @@ telles quelles par l'auteur, à ajuster après ses tests ; valeurs provisoires ;
   2 tours).
 - *Plus tard* : aucun monstre ne joue la classe (pas d'IA propre) ; sorts joués avec l'attaque de la race (planches
   recoloriées) ; 3e Voie Lumière ou Ténèbres à trancher.
+
+**Guerrier : conception finale, codée le 23/11/2026** (fil « Compléter les sorts du Guerrier », 25 propositions validées
+telles quelles par l'auteur le 23/11/2026, à ajuster après ses tests ; valeurs provisoires ; fiche
+`docs/design/classes/guerrier.md`, données `docs/design/guerrier/produire.py`, tests `tests/core/test_guerrier.gd`) :
+
+- *Identité* : mêlée polyvalente, famille corps à corps ; 50 PV, 6 PA, 3 PM, 100 d'initiative (la fiche disait 60 PV,
+  corrigée). Voie Acier : Force ; Voie Impie : Agilité et Perception (règle de l'Impie), chacune pure. Voie Impie :
+  « Chevalier d'un ordre dissous pour faute grave. Son épée est maudite, son assurance aussi : il paie chaque coup de son
+  propre sang, puis se rembourse sur l'adversaire. » Même planche, sorts joués avec l'attaque de la race.
+- *Passif* **Rancune** (Apprenti, 5 rangs, effet `rancune`) : chaque tranche de 5 PV perdus (coups reçus ou PV payés)
+  donne un cran (état `rancune`, gardé tout le combat, sans perte avec le temps) ; +3 % de dégâts par cran. Crans au
+  plus : 5 (rangs 0 et 1), 6, 8, 9, 10 (`Fighter.RAGE_MAX`). Rang 3 : les dégâts absorbés par un bouclier comptent aussi.
+  Rang 5 : au 10e cran, son prochain coup de mêlée est critique (une fois). *Fendoir* (Acier) et *Rage du damné* (Impie)
+  dépensent tous les crans pour +6 % de dégâts par cran (champ `par_rancune`).
+- *Prix du sang* (signature de la Voie Impie, champ `cout_pv` des sorts) : la plupart des sorts Impie coûtent 3 à 15 % des
+  PV max en plus des PA ; ce coût passe à travers boucliers et résistances, ne compte pas comme des dégâts reçus (ni
+  épines ni pratique de Vitalité) mais nourrit la Rancune ; un sort dont le coût atteint les PV restants est grisé
+  (« Pas assez de PV pour payer le prix du sang »). Vol de vie (champ `vol`, vrai ou %) sur *Lame impie* (30 %, 40 % au
+  rang 3) et *Étreinte de la tombe* (100 %).
+- *Voie Acier* (10) : *Charge* (signature), *Frappe*, *Lancer de hache*, *Tourbillon*, *Fendoir* (combo Rancune),
+  *Second souffle*, *Cri de guerre* (soutien), et depuis le 23/11/2026 *Croc-en-jambe* (contrôle : 2 PA, mêlée, 3–5,
+  −2 PM ; rang 3 −3 PM, rang 5 relance 1), *Crochet* (contrôle : 3 PA, 2–4 en ligne, attire de 3 jusqu'au contact,
+  combo de placement avec Tourbillon, Frappe et Fendoir ; rang 3 +1 portée, rang 5 4–6 Acier) et *Recul stratégique*
+  (mobilité vers l'arrière : 2 PA, 1–3, saut sans tacle ; rang 3 +1 portée, rang 5 relance 2). Cri de guerre et Fendoir
+  ne sont plus des sorts de rang II (tout est ouvert dès le début).
+- *Voie Impie* (10, « PV » = coût en % des PV max) : *Serment de sang* (signature : 1 PA, 15 %, +2 PA ce tour, 1 par tour,
+  relance 2 ; rang 3 12 %, rang 5 relance 1), *Lame impie* (3 PA, 3 %, mêlée, 7–11, vole 30 %, 2 par tour), *Onde
+  funèbre* (4 PA, 5 %, 2–4, cercle de 1, 6–9, alliés compris), *Exécution* (5 PA, 8 %, mêlée, 15–21, +30 % contre une
+  cible sous 30 % de ses PV, champ `execution`), *Rage du damné* (combo : 4 PA, sans PV, mêlée, 10–14, +1 % par % de PV
+  manquant, 60 % au plus, 70 % au rang 3, champ `par_pv_manquant`, et dépense la Rancune), *Regard du damné* (2 PA, 3 %,
+  1–4, −2 PA au prochain tour de la cible, −3 au rang 3), *Étreinte de la tombe* (3 PA, 5 %, 1–2, attire d'une case,
+  −3 PM, 4–6 volés), *Pas du spectre* (2 PA, 5 %, 1–4, téléportation sans ligne de vue ; rang 5 sans PV), *Armure de
+  sang* (défense : 2 PA, bouclier d'au moins 8 ou 2 × les PV payés ce tour, × 2,5 au rang 3, champ `par_pv_payes` ;
+  comme tous les boucliers il tient jusqu'au prochain tour de son porteur, et non 2 tours comme proposé), *Malédiction*
+  (soutien utile en solo : 3 PA, 5 %, 1–5, −15 % de résistance Acier et Impie 2 tours, 20 % au rang 3, 3 tours au rang 5).
+- *Maîtrise* : nouveau changement de rang `valeurs` (champ d'effet remplacé, ex. `{"vol": 40}`) et `cout_pv`.
+- *Plus tard* : aucun monstre ne joue la classe (pas d'IA propre) ; 3e Voie Lumière ou Ténèbres à trancher.
 
 **Démoniste — Impie ou Flamme**
 
@@ -1183,8 +1220,8 @@ avec 1 point par 500 de réputation et la réputation des monstres vaincus tiré
 | Tourbillon | 4 PA, autour de soi, 7–10 Acier | repousse d'une case | zone de taille 2 |
 | Second souffle | 2 PA, soin Acier 12–18, délai 3 | délai 2 | bouclier Acier égal à la moitié du soin |
 | Charge | 3 PA, portée 2–4, 6–9 Acier, délai 2 | portée 2–5 | délai 1 |
-| Cri de guerre (rang II, Compagnon) | 3 PA, Dommages +4–6 aux alliés à 2 cases pendant 2 tours, délai 4 | délai 3 | zone de taille 3 |
-| Fendoir (rang II, Vétéran) | 5 PA, mêlée, 16–22 Acier | +5 % de critique | coûte 4 PA |
+| Cri de guerre (rang II jusqu'au 23/11/2026) | 3 PA, Dommages +4–6 aux alliés à 2 cases pendant 2 tours, délai 4 | délai 3 | zone de taille 3 |
+| Fendoir (rang II jusqu'au 23/11/2026) | 5 PA, mêlée, 16–22 Acier, +6 % par cran de Rancune (dépensés) | +5 % de critique | coûte 4 PA |
 
 **Chronomancien** (rangs de maîtrise proposés avec la classe le 29/10/2026, à équilibrer) : rang 3,
 +5 % de critique pour tous ses sorts ; rang 5, *Avance rapide* et *Retour en arrière* coûtent 3 PA,

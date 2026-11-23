@@ -1,0 +1,32 @@
+{
+  "id": "guerrier_execution",
+  "nom": "Exécution",
+  "description": "La sentence tombe, sans appel : +30 % de dégâts contre une cible sous 30 % de ses PV.",
+  "cout_pa": 5,
+  "portee": {
+    "min": 1,
+    "max": 1
+  },
+  "cout_pv": 8,
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "impie",
+      "min": 15,
+      "max": 21,
+      "cibles": "ennemis",
+      "execution": 30
+    }
+  ],
+  "maitrise": {
+    "3": {
+      "critique": 5
+    },
+    "5": {
+      "cout_pa": 4
+    }
+  }
+}

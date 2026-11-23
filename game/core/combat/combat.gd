@@ -671,6 +671,9 @@ func _cast(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 		fighter._cooldowns[spell.id] = spell.enemy_cooldown
 	var crit_chance := spell.crit_chance + fighter.total_crit_bonus()
 	var critical := crit_chance > 0 and rng.randf() * 100.0 < crit_chance
+	if fighter.rage_crit and aimed != null and IsoGrid.distance(fighter.cell, target) == 1 and spell.effect_of(Spell.EFFECT_DAMAGE).size() > 0:
+		critical = true  # Rancune au rang 5 : au dernier cran, le prochain coup de mêlée est critique.
+		fighter.rage_crit = false
 	var events: Array[Dictionary] = [{
 		"type": Protocol.EVT_SPELL_CAST,
 		"entite": fighter.id,
@@ -681,6 +684,13 @@ func _cast(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 		"ombres": fighter.shadow,
 	}]
 	_seen(fighter)  # Dans les ombres, son ombre est projetée dehors, sur sa case.
+	var paid := fighter.hp_cost(spell)
+	if paid > 0:  # Prix du sang : ni bouclier ni résistance, jamais mortel ; compte pour la Rancune.
+		fighter.hp -= paid
+		fighter.hp_paid += paid
+		events.append({"type": Protocol.EVT_DAMAGE, "entite": fighter.id, "valeur": paid, "element": "impie", "pv": fighter.hp, "absorbe": 0,
+			"bouclier": fighter.shield, "source": "Prix du sang"})
+		_gain_rage(fighter, paid, events)
 	var zone := spell_zone(fighter, spell, target)
 	var cast_effects := _ember_variant(spell, target, zone)
 	var crossed := arcs_crossed(fighter, spell, target)
@@ -790,9 +800,11 @@ func _cast(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 			var hit_beacon := beacon_at(cell)
 			if not hit_beacon.is_empty() and hit_beacon["equipe"] != fighter.team and hit_beacon["porteur"] == "":
 				_break_beacon(hit_beacon, events)
-	if cast_effects.any(func(effect: Dictionary) -> bool: return effect.has("par_blindage")) and fighter.stacks(Spell.EFFECT_ARMOR) > 0:
-		fighter.states.assign(fighter.states.filter(func(state: Dictionary) -> bool: return state["type"] != Spell.EFFECT_ARMOR))
-		events.append(_states_event(fighter))  # Retour à l'envoyeur : les crans de Blindage sont dépensés.
+	for spent: String in {"par_blindage": Spell.EFFECT_ARMOR, "par_rancune": Fighter.RAGE}.keys():
+		var kind: String = {"par_blindage": Spell.EFFECT_ARMOR, "par_rancune": Fighter.RAGE}[spent]
+		if cast_effects.any(func(effect: Dictionary) -> bool: return effect.has(spent)) and fighter.stacks(kind) > 0:
+			fighter.states.assign(fighter.states.filter(func(state: Dictionary) -> bool: return state["type"] != kind))
+			events.append(_states_event(fighter))  # Retour à l'envoyeur, Fendoir, Rage du damné : les crans sont dépensés.
 	_close_credit()
 	_ignite(fighter, zone, -CALCINED if not spell.effect_of(Spell.EFFECT_ASHES).is_empty() else int(spell.calcined.get("embrase", spell.ignites))
 		if ember_level(target) == CALCINED else spell.ignites, events)
@@ -911,13 +923,14 @@ func _apply_effect(caster: Fighter, target: Fighter, effect: Dictionary, events:
 				_stack(target, caster, Spell.EFFECT_FROSTBITE, 1, FROST_MAX, target.named_state(Spell.STATE_ICE_SHELL)["sort"], events)
 			if melee and suffered > 0 and int(target.passives.get("point_de_mire", 0)) > 5 and provoker_id(caster) == target.id:
 				_hurt(caster, maxi(1, roundi(suffered * COUNTER_BLOW / 100.0)), "", events, "Contrecoup")
-			var stolen := mini(hp_before - target.hp, caster.max_hp - caster.hp)
+			var stolen := mini(roundi((hp_before - target.hp) * (100 if typeof(effect.get("vol")) == TYPE_BOOL else int(effect.get("vol", 0))) / 100.0),
+				caster.max_hp - caster.hp)
 			if effect.get("vol", false) and caster.is_alive() and stolen > 0 and not caster.has_state(Spell.STATE_UNHEALABLE):
 				caster.hp += stolen  # Vol de vie : le lanceur reprend les PV qu'il a fait perdre.
 				events.append({"type": Protocol.EVT_HEAL, "entite": caster.id, "valeur": stolen, "element": effect["element"], "pv": caster.hp})
 		Spell.EFFECT_SHIELD:
-			amount = roundi(amount * (100 + caster.power(effect["element"])) / 100.0)
-			target.shield += amount
+			amount = maxi(roundi(amount * (100 + caster.power(effect["element"])) / 100.0), roundi(caster.hp_paid * int(effect.get("par_pv_payes", 0)) / 100.0))
+			target.shield += amount  # Armure de sang : au moins « par_pv_payes » % des PV payés ce tour.
 			if not _credit.is_empty() and _credit["lanceur"] == caster and target.team == caster.team:
 				target.shield_credit = {"lanceur": caster.id, "pa": float(_credit["pa"]), "element": effect["element"]}
 			events.append({"type": Protocol.EVT_STATUS, "entite": target.id, "effet": Spell.EFFECT_SHIELD, "valeur": amount,
@@ -1011,7 +1024,9 @@ func _apply_effect(caster: Fighter, target: Fighter, effect: Dictionary, events:
 ## % de dégâts en plus d'un effet de dégâts de l'Ombre : « si_invisible » (lanceur invisible), « par_malus » (par malus
 ## de la cible) et passif « Coup en traître » (5 + rang + 1 %, invisible ou juste sorti des ombres ou de l'invisibilité) ;
 ## du Démoniste : « par_serviteur » (par serviteur vivant) et passif « Pacte de feu » (5 + rang + 1 %, lui et ses serviteurs,
-## contre une cible sur une case embrasée ou calcinée).
+## contre une cible sur une case embrasée ou calcinée) ; du Guerrier : passif « Rancune » (+`Fighter.RAGE_BONUS` % par cran),
+## « par_rancune » (par cran, dépensés), « par_pv_manquant » (+1 % par % de PV manquant du lanceur, cette valeur au plus) et
+## « execution » (contre une cible sous 30 % de ses PV).
 func damage_bonus(caster: Fighter, target: Fighter, effect: Dictionary) -> int:
 	var hidden := caster.is_invisible() or caster.ambush > 0
 	var pact := int(caster.passives.get("pacte_de_feu", 0))
@@ -1023,7 +1038,10 @@ func damage_bonus(caster: Fighter, target: Fighter, effect: Dictionary) -> int:
 		+ (5 + pact if pact > 0 and ember_level(target.cell, target.shadow) > 0 else 0) \
 		+ int(effect.get("par_malus", 0)) * target.states.filter(func(state: Dictionary) -> bool: return state["type"] == Spell.EFFECT_MALUS).size() \
 		+ (5 + int(caster.passives.get("coup_en_traitre", 0)) if hidden and int(caster.passives.get("coup_en_traitre", 0)) > 0 else 0) \
-		+ int(effect.get("bonus_arcs", 0)) + paladin_bonus(caster)
+		+ int(effect.get("bonus_arcs", 0)) + paladin_bonus(caster) \
+		+ (Fighter.RAGE_BONUS + int(effect.get("par_rancune", 0))) * caster.stacks(Fighter.RAGE) \
+		+ mini(int(effect.get("par_pv_manquant", 0)), (caster.max_hp - caster.hp) * 100 / maxi(1, caster.max_hp)) \
+		+ (int(effect.get("execution", 0)) if target.hp * 100 < 30 * target.max_hp else 0)
 
 
 ## Dégâts d'un effet de valeur tirée `amount` (voir `_apply_effect`) : au contact, × (100 + dommages de mêlée
@@ -1133,6 +1151,8 @@ func _hurt(target: Fighter, amount: int, element: String, events: Array[Dictiona
 		_add_practice(shield_credit["lanceur"], "effet", float(shield_credit["pa"]), shield_credit["element"])
 	if lost > 0 and target.team == Fighter.TEAM_PLAYERS and target.master.is_empty():
 		_add_practice(target.id, "pv_recus", float(lost))
+	if target.is_alive():  # Rancune : les dégâts absorbés par un bouclier comptent aussi dès le rang 3.
+		_gain_rage(target, lost + (absorbed if int(target.passives.get("rancune", 0)) > 3 else 0), events)
 	var event := {"type": Protocol.EVT_DAMAGE, "entite": target.id, "valeur": amount, "element": element, "pv": target.hp,
 		"absorbe": absorbed, "bouclier": target.shield}
 	if not source.is_empty():
@@ -1569,6 +1589,24 @@ func _myrmidon_turn_start(fighter: Fighter, events: Array[Dictionary]) -> void:
 	if lost > 0:
 		fighter.pm -= lost
 		events.append({"type": Protocol.EVT_STATUS, "entite": fighter.id, "effet": Spell.EFFECT_REMOVE_PM, "valeur": lost, "pa": fighter.pa, "pm": fighter.pm})
+
+
+## Guerrier, passif « Rancune » : `lost` PV perdus (ou payés) donnent un cran par `Fighter.RAGE_PER_HP`, au plus
+## `Fighter.RAGE_MAX` selon le rang ; au rang 5, le dernier cran rend critique le prochain coup de mêlée.
+func _gain_rage(fighter: Fighter, lost: int, events: Array[Dictionary]) -> void:
+	var rank := int(fighter.passives.get("rancune", 0)) - 1
+	if rank < 0 or lost <= 0:
+		return
+	fighter.rage_hp += lost
+	var before := fighter.stacks(Fighter.RAGE)
+	var cap: int = Fighter.RAGE_MAX[mini(rank, 5)]
+	var after := mini(cap, before + fighter.rage_hp / Fighter.RAGE_PER_HP)
+	fighter.rage_hp %= Fighter.RAGE_PER_HP
+	if after == before:
+		return
+	fighter.states.assign(fighter.states.filter(func(state: Dictionary) -> bool: return state["type"] != Fighter.RAGE))
+	_add_state(fighter, {"type": Fighter.RAGE, "valeur": after, "tours": 999, "sort": "Rancune", "lanceur": fighter.id, "retirable": false}, events)
+	fighter.rage_crit = fighter.rage_crit or (rank >= 5 and after == cap)
 
 
 ## Ajoute `amount` crans (Blindage, Gelures) à `target`, `cap` au plus ; l'état (non retirable) repart pour `STACK_TURNS` tours.

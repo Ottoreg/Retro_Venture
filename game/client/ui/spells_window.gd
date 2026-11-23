@@ -48,7 +48,7 @@ static func describe(spell: Spell) -> PackedStringArray:
 		notes.append("sans ligne de vue")
 	if spell.fixed_range:
 		notes.append("portée non modifiable")
-	lines.append("Coût : %d PA — Portée : %s%s" % [spell.pa_cost, reach, "" if notes.is_empty() else " (%s)" % ", ".join(notes)])
+	lines.append("Coût : %d PA%s — Portée : %s%s" % [spell.pa_cost, " et %d %% des PV max" % spell.hp_cost if spell.hp_cost > 0 else "", reach, "" if notes.is_empty() else " (%s)" % ", ".join(notes)])
 	lines.append_array(effect_lines(spell.effects, "", Fighter.ELEMENT_STATE_BONUS + spell.state_bonus))
 	if spell.zone_type == Spell.ZONE_CIRCLE:
 		lines.append("Zone : cercle de %d case%s" % [spell.zone_size, "s" if spell.zone_size > 1 else ""])
@@ -80,10 +80,16 @@ static func effect_lines(effects: Array, indent := "", state_bonus := Fighter.EL
 			Spell.EFFECT_DAMAGE:
 				line = "Dégâts %s : %s%s" % [element, _range_text(effect), " (+%d %% par cran de Blindage, dépensés)" % effect["par_blindage"]
 					if effect.has("par_blindage") else " (+%d %% par Gelure de la cible, qui tombent)" % effect["par_gelure"] if effect.has("par_gelure") else ""]
+				for field: String in ["par_rancune", "par_pv_manquant", "execution", "vol"]:
+					if effect.has(field):
+						line += {"par_rancune": " (+%d %% par cran de Rancune, dépensés)", "par_pv_manquant": " (+1 %% par %% de PV manquant, %d %% au plus)",
+							"execution": " (+%d %% contre une cible sous 30 %% de ses PV)", "vol": " (vole %d %% des PV ôtés)"}[field] % (
+							100 if typeof(effect[field]) == TYPE_BOOL else int(effect[field]))
 			Spell.EFFECT_HEAL:
 				line = "Soin %s : %s" % [element, _range_text(effect)]
 			Spell.EFFECT_SHIELD:
-				line = "Bouclier %s : %s (absorbe les dégâts jusqu'au prochain tour de la cible)" % [element, _range_text(effect)]
+				line = "Bouclier %s : %s%s (absorbe les dégâts jusqu'au prochain tour de la cible)" % [element, _range_text(effect),
+					", au moins %d %% des PV payés ce tour" % effect["par_pv_payes"] if effect.has("par_pv_payes") else ""]
 			Spell.EFFECT_REMOVE_PM:
 				line = "Retire %d PM au prochain tour" % effect["min"]
 			Spell.EFFECT_GAIN_PA:

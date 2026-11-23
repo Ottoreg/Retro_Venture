@@ -89,6 +89,11 @@ var ambush := 0
 var ambush_discount := false
 ## Démoniste (GDD § 4.3) : id du maître d'un serviteur invoqué ("" sinon). Le joueur du maître le contrôle.
 var master := ""
+## Guerrier (GDD § 4.3) : PV perdus pas encore comptés en crans de Rancune, PV payés ce tour (« cout_pv »), et prochain coup
+## de mêlée critique (passif au rang 5, au dernier cran).
+var rage_hp := 0
+var hp_paid := 0
+var rage_crit := false
 ## Boss ou mini-boss (monstre « boss » ou à phases) : à moitié provoqué, jamais assommé (perd des PA à la place).
 var boss := false
 
@@ -101,6 +106,12 @@ const ELEMENT_STATE_BONUS := 4
 ## Myrmidon : % de résistance à chaque élément par cran de Blindage, crans au plus.
 const ARMOR_RESISTANCE := 4
 const ARMOR_MAX := 5
+## Guerrier : crans de Rancune (état « rancune », tout le combat) : un par `RAGE_PER_HP` PV perdus, +`RAGE_BONUS` % de
+## dégâts par cran ; crans au plus selon le rang du passif (0 à 5).
+const RAGE := "rancune"
+const RAGE_PER_HP := 5
+const RAGE_BONUS := 3
+const RAGE_MAX := [5, 5, 6, 8, 9, 10]
 
 ## Statistiques de combat (GDD § 4.4, § 7.2, § 10.4) : tacle, fuite, retraits de PA / PM (infligés et esquivés),
 ## réduction de dégâts fixe, % de dommages de mêlée (finaux), dégâts spectraux et dévastateurs (% et fixes),
@@ -296,6 +307,7 @@ func start_turn() -> void:
 	pa = next_turn_pa()
 	pm = next_turn_pm()
 	pm_malus = 0
+	hp_paid = 0
 	_casts_this_turn.clear()
 	for spell_id: String in _cooldowns.keys():
 		_cooldowns[spell_id] -= 1
@@ -340,9 +352,16 @@ func is_invisible() -> bool:
 	return has_state(Spell.STATE_INVISIBLE)
 
 
+## PV payés pour lancer le sort (« cout_pv » : % des PV max, au moins 1).
+func hp_cost(spell: Spell) -> int:
+	return 0 if spell.hp_cost == 0 else maxi(1, roundi(max_hp * spell.hp_cost / 100.0))
+
+
 func cast_blocker(spell: Spell) -> String:
 	if spell_cost(spell) > pa:
 		return Protocol.REASON_NOT_ENOUGH_PA
+	if hp_cost(spell) >= hp and hp_cost(spell) > 0:
+		return Protocol.REASON_NOT_ENOUGH_HP
 	if spell.casts_per_turn > 0 and cast_count(spell) >= spell.casts_per_turn:
 		return Protocol.REASON_SPELL_LIMIT
 	if _cooldowns.has(spell.id):
@@ -422,6 +441,7 @@ func snapshot() -> Dictionary:
 		"ombres": shadow,
 		"vu": [last_seen.x, last_seen.y],
 		"traitre": [ambush, ambush_discount],
+		"rancune": [rage_hp, hp_paid, rage_crit],
 	}
 
 
@@ -453,5 +473,9 @@ func restore(saved: Dictionary) -> void:
 	last_seen = Vector2i(int(seen[0]), int(seen[1]))
 	ambush = int(saved.get("traitre", [0, false])[0])
 	ambush_discount = bool(saved.get("traitre", [0, false])[1])
+	var rage: Array = saved.get("rancune", [0, 0, false])
+	rage_hp = int(rage[0])
+	hp_paid = int(rage[1])
+	rage_crit = bool(rage[2])
 	_cooldowns = saved["recharges"].duplicate()
 	_casts_this_turn = saved["lances"].duplicate()

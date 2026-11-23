@@ -216,7 +216,7 @@ func test_kit_de_l_arcaniste_dans_les_donnees() -> void:
 	var linked: Dictionary = create.create_effect()["sorts"]
 	assert_eq(linked.size(), 10, "toutes les combinaisons de Flamme, Givre et Tempête")
 	for voie_id in ["arcaniste", "guerrier", "rodeur", "theologue"]:
-		assert_eq(data.voies[voie_id]["sorts"].size(), 2 if voie_id == "arcaniste" else 5, voie_id)
+		assert_eq(data.voies[voie_id]["sorts"].size(), {"arcaniste": 2, "guerrier": 20}.get(voie_id, 5), voie_id)
 	assert_eq(data.spells["arcaniste_creer_un_sort"].pa_cost, 2)
 	assert_eq(data.voies["arcaniste"]["sorts"], ["arcaniste_composition", "arcaniste_creer_un_sort"],
 		"un seul sort de composition à la place de Braise et Frimas")
