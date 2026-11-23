@@ -148,8 +148,8 @@ cliché attendu (bourrus, brutaux) ; les quatre autres peuples de Phase 3 :
 - **Squelettes (ennemi)** : soldats de la Première Ombre relevés par le Souverain Cendré. Ils servent
   par habitude plus que par conviction, réclament en vain leur retraite et découvrent à l'acte II
   qu'on ne leur a jamais demandé leur avis… même pas pour mourir. Pas de choix mâle / femelle mais une
-  **variante selon la race d'avant la mort** (décision de l'auteur du 23/11/2026) : squelette de taille
-  humaine, squelette de géant… (liste à compléter).
+  **variante selon la race d'avant la mort** (décision de l'auteur du 23/11/2026) : deux variantes seulement,
+  le **petit squelette** (taille humaine) et le **grand squelette** (taille du Géant).
 - **Arkhés (neutre)** : élémentaires nés des forces du monde, quatre variantes à la place du choix
   mâle / femelle, une par élément du jeu (métal / Acier, feu / Flamme, orage / Tempête, glace / Givre) ;
   les quatre sont dessinées et jouables (20/11/2026).

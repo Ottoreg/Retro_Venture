@@ -670,7 +670,7 @@ Lots 0 (conception dans le GDD), 1 (personnage, poussé sur `main` à la demande
 - [ ] Race **Géant** (allié) : bonus, passif *Carrure*, sort *Coup de semelle*, assemblage agrandi (≈ 1,25×), zone de départ et chaîne d'acte I
 - [ ] Race **Squelette** (ennemi, mort-vivant) : passif *Déjà mort*, sort *Remonter les os*, assemblage squelette, zone de départ et chaîne d'acte I
 - [ ] Race **Mycélien** (neutre, remplace le Lutin depuis le 23/11/2026) : formes cèpe, girolle et amanite (à la place du choix mâle / femelle), passifs et sort à définir, sous-zone et quêtes de race
-- [ ] Squelette : variantes selon la race d'avant la mort (taille humaine, géant…) à la place du choix mâle / femelle (23/11/2026)
+- [ ] Squelette : variantes selon la race d'avant la mort (petit squelette de taille humaine, grand squelette de taille du Géant) à la place du choix mâle / femelle (23/11/2026)
 - [ ] Différencier les races proches (Nain / Orc) et valider leurs noms de peuple (GDD § 4.2)
 - [ ] Voies de corps à corps : **Paladin** (guerrier sacré) et **Myrmidon** (guerrier tank)
 - [x] Voie de corps à corps **Myrmidon** (21/11/2026, GDD § 4.3) : provocation et passif Point de mire, Blindage,
