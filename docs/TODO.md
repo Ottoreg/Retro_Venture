@@ -42,7 +42,7 @@
   - [x] Nom des spécialisations opposées : **Voie Miroir** (§ 5.3)
   - [ ] Revoir les noms du monde, des Reliques et du méchant dans le ton parodique (§ 3)
   - [x] Reliques : huit bagues tenues par les Hérauts Cendrés, une par peuple ou presque (§ 3.3)
-  - [ ] Nommer les régions des Géants, des Lutins et des Fosses de Crasse-Roc (§ 3.3, § 3.5)
+  - [ ] Nommer les régions des Géants, des Lutins (relique à réattribuer) et des Fosses de Crasse-Roc (§ 3.3, § 3.5)
   - [ ] Écrire le synopsis des actes I à III pour chaque camp (`docs/lore/`)
 - [ ] Tableur d'équilibrage : courbe d'XP, formules de dégâts, PV par niveau (`docs/design/`)
 - [ ] Prototype « papier » du combat (grille + pions) pour tester PA/PM et 5 sorts par classe
@@ -669,7 +669,8 @@ Lots 0 (conception dans le GDD), 1 (personnage, poussé sur `main` à la demande
 - [ ] Race **Arkhé** (neutre, remplace le Semi-homme depuis le 19/11/2026) : *Cœur élémentaire* et *Éruption* faits (variante Flamme) ; 2e et 3e passifs à définir, variantes Acier, Tempête et Givre, sous-zone et quêtes de race
 - [ ] Race **Géant** (allié) : bonus, passif *Carrure*, sort *Coup de semelle*, assemblage agrandi (≈ 1,25×), zone de départ et chaîne d'acte I
 - [ ] Race **Squelette** (ennemi, mort-vivant) : passif *Déjà mort*, sort *Remonter les os*, assemblage squelette, zone de départ et chaîne d'acte I
-- [ ] Race **Lutin** (neutre) : passif *Farceur*, sort *Tour de passe-passe*, assemblage réduit (≈ 0,8×), zone de départ et chaîne d'acte I
+- [ ] Race **Mycélien** (neutre, remplace le Lutin depuis le 23/11/2026) : formes cèpe, girolle et amanite (à la place du choix mâle / femelle), passifs et sort à définir, sous-zone et quêtes de race
+- [ ] Squelette : variantes selon la race d'avant la mort (taille humaine, géant…) à la place du choix mâle / femelle (23/11/2026)
 - [ ] Différencier les races proches (Nain / Orc) et valider leurs noms de peuple (GDD § 4.2)
 - [ ] Voies de corps à corps : **Paladin** (guerrier sacré) et **Myrmidon** (guerrier tank)
 - [x] Voie de corps à corps **Myrmidon** (21/11/2026, GDD § 4.3) : provocation et passif Point de mire, Blindage,
