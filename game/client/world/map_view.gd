@@ -1731,6 +1731,7 @@ func _apply(event: Dictionary) -> float:
 		return 0.3
 	if type == Protocol.EVT_WATCH_ENDED:
 		mode = Mode.EXPLORATION
+		_terrain = {}  # Myrmidon : décor démoli ou gelé rendu tel quel après le combat.
 		selected_spell = ""
 		turn_order.clear()
 		_placement.clear()
@@ -1900,6 +1901,7 @@ func _apply(event: Dictionary) -> float:
 		return 0.0
 	if type == Protocol.EVT_EXPLORATION:
 		mode = Mode.EXPLORATION
+		_terrain = {}  # Myrmidon : décor démoli ou gelé rendu tel quel après le combat.
 		for hero: Dictionary in world.heroes:
 			if hero["controle"] and hero["id"] != world.player_id:
 				connection.control(hero["id"])  # Mode héros : retour au héros contrôlé hors combat.

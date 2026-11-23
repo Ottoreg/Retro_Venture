@@ -197,3 +197,15 @@ func test_garde_et_carapace() -> void:
 	assert_true(player.shield > 0)
 	_end_turn(combat)  # Le mannequin au contact le frappe.
 	assert_eq(combat.get_fighter("m0").stacks(Spell.EFFECT_FROSTBITE), 2, "qui le frappe au contact prend une Gelure (deux coups : deux Gelures)")
+
+
+func test_decor_rendu_apres_le_combat() -> void:
+	Session.new_character = Character.create("Brindille", "humain", "myrmidon")
+	Session.continue_game = false
+	var scene: Node = load("res://client/world/world.tscn").instantiate()
+	(Engine.get_main_loop() as SceneTree).root.add_child(scene)
+	var view: MapView = scene.get_node("MapView")
+	view._terrain = {Vector2i(3, 3): "demoli"}
+	view._apply({"type": Protocol.EVT_EXPLORATION})
+	assert_true(view._terrain.is_empty(), "rocher démoli rendu à la fin du combat")
+	scene.free()
