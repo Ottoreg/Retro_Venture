@@ -456,6 +456,7 @@ Lots 0 (conception dans le GDD), 1 (personnage, poussé sur `main` à la demande
 ### Monde
 - [x] Grandes Plaines : 15 cartes de steppe de plus au sud-ouest de Hautepierre (24/11/2026,
   `docs/design/grandes_plaines/plaines.py`) : relief, eau, récolte, sans monstres ni PNJ ; reste à peupler (ampas, monstres, PNJ)
+- [ ] Ampas, élevage et montures : 7 lots préparés le 24/11/2026 ([etapes.md](design/elevage/etapes.md)), décisions de valeurs à prendre avant
 - [x] **(MVP)** Conception du contenu du chantier 3 ([docs/design/chantier3_brouillon](design/chantier3_brouillon/)) :
   **entièrement validée par l'auteur** (mini-boss révisés compris : réapparition en 60 s au plus,
   phases de profils différents selon le thème, plus de soin en phase). Durée réglée par l'XP ×3,5
