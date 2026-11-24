@@ -179,8 +179,8 @@ ICONES = {"esquille_d_os": "dent_de_troll", "moelle_fossile": "cendre_tiede", "l
           "epaulette_du_colonel": "ecusson_de_milice", "votre_os_manquant": "dent_de_rat"}
 
 ART = {
-    "os_errant": {"image": "rat", "echelle": 0.5, "teinte": "e8e0c8"},
-    "femur_du_general": {"image": "rat", "echelle": 0.6, "teinte": "f0d898"},
+    "os_errant": {"image": "os_errant", "echelle": 1.0, "couleurs": {"os": "ece4cc", "os_ombre": "bfb496"}},
+    "femur_du_general": {"image": "os_errant", "echelle": 1.25, "couleurs": {"os": "f2dc9c", "os_ombre": "c4a860"}},
     "pleureuse_de_l_ossuaire": {"image": "rat", "planche": "sprites/squelette_theologue.png", "echelle": 0.95, "teinte": "a8c8e8"},
     "grande_pleureuse": {"image": "rat", "planche": "sprites/squelette_theologue.png", "echelle": 1.14, "teinte": "88a8e0"},
     "veteran_de_la_premiere_ombre": {"image": "rat", "planche": "sprites/squelette_guerrier.png", "echelle": 1.05},
@@ -193,4 +193,5 @@ SOUS_ZONE = {"id": "ossuaire", "zone": Z, "prefixe": "Crasse-Roc", "palette": "c
              "camp_depart": "crasse_roc_0_0", "races": ["squelette"],
              "passage": {"id": "crasse_roc_ossuaire", "nom": "Ossuaire de la Première Ombre", "prix": 10},
              "sorts": SORTS, "ressources": RES, "monstres": MONSTRES, "cartes": CARTES, "quetes": QUETES,
-             "objets_quete": OBJETS_QUETE, "art_monstres": ART, "icones": ICONES}
+             "objets_quete": OBJETS_QUETE, "art_monstres": ART, "icones": ICONES,
+             "images": {"os_errant": {"fichier": "monstre/os_errant.svgt", "ancre": [31, 42]}}}

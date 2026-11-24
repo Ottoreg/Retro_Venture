@@ -1,14 +1,20 @@
 {
   "monstres": {
     "os_errant": {
-      "image": "rat",
-      "echelle": 0.5,
-      "teinte": "e8e0c8"
+      "image": "os_errant",
+      "echelle": 1.0,
+      "couleurs": {
+        "os": "ece4cc",
+        "os_ombre": "bfb496"
+      }
     },
     "femur_du_general": {
-      "image": "rat",
-      "echelle": 0.6,
-      "teinte": "f0d898"
+      "image": "os_errant",
+      "echelle": 1.25,
+      "couleurs": {
+        "os": "f2dc9c",
+        "os_ombre": "c4a860"
+      }
     },
     "pleureuse_de_l_ossuaire": {
       "image": "rat",
@@ -367,6 +373,13 @@
       "ancre": [
         22,
         22
+      ]
+    },
+    "os_errant": {
+      "fichier": "monstre/os_errant.svgt",
+      "ancre": [
+        31,
+        42
       ]
     }
   },

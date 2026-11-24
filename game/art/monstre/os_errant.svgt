@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="46" viewBox="0 0 64 46">
+<ellipse cx="31" cy="42" rx="18" ry="3.6" fill="#000000" opacity="0.25"/>
+<path d="M22 30 L19 40.6 M40 26 L43.6 40.6" stroke="#4a4234" stroke-width="4.2" stroke-linecap="round"/>
+<path d="M22 30 L19 40.6 M40 26 L43.6 40.6" stroke="{{os_ombre}}" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M16 41 L22 41 M41.4 41 L47.4 41" stroke="#4a4234" stroke-width="2.4" stroke-linecap="round"/>
+<g transform="rotate(-18 31 26)">
+<path d="M14 23.6 Q31 21.4 48 23.6 L48 28.4 Q31 26.6 14 28.4 Z" fill="{{os}}" stroke="#4a4234" stroke-width="1.1" stroke-linejoin="round"/>
+<g fill="{{os}}" stroke="#4a4234" stroke-width="1.1">
+<circle cx="11.4" cy="21.6" r="4.4"/><circle cx="11.4" cy="30.4" r="4.4"/>
+<circle cx="50.6" cy="21.6" r="4.4"/><circle cx="50.6" cy="30.4" r="4.4"/>
+</g>
+<path d="M14 24.4 Q31 22.4 48 24.4 L48 27.6 Q31 26 14 27.6 Z" fill="{{os}}"/>
+<path d="M17 27 Q31 25.6 45 27" stroke="{{os_ombre}}" stroke-width="1.4" fill="none"/>
+<path d="M18 24 Q24 23 30 23.2" stroke="#ffffff" stroke-opacity="0.6" stroke-width="1" fill="none"/>
+<path d="M33 26.8 L35.4 25.2 L37 27" stroke="#4a4234" stroke-width="0.8" fill="none"/>
+</g>
+<ellipse cx="44" cy="20.2" rx="1.6" ry="1.9" fill="#2b2118"/>
+<circle cx="44.4" cy="19.8" r="0.5" fill="#e8f0ff"/>
+</svg>
