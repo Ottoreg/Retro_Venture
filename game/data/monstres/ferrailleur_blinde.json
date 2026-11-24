@@ -1,0 +1,50 @@
+{
+  "id": "ferrailleur_blinde",
+  "nom": "Ferrailleur blindé",
+  "description": "Il a récupéré tant de ferraille qu'il ne voit plus où il va. Ça ne l'arrête pas.",
+  "palier": 2,
+  "caracteristiques": {
+    "pv": 100,
+    "pa": 7,
+    "pm": 3,
+    "initiative": 115,
+    "force": 28,
+    "intelligence": 28
+  },
+  "resistances": {
+    "acier": 30,
+    "flamme": 15,
+    "tempete": -10
+  },
+  "sorts": [
+    "ferrailleur_masse_de_ferraille",
+    "ferrailleur_boulon_chauffe",
+    "braillard_cri_d_encouragement"
+  ],
+  "ia": "basique",
+  "xp": 230,
+  "butin": [
+    {
+      "objet": "boulon_tordu",
+      "taux": 0.9,
+      "quantite": [
+        2,
+        4
+      ]
+    },
+    {
+      "objet": "tole_noircie",
+      "taux": 0.5,
+      "quantite": [
+        1,
+        2
+      ]
+    }
+  ],
+  "ecus": [
+    20,
+    40
+  ],
+  "elite": true,
+  "famille": "ferrailleur_orc"
+}

@@ -1,0 +1,45 @@
+{
+  "id": "apprenti_braillard",
+  "nom": "Apprenti braillard",
+  "description": "Jeune orc en formation au cri. Il est déjà très bon, surtout la nuit.",
+  "palier": 1,
+  "caracteristiques": {
+    "pv": 26,
+    "pa": 6,
+    "pm": 3,
+    "initiative": 80,
+    "intelligence": 8,
+    "force": 4
+  },
+  "resistances": {
+    "flamme": 15,
+    "acier": 5,
+    "givre": -15
+  },
+  "sorts": [
+    "braillard_coup_de_tete",
+    "braillard_caillou_d_echauffement",
+    "braillard_cri_d_encouragement"
+  ],
+  "ia": "soutien",
+  "xp": 30,
+  "butin": [
+    {
+      "objet": "bandeau_de_braillard",
+      "taux": 0.55,
+      "quantite": [
+        1,
+        2
+      ]
+    },
+    {
+      "objet": "cloche_de_poche",
+      "taux": 0.15
+    }
+  ],
+  "ecus": [
+    3,
+    8
+  ],
+  "mot": "de Braillard"
+}

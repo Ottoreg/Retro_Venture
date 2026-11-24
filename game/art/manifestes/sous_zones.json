@@ -37,6 +37,43 @@
       "planche": "sprites/squelette_myrmidon.png",
       "echelle": 1.45,
       "teinte": "e0e8ff"
+    },
+    "goret_de_braise": {
+      "image": "loup",
+      "echelle": 0.7,
+      "teinte": "c87050"
+    },
+    "goret_trois_defenses": {
+      "image": "loup",
+      "echelle": 0.85,
+      "teinte": "e05030"
+    },
+    "apprenti_braillard": {
+      "image": "rat",
+      "planche": "sprites/orc_guerrier.png",
+      "echelle": 0.95
+    },
+    "grand_gueulard": {
+      "image": "rat",
+      "planche": "sprites/orc_paladin.png",
+      "echelle": 1.2
+    },
+    "ferrailleur_orc": {
+      "image": "rat",
+      "planche": "sprites/orc_myrmidon.png",
+      "echelle": 1.05
+    },
+    "ferrailleur_blinde": {
+      "image": "rat",
+      "planche": "sprites/orc_myrmidon.png",
+      "echelle": 1.26,
+      "teinte": "a0a0b0"
+    },
+    "gorgrak_la_grande_gueule": {
+      "image": "rat",
+      "planche": "sprites/orc_demoniste.png",
+      "echelle": 1.45,
+      "teinte": "ffd0b0"
     }
   },
   "images": {
@@ -95,6 +132,55 @@
         22,
         22
       ]
+    },
+    "objet_soie_de_goret": {
+      "fichier": "objets/poil_scintillant.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_defense_de_goret": {
+      "fichier": "objets/croc_de_loup.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_bandeau_de_braillard": {
+      "fichier": "objets/tunique_dechiree_de_raphael.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_cloche_de_poche": {
+      "fichier": "objets/sifflet_de_contremaitre.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_boulon_tordu": {
+      "fichier": "objets/maillon_de_cotte.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_tole_noircie": {
+      "fichier": "objets/fer_meteorique.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_machoire_de_gorgrak": {
+      "fichier": "objets/corne_du_balourd.svgt",
+      "ancre": [
+        22,
+        22
+      ]
     }
   },
   "pnj": {
@@ -143,6 +229,65 @@
         "tunique": "5a3a6a",
         "manches": "3a3a42",
         "pantalon": "2e2e36"
+      }
+    },
+    "instructeur_krouk": {
+      "rig": "humain",
+      "race": "orc",
+      "couleurs": {
+        "tunique": "8a2a1a",
+        "manches": "5a2e1a",
+        "pantalon": "3e2a1e",
+        "ceinture": "c9a04e"
+      }
+    },
+    "grande_voix_ourga": {
+      "rig": "humain",
+      "race": "orc",
+      "couleurs": {
+        "tunique": "3a4a6e",
+        "manches": "5a2e1a",
+        "pantalon": "3e2a1e",
+        "ceinture": "e0b860"
+      }
+    },
+    "troc_le_sourd": {
+      "rig": "humain",
+      "race": "orc",
+      "couleurs": {
+        "tunique": "7a6040",
+        "manches": "5a2e1a",
+        "pantalon": "3e2a1e"
+      }
+    },
+    "machefer_forgeronne": {
+      "rig": "humain",
+      "race": "orc",
+      "couleurs": {
+        "tunique": "4a3a32",
+        "manches": "5a2e1a",
+        "pantalon": "3e2a1e",
+        "ceinture": "8a6a40"
+      }
+    },
+    "arbitre_gnarl": {
+      "rig": "humain",
+      "race": "orc",
+      "couleurs": {
+        "tunique": "2a2a2a",
+        "manches": "5a2e1a",
+        "pantalon": "3e2a1e",
+        "ceinture": "e0e0e0"
+      }
+    },
+    "vieux_ronchon": {
+      "rig": "humain",
+      "race": "orc",
+      "couleurs": {
+        "tunique": "5a5a4a",
+        "manches": "5a2e1a",
+        "pantalon": "3e2a1e",
+        "cheveux": "c8c8c0"
       }
     }
   }

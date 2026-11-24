@@ -235,9 +235,9 @@ thématique** (son village ou campement, son décor, ses monstres et PNJ à son 
   `python3 docs/design/sous_zones/produire_sous_zone.py <sous-zone>` (données dans `sz_<sous-zone>.py`) ; les cartes
   gardent l'id de la zone (`crasse_roc_0_-1`), pour la carte du monde.
 
-**Crasse-Roc agrandie** (validée par l'auteur le 19/11/2026 ; Ossuaire produit le 24/11/2026, à valider) :
+**Crasse-Roc agrandie** (validée par l'auteur le 19/11/2026 ; Ossuaire produit le 24/11/2026 ; Fosse aux Braillards produite le 24/11/2026, à valider) :
 
-- **Orcs, à l'est** (depuis le Puits des Vampipistrelles ou le Poste avancé de la Milice) : *la Fosse aux
+- **Orcs, à l'est** (depuis le Puits des Vampipistrelles ou le Poste avancé de la Milice) : cartes `crasse_roc_3_0` (départ) à `crasse_roc_4_2` (tribune du boss) : *la Fosse aux
   Braillards*, camp de guerre sur des coulées de scories ; arène où l'on se bat pour savoir qui crie le plus
   fort, fours à ferraille, chef de guerre qui tient des réunions… de hurlements. Flamme dominante.
 - **Squelettes, au nord** (depuis l'Entrée des galeries et le Crassier ; l'ouest de Crasse-Roc est occupé par

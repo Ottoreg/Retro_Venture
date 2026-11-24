@@ -1,0 +1,11 @@
+{
+  "id": "tole_noircie",
+  "nom": "Tôle noircie",
+  "type": "ressource",
+  "rarete": "peu_commun",
+  "niveau": 2,
+  "description": "Un morceau d'armure de récupération. Récupéré, puis récupéré encore.",
+  "caracteristique": "vitalite",
+  "famille": "ferrailleur_orc",
+  "zone": "crasse_roc"
+}

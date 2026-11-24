@@ -345,7 +345,8 @@ Dernière session (retours de la passe de l'auteur) :
   par l'auteur avant la suivante (`docs/design/sous_zones/produire_sous_zone.py <sous-zone>`, données `sz_<sous-zone>.py`,
   conception `crasse_roc.md`, `brumerive.md`, `sylvebrume.md`) ; Ossuaire des squelettes fait le 24/11/2026 (`crasse_roc_0_-1`
   à `1_-3`, Pierre `crasse_roc_ossuaire`, `maison_ossuaire`, 4 quêtes `ossuaire_*`, apparences et icônes provisoires reprises
-  des dessins existants, fragment `art/manifestes/sous_zones.json`).
+  des dessins existants, fragment `art/manifestes/sous_zones.json`) ; Fosse aux Braillards des orcs faite le 24/11/2026
+  (`crasse_roc_3_0` à `4_2`, Pierre `crasse_roc_braillards`, `maison_braillards`, 4 quêtes `braillards_*`).
 - Le pseudo choisi est déjà utilisé partout ; « Aventurier » (`World.DEFAULT_NAME`) n'apparaît
   que dans les tests et les captures, sans écran de création.
 

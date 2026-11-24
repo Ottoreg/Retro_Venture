@@ -1,0 +1,61 @@
+{
+  "id": "braillards_reunion_de_hurlements",
+  "nom": "Réunion de hurlements",
+  "categorie": "principale",
+  "acte": 1,
+  "niveau": 3,
+  "pnj": "arbitre_gnarl",
+  "description": "La cloche de l'arène ne sonne pas assez fort. Il faut la refondre, et prouver qu'on la mérite.",
+  "conditions": {
+    "race": "orc",
+    "quetes_terminees": [
+      "braillards_premier_cri"
+    ]
+  },
+  "etapes": [
+    {
+      "objectifs": [
+        {
+          "type": "vaincre",
+          "monstre": "apprenti_braillard",
+          "nombre": 4
+        }
+      ]
+    },
+    {
+      "objectifs": [
+        {
+          "type": "recolter",
+          "objet": "minerai_de_cuivre",
+          "nombre": 5,
+          "texte": "Récolter du cuivre aux Fours pour la cloche de l'arène"
+        },
+        {
+          "type": "parler",
+          "pnj": "arbitre_gnarl"
+        }
+      ]
+    }
+  ],
+  "dialogues": {
+    "arbitre_gnarl": {
+      "proposition": [
+        "Tu veux entrer à l'arène ? Bats quatre apprentis. Je compterai ceux que j'entends tomber.",
+        "Et rapporte du cuivre des Fours : on refond la cloche. Elle ne sonnait pas assez fort. Personne ne l'entendait, à cause des cris."
+      ],
+      "en_cours": [
+        "Je n'entends rien. Donc il ne se passe rien."
+      ],
+      "objectif": [
+        "Quatre apprentis, j'ai entendu. Maintenant, le cuivre."
+      ],
+      "fin": [
+        "Belle cloche ! On ne l'entendra pas non plus, mais elle est belle. Tu as gagné ta place."
+      ]
+    }
+  },
+  "recompenses": {
+    "xp_cr": 4,
+    "ecus": 50
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "id": "cloche_de_poche",
+  "nom": "Cloche de poche",
+  "type": "ressource",
+  "rarete": "peu_commun",
+  "niveau": 1,
+  "description": "Pour s'entraîner à crier plus fort qu'elle. Elle a perdu.",
+  "caracteristique": "perception",
+  "famille": "apprenti_braillard",
+  "zone": "crasse_roc"
+}

@@ -84,7 +84,7 @@ point(s) de caractéristique (avant ralentissement).
 | **Gobelin** | ennemi | crasse_roc_0_0 | Chapardeur | prospection +20, ecus +20 | Coup bas |
 | **Humain** | allie | brumerive_0_0 | Polyvalence | reputation_metier +10 | Ralliement |
 | **Nain** | allie | brumerive_0_0 | Peau de pierre |  | — |
-| **Orc** | ennemi | crasse_roc_0_0 | Peau épaisse | reduction_melee +10 | Cri de guerre |
+| **Orc** | ennemi | crasse_roc_3_0 | Peau épaisse | reduction_melee +10 | Cri de guerre |
 | **Squelette** | ennemi | crasse_roc_0_-1 | Déjà mort | deja_mort +1 | Remonter les os |
 
 | Sort de race | Caractéristiques | Effets | Maîtrise |

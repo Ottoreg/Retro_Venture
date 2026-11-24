@@ -1,0 +1,42 @@
+{
+  "id": "goret_de_braise",
+  "nom": "Goret de braise",
+  "description": "Cochon de guerre qui se roule dans les braises pour sentir bon. Il n'y arrive pas.",
+  "palier": 1,
+  "caracteristiques": {
+    "pv": 16,
+    "pa": 5,
+    "pm": 4,
+    "initiative": 70,
+    "intelligence": 4
+  },
+  "resistances": {
+    "flamme": 15,
+    "givre": -10
+  },
+  "sorts": [
+    "goret_ruade",
+    "goret_groin_brulant"
+  ],
+  "ia": "basique",
+  "xp": 14,
+  "butin": [
+    {
+      "objet": "soie_de_goret",
+      "taux": 0.6,
+      "quantite": [
+        1,
+        2
+      ]
+    },
+    {
+      "objet": "defense_de_goret",
+      "taux": 0.15
+    }
+  ],
+  "ecus": [
+    1,
+    4
+  ],
+  "mot": "de Goret"
+}

@@ -1,0 +1,51 @@
+{
+  "id": "braillards_la_grande_gueule",
+  "nom": "La Grande Gueule",
+  "categorie": "secondaire",
+  "niveau": 12,
+  "pnj": "vieux_ronchon",
+  "description": "Gorgrak hurle depuis trente ans sur sa tribune. Le Vieux Ronchon voudrait un peu de silence.",
+  "conditions": {
+    "une_quete_terminee": [
+      "brumerive_tutoriel",
+      "crasse_roc_tutoriel",
+      "sylvebrume_tutoriel"
+    ]
+  },
+  "etapes": [
+    {
+      "objectifs": [
+        {
+          "type": "vaincre_groupe",
+          "monstre": "gorgrak_la_grande_gueule",
+          "texte": "Faire taire Gorgrak, sur la Tribune du Chef"
+        }
+      ]
+    },
+    {
+      "objectifs": [
+        {
+          "type": "parler",
+          "pnj": "vieux_ronchon"
+        }
+      ]
+    }
+  ],
+  "dialogues": {
+    "vieux_ronchon": {
+      "proposition": [
+        "Gorgrak, sur la tribune. Trente ans qu'il hurle. Va lui clouer le bec, que j'entende enfin les oiseaux."
+      ],
+      "en_cours": [
+        "Je l'entends encore. Les oiseaux aussi, et ils sont partis."
+      ],
+      "fin": [
+        "Le silence ! … Ah, non, il recommence. Bon, c'était bien pendant une minute. Merci."
+      ]
+    }
+  },
+  "recompenses": {
+    "xp_cr": 6,
+    "ecus": 120
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "id": "ferrailleur_orc",
+  "nom": "Ferrailleur orc",
+  "description": "Il porte une armure de récupération : un peu de tout, beaucoup de casseroles.",
+  "palier": 2,
+  "caracteristiques": {
+    "pv": 50,
+    "pa": 6,
+    "pm": 3,
+    "initiative": 100,
+    "force": 18,
+    "intelligence": 18
+  },
+  "resistances": {
+    "acier": 20,
+    "flamme": 10,
+    "givre": -10,
+    "tempete": -10
+  },
+  "sorts": [
+    "ferrailleur_masse_de_ferraille",
+    "ferrailleur_boulon_chauffe"
+  ],
+  "ia": "basique",
+  "xp": 110,
+  "butin": [
+    {
+      "objet": "boulon_tordu",
+      "taux": 0.5,
+      "quantite": [
+        1,
+        2
+      ]
+    },
+    {
+      "objet": "tole_noircie",
+      "taux": 0.12
+    }
+  ],
+  "ecus": [
+    9,
+    20
+  ],
+  "mot": "de Ferraille"
+}

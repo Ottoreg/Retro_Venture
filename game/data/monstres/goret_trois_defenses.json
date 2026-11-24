@@ -1,0 +1,48 @@
+{
+  "id": "goret_trois_defenses",
+  "nom": "Goret à trois défenses",
+  "description": "La troisième défense lui pousse au milieu du front. Il en est très fier.",
+  "palier": 1,
+  "caracteristiques": {
+    "pv": 36,
+    "pa": 6,
+    "pm": 4,
+    "initiative": 90,
+    "intelligence": 10
+  },
+  "resistances": {
+    "flamme": 20,
+    "givre": -5
+  },
+  "sorts": [
+    "goret_ruade",
+    "goret_groin_brulant",
+    "braillard_coup_de_tete"
+  ],
+  "ia": "basique",
+  "xp": 40,
+  "butin": [
+    {
+      "objet": "soie_de_goret",
+      "taux": 0.9,
+      "quantite": [
+        2,
+        4
+      ]
+    },
+    {
+      "objet": "defense_de_goret",
+      "taux": 0.6,
+      "quantite": [
+        1,
+        2
+      ]
+    }
+  ],
+  "ecus": [
+    5,
+    12
+  ],
+  "elite": true,
+  "famille": "goret_de_braise"
+}

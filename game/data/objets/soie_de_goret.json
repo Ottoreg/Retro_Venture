@@ -1,0 +1,11 @@
+{
+  "id": "soie_de_goret",
+  "nom": "Soie de goret",
+  "type": "ressource",
+  "rarete": "commun",
+  "niveau": 1,
+  "description": "Un poil de cochon de guerre, roussi au bout. Il sent la grillade.",
+  "caracteristique": "intelligence",
+  "famille": "goret_de_braise",
+  "zone": "crasse_roc"
+}

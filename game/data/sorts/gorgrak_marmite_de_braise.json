@@ -1,0 +1,27 @@
+{
+  "id": "gorgrak_marmite_de_braise",
+  "nom": "Marmite de braise",
+  "description": "Le repas de la réunion. Servi brûlant, sur la tête.",
+  "cout_pa": 4,
+  "portee": {
+    "min": 2,
+    "max": 6
+  },
+  "ligne_de_vue": false,
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "flamme",
+      "min": 5,
+      "max": 8,
+      "cibles": "ennemis"
+    }
+  ],
+  "zone": {
+    "type": "cercle",
+    "taille": 1
+  }
+}

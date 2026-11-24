@@ -1,0 +1,50 @@
+{
+  "id": "braillards_premier_cri",
+  "nom": "Premier cri",
+  "categorie": "principale",
+  "acte": 1,
+  "niveau": 1,
+  "pnj": "instructeur_krouk",
+  "description": "Un orc qui n'a jamais crié devant un ennemi n'est pas un orc. C'est un gobelin.",
+  "conditions": {
+    "race": "orc"
+  },
+  "etapes": [
+    {
+      "objectifs": [
+        {
+          "type": "vaincre",
+          "monstre": "goret_de_braise",
+          "nombre": 3
+        }
+      ]
+    },
+    {
+      "objectifs": [
+        {
+          "type": "parler",
+          "pnj": "instructeur_krouk",
+          "texte": "Revenir crier devant Krouk"
+        }
+      ]
+    }
+  ],
+  "dialogues": {
+    "instructeur_krouk": {
+      "proposition": [
+        "RECRUE ! Ton premier cri, ça se fait au combat. Va battre trois gorets de braise, dehors.",
+        "Et crie. Fort. Les gorets n'ont peur que de ça. Et des grillades."
+      ],
+      "en_cours": [
+        "Je ne t'ai pas entendu. Donc tu n'as rien fait."
+      ],
+      "fin": [
+        "CE CRI ! J'en ai mal aux oreilles. Bravo, recrue : tu es un vrai braillard."
+      ]
+    }
+  },
+  "recompenses": {
+    "xp_cr": 3,
+    "ecus": 30
+  }
+}

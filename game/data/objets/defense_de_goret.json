@@ -1,0 +1,11 @@
+{
+  "id": "defense_de_goret",
+  "nom": "Défense de goret",
+  "type": "ressource",
+  "rarete": "peu_commun",
+  "niveau": 1,
+  "description": "Une défense de goret. La troisième, celle de l'élite, vaut plus cher.",
+  "caracteristique": "vitalite",
+  "famille": "goret_de_braise",
+  "zone": "crasse_roc"
+}

@@ -1,0 +1,11 @@
+{
+  "id": "bandeau_de_braillard",
+  "nom": "Bandeau de braillard",
+  "type": "ressource",
+  "rarete": "commun",
+  "niveau": 1,
+  "description": "Il empêche la sueur de couler dans les yeux pendant qu'on crie.",
+  "caracteristique": "agilite",
+  "famille": "apprenti_braillard",
+  "zone": "crasse_roc"
+}

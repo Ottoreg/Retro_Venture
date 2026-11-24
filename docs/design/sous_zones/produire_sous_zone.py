@@ -36,6 +36,15 @@ def ressource(id, nom, rarete, palier, carac, famille, zone, desc):
     return {"id": id, "nom": nom, "type": "ressource", "rarete": rarete, "niveau": palier, "description": desc,
             "caracteristique": carac, "famille": famille, "zone": zone}
 
+def monstre(id, nom, desc, palier, pv, pa, pm, init, carac, res, sorts, xp, ecus, butin, ia="basique", **k):
+    return {"id": id, "nom": nom, "description": desc, "palier": palier,
+            "caracteristiques": {"pv": pv, "pa": pa, "pm": pm, "initiative": init} | carac,
+            "resistances": res, "sorts": sorts, "ia": ia, "xp": xp, "butin": butin, "ecus": ecus} | k
+def drop(objet, taux, q=None): return {"objet": objet, "taux": taux} | ({"quantite": q} if q else {})
+def pnj(m, id, nom, repliques, art, **k): return {"marqueur": m, "id": id, "nom": nom, "repliques": repliques, "art": art} | k
+def objectif_vaincre(m, n): return {"type": "vaincre", "monstre": m, "nombre": n}
+TUTORIELS = ["brumerive_tutoriel", "crasse_roc_tutoriel", "sylvebrume_tutoriel"]
+
 COTES = {"droite": (1, 0), "gauche": (-1, 0), "bas": (0, 1), "haut": (0, -1)}
 OPPOSE = {"droite": "gauche", "gauche": "droite", "bas": "haut", "haut": "bas"}
 OUVERTURE = {"haut": (0.40, 0.60), "bas": (0.40, 0.60), "gauche": (0.36, 0.64), "droite": (0.36, 0.64)}

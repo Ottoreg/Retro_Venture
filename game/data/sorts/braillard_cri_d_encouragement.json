@@ -1,0 +1,25 @@
+{
+  "id": "braillard_cri_d_encouragement",
+  "nom": "Cri d'encouragement",
+  "description": "« ALLEZ ! » L'allié n'a rien compris, mais il tape plus fort.",
+  "cout_pa": 2,
+  "portee": {
+    "min": 0,
+    "max": 4
+  },
+  "ligne_de_vue": true,
+  "relance": {
+    "par_tour": 1,
+    "delai": 2
+  },
+  "effets": [
+    {
+      "type": "bonus",
+      "carac": "degats_infliges",
+      "min": 10,
+      "max": 10,
+      "duree": 2,
+      "cibles": "allies"
+    }
+  ]
+}

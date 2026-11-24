@@ -1,0 +1,11 @@
+{
+  "id": "machoire_de_gorgrak",
+  "nom": "Mâchoire de Gorgrak",
+  "type": "ressource",
+  "rarete": "rare",
+  "niveau": 2,
+  "description": "Une mâchoire de rechange du chef. Elle claque encore toute seule.",
+  "caracteristique": "dommages_flamme",
+  "famille": "gorgrak_la_grande_gueule",
+  "zone": "crasse_roc"
+}

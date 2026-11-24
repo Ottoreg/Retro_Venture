@@ -1,0 +1,29 @@
+{
+  "id": "goret_groin_brulant",
+  "nom": "Groin brûlant",
+  "description": "Il s'est roulé dans les braises. Il vous en fait profiter.",
+  "cout_pa": 3,
+  "portee": {
+    "min": 1,
+    "max": 2
+  },
+  "ligne_de_vue": true,
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "flamme",
+      "min": 2,
+      "max": 3
+    },
+    {
+      "type": "poison",
+      "element": "flamme",
+      "min": 1,
+      "max": 2,
+      "duree": 1
+    }
+  ]
+}

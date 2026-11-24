@@ -1,15 +1,9 @@
 """Sous-zone des Squelettes : l'Ossuaire de la Première Ombre, à l'ouest de Crasse-Roc (crasse_roc.md)."""
-from produire_sous_zone import sort, deg, bonus, ressource
+from produire_sous_zone import sort, deg, bonus, ressource, monstre, drop, pnj, objectif_vaincre
 
 Z = "crasse_roc"
 MONO = {"tunique": "4a4a52", "manches": "3a3a42", "pantalon": "2e2e36"}
 
-def monstre(id, nom, desc, palier, pv, pa, pm, init, carac, res, sorts, xp, ecus, butin, ia="basique", **k):
-    return {"id": id, "nom": nom, "description": desc, "palier": palier,
-            "caracteristiques": {"pv": pv, "pa": pa, "pm": pm, "initiative": init} | carac,
-            "resistances": res, "sorts": sorts, "ia": ia, "xp": xp, "butin": butin, "ecus": ecus} | k
-
-def drop(objet, taux, q=None): return {"objet": objet, "taux": taux} | ({"quantite": q} if q else {})
 
 SORTS = [
     sort("os_coup_d_os", "Coup d'os", "Il frappe avec lui-même. Ça fait mal aux deux.", 3, (1, 1), [deg("impie", 3, 5)], 2),
@@ -76,7 +70,6 @@ MONSTRES = [
                      "effets": [bonus("pm", 2, 3)] + [bonus("resistance", 20, 3, element=e) for e in ("acier", "flamme", "givre", "tempete")]}]),
 ]
 
-def pnj(m, id, nom, repliques, art, **k): return {"marqueur": m, "id": id, "nom": nom, "repliques": repliques, "art": art} | k
 SQUELETTE = lambda **c: {"rig": "humain", "race": "squelette", "couleurs": MONO | c}
 
 CARTES = [
@@ -128,7 +121,6 @@ CARTES = [
                  {"monstres": ["veteran_de_la_premiere_ombre", "veteran_de_la_premiere_ombre"]}]},
 ]
 
-def objectif_vaincre(m, n): return {"type": "vaincre", "monstre": m, "nombre": n}
 COND = {"race": "squelette"}
 QUETES = [
     {"id": "ossuaire_appel_du_matin", "nom": "Appel du matin", "categorie": "principale", "acte": 1, "niveau": 1,

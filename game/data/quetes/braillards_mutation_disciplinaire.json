@@ -1,0 +1,46 @@
+{
+  "id": "braillards_mutation_disciplinaire",
+  "nom": "Mutation disciplinaire",
+  "categorie": "principale",
+  "acte": 1,
+  "niveau": 4,
+  "pnj": "instructeur_krouk",
+  "description": "Tu cries trop bien. Le Chef se sent menacé.",
+  "conditions": {
+    "race": "orc",
+    "quetes_terminees": [
+      "braillards_reunion_de_hurlements"
+    ]
+  },
+  "etapes": [
+    {
+      "objectifs": [
+        {
+          "type": "parler",
+          "pnj": "contremaitre_grumm",
+          "texte": "Se présenter à Grumm, à l'Entrée des galeries"
+        }
+      ]
+    }
+  ],
+  "dialogues": {
+    "instructeur_krouk": {
+      "proposition": [
+        "Mauvaise nouvelle, recrue : tu cries trop bien. Gorgrak se sent menacé.",
+        "Tu es muté aux galeries de Crasse-Roc. Va voir le contremaître Grumm, à l'ouest, à l'Entrée des galeries. Et crie en partant, pour la forme."
+      ],
+      "en_cours": [
+        "Toujours là ? L'OUEST ! Par le Puits, puis tout droit !"
+      ]
+    },
+    "contremaitre_grumm": {
+      "fin": [
+        "Un orc ? Parfait, on manquait de bruit. Les gobelins travaillent mieux quand quelqu'un hurle. Enfin, ils le disent."
+      ]
+    }
+  },
+  "recompenses": {
+    "xp_cr": 5,
+    "ecus": 60
+  }
+}

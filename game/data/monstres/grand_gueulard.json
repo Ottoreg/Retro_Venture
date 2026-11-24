@@ -1,0 +1,51 @@
+{
+  "id": "grand_gueulard",
+  "nom": "Grand Gueulard",
+  "description": "Major de sa promotion de cri. On l'entend de Hautepierre. On l'entend de partout.",
+  "palier": 2,
+  "caracteristiques": {
+    "pv": 80,
+    "pa": 7,
+    "pm": 3,
+    "initiative": 110,
+    "intelligence": 22,
+    "force": 10
+  },
+  "resistances": {
+    "flamme": 20,
+    "acier": 10,
+    "givre": -10
+  },
+  "sorts": [
+    "braillard_coup_de_tete",
+    "braillard_caillou_d_echauffement",
+    "braillard_cri_d_encouragement",
+    "gueulard_hurlement"
+  ],
+  "ia": "soutien",
+  "xp": 150,
+  "butin": [
+    {
+      "objet": "bandeau_de_braillard",
+      "taux": 0.9,
+      "quantite": [
+        2,
+        4
+      ]
+    },
+    {
+      "objet": "cloche_de_poche",
+      "taux": 0.6,
+      "quantite": [
+        1,
+        2
+      ]
+    }
+  ],
+  "ecus": [
+    12,
+    26
+  ],
+  "elite": true,
+  "famille": "apprenti_braillard"
+}

@@ -27,7 +27,7 @@ Prix de boutique : selon la rareté (revente à 25 %).
 - [Sorts de race](#sorts-de-race)
 - [Sorts des monstres](#sorts-des-monstres)
 
-**325 objets** (18 armes, 20 coiffes, 20 capes, 20 amulettes, 20 anneaux, 20 ceintures, 20 bottes, 136 ressources, 37 plans de forge, 8 objets de quête), **64 monstres** et **309 sorts**.
+**332 objets** (18 armes, 20 coiffes, 20 capes, 20 amulettes, 20 anneaux, 20 ceintures, 20 bottes, 143 ressources, 37 plans de forge, 8 objets de quête), **71 monstres** et **320 sorts**.
 
 ## Armes
 
@@ -207,6 +207,7 @@ Prix de boutique : selon la rareté (revente à 25 %).
 | Nom | Niv. | Rareté | Forge | Obtention | Description |
 |---|---|---|---|---|---|
 | **Aile de vampipistrelle** | 1 | Commun | +1 Force, cuir | boutique 4 brumes<br>butin : Vampipistrelle comtesse 88 %, Vampipistrelle 55 % | Fine comme du papier, solide comme du cuir, et elle sent la cave. |
+| **Bandeau de braillard** | 1 | Commun | +1 Agilité | boutique 4 brumes<br>butin : Grand Gueulard 90 %, Apprenti braillard 55 % | Il empêche la sueur de couler dans les yeux pendant qu'on crie. |
 | **Bec de colombe** | 1 | Rare | +3 Dommages Sacré | butin : Colombe baptiste 10 % | Il a béni bien des crânes. |
 | **Blé** | 1 | Commun | — | boutique 4 brumes<br>Agriculteur : Blé niv. 1 | Du blé. Les humains en font du pain, les gobelins des projectiles. |
 | **Bois de cerf enchanté** | 1 | Peu commun | +1 Intelligence | boutique 12 brumes<br>butin : Grand cerf de la Lisière 60 %, Cerf enchanté 20 % | Une ramure qui murmure quand le vent passe. |
@@ -216,10 +217,12 @@ Prix de boutique : selon la rareté (revente à 25 %).
 | **Carapace de grouilleur** | 1 | Commun | +1 Force | boutique 4 brumes<br>butin : Grouilleur ancestral 90 %, Grouilleur 50 % | Un anneau de carapace verte. Il en manque une centaine pour faire le tour. |
 | **Chapeau de morille** | 1 | Commun | +1 Intelligence | boutique 4 brumes<br>butin : Vieille Morille rancunière 90 %, Morille grincheuse 60 %<br>« Des champignons qui insultent » : sur Morille grincheuse, Vieille Morille rancunière (50 %) | Alvéolé, parfumé, vexé. Il continue de bouder même détaché. |
 | **Chêne des Anciens** | 1 | Rare | +1 % Résistance Acier, bois | Bûcheron : Chêne niv. 3, récolte rare | Une bûche si vieille qu'elle se souvient de l'Âge de l'Aube. Elle refuse d'en parler. |
+| **Cloche de poche** | 1 | Peu commun | +1 Perception | boutique 12 brumes<br>butin : Grand Gueulard 60 %, Apprenti braillard 15 % | Pour s'entraîner à crier plus fort qu'elle. Elle a perdu. |
 | **Croc de loup** | 1 | Commun | +1 Perception | boutique 4 brumes<br>butin : Loup alpha 90 %, Loup des collines 50 % | Pointu, un peu baveux. Les forgerons en raffolent pour une raison qu'ils gardent pour eux. |
 | **Cuivre vert-de-gris** | 1 | Rare | +1 Dommages Flamme, minerai | Mineur : Cuivre niv. 1, récolte rare | Un cuivre qui a pris l'air pendant un siècle. Il a de la patine, et de l'opinion. |
 | **Cœur de frêne** | 1 | Rare | +1 % Résistance Tempête, bois | Bûcheron : Frêne niv. 1, récolte rare | Le centre d'un frêne qui a tenu trois tempêtes. Il en garde la souplesse, et la rancune. |
 | **Dent de rat** | 1 | Commun | +1 Agilité | boutique 4 brumes<br>butin : Rat-roi 70 %, Rat des galeries 30 %<br>« Le dentier de Mamie Ratine » : sur Rat des galeries, Rat-roi (50 %) | Jaune, pointue, et encore un peu mordante. |
+| **Défense de goret** | 1 | Peu commun | +4 Vitalité | boutique 12 brumes<br>butin : Goret à trois défenses 60 %, Goret de braise 15 % | Une défense de goret. La troisième, celle de l'élite, vaut plus cher. |
 | **Esquille d'os** | 1 | Commun | +1 Agilité | boutique 4 brumes<br>butin : Fémur du Général 90 %, Os errant 60 % | Un éclat d'os errant. Il cherche encore son squelette. |
 | **Essence** | 1 | Rare | — | **aucune** | Essence infusée à l'enclume : appliquée à un équipement, elle y ajoute sa caractéristique (ou renforce la ligne). |
 | **Fer météorique** | 1 | Rare | +1 Dommages Acier, minerai | Mineur : Fer niv. 3, récolte rare | Tombé du ciel il y a longtemps. Les gobelins disent que c'était une réclamation. |
@@ -244,6 +247,7 @@ Prix de boutique : selon la rareté (revente à 25 %).
 | **Plume de colombe** | 1 | Commun | +1 Force, +1 Intelligence | butin : Colombe baptiste 50 % | Blanche comme une âme avant le premier mensonge. |
 | **Poil scintillant** | 1 | Commun | +1 Force | boutique 4 brumes<br>butin : Grand cerf de la Lisière 90 %, Cerf enchanté 50 %<br>« L'ode au Grand Cerf » : sur Cerf enchanté, Grand cerf de la Lisière (50 %) | Il brille encore un peu dans le noir, comme le cerf qui l'a perdu. |
 | **Queue de rat** | 1 | Commun | +1 Prospection, cuir | boutique 4 brumes<br>butin : Rat-roi 90 %, Rat des galeries 60 %<br>« Objectifs de productivité » : sur Rat des galeries, Rat-roi (50 %) | Ne demandez pas à quoi ça sert. Les gobelins, eux, savent. |
+| **Soie de goret** | 1 | Commun | +1 Intelligence | boutique 4 brumes<br>butin : Goret à trois défenses 90 %, Goret de braise 60 % | Un poil de cochon de guerre, roussi au bout. Il sent la grillade. |
 | **Spores grincheuses** | 1 | Peu commun | +1 Dommages | boutique 12 brumes<br>butin : Vieille Morille rancunière 48 %, Morille grincheuse 12 % | Une pincée suffit à gâcher une fête. Les elfes en mettent dans les lettres de refus. |
 | **Squelette de colombe** | 1 | Légendaire | +1 PM | butin : Colombe baptiste 0 % | Léger, si léger qu'il vole encore un peu. |
 | **Sève ancienne** | 1 | Rare | +1 Intelligence | boutique 35 brumes<br>butin : Arbre millénaire 40 %, Arbre vivant 10 %<br>« Les arbres sont nerveux » : sur Arbre vivant, Arbre millénaire (50 %) | Ambrée, épaisse, plus vieille que Brumerive. |
@@ -256,6 +260,7 @@ Prix de boutique : selon la rareté (revente à 25 %).
 | **Avoine du Champion** | 2 | Rare | — | Agriculteur : Avoine niv. 8, récolte rare | Un cheval en a mangé une fois. Il a gagné une course qu'il ne courait pas. |
 | **Bois d'if** | 2 | Peu commun | +2 Perception, bois | boutique 12 brumes<br>Bûcheron : If niv. 8 | Sombre, souple, toxique. Les rôdeurs l'adorent, les chèvres beaucoup moins. |
 | **Bon de coupe** | 2 | Peu commun | +2 Perception | boutique 12 brumes<br>butin : Abatteur en chef 48 %, Bûcheron de Brumerive 12 %<br>« Coupe rase » : sur Bûcheron de Brumerive, Abatteur en chef (50 %) | Autorisation de couper « quelques arbres ». Le mot « quelques » a été rayé. |
+| **Boulon tordu** | 2 | Commun | +2 Force | boutique 4 brumes<br>butin : Ferrailleur blindé 90 %, Ferrailleur orc 50 % | Un boulon de ferrailleur. Il a été droit, une fois, peut-être. |
 | **Certificat médical de paille** | 2 | Rare | +1 % Résistance Tempête | butin : Épouvantail en arrêt maladie 10 % | Signé par un médecin introuvable. Valable trois semaines, renouvelable. |
 | **Chapeau du Père Fauchard** | 2 | Commun | +20 Initiative | butin : Père Fauchard, Épouvantail en chef 60 % | Troué par quarante ans d'orages et de corbeaux. |
 | **Citrouille grimaçante** | 2 | Peu commun | +2 Agilité | boutique 12 brumes<br>butin : Grand Épouvantail 48 %, Épouvantail démotivé 12 % | Elle a été sculptée par personne. C'est bien ce qui inquiète. |
@@ -274,6 +279,7 @@ Prix de boutique : selon la rareté (revente à 25 %).
 | **Menthe glaciale** | 2 | Rare | — | Herboriste : Menthe niv. 8, récolte rare | Une feuille et l'haleine gèle. Les dragons la détestent. |
 | **Menthe poivrée** | 2 | Commun | — | boutique 4 brumes<br>Herboriste : Menthe niv. 8 | Fraîche au nez, brûlante au palais. Indécise, comme un elfe au marché. |
 | **Minerai d'étain** | 2 | Commun | +2 Agilité, minerai | boutique 4 brumes<br>Mineur : Étain niv. 8 | Il crie quand on le tord. Si, si : écoutez bien. |
+| **Mâchoire de Gorgrak** | 2 | Rare | +1 Dommages Flamme | boutique 35 brumes<br>butin : Gorgrak la Grande Gueule 100 % | Une mâchoire de rechange du chef. Elle claque encore toute seule. |
 | **Médaille de service** | 2 | Peu commun | +2 Intelligence | boutique 12 brumes<br>butin : Adjudant Rotule 50 %, Vétéran de la Première Ombre 12 % | « Trois siècles de bons et loyaux services. » Aucune pension associée. |
 | **Médaille en chocolat** | 2 | Peu commun | +2 Intelligence | boutique 12 brumes<br>butin : Défonceur de portes 48 %, Gobelin briseur 12 % | Décernée au briseur du mois. Il en a mangé la moitié pendant la cérémonie. |
 | **Ordre de raid** | 2 | Peu commun | +2 Perception | boutique 12 brumes<br>butin : Pillard émérite 48 %, Gobelin pillard 12 %<br>« Les ordres du raid » : sur Gobelin briseur, Gobelin pillard, Défonceur de portes, Pillard émérite (35 %) | Signé par un Héraut Cendré. L'orthographe est approximative, la menace très claire. |
@@ -289,6 +295,7 @@ Prix de boutique : selon la rareté (revente à 25 %).
 | **Soie de la Mère-Toile** | 2 | Rare | +1 PM | boutique 35 brumes<br>butin : La Mère-Toile 100 % | Un écheveau tissé depuis l'Âge de l'Aube. Elle n'a jamais fini un seul napperon. |
 | **Truite** | 2 | Commun | — | boutique 4 brumes<br>Pêcheur : Remous (truite) niv. 8 | Elle remonte le courant par principe. |
 | **Truite saumonée** | 2 | Rare | — | Pêcheur : Remous (truite) niv. 8, récolte rare | Elle se prend pour un saumon. On n'ose pas la contrarier. |
+| **Tôle noircie** | 2 | Peu commun | +8 Vitalité | boutique 12 brumes<br>butin : Ferrailleur blindé 50 %, Ferrailleur orc 12 % | Un morceau d'armure de récupération. Récupéré, puis récupéré encore. |
 | **Écusson de milice** | 2 | Peu commun | +2 Force | boutique 12 brumes<br>butin : Sergent de la milice 48 %, Milicien de Hautepierre 12 %<br>« Inspection surprise » : sur Milicien de Hautepierre, Sergent de la milice (50 %) | Une tour blanche sur fond bleu. Les gobelins le collectionnent, les miliciens le regrettent. |
 | **Épaulette du Colonel** | 2 | Rare | +1 Dommages | boutique 35 brumes<br>butin : Le Colonel Ossature 100 % | Les galons d'un homme qui n'a jamais accepté d'être démobilisé. |
 | **Étain chantant** | 2 | Rare | +1 Dommages Tempête, minerai | Mineur : Étain niv. 8, récolte rare | Il crie quand on le plie. Les forgerons trouvent ça touchant ; les voisins, non. |
@@ -432,12 +439,12 @@ ni 35 % du jeu entier, pour qu'aucune résistance unique ne suffise.
 | Zone | Monstres | Répartition |
 |---|---|---|
 | Brumerive (humains) | 12 | Tempête 53 %, Acier 34 %, Flamme 14 % |
-| Crasse-Roc (gobelins) | 19 | Acier 27 %, Flamme 27 %, Impie 27 %, Givre 10 %, Sacré 5 %, Tempête 4 % |
+| Crasse-Roc (gobelins) | 26 | Flamme 38 %, Acier 28 %, Impie 20 %, Givre 7 %, Sacré 4 %, Tempête 3 % |
 | Sylvebrume (elfes) | 12 | Givre 43 %, Acier 34 %, Tempête 21 %, Flamme 2 % |
 | Hautepierre | 16 | Acier 30 %, Flamme 27 %, Givre 18 %, Tempête 15 %, Impie 9 % |
 | La Cendre | 1 | Flamme 100 % |
 | Ailleurs | 11 | Tempête 60 %, Sacré 26 %, Flamme 10 %, Acier 4 % |
-| **Jeu entier** | 64 | Acier 29 %, Tempête 22 %, Flamme 18 %, Givre 15 %, Impie 10 %, Sacré 6 % |
+| **Jeu entier** | 71 | Acier 29 %, Flamme 23 %, Tempête 20 %, Givre 14 %, Impie 9 %, Sacré 5 % |
 
 ## Monstres
 
@@ -619,6 +626,62 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 
 ### Crasse-Roc (gobelins)
 
+#### Apprenti braillard *(famille)*
+
+*Jeune orc en formation au cri. Il est déjà très bon, surtout la nuit.*
+
+- **Palier** : 1 ; **6 PA, 3 PM** ; IA soutien
+- **Résistances** : Flamme +15 %, Acier +5 %, Givre -15 %
+- **Sorts** : Coup de tête, Caillou d'échauffement, Cri d'encouragement
+- **Butin** : Bandeau de braillard 55 % (×1–2), Cloche de poche 15 % ; **brumes** 3–8
+- **Où le trouver** : Arène des Gueulards (`crasse_roc_3_1`, 3 groupes, dont 1 au hasard) · Camp des Grognards (`crasse_roc_3_2`, 1 groupe) · Fours à ferraille (`crasse_roc_4_0`, 3 groupes, dont 1 au hasard) · Coulée de scories (`crasse_roc_4_1`, 2 groupes, dont 1 au hasard)
+
+| PV | Init. | XP | Force | Intel. |
+|---|---|---|---|---|
+| 26 | 80 | 30 | 4 | 8 |
+
+#### Grand Gueulard *(élite de la famille Apprenti braillard)*
+
+*Major de sa promotion de cri. On l'entend de Hautepierre. On l'entend de partout.*
+
+- **Palier** : 2 ; **7 PA, 3 PM** ; IA soutien
+- **Résistances** : Flamme +20 %, Acier +10 %, Givre -10 %
+- **Sorts** : Coup de tête, Caillou d'échauffement, Cri d'encouragement, Hurlement
+- **Butin** : Bandeau de braillard 90 % (×2–4), Cloche de poche 60 % (×1–2) ; **brumes** 12–26
+- **Où le trouver** : Arène des Gueulards (`crasse_roc_3_1`, apparition spontanée) · Camp des Grognards (`crasse_roc_3_2`, apparition spontanée) · Fours à ferraille (`crasse_roc_4_0`, apparition spontanée) · Coulée de scories (`crasse_roc_4_1`, apparition spontanée)
+
+| PV | Init. | XP | Force | Intel. |
+|---|---|---|---|---|
+| 80 | 110 | 150 | 10 | 22 |
+
+#### Goret de braise *(famille)*
+
+*Cochon de guerre qui se roule dans les braises pour sentir bon. Il n'y arrive pas.*
+
+- **Palier** : 1 ; **5 PA, 4 PM** ; IA basique
+- **Résistances** : Flamme +15 %, Givre -10 %
+- **Sorts** : Ruade, Groin brûlant
+- **Butin** : Soie de goret 60 % (×1–2), Défense de goret 15 % ; **brumes** 1–4
+- **Où le trouver** : Porte des Hurleurs (`crasse_roc_3_0`, 3 groupes, dont 1 au hasard) · Arène des Gueulards (`crasse_roc_3_1`, 1 groupe) · Fours à ferraille (`crasse_roc_4_0`, 3 groupes, dont 1 au hasard)
+
+| PV | Init. | XP | Intel. |
+|---|---|---|---|
+| 16 | 70 | 14 | 4 |
+
+#### Goret à trois défenses *(élite de la famille Goret de braise)*
+
+*La troisième défense lui pousse au milieu du front. Il en est très fier.*
+
+- **Palier** : 1 ; **6 PA, 4 PM** ; IA basique
+- **Résistances** : Flamme +20 %, Givre -5 %
+- **Sorts** : Ruade, Groin brûlant, Coup de tête
+- **Butin** : Soie de goret 90 % (×2–4), Défense de goret 60 % (×1–2) ; **brumes** 5–12
+- **Où le trouver** : Porte des Hurleurs (`crasse_roc_3_0`, apparition spontanée) · Arène des Gueulards (`crasse_roc_3_1`, apparition spontanée) · Fours à ferraille (`crasse_roc_4_0`, apparition spontanée)
+
+| PV | Init. | XP | Intel. |
+|---|---|---|---|
+| 36 | 90 | 40 | 10 |
+
 #### Grouilleur *(famille)*
 
 *Un mille-pattes vert de la taille d'un chien, qui crache et qui ne compte pas ses pattes.*
@@ -786,6 +849,50 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 | PV | Init. | XP | Force | Intel. | Agi. |
 |---|---|---|---|---|---|
 | 130 | 130 | 314 | 38 | 38 | 38 |
+
+#### Ferrailleur orc *(famille)*
+
+*Il porte une armure de récupération : un peu de tout, beaucoup de casseroles.*
+
+- **Palier** : 2 ; **6 PA, 3 PM** ; IA basique
+- **Résistances** : Acier +20 %, Flamme +10 %, Givre -10 %, Tempête -10 %
+- **Sorts** : Masse de ferraille, Boulon chauffé à blanc
+- **Butin** : Boulon tordu 50 % (×1–2), Tôle noircie 12 % ; **brumes** 9–20
+- **Où le trouver** : Arène des Gueulards (`crasse_roc_3_1`, 1 groupe) · Camp des Grognards (`crasse_roc_3_2`, 3 groupes, dont 1 au hasard) · Coulée de scories (`crasse_roc_4_1`, 3 groupes, dont 1 au hasard) · Tribune du Chef (`crasse_roc_4_2`, 1 groupe)
+
+| PV | Init. | XP | Force | Intel. |
+|---|---|---|---|---|
+| 50 | 100 | 110 | 18 | 18 |
+
+#### Ferrailleur blindé *(élite de la famille Ferrailleur orc)*
+
+*Il a récupéré tant de ferraille qu'il ne voit plus où il va. Ça ne l'arrête pas.*
+
+- **Palier** : 2 ; **7 PA, 3 PM** ; IA basique
+- **Résistances** : Acier +30 %, Flamme +15 %, Tempête -10 %
+- **Sorts** : Masse de ferraille, Boulon chauffé à blanc, Cri d'encouragement
+- **Butin** : Boulon tordu 90 % (×2–4), Tôle noircie 50 % (×1–2) ; **brumes** 20–40
+- **Où le trouver** : Arène des Gueulards (`crasse_roc_3_1`, apparition spontanée) · Camp des Grognards (`crasse_roc_3_2`, apparition spontanée) · Coulée de scories (`crasse_roc_4_1`, apparition spontanée) · Tribune du Chef (`crasse_roc_4_2`, apparition spontanée)
+
+| PV | Init. | XP | Force | Intel. |
+|---|---|---|---|---|
+| 100 | 115 | 230 | 28 | 28 |
+
+#### Gorgrak la Grande Gueule *(boss)*
+
+*Chef de guerre qui tient des réunions… de hurlements. Il gagne tous les votes.*
+
+- **Palier** : 2 ; **7 PA, 3 PM** ; IA basique
+- **Résistances** : Flamme +25 %, Acier +15 %, Givre -20 %
+- **Sorts** : Coup de poing de séance, Caillou d'échauffement
+- **Phase 1** (à 70 % PV) : apprend Marmite de braise, Hurlement ; +1 Portée (3 t.). Message : « Motion de hurlement ! Qui est pour ? Je n'entends rien ! » Gorgrak recule pour mieux crier.
+- **Phase 2** (à 30 % PV) : apprend Vote à main levée ; +2 PM (3 t.) ; +20 % dégâts infligés (3 t.). Message : « Adopté à l'unanimité de moi ! » Gorgrak entre en frénésie.
+- **Butin** : Mâchoire de Gorgrak 100 % ; **brumes** 90–150
+- **Où le trouver** : Tribune du Chef (`crasse_roc_4_2`, 1 groupe, dont 1 réapparition 45–60 s)
+
+| PV | Init. | XP | Force | Intel. |
+|---|---|---|---|---|
+| 300 | 100 | 760 | 18 | 22 |
 
 #### Le Balourd des Abîmes *(boss)*
 
@@ -1645,10 +1752,12 @@ Soigneur sacré. Bénit les alliés, sermonne les ennemis, et cite des textes qu
 | **Bond** | 4 PA, portée 1–3, 1/tour, relance 2 t. | téléportation sur la case | Lion de Juda, palier 3 | Le lion saute sur sa proie (un tour sur deux). |
 | **Bouclier levé** | 2 PA, portée soi, sans ligne de vue, 1/tour, relance 2 t. | bouclier 8–12 (Acier) | Milicien de Hautepierre, palier 2, Sergent de la milice (élite), palier 2 | Position de garde numéro 3. Il ne connaît que celle-là, mais il la connaît bien. |
 | **Bouderie** | 2 PA, portée soi, sans ligne de vue, 1/tour, relance 2 t. | bouclier 4–6 (Givre) | Morille grincheuse, palier 1, Vieille Morille rancunière (élite), palier 1 | Elle boude. C'est étonnamment efficace. |
+| **Boulon chauffé à blanc** | 4 PA, portée 2–5, 1/tour | 5–7 Flamme | Ferrailleur blindé (élite), palier 2, Ferrailleur orc, palier 2 | Il sort du four. Il y retourne, à travers vous. |
 | **Bourrasque de grange** | 3 PA, portée 2–5, 1/tour | 8–12 Tempête ; poussée de 2 case(s) | Père Fauchard, Épouvantail en chef (mini-boss), palier 2 | Il ouvre les portes de la grange : le courant d'air fait le reste. |
 | **Brasier** | 4 PA, portée 2–7, 1/tour | 12–18 Flamme | Le Souverain Cendré (mini-boss), palier 5 | Le sol s'embrase sous vos pieds. |
 | **Bélier humain** | 4 PA, portée 1–3, croix latine, en ligne, 1/tour | 5–8 Acier | Défonceur de portes (élite), palier 3 | Il fonce tête baissée. Il n'a jamais compris pourquoi ça fait mal aux autres et pas à lui. |
 | **Bénédiction de Raphaël** | 3 PA, portée 1–5, croix latine, en ligne, 1/tour | soin 20 (Sacré) aux alliés | Archange Raphaël (mini-boss), palier 3 | Une croix de lumière qui soigne les alliés. |
+| **Caillou d'échauffement** | 3 PA, portée 2–4, 1/tour | 3–5 Acier | Apprenti braillard, palier 1, Gorgrak la Grande Gueule (mini-boss), palier 2, Grand Gueulard (élite), palier 2 | On s'échauffe la voix, et le bras. |
 | **Cendres ardentes** | 4 PA, portée 2–5, 1/tour | 6–9 Flamme | Cendrillon, palier 4, Marraine Cendrée (élite), palier 4 | Une poignée de cendre du Souverain, jetée au visage. Ça ne part pas. |
 | **Cercle de sève** | 3 PA, portée soi, cercle de rayon 2, sans ligne de vue, 1/tour, relance 3 t. | glyphe (2 t.) : [soin 8–12 (Tempête) aux alliés ; −2 PM (1 t.) aux ennemis] | Arbre millénaire (élite), palier 2 | L'arbre plonge ses racines tout autour de lui. Ce qui pousse là le soigne ; ce qui marche là s'enlise. |
 | **Champ maudit** | 3 PA, portée 1–4, cercle de rayon 1, sans ligne de vue, 1/tour, relance 2 t. | glyphe (2 t.) : [3–5 Tempête aux ennemis ; −1 PM (1 t.) aux ennemis] | Grand Épouvantail (élite), palier 2 | La terre se couvre d'épis noirs qui piquent les chevilles. |
@@ -1672,11 +1781,14 @@ Soigneur sacré. Bénit les alliés, sermonne les ennemis, et cite des textes qu
 | **Coup de fronde** | 3 PA, portée 2–5, 2/tour | 3–6 Tempête | Frondeur vétéran (élite), palier 2, Gobelin frondeur, palier 1 | Un caillou bien ajusté. Le gobelin a été payé à la pièce. |
 | **Coup de hache** | 4 PA, portée 1, 1/tour | 7–10 Acier | Défonceur de portes (élite), palier 3, Gobelin briseur, palier 2 | Il brise les portes. Les genoux, c'est en bonus. |
 | **Coup de massue** | 4 PA, portée 1, 1/tour | 8–11 Acier ; poussée de 1 case(s) | Troll des ponts, palier 3, Troll gastronome (élite), palier 4 | Pas de technique, beaucoup de massue. |
+| **Coup de poing de séance** | 4 PA, portée 1, 2/tour | 8–11 Flamme | Gorgrak la Grande Gueule (mini-boss), palier 2 | La séance est ouverte. Votre arcade aussi. |
 | **Coup de ramure** | 4 PA, portée 1, 1/tour | 8–12 Tempête | Cerf enchanté, palier 1, Grand cerf de la Lisière (élite), palier 2 | Des bois enchantés, mais des bois quand même. Il charge comme le vent. |
 | **Coup de surin** | 3 PA, portée 1, 2/tour | 5–7 Impie | Chef de bande (élite), palier 3, Détrousseur des grands chemins, palier 3 | Dans l'ombre, sans prévenir, sans facture. |
+| **Coup de tête** | 3 PA, portée 1, 2/tour | 4–6 Flamme | Apprenti braillard, palier 1, Goret à trois défenses (élite), palier 1, Grand Gueulard (élite), palier 2 | La méthode orque : tête d'abord, réflexion jamais. |
 | **Crachat acide** | 4 PA, portée 2–4, 1/tour | 5–8 Flamme | Grouilleur, palier 1, Grouilleur ancestral (élite), palier 2 | Ça fume, ça pique, ça ne part pas au lavage. |
 | **Crachat de feu** | 4 PA, portée 2–4, cercle de rayon 1, 1/tour | 5–7 Flamme | Grouilleur de braise, palier 3 | L'acide a pris feu. Il en est très fier. |
 | **Crachat de lave** | 3 PA, portée 2–6, cercle de rayon 1, 1/tour | 4–6 Flamme | Le Balourd des Abîmes (mini-boss), palier 2 | Il n'a pas de manières. Il a de la lave. |
+| **Cri d'encouragement** | 2 PA, portée 0–4, 1/tour, relance 2 t. | +10 % dégâts infligés (2 t.) aux alliés | Apprenti braillard, palier 1, Ferrailleur blindé (élite), palier 2, Grand Gueulard (élite), palier 2 | « ALLEZ ! » L'allié n'a rien compris, mais il tape plus fort. |
 | **Cri de raid** | 2 PA, portée soi, sans ligne de vue, 1/tour, relance 3 t. | +25 Force (2 t.) aux alliés | Krasbouk, Chef de Raid (syndiqué) (mini-boss), palier 2 | « Pour la prime ! » Ses muscles y croient. |
 | **Croc sanglant** | 4 PA, portée 1, 1/tour | 9–13 Tempête | Loup alpha (élite), palier 2 | Le chef de meute ne mord pas : il signe. |
 | **Embuscade** | 3 PA, portée 1–4, sans ligne de vue, 1/tour, relance 2 t. | piège invisible : [9–13 Impie aux ennemis ; −2 PM (1 t.) aux ennemis] | Chef de bande (élite), palier 3 | Ils étaient cachés dans le fossé. Ils y sont toujours, d'ailleurs. |
@@ -1692,9 +1804,11 @@ Soigneur sacré. Bénit les alliés, sermonne les ennemis, et cite des textes qu
 | **Griffe de Juda** | 5 PA, portée 1, 1/tour | 1–50 Sacré | Lion de Juda, palier 3 | Un coup de patte imprévisible. |
 | **Griffes de pierre** | 4 PA, portée 1, 1/tour | 7–10 Givre | Gargouille, palier 4, Gargouille de la Grande Porte (élite), palier 4 | Trois siècles à garder une gouttière gelée, ça aiguise les griffes. |
 | **Grignotage** | 2 PA, portée 1, 1/tour | 1–2 Acier ; −1 PM au prochain tour | Rat des galeries, palier 1, Rat-roi (élite), palier 1 | Le rat s'attaque aux lacets. On avance moins vite. |
+| **Groin brûlant** | 3 PA, portée 1–2, 1/tour | 2–3 Flamme ; poison 1–2 Flamme par tour (1 t.) | Goret de braise, palier 1, Goret à trois défenses (élite), palier 1 | Il s'est roulé dans les braises. Il vous en fait profiter. |
 | **Hachette de jet** | 3 PA, portée 2–5, 1/tour | 4–6 Acier | Krasbouk, Chef de Raid (syndiqué) (mini-boss), palier 2 | Il en a toujours une de rechange, glissée dans la botte. |
 | **Hachoir réglementaire** | 4 PA, portée 1, 1/tour | 7–10 Acier | Krasbouk, Chef de Raid (syndiqué) (mini-boss), palier 2 | Coup porté selon l'article 3 du contrat de raid. |
 | **Heures sup'** | 2 PA, portée 1–4, 1/tour, relance 2 t. | +2 PA tout de suite aux alliés | Contremaître en chef (élite), palier 3, Contremaître zélé, palier 2 | Un collègue gagne 2 PA tout de suite. Non payés, évidemment. |
+| **Hurlement** | 3 PA, portée soi, cercle de rayon 2, 1/tour, relance 2 t. | −1 PM (1 t.) aux ennemis | Gorgrak la Grande Gueule (mini-boss), palier 2, phase 1 (70 % PV), Grand Gueulard (élite), palier 2 | Si fort que vos jambes refusent d'avancer vers lui. |
 | **Javelot de service** | 4 PA, portée 2–5, 1/tour | 5–7 Impie | Adjudant Rotule (élite), palier 2, Vétéran de la Première Ombre, palier 2 | Le javelot réglementaire. Le même depuis la Première Ombre. |
 | **Jet d'acide ancestral** | 5 PA, portée 2–5, cercle de rayon 1, 1/tour | 7–11 Flamme | Grouilleur ancestral (élite), palier 2 | Une recette transmise de grouilleur en grouilleur depuis mille générations. |
 | **La bourse ou la vie** | 3 PA, portée 1–2, 1/tour | 3–5 Tempête ; −15 Perception (2 t.) | Chef de bande (élite), palier 3, Détrousseur des grands chemins, palier 3 | Vous choisissez la bourse. Il prend quand même un peu de la vie. |
@@ -1705,6 +1819,8 @@ Soigneur sacré. Bénit les alliés, sermonne les ennemis, et cite des textes qu
 | **Larmes glacées** | 4 PA, portée 2–5, 1/tour | 4–6 Givre ; −1 PM au prochain tour | Grande Pleureuse (élite), palier 1, Pleureuse de l'Ossuaire, palier 1 | Elle vous pleure d'avance. Ça gèle. |
 | **Licenciement** | 4 PA, portée 1–2, 1/tour | 6–9 Flamme ; poussée de 3 case(s) | Contremaître en chef (élite), palier 3 | « Vous êtes viré ! » Et pour être sûr que vous ne reveniez pas, il brûle votre badge. Sur vous. |
 | **Marinade** | 3 PA, portée 1–2, 1/tour | poison 4–6 Flamme par tour (3 t.) ; −10 Résistance Flamme (3 t.) | Troll gastronome (élite), palier 4 | Il vous assaisonne avant cuisson. Le feu vous fera plus mal ensuite. |
+| **Marmite de braise** | 4 PA, portée 2–6, cercle de rayon 1, sans ligne de vue, 1/tour | 5–8 Flamme aux ennemis | Gorgrak la Grande Gueule (mini-boss), palier 2, phase 1 (70 % PV) | Le repas de la réunion. Servi brûlant, sur la tête. |
+| **Masse de ferraille** | 4 PA, portée 1, 1/tour | 6–9 Acier ; poussée de 1 case(s) | Ferrailleur blindé (élite), palier 2, Ferrailleur orc, palier 2 | Une masse faite de tout ce qui traînait. Surtout de l'enclume. |
 | **Morsure** | 3 PA, portée 1, 2/tour | 3–5 Tempête | Loup alpha (élite), palier 2, Loup cendreux, palier 3, Loup des collines, palier 1 |  |
 | **Morsure brûlante** | 3 PA, portée 1, 1/tour | 4–6 Flamme ; poison 2–3 Flamme par tour (2 t.) | Loup cendreux, palier 3 | Ses crocs gardent la chaleur de la Cendre. |
 | **Morsure de rat** | 3 PA, portée 1, 2/tour | 3–5 Acier | Rat des galeries, palier 1, Rat-roi (élite), palier 1 | Petite, mais elle revient souvent. |
@@ -1729,6 +1845,7 @@ Soigneur sacré. Bénit les alliés, sermonne les ennemis, et cite des textes qu
 | **Ricochet** | 3 PA, portée 2–3, 1/tour | 2–4 Impie | Fémur du Général (élite), palier 1, Os errant, palier 1 | Il rebondit sur les murs, sur les cailloux, sur vous. |
 | **Rompez les rangs !** | 2 PA, portée 1–4, 1/tour, relance 1 t. | téléportation sur la case | Le Colonel Ossature (mini-boss), palier 2, phase 1 (70 % PV) | Il s'effondre en tas d'os… et se remonte plus loin. |
 | **Ronces millénaires** | 4 PA, portée 1–6, cercle de rayon 1, 1/tour | 8–12 Acier ; −1 PM au prochain tour | Arbre millénaire (élite), palier 2 | Le sol se hérisse d'épines plus vieilles que les royaumes. |
+| **Ruade** | 3 PA, portée 1, 2/tour | 3–5 Flamme | Goret de braise, palier 1, Goret à trois défenses (élite), palier 1 | Un cochon de guerre ne recule jamais. Il rue. |
 | **Sabre de parade** | 4 PA, portée 1, 2/tour | 7–10 Acier | Le Colonel Ossature (mini-boss), palier 2 | Il ne sert qu'aux défilés. Il défile sur vous. |
 | **Souche piégée** | 3 PA, portée 1–4, sans ligne de vue, 1/tour, relance 2 t. | piège invisible cercle de rayon 1 : [7–10 Acier aux ennemis ; −2 PM (1 t.) aux ennemis] | Abatteur en chef (élite), palier 2 | Une souche, des pointes, et un abatteur qui sourit. |
 | **Souffle cendré** | 5 PA, portée 1–4, cercle de rayon 1, 1/tour | 15–22 Flamme | Le Souverain Cendré (mini-boss), palier 5 | Une vague de cendre brûlante autour de la cible. |
@@ -1742,6 +1859,7 @@ Soigneur sacré. Bénit les alliés, sermonne les ennemis, et cite des textes qu
 | **Ultrason** | 3 PA, portée 1–4, 1/tour | 3–5 Tempête ; −1 Portée (1 t.) | Vampipistrelle, palier 1, Vampipistrelle comtesse (élite), palier 2 | Un cri si aigu qu'on ne vise plus droit. |
 | **Venin ancestral** | 4 PA, portée 1, 1/tour | 7–10 Givre ; poison 3–4 Givre par tour (3 t.) | La Mère-Toile (mini-boss), palier 2 | Une seule morsure, et l'hiver s'installe dans vos veines. |
 | **Vol à l'arraché** | 2 PA, portée 1, 1/tour | 2–4 Flamme ; −2 Dommages (2 t.) | Gobelin pillard, palier 2, Pillard émérite (élite), palier 2 | Il vous prend quelque chose et met le feu à ce qu'il laisse. Vous frappez moins fort, par dépit. |
+| **Vote à main levée** | 3 PA, portée 1, 2/tour | 6–9 Flamme ; −1 PM au prochain tour | Gorgrak la Grande Gueule (mini-boss), palier 2, phase 2 (30 % PV) | La main est levée. Puis elle redescend, sur vous. |
 | **Éclat sylvestre** | 3 PA, portée 2–5, 2/tour | 5–8 Tempête | Cerf enchanté, palier 1, Grand cerf de la Lisière (élite), palier 2 | Une lueur verte jaillit des bois du cerf. |
 | **Éclats de porte** | 3 PA, portée 2–5, cercle de rayon 1, 1/tour | 4–6 Acier | Grondin, Bélier de la Brèche (mini-boss), palier 4 | Il crache les morceaux des portes qu'il a déjà enfoncées. |
 | **Élan** | 2 PA, portée soi, sans ligne de vue, 1/tour, relance 2 t. | +2 PM (1 t.) | Grondin, Bélier de la Brèche (mini-boss), palier 4 | Les roues grincent, les chaînes claquent : il recule pour mieux frapper. |

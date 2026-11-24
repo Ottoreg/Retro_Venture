@@ -26,6 +26,12 @@ palier 2 : environ 50 PV, mini-boss : 300 PV).
 
 ## 1. La Fosse aux Braillards (Orcs, à l'est)
 
+**Produite le 24/11/2026** (`sz_braillards.py`, à valider) : cartes `crasse_roc_3_0` (Porte des Hurleurs) à `crasse_roc_4_2`
+(Tribune du Chef) ; les ids `braillards_x_y` ci-dessous sont devenus `crasse_roc_(x+3)_y`. Élites ajoutées : Goret à trois
+défenses (gorets), Grand Gueulard (apprentis), Ferrailleur blindé (ferrailleurs). PNJ : Krouk explique la forge, Grande-Voix
+Ourga les Voies, Troc le Sourd marchand. Gorgrak garde ses sorts à distance en phase 3 (les phases ajoutent des sorts sans en
+retirer). Apparences et icônes provisoires reprises des dessins existants.
+
 ```
               x=0                          x=1
 y=0  [Porte des Hurleurs 1 *] ──── [Fours à ferraille 1]
