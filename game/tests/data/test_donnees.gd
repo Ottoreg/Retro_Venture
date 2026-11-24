@@ -515,8 +515,9 @@ func test_forge_ressources_et_enclumes() -> void:
 				if not monster.get("donjon", false):  # Ressources exclusives d'un donjon : orientées à part.
 					resources[item["id"]] = item.get("caracteristique", "")
 	var counts := {}
-	for stat: String in resources.values():
-		counts[stat] = int(counts.get(stat, 0)) + 1
+	for stats: Variant in resources.values():
+		for stat: String in (stats if stats is Array else [stats]):  # une ressource peut en donner plusieurs
+			counts[stat] = int(counts.get(stat, 0)) + 1
 	for stat: String in ["intelligence", "perception", "agilite"]:
 		assert_eq(counts.get(stat), counts.get("force"), "%s autant que Force" % stat)
 	assert_true(int(counts.get("pa", 0)) + int(counts.get("pm", 0)) <= 3, "PA et PM très rares")

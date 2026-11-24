@@ -5,7 +5,12 @@
   "rarete": "commun",
   "niveau": 2,
   "description": "Une plume empire. Les éleveurs la reconnaissent à l'odeur, les autres à la couleur.",
-  "caracteristique": "vitalite",
+  "caracteristique": [
+    "agilite",
+    "perception",
+    "resistance_tempete",
+    "resistance_givre"
+  ],
   "famille": "ampa_empire",
   "zone": "hautepierre"
 }

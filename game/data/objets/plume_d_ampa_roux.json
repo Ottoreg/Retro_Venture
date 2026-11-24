@@ -5,7 +5,12 @@
   "rarete": "commun",
   "niveau": 2,
   "description": "Une plume roux. Les éleveurs la reconnaissent à l'odeur, les autres à la couleur.",
-  "caracteristique": "perception",
+  "caracteristique": [
+    "intelligence",
+    "perception",
+    "resistance_flamme",
+    "resistance_givre"
+  ],
   "famille": "ampa_roux",
   "zone": "hautepierre"
 }

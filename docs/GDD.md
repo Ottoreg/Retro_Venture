@@ -2698,8 +2698,9 @@ les autres. Valeurs des bonus, palier d'éleveur requis et apprivoisement : **à
 les 8 ampas et leur élite (« Grand ampa ») vivent sur les 15 cartes de steppe ; dessin `art/monstre/ampa.svgt` recolorié par
 ses plumes. Valeurs provisoires : palier 2 (Onyx et Cristal palier 3, un ou deux groupes seulement, réapparition 5 à 8 min),
 un sort par élément de la couleur (Plumes ardentes Flamme, Battement d'ailes Tempête, Coup de bec Acier, Cri glacé Givre ;
-Onyx : Course folle +2 PM, Cristal : Plumage scintillant +2 PA) ; butin : une plume par couleur (élémentaires à égalité,
-Onyx en dommages spectraux, Cristal en dévastateurs, zone de forge Hautepierre). Pas encore apprivoisables (lot 3).
+Onyx : Course folle +2 PM, Cristal : Plumage scintillant +2 PA) ; butin : une plume par couleur, qui donne à la forge les
+caractéristiques de ses deux éléments et +1 % de résistance à chacun (demande de l'auteur, ex. brun : Intelligence, Agilité,
+résistances Flamme et Tempête) ; Onyx en dommages spectraux, Cristal en dévastateurs ; zone de forge Hautepierre. Pas encore apprivoisables (lot 3).
 
 Exclus : les créatures qui parlent ou se croient des personnes (trolls, gobelins, épouvantails,
 arbres vivants, morilles), et celles trop petites (rats, vampipistrelles, corbacs). Chaque camp a

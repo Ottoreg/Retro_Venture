@@ -5,7 +5,12 @@
   "rarete": "commun",
   "niveau": 2,
   "description": "Une plume ocre. Les éleveurs la reconnaissent à l'odeur, les autres à la couleur.",
-  "caracteristique": "intelligence",
+  "caracteristique": [
+    "intelligence",
+    "force",
+    "resistance_flamme",
+    "resistance_acier"
+  ],
   "famille": "ampa_ocre",
   "zone": "hautepierre"
 }

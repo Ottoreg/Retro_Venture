@@ -5,7 +5,12 @@
   "rarete": "commun",
   "niveau": 2,
   "description": "Une plume stratos. Les éleveurs la reconnaissent à l'odeur, les autres à la couleur.",
-  "caracteristique": "fuite",
+  "caracteristique": [
+    "force",
+    "agilite",
+    "resistance_acier",
+    "resistance_tempete"
+  ],
   "famille": "ampa_stratos",
   "zone": "hautepierre"
 }

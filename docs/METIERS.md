@@ -333,12 +333,12 @@ Toutes les ressources qui servent à la forge (caractéristique ou matière), pa
 | **Paille ensorcelée** | 2 | commun | Agilité | +2 | — | Grand Épouvantail (élite), palier 2 90 % ×2–5<br>Épouvantail démotivé, palier 2 60 % ×1–3 |
 | **Plan de casse** | 2 | peu_commun | Perception | +2 | — | Défonceur de portes (élite), palier 3 32 %<br>Gobelin briseur, palier 2 8 % |
 | **Plaque rouillée** | 2 | commun | Force | +2 | — | Adjudant Rotule (élite), palier 2 90 % ×2–4<br>Vétéran de la Première Ombre, palier 2 50 % ×1–2 |
-| **Plume d'ampa brun** | 2 | commun | Agilité | +2 | — | Grand ampa brun (élite), palier 2 90 % ×2–4<br>Ampa brun, palier 2 55 % ×1–2 |
-| **Plume d'ampa cramoisi** | 2 | commun | Force | +2 | — | Grand ampa cramoisi (élite), palier 2 90 % ×2–4<br>Ampa cramoisi, palier 2 55 % ×1–2 |
-| **Plume d'ampa empire** | 2 | commun | Vitalité | +8 | — | Grand ampa empire (élite), palier 2 90 % ×2–4<br>Ampa empire, palier 2 55 % ×1–2 |
-| **Plume d'ampa ocre** | 2 | commun | Intelligence | +2 | — | Grand ampa ocre (élite), palier 2 90 % ×2–4<br>Ampa ocre, palier 2 55 % ×1–2 |
-| **Plume d'ampa roux** | 2 | commun | Perception | +2 | — | Grand ampa roux (élite), palier 2 90 % ×2–4<br>Ampa roux, palier 2 55 % ×1–2 |
-| **Plume d'ampa stratos** | 2 | commun | Fuite | +1 | — | Grand ampa stratos (élite), palier 2 90 % ×2–4<br>Ampa stratos, palier 2 55 % ×1–2 |
+| **Plume d'ampa brun** | 2 | commun | Intelligence, Agilité, % Résistance Flamme, % Résistance Tempête | +2, +2, +1, +1 | — | Grand ampa brun (élite), palier 2 90 % ×2–4<br>Ampa brun, palier 2 55 % ×1–2 |
+| **Plume d'ampa cramoisi** | 2 | commun | Force, Perception, % Résistance Acier, % Résistance Givre | +2, +2, +1, +1 | — | Grand ampa cramoisi (élite), palier 2 90 % ×2–4<br>Ampa cramoisi, palier 2 55 % ×1–2 |
+| **Plume d'ampa empire** | 2 | commun | Agilité, Perception, % Résistance Tempête, % Résistance Givre | +2, +2, +1, +1 | — | Grand ampa empire (élite), palier 2 90 % ×2–4<br>Ampa empire, palier 2 55 % ×1–2 |
+| **Plume d'ampa ocre** | 2 | commun | Intelligence, Force, % Résistance Flamme, % Résistance Acier | +2, +2, +1, +1 | — | Grand ampa ocre (élite), palier 2 90 % ×2–4<br>Ampa ocre, palier 2 55 % ×1–2 |
+| **Plume d'ampa roux** | 2 | commun | Intelligence, Perception, % Résistance Flamme, % Résistance Givre | +2, +2, +1, +1 | — | Grand ampa roux (élite), palier 2 90 % ×2–4<br>Ampa roux, palier 2 55 % ×1–2 |
+| **Plume d'ampa stratos** | 2 | commun | Force, Agilité, % Résistance Acier, % Résistance Tempête | +2, +2, +1, +1 | — | Grand ampa stratos (élite), palier 2 90 % ×2–4<br>Ampa stratos, palier 2 55 % ×1–2 |
 | **Plume d'ange** | 2 | commun | Force, Intelligence | +2, +2 | — | Ange, palier 2 35 % |
 | **Plume de bourrasque** | 2 | peu_commun | Vitalité | +8 | — | Grand Esprit des cimes (élite), palier 2 50 % ×1–2<br>Esprit des bourrasques, palier 2 12 % |
 | **Pépite animée** | 2 | commun | Perception | +2 | — | Golem de filon d'or (élite), palier 2 90 % ×2–4<br>Golem de minerai, palier 2 50 % ×1–2 |
@@ -396,7 +396,7 @@ Toutes les ressources qui servent à la forge (caractéristique ou matière), pa
 | **Éclat de gargouille** | 4 | commun | Perception | +4 | — | Gargouille de la Grande Porte (élite), palier 4 88 % ×2–5<br>Gargouille, palier 4 55 % ×1–3 |
 | **Fragment de cendre** | 5 | legendaire | PA | +1 | — | Le Souverain Cendré (mini-boss), palier 5 100 % |
 
-Ressources par caractéristique : Force 22, Vitalité 21, Intelligence 20, Agilité 18, Perception 17, Initiative 7, Dommages Flamme 6, Dommages Acier 4, Dommages Sacré 3, Prospection 3, Portée 3, Dommages 3, Dommages Tempête 3, % Résistance Acier 2, % Résistance Tempête 2, PM 2, PA 2, Dommages Givre 2, % Dégâts dévastateurs 2, % Résistance Flamme 2, % Critique 1, % Résistance Givre 1, Fuite 1, Soins Sacré 1, % Dégâts spectraux 1, Soins 1, % Résistance Impie 1.
+Ressources par caractéristique : Force 24, Intelligence 22, Agilité 20, Vitalité 20, Perception 19, Initiative 7, Dommages Flamme 6, % Résistance Acier 5, % Résistance Tempête 5, % Résistance Flamme 5, Dommages Acier 4, % Résistance Givre 4, Dommages Sacré 3, Prospection 3, Portée 3, Dommages 3, Dommages Tempête 3, PM 2, PA 2, Dommages Givre 2, % Dégâts dévastateurs 2, % Critique 1, Soins Sacré 1, % Dégâts spectraux 1, Soins 1, % Résistance Impie 1.
 
 ### Plans
 

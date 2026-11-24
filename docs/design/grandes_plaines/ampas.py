@@ -1,7 +1,7 @@
 """Lot 1 de l'élevage (docs/design/elevage/etapes.md, 24/11/2026) : les 8 ampas des Grandes Plaines (GDD § 10.3).
 Monstres, élites, sorts, plumes, dessins (fragment art/manifestes/ampas.json) et groupes sur les cartes des plaines.
-Valeurs provisoires : plumes orientées comme les autres ressources (élémentaires à égalité, PA et PM
-déjà au plus rare : Onyx en dommages spectraux, Cristal en dévastateurs) ; palier 2, Onyx et Cristal palier 3, plus rares (moins de groupes, réapparition 5 à 8 min).
+Plumes : les caractéristiques des éléments de la couleur (GDD § 10.3) et +1 % de résistance à chacun
+(demande de l'auteur du 24/11/2026) ; Onyx en dommages spectraux, Cristal en dévastateurs. Valeurs provisoires : palier 2, Onyx et Cristal palier 3, plus rares (moins de groupes, réapparition 5 à 8 min).
 Usage, depuis la racine du dépôt : python3 docs/design/grandes_plaines/ampas.py (relancé aussi par plaines.py)."""
 import os, sys
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "sous_zones"))
@@ -43,6 +43,8 @@ for c, (nom, plumes, ombre, tete, elements, carac, desc) in AMPAS.items():
     caracs = {CARAC[e]: force_carac for e in (["acier", "tempete"] if c == "onyx" else ["acier", "givre"] if rare else elements)}
     res = {e: (20 if e in elements else -10) for e in CARAC} if not rare else {e: 15 for e in CARAC}
     plume, couleurs = f"plume_d_ampa_{c}", {"plumes": plumes, "plumes_ombre": ombre, "tete": tete}
+    if not rare:  # demande de l'auteur (24/11/2026) : les caracs des éléments du GDD et +1 % de résistance à chacun
+        carac = [CARAC[e] for e in elements] + [f"resistance_{e}" for e in elements]
     ressources.append(ressource(plume, f"Plume d'ampa {nom}", "rare" if rare else "commun", palier, carac, f"ampa_{c}", "hautepierre",
                                 f"Une plume {nom}. Les éleveurs la reconnaissent à l'odeur, les autres à la couleur."))
     taux = (0.25, 0.6) if rare else (0.55, 0.9)
