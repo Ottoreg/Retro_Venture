@@ -56,6 +56,7 @@ Dofus. Elle est décrite par un **plan texte** : une ligne par rangée, un carac
 | `$` | Coffre (maison du joueur) |
 | `=` | Lit (maison du joueur) |
 | `&` | Enclume (maison du joueur) : la forge |
+| `\|` | Barrière en bois (enclos, bandes de course) |
 | Autres majuscules | Ressource de métier, définie dans `metiers/` : `F` frêne, `C` chêne, `U` cuivre, `I` fer |
 
 Les tests vérifient chaque carte : format du plan, `id` égal au nom du fichier, et **toutes les cases

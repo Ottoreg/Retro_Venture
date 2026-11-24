@@ -15,6 +15,7 @@ const COLORS := {
 	"ressource": Color("3e6b2e"),
 	"rocher": Color("8a8a80"),
 	"mur": Color("6e6052"),
+	"barriere": Color("8a5a2b"),
 	"bloc": Color("9c4a32"),
 	"pierre_passage": Color("7fd0f0"),
 }

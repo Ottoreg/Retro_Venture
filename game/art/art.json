@@ -356,6 +356,13 @@
         14
       ]
     },
+    "barriere": {
+      "fichier": "decor/barriere.svgt",
+      "ancre": [
+        32,
+        40
+      ]
+    },
     "muret": {
       "fichier": "decor/muret.svgt",
       "ancre": [

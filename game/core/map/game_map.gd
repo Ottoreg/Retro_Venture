@@ -14,7 +14,7 @@ extends RefCounted
 const LEGEND := {
 	".": "", "@": "", "A": "arbre", "M": "mur", "R": "rocher", "E": "eau",
 	"+": "", "$": "coffre", "=": "lit", ":": "", "#": "bloc", "*": "pierre_passage",
-	"&": "enclume",
+	"&": "enclume", "|": "barriere",
 }
 ## Sol dessiné autrement que le sol de la carte (praticable) : caractère du plan → type.
 const GROUND_KINDS := {":": "chemin"}
