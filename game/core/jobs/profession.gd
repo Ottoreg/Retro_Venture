@@ -30,6 +30,12 @@ const SKILLS := {
 	TYPE_CRAFT: {
 		"precision": ["Précision", "+%s %% au plancher des jets (75 %% du maximum au départ)", 5],
 	},
+	# Compétences propres à un métier (id du métier), à la place de celles de son type. Effets à venir
+	# (apprivoisement et enclos : lots 3 et 4 de docs/design/elevage/etapes.md), valeurs provisoires.
+	"eleveur": {
+		"apprivoisement": ["Apprivoisement", "+%s %% de chances d'apprivoiser", 5],
+		"dressage": ["Dressage", "-%s %% de temps de dressage à l'enclos", 10],
+	},
 }
 
 
@@ -39,7 +45,12 @@ static func harvest_time(tier: int, speed_rank := 0, bonus_percent := 0) -> floa
 	return maxf(HARVEST_MIN_TIME, (HARVEST_BASE_TIME + HARVEST_TIME_PER_TIER * tier) * (1.0 - reduction))
 
 
-## Compétences d'un métier de ce type.
+## Jeu de compétences d'un métier : le sien s'il en a un (éleveur), sinon celui de son type.
+static func skill_set(job: Dictionary) -> String:
+	return job["id"] if SKILLS.has(job["id"]) else job["type"]
+
+
+## Compétences d'un jeu (`skill_set`).
 static func skills(type: String) -> Array:
 	return SKILLS.get(type, {}).keys()
 

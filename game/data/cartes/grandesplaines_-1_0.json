@@ -21,7 +21,7 @@
     " .:::::::::::::::..",
     "..:::::::::::::::..",
     " .|||||||||||||||..",
-    "...................",
+    "............a......",
     " A.................",
     ":::::::::@:::::::::",
     " ........:.......A.",
@@ -40,5 +40,17 @@
     ".........:...A.....",
     " ..A.....:......A..",
     ".........:........."
+  ],
+  "pnj": [
+    {
+      "marqueur": "a",
+      "id": "maitre_eleveur_plumard",
+      "nom": "Maître Plumard, éleveur",
+      "marchand": true,
+      "repliques": [
+        "Bienvenue aux Courses ! Licols, conseils, pansements : tout se vend, surtout les pansements.",
+        "Un ampa, ça s'apprivoise au licol, quand il est seul et à bout de souffle. Et ça se dresse à l'enclos. Pas encore ouvert, l'enclos : on cherche qui a gardé la clé."
+      ]
+    }
   ]
 }

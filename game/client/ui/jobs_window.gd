@@ -89,8 +89,8 @@ func refresh() -> void:
 	_xp_label.text = "Réputation : %d%s" % [reputation_value, "" if last else " / %d (%s)" % [next_value, Character.tier_name(tier + 1)]]
 	for row in _skills.get_children():
 		row.queue_free()
-	for skill_id: String in Profession.skills(job["type"]):
-		_add_skill(job_id, job["type"], skill_id, character)
+	for skill_id: String in Profession.skills(Profession.skill_set(job)):
+		_add_skill(job_id, Profession.skill_set(job), skill_id, character)
 	_list.clear()
 	_list_markers.clear()
 	var opened := harvest and not Plots.level(reputation_value).is_empty()
@@ -115,6 +115,8 @@ func refresh() -> void:
 				item.get("nom", node["objet"]), amount[0], amount[1], regrowth[0], regrowth[1], "" if not opened else " · instance : %s" % (
 				"débloquée" if node["marqueur"] in unlocked else "%d pt" % Plots.unlock_cost(int(node.get("niveau", 1))))],
 				str(item.get("rarete", "commun")), node["objet"])
+	elif job_id != Forge.JOB:  # Éleveur : apprivoisement et enclos à venir (lots 3 et 4 de l'élevage).
+		_list_title.text = "Élevage : apprivoisement et enclos bientôt (licols chez les marchands, ampas dans les Grandes Plaines)"
 	else:
 		_list_title.text = "Forge (à l'enclume de votre maison)"
 		_add_line("Caractéristiques des ressources lues : %s" % ("jusqu'au palier %d" % Progression.equivalent_level(reputation_value)

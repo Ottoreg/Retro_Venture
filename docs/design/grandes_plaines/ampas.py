@@ -97,7 +97,18 @@ for o in ressources:
     ecrire(f"data/objets/{o['id']}.json", o)
 for m in monstres:
     ecrire(f"data/monstres/{m['id']}.json", m)
-ecrire("art/manifestes/ampas.json", {"monstres": art, "images": images})
+# Lot 2 (24/11/2026) : maître éleveur des Courses d'Ampas, marchand (il vend le licol, comme tous les marchands).
+ELEVEUR = {"marqueur": "a", "id": "maitre_eleveur_plumard", "nom": "Maître Plumard, éleveur", "marchand": True, "repliques": [
+    "Bienvenue aux Courses ! Licols, conseils, pansements : tout se vend, surtout les pansements.",
+    "Un ampa, ça s'apprivoise au licol, quand il est seul et à bout de souffle. Et ça se dresse à l'enclos. Pas encore ouvert, l'enclos : on cherche qui a gardé la clé."]}
+images["objet_licol"] = {"fichier": "objets/licol.svgt", "ancre": [22, 22]}
+ecrire("art/manifestes/ampas.json", {"monstres": art, "images": images, "pnj": {ELEVEUR["id"]: {"rig": "humain", "couleurs": {
+    "tunique": "b07a30", "manches": "6a4a2a", "pantalon": "4a3a2a", "cheveux": "c0c0b8", "peau": "e0b890"}}}})
+courses = lire("data/cartes/grandesplaines_-1_0.json")
+courses["plan"][14] = courses["plan"][14][:12] + "a" + courses["plan"][14][13:]
+courses["pnj"] = [ELEVEUR]
+verifier(courses["id"], courses["plan"])
+ecrire("data/cartes/grandesplaines_-1_0.json", courses)
 for (x, y), groupes in GROUPES.items():
     carte = lire(f"data/cartes/grandesplaines_{x}_{y}.json")
     plan = [l.translate(str.maketrans("123456789", "." * 9)) for l in carte["plan"]]

@@ -2701,6 +2701,11 @@ un sort par élément de la couleur (Plumes ardentes Flamme, Battement d'ailes T
 Onyx : Course folle +2 PM, Cristal : Plumage scintillant +2 PA) ; butin : une plume par couleur, qui donne à la forge
 +1 % de résistance à chacun de ses deux éléments (demande de l'auteur, ex. brun : résistances Flamme et Tempête) ; Onyx en dommages spectraux, Cristal en dévastateurs ; zone de forge Hautepierre. Pas encore apprivoisables (lot 3).
 
+**Métier d'Éleveur dans le jeu** (24/11/2026, lot 2) : `data/metiers/eleveur.json` (artisanat), compétences propres
+Apprivoisement (+5 % de chances par rang) et Dressage (−10 % de temps à l'enclos par rang), valeurs provisoires et sans
+effet tant que les lots 3 et 4 ne sont pas faits ; Maître Plumard, éleveur et marchand, aux Courses d'Ampas ; objet
+`licol` vendu par tous les marchands en attendant le Costumier. Aucune réputation d'éleveur ne se gagne encore.
+
 Exclus : les créatures qui parlent ou se croient des personnes (trolls, gobelins, épouvantails,
 arbres vivants, morilles), et celles trop petites (rats, vampipistrelles, corbacs). Chaque camp a
 une monture de départ, dans sa zone.

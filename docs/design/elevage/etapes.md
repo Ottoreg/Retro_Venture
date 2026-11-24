@@ -44,7 +44,7 @@ préfère trancher plus tard.
 - Butin : plumes (ressources de forge) et viande.
 - Tests : données, `tools/simulation.gd` sur `grandesplaines`, catalogue regénéré.
 
-### Lot 2 : le métier d'Éleveur
+### Lot 2 : le métier d'Éleveur (fait le 24/11/2026)
 - `data/metiers/eleveur.json` : réputation, points de maîtrise, compétences (apprivoisement, dressage).
 - PNJ maître éleveur aux Courses d'Ampas, qui vend les licols (provisoire, voir la décision 5).
 - Objet `licol`.

@@ -891,6 +891,10 @@ Cendre reste gratuit et toujours connu.
 
 ## Métiers (`metiers/`)
 
+Un métier d'**artisanat** (`"type": "artisanat"`) n'a que `id`, `nom` et `description` : forgeron, et éleveur
+(24/11/2026), dont les compétences propres (Apprivoisement, Dressage) sont dans `Profession.SKILLS["eleveur"]`
+(`Profession.skill_set` : celles du métier s'il en a, sinon celles de son type).
+
 Un métier de **récolte** décrit les ressources qu'on trouve sur les cartes. Chacune a son caractère
 dans le plan (`marqueur`, une majuscule hors de la légende), bloque sa case et se récolte depuis une
 case voisine. Une fois récoltée, elle repousse au bout d'un temps tiré dans `repousse` (en secondes).

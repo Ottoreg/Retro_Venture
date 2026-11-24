@@ -232,6 +232,25 @@
       "couleurs": {
         "plume": "bfe4f0"
       }
+    },
+    "objet_licol": {
+      "fichier": "objets/licol.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    }
+  },
+  "pnj": {
+    "maitre_eleveur_plumard": {
+      "rig": "humain",
+      "couleurs": {
+        "tunique": "b07a30",
+        "manches": "6a4a2a",
+        "pantalon": "4a3a2a",
+        "cheveux": "c0c0b8",
+        "peau": "e0b890"
+      }
     }
   }
 }

@@ -10,7 +10,7 @@ objets et des monstres dans [CATALOGUE.md](CATALOGUE.md), les classes dans [CLAS
 Tous les métiers sont ouverts dès le début, sans niveau : on gagne de la **réputation de métier** à
 chaque récolte ou objet forgé, selon la difficulté (palier de ce qu'on fait contre niveau
 équivalent de sa réputation), et des **points de maîtrise** à placer dans des compétences qui
-améliorent la qualité, sans jamais faire échouer. Métiers codés : Agriculteur (recolte), Bûcheron (recolte), Forgeron (artisanat), Herboriste (recolte), Mineur (recolte), Pêcheur (recolte).
+améliorent la qualité, sans jamais faire échouer. Métiers codés : Agriculteur (recolte), Bûcheron (recolte), Éleveur (artisanat), Forgeron (artisanat), Herboriste (recolte), Mineur (recolte), Pêcheur (recolte).
 
 ## Réputation et maîtrise
 
@@ -60,6 +60,8 @@ au-dessus). Passif humain : +10 % (« reputation_metier »). Récolte, pour une 
 | recolte | Œil exercé | +x % de chances de ressource rare | 0,5 | 1 | 1,5 | 2 | 2,5 |
 | recolte | Célérité | -x % de temps de récolte (1 s au moins) | 10 | 20 | 30 | 40 | 50 |
 | artisanat | Précision | +x % au plancher des jets (75 % du maximum au départ) | 5 | 10 | 15 | 20 | 25 |
+| eleveur | Apprivoisement | +x % de chances d'apprivoiser | 5 | 10 | 15 | 20 | 25 |
+| eleveur | Dressage | -x % de temps de dressage à l'enclos | 10 | 20 | 30 | 40 | 50 |
 
 - Récolte : quantité tirée dans [min, max], **+1** si le jet d'Abondance passe. Ressource rare :
   chance de base **1 %** + Œil exercé, un seul exemplaire à la place de la récolte.

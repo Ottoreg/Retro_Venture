@@ -27,7 +27,7 @@ Prix de boutique : selon la rareté (revente à 25 %).
 - [Sorts de race](#sorts-de-race)
 - [Sorts des monstres](#sorts-des-monstres)
 
-**368 objets** (18 armes, 20 coiffes, 20 capes, 20 amulettes, 20 anneaux, 20 ceintures, 20 bottes, 179 ressources, 37 plans de forge, 8 objets de quête), **115 monstres** et **370 sorts**.
+**369 objets** (18 armes, 20 coiffes, 20 capes, 20 amulettes, 20 anneaux, 20 ceintures, 20 bottes, 180 ressources, 37 plans de forge, 8 objets de quête), **115 monstres** et **370 sorts**.
 
 ## Armes
 
@@ -242,6 +242,7 @@ Prix de boutique : selon la rareté (revente à 25 %).
 | **Laine d'agneau géant** | 1 | Commun | +1 Force | boutique 4 brumes<br>butin : Agneau-Montagne 90 %, Agneau géant 60 % | Assez pour un pull. Un pull de géant, donc un seul brin. |
 | **Larme de source** | 1 | Peu commun | +1 Perception | boutique 12 brumes<br>butin : Grand Mal-Éclos 60 %, Élémentaire mal éclos 15 % | Une goutte des quatre sources à la fois. Elle ne sait pas si elle est chaude ou froide. |
 | **Larme gelée** | 1 | Commun | +1 Perception | boutique 4 brumes<br>butin : Grande Pleureuse 90 %, Pleureuse de l'Ossuaire 55 % | Une larme de pleureuse. Elle ne fond jamais, elle non plus ne s'arrête pas. |
+| **Licol** | 1 | Commun | — | boutique 4 brumes | Une corde, un nœud, beaucoup d'optimisme. Il en faut un pour apprivoiser un monstre. En attendant que le Costumier en tresse, les marchands le vendent. |
 | **Lin** | 1 | Commun | +1 Prospection, tissu | boutique 4 brumes<br>Agriculteur : Lin niv. 3 | Fibre souple et bleutée : la base des chemises qui grattent. |
 | **Lin des fées** | 1 | Rare | +1 Portée, tissu | Agriculteur : Lin niv. 3, récolte rare | Si fin qu'on le voit à peine. Les elfes jurent l'avoir inventé. |
 | **Minerai de cuivre** | 1 | Commun | +1 Intelligence, minerai | boutique 4 brumes<br>Mineur : Cuivre niv. 1 | Ça brille un peu, ça verdit beaucoup. |

@@ -270,3 +270,14 @@ func test_bonus_de_reputation_de_metier_des_humains() -> void:
 	var events := _harvest(Fixtures.center())
 	assert_eq(Fixtures.of_type(events, Protocol.EVT_JOB)[0]["gain"], 11, "10 + 10 %")
 	assert_eq(character.job_reputation("bucheron"), 11)
+
+
+func test_competences_propres_a_l_eleveur() -> void:
+	var eleveur := {"id": "eleveur", "type": Profession.TYPE_CRAFT}
+	assert_eq(Profession.skill_set(eleveur), "eleveur", "l'éleveur a ses compétences, pas celles de l'artisanat")
+	assert_eq(Profession.skill_set({"id": "forgeron", "type": Profession.TYPE_CRAFT}), Profession.TYPE_CRAFT)
+	assert_eq(Profession.skills("eleveur"), ["apprivoisement", "dressage"])
+	_world.character.add_job_reputation("eleveur", Character.REPUTATION_PER_MASTERY_POINT)
+	assert_ne(_world.character.raise_skill("eleveur", "precision", Profession.skills(Profession.skill_set(eleveur))), "", "pas la Précision du forgeron")
+	assert_eq(_world.character.raise_skill("eleveur", "apprivoisement", Profession.skills(Profession.skill_set(eleveur))), "")
+	assert_eq(Profession.skill_value("eleveur", "apprivoisement", _world.character.job_rank("eleveur", "apprivoisement")), 5.0)
