@@ -1,0 +1,237 @@
+{
+  "monstres": {
+    "ampa_brun": {
+      "image": "ampa",
+      "echelle": 1.5,
+      "couleurs": {
+        "plumes": "7a5030",
+        "plumes_ombre": "4e3220",
+        "tete": "9a6a40"
+      }
+    },
+    "grand_ampa_brun": {
+      "image": "ampa",
+      "echelle": 1.9,
+      "couleurs": {
+        "plumes": "7a5030",
+        "plumes_ombre": "4e3220",
+        "tete": "9a6a40"
+      }
+    },
+    "ampa_ocre": {
+      "image": "ampa",
+      "echelle": 1.5,
+      "couleurs": {
+        "plumes": "c8902e",
+        "plumes_ombre": "8e6420",
+        "tete": "d8a848"
+      }
+    },
+    "grand_ampa_ocre": {
+      "image": "ampa",
+      "echelle": 1.9,
+      "couleurs": {
+        "plumes": "c8902e",
+        "plumes_ombre": "8e6420",
+        "tete": "d8a848"
+      }
+    },
+    "ampa_roux": {
+      "image": "ampa",
+      "echelle": 1.5,
+      "couleurs": {
+        "plumes": "c0502a",
+        "plumes_ombre": "862e18",
+        "tete": "d06a3a"
+      }
+    },
+    "grand_ampa_roux": {
+      "image": "ampa",
+      "echelle": 1.9,
+      "couleurs": {
+        "plumes": "c0502a",
+        "plumes_ombre": "862e18",
+        "tete": "d06a3a"
+      }
+    },
+    "ampa_cramoisi": {
+      "image": "ampa",
+      "echelle": 1.5,
+      "couleurs": {
+        "plumes": "9a1e2a",
+        "plumes_ombre": "641018",
+        "tete": "b03040"
+      }
+    },
+    "grand_ampa_cramoisi": {
+      "image": "ampa",
+      "echelle": 1.9,
+      "couleurs": {
+        "plumes": "9a1e2a",
+        "plumes_ombre": "641018",
+        "tete": "b03040"
+      }
+    },
+    "ampa_stratos": {
+      "image": "ampa",
+      "echelle": 1.5,
+      "couleurs": {
+        "plumes": "3a6ab0",
+        "plumes_ombre": "244a80",
+        "tete": "5a8ad0"
+      }
+    },
+    "grand_ampa_stratos": {
+      "image": "ampa",
+      "echelle": 1.9,
+      "couleurs": {
+        "plumes": "3a6ab0",
+        "plumes_ombre": "244a80",
+        "tete": "5a8ad0"
+      }
+    },
+    "ampa_empire": {
+      "image": "ampa",
+      "echelle": 1.5,
+      "couleurs": {
+        "plumes": "3a8a4a",
+        "plumes_ombre": "245e30",
+        "tete": "5aa868"
+      }
+    },
+    "grand_ampa_empire": {
+      "image": "ampa",
+      "echelle": 1.9,
+      "couleurs": {
+        "plumes": "3a8a4a",
+        "plumes_ombre": "245e30",
+        "tete": "5aa868"
+      }
+    },
+    "ampa_onyx": {
+      "image": "ampa",
+      "echelle": 1.5,
+      "couleurs": {
+        "plumes": "2a2a32",
+        "plumes_ombre": "141418",
+        "tete": "44444e"
+      }
+    },
+    "grand_ampa_onyx": {
+      "image": "ampa",
+      "echelle": 1.9,
+      "couleurs": {
+        "plumes": "2a2a32",
+        "plumes_ombre": "141418",
+        "tete": "44444e"
+      }
+    },
+    "ampa_cristal": {
+      "image": "ampa",
+      "echelle": 1.5,
+      "couleurs": {
+        "plumes": "bfe4f0",
+        "plumes_ombre": "88b8cc",
+        "tete": "e4f6fa"
+      }
+    },
+    "grand_ampa_cristal": {
+      "image": "ampa",
+      "echelle": 1.9,
+      "couleurs": {
+        "plumes": "bfe4f0",
+        "plumes_ombre": "88b8cc",
+        "tete": "e4f6fa"
+      }
+    }
+  },
+  "images": {
+    "ampa": {
+      "fichier": "monstre/ampa.svgt",
+      "ancre": [
+        30,
+        60
+      ]
+    },
+    "objet_plume_d_ampa_brun": {
+      "fichier": "objets/plume_d_ampa.svgt",
+      "ancre": [
+        22,
+        22
+      ],
+      "couleurs": {
+        "plume": "7a5030"
+      }
+    },
+    "objet_plume_d_ampa_ocre": {
+      "fichier": "objets/plume_d_ampa.svgt",
+      "ancre": [
+        22,
+        22
+      ],
+      "couleurs": {
+        "plume": "c8902e"
+      }
+    },
+    "objet_plume_d_ampa_roux": {
+      "fichier": "objets/plume_d_ampa.svgt",
+      "ancre": [
+        22,
+        22
+      ],
+      "couleurs": {
+        "plume": "c0502a"
+      }
+    },
+    "objet_plume_d_ampa_cramoisi": {
+      "fichier": "objets/plume_d_ampa.svgt",
+      "ancre": [
+        22,
+        22
+      ],
+      "couleurs": {
+        "plume": "9a1e2a"
+      }
+    },
+    "objet_plume_d_ampa_stratos": {
+      "fichier": "objets/plume_d_ampa.svgt",
+      "ancre": [
+        22,
+        22
+      ],
+      "couleurs": {
+        "plume": "3a6ab0"
+      }
+    },
+    "objet_plume_d_ampa_empire": {
+      "fichier": "objets/plume_d_ampa.svgt",
+      "ancre": [
+        22,
+        22
+      ],
+      "couleurs": {
+        "plume": "3a8a4a"
+      }
+    },
+    "objet_plume_d_ampa_onyx": {
+      "fichier": "objets/plume_d_ampa.svgt",
+      "ancre": [
+        22,
+        22
+      ],
+      "couleurs": {
+        "plume": "2a2a32"
+      }
+    },
+    "objet_plume_d_ampa_cristal": {
+      "fichier": "objets/plume_d_ampa.svgt",
+      "ancre": [
+        22,
+        22
+      ],
+      "couleurs": {
+        "plume": "bfe4f0"
+      }
+    }
+  }
+}

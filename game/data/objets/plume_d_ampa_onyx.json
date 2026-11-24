@@ -1,0 +1,11 @@
+{
+  "id": "plume_d_ampa_onyx",
+  "nom": "Plume d'ampa onyx",
+  "type": "ressource",
+  "rarete": "rare",
+  "niveau": 3,
+  "description": "Une plume onyx. Les éleveurs la reconnaissent à l'odeur, les autres à la couleur.",
+  "caracteristique": "degats_spectraux",
+  "famille": "ampa_onyx",
+  "zone": "hautepierre"
+}

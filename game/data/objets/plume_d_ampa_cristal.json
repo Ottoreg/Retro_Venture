@@ -1,0 +1,11 @@
+{
+  "id": "plume_d_ampa_cristal",
+  "nom": "Plume d'ampa cristal",
+  "type": "ressource",
+  "rarete": "rare",
+  "niveau": 3,
+  "description": "Une plume cristal. Les éleveurs la reconnaissent à l'odeur, les autres à la couleur.",
+  "caracteristique": "degats_devastateurs",
+  "famille": "ampa_cristal",
+  "zone": "hautepierre"
+}

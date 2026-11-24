@@ -386,6 +386,8 @@ le **lit** de votre maison les rend tous d'un coup.
     Grand-Place, marchande, forgeron, Citadelle), reliée aux trois zones de départ par une porte, et
     ses environs : détrousseurs, trolls des ponts, corbacs espions, gargouilles, Cendrillons,
     olifants de guerre, et à la Brèche le **boss Grondin**.
+  - Les **Grandes Plaines** (17 cartes au sud-ouest de Hautepierre, palier 2 et 3) : les 8 **ampas**, futures
+    montures (Onyx et Cristal plus rares), et les Courses d'Ampas. Pas encore d'apprivoisement.
   - Le **Trône de Cendre** (carte d'élite de test, gratuit par les Pierres) : le Souverain Cendré,
     le monstre le plus puissant du jeu, pour les curieux.
   - La **Tour céleste** (gratuite par les Pierres) : battez **Cupidon** sur le parvis pour sa clé,

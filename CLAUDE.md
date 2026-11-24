@@ -355,7 +355,7 @@ Dernière session (retours de la passe de l'auteur) :
   condition de quête `race` remplie aussi par les variantes (`variante_de`, `QuestBook.is_available`).
 - **Grandes Plaines** (24/11/2026, demande de l'auteur) : 15 cartes de steppe de plus au sud-ouest de Hautepierre
   (`grandesplaines_-4_0` à `0_3`, 17 en tout, toutes reliées entre voisines), relief, eau et récolte (agriculteur, herboriste,
-  un peu de bois et de minerai), sans monstres ni PNJ ; Courses d'Ampas (`grandesplaines_-1_0`) : 4 bandes de course et 2 enclos entre barrières (caractère `|`, obstacle `barriere`, `art/decor/barriere.svgt`) ; `docs/design/grandes_plaines/plaines.py`.
+  un peu de bois et de minerai), sans PNJ ; Courses d'Ampas (`grandesplaines_-1_0`) : 4 bandes de course et 2 enclos entre barrières (caractère `|`, obstacle `barriere`, `art/decor/barriere.svgt`) ; `docs/design/grandes_plaines/plaines.py`. **Ampas** (lot 1 de `docs/design/elevage/etapes.md`, 24/11/2026) : 8 ampas `ampa_<couleur>` et élites `grand_ampa_<couleur>`, sorts `ampa_*`, plumes `plume_d_ampa_<couleur>`, dessin `art/monstre/ampa.svgt` (fragment `art/manifestes/ampas.json`), groupes sur les 15 cartes (`docs/design/grandes_plaines/ampas.py`, relancé par `plaines.py`) ; valeurs provisoires ; lots 2 à 7 (éleveur, apprivoisement, enclos, monture) à faire.
 - Le pseudo choisi est déjà utilisé partout ; « Aventurier » (`World.DEFAULT_NAME`) n'apparaît
   que dans les tests et les captures, sans écran de création.
 

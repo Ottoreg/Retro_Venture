@@ -1,0 +1,42 @@
+{
+  "id": "grand_ampa_brun",
+  "nom": "Grand ampa brun",
+  "description": "Le meneur de la harde. Il court devant, il frappe devant, il mange devant.",
+  "palier": 2,
+  "caracteristiques": {
+    "pv": 99,
+    "pa": 7,
+    "pm": 5,
+    "initiative": 125,
+    "intelligence": 21,
+    "agilite": 21
+  },
+  "resistances": {
+    "flamme": 20,
+    "tempete": 20,
+    "acier": -10,
+    "givre": -10
+  },
+  "sorts": [
+    "ampa_plumes_ardentes",
+    "ampa_battement_d_ailes"
+  ],
+  "ia": "basique",
+  "xp": 242,
+  "butin": [
+    {
+      "objet": "plume_d_ampa_brun",
+      "taux": 0.9,
+      "quantite": [
+        2,
+        4
+      ]
+    }
+  ],
+  "ecus": [
+    18,
+    40
+  ],
+  "elite": true,
+  "famille": "ampa_brun"
+}

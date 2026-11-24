@@ -1,0 +1,22 @@
+{
+  "id": "ampa_plumes_ardentes",
+  "nom": "Plumes ardentes",
+  "description": "Il s'ébroue. Les plumes qui tombent sont en feu. Lui, non.",
+  "cout_pa": 3,
+  "portee": {
+    "min": 2,
+    "max": 4
+  },
+  "ligne_de_vue": true,
+  "relance": {
+    "par_tour": 2
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "flamme",
+      "min": 4,
+      "max": 6
+    }
+  ]
+}

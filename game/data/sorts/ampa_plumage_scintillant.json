@@ -1,0 +1,24 @@
+{
+  "id": "ampa_plumage_scintillant",
+  "nom": "Plumage scintillant",
+  "description": "La lumière le traverse. Lui en ressort plus vif.",
+  "cout_pa": 2,
+  "portee": {
+    "min": 0,
+    "max": 0
+  },
+  "ligne_de_vue": true,
+  "relance": {
+    "par_tour": 1,
+    "delai": 2
+  },
+  "effets": [
+    {
+      "type": "bonus",
+      "carac": "pa",
+      "min": 2,
+      "max": 2,
+      "duree": 1
+    }
+  ]
+}

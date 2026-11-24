@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+<ellipse cx="29" cy="60" rx="17" ry="3.6" fill="#000000" opacity="0.25"/>
+<path d="M24 38 L21 49 L23 59 M23 59 L18.6 60 M23 59 L26.4 60.4" stroke="#c9a040" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M11 30 Q2 26 3 18 Q9 25 14 25 Q6 20 8 13 Q14 22 19 24 Z" fill="{{plumes_ombre}}" stroke="#2b1d14" stroke-width="1.1" stroke-linejoin="round"/>
+<ellipse cx="23" cy="31" rx="13.5" ry="9" fill="{{plumes}}" stroke="#2b1d14" stroke-width="1.1"/>
+<path d="M30 38 L33 49 L31 59 M31 59 L35.6 60.2 M31 59 L27.8 60.4" stroke="#d8ae48" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M13 28 Q22 21 33 27 Q26 30 28 36 Q20 37 13 28 Z" fill="{{plumes_ombre}}" stroke="#2b1d14" stroke-width="1" stroke-linejoin="round"/>
+<path d="M17 29 Q23 27 29 30 M18 32 Q23 30.6 27.6 33" stroke="#2b1d14" stroke-opacity="0.35" stroke-width="0.9" fill="none"/>
+<path d="M32 27 Q36 18 37 10 L43 10 Q42 20 36 31 Z" fill="{{plumes}}" stroke="#2b1d14" stroke-width="1.1" stroke-linejoin="round"/>
+<path d="M36 5 Q40 1.6 45 3.6 Q48.4 5.6 48 9.6 Q46 13 41 13 Q36.6 12.6 35.4 9.4 Z" fill="{{tete}}" stroke="#2b1d14" stroke-width="1.1" stroke-linejoin="round"/>
+<path d="M36 4.6 Q33 3 31.4 5.4 Q34 5.6 35.6 7 Z" fill="{{plumes_ombre}}" stroke="#2b1d14" stroke-width="0.8"/>
+<path d="M47.4 5.6 Q53.6 6 54.4 10.6 Q53.6 13 51.6 12.2 Q51.8 10.4 49.6 10 L47.6 10.4 Z" fill="#e8b83a" stroke="#2b1d14" stroke-width="1" stroke-linejoin="round"/>
+<path d="M42.4 6.4 Q44.6 5 46.6 6.6" stroke="#2b1d14" stroke-width="1.2" fill="none"/>
+<circle cx="44.4" cy="7.4" r="1.2" fill="#f4d040" stroke="#1a120c" stroke-width="0.5"/>
+<circle cx="44.6" cy="7.4" r="0.55" fill="#1a120c"/>
+</svg>

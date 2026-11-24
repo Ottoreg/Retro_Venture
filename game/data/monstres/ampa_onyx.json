@@ -1,0 +1,42 @@
+{
+  "id": "ampa_onyx",
+  "nom": "Ampa onyx",
+  "description": "Noir comme une nuit sans lune. On l'entend courir, on ne le voit jamais arriver.",
+  "palier": 3,
+  "caracteristiques": {
+    "pv": 70,
+    "pa": 6,
+    "pm": 5,
+    "initiative": 110,
+    "force": 22,
+    "agilite": 22
+  },
+  "resistances": {
+    "flamme": 15,
+    "tempete": 15,
+    "acier": 15,
+    "givre": 15
+  },
+  "sorts": [
+    "ampa_coup_de_bec",
+    "ampa_battement_d_ailes",
+    "ampa_course_folle"
+  ],
+  "ia": "basique",
+  "xp": 200,
+  "butin": [
+    {
+      "objet": "plume_d_ampa_onyx",
+      "taux": 0.25,
+      "quantite": [
+        1,
+        2
+      ]
+    }
+  ],
+  "ecus": [
+    15,
+    30
+  ],
+  "mot": "d'Ampa onyx"
+}

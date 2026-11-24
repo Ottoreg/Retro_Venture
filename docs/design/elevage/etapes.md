@@ -36,7 +36,7 @@ préfère trancher plus tard.
 
 ## Lots
 
-### Lot 1 : les ampas dans les Grandes Plaines
+### Lot 1 : les ampas dans les Grandes Plaines (fait le 24/11/2026, `docs/design/grandes_plaines/ampas.py`)
 - Dessin SVG d'un ampa (bipède ailé, tête d'aigle), recolorié par ses plumes pour les 8 types.
 - 8 monstres `ampa_<couleur>` : sorts aux éléments de leur couleur, une famille, une élite (règle des tests).
 - Groupes et calque `placement` sur les cartes des plaines. Onyx et Cristal sont rares (moins de

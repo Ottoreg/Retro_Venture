@@ -1,0 +1,11 @@
+{
+  "id": "plume_d_ampa_roux",
+  "nom": "Plume d'ampa roux",
+  "type": "ressource",
+  "rarete": "commun",
+  "niveau": 2,
+  "description": "Une plume roux. Les éleveurs la reconnaissent à l'odeur, les autres à la couleur.",
+  "caracteristique": "perception",
+  "famille": "ampa_roux",
+  "zone": "hautepierre"
+}

@@ -1,0 +1,27 @@
+{
+  "id": "ampa_battement_d_ailes",
+  "nom": "Battement d'ailes",
+  "description": "Il ne sait pas voler. Il sait très bien souffler.",
+  "cout_pa": 3,
+  "portee": {
+    "min": 1,
+    "max": 2
+  },
+  "ligne_de_vue": true,
+  "relance": {
+    "par_tour": 2
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "tempete",
+      "min": 3,
+      "max": 5
+    },
+    {
+      "type": "poussee",
+      "min": 1,
+      "max": 1
+    }
+  ]
+}

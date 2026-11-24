@@ -1,0 +1,42 @@
+{
+  "id": "grand_ampa_roux",
+  "nom": "Grand ampa roux",
+  "description": "Le meneur de la harde. Il court devant, il frappe devant, il mange devant.",
+  "palier": 2,
+  "caracteristiques": {
+    "pv": 99,
+    "pa": 7,
+    "pm": 5,
+    "initiative": 125,
+    "intelligence": 21,
+    "perception": 21
+  },
+  "resistances": {
+    "flamme": 20,
+    "tempete": -10,
+    "acier": -10,
+    "givre": 20
+  },
+  "sorts": [
+    "ampa_plumes_ardentes",
+    "ampa_cri_glace"
+  ],
+  "ia": "basique",
+  "xp": 242,
+  "butin": [
+    {
+      "objet": "plume_d_ampa_roux",
+      "taux": 0.9,
+      "quantite": [
+        2,
+        4
+      ]
+    }
+  ],
+  "ecus": [
+    18,
+    40
+  ],
+  "elite": true,
+  "famille": "ampa_roux"
+}

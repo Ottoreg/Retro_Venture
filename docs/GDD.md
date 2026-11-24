@@ -204,7 +204,7 @@ l'histoire.
 | Lisière de Sylvebrume | Avant-poste elfe en bordure de forêt, départ du camp neutre | 1–12 | Alpha |
 | Sous-zones de race *(à nommer)* | Ajoutées aux trois zones de départ, une par race (voir ci-dessous) | 1–12 | Long terme |
 | Hautepierre et ses environs | Cité humaine fortifiée ; terrain d'affrontement (acte II) puis de l'alliance (acte III) | 12–30 | Alpha |
-| Grandes Plaines *(demande de l'auteur, 15/11/2026)* | Zone commune à toutes les races, comme Hautepierre : steppes où vivent les ampas, montures du jeu (§ 10.3, Éleveur) ; au sud-ouest de Hautepierre, 17 cartes (`grandesplaines_-4_0` à `0_3`, 15 ajoutées le 24/11/2026 par `docs/design/grandes_plaines/plaines.py` : relief, eau et récolte, sans monstres ni PNJ ; Courses d'Ampas refaite le même jour : 4 bandes de course entre barrières et 2 enclos) | à définir | Cartes en place |
+| Grandes Plaines *(demande de l'auteur, 15/11/2026)* | Zone commune à toutes les races, comme Hautepierre : steppes où vivent les ampas, montures du jeu (§ 10.3, Éleveur) ; au sud-ouest de Hautepierre, 17 cartes (`grandesplaines_-4_0` à `0_3`, 15 ajoutées le 24/11/2026 par `docs/design/grandes_plaines/plaines.py` : relief, eau et récolte, sans monstres ni PNJ ; Courses d'Ampas refaite le même jour : 4 bandes de course entre barrières et 2 enclos ; ampas posés le même jour, lot 1 de `docs/design/elevage/etapes.md`) | à définir | Cartes en place |
 | Sylvebrume (cœur de la forêt) | Forêt elfique ancienne et brumeuse | 25–40 | Long terme |
 | Forges de Durhal | Montagnes et cités naines souterraines | 25–45 | Long terme |
 | Montagnes des Géants *(à nommer)* | Cimes, forteresses taillées à la mesure des Géants | 30–50 | Long terme |
@@ -2693,6 +2693,13 @@ défensif selon la **nature** de la monture (voir « Monture » plus bas ; « Fo
 **Onyx et Cristal** (précisé le 16/11/2026) sont deux types d'ampas à part entière, eux aussi des
 Grandes Plaines, mais **plus difficiles à trouver** : moins nombreux et plus longs à réapparaître que
 les autres. Valeurs des bonus, palier d'éleveur requis et apprivoisement : **à définir**.
+
+**Ampas dans le jeu** (24/11/2026, lot 1 de `docs/design/elevage/etapes.md`, `docs/design/grandes_plaines/ampas.py`) :
+les 8 ampas et leur élite (« Grand ampa ») vivent sur les 15 cartes de steppe ; dessin `art/monstre/ampa.svgt` recolorié par
+ses plumes. Valeurs provisoires : palier 2 (Onyx et Cristal palier 3, un ou deux groupes seulement, réapparition 5 à 8 min),
+un sort par élément de la couleur (Plumes ardentes Flamme, Battement d'ailes Tempête, Coup de bec Acier, Cri glacé Givre ;
+Onyx : Course folle +2 PM, Cristal : Plumage scintillant +2 PA) ; butin : une plume par couleur (élémentaires à égalité,
+Onyx en dommages spectraux, Cristal en dévastateurs, zone de forge Hautepierre). Pas encore apprivoisables (lot 3).
 
 Exclus : les créatures qui parlent ou se croient des personnes (trolls, gobelins, épouvantails,
 arbres vivants, morilles), et celles trop petites (rats, vampipistrelles, corbacs). Chaque camp a

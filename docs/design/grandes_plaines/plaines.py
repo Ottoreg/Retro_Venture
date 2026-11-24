@@ -92,3 +92,5 @@ verifier(f"{Z}_-1_0", texte)
 carte = lire(f"data/cartes/{Z}_-1_0.json")
 carte["plan"] = texte
 ecrire(f"data/cartes/{Z}_-1_0.json", carte)
+
+import ampas  # noqa: E402,F401  (lot 1 de l’élevage : les ampas et leurs groupes, reposés sur les cartes refaites)

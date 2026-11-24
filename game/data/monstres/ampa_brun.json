@@ -1,0 +1,41 @@
+{
+  "id": "ampa_brun",
+  "nom": "Ampa brun",
+  "description": "Le plus commun des ampas. Il le sait, et compense par le caractère.",
+  "palier": 2,
+  "caracteristiques": {
+    "pv": 45,
+    "pa": 6,
+    "pm": 5,
+    "initiative": 110,
+    "intelligence": 14,
+    "agilite": 14
+  },
+  "resistances": {
+    "flamme": 20,
+    "tempete": 20,
+    "acier": -10,
+    "givre": -10
+  },
+  "sorts": [
+    "ampa_plumes_ardentes",
+    "ampa_battement_d_ailes"
+  ],
+  "ia": "basique",
+  "xp": 110,
+  "butin": [
+    {
+      "objet": "plume_d_ampa_brun",
+      "taux": 0.55,
+      "quantite": [
+        1,
+        2
+      ]
+    }
+  ],
+  "ecus": [
+    9,
+    20
+  ],
+  "mot": "d'Ampa brun"
+}

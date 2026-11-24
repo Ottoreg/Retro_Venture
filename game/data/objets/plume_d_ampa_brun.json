@@ -1,0 +1,11 @@
+{
+  "id": "plume_d_ampa_brun",
+  "nom": "Plume d'ampa brun",
+  "type": "ressource",
+  "rarete": "commun",
+  "niveau": 2,
+  "description": "Une plume brun. Les éleveurs la reconnaissent à l'odeur, les autres à la couleur.",
+  "caracteristique": "agilite",
+  "famille": "ampa_brun",
+  "zone": "hautepierre"
+}

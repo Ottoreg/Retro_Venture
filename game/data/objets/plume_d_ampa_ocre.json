@@ -1,0 +1,11 @@
+{
+  "id": "plume_d_ampa_ocre",
+  "nom": "Plume d'ampa ocre",
+  "type": "ressource",
+  "rarete": "commun",
+  "niveau": 2,
+  "description": "Une plume ocre. Les éleveurs la reconnaissent à l'odeur, les autres à la couleur.",
+  "caracteristique": "intelligence",
+  "famille": "ampa_ocre",
+  "zone": "hautepierre"
+}

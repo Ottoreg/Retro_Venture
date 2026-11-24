@@ -1,0 +1,41 @@
+{
+  "id": "ampa_ocre",
+  "nom": "Ampa ocre",
+  "description": "Couleur de terre cuite, tempérament de forge.",
+  "palier": 2,
+  "caracteristiques": {
+    "pv": 45,
+    "pa": 6,
+    "pm": 5,
+    "initiative": 110,
+    "intelligence": 14,
+    "force": 14
+  },
+  "resistances": {
+    "flamme": 20,
+    "tempete": -10,
+    "acier": 20,
+    "givre": -10
+  },
+  "sorts": [
+    "ampa_plumes_ardentes",
+    "ampa_coup_de_bec"
+  ],
+  "ia": "basique",
+  "xp": 110,
+  "butin": [
+    {
+      "objet": "plume_d_ampa_ocre",
+      "taux": 0.55,
+      "quantite": [
+        1,
+        2
+      ]
+    }
+  ],
+  "ecus": [
+    9,
+    20
+  ],
+  "mot": "d'Ampa ocre"
+}

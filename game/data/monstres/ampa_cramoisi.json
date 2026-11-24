@@ -1,0 +1,41 @@
+{
+  "id": "ampa_cramoisi",
+  "nom": "Ampa cramoisi",
+  "description": "Rouge sang, bec d'acier : il ne pique pas, il transperce.",
+  "palier": 2,
+  "caracteristiques": {
+    "pv": 45,
+    "pa": 6,
+    "pm": 5,
+    "initiative": 110,
+    "force": 14,
+    "perception": 14
+  },
+  "resistances": {
+    "flamme": -10,
+    "tempete": -10,
+    "acier": 20,
+    "givre": 20
+  },
+  "sorts": [
+    "ampa_coup_de_bec",
+    "ampa_cri_glace"
+  ],
+  "ia": "basique",
+  "xp": 110,
+  "butin": [
+    {
+      "objet": "plume_d_ampa_cramoisi",
+      "taux": 0.55,
+      "quantite": [
+        1,
+        2
+      ]
+    }
+  ],
+  "ecus": [
+    9,
+    20
+  ],
+  "mot": "d'Ampa cramoisi"
+}

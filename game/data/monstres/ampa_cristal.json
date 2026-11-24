@@ -1,0 +1,42 @@
+{
+  "id": "ampa_cristal",
+  "nom": "Ampa cristal",
+  "description": "Ses plumes de verre tintent quand il court. Il court rarement : il pose.",
+  "palier": 3,
+  "caracteristiques": {
+    "pv": 70,
+    "pa": 6,
+    "pm": 5,
+    "initiative": 110,
+    "force": 22,
+    "perception": 22
+  },
+  "resistances": {
+    "flamme": 15,
+    "tempete": 15,
+    "acier": 15,
+    "givre": 15
+  },
+  "sorts": [
+    "ampa_coup_de_bec",
+    "ampa_cri_glace",
+    "ampa_plumage_scintillant"
+  ],
+  "ia": "basique",
+  "xp": 200,
+  "butin": [
+    {
+      "objet": "plume_d_ampa_cristal",
+      "taux": 0.25,
+      "quantite": [
+        1,
+        2
+      ]
+    }
+  ],
+  "ecus": [
+    15,
+    30
+  ],
+  "mot": "d'Ampa cristal"
+}

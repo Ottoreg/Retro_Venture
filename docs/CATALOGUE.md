@@ -27,7 +27,7 @@ Prix de boutique : selon la rareté (revente à 25 %).
 - [Sorts de race](#sorts-de-race)
 - [Sorts des monstres](#sorts-des-monstres)
 
-**360 objets** (18 armes, 20 coiffes, 20 capes, 20 amulettes, 20 anneaux, 20 ceintures, 20 bottes, 171 ressources, 37 plans de forge, 8 objets de quête), **99 monstres** et **364 sorts**.
+**368 objets** (18 armes, 20 coiffes, 20 capes, 20 amulettes, 20 anneaux, 20 ceintures, 20 bottes, 179 ressources, 37 plans de forge, 8 objets de quête), **115 monstres** et **370 sorts**.
 
 ## Armes
 
@@ -310,6 +310,12 @@ Prix de boutique : selon la rareté (revente à 25 %).
 | **Paille ensorcelée** | 2 | Commun | +2 Agilité | boutique 4 brumes<br>butin : Grand Épouvantail 90 %, Épouvantail démotivé 60 %<br>« La grève des épouvantails » : sur Épouvantail démotivé, Grand Épouvantail (50 %) | Elle frissonne quand on parle de feu. On la comprend. |
 | **Plan de casse** | 2 | Peu commun | +2 Perception | boutique 12 brumes<br>butin : Défonceur de portes 32 %, Gobelin briseur 8 % | Tout y est : la porte, la masse, l'heure de la pause. |
 | **Plaque rouillée** | 2 | Commun | +2 Force | boutique 4 brumes<br>butin : Adjudant Rotule 90 %, Vétéran de la Première Ombre 50 % | Un morceau d'armure réglementaire, modèle Première Ombre. |
+| **Plume d'ampa brun** | 2 | Commun | +2 Agilité | boutique 4 brumes<br>butin : Grand ampa brun 90 %, Ampa brun 55 % | Une plume brun. Les éleveurs la reconnaissent à l'odeur, les autres à la couleur. |
+| **Plume d'ampa cramoisi** | 2 | Commun | +2 Force | boutique 4 brumes<br>butin : Grand ampa cramoisi 90 %, Ampa cramoisi 55 % | Une plume cramoisi. Les éleveurs la reconnaissent à l'odeur, les autres à la couleur. |
+| **Plume d'ampa empire** | 2 | Commun | +8 Vitalité | boutique 4 brumes<br>butin : Grand ampa empire 90 %, Ampa empire 55 % | Une plume empire. Les éleveurs la reconnaissent à l'odeur, les autres à la couleur. |
+| **Plume d'ampa ocre** | 2 | Commun | +2 Intelligence | boutique 4 brumes<br>butin : Grand ampa ocre 90 %, Ampa ocre 55 % | Une plume ocre. Les éleveurs la reconnaissent à l'odeur, les autres à la couleur. |
+| **Plume d'ampa roux** | 2 | Commun | +2 Perception | boutique 4 brumes<br>butin : Grand ampa roux 90 %, Ampa roux 55 % | Une plume roux. Les éleveurs la reconnaissent à l'odeur, les autres à la couleur. |
+| **Plume d'ampa stratos** | 2 | Commun | +1 Fuite | boutique 4 brumes<br>butin : Grand ampa stratos 90 %, Ampa stratos 55 % | Une plume stratos. Les éleveurs la reconnaissent à l'odeur, les autres à la couleur. |
 | **Plume d'ange** | 2 | Commun | +3 Force, +3 Intelligence | butin : Ange 35 % | Tombée pendant une prière un peu trop agitée. |
 | **Plume de bourrasque** | 2 | Peu commun | +8 Vitalité | boutique 12 brumes<br>butin : Grand Esprit des cimes 50 %, Esprit des bourrasques 12 % | Elle ne tombe jamais. Elle remonte. |
 | **Pépite animée** | 2 | Commun | +2 Perception | boutique 4 brumes<br>butin : Golem de filon d'or 90 %, Golem de minerai 50 % | Elle bouge encore. Elle cherche le reste du golem. |
@@ -348,6 +354,8 @@ Prix de boutique : selon la rareté (revente à 25 %).
 | **Message intercepté** | 3 | Peu commun | +3 Agilité | boutique 12 brumes<br>butin : Corbac chef espion 48 %, Corbac espion 12 %<br>« Messages interceptés » : sur Corbac espion, Corbac chef espion (40 %) | « Rapport n° 412 : RAS. Rapport n° 413 : toujours RAS. Rapport n° 414 : j'ai faim. » |
 | **Minerai d'argent** | 3 | Peu commun | +3 Perception, minerai | boutique 12 brumes<br>Mineur : Argent niv. 15 | Brillant, précieux, et mortel pour les choses qui ne devraient pas exister. |
 | **Nœud de braise** | 3 | Rare | +2 Dommages Flamme | boutique 35 brumes<br>butin : Arbre calciné 3 % | Le cœur de l'arbre n'a pas fini de brûler. |
+| **Plume d'ampa cristal** | 3 | Rare | +1 % Dégâts dévastateurs | boutique 35 brumes<br>butin : Grand ampa cristal 60 %, Ampa cristal 25 % | Une plume cristal. Les éleveurs la reconnaissent à l'odeur, les autres à la couleur. |
+| **Plume d'ampa onyx** | 3 | Rare | +1 % Dégâts spectraux | boutique 35 brumes<br>butin : Grand ampa onyx 60 %, Ampa onyx 25 % | Une plume onyx. Les éleveurs la reconnaissent à l'odeur, les autres à la couleur. |
 | **Plume de corbac** | 3 | Commun | +3 Force | boutique 4 brumes<br>butin : Corbac chef espion 88 %, Corbac espion 55 % | Noire, luisante, et elle a l'air de vous écouter. |
 | **Poil de crinière léonin** | 3 | Commun | +3 Dommages Sacré | butin : Lion de Juda 25 % | Doré, soyeux, et plein de puces bénites. |
 | **Poil roussi** | 3 | Commun | +3 Force | boutique 4 brumes<br>butin : Loup cendreux 50 % | Sent le chien mouillé tombé dans un feu de camp. |
@@ -471,8 +479,8 @@ ni 35 % du jeu entier, pour qu'aucune résistance unique ne suffise.
 | Sylvebrume (elfes) | 26 | Givre 45 %, Acier 31 %, Tempête 13 %, Flamme 11 % |
 | Hautepierre | 16 | Acier 30 %, Flamme 27 %, Givre 18 %, Tempête 15 %, Impie 9 % |
 | La Cendre | 1 | Flamme 100 % |
-| Ailleurs | 11 | Tempête 60 %, Sacré 26 %, Flamme 10 %, Acier 4 % |
-| **Jeu entier** | 99 | Acier 33 %, Tempête 21 %, Flamme 19 %, Givre 17 %, Impie 7 %, Sacré 4 % |
+| Ailleurs | 27 | Tempête 36 %, Acier 24 %, Flamme 16 %, Givre 13 %, Sacré 10 % |
+| **Jeu entier** | 115 | Acier 33 %, Tempête 21 %, Flamme 19 %, Givre 17 %, Impie 6 %, Sacré 3 % |
 
 ## Monstres
 
@@ -1831,6 +1839,174 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 |---|---|---|
 | 25 | 90 | 30 |
 
+#### Ampa brun *(famille)*
+
+*Le plus commun des ampas. Il le sait, et compense par le caractère.*
+
+- **Palier** : 2 ; **6 PA, 5 PM** ; IA basique
+- **Résistances** : Flamme +20 %, Tempête +20 %, Acier -10 %, Givre -10 %
+- **Sorts** : Plumes ardentes, Battement d'ailes
+- **Butin** : Plume d'ampa brun 55 % (×1–2) ; **brumes** 9–20
+- **Où le trouver** : Gué des Ampas (`grandesplaines_-1_1`, 1 groupe) · Pâturages du Vent (`grandesplaines_-2_0`, 2 groupes, dont 1 au hasard) · Hautes Herbes (`grandesplaines_-2_1`, 1 groupe) · Nid des Ampas (`grandesplaines_-2_2`, 1 groupe, dont 1 au hasard) · Champ des Plumes (`grandesplaines_-3_1`, 1 groupe) · Relais des Coursiers (`grandesplaines_0_1`, 2 groupes) · Piste des Caravanes (`grandesplaines_0_2`, 1 groupe, dont 1 au hasard)
+
+| PV | Init. | XP | Intel. | Agi. |
+|---|---|---|---|---|
+| 45 | 110 | 110 | 14 | 14 |
+
+#### Grand ampa brun *(élite de la famille Ampa brun)*
+
+*Le meneur de la harde. Il court devant, il frappe devant, il mange devant.*
+
+- **Palier** : 2 ; **7 PA, 5 PM** ; IA basique
+- **Résistances** : Flamme +20 %, Tempête +20 %, Acier -10 %, Givre -10 %
+- **Sorts** : Plumes ardentes, Battement d'ailes
+- **Butin** : Plume d'ampa brun 90 % (×2–4) ; **brumes** 18–40
+- **Où le trouver** : Gué des Ampas (`grandesplaines_-1_1`, apparition spontanée) · Pâturages du Vent (`grandesplaines_-2_0`, apparition spontanée) · Hautes Herbes (`grandesplaines_-2_1`, apparition spontanée) · Nid des Ampas (`grandesplaines_-2_2`, apparition spontanée) · Champ des Plumes (`grandesplaines_-3_1`, apparition spontanée) · Relais des Coursiers (`grandesplaines_0_1`, apparition spontanée) · Piste des Caravanes (`grandesplaines_0_2`, apparition spontanée)
+
+| PV | Init. | XP | Intel. | Agi. |
+|---|---|---|---|---|
+| 99 | 125 | 242 | 21 | 21 |
+
+#### Ampa cramoisi *(famille)*
+
+*Rouge sang, bec d'acier : il ne pique pas, il transperce.*
+
+- **Palier** : 2 ; **6 PA, 5 PM** ; IA basique
+- **Résistances** : Flamme -10 %, Tempête -10 %, Acier +20 %, Givre +20 %
+- **Sorts** : Coup de bec, Cri glacé
+- **Butin** : Plume d'ampa cramoisi 55 % (×1–2) ; **brumes** 9–20
+- **Où le trouver** : Bout des Plaines (`grandesplaines_-1_3`, 1 groupe) · Nid des Ampas (`grandesplaines_-2_2`, 1 groupe, dont 1 au hasard) · Falaise Cristalline (`grandesplaines_-2_3`, 1 groupe) · Pierres Dressées (`grandesplaines_-3_2`, 2 groupes, dont 1 au hasard) · Plateau des Aigles-Chevaux (`grandesplaines_-4_1`, 1 groupe) · Collines Rousses (`grandesplaines_-4_2`, 1 groupe)
+
+| PV | Init. | XP | Force | Percep. |
+|---|---|---|---|---|
+| 45 | 110 | 110 | 14 | 14 |
+
+#### Grand ampa cramoisi *(élite de la famille Ampa cramoisi)*
+
+*Le meneur de la harde. Il court devant, il frappe devant, il mange devant.*
+
+- **Palier** : 2 ; **7 PA, 5 PM** ; IA basique
+- **Résistances** : Flamme -10 %, Tempête -10 %, Acier +20 %, Givre +20 %
+- **Sorts** : Coup de bec, Cri glacé
+- **Butin** : Plume d'ampa cramoisi 90 % (×2–4) ; **brumes** 18–40
+- **Où le trouver** : Bout des Plaines (`grandesplaines_-1_3`, apparition spontanée) · Nid des Ampas (`grandesplaines_-2_2`, apparition spontanée) · Falaise Cristalline (`grandesplaines_-2_3`, apparition spontanée) · Pierres Dressées (`grandesplaines_-3_2`, apparition spontanée) · Plateau des Aigles-Chevaux (`grandesplaines_-4_1`, apparition spontanée) · Collines Rousses (`grandesplaines_-4_2`, apparition spontanée)
+
+| PV | Init. | XP | Force | Percep. |
+|---|---|---|---|---|
+| 99 | 125 | 242 | 21 | 21 |
+
+#### Ampa empire *(famille)*
+
+*Vert impérial, port altier. Il attend qu'on s'incline.*
+
+- **Palier** : 2 ; **6 PA, 5 PM** ; IA basique
+- **Résistances** : Flamme -10 %, Tempête +20 %, Acier -10 %, Givre +20 %
+- **Sorts** : Battement d'ailes, Cri glacé
+- **Butin** : Plume d'ampa empire 55 % (×1–2) ; **brumes** 9–20
+- **Où le trouver** : Lac Miroir (`grandesplaines_-1_2`, 1 groupe) · Bout des Plaines (`grandesplaines_-1_3`, 1 groupe) · Hautes Herbes (`grandesplaines_-2_1`, 1 groupe, dont 1 au hasard) · Nid des Ampas (`grandesplaines_-2_2`, 2 groupes, dont 1 au hasard) · Pierres Dressées (`grandesplaines_-3_2`, 2 groupes, dont 1 au hasard) · Mare aux Hérons (`grandesplaines_-4_0`, 1 groupe, dont 1 au hasard)
+
+| PV | Init. | XP | Percep. | Agi. |
+|---|---|---|---|---|
+| 45 | 110 | 110 | 14 | 14 |
+
+#### Grand ampa empire *(élite de la famille Ampa empire)*
+
+*Le meneur de la harde. Il court devant, il frappe devant, il mange devant.*
+
+- **Palier** : 2 ; **7 PA, 5 PM** ; IA basique
+- **Résistances** : Flamme -10 %, Tempête +20 %, Acier -10 %, Givre +20 %
+- **Sorts** : Battement d'ailes, Cri glacé
+- **Butin** : Plume d'ampa empire 90 % (×2–4) ; **brumes** 18–40
+- **Où le trouver** : Lac Miroir (`grandesplaines_-1_2`, apparition spontanée) · Bout des Plaines (`grandesplaines_-1_3`, apparition spontanée) · Hautes Herbes (`grandesplaines_-2_1`, apparition spontanée) · Nid des Ampas (`grandesplaines_-2_2`, apparition spontanée) · Pierres Dressées (`grandesplaines_-3_2`, apparition spontanée) · Mare aux Hérons (`grandesplaines_-4_0`, apparition spontanée)
+
+| PV | Init. | XP | Percep. | Agi. |
+|---|---|---|---|---|
+| 99 | 125 | 242 | 21 | 21 |
+
+#### Ampa ocre *(famille)*
+
+*Couleur de terre cuite, tempérament de forge.*
+
+- **Palier** : 2 ; **6 PA, 5 PM** ; IA basique
+- **Résistances** : Flamme +20 %, Tempête -10 %, Acier +20 %, Givre -10 %
+- **Sorts** : Plumes ardentes, Coup de bec
+- **Butin** : Plume d'ampa ocre 55 % (×1–2) ; **brumes** 9–20
+- **Où le trouver** : Gué des Ampas (`grandesplaines_-1_1`, 1 groupe) · Lac Miroir (`grandesplaines_-1_2`, 1 groupe) · Pâturages du Vent (`grandesplaines_-2_0`, 1 groupe, dont 1 au hasard) · Nid des Ampas (`grandesplaines_-2_2`, 1 groupe, dont 1 au hasard) · Haras abandonné (`grandesplaines_-3_0`, 1 groupe) · Champ des Plumes (`grandesplaines_-3_1`, 1 groupe) · Piste des Caravanes (`grandesplaines_0_2`, 1 groupe, dont 1 au hasard)
+
+| PV | Init. | XP | Force | Intel. |
+|---|---|---|---|---|
+| 45 | 110 | 110 | 14 | 14 |
+
+#### Grand ampa ocre *(élite de la famille Ampa ocre)*
+
+*Le meneur de la harde. Il court devant, il frappe devant, il mange devant.*
+
+- **Palier** : 2 ; **7 PA, 5 PM** ; IA basique
+- **Résistances** : Flamme +20 %, Tempête -10 %, Acier +20 %, Givre -10 %
+- **Sorts** : Plumes ardentes, Coup de bec
+- **Butin** : Plume d'ampa ocre 90 % (×2–4) ; **brumes** 18–40
+- **Où le trouver** : Gué des Ampas (`grandesplaines_-1_1`, apparition spontanée) · Lac Miroir (`grandesplaines_-1_2`, apparition spontanée) · Pâturages du Vent (`grandesplaines_-2_0`, apparition spontanée) · Nid des Ampas (`grandesplaines_-2_2`, apparition spontanée) · Haras abandonné (`grandesplaines_-3_0`, apparition spontanée) · Champ des Plumes (`grandesplaines_-3_1`, apparition spontanée) · Piste des Caravanes (`grandesplaines_0_2`, apparition spontanée)
+
+| PV | Init. | XP | Force | Intel. |
+|---|---|---|---|---|
+| 99 | 125 | 242 | 21 | 21 |
+
+#### Ampa roux *(famille)*
+
+*Chaud dehors, froid dedans. Comme son regard.*
+
+- **Palier** : 2 ; **6 PA, 5 PM** ; IA basique
+- **Résistances** : Flamme +20 %, Tempête -10 %, Acier -10 %, Givre +20 %
+- **Sorts** : Plumes ardentes, Cri glacé
+- **Butin** : Plume d'ampa roux 55 % (×1–2) ; **brumes** 9–20
+- **Où le trouver** : Nid des Ampas (`grandesplaines_-2_2`, 1 groupe, dont 1 au hasard) · Champ des Plumes (`grandesplaines_-3_1`, 1 groupe) · Pierres Dressées (`grandesplaines_-3_2`, 1 groupe, dont 1 au hasard) · Mare aux Hérons (`grandesplaines_-4_0`, 2 groupes, dont 1 au hasard) · Plateau des Aigles-Chevaux (`grandesplaines_-4_1`, 1 groupe) · Collines Rousses (`grandesplaines_-4_2`, 1 groupe)
+
+| PV | Init. | XP | Intel. | Percep. |
+|---|---|---|---|---|
+| 45 | 110 | 110 | 14 | 14 |
+
+#### Grand ampa roux *(élite de la famille Ampa roux)*
+
+*Le meneur de la harde. Il court devant, il frappe devant, il mange devant.*
+
+- **Palier** : 2 ; **7 PA, 5 PM** ; IA basique
+- **Résistances** : Flamme +20 %, Tempête -10 %, Acier -10 %, Givre +20 %
+- **Sorts** : Plumes ardentes, Cri glacé
+- **Butin** : Plume d'ampa roux 90 % (×2–4) ; **brumes** 18–40
+- **Où le trouver** : Nid des Ampas (`grandesplaines_-2_2`, apparition spontanée) · Champ des Plumes (`grandesplaines_-3_1`, apparition spontanée) · Pierres Dressées (`grandesplaines_-3_2`, apparition spontanée) · Mare aux Hérons (`grandesplaines_-4_0`, apparition spontanée) · Plateau des Aigles-Chevaux (`grandesplaines_-4_1`, apparition spontanée) · Collines Rousses (`grandesplaines_-4_2`, apparition spontanée)
+
+| PV | Init. | XP | Intel. | Percep. |
+|---|---|---|---|---|
+| 99 | 125 | 242 | 21 | 21 |
+
+#### Ampa stratos *(famille)*
+
+*Bleu comme le ciel qu'il ne touchera jamais. Ça le rend nerveux.*
+
+- **Palier** : 2 ; **6 PA, 5 PM** ; IA basique
+- **Résistances** : Flamme -10 %, Tempête +20 %, Acier +20 %, Givre -10 %
+- **Sorts** : Coup de bec, Battement d'ailes
+- **Butin** : Plume d'ampa stratos 55 % (×1–2) ; **brumes** 9–20
+- **Où le trouver** : Lac Miroir (`grandesplaines_-1_2`, 1 groupe) · Hautes Herbes (`grandesplaines_-2_1`, 1 groupe, dont 1 au hasard) · Nid des Ampas (`grandesplaines_-2_2`, 1 groupe, dont 1 au hasard) · Falaise Cristalline (`grandesplaines_-2_3`, 1 groupe) · Haras abandonné (`grandesplaines_-3_0`, 2 groupes) · Relais des Coursiers (`grandesplaines_0_1`, 1 groupe) · Piste des Caravanes (`grandesplaines_0_2`, 1 groupe)
+
+| PV | Init. | XP | Force | Agi. |
+|---|---|---|---|---|
+| 45 | 110 | 110 | 14 | 14 |
+
+#### Grand ampa stratos *(élite de la famille Ampa stratos)*
+
+*Le meneur de la harde. Il court devant, il frappe devant, il mange devant.*
+
+- **Palier** : 2 ; **7 PA, 5 PM** ; IA basique
+- **Résistances** : Flamme -10 %, Tempête +20 %, Acier +20 %, Givre -10 %
+- **Sorts** : Coup de bec, Battement d'ailes
+- **Butin** : Plume d'ampa stratos 90 % (×2–4) ; **brumes** 18–40
+- **Où le trouver** : Lac Miroir (`grandesplaines_-1_2`, apparition spontanée) · Hautes Herbes (`grandesplaines_-2_1`, apparition spontanée) · Nid des Ampas (`grandesplaines_-2_2`, apparition spontanée) · Falaise Cristalline (`grandesplaines_-2_3`, apparition spontanée) · Haras abandonné (`grandesplaines_-3_0`, apparition spontanée) · Relais des Coursiers (`grandesplaines_0_1`, apparition spontanée) · Piste des Caravanes (`grandesplaines_0_2`, apparition spontanée)
+
+| PV | Init. | XP | Force | Agi. |
+|---|---|---|---|---|
+| 99 | 125 | 242 | 21 | 21 |
+
 #### Ange *(famille)*
 
 *Il a fait vœu de paix. Il a aussi un glaive.*
@@ -1874,6 +2050,62 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 | PV | Init. | XP | Force | Agi. |
 |---|---|---|---|---|
 | 48 | 70 | 90 | 12 | 16 |
+
+#### Ampa cristal *(famille)*
+
+*Ses plumes de verre tintent quand il court. Il court rarement : il pose.*
+
+- **Palier** : 3 ; **6 PA, 5 PM** ; IA basique
+- **Résistances** : Flamme +15 %, Tempête +15 %, Acier +15 %, Givre +15 %
+- **Sorts** : Coup de bec, Cri glacé, Plumage scintillant
+- **Butin** : Plume d'ampa cristal 25 % (×1–2) ; **brumes** 15–30
+- **Où le trouver** : Bout des Plaines (`grandesplaines_-1_3`, 1 groupe, dont 1 réapparition 300–480 s) · Falaise Cristalline (`grandesplaines_-2_3`, 1 groupe, dont 1 réapparition 300–480 s)
+
+| PV | Init. | XP | Force | Percep. |
+|---|---|---|---|---|
+| 70 | 110 | 200 | 22 | 22 |
+
+#### Grand ampa cristal *(élite de la famille Ampa cristal)*
+
+*Le meneur de la harde. Il court devant, il frappe devant, il mange devant.*
+
+- **Palier** : 3 ; **7 PA, 5 PM** ; IA basique
+- **Résistances** : Flamme +15 %, Tempête +15 %, Acier +15 %, Givre +15 %
+- **Sorts** : Coup de bec, Cri glacé, Plumage scintillant
+- **Butin** : Plume d'ampa cristal 60 % (×2–4) ; **brumes** 30–60
+- **Où le trouver** : Bout des Plaines (`grandesplaines_-1_3`, apparition spontanée) · Falaise Cristalline (`grandesplaines_-2_3`, apparition spontanée)
+
+| PV | Init. | XP | Force | Percep. |
+|---|---|---|---|---|
+| 154 | 125 | 440 | 33 | 33 |
+
+#### Ampa onyx *(famille)*
+
+*Noir comme une nuit sans lune. On l'entend courir, on ne le voit jamais arriver.*
+
+- **Palier** : 3 ; **6 PA, 5 PM** ; IA basique
+- **Résistances** : Flamme +15 %, Tempête +15 %, Acier +15 %, Givre +15 %
+- **Sorts** : Coup de bec, Battement d'ailes, Course folle
+- **Butin** : Plume d'ampa onyx 25 % (×1–2) ; **brumes** 15–30
+- **Où le trouver** : Nid des Ampas (`grandesplaines_-2_2`, 1 groupe, dont 1 réapparition 300–480 s) · Plateau des Aigles-Chevaux (`grandesplaines_-4_1`, 1 groupe, dont 1 réapparition 300–480 s)
+
+| PV | Init. | XP | Force | Agi. |
+|---|---|---|---|---|
+| 70 | 110 | 200 | 22 | 22 |
+
+#### Grand ampa onyx *(élite de la famille Ampa onyx)*
+
+*Le meneur de la harde. Il court devant, il frappe devant, il mange devant.*
+
+- **Palier** : 3 ; **7 PA, 5 PM** ; IA basique
+- **Résistances** : Flamme +15 %, Tempête +15 %, Acier +15 %, Givre +15 %
+- **Sorts** : Coup de bec, Battement d'ailes, Course folle
+- **Butin** : Plume d'ampa onyx 60 % (×2–4) ; **brumes** 30–60
+- **Où le trouver** : Nid des Ampas (`grandesplaines_-2_2`, apparition spontanée) · Plateau des Aigles-Chevaux (`grandesplaines_-4_1`, apparition spontanée)
+
+| PV | Init. | XP | Force | Agi. |
+|---|---|---|---|---|
+| 154 | 125 | 440 | 33 | 33 |
 
 #### Archange Raphaël *(boss)*
 
@@ -2177,6 +2409,7 @@ Soigneur sacré. Bénit les alliés, sermonne les ennemis, et cite des textes qu
 | **Bal de minuit** | 3 PA, portée 0–3, 1/tour, relance 1 t. | soin 7–10 (Flamme) aux alliés | Cendrillon, palier 4, Marraine Cendrée (élite), palier 4 | Une valse de cendre qui referme les plaies d'un fidèle. |
 | **Baptême express** | 4 PA, portée 1–2, 1/tour | 10 Sacré | Colombe baptiste, palier 1 | Un coup de bec bénit, puis elle s'envole. |
 | **Barrissement** | 3 PA, portée soi, cercle de rayon 2 (sans le lanceur), sans ligne de vue, 1/tour, relance 1 t. | 3–5 Tempête aux ennemis ; −1 PM (1 t.) aux ennemis | Olifant de guerre, palier 4, Olifant-tour (élite), palier 5 | Le cor d'origine. Les oreilles saignent, les jambes flanchent. |
+| **Battement d'ailes** | 3 PA, portée 1–2, 2/tour | 3–5 Tempête ; poussée de 1 case(s) | Ampa brun, palier 2, Ampa empire, palier 2, Ampa onyx, palier 3, Ampa stratos, palier 2, Grand ampa brun (élite), palier 2, Grand ampa empire (élite), palier 2, Grand ampa onyx (élite), palier 3, Grand ampa stratos (élite), palier 2 | Il ne sait pas voler. Il sait très bien souffler. |
 | **Bavardage** | 2 PA, portée 1–3, 1/tour, relance 1 t. | −1 PA (1 t.) | Grand Réseau errant (élite), palier 2, La Rumeur (mini-boss), palier 2, Limace reine (élite), palier 1, Pied-de-Mouton ancestral (élite), palier 2, Vesse-de-loup bavarde, palier 1 | « Et là, tu sais pas ce qu'elle m'a dit… » Vous en oubliez d'agir. |
 | **Bave froide** | 3 PA, portée 2–4, 1/tour | 3–4 Givre ; −1 PM au prochain tour | Limace gourmande, palier 1, Limace reine (élite), palier 1 | Gluante, glacée, et elle colle aux bottes. |
 | **Bond** | 4 PA, portée 1–3, 1/tour, relance 2 t. | téléportation sur la case | Lion de Juda, palier 3 | Le lion saute sur sa proie (un tour sur deux). |
@@ -2205,6 +2438,7 @@ Soigneur sacré. Bénit les alliés, sermonne les ennemis, et cite des textes qu
 | **Coup d'os** | 3 PA, portée 1, 2/tour | 3–5 Impie | Fémur du Général (élite), palier 1, Os errant, palier 1 | Il frappe avec lui-même. Ça fait mal aux deux. |
 | **Coup d'épée réglementaire** | 4 PA, portée 1, 1/tour | 7–10 Acier | Milicien de Hautepierre, palier 2, Sergent de la milice (élite), palier 2 | Exécuté selon le manuel de la milice, page 12. |
 | **Coup de baguette** | 4 PA, portée 1–4, cercle de rayon 1, 1/tour | 6–8 Flamme ; −1 PA (1 t.) | Marraine Cendrée (élite), palier 4 | Un geste gracieux, une citrouille qui explose. |
+| **Coup de bec** | 3 PA, portée 1, 2/tour | 5–7 Acier | Ampa cramoisi, palier 2, Ampa cristal, palier 3, Ampa ocre, palier 2, Ampa onyx, palier 3, Ampa stratos, palier 2, Grand ampa cramoisi (élite), palier 2, Grand ampa cristal (élite), palier 3, Grand ampa ocre (élite), palier 2, Grand ampa onyx (élite), palier 3, Grand ampa stratos (élite), palier 2 | Un bec d'aigle au bout d'un cou d'autruche : il frappe de loin et de haut. |
 | **Coup de bec** | 3 PA, portée 1, 1/tour | 5–7 Acier | Corbac chef espion (élite), palier 4, Corbac espion, palier 3 | Toujours dans l'œil. Il vise bien, il a de l'entraînement. |
 | **Coup de branche** | 4 PA, portée 1, 1/tour | 10–15 Acier | Arbre calciné, palier 3, Arbre millénaire (élite), palier 2, Arbre vivant, palier 1 | Lent à venir, long à oublier. |
 | **Coup de bâton** | 3 PA, portée 1–2, 2/tour | 5–7 Acier | Contremaître en chef (élite), palier 3, Contremaître zélé, palier 2 | Motivation par l'exemple. Et par le bâton. |
@@ -2224,11 +2458,13 @@ Soigneur sacré. Bénit les alliés, sermonne les ennemis, et cite des textes qu
 | **Coup de surin** | 3 PA, portée 1, 2/tour | 5–7 Impie | Chef de bande (élite), palier 3, Détrousseur des grands chemins, palier 3 | Dans l'ombre, sans prévenir, sans facture. |
 | **Coup de tête** | 3 PA, portée 1, 2/tour | 3–5 Acier ; poussée de 1 case(s) | Agneau géant, palier 1, Agneau-Montagne (élite), palier 1 | Un agneau, c'est mignon. Un agneau de la taille d'un cheval, c'est un bélier qui s'ignore. |
 | **Coup de tête** | 3 PA, portée 1, 2/tour | 4–6 Flamme | Apprenti braillard, palier 1, Goret à trois défenses (élite), palier 1, Grand Gueulard (élite), palier 2 | La méthode orque : tête d'abord, réflexion jamais. |
+| **Course folle** | 2 PA, portée soi, 1/tour, relance 2 t. | +2 PM (1 t.) | Ampa onyx, palier 3, Grand ampa onyx (élite), palier 3 | Personne ne rattrape un ampa onyx. Surtout pas à la nuit tombée. |
 | **Crachat acide** | 4 PA, portée 2–4, 1/tour | 5–8 Flamme | Grouilleur, palier 1, Grouilleur ancestral (élite), palier 2 | Ça fume, ça pique, ça ne part pas au lavage. |
 | **Crachat de feu** | 4 PA, portée 2–4, cercle de rayon 1, 1/tour | 5–7 Flamme | Grouilleur de braise, palier 3 | L'acide a pris feu. Il en est très fier. |
 | **Crachat de lave** | 3 PA, portée 2–6, cercle de rayon 1, 1/tour | 4–6 Flamme | Le Balourd des Abîmes (mini-boss), palier 2 | Il n'a pas de manières. Il a de la lave. |
 | **Cri d'encouragement** | 2 PA, portée 0–4, 1/tour, relance 2 t. | +10 % dégâts infligés (2 t.) aux alliés | Apprenti braillard, palier 1, Ferrailleur blindé (élite), palier 2, Grand Gueulard (élite), palier 2 | « ALLEZ ! » L'allié n'a rien compris, mais il tape plus fort. |
 | **Cri de raid** | 2 PA, portée soi, sans ligne de vue, 1/tour, relance 3 t. | +25 Force (2 t.) aux alliés | Krasbouk, Chef de Raid (syndiqué) (mini-boss), palier 2 | « Pour la prime ! » Ses muscles y croient. |
+| **Cri glacé** | 3 PA, portée 1–3, 2/tour | 3–5 Givre ; −1 PM (1 t.) | Ampa cramoisi, palier 2, Ampa cristal, palier 3, Ampa empire, palier 2, Ampa roux, palier 2, Grand ampa cramoisi (élite), palier 2, Grand ampa cristal (élite), palier 3, Grand ampa empire (élite), palier 2, Grand ampa roux (élite), palier 2 | Un cri de rapace, en plus froid. On en a les jambes coupées. |
 | **Crise d'identité** | 3 PA, portée soi, cercle de rayon 2, 1/tour, relance 2 t. | −10 Résistance Flamme (2 t.) aux ennemis ; −10 Résistance Givre (2 t.) aux ennemis | Gardien du Puits (élite), palier 2, Grand Mal-Éclos (élite), palier 2 | Il ne sait plus ce qu'il est. Vos résistances non plus. |
 | **Croc sanglant** | 4 PA, portée 1, 1/tour | 9–13 Tempête | Loup alpha (élite), palier 2 | Le chef de meute ne mord pas : il signe. |
 | **Crépitement** | 3 PA, portée 1, 2/tour | 2–3 Flamme ; 1–2 Tempête | Grande Étincelle (élite), palier 1, Étincelle folle, palier 1 | Elle crépite, elle claque, elle brûle un peu, elle électrise beaucoup. |
@@ -2295,6 +2531,8 @@ Soigneur sacré. Bénit les alliés, sermonne les ennemis, et cite des textes qu
 | **Pluie de cendres** | 3 PA, portée 1–6, cercle de rayon 1, sans ligne de vue, 1/tour, relance 2 t. | glyphe (2 t.) : [4–6 Flamme aux ennemis] | Arbre calciné, palier 3 | Il secoue ses branches mortes ; il en tombe des braises. |
 | **Pluie de phalanges** | 4 PA, portée 1–6, cercle de rayon 1, sans ligne de vue, 1/tour | 5–8 Impie aux ennemis | Grande Pleureuse (élite), palier 1, Le Colonel Ossature (mini-boss), palier 2, phase 1 (70 % PV) | Il lance ses propres doigts. Il en a encore beaucoup. |
 | **Pluie de pièces** | 4 PA, portée 2–6, cercle de rayon 1, sans ligne de vue, 1/tour | 5–8 Tempête aux ennemis ; −1 PA (1 t.) aux ennemis | Grand Trésorier Orbaril (mini-boss), palier 2, phase 1 (70 % PV) | Il jette l'argent par les fenêtres. Sur vous. |
+| **Plumage scintillant** | 2 PA, portée soi, 1/tour, relance 2 t. | +2 PA (1 t.) | Ampa cristal, palier 3, Grand ampa cristal (élite), palier 3 | La lumière le traverse. Lui en ressort plus vif. |
+| **Plumes ardentes** | 3 PA, portée 2–4, 2/tour | 4–6 Flamme | Ampa brun, palier 2, Ampa ocre, palier 2, Ampa roux, palier 2, Grand ampa brun (élite), palier 2, Grand ampa ocre (élite), palier 2, Grand ampa roux (élite), palier 2 | Il s'ébroue. Les plumes qui tombent sont en feu. Lui, non. |
 | **Poing de roche** | 4 PA, portée 1, 1/tour | 6–9 Acier ; poussée de 1 case(s) | Golem de filon d'or (élite), palier 2, Golem de minerai, palier 2 | Un poing en minerai brut. Non raffiné, non poli, non négociable. |
 | **Racines** | 3 PA, portée 1–6, 1/tour | 4–6 Givre ; −2 PM au prochain tour | Arbre calciné, palier 3, Arbre millénaire (élite), palier 2, Arbre vivant, palier 1 | Les racines gelées sortent de terre et vous retiennent. Elles ont pris froid, vous aussi. |
 | **Rafale** | 4 PA, portée 2–6, 1/tour | 4–6 Tempête ; poussée de 2 case(s) | Esprit des bourrasques, palier 2, Grand Esprit des cimes (élite), palier 2 | Un vent qui a pris de mauvaises habitudes. Il pousse. |

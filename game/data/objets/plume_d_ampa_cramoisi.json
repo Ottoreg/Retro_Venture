@@ -1,0 +1,11 @@
+{
+  "id": "plume_d_ampa_cramoisi",
+  "nom": "Plume d'ampa cramoisi",
+  "type": "ressource",
+  "rarete": "commun",
+  "niveau": 2,
+  "description": "Une plume cramoisi. Les éleveurs la reconnaissent à l'odeur, les autres à la couleur.",
+  "caracteristique": "force",
+  "famille": "ampa_cramoisi",
+  "zone": "hautepierre"
+}

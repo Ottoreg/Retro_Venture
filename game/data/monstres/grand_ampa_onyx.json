@@ -1,0 +1,43 @@
+{
+  "id": "grand_ampa_onyx",
+  "nom": "Grand ampa onyx",
+  "description": "Le meneur de la harde. Il court devant, il frappe devant, il mange devant.",
+  "palier": 3,
+  "caracteristiques": {
+    "pv": 154,
+    "pa": 7,
+    "pm": 5,
+    "initiative": 125,
+    "force": 33,
+    "agilite": 33
+  },
+  "resistances": {
+    "flamme": 15,
+    "tempete": 15,
+    "acier": 15,
+    "givre": 15
+  },
+  "sorts": [
+    "ampa_coup_de_bec",
+    "ampa_battement_d_ailes",
+    "ampa_course_folle"
+  ],
+  "ia": "basique",
+  "xp": 440,
+  "butin": [
+    {
+      "objet": "plume_d_ampa_onyx",
+      "taux": 0.6,
+      "quantite": [
+        2,
+        4
+      ]
+    }
+  ],
+  "ecus": [
+    30,
+    60
+  ],
+  "elite": true,
+  "famille": "ampa_onyx"
+}
