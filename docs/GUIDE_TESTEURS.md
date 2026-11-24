@@ -86,7 +86,7 @@ temps : chaque camp a sa propre histoire.
     autour de lui) ; passif *Peau épaisse* : −10 % de dégâts de mêlée reçus.
   - **Squelette** (camp ennemi, à l'essai) : départ à **l'Ossuaire de la Première Ombre**, au nord de Crasse-Roc (sa sous-zone, avec sa Pierre de Passage, sa maison et 3 quêtes de race) ; sort *Remonter les os* (soigne 15 %
     de ses PV) ; passif *Déjà mort* : une fois par combat, survit à un coup fatal avec 1 PV.
-  - **Géant** (camp allié, à l'essai) : départ à **Brumerive** ; sort *Coup de semelle* (dégâts Acier au contact,
+  - **Géant** (camp allié, à l'essai) : départ aux **Hauts-Perchés**, à l'ouest de Brumerive (sa sous-zone, avec sa Pierre de Passage, sa maison et 3 quêtes de race) ; sort *Coup de semelle* (dégâts Acier au contact,
     repousse de 2 cases) ; passif *Carrure* : +10 % de PV max.
   - **Arkhé** (élémentaire de feu, camp neutre, à l'essai) : départ à **Sylvebrume** ; sort *Éruption* (dégâts
     Flamme aux ennemis à son contact) ; passif *Cœur élémentaire* : +5 % de dégâts et de résistance Flamme ; variantes

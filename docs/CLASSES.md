@@ -80,7 +80,7 @@ point(s) de caractéristique (avant ralentissement).
 | **Arkhé** | neutre | sylvebrume_0_0 | Cœur élémentaire | coeur_elementaire +5 | Éruption |
 | **Arkhé** | neutre | sylvebrume_0_0 | Cœur élémentaire | coeur_elementaire +5 | Éruption |
 | **Elfe** | neutre | sylvebrume_0_0 | Œil perçant | portee +1 | Pas léger |
-| **Géant** | allie | brumerive_0_0 | Carrure | pv_max +10 | Coup de semelle |
+| **Géant** | allie | brumerive_-1_0 | Carrure | pv_max +10 | Coup de semelle |
 | **Gobelin** | ennemi | crasse_roc_0_0 | Chapardeur | prospection +20, ecus +20 | Coup bas |
 | **Humain** | allie | brumerive_0_0 | Polyvalence | reputation_metier +10 | Ralliement |
 | **Nain** | allie | brumerive_0_0 | Peau de pierre |  | — |

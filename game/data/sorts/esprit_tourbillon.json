@@ -1,0 +1,28 @@
+{
+  "id": "esprit_tourbillon",
+  "nom": "Tourbillon",
+  "description": "Il tourne sur lui-même. Tout ce qui est autour aussi.",
+  "cout_pa": 3,
+  "portee": {
+    "min": 0,
+    "max": 0
+  },
+  "ligne_de_vue": true,
+  "relance": {
+    "par_tour": 1,
+    "delai": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "tempete",
+      "min": 4,
+      "max": 6,
+      "cibles": "ennemis"
+    }
+  ],
+  "zone": {
+    "type": "cercle",
+    "taille": 1
+  }
+}

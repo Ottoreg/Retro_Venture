@@ -1,0 +1,11 @@
+{
+  "id": "barbe_du_doyen",
+  "nom": "Mèche de barbe du Doyen",
+  "type": "ressource",
+  "rarete": "rare",
+  "niveau": 2,
+  "description": "Il a mis trois jours à remarquer qu'elle manquait.",
+  "caracteristique": "dommages_tempete",
+  "famille": "doyen_lentissime",
+  "zone": "brumerive"
+}

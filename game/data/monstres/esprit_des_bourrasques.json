@@ -1,0 +1,44 @@
+{
+  "id": "esprit_des_bourrasques",
+  "nom": "Esprit des bourrasques",
+  "description": "Un vent qui a pris de mauvaises habitudes : il entre sans frapper.",
+  "palier": 2,
+  "caracteristiques": {
+    "pv": 45,
+    "pa": 6,
+    "pm": 4,
+    "initiative": 110,
+    "agilite": 18,
+    "intelligence": 10
+  },
+  "resistances": {
+    "tempete": 25,
+    "acier": 10,
+    "flamme": -15
+  },
+  "sorts": [
+    "esprit_rafale",
+    "esprit_tourbillon"
+  ],
+  "ia": "distance",
+  "xp": 110,
+  "butin": [
+    {
+      "objet": "souffle_en_bouteille",
+      "taux": 0.5,
+      "quantite": [
+        1,
+        2
+      ]
+    },
+    {
+      "objet": "plume_de_bourrasque",
+      "taux": 0.12
+    }
+  ],
+  "ecus": [
+    9,
+    20
+  ],
+  "mot": "de Bourrasque"
+}

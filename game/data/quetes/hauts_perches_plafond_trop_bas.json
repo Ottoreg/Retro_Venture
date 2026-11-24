@@ -1,0 +1,61 @@
+{
+  "id": "hauts_perches_plafond_trop_bas",
+  "nom": "Plafond trop bas",
+  "categorie": "principale",
+  "acte": 1,
+  "niveau": 3,
+  "pnj": "charpentier_toise",
+  "description": "Les béliers ont encore défoncé le toit de la bergerie. Il faut le remonter. Encore.",
+  "conditions": {
+    "race": "geant",
+    "quetes_terminees": [
+      "hauts_perches_compte_des_moutons"
+    ]
+  },
+  "etapes": [
+    {
+      "objectifs": [
+        {
+          "type": "vaincre",
+          "monstre": "belier_des_cimes",
+          "nombre": 2
+        }
+      ]
+    },
+    {
+      "objectifs": [
+        {
+          "type": "recolter",
+          "objet": "bois_de_frene",
+          "nombre": 5,
+          "texte": "Récolter du frêne pour remonter le toit"
+        },
+        {
+          "type": "parler",
+          "pnj": "charpentier_toise"
+        }
+      ]
+    }
+  ],
+  "dialogues": {
+    "charpentier_toise": {
+      "proposition": [
+        "Deux béliers ont défoncé le toit. Encore. Calmez-les, s'il vous plaît.",
+        "Puis rapportez-moi du frêne : je remonte le toit. Encore un peu plus haut."
+      ],
+      "en_cours": [
+        "Le toit est toujours troué. Les béliers sont toujours fiers."
+      ],
+      "objectif": [
+        "Les béliers sont calmés. Maintenant, le bois."
+      ],
+      "fin": [
+        "Voilà un toit à bonne hauteur ! Enfin, pour cette semaine."
+      ]
+    }
+  },
+  "recompenses": {
+    "xp_cr": 4,
+    "ecus": 50
+  }
+}

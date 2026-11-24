@@ -1,0 +1,11 @@
+{
+  "id": "souffle_en_bouteille",
+  "nom": "Souffle en bouteille",
+  "type": "ressource",
+  "rarete": "commun",
+  "niveau": 2,
+  "description": "Une bourrasque mise en bouteille. Ouvrez-la dehors.",
+  "caracteristique": "intelligence",
+  "famille": "esprit_des_bourrasques",
+  "zone": "brumerive"
+}

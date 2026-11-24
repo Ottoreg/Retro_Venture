@@ -1,0 +1,24 @@
+{
+  "id": "belier_toison_electrique",
+  "nom": "Toison électrique",
+  "description": "La laine frotte, ça crépite. Ne caressez pas.",
+  "cout_pa": 2,
+  "portee": {
+    "min": 0,
+    "max": 0
+  },
+  "ligne_de_vue": true,
+  "relance": {
+    "par_tour": 1,
+    "delai": 2
+  },
+  "effets": [
+    {
+      "type": "bonus",
+      "carac": "epines_tempete_fixes",
+      "min": 3,
+      "max": 3,
+      "duree": 2
+    }
+  ]
+}

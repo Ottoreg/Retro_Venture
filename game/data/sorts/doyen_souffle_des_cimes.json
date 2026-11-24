@@ -1,0 +1,34 @@
+{
+  "id": "doyen_souffle_des_cimes",
+  "nom": "Souffle des cimes",
+  "description": "Il reprend son souffle. Puis il vous le rend, d'un coup.",
+  "cout_pa": 4,
+  "portee": {
+    "min": 1,
+    "max": 6
+  },
+  "ligne_de_vue": true,
+  "lancer_en_ligne": true,
+  "relance": {
+    "par_tour": 1,
+    "delai": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "tempete",
+      "min": 5,
+      "max": 8,
+      "cibles": "ennemis"
+    },
+    {
+      "type": "poussee",
+      "min": 3,
+      "max": 3,
+      "cibles": "ennemis"
+    }
+  ],
+  "zone": {
+    "type": "ligne"
+  }
+}

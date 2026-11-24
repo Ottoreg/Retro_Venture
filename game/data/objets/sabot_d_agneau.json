@@ -1,0 +1,11 @@
+{
+  "id": "sabot_d_agneau",
+  "nom": "Sabot d'agneau",
+  "type": "ressource",
+  "rarete": "peu_commun",
+  "niveau": 1,
+  "description": "De la taille d'une enclume. Il en a le poids aussi.",
+  "caracteristique": "vitalite",
+  "famille": "agneau_geant",
+  "zone": "brumerive"
+}

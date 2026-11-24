@@ -346,7 +346,8 @@ Dernière session (retours de la passe de l'auteur) :
   conception `crasse_roc.md`, `brumerive.md`, `sylvebrume.md`) ; Ossuaire des squelettes fait le 24/11/2026 (`crasse_roc_0_-1`
   à `1_-3`, Pierre `crasse_roc_ossuaire`, `maison_ossuaire`, 4 quêtes `ossuaire_*`, apparences et icônes provisoires reprises
   des dessins existants, fragment `art/manifestes/sous_zones.json`) ; Fosse aux Braillards des orcs faite le 24/11/2026
-  (`crasse_roc_3_0` à `4_2`, Pierre `crasse_roc_braillards`, `maison_braillards`, 4 quêtes `braillards_*`).
+  (`crasse_roc_3_0` à `4_2`, Pierre `crasse_roc_braillards`, `maison_braillards`, 4 quêtes `braillards_*`) ;
+  Hauts-Perchés des géants faits le 24/11/2026 (`brumerive_-1_0` à `-2_2`, Pierre `brumerive_hauts_perches`, `maison_hauts_perches`, 4 quêtes `hauts_perches_*`).
 - Le pseudo choisi est déjà utilisé partout ; « Aventurier » (`World.DEFAULT_NAME`) n'apparaît
   que dans les tests et les captures, sans écran de création.
 

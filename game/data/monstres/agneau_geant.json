@@ -1,0 +1,42 @@
+{
+  "id": "agneau_geant",
+  "nom": "Agneau géant",
+  "description": "Un « agneau » de la taille d'un cheval. Il veut jouer. Vous ne voulez pas.",
+  "palier": 1,
+  "caracteristiques": {
+    "pv": 20,
+    "pa": 5,
+    "pm": 4,
+    "initiative": 65,
+    "force": 4
+  },
+  "resistances": {
+    "acier": 15,
+    "flamme": -10
+  },
+  "sorts": [
+    "agneau_coup_de_tete",
+    "agneau_belement"
+  ],
+  "ia": "basique",
+  "xp": 14,
+  "butin": [
+    {
+      "objet": "laine_d_agneau_geant",
+      "taux": 0.6,
+      "quantite": [
+        1,
+        2
+      ]
+    },
+    {
+      "objet": "sabot_d_agneau",
+      "taux": 0.15
+    }
+  ],
+  "ecus": [
+    1,
+    4
+  ],
+  "mot": "d'Agneau"
+}

@@ -1,0 +1,27 @@
+{
+  "id": "doyen_grele",
+  "nom": "Grêle",
+  "description": "Des grêlons gros comme des moutons. Ce sont peut-être des moutons.",
+  "cout_pa": 4,
+  "portee": {
+    "min": 2,
+    "max": 6
+  },
+  "ligne_de_vue": false,
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "tempete",
+      "min": 5,
+      "max": 8,
+      "cibles": "ennemis"
+    }
+  ],
+  "zone": {
+    "type": "cercle",
+    "taille": 1
+  }
+}

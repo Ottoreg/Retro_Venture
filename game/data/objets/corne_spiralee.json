@@ -1,0 +1,11 @@
+{
+  "id": "corne_spiralee",
+  "nom": "Corne spiralée",
+  "type": "ressource",
+  "rarete": "peu_commun",
+  "niveau": 1,
+  "description": "En y collant l'oreille, on entend le vent. Et un bêlement lointain.",
+  "caracteristique": "perception",
+  "famille": "belier_des_cimes",
+  "zone": "brumerive"
+}

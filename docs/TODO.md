@@ -842,7 +842,7 @@ classes (option écartée et compromis gardés en piste, GDD § 5.2).
   objets liés, forgemagie, niveau de métier requis)
 
 ### Monde
-- [ ] Zones de départ agrandies : une par camp, une sous-zone thématique par race (GDD § 3.5, décision du 19/11/2026) ; sous-zones des trois zones validées (Crasse-Roc 19/11, Brumerive et Sylvebrume 23/11/2026) ; Crasse-Roc d'abord (gobelin, orc, squelette déjà jouables) ; détail écrit (`docs/design/sous_zones/`) ; une sous-zone à la fois, validée avant la suivante : Ossuaire (squelettes) et Fosse aux Braillards (orcs) produits le 24/11/2026, à valider ; puis Barbe-Fendue, Hauts-Perchés, Bois-Farceur, Sources primordiales
+- [ ] Zones de départ agrandies : une par camp, une sous-zone thématique par race (GDD § 3.5, décision du 19/11/2026) ; sous-zones des trois zones validées (Crasse-Roc 19/11, Brumerive et Sylvebrume 23/11/2026) ; Crasse-Roc d'abord (gobelin, orc, squelette déjà jouables) ; détail écrit (`docs/design/sous_zones/`) ; une sous-zone à la fois, validée avant la suivante : Ossuaire (squelettes), Fosse aux Braillards (orcs) et Hauts-Perchés (géants) produits le 24/11/2026, à valider ; puis Barbe-Fendue, Bois-Farceur, Sources primordiales
 - [ ] Régions : Sylvebrume, Forges de Durhal, Plaines d'Orvent, Marais Gris, Marches Cendrées / Nocthrône
 - [ ] Cycle jour/nuit (optionnel)
 - [ ] Familiers

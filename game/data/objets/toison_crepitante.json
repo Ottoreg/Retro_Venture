@@ -1,0 +1,11 @@
+{
+  "id": "toison_crepitante",
+  "nom": "Toison crépitante",
+  "type": "ressource",
+  "rarete": "commun",
+  "niveau": 1,
+  "description": "Elle grésille encore. Ne la portez pas sous l'orage.",
+  "caracteristique": "agilite",
+  "famille": "belier_des_cimes",
+  "zone": "brumerive"
+}

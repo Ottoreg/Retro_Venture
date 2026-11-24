@@ -1,0 +1,27 @@
+{
+  "id": "esprit_rafale",
+  "nom": "Rafale",
+  "description": "Un vent qui a pris de mauvaises habitudes. Il pousse.",
+  "cout_pa": 4,
+  "portee": {
+    "min": 2,
+    "max": 6
+  },
+  "ligne_de_vue": true,
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "tempete",
+      "min": 4,
+      "max": 6
+    },
+    {
+      "type": "poussee",
+      "min": 2,
+      "max": 2
+    }
+  ]
+}

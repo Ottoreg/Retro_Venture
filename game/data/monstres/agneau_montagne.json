@@ -1,0 +1,48 @@
+{
+  "id": "agneau_montagne",
+  "nom": "Agneau-Montagne",
+  "description": "On l'a d'abord pris pour une colline. Puis la colline a bêlé.",
+  "palier": 1,
+  "caracteristiques": {
+    "pv": 42,
+    "pa": 6,
+    "pm": 4,
+    "initiative": 85,
+    "force": 10
+  },
+  "resistances": {
+    "acier": 20,
+    "flamme": -5
+  },
+  "sorts": [
+    "agneau_coup_de_tete",
+    "agneau_belement",
+    "belier_coup_de_corne"
+  ],
+  "ia": "basique",
+  "xp": 40,
+  "butin": [
+    {
+      "objet": "laine_d_agneau_geant",
+      "taux": 0.9,
+      "quantite": [
+        2,
+        4
+      ]
+    },
+    {
+      "objet": "sabot_d_agneau",
+      "taux": 0.6,
+      "quantite": [
+        1,
+        2
+      ]
+    }
+  ],
+  "ecus": [
+    5,
+    12
+  ],
+  "elite": true,
+  "famille": "agneau_geant"
+}

@@ -51,6 +51,11 @@ chef du village sur la Place du village, première quête de la chaîne du camp.
 
 ## 2. Les Hauts-Perchés (Géants, à l'ouest)
 
+**Produits le 24/11/2026** (`sz_hauts_perches.py`, à valider) : cartes `brumerive_-1_0` (Seuil) à `brumerive_-2_2`
+(Aire du Doyen) ; `hauts_perches_x_y` ci-dessous = `brumerive_(-1-x)_y`. Élites ajoutées : Agneau-Montagne (agneaux),
+Grand Esprit des cimes (esprits). PNJ : Haute-Borne explique la forge, Grand-Toise Marbre les Voies, Troque-Montagne marchande.
+*Ambassade* se termine chez le bourgmestre Pansu. Apparences et icônes provisoires reprises des dessins existants.
+
 ```
 y=0  [Corniche aux Moutons 1] ── [Seuil des Géants 1 *] ⇢ Place du village (brumerive_0_0)
           │                              │

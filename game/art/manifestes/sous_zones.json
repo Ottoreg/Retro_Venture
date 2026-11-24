@@ -74,6 +74,44 @@
       "planche": "sprites/orc_demoniste.png",
       "echelle": 1.45,
       "teinte": "ffd0b0"
+    },
+    "agneau_geant": {
+      "image": "loup",
+      "echelle": 0.8,
+      "teinte": "f4f0e0"
+    },
+    "agneau_montagne": {
+      "image": "loup",
+      "echelle": 1.0,
+      "teinte": "e0d8c0"
+    },
+    "belier_des_cimes": {
+      "image": "cerf",
+      "echelle": 0.8,
+      "teinte": "d0d8e8"
+    },
+    "grand_belier_corne_de_brume": {
+      "image": "cerf",
+      "echelle": 1.0,
+      "teinte": "b0c0e0"
+    },
+    "esprit_des_bourrasques": {
+      "image": "rat",
+      "planche": "sprites/arkhe_tempete_arcaniste.png",
+      "echelle": 0.95,
+      "teinte": "c8e0ff"
+    },
+    "grand_esprit_des_cimes": {
+      "image": "rat",
+      "planche": "sprites/arkhe_tempete_arcaniste.png",
+      "echelle": 1.15,
+      "teinte": "a8c8ff"
+    },
+    "doyen_lentissime": {
+      "image": "rat",
+      "planche": "sprites/geant_paladin.png",
+      "echelle": 1.1,
+      "teinte": "e8e8f0"
     }
   },
   "images": {
@@ -177,6 +215,55 @@
     },
     "objet_machoire_de_gorgrak": {
       "fichier": "objets/corne_du_balourd.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_laine_d_agneau_geant": {
+      "fichier": "objets/fil_de_brume.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_sabot_d_agneau": {
+      "fichier": "objets/coeur_de_pierre.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_toison_crepitante": {
+      "fichier": "objets/poil_scintillant.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_corne_spiralee": {
+      "fichier": "objets/corne_du_balourd.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_souffle_en_bouteille": {
+      "fichier": "objets/gnole_de_raid.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_plume_de_bourrasque": {
+      "fichier": "objets/plume_de_corbac.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_barbe_du_doyen": {
+      "fichier": "objets/poil_de_criniere_leonin.svgt",
       "ancre": [
         22,
         22
@@ -288,6 +375,54 @@
         "manches": "5a2e1a",
         "pantalon": "3e2a1e",
         "cheveux": "c8c8c0"
+      }
+    },
+    "gardienne_haute_borne": {
+      "rig": "humain",
+      "race": "geant",
+      "couleurs": {
+        "tunique": "3a5a7a",
+        "manches": "4a5a3e",
+        "pantalon": "3e4a36",
+        "ceinture": "c9a04e"
+      }
+    },
+    "grand_toise_marbre": {
+      "rig": "humain",
+      "race": "geant",
+      "couleurs": {
+        "tunique": "6a3a5a",
+        "manches": "4a5a3e",
+        "pantalon": "3e4a36",
+        "ceinture": "e0b860"
+      }
+    },
+    "troque_montagne": {
+      "rig": "humain",
+      "race": "geant",
+      "couleurs": {
+        "tunique": "7a6040",
+        "manches": "4a5a3e",
+        "pantalon": "3e4a36"
+      }
+    },
+    "berger_petit_pas": {
+      "rig": "humain",
+      "couleurs": {
+        "tunique": "8a7a5a",
+        "manches": "6a5a40",
+        "pantalon": "4a4030",
+        "cheveux": "6a4a2a"
+      }
+    },
+    "charpentier_toise": {
+      "rig": "humain",
+      "race": "geant",
+      "couleurs": {
+        "tunique": "7a5a3a",
+        "manches": "4a5a3e",
+        "pantalon": "3e4a36",
+        "ceinture": "5a4a30"
       }
     }
   }

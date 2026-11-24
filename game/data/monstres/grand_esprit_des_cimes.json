@@ -1,0 +1,50 @@
+{
+  "id": "grand_esprit_des_cimes",
+  "nom": "Grand Esprit des cimes",
+  "description": "Le vent dominant. Il le fait savoir, en soufflant les toits.",
+  "palier": 2,
+  "caracteristiques": {
+    "pv": 95,
+    "pa": 7,
+    "pm": 4,
+    "initiative": 120,
+    "agilite": 28,
+    "intelligence": 16
+  },
+  "resistances": {
+    "tempete": 30,
+    "acier": 15,
+    "flamme": -10
+  },
+  "sorts": [
+    "esprit_rafale",
+    "esprit_tourbillon",
+    "agneau_belement"
+  ],
+  "ia": "distance",
+  "xp": 230,
+  "butin": [
+    {
+      "objet": "souffle_en_bouteille",
+      "taux": 0.9,
+      "quantite": [
+        2,
+        4
+      ]
+    },
+    {
+      "objet": "plume_de_bourrasque",
+      "taux": 0.5,
+      "quantite": [
+        1,
+        2
+      ]
+    }
+  ],
+  "ecus": [
+    20,
+    40
+  ],
+  "elite": true,
+  "famille": "esprit_des_bourrasques"
+}

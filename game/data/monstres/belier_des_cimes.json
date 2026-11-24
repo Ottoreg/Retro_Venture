@@ -1,0 +1,43 @@
+{
+  "id": "belier_des_cimes",
+  "nom": "Bélier des cimes",
+  "description": "Il se frotte aux nuages d'orage pour charger sa laine. Il charge, d'ailleurs.",
+  "palier": 1,
+  "caracteristiques": {
+    "pv": 30,
+    "pa": 6,
+    "pm": 3,
+    "initiative": 80,
+    "agilite": 8
+  },
+  "resistances": {
+    "tempete": 20,
+    "givre": -15
+  },
+  "sorts": [
+    "belier_charge_laineuse",
+    "belier_coup_de_corne",
+    "belier_toison_electrique"
+  ],
+  "ia": "basique",
+  "xp": 30,
+  "butin": [
+    {
+      "objet": "toison_crepitante",
+      "taux": 0.55,
+      "quantite": [
+        1,
+        2
+      ]
+    },
+    {
+      "objet": "corne_spiralee",
+      "taux": 0.15
+    }
+  ],
+  "ecus": [
+    3,
+    8
+  ],
+  "mot": "de Bélier"
+}

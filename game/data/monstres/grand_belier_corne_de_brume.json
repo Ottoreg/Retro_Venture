@@ -1,0 +1,51 @@
+{
+  "id": "grand_belier_corne_de_brume",
+  "nom": "Grand Bélier Corne-de-Brume",
+  "description": "Ses cornes percent la brume. Et le reste.",
+  "palier": 2,
+  "caracteristiques": {
+    "pv": 85,
+    "pa": 7,
+    "pm": 3,
+    "initiative": 105,
+    "agilite": 22,
+    "force": 8
+  },
+  "resistances": {
+    "tempete": 25,
+    "acier": 10,
+    "givre": -10
+  },
+  "sorts": [
+    "belier_charge_laineuse",
+    "belier_coup_de_corne",
+    "belier_toison_electrique",
+    "agneau_belement"
+  ],
+  "ia": "basique",
+  "xp": 150,
+  "butin": [
+    {
+      "objet": "toison_crepitante",
+      "taux": 0.9,
+      "quantite": [
+        2,
+        4
+      ]
+    },
+    {
+      "objet": "corne_spiralee",
+      "taux": 0.6,
+      "quantite": [
+        1,
+        2
+      ]
+    }
+  ],
+  "ecus": [
+    12,
+    26
+  ],
+  "elite": true,
+  "famille": "belier_des_cimes"
+}

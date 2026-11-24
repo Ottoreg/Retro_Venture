@@ -1,0 +1,49 @@
+{
+  "id": "hauts_perches_compte_des_moutons",
+  "nom": "Le compte des moutons",
+  "categorie": "principale",
+  "acte": 1,
+  "niveau": 1,
+  "pnj": "gardienne_haute_borne",
+  "description": "Trois agneaux géants se sont échappés. À votre taille, ça se rattrape.",
+  "conditions": {
+    "race": "geant"
+  },
+  "etapes": [
+    {
+      "objectifs": [
+        {
+          "type": "vaincre",
+          "monstre": "agneau_geant",
+          "nombre": 3
+        }
+      ]
+    },
+    {
+      "objectifs": [
+        {
+          "type": "parler",
+          "pnj": "gardienne_haute_borne"
+        }
+      ]
+    }
+  ],
+  "dialogues": {
+    "gardienne_haute_borne": {
+      "proposition": [
+        "Petit, je compte les moutons. Il en manque trois. Ce sont des agneaux : ils sont seulement de la taille d'un cheval.",
+        "Ramenez-les à la raison. Un combat suffit, en général. Ils sont têtus, pas méchants."
+      ],
+      "en_cours": [
+        "J'en compte toujours trois de moins. Ou alors je me suis endormie en comptant."
+      ],
+      "fin": [
+        "Le compte est bon. Vous avez la carrure, et le reste viendra."
+      ]
+    }
+  },
+  "recompenses": {
+    "xp_cr": 3,
+    "ecus": 30
+  }
+}

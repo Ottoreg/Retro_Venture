@@ -1,0 +1,51 @@
+{
+  "id": "hauts_perches_mot_de_la_fin",
+  "nom": "Le mot de la fin",
+  "categorie": "secondaire",
+  "niveau": 12,
+  "pnj": "berger_petit_pas",
+  "description": "Le Doyen Lentissime n'a jamais fini sa phrase. Quelqu'un doit l'y aider.",
+  "conditions": {
+    "une_quete_terminee": [
+      "brumerive_tutoriel",
+      "crasse_roc_tutoriel",
+      "sylvebrume_tutoriel"
+    ]
+  },
+  "etapes": [
+    {
+      "objectifs": [
+        {
+          "type": "vaincre_groupe",
+          "monstre": "doyen_lentissime",
+          "texte": "Aider le Doyen à finir sa phrase, sur son aire"
+        }
+      ]
+    },
+    {
+      "objectifs": [
+        {
+          "type": "parler",
+          "pnj": "berger_petit_pas"
+        }
+      ]
+    }
+  ],
+  "dialogues": {
+    "berger_petit_pas": {
+      "proposition": [
+        "Le Doyen, sur son aire, a commencé une phrase il y a quarante ans. Ça rend tout le monde nerveux. Aidez-le à la finir."
+      ],
+      "en_cours": [
+        "Il en est toujours à « Jeune… voyageur… »."
+      ],
+      "fin": [
+        "Il l'a finie ? « Dégage » ? Quarante ans pour ça. Bon. Merci quand même."
+      ]
+    }
+  },
+  "recompenses": {
+    "xp_cr": 6,
+    "ecus": 120
+  }
+}

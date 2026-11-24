@@ -1,0 +1,46 @@
+{
+  "id": "hauts_perches_ambassade",
+  "nom": "Ambassade",
+  "categorie": "principale",
+  "acte": 1,
+  "niveau": 4,
+  "pnj": "gardienne_haute_borne",
+  "description": "Les humains d'en bas ont peur des géants. Il faut aller les rassurer. Doucement.",
+  "conditions": {
+    "race": "geant",
+    "quetes_terminees": [
+      "hauts_perches_plafond_trop_bas"
+    ]
+  },
+  "etapes": [
+    {
+      "objectifs": [
+        {
+          "type": "parler",
+          "pnj": "bourgmestre_pansu",
+          "texte": "Rassurer le bourgmestre, sur la Place du village"
+        }
+      ]
+    }
+  ],
+  "dialogues": {
+    "gardienne_haute_borne": {
+      "proposition": [
+        "Les humains de Brumerive nous voient arriver et se cachent sous leurs tables. Allez les rassurer.",
+        "Le bourgmestre Pansu, sur la Place du village, à l'est. Baissez-vous en entrant, et parlez doucement."
+      ],
+      "en_cours": [
+        "L'est, petit. Là où les maisons sont toutes petites."
+      ]
+    },
+    "bourgmestre_pansu": {
+      "fin": [
+        "Un g… géant ? Ah, vous êtes gentil. Très bien. Très, très bien. Brumerive a toujours besoin de bras. Et de hauteur."
+      ]
+    }
+  },
+  "recompenses": {
+    "xp_cr": 5,
+    "ecus": 60
+  }
+}

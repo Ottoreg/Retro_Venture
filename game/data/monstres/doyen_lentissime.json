@@ -1,0 +1,79 @@
+{
+  "id": "doyen_lentissime",
+  "nom": "Le Doyen Lentissime",
+  "description": "Ancien gardien géant, devenu fou d'impatience… envers lui-même. Il n'a jamais fini une phrase.",
+  "palier": 2,
+  "caracteristiques": {
+    "pv": 300,
+    "pa": 6,
+    "pm": 2,
+    "initiative": 60,
+    "force": 20,
+    "agilite": 20
+  },
+  "resistances": {
+    "acier": 20,
+    "tempete": 20,
+    "flamme": -20
+  },
+  "sorts": [
+    "doyen_coup_de_baton",
+    "doyen_pietinement"
+  ],
+  "ia": "basique",
+  "xp": 760,
+  "butin": [
+    {
+      "objet": "barbe_du_doyen",
+      "taux": 1.0
+    }
+  ],
+  "ecus": [
+    90,
+    150
+  ],
+  "boss": true,
+  "mot": "du Doyen",
+  "phases": [
+    {
+      "pv": 70,
+      "message": "« Jeune… voyageur… le vent… » Le Doyen appelle les bourrasques, faute de mots.",
+      "sorts": [
+        "doyen_souffle_des_cimes",
+        "doyen_grele"
+      ],
+      "effets": [
+        {
+          "type": "bonus",
+          "carac": "portee",
+          "min": 1,
+          "max": 1,
+          "duree": 3
+        }
+      ]
+    },
+    {
+      "pv": 30,
+      "message": "« …et donc… DÉGAGE ! » Le Doyen a enfin fini sa phrase.",
+      "sorts": [
+        "doyen_et_donc_degage"
+      ],
+      "effets": [
+        {
+          "type": "bonus",
+          "carac": "pm",
+          "min": 3,
+          "max": 3,
+          "duree": 3
+        },
+        {
+          "type": "bonus",
+          "carac": "degats_infliges",
+          "min": 25,
+          "max": 25,
+          "duree": 3
+        }
+      ]
+    }
+  ]
+}

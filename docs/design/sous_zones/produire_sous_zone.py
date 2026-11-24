@@ -23,9 +23,9 @@ def ecrire(chemin, donnees):
         json.dump(donnees, f, ensure_ascii=False, indent=2)
         f.write("\n")
 
-def sort(id, nom, desc, pa, portee, effets, par_tour=1, delai=0, zone=None, ldv=True):
+def sort(id, nom, desc, pa, portee, effets, par_tour=1, delai=0, zone=None, ldv=True, en_ligne=False):
     s = {"id": id, "nom": nom, "description": desc, "cout_pa": pa, "portee": {"min": portee[0], "max": portee[1]},
-         "ligne_de_vue": ldv, "relance": {"par_tour": par_tour} | ({"delai": delai} if delai else {}), "effets": effets}
+         "ligne_de_vue": ldv} | ({"lancer_en_ligne": True} if en_ligne else {}) | {"relance": {"par_tour": par_tour} | ({"delai": delai} if delai else {}), "effets": effets}
     if zone:
         s["zone"] = zone
     return s
@@ -132,8 +132,10 @@ def produire(sz):
             ouvrir(existante, OPPOSE[cote], f"{zone}_{x}_{y}")
         plan, portes = dessiner(c, sz, sorties, sum(map(ord, c["nom"])))
         texte = plan.texte()
-        carte = {"id": f"{zone}_{x}_{y}", "nom": f"{sz['prefixe']} — {c['nom']}", "palette": c.get("palette", sz["palette"]),
-                 "sorties": sorties}
+        carte = {"id": f"{zone}_{x}_{y}", "nom": f"{sz['prefixe']} — {c['nom']}"}
+        if c.get("palette", sz["palette"]):
+            carte["palette"] = c.get("palette", sz["palette"])
+        carte["sorties"] = sorties
         if portes:
             carte["portes"] = portes
         carte["plan"] = texte

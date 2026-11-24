@@ -1,0 +1,11 @@
+{
+  "id": "laine_d_agneau_geant",
+  "nom": "Laine d'agneau géant",
+  "type": "ressource",
+  "rarete": "commun",
+  "niveau": 1,
+  "description": "Assez pour un pull. Un pull de géant, donc un seul brin.",
+  "caracteristique": "force",
+  "famille": "agneau_geant",
+  "zone": "brumerive"
+}

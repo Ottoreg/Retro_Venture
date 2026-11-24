@@ -1,0 +1,11 @@
+{
+  "id": "plume_de_bourrasque",
+  "nom": "Plume de bourrasque",
+  "type": "ressource",
+  "rarete": "peu_commun",
+  "niveau": 2,
+  "description": "Elle ne tombe jamais. Elle remonte.",
+  "caracteristique": "vitalite",
+  "famille": "esprit_des_bourrasques",
+  "zone": "brumerive"
+}
