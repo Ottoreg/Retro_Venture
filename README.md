@@ -21,7 +21,7 @@ a été ajouté depuis, avant de retravailler le fond des mécaniques, des class
 
 **Déjà jouable**
 
-- **Monde** : trois zones de départ (Brumerive, Crasse-Roc, Sylvebrume ; une par camp, agrandies d'une sous-zone par race : l'Ossuaire des squelettes, au nord de Crasse-Roc, la Fosse aux Braillards des orcs, à l'est, les Hauts-Perchés des géants, à l'ouest de Brumerive, le Comptoir de Barbe-Fendue des nains, au nord, et à Sylvebrume le Bois-Farceur des mycéliens et les Sources primordiales des arkhés sont faits) et la ville de Hautepierre, monstres à
+- **Monde** : trois zones de départ (Brumerive, Crasse-Roc, Sylvebrume ; une par camp, agrandies d'une sous-zone par race : l'Ossuaire des squelettes, au nord de Crasse-Roc, la Fosse aux Braillards des orcs, à l'est, les Hauts-Perchés des géants, à l'ouest de Brumerive, le Comptoir de Barbe-Fendue des nains, au nord, et à Sylvebrume le Bois-Farceur des mycéliens et les Sources primordiales des arkhés sont faits), les Grandes Plaines (17 cartes de steppe au sud-ouest de Hautepierre, encore sans monstres) et la ville de Hautepierre, monstres à
   paliers de monstres (1 à 5), mini-boss à phases, Pierres de Passage, minicarte et carte du monde façon Dofus Rétro ;
   une Tour céleste réduite (5 étages, clé de Cupidon, Archange Raphaël au sommet, son Calice en récompense).
 - **Combat tactique** : cases de placement, coups critiques, poison, glyphes et pièges, poussée, mode tactique,

@@ -353,6 +353,9 @@ Dernière session (retours de la passe de l'auteur) :
   `maison_bois_farceur`, quête `bois_farceur_dementi` ; quêtes de race `QUETES_RACE` écrites, à produire quand la race existera)
   et Sources primordiales des arkhés (`sylvebrume_0_-1` à `1_-3`, `maison_sources`, 4 quêtes `sources_*`) faits le 24/11/2026 ;
   condition de quête `race` remplie aussi par les variantes (`variante_de`, `QuestBook.is_available`).
+- **Grandes Plaines** (24/11/2026, demande de l'auteur) : 15 cartes de steppe de plus au sud-ouest de Hautepierre
+  (`grandesplaines_-4_0` à `0_3`, 17 en tout, toutes reliées entre voisines), relief, eau et récolte (agriculteur, herboriste,
+  un peu de bois et de minerai), sans monstres ni PNJ ; `docs/design/grandes_plaines/plaines.py`.
 - Le pseudo choisi est déjà utilisé partout ; « Aventurier » (`World.DEFAULT_NAME`) n'apparaît
   que dans les tests et les captures, sans écran de création.
 

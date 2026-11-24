@@ -2,7 +2,9 @@
   "id": "grandesplaines_-1_0",
   "nom": "Grandes Plaines — Courses d'Ampas",
   "sorties": {
-    "droite": "grandesplaines_0_0"
+    "droite": "grandesplaines_0_0",
+    "gauche": "grandesplaines_-2_0",
+    "bas": "grandesplaines_-1_1"
   },
   "plan": [
     "AAAAAAAAAAAAAAAAAAA",

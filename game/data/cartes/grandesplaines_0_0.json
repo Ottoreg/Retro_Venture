@@ -2,7 +2,8 @@
   "id": "grandesplaines_0_0",
   "nom": "Grandes Plaines — Caravane marchande",
   "sorties": {
-    "gauche": "grandesplaines_-1_0"
+    "gauche": "grandesplaines_-1_0",
+    "bas": "grandesplaines_0_1"
   },
   "portes": [
     "hautepierre_0_3"

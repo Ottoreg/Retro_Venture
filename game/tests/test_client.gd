@@ -1359,7 +1359,7 @@ func test_minicarte_dans_une_maison_et_au_trone_de_cendre() -> void:
 	minimap = scene.get_node("Minimap")
 	assert_eq(minimap.center_map(), "cendre_0_0")
 	assert_eq(minimap._zone_name.text, "Trône de Cendre")
-	assert_eq(minimap.shown_layout()["cases"].size(), 2, "seule de sa zone : la Tour céleste à deux cases")
+	assert_eq(minimap.shown_layout()["cases"].size(), 3, "seule de sa zone : les cartes des autres zones posées à moins de deux cases")
 	scene.free()
 	# Couleurs de base pour les tests suivants.
 	Art.palette = ""
