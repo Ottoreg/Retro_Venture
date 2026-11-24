@@ -1,19 +1,22 @@
 # Crasse-Roc agrandie : sous-zones des Orcs et des Squelettes
 
-Proposition détaillée du 23/11/2026, **à valider par l'auteur** (GDD § 3.5 « Une zone de départ par camp »).
+Proposition détaillée du 23/11/2026 ; **Ossuaire produit le 24/11/2026, à valider** (production une sous-zone à la fois,
+`produire_sous_zone.py`, données `sz_ossuaire.py`) (GDD § 3.5 « Une zone de départ par camp »).
 Rien n'est produit. Gabarit de chaque sous-zone : 6 cartes, paliers 1 et 2, 3 familles, une élite, un mini-boss,
 3 quêtes de race. Valeurs provisoires, à l'échelle des monstres actuels de Crasse-Roc (palier 1 : 14 à 26 PV,
 palier 2 : environ 50 PV, mini-boss : 300 PV).
 
 ## Règles communes
 
-- **Identifiants** : `braillards_x_y` et `ossuaire_x_y` (préfixe propre, comme une zone ; la région affichée,
-  la carte du monde et la zone de forge restent Crasse-Roc).
+- **Identifiants** : les cartes gardent l'id de la zone (`crasse_roc_x_y`) : la carte du monde exige des sorties entre
+  cartes voisines d'une même zone. L'ouest de Crasse-Roc étant occupé par Hautepierre, **l'Ossuaire est au nord**.
+- **Élites** : une par famille (règle du jeu), soit 3 par sous-zone.
+- **Apparences et icônes provisoires** : planches des races et dessins existants teintés, icônes d'objets reprises.
 - **Pierre de Passage, maison et enclume** dans chaque carte de départ (décision de l'auteur du 23/11/2026) :
-  Pierres `braillards` et `ossuaire` (10 brumes, comme les autres zones de départ), connue dès la création pour sa race.
+  Pierres `crasse_roc_braillards` et `crasse_roc_ossuaire` (10 brumes, comme les autres zones de départ), connue dès la création pour sa race.
 - **Ressources de monstres** (forge) : une par famille, même procédé que les autres (`docs/design/forge/produire.py`),
   en gardant l'équilibre général (paliers, éléments, matières).
-- **Départ** : `carte_depart` des orcs = `braillards_0_0`, des squelettes (petit et grand) = `ossuaire_0_0`.
+- **Départ** : `carte_depart` des orcs = `crasse_roc_3_0`, des squelettes (petit et grand) = `crasse_roc_0_-1`.
   Les gobelins ne changent pas.
 - **Quêtes** : les trois quêtes de race portent la condition `race` (déjà gérée par `core/quests/`) ;
   la dernière envoie le joueur à l'Entrée des galeries, où commence la chaîne commune du camp ennemi.
@@ -87,6 +90,24 @@ y=2  [Crypte du Colonel ☠ 2] ─── [Charnier des Gradés 2]
 
 Ambiance : un vieux champ de bataille et ses catacombes, où les soldats de la Première Ombre, relevés par le
 Souverain Cendré, attendent une retraite qu'on ne leur versera jamais. Les gradés morts font encore l'appel.
+
+**Produit** (24/11/2026), au nord de Crasse-Roc :
+
+```
+y=-3 [Charnier des Gradés 0_-3] ─ ─ [Crypte du Colonel ☠ 1_-3]   (le Charnier ne mène qu'aux Catacombes)
+          │                                   │
+y=-2 [Catacombes de l'Appel 0_-2] ── [Caisse de retraite 1_-2]
+          │                                   │
+y=-1 [Grille de l'Ossuaire 0_-1 *] ── [Champ des Croix 1_-1]
+          │                                   │
+y=0  Entrée des galeries (0_0)          Le Crassier (1_0)
+```
+
+Élites ajoutées : **Fémur du Général** (os errants) et **Grande Pleureuse** (pleureuses) ; l'Adjudant Rotule reste
+celle des vétérans. Ressources : esquille d'os, moelle fossile, larme gelée, voile de deuil, plaque rouillée, médaille
+de service, épaulette du Colonel. Quêtes : `ossuaire_appel_du_matin`, `ossuaire_dossier_de_retraite`,
+`ossuaire_reaffectation` (vers Grumm), `ossuaire_demobilisation` (secondaire, ouverte à tous après un tutoriel).
+Les ids de cartes du tableau ci-dessous (`ossuaire_x_y`) sont ceux de la conception, remplacés par ceux du schéma.
 
 ### Cartes
 

@@ -1,0 +1,28 @@
+{
+  "id": "pleureuse_complainte",
+  "nom": "Complainte",
+  "description": "Une plainte si triste que les os eux-mêmes frissonnent.",
+  "cout_pa": 3,
+  "portee": {
+    "min": 1,
+    "max": 4
+  },
+  "ligne_de_vue": true,
+  "relance": {
+    "par_tour": 1,
+    "delai": 2
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "givre",
+      "min": 3,
+      "max": 5,
+      "cibles": "ennemis"
+    }
+  ],
+  "zone": {
+    "type": "cercle",
+    "taille": 1
+  }
+}

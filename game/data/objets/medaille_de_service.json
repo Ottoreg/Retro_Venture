@@ -1,0 +1,11 @@
+{
+  "id": "medaille_de_service",
+  "nom": "Médaille de service",
+  "type": "ressource",
+  "rarete": "peu_commun",
+  "niveau": 2,
+  "description": "« Trois siècles de bons et loyaux services. » Aucune pension associée.",
+  "caracteristique": "intelligence",
+  "famille": "veteran_de_la_premiere_ombre",
+  "zone": "crasse_roc"
+}

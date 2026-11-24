@@ -1,0 +1,11 @@
+{
+  "id": "voile_de_deuil",
+  "nom": "Voile de deuil",
+  "type": "ressource",
+  "rarete": "peu_commun",
+  "niveau": 1,
+  "description": "Noir, léger, et toujours un peu humide.",
+  "caracteristique": "vitalite",
+  "famille": "pleureuse_de_l_ossuaire",
+  "zone": "crasse_roc"
+}

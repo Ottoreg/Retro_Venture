@@ -1,0 +1,33 @@
+{
+  "id": "veteran_garde_a_vous",
+  "nom": "Garde-à-vous",
+  "description": "Le dos droit, la mâchoire serrée (elle tient mal).",
+  "cout_pa": 2,
+  "portee": {
+    "min": 0,
+    "max": 0
+  },
+  "ligne_de_vue": true,
+  "relance": {
+    "par_tour": 1,
+    "delai": 2
+  },
+  "effets": [
+    {
+      "type": "bonus",
+      "carac": "resistance",
+      "min": 15,
+      "max": 15,
+      "duree": 1,
+      "element": "acier"
+    },
+    {
+      "type": "bonus",
+      "carac": "resistance",
+      "min": 15,
+      "max": 15,
+      "duree": 1,
+      "element": "givre"
+    }
+  ]
+}

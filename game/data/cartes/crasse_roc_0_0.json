@@ -4,14 +4,15 @@
   "palette": "crasse_roc",
   "sorties": {
     "droite": "crasse_roc_1_0",
-    "bas": "crasse_roc_0_1"
+    "bas": "crasse_roc_0_1",
+    "haut": "crasse_roc_0_-1"
   },
   "portes": [
     "maison_crasse_roc"
   ],
   "plan": [
-    "RRRRRRAAARRRRRRAAAA",
-    " R....R...RR....R.R",
+    "RRRRRRA.....RRRAAAA",
+    " R....R.........R.R",
     "R.................R",
     " F................A",
     "R.................R",

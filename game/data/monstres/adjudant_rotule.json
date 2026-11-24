@@ -1,0 +1,51 @@
+{
+  "id": "adjudant_rotule",
+  "nom": "Adjudant Rotule",
+  "description": "Il fait l'appel. Tous les matins. Depuis trois cents ans. Personne n'a jamais été absent.",
+  "palier": 2,
+  "caracteristiques": {
+    "pv": 100,
+    "pa": 7,
+    "pm": 3,
+    "initiative": 120,
+    "force": 28,
+    "agilite": 28
+  },
+  "resistances": {
+    "acier": 20,
+    "impie": 15,
+    "flamme": -5
+  },
+  "sorts": [
+    "veteran_lance_rouillee",
+    "veteran_javelot_de_service",
+    "rotule_appel",
+    "rotule_corvee"
+  ],
+  "ia": "soutien",
+  "xp": 230,
+  "butin": [
+    {
+      "objet": "plaque_rouillee",
+      "taux": 0.9,
+      "quantite": [
+        2,
+        4
+      ]
+    },
+    {
+      "objet": "medaille_de_service",
+      "taux": 0.5,
+      "quantite": [
+        1,
+        2
+      ]
+    }
+  ],
+  "ecus": [
+    20,
+    40
+  ],
+  "elite": true,
+  "famille": "veteran_de_la_premiere_ombre"
+}

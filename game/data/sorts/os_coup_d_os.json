@@ -1,0 +1,22 @@
+{
+  "id": "os_coup_d_os",
+  "nom": "Coup d'os",
+  "description": "Il frappe avec lui-même. Ça fait mal aux deux.",
+  "cout_pa": 3,
+  "portee": {
+    "min": 1,
+    "max": 1
+  },
+  "ligne_de_vue": true,
+  "relance": {
+    "par_tour": 2
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "impie",
+      "min": 3,
+      "max": 5
+    }
+  ]
+}

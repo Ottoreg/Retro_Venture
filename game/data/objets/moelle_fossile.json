@@ -1,0 +1,11 @@
+{
+  "id": "moelle_fossile",
+  "nom": "Moelle fossile",
+  "type": "ressource",
+  "rarete": "peu_commun",
+  "niveau": 1,
+  "description": "Trois siècles d'âge. Toujours nourrissante, paraît-il.",
+  "caracteristique": "vitalite",
+  "famille": "os_errant",
+  "zone": "crasse_roc"
+}

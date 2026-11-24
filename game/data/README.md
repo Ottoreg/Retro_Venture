@@ -217,7 +217,7 @@ ramène d'où l'on vient (les tests vérifient que chaque porte a sa réciproque
   chaque entrée d'après l'état gardé dans son métier ; on y entre par un PNJ `entree` (commis du Cadastre), ouvert à
   2 500 de réputation du métier.
 - Chaque zone de départ a sa maison (`maison_joueur` à Brumerive, `maison_crasse_roc`,
-  `maison_sylvebrume`) ; le coffre est le même partout (il appartient au personnage).
+  `maison_sylvebrume`), comme chaque sous-zone de race (`maison_ossuaire`, GDD § 3.5) ; le coffre est le même partout (il appartient au personnage).
 - La maison contient un coffre `$` (on y range des objets non portés), un lit `=` (dormir rend tous
   les PV) et une enclume `&` (la forge, ci-dessous). On les utilise depuis une case voisine.
 

@@ -1,0 +1,51 @@
+{
+  "id": "ossuaire_demobilisation",
+  "nom": "Démobilisation",
+  "categorie": "secondaire",
+  "niveau": 12,
+  "pnj": "fossoyeur_pelle_a_vide",
+  "description": "Le Colonel Ossature refuse de prendre sa retraite. Il va falloir l'y aider.",
+  "conditions": {
+    "une_quete_terminee": [
+      "brumerive_tutoriel",
+      "crasse_roc_tutoriel",
+      "sylvebrume_tutoriel"
+    ]
+  },
+  "etapes": [
+    {
+      "objectifs": [
+        {
+          "type": "vaincre_groupe",
+          "monstre": "colonel_ossature",
+          "texte": "Démobiliser le Colonel Ossature, au fond de la Crypte"
+        }
+      ]
+    },
+    {
+      "objectifs": [
+        {
+          "type": "parler",
+          "pnj": "fossoyeur_pelle_a_vide"
+        }
+      ]
+    }
+  ],
+  "dialogues": {
+    "fossoyeur_pelle_a_vide": {
+      "proposition": [
+        "Le Colonel, au fond de la crypte. Trois siècles qu'il refuse la quille. Il faudrait… l'aider à se décider."
+      ],
+      "en_cours": [
+        "Il est toujours là-bas ? Je l'entends crier « Garde-à-vous ! » d'ici."
+      ],
+      "fin": [
+        "Démobilisé ! Pour un temps, au moins. Il reviendra : ici, tout le monde revient. Mais merci."
+      ]
+    }
+  },
+  "recompenses": {
+    "xp_cr": 6,
+    "ecus": 120
+  }
+}

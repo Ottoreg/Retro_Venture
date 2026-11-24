@@ -21,7 +21,7 @@ a été ajouté depuis, avant de retravailler le fond des mécaniques, des class
 
 **Déjà jouable**
 
-- **Monde** : trois zones de départ (Brumerive, Crasse-Roc, Sylvebrume) et la ville de Hautepierre, monstres à
+- **Monde** : trois zones de départ (Brumerive, Crasse-Roc, Sylvebrume ; une par camp, agrandies d'une sous-zone par race : l'Ossuaire des squelettes, au nord de Crasse-Roc, est fait) et la ville de Hautepierre, monstres à
   paliers de monstres (1 à 5), mini-boss à phases, Pierres de Passage, minicarte et carte du monde façon Dofus Rétro ;
   une Tour céleste réduite (5 étages, clé de Cupidon, Archange Raphaël au sommet, son Calice en récompense).
 - **Combat tactique** : cases de placement, coups critiques, poison, glyphes et pièges, poussée, mode tactique,

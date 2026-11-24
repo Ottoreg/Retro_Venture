@@ -1,0 +1,53 @@
+{
+  "id": "ossuaire_appel_du_matin",
+  "nom": "Appel du matin",
+  "categorie": "principale",
+  "acte": 1,
+  "niveau": 1,
+  "pnj": "sergent_chef_clavicule",
+  "description": "Il vous manque un os. Le Sergent-Chef ne tolère pas une tenue incomplète.",
+  "conditions": {
+    "race": "squelette"
+  },
+  "etapes": [
+    {
+      "objectifs": [
+        {
+          "type": "vaincre",
+          "monstre": "os_errant",
+          "nombre": 3
+        },
+        {
+          "type": "apporter",
+          "objet": "votre_os_manquant",
+          "nombre": 1,
+          "pnj": "sergent_chef_clavicule",
+          "butin": {
+            "monstres": [
+              "os_errant"
+            ],
+            "taux": 0.5
+          }
+        }
+      ]
+    }
+  ],
+  "dialogues": {
+    "sergent_chef_clavicule": {
+      "proposition": [
+        "Soldat ! Il vous manque un os. Là, à gauche. Non, l'autre gauche.",
+        "Les os errants, dehors, en ont sûrement ramassé un. Récupérez le vôtre. Une tenue incomplète, c'est une tenue indigne."
+      ],
+      "en_cours": [
+        "Toujours incomplet, soldat. Je vois à travers vous. Littéralement."
+      ],
+      "fin": [
+        "Voilà. Remis en place. Vous êtes réglementaire. Rompez… mais pas trop."
+      ]
+    }
+  },
+  "recompenses": {
+    "xp_cr": 3,
+    "ecus": 30
+  }
+}

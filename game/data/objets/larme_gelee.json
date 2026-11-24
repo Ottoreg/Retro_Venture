@@ -1,0 +1,11 @@
+{
+  "id": "larme_gelee",
+  "nom": "Larme gelée",
+  "type": "ressource",
+  "rarete": "commun",
+  "niveau": 1,
+  "description": "Une larme de pleureuse. Elle ne fond jamais, elle non plus ne s'arrête pas.",
+  "caracteristique": "perception",
+  "famille": "pleureuse_de_l_ossuaire",
+  "zone": "crasse_roc"
+}

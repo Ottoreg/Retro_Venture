@@ -1,0 +1,149 @@
+{
+  "monstres": {
+    "os_errant": {
+      "image": "rat",
+      "echelle": 0.5,
+      "teinte": "e8e0c8"
+    },
+    "femur_du_general": {
+      "image": "rat",
+      "echelle": 0.6,
+      "teinte": "f0d898"
+    },
+    "pleureuse_de_l_ossuaire": {
+      "image": "rat",
+      "planche": "sprites/squelette_theologue.png",
+      "echelle": 0.95,
+      "teinte": "a8c8e8"
+    },
+    "grande_pleureuse": {
+      "image": "rat",
+      "planche": "sprites/squelette_theologue.png",
+      "echelle": 1.14,
+      "teinte": "88a8e0"
+    },
+    "veteran_de_la_premiere_ombre": {
+      "image": "rat",
+      "planche": "sprites/squelette_guerrier.png",
+      "echelle": 1.05
+    },
+    "adjudant_rotule": {
+      "image": "rat",
+      "planche": "sprites/squelette_paladin.png",
+      "echelle": 1.26
+    },
+    "colonel_ossature": {
+      "image": "rat",
+      "planche": "sprites/squelette_myrmidon.png",
+      "echelle": 1.45,
+      "teinte": "e0e8ff"
+    }
+  },
+  "images": {
+    "objet_esquille_d_os": {
+      "fichier": "objets/dent_de_troll.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_moelle_fossile": {
+      "fichier": "objets/cendre_tiede.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_larme_gelee": {
+      "fichier": "objets/argent_lunaire.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_voile_de_deuil": {
+      "fichier": "objets/fil_de_brume.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_plaque_rouillee": {
+      "fichier": "objets/maillon_de_cotte.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_medaille_de_service": {
+      "fichier": "objets/medaille_en_chocolat.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_epaulette_du_colonel": {
+      "fichier": "objets/ecusson_de_milice.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_votre_os_manquant": {
+      "fichier": "objets/dent_de_rat.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    }
+  },
+  "pnj": {
+    "sergent_chef_clavicule": {
+      "rig": "humain",
+      "race": "squelette",
+      "couleurs": {
+        "tunique": "6a2a2a",
+        "manches": "3a3a42",
+        "pantalon": "2e2e36",
+        "ceinture": "c9a04e"
+      }
+    },
+    "capitaine_sternum": {
+      "rig": "humain",
+      "race": "squelette",
+      "couleurs": {
+        "tunique": "2e4a6e",
+        "manches": "3a3a42",
+        "pantalon": "2e2e36",
+        "ceinture": "e0b860"
+      }
+    },
+    "tibia_troc": {
+      "rig": "humain",
+      "race": "squelette",
+      "couleurs": {
+        "tunique": "7a6040",
+        "manches": "3a3a42",
+        "pantalon": "2e2e36"
+      }
+    },
+    "fossoyeur_pelle_a_vide": {
+      "rig": "humain",
+      "couleurs": {
+        "tunique": "4a4038",
+        "manches": "3a3028",
+        "pantalon": "2e2620",
+        "cheveux": "5a5048"
+      }
+    },
+    "guichetiere_vertebre": {
+      "rig": "humain",
+      "race": "squelette",
+      "couleurs": {
+        "tunique": "5a3a6a",
+        "manches": "3a3a42",
+        "pantalon": "2e2e36"
+      }
+    }
+  }
+}

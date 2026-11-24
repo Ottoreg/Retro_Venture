@@ -1,0 +1,11 @@
+{
+  "id": "epaulette_du_colonel",
+  "nom": "Épaulette du Colonel",
+  "type": "ressource",
+  "rarete": "rare",
+  "niveau": 2,
+  "description": "Les galons d'un homme qui n'a jamais accepté d'être démobilisé.",
+  "caracteristique": "dommages",
+  "famille": "colonel_ossature",
+  "zone": "crasse_roc"
+}

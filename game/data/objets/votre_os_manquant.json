@@ -1,0 +1,8 @@
+{
+  "id": "votre_os_manquant",
+  "nom": "Votre os manquant",
+  "type": "quete",
+  "rarete": "commun",
+  "niveau": 1,
+  "description": "Un os à vous. Vous le reconnaissez à sa forme, et au fait qu'il vous manque."
+}

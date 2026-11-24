@@ -1,0 +1,20 @@
+{
+  "id": "colonel_rompez_les_rangs",
+  "nom": "Rompez les rangs !",
+  "description": "Il s'effondre en tas d'os… et se remonte plus loin.",
+  "cout_pa": 2,
+  "portee": {
+    "min": 1,
+    "max": 4
+  },
+  "ligne_de_vue": true,
+  "relance": {
+    "par_tour": 1,
+    "delai": 1
+  },
+  "effets": [
+    {
+      "type": "teleportation"
+    }
+  ]
+}

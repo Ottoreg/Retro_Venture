@@ -1,0 +1,22 @@
+{
+  "id": "veteran_javelot_de_service",
+  "nom": "Javelot de service",
+  "description": "Le javelot réglementaire. Le même depuis la Première Ombre.",
+  "cout_pa": 4,
+  "portee": {
+    "min": 2,
+    "max": 5
+  },
+  "ligne_de_vue": true,
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "impie",
+      "min": 5,
+      "max": 7
+    }
+  ]
+}

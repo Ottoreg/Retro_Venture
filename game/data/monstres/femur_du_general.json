@@ -1,0 +1,48 @@
+{
+  "id": "femur_du_general",
+  "nom": "Fémur du Général",
+  "description": "Il a appartenu à un général. Il en a gardé les manières.",
+  "palier": 1,
+  "caracteristiques": {
+    "pv": 32,
+    "pa": 6,
+    "pm": 4,
+    "initiative": 85,
+    "agilite": 10
+  },
+  "resistances": {
+    "impie": 15,
+    "flamme": -5
+  },
+  "sorts": [
+    "os_coup_d_os",
+    "os_ricochet",
+    "rotule_corvee"
+  ],
+  "ia": "basique",
+  "xp": 40,
+  "butin": [
+    {
+      "objet": "esquille_d_os",
+      "taux": 0.9,
+      "quantite": [
+        2,
+        4
+      ]
+    },
+    {
+      "objet": "moelle_fossile",
+      "taux": 0.6,
+      "quantite": [
+        1,
+        2
+      ]
+    }
+  ],
+  "ecus": [
+    5,
+    12
+  ],
+  "elite": true,
+  "famille": "os_errant"
+}

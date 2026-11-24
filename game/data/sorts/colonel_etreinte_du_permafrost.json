@@ -1,0 +1,27 @@
+{
+  "id": "colonel_etreinte_du_permafrost",
+  "nom": "Étreinte du permafrost",
+  "description": "Le froid de trois siècles de garde.",
+  "cout_pa": 4,
+  "portee": {
+    "min": 1,
+    "max": 1
+  },
+  "ligne_de_vue": true,
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "givre",
+      "min": 8,
+      "max": 11
+    },
+    {
+      "type": "retrait_pm",
+      "min": 2,
+      "max": 2
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "id": "pleureuse_de_l_ossuaire",
+  "nom": "Pleureuse de l'Ossuaire",
+  "description": "Une veuve fantôme qui pleure tout le monde, même les vivants. Surtout les vivants.",
+  "palier": 1,
+  "caracteristiques": {
+    "pv": 24,
+    "pa": 6,
+    "pm": 3,
+    "initiative": 80,
+    "perception": 8
+  },
+  "resistances": {
+    "givre": 20,
+    "impie": 10,
+    "flamme": -15
+  },
+  "sorts": [
+    "pleureuse_larmes_glacees",
+    "pleureuse_complainte"
+  ],
+  "ia": "distance",
+  "xp": 30,
+  "butin": [
+    {
+      "objet": "larme_gelee",
+      "taux": 0.55,
+      "quantite": [
+        1,
+        2
+      ]
+    },
+    {
+      "objet": "voile_de_deuil",
+      "taux": 0.15
+    }
+  ],
+  "ecus": [
+    3,
+    8
+  ],
+  "mot": "de Pleureuse"
+}

@@ -1,0 +1,11 @@
+{
+  "id": "plaque_rouillee",
+  "nom": "Plaque rouillée",
+  "type": "ressource",
+  "rarete": "commun",
+  "niveau": 2,
+  "description": "Un morceau d'armure réglementaire, modèle Première Ombre.",
+  "caracteristique": "force",
+  "famille": "veteran_de_la_premiere_ombre",
+  "zone": "crasse_roc"
+}

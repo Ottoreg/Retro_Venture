@@ -27,7 +27,7 @@ Prix de boutique : selon la rareté (revente à 25 %).
 - [Sorts de race](#sorts-de-race)
 - [Sorts des monstres](#sorts-des-monstres)
 
-**317 objets** (18 armes, 20 coiffes, 20 capes, 20 amulettes, 20 anneaux, 20 ceintures, 20 bottes, 129 ressources, 37 plans de forge, 7 objets de quête), **57 monstres** et **296 sorts**.
+**325 objets** (18 armes, 20 coiffes, 20 capes, 20 amulettes, 20 anneaux, 20 ceintures, 20 bottes, 136 ressources, 37 plans de forge, 8 objets de quête), **64 monstres** et **309 sorts**.
 
 ## Armes
 
@@ -220,6 +220,7 @@ Prix de boutique : selon la rareté (revente à 25 %).
 | **Cuivre vert-de-gris** | 1 | Rare | +1 Dommages Flamme, minerai | Mineur : Cuivre niv. 1, récolte rare | Un cuivre qui a pris l'air pendant un siècle. Il a de la patine, et de l'opinion. |
 | **Cœur de frêne** | 1 | Rare | +1 % Résistance Tempête, bois | Bûcheron : Frêne niv. 1, récolte rare | Le centre d'un frêne qui a tenu trois tempêtes. Il en garde la souplesse, et la rancune. |
 | **Dent de rat** | 1 | Commun | +1 Agilité | boutique 4 brumes<br>butin : Rat-roi 70 %, Rat des galeries 30 %<br>« Le dentier de Mamie Ratine » : sur Rat des galeries, Rat-roi (50 %) | Jaune, pointue, et encore un peu mordante. |
+| **Esquille d'os** | 1 | Commun | +1 Agilité | boutique 4 brumes<br>butin : Fémur du Général 90 %, Os errant 60 % | Un éclat d'os errant. Il cherche encore son squelette. |
 | **Essence** | 1 | Rare | — | **aucune** | Essence infusée à l'enclume : appliquée à un équipement, elle y ajoute sa caractéristique (ou renforce la ligne). |
 | **Fer météorique** | 1 | Rare | +1 Dommages Acier, minerai | Mineur : Fer niv. 3, récolte rare | Tombé du ciel il y a longtemps. Les gobelins disent que c'était une réclamation. |
 | **Feuille de papier** | 1 | Commun | — | boutique 4 brumes | Posée sur l'enclume, elle reçoit le patron de l'objet forgé. En attendant que l'agriculteur en fasse, les marchands la vendent. |
@@ -228,10 +229,12 @@ Prix de boutique : selon la rareté (revente à 25 %).
 | **Goujon** | 1 | Commun | — | boutique 4 brumes<br>Pêcheur : Remous (goujon) niv. 1 | Petit, gris, et persuadé d'être un brochet. |
 | **Goujon doré** | 1 | Rare | — | Pêcheur : Remous (goujon) niv. 1, récolte rare | Un goujon qui a réussi. Il ne parle plus aux autres. |
 | **Guano luisant** | 1 | Peu commun | +1 % Critique | boutique 12 brumes<br>butin : Vampipistrelle comtesse 48 %, Vampipistrelle 12 %<br>« Guano-culture » : sur Vampipistrelle, Vampipistrelle comtesse (50 %)<br>« Heures supplémentaires (non payées) » : sur Vampipistrelle, Vampipistrelle comtesse (50 %) | De l'or, d'après Gnark. De l'or qui sent mauvais, mais de l'or. |
+| **Larme gelée** | 1 | Commun | +1 Perception | boutique 4 brumes<br>butin : Grande Pleureuse 90 %, Pleureuse de l'Ossuaire 55 % | Une larme de pleureuse. Elle ne fond jamais, elle non plus ne s'arrête pas. |
 | **Lin** | 1 | Commun | +1 Prospection, tissu | boutique 4 brumes<br>Agriculteur : Lin niv. 3 | Fibre souple et bleutée : la base des chemises qui grattent. |
 | **Lin des fées** | 1 | Rare | +1 Portée, tissu | Agriculteur : Lin niv. 3, récolte rare | Si fin qu'on le voit à peine. Les elfes jurent l'avoir inventé. |
 | **Minerai de cuivre** | 1 | Commun | +1 Intelligence, minerai | boutique 4 brumes<br>Mineur : Cuivre niv. 1 | Ça brille un peu, ça verdit beaucoup. |
 | **Minerai de fer** | 1 | Peu commun | +1 Force, minerai | boutique 12 brumes<br>Mineur : Fer niv. 3 | Lourd, terne, indispensable. Comme un garde de Hautepierre. |
+| **Moelle fossile** | 1 | Peu commun | +4 Vitalité | boutique 12 brumes<br>butin : Fémur du Général 60 %, Os errant 15 % | Trois siècles d'âge. Toujours nourrissante, paraît-il. |
 | **Ortie** | 1 | Commun | — | boutique 4 brumes<br>Herboriste : Ortie niv. 1 | Elle pique. C'est sa façon de dire bonjour. |
 | **Ortie royale** | 1 | Rare | — | Herboriste : Ortie niv. 1, récolte rare | Elle pique avec distinction, et exige qu'on la cueille avec des gants brodés. |
 | **Patron** | 1 | Peu commun | — | **aucune** | Patron d'un objet forgé : ses ressources, ses jets et ses effets. |
@@ -246,6 +249,7 @@ Prix de boutique : selon la rareté (revente à 25 %).
 | **Sève ancienne** | 1 | Rare | +1 Intelligence | boutique 35 brumes<br>butin : Arbre millénaire 40 %, Arbre vivant 10 %<br>« Les arbres sont nerveux » : sur Arbre vivant, Arbre millénaire (50 %) | Ambrée, épaisse, plus vieille que Brumerive. |
 | **Trèfle** | 1 | Commun | — | boutique 4 brumes<br>Herboriste : Trèfle niv. 3 | Trois feuilles. Toujours trois. On a compté. |
 | **Trèfle à quatre feuilles** | 1 | Rare | — | Herboriste : Trèfle niv. 3, récolte rare | La chance en personne. Elle a pourtant mis du temps à se montrer. |
+| **Voile de deuil** | 1 | Peu commun | +4 Vitalité | boutique 12 brumes<br>butin : Grande Pleureuse 60 %, Pleureuse de l'Ossuaire 15 % | Noir, léger, et toujours un peu humide. |
 | **Écorce vivante** | 1 | Commun | +1 Agilité | boutique 4 brumes<br>butin : Arbre millénaire 90 %, Arbre vivant 60 % | Elle bouge encore un peu. C'est normal, paraît-il. |
 | **Épi doré** | 1 | Rare | — | Agriculteur : Blé niv. 1, récolte rare | Un épi qui brille au soleil. Personne ne sait s'il se mange ou s'il se porte. |
 | **Avoine** | 2 | Commun | — | boutique 4 brumes<br>Agriculteur : Avoine niv. 8 | Les chevaux en raffolent, les aventuriers s'en contentent. |
@@ -270,11 +274,13 @@ Prix de boutique : selon la rareté (revente à 25 %).
 | **Menthe glaciale** | 2 | Rare | — | Herboriste : Menthe niv. 8, récolte rare | Une feuille et l'haleine gèle. Les dragons la détestent. |
 | **Menthe poivrée** | 2 | Commun | — | boutique 4 brumes<br>Herboriste : Menthe niv. 8 | Fraîche au nez, brûlante au palais. Indécise, comme un elfe au marché. |
 | **Minerai d'étain** | 2 | Commun | +2 Agilité, minerai | boutique 4 brumes<br>Mineur : Étain niv. 8 | Il crie quand on le tord. Si, si : écoutez bien. |
+| **Médaille de service** | 2 | Peu commun | +2 Intelligence | boutique 12 brumes<br>butin : Adjudant Rotule 50 %, Vétéran de la Première Ombre 12 % | « Trois siècles de bons et loyaux services. » Aucune pension associée. |
 | **Médaille en chocolat** | 2 | Peu commun | +2 Intelligence | boutique 12 brumes<br>butin : Défonceur de portes 48 %, Gobelin briseur 12 % | Décernée au briseur du mois. Il en a mangé la moitié pendant la cérémonie. |
 | **Ordre de raid** | 2 | Peu commun | +2 Perception | boutique 12 brumes<br>butin : Pillard émérite 48 %, Gobelin pillard 12 %<br>« Les ordres du raid » : sur Gobelin briseur, Gobelin pillard, Défonceur de portes, Pillard émérite (35 %) | Signé par un Héraut Cendré. L'orthographe est approximative, la menace très claire. |
 | **Paille d'arrêt maladie** | 2 | Commun | +2 Agilité | butin : Épouvantail en arrêt maladie 50 % | Elle tousse encore un peu. |
 | **Paille ensorcelée** | 2 | Commun | +2 Agilité | boutique 4 brumes<br>butin : Grand Épouvantail 90 %, Épouvantail démotivé 60 %<br>« La grève des épouvantails » : sur Épouvantail démotivé, Grand Épouvantail (50 %) | Elle frissonne quand on parle de feu. On la comprend. |
 | **Plan de casse** | 2 | Peu commun | +2 Perception | boutique 12 brumes<br>butin : Défonceur de portes 32 %, Gobelin briseur 8 % | Tout y est : la porte, la masse, l'heure de la pause. |
+| **Plaque rouillée** | 2 | Commun | +2 Force | boutique 4 brumes<br>butin : Adjudant Rotule 90 %, Vétéran de la Première Ombre 50 % | Un morceau d'armure réglementaire, modèle Première Ombre. |
 | **Plume d'ange** | 2 | Commun | +3 Force, +3 Intelligence | butin : Ange 35 % | Tombée pendant une prière un peu trop agitée. |
 | **Registre des heures** | 2 | Peu commun | +1 Dommages | boutique 12 brumes<br>butin : Contremaître en chef 48 %, Contremaître zélé 12 % | Toutes les heures supplémentaires y sont notées. Aucune n'a été payée. |
 | **Sac de rapine** | 2 | Commun | +8 Vitalité | boutique 4 brumes<br>butin : Pillard émérite 88 %, Gobelin pillard 55 % | Dedans : une poule, un chandelier et un seul soulier. |
@@ -284,6 +290,7 @@ Prix de boutique : selon la rareté (revente à 25 %).
 | **Truite** | 2 | Commun | — | boutique 4 brumes<br>Pêcheur : Remous (truite) niv. 8 | Elle remonte le courant par principe. |
 | **Truite saumonée** | 2 | Rare | — | Pêcheur : Remous (truite) niv. 8, récolte rare | Elle se prend pour un saumon. On n'ose pas la contrarier. |
 | **Écusson de milice** | 2 | Peu commun | +2 Force | boutique 12 brumes<br>butin : Sergent de la milice 48 %, Milicien de Hautepierre 12 %<br>« Inspection surprise » : sur Milicien de Hautepierre, Sergent de la milice (50 %) | Une tour blanche sur fond bleu. Les gobelins le collectionnent, les miliciens le regrettent. |
+| **Épaulette du Colonel** | 2 | Rare | +1 Dommages | boutique 35 brumes<br>butin : Le Colonel Ossature 100 % | Les galons d'un homme qui n'a jamais accepté d'être démobilisé. |
 | **Étain chantant** | 2 | Rare | +1 Dommages Tempête, minerai | Mineur : Étain niv. 8, récolte rare | Il crie quand on le plie. Les forgerons trouvent ça touchant ; les voisins, non. |
 | **Aile de Raphaël** | 3 | Rare | +10 Soins Sacré | butin : Archange Raphaël 10 % | Elle guérit tout, sauf l'orgueil. |
 | **Argent lunaire** | 3 | Rare | +2 Dommages Givre, minerai | Mineur : Argent niv. 15, récolte rare | Il brille même la nuit, surtout la nuit. Les loups le regardent bizarrement. |
@@ -383,6 +390,7 @@ Prix de boutique : selon la rareté (revente à 25 %).
 | Nom | Niv. | Rareté | Forge | Obtention | Description |
 |---|---|---|---|---|---|
 | **Clé céleste** | 1 | Rare | — | butin : Cupidon 100 % | Saint Pierrot la réclame pour ouvrir la Tour céleste. Cupidon en a toujours une sur lui. |
+| **Votre os manquant** | 1 | Commun | — | « Appel du matin » : sur Os errant (50 %) | Un os à vous. Vous le reconnaissez à sa forme, et au fait qu'il vous manque. |
 | **Panier de pommes** | 6 | Commun | — | « Le verger de Mère Pomponne » : sur Gobelin pillard, Pillard émérite (40 %) | Les pommes de Mère Pomponne, reprises une à une aux pillards. Il en manque une : la plus belle. |
 | **Laissez-passer de Hautepierre** | 12 | Rare | — | récompense de « La palissade de Krasbouk » | Signé du bourgmestre Pansu, contresigné par personne. À présenter au bureau des laissez-passer, qui exige un laissez-passer pour y entrer. |
 | **Caisse de minerai** | 14 | Commun | — | « Le convoi de Brokk » : sur Loup cendreux, Détrousseur des grands chemins, Chef de bande (40 %) | Du minerai pour les forges du Souverain. Sur le couvercle : « colliers, modèle gobelin, taille unique ». |
@@ -424,12 +432,12 @@ ni 35 % du jeu entier, pour qu'aucune résistance unique ne suffise.
 | Zone | Monstres | Répartition |
 |---|---|---|
 | Brumerive (humains) | 12 | Tempête 53 %, Acier 34 %, Flamme 14 % |
-| Crasse-Roc (gobelins) | 12 | Flamme 43 %, Acier 32 %, Impie 11 %, Sacré 8 %, Tempête 6 % |
+| Crasse-Roc (gobelins) | 19 | Acier 27 %, Flamme 27 %, Impie 27 %, Givre 10 %, Sacré 5 %, Tempête 4 % |
 | Sylvebrume (elfes) | 12 | Givre 43 %, Acier 34 %, Tempête 21 %, Flamme 2 % |
 | Hautepierre | 16 | Acier 30 %, Flamme 27 %, Givre 18 %, Tempête 15 %, Impie 9 % |
 | La Cendre | 1 | Flamme 100 % |
 | Ailleurs | 11 | Tempête 60 %, Sacré 26 %, Flamme 10 %, Acier 4 % |
-| **Jeu entier** | 57 | Acier 30 %, Tempête 25 %, Flamme 20 %, Givre 14 %, Sacré 6 %, Impie 5 % |
+| **Jeu entier** | 64 | Acier 29 %, Tempête 22 %, Flamme 18 %, Givre 15 %, Impie 10 %, Sacré 6 % |
 
 ## Monstres
 
@@ -639,6 +647,62 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 |---|---|---|
 | 65 | 90 | 100 |
 
+#### Os errant *(famille)*
+
+*Un tibia, parfois un fémur, qui se promène seul à la recherche de son squelette.*
+
+- **Palier** : 1 ; **5 PA, 4 PM** ; IA basique
+- **Résistances** : Impie +10 %, Flamme -10 %
+- **Sorts** : Coup d'os, Ricochet
+- **Butin** : Esquille d'os 60 % (×1–2), Moelle fossile 15 % ; **brumes** 1–4
+- **Où le trouver** : Grille de l'Ossuaire (`crasse_roc_0_-1`, 3 groupes, dont 1 au hasard) · Champ des Croix (`crasse_roc_1_-1`, 3 groupes, dont 1 au hasard)
+
+| PV | Init. | XP | Agi. |
+|---|---|---|---|
+| 14 | 65 | 14 | 4 |
+
+#### Fémur du Général *(élite de la famille Os errant)*
+
+*Il a appartenu à un général. Il en a gardé les manières.*
+
+- **Palier** : 1 ; **6 PA, 4 PM** ; IA basique
+- **Résistances** : Impie +15 %, Flamme -5 %
+- **Sorts** : Coup d'os, Ricochet, Corvée
+- **Butin** : Esquille d'os 90 % (×2–4), Moelle fossile 60 % (×1–2) ; **brumes** 5–12
+- **Où le trouver** : Grille de l'Ossuaire (`crasse_roc_0_-1`, apparition spontanée) · Champ des Croix (`crasse_roc_1_-1`, apparition spontanée)
+
+| PV | Init. | XP | Agi. |
+|---|---|---|---|
+| 32 | 85 | 40 | 10 |
+
+#### Pleureuse de l'Ossuaire *(famille)*
+
+*Une veuve fantôme qui pleure tout le monde, même les vivants. Surtout les vivants.*
+
+- **Palier** : 1 ; **6 PA, 3 PM** ; IA distance
+- **Résistances** : Givre +20 %, Impie +10 %, Flamme -15 %
+- **Sorts** : Larmes glacées, Complainte
+- **Butin** : Larme gelée 55 % (×1–2), Voile de deuil 15 % ; **brumes** 3–8
+- **Où le trouver** : Catacombes de l'Appel (`crasse_roc_0_-2`, 3 groupes, dont 1 au hasard) · Charnier des Gradés (`crasse_roc_0_-3`, 1 groupe) · Champ des Croix (`crasse_roc_1_-1`, 3 groupes, dont 1 au hasard) · Caisse de retraite des Trépassés (`crasse_roc_1_-2`, 1 groupe, dont 1 au hasard)
+
+| PV | Init. | XP | Percep. |
+|---|---|---|---|
+| 24 | 80 | 30 | 8 |
+
+#### Grande Pleureuse *(élite de la famille Pleureuse de l'Ossuaire)*
+
+*Elle pleure si fort que les autres pleureuses pleurent de la voir pleurer.*
+
+- **Palier** : 1 ; **7 PA, 3 PM** ; IA distance
+- **Résistances** : Givre +25 %, Impie +15 %, Flamme -10 %
+- **Sorts** : Larmes glacées, Complainte, Pluie de phalanges
+- **Butin** : Larme gelée 90 % (×2–4), Voile de deuil 60 % (×1–2) ; **brumes** 8–18
+- **Où le trouver** : Catacombes de l'Appel (`crasse_roc_0_-2`, apparition spontanée) · Charnier des Gradés (`crasse_roc_0_-3`, apparition spontanée) · Champ des Croix (`crasse_roc_1_-1`, apparition spontanée) · Caisse de retraite des Trépassés (`crasse_roc_1_-2`, apparition spontanée)
+
+| PV | Init. | XP | Percep. |
+|---|---|---|---|
+| 50 | 100 | 70 | 16 |
+
 #### Rat des galeries *(famille)*
 
 *Il vivait là avant les gobelins. Il compte bien y vivre après.*
@@ -740,6 +804,22 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 |---|---|---|---|
 | 300 | 90 | 760 | 20 |
 
+#### Le Colonel Ossature *(boss)*
+
+*Mort depuis trois siècles, il refuse toute démobilisation. Il a même refusé la sienne.*
+
+- **Palier** : 2 ; **7 PA, 3 PM** ; IA basique
+- **Résistances** : Acier +20 %, Impie +20 %, Givre +10 %, Flamme -20 %
+- **Sorts** : Sabre de parade, Appel, Corvée
+- **Phase 1** (à 70 % PV) : apprend Pluie de phalanges, Rompez les rangs ! ; +2 Portée (3 t.). Message : « Rompez les rangs ! » Le Colonel s'effondre en tas d'os… et se remonte plus loin.
+- **Phase 2** (à 30 % PV) : apprend Étreinte du permafrost ; +2 PM (3 t.) ; +20 Résistance Acier (3 t.) ; +20 Résistance Flamme (3 t.) ; +20 Résistance Givre (3 t.) ; +20 Résistance Tempête (3 t.). Message : « Personne ne quitte le front, même pas moi ! » Le givre prend ses os.
+- **Butin** : Épaulette du Colonel 100 % ; **brumes** 90–150
+- **Où le trouver** : Crypte du Colonel (`crasse_roc_1_-3`, 1 groupe, dont 1 réapparition 45–60 s)
+
+| PV | Init. | XP | Force | Agi. |
+|---|---|---|---|---|
+| 300 | 95 | 760 | 20 | 20 |
+
 #### Milicien de Hautepierre *(famille)*
 
 *Envoyé « sécuriser » les galeries. Il sécurise surtout les tonneaux de bière du poste.*
@@ -767,6 +847,34 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 | PV | Init. | XP | Force |
 |---|---|---|---|
 | 118 | 125 | 221 | 54 |
+
+#### Vétéran de la Première Ombre *(famille)*
+
+*Soldat squelette qui demande sa retraite depuis trois siècles. Le dossier est en cours.*
+
+- **Palier** : 2 ; **6 PA, 3 PM** ; IA basique
+- **Résistances** : Acier +15 %, Impie +10 %, Flamme -10 %, Tempête -5 %
+- **Sorts** : Lance rouillée, Javelot de service, Garde-à-vous
+- **Butin** : Plaque rouillée 50 % (×1–2), Médaille de service 12 % ; **brumes** 9–20
+- **Où le trouver** : Catacombes de l'Appel (`crasse_roc_0_-2`, 1 groupe) · Charnier des Gradés (`crasse_roc_0_-3`, 3 groupes, dont 1 au hasard) · Caisse de retraite des Trépassés (`crasse_roc_1_-2`, 3 groupes, dont 1 au hasard) · Crypte du Colonel (`crasse_roc_1_-3`, 1 groupe)
+
+| PV | Init. | XP | Force | Agi. |
+|---|---|---|---|---|
+| 50 | 100 | 110 | 18 | 18 |
+
+#### Adjudant Rotule *(élite de la famille Vétéran de la Première Ombre)*
+
+*Il fait l'appel. Tous les matins. Depuis trois cents ans. Personne n'a jamais été absent.*
+
+- **Palier** : 2 ; **7 PA, 3 PM** ; IA soutien
+- **Résistances** : Acier +20 %, Impie +15 %, Flamme -5 %
+- **Sorts** : Lance rouillée, Javelot de service, Appel, Corvée
+- **Butin** : Plaque rouillée 90 % (×2–4), Médaille de service 50 % (×1–2) ; **brumes** 20–40
+- **Où le trouver** : Catacombes de l'Appel (`crasse_roc_0_-2`, apparition spontanée) · Charnier des Gradés (`crasse_roc_0_-3`, apparition spontanée) · Caisse de retraite des Trépassés (`crasse_roc_1_-2`, apparition spontanée) · Crypte du Colonel (`crasse_roc_1_-3`, apparition spontanée)
+
+| PV | Init. | XP | Force | Agi. |
+|---|---|---|---|---|
+| 100 | 120 | 230 | 28 | 28 |
 
 #### Grouilleur de braise *(variante corrompue de Grouilleur)*
 
@@ -1529,6 +1637,7 @@ Soigneur sacré. Bénit les alliés, sermonne les ennemis, et cite des textes qu
 
 | Sort | Caractéristiques | Effets | Lanceurs | Description |
 |---|---|---|---|---|
+| **Appel** | 2 PA, portée 0–4, 1/tour, relance 2 t. | +1 PA tout de suite aux alliés | Adjudant Rotule (élite), palier 2, Le Colonel Ossature (mini-boss), palier 2 | « Présent ! » Même les morts répondent. |
 | **Attention, ça tombe !** | 4 PA, portée 2–4, croix latine, en ligne, 1/tour, relance 1 t. | 5–7 Acier | Abatteur en chef (élite), palier 2, Bûcheron de Brumerive, palier 2 | Il crie toujours avant. Personne n'écoute jamais. |
 | **Bal de minuit** | 3 PA, portée 0–3, 1/tour, relance 1 t. | soin 7–10 (Flamme) aux alliés | Cendrillon, palier 4, Marraine Cendrée (élite), palier 4 | Une valse de cendre qui referme les plaies d'un fidèle. |
 | **Baptême express** | 4 PA, portée 1–2, 1/tour | 10 Sacré | Colombe baptiste, palier 1 | Un coup de bec bénit, puis elle s'envole. |
@@ -1548,6 +1657,9 @@ Soigneur sacré. Bénit les alliés, sermonne les ennemis, et cite des textes qu
 | **Charge du grand cerf** | 5 PA, portée 1, 1/tour | 14–20 Tempête | Grand cerf de la Lisière (élite), palier 2 | Majestueux. Puis très, très douloureux. |
 | **Chausse-trape** | 3 PA, portée 1–4, sans ligne de vue, 1/tour, relance 2 t. | piège invisible : [8–12 Tempête aux ennemis ; −2 PM (1 t.) aux ennemis] | Frondeur vétéran (élite), palier 2 | Des cailloux pointus semés dans l'herbe. Vingt ans de métier : on ne les voit jamais avant de marcher dessus. |
 | **Cocon** | 4 PA, portée 1–4, 1/tour, relance 1 t. | 6–9 Givre ; −2 PA (1 t.) | Grande Tisseuse (élite), palier 3 | Elle vous emballe pour plus tard. |
+| **Complainte** | 3 PA, portée 1–4, cercle de rayon 1, 1/tour, relance 2 t. | 3–5 Givre aux ennemis | Grande Pleureuse (élite), palier 1, Pleureuse de l'Ossuaire, palier 1 | Une plainte si triste que les os eux-mêmes frissonnent. |
+| **Corvée** | 3 PA, portée 1–4, 1/tour, relance 1 t. | 3–5 Impie ; −2 PA (1 t.) | Adjudant Rotule (élite), palier 2, Fémur du Général (élite), palier 1, Le Colonel Ossature (mini-boss), palier 2 | Corvée de patates, pour l'éternité. |
+| **Coup d'os** | 3 PA, portée 1, 2/tour | 3–5 Impie | Fémur du Général (élite), palier 1, Os errant, palier 1 | Il frappe avec lui-même. Ça fait mal aux deux. |
 | **Coup d'épée réglementaire** | 4 PA, portée 1, 1/tour | 7–10 Acier | Milicien de Hautepierre, palier 2, Sergent de la milice (élite), palier 2 | Exécuté selon le manuel de la milice, page 12. |
 | **Coup de baguette** | 4 PA, portée 1–4, cercle de rayon 1, 1/tour | 6–8 Flamme ; −1 PA (1 t.) | Marraine Cendrée (élite), palier 4 | Un geste gracieux, une citrouille qui explose. |
 | **Coup de bec** | 3 PA, portée 1, 1/tour | 5–7 Acier | Corbac chef espion (élite), palier 4, Corbac espion, palier 3 | Toujours dans l'œil. Il vise bien, il a de l'entraînement. |
@@ -1572,6 +1684,7 @@ Soigneur sacré. Bénit les alliés, sermonne les ennemis, et cite des textes qu
 | **Exorcisme** | 3 PA, portée 1, 1/tour | exorcisme (2 t.) aux ennemis | Archange Raphaël (mini-boss), palier 3 | La cible sera achevée par les prochains dégâts Sacré. |
 | **Flèche cupide** | 4 PA, portée 1–5, 1/tour | 10 Flamme | Cupidon, palier 1 | Elle ne rend personne amoureux, mais elle vole quelques PV. |
 | **Fouet de flammes** | 4 PA, portée 1–3, 1/tour | 6–9 Flamme ; attire de 1 case(s) | Le Balourd des Abîmes (mini-boss), palier 2 | Il vous ramène vers lui, poliment, par le cou. |
+| **Garde-à-vous** | 2 PA, portée soi, 1/tour, relance 2 t. | +15 Résistance Acier (1 t.) ; +15 Résistance Givre (1 t.) | Vétéran de la Première Ombre, palier 2 | Le dos droit, la mâchoire serrée (elle tient mal). |
 | **Gargouillis** | 3 PA, portée 2–4, 1/tour | 5–7 Givre | Gargouille, palier 4, Gargouille de la Grande Porte (élite), palier 4 | Elle crache l'eau de pluie de la semaine. Glacée. |
 | **Glaive** | 3 PA, portée 1, 2/tour | 20 Acier | Ange, palier 2 | Deux coups de glaive valent mieux qu'un sermon. |
 | **Gnôle de raid** | 2 PA, portée soi, sans ligne de vue, 1/tour, relance 3 t. | soin 6–9 (Acier) | Défonceur de portes (élite), palier 3, Gobelin briseur, palier 2 | Une gorgée de gnôle. Ça soigne, d'après l'étiquette. |
@@ -1582,11 +1695,14 @@ Soigneur sacré. Bénit les alliés, sermonne les ennemis, et cite des textes qu
 | **Hachette de jet** | 3 PA, portée 2–5, 1/tour | 4–6 Acier | Krasbouk, Chef de Raid (syndiqué) (mini-boss), palier 2 | Il en a toujours une de rechange, glissée dans la botte. |
 | **Hachoir réglementaire** | 4 PA, portée 1, 1/tour | 7–10 Acier | Krasbouk, Chef de Raid (syndiqué) (mini-boss), palier 2 | Coup porté selon l'article 3 du contrat de raid. |
 | **Heures sup'** | 2 PA, portée 1–4, 1/tour, relance 2 t. | +2 PA tout de suite aux alliés | Contremaître en chef (élite), palier 3, Contremaître zélé, palier 2 | Un collègue gagne 2 PA tout de suite. Non payés, évidemment. |
+| **Javelot de service** | 4 PA, portée 2–5, 1/tour | 5–7 Impie | Adjudant Rotule (élite), palier 2, Vétéran de la Première Ombre, palier 2 | Le javelot réglementaire. Le même depuis la Première Ombre. |
 | **Jet d'acide ancestral** | 5 PA, portée 2–5, cercle de rayon 1, 1/tour | 7–11 Flamme | Grouilleur ancestral (élite), palier 2 | Une recette transmise de grouilleur en grouilleur depuis mille générations. |
 | **La bourse ou la vie** | 3 PA, portée 1–2, 1/tour | 3–5 Tempête ; −15 Perception (2 t.) | Chef de bande (élite), palier 3, Détrousseur des grands chemins, palier 3 | Vous choisissez la bourse. Il prend quand même un peu de la vie. |
 | **Lame de braise** | 4 PA, portée 1, 1/tour | 8–11 Flamme | Le Balourd des Abîmes (mini-boss), palier 2 | Une épée faite de feu. Ou un feu en forme d'épée : il n'a jamais su. |
 | **Lame de cendre** | 4 PA, portée 1, 2/tour | 22–30 Flamme | Le Souverain Cendré (mini-boss), palier 5 | Une épée noire qui laisse des braises dans la plaie. |
+| **Lance rouillée** | 4 PA, portée 1–2, 1/tour | 6–9 Acier | Adjudant Rotule (élite), palier 2, Vétéran de la Première Ombre, palier 2 | Trois siècles de service, et toujours pas de lance neuve. |
 | **Lancer de rocher** | 4 PA, portée 2–5, 1/tour | 5–8 Givre | Troll des ponts, palier 3, Troll gastronome (élite), palier 4 | Il arrache un bloc de pont gelé par le Fleuve Gris et vous le rend. |
+| **Larmes glacées** | 4 PA, portée 2–5, 1/tour | 4–6 Givre ; −1 PM au prochain tour | Grande Pleureuse (élite), palier 1, Pleureuse de l'Ossuaire, palier 1 | Elle vous pleure d'avance. Ça gèle. |
 | **Licenciement** | 4 PA, portée 1–2, 1/tour | 6–9 Flamme ; poussée de 3 case(s) | Contremaître en chef (élite), palier 3 | « Vous êtes viré ! » Et pour être sûr que vous ne reveniez pas, il brûle votre badge. Sur vous. |
 | **Marinade** | 3 PA, portée 1–2, 1/tour | poison 4–6 Flamme par tour (3 t.) ; −10 Résistance Flamme (3 t.) | Troll gastronome (élite), palier 4 | Il vous assaisonne avant cuisson. Le feu vous fera plus mal ensuite. |
 | **Morsure** | 3 PA, portée 1, 2/tour | 3–5 Tempête | Loup alpha (élite), palier 2, Loup cendreux, palier 3, Loup des collines, palier 1 |  |
@@ -1603,13 +1719,17 @@ Soigneur sacré. Bénit les alliés, sermonne les ennemis, et cite des textes qu
 | **Pluie de braises** | 3 PA, portée 1–5, cercle de rayon 2, sans ligne de vue, 1/tour, relance 3 t. | glyphe (2 t.) : [3–5 Flamme aux ennemis] | Le Balourd des Abîmes (mini-boss), palier 2, phase 2 (40 % PV) | Le plafond de la galerie s'embrase. Personne ne va aimer la suite. |
 | **Pluie de cailloux** | 5 PA, portée 2–6, cercle de rayon 1, 1/tour | 6–10 Tempête | Frondeur vétéran (élite), palier 2 | Vingt ans de service, et toujours pas de prime. Il se venge sur tout le monde. |
 | **Pluie de cendres** | 3 PA, portée 1–6, cercle de rayon 1, sans ligne de vue, 1/tour, relance 2 t. | glyphe (2 t.) : [4–6 Flamme aux ennemis] | Arbre calciné, palier 3 | Il secoue ses branches mortes ; il en tombe des braises. |
+| **Pluie de phalanges** | 4 PA, portée 1–6, cercle de rayon 1, sans ligne de vue, 1/tour | 5–8 Impie aux ennemis | Grande Pleureuse (élite), palier 1, Le Colonel Ossature (mini-boss), palier 2, phase 1 (70 % PV) | Il lance ses propres doigts. Il en a encore beaucoup. |
 | **Racines** | 3 PA, portée 1–6, 1/tour | 4–6 Givre ; −2 PM au prochain tour | Arbre calciné, palier 3, Arbre millénaire (élite), palier 2, Arbre vivant, palier 1 | Les racines gelées sortent de terre et vous retiennent. Elles ont pris froid, vous aussi. |
 | **Rappel à l'ordre** | 3 PA, portée 2–4, en ligne, 1/tour, relance 1 t. | attire de 2 case(s) ; 4–6 Sacré | Sergent de la milice (élite), palier 2 | « Vous, là ! Approchez ! Au nom de la Loi ! » On approche, c'est plus fort que soi. |
 | **Rapport détaillé** | 3 PA, portée 1–6, 1/tour | −15 Résistance Tempête (2 t.) ; −1 Portée (1 t.) | Corbac chef espion (élite), palier 4 | Il a tout noté. Vos faiblesses aussi. |
 | **Razzia** | 4 PA, portée soi, cercle de rayon 1 (sans le lanceur), sans ligne de vue, 1/tour | 6–9 Flamme | Pillard émérite (élite), palier 2 | Il tourne sur lui-même, torche au poing, en hurlant le nom de son raid. Tout ce qui l'entoure prend feu. |
 | **Regard de pierre** | 3 PA, portée 1–3, 1/tour, relance 2 t. | 3–5 Givre ; −2 PM (1 t.) ; −1 PA (1 t.) | Gargouille de la Grande Porte (élite), palier 4 | Un regard figé. Vos jambes suivent l'exemple. |
 | **Retenue sur salaire** | 3 PA, portée 2–5, 1/tour | 4–6 Flamme ; −3 Dommages (2 t.) | Contremaître en chef (élite), palier 3, Contremaître zélé, palier 2 | Vos dégâts sont retenus à la source. La source est brûlante. |
+| **Ricochet** | 3 PA, portée 2–3, 1/tour | 2–4 Impie | Fémur du Général (élite), palier 1, Os errant, palier 1 | Il rebondit sur les murs, sur les cailloux, sur vous. |
+| **Rompez les rangs !** | 2 PA, portée 1–4, 1/tour, relance 1 t. | téléportation sur la case | Le Colonel Ossature (mini-boss), palier 2, phase 1 (70 % PV) | Il s'effondre en tas d'os… et se remonte plus loin. |
 | **Ronces millénaires** | 4 PA, portée 1–6, cercle de rayon 1, 1/tour | 8–12 Acier ; −1 PM au prochain tour | Arbre millénaire (élite), palier 2 | Le sol se hérisse d'épines plus vieilles que les royaumes. |
+| **Sabre de parade** | 4 PA, portée 1, 2/tour | 7–10 Acier | Le Colonel Ossature (mini-boss), palier 2 | Il ne sert qu'aux défilés. Il défile sur vous. |
 | **Souche piégée** | 3 PA, portée 1–4, sans ligne de vue, 1/tour, relance 2 t. | piège invisible cercle de rayon 1 : [7–10 Acier aux ennemis ; −2 PM (1 t.) aux ennemis] | Abatteur en chef (élite), palier 2 | Une souche, des pointes, et un abatteur qui sourit. |
 | **Souffle cendré** | 5 PA, portée 1–4, cercle de rayon 1, 1/tour | 15–22 Flamme | Le Souverain Cendré (mini-boss), palier 5 | Une vague de cendre brûlante autour de la cible. |
 | **Souffle de forge** | 4 PA, portée 1–4, cercle de rayon 1, 1/tour | 8–11 Flamme | Grondin, Bélier de la Brèche (mini-boss), palier 4, phase 3 (20 % PV) | La tête de loup crache le feu de la forge où on l'a coulée. |
@@ -1627,6 +1747,7 @@ Soigneur sacré. Bénit les alliés, sermonne les ennemis, et cite des textes qu
 | **Élan** | 2 PA, portée soi, sans ligne de vue, 1/tour, relance 2 t. | +2 PM (1 t.) | Grondin, Bélier de la Brèche (mini-boss), palier 4 | Les roues grincent, les chaînes claquent : il recule pour mieux frapper. |
 | **Épaulée** | 3 PA, portée 1, 1/tour | 3–5 Acier ; poussée de 2 case(s) | Défonceur de portes (élite), palier 3, Gobelin briseur, palier 2 | Un coup d'épaule de professionnel : on recule, on réfléchit. |
 | **Éternuement** | 3 PA, portée 1–3, 1/tour | 6–9 Tempête ; −1 PM au prochain tour | Épouvantail en arrêt maladie, palier 2 | Un éternuement de paille humide : on en reste collé sur place. |
+| **Étreinte du permafrost** | 4 PA, portée 1, 1/tour | 8–11 Givre ; −2 PM au prochain tour | Le Colonel Ossature (mini-boss), palier 2, phase 2 (30 % PV) | Le froid de trois siècles de garde. |
 
 ## Sorts sans lanceur
 

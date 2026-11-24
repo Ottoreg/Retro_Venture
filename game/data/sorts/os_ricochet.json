@@ -1,0 +1,22 @@
+{
+  "id": "os_ricochet",
+  "nom": "Ricochet",
+  "description": "Il rebondit sur les murs, sur les cailloux, sur vous.",
+  "cout_pa": 3,
+  "portee": {
+    "min": 2,
+    "max": 3
+  },
+  "ligne_de_vue": true,
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "impie",
+      "min": 2,
+      "max": 4
+    }
+  ]
+}

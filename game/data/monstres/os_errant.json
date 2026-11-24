@@ -1,0 +1,42 @@
+{
+  "id": "os_errant",
+  "nom": "Os errant",
+  "description": "Un tibia, parfois un fémur, qui se promène seul à la recherche de son squelette.",
+  "palier": 1,
+  "caracteristiques": {
+    "pv": 14,
+    "pa": 5,
+    "pm": 4,
+    "initiative": 65,
+    "agilite": 4
+  },
+  "resistances": {
+    "impie": 10,
+    "flamme": -10
+  },
+  "sorts": [
+    "os_coup_d_os",
+    "os_ricochet"
+  ],
+  "ia": "basique",
+  "xp": 14,
+  "butin": [
+    {
+      "objet": "esquille_d_os",
+      "taux": 0.6,
+      "quantite": [
+        1,
+        2
+      ]
+    },
+    {
+      "objet": "moelle_fossile",
+      "taux": 0.15
+    }
+  ],
+  "ecus": [
+    1,
+    4
+  ],
+  "mot": "d'Os"
+}

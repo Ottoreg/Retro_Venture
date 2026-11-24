@@ -341,6 +341,11 @@ Dernière session (retours de la passe de l'auteur) :
   (`planche_sprites.py`, `MIRRORS`).
 - **Musique de fond** (22/11/2026, GDD § 14.2) : `art/musique/cobblestone_afternoon.mp3` en boucle (`Options.MUSIC`,
   lancée par `Options.apply` depuis le menu principal), volume `Options.music_volume` et `music_on` dans les options.
+- **Zones de départ par camp** (GDD § 3.5, 19-24/11/2026) : une sous-zone par race, produites une à la fois et validées
+  par l'auteur avant la suivante (`docs/design/sous_zones/produire_sous_zone.py <sous-zone>`, données `sz_<sous-zone>.py`,
+  conception `crasse_roc.md`, `brumerive.md`, `sylvebrume.md`) ; Ossuaire des squelettes fait le 24/11/2026 (`crasse_roc_0_-1`
+  à `1_-3`, Pierre `crasse_roc_ossuaire`, `maison_ossuaire`, 4 quêtes `ossuaire_*`, apparences et icônes provisoires reprises
+  des dessins existants, fragment `art/manifestes/sous_zones.json`).
 - Le pseudo choisi est déjà utilisé partout ; « Aventurier » (`World.DEFAULT_NAME`) n'apparaît
   que dans les tests et les captures, sans écran de création.
 

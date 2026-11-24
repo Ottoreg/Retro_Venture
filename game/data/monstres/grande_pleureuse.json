@@ -1,0 +1,49 @@
+{
+  "id": "grande_pleureuse",
+  "nom": "Grande Pleureuse",
+  "description": "Elle pleure si fort que les autres pleureuses pleurent de la voir pleurer.",
+  "palier": 1,
+  "caracteristiques": {
+    "pv": 50,
+    "pa": 7,
+    "pm": 3,
+    "initiative": 100,
+    "perception": 16
+  },
+  "resistances": {
+    "givre": 25,
+    "impie": 15,
+    "flamme": -10
+  },
+  "sorts": [
+    "pleureuse_larmes_glacees",
+    "pleureuse_complainte",
+    "colonel_pluie_de_phalanges"
+  ],
+  "ia": "distance",
+  "xp": 70,
+  "butin": [
+    {
+      "objet": "larme_gelee",
+      "taux": 0.9,
+      "quantite": [
+        2,
+        4
+      ]
+    },
+    {
+      "objet": "voile_de_deuil",
+      "taux": 0.6,
+      "quantite": [
+        1,
+        2
+      ]
+    }
+  ],
+  "ecus": [
+    8,
+    18
+  ],
+  "elite": true,
+  "famille": "pleureuse_de_l_ossuaire"
+}

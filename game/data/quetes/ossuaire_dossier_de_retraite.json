@@ -1,0 +1,67 @@
+{
+  "id": "ossuaire_dossier_de_retraite",
+  "nom": "Dossier de retraite",
+  "categorie": "principale",
+  "acte": 1,
+  "niveau": 3,
+  "pnj": "guichetiere_vertebre",
+  "description": "Un dossier de retraite, en bonne et due forme. Il manque toujours une pièce.",
+  "conditions": {
+    "race": "squelette",
+    "quetes_terminees": [
+      "ossuaire_appel_du_matin"
+    ]
+  },
+  "etapes": [
+    {
+      "objectifs": [
+        {
+          "type": "vaincre",
+          "monstre": "pleureuse_de_l_ossuaire",
+          "nombre": 3
+        },
+        {
+          "type": "apporter",
+          "objet": "larme_gelee",
+          "nombre": 3,
+          "pnj": "guichetiere_vertebre"
+        }
+      ]
+    },
+    {
+      "objectifs": [
+        {
+          "type": "recolter",
+          "objet": "bois_de_frene",
+          "nombre": 5,
+          "texte": "Récolter du frêne pour le cercueil réglementaire"
+        },
+        {
+          "type": "parler",
+          "pnj": "guichetiere_vertebre"
+        }
+      ]
+    }
+  ],
+  "dialogues": {
+    "guichetiere_vertebre": {
+      "proposition": [
+        "Une demande de retraite ? Il faut le tampon des pleureuses : trois larmes gelées, en guise de signature.",
+        "Et le cercueil réglementaire, en frêne. Ce n'est pas moi qui fais les règles. Enfin si, mais je ne m'en souviens plus."
+      ],
+      "en_cours": [
+        "Il manque une pièce. Je vous l'avais dit."
+      ],
+      "objectif": [
+        "Les larmes, bien. Reste le bois du cercueil."
+      ],
+      "fin": [
+        "Tout est en ordre. Votre dossier est… refusé. Vous n'êtes pas mort assez longtemps. Revenez dans deux siècles."
+      ]
+    }
+  },
+  "recompenses": {
+    "xp_cr": 4,
+    "ecus": 50
+  }
+}

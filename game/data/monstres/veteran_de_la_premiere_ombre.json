@@ -1,0 +1,46 @@
+{
+  "id": "veteran_de_la_premiere_ombre",
+  "nom": "Vétéran de la Première Ombre",
+  "description": "Soldat squelette qui demande sa retraite depuis trois siècles. Le dossier est en cours.",
+  "palier": 2,
+  "caracteristiques": {
+    "pv": 50,
+    "pa": 6,
+    "pm": 3,
+    "initiative": 100,
+    "force": 18,
+    "agilite": 18
+  },
+  "resistances": {
+    "acier": 15,
+    "impie": 10,
+    "flamme": -10,
+    "tempete": -5
+  },
+  "sorts": [
+    "veteran_lance_rouillee",
+    "veteran_javelot_de_service",
+    "veteran_garde_a_vous"
+  ],
+  "ia": "basique",
+  "xp": 110,
+  "butin": [
+    {
+      "objet": "plaque_rouillee",
+      "taux": 0.5,
+      "quantite": [
+        1,
+        2
+      ]
+    },
+    {
+      "objet": "medaille_de_service",
+      "taux": 0.12
+    }
+  ],
+  "ecus": [
+    9,
+    20
+  ],
+  "mot": "de Vétéran"
+}

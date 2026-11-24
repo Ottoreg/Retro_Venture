@@ -1,0 +1,106 @@
+{
+  "id": "colonel_ossature",
+  "nom": "Le Colonel Ossature",
+  "description": "Mort depuis trois siècles, il refuse toute démobilisation. Il a même refusé la sienne.",
+  "palier": 2,
+  "caracteristiques": {
+    "pv": 300,
+    "pa": 7,
+    "pm": 3,
+    "initiative": 95,
+    "force": 20,
+    "agilite": 20
+  },
+  "resistances": {
+    "acier": 20,
+    "impie": 20,
+    "givre": 10,
+    "flamme": -20
+  },
+  "sorts": [
+    "colonel_sabre_de_parade",
+    "rotule_appel",
+    "rotule_corvee"
+  ],
+  "ia": "basique",
+  "xp": 760,
+  "butin": [
+    {
+      "objet": "epaulette_du_colonel",
+      "taux": 1.0
+    }
+  ],
+  "ecus": [
+    90,
+    150
+  ],
+  "boss": true,
+  "mot": "du Colonel",
+  "phases": [
+    {
+      "pv": 70,
+      "message": "« Rompez les rangs ! » Le Colonel s'effondre en tas d'os… et se remonte plus loin.",
+      "sorts": [
+        "colonel_pluie_de_phalanges",
+        "colonel_rompez_les_rangs"
+      ],
+      "effets": [
+        {
+          "type": "bonus",
+          "carac": "portee",
+          "min": 2,
+          "max": 2,
+          "duree": 3
+        }
+      ]
+    },
+    {
+      "pv": 30,
+      "message": "« Personne ne quitte le front, même pas moi ! » Le givre prend ses os.",
+      "sorts": [
+        "colonel_etreinte_du_permafrost"
+      ],
+      "effets": [
+        {
+          "type": "bonus",
+          "carac": "pm",
+          "min": 2,
+          "max": 2,
+          "duree": 3
+        },
+        {
+          "type": "bonus",
+          "carac": "resistance",
+          "min": 20,
+          "max": 20,
+          "duree": 3,
+          "element": "acier"
+        },
+        {
+          "type": "bonus",
+          "carac": "resistance",
+          "min": 20,
+          "max": 20,
+          "duree": 3,
+          "element": "flamme"
+        },
+        {
+          "type": "bonus",
+          "carac": "resistance",
+          "min": 20,
+          "max": 20,
+          "duree": 3,
+          "element": "givre"
+        },
+        {
+          "type": "bonus",
+          "carac": "resistance",
+          "min": 20,
+          "max": 20,
+          "duree": 3,
+          "element": "tempete"
+        }
+      ]
+    }
+  ]
+}

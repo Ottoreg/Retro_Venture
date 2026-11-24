@@ -1,0 +1,46 @@
+{
+  "id": "ossuaire_reaffectation",
+  "nom": "Réaffectation",
+  "categorie": "principale",
+  "acte": 1,
+  "niveau": 4,
+  "pnj": "sergent_chef_clavicule",
+  "description": "Les galeries de Crasse-Roc manquent de bras. Même sans muscles.",
+  "conditions": {
+    "race": "squelette",
+    "quetes_terminees": [
+      "ossuaire_dossier_de_retraite"
+    ]
+  },
+  "etapes": [
+    {
+      "objectifs": [
+        {
+          "type": "parler",
+          "pnj": "contremaitre_grumm",
+          "texte": "Se présenter à Grumm, à l'Entrée des galeries"
+        }
+      ]
+    }
+  ],
+  "dialogues": {
+    "sergent_chef_clavicule": {
+      "proposition": [
+        "Retraite refusée ? Bien. Vous êtes réaffecté. Les gobelins de Crasse-Roc manquent de bras.",
+        "Allez voir le contremaître Grumm, à l'est, à l'Entrée des galeries. Et tenez-vous droit."
+      ],
+      "en_cours": [
+        "Toujours là ? L'est, soldat. Le soleil se lève de ce côté. Enfin, je crois."
+      ]
+    },
+    "contremaitre_grumm": {
+      "fin": [
+        "Un squelette ? Parfait. Ça ne mange pas, ça ne dort pas, ça ne réclame pas. Ah si, ça réclame sa retraite. Bienvenue au club."
+      ]
+    }
+  },
+  "recompenses": {
+    "xp_cr": 5,
+    "ecus": 60
+  }
+}

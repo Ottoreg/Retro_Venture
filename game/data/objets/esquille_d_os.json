@@ -1,0 +1,11 @@
+{
+  "id": "esquille_d_os",
+  "nom": "Esquille d'os",
+  "type": "ressource",
+  "rarete": "commun",
+  "niveau": 1,
+  "description": "Un éclat d'os errant. Il cherche encore son squelette.",
+  "caracteristique": "agilite",
+  "famille": "os_errant",
+  "zone": "crasse_roc"
+}
