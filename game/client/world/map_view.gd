@@ -2675,15 +2675,15 @@ func _draw_figure(seed_id: String, look: Dictionary, kind: String, base: Vector2
 	var offset := float(posmod(hash(seed_id), 100))
 	if look.get("elite", false):
 		_draw_elite_aura(base, offset)
+	var progress := 1.0 - float(data.get("attaque", 0.0)) / ATTACK_TIME if data.get("attaque", 0.0) > 0.0 else -1.0
 	if look.has("rig"):
-		var progress := 1.0 - float(data.get("attaque", 0.0)) / ATTACK_TIME if data.get("attaque", 0.0) > 0.0 else -1.0
 		Rig.draw(self, look, base, {"facing": facing, "dos": data.get("dos", false), "cap": data.get("cap", -1), "marche": walking, "phase": phase,
 			"temps": _time + offset * 0.1, "attaque": progress, "assis": data.get("assis", false)}, tint)
 	elif look.has("planche"):
-		# Images fixes seulement (pas de course) : le petit saut du déplacement suffit.
+		# Course et attaque de la planche (ampa) ; une planche d'images fixes les répète, avec le petit saut du déplacement.
 		var hop := -absf(sin(phase)) * 2.0 if walking else sin(_time * 2.0 + offset) * 0.4
-		Sprites.draw_pose(self, look, base + Vector2(0, hop), {"facing": facing, "dos": data.get("dos", false), "cap": data.get("cap", -1)},
-			look.get("teinte", Color.WHITE) * tint)
+		Sprites.draw_pose(self, look, base + Vector2(0, hop), {"facing": facing, "dos": data.get("dos", false), "cap": data.get("cap", -1),
+			"marche": walking, "phase": phase, "attaque": progress if Sprites.has_strike(look["planche"]) else -1.0}, look.get("teinte", Color.WHITE) * tint)
 	elif look.has("image"):
 		var hop := -absf(sin(phase)) * 2.0 if walking else sin(_time * 2.0 + offset) * 0.4
 		Art.draw(self, look["image"], base + Vector2(0, hop), look.get("couleurs", {}), facing < 0.0, look.get("teinte", Color.WHITE) * tint, look["echelle"])
