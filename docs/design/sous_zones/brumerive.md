@@ -10,6 +10,11 @@ Tempête dominante dans la zone.
 
 ## 1. Le Comptoir de Barbe-Fendue (Nains, au nord)
 
+**Produit le 24/11/2026** (`sz_barbe_fendue.py`, à valider) : cartes `brumerive_1_-1` (Carreau) à `brumerive_2_-3`
+(Salle des Comptes) ; `barbe_fendue_x_y` ci-dessous = `brumerive_(x+1)_(y-1)`. Élites ajoutées : Taupe contremaîtresse (taupes),
+Golem de filon d'or (golems). PNJ : Durgrim explique la forge, Doyenne Brisepierre les Voies, Fendoir le Négociant marchand.
+*Délocalisation* se termine chez le bourgmestre Pansu. « Vole 1 PA » = −1 PA pendant 1 tour. Apparences provisoires.
+
 ```
 y=-2 [Front de taille 2] ──────── [Salle des Comptes ☠ 2]
           │                               │

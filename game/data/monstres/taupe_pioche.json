@@ -1,0 +1,42 @@
+{
+  "id": "taupe_pioche",
+  "nom": "Taupe-pioche",
+  "description": "Une taupe qui creuse plus vite que les nains. Ils lui facturent la différence.",
+  "palier": 1,
+  "caracteristiques": {
+    "pv": 18,
+    "pa": 5,
+    "pm": 4,
+    "initiative": 70,
+    "force": 4
+  },
+  "resistances": {
+    "acier": 15,
+    "tempete": -10
+  },
+  "sorts": [
+    "taupe_griffe_pioche",
+    "taupe_galerie"
+  ],
+  "ia": "basique",
+  "xp": 14,
+  "butin": [
+    {
+      "objet": "griffe_de_taupe",
+      "taux": 0.6,
+      "quantite": [
+        1,
+        2
+      ]
+    },
+    {
+      "objet": "velours_de_taupe",
+      "taux": 0.15
+    }
+  ],
+  "ecus": [
+    1,
+    4
+  ],
+  "mot": "de Taupe"
+}

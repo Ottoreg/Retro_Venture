@@ -245,9 +245,9 @@ thématique** (son village ou campement, son décor, ses monstres et PNJ à son 
   Ombre*, vieux champ de bataille et catacombes ; « Caisse de retraite des Trépassés » qui ne verse jamais
   rien, gradés morts qui font encore l'appel. Un peu de Givre ou d'Impie.
 
-**Brumerive agrandie** (validée par l'auteur le 23/11/2026 ; Hauts-Perchés produits le 24/11/2026, à valider) :
+**Brumerive agrandie** (validée par l'auteur le 23/11/2026 ; Hauts-Perchés et Comptoir de Barbe-Fendue produits le 24/11/2026, à valider) :
 
-- **Nains, au nord** (depuis les Champs de l'est ou le Verger des Pommeaux) : *le Comptoir de
+- **Nains, au nord** (depuis les Champs de l'est ou le Verger des Pommeaux) : cartes `brumerive_1_-1` (départ) à `brumerive_2_-3` (salle du boss) : *le Comptoir de
   Barbe-Fendue*, mine à ciel ouvert dans les collines ; colonie naine venue « faire affaire » avec les
   humains, galeries, monte-charges, guilde des mineurs qui facture chaque coup de pioche, même ceux des
   autres. Un peu d'Acier.

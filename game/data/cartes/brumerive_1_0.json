@@ -4,10 +4,11 @@
   "sorties": {
     "gauche": "brumerive_0_0",
     "droite": "brumerive_2_0",
-    "bas": "brumerive_1_1"
+    "bas": "brumerive_1_1",
+    "haut": "brumerive_1_-1"
   },
   "plan": [
-    "AAAAAA..AAAA.AAAAAA",
+    "AAAAAA.......AAAAAA",
     " A................A",
     "A.................A",
     " A................A",

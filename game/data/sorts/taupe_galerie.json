@@ -1,0 +1,20 @@
+{
+  "id": "taupe_galerie",
+  "nom": "Galerie",
+  "description": "Elle s'enterre ici et ressort là. Sans payer le péage.",
+  "cout_pa": 2,
+  "portee": {
+    "min": 1,
+    "max": 3
+  },
+  "ligne_de_vue": true,
+  "relance": {
+    "par_tour": 1,
+    "delai": 1
+  },
+  "effets": [
+    {
+      "type": "teleportation"
+    }
+  ]
+}

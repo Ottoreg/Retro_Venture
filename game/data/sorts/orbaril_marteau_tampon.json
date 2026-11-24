@@ -1,0 +1,22 @@
+{
+  "id": "orbaril_marteau_tampon",
+  "nom": "Marteau-tampon",
+  "description": "« Payé. » Le tampon s'imprime sur votre front.",
+  "cout_pa": 4,
+  "portee": {
+    "min": 1,
+    "max": 1
+  },
+  "ligne_de_vue": true,
+  "relance": {
+    "par_tour": 2
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "acier",
+      "min": 8,
+      "max": 11
+    }
+  ]
+}

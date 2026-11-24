@@ -3,10 +3,11 @@
   "nom": "Brumerive — Verger des Pommeaux",
   "sorties": {
     "gauche": "brumerive_1_0",
-    "bas": "brumerive_2_1"
+    "bas": "brumerive_2_1",
+    "haut": "brumerive_2_-1"
   },
   "plan": [
-    "AAAAAAAAAAAAAAAAAAA",
+    "AAAAAAA.....AAAAAAA",
     " A................A",
     "A.................A",
     " A................A",

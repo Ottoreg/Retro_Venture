@@ -1,0 +1,48 @@
+{
+  "id": "taupe_contremaitresse",
+  "nom": "Taupe contremaîtresse",
+  "description": "Elle a creusé la moitié de la mine. Elle réclame la moitié des parts.",
+  "palier": 1,
+  "caracteristiques": {
+    "pv": 38,
+    "pa": 6,
+    "pm": 4,
+    "initiative": 90,
+    "force": 10
+  },
+  "resistances": {
+    "acier": 20,
+    "tempete": -5
+  },
+  "sorts": [
+    "taupe_griffe_pioche",
+    "taupe_galerie",
+    "mineur_coup_de_pioche"
+  ],
+  "ia": "basique",
+  "xp": 40,
+  "butin": [
+    {
+      "objet": "griffe_de_taupe",
+      "taux": 0.9,
+      "quantite": [
+        2,
+        4
+      ]
+    },
+    {
+      "objet": "velours_de_taupe",
+      "taux": 0.6,
+      "quantite": [
+        1,
+        2
+      ]
+    }
+  ],
+  "ecus": [
+    5,
+    12
+  ],
+  "elite": true,
+  "famille": "taupe_pioche"
+}

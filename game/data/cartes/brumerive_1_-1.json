@@ -1,0 +1,159 @@
+{
+  "id": "brumerive_1_-1",
+  "nom": "Brumerive — Carreau de la mine",
+  "sorties": {
+    "droite": "brumerive_2_-1",
+    "haut": "brumerive_1_-2",
+    "bas": "brumerive_1_0"
+  },
+  "portes": [
+    "maison_barbe_fendue"
+  ],
+  "plan": [
+    "RRRRRRRR.:.RRRRRRRR",
+    " R................R",
+    "R........:........R",
+    " RU...............R",
+    "R...R....:........R",
+    " R...R..R.........R",
+    "R........:........R",
+    " R....#R..R.......R",
+    "R....##..:.c......R",
+    " R...###......2...R",
+    "R....##..:........R",
+    " R....#+.R........R",
+    "R........:.*.......",
+    " R..............U..",
+    "R........:.........",
+    " R...R.........R...",
+    "R........@:::::::::",
+    " R.............R...",
+    "R........:.........",
+    " R......a....b.....",
+    "R.R......:.........",
+    " R..R...U.........R",
+    "R........:.....R..R",
+    " R...1....F...3...R",
+    "R........:........R",
+    " R................R",
+    "R........:........R",
+    " R................R",
+    "R..RR....:........R",
+    " R................R",
+    "R........:........R",
+    " R................R",
+    "RRRRRRRR.:.RRRRRRRR"
+  ],
+  "groupes": [
+    {
+      "monstres": [
+        "taupe_pioche"
+      ]
+    },
+    {
+      "monstres": [
+        "taupe_pioche",
+        "taupe_pioche"
+      ]
+    },
+    {
+      "parmi": [
+        "taupe_pioche"
+      ],
+      "nombre": [
+        1,
+        2
+      ]
+    }
+  ],
+  "pnj": [
+    {
+      "marqueur": "a",
+      "id": "maitre_mineur_durgrim",
+      "nom": "Maître-Mineur Durgrim",
+      "repliques": [
+        "Bienvenue au Comptoir de Barbe-Fendue ! L'entrée est gratuite. La sortie, on en reparle.",
+        "Nous sommes venus faire affaire avec les humains. Ils ne savent pas encore quelle affaire. Nous non plus, mais elle sera bonne.",
+        "L'enclume est dans votre maison. Son usage est compris dans le loyer. Je vous explique comment s'en servir ?"
+      ],
+      "explication": [
+        "À l'enclume, on choisit d'abord le type d'objet : coiffe, bottes, épée… Chaque type demande sa matière : du tissu pour les coiffes et les capes, du cuir pour les bottes et les ceintures, du minerai pour les anneaux et les amulettes, du minerai et du bois pour les armes.",
+        "Ensuite on ajoute des ressources de monstres, huit sortes au plus. Chacune donne une caractéristique, d'autant plus forte que la bête était coriace. PA et PM : une ligne par objet, et c'est rare.",
+        "Les débutants forgent à l'aveugle : c'est en forgeant qu'on apprend à lire les ressources, les plus faibles d'abord. Un plan, lui, dit tout d'avance.",
+        "L'enclume montre l'objet avant de le forger : ses lignes, ses jets possibles et un nom, que vous pouvez changer avec les mots proposés. Votre nom sera gravé dessus. Le jet, lui, c'est la surprise.",
+        "Comme les classes, chaque métier a sa réputation et ses points de maîtrise : forger, récolter, ça rapporte, surtout ce qui est à votre mesure. Les points se placent dans les compétences du métier (fenêtre des métiers) : de meilleurs jets, des récoltes plus riches, jamais d'échec.",
+        "Et quand vous aurez trop de ressources identiques, essayez le bouton Infusion de l'enclume : vingt ressources pareilles donnent une essence, qui ajoute sa ligne à un objet. Ça peut rater ; l'objet, lui, ne craint rien."
+      ]
+    },
+    {
+      "marqueur": "b",
+      "id": "doyenne_brisepierre",
+      "nom": "Doyenne Brisepierre, déléguée des Voies",
+      "repliques": [
+        "Déléguée aux Voies. Les conseils sont gratuits. Les bons conseils, c'est une autre ligne du tarif.",
+        "Réputation, maîtrise, changement de Voie : je vous fais le devis ?"
+      ],
+      "explication": [
+        "À l'enclume, on choisit d'abord le type d'objet : coiffe, bottes, épée… Chaque type demande sa matière : du tissu pour les coiffes et les capes, du cuir pour les bottes et les ceintures, du minerai pour les anneaux et les amulettes, du minerai et du bois pour les armes.",
+        "Ensuite on ajoute des ressources de monstres, huit sortes au plus. Chacune donne une caractéristique, d'autant plus forte que la bête était coriace. PA et PM : une ligne par objet, et c'est rare.",
+        "Les débutants forgent à l'aveugle : c'est en forgeant qu'on apprend à lire les ressources, les plus faibles d'abord. Un plan, lui, dit tout d'avance.",
+        "L'enclume montre l'objet avant de le forger : ses lignes, ses jets possibles et un nom, que vous pouvez changer avec les mots proposés. Votre nom sera gravé dessus. Le jet, lui, c'est la surprise.",
+        "Comme les classes, chaque métier a sa réputation et ses points de maîtrise : forger, récolter, ça rapporte, surtout ce qui est à votre mesure. Les points se placent dans les compétences du métier (fenêtre des métiers) : de meilleurs jets, des récoltes plus riches, jamais d'échec.",
+        "Et quand vous aurez trop de ressources identiques, essayez le bouton Infusion de l'enclume : vingt ressources pareilles donnent une essence, qui ajoute sa ligne à un objet. Ça peut rater ; l'objet, lui, ne craint rien."
+      ]
+    },
+    {
+      "marqueur": "c",
+      "id": "fendoir_le_negociant",
+      "nom": "Fendoir le Négociant, marchand",
+      "repliques": [
+        "Tout est à vendre, même ce qui n'est pas à moi. Surtout ce qui n'est pas à moi."
+      ],
+      "marchand": true
+    }
+  ],
+  "decors": [
+    {
+      "image": "maison",
+      "case": [
+        11,
+        6
+      ]
+    }
+  ],
+  "placement": [
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ............m.....",
+    "...................",
+    " ....j........m....",
+    "......j.....m......",
+    " ...j..............",
+    ".....j.......m.....",
+    " ..................",
+    "......j.....m......",
+    " ....j........m....",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "...................",
+    " ..................",
+    "..................."
+  ]
+}

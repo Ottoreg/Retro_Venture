@@ -1,0 +1,11 @@
+{
+  "id": "meche_de_lampe",
+  "nom": "Mèche de lampe",
+  "type": "ressource",
+  "rarete": "commun",
+  "niveau": 1,
+  "description": "Elle grésille encore. Facturée à la minute d'éclairage.",
+  "caracteristique": "agilite",
+  "famille": "apprenti_mineur",
+  "zone": "brumerive"
+}

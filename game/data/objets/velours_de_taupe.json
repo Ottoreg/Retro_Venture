@@ -1,0 +1,11 @@
+{
+  "id": "velours_de_taupe",
+  "nom": "Velours de taupe",
+  "type": "ressource",
+  "rarete": "peu_commun",
+  "niveau": 1,
+  "description": "Doux comme la terre meuble. Sent aussi la terre meuble.",
+  "caracteristique": "vitalite",
+  "famille": "taupe_pioche",
+  "zone": "brumerive"
+}

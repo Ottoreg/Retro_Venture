@@ -1,0 +1,11 @@
+{
+  "id": "griffe_de_taupe",
+  "nom": "Griffe de taupe",
+  "type": "ressource",
+  "rarete": "commun",
+  "niveau": 1,
+  "description": "Plus solide qu'une pioche naine. Ne le dites pas aux nains.",
+  "caracteristique": "force",
+  "famille": "taupe_pioche",
+  "zone": "brumerive"
+}

@@ -120,6 +120,42 @@
       "planche": "sprites/geant_paladin.png",
       "echelle": 1.1,
       "teinte": "e8e8f0"
+    },
+    "taupe_pioche": {
+      "image": "rat",
+      "echelle": 0.6,
+      "teinte": "6a5040"
+    },
+    "taupe_contremaitresse": {
+      "image": "rat",
+      "echelle": 0.75,
+      "teinte": "8a6a40"
+    },
+    "apprenti_mineur": {
+      "image": "rat",
+      "planche": "sprites/nain_guerrier.png",
+      "echelle": 0.95
+    },
+    "controleur_des_poids_et_mesures": {
+      "image": "rat",
+      "planche": "sprites/nain_paladin.png",
+      "echelle": 1.15
+    },
+    "golem_de_minerai": {
+      "image": "gargouille",
+      "echelle": 1.0,
+      "teinte": "b08a60"
+    },
+    "golem_de_filon": {
+      "image": "gargouille",
+      "echelle": 1.2,
+      "teinte": "f0c860"
+    },
+    "grand_tresorier_orbaril": {
+      "image": "rat",
+      "planche": "sprites/nain_myrmidon.png",
+      "echelle": 1.35,
+      "teinte": "fff0c0"
     }
   },
   "images": {
@@ -283,6 +319,55 @@
         31,
         42
       ]
+    },
+    "objet_griffe_de_taupe": {
+      "fichier": "objets/crochet_d_araignee.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_velours_de_taupe": {
+      "fichier": "objets/peau_de_loup.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_meche_de_lampe": {
+      "fichier": "objets/brin.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_carnet_de_factures": {
+      "fichier": "objets/registre_des_heures.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_pepite_animee": {
+      "fichier": "objets/cuivre_vert_de_gris.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_contrat_de_golem": {
+      "fichier": "objets/bon_de_coupe.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_sceau_du_tresorier": {
+      "fichier": "objets/tampon_officiel.svgt",
+      "ancre": [
+        22,
+        22
+      ]
     }
   },
   "pnj": {
@@ -438,6 +523,65 @@
         "manches": "4a5a3e",
         "pantalon": "3e4a36",
         "ceinture": "5a4a30"
+      }
+    },
+    "maitre_mineur_durgrim": {
+      "rig": "humain",
+      "race": "nain",
+      "couleurs": {
+        "tunique": "3a4a6a",
+        "manches": "5a3e22",
+        "pantalon": "3e3226",
+        "ceinture": "c9a04e"
+      }
+    },
+    "doyenne_brisepierre": {
+      "rig": "humain",
+      "race": "nain",
+      "couleurs": {
+        "tunique": "6a2a3a",
+        "manches": "5a3e22",
+        "pantalon": "3e3226",
+        "ceinture": "e0b860"
+      }
+    },
+    "fendoir_le_negociant": {
+      "rig": "humain",
+      "race": "nain",
+      "couleurs": {
+        "tunique": "7a6040",
+        "manches": "5a3e22",
+        "pantalon": "3e3226"
+      }
+    },
+    "brunhild_comptable": {
+      "rig": "humain",
+      "race": "nain",
+      "couleurs": {
+        "tunique": "4a3a5a",
+        "manches": "5a3e22",
+        "pantalon": "3e3226",
+        "ceinture": "8a6a40"
+      }
+    },
+    "peagiste_barbe_grise": {
+      "rig": "humain",
+      "race": "nain",
+      "couleurs": {
+        "tunique": "5a5a4a",
+        "manches": "5a3e22",
+        "pantalon": "3e3226",
+        "barbe": "c8c8c0"
+      }
+    },
+    "vieux_tordbras": {
+      "rig": "humain",
+      "race": "nain",
+      "couleurs": {
+        "tunique": "4a4038",
+        "manches": "5a3e22",
+        "pantalon": "3e3226",
+        "barbe": "e0e0e0"
       }
     }
   }

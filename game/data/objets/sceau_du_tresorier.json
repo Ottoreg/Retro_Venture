@@ -1,0 +1,11 @@
+{
+  "id": "sceau_du_tresorier",
+  "nom": "Sceau du Trésorier",
+  "type": "ressource",
+  "rarete": "rare",
+  "niveau": 2,
+  "description": "Le sceau qui valide toutes les factures. Il en a validé trop.",
+  "caracteristique": "dommages_acier",
+  "famille": "grand_tresorier_orbaril",
+  "zone": "brumerive"
+}

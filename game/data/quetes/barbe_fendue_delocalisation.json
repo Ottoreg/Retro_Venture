@@ -1,0 +1,46 @@
+{
+  "id": "barbe_fendue_delocalisation",
+  "nom": "Délocalisation",
+  "categorie": "principale",
+  "acte": 1,
+  "niveau": 4,
+  "pnj": "maitre_mineur_durgrim",
+  "description": "La guilde vous envoie développer le marché humain.",
+  "conditions": {
+    "race": "nain",
+    "quetes_terminees": [
+      "barbe_fendue_facture_impayee"
+    ]
+  },
+  "etapes": [
+    {
+      "objectifs": [
+        {
+          "type": "parler",
+          "pnj": "bourgmestre_pansu",
+          "texte": "Développer le marché humain avec le bourgmestre, sur la Place du village"
+        }
+      ]
+    }
+  ],
+  "dialogues": {
+    "maitre_mineur_durgrim": {
+      "proposition": [
+        "La guilde a voté : vous êtes délocalisé. Allez développer le marché humain.",
+        "Le bourgmestre Pansu, sur la Place du village, au sud-ouest. Vendez-lui… quelque chose. N'importe quoi. Nous-mêmes, peut-être."
+      ],
+      "en_cours": [
+        "Toujours là ? Le marché humain n'attend pas. Enfin si, il attend, mais il ne paie pas en attendant."
+      ]
+    },
+    "bourgmestre_pansu": {
+      "fin": [
+        "Un nain ? Venu faire affaire ? Très bien, très bien. Brumerive a besoin de bras. Combien ça coûte ? … Ah. Tant que ça."
+      ]
+    }
+  },
+  "recompenses": {
+    "xp_cr": 5,
+    "ecus": 60
+  }
+}

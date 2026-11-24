@@ -1,0 +1,44 @@
+{
+  "id": "golem_de_minerai",
+  "nom": "Golem de minerai",
+  "description": "Un tas de minerai animé par contrat. Il a lu toutes les clauses.",
+  "palier": 2,
+  "caracteristiques": {
+    "pv": 60,
+    "pa": 6,
+    "pm": 2,
+    "initiative": 90,
+    "force": 20,
+    "perception": 14
+  },
+  "resistances": {
+    "acier": 30,
+    "flamme": 10,
+    "givre": -15
+  },
+  "sorts": [
+    "golem_poing_de_roche",
+    "golem_eboulis"
+  ],
+  "ia": "basique",
+  "xp": 110,
+  "butin": [
+    {
+      "objet": "pepite_animee",
+      "taux": 0.5,
+      "quantite": [
+        1,
+        2
+      ]
+    },
+    {
+      "objet": "contrat_de_golem",
+      "taux": 0.12
+    }
+  ],
+  "ecus": [
+    9,
+    20
+  ],
+  "mot": "de Golem"
+}

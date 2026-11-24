@@ -1,0 +1,51 @@
+{
+  "id": "controleur_des_poids_et_mesures",
+  "nom": "Contrôleur des Poids et Mesures",
+  "description": "Il vérifie tout. Il a trouvé que vous pesiez trop lourd. Amende.",
+  "palier": 2,
+  "caracteristiques": {
+    "pv": 80,
+    "pa": 7,
+    "pm": 3,
+    "initiative": 110,
+    "agilite": 22,
+    "force": 10
+  },
+  "resistances": {
+    "tempete": 20,
+    "acier": 10,
+    "givre": -10
+  },
+  "sorts": [
+    "mineur_lancer_de_lampe",
+    "controleur_facture_groupee",
+    "controleur_pesee",
+    "mineur_coup_de_pioche"
+  ],
+  "ia": "soutien",
+  "xp": 150,
+  "butin": [
+    {
+      "objet": "meche_de_lampe",
+      "taux": 0.9,
+      "quantite": [
+        2,
+        4
+      ]
+    },
+    {
+      "objet": "carnet_de_factures",
+      "taux": 0.6,
+      "quantite": [
+        1,
+        2
+      ]
+    }
+  ],
+  "ecus": [
+    12,
+    26
+  ],
+  "elite": true,
+  "famille": "apprenti_mineur"
+}

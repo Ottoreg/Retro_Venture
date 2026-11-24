@@ -1,0 +1,51 @@
+{
+  "id": "barbe_fendue_controle_fiscal",
+  "nom": "Contrôle fiscal",
+  "categorie": "secondaire",
+  "niveau": 12,
+  "pnj": "vieux_tordbras",
+  "description": "Le Grand Trésorier Orbaril réclame quatre-vingts ans de loyer au Vieux Tordbras. Un contrôle s'impose.",
+  "conditions": {
+    "une_quete_terminee": [
+      "brumerive_tutoriel",
+      "crasse_roc_tutoriel",
+      "sylvebrume_tutoriel"
+    ]
+  },
+  "etapes": [
+    {
+      "objectifs": [
+        {
+          "type": "vaincre_groupe",
+          "monstre": "grand_tresorier_orbaril",
+          "texte": "Contrôler les comptes d'Orbaril, dans la Salle des Comptes"
+        }
+      ]
+    },
+    {
+      "objectifs": [
+        {
+          "type": "parler",
+          "pnj": "vieux_tordbras"
+        }
+      ]
+    }
+  ],
+  "dialogues": {
+    "vieux_tordbras": {
+      "proposition": [
+        "Orbaril me réclame quatre-vingts ans de loyer. Allez contrôler ses comptes, dans la Salle des Comptes. À coups de pioche, s'il le faut."
+      ],
+      "en_cours": [
+        "Il compte encore ? Je l'entends d'ici : « …et un, et deux… »"
+      ],
+      "fin": [
+        "Ses comptes étaient faux ? Je le savais ! Bon, je lui dois quand même trois brumes. Ne le lui dites pas."
+      ]
+    }
+  },
+  "recompenses": {
+    "xp_cr": 6,
+    "ecus": 120
+  }
+}

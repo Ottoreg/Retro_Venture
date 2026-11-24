@@ -27,7 +27,7 @@ Prix de boutique : selon la rareté (revente à 25 %).
 - [Sorts de race](#sorts-de-race)
 - [Sorts des monstres](#sorts-des-monstres)
 
-**339 objets** (18 armes, 20 coiffes, 20 capes, 20 amulettes, 20 anneaux, 20 ceintures, 20 bottes, 150 ressources, 37 plans de forge, 8 objets de quête), **78 monstres** et **332 sorts**.
+**346 objets** (18 armes, 20 coiffes, 20 capes, 20 amulettes, 20 anneaux, 20 ceintures, 20 bottes, 157 ressources, 37 plans de forge, 8 objets de quête), **85 monstres** et **344 sorts**.
 
 ## Armes
 
@@ -215,6 +215,7 @@ Prix de boutique : selon la rareté (revente à 25 %).
 | **Bois de frêne** | 1 | Commun | +1 Agilité, bois | boutique 4 brumes<br>Bûcheron : Frêne niv. 1 | Souple et droit. Les elfes en font des arcs, les humains des manches de pioche. |
 | **Caillou de fronde** | 1 | Commun | +1 Perception | boutique 4 brumes<br>butin : Frondeur vétéran 90 %, Gobelin frondeur 60 % | Un caillou. Rond. Réglementaire, d'après le gobelin qui le tenait. |
 | **Carapace de grouilleur** | 1 | Commun | +1 Force | boutique 4 brumes<br>butin : Grouilleur ancestral 90 %, Grouilleur 50 % | Un anneau de carapace verte. Il en manque une centaine pour faire le tour. |
+| **Carnet de factures** | 1 | Peu commun | +1 Intelligence | boutique 12 brumes<br>butin : Contrôleur des Poids et Mesures 60 %, Apprenti mineur 15 % | Toutes adressées à « Monsieur Quelqu'un ». Toutes impayées. |
 | **Chapeau de morille** | 1 | Commun | +1 Intelligence | boutique 4 brumes<br>butin : Vieille Morille rancunière 90 %, Morille grincheuse 60 %<br>« Des champignons qui insultent » : sur Morille grincheuse, Vieille Morille rancunière (50 %) | Alvéolé, parfumé, vexé. Il continue de bouder même détaché. |
 | **Chêne des Anciens** | 1 | Rare | +1 % Résistance Acier, bois | Bûcheron : Chêne niv. 3, récolte rare | Une bûche si vieille qu'elle se souvient de l'Âge de l'Aube. Elle refuse d'en parler. |
 | **Cloche de poche** | 1 | Peu commun | +1 Perception | boutique 12 brumes<br>butin : Grand Gueulard 60 %, Apprenti braillard 15 % | Pour s'entraîner à crier plus fort qu'elle. Elle a perdu. |
@@ -232,6 +233,7 @@ Prix de boutique : selon la rareté (revente à 25 %).
 | **Glande acide** | 1 | Peu commun | +4 Vitalité | boutique 12 brumes<br>butin : Grouilleur ancestral 50 %, Grouilleur 15 % | À manipuler avec des gants. Et une pince. Et de loin. |
 | **Goujon** | 1 | Commun | — | boutique 4 brumes<br>Pêcheur : Remous (goujon) niv. 1 | Petit, gris, et persuadé d'être un brochet. |
 | **Goujon doré** | 1 | Rare | — | Pêcheur : Remous (goujon) niv. 1, récolte rare | Un goujon qui a réussi. Il ne parle plus aux autres. |
+| **Griffe de taupe** | 1 | Commun | +1 Force | boutique 4 brumes<br>butin : Taupe contremaîtresse 90 %, Taupe-pioche 60 % | Plus solide qu'une pioche naine. Ne le dites pas aux nains. |
 | **Guano luisant** | 1 | Peu commun | +1 % Critique | boutique 12 brumes<br>butin : Vampipistrelle comtesse 48 %, Vampipistrelle 12 %<br>« Guano-culture » : sur Vampipistrelle, Vampipistrelle comtesse (50 %)<br>« Heures supplémentaires (non payées) » : sur Vampipistrelle, Vampipistrelle comtesse (50 %) | De l'or, d'après Gnark. De l'or qui sent mauvais, mais de l'or. |
 | **Laine d'agneau géant** | 1 | Commun | +1 Force | boutique 4 brumes<br>butin : Agneau-Montagne 90 %, Agneau géant 60 % | Assez pour un pull. Un pull de géant, donc un seul brin. |
 | **Larme gelée** | 1 | Commun | +1 Perception | boutique 4 brumes<br>butin : Grande Pleureuse 90 %, Pleureuse de l'Ossuaire 55 % | Une larme de pleureuse. Elle ne fond jamais, elle non plus ne s'arrête pas. |
@@ -240,6 +242,7 @@ Prix de boutique : selon la rareté (revente à 25 %).
 | **Minerai de cuivre** | 1 | Commun | +1 Intelligence, minerai | boutique 4 brumes<br>Mineur : Cuivre niv. 1 | Ça brille un peu, ça verdit beaucoup. |
 | **Minerai de fer** | 1 | Peu commun | +1 Force, minerai | boutique 12 brumes<br>Mineur : Fer niv. 3 | Lourd, terne, indispensable. Comme un garde de Hautepierre. |
 | **Moelle fossile** | 1 | Peu commun | +4 Vitalité | boutique 12 brumes<br>butin : Fémur du Général 60 %, Os errant 15 % | Trois siècles d'âge. Toujours nourrissante, paraît-il. |
+| **Mèche de lampe** | 1 | Commun | +1 Agilité | boutique 4 brumes<br>butin : Contrôleur des Poids et Mesures 90 %, Apprenti mineur 55 % | Elle grésille encore. Facturée à la minute d'éclairage. |
 | **Ortie** | 1 | Commun | — | boutique 4 brumes<br>Herboriste : Ortie niv. 1 | Elle pique. C'est sa façon de dire bonjour. |
 | **Ortie royale** | 1 | Rare | — | Herboriste : Ortie niv. 1, récolte rare | Elle pique avec distinction, et exige qu'on la cueille avec des gants brodés. |
 | **Patron** | 1 | Peu commun | — | **aucune** | Patron d'un objet forgé : ses ressources, ses jets et ses effets. |
@@ -257,6 +260,7 @@ Prix de boutique : selon la rareté (revente à 25 %).
 | **Toison crépitante** | 1 | Commun | +1 Agilité | boutique 4 brumes<br>butin : Grand Bélier Corne-de-Brume 90 %, Bélier des cimes 55 % | Elle grésille encore. Ne la portez pas sous l'orage. |
 | **Trèfle** | 1 | Commun | — | boutique 4 brumes<br>Herboriste : Trèfle niv. 3 | Trois feuilles. Toujours trois. On a compté. |
 | **Trèfle à quatre feuilles** | 1 | Rare | — | Herboriste : Trèfle niv. 3, récolte rare | La chance en personne. Elle a pourtant mis du temps à se montrer. |
+| **Velours de taupe** | 1 | Peu commun | +4 Vitalité | boutique 12 brumes<br>butin : Taupe contremaîtresse 60 %, Taupe-pioche 15 % | Doux comme la terre meuble. Sent aussi la terre meuble. |
 | **Voile de deuil** | 1 | Peu commun | +4 Vitalité | boutique 12 brumes<br>butin : Grande Pleureuse 60 %, Pleureuse de l'Ossuaire 15 % | Noir, léger, et toujours un peu humide. |
 | **Écorce vivante** | 1 | Commun | +1 Agilité | boutique 4 brumes<br>butin : Arbre millénaire 90 %, Arbre vivant 60 % | Elle bouge encore un peu. C'est normal, paraît-il. |
 | **Épi doré** | 1 | Rare | — | Agriculteur : Blé niv. 1, récolte rare | Un épi qui brille au soleil. Personne ne sait s'il se mange ou s'il se porte. |
@@ -269,6 +273,7 @@ Prix de boutique : selon la rareté (revente à 25 %).
 | **Chapeau du Père Fauchard** | 2 | Commun | +20 Initiative | butin : Père Fauchard, Épouvantail en chef 60 % | Troué par quarante ans d'orages et de corbeaux. |
 | **Citrouille grimaçante** | 2 | Peu commun | +2 Agilité | boutique 12 brumes<br>butin : Grand Épouvantail 48 %, Épouvantail démotivé 12 % | Elle a été sculptée par personne. C'est bien ce qui inquiète. |
 | **Clé de la grange** | 2 | Commun | — | boutique 4 brumes | Certifiée inviolable par son forgeron. La serrure de la grange, elle, n'a rien certifié du tout. |
+| **Contrat de golem** | 2 | Peu commun | +8 Vitalité | boutique 12 brumes<br>butin : Golem de filon d'or 50 %, Golem de minerai 12 % | « Le golem s'engage à travailler pour l'éternité, pauses non comprises. » |
 | **Copeaux de bois** | 2 | Commun | +20 Initiative | boutique 4 brumes<br>butin : Abatteur en chef 88 %, Bûcheron de Brumerive 55 %<br>« La dette de Vieux-Branchu » : sur Bûcheron de Brumerive, Abatteur en chef (50 %) | Ce qui reste d'un arbre quand un bûcheron est passé. Les elfes les ramassent en pleurant. |
 | **Corne du Balourd** | 2 | Rare | +1 PA | boutique 35 brumes<br>butin : Le Balourd des Abîmes 100 % | Encore tiède. Si on la porte à l'oreille, on entend les galeries s'effondrer. |
 | **Crochet d'araignée** | 2 | Peu commun | +1 Prospection | boutique 12 brumes<br>butin : Grande Tisseuse 48 %, Tisseuse de brume 12 % | Encore une goutte de venin au bout. Ne pas s'en servir comme cure-dent. |
@@ -294,9 +299,11 @@ Prix de boutique : selon la rareté (revente à 25 %).
 | **Plaque rouillée** | 2 | Commun | +2 Force | boutique 4 brumes<br>butin : Adjudant Rotule 90 %, Vétéran de la Première Ombre 50 % | Un morceau d'armure réglementaire, modèle Première Ombre. |
 | **Plume d'ange** | 2 | Commun | +3 Force, +3 Intelligence | butin : Ange 35 % | Tombée pendant une prière un peu trop agitée. |
 | **Plume de bourrasque** | 2 | Peu commun | +8 Vitalité | boutique 12 brumes<br>butin : Grand Esprit des cimes 50 %, Esprit des bourrasques 12 % | Elle ne tombe jamais. Elle remonte. |
+| **Pépite animée** | 2 | Commun | +2 Perception | boutique 4 brumes<br>butin : Golem de filon d'or 90 %, Golem de minerai 50 % | Elle bouge encore. Elle cherche le reste du golem. |
 | **Registre des heures** | 2 | Peu commun | +1 Dommages | boutique 12 brumes<br>butin : Contremaître en chef 48 %, Contremaître zélé 12 % | Toutes les heures supplémentaires y sont notées. Aucune n'a été payée. |
 | **Sac de rapine** | 2 | Commun | +8 Vitalité | boutique 4 brumes<br>butin : Pillard émérite 88 %, Gobelin pillard 55 % | Dedans : une poule, un chandelier et un seul soulier. |
 | **Sacré cœur** | 2 | Légendaire | +30 Force, +30 Intelligence | butin : Ange 0 % | Il bat encore, et il juge. |
+| **Sceau du Trésorier** | 2 | Rare | +1 Dommages Acier | boutique 35 brumes<br>butin : Grand Trésorier Orbaril 100 % | Le sceau qui valide toutes les factures. Il en a validé trop. |
 | **Sifflet de contremaître** | 2 | Commun | +2 Agilité | boutique 4 brumes<br>butin : Contremaître en chef 80 %, Contremaître zélé 50 %<br>« Le péage de Zibeline » : sur Contremaître zélé, Contremaître en chef (50 %) | Trois coups : au travail. Deux coups : plus vite. Un coup : vous êtes viré. |
 | **Soie de la Mère-Toile** | 2 | Rare | +1 PM | boutique 35 brumes<br>butin : La Mère-Toile 100 % | Un écheveau tissé depuis l'Âge de l'Aube. Elle n'a jamais fini un seul napperon. |
 | **Souffle en bouteille** | 2 | Commun | +2 Intelligence | boutique 4 brumes<br>butin : Grand Esprit des cimes 90 %, Esprit des bourrasques 50 % | Une bourrasque mise en bouteille. Ouvrez-la dehors. |
@@ -445,13 +452,13 @@ ni 35 % du jeu entier, pour qu'aucune résistance unique ne suffise.
 
 | Zone | Monstres | Répartition |
 |---|---|---|
-| Brumerive (humains) | 19 | Tempête 59 %, Acier 32 %, Flamme 9 % |
+| Brumerive (humains) | 26 | Tempête 48 %, Acier 46 %, Flamme 6 % |
 | Crasse-Roc (gobelins) | 26 | Flamme 38 %, Acier 28 %, Impie 20 %, Givre 7 %, Sacré 4 %, Tempête 3 % |
 | Sylvebrume (elfes) | 12 | Givre 43 %, Acier 34 %, Tempête 21 %, Flamme 2 % |
 | Hautepierre | 16 | Acier 30 %, Flamme 27 %, Givre 18 %, Tempête 15 %, Impie 9 % |
 | La Cendre | 1 | Flamme 100 % |
 | Ailleurs | 11 | Tempête 60 %, Sacré 26 %, Flamme 10 %, Acier 4 % |
-| **Jeu entier** | 78 | Acier 29 %, Tempête 24 %, Flamme 21 %, Givre 13 %, Impie 8 %, Sacré 5 % |
+| **Jeu entier** | 85 | Acier 33 %, Tempête 24 %, Flamme 19 %, Givre 12 %, Impie 8 %, Sacré 4 % |
 
 ## Monstres
 
@@ -488,6 +495,34 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 | PV | Init. | XP | Force |
 |---|---|---|---|
 | 42 | 85 | 40 | 10 |
+
+#### Apprenti mineur *(famille)*
+
+*Nain en stage non payé. Il se rattrape en facturant les autres.*
+
+- **Palier** : 1 ; **6 PA, 3 PM** ; IA basique
+- **Résistances** : Tempête +15 %, Acier +5 %, Givre -15 %
+- **Sorts** : Coup de pioche, Lancer de lampe, Facture
+- **Butin** : Mèche de lampe 55 % (×1–2), Carnet de factures 15 % ; **brumes** 3–8
+- **Où le trouver** : Galerie des Péages (`brumerive_1_-2`, 3 groupes, dont 1 au hasard) · Front de taille (`brumerive_1_-3`, 1 groupe) · Terril aux Taupes (`brumerive_2_-1`, 3 groupes, dont 1 au hasard) · Monte-charges (`brumerive_2_-2`, 2 groupes, dont 1 au hasard)
+
+| PV | Init. | XP | Force | Agi. |
+|---|---|---|---|---|
+| 24 | 80 | 30 | 4 | 8 |
+
+#### Contrôleur des Poids et Mesures *(élite de la famille Apprenti mineur)*
+
+*Il vérifie tout. Il a trouvé que vous pesiez trop lourd. Amende.*
+
+- **Palier** : 2 ; **7 PA, 3 PM** ; IA soutien
+- **Résistances** : Tempête +20 %, Acier +10 %, Givre -10 %
+- **Sorts** : Lancer de lampe, Facture groupée, Pesée, Coup de pioche
+- **Butin** : Mèche de lampe 90 % (×2–4), Carnet de factures 60 % (×1–2) ; **brumes** 12–26
+- **Où le trouver** : Galerie des Péages (`brumerive_1_-2`, apparition spontanée) · Front de taille (`brumerive_1_-3`, apparition spontanée) · Terril aux Taupes (`brumerive_2_-1`, apparition spontanée) · Monte-charges (`brumerive_2_-2`, apparition spontanée)
+
+| PV | Init. | XP | Force | Agi. |
+|---|---|---|---|---|
+| 80 | 110 | 150 | 10 | 22 |
 
 #### Bélier des cimes *(famille)*
 
@@ -573,6 +608,34 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 |---|---|---|---|---|
 | 70 | 150 | 110 | 20 | 20 |
 
+#### Taupe-pioche *(famille)*
+
+*Une taupe qui creuse plus vite que les nains. Ils lui facturent la différence.*
+
+- **Palier** : 1 ; **5 PA, 4 PM** ; IA basique
+- **Résistances** : Acier +15 %, Tempête -10 %
+- **Sorts** : Griffe-pioche, Galerie
+- **Butin** : Griffe de taupe 60 % (×1–2), Velours de taupe 15 % ; **brumes** 1–4
+- **Où le trouver** : Carreau de la mine (`brumerive_1_-1`, 3 groupes, dont 1 au hasard) · Galerie des Péages (`brumerive_1_-2`, 2 groupes, dont 1 au hasard) · Terril aux Taupes (`brumerive_2_-1`, 3 groupes, dont 1 au hasard)
+
+| PV | Init. | XP | Force |
+|---|---|---|---|
+| 18 | 70 | 14 | 4 |
+
+#### Taupe contremaîtresse *(élite de la famille Taupe-pioche)*
+
+*Elle a creusé la moitié de la mine. Elle réclame la moitié des parts.*
+
+- **Palier** : 1 ; **6 PA, 4 PM** ; IA basique
+- **Résistances** : Acier +20 %, Tempête -5 %
+- **Sorts** : Griffe-pioche, Galerie, Coup de pioche
+- **Butin** : Griffe de taupe 90 % (×2–4), Velours de taupe 60 % (×1–2) ; **brumes** 5–12
+- **Où le trouver** : Carreau de la mine (`brumerive_1_-1`, apparition spontanée) · Galerie des Péages (`brumerive_1_-2`, apparition spontanée) · Terril aux Taupes (`brumerive_2_-1`, apparition spontanée)
+
+| PV | Init. | XP | Force |
+|---|---|---|---|
+| 38 | 90 | 40 | 10 |
+
 #### Esprit des bourrasques *(famille)*
 
 *Un vent qui a pris de mauvaises habitudes : il entre sans frapper.*
@@ -656,6 +719,50 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 | PV | Init. | XP | Force | Intel. | Agi. |
 |---|---|---|---|---|---|
 | 118 | 125 | 221 | 54 | 54 | 32 |
+
+#### Golem de minerai *(famille)*
+
+*Un tas de minerai animé par contrat. Il a lu toutes les clauses.*
+
+- **Palier** : 2 ; **6 PA, 2 PM** ; IA basique
+- **Résistances** : Acier +30 %, Flamme +10 %, Givre -15 %
+- **Sorts** : Poing de roche, Éboulis
+- **Butin** : Pépite animée 50 % (×1–2), Contrat de golem 12 % ; **brumes** 9–20
+- **Où le trouver** : Galerie des Péages (`brumerive_1_-2`, 1 groupe) · Front de taille (`brumerive_1_-3`, 3 groupes, dont 1 au hasard) · Monte-charges (`brumerive_2_-2`, 3 groupes, dont 1 au hasard) · Salle des Comptes (`brumerive_2_-3`, 1 groupe)
+
+| PV | Init. | XP | Force | Percep. |
+|---|---|---|---|---|
+| 60 | 90 | 110 | 20 | 14 |
+
+#### Golem de filon d'or *(élite de la famille Golem de minerai)*
+
+*Le seul golem que la guilde n'a jamais réussi à faire travailler : il vaut trop cher.*
+
+- **Palier** : 2 ; **7 PA, 2 PM** ; IA basique
+- **Résistances** : Acier +35 %, Flamme +15 %, Givre -10 %
+- **Sorts** : Poing de roche, Éboulis, Facture
+- **Butin** : Pépite animée 90 % (×2–4), Contrat de golem 50 % (×1–2) ; **brumes** 20–40
+- **Où le trouver** : Galerie des Péages (`brumerive_1_-2`, apparition spontanée) · Front de taille (`brumerive_1_-3`, apparition spontanée) · Monte-charges (`brumerive_2_-2`, apparition spontanée) · Salle des Comptes (`brumerive_2_-3`, apparition spontanée)
+
+| PV | Init. | XP | Force | Percep. |
+|---|---|---|---|---|
+| 120 | 100 | 230 | 30 | 22 |
+
+#### Grand Trésorier Orbaril *(boss)*
+
+*Il compte tout, surtout ce qu'on lui doit. Vous lui devez quelque chose, c'est certain.*
+
+- **Palier** : 2 ; **7 PA, 3 PM** ; IA basique
+- **Résistances** : Acier +25 %, Tempête +15 %, Givre -20 %
+- **Sorts** : Marteau-tampon, Facture
+- **Phase 1** (à 70 % PV) : apprend Pluie de pièces ; +1 Portée (3 t.). Message : « Recouvrement ! Vous me devez des PV. » Orbaril recule derrière son comptoir.
+- **Phase 2** (à 30 % PV) : apprend Tout doit disparaître ! ; +2 PM (3 t.) ; +20 % dégâts infligés (3 t.). Message : « Faillite ! Tout doit disparaître ! » Orbaril saute par-dessus le comptoir.
+- **Butin** : Sceau du Trésorier 100 % ; **brumes** 90–150
+- **Où le trouver** : Salle des Comptes (`brumerive_2_-3`, 1 groupe, dont 1 réapparition 45–60 s)
+
+| PV | Init. | XP | Force | Agi. |
+|---|---|---|---|---|
+| 300 | 95 | 760 | 20 | 20 |
 
 #### Krasbouk, Chef de Raid (syndiqué) *(boss)*
 
@@ -1892,6 +1999,7 @@ Soigneur sacré. Bénit les alliés, sermonne les ennemis, et cite des textes qu
 | **Coup de fronde** | 3 PA, portée 2–5, 2/tour | 3–6 Tempête | Frondeur vétéran (élite), palier 2, Gobelin frondeur, palier 1 | Un caillou bien ajusté. Le gobelin a été payé à la pièce. |
 | **Coup de hache** | 4 PA, portée 1, 1/tour | 7–10 Acier | Défonceur de portes (élite), palier 3, Gobelin briseur, palier 2 | Il brise les portes. Les genoux, c'est en bonus. |
 | **Coup de massue** | 4 PA, portée 1, 1/tour | 8–11 Acier ; poussée de 1 case(s) | Troll des ponts, palier 3, Troll gastronome (élite), palier 4 | Pas de technique, beaucoup de massue. |
+| **Coup de pioche** | 3 PA, portée 1, 2/tour | 4–6 Acier | Apprenti mineur, palier 1, Contrôleur des Poids et Mesures (élite), palier 2, Taupe contremaîtresse (élite), palier 1 | Stage non payé, coups bien appuyés. |
 | **Coup de poing de séance** | 4 PA, portée 1, 2/tour | 8–11 Flamme | Gorgrak la Grande Gueule (mini-boss), palier 2 | La séance est ouverte. Votre arcade aussi. |
 | **Coup de ramure** | 4 PA, portée 1, 1/tour | 8–12 Tempête | Cerf enchanté, palier 1, Grand cerf de la Lisière (élite), palier 2 | Des bois enchantés, mais des bois quand même. Il charge comme le vent. |
 | **Coup de surin** | 3 PA, portée 1, 2/tour | 5–7 Impie | Chef de bande (élite), palier 3, Détrousseur des grands chemins, palier 3 | Dans l'ombre, sans prévenir, sans facture. |
@@ -1906,14 +2014,18 @@ Soigneur sacré. Bénit les alliés, sermonne les ennemis, et cite des textes qu
 | **Embuscade** | 3 PA, portée 1–4, sans ligne de vue, 1/tour, relance 2 t. | piège invisible : [9–13 Impie aux ennemis ; −2 PM (1 t.) aux ennemis] | Chef de bande (élite), palier 3 | Ils étaient cachés dans le fossé. Ils y sont toujours, d'ailleurs. |
 | **Estocade de pillard** | 3 PA, portée 1, 2/tour | 5–7 Acier | Gobelin pillard, palier 2, Pillard émérite (élite), palier 2 | Un coup rapide, avant que la victime ne compte ses poules. |
 | **Exorcisme** | 3 PA, portée 1, 1/tour | exorcisme (2 t.) aux ennemis | Archange Raphaël (mini-boss), palier 3 | La cible sera achevée par les prochains dégâts Sacré. |
+| **Facture** | 2 PA, portée 1–3, 1/tour, relance 1 t. | −1 PA (1 t.) | Apprenti mineur, palier 1, Golem de filon d'or (élite), palier 2, Grand Trésorier Orbaril (mini-boss), palier 2 | « Pour la consultation. » Vous n'avez rien demandé. |
+| **Facture groupée** | 3 PA, portée soi, cercle de rayon 2, 1/tour, relance 2 t. | −1 PA (1 t.) aux ennemis | Contrôleur des Poids et Mesures (élite), palier 2 | Une seule facture pour tout le monde. Montant : tout. |
 | **Flèche cupide** | 4 PA, portée 1–5, 1/tour | 10 Flamme | Cupidon, palier 1 | Elle ne rend personne amoureux, mais elle vole quelques PV. |
 | **Fouet de flammes** | 4 PA, portée 1–3, 1/tour | 6–9 Flamme ; attire de 1 case(s) | Le Balourd des Abîmes (mini-boss), palier 2 | Il vous ramène vers lui, poliment, par le cou. |
+| **Galerie** | 2 PA, portée 1–3, 1/tour, relance 1 t. | téléportation sur la case | Taupe contremaîtresse (élite), palier 1, Taupe-pioche, palier 1 | Elle s'enterre ici et ressort là. Sans payer le péage. |
 | **Garde-à-vous** | 2 PA, portée soi, 1/tour, relance 2 t. | +15 Résistance Acier (1 t.) ; +15 Résistance Givre (1 t.) | Vétéran de la Première Ombre, palier 2 | Le dos droit, la mâchoire serrée (elle tient mal). |
 | **Gargouillis** | 3 PA, portée 2–4, 1/tour | 5–7 Givre | Gargouille, palier 4, Gargouille de la Grande Porte (élite), palier 4 | Elle crache l'eau de pluie de la semaine. Glacée. |
 | **Glaive** | 3 PA, portée 1, 2/tour | 20 Acier | Ange, palier 2 | Deux coups de glaive valent mieux qu'un sermon. |
 | **Gnôle de raid** | 2 PA, portée soi, sans ligne de vue, 1/tour, relance 3 t. | soin 6–9 (Acier) | Défonceur de portes (élite), palier 3, Gobelin briseur, palier 2 | Une gorgée de gnôle. Ça soigne, d'après l'étiquette. |
 | **Grande moisson** | 4 PA, portée soi, cercle de rayon 1 (sans le lanceur), 1/tour | 15–22 Tempête aux ennemis | Père Fauchard, Épouvantail en chef (mini-boss), palier 2, phase 2 (30 % PV) | Un moulinet de faux autour de lui. Rien ne repousse, surtout pas vous. |
 | **Griffe de Juda** | 5 PA, portée 1, 1/tour | 1–50 Sacré | Lion de Juda, palier 3 | Un coup de patte imprévisible. |
+| **Griffe-pioche** | 3 PA, portée 1, 2/tour | 3–5 Acier | Taupe contremaîtresse (élite), palier 1, Taupe-pioche, palier 1 | Elle creuse plus vite que les nains. Ils lui en veulent. |
 | **Griffes de pierre** | 4 PA, portée 1, 1/tour | 7–10 Givre | Gargouille, palier 4, Gargouille de la Grande Porte (élite), palier 4 | Trois siècles à garder une gouttière gelée, ça aiguise les griffes. |
 | **Grignotage** | 2 PA, portée 1, 1/tour | 1–2 Acier ; −1 PM au prochain tour | Rat des galeries, palier 1, Rat-roi (élite), palier 1 | Le rat s'attaque aux lacets. On avance moins vite. |
 | **Groin brûlant** | 3 PA, portée 1–2, 1/tour | 2–3 Flamme ; poison 1–2 Flamme par tour (1 t.) | Goret de braise, palier 1, Goret à trois défenses (élite), palier 1 | Il s'est roulé dans les braises. Il vous en fait profiter. |
@@ -1928,11 +2040,13 @@ Soigneur sacré. Bénit les alliés, sermonne les ennemis, et cite des textes qu
 | **Lame de braise** | 4 PA, portée 1, 1/tour | 8–11 Flamme | Le Balourd des Abîmes (mini-boss), palier 2 | Une épée faite de feu. Ou un feu en forme d'épée : il n'a jamais su. |
 | **Lame de cendre** | 4 PA, portée 1, 2/tour | 22–30 Flamme | Le Souverain Cendré (mini-boss), palier 5 | Une épée noire qui laisse des braises dans la plaie. |
 | **Lance rouillée** | 4 PA, portée 1–2, 1/tour | 6–9 Acier | Adjudant Rotule (élite), palier 2, Vétéran de la Première Ombre, palier 2 | Trois siècles de service, et toujours pas de lance neuve. |
+| **Lancer de lampe** | 3 PA, portée 2–4, 1/tour | 3–5 Tempête | Apprenti mineur, palier 1, Contrôleur des Poids et Mesures (élite), palier 2 | La lampe était éteinte. Elle ne l'est plus. |
 | **Lancer de rocher** | 4 PA, portée 2–5, 1/tour | 5–8 Givre | Troll des ponts, palier 3, Troll gastronome (élite), palier 4 | Il arrache un bloc de pont gelé par le Fleuve Gris et vous le rend. |
 | **Larmes glacées** | 4 PA, portée 2–5, 1/tour | 4–6 Givre ; −1 PM au prochain tour | Grande Pleureuse (élite), palier 1, Pleureuse de l'Ossuaire, palier 1 | Elle vous pleure d'avance. Ça gèle. |
 | **Licenciement** | 4 PA, portée 1–2, 1/tour | 6–9 Flamme ; poussée de 3 case(s) | Contremaître en chef (élite), palier 3 | « Vous êtes viré ! » Et pour être sûr que vous ne reveniez pas, il brûle votre badge. Sur vous. |
 | **Marinade** | 3 PA, portée 1–2, 1/tour | poison 4–6 Flamme par tour (3 t.) ; −10 Résistance Flamme (3 t.) | Troll gastronome (élite), palier 4 | Il vous assaisonne avant cuisson. Le feu vous fera plus mal ensuite. |
 | **Marmite de braise** | 4 PA, portée 2–6, cercle de rayon 1, sans ligne de vue, 1/tour | 5–8 Flamme aux ennemis | Gorgrak la Grande Gueule (mini-boss), palier 2, phase 1 (70 % PV) | Le repas de la réunion. Servi brûlant, sur la tête. |
+| **Marteau-tampon** | 4 PA, portée 1, 2/tour | 8–11 Acier | Grand Trésorier Orbaril (mini-boss), palier 2 | « Payé. » Le tampon s'imprime sur votre front. |
 | **Masse de ferraille** | 4 PA, portée 1, 1/tour | 6–9 Acier ; poussée de 1 case(s) | Ferrailleur blindé (élite), palier 2, Ferrailleur orc, palier 2 | Une masse faite de tout ce qui traînait. Surtout de l'enclume. |
 | **Morsure** | 3 PA, portée 1, 2/tour | 3–5 Tempête | Loup alpha (élite), palier 2, Loup cendreux, palier 3, Loup des collines, palier 1 |  |
 | **Morsure brûlante** | 3 PA, portée 1, 1/tour | 4–6 Flamme ; poison 2–3 Flamme par tour (2 t.) | Loup cendreux, palier 3 | Ses crocs gardent la chaleur de la Cendre. |
@@ -1942,6 +2056,7 @@ Soigneur sacré. Bénit les alliés, sermonne les ennemis, et cite des textes qu
 | **Nuage de rancune** | 4 PA, portée 1–5, cercle de rayon 1, 1/tour | poison 2–3 Givre par tour (3 t.) ; −1 Portée (1 t.) | Vieille Morille rancunière (élite), palier 1 | Elle n'oublie rien. Vos poumons non plus. |
 | **Nuée de corbeaux** | 3 PA, portée 2–5, 1/tour | 4–6 Tempête | Grand Épouvantail (élite), palier 2, Épouvantail démotivé, palier 2 | Il ne fait plus peur aux corbeaux, alors il travaille avec eux. |
 | **Nuée de la comtesse** | 5 PA, portée 1–4, cercle de rayon 1, 1/tour | 5–7 Impie | Vampipistrelle comtesse (élite), palier 2 | Toute la famille vient dîner. Vous êtes le dîner. |
+| **Pesée** | 2 PA, portée 0–4, 1/tour, relance 2 t. | +10 % dégâts infligés (2 t.) aux alliés | Contrôleur des Poids et Mesures (élite), palier 2 | Il pèse l'allié, le trouve trop léger, et le lui reproche. Ça motive. |
 | **Pinces** | 3 PA, portée 1, 2/tour | 4–7 Flamme | Grouilleur, palier 1, Grouilleur ancestral (élite), palier 2, Grouilleur de braise, palier 3 | Des dizaines de pattes, et deux pinces chauffées à blanc. |
 | **Piqué** | 4 PA, portée 2–5, 1/tour | 6–9 Tempête | Corbac chef espion (élite), palier 4, Corbac espion, palier 3 | Il tombe du ciel comme un mauvais présage, et c'en est un. |
 | **Piétinement** | 4 PA, portée soi, cercle de rayon 1, 1/tour, relance 1 t. | 6–9 Acier aux ennemis | Le Doyen Lentissime (mini-boss), palier 2 | Il change de pied. Toute la montagne le sent. |
@@ -1950,6 +2065,8 @@ Soigneur sacré. Bénit les alliés, sermonne les ennemis, et cite des textes qu
 | **Pluie de cailloux** | 5 PA, portée 2–6, cercle de rayon 1, 1/tour | 6–10 Tempête | Frondeur vétéran (élite), palier 2 | Vingt ans de service, et toujours pas de prime. Il se venge sur tout le monde. |
 | **Pluie de cendres** | 3 PA, portée 1–6, cercle de rayon 1, sans ligne de vue, 1/tour, relance 2 t. | glyphe (2 t.) : [4–6 Flamme aux ennemis] | Arbre calciné, palier 3 | Il secoue ses branches mortes ; il en tombe des braises. |
 | **Pluie de phalanges** | 4 PA, portée 1–6, cercle de rayon 1, sans ligne de vue, 1/tour | 5–8 Impie aux ennemis | Grande Pleureuse (élite), palier 1, Le Colonel Ossature (mini-boss), palier 2, phase 1 (70 % PV) | Il lance ses propres doigts. Il en a encore beaucoup. |
+| **Pluie de pièces** | 4 PA, portée 2–6, cercle de rayon 1, sans ligne de vue, 1/tour | 5–8 Tempête aux ennemis ; −1 PA (1 t.) aux ennemis | Grand Trésorier Orbaril (mini-boss), palier 2, phase 1 (70 % PV) | Il jette l'argent par les fenêtres. Sur vous. |
+| **Poing de roche** | 4 PA, portée 1, 1/tour | 6–9 Acier ; poussée de 1 case(s) | Golem de filon d'or (élite), palier 2, Golem de minerai, palier 2 | Un poing en minerai brut. Non raffiné, non poli, non négociable. |
 | **Racines** | 3 PA, portée 1–6, 1/tour | 4–6 Givre ; −2 PM au prochain tour | Arbre calciné, palier 3, Arbre millénaire (élite), palier 2, Arbre vivant, palier 1 | Les racines gelées sortent de terre et vous retiennent. Elles ont pris froid, vous aussi. |
 | **Rafale** | 4 PA, portée 2–6, 1/tour | 4–6 Tempête ; poussée de 2 case(s) | Esprit des bourrasques, palier 2, Grand Esprit des cimes (élite), palier 2 | Un vent qui a pris de mauvaises habitudes. Il pousse. |
 | **Rappel à l'ordre** | 3 PA, portée 2–4, en ligne, 1/tour, relance 1 t. | attire de 2 case(s) ; 4–6 Sacré | Sergent de la milice (élite), palier 2 | « Vous, là ! Approchez ! Au nom de la Loi ! » On approche, c'est plus fort que soi. |
@@ -1973,11 +2090,13 @@ Soigneur sacré. Bénit les alliés, sermonne les ennemis, et cite des textes qu
 | **Toison électrique** | 2 PA, portée soi, 1/tour, relance 2 t. | +3 epines_tempete_fixes (2 t.) | Bélier des cimes, palier 1, Grand Bélier Corne-de-Brume (élite), palier 2 | La laine frotte, ça crépite. Ne caressez pas. |
 | **Tourbillon** | 3 PA, portée soi, cercle de rayon 1, 1/tour, relance 1 t. | 4–6 Tempête aux ennemis | Esprit des bourrasques, palier 2, Grand Esprit des cimes (élite), palier 2 | Il tourne sur lui-même. Tout ce qui est autour aussi. |
 | **Tourbillon syndical** | 4 PA, portée soi, cercle de rayon 1 (sans le lanceur), sans ligne de vue, 1/tour | 7–10 Acier | Krasbouk, Chef de Raid (syndiqué) (mini-boss), palier 2, phase 2 (30 % PV) | Il fait le tour de la question. Et de tous ceux qui l'entourent. |
+| **Tout doit disparaître !** | 3 PA, portée 1, 2/tour | 6–9 Acier ; −1 PM au prochain tour | Grand Trésorier Orbaril (mini-boss), palier 2, phase 2 (30 % PV) | Liquidation totale. Vous compris. |
 | **Trait de lumière** | 4 PA, portée 2–7, 1/tour | 25 Sacré | Ange, palier 2 | Un rayon sacré, tiré de loin par prudence. |
 | **Ultrason** | 3 PA, portée 1–4, 1/tour | 3–5 Tempête ; −1 Portée (1 t.) | Vampipistrelle, palier 1, Vampipistrelle comtesse (élite), palier 2 | Un cri si aigu qu'on ne vise plus droit. |
 | **Venin ancestral** | 4 PA, portée 1, 1/tour | 7–10 Givre ; poison 3–4 Givre par tour (3 t.) | La Mère-Toile (mini-boss), palier 2 | Une seule morsure, et l'hiver s'installe dans vos veines. |
 | **Vol à l'arraché** | 2 PA, portée 1, 1/tour | 2–4 Flamme ; −2 Dommages (2 t.) | Gobelin pillard, palier 2, Pillard émérite (élite), palier 2 | Il vous prend quelque chose et met le feu à ce qu'il laisse. Vous frappez moins fort, par dépit. |
 | **Vote à main levée** | 3 PA, portée 1, 2/tour | 6–9 Flamme ; −1 PM au prochain tour | Gorgrak la Grande Gueule (mini-boss), palier 2, phase 2 (30 % PV) | La main est levée. Puis elle redescend, sur vous. |
+| **Éboulis** | 4 PA, portée 2–5, cercle de rayon 1, 1/tour | 4–6 Acier aux ennemis | Golem de filon d'or (élite), palier 2, Golem de minerai, palier 2 | Il secoue les épaules. Il en tombe des cailloux. |
 | **Éclat sylvestre** | 3 PA, portée 2–5, 2/tour | 5–8 Tempête | Cerf enchanté, palier 1, Grand cerf de la Lisière (élite), palier 2 | Une lueur verte jaillit des bois du cerf. |
 | **Éclats de porte** | 3 PA, portée 2–5, cercle de rayon 1, 1/tour | 4–6 Acier | Grondin, Bélier de la Brèche (mini-boss), palier 4 | Il crache les morceaux des portes qu'il a déjà enfoncées. |
 | **Élan** | 2 PA, portée soi, sans ligne de vue, 1/tour, relance 2 t. | +2 PM (1 t.) | Grondin, Bélier de la Brèche (mini-boss), palier 4 | Les roues grincent, les chaînes claquent : il recule pour mieux frapper. |

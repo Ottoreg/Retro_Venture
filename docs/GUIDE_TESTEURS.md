@@ -91,7 +91,7 @@ temps : chaque camp a sa propre histoire.
   - **Arkhé** (élémentaire de feu, camp neutre, à l'essai) : départ à **Sylvebrume** ; sort *Éruption* (dégâts
     Flamme aux ennemis à son contact) ; passif *Cœur élémentaire* : +5 % de dégâts et de résistance Flamme ; variantes
     Acier, Givre et Tempête : le même passif et le même sort dans leur élément.
-  - **Nain** (camp allié, à l'essai) : départ à **Brumerive** ; apparence seulement pour l'instant.
+  - **Nain** (camp allié, à l'essai) : départ au **Comptoir de Barbe-Fendue**, au nord de Brumerive (sa sous-zone, avec sa Pierre de Passage, sa maison et 3 quêtes de race) ; apparence seulement pour l'instant.
 - Cinq Voies (classes), chacune avec sa mécanique :
   - **Guerrier** : *Charge* (en ligne droite, jusqu'au contact, puis un coup d'épée) ;
   - **Rôdeur** : *Collet*, un piège invisible qui blesse et ralentit le premier ennemi qui y entre ;

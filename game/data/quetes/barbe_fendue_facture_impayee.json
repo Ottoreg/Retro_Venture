@@ -1,0 +1,61 @@
+{
+  "id": "barbe_fendue_facture_impayee",
+  "nom": "Facture impayée",
+  "categorie": "principale",
+  "acte": 1,
+  "niveau": 3,
+  "pnj": "brunhild_comptable",
+  "description": "Deux apprentis ont pioché sans payer. Brunhild veut son dû, en minerai.",
+  "conditions": {
+    "race": "nain",
+    "quetes_terminees": [
+      "barbe_fendue_contrat_d_embauche"
+    ]
+  },
+  "etapes": [
+    {
+      "objectifs": [
+        {
+          "type": "vaincre",
+          "monstre": "apprenti_mineur",
+          "nombre": 2
+        }
+      ]
+    },
+    {
+      "objectifs": [
+        {
+          "type": "recolter",
+          "objet": "minerai_de_cuivre",
+          "nombre": 5,
+          "texte": "Récolter du cuivre au Terril pour solder la facture"
+        },
+        {
+          "type": "parler",
+          "pnj": "brunhild_comptable"
+        }
+      ]
+    }
+  ],
+  "dialogues": {
+    "brunhild_comptable": {
+      "proposition": [
+        "Deux apprentis ont pioché sans payer. Raisonnez-les. Fermement.",
+        "Puis rapportez-moi cinq minerais de cuivre. Pour solder la facture. Et les intérêts. Et les frais de dossier."
+      ],
+      "en_cours": [
+        "La facture court toujours. Les intérêts aussi."
+      ],
+      "objectif": [
+        "Les apprentis ont compris. Reste le paiement."
+      ],
+      "fin": [
+        "Facture soldée. Voici votre reçu. Il vous coûtera une brume."
+      ]
+    }
+  },
+  "recompenses": {
+    "xp_cr": 4,
+    "ecus": 50
+  }
+}

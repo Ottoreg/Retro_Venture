@@ -92,8 +92,8 @@ ressource récoltée) ; nombre de nœuds par carte.
 
 | Nœud | Palier | Objet | Qté | Rép. base | Rép. à sa mesure | Repousse (s) | Temps (s) | Rare | Forge | Cartes |
 |---|---|---|---|---|---|---|---|---|---|---|
-| **Frêne** (F) | 1 | Bois de frêne | 1–3 | 5 | 5 | 60–120 | 1,75 / 1 | Cœur de frêne | Agilité, bois | brumerive_-1_0 ×3, brumerive_-2_0 ×3, brumerive_0_0 ×5, brumerive_0_1 ×3, brumerive_1_1 ×2, brumerive_1_2 ×2, brumerive_2_0 ×3, crasse_roc_0_-1 ×3, crasse_roc_0_0 ×2, crasse_roc_0_1 ×1, crasse_roc_1_-1 ×3, crasse_roc_1_0 ×1, crasse_roc_3_0 ×3, crasse_roc_3_2 ×2, hautepierre_2_0 ×2, sylvebrume_0_0 ×4, sylvebrume_0_1 ×3, sylvebrume_1_0 ×5, sylvebrume_2_0 ×2, sylvebrume_2_1 ×1 |
-| **Chêne** (C) | 3 | Bois de chêne | 1–2 | 8 | 8 | 60–120 | 2,25 / 1,12 | Chêne des Anciens | Force, bois | brumerive_-1_0 ×1, brumerive_1_0 ×5, brumerive_1_1 ×2, brumerive_2_0 ×2, brumerive_2_1 ×2, crasse_roc_0_0 ×1, crasse_roc_0_2 ×1, crasse_roc_1_-1 ×1, crasse_roc_1_0 ×2, crasse_roc_1_1 ×1, crasse_roc_3_0 ×1, crasse_roc_3_2 ×2, hautepierre_0_2 ×2, hautepierre_2_0 ×2, hautepierre_4_2 ×1, sylvebrume_0_0 ×3, sylvebrume_1_0 ×3, sylvebrume_1_1 ×2, sylvebrume_1_2 ×1, sylvebrume_2_0 ×2 |
+| **Frêne** (F) | 1 | Bois de frêne | 1–3 | 5 | 5 | 60–120 | 1,75 / 1 | Cœur de frêne | Agilité, bois | brumerive_-1_0 ×3, brumerive_-2_0 ×3, brumerive_0_0 ×5, brumerive_0_1 ×3, brumerive_1_-1 ×1, brumerive_1_-2 ×2, brumerive_1_1 ×2, brumerive_1_2 ×2, brumerive_2_0 ×3, crasse_roc_0_-1 ×3, crasse_roc_0_0 ×2, crasse_roc_0_1 ×1, crasse_roc_1_-1 ×3, crasse_roc_1_0 ×1, crasse_roc_3_0 ×3, crasse_roc_3_2 ×2, hautepierre_2_0 ×2, sylvebrume_0_0 ×4, sylvebrume_0_1 ×3, sylvebrume_1_0 ×5, sylvebrume_2_0 ×2, sylvebrume_2_1 ×1 |
+| **Chêne** (C) | 3 | Bois de chêne | 1–2 | 8 | 8 | 60–120 | 2,25 / 1,12 | Chêne des Anciens | Force, bois | brumerive_-1_0 ×1, brumerive_1_-2 ×1, brumerive_1_0 ×5, brumerive_1_1 ×2, brumerive_2_0 ×2, brumerive_2_1 ×2, crasse_roc_0_0 ×1, crasse_roc_0_2 ×1, crasse_roc_1_-1 ×1, crasse_roc_1_0 ×2, crasse_roc_1_1 ×1, crasse_roc_3_0 ×1, crasse_roc_3_2 ×2, hautepierre_0_2 ×2, hautepierre_2_0 ×2, hautepierre_4_2 ×1, sylvebrume_0_0 ×3, sylvebrume_1_0 ×3, sylvebrume_1_1 ×2, sylvebrume_1_2 ×1, sylvebrume_2_0 ×2 |
 | **If** (Y) | 8 | Bois d'if | 1–2 | 12 | 12 | 90–150 | 3,5 / 1,75 | If funèbre | Perception, bois | brumerive_1_2 ×2, brumerive_2_0 ×1, brumerive_2_1 ×2, brumerive_3_1 ×2, crasse_roc_0_2 ×1, crasse_roc_1_1 ×1, crasse_roc_2_1 ×1, hautepierre_0_2 ×2, hautepierre_1_0 ×2, hautepierre_1_3 ×1, hautepierre_2_0 ×1, sylvebrume_1_1 ×2, sylvebrume_1_2 ×2, sylvebrume_2_0 ×1, sylvebrume_2_1 ×2, sylvebrume_2_2 ×1 |
 | **Hêtre** (H) | 15 | Bois de hêtre | 1–2 | 18 | 18 | 90–150 | 5,25 / 2,62 | Hêtre centenaire | Force, bois | hautepierre_1_0 ×2, hautepierre_1_1 ×1, hautepierre_1_3 ×2, hautepierre_2_3 ×2, hautepierre_2_4 ×1, hautepierre_3_0 ×1 |
 | **Malorme** (L) | 22 | Bois de malorme | 1–2 | 25 | 25 | 120–180 | 7 / 3,5 | Malorme ensorcelée | Intelligence, bois | hautepierre_3_0 ×1, hautepierre_3_1 ×1, hautepierre_3_3 ×1, hautepierre_3_4 ×2, hautepierre_4_1 ×1, hautepierre_4_3 ×2 |
@@ -116,8 +116,8 @@ ressource récoltée) ; nombre de nœuds par carte.
 
 | Nœud | Palier | Objet | Qté | Rép. base | Rép. à sa mesure | Repousse (s) | Temps (s) | Rare | Forge | Cartes |
 |---|---|---|---|---|---|---|---|---|---|---|
-| **Cuivre** (U) | 1 | Minerai de cuivre | 1–3 | 5 | 5 | 60–120 | 1,75 / 1 | Cuivre vert-de-gris | Intelligence, minerai | brumerive_-1_2 ×2, brumerive_-2_1 ×2, brumerive_0_0 ×3, brumerive_0_1 ×2, brumerive_1_0 ×1, crasse_roc_0_-1 ×2, crasse_roc_0_-2 ×2, crasse_roc_0_0 ×3, crasse_roc_0_1 ×3, crasse_roc_1_-2 ×1, crasse_roc_1_0 ×3, crasse_roc_1_1 ×1, crasse_roc_2_0 ×2, crasse_roc_4_0 ×3, crasse_roc_4_1 ×2, sylvebrume_0_0 ×2, sylvebrume_0_1 ×2, sylvebrume_1_0 ×1 |
-| **Fer** (I) | 3 | Minerai de fer | 1–2 | 8 | 8 | 60–120 | 2,25 / 1,12 | Fer météorique | Force, minerai | brumerive_-1_2 ×1, brumerive_-2_1 ×2, brumerive_1_0 ×3, brumerive_1_1 ×1, brumerive_2_1 ×2, brumerive_2_2 ×2, brumerive_3_1 ×1, crasse_roc_0_-2 ×1, crasse_roc_0_-3 ×2, crasse_roc_0_0 ×4, crasse_roc_0_2 ×1, crasse_roc_1_-2 ×2, crasse_roc_1_0 ×3, crasse_roc_1_1 ×2, crasse_roc_1_2 ×2, crasse_roc_2_0 ×2, crasse_roc_2_1 ×2, crasse_roc_2_2 ×2, crasse_roc_4_0 ×1, crasse_roc_4_1 ×2, hautepierre_4_2 ×2, sylvebrume_1_0 ×1, sylvebrume_1_1 ×2, sylvebrume_2_0 ×1, sylvebrume_2_1 ×1 |
+| **Cuivre** (U) | 1 | Minerai de cuivre | 1–3 | 5 | 5 | 60–120 | 1,75 / 1 | Cuivre vert-de-gris | Intelligence, minerai | brumerive_-1_2 ×2, brumerive_-2_1 ×2, brumerive_0_0 ×3, brumerive_0_1 ×2, brumerive_1_-1 ×3, brumerive_1_-3 ×1, brumerive_1_0 ×1, brumerive_2_-1 ×3, brumerive_2_-2 ×2, crasse_roc_0_-1 ×2, crasse_roc_0_-2 ×2, crasse_roc_0_0 ×3, crasse_roc_0_1 ×3, crasse_roc_1_-2 ×1, crasse_roc_1_0 ×3, crasse_roc_1_1 ×1, crasse_roc_2_0 ×2, crasse_roc_4_0 ×3, crasse_roc_4_1 ×2, sylvebrume_0_0 ×2, sylvebrume_0_1 ×2, sylvebrume_1_0 ×1 |
+| **Fer** (I) | 3 | Minerai de fer | 1–2 | 8 | 8 | 60–120 | 2,25 / 1,12 | Fer météorique | Force, minerai | brumerive_-1_2 ×1, brumerive_-2_1 ×2, brumerive_1_-3 ×2, brumerive_1_0 ×3, brumerive_1_1 ×1, brumerive_2_-2 ×2, brumerive_2_1 ×2, brumerive_2_2 ×2, brumerive_3_1 ×1, crasse_roc_0_-2 ×1, crasse_roc_0_-3 ×2, crasse_roc_0_0 ×4, crasse_roc_0_2 ×1, crasse_roc_1_-2 ×2, crasse_roc_1_0 ×3, crasse_roc_1_1 ×2, crasse_roc_1_2 ×2, crasse_roc_2_0 ×2, crasse_roc_2_1 ×2, crasse_roc_2_2 ×2, crasse_roc_4_0 ×1, crasse_roc_4_1 ×2, hautepierre_4_2 ×2, sylvebrume_1_0 ×1, sylvebrume_1_1 ×2, sylvebrume_2_0 ×1, sylvebrume_2_1 ×1 |
 | **Étain** (T) | 8 | Minerai d'étain | 1–2 | 12 | 12 | 90–150 | 3,5 / 1,75 | Étain chantant | Agilité, minerai | brumerive_1_2 ×2, brumerive_2_1 ×1, brumerive_2_2 ×2, brumerive_3_1 ×1, brumerive_3_2 ×1, crasse_roc_0_2 ×2, crasse_roc_1_1 ×1, crasse_roc_1_2 ×2, crasse_roc_2_1 ×2, crasse_roc_2_2 ×3, hautepierre_0_2 ×1, hautepierre_4_2 ×2, sylvebrume_1_2 ×1, sylvebrume_2_1 ×1, sylvebrume_2_2 ×2 |
 | **Argent** (G) | 15 | Minerai d'argent | 1–2 | 18 | 18 | 90–150 | 5,25 / 2,62 | Argent lunaire | Perception, minerai | hautepierre_1_1 ×2, hautepierre_1_3 ×1, hautepierre_2_3 ×2, hautepierre_2_4 ×2, hautepierre_3_0 ×1, hautepierre_3_1 ×2, hautepierre_4_1 ×1, hautepierre_4_3 ×1 |
 | **Obsidienne** (D) | 22 | Obsidienne | 1–2 | 25 | 25 | 120–180 | 7 / 3,5 | Obsidienne sanglante | Force, minerai | hautepierre_3_1 ×1, hautepierre_3_3 ×2, hautepierre_3_4 ×2, hautepierre_4_1 ×1, hautepierre_4_3 ×1, hautepierre_4_4 ×1 |
@@ -255,6 +255,7 @@ Toutes les ressources qui servent à la forge (caractéristique ou matière), pa
 | **Bois de frêne** | 1 | commun | Agilité | +1 | bois | Bûcheron (Frêne) |
 | **Caillou de fronde** | 1 | commun | Perception | +1 | — | Frondeur vétéran (élite), palier 2 90 % ×2–5<br>Gobelin frondeur, palier 1 60 % ×1–3 |
 | **Carapace de grouilleur** | 1 | commun | Force | +1 | — | Grouilleur ancestral (élite), palier 2 90 % ×2–4<br>Grouilleur, palier 1 50 % ×1–2 |
+| **Carnet de factures** | 1 | peu_commun | Intelligence | +1 | — | Contrôleur des Poids et Mesures (élite), palier 2 60 % ×1–2<br>Apprenti mineur, palier 1 15 % |
 | **Chapeau de morille** | 1 | commun | Intelligence | +1 | — | Vieille Morille rancunière (élite), palier 1 90 % ×2–4<br>Morille grincheuse, palier 1 60 % ×1–2 |
 | **Chêne des Anciens** | 1 | rare | % Résistance Acier | +3 | bois | Bûcheron (Chêne, rare) |
 | **Cloche de poche** | 1 | peu_commun | Perception | +1 | — | Grand Gueulard (élite), palier 2 60 % ×1–2<br>Apprenti braillard, palier 1 15 % |
@@ -268,6 +269,7 @@ Toutes les ressources qui servent à la forge (caractéristique ou matière), pa
 | **Fer météorique** | 1 | rare | Dommages Acier | +3 | minerai | Mineur (Fer, rare) |
 | **Fiche de paie gobeline** | 1 | peu_commun | Vitalité | +4 | — | Frondeur vétéran (élite), palier 2 50 %<br>Gobelin frondeur, palier 1 15 % |
 | **Glande acide** | 1 | peu_commun | Vitalité | +4 | — | Grouilleur ancestral (élite), palier 2 50 % ×1–2<br>Grouilleur, palier 1 15 % |
+| **Griffe de taupe** | 1 | commun | Force | +1 | — | Taupe contremaîtresse (élite), palier 1 90 % ×2–4<br>Taupe-pioche, palier 1 60 % ×1–2 |
 | **Guano luisant** | 1 | peu_commun | % Critique | +1 | — | Vampipistrelle comtesse (élite), palier 2 48 %<br>Vampipistrelle, palier 1 12 % |
 | **Laine d'agneau géant** | 1 | commun | Force | +1 | — | Agneau-Montagne (élite), palier 1 90 % ×2–4<br>Agneau géant, palier 1 60 % ×1–2 |
 | **Larme gelée** | 1 | commun | Perception | +1 | — | Grande Pleureuse (élite), palier 1 90 % ×2–4<br>Pleureuse de l'Ossuaire, palier 1 55 % ×1–2 |
@@ -276,6 +278,7 @@ Toutes les ressources qui servent à la forge (caractéristique ou matière), pa
 | **Minerai de cuivre** | 1 | commun | Intelligence | +1 | minerai | Mineur (Cuivre) |
 | **Minerai de fer** | 1 | peu_commun | Force | +1 | minerai | Mineur (Fer) |
 | **Moelle fossile** | 1 | peu_commun | Vitalité | +4 | — | Fémur du Général (élite), palier 1 60 % ×1–2<br>Os errant, palier 1 15 % |
+| **Mèche de lampe** | 1 | commun | Agilité | +1 | — | Contrôleur des Poids et Mesures (élite), palier 2 90 % ×2–4<br>Apprenti mineur, palier 1 55 % ×1–2 |
 | **Peau de loup** | 1 | commun | Initiative | +10 | cuir | Loup alpha (élite), palier 2 70 % ×1–2<br>Loup des collines, palier 1 30 % |
 | **Plume de colombe** | 1 | commun | Force, Intelligence | +1, +1 | — | Colombe baptiste, palier 1 50 % |
 | **Poil scintillant** | 1 | commun | Force | +1 | — | Grand cerf de la Lisière (élite), palier 2 90 % ×2–4<br>Cerf enchanté, palier 1 50 % ×1–2 |
@@ -286,6 +289,7 @@ Toutes les ressources qui servent à la forge (caractéristique ou matière), pa
 | **Squelette de colombe** | 1 | legendaire | PM | +1 | — | Colombe baptiste, palier 1 0 % |
 | **Sève ancienne** | 1 | rare | Intelligence | +3 | — | Arbre millénaire (élite), palier 2 40 % ×1–2<br>Arbre vivant, palier 1 10 % |
 | **Toison crépitante** | 1 | commun | Agilité | +1 | — | Grand Bélier Corne-de-Brume (élite), palier 2 90 % ×2–4<br>Bélier des cimes, palier 1 55 % ×1–2 |
+| **Velours de taupe** | 1 | peu_commun | Vitalité | +4 | — | Taupe contremaîtresse (élite), palier 1 60 % ×1–2<br>Taupe-pioche, palier 1 15 % |
 | **Voile de deuil** | 1 | peu_commun | Vitalité | +4 | — | Grande Pleureuse (élite), palier 1 60 % ×1–2<br>Pleureuse de l'Ossuaire, palier 1 15 % |
 | **Écorce vivante** | 1 | commun | Agilité | +1 | — | Arbre millénaire (élite), palier 2 90 % ×2–5<br>Arbre vivant, palier 1 60 % ×1–3 |
 | **Bois d'if** | 2 | peu_commun | Perception | +2 | bois | Bûcheron (If) |
@@ -294,6 +298,7 @@ Toutes les ressources qui servent à la forge (caractéristique ou matière), pa
 | **Certificat médical de paille** | 2 | rare | % Résistance Tempête | +3 | — | Épouvantail en arrêt maladie, palier 2 10 % |
 | **Chapeau du Père Fauchard** | 2 | commun | Initiative | +20 | — | Père Fauchard, Épouvantail en chef (mini-boss), palier 2 60 % |
 | **Citrouille grimaçante** | 2 | peu_commun | Agilité | +2 | — | Grand Épouvantail (élite), palier 2 48 %<br>Épouvantail démotivé, palier 2 12 % |
+| **Contrat de golem** | 2 | peu_commun | Vitalité | +8 | — | Golem de filon d'or (élite), palier 2 50 % ×1–2<br>Golem de minerai, palier 2 12 % |
 | **Copeaux de bois** | 2 | commun | Initiative | +20 | — | Abatteur en chef (élite), palier 2 88 % ×2–5<br>Bûcheron de Brumerive, palier 2 55 % ×1–3 |
 | **Corne du Balourd** | 2 | rare | PA | +1 | — | Le Balourd des Abîmes (mini-boss), palier 2 100 % |
 | **Crochet d'araignée** | 2 | peu_commun | Prospection | +1 | — | Grande Tisseuse (élite), palier 3 48 %<br>Tisseuse de brume, palier 2 12 % |
@@ -317,9 +322,11 @@ Toutes les ressources qui servent à la forge (caractéristique ou matière), pa
 | **Plaque rouillée** | 2 | commun | Force | +2 | — | Adjudant Rotule (élite), palier 2 90 % ×2–4<br>Vétéran de la Première Ombre, palier 2 50 % ×1–2 |
 | **Plume d'ange** | 2 | commun | Force, Intelligence | +2, +2 | — | Ange, palier 2 35 % |
 | **Plume de bourrasque** | 2 | peu_commun | Vitalité | +8 | — | Grand Esprit des cimes (élite), palier 2 50 % ×1–2<br>Esprit des bourrasques, palier 2 12 % |
+| **Pépite animée** | 2 | commun | Perception | +2 | — | Golem de filon d'or (élite), palier 2 90 % ×2–4<br>Golem de minerai, palier 2 50 % ×1–2 |
 | **Registre des heures** | 2 | peu_commun | Dommages | +1 | — | Contremaître en chef (élite), palier 3 48 %<br>Contremaître zélé, palier 2 12 % |
 | **Sac de rapine** | 2 | commun | Vitalité | +8 | — | Pillard émérite (élite), palier 2 88 % ×2–4<br>Gobelin pillard, palier 2 55 % ×1–2 |
 | **Sacré cœur** | 2 | legendaire | Force, Intelligence | +2, +2 | — | Ange, palier 2 0 % |
+| **Sceau du Trésorier** | 2 | rare | Dommages Acier | +3 | — | Grand Trésorier Orbaril (mini-boss), palier 2 100 % |
 | **Sifflet de contremaître** | 2 | commun | Agilité | +2 | — | Contremaître en chef (élite), palier 3 80 % ×2–4<br>Contremaître zélé, palier 2 50 % ×1–2 |
 | **Soie de la Mère-Toile** | 2 | rare | PM | +1 | — | La Mère-Toile (mini-boss), palier 2 100 % |
 | **Souffle en bouteille** | 2 | commun | Intelligence | +2 | — | Grand Esprit des cimes (élite), palier 2 90 % ×2–4<br>Esprit des bourrasques, palier 2 50 % ×1–2 |
@@ -367,7 +374,7 @@ Toutes les ressources qui servent à la forge (caractéristique ou matière), pa
 | **Éclat de gargouille** | 4 | commun | Perception | +4 | — | Gargouille de la Grande Porte (élite), palier 4 88 % ×2–5<br>Gargouille, palier 4 55 % ×1–3 |
 | **Fragment de cendre** | 5 | legendaire | PA | +1 | — | Le Souverain Cendré (mini-boss), palier 5 100 % |
 
-Ressources par caractéristique : Force 18, Intelligence 16, Agilité 14, Vitalité 14, Perception 13, Initiative 7, Dommages Flamme 5, Dommages Sacré 3, Dommages Acier 3, Prospection 3, Portée 3, Dommages 3, Dommages Tempête 3, % Résistance Acier 2, % Résistance Tempête 2, PM 2, PA 2, % Résistance Flamme 2, % Critique 1, % Résistance Givre 1, Soins Sacré 1, Dommages Givre 1, % Dégâts dévastateurs 1, Soins 1, % Résistance Impie 1.
+Ressources par caractéristique : Force 19, Intelligence 17, Vitalité 16, Agilité 15, Perception 14, Initiative 7, Dommages Flamme 5, Dommages Acier 4, Dommages Sacré 3, Prospection 3, Portée 3, Dommages 3, Dommages Tempête 3, % Résistance Acier 2, % Résistance Tempête 2, PM 2, PA 2, % Résistance Flamme 2, % Critique 1, % Résistance Givre 1, Soins Sacré 1, Dommages Givre 1, % Dégâts dévastateurs 1, Soins 1, % Résistance Impie 1.
 
 ### Plans
 

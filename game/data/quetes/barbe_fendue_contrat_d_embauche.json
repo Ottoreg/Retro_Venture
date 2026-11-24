@@ -1,0 +1,50 @@
+{
+  "id": "barbe_fendue_contrat_d_embauche",
+  "nom": "Contrat d'embauche",
+  "categorie": "principale",
+  "acte": 1,
+  "niveau": 1,
+  "pnj": "maitre_mineur_durgrim",
+  "description": "Pas de travail sans contrat. Pas de contrat sans période d'essai.",
+  "conditions": {
+    "race": "nain"
+  },
+  "etapes": [
+    {
+      "objectifs": [
+        {
+          "type": "vaincre",
+          "monstre": "taupe_pioche",
+          "nombre": 3
+        }
+      ]
+    },
+    {
+      "objectifs": [
+        {
+          "type": "parler",
+          "pnj": "maitre_mineur_durgrim",
+          "texte": "Signer le contrat en bas, chez Durgrim"
+        }
+      ]
+    }
+  ],
+  "dialogues": {
+    "maitre_mineur_durgrim": {
+      "proposition": [
+        "Période d'essai : chassez trois taupes-pioches du carreau. Elles creusent sans contrat, c'est de la concurrence déloyale.",
+        "Revenez ensuite signer en bas. Et en bas du bas. Et au dos."
+      ],
+      "en_cours": [
+        "Les taupes creusent toujours. Gratuitement. C'est insupportable."
+      ],
+      "fin": [
+        "Période d'essai concluante. Signez ici. Et ici. Bienvenue dans la guilde : votre première cotisation est due hier."
+      ]
+    }
+  },
+  "recompenses": {
+    "xp_cr": 3,
+    "ecus": 30
+  }
+}

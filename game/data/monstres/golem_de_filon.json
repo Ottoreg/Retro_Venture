@@ -1,0 +1,50 @@
+{
+  "id": "golem_de_filon",
+  "nom": "Golem de filon d'or",
+  "description": "Le seul golem que la guilde n'a jamais réussi à faire travailler : il vaut trop cher.",
+  "palier": 2,
+  "caracteristiques": {
+    "pv": 120,
+    "pa": 7,
+    "pm": 2,
+    "initiative": 100,
+    "force": 30,
+    "perception": 22
+  },
+  "resistances": {
+    "acier": 35,
+    "flamme": 15,
+    "givre": -10
+  },
+  "sorts": [
+    "golem_poing_de_roche",
+    "golem_eboulis",
+    "mineur_facture"
+  ],
+  "ia": "basique",
+  "xp": 230,
+  "butin": [
+    {
+      "objet": "pepite_animee",
+      "taux": 0.9,
+      "quantite": [
+        2,
+        4
+      ]
+    },
+    {
+      "objet": "contrat_de_golem",
+      "taux": 0.5,
+      "quantite": [
+        1,
+        2
+      ]
+    }
+  ],
+  "ecus": [
+    20,
+    40
+  ],
+  "elite": true,
+  "famille": "golem_de_minerai"
+}

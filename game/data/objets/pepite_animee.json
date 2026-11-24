@@ -1,0 +1,11 @@
+{
+  "id": "pepite_animee",
+  "nom": "Pépite animée",
+  "type": "ressource",
+  "rarete": "commun",
+  "niveau": 2,
+  "description": "Elle bouge encore. Elle cherche le reste du golem.",
+  "caracteristique": "perception",
+  "famille": "golem_de_minerai",
+  "zone": "brumerive"
+}

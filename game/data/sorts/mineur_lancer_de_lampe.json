@@ -1,0 +1,22 @@
+{
+  "id": "mineur_lancer_de_lampe",
+  "nom": "Lancer de lampe",
+  "description": "La lampe était éteinte. Elle ne l'est plus.",
+  "cout_pa": 3,
+  "portee": {
+    "min": 2,
+    "max": 4
+  },
+  "ligne_de_vue": true,
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "tempete",
+      "min": 3,
+      "max": 5
+    }
+  ]
+}

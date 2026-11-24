@@ -1,0 +1,78 @@
+{
+  "id": "grand_tresorier_orbaril",
+  "nom": "Grand Trésorier Orbaril",
+  "description": "Il compte tout, surtout ce qu'on lui doit. Vous lui devez quelque chose, c'est certain.",
+  "palier": 2,
+  "caracteristiques": {
+    "pv": 300,
+    "pa": 7,
+    "pm": 3,
+    "initiative": 95,
+    "force": 20,
+    "agilite": 20
+  },
+  "resistances": {
+    "acier": 25,
+    "tempete": 15,
+    "givre": -20
+  },
+  "sorts": [
+    "orbaril_marteau_tampon",
+    "mineur_facture"
+  ],
+  "ia": "basique",
+  "xp": 760,
+  "butin": [
+    {
+      "objet": "sceau_du_tresorier",
+      "taux": 1.0
+    }
+  ],
+  "ecus": [
+    90,
+    150
+  ],
+  "boss": true,
+  "mot": "du Trésorier",
+  "phases": [
+    {
+      "pv": 70,
+      "message": "« Recouvrement ! Vous me devez des PV. » Orbaril recule derrière son comptoir.",
+      "sorts": [
+        "orbaril_pluie_de_pieces"
+      ],
+      "effets": [
+        {
+          "type": "bonus",
+          "carac": "portee",
+          "min": 1,
+          "max": 1,
+          "duree": 3
+        }
+      ]
+    },
+    {
+      "pv": 30,
+      "message": "« Faillite ! Tout doit disparaître ! » Orbaril saute par-dessus le comptoir.",
+      "sorts": [
+        "orbaril_tout_doit_disparaitre"
+      ],
+      "effets": [
+        {
+          "type": "bonus",
+          "carac": "pm",
+          "min": 2,
+          "max": 2,
+          "duree": 3
+        },
+        {
+          "type": "bonus",
+          "carac": "degats_infliges",
+          "min": 20,
+          "max": 20,
+          "duree": 3
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "id": "contrat_de_golem",
+  "nom": "Contrat de golem",
+  "type": "ressource",
+  "rarete": "peu_commun",
+  "niveau": 2,
+  "description": "« Le golem s'engage à travailler pour l'éternité, pauses non comprises. »",
+  "caracteristique": "vitalite",
+  "famille": "golem_de_minerai",
+  "zone": "brumerive"
+}
