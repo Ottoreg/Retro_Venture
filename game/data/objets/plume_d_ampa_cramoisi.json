@@ -6,8 +6,6 @@
   "niveau": 2,
   "description": "Une plume cramoisi. Les éleveurs la reconnaissent à l'odeur, les autres à la couleur.",
   "caracteristique": [
-    "force",
-    "perception",
     "resistance_acier",
     "resistance_givre"
   ],
