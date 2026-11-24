@@ -1,0 +1,11 @@
+{
+  "id": "filament_blanc",
+  "nom": "Filament blanc",
+  "type": "ressource",
+  "rarete": "commun",
+  "niveau": 2,
+  "description": "Plus solide qu'une corde. Il pousse encore un peu, la nuit.",
+  "caracteristique": "force",
+  "famille": "mycelium_errant",
+  "zone": "sylvebrume"
+}

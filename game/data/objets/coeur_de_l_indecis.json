@@ -1,0 +1,11 @@
+{
+  "id": "coeur_de_l_indecis",
+  "nom": "Cœur de l'Indécis",
+  "type": "ressource",
+  "rarete": "rare",
+  "niveau": 2,
+  "description": "Il change d'élément toutes les dix secondes. Il est revenu au feu.",
+  "caracteristique": "dommages_flamme",
+  "famille": "l_indecis",
+  "zone": "sylvebrume"
+}

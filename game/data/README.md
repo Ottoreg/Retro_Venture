@@ -217,7 +217,7 @@ ramène d'où l'on vient (les tests vérifient que chaque porte a sa réciproque
   chaque entrée d'après l'état gardé dans son métier ; on y entre par un PNJ `entree` (commis du Cadastre), ouvert à
   2 500 de réputation du métier.
 - Chaque zone de départ a sa maison (`maison_joueur` à Brumerive, `maison_crasse_roc`,
-  `maison_sylvebrume`), comme chaque sous-zone de race (`maison_ossuaire`, `maison_braillards`, `maison_hauts_perches`, `maison_barbe_fendue`, GDD § 3.5) ; le coffre est le même partout (il appartient au personnage).
+  `maison_sylvebrume`), comme chaque sous-zone de race (`maison_ossuaire`, `maison_braillards`, `maison_hauts_perches`, `maison_barbe_fendue`, `maison_bois_farceur`, `maison_sources`, GDD § 3.5) ; le coffre est le même partout (il appartient au personnage).
 - La maison contient un coffre `$` (on y range des objets non portés), un lit `=` (dormir rend tous
   les PV) et une enclume `&` (la forge, ci-dessous). On les utilise depuis une case voisine.
 
@@ -959,7 +959,7 @@ Conception : `docs/design/chantier6_quetes.md` ; production : `docs/design/chant
 | `categorie` | `tutoriel`, `principale` (avec `acte`), `secondaire` |
 | `niveau` | Niveau de la quête (affiché, et base de l'XP) |
 | `pnj` | Le PNJ qui la propose (« ! » au-dessus de lui) |
-| `conditions` | `camp`, `race`, `voie`, `quetes_terminees` (toutes), `une_quete_terminee` (une au moins) |
+| `conditions` | `camp`, `race` (une variante de la race la remplit aussi), `voie`, `quetes_terminees` (toutes), `une_quete_terminee` (une au moins) |
 | `donne` | Objets remis à l'acceptation |
 | `etapes` | Liste d'étapes ; les objectifs d'une étape se font dans n'importe quel ordre |
 | `dialogues` | Par PNJ : `proposition` et `en_cours` (donneur), `objectif` (son objectif rempli, la quête continue ; à défaut `fin`), `fin` (quête terminée en lui parlant) |

@@ -354,3 +354,17 @@ func test_mode_heros_quete_pour_toute_l_equipe() -> void:
 	_talk("berger")
 	assert_true(_world.character.quests.is_done("visite"))
 	assert_true(hero.character.quests.is_done("visite"), "le dialogue compte pour toute l'équipe")
+
+
+## Condition `race` : une variante (`variante_de: testeur`) remplit la condition de sa race.
+func test_condition_de_race_et_variantes() -> void:
+	var data := _data(_quest_list() + [{"id": "eclosion", "nom": "Éclosion", "categorie": "principale", "niveau": 1, "pnj": "berger",
+		"conditions": {"race": "testeur"}, "etapes": [{"objectifs": [{"type": "parler", "pnj": "berger"}]}]}])
+	data.races["testeur_givre"] = data.races["testeur"].merged({"id": "testeur_givre", "variante_de": "testeur"}, true)
+	data.races["autre"] = data.races["testeur"].merged({"id": "autre"}, true)
+	_world = World.new(_maps["a"], data, _loader, Fixtures.character())
+	assert_true(_world.quest_book.is_available("eclosion"))
+	_world.character.race_id = "testeur_givre"
+	assert_true(_world.quest_book.is_available("eclosion"), "variante de la race")
+	_world.character.race_id = "autre"
+	assert_false(_world.quest_book.is_available("eclosion"), "autre race")

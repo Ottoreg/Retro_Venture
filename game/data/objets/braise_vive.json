@@ -1,0 +1,11 @@
+{
+  "id": "braise_vive",
+  "nom": "Braise vive",
+  "type": "ressource",
+  "rarete": "peu_commun",
+  "niveau": 1,
+  "description": "Elle ne s'éteint jamais. Elle boude, parfois.",
+  "caracteristique": "vitalite",
+  "famille": "etincelle_folle",
+  "zone": "sylvebrume"
+}

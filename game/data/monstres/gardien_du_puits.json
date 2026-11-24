@@ -1,0 +1,50 @@
+{
+  "id": "gardien_du_puits",
+  "nom": "Gardien du Puits",
+  "description": "Le plus ancien des gardiens. Il a vu naître le premier Arkhé, et s'en souvient mal.",
+  "palier": 2,
+  "caracteristiques": {
+    "pv": 115,
+    "pa": 7,
+    "pm": 3,
+    "initiative": 110,
+    "force": 28,
+    "perception": 22
+  },
+  "resistances": {
+    "acier": 30,
+    "givre": 20,
+    "flamme": -10
+  },
+  "sorts": [
+    "gardien_coup_de_source",
+    "gardien_jaillissement",
+    "mal_eclos_crise_d_identite"
+  ],
+  "ia": "basique",
+  "xp": 230,
+  "butin": [
+    {
+      "objet": "galet_de_source",
+      "taux": 0.9,
+      "quantite": [
+        2,
+        4
+      ]
+    },
+    {
+      "objet": "noyau_de_gardien",
+      "taux": 0.5,
+      "quantite": [
+        1,
+        2
+      ]
+    }
+  ],
+  "ecus": [
+    20,
+    40
+  ],
+  "elite": true,
+  "famille": "gardien_de_source"
+}

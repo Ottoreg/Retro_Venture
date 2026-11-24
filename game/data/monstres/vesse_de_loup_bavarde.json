@@ -1,0 +1,44 @@
+{
+  "id": "vesse_de_loup_bavarde",
+  "nom": "Vesse-de-loup bavarde",
+  "description": "Champignon sauvage qui crache des spores en racontant sa vie. Elle n'a rien vécu.",
+  "palier": 1,
+  "caracteristiques": {
+    "pv": 24,
+    "pa": 6,
+    "pm": 2,
+    "initiative": 75,
+    "perception": 6,
+    "intelligence": 4
+  },
+  "resistances": {
+    "givre": 15,
+    "acier": 5,
+    "flamme": -15
+  },
+  "sorts": [
+    "vesse_nuage_de_spores",
+    "vesse_bavardage"
+  ],
+  "ia": "distance",
+  "xp": 30,
+  "butin": [
+    {
+      "objet": "spores_bavardes",
+      "taux": 0.55,
+      "quantite": [
+        1,
+        2
+      ]
+    },
+    {
+      "objet": "chapeau_de_vesse",
+      "taux": 0.15
+    }
+  ],
+  "ecus": [
+    3,
+    8
+  ],
+  "mot": "de Vesse"
+}

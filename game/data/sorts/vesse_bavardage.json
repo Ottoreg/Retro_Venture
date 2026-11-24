@@ -1,0 +1,24 @@
+{
+  "id": "vesse_bavardage",
+  "nom": "Bavardage",
+  "description": "« Et là, tu sais pas ce qu'elle m'a dit… » Vous en oubliez d'agir.",
+  "cout_pa": 2,
+  "portee": {
+    "min": 1,
+    "max": 3
+  },
+  "ligne_de_vue": true,
+  "relance": {
+    "par_tour": 1,
+    "delai": 1
+  },
+  "effets": [
+    {
+      "type": "malus",
+      "carac": "pa",
+      "min": 1,
+      "max": 1,
+      "duree": 1
+    }
+  ]
+}

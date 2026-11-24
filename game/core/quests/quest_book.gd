@@ -46,8 +46,8 @@ func is_available(quest_id: String) -> bool:
 	var conditions: Dictionary = _quests()[quest_id].get("conditions", {})
 	if conditions.has("camp") and world.data.races.get(character.race_id, {}).get("camp", "") != conditions["camp"]:
 		return false
-	if conditions.has("race") and character.race_id != conditions["race"]:
-		return false
+	if conditions.has("race") and conditions["race"] not in [character.race_id, world.data.races.get(character.race_id, {}).get("variante_de", "")]:
+		return false  # une variante (arkhe_acier…) remplit la condition de sa race (arkhe)
 	if conditions.has("voie") and character.voie_id != conditions["voie"]:
 		return false
 	for required: String in conditions.get("quetes_terminees", []):

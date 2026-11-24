@@ -1,0 +1,80 @@
+{
+  "id": "l_indecis",
+  "nom": "L'Indécis",
+  "description": "Le premier Arkhé, qui n'a jamais choisi son élément. Il y réfléchit encore. Depuis l'aube des temps.",
+  "palier": 2,
+  "caracteristiques": {
+    "pv": 300,
+    "pa": 7,
+    "pm": 3,
+    "initiative": 100,
+    "force": 20,
+    "intelligence": 20
+  },
+  "resistances": {
+    "acier": 30,
+    "flamme": 15,
+    "givre": 15,
+    "tempete": 15
+  },
+  "sorts": [
+    "indecis_coup_d_acier",
+    "gardien_jaillissement"
+  ],
+  "ia": "basique",
+  "xp": 760,
+  "butin": [
+    {
+      "objet": "coeur_de_l_indecis",
+      "taux": 1.0
+    }
+  ],
+  "ecus": [
+    90,
+    150
+  ],
+  "boss": true,
+  "mot": "de l'Indécis",
+  "phases": [
+    {
+      "pv": 70,
+      "message": "« Non… la Tempête ! Ou le Givre ? » L'Indécis recule pour réfléchir.",
+      "sorts": [
+        "indecis_bourrasque",
+        "mal_eclos_jet_de_givre"
+      ],
+      "effets": [
+        {
+          "type": "bonus",
+          "carac": "portee",
+          "min": 1,
+          "max": 1,
+          "duree": 3
+        }
+      ]
+    },
+    {
+      "pv": 30,
+      "message": "« Finalement, le feu ! » L'Indécis a choisi. Enfin.",
+      "sorts": [
+        "indecis_finalement_le_feu"
+      ],
+      "effets": [
+        {
+          "type": "bonus",
+          "carac": "pm",
+          "min": 2,
+          "max": 2,
+          "duree": 3
+        },
+        {
+          "type": "bonus",
+          "carac": "degats_infliges",
+          "min": 20,
+          "max": 20,
+          "duree": 3
+        }
+      ]
+    }
+  ]
+}

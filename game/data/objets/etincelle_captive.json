@@ -1,0 +1,11 @@
+{
+  "id": "etincelle_captive",
+  "nom": "Étincelle captive",
+  "type": "ressource",
+  "rarete": "commun",
+  "niveau": 1,
+  "description": "Elle saute dans le bocal. Ne l'ouvrez pas près des cheveux.",
+  "caracteristique": "agilite",
+  "famille": "etincelle_folle",
+  "zone": "sylvebrume"
+}

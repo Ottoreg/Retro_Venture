@@ -1,0 +1,34 @@
+{
+  "id": "rumeur_tout_le_monde_le_sait",
+  "nom": "Tout le monde le sait !",
+  "description": "Le ragot vous serre de près, puis de plus près encore.",
+  "cout_pa": 4,
+  "portee": {
+    "min": 1,
+    "max": 2
+  },
+  "ligne_de_vue": true,
+  "relance": {
+    "par_tour": 1,
+    "delai": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "acier",
+      "min": 7,
+      "max": 10,
+      "cibles": "ennemis"
+    },
+    {
+      "type": "etat",
+      "etat": "enracine",
+      "duree": 1,
+      "cibles": "ennemis"
+    }
+  ],
+  "zone": {
+    "type": "cercle",
+    "taille": 1
+  }
+}

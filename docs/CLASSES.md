@@ -75,10 +75,10 @@ point(s) de caractéristique (avant ralentissement).
 
 | Race | Camp | Départ | Passif | Effets du passif | Sort de race |
 |---|---|---|---|---|---|
-| **Arkhé** | neutre | sylvebrume_0_0 | Cœur élémentaire | coeur_elementaire +5 | Éruption |
-| **Arkhé** | neutre | sylvebrume_0_0 | Cœur élémentaire | coeur_elementaire +5 | Éruption |
-| **Arkhé** | neutre | sylvebrume_0_0 | Cœur élémentaire | coeur_elementaire +5 | Éruption |
-| **Arkhé** | neutre | sylvebrume_0_0 | Cœur élémentaire | coeur_elementaire +5 | Éruption |
+| **Arkhé** | neutre | sylvebrume_0_-1 | Cœur élémentaire | coeur_elementaire +5 | Éruption |
+| **Arkhé** | neutre | sylvebrume_0_-1 | Cœur élémentaire | coeur_elementaire +5 | Éruption |
+| **Arkhé** | neutre | sylvebrume_0_-1 | Cœur élémentaire | coeur_elementaire +5 | Éruption |
+| **Arkhé** | neutre | sylvebrume_0_-1 | Cœur élémentaire | coeur_elementaire +5 | Éruption |
 | **Elfe** | neutre | sylvebrume_0_0 | Œil perçant | portee +1 | Pas léger |
 | **Géant** | allie | brumerive_-1_0 | Carrure | pv_max +10 | Coup de semelle |
 | **Gobelin** | ennemi | crasse_roc_0_0 | Chapardeur | prospection +20, ecus +20 | Coup bas |

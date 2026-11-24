@@ -80,7 +80,7 @@ temps : chaque camp a sa propre histoire.
     de métier.
   - **Gobelin** (camp ennemi) : départ à **Crasse-Roc** ; sort *Coup bas* ; passif *Chapardeur* :
     +20 prospection et +20 % de brumes en fin de combat.
-  - **Elfe** (camp neutre) : départ à **Sylvebrume** ; sort *Pas léger* ; passif +1 portée sur les
+  - **Elfe** (camp neutre) : départ aux **Sources primordiales**, au nord de Sylvebrume (sa sous-zone, avec sa Pierre de Passage, sa maison et 3 quêtes de race, pour toutes les variantes) ; sort *Pas léger* ; passif +1 portée sur les
     sorts à distance.
   - **Orc** (camp ennemi, à l'essai) : départ à **la Fosse aux Braillards**, à l'est de Crasse-Roc (sa sous-zone, avec sa Pierre de Passage, sa maison et 3 quêtes de race) ; sort *Cri de guerre* (+10 % de dégâts
     autour de lui) ; passif *Peau épaisse* : −10 % de dégâts de mêlée reçus.

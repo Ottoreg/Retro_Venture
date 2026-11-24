@@ -1,0 +1,11 @@
+{
+  "id": "spores_bavardes",
+  "nom": "Spores bavardes",
+  "type": "ressource",
+  "rarete": "commun",
+  "niveau": 1,
+  "description": "En tendant l'oreille, on les entend chuchoter des ragots.",
+  "caracteristique": "intelligence",
+  "famille": "vesse_de_loup_bavarde",
+  "zone": "sylvebrume"
+}

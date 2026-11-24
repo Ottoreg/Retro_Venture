@@ -1,0 +1,44 @@
+{
+  "id": "mycelium_errant",
+  "nom": "Mycélium errant",
+  "description": "Un réseau de filaments qui s'est perdu. Il cherche à se reconnecter. À vous, de préférence.",
+  "palier": 2,
+  "caracteristiques": {
+    "pv": 55,
+    "pa": 6,
+    "pm": 3,
+    "initiative": 95,
+    "force": 18,
+    "perception": 14
+  },
+  "resistances": {
+    "acier": 20,
+    "givre": 10,
+    "flamme": -15
+  },
+  "sorts": [
+    "mycelium_filaments",
+    "mycelium_etreinte_racinaire"
+  ],
+  "ia": "basique",
+  "xp": 110,
+  "butin": [
+    {
+      "objet": "filament_blanc",
+      "taux": 0.5,
+      "quantite": [
+        1,
+        2
+      ]
+    },
+    {
+      "objet": "motte_d_humus",
+      "taux": 0.12
+    }
+  ],
+  "ecus": [
+    9,
+    20
+  ],
+  "mot": "de Mycélium"
+}

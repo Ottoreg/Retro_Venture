@@ -1,0 +1,27 @@
+{
+  "id": "limace_bave_froide",
+  "nom": "Bave froide",
+  "description": "Gluante, glacée, et elle colle aux bottes.",
+  "cout_pa": 3,
+  "portee": {
+    "min": 2,
+    "max": 4
+  },
+  "ligne_de_vue": true,
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "givre",
+      "min": 3,
+      "max": 4
+    },
+    {
+      "type": "retrait_pm",
+      "min": 1,
+      "max": 1
+    }
+  ]
+}

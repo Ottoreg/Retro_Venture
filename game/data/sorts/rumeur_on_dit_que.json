@@ -1,0 +1,22 @@
+{
+  "id": "rumeur_on_dit_que",
+  "nom": "On dit que…",
+  "description": "Un ragot lancé à la volée. Il touche toujours quelqu'un.",
+  "cout_pa": 4,
+  "portee": {
+    "min": 2,
+    "max": 6
+  },
+  "ligne_de_vue": true,
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "givre",
+      "min": 6,
+      "max": 9
+    }
+  ]
+}

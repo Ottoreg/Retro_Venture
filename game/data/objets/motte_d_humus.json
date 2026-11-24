@@ -1,0 +1,11 @@
+{
+  "id": "motte_d_humus",
+  "nom": "Motte d'humus",
+  "type": "ressource",
+  "rarete": "peu_commun",
+  "niveau": 2,
+  "description": "De la terre riche, très riche. On y entend des rumeurs.",
+  "caracteristique": "vitalite",
+  "famille": "mycelium_errant",
+  "zone": "sylvebrume"
+}

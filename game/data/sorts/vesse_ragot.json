@@ -1,0 +1,29 @@
+{
+  "id": "vesse_ragot",
+  "nom": "Ragot",
+  "description": "Un ragot sur vous circule déjà. Vous frappez moins fort, par gêne.",
+  "cout_pa": 3,
+  "portee": {
+    "min": 0,
+    "max": 0
+  },
+  "ligne_de_vue": true,
+  "relance": {
+    "par_tour": 1,
+    "delai": 2
+  },
+  "effets": [
+    {
+      "type": "malus",
+      "carac": "degats_infliges",
+      "min": 10,
+      "max": 10,
+      "duree": 2,
+      "cibles": "ennemis"
+    }
+  ],
+  "zone": {
+    "type": "cercle",
+    "taille": 3
+  }
+}

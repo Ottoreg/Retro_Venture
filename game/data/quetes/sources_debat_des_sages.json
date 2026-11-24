@@ -1,0 +1,92 @@
+{
+  "id": "sources_debat_des_sages",
+  "nom": "Le débat des Sages",
+  "categorie": "principale",
+  "acte": 1,
+  "niveau": 3,
+  "pnj": "sage_ferrugine",
+  "description": "Les quatre Sages se disputent : quel élément est le meilleur ? Il faut les départager.",
+  "conditions": {
+    "race": "arkhe",
+    "quetes_terminees": [
+      "sources_eclosion"
+    ]
+  },
+  "etapes": [
+    {
+      "objectifs": [
+        {
+          "type": "vaincre",
+          "monstre": "elementaire_mal_eclos",
+          "nombre": 2
+        },
+        {
+          "type": "recolter",
+          "objet": "minerai_de_cuivre",
+          "nombre": 5,
+          "texte": "Récolter du cuivre à la Forge source, pour la preuve"
+        }
+      ]
+    },
+    {
+      "objectifs": [
+        {
+          "type": "parler",
+          "pnj": "sage_cendrine",
+          "texte": "Montrer la preuve à Sage Cendrine, au Brasier"
+        },
+        {
+          "type": "parler",
+          "pnj": "sage_fulgur",
+          "texte": "Montrer la preuve à Sage Fulgur, à l'Orage"
+        },
+        {
+          "type": "parler",
+          "pnj": "sage_frimaire",
+          "texte": "Montrer la preuve à Sage Frimaire, au Glacier"
+        }
+      ]
+    },
+    {
+      "objectifs": [
+        {
+          "type": "parler",
+          "pnj": "sage_ferrugine"
+        }
+      ]
+    }
+  ],
+  "dialogues": {
+    "sage_ferrugine": {
+      "proposition": [
+        "Départage-nous. Bats deux mal-éclos, qui n'ont pas choisi l'Acier, et rapporte du cuivre : la preuve que le métal est le meilleur.",
+        "Puis montre la preuve aux trois autres Sages. Ils seront obligés d'admettre. Évidemment."
+      ],
+      "en_cours": [
+        "Alors ? Ils ont admis ? Non ? Ils admettront."
+      ],
+      "fin": [
+        "Ils n'ont pas admis ? Évidemment. Bon, on recommence demain. Merci, tu as fait de ton mieux. Moins bien que l'Acier, mais de ton mieux."
+      ]
+    },
+    "sage_cendrine": {
+      "objectif": [
+        "Du cuivre ? Ça fond. Tu vois ? Le Feu gagne."
+      ]
+    },
+    "sage_fulgur": {
+      "objectif": [
+        "Du cuivre ? Ça conduit l'éclair ! Donc la Tempête gagne. Ne me coupe pas !"
+      ]
+    },
+    "sage_frimaire": {
+      "objectif": [
+        "Du cuivre. Froid au toucher. Le Givre gagne. Calmement."
+      ]
+    }
+  },
+  "recompenses": {
+    "xp_cr": 4,
+    "ecus": 50
+  }
+}

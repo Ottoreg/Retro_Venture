@@ -1,0 +1,11 @@
+{
+  "id": "bave_de_limace",
+  "nom": "Bave de limace",
+  "type": "ressource",
+  "rarete": "commun",
+  "niveau": 1,
+  "description": "Froide, gluante et étrangement brillante. Les Mycéliens la détestent.",
+  "caracteristique": "perception",
+  "famille": "limace_gourmande",
+  "zone": "sylvebrume"
+}

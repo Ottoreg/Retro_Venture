@@ -1,0 +1,45 @@
+{
+  "id": "elementaire_mal_eclos",
+  "nom": "Élémentaire mal éclos",
+  "description": "Un Arkhé raté qui hésite encore. Il hésite en vous frappant.",
+  "palier": 1,
+  "caracteristiques": {
+    "pv": 26,
+    "pa": 6,
+    "pm": 3,
+    "initiative": 80,
+    "intelligence": 6,
+    "perception": 6
+  },
+  "resistances": {
+    "flamme": 10,
+    "givre": 10,
+    "acier": -10,
+    "tempete": -10
+  },
+  "sorts": [
+    "mal_eclos_jet_de_flamme",
+    "mal_eclos_jet_de_givre"
+  ],
+  "ia": "distance",
+  "xp": 30,
+  "butin": [
+    {
+      "objet": "fragment_indecis",
+      "taux": 0.55,
+      "quantite": [
+        1,
+        2
+      ]
+    },
+    {
+      "objet": "larme_de_source",
+      "taux": 0.15
+    }
+  ],
+  "ecus": [
+    3,
+    8
+  ],
+  "mot": "d'Éclosion"
+}

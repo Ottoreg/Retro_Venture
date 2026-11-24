@@ -1,0 +1,48 @@
+{
+  "id": "limace_reine",
+  "nom": "Limace reine",
+  "description": "Elle a mangé un cèpe entier. Le cèpe ne s'en est jamais remis, elle si.",
+  "palier": 1,
+  "caracteristiques": {
+    "pv": 34,
+    "pa": 6,
+    "pm": 3,
+    "initiative": 80,
+    "perception": 10
+  },
+  "resistances": {
+    "givre": 20,
+    "flamme": -5
+  },
+  "sorts": [
+    "limace_bave_froide",
+    "limace_sucon",
+    "vesse_bavardage"
+  ],
+  "ia": "basique",
+  "xp": 40,
+  "butin": [
+    {
+      "objet": "bave_de_limace",
+      "taux": 0.9,
+      "quantite": [
+        2,
+        4
+      ]
+    },
+    {
+      "objet": "mucus_epais",
+      "taux": 0.6,
+      "quantite": [
+        1,
+        2
+      ]
+    }
+  ],
+  "ecus": [
+    5,
+    12
+  ],
+  "elite": true,
+  "famille": "limace_gourmande"
+}

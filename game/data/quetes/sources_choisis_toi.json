@@ -1,0 +1,51 @@
+{
+  "id": "sources_choisis_toi",
+  "nom": "Choisis-toi",
+  "categorie": "secondaire",
+  "niveau": 12,
+  "pnj": "sage_frimaire",
+  "description": "L'Indécis n'a jamais choisi son élément. Sage Frimaire voudrait qu'il se décide.",
+  "conditions": {
+    "une_quete_terminee": [
+      "brumerive_tutoriel",
+      "crasse_roc_tutoriel",
+      "sylvebrume_tutoriel"
+    ]
+  },
+  "etapes": [
+    {
+      "objectifs": [
+        {
+          "type": "vaincre_groupe",
+          "monstre": "l_indecis",
+          "texte": "Aider l'Indécis à se décider, au Puits des Origines"
+        }
+      ]
+    },
+    {
+      "objectifs": [
+        {
+          "type": "parler",
+          "pnj": "sage_frimaire"
+        }
+      ]
+    }
+  ],
+  "dialogues": {
+    "sage_frimaire": {
+      "proposition": [
+        "L'Indécis hésite depuis l'aube des temps. Va l'aider à choisir. Calmement. Ou pas."
+      ],
+      "en_cours": [
+        "Il hésite encore ? Je ne m'énerve pas. Je ne m'énerve pas."
+      ],
+      "fin": [
+        "Il a choisi le feu ? … Je ne m'énerve pas. Merci quand même."
+      ]
+    }
+  },
+  "recompenses": {
+    "xp_cr": 6,
+    "ecus": 120
+  }
+}

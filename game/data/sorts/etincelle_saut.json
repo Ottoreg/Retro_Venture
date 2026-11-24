@@ -1,0 +1,20 @@
+{
+  "id": "etincelle_saut",
+  "nom": "Saut",
+  "description": "Une étincelle ne marche pas. Elle saute.",
+  "cout_pa": 2,
+  "portee": {
+    "min": 1,
+    "max": 2
+  },
+  "ligne_de_vue": true,
+  "relance": {
+    "par_tour": 1,
+    "delai": 1
+  },
+  "effets": [
+    {
+      "type": "teleportation"
+    }
+  ]
+}

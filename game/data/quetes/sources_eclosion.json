@@ -1,0 +1,49 @@
+{
+  "id": "sources_eclosion",
+  "nom": "Éclosion",
+  "categorie": "principale",
+  "acte": 1,
+  "niveau": 1,
+  "pnj": "ancienne_prima",
+  "description": "Tu viens d'éclore. Montre que tu tiens debout.",
+  "conditions": {
+    "race": "arkhe"
+  },
+  "etapes": [
+    {
+      "objectifs": [
+        {
+          "type": "vaincre",
+          "monstre": "etincelle_folle",
+          "nombre": 3
+        }
+      ]
+    },
+    {
+      "objectifs": [
+        {
+          "type": "parler",
+          "pnj": "ancienne_prima"
+        }
+      ]
+    }
+  ],
+  "dialogues": {
+    "ancienne_prima": {
+      "proposition": [
+        "Tu viens d'éclore, et tu fumes encore. Va calmer trois étincelles folles : elles sautent sur tout ce qui vient de naître.",
+        "Reviens me voir ensuite. Si tu fumes moins, c'est que tu as grandi."
+      ],
+      "en_cours": [
+        "Les étincelles sautent toujours. Toi aussi, d'ailleurs."
+      ],
+      "fin": [
+        "Tu ne fumes presque plus. Te voilà un vrai Arkhé. Enfin, un jeune."
+      ]
+    }
+  },
+  "recompenses": {
+    "xp_cr": 3,
+    "ecus": 30
+  }
+}

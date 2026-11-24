@@ -1,0 +1,11 @@
+{
+  "id": "chapeau_de_vesse",
+  "nom": "Chapeau de vesse",
+  "type": "ressource",
+  "rarete": "peu_commun",
+  "niveau": 1,
+  "description": "Il fait « pouf » quand on appuie dessus. Personne ne résiste.",
+  "caracteristique": "agilite",
+  "famille": "vesse_de_loup_bavarde",
+  "zone": "sylvebrume"
+}

@@ -1,0 +1,39 @@
+{
+  "id": "mal_eclos_crise_d_identite",
+  "nom": "Crise d'identité",
+  "description": "Il ne sait plus ce qu'il est. Vos résistances non plus.",
+  "cout_pa": 3,
+  "portee": {
+    "min": 0,
+    "max": 0
+  },
+  "ligne_de_vue": true,
+  "relance": {
+    "par_tour": 1,
+    "delai": 2
+  },
+  "effets": [
+    {
+      "type": "malus",
+      "carac": "resistance",
+      "element": "flamme",
+      "min": 10,
+      "max": 10,
+      "duree": 2,
+      "cibles": "ennemis"
+    },
+    {
+      "type": "malus",
+      "carac": "resistance",
+      "element": "givre",
+      "min": 10,
+      "max": 10,
+      "duree": 2,
+      "cibles": "ennemis"
+    }
+  ],
+  "zone": {
+    "type": "cercle",
+    "taille": 2
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "id": "pied_de_mouton_ancestral",
+  "nom": "Pied-de-Mouton ancestral",
+  "description": "Le plus vieux champignon du bois. Il connaît tous les ragots depuis le premier.",
+  "palier": 2,
+  "caracteristiques": {
+    "pv": 80,
+    "pa": 7,
+    "pm": 2,
+    "initiative": 100,
+    "perception": 20,
+    "intelligence": 10
+  },
+  "resistances": {
+    "givre": 20,
+    "acier": 10,
+    "flamme": -10
+  },
+  "sorts": [
+    "vesse_nuage_de_spores",
+    "vesse_bavardage",
+    "vesse_ragot"
+  ],
+  "ia": "soutien",
+  "xp": 150,
+  "butin": [
+    {
+      "objet": "spores_bavardes",
+      "taux": 0.9,
+      "quantite": [
+        2,
+        4
+      ]
+    },
+    {
+      "objet": "chapeau_de_vesse",
+      "taux": 0.6,
+      "quantite": [
+        1,
+        2
+      ]
+    }
+  ],
+  "ecus": [
+    12,
+    26
+  ],
+  "elite": true,
+  "famille": "vesse_de_loup_bavarde"
+}

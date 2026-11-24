@@ -1,0 +1,46 @@
+{
+  "id": "sources_ouverture_au_monde",
+  "nom": "Ouverture au monde",
+  "categorie": "principale",
+  "acte": 1,
+  "niveau": 4,
+  "pnj": "ancienne_prima",
+  "description": "Les autres peuples font la guerre. Va voir comment ils vivent, et pourquoi.",
+  "conditions": {
+    "race": "arkhe",
+    "quetes_terminees": [
+      "sources_debat_des_sages"
+    ]
+  },
+  "etapes": [
+    {
+      "objectifs": [
+        {
+          "type": "parler",
+          "pnj": "gardienne_elwyn",
+          "texte": "Rencontrer Elwyn, à la Clairière de la Lisière"
+        }
+      ]
+    }
+  ],
+  "dialogues": {
+    "ancienne_prima": {
+      "proposition": [
+        "Les autres peuples se font la guerre pour des choses bien petites. Va voir comment ils vivent.",
+        "Commence par les elfes : Elwyn, à la Clairière de la Lisière, au sud. Ne mets pas le feu à la forêt."
+      ],
+      "en_cours": [
+        "Le sud, jeune Arkhé. Là où les arbres ne brûlent pas encore."
+      ]
+    },
+    "gardienne_elwyn": {
+      "fin": [
+        "Un Arkhé ? Tant mieux, nous manquions de… chaleur. Restez à distance des arbres. Bienvenue à la Lisière."
+      ]
+    }
+  },
+  "recompenses": {
+    "xp_cr": 5,
+    "ecus": 60
+  }
+}

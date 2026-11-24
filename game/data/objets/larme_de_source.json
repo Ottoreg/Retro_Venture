@@ -1,0 +1,11 @@
+{
+  "id": "larme_de_source",
+  "nom": "Larme de source",
+  "type": "ressource",
+  "rarete": "peu_commun",
+  "niveau": 1,
+  "description": "Une goutte des quatre sources à la fois. Elle ne sait pas si elle est chaude ou froide.",
+  "caracteristique": "perception",
+  "famille": "elementaire_mal_eclos",
+  "zone": "sylvebrume"
+}

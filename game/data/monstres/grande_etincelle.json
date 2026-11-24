@@ -1,0 +1,50 @@
+{
+  "id": "grande_etincelle",
+  "nom": "Grande Étincelle",
+  "description": "Elle a réuni trois étincelles. Elles ne sont toujours pas d'accord.",
+  "palier": 1,
+  "caracteristiques": {
+    "pv": 30,
+    "pa": 6,
+    "pm": 4,
+    "initiative": 110,
+    "intelligence": 8,
+    "agilite": 8
+  },
+  "resistances": {
+    "flamme": 20,
+    "tempete": 20,
+    "givre": -10
+  },
+  "sorts": [
+    "etincelle_crepitement",
+    "etincelle_saut",
+    "mal_eclos_jet_de_flamme"
+  ],
+  "ia": "basique",
+  "xp": 40,
+  "butin": [
+    {
+      "objet": "etincelle_captive",
+      "taux": 0.9,
+      "quantite": [
+        2,
+        4
+      ]
+    },
+    {
+      "objet": "braise_vive",
+      "taux": 0.6,
+      "quantite": [
+        1,
+        2
+      ]
+    }
+  ],
+  "ecus": [
+    5,
+    12
+  ],
+  "elite": true,
+  "famille": "etincelle_folle"
+}

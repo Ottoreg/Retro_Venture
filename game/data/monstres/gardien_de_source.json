@@ -1,0 +1,44 @@
+{
+  "id": "gardien_de_source",
+  "nom": "Gardien de source",
+  "description": "Il garde la source depuis toujours. Il ne sait plus contre qui.",
+  "palier": 2,
+  "caracteristiques": {
+    "pv": 55,
+    "pa": 6,
+    "pm": 3,
+    "initiative": 95,
+    "force": 18,
+    "perception": 14
+  },
+  "resistances": {
+    "acier": 25,
+    "givre": 15,
+    "flamme": -15
+  },
+  "sorts": [
+    "gardien_coup_de_source",
+    "gardien_jaillissement"
+  ],
+  "ia": "basique",
+  "xp": 110,
+  "butin": [
+    {
+      "objet": "galet_de_source",
+      "taux": 0.5,
+      "quantite": [
+        1,
+        2
+      ]
+    },
+    {
+      "objet": "noyau_de_gardien",
+      "taux": 0.12
+    }
+  ],
+  "ecus": [
+    9,
+    20
+  ],
+  "mot": "de Source"
+}

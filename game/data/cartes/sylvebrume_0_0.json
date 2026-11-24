@@ -4,15 +4,16 @@
   "palette": "sylvebrume",
   "sorties": {
     "droite": "sylvebrume_1_0",
-    "bas": "sylvebrume_0_1"
+    "bas": "sylvebrume_0_1",
+    "haut": "sylvebrume_0_-1"
   },
   "portes": [
     "maison_sylvebrume"
   ],
   "plan": [
-    "AAAAAAAAAAAAAAAAAAA",
-    " AAAAAAAAAAAAAAAAAA",
-    "AAA......A.A...AAAA",
+    "AAAAAAA.....AAAAAAA",
+    " AAAAAA.....AAAAAAA",
+    "AAA............AAAA",
     " AAA...........ÊAAA",
     "AAA............AAAA",
     " A.............EAAA",

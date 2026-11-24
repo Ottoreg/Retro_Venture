@@ -1,0 +1,11 @@
+{
+  "id": "galet_de_source",
+  "nom": "Galet de source",
+  "type": "ressource",
+  "rarete": "commun",
+  "niveau": 2,
+  "description": "Poli par les quatre éléments. Très dur, très lisse, très fier.",
+  "caracteristique": "force",
+  "famille": "gardien_de_source",
+  "zone": "sylvebrume"
+}

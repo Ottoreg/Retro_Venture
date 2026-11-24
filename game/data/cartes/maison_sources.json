@@ -1,0 +1,20 @@
+{
+  "id": "maison_sources",
+  "nom": "Votre maison",
+  "instance": "joueur",
+  "sol": "parquet",
+  "portes": [
+    "sylvebrume_0_-1"
+  ],
+  "plan": [
+    "MMMMMMMMMMM",
+    " M$..&...=M",
+    "M.........M",
+    " M........M",
+    "M.........M",
+    " M...@....M",
+    "M.........M",
+    " M........M",
+    "MMMMM+MMMMM"
+  ]
+}

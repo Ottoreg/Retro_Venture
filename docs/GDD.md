@@ -255,12 +255,12 @@ thématique** (son village ou campement, son décor, ses monstres et PNJ à son 
   corniches et falaises ventées au-dessus de la Brume ; maisons humaines où les Géants se plient en
   quatre, vieux gardien qui met trois jours à finir sa phrase, troupeaux de moutons géants. Tempête et Acier.
 
-**Sylvebrume agrandie** (validée par l'auteur le 23/11/2026, rien de produit) :
+**Sylvebrume agrandie** (validée par l'auteur le 23/11/2026 ; Bois-Farceur et Sources primordiales produits le 24/11/2026, à valider) :
 
-- **Mycéliens, à l'est** (depuis le Bosquet des Cerfs ou la Scierie de Brumerive) : *le Bois-Farceur*
+- **Mycéliens, à l'est** (depuis le Bosquet des Cerfs ou la Scierie de Brumerive) : cartes `sylvebrume_3_0` à `sylvebrume_4_2` (quêtes de race écrites, produites quand la race existera) : *le Bois-Farceur*
   (nom proposé pour les Lutins, à revoir), sous-bois de ronds de champignons et de mycélium où circulent
   les commérages de la forêt ; peut devenir le « Bois des Lutins » de la relique du Grelot Farfelu.
-- **Arkhés, au nord** (depuis la Clairière de la Lisière ou la Futaie ancienne) : *les Sources
+- **Arkhés, au nord** (depuis la Clairière de la Lisière ou la Futaie ancienne) : cartes `sylvebrume_0_-1` (départ de toutes les variantes) à `sylvebrume_1_-3` : *les Sources
   primordiales*, clairière où jaillissent les quatre éléments, une source par variante (forge, brasier,
   orage, glacier) ; monstres : élémentaires « mal éclos » qui se disputent sur le meilleur élément.
   Éléments mélangés, exception à la dominante de la zone.

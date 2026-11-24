@@ -1,0 +1,106 @@
+{
+  "id": "la_rumeur",
+  "nom": "La Rumeur",
+  "description": "Un ragot devenu si gros qu'il a pris corps dans le réseau. Personne ne sait d'où il vient. Tout le monde le répète.",
+  "palier": 2,
+  "caracteristiques": {
+    "pv": 300,
+    "pa": 7,
+    "pm": 3,
+    "initiative": 105,
+    "perception": 22,
+    "force": 18
+  },
+  "resistances": {
+    "givre": 25,
+    "acier": 15,
+    "flamme": -20
+  },
+  "sorts": [
+    "rumeur_on_dit_que",
+    "vesse_bavardage",
+    "vesse_nuage_de_spores"
+  ],
+  "ia": "distance",
+  "xp": 760,
+  "butin": [
+    {
+      "objet": "echo_de_la_rumeur",
+      "taux": 1.0
+    }
+  ],
+  "ecus": [
+    90,
+    150
+  ],
+  "boss": true,
+  "mot": "de la Rumeur",
+  "phases": [
+    {
+      "pv": 70,
+      "message": "« Il paraît que… » La Rumeur se faufile de champignon en champignon.",
+      "sorts": [
+        "rumeur_il_parait_que",
+        "vesse_ragot"
+      ],
+      "effets": [
+        {
+          "type": "bonus",
+          "carac": "portee",
+          "min": 1,
+          "max": 1,
+          "duree": 3
+        }
+      ]
+    },
+    {
+      "pv": 30,
+      "message": "« Tout le monde le sait ! » La Rumeur vous serre de près.",
+      "sorts": [
+        "rumeur_tout_le_monde_le_sait",
+        "mycelium_etreinte_racinaire"
+      ],
+      "effets": [
+        {
+          "type": "bonus",
+          "carac": "pm",
+          "min": 1,
+          "max": 1,
+          "duree": 3
+        },
+        {
+          "type": "bonus",
+          "carac": "resistance",
+          "min": 20,
+          "max": 20,
+          "duree": 3,
+          "element": "acier"
+        },
+        {
+          "type": "bonus",
+          "carac": "resistance",
+          "min": 20,
+          "max": 20,
+          "duree": 3,
+          "element": "flamme"
+        },
+        {
+          "type": "bonus",
+          "carac": "resistance",
+          "min": 20,
+          "max": 20,
+          "duree": 3,
+          "element": "givre"
+        },
+        {
+          "type": "bonus",
+          "carac": "resistance",
+          "min": 20,
+          "max": 20,
+          "duree": 3,
+          "element": "tempete"
+        }
+      ]
+    }
+  ]
+}

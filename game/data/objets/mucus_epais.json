@@ -1,0 +1,11 @@
+{
+  "id": "mucus_epais",
+  "nom": "Mucus épais",
+  "type": "ressource",
+  "rarete": "peu_commun",
+  "niveau": 1,
+  "description": "Ça colle. Ça colle vraiment beaucoup.",
+  "caracteristique": "vitalite",
+  "famille": "limace_gourmande",
+  "zone": "sylvebrume"
+}

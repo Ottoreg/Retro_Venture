@@ -1,0 +1,11 @@
+{
+  "id": "noyau_de_gardien",
+  "nom": "Noyau de gardien",
+  "type": "ressource",
+  "rarete": "peu_commun",
+  "niveau": 2,
+  "description": "Le cœur d'un gardien. Il bat encore, lentement.",
+  "caracteristique": "vitalite",
+  "famille": "gardien_de_source",
+  "zone": "sylvebrume"
+}

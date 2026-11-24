@@ -1,0 +1,50 @@
+{
+  "id": "grand_reseau_errant",
+  "nom": "Grand Réseau errant",
+  "description": "Tout un pan du réseau qui s'est mis à marcher. Il entend tout ce que vous pensez. Ou presque.",
+  "palier": 2,
+  "caracteristiques": {
+    "pv": 110,
+    "pa": 7,
+    "pm": 3,
+    "initiative": 110,
+    "force": 28,
+    "perception": 22
+  },
+  "resistances": {
+    "acier": 25,
+    "givre": 15,
+    "flamme": -10
+  },
+  "sorts": [
+    "mycelium_filaments",
+    "mycelium_etreinte_racinaire",
+    "vesse_bavardage"
+  ],
+  "ia": "basique",
+  "xp": 230,
+  "butin": [
+    {
+      "objet": "filament_blanc",
+      "taux": 0.9,
+      "quantite": [
+        2,
+        4
+      ]
+    },
+    {
+      "objet": "motte_d_humus",
+      "taux": 0.5,
+      "quantite": [
+        1,
+        2
+      ]
+    }
+  ],
+  "ecus": [
+    20,
+    40
+  ],
+  "elite": true,
+  "famille": "mycelium_errant"
+}

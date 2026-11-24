@@ -1,0 +1,11 @@
+{
+  "id": "fragment_indecis",
+  "nom": "Fragment indécis",
+  "type": "ressource",
+  "rarete": "commun",
+  "niveau": 1,
+  "description": "Un bout d'élémentaire qui change de couleur quand on ne le regarde pas.",
+  "caracteristique": "intelligence",
+  "famille": "elementaire_mal_eclos",
+  "zone": "sylvebrume"
+}

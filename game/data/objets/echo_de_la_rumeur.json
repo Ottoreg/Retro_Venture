@@ -1,0 +1,11 @@
+{
+  "id": "echo_de_la_rumeur",
+  "nom": "Écho de la Rumeur",
+  "type": "ressource",
+  "rarete": "rare",
+  "niveau": 2,
+  "description": "Un ragot condensé. Il répète sans fin quelque chose sur vous.",
+  "caracteristique": "dommages_givre",
+  "famille": "la_rumeur",
+  "zone": "sylvebrume"
+}

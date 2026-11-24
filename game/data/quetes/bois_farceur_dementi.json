@@ -1,0 +1,51 @@
+{
+  "id": "bois_farceur_dementi",
+  "nom": "Démenti",
+  "categorie": "secondaire",
+  "niveau": 12,
+  "pnj": "tante_volve",
+  "description": "La Rumeur raconte des horreurs sur tout le monde. Tante Volve exige un démenti.",
+  "conditions": {
+    "une_quete_terminee": [
+      "brumerive_tutoriel",
+      "crasse_roc_tutoriel",
+      "sylvebrume_tutoriel"
+    ]
+  },
+  "etapes": [
+    {
+      "objectifs": [
+        {
+          "type": "vaincre_groupe",
+          "monstre": "la_rumeur",
+          "texte": "Démentir la Rumeur, au Cœur du Réseau"
+        }
+      ]
+    },
+    {
+      "objectifs": [
+        {
+          "type": "parler",
+          "pnj": "tante_volve"
+        }
+      ]
+    }
+  ],
+  "dialogues": {
+    "tante_volve": {
+      "proposition": [
+        "La Rumeur dit que j'ai des taches. Des TACHES. Allez au Cœur du Réseau et démentez-la. Fermement."
+      ],
+      "en_cours": [
+        "Elle le répète encore. Tout le bois le sait maintenant."
+      ],
+      "fin": [
+        "Démentie ! Bon, elle reviendra : une rumeur revient toujours. Mais merci. … Vous trouvez que j'ai des taches ?"
+      ]
+    }
+  },
+  "recompenses": {
+    "xp_cr": 6,
+    "ecus": 120
+  }
+}

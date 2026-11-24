@@ -10,6 +10,11 @@ Givre puis Acier dominants dans la zone.
 
 ## 1. Le Bois-Farceur (Mycéliens, à l'est ; nom à revoir)
 
+**Produit le 24/11/2026** (`sz_bois_farceur.py`, à valider) : `bois_farceur_x_y` = `sylvebrume_(x+3)_y`. La race n'existe
+pas encore : seule la secondaire *Démenti* est dans le jeu ; les 3 quêtes de race sont écrites (`QUETES_RACE`). Élites :
+Limace reine, Pied-de-Mouton ancestral, Grand Réseau errant. Phase 2 de la Rumeur sans échos (téléportation et Ragot).
+Apparences provisoires (limaces en grouilleurs, vesses et Rumeur en morilles, mycéliums en arbres vivants pâles).
+
 ```
 y=0  ⇠ Bosquet des Cerfs (sylvebrume_2_0)   [Rond des Rumeurs 1 *] ── [Sous-bois des Spores 1]
                                                    │                         │
@@ -51,6 +56,11 @@ de près : parler au chef de la Clairière de la Lisière, première quête de l
 (Tante Volve), vaincre la Rumeur.
 
 ## 2. Les Sources primordiales (Arkhés, au nord)
+
+**Produites le 24/11/2026** (`sz_sources.py`, à valider) : `sources_x_y` = `sylvebrume_x_(y-1)`, départ de l'Arkhé et de
+ses 3 variantes. Simplifications : un seul Gardien de source (Acier et Givre), mal-éclos à jets de Flamme et de Givre,
+Crise d'identité = −10 % de résistance Flamme et Givre aux ennemis proches. Élites : Grande Étincelle, Grand Mal-Éclos,
+Gardien du Puits. Le débat des Sages : parler aux 3 autres Sages puis revenir à Ferrugine. Apparences reprises des Arkhés.
 
 ```
 y=-2 [Glacier source 2] ──────────── [Puits des Origines ☠ 2]

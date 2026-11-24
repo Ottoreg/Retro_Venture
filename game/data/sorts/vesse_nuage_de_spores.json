@@ -1,0 +1,36 @@
+{
+  "id": "vesse_nuage_de_spores",
+  "nom": "Nuage de spores",
+  "description": "Elle crache des spores en racontant sa vie. Les deux sont toxiques.",
+  "cout_pa": 4,
+  "portee": {
+    "min": 2,
+    "max": 5
+  },
+  "ligne_de_vue": false,
+  "relance": {
+    "par_tour": 1,
+    "delai": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "givre",
+      "min": 2,
+      "max": 3,
+      "cibles": "ennemis"
+    },
+    {
+      "type": "poison",
+      "element": "givre",
+      "min": 1,
+      "max": 2,
+      "duree": 2,
+      "cibles": "ennemis"
+    }
+  ],
+  "zone": {
+    "type": "cercle",
+    "taille": 1
+  }
+}

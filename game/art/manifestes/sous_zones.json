@@ -168,6 +168,85 @@
       "planche": "sprites/nain_myrmidon.png",
       "echelle": 1.35,
       "teinte": "fff0c0"
+    },
+    "limace_gourmande": {
+      "image": "grouilleur",
+      "echelle": 0.6,
+      "teinte": "a0b090"
+    },
+    "limace_reine": {
+      "image": "grouilleur",
+      "echelle": 0.8,
+      "teinte": "c0a0d0"
+    },
+    "vesse_de_loup_bavarde": {
+      "image": "morille",
+      "planche": "sprites/morille.png",
+      "echelle": 0.6,
+      "teinte": "f0e8d8"
+    },
+    "pied_de_mouton_ancestral": {
+      "image": "morille",
+      "planche": "sprites/morille.png",
+      "echelle": 0.78,
+      "teinte": "f0d8b0"
+    },
+    "mycelium_errant": {
+      "image": "arbre_vivant",
+      "echelle": 0.75,
+      "teinte": "f0ece0"
+    },
+    "grand_reseau_errant": {
+      "image": "arbre_vivant",
+      "echelle": 0.95,
+      "teinte": "e0d8f0"
+    },
+    "la_rumeur": {
+      "image": "morille",
+      "planche": "sprites/morille.png",
+      "echelle": 1.0,
+      "teinte": "c8a0e8"
+    },
+    "etincelle_folle": {
+      "image": "rat",
+      "planche": "sprites/arkhe.png",
+      "echelle": 0.5,
+      "teinte": "ffe080"
+    },
+    "grande_etincelle": {
+      "image": "rat",
+      "planche": "sprites/arkhe.png",
+      "echelle": 0.65,
+      "teinte": "fff0a0"
+    },
+    "elementaire_mal_eclos": {
+      "image": "rat",
+      "planche": "sprites/arkhe_givre.png",
+      "echelle": 0.85,
+      "teinte": "e0c0ff"
+    },
+    "grand_mal_eclos": {
+      "image": "rat",
+      "planche": "sprites/arkhe_tempete.png",
+      "echelle": 1.05,
+      "teinte": "d0b0ff"
+    },
+    "gardien_de_source": {
+      "image": "rat",
+      "planche": "sprites/arkhe_acier_myrmidon.png",
+      "echelle": 0.95
+    },
+    "gardien_du_puits": {
+      "image": "rat",
+      "planche": "sprites/arkhe_acier_myrmidon.png",
+      "echelle": 1.15,
+      "teinte": "c0e0ff"
+    },
+    "l_indecis": {
+      "image": "rat",
+      "planche": "sprites/arkhe_paladin.png",
+      "echelle": 1.3,
+      "teinte": "f0e0ff"
     }
   },
   "images": {
@@ -394,6 +473,111 @@
         31,
         42
       ]
+    },
+    "objet_bave_de_limace": {
+      "fichier": "objets/glande_acide.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_mucus_epais": {
+      "fichier": "objets/seve_ancienne.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_spores_bavardes": {
+      "fichier": "objets/spores_grincheuses.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_chapeau_de_vesse": {
+      "fichier": "objets/chapeau_de_morille.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_filament_blanc": {
+      "fichier": "objets/fil_de_brume.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_motte_d_humus": {
+      "fichier": "objets/copeaux_de_bois.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_echo_de_la_rumeur": {
+      "fichier": "objets/message_intercepte.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_etincelle_captive": {
+      "fichier": "objets/eclat_de_cendre.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_braise_vive": {
+      "fichier": "objets/cendre_tiede.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_fragment_indecis": {
+      "fichier": "objets/fragment_de_cendre.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_larme_de_source": {
+      "fichier": "objets/argent_lunaire.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_galet_de_source": {
+      "fichier": "objets/coeur_de_pierre.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_noyau_de_gardien": {
+      "fichier": "objets/eclat_de_gargouille.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_coeur_de_l_indecis": {
+      "fichier": "objets/sacre_coeur.svgt",
+      "ancre": [
+        22,
+        22
+      ]
+    },
+    "objet_ragot_de_limace": {
+      "fichier": "objets/liste_du_heraut.svgt",
+      "ancre": [
+        22,
+        22
+      ]
     }
   },
   "pnj": {
@@ -609,6 +793,93 @@
         "pantalon": "3e3226",
         "barbe": "e0e0e0"
       }
+    },
+    "doyenne_lamelle": {
+      "rig": "humain",
+      "couleurs": {
+        "peau": "e8dcc0",
+        "cheveux": "b0703a",
+        "tunique": "5a4a2a",
+        "manches": "5a4a30",
+        "pantalon": "4a3e2a",
+        "ceinture": "c9a04e"
+      }
+    },
+    "oncle_sporophore": {
+      "rig": "humain",
+      "couleurs": {
+        "peau": "e8dcc0",
+        "cheveux": "e8b040",
+        "tunique": "3a5a3a",
+        "manches": "5a4a30",
+        "pantalon": "4a3e2a",
+        "ceinture": "e0b860"
+      }
+    },
+    "commere_girolle": {
+      "rig": "humain",
+      "couleurs": {
+        "peau": "e8dcc0",
+        "cheveux": "e8a030",
+        "tunique": "7a6040",
+        "manches": "5a4a30",
+        "pantalon": "4a3e2a"
+      }
+    },
+    "tante_volve": {
+      "rig": "humain",
+      "couleurs": {
+        "peau": "e8dcc0",
+        "cheveux": "c03028",
+        "tunique": "5a3a3a",
+        "manches": "5a4a30",
+        "pantalon": "4a3e2a"
+      }
+    },
+    "facteur_hyphe": {
+      "rig": "humain",
+      "couleurs": {
+        "peau": "e8dcc0",
+        "cheveux": "c8a060",
+        "tunique": "3a4a6a",
+        "manches": "5a4a30",
+        "pantalon": "4a3e2a"
+      }
+    },
+    "ancienne_prima": {
+      "rig": "humain",
+      "race": "arkhe",
+      "couleurs": {}
+    },
+    "eclat_premier": {
+      "rig": "humain",
+      "race": "arkhe_tempete",
+      "couleurs": {}
+    },
+    "fondeuse_aluna": {
+      "rig": "humain",
+      "race": "arkhe_acier",
+      "couleurs": {}
+    },
+    "sage_ferrugine": {
+      "rig": "humain",
+      "race": "arkhe_acier",
+      "couleurs": {}
+    },
+    "sage_cendrine": {
+      "rig": "humain",
+      "race": "arkhe",
+      "couleurs": {}
+    },
+    "sage_fulgur": {
+      "rig": "humain",
+      "race": "arkhe_tempete",
+      "couleurs": {}
+    },
+    "sage_frimaire": {
+      "rig": "humain",
+      "race": "arkhe_givre",
+      "couleurs": {}
     }
   }
 }

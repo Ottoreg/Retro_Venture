@@ -1,0 +1,44 @@
+{
+  "id": "etincelle_folle",
+  "nom": "Étincelle folle",
+  "description": "Un élémentaire si petit qu'il n'a pas eu le temps de choisir entre le feu et l'orage. Alors il fait les deux.",
+  "palier": 1,
+  "caracteristiques": {
+    "pv": 14,
+    "pa": 5,
+    "pm": 4,
+    "initiative": 90,
+    "intelligence": 3,
+    "agilite": 3
+  },
+  "resistances": {
+    "flamme": 15,
+    "tempete": 15,
+    "givre": -15
+  },
+  "sorts": [
+    "etincelle_crepitement",
+    "etincelle_saut"
+  ],
+  "ia": "basique",
+  "xp": 14,
+  "butin": [
+    {
+      "objet": "etincelle_captive",
+      "taux": 0.6,
+      "quantite": [
+        1,
+        2
+      ]
+    },
+    {
+      "objet": "braise_vive",
+      "taux": 0.15
+    }
+  ],
+  "ecus": [
+    1,
+    4
+  ],
+  "mot": "d'Étincelle"
+}

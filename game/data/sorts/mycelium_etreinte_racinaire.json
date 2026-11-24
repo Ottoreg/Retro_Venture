@@ -1,0 +1,27 @@
+{
+  "id": "mycelium_etreinte_racinaire",
+  "nom": "Étreinte racinaire",
+  "description": "Il vous prend dans ses racines. Il ne compte pas vous lâcher.",
+  "cout_pa": 4,
+  "portee": {
+    "min": 1,
+    "max": 1
+  },
+  "ligne_de_vue": true,
+  "relance": {
+    "par_tour": 1
+  },
+  "effets": [
+    {
+      "type": "degats",
+      "element": "acier",
+      "min": 5,
+      "max": 8
+    },
+    {
+      "type": "etat",
+      "etat": "enracine",
+      "duree": 1
+    }
+  ]
+}
