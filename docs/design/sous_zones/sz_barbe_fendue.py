@@ -169,8 +169,8 @@ ICONES = {"griffe_de_taupe": "crochet_d_araignee", "velours_de_taupe": "peau_de_
           "sceau_du_tresorier": "tampon_officiel"}
 
 ART = {
-    "taupe_pioche": {"image": "rat", "echelle": 0.6, "teinte": "6a5040"},
-    "taupe_contremaitresse": {"image": "rat", "echelle": 0.75, "teinte": "8a6a40"},
+    "taupe_pioche": {"image": "taupe", "echelle": 0.85, "couleurs": {"pelage": "5a4a44", "pelage_ombre": "3a302c"}},
+    "taupe_contremaitresse": {"image": "taupe", "echelle": 1.05, "couleurs": {"pelage": "7a5a3a", "pelage_ombre": "4a3626"}},
     "apprenti_mineur": {"image": "rat", "planche": "sprites/nain_guerrier.png", "echelle": 0.95},
     "controleur_des_poids_et_mesures": {"image": "rat", "planche": "sprites/nain_paladin.png", "echelle": 1.15},
     "golem_de_minerai": {"image": "gargouille", "echelle": 1.0, "teinte": "b08a60"},
@@ -183,4 +183,5 @@ SOUS_ZONE = {"id": "barbe_fendue", "zone": Z, "prefixe": "Brumerive", "palette":
              "camp_depart": "brumerive_0_0", "races": ["nain"],
              "passage": {"id": "brumerive_barbe_fendue", "nom": "Comptoir de Barbe-Fendue", "prix": 10},
              "sorts": SORTS, "ressources": RES, "monstres": MONSTRES, "cartes": CARTES, "quetes": QUETES,
-             "objets_quete": [], "art_monstres": ART, "icones": ICONES}
+             "objets_quete": [], "art_monstres": ART, "icones": ICONES,
+             "images": {"taupe": {"fichier": "monstre/taupe.svgt", "ancre": [31, 42]}}}

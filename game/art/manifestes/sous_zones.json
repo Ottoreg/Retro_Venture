@@ -128,14 +128,20 @@
       "teinte": "e8e8f0"
     },
     "taupe_pioche": {
-      "image": "rat",
-      "echelle": 0.6,
-      "teinte": "6a5040"
+      "image": "taupe",
+      "echelle": 0.85,
+      "couleurs": {
+        "pelage": "5a4a44",
+        "pelage_ombre": "3a302c"
+      }
     },
     "taupe_contremaitresse": {
-      "image": "rat",
-      "echelle": 0.75,
-      "teinte": "8a6a40"
+      "image": "taupe",
+      "echelle": 1.05,
+      "couleurs": {
+        "pelage": "7a5a3a",
+        "pelage_ombre": "4a3626"
+      }
     },
     "apprenti_mineur": {
       "image": "rat",
@@ -377,6 +383,13 @@
     },
     "os_errant": {
       "fichier": "monstre/os_errant.svgt",
+      "ancre": [
+        31,
+        42
+      ]
+    },
+    "taupe": {
+      "fichier": "monstre/taupe.svgt",
       "ancre": [
         31,
         42

@@ -348,7 +348,7 @@ Dernière session (retours de la passe de l'auteur) :
   des dessins existants, fragment `art/manifestes/sous_zones.json`) ; Fosse aux Braillards des orcs faite le 24/11/2026
   (`crasse_roc_3_0` à `4_2`, Pierre `crasse_roc_braillards`, `maison_braillards`, 4 quêtes `braillards_*`) ;
   Hauts-Perchés des géants faits le 24/11/2026 (`brumerive_-1_0` à `-2_2`, Pierre `brumerive_hauts_perches`, `maison_hauts_perches`, 4 quêtes `hauts_perches_*`,
-  agneau et os errant dessinés, `art/monstre/agneau.svgt` et `os_errant.svgt`) ; Comptoir de Barbe-Fendue des nains fait le 24/11/2026 (`brumerive_1_-1` à `2_-3`,
+  agneau, os errant et taupe dessinés, `art/monstre/agneau.svgt`, `os_errant.svgt`, `taupe.svgt`) ; Comptoir de Barbe-Fendue des nains fait le 24/11/2026 (`brumerive_1_-1` à `2_-3`,
   Pierre `brumerive_barbe_fendue`, `maison_barbe_fendue`, 4 quêtes `barbe_fendue_*`).
 - Le pseudo choisi est déjà utilisé partout ; « Aventurier » (`World.DEFAULT_NAME`) n'apparaît
   que dans les tests et les captures, sans écran de création.
