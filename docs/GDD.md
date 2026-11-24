@@ -2695,7 +2695,8 @@ Grandes Plaines, mais **plus difficiles à trouver** : moins nombreux et plus lo
 les autres. Valeurs des bonus, palier d'éleveur requis et apprivoisement : **à définir**.
 
 **Ampas dans le jeu** (24/11/2026, lot 1 de `docs/design/elevage/etapes.md`, `docs/design/grandes_plaines/ampas.py`) :
-les 8 ampas et leur élite (« Grand ampa ») vivent sur les 15 cartes de steppe ; dessin `art/monstre/ampa.svgt` recolorié par
+les 8 ampas et leur élite (« Grand ampa ») vivent sur les 15 cartes de steppe ; pixel art de l'auteur (`assets/ampa/`, planches
+`art/sprites/ampa_<couleur>.png`, 24/11/2026) recolorié par
 ses plumes. Valeurs provisoires : palier 2 (Onyx et Cristal palier 3, un ou deux groupes seulement, réapparition 5 à 8 min),
 un sort par élément de la couleur (Plumes ardentes Flamme, Battement d'ailes Tempête, Coup de bec Acier, Cri glacé Givre ;
 Onyx : Course folle +2 PM, Cristal : Plumage scintillant +2 PA) ; butin : une plume par couleur, qui donne à la forge

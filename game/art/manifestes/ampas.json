@@ -2,7 +2,8 @@
   "monstres": {
     "ampa_brun": {
       "image": "ampa",
-      "echelle": 1.5,
+      "planche": "sprites/ampa_brun.png",
+      "echelle": 1.3,
       "couleurs": {
         "plumes": "7a5030",
         "plumes_ombre": "4e3220",
@@ -11,7 +12,8 @@
     },
     "grand_ampa_brun": {
       "image": "ampa",
-      "echelle": 1.9,
+      "planche": "sprites/ampa_brun.png",
+      "echelle": 1.65,
       "couleurs": {
         "plumes": "7a5030",
         "plumes_ombre": "4e3220",
@@ -20,7 +22,8 @@
     },
     "ampa_ocre": {
       "image": "ampa",
-      "echelle": 1.5,
+      "planche": "sprites/ampa_ocre.png",
+      "echelle": 1.3,
       "couleurs": {
         "plumes": "c8902e",
         "plumes_ombre": "8e6420",
@@ -29,7 +32,8 @@
     },
     "grand_ampa_ocre": {
       "image": "ampa",
-      "echelle": 1.9,
+      "planche": "sprites/ampa_ocre.png",
+      "echelle": 1.65,
       "couleurs": {
         "plumes": "c8902e",
         "plumes_ombre": "8e6420",
@@ -38,7 +42,8 @@
     },
     "ampa_roux": {
       "image": "ampa",
-      "echelle": 1.5,
+      "planche": "sprites/ampa_roux.png",
+      "echelle": 1.3,
       "couleurs": {
         "plumes": "c0502a",
         "plumes_ombre": "862e18",
@@ -47,7 +52,8 @@
     },
     "grand_ampa_roux": {
       "image": "ampa",
-      "echelle": 1.9,
+      "planche": "sprites/ampa_roux.png",
+      "echelle": 1.65,
       "couleurs": {
         "plumes": "c0502a",
         "plumes_ombre": "862e18",
@@ -56,7 +62,8 @@
     },
     "ampa_cramoisi": {
       "image": "ampa",
-      "echelle": 1.5,
+      "planche": "sprites/ampa_cramoisi.png",
+      "echelle": 1.3,
       "couleurs": {
         "plumes": "9a1e2a",
         "plumes_ombre": "641018",
@@ -65,7 +72,8 @@
     },
     "grand_ampa_cramoisi": {
       "image": "ampa",
-      "echelle": 1.9,
+      "planche": "sprites/ampa_cramoisi.png",
+      "echelle": 1.65,
       "couleurs": {
         "plumes": "9a1e2a",
         "plumes_ombre": "641018",
@@ -74,7 +82,8 @@
     },
     "ampa_stratos": {
       "image": "ampa",
-      "echelle": 1.5,
+      "planche": "sprites/ampa_stratos.png",
+      "echelle": 1.3,
       "couleurs": {
         "plumes": "3a6ab0",
         "plumes_ombre": "244a80",
@@ -83,7 +92,8 @@
     },
     "grand_ampa_stratos": {
       "image": "ampa",
-      "echelle": 1.9,
+      "planche": "sprites/ampa_stratos.png",
+      "echelle": 1.65,
       "couleurs": {
         "plumes": "3a6ab0",
         "plumes_ombre": "244a80",
@@ -92,7 +102,8 @@
     },
     "ampa_empire": {
       "image": "ampa",
-      "echelle": 1.5,
+      "planche": "sprites/ampa_empire.png",
+      "echelle": 1.3,
       "couleurs": {
         "plumes": "3a8a4a",
         "plumes_ombre": "245e30",
@@ -101,7 +112,8 @@
     },
     "grand_ampa_empire": {
       "image": "ampa",
-      "echelle": 1.9,
+      "planche": "sprites/ampa_empire.png",
+      "echelle": 1.65,
       "couleurs": {
         "plumes": "3a8a4a",
         "plumes_ombre": "245e30",
@@ -110,7 +122,8 @@
     },
     "ampa_onyx": {
       "image": "ampa",
-      "echelle": 1.5,
+      "planche": "sprites/ampa_onyx.png",
+      "echelle": 1.3,
       "couleurs": {
         "plumes": "2a2a32",
         "plumes_ombre": "141418",
@@ -119,7 +132,8 @@
     },
     "grand_ampa_onyx": {
       "image": "ampa",
-      "echelle": 1.9,
+      "planche": "sprites/ampa_onyx.png",
+      "echelle": 1.65,
       "couleurs": {
         "plumes": "2a2a32",
         "plumes_ombre": "141418",
@@ -128,7 +142,8 @@
     },
     "ampa_cristal": {
       "image": "ampa",
-      "echelle": 1.5,
+      "planche": "sprites/ampa_cristal.png",
+      "echelle": 1.3,
       "couleurs": {
         "plumes": "bfe4f0",
         "plumes_ombre": "88b8cc",
@@ -137,7 +152,8 @@
     },
     "grand_ampa_cristal": {
       "image": "ampa",
-      "echelle": 1.9,
+      "planche": "sprites/ampa_cristal.png",
+      "echelle": 1.65,
       "couleurs": {
         "plumes": "bfe4f0",
         "plumes_ombre": "88b8cc",

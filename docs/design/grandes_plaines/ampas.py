@@ -6,7 +6,25 @@ Usage, depuis la racine du dépôt : python3 docs/design/grandes_plaines/ampas.p
 import os, sys
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "sous_zones"))
 from produire_sous_zone import sort, deg, bonus, ressource, monstre, drop, lire, ecrire, verifier  # noqa: E402
-from cartes import ecran, proposer  # noqa: E402
+from cartes import ecran, proposer, JEU  # noqa: E402
+from PIL import Image  # noqa: E402
+
+
+def planche(couleur, ombre, sortie):
+    """Planche pixel art de l'ampa (art/sprites/ampa.png, plumage gris neutre, tirée de assets/ampa par
+    tools/planche_sprites.py) recoloriée : chaque gris prend la couleur des plumes à sa luminosité, assombrie
+    vers l'ombre ; le bec, les pattes (jaunes) et le contour (presque noir) restent tels quels."""
+    im = Image.open(os.path.join(JEU, "art/sprites/ampa.png")).convert("RGBA")
+    c, o = [tuple(int(h[i:i + 2], 16) for i in (0, 2, 4)) for h in (couleur, ombre)]
+    px = im.load()
+    for x in range(im.width):
+        for y in range(im.height):
+            r, g, b, a = px[x, y]
+            if a and max(r, g, b) - min(r, g, b) < 24 and max(r, g, b) > 60:  # gris du plumage
+                l = (r + g + b) / 765
+                t = min(1.0, l * 1.25)  # 0 : ombre, 1 : couleur, au-delà : reflet
+                px[x, y] = tuple(min(255, round(o[k] + (c[k] - o[k]) * t + max(0.0, l - 0.8) * 120)) for k in range(3)) + (a,)
+    im.save(os.path.join(JEU, sortie), optimize=True)
 
 CARAC = {"flamme": "intelligence", "tempete": "agilite", "acier": "force", "givre": "perception"}
 SORT = {"flamme": "ampa_plumes_ardentes", "tempete": "ampa_battement_d_ailes", "acier": "ampa_coup_de_bec", "givre": "ampa_cri_glace"}
@@ -53,8 +71,9 @@ for c, (nom, plumes, ombre, tete, elements, carac, desc) in AMPAS.items():
     monstres.append(monstre(f"grand_ampa_{c}", f"Grand ampa {nom}", "Le meneur de la harde. Il court devant, il frappe devant, il mange devant.",
                             palier, round(pv * 2.2), 7, 5, 125, {k: round(v * 1.5) for k, v in caracs.items()}, res, sorts, round(xp * 2.2),
                             [e * 2 for e in ecus], [drop(plume, taux[1], [2, 4])], elite=True, famille=f"ampa_{c}"))
-    art[f"ampa_{c}"] = {"image": "ampa", "echelle": 1.5, "couleurs": couleurs}
-    art[f"grand_ampa_{c}"] = {"image": "ampa", "echelle": 1.9, "couleurs": couleurs}
+    planche(plumes, ombre, f"art/sprites/ampa_{c}.png")  # pixel art de l'auteur (24/11/2026), recolorié par robe
+    art[f"ampa_{c}"] = {"image": "ampa", "planche": f"sprites/ampa_{c}.png", "echelle": 1.3, "couleurs": couleurs}
+    art[f"grand_ampa_{c}"] = {"image": "ampa", "planche": f"sprites/ampa_{c}.png", "echelle": 1.65, "couleurs": couleurs}
     images[f"objet_{plume}"] = {"fichier": "objets/plume_d_ampa.svgt", "ancre": [22, 22], "couleurs": {"plume": plumes}}
 
 g = lambda *ids, n=None: {"parmi": list(ids), "nombre": n} if n else {"monstres": list(ids)}

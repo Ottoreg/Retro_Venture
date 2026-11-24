@@ -1,0 +1,203 @@
+{
+  "group_id": "6861028d-1f25-4a2b-bfec-c77f4274e7b4",
+  "states": [
+    {
+      "character": {
+        "id": "e36655f2-99e7-48cf-9087-6f0e4362a3b5",
+        "name": "Idle",
+        "prompt": "Ampa, a large bipedal bird mount, ostrich-like body with long powerful legs and two-toed clawed feet, small folded wings, long neck, eagle-like head with a hooked yellow beak and sharp eyes, fluffy tail plumes. Plumage in NEUTRAL light grey / white tones only (no hue), with soft shading, so it can be recolored in code. Beak, legs and claws in yellow-ochre, eyes dark. No saddle, no rider, no accessories. Slightly taller than a human, proud and alert stance, idle pose. Pixel art, retro tactical RPG style, clean dark outline, isometric 3/4 view, transparent background",
+        "size": {
+          "width": 64,
+          "height": 64
+        },
+        "template_id": "custom",
+        "directions": 8,
+        "view": "low top-down",
+        "created_at": "2026-11-24T14:00:04.902723+00:00"
+      },
+      "folder": "Idle",
+      "frames": {
+        "rotations": {
+          "south": "Idle/rotations/south.png",
+          "south-east": "Idle/rotations/south-east.png",
+          "east": "Idle/rotations/east.png",
+          "north-east": "Idle/rotations/north-east.png",
+          "north": "Idle/rotations/north.png",
+          "north-west": "Idle/rotations/north-west.png",
+          "west": "Idle/rotations/west.png",
+          "south-west": "Idle/rotations/south-west.png"
+        },
+        "animations": {
+          "Pull_back_the_neck_and_crouch_the_body_in_anticipa": {
+            "north-east": [
+              "Idle/animations/Pull_back_the_neck_and_crouch_the_body_in_anticipa/north-east/frame_000.png",
+              "Idle/animations/Pull_back_the_neck_and_crouch_the_body_in_anticipa/north-east/frame_001.png",
+              "Idle/animations/Pull_back_the_neck_and_crouch_the_body_in_anticipa/north-east/frame_002.png",
+              "Idle/animations/Pull_back_the_neck_and_crouch_the_body_in_anticipa/north-east/frame_003.png",
+              "Idle/animations/Pull_back_the_neck_and_crouch_the_body_in_anticipa/north-east/frame_004.png",
+              "Idle/animations/Pull_back_the_neck_and_crouch_the_body_in_anticipa/north-east/frame_005.png",
+              "Idle/animations/Pull_back_the_neck_and_crouch_the_body_in_anticipa/north-east/frame_006.png",
+              "Idle/animations/Pull_back_the_neck_and_crouch_the_body_in_anticipa/north-east/frame_007.png",
+              "Idle/animations/Pull_back_the_neck_and_crouch_the_body_in_anticipa/north-east/frame_008.png"
+            ],
+            "south-west": [
+              "Idle/animations/Pull_back_the_neck_and_crouch_the_body_in_anticipa/south-west/frame_000.png",
+              "Idle/animations/Pull_back_the_neck_and_crouch_the_body_in_anticipa/south-west/frame_001.png",
+              "Idle/animations/Pull_back_the_neck_and_crouch_the_body_in_anticipa/south-west/frame_002.png",
+              "Idle/animations/Pull_back_the_neck_and_crouch_the_body_in_anticipa/south-west/frame_003.png",
+              "Idle/animations/Pull_back_the_neck_and_crouch_the_body_in_anticipa/south-west/frame_004.png",
+              "Idle/animations/Pull_back_the_neck_and_crouch_the_body_in_anticipa/south-west/frame_005.png",
+              "Idle/animations/Pull_back_the_neck_and_crouch_the_body_in_anticipa/south-west/frame_006.png",
+              "Idle/animations/Pull_back_the_neck_and_crouch_the_body_in_anticipa/south-west/frame_007.png",
+              "Idle/animations/Pull_back_the_neck_and_crouch_the_body_in_anticipa/south-west/frame_008.png"
+            ],
+            "south-east": [
+              "Idle/animations/Pull_back_the_neck_and_crouch_the_body_in_anticipa/south-east/frame_000.png",
+              "Idle/animations/Pull_back_the_neck_and_crouch_the_body_in_anticipa/south-east/frame_001.png",
+              "Idle/animations/Pull_back_the_neck_and_crouch_the_body_in_anticipa/south-east/frame_002.png",
+              "Idle/animations/Pull_back_the_neck_and_crouch_the_body_in_anticipa/south-east/frame_003.png",
+              "Idle/animations/Pull_back_the_neck_and_crouch_the_body_in_anticipa/south-east/frame_004.png",
+              "Idle/animations/Pull_back_the_neck_and_crouch_the_body_in_anticipa/south-east/frame_005.png",
+              "Idle/animations/Pull_back_the_neck_and_crouch_the_body_in_anticipa/south-east/frame_006.png",
+              "Idle/animations/Pull_back_the_neck_and_crouch_the_body_in_anticipa/south-east/frame_007.png",
+              "Idle/animations/Pull_back_the_neck_and_crouch_the_body_in_anticipa/south-east/frame_008.png"
+            ],
+            "north-west": [
+              "Idle/animations/Pull_back_the_neck_and_crouch_the_body_in_anticipa/north-west/frame_000.png",
+              "Idle/animations/Pull_back_the_neck_and_crouch_the_body_in_anticipa/north-west/frame_001.png",
+              "Idle/animations/Pull_back_the_neck_and_crouch_the_body_in_anticipa/north-west/frame_002.png",
+              "Idle/animations/Pull_back_the_neck_and_crouch_the_body_in_anticipa/north-west/frame_003.png",
+              "Idle/animations/Pull_back_the_neck_and_crouch_the_body_in_anticipa/north-west/frame_004.png",
+              "Idle/animations/Pull_back_the_neck_and_crouch_the_body_in_anticipa/north-west/frame_005.png",
+              "Idle/animations/Pull_back_the_neck_and_crouch_the_body_in_anticipa/north-west/frame_006.png",
+              "Idle/animations/Pull_back_the_neck_and_crouch_the_body_in_anticipa/north-west/frame_007.png",
+              "Idle/animations/Pull_back_the_neck_and_crouch_the_body_in_anticipa/north-west/frame_008.png"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "character": {
+        "id": "02669697-6fcb-4524-aed4-45da19b4dfd7",
+        "name": "running",
+        "prompt": "Ampa, a large bipedal bird mount, ostrich-like body with long powerful legs and two-toed clawed feet, small folded wings, long neck, eagle-like head with a hooked yellow beak and sharp eyes, fluffy tail plumes. Plumage in NEUTRAL light grey / white tones only (no hue), with soft shading, so it can be recolored in code. Beak, legs and claws in yellow-ochre, eyes dark. No saddle, no rider, no accessories. Slightly taller than a human, proud and alert stance, idle pose. Pixel art, retro tactical RPG style, clean dark outline, isometric 3/4 view, transparent background",
+        "size": {
+          "width": 64,
+          "height": 64
+        },
+        "template_id": "custom",
+        "directions": 8,
+        "view": "low top-down",
+        "created_at": "2026-11-24T14:04:41.548471+00:00"
+      },
+      "folder": "running",
+      "frames": {
+        "rotations": {
+          "south": "running/rotations/south.png",
+          "south-east": "running/rotations/south-east.png",
+          "east": "running/rotations/east.png",
+          "north-east": "running/rotations/north-east.png",
+          "north": "running/rotations/north.png",
+          "north-west": "running/rotations/north-west.png",
+          "west": "running/rotations/west.png",
+          "south-west": "running/rotations/south-west.png"
+        },
+        "animations": {
+          "Start_sprinting_forward_with_long_alternating_stri": {
+            "south": [
+              "running/animations/Start_sprinting_forward_with_long_alternating_stri/south/frame_000.png",
+              "running/animations/Start_sprinting_forward_with_long_alternating_stri/south/frame_001.png",
+              "running/animations/Start_sprinting_forward_with_long_alternating_stri/south/frame_002.png",
+              "running/animations/Start_sprinting_forward_with_long_alternating_stri/south/frame_003.png",
+              "running/animations/Start_sprinting_forward_with_long_alternating_stri/south/frame_004.png",
+              "running/animations/Start_sprinting_forward_with_long_alternating_stri/south/frame_005.png",
+              "running/animations/Start_sprinting_forward_with_long_alternating_stri/south/frame_006.png",
+              "running/animations/Start_sprinting_forward_with_long_alternating_stri/south/frame_007.png",
+              "running/animations/Start_sprinting_forward_with_long_alternating_stri/south/frame_008.png"
+            ],
+            "north-east": [
+              "running/animations/Start_sprinting_forward_with_long_alternating_stri/north-east/frame_000.png",
+              "running/animations/Start_sprinting_forward_with_long_alternating_stri/north-east/frame_001.png",
+              "running/animations/Start_sprinting_forward_with_long_alternating_stri/north-east/frame_002.png",
+              "running/animations/Start_sprinting_forward_with_long_alternating_stri/north-east/frame_003.png",
+              "running/animations/Start_sprinting_forward_with_long_alternating_stri/north-east/frame_004.png",
+              "running/animations/Start_sprinting_forward_with_long_alternating_stri/north-east/frame_005.png",
+              "running/animations/Start_sprinting_forward_with_long_alternating_stri/north-east/frame_006.png",
+              "running/animations/Start_sprinting_forward_with_long_alternating_stri/north-east/frame_007.png",
+              "running/animations/Start_sprinting_forward_with_long_alternating_stri/north-east/frame_008.png"
+            ],
+            "north": [
+              "running/animations/Start_sprinting_forward_with_long_alternating_stri/north/frame_000.png",
+              "running/animations/Start_sprinting_forward_with_long_alternating_stri/north/frame_001.png",
+              "running/animations/Start_sprinting_forward_with_long_alternating_stri/north/frame_002.png",
+              "running/animations/Start_sprinting_forward_with_long_alternating_stri/north/frame_003.png",
+              "running/animations/Start_sprinting_forward_with_long_alternating_stri/north/frame_004.png",
+              "running/animations/Start_sprinting_forward_with_long_alternating_stri/north/frame_005.png",
+              "running/animations/Start_sprinting_forward_with_long_alternating_stri/north/frame_006.png",
+              "running/animations/Start_sprinting_forward_with_long_alternating_stri/north/frame_007.png",
+              "running/animations/Start_sprinting_forward_with_long_alternating_stri/north/frame_008.png"
+            ],
+            "east": [
+              "running/animations/Start_sprinting_forward_with_long_alternating_stri/east/frame_000.png",
+              "running/animations/Start_sprinting_forward_with_long_alternating_stri/east/frame_001.png",
+              "running/animations/Start_sprinting_forward_with_long_alternating_stri/east/frame_002.png",
+              "running/animations/Start_sprinting_forward_with_long_alternating_stri/east/frame_003.png",
+              "running/animations/Start_sprinting_forward_with_long_alternating_stri/east/frame_004.png",
+              "running/animations/Start_sprinting_forward_with_long_alternating_stri/east/frame_005.png",
+              "running/animations/Start_sprinting_forward_with_long_alternating_stri/east/frame_006.png",
+              "running/animations/Start_sprinting_forward_with_long_alternating_stri/east/frame_007.png",
+              "running/animations/Start_sprinting_forward_with_long_alternating_stri/east/frame_008.png"
+            ],
+            "north-west": [
+              "running/animations/Start_sprinting_forward_with_long_alternating_stri/north-west/frame_000.png",
+              "running/animations/Start_sprinting_forward_with_long_alternating_stri/north-west/frame_001.png",
+              "running/animations/Start_sprinting_forward_with_long_alternating_stri/north-west/frame_002.png",
+              "running/animations/Start_sprinting_forward_with_long_alternating_stri/north-west/frame_003.png",
+              "running/animations/Start_sprinting_forward_with_long_alternating_stri/north-west/frame_004.png",
+              "running/animations/Start_sprinting_forward_with_long_alternating_stri/north-west/frame_005.png",
+              "running/animations/Start_sprinting_forward_with_long_alternating_stri/north-west/frame_006.png",
+              "running/animations/Start_sprinting_forward_with_long_alternating_stri/north-west/frame_007.png",
+              "running/animations/Start_sprinting_forward_with_long_alternating_stri/north-west/frame_008.png"
+            ],
+            "south-east": [
+              "running/animations/Start_sprinting_forward_with_long_alternating_stri/south-east/frame_000.png",
+              "running/animations/Start_sprinting_forward_with_long_alternating_stri/south-east/frame_001.png",
+              "running/animations/Start_sprinting_forward_with_long_alternating_stri/south-east/frame_002.png",
+              "running/animations/Start_sprinting_forward_with_long_alternating_stri/south-east/frame_003.png",
+              "running/animations/Start_sprinting_forward_with_long_alternating_stri/south-east/frame_004.png",
+              "running/animations/Start_sprinting_forward_with_long_alternating_stri/south-east/frame_005.png",
+              "running/animations/Start_sprinting_forward_with_long_alternating_stri/south-east/frame_006.png",
+              "running/animations/Start_sprinting_forward_with_long_alternating_stri/south-east/frame_007.png",
+              "running/animations/Start_sprinting_forward_with_long_alternating_stri/south-east/frame_008.png"
+            ],
+            "south-west": [
+              "running/animations/Start_sprinting_forward_with_long_alternating_stri/south-west/frame_000.png",
+              "running/animations/Start_sprinting_forward_with_long_alternating_stri/south-west/frame_001.png",
+              "running/animations/Start_sprinting_forward_with_long_alternating_stri/south-west/frame_002.png",
+              "running/animations/Start_sprinting_forward_with_long_alternating_stri/south-west/frame_003.png",
+              "running/animations/Start_sprinting_forward_with_long_alternating_stri/south-west/frame_004.png",
+              "running/animations/Start_sprinting_forward_with_long_alternating_stri/south-west/frame_005.png",
+              "running/animations/Start_sprinting_forward_with_long_alternating_stri/south-west/frame_006.png",
+              "running/animations/Start_sprinting_forward_with_long_alternating_stri/south-west/frame_007.png",
+              "running/animations/Start_sprinting_forward_with_long_alternating_stri/south-west/frame_008.png"
+            ],
+            "west": [
+              "running/animations/Start_sprinting_forward_with_long_alternating_stri/west/frame_000.png",
+              "running/animations/Start_sprinting_forward_with_long_alternating_stri/west/frame_001.png",
+              "running/animations/Start_sprinting_forward_with_long_alternating_stri/west/frame_002.png",
+              "running/animations/Start_sprinting_forward_with_long_alternating_stri/west/frame_003.png",
+              "running/animations/Start_sprinting_forward_with_long_alternating_stri/west/frame_004.png",
+              "running/animations/Start_sprinting_forward_with_long_alternating_stri/west/frame_005.png",
+              "running/animations/Start_sprinting_forward_with_long_alternating_stri/west/frame_006.png",
+              "running/animations/Start_sprinting_forward_with_long_alternating_stri/west/frame_007.png",
+              "running/animations/Start_sprinting_forward_with_long_alternating_stri/west/frame_008.png"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-11-24T14:20:25.876691"
+}
