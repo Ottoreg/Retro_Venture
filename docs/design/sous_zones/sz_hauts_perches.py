@@ -170,8 +170,8 @@ ICONES = {"laine_d_agneau_geant": "fil_de_brume", "sabot_d_agneau": "coeur_de_pi
           "barbe_du_doyen": "poil_de_criniere_leonin"}
 
 ART = {
-    "agneau_geant": {"image": "loup", "echelle": 0.8, "teinte": "f4f0e0"},
-    "agneau_montagne": {"image": "loup", "echelle": 1.0, "teinte": "e0d8c0"},
+    "agneau_geant": {"image": "agneau", "echelle": 0.85, "couleurs": {"pelage": "f2ede0", "pelage_ombre": "c8bfa8", "ventre": "ffffff"}},
+    "agneau_montagne": {"image": "agneau", "echelle": 1.05, "couleurs": {"pelage": "e6dcc4", "pelage_ombre": "b0a488", "ventre": "fff8e8"}},
     "belier_des_cimes": {"image": "cerf", "echelle": 0.8, "teinte": "d0d8e8"},
     "grand_belier_corne_de_brume": {"image": "cerf", "echelle": 1.0, "teinte": "b0c0e0"},
     "esprit_des_bourrasques": {"image": "rat", "planche": "sprites/arkhe_tempete_arcaniste.png", "echelle": 0.95, "teinte": "c8e0ff"},
@@ -184,4 +184,5 @@ SOUS_ZONE = {"id": "hauts_perches", "zone": Z, "prefixe": "Brumerive", "palette"
              "camp_depart": "brumerive_0_0", "races": ["geant"],
              "passage": {"id": "brumerive_hauts_perches", "nom": "Hauts-Perchés", "prix": 10},
              "sorts": SORTS, "ressources": RES, "monstres": MONSTRES, "cartes": CARTES, "quetes": QUETES,
-             "objets_quete": [], "art_monstres": ART, "icones": ICONES}
+             "objets_quete": [], "art_monstres": ART, "icones": ICONES,
+             "images": {"agneau": {"fichier": "monstre/agneau.svgt", "ancre": [31, 42]}}}

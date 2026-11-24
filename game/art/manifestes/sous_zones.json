@@ -76,14 +76,22 @@
       "teinte": "ffd0b0"
     },
     "agneau_geant": {
-      "image": "loup",
-      "echelle": 0.8,
-      "teinte": "f4f0e0"
+      "image": "agneau",
+      "echelle": 0.85,
+      "couleurs": {
+        "pelage": "f2ede0",
+        "pelage_ombre": "c8bfa8",
+        "ventre": "ffffff"
+      }
     },
     "agneau_montagne": {
-      "image": "loup",
-      "echelle": 1.0,
-      "teinte": "e0d8c0"
+      "image": "agneau",
+      "echelle": 1.05,
+      "couleurs": {
+        "pelage": "e6dcc4",
+        "pelage_ombre": "b0a488",
+        "ventre": "fff8e8"
+      }
     },
     "belier_des_cimes": {
       "image": "cerf",
@@ -267,6 +275,13 @@
       "ancre": [
         22,
         22
+      ]
+    },
+    "agneau": {
+      "fichier": "monstre/agneau.svgt",
+      "ancre": [
+        31,
+        42
       ]
     }
   },

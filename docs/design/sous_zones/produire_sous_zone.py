@@ -165,6 +165,7 @@ def produire(sz):
     frag = lire(chemin) if os.path.exists(os.path.join(JEU, chemin)) else {}
     frag.setdefault("monstres", {}).update(sz["art_monstres"])
     frag.setdefault("images", {}).update({f"objet_{o}": {"fichier": f"objets/{f}.svgt", "ancre": [22, 22]} for o, f in sz.get("icones", {}).items()})
+    frag["images"].update(sz.get("images", {}))  # dessins propres à la sous-zone
     frag.setdefault("pnj", {}).update({p["id"]: p["art"] for c in sz["cartes"] for p in c.get("pnj", [])})
     ecrire(chemin, frag)
     print(f"{sz['id']} : {len(cartes)} cartes, {len(sz['monstres'])} monstres, {len(sz['sorts'])} sorts, "
