@@ -1,7 +1,7 @@
 # Zones de départ tirées au hasard en combat : document de conception
 
-Préparé le 25/11/2026 à la demande de l'auteur. Rien n'est codé. Les valeurs sont des propositions, à valider
-ou à corriger avant de coder.
+Préparé le 25/11/2026 à la demande de l'auteur. Rien n'est codé. **Décisions de l'auteur du 25/11/2026 reportées**
+(voir « Décisions de l'auteur ») ; les valeurs chiffrées (écarts, cases) restent des propositions.
 
 ## Le but
 
@@ -41,12 +41,11 @@ diagonale).
 | Disposition | Écart entre les deux centres | Case alliée la plus proche d'une case ennemie | Idée |
 |---|---|---|---|
 | **Distance** | 12 à 16 cases | 8 cases au moins | Les camps s'approchent ou se tirent dessus. Bon pour les classes à distance et les pièges |
+| **Moyenne** | 8 à 11 cases | 5 cases au moins | L'écart des calques actuels : un ou deux tours pour se rejoindre |
 | **Corps à corps** | 4 à 6 cases | 2 à 3 cases (jamais collées) | Le combat commence au contact. Bon pour les classes de mêlée, la poussée, le tacle |
 
-Proposition de tirage : **50 % / 50 %**.
-
-Pour comparer, les calques actuels donnent à peu près une distance moyenne (environ 10 cases entre les
-centres). On peut garder cet écart comme troisième disposition **« moyenne »** (voir la décision 1).
+Tirage (décision 1) : **distance 33 %, moyenne 34 %, corps à corps 33 %**, sans pondération selon les classes ou
+les monstres (décision 5). Plus tard, un roulement par semaine pourra favoriser une disposition (voir le lot 4).
 
 ## Les formes
 
@@ -106,7 +105,8 @@ X · · · · · · X
 **8. Dispersé** : cases tirées dans un rayon de 5 autour du centre, à 2 cases les unes des autres au moins.
 Pas de motif, c'est la forme de secours quand les autres ne tiennent pas dans le décor.
 
-Proposition de tirage : **même chance pour chaque forme**, sauf *Dispersé*, gardé pour le secours.
+Tirage : **une forme tirée au hasard pour chaque camp**, indépendamment (décision 3), même chance pour chaque
+forme, sauf *Dispersé*, gardé pour le secours. D'autres formes viendront plus tard (décision 2).
 
 ## Règles de validité d'une zone
 
@@ -127,22 +127,18 @@ Au début du placement, une ligne dans l'historique de combat (et une bulle au-d
 tirage, par exemple « Corps à corps : Damier contre Coin de flèche ». Les cases restent bleues pour son camp et
 rouges pour l'autre, comme aujourd'hui.
 
-## Décisions à prendre avant de coder
+## Décisions de l'auteur (25/11/2026)
 
-1. **Dispositions** : seulement distance et corps à corps (50/50), ou aussi la **moyenne** actuelle (par exemple
-   40 / 40 / 20) ?
-2. **Formes** : les 8 proposées vous conviennent-elles ? On peut en retirer ou en ajouter (anneau autour d'un
-   point, croix, escalier en diagonale…).
-3. **Même forme pour les deux camps**, ou **une forme tirée pour chaque camp** ? Je propose une forme par camp,
-   pour plus de variété ; la même forme serait plus « équitable ».
-4. **Cartes à zones fixes** : les repaires de mini-boss, les donjons et la Tour céleste gardent-ils leur calque
-   dessiné (champ `placement_fixe` des cartes) ? Je propose oui pour les donjons et la Tour céleste, non pour le
-   reste.
-5. **Tirage équilibré** : un monstre de mêlée tombé en *distance*, ou un rôdeur en *corps à corps*, sera
-   désavantagé. Faut-il pondérer le tirage selon les classes et les monstres (par exemple plus de corps à corps
-   contre des monstres de mêlée), ou laisser le hasard pur ? Je propose le hasard pur pour commencer.
-6. **Côtés** : garder l'échange de côté actuel, une fois sur deux, en plus de la disposition et de la forme ?
-   Je propose oui (il ne coûte rien et ajoute de la variété).
+1. **Trois dispositions** : distance, moyenne et corps à corps, tirées à 33 / 34 / 33 %.
+2. **Les 8 formes proposées** sont validées ; d'autres viendront plus tard.
+3. **Une forme tirée au hasard pour chaque camp**, pour plus de variété.
+4. **Zones dessinées pour les combats à vision propre** : les combats contre un mini-boss et toutes les cartes de
+   donjon (Tour céleste comprise) gardent leur calque `placement`, dessiné pour ce combat. Rien n'y est tiré.
+   Lecture retenue : sur un repaire de mini-boss, seul le combat contre le groupe du mini-boss est fixe ; les autres
+   groupes de la carte ont des zones tirées.
+5. **Pas de pondération** selon les classes ou les monstres. Idée pour plus tard : un **roulement par semaine** où
+   une disposition sort plus souvent (lot 4).
+6. **L'échange de côté est gardé** (une fois sur deux), sauf pour les donjons et les mini-boss.
 
 ## Lots pour le coder
 
@@ -151,7 +147,8 @@ valide avant le suivant.
 
 ### Lot 1 : la génération dans le noyau
 - `core/combat/placement.gd` (nouveau) : formes (listes de cases, orientations), dispositions, choix des
-  centres, règles de validité, secours sur le calque de la carte.
+  centres, règles de validité, secours sur le calque de la carte ; rien de tiré (ni échange de côté) contre un
+  mini-boss ni dans un donjon (décision 4).
 - `World._create_combat` l'appelle avec la graine du combat (même tirage pour tous les joueurs en ligne, et
   combats rejouables dans les tests).
 - La disposition et les formes tirées vont dans l'instantané du combat (protocole suivant).
@@ -168,4 +165,10 @@ valide avant le suivant.
 
 ### Lot 3 : l'ajustement
 - Cartes où trop de combinaisons tombent en secours : décor à aérer, ou cartes passées en zone fixe.
-- `tools/simulation.gd` lancé sur les deux dispositions, pour voir l'écart de victoires entre mêlée et distance.
+- `tools/simulation.gd` lancé sur les trois dispositions, pour voir l'écart de victoires entre mêlée et distance.
+
+### Lot 4, plus tard : le roulement des semaines
+- Chaque semaine, une disposition sort plus souvent, à tour de rôle sur 3 semaines : semaine de la distance
+  (60 / 20 / 20), de la moyenne (20 / 60 / 20), puis du corps à corps (20 / 20 / 60). La semaine est lue sur
+  l'horloge réelle (`World.wall_clock`), la même pour tous les joueurs.
+- Annonce de la semaine en cours (bulle à la connexion ou ligne dans l'historique), à décider avec ce lot.
