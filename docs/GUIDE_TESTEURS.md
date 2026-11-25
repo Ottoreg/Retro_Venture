@@ -205,7 +205,7 @@ temps : chaque camp a sa propre histoire.
 
 | Touche | Fenêtre |
 | --- | --- |
-| **C** | Personnage : palier et réputation de la classe active, points de maîtrise, caractéristiques (points gagnés / plafond), PA, PM, initiative, prospection ; survoler une valeur montre d'où elle vient (points gagnés, race, chaque objet, panoplie) ; la liste des classes change la classe active hors combat (une nouvelle classe demande 5 000 de réputation dans une autre et repart de zéro) |
+| **C** | Personnage : palier et réputation de la classe active, points de maîtrise, caractéristiques (points gagnés / plafond, et une petite barre : la pratique accumulée avant le prochain point), PA, PM, initiative, prospection ; survoler une valeur montre d'où elle vient (points gagnés, race, chaque objet, panoplie) ; la liste des classes change la classe active hors combat (une nouvelle classe demande 5 000 de réputation dans une autre et repart de zéro) |
 | **I** | Inventaire : équipement porté, sac en trois onglets (Équipements, Consommables, Ressources), équiper / retirer / jeter ; **double-clic** sur un objet pour l'équiper ou le retirer (il prend un emplacement libre, sinon remplace l'objet porté ; deux anneaux identiques se portent ensemble, sauf ceux d'une panoplie : le second remplace alors le premier), ou **glisser** du sac vers un emplacement (et inversement) ; tenir **Ctrl** : jets possibles de l'objet choisi ; au **survol** d'un objet, ses bonus comparés à l'objet porté (gains en vert, pertes en rouge) |
 | **S** | Sorts : un onglet pour la Voie, la race et l'arme ; fiche de chaque sort ; rang de maîtrise, ce que change chaque rang au-dessus, et bouton pour y placer des points |
 | **J** | Métiers : un onglet par métier, réputation, compétences et ressources |

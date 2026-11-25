@@ -271,6 +271,7 @@ func _process(_delta: float) -> bool:
 			view.server.character.add_reputation(1800)
 			view.server.character.gain_stat("force", 12)
 			view.server.character.gain_stat("vitalite", 30)
+			view.server.character.practiced.merge({"force": 0.65, "agilite": 0.3, "vitalite": 0.85})
 			var inventory := view.server.character.inventory
 			if _action == "fiche_details":
 				inventory.equip(inventory.add(view.server.data.items["forge_bottes"], 1, {"dommages_flamme": 6, "resistance_givre": 8, "epines_brutes_fixes": 3}), "bottes")

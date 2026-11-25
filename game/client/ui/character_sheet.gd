@@ -39,6 +39,8 @@ var _class_ids: Array = []
 var _stat_values := {}
 ## Points gagnés / plafond de chaque caractéristique.
 var _stat_caps := {}
+## Barre de pratique de chaque caractéristique : où elle en est avant son prochain point.
+var _stat_bars := {}
 ## Valeurs secondaires : PA, PM, initiative, prospection.
 var _derived_values := {}
 var _details: PanelContainer
@@ -87,7 +89,11 @@ func refresh() -> void:
 		var total: int = sheet["caracteristiques"][stat_name]
 		_stat_values[stat_name].text = str(total)
 		_stat_values[stat_name].tooltip_text = source_text(Character.STAT_NAMES[stat_name], total, sheet["provenance"][stat_name], true)
-		_stat_caps[stat_name].text = "%d / %d" % [int(sheet["gagnes"].get(stat_name, 0)), int(sheet["plafonds"][stat_name])]
+		var earned := int(sheet["gagnes"].get(stat_name, 0))
+		_stat_caps[stat_name].text = "%d / %d" % [earned, int(sheet["plafonds"][stat_name])]
+		var full: bool = earned >= int(sheet["plafonds"][stat_name])
+		_stat_bars[stat_name].value = 100.0 if full else 100.0 * float(world.character.practiced.get(stat_name, 0.0))
+		_stat_bars[stat_name].tooltip_text = "Plafond atteint" if full else "Pratique avant le prochain point : %d %%" % int(_stat_bars[stat_name].value)
 	for entry: Array in DERIVED:
 		var key: String = entry[0]
 		_derived_values[key].text = str(sheet[key])
@@ -229,7 +235,15 @@ func _build() -> void:
 		cap_label.tooltip_text = "Points gagnés par la pratique / plafond (hors race et équipement)"
 		grid.add_child(name_label)
 		grid.add_child(value_label)
-		grid.add_child(cap_label)
+		var cap_cell := VBoxContainer.new()
+		cap_cell.add_theme_constant_override("separation", 1)
+		cap_cell.add_child(cap_label)
+		var bar := ProgressBar.new()
+		bar.show_percentage = false
+		bar.custom_minimum_size = Vector2(70, 4)
+		cap_cell.add_child(bar)
+		grid.add_child(cap_cell)
+		_stat_bars[stat_name] = bar
 		_stat_values[stat_name] = value_label
 		_stat_caps[stat_name] = cap_label
 	var derived := GridContainer.new()
