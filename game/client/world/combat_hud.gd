@@ -110,16 +110,20 @@ class ElementOrbs extends Control:
 
 
 ## Emplacement de sort : cadre, icône, raccourci et coût en PA. `empty` : place d'un sort créé pas
-## encore remplie (Arcaniste). Clic gauche : choisir le sort ; clic droit : le lancer sur soi.
+## encore remplie (Arcaniste) ; sans `spell_id`, place libre. Clic gauche : choisir le sort ; clic droit :
+## le lancer sur soi ; glisser vers une autre place : l'y ranger (l'occupant prend sa place).
 class SpellSlot extends Control:
 	signal pressed
 	signal self_cast
+	signal dropped(spell_id: String)
+	var spell_id := ""
 	var icon: Texture2D
 	var key_label := ""
 	var cost := 0
 	var selected := false
 	var usable := true
 	var empty := false
+	var _dragged := false
 
 	func _init() -> void:
 		custom_minimum_size = Vector2(SPELL_SLOT_SIZE, SPELL_SLOT_SIZE)
@@ -129,16 +133,40 @@ class SpellSlot extends Control:
 		var click := event as InputEventMouseButton
 		# Accepté avant le signal : la barre peut être refaite (et ce contrôle retiré de l'arbre),
 		# et un clic non accepté passerait à la carte en dessous (déplacement).
-		if click != null and click.pressed and click.button_index == MOUSE_BUTTON_LEFT:
+		if click != null and click.button_index == MOUSE_BUTTON_LEFT:
 			accept_event()
-			pressed.emit()
+			_dragged = _dragged and not click.pressed
+			if not click.pressed and not _dragged and not spell_id.is_empty() and not empty:
+				pressed.emit()  # Au relâcher, pour laisser glisser le sort.
 		elif click != null and click.pressed and click.button_index == MOUSE_BUTTON_RIGHT:
 			accept_event()
 			self_cast.emit()
 
+	func _notification(what: int) -> void:
+		_dragged = _dragged or what == NOTIFICATION_DRAG_BEGIN
+
+	func _get_drag_data(_at: Vector2) -> Variant:
+		if spell_id.is_empty():
+			return null
+		var preview := TextureRect.new()
+		preview.texture = icon if icon != null else Art.texture("case_sort")
+		preview.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		preview.size = size
+		set_drag_preview(preview)
+		return {"sort_barre": spell_id}
+
+	func _can_drop_data(_at: Vector2, data: Variant) -> bool:
+		return data is Dictionary and data.has("sort_barre")
+
+	func _drop_data(_at: Vector2, data: Variant) -> void:
+		dropped.emit(data["sort_barre"])
+
 	func _draw() -> void:
 		draw_set_transform(Vector2.ZERO, 0.0, size / 50.0)  # Dessin prévu pour 50 px.
 		var frame := Rect2(Vector2(1, 1), Vector2(48, 48))
+		if spell_id.is_empty():
+			draw_texture_rect(Art.texture("case_sort"), frame, false, Color(0.5, 0.5, 0.5, 0.5))
+			return
 		if empty:
 			draw_texture_rect(Art.texture("case_sort"), frame, false, Color(0.5, 0.5, 0.5, 0.7))
 			draw_rect(frame.grow(-6), Color(0.75, 0.6, 1.0, 0.5), false, 1.5)
@@ -397,6 +425,8 @@ var _overload_label: Label
 ## Emplacements de sorts affichés : id du sort → SpellSlot.
 var _spell_buttons: Dictionary = {}
 var _shown_spells: Array[String] = []
+## Places des sorts affichés dans la barre (`bar_layout`) : id → place.
+var _bar_places: Dictionary = {}
 var _refresh_time := 0.0
 ## Bandes latérales (voir `_build_bands`).
 var _left_band: PanelContainer
@@ -464,6 +494,7 @@ func setup(p_map_view: MapView) -> void:
 	map_view.combat_ended.connect(_on_combat_ended)
 	map_view.exploration_resumed.connect(_on_exploration_resumed)
 	map_view.character_changed.connect(_refresh_exploration)
+	map_view.character_changed.connect(_refresh)  # En combat : sorts rangés dans la barre.
 	map_view.inventory_changed.connect(_refresh_exploration)
 	map_view.hovered_cell_changed.connect(_on_hovered_cell_changed)
 	map_view.sitting_changed.connect(_on_sitting_changed)
@@ -532,8 +563,8 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		else:
 			close_composition()
 		get_viewport().set_input_as_handled()
-	elif index >= 0 and fighter != null and index < fighter.spells.size():
-		_use_spell(fighter.spells[index].id, Rect2(get_viewport().get_mouse_position(), Vector2.ZERO))
+	elif index >= 0 and fighter != null and fighter.get_spell(str(_bar_places.find_key(index))) != null:
+		_use_spell(_bar_places.find_key(index), Rect2(get_viewport().get_mouse_position(), Vector2.ZERO))
 		get_viewport().set_input_as_handled()
 	elif key == KEY_T:
 		toggle_tactical()
@@ -563,8 +594,7 @@ static func spell_icon(spell_id: String, world: ClientState) -> Texture2D:
 	return Art.texture(image if Art.has_image(image) else "sort_inconnu")
 
 
-## Remplit la barre de sorts (si la liste a changé).
-## Remplit la barre de sorts (si la liste a changé). Une Voie qui crée des sorts (Arcaniste) a ses
+## Remplit la barre de sorts (si la liste ou les places ont changé, voir `bar_layout`). Une Voie qui crée des sorts (Arcaniste) a ses
 ## places de sorts créés au bout de la barre, vides tant qu'elles ne sont pas remplies, et ses orbes
 ## d'états élémentaires à côté des jauges.
 func _show_spells(spells: Array[Spell]) -> void:
@@ -589,37 +619,71 @@ func _show_spells(spells: Array[Spell]) -> void:
 	for i in empty_slots:
 		ids.append(EMPTY_SLOT_PREFIX + str(i))
 	_orbs.visible = creates
-	if ids == _shown_spells and _spell_buttons.size() == ids.size():
+	var player := map_view.player_fighter() if map_view != null else null
+	var races: Dictionary = map_view.world.data.races if player != null and map_view.world != null else {}
+	var apart: Array[String] = ["arme", str(races.get(player.race, {}).get("sort", "")) if player != null else ""]
+	var columns := maxi(SPELL_COLUMNS, ceili((ids.size() - apart.size()) / 2.0))
+	var saved: Dictionary = map_view.world.character.classes.get(map_view.world.character.voie_id, {}).get("barre", {}) if map_view != null else {}
+	var layout := bar_layout(ids, apart, saved, apart.size() + 2 * columns)
+	if ids == _shown_spells and layout == _bar_places and _spell_buttons.size() == ids.size():
 		return
 	_shown_spells = ids
+	_bar_places = layout
 	for box: Control in [_spells_apart, _spells_grid]:
 		for child in box.get_children():
 			box.remove_child(child)  # Hors de la boîte tout de suite : les nouveaux prennent leur place.
 			child.queue_free()
 	_spell_buttons.clear()
-	var player := map_view.player_fighter() if map_view != null else null
-	var races: Dictionary = map_view.world.data.races if player != null and map_view.world != null else {}
-	var apart: Array[String] = ["arme", str(races.get(player.race, {}).get("sort", "")) if player != null else ""]
-	_spells_grid.columns = maxi(SPELL_COLUMNS, ceili(ids.filter(func(id: String) -> bool: return id not in apart).size() / 2.0))
-	for i in ids.size():
+	_spells_grid.columns = columns
+	for place in apart.size() + 2 * columns:
 		var slot := SpellSlot.new()
-		slot.key_label = str((i + 1) % 10) if i < SPELL_KEYS.size() else ""
+		slot.key_label = str((place + 1) % 10) if place < SPELL_KEYS.size() else ""
+		slot.dropped.connect(_arrange_spell.bind(place))
+		(_spells_apart if place < apart.size() else _spells_grid).add_child(slot)  # L'arme et le sort de race à gauche par défaut.
+		if layout.find_key(place) == null:
+			continue
+		slot.spell_id = layout.find_key(place)
+		_spell_buttons[slot.spell_id] = slot
+		var i := ids.find(slot.spell_id)
 		if i < spells.size():
 			var spell := spells[i]
 			slot.icon = spell_icon(spell.id, map_view.world)
 			slot.cost = spell.pa_cost
 			slot.tooltip_text = _spell_tooltip(spell)
-			if i < SPELL_KEYS.size():
-				slot.tooltip_text += "\nRaccourci : %s ou %s" % [slot.key_label, SPELL_CHARS[i]]
-			slot.tooltip_text += "\nClic droit : lancer sur soi"
+			if place < SPELL_KEYS.size():
+				slot.tooltip_text += "\nRaccourci : %s ou %s" % [slot.key_label, SPELL_CHARS[place]]
+			slot.tooltip_text += "\nClic droit : lancer sur soi\nGlisser : ranger ailleurs dans la barre"
 			slot.pressed.connect(_on_spell_pressed.bind(spell.id))
 			slot.self_cast.connect(_on_spell_self_cast.bind(spell.id))
 		else:
 			slot.empty = true
 			slot.usable = false
 			slot.tooltip_text = "Place pour un sort créé (vide)\nChoisissez 3 états élémentaires avec Composition, puis lancez Fusion arcanique."
-		(_spells_apart if ids[i] in apart else _spells_grid).add_child(slot)  # L'arme et le sort de race à gauche.
-		_spell_buttons[ids[i]] = slot
+
+
+## Places des sorts `ids` dans la barre (0 et 1 : la colonne à l'écart, puis la grille ligne par ligne ;
+## les touches 1 à 0 vont aux places 0 à 9) : celles rangées par le joueur (`saved`), puis les autres
+## aux premières places libres (l'arme et le sort de race, `apart`, à l'écart).
+static func bar_layout(ids: Array[String], apart: Array[String], saved: Dictionary, places: int) -> Dictionary:
+	var layout := {}
+	for id in ids:
+		if int(saved.get(id, -1)) in range(places) and int(saved[id]) not in layout.values():
+			layout[id] = int(saved[id])
+	for id in ids.filter(func(id: String) -> bool: return not layout.has(id)):
+		var free := range(places).filter(func(place: int) -> bool: return place not in layout.values())
+		var grid := free.filter(func(place: int) -> bool: return place >= apart.size())
+		layout[id] = apart.find(id) if apart.find(id) in free else (grid[0] if not grid.is_empty() else free[0])
+	return layout
+
+
+## Glisser-déposer d'un sort de la barre sur la place `place` : l'occupant prend l'ancienne place du sort.
+func _arrange_spell(spell_id: String, place: int) -> void:
+	var layout := _bar_places.duplicate()
+	var other: Variant = layout.find_key(place)
+	if other != null:
+		layout[other] = layout[spell_id]
+	layout[spell_id] = place
+	map_view.send_command({"type": Protocol.CMD_ARRANGE_SPELLS, "entite": map_view.world.player_id, "barre": layout})
 
 
 ## Le sort est-il un sort créé (une combinaison d'un sort « creer_sort » de la liste) ?

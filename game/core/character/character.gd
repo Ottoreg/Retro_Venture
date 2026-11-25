@@ -28,6 +28,8 @@ const REPUTATION_PER_MASTERY_POINT := 500
 const CLASS_POINTS_PER_TIER := 20
 ## Rang de maîtrise maximal d'un sort ; monter au rang n coûte n points.
 const SPELL_MAX_RANK := 5
+## Places de la barre de sorts qu'un joueur peut ranger (`arrange_spells`).
+const BAR_PLACES := 40
 ## Bonus hors caractéristiques dont la fiche donne aussi la provenance (équipement, panoplie).
 const SOURCED_EXTRAS := ["pa", "pm", "initiative", "prospection", "dommages", "critique"]
 const NAME_MIN_LENGTH := 2
@@ -175,6 +177,22 @@ func mastery_points() -> int:
 ## Rang de maîtrise d'un sort dans la classe active (0 : pas de point placé).
 func spell_rank(spell_id: String) -> int:
 	return int(classes.get(voie_id, {}).get("sorts", {}).get(spell_id, 0))
+
+
+## Range les sorts de la barre de la classe `class_id` (active par défaut) : { id du sort: place }, places
+## différentes de 0 à `BAR_PLACES` − 1 (voir `CombatHud.bar_layout`). Faux, sans rien changer, si `layout` est invalide.
+func arrange_spells(layout: Variant, class_id := voie_id) -> bool:
+	if typeof(layout) != TYPE_DICTIONARY or layout.size() > BAR_PLACES or not classes.has(class_id):
+		return false
+	var bar := {}
+	for spell_id: Variant in layout:
+		var place: Variant = layout[spell_id]
+		if typeof(spell_id) != TYPE_STRING or spell_id.length() > 64 or typeof(place) not in [TYPE_INT, TYPE_FLOAT] \
+				or int(place) < 0 or int(place) >= BAR_PLACES or int(place) in bar.values():
+			return false
+		bar[spell_id] = int(place)
+	classes[class_id]["barre"] = bar
+	return true
 
 
 ## Ajoute de la réputation à la classe active, avec ses points de maîtrise (`earned_points`) ;
@@ -510,6 +528,7 @@ static func from_dict(data: Dictionary, known_items: Dictionary = {}) -> Charact
 			var entry: Variant = saved_classes[class_id]
 			if typeof(entry) == TYPE_DICTIONARY:
 				character.classes[str(class_id)] = _class_entry(entry)
+				character.arrange_spells(entry.get("barre"), str(class_id))
 	elif typeof(data.get("xp")) in [TYPE_INT, TYPE_FLOAT]:
 		character.add_reputation(_from_levels(int(data["xp"])))
 	character._start_class(character.voie_id)

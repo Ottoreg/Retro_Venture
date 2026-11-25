@@ -30,6 +30,16 @@ func test_reputation_et_points_de_maitrise() -> void:
 	assert_eq(Character.earned_points(1000, true), 2, "métier : un point par %d" % Character.REPUTATION_PER_MASTERY_POINT)
 
 
+func test_sorts_ranges_dans_la_barre() -> void:
+	var hero := _bare()
+	assert_true(hero.arrange_spells({"frappe": 3, "tir": 0.0}), "places relues du JSON comprises")
+	for wrong: Variant in [{"frappe": 3, "tir": 3}, {"frappe": -1}, {"frappe": Character.BAR_PLACES}, {"frappe": "3"}, [3]]:
+		assert_false(hero.arrange_spells(wrong), "refusé : %s" % str(wrong))
+	assert_eq(Character.from_dict(hero.to_dict()).classes[hero.voie_id]["barre"], {"frappe": 3, "tir": 0}, "gardé dans la sauvegarde")
+	assert_eq(CombatHud.bar_layout(["arme", "a", "b", "race"] as Array[String], ["arme", "race"] as Array[String], {"b": 2}, 6),
+		{"arme": 0, "race": 1, "b": 2, "a": 3}, "places rangées, puis l'arme et le sort de race à l'écart, les autres aux places libres")
+
+
 func test_maitrise_des_sorts() -> void:
 	var hero := _bare()
 	var spells := ["frappe", "tir"]

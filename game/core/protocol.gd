@@ -9,7 +9,7 @@ extends RefCounted
 
 ## Version du protocole, vérifiée à la connexion : à augmenter à chaque changement incompatible
 ## d'une commande ou d'un événement.
-const VERSION := 27
+const VERSION := 28
 
 # --- Commandes (client → noyau) ---
 
@@ -30,6 +30,9 @@ const CMD_SWITCH_CLASS := "changer_voie"
 ## ({ type, entite: String, sort: String }) ou une compétence de métier ({ type, entite, metier: String,
 ## competence: String }, voir `Profession.SKILLS`).
 const CMD_RAISE_SPELL := "maitriser"
+## Exploration et combat : ranger les sorts de la barre de la classe active (`Character.arrange_spells`).
+## { type, entite: String, barre: { id du sort: place } }
+const CMD_ARRANGE_SPELLS := "ranger_sorts"
 ## Exploration : s'asseoir (`assis` vrai) ou se relever (faux). Assis, les PV remontent plus vite
 ## (World.SIT_REGEN_FACTOR) ; on se relève tout seul en marchant ou en entrant en combat.
 ## { type, entite: String, assis: bool }

@@ -3918,7 +3918,7 @@ préférence ce que les joueurs feront déjà d'eux-mêmes.
   ou pause) : thème de couleurs, volume, plein écran, taille de la fenêtre, mode tactique, pions en mode tactique ; gardées hors sauvegarde.
 
 - **Bandeau bas** (180 px) **:** historique (futur chat) à gauche, PV dans un cœur rouge qui se vide, PA dans une étoile bleue, PM
-  dans une case verte, barre de sorts en combat (icônes avec raccourci et coût en PA ; depuis le 20/11/2026, deux lignes d'au moins 10 sorts l'arme et le sort de race l'un sur l'autre à gauche, un peu à l'écart), **barre
+  dans une case verte, barre de sorts en combat (icônes avec raccourci et coût en PA ; depuis le 20/11/2026, deux lignes d'au moins 10 sorts l'arme et le sort de race l'un sur l'autre à gauche, un peu à l'écart ; depuis le 25/11/2026, chaque sort se glisse sur la case de son choix, même vide, l'occupant prenant sa place, en combat comme avant, places gardées par classe dans le personnage, commande `ranger_sorts`, protocole v28, `CombatHud.bar_layout` ; les touches 1 à 0 suivent les 10 premières cases), **barre
   d'objets hors combat** (8 emplacements, pour les consommables : seulement montrée tant qu'il n'y
   en a pas ; ni objet ni équipement utilisable en combat), boutons de menus (inventaire,
   caractéristiques, sorts, quêtes, métiers, carte, amis, guilde). Le bandeau reste affiché en

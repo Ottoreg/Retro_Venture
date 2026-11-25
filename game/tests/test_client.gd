@@ -41,6 +41,18 @@ func test_scene_du_monde_jusqu_au_combat_et_retour() -> void:
 	assert_eq(view.mode, MapView.Mode.COMBAT, "mode combat")
 	assert_true(view.is_placement(), "phase de placement")
 	assert_eq(hud._spell_buttons.size(), 21, "20 sorts du Guerrier et le sort racial (plus d'arme de départ)")
+	# Glisser un sort sur une autre place : l'occupant prend sa place, gardé par le personnage, et les touches suivent.
+	var first: String = hud._bar_places.find_key(2)
+	var second: String = hud._bar_places.find_key(5)
+	hud._arrange_spell(first, 5)
+	_run_until_idle(view)
+	assert_eq([hud._bar_places[first], hud._bar_places[second]], [5, 2], "sorts échangés")
+	assert_eq(view.server.character.classes[view.server.character.voie_id]["barre"][first], 5, "places gardées par le personnage")
+	assert_eq((hud._spells_grid.get_child(3) as CombatHud.SpellSlot).spell_id, first, "le sort est à sa nouvelle place")
+	hud._arrange_spell(first, 0)
+	_run_until_idle(view)
+	assert_eq(hud._bar_places[first], 0, "une place libre aussi")
+	assert_true(hud._spells_grid.get_child(3).spell_id.is_empty())
 
 	view.request_start_fight()
 	_run_until_idle(view)
@@ -1696,9 +1708,8 @@ func test_arcaniste_compose_et_cree_un_sort() -> void:
 	hud._on_spell_pressed("arcaniste_composition")
 	assert_true(hud.composition_choices().is_empty(), "un 2e clic la referme")
 	# Par raccourci : la grille s'ouvre à la souris ; la touche d'une combinaison la choisit.
-	var index := hero.spells.find(hero.get_spell("arcaniste_composition"))
 	var key := InputEventKey.new()
-	key.keycode = CombatHud.SPELL_KEYS[index]
+	key.keycode = CombatHud.SPELL_KEYS[hud._bar_places["arcaniste_composition"]]
 	key.pressed = true
 	hud._unhandled_key_input(key)
 	assert_eq(hud.composition_choices().size(), 10, "raccourci : grille ouverte")

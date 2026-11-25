@@ -276,7 +276,9 @@ une carte de la minicarte** vous y téléporte (hors combat). Le mode dure jusqu
 - **Cœur rouge** : points de vie (il se vide quand on est blessé).
 - **Étoile bleue** : points d'action (PA), pour lancer des sorts.
 - **Case verte** : points de mouvement (PM), pour se déplacer en combat.
-- **Sorts** : une icône par sort, avec son raccourci (1 à 0, ou & é " ' ( - è _ ç à) et son coût en PA.
+- **Sorts** : une icône par sort, avec son raccourci (1 à 0, ou & é " ' ( - è _ ç à) et son coût en PA. Glissez un
+  sort sur une autre case (même vide) pour l'y ranger : l'occupant prend sa place, et les raccourcis suivent les cases.
+  Les places sont gardées par classe.
 
 ### Combat (au tour par tour)
 

@@ -449,6 +449,10 @@ func _execute(command: Dictionary) -> Array[Dictionary]:
 		return _exchange_command(p, command)
 	if p.exchange != null and command.get("type") not in Protocol.EXCHANGE_ALLOWED:
 		return _refused(command, Protocol.REASON_IN_EXCHANGE)
+	if command.get("type") == Protocol.CMD_ARRANGE_SPELLS:  # En combat aussi : la barre ne change pas le kit.
+		if not _is_player_command(p, command) or not p.character.arrange_spells(command.get("barre")):
+			return _refused(command, Protocol.REASON_INVALID_COMMAND)
+		return [_character_event(p)] as Array[Dictionary]
 	if p.in_combat():
 		if command.get("type") == Protocol.CMD_COMBAT_LOCK:
 			return _combat_lock(p, command)
