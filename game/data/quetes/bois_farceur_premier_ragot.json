@@ -1,0 +1,53 @@
+{
+  "id": "bois_farceur_premier_ragot",
+  "nom": "Premier ragot",
+  "categorie": "principale",
+  "acte": 1,
+  "niveau": 1,
+  "pnj": "doyenne_lamelle",
+  "description": "Les limaces disent des choses sur nous. Il faut savoir quoi.",
+  "conditions": {
+    "race": "mycelien"
+  },
+  "etapes": [
+    {
+      "objectifs": [
+        {
+          "type": "vaincre",
+          "monstre": "limace_gourmande",
+          "nombre": 3
+        },
+        {
+          "type": "apporter",
+          "objet": "ragot_de_limace",
+          "nombre": 1,
+          "pnj": "doyenne_lamelle",
+          "butin": {
+            "monstres": [
+              "limace_gourmande"
+            ],
+            "taux": 0.5
+          }
+        }
+      ]
+    }
+  ],
+  "dialogues": {
+    "doyenne_lamelle": {
+      "proposition": [
+        "Les limaces mangent nos cousins et, en plus, elles parlent sur nous. Allez en battre trois.",
+        "Et rapportez-moi ce qu'elles disaient. Mot pour mot."
+      ],
+      "en_cours": [
+        "Alors ? Qu'est-ce qu'elles disent ? Je meurs d'envie de savoir. Pas littéralement."
+      ],
+      "fin": [
+        "« Les cèpes sont trop gros » ? QUELLE INSOLENCE. Merci, petite pousse. Je vais le répéter à tout le monde."
+      ]
+    }
+  },
+  "recompenses": {
+    "xp_cr": 3,
+    "ecus": 30
+  }
+}

@@ -1,8 +1,7 @@
 """Sous-zone des Mycéliens : le Bois-Farceur (nom provisoire), à l'est de Sylvebrume (sylvebrume.md).
 
-La race n'existe pas encore : les quêtes de race (`race: mycelien`, QUETES_RACE, avec l'objet `ragot_de_limace`) sont
-écrites mais pas produites (la validation refuse une race inconnue) ; aucune carte de départ n'est changée (`races` vide).
-Quand la race existera : produire QUETES + QUETES_RACE et OBJETS_QUETE, et mettre "mycelien" dans `races`."""
+Quêtes de race (`race: mycelien`, QUETES_RACE, avec l'objet `ragot_de_limace`) produites le 25/11/2026, quand la race
+(amanite et girolle) est devenue jouable."""
 from produire_sous_zone import sort, deg, bonus, ressource, monstre, drop, pnj, objectif_vaincre, TUTORIELS
 
 Z = "sylvebrume"
@@ -189,7 +188,7 @@ ART = {
 
 SOUS_ZONE = {"id": "bois_farceur", "zone": Z, "prefixe": "Sylvebrume", "palette": "sylvebrume", "bord": "A",
              "obstacles": [("A", 14)], "maison": "maison_bois_farceur", "maison_modele": "maison_sylvebrume",
-             "camp_depart": "sylvebrume_0_0", "races": [],
+             "camp_depart": "sylvebrume_0_0", "races": ["mycelien", "mycelien_girolle"],
              "passage": {"id": "sylvebrume_bois_farceur", "nom": "Bois-Farceur", "prix": 10},
-             "sorts": SORTS, "ressources": RES, "monstres": MONSTRES, "cartes": CARTES, "quetes": QUETES,
-             "objets_quete": [], "art_monstres": ART, "icones": ICONES}
+             "sorts": SORTS, "ressources": RES, "monstres": MONSTRES, "cartes": CARTES, "quetes": QUETES + QUETES_RACE,
+             "objets_quete": OBJETS_QUETE, "art_monstres": ART, "icones": ICONES}

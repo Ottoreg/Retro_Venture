@@ -354,11 +354,10 @@ Dernière session (retours de la passe de l'auteur) :
   Hauts-Perchés des géants faits le 24/11/2026 (`brumerive_-1_0` à `-2_2`, Pierre `brumerive_hauts_perches`, `maison_hauts_perches`, 4 quêtes `hauts_perches_*`,
   agneau, os errant et taupe dessinés, `art/monstre/agneau.svgt`, `os_errant.svgt`, `taupe.svgt`) ; Comptoir de Barbe-Fendue des nains fait le 24/11/2026 (`brumerive_1_-1` à `2_-3`,
   Pierre `brumerive_barbe_fendue`, `maison_barbe_fendue`, 4 quêtes `barbe_fendue_*`) ; Bois-Farceur des mycéliens (`sylvebrume_3_0` à `4_2`,
-  `maison_bois_farceur`, quête `bois_farceur_dementi` ; quêtes de race `QUETES_RACE` écrites, à produire quand la race existera)
+  `maison_bois_farceur`, quête `bois_farceur_dementi`, 3 quêtes de race `bois_farceur_*` produites le 25/11/2026)
   et Sources primordiales des arkhés (`sylvebrume_0_-1` à `1_-3`, `maison_sources`, 4 quêtes `sources_*`) faits le 24/11/2026 ;
   **Mycéliens** (25/11/2026) : amanite (`mycelien`) et girolle (`mycelien_girolle`, `variante_de`) jouables, sans passif ni sort,
   départ `sylvebrume_3_0` ; sprites `assets/myceliens/<variante>/`, recoloration avec `sauf_sous` (lamelles de l'amanite gardées) ;
-  quêtes de race du Bois-Farceur pas encore produites ;
   condition de quête `race` remplie aussi par les variantes (`variante_de`, `QuestBook.is_available`).
 - **Grandes Plaines** (24/11/2026, demande de l'auteur) : 15 cartes de steppe de plus au sud-ouest de Hautepierre
   (`grandesplaines_-4_0` à `0_3`, 17 en tout, toutes reliées entre voisines), relief, eau et récolte (agriculteur, herboriste,

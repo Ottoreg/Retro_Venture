@@ -27,7 +27,7 @@ Prix de boutique : selon la rareté (revente à 25 %).
 - [Sorts de race](#sorts-de-race)
 - [Sorts des monstres](#sorts-des-monstres)
 
-**385 objets** (18 armes, 20 coiffes, 20 capes, 20 amulettes, 20 anneaux, 20 ceintures, 20 bottes, 196 ressources, 37 plans de forge, 8 objets de quête), **115 monstres** et **370 sorts**.
+**386 objets** (18 armes, 20 coiffes, 20 capes, 20 amulettes, 20 anneaux, 20 ceintures, 20 bottes, 196 ressources, 37 plans de forge, 9 objets de quête), **115 monstres** et **370 sorts**.
 
 ## Armes
 
@@ -450,6 +450,7 @@ Prix de boutique : selon la rareté (revente à 25 %).
 | Nom | Niv. | Rareté | Forge | Obtention | Description |
 |---|---|---|---|---|---|
 | **Clé céleste** | 1 | Rare | — | butin : Cupidon 100 % | Saint Pierrot la réclame pour ouvrir la Tour céleste. Cupidon en a toujours une sur lui. |
+| **Ragot de limace** | 1 | Commun | — | « Premier ragot » : sur Limace gourmande (50 %) | Ce que disaient les limaces. C'est méchant, et un peu gluant. |
 | **Votre os manquant** | 1 | Commun | — | « Appel du matin » : sur Os errant (50 %) | Un os à vous. Vous le reconnaissez à sa forme, et au fait qu'il vous manque. |
 | **Panier de pommes** | 6 | Commun | — | « Le verger de Mère Pomponne » : sur Gobelin pillard, Pillard émérite (40 %) | Les pommes de Mère Pomponne, reprises une à une aux pillards. Il en manque une : la plus belle. |
 | **Laissez-passer de Hautepierre** | 12 | Rare | — | récompense de « La palissade de Krasbouk » | Signé du bourgmestre Pansu, contresigné par personne. À présenter au bureau des laissez-passer, qui exige un laissez-passer pour y entrer. |

@@ -1,0 +1,61 @@
+{
+  "id": "bois_farceur_relais_en_panne",
+  "nom": "Le relais est en panne",
+  "categorie": "principale",
+  "acte": 1,
+  "niveau": 3,
+  "pnj": "facteur_hyphe",
+  "description": "Les vesses brouillent le réseau. Plus aucun ragot ne passe.",
+  "conditions": {
+    "race": "mycelien",
+    "quetes_terminees": [
+      "bois_farceur_premier_ragot"
+    ]
+  },
+  "etapes": [
+    {
+      "objectifs": [
+        {
+          "type": "vaincre",
+          "monstre": "vesse_de_loup_bavarde",
+          "nombre": 3
+        }
+      ]
+    },
+    {
+      "objectifs": [
+        {
+          "type": "recolter",
+          "objet": "bois_de_frene",
+          "nombre": 5,
+          "texte": "Récolter du frêne pour réparer la Souche-Relais"
+        },
+        {
+          "type": "parler",
+          "pnj": "facteur_hyphe"
+        }
+      ]
+    }
+  ],
+  "dialogues": {
+    "facteur_hyphe": {
+      "proposition": [
+        "Trois vesses bavardent si fort qu'elles brouillent le réseau. Faites-les taire.",
+        "Puis rapportez-moi du frêne : la Souche-Relais a besoin d'une rallonge."
+      ],
+      "en_cours": [
+        "Toujours brouillé. J'ai reçu « …tte …achez qui … » ce matin. Insupportable."
+      ],
+      "objectif": [
+        "Le réseau respire. Reste le bois pour la souche."
+      ],
+      "fin": [
+        "Le relais refonctionne ! Premier message reçu : un ragot sur vous. Je vous le lis ?"
+      ]
+    }
+  },
+  "recompenses": {
+    "xp_cr": 4,
+    "ecus": 50
+  }
+}

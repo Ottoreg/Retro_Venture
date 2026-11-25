@@ -1,0 +1,46 @@
+{
+  "id": "bois_farceur_correspondant",
+  "nom": "Correspondant à la Lisière",
+  "categorie": "principale",
+  "acte": 1,
+  "niveau": 4,
+  "pnj": "doyenne_lamelle",
+  "description": "Le réseau a besoin d'un correspondant chez les elfes. Discret. Ou pas.",
+  "conditions": {
+    "race": "mycelien",
+    "quetes_terminees": [
+      "bois_farceur_relais_en_panne"
+    ]
+  },
+  "etapes": [
+    {
+      "objectifs": [
+        {
+          "type": "parler",
+          "pnj": "gardienne_elwyn",
+          "texte": "Écouter les elfes de près, à la Clairière de la Lisière"
+        }
+      ]
+    }
+  ],
+  "dialogues": {
+    "doyenne_lamelle": {
+      "proposition": [
+        "Les elfes de la Lisière ne parlent jamais assez fort pour nos racines. Allez les écouter de près.",
+        "Présentez-vous à Elwyn, la gardienne, à l'ouest. Dites que vous êtes là pour aider. C'est presque vrai."
+      ],
+      "en_cours": [
+        "L'ouest, petite pousse. Là où ça sent le parfum et la condescendance."
+      ]
+    },
+    "gardienne_elwyn": {
+      "fin": [
+        "Un Mycélien ? Vous êtes là pour aider, dites-vous. Bien sûr. Et je suis là pour vous surveiller. Bienvenue à la Lisière."
+      ]
+    }
+  },
+  "recompenses": {
+    "xp_cr": 5,
+    "ecus": 60
+  }
+}
