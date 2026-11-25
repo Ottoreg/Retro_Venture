@@ -286,6 +286,8 @@ Lots 0 (conception dans le GDD), 1 (personnage, poussé sur `main` à la demande
 - [x] Côté de départ tiré au sort à chaque combat : une fois sur deux, joueurs et monstres
   échangent leurs cases (`World._create_combat`, aussi dans `tools/simulation.gd`)
 - [ ] Afficher aussi les cases de départ des monstres (en rouge) pendant le placement, comme Dofus
+- [ ] Zones de départ tirées au hasard à chaque combat (disposition distance ou corps à corps, forme de chaque
+  zone) : conception à valider, `docs/design/placement/zones_de_depart.md` (25/11/2026)
 - [x] **(MVP)** Coups critiques (5 % par défaut par sort, bonus « % Critique » d'équipement, × 1,5)
 - [x] **(MVP)** Groupes de 1 à 3 monstres (limite de l'alpha), d'espèces mélangées, tous visibles sur
   la carte ; composition fixe ou tirée au sort à chaque apparition
