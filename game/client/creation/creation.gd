@@ -264,6 +264,7 @@ func _carousel() -> HBoxContainer:
 	row.alignment = BoxContainer.ALIGNMENT_CENTER
 	row.add_theme_constant_override("separation", 6)
 	var center := VBoxContainer.new()
+	center.custom_minimum_size = Vector2(380, 0)  # Largeur fixe (4 variantes) : les flèches ne bougent pas d'une race ou d'une variante à l'autre.
 	_preview = Preview.new()
 	_preview.zoom = 1.7
 	_preview.custom_minimum_size = Vector2(170, 130)
