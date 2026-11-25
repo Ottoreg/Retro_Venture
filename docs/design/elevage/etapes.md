@@ -49,13 +49,15 @@ préfère trancher plus tard.
 - PNJ maître éleveur aux Courses d'Ampas, qui vend les licols (provisoire, voir la décision 5).
 - Objet `licol`.
 
-### Lot 3 : apprivoiser en combat
+### Lot 3 : apprivoiser en combat (fait le 25/11/2026, `tests/core/test_apprivoisement.gd`)
 - Sort *Apprivoiser* (3 PA, au contact), donné à tous quand on porte un licol. Il marche seulement si
   la cible est le dernier ennemi, sous 25 % de ses PV, d'une espèce apprivoisable (champ `monture` des
   monstres), et n'est ni élite ni mini-boss.
 - Réussite : le licol est consommé, le monstre quitte le combat (victoire sans son butin), et une
   **monture sauvage** entre dans l'inventaire avec son espèce, sa robe, son sexe et sa docilité.
-- Réputation d'éleveur gagnée. Commande et événement nouveaux, protocole v27. Tests du noyau.
+- Réputation d'éleveur gagnée. Événement nouveau (le sort passe par la commande de sort), protocole v27. Tests du noyau.
+- Fait avec des valeurs provisoires (décision 4) : 50 % − 10 par palier du monstre au-dessus du 1er, + 10 par palier
+  d'éleveur, + la compétence ; raté, le licol reste.
 
 ### Lot 4 : l'enclos
 - Instance `enclos` sur le modèle des instances de métier, ouverte depuis la porte des enclos des

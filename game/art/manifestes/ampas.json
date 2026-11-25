@@ -415,6 +415,13 @@
         22,
         22
       ]
+    },
+    "objet_monture_sauvage": {
+      "fichier": "objets/licol.svgt",
+      "ancre": [
+        22,
+        22
+      ]
     }
   },
   "pnj": {

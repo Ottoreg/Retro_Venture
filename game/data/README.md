@@ -489,6 +489,9 @@ dans les zones de départ une fois leur mini-boss vaincu (groupes `apres_boss`) 
 n'est pas une famille, elle n'a donc pas d'élite (les tests le vérifient, et que sa `base` est une
 famille existante).
 
+Un monstre **apprivoisable** (élevage, GDD § 10.3) a un champ `monture` : `{ "espece": "ampa", "robe": "brun" }` ; jamais
+une élite ni un boss. Le sort `apprivoiser` (effet `apprivoiser`, donné par le `licol`) ne vise que lui.
+
 Un **boss** (`"boss": true`) est un monstre unique : ni `famille` ni `elite`, pas d'élite à lui (le
 Souverain Cendré, palier 5).
 

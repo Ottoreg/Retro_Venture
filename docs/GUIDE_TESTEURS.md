@@ -388,8 +388,9 @@ le **lit** de votre maison les rend tous d'un coup.
     ses environs : détrousseurs, trolls des ponts, corbacs espions, gargouilles, Cendrillons,
     olifants de guerre, et à la Brèche le **boss Grondin**.
   - Les **Grandes Plaines** (17 cartes au sud-ouest de Hautepierre, palier 2 et 3) : les 8 **ampas**, futures
-    montures (Onyx et Cristal plus rares), et les Courses d'Ampas. Le métier d'**Éleveur** est dans la fenêtre des métiers (J) et Maître Plumard vend les licols aux Courses, mais
-    l'apprivoisement n'est pas encore possible.
+    montures (Onyx et Cristal plus rares), et les Courses d'Ampas. Le métier d'**Éleveur** est dans la fenêtre des métiers (J) et Maître Plumard vend les licols aux Courses. Avec un
+    licol dans le sac, le sort **Apprivoiser** apparaît en combat : sur le dernier ampa debout, à moins d'un quart de ses PV,
+    il peut le faire passer de votre côté (une **monture sauvage** dans l'inventaire). L'enclos et la monture viendront ensuite.
   - Le **Trône de Cendre** (carte d'élite de test, gratuit par les Pierres) : le Souverain Cendré,
     le monstre le plus puissant du jeu, pour les curieux.
   - La **Tour céleste** (gratuite par les Pierres) : battez **Cupidon** sur le parvis pour sa clé,

@@ -47,10 +47,11 @@ func quantity_of(item_id: String) -> int:
 
 
 ## Ajoute un objet ; renvoie son uid, ou "" si l'inventaire est plein (sauf avec `overflow` : le
-## butin de combat entre toujours, en surplus). `forged` : description d'un objet forgé.
-func add(template: Dictionary, quantity := 1, rolled := {}, overflow := false, forged := {}) -> String:
+## butin de combat entre toujours, en surplus). `forged` : description d'un objet forgé ; `mount` : monture
+## (élevage : espèce, robe, sexe, docilité), une entrée à part chacune.
+func add(template: Dictionary, quantity := 1, rolled := {}, overflow := false, forged := {}, mount := {}) -> String:
 	var item_id: String = template["id"]
-	if not Item.is_equipment(template) and forged.is_empty():
+	if not Item.is_equipment(template) and forged.is_empty() and mount.is_empty():
 		if entries.has(item_id):
 			entries[item_id]["quantite"] += quantity
 			return item_id
@@ -65,6 +66,8 @@ func add(template: Dictionary, quantity := 1, rolled := {}, overflow := false, f
 	entries[uid] = {"uid": uid, "objet": item_id, "quantite": 1, "jets": rolled.duplicate()}
 	if not forged.is_empty():
 		entries[uid]["forge"] = forged.duplicate(true)
+	if not mount.is_empty():
+		entries[uid]["monture"] = mount.duplicate(true)
 	return uid
 
 
@@ -140,8 +143,9 @@ static func from_dict(data: Dictionary, known_items: Dictionary) -> Inventory:
 			inventory.entries[entry["uid"]] = {"uid": entry["uid"], "objet": entry["objet"], "quantite": maxi(1, int(entry.get("quantite", 1))), "jets": jets}
 			if typeof(entry.get("forge")) == TYPE_DICTIONARY:
 				inventory.entries[entry["uid"]]["forge"] = entry["forge"].duplicate(true)
-			if typeof(entry.get("exo")) == TYPE_DICTIONARY:
-				inventory.entries[entry["uid"]]["exo"] = entry["exo"].duplicate(true)
+			for field: String in ["exo", "monture"]:
+				if typeof(entry.get(field)) == TYPE_DICTIONARY:
+					inventory.entries[entry["uid"]][field] = entry[field].duplicate(true)
 	var saved_equipment: Variant = data.get("equipement", {})
 	if typeof(saved_equipment) == TYPE_DICTIONARY:
 		for slot: Variant in saved_equipment:

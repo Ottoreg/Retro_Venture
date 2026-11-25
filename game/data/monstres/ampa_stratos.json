@@ -45,5 +45,9 @@
     9,
     20
   ],
-  "mot": "d'Ampa stratos"
+  "mot": "d'Ampa stratos",
+  "monture": {
+    "espece": "ampa",
+    "robe": "stratos"
+  }
 }

@@ -343,6 +343,9 @@ static func validate_monster(data: Dictionary, known_spells: Dictionary, known_i
 		errors.append("« boss » doit être vrai ou faux")
 	elif data.get("boss", false) == true and (data.get("elite", false) == true or data.has("famille")):
 		errors.append("un boss est un monstre unique : ni « elite » ni « famille »")
+	var mount: Variant = data.get("monture", {})
+	if typeof(mount) != TYPE_DICTIONARY or data.has("monture") and (typeof(mount.get("espece")) != TYPE_STRING or data.get("elite", false) or data.get("boss", false)):
+		errors.append("« monture » : { espece, robe } d'un monstre apprivoisable, ni élite ni boss (GDD § 10.3)")
 	errors.append_array(_validate_phases(data.get("phases", []), known_spells))
 	var alone: Variant = data.get("seul", {})
 	if typeof(alone) != TYPE_DICTIONARY or (not alone.is_empty() and (typeof(alone.get("message")) != TYPE_STRING
@@ -549,6 +552,7 @@ func create_monster(monster_id: String, fighter_id: String) -> Fighter:
 		fighter.alone_spells[old] = spells[alone["remplace"][old]]
 	fighter.alone_message = str(alone.get("message", ""))
 	fighter.boss = bool(data.get("boss", false)) or not data.get("phases", []).is_empty()
+	fighter.monture = data.get("monture", {}).duplicate()
 	for phase: Dictionary in data.get("phases", []):
 		var gained: Array[Spell] = []
 		for spell_id: String in phase.get("sorts", []):
@@ -599,6 +603,11 @@ func create_character_fighter(character: Character, fighter_id: String) -> Fight
 	if race.has("sort") and spells.has(race["sort"]):
 		fighter.spells.append(spells[race["sort"]])
 	fighter.range_bonus = passive_value(character.race_id, "portee")
+	# Élevage (GDD § 10.3) : Apprivoiser tant qu'on a un licol ; bonus du palier d'éleveur et de la compétence.
+	if character.inventory.quantity_of(Combat.TAME_ITEM) > 0 and spells.has(Combat.TAME_SPELL):
+		fighter.spells.append(spells[Combat.TAME_SPELL])
+	fighter.tame_bonus = Combat.TAME_PER_TIER * Character.tier_index(character.job_reputation(Combat.TAME_JOB)) \
+		+ roundi(Profession.skill_value(Combat.TAME_JOB, "apprivoisement", character.job_rank(Combat.TAME_JOB, "apprivoisement")))
 	for effect_type in ["reduction_melee", "deja_mort"]:
 		fighter.passives[effect_type] = passive_value(character.race_id, effect_type)
 	var passive := class_passive(character.voie_id, character.reputation())

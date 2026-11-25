@@ -81,7 +81,8 @@ for c, (nom, plumes, ombre, tete, elements, carac, desc) in AMPAS.items():
     images[f"objet_{coeur}"] = {"fichier": "objets/coeur_d_ampa.svgt", "ancre": [22, 22], "couleurs": {"plume": plumes}}
     taux = (0.25, 0.6) if rare else (0.55, 0.9)
     monstres.append(monstre(f"ampa_{c}", f"Ampa {nom}", desc, palier, pv, 6, 5, 110, caracs, res, sorts, xp, ecus,
-                            [drop(plume, taux[0], [1, 2]), drop(bec, 0.1), drop(coeur, 0.005)], mot=f"d'Ampa {nom}"))
+                            [drop(plume, taux[0], [1, 2]), drop(bec, 0.1), drop(coeur, 0.005)], mot=f"d'Ampa {nom}",
+                            monture={"espece": "ampa", "robe": c}))  # lot 3 : apprivoisable
     monstres.append(monstre(f"grand_ampa_{c}", f"Grand ampa {nom}", "Le meneur de la harde. Il court devant, il frappe devant, il mange devant.",
                             palier, round(pv * 2.2), 7, 5, 125, {k: round(v * 1.5) for k, v in caracs.items()}, res, sorts, round(xp * 2.2),
                             [e * 2 for e in ecus], [drop(plume, taux[1], [2, 4]), drop(bec, 0.3), drop(coeur, 0.01)], elite=True, famille=f"ampa_{c}"))
@@ -135,6 +136,16 @@ ELEVEUR = {"marqueur": "a", "id": "maitre_eleveur_plumard", "nom": "Maître Plum
     "Bienvenue aux Courses ! Licols, conseils, pansements : tout se vend, surtout les pansements.",
     "Un ampa, ça s'apprivoise au licol, quand il est seul et à bout de souffle. Et ça se dresse à l'enclos. Pas encore ouvert, l'enclos : on cherche qui a gardé la clé."]}
 images["objet_licol"] = {"fichier": "objets/licol.svgt", "ancre": [22, 22]}
+# Lot 3 (25/11/2026) : Apprivoiser, donné par le licol (Combat.TAME_SPELL), et la monture sauvage qu'il rapporte.
+ecrire("data/sorts/apprivoiser.json", {"id": "apprivoiser", "nom": "Apprivoiser", "description":
+    "Licol en main, on s'approche du dernier ennemi, à bout de souffle (moins d'un quart de ses PV), en parlant doucement. "
+    "Réussi, il vous suit hors du combat, sans rien laisser derrière lui ; le licol est perdu. Raté, il vous en veut.",
+    "cout_pa": 3, "portee": {"min": 1, "max": 1}, "ligne_de_vue": True,
+    "effets": [{"type": "apprivoiser", "cibles": "ennemis"}]})
+ecrire("data/objets/monture_sauvage.json", {"id": "monture_sauvage", "nom": "Monture sauvage", "type": "ressource", "rarete": "rare",
+    "niveau": 1, "boutique": False, "description": "Une bête apprivoisée, pas encore dressée : elle vous suit, mais seulement quand elle l'a décidé. "
+    "Il faudra la dresser à l'enclos avant de la monter."})
+images["objet_monture_sauvage"] = {"fichier": "objets/licol.svgt", "ancre": [22, 22]}  # provisoire : l'icône du licol
 ecrire("art/manifestes/ampas.json", {"monstres": art, "images": images, "pnj": {ELEVEUR["id"]: {"rig": "humain", "couleurs": {
     "tunique": "b07a30", "manches": "6a4a2a", "pantalon": "4a3a2a", "cheveux": "c0c0b8", "peau": "e0b890"}}}})
 courses = lire("data/cartes/grandesplaines_-1_0.json")

@@ -46,5 +46,9 @@
     15,
     30
   ],
-  "mot": "d'Ampa cristal"
+  "mot": "d'Ampa cristal",
+  "monture": {
+    "espece": "ampa",
+    "robe": "cristal"
+  }
 }

@@ -9,7 +9,7 @@ extends RefCounted
 
 ## Version du protocole, vérifiée à la connexion : à augmenter à chaque changement incompatible
 ## d'une commande ou d'un événement.
-const VERSION := 26
+const VERSION := 27
 
 # --- Commandes (client → noyau) ---
 
@@ -243,6 +243,9 @@ const EVT_DAMAGE := "degats"
 const EVT_HEAL := "soin"
 ## { type, entite: String }
 const EVT_DIED := "mort"
+## Apprivoisement (élevage, GDD § 10.3) : { type, entite: String (lanceur), cible: String, reussi: bool, chance: int,
+## monture: Dictionary (espece, robe, sexe, docilite ; si réussi) }. Réussi : la cible quitte le combat (EVT_DIED suit).
+const EVT_TAMED := "apprivoisement"
 ## { type, entite: String, depuis: Vector2i, case: Vector2i }
 const EVT_TELEPORTED := "teleporte"
 ## Effet sans dégâts. { type, entite: String, effet: String, valeur: int, pa: int, pm: int } ; un
@@ -426,7 +429,7 @@ const COMBAT_EVENTS := [EVT_COMBAT_STARTED, EVT_PLACED, EVT_FIGHT_BEGINS, EVT_TU
 	EVT_SPELL_CAST, EVT_DAMAGE, EVT_HEAL, EVT_DIED, EVT_TELEPORTED, EVT_STATUS, EVT_STATES, EVT_ELEMENT_STATES,
 	EVT_SPELL_CREATED, EVT_CHARGED, EVT_PUSHED, EVT_GLYPH, EVT_GLYPH_ENDED, EVT_TRAP, EVT_TRAP_TRIGGERED,
 	EVT_TRAP_ENDED, EVT_PHASE, EVT_COMBAT_ENDED, EVT_FIGHTER_JOINED, EVT_READY, EVT_FIGHTER_AWAY, EVT_IMAGE, EVT_IMAGE_ENDED,
-	EVT_DIMENSION, EVT_SUMMONED, EVT_EMBERS, EVT_AURA, EVT_AURA_ENDED, EVT_BEACON, EVT_BEACON_ENDED, EVT_TERRAIN]
+	EVT_DIMENSION, EVT_SUMMONED, EVT_TAMED, EVT_EMBERS, EVT_AURA, EVT_AURA_ENDED, EVT_BEACON, EVT_BEACON_ENDED, EVT_TERRAIN]
 
 
 ## Portée d'un événement : SCOPE_MAP, SCOPE_COMBAT ou SCOPE_PERSONAL (tout le reste, et tout
@@ -585,6 +588,10 @@ const REASON_NO_BEACON := "aucune_balise"
 const REASON_NOT_DEMOLISHABLE := "rien_a_demolir"
 ## Théologue : le Bûcher vise un ennemi sans Hérésie.
 const REASON_NO_HERESY := "aucune_heresie"
+## Apprivoiser : cible sans `monture` (ou élite, boss), autres ennemis debout, cible à 25 % de ses PV ou plus.
+const REASON_NOT_TAMABLE := "pas_apprivoisable"
+const REASON_NOT_LAST := "pas_le_dernier"
+const REASON_TOO_HEALTHY := "trop_vaillant"
 ## Chronomancien : la cible n'a pas d'horloge (Arrêt sur image) ; la cible est inamovible (Rendez-vous).
 const REASON_NO_CLOCK := "aucune_horloge"
 const REASON_STEADY := "inamovible"

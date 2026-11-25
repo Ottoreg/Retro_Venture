@@ -33,6 +33,10 @@ const ELITE_SPAWN_DELAY := [300.0, 360.0]
 const ELITE_RANK_SECONDS := 60.0
 const ELITE_MAX_RANK := 10
 const ELITE_LOOT_BONUS_PER_RANK := 0.1
+## Élevage (GDD § 10.3, valeurs provisoires) : monture sauvage reçue en apprivoisant ; réputation d'éleveur de base
+## (× le facteur de difficulté du palier du monstre, comme la récolte).
+const WILD_MOUNT := "monture_sauvage"
+const TAME_REPUTATION := 25
 ## Au-delà de ce nombre de groupes sur la carte, l'élite prend la place d'un monstre d'un groupe.
 const ELITE_MAX_GROUPS := 3
 ## Id des groupes créés pour une élite (ceux qui ne viennent pas de la carte).
@@ -1772,7 +1776,7 @@ func _end_combat(p: PlayerState, events: Array[Dictionary]) -> void:
 		if fighter.team == Fighter.TEAM_PLAYERS:
 			continue
 		kinds.append(fighter.kind)
-		if won and data.monsters.has(fighter.kind):
+		if won and data.monsters.has(fighter.kind) and not fighter.tamed:  # Apprivoisé : sans son butin.
 			var monster: Dictionary = data.monsters[fighter.kind]
 			monsters.append(monster)
 			var coin_range: Array = monster.get("ecus", [0, 0])
@@ -1821,6 +1825,9 @@ func _end_combat(p: PlayerState, events: Array[Dictionary]) -> void:
 			if not receiver.is_empty():
 				part = coins if member.id == receiver else 0
 				found = drops.values().reduce(func(all: Array, own_drops: Array) -> Array: return all + own_drops, []) if member.id == receiver else []
+			for tamed in events.filter(func(e: Dictionary) -> bool: return e["type"] == Protocol.EVT_TAMED and e["reussi"] and e["entite"] == member.id):
+				block.append(_receive_mount(member, tamed, combat))
+				own["monture"] = tamed["monture"]
 			_loot(member, own, found, part, combat.rng, block)
 			member.quest_book.combat_won(kinds, combat.rng, own, block)
 		var back := {"type": Protocol.EVT_EXPLORATION, "position": member.cell, "groupe_vaincu": defeated_group}
@@ -1857,6 +1864,15 @@ func _end_combat(p: PlayerState, events: Array[Dictionary]) -> void:
 				map_events.append(_player_joined_event(member))
 		map_events.append({"type": Protocol.EVT_FIGHT_OVER, "carte": combat_map, "groupe": group_id})
 	events.append_array(map_events)
+
+
+## Apprivoisement réussi (élevage, GDD § 10.3) : le licol devient une monture sauvage (champ « monture » de l'entrée
+## d'inventaire : espèce, robe, sexe, docilité), et l'éleveur gagne de la réputation. Renvoie l'EVT_JOB.
+func _receive_mount(p: PlayerState, tamed: Dictionary, combat: Combat) -> Dictionary:
+	p.character.inventory.remove(Combat.TAME_ITEM)
+	p.character.inventory.add(data.items[WILD_MOUNT], 1, {}, true, {}, tamed["monture"])
+	var target := combat.get_fighter(tamed["cible"])
+	return _job_event(p, Combat.TAME_JOB, TAME_REPUTATION, target.tier if target != null else 1)
 
 
 ## Après une défaite, le joueur se réveille à côté de la Pierre de Passage de son point de

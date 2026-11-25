@@ -99,6 +99,11 @@ var hp_paid := 0
 var rage_crit := false
 ## Boss ou mini-boss (monstre « boss » ou à phases) : à moitié provoqué, jamais assommé (perd des PA à la place).
 var boss := false
+## Élevage (GDD § 10.3) : espèce et robe d'un monstre apprivoisable (champ « monture », jamais une élite ni un boss) ;
+## vrai une fois apprivoisé (sorti du combat sans son butin) ; bonus d'apprivoisement en % du joueur (palier d'éleveur, compétence).
+var monture := {}
+var tamed := false
+var tame_bonus := 0
 ## Chronomancien (GDD § 4.3) : cases et PV au début de ses `PAST_TURNS` derniers tours (le plus récent en tête),
 ## manipulations temporelles subies dans le combat, PA en plus au début de son prochain tour (« Temps volé », rang 3).
 var past_cells: Array[Vector2i] = []

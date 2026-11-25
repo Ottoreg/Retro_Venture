@@ -1,0 +1,9 @@
+{
+  "id": "monture_sauvage",
+  "nom": "Monture sauvage",
+  "type": "ressource",
+  "rarete": "rare",
+  "niveau": 1,
+  "boutique": false,
+  "description": "Une bête apprivoisée, pas encore dressée : elle vous suit, mais seulement quand elle l'a décidé. Il faudra la dresser à l'enclos avant de la monter."
+}

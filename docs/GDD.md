@@ -2716,7 +2716,17 @@ l'élite) aux caractéristiques de ses deux éléments (+6 chacune, ex. brun : I
 **Métier d'Éleveur dans le jeu** (24/11/2026, lot 2) : `data/metiers/eleveur.json` (artisanat), compétences propres
 Apprivoisement (+5 % de chances par rang) et Dressage (−10 % de temps à l'enclos par rang), valeurs provisoires et sans
 effet tant que les lots 3 et 4 ne sont pas faits ; Maître Plumard, éleveur et marchand, aux Courses d'Ampas ; objet
-`licol` vendu par tous les marchands en attendant le Costumier. Aucune réputation d'éleveur ne se gagne encore.
+`licol` vendu par tous les marchands en attendant le Costumier.
+
+**Apprivoiser dans le jeu** (25/11/2026, lot 3, valeurs provisoires) : porter un licol donne le sort *Apprivoiser* (3 PA,
+au contact, `data/sorts/apprivoiser.json`, effet `apprivoiser`). Il ne vise que le **dernier ennemi debout**, à **moins de
+25 % de ses PV**, d'une espèce apprivoisable (champ `monture` du monstre : les 8 ampas, jamais une élite ni un boss).
+Chance : **50 % − 10 par palier du monstre au-dessus du 1er, + 10 par palier d'éleveur, + la compétence Apprivoisement**
+(5 % par rang), de 5 à 95 % (`Combat.tame_chance` ; un ampa de palier 2 : 40 % pour un éleveur Inconnu). Raté : les PA sont
+perdus, le licol reste. Réussi : le monstre quitte le combat (victoire **sans son butin** ni ses brumes), le licol devient
+une **monture sauvage** (objet `monture_sauvage`, champ `monture` de l'entrée d'inventaire : espèce, robe, sexe, docilité
+de 1 à 100), et l'éleveur gagne de la réputation (25 × le facteur de difficulté du palier, comme la récolte). Événement
+`apprivoisement`, protocole v27 ; `tests/core/test_apprivoisement.gd`.
 
 Exclus : les créatures qui parlent ou se croient des personnes (trolls, gobelins, épouvantails,
 arbres vivants, morilles), et celles trop petites (rats, vampipistrelles, corbacs). Chaque camp a

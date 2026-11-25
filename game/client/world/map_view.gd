@@ -183,6 +183,9 @@ var _refusals := {
 	Protocol.REASON_NO_EMBERS: "Aucune case embrasée dans la zone",
 	Protocol.REASON_NO_BEACON: "Visez une de vos balises (libre pour un échange)",
 	Protocol.REASON_NO_HERESY: "Visez un ennemi qui a de l'Hérésie",
+	Protocol.REASON_NOT_TAMABLE: "Ce monstre ne s'apprivoise pas",
+	Protocol.REASON_NOT_LAST: "Apprivoisez seulement le dernier ennemi debout",
+	Protocol.REASON_TOO_HEALTHY: "Trop vaillant : moins d'un quart de ses PV d'abord",
 	Protocol.REASON_CHAINED: "Enchaîné : trop loin du piège",
 	Protocol.REASON_NO_TRAP: "Aucune Mine à faire sauter",
 }
@@ -1088,6 +1091,9 @@ func _log_line(event: Dictionary) -> String:
 			return "%s déclenche le piège [color=#%s]%s[/color] !" % [who, LOG_SPELL, event["sort"]]
 		Protocol.EVT_PHASE:
 			return "[color=#ff73d9]%s[/color]" % event["message"]
+		Protocol.EVT_TAMED:
+			return "%s tente d'apprivoiser %s (%d %%) : %s" % [who, _actor_name(event["cible"]), event["chance"],
+				"[color=#7fd36a]réussi ! Une monture sauvage vous suit.[/color]" if event["reussi"] else "raté."]
 		Protocol.EVT_DIED:
 			return "[color=#%s]%s est vaincu.[/color]" % [LOG_DEATH, who]
 		Protocol.EVT_COMBAT_ENDED:

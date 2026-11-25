@@ -78,6 +78,14 @@ const MAX_BEACONS := 3
 const ARC_LENGTH := 6
 const ARC_BONUS := 25
 const MAX_ARCS_CROSSED := 2
+## Élevage (GDD § 10.3, valeurs provisoires) : sort donné par le licol, métier ; chance d'apprivoiser = 50 % − 10 par palier
+## du monstre au-dessus du 1er + bonus du joueur (`Fighter.tame_bonus` : 10 par palier d'éleveur, compétence), de 5 à 95 %.
+const TAME_SPELL := "apprivoiser"
+const TAME_ITEM := "licol"
+const TAME_JOB := "eleveur"
+const TAME_BASE := 50
+const TAME_PER_TIER := 10
+const TAME_HP_PERCENT := 25
 ## Myrmidon (GDD § 4.3) : terrain changé pendant le combat (case → { etat : « demoli » ou « gel », tours, lanceur }) ; obstacles
 ## qu'on démolit ; tours (du lanceur) de l'eau gelée ; Gelures qui gèlent ; tours des crans ; malus de la provocation (%) ;
 ## contrecoup du rang 5 de « Point de mire » (% des dégâts subis) ; ennemis déjà assommés (une fois par combat).
@@ -709,6 +717,8 @@ func _cast(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 	if blocker.is_empty() and spell.effects.any(func(effect: Dictionary) -> bool: return effect.get("par_heresie", false)) \
 			and (aimed == null or aimed.stacks(Spell.EFFECT_HERESY) == 0):
 		blocker = Protocol.REASON_NO_HERESY
+	if blocker.is_empty() and not spell.effect_of(Spell.EFFECT_TAME).is_empty():
+		blocker = tame_blocker(fighter, aimed)
 	if blocker.is_empty() and not spell.effect_of(Spell.EFFECT_PROCESSION).is_empty() and not is_free(target) \
 			and (aimed == null or aimed == fighter or aimed.team != fighter.team):
 		blocker = Protocol.REASON_OCCUPIED if aimed != null else Protocol.REASON_BLOCKED
@@ -844,6 +854,8 @@ func _cast(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 	_open_credit(fighter, spell.pa_cost, elements.keys())
 	for effect in cast_effects.filter(func(effect: Dictionary) -> bool: return effect["type"] == Spell.EFFECT_REVEAL):
 		_reveal(fighter, zone, events)
+	if not spell.effect_of(Spell.EFFECT_TAME).is_empty():
+		_tame(fighter, aimed, events)
 	var targets: Array[Fighter] = []
 	for cell in zone if reached else []:
 		var hit := fighter_at(cell)
@@ -866,7 +878,7 @@ func _cast(fighter: Fighter, command: Dictionary) -> Array[Dictionary]:
 					Spell.EFFECT_CHARGE, Spell.EFFECT_CREATE_SPELL, Spell.EFFECT_COMPOSE_STATES, Spell.EFFECT_IMAGE,
 					Spell.EFFECT_DETONATE, Spell.EFFECT_BEHIND, Spell.EFFECT_SUMMON, Spell.EFFECT_AURA, Spell.EFFECT_BEACON, Spell.EFFECT_SURGE,
 					Spell.EFFECT_BEACON_SWAP, Spell.EFFECT_DEMOLISH, Spell.EFFECT_FREEZE, Spell.EFFECT_ICE_WALL, Spell.EFFECT_PROCESSION,
-					Spell.EFFECT_DETONATOR, Spell.EFFECT_REVEAL] \
+					Spell.EFFECT_DETONATOR, Spell.EFFECT_REVEAL, Spell.EFFECT_TAME] \
 					and not effect.get("sur_lanceur", false) and not effect.get("autour_du_lanceur", false) and not effect.get("au_depart", false) \
 					and not effect.get("derriere", false) and not (effect.get("centre_seul", false) and hit.cell != target) \
 					and Spell.affects(effect, fighter, hit) and not (effect.get("premier_lancer", false) and fighter.cast_count(spell) > 1) \
@@ -2348,6 +2360,37 @@ func _summon(caster: Fighter, spell: Spell, effect: Dictionary, cell: Vector2i, 
 	_arrival[servant] = _arrival.size()
 	var shown := servant.to_dict()
 	events.append({"type": Protocol.EVT_SUMMONED, "combattant": shown, "ordre": fighters.map(func(f: Fighter) -> String: return f.id)})
+
+
+# --- Élevage (GDD § 10.3) ----------------------------------------------------------------------
+
+## Pourquoi `caster` ne peut pas apprivoiser `target` ("" s'il le peut) : un monstre apprivoisable (champ « monture »), dernier
+## ennemi debout, à moins de `TAME_HP_PERCENT` % de ses PV.
+func tame_blocker(caster: Fighter, target: Fighter) -> String:
+	if target == null or target.team == caster.team:
+		return Protocol.REASON_NO_TARGET
+	if target.monture.is_empty() or not target.master.is_empty():
+		return Protocol.REASON_NOT_TAMABLE
+	if fighters.any(func(f: Fighter) -> bool: return f != target and f.team == target.team and f.is_alive() and f.master.is_empty()):
+		return Protocol.REASON_NOT_LAST
+	return Protocol.REASON_TOO_HEALTHY if target.hp * 100 >= target.max_hp * TAME_HP_PERCENT else ""
+
+
+## Chance (en %) qu'a `caster` d'apprivoiser `target`.
+func tame_chance(caster: Fighter, target: Fighter) -> int:
+	return clampi(TAME_BASE - TAME_PER_TIER * (target.tier - 1) + caster.tame_bonus, 5, 95)
+
+
+## Tentative d'apprivoisement : réussie, la cible quitte le combat (victoire sans son butin) avec sa monture sauvage
+## (espèce, robe, sexe et docilité tirés), que le monde met dans l'inventaire du lanceur contre son licol.
+func _tame(caster: Fighter, target: Fighter, events: Array[Dictionary]) -> void:
+	var chance := tame_chance(caster, target)
+	var event := {"type": Protocol.EVT_TAMED, "entite": caster.id, "cible": target.id, "reussi": rng.randi_range(1, 100) <= chance, "chance": chance}
+	events.append(event)
+	if event["reussi"]:
+		event["monture"] = target.monture.merged({"sexe": ["male", "femelle"][rng.randi_range(0, 1)], "docilite": rng.randi_range(1, 100)})
+		target.tamed = true
+		_kill(target, events)
 
 
 ## `target` tombe tout de suite (serviteur sacrifié, maître vaincu).

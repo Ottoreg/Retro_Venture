@@ -27,7 +27,7 @@ Prix de boutique : selon la rareté (revente à 25 %).
 - [Sorts de race](#sorts-de-race)
 - [Sorts des monstres](#sorts-des-monstres)
 
-**386 objets** (18 armes, 20 coiffes, 20 capes, 20 amulettes, 20 anneaux, 20 ceintures, 20 bottes, 196 ressources, 37 plans de forge, 9 objets de quête), **115 monstres** et **370 sorts**.
+**387 objets** (18 armes, 20 coiffes, 20 capes, 20 amulettes, 20 anneaux, 20 ceintures, 20 bottes, 197 ressources, 37 plans de forge, 9 objets de quête), **115 monstres** et **371 sorts**.
 
 ## Armes
 
@@ -248,6 +248,7 @@ Prix de boutique : selon la rareté (revente à 25 %).
 | **Minerai de cuivre** | 1 | Commun | +1 Intelligence, minerai | boutique 4 brumes<br>Mineur : Cuivre niv. 1 | Ça brille un peu, ça verdit beaucoup. |
 | **Minerai de fer** | 1 | Peu commun | +1 Force, minerai | boutique 12 brumes<br>Mineur : Fer niv. 3 | Lourd, terne, indispensable. Comme un garde de Hautepierre. |
 | **Moelle fossile** | 1 | Peu commun | +4 Vitalité | boutique 12 brumes<br>butin : Fémur du Général 60 %, Os errant 15 % | Trois siècles d'âge. Toujours nourrissante, paraît-il. |
+| **Monture sauvage** | 1 | Rare | — | **aucune** | Une bête apprivoisée, pas encore dressée : elle vous suit, mais seulement quand elle l'a décidé. Il faudra la dresser à l'enclos avant de la monter. |
 | **Mucus épais** | 1 | Peu commun | +4 Vitalité | boutique 12 brumes<br>butin : Limace reine 60 %, Limace gourmande 15 % | Ça colle. Ça colle vraiment beaucoup. |
 | **Mèche de lampe** | 1 | Commun | +1 Agilité | boutique 4 brumes<br>butin : Contrôleur des Poids et Mesures 90 %, Apprenti mineur 55 % | Elle grésille encore. Facturée à la minute d'éclairage. |
 | **Ortie** | 1 | Commun | — | boutique 4 brumes<br>Herboriste : Ortie niv. 1 | Elle pique. C'est sa façon de dire bonjour. |
@@ -2602,6 +2603,7 @@ gardés comme trace de sa première version).
 
 | Sort | Caractéristiques | Effets | Description |
 |---|---|---|---|
+| **Apprivoiser** | 3 PA, portée 1 | apprivoiser aux ennemis | Licol en main, on s'approche du dernier ennemi, à bout de souffle (moins d'un quart de ses PV), en parlant doucement. Réussi, il vous suit hors du combat, sans rien laisser derrière lui ; le licol est perdu. Raté, il vous en veut. |
 | **Jugement dernier** | 3 PA, portée soi, cercle de rayon 1 (sans le lanceur), 1/tour | 25 Sacré aux ennemis | Seul, l'Archange frappe tout ce qui l'entoure. |
 | **Crachat de soufre** | 2 PA, portée 2–4, cercle de rayon 1, 1/tour | 4–5 Impie aux ennemis | Un crachat qui éclabousse les voisins. |
 | **Coup de fourche** | 2 PA, portée 1–4, 2/tour | 5–7 Impie aux ennemis | Un petit coup de fourche, pas bien méchant mais très insistant. |

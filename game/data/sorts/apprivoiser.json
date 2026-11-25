@@ -1,0 +1,17 @@
+{
+  "id": "apprivoiser",
+  "nom": "Apprivoiser",
+  "description": "Licol en main, on s'approche du dernier ennemi, à bout de souffle (moins d'un quart de ses PV), en parlant doucement. Réussi, il vous suit hors du combat, sans rien laisser derrière lui ; le licol est perdu. Raté, il vous en veut.",
+  "cout_pa": 3,
+  "portee": {
+    "min": 1,
+    "max": 1
+  },
+  "ligne_de_vue": true,
+  "effets": [
+    {
+      "type": "apprivoiser",
+      "cibles": "ennemis"
+    }
+  ]
+}

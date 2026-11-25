@@ -463,7 +463,8 @@ Lots 0 (conception dans le GDD), 1 (personnage, poussé sur `main` à la demande
 - [ ] Ampas, élevage et montures : 7 lots préparés le 24/11/2026 ([etapes.md](design/elevage/etapes.md)), décisions de valeurs à prendre avant
   - [x] Lot 1 : les 8 ampas et leurs élites dans les Grandes Plaines (24/11/2026, `docs/design/grandes_plaines/ampas.py`), valeurs provisoires
   - [x] Lot 2 : métier d'Éleveur (compétences Apprivoisement et Dressage), Maître Plumard aux Courses d'Ampas, licol (24/11/2026)
-  - [ ] Lots 3 à 7 : Apprivoiser, enclos, monture équipée, montures-monstres, robes et reproduction
+  - [x] Lot 3 : Apprivoiser en combat avec un licol, monture sauvage dans l'inventaire (25/11/2026), valeurs provisoires
+  - [ ] Lots 4 à 7 : enclos, monture équipée, montures-monstres, robes et reproduction
 - [x] **(MVP)** Conception du contenu du chantier 3 ([docs/design/chantier3_brouillon](design/chantier3_brouillon/)) :
   **entièrement validée par l'auteur** (mini-boss révisés compris : réapparition en 60 s au plus,
   phases de profils différents selon le thème, plus de soin en phase). Durée réglée par l'XP ×3,5
