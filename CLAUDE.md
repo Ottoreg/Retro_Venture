@@ -27,6 +27,7 @@ Solo d'abord, multijoueur plus tard. Vision et règles : [docs/GDD.md](docs/GDD.
   - surveillance de la limite de session : un relevé de temps en temps (toutes les ~20 min), pas de
     réveils à la minute ; s'arrêter proprement (commit + push) vers 85 %, l'auteur fixe la limite à 90 % ;
   - ne pas reprendre automatiquement un travail interrompu sans accord.
+- Éditeur de cartes hors jeu : `docs/outils/editeur_cartes.html` (page autonome, aussi en ligne en artifact privé) ; à remettre à jour après tout changement de cartes avec `python3 docs/outils/regenerer.py . docs/outils/editeur_cartes.html`.
 - Ne rien laisser seulement dans la session (scratchpad, worktrees) : le conteneur est éphémère,
   tout ce qui compte est commité et poussé.
 

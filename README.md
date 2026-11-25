@@ -80,6 +80,7 @@ premier d'entre eux, la Grange du Père Fauchard à Brumerive.
 ```
 Retro_Venture/
 ├── docs/          # GDD, TODO, design, lore, décisions
+│   └── outils/    # Éditeur de cartes HTML (à ouvrir dans un navigateur ; regenerer.py le remet à jour)
 ├── .github/       # Intégration continue (tests Godot)
 ├── game/          # Projet Godot 4
 │   ├── core/      # Noyau de jeu : règles, sans affichage (partagé par le solo et le serveur)
