@@ -134,7 +134,7 @@ rouges pour l'autre, comme aujourd'hui.
 3. **Une forme tirée au hasard pour chaque camp**, pour plus de variété.
 4. **Zones dessinées pour les combats à vision propre** : les combats contre un mini-boss et toutes les cartes de
    donjon (Tour céleste comprise) gardent leur calque `placement`, dessiné pour ce combat. Rien n'y est tiré.
-   Lecture retenue : sur un repaire de mini-boss, seul le combat contre le groupe du mini-boss est fixe ; les autres
+   Confirmé par l'auteur : sur un repaire de mini-boss, seul le combat contre le groupe du mini-boss est fixe ; les autres
    groupes de la carte ont des zones tirées.
 5. **Pas de pondération** selon les classes ou les monstres. Idée pour plus tard : un **roulement par semaine** où
    une disposition sort plus souvent (lot 4).
