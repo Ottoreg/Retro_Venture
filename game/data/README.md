@@ -99,7 +99,8 @@ Les chiffres `1` à `9` dans le plan placent les groupes décrits dans la liste 
 (`GameMap.MAX_GROUP_SIZE`), d'une ou de plusieurs espèces, tous dessinés sur la carte (il faut autant de cases `m`
 que le plus grand groupe dans le calque `placement`). Hors donjons, toute carte à groupes ordinaires a un petit
 groupe (1 à 2 monstres), un moyen (3 à 4) et un grand (5 à 6) : `docs/design/groupes/tailles.py`, à relancer
-après tout script qui produit des cartes (vérifié par `test_donnees.gd`). Un groupe est soit une liste fixe
+après tout script qui produit des cartes (vérifié par `test_donnees.gd`). Les retouches de l'auteur faites dans l'éditeur
+de cartes (`docs/outils/`) sont gardées dans `docs/design/retouches/cartes.json` et reposées par `appliquer.py`. Un groupe est soit une liste fixe
 (`monstres`), soit tiré au sort à chaque apparition (`parmi` : les espèces possibles, `nombre` :
 [min, max], 6 au plus) ; on ne peut pas mettre les deux.
 

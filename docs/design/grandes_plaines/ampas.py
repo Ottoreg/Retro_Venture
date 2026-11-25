@@ -150,4 +150,4 @@ for (x, y), groupes in GROUPES.items():
     verifier(carte["id"], carte["plan"])
     ecrire(f"data/cartes/{carte['id']}.json", carte)
 print(f"{len(monstres)} monstres, {len(SORTS)} sorts, {len(ressources)} plumes, groupes sur {len(GROUPES)} cartes")
-runpy.run_path(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "groupes", "tailles.py"))  # petit, moyen et grand groupe (25/11/2026)
+runpy.run_path(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "retouches", "appliquer.py"))  # retouches de l'auteur, puis tailles des groupes (25/11/2026)

@@ -28,6 +28,9 @@ Solo d'abord, multijoueur plus tard. Vision et règles : [docs/GDD.md](docs/GDD.
     réveils à la minute ; s'arrêter proprement (commit + push) vers 85 %, l'auteur fixe la limite à 90 % ;
   - ne pas reprendre automatiquement un travail interrompu sans accord.
 - Éditeur de cartes hors jeu : `docs/outils/editeur_cartes.html` (page autonome, aussi en ligne en artifact privé) ; à remettre à jour après tout changement de cartes avec `python3 docs/outils/regenerer.py . docs/outils/editeur_cartes.html`.
+  Cartes retouchées par l'auteur dans l'éditeur (demande du 25/11/2026) : à reporter dans le jeu **et** dans
+  `docs/design/retouches/cartes.json` (plan et groupes), que `docs/design/retouches/appliquer.py` repose à la fin de chaque
+  script qui produit des cartes (puis `groupes/tailles.py`) ; tout nouveau script de cartes doit le lancer à la fin.
 - Ne rien laisser seulement dans la session (scratchpad, worktrees) : le conteneur est éphémère,
   tout ce qui compte est commité et poussé.
 

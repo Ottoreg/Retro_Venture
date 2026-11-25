@@ -175,3 +175,5 @@ if __name__ == "__main__":
     import importlib
     nom = sys.argv[1] if len(sys.argv) > 1 else ""
     produire(importlib.import_module(f"sz_{nom}").SOUS_ZONE)
+    import runpy  # retouches de l'auteur, puis tailles des groupes (25/11/2026)
+    runpy.run_path(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "retouches", "appliquer.py"))
