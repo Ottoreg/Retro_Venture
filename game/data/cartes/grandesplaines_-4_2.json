@@ -9,7 +9,7 @@
     "AAAAAAAA.:.AAAAAAAA",
     " A................A",
     "A........:........A",
-    " A................A",
+    " A3...............A",
     "A........:........A",
     " A.....R..........A",
     "A....RR..:........A",
@@ -42,14 +42,29 @@
   ],
   "groupes": [
     {
-      "monstres": [
+      "parmi": [
         "ampa_roux",
         "ampa_roux"
+      ],
+      "nombre": [
+        3,
+        4
       ]
     },
     {
       "monstres": [
         "ampa_cramoisi"
+      ]
+    },
+    {
+      "parmi": [
+        "ampa_roux",
+        "ampa_roux",
+        "ampa_cramoisi"
+      ],
+      "nombre": [
+        5,
+        6
       ]
     }
   ],

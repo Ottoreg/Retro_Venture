@@ -48,9 +48,13 @@
       ]
     },
     {
-      "monstres": [
+      "parmi": [
         "esprit_des_bourrasques",
         "belier_des_cimes"
+      ],
+      "nombre": [
+        3,
+        4
       ]
     },
     {
@@ -59,8 +63,8 @@
         "belier_des_cimes"
       ],
       "nombre": [
-        2,
-        3
+        5,
+        6
       ]
     }
   ],

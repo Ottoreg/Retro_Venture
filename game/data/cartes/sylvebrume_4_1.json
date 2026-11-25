@@ -49,9 +49,13 @@
       ]
     },
     {
-      "monstres": [
+      "parmi": [
         "mycelium_errant",
         "vesse_de_loup_bavarde"
+      ],
+      "nombre": [
+        3,
+        4
       ]
     },
     {
@@ -60,8 +64,8 @@
         "vesse_de_loup_bavarde"
       ],
       "nombre": [
-        2,
-        3
+        5,
+        6
       ]
     }
   ],

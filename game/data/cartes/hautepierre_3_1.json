@@ -50,9 +50,13 @@
       ]
     },
     {
-      "monstres": [
+      "parmi": [
         "gargouille",
         "gargouille"
+      ],
+      "nombre": [
+        3,
+        4
       ]
     },
     {
@@ -61,8 +65,8 @@
         "corbac_espion"
       ],
       "nombre": [
-        2,
-        3
+        5,
+        6
       ]
     }
   ],

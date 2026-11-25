@@ -51,9 +51,13 @@
       ]
     },
     {
-      "monstres": [
+      "parmi": [
         "agneau_geant",
         "agneau_geant"
+      ],
+      "nombre": [
+        5,
+        6
       ]
     },
     {
@@ -61,8 +65,8 @@
         "agneau_geant"
       ],
       "nombre": [
-        1,
-        2
+        3,
+        4
       ]
     }
   ],

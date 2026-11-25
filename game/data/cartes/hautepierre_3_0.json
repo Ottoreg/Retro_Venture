@@ -47,14 +47,18 @@
         "arbre_calcine"
       ],
       "nombre": [
-        1,
-        2
+        5,
+        6
       ]
     },
     {
-      "monstres": [
+      "parmi": [
         "arbre_calcine",
         "corbac_espion"
+      ],
+      "nombre": [
+        3,
+        4
       ]
     },
     {

@@ -48,9 +48,13 @@
       ]
     },
     {
-      "monstres": [
+      "parmi": [
         "gobelin_briseur",
         "gobelin_briseur"
+      ],
+      "nombre": [
+        3,
+        4
       ]
     },
     {
@@ -59,8 +63,8 @@
         "gobelin_pillard"
       ],
       "nombre": [
-        2,
-        3
+        5,
+        6
       ]
     },
     {

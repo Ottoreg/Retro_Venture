@@ -52,9 +52,13 @@
       ]
     },
     {
-      "monstres": [
+      "parmi": [
         "etincelle_folle",
         "etincelle_folle"
+      ],
+      "nombre": [
+        5,
+        6
       ]
     },
     {
@@ -62,8 +66,8 @@
         "etincelle_folle"
       ],
       "nombre": [
-        1,
-        2
+        3,
+        4
       ]
     }
   ],

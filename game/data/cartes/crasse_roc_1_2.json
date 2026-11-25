@@ -49,9 +49,13 @@
       ]
     },
     {
-      "monstres": [
+      "parmi": [
         "contremaitre_zele",
         "contremaitre_zele"
+      ],
+      "nombre": [
+        3,
+        4
       ]
     },
     {
@@ -60,8 +64,8 @@
         "milicien_de_hautepierre"
       ],
       "nombre": [
-        2,
-        3
+        5,
+        6
       ]
     },
     {

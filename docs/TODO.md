@@ -289,6 +289,8 @@ Lots 0 (conception dans le GDD), 1 (personnage, poussé sur `main` à la demande
 - [x] **(MVP)** Coups critiques (5 % par défaut par sort, bonus « % Critique » d'équipement, × 1,5)
 - [x] **(MVP)** Groupes de 1 à 3 monstres (limite de l'alpha), d'espèces mélangées, tous visibles sur
   la carte ; composition fixe ou tirée au sort à chaque apparition
+- [x] Petit (1 à 2), moyen (3 à 4) et grand groupe (5 à 6) sur chaque carte à monstres hors donjons
+  (25/11/2026, `docs/design/groupes/tailles.py`, 6 au plus) ; équilibrage des grands groupes après les tests
 - [ ] Groupes plus grands (jusqu'à 8) une fois l'équilibrage fait
 - [x] **(MVP)** IA : sorts notés sur chaque cible (dégâts, soins, bonus/malus, glyphes, pièges) ;
   comportements `distance` (frondeurs) et `soutien`

@@ -16,7 +16,7 @@
     "AAA............AAAA",
     " AAA...........ÊAAA",
     "AAA............AAAA",
-    " A.............EAAA",
+    " A3............EAAA",
     "AA.......F.R..EAAAA",
     " AA...........EEAAA",
     "AA....#...2..EEEAAA",
@@ -65,8 +65,18 @@
         "morille_grincheuse"
       ],
       "nombre": [
-        2,
-        3
+        3,
+        4
+      ]
+    },
+    {
+      "parmi": [
+        "morille_grincheuse",
+        "morille_grincheuse"
+      ],
+      "nombre": [
+        5,
+        6
       ]
     }
   ],

@@ -43,9 +43,13 @@
   ],
   "groupes": [
     {
-      "monstres": [
+      "parmi": [
         "rat_des_galeries",
         "rat_des_galeries"
+      ],
+      "nombre": [
+        3,
+        4
       ]
     },
     {
@@ -53,8 +57,8 @@
         "rat_des_galeries"
       ],
       "nombre": [
-        3,
-        3
+        5,
+        6
       ]
     },
     {

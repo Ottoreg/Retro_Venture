@@ -10,7 +10,7 @@
     "AAAAAAAA.:.AAAAAAAA",
     " A................A",
     "A........:........A",
-    " A................A",
+    " A3...............A",
     "A.R......:........A",
     " A................A",
     "A....A...:........A",
@@ -48,9 +48,24 @@
       ]
     },
     {
-      "monstres": [
+      "parmi": [
         "ampa_stratos",
         "ampa_brun"
+      ],
+      "nombre": [
+        3,
+        4
+      ]
+    },
+    {
+      "parmi": [
+        "ampa_brun",
+        "ampa_stratos",
+        "ampa_brun"
+      ],
+      "nombre": [
+        5,
+        6
       ]
     }
   ],

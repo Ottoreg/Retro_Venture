@@ -54,10 +54,14 @@
   ],
   "groupes": [
     {
-      "monstres": [
+      "parmi": [
         "rat_des_galeries",
         "rat_des_galeries",
         "rat_des_galeries"
+      ],
+      "nombre": [
+        5,
+        6
       ]
     },
     {
@@ -72,8 +76,8 @@
         "rat_des_galeries"
       ],
       "nombre": [
-        2,
-        3
+        3,
+        4
       ]
     },
     {

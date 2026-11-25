@@ -43,9 +43,13 @@
   ],
   "groupes": [
     {
-      "monstres": [
+      "parmi": [
         "corbac_espion",
         "corbac_espion"
+      ],
+      "nombre": [
+        3,
+        4
       ]
     },
     {
@@ -58,8 +62,8 @@
         "corbac_espion"
       ],
       "nombre": [
-        2,
-        3
+        5,
+        6
       ]
     },
     {

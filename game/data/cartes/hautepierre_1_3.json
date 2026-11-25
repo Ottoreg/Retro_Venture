@@ -48,15 +48,23 @@
       ]
     },
     {
-      "monstres": [
+      "parmi": [
         "troll_des_ponts",
         "troll_des_ponts"
+      ],
+      "nombre": [
+        5,
+        6
       ]
     },
     {
-      "monstres": [
+      "parmi": [
         "troll_des_ponts",
         "detrousseur"
+      ],
+      "nombre": [
+        3,
+        4
       ]
     }
   ],

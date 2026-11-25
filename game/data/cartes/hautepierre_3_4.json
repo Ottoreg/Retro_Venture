@@ -49,9 +49,13 @@
       ]
     },
     {
-      "monstres": [
+      "parmi": [
         "olifant_de_guerre",
         "cendrillon"
+      ],
+      "nombre": [
+        3,
+        4
       ]
     },
     {
@@ -66,8 +70,8 @@
         "cendrillon"
       ],
       "nombre": [
-        2,
-        3
+        5,
+        6
       ]
     }
   ],

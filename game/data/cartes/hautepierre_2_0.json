@@ -47,9 +47,13 @@
   ],
   "groupes": [
     {
-      "monstres": [
+      "parmi": [
         "detrousseur",
         "detrousseur"
+      ],
+      "nombre": [
+        3,
+        4
       ]
     },
     {
@@ -62,8 +66,8 @@
         "detrousseur"
       ],
       "nombre": [
-        1,
-        3
+        5,
+        6
       ]
     }
   ],

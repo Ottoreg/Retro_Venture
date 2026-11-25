@@ -43,9 +43,13 @@
   ],
   "groupes": [
     {
-      "monstres": [
+      "parmi": [
         "milicien_de_hautepierre",
         "milicien_de_hautepierre"
+      ],
+      "nombre": [
+        3,
+        4
       ]
     },
     {
@@ -58,8 +62,8 @@
         "milicien_de_hautepierre"
       ],
       "nombre": [
-        2,
-        3
+        5,
+        6
       ]
     }
   ],

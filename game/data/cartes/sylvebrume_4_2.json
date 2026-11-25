@@ -10,7 +10,7 @@
     "AAAAAAAA.:.AAAAAAAA",
     " A................A",
     "A........:........A",
-    " A................A",
+    " A3...............A",
     "A........:........A",
     " A................A",
     "A........:........A",
@@ -36,7 +36,7 @@
     "A............A....A",
     " A................A",
     "A...A.............A",
-    " A................A",
+    " A..............4.A",
     "A.................A",
     " A................A",
     "AAAAAAAAAAAAAAAAAAA"
@@ -55,6 +55,26 @@
       "monstres": [
         "mycelium_errant",
         "mycelium_errant"
+      ]
+    },
+    {
+      "parmi": [
+        "mycelium_errant",
+        "mycelium_errant"
+      ],
+      "nombre": [
+        5,
+        6
+      ]
+    },
+    {
+      "parmi": [
+        "mycelium_errant",
+        "mycelium_errant"
+      ],
+      "nombre": [
+        3,
+        4
       ]
     }
   ],

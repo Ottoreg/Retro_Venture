@@ -45,9 +45,13 @@
   ],
   "groupes": [
     {
-      "monstres": [
+      "parmi": [
         "bucheron_de_brumerive",
         "bucheron_de_brumerive"
+      ],
+      "nombre": [
+        3,
+        4
       ]
     },
     {
@@ -60,8 +64,8 @@
         "bucheron_de_brumerive"
       ],
       "nombre": [
-        2,
-        3
+        5,
+        6
       ]
     }
   ],

@@ -10,7 +10,7 @@
     "RRRRRRRRRRRRRRRRRRR",
     " R................R",
     "R.................R",
-    " R................R",
+    " R3...............R",
     "R.................R",
     " R.......M........R",
     "R.................R",
@@ -36,7 +36,7 @@
     "R.....R..:........R",
     " R..........M.....R",
     "R........:........R",
-    " R................R",
+    " R..............4.R",
     "R........:........R",
     " R................R",
     "RRRRRRRR.:.RRRRRRRR"
@@ -55,6 +55,26 @@
       "monstres": [
         "gardien_de_source",
         "gardien_de_source"
+      ]
+    },
+    {
+      "parmi": [
+        "gardien_de_source",
+        "gardien_de_source"
+      ],
+      "nombre": [
+        5,
+        6
+      ]
+    },
+    {
+      "parmi": [
+        "gardien_de_source",
+        "gardien_de_source"
+      ],
+      "nombre": [
+        3,
+        4
       ]
     }
   ],

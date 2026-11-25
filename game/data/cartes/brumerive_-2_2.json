@@ -9,7 +9,7 @@
     "AAAAAAAA.:.AAAAAAAA",
     " A................A",
     "A........:........A",
-    " A................A",
+    " A3...............A",
     "A.......R:........A",
     " A.M..............A",
     "A...M....:........A",
@@ -35,7 +35,7 @@
     "A.................A",
     " A................A",
     "A..........M.M....A",
-    " A................A",
+    " A..............4.A",
     "A.................A",
     " A................A",
     "AAAAAAAAAAAAAAAAAAA"
@@ -54,6 +54,26 @@
       "monstres": [
         "esprit_des_bourrasques",
         "esprit_des_bourrasques"
+      ]
+    },
+    {
+      "parmi": [
+        "esprit_des_bourrasques",
+        "esprit_des_bourrasques"
+      ],
+      "nombre": [
+        5,
+        6
+      ]
+    },
+    {
+      "parmi": [
+        "esprit_des_bourrasques",
+        "esprit_des_bourrasques"
+      ],
+      "nombre": [
+        3,
+        4
       ]
     }
   ],

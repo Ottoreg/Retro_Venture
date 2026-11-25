@@ -50,14 +50,18 @@
         "arbre_vivant"
       ],
       "nombre": [
-        2,
-        3
+        5,
+        6
       ]
     },
     {
-      "monstres": [
+      "parmi": [
         "arbre_vivant",
         "cerf_enchante"
+      ],
+      "nombre": [
+        3,
+        4
       ]
     },
     {

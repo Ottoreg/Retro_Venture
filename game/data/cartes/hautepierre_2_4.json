@@ -48,14 +48,18 @@
         "grouilleur_de_braise"
       ],
       "nombre": [
-        1,
-        3
+        5,
+        6
       ]
     },
     {
-      "monstres": [
+      "parmi": [
         "troll_des_ponts",
         "grouilleur_de_braise"
+      ],
+      "nombre": [
+        3,
+        4
       ]
     },
     {

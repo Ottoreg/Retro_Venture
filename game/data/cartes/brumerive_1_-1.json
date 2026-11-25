@@ -51,9 +51,13 @@
       ]
     },
     {
-      "monstres": [
+      "parmi": [
         "taupe_pioche",
         "taupe_pioche"
+      ],
+      "nombre": [
+        5,
+        6
       ]
     },
     {
@@ -61,8 +65,8 @@
         "taupe_pioche"
       ],
       "nombre": [
-        1,
-        2
+        3,
+        4
       ]
     }
   ],

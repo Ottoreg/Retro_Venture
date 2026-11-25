@@ -217,7 +217,7 @@ contre `Progression.player_tier` (palier de réputation, Inconnu = 1) ; protocol
 **Tour céleste réduite (04/11/2026, sur `dev`, reportée sur `main` le 06/11/2026 à la demande de l'auteur, GDD § 12.8 « Version réduite »)** : parvis `celeste_0_0`
 (Pierre de Passage `tour_celeste`, Cupidon qui lâche la `cle_celeste`, portier Saint Pierrot : champ
 `entree` des PNJ), étages `tour_celeste_1` à `_5` (champ `etage_suivant` : les vainqueurs montent),
-monstres `donjon` sans élite, groupes de 4 (`GameMap.MAX_GROUP_SIZE`), vol de vie (`"vol"` sur un
+monstres `donjon` sans élite, groupes de 4 (`GameMap.MAX_GROUP_SIZE`, 6 depuis le 25/11/2026), vol de vie (`"vol"` sur un
 effet de dégâts), état `exorcisme`, IA `corps_a_corps` et `chasseur`, sorts remplacés quand un monstre reste seul (champ `seul`), bond des monstres à sort de
 téléportation ; groupes revenus 5 à 10 s après le début du combat (`reapparition_au_combat`), clé `par_joueur`,
 Gardien des marches (`entree` sans clé) à chaque étage, réveil au parvis (champ `reveil` des cartes), Chœur de Raphaël (PNJ `don` : Calice toujours ruisselant) ; easter egg `secret` de Saint Pierrot (4 légendaires contre 1 million de brumes, à retirer avant la sortie) ;
@@ -356,6 +356,9 @@ Dernière session (retours de la passe de l'auteur) :
 - **Grandes Plaines** (24/11/2026, demande de l'auteur) : 15 cartes de steppe de plus au sud-ouest de Hautepierre
   (`grandesplaines_-4_0` à `0_3`, 17 en tout, toutes reliées entre voisines), relief, eau et récolte (agriculteur, herboriste,
   un peu de bois et de minerai) ; Courses d'Ampas (`grandesplaines_-1_0`) : 4 bandes de course et 2 enclos entre barrières (caractère `|`, obstacle `barriere`, `art/decor/barriere.svgt`) ; `docs/design/grandes_plaines/plaines.py`. **Ampas** (lot 1 de `docs/design/elevage/etapes.md`, 24/11/2026) : 8 ampas `ampa_<couleur>` et élites `grand_ampa_<couleur>`, sorts `ampa_*`, plumes `plume_d_ampa_<couleur>`, pixel art `assets/ampa/` → planche `art/sprites/ampa.png` recoloriée par robe en `ampa_<couleur>.png` par `ampas.py` (ancien dessin `art/monstre/ampa.svgt` gardé en secours ; fragment `art/manifestes/ampas.json`), groupes sur les 15 cartes (`docs/design/grandes_plaines/ampas.py`, relancé par `plaines.py`) ; valeurs provisoires. **Lot 2** (24/11/2026) : métier `eleveur` (artisanat, compétences propres `Profession.SKILLS["eleveur"]` via `Profession.skill_set`), Maître Plumard (marchand) aux Courses d'Ampas, objet `licol` ; lots 3 à 7 (apprivoisement, enclos, monture) à faire.
+- **Tailles des groupes** (25/11/2026, demande de l'auteur, GDD § 6) : hors donjons, chaque carte à monstres a un petit
+  (1 à 2), un moyen (3 à 4) et un grand groupe (5 à 6), `GameMap.MAX_GROUP_SIZE` 6 ; `docs/design/groupes/tailles.py`
+  (à relancer après tout script qui produit des cartes ; `test_petit_moyen_et_grand_groupe_par_carte`).
 - Le pseudo choisi est déjà utilisé partout ; « Aventurier » (`World.DEFAULT_NAME`) n'apparaît
   que dans les tests et les captures, sans écran de création.
 

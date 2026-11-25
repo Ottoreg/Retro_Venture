@@ -95,11 +95,13 @@ de lignes, mêmes longueurs, espace en tête des lignes décalées) :
 ### Groupes de monstres
 
 Les chiffres `1` à `9` dans le plan placent les groupes décrits dans la liste `groupes` (le chiffre
-`1` correspond au premier groupe). Chaque groupe apparaît une seule fois et compte 1 à 3 monstres,
-d'une ou de plusieurs espèces, tous dessinés sur la carte (4 au plus pour une liste fixe, comme les
-salles de la Tour céleste ; il faut alors autant de cases `m` dans le calque `placement`). Un groupe est soit une liste fixe
+`1` correspond au premier groupe). Chaque groupe apparaît une seule fois et compte 1 à 6 monstres
+(`GameMap.MAX_GROUP_SIZE`), d'une ou de plusieurs espèces, tous dessinés sur la carte (il faut autant de cases `m`
+que le plus grand groupe dans le calque `placement`). Hors donjons, toute carte à groupes ordinaires a un petit
+groupe (1 à 2 monstres), un moyen (3 à 4) et un grand (5 à 6) : `docs/design/groupes/tailles.py`, à relancer
+après tout script qui produit des cartes (vérifié par `test_donnees.gd`). Un groupe est soit une liste fixe
 (`monstres`), soit tiré au sort à chaque apparition (`parmi` : les espèces possibles, `nombre` :
-[min, max], 3 au plus) ; on ne peut pas mettre les deux.
+[min, max], 6 au plus) ; on ne peut pas mettre les deux.
 
 ```json
 "groupes": [

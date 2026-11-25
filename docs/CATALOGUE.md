@@ -515,7 +515,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Résistances** : Acier +15 %, Flamme -10 %
 - **Sorts** : Coup de tête, Bêlement
 - **Butin** : Laine d'agneau géant 60 % (×1–2), Sabot d'agneau 15 % ; **brumes** 1–4
-- **Où le trouver** : Seuil des Géants (`brumerive_-1_0`, 3 groupes, dont 1 au hasard) · Bergerie trop basse (`brumerive_-1_1`, 2 groupes, dont 1 au hasard) · Corniche aux Moutons (`brumerive_-2_0`, 3 groupes, dont 1 au hasard)
+- **Où le trouver** : Seuil des Géants (`brumerive_-1_0`, 3 groupes, dont 2 au hasard) · Bergerie trop basse (`brumerive_-1_1`, 2 groupes, dont 1 au hasard) · Corniche aux Moutons (`brumerive_-2_0`, 3 groupes, dont 1 au hasard)
 
 | PV | Init. | XP | Force |
 |---|---|---|---|
@@ -543,7 +543,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Résistances** : Tempête +15 %, Acier +5 %, Givre -15 %
 - **Sorts** : Coup de pioche, Lancer de lampe, Facture
 - **Butin** : Mèche de lampe 55 % (×1–2), Carnet de factures 15 % ; **brumes** 3–8
-- **Où le trouver** : Galerie des Péages (`brumerive_1_-2`, 3 groupes, dont 1 au hasard) · Front de taille (`brumerive_1_-3`, 1 groupe) · Terril aux Taupes (`brumerive_2_-1`, 3 groupes, dont 1 au hasard) · Monte-charges (`brumerive_2_-2`, 2 groupes, dont 1 au hasard)
+- **Où le trouver** : Galerie des Péages (`brumerive_1_-2`, 3 groupes, dont 2 au hasard) · Front de taille (`brumerive_1_-3`, 1 groupe) · Terril aux Taupes (`brumerive_2_-1`, 3 groupes, dont 1 au hasard) · Monte-charges (`brumerive_2_-2`, 2 groupes, dont 2 au hasard)
 
 | PV | Init. | XP | Force | Agi. |
 |---|---|---|---|---|
@@ -571,7 +571,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Résistances** : Tempête +20 %, Givre -15 %
 - **Sorts** : Charge laineuse, Coup de corne, Toison électrique
 - **Butin** : Toison crépitante 55 % (×1–2), Corne spiralée 15 % ; **brumes** 3–8
-- **Où le trouver** : Bergerie trop basse (`brumerive_-1_1`, 3 groupes, dont 1 au hasard) · Col des Bourrasques (`brumerive_-1_2`, 1 groupe) · Corniche aux Moutons (`brumerive_-2_0`, 3 groupes, dont 1 au hasard) · Falaise du Vent (`brumerive_-2_1`, 2 groupes, dont 1 au hasard)
+- **Où le trouver** : Bergerie trop basse (`brumerive_-1_1`, 3 groupes, dont 2 au hasard) · Col des Bourrasques (`brumerive_-1_2`, 1 groupe) · Corniche aux Moutons (`brumerive_-2_0`, 3 groupes, dont 1 au hasard) · Falaise du Vent (`brumerive_-2_1`, 2 groupes, dont 2 au hasard)
 
 | PV | Init. | XP | Agi. |
 |---|---|---|---|
@@ -599,7 +599,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Résistances** : Acier -5 %, Tempête +5 %
 - **Sorts** : Coup de fronde
 - **Butin** : Caillou de fronde 60 % (×1–3), Fiche de paie gobeline 15 %, Anneau du Courant d'Air 2 %, Ceinture du Courant d'Air 2 %, Bottes du Courant d'Air 2 % ; **brumes** 5–12
-- **Où le trouver** : Champs de l'est (`brumerive_1_0`, 3 groupes, dont 1 au hasard) · Moulin de Tournevent (`brumerive_1_1`, 4 groupes, dont 1 au hasard) · Verger des Pommeaux (`brumerive_2_0`, 2 groupes, dont 1 au hasard) · Camp du raid (`brumerive_2_2`, 1 groupe) · Palissade de Krasbouk (`brumerive_3_2`, 1 groupe, dont 1 réapparition 45–60 s)
+- **Où le trouver** : Champs de l'est (`brumerive_1_0`, 3 groupes, dont 2 au hasard) · Moulin de Tournevent (`brumerive_1_1`, 4 groupes, dont 2 au hasard) · Verger des Pommeaux (`brumerive_2_0`, 2 groupes, dont 1 au hasard) · Camp du raid (`brumerive_2_2`, 1 groupe) · Palissade de Krasbouk (`brumerive_3_2`, 1 groupe, dont 1 réapparition 45–60 s)
 
 | PV | Init. | XP |
 |---|---|---|
@@ -627,7 +627,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Résistances** : Flamme -10 %, Givre +10 %
 - **Sorts** : Morsure
 - **Butin** : Croc de loup 50 % (×1–2), Peau de loup 30 %, Anneau du Mauvais Œil 2 %, Ceinture du Mauvais Œil 2 %, Bottes du Mauvais Œil 2 % ; **brumes** 2–6
-- **Où le trouver** : Place du village (`brumerive_0_0`, 3 groupes, dont 1 au hasard) · Rives de la Brume (`brumerive_0_1`, 3 groupes, dont 1 au hasard) · Champs de l'est (`brumerive_1_0`, 2 groupes, dont 1 au hasard) · Moulin de Tournevent (`brumerive_1_1`, 1 groupe) · Palissade de Krasbouk (`brumerive_3_2`, 1 groupe, dont 1 après Krasbouk, Chef de Raid (syndiqué)) · Grenier (`grange_grenier`, 1 groupe)
+- **Où le trouver** : Place du village (`brumerive_0_0`, 3 groupes, dont 2 au hasard) · Rives de la Brume (`brumerive_0_1`, 3 groupes, dont 2 au hasard) · Champs de l'est (`brumerive_1_0`, 2 groupes, dont 1 au hasard) · Moulin de Tournevent (`brumerive_1_1`, 1 groupe) · Palissade de Krasbouk (`brumerive_3_2`, 1 groupe, dont 1 après Krasbouk, Chef de Raid (syndiqué)) · Grenier (`grange_grenier`, 1 groupe)
 
 | PV | Init. | XP | Force | Agi. |
 |---|---|---|---|---|
@@ -655,7 +655,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Résistances** : Acier +15 %, Tempête -10 %
 - **Sorts** : Griffe-pioche, Galerie
 - **Butin** : Griffe de taupe 60 % (×1–2), Velours de taupe 15 % ; **brumes** 1–4
-- **Où le trouver** : Carreau de la mine (`brumerive_1_-1`, 3 groupes, dont 1 au hasard) · Galerie des Péages (`brumerive_1_-2`, 2 groupes, dont 1 au hasard) · Terril aux Taupes (`brumerive_2_-1`, 3 groupes, dont 1 au hasard)
+- **Où le trouver** : Carreau de la mine (`brumerive_1_-1`, 3 groupes, dont 2 au hasard) · Galerie des Péages (`brumerive_1_-2`, 2 groupes, dont 1 au hasard) · Terril aux Taupes (`brumerive_2_-1`, 3 groupes, dont 1 au hasard)
 
 | PV | Init. | XP | Force |
 |---|---|---|---|
@@ -683,7 +683,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Résistances** : Tempête +25 %, Acier +10 %, Flamme -15 %
 - **Sorts** : Rafale, Tourbillon
 - **Butin** : Souffle en bouteille 50 % (×1–2), Plume de bourrasque 12 % ; **brumes** 9–20
-- **Où le trouver** : Bergerie trop basse (`brumerive_-1_1`, 1 groupe) · Col des Bourrasques (`brumerive_-1_2`, 3 groupes, dont 1 au hasard) · Falaise du Vent (`brumerive_-2_1`, 3 groupes, dont 1 au hasard) · Aire du Doyen (`brumerive_-2_2`, 1 groupe)
+- **Où le trouver** : Bergerie trop basse (`brumerive_-1_1`, 1 groupe) · Col des Bourrasques (`brumerive_-1_2`, 3 groupes, dont 1 au hasard) · Falaise du Vent (`brumerive_-2_1`, 3 groupes, dont 2 au hasard) · Aire du Doyen (`brumerive_-2_2`, 3 groupes, dont 2 au hasard)
 
 | PV | Init. | XP | Intel. | Agi. |
 |---|---|---|---|---|
@@ -711,7 +711,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Résistances** : Acier +15 %, Flamme +5 %, Tempête -10 %
 - **Sorts** : Coup de hache, Épaulée, Gnôle de raid
 - **Butin** : Gnôle de raid 55 % (×1–2), Médaille en chocolat 12 %, Plan de casse 8 %, Coiffe de l'Enclume Rancunière 3 %, Cape de l'Enclume Rancunière 3 %, Amulette de l'Enclume Rancunière 3 %, Marteau de l'Enclume Rancunière 2 % ; **brumes** 11–25
-- **Où le trouver** : Camp du raid (`brumerive_2_2`, 4 groupes, dont 1 au hasard) · Gué de Brume-Haute (`brumerive_3_1`, 3 groupes, dont 1 au hasard) · Palissade de Krasbouk (`brumerive_3_2`, 1 groupe)
+- **Où le trouver** : Camp du raid (`brumerive_2_2`, 4 groupes, dont 2 au hasard) · Gué de Brume-Haute (`brumerive_3_1`, 3 groupes, dont 2 au hasard) · Palissade de Krasbouk (`brumerive_3_2`, 3 groupes, dont 2 au hasard)
 
 | PV | Init. | XP | Force |
 |---|---|---|---|
@@ -739,7 +739,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Résistances** : Acier +10 %, Tempête +5 %, Flamme -10 %
 - **Sorts** : Estocade de pillard, Vol à l'arraché
 - **Butin** : Sac de rapine 55 % (×1–2), Ordre de raid 12 %, Coiffe de l'Enfant de Chœur 3 %, Cape de l'Enfant de Chœur 3 %, Amulette de l'Enfant de Chœur 3 %, Anneau du Bedeau Zélé 3 %, Ceinture du Bedeau Zélé 3 %, Bottes du Bedeau Zélé 3 % ; **brumes** 7–16
-- **Où le trouver** : Les Grands Blés (`brumerive_1_2`, 1 groupe) · Verger des Pommeaux (`brumerive_2_0`, 4 groupes, dont 1 au hasard) · Lande aux épouvantails (`brumerive_2_1`, 1 groupe) · Camp du raid (`brumerive_2_2`, 1 groupe, dont 1 au hasard)
+- **Où le trouver** : Les Grands Blés (`brumerive_1_2`, 1 groupe, dont 1 au hasard) · Verger des Pommeaux (`brumerive_2_0`, 4 groupes, dont 2 au hasard) · Lande aux épouvantails (`brumerive_2_1`, 1 groupe) · Camp du raid (`brumerive_2_2`, 1 groupe, dont 1 au hasard)
 
 | PV | Init. | XP | Force | Intel. | Agi. |
 |---|---|---|---|---|---|
@@ -767,7 +767,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Résistances** : Acier +30 %, Flamme +10 %, Givre -15 %
 - **Sorts** : Poing de roche, Éboulis
 - **Butin** : Pépite animée 50 % (×1–2), Contrat de golem 12 % ; **brumes** 9–20
-- **Où le trouver** : Galerie des Péages (`brumerive_1_-2`, 1 groupe) · Front de taille (`brumerive_1_-3`, 3 groupes, dont 1 au hasard) · Monte-charges (`brumerive_2_-2`, 3 groupes, dont 1 au hasard) · Salle des Comptes (`brumerive_2_-3`, 1 groupe)
+- **Où le trouver** : Galerie des Péages (`brumerive_1_-2`, 1 groupe) · Front de taille (`brumerive_1_-3`, 3 groupes, dont 1 au hasard) · Monte-charges (`brumerive_2_-2`, 3 groupes, dont 2 au hasard) · Salle des Comptes (`brumerive_2_-3`, 3 groupes, dont 2 au hasard)
 
 | PV | Init. | XP | Force | Percep. |
 |---|---|---|---|---|
@@ -843,7 +843,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Résistances** : Acier +10 %, Tempête +15 %, Givre +5 %, Flamme -30 %
 - **Sorts** : Coup de fourche, Nuée de corbeaux
 - **Butin** : Paille ensorcelée 60 % (×1–3), Citrouille grimaçante 12 %, Coiffe du Pyromane Repenti 3 %, Cape du Pyromane Repenti 3 %, Amulette du Pyromane Repenti 3 %, Anneau du Chat Noir 3 %, Ceinture du Chat Noir 3 %, Bottes du Chat Noir 3 % ; **brumes** 7–16
-- **Où le trouver** : Les Grands Blés (`brumerive_1_2`, 3 groupes) · Lande aux épouvantails (`brumerive_2_1`, 4 groupes, dont 1 au hasard) · Bureau du Père Fauchard (`grange_bureau`, 1 groupe) · Étable (`grange_etable`, 1 groupe) · Grenier (`grange_grenier`, 1 groupe)
+- **Où le trouver** : Les Grands Blés (`brumerive_1_2`, 3 groupes, dont 2 au hasard) · Lande aux épouvantails (`brumerive_2_1`, 4 groupes, dont 2 au hasard) · Bureau du Père Fauchard (`grange_bureau`, 1 groupe) · Étable (`grange_etable`, 1 groupe) · Grenier (`grange_grenier`, 1 groupe)
 
 | PV | Init. | XP | Force | Agi. |
 |---|---|---|---|---|
@@ -887,7 +887,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Résistances** : Flamme +15 %, Acier +5 %, Givre -15 %
 - **Sorts** : Coup de tête, Caillou d'échauffement, Cri d'encouragement
 - **Butin** : Bandeau de braillard 55 % (×1–2), Cloche de poche 15 % ; **brumes** 3–8
-- **Où le trouver** : Arène des Gueulards (`crasse_roc_3_1`, 3 groupes, dont 1 au hasard) · Camp des Grognards (`crasse_roc_3_2`, 1 groupe) · Fours à ferraille (`crasse_roc_4_0`, 3 groupes, dont 1 au hasard) · Coulée de scories (`crasse_roc_4_1`, 2 groupes, dont 1 au hasard)
+- **Où le trouver** : Arène des Gueulards (`crasse_roc_3_1`, 3 groupes, dont 2 au hasard) · Camp des Grognards (`crasse_roc_3_2`, 1 groupe) · Fours à ferraille (`crasse_roc_4_0`, 3 groupes, dont 1 au hasard) · Coulée de scories (`crasse_roc_4_1`, 2 groupes, dont 2 au hasard)
 
 | PV | Init. | XP | Force | Intel. |
 |---|---|---|---|---|
@@ -915,7 +915,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Résistances** : Flamme +15 %, Givre -10 %
 - **Sorts** : Ruade, Groin brûlant
 - **Butin** : Soie de goret 60 % (×1–2), Défense de goret 15 % ; **brumes** 1–4
-- **Où le trouver** : Porte des Hurleurs (`crasse_roc_3_0`, 3 groupes, dont 1 au hasard) · Arène des Gueulards (`crasse_roc_3_1`, 1 groupe) · Fours à ferraille (`crasse_roc_4_0`, 3 groupes, dont 1 au hasard)
+- **Où le trouver** : Porte des Hurleurs (`crasse_roc_3_0`, 3 groupes, dont 2 au hasard) · Arène des Gueulards (`crasse_roc_3_1`, 1 groupe) · Fours à ferraille (`crasse_roc_4_0`, 3 groupes, dont 1 au hasard)
 
 | PV | Init. | XP | Intel. |
 |---|---|---|---|
@@ -943,7 +943,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Résistances** : Givre +10 %, Flamme +10 %, Acier -5 %
 - **Sorts** : Pinces, Crachat acide
 - **Butin** : Carapace de grouilleur 50 % (×1–2), Glande acide 15 %, Anneau du Pressé 2 %, Bottes du Pressé 2 %, Ceinture du Pressé 2 % ; **brumes** 3–8
-- **Où le trouver** : Entrée des galeries (`crasse_roc_0_0`, 1 groupe, dont 1 au hasard) · La Rataillerie (`crasse_roc_0_1`, 2 groupes) · Le Crassier (`crasse_roc_1_0`, 3 groupes, dont 1 au hasard) · Galerie effondrée (`crasse_roc_1_1`, 1 groupe, dont 1 au hasard) · L'Abîme du Balourd (`crasse_roc_1_3`, 1 groupe, dont 1 après Le Balourd des Abîmes)
+- **Où le trouver** : Entrée des galeries (`crasse_roc_0_0`, 2 groupes, dont 2 au hasard) · La Rataillerie (`crasse_roc_0_1`, 2 groupes) · Le Crassier (`crasse_roc_1_0`, 3 groupes, dont 1 au hasard) · Galerie effondrée (`crasse_roc_1_1`, 1 groupe, dont 1 au hasard) · L'Abîme du Balourd (`crasse_roc_1_3`, 1 groupe, dont 1 après Le Balourd des Abîmes)
 
 | PV | Init. | XP | Force | Intel. |
 |---|---|---|---|---|
@@ -971,7 +971,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Résistances** : Impie +10 %, Flamme -10 %
 - **Sorts** : Coup d'os, Ricochet
 - **Butin** : Esquille d'os 60 % (×1–2), Moelle fossile 15 % ; **brumes** 1–4
-- **Où le trouver** : Grille de l'Ossuaire (`crasse_roc_0_-1`, 3 groupes, dont 1 au hasard) · Champ des Croix (`crasse_roc_1_-1`, 3 groupes, dont 1 au hasard)
+- **Où le trouver** : Grille de l'Ossuaire (`crasse_roc_0_-1`, 3 groupes, dont 2 au hasard) · Champ des Croix (`crasse_roc_1_-1`, 3 groupes, dont 1 au hasard)
 
 | PV | Init. | XP | Agi. |
 |---|---|---|---|
@@ -999,7 +999,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Résistances** : Givre +20 %, Impie +10 %, Flamme -15 %
 - **Sorts** : Larmes glacées, Complainte
 - **Butin** : Larme gelée 55 % (×1–2), Voile de deuil 15 % ; **brumes** 3–8
-- **Où le trouver** : Catacombes de l'Appel (`crasse_roc_0_-2`, 3 groupes, dont 1 au hasard) · Charnier des Gradés (`crasse_roc_0_-3`, 1 groupe) · Champ des Croix (`crasse_roc_1_-1`, 3 groupes, dont 1 au hasard) · Caisse de retraite des Trépassés (`crasse_roc_1_-2`, 1 groupe, dont 1 au hasard)
+- **Où le trouver** : Catacombes de l'Appel (`crasse_roc_0_-2`, 3 groupes, dont 2 au hasard) · Charnier des Gradés (`crasse_roc_0_-3`, 1 groupe) · Champ des Croix (`crasse_roc_1_-1`, 3 groupes, dont 1 au hasard) · Caisse de retraite des Trépassés (`crasse_roc_1_-2`, 1 groupe, dont 1 au hasard)
 
 | PV | Init. | XP | Percep. |
 |---|---|---|---|
@@ -1027,7 +1027,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Résistances** : Tempête -10 %
 - **Sorts** : Morsure de rat, Grignotage
 - **Butin** : Queue de rat 60 % (×1–2), Dent de rat 30 %, Coiffe du Fouineur 2 %, Amulette du Fouineur 2 %, Cape du Fouineur 2 % ; **brumes** 1–4
-- **Où le trouver** : Entrée des galeries (`crasse_roc_0_0`, 2 groupes, dont 1 au hasard) · La Rataillerie (`crasse_roc_0_1`, 3 groupes, dont 1 au hasard) · Le Crassier (`crasse_roc_1_0`, 3 groupes, dont 1 au hasard)
+- **Où le trouver** : Entrée des galeries (`crasse_roc_0_0`, 3 groupes, dont 3 au hasard) · La Rataillerie (`crasse_roc_0_1`, 3 groupes, dont 2 au hasard) · Le Crassier (`crasse_roc_1_0`, 3 groupes, dont 2 au hasard)
 
 | PV | Init. | XP |
 |---|---|---|
@@ -1055,7 +1055,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Résistances** : Tempête +20 %, Givre +5 %, Acier -10 %, Flamme -5 %
 - **Sorts** : Suçon, Ultrason
 - **Butin** : Aile de vampipistrelle 55 % (×1–2), Guano luisant 12 %, Anneau du Bonhomme de Neige 3 %, Ceinture du Bonhomme de Neige 3 %, Bottes du Bonhomme de Neige 3 % ; **brumes** 4–9
-- **Où le trouver** : Galerie effondrée (`crasse_roc_1_1`, 3 groupes, dont 1 au hasard) · Forges noires (`crasse_roc_1_2`, 1 groupe) · Puits des Vampipistrelles (`crasse_roc_2_0`, 3 groupes, dont 1 au hasard) · Poste avancé de la Milice (`crasse_roc_2_1`, 1 groupe)
+- **Où le trouver** : Galerie effondrée (`crasse_roc_1_1`, 3 groupes, dont 2 au hasard) · Forges noires (`crasse_roc_1_2`, 1 groupe) · Puits des Vampipistrelles (`crasse_roc_2_0`, 3 groupes, dont 2 au hasard) · Poste avancé de la Milice (`crasse_roc_2_1`, 1 groupe)
 
 | PV | Init. | XP | Percep. | Agi. |
 |---|---|---|---|---|
@@ -1083,7 +1083,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Résistances** : Acier +10 %, Tempête -10 %, Flamme +10 %, Givre -5 %
 - **Sorts** : Coup de bâton, Heures sup', Retenue sur salaire
 - **Butin** : Sifflet de contremaître 50 % (×1–2), Registre des heures 12 %, Anneau du Pyromane Repenti 3 %, Ceinture du Pyromane Repenti 3 %, Bottes du Pyromane Repenti 3 %, Coiffe du Pyromane Récidiviste 3 %, Cape du Pyromane Récidiviste 3 %, Amulette du Pyromane Récidiviste 3 %, Sceptre du Pyromane Récidiviste 2 % ; **brumes** 9–22
-- **Où le trouver** : Route des Charrois (`crasse_roc_0_2`, 3 groupes, dont 1 au hasard) · Forges noires (`crasse_roc_1_2`, 4 groupes, dont 1 au hasard) · L'Abîme du Balourd (`crasse_roc_1_3`, 1 groupe)
+- **Où le trouver** : Route des Charrois (`crasse_roc_0_2`, 3 groupes, dont 2 au hasard) · Forges noires (`crasse_roc_1_2`, 4 groupes, dont 2 au hasard) · L'Abîme du Balourd (`crasse_roc_1_3`, 3 groupes, dont 2 au hasard)
 
 | PV | Init. | XP | Force | Intel. | Agi. |
 |---|---|---|---|---|---|
@@ -1111,7 +1111,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Résistances** : Acier +20 %, Flamme +10 %, Givre -10 %, Tempête -10 %
 - **Sorts** : Masse de ferraille, Boulon chauffé à blanc
 - **Butin** : Boulon tordu 50 % (×1–2), Tôle noircie 12 % ; **brumes** 9–20
-- **Où le trouver** : Arène des Gueulards (`crasse_roc_3_1`, 1 groupe) · Camp des Grognards (`crasse_roc_3_2`, 3 groupes, dont 1 au hasard) · Coulée de scories (`crasse_roc_4_1`, 3 groupes, dont 1 au hasard) · Tribune du Chef (`crasse_roc_4_2`, 1 groupe)
+- **Où le trouver** : Arène des Gueulards (`crasse_roc_3_1`, 1 groupe) · Camp des Grognards (`crasse_roc_3_2`, 3 groupes, dont 1 au hasard) · Coulée de scories (`crasse_roc_4_1`, 3 groupes, dont 2 au hasard) · Tribune du Chef (`crasse_roc_4_2`, 3 groupes, dont 2 au hasard)
 
 | PV | Init. | XP | Force | Intel. |
 |---|---|---|---|---|
@@ -1188,7 +1188,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Résistances** : Acier +20 %, Flamme +5 %, Givre -10 %, Sacré +5 %
 - **Sorts** : Coup d'épée réglementaire, Bouclier levé
 - **Butin** : Maillon de cotte 50 % (×1–3), Écusson de milice 12 %, Cape du Forgeron Hargneux 3 %, Ceinture du Forgeron Hargneux 3 %, Bottes du Forgeron Hargneux 3 % ; **brumes** 7–16
-- **Où le trouver** : Forges noires (`crasse_roc_1_2`, 1 groupe, dont 1 au hasard) · Poste avancé de la Milice (`crasse_roc_2_1`, 4 groupes, dont 1 au hasard) · Carrière aux Échos (`crasse_roc_2_2`, 3 groupes, dont 1 au hasard)
+- **Où le trouver** : Forges noires (`crasse_roc_1_2`, 1 groupe, dont 1 au hasard) · Poste avancé de la Milice (`crasse_roc_2_1`, 4 groupes, dont 2 au hasard) · Carrière aux Échos (`crasse_roc_2_2`, 3 groupes, dont 2 au hasard)
 
 | PV | Init. | XP | Force |
 |---|---|---|---|
@@ -1216,7 +1216,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Résistances** : Acier +15 %, Impie +10 %, Flamme -10 %, Tempête -5 %
 - **Sorts** : Lance rouillée, Javelot de service, Garde-à-vous
 - **Butin** : Plaque rouillée 50 % (×1–2), Médaille de service 12 % ; **brumes** 9–20
-- **Où le trouver** : Catacombes de l'Appel (`crasse_roc_0_-2`, 1 groupe) · Charnier des Gradés (`crasse_roc_0_-3`, 3 groupes, dont 1 au hasard) · Caisse de retraite des Trépassés (`crasse_roc_1_-2`, 3 groupes, dont 1 au hasard) · Crypte du Colonel (`crasse_roc_1_-3`, 1 groupe)
+- **Où le trouver** : Catacombes de l'Appel (`crasse_roc_0_-2`, 1 groupe) · Charnier des Gradés (`crasse_roc_0_-3`, 3 groupes, dont 1 au hasard) · Caisse de retraite des Trépassés (`crasse_roc_1_-2`, 3 groupes, dont 2 au hasard) · Crypte du Colonel (`crasse_roc_1_-3`, 3 groupes, dont 2 au hasard)
 
 | PV | Init. | XP | Force | Agi. |
 |---|---|---|---|---|
@@ -1244,7 +1244,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Résistances** : Flamme +35 %, Impie +10 %, Givre -10 %, Sacré -10 %
 - **Sorts** : Pinces, Crachat de feu
 - **Butin** : Carapace fumante 50 % (×1–2), Braise de grouilleur 50 % (×1–2), Glande incandescente 3 %, Anneau du Pyromane Récidiviste 4 %, Ceinture du Pyromane Récidiviste 4 %, Bottes du Pyromane Récidiviste 4 % ; **brumes** 14–34
-- **Où le trouver** : L'Abîme du Balourd (`crasse_roc_1_3`, 1 groupe, dont 1 après Le Balourd des Abîmes) · Pont des Trolls (`hautepierre_2_3`, 1 groupe, dont 1 au hasard) · Gorges du Troll (`hautepierre_2_4`, 2 groupes, dont 1 au hasard)
+- **Où le trouver** : L'Abîme du Balourd (`crasse_roc_1_3`, 1 groupe, dont 1 après Le Balourd des Abîmes) · Pont des Trolls (`hautepierre_2_3`, 1 groupe, dont 1 au hasard) · Gorges du Troll (`hautepierre_2_4`, 2 groupes, dont 2 au hasard)
 
 | PV | Init. | XP | Force | Intel. |
 |---|---|---|---|---|
@@ -1260,7 +1260,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Résistances** : Acier +25 %, Givre +15 %, Flamme -25 %
 - **Sorts** : Coup de branche, Racines
 - **Butin** : Écorce vivante 60 % (×1–3), Sève ancienne 10 % ; **brumes** 5–12
-- **Où le trouver** : Cœur de la Toile (`sylvebrume_0_2`, 1 groupe, dont 1 après La Mère-Toile) · Futaie ancienne (`sylvebrume_1_0`, 3 groupes, dont 1 au hasard) · Coupe rase (`sylvebrume_1_1`, 1 groupe, dont 1 au hasard) · Bosquet des Cerfs (`sylvebrume_2_0`, 2 groupes)
+- **Où le trouver** : Cœur de la Toile (`sylvebrume_0_2`, 1 groupe, dont 1 après La Mère-Toile) · Futaie ancienne (`sylvebrume_1_0`, 3 groupes, dont 2 au hasard) · Coupe rase (`sylvebrume_1_1`, 1 groupe, dont 1 au hasard) · Bosquet des Cerfs (`sylvebrume_2_0`, 2 groupes, dont 1 au hasard)
 
 | PV | Init. | XP | Force | Percep. |
 |---|---|---|---|---|
@@ -1288,7 +1288,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Résistances** : Tempête +20 %, Flamme -10 %
 - **Sorts** : Coup de ramure, Éclat sylvestre
 - **Butin** : Poil scintillant 50 % (×1–2), Bois de cerf enchanté 20 %, Coiffe du Courant d'Air 3 %, Cape du Courant d'Air 3 %, Amulette du Courant d'Air 3 % ; **brumes** 4–10
-- **Où le trouver** : Futaie ancienne (`sylvebrume_1_0`, 3 groupes, dont 1 au hasard) · Bosquet des Cerfs (`sylvebrume_2_0`, 3 groupes)
+- **Où le trouver** : Futaie ancienne (`sylvebrume_1_0`, 3 groupes, dont 2 au hasard) · Bosquet des Cerfs (`sylvebrume_2_0`, 3 groupes, dont 2 au hasard)
 
 | PV | Init. | XP | Force | Agi. |
 |---|---|---|---|---|
@@ -1316,7 +1316,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Résistances** : Givre +15 %, Flamme -10 %
 - **Sorts** : Bave froide, Suçon
 - **Butin** : Bave de limace 60 % (×1–2), Mucus épais 15 % ; **brumes** 1–4
-- **Où le trouver** : Rond des Rumeurs (`sylvebrume_3_0`, 3 groupes, dont 1 au hasard) · Souche-Relais (`sylvebrume_3_1`, 2 groupes, dont 1 au hasard) · Sous-bois des Spores (`sylvebrume_4_0`, 3 groupes, dont 1 au hasard)
+- **Où le trouver** : Rond des Rumeurs (`sylvebrume_3_0`, 3 groupes, dont 2 au hasard) · Souche-Relais (`sylvebrume_3_1`, 2 groupes, dont 1 au hasard) · Sous-bois des Spores (`sylvebrume_4_0`, 3 groupes, dont 1 au hasard)
 
 | PV | Init. | XP | Percep. |
 |---|---|---|---|
@@ -1344,7 +1344,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Résistances** : Givre +15 %, Tempête +10 %, Flamme -20 %
 - **Sorts** : Spores, Bouderie
 - **Butin** : Chapeau de morille 60 % (×1–2), Spores grincheuses 12 %, Coiffe du Mauvais Œil 2 %, Cape du Mauvais Œil 2 %, Amulette du Mauvais Œil 2 % ; **brumes** 3–5
-- **Où le trouver** : Clairière de la Lisière (`sylvebrume_0_0`, 2 groupes, dont 1 au hasard) · Sous-bois moussu (`sylvebrume_0_1`, 3 groupes, dont 1 au hasard)
+- **Où le trouver** : Clairière de la Lisière (`sylvebrume_0_0`, 3 groupes, dont 2 au hasard) · Sous-bois moussu (`sylvebrume_0_1`, 3 groupes, dont 2 au hasard)
 
 | PV | Init. | XP |
 |---|---|---|
@@ -1372,7 +1372,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Résistances** : Givre +15 %, Acier +5 %, Flamme -15 %
 - **Sorts** : Nuage de spores, Bavardage
 - **Butin** : Spores bavardes 55 % (×1–2), Chapeau de vesse 15 % ; **brumes** 3–8
-- **Où le trouver** : Souche-Relais (`sylvebrume_3_1`, 3 groupes, dont 1 au hasard) · Cave à champignons (`sylvebrume_3_2`, 1 groupe) · Sous-bois des Spores (`sylvebrume_4_0`, 3 groupes, dont 1 au hasard) · Humus profond (`sylvebrume_4_1`, 2 groupes, dont 1 au hasard)
+- **Où le trouver** : Souche-Relais (`sylvebrume_3_1`, 3 groupes, dont 2 au hasard) · Cave à champignons (`sylvebrume_3_2`, 1 groupe) · Sous-bois des Spores (`sylvebrume_4_0`, 3 groupes, dont 1 au hasard) · Humus profond (`sylvebrume_4_1`, 2 groupes, dont 2 au hasard)
 
 | PV | Init. | XP | Intel. | Percep. |
 |---|---|---|---|---|
@@ -1400,7 +1400,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Résistances** : Flamme +10 %, Givre +10 %, Acier -10 %, Tempête -10 %
 - **Sorts** : Jet de flamme, Jet de givre
 - **Butin** : Fragment indécis 55 % (×1–2), Larme de source 15 % ; **brumes** 3–8
-- **Où le trouver** : Brasier source (`sylvebrume_0_-2`, 3 groupes, dont 1 au hasard) · Glacier source (`sylvebrume_0_-3`, 1 groupe) · Forge source (`sylvebrume_1_-1`, 3 groupes, dont 1 au hasard) · Orage source (`sylvebrume_1_-2`, 2 groupes, dont 1 au hasard)
+- **Où le trouver** : Brasier source (`sylvebrume_0_-2`, 3 groupes, dont 2 au hasard) · Glacier source (`sylvebrume_0_-3`, 1 groupe) · Forge source (`sylvebrume_1_-1`, 3 groupes, dont 1 au hasard) · Orage source (`sylvebrume_1_-2`, 2 groupes, dont 2 au hasard)
 
 | PV | Init. | XP | Intel. | Percep. |
 |---|---|---|---|---|
@@ -1428,7 +1428,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Résistances** : Flamme +15 %, Tempête +15 %, Givre -15 %
 - **Sorts** : Crépitement, Saut
 - **Butin** : Étincelle captive 60 % (×1–2), Braise vive 15 % ; **brumes** 1–4
-- **Où le trouver** : Bassin des Éclosions (`sylvebrume_0_-1`, 3 groupes, dont 1 au hasard) · Brasier source (`sylvebrume_0_-2`, 2 groupes, dont 1 au hasard) · Forge source (`sylvebrume_1_-1`, 3 groupes, dont 1 au hasard)
+- **Où le trouver** : Bassin des Éclosions (`sylvebrume_0_-1`, 3 groupes, dont 2 au hasard) · Brasier source (`sylvebrume_0_-2`, 2 groupes, dont 1 au hasard) · Forge source (`sylvebrume_1_-1`, 3 groupes, dont 1 au hasard)
 
 | PV | Init. | XP | Intel. | Agi. |
 |---|---|---|---|---|
@@ -1456,7 +1456,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Résistances** : Acier +10 %, Givre +5 %, Tempête -10 %
 - **Sorts** : Coup de cognée, Attention, ça tombe !
 - **Butin** : Copeaux de bois 55 % (×1–3), Bon de coupe 12 %, Anneau de l'Enfant de Chœur 3 %, Ceinture de l'Enfant de Chœur 3 %, Bottes de l'Enfant de Chœur 3 %, Coiffe du Bedeau Zélé 3 %, Cape du Bedeau Zélé 3 %, Amulette du Bedeau Zélé 3 %, Masse du Bedeau Zélé 2 % ; **brumes** 8–19
-- **Où le trouver** : Coupe rase (`sylvebrume_1_1`, 3 groupes, dont 1 au hasard) · Toiles grises (`sylvebrume_1_2`, 1 groupe) · Scierie de Brumerive (`sylvebrume_2_1`, 3 groupes, dont 1 au hasard)
+- **Où le trouver** : Coupe rase (`sylvebrume_1_1`, 3 groupes, dont 2 au hasard) · Toiles grises (`sylvebrume_1_2`, 1 groupe) · Scierie de Brumerive (`sylvebrume_2_1`, 3 groupes, dont 2 au hasard)
 
 | PV | Init. | XP | Force |
 |---|---|---|---|
@@ -1484,7 +1484,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Résistances** : Acier +25 %, Givre +15 %, Flamme -15 %
 - **Sorts** : Coup de source, Jaillissement
 - **Butin** : Galet de source 50 % (×1–2), Noyau de gardien 12 % ; **brumes** 9–20
-- **Où le trouver** : Brasier source (`sylvebrume_0_-2`, 1 groupe) · Glacier source (`sylvebrume_0_-3`, 3 groupes, dont 1 au hasard) · Orage source (`sylvebrume_1_-2`, 3 groupes, dont 1 au hasard) · Puits des Origines (`sylvebrume_1_-3`, 1 groupe)
+- **Où le trouver** : Brasier source (`sylvebrume_0_-2`, 1 groupe) · Glacier source (`sylvebrume_0_-3`, 3 groupes, dont 1 au hasard) · Orage source (`sylvebrume_1_-2`, 3 groupes, dont 2 au hasard) · Puits des Origines (`sylvebrume_1_-3`, 3 groupes, dont 2 au hasard)
 
 | PV | Init. | XP | Force | Percep. |
 |---|---|---|---|---|
@@ -1561,7 +1561,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Résistances** : Acier +20 %, Givre +10 %, Flamme -15 %
 - **Sorts** : Filaments, Étreinte racinaire
 - **Butin** : Filament blanc 50 % (×1–2), Motte d'humus 12 % ; **brumes** 9–20
-- **Où le trouver** : Souche-Relais (`sylvebrume_3_1`, 1 groupe) · Cave à champignons (`sylvebrume_3_2`, 3 groupes, dont 1 au hasard) · Humus profond (`sylvebrume_4_1`, 3 groupes, dont 1 au hasard) · Cœur du Réseau (`sylvebrume_4_2`, 1 groupe)
+- **Où le trouver** : Souche-Relais (`sylvebrume_3_1`, 1 groupe) · Cave à champignons (`sylvebrume_3_2`, 3 groupes, dont 1 au hasard) · Humus profond (`sylvebrume_4_1`, 3 groupes, dont 2 au hasard) · Cœur du Réseau (`sylvebrume_4_2`, 3 groupes, dont 2 au hasard)
 
 | PV | Init. | XP | Force | Percep. |
 |---|---|---|---|---|
@@ -1589,7 +1589,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Résistances** : Givre +20 %, Impie +10 %, Flamme -15 %
 - **Sorts** : Morsure glacée, Toile collante
 - **Butin** : Fil de brume 55 % (×1–3), Crochet d'araignée 12 %, Coiffe du Bonhomme de Neige 3 %, Cape du Bonhomme de Neige 3 %, Amulette du Bonhomme de Neige 3 %, Coiffe du Yéti Frileux 3 %, Cape du Yéti Frileux 3 %, Amulette du Yéti Frileux 3 %, Bâton du Yéti Frileux 2 % ; **brumes** 9–21
-- **Où le trouver** : Cœur de la Toile (`sylvebrume_0_2`, 1 groupe) · Toiles grises (`sylvebrume_1_2`, 4 groupes, dont 1 au hasard) · Orée du Sud (`sylvebrume_2_2`, 3 groupes, dont 1 au hasard)
+- **Où le trouver** : Cœur de la Toile (`sylvebrume_0_2`, 3 groupes, dont 2 au hasard) · Toiles grises (`sylvebrume_1_2`, 4 groupes, dont 2 au hasard) · Orée du Sud (`sylvebrume_2_2`, 3 groupes, dont 2 au hasard)
 
 | PV | Init. | XP | Percep. | Agi. |
 |---|---|---|---|---|
@@ -1617,7 +1617,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Résistances** : Acier +25 %, Flamme +30 %, Givre -20 %, Sacré -10 %
 - **Sorts** : Coup de branche, Racines, Pluie de cendres
 - **Butin** : Écorce calcinée 50 % (×1–2), Sève brûlante 50 % (×1–2), Nœud de braise 3 %, Anneau du Yéti Frileux 4 %, Ceinture du Yéti Frileux 4 %, Bottes du Yéti Frileux 4 % ; **brumes** 21–47
-- **Où le trouver** : Bois-Corbeau (`hautepierre_1_0`, 1 groupe) · Colline Pelée (`hautepierre_3_0`, 2 groupes, dont 1 au hasard) · Cœur de la Toile (`sylvebrume_0_2`, 1 groupe, dont 1 après La Mère-Toile)
+- **Où le trouver** : Bois-Corbeau (`hautepierre_1_0`, 1 groupe) · Colline Pelée (`hautepierre_3_0`, 2 groupes, dont 2 au hasard) · Cœur de la Toile (`sylvebrume_0_2`, 1 groupe, dont 1 après La Mère-Toile)
 
 | PV | Init. | XP | Force | Intel. | Percep. |
 |---|---|---|---|---|---|
@@ -1633,7 +1633,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Résistances** : Tempête +25 %, Flamme +5 %, Acier -10 %
 - **Sorts** : Coup de bec, Piqué
 - **Butin** : Plume de corbac 55 % (×1–3), Message intercepté 12 %, Anneau du Coup de Vent 3 %, Ceinture du Coup de Vent 3 %, Bottes du Coup de Vent 3 % ; **brumes** 15–34
-- **Où le trouver** : Bois-Corbeau (`hautepierre_1_0`, 4 groupes, dont 1 au hasard) · Vigie aux Corbacs (`hautepierre_1_1`, 3 groupes, dont 1 au hasard) · Colline Pelée (`hautepierre_3_0`, 2 groupes) · Ruines de la Vieille Garde (`hautepierre_3_1`, 1 groupe, dont 1 au hasard)
+- **Où le trouver** : Bois-Corbeau (`hautepierre_1_0`, 4 groupes, dont 2 au hasard) · Vigie aux Corbacs (`hautepierre_1_1`, 3 groupes, dont 2 au hasard) · Colline Pelée (`hautepierre_3_0`, 2 groupes, dont 1 au hasard) · Ruines de la Vieille Garde (`hautepierre_3_1`, 1 groupe, dont 1 au hasard)
 
 | PV | Init. | XP | Agi. |
 |---|---|---|---|
@@ -1661,7 +1661,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Résistances** : Tempête +10 %, Givre +5 %, Sacré -10 %
 - **Sorts** : Coup de surin, La bourse ou la vie
 - **Butin** : Bourse vide 55 % (×1–2), Carte au trésor douteuse 12 %, Coiffe du Chat Noir 3 %, Cape du Chat Noir 3 %, Amulette du Chat Noir 3 %, Dague du Chat Noir 2 % ; **brumes** 11–26
-- **Où le trouver** : Route de l'Ouest (`hautepierre_0_2`, 3 groupes, dont 1 au hasard) · Rives du Fleuve Gris (`hautepierre_1_3`, 1 groupe) · Route du Nord (`hautepierre_2_0`, 3 groupes, dont 1 au hasard) · Route de l'Est (`hautepierre_4_2`, 3 groupes)
+- **Où le trouver** : Route de l'Ouest (`hautepierre_0_2`, 3 groupes, dont 2 au hasard) · Rives du Fleuve Gris (`hautepierre_1_3`, 1 groupe, dont 1 au hasard) · Route du Nord (`hautepierre_2_0`, 3 groupes, dont 2 au hasard) · Route de l'Est (`hautepierre_4_2`, 3 groupes, dont 1 au hasard)
 
 | PV | Init. | XP | Percep. | Agi. |
 |---|---|---|---|---|
@@ -1689,7 +1689,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Résistances** : Acier +25 %, Givre +15 %, Flamme -20 %, Sacré -10 %
 - **Sorts** : Coup de massue, Lancer de rocher
 - **Butin** : Dent de troll 55 % (×1–2), Recette de troll 12 %, Anneau de l'Enclume Rancunière 3 %, Ceinture de l'Enclume Rancunière 3 %, Bottes de l'Enclume Rancunière 3 % ; **brumes** 17–40
-- **Où le trouver** : Vigie aux Corbacs (`hautepierre_1_1`, 1 groupe, dont 1 au hasard) · Rives du Fleuve Gris (`hautepierre_1_3`, 3 groupes) · Pont des Trolls (`hautepierre_2_3`, 4 groupes, dont 1 au hasard) · Gorges du Troll (`hautepierre_2_4`, 2 groupes)
+- **Où le trouver** : Vigie aux Corbacs (`hautepierre_1_1`, 1 groupe, dont 1 au hasard) · Rives du Fleuve Gris (`hautepierre_1_3`, 3 groupes, dont 2 au hasard) · Pont des Trolls (`hautepierre_2_3`, 4 groupes, dont 2 au hasard) · Gorges du Troll (`hautepierre_2_4`, 2 groupes, dont 1 au hasard)
 
 | PV | Init. | XP | Force | Percep. |
 |---|---|---|---|---|
@@ -1717,7 +1717,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Résistances** : Flamme +30 %, Impie +15 %, Givre -20 %, Sacré -15 %
 - **Sorts** : Cendres ardentes, Bal de minuit
 - **Butin** : Cendre tiède 55 % (×1–3), Invitation au bal 12 %, Coiffe du Dragon Retraité 2 %, Cape du Dragon Retraité 2 %, Amulette du Dragon Retraité 2 %, Sceptre du Dragon Retraité 2 % ; **brumes** 21–48
-- **Où le trouver** : Camp des Cendrillons (`hautepierre_3_3`, 4 groupes, dont 1 au hasard) · Champs du Pèle-Ennemi (`hautepierre_3_4`, 2 groupes, dont 1 au hasard) · Plaine Cendrée (`hautepierre_4_3`, 3 groupes, dont 1 au hasard) · La Brèche (`hautepierre_4_4`, 1 groupe)
+- **Où le trouver** : Camp des Cendrillons (`hautepierre_3_3`, 4 groupes, dont 2 au hasard) · Champs du Pèle-Ennemi (`hautepierre_3_4`, 2 groupes, dont 2 au hasard) · Plaine Cendrée (`hautepierre_4_3`, 3 groupes, dont 2 au hasard) · La Brèche (`hautepierre_4_4`, 3 groupes, dont 2 au hasard)
 
 | PV | Init. | XP | Intel. |
 |---|---|---|---|
@@ -1745,7 +1745,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Résistances** : Acier +10 %, Flamme +20 %, Givre +30 %, Tempête -15 %
 - **Sorts** : Griffes de pierre, Gargouillis
 - **Butin** : Éclat de gargouille 55 % (×1–3), Cœur de pierre 12 %, Coiffe de l'Hiver Qui Vient 2 %, Cape de l'Hiver Qui Vient 2 %, Amulette de l'Hiver Qui Vient 2 %, Bâton de l'Hiver Qui Vient 2 %, Anneau du Porte-Malheur 2 %, Ceinture du Porte-Malheur 2 %, Bottes du Porte-Malheur 2 % ; **brumes** 22–49
-- **Où le trouver** : Ruines de la Vieille Garde (`hautepierre_3_1`, 3 groupes, dont 1 au hasard) · Camp des Cendrillons (`hautepierre_3_3`, 1 groupe, dont 1 au hasard) · Cimetière des Gargouilles (`hautepierre_4_1`, 3 groupes, dont 1 au hasard)
+- **Où le trouver** : Ruines de la Vieille Garde (`hautepierre_3_1`, 3 groupes, dont 2 au hasard) · Camp des Cendrillons (`hautepierre_3_3`, 1 groupe, dont 1 au hasard) · Cimetière des Gargouilles (`hautepierre_4_1`, 3 groupes, dont 2 au hasard)
 
 | PV | Init. | XP | Force | Percep. |
 |---|---|---|---|---|
@@ -1790,7 +1790,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Résistances** : Acier +30 %, Tempête +20 %, Flamme +10 %, Givre -15 %
 - **Sorts** : Charge d'olifant, Barrissement
 - **Butin** : Cuir d'olifant 55 % (×1–2), Ivoire d'olifant 12 %, Anneau du Seigneur des Enclumes 2 %, Ceinture du Seigneur des Enclumes 2 %, Bottes du Seigneur des Enclumes 2 %, Coiffe de la Tornade Mal Lunée 2 %, Cape de la Tornade Mal Lunée 2 %, Amulette de la Tornade Mal Lunée 2 %, Arc de la Tornade Mal Lunée 2 % ; **brumes** 29–68
-- **Où le trouver** : Camp des Cendrillons (`hautepierre_3_3`, 1 groupe) · Champs du Pèle-Ennemi (`hautepierre_3_4`, 4 groupes, dont 1 au hasard) · La Brèche (`hautepierre_4_4`, 1 groupe)
+- **Où le trouver** : Camp des Cendrillons (`hautepierre_3_3`, 1 groupe) · Champs du Pèle-Ennemi (`hautepierre_3_4`, 4 groupes, dont 2 au hasard) · La Brèche (`hautepierre_4_4`, 3 groupes, dont 2 au hasard)
 
 | PV | Init. | XP | Force |
 |---|---|---|---|
@@ -1864,7 +1864,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Résistances** : Flamme +20 %, Tempête +20 %, Acier -10 %, Givre -10 %
 - **Sorts** : Plumes ardentes, Battement d'ailes
 - **Butin** : Plume d'ampa brun 55 % (×1–2), Bec d'ampa brun 10 %, Cœur d'ampa brun 0 % ; **brumes** 9–20
-- **Où le trouver** : Gué des Ampas (`grandesplaines_-1_1`, 1 groupe) · Pâturages du Vent (`grandesplaines_-2_0`, 2 groupes, dont 1 au hasard) · Hautes Herbes (`grandesplaines_-2_1`, 1 groupe) · Nid des Ampas (`grandesplaines_-2_2`, 1 groupe, dont 1 au hasard) · Champ des Plumes (`grandesplaines_-3_1`, 1 groupe) · Relais des Coursiers (`grandesplaines_0_1`, 2 groupes) · Piste des Caravanes (`grandesplaines_0_2`, 1 groupe, dont 1 au hasard)
+- **Où le trouver** : Gué des Ampas (`grandesplaines_-1_1`, 2 groupes, dont 2 au hasard) · Pâturages du Vent (`grandesplaines_-2_0`, 3 groupes, dont 2 au hasard) · Hautes Herbes (`grandesplaines_-2_1`, 2 groupes, dont 1 au hasard) · Nid des Ampas (`grandesplaines_-2_2`, 2 groupes, dont 2 au hasard) · Champ des Plumes (`grandesplaines_-3_1`, 2 groupes, dont 2 au hasard) · Relais des Coursiers (`grandesplaines_0_1`, 3 groupes, dont 2 au hasard) · Piste des Caravanes (`grandesplaines_0_2`, 2 groupes, dont 2 au hasard)
 
 | PV | Init. | XP | Intel. | Agi. |
 |---|---|---|---|---|
@@ -1892,7 +1892,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Résistances** : Flamme -10 %, Tempête -10 %, Acier +20 %, Givre +20 %
 - **Sorts** : Coup de bec, Cri glacé
 - **Butin** : Plume d'ampa cramoisi 55 % (×1–2), Bec d'ampa cramoisi 10 %, Cœur d'ampa cramoisi 0 % ; **brumes** 9–20
-- **Où le trouver** : Bout des Plaines (`grandesplaines_-1_3`, 1 groupe) · Nid des Ampas (`grandesplaines_-2_2`, 1 groupe, dont 1 au hasard) · Falaise Cristalline (`grandesplaines_-2_3`, 1 groupe) · Pierres Dressées (`grandesplaines_-3_2`, 2 groupes, dont 1 au hasard) · Plateau des Aigles-Chevaux (`grandesplaines_-4_1`, 1 groupe) · Collines Rousses (`grandesplaines_-4_2`, 1 groupe)
+- **Où le trouver** : Bout des Plaines (`grandesplaines_-1_3`, 3 groupes, dont 2 au hasard) · Nid des Ampas (`grandesplaines_-2_2`, 2 groupes, dont 2 au hasard) · Falaise Cristalline (`grandesplaines_-2_3`, 3 groupes, dont 2 au hasard) · Pierres Dressées (`grandesplaines_-3_2`, 3 groupes, dont 2 au hasard) · Plateau des Aigles-Chevaux (`grandesplaines_-4_1`, 3 groupes, dont 2 au hasard) · Collines Rousses (`grandesplaines_-4_2`, 2 groupes, dont 1 au hasard)
 
 | PV | Init. | XP | Force | Percep. |
 |---|---|---|---|---|
@@ -1920,7 +1920,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Résistances** : Flamme -10 %, Tempête +20 %, Acier -10 %, Givre +20 %
 - **Sorts** : Battement d'ailes, Cri glacé
 - **Butin** : Plume d'ampa empire 55 % (×1–2), Bec d'ampa empire 10 %, Cœur d'ampa empire 0 % ; **brumes** 9–20
-- **Où le trouver** : Lac Miroir (`grandesplaines_-1_2`, 1 groupe) · Bout des Plaines (`grandesplaines_-1_3`, 1 groupe) · Hautes Herbes (`grandesplaines_-2_1`, 1 groupe, dont 1 au hasard) · Nid des Ampas (`grandesplaines_-2_2`, 2 groupes, dont 1 au hasard) · Pierres Dressées (`grandesplaines_-3_2`, 2 groupes, dont 1 au hasard) · Mare aux Hérons (`grandesplaines_-4_0`, 1 groupe, dont 1 au hasard)
+- **Où le trouver** : Lac Miroir (`grandesplaines_-1_2`, 2 groupes, dont 1 au hasard) · Bout des Plaines (`grandesplaines_-1_3`, 3 groupes, dont 2 au hasard) · Hautes Herbes (`grandesplaines_-2_1`, 2 groupes, dont 2 au hasard) · Nid des Ampas (`grandesplaines_-2_2`, 3 groupes, dont 2 au hasard) · Pierres Dressées (`grandesplaines_-3_2`, 3 groupes, dont 2 au hasard) · Mare aux Hérons (`grandesplaines_-4_0`, 2 groupes, dont 2 au hasard)
 
 | PV | Init. | XP | Percep. | Agi. |
 |---|---|---|---|---|
@@ -1948,7 +1948,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Résistances** : Flamme +20 %, Tempête -10 %, Acier +20 %, Givre -10 %
 - **Sorts** : Plumes ardentes, Coup de bec
 - **Butin** : Plume d'ampa ocre 55 % (×1–2), Bec d'ampa ocre 10 %, Cœur d'ampa ocre 0 % ; **brumes** 9–20
-- **Où le trouver** : Gué des Ampas (`grandesplaines_-1_1`, 1 groupe) · Lac Miroir (`grandesplaines_-1_2`, 1 groupe) · Pâturages du Vent (`grandesplaines_-2_0`, 1 groupe, dont 1 au hasard) · Nid des Ampas (`grandesplaines_-2_2`, 1 groupe, dont 1 au hasard) · Haras abandonné (`grandesplaines_-3_0`, 1 groupe) · Champ des Plumes (`grandesplaines_-3_1`, 1 groupe) · Piste des Caravanes (`grandesplaines_0_2`, 1 groupe, dont 1 au hasard)
+- **Où le trouver** : Gué des Ampas (`grandesplaines_-1_1`, 2 groupes, dont 1 au hasard) · Lac Miroir (`grandesplaines_-1_2`, 2 groupes, dont 2 au hasard) · Pâturages du Vent (`grandesplaines_-2_0`, 2 groupes, dont 2 au hasard) · Nid des Ampas (`grandesplaines_-2_2`, 2 groupes, dont 2 au hasard) · Haras abandonné (`grandesplaines_-3_0`, 2 groupes, dont 2 au hasard) · Champ des Plumes (`grandesplaines_-3_1`, 2 groupes, dont 1 au hasard) · Piste des Caravanes (`grandesplaines_0_2`, 2 groupes, dont 2 au hasard)
 
 | PV | Init. | XP | Force | Intel. |
 |---|---|---|---|---|
@@ -1976,7 +1976,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Résistances** : Flamme +20 %, Tempête -10 %, Acier -10 %, Givre +20 %
 - **Sorts** : Plumes ardentes, Cri glacé
 - **Butin** : Plume d'ampa roux 55 % (×1–2), Bec d'ampa roux 10 %, Cœur d'ampa roux 0 % ; **brumes** 9–20
-- **Où le trouver** : Nid des Ampas (`grandesplaines_-2_2`, 1 groupe, dont 1 au hasard) · Champ des Plumes (`grandesplaines_-3_1`, 1 groupe) · Pierres Dressées (`grandesplaines_-3_2`, 1 groupe, dont 1 au hasard) · Mare aux Hérons (`grandesplaines_-4_0`, 2 groupes, dont 1 au hasard) · Plateau des Aigles-Chevaux (`grandesplaines_-4_1`, 1 groupe) · Collines Rousses (`grandesplaines_-4_2`, 1 groupe)
+- **Où le trouver** : Nid des Ampas (`grandesplaines_-2_2`, 2 groupes, dont 2 au hasard) · Champ des Plumes (`grandesplaines_-3_1`, 2 groupes, dont 2 au hasard) · Pierres Dressées (`grandesplaines_-3_2`, 2 groupes, dont 2 au hasard) · Mare aux Hérons (`grandesplaines_-4_0`, 3 groupes, dont 2 au hasard) · Plateau des Aigles-Chevaux (`grandesplaines_-4_1`, 3 groupes, dont 2 au hasard) · Collines Rousses (`grandesplaines_-4_2`, 2 groupes, dont 2 au hasard)
 
 | PV | Init. | XP | Intel. | Percep. |
 |---|---|---|---|---|
@@ -2004,7 +2004,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Résistances** : Flamme -10 %, Tempête +20 %, Acier +20 %, Givre -10 %
 - **Sorts** : Coup de bec, Battement d'ailes
 - **Butin** : Plume d'ampa stratos 55 % (×1–2), Bec d'ampa stratos 10 %, Cœur d'ampa stratos 0 % ; **brumes** 9–20
-- **Où le trouver** : Lac Miroir (`grandesplaines_-1_2`, 1 groupe) · Hautes Herbes (`grandesplaines_-2_1`, 1 groupe, dont 1 au hasard) · Nid des Ampas (`grandesplaines_-2_2`, 1 groupe, dont 1 au hasard) · Falaise Cristalline (`grandesplaines_-2_3`, 1 groupe) · Haras abandonné (`grandesplaines_-3_0`, 2 groupes) · Relais des Coursiers (`grandesplaines_0_1`, 1 groupe) · Piste des Caravanes (`grandesplaines_0_2`, 1 groupe)
+- **Où le trouver** : Lac Miroir (`grandesplaines_-1_2`, 2 groupes, dont 2 au hasard) · Hautes Herbes (`grandesplaines_-2_1`, 2 groupes, dont 2 au hasard) · Nid des Ampas (`grandesplaines_-2_2`, 2 groupes, dont 2 au hasard) · Falaise Cristalline (`grandesplaines_-2_3`, 3 groupes, dont 2 au hasard) · Haras abandonné (`grandesplaines_-3_0`, 3 groupes, dont 2 au hasard) · Relais des Coursiers (`grandesplaines_0_1`, 2 groupes, dont 2 au hasard) · Piste des Caravanes (`grandesplaines_0_2`, 2 groupes, dont 1 au hasard)
 
 | PV | Init. | XP | Force | Agi. |
 |---|---|---|---|---|

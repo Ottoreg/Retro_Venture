@@ -52,9 +52,13 @@
       ]
     },
     {
-      "monstres": [
+      "parmi": [
         "os_errant",
         "os_errant"
+      ],
+      "nombre": [
+        5,
+        6
       ]
     },
     {
@@ -62,8 +66,8 @@
         "os_errant"
       ],
       "nombre": [
-        1,
-        2
+        3,
+        4
       ]
     }
   ],

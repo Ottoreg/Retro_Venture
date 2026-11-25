@@ -11,7 +11,7 @@
     "AAAAAAAA.:.AAAAAAAA",
     " A................A",
     "A........:........A",
-    " A................A",
+    " A3...............A",
     "A........:........A",
     " A................A",
     "A........:........A",
@@ -44,15 +44,31 @@
   ],
   "groupes": [
     {
-      "monstres": [
+      "parmi": [
         "ampa_brun",
         "ampa_roux"
+      ],
+      "nombre": [
+        3,
+        4
       ]
     },
     {
       "monstres": [
         "ampa_ocre",
         "ampa_ocre"
+      ]
+    },
+    {
+      "parmi": [
+        "ampa_brun",
+        "ampa_roux",
+        "ampa_ocre",
+        "ampa_ocre"
+      ],
+      "nombre": [
+        5,
+        6
       ]
     }
   ],

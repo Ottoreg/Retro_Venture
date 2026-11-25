@@ -52,14 +52,18 @@
         "loup_des_collines"
       ],
       "nombre": [
-        2,
-        3
+        5,
+        6
       ]
     },
     {
-      "monstres": [
+      "parmi": [
         "loup_des_collines",
         "loup_des_collines"
+      ],
+      "nombre": [
+        3,
+        4
       ]
     }
   ],

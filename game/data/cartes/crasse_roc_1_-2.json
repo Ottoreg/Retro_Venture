@@ -49,9 +49,13 @@
       ]
     },
     {
-      "monstres": [
+      "parmi": [
         "veteran_de_la_premiere_ombre",
         "veteran_de_la_premiere_ombre"
+      ],
+      "nombre": [
+        3,
+        4
       ]
     },
     {
@@ -60,8 +64,8 @@
         "pleureuse_de_l_ossuaire"
       ],
       "nombre": [
-        2,
-        3
+        5,
+        6
       ]
     }
   ],

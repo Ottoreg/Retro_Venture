@@ -48,9 +48,13 @@
       ]
     },
     {
-      "monstres": [
+      "parmi": [
         "golem_de_minerai",
         "apprenti_mineur"
+      ],
+      "nombre": [
+        3,
+        4
       ]
     },
     {
@@ -59,8 +63,8 @@
         "apprenti_mineur"
       ],
       "nombre": [
-        2,
-        3
+        5,
+        6
       ]
     }
   ],

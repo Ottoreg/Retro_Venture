@@ -49,14 +49,18 @@
         "gobelin_frondeur"
       ],
       "nombre": [
-        1,
-        2
+        5,
+        6
       ]
     },
     {
-      "monstres": [
+      "parmi": [
         "gobelin_frondeur",
         "gobelin_frondeur"
+      ],
+      "nombre": [
+        3,
+        4
       ]
     },
     {

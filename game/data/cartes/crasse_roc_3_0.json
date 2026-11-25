@@ -52,9 +52,13 @@
       ]
     },
     {
-      "monstres": [
+      "parmi": [
         "goret_de_braise",
         "goret_de_braise"
+      ],
+      "nombre": [
+        5,
+        6
       ]
     },
     {
@@ -62,8 +66,8 @@
         "goret_de_braise"
       ],
       "nombre": [
-        1,
-        2
+        3,
+        4
       ]
     }
   ],

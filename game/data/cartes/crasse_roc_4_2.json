@@ -10,7 +10,7 @@
     "RRRRRRRR.:.RRRRRRRR",
     " R................R",
     "R........:........R",
-    " R................R",
+    " R3...............R",
     "R........:........R",
     " R..........R.....R",
     "R........:........R",
@@ -36,7 +36,7 @@
     "R.................R",
     " R.............M..R",
     "R...M...M.........R",
-    " R................R",
+    " R..............4.R",
     "R.................R",
     " R................R",
     "RRRRRRRRRRRRRRRRRRR"
@@ -55,6 +55,26 @@
       "monstres": [
         "ferrailleur_orc",
         "ferrailleur_orc"
+      ]
+    },
+    {
+      "parmi": [
+        "ferrailleur_orc",
+        "ferrailleur_orc"
+      ],
+      "nombre": [
+        5,
+        6
+      ]
+    },
+    {
+      "parmi": [
+        "ferrailleur_orc",
+        "ferrailleur_orc"
+      ],
+      "nombre": [
+        3,
+        4
       ]
     }
   ],

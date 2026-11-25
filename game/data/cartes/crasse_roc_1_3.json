@@ -14,7 +14,7 @@
     " R...2...::.......R",
     "R........:......R.R",
     " R.......::.......R",
-    "R........:........R",
+    "R........:.5....4.R",
     " RÎEEEEEE::EEEEEEER",
     "REEEEEEEE:EEEEEEEER",
     " REEEEEEE::EEEEEEER",
@@ -62,6 +62,26 @@
         "grouilleur"
       ],
       "apres_boss": "balourd_des_abimes"
+    },
+    {
+      "parmi": [
+        "contremaitre_zele",
+        "contremaitre_zele"
+      ],
+      "nombre": [
+        5,
+        6
+      ]
+    },
+    {
+      "parmi": [
+        "contremaitre_zele",
+        "contremaitre_zele"
+      ],
+      "nombre": [
+        3,
+        4
+      ]
     }
   ],
   "placement": [

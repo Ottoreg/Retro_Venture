@@ -49,15 +49,23 @@
       ]
     },
     {
-      "monstres": [
+      "parmi": [
         "cerf_enchante",
         "cerf_enchante"
+      ],
+      "nombre": [
+        5,
+        6
       ]
     },
     {
-      "monstres": [
+      "parmi": [
         "cerf_enchante",
         "arbre_vivant"
+      ],
+      "nombre": [
+        3,
+        4
       ]
     },
     {

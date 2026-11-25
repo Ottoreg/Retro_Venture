@@ -50,9 +50,13 @@
       ]
     },
     {
-      "monstres": [
+      "parmi": [
         "bucheron_de_brumerive",
         "bucheron_de_brumerive"
+      ],
+      "nombre": [
+        3,
+        4
       ]
     },
     {
@@ -61,8 +65,8 @@
         "arbre_vivant"
       ],
       "nombre": [
-        2,
-        3
+        5,
+        6
       ]
     }
   ],

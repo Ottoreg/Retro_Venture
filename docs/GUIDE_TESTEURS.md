@@ -190,7 +190,7 @@ temps : chaque camp a sa propre histoire.
 | Se déplacer | Clic sur une case (un nouveau clic pendant la marche change de destination) ; au-delà de 3 cases, le personnage court |
 | S'asseoir | Bouton « S'asseoir » de la barre du bas, ou touche A : les PV remontent trois fois plus vite ; on se relève en marchant |
 | Barre d'objets | Hors combat, la barre du bas montre des emplacements d'objets à la place des sorts : vides pour l'instant, ils accueilleront les consommables (potions, nourriture) quand il y en aura. Les sorts reviennent en combat et se consultent avec S |
-| Attaquer un groupe de monstres | Clic sur le groupe : le personnage le rejoint et le combat commence |
+| Attaquer un groupe de monstres | Clic sur le groupe : le personnage le rejoint et le combat commence. Chaque carte a un petit groupe (1 à 2 monstres), un moyen (3 à 4) et un grand (5 à 6, à tenter à plusieurs ou en mode héros) |
 | Parler, commercer, fabriquer | Clic sur un PNJ (bulle « … », ou « ! » / « ? » s'il a une quête pour vous) |
 | Boutique | Chez un marchand : onglets Acheter / Vendre et **barre de recherche** (un mot du nom ou du type, « botte », « anneau »… sans se soucier des accents) ; un équipement coûte plus cher quand son palier est haut (× 5 au palier 15, × 10 au palier 30) |
 | Historique | À gauche de la barre du bas, touche **H** pour le replier : onglet **Combat** (gardé d'un combat à l'autre) et **Commerce** (chaque achat et vente : objet, quantité, marchand, brumes) ; « Tout » mêle les deux |

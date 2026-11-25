@@ -9,7 +9,7 @@
     "RRRRRRRRRRRRRRRRRRR",
     " R................R",
     "R.................R",
-    " R................R",
+    " R3...............R",
     "R.................R",
     " R................R",
     "R.........M.......R",
@@ -35,7 +35,7 @@
     "R........:........R",
     " R................R",
     "R........:........R",
-    " R................R",
+    " R..............4.R",
     "R........:........R",
     " R................R",
     "RRRRRRRR.:.RRRRRRRR"
@@ -54,6 +54,26 @@
       "monstres": [
         "veteran_de_la_premiere_ombre",
         "veteran_de_la_premiere_ombre"
+      ]
+    },
+    {
+      "parmi": [
+        "veteran_de_la_premiere_ombre",
+        "veteran_de_la_premiere_ombre"
+      ],
+      "nombre": [
+        5,
+        6
+      ]
+    },
+    {
+      "parmi": [
+        "veteran_de_la_premiere_ombre",
+        "veteran_de_la_premiere_ombre"
+      ],
+      "nombre": [
+        3,
+        4
       ]
     }
   ],

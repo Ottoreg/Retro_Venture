@@ -1662,6 +1662,12 @@ Les sorts restent **propres à leur classe** (pas d'apprentissage croisé, § 5.
 - **Déplacement au clic** sur une grille isométrique ; recherche de chemin (A*).
 - Sur une carte : PNJ, groupes de monstres visibles qui errent, ressources récoltables, éléments
   interactifs (portes, coffres, panneaux).
+- **Tailles des groupes** (demande de l'auteur du 25/11/2026) : hors donjons, chaque carte à monstres a un
+  **petit groupe (1 à 2 monstres)**, un **moyen (3 à 4)** et un **grand (5 à 6)** ; 6 au plus
+  (`GameMap.MAX_GROUP_SIZE`). Les mini-boss, les groupes rares (Onyx, Cristal) et les variantes d'après le
+  boss ne comptent pas et ne changent pas ; les autres règles d'apparition non plus. Fait le 25/11/2026 :
+  le plus grand groupe d'une carte devient le grand, le suivant le moyen (tirés parmi leurs propres monstres),
+  et les groupes manquants sont tirés parmi les espèces de la carte (`docs/design/groupes/tailles.py`).
 - **Pierres de Passage** (les zaaps du jeu) : une sur la première carte de chaque zone de départ
   (Brumerive, Crasse-Roc, Sylvebrume) ; c'est pour l'instant le seul lien entre les zones.
   - *Fait :* une pierre se **découvre** en la touchant (clic dessus, à pied ; arriver par un voyage
@@ -3421,7 +3427,7 @@ les PV max ; le plancher de 40 %).
 
 Étages : 1) 3 colombes et 1 ange ; 2) 1 lion, 2 anges, 1 colombe ; 3) 3 lions, 1 colombe ; 4) 3 anges,
 1 lion ; 5) l'Archange, 1 ange, 1 lion, 1 colombe. Les groupes de la tour ont 4 monstres (un groupe en
-a désormais 4 au plus, `GameMap.MAX_GROUP_SIZE`). Données produites par
+a 6 au plus depuis le 25/11/2026, `GameMap.MAX_GROUP_SIZE`). Données produites par
 `docs/design/tour_celeste/produire.py`. Combats simulés (guerrier + rôdeur + théologue) :
 `docs/design/tour_celeste/simulation.md`.
 

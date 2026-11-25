@@ -45,9 +45,13 @@
   ],
   "groupes": [
     {
-      "monstres": [
+      "parmi": [
         "vesse_de_loup_bavarde",
         "vesse_de_loup_bavarde"
+      ],
+      "nombre": [
+        3,
+        4
       ]
     },
     {
@@ -56,8 +60,8 @@
         "limace_gourmande"
       ],
       "nombre": [
-        2,
-        3
+        5,
+        6
       ]
     },
     {

@@ -49,9 +49,13 @@
       ]
     },
     {
-      "monstres": [
+      "parmi": [
         "gardien_de_source",
         "elementaire_mal_eclos"
+      ],
+      "nombre": [
+        3,
+        4
       ]
     },
     {
@@ -60,8 +64,8 @@
         "elementaire_mal_eclos"
       ],
       "nombre": [
-        2,
-        3
+        5,
+        6
       ]
     }
   ],

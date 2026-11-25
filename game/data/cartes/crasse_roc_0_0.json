@@ -14,7 +14,7 @@
     "RRRRRRA.....RRRAAAA",
     " R....R.........R.R",
     "R.................R",
-    " F................A",
+    " F3...............A",
     "R.................R",
     " R....F...#.......R",
     "R........##......RR",
@@ -70,9 +70,13 @@
   ],
   "groupes": [
     {
-      "monstres": [
+      "parmi": [
         "rat_des_galeries",
         "rat_des_galeries"
+      ],
+      "nombre": [
+        3,
+        4
       ]
     },
     {
@@ -83,6 +87,18 @@
       "nombre": [
         1,
         2
+      ]
+    },
+    {
+      "parmi": [
+        "rat_des_galeries",
+        "rat_des_galeries",
+        "grouilleur",
+        "rat_des_galeries"
+      ],
+      "nombre": [
+        5,
+        6
       ]
     }
   ],

@@ -43,9 +43,13 @@
   ],
   "groupes": [
     {
-      "monstres": [
+      "parmi": [
         "apprenti_mineur",
         "apprenti_mineur"
+      ],
+      "nombre": [
+        3,
+        4
       ]
     },
     {
@@ -54,8 +58,8 @@
         "taupe_pioche"
       ],
       "nombre": [
-        2,
-        3
+        5,
+        6
       ]
     },
     {

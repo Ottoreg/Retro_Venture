@@ -50,9 +50,13 @@
       ]
     },
     {
-      "monstres": [
+      "parmi": [
         "cendrillon",
         "cendrillon"
+      ],
+      "nombre": [
+        3,
+        4
       ]
     },
     {
@@ -61,8 +65,8 @@
         "gargouille"
       ],
       "nombre": [
-        2,
-        3
+        5,
+        6
       ]
     },
     {

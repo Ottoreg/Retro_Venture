@@ -10,7 +10,7 @@
     "AAAAAAAA.:.AAAAAAAA",
     " A................A",
     "A........:........A",
-    " A................A",
+    " A3...............A",
     "A........:R.RR....A",
     " A.........P....P.A",
     "A........:........A",
@@ -55,8 +55,21 @@
         "ampa_cramoisi"
       ],
       "nombre": [
-        2,
-        3
+        3,
+        4
+      ]
+    },
+    {
+      "parmi": [
+        "ampa_cramoisi",
+        "ampa_empire",
+        "ampa_empire",
+        "ampa_roux",
+        "ampa_cramoisi"
+      ],
+      "nombre": [
+        5,
+        6
       ]
     }
   ],

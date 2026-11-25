@@ -37,7 +37,7 @@ const INSTANCES := ["", "joueur"]
 ## Délai de réapparition par défaut d'un groupe de monstres vaincu, en secondes : [min, max].
 const DEFAULT_RESPAWN := [120, 180]
 ## Nombre maximal de monstres dans un groupe (4 : salles de la Tour céleste ; 3 au plus ailleurs).
-const MAX_GROUP_SIZE := 4
+const MAX_GROUP_SIZE := 6
 ## Cases de placement minimales d'un camp (plus si un groupe de la carte est plus grand).
 const MIN_PLACEMENT := 3
 const SPAWN_CHAR := "@"

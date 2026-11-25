@@ -45,9 +45,13 @@
   ],
   "groupes": [
     {
-      "monstres": [
+      "parmi": [
         "apprenti_braillard",
         "apprenti_braillard"
+      ],
+      "nombre": [
+        3,
+        4
       ]
     },
     {
@@ -55,8 +59,8 @@
         "apprenti_braillard"
       ],
       "nombre": [
-        2,
-        3
+        5,
+        6
       ]
     },
     {

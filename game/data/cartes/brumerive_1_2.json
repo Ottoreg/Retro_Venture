@@ -42,9 +42,13 @@
   ],
   "groupes": [
     {
-      "monstres": [
+      "parmi": [
         "epouvantail_demotive",
         "epouvantail_demotive"
+      ],
+      "nombre": [
+        5,
+        6
       ]
     },
     {
@@ -53,9 +57,13 @@
       ]
     },
     {
-      "monstres": [
+      "parmi": [
         "gobelin_pillard",
         "epouvantail_demotive"
+      ],
+      "nombre": [
+        3,
+        4
       ]
     }
   ],

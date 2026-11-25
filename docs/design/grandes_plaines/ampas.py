@@ -3,7 +3,7 @@ Monstres, élites, sorts, plumes, dessins (fragment art/manifestes/ampas.json) e
 Plumes : +1 % de résistance à chacun des deux éléments de la couleur (GDD § 10.3)
 (demande de l'auteur du 24/11/2026) ; Onyx en dommages spectraux, Cristal en dévastateurs. Valeurs provisoires : palier 2, Onyx et Cristal palier 3, plus rares (moins de groupes, réapparition 5 à 8 min).
 Usage, depuis la racine du dépôt : python3 docs/design/grandes_plaines/ampas.py (relancé aussi par plaines.py)."""
-import os, sys
+import os, runpy, sys
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "sous_zones"))
 from produire_sous_zone import sort, deg, bonus, ressource, monstre, drop, lire, ecrire, verifier  # noqa: E402
 from cartes import ecran, proposer, JEU  # noqa: E402
@@ -150,3 +150,4 @@ for (x, y), groupes in GROUPES.items():
     verifier(carte["id"], carte["plan"])
     ecrire(f"data/cartes/{carte['id']}.json", carte)
 print(f"{len(monstres)} monstres, {len(SORTS)} sorts, {len(ressources)} plumes, groupes sur {len(GROUPES)} cartes")
+runpy.run_path(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "groupes", "tailles.py"))  # petit, moyen et grand groupe (25/11/2026)

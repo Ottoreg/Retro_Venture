@@ -50,9 +50,13 @@
       ]
     },
     {
-      "monstres": [
+      "parmi": [
         "troll_des_ponts",
         "troll_des_ponts"
+      ],
+      "nombre": [
+        3,
+        4
       ]
     },
     {
@@ -61,8 +65,8 @@
         "grouilleur_de_braise"
       ],
       "nombre": [
-        2,
-        3
+        5,
+        6
       ]
     },
     {

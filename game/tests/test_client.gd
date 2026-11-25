@@ -1001,7 +1001,7 @@ func test_tous_les_membres_d_un_groupe_sont_affiches() -> void:
 		assert_true(actor["members"].size() <= GameMap.MAX_GROUP_SIZE)
 	for group: Dictionary in view.server.groups():
 		assert_eq(view._actors[group["id"]]["name"], MapView.group_label(group["monstres"], view.server.data), "nommé au survol")
-	assert_eq(view._actors["groupe_2"]["name"], "Groupe : 2 × Loup des collines")
+	assert_true(view._actors["groupe_2"]["name"].begins_with("Groupe : "), "grand groupe de la carte (5 à 6 monstres)")
 	assert_eq(view._actors["groupe_1"]["name"], "Loup des collines")
 	var data := view.server.data
 	assert_eq(MapView.group_label(["gobelin_frondeur", "loup_des_collines"], data), "Groupe : Gobelin frondeur, Loup des collines",
@@ -1101,11 +1101,11 @@ func test_paliers_dans_la_bulle_et_en_combat() -> void:
 	var view: MapView = scene.get_node("MapView")
 	var hud: CombatHud = scene.get_node("CombatHud")
 	assert_eq(view.server.map.id, "crasse_roc_0_0")
-	# Les deux rats du premier groupe, de palier 1.
+	# Les rats du groupe moyen (3 à 4), de palier 1.
 	var group: Dictionary = view.server.group("groupe_1")
-	assert_eq(str(group["monstres"]), str(["rat_des_galeries", "rat_des_galeries"]))
+	assert_true(group["monstres"].size() >= 3 and group["monstres"].all(func(m: String) -> bool: return m == "rat_des_galeries"))
 	view._set_hovered(group["case"])
-	assert_true(scene._hover_label.text.begins_with("P1 Rat des galeries\nP1 Rat des galeries\nMenace : "),
+	assert_true(scene._hover_label.text.begins_with("P1 Rat des galeries\n".repeat(group["monstres"].size()) + "Menace : "),
 		"le palier de chaque monstre")
 	# En combat : le palier, affiché dans le cadre du combattant survolé.
 	view._on_click(group["case"])

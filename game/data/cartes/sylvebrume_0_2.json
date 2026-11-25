@@ -30,11 +30,11 @@
     " AAA..R.......AAAAA",
     "AAAA.......R.AAAAAA",
     " AAAA.........AAAAA",
-    "AAAA.........AAAAAA",
+    "AAAA5........AAAAAA",
     " AAAA........AAAAAA",
     "AAAAA.......AAAAAAA",
     " AAAAA......AAAAAAA",
-    "AAAAAAA...AAAAAAAAA",
+    "AAAAAAA..4AAAAAAAAA",
     " AAAAAAAAAAAAAAAAAA",
     "AAAAAAAAAAAAAAAAAAA",
     " AAAAAAAAAAAAAAAAAA",
@@ -62,6 +62,26 @@
         "arbre_vivant"
       ],
       "apres_boss": "mere_toile"
+    },
+    {
+      "parmi": [
+        "tisseuse_de_brume",
+        "tisseuse_de_brume"
+      ],
+      "nombre": [
+        5,
+        6
+      ]
+    },
+    {
+      "parmi": [
+        "tisseuse_de_brume",
+        "tisseuse_de_brume"
+      ],
+      "nombre": [
+        3,
+        4
+      ]
     }
   ],
   "placement": [

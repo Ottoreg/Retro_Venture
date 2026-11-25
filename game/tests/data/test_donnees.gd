@@ -408,6 +408,28 @@ static func _zone_of(map_id: String) -> String:
 ## Chaque quête est faisable : ses PNJ et ses cartes existent, ses monstres vivent sur des cartes de
 ## la zone de son donneur (les boss aussi), ses ressources se récoltent au niveau 1 de métier dans les
 ## zones de départ, et sa chaîne remonte à un tutoriel (ou n'a pas de condition de quête).
+## Demande de l'auteur du 25/11/2026 : hors donjons, toute carte à groupes ordinaires (ni boss, ni groupe rare, ni
+## variante) a un petit groupe (1 à 2 monstres), un moyen (3 à 4) et un grand (5 à 6) ; docs/design/groupes/tailles.py.
+func test_petit_moyen_et_grand_groupe_par_carte() -> void:
+	var game_data := GameData.load_all()
+	for path in _find_json(DATA_ROOT.path_join("cartes")):
+		var raw: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(path))
+		if raw.has("donjon") or raw.has("etage_suivant") or str(raw["id"]).begins_with("tour_celeste") or str(raw["id"]).begins_with("grange_"):
+			continue
+		var sizes := {}
+		for group: Dictionary in raw.get("groupes", []):
+			var pool: Array = group.get("monstres", group.get("parmi", []))
+			if group.has("reapparition") or group.has("apres_boss") or pool.any(func(m: String) -> bool: return game_data.monsters[m].get("boss", false)):
+				continue
+			var count: Array = group.get("nombre", [pool.size(), pool.size()])
+			for size: Array in [[1, 2], [3, 4], [5, 6]]:
+				if count[0] >= size[0] and count[1] <= size[1]:
+					sizes[size] = true
+		if not sizes.is_empty():
+			for size: Array in [[1, 2], [3, 4], [5, 6]]:
+				assert_true(sizes.has(size), "%s : un groupe de %d à %d monstres" % [raw["id"], size[0], size[1]])
+
+
 func test_quetes_faisables() -> void:
 	var game_data := GameData.load_all()
 	assert_eq(game_data.quests.size(), DataLoader.list_json(DATA_ROOT.path_join("quetes")).size(), "toutes les quêtes sont valides")

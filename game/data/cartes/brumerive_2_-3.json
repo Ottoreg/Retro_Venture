@@ -9,7 +9,7 @@
     "RRRRRRRRRRRRRRRRRRR",
     " R................R",
     "R.................R",
-    " R................R",
+    " R3...............R",
     "R.................R",
     " R...M............R",
     "R.................R",
@@ -35,7 +35,7 @@
     "R........:........R",
     " R.........M......R",
     "R........:........R",
-    " R................R",
+    " R..............4.R",
     "R........:........R",
     " R................R",
     "RRRRRRRR.:.RRRRRRRR"
@@ -54,6 +54,26 @@
       "monstres": [
         "golem_de_minerai",
         "golem_de_minerai"
+      ]
+    },
+    {
+      "parmi": [
+        "golem_de_minerai",
+        "golem_de_minerai"
+      ],
+      "nombre": [
+        5,
+        6
+      ]
+    },
+    {
+      "parmi": [
+        "golem_de_minerai",
+        "golem_de_minerai"
+      ],
+      "nombre": [
+        3,
+        4
       ]
     }
   ],
