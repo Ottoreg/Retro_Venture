@@ -38,6 +38,10 @@ def recolor(sheet: Image.Image, recipe: dict, target_hex: str) -> Image.Image:
     target = tuple(int(target_hex[i:i + 2], 16) for i in (0, 2, 4))
     pixels = list(sheet.getdata())
     chosen = [i for i, p in enumerate(pixels) if selected(p, recipe)]
+    # « sauf_sous » : pixels gardés s'ils sont à moins de « lignes » sous un pixel « chapeau » (lamelles de l'amanite).
+    cap, rows = recipe.get("sauf_sous", {}), sheet.width
+    if cap:
+        chosen = [i for i in chosen if not any(i - k * rows >= 0 and selected(pixels[i - k * rows], cap) for k in range(1, cap["lignes"] + 1))]
     # Luminance moyenne du vêtement : elle prend la couleur de la Voie, le reste s'éclaircit ou
     # s'assombrit autour.
     reference = sum(luminance(pixels[i]) for i in chosen) / max(1, len(chosen))

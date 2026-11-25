@@ -356,6 +356,9 @@ Dernière session (retours de la passe de l'auteur) :
   Pierre `brumerive_barbe_fendue`, `maison_barbe_fendue`, 4 quêtes `barbe_fendue_*`) ; Bois-Farceur des mycéliens (`sylvebrume_3_0` à `4_2`,
   `maison_bois_farceur`, quête `bois_farceur_dementi` ; quêtes de race `QUETES_RACE` écrites, à produire quand la race existera)
   et Sources primordiales des arkhés (`sylvebrume_0_-1` à `1_-3`, `maison_sources`, 4 quêtes `sources_*`) faits le 24/11/2026 ;
+  **Mycéliens** (25/11/2026) : amanite (`mycelien`) et girolle (`mycelien_girolle`, `variante_de`) jouables, sans passif ni sort,
+  départ `sylvebrume_3_0` ; sprites `assets/myceliens/<variante>/`, recoloration avec `sauf_sous` (lamelles de l'amanite gardées) ;
+  quêtes de race du Bois-Farceur pas encore produites ;
   condition de quête `race` remplie aussi par les variantes (`variante_de`, `QuestBook.is_available`).
 - **Grandes Plaines** (24/11/2026, demande de l'auteur) : 15 cartes de steppe de plus au sud-ouest de Hautepierre
   (`grandesplaines_-4_0` à `0_3`, 17 en tout, toutes reliées entre voisines), relief, eau et récolte (agriculteur, herboriste,

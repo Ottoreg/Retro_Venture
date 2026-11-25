@@ -19,6 +19,8 @@ Pas encore utilisée par le jeu.
 
 `geante/` : géante (race Géants, Phase 3), déposée le 19/11/2026 ; images fixes de 96 px et animations de 136 px,
 plus grandes que l'orc (planche à cases plus grandes à prévoir). Chaque dossier PixelLab garde son `metadata.json` (prompt utilisé).
+`myceliens/` : amanite et girolle (Mycéliens), déposées le 25/11/2026 en zip, rangées comme l'ampa (`Idle_rotations_8dir.gif` fait des 8 images de
+`rotations/`, `running/`, `strike/`), tenue en gris neutre ; planches `game/art/sprites/mycelien.png` (amanite) et `mycelien_girolle.png`.
 `ampa/` : l'ampa (monture des Grandes Plaines), déposé le 24/11/2026 en zip, rangé comme l'orc : `Idle_rotations_8dir.gif`
 (fait des 8 images de `rotations/`), `running/` (course, 8 directions) et `strike/` (cou rejeté en arrière, 4 diagonales),
 plumage gris neutre. Planche `game/art/sprites/ampa.png` par `tools/planche_sprites.py`, puis une planche par robe

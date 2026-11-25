@@ -1,0 +1,17 @@
+{
+  "id": "mycelien_girolle",
+  "nom": "Mycélien",
+  "camp": "neutre",
+  "variante": "Girolle",
+  "variante_de": "mycelien",
+  "description": "Hommes-champignons reliés par leurs racines : le réseau de commérages de la forêt. Ils savent tout ce qui se passe partout et n'en font jamais rien. Neutres par paresse plus que par principe (« on n'était pas au courant »).",
+  "passif": {
+    "nom": "À définir",
+    "description": "Passif à venir.",
+    "effets": []
+  },
+  "carte_depart": "sylvebrume_3_0",
+  "apparence": {
+    "peau": "e0a840"
+  }
+}

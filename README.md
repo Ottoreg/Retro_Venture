@@ -31,7 +31,7 @@ a été ajouté depuis, avant de retravailler le fond des mécaniques, des class
   Ombre (images rémanentes, invisibilité, Monde des ombres), Démoniste (serviteurs joués par le joueur, cases embrasées),
   Paladin (auras qui le suivent, balises reliées par des arcs électriques) et Myrmidon (tank : provocation, Blindage,
   Gelures, arbres et rochers démolis, eau gelée) ; Chronomancien complet (horloge, pulsions temporelles, retours dans
-  le passé, envoi dans le futur) ; races : Humains, Elfes, Gobelins, Orcs, Squelettes, Géants, Nains et Arkhés (4 variantes élémentaires), choisies dans un carrousel à la création.
+  le passé, envoi dans le futur) ; races : Humains, Elfes, Gobelins, Orcs, Squelettes, Géants, Nains, Arkhés (4 variantes élémentaires) et Mycéliens (amanite et girolle), choisies dans un carrousel à la création.
 - **Progression sans niveaux** : réputation (qui débloque) et points de maîtrise à répartir, par classe et par
   métier ; caractéristiques gagnées par la pratique et plafonnées ; une classe active, changée hors combat.
 - **Sauvegarde solo** automatique, exportable et importable en image PNG chiffrée (menu principal).
@@ -41,7 +41,7 @@ a été ajouté depuis, avant de retravailler le fond des mécaniques, des class
 - **Quêtes** : tutoriels, actes I et II, quêtes secondaires, journal et suivi avec repères sur la carte.
 - **Multijoueur (prototype)** : serveur Godot qui fait autorité, comptes Supabase, groupes et combats de
   groupe, spectateurs, chat par canaux, amis et ignorés, signalement, échange entre joueurs (jalons M0 à M4).
-- **Graphismes** : sprites en pixel art pour les huit races (et les 4 variantes de l'Arkhé) et quelques monstres (loup, rat, morille).
+- **Graphismes** : sprites en pixel art pour les neuf races (avec les 4 variantes de l'Arkhé et 2 du Mycélien) et quelques monstres (loup, rat, morille).
 
 **Sur `dev`** : tacle et fuite, esquive des retraits de PA / PM, épines, réduction de dégâts fixe, dégâts
 spectraux et dommages de mêlée (statistiques et lignes de forge) ; infusion d'essences et infusion miroir à

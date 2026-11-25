@@ -376,7 +376,7 @@ autres (Nains, Orcs, Arkhés, Géants, Squelettes, Mycéliens) en Phase 3.
 | **Arkhé** (élémentaire) | Neutre | *Cœur élémentaire* : +5 % de dégâts et de résistance dans l'élément de sa variante | *Éruption* : dégâts de son élément 4-7 aux ennemis à 1 case (3 PA, relance 3) | Phase 3 (jouable pour les tests) |
 | **Géant** | Allié | *Carrure* : +10 % de PV max | *Coup de semelle* : dégâts Acier au contact, repousse la cible de 2 cases | Phase 3 |
 | **Squelette** (mort-vivant) | Ennemi | *Déjà mort* : une fois par combat, survit à un coup fatal avec 1 PV | *Remonter les os* : se soigne de 15 % de ses PV (relance tous les 3 tours) | Phase 3 |
-| **Mycélien** (homme-champignon) | Neutre | *à définir* | *à définir* | Phase 3 |
+| **Mycélien** (homme-champignon) | Neutre | *à définir* | *à définir* | Phase 3 (amanite et girolle jouables pour les tests, 25/11/2026) |
 
 **Plus de bonus de caractéristiques ni d'équipement de départ** (décision de l'auteur du 29/10/2026) :
 une race se distingue par son passif, qui touche l'expérience de jeu (butin, métiers, portée,

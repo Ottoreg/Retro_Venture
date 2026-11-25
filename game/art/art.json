@@ -1618,6 +1618,19 @@
       "echelle": 1.1,
       "recoloration": {"teinte": [70, 160], "saturation": [0.15, 0.7], "valeur": [0.2, 0.8], "force": 0.85}
     },
+    "mycelien": {
+      "rig": "humain",
+      "planche": "sprites/mycelien.png",
+      "echelle": 1.05,
+      "recoloration": {"teinte": [0, 360], "saturation": [0, 0.1], "valeur": [0.15, 0.9], "force": 0.85,
+        "sauf_sous": {"teinte": [340, 20], "saturation": [0.5, 1], "valeur": [0.3, 1], "lignes": 6}}
+    },
+    "mycelien_girolle": {
+      "rig": "humain",
+      "planche": "sprites/mycelien_girolle.png",
+      "echelle": 1.05,
+      "recoloration": {"teinte": [0, 360], "saturation": [0, 0.08], "valeur": [0.3, 0.9], "force": 0.85}
+    },
     "nain": {
       "rig": "humain",
       "planche": "sprites/nain.png",

@@ -1,0 +1,307 @@
+{
+  "group_id": "553bdc42-f76e-45a8-851e-bd3f7975514d",
+  "states": [
+    {
+      "character": {
+        "id": "9745ad8b-2a80-4350-ad28-39923ddd1ae2",
+        "name": "Idle",
+        "prompt": "Mycelian, a humanoid mushroom-folk character, human-sized, slender fungal body, head is a golden chanterelle cap: egg-yolk yellow-orange, funnel / trumpet shaped with a wavy irregular rim, false gills as forked ridges running down onto the neck. Small glowing eyes under the rim. Limbs of pale yellow fibrous stalk tissue tapering down, thin root-like mycelium filaments at hands and feet.\nAgile, lively, warm and friendly look.\nWearing a simple short tunic and a small cape / scarf in NEUTRAL light grey tones only (no hue), clearly separated from the mushroom body, so the outfit can be recolored in code per class. No weapon.",
+        "size": {
+          "width": 64,
+          "height": 64
+        },
+        "template_id": "mannequin",
+        "directions": 8,
+        "view": "low top-down",
+        "created_at": "2026-11-25T12:14:17.084179+00:00"
+      },
+      "folder": "Idle",
+      "frames": {
+        "rotations": {
+          "south": "Idle/rotations/south.png",
+          "south-east": "Idle/rotations/south-east.png",
+          "east": "Idle/rotations/east.png",
+          "north-east": "Idle/rotations/north-east.png",
+          "north": "Idle/rotations/north.png",
+          "north-west": "Idle/rotations/north-west.png",
+          "west": "Idle/rotations/west.png",
+          "south-west": "Idle/rotations/south-west.png"
+        },
+        "animations": {
+          "Lean_the_upper_body_forward_while_drawing_the_righ": {
+            "north-west": [
+              "Idle/animations/Lean_the_upper_body_forward_while_drawing_the_righ/north-west/frame_000.png",
+              "Idle/animations/Lean_the_upper_body_forward_while_drawing_the_righ/north-west/frame_001.png",
+              "Idle/animations/Lean_the_upper_body_forward_while_drawing_the_righ/north-west/frame_002.png",
+              "Idle/animations/Lean_the_upper_body_forward_while_drawing_the_righ/north-west/frame_003.png",
+              "Idle/animations/Lean_the_upper_body_forward_while_drawing_the_righ/north-west/frame_004.png",
+              "Idle/animations/Lean_the_upper_body_forward_while_drawing_the_righ/north-west/frame_005.png",
+              "Idle/animations/Lean_the_upper_body_forward_while_drawing_the_righ/north-west/frame_006.png",
+              "Idle/animations/Lean_the_upper_body_forward_while_drawing_the_righ/north-west/frame_007.png",
+              "Idle/animations/Lean_the_upper_body_forward_while_drawing_the_righ/north-west/frame_008.png"
+            ],
+            "north-east": [
+              "Idle/animations/Lean_the_upper_body_forward_while_drawing_the_righ/north-east/frame_000.png",
+              "Idle/animations/Lean_the_upper_body_forward_while_drawing_the_righ/north-east/frame_001.png",
+              "Idle/animations/Lean_the_upper_body_forward_while_drawing_the_righ/north-east/frame_002.png",
+              "Idle/animations/Lean_the_upper_body_forward_while_drawing_the_righ/north-east/frame_003.png",
+              "Idle/animations/Lean_the_upper_body_forward_while_drawing_the_righ/north-east/frame_004.png",
+              "Idle/animations/Lean_the_upper_body_forward_while_drawing_the_righ/north-east/frame_005.png",
+              "Idle/animations/Lean_the_upper_body_forward_while_drawing_the_righ/north-east/frame_006.png",
+              "Idle/animations/Lean_the_upper_body_forward_while_drawing_the_righ/north-east/frame_007.png",
+              "Idle/animations/Lean_the_upper_body_forward_while_drawing_the_righ/north-east/frame_008.png"
+            ],
+            "south-east": [
+              "Idle/animations/Lean_the_upper_body_forward_while_drawing_the_righ/south-east/frame_000.png",
+              "Idle/animations/Lean_the_upper_body_forward_while_drawing_the_righ/south-east/frame_001.png",
+              "Idle/animations/Lean_the_upper_body_forward_while_drawing_the_righ/south-east/frame_002.png",
+              "Idle/animations/Lean_the_upper_body_forward_while_drawing_the_righ/south-east/frame_003.png",
+              "Idle/animations/Lean_the_upper_body_forward_while_drawing_the_righ/south-east/frame_004.png",
+              "Idle/animations/Lean_the_upper_body_forward_while_drawing_the_righ/south-east/frame_005.png",
+              "Idle/animations/Lean_the_upper_body_forward_while_drawing_the_righ/south-east/frame_006.png",
+              "Idle/animations/Lean_the_upper_body_forward_while_drawing_the_righ/south-east/frame_007.png",
+              "Idle/animations/Lean_the_upper_body_forward_while_drawing_the_righ/south-east/frame_008.png"
+            ],
+            "south-west": [
+              "Idle/animations/Lean_the_upper_body_forward_while_drawing_the_righ/south-west/frame_000.png",
+              "Idle/animations/Lean_the_upper_body_forward_while_drawing_the_righ/south-west/frame_001.png",
+              "Idle/animations/Lean_the_upper_body_forward_while_drawing_the_righ/south-west/frame_002.png",
+              "Idle/animations/Lean_the_upper_body_forward_while_drawing_the_righ/south-west/frame_003.png",
+              "Idle/animations/Lean_the_upper_body_forward_while_drawing_the_righ/south-west/frame_004.png",
+              "Idle/animations/Lean_the_upper_body_forward_while_drawing_the_righ/south-west/frame_005.png",
+              "Idle/animations/Lean_the_upper_body_forward_while_drawing_the_righ/south-west/frame_006.png",
+              "Idle/animations/Lean_the_upper_body_forward_while_drawing_the_righ/south-west/frame_007.png",
+              "Idle/animations/Lean_the_upper_body_forward_while_drawing_the_righ/south-west/frame_008.png"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "character": {
+        "id": "5d4d078f-e3da-4ac0-8518-4d09bce8eae5",
+        "name": "Walking",
+        "prompt": "Mycelian, a humanoid mushroom-folk character, human-sized, slender fungal body, head is a golden chanterelle cap: egg-yolk yellow-orange, funnel / trumpet shaped with a wavy irregular rim, false gills as forked ridges running down onto the neck. Small glowing eyes under the rim. Limbs of pale yellow fibrous stalk tissue tapering down, thin root-like mycelium filaments at hands and feet.\nAgile, lively, warm and friendly look.\nWearing a simple short tunic and a small cape / scarf in NEUTRAL light grey tones only (no hue), clearly separated from the mushroom body, so the outfit can be recolored in code per class. No weapon.",
+        "size": {
+          "width": 64,
+          "height": 64
+        },
+        "template_id": "mannequin",
+        "directions": 8,
+        "view": "low top-down",
+        "created_at": "2026-11-25T19:08:52.894127+00:00"
+      },
+      "folder": "Walking",
+      "frames": {
+        "rotations": {
+          "south": "Walking/rotations/south.png",
+          "south-east": "Walking/rotations/south-east.png",
+          "east": "Walking/rotations/east.png",
+          "north-east": "Walking/rotations/north-east.png",
+          "north": "Walking/rotations/north.png",
+          "north-west": "Walking/rotations/north-west.png",
+          "west": "Walking/rotations/west.png",
+          "south-west": "Walking/rotations/south-west.png"
+        },
+        "animations": {
+          "Walking": {
+            "south-west": [
+              "Walking/animations/Walking/south-west/frame_000.png",
+              "Walking/animations/Walking/south-west/frame_001.png",
+              "Walking/animations/Walking/south-west/frame_002.png",
+              "Walking/animations/Walking/south-west/frame_003.png",
+              "Walking/animations/Walking/south-west/frame_004.png",
+              "Walking/animations/Walking/south-west/frame_005.png",
+              "Walking/animations/Walking/south-west/frame_006.png",
+              "Walking/animations/Walking/south-west/frame_007.png"
+            ],
+            "west": [
+              "Walking/animations/Walking/west/frame_000.png",
+              "Walking/animations/Walking/west/frame_001.png",
+              "Walking/animations/Walking/west/frame_002.png",
+              "Walking/animations/Walking/west/frame_003.png",
+              "Walking/animations/Walking/west/frame_004.png",
+              "Walking/animations/Walking/west/frame_005.png",
+              "Walking/animations/Walking/west/frame_006.png",
+              "Walking/animations/Walking/west/frame_007.png"
+            ],
+            "east": [
+              "Walking/animations/Walking/east/frame_000.png",
+              "Walking/animations/Walking/east/frame_001.png",
+              "Walking/animations/Walking/east/frame_002.png",
+              "Walking/animations/Walking/east/frame_003.png",
+              "Walking/animations/Walking/east/frame_004.png",
+              "Walking/animations/Walking/east/frame_005.png",
+              "Walking/animations/Walking/east/frame_006.png",
+              "Walking/animations/Walking/east/frame_007.png"
+            ],
+            "north-west": [
+              "Walking/animations/Walking/north-west/frame_000.png",
+              "Walking/animations/Walking/north-west/frame_001.png",
+              "Walking/animations/Walking/north-west/frame_002.png",
+              "Walking/animations/Walking/north-west/frame_003.png",
+              "Walking/animations/Walking/north-west/frame_004.png",
+              "Walking/animations/Walking/north-west/frame_005.png",
+              "Walking/animations/Walking/north-west/frame_006.png",
+              "Walking/animations/Walking/north-west/frame_007.png"
+            ],
+            "south": [
+              "Walking/animations/Walking/south/frame_000.png",
+              "Walking/animations/Walking/south/frame_001.png",
+              "Walking/animations/Walking/south/frame_002.png",
+              "Walking/animations/Walking/south/frame_003.png",
+              "Walking/animations/Walking/south/frame_004.png",
+              "Walking/animations/Walking/south/frame_005.png",
+              "Walking/animations/Walking/south/frame_006.png",
+              "Walking/animations/Walking/south/frame_007.png"
+            ],
+            "north-east": [
+              "Walking/animations/Walking/north-east/frame_000.png",
+              "Walking/animations/Walking/north-east/frame_001.png",
+              "Walking/animations/Walking/north-east/frame_002.png",
+              "Walking/animations/Walking/north-east/frame_003.png",
+              "Walking/animations/Walking/north-east/frame_004.png",
+              "Walking/animations/Walking/north-east/frame_005.png",
+              "Walking/animations/Walking/north-east/frame_006.png",
+              "Walking/animations/Walking/north-east/frame_007.png"
+            ],
+            "south-east": [
+              "Walking/animations/Walking/south-east/frame_000.png",
+              "Walking/animations/Walking/south-east/frame_001.png",
+              "Walking/animations/Walking/south-east/frame_002.png",
+              "Walking/animations/Walking/south-east/frame_003.png",
+              "Walking/animations/Walking/south-east/frame_004.png",
+              "Walking/animations/Walking/south-east/frame_005.png",
+              "Walking/animations/Walking/south-east/frame_006.png",
+              "Walking/animations/Walking/south-east/frame_007.png"
+            ],
+            "north": [
+              "Walking/animations/Walking/north/frame_000.png",
+              "Walking/animations/Walking/north/frame_001.png",
+              "Walking/animations/Walking/north/frame_002.png",
+              "Walking/animations/Walking/north/frame_003.png",
+              "Walking/animations/Walking/north/frame_004.png",
+              "Walking/animations/Walking/north/frame_005.png",
+              "Walking/animations/Walking/north/frame_006.png",
+              "Walking/animations/Walking/north/frame_007.png"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "character": {
+        "id": "a83ca1cb-bc81-4176-a3bd-1c9d4ebe10f8",
+        "name": "Running",
+        "prompt": "Mycelian, a humanoid mushroom-folk character, human-sized, slender fungal body, head is a golden chanterelle cap: egg-yolk yellow-orange, funnel / trumpet shaped with a wavy irregular rim, false gills as forked ridges running down onto the neck. Small glowing eyes under the rim. Limbs of pale yellow fibrous stalk tissue tapering down, thin root-like mycelium filaments at hands and feet.\nAgile, lively, warm and friendly look.\nWearing a simple short tunic and a small cape / scarf in NEUTRAL light grey tones only (no hue), clearly separated from the mushroom body, so the outfit can be recolored in code per class. No weapon.",
+        "size": {
+          "width": 64,
+          "height": 64
+        },
+        "template_id": "mannequin",
+        "directions": 8,
+        "view": "low top-down",
+        "created_at": "2026-11-25T19:09:01.702070+00:00"
+      },
+      "folder": "Running",
+      "frames": {
+        "rotations": {
+          "south": "Running/rotations/south.png",
+          "south-east": "Running/rotations/south-east.png",
+          "east": "Running/rotations/east.png",
+          "north-east": "Running/rotations/north-east.png",
+          "north": "Running/rotations/north.png",
+          "north-west": "Running/rotations/north-west.png",
+          "west": "Running/rotations/west.png",
+          "south-west": "Running/rotations/south-west.png"
+        },
+        "animations": {
+          "Running": {
+            "east": [
+              "Running/animations/Running/east/frame_000.png",
+              "Running/animations/Running/east/frame_001.png",
+              "Running/animations/Running/east/frame_002.png",
+              "Running/animations/Running/east/frame_003.png",
+              "Running/animations/Running/east/frame_004.png",
+              "Running/animations/Running/east/frame_005.png",
+              "Running/animations/Running/east/frame_006.png",
+              "Running/animations/Running/east/frame_007.png"
+            ],
+            "south": [
+              "Running/animations/Running/south/frame_000.png",
+              "Running/animations/Running/south/frame_001.png",
+              "Running/animations/Running/south/frame_002.png",
+              "Running/animations/Running/south/frame_003.png",
+              "Running/animations/Running/south/frame_004.png",
+              "Running/animations/Running/south/frame_005.png",
+              "Running/animations/Running/south/frame_006.png",
+              "Running/animations/Running/south/frame_007.png"
+            ],
+            "west": [
+              "Running/animations/Running/west/frame_000.png",
+              "Running/animations/Running/west/frame_001.png",
+              "Running/animations/Running/west/frame_002.png",
+              "Running/animations/Running/west/frame_003.png",
+              "Running/animations/Running/west/frame_004.png",
+              "Running/animations/Running/west/frame_005.png",
+              "Running/animations/Running/west/frame_006.png",
+              "Running/animations/Running/west/frame_007.png"
+            ],
+            "north-east": [
+              "Running/animations/Running/north-east/frame_000.png",
+              "Running/animations/Running/north-east/frame_001.png",
+              "Running/animations/Running/north-east/frame_002.png",
+              "Running/animations/Running/north-east/frame_003.png",
+              "Running/animations/Running/north-east/frame_004.png",
+              "Running/animations/Running/north-east/frame_005.png",
+              "Running/animations/Running/north-east/frame_006.png",
+              "Running/animations/Running/north-east/frame_007.png"
+            ],
+            "south-west": [
+              "Running/animations/Running/south-west/frame_000.png",
+              "Running/animations/Running/south-west/frame_001.png",
+              "Running/animations/Running/south-west/frame_002.png",
+              "Running/animations/Running/south-west/frame_003.png",
+              "Running/animations/Running/south-west/frame_004.png",
+              "Running/animations/Running/south-west/frame_005.png",
+              "Running/animations/Running/south-west/frame_006.png",
+              "Running/animations/Running/south-west/frame_007.png"
+            ],
+            "south-east": [
+              "Running/animations/Running/south-east/frame_000.png",
+              "Running/animations/Running/south-east/frame_001.png",
+              "Running/animations/Running/south-east/frame_002.png",
+              "Running/animations/Running/south-east/frame_003.png",
+              "Running/animations/Running/south-east/frame_004.png",
+              "Running/animations/Running/south-east/frame_005.png",
+              "Running/animations/Running/south-east/frame_006.png",
+              "Running/animations/Running/south-east/frame_007.png"
+            ],
+            "north": [
+              "Running/animations/Running/north/frame_000.png",
+              "Running/animations/Running/north/frame_001.png",
+              "Running/animations/Running/north/frame_002.png",
+              "Running/animations/Running/north/frame_003.png",
+              "Running/animations/Running/north/frame_004.png",
+              "Running/animations/Running/north/frame_005.png",
+              "Running/animations/Running/north/frame_006.png",
+              "Running/animations/Running/north/frame_007.png"
+            ],
+            "north-west": [
+              "Running/animations/Running/north-west/frame_000.png",
+              "Running/animations/Running/north-west/frame_001.png",
+              "Running/animations/Running/north-west/frame_002.png",
+              "Running/animations/Running/north-west/frame_003.png",
+              "Running/animations/Running/north-west/frame_004.png",
+              "Running/animations/Running/north-west/frame_005.png",
+              "Running/animations/Running/north-west/frame_006.png",
+              "Running/animations/Running/north-west/frame_007.png"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-11-25T19:37:36.384588"
+}

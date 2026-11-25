@@ -682,7 +682,7 @@ Lots 0 (conception dans le GDD), 1 (personnage, poussé sur `main` à la demande
 - [ ] Race **Arkhé** (neutre, remplace le Semi-homme depuis le 19/11/2026) : *Cœur élémentaire* et *Éruption* faits (variante Flamme) ; 2e et 3e passifs à définir, variantes Acier, Tempête et Givre, sous-zone et quêtes de race
 - [ ] Race **Géant** (allié) : bonus, passif *Carrure*, sort *Coup de semelle*, assemblage agrandi (≈ 1,25×), zone de départ et chaîne d'acte I
 - [ ] Race **Squelette** (ennemi, mort-vivant) : passif *Déjà mort*, sort *Remonter les os*, assemblage squelette, zone de départ et chaîne d'acte I
-- [ ] Race **Mycélien** (neutre, remplace le Lutin depuis le 23/11/2026) : formes cèpe, girolle et amanite (à la place du choix mâle / femelle), passifs et sort à définir, sous-zone et quêtes de race
+- [ ] Race **Mycélien** (neutre, remplace le Lutin depuis le 23/11/2026) : formes cèpe, girolle et amanite (à la place du choix mâle / femelle) ; **amanite (`mycelien`) et girolle (`mycelien_girolle`) jouables le 25/11/2026** (sprites PixelLab recoloriés par Voie, départ au Bois-Farceur, sans passif ni sort) ; reste le cèpe (sprites à déposer), passifs et sort à définir, quêtes de race du Bois-Farceur à produire (`sz_bois_farceur.py`)
 - [ ] Squelette : variantes selon la race d'avant la mort (petit squelette de taille humaine, grand squelette de taille du Géant) à la place du choix mâle / femelle (23/11/2026)
 - [ ] Différencier les races proches (Nain / Orc) et valider leurs noms de peuple (GDD § 4.2)
 - [ ] Voies de corps à corps : **Paladin** (guerrier sacré) et **Myrmidon** (guerrier tank)

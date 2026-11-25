@@ -54,8 +54,8 @@ nous faire vos retours. Le jeu n'affiche volontairement presque aucune aide à l
 
 ## Par où commencer
 
-1. **Créez votre personnage** : une race (Humain, Nain, Géant, Gobelin, Orc, Squelette, Elfe ou Arkhé, à faire défiler avec les flèches ; l'Arkhé a
-   4 variantes, Flamme, Acier, Givre et Tempête : elle fixe votre zone de départ
+1. **Créez votre personnage** : une race (Humain, Nain, Géant, Gobelin, Orc, Squelette, Elfe, Arkhé ou Mycélien, à faire défiler avec les flèches ; l'Arkhé a
+   4 variantes, Flamme, Acier, Givre et Tempête, le Mycélien 2, Amanite et Girolle : elle fixe votre zone de départ
    et votre camp), une Voie (Guerrier, Rôdeur, Arcaniste, Théologue, Chronomancien, Ombre, Démoniste, Paladin ou Myrmidon) et un nom.
 2. **Parlez au personnage marqué d'un « ! »** près de votre point d'arrivée : Alric (humains), Grumm
    (gobelins) ou Elwyn (elfes). Son **tutoriel** vous apprend à vous équiper (touche **I**), à
@@ -92,6 +92,7 @@ temps : chaque camp a sa propre histoire.
     Flamme aux ennemis à son contact) ; passif *Cœur élémentaire* : +5 % de dégâts et de résistance Flamme ; variantes
     Acier, Givre et Tempête : le même passif et le même sort dans leur élément.
   - **Nain** (camp allié, à l'essai) : départ au **Comptoir de Barbe-Fendue**, au nord de Brumerive (sa sous-zone, avec sa Pierre de Passage, sa maison et 3 quêtes de race) ; apparence seulement pour l'instant.
+  - **Mycélien** (homme-champignon, camp neutre, à l'essai) : départ au **Bois-Farceur**, à l'est de Sylvebrume ; variantes Amanite et Girolle ; apparence seulement pour l'instant.
 - Cinq Voies (classes), chacune avec sa mécanique :
   - **Guerrier** : *Charge* (en ligne droite, jusqu'au contact, puis un coup d'épée) ;
   - **Rôdeur** : *Collet*, un piège invisible qui blesse et ralentit le premier ennemi qui y entre ;
