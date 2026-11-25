@@ -6,8 +6,8 @@ extends RefCounted
 ## dessin d'un bloc du monstre.
 ##
 ## La planche a une ligne par direction (`DIRECTIONS`) et 5 cases de 96 × 96 (plus grandes pour un
-## grand personnage, voir `cell`) : l'image fixe puis les 4 images de la course. Les pieds sont aux 5/6
-## de chaque case (`FEET` pour 96). Elle est agrandie au
+## grand personnage, voir `cell`) : l'image fixe puis les 4 images de la course. Les pieds sont au bas
+## de l'image (`feet`). Elle est agrandie au
 ## chargement en `Art.SCALE` × sans lissage, puis dessinée à sa taille : les pixels restent nets
 ## même si l'écran met la carte à l'échelle.
 
@@ -15,7 +15,8 @@ const ROOT := "res://art"
 ## Ordre des lignes de la planche : du sud (vers le bas de l'écran) en tournant par l'est.
 const DIRECTIONS := ["sud", "sud-est", "est", "nord-est", "nord", "nord-ouest", "ouest", "sud-ouest"]
 const CELL := 96
-const FEET := Vector2(48, 80)
+## Enfoncement des pieds sous le centre de l'ombre, à l'échelle 1.
+const SINK := 3.0
 const RUN_FRAMES := 4
 ## Images de l'attaque (colonnes 6 à 11, si la planche les a), pour le corps à corps comme pour les sorts.
 const STRIKE_FRAMES := 6
@@ -64,8 +65,13 @@ static func has_strike(sheet: String) -> bool:
 	return tex != null and tex.get_width() > (1 + RUN_FRAMES) * cell(sheet) * Art.SCALE
 
 
+## Point posé au sol : le bas réel de l'image fixe la plus basse, remonté de `SINK` pour que les pieds
+## s'enfoncent dans l'ombre au lieu de sembler flotter au-dessus.
 static func feet(sheet: String) -> Vector2:
-	return Vector2(cell(sheet) / 2.0, cell(sheet) * 5.0 / 6.0)
+	var bottom := 0.0
+	for direction in DIRECTIONS.size():
+		bottom = maxf(bottom, _used_rect(sheet, direction).end.y / Art.SCALE)
+	return Vector2(cell(sheet) / 2.0, (bottom if bottom > 0.0 else cell(sheet) * 5.0 / 6.0) - SINK)
 
 
 ## Direction (indice dans `DIRECTIONS`) d'un déplacement à l'écran. La carte est isométrique (case

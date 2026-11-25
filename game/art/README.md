@@ -44,7 +44,7 @@ de course), pieds en (48, 80). Elle est assemblée à partir des PNG fixes et de
 `python3 tools/planche_sprites.py dossier/ art/sprites/<nom>.png` (fichiers bruts de l'auteur : `assets/` à la racine du dépôt ;
 export PixelLab en dossiers `walking/` et `running/` d'images 92 × 92 : image fixe tirée de `Idle_rotations_8dir.gif`
 (sinon 1re image de la marche), une image sur deux de la course). À l'essai pour l'instant : les races gobelin, humaine, elfe, orc, squelette, géant, arkhé et mycélien
-(images de course de 84 à 136 px centrées dans la case ; idle de 96 px, comme la géante : cases de 144 px, pieds aux 5/6 ;
+(images de course de 84 à 136 px centrées dans la case ; idle de 96 px, comme la géante : cases de 144 px, pieds posés au bas réel de l’image, enfoncés de `Sprites.SINK` dans l’ombre ;
 une direction ouest absente est faite en miroir de l'est ; un dossier `strike/` ajoute 6 colonnes d'attaque, jouées pour le corps à corps comme pour les sorts, `Sprites.has_strike`) ; `recoloration.sauf_sous` garde les pixels pris sous un « chapeau » (lamelles blanches de l'amanite)
 (sprites fournis par l'auteur ; l'attaque `strike` de l'orc et du squelette n'est pas encore utilisée). Chaque race a aussi une planche
 par Voie, `sprites/<race>_<voie>.png`, où le vêtement prend la couleur de tunique de la Voie : la
