@@ -218,6 +218,10 @@ func _build() -> void:
 
 	left.add_child(_label("Race", 18, GOLD))
 	left.add_child(_carousel())
+	_variant_row = HBoxContainer.new()
+	_variant_row.alignment = BoxContainer.ALIGNMENT_CENTER
+	_variant_row.custom_minimum_size = Vector2(0, 32)  # Hauteur réservée : les classes ne bougent pas avec ou sans variantes.
+	left.add_child(_variant_row)
 
 	left.add_child(_label("Classe (Voie)", 18, GOLD))
 	left.add_child(_choice_row(VOIE_ORDER, data.voies, _voie_buttons, _select_voie))
@@ -264,18 +268,15 @@ func _carousel() -> HBoxContainer:
 	row.alignment = BoxContainer.ALIGNMENT_CENTER
 	row.add_theme_constant_override("separation", 6)
 	var center := VBoxContainer.new()
-	center.custom_minimum_size = Vector2(380, 0)  # Largeur fixe (4 variantes) : les flèches ne bougent pas d'une race ou d'une variante à l'autre.
+	center.custom_minimum_size = Vector2(320, 0)  # Largeur fixe (nom coupé, variantes sous le carrousel) : les flèches ne bougent pas.
 	_preview = Preview.new()
 	_preview.zoom = 1.7
 	_preview.custom_minimum_size = Vector2(170, 130)
 	center.add_child(_preview)
 	_race_name = _label("", 18, GOLD)
 	_race_name.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_race_name.clip_text = true
 	center.add_child(_race_name)
-	_variant_row = HBoxContainer.new()
-	_variant_row.alignment = BoxContainer.ALIGNMENT_CENTER
-	_variant_row.custom_minimum_size = Vector2(0, 32)  # Hauteur réservée : les classes ne bougent pas avec ou sans variantes.
-	center.add_child(_variant_row)
 	for step in [-1, 1]:
 		var arrow := Button.new()
 		arrow.text = "‹" if step < 0 else "›"
