@@ -302,6 +302,12 @@ Toutes les ressources qui servent à la forge (caractéristique ou matière), pa
 | **Voile de deuil** | 1 | peu_commun | Vitalité | +4 | — | Grande Pleureuse (élite), palier 1 60 % ×1–2<br>Pleureuse de l'Ossuaire, palier 1 15 % |
 | **Écorce vivante** | 1 | commun | Agilité | +1 | — | Arbre millénaire (élite), palier 2 90 % ×2–5<br>Arbre vivant, palier 1 60 % ×1–3 |
 | **Étincelle captive** | 1 | commun | Agilité | +1 | — | Grande Étincelle (élite), palier 1 90 % ×2–4<br>Étincelle folle, palier 1 60 % ×1–2 |
+| **Bec d'ampa brun** | 2 | rare | Intelligence, Agilité | +6, +6 | — | Grand ampa brun (élite), palier 2 30 %<br>Ampa brun, palier 2 10 % |
+| **Bec d'ampa cramoisi** | 2 | rare | Force, Perception | +6, +6 | — | Grand ampa cramoisi (élite), palier 2 30 %<br>Ampa cramoisi, palier 2 10 % |
+| **Bec d'ampa empire** | 2 | rare | Agilité, Perception | +6, +6 | — | Grand ampa empire (élite), palier 2 30 %<br>Ampa empire, palier 2 10 % |
+| **Bec d'ampa ocre** | 2 | rare | Intelligence, Force | +6, +6 | — | Grand ampa ocre (élite), palier 2 30 %<br>Ampa ocre, palier 2 10 % |
+| **Bec d'ampa roux** | 2 | rare | Intelligence, Perception | +6, +6 | — | Grand ampa roux (élite), palier 2 30 %<br>Ampa roux, palier 2 10 % |
+| **Bec d'ampa stratos** | 2 | rare | Force, Agilité | +6, +6 | — | Grand ampa stratos (élite), palier 2 30 %<br>Ampa stratos, palier 2 10 % |
 | **Bois d'if** | 2 | peu_commun | Perception | +2 | bois | Bûcheron (If) |
 | **Bon de coupe** | 2 | peu_commun | Perception | +2 | — | Abatteur en chef (élite), palier 2 48 %<br>Bûcheron de Brumerive, palier 2 12 % |
 | **Boulon tordu** | 2 | commun | Force | +2 | — | Ferrailleur blindé (élite), palier 2 90 % ×2–4<br>Ferrailleur orc, palier 2 50 % ×1–2 |
@@ -312,6 +318,12 @@ Toutes les ressources qui servent à la forge (caractéristique ou matière), pa
 | **Copeaux de bois** | 2 | commun | Initiative | +20 | — | Abatteur en chef (élite), palier 2 88 % ×2–5<br>Bûcheron de Brumerive, palier 2 55 % ×1–3 |
 | **Corne du Balourd** | 2 | rare | PA | +1 | — | Le Balourd des Abîmes (mini-boss), palier 2 100 % |
 | **Crochet d'araignée** | 2 | peu_commun | Prospection | +1 | — | Grande Tisseuse (élite), palier 3 48 %<br>Tisseuse de brume, palier 2 12 % |
+| **Cœur d'ampa brun** | 2 | legendaire | Dommages Flamme, Dommages Tempête | +3, +3 | — | Grand ampa brun (élite), palier 2 1 %<br>Ampa brun, palier 2 0 % |
+| **Cœur d'ampa cramoisi** | 2 | legendaire | Dommages Acier, Dommages Givre | +3, +3 | — | Grand ampa cramoisi (élite), palier 2 1 %<br>Ampa cramoisi, palier 2 0 % |
+| **Cœur d'ampa empire** | 2 | legendaire | Dommages Tempête, Dommages Givre | +3, +3 | — | Grand ampa empire (élite), palier 2 1 %<br>Ampa empire, palier 2 0 % |
+| **Cœur d'ampa ocre** | 2 | legendaire | Dommages Flamme, Dommages Acier | +3, +3 | — | Grand ampa ocre (élite), palier 2 1 %<br>Ampa ocre, palier 2 0 % |
+| **Cœur d'ampa roux** | 2 | legendaire | Dommages Flamme, Dommages Givre | +3, +3 | — | Grand ampa roux (élite), palier 2 1 %<br>Ampa roux, palier 2 0 % |
+| **Cœur d'ampa stratos** | 2 | legendaire | Dommages Acier, Dommages Tempête | +3, +3 | — | Grand ampa stratos (élite), palier 2 1 %<br>Ampa stratos, palier 2 0 % |
 | **Cœur de l'Indécis** | 2 | rare | Dommages Flamme | +3 | — | L'Indécis (mini-boss), palier 2 100 % |
 | **Cœur de paille** | 2 | legendaire | Vitalité | +8 | — | Père Fauchard, Épouvantail en chef (mini-boss), palier 2 1 % |
 | **Fil de brume** | 2 | commun | Perception | +2 | — | Grande Tisseuse (élite), palier 3 88 % ×2–5<br>Tisseuse de brume, palier 2 55 % ×1–3 |
@@ -341,12 +353,12 @@ Toutes les ressources qui servent à la forge (caractéristique ou matière), pa
 | **Plume d'ampa ocre** | 2 | commun | % Résistance Flamme, % Résistance Acier | +1, +1 | — | Grand ampa ocre (élite), palier 2 90 % ×2–4<br>Ampa ocre, palier 2 55 % ×1–2 |
 | **Plume d'ampa roux** | 2 | commun | % Résistance Flamme, % Résistance Givre | +1, +1 | — | Grand ampa roux (élite), palier 2 90 % ×2–4<br>Ampa roux, palier 2 55 % ×1–2 |
 | **Plume d'ampa stratos** | 2 | commun | % Résistance Acier, % Résistance Tempête | +1, +1 | — | Grand ampa stratos (élite), palier 2 90 % ×2–4<br>Ampa stratos, palier 2 55 % ×1–2 |
-| **Plume d'ange** | 2 | commun | Force, Intelligence | +2, +2 | — | Ange, palier 2 35 % |
+| **Plume d'ange** | 2 | commun | Force, Intelligence | +3, +3 | — | Ange, palier 2 35 % |
 | **Plume de bourrasque** | 2 | peu_commun | Vitalité | +8 | — | Grand Esprit des cimes (élite), palier 2 50 % ×1–2<br>Esprit des bourrasques, palier 2 12 % |
 | **Pépite animée** | 2 | commun | Perception | +2 | — | Golem de filon d'or (élite), palier 2 90 % ×2–4<br>Golem de minerai, palier 2 50 % ×1–2 |
 | **Registre des heures** | 2 | peu_commun | Dommages | +1 | — | Contremaître en chef (élite), palier 3 48 %<br>Contremaître zélé, palier 2 12 % |
 | **Sac de rapine** | 2 | commun | Vitalité | +8 | — | Pillard émérite (élite), palier 2 88 % ×2–4<br>Gobelin pillard, palier 2 55 % ×1–2 |
-| **Sacré cœur** | 2 | legendaire | Force, Intelligence | +2, +2 | — | Ange, palier 2 0 % |
+| **Sacré cœur** | 2 | legendaire | Force, Intelligence | +30, +30 | — | Ange, palier 2 0 % |
 | **Sceau du Trésorier** | 2 | rare | Dommages Acier | +3 | — | Grand Trésorier Orbaril (mini-boss), palier 2 100 % |
 | **Sifflet de contremaître** | 2 | commun | Agilité | +2 | — | Contremaître en chef (élite), palier 3 80 % ×2–4<br>Contremaître zélé, palier 2 50 % ×1–2 |
 | **Soie de la Mère-Toile** | 2 | rare | PM | +1 | — | La Mère-Toile (mini-boss), palier 2 100 % |
@@ -356,18 +368,22 @@ Toutes les ressources qui servent à la forge (caractéristique ou matière), pa
 | **Écusson de milice** | 2 | peu_commun | Force | +2 | — | Sergent de la milice (élite), palier 2 48 %<br>Milicien de Hautepierre, palier 2 12 % |
 | **Épaulette du Colonel** | 2 | rare | Dommages | +3 | — | Le Colonel Ossature (mini-boss), palier 2 100 % |
 | **Étain chantant** | 2 | rare | Dommages Tempête | +3 | minerai | Mineur (Étain, rare) |
-| **Aile de Raphaël** | 3 | rare | Soins Sacré | +6 | — | Archange Raphaël (mini-boss), palier 3 10 % |
+| **Aile de Raphaël** | 3 | rare | Soins Sacré | +10 | — | Archange Raphaël (mini-boss), palier 3 10 % |
 | **Argent lunaire** | 3 | rare | Dommages Givre | +6 | minerai | Mineur (Argent, rare) |
+| **Bec d'ampa cristal** | 3 | rare | Dégâts dévastateurs | +3 | — | Grand ampa cristal (élite), palier 3 30 %<br>Ampa cristal, palier 3 10 % |
+| **Bec d'ampa onyx** | 3 | rare | Dégâts spectraux | +3 | — | Grand ampa onyx (élite), palier 3 30 %<br>Ampa onyx, palier 3 10 % |
 | **Bois de hêtre** | 3 | peu_commun | Force | +3 | bois | Bûcheron (Hêtre) |
 | **Bourse vide** | 3 | commun | Initiative | +30 | — | Chef de bande (élite), palier 3 88 % ×2–4<br>Détrousseur des grands chemins, palier 3 55 % ×1–2 |
 | **Braise de grouilleur** | 3 | commun | Initiative | +30 | — | Grouilleur de braise, palier 3 50 % ×1–2 |
 | **Carapace fumante** | 3 | commun | Vitalité | +12 | — | Grouilleur de braise, palier 3 50 % ×1–2 |
 | **Carte au trésor douteuse** | 3 | peu_commun | Vitalité | +12 | — | Chef de bande (élite), palier 3 48 %<br>Détrousseur des grands chemins, palier 3 12 % |
 | **Cendre tiède** | 3 | commun | Force | +3 | — | Marraine Cendrée (élite), palier 4 88 % ×2–5<br>Cendrillon, palier 4 55 % ×1–3 |
-| **Cortex féral** | 3 | legendaire | % Dégâts dévastateurs | +1 | — | Lion de Juda, palier 3 0 % |
+| **Cortex féral** | 3 | legendaire | % Dégâts dévastateurs | +10 | — | Lion de Juda, palier 3 0 % |
 | **Croc ardent** | 3 | rare | Dommages Flamme | +6 | — | Loup cendreux, palier 3 3 % |
-| **Croc de lion féroce** | 3 | rare | Dommages Sacré | +6 | — | Lion de Juda, palier 3 5 % |
+| **Croc de lion féroce** | 3 | rare | Dommages Sacré | +9 | — | Lion de Juda, palier 3 5 % |
 | **Croc de loup des cendres** | 3 | commun | Intelligence | +3 | — | Loup cendreux, palier 3 50 % ×1–2 |
+| **Cœur d'ampa cristal** | 3 | legendaire | PA | +1 | — | Grand ampa cristal (élite), palier 3 1 %<br>Ampa cristal, palier 3 0 % |
+| **Cœur d'ampa onyx** | 3 | legendaire | PM | +1 | — | Grand ampa onyx (élite), palier 3 1 %<br>Ampa onyx, palier 3 0 % |
 | **Dent de troll** | 3 | commun | Intelligence | +3 | — | Troll gastronome (élite), palier 4 88 % ×2–4<br>Troll des ponts, palier 3 55 % ×1–2 |
 | **Glande incandescente** | 3 | rare | Dommages Flamme | +6 | — | Grouilleur de braise, palier 3 3 % |
 | **Hêtre centenaire** | 3 | rare | % Résistance Acier | +3 | bois | Bûcheron (Hêtre, rare) |
@@ -377,12 +393,12 @@ Toutes les ressources qui servent à la forge (caractéristique ou matière), pa
 | **Plume d'ampa cristal** | 3 | rare | % Dégâts dévastateurs | +3 | — | Grand ampa cristal (élite), palier 3 60 % ×2–4<br>Ampa cristal, palier 3 25 % ×1–2 |
 | **Plume d'ampa onyx** | 3 | rare | % Dégâts spectraux | +3 | — | Grand ampa onyx (élite), palier 3 60 % ×2–4<br>Ampa onyx, palier 3 25 % ×1–2 |
 | **Plume de corbac** | 3 | commun | Force | +3 | — | Corbac chef espion (élite), palier 4 88 % ×2–5<br>Corbac espion, palier 3 55 % ×1–3 |
-| **Poil de crinière léonin** | 3 | commun | Dommages Sacré | +2 | — | Lion de Juda, palier 3 25 % |
+| **Poil de crinière léonin** | 3 | commun | Dommages Sacré | +3 | — | Lion de Juda, palier 3 25 % |
 | **Poil roussi** | 3 | commun | Force | +3 | — | Loup cendreux, palier 3 50 % ×1–2 |
 | **Recette de troll** | 3 | peu_commun | Perception | +3 | — | Troll gastronome (élite), palier 4 48 %<br>Troll des ponts, palier 3 12 % |
-| **Sacré cœur de Raphaël** | 3 | legendaire | Soins | +1 | — | Archange Raphaël (mini-boss), palier 3 0 % |
+| **Sacré cœur de Raphaël** | 3 | legendaire | Soins | +30 | — | Archange Raphaël (mini-boss), palier 3 0 % |
 | **Sève brûlante** | 3 | commun | Agilité | +3 | — | Arbre calciné, palier 3 50 % ×1–2 |
-| **Tunique déchirée de Raphaël** | 3 | commun | % Résistance Impie | +1 | — | Archange Raphaël (mini-boss), palier 3 55 % |
+| **Tunique déchirée de Raphaël** | 3 | commun | % Résistance Impie | +3 | — | Archange Raphaël (mini-boss), palier 3 55 % |
 | **Éclat de cendre** | 3 | rare | Portée | +1 | — | Grondin, Bélier de la Brèche (mini-boss), palier 4 100 % ×1–2 |
 | **Écorce calcinée** | 3 | commun | % Résistance Flamme | +1 | — | Arbre calciné, palier 3 50 % ×1–2 |
 | **Bois de malorme** | 4 | rare | Intelligence | +12 | bois | Bûcheron (Malorme) |
@@ -398,7 +414,7 @@ Toutes les ressources qui servent à la forge (caractéristique ou matière), pa
 | **Éclat de gargouille** | 4 | commun | Perception | +4 | — | Gargouille de la Grande Porte (élite), palier 4 88 % ×2–5<br>Gargouille, palier 4 55 % ×1–3 |
 | **Fragment de cendre** | 5 | legendaire | PA | +1 | — | Le Souverain Cendré (mini-boss), palier 5 100 % |
 
-Ressources par caractéristique : Force 21, Vitalité 20, Intelligence 19, Agilité 17, Perception 16, Initiative 7, Dommages Flamme 6, % Résistance Acier 5, % Résistance Tempête 5, % Résistance Flamme 5, Dommages Acier 4, % Résistance Givre 4, Dommages Sacré 3, Prospection 3, Portée 3, Dommages 3, Dommages Tempête 3, PM 2, PA 2, Dommages Givre 2, % Dégâts dévastateurs 2, % Critique 1, Soins Sacré 1, % Dégâts spectraux 1, Soins 1, % Résistance Impie 1.
+Ressources par caractéristique : Force 24, Intelligence 22, Agilité 20, Vitalité 20, Perception 19, Dommages Flamme 9, Dommages Acier 7, Initiative 7, Dommages Tempête 6, % Résistance Acier 5, % Résistance Tempête 5, Dommages Givre 5, % Résistance Flamme 5, % Résistance Givre 4, Dommages Sacré 3, Prospection 3, Portée 3, Dommages 3, PM 3, PA 3, % Dégâts dévastateurs 2, % Critique 1, Soins Sacré 1, Dégâts dévastateurs 1, Dégâts spectraux 1, % Dégâts spectraux 1, Soins 1, % Résistance Impie 1.
 
 ### Plans
 

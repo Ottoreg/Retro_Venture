@@ -31,6 +31,14 @@
         1,
         2
       ]
+    },
+    {
+      "objet": "bec_d_ampa_empire",
+      "taux": 0.1
+    },
+    {
+      "objet": "coeur_d_ampa_empire",
+      "taux": 0.005
     }
   ],
   "ecus": [

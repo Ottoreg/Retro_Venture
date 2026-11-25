@@ -1,0 +1,13 @@
+{
+  "id": "coeur_d_ampa_cristal",
+  "nom": "Cœur d'ampa cristal",
+  "type": "ressource",
+  "rarete": "legendaire",
+  "niveau": 3,
+  "description": "Il bat encore, au rythme d'une course. Ne le posez pas trop près de la porte.",
+  "caracteristique": "pa",
+  "famille": "ampa_cristal",
+  "zone": "hautepierre",
+  "boutique": false,
+  "valeur": 1
+}

@@ -27,7 +27,7 @@ Prix de boutique : selon la rareté (revente à 25 %).
 - [Sorts de race](#sorts-de-race)
 - [Sorts des monstres](#sorts-des-monstres)
 
-**369 objets** (18 armes, 20 coiffes, 20 capes, 20 amulettes, 20 anneaux, 20 ceintures, 20 bottes, 180 ressources, 37 plans de forge, 8 objets de quête), **115 monstres** et **370 sorts**.
+**385 objets** (18 armes, 20 coiffes, 20 capes, 20 amulettes, 20 anneaux, 20 ceintures, 20 bottes, 196 ressources, 37 plans de forge, 8 objets de quête), **115 monstres** et **370 sorts**.
 
 ## Armes
 
@@ -275,6 +275,12 @@ Prix de boutique : selon la rareté (revente à 25 %).
 | **Étincelle captive** | 1 | Commun | +1 Agilité | boutique 4 brumes<br>butin : Grande Étincelle 90 %, Étincelle folle 60 % | Elle saute dans le bocal. Ne l'ouvrez pas près des cheveux. |
 | **Avoine** | 2 | Commun | — | boutique 4 brumes<br>Agriculteur : Avoine niv. 8 | Les chevaux en raffolent, les aventuriers s'en contentent. |
 | **Avoine du Champion** | 2 | Rare | — | Agriculteur : Avoine niv. 8, récolte rare | Un cheval en a mangé une fois. Il a gagné une course qu'il ne courait pas. |
+| **Bec d'ampa brun** | 2 | Rare | +2 Intelligence, +2 Agilité | butin : Grand ampa brun 30 %, Ampa brun 10 % | Crochu, jaune, et encore vexé. Les forgerons s'en servent ; les ampas s'en souviennent. |
+| **Bec d'ampa cramoisi** | 2 | Rare | +2 Force, +2 Perception | butin : Grand ampa cramoisi 30 %, Ampa cramoisi 10 % | Crochu, jaune, et encore vexé. Les forgerons s'en servent ; les ampas s'en souviennent. |
+| **Bec d'ampa empire** | 2 | Rare | +2 Agilité, +2 Perception | butin : Grand ampa empire 30 %, Ampa empire 10 % | Crochu, jaune, et encore vexé. Les forgerons s'en servent ; les ampas s'en souviennent. |
+| **Bec d'ampa ocre** | 2 | Rare | +2 Intelligence, +2 Force | butin : Grand ampa ocre 30 %, Ampa ocre 10 % | Crochu, jaune, et encore vexé. Les forgerons s'en servent ; les ampas s'en souviennent. |
+| **Bec d'ampa roux** | 2 | Rare | +2 Intelligence, +2 Perception | butin : Grand ampa roux 30 %, Ampa roux 10 % | Crochu, jaune, et encore vexé. Les forgerons s'en servent ; les ampas s'en souviennent. |
+| **Bec d'ampa stratos** | 2 | Rare | +2 Force, +2 Agilité | butin : Grand ampa stratos 30 %, Ampa stratos 10 % | Crochu, jaune, et encore vexé. Les forgerons s'en servent ; les ampas s'en souviennent. |
 | **Bois d'if** | 2 | Peu commun | +2 Perception, bois | boutique 12 brumes<br>Bûcheron : If niv. 8 | Sombre, souple, toxique. Les rôdeurs l'adorent, les chèvres beaucoup moins. |
 | **Bon de coupe** | 2 | Peu commun | +2 Perception | boutique 12 brumes<br>butin : Abatteur en chef 48 %, Bûcheron de Brumerive 12 %<br>« Coupe rase » : sur Bûcheron de Brumerive, Abatteur en chef (50 %) | Autorisation de couper « quelques arbres ». Le mot « quelques » a été rayé. |
 | **Boulon tordu** | 2 | Commun | +2 Force | boutique 4 brumes<br>butin : Ferrailleur blindé 90 %, Ferrailleur orc 50 % | Un boulon de ferrailleur. Il a été droit, une fois, peut-être. |
@@ -286,6 +292,12 @@ Prix de boutique : selon la rareté (revente à 25 %).
 | **Copeaux de bois** | 2 | Commun | +20 Initiative | boutique 4 brumes<br>butin : Abatteur en chef 88 %, Bûcheron de Brumerive 55 %<br>« La dette de Vieux-Branchu » : sur Bûcheron de Brumerive, Abatteur en chef (50 %) | Ce qui reste d'un arbre quand un bûcheron est passé. Les elfes les ramassent en pleurant. |
 | **Corne du Balourd** | 2 | Rare | +1 PA | boutique 35 brumes<br>butin : Le Balourd des Abîmes 100 % | Encore tiède. Si on la porte à l'oreille, on entend les galeries s'effondrer. |
 | **Crochet d'araignée** | 2 | Peu commun | +1 Prospection | boutique 12 brumes<br>butin : Grande Tisseuse 48 %, Tisseuse de brume 12 % | Encore une goutte de venin au bout. Ne pas s'en servir comme cure-dent. |
+| **Cœur d'ampa brun** | 2 | Légendaire | +3 Dommages Flamme, +3 Dommages Tempête | butin : Grand ampa brun 1 %, Ampa brun 0 % | Il bat encore, au rythme d'une course. Ne le posez pas trop près de la porte. |
+| **Cœur d'ampa cramoisi** | 2 | Légendaire | +3 Dommages Acier, +3 Dommages Givre | butin : Grand ampa cramoisi 1 %, Ampa cramoisi 0 % | Il bat encore, au rythme d'une course. Ne le posez pas trop près de la porte. |
+| **Cœur d'ampa empire** | 2 | Légendaire | +3 Dommages Tempête, +3 Dommages Givre | butin : Grand ampa empire 1 %, Ampa empire 0 % | Il bat encore, au rythme d'une course. Ne le posez pas trop près de la porte. |
+| **Cœur d'ampa ocre** | 2 | Légendaire | +3 Dommages Flamme, +3 Dommages Acier | butin : Grand ampa ocre 1 %, Ampa ocre 0 % | Il bat encore, au rythme d'une course. Ne le posez pas trop près de la porte. |
+| **Cœur d'ampa roux** | 2 | Légendaire | +3 Dommages Flamme, +3 Dommages Givre | butin : Grand ampa roux 1 %, Ampa roux 0 % | Il bat encore, au rythme d'une course. Ne le posez pas trop près de la porte. |
+| **Cœur d'ampa stratos** | 2 | Légendaire | +3 Dommages Acier, +3 Dommages Tempête | butin : Grand ampa stratos 1 %, Ampa stratos 0 % | Il bat encore, au rythme d'une course. Ne le posez pas trop près de la porte. |
 | **Cœur de l'Indécis** | 2 | Rare | +1 Dommages Flamme | boutique 35 brumes<br>butin : L'Indécis 100 % | Il change d'élément toutes les dix secondes. Il est revenu au feu. |
 | **Cœur de paille** | 2 | Légendaire | +8 Vitalité | butin : Père Fauchard, Épouvantail en chef 1 % | Il bat à peine, mais il ne s'arrête jamais. |
 | **Fil de brume** | 2 | Commun | +2 Perception | boutique 4 brumes<br>butin : Grande Tisseuse 88 %, Tisseuse de brume 55 %<br>« Du fil de brume » : sur Tisseuse de brume, Grande Tisseuse (50 %) | Un fil d'araignée si fin qu'on le voit seulement quand il fait humide. Il fait toujours humide. |
@@ -336,6 +348,8 @@ Prix de boutique : selon la rareté (revente à 25 %).
 | **Étain chantant** | 2 | Rare | +1 Dommages Tempête, minerai | Mineur : Étain niv. 8, récolte rare | Il crie quand on le plie. Les forgerons trouvent ça touchant ; les voisins, non. |
 | **Aile de Raphaël** | 3 | Rare | +10 Soins Sacré | butin : Archange Raphaël 10 % | Elle guérit tout, sauf l'orgueil. |
 | **Argent lunaire** | 3 | Rare | +2 Dommages Givre, minerai | Mineur : Argent niv. 15, récolte rare | Il brille même la nuit, surtout la nuit. Les loups le regardent bizarrement. |
+| **Bec d'ampa cristal** | 3 | Rare | +1 Dégâts dévastateurs | butin : Grand ampa cristal 30 %, Ampa cristal 10 % | Crochu, jaune, et encore vexé. Les forgerons s'en servent ; les ampas s'en souviennent. |
+| **Bec d'ampa onyx** | 3 | Rare | +1 Dégâts spectraux | butin : Grand ampa onyx 30 %, Ampa onyx 10 % | Crochu, jaune, et encore vexé. Les forgerons s'en servent ; les ampas s'en souviennent. |
 | **Bois de hêtre** | 3 | Peu commun | +3 Force, bois | boutique 12 brumes<br>Bûcheron : Hêtre niv. 15 | Blond, dur, régulier. On en fait des manches, des tables et des excuses. |
 | **Bourse vide** | 3 | Commun | +30 Initiative | boutique 4 brumes<br>butin : Chef de bande 88 %, Détrousseur des grands chemins 55 % | Vide. Comme toutes celles qu'il a volées, apparemment. Il ne comprend pas non plus. |
 | **Braise de grouilleur** | 3 | Commun | +30 Initiative | boutique 4 brumes<br>butin : Grouilleur de braise 50 % | Il en crachait ; vous la ramassez. Chacun son métier. |
@@ -349,6 +363,8 @@ Prix de boutique : selon la rareté (revente à 25 %).
 | **Croc ardent** | 3 | Rare | +2 Dommages Flamme | boutique 35 brumes<br>butin : Loup cendreux 3 % | Le loup l'a perdu en mordant une braise. La braise a perdu aussi. |
 | **Croc de lion féroce** | 3 | Rare | +9 Dommages Sacré | butin : Lion de Juda 5 % | Il ne mordait que les pécheurs. Enfin, surtout. |
 | **Croc de loup des cendres** | 3 | Commun | +3 Intelligence | boutique 4 brumes<br>butin : Loup cendreux 50 % | Encore chaud. Il mord même arraché. |
+| **Cœur d'ampa cristal** | 3 | Légendaire | +1 PA | butin : Grand ampa cristal 1 %, Ampa cristal 0 % | Il bat encore, au rythme d'une course. Ne le posez pas trop près de la porte. |
+| **Cœur d'ampa onyx** | 3 | Légendaire | +1 PM | butin : Grand ampa onyx 1 %, Ampa onyx 0 % | Il bat encore, au rythme d'une course. Ne le posez pas trop près de la porte. |
 | **Dent de troll** | 3 | Commun | +3 Intelligence | boutique 4 brumes<br>butin : Troll gastronome 88 %, Troll des ponts 55 %<br>« La recette du troll » : sur Troll des ponts, Troll gastronome (50 %) | Grosse comme un poing, jaune comme un vieux fromage. Le troll en a d'autres. |
 | **Glande incandescente** | 3 | Rare | +2 Dommages Flamme | boutique 35 brumes<br>butin : Grouilleur de braise 3 % | À ne pas presser à mains nues. |
 | **Hêtre centenaire** | 3 | Rare | +1 % Résistance Acier, bois | Bûcheron : Hêtre niv. 15, récolte rare | Cent ans de patience dans chaque cerne. Il se fend quand il l'a décidé. |
@@ -1847,7 +1863,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Palier** : 2 ; **6 PA, 5 PM** ; IA basique
 - **Résistances** : Flamme +20 %, Tempête +20 %, Acier -10 %, Givre -10 %
 - **Sorts** : Plumes ardentes, Battement d'ailes
-- **Butin** : Plume d'ampa brun 55 % (×1–2) ; **brumes** 9–20
+- **Butin** : Plume d'ampa brun 55 % (×1–2), Bec d'ampa brun 10 %, Cœur d'ampa brun 0 % ; **brumes** 9–20
 - **Où le trouver** : Gué des Ampas (`grandesplaines_-1_1`, 1 groupe) · Pâturages du Vent (`grandesplaines_-2_0`, 2 groupes, dont 1 au hasard) · Hautes Herbes (`grandesplaines_-2_1`, 1 groupe) · Nid des Ampas (`grandesplaines_-2_2`, 1 groupe, dont 1 au hasard) · Champ des Plumes (`grandesplaines_-3_1`, 1 groupe) · Relais des Coursiers (`grandesplaines_0_1`, 2 groupes) · Piste des Caravanes (`grandesplaines_0_2`, 1 groupe, dont 1 au hasard)
 
 | PV | Init. | XP | Intel. | Agi. |
@@ -1861,7 +1877,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Palier** : 2 ; **7 PA, 5 PM** ; IA basique
 - **Résistances** : Flamme +20 %, Tempête +20 %, Acier -10 %, Givre -10 %
 - **Sorts** : Plumes ardentes, Battement d'ailes
-- **Butin** : Plume d'ampa brun 90 % (×2–4) ; **brumes** 18–40
+- **Butin** : Plume d'ampa brun 90 % (×2–4), Bec d'ampa brun 30 %, Cœur d'ampa brun 1 % ; **brumes** 18–40
 - **Où le trouver** : Gué des Ampas (`grandesplaines_-1_1`, apparition spontanée) · Pâturages du Vent (`grandesplaines_-2_0`, apparition spontanée) · Hautes Herbes (`grandesplaines_-2_1`, apparition spontanée) · Nid des Ampas (`grandesplaines_-2_2`, apparition spontanée) · Champ des Plumes (`grandesplaines_-3_1`, apparition spontanée) · Relais des Coursiers (`grandesplaines_0_1`, apparition spontanée) · Piste des Caravanes (`grandesplaines_0_2`, apparition spontanée)
 
 | PV | Init. | XP | Intel. | Agi. |
@@ -1875,7 +1891,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Palier** : 2 ; **6 PA, 5 PM** ; IA basique
 - **Résistances** : Flamme -10 %, Tempête -10 %, Acier +20 %, Givre +20 %
 - **Sorts** : Coup de bec, Cri glacé
-- **Butin** : Plume d'ampa cramoisi 55 % (×1–2) ; **brumes** 9–20
+- **Butin** : Plume d'ampa cramoisi 55 % (×1–2), Bec d'ampa cramoisi 10 %, Cœur d'ampa cramoisi 0 % ; **brumes** 9–20
 - **Où le trouver** : Bout des Plaines (`grandesplaines_-1_3`, 1 groupe) · Nid des Ampas (`grandesplaines_-2_2`, 1 groupe, dont 1 au hasard) · Falaise Cristalline (`grandesplaines_-2_3`, 1 groupe) · Pierres Dressées (`grandesplaines_-3_2`, 2 groupes, dont 1 au hasard) · Plateau des Aigles-Chevaux (`grandesplaines_-4_1`, 1 groupe) · Collines Rousses (`grandesplaines_-4_2`, 1 groupe)
 
 | PV | Init. | XP | Force | Percep. |
@@ -1889,7 +1905,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Palier** : 2 ; **7 PA, 5 PM** ; IA basique
 - **Résistances** : Flamme -10 %, Tempête -10 %, Acier +20 %, Givre +20 %
 - **Sorts** : Coup de bec, Cri glacé
-- **Butin** : Plume d'ampa cramoisi 90 % (×2–4) ; **brumes** 18–40
+- **Butin** : Plume d'ampa cramoisi 90 % (×2–4), Bec d'ampa cramoisi 30 %, Cœur d'ampa cramoisi 1 % ; **brumes** 18–40
 - **Où le trouver** : Bout des Plaines (`grandesplaines_-1_3`, apparition spontanée) · Nid des Ampas (`grandesplaines_-2_2`, apparition spontanée) · Falaise Cristalline (`grandesplaines_-2_3`, apparition spontanée) · Pierres Dressées (`grandesplaines_-3_2`, apparition spontanée) · Plateau des Aigles-Chevaux (`grandesplaines_-4_1`, apparition spontanée) · Collines Rousses (`grandesplaines_-4_2`, apparition spontanée)
 
 | PV | Init. | XP | Force | Percep. |
@@ -1903,7 +1919,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Palier** : 2 ; **6 PA, 5 PM** ; IA basique
 - **Résistances** : Flamme -10 %, Tempête +20 %, Acier -10 %, Givre +20 %
 - **Sorts** : Battement d'ailes, Cri glacé
-- **Butin** : Plume d'ampa empire 55 % (×1–2) ; **brumes** 9–20
+- **Butin** : Plume d'ampa empire 55 % (×1–2), Bec d'ampa empire 10 %, Cœur d'ampa empire 0 % ; **brumes** 9–20
 - **Où le trouver** : Lac Miroir (`grandesplaines_-1_2`, 1 groupe) · Bout des Plaines (`grandesplaines_-1_3`, 1 groupe) · Hautes Herbes (`grandesplaines_-2_1`, 1 groupe, dont 1 au hasard) · Nid des Ampas (`grandesplaines_-2_2`, 2 groupes, dont 1 au hasard) · Pierres Dressées (`grandesplaines_-3_2`, 2 groupes, dont 1 au hasard) · Mare aux Hérons (`grandesplaines_-4_0`, 1 groupe, dont 1 au hasard)
 
 | PV | Init. | XP | Percep. | Agi. |
@@ -1917,7 +1933,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Palier** : 2 ; **7 PA, 5 PM** ; IA basique
 - **Résistances** : Flamme -10 %, Tempête +20 %, Acier -10 %, Givre +20 %
 - **Sorts** : Battement d'ailes, Cri glacé
-- **Butin** : Plume d'ampa empire 90 % (×2–4) ; **brumes** 18–40
+- **Butin** : Plume d'ampa empire 90 % (×2–4), Bec d'ampa empire 30 %, Cœur d'ampa empire 1 % ; **brumes** 18–40
 - **Où le trouver** : Lac Miroir (`grandesplaines_-1_2`, apparition spontanée) · Bout des Plaines (`grandesplaines_-1_3`, apparition spontanée) · Hautes Herbes (`grandesplaines_-2_1`, apparition spontanée) · Nid des Ampas (`grandesplaines_-2_2`, apparition spontanée) · Pierres Dressées (`grandesplaines_-3_2`, apparition spontanée) · Mare aux Hérons (`grandesplaines_-4_0`, apparition spontanée)
 
 | PV | Init. | XP | Percep. | Agi. |
@@ -1931,7 +1947,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Palier** : 2 ; **6 PA, 5 PM** ; IA basique
 - **Résistances** : Flamme +20 %, Tempête -10 %, Acier +20 %, Givre -10 %
 - **Sorts** : Plumes ardentes, Coup de bec
-- **Butin** : Plume d'ampa ocre 55 % (×1–2) ; **brumes** 9–20
+- **Butin** : Plume d'ampa ocre 55 % (×1–2), Bec d'ampa ocre 10 %, Cœur d'ampa ocre 0 % ; **brumes** 9–20
 - **Où le trouver** : Gué des Ampas (`grandesplaines_-1_1`, 1 groupe) · Lac Miroir (`grandesplaines_-1_2`, 1 groupe) · Pâturages du Vent (`grandesplaines_-2_0`, 1 groupe, dont 1 au hasard) · Nid des Ampas (`grandesplaines_-2_2`, 1 groupe, dont 1 au hasard) · Haras abandonné (`grandesplaines_-3_0`, 1 groupe) · Champ des Plumes (`grandesplaines_-3_1`, 1 groupe) · Piste des Caravanes (`grandesplaines_0_2`, 1 groupe, dont 1 au hasard)
 
 | PV | Init. | XP | Force | Intel. |
@@ -1945,7 +1961,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Palier** : 2 ; **7 PA, 5 PM** ; IA basique
 - **Résistances** : Flamme +20 %, Tempête -10 %, Acier +20 %, Givre -10 %
 - **Sorts** : Plumes ardentes, Coup de bec
-- **Butin** : Plume d'ampa ocre 90 % (×2–4) ; **brumes** 18–40
+- **Butin** : Plume d'ampa ocre 90 % (×2–4), Bec d'ampa ocre 30 %, Cœur d'ampa ocre 1 % ; **brumes** 18–40
 - **Où le trouver** : Gué des Ampas (`grandesplaines_-1_1`, apparition spontanée) · Lac Miroir (`grandesplaines_-1_2`, apparition spontanée) · Pâturages du Vent (`grandesplaines_-2_0`, apparition spontanée) · Nid des Ampas (`grandesplaines_-2_2`, apparition spontanée) · Haras abandonné (`grandesplaines_-3_0`, apparition spontanée) · Champ des Plumes (`grandesplaines_-3_1`, apparition spontanée) · Piste des Caravanes (`grandesplaines_0_2`, apparition spontanée)
 
 | PV | Init. | XP | Force | Intel. |
@@ -1959,7 +1975,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Palier** : 2 ; **6 PA, 5 PM** ; IA basique
 - **Résistances** : Flamme +20 %, Tempête -10 %, Acier -10 %, Givre +20 %
 - **Sorts** : Plumes ardentes, Cri glacé
-- **Butin** : Plume d'ampa roux 55 % (×1–2) ; **brumes** 9–20
+- **Butin** : Plume d'ampa roux 55 % (×1–2), Bec d'ampa roux 10 %, Cœur d'ampa roux 0 % ; **brumes** 9–20
 - **Où le trouver** : Nid des Ampas (`grandesplaines_-2_2`, 1 groupe, dont 1 au hasard) · Champ des Plumes (`grandesplaines_-3_1`, 1 groupe) · Pierres Dressées (`grandesplaines_-3_2`, 1 groupe, dont 1 au hasard) · Mare aux Hérons (`grandesplaines_-4_0`, 2 groupes, dont 1 au hasard) · Plateau des Aigles-Chevaux (`grandesplaines_-4_1`, 1 groupe) · Collines Rousses (`grandesplaines_-4_2`, 1 groupe)
 
 | PV | Init. | XP | Intel. | Percep. |
@@ -1973,7 +1989,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Palier** : 2 ; **7 PA, 5 PM** ; IA basique
 - **Résistances** : Flamme +20 %, Tempête -10 %, Acier -10 %, Givre +20 %
 - **Sorts** : Plumes ardentes, Cri glacé
-- **Butin** : Plume d'ampa roux 90 % (×2–4) ; **brumes** 18–40
+- **Butin** : Plume d'ampa roux 90 % (×2–4), Bec d'ampa roux 30 %, Cœur d'ampa roux 1 % ; **brumes** 18–40
 - **Où le trouver** : Nid des Ampas (`grandesplaines_-2_2`, apparition spontanée) · Champ des Plumes (`grandesplaines_-3_1`, apparition spontanée) · Pierres Dressées (`grandesplaines_-3_2`, apparition spontanée) · Mare aux Hérons (`grandesplaines_-4_0`, apparition spontanée) · Plateau des Aigles-Chevaux (`grandesplaines_-4_1`, apparition spontanée) · Collines Rousses (`grandesplaines_-4_2`, apparition spontanée)
 
 | PV | Init. | XP | Intel. | Percep. |
@@ -1987,7 +2003,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Palier** : 2 ; **6 PA, 5 PM** ; IA basique
 - **Résistances** : Flamme -10 %, Tempête +20 %, Acier +20 %, Givre -10 %
 - **Sorts** : Coup de bec, Battement d'ailes
-- **Butin** : Plume d'ampa stratos 55 % (×1–2) ; **brumes** 9–20
+- **Butin** : Plume d'ampa stratos 55 % (×1–2), Bec d'ampa stratos 10 %, Cœur d'ampa stratos 0 % ; **brumes** 9–20
 - **Où le trouver** : Lac Miroir (`grandesplaines_-1_2`, 1 groupe) · Hautes Herbes (`grandesplaines_-2_1`, 1 groupe, dont 1 au hasard) · Nid des Ampas (`grandesplaines_-2_2`, 1 groupe, dont 1 au hasard) · Falaise Cristalline (`grandesplaines_-2_3`, 1 groupe) · Haras abandonné (`grandesplaines_-3_0`, 2 groupes) · Relais des Coursiers (`grandesplaines_0_1`, 1 groupe) · Piste des Caravanes (`grandesplaines_0_2`, 1 groupe)
 
 | PV | Init. | XP | Force | Agi. |
@@ -2001,7 +2017,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Palier** : 2 ; **7 PA, 5 PM** ; IA basique
 - **Résistances** : Flamme -10 %, Tempête +20 %, Acier +20 %, Givre -10 %
 - **Sorts** : Coup de bec, Battement d'ailes
-- **Butin** : Plume d'ampa stratos 90 % (×2–4) ; **brumes** 18–40
+- **Butin** : Plume d'ampa stratos 90 % (×2–4), Bec d'ampa stratos 30 %, Cœur d'ampa stratos 1 % ; **brumes** 18–40
 - **Où le trouver** : Lac Miroir (`grandesplaines_-1_2`, apparition spontanée) · Hautes Herbes (`grandesplaines_-2_1`, apparition spontanée) · Nid des Ampas (`grandesplaines_-2_2`, apparition spontanée) · Falaise Cristalline (`grandesplaines_-2_3`, apparition spontanée) · Haras abandonné (`grandesplaines_-3_0`, apparition spontanée) · Relais des Coursiers (`grandesplaines_0_1`, apparition spontanée) · Piste des Caravanes (`grandesplaines_0_2`, apparition spontanée)
 
 | PV | Init. | XP | Force | Agi. |
@@ -2059,7 +2075,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Palier** : 3 ; **6 PA, 5 PM** ; IA basique
 - **Résistances** : Flamme +15 %, Tempête +15 %, Acier +15 %, Givre +15 %
 - **Sorts** : Coup de bec, Cri glacé, Plumage scintillant
-- **Butin** : Plume d'ampa cristal 25 % (×1–2) ; **brumes** 15–30
+- **Butin** : Plume d'ampa cristal 25 % (×1–2), Bec d'ampa cristal 10 %, Cœur d'ampa cristal 0 % ; **brumes** 15–30
 - **Où le trouver** : Bout des Plaines (`grandesplaines_-1_3`, 1 groupe, dont 1 réapparition 300–480 s) · Falaise Cristalline (`grandesplaines_-2_3`, 1 groupe, dont 1 réapparition 300–480 s)
 
 | PV | Init. | XP | Force | Percep. |
@@ -2073,7 +2089,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Palier** : 3 ; **7 PA, 5 PM** ; IA basique
 - **Résistances** : Flamme +15 %, Tempête +15 %, Acier +15 %, Givre +15 %
 - **Sorts** : Coup de bec, Cri glacé, Plumage scintillant
-- **Butin** : Plume d'ampa cristal 60 % (×2–4) ; **brumes** 30–60
+- **Butin** : Plume d'ampa cristal 60 % (×2–4), Bec d'ampa cristal 30 %, Cœur d'ampa cristal 1 % ; **brumes** 30–60
 - **Où le trouver** : Bout des Plaines (`grandesplaines_-1_3`, apparition spontanée) · Falaise Cristalline (`grandesplaines_-2_3`, apparition spontanée)
 
 | PV | Init. | XP | Force | Percep. |
@@ -2087,7 +2103,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Palier** : 3 ; **6 PA, 5 PM** ; IA basique
 - **Résistances** : Flamme +15 %, Tempête +15 %, Acier +15 %, Givre +15 %
 - **Sorts** : Coup de bec, Battement d'ailes, Course folle
-- **Butin** : Plume d'ampa onyx 25 % (×1–2) ; **brumes** 15–30
+- **Butin** : Plume d'ampa onyx 25 % (×1–2), Bec d'ampa onyx 10 %, Cœur d'ampa onyx 0 % ; **brumes** 15–30
 - **Où le trouver** : Nid des Ampas (`grandesplaines_-2_2`, 1 groupe, dont 1 réapparition 300–480 s) · Plateau des Aigles-Chevaux (`grandesplaines_-4_1`, 1 groupe, dont 1 réapparition 300–480 s)
 
 | PV | Init. | XP | Force | Agi. |
@@ -2101,7 +2117,7 @@ sur une carte de leur famille (une à la fois, butin augmenté avec l'anciennet�
 - **Palier** : 3 ; **7 PA, 5 PM** ; IA basique
 - **Résistances** : Flamme +15 %, Tempête +15 %, Acier +15 %, Givre +15 %
 - **Sorts** : Coup de bec, Battement d'ailes, Course folle
-- **Butin** : Plume d'ampa onyx 60 % (×2–4) ; **brumes** 30–60
+- **Butin** : Plume d'ampa onyx 60 % (×2–4), Bec d'ampa onyx 30 %, Cœur d'ampa onyx 1 % ; **brumes** 30–60
 - **Où le trouver** : Nid des Ampas (`grandesplaines_-2_2`, apparition spontanée) · Plateau des Aigles-Chevaux (`grandesplaines_-4_1`, apparition spontanée)
 
 | PV | Init. | XP | Force | Agi. |

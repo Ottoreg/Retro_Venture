@@ -1,0 +1,16 @@
+{
+  "id": "coeur_d_ampa_cramoisi",
+  "nom": "Cœur d'ampa cramoisi",
+  "type": "ressource",
+  "rarete": "legendaire",
+  "niveau": 2,
+  "description": "Il bat encore, au rythme d'une course. Ne le posez pas trop près de la porte.",
+  "caracteristique": [
+    "dommages_acier",
+    "dommages_givre"
+  ],
+  "famille": "ampa_cramoisi",
+  "zone": "hautepierre",
+  "boutique": false,
+  "valeur": 3
+}

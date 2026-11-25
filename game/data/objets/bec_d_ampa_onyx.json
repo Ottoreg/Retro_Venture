@@ -1,0 +1,12 @@
+{
+  "id": "bec_d_ampa_onyx",
+  "nom": "Bec d'ampa onyx",
+  "type": "ressource",
+  "rarete": "rare",
+  "niveau": 3,
+  "description": "Crochu, jaune, et encore vexé. Les forgerons s'en servent ; les ampas s'en souviennent.",
+  "caracteristique": "degats_spectraux_fixes",
+  "famille": "ampa_onyx",
+  "zone": "hautepierre",
+  "boutique": false
+}

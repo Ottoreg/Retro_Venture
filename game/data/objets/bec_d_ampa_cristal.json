@@ -1,0 +1,12 @@
+{
+  "id": "bec_d_ampa_cristal",
+  "nom": "Bec d'ampa cristal",
+  "type": "ressource",
+  "rarete": "rare",
+  "niveau": 3,
+  "description": "Crochu, jaune, et encore vexé. Les forgerons s'en servent ; les ampas s'en souviennent.",
+  "caracteristique": "degats_devastateurs_fixes",
+  "famille": "ampa_cristal",
+  "zone": "hautepierre",
+  "boutique": false
+}

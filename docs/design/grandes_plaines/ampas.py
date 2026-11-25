@@ -65,12 +65,26 @@ for c, (nom, plumes, ombre, tete, elements, carac, desc) in AMPAS.items():
         carac = [f"resistance_{e}" for e in elements]
     ressources.append(ressource(plume, f"Plume d'ampa {nom}", "rare" if rare else "commun", palier, carac, f"ampa_{c}", "hautepierre",
                                 f"Une plume {nom}. Les éleveurs la reconnaissent à l'odeur, les autres à la couleur."))
+    # Demande de l'auteur (25/11/2026) : bec (rare, 10 %) aux caractéristiques des éléments, ou dégâts spectraux /
+    # dévastateurs fixes ; cœur (légendaire, 0,5 %) aux dommages de ces éléments, ou PM / PA ; taux des autres
+    # ressources rares et légendaires (GDD § 10.4, Tour céleste), le double ou plus sur l'élite.
+    bec, coeur = f"bec_d_ampa_{c}", f"coeur_d_ampa_{c}"
+    ressources.append(ressource(bec, f"Bec d'ampa {nom}", "rare", palier,
+                                {"onyx": "degats_spectraux_fixes", "cristal": "degats_devastateurs_fixes"}[c] if rare else [CARAC[e] for e in elements],
+                                f"ampa_{c}", "hautepierre", "Crochu, jaune, et encore vexé. Les forgerons s'en servent ; les ampas s'en souviennent.")
+                      | {"boutique": False})
+    ressources.append(ressource(coeur, f"Cœur d'ampa {nom}", "legendaire", palier,
+                                {"onyx": "pm", "cristal": "pa"}[c] if rare else [f"dommages_{e}" for e in elements],
+                                f"ampa_{c}", "hautepierre", "Il bat encore, au rythme d'une course. Ne le posez pas trop près de la porte.")
+                      | {"boutique": False, "valeur": 1 if rare else 3})
+    images[f"objet_{bec}"] = {"fichier": "objets/bec_d_ampa.svgt", "ancre": [22, 22], "couleurs": {"plume": plumes}}
+    images[f"objet_{coeur}"] = {"fichier": "objets/coeur_d_ampa.svgt", "ancre": [22, 22], "couleurs": {"plume": plumes}}
     taux = (0.25, 0.6) if rare else (0.55, 0.9)
     monstres.append(monstre(f"ampa_{c}", f"Ampa {nom}", desc, palier, pv, 6, 5, 110, caracs, res, sorts, xp, ecus,
-                            [drop(plume, taux[0], [1, 2])], mot=f"d'Ampa {nom}"))
+                            [drop(plume, taux[0], [1, 2]), drop(bec, 0.1), drop(coeur, 0.005)], mot=f"d'Ampa {nom}"))
     monstres.append(monstre(f"grand_ampa_{c}", f"Grand ampa {nom}", "Le meneur de la harde. Il court devant, il frappe devant, il mange devant.",
                             palier, round(pv * 2.2), 7, 5, 125, {k: round(v * 1.5) for k, v in caracs.items()}, res, sorts, round(xp * 2.2),
-                            [e * 2 for e in ecus], [drop(plume, taux[1], [2, 4])], elite=True, famille=f"ampa_{c}"))
+                            [e * 2 for e in ecus], [drop(plume, taux[1], [2, 4]), drop(bec, 0.3), drop(coeur, 0.01)], elite=True, famille=f"ampa_{c}"))
     planche(plumes, ombre, f"art/sprites/ampa_{c}.png")  # pixel art de l'auteur (24/11/2026), recolorié par robe
     art[f"ampa_{c}"] = {"image": "ampa", "planche": f"sprites/ampa_{c}.png", "echelle": 1.3, "couleurs": couleurs}
     art[f"grand_ampa_{c}"] = {"image": "ampa", "planche": f"sprites/ampa_{c}.png", "echelle": 1.65, "couleurs": couleurs}

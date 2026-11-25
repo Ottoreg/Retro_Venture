@@ -1,0 +1,15 @@
+{
+  "id": "bec_d_ampa_empire",
+  "nom": "Bec d'ampa empire",
+  "type": "ressource",
+  "rarete": "rare",
+  "niveau": 2,
+  "description": "Crochu, jaune, et encore vexé. Les forgerons s'en servent ; les ampas s'en souviennent.",
+  "caracteristique": [
+    "agilite",
+    "perception"
+  ],
+  "famille": "ampa_empire",
+  "zone": "hautepierre",
+  "boutique": false
+}

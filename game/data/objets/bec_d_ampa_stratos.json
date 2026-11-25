@@ -1,0 +1,15 @@
+{
+  "id": "bec_d_ampa_stratos",
+  "nom": "Bec d'ampa stratos",
+  "type": "ressource",
+  "rarete": "rare",
+  "niveau": 2,
+  "description": "Crochu, jaune, et encore vexé. Les forgerons s'en servent ; les ampas s'en souviennent.",
+  "caracteristique": [
+    "force",
+    "agilite"
+  ],
+  "famille": "ampa_stratos",
+  "zone": "hautepierre",
+  "boutique": false
+}

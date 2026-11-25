@@ -269,7 +269,7 @@ def metiers_md():
             "%s %d %%%s" % (nom_monstre(m), round(t * 100), " ×%s" % plage(*q) if q != [1, 1] else "")
             for t, m, q in sorted(butins.get(o["id"], []), key=lambda x: -x[0])]
         rangs.append(["**%s**" % o["nom"], o["niveau"], o["rarete"], ", ".join(CARACS[c] for c in cs) or "—",
-                      ", ".join("+%d" % valeur(c, o["niveau"], o["rarete"] == "rare") for c in cs) or "—", o.get("matiere", "—"), "<br>".join(sources) or "**aucune**"])
+                      ", ".join("+%d" % o.get("valeur", valeur(c, o["niveau"], o["rarete"] == "rare")) for c in cs) or "—", o.get("matiere", "—"), "<br>".join(sources) or "**aucune**"])
     lignes += table(["Ressource", "Palier", "Rareté", "Caractéristique", "Valeur", "Matière", "Obtention"], rangs)
     total = {}
     for o in ressources:
@@ -288,7 +288,7 @@ def metiers_md():
             res = objets.get(i, {})
             somme, nb = somme + n * res.get("niveau", 1), nb + n
             for c in caracs(res):
-                bonus[c] = bonus.get(c, 0) + n * valeur(c, res.get("niveau", 1), res.get("rarete") == "rare")
+                bonus[c] = bonus.get(c, 0) + n * res.get("valeur", valeur(c, res.get("niveau", 1), res.get("rarete") == "rare"))
         bonus = {c: min(plafond(c, palier_max), v) for c, v in bonus.items()}
         jets = ", ".join("%s %s" % (CARACS[c], "1" if c in fixes else plage(max(1, int(v * jet_bas + 0.5)), v)) for c, v in bonus.items())
         if len(bonus) > max_lignes:

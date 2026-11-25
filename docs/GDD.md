@@ -2700,7 +2700,12 @@ les 8 ampas et leur élite (« Grand ampa ») vivent sur les 15 cartes de steppe
 ses plumes. Valeurs provisoires : palier 2 (Onyx et Cristal palier 3, un ou deux groupes seulement, réapparition 5 à 8 min),
 un sort par élément de la couleur (Plumes ardentes Flamme, Battement d'ailes Tempête, Coup de bec Acier, Cri glacé Givre ;
 Onyx : Course folle +2 PM, Cristal : Plumage scintillant +2 PA) ; butin : une plume par couleur, qui donne à la forge
-+1 % de résistance à chacun de ses deux éléments (demande de l'auteur, ex. brun : résistances Flamme et Tempête) ; Onyx en dommages spectraux, Cristal en dévastateurs ; zone de forge Hautepierre. Pas encore apprivoisables (lot 3).
++1 % de résistance à chacun de ses deux éléments (demande de l'auteur, ex. brun : résistances Flamme et Tempête) ; Onyx en dommages spectraux, Cristal en dévastateurs ; zone de forge Hautepierre.
+Deux ressources de plus par ampa (demande de l'auteur, 25/11/2026), hors boutique : **bec d'ampa** (rare, 10 %, 30 % sur
+l'élite) aux caractéristiques de ses deux éléments (+6 chacune, ex. brun : Intelligence, Agilité), dégâts spectraux fixes
+(Onyx) ou dévastateurs fixes (Cristal) ; **cœur d'ampa** (légendaire, 0,5 %, 1 % sur l'élite) aux dommages de ses deux
+éléments (+3 chacun, valeur fixe provisoire), PM (Onyx) ou PA (Cristal). Les légendaires ne comptent pas dans la règle
+« PA et PM très rares » des ressources de monstres (test de la forge). Pas encore apprivoisables (lot 3).
 
 **Métier d'Éleveur dans le jeu** (24/11/2026, lot 2) : `data/metiers/eleveur.json` (artisanat), compétences propres
 Apprivoisement (+5 % de chances par rang) et Dressage (−10 % de temps à l'enclos par rang), valeurs provisoires et sans

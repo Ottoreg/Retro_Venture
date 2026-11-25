@@ -1,0 +1,15 @@
+{
+  "id": "bec_d_ampa_ocre",
+  "nom": "Bec d'ampa ocre",
+  "type": "ressource",
+  "rarete": "rare",
+  "niveau": 2,
+  "description": "Crochu, jaune, et encore vexé. Les forgerons s'en servent ; les ampas s'en souviennent.",
+  "caracteristique": [
+    "intelligence",
+    "force"
+  ],
+  "famille": "ampa_ocre",
+  "zone": "hautepierre",
+  "boutique": false
+}

@@ -1,0 +1,16 @@
+{
+  "id": "coeur_d_ampa_ocre",
+  "nom": "Cœur d'ampa ocre",
+  "type": "ressource",
+  "rarete": "legendaire",
+  "niveau": 2,
+  "description": "Il bat encore, au rythme d'une course. Ne le posez pas trop près de la porte.",
+  "caracteristique": [
+    "dommages_flamme",
+    "dommages_acier"
+  ],
+  "famille": "ampa_ocre",
+  "zone": "hautepierre",
+  "boutique": false,
+  "valeur": 3
+}

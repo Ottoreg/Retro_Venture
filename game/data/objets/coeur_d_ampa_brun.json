@@ -1,0 +1,16 @@
+{
+  "id": "coeur_d_ampa_brun",
+  "nom": "Cœur d'ampa brun",
+  "type": "ressource",
+  "rarete": "legendaire",
+  "niveau": 2,
+  "description": "Il bat encore, au rythme d'une course. Ne le posez pas trop près de la porte.",
+  "caracteristique": [
+    "dommages_flamme",
+    "dommages_tempete"
+  ],
+  "famille": "ampa_brun",
+  "zone": "hautepierre",
+  "boutique": false,
+  "valeur": 3
+}

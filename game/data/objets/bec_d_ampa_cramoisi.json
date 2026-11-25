@@ -1,0 +1,15 @@
+{
+  "id": "bec_d_ampa_cramoisi",
+  "nom": "Bec d'ampa cramoisi",
+  "type": "ressource",
+  "rarete": "rare",
+  "niveau": 2,
+  "description": "Crochu, jaune, et encore vexé. Les forgerons s'en servent ; les ampas s'en souviennent.",
+  "caracteristique": [
+    "force",
+    "perception"
+  ],
+  "famille": "ampa_cramoisi",
+  "zone": "hautepierre",
+  "boutique": false
+}

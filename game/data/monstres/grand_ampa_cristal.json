@@ -32,6 +32,14 @@
         2,
         4
       ]
+    },
+    {
+      "objet": "bec_d_ampa_cristal",
+      "taux": 0.3
+    },
+    {
+      "objet": "coeur_d_ampa_cristal",
+      "taux": 0.01
     }
   ],
   "ecus": [

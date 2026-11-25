@@ -1,0 +1,15 @@
+{
+  "id": "bec_d_ampa_brun",
+  "nom": "Bec d'ampa brun",
+  "type": "ressource",
+  "rarete": "rare",
+  "niveau": 2,
+  "description": "Crochu, jaune, et encore vexé. Les forgerons s'en servent ; les ampas s'en souviennent.",
+  "caracteristique": [
+    "intelligence",
+    "agilite"
+  ],
+  "famille": "ampa_brun",
+  "zone": "hautepierre",
+  "boutique": false
+}

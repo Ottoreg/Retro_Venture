@@ -1,0 +1,13 @@
+{
+  "id": "coeur_d_ampa_onyx",
+  "nom": "Cœur d'ampa onyx",
+  "type": "ressource",
+  "rarete": "legendaire",
+  "niveau": 3,
+  "description": "Il bat encore, au rythme d'une course. Ne le posez pas trop près de la porte.",
+  "caracteristique": "pm",
+  "famille": "ampa_onyx",
+  "zone": "hautepierre",
+  "boutique": false,
+  "valeur": 1
+}
