@@ -13,9 +13,10 @@ const MESSAGE_HEIGHT := 80.0
 const OVERLOAD_TEXT := "Inventaire surchargé ! Faites de la place (vendre, jeter, ranger au coffre) pour pouvoir combattre à nouveau."
 ## Noms courts des éléments pour les résistances du combattant survolé.
 const RESISTANCE_NAMES := {"acier": "Acier", "flamme": "Flamme", "givre": "Givre", "tempete": "Tempête", "sacre": "Sacré", "impie": "Impie"}
-const SPELL_KEYS := [KEY_1, KEY_2, KEY_3, KEY_4, KEY_5, KEY_6, KEY_7, KEY_8, KEY_9, KEY_0]
-## Deuxième jeu de raccourcis : la rangée des chiffres d'un clavier AZERTY, sans Maj.
-const SPELL_CHARS := "&é\"'(-è_çà"
+## Raccourcis des sorts, une touche par case de chaque ligne de la barre en partant de la gauche (la 2e ligne avec Ctrl) :
+## la rangée des chiffres, par position (`SPELL_KEYS`) ou par caractère d'un clavier AZERTY sans Maj (`SPELL_CHARS`).
+const SPELL_KEYS := [KEY_QUOTELEFT, KEY_1, KEY_2, KEY_3, KEY_4, KEY_5, KEY_6, KEY_7, KEY_8, KEY_9, KEY_0, KEY_MINUS, KEY_EQUAL]
+const SPELL_CHARS := "²&é\"'(-è_çà)="
 ## Clé des places de sorts créés encore vides dans `_spell_buttons`.
 ## Emplacements de la barre d'objets, hors combat (un peu plus petits que les sorts : la barre
 ## tient avec le bouton « S'asseoir » et la minicarte).
@@ -558,13 +559,13 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	var fighter := map_view.player_fighter()
 	if _composition != null and (index >= 0 or event.is_action_pressed("ui_cancel")):
 		# Grille ouverte : les touches des sorts choisissent une combinaison.
-		if index >= 0 and index < _composition_choices.size():
-			_choose_composition(_composition_choices[index])
+		if index >= 1 and index <= _composition_choices.size():
+			_choose_composition(_composition_choices[index - 1])
 		else:
 			close_composition()
 		get_viewport().set_input_as_handled()
-	elif index >= 0 and fighter != null and fighter.get_spell(str(_bar_places.find_key(index))) != null:
-		_use_spell(_bar_places.find_key(index), Rect2(get_viewport().get_mouse_position(), Vector2.ZERO))
+	elif index >= 0 and fighter != null and fighter.get_spell(str(_bar_places.find_key(_key_place(index, (event as InputEventKey).ctrl_pressed)))) != null:
+		_use_spell(_bar_places.find_key(_key_place(index, (event as InputEventKey).ctrl_pressed)), Rect2(get_viewport().get_mouse_position(), Vector2.ZERO))
 		get_viewport().set_input_as_handled()
 	elif key == KEY_T:
 		toggle_tactical()
@@ -574,15 +575,18 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 
 
-## Place dans la barre du sort d'une touche (0 pour la première), ou -1 : chiffre, caractère de la
-## rangée AZERTY (& é " ' ( - è _ ç à), ou touche à la place d'un chiffre quel que soit le clavier.
+## Rang d'une touche de sort dans `SPELL_KEYS` (0 : ², la première case d'une ligne), ou -1 : par sa position
+## sur le clavier, quel qu'il soit, sinon par son caractère AZERTY.
 static func spell_key_index(event: InputEventKey) -> int:
-	var index := SPELL_KEYS.find(event.keycode)
-	if index < 0 and event.unicode > 0:
-		index = SPELL_CHARS.find(char(event.unicode))
-	if index < 0 and event.physical_keycode != KEY_NONE:
-		index = SPELL_KEYS.find(event.physical_keycode)
-	return index
+	var index := SPELL_KEYS.find(event.physical_keycode) if event.physical_keycode != KEY_NONE else -1
+	return index if index >= 0 or event.unicode <= 0 else SPELL_CHARS.find(char(event.unicode))
+
+
+## Place de la barre d'une touche de rang `index`, sur la 1re ligne ou la 2e avec Ctrl (`bar_layout` : 0 et 1 à
+## l'écart, puis la grille ligne par ligne), ou -1 au-delà de la ligne.
+func _key_place(index: int, ctrl: bool) -> int:
+	var columns := _spells_grid.columns
+	return int(ctrl) if index == 0 else 2 + int(ctrl) * columns + index - 1 if index <= columns else -1
 
 
 ## Icône d'un sort (l'attaque de l'arme prend l'icône de l'arme portée).
@@ -637,7 +641,9 @@ func _show_spells(spells: Array[Spell]) -> void:
 	_spells_grid.columns = columns
 	for place in apart.size() + 2 * columns:
 		var slot := SpellSlot.new()
-		slot.key_label = str((place + 1) % 10) if place < SPELL_KEYS.size() else ""
+		var key := 0 if place < 2 else (place - 2) % columns + 1  # Rang de la touche dans sa ligne.
+		slot.key_label = SPELL_CHARS[key] if key < SPELL_CHARS.length() else ""
+		var ctrl := "Ctrl + " if (place == 1 or place >= 2 + columns) else ""
 		slot.dropped.connect(_arrange_spell.bind(place))
 		(_spells_apart if place < apart.size() else _spells_grid).add_child(slot)  # L'arme et le sort de race à gauche par défaut.
 		if layout.find_key(place) == null:
@@ -650,8 +656,8 @@ func _show_spells(spells: Array[Spell]) -> void:
 			slot.icon = spell_icon(spell.id, map_view.world)
 			slot.cost = spell.pa_cost
 			slot.tooltip_text = _spell_tooltip(spell)
-			if place < SPELL_KEYS.size():
-				slot.tooltip_text += "\nRaccourci : %s ou %s" % [slot.key_label, SPELL_CHARS[place]]
+			if not slot.key_label.is_empty():
+				slot.tooltip_text += "\nRaccourci : %s%s" % [ctrl, slot.key_label]
 			slot.tooltip_text += "\nClic droit : lancer sur soi\nGlisser : ranger ailleurs dans la barre"
 			slot.pressed.connect(_on_spell_pressed.bind(spell.id))
 			slot.self_cast.connect(_on_spell_self_cast.bind(spell.id))
@@ -662,7 +668,7 @@ func _show_spells(spells: Array[Spell]) -> void:
 
 
 ## Places des sorts `ids` dans la barre (0 et 1 : la colonne à l'écart, puis la grille ligne par ligne ;
-## les touches 1 à 0 vont aux places 0 à 9) : celles rangées par le joueur (`saved`), puis les autres
+## raccourcis : `_key_place`) : celles rangées par le joueur (`saved`), puis les autres
 ## aux premières places libres (l'arme et le sort de race, `apart`, à l'écart).
 static func bar_layout(ids: Array[String], apart: Array[String], saved: Dictionary, places: int) -> Dictionary:
 	var layout := {}
@@ -772,7 +778,7 @@ func open_composition(spell: Spell, anchor: Rect2, slot: Control = null) -> void
 		choice.states = Array(key.split("+"))
 		var result: Spell = created.get(key)
 		choice.created_name = result.display_name if result != null else ""
-		choice.key_label = str((i + 1) % 10) if i < SPELL_KEYS.size() else ""
+		choice.key_label = SPELL_CHARS[i + 1] if i + 1 < SPELL_CHARS.length() else ""
 		choice.current = key == current
 		choice.tooltip_text = MapView.element_states_text(choice.states) + (" » " + choice.created_name if result != null else "")
 		choice.pressed.connect(_choose_composition.bind(key))

@@ -1709,14 +1709,18 @@ func test_arcaniste_compose_et_cree_un_sort() -> void:
 	assert_true(hud.composition_choices().is_empty(), "un 2e clic la referme")
 	# Par raccourci : la grille s'ouvre à la souris ; la touche d'une combinaison la choisit.
 	var key := InputEventKey.new()
-	key.keycode = CombatHud.SPELL_KEYS[hud._bar_places["arcaniste_composition"]]
 	key.pressed = true
+	for index in CombatHud.SPELL_KEYS.size():
+		for ctrl in [false, true]:
+			if hud._key_place(index, ctrl) == hud._bar_places["arcaniste_composition"]:
+				key.physical_keycode = CombatHud.SPELL_KEYS[index]
+				key.ctrl_pressed = ctrl
 	hud._unhandled_key_input(key)
 	assert_eq(hud.composition_choices().size(), 10, "raccourci : grille ouverte")
 	var mouse := hud.get_viewport().get_mouse_position()
 	assert_true(hud.composition_rect().end.y <= mouse.y + 1.0 or hud.composition_rect().position.y <= 4.0, "au-dessus de la souris")
 	var choice := InputEventKey.new()
-	choice.keycode = CombatHud.SPELL_KEYS[1]
+	choice.physical_keycode = CombatHud.SPELL_KEYS[2]
 	choice.pressed = true
 	hud._unhandled_key_input(choice)
 	assert_true(hud.composition_choices().is_empty(), "grille refermée")
@@ -1857,16 +1861,22 @@ func test_sorts_enchaines_sans_attendre_les_animations() -> void:
 
 
 func test_raccourcis_de_sorts_azerty() -> void:
-	var cases := [[KEY_1, 0, KEY_NONE, 0], [KEY_0, 0, KEY_NONE, 9], [KEY_AMPERSAND, "&".unicode_at(0), KEY_1, 0],
-		[KEY_NONE, "é".unicode_at(0), KEY_NONE, 1], [KEY_QUOTEDBL, "\"".unicode_at(0), KEY_NONE, 2],
-		[KEY_PARENLEFT, "(".unicode_at(0), KEY_NONE, 4], [KEY_NONE, "à".unicode_at(0), KEY_NONE, 9],
-		[KEY_NONE, 0, KEY_7, 6], [KEY_A, "a".unicode_at(0), KEY_Q, -1]]
+	var cases := [[KEY_NONE, 0, KEY_QUOTELEFT, 0], [KEY_NONE, "²".unicode_at(0), KEY_NONE, 0], [KEY_AMPERSAND, "&".unicode_at(0), KEY_1, 1],
+		[KEY_NONE, "é".unicode_at(0), KEY_NONE, 2], [KEY_MINUS, "-".unicode_at(0), KEY_6, 6], [KEY_NONE, "à".unicode_at(0), KEY_NONE, 10],
+		[KEY_NONE, 0, KEY_EQUAL, 12], [KEY_A, "a".unicode_at(0), KEY_Q, -1]]
 	for case: Array in cases:
 		var key := InputEventKey.new()
 		key.keycode = case[0]
 		key.unicode = case[1]
 		key.physical_keycode = case[2]
 		assert_eq(CombatHud.spell_key_index(key), case[3], str(case))
+	var hud := CombatHud.new()
+	hud._spells_grid = GridContainer.new()
+	hud._spells_grid.columns = 10
+	assert_eq([hud._key_place(0, false), hud._key_place(0, true), hud._key_place(1, false), hud._key_place(1, true), hud._key_place(10, false),
+		hud._key_place(11, false)], [0, 1, 2, 12, 11, -1], "² : colonne à l'écart ; & à à : la grille, la 2e ligne avec Ctrl")
+	hud._spells_grid.free()
+	hud.free()
 
 
 func test_textes_flottants_au_meme_endroit_decales() -> void:

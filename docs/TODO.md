@@ -586,7 +586,7 @@ Lots 0 (conception dans le GDD), 1 (personnage, poussé sur `main` à la demande
 - [x] En combat, au survol d'un ennemi : ses cases de déplacement en rouge (PM de son prochain tour)
 - [x] Inventaire : 8 cases « Reliques » visibles dès le début (vides tant que la Relique n'est pas
   reprise), en plus des 2 anneaux
-- [x] Sorts rangés librement dans la barre (glisser-déposer, places gardées par classe, protocole v28, 25/11/2026)
+- [x] Sorts rangés librement dans la barre (glisser-déposer, places gardées par classe, protocole v28, 25/11/2026) ; raccourcis ² à = par ligne, Ctrl pour la 2e
 - [ ] Raccourcis clavier
 - [x] Retour de test « combats lents » : un sort ne fait plus attendre ses animations, actions
   gardées pendant une marche et envoyées dans l'ordre (5 au plus), raccourcis de sorts AZERTY

@@ -345,7 +345,8 @@ Dernière session (retours de la passe de l'auteur) :
   (`planche_sprites.py`, `MIRRORS`).
 - **Barre de sorts rangée par le joueur** (25/11/2026, GDD § 14) : glisser-déposer sur n'importe quelle case, en combat
   (`CombatHud.bar_layout`, `_arrange_spell`), places par classe (`Character.arrange_spells`, champ `barre`), commande
-  `ranger_sorts`, protocole v28 ; touches 1 à 0 = 10 premières cases.
+  `ranger_sorts`, protocole v28 ; raccourcis par ligne ² & é " ' ( - è _ ç à ) =, Ctrl pour la 2e
+  (`CombatHud.SPELL_KEYS` par position, `_key_place`).
 - **Musique de fond** (22/11/2026, GDD § 14.2) : `art/musique/cobblestone_afternoon.mp3` en boucle (`Options.MUSIC`,
   lancée par `Options.apply` depuis le menu principal), volume `Options.music_volume` et `music_on` dans les options.
 - **Zones de départ par camp** (GDD § 3.5, 19-24/11/2026) : une sous-zone par race, produites une à la fois et validées
