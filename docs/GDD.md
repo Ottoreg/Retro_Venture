@@ -1410,6 +1410,9 @@ palier Compagnon vise la fin des zones de départ (≈ 4 à 5 h de jeu).
   rang 5) ; les rangs **3 et 5** ajoutent un effet propre au sort (portée, relance, coût, effet en
   plus). Voie pilote : le Guerrier (ci-dessous) ; les autres Voies suivront une fois le modèle
   validé en jeu.
+- Aperçu des rangs (25/11/2026, demande de l'auteur) : la fiche d'un sort liste, pour chaque rang au-dessus du rang
+  actuel, les lignes qui changent (valeurs, coût, portée, effet en plus ; `SpellsWindow.rank_preview`) ; les
+  compétences de métier montrent leurs valeurs aux rangs suivants. Les passifs décrivent leurs rangs dans leur texte.
 - Nombre total de points d'une classe : **non plafonné** (décision de l'auteur du 12/11/2026 : on doit
   pouvoir maxer sa classe, mais pas trop vite). La fenêtre des sorts montre 20 cases par Voie (sorts
   à venir compris) : 20 sorts au rang 5 = 300 points, 315 avec le passif de classe (gabarit du 15/11/2026, § 4.3).
@@ -3903,7 +3906,7 @@ préférence ce que les joueurs feront déjà d'eux-mêmes.
   touches dans les options ; inventaire : sac plein signalé (orange), compteur de chaque onglet, consigne du
   détail vide ; Enclume : aide du bas selon l'onglet, mode d'emploi des essences ; boutique : fiche comparée
   à l'équipement porté ; échange : les deux offres de même forme (« validée » dans leur titre) ; sorts : maîtrise
-  encadrée avec ce que donne le rang suivant ; quêtes : section Terminées toujours là, « Suivre » près du titre ;
+  encadrée avec ce que donnent les rangs suivants ; quêtes : section Terminées toujours là, « Suivre » près du titre ;
   carte du monde : onglets dans l'ordre des zones (départ, Hautepierre, puis les autres), noms des petites
   zones sans chevauchement, épingles en haut à gauche des cases ; minicarte : cases vides du bord du monde
   marquées ; nom de la carte seul en haut de la bande gauche (la zone est sur la minicarte) ; chat : onglets en

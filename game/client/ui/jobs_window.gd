@@ -131,7 +131,8 @@ func _add_skill(job_id: String, type: String, skill_id: String, character: Chara
 	var label := _label(14, Color(0.9, 0.86, 0.75))
 	label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	label.text = "%s, rang %d / %d : %s" % [skill[0], rank, Character.SPELL_MAX_RANK,
-		skill[1] % String.num(Profession.skill_value(type, skill_id, rank))]
+		skill[1] % String.num(Profession.skill_value(type, skill_id, rank))] + ("" if rank >= Character.SPELL_MAX_RANK else " (rangs suivants : %s)" % ", ".join(
+		range(rank + 1, Character.SPELL_MAX_RANK + 1).map(func(next: int) -> String: return String.num(Profession.skill_value(type, skill_id, next)))))
 	row.add_child(label)
 	var button := Button.new()
 	button.focus_mode = Control.FOCUS_NONE

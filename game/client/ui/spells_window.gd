@@ -33,6 +33,18 @@ var _selected := ""
 var _quiet := false
 
 
+## Aperçu des rangs au-dessus de `rank` : pour chacun, les lignes de `describe` qui changent (une à une).
+static func rank_preview(base: Spell, rank: int) -> PackedStringArray:
+	var preview: PackedStringArray = []
+	var before := "\n".join(describe(base.mastered(rank))).split("\n")
+	for next in range(rank + 1, Spell.MASTERY_MAX_RANK + 1):
+		var after := "\n".join(describe(base.mastered(next))).split("\n")
+		var changed := Array(after).filter(func(line: String) -> bool: return not line.is_empty() and line not in before).map(func(line: String) -> String: return line.trim_suffix(" :"))
+		preview.append("Rang %d : %s" % [next, " ; ".join(changed) if not changed.is_empty() else "aucun changement"])
+		before = after
+	return preview
+
+
 ## Fiche d'un sort, ligne par ligne (aussi l'infobulle de la barre de sorts).
 static func describe(spell: Spell) -> PackedStringArray:
 	var lines: PackedStringArray = [spell.display_name]
@@ -339,10 +351,9 @@ func _show_mastery(spell: Spell) -> void:
 	var rank := character.spell_rank(spell.id)
 	var points := character.mastery_points()
 	var maxed := rank >= Spell.MASTERY_MAX_RANK
-	var next: Dictionary = spell.mastery.get(rank + 1, {})
-	# Rang, points à placer, et ce que donne le rang suivant.
-	_mastery_label.text = "Maîtrise : rang %d / %d   ·   %d point%s à placer\n%s" % [rank, Spell.MASTERY_MAX_RANK, points, "s" if points > 1 else "", "Rang maximal atteint." if maxed else "Rang suivant : +%d %% aux valeurs de base%s." % [
-		Spell.MASTERY_BONUS_PER_RANK, " et un effet propre au sort" if not next.is_empty() else ""]]
+	_mastery_label.text = "Maîtrise : rang %d / %d   ·   %d point%s à placer" % [rank, Spell.MASTERY_MAX_RANK, points, "s" if points > 1 else ""]
+	if data.spells.has(spell.id):  # Les passifs décrivent leurs rangs dans leur description.
+		_details.text += "\n\n" + "\n".join(rank_preview(data.spells[spell.id], rank))
 	_mastery_button.text = "Rang maximal" if maxed else "Monter au rang %d\n(%d point%s)" % [rank + 1, rank + 1, "s" if rank > 0 else ""]
 	UiTheme.lock(_mastery_button, "" if maxed or points >= rank + 1 else "Il vous manque %d point%s de maîtrise." % [rank + 1 - points, "s" if rank - points > 0 else ""])
 	_mastery_button.disabled = _mastery_button.disabled or maxed

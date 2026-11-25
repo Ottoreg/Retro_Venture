@@ -965,6 +965,10 @@ func test_barre_d_action_et_fenetre_des_sorts() -> void:
 	assert_eq(spells._selected, first)
 	assert_eq(spells._tabs.tab_count, 2, "Voie, race (pas d'arme portée)")
 	assert_eq(spells._title.text, world.data.spells[first].display_name)
+	var preview := SpellsWindow.rank_preview(world.data.spells[first], 0)
+	assert_eq(preview.size(), Spell.MASTERY_MAX_RANK, "aperçu des 5 rangs au-dessus du rang 0")
+	assert_true(preview[0].begins_with("Rang 1 : ") and preview[0] != "Rang 1 : aucun changement", "le rang 1 change des valeurs : %s" % preview[0])
+	assert_true(spells._details.text.contains(preview[-1]), "aperçu des rangs dans la fiche du sort")
 	var voie: Dictionary = world.data.voies[world.character.voie_id]
 	assert_eq(spells._list.item_count, SpellsWindow.CLASS_SPELL_SLOTS, "20 cases pour la Voie")
 	assert_true(spells._list.get_item_text(voie["sorts"].size() - 1).begins_with(world.data.spells[voie["sorts"][-1]].display_name), "les 20 sorts de la Voie, sans case vide")
