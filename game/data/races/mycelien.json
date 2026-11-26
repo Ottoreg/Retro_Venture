@@ -5,10 +5,16 @@
   "variante": "Amanite",
   "description": "Hommes-champignons reliés par leurs racines : le réseau de commérages de la forêt. Ils savent tout ce qui se passe partout et n'en font jamais rien. Neutres par paresse plus que par principe (« on n'était pas au courant »).",
   "passif": {
-    "nom": "À définir",
-    "description": "Passif à venir.",
-    "effets": []
+    "nom": "Sporée",
+    "description": "Un ennemi qui le frappe au contact reçoit un poison Impie de 3 pendant 2 tours (une fois par ennemi et par tour).",
+    "effets": [
+      {
+        "type": "sporee",
+        "valeur": 3
+      }
+    ]
   },
+  "sort": "mycelien_ragot",
   "carte_depart": "sylvebrume_3_0",
   "apparence": {
     "peau": "e8d8b0"

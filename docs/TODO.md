@@ -164,8 +164,7 @@ Tout le contenu et les systèmes MVP de l'alpha 1 sont faits (chantiers 1, 3, 4 
   relance 2 ; valeurs provisoires, icône reprise de *Charge*) (19/11/2026)
 - [x] Nain jouable et variantes Acier, Givre, Tempête de l'Arkhé (20/11/2026) : une race par variante (`arkhe_<élément>`,
   champ `variante_de`), choisie sous le carrousel ; Cœur élémentaire et Éruption dans l'élément de la variante ; Nain :
-  *Peau de pierre* affiché sans effet, pas de sort racial
-- [ ] Nain : coder *Peau de pierre* et *Fureur des profondeurs* (valeurs à fixer)
+  *Têtu comme une mule* (remplace *Peau de pierre*) et *Fureur des profondeurs* codés le 26/11/2026 (valeurs provisoires)
 - [x] Attaque en pixel art (animation `strike`, pour le corps à corps et les sorts) : orc, squelette, géant, arkhé (19/11/2026)
 - [x] Attaque de l'elfe (20/11/2026, ajoutée à sa planche)
 - [ ] Animations à générer par l'auteur (`assets/PROMPTS_ANIMATIONS.md`) : humain et gobelin regénérés en entier le 20/11/2026 ;
@@ -679,12 +678,12 @@ Lots 0 (conception dans le GDD), 1 (personnage, poussé sur `main` à la demande
 ## Phase 3 — Solo étendu (objectifs long terme)
 
 ### Races et classes
-- [ ] Race **Nain** (allié) : passif *Peau de pierre*, sort *Fureur des profondeurs*, zone de départ et chaîne d'acte I
+- [ ] Race **Nain** (allié) : passif *Têtu comme une mule* et sort *Fureur des profondeurs* faits (26/11/2026), zone de départ et chaîne d'acte I
 - [ ] Race **Orc** (ennemi) : passif *Peau épaisse*, sort *Cri de guerre*, zone de départ et chaîne d'acte I
-- [ ] Race **Arkhé** (neutre, remplace le Semi-homme depuis le 19/11/2026) : *Cœur élémentaire* et *Éruption* faits (variante Flamme) ; 2e et 3e passifs à définir, variantes Acier, Tempête et Givre, sous-zone et quêtes de race
+- [ ] Race **Arkhé** (neutre, remplace le Semi-homme depuis le 19/11/2026) : *Cœur élémentaire* et *Éruption* faits (variante Flamme) ; 2e et 3e passifs définis le 26/11/2026 (*Brique première*, *Cœur qui s'emballe*, à coder), variantes Acier, Tempête et Givre, sous-zone et quêtes de race
 - [ ] Race **Géant** (allié) : bonus, passif *Carrure*, sort *Coup de semelle*, assemblage agrandi (≈ 1,25×), zone de départ et chaîne d'acte I
 - [ ] Race **Squelette** (ennemi, mort-vivant) : passif *Déjà mort*, sort *Remonter les os*, assemblage squelette, zone de départ et chaîne d'acte I
-- [ ] Race **Mycélien** (neutre, remplace le Lutin depuis le 23/11/2026) : formes cèpe, girolle et amanite (à la place du choix mâle / femelle) ; **amanite (`mycelien`) et girolle (`mycelien_girolle`) jouables le 25/11/2026** (sprites PixelLab recoloriés par Voie, départ au Bois-Farceur, sans passif ni sort) ; reste le cèpe (sprites à déposer), passifs et sort à définir, quêtes de race du Bois-Farceur produites le 25/11/2026 (`sz_bois_farceur.py`)
+- [ ] Race **Mycélien** (neutre, remplace le Lutin depuis le 23/11/2026) : formes cèpe, girolle et amanite (à la place du choix mâle / femelle) ; **amanite (`mycelien`) et girolle (`mycelien_girolle`) jouables le 25/11/2026** (sprites PixelLab recoloriés par Voie, départ au Bois-Farceur, sans passif ni sort) ; *Sporée* et *Ragot* codés le 26/11/2026, 2e et 3e passifs définis (*Radio-mycélium*, *Repousse*, à coder) ; reste le cèpe (sprites à déposer), quêtes de race du Bois-Farceur produites le 25/11/2026 (`sz_bois_farceur.py`)
 - [ ] Squelette : variantes selon la race d'avant la mort (petit squelette de taille humaine, grand squelette de taille du Géant) à la place du choix mâle / femelle (23/11/2026)
 - [ ] Différencier les races proches (Nain / Orc) et valider leurs noms de peuple (GDD § 4.2)
 - [ ] Voies de corps à corps : **Paladin** (guerrier sacré) et **Myrmidon** (guerrier tank)

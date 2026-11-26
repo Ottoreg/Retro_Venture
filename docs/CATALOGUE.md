@@ -27,7 +27,7 @@ Prix de boutique : selon la rareté (revente à 25 %).
 - [Sorts de race](#sorts-de-race)
 - [Sorts des monstres](#sorts-des-monstres)
 
-**387 objets** (18 armes, 20 coiffes, 20 capes, 20 amulettes, 20 anneaux, 20 ceintures, 20 bottes, 197 ressources, 37 plans de forge, 9 objets de quête), **115 monstres** et **371 sorts**.
+**387 objets** (18 armes, 20 coiffes, 20 capes, 20 amulettes, 20 anneaux, 20 ceintures, 20 bottes, 197 ressources, 37 plans de forge, 9 objets de quête), **115 monstres** et **373 sorts**.
 
 ## Armes
 
@@ -2411,7 +2411,9 @@ Soigneur sacré. Bénit les alliés, sermonne les ennemis, et cite des textes qu
 | **Coup bas** | 3 PA, portée 1, 1/tour | 4–7 Tempête ; −1 PM au prochain tour | Gobelin | Un coup dans le genou. Pas glorieux, mais la cible marchera moins vite au prochain tour. |
 | **Coup de semelle** | 3 PA, portée 1, 1/tour, relance 2 t. | 5–8 Acier ; poussée de 2 case(s) | Géant | Le Géant ne frappe pas vraiment : il avance le pied. Pour la cible, la différence est difficile à faire. |
 | **Cri de guerre** | 3 PA, portée soi, cercle de rayon 2, sans ligne de vue, 1/tour, relance 4 t. | +10 % dégâts infligés (2 t.) aux alliés | Orc | « WAAAH ! » Personne ne sait ce que ça veut dire, mais tout le monde autour cogne plus fort. |
+| **Fureur des profondeurs** | 2 PA, portée soi, sans ligne de vue, 1/tour, relance 4 t. | +15 % dégâts infligés (2 t.) | Nain | Acculé, le Nain se souvient de toutes les galeries qu'on lui a volées : +15 % de dégâts pendant 2 tours. Seulement sous 50 % de PV. |
 | **Pas léger** | 2 PA, portée 1–3, sans ligne de vue, 1/tour, relance 3 t. | téléportation sur la case | Elfe | Un bond gracieux vers une case libre. L'herbe n'en garde même pas la trace. |
+| **Ragot** | 2 PA, portée 2–6, 1/tour, relance 3 t. | −1 PA (1 t.) aux ennemis ; −10 % dégâts infligés (1 t.) aux ennemis | Mycélien | « Tu sais ce qu'on dit sur toi ? » La rumeur fait son chemin : −1 PA et −10 % de dégâts infligés pendant 1 tour. |
 | **Ralliement** | 1 PA, portée soi, sans ligne de vue, 1/tour, relance 4 t. | +2 PA tout de suite | Humain | Un cri d'encouragement. À soi-même, faute d'alliés pour l'instant. |
 | **Remonter les os** | 2 PA, portée soi, sans ligne de vue, 1/tour, relance 3 t. | soin 15 (Impie) | Squelette | Le tibia ici, la rotule là… Il en reste une, mais ça tiendra. Soigne 15 % de ses PV max. |
 | **Éruption** | 3 PA, portée soi, cercle de rayon 1, sans ligne de vue, 1/tour, relance 3 t. | 4–7 Flamme aux ennemis | Arkhé | L'Arkhé laisse déborder ce qu'il a dedans. Ceux qui se tenaient trop près s'en souviendront. |

@@ -327,6 +327,9 @@ Dernière session (retours de la passe de l'auteur) :
   En ligne plus tard.
 - **Export / import de la sauvegarde solo** (17/11/2026, GDD § 13.4) : menu principal, image PNG chiffrée
   (`SaveGame.to_png` / `from_png`, AES-256-CBC, clé tirée de `SaveGame.SECRET`, 3 octets par pixel).
+- **Sorts et passifs du Nain et du Mycélien** (26/11/2026, GDD § 4.2) : Nain *Têtu comme une mule* (effets de passif
+  `retrait_pa` / `retrait_pm`) et *Fureur des profondeurs* (champ de sort `sous_pv`, raison `pv_trop_hauts`) ; Mycélien *Sporée*
+  (`Combat._spores`, `SPORES`) et *Ragot* ; 2e et 3e passifs de l'Arkhé et du Mycélien définis au GDD, pas codés (aucune race).
 - **Orc et Squelette jouables** (18/11/2026) : planches `sprites/orc.png` et `squelette.png` tirées des dossiers PixelLab
   de `assets/` (`planche_sprites.py` lit `Idle_rotations_8dir.gif`, `walking/` et `running/`), recoloriées par Voie ; départ à Crasse-Roc ; passifs
   `reduction_melee` et `deja_mort` (`Fighter.passives`), sorts `orc_cri_de_guerre` et `squelette_remonter_les_os`

@@ -33,7 +33,8 @@ var race: String = ""
 var stats: Dictionary = {}
 ## Portée supplémentaire des sorts à distance (passif de race, équipement…).
 var range_bonus: int = 0
-## Passif de race en combat : « reduction_melee » (% de dégâts reçus au contact), « deja_mort » (survit une fois à 1 PV).
+## Passif de race en combat : « reduction_melee » (% de dégâts reçus au contact), « deja_mort » (survit une fois à 1 PV),
+## « sporee » (poison Impie au frappeur au contact, `Combat._spores`).
 var passives: Dictionary = {}
 ## PM retirés pour le prochain tour (effet « retrait_pm »).
 var pm_malus: int = 0
@@ -391,6 +392,8 @@ func cast_blocker(spell: Spell) -> String:
 		return Protocol.REASON_NOT_ENOUGH_PA
 	if hp_cost(spell) >= hp and hp_cost(spell) > 0:
 		return Protocol.REASON_NOT_ENOUGH_HP
+	if spell.hp_threshold > 0 and hp * 100 >= spell.hp_threshold * max_hp:
+		return Protocol.REASON_HP_TOO_HIGH
 	if spell.casts_per_turn > 0 and cast_count(spell) >= spell.casts_per_turn:
 		return Protocol.REASON_SPELL_LIMIT
 	if _cooldowns.has(spell.id):

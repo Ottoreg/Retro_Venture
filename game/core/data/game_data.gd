@@ -36,7 +36,8 @@ const CAMPS := ["allie", "ennemi", "neutre"]
 ## plus, % de brumes de fin de combat en plus ; en combat (`Fighter.passives`), % de dégâts de mêlée reçus en moins
 ## et survie à un coup fatal une fois par combat ; % de PV max en plus (`Character.max_hp`) ; % de puissance et de
 ## résistance dans un élément (`coeur_elementaire`, champ « element » : Cœur élémentaire de l'Arkhé).
-const PASSIVE_EFFECTS := ["portee", "reputation_metier", "prospection", "ecus", "reduction_melee", "deja_mort", "pv_max", "coeur_elementaire"]
+const PASSIVE_EFFECTS := ["portee", "reputation_metier", "prospection", "ecus", "reduction_melee", "deja_mort", "pv_max", "coeur_elementaire",
+	"sporee", "retrait_pa", "retrait_pm"]
 ## Caractéristiques d'un monstre (facultatives dans « caracteristiques », 0 par défaut) : comme
 ## celles des joueurs, +1 % de dégâts de leur élément par point.
 const MONSTER_STATS := ["force", "intelligence", "perception", "agilite"]
@@ -608,7 +609,7 @@ func create_character_fighter(character: Character, fighter_id: String) -> Fight
 		fighter.spells.append(spells[Combat.TAME_SPELL])
 	fighter.tame_bonus = Combat.TAME_PER_TIER * Character.tier_index(character.job_reputation(Combat.TAME_JOB)) \
 		+ roundi(Profession.skill_value(Combat.TAME_JOB, "apprivoisement", character.job_rank(Combat.TAME_JOB, "apprivoisement")))
-	for effect_type in ["reduction_melee", "deja_mort"]:
+	for effect_type in ["reduction_melee", "deja_mort", Combat.SPORES]:
 		fighter.passives[effect_type] = passive_value(character.race_id, effect_type)
 	var passive := class_passive(character.voie_id, character.reputation())
 	if not passive.is_empty():
@@ -624,7 +625,7 @@ func create_character_fighter(character: Character, fighter_id: String) -> Fight
 	fighter.crit_bonus = character.extra("critique", self)
 	fighter.soins = character.extra("soins", self)
 	for stat_name: String in Fighter.COMBAT_STATS:
-		fighter.combat_stats[stat_name] = character.extra(stat_name, self)
+		fighter.combat_stats[stat_name] = character.extra(stat_name, self) + passive_value(character.race_id, stat_name)
 	for element: String in Spell.ELEMENTS:
 		fighter.element_dommages[element] = character.extra("dommages_" + element, self)
 		fighter.element_soins[element] = character.extra("soins_" + element, self)

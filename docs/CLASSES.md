@@ -83,9 +83,9 @@ point(s) de caractéristique (avant ralentissement).
 | **Géant** | allie | brumerive_-1_0 | Carrure | pv_max +10 | Coup de semelle |
 | **Gobelin** | ennemi | crasse_roc_0_0 | Chapardeur | prospection +20, ecus +20 | Coup bas |
 | **Humain** | allie | brumerive_0_0 | Polyvalence | reputation_metier +10 | Ralliement |
-| **Mycélien** | neutre | sylvebrume_3_0 | À définir |  | — |
-| **Mycélien** | neutre | sylvebrume_3_0 | À définir |  | — |
-| **Nain** | allie | brumerive_1_-1 | Peau de pierre |  | — |
+| **Mycélien** | neutre | sylvebrume_3_0 | Sporée | sporee +3 | Ragot |
+| **Mycélien** | neutre | sylvebrume_3_0 | Sporée | sporee +3 | Ragot |
+| **Nain** | allie | brumerive_1_-1 | Têtu comme une mule | retrait_pa +20, retrait_pm +20 | Fureur des profondeurs |
 | **Orc** | ennemi | crasse_roc_3_0 | Peau épaisse | reduction_melee +10 | Cri de guerre |
 | **Squelette** | ennemi | crasse_roc_0_-1 | Déjà mort | deja_mort +1 | Remonter les os |
 
@@ -99,6 +99,9 @@ point(s) de caractéristique (avant ralentissement).
 | **Coup de semelle** | 3 PA, portée 1, 1/tour, relance 2 t. | 5–8 Acier ; poussée de 2 case(s) | — |
 | **Coup bas** | 3 PA, portée 1, 1/tour | 4–7 Tempête ; −1 PM au prochain tour | — |
 | **Ralliement** | 1 PA, portée soi, sans ligne de vue, 1/tour, relance 4 t. | +2 PA tout de suite | — |
+| **Ragot** | 2 PA, portée 2–6, 1/tour, relance 3 t. | −1 PA (1 t.) aux ennemis ; −10 % dégâts infligés (1 t.) aux ennemis | — |
+| **Ragot** | 2 PA, portée 2–6, 1/tour, relance 3 t. | −1 PA (1 t.) aux ennemis ; −10 % dégâts infligés (1 t.) aux ennemis | — |
+| **Fureur des profondeurs** | 2 PA, portée soi, sans ligne de vue, 1/tour, relance 4 t. | +15 % dégâts infligés (2 t.) | — |
 | **Cri de guerre** | 3 PA, portée soi, cercle de rayon 2, sans ligne de vue, 1/tour, relance 4 t. | +10 % dégâts infligés (2 t.) aux alliés | — |
 | **Remonter les os** | 2 PA, portée soi, sans ligne de vue, 1/tour, relance 3 t. | soin 15 (Impie) | — |
 

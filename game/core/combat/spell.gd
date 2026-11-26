@@ -238,6 +238,8 @@ var description: String
 var pa_cost: int
 ## Guerrier, Voie Impie (GDD § 4.3, « Prix du sang ») : PV payés au lancer, en % des PV max du lanceur (« cout_pv »).
 var hp_cost := 0
+## Lançable seulement sous ce % des PV max (« sous_pv », Fureur des profondeurs du Nain ; 0 : toujours).
+var hp_threshold := 0
 var range_min: int
 var range_max: int
 var needs_line_of_sight: bool
@@ -484,6 +486,7 @@ static func from_dict(data: Dictionary) -> Spell:
 	spell.description = str(data.get("description", ""))
 	spell.pa_cost = int(data["cout_pa"])
 	spell.hp_cost = int(data.get("cout_pv", 0))
+	spell.hp_threshold = int(data.get("sous_pv", 0))
 	spell.range_min = int(data["portee"]["min"])
 	spell.range_max = int(data["portee"]["max"])
 	spell.needs_line_of_sight = bool(data.get("ligne_de_vue", true))
@@ -558,7 +561,7 @@ func mastered(level: int) -> Spell:
 ## Copie du sort, valeurs des effets élémentaires à `percent` %.
 func _copy(percent := 100) -> Spell:
 	var copy := Spell.new()
-	for property in ["id", "display_name", "description", "pa_cost", "hp_cost", "range_min", "range_max", "needs_line_of_sight",
+	for property in ["id", "display_name", "description", "pa_cost", "hp_cost", "hp_threshold", "range_min", "range_max", "needs_line_of_sight",
 			"cast_in_line", "fixed_range", "zone_type", "zone_size", "excludes_caster", "casts_per_turn", "cooldown", "crit_chance", "discreet",
 			"enemy_cooldown", "marked_range", "ignites", "calcined", "ember_range", "projectile", "aura_zone", "aura_turns", "mastery", "rank",
 			"state_bonus", "created_slots", "affinity", "created_discount", "max_traps"]:

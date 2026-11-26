@@ -358,10 +358,10 @@ Valeurs provisoires, passe d'équilibrage plus tard (demande de l'auteur).
 | Elfe | *Lignée ancienne* : +10 % de réputation dans les métiers de récolte | *De haut* : +5 % de dégâts sur les cibles à 5 cases ou plus |
 | Nain | *Naindustriel* : +10 % de réputation de forgeron | *Barbe protectrice* : −10 % de dégâts critiques reçus |
 | Orc | *Rancunier* : +5 % de dégâts sur le dernier ennemi qui l'a frappé | *Brute* : +10 % de tacle finaux |
-| Arkhé | *à définir* | *à définir* |
+| Arkhé | *Brique première* : +5 % de score à la forge et à l'infusion sur les lignes de Dommages et de Résistance de son élément | *Cœur qui s'emballe* : chaque sort de son élément lancé donne +2 % de dégâts de cet élément, 5 fois au plus, tout le combat |
 | Géant | *Grandes enjambées* : +20 % de vitesse de marche hors combat | *Inébranlable* : ne peut être ni poussé ni attiré |
 | Squelette | *Pas d'estomac* : −50 % de dégâts de poison | *Sans muscles à fatiguer* : −10 % de temps de récolte |
-| Mycélien | *à définir* | *à définir* |
+| Mycélien | *Radio-mycélium* : voit sur la minicarte les groupes des cartes voisines et sait quand un mini-boss de la zone est réapparu | *Repousse* : régénère 3 % de ses PV max au début de son tour, 6 % s'il n'a pas bougé au tour d'avant |
 
 **Les 9 races du jeu** (validées) : trois par camp (voir § 3.4). Une par camp dès l'alpha, les six
 autres (Nains, Orcs, Arkhés, Géants, Squelettes, Mycéliens) en Phase 3.
@@ -371,20 +371,21 @@ autres (Nains, Orcs, Arkhés, Géants, Squelettes, Mycéliens) en Phase 3.
 | **Humain** | Allié | *Polyvalence* : +10 % de réputation de métier | *Ralliement* : +2 PA ce tour (sur soi en solo ; sur un allié en multi) | Alpha |
 | **Gobelin** | Ennemi | *Chapardeur* : +20 prospection et +20 % de brumes en fin de combat | *Coup bas* : dégâts Tempête au contact et −1 PM au prochain tour de la cible | Alpha |
 | **Elfe** | Neutre | *Œil perçant* : +1 portée sur les sorts à distance | *Pas léger* : téléportation jusqu'à 3 cases | Alpha |
-| **Nain** | Allié | *Peau de pierre* : +5 % de résistances | *Fureur des profondeurs* : bonus de dégâts quand PV < 50 % | Phase 3 |
+| **Nain** | Allié | *Têtu comme une mule* : +20 d'esquive des retraits de PA et de PM (à la place de *Peau de pierre*, 26/11/2026) | *Fureur des profondeurs* : +15 % de dégâts 2 tours, seulement sous 50 % de PV (2 PA, relance 4) | Phase 3 (jouable pour les tests) |
 | **Orc** | Ennemi | *Peau épaisse* : réduction des dégâts de mêlée | *Cri de guerre* : bonus de dégâts aux alliés proches | Phase 3 |
 | **Arkhé** (élémentaire) | Neutre | *Cœur élémentaire* : +5 % de dégâts et de résistance dans l'élément de sa variante | *Éruption* : dégâts de son élément 4-7 aux ennemis à 1 case (3 PA, relance 3) | Phase 3 (jouable pour les tests) |
 | **Géant** | Allié | *Carrure* : +10 % de PV max | *Coup de semelle* : dégâts Acier au contact, repousse la cible de 2 cases | Phase 3 |
 | **Squelette** (mort-vivant) | Ennemi | *Déjà mort* : une fois par combat, survit à un coup fatal avec 1 PV | *Remonter les os* : se soigne de 15 % de ses PV (relance tous les 3 tours) | Phase 3 |
-| **Mycélien** (homme-champignon) | Neutre | *à définir* | *à définir* | Phase 3 (amanite et girolle jouables pour les tests, 25/11/2026) |
+| **Mycélien** (homme-champignon) | Neutre | *Sporée* : un ennemi qui le frappe au contact reçoit un poison Impie de 3 pendant 2 tours (une fois par ennemi et par tour) | *Ragot* : −1 PA et −10 % de dégâts infligés 1 tour à un ennemi (2 PA, portée 2 à 6, relance 3) | Phase 3 (amanite et girolle jouables pour les tests, 25/11/2026) |
 
 **Plus de bonus de caractéristiques ni d'équipement de départ** (décision de l'auteur du 29/10/2026) :
 une race se distingue par son passif, qui touche l'expérience de jeu (butin, métiers, portée,
 esquive…) sans toucher aux caractéristiques de base, et par son sort racial ; on commence sans
 équipement, avec 20 brumes. Le Semi-homme et le Lutin, remplacés par l'Arkhé (19/11/2026) et le Mycélien
 (23/11/2026), avaient l'esquive des retraits de PA/PM et la fuite (*Farceur*, sort *Tour de passe-passe*).
-Les passifs et sorts restants sont des propositions, à équilibrer (Nain et Orc se ressemblent
-encore). Trois races par camp.
+Passifs et sorts du Mycélien, du Nain (révisé) et 2e et 3e passifs de l'Arkhé et du Mycélien validés le
+26/11/2026 (le Mycélien partage tout entre ses variantes, l'Arkhé règle les siens sur l'élément de sa variante) ;
+tous sont à équilibrer. Trois races par camp.
 
 Graphisme : les Géants sont dessinés plus grands (environ 1,25×), mais toutes les races occupent une seule case en combat. Les Squelettes ont leur propre
 assemblage (os, armure rouillée) plutôt qu'une couleur de peau, et leur taille suit la race d'avant la mort.

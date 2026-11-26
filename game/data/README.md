@@ -616,7 +616,8 @@ Mécaniques du Myrmidon (GDD § 4.3) :
 Mécaniques du Guerrier (GDD § 4.3) :
 
 - Champ de sort `cout_pv` (Prix du sang) : PV payés au lancer, en % des PV max (au moins 1) ; ni bouclier ni résistance,
-  jamais mortel (`pv_insuffisants`), compte pour la Rancune. Rangs de maîtrise `cout_pv` (nouveau coût) et `valeurs`
+  jamais mortel (`pv_insuffisants`), compte pour la Rancune. Champ de sort `sous_pv` (Fureur des profondeurs du Nain) : lançable
+  seulement sous ce % des PV max (`pv_trop_hauts`). Rangs de maîtrise `cout_pv` (nouveau coût) et `valeurs`
   (`{ champ : entier }` remplacé sur chaque effet du sort qui a ce champ, ex. `{"vol": 40}`, `{"duree": 3}`).
 - Champs d'effet de dégâts `par_rancune` (% par cran de Rancune du lanceur, tous dépensés), `par_pv_manquant` (+1 % par %
   de PV manquant du lanceur, cette valeur au plus), `execution` (% contre une cible sous 30 % de ses PV) ; champ de
@@ -860,7 +861,7 @@ avec 20 brumes (`GameData.STARTING_ECUS`).
 par la validation depuis le 29/10/2026) : seulement son passif et son sort. `passif.effets` est optionnel (liste de
 `{type, valeur}`) ; types gérés : `portee` (portée des sorts à distance), `reputation_metier` (% de réputation de
 métier), `prospection` (points de prospection), `ecus` (% de brumes de fin de combat), `reduction_melee` (% de dégâts reçus
-au contact en moins) `deja_mort` (une fois par combat, survit à un coup fatal avec 1 PV) `pv_max` (% de PV max en plus) et `coeur_elementaire` (avec un champ `element` : % de dégâts et de résistance dans cet élément). `sort` : sort racial, ajouté aux sorts de la Voie. `variante` / `variante_de` : variante d'une race (les Arkhés : `arkhe_givre` a `variante_de: arkhe`), une race à part
+au contact en moins) `deja_mort` (une fois par combat, survit à un coup fatal avec 1 PV) `pv_max` (% de PV max en plus), `coeur_elementaire` (avec un champ `element` : % de dégâts et de résistance dans cet élément), `sporee` (poison Impie de cette valeur, 2 tours, à l'ennemi qui le frappe au contact, une fois par ennemi et par tour) et `retrait_pa` / `retrait_pm` (esquive des retraits en plus). `sort` : sort racial, ajouté aux sorts de la Voie. `variante` / `variante_de` : variante d'une race (les Arkhés : `arkhe_givre` a `variante_de: arkhe`), une race à part
 entière dans les données, choisie sous le carrousel de création à la place du choix mâle / femelle.
 
 Les tests vérifient tous ces fichiers (format, `id` égal au nom du fichier, sorts et monstres

@@ -1,0 +1,25 @@
+{
+  "id": "nain_fureur_des_profondeurs",
+  "nom": "Fureur des profondeurs",
+  "description": "Acculé, le Nain se souvient de toutes les galeries qu'on lui a volées : +15 % de dégâts pendant 2 tours. Seulement sous 50 % de PV.",
+  "cout_pa": 2,
+  "sous_pv": 50,
+  "portee": {
+    "min": 0,
+    "max": 0
+  },
+  "ligne_de_vue": false,
+  "relance": {
+    "par_tour": 1,
+    "delai": 4
+  },
+  "effets": [
+    {
+      "type": "bonus",
+      "carac": "degats_infliges",
+      "min": 15,
+      "max": 15,
+      "duree": 2
+    }
+  ]
+}

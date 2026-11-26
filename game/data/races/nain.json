@@ -4,10 +4,20 @@
   "camp": "allie",
   "description": "Bourrus, barbus et fiers de l'être. Ils creusent depuis si longtemps qu'ils ne savent plus très bien ce qu'ils cherchaient, mais ils sont sûrs que c'est en dessous.",
   "passif": {
-    "nom": "Peau de pierre",
-    "description": "+5 % de résistances (à venir).",
-    "effets": []
+    "nom": "Têtu comme une mule",
+    "description": "+20 d'esquive des retraits de PA et de PM.",
+    "effets": [
+      {
+        "type": "retrait_pa",
+        "valeur": 20
+      },
+      {
+        "type": "retrait_pm",
+        "valeur": 20
+      }
+    ]
   },
+  "sort": "nain_fureur_des_profondeurs",
   "carte_depart": "brumerive_1_-1",
   "apparence": {
     "peau": "d8a07a"

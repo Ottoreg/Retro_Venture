@@ -166,6 +166,7 @@ const GROUP_SPOTS := [
 var _refusals := {
 	Protocol.REASON_NOT_ENOUGH_PA: "Pas assez de PA",
 	Protocol.REASON_NOT_ENOUGH_HP: "Pas assez de PV pour payer le prix du sang",
+	Protocol.REASON_HP_TOO_HIGH: "Trop de PV pour ce sort",
 	Protocol.REASON_NOT_ENOUGH_PM: "Pas assez de PM",
 	Protocol.REASON_OUT_OF_RANGE: "Hors de portée",
 	Protocol.REASON_NO_LINE_OF_SIGHT: "Pas de ligne de vue",

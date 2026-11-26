@@ -91,8 +91,8 @@ temps : chaque camp a sa propre histoire.
   - **Arkhé** (élémentaire de feu, camp neutre, à l'essai) : départ à **Sylvebrume** ; sort *Éruption* (dégâts
     Flamme aux ennemis à son contact) ; passif *Cœur élémentaire* : +5 % de dégâts et de résistance Flamme ; variantes
     Acier, Givre et Tempête : le même passif et le même sort dans leur élément.
-  - **Nain** (camp allié, à l'essai) : départ au **Comptoir de Barbe-Fendue**, au nord de Brumerive (sa sous-zone, avec sa Pierre de Passage, sa maison et 3 quêtes de race) ; apparence seulement pour l'instant.
-  - **Mycélien** (homme-champignon, camp neutre, à l'essai) : départ au **Bois-Farceur**, à l'est de Sylvebrume (sa sous-zone, avec sa Pierre de Passage, sa maison et 3 quêtes de race) ; variantes Amanite et Girolle ; apparence seulement pour l'instant.
+  - **Nain** (camp allié, à l'essai) : départ au **Comptoir de Barbe-Fendue**, au nord de Brumerive (sa sous-zone, avec sa Pierre de Passage, sa maison et 3 quêtes de race) ; passif *Têtu comme une mule* (+20 d'esquive des retraits de PA et de PM) et sort *Fureur des profondeurs* (+15 % de dégâts, seulement sous 50 % de PV).
+  - **Mycélien** (homme-champignon, camp neutre, à l'essai) : départ au **Bois-Farceur**, à l'est de Sylvebrume (sa sous-zone, avec sa Pierre de Passage, sa maison et 3 quêtes de race) ; variantes Amanite et Girolle ; passif *Sporée* (qui le frappe au contact est empoisonné) et sort *Ragot* (−1 PA et −10 % de dégâts à un ennemi).
 - Cinq Voies (classes), chacune avec sa mécanique :
   - **Guerrier** : *Charge* (en ligne droite, jusqu'au contact, puis un coup d'épée) ;
   - **Rôdeur** : *Collet*, un piège invisible qui blesse et ralentit le premier ennemi qui y entre ;

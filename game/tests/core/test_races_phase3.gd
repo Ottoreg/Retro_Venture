@@ -44,3 +44,29 @@ func test_passifs_et_sorts() -> void:
 	var cry: Dictionary = data.spells["orc_cri_de_guerre"].effects[0]
 	combat._apply_effect(player, player, cry, events)
 	assert_eq(Combat.dealt_factor(player), 1.1, "Cri de guerre : +10 % de dégâts")
+
+
+func test_mycelien_et_nain() -> void:
+	var data := GameData.load_all()
+	var shroom := data.create_character_fighter(Character.create("Lamelle", "mycelien_girolle", "guerrier"), "my")
+	assert_eq(shroom.passives[Combat.SPORES], 3, "Sporée de la Girolle")
+	assert_true(shroom.spells.any(func(s: Spell) -> bool: return s.id == "mycelien_ragot"), "Ragot")
+	var dwarf := data.create_character_fighter(Character.create("Gimbo", "nain", "guerrier"), "n")
+	assert_eq([dwarf.combat_stat("retrait_pa"), dwarf.combat_stat("retrait_pm")], [20, 20], "Têtu comme une mule")
+	var fury: Spell = data.spells["nain_fureur_des_profondeurs"]
+	assert_eq(dwarf.cast_blocker(fury), Protocol.REASON_HP_TOO_HIGH, "Fureur : pas à pleine vie")
+	dwarf.hp = dwarf.max_hp / 2 - 1
+	assert_eq(dwarf.cast_blocker(fury), "", "Fureur : sous 50 % de PV")
+	var combat := Fixtures.combat(Fixtures.map(), C, [["mannequin", C + RIGHT], ["mannequin", C + RIGHT * 3]])
+	combat.start()
+	var player := combat.get_fighter(Fixtures.PLAYER)
+	var near := combat.get_fighter("m0")
+	var far := combat.get_fighter("m1")
+	player.passives[Combat.SPORES] = 3
+	var events: Array[Dictionary] = []
+	var hit := {"type": Spell.EFFECT_DAMAGE, "element": "acier", "min": 1, "max": 1}
+	for i in 2:
+		combat._apply_effect(near, player, hit, events)
+	combat._apply_effect(far, player, hit, events)
+	var poisons := func(f: Fighter) -> int: return f.states.filter(func(s: Dictionary) -> bool: return s["type"] == Spell.EFFECT_POISON).size()
+	assert_eq([poisons.call(near), poisons.call(far)], [1, 0], "Sporée : au contact, une fois par tour")

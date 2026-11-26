@@ -36,6 +36,9 @@ var fighters: Array[Fighter] = []
 ## Cases où l'équipe des joueurs peut se placer.
 var placement_cells: Array[Vector2i] = []
 var round_number := 0
+## Passif Sporée du Mycélien et frappeurs déjà empoisonnés (« frappeur>cible@tour »).
+const SPORES := "sporee"
+var _spored := {}
 ## Équipe gagnante (-1 tant que le combat n'est pas fini, ou en cas d'abandon des deux camps).
 var winner_team := -1
 ## PV max de chaque combattant à son premier coup reçu (plancher des dégâts dévastateurs).
@@ -1021,6 +1024,7 @@ func _apply_effect(caster: Fighter, target: Fighter, effect: Dictionary, events:
 			var suffered := _hurt(target, dealt, effect["element"], events)
 			_devastate(caster, target, dealt, hp_before - target.hp, events)
 			_thorns(caster, target, dealt, suffered, events)
+			_spores(caster, target, events)
 			var traces := target.stacks(Spell.EFFECT_TRACE) if effect.has("par_trace") else 0
 			if traces > 0:  # Coup de dague : les Traces partent (et retirent des PM au rang 5).
 				target.states.assign(target.states.filter(func(state: Dictionary) -> bool: return state["type"] != Spell.EFFECT_TRACE))
@@ -1337,6 +1341,18 @@ static func _part(fighter: Fighter, stat_name: String, dealt: int) -> int:
 ## Épines (GDD § 4.4) : `target` renvoie à son adversaire `attacker` une part des dégâts subis moins leur part
 ## spectrale : un jet par sorte (fixe + %), au plus `MAX_THORNS` des dégâts comptés à eux tous (au prorata) ; l'épine
 ## élémentaire est réduite par la résistance de l'attaquant, toutes par sa réduction fixe. Jamais d'épine sur épine.
+## Sporée (Mycélien, GDD § 4.2) : un ennemi qui le frappe au contact reçoit un poison Impie de 2 tours, une fois par
+## ennemi et par tour de jeu.
+func _spores(attacker: Fighter, target: Fighter, events: Array[Dictionary]) -> void:
+	var key := "%s>%s@%d" % [attacker.id, target.id, round_number]
+	if int(target.passives.get(SPORES, 0)) <= 0 or attacker.team == target.team or not attacker.is_alive() \
+			or IsoGrid.distance(attacker.cell, target.cell) != 1 or _spored.has(key):
+		return
+	_spored[key] = true
+	_add_state(attacker, {"type": Spell.EFFECT_POISON, "element": "impie", "valeur": int(target.passives[SPORES]), "tours": 2,
+		"sort": "Sporée", "lanceur": target.id, "retirable": true, "delai": 2, "cumul": 0}, events)
+
+
 func _thorns(attacker: Fighter, target: Fighter, dealt: int, suffered: int, events: Array[Dictionary]) -> void:
 	if attacker == null or not attacker.is_alive() or attacker.team == target.team:
 		return
