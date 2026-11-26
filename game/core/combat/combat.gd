@@ -64,11 +64,13 @@ const SHADOW_CLASS := "ombre"
 ## Démoniste (GDD § 4.3) : embrasement des cases, une table par dimension ([normal, ombres]) : case → { niveau : 1 à 3, puis
 ## `CALCINED` (calcinée), equipe et lanceur : du dernier qui l'a embrasée }. Variantes : +`EMBER_BONUS` % aux valeurs d'un sort
 ## de la Voie Flamme par niveau de la case visée ; un ennemi qui commence son tour sur une case embrasée (pas calcinée) perd
-## `EMBER_BURN` × niveau PV (Flamme). Serviteurs : `MAX_SERVANTS` en même temps (un de plus au rang 5 du passif).
+## `EMBER_BURN` × niveau PV (Flamme). « cendres » : dégâts × niveaux de la zone ÷ `ASHES_DIVISOR`. Serviteurs : `MAX_SERVANTS`
+## en même temps (un de plus au rang 5 du passif).
 var embers: Array[Dictionary] = [{}, {}]
 const CALCINED := 4
 const EMBER_BONUS := 10
 const EMBER_BURN := 2
+const ASHES_DIVISOR := 5
 const MAX_SERVANTS := 2
 ## Paladin (GDD § 4.3) : auras qui suivent leur lanceur (une par Paladin ; { id, lanceur, equipe, taille, tours, effets,
 ## sort }), balises ({ id, lanceur, equipe, ombres, case, porteur : id d'un combattant qui sert de balise, tours, effets,
@@ -2307,7 +2309,7 @@ func _heat_of(cells: Array[Vector2i]) -> int:
 
 ## Effets d'un sort lancé sur `target` selon l'embrasement de la case : sur une case calcinée, ceux de « calcinee » en plus
 ## (ou à la place, avec « seuls ») ; valeurs +`EMBER_BONUS` % par niveau (et le « bonus » d'une case calcinée) ; durée
-## d'une glyphe à « duree_embrasement » + 1 tour par niveau ; « cendres » : dégâts × somme des niveaux de la zone.
+## d'une glyphe à « duree_embrasement » + 1 tour par niveau ; « cendres » : dégâts × somme des niveaux de la zone ÷ `ASHES_DIVISOR`.
 func _ember_variant(spell: Spell, target: Vector2i, zone: Array[Vector2i]) -> Array[Dictionary]:
 	if spell.ignites < 0:
 		return spell.effects
@@ -2320,8 +2322,8 @@ func _ember_variant(spell: Spell, target: Vector2i, zone: Array[Vector2i]) -> Ar
 		if effect.get("duree_embrasement", false):
 			effect["duree"] = int(effect["duree"]) + level
 		if effect["type"] == Spell.EFFECT_ASHES:
-			var heat := _heat_of(zone)
-			effect.merge({"type": Spell.EFFECT_DAMAGE, "min": int(effect["min"]) * heat, "max": int(effect["max"]) * heat}, true)
+			var heat := _heat_of(zone) / float(ASHES_DIVISOR)
+			effect.merge({"type": Spell.EFFECT_DAMAGE, "min": roundi(int(effect["min"]) * heat), "max": roundi(int(effect["max"]) * heat)}, true)
 	return effects
 
 

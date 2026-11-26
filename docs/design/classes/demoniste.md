@@ -51,7 +51,7 @@ son tour sur une case embrasée (pas calcinée) perd 2 × niveau PV (Flamme).
 | Escarbille | 2 | 1–7 | Petite boule de feu, 3 par tour. | Rend 1 PA. |
 | Pluie de soufre | 4 | 3–8 | Zone à distance. | Brûlure 2 tours. |
 | Fournaise | 5 | 1–4 | Gros coup de zone. | +50 % de dégâts. |
-| Explosion de cendres | 3 | 1–6 | Dégâts par niveau de la zone (calcinée = 4), puis tout s'éteint. | — |
+| Explosion de cendres | 3 | 1–6 | Dégâts par niveau de la zone (calcinée = 4) ÷ 5, puis tout s'éteint. | — |
 | Mur de flammes | 3 | 2–5 | Glyphe en travers, 1 tour + 1 par niveau. | Dégâts doublés tout de suite, sans mur. |
 | Fumées âcres | 3 | 1–5 | −2 PM. | −2 de portée. |
 | Pas de braise | 2 | 1–3 | Téléportation ; portée 6 vers une case embrasée. | +1 PM. |
