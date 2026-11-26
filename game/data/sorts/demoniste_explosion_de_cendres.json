@@ -19,8 +19,8 @@
     {
       "type": "cendres",
       "element": "flamme",
-      "min": 2,
-      "max": 3,
+      "min": 0.4,
+      "max": 0.6,
       "cibles": "ennemis"
     }
   ],

@@ -203,7 +203,8 @@ static func effect_lines(effects: Array, indent := "", state_bonus := Fighter.EL
 
 
 static func _range_text(effect: Dictionary) -> String:
-	return str(effect["min"]) if effect["min"] == effect["max"] else "%d à %d" % [effect["min"], effect["max"]]
+	var text := func(value: Variant) -> String: return str(value).replace(".", ",")
+	return text.call(effect["min"]) if effect["min"] == effect["max"] else "%s à %s" % [text.call(effect["min"]), text.call(effect["max"])]
 
 
 func _ready() -> void:

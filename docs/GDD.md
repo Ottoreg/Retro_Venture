@@ -903,7 +903,7 @@ l'auteur ; valeurs provisoires ; fiche `docs/design/classes/demoniste.md`) :
   (Flamme). Cases teintées d'orange de plus en plus vif, noires une fois calcinées ; l'infobulle de la case donne
   son niveau.
 - *Voie Flamme* : Mise à feu (signature, +2 niveaux), Escarbille (calcinée : rend 1 PA), Pluie de soufre (calcinée :
-  brûlure 2 tours), Fournaise (calcinée : +50 %), Explosion de cendres (dégâts par niveau de la zone ÷ 5, puis tout
+  brûlure 2 tours), Fournaise (calcinée : +50 %), Explosion de cendres (0,4 à 0,6 dégât par niveau de la zone, puis tout
   s'éteint), Mur de flammes (glyphe en travers, 1 tour + 1 par niveau ; calcinée : dégâts tout de suite, sans mur),
   Fumées âcres (−2 PM ; calcinée : −2 de portée), Pas de braise (téléportation, portée 6 vers une case embrasée ;
   calcinée : +1 PM), Peau de cendre (bouclier ; calcinée : épines Flamme), Feu de camp (soins ; calcinée : doublés,

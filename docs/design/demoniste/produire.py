@@ -70,7 +70,7 @@ FLAMME = [
           [dmg("flamme", 13, 16)], {"3": {"portee_max": 1}, "5": {"embrase": 1}}, zone=CIRCLE, embrase=1, calcinee={"bonus": 50},
           relance={"par_tour": 1}),
     spell("demoniste_explosion_de_cendres", "Explosion de cendres", "Souffle sur les braises de la zone : dégâts pour chaque niveau d'embrasement (une case calcinée compte 4), puis tout s'éteint.",
-          3, (1, 6), [{"type": "cendres", "element": "flamme", "min": 2, "max": 3, "cibles": "ennemis"}], {"3": {"cout_pa": 2}, "5": {"critique": 10}},
+          3, (1, 6), [{"type": "cendres", "element": "flamme", "min": 0.4, "max": 0.6, "cibles": "ennemis"}], {"3": {"cout_pa": 2}, "5": {"critique": 10}},
           zone={"type": "cercle", "taille": 2}, embrase=0, relance={"par_tour": 1}),
     spell("demoniste_mur_de_flammes", "Mur de flammes", "Un mur de feu en travers : il brûle ceux qui y commencent leur tour, un tour de plus par niveau d'embrasement. Sur une case calcinée, il ne tient pas mais brûle bien plus fort tout de suite.",
           3, (2, 5), [{"type": "glyphe", "duree": 1, "duree_embrasement": True, "effets": [dmg("flamme", 6, 8)]}],

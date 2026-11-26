@@ -472,9 +472,10 @@ static func _validate_effects(effects_data: Array, top_level: bool) -> PackedStr
 				errors.append("effet « %s » : « carac » doit être l'un de %s" % [type, str(MODIFIABLE)])
 			elif effect["carac"] == "resistance" and effect.get("element") not in ELEMENTS:
 				errors.append("effet « %s » de résistance : « element » doit être l'un de %s" % [type, str(ELEMENTS)])
-		if not _is_int_at_least(effect.get("min"), 0) or not _is_int_at_least(effect.get("max"), 0) \
-				or int(effect["min"]) > int(effect["max"]):
-			errors.append("effet « %s » : « min » et « max » doivent être des entiers avec min ≤ max" % type)
+		var decimal := type == EFFECT_ASHES  # Explosion de cendres : valeurs par niveau d'embrasement, décimales permises.
+		if not _is_int_at_least(effect.get("min"), 0, decimal) or not _is_int_at_least(effect.get("max"), 0, decimal) \
+				or float(effect["min"]) > float(effect["max"]):
+			errors.append("effet « %s » : « min » et « max » doivent être des %s avec min ≤ max" % [type, "nombres" if decimal else "entiers"])
 	return errors
 
 
@@ -604,8 +605,8 @@ static func _scaled_effects(source: Array[Dictionary], percent: int) -> Array[Di
 	for effect in source:
 		var copy := effect.duplicate(true)
 		if effect["type"] in ELEMENT_EFFECTS:
-			copy["min"] = roundi(int(effect["min"]) * percent / 100.0)
-			copy["max"] = roundi(int(effect["max"]) * percent / 100.0)
+			for key in ["min", "max"]:
+				copy[key] = effect[key] * percent / 100.0 if effect["type"] == EFFECT_ASHES else roundi(int(effect[key]) * percent / 100.0)
 		if effect.has("effets"):
 			var inner: Array[Dictionary] = []
 			inner.assign(effect["effets"])
@@ -624,8 +625,8 @@ static func normalized_effects(effects_data: Array) -> Array[Dictionary]:
 	var result: Array[Dictionary] = []
 	for effect: Dictionary in effects_data:
 		var copy := effect.duplicate(true)
-		copy["min"] = int(effect.get("min", 0))
-		copy["max"] = int(effect.get("max", 0))
+		for key in ["min", "max"]:
+			copy[key] = float(effect.get(key, 0)) if effect.get("type") == EFFECT_ASHES else int(effect.get(key, 0))
 		copy["cibles"] = str(effect.get("cibles", TARGETS_ALL))
 		copy["duree"] = int(effect.get("duree", 0))
 		if effect.has("effets"):
@@ -788,7 +789,7 @@ func teleports() -> bool:
 	return false
 
 
-static func _is_int_at_least(value: Variant, minimum: int) -> bool:
+static func _is_int_at_least(value: Variant, minimum: int, decimal := false) -> bool:
 	if typeof(value) != TYPE_INT and typeof(value) != TYPE_FLOAT:
 		return false
-	return value == floorf(value) and int(value) >= minimum
+	return (decimal or value == floorf(value)) and value >= minimum

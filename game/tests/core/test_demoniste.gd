@@ -148,7 +148,7 @@ func test_embrasement_et_variantes() -> void:
 	var heat := combat._heat_of(Spell.circle_cells(C + Vector2i(3, 0), 2))
 	hp = dummy.hp
 	_cast(combat, "demoniste_explosion_de_cendres", C + Vector2i(3, 0))
-	assert_true(hp - dummy.hp >= heat * 2 / Combat.ASHES_DIVISOR, "dégâts par niveau retiré ÷ 5")
+	assert_true(hp - dummy.hp >= roundi(heat * 0.4), "0,4 à 0,6 dégâts par niveau retiré")
 	assert_eq(combat.ember_level(C + Vector2i(3, 0)), 0, "tout s'éteint")
 	assert_eq(_cast(combat, "demoniste_explosion_de_cendres", C + Vector2i(3, 0))[0]["raison"], Protocol.REASON_NO_EMBERS)
 
