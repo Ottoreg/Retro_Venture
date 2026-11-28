@@ -200,35 +200,85 @@ Lignes à ajouter selon la zone :
 - Forges et Cendre : `cracked black basalt slabs (#6a5a4a or #5c4e44) with faint glowing seams`.
 - Tour céleste : `polished cream marble slabs (#f0e6c8, edge #d0c49c) with thin gold joints`.
 
-## 4. Eau (case `E`)
+## 4. Eau bordée de chaque sol (case `E`) : jeux de 16 tuiles
 
-Même principe que le chemin : **rive** dessinée d'abord, **eau** par-dessus, canevas **96 × 48**, ancre (48, 24).
+Toutes les palettes ont de l'eau sur au moins une carte : Brumerive (10 cartes, Grandes Plaines comprises),
+Tour céleste (7), Hautepierre (6), Sylvebrume (5), Crasse-Roc (4), Forges (2), Hautepierre cendrée (2) et
+Cendre (1). Il faut donc **un jeu de transition par palette**.
 
-**Rive** (`eau_rive`)
+### Réglages
+
+- Outil : **tileset** de PixelLab (transitions « Wang »), en vue **isométrique** si l'outil la propose,
+  tuiles de **64 px de large** (dessus de 64 × 32, notre case). Si l'outil ne fait que du 32 px, le faire en 32
+  et agrandir ×2, comme la planche d'herbe.
+- Trois champs à remplir : **terrain du bas** (l'eau, plus bas), **terrain du haut** (le sol de la zone),
+  **transition** (la rive). Les prompts ci-dessous sont rangés ainsi.
+- L'outil produit **16 tuiles** : chacun des 4 coins du losange (N, E, S, O) est soit eau, soit sol. Les 16
+  combinaisons couvrent les rives droites, les angles extérieurs et les angles intérieurs, sans escalier.
+- Raccord sans couture, **pas de contour sur les bords des tuiles**, lumière d'en haut à gauche, palette réduite.
+- Le sol du haut doit être **le même que la tuile d'herbe de la zone** (section 1), avec les mêmes couleurs,
+  pour que les tuiles de rive se raccordent à l'herbe pleine.
+
+### Ordre des tuiles à garder au dépôt
+
+Nommer chaque tuile par ses coins en eau, avec N = 1, E = 2, S = 4, O = 8 (somme des coins en eau) :
+`0.png` = tout en sol, `15.png` = tout en eau, `1.png` = seul le coin nord est en eau, `3.png` = nord et est
+en eau (rive droite côté sud-ouest), etc. Dossier : `assets/sols/eau_<palette>/0.png` à `15.png`. Le jeu
+choisira la tuile d'après les 4 cases qui touchent chaque coin.
+
+### Début commun du champ « transition »
+
 ```
-96x48 canvas, transparent background, 3/4 top-down view. An irregular flattened diamond of wet sandy
-bank (#d9c58f, darker edge #b9a26a), about 84x42 pixels, centred, with a few small stones and reeds
-on its rim, no outline.
+Natural irregular shoreline, the water edge follows a soft wavy line, not a straight grid line,
+a thin wet darker band of ground right at the waterline, small foam or ripple pixels where the
+water touches the bank, seamless, no outline on tile edges.
 ```
 
-**Eau** (`eau`)
-```
-96x48 canvas, transparent background, 3/4 top-down view. A flattened diamond of calm water (#4b93c4),
-about 72x36 pixels, centred, slightly darker in the middle, two or three short light reflection
-lines (#bfe3f2), no outline. Must tile seamlessly with identical copies on neighbouring cells.
-```
+### Par palette
 
-Animation facultative de l'eau (4 images en boucle) : `The reflection lines slowly drift and shimmer,
-seamless loop, the water shape does not change.`
+**Brumerive (aussi Grandes Plaines et Grange)**
+- Bas : `Calm clear river water (#4b93c4), darker in the deep middle, a few short light reflection lines (#bfe3f2).`
+- Haut : `Short fresh meadow grass, warm medium green (#8db54d) with lighter (#a9cc62) and darker (#6f9a3a) blades.`
+- Transition : `Wet sandy bank (#d9c58f, darker edge #b9a26a) with a few small pebbles and reeds.`
 
-Lignes à ajouter selon la zone :
-- Hautepierre : `canal water (#5a8aaa) with a cut-stone bank (#cfc4a0)`.
-- Hautepierre cendrée : `murky grey water (#5e7078) with ash floating on it`.
-- Crasse-Roc : `stagnant greenish swamp water (#4d6b5e), muddy bank (#6a5a44), scum and bubbles`.
-- Sylvebrume : `clear turquoise stream (#4aa6cc) with visible pebbles under the surface`.
-- Forges et Cendre (**lave**) : `molten lava (#e2622a) with bright yellow cracks (#ffd36a) and a dark
-  crust, bank of black cooled rock (#2b2522)` ; animation : `the lava slowly bubbles and the cracks glow`.
-- Tour céleste : `a gap in the clouds showing pale blue sky far below (#8fc0ec), soft white cloud rim (#dfe8f4)`.
+**Hautepierre**
+- Bas : `Town canal water (#5a8aaa), calm, with pale reflection lines (#c8dce8).`
+- Haut : `Well-kept town lawn, soft olive green (#93a860) with pale (#adc07a) and darker (#768c48) blades.`
+- Transition : `Cut-stone canal edge (#cfc4a0, joints #a89c78), neat straight-ish blocks with moss in the joints.`
+
+**Hautepierre cendrée**
+- Bas : `Murky grey water (#5e7078) with ash flakes floating on it, dull reflections (#98a8ae).`
+- Haut : `Dull grey-green grass dusted with fine ash (#7c8460, #929a74, #616848).`
+- Transition : `Grey muddy bank (#7a705e, edge #5a5246) with ash and a few dead reeds.`
+
+**Crasse-Roc**
+- Bas : `Stagnant greenish swamp water (#4d6b5e), scum patches and a few bubbles, dim reflections (#8fa898).`
+- Haut : `Sparse dirty muddy grass, drab khaki green (#6e7247) with darker (#53572f) blades and mud patches.`
+- Transition : `Sticky brown mud bank (#6a5a44, edge #4a3e30) with boot prints, rusty junk and rotten reeds.`
+
+**Sylvebrume**
+- Bas : `Clear turquoise forest stream (#4aa6cc) with visible pebbles under the surface, bright reflections.`
+- Haut : `Lush bright forest grass, vivid green (#7fb85c) with pale (#a6d77d) and deep (#5e9a48) blades, soft moss.`
+- Transition : `Mossy bank with smooth round stones, small ferns and a few water lilies at the edge.`
+
+**Forges de Crasse-Roc (lave)**
+- Bas : `Molten lava (#e2622a) with bright yellow cracks (#ffd36a) and patches of dark crust.`
+- Haut : `Scorched volcanic ground, dark grey-brown ash (#5a5048) with lighter (#6e645a) and darker (#433a34) grit.`
+- Transition : `Black cooled basalt rim (#2b2522, edge #1a1512) with glowing orange seams near the lava, no foam.`
+
+**Cendre (lave)**
+- Bas : `Molten lava (#e2622a) with bright yellow cracks (#ffd36a), slower and darker than a forge.`
+- Haut : `Cold black ash field (#4a4440), darker cinders (#35302c) and pale grey flakes (#5e5650).`
+- Transition : `Black cooled rock rim (#2b2522) with a faint orange glow, cinders, no foam.`
+
+**Tour céleste**
+- Bas : `A gap in the clouds showing pale blue sky far below (#8fc0ec), with tiny distant clouds.`
+- Haut : `Floor of soft white cloud (#e8eef8) with white highlights (#ffffff) and pale blue-grey hollows (#cfd8e8).`
+- Transition : `Puffy rounded cloud edge (#dfe8f4, shadow #a8b8d0) curling over the void, no foam.`
+
+Pour la lave, une animation facultative de 4 images : `the lava slowly bubbles and the cracks glow brighter
+and dimmer, seamless loop, the shoreline does not move.` Pour l'eau : `the reflection lines slowly drift,
+seamless loop, the shoreline does not move.`
 
 ## 5. Cases de récolte au sol
 
@@ -285,6 +335,6 @@ rising, no flames left.
 
 ## Après le dépôt
 
-Déposer les images dans `assets/sols/<type>/` (par exemple `assets/sols/herbe_brumerive/1.png` … `8.png`), puis
+Déposer les images dans `assets/sols/<type>/` (eau : `assets/sols/eau_<palette>/0.png` à `15.png`) (par exemple `assets/sols/herbe_brumerive/1.png` … `8.png`), puis
 demander de les brancher dans le jeu : il faudra remplacer le fond uni par des tuiles tirées au hasard par case
 (changement de `MapView._draw_ground`), et les SVG de `game/art/sol/` resteraient en secours.
